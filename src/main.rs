@@ -10,7 +10,7 @@ fn main() {
     let login = server::server::Server {
         name: "login".to_string(),
         local_port: 6901,
-        target: SocketAddr::new(IpAddr::from(Ipv4Addr::new(127, 0, 0, 1)), 6900)
+        target: SocketAddr::new(IpAddr::from(Ipv4Addr::new(127, 0, 0, 1)), 6900),
     };
     let char = server::server::Server {
         name: "char".to_string(),
