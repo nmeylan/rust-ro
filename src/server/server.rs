@@ -3,7 +3,9 @@ use std::thread::{JoinHandle, spawn};
 use std::io::{Read, Write, Bytes, Cursor};
 use std::thread;
 use byteorder::{ReadBytesExt, LittleEndian, WriteBytesExt};
+use std::time::{Instant, SystemTime};
 
+#[derive(Clone)]
 pub struct Server {
     pub name: String,
     pub local_port: u16,
@@ -13,13 +15,14 @@ pub struct Server {
 impl Server {
     pub fn proxy(&self) -> JoinHandle<()> {
         let listener = TcpListener::bind(format!("0.0.0.0:{}", self.local_port)).unwrap();
-        let target_address = self.target.clone();
-        println!("Start proxy for {} server, {}:{}", self.name, self.local_port, self.target.port());
+        let server = self.clone();
         spawn(move || {
+            println!("Start proxy for {} server, {}:{}", server.name, server.local_port, server.target.port());
             for socket in listener.incoming() {
                 // One thread per connection
+                let server = server.clone();
                 spawn(move || {
-                    if let Err(error) = Server::proxy_connection(target_address, socket.unwrap()) {
+                    if let Err(error) = server.proxy_connection(socket.unwrap()) {
                         println!("{}", error);
                     }
                 });
@@ -27,19 +30,20 @@ impl Server {
         })
     }
 
-    fn proxy_connection(target: SocketAddr, mut incomingStream: TcpStream) -> Result<(), String> {
+    fn proxy_connection(&self, mut incomingStream: TcpStream) -> Result<(), String> {
         println!("Client connected from: {:#?} to {:#?}", incomingStream.peer_addr().unwrap(), incomingStream.local_addr().unwrap());
 
-        let mut outgoing = TcpStream::connect(target)
-            .map_err(|error| format!("Could not establish connection to {}: {}", target, error))?;
+        let mut outgoing = TcpStream::connect(self.target)
+            .map_err(|error| format!("Could not establish connection to {}: {}", self.target, error))?;
 
         let mut incoming_clone = incomingStream.try_clone().map_err(|e| e.to_string())?;
         let mut outgoing_clone = outgoing.try_clone().map_err(|e| e.to_string())?;
 
         // Pipe for- and backward asynchronously
-        let forward = thread::Builder::new().name("forward".into()).spawn(move || Server::pipe(&mut incomingStream, &mut outgoing)).unwrap();
-        let backward = thread::Builder::new().name("backward".into()).spawn(move || Server::pipe(&mut outgoing_clone, &mut incoming_clone)).unwrap();
-
+        let server = self.clone();
+        let server1 = self.clone();
+        let forward = thread::Builder::new().name("forward".into()).spawn(move || server.pipe(&mut incomingStream, &mut outgoing)).unwrap();
+        let backward = thread::Builder::new().name("backward".into()).spawn(move || server1.pipe(&mut outgoing_clone, &mut incoming_clone)).unwrap();
         println!("Proxying data...");
         forward.join().map_err(|error| format!("Forward failed: {:?}", error))?;
         backward.join().map_err(|error| format!("Backward failed: {:?}", error))?;
@@ -49,7 +53,7 @@ impl Server {
         Ok(())
     }
 
-    fn pipe(incoming: &mut TcpStream, outgoing: &mut TcpStream) -> Result<(), String> {
+    fn pipe(&self, incoming: &mut TcpStream, outgoing: &mut TcpStream) -> Result<(), String> {
         let mut buffer = [0; 1024];
         loop {
             match incoming.read(&mut buffer) {
@@ -62,12 +66,15 @@ impl Server {
                     let mut packet = &mut buffer[..bytes_read];
                     let from: SocketAddr;
                     let to: SocketAddr;
+                    let mut direction = "";
                     match thread::current().name().unwrap() {
                         "forward" => {
+                            direction = " > ";
                             from = incoming.local_addr().unwrap();
                             to = outgoing.peer_addr().unwrap();
                         }
                         "backward" => {
+                            direction = " < ";
                             from = incoming.peer_addr().unwrap();
                             to = outgoing.local_addr().unwrap();
                         }
@@ -91,7 +98,7 @@ impl Server {
                         wtr.write_u8(0xec).unwrap();
                         packet[26] = wtr[0];
                     }
-                    println!("{:?} -> {:?}, ({}){:x?}", from, to, bytes_read, packet);
+                    println!("{}{}({}) {:x?}", self.name, direction, bytes_read, packet);
                     if outgoing.write(packet).is_ok() {
                         outgoing.flush();
                     }
