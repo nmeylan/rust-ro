@@ -6,13 +6,45 @@ use byteorder::{ReadBytesExt, LittleEndian, WriteBytesExt};
 use std::time::{Instant, SystemTime};
 
 #[derive(Clone)]
-pub struct Server {
+pub struct Server<T : PacketHandler + Clone + Send> {
     pub name: String,
     pub local_port: u16,
     pub target: SocketAddr,
+    pub packet_handler: T
 }
 
-impl Server {
+pub trait PacketHandler {
+    fn handle_packet(&self, packet: &mut [u8]) -> Result<String, String>;
+}
+
+#[derive(Clone)]
+pub struct LoginServer;
+#[derive(Clone)]
+pub struct CharServer;
+#[derive(Clone)]
+pub struct MapServer;
+
+impl PacketHandler for LoginServer {
+
+    fn handle_packet(&self, packet: &mut [u8]) -> Result<String, String> {
+        println!("Login");
+        Result::Ok("res".to_string())
+    }
+}
+impl PacketHandler for CharServer {
+    fn handle_packet(&self, packet: &mut [u8]) -> Result<String, String> {
+        println!("Char");
+        Result::Ok("res".to_string())
+    }
+}
+impl PacketHandler for MapServer {
+    fn handle_packet(&self, packet: &mut [u8]) -> Result<String, String> {
+        println!("Map");
+        Result::Ok("res".to_string())
+    }
+}
+
+impl <T : 'static + PacketHandler + Clone + Send> Server<T> {
     pub fn proxy(&self) -> JoinHandle<()> {
         let listener = TcpListener::bind(format!("0.0.0.0:{}", self.local_port)).unwrap();
         let server = self.clone();
@@ -98,6 +130,7 @@ impl Server {
                         wtr.write_u8(0xec).unwrap();
                         packet[26] = wtr[0];
                     }
+                    self.packet_handler.handle_packet(packet);
                     println!("{}{}({}) {:x?}", self.name, direction, bytes_read, packet);
                     if outgoing.write(packet).is_ok() {
                         outgoing.flush();
