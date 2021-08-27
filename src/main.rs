@@ -5,7 +5,9 @@ use std::str::FromStr;
 use std::thread::{spawn, JoinHandle};
 use std::io::{BufReader, BufWriter, Read, Write};
 use std::time::Duration;
-use crate::server::server::{LoginServer, CharServer, MapServer};
+use server::login::LoginServer;
+use server::map::MapServer;
+use crate::server::char::CharServer;
 
 fn main() {
     let login = server::server::Server {
