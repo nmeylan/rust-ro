@@ -21,7 +21,7 @@ pub struct Server<T: PacketHandler + Clone + Send> {
 }
 
 pub struct ServerContext {
-
+    pub sessions: Vec<Arc<Mutex<TcpStream>>>
 }
 
 pub trait PacketHandler {
@@ -71,23 +71,23 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Server<T> {
     }
 
     fn proxy_connection(&self, mut incoming_stream: Arc<Mutex<TcpStream>>) -> Result<(), String> {
-        let mut stream_ref = incoming_stream.lock().unwrap();
-        let mut stream_ref_clone = stream_ref.try_clone().unwrap();
-        println!("Client connected from: {:#?} to {:#?}", stream_ref.peer_addr().unwrap(), stream_ref.local_addr().unwrap());
+        let mut incoming_stream_guard = incoming_stream.lock().unwrap();
+        let mut forward_thread_incoming = incoming_stream_guard.try_clone().unwrap();
+        println!("Client connected from: {:#?} to {:#?}", incoming_stream_guard.peer_addr().unwrap(), incoming_stream_guard.local_addr().unwrap());
 
-        let mut outgoing = TcpStream::connect(self.target)
+        let mut forward_thread_outgoing = TcpStream::connect(self.target)
             .map_err(|error| format!("Could not establish connection to {}: {}", self.target, error))?;
 
-        let mut incoming_clone = stream_ref.try_clone().map_err(|e| e.to_string())?;
-        let mut outgoing_clone = outgoing.try_clone().map_err(|e| e.to_string())?;
-
+        let mut backward_thread_incoming_clone = incoming_stream_guard.try_clone().map_err(|e| e.to_string())?;
+        let mut backward_thread_outgoing_clone = forward_thread_outgoing.try_clone().map_err(|e| e.to_string())?;
+        drop(incoming_stream_guard);
         let server_copy_forward_thread = self.clone();
         let server_copy_backward_thread = self.clone();
         // Pipe for- and backward asynchronously
         let forward = thread::Builder::new().name(format!("{}-{}", self.name, "forward"))
-            .spawn(move || server_copy_forward_thread.pipe(&mut stream_ref_clone, &mut outgoing, ProxyDirection::Forward)).unwrap();
+            .spawn(move || server_copy_forward_thread.pipe(&mut forward_thread_incoming, &mut forward_thread_outgoing, ProxyDirection::Forward)).unwrap();
         let backward = thread::Builder::new().name(format!("{}-{}", self.name, "backward"))
-            .spawn(move || server_copy_backward_thread.pipe(&mut outgoing_clone, &mut incoming_clone, ProxyDirection::Backward)).unwrap();
+            .spawn(move || server_copy_backward_thread.pipe(&mut backward_thread_outgoing_clone, &mut backward_thread_incoming_clone, ProxyDirection::Backward)).unwrap();
         println!("Proxying data...");
         forward.join().map_err(|error| format!("Forward failed: {:?}", error))?;
         backward.join().map_err(|error| format!("Backward failed: {:?}", error))?;
