@@ -8,6 +8,8 @@ use std::time::Duration;
 use server::login::LoginServer;
 use server::map::MapServer;
 use crate::server::char::CharServer;
+use crate::server::server::ServerContext;
+use std::sync::{Arc, Mutex};
 
 fn main() {
     let login = server::server::Server {
@@ -16,13 +18,12 @@ fn main() {
         target: SocketAddr::new(IpAddr::from(Ipv4Addr::new(127, 0, 0, 1)), 6900),
         packet_handler: LoginServer
     };
-    let char = CharServer::new();
-    let map = server::server::Server {
-        name: "map".to_string(),
-        local_port: 6124,
-        target: SocketAddr::new(IpAddr::from(Ipv4Addr::new(127, 0, 0, 1)), 6122),
-        packet_handler: MapServer
+    let server_context = ServerContext{
+        sessions: Vec::new()
     };
+    let server_context_arc = Arc::new(Mutex::new(server_context));
+    let char = CharServer::new(server_context_arc.clone());
+    let map = MapServer::new(server_context_arc.clone());
     let mut handles: Vec<JoinHandle<()>> = Vec::new();
     &handles.push(login.proxy());
     &handles.push(char.proxy());

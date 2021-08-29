@@ -1,4 +1,4 @@
-use crate::server::server::{PacketHandler, Server};
+use crate::server::server::{PacketHandler, Server, ServerContext};
 use byteorder::WriteBytesExt;
 use std::net::{SocketAddr, Ipv4Addr, TcpStream};
 use std::net::IpAddr;
@@ -8,37 +8,37 @@ use std::sync::{Arc, Mutex};
 use std::thread::{spawn, sleep};
 use std::time::Duration;
 use std::borrow::Borrow;
+use std::thread;
 
 #[derive(Clone)]
 pub struct CharServer {
-    sessions: Arc<Mutex<Vec<Arc<Mutex<TcpStream>>>>>
+    server_context: Arc<Mutex<ServerContext>>
 }
 
 impl CharServer {
-    pub(crate) fn new() -> Server<CharServer> {
-        let sessions = Arc::new(Mutex::new(Vec::new()));
-        let sessions_ref = sessions.clone();
+    pub(crate) fn new(server_context: Arc<Mutex<ServerContext>>) -> Server<CharServer> {
         let server = Server {
             name: "Char".to_string(),
             local_port: 6123,
             target: SocketAddr::new(IpAddr::from(Ipv4Addr::new(127, 0, 0, 1)), 6121),
             packet_handler: CharServer {
-                sessions: sessions_ref
+                server_context: server_context.clone()
             }
         };
-        let sessions_ref = sessions.clone();
-        spawn(move || {
+        let server_context_ref = server_context.clone();
+        thread::Builder::new().name("char server tick".to_string()).spawn(move || {
             while(true) {
-                let sessions_guard = sessions_ref.lock().unwrap();
-                println!("current sessions {}", sessions_guard.to_vec().len());
-                for a in sessions_guard.to_vec() {
-                    let mut tcp_stream_guard = a.lock().unwrap();
-                    let buffer : [u8; 25] = [0x8D, 0x00, 0x19, 0x00, 0x80, 0x84, 0x1E, 0x00, 0x77, 0x61, 0x6C, 0x6B, 0x69, 0x72, 0x79, 0x20, 0x3A, 0x20, 0x71, 0x77, 0x65, 0x72, 0x74, 0x7A, 0x00];
-                    println!("Send {:02X?} to {}", buffer, tcp_stream_guard.peer_addr().unwrap());
-                    tcp_stream_guard.write(&buffer);
-                    tcp_stream_guard.flush();
-                }
-                drop(sessions_guard);
+                println!("tick char server");
+                // let server_context_guard = server_context_ref.lock().unwrap();
+                // println!("current sessions {}", server_context_guard.sessions.len());
+                // for tcp_stream in &server_context_guard.sessions {
+                //     let mut tcp_stream_guard = tcp_stream.lock().unwrap();
+                //     let buffer : [u8; 25] = [0x8D, 0x00, 0x19, 0x00, 0x80, 0x84, 0x1E, 0x00, 0x77, 0x61, 0x6C, 0x6B, 0x69, 0x72, 0x79, 0x20, 0x3A, 0x20, 0x71, 0x77, 0x65, 0x72, 0x74, 0x7A, 0x00];
+                //     println!("Send {:02X?} to {}", buffer, tcp_stream_guard.peer_addr().unwrap());
+                //     tcp_stream_guard.write(&buffer);
+                //     tcp_stream_guard.flush();
+                // }
+                // drop(server_context_guard);
                 sleep(Duration::new(2, 0));
             }
         });
@@ -62,7 +62,7 @@ impl PacketHandler for CharServer {
 
     fn handle_connection(&mut self, tcp_stream: Arc<Mutex<TcpStream>>) {
         println!("New connection in char server");
-        let mut sessions_guard = self.sessions.lock().unwrap();
-        sessions_guard.push(tcp_stream);
+        let mut server_context_guard = self.server_context.lock().unwrap();
+        server_context_guard.sessions.push(tcp_stream);
     }
 }
