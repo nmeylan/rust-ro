@@ -16,12 +16,7 @@ fn main() {
         target: SocketAddr::new(IpAddr::from(Ipv4Addr::new(127, 0, 0, 1)), 6900),
         packet_handler: LoginServer
     };
-    let char = server::server::Server {
-        name: "char".to_string(),
-        local_port: 6123,
-        target: SocketAddr::new(IpAddr::from(Ipv4Addr::new(127, 0, 0, 1)), 6121),
-        packet_handler: CharServer
-    };
+    let char = CharServer::new();
     let map = server::server::Server {
         name: "map".to_string(),
         local_port: 6124,
