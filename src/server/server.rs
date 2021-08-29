@@ -5,6 +5,8 @@ use std::thread;
 use byteorder::{ReadBytesExt, LittleEndian, WriteBytesExt};
 use std::time::{Instant, SystemTime};
 use std::fmt::{Display, Formatter};
+use crate::server::packet_db::PACKETS_DB;
+use crate::server::packet_parser::packet_name;
 
 #[derive(Clone)]
 pub struct Server<T: PacketHandler + Clone + Send> {
@@ -74,7 +76,7 @@ impl<T: 'static + PacketHandler + Clone + Send> Server<T> {
     }
 
     fn pipe(&self, incoming: &mut TcpStream, outgoing: &mut TcpStream, direction: ProxyDirection) -> Result<(), String> {
-        let mut buffer = [0; 1024];
+        let mut buffer = [0; 2048];
         loop {
             match incoming.read(&mut buffer) {
                 Ok(bytes_read) => {
@@ -86,7 +88,12 @@ impl<T: 'static + PacketHandler + Clone + Send> Server<T> {
                     let mut packet = &mut buffer[..bytes_read];
 
                     self.packet_handler.handle_packet(packet);
-                    println!("{} {} ({}) {:x?}", self.name, if direction == ProxyDirection::Backward { "<" } else { ">" }, bytes_read, packet);
+                    println!("{} {} {} ({}) {:x?}",
+                             self.name,
+                             if direction == ProxyDirection::Backward { "<" } else { ">" },
+                             packet_name(packet),
+                             bytes_read,
+                             packet);
                     if outgoing.write(packet).is_ok() {
                         outgoing.flush();
                     }
@@ -96,4 +103,5 @@ impl<T: 'static + PacketHandler + Clone + Send> Server<T> {
         }
         Ok(())
     }
+
 }

@@ -7,3 +7,4 @@ edition = "2018"
 
 [dependencies]
 byteorder = "1.4.3"
+lazy_static  = "1.4.0"
