@@ -1,8 +1,8 @@
-use crate::server::server::{PacketHandler, Server, ServerContext};
-use byteorder::WriteBytesExt;
+use crate::server::server::{PacketHandler, Server, ServerContext, Session};
+use byteorder::{WriteBytesExt, LittleEndian, ReadBytesExt};
 use std::net::{SocketAddr, Ipv4Addr, TcpStream};
 use std::net::IpAddr;
-use std::io::Write;
+use std::io::{Write, Cursor};
 use std::cell::RefCell;
 use std::sync::{Arc, Mutex};
 use std::thread::{spawn, sleep};
@@ -28,7 +28,6 @@ impl CharServer {
         let server_context_ref = server_context.clone();
         thread::Builder::new().name("char server tick".to_string()).spawn(move || {
             while(true) {
-                println!("tick char server");
                 // let server_context_guard = server_context_ref.lock().unwrap();
                 // println!("current sessions {}", server_context_guard.sessions.len());
                 // for tcp_stream in &server_context_guard.sessions {
@@ -47,8 +46,8 @@ impl CharServer {
 }
 impl PacketHandler for CharServer {
 
-    fn handle_packet(&self, packet: &mut [u8]) -> Result<String, String> {
-        if packet[0] == 0xc5 && packet[1] == 0x0a {
+    fn handle_packet(&self, tcp_stream: Arc<Mutex<TcpStream>>, packet: &mut [u8]) -> Result<String, String> {
+        if packet[0] == 0xc5 && packet[1] == 0x0a { // PACKET_SEND_MAP_INFO
             // char_send_map_info
             // map server IP is in bytes 22..26
             // map server port is in bytes 26..28
@@ -57,12 +56,19 @@ impl PacketHandler for CharServer {
             wtr.write_u8(0xec).unwrap();
             packet[26] = wtr[0];
         }
+        if packet[0] == 0x65 && packet[1] == 0x00 { // PACKET_CH_ENTER
+            let mut rdr = Cursor::new(&packet[2..6]);
+            let account_id = rdr.read_u32::<LittleEndian>().unwrap();
+
+            println!("New connection in char server: account {}", account_id);
+            let mut server_context_guard = self.server_context.lock().unwrap();
+            server_context_guard.sessions.insert(account_id, Session {
+                char_server_socket: Some(tcp_stream),
+                map_server_socket: None,
+                account_id
+            });
+        }
         Result::Ok("res".to_string())
     }
 
-    fn handle_connection(&mut self, tcp_stream: Arc<Mutex<TcpStream>>) {
-        println!("New connection in char server");
-        let mut server_context_guard = self.server_context.lock().unwrap();
-        server_context_guard.sessions.push(tcp_stream);
-    }
 }
