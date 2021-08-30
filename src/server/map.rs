@@ -1,11 +1,12 @@
-use crate::server::server::{PacketHandler, ServerContext, Server};
+use crate::server::server::{PacketHandler, ServerContext, Server, Session};
 use std::sync::{Arc, Mutex};
 use std::net::IpAddr;
 use std::net::{TcpStream, Ipv4Addr, SocketAddr};
 use std::thread::{spawn, sleep};
 use std::time::Duration;
-use std::io::Write;
+use std::io::{Write, Cursor};
 use std::thread;
+use byteorder::{LittleEndian, ReadBytesExt, BigEndian, WriteBytesExt};
 
 #[derive(Clone)]
 pub struct MapServer {
@@ -25,13 +26,11 @@ impl MapServer {
         let server_context_ref = server_context.clone();
         thread::Builder::new().name("map server tick".to_string()).spawn(move || {
             while(true) {
-                println!("tick map server");
                 let server_context_guard = server_context_ref.lock().unwrap();
-                println!("current sessions {}", server_context_guard.sessions.len());
-                for tcp_stream in &server_context_guard.sessions {
-                    let mut tcp_stream_guard = tcp_stream.lock().unwrap();
+                for session in server_context_guard.sessions.values() {
+                    let mut tcp_stream_guard = session.map_server_socket.as_ref().unwrap().lock().unwrap();
                     let buffer : [u8; 25] = [0x8D, 0x00, 0x19, 0x00, 0x80, 0x84, 0x1E, 0x00, 0x77, 0x61, 0x6C, 0x6B, 0x69, 0x72, 0x79, 0x20, 0x3A, 0x20, 0x71, 0x77, 0x65, 0x72, 0x74, 0x7A, 0x00];
-                    println!("Send {:02X?} to {}", buffer, tcp_stream_guard.peer_addr().unwrap());
+                    println!("Send {:02X?} to {}", buffer, session.account_id);
                     tcp_stream_guard.write(&buffer);
                     tcp_stream_guard.flush();
                     drop(tcp_stream_guard);
@@ -45,13 +44,21 @@ impl MapServer {
 }
 
 impl PacketHandler for MapServer {
-    fn handle_packet(&self, packet: &mut [u8]) -> Result<String, String> {
-        println!("Map");
+    fn handle_packet(&self, tcp_stream: Arc<Mutex<TcpStream>>, packet: &mut [u8]) -> Result<String, String> {
+        if packet[0] == 0x36 && packet[1] == 0x04 { // PACKET_CZ_ENTER2
+            let mut rdr = Cursor::new(&packet[2..6]);
+            let account_id = rdr.read_u32::<LittleEndian>().unwrap();
+
+            println!("New connection in map server: account {}", account_id);
+            let mut server_context_guard = self.server_context.lock().unwrap();
+            let existing_session = server_context_guard.sessions.get(&account_id).unwrap();
+            let char_server_socket_ref = existing_session.char_server_socket.as_ref().unwrap().clone();
+            server_context_guard.sessions.insert(account_id, Session {
+                char_server_socket: Some(char_server_socket_ref),
+                map_server_socket: Some(tcp_stream),
+                account_id
+            });
+        }
         Result::Ok("res".to_string())
-    }
-    fn handle_connection(&mut self, tcp_stream: Arc<Mutex<TcpStream>>) {
-        println!("New connection in char server");
-        let mut server_context_guard = self.server_context.lock().unwrap();
-        server_context_guard.sessions.push(tcp_stream);
     }
 }

@@ -10,6 +10,7 @@ use server::map::MapServer;
 use crate::server::char::CharServer;
 use crate::server::server::ServerContext;
 use std::sync::{Arc, Mutex};
+use std::collections::HashMap;
 
 fn main() {
     let login = server::server::Server {
@@ -19,7 +20,7 @@ fn main() {
         packet_handler: LoginServer
     };
     let server_context = ServerContext{
-        sessions: Vec::new()
+        sessions: HashMap::new()
     };
     let server_context_arc = Arc::new(Mutex::new(server_context));
     let char = CharServer::new(server_context_arc.clone());

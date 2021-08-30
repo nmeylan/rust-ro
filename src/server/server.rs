@@ -11,6 +11,7 @@ use std::cell::RefCell;
 use std::sync::{Arc, Mutex};
 use std::borrow::{BorrowMut, Borrow};
 use std::ops::{DerefMut, Deref};
+use std::collections::HashMap;
 
 #[derive(Clone)]
 pub struct Server<T: PacketHandler + Clone + Send> {
@@ -21,14 +22,17 @@ pub struct Server<T: PacketHandler + Clone + Send> {
 }
 
 pub struct ServerContext {
-    pub sessions: Vec<Arc<Mutex<TcpStream>>>
+    pub sessions: HashMap<u32, Session>
+}
+
+pub struct Session {
+    pub char_server_socket: Option<Arc<Mutex<TcpStream>>>,
+    pub map_server_socket: Option<Arc<Mutex<TcpStream>>>,
+    pub account_id: u32
 }
 
 pub trait PacketHandler {
-    fn handle_packet(&self, packet: &mut [u8]) -> Result<String, String>;
-    fn handle_connection(&mut self, tcp_stream: Arc<Mutex<TcpStream>>) {
-        println!("New connection");
-    }
+    fn handle_packet(&self, tcp_stream: Arc<Mutex<TcpStream>>, packet: &mut [u8]) -> Result<String, String>;
 }
 
 #[derive(Debug, PartialEq)]
@@ -46,23 +50,17 @@ impl Display for ProxyDirection {
 impl<T: 'static + PacketHandler + Clone + Send + Sync> Server<T> {
     pub fn proxy(&self) -> JoinHandle<()> {
         let listener = TcpListener::bind(format!("0.0.0.0:{}", self.local_port)).unwrap();
-        let mutable_self_ref = Arc::new(Mutex::new(self.clone())); // make An Arc of self to be able to share it with other threads
         let immutable_self_ref = Arc::new(self.clone()); // make An Arc of self to be able to share it with other threads
         let server_ref = immutable_self_ref.clone(); // cloning the ref to use in thread below
         spawn(move || {
             println!("Start proxy for {} server, {}:{}", server_ref.name, server_ref.local_port, server_ref.target.port());
             for tcp_stream in listener.incoming() {
-                let mut server_mutex = mutable_self_ref.clone();  // make An Arc of self to be able to share it with other threads
                 let server_ref = immutable_self_ref.clone(); // cloning the ref to use in thread below
                 // Receive new connection, starting new thread
                 spawn(move || {
-                    let mut self_ref_guard = server_mutex.lock().unwrap();
                     // Use Arc to be able to share reference across thread.
                     // Arc are immutable, use a mutex to be able to mutate arc value.
-                    let tcp_stream_ref = Arc::new(Mutex::new(tcp_stream.unwrap()));
-                    self_ref_guard.packet_handler.handle_connection(tcp_stream_ref.clone());
-                    drop(self_ref_guard);
-                    if let Err(error) = server_ref.proxy_connection(tcp_stream_ref.clone()) {
+                    if let Err(error) = server_ref.proxy_connection(tcp_stream.unwrap()) {
                         println!("{}", error);
                     }
                 });
@@ -70,17 +68,15 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Server<T> {
         })
     }
 
-    fn proxy_connection(&self, mut incoming_stream: Arc<Mutex<TcpStream>>) -> Result<(), String> {
-        let mut incoming_stream_guard = incoming_stream.lock().unwrap();
-        let mut forward_thread_incoming = incoming_stream_guard.try_clone().unwrap();
-        println!("Client connected from: {:#?} to {:#?}", incoming_stream_guard.peer_addr().unwrap(), incoming_stream_guard.local_addr().unwrap());
+    fn proxy_connection(&self, mut incoming_stream: TcpStream) -> Result<(), String> {
+        let mut forward_thread_incoming = incoming_stream.try_clone().unwrap();
+        println!("Client connected from: {:#?} to {:#?}", incoming_stream.peer_addr().unwrap(), incoming_stream.local_addr().unwrap());
 
         let mut forward_thread_outgoing = TcpStream::connect(self.target)
             .map_err(|error| format!("Could not establish connection to {}: {}", self.target, error))?;
 
-        let mut backward_thread_incoming_clone = incoming_stream_guard.try_clone().map_err(|e| e.to_string())?;
+        let mut backward_thread_incoming_clone = incoming_stream.try_clone().map_err(|e| e.to_string())?;
         let mut backward_thread_outgoing_clone = forward_thread_outgoing.try_clone().map_err(|e| e.to_string())?;
-        drop(incoming_stream_guard);
         let server_copy_forward_thread = self.clone();
         let server_copy_backward_thread = self.clone();
         // Pipe for- and backward asynchronously
@@ -109,7 +105,8 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Server<T> {
                     }
                     let mut packet = &mut buffer[..bytes_read];
 
-                    self.packet_handler.handle_packet(packet);
+                    let tcp_stream_ref = Arc::new(Mutex::new(incoming.try_clone().unwrap()));
+                    self.packet_handler.handle_packet(tcp_stream_ref, packet );
                     println!("{} {} {} ({}) {:02X?} {}",
                              self.name,
                              if direction == ProxyDirection::Backward { "<" } else { ">" },
