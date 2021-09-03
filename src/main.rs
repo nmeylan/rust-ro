@@ -11,6 +11,7 @@ use crate::server::char::CharServer;
 use crate::server::server::ServerContext;
 use std::sync::{Arc, Mutex};
 use std::collections::HashMap;
+use crate::server::packets::PacketCaLogin;
 
 fn main() {
     let login = server::server::Server {

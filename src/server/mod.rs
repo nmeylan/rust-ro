@@ -4,3 +4,4 @@ pub mod map;
 pub mod char;
 pub mod packet_db;
 pub mod packet_parser;
+pub mod packets;
