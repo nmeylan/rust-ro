@@ -109,14 +109,15 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Server<T> {
 
                     let tcp_stream_ref = Arc::new(Mutex::new(incoming.try_clone().unwrap()));
                     self.packet_handler.handle_packet(tcp_stream_ref, packet );
-                    println!("{} {} {} ({}) {:02X?} {}",
+                    println!("{} {} {} ({}) {:02X?}",
                              self.name,
                              if direction == ProxyDirection::Backward { "<" } else { ">" },
                              packet_name(packet),
                              bytes_read,
-                             packet, if  direction == ProxyDirection::Backward { outgoing.peer_addr().unwrap() } else { incoming.peer_addr().unwrap() });
+                             packet);
                     let packet1  = parse(packet);
                     packet1.debug();
+                    println!("{:02X?}", packet1.raw());
                     if outgoing.write(packet).is_ok() {
                         outgoing.flush();
                     }

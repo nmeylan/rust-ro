@@ -33,7 +33,7 @@ impl MapServer {
                     }
                     let mut tcp_stream_guard = session.map_server_socket.as_ref().unwrap().lock().unwrap();
                     let buffer: [u8; 25] = [0x8D, 0x00, 0x19, 0x00, 0x80, 0x84, 0x1E, 0x00, 0x77, 0x61, 0x6C, 0x6B, 0x69, 0x72, 0x79, 0x20, 0x3A, 0x20, 0x71, 0x77, 0x65, 0x72, 0x74, 0x7A, 0x00];
-                    println!("Send {:02X?} to {}", buffer, session.account_id);
+                    // println!("Send {:02X?} to {}", buffer, session.account_id);
                     tcp_stream_guard.write(&buffer);
                     tcp_stream_guard.flush();
                     drop(tcp_stream_guard);
