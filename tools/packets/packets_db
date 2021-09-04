@@ -6168,3 +6168,8 @@ struct UNUSED_PACKET_CZ_MER_UPGRADE_SKILLLEVEL {
   /* this+0x2 */ unsigned char CharNum
   /* this+0x3 */ unsigned char mapListNum
  }
+0x5f03
+struct PACKET_CZ_REQUEST_MOVE2 {
+/* this+0x0 */ short PacketId
+/* this+0x2 */ unsigned char dest[3]
+}

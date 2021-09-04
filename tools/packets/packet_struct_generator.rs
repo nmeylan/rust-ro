@@ -13,15 +13,15 @@ pub fn write_packets_struct(packets: Vec<PacketStructDefinition>, nested_structu
     write_packet_parser(&mut file, &packets);
     write_packet_id_trait(&mut file);
     for packet in packets {
-        write_struct_definition(&mut file, &packet.struct_def);
-        write_struct_impl(&mut file, &packet.struct_def, nested_structures);
+        write_struct_definition(&mut file, &packet.struct_def, true);
+        write_struct_impl(&mut file, &packet.struct_def, true);
         write_packet_id_trait_impl(&mut file, &packet);
         write_struct_info_trait(&mut file, &packet.struct_def, true);
     }
 
     for nested_struct in nested_structures {
-        write_struct_definition(&mut file, &nested_struct);
-        write_struct_impl(&mut file, &nested_struct, nested_structures);
+        write_struct_definition(&mut file, &nested_struct, false);
+        write_struct_impl(&mut file, &nested_struct, false);
         write_struct_info_trait(&mut file, &nested_struct, false);
     }
     write_unknown_packet(&mut file);
@@ -44,6 +44,7 @@ fn write_packet_id_trait(file: &mut File) {
     file.write(b"pub trait Packet {\n");
     file.write(b"    fn id(&self) -> &str;\n");
     file.write(b"    fn debug(&self);\n");
+    file.write(b"    fn raw(&self) -> &Vec<u8>;\n");
     file.write(b"}\n\n");
 }
 
@@ -55,6 +56,9 @@ fn write_packet_id_trait_impl(file: &mut File, packet: &PacketStructDefinition) 
     file.write(b"    }\n");
     file.write(b"    fn debug(&self) {\n").unwrap();
     file.write(b"            println!(\"{:?}\", self)\n");
+    file.write(b"    }\n").unwrap();
+    file.write(b"    fn raw(&self) -> &Vec<u8> {\n").unwrap();
+    file.write(b"            &self.raw\n");
     file.write(b"    }\n").unwrap();
     file.write(b"}\n\n");
 }
@@ -69,8 +73,11 @@ fn get_packet_id(packet: &PacketStructDefinition) -> String {
     id
 }
 
-fn write_struct_definition(file: &mut File, struct_definition: &StructDefinition) {
+fn write_struct_definition(file: &mut File, struct_definition: &StructDefinition, is_packet: bool ) {
     file.write(format!("pub struct {} {{\n", struct_definition.name).as_bytes());
+    if is_packet {
+        file.write(b"            raw: Vec<u8>,\n");
+    }
     for field in &struct_definition.fields {
         if &field.data_type.name == "Vec" {
             file.write(format!("    pub {}: Vec<{}>,\n", field.name, &field.complex_type.as_ref().unwrap()).as_bytes());
@@ -102,7 +109,7 @@ fn write_struct_info_trait(file: &mut File, struct_definition: &StructDefinition
     file.write(b"}\n\n");
 }
 
-fn write_struct_impl(file: &mut File, struct_definition: &StructDefinition, all_struct: &Vec<StructDefinition>) {
+fn write_struct_impl(file: &mut File, struct_definition: &StructDefinition, is_packet: bool) {
     file.write(format!("impl {} {{\n", struct_definition.name).as_bytes());
     file.write(format!("    pub fn from(buffer: &[u8]) -> {} {{\n", struct_definition.name).as_bytes());
     let field_with_vec = struct_definition.fields.iter().find(|field| field.data_type.name == "Vec");
@@ -110,6 +117,9 @@ fn write_struct_impl(file: &mut File, struct_definition: &StructDefinition, all_
         write_vec_field(file, &field_with_vec.unwrap());
     }
     file.write(format!("        {} {{\n", struct_definition.name).as_bytes());
+    if is_packet {
+        file.write(b"            raw: buffer.to_vec(),\n");
+    }
     for field in &struct_definition.fields {
         if field.data_type.name == "Vec" {
             file.write(format!("            {}: vec_field,\n", field.name).as_bytes());
@@ -166,6 +176,7 @@ fn field_length(field: &StructField) -> String {
 fn write_unknown_packet(file: &mut File) {
     file.write(b"#[derive(Debug)]\n");
     file.write(b"pub struct PacketUnknown {\n");
+    file.write(b"    raw: Vec<u8>,\n");
     file.write(b"    packet_id: String,\n");
     file.write(b"}\n");
     file.write(b"impl Packet for PacketUnknown {\n");
@@ -175,10 +186,13 @@ fn write_unknown_packet(file: &mut File) {
     file.write(b"    fn debug(&self) {\n").unwrap();
     file.write(b"            println!(\"{:?}\", self)\n");
     file.write(b"    }\n").unwrap();
+    file.write(b"    fn raw(&self) -> &Vec<u8> {\n").unwrap();
+    file.write(b"            &self.raw\n");
+    file.write(b"    }\n").unwrap();
     file.write(b"}\n");
     file.write(b"impl PacketUnknown {\n");
     file.write(b"    pub fn from(buffer: &[u8]) -> PacketUnknown {\n");
-    file.write(b"        PacketUnknown { packet_id: format!(\"{:02X?}{:02X?}\", buffer[0], buffer[1])}\n");
+    file.write(b"        PacketUnknown { raw: buffer.to_vec(), packet_id: format!(\"0x{:02X?}{:02X?}\", buffer[0], buffer[1])}\n");
     file.write(b"    }\n");
     file.write(b"}\n");
 }
