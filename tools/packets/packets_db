@@ -621,7 +621,7 @@
   /* this+0x8 */ bool IsIdentified
   /* this+0x9 */ bool IsDamaged
   /* this+0xa */ unsigned char refiningLevel
-  /* this+0xb */ struct EQUIPSLOTINFOEQUIPSLOTINFO slot {
+  /* this+0xb */ struct EQUIPSLOTINFO slot { // Size 8 // Size 8
     /* this+0x0 */ unsigned short card1
     /* this+0x2 */ unsigned short card2
     /* this+0x4 */ unsigned short card3
@@ -668,7 +668,7 @@
     /* this+0x8 */ unsigned short WearState
     /* this+0xa */ bool IsDamaged
     /* this+0xb */ unsigned char RefiningLevel
-    /* this+0xc */ struct EQUIPSLOTINFO slot {
+    /* this+0xc */ struct EQUIPSLOTINFO slot { // Size 8
       /* this+0x0 */ unsigned short card1
       /* this+0x2 */ unsigned short card2
       /* this+0x4 */ unsigned short card3
@@ -702,7 +702,7 @@
     /* this+0x8 */ unsigned short WearState
     /* this+0xa */ bool IsDamaged
     /* this+0xb */ unsigned char RefiningLevel
-    /* this+0xc */ struct EQUIPSLOTINFO slot {
+    /* this+0xc */ struct EQUIPSLOTINFO slot { // Size 8
       /* this+0x0 */ unsigned short card1
       /* this+0x2 */ unsigned short card2
       /* this+0x4 */ unsigned short card3
@@ -1140,7 +1140,7 @@
   /* this+0x8 */ bool IsIdentified
   /* this+0x9 */ bool IsDamaged
   /* this+0xa */ unsigned char refiningLevel
-  /* this+0xb */ struct EQUIPSLOTINFO slot {
+  /* this+0xb */ struct EQUIPSLOTINFO slot { // Size 8
     /* this+0x0 */ unsigned short card1
     /* this+0x2 */ unsigned short card2
     /* this+0x4 */ unsigned short card3
@@ -1204,7 +1204,7 @@
   /* this+0xa */ bool IsIdentified
   /* this+0xb */ bool IsDamaged
   /* this+0xc */ unsigned char refiningLevel
-  /* this+0xd */ struct EQUIPSLOTINFO slot {
+  /* this+0xd */ struct EQUIPSLOTINFO slot { // Size 8
     /* this+0x0 */ unsigned short card1
     /* this+0x2 */ unsigned short card2
     /* this+0x4 */ unsigned short card3
@@ -1545,7 +1545,7 @@
     /* this+0x8 */ unsigned short WearState
     /* this+0xa */ bool IsDamaged
     /* this+0xb */ unsigned char RefiningLevel
-    /* this+0xc */ struct EQUIPSLOTINFO slot {
+    /* this+0xc */ struct EQUIPSLOTINFO slot { // Size 8
       /* this+0x0 */ unsigned short card1
       /* this+0x2 */ unsigned short card2
       /* this+0x4 */ unsigned short card3
@@ -1575,7 +1575,7 @@
   /* this+0xa */ bool IsIdentified
   /* this+0xb */ bool IsDamaged
   /* this+0xc */ unsigned char refiningLevel
-  /* this+0xd */ struct EQUIPSLOTINFO slot {
+  /* this+0xd */ struct EQUIPSLOTINFO slot { // Size 8
     /* this+0x0 */ unsigned short card1
     /* this+0x2 */ unsigned short card2
     /* this+0x4 */ unsigned short card3
@@ -1675,7 +1675,7 @@
     /* this+0xb */ unsigned char IsIdentified
     /* this+0xc */ unsigned char IsDamaged
     /* this+0xd */ unsigned char refiningLevel
-    /* this+0xe */ struct EQUIPSLOTINFO slot {
+    /* this+0xe */ struct EQUIPSLOTINFO slot { // Size 8
       /* this+0x0 */ unsigned short card1
       /* this+0x2 */ unsigned short card2
       /* this+0x4 */ unsigned short card3
@@ -1714,7 +1714,7 @@
     /* this+0xb */ unsigned char IsIdentified
     /* this+0xc */ unsigned char IsDamaged
     /* this+0xd */ unsigned char refiningLevel
-    /* this+0xe */ struct EQUIPSLOTINFO slot {
+    /* this+0xe */ struct EQUIPSLOTINFO slot { // Size 8
       /* this+0x0 */ unsigned short card1
       /* this+0x2 */ unsigned short card2
       /* this+0x4 */ unsigned short card3
@@ -2727,7 +2727,7 @@
   /* this+0xb */ bool IsIdentified
   /* this+0xc */ bool IsDamaged
   /* this+0xd */ unsigned char refiningLevel
-  /* this+0xe */ struct EQUIPSLOTINFO slot {
+  /* this+0xe */ struct EQUIPSLOTINFO slot { // Size 8
     /* this+0x0 */ unsigned short card1
     /* this+0x2 */ unsigned short card2
     /* this+0x4 */ unsigned short card3
@@ -2744,7 +2744,7 @@
   /* this+0xb */ bool IsIdentified
   /* this+0xc */ bool IsDamaged
   /* this+0xd */ unsigned char refiningLevel
-  /* this+0xe */ struct EQUIPSLOTINFO slot {
+  /* this+0xe */ struct EQUIPSLOTINFO slot { // Size 8
     /* this+0x0 */ unsigned short card1
     /* this+0x2 */ unsigned short card2
     /* this+0x4 */ unsigned short card3
@@ -3093,7 +3093,7 @@
     /* this+0x5 */ bool IsIdentified
     /* this+0x6 */ short count
     /* this+0x8 */ unsigned short WearState
-    /* this+0xa */ struct EQUIPSLOTINFO slot {
+    /* this+0xa */ struct EQUIPSLOTINFO slot { // Size 8
       /* this+0x0 */ unsigned short card1
       /* this+0x2 */ unsigned short card2
       /* this+0x4 */ unsigned short card3
@@ -3112,7 +3112,7 @@
     /* this+0x5 */ bool IsIdentified
     /* this+0x6 */ short count
     /* this+0x8 */ unsigned short WearState
-    /* this+0xa */ struct EQUIPSLOTINFO slot {
+    /* this+0xa */ struct EQUIPSLOTINFO slot { // Size 8
       /* this+0x0 */ unsigned short card1
       /* this+0x2 */ unsigned short card2
       /* this+0x4 */ unsigned short card3
@@ -3131,7 +3131,7 @@
     /* this+0x5 */ bool IsIdentified
     /* this+0x6 */ short count
     /* this+0x8 */ unsigned short WearState
-    /* this+0xa */ struct EQUIPSLOTINFO slot {
+    /* this+0xa */ struct EQUIPSLOTINFO slot { // Size 8
       /* this+0x0 */ unsigned short card1
       /* this+0x2 */ unsigned short card2
       /* this+0x4 */ unsigned short card3
@@ -3221,7 +3221,7 @@
     /* this+0x0 */ short index
     /* this+0x2 */ unsigned short ITID
     /* this+0x4 */ unsigned char refiningLevel
-    /* this+0x5 */ struct EQUIPSLOTINFO slot {
+    /* this+0x5 */ struct EQUIPSLOTINFO slot { // Size 8
       /* this+0x0 */ unsigned short card1
       /* this+0x2 */ unsigned short card2
       /* this+0x4 */ unsigned short card3
@@ -3236,7 +3236,7 @@
     /* this+0x0 */ short index
     /* this+0x2 */ unsigned short ITID
     /* this+0x4 */ unsigned char refiningLevel
-    /* this+0x5 */ struct EQUIPSLOTINFO slot {
+    /* this+0x5 */ struct EQUIPSLOTINFO slot { // Size 8
       /* this+0x0 */ unsigned short card1
       /* this+0x2 */ unsigned short card2
       /* this+0x4 */ unsigned short card3
@@ -3497,7 +3497,7 @@
     /* this+0x0 */ short index
     /* this+0x2 */ unsigned short ITID
     /* this+0x4 */ unsigned char refiningLevel
-    /* this+0x5 */ struct EQUIPSLOTINFO slot {
+    /* this+0x5 */ struct EQUIPSLOTINFO slot { // Size 8
       /* this+0x0 */ unsigned short card1
       /* this+0x2 */ unsigned short card2
       /* this+0x4 */ unsigned short card3
@@ -3767,7 +3767,7 @@
   /* this+0x58 */ bool IsIdentified
   /* this+0x59 */ bool IsDamaged
   /* this+0x5a */ unsigned char refiningLevel
-  /* this+0x5b */ struct EQUIPSLOTINFO slot {
+  /* this+0x5b */ struct EQUIPSLOTINFO slot { // Size 8
     /* this+0x0 */ unsigned short card1
     /* this+0x2 */ unsigned short card2
     /* this+0x4 */ unsigned short card3
@@ -3880,7 +3880,7 @@
     /* this+0x24 */ bool IsIdentified
     /* this+0x25 */ bool IsDamaged
     /* this+0x26 */ unsigned char refiningLevel
-    /* this+0x27 */ struct EQUIPSLOTINFO slot {
+    /* this+0x27 */ struct EQUIPSLOTINFO slot { // Size 8
       /* this+0x0 */ unsigned short card1
       /* this+0x2 */ unsigned short card2
       /* this+0x4 */ unsigned short card3
@@ -4317,7 +4317,7 @@
     /* this+0x8 */ unsigned short WearState
     /* this+0xa */ bool IsDamaged
     /* this+0xb */ unsigned char RefiningLevel
-    /* this+0xc */ struct EQUIPSLOTINFO slot {
+    /* this+0xc */ struct EQUIPSLOTINFO slot { // Size 8 // Size 8
       /* this+0x0 */ unsigned short card1
       /* this+0x2 */ unsigned short card2
       /* this+0x4 */ unsigned short card3
@@ -4339,7 +4339,7 @@
     /* this+0x8 */ unsigned short WearState
     /* this+0xa */ bool IsDamaged
     /* this+0xb */ unsigned char RefiningLevel
-    /* this+0xc */ struct EQUIPSLOTINFO slot {
+    /* this+0xc */ struct EQUIPSLOTINFO slot { // Size 8
       /* this+0x0 */ unsigned short card1
       /* this+0x2 */ unsigned short card2
       /* this+0x4 */ unsigned short card3
@@ -4361,7 +4361,7 @@
     /* this+0x8 */ unsigned short WearState
     /* this+0xa */ bool IsDamaged
     /* this+0xb */ unsigned char RefiningLevel
-    /* this+0xc */ struct EQUIPSLOTINFO slot {
+    /* this+0xc */ struct EQUIPSLOTINFO slot { // Size 8
       /* this+0x0 */ unsigned short card1
       /* this+0x2 */ unsigned short card2
       /* this+0x4 */ unsigned short card3
@@ -4391,7 +4391,7 @@
   /* this+0x8 */ bool IsIdentified
   /* this+0x9 */ bool IsDamaged
   /* this+0xa */ unsigned char refiningLevel
-  /* this+0xb */ struct EQUIPSLOTINFO slot {
+  /* this+0xb */ struct EQUIPSLOTINFO slot { // Size 8
     /* this+0x0 */ unsigned short card1
     /* this+0x2 */ unsigned short card2
     /* this+0x4 */ unsigned short card3
@@ -4625,7 +4625,7 @@ struct UNUSED_PACKET_CZ_MER_UPGRADE_SKILLLEVEL {
   /* this+0x8 */ bool IsIdentified
   /* this+0x9 */ bool IsDamaged
   /* this+0xa */ unsigned char refiningLevel
-  /* this+0xb */ struct EQUIPSLOTINFO slot {
+  /* this+0xb */ struct EQUIPSLOTINFO slot { // Size 8
     /* this+0x0 */ unsigned short card1
     /* this+0x2 */ unsigned short card2
     /* this+0x4 */ unsigned short card3
@@ -4771,7 +4771,7 @@ struct UNUSED_PACKET_CZ_MER_UPGRADE_SKILLLEVEL {
     /* this+0x8 */ unsigned short WearState
     /* this+0xa */ bool IsDamaged
     /* this+0xb */ unsigned char RefiningLevel
-    /* this+0xc */ struct EQUIPSLOTINFO slot {
+    /* this+0xc */ struct EQUIPSLOTINFO slot { // Size 8
       /* this+0x0 */ unsigned short card1
       /* this+0x2 */ unsigned short card2
       /* this+0x4 */ unsigned short card3
@@ -4795,7 +4795,7 @@ struct UNUSED_PACKET_CZ_MER_UPGRADE_SKILLLEVEL {
     /* this+0x8 */ unsigned short WearState
     /* this+0xa */ bool IsDamaged
     /* this+0xb */ unsigned char RefiningLevel
-    /* this+0xc */ struct EQUIPSLOTINFO slot {
+    /* this+0xc */ struct EQUIPSLOTINFO slot { // Size 8
       /* this+0x0 */ unsigned short card1
       /* this+0x2 */ unsigned short card2
       /* this+0x4 */ unsigned short card3
@@ -4819,7 +4819,7 @@ struct UNUSED_PACKET_CZ_MER_UPGRADE_SKILLLEVEL {
     /* this+0x8 */ unsigned short WearState
     /* this+0xa */ bool IsDamaged
     /* this+0xb */ unsigned char RefiningLevel
-    /* this+0xc */ struct EQUIPSLOTINFO slot {
+    /* this+0xc */ struct EQUIPSLOTINFO slot { // Size 8
       /* this+0x0 */ unsigned short card1
       /* this+0x2 */ unsigned short card2
       /* this+0x4 */ unsigned short card3
@@ -4844,7 +4844,7 @@ struct UNUSED_PACKET_CZ_MER_UPGRADE_SKILLLEVEL {
   /* this+0x8 */ bool IsIdentified
   /* this+0x9 */ bool IsDamaged
   /* this+0xa */ unsigned char refiningLevel
-  /* this+0xb */ struct EQUIPSLOTINFO slot {
+  /* this+0xb */ struct EQUIPSLOTINFO slot { // Size 8
     /* this+0x0 */ unsigned short card1
     /* this+0x2 */ unsigned short card2
     /* this+0x4 */ unsigned short card3
@@ -4887,7 +4887,7 @@ struct UNUSED_PACKET_CZ_MER_UPGRADE_SKILLLEVEL {
     /* this+0x8 */ unsigned short WearState
     /* this+0xa */ bool IsDamaged
     /* this+0xb */ unsigned char RefiningLevel
-    /* this+0xc */ struct EQUIPSLOTINFO slot {
+    /* this+0xc */ struct EQUIPSLOTINFO slot { // Size 8
       /* this+0x0 */ unsigned short card1
       /* this+0x2 */ unsigned short card2
       /* this+0x4 */ unsigned short card3
@@ -4995,7 +4995,7 @@ struct UNUSED_PACKET_CZ_MER_UPGRADE_SKILLLEVEL {
     /* this+0x5 */ bool IsIdentified
     /* this+0x6 */ short count
     /* this+0x8 */ unsigned short WearState
-    /* this+0xa */ struct EQUIPSLOTINFO slot {
+    /* this+0xa */ struct EQUIPSLOTINFO slot { // Size 8
       /* this+0x0 */ unsigned short card1
       /* this+0x2 */ unsigned short card2
       /* this+0x4 */ unsigned short card3
@@ -5015,7 +5015,7 @@ struct UNUSED_PACKET_CZ_MER_UPGRADE_SKILLLEVEL {
     /* this+0x5 */ bool IsIdentified
     /* this+0x6 */ short count
     /* this+0x8 */ unsigned short WearState
-    /* this+0xa */ struct EQUIPSLOTINFO slot {
+    /* this+0xa */ struct EQUIPSLOTINFO slot { // Size 8
       /* this+0x0 */ unsigned short card1
       /* this+0x2 */ unsigned short card2
       /* this+0x4 */ unsigned short card3
@@ -5035,7 +5035,7 @@ struct UNUSED_PACKET_CZ_MER_UPGRADE_SKILLLEVEL {
     /* this+0x5 */ bool IsIdentified
     /* this+0x6 */ short count
     /* this+0x8 */ unsigned short WearState
-    /* this+0xa */ struct EQUIPSLOTINFO slot {
+    /* this+0xa */ struct EQUIPSLOTINFO slot { // Size 8
       /* this+0x0 */ unsigned short card1
       /* this+0x2 */ unsigned short card2
       /* this+0x4 */ unsigned short card3
@@ -5731,7 +5731,7 @@ struct UNUSED_PACKET_CZ_MER_UPGRADE_SKILLLEVEL {
     /* this+0xb */ unsigned char IsIdentified
     /* this+0xc */ unsigned char IsDamaged
     /* this+0xd */ unsigned char refiningLevel
-    /* this+0xe */ struct EQUIPSLOTINFO slot {
+    /* this+0xe */ struct EQUIPSLOTINFO slot { // Size 8
       /* this+0x0 */ unsigned short card1
       /* this+0x2 */ unsigned short card2
       /* this+0x4 */ unsigned short card3
@@ -5863,7 +5863,7 @@ struct UNUSED_PACKET_CZ_MER_UPGRADE_SKILLLEVEL {
   /* this+0x9 */ bool IsIdentified
   /* this+0xa */ bool IsDamaged
   /* this+0xb */ unsigned char refiningLevel
-  /* this+0xc */ struct EQUIPSLOTINFO slot {
+  /* this+0xc */ struct EQUIPSLOTINFO slot { // Size 8
     /* this+0x0 */ unsigned short card1
     /* this+0x2 */ unsigned short card2
     /* this+0x4 */ unsigned short card3

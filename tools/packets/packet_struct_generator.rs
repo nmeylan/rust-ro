@@ -1,7 +1,8 @@
-use crate::{PacketStructDefinition, StructDefinition};
+use crate::{PacketStructDefinition, StructDefinition, StructField};
 use std::fs::File;
 use std::io::Write;
 use std::path::Path;
+use crate::packet_db_parser::static_types_map;
 
 pub fn write_packets_struct(packets: Vec<PacketStructDefinition>, nested_structures: &Vec<StructDefinition>, output_path: &Path) {
     let mut file_res = File::create(output_path);
@@ -12,25 +13,27 @@ pub fn write_packets_struct(packets: Vec<PacketStructDefinition>, nested_structu
     write_packet_id_trait(&mut file);
     for packet in packets {
         write_struct_definition(&mut file, &packet.struct_def);
+        write_struct_impl(&mut file, &packet.struct_def, nested_structures);
         write_packet_id_trait_impl(&mut file, &packet);
         write_struct_info_trait(&mut file, &packet.struct_def, true);
     }
 
     for nested_struct in nested_structures {
         write_struct_definition(&mut file, &nested_struct);
+        write_struct_impl(&mut file, &nested_struct, nested_structures);
         write_struct_info_trait(&mut file, &nested_struct, false);
     }
 }
 
 fn write_packet_id_trait(file: &mut File) {
-    file.write(b"pub trait PacketId {\n");
-    file.write(b"  fn id(&self) -> &str;\n");
+    file.write(b"pub trait Packet {\n");
+    file.write(b"    fn id(&self) -> &str;\n");
     file.write(b"}\n\n");
 }
 
 
 fn write_packet_id_trait_impl(file: &mut File, packet: &PacketStructDefinition) {
-    file.write(format!("impl PacketId for {} {{\n", packet.struct_def.name).as_bytes());
+    file.write(format!("impl Packet for {} {{\n", packet.struct_def.name).as_bytes());
     file.write(b"    fn id(&self) -> &str {\n");
     let mut id = packet.id.clone();
     if packet.id.len() == 4 {
@@ -74,4 +77,65 @@ fn write_struct_info_trait(file: &mut File, struct_definition: &StructDefinition
     file.write(b"        .finish()\n");
     file.write(b"    }\n");
     file.write(b"}\n\n");
+}
+
+fn write_struct_impl(file: &mut File, struct_definition: &StructDefinition, all_struct: &Vec<StructDefinition>) {
+    file.write(format!("impl {} {{\n", struct_definition.name).as_bytes());
+    file.write(format!("    pub fn from(buffer: &[u8]) -> {} {{\n", struct_definition.name).as_bytes());
+    let field_with_vec = struct_definition.fields.iter().find(|field| field.data_type.name == "Vec");
+    if field_with_vec.is_some() {
+        write_vec_field(file, &field_with_vec.unwrap());
+    }
+    file.write(format!("        {} {{\n", struct_definition.name).as_bytes());
+    for field in &struct_definition.fields {
+        if field.data_type.name == "Vec" {
+            file.write(format!("            {}: vec_field,\n", field.name).as_bytes());
+        } else if field.data_type.name == "Struct" {
+            file.write(format!("            {}: {}::from(&buffer[{}..{}]),\n", field.name, field.complex_type.as_ref().unwrap(), field.position, field_length(field)).as_bytes());
+        } else {
+            file.write(format!("            {}: {},\n", field.name, struct_impl_field_value(field)).as_bytes());
+        }
+    }
+    file.write(b"        }\n");
+    file.write(b"    }\n");
+    file.write(b"}\n\n");
+}
+
+fn write_vec_field(file: &mut File, field: &StructField) {
+    file.write(format!("        let iter_count = &buffer.len() / {};\n", field.length).as_bytes());
+    file.write(format!("        let mut vec_field: Vec<{}> = Vec::new();\n", field.complex_type.as_ref().unwrap()).as_bytes());
+    file.write(b"        let mut i = 1;\n");
+    file.write(b"        while i <= iter_count {\n");
+    file.write(format!("            let start_pos = {} * i;\n", field.position).as_bytes());
+    file.write(format!("            let end_pos = {} * i;\n", field.position + field.length as i16).as_bytes());
+    file.write(format!("            vec_field.push({}::from(&buffer[start_pos..end_pos]));\n", field.complex_type.as_ref().unwrap()).as_bytes());
+    file.write(b"            i += 1;\n");
+    file.write(b"        }\n");
+}
+
+fn struct_impl_field_value(field: &StructField) -> String {
+    match field.data_type.name.as_str() {
+        "char" => {
+            format!("buffer[{}] as char", field.position)
+        }
+        "u16" => {
+            format!("u16::from_le_bytes([buffer[{}], buffer[{}]])", field.position, field.position + 1)
+        }
+        "u32" => {
+            format!("u32::from_le_bytes([buffer[{}], buffer[{}], buffer[{}], buffer[{}]])", field.position, field.position + 1, field.position + 2, field.position + 3)
+        }
+        "bool" => {
+            format!("buffer[{}] == 1", field.position)
+        }
+        "String" => {
+            format!("String::from_utf8_lossy(&buffer[{}..{}]).to_string()", field.position, field_length(field))
+        }
+        _ => {
+            format!("\"found unknown type {} for field {}. this won't compile!\"", field.data_type.name, field.name)
+        }
+    }
+}
+
+fn field_length(field: &StructField) -> String {
+    if field.length > -1 { (field.position + field.length as i16).to_string() } else { "buffer.len()".to_string() }
 }

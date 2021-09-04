@@ -16,7 +16,7 @@ use crate::{PacketStructDefinition, StructDefinition, StructField, Type};
 use std::path::Path;
 
 lazy_static! {
-    static ref static_types_map: HashMap<&'static str, Type> = hashmap!{
+    pub static ref static_types_map: HashMap<&'static str, Type> = hashmap!{
         "char" => Type {name: "char".to_string(), length: Some(1)},
         "short" => Type {name: "u16".to_string(), length: Some(2)},
         "int" => Type {name: "u32".to_string(), length: Some(4)},
