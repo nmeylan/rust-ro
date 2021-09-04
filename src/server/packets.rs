@@ -3,8 +3,2290 @@
 
 use std::fmt::{Formatter, Debug};
 
-pub trait PacketId {
-  fn id(&self) -> &str;
+pub fn parse(buffer: &[u8]) -> Box<dyn Packet> {
+    if buffer[0] == 0x64 && buffer[1] == 0x00 {
+        return Box::new(PacketCaLogin::from(buffer));
+    }
+    if buffer[0] == 0x65 && buffer[1] == 0x00 {
+        return Box::new(PacketChEnter::from(buffer));
+    }
+    if buffer[0] == 0x66 && buffer[1] == 0x00 {
+        return Box::new(PacketChSelectChar::from(buffer));
+    }
+    if buffer[0] == 0x67 && buffer[1] == 0x00 {
+        return Box::new(PacketChMakeChar::from(buffer));
+    }
+    if buffer[0] == 0x68 && buffer[1] == 0x00 {
+        return Box::new(PacketChDeleteChar::from(buffer));
+    }
+    if buffer[0] == 0x69 && buffer[1] == 0x00 {
+        return Box::new(PacketAcAcceptLogin::from(buffer));
+    }
+    if buffer[0] == 0x6a && buffer[1] == 0x00 {
+        return Box::new(PacketAcRefuseLogin::from(buffer));
+    }
+    if buffer[0] == 0x6b && buffer[1] == 0x00 {
+        return Box::new(PacketHcAcceptEnterNeoUnion::from(buffer));
+    }
+    if buffer[0] == 0x6c && buffer[1] == 0x00 {
+        return Box::new(PacketHcRefuseEnter::from(buffer));
+    }
+    if buffer[0] == 0x6d && buffer[1] == 0x00 {
+        return Box::new(PacketHcAcceptMakecharNeoUnion::from(buffer));
+    }
+    if buffer[0] == 0x6e && buffer[1] == 0x00 {
+        return Box::new(PacketHcRefuseMakechar::from(buffer));
+    }
+    if buffer[0] == 0x6f && buffer[1] == 0x00 {
+        return Box::new(PacketHcAcceptDeletechar::from(buffer));
+    }
+    if buffer[0] == 0x70 && buffer[1] == 0x00 {
+        return Box::new(PacketHcRefuseDeletechar::from(buffer));
+    }
+    if buffer[0] == 0x71 && buffer[1] == 0x00 {
+        return Box::new(PacketHcNotifyZonesvr::from(buffer));
+    }
+    if buffer[0] == 0x72 && buffer[1] == 0x00 {
+        return Box::new(PacketCzEnter::from(buffer));
+    }
+    if buffer[0] == 0x73 && buffer[1] == 0x00 {
+        return Box::new(PacketZcAcceptEnter::from(buffer));
+    }
+    if buffer[0] == 0x74 && buffer[1] == 0x00 {
+        return Box::new(PacketZcRefuseEnter::from(buffer));
+    }
+    if buffer[0] == 0x75 && buffer[1] == 0x00 {
+        return Box::new(PacketZcNotifyInitchar::from(buffer));
+    }
+    if buffer[0] == 0x76 && buffer[1] == 0x00 {
+        return Box::new(PacketZcNotifyUpdatechar::from(buffer));
+    }
+    if buffer[0] == 0x77 && buffer[1] == 0x00 {
+        return Box::new(PacketZcNotifyUpdateplayer::from(buffer));
+    }
+    if buffer[0] == 0x78 && buffer[1] == 0x00 {
+        return Box::new(PacketZcNotifyStandentry::from(buffer));
+    }
+    if buffer[0] == 0x79 && buffer[1] == 0x00 {
+        return Box::new(PacketZcNotifyNewentry::from(buffer));
+    }
+    if buffer[0] == 0x7a && buffer[1] == 0x00 {
+        return Box::new(PacketZcNotifyActentry::from(buffer));
+    }
+    if buffer[0] == 0x7b && buffer[1] == 0x00 {
+        return Box::new(PacketZcNotifyMoveentry::from(buffer));
+    }
+    if buffer[0] == 0x7c && buffer[1] == 0x00 {
+        return Box::new(PacketZcNotifyStandentryNpc::from(buffer));
+    }
+    if buffer[0] == 0x7d && buffer[1] == 0x00 {
+        return Box::new(PacketCzNotifyActorinit::from(buffer));
+    }
+    if buffer[0] == 0x7e && buffer[1] == 0x00 {
+        return Box::new(PacketCzRequestTime::from(buffer));
+    }
+    if buffer[0] == 0x7f && buffer[1] == 0x00 {
+        return Box::new(PacketZcNotifyTime::from(buffer));
+    }
+    if buffer[0] == 0x80 && buffer[1] == 0x00 {
+        return Box::new(PacketZcNotifyVanish::from(buffer));
+    }
+    if buffer[0] == 0x81 && buffer[1] == 0x00 {
+        return Box::new(PacketScNotifyBan::from(buffer));
+    }
+    if buffer[0] == 0x82 && buffer[1] == 0x00 {
+        return Box::new(PacketCzRequestQuit::from(buffer));
+    }
+    if buffer[0] == 0x83 && buffer[1] == 0x00 {
+        return Box::new(PacketZcAcceptQuit::from(buffer));
+    }
+    if buffer[0] == 0x84 && buffer[1] == 0x00 {
+        return Box::new(PacketZcRefuseQuit::from(buffer));
+    }
+    if buffer[0] == 0x85 && buffer[1] == 0x00 {
+        return Box::new(PacketCzRequestMove::from(buffer));
+    }
+    if buffer[0] == 0x86 && buffer[1] == 0x00 {
+        return Box::new(PacketZcNotifyMove::from(buffer));
+    }
+    if buffer[0] == 0x87 && buffer[1] == 0x00 {
+        return Box::new(PacketZcNotifyPlayermove::from(buffer));
+    }
+    if buffer[0] == 0x88 && buffer[1] == 0x00 {
+        return Box::new(PacketZcStopmove::from(buffer));
+    }
+    if buffer[0] == 0x89 && buffer[1] == 0x00 {
+        return Box::new(PacketCzRequestAct::from(buffer));
+    }
+    if buffer[0] == 0x8a && buffer[1] == 0x00 {
+        return Box::new(PacketZcNotifyAct::from(buffer));
+    }
+    if buffer[0] == 0x8b && buffer[1] == 0x00 {
+        return Box::new(PacketZcNotifyActPosition::from(buffer));
+    }
+    if buffer[0] == 0x8c && buffer[1] == 0x00 {
+        return Box::new(PacketCzRequestChat::from(buffer));
+    }
+    if buffer[0] == 0x8d && buffer[1] == 0x00 {
+        return Box::new(PacketZcNotifyChat::from(buffer));
+    }
+    if buffer[0] == 0x8e && buffer[1] == 0x00 {
+        return Box::new(PacketZcNotifyPlayerchat::from(buffer));
+    }
+    if buffer[0] == 0x8f && buffer[1] == 0x00 {
+        return Box::new(PacketServerEntryAck::from(buffer));
+    }
+    if buffer[0] == 0x90 && buffer[1] == 0x00 {
+        return Box::new(PacketCzContactnpc::from(buffer));
+    }
+    if buffer[0] == 0x91 && buffer[1] == 0x00 {
+        return Box::new(PacketZcNpcackMapmove::from(buffer));
+    }
+    if buffer[0] == 0x92 && buffer[1] == 0x00 {
+        return Box::new(PacketZcNpcackServermove::from(buffer));
+    }
+    if buffer[0] == 0x93 && buffer[1] == 0x00 {
+        return Box::new(PacketZcNpcackEnable::from(buffer));
+    }
+    if buffer[0] == 0x94 && buffer[1] == 0x00 {
+        return Box::new(PacketCzReqname::from(buffer));
+    }
+    if buffer[0] == 0x95 && buffer[1] == 0x00 {
+        return Box::new(PacketZcAckReqname::from(buffer));
+    }
+    if buffer[0] == 0x96 && buffer[1] == 0x00 {
+        return Box::new(PacketCzWhisper::from(buffer));
+    }
+    if buffer[0] == 0x97 && buffer[1] == 0x00 {
+        return Box::new(PacketZcWhisper::from(buffer));
+    }
+    if buffer[0] == 0x98 && buffer[1] == 0x00 {
+        return Box::new(PacketZcAckWhisper::from(buffer));
+    }
+    if buffer[0] == 0x99 && buffer[1] == 0x00 {
+        return Box::new(PacketCzBroadcast::from(buffer));
+    }
+    if buffer[0] == 0x9a && buffer[1] == 0x00 {
+        return Box::new(PacketZcBroadcast::from(buffer));
+    }
+    if buffer[0] == 0x9b && buffer[1] == 0x00 {
+        return Box::new(PacketCzChangeDirection::from(buffer));
+    }
+    if buffer[0] == 0x9c && buffer[1] == 0x00 {
+        return Box::new(PacketZcChangeDirection::from(buffer));
+    }
+    if buffer[0] == 0x9d && buffer[1] == 0x00 {
+        return Box::new(PacketZcItemEntry::from(buffer));
+    }
+    if buffer[0] == 0x9e && buffer[1] == 0x00 {
+        return Box::new(PacketZcItemFallEntry::from(buffer));
+    }
+    if buffer[0] == 0x9f && buffer[1] == 0x00 {
+        return Box::new(PacketCzItemPickup::from(buffer));
+    }
+    if buffer[0] == 0xa0 && buffer[1] == 0x00 {
+        return Box::new(PacketZcItemPickupAck::from(buffer));
+    }
+    if buffer[0] == 0xa1 && buffer[1] == 0x00 {
+        return Box::new(PacketZcItemDisappear::from(buffer));
+    }
+    if buffer[0] == 0xa2 && buffer[1] == 0x00 {
+        return Box::new(PacketCzItemThrow::from(buffer));
+    }
+    if buffer[0] == 0xa3 && buffer[1] == 0x00 {
+        return Box::new(PacketZcNormalItemlist::from(buffer));
+    }
+    if buffer[0] == 0xa4 && buffer[1] == 0x00 {
+        return Box::new(PacketZcEquipmentItemlist::from(buffer));
+    }
+    if buffer[0] == 0xa5 && buffer[1] == 0x00 {
+        return Box::new(PacketZcStoreNormalItemlist::from(buffer));
+    }
+    if buffer[0] == 0xa6 && buffer[1] == 0x00 {
+        return Box::new(PacketZcStoreEquipmentItemlist::from(buffer));
+    }
+    if buffer[0] == 0xa7 && buffer[1] == 0x00 {
+        return Box::new(PacketCzUseItem::from(buffer));
+    }
+    if buffer[0] == 0xa8 && buffer[1] == 0x00 {
+        return Box::new(PacketZcUseItemAck::from(buffer));
+    }
+    if buffer[0] == 0xa9 && buffer[1] == 0x00 {
+        return Box::new(PacketCzReqWearEquip::from(buffer));
+    }
+    if buffer[0] == 0xaa && buffer[1] == 0x00 {
+        return Box::new(PacketZcReqWearEquipAck::from(buffer));
+    }
+    if buffer[0] == 0xab && buffer[1] == 0x00 {
+        return Box::new(PacketCzReqTakeoffEquip::from(buffer));
+    }
+    if buffer[0] == 0xac && buffer[1] == 0x00 {
+        return Box::new(PacketZcReqTakeoffEquipAck::from(buffer));
+    }
+    if buffer[0] == 0xaf && buffer[1] == 0x00 {
+        return Box::new(PacketZcItemThrowAck::from(buffer));
+    }
+    if buffer[0] == 0xb0 && buffer[1] == 0x00 {
+        return Box::new(PacketZcParChange::from(buffer));
+    }
+    if buffer[0] == 0xb1 && buffer[1] == 0x00 {
+        return Box::new(PacketZcLongparChange::from(buffer));
+    }
+    if buffer[0] == 0xb2 && buffer[1] == 0x00 {
+        return Box::new(PacketCzRestart::from(buffer));
+    }
+    if buffer[0] == 0xb3 && buffer[1] == 0x00 {
+        return Box::new(PacketZcRestartAck::from(buffer));
+    }
+    if buffer[0] == 0xb4 && buffer[1] == 0x00 {
+        return Box::new(PacketZcSayDialog::from(buffer));
+    }
+    if buffer[0] == 0xb5 && buffer[1] == 0x00 {
+        return Box::new(PacketZcWaitDialog::from(buffer));
+    }
+    if buffer[0] == 0xb6 && buffer[1] == 0x00 {
+        return Box::new(PacketZcCloseDialog::from(buffer));
+    }
+    if buffer[0] == 0xb7 && buffer[1] == 0x00 {
+        return Box::new(PacketZcMenuList::from(buffer));
+    }
+    if buffer[0] == 0xb8 && buffer[1] == 0x00 {
+        return Box::new(PacketCzChooseMenu::from(buffer));
+    }
+    if buffer[0] == 0xb9 && buffer[1] == 0x00 {
+        return Box::new(PacketCzReqNextScript::from(buffer));
+    }
+    if buffer[0] == 0xba && buffer[1] == 0x00 {
+        return Box::new(PacketCzReqStatus::from(buffer));
+    }
+    if buffer[0] == 0xbb && buffer[1] == 0x00 {
+        return Box::new(PacketCzStatusChange::from(buffer));
+    }
+    if buffer[0] == 0xbc && buffer[1] == 0x00 {
+        return Box::new(PacketZcStatusChangeAck::from(buffer));
+    }
+    if buffer[0] == 0xbd && buffer[1] == 0x00 {
+        return Box::new(PacketZcStatus::from(buffer));
+    }
+    if buffer[0] == 0xbe && buffer[1] == 0x00 {
+        return Box::new(PacketZcStatusChange::from(buffer));
+    }
+    if buffer[0] == 0xbf && buffer[1] == 0x00 {
+        return Box::new(PacketCzReqEmotion::from(buffer));
+    }
+    if buffer[0] == 0xc0 && buffer[1] == 0x00 {
+        return Box::new(PacketZcEmotion::from(buffer));
+    }
+    if buffer[0] == 0xc1 && buffer[1] == 0x00 {
+        return Box::new(PacketCzReqUserCount::from(buffer));
+    }
+    if buffer[0] == 0xc2 && buffer[1] == 0x00 {
+        return Box::new(PacketZcUserCount::from(buffer));
+    }
+    if buffer[0] == 0xc3 && buffer[1] == 0x00 {
+        return Box::new(PacketZcSpriteChange::from(buffer));
+    }
+    if buffer[0] == 0xc4 && buffer[1] == 0x00 {
+        return Box::new(PacketZcSelectDealtype::from(buffer));
+    }
+    if buffer[0] == 0xc5 && buffer[1] == 0x00 {
+        return Box::new(PacketCzAckSelectDealtype::from(buffer));
+    }
+    if buffer[0] == 0xc6 && buffer[1] == 0x00 {
+        return Box::new(PacketZcPcPurchaseItemlist::from(buffer));
+    }
+    if buffer[0] == 0xc7 && buffer[1] == 0x00 {
+        return Box::new(PacketZcPcSellItemlist::from(buffer));
+    }
+    if buffer[0] == 0xc8 && buffer[1] == 0x00 {
+        return Box::new(PacketCzPcPurchaseItemlist::from(buffer));
+    }
+    if buffer[0] == 0xc9 && buffer[1] == 0x00 {
+        return Box::new(PacketCzPcSellItemlist::from(buffer));
+    }
+    if buffer[0] == 0xca && buffer[1] == 0x00 {
+        return Box::new(PacketZcPcPurchaseResult::from(buffer));
+    }
+    if buffer[0] == 0xcb && buffer[1] == 0x00 {
+        return Box::new(PacketZcPcSellResult::from(buffer));
+    }
+    if buffer[0] == 0xcc && buffer[1] == 0x00 {
+        return Box::new(PacketCzDisconnectCharacter::from(buffer));
+    }
+    if buffer[0] == 0xcd && buffer[1] == 0x00 {
+        return Box::new(PacketZcAckDisconnectCharacter::from(buffer));
+    }
+    if buffer[0] == 0xce && buffer[1] == 0x00 {
+        return Box::new(PacketCzDisconnectAllCharacter::from(buffer));
+    }
+    if buffer[0] == 0xcf && buffer[1] == 0x00 {
+        return Box::new(PacketCzSettingWhisperPc::from(buffer));
+    }
+    if buffer[0] == 0xd0 && buffer[1] == 0x00 {
+        return Box::new(PacketCzSettingWhisperState::from(buffer));
+    }
+    if buffer[0] == 0xd1 && buffer[1] == 0x00 {
+        return Box::new(PacketZcSettingWhisperPc::from(buffer));
+    }
+    if buffer[0] == 0xd2 && buffer[1] == 0x00 {
+        return Box::new(PacketZcSettingWhisperState::from(buffer));
+    }
+    if buffer[0] == 0xd3 && buffer[1] == 0x00 {
+        return Box::new(PacketCzReqWhisperList::from(buffer));
+    }
+    if buffer[0] == 0xd4 && buffer[1] == 0x00 {
+        return Box::new(PacketZcWhisperList::from(buffer));
+    }
+    if buffer[0] == 0xd5 && buffer[1] == 0x00 {
+        return Box::new(PacketCzCreateChatroom::from(buffer));
+    }
+    if buffer[0] == 0xd6 && buffer[1] == 0x00 {
+        return Box::new(PacketZcAckCreateChatroom::from(buffer));
+    }
+    if buffer[0] == 0xd7 && buffer[1] == 0x00 {
+        return Box::new(PacketZcRoomNewentry::from(buffer));
+    }
+    if buffer[0] == 0xd8 && buffer[1] == 0x00 {
+        return Box::new(PacketZcDestroyRoom::from(buffer));
+    }
+    if buffer[0] == 0xd9 && buffer[1] == 0x00 {
+        return Box::new(PacketCzReqEnterRoom::from(buffer));
+    }
+    if buffer[0] == 0xda && buffer[1] == 0x00 {
+        return Box::new(PacketZcRefuseEnterRoom::from(buffer));
+    }
+    if buffer[0] == 0xdb && buffer[1] == 0x00 {
+        return Box::new(PacketZcEnterRoom::from(buffer));
+    }
+    if buffer[0] == 0xdc && buffer[1] == 0x00 {
+        return Box::new(PacketZcMemberNewentry::from(buffer));
+    }
+    if buffer[0] == 0xdd && buffer[1] == 0x00 {
+        return Box::new(PacketZcMemberExit::from(buffer));
+    }
+    if buffer[0] == 0xde && buffer[1] == 0x00 {
+        return Box::new(PacketCzChangeChatroom::from(buffer));
+    }
+    if buffer[0] == 0xdf && buffer[1] == 0x00 {
+        return Box::new(PacketZcChangeChatroom::from(buffer));
+    }
+    if buffer[0] == 0xe0 && buffer[1] == 0x00 {
+        return Box::new(PacketCzReqRoleChange::from(buffer));
+    }
+    if buffer[0] == 0xe1 && buffer[1] == 0x00 {
+        return Box::new(PacketZcRoleChange::from(buffer));
+    }
+    if buffer[0] == 0xe2 && buffer[1] == 0x00 {
+        return Box::new(PacketCzReqExpelMember::from(buffer));
+    }
+    if buffer[0] == 0xe3 && buffer[1] == 0x00 {
+        return Box::new(PacketCzExitRoom::from(buffer));
+    }
+    if buffer[0] == 0xe4 && buffer[1] == 0x00 {
+        return Box::new(PacketCzReqExchangeItem::from(buffer));
+    }
+    if buffer[0] == 0xe5 && buffer[1] == 0x00 {
+        return Box::new(PacketZcReqExchangeItem::from(buffer));
+    }
+    if buffer[0] == 0xe6 && buffer[1] == 0x00 {
+        return Box::new(PacketCzAckExchangeItem::from(buffer));
+    }
+    if buffer[0] == 0xe7 && buffer[1] == 0x00 {
+        return Box::new(PacketZcAckExchangeItem::from(buffer));
+    }
+    if buffer[0] == 0xe8 && buffer[1] == 0x00 {
+        return Box::new(PacketCzAddExchangeItem::from(buffer));
+    }
+    if buffer[0] == 0xe9 && buffer[1] == 0x00 {
+        return Box::new(PacketZcAddExchangeItem::from(buffer));
+    }
+    if buffer[0] == 0xea && buffer[1] == 0x00 {
+        return Box::new(PacketZcAckAddExchangeItem::from(buffer));
+    }
+    if buffer[0] == 0xeb && buffer[1] == 0x00 {
+        return Box::new(PacketCzConcludeExchangeItem::from(buffer));
+    }
+    if buffer[0] == 0xec && buffer[1] == 0x00 {
+        return Box::new(PacketZcConcludeExchangeItem::from(buffer));
+    }
+    if buffer[0] == 0xed && buffer[1] == 0x00 {
+        return Box::new(PacketCzCancelExchangeItem::from(buffer));
+    }
+    if buffer[0] == 0xee && buffer[1] == 0x00 {
+        return Box::new(PacketZcCancelExchangeItem::from(buffer));
+    }
+    if buffer[0] == 0xef && buffer[1] == 0x00 {
+        return Box::new(PacketCzExecExchangeItem::from(buffer));
+    }
+    if buffer[0] == 0xf0 && buffer[1] == 0x00 {
+        return Box::new(PacketZcExecExchangeItem::from(buffer));
+    }
+    if buffer[0] == 0xf1 && buffer[1] == 0x00 {
+        return Box::new(PacketZcExchangeitemUndo::from(buffer));
+    }
+    if buffer[0] == 0xf2 && buffer[1] == 0x00 {
+        return Box::new(PacketZcNotifyStoreitemCountinfo::from(buffer));
+    }
+    if buffer[0] == 0xf3 && buffer[1] == 0x00 {
+        return Box::new(PacketCzMoveItemFromBodyToStore::from(buffer));
+    }
+    if buffer[0] == 0xf4 && buffer[1] == 0x00 {
+        return Box::new(PacketZcAddItemToStore::from(buffer));
+    }
+    if buffer[0] == 0xf5 && buffer[1] == 0x00 {
+        return Box::new(PacketCzMoveItemFromStoreToBody::from(buffer));
+    }
+    if buffer[0] == 0xf6 && buffer[1] == 0x00 {
+        return Box::new(PacketZcDeleteItemFromStore::from(buffer));
+    }
+    if buffer[0] == 0xf7 && buffer[1] == 0x00 {
+        return Box::new(PacketCzCloseStore::from(buffer));
+    }
+    if buffer[0] == 0xf8 && buffer[1] == 0x00 {
+        return Box::new(PacketZcCloseStore::from(buffer));
+    }
+    if buffer[0] == 0xf9 && buffer[1] == 0x00 {
+        return Box::new(PacketCzMakeGroup::from(buffer));
+    }
+    if buffer[0] == 0xfa && buffer[1] == 0x00 {
+        return Box::new(PacketZcAckMakeGroup::from(buffer));
+    }
+    if buffer[0] == 0xfb && buffer[1] == 0x00 {
+        return Box::new(PacketZcGroupList::from(buffer));
+    }
+    if buffer[0] == 0xfc && buffer[1] == 0x00 {
+        return Box::new(PacketCzReqJoinGroup::from(buffer));
+    }
+    if buffer[0] == 0xfd && buffer[1] == 0x00 {
+        return Box::new(PacketZcAckReqJoinGroup::from(buffer));
+    }
+    if buffer[0] == 0xfe && buffer[1] == 0x00 {
+        return Box::new(PacketZcReqJoinGroup::from(buffer));
+    }
+    if buffer[0] == 0xff && buffer[1] == 0x00 {
+        return Box::new(PacketCzJoinGroup::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x00 {
+        return Box::new(PacketCzReqLeaveGroup::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x01 {
+        return Box::new(PacketZcGroupinfoChange::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x02 {
+        return Box::new(PacketCzChangeGroupexpoption::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x03 {
+        return Box::new(PacketCzReqExpelGroupMember::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x04 {
+        return Box::new(PacketZcAddMemberToGroup::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x05 {
+        return Box::new(PacketZcDeleteMemberFromGroup::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x06 {
+        return Box::new(PacketZcNotifyHpToGroupm::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x07 {
+        return Box::new(PacketZcNotifyPositionToGroupm::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x08 {
+        return Box::new(PacketCzRequestChatParty::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x09 {
+        return Box::new(PacketZcNotifyChatParty::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x0a {
+        return Box::new(PacketZcMvpGettingItem::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x0b {
+        return Box::new(PacketZcMvpGettingSpecialExp::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x0c {
+        return Box::new(PacketZcMvp::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x0d {
+        return Box::new(PacketZcThrowMvpitem::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x0e {
+        return Box::new(PacketZcSkillinfoUpdate::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x0f {
+        return Box::new(PacketZcSkillinfoList::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x10 {
+        return Box::new(PacketZcAckTouseskill::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x11 {
+        return Box::new(PacketZcAddSkill::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x12 {
+        return Box::new(PacketCzUpgradeSkilllevel::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x13 {
+        return Box::new(PacketCzUseSkill::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x14 {
+        return Box::new(PacketZcNotifySkill::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x15 {
+        return Box::new(PacketZcNotifySkillPosition::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x16 {
+        return Box::new(PacketCzUseSkillToground::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x17 {
+        return Box::new(PacketZcNotifyGroundskill::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x18 {
+        return Box::new(PacketCzCancelLockon::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x19 {
+        return Box::new(PacketZcStateChange::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x1a {
+        return Box::new(PacketZcUseSkill::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x1b {
+        return Box::new(PacketCzSelectWarppoint::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x1c {
+        return Box::new(PacketZcWarplist::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x1d {
+        return Box::new(PacketCzRememberWarppoint::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x1e {
+        return Box::new(PacketZcAckRememberWarppoint::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x1f {
+        return Box::new(PacketZcSkillEntry::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x20 {
+        return Box::new(PacketZcSkillDisappear::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x21 {
+        return Box::new(PacketZcNotifyCartitemCountinfo::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x22 {
+        return Box::new(PacketZcCartEquipmentItemlist::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x23 {
+        return Box::new(PacketZcCartNormalItemlist::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x24 {
+        return Box::new(PacketZcAddItemToCart::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x25 {
+        return Box::new(PacketZcDeleteItemFromCart::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x26 {
+        return Box::new(PacketCzMoveItemFromBodyToCart::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x27 {
+        return Box::new(PacketCzMoveItemFromCartToBody::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x28 {
+        return Box::new(PacketCzMoveItemFromStoreToCart::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x29 {
+        return Box::new(PacketCzMoveItemFromCartToStore::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x2a {
+        return Box::new(PacketCzReqCartoff::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x2b {
+        return Box::new(PacketZcCartoff::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x2c {
+        return Box::new(PacketZcAckAdditemToCart::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x2d {
+        return Box::new(PacketZcOpenstore::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x2e {
+        return Box::new(PacketCzReqClosestore::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x2f {
+        return Box::new(PacketCzReqOpenstore::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x30 {
+        return Box::new(PacketCzReqBuyFrommc::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x31 {
+        return Box::new(PacketZcStoreEntry::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x32 {
+        return Box::new(PacketZcDisappearEntry::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x33 {
+        return Box::new(PacketZcPcPurchaseItemlistFrommc::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x34 {
+        return Box::new(PacketCzPcPurchaseItemlistFrommc::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x35 {
+        return Box::new(PacketZcPcPurchaseResultFrommc::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x36 {
+        return Box::new(PacketZcPcPurchaseMyitemlist::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x37 {
+        return Box::new(PacketZcDeleteitemFromMcstore::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x38 {
+        return Box::new(PacketCzPkmodeChange::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x39 {
+        return Box::new(PacketZcAttackFailureForDistance::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x3a {
+        return Box::new(PacketZcAttackRange::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x3b {
+        return Box::new(PacketZcActionFailure::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x3c {
+        return Box::new(PacketZcEquipArrow::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x3d {
+        return Box::new(PacketZcRecovery::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x3e {
+        return Box::new(PacketZcUseskillAck::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x3f {
+        return Box::new(PacketCzItemCreate::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x40 {
+        return Box::new(PacketCzMovetoMap::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x41 {
+        return Box::new(PacketZcCouplestatus::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x42 {
+        return Box::new(PacketZcOpenEditdlg::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x43 {
+        return Box::new(PacketCzInputEditdlg::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x44 {
+        return Box::new(PacketZcCompass::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x45 {
+        return Box::new(PacketZcShowImage::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x46 {
+        return Box::new(PacketCzCloseDialog::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x47 {
+        return Box::new(PacketZcAutorunSkill::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x48 {
+        return Box::new(PacketZcResurrection::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x49 {
+        return Box::new(PacketCzReqGiveMannerPoint::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x4a {
+        return Box::new(PacketZcAckGiveMannerPoint::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x4b {
+        return Box::new(PacketZcNotifyMannerPointGiven::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x4c {
+        return Box::new(PacketZcMyguildBasicInfo::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x4d {
+        return Box::new(PacketCzReqGuildMenuinterface::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x4e {
+        return Box::new(PacketZcAckGuildMenuinterface::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x4f {
+        return Box::new(PacketCzReqGuildMenu::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x50 {
+        return Box::new(PacketZcGuildInfo::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x51 {
+        return Box::new(PacketCzReqGuildEmblemImg::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x52 {
+        return Box::new(PacketZcGuildEmblemImg::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x53 {
+        return Box::new(PacketCzRegisterGuildEmblemImg::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x54 {
+        return Box::new(PacketZcMembermgrInfo::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x55 {
+        return Box::new(PacketCzReqChangeMemberpos::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x56 {
+        return Box::new(PacketZcAckReqChangeMembers::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x57 {
+        return Box::new(PacketCzReqOpenMemberInfo::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x58 {
+        return Box::new(PacketZcAckOpenMemberInfo::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x59 {
+        return Box::new(PacketCzReqLeaveGuild::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x5a {
+        return Box::new(PacketZcAckLeaveGuild::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x5b {
+        return Box::new(PacketCzReqBanGuild::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x5c {
+        return Box::new(PacketZcAckBanGuild::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x5d {
+        return Box::new(PacketCzReqDisorganizeGuild::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x5e {
+        return Box::new(PacketZcAckDisorganizeGuildResult::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x5f {
+        return Box::new(PacketZcAckDisorganizeGuild::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x60 {
+        return Box::new(PacketZcPositionInfo::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x61 {
+        return Box::new(PacketCzRegChangeGuildPositioninfo::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x62 {
+        return Box::new(PacketZcGuildSkillinfo::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x63 {
+        return Box::new(PacketZcBanList::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x64 {
+        return Box::new(PacketZcOtherGuildList::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x65 {
+        return Box::new(PacketCzReqMakeGuild::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x66 {
+        return Box::new(PacketZcPositionIdNameInfo::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x67 {
+        return Box::new(PacketZcResultMakeGuild::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x68 {
+        return Box::new(PacketCzReqJoinGuild::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x69 {
+        return Box::new(PacketZcAckReqJoinGuild::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x6a {
+        return Box::new(PacketZcReqJoinGuild::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x6b {
+        return Box::new(PacketCzJoinGuild::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x6c {
+        return Box::new(PacketZcUpdateGdid::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x6d {
+        return Box::new(PacketZcUpdateCharstat::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x6e {
+        return Box::new(PacketCzGuildNotice::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x6f {
+        return Box::new(PacketZcGuildNotice::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x70 {
+        return Box::new(PacketCzReqAllyGuild::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x71 {
+        return Box::new(PacketZcReqAllyGuild::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x72 {
+        return Box::new(PacketCzAllyGuild::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x73 {
+        return Box::new(PacketZcAckReqAllyGuild::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x74 {
+        return Box::new(PacketZcAckChangeGuildPositioninfo::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x75 {
+        return Box::new(PacketCzReqGuildMemberInfo::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x76 {
+        return Box::new(PacketZcAckGuildMemberInfo::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x77 {
+        return Box::new(PacketZcItemidentifyList::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x78 {
+        return Box::new(PacketCzReqItemidentify::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x79 {
+        return Box::new(PacketZcAckItemidentify::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x7a {
+        return Box::new(PacketCzReqItemcompositionList::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x7b {
+        return Box::new(PacketZcItemcompositionList::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x7c {
+        return Box::new(PacketCzReqItemcomposition::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x7d {
+        return Box::new(PacketZcAckItemcomposition::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x7e {
+        return Box::new(PacketCzGuildChat::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x7f {
+        return Box::new(PacketZcGuildChat::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x80 {
+        return Box::new(PacketCzReqHostileGuild::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x81 {
+        return Box::new(PacketZcAckReqHostileGuild::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x82 {
+        return Box::new(PacketZcMemberAdd::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x83 {
+        return Box::new(PacketCzReqDeleteRelatedGuild::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x84 {
+        return Box::new(PacketZcDeleteRelatedGuild::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x85 {
+        return Box::new(PacketZcAddRelatedGuild::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x86 {
+        return Box::new(PacketCollectordead::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x87 {
+        return Box::new(PacketPing::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x88 {
+        return Box::new(PacketZcAckItemrefining::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x89 {
+        return Box::new(PacketZcNotifyMapinfo::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x8a {
+        return Box::new(PacketCzReqDisconnect::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x8b {
+        return Box::new(PacketZcAckReqDisconnect::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x8c {
+        return Box::new(PacketZcMonsterInfo::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x8d {
+        return Box::new(PacketZcMakableitemlist::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x8e {
+        return Box::new(PacketCzReqmakingitem::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x8f {
+        return Box::new(PacketZcAckReqmakingitem::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x90 {
+        return Box::new(PacketCzUseSkillTogroundWithtalkbox::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x91 {
+        return Box::new(PacketZcTalkboxChatcontents::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x92 {
+        return Box::new(PacketZcUpdateMapinfo::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x93 {
+        return Box::new(PacketCzReqnameBygid::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x94 {
+        return Box::new(PacketZcAckReqnameBygid::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x95 {
+        return Box::new(PacketZcAckReqnameall::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x96 {
+        return Box::new(PacketZcMsgStateChange::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x97 {
+        return Box::new(PacketCzReset::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x98 {
+        return Box::new(PacketCzChangeMaptype::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x99 {
+        return Box::new(PacketZcNotifyMapproperty::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x9a {
+        return Box::new(PacketZcNotifyRanking::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x9b {
+        return Box::new(PacketZcNotifyEffect::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x9d {
+        return Box::new(PacketCzChangeEffectstate::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x9e {
+        return Box::new(PacketZcStartCapture::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0x9f {
+        return Box::new(PacketCzTrycaptureMonster::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xa0 {
+        return Box::new(PacketZcTrycaptureMonster::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xa1 {
+        return Box::new(PacketCzCommandPet::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xa2 {
+        return Box::new(PacketZcPropertyPet::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xa3 {
+        return Box::new(PacketZcFeedPet::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xa4 {
+        return Box::new(PacketZcChangestatePet::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xa5 {
+        return Box::new(PacketCzRenamePet::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xa6 {
+        return Box::new(PacketZcPeteggList::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xa7 {
+        return Box::new(PacketCzSelectPetegg::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xa8 {
+        return Box::new(PacketCzPeteggInfo::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xa9 {
+        return Box::new(PacketCzPetAct::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xaa {
+        return Box::new(PacketZcPetAct::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xab {
+        return Box::new(PacketZcParChangeUser::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xac {
+        return Box::new(PacketZcSkillUpdate::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xad {
+        return Box::new(PacketZcMakingarrowList::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xae {
+        return Box::new(PacketCzReqMakingarrow::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xaf {
+        return Box::new(PacketCzReqChangecart::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xb0 {
+        return Box::new(PacketZcNpcspriteChange::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xb1 {
+        return Box::new(PacketZcShowdigit::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xb2 {
+        return Box::new(PacketCzReqOpenstore2::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xb3 {
+        return Box::new(PacketZcShowImage2::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xb4 {
+        return Box::new(PacketZcChangeGuild::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xb5 {
+        return Box::new(PacketScBillingInfo::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xb6 {
+        return Box::new(PacketZcGuildInfo2::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xb7 {
+        return Box::new(PacketCzGuildZeny::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xb8 {
+        return Box::new(PacketZcGuildZenyAck::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xb9 {
+        return Box::new(PacketZcDispel::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xba {
+        return Box::new(PacketCzRemoveAid::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xbb {
+        return Box::new(PacketCzShift::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xbc {
+        return Box::new(PacketCzRecall::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xbd {
+        return Box::new(PacketCzRecallGid::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xbe {
+        return Box::new(PacketAcAskPngameroom::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xbf {
+        return Box::new(PacketCaReplyPngameroom::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xc0 {
+        return Box::new(PacketCzReqRemaintime::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xc1 {
+        return Box::new(PacketZcReplyRemaintime::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xc2 {
+        return Box::new(PacketZcInfoRemaintime::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xc3 {
+        return Box::new(PacketZcBroadcast2::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xc4 {
+        return Box::new(PacketZcAddItemToStore2::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xc5 {
+        return Box::new(PacketZcAddItemToCart2::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xc6 {
+        return Box::new(PacketCsReqEncryption::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xc7 {
+        return Box::new(PacketScAckEncryption::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xc8 {
+        return Box::new(PacketZcUseItemAck2::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xc9 {
+        return Box::new(PacketZcSkillEntry2::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xca {
+        return Box::new(PacketCzReqmakinghomun::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xcb {
+        return Box::new(PacketCzMonsterTalk::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xcc {
+        return Box::new(PacketZcMonsterTalk::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xcd {
+        return Box::new(PacketZcAutospelllist::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xce {
+        return Box::new(PacketCzSelectautospell::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xcf {
+        return Box::new(PacketZcDevotionlist::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xd0 {
+        return Box::new(PacketZcSpirits::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xd1 {
+        return Box::new(PacketZcBladestop::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xd2 {
+        return Box::new(PacketZcCombodelay::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xd3 {
+        return Box::new(PacketZcSound::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xd4 {
+        return Box::new(PacketZcOpenEditdlgstr::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xd5 {
+        return Box::new(PacketCzInputEditdlgstr::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xd6 {
+        return Box::new(PacketZcNotifyMapproperty2::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xd7 {
+        return Box::new(PacketZcSpriteChange2::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xd8 {
+        return Box::new(PacketZcNotifyStandentry2::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xd9 {
+        return Box::new(PacketZcNotifyNewentry2::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xda {
+        return Box::new(PacketZcNotifyMoveentry2::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xdb {
+        return Box::new(PacketCaReqHash::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xdc {
+        return Box::new(PacketAcAckHash::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xdd {
+        return Box::new(PacketCaLogin2::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xde {
+        return Box::new(PacketZcNotifySkill2::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xdf {
+        return Box::new(PacketCzReqAccountname::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xe0 {
+        return Box::new(PacketZcAckAccountname::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xe1 {
+        return Box::new(PacketZcSpirits2::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xe2 {
+        return Box::new(PacketZcReqCouple::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xe3 {
+        return Box::new(PacketCzJoinCouple::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xe4 {
+        return Box::new(PacketZcStartCouple::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xe5 {
+        return Box::new(PacketCzReqJoinCouple::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xe6 {
+        return Box::new(PacketZcCouplename::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xe7 {
+        return Box::new(PacketCzDoridori::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xe8 {
+        return Box::new(PacketCzMakeGroup2::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xe9 {
+        return Box::new(PacketZcAddMemberToGroup2::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xea {
+        return Box::new(PacketZcCongratulation::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xeb {
+        return Box::new(PacketZcNotifyPositionToGuildm::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xec {
+        return Box::new(PacketZcGuildMemberMapChange::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xed {
+        return Box::new(PacketCzChopokgi::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xee {
+        return Box::new(PacketZcNormalItemlist2::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xef {
+        return Box::new(PacketZcCartNormalItemlist2::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xf0 {
+        return Box::new(PacketZcStoreNormalItemlist2::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xf1 {
+        return Box::new(PacketAcNotifyError::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xf2 {
+        return Box::new(PacketZcUpdateCharstat2::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xf3 {
+        return Box::new(PacketZcNotifyEffect2::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xf4 {
+        return Box::new(PacketZcReqExchangeItem2::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xf5 {
+        return Box::new(PacketZcAckExchangeItem2::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xf6 {
+        return Box::new(PacketZcReqBaby::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xf7 {
+        return Box::new(PacketCzJoinBaby::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xf8 {
+        return Box::new(PacketZcStartBaby::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xf9 {
+        return Box::new(PacketCzReqJoinBaby::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xfa {
+        return Box::new(PacketCaLogin3::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xfb {
+        return Box::new(PacketChDeleteChar2::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xfc {
+        return Box::new(PacketZcRepairitemlist::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xfd {
+        return Box::new(PacketCzReqItemrepair::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xfe {
+        return Box::new(PacketZcAckItemrepair::from(buffer));
+    }
+    if buffer[0] == 0x01 && buffer[1] == 0xff {
+        return Box::new(PacketZcHighjump::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x00 {
+        return Box::new(PacketCaConnectInfoChanged::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x01 {
+        return Box::new(PacketZcFriendsList::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x02 {
+        return Box::new(PacketCzAddFriends::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x03 {
+        return Box::new(PacketCzDeleteFriends::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x04 {
+        return Box::new(PacketCaExeHashcheck::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x05 {
+        return Box::new(PacketZcDivorce::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x06 {
+        return Box::new(PacketZcFriendsState::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x07 {
+        return Box::new(PacketZcReqAddFriends::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x08 {
+        return Box::new(PacketCzAckReqAddFriends::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x09 {
+        return Box::new(PacketZcAddFriendsList::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x0a {
+        return Box::new(PacketZcDeleteFriends::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x0b {
+        return Box::new(PacketChExeHashcheck::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x0c {
+        return Box::new(PacketCzExeHashcheck::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x0d {
+        return Box::new(PacketHcBlockCharacter::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x0e {
+        return Box::new(PacketZcStarskill::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x0f {
+        return Box::new(PacketCzReqPvppoint::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x10 {
+        return Box::new(PacketZcAckPvppoint::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x11 {
+        return Box::new(PacketZhMovePvpworld::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x12 {
+        return Box::new(PacketCzReqGiveMannerByname::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x13 {
+        return Box::new(PacketCzReqStatusGm::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x14 {
+        return Box::new(PacketZcAckStatusGm::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x15 {
+        return Box::new(PacketZcSkillmsg::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x16 {
+        return Box::new(PacketZcBabymsg::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x17 {
+        return Box::new(PacketCzBlacksmithRank::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x18 {
+        return Box::new(PacketCzAlchemistRank::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x19 {
+        return Box::new(PacketZcBlacksmithRank::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x1a {
+        return Box::new(PacketZcAlchemistRank::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x1b {
+        return Box::new(PacketZcBlacksmithPoint::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x1c {
+        return Box::new(PacketZcAlchemistPoint::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x1d {
+        return Box::new(PacketCzLesseffect::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x1e {
+        return Box::new(PacketZcLesseffect::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x1f {
+        return Box::new(PacketZcNotifyPkinfo::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x20 {
+        return Box::new(PacketZcNotifyCrazykiller::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x21 {
+        return Box::new(PacketZcNotifyWeaponitemlist::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x22 {
+        return Box::new(PacketCzReqWeaponrefine::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x23 {
+        return Box::new(PacketZcAckWeaponrefine::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x24 {
+        return Box::new(PacketZcTaekwonPoint::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x25 {
+        return Box::new(PacketCzTaekwonRank::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x26 {
+        return Box::new(PacketZcTaekwonRank::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x27 {
+        return Box::new(PacketZcGameGuard::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x28 {
+        return Box::new(PacketCzAckGameGuard::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x29 {
+        return Box::new(PacketZcStateChange3::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x2a {
+        return Box::new(PacketZcNotifyStandentry3::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x2b {
+        return Box::new(PacketZcNotifyNewentry3::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x2c {
+        return Box::new(PacketZcNotifyMoveentry3::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x2d {
+        return Box::new(PacketCzCommandMer::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x2e {
+        return Box::new(PacketZcPropertyHomun::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x30 {
+        return Box::new(PacketZcChangestateMer::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x31 {
+        return Box::new(PacketCzRenameMer::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x32 {
+        return Box::new(PacketCzRequestMovenpc::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x33 {
+        return Box::new(PacketCzRequestActnpc::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x34 {
+        return Box::new(PacketCzRequestMovetoowner::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x3a {
+        return Box::new(PacketZcReqStorePassword::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x3b {
+        return Box::new(PacketCzAckStorePassword::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x3c {
+        return Box::new(PacketZcResultStorePassword::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x3d {
+        return Box::new(PacketAcEventResult::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x3e {
+        return Box::new(PacketHcRequestCharacterPassword::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x3f {
+        return Box::new(PacketCzMailGetList::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x40 {
+        return Box::new(PacketZcMailReqGetList::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x41 {
+        return Box::new(PacketCzMailOpen::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x42 {
+        return Box::new(PacketZcMailReqOpen::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x43 {
+        return Box::new(PacketCzMailDelete::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x44 {
+        return Box::new(PacketCzMailGetItem::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x45 {
+        return Box::new(PacketZcMailReqGetItem::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x46 {
+        return Box::new(PacketCzMailResetItem::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x47 {
+        return Box::new(PacketCzMailAddItem::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x48 {
+        return Box::new(PacketCzMailSend::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x49 {
+        return Box::new(PacketZcMailReqSend::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x4a {
+        return Box::new(PacketZcMailReceive::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x4b {
+        return Box::new(PacketCzAuctionCreate::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x4c {
+        return Box::new(PacketCzAuctionAddItem::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x4d {
+        return Box::new(PacketCzAuctionAdd::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x4e {
+        return Box::new(PacketCzAuctionAddCancel::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x4f {
+        return Box::new(PacketCzAuctionBuy::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x50 {
+        return Box::new(PacketZcAuctionResult::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x51 {
+        return Box::new(PacketCzAuctionItemSearch::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x52 {
+        return Box::new(PacketZcAuctionItemReqSearch::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x53 {
+        return Box::new(PacketZcStarplace::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x54 {
+        return Box::new(PacketCzAgreeStarplace::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x55 {
+        return Box::new(PacketZcAckMailAddItem::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x56 {
+        return Box::new(PacketZcAckAuctionAddItem::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x57 {
+        return Box::new(PacketZcAckMailDelete::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x58 {
+        return Box::new(PacketCaReqGameGuardCheck::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x59 {
+        return Box::new(PacketAcAckGameGuard::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x5a {
+        return Box::new(PacketZcMakingitemList::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x5b {
+        return Box::new(PacketCzReqMakingitem::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x5c {
+        return Box::new(PacketCzAuctionReqMyInfo::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x5d {
+        return Box::new(PacketCzAuctionReqMySellStop::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x5e {
+        return Box::new(PacketZcAuctionAckMySellStop::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x5f {
+        return Box::new(PacketZcAuctionWindows::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x60 {
+        return Box::new(PacketZcMailWindows::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x61 {
+        return Box::new(PacketAcReqLoginOldekey::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x62 {
+        return Box::new(PacketAcReqLoginNewekey::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x63 {
+        return Box::new(PacketAcReqLoginCardpass::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x64 {
+        return Box::new(PacketCaAckLoginOldekey::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x65 {
+        return Box::new(PacketCaAckLoginNewekey::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x66 {
+        return Box::new(PacketCaAckLoginCardpass::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x67 {
+        return Box::new(PacketAcAckEkeyFailNotexist::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x68 {
+        return Box::new(PacketAcAckEkeyFailNotusesekey::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x69 {
+        return Box::new(PacketAcAckEkeyFailNotusedekey::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x6a {
+        return Box::new(PacketAcAckEkeyFailAuthrefuse::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x6b {
+        return Box::new(PacketAcAckEkeyFailInputekey::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x6c {
+        return Box::new(PacketAcAckEkeyFailNotice::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x6d {
+        return Box::new(PacketAcAckEkeyFailNeedcardpass::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x6e {
+        return Box::new(PacketAcAckAuthekeyFailNotmatchcardpass::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x6f {
+        return Box::new(PacketAcAckFirstLogin::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x70 {
+        return Box::new(PacketAcReqLoginAccountInfo::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x71 {
+        return Box::new(PacketCaAckLoginAccountInfo::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x72 {
+        return Box::new(PacketAcAckPtIdInfo::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x73 {
+        return Box::new(PacketCzReqMailReturn::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x74 {
+        return Box::new(PacketZcAckMailReturn::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x75 {
+        return Box::new(PacketChEnter2::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x76 {
+        return Box::new(PacketAcAcceptLogin2::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x77 {
+        return Box::new(PacketCaLoginPcbang::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x78 {
+        return Box::new(PacketZcNotifyPcbang::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x79 {
+        return Box::new(PacketCzHuntinglist::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x7a {
+        return Box::new(PacketZcHuntinglist::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x7b {
+        return Box::new(PacketZcPcbangEffect::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x7c {
+        return Box::new(PacketCaLogin4::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x7d {
+        return Box::new(PacketZcPropertyMerce::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x7e {
+        return Box::new(PacketZcShandaProtect::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x7f {
+        return Box::new(PacketCaClientType::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x80 {
+        return Box::new(PacketZcGangsiPoint::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x81 {
+        return Box::new(PacketCzGangsiRank::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x82 {
+        return Box::new(PacketZcGangsiRank::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x83 {
+        return Box::new(PacketZcAid::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x84 {
+        return Box::new(PacketZcNotifyEffect3::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x85 {
+        return Box::new(PacketZcDeathQuestion::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x86 {
+        return Box::new(PacketCzDeathQuestion::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x87 {
+        return Box::new(PacketZcPcCashPointItemlist::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x88 {
+        return Box::new(PacketCzPcBuyCashPointItem::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x89 {
+        return Box::new(PacketZcPcCashPointUpdate::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x8a {
+        return Box::new(PacketZcNpcShowefstUpdate::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x8c {
+        return Box::new(PacketChSelectCharGoingtobeused::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x8d {
+        return Box::new(PacketChReqIsValidCharname::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x8e {
+        return Box::new(PacketHcAckIsValidCharname::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x8f {
+        return Box::new(PacketChReqChangeCharname::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x90 {
+        return Box::new(PacketHcAckChangeCharname::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x91 {
+        return Box::new(PacketZcMsg::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x92 {
+        return Box::new(PacketCzStandingResurrection::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x93 {
+        return Box::new(PacketZcBossInfo::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x94 {
+        return Box::new(PacketZcReadBook::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x95 {
+        return Box::new(PacketZcEquipmentItemlist2::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x96 {
+        return Box::new(PacketZcStoreEquipmentItemlist2::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x97 {
+        return Box::new(PacketZcCartEquipmentItemlist2::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x98 {
+        return Box::new(PacketZcCashTimeCounter::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x99 {
+        return Box::new(PacketZcCashItemDelete::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x9a {
+        return Box::new(PacketZcItemPickupAck2::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x9b {
+        return Box::new(PacketZcMerInit::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x9c {
+        return Box::new(PacketZcMerProperty::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x9d {
+        return Box::new(PacketZcMerSkillinfoList::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x9e {
+        return Box::new(PacketZcMerSkillinfoUpdate::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0x9f {
+        return Box::new(PacketCzMerCommand::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xa0 {
+        return Box::new(UnusedPacketCzMerUseSkill::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xa1 {
+        return Box::new(UnusedPacketCzMerUpgradeSkilllevel::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xa2 {
+        return Box::new(PacketZcMerParChange::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xa3 {
+        return Box::new(PacketZcGameguardLingoKey::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xa5 {
+        return Box::new(PacketCzKsyEvent::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xaa {
+        return Box::new(PacketZcReqCashPassword::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xab {
+        return Box::new(PacketCzAckCashPassword::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xac {
+        return Box::new(PacketZcResultCashPassword::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xad {
+        return Box::new(PacketAcRequestSecondPassword::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xb0 {
+        return Box::new(PacketCaLoginHan::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xb1 {
+        return Box::new(PacketZcAllQuestList::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xb2 {
+        return Box::new(PacketZcAllQuestMission::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xb3 {
+        return Box::new(PacketZcAddQuest::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xb4 {
+        return Box::new(PacketZcDelQuest::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xb5 {
+        return Box::new(PacketZcUpdateMissionHunt::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xb6 {
+        return Box::new(PacketCzActiveQuest::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xb7 {
+        return Box::new(PacketZcActiveQuest::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xb8 {
+        return Box::new(PacketZcItemPickupParty::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xb9 {
+        return Box::new(PacketZcShortcutKeyList::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xba {
+        return Box::new(PacketCzShortcutKeyChange::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xbb {
+        return Box::new(PacketZcEquipitemDamaged::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xbc {
+        return Box::new(PacketZcNotifyPcbangPlayingTime::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xbf {
+        return Box::new(PacketZcSrpacketr2Init::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xc0 {
+        return Box::new(PacketCzSrpacketr2Start::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xc1 {
+        return Box::new(PacketZcNpcChat::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xc2 {
+        return Box::new(PacketZcFormatstringMsg::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xc4 {
+        return Box::new(PacketCzPartyJoinReq::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xc5 {
+        return Box::new(PacketZcPartyJoinReqAck::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xc6 {
+        return Box::new(PacketZcPartyJoinReq::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xc7 {
+        return Box::new(PacketCzPartyJoinReqAck::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xc8 {
+        return Box::new(PacketCzPartyConfig::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xc9 {
+        return Box::new(PacketZcPartyConfig::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xca {
+        return Box::new(PacketHcRefuseSelectchar::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xcb {
+        return Box::new(PacketZcMemorialdungeonSubscriptionInfo::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xcc {
+        return Box::new(PacketZcMemorialdungeonSubscriptionNotify::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xcd {
+        return Box::new(PacketZcMemorialdungeonInfo::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xce {
+        return Box::new(PacketZcMemorialdungeonNotify::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xcf {
+        return Box::new(PacketCzMemorialdungeonCommand::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xd0 {
+        return Box::new(PacketZcEquipmentItemlist3::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xd1 {
+        return Box::new(PacketZcStoreEquipmentItemlist3::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xd2 {
+        return Box::new(PacketZcCartEquipmentItemlist3::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xd3 {
+        return Box::new(PacketZcNotifyBindOnEquip::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xd4 {
+        return Box::new(PacketZcItemPickupAck3::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xd5 {
+        return Box::new(PacketZcIsvrDisconnect::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xd6 {
+        return Box::new(PacketCzEquipwinMicroscope::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xd7 {
+        return Box::new(PacketZcEquipwinMicroscope::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xd8 {
+        return Box::new(PacketCzConfig::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xd9 {
+        return Box::new(PacketZcConfig::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xda {
+        return Box::new(PacketZcConfigNotify::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xdb {
+        return Box::new(PacketCzBattlefieldChat::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xdc {
+        return Box::new(PacketZcBattlefieldChat::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xdd {
+        return Box::new(PacketZcBattlefieldNotifyCampinfo::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xde {
+        return Box::new(PacketZcBattlefieldNotifyPoint::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xdf {
+        return Box::new(PacketZcBattlefieldNotifyPosition::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xe0 {
+        return Box::new(PacketZcBattlefieldNotifyHp::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xe1 {
+        return Box::new(PacketZcNotifyAct2::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xe6 {
+        return Box::new(PacketCzBotCheck::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xe7 {
+        return Box::new(PacketZcMapproperty::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xe8 {
+        return Box::new(PacketZcNormalItemlist3::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xe9 {
+        return Box::new(PacketZcCartNormalItemlist3::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xea {
+        return Box::new(PacketZcStoreNormalItemlist3::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xeb {
+        return Box::new(PacketZcAcceptEnter2::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xec {
+        return Box::new(PacketZcNotifyMoveentry4::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xed {
+        return Box::new(PacketZcNotifyNewentry4::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xee {
+        return Box::new(PacketZcNotifyStandentry4::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xef {
+        return Box::new(PacketZcNotifyFont::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xf0 {
+        return Box::new(PacketZcProgress::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xf1 {
+        return Box::new(PacketCzProgress::from(buffer));
+    }
+    if buffer[0] == 0x02 && buffer[1] == 0xf2 {
+        return Box::new(PacketZcProgressCancel::from(buffer));
+    }
+    if buffer[0] == 0x03 && buffer[1] == 0x5c {
+        return Box::new(PacketCzOpenSimpleCashshopItemlist::from(buffer));
+    }
+    if buffer[0] == 0x03 && buffer[1] == 0x5d {
+        return Box::new(PacketZcSimpleCashshopPointItemlist::from(buffer));
+    }
+    if buffer[0] == 0x03 && buffer[1] == 0x5e {
+        return Box::new(PacketCzCloseWindow::from(buffer));
+    }
+    if buffer[0] == 0x03 && buffer[1] == 0xdd {
+        return Box::new(PacketAhcGameGuard::from(buffer));
+    }
+    if buffer[0] == 0x03 && buffer[1] == 0xde {
+        return Box::new(PacketCahAckGameGuard::from(buffer));
+    }
+    if buffer[0] == 0x04 && buffer[1] == 0x36 {
+        return Box::new(PacketCzEnter2::from(buffer));
+    }
+    if buffer[0] == 0x04 && buffer[1] == 0x37 {
+        return Box::new(PacketCzRequestAct2::from(buffer));
+    }
+    if buffer[0] == 0x04 && buffer[1] == 0x38 {
+        return Box::new(PacketCzUseSkill2::from(buffer));
+    }
+    if buffer[0] == 0x04 && buffer[1] == 0x39 {
+        return Box::new(PacketCzUseItem2::from(buffer));
+    }
+    if buffer[0] == 0x04 && buffer[1] == 0x3d {
+        return Box::new(PacketZcSkillPostdelay::from(buffer));
+    }
+    if buffer[0] == 0x04 && buffer[1] == 0x3e {
+        return Box::new(PacketZcSkillPostdelayList::from(buffer));
+    }
+    if buffer[0] == 0x04 && buffer[1] == 0x3f {
+        return Box::new(PacketZcMsgStateChange2::from(buffer));
+    }
+    if buffer[0] == 0x04 && buffer[1] == 0x40 {
+        return Box::new(PacketZcMillenniumshield::from(buffer));
+    }
+    if buffer[0] == 0x04 && buffer[1] == 0x41 {
+        return Box::new(PacketZcSkillinfoDelete::from(buffer));
+    }
+    if buffer[0] == 0x04 && buffer[1] == 0x42 {
+        return Box::new(PacketZcSkillSelectRequest::from(buffer));
+    }
+    if buffer[0] == 0x04 && buffer[1] == 0x43 {
+        return Box::new(PacketCzSkillSelectResponse::from(buffer));
+    }
+    if buffer[0] == 0x04 && buffer[1] == 0x44 {
+        return Box::new(PacketZcSimpleCashPointItemlist::from(buffer));
+    }
+    if buffer[0] == 0x04 && buffer[1] == 0x45 {
+        return Box::new(PacketCzSimpleBuyCashPointItem::from(buffer));
+    }
+    if buffer[0] == 0x04 && buffer[1] == 0x46 {
+        return Box::new(PacketZcQuestNotifyEffect::from(buffer));
+    }
+    if buffer[0] == 0x04 && buffer[1] == 0x47 {
+        return Box::new(PacketCzBlockingPlayCancel::from(buffer));
+    }
+    if buffer[0] == 0x04 && buffer[1] == 0x48 {
+        return Box::new(PacketHcCharacterList::from(buffer));
+    }
+    if buffer[0] == 0x04 && buffer[1] == 0x49 {
+        return Box::new(PacketZcHackshErrorMsg::from(buffer));
+    }
+    if buffer[0] == 0x04 && buffer[1] == 0x4a {
+        return Box::new(PacketCzClientVersion::from(buffer));
+    }
+    if buffer[0] == 0x04 && buffer[1] == 0x4b {
+        return Box::new(PacketCzCloseSimplecashShop::from(buffer));
+    }
+    if buffer[0] == 0x07 && buffer[1] == 0xd0 {
+        return Box::new(PacketZcEsResult::from(buffer));
+    }
+    if buffer[0] == 0x07 && buffer[1] == 0xd1 {
+        return Box::new(PacketCzEsGetList::from(buffer));
+    }
+    if buffer[0] == 0x07 && buffer[1] == 0xd2 {
+        return Box::new(PacketZcEsList::from(buffer));
+    }
+    if buffer[0] == 0x07 && buffer[1] == 0xd3 {
+        return Box::new(PacketCzEsChoose::from(buffer));
+    }
+    if buffer[0] == 0x07 && buffer[1] == 0xd4 {
+        return Box::new(PacketCzEsCancel::from(buffer));
+    }
+    if buffer[0] == 0x07 && buffer[1] == 0xd5 {
+        return Box::new(PacketZcEsReady::from(buffer));
+    }
+    if buffer[0] == 0x07 && buffer[1] == 0xd6 {
+        return Box::new(PacketZcEsGoto::from(buffer));
+    }
+    if buffer[0] == 0x07 && buffer[1] == 0xd7 {
+        return Box::new(PacketCzGroupinfoChangeV2::from(buffer));
+    }
+    if buffer[0] == 0x07 && buffer[1] == 0xd8 {
+        return Box::new(PacketZcReqGroupinfoChangeV2::from(buffer));
+    }
+    if buffer[0] == 0x07 && buffer[1] == 0xd9 {
+        return Box::new(PacketZcShortcutKeyListV2::from(buffer));
+    }
+    if buffer[0] == 0x07 && buffer[1] == 0xda {
+        return Box::new(PacketCzChangeGroupMaster::from(buffer));
+    }
+    if buffer[0] == 0x07 && buffer[1] == 0xdb {
+        return Box::new(PacketZcHoParChange::from(buffer));
+    }
+    if buffer[0] == 0x07 && buffer[1] == 0xdc {
+        return Box::new(PacketCzSeekParty::from(buffer));
+    }
+    if buffer[0] == 0x07 && buffer[1] == 0xdd {
+        return Box::new(PacketZcSeekParty::from(buffer));
+    }
+    if buffer[0] == 0x07 && buffer[1] == 0xde {
+        return Box::new(PacketCzSeekPartyMember::from(buffer));
+    }
+    if buffer[0] == 0x07 && buffer[1] == 0xdf {
+        return Box::new(PacketZcSeekPartyMember::from(buffer));
+    }
+    if buffer[0] == 0x07 && buffer[1] == 0xe0 {
+        return Box::new(PacketZcEsNotiMyinfo::from(buffer));
+    }
+    if buffer[0] == 0x07 && buffer[1] == 0xe1 {
+        return Box::new(PacketZcSkillinfoUpdate2::from(buffer));
+    }
+    if buffer[0] == 0x07 && buffer[1] == 0xe2 {
+        return Box::new(PacketZcMsgValue::from(buffer));
+    }
+    if buffer[0] == 0x07 && buffer[1] == 0xe3 {
+        return Box::new(PacketZcItemlistwinOpen::from(buffer));
+    }
+    if buffer[0] == 0x07 && buffer[1] == 0xe4 {
+        return Box::new(PacketCzItemlistwinRes::from(buffer));
+    }
+    if buffer[0] == 0x07 && buffer[1] == 0xe5 {
+        return Box::new(PacketChEnterCheckbot::from(buffer));
+    }
+    if buffer[0] == 0x07 && buffer[1] == 0xe6 {
+        return Box::new(PacketZcMsgSkill::from(buffer));
+    }
+    if buffer[0] == 0x07 && buffer[1] == 0xe7 {
+        return Box::new(PacketChCheckbot::from(buffer));
+    }
+    if buffer[0] == 0x07 && buffer[1] == 0xe8 {
+        return Box::new(PacketHcCheckbot::from(buffer));
+    }
+    if buffer[0] == 0x07 && buffer[1] == 0xe9 {
+        return Box::new(PacketHcCheckbotResult::from(buffer));
+    }
+    if buffer[0] == 0x07 && buffer[1] == 0xea {
+        return Box::new(PacketCzBattleFieldList::from(buffer));
+    }
+    if buffer[0] == 0x07 && buffer[1] == 0xeb {
+        return Box::new(PacketZcBattleFieldList::from(buffer));
+    }
+    if buffer[0] == 0x07 && buffer[1] == 0xec {
+        return Box::new(PacketCzJoinBattleField::from(buffer));
+    }
+    if buffer[0] == 0x07 && buffer[1] == 0xed {
+        return Box::new(PacketZcJoinBattleField::from(buffer));
+    }
+    if buffer[0] == 0x07 && buffer[1] == 0xee {
+        return Box::new(PacketCzCancelBattleField::from(buffer));
+    }
+    if buffer[0] == 0x07 && buffer[1] == 0xef {
+        return Box::new(PacketZcCancelBattleField::from(buffer));
+    }
+    if buffer[0] == 0x07 && buffer[1] == 0xf0 {
+        return Box::new(PacketCzReqBattleStateMonitor::from(buffer));
+    }
+    if buffer[0] == 0x07 && buffer[1] == 0xf1 {
+        return Box::new(PacketZcAckBattleStateMonitor::from(buffer));
+    }
+    if buffer[0] == 0x07 && buffer[1] == 0xf2 {
+        return Box::new(PacketZcBattleNotiStartStep::from(buffer));
+    }
+    if buffer[0] == 0x07 && buffer[1] == 0xf3 {
+        return Box::new(PacketZcBattleJoinNotiDefer::from(buffer));
+    }
+    if buffer[0] == 0x07 && buffer[1] == 0xf4 {
+        return Box::new(PacketZcBattleJoinDisableState::from(buffer));
+    }
+    if buffer[0] == 0x07 && buffer[1] == 0xf5 {
+        return Box::new(PacketCzGmFullstrip::from(buffer));
+    }
+    if buffer[0] == 0x07 && buffer[1] == 0xf6 {
+        return Box::new(PacketZcNotifyExp::from(buffer));
+    }
+    if buffer[0] == 0x07 && buffer[1] == 0xf7 {
+        return Box::new(PacketZcNotifyMoveentry7::from(buffer));
+    }
+    if buffer[0] == 0x07 && buffer[1] == 0xf8 {
+        return Box::new(PacketZcNotifyNewentry5::from(buffer));
+    }
+    if buffer[0] == 0x07 && buffer[1] == 0xf9 {
+        return Box::new(PacketZcNotifyStandentry5::from(buffer));
+    }
+    if buffer[0] == 0x07 && buffer[1] == 0xfa {
+        return Box::new(PacketZcDeleteItemFromBody::from(buffer));
+    }
+    if buffer[0] == 0x07 && buffer[1] == 0xfb {
+        return Box::new(PacketZcUseskillAck2::from(buffer));
+    }
+    if buffer[0] == 0x07 && buffer[1] == 0xfc {
+        return Box::new(PacketZcChangeGroupMaster::from(buffer));
+    }
+    if buffer[0] == 0x07 && buffer[1] == 0xfe {
+        return Box::new(PacketZcPlayNpcBgm::from(buffer));
+    }
+    if buffer[0] == 0x07 && buffer[1] == 0xff {
+        return Box::new(PacketZcDefineCheck::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x00 {
+        return Box::new(PacketZcPcPurchaseItemlistFrommc2::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x01 {
+        return Box::new(PacketCzPcPurchaseItemlistFrommc2::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x02 {
+        return Box::new(PacketCzPartyBookingReqRegister::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x03 {
+        return Box::new(PacketZcPartyBookingAckRegister::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x04 {
+        return Box::new(PacketCzPartyBookingReqSearch::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x05 {
+        return Box::new(PacketZcPartyBookingAckSearch::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x06 {
+        return Box::new(PacketCzPartyBookingReqDelete::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x07 {
+        return Box::new(PacketZcPartyBookingAckDelete::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x08 {
+        return Box::new(PacketCzPartyBookingReqUpdate::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x09 {
+        return Box::new(PacketZcPartyBookingNotifyInsert::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x0a {
+        return Box::new(PacketZcPartyBookingNotifyUpdate::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x0b {
+        return Box::new(PacketZcPartyBookingNotifyDelete::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x0c {
+        return Box::new(PacketCzSimpleCashBtnshow::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x0d {
+        return Box::new(PacketZcSimpleCashBtnshow::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x0e {
+        return Box::new(PacketZcNotifyHpToGroupmR2::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x0f {
+        return Box::new(PacketZcAddExchangeItem2::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x10 {
+        return Box::new(PacketZcOpenBuyingStore::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x11 {
+        return Box::new(PacketCzReqOpenBuyingStore::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x12 {
+        return Box::new(PacketZcFailedOpenBuyingStoreToBuyer::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x13 {
+        return Box::new(PacketZcMyitemlistBuyingStore::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x14 {
+        return Box::new(PacketZcBuyingStoreEntry::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x15 {
+        return Box::new(PacketCzReqCloseBuyingStore::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x16 {
+        return Box::new(PacketZcDisappearBuyingStoreEntry::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x17 {
+        return Box::new(PacketCzReqClickToBuyingStore::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x18 {
+        return Box::new(PacketZcAckItemlistBuyingStore::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x19 {
+        return Box::new(PacketCzReqTradeBuyingStore::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x1a {
+        return Box::new(PacketZcFailedTradeBuyingStoreToBuyer::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x1b {
+        return Box::new(PacketZcUpdateItemFromBuyingStore::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x1c {
+        return Box::new(PacketZcItemDeleteBuyingStore::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x1d {
+        return Box::new(PacketZcElInit::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x1e {
+        return Box::new(PacketZcElParChange::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x1f {
+        return Box::new(PacketZcBroadcast4::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x20 {
+        return Box::new(PacketZcCostumeSpriteChange::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x21 {
+        return Box::new(PacketAcOtpUser::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x22 {
+        return Box::new(PacketCaOtpAuthReq::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x23 {
+        return Box::new(PacketAcOtpAuthAck::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x24 {
+        return Box::new(PacketZcFailedTradeBuyingStoreToSeller::from(buffer));
+    }
+    if buffer[0] == 0x82 && buffer[1] == 0x5a {
+        return Box::new(PacketCaSsoLoginReqa::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x25 {
+        return Box::new(PacketCaSsoLoginReq::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x26 {
+        return Box::new(PacketAcSsoLoginAck::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x27 {
+        return Box::new(PacketChDeleteChar3Reserved::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x28 {
+        return Box::new(PacketHcDeleteChar3Reserved::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x29 {
+        return Box::new(PacketChDeleteChar3::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x2a {
+        return Box::new(PacketHcDeleteChar3::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x2b {
+        return Box::new(PacketChDeleteChar3Cancel::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x2c {
+        return Box::new(PacketHcDeleteChar3Cancel::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x35 {
+        return Box::new(PacketCzSearchStoreInfo::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x36 {
+        return Box::new(PacketZcSearchStoreInfoAck::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x37 {
+        return Box::new(PacketZcSearchStoreInfoFailed::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x38 {
+        return Box::new(PacketCzSearchStoreInfoNextPage::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x39 {
+        return Box::new(PacketZcAckBanGuildSso::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x3a {
+        return Box::new(PacketZcOpenSearchStoreInfo::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x3b {
+        return Box::new(PacketCzCloseSearchStoreInfo::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x3c {
+        return Box::new(PacketCzSsilistItemClick::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x3d {
+        return Box::new(PacketZcSsilistItemClickAck::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x3e {
+        return Box::new(PacketAcRefuseLoginR2::from(buffer));
+    }
+    if buffer[0] == 0x08 && buffer[1] == 0x41 {
+        return Box::new(PacketChSelectAccessibleMapname::from(buffer));
+    }
+    Box::new(PacketUnknown::from(buffer))
+}
+
+pub trait Packet {
+    fn id(&self) -> &str;
+    fn debug(&self);
 }
 
 pub struct PacketCaLogin {
@@ -15,9 +2297,24 @@ pub struct PacketCaLogin {
     pub client_type: char,
 }
 
-impl PacketId for PacketCaLogin {
+impl PacketCaLogin {
+    pub fn from(buffer: &[u8]) -> PacketCaLogin {
+        PacketCaLogin {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            version: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            id: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            passwd: String::from_utf8_lossy(&buffer[30..54]).to_string(),
+            client_type: buffer[54] as char,
+        }
+    }
+}
+
+impl Packet for PacketCaLogin {
     fn id(&self) -> &str {
        "0x6400"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -43,9 +2340,25 @@ pub struct PacketChEnter {
     pub sex: char,
 }
 
-impl PacketId for PacketChEnter {
+impl PacketChEnter {
+    pub fn from(buffer: &[u8]) -> PacketChEnter {
+        PacketChEnter {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            auth_code: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            user_level: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            client_type: u16::from_le_bytes([buffer[14], buffer[15]]),
+            sex: buffer[16] as char,
+        }
+    }
+}
+
+impl Packet for PacketChEnter {
     fn id(&self) -> &str {
        "0x6500"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -68,9 +2381,21 @@ pub struct PacketChSelectChar {
     pub char_num: char,
 }
 
-impl PacketId for PacketChSelectChar {
+impl PacketChSelectChar {
+    pub fn from(buffer: &[u8]) -> PacketChSelectChar {
+        PacketChSelectChar {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            char_num: buffer[2] as char,
+        }
+    }
+}
+
+impl Packet for PacketChSelectChar {
     fn id(&self) -> &str {
        "0x6600"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -98,9 +2423,30 @@ pub struct PacketChMakeChar {
     pub head: u16,
 }
 
-impl PacketId for PacketChMakeChar {
+impl PacketChMakeChar {
+    pub fn from(buffer: &[u8]) -> PacketChMakeChar {
+        PacketChMakeChar {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            str: buffer[26] as char,
+            agi: buffer[27] as char,
+            vit: buffer[28] as char,
+            int: buffer[29] as char,
+            dex: buffer[30] as char,
+            luk: buffer[31] as char,
+            char_num: buffer[32] as char,
+            head_pal: u16::from_le_bytes([buffer[33], buffer[34]]),
+            head: u16::from_le_bytes([buffer[35], buffer[36]]),
+        }
+    }
+}
+
+impl Packet for PacketChMakeChar {
     fn id(&self) -> &str {
        "0x6700"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -129,9 +2475,22 @@ pub struct PacketChDeleteChar {
     pub key: String,
 }
 
-impl PacketId for PacketChDeleteChar {
+impl PacketChDeleteChar {
+    pub fn from(buffer: &[u8]) -> PacketChDeleteChar {
+        PacketChDeleteChar {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            key: String::from_utf8_lossy(&buffer[6..46]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketChDeleteChar {
     fn id(&self) -> &str {
        "0x6800"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -158,9 +2517,37 @@ pub struct PacketAcAcceptLogin {
     pub server_list: Vec<ServerAddr>,
 }
 
-impl PacketId for PacketAcAcceptLogin {
+impl PacketAcAcceptLogin {
+    pub fn from(buffer: &[u8]) -> PacketAcAcceptLogin {
+        let iter_count = &buffer.len() / 32;
+        let mut vec_field: Vec<ServerAddr> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 47 * i;
+            let end_pos = 79 * i;
+            vec_field.push(ServerAddr::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketAcAcceptLogin {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            auth_code: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            aid: u32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
+            user_level: u32::from_le_bytes([buffer[12], buffer[13], buffer[14], buffer[15]]),
+            last_login_ip: u32::from_le_bytes([buffer[16], buffer[17], buffer[18], buffer[19]]),
+            last_login_time: String::from_utf8_lossy(&buffer[20..46]).to_string(),
+            sex: buffer[46] as char,
+            server_list: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketAcAcceptLogin {
     fn id(&self) -> &str {
        "0x6900"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -187,9 +2574,22 @@ pub struct PacketAcRefuseLogin {
     pub block_date: String,
 }
 
-impl PacketId for PacketAcRefuseLogin {
+impl PacketAcRefuseLogin {
+    pub fn from(buffer: &[u8]) -> PacketAcRefuseLogin {
+        PacketAcRefuseLogin {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            error_code: buffer[2] as char,
+            block_date: String::from_utf8_lossy(&buffer[3..23]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketAcRefuseLogin {
     fn id(&self) -> &str {
        "0x6a00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -218,9 +2618,39 @@ pub struct PacketHcAcceptEnterNeoUnion {
     pub char_info: Vec<CharacterInfoNeoUnion>,
 }
 
-impl PacketId for PacketHcAcceptEnterNeoUnion {
+impl PacketHcAcceptEnterNeoUnion {
+    pub fn from(buffer: &[u8]) -> PacketHcAcceptEnterNeoUnion {
+        let iter_count = &buffer.len() / 144;
+        let mut vec_field: Vec<CharacterInfoNeoUnion> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 27 * i;
+            let end_pos = 171 * i;
+            vec_field.push(CharacterInfoNeoUnion::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketHcAcceptEnterNeoUnion {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            total_slot_num: buffer[4] as char,
+            premium_start_slot: buffer[5] as char,
+            premium_end_slot: buffer[6] as char,
+            dummy1_beginbilling: buffer[7] as char,
+            code: u32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
+            time1: u32::from_le_bytes([buffer[12], buffer[13], buffer[14], buffer[15]]),
+            time2: u32::from_le_bytes([buffer[16], buffer[17], buffer[18], buffer[19]]),
+            dummy2_endbilling: String::from_utf8_lossy(&buffer[20..27]).to_string(),
+            char_info: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketHcAcceptEnterNeoUnion {
     fn id(&self) -> &str {
        "0x6b00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -248,9 +2678,21 @@ pub struct PacketHcRefuseEnter {
     pub error_code: char,
 }
 
-impl PacketId for PacketHcRefuseEnter {
+impl PacketHcRefuseEnter {
+    pub fn from(buffer: &[u8]) -> PacketHcRefuseEnter {
+        PacketHcRefuseEnter {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            error_code: buffer[2] as char,
+        }
+    }
+}
+
+impl Packet for PacketHcRefuseEnter {
     fn id(&self) -> &str {
        "0x6c00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -269,9 +2711,21 @@ pub struct PacketHcAcceptMakecharNeoUnion {
     pub charinfo: CharacterInfoNeoUnion,
 }
 
-impl PacketId for PacketHcAcceptMakecharNeoUnion {
+impl PacketHcAcceptMakecharNeoUnion {
+    pub fn from(buffer: &[u8]) -> PacketHcAcceptMakecharNeoUnion {
+        PacketHcAcceptMakecharNeoUnion {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            charinfo: CharacterInfoNeoUnion::from(&buffer[2..buffer.len()]),
+        }
+    }
+}
+
+impl Packet for PacketHcAcceptMakecharNeoUnion {
     fn id(&self) -> &str {
        "0x6d00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -290,9 +2744,21 @@ pub struct PacketHcRefuseMakechar {
     pub error_code: char,
 }
 
-impl PacketId for PacketHcRefuseMakechar {
+impl PacketHcRefuseMakechar {
+    pub fn from(buffer: &[u8]) -> PacketHcRefuseMakechar {
+        PacketHcRefuseMakechar {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            error_code: buffer[2] as char,
+        }
+    }
+}
+
+impl Packet for PacketHcRefuseMakechar {
     fn id(&self) -> &str {
        "0x6e00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -310,9 +2776,20 @@ pub struct PacketHcAcceptDeletechar {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketHcAcceptDeletechar {
+impl PacketHcAcceptDeletechar {
+    pub fn from(buffer: &[u8]) -> PacketHcAcceptDeletechar {
+        PacketHcAcceptDeletechar {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketHcAcceptDeletechar {
     fn id(&self) -> &str {
        "0x6f00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -330,9 +2807,21 @@ pub struct PacketHcRefuseDeletechar {
     pub error_code: char,
 }
 
-impl PacketId for PacketHcRefuseDeletechar {
+impl PacketHcRefuseDeletechar {
+    pub fn from(buffer: &[u8]) -> PacketHcRefuseDeletechar {
+        PacketHcRefuseDeletechar {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            error_code: buffer[2] as char,
+        }
+    }
+}
+
+impl Packet for PacketHcRefuseDeletechar {
     fn id(&self) -> &str {
        "0x7000"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -353,9 +2842,23 @@ pub struct PacketHcNotifyZonesvr {
     pub addr: ZserverAddr,
 }
 
-impl PacketId for PacketHcNotifyZonesvr {
+impl PacketHcNotifyZonesvr {
+    pub fn from(buffer: &[u8]) -> PacketHcNotifyZonesvr {
+        PacketHcNotifyZonesvr {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            map_name: String::from_utf8_lossy(&buffer[6..22]).to_string(),
+            addr: ZserverAddr::from(&buffer[22..buffer.len()]),
+        }
+    }
+}
+
+impl Packet for PacketHcNotifyZonesvr {
     fn id(&self) -> &str {
        "0x7100"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -380,9 +2883,25 @@ pub struct PacketCzEnter {
     pub sex: char,
 }
 
-impl PacketId for PacketCzEnter {
+impl PacketCzEnter {
+    pub fn from(buffer: &[u8]) -> PacketCzEnter {
+        PacketCzEnter {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            auth_code: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            client_time: u32::from_le_bytes([buffer[14], buffer[15], buffer[16], buffer[17]]),
+            sex: buffer[18] as char,
+        }
+    }
+}
+
+impl Packet for PacketCzEnter {
     fn id(&self) -> &str {
        "0x7200"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -408,9 +2927,24 @@ pub struct PacketZcAcceptEnter {
     pub y_size: char,
 }
 
-impl PacketId for PacketZcAcceptEnter {
+impl PacketZcAcceptEnter {
+    pub fn from(buffer: &[u8]) -> PacketZcAcceptEnter {
+        PacketZcAcceptEnter {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            start_time: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            pos_dir: String::from_utf8_lossy(&buffer[6..9]).to_string(),
+            x_size: buffer[9] as char,
+            y_size: buffer[10] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcAcceptEnter {
     fn id(&self) -> &str {
        "0x7300"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -432,9 +2966,21 @@ pub struct PacketZcRefuseEnter {
     pub error_code: char,
 }
 
-impl PacketId for PacketZcRefuseEnter {
+impl PacketZcRefuseEnter {
+    pub fn from(buffer: &[u8]) -> PacketZcRefuseEnter {
+        PacketZcRefuseEnter {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            error_code: buffer[2] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcRefuseEnter {
     fn id(&self) -> &str {
        "0x7400"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -456,9 +3002,24 @@ pub struct PacketZcNotifyInitchar {
     pub item: char,
 }
 
-impl PacketId for PacketZcNotifyInitchar {
+impl PacketZcNotifyInitchar {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyInitchar {
+        PacketZcNotifyInitchar {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            gid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            style: u16::from_le_bytes([buffer[8], buffer[9]]),
+            item: buffer[10] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyInitchar {
     fn id(&self) -> &str {
        "0x7500"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -482,9 +3043,23 @@ pub struct PacketZcNotifyUpdatechar {
     pub item: char,
 }
 
-impl PacketId for PacketZcNotifyUpdatechar {
+impl PacketZcNotifyUpdatechar {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyUpdatechar {
+        PacketZcNotifyUpdatechar {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            style: u16::from_le_bytes([buffer[6], buffer[7]]),
+            item: buffer[8] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyUpdatechar {
     fn id(&self) -> &str {
        "0x7600"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -506,9 +3081,22 @@ pub struct PacketZcNotifyUpdateplayer {
     pub item: char,
 }
 
-impl PacketId for PacketZcNotifyUpdateplayer {
+impl PacketZcNotifyUpdateplayer {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyUpdateplayer {
+        PacketZcNotifyUpdateplayer {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            style: u16::from_le_bytes([buffer[2], buffer[3]]),
+            item: buffer[4] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyUpdateplayer {
     fn id(&self) -> &str {
        "0x7700"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -554,9 +3142,47 @@ pub struct PacketZcNotifyStandentry {
     pub clevel: u16,
 }
 
-impl PacketId for PacketZcNotifyStandentry {
+impl PacketZcNotifyStandentry {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyStandentry {
+        PacketZcNotifyStandentry {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            objecttype: buffer[2] as char,
+            gid: u32::from_le_bytes([buffer[3], buffer[4], buffer[5], buffer[6]]),
+            speed: u16::from_le_bytes([buffer[7], buffer[8]]),
+            body_state: u16::from_le_bytes([buffer[9], buffer[10]]),
+            health_state: u16::from_le_bytes([buffer[11], buffer[12]]),
+            effect_state: u16::from_le_bytes([buffer[13], buffer[14]]),
+            job: u16::from_le_bytes([buffer[15], buffer[16]]),
+            head: u16::from_le_bytes([buffer[17], buffer[18]]),
+            weapon: u16::from_le_bytes([buffer[19], buffer[20]]),
+            accessory: u16::from_le_bytes([buffer[21], buffer[22]]),
+            shield: u16::from_le_bytes([buffer[23], buffer[24]]),
+            accessory2: u16::from_le_bytes([buffer[25], buffer[26]]),
+            accessory3: u16::from_le_bytes([buffer[27], buffer[28]]),
+            headpalette: u16::from_le_bytes([buffer[29], buffer[30]]),
+            bodypalette: u16::from_le_bytes([buffer[31], buffer[32]]),
+            head_dir: u16::from_le_bytes([buffer[33], buffer[34]]),
+            guid: u32::from_le_bytes([buffer[35], buffer[36], buffer[37], buffer[38]]),
+            gemblem_ver: u16::from_le_bytes([buffer[39], buffer[40]]),
+            honor: u16::from_le_bytes([buffer[41], buffer[42]]),
+            virtue: u16::from_le_bytes([buffer[43], buffer[44]]),
+            is_pkmode_on: buffer[45] == 1,
+            sex: buffer[46] as char,
+            pos_dir: String::from_utf8_lossy(&buffer[47..50]).to_string(),
+            x_size: buffer[50] as char,
+            y_size: buffer[51] as char,
+            state: buffer[52] as char,
+            clevel: u16::from_le_bytes([buffer[53], buffer[54]]),
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyStandentry {
     fn id(&self) -> &str {
        "0x7800"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -625,9 +3251,45 @@ pub struct PacketZcNotifyNewentry {
     pub clevel: u16,
 }
 
-impl PacketId for PacketZcNotifyNewentry {
+impl PacketZcNotifyNewentry {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyNewentry {
+        PacketZcNotifyNewentry {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            speed: u16::from_le_bytes([buffer[6], buffer[7]]),
+            body_state: u16::from_le_bytes([buffer[8], buffer[9]]),
+            health_state: u16::from_le_bytes([buffer[10], buffer[11]]),
+            effect_state: u16::from_le_bytes([buffer[12], buffer[13]]),
+            job: u16::from_le_bytes([buffer[14], buffer[15]]),
+            head: u16::from_le_bytes([buffer[16], buffer[17]]),
+            weapon: u16::from_le_bytes([buffer[18], buffer[19]]),
+            accessory: u16::from_le_bytes([buffer[20], buffer[21]]),
+            shield: u16::from_le_bytes([buffer[22], buffer[23]]),
+            accessory2: u16::from_le_bytes([buffer[24], buffer[25]]),
+            accessory3: u16::from_le_bytes([buffer[26], buffer[27]]),
+            headpalette: u16::from_le_bytes([buffer[28], buffer[29]]),
+            bodypalette: u16::from_le_bytes([buffer[30], buffer[31]]),
+            head_dir: u16::from_le_bytes([buffer[32], buffer[33]]),
+            guid: u32::from_le_bytes([buffer[34], buffer[35], buffer[36], buffer[37]]),
+            gemblem_ver: u16::from_le_bytes([buffer[38], buffer[39]]),
+            honor: u16::from_le_bytes([buffer[40], buffer[41]]),
+            virtue: u16::from_le_bytes([buffer[42], buffer[43]]),
+            is_pkmode_on: buffer[44] == 1,
+            sex: buffer[45] as char,
+            pos_dir: String::from_utf8_lossy(&buffer[46..49]).to_string(),
+            x_size: buffer[49] as char,
+            y_size: buffer[50] as char,
+            clevel: u16::from_le_bytes([buffer[51], buffer[52]]),
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyNewentry {
     fn id(&self) -> &str {
        "0x7900"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -696,9 +3358,47 @@ pub struct PacketZcNotifyActentry {
     pub clevel: u16,
 }
 
-impl PacketId for PacketZcNotifyActentry {
+impl PacketZcNotifyActentry {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyActentry {
+        PacketZcNotifyActentry {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            speed: u16::from_le_bytes([buffer[6], buffer[7]]),
+            body_state: u16::from_le_bytes([buffer[8], buffer[9]]),
+            health_state: u16::from_le_bytes([buffer[10], buffer[11]]),
+            effect_state: u16::from_le_bytes([buffer[12], buffer[13]]),
+            job: u16::from_le_bytes([buffer[14], buffer[15]]),
+            head: u16::from_le_bytes([buffer[16], buffer[17]]),
+            weapon: u16::from_le_bytes([buffer[18], buffer[19]]),
+            accessory: u16::from_le_bytes([buffer[20], buffer[21]]),
+            shield: u16::from_le_bytes([buffer[22], buffer[23]]),
+            accessory2: u16::from_le_bytes([buffer[24], buffer[25]]),
+            accessory3: u16::from_le_bytes([buffer[26], buffer[27]]),
+            headpalette: u16::from_le_bytes([buffer[28], buffer[29]]),
+            bodypalette: u16::from_le_bytes([buffer[30], buffer[31]]),
+            head_dir: u16::from_le_bytes([buffer[32], buffer[33]]),
+            guid: u32::from_le_bytes([buffer[34], buffer[35], buffer[36], buffer[37]]),
+            gemblem_ver: u16::from_le_bytes([buffer[38], buffer[39]]),
+            honor: u16::from_le_bytes([buffer[40], buffer[41]]),
+            virtue: u16::from_le_bytes([buffer[42], buffer[43]]),
+            is_pkmode_on: buffer[44] == 1,
+            sex: buffer[45] as char,
+            pos_dir: String::from_utf8_lossy(&buffer[46..49]).to_string(),
+            x_size: buffer[49] as char,
+            y_size: buffer[50] as char,
+            action: buffer[51] as char,
+            act_start_time: u32::from_le_bytes([buffer[52], buffer[53], buffer[54], buffer[55]]),
+            clevel: u16::from_le_bytes([buffer[56], buffer[57]]),
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyActentry {
     fn id(&self) -> &str {
        "0x7a00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -768,9 +3468,46 @@ pub struct PacketZcNotifyMoveentry {
     pub clevel: u16,
 }
 
-impl PacketId for PacketZcNotifyMoveentry {
+impl PacketZcNotifyMoveentry {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyMoveentry {
+        PacketZcNotifyMoveentry {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            speed: u16::from_le_bytes([buffer[6], buffer[7]]),
+            body_state: u16::from_le_bytes([buffer[8], buffer[9]]),
+            health_state: u16::from_le_bytes([buffer[10], buffer[11]]),
+            effect_state: u16::from_le_bytes([buffer[12], buffer[13]]),
+            job: u16::from_le_bytes([buffer[14], buffer[15]]),
+            head: u16::from_le_bytes([buffer[16], buffer[17]]),
+            weapon: u16::from_le_bytes([buffer[18], buffer[19]]),
+            accessory: u16::from_le_bytes([buffer[20], buffer[21]]),
+            move_start_time: u32::from_le_bytes([buffer[22], buffer[23], buffer[24], buffer[25]]),
+            shield: u16::from_le_bytes([buffer[26], buffer[27]]),
+            accessory2: u16::from_le_bytes([buffer[28], buffer[29]]),
+            accessory3: u16::from_le_bytes([buffer[30], buffer[31]]),
+            headpalette: u16::from_le_bytes([buffer[32], buffer[33]]),
+            bodypalette: u16::from_le_bytes([buffer[34], buffer[35]]),
+            head_dir: u16::from_le_bytes([buffer[36], buffer[37]]),
+            guid: u32::from_le_bytes([buffer[38], buffer[39], buffer[40], buffer[41]]),
+            gemblem_ver: u16::from_le_bytes([buffer[42], buffer[43]]),
+            honor: u16::from_le_bytes([buffer[44], buffer[45]]),
+            virtue: u16::from_le_bytes([buffer[46], buffer[47]]),
+            is_pkmode_on: buffer[48] == 1,
+            sex: buffer[49] as char,
+            move_data: String::from_utf8_lossy(&buffer[50..56]).to_string(),
+            x_size: buffer[56] as char,
+            y_size: buffer[57] as char,
+            clevel: u16::from_le_bytes([buffer[58], buffer[59]]),
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyMoveentry {
     fn id(&self) -> &str {
        "0x7b00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -834,9 +3571,41 @@ pub struct PacketZcNotifyStandentryNpc {
     pub y_size: char,
 }
 
-impl PacketId for PacketZcNotifyStandentryNpc {
+impl PacketZcNotifyStandentryNpc {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyStandentryNpc {
+        PacketZcNotifyStandentryNpc {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            objecttype: buffer[2] as char,
+            gid: u32::from_le_bytes([buffer[3], buffer[4], buffer[5], buffer[6]]),
+            speed: u16::from_le_bytes([buffer[7], buffer[8]]),
+            body_state: u16::from_le_bytes([buffer[9], buffer[10]]),
+            health_state: u16::from_le_bytes([buffer[11], buffer[12]]),
+            effect_state: u16::from_le_bytes([buffer[13], buffer[14]]),
+            head: u16::from_le_bytes([buffer[15], buffer[16]]),
+            weapon: u16::from_le_bytes([buffer[17], buffer[18]]),
+            accessory: u16::from_le_bytes([buffer[19], buffer[20]]),
+            job: u16::from_le_bytes([buffer[21], buffer[22]]),
+            shield: u16::from_le_bytes([buffer[23], buffer[24]]),
+            accessory2: u16::from_le_bytes([buffer[25], buffer[26]]),
+            accessory3: u16::from_le_bytes([buffer[27], buffer[28]]),
+            headpalette: u16::from_le_bytes([buffer[29], buffer[30]]),
+            bodypalette: u16::from_le_bytes([buffer[31], buffer[32]]),
+            head_dir: u16::from_le_bytes([buffer[33], buffer[34]]),
+            is_pkmode_on: buffer[35] == 1,
+            sex: buffer[36] as char,
+            pos_dir: String::from_utf8_lossy(&buffer[37..40]).to_string(),
+            x_size: buffer[40] as char,
+            y_size: buffer[41] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyStandentryNpc {
     fn id(&self) -> &str {
        "0x7c00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -874,9 +3643,20 @@ pub struct PacketCzNotifyActorinit {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketCzNotifyActorinit {
+impl PacketCzNotifyActorinit {
+    pub fn from(buffer: &[u8]) -> PacketCzNotifyActorinit {
+        PacketCzNotifyActorinit {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketCzNotifyActorinit {
     fn id(&self) -> &str {
        "0x7d00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -894,9 +3674,21 @@ pub struct PacketCzRequestTime {
     pub client_time: u32,
 }
 
-impl PacketId for PacketCzRequestTime {
+impl PacketCzRequestTime {
+    pub fn from(buffer: &[u8]) -> PacketCzRequestTime {
+        PacketCzRequestTime {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            client_time: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketCzRequestTime {
     fn id(&self) -> &str {
        "0x7e00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -915,9 +3707,21 @@ pub struct PacketZcNotifyTime {
     pub time: u32,
 }
 
-impl PacketId for PacketZcNotifyTime {
+impl PacketZcNotifyTime {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyTime {
+        PacketZcNotifyTime {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            time: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyTime {
     fn id(&self) -> &str {
        "0x7f00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -937,9 +3741,22 @@ pub struct PacketZcNotifyVanish {
     pub type_: char,
 }
 
-impl PacketId for PacketZcNotifyVanish {
+impl PacketZcNotifyVanish {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyVanish {
+        PacketZcNotifyVanish {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            type_: buffer[6] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyVanish {
     fn id(&self) -> &str {
        "0x8000"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -959,9 +3776,21 @@ pub struct PacketScNotifyBan {
     pub error_code: char,
 }
 
-impl PacketId for PacketScNotifyBan {
+impl PacketScNotifyBan {
+    pub fn from(buffer: &[u8]) -> PacketScNotifyBan {
+        PacketScNotifyBan {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            error_code: buffer[2] as char,
+        }
+    }
+}
+
+impl Packet for PacketScNotifyBan {
     fn id(&self) -> &str {
        "0x8100"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -979,9 +3808,20 @@ pub struct PacketCzRequestQuit {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketCzRequestQuit {
+impl PacketCzRequestQuit {
+    pub fn from(buffer: &[u8]) -> PacketCzRequestQuit {
+        PacketCzRequestQuit {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketCzRequestQuit {
     fn id(&self) -> &str {
        "0x8200"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -998,9 +3838,20 @@ pub struct PacketZcAcceptQuit {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketZcAcceptQuit {
+impl PacketZcAcceptQuit {
+    pub fn from(buffer: &[u8]) -> PacketZcAcceptQuit {
+        PacketZcAcceptQuit {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketZcAcceptQuit {
     fn id(&self) -> &str {
        "0x8300"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -1017,9 +3868,20 @@ pub struct PacketZcRefuseQuit {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketZcRefuseQuit {
+impl PacketZcRefuseQuit {
+    pub fn from(buffer: &[u8]) -> PacketZcRefuseQuit {
+        PacketZcRefuseQuit {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketZcRefuseQuit {
     fn id(&self) -> &str {
        "0x8400"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -1037,9 +3899,21 @@ pub struct PacketCzRequestMove {
     pub dest: String,
 }
 
-impl PacketId for PacketCzRequestMove {
+impl PacketCzRequestMove {
+    pub fn from(buffer: &[u8]) -> PacketCzRequestMove {
+        PacketCzRequestMove {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            dest: String::from_utf8_lossy(&buffer[2..5]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketCzRequestMove {
     fn id(&self) -> &str {
        "0x8500"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -1060,9 +3934,23 @@ pub struct PacketZcNotifyMove {
     pub move_start_time: u32,
 }
 
-impl PacketId for PacketZcNotifyMove {
+impl PacketZcNotifyMove {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyMove {
+        PacketZcNotifyMove {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            move_data: String::from_utf8_lossy(&buffer[6..12]).to_string(),
+            move_start_time: u32::from_le_bytes([buffer[12], buffer[13], buffer[14], buffer[15]]),
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyMove {
     fn id(&self) -> &str {
        "0x8600"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -1084,9 +3972,22 @@ pub struct PacketZcNotifyPlayermove {
     pub move_data: String,
 }
 
-impl PacketId for PacketZcNotifyPlayermove {
+impl PacketZcNotifyPlayermove {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyPlayermove {
+        PacketZcNotifyPlayermove {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            move_start_time: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            move_data: String::from_utf8_lossy(&buffer[6..12]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyPlayermove {
     fn id(&self) -> &str {
        "0x8700"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -1108,9 +4009,23 @@ pub struct PacketZcStopmove {
     pub y_pos: u16,
 }
 
-impl PacketId for PacketZcStopmove {
+impl PacketZcStopmove {
+    pub fn from(buffer: &[u8]) -> PacketZcStopmove {
+        PacketZcStopmove {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            x_pos: u16::from_le_bytes([buffer[6], buffer[7]]),
+            y_pos: u16::from_le_bytes([buffer[8], buffer[9]]),
+        }
+    }
+}
+
+impl Packet for PacketZcStopmove {
     fn id(&self) -> &str {
        "0x8800"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -1132,9 +4047,22 @@ pub struct PacketCzRequestAct {
     pub action: char,
 }
 
-impl PacketId for PacketCzRequestAct {
+impl PacketCzRequestAct {
+    pub fn from(buffer: &[u8]) -> PacketCzRequestAct {
+        PacketCzRequestAct {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            target_gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            action: buffer[6] as char,
+        }
+    }
+}
+
+impl Packet for PacketCzRequestAct {
     fn id(&self) -> &str {
        "0x8900"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -1162,9 +4090,29 @@ pub struct PacketZcNotifyAct {
     pub left_damage: u16,
 }
 
-impl PacketId for PacketZcNotifyAct {
+impl PacketZcNotifyAct {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyAct {
+        PacketZcNotifyAct {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            target_gid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            start_time: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            attack_mt: u32::from_le_bytes([buffer[14], buffer[15], buffer[16], buffer[17]]),
+            attacked_mt: u32::from_le_bytes([buffer[18], buffer[19], buffer[20], buffer[21]]),
+            damage: u16::from_le_bytes([buffer[22], buffer[23]]),
+            count: u16::from_le_bytes([buffer[24], buffer[25]]),
+            action: buffer[26] as char,
+            left_damage: u16::from_le_bytes([buffer[27], buffer[28]]),
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyAct {
     fn id(&self) -> &str {
        "0x8a00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -1198,9 +4146,28 @@ pub struct PacketZcNotifyActPosition {
     pub action: char,
 }
 
-impl PacketId for PacketZcNotifyActPosition {
+impl PacketZcNotifyActPosition {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyActPosition {
+        PacketZcNotifyActPosition {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            target_gid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            start_time: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            x_pos: u16::from_le_bytes([buffer[14], buffer[15]]),
+            y_pos: u16::from_le_bytes([buffer[16], buffer[17]]),
+            damage: u16::from_le_bytes([buffer[18], buffer[19]]),
+            count: u16::from_le_bytes([buffer[20], buffer[21]]),
+            action: buffer[22] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyActPosition {
     fn id(&self) -> &str {
        "0x8b00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -1227,9 +4194,22 @@ pub struct PacketCzRequestChat {
     pub msg: String,
 }
 
-impl PacketId for PacketCzRequestChat {
+impl PacketCzRequestChat {
+    pub fn from(buffer: &[u8]) -> PacketCzRequestChat {
+        PacketCzRequestChat {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            msg: String::from_utf8_lossy(&buffer[4..buffer.len()]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketCzRequestChat {
     fn id(&self) -> &str {
        "0x8c00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -1251,9 +4231,23 @@ pub struct PacketZcNotifyChat {
     pub msg: String,
 }
 
-impl PacketId for PacketZcNotifyChat {
+impl PacketZcNotifyChat {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyChat {
+        PacketZcNotifyChat {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            gid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            msg: String::from_utf8_lossy(&buffer[8..buffer.len()]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyChat {
     fn id(&self) -> &str {
        "0x8d00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -1275,9 +4269,22 @@ pub struct PacketZcNotifyPlayerchat {
     pub msg: String,
 }
 
-impl PacketId for PacketZcNotifyPlayerchat {
+impl PacketZcNotifyPlayerchat {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyPlayerchat {
+        PacketZcNotifyPlayerchat {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            msg: String::from_utf8_lossy(&buffer[4..buffer.len()]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyPlayerchat {
     fn id(&self) -> &str {
        "0x8e00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -1297,9 +4304,21 @@ pub struct PacketServerEntryAck {
     pub aid: u32,
 }
 
-impl PacketId for PacketServerEntryAck {
+impl PacketServerEntryAck {
+    pub fn from(buffer: &[u8]) -> PacketServerEntryAck {
+        PacketServerEntryAck {
+            header: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketServerEntryAck {
     fn id(&self) -> &str {
        "0x8f00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -1319,9 +4338,22 @@ pub struct PacketCzContactnpc {
     pub type_: char,
 }
 
-impl PacketId for PacketCzContactnpc {
+impl PacketCzContactnpc {
+    pub fn from(buffer: &[u8]) -> PacketCzContactnpc {
+        PacketCzContactnpc {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            naid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            type_: buffer[6] as char,
+        }
+    }
+}
+
+impl Packet for PacketCzContactnpc {
     fn id(&self) -> &str {
        "0x9000"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -1343,9 +4375,23 @@ pub struct PacketZcNpcackMapmove {
     pub y_pos: u16,
 }
 
-impl PacketId for PacketZcNpcackMapmove {
+impl PacketZcNpcackMapmove {
+    pub fn from(buffer: &[u8]) -> PacketZcNpcackMapmove {
+        PacketZcNpcackMapmove {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            map_name: String::from_utf8_lossy(&buffer[2..18]).to_string(),
+            x_pos: u16::from_le_bytes([buffer[18], buffer[19]]),
+            y_pos: u16::from_le_bytes([buffer[20], buffer[21]]),
+        }
+    }
+}
+
+impl Packet for PacketZcNpcackMapmove {
     fn id(&self) -> &str {
        "0x9100"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -1369,9 +4415,24 @@ pub struct PacketZcNpcackServermove {
     pub addr: ZserverAddr,
 }
 
-impl PacketId for PacketZcNpcackServermove {
+impl PacketZcNpcackServermove {
+    pub fn from(buffer: &[u8]) -> PacketZcNpcackServermove {
+        PacketZcNpcackServermove {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            map_name: String::from_utf8_lossy(&buffer[2..18]).to_string(),
+            x_pos: u16::from_le_bytes([buffer[18], buffer[19]]),
+            y_pos: u16::from_le_bytes([buffer[20], buffer[21]]),
+            addr: ZserverAddr::from(&buffer[22..buffer.len()]),
+        }
+    }
+}
+
+impl Packet for PacketZcNpcackServermove {
     fn id(&self) -> &str {
        "0x9200"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -1392,9 +4453,20 @@ pub struct PacketZcNpcackEnable {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketZcNpcackEnable {
+impl PacketZcNpcackEnable {
+    pub fn from(buffer: &[u8]) -> PacketZcNpcackEnable {
+        PacketZcNpcackEnable {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketZcNpcackEnable {
     fn id(&self) -> &str {
        "0x9300"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -1412,9 +4484,21 @@ pub struct PacketCzReqname {
     pub aid: u32,
 }
 
-impl PacketId for PacketCzReqname {
+impl PacketCzReqname {
+    pub fn from(buffer: &[u8]) -> PacketCzReqname {
+        PacketCzReqname {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketCzReqname {
     fn id(&self) -> &str {
        "0x9400"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -1434,9 +4518,22 @@ pub struct PacketZcAckReqname {
     pub cname: String,
 }
 
-impl PacketId for PacketZcAckReqname {
+impl PacketZcAckReqname {
+    pub fn from(buffer: &[u8]) -> PacketZcAckReqname {
+        PacketZcAckReqname {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            cname: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcAckReqname {
     fn id(&self) -> &str {
        "0x9500"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -1458,9 +4555,23 @@ pub struct PacketCzWhisper {
     pub msg: String,
 }
 
-impl PacketId for PacketCzWhisper {
+impl PacketCzWhisper {
+    pub fn from(buffer: &[u8]) -> PacketCzWhisper {
+        PacketCzWhisper {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            receiver: String::from_utf8_lossy(&buffer[4..28]).to_string(),
+            msg: String::from_utf8_lossy(&buffer[44..buffer.len()]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketCzWhisper {
     fn id(&self) -> &str {
        "0x9600"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -1483,9 +4594,23 @@ pub struct PacketZcWhisper {
     pub msg: String,
 }
 
-impl PacketId for PacketZcWhisper {
+impl PacketZcWhisper {
+    pub fn from(buffer: &[u8]) -> PacketZcWhisper {
+        PacketZcWhisper {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            sender: String::from_utf8_lossy(&buffer[4..28]).to_string(),
+            msg: String::from_utf8_lossy(&buffer[44..buffer.len()]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcWhisper {
     fn id(&self) -> &str {
        "0x9700"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -1506,9 +4631,21 @@ pub struct PacketZcAckWhisper {
     pub result: char,
 }
 
-impl PacketId for PacketZcAckWhisper {
+impl PacketZcAckWhisper {
+    pub fn from(buffer: &[u8]) -> PacketZcAckWhisper {
+        PacketZcAckWhisper {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            result: buffer[2] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcAckWhisper {
     fn id(&self) -> &str {
        "0x9800"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -1528,9 +4665,22 @@ pub struct PacketCzBroadcast {
     pub msg: String,
 }
 
-impl PacketId for PacketCzBroadcast {
+impl PacketCzBroadcast {
+    pub fn from(buffer: &[u8]) -> PacketCzBroadcast {
+        PacketCzBroadcast {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            msg: String::from_utf8_lossy(&buffer[4..buffer.len()]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketCzBroadcast {
     fn id(&self) -> &str {
        "0x9900"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -1551,9 +4701,22 @@ pub struct PacketZcBroadcast {
     pub msg: String,
 }
 
-impl PacketId for PacketZcBroadcast {
+impl PacketZcBroadcast {
+    pub fn from(buffer: &[u8]) -> PacketZcBroadcast {
+        PacketZcBroadcast {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            msg: String::from_utf8_lossy(&buffer[4..buffer.len()]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcBroadcast {
     fn id(&self) -> &str {
        "0x9a00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -1574,9 +4737,22 @@ pub struct PacketCzChangeDirection {
     pub dir: char,
 }
 
-impl PacketId for PacketCzChangeDirection {
+impl PacketCzChangeDirection {
+    pub fn from(buffer: &[u8]) -> PacketCzChangeDirection {
+        PacketCzChangeDirection {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            head_dir: u16::from_le_bytes([buffer[2], buffer[3]]),
+            dir: buffer[4] as char,
+        }
+    }
+}
+
+impl Packet for PacketCzChangeDirection {
     fn id(&self) -> &str {
        "0x9b00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -1598,9 +4774,23 @@ pub struct PacketZcChangeDirection {
     pub dir: char,
 }
 
-impl PacketId for PacketZcChangeDirection {
+impl PacketZcChangeDirection {
+    pub fn from(buffer: &[u8]) -> PacketZcChangeDirection {
+        PacketZcChangeDirection {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            head_dir: u16::from_le_bytes([buffer[6], buffer[7]]),
+            dir: buffer[8] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcChangeDirection {
     fn id(&self) -> &str {
        "0x9c00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -1628,9 +4818,28 @@ pub struct PacketZcItemEntry {
     pub sub_y: char,
 }
 
-impl PacketId for PacketZcItemEntry {
+impl PacketZcItemEntry {
+    pub fn from(buffer: &[u8]) -> PacketZcItemEntry {
+        PacketZcItemEntry {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            itaid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            itid: u16::from_le_bytes([buffer[6], buffer[7]]),
+            is_identified: buffer[8] == 1,
+            x_pos: u16::from_le_bytes([buffer[9], buffer[10]]),
+            y_pos: u16::from_le_bytes([buffer[11], buffer[12]]),
+            count: u16::from_le_bytes([buffer[13], buffer[14]]),
+            sub_x: buffer[15] as char,
+            sub_y: buffer[16] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcItemEntry {
     fn id(&self) -> &str {
        "0x9d00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -1663,9 +4872,28 @@ pub struct PacketZcItemFallEntry {
     pub count: u16,
 }
 
-impl PacketId for PacketZcItemFallEntry {
+impl PacketZcItemFallEntry {
+    pub fn from(buffer: &[u8]) -> PacketZcItemFallEntry {
+        PacketZcItemFallEntry {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            itaid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            itid: u16::from_le_bytes([buffer[6], buffer[7]]),
+            is_identified: buffer[8] == 1,
+            x_pos: u16::from_le_bytes([buffer[9], buffer[10]]),
+            y_pos: u16::from_le_bytes([buffer[11], buffer[12]]),
+            sub_x: buffer[13] as char,
+            sub_y: buffer[14] as char,
+            count: u16::from_le_bytes([buffer[15], buffer[16]]),
+        }
+    }
+}
+
+impl Packet for PacketZcItemFallEntry {
     fn id(&self) -> &str {
        "0x9e00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -1691,9 +4919,21 @@ pub struct PacketCzItemPickup {
     pub itaid: u32,
 }
 
-impl PacketId for PacketCzItemPickup {
+impl PacketCzItemPickup {
+    pub fn from(buffer: &[u8]) -> PacketCzItemPickup {
+        PacketCzItemPickup {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            itaid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketCzItemPickup {
     fn id(&self) -> &str {
        "0x9f00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -1715,15 +4955,36 @@ pub struct PacketZcItemPickupAck {
     pub is_identified: bool,
     pub is_damaged: bool,
     pub refining_level: char,
-    pub slot: EQUIPSLOTINFOEQUIPSLOTINFO,
+    pub slot: EQUIPSLOTINFO,
     pub location: u16,
     pub type_: char,
     pub result: char,
 }
 
-impl PacketId for PacketZcItemPickupAck {
+impl PacketZcItemPickupAck {
+    pub fn from(buffer: &[u8]) -> PacketZcItemPickupAck {
+        PacketZcItemPickupAck {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            count: u16::from_le_bytes([buffer[4], buffer[5]]),
+            itid: u16::from_le_bytes([buffer[6], buffer[7]]),
+            is_identified: buffer[8] == 1,
+            is_damaged: buffer[9] == 1,
+            refining_level: buffer[10] as char,
+            slot: EQUIPSLOTINFO::from(&buffer[11..19]),
+            location: u16::from_le_bytes([buffer[19], buffer[20]]),
+            type_: buffer[21] as char,
+            result: buffer[22] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcItemPickupAck {
     fn id(&self) -> &str {
        "0xa000"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -1738,7 +4999,7 @@ impl Debug for PacketZcItemPickupAck {
             .field("is_identified[8, 9]", &self.is_identified)
             .field("is_damaged[9, 10]", &self.is_damaged)
             .field("refining_level[10, 11]", &self.refining_level)
-            .field("slot[11, ?]", &self.slot)
+            .field("slot[11, 19]", &self.slot)
             .field("location[19, 21]", &self.location)
             .field("type_[21, 22]", &self.type_)
             .field("result[22, 23]", &self.result)
@@ -1751,9 +5012,21 @@ pub struct PacketZcItemDisappear {
     pub itaid: u32,
 }
 
-impl PacketId for PacketZcItemDisappear {
+impl PacketZcItemDisappear {
+    pub fn from(buffer: &[u8]) -> PacketZcItemDisappear {
+        PacketZcItemDisappear {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            itaid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketZcItemDisappear {
     fn id(&self) -> &str {
        "0xa100"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -1773,9 +5046,22 @@ pub struct PacketCzItemThrow {
     pub count: u16,
 }
 
-impl PacketId for PacketCzItemThrow {
+impl PacketCzItemThrow {
+    pub fn from(buffer: &[u8]) -> PacketCzItemThrow {
+        PacketCzItemThrow {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            count: u16::from_le_bytes([buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketCzItemThrow {
     fn id(&self) -> &str {
        "0xa200"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -1796,9 +5082,31 @@ pub struct PacketZcNormalItemlist {
     pub item_info: Vec<NormalitemExtrainfo>,
 }
 
-impl PacketId for PacketZcNormalItemlist {
+impl PacketZcNormalItemlist {
+    pub fn from(buffer: &[u8]) -> PacketZcNormalItemlist {
+        let iter_count = &buffer.len() / 10;
+        let mut vec_field: Vec<NormalitemExtrainfo> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 4 * i;
+            let end_pos = 14 * i;
+            vec_field.push(NormalitemExtrainfo::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcNormalItemlist {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            item_info: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcNormalItemlist {
     fn id(&self) -> &str {
        "0xa300"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -1819,9 +5127,31 @@ pub struct PacketZcEquipmentItemlist {
     pub item_info: Vec<EquipmentitemExtrainfo>,
 }
 
-impl PacketId for PacketZcEquipmentItemlist {
+impl PacketZcEquipmentItemlist {
+    pub fn from(buffer: &[u8]) -> PacketZcEquipmentItemlist {
+        let iter_count = &buffer.len() / 20;
+        let mut vec_field: Vec<EquipmentitemExtrainfo> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 4 * i;
+            let end_pos = 24 * i;
+            vec_field.push(EquipmentitemExtrainfo::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcEquipmentItemlist {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            item_info: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcEquipmentItemlist {
     fn id(&self) -> &str {
        "0xa400"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -1842,9 +5172,31 @@ pub struct PacketZcStoreNormalItemlist {
     pub item_info: Vec<NormalitemExtrainfo>,
 }
 
-impl PacketId for PacketZcStoreNormalItemlist {
+impl PacketZcStoreNormalItemlist {
+    pub fn from(buffer: &[u8]) -> PacketZcStoreNormalItemlist {
+        let iter_count = &buffer.len() / 10;
+        let mut vec_field: Vec<NormalitemExtrainfo> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 4 * i;
+            let end_pos = 14 * i;
+            vec_field.push(NormalitemExtrainfo::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcStoreNormalItemlist {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            item_info: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcStoreNormalItemlist {
     fn id(&self) -> &str {
        "0xa500"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -1865,9 +5217,31 @@ pub struct PacketZcStoreEquipmentItemlist {
     pub item_info: Vec<EquipmentitemExtrainfo>,
 }
 
-impl PacketId for PacketZcStoreEquipmentItemlist {
+impl PacketZcStoreEquipmentItemlist {
+    pub fn from(buffer: &[u8]) -> PacketZcStoreEquipmentItemlist {
+        let iter_count = &buffer.len() / 20;
+        let mut vec_field: Vec<EquipmentitemExtrainfo> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 4 * i;
+            let end_pos = 24 * i;
+            vec_field.push(EquipmentitemExtrainfo::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcStoreEquipmentItemlist {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            item_info: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcStoreEquipmentItemlist {
     fn id(&self) -> &str {
        "0xa600"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -1888,9 +5262,22 @@ pub struct PacketCzUseItem {
     pub aid: u32,
 }
 
-impl PacketId for PacketCzUseItem {
+impl PacketCzUseItem {
+    pub fn from(buffer: &[u8]) -> PacketCzUseItem {
+        PacketCzUseItem {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            aid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+        }
+    }
+}
+
+impl Packet for PacketCzUseItem {
     fn id(&self) -> &str {
        "0xa700"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -1912,9 +5299,23 @@ pub struct PacketZcUseItemAck {
     pub result: bool,
 }
 
-impl PacketId for PacketZcUseItemAck {
+impl PacketZcUseItemAck {
+    pub fn from(buffer: &[u8]) -> PacketZcUseItemAck {
+        PacketZcUseItemAck {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            count: u16::from_le_bytes([buffer[4], buffer[5]]),
+            result: buffer[6] == 1,
+        }
+    }
+}
+
+impl Packet for PacketZcUseItemAck {
     fn id(&self) -> &str {
        "0xa800"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -1936,9 +5337,22 @@ pub struct PacketCzReqWearEquip {
     pub wear_location: u16,
 }
 
-impl PacketId for PacketCzReqWearEquip {
+impl PacketCzReqWearEquip {
+    pub fn from(buffer: &[u8]) -> PacketCzReqWearEquip {
+        PacketCzReqWearEquip {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            wear_location: u16::from_le_bytes([buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketCzReqWearEquip {
     fn id(&self) -> &str {
        "0xa900"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -1960,9 +5374,23 @@ pub struct PacketZcReqWearEquipAck {
     pub result: char,
 }
 
-impl PacketId for PacketZcReqWearEquipAck {
+impl PacketZcReqWearEquipAck {
+    pub fn from(buffer: &[u8]) -> PacketZcReqWearEquipAck {
+        PacketZcReqWearEquipAck {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            wear_location: u16::from_le_bytes([buffer[4], buffer[5]]),
+            result: buffer[6] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcReqWearEquipAck {
     fn id(&self) -> &str {
        "0xaa00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -1983,9 +5411,21 @@ pub struct PacketCzReqTakeoffEquip {
     pub index: u16,
 }
 
-impl PacketId for PacketCzReqTakeoffEquip {
+impl PacketCzReqTakeoffEquip {
+    pub fn from(buffer: &[u8]) -> PacketCzReqTakeoffEquip {
+        PacketCzReqTakeoffEquip {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            index: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
+}
+
+impl Packet for PacketCzReqTakeoffEquip {
     fn id(&self) -> &str {
        "0xab00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -2006,9 +5446,23 @@ pub struct PacketZcReqTakeoffEquipAck {
     pub result: bool,
 }
 
-impl PacketId for PacketZcReqTakeoffEquipAck {
+impl PacketZcReqTakeoffEquipAck {
+    pub fn from(buffer: &[u8]) -> PacketZcReqTakeoffEquipAck {
+        PacketZcReqTakeoffEquipAck {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            wear_location: u16::from_le_bytes([buffer[4], buffer[5]]),
+            result: buffer[6] == 1,
+        }
+    }
+}
+
+impl Packet for PacketZcReqTakeoffEquipAck {
     fn id(&self) -> &str {
        "0xac00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -2030,9 +5484,22 @@ pub struct PacketZcItemThrowAck {
     pub count: u16,
 }
 
-impl PacketId for PacketZcItemThrowAck {
+impl PacketZcItemThrowAck {
+    pub fn from(buffer: &[u8]) -> PacketZcItemThrowAck {
+        PacketZcItemThrowAck {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            count: u16::from_le_bytes([buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketZcItemThrowAck {
     fn id(&self) -> &str {
        "0xaf00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -2053,9 +5520,22 @@ pub struct PacketZcParChange {
     pub count: u32,
 }
 
-impl PacketId for PacketZcParChange {
+impl PacketZcParChange {
+    pub fn from(buffer: &[u8]) -> PacketZcParChange {
+        PacketZcParChange {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            var_id: u16::from_le_bytes([buffer[2], buffer[3]]),
+            count: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+        }
+    }
+}
+
+impl Packet for PacketZcParChange {
     fn id(&self) -> &str {
        "0xb000"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -2076,9 +5556,22 @@ pub struct PacketZcLongparChange {
     pub amount: u32,
 }
 
-impl PacketId for PacketZcLongparChange {
+impl PacketZcLongparChange {
+    pub fn from(buffer: &[u8]) -> PacketZcLongparChange {
+        PacketZcLongparChange {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            var_id: u16::from_le_bytes([buffer[2], buffer[3]]),
+            amount: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+        }
+    }
+}
+
+impl Packet for PacketZcLongparChange {
     fn id(&self) -> &str {
        "0xb100"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -2098,9 +5591,21 @@ pub struct PacketCzRestart {
     pub type_: char,
 }
 
-impl PacketId for PacketCzRestart {
+impl PacketCzRestart {
+    pub fn from(buffer: &[u8]) -> PacketCzRestart {
+        PacketCzRestart {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            type_: buffer[2] as char,
+        }
+    }
+}
+
+impl Packet for PacketCzRestart {
     fn id(&self) -> &str {
        "0xb200"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -2119,9 +5624,21 @@ pub struct PacketZcRestartAck {
     pub type_: char,
 }
 
-impl PacketId for PacketZcRestartAck {
+impl PacketZcRestartAck {
+    pub fn from(buffer: &[u8]) -> PacketZcRestartAck {
+        PacketZcRestartAck {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            type_: buffer[2] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcRestartAck {
     fn id(&self) -> &str {
        "0xb300"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -2142,9 +5659,23 @@ pub struct PacketZcSayDialog {
     pub msg: String,
 }
 
-impl PacketId for PacketZcSayDialog {
+impl PacketZcSayDialog {
+    pub fn from(buffer: &[u8]) -> PacketZcSayDialog {
+        PacketZcSayDialog {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            naid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            msg: String::from_utf8_lossy(&buffer[8..buffer.len()]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcSayDialog {
     fn id(&self) -> &str {
        "0xb400"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -2165,9 +5696,21 @@ pub struct PacketZcWaitDialog {
     pub naid: u32,
 }
 
-impl PacketId for PacketZcWaitDialog {
+impl PacketZcWaitDialog {
+    pub fn from(buffer: &[u8]) -> PacketZcWaitDialog {
+        PacketZcWaitDialog {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            naid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketZcWaitDialog {
     fn id(&self) -> &str {
        "0xb500"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -2186,9 +5729,21 @@ pub struct PacketZcCloseDialog {
     pub naid: u32,
 }
 
-impl PacketId for PacketZcCloseDialog {
+impl PacketZcCloseDialog {
+    pub fn from(buffer: &[u8]) -> PacketZcCloseDialog {
+        PacketZcCloseDialog {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            naid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketZcCloseDialog {
     fn id(&self) -> &str {
        "0xb600"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -2209,9 +5764,23 @@ pub struct PacketZcMenuList {
     pub msg: String,
 }
 
-impl PacketId for PacketZcMenuList {
+impl PacketZcMenuList {
+    pub fn from(buffer: &[u8]) -> PacketZcMenuList {
+        PacketZcMenuList {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            naid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            msg: String::from_utf8_lossy(&buffer[8..buffer.len()]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcMenuList {
     fn id(&self) -> &str {
        "0xb700"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -2233,9 +5802,22 @@ pub struct PacketCzChooseMenu {
     pub num: char,
 }
 
-impl PacketId for PacketCzChooseMenu {
+impl PacketCzChooseMenu {
+    pub fn from(buffer: &[u8]) -> PacketCzChooseMenu {
+        PacketCzChooseMenu {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            naid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            num: buffer[6] as char,
+        }
+    }
+}
+
+impl Packet for PacketCzChooseMenu {
     fn id(&self) -> &str {
        "0xb800"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -2255,9 +5837,21 @@ pub struct PacketCzReqNextScript {
     pub naid: u32,
 }
 
-impl PacketId for PacketCzReqNextScript {
+impl PacketCzReqNextScript {
+    pub fn from(buffer: &[u8]) -> PacketCzReqNextScript {
+        PacketCzReqNextScript {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            naid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketCzReqNextScript {
     fn id(&self) -> &str {
        "0xb900"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -2275,9 +5869,20 @@ pub struct PacketCzReqStatus {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketCzReqStatus {
+impl PacketCzReqStatus {
+    pub fn from(buffer: &[u8]) -> PacketCzReqStatus {
+        PacketCzReqStatus {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketCzReqStatus {
     fn id(&self) -> &str {
        "0xba00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -2296,9 +5901,22 @@ pub struct PacketCzStatusChange {
     pub change_amount: char,
 }
 
-impl PacketId for PacketCzStatusChange {
+impl PacketCzStatusChange {
+    pub fn from(buffer: &[u8]) -> PacketCzStatusChange {
+        PacketCzStatusChange {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            status_id: u16::from_le_bytes([buffer[2], buffer[3]]),
+            change_amount: buffer[4] as char,
+        }
+    }
+}
+
+impl Packet for PacketCzStatusChange {
     fn id(&self) -> &str {
        "0xbb00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -2320,9 +5938,23 @@ pub struct PacketZcStatusChangeAck {
     pub value: char,
 }
 
-impl PacketId for PacketZcStatusChangeAck {
+impl PacketZcStatusChangeAck {
+    pub fn from(buffer: &[u8]) -> PacketZcStatusChangeAck {
+        PacketZcStatusChangeAck {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            status_id: u16::from_le_bytes([buffer[2], buffer[3]]),
+            result: buffer[4] == 1,
+            value: buffer[5] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcStatusChangeAck {
     fn id(&self) -> &str {
        "0xbc00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -2369,9 +6001,47 @@ pub struct PacketZcStatus {
     pub plus_aspd: u16,
 }
 
-impl PacketId for PacketZcStatus {
+impl PacketZcStatus {
+    pub fn from(buffer: &[u8]) -> PacketZcStatus {
+        PacketZcStatus {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            point: u16::from_le_bytes([buffer[2], buffer[3]]),
+            str: buffer[4] as char,
+            standard_str: buffer[5] as char,
+            agi: buffer[6] as char,
+            standard_agi: buffer[7] as char,
+            vit: buffer[8] as char,
+            standard_vit: buffer[9] as char,
+            int: buffer[10] as char,
+            standard_int: buffer[11] as char,
+            dex: buffer[12] as char,
+            standard_dex: buffer[13] as char,
+            luk: buffer[14] as char,
+            standard_luk: buffer[15] as char,
+            att_power: u16::from_le_bytes([buffer[16], buffer[17]]),
+            refining_power: u16::from_le_bytes([buffer[18], buffer[19]]),
+            max_matt_power: u16::from_le_bytes([buffer[20], buffer[21]]),
+            min_matt_power: u16::from_le_bytes([buffer[22], buffer[23]]),
+            itemdef_power: u16::from_le_bytes([buffer[24], buffer[25]]),
+            plusdef_power: u16::from_le_bytes([buffer[26], buffer[27]]),
+            mdef_power: u16::from_le_bytes([buffer[28], buffer[29]]),
+            plusmdef_power: u16::from_le_bytes([buffer[30], buffer[31]]),
+            hit_success_value: u16::from_le_bytes([buffer[32], buffer[33]]),
+            avoid_success_value: u16::from_le_bytes([buffer[34], buffer[35]]),
+            plus_avoid_success_value: u16::from_le_bytes([buffer[36], buffer[37]]),
+            critical_success_value: u16::from_le_bytes([buffer[38], buffer[39]]),
+            aspd: u16::from_le_bytes([buffer[40], buffer[41]]),
+            plus_aspd: u16::from_le_bytes([buffer[42], buffer[43]]),
+        }
+    }
+}
+
+impl Packet for PacketZcStatus {
     fn id(&self) -> &str {
        "0xbd00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -2417,9 +6087,22 @@ pub struct PacketZcStatusChange {
     pub value: char,
 }
 
-impl PacketId for PacketZcStatusChange {
+impl PacketZcStatusChange {
+    pub fn from(buffer: &[u8]) -> PacketZcStatusChange {
+        PacketZcStatusChange {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            status_id: u16::from_le_bytes([buffer[2], buffer[3]]),
+            value: buffer[4] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcStatusChange {
     fn id(&self) -> &str {
        "0xbe00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -2439,9 +6122,21 @@ pub struct PacketCzReqEmotion {
     pub type_: char,
 }
 
-impl PacketId for PacketCzReqEmotion {
+impl PacketCzReqEmotion {
+    pub fn from(buffer: &[u8]) -> PacketCzReqEmotion {
+        PacketCzReqEmotion {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            type_: buffer[2] as char,
+        }
+    }
+}
+
+impl Packet for PacketCzReqEmotion {
     fn id(&self) -> &str {
        "0xbf00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -2461,9 +6156,22 @@ pub struct PacketZcEmotion {
     pub type_: char,
 }
 
-impl PacketId for PacketZcEmotion {
+impl PacketZcEmotion {
+    pub fn from(buffer: &[u8]) -> PacketZcEmotion {
+        PacketZcEmotion {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            type_: buffer[6] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcEmotion {
     fn id(&self) -> &str {
        "0xc000"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -2482,9 +6190,20 @@ pub struct PacketCzReqUserCount {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketCzReqUserCount {
+impl PacketCzReqUserCount {
+    pub fn from(buffer: &[u8]) -> PacketCzReqUserCount {
+        PacketCzReqUserCount {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketCzReqUserCount {
     fn id(&self) -> &str {
        "0xc100"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -2502,9 +6221,21 @@ pub struct PacketZcUserCount {
     pub count: u32,
 }
 
-impl PacketId for PacketZcUserCount {
+impl PacketZcUserCount {
+    pub fn from(buffer: &[u8]) -> PacketZcUserCount {
+        PacketZcUserCount {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            count: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketZcUserCount {
     fn id(&self) -> &str {
        "0xc200"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -2525,9 +6256,23 @@ pub struct PacketZcSpriteChange {
     pub value: char,
 }
 
-impl PacketId for PacketZcSpriteChange {
+impl PacketZcSpriteChange {
+    pub fn from(buffer: &[u8]) -> PacketZcSpriteChange {
+        PacketZcSpriteChange {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            type_: buffer[6] as char,
+            value: buffer[7] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcSpriteChange {
     fn id(&self) -> &str {
        "0xc300"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -2548,9 +6293,21 @@ pub struct PacketZcSelectDealtype {
     pub naid: u32,
 }
 
-impl PacketId for PacketZcSelectDealtype {
+impl PacketZcSelectDealtype {
+    pub fn from(buffer: &[u8]) -> PacketZcSelectDealtype {
+        PacketZcSelectDealtype {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            naid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketZcSelectDealtype {
     fn id(&self) -> &str {
        "0xc400"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -2570,9 +6327,22 @@ pub struct PacketCzAckSelectDealtype {
     pub type_: char,
 }
 
-impl PacketId for PacketCzAckSelectDealtype {
+impl PacketCzAckSelectDealtype {
+    pub fn from(buffer: &[u8]) -> PacketCzAckSelectDealtype {
+        PacketCzAckSelectDealtype {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            naid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            type_: buffer[6] as char,
+        }
+    }
+}
+
+impl Packet for PacketCzAckSelectDealtype {
     fn id(&self) -> &str {
        "0xc500"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -2593,9 +6363,31 @@ pub struct PacketZcPcPurchaseItemlist {
     pub item_list: Vec<PurchaseItem>,
 }
 
-impl PacketId for PacketZcPcPurchaseItemlist {
+impl PacketZcPcPurchaseItemlist {
+    pub fn from(buffer: &[u8]) -> PacketZcPcPurchaseItemlist {
+        let iter_count = &buffer.len() / 11;
+        let mut vec_field: Vec<PurchaseItem> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 4 * i;
+            let end_pos = 15 * i;
+            vec_field.push(PurchaseItem::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcPcPurchaseItemlist {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            item_list: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcPcPurchaseItemlist {
     fn id(&self) -> &str {
        "0xc600"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -2616,9 +6408,31 @@ pub struct PacketZcPcSellItemlist {
     pub item_list: Vec<SellItem>,
 }
 
-impl PacketId for PacketZcPcSellItemlist {
+impl PacketZcPcSellItemlist {
+    pub fn from(buffer: &[u8]) -> PacketZcPcSellItemlist {
+        let iter_count = &buffer.len() / 10;
+        let mut vec_field: Vec<SellItem> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 4 * i;
+            let end_pos = 14 * i;
+            vec_field.push(SellItem::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcPcSellItemlist {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            item_list: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcPcSellItemlist {
     fn id(&self) -> &str {
        "0xc700"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -2639,9 +6453,31 @@ pub struct PacketCzPcPurchaseItemlist {
     pub item_list: Vec<CzPurchaseItem>,
 }
 
-impl PacketId for PacketCzPcPurchaseItemlist {
+impl PacketCzPcPurchaseItemlist {
+    pub fn from(buffer: &[u8]) -> PacketCzPcPurchaseItemlist {
+        let iter_count = &buffer.len() / 4;
+        let mut vec_field: Vec<CzPurchaseItem> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 4 * i;
+            let end_pos = 8 * i;
+            vec_field.push(CzPurchaseItem::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketCzPcPurchaseItemlist {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            item_list: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketCzPcPurchaseItemlist {
     fn id(&self) -> &str {
        "0xc800"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -2662,9 +6498,31 @@ pub struct PacketCzPcSellItemlist {
     pub item_list: Vec<CzSellItem>,
 }
 
-impl PacketId for PacketCzPcSellItemlist {
+impl PacketCzPcSellItemlist {
+    pub fn from(buffer: &[u8]) -> PacketCzPcSellItemlist {
+        let iter_count = &buffer.len() / 4;
+        let mut vec_field: Vec<CzSellItem> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 4 * i;
+            let end_pos = 8 * i;
+            vec_field.push(CzSellItem::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketCzPcSellItemlist {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            item_list: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketCzPcSellItemlist {
     fn id(&self) -> &str {
        "0xc900"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -2684,9 +6542,21 @@ pub struct PacketZcPcPurchaseResult {
     pub result: char,
 }
 
-impl PacketId for PacketZcPcPurchaseResult {
+impl PacketZcPcPurchaseResult {
+    pub fn from(buffer: &[u8]) -> PacketZcPcPurchaseResult {
+        PacketZcPcPurchaseResult {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            result: buffer[2] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcPcPurchaseResult {
     fn id(&self) -> &str {
        "0xca00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -2705,9 +6575,21 @@ pub struct PacketZcPcSellResult {
     pub result: char,
 }
 
-impl PacketId for PacketZcPcSellResult {
+impl PacketZcPcSellResult {
+    pub fn from(buffer: &[u8]) -> PacketZcPcSellResult {
+        PacketZcPcSellResult {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            result: buffer[2] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcPcSellResult {
     fn id(&self) -> &str {
        "0xcb00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -2726,9 +6608,21 @@ pub struct PacketCzDisconnectCharacter {
     pub aid: u32,
 }
 
-impl PacketId for PacketCzDisconnectCharacter {
+impl PacketCzDisconnectCharacter {
+    pub fn from(buffer: &[u8]) -> PacketCzDisconnectCharacter {
+        PacketCzDisconnectCharacter {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketCzDisconnectCharacter {
     fn id(&self) -> &str {
        "0xcc00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -2747,9 +6641,21 @@ pub struct PacketZcAckDisconnectCharacter {
     pub result: char,
 }
 
-impl PacketId for PacketZcAckDisconnectCharacter {
+impl PacketZcAckDisconnectCharacter {
+    pub fn from(buffer: &[u8]) -> PacketZcAckDisconnectCharacter {
+        PacketZcAckDisconnectCharacter {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            result: buffer[2] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcAckDisconnectCharacter {
     fn id(&self) -> &str {
        "0xcd00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -2767,9 +6673,20 @@ pub struct PacketCzDisconnectAllCharacter {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketCzDisconnectAllCharacter {
+impl PacketCzDisconnectAllCharacter {
+    pub fn from(buffer: &[u8]) -> PacketCzDisconnectAllCharacter {
+        PacketCzDisconnectAllCharacter {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketCzDisconnectAllCharacter {
     fn id(&self) -> &str {
        "0xce00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -2788,9 +6705,22 @@ pub struct PacketCzSettingWhisperPc {
     pub type_: char,
 }
 
-impl PacketId for PacketCzSettingWhisperPc {
+impl PacketCzSettingWhisperPc {
+    pub fn from(buffer: &[u8]) -> PacketCzSettingWhisperPc {
+        PacketCzSettingWhisperPc {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            type_: buffer[26] as char,
+        }
+    }
+}
+
+impl Packet for PacketCzSettingWhisperPc {
     fn id(&self) -> &str {
        "0xcf00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -2810,9 +6740,21 @@ pub struct PacketCzSettingWhisperState {
     pub type_: char,
 }
 
-impl PacketId for PacketCzSettingWhisperState {
+impl PacketCzSettingWhisperState {
+    pub fn from(buffer: &[u8]) -> PacketCzSettingWhisperState {
+        PacketCzSettingWhisperState {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            type_: buffer[2] as char,
+        }
+    }
+}
+
+impl Packet for PacketCzSettingWhisperState {
     fn id(&self) -> &str {
        "0xd000"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -2832,9 +6774,22 @@ pub struct PacketZcSettingWhisperPc {
     pub result: char,
 }
 
-impl PacketId for PacketZcSettingWhisperPc {
+impl PacketZcSettingWhisperPc {
+    pub fn from(buffer: &[u8]) -> PacketZcSettingWhisperPc {
+        PacketZcSettingWhisperPc {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            type_: buffer[2] as char,
+            result: buffer[3] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcSettingWhisperPc {
     fn id(&self) -> &str {
        "0xd100"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -2855,9 +6810,22 @@ pub struct PacketZcSettingWhisperState {
     pub result: char,
 }
 
-impl PacketId for PacketZcSettingWhisperState {
+impl PacketZcSettingWhisperState {
+    pub fn from(buffer: &[u8]) -> PacketZcSettingWhisperState {
+        PacketZcSettingWhisperState {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            type_: buffer[2] as char,
+            result: buffer[3] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcSettingWhisperState {
     fn id(&self) -> &str {
        "0xd200"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -2876,9 +6844,20 @@ pub struct PacketCzReqWhisperList {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketCzReqWhisperList {
+impl PacketCzReqWhisperList {
+    pub fn from(buffer: &[u8]) -> PacketCzReqWhisperList {
+        PacketCzReqWhisperList {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketCzReqWhisperList {
     fn id(&self) -> &str {
        "0xd300"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -2897,9 +6876,31 @@ pub struct PacketZcWhisperList {
     pub wisper_list: Vec<WhisperItem>,
 }
 
-impl PacketId for PacketZcWhisperList {
+impl PacketZcWhisperList {
+    pub fn from(buffer: &[u8]) -> PacketZcWhisperList {
+        let iter_count = &buffer.len() / 24;
+        let mut vec_field: Vec<WhisperItem> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 4 * i;
+            let end_pos = 28 * i;
+            vec_field.push(WhisperItem::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcWhisperList {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            wisper_list: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcWhisperList {
     fn id(&self) -> &str {
        "0xd400"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -2923,9 +6924,25 @@ pub struct PacketCzCreateChatroom {
     pub title: String,
 }
 
-impl PacketId for PacketCzCreateChatroom {
+impl PacketCzCreateChatroom {
+    pub fn from(buffer: &[u8]) -> PacketCzCreateChatroom {
+        PacketCzCreateChatroom {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            size: u16::from_le_bytes([buffer[4], buffer[5]]),
+            type_: buffer[6] as char,
+            passwd: String::from_utf8_lossy(&buffer[7..15]).to_string(),
+            title: String::from_utf8_lossy(&buffer[15..buffer.len()]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketCzCreateChatroom {
     fn id(&self) -> &str {
        "0xd500"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -2948,9 +6965,21 @@ pub struct PacketZcAckCreateChatroom {
     pub result: char,
 }
 
-impl PacketId for PacketZcAckCreateChatroom {
+impl PacketZcAckCreateChatroom {
+    pub fn from(buffer: &[u8]) -> PacketZcAckCreateChatroom {
+        PacketZcAckCreateChatroom {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            result: buffer[2] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcAckCreateChatroom {
     fn id(&self) -> &str {
        "0xd600"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -2975,9 +7004,27 @@ pub struct PacketZcRoomNewentry {
     pub title: String,
 }
 
-impl PacketId for PacketZcRoomNewentry {
+impl PacketZcRoomNewentry {
+    pub fn from(buffer: &[u8]) -> PacketZcRoomNewentry {
+        PacketZcRoomNewentry {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            aid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            room_id: u32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
+            maxcount: u16::from_le_bytes([buffer[12], buffer[13]]),
+            curcount: u16::from_le_bytes([buffer[14], buffer[15]]),
+            type_: buffer[16] as char,
+            title: String::from_utf8_lossy(&buffer[17..buffer.len()]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcRoomNewentry {
     fn id(&self) -> &str {
        "0xd700"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -3002,9 +7049,21 @@ pub struct PacketZcDestroyRoom {
     pub room_id: u32,
 }
 
-impl PacketId for PacketZcDestroyRoom {
+impl PacketZcDestroyRoom {
+    pub fn from(buffer: &[u8]) -> PacketZcDestroyRoom {
+        PacketZcDestroyRoom {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            room_id: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketZcDestroyRoom {
     fn id(&self) -> &str {
        "0xd800"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -3024,9 +7083,22 @@ pub struct PacketCzReqEnterRoom {
     pub passwd: String,
 }
 
-impl PacketId for PacketCzReqEnterRoom {
+impl PacketCzReqEnterRoom {
+    pub fn from(buffer: &[u8]) -> PacketCzReqEnterRoom {
+        PacketCzReqEnterRoom {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            room_id: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            passwd: String::from_utf8_lossy(&buffer[6..14]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketCzReqEnterRoom {
     fn id(&self) -> &str {
        "0xd900"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -3046,9 +7118,21 @@ pub struct PacketZcRefuseEnterRoom {
     pub result: char,
 }
 
-impl PacketId for PacketZcRefuseEnterRoom {
+impl PacketZcRefuseEnterRoom {
+    pub fn from(buffer: &[u8]) -> PacketZcRefuseEnterRoom {
+        PacketZcRefuseEnterRoom {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            result: buffer[2] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcRefuseEnterRoom {
     fn id(&self) -> &str {
        "0xda00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -3069,9 +7153,32 @@ pub struct PacketZcEnterRoom {
     pub member_list: Vec<RoomMember>,
 }
 
-impl PacketId for PacketZcEnterRoom {
+impl PacketZcEnterRoom {
+    pub fn from(buffer: &[u8]) -> PacketZcEnterRoom {
+        let iter_count = &buffer.len() / 28;
+        let mut vec_field: Vec<RoomMember> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 8 * i;
+            let end_pos = 36 * i;
+            vec_field.push(RoomMember::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcEnterRoom {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            room_id: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            member_list: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcEnterRoom {
     fn id(&self) -> &str {
        "0xdb00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -3093,9 +7200,22 @@ pub struct PacketZcMemberNewentry {
     pub name: String,
 }
 
-impl PacketId for PacketZcMemberNewentry {
+impl PacketZcMemberNewentry {
+    pub fn from(buffer: &[u8]) -> PacketZcMemberNewentry {
+        PacketZcMemberNewentry {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            curcount: u16::from_le_bytes([buffer[2], buffer[3]]),
+            name: String::from_utf8_lossy(&buffer[4..28]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcMemberNewentry {
     fn id(&self) -> &str {
        "0xdc00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -3117,9 +7237,23 @@ pub struct PacketZcMemberExit {
     pub type_: char,
 }
 
-impl PacketId for PacketZcMemberExit {
+impl PacketZcMemberExit {
+    pub fn from(buffer: &[u8]) -> PacketZcMemberExit {
+        PacketZcMemberExit {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            curcount: u16::from_le_bytes([buffer[2], buffer[3]]),
+            name: String::from_utf8_lossy(&buffer[4..28]).to_string(),
+            type_: buffer[28] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcMemberExit {
     fn id(&self) -> &str {
        "0xdd00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -3144,9 +7278,25 @@ pub struct PacketCzChangeChatroom {
     pub title: String,
 }
 
-impl PacketId for PacketCzChangeChatroom {
+impl PacketCzChangeChatroom {
+    pub fn from(buffer: &[u8]) -> PacketCzChangeChatroom {
+        PacketCzChangeChatroom {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            size: u16::from_le_bytes([buffer[4], buffer[5]]),
+            type_: buffer[6] as char,
+            passwd: String::from_utf8_lossy(&buffer[7..15]).to_string(),
+            title: String::from_utf8_lossy(&buffer[15..buffer.len()]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketCzChangeChatroom {
     fn id(&self) -> &str {
        "0xde00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -3175,9 +7325,27 @@ pub struct PacketZcChangeChatroom {
     pub title: String,
 }
 
-impl PacketId for PacketZcChangeChatroom {
+impl PacketZcChangeChatroom {
+    pub fn from(buffer: &[u8]) -> PacketZcChangeChatroom {
+        PacketZcChangeChatroom {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            aid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            room_id: u32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
+            maxcount: u16::from_le_bytes([buffer[12], buffer[13]]),
+            curcount: u16::from_le_bytes([buffer[14], buffer[15]]),
+            type_: buffer[16] as char,
+            title: String::from_utf8_lossy(&buffer[17..buffer.len()]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcChangeChatroom {
     fn id(&self) -> &str {
        "0xdf00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -3203,9 +7371,22 @@ pub struct PacketCzReqRoleChange {
     pub name: String,
 }
 
-impl PacketId for PacketCzReqRoleChange {
+impl PacketCzReqRoleChange {
+    pub fn from(buffer: &[u8]) -> PacketCzReqRoleChange {
+        PacketCzReqRoleChange {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            role: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            name: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketCzReqRoleChange {
     fn id(&self) -> &str {
        "0xe000"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -3226,9 +7407,22 @@ pub struct PacketZcRoleChange {
     pub name: String,
 }
 
-impl PacketId for PacketZcRoleChange {
+impl PacketZcRoleChange {
+    pub fn from(buffer: &[u8]) -> PacketZcRoleChange {
+        PacketZcRoleChange {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            role: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            name: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcRoleChange {
     fn id(&self) -> &str {
        "0xe100"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -3248,9 +7442,21 @@ pub struct PacketCzReqExpelMember {
     pub name: String,
 }
 
-impl PacketId for PacketCzReqExpelMember {
+impl PacketCzReqExpelMember {
+    pub fn from(buffer: &[u8]) -> PacketCzReqExpelMember {
+        PacketCzReqExpelMember {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketCzReqExpelMember {
     fn id(&self) -> &str {
        "0xe200"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -3268,9 +7474,20 @@ pub struct PacketCzExitRoom {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketCzExitRoom {
+impl PacketCzExitRoom {
+    pub fn from(buffer: &[u8]) -> PacketCzExitRoom {
+        PacketCzExitRoom {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketCzExitRoom {
     fn id(&self) -> &str {
        "0xe300"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -3288,9 +7505,21 @@ pub struct PacketCzReqExchangeItem {
     pub aid: u32,
 }
 
-impl PacketId for PacketCzReqExchangeItem {
+impl PacketCzReqExchangeItem {
+    pub fn from(buffer: &[u8]) -> PacketCzReqExchangeItem {
+        PacketCzReqExchangeItem {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketCzReqExchangeItem {
     fn id(&self) -> &str {
        "0xe400"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -3309,9 +7538,21 @@ pub struct PacketZcReqExchangeItem {
     pub name: String,
 }
 
-impl PacketId for PacketZcReqExchangeItem {
+impl PacketZcReqExchangeItem {
+    pub fn from(buffer: &[u8]) -> PacketZcReqExchangeItem {
+        PacketZcReqExchangeItem {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcReqExchangeItem {
     fn id(&self) -> &str {
        "0xe500"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -3330,9 +7571,21 @@ pub struct PacketCzAckExchangeItem {
     pub result: char,
 }
 
-impl PacketId for PacketCzAckExchangeItem {
+impl PacketCzAckExchangeItem {
+    pub fn from(buffer: &[u8]) -> PacketCzAckExchangeItem {
+        PacketCzAckExchangeItem {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            result: buffer[2] as char,
+        }
+    }
+}
+
+impl Packet for PacketCzAckExchangeItem {
     fn id(&self) -> &str {
        "0xe600"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -3351,9 +7604,21 @@ pub struct PacketZcAckExchangeItem {
     pub result: char,
 }
 
-impl PacketId for PacketZcAckExchangeItem {
+impl PacketZcAckExchangeItem {
+    pub fn from(buffer: &[u8]) -> PacketZcAckExchangeItem {
+        PacketZcAckExchangeItem {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            result: buffer[2] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcAckExchangeItem {
     fn id(&self) -> &str {
        "0xe700"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -3373,9 +7638,22 @@ pub struct PacketCzAddExchangeItem {
     pub count: u32,
 }
 
-impl PacketId for PacketCzAddExchangeItem {
+impl PacketCzAddExchangeItem {
+    pub fn from(buffer: &[u8]) -> PacketCzAddExchangeItem {
+        PacketCzAddExchangeItem {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            count: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+        }
+    }
+}
+
+impl Packet for PacketCzAddExchangeItem {
     fn id(&self) -> &str {
        "0xe800"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -3400,9 +7678,26 @@ pub struct PacketZcAddExchangeItem {
     pub slot: EQUIPSLOTINFO,
 }
 
-impl PacketId for PacketZcAddExchangeItem {
+impl PacketZcAddExchangeItem {
+    pub fn from(buffer: &[u8]) -> PacketZcAddExchangeItem {
+        PacketZcAddExchangeItem {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            count: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            itid: u16::from_le_bytes([buffer[6], buffer[7]]),
+            is_identified: buffer[8] == 1,
+            is_damaged: buffer[9] == 1,
+            refining_level: buffer[10] as char,
+            slot: EQUIPSLOTINFO::from(&buffer[11..19]),
+        }
+    }
+}
+
+impl Packet for PacketZcAddExchangeItem {
     fn id(&self) -> &str {
        "0xe900"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -3416,7 +7711,7 @@ impl Debug for PacketZcAddExchangeItem {
             .field("is_identified[8, 9]", &self.is_identified)
             .field("is_damaged[9, 10]", &self.is_damaged)
             .field("refining_level[10, 11]", &self.refining_level)
-            .field("slot[11, ?]", &self.slot)
+            .field("slot[11, 19]", &self.slot)
         .finish()
     }
 }
@@ -3427,9 +7722,22 @@ pub struct PacketZcAckAddExchangeItem {
     pub result: char,
 }
 
-impl PacketId for PacketZcAckAddExchangeItem {
+impl PacketZcAckAddExchangeItem {
+    pub fn from(buffer: &[u8]) -> PacketZcAckAddExchangeItem {
+        PacketZcAckAddExchangeItem {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            result: buffer[4] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcAckAddExchangeItem {
     fn id(&self) -> &str {
        "0xea00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -3448,9 +7756,20 @@ pub struct PacketCzConcludeExchangeItem {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketCzConcludeExchangeItem {
+impl PacketCzConcludeExchangeItem {
+    pub fn from(buffer: &[u8]) -> PacketCzConcludeExchangeItem {
+        PacketCzConcludeExchangeItem {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketCzConcludeExchangeItem {
     fn id(&self) -> &str {
        "0xeb00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -3468,9 +7787,21 @@ pub struct PacketZcConcludeExchangeItem {
     pub who: char,
 }
 
-impl PacketId for PacketZcConcludeExchangeItem {
+impl PacketZcConcludeExchangeItem {
+    pub fn from(buffer: &[u8]) -> PacketZcConcludeExchangeItem {
+        PacketZcConcludeExchangeItem {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            who: buffer[2] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcConcludeExchangeItem {
     fn id(&self) -> &str {
        "0xec00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -3488,9 +7819,20 @@ pub struct PacketCzCancelExchangeItem {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketCzCancelExchangeItem {
+impl PacketCzCancelExchangeItem {
+    pub fn from(buffer: &[u8]) -> PacketCzCancelExchangeItem {
+        PacketCzCancelExchangeItem {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketCzCancelExchangeItem {
     fn id(&self) -> &str {
        "0xed00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -3507,9 +7849,20 @@ pub struct PacketZcCancelExchangeItem {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketZcCancelExchangeItem {
+impl PacketZcCancelExchangeItem {
+    pub fn from(buffer: &[u8]) -> PacketZcCancelExchangeItem {
+        PacketZcCancelExchangeItem {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketZcCancelExchangeItem {
     fn id(&self) -> &str {
        "0xee00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -3526,9 +7879,20 @@ pub struct PacketCzExecExchangeItem {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketCzExecExchangeItem {
+impl PacketCzExecExchangeItem {
+    pub fn from(buffer: &[u8]) -> PacketCzExecExchangeItem {
+        PacketCzExecExchangeItem {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketCzExecExchangeItem {
     fn id(&self) -> &str {
        "0xef00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -3546,9 +7910,21 @@ pub struct PacketZcExecExchangeItem {
     pub result: char,
 }
 
-impl PacketId for PacketZcExecExchangeItem {
+impl PacketZcExecExchangeItem {
+    pub fn from(buffer: &[u8]) -> PacketZcExecExchangeItem {
+        PacketZcExecExchangeItem {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            result: buffer[2] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcExecExchangeItem {
     fn id(&self) -> &str {
        "0xf000"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -3566,9 +7942,20 @@ pub struct PacketZcExchangeitemUndo {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketZcExchangeitemUndo {
+impl PacketZcExchangeitemUndo {
+    pub fn from(buffer: &[u8]) -> PacketZcExchangeitemUndo {
+        PacketZcExchangeitemUndo {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketZcExchangeitemUndo {
     fn id(&self) -> &str {
        "0xf100"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -3587,9 +7974,22 @@ pub struct PacketZcNotifyStoreitemCountinfo {
     pub max_count: u16,
 }
 
-impl PacketId for PacketZcNotifyStoreitemCountinfo {
+impl PacketZcNotifyStoreitemCountinfo {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyStoreitemCountinfo {
+        PacketZcNotifyStoreitemCountinfo {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            cur_count: u16::from_le_bytes([buffer[2], buffer[3]]),
+            max_count: u16::from_le_bytes([buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyStoreitemCountinfo {
     fn id(&self) -> &str {
        "0xf200"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -3610,9 +8010,22 @@ pub struct PacketCzMoveItemFromBodyToStore {
     pub count: u32,
 }
 
-impl PacketId for PacketCzMoveItemFromBodyToStore {
+impl PacketCzMoveItemFromBodyToStore {
+    pub fn from(buffer: &[u8]) -> PacketCzMoveItemFromBodyToStore {
+        PacketCzMoveItemFromBodyToStore {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            count: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+        }
+    }
+}
+
+impl Packet for PacketCzMoveItemFromBodyToStore {
     fn id(&self) -> &str {
        "0xf300"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -3638,9 +8051,27 @@ pub struct PacketZcAddItemToStore {
     pub slot: EQUIPSLOTINFO,
 }
 
-impl PacketId for PacketZcAddItemToStore {
+impl PacketZcAddItemToStore {
+    pub fn from(buffer: &[u8]) -> PacketZcAddItemToStore {
+        PacketZcAddItemToStore {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            count: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            itid: u16::from_le_bytes([buffer[8], buffer[9]]),
+            is_identified: buffer[10] == 1,
+            is_damaged: buffer[11] == 1,
+            refining_level: buffer[12] as char,
+            slot: EQUIPSLOTINFO::from(&buffer[13..21]),
+        }
+    }
+}
+
+impl Packet for PacketZcAddItemToStore {
     fn id(&self) -> &str {
        "0xf400"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -3655,7 +8086,7 @@ impl Debug for PacketZcAddItemToStore {
             .field("is_identified[10, 11]", &self.is_identified)
             .field("is_damaged[11, 12]", &self.is_damaged)
             .field("refining_level[12, 13]", &self.refining_level)
-            .field("slot[13, ?]", &self.slot)
+            .field("slot[13, 21]", &self.slot)
         .finish()
     }
 }
@@ -3666,9 +8097,22 @@ pub struct PacketCzMoveItemFromStoreToBody {
     pub count: u32,
 }
 
-impl PacketId for PacketCzMoveItemFromStoreToBody {
+impl PacketCzMoveItemFromStoreToBody {
+    pub fn from(buffer: &[u8]) -> PacketCzMoveItemFromStoreToBody {
+        PacketCzMoveItemFromStoreToBody {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            count: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+        }
+    }
+}
+
+impl Packet for PacketCzMoveItemFromStoreToBody {
     fn id(&self) -> &str {
        "0xf500"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -3689,9 +8133,22 @@ pub struct PacketZcDeleteItemFromStore {
     pub count: u32,
 }
 
-impl PacketId for PacketZcDeleteItemFromStore {
+impl PacketZcDeleteItemFromStore {
+    pub fn from(buffer: &[u8]) -> PacketZcDeleteItemFromStore {
+        PacketZcDeleteItemFromStore {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            count: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+        }
+    }
+}
+
+impl Packet for PacketZcDeleteItemFromStore {
     fn id(&self) -> &str {
        "0xf600"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -3710,9 +8167,20 @@ pub struct PacketCzCloseStore {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketCzCloseStore {
+impl PacketCzCloseStore {
+    pub fn from(buffer: &[u8]) -> PacketCzCloseStore {
+        PacketCzCloseStore {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketCzCloseStore {
     fn id(&self) -> &str {
        "0xf700"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -3729,9 +8197,20 @@ pub struct PacketZcCloseStore {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketZcCloseStore {
+impl PacketZcCloseStore {
+    pub fn from(buffer: &[u8]) -> PacketZcCloseStore {
+        PacketZcCloseStore {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketZcCloseStore {
     fn id(&self) -> &str {
        "0xf800"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -3749,9 +8228,21 @@ pub struct PacketCzMakeGroup {
     pub group_name: String,
 }
 
-impl PacketId for PacketCzMakeGroup {
+impl PacketCzMakeGroup {
+    pub fn from(buffer: &[u8]) -> PacketCzMakeGroup {
+        PacketCzMakeGroup {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            group_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketCzMakeGroup {
     fn id(&self) -> &str {
        "0xf900"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -3770,9 +8261,21 @@ pub struct PacketZcAckMakeGroup {
     pub result: char,
 }
 
-impl PacketId for PacketZcAckMakeGroup {
+impl PacketZcAckMakeGroup {
+    pub fn from(buffer: &[u8]) -> PacketZcAckMakeGroup {
+        PacketZcAckMakeGroup {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            result: buffer[2] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcAckMakeGroup {
     fn id(&self) -> &str {
        "0xfa00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -3793,9 +8296,32 @@ pub struct PacketZcGroupList {
     pub group_info: Vec<GroupmemberInfo>,
 }
 
-impl PacketId for PacketZcGroupList {
+impl PacketZcGroupList {
+    pub fn from(buffer: &[u8]) -> PacketZcGroupList {
+        let iter_count = &buffer.len() / 46;
+        let mut vec_field: Vec<GroupmemberInfo> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 28 * i;
+            let end_pos = 74 * i;
+            vec_field.push(GroupmemberInfo::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcGroupList {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            group_name: String::from_utf8_lossy(&buffer[4..28]).to_string(),
+            group_info: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcGroupList {
     fn id(&self) -> &str {
        "0xfb00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -3816,9 +8342,21 @@ pub struct PacketCzReqJoinGroup {
     pub aid: u32,
 }
 
-impl PacketId for PacketCzReqJoinGroup {
+impl PacketCzReqJoinGroup {
+    pub fn from(buffer: &[u8]) -> PacketCzReqJoinGroup {
+        PacketCzReqJoinGroup {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketCzReqJoinGroup {
     fn id(&self) -> &str {
        "0xfc00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -3838,9 +8376,22 @@ pub struct PacketZcAckReqJoinGroup {
     pub answer: char,
 }
 
-impl PacketId for PacketZcAckReqJoinGroup {
+impl PacketZcAckReqJoinGroup {
+    pub fn from(buffer: &[u8]) -> PacketZcAckReqJoinGroup {
+        PacketZcAckReqJoinGroup {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            character_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            answer: buffer[26] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcAckReqJoinGroup {
     fn id(&self) -> &str {
        "0xfd00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -3861,9 +8412,22 @@ pub struct PacketZcReqJoinGroup {
     pub group_name: String,
 }
 
-impl PacketId for PacketZcReqJoinGroup {
+impl PacketZcReqJoinGroup {
+    pub fn from(buffer: &[u8]) -> PacketZcReqJoinGroup {
+        PacketZcReqJoinGroup {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            grid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            group_name: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcReqJoinGroup {
     fn id(&self) -> &str {
        "0xfe00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -3884,9 +8448,22 @@ pub struct PacketCzJoinGroup {
     pub answer: u32,
 }
 
-impl PacketId for PacketCzJoinGroup {
+impl PacketCzJoinGroup {
+    pub fn from(buffer: &[u8]) -> PacketCzJoinGroup {
+        PacketCzJoinGroup {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            grid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            answer: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+        }
+    }
+}
+
+impl Packet for PacketCzJoinGroup {
     fn id(&self) -> &str {
        "0xff00"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -3905,9 +8482,20 @@ pub struct PacketCzReqLeaveGroup {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketCzReqLeaveGroup {
+impl PacketCzReqLeaveGroup {
+    pub fn from(buffer: &[u8]) -> PacketCzReqLeaveGroup {
+        PacketCzReqLeaveGroup {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketCzReqLeaveGroup {
     fn id(&self) -> &str {
        "0x0100"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -3925,9 +8513,21 @@ pub struct PacketZcGroupinfoChange {
     pub exp_option: u32,
 }
 
-impl PacketId for PacketZcGroupinfoChange {
+impl PacketZcGroupinfoChange {
+    pub fn from(buffer: &[u8]) -> PacketZcGroupinfoChange {
+        PacketZcGroupinfoChange {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            exp_option: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketZcGroupinfoChange {
     fn id(&self) -> &str {
        "0x0101"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -3946,9 +8546,21 @@ pub struct PacketCzChangeGroupexpoption {
     pub exp_option: u32,
 }
 
-impl PacketId for PacketCzChangeGroupexpoption {
+impl PacketCzChangeGroupexpoption {
+    pub fn from(buffer: &[u8]) -> PacketCzChangeGroupexpoption {
+        PacketCzChangeGroupexpoption {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            exp_option: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketCzChangeGroupexpoption {
     fn id(&self) -> &str {
        "0x0102"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -3968,9 +8580,22 @@ pub struct PacketCzReqExpelGroupMember {
     pub character_name: String,
 }
 
-impl PacketId for PacketCzReqExpelGroupMember {
+impl PacketCzReqExpelGroupMember {
+    pub fn from(buffer: &[u8]) -> PacketCzReqExpelGroupMember {
+        PacketCzReqExpelGroupMember {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            character_name: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketCzReqExpelGroupMember {
     fn id(&self) -> &str {
        "0x0103"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -3997,9 +8622,28 @@ pub struct PacketZcAddMemberToGroup {
     pub map_name: String,
 }
 
-impl PacketId for PacketZcAddMemberToGroup {
+impl PacketZcAddMemberToGroup {
+    pub fn from(buffer: &[u8]) -> PacketZcAddMemberToGroup {
+        PacketZcAddMemberToGroup {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            role: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            x_pos: u16::from_le_bytes([buffer[10], buffer[11]]),
+            y_pos: u16::from_le_bytes([buffer[12], buffer[13]]),
+            state: buffer[14] as char,
+            group_name: String::from_utf8_lossy(&buffer[15..39]).to_string(),
+            character_name: String::from_utf8_lossy(&buffer[39..63]).to_string(),
+            map_name: String::from_utf8_lossy(&buffer[63..79]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcAddMemberToGroup {
     fn id(&self) -> &str {
        "0x0104"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -4027,9 +8671,23 @@ pub struct PacketZcDeleteMemberFromGroup {
     pub result: char,
 }
 
-impl PacketId for PacketZcDeleteMemberFromGroup {
+impl PacketZcDeleteMemberFromGroup {
+    pub fn from(buffer: &[u8]) -> PacketZcDeleteMemberFromGroup {
+        PacketZcDeleteMemberFromGroup {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            character_name: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            result: buffer[30] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcDeleteMemberFromGroup {
     fn id(&self) -> &str {
        "0x0105"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -4052,9 +8710,23 @@ pub struct PacketZcNotifyHpToGroupm {
     pub maxhp: u16,
 }
 
-impl PacketId for PacketZcNotifyHpToGroupm {
+impl PacketZcNotifyHpToGroupm {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyHpToGroupm {
+        PacketZcNotifyHpToGroupm {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            hp: u16::from_le_bytes([buffer[6], buffer[7]]),
+            maxhp: u16::from_le_bytes([buffer[8], buffer[9]]),
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyHpToGroupm {
     fn id(&self) -> &str {
        "0x0106"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -4077,9 +8749,23 @@ pub struct PacketZcNotifyPositionToGroupm {
     pub y_pos: u16,
 }
 
-impl PacketId for PacketZcNotifyPositionToGroupm {
+impl PacketZcNotifyPositionToGroupm {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyPositionToGroupm {
+        PacketZcNotifyPositionToGroupm {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            x_pos: u16::from_le_bytes([buffer[6], buffer[7]]),
+            y_pos: u16::from_le_bytes([buffer[8], buffer[9]]),
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyPositionToGroupm {
     fn id(&self) -> &str {
        "0x0107"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -4101,9 +8787,22 @@ pub struct PacketCzRequestChatParty {
     pub msg: String,
 }
 
-impl PacketId for PacketCzRequestChatParty {
+impl PacketCzRequestChatParty {
+    pub fn from(buffer: &[u8]) -> PacketCzRequestChatParty {
+        PacketCzRequestChatParty {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            msg: String::from_utf8_lossy(&buffer[4..buffer.len()]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketCzRequestChatParty {
     fn id(&self) -> &str {
        "0x0108"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -4125,9 +8824,23 @@ pub struct PacketZcNotifyChatParty {
     pub msg: String,
 }
 
-impl PacketId for PacketZcNotifyChatParty {
+impl PacketZcNotifyChatParty {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyChatParty {
+        PacketZcNotifyChatParty {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            aid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            msg: String::from_utf8_lossy(&buffer[8..buffer.len()]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyChatParty {
     fn id(&self) -> &str {
        "0x0109"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -4148,9 +8861,21 @@ pub struct PacketZcMvpGettingItem {
     pub itid: u16,
 }
 
-impl PacketId for PacketZcMvpGettingItem {
+impl PacketZcMvpGettingItem {
+    pub fn from(buffer: &[u8]) -> PacketZcMvpGettingItem {
+        PacketZcMvpGettingItem {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            itid: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
+}
+
+impl Packet for PacketZcMvpGettingItem {
     fn id(&self) -> &str {
        "0x010a"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -4169,9 +8894,21 @@ pub struct PacketZcMvpGettingSpecialExp {
     pub exp: u32,
 }
 
-impl PacketId for PacketZcMvpGettingSpecialExp {
+impl PacketZcMvpGettingSpecialExp {
+    pub fn from(buffer: &[u8]) -> PacketZcMvpGettingSpecialExp {
+        PacketZcMvpGettingSpecialExp {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            exp: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketZcMvpGettingSpecialExp {
     fn id(&self) -> &str {
        "0x010b"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -4190,9 +8927,21 @@ pub struct PacketZcMvp {
     pub aid: u32,
 }
 
-impl PacketId for PacketZcMvp {
+impl PacketZcMvp {
+    pub fn from(buffer: &[u8]) -> PacketZcMvp {
+        PacketZcMvp {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketZcMvp {
     fn id(&self) -> &str {
        "0x010c"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -4210,9 +8959,20 @@ pub struct PacketZcThrowMvpitem {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketZcThrowMvpitem {
+impl PacketZcThrowMvpitem {
+    pub fn from(buffer: &[u8]) -> PacketZcThrowMvpitem {
+        PacketZcThrowMvpitem {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketZcThrowMvpitem {
     fn id(&self) -> &str {
        "0x010d"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -4234,9 +8994,25 @@ pub struct PacketZcSkillinfoUpdate {
     pub upgradable: bool,
 }
 
-impl PacketId for PacketZcSkillinfoUpdate {
+impl PacketZcSkillinfoUpdate {
+    pub fn from(buffer: &[u8]) -> PacketZcSkillinfoUpdate {
+        PacketZcSkillinfoUpdate {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            skid: u16::from_le_bytes([buffer[2], buffer[3]]),
+            level: u16::from_le_bytes([buffer[4], buffer[5]]),
+            spcost: u16::from_le_bytes([buffer[6], buffer[7]]),
+            attack_range: u16::from_le_bytes([buffer[8], buffer[9]]),
+            upgradable: buffer[10] == 1,
+        }
+    }
+}
+
+impl Packet for PacketZcSkillinfoUpdate {
     fn id(&self) -> &str {
        "0x010e"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -4260,9 +9036,31 @@ pub struct PacketZcSkillinfoList {
     pub skill_list: Vec<SKILLINFO>,
 }
 
-impl PacketId for PacketZcSkillinfoList {
+impl PacketZcSkillinfoList {
+    pub fn from(buffer: &[u8]) -> PacketZcSkillinfoList {
+        let iter_count = &buffer.len() / 37;
+        let mut vec_field: Vec<SKILLINFO> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 4 * i;
+            let end_pos = 41 * i;
+            vec_field.push(SKILLINFO::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcSkillinfoList {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            skill_list: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcSkillinfoList {
     fn id(&self) -> &str {
        "0x010f"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -4285,9 +9083,24 @@ pub struct PacketZcAckTouseskill {
     pub cause: char,
 }
 
-impl PacketId for PacketZcAckTouseskill {
+impl PacketZcAckTouseskill {
+    pub fn from(buffer: &[u8]) -> PacketZcAckTouseskill {
+        PacketZcAckTouseskill {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            skid: u16::from_le_bytes([buffer[2], buffer[3]]),
+            num: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            result: buffer[8] == 1,
+            cause: buffer[9] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcAckTouseskill {
     fn id(&self) -> &str {
        "0x0110"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -4309,9 +9122,21 @@ pub struct PacketZcAddSkill {
     pub data: SKILLINFO,
 }
 
-impl PacketId for PacketZcAddSkill {
+impl PacketZcAddSkill {
+    pub fn from(buffer: &[u8]) -> PacketZcAddSkill {
+        PacketZcAddSkill {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            data: SKILLINFO::from(&buffer[2..buffer.len()]),
+        }
+    }
+}
+
+impl Packet for PacketZcAddSkill {
     fn id(&self) -> &str {
        "0x0111"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -4330,9 +9155,21 @@ pub struct PacketCzUpgradeSkilllevel {
     pub skid: u16,
 }
 
-impl PacketId for PacketCzUpgradeSkilllevel {
+impl PacketCzUpgradeSkilllevel {
+    pub fn from(buffer: &[u8]) -> PacketCzUpgradeSkilllevel {
+        PacketCzUpgradeSkilllevel {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            skid: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
+}
+
+impl Packet for PacketCzUpgradeSkilllevel {
     fn id(&self) -> &str {
        "0x0112"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -4353,9 +9190,23 @@ pub struct PacketCzUseSkill {
     pub target_id: u32,
 }
 
-impl PacketId for PacketCzUseSkill {
+impl PacketCzUseSkill {
+    pub fn from(buffer: &[u8]) -> PacketCzUseSkill {
+        PacketCzUseSkill {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            selected_level: u16::from_le_bytes([buffer[2], buffer[3]]),
+            skid: u16::from_le_bytes([buffer[4], buffer[5]]),
+            target_id: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+        }
+    }
+}
+
+impl Packet for PacketCzUseSkill {
     fn id(&self) -> &str {
        "0x0113"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -4385,9 +9236,30 @@ pub struct PacketZcNotifySkill {
     pub action: char,
 }
 
-impl PacketId for PacketZcNotifySkill {
+impl PacketZcNotifySkill {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifySkill {
+        PacketZcNotifySkill {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            skid: u16::from_le_bytes([buffer[2], buffer[3]]),
+            aid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            target_id: u32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
+            start_time: u32::from_le_bytes([buffer[12], buffer[13], buffer[14], buffer[15]]),
+            attack_mt: u32::from_le_bytes([buffer[16], buffer[17], buffer[18], buffer[19]]),
+            attacked_mt: u32::from_le_bytes([buffer[20], buffer[21], buffer[22], buffer[23]]),
+            damage: u16::from_le_bytes([buffer[24], buffer[25]]),
+            level: u16::from_le_bytes([buffer[26], buffer[27]]),
+            count: u16::from_le_bytes([buffer[28], buffer[29]]),
+            action: buffer[30] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcNotifySkill {
     fn id(&self) -> &str {
        "0x0114"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -4426,9 +9298,32 @@ pub struct PacketZcNotifySkillPosition {
     pub action: char,
 }
 
-impl PacketId for PacketZcNotifySkillPosition {
+impl PacketZcNotifySkillPosition {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifySkillPosition {
+        PacketZcNotifySkillPosition {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            skid: u16::from_le_bytes([buffer[2], buffer[3]]),
+            aid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            target_id: u32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
+            start_time: u32::from_le_bytes([buffer[12], buffer[13], buffer[14], buffer[15]]),
+            attack_mt: u32::from_le_bytes([buffer[16], buffer[17], buffer[18], buffer[19]]),
+            attacked_mt: u32::from_le_bytes([buffer[20], buffer[21], buffer[22], buffer[23]]),
+            x_pos: u16::from_le_bytes([buffer[24], buffer[25]]),
+            y_pos: u16::from_le_bytes([buffer[26], buffer[27]]),
+            damage: u16::from_le_bytes([buffer[28], buffer[29]]),
+            level: u16::from_le_bytes([buffer[30], buffer[31]]),
+            count: u16::from_le_bytes([buffer[32], buffer[33]]),
+            action: buffer[34] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcNotifySkillPosition {
     fn id(&self) -> &str {
        "0x0115"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -4461,9 +9356,24 @@ pub struct PacketCzUseSkillToground {
     pub y_pos: u16,
 }
 
-impl PacketId for PacketCzUseSkillToground {
+impl PacketCzUseSkillToground {
+    pub fn from(buffer: &[u8]) -> PacketCzUseSkillToground {
+        PacketCzUseSkillToground {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            selected_level: u16::from_le_bytes([buffer[2], buffer[3]]),
+            skid: u16::from_le_bytes([buffer[4], buffer[5]]),
+            x_pos: u16::from_le_bytes([buffer[6], buffer[7]]),
+            y_pos: u16::from_le_bytes([buffer[8], buffer[9]]),
+        }
+    }
+}
+
+impl Packet for PacketCzUseSkillToground {
     fn id(&self) -> &str {
        "0x0116"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -4490,9 +9400,26 @@ pub struct PacketZcNotifyGroundskill {
     pub start_time: u32,
 }
 
-impl PacketId for PacketZcNotifyGroundskill {
+impl PacketZcNotifyGroundskill {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyGroundskill {
+        PacketZcNotifyGroundskill {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            skid: u16::from_le_bytes([buffer[2], buffer[3]]),
+            aid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            level: u16::from_le_bytes([buffer[8], buffer[9]]),
+            x_pos: u16::from_le_bytes([buffer[10], buffer[11]]),
+            y_pos: u16::from_le_bytes([buffer[12], buffer[13]]),
+            start_time: u32::from_le_bytes([buffer[14], buffer[15], buffer[16], buffer[17]]),
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyGroundskill {
     fn id(&self) -> &str {
        "0x0117"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -4515,9 +9442,20 @@ pub struct PacketCzCancelLockon {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketCzCancelLockon {
+impl PacketCzCancelLockon {
+    pub fn from(buffer: &[u8]) -> PacketCzCancelLockon {
+        PacketCzCancelLockon {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketCzCancelLockon {
     fn id(&self) -> &str {
        "0x0118"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -4539,9 +9477,25 @@ pub struct PacketZcStateChange {
     pub is_pkmode_on: bool,
 }
 
-impl PacketId for PacketZcStateChange {
+impl PacketZcStateChange {
+    pub fn from(buffer: &[u8]) -> PacketZcStateChange {
+        PacketZcStateChange {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            body_state: u16::from_le_bytes([buffer[6], buffer[7]]),
+            health_state: u16::from_le_bytes([buffer[8], buffer[9]]),
+            effect_state: u16::from_le_bytes([buffer[10], buffer[11]]),
+            is_pkmode_on: buffer[12] == 1,
+        }
+    }
+}
+
+impl Packet for PacketZcStateChange {
     fn id(&self) -> &str {
        "0x0119"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -4568,9 +9522,25 @@ pub struct PacketZcUseSkill {
     pub result: bool,
 }
 
-impl PacketId for PacketZcUseSkill {
+impl PacketZcUseSkill {
+    pub fn from(buffer: &[u8]) -> PacketZcUseSkill {
+        PacketZcUseSkill {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            skid: u16::from_le_bytes([buffer[2], buffer[3]]),
+            level: u16::from_le_bytes([buffer[4], buffer[5]]),
+            target_aid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            src_aid: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            result: buffer[14] == 1,
+        }
+    }
+}
+
+impl Packet for PacketZcUseSkill {
     fn id(&self) -> &str {
        "0x011a"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -4594,9 +9564,22 @@ pub struct PacketCzSelectWarppoint {
     pub map_name: String,
 }
 
-impl PacketId for PacketCzSelectWarppoint {
+impl PacketCzSelectWarppoint {
+    pub fn from(buffer: &[u8]) -> PacketCzSelectWarppoint {
+        PacketCzSelectWarppoint {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            skid: u16::from_le_bytes([buffer[2], buffer[3]]),
+            map_name: String::from_utf8_lossy(&buffer[4..20]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketCzSelectWarppoint {
     fn id(&self) -> &str {
        "0x011b"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -4617,9 +9600,22 @@ pub struct PacketZcWarplist {
     pub map_name: String,
 }
 
-impl PacketId for PacketZcWarplist {
+impl PacketZcWarplist {
+    pub fn from(buffer: &[u8]) -> PacketZcWarplist {
+        PacketZcWarplist {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            skid: u16::from_le_bytes([buffer[2], buffer[3]]),
+            map_name: String::from_utf8_lossy(&buffer[4..8]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcWarplist {
     fn id(&self) -> &str {
        "0x011c"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -4638,9 +9634,20 @@ pub struct PacketCzRememberWarppoint {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketCzRememberWarppoint {
+impl PacketCzRememberWarppoint {
+    pub fn from(buffer: &[u8]) -> PacketCzRememberWarppoint {
+        PacketCzRememberWarppoint {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketCzRememberWarppoint {
     fn id(&self) -> &str {
        "0x011d"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -4658,9 +9665,21 @@ pub struct PacketZcAckRememberWarppoint {
     pub error_code: char,
 }
 
-impl PacketId for PacketZcAckRememberWarppoint {
+impl PacketZcAckRememberWarppoint {
+    pub fn from(buffer: &[u8]) -> PacketZcAckRememberWarppoint {
+        PacketZcAckRememberWarppoint {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            error_code: buffer[2] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcAckRememberWarppoint {
     fn id(&self) -> &str {
        "0x011e"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -4684,9 +9703,26 @@ pub struct PacketZcSkillEntry {
     pub is_visible: bool,
 }
 
-impl PacketId for PacketZcSkillEntry {
+impl PacketZcSkillEntry {
+    pub fn from(buffer: &[u8]) -> PacketZcSkillEntry {
+        PacketZcSkillEntry {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            creator_aid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            x_pos: u16::from_le_bytes([buffer[10], buffer[11]]),
+            y_pos: u16::from_le_bytes([buffer[12], buffer[13]]),
+            job: buffer[14] as char,
+            is_visible: buffer[15] == 1,
+        }
+    }
+}
+
+impl Packet for PacketZcSkillEntry {
     fn id(&self) -> &str {
        "0x011f"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -4710,9 +9746,21 @@ pub struct PacketZcSkillDisappear {
     pub aid: u32,
 }
 
-impl PacketId for PacketZcSkillDisappear {
+impl PacketZcSkillDisappear {
+    pub fn from(buffer: &[u8]) -> PacketZcSkillDisappear {
+        PacketZcSkillDisappear {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketZcSkillDisappear {
     fn id(&self) -> &str {
        "0x0120"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -4734,9 +9782,24 @@ pub struct PacketZcNotifyCartitemCountinfo {
     pub max_weight: u32,
 }
 
-impl PacketId for PacketZcNotifyCartitemCountinfo {
+impl PacketZcNotifyCartitemCountinfo {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyCartitemCountinfo {
+        PacketZcNotifyCartitemCountinfo {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            cur_count: u16::from_le_bytes([buffer[2], buffer[3]]),
+            max_count: u16::from_le_bytes([buffer[4], buffer[5]]),
+            cur_weight: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            max_weight: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyCartitemCountinfo {
     fn id(&self) -> &str {
        "0x0121"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -4759,9 +9822,31 @@ pub struct PacketZcCartEquipmentItemlist {
     pub item_info: Vec<EquipmentitemExtrainfo>,
 }
 
-impl PacketId for PacketZcCartEquipmentItemlist {
+impl PacketZcCartEquipmentItemlist {
+    pub fn from(buffer: &[u8]) -> PacketZcCartEquipmentItemlist {
+        let iter_count = &buffer.len() / 20;
+        let mut vec_field: Vec<EquipmentitemExtrainfo> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 4 * i;
+            let end_pos = 24 * i;
+            vec_field.push(EquipmentitemExtrainfo::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcCartEquipmentItemlist {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            item_info: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcCartEquipmentItemlist {
     fn id(&self) -> &str {
        "0x0122"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -4782,9 +9867,31 @@ pub struct PacketZcCartNormalItemlist {
     pub item_info: Vec<NormalitemExtrainfo>,
 }
 
-impl PacketId for PacketZcCartNormalItemlist {
+impl PacketZcCartNormalItemlist {
+    pub fn from(buffer: &[u8]) -> PacketZcCartNormalItemlist {
+        let iter_count = &buffer.len() / 10;
+        let mut vec_field: Vec<NormalitemExtrainfo> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 4 * i;
+            let end_pos = 14 * i;
+            vec_field.push(NormalitemExtrainfo::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcCartNormalItemlist {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            item_info: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcCartNormalItemlist {
     fn id(&self) -> &str {
        "0x0123"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -4810,9 +9917,27 @@ pub struct PacketZcAddItemToCart {
     pub slot: EQUIPSLOTINFO,
 }
 
-impl PacketId for PacketZcAddItemToCart {
+impl PacketZcAddItemToCart {
+    pub fn from(buffer: &[u8]) -> PacketZcAddItemToCart {
+        PacketZcAddItemToCart {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            count: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            itid: u16::from_le_bytes([buffer[8], buffer[9]]),
+            is_identified: buffer[10] == 1,
+            is_damaged: buffer[11] == 1,
+            refining_level: buffer[12] as char,
+            slot: EQUIPSLOTINFO::from(&buffer[13..21]),
+        }
+    }
+}
+
+impl Packet for PacketZcAddItemToCart {
     fn id(&self) -> &str {
        "0x0124"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -4827,7 +9952,7 @@ impl Debug for PacketZcAddItemToCart {
             .field("is_identified[10, 11]", &self.is_identified)
             .field("is_damaged[11, 12]", &self.is_damaged)
             .field("refining_level[12, 13]", &self.refining_level)
-            .field("slot[13, ?]", &self.slot)
+            .field("slot[13, 21]", &self.slot)
         .finish()
     }
 }
@@ -4838,9 +9963,22 @@ pub struct PacketZcDeleteItemFromCart {
     pub count: u32,
 }
 
-impl PacketId for PacketZcDeleteItemFromCart {
+impl PacketZcDeleteItemFromCart {
+    pub fn from(buffer: &[u8]) -> PacketZcDeleteItemFromCart {
+        PacketZcDeleteItemFromCart {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            count: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+        }
+    }
+}
+
+impl Packet for PacketZcDeleteItemFromCart {
     fn id(&self) -> &str {
        "0x0125"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -4861,9 +9999,22 @@ pub struct PacketCzMoveItemFromBodyToCart {
     pub count: u32,
 }
 
-impl PacketId for PacketCzMoveItemFromBodyToCart {
+impl PacketCzMoveItemFromBodyToCart {
+    pub fn from(buffer: &[u8]) -> PacketCzMoveItemFromBodyToCart {
+        PacketCzMoveItemFromBodyToCart {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            count: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+        }
+    }
+}
+
+impl Packet for PacketCzMoveItemFromBodyToCart {
     fn id(&self) -> &str {
        "0x0126"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -4884,9 +10035,22 @@ pub struct PacketCzMoveItemFromCartToBody {
     pub count: u32,
 }
 
-impl PacketId for PacketCzMoveItemFromCartToBody {
+impl PacketCzMoveItemFromCartToBody {
+    pub fn from(buffer: &[u8]) -> PacketCzMoveItemFromCartToBody {
+        PacketCzMoveItemFromCartToBody {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            count: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+        }
+    }
+}
+
+impl Packet for PacketCzMoveItemFromCartToBody {
     fn id(&self) -> &str {
        "0x0127"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -4907,9 +10071,22 @@ pub struct PacketCzMoveItemFromStoreToCart {
     pub count: u32,
 }
 
-impl PacketId for PacketCzMoveItemFromStoreToCart {
+impl PacketCzMoveItemFromStoreToCart {
+    pub fn from(buffer: &[u8]) -> PacketCzMoveItemFromStoreToCart {
+        PacketCzMoveItemFromStoreToCart {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            count: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+        }
+    }
+}
+
+impl Packet for PacketCzMoveItemFromStoreToCart {
     fn id(&self) -> &str {
        "0x0128"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -4930,9 +10107,22 @@ pub struct PacketCzMoveItemFromCartToStore {
     pub count: u32,
 }
 
-impl PacketId for PacketCzMoveItemFromCartToStore {
+impl PacketCzMoveItemFromCartToStore {
+    pub fn from(buffer: &[u8]) -> PacketCzMoveItemFromCartToStore {
+        PacketCzMoveItemFromCartToStore {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            count: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+        }
+    }
+}
+
+impl Packet for PacketCzMoveItemFromCartToStore {
     fn id(&self) -> &str {
        "0x0129"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -4951,9 +10141,20 @@ pub struct PacketCzReqCartoff {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketCzReqCartoff {
+impl PacketCzReqCartoff {
+    pub fn from(buffer: &[u8]) -> PacketCzReqCartoff {
+        PacketCzReqCartoff {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketCzReqCartoff {
     fn id(&self) -> &str {
        "0x012a"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -4970,9 +10171,20 @@ pub struct PacketZcCartoff {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketZcCartoff {
+impl PacketZcCartoff {
+    pub fn from(buffer: &[u8]) -> PacketZcCartoff {
+        PacketZcCartoff {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketZcCartoff {
     fn id(&self) -> &str {
        "0x012b"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -4990,9 +10202,21 @@ pub struct PacketZcAckAdditemToCart {
     pub result: char,
 }
 
-impl PacketId for PacketZcAckAdditemToCart {
+impl PacketZcAckAdditemToCart {
+    pub fn from(buffer: &[u8]) -> PacketZcAckAdditemToCart {
+        PacketZcAckAdditemToCart {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            result: buffer[2] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcAckAdditemToCart {
     fn id(&self) -> &str {
        "0x012c"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -5011,9 +10235,21 @@ pub struct PacketZcOpenstore {
     pub itemcount: u16,
 }
 
-impl PacketId for PacketZcOpenstore {
+impl PacketZcOpenstore {
+    pub fn from(buffer: &[u8]) -> PacketZcOpenstore {
+        PacketZcOpenstore {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            itemcount: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
+}
+
+impl Packet for PacketZcOpenstore {
     fn id(&self) -> &str {
        "0x012d"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -5031,9 +10267,20 @@ pub struct PacketCzReqClosestore {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketCzReqClosestore {
+impl PacketCzReqClosestore {
+    pub fn from(buffer: &[u8]) -> PacketCzReqClosestore {
+        PacketCzReqClosestore {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketCzReqClosestore {
     fn id(&self) -> &str {
        "0x012e"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -5053,9 +10300,32 @@ pub struct PacketCzReqOpenstore {
     pub store_list: Vec<StoreItem>,
 }
 
-impl PacketId for PacketCzReqOpenstore {
+impl PacketCzReqOpenstore {
+    pub fn from(buffer: &[u8]) -> PacketCzReqOpenstore {
+        let iter_count = &buffer.len() / 8;
+        let mut vec_field: Vec<StoreItem> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 84 * i;
+            let end_pos = 92 * i;
+            vec_field.push(StoreItem::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketCzReqOpenstore {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            store_name: String::from_utf8_lossy(&buffer[4..84]).to_string(),
+            store_list: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketCzReqOpenstore {
     fn id(&self) -> &str {
        "0x012f"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -5076,9 +10346,21 @@ pub struct PacketCzReqBuyFrommc {
     pub aid: u32,
 }
 
-impl PacketId for PacketCzReqBuyFrommc {
+impl PacketCzReqBuyFrommc {
+    pub fn from(buffer: &[u8]) -> PacketCzReqBuyFrommc {
+        PacketCzReqBuyFrommc {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketCzReqBuyFrommc {
     fn id(&self) -> &str {
        "0x0130"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -5098,9 +10380,22 @@ pub struct PacketZcStoreEntry {
     pub store_name: String,
 }
 
-impl PacketId for PacketZcStoreEntry {
+impl PacketZcStoreEntry {
+    pub fn from(buffer: &[u8]) -> PacketZcStoreEntry {
+        PacketZcStoreEntry {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            maker_aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            store_name: String::from_utf8_lossy(&buffer[6..86]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcStoreEntry {
     fn id(&self) -> &str {
        "0x0131"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -5120,9 +10415,21 @@ pub struct PacketZcDisappearEntry {
     pub maker_aid: u32,
 }
 
-impl PacketId for PacketZcDisappearEntry {
+impl PacketZcDisappearEntry {
+    pub fn from(buffer: &[u8]) -> PacketZcDisappearEntry {
+        PacketZcDisappearEntry {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            maker_aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketZcDisappearEntry {
     fn id(&self) -> &str {
        "0x0132"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -5143,9 +10450,32 @@ pub struct PacketZcPcPurchaseItemlistFrommc {
     pub item_list: Vec<PurchaseItemFrommc>,
 }
 
-impl PacketId for PacketZcPcPurchaseItemlistFrommc {
+impl PacketZcPcPurchaseItemlistFrommc {
+    pub fn from(buffer: &[u8]) -> PacketZcPcPurchaseItemlistFrommc {
+        let iter_count = &buffer.len() / 22;
+        let mut vec_field: Vec<PurchaseItemFrommc> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 8 * i;
+            let end_pos = 30 * i;
+            vec_field.push(PurchaseItemFrommc::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcPcPurchaseItemlistFrommc {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            aid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            item_list: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcPcPurchaseItemlistFrommc {
     fn id(&self) -> &str {
        "0x0133"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -5168,9 +10498,32 @@ pub struct PacketCzPcPurchaseItemlistFrommc {
     pub item_list: Vec<CzPurchaseItemFrommc>,
 }
 
-impl PacketId for PacketCzPcPurchaseItemlistFrommc {
+impl PacketCzPcPurchaseItemlistFrommc {
+    pub fn from(buffer: &[u8]) -> PacketCzPcPurchaseItemlistFrommc {
+        let iter_count = &buffer.len() / 4;
+        let mut vec_field: Vec<CzPurchaseItemFrommc> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 8 * i;
+            let end_pos = 12 * i;
+            vec_field.push(CzPurchaseItemFrommc::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketCzPcPurchaseItemlistFrommc {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            aid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            item_list: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketCzPcPurchaseItemlistFrommc {
     fn id(&self) -> &str {
        "0x0134"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -5193,9 +10546,23 @@ pub struct PacketZcPcPurchaseResultFrommc {
     pub result: char,
 }
 
-impl PacketId for PacketZcPcPurchaseResultFrommc {
+impl PacketZcPcPurchaseResultFrommc {
+    pub fn from(buffer: &[u8]) -> PacketZcPcPurchaseResultFrommc {
+        PacketZcPcPurchaseResultFrommc {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            curcount: u16::from_le_bytes([buffer[4], buffer[5]]),
+            result: buffer[6] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcPcPurchaseResultFrommc {
     fn id(&self) -> &str {
        "0x0135"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -5218,9 +10585,32 @@ pub struct PacketZcPcPurchaseMyitemlist {
     pub item_list: Vec<PurchaseMyitem>,
 }
 
-impl PacketId for PacketZcPcPurchaseMyitemlist {
+impl PacketZcPcPurchaseMyitemlist {
+    pub fn from(buffer: &[u8]) -> PacketZcPcPurchaseMyitemlist {
+        let iter_count = &buffer.len() / 22;
+        let mut vec_field: Vec<PurchaseMyitem> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 8 * i;
+            let end_pos = 30 * i;
+            vec_field.push(PurchaseMyitem::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcPcPurchaseMyitemlist {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            aid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            item_list: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcPcPurchaseMyitemlist {
     fn id(&self) -> &str {
        "0x0136"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -5242,9 +10632,22 @@ pub struct PacketZcDeleteitemFromMcstore {
     pub count: u16,
 }
 
-impl PacketId for PacketZcDeleteitemFromMcstore {
+impl PacketZcDeleteitemFromMcstore {
+    pub fn from(buffer: &[u8]) -> PacketZcDeleteitemFromMcstore {
+        PacketZcDeleteitemFromMcstore {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            count: u16::from_le_bytes([buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketZcDeleteitemFromMcstore {
     fn id(&self) -> &str {
        "0x0137"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -5264,9 +10667,21 @@ pub struct PacketCzPkmodeChange {
     pub is_turn_on: bool,
 }
 
-impl PacketId for PacketCzPkmodeChange {
+impl PacketCzPkmodeChange {
+    pub fn from(buffer: &[u8]) -> PacketCzPkmodeChange {
+        PacketCzPkmodeChange {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            is_turn_on: buffer[2] == 1,
+        }
+    }
+}
+
+impl Packet for PacketCzPkmodeChange {
     fn id(&self) -> &str {
        "0x0138"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -5290,9 +10705,26 @@ pub struct PacketZcAttackFailureForDistance {
     pub current_att_range: u16,
 }
 
-impl PacketId for PacketZcAttackFailureForDistance {
+impl PacketZcAttackFailureForDistance {
+    pub fn from(buffer: &[u8]) -> PacketZcAttackFailureForDistance {
+        PacketZcAttackFailureForDistance {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            target_aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            target_xpos: u16::from_le_bytes([buffer[6], buffer[7]]),
+            target_ypos: u16::from_le_bytes([buffer[8], buffer[9]]),
+            x_pos: u16::from_le_bytes([buffer[10], buffer[11]]),
+            y_pos: u16::from_le_bytes([buffer[12], buffer[13]]),
+            current_att_range: u16::from_le_bytes([buffer[14], buffer[15]]),
+        }
+    }
+}
+
+impl Packet for PacketZcAttackFailureForDistance {
     fn id(&self) -> &str {
        "0x0139"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -5316,9 +10748,21 @@ pub struct PacketZcAttackRange {
     pub current_att_range: u16,
 }
 
-impl PacketId for PacketZcAttackRange {
+impl PacketZcAttackRange {
+    pub fn from(buffer: &[u8]) -> PacketZcAttackRange {
+        PacketZcAttackRange {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            current_att_range: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
+}
+
+impl Packet for PacketZcAttackRange {
     fn id(&self) -> &str {
        "0x013a"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -5337,9 +10781,21 @@ pub struct PacketZcActionFailure {
     pub error_code: u16,
 }
 
-impl PacketId for PacketZcActionFailure {
+impl PacketZcActionFailure {
+    pub fn from(buffer: &[u8]) -> PacketZcActionFailure {
+        PacketZcActionFailure {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            error_code: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
+}
+
+impl Packet for PacketZcActionFailure {
     fn id(&self) -> &str {
        "0x013b"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -5358,9 +10814,21 @@ pub struct PacketZcEquipArrow {
     pub index: u16,
 }
 
-impl PacketId for PacketZcEquipArrow {
+impl PacketZcEquipArrow {
+    pub fn from(buffer: &[u8]) -> PacketZcEquipArrow {
+        PacketZcEquipArrow {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            index: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
+}
+
+impl Packet for PacketZcEquipArrow {
     fn id(&self) -> &str {
        "0x013c"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -5380,9 +10848,22 @@ pub struct PacketZcRecovery {
     pub amount: u16,
 }
 
-impl PacketId for PacketZcRecovery {
+impl PacketZcRecovery {
+    pub fn from(buffer: &[u8]) -> PacketZcRecovery {
+        PacketZcRecovery {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            var_id: u16::from_le_bytes([buffer[2], buffer[3]]),
+            amount: u16::from_le_bytes([buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketZcRecovery {
     fn id(&self) -> &str {
        "0x013d"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -5408,9 +10889,27 @@ pub struct PacketZcUseskillAck {
     pub delay_time: u32,
 }
 
-impl PacketId for PacketZcUseskillAck {
+impl PacketZcUseskillAck {
+    pub fn from(buffer: &[u8]) -> PacketZcUseskillAck {
+        PacketZcUseskillAck {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            target_id: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            x_pos: u16::from_le_bytes([buffer[10], buffer[11]]),
+            y_pos: u16::from_le_bytes([buffer[12], buffer[13]]),
+            skid: u16::from_le_bytes([buffer[14], buffer[15]]),
+            property: u32::from_le_bytes([buffer[16], buffer[17], buffer[18], buffer[19]]),
+            delay_time: u32::from_le_bytes([buffer[20], buffer[21], buffer[22], buffer[23]]),
+        }
+    }
+}
+
+impl Packet for PacketZcUseskillAck {
     fn id(&self) -> &str {
        "0x013e"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -5435,9 +10934,21 @@ pub struct PacketCzItemCreate {
     pub item_name: String,
 }
 
-impl PacketId for PacketCzItemCreate {
+impl PacketCzItemCreate {
+    pub fn from(buffer: &[u8]) -> PacketCzItemCreate {
+        PacketCzItemCreate {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            item_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketCzItemCreate {
     fn id(&self) -> &str {
        "0x013f"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -5458,9 +10969,23 @@ pub struct PacketCzMovetoMap {
     pub y_pos: u16,
 }
 
-impl PacketId for PacketCzMovetoMap {
+impl PacketCzMovetoMap {
+    pub fn from(buffer: &[u8]) -> PacketCzMovetoMap {
+        PacketCzMovetoMap {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            map_name: String::from_utf8_lossy(&buffer[2..18]).to_string(),
+            x_pos: u16::from_le_bytes([buffer[18], buffer[19]]),
+            y_pos: u16::from_le_bytes([buffer[20], buffer[21]]),
+        }
+    }
+}
+
+impl Packet for PacketCzMovetoMap {
     fn id(&self) -> &str {
        "0x0140"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -5483,9 +11008,23 @@ pub struct PacketZcCouplestatus {
     pub plus_status: u32,
 }
 
-impl PacketId for PacketZcCouplestatus {
+impl PacketZcCouplestatus {
+    pub fn from(buffer: &[u8]) -> PacketZcCouplestatus {
+        PacketZcCouplestatus {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            status_type: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            default_status: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            plus_status: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+        }
+    }
+}
+
+impl Packet for PacketZcCouplestatus {
     fn id(&self) -> &str {
        "0x0141"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -5506,9 +11045,21 @@ pub struct PacketZcOpenEditdlg {
     pub naid: u32,
 }
 
-impl PacketId for PacketZcOpenEditdlg {
+impl PacketZcOpenEditdlg {
+    pub fn from(buffer: &[u8]) -> PacketZcOpenEditdlg {
+        PacketZcOpenEditdlg {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            naid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketZcOpenEditdlg {
     fn id(&self) -> &str {
        "0x0142"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -5528,9 +11079,22 @@ pub struct PacketCzInputEditdlg {
     pub value: u32,
 }
 
-impl PacketId for PacketCzInputEditdlg {
+impl PacketCzInputEditdlg {
+    pub fn from(buffer: &[u8]) -> PacketCzInputEditdlg {
+        PacketCzInputEditdlg {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            naid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            value: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+        }
+    }
+}
+
+impl Packet for PacketCzInputEditdlg {
     fn id(&self) -> &str {
        "0x0143"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -5555,9 +11119,26 @@ pub struct PacketZcCompass {
     pub color: u32,
 }
 
-impl PacketId for PacketZcCompass {
+impl PacketZcCompass {
+    pub fn from(buffer: &[u8]) -> PacketZcCompass {
+        PacketZcCompass {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            naid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            type_: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            x_pos: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            y_pos: u32::from_le_bytes([buffer[14], buffer[15], buffer[16], buffer[17]]),
+            id: buffer[18] as char,
+            color: u32::from_le_bytes([buffer[19], buffer[20], buffer[21], buffer[22]]),
+        }
+    }
+}
+
+impl Packet for PacketZcCompass {
     fn id(&self) -> &str {
        "0x0144"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -5582,9 +11163,22 @@ pub struct PacketZcShowImage {
     pub type_: char,
 }
 
-impl PacketId for PacketZcShowImage {
+impl PacketZcShowImage {
+    pub fn from(buffer: &[u8]) -> PacketZcShowImage {
+        PacketZcShowImage {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            image_name: String::from_utf8_lossy(&buffer[2..18]).to_string(),
+            type_: buffer[18] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcShowImage {
     fn id(&self) -> &str {
        "0x0145"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -5604,9 +11198,21 @@ pub struct PacketCzCloseDialog {
     pub naid: u32,
 }
 
-impl PacketId for PacketCzCloseDialog {
+impl PacketCzCloseDialog {
+    pub fn from(buffer: &[u8]) -> PacketCzCloseDialog {
+        PacketCzCloseDialog {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            naid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketCzCloseDialog {
     fn id(&self) -> &str {
        "0x0146"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -5625,9 +11231,21 @@ pub struct PacketZcAutorunSkill {
     pub data: SKILLINFO,
 }
 
-impl PacketId for PacketZcAutorunSkill {
+impl PacketZcAutorunSkill {
+    pub fn from(buffer: &[u8]) -> PacketZcAutorunSkill {
+        PacketZcAutorunSkill {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            data: SKILLINFO::from(&buffer[2..buffer.len()]),
+        }
+    }
+}
+
+impl Packet for PacketZcAutorunSkill {
     fn id(&self) -> &str {
        "0x0147"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -5647,9 +11265,22 @@ pub struct PacketZcResurrection {
     pub type_: u16,
 }
 
-impl PacketId for PacketZcResurrection {
+impl PacketZcResurrection {
+    pub fn from(buffer: &[u8]) -> PacketZcResurrection {
+        PacketZcResurrection {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            type_: u16::from_le_bytes([buffer[6], buffer[7]]),
+        }
+    }
+}
+
+impl Packet for PacketZcResurrection {
     fn id(&self) -> &str {
        "0x0148"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -5671,9 +11302,23 @@ pub struct PacketCzReqGiveMannerPoint {
     pub point: u16,
 }
 
-impl PacketId for PacketCzReqGiveMannerPoint {
+impl PacketCzReqGiveMannerPoint {
+    pub fn from(buffer: &[u8]) -> PacketCzReqGiveMannerPoint {
+        PacketCzReqGiveMannerPoint {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            other_aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            type_: buffer[6] as char,
+            point: u16::from_le_bytes([buffer[7], buffer[8]]),
+        }
+    }
+}
+
+impl Packet for PacketCzReqGiveMannerPoint {
     fn id(&self) -> &str {
        "0x0149"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -5694,9 +11339,21 @@ pub struct PacketZcAckGiveMannerPoint {
     pub result: u32,
 }
 
-impl PacketId for PacketZcAckGiveMannerPoint {
+impl PacketZcAckGiveMannerPoint {
+    pub fn from(buffer: &[u8]) -> PacketZcAckGiveMannerPoint {
+        PacketZcAckGiveMannerPoint {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            result: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketZcAckGiveMannerPoint {
     fn id(&self) -> &str {
        "0x014a"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -5716,9 +11373,22 @@ pub struct PacketZcNotifyMannerPointGiven {
     pub other_char_name: String,
 }
 
-impl PacketId for PacketZcNotifyMannerPointGiven {
+impl PacketZcNotifyMannerPointGiven {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyMannerPointGiven {
+        PacketZcNotifyMannerPointGiven {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            type_: buffer[2] as char,
+            other_char_name: String::from_utf8_lossy(&buffer[3..27]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyMannerPointGiven {
     fn id(&self) -> &str {
        "0x014b"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -5739,9 +11409,31 @@ pub struct PacketZcMyguildBasicInfo {
     pub related_guild_list: Vec<RelatedGuild>,
 }
 
-impl PacketId for PacketZcMyguildBasicInfo {
+impl PacketZcMyguildBasicInfo {
+    pub fn from(buffer: &[u8]) -> PacketZcMyguildBasicInfo {
+        let iter_count = &buffer.len() / 32;
+        let mut vec_field: Vec<RelatedGuild> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 4 * i;
+            let end_pos = 36 * i;
+            vec_field.push(RelatedGuild::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcMyguildBasicInfo {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            related_guild_list: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcMyguildBasicInfo {
     fn id(&self) -> &str {
        "0x014c"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -5760,9 +11452,20 @@ pub struct PacketCzReqGuildMenuinterface {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketCzReqGuildMenuinterface {
+impl PacketCzReqGuildMenuinterface {
+    pub fn from(buffer: &[u8]) -> PacketCzReqGuildMenuinterface {
+        PacketCzReqGuildMenuinterface {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketCzReqGuildMenuinterface {
     fn id(&self) -> &str {
        "0x014d"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -5780,9 +11483,21 @@ pub struct PacketZcAckGuildMenuinterface {
     pub guild_memu_flag: u32,
 }
 
-impl PacketId for PacketZcAckGuildMenuinterface {
+impl PacketZcAckGuildMenuinterface {
+    pub fn from(buffer: &[u8]) -> PacketZcAckGuildMenuinterface {
+        PacketZcAckGuildMenuinterface {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            guild_memu_flag: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketZcAckGuildMenuinterface {
     fn id(&self) -> &str {
        "0x014e"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -5801,9 +11516,21 @@ pub struct PacketCzReqGuildMenu {
     pub type_: u32,
 }
 
-impl PacketId for PacketCzReqGuildMenu {
+impl PacketCzReqGuildMenu {
+    pub fn from(buffer: &[u8]) -> PacketCzReqGuildMenu {
+        PacketCzReqGuildMenu {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            type_: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketCzReqGuildMenu {
     fn id(&self) -> &str {
        "0x014f"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -5835,9 +11562,34 @@ pub struct PacketZcGuildInfo {
     pub manage_land: String,
 }
 
-impl PacketId for PacketZcGuildInfo {
+impl PacketZcGuildInfo {
+    pub fn from(buffer: &[u8]) -> PacketZcGuildInfo {
+        PacketZcGuildInfo {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            gdid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            level: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            user_num: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            max_user_num: u32::from_le_bytes([buffer[14], buffer[15], buffer[16], buffer[17]]),
+            user_average_level: u32::from_le_bytes([buffer[18], buffer[19], buffer[20], buffer[21]]),
+            exp: u32::from_le_bytes([buffer[22], buffer[23], buffer[24], buffer[25]]),
+            max_exp: u32::from_le_bytes([buffer[26], buffer[27], buffer[28], buffer[29]]),
+            point: u32::from_le_bytes([buffer[30], buffer[31], buffer[32], buffer[33]]),
+            honor: u32::from_le_bytes([buffer[34], buffer[35], buffer[36], buffer[37]]),
+            virtue: u32::from_le_bytes([buffer[38], buffer[39], buffer[40], buffer[41]]),
+            emblem_version: u32::from_le_bytes([buffer[42], buffer[43], buffer[44], buffer[45]]),
+            guildname: String::from_utf8_lossy(&buffer[46..70]).to_string(),
+            master_name: String::from_utf8_lossy(&buffer[70..94]).to_string(),
+            manage_land: String::from_utf8_lossy(&buffer[94..110]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcGuildInfo {
     fn id(&self) -> &str {
        "0x0150"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -5869,9 +11621,21 @@ pub struct PacketCzReqGuildEmblemImg {
     pub gdid: u32,
 }
 
-impl PacketId for PacketCzReqGuildEmblemImg {
+impl PacketCzReqGuildEmblemImg {
+    pub fn from(buffer: &[u8]) -> PacketCzReqGuildEmblemImg {
+        PacketCzReqGuildEmblemImg {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            gdid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketCzReqGuildEmblemImg {
     fn id(&self) -> &str {
        "0x0151"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -5893,9 +11657,24 @@ pub struct PacketZcGuildEmblemImg {
     pub img: String,
 }
 
-impl PacketId for PacketZcGuildEmblemImg {
+impl PacketZcGuildEmblemImg {
+    pub fn from(buffer: &[u8]) -> PacketZcGuildEmblemImg {
+        PacketZcGuildEmblemImg {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            gdid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            emblem_version: u32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
+            img: String::from_utf8_lossy(&buffer[12..buffer.len()]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcGuildEmblemImg {
     fn id(&self) -> &str {
        "0x0152"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -5918,9 +11697,22 @@ pub struct PacketCzRegisterGuildEmblemImg {
     pub img: String,
 }
 
-impl PacketId for PacketCzRegisterGuildEmblemImg {
+impl PacketCzRegisterGuildEmblemImg {
+    pub fn from(buffer: &[u8]) -> PacketCzRegisterGuildEmblemImg {
+        PacketCzRegisterGuildEmblemImg {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            img: String::from_utf8_lossy(&buffer[4..buffer.len()]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketCzRegisterGuildEmblemImg {
     fn id(&self) -> &str {
        "0x0153"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -5941,9 +11733,31 @@ pub struct PacketZcMembermgrInfo {
     pub member_info: Vec<GuildMembermgrInfo>,
 }
 
-impl PacketId for PacketZcMembermgrInfo {
+impl PacketZcMembermgrInfo {
+    pub fn from(buffer: &[u8]) -> PacketZcMembermgrInfo {
+        let iter_count = &buffer.len() / 104;
+        let mut vec_field: Vec<GuildMembermgrInfo> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 4 * i;
+            let end_pos = 108 * i;
+            vec_field.push(GuildMembermgrInfo::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcMembermgrInfo {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            member_info: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcMembermgrInfo {
     fn id(&self) -> &str {
        "0x0154"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -5964,9 +11778,31 @@ pub struct PacketCzReqChangeMemberpos {
     pub member_info: Vec<MemberPositionInfo>,
 }
 
-impl PacketId for PacketCzReqChangeMemberpos {
+impl PacketCzReqChangeMemberpos {
+    pub fn from(buffer: &[u8]) -> PacketCzReqChangeMemberpos {
+        let iter_count = &buffer.len() / 12;
+        let mut vec_field: Vec<MemberPositionInfo> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 4 * i;
+            let end_pos = 16 * i;
+            vec_field.push(MemberPositionInfo::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketCzReqChangeMemberpos {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            member_info: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketCzReqChangeMemberpos {
     fn id(&self) -> &str {
        "0x0155"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -5987,9 +11823,31 @@ pub struct PacketZcAckReqChangeMembers {
     pub member_info: Vec<MemberPositionInfo>,
 }
 
-impl PacketId for PacketZcAckReqChangeMembers {
+impl PacketZcAckReqChangeMembers {
+    pub fn from(buffer: &[u8]) -> PacketZcAckReqChangeMembers {
+        let iter_count = &buffer.len() / 12;
+        let mut vec_field: Vec<MemberPositionInfo> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 4 * i;
+            let end_pos = 16 * i;
+            vec_field.push(MemberPositionInfo::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcAckReqChangeMembers {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            member_info: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcAckReqChangeMembers {
     fn id(&self) -> &str {
        "0x0156"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -6009,9 +11867,21 @@ pub struct PacketCzReqOpenMemberInfo {
     pub aid: u32,
 }
 
-impl PacketId for PacketCzReqOpenMemberInfo {
+impl PacketCzReqOpenMemberInfo {
+    pub fn from(buffer: &[u8]) -> PacketCzReqOpenMemberInfo {
+        PacketCzReqOpenMemberInfo {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketCzReqOpenMemberInfo {
     fn id(&self) -> &str {
        "0x0157"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -6029,9 +11899,20 @@ pub struct PacketZcAckOpenMemberInfo {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketZcAckOpenMemberInfo {
+impl PacketZcAckOpenMemberInfo {
+    pub fn from(buffer: &[u8]) -> PacketZcAckOpenMemberInfo {
+        PacketZcAckOpenMemberInfo {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketZcAckOpenMemberInfo {
     fn id(&self) -> &str {
        "0x0158"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -6052,9 +11933,24 @@ pub struct PacketCzReqLeaveGuild {
     pub reason_desc: String,
 }
 
-impl PacketId for PacketCzReqLeaveGuild {
+impl PacketCzReqLeaveGuild {
+    pub fn from(buffer: &[u8]) -> PacketCzReqLeaveGuild {
+        PacketCzReqLeaveGuild {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            gdid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            gid: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            reason_desc: String::from_utf8_lossy(&buffer[14..54]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketCzReqLeaveGuild {
     fn id(&self) -> &str {
        "0x0159"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -6077,9 +11973,22 @@ pub struct PacketZcAckLeaveGuild {
     pub reason_desc: String,
 }
 
-impl PacketId for PacketZcAckLeaveGuild {
+impl PacketZcAckLeaveGuild {
+    pub fn from(buffer: &[u8]) -> PacketZcAckLeaveGuild {
+        PacketZcAckLeaveGuild {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            char_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            reason_desc: String::from_utf8_lossy(&buffer[26..66]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcAckLeaveGuild {
     fn id(&self) -> &str {
        "0x015a"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -6102,9 +12011,24 @@ pub struct PacketCzReqBanGuild {
     pub reason_desc: String,
 }
 
-impl PacketId for PacketCzReqBanGuild {
+impl PacketCzReqBanGuild {
+    pub fn from(buffer: &[u8]) -> PacketCzReqBanGuild {
+        PacketCzReqBanGuild {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            gdid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            gid: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            reason_desc: String::from_utf8_lossy(&buffer[14..54]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketCzReqBanGuild {
     fn id(&self) -> &str {
        "0x015b"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -6128,9 +12052,23 @@ pub struct PacketZcAckBanGuild {
     pub account: String,
 }
 
-impl PacketId for PacketZcAckBanGuild {
+impl PacketZcAckBanGuild {
+    pub fn from(buffer: &[u8]) -> PacketZcAckBanGuild {
+        PacketZcAckBanGuild {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            char_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            reason_desc: String::from_utf8_lossy(&buffer[26..66]).to_string(),
+            account: String::from_utf8_lossy(&buffer[66..90]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcAckBanGuild {
     fn id(&self) -> &str {
        "0x015c"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -6151,9 +12089,21 @@ pub struct PacketCzReqDisorganizeGuild {
     pub key: String,
 }
 
-impl PacketId for PacketCzReqDisorganizeGuild {
+impl PacketCzReqDisorganizeGuild {
+    pub fn from(buffer: &[u8]) -> PacketCzReqDisorganizeGuild {
+        PacketCzReqDisorganizeGuild {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            key: String::from_utf8_lossy(&buffer[2..42]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketCzReqDisorganizeGuild {
     fn id(&self) -> &str {
        "0x015d"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -6172,9 +12122,21 @@ pub struct PacketZcAckDisorganizeGuildResult {
     pub reason: u32,
 }
 
-impl PacketId for PacketZcAckDisorganizeGuildResult {
+impl PacketZcAckDisorganizeGuildResult {
+    pub fn from(buffer: &[u8]) -> PacketZcAckDisorganizeGuildResult {
+        PacketZcAckDisorganizeGuildResult {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            reason: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketZcAckDisorganizeGuildResult {
     fn id(&self) -> &str {
        "0x015e"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -6193,9 +12155,21 @@ pub struct PacketZcAckDisorganizeGuild {
     pub reason_desc: String,
 }
 
-impl PacketId for PacketZcAckDisorganizeGuild {
+impl PacketZcAckDisorganizeGuild {
+    pub fn from(buffer: &[u8]) -> PacketZcAckDisorganizeGuild {
+        PacketZcAckDisorganizeGuild {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            reason_desc: String::from_utf8_lossy(&buffer[2..42]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcAckDisorganizeGuild {
     fn id(&self) -> &str {
        "0x015f"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -6215,9 +12189,31 @@ pub struct PacketZcPositionInfo {
     pub member_info: Vec<GuildMemberPositionInfo>,
 }
 
-impl PacketId for PacketZcPositionInfo {
+impl PacketZcPositionInfo {
+    pub fn from(buffer: &[u8]) -> PacketZcPositionInfo {
+        let iter_count = &buffer.len() / 16;
+        let mut vec_field: Vec<GuildMemberPositionInfo> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 4 * i;
+            let end_pos = 20 * i;
+            vec_field.push(GuildMemberPositionInfo::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcPositionInfo {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            member_info: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcPositionInfo {
     fn id(&self) -> &str {
        "0x0160"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -6238,9 +12234,31 @@ pub struct PacketCzRegChangeGuildPositioninfo {
     pub member_list: Vec<GuildRegPositionInfo>,
 }
 
-impl PacketId for PacketCzRegChangeGuildPositioninfo {
+impl PacketCzRegChangeGuildPositioninfo {
+    pub fn from(buffer: &[u8]) -> PacketCzRegChangeGuildPositioninfo {
+        let iter_count = &buffer.len() / 40;
+        let mut vec_field: Vec<GuildRegPositionInfo> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 4 * i;
+            let end_pos = 44 * i;
+            vec_field.push(GuildRegPositionInfo::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketCzRegChangeGuildPositioninfo {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            member_list: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketCzRegChangeGuildPositioninfo {
     fn id(&self) -> &str {
        "0x0161"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -6262,9 +12280,32 @@ pub struct PacketZcGuildSkillinfo {
     pub skill_list: Vec<SKILLINFO>,
 }
 
-impl PacketId for PacketZcGuildSkillinfo {
+impl PacketZcGuildSkillinfo {
+    pub fn from(buffer: &[u8]) -> PacketZcGuildSkillinfo {
+        let iter_count = &buffer.len() / 37;
+        let mut vec_field: Vec<SKILLINFO> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 6 * i;
+            let end_pos = 43 * i;
+            vec_field.push(SKILLINFO::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcGuildSkillinfo {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            skill_point: u16::from_le_bytes([buffer[4], buffer[5]]),
+            skill_list: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcGuildSkillinfo {
     fn id(&self) -> &str {
        "0x0162"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -6286,9 +12327,31 @@ pub struct PacketZcBanList {
     pub ban_list: Vec<GuildBanInfo>,
 }
 
-impl PacketId for PacketZcBanList {
+impl PacketZcBanList {
+    pub fn from(buffer: &[u8]) -> PacketZcBanList {
+        let iter_count = &buffer.len() / 88;
+        let mut vec_field: Vec<GuildBanInfo> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 4 * i;
+            let end_pos = 92 * i;
+            vec_field.push(GuildBanInfo::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcBanList {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            ban_list: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcBanList {
     fn id(&self) -> &str {
        "0x0163"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -6309,9 +12372,31 @@ pub struct PacketZcOtherGuildList {
     pub guild_list: Vec<OtherGuildInfo>,
 }
 
-impl PacketId for PacketZcOtherGuildList {
+impl PacketZcOtherGuildList {
+    pub fn from(buffer: &[u8]) -> PacketZcOtherGuildList {
+        let iter_count = &buffer.len() / 36;
+        let mut vec_field: Vec<OtherGuildInfo> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 4 * i;
+            let end_pos = 40 * i;
+            vec_field.push(OtherGuildInfo::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcOtherGuildList {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            guild_list: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcOtherGuildList {
     fn id(&self) -> &str {
        "0x0164"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -6332,9 +12417,22 @@ pub struct PacketCzReqMakeGuild {
     pub gname: String,
 }
 
-impl PacketId for PacketCzReqMakeGuild {
+impl PacketCzReqMakeGuild {
+    pub fn from(buffer: &[u8]) -> PacketCzReqMakeGuild {
+        PacketCzReqMakeGuild {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gname: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketCzReqMakeGuild {
     fn id(&self) -> &str {
        "0x0165"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -6355,9 +12453,31 @@ pub struct PacketZcPositionIdNameInfo {
     pub member_list: Vec<MemberPositionIdNameInfo>,
 }
 
-impl PacketId for PacketZcPositionIdNameInfo {
+impl PacketZcPositionIdNameInfo {
+    pub fn from(buffer: &[u8]) -> PacketZcPositionIdNameInfo {
+        let iter_count = &buffer.len() / 28;
+        let mut vec_field: Vec<MemberPositionIdNameInfo> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 4 * i;
+            let end_pos = 32 * i;
+            vec_field.push(MemberPositionIdNameInfo::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcPositionIdNameInfo {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            member_list: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcPositionIdNameInfo {
     fn id(&self) -> &str {
        "0x0166"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -6377,9 +12497,21 @@ pub struct PacketZcResultMakeGuild {
     pub result: char,
 }
 
-impl PacketId for PacketZcResultMakeGuild {
+impl PacketZcResultMakeGuild {
+    pub fn from(buffer: &[u8]) -> PacketZcResultMakeGuild {
+        PacketZcResultMakeGuild {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            result: buffer[2] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcResultMakeGuild {
     fn id(&self) -> &str {
        "0x0167"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -6400,9 +12532,23 @@ pub struct PacketCzReqJoinGuild {
     pub my_gid: u32,
 }
 
-impl PacketId for PacketCzReqJoinGuild {
+impl PacketCzReqJoinGuild {
+    pub fn from(buffer: &[u8]) -> PacketCzReqJoinGuild {
+        PacketCzReqJoinGuild {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            my_aid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            my_gid: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+        }
+    }
+}
+
+impl Packet for PacketCzReqJoinGuild {
     fn id(&self) -> &str {
        "0x0168"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -6423,9 +12569,21 @@ pub struct PacketZcAckReqJoinGuild {
     pub answer: char,
 }
 
-impl PacketId for PacketZcAckReqJoinGuild {
+impl PacketZcAckReqJoinGuild {
+    pub fn from(buffer: &[u8]) -> PacketZcAckReqJoinGuild {
+        PacketZcAckReqJoinGuild {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            answer: buffer[2] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcAckReqJoinGuild {
     fn id(&self) -> &str {
        "0x0169"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -6445,9 +12603,22 @@ pub struct PacketZcReqJoinGuild {
     pub guild_name: String,
 }
 
-impl PacketId for PacketZcReqJoinGuild {
+impl PacketZcReqJoinGuild {
+    pub fn from(buffer: &[u8]) -> PacketZcReqJoinGuild {
+        PacketZcReqJoinGuild {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            gdid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            guild_name: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcReqJoinGuild {
     fn id(&self) -> &str {
        "0x016a"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -6468,9 +12639,22 @@ pub struct PacketCzJoinGuild {
     pub answer: u32,
 }
 
-impl PacketId for PacketCzJoinGuild {
+impl PacketCzJoinGuild {
+    pub fn from(buffer: &[u8]) -> PacketCzJoinGuild {
+        PacketCzJoinGuild {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            gdid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            answer: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+        }
+    }
+}
+
+impl Packet for PacketCzJoinGuild {
     fn id(&self) -> &str {
        "0x016b"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -6495,9 +12679,26 @@ pub struct PacketZcUpdateGdid {
     pub gname: String,
 }
 
-impl PacketId for PacketZcUpdateGdid {
+impl PacketZcUpdateGdid {
+    pub fn from(buffer: &[u8]) -> PacketZcUpdateGdid {
+        PacketZcUpdateGdid {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            gdid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            emblem_version: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            right: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            is_master: buffer[14] == 1,
+            inter_sid: u32::from_le_bytes([buffer[15], buffer[16], buffer[17], buffer[18]]),
+            gname: String::from_utf8_lossy(&buffer[19..43]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcUpdateGdid {
     fn id(&self) -> &str {
        "0x016c"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -6523,9 +12724,23 @@ pub struct PacketZcUpdateCharstat {
     pub status: u32,
 }
 
-impl PacketId for PacketZcUpdateCharstat {
+impl PacketZcUpdateCharstat {
+    pub fn from(buffer: &[u8]) -> PacketZcUpdateCharstat {
+        PacketZcUpdateCharstat {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            status: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+        }
+    }
+}
+
+impl Packet for PacketZcUpdateCharstat {
     fn id(&self) -> &str {
        "0x016d"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -6548,9 +12763,23 @@ pub struct PacketCzGuildNotice {
     pub notice: String,
 }
 
-impl PacketId for PacketCzGuildNotice {
+impl PacketCzGuildNotice {
+    pub fn from(buffer: &[u8]) -> PacketCzGuildNotice {
+        PacketCzGuildNotice {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            gdid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            subject: String::from_utf8_lossy(&buffer[6..66]).to_string(),
+            notice: String::from_utf8_lossy(&buffer[66..186]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketCzGuildNotice {
     fn id(&self) -> &str {
        "0x016e"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -6572,9 +12801,22 @@ pub struct PacketZcGuildNotice {
     pub notice: String,
 }
 
-impl PacketId for PacketZcGuildNotice {
+impl PacketZcGuildNotice {
+    pub fn from(buffer: &[u8]) -> PacketZcGuildNotice {
+        PacketZcGuildNotice {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            subject: String::from_utf8_lossy(&buffer[2..62]).to_string(),
+            notice: String::from_utf8_lossy(&buffer[62..182]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcGuildNotice {
     fn id(&self) -> &str {
        "0x016f"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -6596,9 +12838,23 @@ pub struct PacketCzReqAllyGuild {
     pub my_gid: u32,
 }
 
-impl PacketId for PacketCzReqAllyGuild {
+impl PacketCzReqAllyGuild {
+    pub fn from(buffer: &[u8]) -> PacketCzReqAllyGuild {
+        PacketCzReqAllyGuild {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            my_aid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            my_gid: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+        }
+    }
+}
+
+impl Packet for PacketCzReqAllyGuild {
     fn id(&self) -> &str {
        "0x0170"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -6620,9 +12876,22 @@ pub struct PacketZcReqAllyGuild {
     pub guild_name: String,
 }
 
-impl PacketId for PacketZcReqAllyGuild {
+impl PacketZcReqAllyGuild {
+    pub fn from(buffer: &[u8]) -> PacketZcReqAllyGuild {
+        PacketZcReqAllyGuild {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            other_aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            guild_name: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcReqAllyGuild {
     fn id(&self) -> &str {
        "0x0171"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -6643,9 +12912,22 @@ pub struct PacketCzAllyGuild {
     pub answer: u32,
 }
 
-impl PacketId for PacketCzAllyGuild {
+impl PacketCzAllyGuild {
+    pub fn from(buffer: &[u8]) -> PacketCzAllyGuild {
+        PacketCzAllyGuild {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            other_aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            answer: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+        }
+    }
+}
+
+impl Packet for PacketCzAllyGuild {
     fn id(&self) -> &str {
        "0x0172"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -6665,9 +12947,21 @@ pub struct PacketZcAckReqAllyGuild {
     pub answer: char,
 }
 
-impl PacketId for PacketZcAckReqAllyGuild {
+impl PacketZcAckReqAllyGuild {
+    pub fn from(buffer: &[u8]) -> PacketZcAckReqAllyGuild {
+        PacketZcAckReqAllyGuild {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            answer: buffer[2] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcAckReqAllyGuild {
     fn id(&self) -> &str {
        "0x0173"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -6687,9 +12981,31 @@ pub struct PacketZcAckChangeGuildPositioninfo {
     pub member_list: Vec<GuildRegPositionInfo>,
 }
 
-impl PacketId for PacketZcAckChangeGuildPositioninfo {
+impl PacketZcAckChangeGuildPositioninfo {
+    pub fn from(buffer: &[u8]) -> PacketZcAckChangeGuildPositioninfo {
+        let iter_count = &buffer.len() / 30;
+        let mut vec_field: Vec<GuildRegPositionInfo> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 4 * i;
+            let end_pos = 34 * i;
+            vec_field.push(GuildRegPositionInfo::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcAckChangeGuildPositioninfo {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            member_list: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcAckChangeGuildPositioninfo {
     fn id(&self) -> &str {
        "0x0174"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -6709,9 +13025,21 @@ pub struct PacketCzReqGuildMemberInfo {
     pub gid: u32,
 }
 
-impl PacketId for PacketCzReqGuildMemberInfo {
+impl PacketCzReqGuildMemberInfo {
+    pub fn from(buffer: &[u8]) -> PacketCzReqGuildMemberInfo {
+        PacketCzReqGuildMemberInfo {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketCzReqGuildMemberInfo {
     fn id(&self) -> &str {
        "0x0175"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -6730,9 +13058,21 @@ pub struct PacketZcAckGuildMemberInfo {
     pub info: GuildMemberInfo,
 }
 
-impl PacketId for PacketZcAckGuildMemberInfo {
+impl PacketZcAckGuildMemberInfo {
+    pub fn from(buffer: &[u8]) -> PacketZcAckGuildMemberInfo {
+        PacketZcAckGuildMemberInfo {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            info: GuildMemberInfo::from(&buffer[2..buffer.len()]),
+        }
+    }
+}
+
+impl Packet for PacketZcAckGuildMemberInfo {
     fn id(&self) -> &str {
        "0x0176"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -6752,9 +13092,22 @@ pub struct PacketZcItemidentifyList {
     pub itidlist: u16,
 }
 
-impl PacketId for PacketZcItemidentifyList {
+impl PacketZcItemidentifyList {
+    pub fn from(buffer: &[u8]) -> PacketZcItemidentifyList {
+        PacketZcItemidentifyList {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            itidlist: u16::from_le_bytes([buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketZcItemidentifyList {
     fn id(&self) -> &str {
        "0x0177"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -6774,9 +13127,21 @@ pub struct PacketCzReqItemidentify {
     pub index: u16,
 }
 
-impl PacketId for PacketCzReqItemidentify {
+impl PacketCzReqItemidentify {
+    pub fn from(buffer: &[u8]) -> PacketCzReqItemidentify {
+        PacketCzReqItemidentify {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            index: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
+}
+
+impl Packet for PacketCzReqItemidentify {
     fn id(&self) -> &str {
        "0x0178"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -6796,9 +13161,22 @@ pub struct PacketZcAckItemidentify {
     pub result: char,
 }
 
-impl PacketId for PacketZcAckItemidentify {
+impl PacketZcAckItemidentify {
+    pub fn from(buffer: &[u8]) -> PacketZcAckItemidentify {
+        PacketZcAckItemidentify {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            result: buffer[4] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcAckItemidentify {
     fn id(&self) -> &str {
        "0x0179"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -6818,9 +13196,21 @@ pub struct PacketCzReqItemcompositionList {
     pub card_index: u16,
 }
 
-impl PacketId for PacketCzReqItemcompositionList {
+impl PacketCzReqItemcompositionList {
+    pub fn from(buffer: &[u8]) -> PacketCzReqItemcompositionList {
+        PacketCzReqItemcompositionList {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            card_index: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
+}
+
+impl Packet for PacketCzReqItemcompositionList {
     fn id(&self) -> &str {
        "0x017a"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -6840,9 +13230,22 @@ pub struct PacketZcItemcompositionList {
     pub itidlist: u16,
 }
 
-impl PacketId for PacketZcItemcompositionList {
+impl PacketZcItemcompositionList {
+    pub fn from(buffer: &[u8]) -> PacketZcItemcompositionList {
+        PacketZcItemcompositionList {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            itidlist: u16::from_le_bytes([buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketZcItemcompositionList {
     fn id(&self) -> &str {
        "0x017b"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -6863,9 +13266,22 @@ pub struct PacketCzReqItemcomposition {
     pub equip_index: u16,
 }
 
-impl PacketId for PacketCzReqItemcomposition {
+impl PacketCzReqItemcomposition {
+    pub fn from(buffer: &[u8]) -> PacketCzReqItemcomposition {
+        PacketCzReqItemcomposition {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            card_index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            equip_index: u16::from_le_bytes([buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketCzReqItemcomposition {
     fn id(&self) -> &str {
        "0x017c"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -6887,9 +13303,23 @@ pub struct PacketZcAckItemcomposition {
     pub result: char,
 }
 
-impl PacketId for PacketZcAckItemcomposition {
+impl PacketZcAckItemcomposition {
+    pub fn from(buffer: &[u8]) -> PacketZcAckItemcomposition {
+        PacketZcAckItemcomposition {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            equip_index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            card_index: u16::from_le_bytes([buffer[4], buffer[5]]),
+            result: buffer[6] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcAckItemcomposition {
     fn id(&self) -> &str {
        "0x017d"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -6911,9 +13341,22 @@ pub struct PacketCzGuildChat {
     pub msg: String,
 }
 
-impl PacketId for PacketCzGuildChat {
+impl PacketCzGuildChat {
+    pub fn from(buffer: &[u8]) -> PacketCzGuildChat {
+        PacketCzGuildChat {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            msg: String::from_utf8_lossy(&buffer[4..buffer.len()]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketCzGuildChat {
     fn id(&self) -> &str {
        "0x017e"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -6934,9 +13377,22 @@ pub struct PacketZcGuildChat {
     pub msg: String,
 }
 
-impl PacketId for PacketZcGuildChat {
+impl PacketZcGuildChat {
+    pub fn from(buffer: &[u8]) -> PacketZcGuildChat {
+        PacketZcGuildChat {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            msg: String::from_utf8_lossy(&buffer[4..buffer.len()]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcGuildChat {
     fn id(&self) -> &str {
        "0x017f"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -6956,9 +13412,21 @@ pub struct PacketCzReqHostileGuild {
     pub aid: u32,
 }
 
-impl PacketId for PacketCzReqHostileGuild {
+impl PacketCzReqHostileGuild {
+    pub fn from(buffer: &[u8]) -> PacketCzReqHostileGuild {
+        PacketCzReqHostileGuild {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketCzReqHostileGuild {
     fn id(&self) -> &str {
        "0x0180"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -6977,9 +13445,21 @@ pub struct PacketZcAckReqHostileGuild {
     pub result: char,
 }
 
-impl PacketId for PacketZcAckReqHostileGuild {
+impl PacketZcAckReqHostileGuild {
+    pub fn from(buffer: &[u8]) -> PacketZcAckReqHostileGuild {
+        PacketZcAckReqHostileGuild {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            result: buffer[2] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcAckReqHostileGuild {
     fn id(&self) -> &str {
        "0x0181"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -6998,9 +13478,21 @@ pub struct PacketZcMemberAdd {
     pub info: GuildMemberInfo,
 }
 
-impl PacketId for PacketZcMemberAdd {
+impl PacketZcMemberAdd {
+    pub fn from(buffer: &[u8]) -> PacketZcMemberAdd {
+        PacketZcMemberAdd {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            info: GuildMemberInfo::from(&buffer[2..buffer.len()]),
+        }
+    }
+}
+
+impl Packet for PacketZcMemberAdd {
     fn id(&self) -> &str {
        "0x0182"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -7020,9 +13512,22 @@ pub struct PacketCzReqDeleteRelatedGuild {
     pub relation: u32,
 }
 
-impl PacketId for PacketCzReqDeleteRelatedGuild {
+impl PacketCzReqDeleteRelatedGuild {
+    pub fn from(buffer: &[u8]) -> PacketCzReqDeleteRelatedGuild {
+        PacketCzReqDeleteRelatedGuild {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            opponent_gdid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            relation: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+        }
+    }
+}
+
+impl Packet for PacketCzReqDeleteRelatedGuild {
     fn id(&self) -> &str {
        "0x0183"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -7043,9 +13548,22 @@ pub struct PacketZcDeleteRelatedGuild {
     pub relation: u32,
 }
 
-impl PacketId for PacketZcDeleteRelatedGuild {
+impl PacketZcDeleteRelatedGuild {
+    pub fn from(buffer: &[u8]) -> PacketZcDeleteRelatedGuild {
+        PacketZcDeleteRelatedGuild {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            opponent_gdid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            relation: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+        }
+    }
+}
+
+impl Packet for PacketZcDeleteRelatedGuild {
     fn id(&self) -> &str {
        "0x0184"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -7065,9 +13583,21 @@ pub struct PacketZcAddRelatedGuild {
     pub info: RelatedGuildInfo,
 }
 
-impl PacketId for PacketZcAddRelatedGuild {
+impl PacketZcAddRelatedGuild {
+    pub fn from(buffer: &[u8]) -> PacketZcAddRelatedGuild {
+        PacketZcAddRelatedGuild {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            info: RelatedGuildInfo::from(&buffer[2..buffer.len()]),
+        }
+    }
+}
+
+impl Packet for PacketZcAddRelatedGuild {
     fn id(&self) -> &str {
        "0x0185"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -7086,9 +13616,21 @@ pub struct PacketCollectordead {
     pub server_id: u32,
 }
 
-impl PacketId for PacketCollectordead {
+impl PacketCollectordead {
+    pub fn from(buffer: &[u8]) -> PacketCollectordead {
+        PacketCollectordead {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            server_id: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketCollectordead {
     fn id(&self) -> &str {
        "0x0186"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -7107,9 +13649,21 @@ pub struct PacketPing {
     pub aid: u32,
 }
 
-impl PacketId for PacketPing {
+impl PacketPing {
+    pub fn from(buffer: &[u8]) -> PacketPing {
+        PacketPing {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketPing {
     fn id(&self) -> &str {
        "0x0187"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -7130,9 +13684,23 @@ pub struct PacketZcAckItemrefining {
     pub refining_level: u16,
 }
 
-impl PacketId for PacketZcAckItemrefining {
+impl PacketZcAckItemrefining {
+    pub fn from(buffer: &[u8]) -> PacketZcAckItemrefining {
+        PacketZcAckItemrefining {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            result: u16::from_le_bytes([buffer[2], buffer[3]]),
+            item_index: u16::from_le_bytes([buffer[4], buffer[5]]),
+            refining_level: u16::from_le_bytes([buffer[6], buffer[7]]),
+        }
+    }
+}
+
+impl Packet for PacketZcAckItemrefining {
     fn id(&self) -> &str {
        "0x0188"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -7153,9 +13721,21 @@ pub struct PacketZcNotifyMapinfo {
     pub type_: u16,
 }
 
-impl PacketId for PacketZcNotifyMapinfo {
+impl PacketZcNotifyMapinfo {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyMapinfo {
+        PacketZcNotifyMapinfo {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            type_: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyMapinfo {
     fn id(&self) -> &str {
        "0x0189"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -7174,9 +13754,21 @@ pub struct PacketCzReqDisconnect {
     pub type_: u16,
 }
 
-impl PacketId for PacketCzReqDisconnect {
+impl PacketCzReqDisconnect {
+    pub fn from(buffer: &[u8]) -> PacketCzReqDisconnect {
+        PacketCzReqDisconnect {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            type_: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
+}
+
+impl Packet for PacketCzReqDisconnect {
     fn id(&self) -> &str {
        "0x018a"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -7195,9 +13787,21 @@ pub struct PacketZcAckReqDisconnect {
     pub result: u16,
 }
 
-impl PacketId for PacketZcAckReqDisconnect {
+impl PacketZcAckReqDisconnect {
+    pub fn from(buffer: &[u8]) -> PacketZcAckReqDisconnect {
+        PacketZcAckReqDisconnect {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            result: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
+}
+
+impl Packet for PacketZcAckReqDisconnect {
     fn id(&self) -> &str {
        "0x018b"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -7224,9 +13828,29 @@ pub struct PacketZcMonsterInfo {
     pub property_table: MonsterInfoElement,
 }
 
-impl PacketId for PacketZcMonsterInfo {
+impl PacketZcMonsterInfo {
+    pub fn from(buffer: &[u8]) -> PacketZcMonsterInfo {
+        PacketZcMonsterInfo {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            job: u16::from_le_bytes([buffer[2], buffer[3]]),
+            level: u16::from_le_bytes([buffer[4], buffer[5]]),
+            size: u16::from_le_bytes([buffer[6], buffer[7]]),
+            hp: u32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
+            def: u16::from_le_bytes([buffer[12], buffer[13]]),
+            race_type: u16::from_le_bytes([buffer[14], buffer[15]]),
+            mdef_power: u16::from_le_bytes([buffer[16], buffer[17]]),
+            property: u16::from_le_bytes([buffer[18], buffer[19]]),
+            property_table: MonsterInfoElement::from(&buffer[20..buffer.len()]),
+        }
+    }
+}
+
+impl Packet for PacketZcMonsterInfo {
     fn id(&self) -> &str {
        "0x018c"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -7254,9 +13878,22 @@ pub struct PacketZcMakableitemlist {
     pub info: MakableitemInfo,
 }
 
-impl PacketId for PacketZcMakableitemlist {
+impl PacketZcMakableitemlist {
+    pub fn from(buffer: &[u8]) -> PacketZcMakableitemlist {
+        PacketZcMakableitemlist {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            info: MakableitemInfo::from(&buffer[4..buffer.len()]),
+        }
+    }
+}
+
+impl Packet for PacketZcMakableitemlist {
     fn id(&self) -> &str {
        "0x018d"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -7276,9 +13913,21 @@ pub struct PacketCzReqmakingitem {
     pub info: MakableitemInfo,
 }
 
-impl PacketId for PacketCzReqmakingitem {
+impl PacketCzReqmakingitem {
+    pub fn from(buffer: &[u8]) -> PacketCzReqmakingitem {
+        PacketCzReqmakingitem {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            info: MakableitemInfo::from(&buffer[2..buffer.len()]),
+        }
+    }
+}
+
+impl Packet for PacketCzReqmakingitem {
     fn id(&self) -> &str {
        "0x018e"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -7298,9 +13947,22 @@ pub struct PacketZcAckReqmakingitem {
     pub itid: u16,
 }
 
-impl PacketId for PacketZcAckReqmakingitem {
+impl PacketZcAckReqmakingitem {
+    pub fn from(buffer: &[u8]) -> PacketZcAckReqmakingitem {
+        PacketZcAckReqmakingitem {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            result: u16::from_le_bytes([buffer[2], buffer[3]]),
+            itid: u16::from_le_bytes([buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketZcAckReqmakingitem {
     fn id(&self) -> &str {
        "0x018f"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -7324,9 +13986,25 @@ pub struct PacketCzUseSkillTogroundWithtalkbox {
     pub contents: String,
 }
 
-impl PacketId for PacketCzUseSkillTogroundWithtalkbox {
+impl PacketCzUseSkillTogroundWithtalkbox {
+    pub fn from(buffer: &[u8]) -> PacketCzUseSkillTogroundWithtalkbox {
+        PacketCzUseSkillTogroundWithtalkbox {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            selected_level: u16::from_le_bytes([buffer[2], buffer[3]]),
+            skid: u16::from_le_bytes([buffer[4], buffer[5]]),
+            x_pos: u16::from_le_bytes([buffer[6], buffer[7]]),
+            y_pos: u16::from_le_bytes([buffer[8], buffer[9]]),
+            contents: String::from_utf8_lossy(&buffer[10..90]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketCzUseSkillTogroundWithtalkbox {
     fn id(&self) -> &str {
        "0x0190"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -7350,9 +14028,22 @@ pub struct PacketZcTalkboxChatcontents {
     pub contents: String,
 }
 
-impl PacketId for PacketZcTalkboxChatcontents {
+impl PacketZcTalkboxChatcontents {
+    pub fn from(buffer: &[u8]) -> PacketZcTalkboxChatcontents {
+        PacketZcTalkboxChatcontents {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            contents: String::from_utf8_lossy(&buffer[6..86]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcTalkboxChatcontents {
     fn id(&self) -> &str {
        "0x0191"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -7375,9 +14066,24 @@ pub struct PacketZcUpdateMapinfo {
     pub map_name: String,
 }
 
-impl PacketId for PacketZcUpdateMapinfo {
+impl PacketZcUpdateMapinfo {
+    pub fn from(buffer: &[u8]) -> PacketZcUpdateMapinfo {
+        PacketZcUpdateMapinfo {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            x_pos: u16::from_le_bytes([buffer[2], buffer[3]]),
+            y_pos: u16::from_le_bytes([buffer[4], buffer[5]]),
+            type_: u16::from_le_bytes([buffer[6], buffer[7]]),
+            map_name: String::from_utf8_lossy(&buffer[8..24]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcUpdateMapinfo {
     fn id(&self) -> &str {
        "0x0192"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -7399,9 +14105,21 @@ pub struct PacketCzReqnameBygid {
     pub gid: u32,
 }
 
-impl PacketId for PacketCzReqnameBygid {
+impl PacketCzReqnameBygid {
+    pub fn from(buffer: &[u8]) -> PacketCzReqnameBygid {
+        PacketCzReqnameBygid {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketCzReqnameBygid {
     fn id(&self) -> &str {
        "0x0193"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -7421,9 +14139,22 @@ pub struct PacketZcAckReqnameBygid {
     pub cname: String,
 }
 
-impl PacketId for PacketZcAckReqnameBygid {
+impl PacketZcAckReqnameBygid {
+    pub fn from(buffer: &[u8]) -> PacketZcAckReqnameBygid {
+        PacketZcAckReqnameBygid {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            cname: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcAckReqnameBygid {
     fn id(&self) -> &str {
        "0x0194"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -7447,9 +14178,25 @@ pub struct PacketZcAckReqnameall {
     pub rname: String,
 }
 
-impl PacketId for PacketZcAckReqnameall {
+impl PacketZcAckReqnameall {
+    pub fn from(buffer: &[u8]) -> PacketZcAckReqnameall {
+        PacketZcAckReqnameall {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            cname: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            pname: String::from_utf8_lossy(&buffer[30..54]).to_string(),
+            gname: String::from_utf8_lossy(&buffer[54..78]).to_string(),
+            rname: String::from_utf8_lossy(&buffer[78..102]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcAckReqnameall {
     fn id(&self) -> &str {
        "0x0195"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -7474,9 +14221,23 @@ pub struct PacketZcMsgStateChange {
     pub state: bool,
 }
 
-impl PacketId for PacketZcMsgStateChange {
+impl PacketZcMsgStateChange {
+    pub fn from(buffer: &[u8]) -> PacketZcMsgStateChange {
+        PacketZcMsgStateChange {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            aid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            state: buffer[8] == 1,
+        }
+    }
+}
+
+impl Packet for PacketZcMsgStateChange {
     fn id(&self) -> &str {
        "0x0196"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -7497,9 +14258,21 @@ pub struct PacketCzReset {
     pub type_: u16,
 }
 
-impl PacketId for PacketCzReset {
+impl PacketCzReset {
+    pub fn from(buffer: &[u8]) -> PacketCzReset {
+        PacketCzReset {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            type_: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
+}
+
+impl Packet for PacketCzReset {
     fn id(&self) -> &str {
        "0x0197"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -7520,9 +14293,23 @@ pub struct PacketCzChangeMaptype {
     pub type_: u16,
 }
 
-impl PacketId for PacketCzChangeMaptype {
+impl PacketCzChangeMaptype {
+    pub fn from(buffer: &[u8]) -> PacketCzChangeMaptype {
+        PacketCzChangeMaptype {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            x_pos: u16::from_le_bytes([buffer[2], buffer[3]]),
+            y_pos: u16::from_le_bytes([buffer[4], buffer[5]]),
+            type_: u16::from_le_bytes([buffer[6], buffer[7]]),
+        }
+    }
+}
+
+impl Packet for PacketCzChangeMaptype {
     fn id(&self) -> &str {
        "0x0198"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -7543,9 +14330,21 @@ pub struct PacketZcNotifyMapproperty {
     pub type_: u16,
 }
 
-impl PacketId for PacketZcNotifyMapproperty {
+impl PacketZcNotifyMapproperty {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyMapproperty {
+        PacketZcNotifyMapproperty {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            type_: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyMapproperty {
     fn id(&self) -> &str {
        "0x0199"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -7566,9 +14365,23 @@ pub struct PacketZcNotifyRanking {
     pub total: u32,
 }
 
-impl PacketId for PacketZcNotifyRanking {
+impl PacketZcNotifyRanking {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyRanking {
+        PacketZcNotifyRanking {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            ranking: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            total: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyRanking {
     fn id(&self) -> &str {
        "0x019a"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -7590,9 +14403,22 @@ pub struct PacketZcNotifyEffect {
     pub effect_id: u32,
 }
 
-impl PacketId for PacketZcNotifyEffect {
+impl PacketZcNotifyEffect {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyEffect {
+        PacketZcNotifyEffect {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            effect_id: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyEffect {
     fn id(&self) -> &str {
        "0x019b"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -7612,9 +14438,21 @@ pub struct PacketCzChangeEffectstate {
     pub effect_state: u32,
 }
 
-impl PacketId for PacketCzChangeEffectstate {
+impl PacketCzChangeEffectstate {
+    pub fn from(buffer: &[u8]) -> PacketCzChangeEffectstate {
+        PacketCzChangeEffectstate {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            effect_state: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketCzChangeEffectstate {
     fn id(&self) -> &str {
        "0x019d"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -7632,9 +14470,20 @@ pub struct PacketZcStartCapture {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketZcStartCapture {
+impl PacketZcStartCapture {
+    pub fn from(buffer: &[u8]) -> PacketZcStartCapture {
+        PacketZcStartCapture {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketZcStartCapture {
     fn id(&self) -> &str {
        "0x019e"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -7652,9 +14501,21 @@ pub struct PacketCzTrycaptureMonster {
     pub target_aid: u32,
 }
 
-impl PacketId for PacketCzTrycaptureMonster {
+impl PacketCzTrycaptureMonster {
+    pub fn from(buffer: &[u8]) -> PacketCzTrycaptureMonster {
+        PacketCzTrycaptureMonster {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            target_aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketCzTrycaptureMonster {
     fn id(&self) -> &str {
        "0x019f"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -7673,9 +14534,21 @@ pub struct PacketZcTrycaptureMonster {
     pub result: char,
 }
 
-impl PacketId for PacketZcTrycaptureMonster {
+impl PacketZcTrycaptureMonster {
+    pub fn from(buffer: &[u8]) -> PacketZcTrycaptureMonster {
+        PacketZcTrycaptureMonster {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            result: buffer[2] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcTrycaptureMonster {
     fn id(&self) -> &str {
        "0x01a0"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -7694,9 +14567,21 @@ pub struct PacketCzCommandPet {
     pub c_sub: char,
 }
 
-impl PacketId for PacketCzCommandPet {
+impl PacketCzCommandPet {
+    pub fn from(buffer: &[u8]) -> PacketCzCommandPet {
+        PacketCzCommandPet {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            c_sub: buffer[2] as char,
+        }
+    }
+}
+
+impl Packet for PacketCzCommandPet {
     fn id(&self) -> &str {
        "0x01a1"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -7721,9 +14606,27 @@ pub struct PacketZcPropertyPet {
     pub job: u16,
 }
 
-impl PacketId for PacketZcPropertyPet {
+impl PacketZcPropertyPet {
+    pub fn from(buffer: &[u8]) -> PacketZcPropertyPet {
+        PacketZcPropertyPet {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            sz_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            b_modified: buffer[26] as char,
+            n_level: u16::from_le_bytes([buffer[27], buffer[28]]),
+            n_fullness: u16::from_le_bytes([buffer[29], buffer[30]]),
+            n_relationship: u16::from_le_bytes([buffer[31], buffer[32]]),
+            itid: u16::from_le_bytes([buffer[33], buffer[34]]),
+            job: u16::from_le_bytes([buffer[35], buffer[36]]),
+        }
+    }
+}
+
+impl Packet for PacketZcPropertyPet {
     fn id(&self) -> &str {
        "0x01a2"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -7749,9 +14652,22 @@ pub struct PacketZcFeedPet {
     pub itid: u16,
 }
 
-impl PacketId for PacketZcFeedPet {
+impl PacketZcFeedPet {
+    pub fn from(buffer: &[u8]) -> PacketZcFeedPet {
+        PacketZcFeedPet {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            c_ret: buffer[2] as char,
+            itid: u16::from_le_bytes([buffer[3], buffer[4]]),
+        }
+    }
+}
+
+impl Packet for PacketZcFeedPet {
     fn id(&self) -> &str {
        "0x01a3"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -7773,9 +14689,23 @@ pub struct PacketZcChangestatePet {
     pub data: u32,
 }
 
-impl PacketId for PacketZcChangestatePet {
+impl PacketZcChangestatePet {
+    pub fn from(buffer: &[u8]) -> PacketZcChangestatePet {
+        PacketZcChangestatePet {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            type_: buffer[2] as char,
+            gid: u32::from_le_bytes([buffer[3], buffer[4], buffer[5], buffer[6]]),
+            data: u32::from_le_bytes([buffer[7], buffer[8], buffer[9], buffer[10]]),
+        }
+    }
+}
+
+impl Packet for PacketZcChangestatePet {
     fn id(&self) -> &str {
        "0x01a4"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -7796,9 +14726,21 @@ pub struct PacketCzRenamePet {
     pub sz_name: String,
 }
 
-impl PacketId for PacketCzRenamePet {
+impl PacketCzRenamePet {
+    pub fn from(buffer: &[u8]) -> PacketCzRenamePet {
+        PacketCzRenamePet {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            sz_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketCzRenamePet {
     fn id(&self) -> &str {
        "0x01a5"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -7818,9 +14760,31 @@ pub struct PacketZcPeteggList {
     pub egg_list: Vec<PeteggitemInfo>,
 }
 
-impl PacketId for PacketZcPeteggList {
+impl PacketZcPeteggList {
+    pub fn from(buffer: &[u8]) -> PacketZcPeteggList {
+        let iter_count = &buffer.len() / 2;
+        let mut vec_field: Vec<PeteggitemInfo> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 4 * i;
+            let end_pos = 6 * i;
+            vec_field.push(PeteggitemInfo::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcPeteggList {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            egg_list: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcPeteggList {
     fn id(&self) -> &str {
        "0x01a6"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -7840,9 +14804,21 @@ pub struct PacketCzSelectPetegg {
     pub index: u16,
 }
 
-impl PacketId for PacketCzSelectPetegg {
+impl PacketCzSelectPetegg {
+    pub fn from(buffer: &[u8]) -> PacketCzSelectPetegg {
+        PacketCzSelectPetegg {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            index: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
+}
+
+impl Packet for PacketCzSelectPetegg {
     fn id(&self) -> &str {
        "0x01a7"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -7861,9 +14837,21 @@ pub struct PacketCzPeteggInfo {
     pub index: u16,
 }
 
-impl PacketId for PacketCzPeteggInfo {
+impl PacketCzPeteggInfo {
+    pub fn from(buffer: &[u8]) -> PacketCzPeteggInfo {
+        PacketCzPeteggInfo {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            index: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
+}
+
+impl Packet for PacketCzPeteggInfo {
     fn id(&self) -> &str {
        "0x01a8"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -7882,9 +14870,21 @@ pub struct PacketCzPetAct {
     pub data: u32,
 }
 
-impl PacketId for PacketCzPetAct {
+impl PacketCzPetAct {
+    pub fn from(buffer: &[u8]) -> PacketCzPetAct {
+        PacketCzPetAct {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            data: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketCzPetAct {
     fn id(&self) -> &str {
        "0x01a9"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -7904,9 +14904,22 @@ pub struct PacketZcPetAct {
     pub data: u32,
 }
 
-impl PacketId for PacketZcPetAct {
+impl PacketZcPetAct {
+    pub fn from(buffer: &[u8]) -> PacketZcPetAct {
+        PacketZcPetAct {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            data: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+        }
+    }
+}
+
+impl Packet for PacketZcPetAct {
     fn id(&self) -> &str {
        "0x01aa"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -7928,9 +14941,23 @@ pub struct PacketZcParChangeUser {
     pub count: u32,
 }
 
-impl PacketId for PacketZcParChangeUser {
+impl PacketZcParChangeUser {
+    pub fn from(buffer: &[u8]) -> PacketZcParChangeUser {
+        PacketZcParChangeUser {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            var_id: u16::from_le_bytes([buffer[6], buffer[7]]),
+            count: u32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
+        }
+    }
+}
+
+impl Packet for PacketZcParChangeUser {
     fn id(&self) -> &str {
        "0x01ab"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -7951,9 +14978,21 @@ pub struct PacketZcSkillUpdate {
     pub aid: u32,
 }
 
-impl PacketId for PacketZcSkillUpdate {
+impl PacketZcSkillUpdate {
+    pub fn from(buffer: &[u8]) -> PacketZcSkillUpdate {
+        PacketZcSkillUpdate {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketZcSkillUpdate {
     fn id(&self) -> &str {
        "0x01ac"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -7973,9 +15012,31 @@ pub struct PacketZcMakingarrowList {
     pub arrow_list: Vec<ArrowitemInfo>,
 }
 
-impl PacketId for PacketZcMakingarrowList {
+impl PacketZcMakingarrowList {
+    pub fn from(buffer: &[u8]) -> PacketZcMakingarrowList {
+        let iter_count = &buffer.len() / 2;
+        let mut vec_field: Vec<ArrowitemInfo> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 4 * i;
+            let end_pos = 6 * i;
+            vec_field.push(ArrowitemInfo::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcMakingarrowList {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            arrow_list: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcMakingarrowList {
     fn id(&self) -> &str {
        "0x01ad"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -7995,9 +15056,21 @@ pub struct PacketCzReqMakingarrow {
     pub id: u16,
 }
 
-impl PacketId for PacketCzReqMakingarrow {
+impl PacketCzReqMakingarrow {
+    pub fn from(buffer: &[u8]) -> PacketCzReqMakingarrow {
+        PacketCzReqMakingarrow {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            id: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
+}
+
+impl Packet for PacketCzReqMakingarrow {
     fn id(&self) -> &str {
        "0x01ae"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -8016,9 +15089,21 @@ pub struct PacketCzReqChangecart {
     pub num: u16,
 }
 
-impl PacketId for PacketCzReqChangecart {
+impl PacketCzReqChangecart {
+    pub fn from(buffer: &[u8]) -> PacketCzReqChangecart {
+        PacketCzReqChangecart {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            num: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
+}
+
+impl Packet for PacketCzReqChangecart {
     fn id(&self) -> &str {
        "0x01af"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -8039,9 +15124,23 @@ pub struct PacketZcNpcspriteChange {
     pub value: u32,
 }
 
-impl PacketId for PacketZcNpcspriteChange {
+impl PacketZcNpcspriteChange {
+    pub fn from(buffer: &[u8]) -> PacketZcNpcspriteChange {
+        PacketZcNpcspriteChange {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            type_: buffer[6] as char,
+            value: u32::from_le_bytes([buffer[7], buffer[8], buffer[9], buffer[10]]),
+        }
+    }
+}
+
+impl Packet for PacketZcNpcspriteChange {
     fn id(&self) -> &str {
        "0x01b0"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -8063,9 +15162,22 @@ pub struct PacketZcShowdigit {
     pub value: u32,
 }
 
-impl PacketId for PacketZcShowdigit {
+impl PacketZcShowdigit {
+    pub fn from(buffer: &[u8]) -> PacketZcShowdigit {
+        PacketZcShowdigit {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            type_: buffer[2] as char,
+            value: u32::from_le_bytes([buffer[3], buffer[4], buffer[5], buffer[6]]),
+        }
+    }
+}
+
+impl Packet for PacketZcShowdigit {
     fn id(&self) -> &str {
        "0x01b1"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -8088,9 +15200,33 @@ pub struct PacketCzReqOpenstore2 {
     pub store_list: Vec<StoreItem>,
 }
 
-impl PacketId for PacketCzReqOpenstore2 {
+impl PacketCzReqOpenstore2 {
+    pub fn from(buffer: &[u8]) -> PacketCzReqOpenstore2 {
+        let iter_count = &buffer.len() / 8;
+        let mut vec_field: Vec<StoreItem> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 85 * i;
+            let end_pos = 93 * i;
+            vec_field.push(StoreItem::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketCzReqOpenstore2 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            store_name: String::from_utf8_lossy(&buffer[4..84]).to_string(),
+            result: buffer[84] == 1,
+            store_list: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketCzReqOpenstore2 {
     fn id(&self) -> &str {
        "0x01b2"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -8113,9 +15249,22 @@ pub struct PacketZcShowImage2 {
     pub type_: char,
 }
 
-impl PacketId for PacketZcShowImage2 {
+impl PacketZcShowImage2 {
+    pub fn from(buffer: &[u8]) -> PacketZcShowImage2 {
+        PacketZcShowImage2 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            image_name: String::from_utf8_lossy(&buffer[2..66]).to_string(),
+            type_: buffer[66] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcShowImage2 {
     fn id(&self) -> &str {
        "0x01b3"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -8137,9 +15286,23 @@ pub struct PacketZcChangeGuild {
     pub emblem_version: u16,
 }
 
-impl PacketId for PacketZcChangeGuild {
+impl PacketZcChangeGuild {
+    pub fn from(buffer: &[u8]) -> PacketZcChangeGuild {
+        PacketZcChangeGuild {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gdid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            emblem_version: u16::from_le_bytes([buffer[10], buffer[11]]),
+        }
+    }
+}
+
+impl Packet for PacketZcChangeGuild {
     fn id(&self) -> &str {
        "0x01b4"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -8163,9 +15326,24 @@ pub struct PacketScBillingInfo {
     pub dw_reserved2: u32,
 }
 
-impl PacketId for PacketScBillingInfo {
+impl PacketScBillingInfo {
+    pub fn from(buffer: &[u8]) -> PacketScBillingInfo {
+        PacketScBillingInfo {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            dw_amount_remain: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            dw_quantity_remain: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            dw_reserved1: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            dw_reserved2: u32::from_le_bytes([buffer[14], buffer[15], buffer[16], buffer[17]]),
+        }
+    }
+}
+
+impl Packet for PacketScBillingInfo {
     fn id(&self) -> &str {
        "0x01b5"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -8201,9 +15379,35 @@ pub struct PacketZcGuildInfo2 {
     pub zeny: u32,
 }
 
-impl PacketId for PacketZcGuildInfo2 {
+impl PacketZcGuildInfo2 {
+    pub fn from(buffer: &[u8]) -> PacketZcGuildInfo2 {
+        PacketZcGuildInfo2 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            gdid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            level: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            user_num: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            max_user_num: u32::from_le_bytes([buffer[14], buffer[15], buffer[16], buffer[17]]),
+            user_average_level: u32::from_le_bytes([buffer[18], buffer[19], buffer[20], buffer[21]]),
+            exp: u32::from_le_bytes([buffer[22], buffer[23], buffer[24], buffer[25]]),
+            max_exp: u32::from_le_bytes([buffer[26], buffer[27], buffer[28], buffer[29]]),
+            point: u32::from_le_bytes([buffer[30], buffer[31], buffer[32], buffer[33]]),
+            honor: u32::from_le_bytes([buffer[34], buffer[35], buffer[36], buffer[37]]),
+            virtue: u32::from_le_bytes([buffer[38], buffer[39], buffer[40], buffer[41]]),
+            emblem_version: u32::from_le_bytes([buffer[42], buffer[43], buffer[44], buffer[45]]),
+            guildname: String::from_utf8_lossy(&buffer[46..70]).to_string(),
+            master_name: String::from_utf8_lossy(&buffer[70..94]).to_string(),
+            manage_land: String::from_utf8_lossy(&buffer[94..110]).to_string(),
+            zeny: u32::from_le_bytes([buffer[110], buffer[111], buffer[112], buffer[113]]),
+        }
+    }
+}
+
+impl Packet for PacketZcGuildInfo2 {
     fn id(&self) -> &str {
        "0x01b6"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -8236,9 +15440,21 @@ pub struct PacketCzGuildZeny {
     pub zeny: u32,
 }
 
-impl PacketId for PacketCzGuildZeny {
+impl PacketCzGuildZeny {
+    pub fn from(buffer: &[u8]) -> PacketCzGuildZeny {
+        PacketCzGuildZeny {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            zeny: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketCzGuildZeny {
     fn id(&self) -> &str {
        "0x01b7"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -8257,9 +15473,21 @@ pub struct PacketZcGuildZenyAck {
     pub ret: char,
 }
 
-impl PacketId for PacketZcGuildZenyAck {
+impl PacketZcGuildZenyAck {
+    pub fn from(buffer: &[u8]) -> PacketZcGuildZenyAck {
+        PacketZcGuildZenyAck {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            ret: buffer[2] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcGuildZenyAck {
     fn id(&self) -> &str {
        "0x01b8"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -8278,9 +15506,21 @@ pub struct PacketZcDispel {
     pub aid: u32,
 }
 
-impl PacketId for PacketZcDispel {
+impl PacketZcDispel {
+    pub fn from(buffer: &[u8]) -> PacketZcDispel {
+        PacketZcDispel {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketZcDispel {
     fn id(&self) -> &str {
        "0x01b9"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -8299,9 +15539,21 @@ pub struct PacketCzRemoveAid {
     pub account_name: String,
 }
 
-impl PacketId for PacketCzRemoveAid {
+impl PacketCzRemoveAid {
+    pub fn from(buffer: &[u8]) -> PacketCzRemoveAid {
+        PacketCzRemoveAid {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            account_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketCzRemoveAid {
     fn id(&self) -> &str {
        "0x01ba"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -8320,9 +15572,21 @@ pub struct PacketCzShift {
     pub character_name: String,
 }
 
-impl PacketId for PacketCzShift {
+impl PacketCzShift {
+    pub fn from(buffer: &[u8]) -> PacketCzShift {
+        PacketCzShift {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            character_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketCzShift {
     fn id(&self) -> &str {
        "0x01bb"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -8341,9 +15605,21 @@ pub struct PacketCzRecall {
     pub account_name: String,
 }
 
-impl PacketId for PacketCzRecall {
+impl PacketCzRecall {
+    pub fn from(buffer: &[u8]) -> PacketCzRecall {
+        PacketCzRecall {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            account_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketCzRecall {
     fn id(&self) -> &str {
        "0x01bc"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -8362,9 +15638,21 @@ pub struct PacketCzRecallGid {
     pub character_name: String,
 }
 
-impl PacketId for PacketCzRecallGid {
+impl PacketCzRecallGid {
+    pub fn from(buffer: &[u8]) -> PacketCzRecallGid {
+        PacketCzRecallGid {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            character_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketCzRecallGid {
     fn id(&self) -> &str {
        "0x01bd"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -8382,9 +15670,20 @@ pub struct PacketAcAskPngameroom {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketAcAskPngameroom {
+impl PacketAcAskPngameroom {
+    pub fn from(buffer: &[u8]) -> PacketAcAskPngameroom {
+        PacketAcAskPngameroom {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketAcAskPngameroom {
     fn id(&self) -> &str {
        "0x01be"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -8402,9 +15701,21 @@ pub struct PacketCaReplyPngameroom {
     pub permission: char,
 }
 
-impl PacketId for PacketCaReplyPngameroom {
+impl PacketCaReplyPngameroom {
+    pub fn from(buffer: &[u8]) -> PacketCaReplyPngameroom {
+        PacketCaReplyPngameroom {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            permission: buffer[2] as char,
+        }
+    }
+}
+
+impl Packet for PacketCaReplyPngameroom {
     fn id(&self) -> &str {
        "0x01bf"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -8422,9 +15733,20 @@ pub struct PacketCzReqRemaintime {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketCzReqRemaintime {
+impl PacketCzReqRemaintime {
+    pub fn from(buffer: &[u8]) -> PacketCzReqRemaintime {
+        PacketCzReqRemaintime {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketCzReqRemaintime {
     fn id(&self) -> &str {
        "0x01c0"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -8444,9 +15766,23 @@ pub struct PacketZcReplyRemaintime {
     pub remain_time: u32,
 }
 
-impl PacketId for PacketZcReplyRemaintime {
+impl PacketZcReplyRemaintime {
+    pub fn from(buffer: &[u8]) -> PacketZcReplyRemaintime {
+        PacketZcReplyRemaintime {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            result: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            expiration_date: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            remain_time: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+        }
+    }
+}
+
+impl Packet for PacketZcReplyRemaintime {
     fn id(&self) -> &str {
        "0x01c1"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -8468,9 +15804,22 @@ pub struct PacketZcInfoRemaintime {
     pub remain_time: u32,
 }
 
-impl PacketId for PacketZcInfoRemaintime {
+impl PacketZcInfoRemaintime {
+    pub fn from(buffer: &[u8]) -> PacketZcInfoRemaintime {
+        PacketZcInfoRemaintime {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            type_: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            remain_time: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+        }
+    }
+}
+
+impl Packet for PacketZcInfoRemaintime {
     fn id(&self) -> &str {
        "0x01c2"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -8496,9 +15845,27 @@ pub struct PacketZcBroadcast2 {
     pub msg: String,
 }
 
-impl PacketId for PacketZcBroadcast2 {
+impl PacketZcBroadcast2 {
+    pub fn from(buffer: &[u8]) -> PacketZcBroadcast2 {
+        PacketZcBroadcast2 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            font_color: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            font_type: u16::from_le_bytes([buffer[8], buffer[9]]),
+            font_size: u16::from_le_bytes([buffer[10], buffer[11]]),
+            font_align: u16::from_le_bytes([buffer[12], buffer[13]]),
+            font_y: u16::from_le_bytes([buffer[14], buffer[15]]),
+            msg: String::from_utf8_lossy(&buffer[16..buffer.len()]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcBroadcast2 {
     fn id(&self) -> &str {
        "0x01c3"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -8530,9 +15897,28 @@ pub struct PacketZcAddItemToStore2 {
     pub slot: EQUIPSLOTINFO,
 }
 
-impl PacketId for PacketZcAddItemToStore2 {
+impl PacketZcAddItemToStore2 {
+    pub fn from(buffer: &[u8]) -> PacketZcAddItemToStore2 {
+        PacketZcAddItemToStore2 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            count: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            itid: u16::from_le_bytes([buffer[8], buffer[9]]),
+            type_: buffer[10] as char,
+            is_identified: buffer[11] == 1,
+            is_damaged: buffer[12] == 1,
+            refining_level: buffer[13] as char,
+            slot: EQUIPSLOTINFO::from(&buffer[14..22]),
+        }
+    }
+}
+
+impl Packet for PacketZcAddItemToStore2 {
     fn id(&self) -> &str {
        "0x01c4"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -8548,7 +15934,7 @@ impl Debug for PacketZcAddItemToStore2 {
             .field("is_identified[11, 12]", &self.is_identified)
             .field("is_damaged[12, 13]", &self.is_damaged)
             .field("refining_level[13, 14]", &self.refining_level)
-            .field("slot[14, ?]", &self.slot)
+            .field("slot[14, 22]", &self.slot)
         .finish()
     }
 }
@@ -8565,9 +15951,28 @@ pub struct PacketZcAddItemToCart2 {
     pub slot: EQUIPSLOTINFO,
 }
 
-impl PacketId for PacketZcAddItemToCart2 {
+impl PacketZcAddItemToCart2 {
+    pub fn from(buffer: &[u8]) -> PacketZcAddItemToCart2 {
+        PacketZcAddItemToCart2 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            count: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            itid: u16::from_le_bytes([buffer[8], buffer[9]]),
+            type_: buffer[10] as char,
+            is_identified: buffer[11] == 1,
+            is_damaged: buffer[12] == 1,
+            refining_level: buffer[13] as char,
+            slot: EQUIPSLOTINFO::from(&buffer[14..22]),
+        }
+    }
+}
+
+impl Packet for PacketZcAddItemToCart2 {
     fn id(&self) -> &str {
        "0x01c5"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -8583,7 +15988,7 @@ impl Debug for PacketZcAddItemToCart2 {
             .field("is_identified[11, 12]", &self.is_identified)
             .field("is_damaged[12, 13]", &self.is_damaged)
             .field("refining_level[13, 14]", &self.refining_level)
-            .field("slot[14, ?]", &self.slot)
+            .field("slot[14, 22]", &self.slot)
         .finish()
     }
 }
@@ -8594,9 +15999,22 @@ pub struct PacketCsReqEncryption {
     pub dec_count: char,
 }
 
-impl PacketId for PacketCsReqEncryption {
+impl PacketCsReqEncryption {
+    pub fn from(buffer: &[u8]) -> PacketCsReqEncryption {
+        PacketCsReqEncryption {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            enc_count: buffer[2] as char,
+            dec_count: buffer[3] as char,
+        }
+    }
+}
+
+impl Packet for PacketCsReqEncryption {
     fn id(&self) -> &str {
        "0x01c6"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -8615,9 +16033,20 @@ pub struct PacketScAckEncryption {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketScAckEncryption {
+impl PacketScAckEncryption {
+    pub fn from(buffer: &[u8]) -> PacketScAckEncryption {
+        PacketScAckEncryption {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketScAckEncryption {
     fn id(&self) -> &str {
        "0x01c7"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -8639,9 +16068,25 @@ pub struct PacketZcUseItemAck2 {
     pub result: bool,
 }
 
-impl PacketId for PacketZcUseItemAck2 {
+impl PacketZcUseItemAck2 {
+    pub fn from(buffer: &[u8]) -> PacketZcUseItemAck2 {
+        PacketZcUseItemAck2 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            id: u16::from_le_bytes([buffer[4], buffer[5]]),
+            aid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            count: u16::from_le_bytes([buffer[10], buffer[11]]),
+            result: buffer[12] == 1,
+        }
+    }
+}
+
+impl Packet for PacketZcUseItemAck2 {
     fn id(&self) -> &str {
        "0x01c8"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -8671,9 +16116,28 @@ pub struct PacketZcSkillEntry2 {
     pub msg: String,
 }
 
-impl PacketId for PacketZcSkillEntry2 {
+impl PacketZcSkillEntry2 {
+    pub fn from(buffer: &[u8]) -> PacketZcSkillEntry2 {
+        PacketZcSkillEntry2 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            creator_aid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            x_pos: u16::from_le_bytes([buffer[10], buffer[11]]),
+            y_pos: u16::from_le_bytes([buffer[12], buffer[13]]),
+            job: buffer[14] as char,
+            is_visible: buffer[15] == 1,
+            is_contens: buffer[16] == 1,
+            msg: String::from_utf8_lossy(&buffer[17..97]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcSkillEntry2 {
     fn id(&self) -> &str {
        "0x01c9"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -8699,9 +16163,21 @@ pub struct PacketCzReqmakinghomun {
     pub result: bool,
 }
 
-impl PacketId for PacketCzReqmakinghomun {
+impl PacketCzReqmakinghomun {
+    pub fn from(buffer: &[u8]) -> PacketCzReqmakinghomun {
+        PacketCzReqmakinghomun {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            result: buffer[2] == 1,
+        }
+    }
+}
+
+impl Packet for PacketCzReqmakinghomun {
     fn id(&self) -> &str {
        "0x01ca"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -8723,9 +16199,24 @@ pub struct PacketCzMonsterTalk {
     pub arg1: char,
 }
 
-impl PacketId for PacketCzMonsterTalk {
+impl PacketCzMonsterTalk {
+    pub fn from(buffer: &[u8]) -> PacketCzMonsterTalk {
+        PacketCzMonsterTalk {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            state_id: buffer[6] as char,
+            skill_id: buffer[7] as char,
+            arg1: buffer[8] as char,
+        }
+    }
+}
+
+impl Packet for PacketCzMonsterTalk {
     fn id(&self) -> &str {
        "0x01cb"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -8750,9 +16241,24 @@ pub struct PacketZcMonsterTalk {
     pub arg1: char,
 }
 
-impl PacketId for PacketZcMonsterTalk {
+impl PacketZcMonsterTalk {
+    pub fn from(buffer: &[u8]) -> PacketZcMonsterTalk {
+        PacketZcMonsterTalk {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            state_id: buffer[6] as char,
+            skill_id: buffer[7] as char,
+            arg1: buffer[8] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcMonsterTalk {
     fn id(&self) -> &str {
        "0x01cc"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -8774,9 +16280,21 @@ pub struct PacketZcAutospelllist {
     pub skid: u32,
 }
 
-impl PacketId for PacketZcAutospelllist {
+impl PacketZcAutospelllist {
+    pub fn from(buffer: &[u8]) -> PacketZcAutospelllist {
+        PacketZcAutospelllist {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            skid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketZcAutospelllist {
     fn id(&self) -> &str {
        "0x01cd"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -8795,9 +16313,21 @@ pub struct PacketCzSelectautospell {
     pub skid: u32,
 }
 
-impl PacketId for PacketCzSelectautospell {
+impl PacketCzSelectautospell {
+    pub fn from(buffer: &[u8]) -> PacketCzSelectautospell {
+        PacketCzSelectautospell {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            skid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketCzSelectautospell {
     fn id(&self) -> &str {
        "0x01ce"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -8818,9 +16348,23 @@ pub struct PacketZcDevotionlist {
     pub range: u16,
 }
 
-impl PacketId for PacketZcDevotionlist {
+impl PacketZcDevotionlist {
+    pub fn from(buffer: &[u8]) -> PacketZcDevotionlist {
+        PacketZcDevotionlist {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            my_aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            range: u16::from_le_bytes([buffer[26], buffer[27]]),
+        }
+    }
+}
+
+impl Packet for PacketZcDevotionlist {
     fn id(&self) -> &str {
        "0x01cf"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -8842,9 +16386,22 @@ pub struct PacketZcSpirits {
     pub num: u16,
 }
 
-impl PacketId for PacketZcSpirits {
+impl PacketZcSpirits {
+    pub fn from(buffer: &[u8]) -> PacketZcSpirits {
+        PacketZcSpirits {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            num: u16::from_le_bytes([buffer[6], buffer[7]]),
+        }
+    }
+}
+
+impl Packet for PacketZcSpirits {
     fn id(&self) -> &str {
        "0x01d0"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -8866,9 +16423,23 @@ pub struct PacketZcBladestop {
     pub flag: u32,
 }
 
-impl PacketId for PacketZcBladestop {
+impl PacketZcBladestop {
+    pub fn from(buffer: &[u8]) -> PacketZcBladestop {
+        PacketZcBladestop {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            src_aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            dest_aid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            flag: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+        }
+    }
+}
+
+impl Packet for PacketZcBladestop {
     fn id(&self) -> &str {
        "0x01d1"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -8890,9 +16461,22 @@ pub struct PacketZcCombodelay {
     pub delay_time: u32,
 }
 
-impl PacketId for PacketZcCombodelay {
+impl PacketZcCombodelay {
+    pub fn from(buffer: &[u8]) -> PacketZcCombodelay {
+        PacketZcCombodelay {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            delay_time: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+        }
+    }
+}
+
+impl Packet for PacketZcCombodelay {
     fn id(&self) -> &str {
        "0x01d2"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -8915,9 +16499,24 @@ pub struct PacketZcSound {
     pub naid: u32,
 }
 
-impl PacketId for PacketZcSound {
+impl PacketZcSound {
+    pub fn from(buffer: &[u8]) -> PacketZcSound {
+        PacketZcSound {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            file_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            act: buffer[26] as char,
+            term: u32::from_le_bytes([buffer[27], buffer[28], buffer[29], buffer[30]]),
+            naid: u32::from_le_bytes([buffer[31], buffer[32], buffer[33], buffer[34]]),
+        }
+    }
+}
+
+impl Packet for PacketZcSound {
     fn id(&self) -> &str {
        "0x01d3"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -8939,9 +16538,21 @@ pub struct PacketZcOpenEditdlgstr {
     pub naid: u32,
 }
 
-impl PacketId for PacketZcOpenEditdlgstr {
+impl PacketZcOpenEditdlgstr {
+    pub fn from(buffer: &[u8]) -> PacketZcOpenEditdlgstr {
+        PacketZcOpenEditdlgstr {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            naid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketZcOpenEditdlgstr {
     fn id(&self) -> &str {
        "0x01d4"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -8962,9 +16573,23 @@ pub struct PacketCzInputEditdlgstr {
     pub msg: String,
 }
 
-impl PacketId for PacketCzInputEditdlgstr {
+impl PacketCzInputEditdlgstr {
+    pub fn from(buffer: &[u8]) -> PacketCzInputEditdlgstr {
+        PacketCzInputEditdlgstr {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            naid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            msg: String::from_utf8_lossy(&buffer[8..buffer.len()]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketCzInputEditdlgstr {
     fn id(&self) -> &str {
        "0x01d5"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -8985,9 +16610,21 @@ pub struct PacketZcNotifyMapproperty2 {
     pub type_: u16,
 }
 
-impl PacketId for PacketZcNotifyMapproperty2 {
+impl PacketZcNotifyMapproperty2 {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyMapproperty2 {
+        PacketZcNotifyMapproperty2 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            type_: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyMapproperty2 {
     fn id(&self) -> &str {
        "0x01d6"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -9008,9 +16645,23 @@ pub struct PacketZcSpriteChange2 {
     pub value: u32,
 }
 
-impl PacketId for PacketZcSpriteChange2 {
+impl PacketZcSpriteChange2 {
+    pub fn from(buffer: &[u8]) -> PacketZcSpriteChange2 {
+        PacketZcSpriteChange2 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            type_: buffer[6] as char,
+            value: u32::from_le_bytes([buffer[7], buffer[8], buffer[9], buffer[10]]),
+        }
+    }
+}
+
+impl Packet for PacketZcSpriteChange2 {
     fn id(&self) -> &str {
        "0x01d7"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -9055,9 +16706,45 @@ pub struct PacketZcNotifyStandentry2 {
     pub clevel: u16,
 }
 
-impl PacketId for PacketZcNotifyStandentry2 {
+impl PacketZcNotifyStandentry2 {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyStandentry2 {
+        PacketZcNotifyStandentry2 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            speed: u16::from_le_bytes([buffer[6], buffer[7]]),
+            body_state: u16::from_le_bytes([buffer[8], buffer[9]]),
+            health_state: u16::from_le_bytes([buffer[10], buffer[11]]),
+            effect_state: u16::from_le_bytes([buffer[12], buffer[13]]),
+            job: u16::from_le_bytes([buffer[14], buffer[15]]),
+            head: u16::from_le_bytes([buffer[16], buffer[17]]),
+            weapon: u32::from_le_bytes([buffer[18], buffer[19], buffer[20], buffer[21]]),
+            accessory: u16::from_le_bytes([buffer[22], buffer[23]]),
+            accessory2: u16::from_le_bytes([buffer[24], buffer[25]]),
+            accessory3: u16::from_le_bytes([buffer[26], buffer[27]]),
+            headpalette: u16::from_le_bytes([buffer[28], buffer[29]]),
+            bodypalette: u16::from_le_bytes([buffer[30], buffer[31]]),
+            head_dir: u16::from_le_bytes([buffer[32], buffer[33]]),
+            guid: u32::from_le_bytes([buffer[34], buffer[35], buffer[36], buffer[37]]),
+            gemblem_ver: u16::from_le_bytes([buffer[38], buffer[39]]),
+            honor: u16::from_le_bytes([buffer[40], buffer[41]]),
+            virtue: u16::from_le_bytes([buffer[42], buffer[43]]),
+            is_pkmode_on: buffer[44] == 1,
+            sex: buffer[45] as char,
+            pos_dir: String::from_utf8_lossy(&buffer[46..49]).to_string(),
+            x_size: buffer[49] as char,
+            y_size: buffer[50] as char,
+            state: buffer[51] as char,
+            clevel: u16::from_le_bytes([buffer[52], buffer[53]]),
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyStandentry2 {
     fn id(&self) -> &str {
        "0x01d8"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -9123,9 +16810,44 @@ pub struct PacketZcNotifyNewentry2 {
     pub clevel: u16,
 }
 
-impl PacketId for PacketZcNotifyNewentry2 {
+impl PacketZcNotifyNewentry2 {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyNewentry2 {
+        PacketZcNotifyNewentry2 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            speed: u16::from_le_bytes([buffer[6], buffer[7]]),
+            body_state: u16::from_le_bytes([buffer[8], buffer[9]]),
+            health_state: u16::from_le_bytes([buffer[10], buffer[11]]),
+            effect_state: u16::from_le_bytes([buffer[12], buffer[13]]),
+            job: u16::from_le_bytes([buffer[14], buffer[15]]),
+            head: u16::from_le_bytes([buffer[16], buffer[17]]),
+            weapon: u32::from_le_bytes([buffer[18], buffer[19], buffer[20], buffer[21]]),
+            accessory: u16::from_le_bytes([buffer[22], buffer[23]]),
+            accessory2: u16::from_le_bytes([buffer[24], buffer[25]]),
+            accessory3: u16::from_le_bytes([buffer[26], buffer[27]]),
+            headpalette: u16::from_le_bytes([buffer[28], buffer[29]]),
+            bodypalette: u16::from_le_bytes([buffer[30], buffer[31]]),
+            head_dir: u16::from_le_bytes([buffer[32], buffer[33]]),
+            guid: u32::from_le_bytes([buffer[34], buffer[35], buffer[36], buffer[37]]),
+            gemblem_ver: u16::from_le_bytes([buffer[38], buffer[39]]),
+            honor: u16::from_le_bytes([buffer[40], buffer[41]]),
+            virtue: u16::from_le_bytes([buffer[42], buffer[43]]),
+            is_pkmode_on: buffer[44] == 1,
+            sex: buffer[45] as char,
+            pos_dir: String::from_utf8_lossy(&buffer[46..49]).to_string(),
+            x_size: buffer[49] as char,
+            y_size: buffer[50] as char,
+            clevel: u16::from_le_bytes([buffer[51], buffer[52]]),
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyNewentry2 {
     fn id(&self) -> &str {
        "0x01d9"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -9191,9 +16913,45 @@ pub struct PacketZcNotifyMoveentry2 {
     pub clevel: u16,
 }
 
-impl PacketId for PacketZcNotifyMoveentry2 {
+impl PacketZcNotifyMoveentry2 {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyMoveentry2 {
+        PacketZcNotifyMoveentry2 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            speed: u16::from_le_bytes([buffer[6], buffer[7]]),
+            body_state: u16::from_le_bytes([buffer[8], buffer[9]]),
+            health_state: u16::from_le_bytes([buffer[10], buffer[11]]),
+            effect_state: u16::from_le_bytes([buffer[12], buffer[13]]),
+            job: u16::from_le_bytes([buffer[14], buffer[15]]),
+            head: u16::from_le_bytes([buffer[16], buffer[17]]),
+            weapon: u32::from_le_bytes([buffer[18], buffer[19], buffer[20], buffer[21]]),
+            accessory: u16::from_le_bytes([buffer[22], buffer[23]]),
+            move_start_time: u32::from_le_bytes([buffer[24], buffer[25], buffer[26], buffer[27]]),
+            accessory2: u16::from_le_bytes([buffer[28], buffer[29]]),
+            accessory3: u16::from_le_bytes([buffer[30], buffer[31]]),
+            headpalette: u16::from_le_bytes([buffer[32], buffer[33]]),
+            bodypalette: u16::from_le_bytes([buffer[34], buffer[35]]),
+            head_dir: u16::from_le_bytes([buffer[36], buffer[37]]),
+            guid: u32::from_le_bytes([buffer[38], buffer[39], buffer[40], buffer[41]]),
+            gemblem_ver: u16::from_le_bytes([buffer[42], buffer[43]]),
+            honor: u16::from_le_bytes([buffer[44], buffer[45]]),
+            virtue: u16::from_le_bytes([buffer[46], buffer[47]]),
+            is_pkmode_on: buffer[48] == 1,
+            sex: buffer[49] as char,
+            move_data: String::from_utf8_lossy(&buffer[50..56]).to_string(),
+            x_size: buffer[56] as char,
+            y_size: buffer[57] as char,
+            clevel: u16::from_le_bytes([buffer[58], buffer[59]]),
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyMoveentry2 {
     fn id(&self) -> &str {
        "0x01da"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -9235,9 +16993,20 @@ pub struct PacketCaReqHash {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketCaReqHash {
+impl PacketCaReqHash {
+    pub fn from(buffer: &[u8]) -> PacketCaReqHash {
+        PacketCaReqHash {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketCaReqHash {
     fn id(&self) -> &str {
        "0x01db"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -9256,9 +17025,22 @@ pub struct PacketAcAckHash {
     pub secret: String,
 }
 
-impl PacketId for PacketAcAckHash {
+impl PacketAcAckHash {
+    pub fn from(buffer: &[u8]) -> PacketAcAckHash {
+        PacketAcAckHash {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            secret: String::from_utf8_lossy(&buffer[4..buffer.len()]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketAcAckHash {
     fn id(&self) -> &str {
        "0x01dc"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -9281,9 +17063,24 @@ pub struct PacketCaLogin2 {
     pub clienttype: char,
 }
 
-impl PacketId for PacketCaLogin2 {
+impl PacketCaLogin2 {
+    pub fn from(buffer: &[u8]) -> PacketCaLogin2 {
+        PacketCaLogin2 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            version: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            id: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            passwd_md5: String::from_utf8_lossy(&buffer[30..46]).to_string(),
+            clienttype: buffer[46] as char,
+        }
+    }
+}
+
+impl Packet for PacketCaLogin2 {
     fn id(&self) -> &str {
        "0x01dd"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -9314,9 +17111,30 @@ pub struct PacketZcNotifySkill2 {
     pub action: char,
 }
 
-impl PacketId for PacketZcNotifySkill2 {
+impl PacketZcNotifySkill2 {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifySkill2 {
+        PacketZcNotifySkill2 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            skid: u16::from_le_bytes([buffer[2], buffer[3]]),
+            aid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            target_id: u32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
+            start_time: u32::from_le_bytes([buffer[12], buffer[13], buffer[14], buffer[15]]),
+            attack_mt: u32::from_le_bytes([buffer[16], buffer[17], buffer[18], buffer[19]]),
+            attacked_mt: u32::from_le_bytes([buffer[20], buffer[21], buffer[22], buffer[23]]),
+            damage: u32::from_le_bytes([buffer[24], buffer[25], buffer[26], buffer[27]]),
+            level: u16::from_le_bytes([buffer[28], buffer[29]]),
+            count: u16::from_le_bytes([buffer[30], buffer[31]]),
+            action: buffer[32] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcNotifySkill2 {
     fn id(&self) -> &str {
        "0x01de"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -9344,9 +17162,21 @@ pub struct PacketCzReqAccountname {
     pub aid: u32,
 }
 
-impl PacketId for PacketCzReqAccountname {
+impl PacketCzReqAccountname {
+    pub fn from(buffer: &[u8]) -> PacketCzReqAccountname {
+        PacketCzReqAccountname {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketCzReqAccountname {
     fn id(&self) -> &str {
        "0x01df"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -9366,9 +17196,22 @@ pub struct PacketZcAckAccountname {
     pub name: String,
 }
 
-impl PacketId for PacketZcAckAccountname {
+impl PacketZcAckAccountname {
+    pub fn from(buffer: &[u8]) -> PacketZcAckAccountname {
+        PacketZcAckAccountname {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            name: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcAckAccountname {
     fn id(&self) -> &str {
        "0x01e0"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -9389,9 +17232,22 @@ pub struct PacketZcSpirits2 {
     pub num: u16,
 }
 
-impl PacketId for PacketZcSpirits2 {
+impl PacketZcSpirits2 {
+    pub fn from(buffer: &[u8]) -> PacketZcSpirits2 {
+        PacketZcSpirits2 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            num: u16::from_le_bytes([buffer[6], buffer[7]]),
+        }
+    }
+}
+
+impl Packet for PacketZcSpirits2 {
     fn id(&self) -> &str {
        "0x01e1"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -9413,9 +17269,23 @@ pub struct PacketZcReqCouple {
     pub name: String,
 }
 
-impl PacketId for PacketZcReqCouple {
+impl PacketZcReqCouple {
+    pub fn from(buffer: &[u8]) -> PacketZcReqCouple {
+        PacketZcReqCouple {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            name: String::from_utf8_lossy(&buffer[10..34]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcReqCouple {
     fn id(&self) -> &str {
        "0x01e2"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -9438,9 +17308,23 @@ pub struct PacketCzJoinCouple {
     pub answer: u32,
 }
 
-impl PacketId for PacketCzJoinCouple {
+impl PacketCzJoinCouple {
+    pub fn from(buffer: &[u8]) -> PacketCzJoinCouple {
+        PacketCzJoinCouple {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            answer: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+        }
+    }
+}
+
+impl Packet for PacketCzJoinCouple {
     fn id(&self) -> &str {
        "0x01e3"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -9460,9 +17344,20 @@ pub struct PacketZcStartCouple {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketZcStartCouple {
+impl PacketZcStartCouple {
+    pub fn from(buffer: &[u8]) -> PacketZcStartCouple {
+        PacketZcStartCouple {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketZcStartCouple {
     fn id(&self) -> &str {
        "0x01e4"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -9480,9 +17375,21 @@ pub struct PacketCzReqJoinCouple {
     pub aid: u32,
 }
 
-impl PacketId for PacketCzReqJoinCouple {
+impl PacketCzReqJoinCouple {
+    pub fn from(buffer: &[u8]) -> PacketCzReqJoinCouple {
+        PacketCzReqJoinCouple {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketCzReqJoinCouple {
     fn id(&self) -> &str {
        "0x01e5"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -9501,9 +17408,21 @@ pub struct PacketZcCouplename {
     pub couple_name: String,
 }
 
-impl PacketId for PacketZcCouplename {
+impl PacketZcCouplename {
+    pub fn from(buffer: &[u8]) -> PacketZcCouplename {
+        PacketZcCouplename {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            couple_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcCouplename {
     fn id(&self) -> &str {
        "0x01e6"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -9521,9 +17440,20 @@ pub struct PacketCzDoridori {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketCzDoridori {
+impl PacketCzDoridori {
+    pub fn from(buffer: &[u8]) -> PacketCzDoridori {
+        PacketCzDoridori {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketCzDoridori {
     fn id(&self) -> &str {
        "0x01e7"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -9543,9 +17473,23 @@ pub struct PacketCzMakeGroup2 {
     pub item_division_rule: char,
 }
 
-impl PacketId for PacketCzMakeGroup2 {
+impl PacketCzMakeGroup2 {
+    pub fn from(buffer: &[u8]) -> PacketCzMakeGroup2 {
+        PacketCzMakeGroup2 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            group_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            item_pickup_rule: buffer[26] as char,
+            item_division_rule: buffer[27] as char,
+        }
+    }
+}
+
+impl Packet for PacketCzMakeGroup2 {
     fn id(&self) -> &str {
        "0x01e8"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -9575,9 +17519,30 @@ pub struct PacketZcAddMemberToGroup2 {
     pub item_division_rule: char,
 }
 
-impl PacketId for PacketZcAddMemberToGroup2 {
+impl PacketZcAddMemberToGroup2 {
+    pub fn from(buffer: &[u8]) -> PacketZcAddMemberToGroup2 {
+        PacketZcAddMemberToGroup2 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            role: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            x_pos: u16::from_le_bytes([buffer[10], buffer[11]]),
+            y_pos: u16::from_le_bytes([buffer[12], buffer[13]]),
+            state: buffer[14] as char,
+            group_name: String::from_utf8_lossy(&buffer[15..39]).to_string(),
+            character_name: String::from_utf8_lossy(&buffer[39..63]).to_string(),
+            map_name: String::from_utf8_lossy(&buffer[63..79]).to_string(),
+            item_pickup_rule: buffer[79] as char,
+            item_division_rule: buffer[80] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcAddMemberToGroup2 {
     fn id(&self) -> &str {
        "0x01e9"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -9605,9 +17570,21 @@ pub struct PacketZcCongratulation {
     pub aid: u32,
 }
 
-impl PacketId for PacketZcCongratulation {
+impl PacketZcCongratulation {
+    pub fn from(buffer: &[u8]) -> PacketZcCongratulation {
+        PacketZcCongratulation {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketZcCongratulation {
     fn id(&self) -> &str {
        "0x01ea"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -9628,9 +17605,23 @@ pub struct PacketZcNotifyPositionToGuildm {
     pub y_pos: u16,
 }
 
-impl PacketId for PacketZcNotifyPositionToGuildm {
+impl PacketZcNotifyPositionToGuildm {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyPositionToGuildm {
+        PacketZcNotifyPositionToGuildm {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            x_pos: u16::from_le_bytes([buffer[6], buffer[7]]),
+            y_pos: u16::from_le_bytes([buffer[8], buffer[9]]),
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyPositionToGuildm {
     fn id(&self) -> &str {
        "0x01eb"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -9653,9 +17644,23 @@ pub struct PacketZcGuildMemberMapChange {
     pub map_name: String,
 }
 
-impl PacketId for PacketZcGuildMemberMapChange {
+impl PacketZcGuildMemberMapChange {
+    pub fn from(buffer: &[u8]) -> PacketZcGuildMemberMapChange {
+        PacketZcGuildMemberMapChange {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            gdid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            map_name: String::from_utf8_lossy(&buffer[10..26]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcGuildMemberMapChange {
     fn id(&self) -> &str {
        "0x01ec"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -9675,9 +17680,20 @@ pub struct PacketCzChopokgi {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketCzChopokgi {
+impl PacketCzChopokgi {
+    pub fn from(buffer: &[u8]) -> PacketCzChopokgi {
+        PacketCzChopokgi {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketCzChopokgi {
     fn id(&self) -> &str {
        "0x01ed"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -9696,9 +17712,31 @@ pub struct PacketZcNormalItemlist2 {
     pub item_info: Vec<NormalitemExtrainfo2>,
 }
 
-impl PacketId for PacketZcNormalItemlist2 {
+impl PacketZcNormalItemlist2 {
+    pub fn from(buffer: &[u8]) -> PacketZcNormalItemlist2 {
+        let iter_count = &buffer.len() / 18;
+        let mut vec_field: Vec<NormalitemExtrainfo2> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 4 * i;
+            let end_pos = 22 * i;
+            vec_field.push(NormalitemExtrainfo2::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcNormalItemlist2 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            item_info: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcNormalItemlist2 {
     fn id(&self) -> &str {
        "0x01ee"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -9719,9 +17757,31 @@ pub struct PacketZcCartNormalItemlist2 {
     pub item_info: Vec<NormalitemExtrainfo2>,
 }
 
-impl PacketId for PacketZcCartNormalItemlist2 {
+impl PacketZcCartNormalItemlist2 {
+    pub fn from(buffer: &[u8]) -> PacketZcCartNormalItemlist2 {
+        let iter_count = &buffer.len() / 18;
+        let mut vec_field: Vec<NormalitemExtrainfo2> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 4 * i;
+            let end_pos = 22 * i;
+            vec_field.push(NormalitemExtrainfo2::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcCartNormalItemlist2 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            item_info: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcCartNormalItemlist2 {
     fn id(&self) -> &str {
        "0x01ef"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -9742,9 +17802,31 @@ pub struct PacketZcStoreNormalItemlist2 {
     pub item_info: Vec<NormalitemExtrainfo2>,
 }
 
-impl PacketId for PacketZcStoreNormalItemlist2 {
+impl PacketZcStoreNormalItemlist2 {
+    pub fn from(buffer: &[u8]) -> PacketZcStoreNormalItemlist2 {
+        let iter_count = &buffer.len() / 18;
+        let mut vec_field: Vec<NormalitemExtrainfo2> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 4 * i;
+            let end_pos = 22 * i;
+            vec_field.push(NormalitemExtrainfo2::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcStoreNormalItemlist2 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            item_info: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcStoreNormalItemlist2 {
     fn id(&self) -> &str {
        "0x01f0"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -9765,9 +17847,22 @@ pub struct PacketAcNotifyError {
     pub msg: String,
 }
 
-impl PacketId for PacketAcNotifyError {
+impl PacketAcNotifyError {
+    pub fn from(buffer: &[u8]) -> PacketAcNotifyError {
+        PacketAcNotifyError {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            msg: String::from_utf8_lossy(&buffer[4..buffer.len()]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketAcNotifyError {
     fn id(&self) -> &str {
        "0x01f1"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -9792,9 +17887,26 @@ pub struct PacketZcUpdateCharstat2 {
     pub head_palette: u16,
 }
 
-impl PacketId for PacketZcUpdateCharstat2 {
+impl PacketZcUpdateCharstat2 {
+    pub fn from(buffer: &[u8]) -> PacketZcUpdateCharstat2 {
+        PacketZcUpdateCharstat2 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            status: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            sex: u16::from_le_bytes([buffer[14], buffer[15]]),
+            head: u16::from_le_bytes([buffer[16], buffer[17]]),
+            head_palette: u16::from_le_bytes([buffer[18], buffer[19]]),
+        }
+    }
+}
+
+impl Packet for PacketZcUpdateCharstat2 {
     fn id(&self) -> &str {
        "0x01f2"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -9819,9 +17931,22 @@ pub struct PacketZcNotifyEffect2 {
     pub effect_id: u32,
 }
 
-impl PacketId for PacketZcNotifyEffect2 {
+impl PacketZcNotifyEffect2 {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyEffect2 {
+        PacketZcNotifyEffect2 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            effect_id: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyEffect2 {
     fn id(&self) -> &str {
        "0x01f3"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -9843,9 +17968,23 @@ pub struct PacketZcReqExchangeItem2 {
     pub level: u16,
 }
 
-impl PacketId for PacketZcReqExchangeItem2 {
+impl PacketZcReqExchangeItem2 {
+    pub fn from(buffer: &[u8]) -> PacketZcReqExchangeItem2 {
+        PacketZcReqExchangeItem2 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            gid: u32::from_le_bytes([buffer[26], buffer[27], buffer[28], buffer[29]]),
+            level: u16::from_le_bytes([buffer[30], buffer[31]]),
+        }
+    }
+}
+
+impl Packet for PacketZcReqExchangeItem2 {
     fn id(&self) -> &str {
        "0x01f4"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -9868,9 +18007,23 @@ pub struct PacketZcAckExchangeItem2 {
     pub level: u16,
 }
 
-impl PacketId for PacketZcAckExchangeItem2 {
+impl PacketZcAckExchangeItem2 {
+    pub fn from(buffer: &[u8]) -> PacketZcAckExchangeItem2 {
+        PacketZcAckExchangeItem2 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            result: buffer[2] as char,
+            gid: u32::from_le_bytes([buffer[3], buffer[4], buffer[5], buffer[6]]),
+            level: u16::from_le_bytes([buffer[7], buffer[8]]),
+        }
+    }
+}
+
+impl Packet for PacketZcAckExchangeItem2 {
     fn id(&self) -> &str {
        "0x01f5"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -9893,9 +18046,23 @@ pub struct PacketZcReqBaby {
     pub name: String,
 }
 
-impl PacketId for PacketZcReqBaby {
+impl PacketZcReqBaby {
+    pub fn from(buffer: &[u8]) -> PacketZcReqBaby {
+        PacketZcReqBaby {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            name: String::from_utf8_lossy(&buffer[10..34]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcReqBaby {
     fn id(&self) -> &str {
        "0x01f6"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -9918,9 +18085,23 @@ pub struct PacketCzJoinBaby {
     pub answer: u32,
 }
 
-impl PacketId for PacketCzJoinBaby {
+impl PacketCzJoinBaby {
+    pub fn from(buffer: &[u8]) -> PacketCzJoinBaby {
+        PacketCzJoinBaby {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            answer: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+        }
+    }
+}
+
+impl Packet for PacketCzJoinBaby {
     fn id(&self) -> &str {
        "0x01f7"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -9940,9 +18121,20 @@ pub struct PacketZcStartBaby {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketZcStartBaby {
+impl PacketZcStartBaby {
+    pub fn from(buffer: &[u8]) -> PacketZcStartBaby {
+        PacketZcStartBaby {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketZcStartBaby {
     fn id(&self) -> &str {
        "0x01f8"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -9960,9 +18152,21 @@ pub struct PacketCzReqJoinBaby {
     pub aid: u32,
 }
 
-impl PacketId for PacketCzReqJoinBaby {
+impl PacketCzReqJoinBaby {
+    pub fn from(buffer: &[u8]) -> PacketCzReqJoinBaby {
+        PacketCzReqJoinBaby {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketCzReqJoinBaby {
     fn id(&self) -> &str {
        "0x01f9"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -9985,9 +18189,25 @@ pub struct PacketCaLogin3 {
     pub client_info: char,
 }
 
-impl PacketId for PacketCaLogin3 {
+impl PacketCaLogin3 {
+    pub fn from(buffer: &[u8]) -> PacketCaLogin3 {
+        PacketCaLogin3 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            version: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            id: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            passwd_md5: String::from_utf8_lossy(&buffer[30..46]).to_string(),
+            clienttype: buffer[46] as char,
+            client_info: buffer[47] as char,
+        }
+    }
+}
+
+impl Packet for PacketCaLogin3 {
     fn id(&self) -> &str {
        "0x01fa"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -10011,9 +18231,22 @@ pub struct PacketChDeleteChar2 {
     pub key: String,
 }
 
-impl PacketId for PacketChDeleteChar2 {
+impl PacketChDeleteChar2 {
+    pub fn from(buffer: &[u8]) -> PacketChDeleteChar2 {
+        PacketChDeleteChar2 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            key: String::from_utf8_lossy(&buffer[6..56]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketChDeleteChar2 {
     fn id(&self) -> &str {
        "0x01fb"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -10034,9 +18267,31 @@ pub struct PacketZcRepairitemlist {
     pub item_list: Vec<RepairitemInfo>,
 }
 
-impl PacketId for PacketZcRepairitemlist {
+impl PacketZcRepairitemlist {
+    pub fn from(buffer: &[u8]) -> PacketZcRepairitemlist {
+        let iter_count = &buffer.len() / 13;
+        let mut vec_field: Vec<RepairitemInfo> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 4 * i;
+            let end_pos = 17 * i;
+            vec_field.push(RepairitemInfo::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcRepairitemlist {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            item_list: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcRepairitemlist {
     fn id(&self) -> &str {
        "0x01fc"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -10056,9 +18311,21 @@ pub struct PacketCzReqItemrepair {
     pub target_item_info: RepairitemInfo,
 }
 
-impl PacketId for PacketCzReqItemrepair {
+impl PacketCzReqItemrepair {
+    pub fn from(buffer: &[u8]) -> PacketCzReqItemrepair {
+        PacketCzReqItemrepair {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            target_item_info: RepairitemInfo::from(&buffer[2..buffer.len()]),
+        }
+    }
+}
+
+impl Packet for PacketCzReqItemrepair {
     fn id(&self) -> &str {
        "0x01fd"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -10078,9 +18345,22 @@ pub struct PacketZcAckItemrepair {
     pub result: char,
 }
 
-impl PacketId for PacketZcAckItemrepair {
+impl PacketZcAckItemrepair {
+    pub fn from(buffer: &[u8]) -> PacketZcAckItemrepair {
+        PacketZcAckItemrepair {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            result: buffer[4] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcAckItemrepair {
     fn id(&self) -> &str {
        "0x01fe"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -10102,9 +18382,23 @@ pub struct PacketZcHighjump {
     pub y_pos: u16,
 }
 
-impl PacketId for PacketZcHighjump {
+impl PacketZcHighjump {
+    pub fn from(buffer: &[u8]) -> PacketZcHighjump {
+        PacketZcHighjump {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            x_pos: u16::from_le_bytes([buffer[6], buffer[7]]),
+            y_pos: u16::from_le_bytes([buffer[8], buffer[9]]),
+        }
+    }
+}
+
+impl Packet for PacketZcHighjump {
     fn id(&self) -> &str {
        "0x01ff"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -10125,9 +18419,21 @@ pub struct PacketCaConnectInfoChanged {
     pub id: String,
 }
 
-impl PacketId for PacketCaConnectInfoChanged {
+impl PacketCaConnectInfoChanged {
+    pub fn from(buffer: &[u8]) -> PacketCaConnectInfoChanged {
+        PacketCaConnectInfoChanged {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            id: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketCaConnectInfoChanged {
     fn id(&self) -> &str {
        "0x0200"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -10147,9 +18453,31 @@ pub struct PacketZcFriendsList {
     pub friend_list: Vec<StructFriend>,
 }
 
-impl PacketId for PacketZcFriendsList {
+impl PacketZcFriendsList {
+    pub fn from(buffer: &[u8]) -> PacketZcFriendsList {
+        let iter_count = &buffer.len() / 32;
+        let mut vec_field: Vec<StructFriend> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 4 * i;
+            let end_pos = 36 * i;
+            vec_field.push(StructFriend::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcFriendsList {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            friend_list: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcFriendsList {
     fn id(&self) -> &str {
        "0x0201"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -10169,9 +18497,21 @@ pub struct PacketCzAddFriends {
     pub name: String,
 }
 
-impl PacketId for PacketCzAddFriends {
+impl PacketCzAddFriends {
+    pub fn from(buffer: &[u8]) -> PacketCzAddFriends {
+        PacketCzAddFriends {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketCzAddFriends {
     fn id(&self) -> &str {
        "0x0202"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -10191,9 +18531,22 @@ pub struct PacketCzDeleteFriends {
     pub gid: u32,
 }
 
-impl PacketId for PacketCzDeleteFriends {
+impl PacketCzDeleteFriends {
+    pub fn from(buffer: &[u8]) -> PacketCzDeleteFriends {
+        PacketCzDeleteFriends {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+        }
+    }
+}
+
+impl Packet for PacketCzDeleteFriends {
     fn id(&self) -> &str {
        "0x0203"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -10213,9 +18566,21 @@ pub struct PacketCaExeHashcheck {
     pub hash_value: String,
 }
 
-impl PacketId for PacketCaExeHashcheck {
+impl PacketCaExeHashcheck {
+    pub fn from(buffer: &[u8]) -> PacketCaExeHashcheck {
+        PacketCaExeHashcheck {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            hash_value: String::from_utf8_lossy(&buffer[2..18]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketCaExeHashcheck {
     fn id(&self) -> &str {
        "0x0204"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -10234,9 +18599,21 @@ pub struct PacketZcDivorce {
     pub name: String,
 }
 
-impl PacketId for PacketZcDivorce {
+impl PacketZcDivorce {
+    pub fn from(buffer: &[u8]) -> PacketZcDivorce {
+        PacketZcDivorce {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcDivorce {
     fn id(&self) -> &str {
        "0x0205"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -10257,9 +18634,23 @@ pub struct PacketZcFriendsState {
     pub state: bool,
 }
 
-impl PacketId for PacketZcFriendsState {
+impl PacketZcFriendsState {
+    pub fn from(buffer: &[u8]) -> PacketZcFriendsState {
+        PacketZcFriendsState {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            state: buffer[10] == 1,
+        }
+    }
+}
+
+impl Packet for PacketZcFriendsState {
     fn id(&self) -> &str {
        "0x0206"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -10282,9 +18673,23 @@ pub struct PacketZcReqAddFriends {
     pub name: String,
 }
 
-impl PacketId for PacketZcReqAddFriends {
+impl PacketZcReqAddFriends {
+    pub fn from(buffer: &[u8]) -> PacketZcReqAddFriends {
+        PacketZcReqAddFriends {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            req_aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            req_gid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            name: String::from_utf8_lossy(&buffer[10..34]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcReqAddFriends {
     fn id(&self) -> &str {
        "0x0207"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -10307,9 +18712,23 @@ pub struct PacketCzAckReqAddFriends {
     pub result: u32,
 }
 
-impl PacketId for PacketCzAckReqAddFriends {
+impl PacketCzAckReqAddFriends {
+    pub fn from(buffer: &[u8]) -> PacketCzAckReqAddFriends {
+        PacketCzAckReqAddFriends {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            req_aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            req_gid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            result: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+        }
+    }
+}
+
+impl Packet for PacketCzAckReqAddFriends {
     fn id(&self) -> &str {
        "0x0208"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -10333,9 +18752,24 @@ pub struct PacketZcAddFriendsList {
     pub name: String,
 }
 
-impl PacketId for PacketZcAddFriendsList {
+impl PacketZcAddFriendsList {
+    pub fn from(buffer: &[u8]) -> PacketZcAddFriendsList {
+        PacketZcAddFriendsList {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            result: u16::from_le_bytes([buffer[2], buffer[3]]),
+            aid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            gid: u32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
+            name: String::from_utf8_lossy(&buffer[12..36]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcAddFriendsList {
     fn id(&self) -> &str {
        "0x0209"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -10358,9 +18792,22 @@ pub struct PacketZcDeleteFriends {
     pub gid: u32,
 }
 
-impl PacketId for PacketZcDeleteFriends {
+impl PacketZcDeleteFriends {
+    pub fn from(buffer: &[u8]) -> PacketZcDeleteFriends {
+        PacketZcDeleteFriends {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+        }
+    }
+}
+
+impl Packet for PacketZcDeleteFriends {
     fn id(&self) -> &str {
        "0x020a"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -10381,9 +18828,22 @@ pub struct PacketChExeHashcheck {
     pub hash_value: String,
 }
 
-impl PacketId for PacketChExeHashcheck {
+impl PacketChExeHashcheck {
+    pub fn from(buffer: &[u8]) -> PacketChExeHashcheck {
+        PacketChExeHashcheck {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            client_type: buffer[2] as char,
+            hash_value: String::from_utf8_lossy(&buffer[3..19]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketChExeHashcheck {
     fn id(&self) -> &str {
        "0x020b"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -10404,9 +18864,22 @@ pub struct PacketCzExeHashcheck {
     pub hash_value: String,
 }
 
-impl PacketId for PacketCzExeHashcheck {
+impl PacketCzExeHashcheck {
+    pub fn from(buffer: &[u8]) -> PacketCzExeHashcheck {
+        PacketCzExeHashcheck {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            client_type: buffer[2] as char,
+            hash_value: String::from_utf8_lossy(&buffer[3..19]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketCzExeHashcheck {
     fn id(&self) -> &str {
        "0x020c"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -10427,9 +18900,31 @@ pub struct PacketHcBlockCharacter {
     pub character_list: Vec<TagCharacterBlockInfo>,
 }
 
-impl PacketId for PacketHcBlockCharacter {
+impl PacketHcBlockCharacter {
+    pub fn from(buffer: &[u8]) -> PacketHcBlockCharacter {
+        let iter_count = &buffer.len() / 24;
+        let mut vec_field: Vec<TagCharacterBlockInfo> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 4 * i;
+            let end_pos = 28 * i;
+            vec_field.push(TagCharacterBlockInfo::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketHcBlockCharacter {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            character_list: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketHcBlockCharacter {
     fn id(&self) -> &str {
        "0x020d"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -10452,9 +18947,24 @@ pub struct PacketZcStarskill {
     pub result: char,
 }
 
-impl PacketId for PacketZcStarskill {
+impl PacketZcStarskill {
+    pub fn from(buffer: &[u8]) -> PacketZcStarskill {
+        PacketZcStarskill {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            map_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            monster_id: u32::from_le_bytes([buffer[26], buffer[27], buffer[28], buffer[29]]),
+            star: buffer[30] as char,
+            result: buffer[31] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcStarskill {
     fn id(&self) -> &str {
        "0x020e"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -10477,9 +18987,22 @@ pub struct PacketCzReqPvppoint {
     pub gid: u32,
 }
 
-impl PacketId for PacketCzReqPvppoint {
+impl PacketCzReqPvppoint {
+    pub fn from(buffer: &[u8]) -> PacketCzReqPvppoint {
+        PacketCzReqPvppoint {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+        }
+    }
+}
+
+impl Packet for PacketCzReqPvppoint {
     fn id(&self) -> &str {
        "0x020f"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -10501,9 +19024,23 @@ pub struct PacketZcAckPvppoint {
     pub pvp: PVPINFO,
 }
 
-impl PacketId for PacketZcAckPvppoint {
+impl PacketZcAckPvppoint {
+    pub fn from(buffer: &[u8]) -> PacketZcAckPvppoint {
+        PacketZcAckPvppoint {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            pvp: PVPINFO::from(&buffer[10..buffer.len()]),
+        }
+    }
+}
+
+impl Packet for PacketZcAckPvppoint {
     fn id(&self) -> &str {
        "0x0210"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -10524,9 +19061,21 @@ pub struct PacketZhMovePvpworld {
     pub gid: u32,
 }
 
-impl PacketId for PacketZhMovePvpworld {
+impl PacketZhMovePvpworld {
+    pub fn from(buffer: &[u8]) -> PacketZhMovePvpworld {
+        PacketZhMovePvpworld {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketZhMovePvpworld {
     fn id(&self) -> &str {
        "0x0211"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -10545,9 +19094,21 @@ pub struct PacketCzReqGiveMannerByname {
     pub char_name: String,
 }
 
-impl PacketId for PacketCzReqGiveMannerByname {
+impl PacketCzReqGiveMannerByname {
+    pub fn from(buffer: &[u8]) -> PacketCzReqGiveMannerByname {
+        PacketCzReqGiveMannerByname {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            char_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketCzReqGiveMannerByname {
     fn id(&self) -> &str {
        "0x0212"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -10566,9 +19127,21 @@ pub struct PacketCzReqStatusGm {
     pub char_name: String,
 }
 
-impl PacketId for PacketCzReqStatusGm {
+impl PacketCzReqStatusGm {
+    pub fn from(buffer: &[u8]) -> PacketCzReqStatusGm {
+        PacketCzReqStatusGm {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            char_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketCzReqStatusGm {
     fn id(&self) -> &str {
        "0x0213"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -10612,9 +19185,46 @@ pub struct PacketZcAckStatusGm {
     pub plus_aspd: u16,
 }
 
-impl PacketId for PacketZcAckStatusGm {
+impl PacketZcAckStatusGm {
+    pub fn from(buffer: &[u8]) -> PacketZcAckStatusGm {
+        PacketZcAckStatusGm {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            str: buffer[2] as char,
+            standard_str: buffer[3] as char,
+            agi: buffer[4] as char,
+            standard_agi: buffer[5] as char,
+            vit: buffer[6] as char,
+            standard_vit: buffer[7] as char,
+            int: buffer[8] as char,
+            standard_int: buffer[9] as char,
+            dex: buffer[10] as char,
+            standard_dex: buffer[11] as char,
+            luk: buffer[12] as char,
+            standard_luk: buffer[13] as char,
+            att_power: u16::from_le_bytes([buffer[14], buffer[15]]),
+            refining_power: u16::from_le_bytes([buffer[16], buffer[17]]),
+            max_matt_power: u16::from_le_bytes([buffer[18], buffer[19]]),
+            min_matt_power: u16::from_le_bytes([buffer[20], buffer[21]]),
+            itemdef_power: u16::from_le_bytes([buffer[22], buffer[23]]),
+            plusdef_power: u16::from_le_bytes([buffer[24], buffer[25]]),
+            mdef_power: u16::from_le_bytes([buffer[26], buffer[27]]),
+            plusmdef_power: u16::from_le_bytes([buffer[28], buffer[29]]),
+            hit_success_value: u16::from_le_bytes([buffer[30], buffer[31]]),
+            avoid_success_value: u16::from_le_bytes([buffer[32], buffer[33]]),
+            plus_avoid_success_value: u16::from_le_bytes([buffer[34], buffer[35]]),
+            critical_success_value: u16::from_le_bytes([buffer[36], buffer[37]]),
+            aspd: u16::from_le_bytes([buffer[38], buffer[39]]),
+            plus_aspd: u16::from_le_bytes([buffer[40], buffer[41]]),
+        }
+    }
+}
+
+impl Packet for PacketZcAckStatusGm {
     fn id(&self) -> &str {
        "0x0214"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -10658,9 +19268,21 @@ pub struct PacketZcSkillmsg {
     pub msg_no: u32,
 }
 
-impl PacketId for PacketZcSkillmsg {
+impl PacketZcSkillmsg {
+    pub fn from(buffer: &[u8]) -> PacketZcSkillmsg {
+        PacketZcSkillmsg {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            msg_no: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketZcSkillmsg {
     fn id(&self) -> &str {
        "0x0215"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -10679,9 +19301,21 @@ pub struct PacketZcBabymsg {
     pub msg_no: u32,
 }
 
-impl PacketId for PacketZcBabymsg {
+impl PacketZcBabymsg {
+    pub fn from(buffer: &[u8]) -> PacketZcBabymsg {
+        PacketZcBabymsg {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            msg_no: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketZcBabymsg {
     fn id(&self) -> &str {
        "0x0216"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -10699,9 +19333,20 @@ pub struct PacketCzBlacksmithRank {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketCzBlacksmithRank {
+impl PacketCzBlacksmithRank {
+    pub fn from(buffer: &[u8]) -> PacketCzBlacksmithRank {
+        PacketCzBlacksmithRank {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketCzBlacksmithRank {
     fn id(&self) -> &str {
        "0x0217"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -10718,9 +19363,20 @@ pub struct PacketCzAlchemistRank {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketCzAlchemistRank {
+impl PacketCzAlchemistRank {
+    pub fn from(buffer: &[u8]) -> PacketCzAlchemistRank {
+        PacketCzAlchemistRank {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketCzAlchemistRank {
     fn id(&self) -> &str {
        "0x0218"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -10739,9 +19395,22 @@ pub struct PacketZcBlacksmithRank {
     pub point: u32,
 }
 
-impl PacketId for PacketZcBlacksmithRank {
+impl PacketZcBlacksmithRank {
+    pub fn from(buffer: &[u8]) -> PacketZcBlacksmithRank {
+        PacketZcBlacksmithRank {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            name: String::from_utf8_lossy(&buffer[2..12]).to_string(),
+            point: u32::from_le_bytes([buffer[242], buffer[243], buffer[244], buffer[245]]),
+        }
+    }
+}
+
+impl Packet for PacketZcBlacksmithRank {
     fn id(&self) -> &str {
        "0x0219"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -10762,9 +19431,22 @@ pub struct PacketZcAlchemistRank {
     pub point: u32,
 }
 
-impl PacketId for PacketZcAlchemistRank {
+impl PacketZcAlchemistRank {
+    pub fn from(buffer: &[u8]) -> PacketZcAlchemistRank {
+        PacketZcAlchemistRank {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            name: String::from_utf8_lossy(&buffer[2..12]).to_string(),
+            point: u32::from_le_bytes([buffer[242], buffer[243], buffer[244], buffer[245]]),
+        }
+    }
+}
+
+impl Packet for PacketZcAlchemistRank {
     fn id(&self) -> &str {
        "0x021a"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -10785,9 +19467,22 @@ pub struct PacketZcBlacksmithPoint {
     pub total_point: u32,
 }
 
-impl PacketId for PacketZcBlacksmithPoint {
+impl PacketZcBlacksmithPoint {
+    pub fn from(buffer: &[u8]) -> PacketZcBlacksmithPoint {
+        PacketZcBlacksmithPoint {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            point: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            total_point: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+        }
+    }
+}
+
+impl Packet for PacketZcBlacksmithPoint {
     fn id(&self) -> &str {
        "0x021b"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -10808,9 +19503,22 @@ pub struct PacketZcAlchemistPoint {
     pub total_point: u32,
 }
 
-impl PacketId for PacketZcAlchemistPoint {
+impl PacketZcAlchemistPoint {
+    pub fn from(buffer: &[u8]) -> PacketZcAlchemistPoint {
+        PacketZcAlchemistPoint {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            point: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            total_point: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+        }
+    }
+}
+
+impl Packet for PacketZcAlchemistPoint {
     fn id(&self) -> &str {
        "0x021c"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -10830,9 +19538,21 @@ pub struct PacketCzLesseffect {
     pub is_less: u32,
 }
 
-impl PacketId for PacketCzLesseffect {
+impl PacketCzLesseffect {
+    pub fn from(buffer: &[u8]) -> PacketCzLesseffect {
+        PacketCzLesseffect {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            is_less: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketCzLesseffect {
     fn id(&self) -> &str {
        "0x021d"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -10851,9 +19571,21 @@ pub struct PacketZcLesseffect {
     pub is_less: u32,
 }
 
-impl PacketId for PacketZcLesseffect {
+impl PacketZcLesseffect {
+    pub fn from(buffer: &[u8]) -> PacketZcLesseffect {
+        PacketZcLesseffect {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            is_less: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketZcLesseffect {
     fn id(&self) -> &str {
        "0x021e"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -10876,9 +19608,25 @@ pub struct PacketZcNotifyPkinfo {
     pub expire_time: Filetime,
 }
 
-impl PacketId for PacketZcNotifyPkinfo {
+impl PacketZcNotifyPkinfo {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyPkinfo {
+        PacketZcNotifyPkinfo {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            win_point: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            lose_point: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            kill_name: String::from_utf8_lossy(&buffer[10..34]).to_string(),
+            killed_name: String::from_utf8_lossy(&buffer[34..58]).to_string(),
+            expire_time: Filetime::from(&buffer[58..buffer.len()]),
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyPkinfo {
     fn id(&self) -> &str {
        "0x021f"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -10902,9 +19650,22 @@ pub struct PacketZcNotifyCrazykiller {
     pub is_crazy_killer: u32,
 }
 
-impl PacketId for PacketZcNotifyCrazykiller {
+impl PacketZcNotifyCrazykiller {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyCrazykiller {
+        PacketZcNotifyCrazykiller {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            is_crazy_killer: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyCrazykiller {
     fn id(&self) -> &str {
        "0x0220"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -10925,9 +19686,31 @@ pub struct PacketZcNotifyWeaponitemlist {
     pub item_list: Vec<RepairitemInfo>,
 }
 
-impl PacketId for PacketZcNotifyWeaponitemlist {
+impl PacketZcNotifyWeaponitemlist {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyWeaponitemlist {
+        let iter_count = &buffer.len() / 13;
+        let mut vec_field: Vec<RepairitemInfo> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 4 * i;
+            let end_pos = 17 * i;
+            vec_field.push(RepairitemInfo::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcNotifyWeaponitemlist {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            item_list: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyWeaponitemlist {
     fn id(&self) -> &str {
        "0x0221"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -10947,9 +19730,21 @@ pub struct PacketCzReqWeaponrefine {
     pub index: u32,
 }
 
-impl PacketId for PacketCzReqWeaponrefine {
+impl PacketCzReqWeaponrefine {
+    pub fn from(buffer: &[u8]) -> PacketCzReqWeaponrefine {
+        PacketCzReqWeaponrefine {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            index: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketCzReqWeaponrefine {
     fn id(&self) -> &str {
        "0x0222"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -10969,9 +19764,22 @@ pub struct PacketZcAckWeaponrefine {
     pub itid: u16,
 }
 
-impl PacketId for PacketZcAckWeaponrefine {
+impl PacketZcAckWeaponrefine {
+    pub fn from(buffer: &[u8]) -> PacketZcAckWeaponrefine {
+        PacketZcAckWeaponrefine {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            msg: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            itid: u16::from_le_bytes([buffer[6], buffer[7]]),
+        }
+    }
+}
+
+impl Packet for PacketZcAckWeaponrefine {
     fn id(&self) -> &str {
        "0x0223"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -10992,9 +19800,22 @@ pub struct PacketZcTaekwonPoint {
     pub total_point: u32,
 }
 
-impl PacketId for PacketZcTaekwonPoint {
+impl PacketZcTaekwonPoint {
+    pub fn from(buffer: &[u8]) -> PacketZcTaekwonPoint {
+        PacketZcTaekwonPoint {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            point: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            total_point: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+        }
+    }
+}
+
+impl Packet for PacketZcTaekwonPoint {
     fn id(&self) -> &str {
        "0x0224"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -11013,9 +19834,20 @@ pub struct PacketCzTaekwonRank {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketCzTaekwonRank {
+impl PacketCzTaekwonRank {
+    pub fn from(buffer: &[u8]) -> PacketCzTaekwonRank {
+        PacketCzTaekwonRank {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketCzTaekwonRank {
     fn id(&self) -> &str {
        "0x0225"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -11034,9 +19866,22 @@ pub struct PacketZcTaekwonRank {
     pub point: u32,
 }
 
-impl PacketId for PacketZcTaekwonRank {
+impl PacketZcTaekwonRank {
+    pub fn from(buffer: &[u8]) -> PacketZcTaekwonRank {
+        PacketZcTaekwonRank {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            name: String::from_utf8_lossy(&buffer[2..12]).to_string(),
+            point: u32::from_le_bytes([buffer[242], buffer[243], buffer[244], buffer[245]]),
+        }
+    }
+}
+
+impl Packet for PacketZcTaekwonRank {
     fn id(&self) -> &str {
        "0x0226"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -11056,9 +19901,21 @@ pub struct PacketZcGameGuard {
     pub auth_data: u32,
 }
 
-impl PacketId for PacketZcGameGuard {
+impl PacketZcGameGuard {
+    pub fn from(buffer: &[u8]) -> PacketZcGameGuard {
+        PacketZcGameGuard {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            auth_data: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketZcGameGuard {
     fn id(&self) -> &str {
        "0x0227"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -11077,9 +19934,21 @@ pub struct PacketCzAckGameGuard {
     pub auth_data: u32,
 }
 
-impl PacketId for PacketCzAckGameGuard {
+impl PacketCzAckGameGuard {
+    pub fn from(buffer: &[u8]) -> PacketCzAckGameGuard {
+        PacketCzAckGameGuard {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            auth_data: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketCzAckGameGuard {
     fn id(&self) -> &str {
        "0x0228"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -11102,9 +19971,25 @@ pub struct PacketZcStateChange3 {
     pub is_pkmode_on: bool,
 }
 
-impl PacketId for PacketZcStateChange3 {
+impl PacketZcStateChange3 {
+    pub fn from(buffer: &[u8]) -> PacketZcStateChange3 {
+        PacketZcStateChange3 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            body_state: u16::from_le_bytes([buffer[6], buffer[7]]),
+            health_state: u16::from_le_bytes([buffer[8], buffer[9]]),
+            effect_state: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            is_pkmode_on: buffer[14] == 1,
+        }
+    }
+}
+
+impl Packet for PacketZcStateChange3 {
     fn id(&self) -> &str {
        "0x0229"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -11151,9 +20036,45 @@ pub struct PacketZcNotifyStandentry3 {
     pub clevel: u16,
 }
 
-impl PacketId for PacketZcNotifyStandentry3 {
+impl PacketZcNotifyStandentry3 {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyStandentry3 {
+        PacketZcNotifyStandentry3 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            speed: u16::from_le_bytes([buffer[6], buffer[7]]),
+            body_state: u16::from_le_bytes([buffer[8], buffer[9]]),
+            health_state: u16::from_le_bytes([buffer[10], buffer[11]]),
+            effect_state: u32::from_le_bytes([buffer[12], buffer[13], buffer[14], buffer[15]]),
+            job: u16::from_le_bytes([buffer[16], buffer[17]]),
+            head: u16::from_le_bytes([buffer[18], buffer[19]]),
+            weapon: u32::from_le_bytes([buffer[20], buffer[21], buffer[22], buffer[23]]),
+            accessory: u16::from_le_bytes([buffer[24], buffer[25]]),
+            accessory2: u16::from_le_bytes([buffer[26], buffer[27]]),
+            accessory3: u16::from_le_bytes([buffer[28], buffer[29]]),
+            headpalette: u16::from_le_bytes([buffer[30], buffer[31]]),
+            bodypalette: u16::from_le_bytes([buffer[32], buffer[33]]),
+            head_dir: u16::from_le_bytes([buffer[34], buffer[35]]),
+            guid: u32::from_le_bytes([buffer[36], buffer[37], buffer[38], buffer[39]]),
+            gemblem_ver: u16::from_le_bytes([buffer[40], buffer[41]]),
+            honor: u16::from_le_bytes([buffer[42], buffer[43]]),
+            virtue: u32::from_le_bytes([buffer[44], buffer[45], buffer[46], buffer[47]]),
+            is_pkmode_on: buffer[48] == 1,
+            sex: buffer[49] as char,
+            pos_dir: String::from_utf8_lossy(&buffer[50..53]).to_string(),
+            x_size: buffer[53] as char,
+            y_size: buffer[54] as char,
+            state: buffer[55] as char,
+            clevel: u16::from_le_bytes([buffer[56], buffer[57]]),
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyStandentry3 {
     fn id(&self) -> &str {
        "0x022a"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -11219,9 +20140,44 @@ pub struct PacketZcNotifyNewentry3 {
     pub clevel: u16,
 }
 
-impl PacketId for PacketZcNotifyNewentry3 {
+impl PacketZcNotifyNewentry3 {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyNewentry3 {
+        PacketZcNotifyNewentry3 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            speed: u16::from_le_bytes([buffer[6], buffer[7]]),
+            body_state: u16::from_le_bytes([buffer[8], buffer[9]]),
+            health_state: u16::from_le_bytes([buffer[10], buffer[11]]),
+            effect_state: u32::from_le_bytes([buffer[12], buffer[13], buffer[14], buffer[15]]),
+            job: u16::from_le_bytes([buffer[16], buffer[17]]),
+            head: u16::from_le_bytes([buffer[18], buffer[19]]),
+            weapon: u32::from_le_bytes([buffer[20], buffer[21], buffer[22], buffer[23]]),
+            accessory: u16::from_le_bytes([buffer[24], buffer[25]]),
+            accessory2: u16::from_le_bytes([buffer[26], buffer[27]]),
+            accessory3: u16::from_le_bytes([buffer[28], buffer[29]]),
+            headpalette: u16::from_le_bytes([buffer[30], buffer[31]]),
+            bodypalette: u16::from_le_bytes([buffer[32], buffer[33]]),
+            head_dir: u16::from_le_bytes([buffer[34], buffer[35]]),
+            guid: u32::from_le_bytes([buffer[36], buffer[37], buffer[38], buffer[39]]),
+            gemblem_ver: u16::from_le_bytes([buffer[40], buffer[41]]),
+            honor: u16::from_le_bytes([buffer[42], buffer[43]]),
+            virtue: u32::from_le_bytes([buffer[44], buffer[45], buffer[46], buffer[47]]),
+            is_pkmode_on: buffer[48] == 1,
+            sex: buffer[49] as char,
+            pos_dir: String::from_utf8_lossy(&buffer[50..53]).to_string(),
+            x_size: buffer[53] as char,
+            y_size: buffer[54] as char,
+            clevel: u16::from_le_bytes([buffer[55], buffer[56]]),
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyNewentry3 {
     fn id(&self) -> &str {
        "0x022b"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -11288,9 +20244,46 @@ pub struct PacketZcNotifyMoveentry3 {
     pub clevel: u16,
 }
 
-impl PacketId for PacketZcNotifyMoveentry3 {
+impl PacketZcNotifyMoveentry3 {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyMoveentry3 {
+        PacketZcNotifyMoveentry3 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            objecttype: buffer[2] as char,
+            gid: u32::from_le_bytes([buffer[3], buffer[4], buffer[5], buffer[6]]),
+            speed: u16::from_le_bytes([buffer[7], buffer[8]]),
+            body_state: u16::from_le_bytes([buffer[9], buffer[10]]),
+            health_state: u16::from_le_bytes([buffer[11], buffer[12]]),
+            effect_state: u32::from_le_bytes([buffer[13], buffer[14], buffer[15], buffer[16]]),
+            job: u16::from_le_bytes([buffer[17], buffer[18]]),
+            head: u16::from_le_bytes([buffer[19], buffer[20]]),
+            weapon: u32::from_le_bytes([buffer[21], buffer[22], buffer[23], buffer[24]]),
+            accessory: u16::from_le_bytes([buffer[25], buffer[26]]),
+            move_start_time: u32::from_le_bytes([buffer[27], buffer[28], buffer[29], buffer[30]]),
+            accessory2: u16::from_le_bytes([buffer[31], buffer[32]]),
+            accessory3: u16::from_le_bytes([buffer[33], buffer[34]]),
+            headpalette: u16::from_le_bytes([buffer[35], buffer[36]]),
+            bodypalette: u16::from_le_bytes([buffer[37], buffer[38]]),
+            head_dir: u16::from_le_bytes([buffer[39], buffer[40]]),
+            guid: u32::from_le_bytes([buffer[41], buffer[42], buffer[43], buffer[44]]),
+            gemblem_ver: u16::from_le_bytes([buffer[45], buffer[46]]),
+            honor: u16::from_le_bytes([buffer[47], buffer[48]]),
+            virtue: u32::from_le_bytes([buffer[49], buffer[50], buffer[51], buffer[52]]),
+            is_pkmode_on: buffer[53] == 1,
+            sex: buffer[54] as char,
+            move_data: String::from_utf8_lossy(&buffer[55..61]).to_string(),
+            x_size: buffer[61] as char,
+            y_size: buffer[62] as char,
+            clevel: u16::from_le_bytes([buffer[63], buffer[64]]),
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyMoveentry3 {
     fn id(&self) -> &str {
        "0x022c"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -11335,9 +20328,22 @@ pub struct PacketCzCommandMer {
     pub command: char,
 }
 
-impl PacketId for PacketCzCommandMer {
+impl PacketCzCommandMer {
+    pub fn from(buffer: &[u8]) -> PacketCzCommandMer {
+        PacketCzCommandMer {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            type_: u16::from_le_bytes([buffer[2], buffer[3]]),
+            command: buffer[4] as char,
+        }
+    }
+}
+
+impl Packet for PacketCzCommandMer {
     fn id(&self) -> &str {
        "0x022d"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -11378,9 +20384,42 @@ pub struct PacketZcPropertyHomun {
     pub atkrange: u16,
 }
 
-impl PacketId for PacketZcPropertyHomun {
+impl PacketZcPropertyHomun {
+    pub fn from(buffer: &[u8]) -> PacketZcPropertyHomun {
+        PacketZcPropertyHomun {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            sz_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            b_modified: buffer[26] as char,
+            n_level: u16::from_le_bytes([buffer[27], buffer[28]]),
+            n_fullness: u16::from_le_bytes([buffer[29], buffer[30]]),
+            n_relationship: u16::from_le_bytes([buffer[31], buffer[32]]),
+            itid: u16::from_le_bytes([buffer[33], buffer[34]]),
+            atk: u16::from_le_bytes([buffer[35], buffer[36]]),
+            matk: u16::from_le_bytes([buffer[37], buffer[38]]),
+            hit: u16::from_le_bytes([buffer[39], buffer[40]]),
+            critical: u16::from_le_bytes([buffer[41], buffer[42]]),
+            def: u16::from_le_bytes([buffer[43], buffer[44]]),
+            mdef: u16::from_le_bytes([buffer[45], buffer[46]]),
+            flee: u16::from_le_bytes([buffer[47], buffer[48]]),
+            aspd: u16::from_le_bytes([buffer[49], buffer[50]]),
+            hp: u16::from_le_bytes([buffer[51], buffer[52]]),
+            max_hp: u16::from_le_bytes([buffer[53], buffer[54]]),
+            sp: u16::from_le_bytes([buffer[55], buffer[56]]),
+            max_sp: u16::from_le_bytes([buffer[57], buffer[58]]),
+            exp: u32::from_le_bytes([buffer[59], buffer[60], buffer[61], buffer[62]]),
+            max_exp: u32::from_le_bytes([buffer[63], buffer[64], buffer[65], buffer[66]]),
+            skpoint: u16::from_le_bytes([buffer[67], buffer[68]]),
+            atkrange: u16::from_le_bytes([buffer[69], buffer[70]]),
+        }
+    }
+}
+
+impl Packet for PacketZcPropertyHomun {
     fn id(&self) -> &str {
        "0x022e"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -11423,9 +20462,24 @@ pub struct PacketZcChangestateMer {
     pub data: u32,
 }
 
-impl PacketId for PacketZcChangestateMer {
+impl PacketZcChangestateMer {
+    pub fn from(buffer: &[u8]) -> PacketZcChangestateMer {
+        PacketZcChangestateMer {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            type_: buffer[2] as char,
+            state: buffer[3] as char,
+            gid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            data: u32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
+        }
+    }
+}
+
+impl Packet for PacketZcChangestateMer {
     fn id(&self) -> &str {
        "0x0230"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -11447,9 +20501,21 @@ pub struct PacketCzRenameMer {
     pub name: String,
 }
 
-impl PacketId for PacketCzRenameMer {
+impl PacketCzRenameMer {
+    pub fn from(buffer: &[u8]) -> PacketCzRenameMer {
+        PacketCzRenameMer {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketCzRenameMer {
     fn id(&self) -> &str {
        "0x0231"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -11469,9 +20535,22 @@ pub struct PacketCzRequestMovenpc {
     pub dest: String,
 }
 
-impl PacketId for PacketCzRequestMovenpc {
+impl PacketCzRequestMovenpc {
+    pub fn from(buffer: &[u8]) -> PacketCzRequestMovenpc {
+        PacketCzRequestMovenpc {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            dest: String::from_utf8_lossy(&buffer[6..9]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketCzRequestMovenpc {
     fn id(&self) -> &str {
        "0x0232"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -11493,9 +20572,23 @@ pub struct PacketCzRequestActnpc {
     pub action: char,
 }
 
-impl PacketId for PacketCzRequestActnpc {
+impl PacketCzRequestActnpc {
+    pub fn from(buffer: &[u8]) -> PacketCzRequestActnpc {
+        PacketCzRequestActnpc {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            target_gid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            action: buffer[10] as char,
+        }
+    }
+}
+
+impl Packet for PacketCzRequestActnpc {
     fn id(&self) -> &str {
        "0x0233"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -11516,9 +20609,21 @@ pub struct PacketCzRequestMovetoowner {
     pub gid: u32,
 }
 
-impl PacketId for PacketCzRequestMovetoowner {
+impl PacketCzRequestMovetoowner {
+    pub fn from(buffer: &[u8]) -> PacketCzRequestMovetoowner {
+        PacketCzRequestMovetoowner {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketCzRequestMovetoowner {
     fn id(&self) -> &str {
        "0x0234"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -11537,9 +20642,21 @@ pub struct PacketZcReqStorePassword {
     pub info: u16,
 }
 
-impl PacketId for PacketZcReqStorePassword {
+impl PacketZcReqStorePassword {
+    pub fn from(buffer: &[u8]) -> PacketZcReqStorePassword {
+        PacketZcReqStorePassword {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            info: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
+}
+
+impl Packet for PacketZcReqStorePassword {
     fn id(&self) -> &str {
        "0x023a"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -11560,9 +20677,23 @@ pub struct PacketCzAckStorePassword {
     pub new_password: String,
 }
 
-impl PacketId for PacketCzAckStorePassword {
+impl PacketCzAckStorePassword {
+    pub fn from(buffer: &[u8]) -> PacketCzAckStorePassword {
+        PacketCzAckStorePassword {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            type_: u16::from_le_bytes([buffer[2], buffer[3]]),
+            password: String::from_utf8_lossy(&buffer[4..20]).to_string(),
+            new_password: String::from_utf8_lossy(&buffer[20..36]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketCzAckStorePassword {
     fn id(&self) -> &str {
        "0x023b"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -11584,9 +20715,22 @@ pub struct PacketZcResultStorePassword {
     pub error_count: u16,
 }
 
-impl PacketId for PacketZcResultStorePassword {
+impl PacketZcResultStorePassword {
+    pub fn from(buffer: &[u8]) -> PacketZcResultStorePassword {
+        PacketZcResultStorePassword {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            result: u16::from_le_bytes([buffer[2], buffer[3]]),
+            error_count: u16::from_le_bytes([buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketZcResultStorePassword {
     fn id(&self) -> &str {
        "0x023c"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -11606,9 +20750,21 @@ pub struct PacketAcEventResult {
     pub event_item_count: u32,
 }
 
-impl PacketId for PacketAcEventResult {
+impl PacketAcEventResult {
+    pub fn from(buffer: &[u8]) -> PacketAcEventResult {
+        PacketAcEventResult {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            event_item_count: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketAcEventResult {
     fn id(&self) -> &str {
        "0x023d"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -11628,9 +20784,22 @@ pub struct PacketHcRequestCharacterPassword {
     pub dummy_value: u32,
 }
 
-impl PacketId for PacketHcRequestCharacterPassword {
+impl PacketHcRequestCharacterPassword {
+    pub fn from(buffer: &[u8]) -> PacketHcRequestCharacterPassword {
+        PacketHcRequestCharacterPassword {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            result: u16::from_le_bytes([buffer[2], buffer[3]]),
+            dummy_value: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+        }
+    }
+}
+
+impl Packet for PacketHcRequestCharacterPassword {
     fn id(&self) -> &str {
        "0x023e"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -11649,9 +20818,20 @@ pub struct PacketCzMailGetList {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketCzMailGetList {
+impl PacketCzMailGetList {
+    pub fn from(buffer: &[u8]) -> PacketCzMailGetList {
+        PacketCzMailGetList {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketCzMailGetList {
     fn id(&self) -> &str {
        "0x023f"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -11671,9 +20851,32 @@ pub struct PacketZcMailReqGetList {
     pub mail_list: Vec<MailList>,
 }
 
-impl PacketId for PacketZcMailReqGetList {
+impl PacketZcMailReqGetList {
+    pub fn from(buffer: &[u8]) -> PacketZcMailReqGetList {
+        let iter_count = &buffer.len() / 73;
+        let mut vec_field: Vec<MailList> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 8 * i;
+            let end_pos = 81 * i;
+            vec_field.push(MailList::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcMailReqGetList {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            mail_number: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            mail_list: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcMailReqGetList {
     fn id(&self) -> &str {
        "0x0240"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -11694,9 +20897,21 @@ pub struct PacketCzMailOpen {
     pub mail_id: u32,
 }
 
-impl PacketId for PacketCzMailOpen {
+impl PacketCzMailOpen {
+    pub fn from(buffer: &[u8]) -> PacketCzMailOpen {
+        PacketCzMailOpen {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            mail_id: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketCzMailOpen {
     fn id(&self) -> &str {
        "0x0241"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -11729,9 +20944,35 @@ pub struct PacketZcMailReqOpen {
     pub msg: String,
 }
 
-impl PacketId for PacketZcMailReqOpen {
+impl PacketZcMailReqOpen {
+    pub fn from(buffer: &[u8]) -> PacketZcMailReqOpen {
+        PacketZcMailReqOpen {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            mail_id: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            header: String::from_utf8_lossy(&buffer[8..48]).to_string(),
+            from_name: String::from_utf8_lossy(&buffer[48..72]).to_string(),
+            delete_time: u32::from_le_bytes([buffer[72], buffer[73], buffer[74], buffer[75]]),
+            money: u32::from_le_bytes([buffer[76], buffer[77], buffer[78], buffer[79]]),
+            count: u32::from_le_bytes([buffer[80], buffer[81], buffer[82], buffer[83]]),
+            itid: u16::from_le_bytes([buffer[84], buffer[85]]),
+            type_: u16::from_le_bytes([buffer[86], buffer[87]]),
+            is_identified: buffer[88] == 1,
+            is_damaged: buffer[89] == 1,
+            refining_level: buffer[90] as char,
+            slot: EQUIPSLOTINFO::from(&buffer[91..99]),
+            msg_len: buffer[99] as char,
+            msg: String::from_utf8_lossy(&buffer[100..buffer.len()]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcMailReqOpen {
     fn id(&self) -> &str {
        "0x0242"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -11752,7 +20993,7 @@ impl Debug for PacketZcMailReqOpen {
             .field("is_identified[88, 89]", &self.is_identified)
             .field("is_damaged[89, 90]", &self.is_damaged)
             .field("refining_level[90, 91]", &self.refining_level)
-            .field("slot[91, ?]", &self.slot)
+            .field("slot[91, 99]", &self.slot)
             .field("msg_len[99, 100]", &self.msg_len)
             .field("msg[100, ?]", &self.msg)
         .finish()
@@ -11764,9 +21005,21 @@ pub struct PacketCzMailDelete {
     pub mail_id: u32,
 }
 
-impl PacketId for PacketCzMailDelete {
+impl PacketCzMailDelete {
+    pub fn from(buffer: &[u8]) -> PacketCzMailDelete {
+        PacketCzMailDelete {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            mail_id: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketCzMailDelete {
     fn id(&self) -> &str {
        "0x0243"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -11785,9 +21038,21 @@ pub struct PacketCzMailGetItem {
     pub mail_id: u32,
 }
 
-impl PacketId for PacketCzMailGetItem {
+impl PacketCzMailGetItem {
+    pub fn from(buffer: &[u8]) -> PacketCzMailGetItem {
+        PacketCzMailGetItem {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            mail_id: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketCzMailGetItem {
     fn id(&self) -> &str {
        "0x0244"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -11806,9 +21071,21 @@ pub struct PacketZcMailReqGetItem {
     pub result: char,
 }
 
-impl PacketId for PacketZcMailReqGetItem {
+impl PacketZcMailReqGetItem {
+    pub fn from(buffer: &[u8]) -> PacketZcMailReqGetItem {
+        PacketZcMailReqGetItem {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            result: buffer[2] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcMailReqGetItem {
     fn id(&self) -> &str {
        "0x0245"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -11827,9 +21104,21 @@ pub struct PacketCzMailResetItem {
     pub type_: u16,
 }
 
-impl PacketId for PacketCzMailResetItem {
+impl PacketCzMailResetItem {
+    pub fn from(buffer: &[u8]) -> PacketCzMailResetItem {
+        PacketCzMailResetItem {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            type_: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
+}
+
+impl Packet for PacketCzMailResetItem {
     fn id(&self) -> &str {
        "0x0246"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -11849,9 +21138,22 @@ pub struct PacketCzMailAddItem {
     pub count: u32,
 }
 
-impl PacketId for PacketCzMailAddItem {
+impl PacketCzMailAddItem {
+    pub fn from(buffer: &[u8]) -> PacketCzMailAddItem {
+        PacketCzMailAddItem {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            count: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+        }
+    }
+}
+
+impl Packet for PacketCzMailAddItem {
     fn id(&self) -> &str {
        "0x0247"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -11875,9 +21177,25 @@ pub struct PacketCzMailSend {
     pub msg: String,
 }
 
-impl PacketId for PacketCzMailSend {
+impl PacketCzMailSend {
+    pub fn from(buffer: &[u8]) -> PacketCzMailSend {
+        PacketCzMailSend {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            receive_name: String::from_utf8_lossy(&buffer[4..28]).to_string(),
+            header: String::from_utf8_lossy(&buffer[28..68]).to_string(),
+            msg_len: u32::from_le_bytes([buffer[68], buffer[69], buffer[70], buffer[71]]),
+            msg: String::from_utf8_lossy(&buffer[72..buffer.len()]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketCzMailSend {
     fn id(&self) -> &str {
        "0x0248"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -11900,9 +21218,21 @@ pub struct PacketZcMailReqSend {
     pub result: char,
 }
 
-impl PacketId for PacketZcMailReqSend {
+impl PacketZcMailReqSend {
+    pub fn from(buffer: &[u8]) -> PacketZcMailReqSend {
+        PacketZcMailReqSend {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            result: buffer[2] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcMailReqSend {
     fn id(&self) -> &str {
        "0x0249"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -11923,9 +21253,23 @@ pub struct PacketZcMailReceive {
     pub from_name: String,
 }
 
-impl PacketId for PacketZcMailReceive {
+impl PacketZcMailReceive {
+    pub fn from(buffer: &[u8]) -> PacketZcMailReceive {
+        PacketZcMailReceive {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            mail_id: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            header: String::from_utf8_lossy(&buffer[6..46]).to_string(),
+            from_name: String::from_utf8_lossy(&buffer[46..70]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcMailReceive {
     fn id(&self) -> &str {
        "0x024a"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -11946,9 +21290,21 @@ pub struct PacketCzAuctionCreate {
     pub type_: u16,
 }
 
-impl PacketId for PacketCzAuctionCreate {
+impl PacketCzAuctionCreate {
+    pub fn from(buffer: &[u8]) -> PacketCzAuctionCreate {
+        PacketCzAuctionCreate {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            type_: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
+}
+
+impl Packet for PacketCzAuctionCreate {
     fn id(&self) -> &str {
        "0x024b"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -11968,9 +21324,22 @@ pub struct PacketCzAuctionAddItem {
     pub count: u32,
 }
 
-impl PacketId for PacketCzAuctionAddItem {
+impl PacketCzAuctionAddItem {
+    pub fn from(buffer: &[u8]) -> PacketCzAuctionAddItem {
+        PacketCzAuctionAddItem {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            count: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+        }
+    }
+}
+
+impl Packet for PacketCzAuctionAddItem {
     fn id(&self) -> &str {
        "0x024c"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -11992,9 +21361,23 @@ pub struct PacketCzAuctionAdd {
     pub delete_hour: u16,
 }
 
-impl PacketId for PacketCzAuctionAdd {
+impl PacketCzAuctionAdd {
+    pub fn from(buffer: &[u8]) -> PacketCzAuctionAdd {
+        PacketCzAuctionAdd {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            now_money: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            max_money: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            delete_hour: u16::from_le_bytes([buffer[10], buffer[11]]),
+        }
+    }
+}
+
+impl Packet for PacketCzAuctionAdd {
     fn id(&self) -> &str {
        "0x024d"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -12015,9 +21398,21 @@ pub struct PacketCzAuctionAddCancel {
     pub auction_id: u32,
 }
 
-impl PacketId for PacketCzAuctionAddCancel {
+impl PacketCzAuctionAddCancel {
+    pub fn from(buffer: &[u8]) -> PacketCzAuctionAddCancel {
+        PacketCzAuctionAddCancel {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            auction_id: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketCzAuctionAddCancel {
     fn id(&self) -> &str {
        "0x024e"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -12037,9 +21432,22 @@ pub struct PacketCzAuctionBuy {
     pub money: u32,
 }
 
-impl PacketId for PacketCzAuctionBuy {
+impl PacketCzAuctionBuy {
+    pub fn from(buffer: &[u8]) -> PacketCzAuctionBuy {
+        PacketCzAuctionBuy {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            auction_id: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            money: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+        }
+    }
+}
+
+impl Packet for PacketCzAuctionBuy {
     fn id(&self) -> &str {
        "0x024f"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -12059,9 +21467,21 @@ pub struct PacketZcAuctionResult {
     pub result: char,
 }
 
-impl PacketId for PacketZcAuctionResult {
+impl PacketZcAuctionResult {
+    pub fn from(buffer: &[u8]) -> PacketZcAuctionResult {
+        PacketZcAuctionResult {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            result: buffer[2] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcAuctionResult {
     fn id(&self) -> &str {
        "0x0250"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -12083,9 +21503,24 @@ pub struct PacketCzAuctionItemSearch {
     pub page: u16,
 }
 
-impl PacketId for PacketCzAuctionItemSearch {
+impl PacketCzAuctionItemSearch {
+    pub fn from(buffer: &[u8]) -> PacketCzAuctionItemSearch {
+        PacketCzAuctionItemSearch {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            type_: u16::from_le_bytes([buffer[2], buffer[3]]),
+            auction_id: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            name: String::from_utf8_lossy(&buffer[8..32]).to_string(),
+            page: u16::from_le_bytes([buffer[32], buffer[33]]),
+        }
+    }
+}
+
+impl Packet for PacketCzAuctionItemSearch {
     fn id(&self) -> &str {
        "0x0251"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -12110,9 +21545,33 @@ pub struct PacketZcAuctionItemReqSearch {
     pub auction_item_list: Vec<AuctionItemSearchInfo>,
 }
 
-impl PacketId for PacketZcAuctionItemReqSearch {
+impl PacketZcAuctionItemReqSearch {
+    pub fn from(buffer: &[u8]) -> PacketZcAuctionItemReqSearch {
+        let iter_count = &buffer.len() / 83;
+        let mut vec_field: Vec<AuctionItemSearchInfo> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 12 * i;
+            let end_pos = 95 * i;
+            vec_field.push(AuctionItemSearchInfo::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcAuctionItemReqSearch {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            max_page: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            number: u32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
+            auction_item_list: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcAuctionItemReqSearch {
     fn id(&self) -> &str {
        "0x0252"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -12134,9 +21593,21 @@ pub struct PacketZcStarplace {
     pub which: char,
 }
 
-impl PacketId for PacketZcStarplace {
+impl PacketZcStarplace {
+    pub fn from(buffer: &[u8]) -> PacketZcStarplace {
+        PacketZcStarplace {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            which: buffer[2] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcStarplace {
     fn id(&self) -> &str {
        "0x0253"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -12155,9 +21626,21 @@ pub struct PacketCzAgreeStarplace {
     pub which: char,
 }
 
-impl PacketId for PacketCzAgreeStarplace {
+impl PacketCzAgreeStarplace {
+    pub fn from(buffer: &[u8]) -> PacketCzAgreeStarplace {
+        PacketCzAgreeStarplace {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            which: buffer[2] as char,
+        }
+    }
+}
+
+impl Packet for PacketCzAgreeStarplace {
     fn id(&self) -> &str {
        "0x0254"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -12177,9 +21660,22 @@ pub struct PacketZcAckMailAddItem {
     pub result: char,
 }
 
-impl PacketId for PacketZcAckMailAddItem {
+impl PacketZcAckMailAddItem {
+    pub fn from(buffer: &[u8]) -> PacketZcAckMailAddItem {
+        PacketZcAckMailAddItem {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            result: buffer[4] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcAckMailAddItem {
     fn id(&self) -> &str {
        "0x0255"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -12200,9 +21696,22 @@ pub struct PacketZcAckAuctionAddItem {
     pub result: char,
 }
 
-impl PacketId for PacketZcAckAuctionAddItem {
+impl PacketZcAckAuctionAddItem {
+    pub fn from(buffer: &[u8]) -> PacketZcAckAuctionAddItem {
+        PacketZcAckAuctionAddItem {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            result: buffer[4] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcAckAuctionAddItem {
     fn id(&self) -> &str {
        "0x0256"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -12223,9 +21732,22 @@ pub struct PacketZcAckMailDelete {
     pub result: u16,
 }
 
-impl PacketId for PacketZcAckMailDelete {
+impl PacketZcAckMailDelete {
+    pub fn from(buffer: &[u8]) -> PacketZcAckMailDelete {
+        PacketZcAckMailDelete {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            mail_id: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            result: u16::from_le_bytes([buffer[6], buffer[7]]),
+        }
+    }
+}
+
+impl Packet for PacketZcAckMailDelete {
     fn id(&self) -> &str {
        "0x0257"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -12244,9 +21766,20 @@ pub struct PacketCaReqGameGuardCheck {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketCaReqGameGuardCheck {
+impl PacketCaReqGameGuardCheck {
+    pub fn from(buffer: &[u8]) -> PacketCaReqGameGuardCheck {
+        PacketCaReqGameGuardCheck {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketCaReqGameGuardCheck {
     fn id(&self) -> &str {
        "0x0258"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -12264,9 +21797,21 @@ pub struct PacketAcAckGameGuard {
     pub uc_answer: char,
 }
 
-impl PacketId for PacketAcAckGameGuard {
+impl PacketAcAckGameGuard {
+    pub fn from(buffer: &[u8]) -> PacketAcAckGameGuard {
+        PacketAcAckGameGuard {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            uc_answer: buffer[2] as char,
+        }
+    }
+}
+
+impl Packet for PacketAcAckGameGuard {
     fn id(&self) -> &str {
        "0x0259"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -12286,9 +21831,22 @@ pub struct PacketZcMakingitemList {
     pub id_list: u16,
 }
 
-impl PacketId for PacketZcMakingitemList {
+impl PacketZcMakingitemList {
+    pub fn from(buffer: &[u8]) -> PacketZcMakingitemList {
+        PacketZcMakingitemList {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            id_list: u16::from_le_bytes([buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketZcMakingitemList {
     fn id(&self) -> &str {
        "0x025a"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -12309,9 +21867,22 @@ pub struct PacketCzReqMakingitem {
     pub id: u16,
 }
 
-impl PacketId for PacketCzReqMakingitem {
+impl PacketCzReqMakingitem {
+    pub fn from(buffer: &[u8]) -> PacketCzReqMakingitem {
+        PacketCzReqMakingitem {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            mk_type: u16::from_le_bytes([buffer[2], buffer[3]]),
+            id: u16::from_le_bytes([buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketCzReqMakingitem {
     fn id(&self) -> &str {
        "0x025b"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -12331,9 +21902,21 @@ pub struct PacketCzAuctionReqMyInfo {
     pub type_: u16,
 }
 
-impl PacketId for PacketCzAuctionReqMyInfo {
+impl PacketCzAuctionReqMyInfo {
+    pub fn from(buffer: &[u8]) -> PacketCzAuctionReqMyInfo {
+        PacketCzAuctionReqMyInfo {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            type_: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
+}
+
+impl Packet for PacketCzAuctionReqMyInfo {
     fn id(&self) -> &str {
        "0x025c"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -12352,9 +21935,21 @@ pub struct PacketCzAuctionReqMySellStop {
     pub auction_id: u32,
 }
 
-impl PacketId for PacketCzAuctionReqMySellStop {
+impl PacketCzAuctionReqMySellStop {
+    pub fn from(buffer: &[u8]) -> PacketCzAuctionReqMySellStop {
+        PacketCzAuctionReqMySellStop {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            auction_id: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketCzAuctionReqMySellStop {
     fn id(&self) -> &str {
        "0x025d"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -12373,9 +21968,21 @@ pub struct PacketZcAuctionAckMySellStop {
     pub result: u16,
 }
 
-impl PacketId for PacketZcAuctionAckMySellStop {
+impl PacketZcAuctionAckMySellStop {
+    pub fn from(buffer: &[u8]) -> PacketZcAuctionAckMySellStop {
+        PacketZcAuctionAckMySellStop {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            result: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
+}
+
+impl Packet for PacketZcAuctionAckMySellStop {
     fn id(&self) -> &str {
        "0x025e"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -12394,9 +22001,21 @@ pub struct PacketZcAuctionWindows {
     pub type_: u32,
 }
 
-impl PacketId for PacketZcAuctionWindows {
+impl PacketZcAuctionWindows {
+    pub fn from(buffer: &[u8]) -> PacketZcAuctionWindows {
+        PacketZcAuctionWindows {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            type_: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketZcAuctionWindows {
     fn id(&self) -> &str {
        "0x025f"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -12415,9 +22034,21 @@ pub struct PacketZcMailWindows {
     pub type_: u32,
 }
 
-impl PacketId for PacketZcMailWindows {
+impl PacketZcMailWindows {
+    pub fn from(buffer: &[u8]) -> PacketZcMailWindows {
+        PacketZcMailWindows {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            type_: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketZcMailWindows {
     fn id(&self) -> &str {
        "0x0260"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -12436,9 +22067,21 @@ pub struct PacketAcReqLoginOldekey {
     pub m_seed_value: String,
 }
 
-impl PacketId for PacketAcReqLoginOldekey {
+impl PacketAcReqLoginOldekey {
+    pub fn from(buffer: &[u8]) -> PacketAcReqLoginOldekey {
+        PacketAcReqLoginOldekey {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            m_seed_value: String::from_utf8_lossy(&buffer[2..11]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketAcReqLoginOldekey {
     fn id(&self) -> &str {
        "0x0261"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -12457,9 +22100,21 @@ pub struct PacketAcReqLoginNewekey {
     pub m_seed_value: String,
 }
 
-impl PacketId for PacketAcReqLoginNewekey {
+impl PacketAcReqLoginNewekey {
+    pub fn from(buffer: &[u8]) -> PacketAcReqLoginNewekey {
+        PacketAcReqLoginNewekey {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            m_seed_value: String::from_utf8_lossy(&buffer[2..11]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketAcReqLoginNewekey {
     fn id(&self) -> &str {
        "0x0262"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -12478,9 +22133,21 @@ pub struct PacketAcReqLoginCardpass {
     pub m_seed_value: String,
 }
 
-impl PacketId for PacketAcReqLoginCardpass {
+impl PacketAcReqLoginCardpass {
+    pub fn from(buffer: &[u8]) -> PacketAcReqLoginCardpass {
+        PacketAcReqLoginCardpass {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            m_seed_value: String::from_utf8_lossy(&buffer[2..11]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketAcReqLoginCardpass {
     fn id(&self) -> &str {
        "0x0263"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -12500,9 +22167,22 @@ pub struct PacketCaAckLoginOldekey {
     pub m_ekey: String,
 }
 
-impl PacketId for PacketCaAckLoginOldekey {
+impl PacketCaAckLoginOldekey {
+    pub fn from(buffer: &[u8]) -> PacketCaAckLoginOldekey {
+        PacketCaAckLoginOldekey {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            m_seed_value: String::from_utf8_lossy(&buffer[2..11]).to_string(),
+            m_ekey: String::from_utf8_lossy(&buffer[11..20]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketCaAckLoginOldekey {
     fn id(&self) -> &str {
        "0x0264"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -12523,9 +22203,22 @@ pub struct PacketCaAckLoginNewekey {
     pub m_ekey: String,
 }
 
-impl PacketId for PacketCaAckLoginNewekey {
+impl PacketCaAckLoginNewekey {
+    pub fn from(buffer: &[u8]) -> PacketCaAckLoginNewekey {
+        PacketCaAckLoginNewekey {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            m_seed_value: String::from_utf8_lossy(&buffer[2..11]).to_string(),
+            m_ekey: String::from_utf8_lossy(&buffer[11..20]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketCaAckLoginNewekey {
     fn id(&self) -> &str {
        "0x0265"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -12545,9 +22238,21 @@ pub struct PacketCaAckLoginCardpass {
     pub mcard_pass: String,
 }
 
-impl PacketId for PacketCaAckLoginCardpass {
+impl PacketCaAckLoginCardpass {
+    pub fn from(buffer: &[u8]) -> PacketCaAckLoginCardpass {
+        PacketCaAckLoginCardpass {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            mcard_pass: String::from_utf8_lossy(&buffer[2..30]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketCaAckLoginCardpass {
     fn id(&self) -> &str {
        "0x0266"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -12566,9 +22271,21 @@ pub struct PacketAcAckEkeyFailNotexist {
     pub error_code: u16,
 }
 
-impl PacketId for PacketAcAckEkeyFailNotexist {
+impl PacketAcAckEkeyFailNotexist {
+    pub fn from(buffer: &[u8]) -> PacketAcAckEkeyFailNotexist {
+        PacketAcAckEkeyFailNotexist {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            error_code: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
+}
+
+impl Packet for PacketAcAckEkeyFailNotexist {
     fn id(&self) -> &str {
        "0x0267"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -12587,9 +22304,21 @@ pub struct PacketAcAckEkeyFailNotusesekey {
     pub error_code: u16,
 }
 
-impl PacketId for PacketAcAckEkeyFailNotusesekey {
+impl PacketAcAckEkeyFailNotusesekey {
+    pub fn from(buffer: &[u8]) -> PacketAcAckEkeyFailNotusesekey {
+        PacketAcAckEkeyFailNotusesekey {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            error_code: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
+}
+
+impl Packet for PacketAcAckEkeyFailNotusesekey {
     fn id(&self) -> &str {
        "0x0268"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -12608,9 +22337,21 @@ pub struct PacketAcAckEkeyFailNotusedekey {
     pub error_code: u16,
 }
 
-impl PacketId for PacketAcAckEkeyFailNotusedekey {
+impl PacketAcAckEkeyFailNotusedekey {
+    pub fn from(buffer: &[u8]) -> PacketAcAckEkeyFailNotusedekey {
+        PacketAcAckEkeyFailNotusedekey {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            error_code: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
+}
+
+impl Packet for PacketAcAckEkeyFailNotusedekey {
     fn id(&self) -> &str {
        "0x0269"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -12629,9 +22370,21 @@ pub struct PacketAcAckEkeyFailAuthrefuse {
     pub error_code: u16,
 }
 
-impl PacketId for PacketAcAckEkeyFailAuthrefuse {
+impl PacketAcAckEkeyFailAuthrefuse {
+    pub fn from(buffer: &[u8]) -> PacketAcAckEkeyFailAuthrefuse {
+        PacketAcAckEkeyFailAuthrefuse {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            error_code: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
+}
+
+impl Packet for PacketAcAckEkeyFailAuthrefuse {
     fn id(&self) -> &str {
        "0x026a"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -12650,9 +22403,21 @@ pub struct PacketAcAckEkeyFailInputekey {
     pub error_code: u16,
 }
 
-impl PacketId for PacketAcAckEkeyFailInputekey {
+impl PacketAcAckEkeyFailInputekey {
+    pub fn from(buffer: &[u8]) -> PacketAcAckEkeyFailInputekey {
+        PacketAcAckEkeyFailInputekey {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            error_code: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
+}
+
+impl Packet for PacketAcAckEkeyFailInputekey {
     fn id(&self) -> &str {
        "0x026b"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -12671,9 +22436,21 @@ pub struct PacketAcAckEkeyFailNotice {
     pub error_code: u16,
 }
 
-impl PacketId for PacketAcAckEkeyFailNotice {
+impl PacketAcAckEkeyFailNotice {
+    pub fn from(buffer: &[u8]) -> PacketAcAckEkeyFailNotice {
+        PacketAcAckEkeyFailNotice {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            error_code: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
+}
+
+impl Packet for PacketAcAckEkeyFailNotice {
     fn id(&self) -> &str {
        "0x026c"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -12692,9 +22469,21 @@ pub struct PacketAcAckEkeyFailNeedcardpass {
     pub error_code: u16,
 }
 
-impl PacketId for PacketAcAckEkeyFailNeedcardpass {
+impl PacketAcAckEkeyFailNeedcardpass {
+    pub fn from(buffer: &[u8]) -> PacketAcAckEkeyFailNeedcardpass {
+        PacketAcAckEkeyFailNeedcardpass {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            error_code: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
+}
+
+impl Packet for PacketAcAckEkeyFailNeedcardpass {
     fn id(&self) -> &str {
        "0x026d"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -12713,9 +22502,21 @@ pub struct PacketAcAckAuthekeyFailNotmatchcardpass {
     pub error_code: u16,
 }
 
-impl PacketId for PacketAcAckAuthekeyFailNotmatchcardpass {
+impl PacketAcAckAuthekeyFailNotmatchcardpass {
+    pub fn from(buffer: &[u8]) -> PacketAcAckAuthekeyFailNotmatchcardpass {
+        PacketAcAckAuthekeyFailNotmatchcardpass {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            error_code: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
+}
+
+impl Packet for PacketAcAckAuthekeyFailNotmatchcardpass {
     fn id(&self) -> &str {
        "0x026e"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -12733,9 +22534,20 @@ pub struct PacketAcAckFirstLogin {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketAcAckFirstLogin {
+impl PacketAcAckFirstLogin {
+    pub fn from(buffer: &[u8]) -> PacketAcAckFirstLogin {
+        PacketAcAckFirstLogin {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketAcAckFirstLogin {
     fn id(&self) -> &str {
        "0x026f"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -12752,9 +22564,20 @@ pub struct PacketAcReqLoginAccountInfo {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketAcReqLoginAccountInfo {
+impl PacketAcReqLoginAccountInfo {
+    pub fn from(buffer: &[u8]) -> PacketAcReqLoginAccountInfo {
+        PacketAcReqLoginAccountInfo {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketAcReqLoginAccountInfo {
     fn id(&self) -> &str {
        "0x0270"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -12774,9 +22597,23 @@ pub struct PacketCaAckLoginAccountInfo {
     pub email: String,
 }
 
-impl PacketId for PacketCaAckLoginAccountInfo {
+impl PacketCaAckLoginAccountInfo {
+    pub fn from(buffer: &[u8]) -> PacketCaAckLoginAccountInfo {
+        PacketCaAckLoginAccountInfo {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            sex: u16::from_le_bytes([buffer[2], buffer[3]]),
+            b_point: u16::from_le_bytes([buffer[4], buffer[5]]),
+            email: String::from_utf8_lossy(&buffer[6..40]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketCaAckLoginAccountInfo {
     fn id(&self) -> &str {
        "0x0271"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -12798,9 +22635,22 @@ pub struct PacketAcAckPtIdInfo {
     pub sz_ptnum_id: String,
 }
 
-impl PacketId for PacketAcAckPtIdInfo {
+impl PacketAcAckPtIdInfo {
+    pub fn from(buffer: &[u8]) -> PacketAcAckPtIdInfo {
+        PacketAcAckPtIdInfo {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            sz_ptid: String::from_utf8_lossy(&buffer[2..23]).to_string(),
+            sz_ptnum_id: String::from_utf8_lossy(&buffer[23..44]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketAcAckPtIdInfo {
     fn id(&self) -> &str {
        "0x0272"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -12821,9 +22671,22 @@ pub struct PacketCzReqMailReturn {
     pub receive_name: String,
 }
 
-impl PacketId for PacketCzReqMailReturn {
+impl PacketCzReqMailReturn {
+    pub fn from(buffer: &[u8]) -> PacketCzReqMailReturn {
+        PacketCzReqMailReturn {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            mail_id: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            receive_name: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketCzReqMailReturn {
     fn id(&self) -> &str {
        "0x0273"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -12844,9 +22707,22 @@ pub struct PacketZcAckMailReturn {
     pub result: u16,
 }
 
-impl PacketId for PacketZcAckMailReturn {
+impl PacketZcAckMailReturn {
+    pub fn from(buffer: &[u8]) -> PacketZcAckMailReturn {
+        PacketZcAckMailReturn {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            mail_id: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            result: u16::from_le_bytes([buffer[6], buffer[7]]),
+        }
+    }
+}
+
+impl Packet for PacketZcAckMailReturn {
     fn id(&self) -> &str {
        "0x0274"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -12872,9 +22748,27 @@ pub struct PacketChEnter2 {
     pub i_account_sid: u32,
 }
 
-impl PacketId for PacketChEnter2 {
+impl PacketChEnter2 {
+    pub fn from(buffer: &[u8]) -> PacketChEnter2 {
+        PacketChEnter2 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            auth_code: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            user_level: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            client_type: u16::from_le_bytes([buffer[14], buffer[15]]),
+            sex: buffer[16] as char,
+            mac_data: String::from_utf8_lossy(&buffer[17..33]).to_string(),
+            i_account_sid: u32::from_le_bytes([buffer[33], buffer[34], buffer[35], buffer[36]]),
+        }
+    }
+}
+
+impl Packet for PacketChEnter2 {
     fn id(&self) -> &str {
        "0x0275"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -12906,9 +22800,28 @@ pub struct PacketAcAcceptLogin2 {
     pub i_account_sid: u32,
 }
 
-impl PacketId for PacketAcAcceptLogin2 {
+impl PacketAcAcceptLogin2 {
+    pub fn from(buffer: &[u8]) -> PacketAcAcceptLogin2 {
+        PacketAcAcceptLogin2 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            auth_code: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            aid: u32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
+            user_level: u32::from_le_bytes([buffer[12], buffer[13], buffer[14], buffer[15]]),
+            last_login_ip: u32::from_le_bytes([buffer[16], buffer[17], buffer[18], buffer[19]]),
+            last_login_time: String::from_utf8_lossy(&buffer[20..46]).to_string(),
+            sex: buffer[46] as char,
+            i_account_sid: u32::from_le_bytes([buffer[47], buffer[48], buffer[49], buffer[50]]),
+        }
+    }
+}
+
+impl Packet for PacketAcAcceptLogin2 {
     fn id(&self) -> &str {
        "0x0276"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -12939,9 +22852,26 @@ pub struct PacketCaLoginPcbang {
     pub mac_adress: String,
 }
 
-impl PacketId for PacketCaLoginPcbang {
+impl PacketCaLoginPcbang {
+    pub fn from(buffer: &[u8]) -> PacketCaLoginPcbang {
+        PacketCaLoginPcbang {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            version: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            id: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            passwd: String::from_utf8_lossy(&buffer[30..54]).to_string(),
+            clienttype: buffer[54] as char,
+            ip: String::from_utf8_lossy(&buffer[55..71]).to_string(),
+            mac_adress: String::from_utf8_lossy(&buffer[71..84]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketCaLoginPcbang {
     fn id(&self) -> &str {
        "0x0277"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -12964,9 +22894,20 @@ pub struct PacketZcNotifyPcbang {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketZcNotifyPcbang {
+impl PacketZcNotifyPcbang {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyPcbang {
+        PacketZcNotifyPcbang {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyPcbang {
     fn id(&self) -> &str {
        "0x0278"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -12983,9 +22924,20 @@ pub struct PacketCzHuntinglist {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketCzHuntinglist {
+impl PacketCzHuntinglist {
+    pub fn from(buffer: &[u8]) -> PacketCzHuntinglist {
+        PacketCzHuntinglist {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketCzHuntinglist {
     fn id(&self) -> &str {
        "0x0279"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -13004,9 +22956,31 @@ pub struct PacketZcHuntinglist {
     pub hunting_list: Vec<PacketMobHunting>,
 }
 
-impl PacketId for PacketZcHuntinglist {
+impl PacketZcHuntinglist {
+    pub fn from(buffer: &[u8]) -> PacketZcHuntinglist {
+        let iter_count = &buffer.len() / 12;
+        let mut vec_field: Vec<PacketMobHunting> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 4 * i;
+            let end_pos = 16 * i;
+            vec_field.push(PacketMobHunting::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcHuntinglist {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            hunting_list: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcHuntinglist {
     fn id(&self) -> &str {
        "0x027a"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -13028,9 +23002,23 @@ pub struct PacketZcPcbangEffect {
     pub drop_factor: u32,
 }
 
-impl PacketId for PacketZcPcbangEffect {
+impl PacketZcPcbangEffect {
+    pub fn from(buffer: &[u8]) -> PacketZcPcbangEffect {
+        PacketZcPcbangEffect {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            exp_factor: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            exp_factor2: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            drop_factor: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+        }
+    }
+}
+
+impl Packet for PacketZcPcbangEffect {
     fn id(&self) -> &str {
        "0x027b"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -13055,9 +23043,25 @@ pub struct PacketCaLogin4 {
     pub mac_data: String,
 }
 
-impl PacketId for PacketCaLogin4 {
+impl PacketCaLogin4 {
+    pub fn from(buffer: &[u8]) -> PacketCaLogin4 {
+        PacketCaLogin4 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            version: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            id: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            passwd_md5: String::from_utf8_lossy(&buffer[30..46]).to_string(),
+            clienttype: buffer[46] as char,
+            mac_data: String::from_utf8_lossy(&buffer[47..60]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketCaLogin4 {
     fn id(&self) -> &str {
        "0x027c"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -13097,9 +23101,38 @@ pub struct PacketZcPropertyMerce {
     pub exp: u32,
 }
 
-impl PacketId for PacketZcPropertyMerce {
+impl PacketZcPropertyMerce {
+    pub fn from(buffer: &[u8]) -> PacketZcPropertyMerce {
+        PacketZcPropertyMerce {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            level: u16::from_le_bytes([buffer[26], buffer[27]]),
+            faith: u16::from_le_bytes([buffer[28], buffer[29]]),
+            summon_count: u16::from_le_bytes([buffer[30], buffer[31]]),
+            atk: u16::from_le_bytes([buffer[32], buffer[33]]),
+            matk: u16::from_le_bytes([buffer[34], buffer[35]]),
+            hit: u16::from_le_bytes([buffer[36], buffer[37]]),
+            critical: u16::from_le_bytes([buffer[38], buffer[39]]),
+            def: u16::from_le_bytes([buffer[40], buffer[41]]),
+            mdef: u16::from_le_bytes([buffer[42], buffer[43]]),
+            flee: u16::from_le_bytes([buffer[44], buffer[45]]),
+            aspd: u16::from_le_bytes([buffer[46], buffer[47]]),
+            hp: u16::from_le_bytes([buffer[48], buffer[49]]),
+            max_hp: u16::from_le_bytes([buffer[50], buffer[51]]),
+            sp: u16::from_le_bytes([buffer[52], buffer[53]]),
+            max_sp: u16::from_le_bytes([buffer[54], buffer[55]]),
+            atkrange: u16::from_le_bytes([buffer[56], buffer[57]]),
+            exp: u32::from_le_bytes([buffer[58], buffer[59], buffer[60], buffer[61]]),
+        }
+    }
+}
+
+impl Packet for PacketZcPropertyMerce {
     fn id(&self) -> &str {
        "0x027d"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -13137,9 +23170,23 @@ pub struct PacketZcShandaProtect {
     pub code: String,
 }
 
-impl PacketId for PacketZcShandaProtect {
+impl PacketZcShandaProtect {
+    pub fn from(buffer: &[u8]) -> PacketZcShandaProtect {
+        PacketZcShandaProtect {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            code_len: u16::from_le_bytes([buffer[4], buffer[5]]),
+            code: String::from_utf8_lossy(&buffer[6..buffer.len()]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcShandaProtect {
     fn id(&self) -> &str {
        "0x027e"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -13161,9 +23208,22 @@ pub struct PacketCaClientType {
     pub n_ver: u32,
 }
 
-impl PacketId for PacketCaClientType {
+impl PacketCaClientType {
+    pub fn from(buffer: &[u8]) -> PacketCaClientType {
+        PacketCaClientType {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            client_type: u16::from_le_bytes([buffer[2], buffer[3]]),
+            n_ver: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+        }
+    }
+}
+
+impl Packet for PacketCaClientType {
     fn id(&self) -> &str {
        "0x027f"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -13185,9 +23245,23 @@ pub struct PacketZcGangsiPoint {
     pub packet_switch: u16,
 }
 
-impl PacketId for PacketZcGangsiPoint {
+impl PacketZcGangsiPoint {
+    pub fn from(buffer: &[u8]) -> PacketZcGangsiPoint {
+        PacketZcGangsiPoint {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            point: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            total_point: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            packet_switch: u16::from_le_bytes([buffer[10], buffer[11]]),
+        }
+    }
+}
+
+impl Packet for PacketZcGangsiPoint {
     fn id(&self) -> &str {
        "0x0280"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -13208,9 +23282,21 @@ pub struct PacketCzGangsiRank {
     pub packet_switch: u16,
 }
 
-impl PacketId for PacketCzGangsiRank {
+impl PacketCzGangsiRank {
+    pub fn from(buffer: &[u8]) -> PacketCzGangsiRank {
+        PacketCzGangsiRank {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_switch: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
+}
+
+impl Packet for PacketCzGangsiRank {
     fn id(&self) -> &str {
        "0x0281"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -13231,9 +23317,23 @@ pub struct PacketZcGangsiRank {
     pub packet_switch: u16,
 }
 
-impl PacketId for PacketZcGangsiRank {
+impl PacketZcGangsiRank {
+    pub fn from(buffer: &[u8]) -> PacketZcGangsiRank {
+        PacketZcGangsiRank {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            name: String::from_utf8_lossy(&buffer[2..12]).to_string(),
+            point: u32::from_le_bytes([buffer[242], buffer[243], buffer[244], buffer[245]]),
+            packet_switch: u16::from_le_bytes([buffer[282], buffer[283]]),
+        }
+    }
+}
+
+impl Packet for PacketZcGangsiRank {
     fn id(&self) -> &str {
        "0x0282"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -13254,9 +23354,21 @@ pub struct PacketZcAid {
     pub aid: u32,
 }
 
-impl PacketId for PacketZcAid {
+impl PacketZcAid {
+    pub fn from(buffer: &[u8]) -> PacketZcAid {
+        PacketZcAid {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketZcAid {
     fn id(&self) -> &str {
        "0x0283"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -13277,9 +23389,23 @@ pub struct PacketZcNotifyEffect3 {
     pub numdata: u32,
 }
 
-impl PacketId for PacketZcNotifyEffect3 {
+impl PacketZcNotifyEffect3 {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyEffect3 {
+        PacketZcNotifyEffect3 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            effect_id: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            numdata: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyEffect3 {
     fn id(&self) -> &str {
        "0x0284"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -13301,9 +23427,22 @@ pub struct PacketZcDeathQuestion {
     pub qnum: u16,
 }
 
-impl PacketId for PacketZcDeathQuestion {
+impl PacketZcDeathQuestion {
+    pub fn from(buffer: &[u8]) -> PacketZcDeathQuestion {
+        PacketZcDeathQuestion {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            qcategory: u16::from_le_bytes([buffer[2], buffer[3]]),
+            qnum: u16::from_le_bytes([buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketZcDeathQuestion {
     fn id(&self) -> &str {
        "0x0285"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -13323,9 +23462,21 @@ pub struct PacketCzDeathQuestion {
     pub qanswer: u16,
 }
 
-impl PacketId for PacketCzDeathQuestion {
+impl PacketCzDeathQuestion {
+    pub fn from(buffer: &[u8]) -> PacketCzDeathQuestion {
+        PacketCzDeathQuestion {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            qanswer: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
+}
+
+impl Packet for PacketCzDeathQuestion {
     fn id(&self) -> &str {
        "0x0286"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -13346,9 +23497,32 @@ pub struct PacketZcPcCashPointItemlist {
     pub item_list: Vec<PurchaseItem>,
 }
 
-impl PacketId for PacketZcPcCashPointItemlist {
+impl PacketZcPcCashPointItemlist {
+    pub fn from(buffer: &[u8]) -> PacketZcPcCashPointItemlist {
+        let iter_count = &buffer.len() / 11;
+        let mut vec_field: Vec<PurchaseItem> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 8 * i;
+            let end_pos = 19 * i;
+            vec_field.push(PurchaseItem::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcPcCashPointItemlist {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            cash_point: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            item_list: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcPcCashPointItemlist {
     fn id(&self) -> &str {
        "0x0287"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -13370,9 +23544,22 @@ pub struct PacketCzPcBuyCashPointItem {
     pub count: u16,
 }
 
-impl PacketId for PacketCzPcBuyCashPointItem {
+impl PacketCzPcBuyCashPointItem {
+    pub fn from(buffer: &[u8]) -> PacketCzPcBuyCashPointItem {
+        PacketCzPcBuyCashPointItem {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            itid: u16::from_le_bytes([buffer[2], buffer[3]]),
+            count: u16::from_le_bytes([buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketCzPcBuyCashPointItem {
     fn id(&self) -> &str {
        "0x0288"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -13393,9 +23580,22 @@ pub struct PacketZcPcCashPointUpdate {
     pub error: u16,
 }
 
-impl PacketId for PacketZcPcCashPointUpdate {
+impl PacketZcPcCashPointUpdate {
+    pub fn from(buffer: &[u8]) -> PacketZcPcCashPointUpdate {
+        PacketZcPcCashPointUpdate {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            cash_point: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            error: u16::from_le_bytes([buffer[6], buffer[7]]),
+        }
+    }
+}
+
+impl Packet for PacketZcPcCashPointUpdate {
     fn id(&self) -> &str {
        "0x0289"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -13418,9 +23618,24 @@ pub struct PacketZcNpcShowefstUpdate {
     pub show_efst: u32,
 }
 
-impl PacketId for PacketZcNpcShowefstUpdate {
+impl PacketZcNpcShowefstUpdate {
+    pub fn from(buffer: &[u8]) -> PacketZcNpcShowefstUpdate {
+        PacketZcNpcShowefstUpdate {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            effect_state: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            clevel: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            show_efst: u32::from_le_bytes([buffer[14], buffer[15], buffer[16], buffer[17]]),
+        }
+    }
+}
+
+impl Packet for PacketZcNpcShowefstUpdate {
     fn id(&self) -> &str {
        "0x028a"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -13444,9 +23659,23 @@ pub struct PacketChSelectCharGoingtobeused {
     pub ardw_selected_gid: u32,
 }
 
-impl PacketId for PacketChSelectCharGoingtobeused {
+impl PacketChSelectCharGoingtobeused {
+    pub fn from(buffer: &[u8]) -> PacketChSelectCharGoingtobeused {
+        PacketChSelectCharGoingtobeused {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            dw_aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            n_count_selected_char: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            ardw_selected_gid: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+        }
+    }
+}
+
+impl Packet for PacketChSelectCharGoingtobeused {
     fn id(&self) -> &str {
        "0x028c"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -13469,9 +23698,23 @@ pub struct PacketChReqIsValidCharname {
     pub sz_char_name: String,
 }
 
-impl PacketId for PacketChReqIsValidCharname {
+impl PacketChReqIsValidCharname {
+    pub fn from(buffer: &[u8]) -> PacketChReqIsValidCharname {
+        PacketChReqIsValidCharname {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            dw_aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            dw_gid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            sz_char_name: String::from_utf8_lossy(&buffer[10..34]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketChReqIsValidCharname {
     fn id(&self) -> &str {
        "0x028d"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -13492,9 +23735,21 @@ pub struct PacketHcAckIsValidCharname {
     pub s_result: u16,
 }
 
-impl PacketId for PacketHcAckIsValidCharname {
+impl PacketHcAckIsValidCharname {
+    pub fn from(buffer: &[u8]) -> PacketHcAckIsValidCharname {
+        PacketHcAckIsValidCharname {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            s_result: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
+}
+
+impl Packet for PacketHcAckIsValidCharname {
     fn id(&self) -> &str {
        "0x028e"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -13513,9 +23768,21 @@ pub struct PacketChReqChangeCharname {
     pub dw_gid: u32,
 }
 
-impl PacketId for PacketChReqChangeCharname {
+impl PacketChReqChangeCharname {
+    pub fn from(buffer: &[u8]) -> PacketChReqChangeCharname {
+        PacketChReqChangeCharname {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            dw_gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketChReqChangeCharname {
     fn id(&self) -> &str {
        "0x028f"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -13534,9 +23801,21 @@ pub struct PacketHcAckChangeCharname {
     pub s_result: u16,
 }
 
-impl PacketId for PacketHcAckChangeCharname {
+impl PacketHcAckChangeCharname {
+    pub fn from(buffer: &[u8]) -> PacketHcAckChangeCharname {
+        PacketHcAckChangeCharname {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            s_result: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
+}
+
+impl Packet for PacketHcAckChangeCharname {
     fn id(&self) -> &str {
        "0x0290"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -13555,9 +23834,21 @@ pub struct PacketZcMsg {
     pub msg: u16,
 }
 
-impl PacketId for PacketZcMsg {
+impl PacketZcMsg {
+    pub fn from(buffer: &[u8]) -> PacketZcMsg {
+        PacketZcMsg {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            msg: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
+}
+
+impl Packet for PacketZcMsg {
     fn id(&self) -> &str {
        "0x0291"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -13575,9 +23866,20 @@ pub struct PacketCzStandingResurrection {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketCzStandingResurrection {
+impl PacketCzStandingResurrection {
+    pub fn from(buffer: &[u8]) -> PacketCzStandingResurrection {
+        PacketCzStandingResurrection {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketCzStandingResurrection {
     fn id(&self) -> &str {
        "0x0292"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -13602,9 +23904,28 @@ pub struct PacketZcBossInfo {
     pub name: String,
 }
 
-impl PacketId for PacketZcBossInfo {
+impl PacketZcBossInfo {
+    pub fn from(buffer: &[u8]) -> PacketZcBossInfo {
+        PacketZcBossInfo {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            info_type: buffer[2] as char,
+            x_pos: u32::from_le_bytes([buffer[3], buffer[4], buffer[5], buffer[6]]),
+            y_pos: u32::from_le_bytes([buffer[7], buffer[8], buffer[9], buffer[10]]),
+            min_hour: u16::from_le_bytes([buffer[11], buffer[12]]),
+            min_minute: u16::from_le_bytes([buffer[13], buffer[14]]),
+            max_hour: u16::from_le_bytes([buffer[15], buffer[16]]),
+            max_minute: u16::from_le_bytes([buffer[17], buffer[18]]),
+            name: String::from_utf8_lossy(&buffer[19..70]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcBossInfo {
     fn id(&self) -> &str {
        "0x0293"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -13631,9 +23952,22 @@ pub struct PacketZcReadBook {
     pub page: u32,
 }
 
-impl PacketId for PacketZcReadBook {
+impl PacketZcReadBook {
+    pub fn from(buffer: &[u8]) -> PacketZcReadBook {
+        PacketZcReadBook {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            book_id: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            page: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+        }
+    }
+}
+
+impl Packet for PacketZcReadBook {
     fn id(&self) -> &str {
        "0x0294"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -13654,9 +23988,31 @@ pub struct PacketZcEquipmentItemlist2 {
     pub item_info: Vec<EquipmentitemExtrainfo2>,
 }
 
-impl PacketId for PacketZcEquipmentItemlist2 {
+impl PacketZcEquipmentItemlist2 {
+    pub fn from(buffer: &[u8]) -> PacketZcEquipmentItemlist2 {
+        let iter_count = &buffer.len() / 24;
+        let mut vec_field: Vec<EquipmentitemExtrainfo2> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 4 * i;
+            let end_pos = 28 * i;
+            vec_field.push(EquipmentitemExtrainfo2::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcEquipmentItemlist2 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            item_info: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcEquipmentItemlist2 {
     fn id(&self) -> &str {
        "0x0295"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -13677,9 +24033,31 @@ pub struct PacketZcStoreEquipmentItemlist2 {
     pub item_info: Vec<EquipmentitemExtrainfo2>,
 }
 
-impl PacketId for PacketZcStoreEquipmentItemlist2 {
+impl PacketZcStoreEquipmentItemlist2 {
+    pub fn from(buffer: &[u8]) -> PacketZcStoreEquipmentItemlist2 {
+        let iter_count = &buffer.len() / 24;
+        let mut vec_field: Vec<EquipmentitemExtrainfo2> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 4 * i;
+            let end_pos = 28 * i;
+            vec_field.push(EquipmentitemExtrainfo2::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcStoreEquipmentItemlist2 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            item_info: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcStoreEquipmentItemlist2 {
     fn id(&self) -> &str {
        "0x0296"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -13700,9 +24078,31 @@ pub struct PacketZcCartEquipmentItemlist2 {
     pub item_info: Vec<EquipmentitemExtrainfo2>,
 }
 
-impl PacketId for PacketZcCartEquipmentItemlist2 {
+impl PacketZcCartEquipmentItemlist2 {
+    pub fn from(buffer: &[u8]) -> PacketZcCartEquipmentItemlist2 {
+        let iter_count = &buffer.len() / 24;
+        let mut vec_field: Vec<EquipmentitemExtrainfo2> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 4 * i;
+            let end_pos = 28 * i;
+            vec_field.push(EquipmentitemExtrainfo2::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcCartEquipmentItemlist2 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            item_info: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcCartEquipmentItemlist2 {
     fn id(&self) -> &str {
        "0x0297"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -13723,9 +24123,22 @@ pub struct PacketZcCashTimeCounter {
     pub remain_second: u32,
 }
 
-impl PacketId for PacketZcCashTimeCounter {
+impl PacketZcCashTimeCounter {
+    pub fn from(buffer: &[u8]) -> PacketZcCashTimeCounter {
+        PacketZcCashTimeCounter {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            itid: u16::from_le_bytes([buffer[2], buffer[3]]),
+            remain_second: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+        }
+    }
+}
+
+impl Packet for PacketZcCashTimeCounter {
     fn id(&self) -> &str {
        "0x0298"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -13746,9 +24159,22 @@ pub struct PacketZcCashItemDelete {
     pub itid: u16,
 }
 
-impl PacketId for PacketZcCashItemDelete {
+impl PacketZcCashItemDelete {
+    pub fn from(buffer: &[u8]) -> PacketZcCashItemDelete {
+        PacketZcCashItemDelete {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            itid: u16::from_le_bytes([buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketZcCashItemDelete {
     fn id(&self) -> &str {
        "0x0299"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -13778,9 +24204,31 @@ pub struct PacketZcItemPickupAck2 {
     pub hire_expire_date: u32,
 }
 
-impl PacketId for PacketZcItemPickupAck2 {
+impl PacketZcItemPickupAck2 {
+    pub fn from(buffer: &[u8]) -> PacketZcItemPickupAck2 {
+        PacketZcItemPickupAck2 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            count: u16::from_le_bytes([buffer[4], buffer[5]]),
+            itid: u16::from_le_bytes([buffer[6], buffer[7]]),
+            is_identified: buffer[8] == 1,
+            is_damaged: buffer[9] == 1,
+            refining_level: buffer[10] as char,
+            slot: EQUIPSLOTINFO::from(&buffer[11..19]),
+            location: u16::from_le_bytes([buffer[19], buffer[20]]),
+            type_: buffer[21] as char,
+            result: buffer[22] as char,
+            hire_expire_date: u32::from_le_bytes([buffer[23], buffer[24], buffer[25], buffer[26]]),
+        }
+    }
+}
+
+impl Packet for PacketZcItemPickupAck2 {
     fn id(&self) -> &str {
        "0x029a"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -13795,7 +24243,7 @@ impl Debug for PacketZcItemPickupAck2 {
             .field("is_identified[8, 9]", &self.is_identified)
             .field("is_damaged[9, 10]", &self.is_damaged)
             .field("refining_level[10, 11]", &self.refining_level)
-            .field("slot[11, ?]", &self.slot)
+            .field("slot[11, 19]", &self.slot)
             .field("location[19, 21]", &self.location)
             .field("type_[21, 22]", &self.type_)
             .field("result[22, 23]", &self.result)
@@ -13828,9 +24276,40 @@ pub struct PacketZcMerInit {
     pub atkrange: u16,
 }
 
-impl PacketId for PacketZcMerInit {
+impl PacketZcMerInit {
+    pub fn from(buffer: &[u8]) -> PacketZcMerInit {
+        PacketZcMerInit {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            atk: u16::from_le_bytes([buffer[6], buffer[7]]),
+            matk: u16::from_le_bytes([buffer[8], buffer[9]]),
+            hit: u16::from_le_bytes([buffer[10], buffer[11]]),
+            critical: u16::from_le_bytes([buffer[12], buffer[13]]),
+            def: u16::from_le_bytes([buffer[14], buffer[15]]),
+            mdef: u16::from_le_bytes([buffer[16], buffer[17]]),
+            flee: u16::from_le_bytes([buffer[18], buffer[19]]),
+            aspd: u16::from_le_bytes([buffer[20], buffer[21]]),
+            name: String::from_utf8_lossy(&buffer[22..46]).to_string(),
+            level: u16::from_le_bytes([buffer[46], buffer[47]]),
+            hp: u32::from_le_bytes([buffer[48], buffer[49], buffer[50], buffer[51]]),
+            max_hp: u32::from_le_bytes([buffer[52], buffer[53], buffer[54], buffer[55]]),
+            sp: u32::from_le_bytes([buffer[56], buffer[57], buffer[58], buffer[59]]),
+            max_sp: u32::from_le_bytes([buffer[60], buffer[61], buffer[62], buffer[63]]),
+            expire_date: u32::from_le_bytes([buffer[64], buffer[65], buffer[66], buffer[67]]),
+            faith: u16::from_le_bytes([buffer[68], buffer[69]]),
+            toal_call_num: u32::from_le_bytes([buffer[70], buffer[71], buffer[72], buffer[73]]),
+            approval_monster_kill_counter: u32::from_le_bytes([buffer[74], buffer[75], buffer[76], buffer[77]]),
+            atkrange: u16::from_le_bytes([buffer[78], buffer[79]]),
+        }
+    }
+}
+
+impl Packet for PacketZcMerInit {
     fn id(&self) -> &str {
        "0x029b"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -13885,9 +24364,38 @@ pub struct PacketZcMerProperty {
     pub approval_monster_kill_counter: u32,
 }
 
-impl PacketId for PacketZcMerProperty {
+impl PacketZcMerProperty {
+    pub fn from(buffer: &[u8]) -> PacketZcMerProperty {
+        PacketZcMerProperty {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            atk: u16::from_le_bytes([buffer[2], buffer[3]]),
+            matk: u16::from_le_bytes([buffer[4], buffer[5]]),
+            hit: u16::from_le_bytes([buffer[6], buffer[7]]),
+            critical: u16::from_le_bytes([buffer[8], buffer[9]]),
+            def: u16::from_le_bytes([buffer[10], buffer[11]]),
+            mdef: u16::from_le_bytes([buffer[12], buffer[13]]),
+            flee: u16::from_le_bytes([buffer[14], buffer[15]]),
+            aspd: u16::from_le_bytes([buffer[16], buffer[17]]),
+            name: String::from_utf8_lossy(&buffer[18..42]).to_string(),
+            level: u16::from_le_bytes([buffer[42], buffer[43]]),
+            hp: u16::from_le_bytes([buffer[44], buffer[45]]),
+            max_hp: u16::from_le_bytes([buffer[46], buffer[47]]),
+            sp: u16::from_le_bytes([buffer[48], buffer[49]]),
+            max_sp: u16::from_le_bytes([buffer[50], buffer[51]]),
+            expire_date: u32::from_le_bytes([buffer[52], buffer[53], buffer[54], buffer[55]]),
+            faith: u16::from_le_bytes([buffer[56], buffer[57]]),
+            toal_call_num: u32::from_le_bytes([buffer[58], buffer[59], buffer[60], buffer[61]]),
+            approval_monster_kill_counter: u32::from_le_bytes([buffer[62], buffer[63], buffer[64], buffer[65]]),
+        }
+    }
+}
+
+impl Packet for PacketZcMerProperty {
     fn id(&self) -> &str {
        "0x029c"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -13924,9 +24432,31 @@ pub struct PacketZcMerSkillinfoList {
     pub skill_list: Vec<SKILLINFO>,
 }
 
-impl PacketId for PacketZcMerSkillinfoList {
+impl PacketZcMerSkillinfoList {
+    pub fn from(buffer: &[u8]) -> PacketZcMerSkillinfoList {
+        let iter_count = &buffer.len() / 37;
+        let mut vec_field: Vec<SKILLINFO> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 4 * i;
+            let end_pos = 41 * i;
+            vec_field.push(SKILLINFO::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcMerSkillinfoList {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            skill_list: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcMerSkillinfoList {
     fn id(&self) -> &str {
        "0x029d"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -13950,9 +24480,25 @@ pub struct PacketZcMerSkillinfoUpdate {
     pub upgradable: bool,
 }
 
-impl PacketId for PacketZcMerSkillinfoUpdate {
+impl PacketZcMerSkillinfoUpdate {
+    pub fn from(buffer: &[u8]) -> PacketZcMerSkillinfoUpdate {
+        PacketZcMerSkillinfoUpdate {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            skid: u16::from_le_bytes([buffer[2], buffer[3]]),
+            level: u16::from_le_bytes([buffer[4], buffer[5]]),
+            spcost: u16::from_le_bytes([buffer[6], buffer[7]]),
+            attack_range: u16::from_le_bytes([buffer[8], buffer[9]]),
+            upgradable: buffer[10] == 1,
+        }
+    }
+}
+
+impl Packet for PacketZcMerSkillinfoUpdate {
     fn id(&self) -> &str {
        "0x029e"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -13975,9 +24521,21 @@ pub struct PacketCzMerCommand {
     pub command: char,
 }
 
-impl PacketId for PacketCzMerCommand {
+impl PacketCzMerCommand {
+    pub fn from(buffer: &[u8]) -> PacketCzMerCommand {
+        PacketCzMerCommand {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            command: buffer[2] as char,
+        }
+    }
+}
+
+impl Packet for PacketCzMerCommand {
     fn id(&self) -> &str {
        "0x029f"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -13998,9 +24556,23 @@ pub struct UnusedPacketCzMerUseSkill {
     pub target_id: u32,
 }
 
-impl PacketId for UnusedPacketCzMerUseSkill {
+impl UnusedPacketCzMerUseSkill {
+    pub fn from(buffer: &[u8]) -> UnusedPacketCzMerUseSkill {
+        UnusedPacketCzMerUseSkill {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            selected_level: u16::from_le_bytes([buffer[2], buffer[3]]),
+            skid: u16::from_le_bytes([buffer[4], buffer[5]]),
+            target_id: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+        }
+    }
+}
+
+impl Packet for UnusedPacketCzMerUseSkill {
     fn id(&self) -> &str {
        "0x02a0"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -14021,9 +24593,21 @@ pub struct UnusedPacketCzMerUpgradeSkilllevel {
     pub skid: u16,
 }
 
-impl PacketId for UnusedPacketCzMerUpgradeSkilllevel {
+impl UnusedPacketCzMerUpgradeSkilllevel {
+    pub fn from(buffer: &[u8]) -> UnusedPacketCzMerUpgradeSkilllevel {
+        UnusedPacketCzMerUpgradeSkilllevel {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            skid: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
+}
+
+impl Packet for UnusedPacketCzMerUpgradeSkilllevel {
     fn id(&self) -> &str {
        "0x02a1"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -14043,9 +24627,22 @@ pub struct PacketZcMerParChange {
     pub value: u32,
 }
 
-impl PacketId for PacketZcMerParChange {
+impl PacketZcMerParChange {
+    pub fn from(buffer: &[u8]) -> PacketZcMerParChange {
+        PacketZcMerParChange {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            var: u16::from_le_bytes([buffer[2], buffer[3]]),
+            value: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+        }
+    }
+}
+
+impl Packet for PacketZcMerParChange {
     fn id(&self) -> &str {
        "0x02a2"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -14065,9 +24662,21 @@ pub struct PacketZcGameguardLingoKey {
     pub lingo_key: PggLingoKeyTemp,
 }
 
-impl PacketId for PacketZcGameguardLingoKey {
+impl PacketZcGameguardLingoKey {
+    pub fn from(buffer: &[u8]) -> PacketZcGameguardLingoKey {
+        PacketZcGameguardLingoKey {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            lingo_key: PggLingoKeyTemp::from(&buffer[2..buffer.len()]),
+        }
+    }
+}
+
+impl Packet for PacketZcGameguardLingoKey {
     fn id(&self) -> &str {
        "0x02a3"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -14087,9 +24696,22 @@ pub struct PacketCzKsyEvent {
     pub count: u32,
 }
 
-impl PacketId for PacketCzKsyEvent {
+impl PacketCzKsyEvent {
+    pub fn from(buffer: &[u8]) -> PacketCzKsyEvent {
+        PacketCzKsyEvent {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            count: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+        }
+    }
+}
+
+impl Packet for PacketCzKsyEvent {
     fn id(&self) -> &str {
        "0x02a5"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -14109,9 +24731,21 @@ pub struct PacketZcReqCashPassword {
     pub info: u16,
 }
 
-impl PacketId for PacketZcReqCashPassword {
+impl PacketZcReqCashPassword {
+    pub fn from(buffer: &[u8]) -> PacketZcReqCashPassword {
+        PacketZcReqCashPassword {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            info: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
+}
+
+impl Packet for PacketZcReqCashPassword {
     fn id(&self) -> &str {
        "0x02aa"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -14132,9 +24766,23 @@ pub struct PacketCzAckCashPassword {
     pub new_password: String,
 }
 
-impl PacketId for PacketCzAckCashPassword {
+impl PacketCzAckCashPassword {
+    pub fn from(buffer: &[u8]) -> PacketCzAckCashPassword {
+        PacketCzAckCashPassword {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            type_: u16::from_le_bytes([buffer[2], buffer[3]]),
+            password: String::from_utf8_lossy(&buffer[4..20]).to_string(),
+            new_password: String::from_utf8_lossy(&buffer[20..36]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketCzAckCashPassword {
     fn id(&self) -> &str {
        "0x02ab"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -14156,9 +24804,22 @@ pub struct PacketZcResultCashPassword {
     pub error_count: u16,
 }
 
-impl PacketId for PacketZcResultCashPassword {
+impl PacketZcResultCashPassword {
+    pub fn from(buffer: &[u8]) -> PacketZcResultCashPassword {
+        PacketZcResultCashPassword {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            result: u16::from_le_bytes([buffer[2], buffer[3]]),
+            error_count: u16::from_le_bytes([buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketZcResultCashPassword {
     fn id(&self) -> &str {
        "0x02ac"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -14179,9 +24840,22 @@ pub struct PacketAcRequestSecondPassword {
     pub dw_seed: u32,
 }
 
-impl PacketId for PacketAcRequestSecondPassword {
+impl PacketAcRequestSecondPassword {
+    pub fn from(buffer: &[u8]) -> PacketAcRequestSecondPassword {
+        PacketAcRequestSecondPassword {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            result: u16::from_le_bytes([buffer[2], buffer[3]]),
+            dw_seed: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+        }
+    }
+}
+
+impl Packet for PacketAcRequestSecondPassword {
     fn id(&self) -> &str {
        "0x02ad"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -14207,9 +24881,27 @@ pub struct PacketCaLoginHan {
     pub is_han_game_user: char,
 }
 
-impl PacketId for PacketCaLoginHan {
+impl PacketCaLoginHan {
+    pub fn from(buffer: &[u8]) -> PacketCaLoginHan {
+        PacketCaLoginHan {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            version: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            id: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            passwd: String::from_utf8_lossy(&buffer[30..54]).to_string(),
+            clienttype: buffer[54] as char,
+            m_sz_ip: String::from_utf8_lossy(&buffer[55..71]).to_string(),
+            m_sz_mac_addr: String::from_utf8_lossy(&buffer[71..84]).to_string(),
+            is_han_game_user: buffer[84] as char,
+        }
+    }
+}
+
+impl Packet for PacketCaLoginHan {
     fn id(&self) -> &str {
        "0x02b0"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -14236,9 +24928,32 @@ pub struct PacketZcAllQuestList {
     pub quest_list: Vec<PacketZcQuestInfo>,
 }
 
-impl PacketId for PacketZcAllQuestList {
+impl PacketZcAllQuestList {
+    pub fn from(buffer: &[u8]) -> PacketZcAllQuestList {
+        let iter_count = &buffer.len() / 5;
+        let mut vec_field: Vec<PacketZcQuestInfo> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 8 * i;
+            let end_pos = 13 * i;
+            vec_field.push(PacketZcQuestInfo::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcAllQuestList {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            quest_count: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            quest_list: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcAllQuestList {
     fn id(&self) -> &str {
        "0x02b1"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -14261,9 +24976,32 @@ pub struct PacketZcAllQuestMission {
     pub quest_mission_list: Vec<PacketZcQuestMissionInfo>,
 }
 
-impl PacketId for PacketZcAllQuestMission {
+impl PacketZcAllQuestMission {
+    pub fn from(buffer: &[u8]) -> PacketZcAllQuestMission {
+        let iter_count = &buffer.len() / 104;
+        let mut vec_field: Vec<PacketZcQuestMissionInfo> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 8 * i;
+            let end_pos = 112 * i;
+            vec_field.push(PacketZcQuestMissionInfo::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcAllQuestMission {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            count: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            quest_mission_list: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcAllQuestMission {
     fn id(&self) -> &str {
        "0x02b2"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -14289,9 +25027,35 @@ pub struct PacketZcAddQuest {
     pub hunt: Vec<PacketZcMissionHunt>,
 }
 
-impl PacketId for PacketZcAddQuest {
+impl PacketZcAddQuest {
+    pub fn from(buffer: &[u8]) -> PacketZcAddQuest {
+        let iter_count = &buffer.len() / 30;
+        let mut vec_field: Vec<PacketZcMissionHunt> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 17 * i;
+            let end_pos = 47 * i;
+            vec_field.push(PacketZcMissionHunt::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcAddQuest {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            quest_id: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            active: buffer[6] == 1,
+            quest_svr_time: u32::from_le_bytes([buffer[7], buffer[8], buffer[9], buffer[10]]),
+            quest_end_time: u32::from_le_bytes([buffer[11], buffer[12], buffer[13], buffer[14]]),
+            count: u16::from_le_bytes([buffer[15], buffer[16]]),
+            hunt: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcAddQuest {
     fn id(&self) -> &str {
        "0x02b3"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -14315,9 +25079,21 @@ pub struct PacketZcDelQuest {
     pub quest_id: u32,
 }
 
-impl PacketId for PacketZcDelQuest {
+impl PacketZcDelQuest {
+    pub fn from(buffer: &[u8]) -> PacketZcDelQuest {
+        PacketZcDelQuest {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            quest_id: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketZcDelQuest {
     fn id(&self) -> &str {
        "0x02b4"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -14338,9 +25114,32 @@ pub struct PacketZcUpdateMissionHunt {
     pub mob_hunt_list: Vec<PacketMobHunting>,
 }
 
-impl PacketId for PacketZcUpdateMissionHunt {
+impl PacketZcUpdateMissionHunt {
+    pub fn from(buffer: &[u8]) -> PacketZcUpdateMissionHunt {
+        let iter_count = &buffer.len() / 12;
+        let mut vec_field: Vec<PacketMobHunting> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 6 * i;
+            let end_pos = 18 * i;
+            vec_field.push(PacketMobHunting::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcUpdateMissionHunt {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            count: u16::from_le_bytes([buffer[4], buffer[5]]),
+            mob_hunt_list: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcUpdateMissionHunt {
     fn id(&self) -> &str {
        "0x02b5"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -14362,9 +25161,22 @@ pub struct PacketCzActiveQuest {
     pub active: bool,
 }
 
-impl PacketId for PacketCzActiveQuest {
+impl PacketCzActiveQuest {
+    pub fn from(buffer: &[u8]) -> PacketCzActiveQuest {
+        PacketCzActiveQuest {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            quest_id: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            active: buffer[6] == 1,
+        }
+    }
+}
+
+impl Packet for PacketCzActiveQuest {
     fn id(&self) -> &str {
        "0x02b6"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -14385,9 +25197,22 @@ pub struct PacketZcActiveQuest {
     pub active: bool,
 }
 
-impl PacketId for PacketZcActiveQuest {
+impl PacketZcActiveQuest {
+    pub fn from(buffer: &[u8]) -> PacketZcActiveQuest {
+        PacketZcActiveQuest {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            quest_id: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            active: buffer[6] == 1,
+        }
+    }
+}
+
+impl Packet for PacketZcActiveQuest {
     fn id(&self) -> &str {
        "0x02b7"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -14414,9 +25239,28 @@ pub struct PacketZcItemPickupParty {
     pub type_: char,
 }
 
-impl PacketId for PacketZcItemPickupParty {
+impl PacketZcItemPickupParty {
+    pub fn from(buffer: &[u8]) -> PacketZcItemPickupParty {
+        PacketZcItemPickupParty {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            account_id: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            itid: u16::from_le_bytes([buffer[6], buffer[7]]),
+            is_identified: buffer[8] == 1,
+            is_damaged: buffer[9] == 1,
+            refining_level: buffer[10] as char,
+            slot: EQUIPSLOTINFO::from(&buffer[11..19]),
+            location: u16::from_le_bytes([buffer[19], buffer[20]]),
+            type_: buffer[21] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcItemPickupParty {
     fn id(&self) -> &str {
        "0x02b8"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -14430,7 +25274,7 @@ impl Debug for PacketZcItemPickupParty {
             .field("is_identified[8, 9]", &self.is_identified)
             .field("is_damaged[9, 10]", &self.is_damaged)
             .field("refining_level[10, 11]", &self.refining_level)
-            .field("slot[11, ?]", &self.slot)
+            .field("slot[11, 19]", &self.slot)
             .field("location[19, 21]", &self.location)
             .field("type_[21, 22]", &self.type_)
         .finish()
@@ -14442,9 +25286,30 @@ pub struct PacketZcShortcutKeyList {
     pub short_cut_key: Vec<ShortCutKey>,
 }
 
-impl PacketId for PacketZcShortcutKeyList {
+impl PacketZcShortcutKeyList {
+    pub fn from(buffer: &[u8]) -> PacketZcShortcutKeyList {
+        let iter_count = &buffer.len() / 7;
+        let mut vec_field: Vec<ShortCutKey> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 2 * i;
+            let end_pos = 9 * i;
+            vec_field.push(ShortCutKey::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcShortcutKeyList {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            short_cut_key: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcShortcutKeyList {
     fn id(&self) -> &str {
        "0x02b9"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -14464,9 +25329,22 @@ pub struct PacketCzShortcutKeyChange {
     pub short_cut_key: ShortCutKey,
 }
 
-impl PacketId for PacketCzShortcutKeyChange {
+impl PacketCzShortcutKeyChange {
+    pub fn from(buffer: &[u8]) -> PacketCzShortcutKeyChange {
+        PacketCzShortcutKeyChange {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            short_cut_key: ShortCutKey::from(&buffer[4..buffer.len()]),
+        }
+    }
+}
+
+impl Packet for PacketCzShortcutKeyChange {
     fn id(&self) -> &str {
        "0x02ba"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -14487,9 +25365,22 @@ pub struct PacketZcEquipitemDamaged {
     pub account_id: u32,
 }
 
-impl PacketId for PacketZcEquipitemDamaged {
+impl PacketZcEquipitemDamaged {
+    pub fn from(buffer: &[u8]) -> PacketZcEquipitemDamaged {
+        PacketZcEquipitemDamaged {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            wear_location: u16::from_le_bytes([buffer[2], buffer[3]]),
+            account_id: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+        }
+    }
+}
+
+impl Packet for PacketZcEquipitemDamaged {
     fn id(&self) -> &str {
        "0x02bb"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -14509,9 +25400,21 @@ pub struct PacketZcNotifyPcbangPlayingTime {
     pub time_minute: u32,
 }
 
-impl PacketId for PacketZcNotifyPcbangPlayingTime {
+impl PacketZcNotifyPcbangPlayingTime {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyPcbangPlayingTime {
+        PacketZcNotifyPcbangPlayingTime {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            time_minute: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyPcbangPlayingTime {
     fn id(&self) -> &str {
        "0x02bc"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -14532,9 +25435,23 @@ pub struct PacketZcSrpacketr2Init {
     pub deform_add_factor: u32,
 }
 
-impl PacketId for PacketZcSrpacketr2Init {
+impl PacketZcSrpacketr2Init {
+    pub fn from(buffer: &[u8]) -> PacketZcSrpacketr2Init {
+        PacketZcSrpacketr2Init {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            protect_factor: u16::from_le_bytes([buffer[2], buffer[3]]),
+            deform_seed_factor: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            deform_add_factor: u32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
+        }
+    }
+}
+
+impl Packet for PacketZcSrpacketr2Init {
     fn id(&self) -> &str {
        "0x02bf"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -14555,9 +25472,21 @@ pub struct PacketCzSrpacketr2Start {
     pub protect_factor: u16,
 }
 
-impl PacketId for PacketCzSrpacketr2Start {
+impl PacketCzSrpacketr2Start {
+    pub fn from(buffer: &[u8]) -> PacketCzSrpacketr2Start {
+        PacketCzSrpacketr2Start {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            protect_factor: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
+}
+
+impl Packet for PacketCzSrpacketr2Start {
     fn id(&self) -> &str {
        "0x02c0"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -14579,9 +25508,24 @@ pub struct PacketZcNpcChat {
     pub msg: String,
 }
 
-impl PacketId for PacketZcNpcChat {
+impl PacketZcNpcChat {
+    pub fn from(buffer: &[u8]) -> PacketZcNpcChat {
+        PacketZcNpcChat {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            account_id: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            color: u32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
+            msg: String::from_utf8_lossy(&buffer[12..buffer.len()]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcNpcChat {
     fn id(&self) -> &str {
        "0x02c1"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -14605,9 +25549,23 @@ pub struct PacketZcFormatstringMsg {
     pub value: String,
 }
 
-impl PacketId for PacketZcFormatstringMsg {
+impl PacketZcFormatstringMsg {
+    pub fn from(buffer: &[u8]) -> PacketZcFormatstringMsg {
+        PacketZcFormatstringMsg {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            msg: u16::from_le_bytes([buffer[4], buffer[5]]),
+            value: String::from_utf8_lossy(&buffer[6..buffer.len()]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcFormatstringMsg {
     fn id(&self) -> &str {
        "0x02c2"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -14628,9 +25586,21 @@ pub struct PacketCzPartyJoinReq {
     pub character_name: String,
 }
 
-impl PacketId for PacketCzPartyJoinReq {
+impl PacketCzPartyJoinReq {
+    pub fn from(buffer: &[u8]) -> PacketCzPartyJoinReq {
+        PacketCzPartyJoinReq {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            character_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketCzPartyJoinReq {
     fn id(&self) -> &str {
        "0x02c4"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -14650,9 +25620,22 @@ pub struct PacketZcPartyJoinReqAck {
     pub answer: u32,
 }
 
-impl PacketId for PacketZcPartyJoinReqAck {
+impl PacketZcPartyJoinReqAck {
+    pub fn from(buffer: &[u8]) -> PacketZcPartyJoinReqAck {
+        PacketZcPartyJoinReqAck {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            character_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            answer: u32::from_le_bytes([buffer[26], buffer[27], buffer[28], buffer[29]]),
+        }
+    }
+}
+
+impl Packet for PacketZcPartyJoinReqAck {
     fn id(&self) -> &str {
        "0x02c5"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -14673,9 +25656,22 @@ pub struct PacketZcPartyJoinReq {
     pub group_name: String,
 }
 
-impl PacketId for PacketZcPartyJoinReq {
+impl PacketZcPartyJoinReq {
+    pub fn from(buffer: &[u8]) -> PacketZcPartyJoinReq {
+        PacketZcPartyJoinReq {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            grid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            group_name: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcPartyJoinReq {
     fn id(&self) -> &str {
        "0x02c6"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -14696,9 +25692,22 @@ pub struct PacketCzPartyJoinReqAck {
     pub b_accept: bool,
 }
 
-impl PacketId for PacketCzPartyJoinReqAck {
+impl PacketCzPartyJoinReqAck {
+    pub fn from(buffer: &[u8]) -> PacketCzPartyJoinReqAck {
+        PacketCzPartyJoinReqAck {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            grid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            b_accept: buffer[6] == 1,
+        }
+    }
+}
+
+impl Packet for PacketCzPartyJoinReqAck {
     fn id(&self) -> &str {
        "0x02c7"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -14718,9 +25727,21 @@ pub struct PacketCzPartyConfig {
     pub b_refuse_join_msg: bool,
 }
 
-impl PacketId for PacketCzPartyConfig {
+impl PacketCzPartyConfig {
+    pub fn from(buffer: &[u8]) -> PacketCzPartyConfig {
+        PacketCzPartyConfig {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            b_refuse_join_msg: buffer[2] == 1,
+        }
+    }
+}
+
+impl Packet for PacketCzPartyConfig {
     fn id(&self) -> &str {
        "0x02c8"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -14739,9 +25760,21 @@ pub struct PacketZcPartyConfig {
     pub b_refuse_join_msg: bool,
 }
 
-impl PacketId for PacketZcPartyConfig {
+impl PacketZcPartyConfig {
+    pub fn from(buffer: &[u8]) -> PacketZcPartyConfig {
+        PacketZcPartyConfig {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            b_refuse_join_msg: buffer[2] == 1,
+        }
+    }
+}
+
+impl Packet for PacketZcPartyConfig {
     fn id(&self) -> &str {
        "0x02c9"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -14760,9 +25793,21 @@ pub struct PacketHcRefuseSelectchar {
     pub error_code: char,
 }
 
-impl PacketId for PacketHcRefuseSelectchar {
+impl PacketHcRefuseSelectchar {
+    pub fn from(buffer: &[u8]) -> PacketHcRefuseSelectchar {
+        PacketHcRefuseSelectchar {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            error_code: buffer[2] as char,
+        }
+    }
+}
+
+impl Packet for PacketHcRefuseSelectchar {
     fn id(&self) -> &str {
        "0x02ca"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -14782,9 +25827,22 @@ pub struct PacketZcMemorialdungeonSubscriptionInfo {
     pub priority_order_num: u16,
 }
 
-impl PacketId for PacketZcMemorialdungeonSubscriptionInfo {
+impl PacketZcMemorialdungeonSubscriptionInfo {
+    pub fn from(buffer: &[u8]) -> PacketZcMemorialdungeonSubscriptionInfo {
+        PacketZcMemorialdungeonSubscriptionInfo {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            memorial_dungeon_name: String::from_utf8_lossy(&buffer[2..63]).to_string(),
+            priority_order_num: u16::from_le_bytes([buffer[63], buffer[64]]),
+        }
+    }
+}
+
+impl Packet for PacketZcMemorialdungeonSubscriptionInfo {
     fn id(&self) -> &str {
        "0x02cb"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -14804,9 +25862,21 @@ pub struct PacketZcMemorialdungeonSubscriptionNotify {
     pub priority_order_num: u16,
 }
 
-impl PacketId for PacketZcMemorialdungeonSubscriptionNotify {
+impl PacketZcMemorialdungeonSubscriptionNotify {
+    pub fn from(buffer: &[u8]) -> PacketZcMemorialdungeonSubscriptionNotify {
+        PacketZcMemorialdungeonSubscriptionNotify {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            priority_order_num: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
+}
+
+impl Packet for PacketZcMemorialdungeonSubscriptionNotify {
     fn id(&self) -> &str {
        "0x02cc"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -14827,9 +25897,23 @@ pub struct PacketZcMemorialdungeonInfo {
     pub enter_time_out_date: u32,
 }
 
-impl PacketId for PacketZcMemorialdungeonInfo {
+impl PacketZcMemorialdungeonInfo {
+    pub fn from(buffer: &[u8]) -> PacketZcMemorialdungeonInfo {
+        PacketZcMemorialdungeonInfo {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            memorial_dungeon_name: String::from_utf8_lossy(&buffer[2..63]).to_string(),
+            destroy_date: u32::from_le_bytes([buffer[63], buffer[64], buffer[65], buffer[66]]),
+            enter_time_out_date: u32::from_le_bytes([buffer[67], buffer[68], buffer[69], buffer[70]]),
+        }
+    }
+}
+
+impl Packet for PacketZcMemorialdungeonInfo {
     fn id(&self) -> &str {
        "0x02cd"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -14851,9 +25935,22 @@ pub struct PacketZcMemorialdungeonNotify {
     pub enter_limit_date: u32,
 }
 
-impl PacketId for PacketZcMemorialdungeonNotify {
+impl PacketZcMemorialdungeonNotify {
+    pub fn from(buffer: &[u8]) -> PacketZcMemorialdungeonNotify {
+        PacketZcMemorialdungeonNotify {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            type_: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            enter_limit_date: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+        }
+    }
+}
+
+impl Packet for PacketZcMemorialdungeonNotify {
     fn id(&self) -> &str {
        "0x02ce"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -14873,9 +25970,21 @@ pub struct PacketCzMemorialdungeonCommand {
     pub command: u32,
 }
 
-impl PacketId for PacketCzMemorialdungeonCommand {
+impl PacketCzMemorialdungeonCommand {
+    pub fn from(buffer: &[u8]) -> PacketCzMemorialdungeonCommand {
+        PacketCzMemorialdungeonCommand {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            command: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketCzMemorialdungeonCommand {
     fn id(&self) -> &str {
        "0x02cf"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -14895,9 +26004,31 @@ pub struct PacketZcEquipmentItemlist3 {
     pub item_info: Vec<EquipmentitemExtrainfo301>,
 }
 
-impl PacketId for PacketZcEquipmentItemlist3 {
+impl PacketZcEquipmentItemlist3 {
+    pub fn from(buffer: &[u8]) -> PacketZcEquipmentItemlist3 {
+        let iter_count = &buffer.len() / 28;
+        let mut vec_field: Vec<EquipmentitemExtrainfo301> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 4 * i;
+            let end_pos = 32 * i;
+            vec_field.push(EquipmentitemExtrainfo301::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcEquipmentItemlist3 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            item_info: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcEquipmentItemlist3 {
     fn id(&self) -> &str {
        "0x02d0"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -14918,9 +26049,31 @@ pub struct PacketZcStoreEquipmentItemlist3 {
     pub item_info: Vec<EquipmentitemExtrainfo301>,
 }
 
-impl PacketId for PacketZcStoreEquipmentItemlist3 {
+impl PacketZcStoreEquipmentItemlist3 {
+    pub fn from(buffer: &[u8]) -> PacketZcStoreEquipmentItemlist3 {
+        let iter_count = &buffer.len() / 28;
+        let mut vec_field: Vec<EquipmentitemExtrainfo301> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 4 * i;
+            let end_pos = 32 * i;
+            vec_field.push(EquipmentitemExtrainfo301::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcStoreEquipmentItemlist3 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            item_info: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcStoreEquipmentItemlist3 {
     fn id(&self) -> &str {
        "0x02d1"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -14941,9 +26094,31 @@ pub struct PacketZcCartEquipmentItemlist3 {
     pub item_info: Vec<EquipmentitemExtrainfo301>,
 }
 
-impl PacketId for PacketZcCartEquipmentItemlist3 {
+impl PacketZcCartEquipmentItemlist3 {
+    pub fn from(buffer: &[u8]) -> PacketZcCartEquipmentItemlist3 {
+        let iter_count = &buffer.len() / 28;
+        let mut vec_field: Vec<EquipmentitemExtrainfo301> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 4 * i;
+            let end_pos = 32 * i;
+            vec_field.push(EquipmentitemExtrainfo301::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcCartEquipmentItemlist3 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            item_info: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcCartEquipmentItemlist3 {
     fn id(&self) -> &str {
        "0x02d2"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -14963,9 +26138,21 @@ pub struct PacketZcNotifyBindOnEquip {
     pub index: u16,
 }
 
-impl PacketId for PacketZcNotifyBindOnEquip {
+impl PacketZcNotifyBindOnEquip {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyBindOnEquip {
+        PacketZcNotifyBindOnEquip {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            index: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyBindOnEquip {
     fn id(&self) -> &str {
        "0x02d3"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -14995,9 +26182,32 @@ pub struct PacketZcItemPickupAck3 {
     pub bind_on_equip_type: u16,
 }
 
-impl PacketId for PacketZcItemPickupAck3 {
+impl PacketZcItemPickupAck3 {
+    pub fn from(buffer: &[u8]) -> PacketZcItemPickupAck3 {
+        PacketZcItemPickupAck3 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            count: u16::from_le_bytes([buffer[4], buffer[5]]),
+            itid: u16::from_le_bytes([buffer[6], buffer[7]]),
+            is_identified: buffer[8] == 1,
+            is_damaged: buffer[9] == 1,
+            refining_level: buffer[10] as char,
+            slot: EQUIPSLOTINFO::from(&buffer[11..19]),
+            location: u16::from_le_bytes([buffer[19], buffer[20]]),
+            type_: buffer[21] as char,
+            result: buffer[22] as char,
+            hire_expire_date: u32::from_le_bytes([buffer[23], buffer[24], buffer[25], buffer[26]]),
+            bind_on_equip_type: u16::from_le_bytes([buffer[27], buffer[28]]),
+        }
+    }
+}
+
+impl Packet for PacketZcItemPickupAck3 {
     fn id(&self) -> &str {
        "0x02d4"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -15012,7 +26222,7 @@ impl Debug for PacketZcItemPickupAck3 {
             .field("is_identified[8, 9]", &self.is_identified)
             .field("is_damaged[9, 10]", &self.is_damaged)
             .field("refining_level[10, 11]", &self.refining_level)
-            .field("slot[11, ?]", &self.slot)
+            .field("slot[11, 19]", &self.slot)
             .field("location[19, 21]", &self.location)
             .field("type_[21, 22]", &self.type_)
             .field("result[22, 23]", &self.result)
@@ -15026,9 +26236,20 @@ pub struct PacketZcIsvrDisconnect {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketZcIsvrDisconnect {
+impl PacketZcIsvrDisconnect {
+    pub fn from(buffer: &[u8]) -> PacketZcIsvrDisconnect {
+        PacketZcIsvrDisconnect {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketZcIsvrDisconnect {
     fn id(&self) -> &str {
        "0x02d5"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -15046,9 +26267,21 @@ pub struct PacketCzEquipwinMicroscope {
     pub aid: u32,
 }
 
-impl PacketId for PacketCzEquipwinMicroscope {
+impl PacketCzEquipwinMicroscope {
+    pub fn from(buffer: &[u8]) -> PacketCzEquipwinMicroscope {
+        PacketCzEquipwinMicroscope {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketCzEquipwinMicroscope {
     fn id(&self) -> &str {
        "0x02d6"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -15077,9 +26310,40 @@ pub struct PacketZcEquipwinMicroscope {
     pub item_info: Vec<EquipmentitemExtrainfo301>,
 }
 
-impl PacketId for PacketZcEquipwinMicroscope {
+impl PacketZcEquipwinMicroscope {
+    pub fn from(buffer: &[u8]) -> PacketZcEquipwinMicroscope {
+        let iter_count = &buffer.len() / 28;
+        let mut vec_field: Vec<EquipmentitemExtrainfo301> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 43 * i;
+            let end_pos = 71 * i;
+            vec_field.push(EquipmentitemExtrainfo301::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcEquipwinMicroscope {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            character_name: String::from_utf8_lossy(&buffer[4..28]).to_string(),
+            job: u16::from_le_bytes([buffer[28], buffer[29]]),
+            head: u16::from_le_bytes([buffer[30], buffer[31]]),
+            accessory: u16::from_le_bytes([buffer[32], buffer[33]]),
+            accessory2: u16::from_le_bytes([buffer[34], buffer[35]]),
+            accessory3: u16::from_le_bytes([buffer[36], buffer[37]]),
+            headpalette: u16::from_le_bytes([buffer[38], buffer[39]]),
+            bodypalette: u16::from_le_bytes([buffer[40], buffer[41]]),
+            sex: buffer[42] as char,
+            item_info: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcEquipwinMicroscope {
     fn id(&self) -> &str {
        "0x02d7"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -15109,9 +26373,22 @@ pub struct PacketCzConfig {
     pub value: u32,
 }
 
-impl PacketId for PacketCzConfig {
+impl PacketCzConfig {
+    pub fn from(buffer: &[u8]) -> PacketCzConfig {
+        PacketCzConfig {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            config: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            value: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+        }
+    }
+}
+
+impl Packet for PacketCzConfig {
     fn id(&self) -> &str {
        "0x02d8"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -15132,9 +26409,22 @@ pub struct PacketZcConfig {
     pub value: u32,
 }
 
-impl PacketId for PacketZcConfig {
+impl PacketZcConfig {
+    pub fn from(buffer: &[u8]) -> PacketZcConfig {
+        PacketZcConfig {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            config: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            value: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+        }
+    }
+}
+
+impl Packet for PacketZcConfig {
     fn id(&self) -> &str {
        "0x02d9"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -15154,9 +26444,21 @@ pub struct PacketZcConfigNotify {
     pub b_open_equipment_win: bool,
 }
 
-impl PacketId for PacketZcConfigNotify {
+impl PacketZcConfigNotify {
+    pub fn from(buffer: &[u8]) -> PacketZcConfigNotify {
+        PacketZcConfigNotify {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            b_open_equipment_win: buffer[2] == 1,
+        }
+    }
+}
+
+impl Packet for PacketZcConfigNotify {
     fn id(&self) -> &str {
        "0x02da"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -15176,9 +26478,22 @@ pub struct PacketCzBattlefieldChat {
     pub msg: String,
 }
 
-impl PacketId for PacketCzBattlefieldChat {
+impl PacketCzBattlefieldChat {
+    pub fn from(buffer: &[u8]) -> PacketCzBattlefieldChat {
+        PacketCzBattlefieldChat {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            msg: String::from_utf8_lossy(&buffer[4..buffer.len()]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketCzBattlefieldChat {
     fn id(&self) -> &str {
        "0x02db"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -15201,9 +26516,24 @@ pub struct PacketZcBattlefieldChat {
     pub msg: String,
 }
 
-impl PacketId for PacketZcBattlefieldChat {
+impl PacketZcBattlefieldChat {
+    pub fn from(buffer: &[u8]) -> PacketZcBattlefieldChat {
+        PacketZcBattlefieldChat {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            account_id: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            name: String::from_utf8_lossy(&buffer[8..32]).to_string(),
+            msg: String::from_utf8_lossy(&buffer[32..buffer.len()]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcBattlefieldChat {
     fn id(&self) -> &str {
        "0x02dc"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -15227,9 +26557,23 @@ pub struct PacketZcBattlefieldNotifyCampinfo {
     pub camp: u16,
 }
 
-impl PacketId for PacketZcBattlefieldNotifyCampinfo {
+impl PacketZcBattlefieldNotifyCampinfo {
+    pub fn from(buffer: &[u8]) -> PacketZcBattlefieldNotifyCampinfo {
+        PacketZcBattlefieldNotifyCampinfo {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            account_id: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            name: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            camp: u16::from_le_bytes([buffer[30], buffer[31]]),
+        }
+    }
+}
+
+impl Packet for PacketZcBattlefieldNotifyCampinfo {
     fn id(&self) -> &str {
        "0x02dd"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -15251,9 +26595,22 @@ pub struct PacketZcBattlefieldNotifyPoint {
     pub point_camp_b: u16,
 }
 
-impl PacketId for PacketZcBattlefieldNotifyPoint {
+impl PacketZcBattlefieldNotifyPoint {
+    pub fn from(buffer: &[u8]) -> PacketZcBattlefieldNotifyPoint {
+        PacketZcBattlefieldNotifyPoint {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            point_camp_a: u16::from_le_bytes([buffer[2], buffer[3]]),
+            point_camp_b: u16::from_le_bytes([buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketZcBattlefieldNotifyPoint {
     fn id(&self) -> &str {
        "0x02de"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -15277,9 +26634,25 @@ pub struct PacketZcBattlefieldNotifyPosition {
     pub y: u16,
 }
 
-impl PacketId for PacketZcBattlefieldNotifyPosition {
+impl PacketZcBattlefieldNotifyPosition {
+    pub fn from(buffer: &[u8]) -> PacketZcBattlefieldNotifyPosition {
+        PacketZcBattlefieldNotifyPosition {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            account_id: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            name: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            job: u16::from_le_bytes([buffer[30], buffer[31]]),
+            x: u16::from_le_bytes([buffer[32], buffer[33]]),
+            y: u16::from_le_bytes([buffer[34], buffer[35]]),
+        }
+    }
+}
+
+impl Packet for PacketZcBattlefieldNotifyPosition {
     fn id(&self) -> &str {
        "0x02df"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -15305,9 +26678,24 @@ pub struct PacketZcBattlefieldNotifyHp {
     pub max_hp: u16,
 }
 
-impl PacketId for PacketZcBattlefieldNotifyHp {
+impl PacketZcBattlefieldNotifyHp {
+    pub fn from(buffer: &[u8]) -> PacketZcBattlefieldNotifyHp {
+        PacketZcBattlefieldNotifyHp {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            account_id: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            name: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            hp: u16::from_le_bytes([buffer[30], buffer[31]]),
+            max_hp: u16::from_le_bytes([buffer[32], buffer[33]]),
+        }
+    }
+}
+
+impl Packet for PacketZcBattlefieldNotifyHp {
     fn id(&self) -> &str {
        "0x02e0"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -15337,9 +26725,29 @@ pub struct PacketZcNotifyAct2 {
     pub left_damage: u32,
 }
 
-impl PacketId for PacketZcNotifyAct2 {
+impl PacketZcNotifyAct2 {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyAct2 {
+        PacketZcNotifyAct2 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            target_gid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            start_time: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            attack_mt: u32::from_le_bytes([buffer[14], buffer[15], buffer[16], buffer[17]]),
+            attacked_mt: u32::from_le_bytes([buffer[18], buffer[19], buffer[20], buffer[21]]),
+            damage: u32::from_le_bytes([buffer[22], buffer[23], buffer[24], buffer[25]]),
+            count: u16::from_le_bytes([buffer[26], buffer[27]]),
+            action: buffer[28] as char,
+            left_damage: u32::from_le_bytes([buffer[29], buffer[30], buffer[31], buffer[32]]),
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyAct2 {
     fn id(&self) -> &str {
        "0x02e1"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -15366,9 +26774,21 @@ pub struct PacketCzBotCheck {
     pub is_bot: u32,
 }
 
-impl PacketId for PacketCzBotCheck {
+impl PacketCzBotCheck {
+    pub fn from(buffer: &[u8]) -> PacketCzBotCheck {
+        PacketCzBotCheck {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            is_bot: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketCzBotCheck {
     fn id(&self) -> &str {
        "0x02e6"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -15389,9 +26809,23 @@ pub struct PacketZcMapproperty {
     pub map_info_table: u32,
 }
 
-impl PacketId for PacketZcMapproperty {
+impl PacketZcMapproperty {
+    pub fn from(buffer: &[u8]) -> PacketZcMapproperty {
+        PacketZcMapproperty {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            type_: u16::from_le_bytes([buffer[4], buffer[5]]),
+            map_info_table: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+        }
+    }
+}
+
+impl Packet for PacketZcMapproperty {
     fn id(&self) -> &str {
        "0x02e7"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -15413,9 +26847,31 @@ pub struct PacketZcNormalItemlist3 {
     pub item_info: Vec<NormalitemExtrainfo3>,
 }
 
-impl PacketId for PacketZcNormalItemlist3 {
+impl PacketZcNormalItemlist3 {
+    pub fn from(buffer: &[u8]) -> PacketZcNormalItemlist3 {
+        let iter_count = &buffer.len() / 22;
+        let mut vec_field: Vec<NormalitemExtrainfo3> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 4 * i;
+            let end_pos = 26 * i;
+            vec_field.push(NormalitemExtrainfo3::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcNormalItemlist3 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            item_info: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcNormalItemlist3 {
     fn id(&self) -> &str {
        "0x02e8"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -15436,9 +26892,31 @@ pub struct PacketZcCartNormalItemlist3 {
     pub item_info: Vec<NormalitemExtrainfo3>,
 }
 
-impl PacketId for PacketZcCartNormalItemlist3 {
+impl PacketZcCartNormalItemlist3 {
+    pub fn from(buffer: &[u8]) -> PacketZcCartNormalItemlist3 {
+        let iter_count = &buffer.len() / 22;
+        let mut vec_field: Vec<NormalitemExtrainfo3> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 4 * i;
+            let end_pos = 26 * i;
+            vec_field.push(NormalitemExtrainfo3::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcCartNormalItemlist3 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            item_info: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcCartNormalItemlist3 {
     fn id(&self) -> &str {
        "0x02e9"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -15459,9 +26937,31 @@ pub struct PacketZcStoreNormalItemlist3 {
     pub item_info: Vec<NormalitemExtrainfo3>,
 }
 
-impl PacketId for PacketZcStoreNormalItemlist3 {
+impl PacketZcStoreNormalItemlist3 {
+    pub fn from(buffer: &[u8]) -> PacketZcStoreNormalItemlist3 {
+        let iter_count = &buffer.len() / 22;
+        let mut vec_field: Vec<NormalitemExtrainfo3> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 4 * i;
+            let end_pos = 26 * i;
+            vec_field.push(NormalitemExtrainfo3::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcStoreNormalItemlist3 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            item_info: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcStoreNormalItemlist3 {
     fn id(&self) -> &str {
        "0x02ea"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -15485,9 +26985,25 @@ pub struct PacketZcAcceptEnter2 {
     pub font: u16,
 }
 
-impl PacketId for PacketZcAcceptEnter2 {
+impl PacketZcAcceptEnter2 {
+    pub fn from(buffer: &[u8]) -> PacketZcAcceptEnter2 {
+        PacketZcAcceptEnter2 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            start_time: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            pos_dir: String::from_utf8_lossy(&buffer[6..9]).to_string(),
+            x_size: buffer[9] as char,
+            y_size: buffer[10] as char,
+            font: u16::from_le_bytes([buffer[11], buffer[12]]),
+        }
+    }
+}
+
+impl Packet for PacketZcAcceptEnter2 {
     fn id(&self) -> &str {
        "0x02eb"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -15536,9 +27052,47 @@ pub struct PacketZcNotifyMoveentry4 {
     pub font: u16,
 }
 
-impl PacketId for PacketZcNotifyMoveentry4 {
+impl PacketZcNotifyMoveentry4 {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyMoveentry4 {
+        PacketZcNotifyMoveentry4 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            objecttype: buffer[2] as char,
+            gid: u32::from_le_bytes([buffer[3], buffer[4], buffer[5], buffer[6]]),
+            speed: u16::from_le_bytes([buffer[7], buffer[8]]),
+            body_state: u16::from_le_bytes([buffer[9], buffer[10]]),
+            health_state: u16::from_le_bytes([buffer[11], buffer[12]]),
+            effect_state: u32::from_le_bytes([buffer[13], buffer[14], buffer[15], buffer[16]]),
+            job: u16::from_le_bytes([buffer[17], buffer[18]]),
+            head: u16::from_le_bytes([buffer[19], buffer[20]]),
+            weapon: u32::from_le_bytes([buffer[21], buffer[22], buffer[23], buffer[24]]),
+            accessory: u16::from_le_bytes([buffer[25], buffer[26]]),
+            move_start_time: u32::from_le_bytes([buffer[27], buffer[28], buffer[29], buffer[30]]),
+            accessory2: u16::from_le_bytes([buffer[31], buffer[32]]),
+            accessory3: u16::from_le_bytes([buffer[33], buffer[34]]),
+            headpalette: u16::from_le_bytes([buffer[35], buffer[36]]),
+            bodypalette: u16::from_le_bytes([buffer[37], buffer[38]]),
+            head_dir: u16::from_le_bytes([buffer[39], buffer[40]]),
+            guid: u32::from_le_bytes([buffer[41], buffer[42], buffer[43], buffer[44]]),
+            gemblem_ver: u16::from_le_bytes([buffer[45], buffer[46]]),
+            honor: u16::from_le_bytes([buffer[47], buffer[48]]),
+            virtue: u32::from_le_bytes([buffer[49], buffer[50], buffer[51], buffer[52]]),
+            is_pkmode_on: buffer[53] == 1,
+            sex: buffer[54] as char,
+            move_data: String::from_utf8_lossy(&buffer[55..61]).to_string(),
+            x_size: buffer[61] as char,
+            y_size: buffer[62] as char,
+            clevel: u16::from_le_bytes([buffer[63], buffer[64]]),
+            font: u16::from_le_bytes([buffer[65], buffer[66]]),
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyMoveentry4 {
     fn id(&self) -> &str {
        "0x02ec"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -15607,9 +27161,45 @@ pub struct PacketZcNotifyNewentry4 {
     pub font: u16,
 }
 
-impl PacketId for PacketZcNotifyNewentry4 {
+impl PacketZcNotifyNewentry4 {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyNewentry4 {
+        PacketZcNotifyNewentry4 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            speed: u16::from_le_bytes([buffer[6], buffer[7]]),
+            body_state: u16::from_le_bytes([buffer[8], buffer[9]]),
+            health_state: u16::from_le_bytes([buffer[10], buffer[11]]),
+            effect_state: u32::from_le_bytes([buffer[12], buffer[13], buffer[14], buffer[15]]),
+            job: u16::from_le_bytes([buffer[16], buffer[17]]),
+            head: u16::from_le_bytes([buffer[18], buffer[19]]),
+            weapon: u32::from_le_bytes([buffer[20], buffer[21], buffer[22], buffer[23]]),
+            accessory: u16::from_le_bytes([buffer[24], buffer[25]]),
+            accessory2: u16::from_le_bytes([buffer[26], buffer[27]]),
+            accessory3: u16::from_le_bytes([buffer[28], buffer[29]]),
+            headpalette: u16::from_le_bytes([buffer[30], buffer[31]]),
+            bodypalette: u16::from_le_bytes([buffer[32], buffer[33]]),
+            head_dir: u16::from_le_bytes([buffer[34], buffer[35]]),
+            guid: u32::from_le_bytes([buffer[36], buffer[37], buffer[38], buffer[39]]),
+            gemblem_ver: u16::from_le_bytes([buffer[40], buffer[41]]),
+            honor: u16::from_le_bytes([buffer[42], buffer[43]]),
+            virtue: u32::from_le_bytes([buffer[44], buffer[45], buffer[46], buffer[47]]),
+            is_pkmode_on: buffer[48] == 1,
+            sex: buffer[49] as char,
+            pos_dir: String::from_utf8_lossy(&buffer[50..53]).to_string(),
+            x_size: buffer[53] as char,
+            y_size: buffer[54] as char,
+            clevel: u16::from_le_bytes([buffer[55], buffer[56]]),
+            font: u16::from_le_bytes([buffer[57], buffer[58]]),
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyNewentry4 {
     fn id(&self) -> &str {
        "0x02ed"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -15677,9 +27267,46 @@ pub struct PacketZcNotifyStandentry4 {
     pub font: u16,
 }
 
-impl PacketId for PacketZcNotifyStandentry4 {
+impl PacketZcNotifyStandentry4 {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyStandentry4 {
+        PacketZcNotifyStandentry4 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            speed: u16::from_le_bytes([buffer[6], buffer[7]]),
+            body_state: u16::from_le_bytes([buffer[8], buffer[9]]),
+            health_state: u16::from_le_bytes([buffer[10], buffer[11]]),
+            effect_state: u32::from_le_bytes([buffer[12], buffer[13], buffer[14], buffer[15]]),
+            job: u16::from_le_bytes([buffer[16], buffer[17]]),
+            head: u16::from_le_bytes([buffer[18], buffer[19]]),
+            weapon: u32::from_le_bytes([buffer[20], buffer[21], buffer[22], buffer[23]]),
+            accessory: u16::from_le_bytes([buffer[24], buffer[25]]),
+            accessory2: u16::from_le_bytes([buffer[26], buffer[27]]),
+            accessory3: u16::from_le_bytes([buffer[28], buffer[29]]),
+            headpalette: u16::from_le_bytes([buffer[30], buffer[31]]),
+            bodypalette: u16::from_le_bytes([buffer[32], buffer[33]]),
+            head_dir: u16::from_le_bytes([buffer[34], buffer[35]]),
+            guid: u32::from_le_bytes([buffer[36], buffer[37], buffer[38], buffer[39]]),
+            gemblem_ver: u16::from_le_bytes([buffer[40], buffer[41]]),
+            honor: u16::from_le_bytes([buffer[42], buffer[43]]),
+            virtue: u32::from_le_bytes([buffer[44], buffer[45], buffer[46], buffer[47]]),
+            is_pkmode_on: buffer[48] == 1,
+            sex: buffer[49] as char,
+            pos_dir: String::from_utf8_lossy(&buffer[50..53]).to_string(),
+            x_size: buffer[53] as char,
+            y_size: buffer[54] as char,
+            state: buffer[55] as char,
+            clevel: u16::from_le_bytes([buffer[56], buffer[57]]),
+            font: u16::from_le_bytes([buffer[58], buffer[59]]),
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyStandentry4 {
     fn id(&self) -> &str {
        "0x02ee"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -15724,9 +27351,22 @@ pub struct PacketZcNotifyFont {
     pub font: u16,
 }
 
-impl PacketId for PacketZcNotifyFont {
+impl PacketZcNotifyFont {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyFont {
+        PacketZcNotifyFont {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            font: u16::from_le_bytes([buffer[6], buffer[7]]),
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyFont {
     fn id(&self) -> &str {
        "0x02ef"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -15747,9 +27387,22 @@ pub struct PacketZcProgress {
     pub time: u32,
 }
 
-impl PacketId for PacketZcProgress {
+impl PacketZcProgress {
+    pub fn from(buffer: &[u8]) -> PacketZcProgress {
+        PacketZcProgress {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            color: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            time: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+        }
+    }
+}
+
+impl Packet for PacketZcProgress {
     fn id(&self) -> &str {
        "0x02f0"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -15768,9 +27421,20 @@ pub struct PacketCzProgress {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketCzProgress {
+impl PacketCzProgress {
+    pub fn from(buffer: &[u8]) -> PacketCzProgress {
+        PacketCzProgress {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketCzProgress {
     fn id(&self) -> &str {
        "0x02f1"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -15787,9 +27451,20 @@ pub struct PacketZcProgressCancel {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketZcProgressCancel {
+impl PacketZcProgressCancel {
+    pub fn from(buffer: &[u8]) -> PacketZcProgressCancel {
+        PacketZcProgressCancel {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketZcProgressCancel {
     fn id(&self) -> &str {
        "0x02f2"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -15806,9 +27481,20 @@ pub struct PacketCzOpenSimpleCashshopItemlist {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketCzOpenSimpleCashshopItemlist {
+impl PacketCzOpenSimpleCashshopItemlist {
+    pub fn from(buffer: &[u8]) -> PacketCzOpenSimpleCashshopItemlist {
+        PacketCzOpenSimpleCashshopItemlist {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketCzOpenSimpleCashshopItemlist {
     fn id(&self) -> &str {
        "0x035c"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -15832,9 +27518,36 @@ pub struct PacketZcSimpleCashshopPointItemlist {
     pub item_list: Vec<PurchaseItem>,
 }
 
-impl PacketId for PacketZcSimpleCashshopPointItemlist {
+impl PacketZcSimpleCashshopPointItemlist {
+    pub fn from(buffer: &[u8]) -> PacketZcSimpleCashshopPointItemlist {
+        let iter_count = &buffer.len() / 11;
+        let mut vec_field: Vec<PurchaseItem> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 16 * i;
+            let end_pos = 27 * i;
+            vec_field.push(PurchaseItem::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcSimpleCashshopPointItemlist {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            cash_point: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            md_itemcount: u16::from_le_bytes([buffer[8], buffer[9]]),
+            md_item_size: u16::from_le_bytes([buffer[10], buffer[11]]),
+            best_itemcount: u16::from_le_bytes([buffer[12], buffer[13]]),
+            best_itemsize: u16::from_le_bytes([buffer[14], buffer[15]]),
+            item_list: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcSimpleCashshopPointItemlist {
     fn id(&self) -> &str {
        "0x035d"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -15858,9 +27571,20 @@ pub struct PacketCzCloseWindow {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketCzCloseWindow {
+impl PacketCzCloseWindow {
+    pub fn from(buffer: &[u8]) -> PacketCzCloseWindow {
+        PacketCzCloseWindow {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketCzCloseWindow {
     fn id(&self) -> &str {
        "0x035e"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -15878,9 +27602,21 @@ pub struct PacketAhcGameGuard {
     pub auth_data: u32,
 }
 
-impl PacketId for PacketAhcGameGuard {
+impl PacketAhcGameGuard {
+    pub fn from(buffer: &[u8]) -> PacketAhcGameGuard {
+        PacketAhcGameGuard {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            auth_data: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketAhcGameGuard {
     fn id(&self) -> &str {
        "0x03dd"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -15899,9 +27635,21 @@ pub struct PacketCahAckGameGuard {
     pub auth_data: u32,
 }
 
-impl PacketId for PacketCahAckGameGuard {
+impl PacketCahAckGameGuard {
+    pub fn from(buffer: &[u8]) -> PacketCahAckGameGuard {
+        PacketCahAckGameGuard {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            auth_data: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketCahAckGameGuard {
     fn id(&self) -> &str {
        "0x03de"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -15924,9 +27672,25 @@ pub struct PacketCzEnter2 {
     pub sex: char,
 }
 
-impl PacketId for PacketCzEnter2 {
+impl PacketCzEnter2 {
+    pub fn from(buffer: &[u8]) -> PacketCzEnter2 {
+        PacketCzEnter2 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            auth_code: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            client_time: u32::from_le_bytes([buffer[14], buffer[15], buffer[16], buffer[17]]),
+            sex: buffer[18] as char,
+        }
+    }
+}
+
+impl Packet for PacketCzEnter2 {
     fn id(&self) -> &str {
        "0x0436"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -15950,9 +27714,22 @@ pub struct PacketCzRequestAct2 {
     pub action: char,
 }
 
-impl PacketId for PacketCzRequestAct2 {
+impl PacketCzRequestAct2 {
+    pub fn from(buffer: &[u8]) -> PacketCzRequestAct2 {
+        PacketCzRequestAct2 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            target_gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            action: buffer[6] as char,
+        }
+    }
+}
+
+impl Packet for PacketCzRequestAct2 {
     fn id(&self) -> &str {
        "0x0437"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -15974,9 +27751,23 @@ pub struct PacketCzUseSkill2 {
     pub target_id: u32,
 }
 
-impl PacketId for PacketCzUseSkill2 {
+impl PacketCzUseSkill2 {
+    pub fn from(buffer: &[u8]) -> PacketCzUseSkill2 {
+        PacketCzUseSkill2 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            selected_level: u16::from_le_bytes([buffer[2], buffer[3]]),
+            skid: u16::from_le_bytes([buffer[4], buffer[5]]),
+            target_id: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+        }
+    }
+}
+
+impl Packet for PacketCzUseSkill2 {
     fn id(&self) -> &str {
        "0x0438"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -15998,9 +27789,22 @@ pub struct PacketCzUseItem2 {
     pub aid: u32,
 }
 
-impl PacketId for PacketCzUseItem2 {
+impl PacketCzUseItem2 {
+    pub fn from(buffer: &[u8]) -> PacketCzUseItem2 {
+        PacketCzUseItem2 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            aid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+        }
+    }
+}
+
+impl Packet for PacketCzUseItem2 {
     fn id(&self) -> &str {
        "0x0439"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -16021,9 +27825,22 @@ pub struct PacketZcSkillPostdelay {
     pub delay_tm: u32,
 }
 
-impl PacketId for PacketZcSkillPostdelay {
+impl PacketZcSkillPostdelay {
+    pub fn from(buffer: &[u8]) -> PacketZcSkillPostdelay {
+        PacketZcSkillPostdelay {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            skid: u16::from_le_bytes([buffer[2], buffer[3]]),
+            delay_tm: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+        }
+    }
+}
+
+impl Packet for PacketZcSkillPostdelay {
     fn id(&self) -> &str {
        "0x043d"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -16044,9 +27861,31 @@ pub struct PacketZcSkillPostdelayList {
     pub delay_list: Vec<SkillPostdelay>,
 }
 
-impl PacketId for PacketZcSkillPostdelayList {
+impl PacketZcSkillPostdelayList {
+    pub fn from(buffer: &[u8]) -> PacketZcSkillPostdelayList {
+        let iter_count = &buffer.len() / 6;
+        let mut vec_field: Vec<SkillPostdelay> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 4 * i;
+            let end_pos = 10 * i;
+            vec_field.push(SkillPostdelay::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcSkillPostdelayList {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            delay_list: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcSkillPostdelayList {
     fn id(&self) -> &str {
        "0x043e"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -16070,9 +27909,25 @@ pub struct PacketZcMsgStateChange2 {
     pub val: u32,
 }
 
-impl PacketId for PacketZcMsgStateChange2 {
+impl PacketZcMsgStateChange2 {
+    pub fn from(buffer: &[u8]) -> PacketZcMsgStateChange2 {
+        PacketZcMsgStateChange2 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            aid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            state: buffer[8] == 1,
+            remain_ms: u32::from_le_bytes([buffer[9], buffer[10], buffer[11], buffer[12]]),
+            val: u32::from_le_bytes([buffer[13], buffer[14], buffer[15], buffer[16]]),
+        }
+    }
+}
+
+impl Packet for PacketZcMsgStateChange2 {
     fn id(&self) -> &str {
        "0x043f"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -16097,9 +27952,23 @@ pub struct PacketZcMillenniumshield {
     pub state: u16,
 }
 
-impl PacketId for PacketZcMillenniumshield {
+impl PacketZcMillenniumshield {
+    pub fn from(buffer: &[u8]) -> PacketZcMillenniumshield {
+        PacketZcMillenniumshield {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            num: u16::from_le_bytes([buffer[6], buffer[7]]),
+            state: u16::from_le_bytes([buffer[8], buffer[9]]),
+        }
+    }
+}
+
+impl Packet for PacketZcMillenniumshield {
     fn id(&self) -> &str {
        "0x0440"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -16120,9 +27989,21 @@ pub struct PacketZcSkillinfoDelete {
     pub skid: u16,
 }
 
-impl PacketId for PacketZcSkillinfoDelete {
+impl PacketZcSkillinfoDelete {
+    pub fn from(buffer: &[u8]) -> PacketZcSkillinfoDelete {
+        PacketZcSkillinfoDelete {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            skid: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
+}
+
+impl Packet for PacketZcSkillinfoDelete {
     fn id(&self) -> &str {
        "0x0441"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -16143,9 +28024,23 @@ pub struct PacketZcSkillSelectRequest {
     pub skidlist: u16,
 }
 
-impl PacketId for PacketZcSkillSelectRequest {
+impl PacketZcSkillSelectRequest {
+    pub fn from(buffer: &[u8]) -> PacketZcSkillSelectRequest {
+        PacketZcSkillSelectRequest {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            why: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            skidlist: u16::from_le_bytes([buffer[8], buffer[9]]),
+        }
+    }
+}
+
+impl Packet for PacketZcSkillSelectRequest {
     fn id(&self) -> &str {
        "0x0442"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -16167,9 +28062,22 @@ pub struct PacketCzSkillSelectResponse {
     pub skid: u16,
 }
 
-impl PacketId for PacketCzSkillSelectResponse {
+impl PacketCzSkillSelectResponse {
+    pub fn from(buffer: &[u8]) -> PacketCzSkillSelectResponse {
+        PacketCzSkillSelectResponse {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            why: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            skid: u16::from_le_bytes([buffer[6], buffer[7]]),
+        }
+    }
+}
+
+impl Packet for PacketCzSkillSelectResponse {
     fn id(&self) -> &str {
        "0x0443"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -16191,9 +28099,32 @@ pub struct PacketZcSimpleCashPointItemlist {
     pub item_list: Vec<PurchaseItem>,
 }
 
-impl PacketId for PacketZcSimpleCashPointItemlist {
+impl PacketZcSimpleCashPointItemlist {
+    pub fn from(buffer: &[u8]) -> PacketZcSimpleCashPointItemlist {
+        let iter_count = &buffer.len() / 11;
+        let mut vec_field: Vec<PurchaseItem> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 8 * i;
+            let end_pos = 19 * i;
+            vec_field.push(PurchaseItem::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcSimpleCashPointItemlist {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            cash_point: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            item_list: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcSimpleCashPointItemlist {
     fn id(&self) -> &str {
        "0x0444"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -16215,9 +28146,22 @@ pub struct PacketCzSimpleBuyCashPointItem {
     pub count: u16,
 }
 
-impl PacketId for PacketCzSimpleBuyCashPointItem {
+impl PacketCzSimpleBuyCashPointItem {
+    pub fn from(buffer: &[u8]) -> PacketCzSimpleBuyCashPointItem {
+        PacketCzSimpleBuyCashPointItem {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            itid: u16::from_le_bytes([buffer[2], buffer[3]]),
+            count: u16::from_le_bytes([buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketCzSimpleBuyCashPointItem {
     fn id(&self) -> &str {
        "0x0445"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -16241,9 +28185,25 @@ pub struct PacketZcQuestNotifyEffect {
     pub type_: u16,
 }
 
-impl PacketId for PacketZcQuestNotifyEffect {
+impl PacketZcQuestNotifyEffect {
+    pub fn from(buffer: &[u8]) -> PacketZcQuestNotifyEffect {
+        PacketZcQuestNotifyEffect {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            npc_id: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            x_pos: u16::from_le_bytes([buffer[6], buffer[7]]),
+            y_pos: u16::from_le_bytes([buffer[8], buffer[9]]),
+            effect: u16::from_le_bytes([buffer[10], buffer[11]]),
+            type_: u16::from_le_bytes([buffer[12], buffer[13]]),
+        }
+    }
+}
+
+impl Packet for PacketZcQuestNotifyEffect {
     fn id(&self) -> &str {
        "0x0446"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -16265,9 +28225,20 @@ pub struct PacketCzBlockingPlayCancel {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketCzBlockingPlayCancel {
+impl PacketCzBlockingPlayCancel {
+    pub fn from(buffer: &[u8]) -> PacketCzBlockingPlayCancel {
+        PacketCzBlockingPlayCancel {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketCzBlockingPlayCancel {
     fn id(&self) -> &str {
        "0x0447"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -16286,9 +28257,31 @@ pub struct PacketHcCharacterList {
     pub character_list: Vec<CharacterList>,
 }
 
-impl PacketId for PacketHcCharacterList {
+impl PacketHcCharacterList {
+    pub fn from(buffer: &[u8]) -> PacketHcCharacterList {
+        let iter_count = &buffer.len() / 5;
+        let mut vec_field: Vec<CharacterList> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 4 * i;
+            let end_pos = 9 * i;
+            vec_field.push(CharacterList::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketHcCharacterList {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            character_list: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketHcCharacterList {
     fn id(&self) -> &str {
        "0x0448"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -16308,9 +28301,21 @@ pub struct PacketZcHackshErrorMsg {
     pub error_id: u16,
 }
 
-impl PacketId for PacketZcHackshErrorMsg {
+impl PacketZcHackshErrorMsg {
+    pub fn from(buffer: &[u8]) -> PacketZcHackshErrorMsg {
+        PacketZcHackshErrorMsg {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            error_id: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
+}
+
+impl Packet for PacketZcHackshErrorMsg {
     fn id(&self) -> &str {
        "0x0449"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -16329,9 +28334,21 @@ pub struct PacketCzClientVersion {
     pub client_ver: u32,
 }
 
-impl PacketId for PacketCzClientVersion {
+impl PacketCzClientVersion {
+    pub fn from(buffer: &[u8]) -> PacketCzClientVersion {
+        PacketCzClientVersion {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            client_ver: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketCzClientVersion {
     fn id(&self) -> &str {
        "0x044a"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -16349,9 +28366,20 @@ pub struct PacketCzCloseSimplecashShop {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketCzCloseSimplecashShop {
+impl PacketCzCloseSimplecashShop {
+    pub fn from(buffer: &[u8]) -> PacketCzCloseSimplecashShop {
+        PacketCzCloseSimplecashShop {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketCzCloseSimplecashShop {
     fn id(&self) -> &str {
        "0x044b"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -16370,9 +28398,22 @@ pub struct PacketZcEsResult {
     pub es_msg: u16,
 }
 
-impl PacketId for PacketZcEsResult {
+impl PacketZcEsResult {
+    pub fn from(buffer: &[u8]) -> PacketZcEsResult {
+        PacketZcEsResult {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            es_no: u16::from_le_bytes([buffer[2], buffer[3]]),
+            es_msg: u16::from_le_bytes([buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketZcEsResult {
     fn id(&self) -> &str {
        "0x07d0"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -16391,9 +28432,20 @@ pub struct PacketCzEsGetList {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketCzEsGetList {
+impl PacketCzEsGetList {
+    pub fn from(buffer: &[u8]) -> PacketCzEsGetList {
+        PacketCzEsGetList {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketCzEsGetList {
     fn id(&self) -> &str {
        "0x07d1"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -16412,9 +28464,22 @@ pub struct PacketZcEsList {
     pub count: u16,
 }
 
-impl PacketId for PacketZcEsList {
+impl PacketZcEsList {
+    pub fn from(buffer: &[u8]) -> PacketZcEsList {
+        PacketZcEsList {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            count: u16::from_le_bytes([buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketZcEsList {
     fn id(&self) -> &str {
        "0x07d2"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -16434,9 +28499,21 @@ pub struct PacketCzEsChoose {
     pub es_no: u16,
 }
 
-impl PacketId for PacketCzEsChoose {
+impl PacketCzEsChoose {
+    pub fn from(buffer: &[u8]) -> PacketCzEsChoose {
+        PacketCzEsChoose {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            es_no: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
+}
+
+impl Packet for PacketCzEsChoose {
     fn id(&self) -> &str {
        "0x07d3"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -16455,9 +28532,21 @@ pub struct PacketCzEsCancel {
     pub es_no: u16,
 }
 
-impl PacketId for PacketCzEsCancel {
+impl PacketCzEsCancel {
+    pub fn from(buffer: &[u8]) -> PacketCzEsCancel {
+        PacketCzEsCancel {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            es_no: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
+}
+
+impl Packet for PacketCzEsCancel {
     fn id(&self) -> &str {
        "0x07d4"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -16476,9 +28565,21 @@ pub struct PacketZcEsReady {
     pub es_no: u16,
 }
 
-impl PacketId for PacketZcEsReady {
+impl PacketZcEsReady {
+    pub fn from(buffer: &[u8]) -> PacketZcEsReady {
+        PacketZcEsReady {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            es_no: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
+}
+
+impl Packet for PacketZcEsReady {
     fn id(&self) -> &str {
        "0x07d5"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -16497,9 +28598,21 @@ pub struct PacketZcEsGoto {
     pub es_no: u16,
 }
 
-impl PacketId for PacketZcEsGoto {
+impl PacketZcEsGoto {
+    pub fn from(buffer: &[u8]) -> PacketZcEsGoto {
+        PacketZcEsGoto {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            es_no: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
+}
+
+impl Packet for PacketZcEsGoto {
     fn id(&self) -> &str {
        "0x07d6"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -16520,9 +28633,23 @@ pub struct PacketCzGroupinfoChangeV2 {
     pub item_division_rule: char,
 }
 
-impl PacketId for PacketCzGroupinfoChangeV2 {
+impl PacketCzGroupinfoChangeV2 {
+    pub fn from(buffer: &[u8]) -> PacketCzGroupinfoChangeV2 {
+        PacketCzGroupinfoChangeV2 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            exp_option: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            item_pickup_rule: buffer[6] as char,
+            item_division_rule: buffer[7] as char,
+        }
+    }
+}
+
+impl Packet for PacketCzGroupinfoChangeV2 {
     fn id(&self) -> &str {
        "0x07d7"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -16545,9 +28672,23 @@ pub struct PacketZcReqGroupinfoChangeV2 {
     pub item_division_rule: char,
 }
 
-impl PacketId for PacketZcReqGroupinfoChangeV2 {
+impl PacketZcReqGroupinfoChangeV2 {
+    pub fn from(buffer: &[u8]) -> PacketZcReqGroupinfoChangeV2 {
+        PacketZcReqGroupinfoChangeV2 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            exp_option: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            item_pickup_rule: buffer[6] as char,
+            item_division_rule: buffer[7] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcReqGroupinfoChangeV2 {
     fn id(&self) -> &str {
        "0x07d8"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -16568,9 +28709,30 @@ pub struct PacketZcShortcutKeyListV2 {
     pub short_cut_key: Vec<ShortCutKey>,
 }
 
-impl PacketId for PacketZcShortcutKeyListV2 {
+impl PacketZcShortcutKeyListV2 {
+    pub fn from(buffer: &[u8]) -> PacketZcShortcutKeyListV2 {
+        let iter_count = &buffer.len() / 7;
+        let mut vec_field: Vec<ShortCutKey> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 2 * i;
+            let end_pos = 9 * i;
+            vec_field.push(ShortCutKey::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcShortcutKeyListV2 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            short_cut_key: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcShortcutKeyListV2 {
     fn id(&self) -> &str {
        "0x07d9"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -16589,9 +28751,21 @@ pub struct PacketCzChangeGroupMaster {
     pub aid: u32,
 }
 
-impl PacketId for PacketCzChangeGroupMaster {
+impl PacketCzChangeGroupMaster {
+    pub fn from(buffer: &[u8]) -> PacketCzChangeGroupMaster {
+        PacketCzChangeGroupMaster {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketCzChangeGroupMaster {
     fn id(&self) -> &str {
        "0x07da"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -16611,9 +28785,22 @@ pub struct PacketZcHoParChange {
     pub value: u32,
 }
 
-impl PacketId for PacketZcHoParChange {
+impl PacketZcHoParChange {
+    pub fn from(buffer: &[u8]) -> PacketZcHoParChange {
+        PacketZcHoParChange {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            var: u16::from_le_bytes([buffer[2], buffer[3]]),
+            value: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+        }
+    }
+}
+
+impl Packet for PacketZcHoParChange {
     fn id(&self) -> &str {
        "0x07db"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -16633,9 +28820,21 @@ pub struct PacketCzSeekParty {
     pub option: u32,
 }
 
-impl PacketId for PacketCzSeekParty {
+impl PacketCzSeekParty {
+    pub fn from(buffer: &[u8]) -> PacketCzSeekParty {
+        PacketCzSeekParty {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            option: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketCzSeekParty {
     fn id(&self) -> &str {
        "0x07dc"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -16658,9 +28857,25 @@ pub struct PacketZcSeekParty {
     pub option: u32,
 }
 
-impl PacketId for PacketZcSeekParty {
+impl PacketZcSeekParty {
+    pub fn from(buffer: &[u8]) -> PacketZcSeekParty {
+        PacketZcSeekParty {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            job: u32::from_le_bytes([buffer[26], buffer[27], buffer[28], buffer[29]]),
+            level: u32::from_le_bytes([buffer[30], buffer[31], buffer[32], buffer[33]]),
+            map_name: String::from_utf8_lossy(&buffer[34..50]).to_string(),
+            option: u32::from_le_bytes([buffer[50], buffer[51], buffer[52], buffer[53]]),
+        }
+    }
+}
+
+impl Packet for PacketZcSeekParty {
     fn id(&self) -> &str {
        "0x07dd"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -16686,9 +28901,24 @@ pub struct PacketCzSeekPartyMember {
     pub option: u32,
 }
 
-impl PacketId for PacketCzSeekPartyMember {
+impl PacketCzSeekPartyMember {
+    pub fn from(buffer: &[u8]) -> PacketCzSeekPartyMember {
+        PacketCzSeekPartyMember {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            job: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            level: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            map_name: String::from_utf8_lossy(&buffer[10..26]).to_string(),
+            option: u32::from_le_bytes([buffer[26], buffer[27], buffer[28], buffer[29]]),
+        }
+    }
+}
+
+impl Packet for PacketCzSeekPartyMember {
     fn id(&self) -> &str {
        "0x07de"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -16714,9 +28944,25 @@ pub struct PacketZcSeekPartyMember {
     pub option: u32,
 }
 
-impl PacketId for PacketZcSeekPartyMember {
+impl PacketZcSeekPartyMember {
+    pub fn from(buffer: &[u8]) -> PacketZcSeekPartyMember {
+        PacketZcSeekPartyMember {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            job: u32::from_le_bytes([buffer[26], buffer[27], buffer[28], buffer[29]]),
+            level: u32::from_le_bytes([buffer[30], buffer[31], buffer[32], buffer[33]]),
+            map_name: String::from_utf8_lossy(&buffer[34..50]).to_string(),
+            option: u32::from_le_bytes([buffer[50], buffer[51], buffer[52], buffer[53]]),
+        }
+    }
+}
+
+impl Packet for PacketZcSeekPartyMember {
     fn id(&self) -> &str {
        "0x07df"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -16740,9 +28986,22 @@ pub struct PacketZcEsNotiMyinfo {
     pub esname: String,
 }
 
-impl PacketId for PacketZcEsNotiMyinfo {
+impl PacketZcEsNotiMyinfo {
+    pub fn from(buffer: &[u8]) -> PacketZcEsNotiMyinfo {
+        PacketZcEsNotiMyinfo {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            es_no: u16::from_le_bytes([buffer[2], buffer[3]]),
+            esname: String::from_utf8_lossy(&buffer[4..58]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcEsNotiMyinfo {
     fn id(&self) -> &str {
        "0x07e0"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -16767,9 +29026,26 @@ pub struct PacketZcSkillinfoUpdate2 {
     pub upgradable: bool,
 }
 
-impl PacketId for PacketZcSkillinfoUpdate2 {
+impl PacketZcSkillinfoUpdate2 {
+    pub fn from(buffer: &[u8]) -> PacketZcSkillinfoUpdate2 {
+        PacketZcSkillinfoUpdate2 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            skid: u16::from_le_bytes([buffer[2], buffer[3]]),
+            type_: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            level: u16::from_le_bytes([buffer[8], buffer[9]]),
+            spcost: u16::from_le_bytes([buffer[10], buffer[11]]),
+            attack_range: u16::from_le_bytes([buffer[12], buffer[13]]),
+            upgradable: buffer[14] == 1,
+        }
+    }
+}
+
+impl Packet for PacketZcSkillinfoUpdate2 {
     fn id(&self) -> &str {
        "0x07e1"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -16794,9 +29070,22 @@ pub struct PacketZcMsgValue {
     pub value: u32,
 }
 
-impl PacketId for PacketZcMsgValue {
+impl PacketZcMsgValue {
+    pub fn from(buffer: &[u8]) -> PacketZcMsgValue {
+        PacketZcMsgValue {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            msg: u16::from_le_bytes([buffer[2], buffer[3]]),
+            value: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+        }
+    }
+}
+
+impl Packet for PacketZcMsgValue {
     fn id(&self) -> &str {
        "0x07e2"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -16816,9 +29105,21 @@ pub struct PacketZcItemlistwinOpen {
     pub type_: u32,
 }
 
-impl PacketId for PacketZcItemlistwinOpen {
+impl PacketZcItemlistwinOpen {
+    pub fn from(buffer: &[u8]) -> PacketZcItemlistwinOpen {
+        PacketZcItemlistwinOpen {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            type_: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketZcItemlistwinOpen {
     fn id(&self) -> &str {
        "0x07e3"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -16840,9 +29141,24 @@ pub struct PacketCzItemlistwinRes {
     pub material_list: u16,
 }
 
-impl PacketId for PacketCzItemlistwinRes {
+impl PacketCzItemlistwinRes {
+    pub fn from(buffer: &[u8]) -> PacketCzItemlistwinRes {
+        PacketCzItemlistwinRes {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            type_: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            action: u32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
+            material_list: u16::from_le_bytes([buffer[12], buffer[13]]),
+        }
+    }
+}
+
+impl Packet for PacketCzItemlistwinRes {
     fn id(&self) -> &str {
        "0x07e4"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -16866,9 +29182,23 @@ pub struct PacketChEnterCheckbot {
     pub sz_string_info: String,
 }
 
-impl PacketId for PacketChEnterCheckbot {
+impl PacketChEnterCheckbot {
+    pub fn from(buffer: &[u8]) -> PacketChEnterCheckbot {
+        PacketChEnterCheckbot {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            dw_aid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            sz_string_info: String::from_utf8_lossy(&buffer[8..buffer.len()]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketChEnterCheckbot {
     fn id(&self) -> &str {
        "0x07e5"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -16890,9 +29220,22 @@ pub struct PacketZcMsgSkill {
     pub msgid: u32,
 }
 
-impl PacketId for PacketZcMsgSkill {
+impl PacketZcMsgSkill {
+    pub fn from(buffer: &[u8]) -> PacketZcMsgSkill {
+        PacketZcMsgSkill {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            skid: u16::from_le_bytes([buffer[2], buffer[3]]),
+            msgid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+        }
+    }
+}
+
+impl Packet for PacketZcMsgSkill {
     fn id(&self) -> &str {
        "0x07e6"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -16914,9 +29257,23 @@ pub struct PacketChCheckbot {
     pub sz_string_info: String,
 }
 
-impl PacketId for PacketChCheckbot {
+impl PacketChCheckbot {
+    pub fn from(buffer: &[u8]) -> PacketChCheckbot {
+        PacketChCheckbot {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            dw_aid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            sz_string_info: String::from_utf8_lossy(&buffer[8..32]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketChCheckbot {
     fn id(&self) -> &str {
        "0x07e7"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -16938,9 +29295,22 @@ pub struct PacketHcCheckbot {
     pub img: String,
 }
 
-impl PacketId for PacketHcCheckbot {
+impl PacketHcCheckbot {
+    pub fn from(buffer: &[u8]) -> PacketHcCheckbot {
+        PacketHcCheckbot {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            img: String::from_utf8_lossy(&buffer[4..buffer.len()]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketHcCheckbot {
     fn id(&self) -> &str {
        "0x07e8"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -16961,9 +29331,22 @@ pub struct PacketHcCheckbotResult {
     pub result: char,
 }
 
-impl PacketId for PacketHcCheckbotResult {
+impl PacketHcCheckbotResult {
+    pub fn from(buffer: &[u8]) -> PacketHcCheckbotResult {
+        PacketHcCheckbotResult {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            result: buffer[4] as char,
+        }
+    }
+}
+
+impl Packet for PacketHcCheckbotResult {
     fn id(&self) -> &str {
        "0x07e9"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -16982,9 +29365,20 @@ pub struct PacketCzBattleFieldList {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketCzBattleFieldList {
+impl PacketCzBattleFieldList {
+    pub fn from(buffer: &[u8]) -> PacketCzBattleFieldList {
+        PacketCzBattleFieldList {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketCzBattleFieldList {
     fn id(&self) -> &str {
        "0x07ea"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -17005,9 +29399,33 @@ pub struct PacketZcBattleFieldList {
     pub info_list: Vec<BattleFieldInfo>,
 }
 
-impl PacketId for PacketZcBattleFieldList {
+impl PacketZcBattleFieldList {
+    pub fn from(buffer: &[u8]) -> PacketZcBattleFieldList {
+        let iter_count = &buffer.len() / 62;
+        let mut vec_field: Vec<BattleFieldInfo> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 8 * i;
+            let end_pos = 70 * i;
+            vec_field.push(BattleFieldInfo::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcBattleFieldList {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            count: u16::from_le_bytes([buffer[4], buffer[5]]),
+            ack_type: u16::from_le_bytes([buffer[6], buffer[7]]),
+            info_list: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcBattleFieldList {
     fn id(&self) -> &str {
        "0x07eb"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -17030,9 +29448,22 @@ pub struct PacketCzJoinBattleField {
     pub join_team: u16,
 }
 
-impl PacketId for PacketCzJoinBattleField {
+impl PacketCzJoinBattleField {
+    pub fn from(buffer: &[u8]) -> PacketCzJoinBattleField {
+        PacketCzJoinBattleField {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            bfno: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            join_team: u16::from_le_bytes([buffer[6], buffer[7]]),
+        }
+    }
+}
+
+impl Packet for PacketCzJoinBattleField {
     fn id(&self) -> &str {
        "0x07ec"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -17054,9 +29485,23 @@ pub struct PacketZcJoinBattleField {
     pub result: u16,
 }
 
-impl PacketId for PacketZcJoinBattleField {
+impl PacketZcJoinBattleField {
+    pub fn from(buffer: &[u8]) -> PacketZcJoinBattleField {
+        PacketZcJoinBattleField {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            bfno: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            join_team: u16::from_le_bytes([buffer[6], buffer[7]]),
+            result: u16::from_le_bytes([buffer[8], buffer[9]]),
+        }
+    }
+}
+
+impl Packet for PacketZcJoinBattleField {
     fn id(&self) -> &str {
        "0x07ed"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -17077,9 +29522,21 @@ pub struct PacketCzCancelBattleField {
     pub bfno: u32,
 }
 
-impl PacketId for PacketCzCancelBattleField {
+impl PacketCzCancelBattleField {
+    pub fn from(buffer: &[u8]) -> PacketCzCancelBattleField {
+        PacketCzCancelBattleField {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            bfno: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketCzCancelBattleField {
     fn id(&self) -> &str {
        "0x07ee"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -17099,9 +29556,22 @@ pub struct PacketZcCancelBattleField {
     pub result: u16,
 }
 
-impl PacketId for PacketZcCancelBattleField {
+impl PacketZcCancelBattleField {
+    pub fn from(buffer: &[u8]) -> PacketZcCancelBattleField {
+        PacketZcCancelBattleField {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            bfno: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            result: u16::from_le_bytes([buffer[6], buffer[7]]),
+        }
+    }
+}
+
+impl Packet for PacketZcCancelBattleField {
     fn id(&self) -> &str {
        "0x07ef"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -17122,9 +29592,22 @@ pub struct PacketCzReqBattleStateMonitor {
     pub power_switch: u16,
 }
 
-impl PacketId for PacketCzReqBattleStateMonitor {
+impl PacketCzReqBattleStateMonitor {
+    pub fn from(buffer: &[u8]) -> PacketCzReqBattleStateMonitor {
+        PacketCzReqBattleStateMonitor {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            bfno: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            power_switch: u16::from_le_bytes([buffer[6], buffer[7]]),
+        }
+    }
+}
+
+impl Packet for PacketCzReqBattleStateMonitor {
     fn id(&self) -> &str {
        "0x07f0"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -17150,9 +29633,27 @@ pub struct PacketZcAckBattleStateMonitor {
     pub join_team: u16,
 }
 
-impl PacketId for PacketZcAckBattleStateMonitor {
+impl PacketZcAckBattleStateMonitor {
+    pub fn from(buffer: &[u8]) -> PacketZcAckBattleStateMonitor {
+        PacketZcAckBattleStateMonitor {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            bfno: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            play_count: u16::from_le_bytes([buffer[6], buffer[7]]),
+            battle_state: u16::from_le_bytes([buffer[8], buffer[9]]),
+            team_count_a: u16::from_le_bytes([buffer[10], buffer[11]]),
+            team_count_b: u16::from_le_bytes([buffer[12], buffer[13]]),
+            my_count: u16::from_le_bytes([buffer[14], buffer[15]]),
+            join_team: u16::from_le_bytes([buffer[16], buffer[17]]),
+        }
+    }
+}
+
+impl Packet for PacketZcAckBattleStateMonitor {
     fn id(&self) -> &str {
        "0x07f1"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -17178,9 +29679,22 @@ pub struct PacketZcBattleNotiStartStep {
     pub result: u16,
 }
 
-impl PacketId for PacketZcBattleNotiStartStep {
+impl PacketZcBattleNotiStartStep {
+    pub fn from(buffer: &[u8]) -> PacketZcBattleNotiStartStep {
+        PacketZcBattleNotiStartStep {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            bfno: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            result: u16::from_le_bytes([buffer[6], buffer[7]]),
+        }
+    }
+}
+
+impl Packet for PacketZcBattleNotiStartStep {
     fn id(&self) -> &str {
        "0x07f2"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -17200,9 +29714,21 @@ pub struct PacketZcBattleJoinNotiDefer {
     pub bfno: u32,
 }
 
-impl PacketId for PacketZcBattleJoinNotiDefer {
+impl PacketZcBattleJoinNotiDefer {
+    pub fn from(buffer: &[u8]) -> PacketZcBattleJoinNotiDefer {
+        PacketZcBattleJoinNotiDefer {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            bfno: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketZcBattleJoinNotiDefer {
     fn id(&self) -> &str {
        "0x07f3"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -17221,9 +29747,21 @@ pub struct PacketZcBattleJoinDisableState {
     pub enable: bool,
 }
 
-impl PacketId for PacketZcBattleJoinDisableState {
+impl PacketZcBattleJoinDisableState {
+    pub fn from(buffer: &[u8]) -> PacketZcBattleJoinDisableState {
+        PacketZcBattleJoinDisableState {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            enable: buffer[2] == 1,
+        }
+    }
+}
+
+impl Packet for PacketZcBattleJoinDisableState {
     fn id(&self) -> &str {
        "0x07f4"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -17242,9 +29780,21 @@ pub struct PacketCzGmFullstrip {
     pub target_aid: u32,
 }
 
-impl PacketId for PacketCzGmFullstrip {
+impl PacketCzGmFullstrip {
+    pub fn from(buffer: &[u8]) -> PacketCzGmFullstrip {
+        PacketCzGmFullstrip {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            target_aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketCzGmFullstrip {
     fn id(&self) -> &str {
        "0x07f5"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -17266,9 +29816,24 @@ pub struct PacketZcNotifyExp {
     pub exp_type: u16,
 }
 
-impl PacketId for PacketZcNotifyExp {
+impl PacketZcNotifyExp {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyExp {
+        PacketZcNotifyExp {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            amount: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            var_id: u16::from_le_bytes([buffer[10], buffer[11]]),
+            exp_type: u16::from_le_bytes([buffer[12], buffer[13]]),
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyExp {
     fn id(&self) -> &str {
        "0x07f6"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -17318,9 +29883,49 @@ pub struct PacketZcNotifyMoveentry7 {
     pub name: String,
 }
 
-impl PacketId for PacketZcNotifyMoveentry7 {
+impl PacketZcNotifyMoveentry7 {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyMoveentry7 {
+        PacketZcNotifyMoveentry7 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            objecttype: buffer[4] as char,
+            gid: u32::from_le_bytes([buffer[5], buffer[6], buffer[7], buffer[8]]),
+            speed: u16::from_le_bytes([buffer[9], buffer[10]]),
+            body_state: u16::from_le_bytes([buffer[11], buffer[12]]),
+            health_state: u16::from_le_bytes([buffer[13], buffer[14]]),
+            effect_state: u32::from_le_bytes([buffer[15], buffer[16], buffer[17], buffer[18]]),
+            job: u16::from_le_bytes([buffer[19], buffer[20]]),
+            head: u16::from_le_bytes([buffer[21], buffer[22]]),
+            weapon: u32::from_le_bytes([buffer[23], buffer[24], buffer[25], buffer[26]]),
+            accessory: u16::from_le_bytes([buffer[27], buffer[28]]),
+            move_start_time: u32::from_le_bytes([buffer[29], buffer[30], buffer[31], buffer[32]]),
+            accessory2: u16::from_le_bytes([buffer[33], buffer[34]]),
+            accessory3: u16::from_le_bytes([buffer[35], buffer[36]]),
+            headpalette: u16::from_le_bytes([buffer[37], buffer[38]]),
+            bodypalette: u16::from_le_bytes([buffer[39], buffer[40]]),
+            head_dir: u16::from_le_bytes([buffer[41], buffer[42]]),
+            guid: u32::from_le_bytes([buffer[43], buffer[44], buffer[45], buffer[46]]),
+            gemblem_ver: u16::from_le_bytes([buffer[47], buffer[48]]),
+            honor: u16::from_le_bytes([buffer[49], buffer[50]]),
+            virtue: u32::from_le_bytes([buffer[51], buffer[52], buffer[53], buffer[54]]),
+            is_pkmode_on: buffer[55] == 1,
+            sex: buffer[56] as char,
+            move_data: String::from_utf8_lossy(&buffer[57..63]).to_string(),
+            x_size: buffer[63] as char,
+            y_size: buffer[64] as char,
+            clevel: u16::from_le_bytes([buffer[65], buffer[66]]),
+            font: u16::from_le_bytes([buffer[67], buffer[68]]),
+            name: String::from_utf8_lossy(&buffer[69..93]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyMoveentry7 {
     fn id(&self) -> &str {
        "0x07f7"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -17394,9 +29999,48 @@ pub struct PacketZcNotifyNewentry5 {
     pub name: String,
 }
 
-impl PacketId for PacketZcNotifyNewentry5 {
+impl PacketZcNotifyNewentry5 {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyNewentry5 {
+        PacketZcNotifyNewentry5 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            objecttype: buffer[4] as char,
+            gid: u32::from_le_bytes([buffer[5], buffer[6], buffer[7], buffer[8]]),
+            speed: u16::from_le_bytes([buffer[9], buffer[10]]),
+            body_state: u16::from_le_bytes([buffer[11], buffer[12]]),
+            health_state: u16::from_le_bytes([buffer[13], buffer[14]]),
+            effect_state: u32::from_le_bytes([buffer[15], buffer[16], buffer[17], buffer[18]]),
+            job: u16::from_le_bytes([buffer[19], buffer[20]]),
+            head: u16::from_le_bytes([buffer[21], buffer[22]]),
+            weapon: u32::from_le_bytes([buffer[23], buffer[24], buffer[25], buffer[26]]),
+            accessory: u16::from_le_bytes([buffer[27], buffer[28]]),
+            accessory2: u16::from_le_bytes([buffer[29], buffer[30]]),
+            accessory3: u16::from_le_bytes([buffer[31], buffer[32]]),
+            headpalette: u16::from_le_bytes([buffer[33], buffer[34]]),
+            bodypalette: u16::from_le_bytes([buffer[35], buffer[36]]),
+            head_dir: u16::from_le_bytes([buffer[37], buffer[38]]),
+            guid: u32::from_le_bytes([buffer[39], buffer[40], buffer[41], buffer[42]]),
+            gemblem_ver: u16::from_le_bytes([buffer[43], buffer[44]]),
+            honor: u16::from_le_bytes([buffer[45], buffer[46]]),
+            virtue: u32::from_le_bytes([buffer[47], buffer[48], buffer[49], buffer[50]]),
+            is_pkmode_on: buffer[51] == 1,
+            sex: buffer[52] as char,
+            pos_dir: String::from_utf8_lossy(&buffer[53..56]).to_string(),
+            x_size: buffer[56] as char,
+            y_size: buffer[57] as char,
+            clevel: u16::from_le_bytes([buffer[58], buffer[59]]),
+            font: u16::from_le_bytes([buffer[60], buffer[61]]),
+            name: String::from_utf8_lossy(&buffer[62..86]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyNewentry5 {
     fn id(&self) -> &str {
        "0x07f8"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -17470,9 +30114,49 @@ pub struct PacketZcNotifyStandentry5 {
     pub name: String,
 }
 
-impl PacketId for PacketZcNotifyStandentry5 {
+impl PacketZcNotifyStandentry5 {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyStandentry5 {
+        PacketZcNotifyStandentry5 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            objecttype: buffer[4] as char,
+            gid: u32::from_le_bytes([buffer[5], buffer[6], buffer[7], buffer[8]]),
+            speed: u16::from_le_bytes([buffer[9], buffer[10]]),
+            body_state: u16::from_le_bytes([buffer[11], buffer[12]]),
+            health_state: u16::from_le_bytes([buffer[13], buffer[14]]),
+            effect_state: u32::from_le_bytes([buffer[15], buffer[16], buffer[17], buffer[18]]),
+            job: u16::from_le_bytes([buffer[19], buffer[20]]),
+            head: u16::from_le_bytes([buffer[21], buffer[22]]),
+            weapon: u32::from_le_bytes([buffer[23], buffer[24], buffer[25], buffer[26]]),
+            accessory: u16::from_le_bytes([buffer[27], buffer[28]]),
+            accessory2: u16::from_le_bytes([buffer[29], buffer[30]]),
+            accessory3: u16::from_le_bytes([buffer[31], buffer[32]]),
+            headpalette: u16::from_le_bytes([buffer[33], buffer[34]]),
+            bodypalette: u16::from_le_bytes([buffer[35], buffer[36]]),
+            head_dir: u16::from_le_bytes([buffer[37], buffer[38]]),
+            guid: u32::from_le_bytes([buffer[39], buffer[40], buffer[41], buffer[42]]),
+            gemblem_ver: u16::from_le_bytes([buffer[43], buffer[44]]),
+            honor: u16::from_le_bytes([buffer[45], buffer[46]]),
+            virtue: u32::from_le_bytes([buffer[47], buffer[48], buffer[49], buffer[50]]),
+            is_pkmode_on: buffer[51] == 1,
+            sex: buffer[52] as char,
+            pos_dir: String::from_utf8_lossy(&buffer[53..56]).to_string(),
+            x_size: buffer[56] as char,
+            y_size: buffer[57] as char,
+            state: buffer[58] as char,
+            clevel: u16::from_le_bytes([buffer[59], buffer[60]]),
+            font: u16::from_le_bytes([buffer[61], buffer[62]]),
+            name: String::from_utf8_lossy(&buffer[63..87]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyStandentry5 {
     fn id(&self) -> &str {
        "0x07f9"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -17521,9 +30205,23 @@ pub struct PacketZcDeleteItemFromBody {
     pub count: u16,
 }
 
-impl PacketId for PacketZcDeleteItemFromBody {
+impl PacketZcDeleteItemFromBody {
+    pub fn from(buffer: &[u8]) -> PacketZcDeleteItemFromBody {
+        PacketZcDeleteItemFromBody {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            delete_type: u16::from_le_bytes([buffer[2], buffer[3]]),
+            index: u16::from_le_bytes([buffer[4], buffer[5]]),
+            count: u16::from_le_bytes([buffer[6], buffer[7]]),
+        }
+    }
+}
+
+impl Packet for PacketZcDeleteItemFromBody {
     fn id(&self) -> &str {
        "0x07fa"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -17551,9 +30249,28 @@ pub struct PacketZcUseskillAck2 {
     pub is_disposable: bool,
 }
 
-impl PacketId for PacketZcUseskillAck2 {
+impl PacketZcUseskillAck2 {
+    pub fn from(buffer: &[u8]) -> PacketZcUseskillAck2 {
+        PacketZcUseskillAck2 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            target_id: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            x_pos: u16::from_le_bytes([buffer[10], buffer[11]]),
+            y_pos: u16::from_le_bytes([buffer[12], buffer[13]]),
+            skid: u16::from_le_bytes([buffer[14], buffer[15]]),
+            property: u32::from_le_bytes([buffer[16], buffer[17], buffer[18], buffer[19]]),
+            delay_time: u32::from_le_bytes([buffer[20], buffer[21], buffer[22], buffer[23]]),
+            is_disposable: buffer[24] == 1,
+        }
+    }
+}
+
+impl Packet for PacketZcUseskillAck2 {
     fn id(&self) -> &str {
        "0x07fb"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -17580,9 +30297,22 @@ pub struct PacketZcChangeGroupMaster {
     pub new_master_aid: u32,
 }
 
-impl PacketId for PacketZcChangeGroupMaster {
+impl PacketZcChangeGroupMaster {
+    pub fn from(buffer: &[u8]) -> PacketZcChangeGroupMaster {
+        PacketZcChangeGroupMaster {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            old_master_aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            new_master_aid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+        }
+    }
+}
+
+impl Packet for PacketZcChangeGroupMaster {
     fn id(&self) -> &str {
        "0x07fc"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -17602,9 +30332,21 @@ pub struct PacketZcPlayNpcBgm {
     pub bgm: String,
 }
 
-impl PacketId for PacketZcPlayNpcBgm {
+impl PacketZcPlayNpcBgm {
+    pub fn from(buffer: &[u8]) -> PacketZcPlayNpcBgm {
+        PacketZcPlayNpcBgm {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            bgm: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcPlayNpcBgm {
     fn id(&self) -> &str {
        "0x07fe"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -17624,9 +30366,22 @@ pub struct PacketZcDefineCheck {
     pub result: u32,
 }
 
-impl PacketId for PacketZcDefineCheck {
+impl PacketZcDefineCheck {
+    pub fn from(buffer: &[u8]) -> PacketZcDefineCheck {
+        PacketZcDefineCheck {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            result: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+        }
+    }
+}
+
+impl Packet for PacketZcDefineCheck {
     fn id(&self) -> &str {
        "0x07ff"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -17649,9 +30404,33 @@ pub struct PacketZcPcPurchaseItemlistFrommc2 {
     pub item_list: Vec<PurchaseItemFrommc>,
 }
 
-impl PacketId for PacketZcPcPurchaseItemlistFrommc2 {
+impl PacketZcPcPurchaseItemlistFrommc2 {
+    pub fn from(buffer: &[u8]) -> PacketZcPcPurchaseItemlistFrommc2 {
+        let iter_count = &buffer.len() / 22;
+        let mut vec_field: Vec<PurchaseItemFrommc> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 12 * i;
+            let end_pos = 34 * i;
+            vec_field.push(PurchaseItemFrommc::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcPcPurchaseItemlistFrommc2 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            aid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            unique_id: u32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
+            item_list: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcPcPurchaseItemlistFrommc2 {
     fn id(&self) -> &str {
        "0x0800"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -17676,9 +30455,33 @@ pub struct PacketCzPcPurchaseItemlistFrommc2 {
     pub item_list: Vec<CzPurchaseItemFrommc>,
 }
 
-impl PacketId for PacketCzPcPurchaseItemlistFrommc2 {
+impl PacketCzPcPurchaseItemlistFrommc2 {
+    pub fn from(buffer: &[u8]) -> PacketCzPcPurchaseItemlistFrommc2 {
+        let iter_count = &buffer.len() / 4;
+        let mut vec_field: Vec<CzPurchaseItemFrommc> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 12 * i;
+            let end_pos = 16 * i;
+            vec_field.push(CzPurchaseItemFrommc::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketCzPcPurchaseItemlistFrommc2 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            aid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            unique_id: u32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
+            item_list: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketCzPcPurchaseItemlistFrommc2 {
     fn id(&self) -> &str {
        "0x0801"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -17700,9 +30503,21 @@ pub struct PacketCzPartyBookingReqRegister {
     pub register_info: PartyBookingDetail,
 }
 
-impl PacketId for PacketCzPartyBookingReqRegister {
+impl PacketCzPartyBookingReqRegister {
+    pub fn from(buffer: &[u8]) -> PacketCzPartyBookingReqRegister {
+        PacketCzPartyBookingReqRegister {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            register_info: PartyBookingDetail::from(&buffer[2..buffer.len()]),
+        }
+    }
+}
+
+impl Packet for PacketCzPartyBookingReqRegister {
     fn id(&self) -> &str {
        "0x0802"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -17721,9 +30536,21 @@ pub struct PacketZcPartyBookingAckRegister {
     pub result: u16,
 }
 
-impl PacketId for PacketZcPartyBookingAckRegister {
+impl PacketZcPartyBookingAckRegister {
+    pub fn from(buffer: &[u8]) -> PacketZcPartyBookingAckRegister {
+        PacketZcPartyBookingAckRegister {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            result: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
+}
+
+impl Packet for PacketZcPartyBookingAckRegister {
     fn id(&self) -> &str {
        "0x0803"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -17746,9 +30573,25 @@ pub struct PacketCzPartyBookingReqSearch {
     pub result_count: u16,
 }
 
-impl PacketId for PacketCzPartyBookingReqSearch {
+impl PacketCzPartyBookingReqSearch {
+    pub fn from(buffer: &[u8]) -> PacketCzPartyBookingReqSearch {
+        PacketCzPartyBookingReqSearch {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            level: u16::from_le_bytes([buffer[2], buffer[3]]),
+            map_id: u16::from_le_bytes([buffer[4], buffer[5]]),
+            job: u16::from_le_bytes([buffer[6], buffer[7]]),
+            last_index: u32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
+            result_count: u16::from_le_bytes([buffer[12], buffer[13]]),
+        }
+    }
+}
+
+impl Packet for PacketCzPartyBookingReqSearch {
     fn id(&self) -> &str {
        "0x0804"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -17773,9 +30616,32 @@ pub struct PacketZcPartyBookingAckSearch {
     pub info: Vec<PartyBookingAdInfo>,
 }
 
-impl PacketId for PacketZcPartyBookingAckSearch {
+impl PacketZcPartyBookingAckSearch {
+    pub fn from(buffer: &[u8]) -> PacketZcPartyBookingAckSearch {
+        let iter_count = &buffer.len() / 48;
+        let mut vec_field: Vec<PartyBookingAdInfo> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 5 * i;
+            let end_pos = 53 * i;
+            vec_field.push(PartyBookingAdInfo::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcPartyBookingAckSearch {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            is_exist_more_result: buffer[4] == 1,
+            info: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcPartyBookingAckSearch {
     fn id(&self) -> &str {
        "0x0805"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -17795,9 +30661,20 @@ pub struct PacketCzPartyBookingReqDelete {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketCzPartyBookingReqDelete {
+impl PacketCzPartyBookingReqDelete {
+    pub fn from(buffer: &[u8]) -> PacketCzPartyBookingReqDelete {
+        PacketCzPartyBookingReqDelete {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketCzPartyBookingReqDelete {
     fn id(&self) -> &str {
        "0x0806"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -17815,9 +30692,21 @@ pub struct PacketZcPartyBookingAckDelete {
     pub result: u16,
 }
 
-impl PacketId for PacketZcPartyBookingAckDelete {
+impl PacketZcPartyBookingAckDelete {
+    pub fn from(buffer: &[u8]) -> PacketZcPartyBookingAckDelete {
+        PacketZcPartyBookingAckDelete {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            result: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
+}
+
+impl Packet for PacketZcPartyBookingAckDelete {
     fn id(&self) -> &str {
        "0x0807"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -17836,9 +30725,21 @@ pub struct PacketCzPartyBookingReqUpdate {
     pub job: u16,
 }
 
-impl PacketId for PacketCzPartyBookingReqUpdate {
+impl PacketCzPartyBookingReqUpdate {
+    pub fn from(buffer: &[u8]) -> PacketCzPartyBookingReqUpdate {
+        PacketCzPartyBookingReqUpdate {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            job: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
+}
+
+impl Packet for PacketCzPartyBookingReqUpdate {
     fn id(&self) -> &str {
        "0x0808"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -17857,9 +30758,21 @@ pub struct PacketZcPartyBookingNotifyInsert {
     pub info: PartyBookingAdInfo,
 }
 
-impl PacketId for PacketZcPartyBookingNotifyInsert {
+impl PacketZcPartyBookingNotifyInsert {
+    pub fn from(buffer: &[u8]) -> PacketZcPartyBookingNotifyInsert {
+        PacketZcPartyBookingNotifyInsert {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            info: PartyBookingAdInfo::from(&buffer[2..buffer.len()]),
+        }
+    }
+}
+
+impl Packet for PacketZcPartyBookingNotifyInsert {
     fn id(&self) -> &str {
        "0x0809"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -17884,9 +30797,27 @@ pub struct PacketZcPartyBookingNotifyUpdate {
     pub job6: u16,
 }
 
-impl PacketId for PacketZcPartyBookingNotifyUpdate {
+impl PacketZcPartyBookingNotifyUpdate {
+    pub fn from(buffer: &[u8]) -> PacketZcPartyBookingNotifyUpdate {
+        PacketZcPartyBookingNotifyUpdate {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            index: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            job1: u16::from_le_bytes([buffer[6], buffer[7]]),
+            job2: u16::from_le_bytes([buffer[8], buffer[9]]),
+            job3: u16::from_le_bytes([buffer[10], buffer[11]]),
+            job4: u16::from_le_bytes([buffer[12], buffer[13]]),
+            job5: u16::from_le_bytes([buffer[14], buffer[15]]),
+            job6: u16::from_le_bytes([buffer[16], buffer[17]]),
+        }
+    }
+}
+
+impl Packet for PacketZcPartyBookingNotifyUpdate {
     fn id(&self) -> &str {
        "0x080a"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -17911,9 +30842,21 @@ pub struct PacketZcPartyBookingNotifyDelete {
     pub index: u32,
 }
 
-impl PacketId for PacketZcPartyBookingNotifyDelete {
+impl PacketZcPartyBookingNotifyDelete {
+    pub fn from(buffer: &[u8]) -> PacketZcPartyBookingNotifyDelete {
+        PacketZcPartyBookingNotifyDelete {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            index: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketZcPartyBookingNotifyDelete {
     fn id(&self) -> &str {
        "0x080b"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -17931,9 +30874,20 @@ pub struct PacketCzSimpleCashBtnshow {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketCzSimpleCashBtnshow {
+impl PacketCzSimpleCashBtnshow {
+    pub fn from(buffer: &[u8]) -> PacketCzSimpleCashBtnshow {
+        PacketCzSimpleCashBtnshow {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketCzSimpleCashBtnshow {
     fn id(&self) -> &str {
        "0x080c"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -17951,9 +30905,21 @@ pub struct PacketZcSimpleCashBtnshow {
     pub show: bool,
 }
 
-impl PacketId for PacketZcSimpleCashBtnshow {
+impl PacketZcSimpleCashBtnshow {
+    pub fn from(buffer: &[u8]) -> PacketZcSimpleCashBtnshow {
+        PacketZcSimpleCashBtnshow {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            show: buffer[2] == 1,
+        }
+    }
+}
+
+impl Packet for PacketZcSimpleCashBtnshow {
     fn id(&self) -> &str {
        "0x080d"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -17974,9 +30940,23 @@ pub struct PacketZcNotifyHpToGroupmR2 {
     pub maxhp: u32,
 }
 
-impl PacketId for PacketZcNotifyHpToGroupmR2 {
+impl PacketZcNotifyHpToGroupmR2 {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyHpToGroupmR2 {
+        PacketZcNotifyHpToGroupmR2 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            hp: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            maxhp: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyHpToGroupmR2 {
     fn id(&self) -> &str {
        "0x080e"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -18003,9 +30983,27 @@ pub struct PacketZcAddExchangeItem2 {
     pub slot: EQUIPSLOTINFO,
 }
 
-impl PacketId for PacketZcAddExchangeItem2 {
+impl PacketZcAddExchangeItem2 {
+    pub fn from(buffer: &[u8]) -> PacketZcAddExchangeItem2 {
+        PacketZcAddExchangeItem2 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            itid: u16::from_le_bytes([buffer[2], buffer[3]]),
+            type_: buffer[4] as char,
+            count: u32::from_le_bytes([buffer[5], buffer[6], buffer[7], buffer[8]]),
+            is_identified: buffer[9] == 1,
+            is_damaged: buffer[10] == 1,
+            refining_level: buffer[11] as char,
+            slot: EQUIPSLOTINFO::from(&buffer[12..20]),
+        }
+    }
+}
+
+impl Packet for PacketZcAddExchangeItem2 {
     fn id(&self) -> &str {
        "0x080f"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -18020,7 +31018,7 @@ impl Debug for PacketZcAddExchangeItem2 {
             .field("is_identified[9, 10]", &self.is_identified)
             .field("is_damaged[10, 11]", &self.is_damaged)
             .field("refining_level[11, 12]", &self.refining_level)
-            .field("slot[12, ?]", &self.slot)
+            .field("slot[12, 20]", &self.slot)
         .finish()
     }
 }
@@ -18030,9 +31028,21 @@ pub struct PacketZcOpenBuyingStore {
     pub count: char,
 }
 
-impl PacketId for PacketZcOpenBuyingStore {
+impl PacketZcOpenBuyingStore {
+    pub fn from(buffer: &[u8]) -> PacketZcOpenBuyingStore {
+        PacketZcOpenBuyingStore {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            count: buffer[2] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcOpenBuyingStore {
     fn id(&self) -> &str {
        "0x0810"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -18055,9 +31065,34 @@ pub struct PacketCzReqOpenBuyingStore {
     pub item_list: Vec<ProductinfoInBuyingStore>,
 }
 
-impl PacketId for PacketCzReqOpenBuyingStore {
+impl PacketCzReqOpenBuyingStore {
+    pub fn from(buffer: &[u8]) -> PacketCzReqOpenBuyingStore {
+        let iter_count = &buffer.len() / 8;
+        let mut vec_field: Vec<ProductinfoInBuyingStore> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 89 * i;
+            let end_pos = 97 * i;
+            vec_field.push(ProductinfoInBuyingStore::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketCzReqOpenBuyingStore {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            limit_zeny: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            result: buffer[8] as char,
+            store_name: String::from_utf8_lossy(&buffer[9..89]).to_string(),
+            item_list: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketCzReqOpenBuyingStore {
     fn id(&self) -> &str {
        "0x0811"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -18081,9 +31116,22 @@ pub struct PacketZcFailedOpenBuyingStoreToBuyer {
     pub total_weight: u32,
 }
 
-impl PacketId for PacketZcFailedOpenBuyingStoreToBuyer {
+impl PacketZcFailedOpenBuyingStoreToBuyer {
+    pub fn from(buffer: &[u8]) -> PacketZcFailedOpenBuyingStoreToBuyer {
+        PacketZcFailedOpenBuyingStoreToBuyer {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            result: u16::from_le_bytes([buffer[2], buffer[3]]),
+            total_weight: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+        }
+    }
+}
+
+impl Packet for PacketZcFailedOpenBuyingStoreToBuyer {
     fn id(&self) -> &str {
        "0x0812"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -18106,9 +31154,33 @@ pub struct PacketZcMyitemlistBuyingStore {
     pub item_list: Vec<BuyingStoreItemlist>,
 }
 
-impl PacketId for PacketZcMyitemlistBuyingStore {
+impl PacketZcMyitemlistBuyingStore {
+    pub fn from(buffer: &[u8]) -> PacketZcMyitemlistBuyingStore {
+        let iter_count = &buffer.len() / 9;
+        let mut vec_field: Vec<BuyingStoreItemlist> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 12 * i;
+            let end_pos = 21 * i;
+            vec_field.push(BuyingStoreItemlist::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcMyitemlistBuyingStore {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            aid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            limit_zeny: u32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
+            item_list: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcMyitemlistBuyingStore {
     fn id(&self) -> &str {
        "0x0813"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -18131,9 +31203,22 @@ pub struct PacketZcBuyingStoreEntry {
     pub store_name: String,
 }
 
-impl PacketId for PacketZcBuyingStoreEntry {
+impl PacketZcBuyingStoreEntry {
+    pub fn from(buffer: &[u8]) -> PacketZcBuyingStoreEntry {
+        PacketZcBuyingStoreEntry {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            maker_aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            store_name: String::from_utf8_lossy(&buffer[6..86]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcBuyingStoreEntry {
     fn id(&self) -> &str {
        "0x0814"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -18152,9 +31237,20 @@ pub struct PacketCzReqCloseBuyingStore {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketCzReqCloseBuyingStore {
+impl PacketCzReqCloseBuyingStore {
+    pub fn from(buffer: &[u8]) -> PacketCzReqCloseBuyingStore {
+        PacketCzReqCloseBuyingStore {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketCzReqCloseBuyingStore {
     fn id(&self) -> &str {
        "0x0815"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -18172,9 +31268,21 @@ pub struct PacketZcDisappearBuyingStoreEntry {
     pub maker_aid: u32,
 }
 
-impl PacketId for PacketZcDisappearBuyingStoreEntry {
+impl PacketZcDisappearBuyingStoreEntry {
+    pub fn from(buffer: &[u8]) -> PacketZcDisappearBuyingStoreEntry {
+        PacketZcDisappearBuyingStoreEntry {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            maker_aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketZcDisappearBuyingStoreEntry {
     fn id(&self) -> &str {
        "0x0816"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -18193,9 +31301,21 @@ pub struct PacketCzReqClickToBuyingStore {
     pub maker_aid: u32,
 }
 
-impl PacketId for PacketCzReqClickToBuyingStore {
+impl PacketCzReqClickToBuyingStore {
+    pub fn from(buffer: &[u8]) -> PacketCzReqClickToBuyingStore {
+        PacketCzReqClickToBuyingStore {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            maker_aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketCzReqClickToBuyingStore {
     fn id(&self) -> &str {
        "0x0817"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -18218,9 +31338,34 @@ pub struct PacketZcAckItemlistBuyingStore {
     pub item_list: Vec<BuyingStoreItemlist>,
 }
 
-impl PacketId for PacketZcAckItemlistBuyingStore {
+impl PacketZcAckItemlistBuyingStore {
+    pub fn from(buffer: &[u8]) -> PacketZcAckItemlistBuyingStore {
+        let iter_count = &buffer.len() / 9;
+        let mut vec_field: Vec<BuyingStoreItemlist> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 16 * i;
+            let end_pos = 25 * i;
+            vec_field.push(BuyingStoreItemlist::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcAckItemlistBuyingStore {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            maker_aid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            store_id: u32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
+            limit_zeny: u32::from_le_bytes([buffer[12], buffer[13], buffer[14], buffer[15]]),
+            item_list: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcAckItemlistBuyingStore {
     fn id(&self) -> &str {
        "0x0818"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -18246,9 +31391,33 @@ pub struct PacketCzReqTradeBuyingStore {
     pub item_list: Vec<TradeItemBuyingStore>,
 }
 
-impl PacketId for PacketCzReqTradeBuyingStore {
+impl PacketCzReqTradeBuyingStore {
+    pub fn from(buffer: &[u8]) -> PacketCzReqTradeBuyingStore {
+        let iter_count = &buffer.len() / 6;
+        let mut vec_field: Vec<TradeItemBuyingStore> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 12 * i;
+            let end_pos = 18 * i;
+            vec_field.push(TradeItemBuyingStore::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketCzReqTradeBuyingStore {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            maker_aid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            store_id: u32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
+            item_list: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketCzReqTradeBuyingStore {
     fn id(&self) -> &str {
        "0x0819"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -18270,9 +31439,21 @@ pub struct PacketZcFailedTradeBuyingStoreToBuyer {
     pub result: u16,
 }
 
-impl PacketId for PacketZcFailedTradeBuyingStoreToBuyer {
+impl PacketZcFailedTradeBuyingStoreToBuyer {
+    pub fn from(buffer: &[u8]) -> PacketZcFailedTradeBuyingStoreToBuyer {
+        PacketZcFailedTradeBuyingStoreToBuyer {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            result: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
+}
+
+impl Packet for PacketZcFailedTradeBuyingStoreToBuyer {
     fn id(&self) -> &str {
        "0x081a"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -18293,9 +31474,23 @@ pub struct PacketZcUpdateItemFromBuyingStore {
     pub limit_zeny: u32,
 }
 
-impl PacketId for PacketZcUpdateItemFromBuyingStore {
+impl PacketZcUpdateItemFromBuyingStore {
+    pub fn from(buffer: &[u8]) -> PacketZcUpdateItemFromBuyingStore {
+        PacketZcUpdateItemFromBuyingStore {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            itid: u16::from_le_bytes([buffer[2], buffer[3]]),
+            count: u16::from_le_bytes([buffer[4], buffer[5]]),
+            limit_zeny: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+        }
+    }
+}
+
+impl Packet for PacketZcUpdateItemFromBuyingStore {
     fn id(&self) -> &str {
        "0x081b"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -18318,9 +31513,23 @@ pub struct PacketZcItemDeleteBuyingStore {
     pub zeny: u32,
 }
 
-impl PacketId for PacketZcItemDeleteBuyingStore {
+impl PacketZcItemDeleteBuyingStore {
+    pub fn from(buffer: &[u8]) -> PacketZcItemDeleteBuyingStore {
+        PacketZcItemDeleteBuyingStore {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            count: u16::from_le_bytes([buffer[4], buffer[5]]),
+            zeny: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+        }
+    }
+}
+
+impl Packet for PacketZcItemDeleteBuyingStore {
     fn id(&self) -> &str {
        "0x081c"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -18345,9 +31554,25 @@ pub struct PacketZcElInit {
     pub max_sp: u32,
 }
 
-impl PacketId for PacketZcElInit {
+impl PacketZcElInit {
+    pub fn from(buffer: &[u8]) -> PacketZcElInit {
+        PacketZcElInit {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            hp: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            max_hp: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            sp: u32::from_le_bytes([buffer[14], buffer[15], buffer[16], buffer[17]]),
+            max_sp: u32::from_le_bytes([buffer[18], buffer[19], buffer[20], buffer[21]]),
+        }
+    }
+}
+
+impl Packet for PacketZcElInit {
     fn id(&self) -> &str {
        "0x081d"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -18371,9 +31596,22 @@ pub struct PacketZcElParChange {
     pub value: u32,
 }
 
-impl PacketId for PacketZcElParChange {
+impl PacketZcElParChange {
+    pub fn from(buffer: &[u8]) -> PacketZcElParChange {
+        PacketZcElParChange {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            var: u16::from_le_bytes([buffer[2], buffer[3]]),
+            value: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+        }
+    }
+}
+
+impl Packet for PacketZcElParChange {
     fn id(&self) -> &str {
        "0x081e"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -18396,9 +31634,24 @@ pub struct PacketZcBroadcast4 {
     pub msg: String,
 }
 
-impl PacketId for PacketZcBroadcast4 {
+impl PacketZcBroadcast4 {
+    pub fn from(buffer: &[u8]) -> PacketZcBroadcast4 {
+        PacketZcBroadcast4 {
+            pakcet_type: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            msgtype: buffer[4] as char,
+            color_rgb: u32::from_le_bytes([buffer[5], buffer[6], buffer[7], buffer[8]]),
+            msg: String::from_utf8_lossy(&buffer[9..buffer.len()]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcBroadcast4 {
     fn id(&self) -> &str {
        "0x081f"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -18422,9 +31675,23 @@ pub struct PacketZcCostumeSpriteChange {
     pub value: u32,
 }
 
-impl PacketId for PacketZcCostumeSpriteChange {
+impl PacketZcCostumeSpriteChange {
+    pub fn from(buffer: &[u8]) -> PacketZcCostumeSpriteChange {
+        PacketZcCostumeSpriteChange {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            type_: buffer[6] as char,
+            value: u32::from_le_bytes([buffer[7], buffer[8], buffer[9], buffer[10]]),
+        }
+    }
+}
+
+impl Packet for PacketZcCostumeSpriteChange {
     fn id(&self) -> &str {
        "0x0820"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -18444,9 +31711,20 @@ pub struct PacketAcOtpUser {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketAcOtpUser {
+impl PacketAcOtpUser {
+    pub fn from(buffer: &[u8]) -> PacketAcOtpUser {
+        PacketAcOtpUser {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketAcOtpUser {
     fn id(&self) -> &str {
        "0x0821"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -18464,9 +31742,21 @@ pub struct PacketCaOtpAuthReq {
     pub otpcode: String,
 }
 
-impl PacketId for PacketCaOtpAuthReq {
+impl PacketCaOtpAuthReq {
+    pub fn from(buffer: &[u8]) -> PacketCaOtpAuthReq {
+        PacketCaOtpAuthReq {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            otpcode: String::from_utf8_lossy(&buffer[2..9]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketCaOtpAuthReq {
     fn id(&self) -> &str {
        "0x0822"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -18486,9 +31776,22 @@ pub struct PacketAcOtpAuthAck {
     pub login_result: u16,
 }
 
-impl PacketId for PacketAcOtpAuthAck {
+impl PacketAcOtpAuthAck {
+    pub fn from(buffer: &[u8]) -> PacketAcOtpAuthAck {
+        PacketAcOtpAuthAck {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            login_result: u16::from_le_bytes([buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketAcOtpAuthAck {
     fn id(&self) -> &str {
        "0x0823"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -18509,9 +31812,22 @@ pub struct PacketZcFailedTradeBuyingStoreToSeller {
     pub itid: u16,
 }
 
-impl PacketId for PacketZcFailedTradeBuyingStoreToSeller {
+impl PacketZcFailedTradeBuyingStoreToSeller {
+    pub fn from(buffer: &[u8]) -> PacketZcFailedTradeBuyingStoreToSeller {
+        PacketZcFailedTradeBuyingStoreToSeller {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            result: u16::from_le_bytes([buffer[2], buffer[3]]),
+            itid: u16::from_le_bytes([buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketZcFailedTradeBuyingStoreToSeller {
     fn id(&self) -> &str {
        "0x0824"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -18537,9 +31853,27 @@ pub struct PacketCaSsoLoginReqa {
     pub t1: String,
 }
 
-impl PacketId for PacketCaSsoLoginReqa {
+impl PacketCaSsoLoginReqa {
+    pub fn from(buffer: &[u8]) -> PacketCaSsoLoginReqa {
+        PacketCaSsoLoginReqa {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            version: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            clienttype: buffer[8] as char,
+            id: String::from_utf8_lossy(&buffer[9..33]).to_string(),
+            mac_addr: String::from_utf8_lossy(&buffer[33..50]).to_string(),
+            ip_addr: String::from_utf8_lossy(&buffer[50..65]).to_string(),
+            t1: String::from_utf8_lossy(&buffer[65..buffer.len()]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketCaSsoLoginReqa {
     fn id(&self) -> &str {
        "0x825a"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -18571,9 +31905,28 @@ pub struct PacketCaSsoLoginReq {
     pub t1: String,
 }
 
-impl PacketId for PacketCaSsoLoginReq {
+impl PacketCaSsoLoginReq {
+    pub fn from(buffer: &[u8]) -> PacketCaSsoLoginReq {
+        PacketCaSsoLoginReq {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            version: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            clienttype: buffer[8] as char,
+            id: String::from_utf8_lossy(&buffer[9..33]).to_string(),
+            passwd: String::from_utf8_lossy(&buffer[33..60]).to_string(),
+            mac_adress: String::from_utf8_lossy(&buffer[60..77]).to_string(),
+            ip: String::from_utf8_lossy(&buffer[77..92]).to_string(),
+            t1: String::from_utf8_lossy(&buffer[92..buffer.len()]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketCaSsoLoginReq {
     fn id(&self) -> &str {
        "0x0825"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -18599,9 +31952,21 @@ pub struct PacketAcSsoLoginAck {
     pub result: u16,
 }
 
-impl PacketId for PacketAcSsoLoginAck {
+impl PacketAcSsoLoginAck {
+    pub fn from(buffer: &[u8]) -> PacketAcSsoLoginAck {
+        PacketAcSsoLoginAck {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            result: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
+}
+
+impl Packet for PacketAcSsoLoginAck {
     fn id(&self) -> &str {
        "0x0826"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -18620,9 +31985,21 @@ pub struct PacketChDeleteChar3Reserved {
     pub gid: u32,
 }
 
-impl PacketId for PacketChDeleteChar3Reserved {
+impl PacketChDeleteChar3Reserved {
+    pub fn from(buffer: &[u8]) -> PacketChDeleteChar3Reserved {
+        PacketChDeleteChar3Reserved {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketChDeleteChar3Reserved {
     fn id(&self) -> &str {
        "0x0827"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -18643,9 +32020,23 @@ pub struct PacketHcDeleteChar3Reserved {
     pub delete_reserved_date: u32,
 }
 
-impl PacketId for PacketHcDeleteChar3Reserved {
+impl PacketHcDeleteChar3Reserved {
+    pub fn from(buffer: &[u8]) -> PacketHcDeleteChar3Reserved {
+        PacketHcDeleteChar3Reserved {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            result: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            delete_reserved_date: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+        }
+    }
+}
+
+impl Packet for PacketHcDeleteChar3Reserved {
     fn id(&self) -> &str {
        "0x0828"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -18667,9 +32058,22 @@ pub struct PacketChDeleteChar3 {
     pub birth: String,
 }
 
-impl PacketId for PacketChDeleteChar3 {
+impl PacketChDeleteChar3 {
+    pub fn from(buffer: &[u8]) -> PacketChDeleteChar3 {
+        PacketChDeleteChar3 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            birth: String::from_utf8_lossy(&buffer[6..12]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketChDeleteChar3 {
     fn id(&self) -> &str {
        "0x0829"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -18690,9 +32094,22 @@ pub struct PacketHcDeleteChar3 {
     pub result: u32,
 }
 
-impl PacketId for PacketHcDeleteChar3 {
+impl PacketHcDeleteChar3 {
+    pub fn from(buffer: &[u8]) -> PacketHcDeleteChar3 {
+        PacketHcDeleteChar3 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            result: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+        }
+    }
+}
+
+impl Packet for PacketHcDeleteChar3 {
     fn id(&self) -> &str {
        "0x082a"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -18712,9 +32129,21 @@ pub struct PacketChDeleteChar3Cancel {
     pub gid: u32,
 }
 
-impl PacketId for PacketChDeleteChar3Cancel {
+impl PacketChDeleteChar3Cancel {
+    pub fn from(buffer: &[u8]) -> PacketChDeleteChar3Cancel {
+        PacketChDeleteChar3Cancel {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketChDeleteChar3Cancel {
     fn id(&self) -> &str {
        "0x082b"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -18734,9 +32163,22 @@ pub struct PacketHcDeleteChar3Cancel {
     pub result: u32,
 }
 
-impl PacketId for PacketHcDeleteChar3Cancel {
+impl PacketHcDeleteChar3Cancel {
+    pub fn from(buffer: &[u8]) -> PacketHcDeleteChar3Cancel {
+        PacketHcDeleteChar3Cancel {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            result: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+        }
+    }
+}
+
+impl Packet for PacketHcDeleteChar3Cancel {
     fn id(&self) -> &str {
        "0x082c"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -18761,9 +32203,26 @@ pub struct PacketCzSearchStoreInfo {
     pub card_idlist_size: char,
 }
 
-impl PacketId for PacketCzSearchStoreInfo {
+impl PacketCzSearchStoreInfo {
+    pub fn from(buffer: &[u8]) -> PacketCzSearchStoreInfo {
+        PacketCzSearchStoreInfo {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            store_type: buffer[4] as char,
+            max_price: u32::from_le_bytes([buffer[5], buffer[6], buffer[7], buffer[8]]),
+            min_price: u32::from_le_bytes([buffer[9], buffer[10], buffer[11], buffer[12]]),
+            item_idlist_size: buffer[13] as char,
+            card_idlist_size: buffer[14] as char,
+        }
+    }
+}
+
+impl Packet for PacketCzSearchStoreInfo {
     fn id(&self) -> &str {
        "0x0835"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -18791,9 +32250,34 @@ pub struct PacketZcSearchStoreInfoAck {
     pub ssilist: Vec<ResultItemInfo>,
 }
 
-impl PacketId for PacketZcSearchStoreInfoAck {
+impl PacketZcSearchStoreInfoAck {
+    pub fn from(buffer: &[u8]) -> PacketZcSearchStoreInfoAck {
+        let iter_count = &buffer.len() / 106;
+        let mut vec_field: Vec<ResultItemInfo> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 7 * i;
+            let end_pos = 113 * i;
+            vec_field.push(ResultItemInfo::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcSearchStoreInfoAck {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            is_first_page: buffer[4] == 1,
+            is_nex_page: buffer[5] == 1,
+            remained_search_cnt: buffer[6] as char,
+            ssilist: vec_field,
+        }
+    }
+}
+
+impl Packet for PacketZcSearchStoreInfoAck {
     fn id(&self) -> &str {
        "0x0836"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -18816,9 +32300,21 @@ pub struct PacketZcSearchStoreInfoFailed {
     pub reason: char,
 }
 
-impl PacketId for PacketZcSearchStoreInfoFailed {
+impl PacketZcSearchStoreInfoFailed {
+    pub fn from(buffer: &[u8]) -> PacketZcSearchStoreInfoFailed {
+        PacketZcSearchStoreInfoFailed {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            reason: buffer[2] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcSearchStoreInfoFailed {
     fn id(&self) -> &str {
        "0x0837"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -18836,9 +32332,20 @@ pub struct PacketCzSearchStoreInfoNextPage {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketCzSearchStoreInfoNextPage {
+impl PacketCzSearchStoreInfoNextPage {
+    pub fn from(buffer: &[u8]) -> PacketCzSearchStoreInfoNextPage {
+        PacketCzSearchStoreInfoNextPage {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketCzSearchStoreInfoNextPage {
     fn id(&self) -> &str {
        "0x0838"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -18857,9 +32364,22 @@ pub struct PacketZcAckBanGuildSso {
     pub reason_desc: String,
 }
 
-impl PacketId for PacketZcAckBanGuildSso {
+impl PacketZcAckBanGuildSso {
+    pub fn from(buffer: &[u8]) -> PacketZcAckBanGuildSso {
+        PacketZcAckBanGuildSso {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            char_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            reason_desc: String::from_utf8_lossy(&buffer[26..66]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketZcAckBanGuildSso {
     fn id(&self) -> &str {
        "0x0839"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -18880,9 +32400,22 @@ pub struct PacketZcOpenSearchStoreInfo {
     pub search_cnt_max: char,
 }
 
-impl PacketId for PacketZcOpenSearchStoreInfo {
+impl PacketZcOpenSearchStoreInfo {
+    pub fn from(buffer: &[u8]) -> PacketZcOpenSearchStoreInfo {
+        PacketZcOpenSearchStoreInfo {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            open_type: u16::from_le_bytes([buffer[2], buffer[3]]),
+            search_cnt_max: buffer[4] as char,
+        }
+    }
+}
+
+impl Packet for PacketZcOpenSearchStoreInfo {
     fn id(&self) -> &str {
        "0x083a"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -18901,9 +32434,20 @@ pub struct PacketCzCloseSearchStoreInfo {
     pub packet_id: u16,
 }
 
-impl PacketId for PacketCzCloseSearchStoreInfo {
+impl PacketCzCloseSearchStoreInfo {
+    pub fn from(buffer: &[u8]) -> PacketCzCloseSearchStoreInfo {
+        PacketCzCloseSearchStoreInfo {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
+impl Packet for PacketCzCloseSearchStoreInfo {
     fn id(&self) -> &str {
        "0x083b"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -18923,9 +32467,23 @@ pub struct PacketCzSsilistItemClick {
     pub itid: u16,
 }
 
-impl PacketId for PacketCzSsilistItemClick {
+impl PacketCzSsilistItemClick {
+    pub fn from(buffer: &[u8]) -> PacketCzSsilistItemClick {
+        PacketCzSsilistItemClick {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            ssiid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            itid: u16::from_le_bytes([buffer[10], buffer[11]]),
+        }
+    }
+}
+
+impl Packet for PacketCzSsilistItemClick {
     fn id(&self) -> &str {
        "0x083c"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -18947,9 +32505,22 @@ pub struct PacketZcSsilistItemClickAck {
     pub y: u16,
 }
 
-impl PacketId for PacketZcSsilistItemClickAck {
+impl PacketZcSsilistItemClickAck {
+    pub fn from(buffer: &[u8]) -> PacketZcSsilistItemClickAck {
+        PacketZcSsilistItemClickAck {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            x: u16::from_le_bytes([buffer[2], buffer[3]]),
+            y: u16::from_le_bytes([buffer[4], buffer[5]]),
+        }
+    }
+}
+
+impl Packet for PacketZcSsilistItemClickAck {
     fn id(&self) -> &str {
        "0x083d"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -18970,9 +32541,22 @@ pub struct PacketAcRefuseLoginR2 {
     pub block_date: String,
 }
 
-impl PacketId for PacketAcRefuseLoginR2 {
+impl PacketAcRefuseLoginR2 {
+    pub fn from(buffer: &[u8]) -> PacketAcRefuseLoginR2 {
+        PacketAcRefuseLoginR2 {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            error_code: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            block_date: String::from_utf8_lossy(&buffer[6..26]).to_string(),
+        }
+    }
+}
+
+impl Packet for PacketAcRefuseLoginR2 {
     fn id(&self) -> &str {
        "0x083e"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -18993,9 +32577,22 @@ pub struct PacketChSelectAccessibleMapname {
     pub map_list_num: char,
 }
 
-impl PacketId for PacketChSelectAccessibleMapname {
+impl PacketChSelectAccessibleMapname {
+    pub fn from(buffer: &[u8]) -> PacketChSelectAccessibleMapname {
+        PacketChSelectAccessibleMapname {
+            packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            char_num: buffer[2] as char,
+            map_list_num: buffer[3] as char,
+        }
+    }
+}
+
+impl Packet for PacketChSelectAccessibleMapname {
     fn id(&self) -> &str {
        "0x0841"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
     }
 }
 
@@ -19017,6 +32614,19 @@ pub struct ServerAddr {
     pub user_count: u16,
     pub state: u16,
     pub property: u16,
+}
+
+impl ServerAddr {
+    pub fn from(buffer: &[u8]) -> ServerAddr {
+        ServerAddr {
+            ip: u32::from_le_bytes([buffer[0], buffer[1], buffer[2], buffer[3]]),
+            port: u16::from_le_bytes([buffer[4], buffer[5]]),
+            name: String::from_utf8_lossy(&buffer[6..26]).to_string(),
+            user_count: u16::from_le_bytes([buffer[26], buffer[27]]),
+            state: u16::from_le_bytes([buffer[28], buffer[29]]),
+            property: u16::from_le_bytes([buffer[30], buffer[31]]),
+        }
+    }
 }
 
 impl Debug for ServerAddr {
@@ -19077,6 +32687,55 @@ pub struct CharacterInfoNeoUnion {
     pub rename_addon: u32,
 }
 
+impl CharacterInfoNeoUnion {
+    pub fn from(buffer: &[u8]) -> CharacterInfoNeoUnion {
+        CharacterInfoNeoUnion {
+            gid: u32::from_le_bytes([buffer[0], buffer[1], buffer[2], buffer[3]]),
+            exp: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            money: u32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
+            jobexp: u32::from_le_bytes([buffer[12], buffer[13], buffer[14], buffer[15]]),
+            joblevel: u32::from_le_bytes([buffer[16], buffer[17], buffer[18], buffer[19]]),
+            bodystate: u32::from_le_bytes([buffer[20], buffer[21], buffer[22], buffer[23]]),
+            healthstate: u32::from_le_bytes([buffer[24], buffer[25], buffer[26], buffer[27]]),
+            effectstate: u32::from_le_bytes([buffer[28], buffer[29], buffer[30], buffer[31]]),
+            virtue: u32::from_le_bytes([buffer[32], buffer[33], buffer[34], buffer[35]]),
+            honor: u32::from_le_bytes([buffer[36], buffer[37], buffer[38], buffer[39]]),
+            jobpoint: u16::from_le_bytes([buffer[40], buffer[41]]),
+            hp: u32::from_le_bytes([buffer[42], buffer[43], buffer[44], buffer[45]]),
+            maxhp: u32::from_le_bytes([buffer[46], buffer[47], buffer[48], buffer[49]]),
+            sp: u16::from_le_bytes([buffer[50], buffer[51]]),
+            maxsp: u16::from_le_bytes([buffer[52], buffer[53]]),
+            speed: u16::from_le_bytes([buffer[54], buffer[55]]),
+            job: u16::from_le_bytes([buffer[56], buffer[57]]),
+            head: u16::from_le_bytes([buffer[58], buffer[59]]),
+            weapon: u16::from_le_bytes([buffer[60], buffer[61]]),
+            level: u16::from_le_bytes([buffer[62], buffer[63]]),
+            sppoint: u16::from_le_bytes([buffer[64], buffer[65]]),
+            accessory: u16::from_le_bytes([buffer[66], buffer[67]]),
+            shield: u16::from_le_bytes([buffer[68], buffer[69]]),
+            accessory2: u16::from_le_bytes([buffer[70], buffer[71]]),
+            accessory3: u16::from_le_bytes([buffer[72], buffer[73]]),
+            headpalette: u16::from_le_bytes([buffer[74], buffer[75]]),
+            bodypalette: u16::from_le_bytes([buffer[76], buffer[77]]),
+            name: String::from_utf8_lossy(&buffer[78..102]).to_string(),
+            str: buffer[102] as char,
+            agi: buffer[103] as char,
+            vit: buffer[104] as char,
+            int: buffer[105] as char,
+            dex: buffer[106] as char,
+            luk: buffer[107] as char,
+            char_num: buffer[108] as char,
+            haircolor: buffer[109] as char,
+            b_is_changed_char_name: u16::from_le_bytes([buffer[110], buffer[111]]),
+            last_map: String::from_utf8_lossy(&buffer[112..128]).to_string(),
+            delete_date: u32::from_le_bytes([buffer[128], buffer[129], buffer[130], buffer[131]]),
+            robe: u32::from_le_bytes([buffer[132], buffer[133], buffer[134], buffer[135]]),
+            slot_addon: u32::from_le_bytes([buffer[136], buffer[137], buffer[138], buffer[139]]),
+            rename_addon: u32::from_le_bytes([buffer[140], buffer[141], buffer[142], buffer[143]]),
+        }
+    }
+}
+
 impl Debug for CharacterInfoNeoUnion {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("CharacterInfoNeoUnion")
@@ -19131,6 +32790,15 @@ pub struct ZserverAddr {
     pub port: u16,
 }
 
+impl ZserverAddr {
+    pub fn from(buffer: &[u8]) -> ZserverAddr {
+        ZserverAddr {
+            ip: u32::from_le_bytes([buffer[0], buffer[1], buffer[2], buffer[3]]),
+            port: u16::from_le_bytes([buffer[4], buffer[5]]),
+        }
+    }
+}
+
 impl Debug for ZserverAddr {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("ZserverAddr")
@@ -19140,16 +32808,27 @@ impl Debug for ZserverAddr {
     }
 }
 
-pub struct EQUIPSLOTINFOEQUIPSLOTINFO {
+pub struct EQUIPSLOTINFO {
     pub card1: u16,
     pub card2: u16,
     pub card3: u16,
     pub card4: u16,
 }
 
-impl Debug for EQUIPSLOTINFOEQUIPSLOTINFO {
+impl EQUIPSLOTINFO {
+    pub fn from(buffer: &[u8]) -> EQUIPSLOTINFO {
+        EQUIPSLOTINFO {
+            card1: u16::from_le_bytes([buffer[0], buffer[1]]),
+            card2: u16::from_le_bytes([buffer[2], buffer[3]]),
+            card3: u16::from_le_bytes([buffer[4], buffer[5]]),
+            card4: u16::from_le_bytes([buffer[6], buffer[7]]),
+        }
+    }
+}
+
+impl Debug for EQUIPSLOTINFO {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        f.debug_struct("EQUIPSLOTINFOEQUIPSLOTINFO")
+        f.debug_struct("EQUIPSLOTINFO")
             .field("card1[0, 2]", &self.card1)
             .field("card2[2, 4]", &self.card2)
             .field("card3[4, 6]", &self.card3)
@@ -19167,6 +32846,19 @@ pub struct NormalitemExtrainfo {
     pub wear_state: u16,
 }
 
+impl NormalitemExtrainfo {
+    pub fn from(buffer: &[u8]) -> NormalitemExtrainfo {
+        NormalitemExtrainfo {
+            index: u16::from_le_bytes([buffer[0], buffer[1]]),
+            itid: u16::from_le_bytes([buffer[2], buffer[3]]),
+            type_: buffer[4] as char,
+            is_identified: buffer[5] == 1,
+            count: u16::from_le_bytes([buffer[6], buffer[7]]),
+            wear_state: u16::from_le_bytes([buffer[8], buffer[9]]),
+        }
+    }
+}
+
 impl Debug for NormalitemExtrainfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("NormalitemExtrainfo")
@@ -19176,24 +32868,6 @@ impl Debug for NormalitemExtrainfo {
             .field("is_identified[5, 6]", &self.is_identified)
             .field("count[6, 8]", &self.count)
             .field("wear_state[8, 10]", &self.wear_state)
-        .finish()
-    }
-}
-
-pub struct EQUIPSLOTINFO {
-    pub card1: u16,
-    pub card2: u16,
-    pub card3: u16,
-    pub card4: u16,
-}
-
-impl Debug for EQUIPSLOTINFO {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        f.debug_struct("EQUIPSLOTINFO")
-            .field("card1[0, 2]", &self.card1)
-            .field("card2[2, 4]", &self.card2)
-            .field("card3[4, 6]", &self.card3)
-            .field("card4[6, 8]", &self.card4)
         .finish()
     }
 }
@@ -19210,6 +32884,22 @@ pub struct EquipmentitemExtrainfo {
     pub slot: EQUIPSLOTINFO,
 }
 
+impl EquipmentitemExtrainfo {
+    pub fn from(buffer: &[u8]) -> EquipmentitemExtrainfo {
+        EquipmentitemExtrainfo {
+            index: u16::from_le_bytes([buffer[0], buffer[1]]),
+            itid: u16::from_le_bytes([buffer[2], buffer[3]]),
+            type_: buffer[4] as char,
+            is_identified: buffer[5] == 1,
+            location: u16::from_le_bytes([buffer[6], buffer[7]]),
+            wear_state: u16::from_le_bytes([buffer[8], buffer[9]]),
+            is_damaged: buffer[10] == 1,
+            refining_level: buffer[11] as char,
+            slot: EQUIPSLOTINFO::from(&buffer[12..20]),
+        }
+    }
+}
+
 impl Debug for EquipmentitemExtrainfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("EquipmentitemExtrainfo")
@@ -19221,7 +32911,7 @@ impl Debug for EquipmentitemExtrainfo {
             .field("wear_state[8, 10]", &self.wear_state)
             .field("is_damaged[10, 11]", &self.is_damaged)
             .field("refining_level[11, 12]", &self.refining_level)
-            .field("slot[12, ?]", &self.slot)
+            .field("slot[12, 20]", &self.slot)
         .finish()
     }
 }
@@ -19231,6 +32921,17 @@ pub struct PurchaseItem {
     pub discountprice: u32,
     pub type_: char,
     pub itid: u16,
+}
+
+impl PurchaseItem {
+    pub fn from(buffer: &[u8]) -> PurchaseItem {
+        PurchaseItem {
+            price: u32::from_le_bytes([buffer[0], buffer[1], buffer[2], buffer[3]]),
+            discountprice: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            type_: buffer[8] as char,
+            itid: u16::from_le_bytes([buffer[9], buffer[10]]),
+        }
+    }
 }
 
 impl Debug for PurchaseItem {
@@ -19250,6 +32951,16 @@ pub struct SellItem {
     pub overchargeprice: u32,
 }
 
+impl SellItem {
+    pub fn from(buffer: &[u8]) -> SellItem {
+        SellItem {
+            index: u16::from_le_bytes([buffer[0], buffer[1]]),
+            price: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            overchargeprice: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+        }
+    }
+}
+
 impl Debug for SellItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("SellItem")
@@ -19263,6 +32974,15 @@ impl Debug for SellItem {
 pub struct CzPurchaseItem {
     pub count: u16,
     pub itid: u16,
+}
+
+impl CzPurchaseItem {
+    pub fn from(buffer: &[u8]) -> CzPurchaseItem {
+        CzPurchaseItem {
+            count: u16::from_le_bytes([buffer[0], buffer[1]]),
+            itid: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
 }
 
 impl Debug for CzPurchaseItem {
@@ -19279,6 +32999,15 @@ pub struct CzSellItem {
     pub count: u16,
 }
 
+impl CzSellItem {
+    pub fn from(buffer: &[u8]) -> CzSellItem {
+        CzSellItem {
+            index: u16::from_le_bytes([buffer[0], buffer[1]]),
+            count: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
+}
+
 impl Debug for CzSellItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("CzSellItem")
@@ -19292,6 +33021,14 @@ pub struct WhisperItem {
     pub name: String,
 }
 
+impl WhisperItem {
+    pub fn from(buffer: &[u8]) -> WhisperItem {
+        WhisperItem {
+            name: String::from_utf8_lossy(&buffer[0..24]).to_string(),
+        }
+    }
+}
+
 impl Debug for WhisperItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("WhisperItem")
@@ -19303,6 +33040,15 @@ impl Debug for WhisperItem {
 pub struct RoomMember {
     pub role: u32,
     pub name: String,
+}
+
+impl RoomMember {
+    pub fn from(buffer: &[u8]) -> RoomMember {
+        RoomMember {
+            role: u32::from_le_bytes([buffer[0], buffer[1], buffer[2], buffer[3]]),
+            name: String::from_utf8_lossy(&buffer[4..28]).to_string(),
+        }
+    }
 }
 
 impl Debug for RoomMember {
@@ -19320,6 +33066,18 @@ pub struct GroupmemberInfo {
     pub map_name: String,
     pub role: char,
     pub state: char,
+}
+
+impl GroupmemberInfo {
+    pub fn from(buffer: &[u8]) -> GroupmemberInfo {
+        GroupmemberInfo {
+            aid: u32::from_le_bytes([buffer[0], buffer[1], buffer[2], buffer[3]]),
+            character_name: String::from_utf8_lossy(&buffer[4..28]).to_string(),
+            map_name: String::from_utf8_lossy(&buffer[28..44]).to_string(),
+            role: buffer[44] as char,
+            state: buffer[45] as char,
+        }
+    }
 }
 
 impl Debug for GroupmemberInfo {
@@ -19344,6 +33102,20 @@ pub struct SKILLINFO {
     pub upgradable: char,
 }
 
+impl SKILLINFO {
+    pub fn from(buffer: &[u8]) -> SKILLINFO {
+        SKILLINFO {
+            skid: u16::from_le_bytes([buffer[0], buffer[1]]),
+            type_: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            level: u16::from_le_bytes([buffer[6], buffer[7]]),
+            spcost: u16::from_le_bytes([buffer[8], buffer[9]]),
+            attack_range: u16::from_le_bytes([buffer[10], buffer[11]]),
+            skill_name: String::from_utf8_lossy(&buffer[12..36]).to_string(),
+            upgradable: buffer[36] as char,
+        }
+    }
+}
+
 impl Debug for SKILLINFO {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("SKILLINFO")
@@ -19362,6 +33134,16 @@ pub struct StoreItem {
     pub index: u16,
     pub count: u16,
     pub price: u32,
+}
+
+impl StoreItem {
+    pub fn from(buffer: &[u8]) -> StoreItem {
+        StoreItem {
+            index: u16::from_le_bytes([buffer[0], buffer[1]]),
+            count: u16::from_le_bytes([buffer[2], buffer[3]]),
+            price: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+        }
+    }
 }
 
 impl Debug for StoreItem {
@@ -19386,6 +33168,22 @@ pub struct PurchaseItemFrommc {
     pub slot: EQUIPSLOTINFO,
 }
 
+impl PurchaseItemFrommc {
+    pub fn from(buffer: &[u8]) -> PurchaseItemFrommc {
+        PurchaseItemFrommc {
+            price: u32::from_le_bytes([buffer[0], buffer[1], buffer[2], buffer[3]]),
+            count: u16::from_le_bytes([buffer[4], buffer[5]]),
+            index: u16::from_le_bytes([buffer[6], buffer[7]]),
+            type_: buffer[8] as char,
+            itid: u16::from_le_bytes([buffer[9], buffer[10]]),
+            is_identified: buffer[11] as char,
+            is_damaged: buffer[12] as char,
+            refining_level: buffer[13] as char,
+            slot: EQUIPSLOTINFO::from(&buffer[14..22]),
+        }
+    }
+}
+
 impl Debug for PurchaseItemFrommc {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PurchaseItemFrommc")
@@ -19397,7 +33195,7 @@ impl Debug for PurchaseItemFrommc {
             .field("is_identified[11, 12]", &self.is_identified)
             .field("is_damaged[12, 13]", &self.is_damaged)
             .field("refining_level[13, 14]", &self.refining_level)
-            .field("slot[14, ?]", &self.slot)
+            .field("slot[14, 22]", &self.slot)
         .finish()
     }
 }
@@ -19405,6 +33203,15 @@ impl Debug for PurchaseItemFrommc {
 pub struct CzPurchaseItemFrommc {
     pub count: u16,
     pub index: u16,
+}
+
+impl CzPurchaseItemFrommc {
+    pub fn from(buffer: &[u8]) -> CzPurchaseItemFrommc {
+        CzPurchaseItemFrommc {
+            count: u16::from_le_bytes([buffer[0], buffer[1]]),
+            index: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
 }
 
 impl Debug for CzPurchaseItemFrommc {
@@ -19428,6 +33235,22 @@ pub struct PurchaseMyitem {
     pub slot: EQUIPSLOTINFO,
 }
 
+impl PurchaseMyitem {
+    pub fn from(buffer: &[u8]) -> PurchaseMyitem {
+        PurchaseMyitem {
+            price: u32::from_le_bytes([buffer[0], buffer[1], buffer[2], buffer[3]]),
+            index: u16::from_le_bytes([buffer[4], buffer[5]]),
+            count: u16::from_le_bytes([buffer[6], buffer[7]]),
+            type_: buffer[8] as char,
+            itid: u16::from_le_bytes([buffer[9], buffer[10]]),
+            is_identified: buffer[11] as char,
+            is_damaged: buffer[12] as char,
+            refining_level: buffer[13] as char,
+            slot: EQUIPSLOTINFO::from(&buffer[14..22]),
+        }
+    }
+}
+
 impl Debug for PurchaseMyitem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PurchaseMyitem")
@@ -19439,7 +33262,7 @@ impl Debug for PurchaseMyitem {
             .field("is_identified[11, 12]", &self.is_identified)
             .field("is_damaged[12, 13]", &self.is_damaged)
             .field("refining_level[13, 14]", &self.refining_level)
-            .field("slot[14, ?]", &self.slot)
+            .field("slot[14, 22]", &self.slot)
         .finish()
     }
 }
@@ -19448,6 +33271,16 @@ pub struct RelatedGuild {
     pub gdid: u32,
     pub relation: u32,
     pub guild_name: String,
+}
+
+impl RelatedGuild {
+    pub fn from(buffer: &[u8]) -> RelatedGuild {
+        RelatedGuild {
+            gdid: u32::from_le_bytes([buffer[0], buffer[1], buffer[2], buffer[3]]),
+            relation: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            guild_name: String::from_utf8_lossy(&buffer[8..32]).to_string(),
+        }
+    }
 }
 
 impl Debug for RelatedGuild {
@@ -19475,6 +33308,25 @@ pub struct GuildMembermgrInfo {
     pub char_name: String,
 }
 
+impl GuildMembermgrInfo {
+    pub fn from(buffer: &[u8]) -> GuildMembermgrInfo {
+        GuildMembermgrInfo {
+            aid: u32::from_le_bytes([buffer[0], buffer[1], buffer[2], buffer[3]]),
+            gid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            head_type: u16::from_le_bytes([buffer[8], buffer[9]]),
+            head_palette: u16::from_le_bytes([buffer[10], buffer[11]]),
+            sex: u16::from_le_bytes([buffer[12], buffer[13]]),
+            job: u16::from_le_bytes([buffer[14], buffer[15]]),
+            level: u16::from_le_bytes([buffer[16], buffer[17]]),
+            member_exp: u32::from_le_bytes([buffer[18], buffer[19], buffer[20], buffer[21]]),
+            current_state: u32::from_le_bytes([buffer[22], buffer[23], buffer[24], buffer[25]]),
+            gposition_id: u32::from_le_bytes([buffer[26], buffer[27], buffer[28], buffer[29]]),
+            memo: String::from_utf8_lossy(&buffer[30..80]).to_string(),
+            char_name: String::from_utf8_lossy(&buffer[80..104]).to_string(),
+        }
+    }
+}
+
 impl Debug for GuildMembermgrInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("GuildMembermgrInfo")
@@ -19500,6 +33352,16 @@ pub struct MemberPositionInfo {
     pub position_id: u32,
 }
 
+impl MemberPositionInfo {
+    pub fn from(buffer: &[u8]) -> MemberPositionInfo {
+        MemberPositionInfo {
+            aid: u32::from_le_bytes([buffer[0], buffer[1], buffer[2], buffer[3]]),
+            gid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            position_id: u32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
+        }
+    }
+}
+
 impl Debug for MemberPositionInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("MemberPositionInfo")
@@ -19515,6 +33377,17 @@ pub struct GuildMemberPositionInfo {
     pub right: u32,
     pub ranking: u32,
     pub pay_rate: u32,
+}
+
+impl GuildMemberPositionInfo {
+    pub fn from(buffer: &[u8]) -> GuildMemberPositionInfo {
+        GuildMemberPositionInfo {
+            position_id: u32::from_le_bytes([buffer[0], buffer[1], buffer[2], buffer[3]]),
+            right: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            ranking: u32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
+            pay_rate: u32::from_le_bytes([buffer[12], buffer[13], buffer[14], buffer[15]]),
+        }
+    }
 }
 
 impl Debug for GuildMemberPositionInfo {
@@ -19536,6 +33409,18 @@ pub struct GuildRegPositionInfo {
     pub pos_name: String,
 }
 
+impl GuildRegPositionInfo {
+    pub fn from(buffer: &[u8]) -> GuildRegPositionInfo {
+        GuildRegPositionInfo {
+            position_id: u32::from_le_bytes([buffer[0], buffer[1], buffer[2], buffer[3]]),
+            right: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            ranking: u32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
+            pay_rate: u32::from_le_bytes([buffer[12], buffer[13], buffer[14], buffer[15]]),
+            pos_name: String::from_utf8_lossy(&buffer[16..40]).to_string(),
+        }
+    }
+}
+
 impl Debug for GuildRegPositionInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("GuildRegPositionInfo")
@@ -19552,6 +33437,16 @@ pub struct GuildBanInfo {
     pub charname: String,
     pub account: String,
     pub reason: String,
+}
+
+impl GuildBanInfo {
+    pub fn from(buffer: &[u8]) -> GuildBanInfo {
+        GuildBanInfo {
+            charname: String::from_utf8_lossy(&buffer[0..24]).to_string(),
+            account: String::from_utf8_lossy(&buffer[24..48]).to_string(),
+            reason: String::from_utf8_lossy(&buffer[48..88]).to_string(),
+        }
+    }
 }
 
 impl Debug for GuildBanInfo {
@@ -19571,6 +33466,17 @@ pub struct OtherGuildInfo {
     pub guild_ranking: u32,
 }
 
+impl OtherGuildInfo {
+    pub fn from(buffer: &[u8]) -> OtherGuildInfo {
+        OtherGuildInfo {
+            guildname: String::from_utf8_lossy(&buffer[0..24]).to_string(),
+            guild_level: u32::from_le_bytes([buffer[24], buffer[25], buffer[26], buffer[27]]),
+            guild_member_size: u32::from_le_bytes([buffer[28], buffer[29], buffer[30], buffer[31]]),
+            guild_ranking: u32::from_le_bytes([buffer[32], buffer[33], buffer[34], buffer[35]]),
+        }
+    }
+}
+
 impl Debug for OtherGuildInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("OtherGuildInfo")
@@ -19585,6 +33491,15 @@ impl Debug for OtherGuildInfo {
 pub struct MemberPositionIdNameInfo {
     pub position_id: u32,
     pub pos_name: String,
+}
+
+impl MemberPositionIdNameInfo {
+    pub fn from(buffer: &[u8]) -> MemberPositionIdNameInfo {
+        MemberPositionIdNameInfo {
+            position_id: u32::from_le_bytes([buffer[0], buffer[1], buffer[2], buffer[3]]),
+            pos_name: String::from_utf8_lossy(&buffer[4..28]).to_string(),
+        }
+    }
 }
 
 impl Debug for MemberPositionIdNameInfo {
@@ -19609,6 +33524,25 @@ pub struct GuildMemberInfo {
     pub position_id: u32,
     pub intro: String,
     pub charname: String,
+}
+
+impl GuildMemberInfo {
+    pub fn from(buffer: &[u8]) -> GuildMemberInfo {
+        GuildMemberInfo {
+            aid: u32::from_le_bytes([buffer[0], buffer[1], buffer[2], buffer[3]]),
+            gid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            head: u16::from_le_bytes([buffer[8], buffer[9]]),
+            head_palette: u16::from_le_bytes([buffer[10], buffer[11]]),
+            sex: u16::from_le_bytes([buffer[12], buffer[13]]),
+            job: u16::from_le_bytes([buffer[14], buffer[15]]),
+            level: u16::from_le_bytes([buffer[16], buffer[17]]),
+            contribution_exp: u32::from_le_bytes([buffer[18], buffer[19], buffer[20], buffer[21]]),
+            current_state: u32::from_le_bytes([buffer[22], buffer[23], buffer[24], buffer[25]]),
+            position_id: u32::from_le_bytes([buffer[26], buffer[27], buffer[28], buffer[29]]),
+            intro: String::from_utf8_lossy(&buffer[30..80]).to_string(),
+            charname: String::from_utf8_lossy(&buffer[80..104]).to_string(),
+        }
+    }
 }
 
 impl Debug for GuildMemberInfo {
@@ -19636,6 +33570,16 @@ pub struct RelatedGuildInfo {
     pub guildname: String,
 }
 
+impl RelatedGuildInfo {
+    pub fn from(buffer: &[u8]) -> RelatedGuildInfo {
+        RelatedGuildInfo {
+            relation: u32::from_le_bytes([buffer[0], buffer[1], buffer[2], buffer[3]]),
+            gdid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            guildname: String::from_utf8_lossy(&buffer[8..32]).to_string(),
+        }
+    }
+}
+
 impl Debug for RelatedGuildInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("RelatedGuildInfo")
@@ -19656,6 +33600,22 @@ pub struct MonsterInfoElement {
     pub dark: char,
     pub mental: char,
     pub undead: char,
+}
+
+impl MonsterInfoElement {
+    pub fn from(buffer: &[u8]) -> MonsterInfoElement {
+        MonsterInfoElement {
+            water: buffer[0] as char,
+            earth: buffer[1] as char,
+            fire: buffer[2] as char,
+            wind: buffer[3] as char,
+            poison: buffer[4] as char,
+            saint: buffer[5] as char,
+            dark: buffer[6] as char,
+            mental: buffer[7] as char,
+            undead: buffer[8] as char,
+        }
+    }
 }
 
 impl Debug for MonsterInfoElement {
@@ -19679,6 +33639,15 @@ pub struct MakableitemInfo {
     pub material_id: u16,
 }
 
+impl MakableitemInfo {
+    pub fn from(buffer: &[u8]) -> MakableitemInfo {
+        MakableitemInfo {
+            itid: u16::from_le_bytes([buffer[0], buffer[1]]),
+            material_id: u16::from_le_bytes([buffer[2], buffer[3]]),
+        }
+    }
+}
+
 impl Debug for MakableitemInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("MakableitemInfo")
@@ -19692,6 +33661,14 @@ pub struct PeteggitemInfo {
     pub index: u16,
 }
 
+impl PeteggitemInfo {
+    pub fn from(buffer: &[u8]) -> PeteggitemInfo {
+        PeteggitemInfo {
+            index: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
+}
+
 impl Debug for PeteggitemInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PeteggitemInfo")
@@ -19702,6 +33679,14 @@ impl Debug for PeteggitemInfo {
 
 pub struct ArrowitemInfo {
     pub index: u16,
+}
+
+impl ArrowitemInfo {
+    pub fn from(buffer: &[u8]) -> ArrowitemInfo {
+        ArrowitemInfo {
+            index: u16::from_le_bytes([buffer[0], buffer[1]]),
+        }
+    }
 }
 
 impl Debug for ArrowitemInfo {
@@ -19722,6 +33707,20 @@ pub struct NormalitemExtrainfo2 {
     pub slot: EQUIPSLOTINFO,
 }
 
+impl NormalitemExtrainfo2 {
+    pub fn from(buffer: &[u8]) -> NormalitemExtrainfo2 {
+        NormalitemExtrainfo2 {
+            index: u16::from_le_bytes([buffer[0], buffer[1]]),
+            itid: u16::from_le_bytes([buffer[2], buffer[3]]),
+            type_: buffer[4] as char,
+            is_identified: buffer[5] == 1,
+            count: u16::from_le_bytes([buffer[6], buffer[7]]),
+            wear_state: u16::from_le_bytes([buffer[8], buffer[9]]),
+            slot: EQUIPSLOTINFO::from(&buffer[10..18]),
+        }
+    }
+}
+
 impl Debug for NormalitemExtrainfo2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("NormalitemExtrainfo2")
@@ -19731,7 +33730,7 @@ impl Debug for NormalitemExtrainfo2 {
             .field("is_identified[5, 6]", &self.is_identified)
             .field("count[6, 8]", &self.count)
             .field("wear_state[8, 10]", &self.wear_state)
-            .field("slot[10, ?]", &self.slot)
+            .field("slot[10, 18]", &self.slot)
         .finish()
     }
 }
@@ -19743,13 +33742,24 @@ pub struct RepairitemInfo {
     pub slot: EQUIPSLOTINFO,
 }
 
+impl RepairitemInfo {
+    pub fn from(buffer: &[u8]) -> RepairitemInfo {
+        RepairitemInfo {
+            index: u16::from_le_bytes([buffer[0], buffer[1]]),
+            itid: u16::from_le_bytes([buffer[2], buffer[3]]),
+            refining_level: buffer[4] as char,
+            slot: EQUIPSLOTINFO::from(&buffer[5..13]),
+        }
+    }
+}
+
 impl Debug for RepairitemInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("RepairitemInfo")
             .field("index[0, 2]", &self.index)
             .field("itid[2, 4]", &self.itid)
             .field("refining_level[4, 5]", &self.refining_level)
-            .field("slot[5, ?]", &self.slot)
+            .field("slot[5, 13]", &self.slot)
         .finish()
     }
 }
@@ -19758,6 +33768,16 @@ pub struct StructFriend {
     pub aid: u32,
     pub gid: u32,
     pub name: String,
+}
+
+impl StructFriend {
+    pub fn from(buffer: &[u8]) -> StructFriend {
+        StructFriend {
+            aid: u32::from_le_bytes([buffer[0], buffer[1], buffer[2], buffer[3]]),
+            gid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            name: String::from_utf8_lossy(&buffer[8..32]).to_string(),
+        }
+    }
 }
 
 impl Debug for StructFriend {
@@ -19775,6 +33795,15 @@ pub struct TagCharacterBlockInfo {
     pub sz_expire_date: String,
 }
 
+impl TagCharacterBlockInfo {
+    pub fn from(buffer: &[u8]) -> TagCharacterBlockInfo {
+        TagCharacterBlockInfo {
+            gid: u32::from_le_bytes([buffer[0], buffer[1], buffer[2], buffer[3]]),
+            sz_expire_date: String::from_utf8_lossy(&buffer[4..24]).to_string(),
+        }
+    }
+}
+
 impl Debug for TagCharacterBlockInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("TagCharacterBlockInfo")
@@ -19788,6 +33817,16 @@ pub struct PVPINFO {
     pub win_point: u32,
     pub lose_point: u32,
     pub point: u32,
+}
+
+impl PVPINFO {
+    pub fn from(buffer: &[u8]) -> PVPINFO {
+        PVPINFO {
+            win_point: u32::from_le_bytes([buffer[0], buffer[1], buffer[2], buffer[3]]),
+            lose_point: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            point: u32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
+        }
+    }
 }
 
 impl Debug for PVPINFO {
@@ -19805,6 +33844,15 @@ pub struct Filetime {
     pub dw_high_date_time: u32,
 }
 
+impl Filetime {
+    pub fn from(buffer: &[u8]) -> Filetime {
+        Filetime {
+            dw_low_date_time: u32::from_le_bytes([buffer[0], buffer[1], buffer[2], buffer[3]]),
+            dw_high_date_time: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+        }
+    }
+}
+
 impl Debug for Filetime {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("Filetime")
@@ -19820,6 +33868,18 @@ pub struct MailList {
     pub is_open: char,
     pub from_name: String,
     pub delete_time: u32,
+}
+
+impl MailList {
+    pub fn from(buffer: &[u8]) -> MailList {
+        MailList {
+            mail_id: u32::from_le_bytes([buffer[0], buffer[1], buffer[2], buffer[3]]),
+            header: String::from_utf8_lossy(&buffer[4..44]).to_string(),
+            is_open: buffer[44] as char,
+            from_name: String::from_utf8_lossy(&buffer[45..69]).to_string(),
+            delete_time: u32::from_le_bytes([buffer[69], buffer[70], buffer[71], buffer[72]]),
+        }
+    }
 }
 
 impl Debug for MailList {
@@ -19850,6 +33910,26 @@ pub struct AuctionItemSearchInfo {
     pub delete_time: u32,
 }
 
+impl AuctionItemSearchInfo {
+    pub fn from(buffer: &[u8]) -> AuctionItemSearchInfo {
+        AuctionItemSearchInfo {
+            auction_id: u32::from_le_bytes([buffer[0], buffer[1], buffer[2], buffer[3]]),
+            seller_name: String::from_utf8_lossy(&buffer[4..28]).to_string(),
+            itid: u16::from_le_bytes([buffer[28], buffer[29]]),
+            type_: u32::from_le_bytes([buffer[30], buffer[31], buffer[32], buffer[33]]),
+            count: u16::from_le_bytes([buffer[34], buffer[35]]),
+            is_identified: buffer[36] == 1,
+            is_damaged: buffer[37] == 1,
+            refining_level: buffer[38] as char,
+            slot: EQUIPSLOTINFO::from(&buffer[39..47]),
+            now_price: u32::from_le_bytes([buffer[47], buffer[48], buffer[49], buffer[50]]),
+            max_price: u32::from_le_bytes([buffer[51], buffer[52], buffer[53], buffer[54]]),
+            buyer_name: String::from_utf8_lossy(&buffer[55..79]).to_string(),
+            delete_time: u32::from_le_bytes([buffer[79], buffer[80], buffer[81], buffer[82]]),
+        }
+    }
+}
+
 impl Debug for AuctionItemSearchInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("AuctionItemSearchInfo")
@@ -19861,7 +33941,7 @@ impl Debug for AuctionItemSearchInfo {
             .field("is_identified[36, 37]", &self.is_identified)
             .field("is_damaged[37, 38]", &self.is_damaged)
             .field("refining_level[38, 39]", &self.refining_level)
-            .field("slot[39, ?]", &self.slot)
+            .field("slot[39, 47]", &self.slot)
             .field("now_price[47, 51]", &self.now_price)
             .field("max_price[51, 55]", &self.max_price)
             .field("buyer_name[55, 79]", &self.buyer_name)
@@ -19875,6 +33955,17 @@ pub struct PacketMobHunting {
     pub mob_gid: u32,
     pub max_count: u16,
     pub count: u16,
+}
+
+impl PacketMobHunting {
+    pub fn from(buffer: &[u8]) -> PacketMobHunting {
+        PacketMobHunting {
+            quest_id: u32::from_le_bytes([buffer[0], buffer[1], buffer[2], buffer[3]]),
+            mob_gid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            max_count: u16::from_le_bytes([buffer[8], buffer[9]]),
+            count: u16::from_le_bytes([buffer[10], buffer[11]]),
+        }
+    }
 }
 
 impl Debug for PacketMobHunting {
@@ -19901,6 +33992,23 @@ pub struct EquipmentitemExtrainfo2 {
     pub hire_expire_date: u32,
 }
 
+impl EquipmentitemExtrainfo2 {
+    pub fn from(buffer: &[u8]) -> EquipmentitemExtrainfo2 {
+        EquipmentitemExtrainfo2 {
+            index: u16::from_le_bytes([buffer[0], buffer[1]]),
+            itid: u16::from_le_bytes([buffer[2], buffer[3]]),
+            type_: buffer[4] as char,
+            is_identified: buffer[5] == 1,
+            location: u16::from_le_bytes([buffer[6], buffer[7]]),
+            wear_state: u16::from_le_bytes([buffer[8], buffer[9]]),
+            is_damaged: buffer[10] == 1,
+            refining_level: buffer[11] as char,
+            slot: EQUIPSLOTINFO::from(&buffer[12..20]),
+            hire_expire_date: u32::from_le_bytes([buffer[20], buffer[21], buffer[22], buffer[23]]),
+        }
+    }
+}
+
 impl Debug for EquipmentitemExtrainfo2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("EquipmentitemExtrainfo2")
@@ -19912,7 +34020,7 @@ impl Debug for EquipmentitemExtrainfo2 {
             .field("wear_state[8, 10]", &self.wear_state)
             .field("is_damaged[10, 11]", &self.is_damaged)
             .field("refining_level[11, 12]", &self.refining_level)
-            .field("slot[12, ?]", &self.slot)
+            .field("slot[12, 20]", &self.slot)
             .field("hire_expire_date[20, 24]", &self.hire_expire_date)
         .finish()
     }
@@ -19923,6 +34031,17 @@ pub struct PggLingoKeyTemp {
     pub dw_alg_key1: u32,
     pub dw_alg_key2: u32,
     pub dw_seed: u32,
+}
+
+impl PggLingoKeyTemp {
+    pub fn from(buffer: &[u8]) -> PggLingoKeyTemp {
+        PggLingoKeyTemp {
+            dw_alg_num: u32::from_le_bytes([buffer[0], buffer[1], buffer[2], buffer[3]]),
+            dw_alg_key1: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            dw_alg_key2: u32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
+            dw_seed: u32::from_le_bytes([buffer[12], buffer[13], buffer[14], buffer[15]]),
+        }
+    }
 }
 
 impl Debug for PggLingoKeyTemp {
@@ -19941,6 +34060,15 @@ pub struct PacketZcQuestInfo {
     pub active: bool,
 }
 
+impl PacketZcQuestInfo {
+    pub fn from(buffer: &[u8]) -> PacketZcQuestInfo {
+        PacketZcQuestInfo {
+            quest_id: u32::from_le_bytes([buffer[0], buffer[1], buffer[2], buffer[3]]),
+            active: buffer[4] == 1,
+        }
+    }
+}
+
 impl Debug for PacketZcQuestInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcQuestInfo")
@@ -19954,6 +34082,16 @@ pub struct PacketZcMissionHunt {
     pub mob_gid: u32,
     pub hunt_count: u16,
     pub mob_name: String,
+}
+
+impl PacketZcMissionHunt {
+    pub fn from(buffer: &[u8]) -> PacketZcMissionHunt {
+        PacketZcMissionHunt {
+            mob_gid: u32::from_le_bytes([buffer[0], buffer[1], buffer[2], buffer[3]]),
+            hunt_count: u16::from_le_bytes([buffer[4], buffer[5]]),
+            mob_name: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+        }
+    }
 }
 
 impl Debug for PacketZcMissionHunt {
@@ -19974,6 +34112,27 @@ pub struct PacketZcQuestMissionInfo {
     pub hunt: Vec<PacketZcMissionHunt>,
 }
 
+impl PacketZcQuestMissionInfo {
+    pub fn from(buffer: &[u8]) -> PacketZcQuestMissionInfo {
+        let iter_count = &buffer.len() / 30;
+        let mut vec_field: Vec<PacketZcMissionHunt> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 14 * i;
+            let end_pos = 44 * i;
+            vec_field.push(PacketZcMissionHunt::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketZcQuestMissionInfo {
+            quest_id: u32::from_le_bytes([buffer[0], buffer[1], buffer[2], buffer[3]]),
+            quest_svr_time: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            quest_end_time: u32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
+            count: u16::from_le_bytes([buffer[12], buffer[13]]),
+            hunt: vec_field,
+        }
+    }
+}
+
 impl Debug for PacketZcQuestMissionInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcQuestMissionInfo")
@@ -19990,6 +34149,16 @@ pub struct ShortCutKey {
     pub is_skill: char,
     pub id: u32,
     pub count: u16,
+}
+
+impl ShortCutKey {
+    pub fn from(buffer: &[u8]) -> ShortCutKey {
+        ShortCutKey {
+            is_skill: buffer[0] as char,
+            id: u32::from_le_bytes([buffer[1], buffer[2], buffer[3], buffer[4]]),
+            count: u16::from_le_bytes([buffer[5], buffer[6]]),
+        }
+    }
 }
 
 impl Debug for ShortCutKey {
@@ -20017,6 +34186,25 @@ pub struct EquipmentitemExtrainfo301 {
     pub w_item_sprite_number: u16,
 }
 
+impl EquipmentitemExtrainfo301 {
+    pub fn from(buffer: &[u8]) -> EquipmentitemExtrainfo301 {
+        EquipmentitemExtrainfo301 {
+            index: u16::from_le_bytes([buffer[0], buffer[1]]),
+            itid: u16::from_le_bytes([buffer[2], buffer[3]]),
+            type_: buffer[4] as char,
+            is_identified: buffer[5] == 1,
+            location: u16::from_le_bytes([buffer[6], buffer[7]]),
+            wear_state: u16::from_le_bytes([buffer[8], buffer[9]]),
+            is_damaged: buffer[10] == 1,
+            refining_level: buffer[11] as char,
+            slot: EQUIPSLOTINFO::from(&buffer[12..20]),
+            hire_expire_date: u32::from_le_bytes([buffer[20], buffer[21], buffer[22], buffer[23]]),
+            bind_on_equip_type: u16::from_le_bytes([buffer[24], buffer[25]]),
+            w_item_sprite_number: u16::from_le_bytes([buffer[26], buffer[27]]),
+        }
+    }
+}
+
 impl Debug for EquipmentitemExtrainfo301 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("EquipmentitemExtrainfo301")
@@ -20028,7 +34216,7 @@ impl Debug for EquipmentitemExtrainfo301 {
             .field("wear_state[8, 10]", &self.wear_state)
             .field("is_damaged[10, 11]", &self.is_damaged)
             .field("refining_level[11, 12]", &self.refining_level)
-            .field("slot[12, ?]", &self.slot)
+            .field("slot[12, 20]", &self.slot)
             .field("hire_expire_date[20, 24]", &self.hire_expire_date)
             .field("bind_on_equip_type[24, 26]", &self.bind_on_equip_type)
             .field("w_item_sprite_number[26, 28]", &self.w_item_sprite_number)
@@ -20047,6 +34235,21 @@ pub struct NormalitemExtrainfo3 {
     pub hire_expire_date: u32,
 }
 
+impl NormalitemExtrainfo3 {
+    pub fn from(buffer: &[u8]) -> NormalitemExtrainfo3 {
+        NormalitemExtrainfo3 {
+            index: u16::from_le_bytes([buffer[0], buffer[1]]),
+            itid: u16::from_le_bytes([buffer[2], buffer[3]]),
+            type_: buffer[4] as char,
+            is_identified: buffer[5] == 1,
+            count: u16::from_le_bytes([buffer[6], buffer[7]]),
+            wear_state: u16::from_le_bytes([buffer[8], buffer[9]]),
+            slot: EQUIPSLOTINFO::from(&buffer[10..18]),
+            hire_expire_date: u32::from_le_bytes([buffer[18], buffer[19], buffer[20], buffer[21]]),
+        }
+    }
+}
+
 impl Debug for NormalitemExtrainfo3 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("NormalitemExtrainfo3")
@@ -20056,7 +34259,7 @@ impl Debug for NormalitemExtrainfo3 {
             .field("is_identified[5, 6]", &self.is_identified)
             .field("count[6, 8]", &self.count)
             .field("wear_state[8, 10]", &self.wear_state)
-            .field("slot[10, ?]", &self.slot)
+            .field("slot[10, 18]", &self.slot)
             .field("hire_expire_date[18, 22]", &self.hire_expire_date)
         .finish()
     }
@@ -20065,6 +34268,15 @@ impl Debug for NormalitemExtrainfo3 {
 pub struct SkillPostdelay {
     pub skid: u16,
     pub delay_tm: u32,
+}
+
+impl SkillPostdelay {
+    pub fn from(buffer: &[u8]) -> SkillPostdelay {
+        SkillPostdelay {
+            skid: u16::from_le_bytes([buffer[0], buffer[1]]),
+            delay_tm: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+        }
+    }
 }
 
 impl Debug for SkillPostdelay {
@@ -20079,6 +34291,15 @@ impl Debug for SkillPostdelay {
 pub struct CharacterList {
     pub dw_gid: u32,
     pub slot_idx: char,
+}
+
+impl CharacterList {
+    pub fn from(buffer: &[u8]) -> CharacterList {
+        CharacterList {
+            dw_gid: u32::from_le_bytes([buffer[0], buffer[1], buffer[2], buffer[3]]),
+            slot_idx: buffer[4] as char,
+        }
+    }
 }
 
 impl Debug for CharacterList {
@@ -20096,6 +34317,16 @@ pub struct BattleFieldInfo {
     pub join_team: u16,
 }
 
+impl BattleFieldInfo {
+    pub fn from(buffer: &[u8]) -> BattleFieldInfo {
+        BattleFieldInfo {
+            bfno: u32::from_le_bytes([buffer[0], buffer[1], buffer[2], buffer[3]]),
+            battle_field_name: String::from_utf8_lossy(&buffer[4..60]).to_string(),
+            join_team: u16::from_le_bytes([buffer[60], buffer[61]]),
+        }
+    }
+}
+
 impl Debug for BattleFieldInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("BattleFieldInfo")
@@ -20110,6 +34341,16 @@ pub struct PartyBookingDetail {
     pub level: u16,
     pub map_id: u16,
     pub job: u16,
+}
+
+impl PartyBookingDetail {
+    pub fn from(buffer: &[u8]) -> PartyBookingDetail {
+        PartyBookingDetail {
+            level: u16::from_le_bytes([buffer[0], buffer[1]]),
+            map_id: u16::from_le_bytes([buffer[2], buffer[3]]),
+            job: u16::from_le_bytes([buffer[4], buffer[5]]),
+        }
+    }
 }
 
 impl Debug for PartyBookingDetail {
@@ -20129,6 +34370,17 @@ pub struct PartyBookingAdInfo {
     pub detail: PartyBookingDetail,
 }
 
+impl PartyBookingAdInfo {
+    pub fn from(buffer: &[u8]) -> PartyBookingAdInfo {
+        PartyBookingAdInfo {
+            index: u32::from_le_bytes([buffer[0], buffer[1], buffer[2], buffer[3]]),
+            char_name: String::from_utf8_lossy(&buffer[4..28]).to_string(),
+            expire_time: u32::from_le_bytes([buffer[28], buffer[29], buffer[30], buffer[31]]),
+            detail: PartyBookingDetail::from(&buffer[32..buffer.len()]),
+        }
+    }
+}
+
 impl Debug for PartyBookingAdInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PartyBookingAdInfo")
@@ -20144,6 +34396,16 @@ pub struct ProductinfoInBuyingStore {
     pub itid: u16,
     pub count: u16,
     pub price: u32,
+}
+
+impl ProductinfoInBuyingStore {
+    pub fn from(buffer: &[u8]) -> ProductinfoInBuyingStore {
+        ProductinfoInBuyingStore {
+            itid: u16::from_le_bytes([buffer[0], buffer[1]]),
+            count: u16::from_le_bytes([buffer[2], buffer[3]]),
+            price: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+        }
+    }
 }
 
 impl Debug for ProductinfoInBuyingStore {
@@ -20163,6 +34425,17 @@ pub struct BuyingStoreItemlist {
     pub itid: u16,
 }
 
+impl BuyingStoreItemlist {
+    pub fn from(buffer: &[u8]) -> BuyingStoreItemlist {
+        BuyingStoreItemlist {
+            price: u32::from_le_bytes([buffer[0], buffer[1], buffer[2], buffer[3]]),
+            count: u16::from_le_bytes([buffer[4], buffer[5]]),
+            type_: buffer[6] as char,
+            itid: u16::from_le_bytes([buffer[7], buffer[8]]),
+        }
+    }
+}
+
 impl Debug for BuyingStoreItemlist {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("BuyingStoreItemlist")
@@ -20178,6 +34451,16 @@ pub struct TradeItemBuyingStore {
     pub index: u16,
     pub itid: u16,
     pub count: u16,
+}
+
+impl TradeItemBuyingStore {
+    pub fn from(buffer: &[u8]) -> TradeItemBuyingStore {
+        TradeItemBuyingStore {
+            index: u16::from_le_bytes([buffer[0], buffer[1]]),
+            itid: u16::from_le_bytes([buffer[2], buffer[3]]),
+            count: u16::from_le_bytes([buffer[4], buffer[5]]),
+        }
+    }
 }
 
 impl Debug for TradeItemBuyingStore {
@@ -20205,6 +34488,25 @@ pub struct ResultItemInfo {
     pub card4: u16,
 }
 
+impl ResultItemInfo {
+    pub fn from(buffer: &[u8]) -> ResultItemInfo {
+        ResultItemInfo {
+            ssiid: u32::from_le_bytes([buffer[0], buffer[1], buffer[2], buffer[3]]),
+            aid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            store_name: String::from_utf8_lossy(&buffer[8..88]).to_string(),
+            itid: u16::from_le_bytes([buffer[88], buffer[89]]),
+            item_type: buffer[90] as char,
+            price: u32::from_le_bytes([buffer[91], buffer[92], buffer[93], buffer[94]]),
+            count: u16::from_le_bytes([buffer[95], buffer[96]]),
+            refining_level: buffer[97] as char,
+            card1: u16::from_le_bytes([buffer[98], buffer[99]]),
+            card2: u16::from_le_bytes([buffer[100], buffer[101]]),
+            card3: u16::from_le_bytes([buffer[102], buffer[103]]),
+            card4: u16::from_le_bytes([buffer[104], buffer[105]]),
+        }
+    }
+}
+
 impl Debug for ResultItemInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("ResultItemInfo")
@@ -20224,3 +34526,20 @@ impl Debug for ResultItemInfo {
     }
 }
 
+#[derive(Debug)]
+pub struct PacketUnknown {
+    packet_id: String,
+}
+impl Packet for PacketUnknown {
+    fn id(&self) -> &str {
+        self.packet_id.as_str()
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
+    }
+}
+impl PacketUnknown {
+    pub fn from(buffer: &[u8]) -> PacketUnknown {
+        PacketUnknown { packet_id: format!("{:02X?}{:02X?}", buffer[0], buffer[1])}
+    }
+}

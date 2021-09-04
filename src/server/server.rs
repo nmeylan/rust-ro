@@ -4,7 +4,7 @@ use std::io::{Read, Write, Bytes, Cursor};
 use std::thread;
 use byteorder::{ReadBytesExt, LittleEndian, WriteBytesExt};
 use std::time::{Instant, SystemTime};
-use std::fmt::{Display, Formatter};
+use std::fmt::{Display, Formatter, Debug};
 use crate::server::packet_db::PACKETS_DB;
 use crate::server::packet_parser::packet_name;
 use std::cell::RefCell;
@@ -12,6 +12,8 @@ use std::sync::{Arc, Mutex};
 use std::borrow::{BorrowMut, Borrow};
 use std::ops::{DerefMut, Deref};
 use std::collections::HashMap;
+use crate::server::packets::{Packet, parse};
+use std::any::Any;
 
 #[derive(Clone)]
 pub struct Server<T: PacketHandler + Clone + Send> {
@@ -113,6 +115,8 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Server<T> {
                              packet_name(packet),
                              bytes_read,
                              packet, if  direction == ProxyDirection::Backward { outgoing.peer_addr().unwrap() } else { incoming.peer_addr().unwrap() });
+                    let packet1  = parse(packet);
+                    packet1.debug();
                     if outgoing.write(packet).is_ok() {
                         outgoing.flush();
                     }
