@@ -86,6 +86,9 @@ fn write_struct_definition(file: &mut File, struct_definition: &StructDefinition
         } else {
             file.write(format!("    pub {}: {},\n", field.name, field.data_type.name).as_bytes());
         }
+        if is_packet {
+            file.write(format!("    pub {}_raw: Vec<u8>,\n", field.name).as_bytes());
+        }
     }
     file.write(b"}\n\n");
 }
@@ -127,6 +130,9 @@ fn write_struct_impl(file: &mut File, struct_definition: &StructDefinition, is_p
             file.write(format!("            {}: {}::from(&buffer[{}..{}]),\n", field.name, field.complex_type.as_ref().unwrap(), field.position, field_length(field)).as_bytes());
         } else {
             file.write(format!("            {}: {},\n", field.name, struct_impl_field_value(field)).as_bytes());
+        }
+        if is_packet {
+            file.write(format!("            {}_raw: buffer[{}..{}].to_vec(),\n", field.name, field.position, field_length(field)).as_bytes());
         }
     }
     file.write(b"        }\n");

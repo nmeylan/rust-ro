@@ -2296,10 +2296,15 @@ pub trait Packet {
 pub struct PacketCaLogin {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub version: u32,
+    pub version_raw: Vec<u8>,
     pub id: String,
+    pub id_raw: Vec<u8>,
     pub passwd: String,
+    pub passwd_raw: Vec<u8>,
     pub client_type: char,
+    pub client_type_raw: Vec<u8>,
 }
 
 impl PacketCaLogin {
@@ -2307,10 +2312,15 @@ impl PacketCaLogin {
         PacketCaLogin {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             version: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            version_raw: buffer[2..6].to_vec(),
             id: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            id_raw: buffer[6..30].to_vec(),
             passwd: String::from_utf8_lossy(&buffer[30..54]).to_string(),
+            passwd_raw: buffer[30..54].to_vec(),
             client_type: buffer[54] as char,
+            client_type_raw: buffer[54..55].to_vec(),
         }
     }
 }
@@ -2343,11 +2353,17 @@ impl Debug for PacketCaLogin {
 pub struct PacketChEnter {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub auth_code: u32,
+    pub auth_code_raw: Vec<u8>,
     pub user_level: u32,
+    pub user_level_raw: Vec<u8>,
     pub client_type: u16,
+    pub client_type_raw: Vec<u8>,
     pub sex: char,
+    pub sex_raw: Vec<u8>,
 }
 
 impl PacketChEnter {
@@ -2355,11 +2371,17 @@ impl PacketChEnter {
         PacketChEnter {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             auth_code: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            auth_code_raw: buffer[6..10].to_vec(),
             user_level: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            user_level_raw: buffer[10..14].to_vec(),
             client_type: u16::from_le_bytes([buffer[14], buffer[15]]),
+            client_type_raw: buffer[14..16].to_vec(),
             sex: buffer[16] as char,
+            sex_raw: buffer[16..17].to_vec(),
         }
     }
 }
@@ -2393,7 +2415,9 @@ impl Debug for PacketChEnter {
 pub struct PacketChSelectChar {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub char_num: char,
+    pub char_num_raw: Vec<u8>,
 }
 
 impl PacketChSelectChar {
@@ -2401,7 +2425,9 @@ impl PacketChSelectChar {
         PacketChSelectChar {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             char_num: buffer[2] as char,
+            char_num_raw: buffer[2..3].to_vec(),
         }
     }
 }
@@ -2431,16 +2457,27 @@ impl Debug for PacketChSelectChar {
 pub struct PacketChMakeChar {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub name: String,
+    pub name_raw: Vec<u8>,
     pub str: char,
+    pub str_raw: Vec<u8>,
     pub agi: char,
+    pub agi_raw: Vec<u8>,
     pub vit: char,
+    pub vit_raw: Vec<u8>,
     pub int: char,
+    pub int_raw: Vec<u8>,
     pub dex: char,
+    pub dex_raw: Vec<u8>,
     pub luk: char,
+    pub luk_raw: Vec<u8>,
     pub char_num: char,
+    pub char_num_raw: Vec<u8>,
     pub head_pal: u16,
+    pub head_pal_raw: Vec<u8>,
     pub head: u16,
+    pub head_raw: Vec<u8>,
 }
 
 impl PacketChMakeChar {
@@ -2448,16 +2485,27 @@ impl PacketChMakeChar {
         PacketChMakeChar {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            name_raw: buffer[2..26].to_vec(),
             str: buffer[26] as char,
+            str_raw: buffer[26..27].to_vec(),
             agi: buffer[27] as char,
+            agi_raw: buffer[27..28].to_vec(),
             vit: buffer[28] as char,
+            vit_raw: buffer[28..29].to_vec(),
             int: buffer[29] as char,
+            int_raw: buffer[29..30].to_vec(),
             dex: buffer[30] as char,
+            dex_raw: buffer[30..31].to_vec(),
             luk: buffer[31] as char,
+            luk_raw: buffer[31..32].to_vec(),
             char_num: buffer[32] as char,
+            char_num_raw: buffer[32..33].to_vec(),
             head_pal: u16::from_le_bytes([buffer[33], buffer[34]]),
+            head_pal_raw: buffer[33..35].to_vec(),
             head: u16::from_le_bytes([buffer[35], buffer[36]]),
+            head_raw: buffer[35..37].to_vec(),
         }
     }
 }
@@ -2496,8 +2544,11 @@ impl Debug for PacketChMakeChar {
 pub struct PacketChDeleteChar {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub key: String,
+    pub key_raw: Vec<u8>,
 }
 
 impl PacketChDeleteChar {
@@ -2505,8 +2556,11 @@ impl PacketChDeleteChar {
         PacketChDeleteChar {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid_raw: buffer[2..6].to_vec(),
             key: String::from_utf8_lossy(&buffer[6..46]).to_string(),
+            key_raw: buffer[6..46].to_vec(),
         }
     }
 }
@@ -2537,14 +2591,23 @@ impl Debug for PacketChDeleteChar {
 pub struct PacketAcAcceptLogin {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub auth_code: u32,
+    pub auth_code_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub user_level: u32,
+    pub user_level_raw: Vec<u8>,
     pub last_login_ip: u32,
+    pub last_login_ip_raw: Vec<u8>,
     pub last_login_time: String,
+    pub last_login_time_raw: Vec<u8>,
     pub sex: char,
+    pub sex_raw: Vec<u8>,
     pub server_list: Vec<ServerAddr>,
+    pub server_list_raw: Vec<u8>,
 }
 
 impl PacketAcAcceptLogin {
@@ -2561,14 +2624,23 @@ impl PacketAcAcceptLogin {
         PacketAcAcceptLogin {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             auth_code: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            auth_code_raw: buffer[4..8].to_vec(),
             aid: u32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
+            aid_raw: buffer[8..12].to_vec(),
             user_level: u32::from_le_bytes([buffer[12], buffer[13], buffer[14], buffer[15]]),
+            user_level_raw: buffer[12..16].to_vec(),
             last_login_ip: u32::from_le_bytes([buffer[16], buffer[17], buffer[18], buffer[19]]),
+            last_login_ip_raw: buffer[16..20].to_vec(),
             last_login_time: String::from_utf8_lossy(&buffer[20..46]).to_string(),
+            last_login_time_raw: buffer[20..46].to_vec(),
             sex: buffer[46] as char,
+            sex_raw: buffer[46..47].to_vec(),
             server_list: vec_field,
+            server_list_raw: buffer[47..79].to_vec(),
         }
     }
 }
@@ -2605,8 +2677,11 @@ impl Debug for PacketAcAcceptLogin {
 pub struct PacketAcRefuseLogin {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub error_code: char,
+    pub error_code_raw: Vec<u8>,
     pub block_date: String,
+    pub block_date_raw: Vec<u8>,
 }
 
 impl PacketAcRefuseLogin {
@@ -2614,8 +2689,11 @@ impl PacketAcRefuseLogin {
         PacketAcRefuseLogin {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             error_code: buffer[2] as char,
+            error_code_raw: buffer[2..3].to_vec(),
             block_date: String::from_utf8_lossy(&buffer[3..23]).to_string(),
+            block_date_raw: buffer[3..23].to_vec(),
         }
     }
 }
@@ -2646,16 +2724,27 @@ impl Debug for PacketAcRefuseLogin {
 pub struct PacketHcAcceptEnterNeoUnion {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub total_slot_num: char,
+    pub total_slot_num_raw: Vec<u8>,
     pub premium_start_slot: char,
+    pub premium_start_slot_raw: Vec<u8>,
     pub premium_end_slot: char,
+    pub premium_end_slot_raw: Vec<u8>,
     pub dummy1_beginbilling: char,
+    pub dummy1_beginbilling_raw: Vec<u8>,
     pub code: u32,
+    pub code_raw: Vec<u8>,
     pub time1: u32,
+    pub time1_raw: Vec<u8>,
     pub time2: u32,
+    pub time2_raw: Vec<u8>,
     pub dummy2_endbilling: String,
+    pub dummy2_endbilling_raw: Vec<u8>,
     pub char_info: Vec<CharacterInfoNeoUnion>,
+    pub char_info_raw: Vec<u8>,
 }
 
 impl PacketHcAcceptEnterNeoUnion {
@@ -2672,16 +2761,27 @@ impl PacketHcAcceptEnterNeoUnion {
         PacketHcAcceptEnterNeoUnion {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             total_slot_num: buffer[4] as char,
+            total_slot_num_raw: buffer[4..5].to_vec(),
             premium_start_slot: buffer[5] as char,
+            premium_start_slot_raw: buffer[5..6].to_vec(),
             premium_end_slot: buffer[6] as char,
+            premium_end_slot_raw: buffer[6..7].to_vec(),
             dummy1_beginbilling: buffer[7] as char,
+            dummy1_beginbilling_raw: buffer[7..8].to_vec(),
             code: u32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
+            code_raw: buffer[8..12].to_vec(),
             time1: u32::from_le_bytes([buffer[12], buffer[13], buffer[14], buffer[15]]),
+            time1_raw: buffer[12..16].to_vec(),
             time2: u32::from_le_bytes([buffer[16], buffer[17], buffer[18], buffer[19]]),
+            time2_raw: buffer[16..20].to_vec(),
             dummy2_endbilling: String::from_utf8_lossy(&buffer[20..27]).to_string(),
+            dummy2_endbilling_raw: buffer[20..27].to_vec(),
             char_info: vec_field,
+            char_info_raw: buffer[27..171].to_vec(),
         }
     }
 }
@@ -2720,7 +2820,9 @@ impl Debug for PacketHcAcceptEnterNeoUnion {
 pub struct PacketHcRefuseEnter {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub error_code: char,
+    pub error_code_raw: Vec<u8>,
 }
 
 impl PacketHcRefuseEnter {
@@ -2728,7 +2830,9 @@ impl PacketHcRefuseEnter {
         PacketHcRefuseEnter {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             error_code: buffer[2] as char,
+            error_code_raw: buffer[2..3].to_vec(),
         }
     }
 }
@@ -2758,7 +2862,9 @@ impl Debug for PacketHcRefuseEnter {
 pub struct PacketHcAcceptMakecharNeoUnion {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub charinfo: CharacterInfoNeoUnion,
+    pub charinfo_raw: Vec<u8>,
 }
 
 impl PacketHcAcceptMakecharNeoUnion {
@@ -2766,7 +2872,9 @@ impl PacketHcAcceptMakecharNeoUnion {
         PacketHcAcceptMakecharNeoUnion {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             charinfo: CharacterInfoNeoUnion::from(&buffer[2..buffer.len()]),
+            charinfo_raw: buffer[2..buffer.len()].to_vec(),
         }
     }
 }
@@ -2796,7 +2904,9 @@ impl Debug for PacketHcAcceptMakecharNeoUnion {
 pub struct PacketHcRefuseMakechar {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub error_code: char,
+    pub error_code_raw: Vec<u8>,
 }
 
 impl PacketHcRefuseMakechar {
@@ -2804,7 +2914,9 @@ impl PacketHcRefuseMakechar {
         PacketHcRefuseMakechar {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             error_code: buffer[2] as char,
+            error_code_raw: buffer[2..3].to_vec(),
         }
     }
 }
@@ -2834,6 +2946,7 @@ impl Debug for PacketHcRefuseMakechar {
 pub struct PacketHcAcceptDeletechar {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketHcAcceptDeletechar {
@@ -2841,6 +2954,7 @@ impl PacketHcAcceptDeletechar {
         PacketHcAcceptDeletechar {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -2869,7 +2983,9 @@ impl Debug for PacketHcAcceptDeletechar {
 pub struct PacketHcRefuseDeletechar {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub error_code: char,
+    pub error_code_raw: Vec<u8>,
 }
 
 impl PacketHcRefuseDeletechar {
@@ -2877,7 +2993,9 @@ impl PacketHcRefuseDeletechar {
         PacketHcRefuseDeletechar {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             error_code: buffer[2] as char,
+            error_code_raw: buffer[2..3].to_vec(),
         }
     }
 }
@@ -2907,9 +3025,13 @@ impl Debug for PacketHcRefuseDeletechar {
 pub struct PacketHcNotifyZonesvr {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub map_name: String,
+    pub map_name_raw: Vec<u8>,
     pub addr: ZserverAddr,
+    pub addr_raw: Vec<u8>,
 }
 
 impl PacketHcNotifyZonesvr {
@@ -2917,9 +3039,13 @@ impl PacketHcNotifyZonesvr {
         PacketHcNotifyZonesvr {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid_raw: buffer[2..6].to_vec(),
             map_name: String::from_utf8_lossy(&buffer[6..22]).to_string(),
+            map_name_raw: buffer[6..22].to_vec(),
             addr: ZserverAddr::from(&buffer[22..buffer.len()]),
+            addr_raw: buffer[22..buffer.len()].to_vec(),
         }
     }
 }
@@ -2951,11 +3077,17 @@ impl Debug for PacketHcNotifyZonesvr {
 pub struct PacketCzEnter {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub auth_code: u32,
+    pub auth_code_raw: Vec<u8>,
     pub client_time: u32,
+    pub client_time_raw: Vec<u8>,
     pub sex: char,
+    pub sex_raw: Vec<u8>,
 }
 
 impl PacketCzEnter {
@@ -2963,11 +3095,17 @@ impl PacketCzEnter {
         PacketCzEnter {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             gid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            gid_raw: buffer[6..10].to_vec(),
             auth_code: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            auth_code_raw: buffer[10..14].to_vec(),
             client_time: u32::from_le_bytes([buffer[14], buffer[15], buffer[16], buffer[17]]),
+            client_time_raw: buffer[14..18].to_vec(),
             sex: buffer[18] as char,
+            sex_raw: buffer[18..19].to_vec(),
         }
     }
 }
@@ -3001,10 +3139,15 @@ impl Debug for PacketCzEnter {
 pub struct PacketZcAcceptEnter {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub start_time: u32,
+    pub start_time_raw: Vec<u8>,
     pub pos_dir: String,
+    pub pos_dir_raw: Vec<u8>,
     pub x_size: char,
+    pub x_size_raw: Vec<u8>,
     pub y_size: char,
+    pub y_size_raw: Vec<u8>,
 }
 
 impl PacketZcAcceptEnter {
@@ -3012,10 +3155,15 @@ impl PacketZcAcceptEnter {
         PacketZcAcceptEnter {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             start_time: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            start_time_raw: buffer[2..6].to_vec(),
             pos_dir: String::from_utf8_lossy(&buffer[6..9]).to_string(),
+            pos_dir_raw: buffer[6..9].to_vec(),
             x_size: buffer[9] as char,
+            x_size_raw: buffer[9..10].to_vec(),
             y_size: buffer[10] as char,
+            y_size_raw: buffer[10..11].to_vec(),
         }
     }
 }
@@ -3048,7 +3196,9 @@ impl Debug for PacketZcAcceptEnter {
 pub struct PacketZcRefuseEnter {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub error_code: char,
+    pub error_code_raw: Vec<u8>,
 }
 
 impl PacketZcRefuseEnter {
@@ -3056,7 +3206,9 @@ impl PacketZcRefuseEnter {
         PacketZcRefuseEnter {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             error_code: buffer[2] as char,
+            error_code_raw: buffer[2..3].to_vec(),
         }
     }
 }
@@ -3086,10 +3238,15 @@ impl Debug for PacketZcRefuseEnter {
 pub struct PacketZcNotifyInitchar {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub style: u16,
+    pub style_raw: Vec<u8>,
     pub item: char,
+    pub item_raw: Vec<u8>,
 }
 
 impl PacketZcNotifyInitchar {
@@ -3097,10 +3254,15 @@ impl PacketZcNotifyInitchar {
         PacketZcNotifyInitchar {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             gid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            gid_raw: buffer[4..8].to_vec(),
             style: u16::from_le_bytes([buffer[8], buffer[9]]),
+            style_raw: buffer[8..10].to_vec(),
             item: buffer[10] as char,
+            item_raw: buffer[10..11].to_vec(),
         }
     }
 }
@@ -3133,9 +3295,13 @@ impl Debug for PacketZcNotifyInitchar {
 pub struct PacketZcNotifyUpdatechar {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub style: u16,
+    pub style_raw: Vec<u8>,
     pub item: char,
+    pub item_raw: Vec<u8>,
 }
 
 impl PacketZcNotifyUpdatechar {
@@ -3143,9 +3309,13 @@ impl PacketZcNotifyUpdatechar {
         PacketZcNotifyUpdatechar {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid_raw: buffer[2..6].to_vec(),
             style: u16::from_le_bytes([buffer[6], buffer[7]]),
+            style_raw: buffer[6..8].to_vec(),
             item: buffer[8] as char,
+            item_raw: buffer[8..9].to_vec(),
         }
     }
 }
@@ -3177,8 +3347,11 @@ impl Debug for PacketZcNotifyUpdatechar {
 pub struct PacketZcNotifyUpdateplayer {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub style: u16,
+    pub style_raw: Vec<u8>,
     pub item: char,
+    pub item_raw: Vec<u8>,
 }
 
 impl PacketZcNotifyUpdateplayer {
@@ -3186,8 +3359,11 @@ impl PacketZcNotifyUpdateplayer {
         PacketZcNotifyUpdateplayer {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             style: u16::from_le_bytes([buffer[2], buffer[3]]),
+            style_raw: buffer[2..4].to_vec(),
             item: buffer[4] as char,
+            item_raw: buffer[4..5].to_vec(),
         }
     }
 }
@@ -3218,33 +3394,61 @@ impl Debug for PacketZcNotifyUpdateplayer {
 pub struct PacketZcNotifyStandentry {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub objecttype: char,
+    pub objecttype_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub speed: u16,
+    pub speed_raw: Vec<u8>,
     pub body_state: u16,
+    pub body_state_raw: Vec<u8>,
     pub health_state: u16,
+    pub health_state_raw: Vec<u8>,
     pub effect_state: u16,
+    pub effect_state_raw: Vec<u8>,
     pub job: u16,
+    pub job_raw: Vec<u8>,
     pub head: u16,
+    pub head_raw: Vec<u8>,
     pub weapon: u16,
+    pub weapon_raw: Vec<u8>,
     pub accessory: u16,
+    pub accessory_raw: Vec<u8>,
     pub shield: u16,
+    pub shield_raw: Vec<u8>,
     pub accessory2: u16,
+    pub accessory2_raw: Vec<u8>,
     pub accessory3: u16,
+    pub accessory3_raw: Vec<u8>,
     pub headpalette: u16,
+    pub headpalette_raw: Vec<u8>,
     pub bodypalette: u16,
+    pub bodypalette_raw: Vec<u8>,
     pub head_dir: u16,
+    pub head_dir_raw: Vec<u8>,
     pub guid: u32,
+    pub guid_raw: Vec<u8>,
     pub gemblem_ver: u16,
+    pub gemblem_ver_raw: Vec<u8>,
     pub honor: u16,
+    pub honor_raw: Vec<u8>,
     pub virtue: u16,
+    pub virtue_raw: Vec<u8>,
     pub is_pkmode_on: bool,
+    pub is_pkmode_on_raw: Vec<u8>,
     pub sex: char,
+    pub sex_raw: Vec<u8>,
     pub pos_dir: String,
+    pub pos_dir_raw: Vec<u8>,
     pub x_size: char,
+    pub x_size_raw: Vec<u8>,
     pub y_size: char,
+    pub y_size_raw: Vec<u8>,
     pub state: char,
+    pub state_raw: Vec<u8>,
     pub clevel: u16,
+    pub clevel_raw: Vec<u8>,
 }
 
 impl PacketZcNotifyStandentry {
@@ -3252,33 +3456,61 @@ impl PacketZcNotifyStandentry {
         PacketZcNotifyStandentry {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             objecttype: buffer[2] as char,
+            objecttype_raw: buffer[2..3].to_vec(),
             gid: u32::from_le_bytes([buffer[3], buffer[4], buffer[5], buffer[6]]),
+            gid_raw: buffer[3..7].to_vec(),
             speed: u16::from_le_bytes([buffer[7], buffer[8]]),
+            speed_raw: buffer[7..9].to_vec(),
             body_state: u16::from_le_bytes([buffer[9], buffer[10]]),
+            body_state_raw: buffer[9..11].to_vec(),
             health_state: u16::from_le_bytes([buffer[11], buffer[12]]),
+            health_state_raw: buffer[11..13].to_vec(),
             effect_state: u16::from_le_bytes([buffer[13], buffer[14]]),
+            effect_state_raw: buffer[13..15].to_vec(),
             job: u16::from_le_bytes([buffer[15], buffer[16]]),
+            job_raw: buffer[15..17].to_vec(),
             head: u16::from_le_bytes([buffer[17], buffer[18]]),
+            head_raw: buffer[17..19].to_vec(),
             weapon: u16::from_le_bytes([buffer[19], buffer[20]]),
+            weapon_raw: buffer[19..21].to_vec(),
             accessory: u16::from_le_bytes([buffer[21], buffer[22]]),
+            accessory_raw: buffer[21..23].to_vec(),
             shield: u16::from_le_bytes([buffer[23], buffer[24]]),
+            shield_raw: buffer[23..25].to_vec(),
             accessory2: u16::from_le_bytes([buffer[25], buffer[26]]),
+            accessory2_raw: buffer[25..27].to_vec(),
             accessory3: u16::from_le_bytes([buffer[27], buffer[28]]),
+            accessory3_raw: buffer[27..29].to_vec(),
             headpalette: u16::from_le_bytes([buffer[29], buffer[30]]),
+            headpalette_raw: buffer[29..31].to_vec(),
             bodypalette: u16::from_le_bytes([buffer[31], buffer[32]]),
+            bodypalette_raw: buffer[31..33].to_vec(),
             head_dir: u16::from_le_bytes([buffer[33], buffer[34]]),
+            head_dir_raw: buffer[33..35].to_vec(),
             guid: u32::from_le_bytes([buffer[35], buffer[36], buffer[37], buffer[38]]),
+            guid_raw: buffer[35..39].to_vec(),
             gemblem_ver: u16::from_le_bytes([buffer[39], buffer[40]]),
+            gemblem_ver_raw: buffer[39..41].to_vec(),
             honor: u16::from_le_bytes([buffer[41], buffer[42]]),
+            honor_raw: buffer[41..43].to_vec(),
             virtue: u16::from_le_bytes([buffer[43], buffer[44]]),
+            virtue_raw: buffer[43..45].to_vec(),
             is_pkmode_on: buffer[45] == 1,
+            is_pkmode_on_raw: buffer[45..46].to_vec(),
             sex: buffer[46] as char,
+            sex_raw: buffer[46..47].to_vec(),
             pos_dir: String::from_utf8_lossy(&buffer[47..50]).to_string(),
+            pos_dir_raw: buffer[47..50].to_vec(),
             x_size: buffer[50] as char,
+            x_size_raw: buffer[50..51].to_vec(),
             y_size: buffer[51] as char,
+            y_size_raw: buffer[51..52].to_vec(),
             state: buffer[52] as char,
+            state_raw: buffer[52..53].to_vec(),
             clevel: u16::from_le_bytes([buffer[53], buffer[54]]),
+            clevel_raw: buffer[53..55].to_vec(),
         }
     }
 }
@@ -3334,31 +3566,57 @@ impl Debug for PacketZcNotifyStandentry {
 pub struct PacketZcNotifyNewentry {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub speed: u16,
+    pub speed_raw: Vec<u8>,
     pub body_state: u16,
+    pub body_state_raw: Vec<u8>,
     pub health_state: u16,
+    pub health_state_raw: Vec<u8>,
     pub effect_state: u16,
+    pub effect_state_raw: Vec<u8>,
     pub job: u16,
+    pub job_raw: Vec<u8>,
     pub head: u16,
+    pub head_raw: Vec<u8>,
     pub weapon: u16,
+    pub weapon_raw: Vec<u8>,
     pub accessory: u16,
+    pub accessory_raw: Vec<u8>,
     pub shield: u16,
+    pub shield_raw: Vec<u8>,
     pub accessory2: u16,
+    pub accessory2_raw: Vec<u8>,
     pub accessory3: u16,
+    pub accessory3_raw: Vec<u8>,
     pub headpalette: u16,
+    pub headpalette_raw: Vec<u8>,
     pub bodypalette: u16,
+    pub bodypalette_raw: Vec<u8>,
     pub head_dir: u16,
+    pub head_dir_raw: Vec<u8>,
     pub guid: u32,
+    pub guid_raw: Vec<u8>,
     pub gemblem_ver: u16,
+    pub gemblem_ver_raw: Vec<u8>,
     pub honor: u16,
+    pub honor_raw: Vec<u8>,
     pub virtue: u16,
+    pub virtue_raw: Vec<u8>,
     pub is_pkmode_on: bool,
+    pub is_pkmode_on_raw: Vec<u8>,
     pub sex: char,
+    pub sex_raw: Vec<u8>,
     pub pos_dir: String,
+    pub pos_dir_raw: Vec<u8>,
     pub x_size: char,
+    pub x_size_raw: Vec<u8>,
     pub y_size: char,
+    pub y_size_raw: Vec<u8>,
     pub clevel: u16,
+    pub clevel_raw: Vec<u8>,
 }
 
 impl PacketZcNotifyNewentry {
@@ -3366,31 +3624,57 @@ impl PacketZcNotifyNewentry {
         PacketZcNotifyNewentry {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid_raw: buffer[2..6].to_vec(),
             speed: u16::from_le_bytes([buffer[6], buffer[7]]),
+            speed_raw: buffer[6..8].to_vec(),
             body_state: u16::from_le_bytes([buffer[8], buffer[9]]),
+            body_state_raw: buffer[8..10].to_vec(),
             health_state: u16::from_le_bytes([buffer[10], buffer[11]]),
+            health_state_raw: buffer[10..12].to_vec(),
             effect_state: u16::from_le_bytes([buffer[12], buffer[13]]),
+            effect_state_raw: buffer[12..14].to_vec(),
             job: u16::from_le_bytes([buffer[14], buffer[15]]),
+            job_raw: buffer[14..16].to_vec(),
             head: u16::from_le_bytes([buffer[16], buffer[17]]),
+            head_raw: buffer[16..18].to_vec(),
             weapon: u16::from_le_bytes([buffer[18], buffer[19]]),
+            weapon_raw: buffer[18..20].to_vec(),
             accessory: u16::from_le_bytes([buffer[20], buffer[21]]),
+            accessory_raw: buffer[20..22].to_vec(),
             shield: u16::from_le_bytes([buffer[22], buffer[23]]),
+            shield_raw: buffer[22..24].to_vec(),
             accessory2: u16::from_le_bytes([buffer[24], buffer[25]]),
+            accessory2_raw: buffer[24..26].to_vec(),
             accessory3: u16::from_le_bytes([buffer[26], buffer[27]]),
+            accessory3_raw: buffer[26..28].to_vec(),
             headpalette: u16::from_le_bytes([buffer[28], buffer[29]]),
+            headpalette_raw: buffer[28..30].to_vec(),
             bodypalette: u16::from_le_bytes([buffer[30], buffer[31]]),
+            bodypalette_raw: buffer[30..32].to_vec(),
             head_dir: u16::from_le_bytes([buffer[32], buffer[33]]),
+            head_dir_raw: buffer[32..34].to_vec(),
             guid: u32::from_le_bytes([buffer[34], buffer[35], buffer[36], buffer[37]]),
+            guid_raw: buffer[34..38].to_vec(),
             gemblem_ver: u16::from_le_bytes([buffer[38], buffer[39]]),
+            gemblem_ver_raw: buffer[38..40].to_vec(),
             honor: u16::from_le_bytes([buffer[40], buffer[41]]),
+            honor_raw: buffer[40..42].to_vec(),
             virtue: u16::from_le_bytes([buffer[42], buffer[43]]),
+            virtue_raw: buffer[42..44].to_vec(),
             is_pkmode_on: buffer[44] == 1,
+            is_pkmode_on_raw: buffer[44..45].to_vec(),
             sex: buffer[45] as char,
+            sex_raw: buffer[45..46].to_vec(),
             pos_dir: String::from_utf8_lossy(&buffer[46..49]).to_string(),
+            pos_dir_raw: buffer[46..49].to_vec(),
             x_size: buffer[49] as char,
+            x_size_raw: buffer[49..50].to_vec(),
             y_size: buffer[50] as char,
+            y_size_raw: buffer[50..51].to_vec(),
             clevel: u16::from_le_bytes([buffer[51], buffer[52]]),
+            clevel_raw: buffer[51..53].to_vec(),
         }
     }
 }
@@ -3444,33 +3728,61 @@ impl Debug for PacketZcNotifyNewentry {
 pub struct PacketZcNotifyActentry {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub speed: u16,
+    pub speed_raw: Vec<u8>,
     pub body_state: u16,
+    pub body_state_raw: Vec<u8>,
     pub health_state: u16,
+    pub health_state_raw: Vec<u8>,
     pub effect_state: u16,
+    pub effect_state_raw: Vec<u8>,
     pub job: u16,
+    pub job_raw: Vec<u8>,
     pub head: u16,
+    pub head_raw: Vec<u8>,
     pub weapon: u16,
+    pub weapon_raw: Vec<u8>,
     pub accessory: u16,
+    pub accessory_raw: Vec<u8>,
     pub shield: u16,
+    pub shield_raw: Vec<u8>,
     pub accessory2: u16,
+    pub accessory2_raw: Vec<u8>,
     pub accessory3: u16,
+    pub accessory3_raw: Vec<u8>,
     pub headpalette: u16,
+    pub headpalette_raw: Vec<u8>,
     pub bodypalette: u16,
+    pub bodypalette_raw: Vec<u8>,
     pub head_dir: u16,
+    pub head_dir_raw: Vec<u8>,
     pub guid: u32,
+    pub guid_raw: Vec<u8>,
     pub gemblem_ver: u16,
+    pub gemblem_ver_raw: Vec<u8>,
     pub honor: u16,
+    pub honor_raw: Vec<u8>,
     pub virtue: u16,
+    pub virtue_raw: Vec<u8>,
     pub is_pkmode_on: bool,
+    pub is_pkmode_on_raw: Vec<u8>,
     pub sex: char,
+    pub sex_raw: Vec<u8>,
     pub pos_dir: String,
+    pub pos_dir_raw: Vec<u8>,
     pub x_size: char,
+    pub x_size_raw: Vec<u8>,
     pub y_size: char,
+    pub y_size_raw: Vec<u8>,
     pub action: char,
+    pub action_raw: Vec<u8>,
     pub act_start_time: u32,
+    pub act_start_time_raw: Vec<u8>,
     pub clevel: u16,
+    pub clevel_raw: Vec<u8>,
 }
 
 impl PacketZcNotifyActentry {
@@ -3478,33 +3790,61 @@ impl PacketZcNotifyActentry {
         PacketZcNotifyActentry {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid_raw: buffer[2..6].to_vec(),
             speed: u16::from_le_bytes([buffer[6], buffer[7]]),
+            speed_raw: buffer[6..8].to_vec(),
             body_state: u16::from_le_bytes([buffer[8], buffer[9]]),
+            body_state_raw: buffer[8..10].to_vec(),
             health_state: u16::from_le_bytes([buffer[10], buffer[11]]),
+            health_state_raw: buffer[10..12].to_vec(),
             effect_state: u16::from_le_bytes([buffer[12], buffer[13]]),
+            effect_state_raw: buffer[12..14].to_vec(),
             job: u16::from_le_bytes([buffer[14], buffer[15]]),
+            job_raw: buffer[14..16].to_vec(),
             head: u16::from_le_bytes([buffer[16], buffer[17]]),
+            head_raw: buffer[16..18].to_vec(),
             weapon: u16::from_le_bytes([buffer[18], buffer[19]]),
+            weapon_raw: buffer[18..20].to_vec(),
             accessory: u16::from_le_bytes([buffer[20], buffer[21]]),
+            accessory_raw: buffer[20..22].to_vec(),
             shield: u16::from_le_bytes([buffer[22], buffer[23]]),
+            shield_raw: buffer[22..24].to_vec(),
             accessory2: u16::from_le_bytes([buffer[24], buffer[25]]),
+            accessory2_raw: buffer[24..26].to_vec(),
             accessory3: u16::from_le_bytes([buffer[26], buffer[27]]),
+            accessory3_raw: buffer[26..28].to_vec(),
             headpalette: u16::from_le_bytes([buffer[28], buffer[29]]),
+            headpalette_raw: buffer[28..30].to_vec(),
             bodypalette: u16::from_le_bytes([buffer[30], buffer[31]]),
+            bodypalette_raw: buffer[30..32].to_vec(),
             head_dir: u16::from_le_bytes([buffer[32], buffer[33]]),
+            head_dir_raw: buffer[32..34].to_vec(),
             guid: u32::from_le_bytes([buffer[34], buffer[35], buffer[36], buffer[37]]),
+            guid_raw: buffer[34..38].to_vec(),
             gemblem_ver: u16::from_le_bytes([buffer[38], buffer[39]]),
+            gemblem_ver_raw: buffer[38..40].to_vec(),
             honor: u16::from_le_bytes([buffer[40], buffer[41]]),
+            honor_raw: buffer[40..42].to_vec(),
             virtue: u16::from_le_bytes([buffer[42], buffer[43]]),
+            virtue_raw: buffer[42..44].to_vec(),
             is_pkmode_on: buffer[44] == 1,
+            is_pkmode_on_raw: buffer[44..45].to_vec(),
             sex: buffer[45] as char,
+            sex_raw: buffer[45..46].to_vec(),
             pos_dir: String::from_utf8_lossy(&buffer[46..49]).to_string(),
+            pos_dir_raw: buffer[46..49].to_vec(),
             x_size: buffer[49] as char,
+            x_size_raw: buffer[49..50].to_vec(),
             y_size: buffer[50] as char,
+            y_size_raw: buffer[50..51].to_vec(),
             action: buffer[51] as char,
+            action_raw: buffer[51..52].to_vec(),
             act_start_time: u32::from_le_bytes([buffer[52], buffer[53], buffer[54], buffer[55]]),
+            act_start_time_raw: buffer[52..56].to_vec(),
             clevel: u16::from_le_bytes([buffer[56], buffer[57]]),
+            clevel_raw: buffer[56..58].to_vec(),
         }
     }
 }
@@ -3560,32 +3900,59 @@ impl Debug for PacketZcNotifyActentry {
 pub struct PacketZcNotifyMoveentry {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub speed: u16,
+    pub speed_raw: Vec<u8>,
     pub body_state: u16,
+    pub body_state_raw: Vec<u8>,
     pub health_state: u16,
+    pub health_state_raw: Vec<u8>,
     pub effect_state: u16,
+    pub effect_state_raw: Vec<u8>,
     pub job: u16,
+    pub job_raw: Vec<u8>,
     pub head: u16,
+    pub head_raw: Vec<u8>,
     pub weapon: u16,
+    pub weapon_raw: Vec<u8>,
     pub accessory: u16,
+    pub accessory_raw: Vec<u8>,
     pub move_start_time: u32,
+    pub move_start_time_raw: Vec<u8>,
     pub shield: u16,
+    pub shield_raw: Vec<u8>,
     pub accessory2: u16,
+    pub accessory2_raw: Vec<u8>,
     pub accessory3: u16,
+    pub accessory3_raw: Vec<u8>,
     pub headpalette: u16,
+    pub headpalette_raw: Vec<u8>,
     pub bodypalette: u16,
+    pub bodypalette_raw: Vec<u8>,
     pub head_dir: u16,
+    pub head_dir_raw: Vec<u8>,
     pub guid: u32,
+    pub guid_raw: Vec<u8>,
     pub gemblem_ver: u16,
+    pub gemblem_ver_raw: Vec<u8>,
     pub honor: u16,
+    pub honor_raw: Vec<u8>,
     pub virtue: u16,
+    pub virtue_raw: Vec<u8>,
     pub is_pkmode_on: bool,
+    pub is_pkmode_on_raw: Vec<u8>,
     pub sex: char,
+    pub sex_raw: Vec<u8>,
     pub move_data: String,
+    pub move_data_raw: Vec<u8>,
     pub x_size: char,
+    pub x_size_raw: Vec<u8>,
     pub y_size: char,
+    pub y_size_raw: Vec<u8>,
     pub clevel: u16,
+    pub clevel_raw: Vec<u8>,
 }
 
 impl PacketZcNotifyMoveentry {
@@ -3593,32 +3960,59 @@ impl PacketZcNotifyMoveentry {
         PacketZcNotifyMoveentry {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid_raw: buffer[2..6].to_vec(),
             speed: u16::from_le_bytes([buffer[6], buffer[7]]),
+            speed_raw: buffer[6..8].to_vec(),
             body_state: u16::from_le_bytes([buffer[8], buffer[9]]),
+            body_state_raw: buffer[8..10].to_vec(),
             health_state: u16::from_le_bytes([buffer[10], buffer[11]]),
+            health_state_raw: buffer[10..12].to_vec(),
             effect_state: u16::from_le_bytes([buffer[12], buffer[13]]),
+            effect_state_raw: buffer[12..14].to_vec(),
             job: u16::from_le_bytes([buffer[14], buffer[15]]),
+            job_raw: buffer[14..16].to_vec(),
             head: u16::from_le_bytes([buffer[16], buffer[17]]),
+            head_raw: buffer[16..18].to_vec(),
             weapon: u16::from_le_bytes([buffer[18], buffer[19]]),
+            weapon_raw: buffer[18..20].to_vec(),
             accessory: u16::from_le_bytes([buffer[20], buffer[21]]),
+            accessory_raw: buffer[20..22].to_vec(),
             move_start_time: u32::from_le_bytes([buffer[22], buffer[23], buffer[24], buffer[25]]),
+            move_start_time_raw: buffer[22..26].to_vec(),
             shield: u16::from_le_bytes([buffer[26], buffer[27]]),
+            shield_raw: buffer[26..28].to_vec(),
             accessory2: u16::from_le_bytes([buffer[28], buffer[29]]),
+            accessory2_raw: buffer[28..30].to_vec(),
             accessory3: u16::from_le_bytes([buffer[30], buffer[31]]),
+            accessory3_raw: buffer[30..32].to_vec(),
             headpalette: u16::from_le_bytes([buffer[32], buffer[33]]),
+            headpalette_raw: buffer[32..34].to_vec(),
             bodypalette: u16::from_le_bytes([buffer[34], buffer[35]]),
+            bodypalette_raw: buffer[34..36].to_vec(),
             head_dir: u16::from_le_bytes([buffer[36], buffer[37]]),
+            head_dir_raw: buffer[36..38].to_vec(),
             guid: u32::from_le_bytes([buffer[38], buffer[39], buffer[40], buffer[41]]),
+            guid_raw: buffer[38..42].to_vec(),
             gemblem_ver: u16::from_le_bytes([buffer[42], buffer[43]]),
+            gemblem_ver_raw: buffer[42..44].to_vec(),
             honor: u16::from_le_bytes([buffer[44], buffer[45]]),
+            honor_raw: buffer[44..46].to_vec(),
             virtue: u16::from_le_bytes([buffer[46], buffer[47]]),
+            virtue_raw: buffer[46..48].to_vec(),
             is_pkmode_on: buffer[48] == 1,
+            is_pkmode_on_raw: buffer[48..49].to_vec(),
             sex: buffer[49] as char,
+            sex_raw: buffer[49..50].to_vec(),
             move_data: String::from_utf8_lossy(&buffer[50..56]).to_string(),
+            move_data_raw: buffer[50..56].to_vec(),
             x_size: buffer[56] as char,
+            x_size_raw: buffer[56..57].to_vec(),
             y_size: buffer[57] as char,
+            y_size_raw: buffer[57..58].to_vec(),
             clevel: u16::from_le_bytes([buffer[58], buffer[59]]),
+            clevel_raw: buffer[58..60].to_vec(),
         }
     }
 }
@@ -3673,27 +4067,49 @@ impl Debug for PacketZcNotifyMoveentry {
 pub struct PacketZcNotifyStandentryNpc {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub objecttype: char,
+    pub objecttype_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub speed: u16,
+    pub speed_raw: Vec<u8>,
     pub body_state: u16,
+    pub body_state_raw: Vec<u8>,
     pub health_state: u16,
+    pub health_state_raw: Vec<u8>,
     pub effect_state: u16,
+    pub effect_state_raw: Vec<u8>,
     pub head: u16,
+    pub head_raw: Vec<u8>,
     pub weapon: u16,
+    pub weapon_raw: Vec<u8>,
     pub accessory: u16,
+    pub accessory_raw: Vec<u8>,
     pub job: u16,
+    pub job_raw: Vec<u8>,
     pub shield: u16,
+    pub shield_raw: Vec<u8>,
     pub accessory2: u16,
+    pub accessory2_raw: Vec<u8>,
     pub accessory3: u16,
+    pub accessory3_raw: Vec<u8>,
     pub headpalette: u16,
+    pub headpalette_raw: Vec<u8>,
     pub bodypalette: u16,
+    pub bodypalette_raw: Vec<u8>,
     pub head_dir: u16,
+    pub head_dir_raw: Vec<u8>,
     pub is_pkmode_on: bool,
+    pub is_pkmode_on_raw: Vec<u8>,
     pub sex: char,
+    pub sex_raw: Vec<u8>,
     pub pos_dir: String,
+    pub pos_dir_raw: Vec<u8>,
     pub x_size: char,
+    pub x_size_raw: Vec<u8>,
     pub y_size: char,
+    pub y_size_raw: Vec<u8>,
 }
 
 impl PacketZcNotifyStandentryNpc {
@@ -3701,27 +4117,49 @@ impl PacketZcNotifyStandentryNpc {
         PacketZcNotifyStandentryNpc {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             objecttype: buffer[2] as char,
+            objecttype_raw: buffer[2..3].to_vec(),
             gid: u32::from_le_bytes([buffer[3], buffer[4], buffer[5], buffer[6]]),
+            gid_raw: buffer[3..7].to_vec(),
             speed: u16::from_le_bytes([buffer[7], buffer[8]]),
+            speed_raw: buffer[7..9].to_vec(),
             body_state: u16::from_le_bytes([buffer[9], buffer[10]]),
+            body_state_raw: buffer[9..11].to_vec(),
             health_state: u16::from_le_bytes([buffer[11], buffer[12]]),
+            health_state_raw: buffer[11..13].to_vec(),
             effect_state: u16::from_le_bytes([buffer[13], buffer[14]]),
+            effect_state_raw: buffer[13..15].to_vec(),
             head: u16::from_le_bytes([buffer[15], buffer[16]]),
+            head_raw: buffer[15..17].to_vec(),
             weapon: u16::from_le_bytes([buffer[17], buffer[18]]),
+            weapon_raw: buffer[17..19].to_vec(),
             accessory: u16::from_le_bytes([buffer[19], buffer[20]]),
+            accessory_raw: buffer[19..21].to_vec(),
             job: u16::from_le_bytes([buffer[21], buffer[22]]),
+            job_raw: buffer[21..23].to_vec(),
             shield: u16::from_le_bytes([buffer[23], buffer[24]]),
+            shield_raw: buffer[23..25].to_vec(),
             accessory2: u16::from_le_bytes([buffer[25], buffer[26]]),
+            accessory2_raw: buffer[25..27].to_vec(),
             accessory3: u16::from_le_bytes([buffer[27], buffer[28]]),
+            accessory3_raw: buffer[27..29].to_vec(),
             headpalette: u16::from_le_bytes([buffer[29], buffer[30]]),
+            headpalette_raw: buffer[29..31].to_vec(),
             bodypalette: u16::from_le_bytes([buffer[31], buffer[32]]),
+            bodypalette_raw: buffer[31..33].to_vec(),
             head_dir: u16::from_le_bytes([buffer[33], buffer[34]]),
+            head_dir_raw: buffer[33..35].to_vec(),
             is_pkmode_on: buffer[35] == 1,
+            is_pkmode_on_raw: buffer[35..36].to_vec(),
             sex: buffer[36] as char,
+            sex_raw: buffer[36..37].to_vec(),
             pos_dir: String::from_utf8_lossy(&buffer[37..40]).to_string(),
+            pos_dir_raw: buffer[37..40].to_vec(),
             x_size: buffer[40] as char,
+            x_size_raw: buffer[40..41].to_vec(),
             y_size: buffer[41] as char,
+            y_size_raw: buffer[41..42].to_vec(),
         }
     }
 }
@@ -3771,6 +4209,7 @@ impl Debug for PacketZcNotifyStandentryNpc {
 pub struct PacketCzNotifyActorinit {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketCzNotifyActorinit {
@@ -3778,6 +4217,7 @@ impl PacketCzNotifyActorinit {
         PacketCzNotifyActorinit {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -3806,7 +4246,9 @@ impl Debug for PacketCzNotifyActorinit {
 pub struct PacketCzRequestTime {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub client_time: u32,
+    pub client_time_raw: Vec<u8>,
 }
 
 impl PacketCzRequestTime {
@@ -3814,7 +4256,9 @@ impl PacketCzRequestTime {
         PacketCzRequestTime {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             client_time: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            client_time_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -3844,7 +4288,9 @@ impl Debug for PacketCzRequestTime {
 pub struct PacketZcNotifyTime {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub time: u32,
+    pub time_raw: Vec<u8>,
 }
 
 impl PacketZcNotifyTime {
@@ -3852,7 +4298,9 @@ impl PacketZcNotifyTime {
         PacketZcNotifyTime {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             time: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            time_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -3882,8 +4330,11 @@ impl Debug for PacketZcNotifyTime {
 pub struct PacketZcNotifyVanish {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub type_: char,
+    pub type__raw: Vec<u8>,
 }
 
 impl PacketZcNotifyVanish {
@@ -3891,8 +4342,11 @@ impl PacketZcNotifyVanish {
         PacketZcNotifyVanish {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid_raw: buffer[2..6].to_vec(),
             type_: buffer[6] as char,
+            type__raw: buffer[6..7].to_vec(),
         }
     }
 }
@@ -3923,7 +4377,9 @@ impl Debug for PacketZcNotifyVanish {
 pub struct PacketScNotifyBan {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub error_code: char,
+    pub error_code_raw: Vec<u8>,
 }
 
 impl PacketScNotifyBan {
@@ -3931,7 +4387,9 @@ impl PacketScNotifyBan {
         PacketScNotifyBan {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             error_code: buffer[2] as char,
+            error_code_raw: buffer[2..3].to_vec(),
         }
     }
 }
@@ -3961,6 +4419,7 @@ impl Debug for PacketScNotifyBan {
 pub struct PacketCzRequestQuit {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketCzRequestQuit {
@@ -3968,6 +4427,7 @@ impl PacketCzRequestQuit {
         PacketCzRequestQuit {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -3996,6 +4456,7 @@ impl Debug for PacketCzRequestQuit {
 pub struct PacketZcAcceptQuit {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketZcAcceptQuit {
@@ -4003,6 +4464,7 @@ impl PacketZcAcceptQuit {
         PacketZcAcceptQuit {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -4031,6 +4493,7 @@ impl Debug for PacketZcAcceptQuit {
 pub struct PacketZcRefuseQuit {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketZcRefuseQuit {
@@ -4038,6 +4501,7 @@ impl PacketZcRefuseQuit {
         PacketZcRefuseQuit {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -4066,7 +4530,9 @@ impl Debug for PacketZcRefuseQuit {
 pub struct PacketCzRequestMove {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub dest: String,
+    pub dest_raw: Vec<u8>,
 }
 
 impl PacketCzRequestMove {
@@ -4074,7 +4540,9 @@ impl PacketCzRequestMove {
         PacketCzRequestMove {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             dest: String::from_utf8_lossy(&buffer[2..5]).to_string(),
+            dest_raw: buffer[2..5].to_vec(),
         }
     }
 }
@@ -4104,9 +4572,13 @@ impl Debug for PacketCzRequestMove {
 pub struct PacketZcNotifyMove {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub move_data: String,
+    pub move_data_raw: Vec<u8>,
     pub move_start_time: u32,
+    pub move_start_time_raw: Vec<u8>,
 }
 
 impl PacketZcNotifyMove {
@@ -4114,9 +4586,13 @@ impl PacketZcNotifyMove {
         PacketZcNotifyMove {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid_raw: buffer[2..6].to_vec(),
             move_data: String::from_utf8_lossy(&buffer[6..12]).to_string(),
+            move_data_raw: buffer[6..12].to_vec(),
             move_start_time: u32::from_le_bytes([buffer[12], buffer[13], buffer[14], buffer[15]]),
+            move_start_time_raw: buffer[12..16].to_vec(),
         }
     }
 }
@@ -4148,8 +4624,11 @@ impl Debug for PacketZcNotifyMove {
 pub struct PacketZcNotifyPlayermove {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub move_start_time: u32,
+    pub move_start_time_raw: Vec<u8>,
     pub move_data: String,
+    pub move_data_raw: Vec<u8>,
 }
 
 impl PacketZcNotifyPlayermove {
@@ -4157,8 +4636,11 @@ impl PacketZcNotifyPlayermove {
         PacketZcNotifyPlayermove {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             move_start_time: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            move_start_time_raw: buffer[2..6].to_vec(),
             move_data: String::from_utf8_lossy(&buffer[6..12]).to_string(),
+            move_data_raw: buffer[6..12].to_vec(),
         }
     }
 }
@@ -4189,9 +4671,13 @@ impl Debug for PacketZcNotifyPlayermove {
 pub struct PacketZcStopmove {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub x_pos: u16,
+    pub x_pos_raw: Vec<u8>,
     pub y_pos: u16,
+    pub y_pos_raw: Vec<u8>,
 }
 
 impl PacketZcStopmove {
@@ -4199,9 +4685,13 @@ impl PacketZcStopmove {
         PacketZcStopmove {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             x_pos: u16::from_le_bytes([buffer[6], buffer[7]]),
+            x_pos_raw: buffer[6..8].to_vec(),
             y_pos: u16::from_le_bytes([buffer[8], buffer[9]]),
+            y_pos_raw: buffer[8..10].to_vec(),
         }
     }
 }
@@ -4233,8 +4723,11 @@ impl Debug for PacketZcStopmove {
 pub struct PacketCzRequestAct {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub target_gid: u32,
+    pub target_gid_raw: Vec<u8>,
     pub action: char,
+    pub action_raw: Vec<u8>,
 }
 
 impl PacketCzRequestAct {
@@ -4242,8 +4735,11 @@ impl PacketCzRequestAct {
         PacketCzRequestAct {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             target_gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            target_gid_raw: buffer[2..6].to_vec(),
             action: buffer[6] as char,
+            action_raw: buffer[6..7].to_vec(),
         }
     }
 }
@@ -4274,15 +4770,25 @@ impl Debug for PacketCzRequestAct {
 pub struct PacketZcNotifyAct {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub target_gid: u32,
+    pub target_gid_raw: Vec<u8>,
     pub start_time: u32,
+    pub start_time_raw: Vec<u8>,
     pub attack_mt: u32,
+    pub attack_mt_raw: Vec<u8>,
     pub attacked_mt: u32,
+    pub attacked_mt_raw: Vec<u8>,
     pub damage: u16,
+    pub damage_raw: Vec<u8>,
     pub count: u16,
+    pub count_raw: Vec<u8>,
     pub action: char,
+    pub action_raw: Vec<u8>,
     pub left_damage: u16,
+    pub left_damage_raw: Vec<u8>,
 }
 
 impl PacketZcNotifyAct {
@@ -4290,15 +4796,25 @@ impl PacketZcNotifyAct {
         PacketZcNotifyAct {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid_raw: buffer[2..6].to_vec(),
             target_gid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            target_gid_raw: buffer[6..10].to_vec(),
             start_time: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            start_time_raw: buffer[10..14].to_vec(),
             attack_mt: u32::from_le_bytes([buffer[14], buffer[15], buffer[16], buffer[17]]),
+            attack_mt_raw: buffer[14..18].to_vec(),
             attacked_mt: u32::from_le_bytes([buffer[18], buffer[19], buffer[20], buffer[21]]),
+            attacked_mt_raw: buffer[18..22].to_vec(),
             damage: u16::from_le_bytes([buffer[22], buffer[23]]),
+            damage_raw: buffer[22..24].to_vec(),
             count: u16::from_le_bytes([buffer[24], buffer[25]]),
+            count_raw: buffer[24..26].to_vec(),
             action: buffer[26] as char,
+            action_raw: buffer[26..27].to_vec(),
             left_damage: u16::from_le_bytes([buffer[27], buffer[28]]),
+            left_damage_raw: buffer[27..29].to_vec(),
         }
     }
 }
@@ -4336,14 +4852,23 @@ impl Debug for PacketZcNotifyAct {
 pub struct PacketZcNotifyActPosition {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub target_gid: u32,
+    pub target_gid_raw: Vec<u8>,
     pub start_time: u32,
+    pub start_time_raw: Vec<u8>,
     pub x_pos: u16,
+    pub x_pos_raw: Vec<u8>,
     pub y_pos: u16,
+    pub y_pos_raw: Vec<u8>,
     pub damage: u16,
+    pub damage_raw: Vec<u8>,
     pub count: u16,
+    pub count_raw: Vec<u8>,
     pub action: char,
+    pub action_raw: Vec<u8>,
 }
 
 impl PacketZcNotifyActPosition {
@@ -4351,14 +4876,23 @@ impl PacketZcNotifyActPosition {
         PacketZcNotifyActPosition {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid_raw: buffer[2..6].to_vec(),
             target_gid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            target_gid_raw: buffer[6..10].to_vec(),
             start_time: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            start_time_raw: buffer[10..14].to_vec(),
             x_pos: u16::from_le_bytes([buffer[14], buffer[15]]),
+            x_pos_raw: buffer[14..16].to_vec(),
             y_pos: u16::from_le_bytes([buffer[16], buffer[17]]),
+            y_pos_raw: buffer[16..18].to_vec(),
             damage: u16::from_le_bytes([buffer[18], buffer[19]]),
+            damage_raw: buffer[18..20].to_vec(),
             count: u16::from_le_bytes([buffer[20], buffer[21]]),
+            count_raw: buffer[20..22].to_vec(),
             action: buffer[22] as char,
+            action_raw: buffer[22..23].to_vec(),
         }
     }
 }
@@ -4395,8 +4929,11 @@ impl Debug for PacketZcNotifyActPosition {
 pub struct PacketCzRequestChat {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub msg: String,
+    pub msg_raw: Vec<u8>,
 }
 
 impl PacketCzRequestChat {
@@ -4404,8 +4941,11 @@ impl PacketCzRequestChat {
         PacketCzRequestChat {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             msg: String::from_utf8_lossy(&buffer[4..buffer.len()]).to_string(),
+            msg_raw: buffer[4..buffer.len()].to_vec(),
         }
     }
 }
@@ -4436,9 +4976,13 @@ impl Debug for PacketCzRequestChat {
 pub struct PacketZcNotifyChat {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub msg: String,
+    pub msg_raw: Vec<u8>,
 }
 
 impl PacketZcNotifyChat {
@@ -4446,9 +4990,13 @@ impl PacketZcNotifyChat {
         PacketZcNotifyChat {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             gid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            gid_raw: buffer[4..8].to_vec(),
             msg: String::from_utf8_lossy(&buffer[8..buffer.len()]).to_string(),
+            msg_raw: buffer[8..buffer.len()].to_vec(),
         }
     }
 }
@@ -4480,8 +5028,11 @@ impl Debug for PacketZcNotifyChat {
 pub struct PacketZcNotifyPlayerchat {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub msg: String,
+    pub msg_raw: Vec<u8>,
 }
 
 impl PacketZcNotifyPlayerchat {
@@ -4489,8 +5040,11 @@ impl PacketZcNotifyPlayerchat {
         PacketZcNotifyPlayerchat {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             msg: String::from_utf8_lossy(&buffer[4..buffer.len()]).to_string(),
+            msg_raw: buffer[4..buffer.len()].to_vec(),
         }
     }
 }
@@ -4521,7 +5075,9 @@ impl Debug for PacketZcNotifyPlayerchat {
 pub struct PacketServerEntryAck {
             raw: Vec<u8>,
     pub header: u16,
+    pub header_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
 }
 
 impl PacketServerEntryAck {
@@ -4529,7 +5085,9 @@ impl PacketServerEntryAck {
         PacketServerEntryAck {
             raw: buffer.to_vec(),
             header: u16::from_le_bytes([buffer[0], buffer[1]]),
+            header_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -4559,8 +5117,11 @@ impl Debug for PacketServerEntryAck {
 pub struct PacketCzContactnpc {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub naid: u32,
+    pub naid_raw: Vec<u8>,
     pub type_: char,
+    pub type__raw: Vec<u8>,
 }
 
 impl PacketCzContactnpc {
@@ -4568,8 +5129,11 @@ impl PacketCzContactnpc {
         PacketCzContactnpc {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             naid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            naid_raw: buffer[2..6].to_vec(),
             type_: buffer[6] as char,
+            type__raw: buffer[6..7].to_vec(),
         }
     }
 }
@@ -4600,9 +5164,13 @@ impl Debug for PacketCzContactnpc {
 pub struct PacketZcNpcackMapmove {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub map_name: String,
+    pub map_name_raw: Vec<u8>,
     pub x_pos: u16,
+    pub x_pos_raw: Vec<u8>,
     pub y_pos: u16,
+    pub y_pos_raw: Vec<u8>,
 }
 
 impl PacketZcNpcackMapmove {
@@ -4610,9 +5178,13 @@ impl PacketZcNpcackMapmove {
         PacketZcNpcackMapmove {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             map_name: String::from_utf8_lossy(&buffer[2..18]).to_string(),
+            map_name_raw: buffer[2..18].to_vec(),
             x_pos: u16::from_le_bytes([buffer[18], buffer[19]]),
+            x_pos_raw: buffer[18..20].to_vec(),
             y_pos: u16::from_le_bytes([buffer[20], buffer[21]]),
+            y_pos_raw: buffer[20..22].to_vec(),
         }
     }
 }
@@ -4644,10 +5216,15 @@ impl Debug for PacketZcNpcackMapmove {
 pub struct PacketZcNpcackServermove {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub map_name: String,
+    pub map_name_raw: Vec<u8>,
     pub x_pos: u16,
+    pub x_pos_raw: Vec<u8>,
     pub y_pos: u16,
+    pub y_pos_raw: Vec<u8>,
     pub addr: ZserverAddr,
+    pub addr_raw: Vec<u8>,
 }
 
 impl PacketZcNpcackServermove {
@@ -4655,10 +5232,15 @@ impl PacketZcNpcackServermove {
         PacketZcNpcackServermove {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             map_name: String::from_utf8_lossy(&buffer[2..18]).to_string(),
+            map_name_raw: buffer[2..18].to_vec(),
             x_pos: u16::from_le_bytes([buffer[18], buffer[19]]),
+            x_pos_raw: buffer[18..20].to_vec(),
             y_pos: u16::from_le_bytes([buffer[20], buffer[21]]),
+            y_pos_raw: buffer[20..22].to_vec(),
             addr: ZserverAddr::from(&buffer[22..buffer.len()]),
+            addr_raw: buffer[22..buffer.len()].to_vec(),
         }
     }
 }
@@ -4691,6 +5273,7 @@ impl Debug for PacketZcNpcackServermove {
 pub struct PacketZcNpcackEnable {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketZcNpcackEnable {
@@ -4698,6 +5281,7 @@ impl PacketZcNpcackEnable {
         PacketZcNpcackEnable {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -4726,7 +5310,9 @@ impl Debug for PacketZcNpcackEnable {
 pub struct PacketCzReqname {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
 }
 
 impl PacketCzReqname {
@@ -4734,7 +5320,9 @@ impl PacketCzReqname {
         PacketCzReqname {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -4764,8 +5352,11 @@ impl Debug for PacketCzReqname {
 pub struct PacketZcAckReqname {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub cname: String,
+    pub cname_raw: Vec<u8>,
 }
 
 impl PacketZcAckReqname {
@@ -4773,8 +5364,11 @@ impl PacketZcAckReqname {
         PacketZcAckReqname {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             cname: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            cname_raw: buffer[6..30].to_vec(),
         }
     }
 }
@@ -4805,9 +5399,13 @@ impl Debug for PacketZcAckReqname {
 pub struct PacketCzWhisper {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub receiver: String,
+    pub receiver_raw: Vec<u8>,
     pub msg: String,
+    pub msg_raw: Vec<u8>,
 }
 
 impl PacketCzWhisper {
@@ -4815,9 +5413,13 @@ impl PacketCzWhisper {
         PacketCzWhisper {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             receiver: String::from_utf8_lossy(&buffer[4..28]).to_string(),
+            receiver_raw: buffer[4..28].to_vec(),
             msg: String::from_utf8_lossy(&buffer[44..buffer.len()]).to_string(),
+            msg_raw: buffer[44..buffer.len()].to_vec(),
         }
     }
 }
@@ -4849,9 +5451,13 @@ impl Debug for PacketCzWhisper {
 pub struct PacketZcWhisper {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub sender: String,
+    pub sender_raw: Vec<u8>,
     pub msg: String,
+    pub msg_raw: Vec<u8>,
 }
 
 impl PacketZcWhisper {
@@ -4859,9 +5465,13 @@ impl PacketZcWhisper {
         PacketZcWhisper {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             sender: String::from_utf8_lossy(&buffer[4..28]).to_string(),
+            sender_raw: buffer[4..28].to_vec(),
             msg: String::from_utf8_lossy(&buffer[44..buffer.len()]).to_string(),
+            msg_raw: buffer[44..buffer.len()].to_vec(),
         }
     }
 }
@@ -4893,7 +5503,9 @@ impl Debug for PacketZcWhisper {
 pub struct PacketZcAckWhisper {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub result: char,
+    pub result_raw: Vec<u8>,
 }
 
 impl PacketZcAckWhisper {
@@ -4901,7 +5513,9 @@ impl PacketZcAckWhisper {
         PacketZcAckWhisper {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             result: buffer[2] as char,
+            result_raw: buffer[2..3].to_vec(),
         }
     }
 }
@@ -4931,8 +5545,11 @@ impl Debug for PacketZcAckWhisper {
 pub struct PacketCzBroadcast {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub msg: String,
+    pub msg_raw: Vec<u8>,
 }
 
 impl PacketCzBroadcast {
@@ -4940,8 +5557,11 @@ impl PacketCzBroadcast {
         PacketCzBroadcast {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             msg: String::from_utf8_lossy(&buffer[4..buffer.len()]).to_string(),
+            msg_raw: buffer[4..buffer.len()].to_vec(),
         }
     }
 }
@@ -4972,8 +5592,11 @@ impl Debug for PacketCzBroadcast {
 pub struct PacketZcBroadcast {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub msg: String,
+    pub msg_raw: Vec<u8>,
 }
 
 impl PacketZcBroadcast {
@@ -4981,8 +5604,11 @@ impl PacketZcBroadcast {
         PacketZcBroadcast {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             msg: String::from_utf8_lossy(&buffer[4..buffer.len()]).to_string(),
+            msg_raw: buffer[4..buffer.len()].to_vec(),
         }
     }
 }
@@ -5013,8 +5639,11 @@ impl Debug for PacketZcBroadcast {
 pub struct PacketCzChangeDirection {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub head_dir: u16,
+    pub head_dir_raw: Vec<u8>,
     pub dir: char,
+    pub dir_raw: Vec<u8>,
 }
 
 impl PacketCzChangeDirection {
@@ -5022,8 +5651,11 @@ impl PacketCzChangeDirection {
         PacketCzChangeDirection {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             head_dir: u16::from_le_bytes([buffer[2], buffer[3]]),
+            head_dir_raw: buffer[2..4].to_vec(),
             dir: buffer[4] as char,
+            dir_raw: buffer[4..5].to_vec(),
         }
     }
 }
@@ -5054,9 +5686,13 @@ impl Debug for PacketCzChangeDirection {
 pub struct PacketZcChangeDirection {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub head_dir: u16,
+    pub head_dir_raw: Vec<u8>,
     pub dir: char,
+    pub dir_raw: Vec<u8>,
 }
 
 impl PacketZcChangeDirection {
@@ -5064,9 +5700,13 @@ impl PacketZcChangeDirection {
         PacketZcChangeDirection {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             head_dir: u16::from_le_bytes([buffer[6], buffer[7]]),
+            head_dir_raw: buffer[6..8].to_vec(),
             dir: buffer[8] as char,
+            dir_raw: buffer[8..9].to_vec(),
         }
     }
 }
@@ -5098,14 +5738,23 @@ impl Debug for PacketZcChangeDirection {
 pub struct PacketZcItemEntry {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub itaid: u32,
+    pub itaid_raw: Vec<u8>,
     pub itid: u16,
+    pub itid_raw: Vec<u8>,
     pub is_identified: bool,
+    pub is_identified_raw: Vec<u8>,
     pub x_pos: u16,
+    pub x_pos_raw: Vec<u8>,
     pub y_pos: u16,
+    pub y_pos_raw: Vec<u8>,
     pub count: u16,
+    pub count_raw: Vec<u8>,
     pub sub_x: char,
+    pub sub_x_raw: Vec<u8>,
     pub sub_y: char,
+    pub sub_y_raw: Vec<u8>,
 }
 
 impl PacketZcItemEntry {
@@ -5113,14 +5762,23 @@ impl PacketZcItemEntry {
         PacketZcItemEntry {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             itaid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            itaid_raw: buffer[2..6].to_vec(),
             itid: u16::from_le_bytes([buffer[6], buffer[7]]),
+            itid_raw: buffer[6..8].to_vec(),
             is_identified: buffer[8] == 1,
+            is_identified_raw: buffer[8..9].to_vec(),
             x_pos: u16::from_le_bytes([buffer[9], buffer[10]]),
+            x_pos_raw: buffer[9..11].to_vec(),
             y_pos: u16::from_le_bytes([buffer[11], buffer[12]]),
+            y_pos_raw: buffer[11..13].to_vec(),
             count: u16::from_le_bytes([buffer[13], buffer[14]]),
+            count_raw: buffer[13..15].to_vec(),
             sub_x: buffer[15] as char,
+            sub_x_raw: buffer[15..16].to_vec(),
             sub_y: buffer[16] as char,
+            sub_y_raw: buffer[16..17].to_vec(),
         }
     }
 }
@@ -5157,14 +5815,23 @@ impl Debug for PacketZcItemEntry {
 pub struct PacketZcItemFallEntry {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub itaid: u32,
+    pub itaid_raw: Vec<u8>,
     pub itid: u16,
+    pub itid_raw: Vec<u8>,
     pub is_identified: bool,
+    pub is_identified_raw: Vec<u8>,
     pub x_pos: u16,
+    pub x_pos_raw: Vec<u8>,
     pub y_pos: u16,
+    pub y_pos_raw: Vec<u8>,
     pub sub_x: char,
+    pub sub_x_raw: Vec<u8>,
     pub sub_y: char,
+    pub sub_y_raw: Vec<u8>,
     pub count: u16,
+    pub count_raw: Vec<u8>,
 }
 
 impl PacketZcItemFallEntry {
@@ -5172,14 +5839,23 @@ impl PacketZcItemFallEntry {
         PacketZcItemFallEntry {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             itaid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            itaid_raw: buffer[2..6].to_vec(),
             itid: u16::from_le_bytes([buffer[6], buffer[7]]),
+            itid_raw: buffer[6..8].to_vec(),
             is_identified: buffer[8] == 1,
+            is_identified_raw: buffer[8..9].to_vec(),
             x_pos: u16::from_le_bytes([buffer[9], buffer[10]]),
+            x_pos_raw: buffer[9..11].to_vec(),
             y_pos: u16::from_le_bytes([buffer[11], buffer[12]]),
+            y_pos_raw: buffer[11..13].to_vec(),
             sub_x: buffer[13] as char,
+            sub_x_raw: buffer[13..14].to_vec(),
             sub_y: buffer[14] as char,
+            sub_y_raw: buffer[14..15].to_vec(),
             count: u16::from_le_bytes([buffer[15], buffer[16]]),
+            count_raw: buffer[15..17].to_vec(),
         }
     }
 }
@@ -5216,7 +5892,9 @@ impl Debug for PacketZcItemFallEntry {
 pub struct PacketCzItemPickup {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub itaid: u32,
+    pub itaid_raw: Vec<u8>,
 }
 
 impl PacketCzItemPickup {
@@ -5224,7 +5902,9 @@ impl PacketCzItemPickup {
         PacketCzItemPickup {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             itaid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            itaid_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -5254,16 +5934,27 @@ impl Debug for PacketCzItemPickup {
 pub struct PacketZcItemPickupAck {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub index: u16,
+    pub index_raw: Vec<u8>,
     pub count: u16,
+    pub count_raw: Vec<u8>,
     pub itid: u16,
+    pub itid_raw: Vec<u8>,
     pub is_identified: bool,
+    pub is_identified_raw: Vec<u8>,
     pub is_damaged: bool,
+    pub is_damaged_raw: Vec<u8>,
     pub refining_level: char,
+    pub refining_level_raw: Vec<u8>,
     pub slot: EQUIPSLOTINFO,
+    pub slot_raw: Vec<u8>,
     pub location: u16,
+    pub location_raw: Vec<u8>,
     pub type_: char,
+    pub type__raw: Vec<u8>,
     pub result: char,
+    pub result_raw: Vec<u8>,
 }
 
 impl PacketZcItemPickupAck {
@@ -5271,16 +5962,27 @@ impl PacketZcItemPickupAck {
         PacketZcItemPickupAck {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            index_raw: buffer[2..4].to_vec(),
             count: u16::from_le_bytes([buffer[4], buffer[5]]),
+            count_raw: buffer[4..6].to_vec(),
             itid: u16::from_le_bytes([buffer[6], buffer[7]]),
+            itid_raw: buffer[6..8].to_vec(),
             is_identified: buffer[8] == 1,
+            is_identified_raw: buffer[8..9].to_vec(),
             is_damaged: buffer[9] == 1,
+            is_damaged_raw: buffer[9..10].to_vec(),
             refining_level: buffer[10] as char,
+            refining_level_raw: buffer[10..11].to_vec(),
             slot: EQUIPSLOTINFO::from(&buffer[11..19]),
+            slot_raw: buffer[11..19].to_vec(),
             location: u16::from_le_bytes([buffer[19], buffer[20]]),
+            location_raw: buffer[19..21].to_vec(),
             type_: buffer[21] as char,
+            type__raw: buffer[21..22].to_vec(),
             result: buffer[22] as char,
+            result_raw: buffer[22..23].to_vec(),
         }
     }
 }
@@ -5319,7 +6021,9 @@ impl Debug for PacketZcItemPickupAck {
 pub struct PacketZcItemDisappear {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub itaid: u32,
+    pub itaid_raw: Vec<u8>,
 }
 
 impl PacketZcItemDisappear {
@@ -5327,7 +6031,9 @@ impl PacketZcItemDisappear {
         PacketZcItemDisappear {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             itaid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            itaid_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -5357,8 +6063,11 @@ impl Debug for PacketZcItemDisappear {
 pub struct PacketCzItemThrow {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub index: u16,
+    pub index_raw: Vec<u8>,
     pub count: u16,
+    pub count_raw: Vec<u8>,
 }
 
 impl PacketCzItemThrow {
@@ -5366,8 +6075,11 @@ impl PacketCzItemThrow {
         PacketCzItemThrow {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            index_raw: buffer[2..4].to_vec(),
             count: u16::from_le_bytes([buffer[4], buffer[5]]),
+            count_raw: buffer[4..6].to_vec(),
         }
     }
 }
@@ -5398,8 +6110,11 @@ impl Debug for PacketCzItemThrow {
 pub struct PacketZcNormalItemlist {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub item_info: Vec<NormalitemExtrainfo>,
+    pub item_info_raw: Vec<u8>,
 }
 
 impl PacketZcNormalItemlist {
@@ -5416,8 +6131,11 @@ impl PacketZcNormalItemlist {
         PacketZcNormalItemlist {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             item_info: vec_field,
+            item_info_raw: buffer[4..14].to_vec(),
         }
     }
 }
@@ -5448,8 +6166,11 @@ impl Debug for PacketZcNormalItemlist {
 pub struct PacketZcEquipmentItemlist {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub item_info: Vec<EquipmentitemExtrainfo>,
+    pub item_info_raw: Vec<u8>,
 }
 
 impl PacketZcEquipmentItemlist {
@@ -5466,8 +6187,11 @@ impl PacketZcEquipmentItemlist {
         PacketZcEquipmentItemlist {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             item_info: vec_field,
+            item_info_raw: buffer[4..24].to_vec(),
         }
     }
 }
@@ -5498,8 +6222,11 @@ impl Debug for PacketZcEquipmentItemlist {
 pub struct PacketZcStoreNormalItemlist {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub item_info: Vec<NormalitemExtrainfo>,
+    pub item_info_raw: Vec<u8>,
 }
 
 impl PacketZcStoreNormalItemlist {
@@ -5516,8 +6243,11 @@ impl PacketZcStoreNormalItemlist {
         PacketZcStoreNormalItemlist {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             item_info: vec_field,
+            item_info_raw: buffer[4..14].to_vec(),
         }
     }
 }
@@ -5548,8 +6278,11 @@ impl Debug for PacketZcStoreNormalItemlist {
 pub struct PacketZcStoreEquipmentItemlist {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub item_info: Vec<EquipmentitemExtrainfo>,
+    pub item_info_raw: Vec<u8>,
 }
 
 impl PacketZcStoreEquipmentItemlist {
@@ -5566,8 +6299,11 @@ impl PacketZcStoreEquipmentItemlist {
         PacketZcStoreEquipmentItemlist {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             item_info: vec_field,
+            item_info_raw: buffer[4..24].to_vec(),
         }
     }
 }
@@ -5598,8 +6334,11 @@ impl Debug for PacketZcStoreEquipmentItemlist {
 pub struct PacketCzUseItem {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub index: u16,
+    pub index_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
 }
 
 impl PacketCzUseItem {
@@ -5607,8 +6346,11 @@ impl PacketCzUseItem {
         PacketCzUseItem {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            index_raw: buffer[2..4].to_vec(),
             aid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            aid_raw: buffer[4..8].to_vec(),
         }
     }
 }
@@ -5639,9 +6381,13 @@ impl Debug for PacketCzUseItem {
 pub struct PacketZcUseItemAck {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub index: u16,
+    pub index_raw: Vec<u8>,
     pub count: u16,
+    pub count_raw: Vec<u8>,
     pub result: bool,
+    pub result_raw: Vec<u8>,
 }
 
 impl PacketZcUseItemAck {
@@ -5649,9 +6395,13 @@ impl PacketZcUseItemAck {
         PacketZcUseItemAck {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            index_raw: buffer[2..4].to_vec(),
             count: u16::from_le_bytes([buffer[4], buffer[5]]),
+            count_raw: buffer[4..6].to_vec(),
             result: buffer[6] == 1,
+            result_raw: buffer[6..7].to_vec(),
         }
     }
 }
@@ -5683,8 +6433,11 @@ impl Debug for PacketZcUseItemAck {
 pub struct PacketCzReqWearEquip {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub index: u16,
+    pub index_raw: Vec<u8>,
     pub wear_location: u16,
+    pub wear_location_raw: Vec<u8>,
 }
 
 impl PacketCzReqWearEquip {
@@ -5692,8 +6445,11 @@ impl PacketCzReqWearEquip {
         PacketCzReqWearEquip {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            index_raw: buffer[2..4].to_vec(),
             wear_location: u16::from_le_bytes([buffer[4], buffer[5]]),
+            wear_location_raw: buffer[4..6].to_vec(),
         }
     }
 }
@@ -5724,9 +6480,13 @@ impl Debug for PacketCzReqWearEquip {
 pub struct PacketZcReqWearEquipAck {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub index: u16,
+    pub index_raw: Vec<u8>,
     pub wear_location: u16,
+    pub wear_location_raw: Vec<u8>,
     pub result: char,
+    pub result_raw: Vec<u8>,
 }
 
 impl PacketZcReqWearEquipAck {
@@ -5734,9 +6494,13 @@ impl PacketZcReqWearEquipAck {
         PacketZcReqWearEquipAck {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            index_raw: buffer[2..4].to_vec(),
             wear_location: u16::from_le_bytes([buffer[4], buffer[5]]),
+            wear_location_raw: buffer[4..6].to_vec(),
             result: buffer[6] as char,
+            result_raw: buffer[6..7].to_vec(),
         }
     }
 }
@@ -5768,7 +6532,9 @@ impl Debug for PacketZcReqWearEquipAck {
 pub struct PacketCzReqTakeoffEquip {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub index: u16,
+    pub index_raw: Vec<u8>,
 }
 
 impl PacketCzReqTakeoffEquip {
@@ -5776,7 +6542,9 @@ impl PacketCzReqTakeoffEquip {
         PacketCzReqTakeoffEquip {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            index_raw: buffer[2..4].to_vec(),
         }
     }
 }
@@ -5806,9 +6574,13 @@ impl Debug for PacketCzReqTakeoffEquip {
 pub struct PacketZcReqTakeoffEquipAck {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub index: u16,
+    pub index_raw: Vec<u8>,
     pub wear_location: u16,
+    pub wear_location_raw: Vec<u8>,
     pub result: bool,
+    pub result_raw: Vec<u8>,
 }
 
 impl PacketZcReqTakeoffEquipAck {
@@ -5816,9 +6588,13 @@ impl PacketZcReqTakeoffEquipAck {
         PacketZcReqTakeoffEquipAck {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            index_raw: buffer[2..4].to_vec(),
             wear_location: u16::from_le_bytes([buffer[4], buffer[5]]),
+            wear_location_raw: buffer[4..6].to_vec(),
             result: buffer[6] == 1,
+            result_raw: buffer[6..7].to_vec(),
         }
     }
 }
@@ -5850,8 +6626,11 @@ impl Debug for PacketZcReqTakeoffEquipAck {
 pub struct PacketZcItemThrowAck {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub index: u16,
+    pub index_raw: Vec<u8>,
     pub count: u16,
+    pub count_raw: Vec<u8>,
 }
 
 impl PacketZcItemThrowAck {
@@ -5859,8 +6638,11 @@ impl PacketZcItemThrowAck {
         PacketZcItemThrowAck {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            index_raw: buffer[2..4].to_vec(),
             count: u16::from_le_bytes([buffer[4], buffer[5]]),
+            count_raw: buffer[4..6].to_vec(),
         }
     }
 }
@@ -5891,8 +6673,11 @@ impl Debug for PacketZcItemThrowAck {
 pub struct PacketZcParChange {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub var_id: u16,
+    pub var_id_raw: Vec<u8>,
     pub count: u32,
+    pub count_raw: Vec<u8>,
 }
 
 impl PacketZcParChange {
@@ -5900,8 +6685,11 @@ impl PacketZcParChange {
         PacketZcParChange {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             var_id: u16::from_le_bytes([buffer[2], buffer[3]]),
+            var_id_raw: buffer[2..4].to_vec(),
             count: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            count_raw: buffer[4..8].to_vec(),
         }
     }
 }
@@ -5932,8 +6720,11 @@ impl Debug for PacketZcParChange {
 pub struct PacketZcLongparChange {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub var_id: u16,
+    pub var_id_raw: Vec<u8>,
     pub amount: u32,
+    pub amount_raw: Vec<u8>,
 }
 
 impl PacketZcLongparChange {
@@ -5941,8 +6732,11 @@ impl PacketZcLongparChange {
         PacketZcLongparChange {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             var_id: u16::from_le_bytes([buffer[2], buffer[3]]),
+            var_id_raw: buffer[2..4].to_vec(),
             amount: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            amount_raw: buffer[4..8].to_vec(),
         }
     }
 }
@@ -5973,7 +6767,9 @@ impl Debug for PacketZcLongparChange {
 pub struct PacketCzRestart {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub type_: char,
+    pub type__raw: Vec<u8>,
 }
 
 impl PacketCzRestart {
@@ -5981,7 +6777,9 @@ impl PacketCzRestart {
         PacketCzRestart {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             type_: buffer[2] as char,
+            type__raw: buffer[2..3].to_vec(),
         }
     }
 }
@@ -6011,7 +6809,9 @@ impl Debug for PacketCzRestart {
 pub struct PacketZcRestartAck {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub type_: char,
+    pub type__raw: Vec<u8>,
 }
 
 impl PacketZcRestartAck {
@@ -6019,7 +6819,9 @@ impl PacketZcRestartAck {
         PacketZcRestartAck {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             type_: buffer[2] as char,
+            type__raw: buffer[2..3].to_vec(),
         }
     }
 }
@@ -6049,9 +6851,13 @@ impl Debug for PacketZcRestartAck {
 pub struct PacketZcSayDialog {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub naid: u32,
+    pub naid_raw: Vec<u8>,
     pub msg: String,
+    pub msg_raw: Vec<u8>,
 }
 
 impl PacketZcSayDialog {
@@ -6059,9 +6865,13 @@ impl PacketZcSayDialog {
         PacketZcSayDialog {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             naid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            naid_raw: buffer[4..8].to_vec(),
             msg: String::from_utf8_lossy(&buffer[8..buffer.len()]).to_string(),
+            msg_raw: buffer[8..buffer.len()].to_vec(),
         }
     }
 }
@@ -6093,7 +6903,9 @@ impl Debug for PacketZcSayDialog {
 pub struct PacketZcWaitDialog {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub naid: u32,
+    pub naid_raw: Vec<u8>,
 }
 
 impl PacketZcWaitDialog {
@@ -6101,7 +6913,9 @@ impl PacketZcWaitDialog {
         PacketZcWaitDialog {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             naid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            naid_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -6131,7 +6945,9 @@ impl Debug for PacketZcWaitDialog {
 pub struct PacketZcCloseDialog {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub naid: u32,
+    pub naid_raw: Vec<u8>,
 }
 
 impl PacketZcCloseDialog {
@@ -6139,7 +6955,9 @@ impl PacketZcCloseDialog {
         PacketZcCloseDialog {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             naid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            naid_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -6169,9 +6987,13 @@ impl Debug for PacketZcCloseDialog {
 pub struct PacketZcMenuList {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub naid: u32,
+    pub naid_raw: Vec<u8>,
     pub msg: String,
+    pub msg_raw: Vec<u8>,
 }
 
 impl PacketZcMenuList {
@@ -6179,9 +7001,13 @@ impl PacketZcMenuList {
         PacketZcMenuList {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             naid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            naid_raw: buffer[4..8].to_vec(),
             msg: String::from_utf8_lossy(&buffer[8..buffer.len()]).to_string(),
+            msg_raw: buffer[8..buffer.len()].to_vec(),
         }
     }
 }
@@ -6213,8 +7039,11 @@ impl Debug for PacketZcMenuList {
 pub struct PacketCzChooseMenu {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub naid: u32,
+    pub naid_raw: Vec<u8>,
     pub num: char,
+    pub num_raw: Vec<u8>,
 }
 
 impl PacketCzChooseMenu {
@@ -6222,8 +7051,11 @@ impl PacketCzChooseMenu {
         PacketCzChooseMenu {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             naid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            naid_raw: buffer[2..6].to_vec(),
             num: buffer[6] as char,
+            num_raw: buffer[6..7].to_vec(),
         }
     }
 }
@@ -6254,7 +7086,9 @@ impl Debug for PacketCzChooseMenu {
 pub struct PacketCzReqNextScript {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub naid: u32,
+    pub naid_raw: Vec<u8>,
 }
 
 impl PacketCzReqNextScript {
@@ -6262,7 +7096,9 @@ impl PacketCzReqNextScript {
         PacketCzReqNextScript {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             naid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            naid_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -6292,6 +7128,7 @@ impl Debug for PacketCzReqNextScript {
 pub struct PacketCzReqStatus {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketCzReqStatus {
@@ -6299,6 +7136,7 @@ impl PacketCzReqStatus {
         PacketCzReqStatus {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -6327,8 +7165,11 @@ impl Debug for PacketCzReqStatus {
 pub struct PacketCzStatusChange {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub status_id: u16,
+    pub status_id_raw: Vec<u8>,
     pub change_amount: char,
+    pub change_amount_raw: Vec<u8>,
 }
 
 impl PacketCzStatusChange {
@@ -6336,8 +7177,11 @@ impl PacketCzStatusChange {
         PacketCzStatusChange {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             status_id: u16::from_le_bytes([buffer[2], buffer[3]]),
+            status_id_raw: buffer[2..4].to_vec(),
             change_amount: buffer[4] as char,
+            change_amount_raw: buffer[4..5].to_vec(),
         }
     }
 }
@@ -6368,9 +7212,13 @@ impl Debug for PacketCzStatusChange {
 pub struct PacketZcStatusChangeAck {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub status_id: u16,
+    pub status_id_raw: Vec<u8>,
     pub result: bool,
+    pub result_raw: Vec<u8>,
     pub value: char,
+    pub value_raw: Vec<u8>,
 }
 
 impl PacketZcStatusChangeAck {
@@ -6378,9 +7226,13 @@ impl PacketZcStatusChangeAck {
         PacketZcStatusChangeAck {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             status_id: u16::from_le_bytes([buffer[2], buffer[3]]),
+            status_id_raw: buffer[2..4].to_vec(),
             result: buffer[4] == 1,
+            result_raw: buffer[4..5].to_vec(),
             value: buffer[5] as char,
+            value_raw: buffer[5..6].to_vec(),
         }
     }
 }
@@ -6412,33 +7264,61 @@ impl Debug for PacketZcStatusChangeAck {
 pub struct PacketZcStatus {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub point: u16,
+    pub point_raw: Vec<u8>,
     pub str: char,
+    pub str_raw: Vec<u8>,
     pub standard_str: char,
+    pub standard_str_raw: Vec<u8>,
     pub agi: char,
+    pub agi_raw: Vec<u8>,
     pub standard_agi: char,
+    pub standard_agi_raw: Vec<u8>,
     pub vit: char,
+    pub vit_raw: Vec<u8>,
     pub standard_vit: char,
+    pub standard_vit_raw: Vec<u8>,
     pub int: char,
+    pub int_raw: Vec<u8>,
     pub standard_int: char,
+    pub standard_int_raw: Vec<u8>,
     pub dex: char,
+    pub dex_raw: Vec<u8>,
     pub standard_dex: char,
+    pub standard_dex_raw: Vec<u8>,
     pub luk: char,
+    pub luk_raw: Vec<u8>,
     pub standard_luk: char,
+    pub standard_luk_raw: Vec<u8>,
     pub att_power: u16,
+    pub att_power_raw: Vec<u8>,
     pub refining_power: u16,
+    pub refining_power_raw: Vec<u8>,
     pub max_matt_power: u16,
+    pub max_matt_power_raw: Vec<u8>,
     pub min_matt_power: u16,
+    pub min_matt_power_raw: Vec<u8>,
     pub itemdef_power: u16,
+    pub itemdef_power_raw: Vec<u8>,
     pub plusdef_power: u16,
+    pub plusdef_power_raw: Vec<u8>,
     pub mdef_power: u16,
+    pub mdef_power_raw: Vec<u8>,
     pub plusmdef_power: u16,
+    pub plusmdef_power_raw: Vec<u8>,
     pub hit_success_value: u16,
+    pub hit_success_value_raw: Vec<u8>,
     pub avoid_success_value: u16,
+    pub avoid_success_value_raw: Vec<u8>,
     pub plus_avoid_success_value: u16,
+    pub plus_avoid_success_value_raw: Vec<u8>,
     pub critical_success_value: u16,
+    pub critical_success_value_raw: Vec<u8>,
     pub aspd: u16,
+    pub aspd_raw: Vec<u8>,
     pub plus_aspd: u16,
+    pub plus_aspd_raw: Vec<u8>,
 }
 
 impl PacketZcStatus {
@@ -6446,33 +7326,61 @@ impl PacketZcStatus {
         PacketZcStatus {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             point: u16::from_le_bytes([buffer[2], buffer[3]]),
+            point_raw: buffer[2..4].to_vec(),
             str: buffer[4] as char,
+            str_raw: buffer[4..5].to_vec(),
             standard_str: buffer[5] as char,
+            standard_str_raw: buffer[5..6].to_vec(),
             agi: buffer[6] as char,
+            agi_raw: buffer[6..7].to_vec(),
             standard_agi: buffer[7] as char,
+            standard_agi_raw: buffer[7..8].to_vec(),
             vit: buffer[8] as char,
+            vit_raw: buffer[8..9].to_vec(),
             standard_vit: buffer[9] as char,
+            standard_vit_raw: buffer[9..10].to_vec(),
             int: buffer[10] as char,
+            int_raw: buffer[10..11].to_vec(),
             standard_int: buffer[11] as char,
+            standard_int_raw: buffer[11..12].to_vec(),
             dex: buffer[12] as char,
+            dex_raw: buffer[12..13].to_vec(),
             standard_dex: buffer[13] as char,
+            standard_dex_raw: buffer[13..14].to_vec(),
             luk: buffer[14] as char,
+            luk_raw: buffer[14..15].to_vec(),
             standard_luk: buffer[15] as char,
+            standard_luk_raw: buffer[15..16].to_vec(),
             att_power: u16::from_le_bytes([buffer[16], buffer[17]]),
+            att_power_raw: buffer[16..18].to_vec(),
             refining_power: u16::from_le_bytes([buffer[18], buffer[19]]),
+            refining_power_raw: buffer[18..20].to_vec(),
             max_matt_power: u16::from_le_bytes([buffer[20], buffer[21]]),
+            max_matt_power_raw: buffer[20..22].to_vec(),
             min_matt_power: u16::from_le_bytes([buffer[22], buffer[23]]),
+            min_matt_power_raw: buffer[22..24].to_vec(),
             itemdef_power: u16::from_le_bytes([buffer[24], buffer[25]]),
+            itemdef_power_raw: buffer[24..26].to_vec(),
             plusdef_power: u16::from_le_bytes([buffer[26], buffer[27]]),
+            plusdef_power_raw: buffer[26..28].to_vec(),
             mdef_power: u16::from_le_bytes([buffer[28], buffer[29]]),
+            mdef_power_raw: buffer[28..30].to_vec(),
             plusmdef_power: u16::from_le_bytes([buffer[30], buffer[31]]),
+            plusmdef_power_raw: buffer[30..32].to_vec(),
             hit_success_value: u16::from_le_bytes([buffer[32], buffer[33]]),
+            hit_success_value_raw: buffer[32..34].to_vec(),
             avoid_success_value: u16::from_le_bytes([buffer[34], buffer[35]]),
+            avoid_success_value_raw: buffer[34..36].to_vec(),
             plus_avoid_success_value: u16::from_le_bytes([buffer[36], buffer[37]]),
+            plus_avoid_success_value_raw: buffer[36..38].to_vec(),
             critical_success_value: u16::from_le_bytes([buffer[38], buffer[39]]),
+            critical_success_value_raw: buffer[38..40].to_vec(),
             aspd: u16::from_le_bytes([buffer[40], buffer[41]]),
+            aspd_raw: buffer[40..42].to_vec(),
             plus_aspd: u16::from_le_bytes([buffer[42], buffer[43]]),
+            plus_aspd_raw: buffer[42..44].to_vec(),
         }
     }
 }
@@ -6528,8 +7436,11 @@ impl Debug for PacketZcStatus {
 pub struct PacketZcStatusChange {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub status_id: u16,
+    pub status_id_raw: Vec<u8>,
     pub value: char,
+    pub value_raw: Vec<u8>,
 }
 
 impl PacketZcStatusChange {
@@ -6537,8 +7448,11 @@ impl PacketZcStatusChange {
         PacketZcStatusChange {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             status_id: u16::from_le_bytes([buffer[2], buffer[3]]),
+            status_id_raw: buffer[2..4].to_vec(),
             value: buffer[4] as char,
+            value_raw: buffer[4..5].to_vec(),
         }
     }
 }
@@ -6569,7 +7483,9 @@ impl Debug for PacketZcStatusChange {
 pub struct PacketCzReqEmotion {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub type_: char,
+    pub type__raw: Vec<u8>,
 }
 
 impl PacketCzReqEmotion {
@@ -6577,7 +7493,9 @@ impl PacketCzReqEmotion {
         PacketCzReqEmotion {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             type_: buffer[2] as char,
+            type__raw: buffer[2..3].to_vec(),
         }
     }
 }
@@ -6607,8 +7525,11 @@ impl Debug for PacketCzReqEmotion {
 pub struct PacketZcEmotion {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub type_: char,
+    pub type__raw: Vec<u8>,
 }
 
 impl PacketZcEmotion {
@@ -6616,8 +7537,11 @@ impl PacketZcEmotion {
         PacketZcEmotion {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid_raw: buffer[2..6].to_vec(),
             type_: buffer[6] as char,
+            type__raw: buffer[6..7].to_vec(),
         }
     }
 }
@@ -6648,6 +7572,7 @@ impl Debug for PacketZcEmotion {
 pub struct PacketCzReqUserCount {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketCzReqUserCount {
@@ -6655,6 +7580,7 @@ impl PacketCzReqUserCount {
         PacketCzReqUserCount {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -6683,7 +7609,9 @@ impl Debug for PacketCzReqUserCount {
 pub struct PacketZcUserCount {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub count: u32,
+    pub count_raw: Vec<u8>,
 }
 
 impl PacketZcUserCount {
@@ -6691,7 +7619,9 @@ impl PacketZcUserCount {
         PacketZcUserCount {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             count: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            count_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -6721,9 +7651,13 @@ impl Debug for PacketZcUserCount {
 pub struct PacketZcSpriteChange {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub type_: char,
+    pub type__raw: Vec<u8>,
     pub value: char,
+    pub value_raw: Vec<u8>,
 }
 
 impl PacketZcSpriteChange {
@@ -6731,9 +7665,13 @@ impl PacketZcSpriteChange {
         PacketZcSpriteChange {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid_raw: buffer[2..6].to_vec(),
             type_: buffer[6] as char,
+            type__raw: buffer[6..7].to_vec(),
             value: buffer[7] as char,
+            value_raw: buffer[7..8].to_vec(),
         }
     }
 }
@@ -6765,7 +7703,9 @@ impl Debug for PacketZcSpriteChange {
 pub struct PacketZcSelectDealtype {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub naid: u32,
+    pub naid_raw: Vec<u8>,
 }
 
 impl PacketZcSelectDealtype {
@@ -6773,7 +7713,9 @@ impl PacketZcSelectDealtype {
         PacketZcSelectDealtype {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             naid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            naid_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -6803,8 +7745,11 @@ impl Debug for PacketZcSelectDealtype {
 pub struct PacketCzAckSelectDealtype {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub naid: u32,
+    pub naid_raw: Vec<u8>,
     pub type_: char,
+    pub type__raw: Vec<u8>,
 }
 
 impl PacketCzAckSelectDealtype {
@@ -6812,8 +7757,11 @@ impl PacketCzAckSelectDealtype {
         PacketCzAckSelectDealtype {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             naid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            naid_raw: buffer[2..6].to_vec(),
             type_: buffer[6] as char,
+            type__raw: buffer[6..7].to_vec(),
         }
     }
 }
@@ -6844,8 +7792,11 @@ impl Debug for PacketCzAckSelectDealtype {
 pub struct PacketZcPcPurchaseItemlist {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub item_list: Vec<PurchaseItem>,
+    pub item_list_raw: Vec<u8>,
 }
 
 impl PacketZcPcPurchaseItemlist {
@@ -6862,8 +7813,11 @@ impl PacketZcPcPurchaseItemlist {
         PacketZcPcPurchaseItemlist {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             item_list: vec_field,
+            item_list_raw: buffer[4..15].to_vec(),
         }
     }
 }
@@ -6894,8 +7848,11 @@ impl Debug for PacketZcPcPurchaseItemlist {
 pub struct PacketZcPcSellItemlist {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub item_list: Vec<SellItem>,
+    pub item_list_raw: Vec<u8>,
 }
 
 impl PacketZcPcSellItemlist {
@@ -6912,8 +7869,11 @@ impl PacketZcPcSellItemlist {
         PacketZcPcSellItemlist {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             item_list: vec_field,
+            item_list_raw: buffer[4..14].to_vec(),
         }
     }
 }
@@ -6944,8 +7904,11 @@ impl Debug for PacketZcPcSellItemlist {
 pub struct PacketCzPcPurchaseItemlist {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub item_list: Vec<CzPurchaseItem>,
+    pub item_list_raw: Vec<u8>,
 }
 
 impl PacketCzPcPurchaseItemlist {
@@ -6962,8 +7925,11 @@ impl PacketCzPcPurchaseItemlist {
         PacketCzPcPurchaseItemlist {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             item_list: vec_field,
+            item_list_raw: buffer[4..8].to_vec(),
         }
     }
 }
@@ -6994,8 +7960,11 @@ impl Debug for PacketCzPcPurchaseItemlist {
 pub struct PacketCzPcSellItemlist {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub item_list: Vec<CzSellItem>,
+    pub item_list_raw: Vec<u8>,
 }
 
 impl PacketCzPcSellItemlist {
@@ -7012,8 +7981,11 @@ impl PacketCzPcSellItemlist {
         PacketCzPcSellItemlist {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             item_list: vec_field,
+            item_list_raw: buffer[4..8].to_vec(),
         }
     }
 }
@@ -7044,7 +8016,9 @@ impl Debug for PacketCzPcSellItemlist {
 pub struct PacketZcPcPurchaseResult {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub result: char,
+    pub result_raw: Vec<u8>,
 }
 
 impl PacketZcPcPurchaseResult {
@@ -7052,7 +8026,9 @@ impl PacketZcPcPurchaseResult {
         PacketZcPcPurchaseResult {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             result: buffer[2] as char,
+            result_raw: buffer[2..3].to_vec(),
         }
     }
 }
@@ -7082,7 +8058,9 @@ impl Debug for PacketZcPcPurchaseResult {
 pub struct PacketZcPcSellResult {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub result: char,
+    pub result_raw: Vec<u8>,
 }
 
 impl PacketZcPcSellResult {
@@ -7090,7 +8068,9 @@ impl PacketZcPcSellResult {
         PacketZcPcSellResult {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             result: buffer[2] as char,
+            result_raw: buffer[2..3].to_vec(),
         }
     }
 }
@@ -7120,7 +8100,9 @@ impl Debug for PacketZcPcSellResult {
 pub struct PacketCzDisconnectCharacter {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
 }
 
 impl PacketCzDisconnectCharacter {
@@ -7128,7 +8110,9 @@ impl PacketCzDisconnectCharacter {
         PacketCzDisconnectCharacter {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -7158,7 +8142,9 @@ impl Debug for PacketCzDisconnectCharacter {
 pub struct PacketZcAckDisconnectCharacter {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub result: char,
+    pub result_raw: Vec<u8>,
 }
 
 impl PacketZcAckDisconnectCharacter {
@@ -7166,7 +8152,9 @@ impl PacketZcAckDisconnectCharacter {
         PacketZcAckDisconnectCharacter {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             result: buffer[2] as char,
+            result_raw: buffer[2..3].to_vec(),
         }
     }
 }
@@ -7196,6 +8184,7 @@ impl Debug for PacketZcAckDisconnectCharacter {
 pub struct PacketCzDisconnectAllCharacter {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketCzDisconnectAllCharacter {
@@ -7203,6 +8192,7 @@ impl PacketCzDisconnectAllCharacter {
         PacketCzDisconnectAllCharacter {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -7231,8 +8221,11 @@ impl Debug for PacketCzDisconnectAllCharacter {
 pub struct PacketCzSettingWhisperPc {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub name: String,
+    pub name_raw: Vec<u8>,
     pub type_: char,
+    pub type__raw: Vec<u8>,
 }
 
 impl PacketCzSettingWhisperPc {
@@ -7240,8 +8233,11 @@ impl PacketCzSettingWhisperPc {
         PacketCzSettingWhisperPc {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            name_raw: buffer[2..26].to_vec(),
             type_: buffer[26] as char,
+            type__raw: buffer[26..27].to_vec(),
         }
     }
 }
@@ -7272,7 +8268,9 @@ impl Debug for PacketCzSettingWhisperPc {
 pub struct PacketCzSettingWhisperState {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub type_: char,
+    pub type__raw: Vec<u8>,
 }
 
 impl PacketCzSettingWhisperState {
@@ -7280,7 +8278,9 @@ impl PacketCzSettingWhisperState {
         PacketCzSettingWhisperState {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             type_: buffer[2] as char,
+            type__raw: buffer[2..3].to_vec(),
         }
     }
 }
@@ -7310,8 +8310,11 @@ impl Debug for PacketCzSettingWhisperState {
 pub struct PacketZcSettingWhisperPc {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub type_: char,
+    pub type__raw: Vec<u8>,
     pub result: char,
+    pub result_raw: Vec<u8>,
 }
 
 impl PacketZcSettingWhisperPc {
@@ -7319,8 +8322,11 @@ impl PacketZcSettingWhisperPc {
         PacketZcSettingWhisperPc {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             type_: buffer[2] as char,
+            type__raw: buffer[2..3].to_vec(),
             result: buffer[3] as char,
+            result_raw: buffer[3..4].to_vec(),
         }
     }
 }
@@ -7351,8 +8357,11 @@ impl Debug for PacketZcSettingWhisperPc {
 pub struct PacketZcSettingWhisperState {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub type_: char,
+    pub type__raw: Vec<u8>,
     pub result: char,
+    pub result_raw: Vec<u8>,
 }
 
 impl PacketZcSettingWhisperState {
@@ -7360,8 +8369,11 @@ impl PacketZcSettingWhisperState {
         PacketZcSettingWhisperState {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             type_: buffer[2] as char,
+            type__raw: buffer[2..3].to_vec(),
             result: buffer[3] as char,
+            result_raw: buffer[3..4].to_vec(),
         }
     }
 }
@@ -7392,6 +8404,7 @@ impl Debug for PacketZcSettingWhisperState {
 pub struct PacketCzReqWhisperList {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketCzReqWhisperList {
@@ -7399,6 +8412,7 @@ impl PacketCzReqWhisperList {
         PacketCzReqWhisperList {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -7427,8 +8441,11 @@ impl Debug for PacketCzReqWhisperList {
 pub struct PacketZcWhisperList {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub wisper_list: Vec<WhisperItem>,
+    pub wisper_list_raw: Vec<u8>,
 }
 
 impl PacketZcWhisperList {
@@ -7445,8 +8462,11 @@ impl PacketZcWhisperList {
         PacketZcWhisperList {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             wisper_list: vec_field,
+            wisper_list_raw: buffer[4..28].to_vec(),
         }
     }
 }
@@ -7477,11 +8497,17 @@ impl Debug for PacketZcWhisperList {
 pub struct PacketCzCreateChatroom {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub size: u16,
+    pub size_raw: Vec<u8>,
     pub type_: char,
+    pub type__raw: Vec<u8>,
     pub passwd: String,
+    pub passwd_raw: Vec<u8>,
     pub title: String,
+    pub title_raw: Vec<u8>,
 }
 
 impl PacketCzCreateChatroom {
@@ -7489,11 +8515,17 @@ impl PacketCzCreateChatroom {
         PacketCzCreateChatroom {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             size: u16::from_le_bytes([buffer[4], buffer[5]]),
+            size_raw: buffer[4..6].to_vec(),
             type_: buffer[6] as char,
+            type__raw: buffer[6..7].to_vec(),
             passwd: String::from_utf8_lossy(&buffer[7..15]).to_string(),
+            passwd_raw: buffer[7..15].to_vec(),
             title: String::from_utf8_lossy(&buffer[15..buffer.len()]).to_string(),
+            title_raw: buffer[15..buffer.len()].to_vec(),
         }
     }
 }
@@ -7527,7 +8559,9 @@ impl Debug for PacketCzCreateChatroom {
 pub struct PacketZcAckCreateChatroom {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub result: char,
+    pub result_raw: Vec<u8>,
 }
 
 impl PacketZcAckCreateChatroom {
@@ -7535,7 +8569,9 @@ impl PacketZcAckCreateChatroom {
         PacketZcAckCreateChatroom {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             result: buffer[2] as char,
+            result_raw: buffer[2..3].to_vec(),
         }
     }
 }
@@ -7565,13 +8601,21 @@ impl Debug for PacketZcAckCreateChatroom {
 pub struct PacketZcRoomNewentry {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub room_id: u32,
+    pub room_id_raw: Vec<u8>,
     pub maxcount: u16,
+    pub maxcount_raw: Vec<u8>,
     pub curcount: u16,
+    pub curcount_raw: Vec<u8>,
     pub type_: char,
+    pub type__raw: Vec<u8>,
     pub title: String,
+    pub title_raw: Vec<u8>,
 }
 
 impl PacketZcRoomNewentry {
@@ -7579,13 +8623,21 @@ impl PacketZcRoomNewentry {
         PacketZcRoomNewentry {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             aid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            aid_raw: buffer[4..8].to_vec(),
             room_id: u32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
+            room_id_raw: buffer[8..12].to_vec(),
             maxcount: u16::from_le_bytes([buffer[12], buffer[13]]),
+            maxcount_raw: buffer[12..14].to_vec(),
             curcount: u16::from_le_bytes([buffer[14], buffer[15]]),
+            curcount_raw: buffer[14..16].to_vec(),
             type_: buffer[16] as char,
+            type__raw: buffer[16..17].to_vec(),
             title: String::from_utf8_lossy(&buffer[17..buffer.len()]).to_string(),
+            title_raw: buffer[17..buffer.len()].to_vec(),
         }
     }
 }
@@ -7621,7 +8673,9 @@ impl Debug for PacketZcRoomNewentry {
 pub struct PacketZcDestroyRoom {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub room_id: u32,
+    pub room_id_raw: Vec<u8>,
 }
 
 impl PacketZcDestroyRoom {
@@ -7629,7 +8683,9 @@ impl PacketZcDestroyRoom {
         PacketZcDestroyRoom {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             room_id: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            room_id_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -7659,8 +8715,11 @@ impl Debug for PacketZcDestroyRoom {
 pub struct PacketCzReqEnterRoom {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub room_id: u32,
+    pub room_id_raw: Vec<u8>,
     pub passwd: String,
+    pub passwd_raw: Vec<u8>,
 }
 
 impl PacketCzReqEnterRoom {
@@ -7668,8 +8727,11 @@ impl PacketCzReqEnterRoom {
         PacketCzReqEnterRoom {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             room_id: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            room_id_raw: buffer[2..6].to_vec(),
             passwd: String::from_utf8_lossy(&buffer[6..14]).to_string(),
+            passwd_raw: buffer[6..14].to_vec(),
         }
     }
 }
@@ -7700,7 +8762,9 @@ impl Debug for PacketCzReqEnterRoom {
 pub struct PacketZcRefuseEnterRoom {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub result: char,
+    pub result_raw: Vec<u8>,
 }
 
 impl PacketZcRefuseEnterRoom {
@@ -7708,7 +8772,9 @@ impl PacketZcRefuseEnterRoom {
         PacketZcRefuseEnterRoom {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             result: buffer[2] as char,
+            result_raw: buffer[2..3].to_vec(),
         }
     }
 }
@@ -7738,9 +8804,13 @@ impl Debug for PacketZcRefuseEnterRoom {
 pub struct PacketZcEnterRoom {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub room_id: u32,
+    pub room_id_raw: Vec<u8>,
     pub member_list: Vec<RoomMember>,
+    pub member_list_raw: Vec<u8>,
 }
 
 impl PacketZcEnterRoom {
@@ -7757,9 +8827,13 @@ impl PacketZcEnterRoom {
         PacketZcEnterRoom {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             room_id: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            room_id_raw: buffer[4..8].to_vec(),
             member_list: vec_field,
+            member_list_raw: buffer[8..36].to_vec(),
         }
     }
 }
@@ -7791,8 +8865,11 @@ impl Debug for PacketZcEnterRoom {
 pub struct PacketZcMemberNewentry {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub curcount: u16,
+    pub curcount_raw: Vec<u8>,
     pub name: String,
+    pub name_raw: Vec<u8>,
 }
 
 impl PacketZcMemberNewentry {
@@ -7800,8 +8877,11 @@ impl PacketZcMemberNewentry {
         PacketZcMemberNewentry {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             curcount: u16::from_le_bytes([buffer[2], buffer[3]]),
+            curcount_raw: buffer[2..4].to_vec(),
             name: String::from_utf8_lossy(&buffer[4..28]).to_string(),
+            name_raw: buffer[4..28].to_vec(),
         }
     }
 }
@@ -7832,9 +8912,13 @@ impl Debug for PacketZcMemberNewentry {
 pub struct PacketZcMemberExit {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub curcount: u16,
+    pub curcount_raw: Vec<u8>,
     pub name: String,
+    pub name_raw: Vec<u8>,
     pub type_: char,
+    pub type__raw: Vec<u8>,
 }
 
 impl PacketZcMemberExit {
@@ -7842,9 +8926,13 @@ impl PacketZcMemberExit {
         PacketZcMemberExit {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             curcount: u16::from_le_bytes([buffer[2], buffer[3]]),
+            curcount_raw: buffer[2..4].to_vec(),
             name: String::from_utf8_lossy(&buffer[4..28]).to_string(),
+            name_raw: buffer[4..28].to_vec(),
             type_: buffer[28] as char,
+            type__raw: buffer[28..29].to_vec(),
         }
     }
 }
@@ -7876,11 +8964,17 @@ impl Debug for PacketZcMemberExit {
 pub struct PacketCzChangeChatroom {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub size: u16,
+    pub size_raw: Vec<u8>,
     pub type_: char,
+    pub type__raw: Vec<u8>,
     pub passwd: String,
+    pub passwd_raw: Vec<u8>,
     pub title: String,
+    pub title_raw: Vec<u8>,
 }
 
 impl PacketCzChangeChatroom {
@@ -7888,11 +8982,17 @@ impl PacketCzChangeChatroom {
         PacketCzChangeChatroom {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             size: u16::from_le_bytes([buffer[4], buffer[5]]),
+            size_raw: buffer[4..6].to_vec(),
             type_: buffer[6] as char,
+            type__raw: buffer[6..7].to_vec(),
             passwd: String::from_utf8_lossy(&buffer[7..15]).to_string(),
+            passwd_raw: buffer[7..15].to_vec(),
             title: String::from_utf8_lossy(&buffer[15..buffer.len()]).to_string(),
+            title_raw: buffer[15..buffer.len()].to_vec(),
         }
     }
 }
@@ -7926,13 +9026,21 @@ impl Debug for PacketCzChangeChatroom {
 pub struct PacketZcChangeChatroom {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub room_id: u32,
+    pub room_id_raw: Vec<u8>,
     pub maxcount: u16,
+    pub maxcount_raw: Vec<u8>,
     pub curcount: u16,
+    pub curcount_raw: Vec<u8>,
     pub type_: char,
+    pub type__raw: Vec<u8>,
     pub title: String,
+    pub title_raw: Vec<u8>,
 }
 
 impl PacketZcChangeChatroom {
@@ -7940,13 +9048,21 @@ impl PacketZcChangeChatroom {
         PacketZcChangeChatroom {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             aid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            aid_raw: buffer[4..8].to_vec(),
             room_id: u32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
+            room_id_raw: buffer[8..12].to_vec(),
             maxcount: u16::from_le_bytes([buffer[12], buffer[13]]),
+            maxcount_raw: buffer[12..14].to_vec(),
             curcount: u16::from_le_bytes([buffer[14], buffer[15]]),
+            curcount_raw: buffer[14..16].to_vec(),
             type_: buffer[16] as char,
+            type__raw: buffer[16..17].to_vec(),
             title: String::from_utf8_lossy(&buffer[17..buffer.len()]).to_string(),
+            title_raw: buffer[17..buffer.len()].to_vec(),
         }
     }
 }
@@ -7982,8 +9098,11 @@ impl Debug for PacketZcChangeChatroom {
 pub struct PacketCzReqRoleChange {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub role: u32,
+    pub role_raw: Vec<u8>,
     pub name: String,
+    pub name_raw: Vec<u8>,
 }
 
 impl PacketCzReqRoleChange {
@@ -7991,8 +9110,11 @@ impl PacketCzReqRoleChange {
         PacketCzReqRoleChange {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             role: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            role_raw: buffer[2..6].to_vec(),
             name: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            name_raw: buffer[6..30].to_vec(),
         }
     }
 }
@@ -8023,8 +9145,11 @@ impl Debug for PacketCzReqRoleChange {
 pub struct PacketZcRoleChange {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub role: u32,
+    pub role_raw: Vec<u8>,
     pub name: String,
+    pub name_raw: Vec<u8>,
 }
 
 impl PacketZcRoleChange {
@@ -8032,8 +9157,11 @@ impl PacketZcRoleChange {
         PacketZcRoleChange {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             role: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            role_raw: buffer[2..6].to_vec(),
             name: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            name_raw: buffer[6..30].to_vec(),
         }
     }
 }
@@ -8064,7 +9192,9 @@ impl Debug for PacketZcRoleChange {
 pub struct PacketCzReqExpelMember {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub name: String,
+    pub name_raw: Vec<u8>,
 }
 
 impl PacketCzReqExpelMember {
@@ -8072,7 +9202,9 @@ impl PacketCzReqExpelMember {
         PacketCzReqExpelMember {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            name_raw: buffer[2..26].to_vec(),
         }
     }
 }
@@ -8102,6 +9234,7 @@ impl Debug for PacketCzReqExpelMember {
 pub struct PacketCzExitRoom {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketCzExitRoom {
@@ -8109,6 +9242,7 @@ impl PacketCzExitRoom {
         PacketCzExitRoom {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -8137,7 +9271,9 @@ impl Debug for PacketCzExitRoom {
 pub struct PacketCzReqExchangeItem {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
 }
 
 impl PacketCzReqExchangeItem {
@@ -8145,7 +9281,9 @@ impl PacketCzReqExchangeItem {
         PacketCzReqExchangeItem {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -8175,7 +9313,9 @@ impl Debug for PacketCzReqExchangeItem {
 pub struct PacketZcReqExchangeItem {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub name: String,
+    pub name_raw: Vec<u8>,
 }
 
 impl PacketZcReqExchangeItem {
@@ -8183,7 +9323,9 @@ impl PacketZcReqExchangeItem {
         PacketZcReqExchangeItem {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            name_raw: buffer[2..26].to_vec(),
         }
     }
 }
@@ -8213,7 +9355,9 @@ impl Debug for PacketZcReqExchangeItem {
 pub struct PacketCzAckExchangeItem {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub result: char,
+    pub result_raw: Vec<u8>,
 }
 
 impl PacketCzAckExchangeItem {
@@ -8221,7 +9365,9 @@ impl PacketCzAckExchangeItem {
         PacketCzAckExchangeItem {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             result: buffer[2] as char,
+            result_raw: buffer[2..3].to_vec(),
         }
     }
 }
@@ -8251,7 +9397,9 @@ impl Debug for PacketCzAckExchangeItem {
 pub struct PacketZcAckExchangeItem {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub result: char,
+    pub result_raw: Vec<u8>,
 }
 
 impl PacketZcAckExchangeItem {
@@ -8259,7 +9407,9 @@ impl PacketZcAckExchangeItem {
         PacketZcAckExchangeItem {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             result: buffer[2] as char,
+            result_raw: buffer[2..3].to_vec(),
         }
     }
 }
@@ -8289,8 +9439,11 @@ impl Debug for PacketZcAckExchangeItem {
 pub struct PacketCzAddExchangeItem {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub index: u16,
+    pub index_raw: Vec<u8>,
     pub count: u32,
+    pub count_raw: Vec<u8>,
 }
 
 impl PacketCzAddExchangeItem {
@@ -8298,8 +9451,11 @@ impl PacketCzAddExchangeItem {
         PacketCzAddExchangeItem {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            index_raw: buffer[2..4].to_vec(),
             count: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            count_raw: buffer[4..8].to_vec(),
         }
     }
 }
@@ -8330,12 +9486,19 @@ impl Debug for PacketCzAddExchangeItem {
 pub struct PacketZcAddExchangeItem {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub count: u32,
+    pub count_raw: Vec<u8>,
     pub itid: u16,
+    pub itid_raw: Vec<u8>,
     pub is_identified: bool,
+    pub is_identified_raw: Vec<u8>,
     pub is_damaged: bool,
+    pub is_damaged_raw: Vec<u8>,
     pub refining_level: char,
+    pub refining_level_raw: Vec<u8>,
     pub slot: EQUIPSLOTINFO,
+    pub slot_raw: Vec<u8>,
 }
 
 impl PacketZcAddExchangeItem {
@@ -8343,12 +9506,19 @@ impl PacketZcAddExchangeItem {
         PacketZcAddExchangeItem {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             count: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            count_raw: buffer[2..6].to_vec(),
             itid: u16::from_le_bytes([buffer[6], buffer[7]]),
+            itid_raw: buffer[6..8].to_vec(),
             is_identified: buffer[8] == 1,
+            is_identified_raw: buffer[8..9].to_vec(),
             is_damaged: buffer[9] == 1,
+            is_damaged_raw: buffer[9..10].to_vec(),
             refining_level: buffer[10] as char,
+            refining_level_raw: buffer[10..11].to_vec(),
             slot: EQUIPSLOTINFO::from(&buffer[11..19]),
+            slot_raw: buffer[11..19].to_vec(),
         }
     }
 }
@@ -8383,8 +9553,11 @@ impl Debug for PacketZcAddExchangeItem {
 pub struct PacketZcAckAddExchangeItem {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub index: u16,
+    pub index_raw: Vec<u8>,
     pub result: char,
+    pub result_raw: Vec<u8>,
 }
 
 impl PacketZcAckAddExchangeItem {
@@ -8392,8 +9565,11 @@ impl PacketZcAckAddExchangeItem {
         PacketZcAckAddExchangeItem {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            index_raw: buffer[2..4].to_vec(),
             result: buffer[4] as char,
+            result_raw: buffer[4..5].to_vec(),
         }
     }
 }
@@ -8424,6 +9600,7 @@ impl Debug for PacketZcAckAddExchangeItem {
 pub struct PacketCzConcludeExchangeItem {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketCzConcludeExchangeItem {
@@ -8431,6 +9608,7 @@ impl PacketCzConcludeExchangeItem {
         PacketCzConcludeExchangeItem {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -8459,7 +9637,9 @@ impl Debug for PacketCzConcludeExchangeItem {
 pub struct PacketZcConcludeExchangeItem {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub who: char,
+    pub who_raw: Vec<u8>,
 }
 
 impl PacketZcConcludeExchangeItem {
@@ -8467,7 +9647,9 @@ impl PacketZcConcludeExchangeItem {
         PacketZcConcludeExchangeItem {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             who: buffer[2] as char,
+            who_raw: buffer[2..3].to_vec(),
         }
     }
 }
@@ -8497,6 +9679,7 @@ impl Debug for PacketZcConcludeExchangeItem {
 pub struct PacketCzCancelExchangeItem {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketCzCancelExchangeItem {
@@ -8504,6 +9687,7 @@ impl PacketCzCancelExchangeItem {
         PacketCzCancelExchangeItem {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -8532,6 +9716,7 @@ impl Debug for PacketCzCancelExchangeItem {
 pub struct PacketZcCancelExchangeItem {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketZcCancelExchangeItem {
@@ -8539,6 +9724,7 @@ impl PacketZcCancelExchangeItem {
         PacketZcCancelExchangeItem {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -8567,6 +9753,7 @@ impl Debug for PacketZcCancelExchangeItem {
 pub struct PacketCzExecExchangeItem {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketCzExecExchangeItem {
@@ -8574,6 +9761,7 @@ impl PacketCzExecExchangeItem {
         PacketCzExecExchangeItem {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -8602,7 +9790,9 @@ impl Debug for PacketCzExecExchangeItem {
 pub struct PacketZcExecExchangeItem {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub result: char,
+    pub result_raw: Vec<u8>,
 }
 
 impl PacketZcExecExchangeItem {
@@ -8610,7 +9800,9 @@ impl PacketZcExecExchangeItem {
         PacketZcExecExchangeItem {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             result: buffer[2] as char,
+            result_raw: buffer[2..3].to_vec(),
         }
     }
 }
@@ -8640,6 +9832,7 @@ impl Debug for PacketZcExecExchangeItem {
 pub struct PacketZcExchangeitemUndo {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketZcExchangeitemUndo {
@@ -8647,6 +9840,7 @@ impl PacketZcExchangeitemUndo {
         PacketZcExchangeitemUndo {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -8675,8 +9869,11 @@ impl Debug for PacketZcExchangeitemUndo {
 pub struct PacketZcNotifyStoreitemCountinfo {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub cur_count: u16,
+    pub cur_count_raw: Vec<u8>,
     pub max_count: u16,
+    pub max_count_raw: Vec<u8>,
 }
 
 impl PacketZcNotifyStoreitemCountinfo {
@@ -8684,8 +9881,11 @@ impl PacketZcNotifyStoreitemCountinfo {
         PacketZcNotifyStoreitemCountinfo {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             cur_count: u16::from_le_bytes([buffer[2], buffer[3]]),
+            cur_count_raw: buffer[2..4].to_vec(),
             max_count: u16::from_le_bytes([buffer[4], buffer[5]]),
+            max_count_raw: buffer[4..6].to_vec(),
         }
     }
 }
@@ -8716,8 +9916,11 @@ impl Debug for PacketZcNotifyStoreitemCountinfo {
 pub struct PacketCzMoveItemFromBodyToStore {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub index: u16,
+    pub index_raw: Vec<u8>,
     pub count: u32,
+    pub count_raw: Vec<u8>,
 }
 
 impl PacketCzMoveItemFromBodyToStore {
@@ -8725,8 +9928,11 @@ impl PacketCzMoveItemFromBodyToStore {
         PacketCzMoveItemFromBodyToStore {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            index_raw: buffer[2..4].to_vec(),
             count: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            count_raw: buffer[4..8].to_vec(),
         }
     }
 }
@@ -8757,13 +9963,21 @@ impl Debug for PacketCzMoveItemFromBodyToStore {
 pub struct PacketZcAddItemToStore {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub index: u16,
+    pub index_raw: Vec<u8>,
     pub count: u32,
+    pub count_raw: Vec<u8>,
     pub itid: u16,
+    pub itid_raw: Vec<u8>,
     pub is_identified: bool,
+    pub is_identified_raw: Vec<u8>,
     pub is_damaged: bool,
+    pub is_damaged_raw: Vec<u8>,
     pub refining_level: char,
+    pub refining_level_raw: Vec<u8>,
     pub slot: EQUIPSLOTINFO,
+    pub slot_raw: Vec<u8>,
 }
 
 impl PacketZcAddItemToStore {
@@ -8771,13 +9985,21 @@ impl PacketZcAddItemToStore {
         PacketZcAddItemToStore {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            index_raw: buffer[2..4].to_vec(),
             count: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            count_raw: buffer[4..8].to_vec(),
             itid: u16::from_le_bytes([buffer[8], buffer[9]]),
+            itid_raw: buffer[8..10].to_vec(),
             is_identified: buffer[10] == 1,
+            is_identified_raw: buffer[10..11].to_vec(),
             is_damaged: buffer[11] == 1,
+            is_damaged_raw: buffer[11..12].to_vec(),
             refining_level: buffer[12] as char,
+            refining_level_raw: buffer[12..13].to_vec(),
             slot: EQUIPSLOTINFO::from(&buffer[13..21]),
+            slot_raw: buffer[13..21].to_vec(),
         }
     }
 }
@@ -8813,8 +10035,11 @@ impl Debug for PacketZcAddItemToStore {
 pub struct PacketCzMoveItemFromStoreToBody {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub index: u16,
+    pub index_raw: Vec<u8>,
     pub count: u32,
+    pub count_raw: Vec<u8>,
 }
 
 impl PacketCzMoveItemFromStoreToBody {
@@ -8822,8 +10047,11 @@ impl PacketCzMoveItemFromStoreToBody {
         PacketCzMoveItemFromStoreToBody {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            index_raw: buffer[2..4].to_vec(),
             count: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            count_raw: buffer[4..8].to_vec(),
         }
     }
 }
@@ -8854,8 +10082,11 @@ impl Debug for PacketCzMoveItemFromStoreToBody {
 pub struct PacketZcDeleteItemFromStore {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub index: u16,
+    pub index_raw: Vec<u8>,
     pub count: u32,
+    pub count_raw: Vec<u8>,
 }
 
 impl PacketZcDeleteItemFromStore {
@@ -8863,8 +10094,11 @@ impl PacketZcDeleteItemFromStore {
         PacketZcDeleteItemFromStore {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            index_raw: buffer[2..4].to_vec(),
             count: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            count_raw: buffer[4..8].to_vec(),
         }
     }
 }
@@ -8895,6 +10129,7 @@ impl Debug for PacketZcDeleteItemFromStore {
 pub struct PacketCzCloseStore {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketCzCloseStore {
@@ -8902,6 +10137,7 @@ impl PacketCzCloseStore {
         PacketCzCloseStore {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -8930,6 +10166,7 @@ impl Debug for PacketCzCloseStore {
 pub struct PacketZcCloseStore {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketZcCloseStore {
@@ -8937,6 +10174,7 @@ impl PacketZcCloseStore {
         PacketZcCloseStore {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -8965,7 +10203,9 @@ impl Debug for PacketZcCloseStore {
 pub struct PacketCzMakeGroup {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub group_name: String,
+    pub group_name_raw: Vec<u8>,
 }
 
 impl PacketCzMakeGroup {
@@ -8973,7 +10213,9 @@ impl PacketCzMakeGroup {
         PacketCzMakeGroup {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             group_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            group_name_raw: buffer[2..26].to_vec(),
         }
     }
 }
@@ -9003,7 +10245,9 @@ impl Debug for PacketCzMakeGroup {
 pub struct PacketZcAckMakeGroup {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub result: char,
+    pub result_raw: Vec<u8>,
 }
 
 impl PacketZcAckMakeGroup {
@@ -9011,7 +10255,9 @@ impl PacketZcAckMakeGroup {
         PacketZcAckMakeGroup {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             result: buffer[2] as char,
+            result_raw: buffer[2..3].to_vec(),
         }
     }
 }
@@ -9041,9 +10287,13 @@ impl Debug for PacketZcAckMakeGroup {
 pub struct PacketZcGroupList {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub group_name: String,
+    pub group_name_raw: Vec<u8>,
     pub group_info: Vec<GroupmemberInfo>,
+    pub group_info_raw: Vec<u8>,
 }
 
 impl PacketZcGroupList {
@@ -9060,9 +10310,13 @@ impl PacketZcGroupList {
         PacketZcGroupList {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             group_name: String::from_utf8_lossy(&buffer[4..28]).to_string(),
+            group_name_raw: buffer[4..28].to_vec(),
             group_info: vec_field,
+            group_info_raw: buffer[28..74].to_vec(),
         }
     }
 }
@@ -9094,7 +10348,9 @@ impl Debug for PacketZcGroupList {
 pub struct PacketCzReqJoinGroup {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
 }
 
 impl PacketCzReqJoinGroup {
@@ -9102,7 +10358,9 @@ impl PacketCzReqJoinGroup {
         PacketCzReqJoinGroup {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -9132,8 +10390,11 @@ impl Debug for PacketCzReqJoinGroup {
 pub struct PacketZcAckReqJoinGroup {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub character_name: String,
+    pub character_name_raw: Vec<u8>,
     pub answer: char,
+    pub answer_raw: Vec<u8>,
 }
 
 impl PacketZcAckReqJoinGroup {
@@ -9141,8 +10402,11 @@ impl PacketZcAckReqJoinGroup {
         PacketZcAckReqJoinGroup {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             character_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            character_name_raw: buffer[2..26].to_vec(),
             answer: buffer[26] as char,
+            answer_raw: buffer[26..27].to_vec(),
         }
     }
 }
@@ -9173,8 +10437,11 @@ impl Debug for PacketZcAckReqJoinGroup {
 pub struct PacketZcReqJoinGroup {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub grid: u32,
+    pub grid_raw: Vec<u8>,
     pub group_name: String,
+    pub group_name_raw: Vec<u8>,
 }
 
 impl PacketZcReqJoinGroup {
@@ -9182,8 +10449,11 @@ impl PacketZcReqJoinGroup {
         PacketZcReqJoinGroup {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             grid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            grid_raw: buffer[2..6].to_vec(),
             group_name: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            group_name_raw: buffer[6..30].to_vec(),
         }
     }
 }
@@ -9214,8 +10484,11 @@ impl Debug for PacketZcReqJoinGroup {
 pub struct PacketCzJoinGroup {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub grid: u32,
+    pub grid_raw: Vec<u8>,
     pub answer: u32,
+    pub answer_raw: Vec<u8>,
 }
 
 impl PacketCzJoinGroup {
@@ -9223,8 +10496,11 @@ impl PacketCzJoinGroup {
         PacketCzJoinGroup {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             grid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            grid_raw: buffer[2..6].to_vec(),
             answer: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            answer_raw: buffer[6..10].to_vec(),
         }
     }
 }
@@ -9255,6 +10531,7 @@ impl Debug for PacketCzJoinGroup {
 pub struct PacketCzReqLeaveGroup {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketCzReqLeaveGroup {
@@ -9262,6 +10539,7 @@ impl PacketCzReqLeaveGroup {
         PacketCzReqLeaveGroup {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -9290,7 +10568,9 @@ impl Debug for PacketCzReqLeaveGroup {
 pub struct PacketZcGroupinfoChange {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub exp_option: u32,
+    pub exp_option_raw: Vec<u8>,
 }
 
 impl PacketZcGroupinfoChange {
@@ -9298,7 +10578,9 @@ impl PacketZcGroupinfoChange {
         PacketZcGroupinfoChange {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             exp_option: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            exp_option_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -9328,7 +10610,9 @@ impl Debug for PacketZcGroupinfoChange {
 pub struct PacketCzChangeGroupexpoption {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub exp_option: u32,
+    pub exp_option_raw: Vec<u8>,
 }
 
 impl PacketCzChangeGroupexpoption {
@@ -9336,7 +10620,9 @@ impl PacketCzChangeGroupexpoption {
         PacketCzChangeGroupexpoption {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             exp_option: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            exp_option_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -9366,8 +10652,11 @@ impl Debug for PacketCzChangeGroupexpoption {
 pub struct PacketCzReqExpelGroupMember {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub character_name: String,
+    pub character_name_raw: Vec<u8>,
 }
 
 impl PacketCzReqExpelGroupMember {
@@ -9375,8 +10664,11 @@ impl PacketCzReqExpelGroupMember {
         PacketCzReqExpelGroupMember {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             character_name: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            character_name_raw: buffer[6..30].to_vec(),
         }
     }
 }
@@ -9407,14 +10699,23 @@ impl Debug for PacketCzReqExpelGroupMember {
 pub struct PacketZcAddMemberToGroup {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub role: u32,
+    pub role_raw: Vec<u8>,
     pub x_pos: u16,
+    pub x_pos_raw: Vec<u8>,
     pub y_pos: u16,
+    pub y_pos_raw: Vec<u8>,
     pub state: char,
+    pub state_raw: Vec<u8>,
     pub group_name: String,
+    pub group_name_raw: Vec<u8>,
     pub character_name: String,
+    pub character_name_raw: Vec<u8>,
     pub map_name: String,
+    pub map_name_raw: Vec<u8>,
 }
 
 impl PacketZcAddMemberToGroup {
@@ -9422,14 +10723,23 @@ impl PacketZcAddMemberToGroup {
         PacketZcAddMemberToGroup {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             role: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            role_raw: buffer[6..10].to_vec(),
             x_pos: u16::from_le_bytes([buffer[10], buffer[11]]),
+            x_pos_raw: buffer[10..12].to_vec(),
             y_pos: u16::from_le_bytes([buffer[12], buffer[13]]),
+            y_pos_raw: buffer[12..14].to_vec(),
             state: buffer[14] as char,
+            state_raw: buffer[14..15].to_vec(),
             group_name: String::from_utf8_lossy(&buffer[15..39]).to_string(),
+            group_name_raw: buffer[15..39].to_vec(),
             character_name: String::from_utf8_lossy(&buffer[39..63]).to_string(),
+            character_name_raw: buffer[39..63].to_vec(),
             map_name: String::from_utf8_lossy(&buffer[63..79]).to_string(),
+            map_name_raw: buffer[63..79].to_vec(),
         }
     }
 }
@@ -9466,9 +10776,13 @@ impl Debug for PacketZcAddMemberToGroup {
 pub struct PacketZcDeleteMemberFromGroup {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub character_name: String,
+    pub character_name_raw: Vec<u8>,
     pub result: char,
+    pub result_raw: Vec<u8>,
 }
 
 impl PacketZcDeleteMemberFromGroup {
@@ -9476,9 +10790,13 @@ impl PacketZcDeleteMemberFromGroup {
         PacketZcDeleteMemberFromGroup {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             character_name: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            character_name_raw: buffer[6..30].to_vec(),
             result: buffer[30] as char,
+            result_raw: buffer[30..31].to_vec(),
         }
     }
 }
@@ -9510,9 +10828,13 @@ impl Debug for PacketZcDeleteMemberFromGroup {
 pub struct PacketZcNotifyHpToGroupm {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub hp: u16,
+    pub hp_raw: Vec<u8>,
     pub maxhp: u16,
+    pub maxhp_raw: Vec<u8>,
 }
 
 impl PacketZcNotifyHpToGroupm {
@@ -9520,9 +10842,13 @@ impl PacketZcNotifyHpToGroupm {
         PacketZcNotifyHpToGroupm {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             hp: u16::from_le_bytes([buffer[6], buffer[7]]),
+            hp_raw: buffer[6..8].to_vec(),
             maxhp: u16::from_le_bytes([buffer[8], buffer[9]]),
+            maxhp_raw: buffer[8..10].to_vec(),
         }
     }
 }
@@ -9554,9 +10880,13 @@ impl Debug for PacketZcNotifyHpToGroupm {
 pub struct PacketZcNotifyPositionToGroupm {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub x_pos: u16,
+    pub x_pos_raw: Vec<u8>,
     pub y_pos: u16,
+    pub y_pos_raw: Vec<u8>,
 }
 
 impl PacketZcNotifyPositionToGroupm {
@@ -9564,9 +10894,13 @@ impl PacketZcNotifyPositionToGroupm {
         PacketZcNotifyPositionToGroupm {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             x_pos: u16::from_le_bytes([buffer[6], buffer[7]]),
+            x_pos_raw: buffer[6..8].to_vec(),
             y_pos: u16::from_le_bytes([buffer[8], buffer[9]]),
+            y_pos_raw: buffer[8..10].to_vec(),
         }
     }
 }
@@ -9598,8 +10932,11 @@ impl Debug for PacketZcNotifyPositionToGroupm {
 pub struct PacketCzRequestChatParty {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub msg: String,
+    pub msg_raw: Vec<u8>,
 }
 
 impl PacketCzRequestChatParty {
@@ -9607,8 +10944,11 @@ impl PacketCzRequestChatParty {
         PacketCzRequestChatParty {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             msg: String::from_utf8_lossy(&buffer[4..buffer.len()]).to_string(),
+            msg_raw: buffer[4..buffer.len()].to_vec(),
         }
     }
 }
@@ -9639,9 +10979,13 @@ impl Debug for PacketCzRequestChatParty {
 pub struct PacketZcNotifyChatParty {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub msg: String,
+    pub msg_raw: Vec<u8>,
 }
 
 impl PacketZcNotifyChatParty {
@@ -9649,9 +10993,13 @@ impl PacketZcNotifyChatParty {
         PacketZcNotifyChatParty {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             aid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            aid_raw: buffer[4..8].to_vec(),
             msg: String::from_utf8_lossy(&buffer[8..buffer.len()]).to_string(),
+            msg_raw: buffer[8..buffer.len()].to_vec(),
         }
     }
 }
@@ -9683,7 +11031,9 @@ impl Debug for PacketZcNotifyChatParty {
 pub struct PacketZcMvpGettingItem {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub itid: u16,
+    pub itid_raw: Vec<u8>,
 }
 
 impl PacketZcMvpGettingItem {
@@ -9691,7 +11041,9 @@ impl PacketZcMvpGettingItem {
         PacketZcMvpGettingItem {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             itid: u16::from_le_bytes([buffer[2], buffer[3]]),
+            itid_raw: buffer[2..4].to_vec(),
         }
     }
 }
@@ -9721,7 +11073,9 @@ impl Debug for PacketZcMvpGettingItem {
 pub struct PacketZcMvpGettingSpecialExp {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub exp: u32,
+    pub exp_raw: Vec<u8>,
 }
 
 impl PacketZcMvpGettingSpecialExp {
@@ -9729,7 +11083,9 @@ impl PacketZcMvpGettingSpecialExp {
         PacketZcMvpGettingSpecialExp {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             exp: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            exp_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -9759,7 +11115,9 @@ impl Debug for PacketZcMvpGettingSpecialExp {
 pub struct PacketZcMvp {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
 }
 
 impl PacketZcMvp {
@@ -9767,7 +11125,9 @@ impl PacketZcMvp {
         PacketZcMvp {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -9797,6 +11157,7 @@ impl Debug for PacketZcMvp {
 pub struct PacketZcThrowMvpitem {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketZcThrowMvpitem {
@@ -9804,6 +11165,7 @@ impl PacketZcThrowMvpitem {
         PacketZcThrowMvpitem {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -9832,11 +11194,17 @@ impl Debug for PacketZcThrowMvpitem {
 pub struct PacketZcSkillinfoUpdate {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub skid: u16,
+    pub skid_raw: Vec<u8>,
     pub level: u16,
+    pub level_raw: Vec<u8>,
     pub spcost: u16,
+    pub spcost_raw: Vec<u8>,
     pub attack_range: u16,
+    pub attack_range_raw: Vec<u8>,
     pub upgradable: bool,
+    pub upgradable_raw: Vec<u8>,
 }
 
 impl PacketZcSkillinfoUpdate {
@@ -9844,11 +11212,17 @@ impl PacketZcSkillinfoUpdate {
         PacketZcSkillinfoUpdate {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             skid: u16::from_le_bytes([buffer[2], buffer[3]]),
+            skid_raw: buffer[2..4].to_vec(),
             level: u16::from_le_bytes([buffer[4], buffer[5]]),
+            level_raw: buffer[4..6].to_vec(),
             spcost: u16::from_le_bytes([buffer[6], buffer[7]]),
+            spcost_raw: buffer[6..8].to_vec(),
             attack_range: u16::from_le_bytes([buffer[8], buffer[9]]),
+            attack_range_raw: buffer[8..10].to_vec(),
             upgradable: buffer[10] == 1,
+            upgradable_raw: buffer[10..11].to_vec(),
         }
     }
 }
@@ -9882,8 +11256,11 @@ impl Debug for PacketZcSkillinfoUpdate {
 pub struct PacketZcSkillinfoList {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub skill_list: Vec<SKILLINFO>,
+    pub skill_list_raw: Vec<u8>,
 }
 
 impl PacketZcSkillinfoList {
@@ -9900,8 +11277,11 @@ impl PacketZcSkillinfoList {
         PacketZcSkillinfoList {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             skill_list: vec_field,
+            skill_list_raw: buffer[4..41].to_vec(),
         }
     }
 }
@@ -9932,10 +11312,15 @@ impl Debug for PacketZcSkillinfoList {
 pub struct PacketZcAckTouseskill {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub skid: u16,
+    pub skid_raw: Vec<u8>,
     pub num: u32,
+    pub num_raw: Vec<u8>,
     pub result: bool,
+    pub result_raw: Vec<u8>,
     pub cause: char,
+    pub cause_raw: Vec<u8>,
 }
 
 impl PacketZcAckTouseskill {
@@ -9943,10 +11328,15 @@ impl PacketZcAckTouseskill {
         PacketZcAckTouseskill {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             skid: u16::from_le_bytes([buffer[2], buffer[3]]),
+            skid_raw: buffer[2..4].to_vec(),
             num: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            num_raw: buffer[4..8].to_vec(),
             result: buffer[8] == 1,
+            result_raw: buffer[8..9].to_vec(),
             cause: buffer[9] as char,
+            cause_raw: buffer[9..10].to_vec(),
         }
     }
 }
@@ -9979,7 +11369,9 @@ impl Debug for PacketZcAckTouseskill {
 pub struct PacketZcAddSkill {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub data: SKILLINFO,
+    pub data_raw: Vec<u8>,
 }
 
 impl PacketZcAddSkill {
@@ -9987,7 +11379,9 @@ impl PacketZcAddSkill {
         PacketZcAddSkill {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             data: SKILLINFO::from(&buffer[2..buffer.len()]),
+            data_raw: buffer[2..buffer.len()].to_vec(),
         }
     }
 }
@@ -10017,7 +11411,9 @@ impl Debug for PacketZcAddSkill {
 pub struct PacketCzUpgradeSkilllevel {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub skid: u16,
+    pub skid_raw: Vec<u8>,
 }
 
 impl PacketCzUpgradeSkilllevel {
@@ -10025,7 +11421,9 @@ impl PacketCzUpgradeSkilllevel {
         PacketCzUpgradeSkilllevel {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             skid: u16::from_le_bytes([buffer[2], buffer[3]]),
+            skid_raw: buffer[2..4].to_vec(),
         }
     }
 }
@@ -10055,9 +11453,13 @@ impl Debug for PacketCzUpgradeSkilllevel {
 pub struct PacketCzUseSkill {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub selected_level: u16,
+    pub selected_level_raw: Vec<u8>,
     pub skid: u16,
+    pub skid_raw: Vec<u8>,
     pub target_id: u32,
+    pub target_id_raw: Vec<u8>,
 }
 
 impl PacketCzUseSkill {
@@ -10065,9 +11467,13 @@ impl PacketCzUseSkill {
         PacketCzUseSkill {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             selected_level: u16::from_le_bytes([buffer[2], buffer[3]]),
+            selected_level_raw: buffer[2..4].to_vec(),
             skid: u16::from_le_bytes([buffer[4], buffer[5]]),
+            skid_raw: buffer[4..6].to_vec(),
             target_id: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            target_id_raw: buffer[6..10].to_vec(),
         }
     }
 }
@@ -10099,16 +11505,27 @@ impl Debug for PacketCzUseSkill {
 pub struct PacketZcNotifySkill {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub skid: u16,
+    pub skid_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub target_id: u32,
+    pub target_id_raw: Vec<u8>,
     pub start_time: u32,
+    pub start_time_raw: Vec<u8>,
     pub attack_mt: u32,
+    pub attack_mt_raw: Vec<u8>,
     pub attacked_mt: u32,
+    pub attacked_mt_raw: Vec<u8>,
     pub damage: u16,
+    pub damage_raw: Vec<u8>,
     pub level: u16,
+    pub level_raw: Vec<u8>,
     pub count: u16,
+    pub count_raw: Vec<u8>,
     pub action: char,
+    pub action_raw: Vec<u8>,
 }
 
 impl PacketZcNotifySkill {
@@ -10116,16 +11533,27 @@ impl PacketZcNotifySkill {
         PacketZcNotifySkill {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             skid: u16::from_le_bytes([buffer[2], buffer[3]]),
+            skid_raw: buffer[2..4].to_vec(),
             aid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            aid_raw: buffer[4..8].to_vec(),
             target_id: u32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
+            target_id_raw: buffer[8..12].to_vec(),
             start_time: u32::from_le_bytes([buffer[12], buffer[13], buffer[14], buffer[15]]),
+            start_time_raw: buffer[12..16].to_vec(),
             attack_mt: u32::from_le_bytes([buffer[16], buffer[17], buffer[18], buffer[19]]),
+            attack_mt_raw: buffer[16..20].to_vec(),
             attacked_mt: u32::from_le_bytes([buffer[20], buffer[21], buffer[22], buffer[23]]),
+            attacked_mt_raw: buffer[20..24].to_vec(),
             damage: u16::from_le_bytes([buffer[24], buffer[25]]),
+            damage_raw: buffer[24..26].to_vec(),
             level: u16::from_le_bytes([buffer[26], buffer[27]]),
+            level_raw: buffer[26..28].to_vec(),
             count: u16::from_le_bytes([buffer[28], buffer[29]]),
+            count_raw: buffer[28..30].to_vec(),
             action: buffer[30] as char,
+            action_raw: buffer[30..31].to_vec(),
         }
     }
 }
@@ -10164,18 +11592,31 @@ impl Debug for PacketZcNotifySkill {
 pub struct PacketZcNotifySkillPosition {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub skid: u16,
+    pub skid_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub target_id: u32,
+    pub target_id_raw: Vec<u8>,
     pub start_time: u32,
+    pub start_time_raw: Vec<u8>,
     pub attack_mt: u32,
+    pub attack_mt_raw: Vec<u8>,
     pub attacked_mt: u32,
+    pub attacked_mt_raw: Vec<u8>,
     pub x_pos: u16,
+    pub x_pos_raw: Vec<u8>,
     pub y_pos: u16,
+    pub y_pos_raw: Vec<u8>,
     pub damage: u16,
+    pub damage_raw: Vec<u8>,
     pub level: u16,
+    pub level_raw: Vec<u8>,
     pub count: u16,
+    pub count_raw: Vec<u8>,
     pub action: char,
+    pub action_raw: Vec<u8>,
 }
 
 impl PacketZcNotifySkillPosition {
@@ -10183,18 +11624,31 @@ impl PacketZcNotifySkillPosition {
         PacketZcNotifySkillPosition {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             skid: u16::from_le_bytes([buffer[2], buffer[3]]),
+            skid_raw: buffer[2..4].to_vec(),
             aid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            aid_raw: buffer[4..8].to_vec(),
             target_id: u32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
+            target_id_raw: buffer[8..12].to_vec(),
             start_time: u32::from_le_bytes([buffer[12], buffer[13], buffer[14], buffer[15]]),
+            start_time_raw: buffer[12..16].to_vec(),
             attack_mt: u32::from_le_bytes([buffer[16], buffer[17], buffer[18], buffer[19]]),
+            attack_mt_raw: buffer[16..20].to_vec(),
             attacked_mt: u32::from_le_bytes([buffer[20], buffer[21], buffer[22], buffer[23]]),
+            attacked_mt_raw: buffer[20..24].to_vec(),
             x_pos: u16::from_le_bytes([buffer[24], buffer[25]]),
+            x_pos_raw: buffer[24..26].to_vec(),
             y_pos: u16::from_le_bytes([buffer[26], buffer[27]]),
+            y_pos_raw: buffer[26..28].to_vec(),
             damage: u16::from_le_bytes([buffer[28], buffer[29]]),
+            damage_raw: buffer[28..30].to_vec(),
             level: u16::from_le_bytes([buffer[30], buffer[31]]),
+            level_raw: buffer[30..32].to_vec(),
             count: u16::from_le_bytes([buffer[32], buffer[33]]),
+            count_raw: buffer[32..34].to_vec(),
             action: buffer[34] as char,
+            action_raw: buffer[34..35].to_vec(),
         }
     }
 }
@@ -10235,10 +11689,15 @@ impl Debug for PacketZcNotifySkillPosition {
 pub struct PacketCzUseSkillToground {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub selected_level: u16,
+    pub selected_level_raw: Vec<u8>,
     pub skid: u16,
+    pub skid_raw: Vec<u8>,
     pub x_pos: u16,
+    pub x_pos_raw: Vec<u8>,
     pub y_pos: u16,
+    pub y_pos_raw: Vec<u8>,
 }
 
 impl PacketCzUseSkillToground {
@@ -10246,10 +11705,15 @@ impl PacketCzUseSkillToground {
         PacketCzUseSkillToground {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             selected_level: u16::from_le_bytes([buffer[2], buffer[3]]),
+            selected_level_raw: buffer[2..4].to_vec(),
             skid: u16::from_le_bytes([buffer[4], buffer[5]]),
+            skid_raw: buffer[4..6].to_vec(),
             x_pos: u16::from_le_bytes([buffer[6], buffer[7]]),
+            x_pos_raw: buffer[6..8].to_vec(),
             y_pos: u16::from_le_bytes([buffer[8], buffer[9]]),
+            y_pos_raw: buffer[8..10].to_vec(),
         }
     }
 }
@@ -10282,12 +11746,19 @@ impl Debug for PacketCzUseSkillToground {
 pub struct PacketZcNotifyGroundskill {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub skid: u16,
+    pub skid_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub level: u16,
+    pub level_raw: Vec<u8>,
     pub x_pos: u16,
+    pub x_pos_raw: Vec<u8>,
     pub y_pos: u16,
+    pub y_pos_raw: Vec<u8>,
     pub start_time: u32,
+    pub start_time_raw: Vec<u8>,
 }
 
 impl PacketZcNotifyGroundskill {
@@ -10295,12 +11766,19 @@ impl PacketZcNotifyGroundskill {
         PacketZcNotifyGroundskill {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             skid: u16::from_le_bytes([buffer[2], buffer[3]]),
+            skid_raw: buffer[2..4].to_vec(),
             aid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            aid_raw: buffer[4..8].to_vec(),
             level: u16::from_le_bytes([buffer[8], buffer[9]]),
+            level_raw: buffer[8..10].to_vec(),
             x_pos: u16::from_le_bytes([buffer[10], buffer[11]]),
+            x_pos_raw: buffer[10..12].to_vec(),
             y_pos: u16::from_le_bytes([buffer[12], buffer[13]]),
+            y_pos_raw: buffer[12..14].to_vec(),
             start_time: u32::from_le_bytes([buffer[14], buffer[15], buffer[16], buffer[17]]),
+            start_time_raw: buffer[14..18].to_vec(),
         }
     }
 }
@@ -10335,6 +11813,7 @@ impl Debug for PacketZcNotifyGroundskill {
 pub struct PacketCzCancelLockon {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketCzCancelLockon {
@@ -10342,6 +11821,7 @@ impl PacketCzCancelLockon {
         PacketCzCancelLockon {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -10370,11 +11850,17 @@ impl Debug for PacketCzCancelLockon {
 pub struct PacketZcStateChange {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub body_state: u16,
+    pub body_state_raw: Vec<u8>,
     pub health_state: u16,
+    pub health_state_raw: Vec<u8>,
     pub effect_state: u16,
+    pub effect_state_raw: Vec<u8>,
     pub is_pkmode_on: bool,
+    pub is_pkmode_on_raw: Vec<u8>,
 }
 
 impl PacketZcStateChange {
@@ -10382,11 +11868,17 @@ impl PacketZcStateChange {
         PacketZcStateChange {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             body_state: u16::from_le_bytes([buffer[6], buffer[7]]),
+            body_state_raw: buffer[6..8].to_vec(),
             health_state: u16::from_le_bytes([buffer[8], buffer[9]]),
+            health_state_raw: buffer[8..10].to_vec(),
             effect_state: u16::from_le_bytes([buffer[10], buffer[11]]),
+            effect_state_raw: buffer[10..12].to_vec(),
             is_pkmode_on: buffer[12] == 1,
+            is_pkmode_on_raw: buffer[12..13].to_vec(),
         }
     }
 }
@@ -10420,11 +11912,17 @@ impl Debug for PacketZcStateChange {
 pub struct PacketZcUseSkill {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub skid: u16,
+    pub skid_raw: Vec<u8>,
     pub level: u16,
+    pub level_raw: Vec<u8>,
     pub target_aid: u32,
+    pub target_aid_raw: Vec<u8>,
     pub src_aid: u32,
+    pub src_aid_raw: Vec<u8>,
     pub result: bool,
+    pub result_raw: Vec<u8>,
 }
 
 impl PacketZcUseSkill {
@@ -10432,11 +11930,17 @@ impl PacketZcUseSkill {
         PacketZcUseSkill {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             skid: u16::from_le_bytes([buffer[2], buffer[3]]),
+            skid_raw: buffer[2..4].to_vec(),
             level: u16::from_le_bytes([buffer[4], buffer[5]]),
+            level_raw: buffer[4..6].to_vec(),
             target_aid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            target_aid_raw: buffer[6..10].to_vec(),
             src_aid: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            src_aid_raw: buffer[10..14].to_vec(),
             result: buffer[14] == 1,
+            result_raw: buffer[14..15].to_vec(),
         }
     }
 }
@@ -10470,8 +11974,11 @@ impl Debug for PacketZcUseSkill {
 pub struct PacketCzSelectWarppoint {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub skid: u16,
+    pub skid_raw: Vec<u8>,
     pub map_name: String,
+    pub map_name_raw: Vec<u8>,
 }
 
 impl PacketCzSelectWarppoint {
@@ -10479,8 +11986,11 @@ impl PacketCzSelectWarppoint {
         PacketCzSelectWarppoint {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             skid: u16::from_le_bytes([buffer[2], buffer[3]]),
+            skid_raw: buffer[2..4].to_vec(),
             map_name: String::from_utf8_lossy(&buffer[4..20]).to_string(),
+            map_name_raw: buffer[4..20].to_vec(),
         }
     }
 }
@@ -10511,8 +12021,11 @@ impl Debug for PacketCzSelectWarppoint {
 pub struct PacketZcWarplist {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub skid: u16,
+    pub skid_raw: Vec<u8>,
     pub map_name: String,
+    pub map_name_raw: Vec<u8>,
 }
 
 impl PacketZcWarplist {
@@ -10520,8 +12033,11 @@ impl PacketZcWarplist {
         PacketZcWarplist {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             skid: u16::from_le_bytes([buffer[2], buffer[3]]),
+            skid_raw: buffer[2..4].to_vec(),
             map_name: String::from_utf8_lossy(&buffer[4..8]).to_string(),
+            map_name_raw: buffer[4..8].to_vec(),
         }
     }
 }
@@ -10552,6 +12068,7 @@ impl Debug for PacketZcWarplist {
 pub struct PacketCzRememberWarppoint {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketCzRememberWarppoint {
@@ -10559,6 +12076,7 @@ impl PacketCzRememberWarppoint {
         PacketCzRememberWarppoint {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -10587,7 +12105,9 @@ impl Debug for PacketCzRememberWarppoint {
 pub struct PacketZcAckRememberWarppoint {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub error_code: char,
+    pub error_code_raw: Vec<u8>,
 }
 
 impl PacketZcAckRememberWarppoint {
@@ -10595,7 +12115,9 @@ impl PacketZcAckRememberWarppoint {
         PacketZcAckRememberWarppoint {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             error_code: buffer[2] as char,
+            error_code_raw: buffer[2..3].to_vec(),
         }
     }
 }
@@ -10625,12 +12147,19 @@ impl Debug for PacketZcAckRememberWarppoint {
 pub struct PacketZcSkillEntry {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub creator_aid: u32,
+    pub creator_aid_raw: Vec<u8>,
     pub x_pos: u16,
+    pub x_pos_raw: Vec<u8>,
     pub y_pos: u16,
+    pub y_pos_raw: Vec<u8>,
     pub job: char,
+    pub job_raw: Vec<u8>,
     pub is_visible: bool,
+    pub is_visible_raw: Vec<u8>,
 }
 
 impl PacketZcSkillEntry {
@@ -10638,12 +12167,19 @@ impl PacketZcSkillEntry {
         PacketZcSkillEntry {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             creator_aid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            creator_aid_raw: buffer[6..10].to_vec(),
             x_pos: u16::from_le_bytes([buffer[10], buffer[11]]),
+            x_pos_raw: buffer[10..12].to_vec(),
             y_pos: u16::from_le_bytes([buffer[12], buffer[13]]),
+            y_pos_raw: buffer[12..14].to_vec(),
             job: buffer[14] as char,
+            job_raw: buffer[14..15].to_vec(),
             is_visible: buffer[15] == 1,
+            is_visible_raw: buffer[15..16].to_vec(),
         }
     }
 }
@@ -10678,7 +12214,9 @@ impl Debug for PacketZcSkillEntry {
 pub struct PacketZcSkillDisappear {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
 }
 
 impl PacketZcSkillDisappear {
@@ -10686,7 +12224,9 @@ impl PacketZcSkillDisappear {
         PacketZcSkillDisappear {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -10716,10 +12256,15 @@ impl Debug for PacketZcSkillDisappear {
 pub struct PacketZcNotifyCartitemCountinfo {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub cur_count: u16,
+    pub cur_count_raw: Vec<u8>,
     pub max_count: u16,
+    pub max_count_raw: Vec<u8>,
     pub cur_weight: u32,
+    pub cur_weight_raw: Vec<u8>,
     pub max_weight: u32,
+    pub max_weight_raw: Vec<u8>,
 }
 
 impl PacketZcNotifyCartitemCountinfo {
@@ -10727,10 +12272,15 @@ impl PacketZcNotifyCartitemCountinfo {
         PacketZcNotifyCartitemCountinfo {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             cur_count: u16::from_le_bytes([buffer[2], buffer[3]]),
+            cur_count_raw: buffer[2..4].to_vec(),
             max_count: u16::from_le_bytes([buffer[4], buffer[5]]),
+            max_count_raw: buffer[4..6].to_vec(),
             cur_weight: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            cur_weight_raw: buffer[6..10].to_vec(),
             max_weight: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            max_weight_raw: buffer[10..14].to_vec(),
         }
     }
 }
@@ -10763,8 +12313,11 @@ impl Debug for PacketZcNotifyCartitemCountinfo {
 pub struct PacketZcCartEquipmentItemlist {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub item_info: Vec<EquipmentitemExtrainfo>,
+    pub item_info_raw: Vec<u8>,
 }
 
 impl PacketZcCartEquipmentItemlist {
@@ -10781,8 +12334,11 @@ impl PacketZcCartEquipmentItemlist {
         PacketZcCartEquipmentItemlist {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             item_info: vec_field,
+            item_info_raw: buffer[4..24].to_vec(),
         }
     }
 }
@@ -10813,8 +12369,11 @@ impl Debug for PacketZcCartEquipmentItemlist {
 pub struct PacketZcCartNormalItemlist {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub item_info: Vec<NormalitemExtrainfo>,
+    pub item_info_raw: Vec<u8>,
 }
 
 impl PacketZcCartNormalItemlist {
@@ -10831,8 +12390,11 @@ impl PacketZcCartNormalItemlist {
         PacketZcCartNormalItemlist {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             item_info: vec_field,
+            item_info_raw: buffer[4..14].to_vec(),
         }
     }
 }
@@ -10863,13 +12425,21 @@ impl Debug for PacketZcCartNormalItemlist {
 pub struct PacketZcAddItemToCart {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub index: u16,
+    pub index_raw: Vec<u8>,
     pub count: u32,
+    pub count_raw: Vec<u8>,
     pub itid: u16,
+    pub itid_raw: Vec<u8>,
     pub is_identified: bool,
+    pub is_identified_raw: Vec<u8>,
     pub is_damaged: bool,
+    pub is_damaged_raw: Vec<u8>,
     pub refining_level: char,
+    pub refining_level_raw: Vec<u8>,
     pub slot: EQUIPSLOTINFO,
+    pub slot_raw: Vec<u8>,
 }
 
 impl PacketZcAddItemToCart {
@@ -10877,13 +12447,21 @@ impl PacketZcAddItemToCart {
         PacketZcAddItemToCart {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            index_raw: buffer[2..4].to_vec(),
             count: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            count_raw: buffer[4..8].to_vec(),
             itid: u16::from_le_bytes([buffer[8], buffer[9]]),
+            itid_raw: buffer[8..10].to_vec(),
             is_identified: buffer[10] == 1,
+            is_identified_raw: buffer[10..11].to_vec(),
             is_damaged: buffer[11] == 1,
+            is_damaged_raw: buffer[11..12].to_vec(),
             refining_level: buffer[12] as char,
+            refining_level_raw: buffer[12..13].to_vec(),
             slot: EQUIPSLOTINFO::from(&buffer[13..21]),
+            slot_raw: buffer[13..21].to_vec(),
         }
     }
 }
@@ -10919,8 +12497,11 @@ impl Debug for PacketZcAddItemToCart {
 pub struct PacketZcDeleteItemFromCart {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub index: u16,
+    pub index_raw: Vec<u8>,
     pub count: u32,
+    pub count_raw: Vec<u8>,
 }
 
 impl PacketZcDeleteItemFromCart {
@@ -10928,8 +12509,11 @@ impl PacketZcDeleteItemFromCart {
         PacketZcDeleteItemFromCart {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            index_raw: buffer[2..4].to_vec(),
             count: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            count_raw: buffer[4..8].to_vec(),
         }
     }
 }
@@ -10960,8 +12544,11 @@ impl Debug for PacketZcDeleteItemFromCart {
 pub struct PacketCzMoveItemFromBodyToCart {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub index: u16,
+    pub index_raw: Vec<u8>,
     pub count: u32,
+    pub count_raw: Vec<u8>,
 }
 
 impl PacketCzMoveItemFromBodyToCart {
@@ -10969,8 +12556,11 @@ impl PacketCzMoveItemFromBodyToCart {
         PacketCzMoveItemFromBodyToCart {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            index_raw: buffer[2..4].to_vec(),
             count: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            count_raw: buffer[4..8].to_vec(),
         }
     }
 }
@@ -11001,8 +12591,11 @@ impl Debug for PacketCzMoveItemFromBodyToCart {
 pub struct PacketCzMoveItemFromCartToBody {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub index: u16,
+    pub index_raw: Vec<u8>,
     pub count: u32,
+    pub count_raw: Vec<u8>,
 }
 
 impl PacketCzMoveItemFromCartToBody {
@@ -11010,8 +12603,11 @@ impl PacketCzMoveItemFromCartToBody {
         PacketCzMoveItemFromCartToBody {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            index_raw: buffer[2..4].to_vec(),
             count: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            count_raw: buffer[4..8].to_vec(),
         }
     }
 }
@@ -11042,8 +12638,11 @@ impl Debug for PacketCzMoveItemFromCartToBody {
 pub struct PacketCzMoveItemFromStoreToCart {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub index: u16,
+    pub index_raw: Vec<u8>,
     pub count: u32,
+    pub count_raw: Vec<u8>,
 }
 
 impl PacketCzMoveItemFromStoreToCart {
@@ -11051,8 +12650,11 @@ impl PacketCzMoveItemFromStoreToCart {
         PacketCzMoveItemFromStoreToCart {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            index_raw: buffer[2..4].to_vec(),
             count: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            count_raw: buffer[4..8].to_vec(),
         }
     }
 }
@@ -11083,8 +12685,11 @@ impl Debug for PacketCzMoveItemFromStoreToCart {
 pub struct PacketCzMoveItemFromCartToStore {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub index: u16,
+    pub index_raw: Vec<u8>,
     pub count: u32,
+    pub count_raw: Vec<u8>,
 }
 
 impl PacketCzMoveItemFromCartToStore {
@@ -11092,8 +12697,11 @@ impl PacketCzMoveItemFromCartToStore {
         PacketCzMoveItemFromCartToStore {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            index_raw: buffer[2..4].to_vec(),
             count: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            count_raw: buffer[4..8].to_vec(),
         }
     }
 }
@@ -11124,6 +12732,7 @@ impl Debug for PacketCzMoveItemFromCartToStore {
 pub struct PacketCzReqCartoff {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketCzReqCartoff {
@@ -11131,6 +12740,7 @@ impl PacketCzReqCartoff {
         PacketCzReqCartoff {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -11159,6 +12769,7 @@ impl Debug for PacketCzReqCartoff {
 pub struct PacketZcCartoff {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketZcCartoff {
@@ -11166,6 +12777,7 @@ impl PacketZcCartoff {
         PacketZcCartoff {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -11194,7 +12806,9 @@ impl Debug for PacketZcCartoff {
 pub struct PacketZcAckAdditemToCart {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub result: char,
+    pub result_raw: Vec<u8>,
 }
 
 impl PacketZcAckAdditemToCart {
@@ -11202,7 +12816,9 @@ impl PacketZcAckAdditemToCart {
         PacketZcAckAdditemToCart {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             result: buffer[2] as char,
+            result_raw: buffer[2..3].to_vec(),
         }
     }
 }
@@ -11232,7 +12848,9 @@ impl Debug for PacketZcAckAdditemToCart {
 pub struct PacketZcOpenstore {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub itemcount: u16,
+    pub itemcount_raw: Vec<u8>,
 }
 
 impl PacketZcOpenstore {
@@ -11240,7 +12858,9 @@ impl PacketZcOpenstore {
         PacketZcOpenstore {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             itemcount: u16::from_le_bytes([buffer[2], buffer[3]]),
+            itemcount_raw: buffer[2..4].to_vec(),
         }
     }
 }
@@ -11270,6 +12890,7 @@ impl Debug for PacketZcOpenstore {
 pub struct PacketCzReqClosestore {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketCzReqClosestore {
@@ -11277,6 +12898,7 @@ impl PacketCzReqClosestore {
         PacketCzReqClosestore {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -11305,9 +12927,13 @@ impl Debug for PacketCzReqClosestore {
 pub struct PacketCzReqOpenstore {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub store_name: String,
+    pub store_name_raw: Vec<u8>,
     pub store_list: Vec<StoreItem>,
+    pub store_list_raw: Vec<u8>,
 }
 
 impl PacketCzReqOpenstore {
@@ -11324,9 +12950,13 @@ impl PacketCzReqOpenstore {
         PacketCzReqOpenstore {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             store_name: String::from_utf8_lossy(&buffer[4..84]).to_string(),
+            store_name_raw: buffer[4..84].to_vec(),
             store_list: vec_field,
+            store_list_raw: buffer[84..92].to_vec(),
         }
     }
 }
@@ -11358,7 +12988,9 @@ impl Debug for PacketCzReqOpenstore {
 pub struct PacketCzReqBuyFrommc {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
 }
 
 impl PacketCzReqBuyFrommc {
@@ -11366,7 +12998,9 @@ impl PacketCzReqBuyFrommc {
         PacketCzReqBuyFrommc {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -11396,8 +13030,11 @@ impl Debug for PacketCzReqBuyFrommc {
 pub struct PacketZcStoreEntry {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub maker_aid: u32,
+    pub maker_aid_raw: Vec<u8>,
     pub store_name: String,
+    pub store_name_raw: Vec<u8>,
 }
 
 impl PacketZcStoreEntry {
@@ -11405,8 +13042,11 @@ impl PacketZcStoreEntry {
         PacketZcStoreEntry {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             maker_aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            maker_aid_raw: buffer[2..6].to_vec(),
             store_name: String::from_utf8_lossy(&buffer[6..86]).to_string(),
+            store_name_raw: buffer[6..86].to_vec(),
         }
     }
 }
@@ -11437,7 +13077,9 @@ impl Debug for PacketZcStoreEntry {
 pub struct PacketZcDisappearEntry {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub maker_aid: u32,
+    pub maker_aid_raw: Vec<u8>,
 }
 
 impl PacketZcDisappearEntry {
@@ -11445,7 +13087,9 @@ impl PacketZcDisappearEntry {
         PacketZcDisappearEntry {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             maker_aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            maker_aid_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -11475,9 +13119,13 @@ impl Debug for PacketZcDisappearEntry {
 pub struct PacketZcPcPurchaseItemlistFrommc {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub item_list: Vec<PurchaseItemFrommc>,
+    pub item_list_raw: Vec<u8>,
 }
 
 impl PacketZcPcPurchaseItemlistFrommc {
@@ -11494,9 +13142,13 @@ impl PacketZcPcPurchaseItemlistFrommc {
         PacketZcPcPurchaseItemlistFrommc {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             aid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            aid_raw: buffer[4..8].to_vec(),
             item_list: vec_field,
+            item_list_raw: buffer[8..30].to_vec(),
         }
     }
 }
@@ -11528,9 +13180,13 @@ impl Debug for PacketZcPcPurchaseItemlistFrommc {
 pub struct PacketCzPcPurchaseItemlistFrommc {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub item_list: Vec<CzPurchaseItemFrommc>,
+    pub item_list_raw: Vec<u8>,
 }
 
 impl PacketCzPcPurchaseItemlistFrommc {
@@ -11547,9 +13203,13 @@ impl PacketCzPcPurchaseItemlistFrommc {
         PacketCzPcPurchaseItemlistFrommc {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             aid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            aid_raw: buffer[4..8].to_vec(),
             item_list: vec_field,
+            item_list_raw: buffer[8..12].to_vec(),
         }
     }
 }
@@ -11581,9 +13241,13 @@ impl Debug for PacketCzPcPurchaseItemlistFrommc {
 pub struct PacketZcPcPurchaseResultFrommc {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub index: u16,
+    pub index_raw: Vec<u8>,
     pub curcount: u16,
+    pub curcount_raw: Vec<u8>,
     pub result: char,
+    pub result_raw: Vec<u8>,
 }
 
 impl PacketZcPcPurchaseResultFrommc {
@@ -11591,9 +13255,13 @@ impl PacketZcPcPurchaseResultFrommc {
         PacketZcPcPurchaseResultFrommc {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            index_raw: buffer[2..4].to_vec(),
             curcount: u16::from_le_bytes([buffer[4], buffer[5]]),
+            curcount_raw: buffer[4..6].to_vec(),
             result: buffer[6] as char,
+            result_raw: buffer[6..7].to_vec(),
         }
     }
 }
@@ -11625,9 +13293,13 @@ impl Debug for PacketZcPcPurchaseResultFrommc {
 pub struct PacketZcPcPurchaseMyitemlist {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub item_list: Vec<PurchaseMyitem>,
+    pub item_list_raw: Vec<u8>,
 }
 
 impl PacketZcPcPurchaseMyitemlist {
@@ -11644,9 +13316,13 @@ impl PacketZcPcPurchaseMyitemlist {
         PacketZcPcPurchaseMyitemlist {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             aid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            aid_raw: buffer[4..8].to_vec(),
             item_list: vec_field,
+            item_list_raw: buffer[8..30].to_vec(),
         }
     }
 }
@@ -11678,8 +13354,11 @@ impl Debug for PacketZcPcPurchaseMyitemlist {
 pub struct PacketZcDeleteitemFromMcstore {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub index: u16,
+    pub index_raw: Vec<u8>,
     pub count: u16,
+    pub count_raw: Vec<u8>,
 }
 
 impl PacketZcDeleteitemFromMcstore {
@@ -11687,8 +13366,11 @@ impl PacketZcDeleteitemFromMcstore {
         PacketZcDeleteitemFromMcstore {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            index_raw: buffer[2..4].to_vec(),
             count: u16::from_le_bytes([buffer[4], buffer[5]]),
+            count_raw: buffer[4..6].to_vec(),
         }
     }
 }
@@ -11719,7 +13401,9 @@ impl Debug for PacketZcDeleteitemFromMcstore {
 pub struct PacketCzPkmodeChange {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub is_turn_on: bool,
+    pub is_turn_on_raw: Vec<u8>,
 }
 
 impl PacketCzPkmodeChange {
@@ -11727,7 +13411,9 @@ impl PacketCzPkmodeChange {
         PacketCzPkmodeChange {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             is_turn_on: buffer[2] == 1,
+            is_turn_on_raw: buffer[2..3].to_vec(),
         }
     }
 }
@@ -11757,12 +13443,19 @@ impl Debug for PacketCzPkmodeChange {
 pub struct PacketZcAttackFailureForDistance {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub target_aid: u32,
+    pub target_aid_raw: Vec<u8>,
     pub target_xpos: u16,
+    pub target_xpos_raw: Vec<u8>,
     pub target_ypos: u16,
+    pub target_ypos_raw: Vec<u8>,
     pub x_pos: u16,
+    pub x_pos_raw: Vec<u8>,
     pub y_pos: u16,
+    pub y_pos_raw: Vec<u8>,
     pub current_att_range: u16,
+    pub current_att_range_raw: Vec<u8>,
 }
 
 impl PacketZcAttackFailureForDistance {
@@ -11770,12 +13463,19 @@ impl PacketZcAttackFailureForDistance {
         PacketZcAttackFailureForDistance {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             target_aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            target_aid_raw: buffer[2..6].to_vec(),
             target_xpos: u16::from_le_bytes([buffer[6], buffer[7]]),
+            target_xpos_raw: buffer[6..8].to_vec(),
             target_ypos: u16::from_le_bytes([buffer[8], buffer[9]]),
+            target_ypos_raw: buffer[8..10].to_vec(),
             x_pos: u16::from_le_bytes([buffer[10], buffer[11]]),
+            x_pos_raw: buffer[10..12].to_vec(),
             y_pos: u16::from_le_bytes([buffer[12], buffer[13]]),
+            y_pos_raw: buffer[12..14].to_vec(),
             current_att_range: u16::from_le_bytes([buffer[14], buffer[15]]),
+            current_att_range_raw: buffer[14..16].to_vec(),
         }
     }
 }
@@ -11810,7 +13510,9 @@ impl Debug for PacketZcAttackFailureForDistance {
 pub struct PacketZcAttackRange {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub current_att_range: u16,
+    pub current_att_range_raw: Vec<u8>,
 }
 
 impl PacketZcAttackRange {
@@ -11818,7 +13520,9 @@ impl PacketZcAttackRange {
         PacketZcAttackRange {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             current_att_range: u16::from_le_bytes([buffer[2], buffer[3]]),
+            current_att_range_raw: buffer[2..4].to_vec(),
         }
     }
 }
@@ -11848,7 +13552,9 @@ impl Debug for PacketZcAttackRange {
 pub struct PacketZcActionFailure {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub error_code: u16,
+    pub error_code_raw: Vec<u8>,
 }
 
 impl PacketZcActionFailure {
@@ -11856,7 +13562,9 @@ impl PacketZcActionFailure {
         PacketZcActionFailure {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             error_code: u16::from_le_bytes([buffer[2], buffer[3]]),
+            error_code_raw: buffer[2..4].to_vec(),
         }
     }
 }
@@ -11886,7 +13594,9 @@ impl Debug for PacketZcActionFailure {
 pub struct PacketZcEquipArrow {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub index: u16,
+    pub index_raw: Vec<u8>,
 }
 
 impl PacketZcEquipArrow {
@@ -11894,7 +13604,9 @@ impl PacketZcEquipArrow {
         PacketZcEquipArrow {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            index_raw: buffer[2..4].to_vec(),
         }
     }
 }
@@ -11924,8 +13636,11 @@ impl Debug for PacketZcEquipArrow {
 pub struct PacketZcRecovery {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub var_id: u16,
+    pub var_id_raw: Vec<u8>,
     pub amount: u16,
+    pub amount_raw: Vec<u8>,
 }
 
 impl PacketZcRecovery {
@@ -11933,8 +13648,11 @@ impl PacketZcRecovery {
         PacketZcRecovery {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             var_id: u16::from_le_bytes([buffer[2], buffer[3]]),
+            var_id_raw: buffer[2..4].to_vec(),
             amount: u16::from_le_bytes([buffer[4], buffer[5]]),
+            amount_raw: buffer[4..6].to_vec(),
         }
     }
 }
@@ -11965,13 +13683,21 @@ impl Debug for PacketZcRecovery {
 pub struct PacketZcUseskillAck {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub target_id: u32,
+    pub target_id_raw: Vec<u8>,
     pub x_pos: u16,
+    pub x_pos_raw: Vec<u8>,
     pub y_pos: u16,
+    pub y_pos_raw: Vec<u8>,
     pub skid: u16,
+    pub skid_raw: Vec<u8>,
     pub property: u32,
+    pub property_raw: Vec<u8>,
     pub delay_time: u32,
+    pub delay_time_raw: Vec<u8>,
 }
 
 impl PacketZcUseskillAck {
@@ -11979,13 +13705,21 @@ impl PacketZcUseskillAck {
         PacketZcUseskillAck {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             target_id: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            target_id_raw: buffer[6..10].to_vec(),
             x_pos: u16::from_le_bytes([buffer[10], buffer[11]]),
+            x_pos_raw: buffer[10..12].to_vec(),
             y_pos: u16::from_le_bytes([buffer[12], buffer[13]]),
+            y_pos_raw: buffer[12..14].to_vec(),
             skid: u16::from_le_bytes([buffer[14], buffer[15]]),
+            skid_raw: buffer[14..16].to_vec(),
             property: u32::from_le_bytes([buffer[16], buffer[17], buffer[18], buffer[19]]),
+            property_raw: buffer[16..20].to_vec(),
             delay_time: u32::from_le_bytes([buffer[20], buffer[21], buffer[22], buffer[23]]),
+            delay_time_raw: buffer[20..24].to_vec(),
         }
     }
 }
@@ -12021,7 +13755,9 @@ impl Debug for PacketZcUseskillAck {
 pub struct PacketCzItemCreate {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub item_name: String,
+    pub item_name_raw: Vec<u8>,
 }
 
 impl PacketCzItemCreate {
@@ -12029,7 +13765,9 @@ impl PacketCzItemCreate {
         PacketCzItemCreate {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             item_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            item_name_raw: buffer[2..26].to_vec(),
         }
     }
 }
@@ -12059,9 +13797,13 @@ impl Debug for PacketCzItemCreate {
 pub struct PacketCzMovetoMap {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub map_name: String,
+    pub map_name_raw: Vec<u8>,
     pub x_pos: u16,
+    pub x_pos_raw: Vec<u8>,
     pub y_pos: u16,
+    pub y_pos_raw: Vec<u8>,
 }
 
 impl PacketCzMovetoMap {
@@ -12069,9 +13811,13 @@ impl PacketCzMovetoMap {
         PacketCzMovetoMap {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             map_name: String::from_utf8_lossy(&buffer[2..18]).to_string(),
+            map_name_raw: buffer[2..18].to_vec(),
             x_pos: u16::from_le_bytes([buffer[18], buffer[19]]),
+            x_pos_raw: buffer[18..20].to_vec(),
             y_pos: u16::from_le_bytes([buffer[20], buffer[21]]),
+            y_pos_raw: buffer[20..22].to_vec(),
         }
     }
 }
@@ -12103,9 +13849,13 @@ impl Debug for PacketCzMovetoMap {
 pub struct PacketZcCouplestatus {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub status_type: u32,
+    pub status_type_raw: Vec<u8>,
     pub default_status: u32,
+    pub default_status_raw: Vec<u8>,
     pub plus_status: u32,
+    pub plus_status_raw: Vec<u8>,
 }
 
 impl PacketZcCouplestatus {
@@ -12113,9 +13863,13 @@ impl PacketZcCouplestatus {
         PacketZcCouplestatus {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             status_type: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            status_type_raw: buffer[2..6].to_vec(),
             default_status: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            default_status_raw: buffer[6..10].to_vec(),
             plus_status: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            plus_status_raw: buffer[10..14].to_vec(),
         }
     }
 }
@@ -12147,7 +13901,9 @@ impl Debug for PacketZcCouplestatus {
 pub struct PacketZcOpenEditdlg {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub naid: u32,
+    pub naid_raw: Vec<u8>,
 }
 
 impl PacketZcOpenEditdlg {
@@ -12155,7 +13911,9 @@ impl PacketZcOpenEditdlg {
         PacketZcOpenEditdlg {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             naid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            naid_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -12185,8 +13943,11 @@ impl Debug for PacketZcOpenEditdlg {
 pub struct PacketCzInputEditdlg {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub naid: u32,
+    pub naid_raw: Vec<u8>,
     pub value: u32,
+    pub value_raw: Vec<u8>,
 }
 
 impl PacketCzInputEditdlg {
@@ -12194,8 +13955,11 @@ impl PacketCzInputEditdlg {
         PacketCzInputEditdlg {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             naid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            naid_raw: buffer[2..6].to_vec(),
             value: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            value_raw: buffer[6..10].to_vec(),
         }
     }
 }
@@ -12226,12 +13990,19 @@ impl Debug for PacketCzInputEditdlg {
 pub struct PacketZcCompass {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub naid: u32,
+    pub naid_raw: Vec<u8>,
     pub type_: u32,
+    pub type__raw: Vec<u8>,
     pub x_pos: u32,
+    pub x_pos_raw: Vec<u8>,
     pub y_pos: u32,
+    pub y_pos_raw: Vec<u8>,
     pub id: char,
+    pub id_raw: Vec<u8>,
     pub color: u32,
+    pub color_raw: Vec<u8>,
 }
 
 impl PacketZcCompass {
@@ -12239,12 +14010,19 @@ impl PacketZcCompass {
         PacketZcCompass {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             naid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            naid_raw: buffer[2..6].to_vec(),
             type_: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            type__raw: buffer[6..10].to_vec(),
             x_pos: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            x_pos_raw: buffer[10..14].to_vec(),
             y_pos: u32::from_le_bytes([buffer[14], buffer[15], buffer[16], buffer[17]]),
+            y_pos_raw: buffer[14..18].to_vec(),
             id: buffer[18] as char,
+            id_raw: buffer[18..19].to_vec(),
             color: u32::from_le_bytes([buffer[19], buffer[20], buffer[21], buffer[22]]),
+            color_raw: buffer[19..23].to_vec(),
         }
     }
 }
@@ -12279,8 +14057,11 @@ impl Debug for PacketZcCompass {
 pub struct PacketZcShowImage {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub image_name: String,
+    pub image_name_raw: Vec<u8>,
     pub type_: char,
+    pub type__raw: Vec<u8>,
 }
 
 impl PacketZcShowImage {
@@ -12288,8 +14069,11 @@ impl PacketZcShowImage {
         PacketZcShowImage {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             image_name: String::from_utf8_lossy(&buffer[2..18]).to_string(),
+            image_name_raw: buffer[2..18].to_vec(),
             type_: buffer[18] as char,
+            type__raw: buffer[18..19].to_vec(),
         }
     }
 }
@@ -12320,7 +14104,9 @@ impl Debug for PacketZcShowImage {
 pub struct PacketCzCloseDialog {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub naid: u32,
+    pub naid_raw: Vec<u8>,
 }
 
 impl PacketCzCloseDialog {
@@ -12328,7 +14114,9 @@ impl PacketCzCloseDialog {
         PacketCzCloseDialog {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             naid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            naid_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -12358,7 +14146,9 @@ impl Debug for PacketCzCloseDialog {
 pub struct PacketZcAutorunSkill {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub data: SKILLINFO,
+    pub data_raw: Vec<u8>,
 }
 
 impl PacketZcAutorunSkill {
@@ -12366,7 +14156,9 @@ impl PacketZcAutorunSkill {
         PacketZcAutorunSkill {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             data: SKILLINFO::from(&buffer[2..buffer.len()]),
+            data_raw: buffer[2..buffer.len()].to_vec(),
         }
     }
 }
@@ -12396,8 +14188,11 @@ impl Debug for PacketZcAutorunSkill {
 pub struct PacketZcResurrection {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub type_: u16,
+    pub type__raw: Vec<u8>,
 }
 
 impl PacketZcResurrection {
@@ -12405,8 +14200,11 @@ impl PacketZcResurrection {
         PacketZcResurrection {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             type_: u16::from_le_bytes([buffer[6], buffer[7]]),
+            type__raw: buffer[6..8].to_vec(),
         }
     }
 }
@@ -12437,9 +14235,13 @@ impl Debug for PacketZcResurrection {
 pub struct PacketCzReqGiveMannerPoint {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub other_aid: u32,
+    pub other_aid_raw: Vec<u8>,
     pub type_: char,
+    pub type__raw: Vec<u8>,
     pub point: u16,
+    pub point_raw: Vec<u8>,
 }
 
 impl PacketCzReqGiveMannerPoint {
@@ -12447,9 +14249,13 @@ impl PacketCzReqGiveMannerPoint {
         PacketCzReqGiveMannerPoint {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             other_aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            other_aid_raw: buffer[2..6].to_vec(),
             type_: buffer[6] as char,
+            type__raw: buffer[6..7].to_vec(),
             point: u16::from_le_bytes([buffer[7], buffer[8]]),
+            point_raw: buffer[7..9].to_vec(),
         }
     }
 }
@@ -12481,7 +14287,9 @@ impl Debug for PacketCzReqGiveMannerPoint {
 pub struct PacketZcAckGiveMannerPoint {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub result: u32,
+    pub result_raw: Vec<u8>,
 }
 
 impl PacketZcAckGiveMannerPoint {
@@ -12489,7 +14297,9 @@ impl PacketZcAckGiveMannerPoint {
         PacketZcAckGiveMannerPoint {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             result: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            result_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -12519,8 +14329,11 @@ impl Debug for PacketZcAckGiveMannerPoint {
 pub struct PacketZcNotifyMannerPointGiven {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub type_: char,
+    pub type__raw: Vec<u8>,
     pub other_char_name: String,
+    pub other_char_name_raw: Vec<u8>,
 }
 
 impl PacketZcNotifyMannerPointGiven {
@@ -12528,8 +14341,11 @@ impl PacketZcNotifyMannerPointGiven {
         PacketZcNotifyMannerPointGiven {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             type_: buffer[2] as char,
+            type__raw: buffer[2..3].to_vec(),
             other_char_name: String::from_utf8_lossy(&buffer[3..27]).to_string(),
+            other_char_name_raw: buffer[3..27].to_vec(),
         }
     }
 }
@@ -12560,8 +14376,11 @@ impl Debug for PacketZcNotifyMannerPointGiven {
 pub struct PacketZcMyguildBasicInfo {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub related_guild_list: Vec<RelatedGuild>,
+    pub related_guild_list_raw: Vec<u8>,
 }
 
 impl PacketZcMyguildBasicInfo {
@@ -12578,8 +14397,11 @@ impl PacketZcMyguildBasicInfo {
         PacketZcMyguildBasicInfo {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             related_guild_list: vec_field,
+            related_guild_list_raw: buffer[4..36].to_vec(),
         }
     }
 }
@@ -12610,6 +14432,7 @@ impl Debug for PacketZcMyguildBasicInfo {
 pub struct PacketCzReqGuildMenuinterface {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketCzReqGuildMenuinterface {
@@ -12617,6 +14440,7 @@ impl PacketCzReqGuildMenuinterface {
         PacketCzReqGuildMenuinterface {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -12645,7 +14469,9 @@ impl Debug for PacketCzReqGuildMenuinterface {
 pub struct PacketZcAckGuildMenuinterface {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub guild_memu_flag: u32,
+    pub guild_memu_flag_raw: Vec<u8>,
 }
 
 impl PacketZcAckGuildMenuinterface {
@@ -12653,7 +14479,9 @@ impl PacketZcAckGuildMenuinterface {
         PacketZcAckGuildMenuinterface {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             guild_memu_flag: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            guild_memu_flag_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -12683,7 +14511,9 @@ impl Debug for PacketZcAckGuildMenuinterface {
 pub struct PacketCzReqGuildMenu {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub type_: u32,
+    pub type__raw: Vec<u8>,
 }
 
 impl PacketCzReqGuildMenu {
@@ -12691,7 +14521,9 @@ impl PacketCzReqGuildMenu {
         PacketCzReqGuildMenu {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             type_: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            type__raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -12721,20 +14553,35 @@ impl Debug for PacketCzReqGuildMenu {
 pub struct PacketZcGuildInfo {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub gdid: u32,
+    pub gdid_raw: Vec<u8>,
     pub level: u32,
+    pub level_raw: Vec<u8>,
     pub user_num: u32,
+    pub user_num_raw: Vec<u8>,
     pub max_user_num: u32,
+    pub max_user_num_raw: Vec<u8>,
     pub user_average_level: u32,
+    pub user_average_level_raw: Vec<u8>,
     pub exp: u32,
+    pub exp_raw: Vec<u8>,
     pub max_exp: u32,
+    pub max_exp_raw: Vec<u8>,
     pub point: u32,
+    pub point_raw: Vec<u8>,
     pub honor: u32,
+    pub honor_raw: Vec<u8>,
     pub virtue: u32,
+    pub virtue_raw: Vec<u8>,
     pub emblem_version: u32,
+    pub emblem_version_raw: Vec<u8>,
     pub guildname: String,
+    pub guildname_raw: Vec<u8>,
     pub master_name: String,
+    pub master_name_raw: Vec<u8>,
     pub manage_land: String,
+    pub manage_land_raw: Vec<u8>,
 }
 
 impl PacketZcGuildInfo {
@@ -12742,20 +14589,35 @@ impl PacketZcGuildInfo {
         PacketZcGuildInfo {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             gdid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gdid_raw: buffer[2..6].to_vec(),
             level: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            level_raw: buffer[6..10].to_vec(),
             user_num: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            user_num_raw: buffer[10..14].to_vec(),
             max_user_num: u32::from_le_bytes([buffer[14], buffer[15], buffer[16], buffer[17]]),
+            max_user_num_raw: buffer[14..18].to_vec(),
             user_average_level: u32::from_le_bytes([buffer[18], buffer[19], buffer[20], buffer[21]]),
+            user_average_level_raw: buffer[18..22].to_vec(),
             exp: u32::from_le_bytes([buffer[22], buffer[23], buffer[24], buffer[25]]),
+            exp_raw: buffer[22..26].to_vec(),
             max_exp: u32::from_le_bytes([buffer[26], buffer[27], buffer[28], buffer[29]]),
+            max_exp_raw: buffer[26..30].to_vec(),
             point: u32::from_le_bytes([buffer[30], buffer[31], buffer[32], buffer[33]]),
+            point_raw: buffer[30..34].to_vec(),
             honor: u32::from_le_bytes([buffer[34], buffer[35], buffer[36], buffer[37]]),
+            honor_raw: buffer[34..38].to_vec(),
             virtue: u32::from_le_bytes([buffer[38], buffer[39], buffer[40], buffer[41]]),
+            virtue_raw: buffer[38..42].to_vec(),
             emblem_version: u32::from_le_bytes([buffer[42], buffer[43], buffer[44], buffer[45]]),
+            emblem_version_raw: buffer[42..46].to_vec(),
             guildname: String::from_utf8_lossy(&buffer[46..70]).to_string(),
+            guildname_raw: buffer[46..70].to_vec(),
             master_name: String::from_utf8_lossy(&buffer[70..94]).to_string(),
+            master_name_raw: buffer[70..94].to_vec(),
             manage_land: String::from_utf8_lossy(&buffer[94..110]).to_string(),
+            manage_land_raw: buffer[94..110].to_vec(),
         }
     }
 }
@@ -12798,7 +14660,9 @@ impl Debug for PacketZcGuildInfo {
 pub struct PacketCzReqGuildEmblemImg {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub gdid: u32,
+    pub gdid_raw: Vec<u8>,
 }
 
 impl PacketCzReqGuildEmblemImg {
@@ -12806,7 +14670,9 @@ impl PacketCzReqGuildEmblemImg {
         PacketCzReqGuildEmblemImg {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             gdid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gdid_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -12836,10 +14702,15 @@ impl Debug for PacketCzReqGuildEmblemImg {
 pub struct PacketZcGuildEmblemImg {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub gdid: u32,
+    pub gdid_raw: Vec<u8>,
     pub emblem_version: u32,
+    pub emblem_version_raw: Vec<u8>,
     pub img: String,
+    pub img_raw: Vec<u8>,
 }
 
 impl PacketZcGuildEmblemImg {
@@ -12847,10 +14718,15 @@ impl PacketZcGuildEmblemImg {
         PacketZcGuildEmblemImg {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             gdid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            gdid_raw: buffer[4..8].to_vec(),
             emblem_version: u32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
+            emblem_version_raw: buffer[8..12].to_vec(),
             img: String::from_utf8_lossy(&buffer[12..buffer.len()]).to_string(),
+            img_raw: buffer[12..buffer.len()].to_vec(),
         }
     }
 }
@@ -12883,8 +14759,11 @@ impl Debug for PacketZcGuildEmblemImg {
 pub struct PacketCzRegisterGuildEmblemImg {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub img: String,
+    pub img_raw: Vec<u8>,
 }
 
 impl PacketCzRegisterGuildEmblemImg {
@@ -12892,8 +14771,11 @@ impl PacketCzRegisterGuildEmblemImg {
         PacketCzRegisterGuildEmblemImg {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             img: String::from_utf8_lossy(&buffer[4..buffer.len()]).to_string(),
+            img_raw: buffer[4..buffer.len()].to_vec(),
         }
     }
 }
@@ -12924,8 +14806,11 @@ impl Debug for PacketCzRegisterGuildEmblemImg {
 pub struct PacketZcMembermgrInfo {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub member_info: Vec<GuildMembermgrInfo>,
+    pub member_info_raw: Vec<u8>,
 }
 
 impl PacketZcMembermgrInfo {
@@ -12942,8 +14827,11 @@ impl PacketZcMembermgrInfo {
         PacketZcMembermgrInfo {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             member_info: vec_field,
+            member_info_raw: buffer[4..108].to_vec(),
         }
     }
 }
@@ -12974,8 +14862,11 @@ impl Debug for PacketZcMembermgrInfo {
 pub struct PacketCzReqChangeMemberpos {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub member_info: Vec<MemberPositionInfo>,
+    pub member_info_raw: Vec<u8>,
 }
 
 impl PacketCzReqChangeMemberpos {
@@ -12992,8 +14883,11 @@ impl PacketCzReqChangeMemberpos {
         PacketCzReqChangeMemberpos {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             member_info: vec_field,
+            member_info_raw: buffer[4..16].to_vec(),
         }
     }
 }
@@ -13024,8 +14918,11 @@ impl Debug for PacketCzReqChangeMemberpos {
 pub struct PacketZcAckReqChangeMembers {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub member_info: Vec<MemberPositionInfo>,
+    pub member_info_raw: Vec<u8>,
 }
 
 impl PacketZcAckReqChangeMembers {
@@ -13042,8 +14939,11 @@ impl PacketZcAckReqChangeMembers {
         PacketZcAckReqChangeMembers {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             member_info: vec_field,
+            member_info_raw: buffer[4..16].to_vec(),
         }
     }
 }
@@ -13074,7 +14974,9 @@ impl Debug for PacketZcAckReqChangeMembers {
 pub struct PacketCzReqOpenMemberInfo {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
 }
 
 impl PacketCzReqOpenMemberInfo {
@@ -13082,7 +14984,9 @@ impl PacketCzReqOpenMemberInfo {
         PacketCzReqOpenMemberInfo {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -13112,6 +15016,7 @@ impl Debug for PacketCzReqOpenMemberInfo {
 pub struct PacketZcAckOpenMemberInfo {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketZcAckOpenMemberInfo {
@@ -13119,6 +15024,7 @@ impl PacketZcAckOpenMemberInfo {
         PacketZcAckOpenMemberInfo {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -13147,10 +15053,15 @@ impl Debug for PacketZcAckOpenMemberInfo {
 pub struct PacketCzReqLeaveGuild {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub gdid: u32,
+    pub gdid_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub reason_desc: String,
+    pub reason_desc_raw: Vec<u8>,
 }
 
 impl PacketCzReqLeaveGuild {
@@ -13158,10 +15069,15 @@ impl PacketCzReqLeaveGuild {
         PacketCzReqLeaveGuild {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             gdid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gdid_raw: buffer[2..6].to_vec(),
             aid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            aid_raw: buffer[6..10].to_vec(),
             gid: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            gid_raw: buffer[10..14].to_vec(),
             reason_desc: String::from_utf8_lossy(&buffer[14..54]).to_string(),
+            reason_desc_raw: buffer[14..54].to_vec(),
         }
     }
 }
@@ -13194,8 +15110,11 @@ impl Debug for PacketCzReqLeaveGuild {
 pub struct PacketZcAckLeaveGuild {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub char_name: String,
+    pub char_name_raw: Vec<u8>,
     pub reason_desc: String,
+    pub reason_desc_raw: Vec<u8>,
 }
 
 impl PacketZcAckLeaveGuild {
@@ -13203,8 +15122,11 @@ impl PacketZcAckLeaveGuild {
         PacketZcAckLeaveGuild {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             char_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            char_name_raw: buffer[2..26].to_vec(),
             reason_desc: String::from_utf8_lossy(&buffer[26..66]).to_string(),
+            reason_desc_raw: buffer[26..66].to_vec(),
         }
     }
 }
@@ -13235,10 +15157,15 @@ impl Debug for PacketZcAckLeaveGuild {
 pub struct PacketCzReqBanGuild {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub gdid: u32,
+    pub gdid_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub reason_desc: String,
+    pub reason_desc_raw: Vec<u8>,
 }
 
 impl PacketCzReqBanGuild {
@@ -13246,10 +15173,15 @@ impl PacketCzReqBanGuild {
         PacketCzReqBanGuild {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             gdid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gdid_raw: buffer[2..6].to_vec(),
             aid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            aid_raw: buffer[6..10].to_vec(),
             gid: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            gid_raw: buffer[10..14].to_vec(),
             reason_desc: String::from_utf8_lossy(&buffer[14..54]).to_string(),
+            reason_desc_raw: buffer[14..54].to_vec(),
         }
     }
 }
@@ -13282,9 +15214,13 @@ impl Debug for PacketCzReqBanGuild {
 pub struct PacketZcAckBanGuild {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub char_name: String,
+    pub char_name_raw: Vec<u8>,
     pub reason_desc: String,
+    pub reason_desc_raw: Vec<u8>,
     pub account: String,
+    pub account_raw: Vec<u8>,
 }
 
 impl PacketZcAckBanGuild {
@@ -13292,9 +15228,13 @@ impl PacketZcAckBanGuild {
         PacketZcAckBanGuild {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             char_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            char_name_raw: buffer[2..26].to_vec(),
             reason_desc: String::from_utf8_lossy(&buffer[26..66]).to_string(),
+            reason_desc_raw: buffer[26..66].to_vec(),
             account: String::from_utf8_lossy(&buffer[66..90]).to_string(),
+            account_raw: buffer[66..90].to_vec(),
         }
     }
 }
@@ -13326,7 +15266,9 @@ impl Debug for PacketZcAckBanGuild {
 pub struct PacketCzReqDisorganizeGuild {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub key: String,
+    pub key_raw: Vec<u8>,
 }
 
 impl PacketCzReqDisorganizeGuild {
@@ -13334,7 +15276,9 @@ impl PacketCzReqDisorganizeGuild {
         PacketCzReqDisorganizeGuild {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             key: String::from_utf8_lossy(&buffer[2..42]).to_string(),
+            key_raw: buffer[2..42].to_vec(),
         }
     }
 }
@@ -13364,7 +15308,9 @@ impl Debug for PacketCzReqDisorganizeGuild {
 pub struct PacketZcAckDisorganizeGuildResult {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub reason: u32,
+    pub reason_raw: Vec<u8>,
 }
 
 impl PacketZcAckDisorganizeGuildResult {
@@ -13372,7 +15318,9 @@ impl PacketZcAckDisorganizeGuildResult {
         PacketZcAckDisorganizeGuildResult {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             reason: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            reason_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -13402,7 +15350,9 @@ impl Debug for PacketZcAckDisorganizeGuildResult {
 pub struct PacketZcAckDisorganizeGuild {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub reason_desc: String,
+    pub reason_desc_raw: Vec<u8>,
 }
 
 impl PacketZcAckDisorganizeGuild {
@@ -13410,7 +15360,9 @@ impl PacketZcAckDisorganizeGuild {
         PacketZcAckDisorganizeGuild {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             reason_desc: String::from_utf8_lossy(&buffer[2..42]).to_string(),
+            reason_desc_raw: buffer[2..42].to_vec(),
         }
     }
 }
@@ -13440,8 +15392,11 @@ impl Debug for PacketZcAckDisorganizeGuild {
 pub struct PacketZcPositionInfo {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub member_info: Vec<GuildMemberPositionInfo>,
+    pub member_info_raw: Vec<u8>,
 }
 
 impl PacketZcPositionInfo {
@@ -13458,8 +15413,11 @@ impl PacketZcPositionInfo {
         PacketZcPositionInfo {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             member_info: vec_field,
+            member_info_raw: buffer[4..20].to_vec(),
         }
     }
 }
@@ -13490,8 +15448,11 @@ impl Debug for PacketZcPositionInfo {
 pub struct PacketCzRegChangeGuildPositioninfo {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub member_list: Vec<GuildRegPositionInfo>,
+    pub member_list_raw: Vec<u8>,
 }
 
 impl PacketCzRegChangeGuildPositioninfo {
@@ -13508,8 +15469,11 @@ impl PacketCzRegChangeGuildPositioninfo {
         PacketCzRegChangeGuildPositioninfo {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             member_list: vec_field,
+            member_list_raw: buffer[4..44].to_vec(),
         }
     }
 }
@@ -13540,9 +15504,13 @@ impl Debug for PacketCzRegChangeGuildPositioninfo {
 pub struct PacketZcGuildSkillinfo {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub skill_point: u16,
+    pub skill_point_raw: Vec<u8>,
     pub skill_list: Vec<SKILLINFO>,
+    pub skill_list_raw: Vec<u8>,
 }
 
 impl PacketZcGuildSkillinfo {
@@ -13559,9 +15527,13 @@ impl PacketZcGuildSkillinfo {
         PacketZcGuildSkillinfo {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             skill_point: u16::from_le_bytes([buffer[4], buffer[5]]),
+            skill_point_raw: buffer[4..6].to_vec(),
             skill_list: vec_field,
+            skill_list_raw: buffer[6..43].to_vec(),
         }
     }
 }
@@ -13593,8 +15565,11 @@ impl Debug for PacketZcGuildSkillinfo {
 pub struct PacketZcBanList {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub ban_list: Vec<GuildBanInfo>,
+    pub ban_list_raw: Vec<u8>,
 }
 
 impl PacketZcBanList {
@@ -13611,8 +15586,11 @@ impl PacketZcBanList {
         PacketZcBanList {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             ban_list: vec_field,
+            ban_list_raw: buffer[4..92].to_vec(),
         }
     }
 }
@@ -13643,8 +15621,11 @@ impl Debug for PacketZcBanList {
 pub struct PacketZcOtherGuildList {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub guild_list: Vec<OtherGuildInfo>,
+    pub guild_list_raw: Vec<u8>,
 }
 
 impl PacketZcOtherGuildList {
@@ -13661,8 +15642,11 @@ impl PacketZcOtherGuildList {
         PacketZcOtherGuildList {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             guild_list: vec_field,
+            guild_list_raw: buffer[4..40].to_vec(),
         }
     }
 }
@@ -13693,8 +15677,11 @@ impl Debug for PacketZcOtherGuildList {
 pub struct PacketCzReqMakeGuild {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub gname: String,
+    pub gname_raw: Vec<u8>,
 }
 
 impl PacketCzReqMakeGuild {
@@ -13702,8 +15689,11 @@ impl PacketCzReqMakeGuild {
         PacketCzReqMakeGuild {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid_raw: buffer[2..6].to_vec(),
             gname: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            gname_raw: buffer[6..30].to_vec(),
         }
     }
 }
@@ -13734,8 +15724,11 @@ impl Debug for PacketCzReqMakeGuild {
 pub struct PacketZcPositionIdNameInfo {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub member_list: Vec<MemberPositionIdNameInfo>,
+    pub member_list_raw: Vec<u8>,
 }
 
 impl PacketZcPositionIdNameInfo {
@@ -13752,8 +15745,11 @@ impl PacketZcPositionIdNameInfo {
         PacketZcPositionIdNameInfo {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             member_list: vec_field,
+            member_list_raw: buffer[4..32].to_vec(),
         }
     }
 }
@@ -13784,7 +15780,9 @@ impl Debug for PacketZcPositionIdNameInfo {
 pub struct PacketZcResultMakeGuild {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub result: char,
+    pub result_raw: Vec<u8>,
 }
 
 impl PacketZcResultMakeGuild {
@@ -13792,7 +15790,9 @@ impl PacketZcResultMakeGuild {
         PacketZcResultMakeGuild {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             result: buffer[2] as char,
+            result_raw: buffer[2..3].to_vec(),
         }
     }
 }
@@ -13822,9 +15822,13 @@ impl Debug for PacketZcResultMakeGuild {
 pub struct PacketCzReqJoinGuild {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub my_aid: u32,
+    pub my_aid_raw: Vec<u8>,
     pub my_gid: u32,
+    pub my_gid_raw: Vec<u8>,
 }
 
 impl PacketCzReqJoinGuild {
@@ -13832,9 +15836,13 @@ impl PacketCzReqJoinGuild {
         PacketCzReqJoinGuild {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             my_aid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            my_aid_raw: buffer[6..10].to_vec(),
             my_gid: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            my_gid_raw: buffer[10..14].to_vec(),
         }
     }
 }
@@ -13866,7 +15874,9 @@ impl Debug for PacketCzReqJoinGuild {
 pub struct PacketZcAckReqJoinGuild {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub answer: char,
+    pub answer_raw: Vec<u8>,
 }
 
 impl PacketZcAckReqJoinGuild {
@@ -13874,7 +15884,9 @@ impl PacketZcAckReqJoinGuild {
         PacketZcAckReqJoinGuild {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             answer: buffer[2] as char,
+            answer_raw: buffer[2..3].to_vec(),
         }
     }
 }
@@ -13904,8 +15916,11 @@ impl Debug for PacketZcAckReqJoinGuild {
 pub struct PacketZcReqJoinGuild {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub gdid: u32,
+    pub gdid_raw: Vec<u8>,
     pub guild_name: String,
+    pub guild_name_raw: Vec<u8>,
 }
 
 impl PacketZcReqJoinGuild {
@@ -13913,8 +15928,11 @@ impl PacketZcReqJoinGuild {
         PacketZcReqJoinGuild {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             gdid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gdid_raw: buffer[2..6].to_vec(),
             guild_name: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            guild_name_raw: buffer[6..30].to_vec(),
         }
     }
 }
@@ -13945,8 +15963,11 @@ impl Debug for PacketZcReqJoinGuild {
 pub struct PacketCzJoinGuild {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub gdid: u32,
+    pub gdid_raw: Vec<u8>,
     pub answer: u32,
+    pub answer_raw: Vec<u8>,
 }
 
 impl PacketCzJoinGuild {
@@ -13954,8 +15975,11 @@ impl PacketCzJoinGuild {
         PacketCzJoinGuild {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             gdid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gdid_raw: buffer[2..6].to_vec(),
             answer: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            answer_raw: buffer[6..10].to_vec(),
         }
     }
 }
@@ -13986,12 +16010,19 @@ impl Debug for PacketCzJoinGuild {
 pub struct PacketZcUpdateGdid {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub gdid: u32,
+    pub gdid_raw: Vec<u8>,
     pub emblem_version: u32,
+    pub emblem_version_raw: Vec<u8>,
     pub right: u32,
+    pub right_raw: Vec<u8>,
     pub is_master: bool,
+    pub is_master_raw: Vec<u8>,
     pub inter_sid: u32,
+    pub inter_sid_raw: Vec<u8>,
     pub gname: String,
+    pub gname_raw: Vec<u8>,
 }
 
 impl PacketZcUpdateGdid {
@@ -13999,12 +16030,19 @@ impl PacketZcUpdateGdid {
         PacketZcUpdateGdid {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             gdid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gdid_raw: buffer[2..6].to_vec(),
             emblem_version: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            emblem_version_raw: buffer[6..10].to_vec(),
             right: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            right_raw: buffer[10..14].to_vec(),
             is_master: buffer[14] == 1,
+            is_master_raw: buffer[14..15].to_vec(),
             inter_sid: u32::from_le_bytes([buffer[15], buffer[16], buffer[17], buffer[18]]),
+            inter_sid_raw: buffer[15..19].to_vec(),
             gname: String::from_utf8_lossy(&buffer[19..43]).to_string(),
+            gname_raw: buffer[19..43].to_vec(),
         }
     }
 }
@@ -14039,9 +16077,13 @@ impl Debug for PacketZcUpdateGdid {
 pub struct PacketZcUpdateCharstat {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub status: u32,
+    pub status_raw: Vec<u8>,
 }
 
 impl PacketZcUpdateCharstat {
@@ -14049,9 +16091,13 @@ impl PacketZcUpdateCharstat {
         PacketZcUpdateCharstat {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             gid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            gid_raw: buffer[6..10].to_vec(),
             status: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            status_raw: buffer[10..14].to_vec(),
         }
     }
 }
@@ -14083,9 +16129,13 @@ impl Debug for PacketZcUpdateCharstat {
 pub struct PacketCzGuildNotice {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub gdid: u32,
+    pub gdid_raw: Vec<u8>,
     pub subject: String,
+    pub subject_raw: Vec<u8>,
     pub notice: String,
+    pub notice_raw: Vec<u8>,
 }
 
 impl PacketCzGuildNotice {
@@ -14093,9 +16143,13 @@ impl PacketCzGuildNotice {
         PacketCzGuildNotice {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             gdid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gdid_raw: buffer[2..6].to_vec(),
             subject: String::from_utf8_lossy(&buffer[6..66]).to_string(),
+            subject_raw: buffer[6..66].to_vec(),
             notice: String::from_utf8_lossy(&buffer[66..186]).to_string(),
+            notice_raw: buffer[66..186].to_vec(),
         }
     }
 }
@@ -14127,8 +16181,11 @@ impl Debug for PacketCzGuildNotice {
 pub struct PacketZcGuildNotice {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub subject: String,
+    pub subject_raw: Vec<u8>,
     pub notice: String,
+    pub notice_raw: Vec<u8>,
 }
 
 impl PacketZcGuildNotice {
@@ -14136,8 +16193,11 @@ impl PacketZcGuildNotice {
         PacketZcGuildNotice {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             subject: String::from_utf8_lossy(&buffer[2..62]).to_string(),
+            subject_raw: buffer[2..62].to_vec(),
             notice: String::from_utf8_lossy(&buffer[62..182]).to_string(),
+            notice_raw: buffer[62..182].to_vec(),
         }
     }
 }
@@ -14168,9 +16228,13 @@ impl Debug for PacketZcGuildNotice {
 pub struct PacketCzReqAllyGuild {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub my_aid: u32,
+    pub my_aid_raw: Vec<u8>,
     pub my_gid: u32,
+    pub my_gid_raw: Vec<u8>,
 }
 
 impl PacketCzReqAllyGuild {
@@ -14178,9 +16242,13 @@ impl PacketCzReqAllyGuild {
         PacketCzReqAllyGuild {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             my_aid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            my_aid_raw: buffer[6..10].to_vec(),
             my_gid: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            my_gid_raw: buffer[10..14].to_vec(),
         }
     }
 }
@@ -14212,8 +16280,11 @@ impl Debug for PacketCzReqAllyGuild {
 pub struct PacketZcReqAllyGuild {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub other_aid: u32,
+    pub other_aid_raw: Vec<u8>,
     pub guild_name: String,
+    pub guild_name_raw: Vec<u8>,
 }
 
 impl PacketZcReqAllyGuild {
@@ -14221,8 +16292,11 @@ impl PacketZcReqAllyGuild {
         PacketZcReqAllyGuild {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             other_aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            other_aid_raw: buffer[2..6].to_vec(),
             guild_name: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            guild_name_raw: buffer[6..30].to_vec(),
         }
     }
 }
@@ -14253,8 +16327,11 @@ impl Debug for PacketZcReqAllyGuild {
 pub struct PacketCzAllyGuild {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub other_aid: u32,
+    pub other_aid_raw: Vec<u8>,
     pub answer: u32,
+    pub answer_raw: Vec<u8>,
 }
 
 impl PacketCzAllyGuild {
@@ -14262,8 +16339,11 @@ impl PacketCzAllyGuild {
         PacketCzAllyGuild {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             other_aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            other_aid_raw: buffer[2..6].to_vec(),
             answer: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            answer_raw: buffer[6..10].to_vec(),
         }
     }
 }
@@ -14294,7 +16374,9 @@ impl Debug for PacketCzAllyGuild {
 pub struct PacketZcAckReqAllyGuild {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub answer: char,
+    pub answer_raw: Vec<u8>,
 }
 
 impl PacketZcAckReqAllyGuild {
@@ -14302,7 +16384,9 @@ impl PacketZcAckReqAllyGuild {
         PacketZcAckReqAllyGuild {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             answer: buffer[2] as char,
+            answer_raw: buffer[2..3].to_vec(),
         }
     }
 }
@@ -14332,8 +16416,11 @@ impl Debug for PacketZcAckReqAllyGuild {
 pub struct PacketZcAckChangeGuildPositioninfo {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub member_list: Vec<GuildRegPositionInfo>,
+    pub member_list_raw: Vec<u8>,
 }
 
 impl PacketZcAckChangeGuildPositioninfo {
@@ -14350,8 +16437,11 @@ impl PacketZcAckChangeGuildPositioninfo {
         PacketZcAckChangeGuildPositioninfo {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             member_list: vec_field,
+            member_list_raw: buffer[4..34].to_vec(),
         }
     }
 }
@@ -14382,7 +16472,9 @@ impl Debug for PacketZcAckChangeGuildPositioninfo {
 pub struct PacketCzReqGuildMemberInfo {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
 }
 
 impl PacketCzReqGuildMemberInfo {
@@ -14390,7 +16482,9 @@ impl PacketCzReqGuildMemberInfo {
         PacketCzReqGuildMemberInfo {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -14420,7 +16514,9 @@ impl Debug for PacketCzReqGuildMemberInfo {
 pub struct PacketZcAckGuildMemberInfo {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub info: GuildMemberInfo,
+    pub info_raw: Vec<u8>,
 }
 
 impl PacketZcAckGuildMemberInfo {
@@ -14428,7 +16524,9 @@ impl PacketZcAckGuildMemberInfo {
         PacketZcAckGuildMemberInfo {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             info: GuildMemberInfo::from(&buffer[2..buffer.len()]),
+            info_raw: buffer[2..buffer.len()].to_vec(),
         }
     }
 }
@@ -14458,8 +16556,11 @@ impl Debug for PacketZcAckGuildMemberInfo {
 pub struct PacketZcItemidentifyList {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub itidlist: u16,
+    pub itidlist_raw: Vec<u8>,
 }
 
 impl PacketZcItemidentifyList {
@@ -14467,8 +16568,11 @@ impl PacketZcItemidentifyList {
         PacketZcItemidentifyList {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             itidlist: u16::from_le_bytes([buffer[4], buffer[5]]),
+            itidlist_raw: buffer[4..6].to_vec(),
         }
     }
 }
@@ -14499,7 +16603,9 @@ impl Debug for PacketZcItemidentifyList {
 pub struct PacketCzReqItemidentify {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub index: u16,
+    pub index_raw: Vec<u8>,
 }
 
 impl PacketCzReqItemidentify {
@@ -14507,7 +16613,9 @@ impl PacketCzReqItemidentify {
         PacketCzReqItemidentify {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            index_raw: buffer[2..4].to_vec(),
         }
     }
 }
@@ -14537,8 +16645,11 @@ impl Debug for PacketCzReqItemidentify {
 pub struct PacketZcAckItemidentify {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub index: u16,
+    pub index_raw: Vec<u8>,
     pub result: char,
+    pub result_raw: Vec<u8>,
 }
 
 impl PacketZcAckItemidentify {
@@ -14546,8 +16657,11 @@ impl PacketZcAckItemidentify {
         PacketZcAckItemidentify {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            index_raw: buffer[2..4].to_vec(),
             result: buffer[4] as char,
+            result_raw: buffer[4..5].to_vec(),
         }
     }
 }
@@ -14578,7 +16692,9 @@ impl Debug for PacketZcAckItemidentify {
 pub struct PacketCzReqItemcompositionList {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub card_index: u16,
+    pub card_index_raw: Vec<u8>,
 }
 
 impl PacketCzReqItemcompositionList {
@@ -14586,7 +16702,9 @@ impl PacketCzReqItemcompositionList {
         PacketCzReqItemcompositionList {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             card_index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            card_index_raw: buffer[2..4].to_vec(),
         }
     }
 }
@@ -14616,8 +16734,11 @@ impl Debug for PacketCzReqItemcompositionList {
 pub struct PacketZcItemcompositionList {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub itidlist: u16,
+    pub itidlist_raw: Vec<u8>,
 }
 
 impl PacketZcItemcompositionList {
@@ -14625,8 +16746,11 @@ impl PacketZcItemcompositionList {
         PacketZcItemcompositionList {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             itidlist: u16::from_le_bytes([buffer[4], buffer[5]]),
+            itidlist_raw: buffer[4..6].to_vec(),
         }
     }
 }
@@ -14657,8 +16781,11 @@ impl Debug for PacketZcItemcompositionList {
 pub struct PacketCzReqItemcomposition {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub card_index: u16,
+    pub card_index_raw: Vec<u8>,
     pub equip_index: u16,
+    pub equip_index_raw: Vec<u8>,
 }
 
 impl PacketCzReqItemcomposition {
@@ -14666,8 +16793,11 @@ impl PacketCzReqItemcomposition {
         PacketCzReqItemcomposition {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             card_index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            card_index_raw: buffer[2..4].to_vec(),
             equip_index: u16::from_le_bytes([buffer[4], buffer[5]]),
+            equip_index_raw: buffer[4..6].to_vec(),
         }
     }
 }
@@ -14698,9 +16828,13 @@ impl Debug for PacketCzReqItemcomposition {
 pub struct PacketZcAckItemcomposition {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub equip_index: u16,
+    pub equip_index_raw: Vec<u8>,
     pub card_index: u16,
+    pub card_index_raw: Vec<u8>,
     pub result: char,
+    pub result_raw: Vec<u8>,
 }
 
 impl PacketZcAckItemcomposition {
@@ -14708,9 +16842,13 @@ impl PacketZcAckItemcomposition {
         PacketZcAckItemcomposition {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             equip_index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            equip_index_raw: buffer[2..4].to_vec(),
             card_index: u16::from_le_bytes([buffer[4], buffer[5]]),
+            card_index_raw: buffer[4..6].to_vec(),
             result: buffer[6] as char,
+            result_raw: buffer[6..7].to_vec(),
         }
     }
 }
@@ -14742,8 +16880,11 @@ impl Debug for PacketZcAckItemcomposition {
 pub struct PacketCzGuildChat {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub msg: String,
+    pub msg_raw: Vec<u8>,
 }
 
 impl PacketCzGuildChat {
@@ -14751,8 +16892,11 @@ impl PacketCzGuildChat {
         PacketCzGuildChat {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             msg: String::from_utf8_lossy(&buffer[4..buffer.len()]).to_string(),
+            msg_raw: buffer[4..buffer.len()].to_vec(),
         }
     }
 }
@@ -14783,8 +16927,11 @@ impl Debug for PacketCzGuildChat {
 pub struct PacketZcGuildChat {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub msg: String,
+    pub msg_raw: Vec<u8>,
 }
 
 impl PacketZcGuildChat {
@@ -14792,8 +16939,11 @@ impl PacketZcGuildChat {
         PacketZcGuildChat {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             msg: String::from_utf8_lossy(&buffer[4..buffer.len()]).to_string(),
+            msg_raw: buffer[4..buffer.len()].to_vec(),
         }
     }
 }
@@ -14824,7 +16974,9 @@ impl Debug for PacketZcGuildChat {
 pub struct PacketCzReqHostileGuild {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
 }
 
 impl PacketCzReqHostileGuild {
@@ -14832,7 +16984,9 @@ impl PacketCzReqHostileGuild {
         PacketCzReqHostileGuild {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -14862,7 +17016,9 @@ impl Debug for PacketCzReqHostileGuild {
 pub struct PacketZcAckReqHostileGuild {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub result: char,
+    pub result_raw: Vec<u8>,
 }
 
 impl PacketZcAckReqHostileGuild {
@@ -14870,7 +17026,9 @@ impl PacketZcAckReqHostileGuild {
         PacketZcAckReqHostileGuild {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             result: buffer[2] as char,
+            result_raw: buffer[2..3].to_vec(),
         }
     }
 }
@@ -14900,7 +17058,9 @@ impl Debug for PacketZcAckReqHostileGuild {
 pub struct PacketZcMemberAdd {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub info: GuildMemberInfo,
+    pub info_raw: Vec<u8>,
 }
 
 impl PacketZcMemberAdd {
@@ -14908,7 +17068,9 @@ impl PacketZcMemberAdd {
         PacketZcMemberAdd {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             info: GuildMemberInfo::from(&buffer[2..buffer.len()]),
+            info_raw: buffer[2..buffer.len()].to_vec(),
         }
     }
 }
@@ -14938,8 +17100,11 @@ impl Debug for PacketZcMemberAdd {
 pub struct PacketCzReqDeleteRelatedGuild {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub opponent_gdid: u32,
+    pub opponent_gdid_raw: Vec<u8>,
     pub relation: u32,
+    pub relation_raw: Vec<u8>,
 }
 
 impl PacketCzReqDeleteRelatedGuild {
@@ -14947,8 +17112,11 @@ impl PacketCzReqDeleteRelatedGuild {
         PacketCzReqDeleteRelatedGuild {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             opponent_gdid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            opponent_gdid_raw: buffer[2..6].to_vec(),
             relation: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            relation_raw: buffer[6..10].to_vec(),
         }
     }
 }
@@ -14979,8 +17147,11 @@ impl Debug for PacketCzReqDeleteRelatedGuild {
 pub struct PacketZcDeleteRelatedGuild {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub opponent_gdid: u32,
+    pub opponent_gdid_raw: Vec<u8>,
     pub relation: u32,
+    pub relation_raw: Vec<u8>,
 }
 
 impl PacketZcDeleteRelatedGuild {
@@ -14988,8 +17159,11 @@ impl PacketZcDeleteRelatedGuild {
         PacketZcDeleteRelatedGuild {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             opponent_gdid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            opponent_gdid_raw: buffer[2..6].to_vec(),
             relation: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            relation_raw: buffer[6..10].to_vec(),
         }
     }
 }
@@ -15020,7 +17194,9 @@ impl Debug for PacketZcDeleteRelatedGuild {
 pub struct PacketZcAddRelatedGuild {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub info: RelatedGuildInfo,
+    pub info_raw: Vec<u8>,
 }
 
 impl PacketZcAddRelatedGuild {
@@ -15028,7 +17204,9 @@ impl PacketZcAddRelatedGuild {
         PacketZcAddRelatedGuild {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             info: RelatedGuildInfo::from(&buffer[2..buffer.len()]),
+            info_raw: buffer[2..buffer.len()].to_vec(),
         }
     }
 }
@@ -15058,7 +17236,9 @@ impl Debug for PacketZcAddRelatedGuild {
 pub struct PacketCollectordead {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub server_id: u32,
+    pub server_id_raw: Vec<u8>,
 }
 
 impl PacketCollectordead {
@@ -15066,7 +17246,9 @@ impl PacketCollectordead {
         PacketCollectordead {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             server_id: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            server_id_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -15096,7 +17278,9 @@ impl Debug for PacketCollectordead {
 pub struct PacketPing {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
 }
 
 impl PacketPing {
@@ -15104,7 +17288,9 @@ impl PacketPing {
         PacketPing {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -15134,9 +17320,13 @@ impl Debug for PacketPing {
 pub struct PacketZcAckItemrefining {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub result: u16,
+    pub result_raw: Vec<u8>,
     pub item_index: u16,
+    pub item_index_raw: Vec<u8>,
     pub refining_level: u16,
+    pub refining_level_raw: Vec<u8>,
 }
 
 impl PacketZcAckItemrefining {
@@ -15144,9 +17334,13 @@ impl PacketZcAckItemrefining {
         PacketZcAckItemrefining {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             result: u16::from_le_bytes([buffer[2], buffer[3]]),
+            result_raw: buffer[2..4].to_vec(),
             item_index: u16::from_le_bytes([buffer[4], buffer[5]]),
+            item_index_raw: buffer[4..6].to_vec(),
             refining_level: u16::from_le_bytes([buffer[6], buffer[7]]),
+            refining_level_raw: buffer[6..8].to_vec(),
         }
     }
 }
@@ -15178,7 +17372,9 @@ impl Debug for PacketZcAckItemrefining {
 pub struct PacketZcNotifyMapinfo {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub type_: u16,
+    pub type__raw: Vec<u8>,
 }
 
 impl PacketZcNotifyMapinfo {
@@ -15186,7 +17382,9 @@ impl PacketZcNotifyMapinfo {
         PacketZcNotifyMapinfo {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             type_: u16::from_le_bytes([buffer[2], buffer[3]]),
+            type__raw: buffer[2..4].to_vec(),
         }
     }
 }
@@ -15216,7 +17414,9 @@ impl Debug for PacketZcNotifyMapinfo {
 pub struct PacketCzReqDisconnect {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub type_: u16,
+    pub type__raw: Vec<u8>,
 }
 
 impl PacketCzReqDisconnect {
@@ -15224,7 +17424,9 @@ impl PacketCzReqDisconnect {
         PacketCzReqDisconnect {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             type_: u16::from_le_bytes([buffer[2], buffer[3]]),
+            type__raw: buffer[2..4].to_vec(),
         }
     }
 }
@@ -15254,7 +17456,9 @@ impl Debug for PacketCzReqDisconnect {
 pub struct PacketZcAckReqDisconnect {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub result: u16,
+    pub result_raw: Vec<u8>,
 }
 
 impl PacketZcAckReqDisconnect {
@@ -15262,7 +17466,9 @@ impl PacketZcAckReqDisconnect {
         PacketZcAckReqDisconnect {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             result: u16::from_le_bytes([buffer[2], buffer[3]]),
+            result_raw: buffer[2..4].to_vec(),
         }
     }
 }
@@ -15292,15 +17498,25 @@ impl Debug for PacketZcAckReqDisconnect {
 pub struct PacketZcMonsterInfo {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub job: u16,
+    pub job_raw: Vec<u8>,
     pub level: u16,
+    pub level_raw: Vec<u8>,
     pub size: u16,
+    pub size_raw: Vec<u8>,
     pub hp: u32,
+    pub hp_raw: Vec<u8>,
     pub def: u16,
+    pub def_raw: Vec<u8>,
     pub race_type: u16,
+    pub race_type_raw: Vec<u8>,
     pub mdef_power: u16,
+    pub mdef_power_raw: Vec<u8>,
     pub property: u16,
+    pub property_raw: Vec<u8>,
     pub property_table: MonsterInfoElement,
+    pub property_table_raw: Vec<u8>,
 }
 
 impl PacketZcMonsterInfo {
@@ -15308,15 +17524,25 @@ impl PacketZcMonsterInfo {
         PacketZcMonsterInfo {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             job: u16::from_le_bytes([buffer[2], buffer[3]]),
+            job_raw: buffer[2..4].to_vec(),
             level: u16::from_le_bytes([buffer[4], buffer[5]]),
+            level_raw: buffer[4..6].to_vec(),
             size: u16::from_le_bytes([buffer[6], buffer[7]]),
+            size_raw: buffer[6..8].to_vec(),
             hp: u32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
+            hp_raw: buffer[8..12].to_vec(),
             def: u16::from_le_bytes([buffer[12], buffer[13]]),
+            def_raw: buffer[12..14].to_vec(),
             race_type: u16::from_le_bytes([buffer[14], buffer[15]]),
+            race_type_raw: buffer[14..16].to_vec(),
             mdef_power: u16::from_le_bytes([buffer[16], buffer[17]]),
+            mdef_power_raw: buffer[16..18].to_vec(),
             property: u16::from_le_bytes([buffer[18], buffer[19]]),
+            property_raw: buffer[18..20].to_vec(),
             property_table: MonsterInfoElement::from(&buffer[20..buffer.len()]),
+            property_table_raw: buffer[20..buffer.len()].to_vec(),
         }
     }
 }
@@ -15354,8 +17580,11 @@ impl Debug for PacketZcMonsterInfo {
 pub struct PacketZcMakableitemlist {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub info: MakableitemInfo,
+    pub info_raw: Vec<u8>,
 }
 
 impl PacketZcMakableitemlist {
@@ -15363,8 +17592,11 @@ impl PacketZcMakableitemlist {
         PacketZcMakableitemlist {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             info: MakableitemInfo::from(&buffer[4..buffer.len()]),
+            info_raw: buffer[4..buffer.len()].to_vec(),
         }
     }
 }
@@ -15395,7 +17627,9 @@ impl Debug for PacketZcMakableitemlist {
 pub struct PacketCzReqmakingitem {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub info: MakableitemInfo,
+    pub info_raw: Vec<u8>,
 }
 
 impl PacketCzReqmakingitem {
@@ -15403,7 +17637,9 @@ impl PacketCzReqmakingitem {
         PacketCzReqmakingitem {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             info: MakableitemInfo::from(&buffer[2..buffer.len()]),
+            info_raw: buffer[2..buffer.len()].to_vec(),
         }
     }
 }
@@ -15433,8 +17669,11 @@ impl Debug for PacketCzReqmakingitem {
 pub struct PacketZcAckReqmakingitem {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub result: u16,
+    pub result_raw: Vec<u8>,
     pub itid: u16,
+    pub itid_raw: Vec<u8>,
 }
 
 impl PacketZcAckReqmakingitem {
@@ -15442,8 +17681,11 @@ impl PacketZcAckReqmakingitem {
         PacketZcAckReqmakingitem {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             result: u16::from_le_bytes([buffer[2], buffer[3]]),
+            result_raw: buffer[2..4].to_vec(),
             itid: u16::from_le_bytes([buffer[4], buffer[5]]),
+            itid_raw: buffer[4..6].to_vec(),
         }
     }
 }
@@ -15474,11 +17716,17 @@ impl Debug for PacketZcAckReqmakingitem {
 pub struct PacketCzUseSkillTogroundWithtalkbox {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub selected_level: u16,
+    pub selected_level_raw: Vec<u8>,
     pub skid: u16,
+    pub skid_raw: Vec<u8>,
     pub x_pos: u16,
+    pub x_pos_raw: Vec<u8>,
     pub y_pos: u16,
+    pub y_pos_raw: Vec<u8>,
     pub contents: String,
+    pub contents_raw: Vec<u8>,
 }
 
 impl PacketCzUseSkillTogroundWithtalkbox {
@@ -15486,11 +17734,17 @@ impl PacketCzUseSkillTogroundWithtalkbox {
         PacketCzUseSkillTogroundWithtalkbox {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             selected_level: u16::from_le_bytes([buffer[2], buffer[3]]),
+            selected_level_raw: buffer[2..4].to_vec(),
             skid: u16::from_le_bytes([buffer[4], buffer[5]]),
+            skid_raw: buffer[4..6].to_vec(),
             x_pos: u16::from_le_bytes([buffer[6], buffer[7]]),
+            x_pos_raw: buffer[6..8].to_vec(),
             y_pos: u16::from_le_bytes([buffer[8], buffer[9]]),
+            y_pos_raw: buffer[8..10].to_vec(),
             contents: String::from_utf8_lossy(&buffer[10..90]).to_string(),
+            contents_raw: buffer[10..90].to_vec(),
         }
     }
 }
@@ -15524,8 +17778,11 @@ impl Debug for PacketCzUseSkillTogroundWithtalkbox {
 pub struct PacketZcTalkboxChatcontents {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub contents: String,
+    pub contents_raw: Vec<u8>,
 }
 
 impl PacketZcTalkboxChatcontents {
@@ -15533,8 +17790,11 @@ impl PacketZcTalkboxChatcontents {
         PacketZcTalkboxChatcontents {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             contents: String::from_utf8_lossy(&buffer[6..86]).to_string(),
+            contents_raw: buffer[6..86].to_vec(),
         }
     }
 }
@@ -15565,10 +17825,15 @@ impl Debug for PacketZcTalkboxChatcontents {
 pub struct PacketZcUpdateMapinfo {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub x_pos: u16,
+    pub x_pos_raw: Vec<u8>,
     pub y_pos: u16,
+    pub y_pos_raw: Vec<u8>,
     pub type_: u16,
+    pub type__raw: Vec<u8>,
     pub map_name: String,
+    pub map_name_raw: Vec<u8>,
 }
 
 impl PacketZcUpdateMapinfo {
@@ -15576,10 +17841,15 @@ impl PacketZcUpdateMapinfo {
         PacketZcUpdateMapinfo {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             x_pos: u16::from_le_bytes([buffer[2], buffer[3]]),
+            x_pos_raw: buffer[2..4].to_vec(),
             y_pos: u16::from_le_bytes([buffer[4], buffer[5]]),
+            y_pos_raw: buffer[4..6].to_vec(),
             type_: u16::from_le_bytes([buffer[6], buffer[7]]),
+            type__raw: buffer[6..8].to_vec(),
             map_name: String::from_utf8_lossy(&buffer[8..24]).to_string(),
+            map_name_raw: buffer[8..24].to_vec(),
         }
     }
 }
@@ -15612,7 +17882,9 @@ impl Debug for PacketZcUpdateMapinfo {
 pub struct PacketCzReqnameBygid {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
 }
 
 impl PacketCzReqnameBygid {
@@ -15620,7 +17892,9 @@ impl PacketCzReqnameBygid {
         PacketCzReqnameBygid {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -15650,8 +17924,11 @@ impl Debug for PacketCzReqnameBygid {
 pub struct PacketZcAckReqnameBygid {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub cname: String,
+    pub cname_raw: Vec<u8>,
 }
 
 impl PacketZcAckReqnameBygid {
@@ -15659,8 +17936,11 @@ impl PacketZcAckReqnameBygid {
         PacketZcAckReqnameBygid {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid_raw: buffer[2..6].to_vec(),
             cname: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            cname_raw: buffer[6..30].to_vec(),
         }
     }
 }
@@ -15691,11 +17971,17 @@ impl Debug for PacketZcAckReqnameBygid {
 pub struct PacketZcAckReqnameall {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub cname: String,
+    pub cname_raw: Vec<u8>,
     pub pname: String,
+    pub pname_raw: Vec<u8>,
     pub gname: String,
+    pub gname_raw: Vec<u8>,
     pub rname: String,
+    pub rname_raw: Vec<u8>,
 }
 
 impl PacketZcAckReqnameall {
@@ -15703,11 +17989,17 @@ impl PacketZcAckReqnameall {
         PacketZcAckReqnameall {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             cname: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            cname_raw: buffer[6..30].to_vec(),
             pname: String::from_utf8_lossy(&buffer[30..54]).to_string(),
+            pname_raw: buffer[30..54].to_vec(),
             gname: String::from_utf8_lossy(&buffer[54..78]).to_string(),
+            gname_raw: buffer[54..78].to_vec(),
             rname: String::from_utf8_lossy(&buffer[78..102]).to_string(),
+            rname_raw: buffer[78..102].to_vec(),
         }
     }
 }
@@ -15741,9 +18033,13 @@ impl Debug for PacketZcAckReqnameall {
 pub struct PacketZcMsgStateChange {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub index: u16,
+    pub index_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub state: bool,
+    pub state_raw: Vec<u8>,
 }
 
 impl PacketZcMsgStateChange {
@@ -15751,9 +18047,13 @@ impl PacketZcMsgStateChange {
         PacketZcMsgStateChange {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            index_raw: buffer[2..4].to_vec(),
             aid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            aid_raw: buffer[4..8].to_vec(),
             state: buffer[8] == 1,
+            state_raw: buffer[8..9].to_vec(),
         }
     }
 }
@@ -15785,7 +18085,9 @@ impl Debug for PacketZcMsgStateChange {
 pub struct PacketCzReset {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub type_: u16,
+    pub type__raw: Vec<u8>,
 }
 
 impl PacketCzReset {
@@ -15793,7 +18095,9 @@ impl PacketCzReset {
         PacketCzReset {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             type_: u16::from_le_bytes([buffer[2], buffer[3]]),
+            type__raw: buffer[2..4].to_vec(),
         }
     }
 }
@@ -15823,9 +18127,13 @@ impl Debug for PacketCzReset {
 pub struct PacketCzChangeMaptype {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub x_pos: u16,
+    pub x_pos_raw: Vec<u8>,
     pub y_pos: u16,
+    pub y_pos_raw: Vec<u8>,
     pub type_: u16,
+    pub type__raw: Vec<u8>,
 }
 
 impl PacketCzChangeMaptype {
@@ -15833,9 +18141,13 @@ impl PacketCzChangeMaptype {
         PacketCzChangeMaptype {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             x_pos: u16::from_le_bytes([buffer[2], buffer[3]]),
+            x_pos_raw: buffer[2..4].to_vec(),
             y_pos: u16::from_le_bytes([buffer[4], buffer[5]]),
+            y_pos_raw: buffer[4..6].to_vec(),
             type_: u16::from_le_bytes([buffer[6], buffer[7]]),
+            type__raw: buffer[6..8].to_vec(),
         }
     }
 }
@@ -15867,7 +18179,9 @@ impl Debug for PacketCzChangeMaptype {
 pub struct PacketZcNotifyMapproperty {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub type_: u16,
+    pub type__raw: Vec<u8>,
 }
 
 impl PacketZcNotifyMapproperty {
@@ -15875,7 +18189,9 @@ impl PacketZcNotifyMapproperty {
         PacketZcNotifyMapproperty {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             type_: u16::from_le_bytes([buffer[2], buffer[3]]),
+            type__raw: buffer[2..4].to_vec(),
         }
     }
 }
@@ -15905,9 +18221,13 @@ impl Debug for PacketZcNotifyMapproperty {
 pub struct PacketZcNotifyRanking {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub ranking: u32,
+    pub ranking_raw: Vec<u8>,
     pub total: u32,
+    pub total_raw: Vec<u8>,
 }
 
 impl PacketZcNotifyRanking {
@@ -15915,9 +18235,13 @@ impl PacketZcNotifyRanking {
         PacketZcNotifyRanking {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             ranking: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            ranking_raw: buffer[6..10].to_vec(),
             total: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            total_raw: buffer[10..14].to_vec(),
         }
     }
 }
@@ -15949,8 +18273,11 @@ impl Debug for PacketZcNotifyRanking {
 pub struct PacketZcNotifyEffect {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub effect_id: u32,
+    pub effect_id_raw: Vec<u8>,
 }
 
 impl PacketZcNotifyEffect {
@@ -15958,8 +18285,11 @@ impl PacketZcNotifyEffect {
         PacketZcNotifyEffect {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             effect_id: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            effect_id_raw: buffer[6..10].to_vec(),
         }
     }
 }
@@ -15990,7 +18320,9 @@ impl Debug for PacketZcNotifyEffect {
 pub struct PacketCzChangeEffectstate {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub effect_state: u32,
+    pub effect_state_raw: Vec<u8>,
 }
 
 impl PacketCzChangeEffectstate {
@@ -15998,7 +18330,9 @@ impl PacketCzChangeEffectstate {
         PacketCzChangeEffectstate {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             effect_state: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            effect_state_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -16028,6 +18362,7 @@ impl Debug for PacketCzChangeEffectstate {
 pub struct PacketZcStartCapture {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketZcStartCapture {
@@ -16035,6 +18370,7 @@ impl PacketZcStartCapture {
         PacketZcStartCapture {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -16063,7 +18399,9 @@ impl Debug for PacketZcStartCapture {
 pub struct PacketCzTrycaptureMonster {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub target_aid: u32,
+    pub target_aid_raw: Vec<u8>,
 }
 
 impl PacketCzTrycaptureMonster {
@@ -16071,7 +18409,9 @@ impl PacketCzTrycaptureMonster {
         PacketCzTrycaptureMonster {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             target_aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            target_aid_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -16101,7 +18441,9 @@ impl Debug for PacketCzTrycaptureMonster {
 pub struct PacketZcTrycaptureMonster {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub result: char,
+    pub result_raw: Vec<u8>,
 }
 
 impl PacketZcTrycaptureMonster {
@@ -16109,7 +18451,9 @@ impl PacketZcTrycaptureMonster {
         PacketZcTrycaptureMonster {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             result: buffer[2] as char,
+            result_raw: buffer[2..3].to_vec(),
         }
     }
 }
@@ -16139,7 +18483,9 @@ impl Debug for PacketZcTrycaptureMonster {
 pub struct PacketCzCommandPet {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub c_sub: char,
+    pub c_sub_raw: Vec<u8>,
 }
 
 impl PacketCzCommandPet {
@@ -16147,7 +18493,9 @@ impl PacketCzCommandPet {
         PacketCzCommandPet {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             c_sub: buffer[2] as char,
+            c_sub_raw: buffer[2..3].to_vec(),
         }
     }
 }
@@ -16177,13 +18525,21 @@ impl Debug for PacketCzCommandPet {
 pub struct PacketZcPropertyPet {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub sz_name: String,
+    pub sz_name_raw: Vec<u8>,
     pub b_modified: char,
+    pub b_modified_raw: Vec<u8>,
     pub n_level: u16,
+    pub n_level_raw: Vec<u8>,
     pub n_fullness: u16,
+    pub n_fullness_raw: Vec<u8>,
     pub n_relationship: u16,
+    pub n_relationship_raw: Vec<u8>,
     pub itid: u16,
+    pub itid_raw: Vec<u8>,
     pub job: u16,
+    pub job_raw: Vec<u8>,
 }
 
 impl PacketZcPropertyPet {
@@ -16191,13 +18547,21 @@ impl PacketZcPropertyPet {
         PacketZcPropertyPet {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             sz_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            sz_name_raw: buffer[2..26].to_vec(),
             b_modified: buffer[26] as char,
+            b_modified_raw: buffer[26..27].to_vec(),
             n_level: u16::from_le_bytes([buffer[27], buffer[28]]),
+            n_level_raw: buffer[27..29].to_vec(),
             n_fullness: u16::from_le_bytes([buffer[29], buffer[30]]),
+            n_fullness_raw: buffer[29..31].to_vec(),
             n_relationship: u16::from_le_bytes([buffer[31], buffer[32]]),
+            n_relationship_raw: buffer[31..33].to_vec(),
             itid: u16::from_le_bytes([buffer[33], buffer[34]]),
+            itid_raw: buffer[33..35].to_vec(),
             job: u16::from_le_bytes([buffer[35], buffer[36]]),
+            job_raw: buffer[35..37].to_vec(),
         }
     }
 }
@@ -16233,8 +18597,11 @@ impl Debug for PacketZcPropertyPet {
 pub struct PacketZcFeedPet {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub c_ret: char,
+    pub c_ret_raw: Vec<u8>,
     pub itid: u16,
+    pub itid_raw: Vec<u8>,
 }
 
 impl PacketZcFeedPet {
@@ -16242,8 +18609,11 @@ impl PacketZcFeedPet {
         PacketZcFeedPet {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             c_ret: buffer[2] as char,
+            c_ret_raw: buffer[2..3].to_vec(),
             itid: u16::from_le_bytes([buffer[3], buffer[4]]),
+            itid_raw: buffer[3..5].to_vec(),
         }
     }
 }
@@ -16274,9 +18644,13 @@ impl Debug for PacketZcFeedPet {
 pub struct PacketZcChangestatePet {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub type_: char,
+    pub type__raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub data: u32,
+    pub data_raw: Vec<u8>,
 }
 
 impl PacketZcChangestatePet {
@@ -16284,9 +18658,13 @@ impl PacketZcChangestatePet {
         PacketZcChangestatePet {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             type_: buffer[2] as char,
+            type__raw: buffer[2..3].to_vec(),
             gid: u32::from_le_bytes([buffer[3], buffer[4], buffer[5], buffer[6]]),
+            gid_raw: buffer[3..7].to_vec(),
             data: u32::from_le_bytes([buffer[7], buffer[8], buffer[9], buffer[10]]),
+            data_raw: buffer[7..11].to_vec(),
         }
     }
 }
@@ -16318,7 +18696,9 @@ impl Debug for PacketZcChangestatePet {
 pub struct PacketCzRenamePet {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub sz_name: String,
+    pub sz_name_raw: Vec<u8>,
 }
 
 impl PacketCzRenamePet {
@@ -16326,7 +18706,9 @@ impl PacketCzRenamePet {
         PacketCzRenamePet {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             sz_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            sz_name_raw: buffer[2..26].to_vec(),
         }
     }
 }
@@ -16356,8 +18738,11 @@ impl Debug for PacketCzRenamePet {
 pub struct PacketZcPeteggList {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub egg_list: Vec<PeteggitemInfo>,
+    pub egg_list_raw: Vec<u8>,
 }
 
 impl PacketZcPeteggList {
@@ -16374,8 +18759,11 @@ impl PacketZcPeteggList {
         PacketZcPeteggList {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             egg_list: vec_field,
+            egg_list_raw: buffer[4..6].to_vec(),
         }
     }
 }
@@ -16406,7 +18794,9 @@ impl Debug for PacketZcPeteggList {
 pub struct PacketCzSelectPetegg {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub index: u16,
+    pub index_raw: Vec<u8>,
 }
 
 impl PacketCzSelectPetegg {
@@ -16414,7 +18804,9 @@ impl PacketCzSelectPetegg {
         PacketCzSelectPetegg {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            index_raw: buffer[2..4].to_vec(),
         }
     }
 }
@@ -16444,7 +18836,9 @@ impl Debug for PacketCzSelectPetegg {
 pub struct PacketCzPeteggInfo {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub index: u16,
+    pub index_raw: Vec<u8>,
 }
 
 impl PacketCzPeteggInfo {
@@ -16452,7 +18846,9 @@ impl PacketCzPeteggInfo {
         PacketCzPeteggInfo {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            index_raw: buffer[2..4].to_vec(),
         }
     }
 }
@@ -16482,7 +18878,9 @@ impl Debug for PacketCzPeteggInfo {
 pub struct PacketCzPetAct {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub data: u32,
+    pub data_raw: Vec<u8>,
 }
 
 impl PacketCzPetAct {
@@ -16490,7 +18888,9 @@ impl PacketCzPetAct {
         PacketCzPetAct {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             data: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            data_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -16520,8 +18920,11 @@ impl Debug for PacketCzPetAct {
 pub struct PacketZcPetAct {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub data: u32,
+    pub data_raw: Vec<u8>,
 }
 
 impl PacketZcPetAct {
@@ -16529,8 +18932,11 @@ impl PacketZcPetAct {
         PacketZcPetAct {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid_raw: buffer[2..6].to_vec(),
             data: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            data_raw: buffer[6..10].to_vec(),
         }
     }
 }
@@ -16561,9 +18967,13 @@ impl Debug for PacketZcPetAct {
 pub struct PacketZcParChangeUser {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub var_id: u16,
+    pub var_id_raw: Vec<u8>,
     pub count: u32,
+    pub count_raw: Vec<u8>,
 }
 
 impl PacketZcParChangeUser {
@@ -16571,9 +18981,13 @@ impl PacketZcParChangeUser {
         PacketZcParChangeUser {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             var_id: u16::from_le_bytes([buffer[6], buffer[7]]),
+            var_id_raw: buffer[6..8].to_vec(),
             count: u32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
+            count_raw: buffer[8..12].to_vec(),
         }
     }
 }
@@ -16605,7 +19019,9 @@ impl Debug for PacketZcParChangeUser {
 pub struct PacketZcSkillUpdate {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
 }
 
 impl PacketZcSkillUpdate {
@@ -16613,7 +19029,9 @@ impl PacketZcSkillUpdate {
         PacketZcSkillUpdate {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -16643,8 +19061,11 @@ impl Debug for PacketZcSkillUpdate {
 pub struct PacketZcMakingarrowList {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub arrow_list: Vec<ArrowitemInfo>,
+    pub arrow_list_raw: Vec<u8>,
 }
 
 impl PacketZcMakingarrowList {
@@ -16661,8 +19082,11 @@ impl PacketZcMakingarrowList {
         PacketZcMakingarrowList {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             arrow_list: vec_field,
+            arrow_list_raw: buffer[4..6].to_vec(),
         }
     }
 }
@@ -16693,7 +19117,9 @@ impl Debug for PacketZcMakingarrowList {
 pub struct PacketCzReqMakingarrow {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub id: u16,
+    pub id_raw: Vec<u8>,
 }
 
 impl PacketCzReqMakingarrow {
@@ -16701,7 +19127,9 @@ impl PacketCzReqMakingarrow {
         PacketCzReqMakingarrow {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             id: u16::from_le_bytes([buffer[2], buffer[3]]),
+            id_raw: buffer[2..4].to_vec(),
         }
     }
 }
@@ -16731,7 +19159,9 @@ impl Debug for PacketCzReqMakingarrow {
 pub struct PacketCzReqChangecart {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub num: u16,
+    pub num_raw: Vec<u8>,
 }
 
 impl PacketCzReqChangecart {
@@ -16739,7 +19169,9 @@ impl PacketCzReqChangecart {
         PacketCzReqChangecart {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             num: u16::from_le_bytes([buffer[2], buffer[3]]),
+            num_raw: buffer[2..4].to_vec(),
         }
     }
 }
@@ -16769,9 +19201,13 @@ impl Debug for PacketCzReqChangecart {
 pub struct PacketZcNpcspriteChange {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub type_: char,
+    pub type__raw: Vec<u8>,
     pub value: u32,
+    pub value_raw: Vec<u8>,
 }
 
 impl PacketZcNpcspriteChange {
@@ -16779,9 +19215,13 @@ impl PacketZcNpcspriteChange {
         PacketZcNpcspriteChange {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid_raw: buffer[2..6].to_vec(),
             type_: buffer[6] as char,
+            type__raw: buffer[6..7].to_vec(),
             value: u32::from_le_bytes([buffer[7], buffer[8], buffer[9], buffer[10]]),
+            value_raw: buffer[7..11].to_vec(),
         }
     }
 }
@@ -16813,8 +19253,11 @@ impl Debug for PacketZcNpcspriteChange {
 pub struct PacketZcShowdigit {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub type_: char,
+    pub type__raw: Vec<u8>,
     pub value: u32,
+    pub value_raw: Vec<u8>,
 }
 
 impl PacketZcShowdigit {
@@ -16822,8 +19265,11 @@ impl PacketZcShowdigit {
         PacketZcShowdigit {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             type_: buffer[2] as char,
+            type__raw: buffer[2..3].to_vec(),
             value: u32::from_le_bytes([buffer[3], buffer[4], buffer[5], buffer[6]]),
+            value_raw: buffer[3..7].to_vec(),
         }
     }
 }
@@ -16854,10 +19300,15 @@ impl Debug for PacketZcShowdigit {
 pub struct PacketCzReqOpenstore2 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub store_name: String,
+    pub store_name_raw: Vec<u8>,
     pub result: bool,
+    pub result_raw: Vec<u8>,
     pub store_list: Vec<StoreItem>,
+    pub store_list_raw: Vec<u8>,
 }
 
 impl PacketCzReqOpenstore2 {
@@ -16874,10 +19325,15 @@ impl PacketCzReqOpenstore2 {
         PacketCzReqOpenstore2 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             store_name: String::from_utf8_lossy(&buffer[4..84]).to_string(),
+            store_name_raw: buffer[4..84].to_vec(),
             result: buffer[84] == 1,
+            result_raw: buffer[84..85].to_vec(),
             store_list: vec_field,
+            store_list_raw: buffer[85..93].to_vec(),
         }
     }
 }
@@ -16910,8 +19366,11 @@ impl Debug for PacketCzReqOpenstore2 {
 pub struct PacketZcShowImage2 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub image_name: String,
+    pub image_name_raw: Vec<u8>,
     pub type_: char,
+    pub type__raw: Vec<u8>,
 }
 
 impl PacketZcShowImage2 {
@@ -16919,8 +19378,11 @@ impl PacketZcShowImage2 {
         PacketZcShowImage2 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             image_name: String::from_utf8_lossy(&buffer[2..66]).to_string(),
+            image_name_raw: buffer[2..66].to_vec(),
             type_: buffer[66] as char,
+            type__raw: buffer[66..67].to_vec(),
         }
     }
 }
@@ -16951,9 +19413,13 @@ impl Debug for PacketZcShowImage2 {
 pub struct PacketZcChangeGuild {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub gdid: u32,
+    pub gdid_raw: Vec<u8>,
     pub emblem_version: u16,
+    pub emblem_version_raw: Vec<u8>,
 }
 
 impl PacketZcChangeGuild {
@@ -16961,9 +19427,13 @@ impl PacketZcChangeGuild {
         PacketZcChangeGuild {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             gdid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            gdid_raw: buffer[6..10].to_vec(),
             emblem_version: u16::from_le_bytes([buffer[10], buffer[11]]),
+            emblem_version_raw: buffer[10..12].to_vec(),
         }
     }
 }
@@ -16995,10 +19465,15 @@ impl Debug for PacketZcChangeGuild {
 pub struct PacketScBillingInfo {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub dw_amount_remain: u32,
+    pub dw_amount_remain_raw: Vec<u8>,
     pub dw_quantity_remain: u32,
+    pub dw_quantity_remain_raw: Vec<u8>,
     pub dw_reserved1: u32,
+    pub dw_reserved1_raw: Vec<u8>,
     pub dw_reserved2: u32,
+    pub dw_reserved2_raw: Vec<u8>,
 }
 
 impl PacketScBillingInfo {
@@ -17006,10 +19481,15 @@ impl PacketScBillingInfo {
         PacketScBillingInfo {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             dw_amount_remain: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            dw_amount_remain_raw: buffer[2..6].to_vec(),
             dw_quantity_remain: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            dw_quantity_remain_raw: buffer[6..10].to_vec(),
             dw_reserved1: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            dw_reserved1_raw: buffer[10..14].to_vec(),
             dw_reserved2: u32::from_le_bytes([buffer[14], buffer[15], buffer[16], buffer[17]]),
+            dw_reserved2_raw: buffer[14..18].to_vec(),
         }
     }
 }
@@ -17042,21 +19522,37 @@ impl Debug for PacketScBillingInfo {
 pub struct PacketZcGuildInfo2 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub gdid: u32,
+    pub gdid_raw: Vec<u8>,
     pub level: u32,
+    pub level_raw: Vec<u8>,
     pub user_num: u32,
+    pub user_num_raw: Vec<u8>,
     pub max_user_num: u32,
+    pub max_user_num_raw: Vec<u8>,
     pub user_average_level: u32,
+    pub user_average_level_raw: Vec<u8>,
     pub exp: u32,
+    pub exp_raw: Vec<u8>,
     pub max_exp: u32,
+    pub max_exp_raw: Vec<u8>,
     pub point: u32,
+    pub point_raw: Vec<u8>,
     pub honor: u32,
+    pub honor_raw: Vec<u8>,
     pub virtue: u32,
+    pub virtue_raw: Vec<u8>,
     pub emblem_version: u32,
+    pub emblem_version_raw: Vec<u8>,
     pub guildname: String,
+    pub guildname_raw: Vec<u8>,
     pub master_name: String,
+    pub master_name_raw: Vec<u8>,
     pub manage_land: String,
+    pub manage_land_raw: Vec<u8>,
     pub zeny: u32,
+    pub zeny_raw: Vec<u8>,
 }
 
 impl PacketZcGuildInfo2 {
@@ -17064,21 +19560,37 @@ impl PacketZcGuildInfo2 {
         PacketZcGuildInfo2 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             gdid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gdid_raw: buffer[2..6].to_vec(),
             level: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            level_raw: buffer[6..10].to_vec(),
             user_num: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            user_num_raw: buffer[10..14].to_vec(),
             max_user_num: u32::from_le_bytes([buffer[14], buffer[15], buffer[16], buffer[17]]),
+            max_user_num_raw: buffer[14..18].to_vec(),
             user_average_level: u32::from_le_bytes([buffer[18], buffer[19], buffer[20], buffer[21]]),
+            user_average_level_raw: buffer[18..22].to_vec(),
             exp: u32::from_le_bytes([buffer[22], buffer[23], buffer[24], buffer[25]]),
+            exp_raw: buffer[22..26].to_vec(),
             max_exp: u32::from_le_bytes([buffer[26], buffer[27], buffer[28], buffer[29]]),
+            max_exp_raw: buffer[26..30].to_vec(),
             point: u32::from_le_bytes([buffer[30], buffer[31], buffer[32], buffer[33]]),
+            point_raw: buffer[30..34].to_vec(),
             honor: u32::from_le_bytes([buffer[34], buffer[35], buffer[36], buffer[37]]),
+            honor_raw: buffer[34..38].to_vec(),
             virtue: u32::from_le_bytes([buffer[38], buffer[39], buffer[40], buffer[41]]),
+            virtue_raw: buffer[38..42].to_vec(),
             emblem_version: u32::from_le_bytes([buffer[42], buffer[43], buffer[44], buffer[45]]),
+            emblem_version_raw: buffer[42..46].to_vec(),
             guildname: String::from_utf8_lossy(&buffer[46..70]).to_string(),
+            guildname_raw: buffer[46..70].to_vec(),
             master_name: String::from_utf8_lossy(&buffer[70..94]).to_string(),
+            master_name_raw: buffer[70..94].to_vec(),
             manage_land: String::from_utf8_lossy(&buffer[94..110]).to_string(),
+            manage_land_raw: buffer[94..110].to_vec(),
             zeny: u32::from_le_bytes([buffer[110], buffer[111], buffer[112], buffer[113]]),
+            zeny_raw: buffer[110..114].to_vec(),
         }
     }
 }
@@ -17122,7 +19634,9 @@ impl Debug for PacketZcGuildInfo2 {
 pub struct PacketCzGuildZeny {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub zeny: u32,
+    pub zeny_raw: Vec<u8>,
 }
 
 impl PacketCzGuildZeny {
@@ -17130,7 +19644,9 @@ impl PacketCzGuildZeny {
         PacketCzGuildZeny {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             zeny: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            zeny_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -17160,7 +19676,9 @@ impl Debug for PacketCzGuildZeny {
 pub struct PacketZcGuildZenyAck {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub ret: char,
+    pub ret_raw: Vec<u8>,
 }
 
 impl PacketZcGuildZenyAck {
@@ -17168,7 +19686,9 @@ impl PacketZcGuildZenyAck {
         PacketZcGuildZenyAck {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             ret: buffer[2] as char,
+            ret_raw: buffer[2..3].to_vec(),
         }
     }
 }
@@ -17198,7 +19718,9 @@ impl Debug for PacketZcGuildZenyAck {
 pub struct PacketZcDispel {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
 }
 
 impl PacketZcDispel {
@@ -17206,7 +19728,9 @@ impl PacketZcDispel {
         PacketZcDispel {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -17236,7 +19760,9 @@ impl Debug for PacketZcDispel {
 pub struct PacketCzRemoveAid {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub account_name: String,
+    pub account_name_raw: Vec<u8>,
 }
 
 impl PacketCzRemoveAid {
@@ -17244,7 +19770,9 @@ impl PacketCzRemoveAid {
         PacketCzRemoveAid {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             account_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            account_name_raw: buffer[2..26].to_vec(),
         }
     }
 }
@@ -17274,7 +19802,9 @@ impl Debug for PacketCzRemoveAid {
 pub struct PacketCzShift {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub character_name: String,
+    pub character_name_raw: Vec<u8>,
 }
 
 impl PacketCzShift {
@@ -17282,7 +19812,9 @@ impl PacketCzShift {
         PacketCzShift {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             character_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            character_name_raw: buffer[2..26].to_vec(),
         }
     }
 }
@@ -17312,7 +19844,9 @@ impl Debug for PacketCzShift {
 pub struct PacketCzRecall {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub account_name: String,
+    pub account_name_raw: Vec<u8>,
 }
 
 impl PacketCzRecall {
@@ -17320,7 +19854,9 @@ impl PacketCzRecall {
         PacketCzRecall {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             account_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            account_name_raw: buffer[2..26].to_vec(),
         }
     }
 }
@@ -17350,7 +19886,9 @@ impl Debug for PacketCzRecall {
 pub struct PacketCzRecallGid {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub character_name: String,
+    pub character_name_raw: Vec<u8>,
 }
 
 impl PacketCzRecallGid {
@@ -17358,7 +19896,9 @@ impl PacketCzRecallGid {
         PacketCzRecallGid {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             character_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            character_name_raw: buffer[2..26].to_vec(),
         }
     }
 }
@@ -17388,6 +19928,7 @@ impl Debug for PacketCzRecallGid {
 pub struct PacketAcAskPngameroom {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketAcAskPngameroom {
@@ -17395,6 +19936,7 @@ impl PacketAcAskPngameroom {
         PacketAcAskPngameroom {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -17423,7 +19965,9 @@ impl Debug for PacketAcAskPngameroom {
 pub struct PacketCaReplyPngameroom {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub permission: char,
+    pub permission_raw: Vec<u8>,
 }
 
 impl PacketCaReplyPngameroom {
@@ -17431,7 +19975,9 @@ impl PacketCaReplyPngameroom {
         PacketCaReplyPngameroom {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             permission: buffer[2] as char,
+            permission_raw: buffer[2..3].to_vec(),
         }
     }
 }
@@ -17461,6 +20007,7 @@ impl Debug for PacketCaReplyPngameroom {
 pub struct PacketCzReqRemaintime {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketCzReqRemaintime {
@@ -17468,6 +20015,7 @@ impl PacketCzReqRemaintime {
         PacketCzReqRemaintime {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -17496,9 +20044,13 @@ impl Debug for PacketCzReqRemaintime {
 pub struct PacketZcReplyRemaintime {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub result: u32,
+    pub result_raw: Vec<u8>,
     pub expiration_date: u32,
+    pub expiration_date_raw: Vec<u8>,
     pub remain_time: u32,
+    pub remain_time_raw: Vec<u8>,
 }
 
 impl PacketZcReplyRemaintime {
@@ -17506,9 +20058,13 @@ impl PacketZcReplyRemaintime {
         PacketZcReplyRemaintime {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             result: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            result_raw: buffer[2..6].to_vec(),
             expiration_date: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            expiration_date_raw: buffer[6..10].to_vec(),
             remain_time: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            remain_time_raw: buffer[10..14].to_vec(),
         }
     }
 }
@@ -17540,8 +20096,11 @@ impl Debug for PacketZcReplyRemaintime {
 pub struct PacketZcInfoRemaintime {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub type_: u32,
+    pub type__raw: Vec<u8>,
     pub remain_time: u32,
+    pub remain_time_raw: Vec<u8>,
 }
 
 impl PacketZcInfoRemaintime {
@@ -17549,8 +20108,11 @@ impl PacketZcInfoRemaintime {
         PacketZcInfoRemaintime {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             type_: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            type__raw: buffer[2..6].to_vec(),
             remain_time: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            remain_time_raw: buffer[6..10].to_vec(),
         }
     }
 }
@@ -17581,13 +20143,21 @@ impl Debug for PacketZcInfoRemaintime {
 pub struct PacketZcBroadcast2 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub font_color: u32,
+    pub font_color_raw: Vec<u8>,
     pub font_type: u16,
+    pub font_type_raw: Vec<u8>,
     pub font_size: u16,
+    pub font_size_raw: Vec<u8>,
     pub font_align: u16,
+    pub font_align_raw: Vec<u8>,
     pub font_y: u16,
+    pub font_y_raw: Vec<u8>,
     pub msg: String,
+    pub msg_raw: Vec<u8>,
 }
 
 impl PacketZcBroadcast2 {
@@ -17595,13 +20165,21 @@ impl PacketZcBroadcast2 {
         PacketZcBroadcast2 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             font_color: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            font_color_raw: buffer[4..8].to_vec(),
             font_type: u16::from_le_bytes([buffer[8], buffer[9]]),
+            font_type_raw: buffer[8..10].to_vec(),
             font_size: u16::from_le_bytes([buffer[10], buffer[11]]),
+            font_size_raw: buffer[10..12].to_vec(),
             font_align: u16::from_le_bytes([buffer[12], buffer[13]]),
+            font_align_raw: buffer[12..14].to_vec(),
             font_y: u16::from_le_bytes([buffer[14], buffer[15]]),
+            font_y_raw: buffer[14..16].to_vec(),
             msg: String::from_utf8_lossy(&buffer[16..buffer.len()]).to_string(),
+            msg_raw: buffer[16..buffer.len()].to_vec(),
         }
     }
 }
@@ -17637,14 +20215,23 @@ impl Debug for PacketZcBroadcast2 {
 pub struct PacketZcAddItemToStore2 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub index: u16,
+    pub index_raw: Vec<u8>,
     pub count: u32,
+    pub count_raw: Vec<u8>,
     pub itid: u16,
+    pub itid_raw: Vec<u8>,
     pub type_: char,
+    pub type__raw: Vec<u8>,
     pub is_identified: bool,
+    pub is_identified_raw: Vec<u8>,
     pub is_damaged: bool,
+    pub is_damaged_raw: Vec<u8>,
     pub refining_level: char,
+    pub refining_level_raw: Vec<u8>,
     pub slot: EQUIPSLOTINFO,
+    pub slot_raw: Vec<u8>,
 }
 
 impl PacketZcAddItemToStore2 {
@@ -17652,14 +20239,23 @@ impl PacketZcAddItemToStore2 {
         PacketZcAddItemToStore2 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            index_raw: buffer[2..4].to_vec(),
             count: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            count_raw: buffer[4..8].to_vec(),
             itid: u16::from_le_bytes([buffer[8], buffer[9]]),
+            itid_raw: buffer[8..10].to_vec(),
             type_: buffer[10] as char,
+            type__raw: buffer[10..11].to_vec(),
             is_identified: buffer[11] == 1,
+            is_identified_raw: buffer[11..12].to_vec(),
             is_damaged: buffer[12] == 1,
+            is_damaged_raw: buffer[12..13].to_vec(),
             refining_level: buffer[13] as char,
+            refining_level_raw: buffer[13..14].to_vec(),
             slot: EQUIPSLOTINFO::from(&buffer[14..22]),
+            slot_raw: buffer[14..22].to_vec(),
         }
     }
 }
@@ -17696,14 +20292,23 @@ impl Debug for PacketZcAddItemToStore2 {
 pub struct PacketZcAddItemToCart2 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub index: u16,
+    pub index_raw: Vec<u8>,
     pub count: u32,
+    pub count_raw: Vec<u8>,
     pub itid: u16,
+    pub itid_raw: Vec<u8>,
     pub type_: char,
+    pub type__raw: Vec<u8>,
     pub is_identified: bool,
+    pub is_identified_raw: Vec<u8>,
     pub is_damaged: bool,
+    pub is_damaged_raw: Vec<u8>,
     pub refining_level: char,
+    pub refining_level_raw: Vec<u8>,
     pub slot: EQUIPSLOTINFO,
+    pub slot_raw: Vec<u8>,
 }
 
 impl PacketZcAddItemToCart2 {
@@ -17711,14 +20316,23 @@ impl PacketZcAddItemToCart2 {
         PacketZcAddItemToCart2 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            index_raw: buffer[2..4].to_vec(),
             count: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            count_raw: buffer[4..8].to_vec(),
             itid: u16::from_le_bytes([buffer[8], buffer[9]]),
+            itid_raw: buffer[8..10].to_vec(),
             type_: buffer[10] as char,
+            type__raw: buffer[10..11].to_vec(),
             is_identified: buffer[11] == 1,
+            is_identified_raw: buffer[11..12].to_vec(),
             is_damaged: buffer[12] == 1,
+            is_damaged_raw: buffer[12..13].to_vec(),
             refining_level: buffer[13] as char,
+            refining_level_raw: buffer[13..14].to_vec(),
             slot: EQUIPSLOTINFO::from(&buffer[14..22]),
+            slot_raw: buffer[14..22].to_vec(),
         }
     }
 }
@@ -17755,8 +20369,11 @@ impl Debug for PacketZcAddItemToCart2 {
 pub struct PacketCsReqEncryption {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub enc_count: char,
+    pub enc_count_raw: Vec<u8>,
     pub dec_count: char,
+    pub dec_count_raw: Vec<u8>,
 }
 
 impl PacketCsReqEncryption {
@@ -17764,8 +20381,11 @@ impl PacketCsReqEncryption {
         PacketCsReqEncryption {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             enc_count: buffer[2] as char,
+            enc_count_raw: buffer[2..3].to_vec(),
             dec_count: buffer[3] as char,
+            dec_count_raw: buffer[3..4].to_vec(),
         }
     }
 }
@@ -17796,6 +20416,7 @@ impl Debug for PacketCsReqEncryption {
 pub struct PacketScAckEncryption {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketScAckEncryption {
@@ -17803,6 +20424,7 @@ impl PacketScAckEncryption {
         PacketScAckEncryption {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -17831,11 +20453,17 @@ impl Debug for PacketScAckEncryption {
 pub struct PacketZcUseItemAck2 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub index: u16,
+    pub index_raw: Vec<u8>,
     pub id: u16,
+    pub id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub count: u16,
+    pub count_raw: Vec<u8>,
     pub result: bool,
+    pub result_raw: Vec<u8>,
 }
 
 impl PacketZcUseItemAck2 {
@@ -17843,11 +20471,17 @@ impl PacketZcUseItemAck2 {
         PacketZcUseItemAck2 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            index_raw: buffer[2..4].to_vec(),
             id: u16::from_le_bytes([buffer[4], buffer[5]]),
+            id_raw: buffer[4..6].to_vec(),
             aid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            aid_raw: buffer[6..10].to_vec(),
             count: u16::from_le_bytes([buffer[10], buffer[11]]),
+            count_raw: buffer[10..12].to_vec(),
             result: buffer[12] == 1,
+            result_raw: buffer[12..13].to_vec(),
         }
     }
 }
@@ -17881,14 +20515,23 @@ impl Debug for PacketZcUseItemAck2 {
 pub struct PacketZcSkillEntry2 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub creator_aid: u32,
+    pub creator_aid_raw: Vec<u8>,
     pub x_pos: u16,
+    pub x_pos_raw: Vec<u8>,
     pub y_pos: u16,
+    pub y_pos_raw: Vec<u8>,
     pub job: char,
+    pub job_raw: Vec<u8>,
     pub is_visible: bool,
+    pub is_visible_raw: Vec<u8>,
     pub is_contens: bool,
+    pub is_contens_raw: Vec<u8>,
     pub msg: String,
+    pub msg_raw: Vec<u8>,
 }
 
 impl PacketZcSkillEntry2 {
@@ -17896,14 +20539,23 @@ impl PacketZcSkillEntry2 {
         PacketZcSkillEntry2 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             creator_aid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            creator_aid_raw: buffer[6..10].to_vec(),
             x_pos: u16::from_le_bytes([buffer[10], buffer[11]]),
+            x_pos_raw: buffer[10..12].to_vec(),
             y_pos: u16::from_le_bytes([buffer[12], buffer[13]]),
+            y_pos_raw: buffer[12..14].to_vec(),
             job: buffer[14] as char,
+            job_raw: buffer[14..15].to_vec(),
             is_visible: buffer[15] == 1,
+            is_visible_raw: buffer[15..16].to_vec(),
             is_contens: buffer[16] == 1,
+            is_contens_raw: buffer[16..17].to_vec(),
             msg: String::from_utf8_lossy(&buffer[17..97]).to_string(),
+            msg_raw: buffer[17..97].to_vec(),
         }
     }
 }
@@ -17940,7 +20592,9 @@ impl Debug for PacketZcSkillEntry2 {
 pub struct PacketCzReqmakinghomun {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub result: bool,
+    pub result_raw: Vec<u8>,
 }
 
 impl PacketCzReqmakinghomun {
@@ -17948,7 +20602,9 @@ impl PacketCzReqmakinghomun {
         PacketCzReqmakinghomun {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             result: buffer[2] == 1,
+            result_raw: buffer[2..3].to_vec(),
         }
     }
 }
@@ -17978,10 +20634,15 @@ impl Debug for PacketCzReqmakinghomun {
 pub struct PacketCzMonsterTalk {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub state_id: char,
+    pub state_id_raw: Vec<u8>,
     pub skill_id: char,
+    pub skill_id_raw: Vec<u8>,
     pub arg1: char,
+    pub arg1_raw: Vec<u8>,
 }
 
 impl PacketCzMonsterTalk {
@@ -17989,10 +20650,15 @@ impl PacketCzMonsterTalk {
         PacketCzMonsterTalk {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid_raw: buffer[2..6].to_vec(),
             state_id: buffer[6] as char,
+            state_id_raw: buffer[6..7].to_vec(),
             skill_id: buffer[7] as char,
+            skill_id_raw: buffer[7..8].to_vec(),
             arg1: buffer[8] as char,
+            arg1_raw: buffer[8..9].to_vec(),
         }
     }
 }
@@ -18025,10 +20691,15 @@ impl Debug for PacketCzMonsterTalk {
 pub struct PacketZcMonsterTalk {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub state_id: char,
+    pub state_id_raw: Vec<u8>,
     pub skill_id: char,
+    pub skill_id_raw: Vec<u8>,
     pub arg1: char,
+    pub arg1_raw: Vec<u8>,
 }
 
 impl PacketZcMonsterTalk {
@@ -18036,10 +20707,15 @@ impl PacketZcMonsterTalk {
         PacketZcMonsterTalk {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid_raw: buffer[2..6].to_vec(),
             state_id: buffer[6] as char,
+            state_id_raw: buffer[6..7].to_vec(),
             skill_id: buffer[7] as char,
+            skill_id_raw: buffer[7..8].to_vec(),
             arg1: buffer[8] as char,
+            arg1_raw: buffer[8..9].to_vec(),
         }
     }
 }
@@ -18072,7 +20748,9 @@ impl Debug for PacketZcMonsterTalk {
 pub struct PacketZcAutospelllist {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub skid: u32,
+    pub skid_raw: Vec<u8>,
 }
 
 impl PacketZcAutospelllist {
@@ -18080,7 +20758,9 @@ impl PacketZcAutospelllist {
         PacketZcAutospelllist {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             skid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            skid_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -18110,7 +20790,9 @@ impl Debug for PacketZcAutospelllist {
 pub struct PacketCzSelectautospell {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub skid: u32,
+    pub skid_raw: Vec<u8>,
 }
 
 impl PacketCzSelectautospell {
@@ -18118,7 +20800,9 @@ impl PacketCzSelectautospell {
         PacketCzSelectautospell {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             skid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            skid_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -18148,9 +20832,13 @@ impl Debug for PacketCzSelectautospell {
 pub struct PacketZcDevotionlist {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub my_aid: u32,
+    pub my_aid_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub range: u16,
+    pub range_raw: Vec<u8>,
 }
 
 impl PacketZcDevotionlist {
@@ -18158,9 +20846,13 @@ impl PacketZcDevotionlist {
         PacketZcDevotionlist {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             my_aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            my_aid_raw: buffer[2..6].to_vec(),
             aid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            aid_raw: buffer[6..10].to_vec(),
             range: u16::from_le_bytes([buffer[26], buffer[27]]),
+            range_raw: buffer[26..28].to_vec(),
         }
     }
 }
@@ -18192,8 +20884,11 @@ impl Debug for PacketZcDevotionlist {
 pub struct PacketZcSpirits {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub num: u16,
+    pub num_raw: Vec<u8>,
 }
 
 impl PacketZcSpirits {
@@ -18201,8 +20896,11 @@ impl PacketZcSpirits {
         PacketZcSpirits {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             num: u16::from_le_bytes([buffer[6], buffer[7]]),
+            num_raw: buffer[6..8].to_vec(),
         }
     }
 }
@@ -18233,9 +20931,13 @@ impl Debug for PacketZcSpirits {
 pub struct PacketZcBladestop {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub src_aid: u32,
+    pub src_aid_raw: Vec<u8>,
     pub dest_aid: u32,
+    pub dest_aid_raw: Vec<u8>,
     pub flag: u32,
+    pub flag_raw: Vec<u8>,
 }
 
 impl PacketZcBladestop {
@@ -18243,9 +20945,13 @@ impl PacketZcBladestop {
         PacketZcBladestop {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             src_aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            src_aid_raw: buffer[2..6].to_vec(),
             dest_aid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            dest_aid_raw: buffer[6..10].to_vec(),
             flag: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            flag_raw: buffer[10..14].to_vec(),
         }
     }
 }
@@ -18277,8 +20983,11 @@ impl Debug for PacketZcBladestop {
 pub struct PacketZcCombodelay {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub delay_time: u32,
+    pub delay_time_raw: Vec<u8>,
 }
 
 impl PacketZcCombodelay {
@@ -18286,8 +20995,11 @@ impl PacketZcCombodelay {
         PacketZcCombodelay {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             delay_time: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            delay_time_raw: buffer[6..10].to_vec(),
         }
     }
 }
@@ -18318,10 +21030,15 @@ impl Debug for PacketZcCombodelay {
 pub struct PacketZcSound {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub file_name: String,
+    pub file_name_raw: Vec<u8>,
     pub act: char,
+    pub act_raw: Vec<u8>,
     pub term: u32,
+    pub term_raw: Vec<u8>,
     pub naid: u32,
+    pub naid_raw: Vec<u8>,
 }
 
 impl PacketZcSound {
@@ -18329,10 +21046,15 @@ impl PacketZcSound {
         PacketZcSound {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             file_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            file_name_raw: buffer[2..26].to_vec(),
             act: buffer[26] as char,
+            act_raw: buffer[26..27].to_vec(),
             term: u32::from_le_bytes([buffer[27], buffer[28], buffer[29], buffer[30]]),
+            term_raw: buffer[27..31].to_vec(),
             naid: u32::from_le_bytes([buffer[31], buffer[32], buffer[33], buffer[34]]),
+            naid_raw: buffer[31..35].to_vec(),
         }
     }
 }
@@ -18365,7 +21087,9 @@ impl Debug for PacketZcSound {
 pub struct PacketZcOpenEditdlgstr {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub naid: u32,
+    pub naid_raw: Vec<u8>,
 }
 
 impl PacketZcOpenEditdlgstr {
@@ -18373,7 +21097,9 @@ impl PacketZcOpenEditdlgstr {
         PacketZcOpenEditdlgstr {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             naid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            naid_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -18403,9 +21129,13 @@ impl Debug for PacketZcOpenEditdlgstr {
 pub struct PacketCzInputEditdlgstr {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub naid: u32,
+    pub naid_raw: Vec<u8>,
     pub msg: String,
+    pub msg_raw: Vec<u8>,
 }
 
 impl PacketCzInputEditdlgstr {
@@ -18413,9 +21143,13 @@ impl PacketCzInputEditdlgstr {
         PacketCzInputEditdlgstr {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             naid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            naid_raw: buffer[4..8].to_vec(),
             msg: String::from_utf8_lossy(&buffer[8..buffer.len()]).to_string(),
+            msg_raw: buffer[8..buffer.len()].to_vec(),
         }
     }
 }
@@ -18447,7 +21181,9 @@ impl Debug for PacketCzInputEditdlgstr {
 pub struct PacketZcNotifyMapproperty2 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub type_: u16,
+    pub type__raw: Vec<u8>,
 }
 
 impl PacketZcNotifyMapproperty2 {
@@ -18455,7 +21191,9 @@ impl PacketZcNotifyMapproperty2 {
         PacketZcNotifyMapproperty2 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             type_: u16::from_le_bytes([buffer[2], buffer[3]]),
+            type__raw: buffer[2..4].to_vec(),
         }
     }
 }
@@ -18485,9 +21223,13 @@ impl Debug for PacketZcNotifyMapproperty2 {
 pub struct PacketZcSpriteChange2 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub type_: char,
+    pub type__raw: Vec<u8>,
     pub value: u32,
+    pub value_raw: Vec<u8>,
 }
 
 impl PacketZcSpriteChange2 {
@@ -18495,9 +21237,13 @@ impl PacketZcSpriteChange2 {
         PacketZcSpriteChange2 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid_raw: buffer[2..6].to_vec(),
             type_: buffer[6] as char,
+            type__raw: buffer[6..7].to_vec(),
             value: u32::from_le_bytes([buffer[7], buffer[8], buffer[9], buffer[10]]),
+            value_raw: buffer[7..11].to_vec(),
         }
     }
 }
@@ -18529,31 +21275,57 @@ impl Debug for PacketZcSpriteChange2 {
 pub struct PacketZcNotifyStandentry2 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub speed: u16,
+    pub speed_raw: Vec<u8>,
     pub body_state: u16,
+    pub body_state_raw: Vec<u8>,
     pub health_state: u16,
+    pub health_state_raw: Vec<u8>,
     pub effect_state: u16,
+    pub effect_state_raw: Vec<u8>,
     pub job: u16,
+    pub job_raw: Vec<u8>,
     pub head: u16,
+    pub head_raw: Vec<u8>,
     pub weapon: u32,
+    pub weapon_raw: Vec<u8>,
     pub accessory: u16,
+    pub accessory_raw: Vec<u8>,
     pub accessory2: u16,
+    pub accessory2_raw: Vec<u8>,
     pub accessory3: u16,
+    pub accessory3_raw: Vec<u8>,
     pub headpalette: u16,
+    pub headpalette_raw: Vec<u8>,
     pub bodypalette: u16,
+    pub bodypalette_raw: Vec<u8>,
     pub head_dir: u16,
+    pub head_dir_raw: Vec<u8>,
     pub guid: u32,
+    pub guid_raw: Vec<u8>,
     pub gemblem_ver: u16,
+    pub gemblem_ver_raw: Vec<u8>,
     pub honor: u16,
+    pub honor_raw: Vec<u8>,
     pub virtue: u16,
+    pub virtue_raw: Vec<u8>,
     pub is_pkmode_on: bool,
+    pub is_pkmode_on_raw: Vec<u8>,
     pub sex: char,
+    pub sex_raw: Vec<u8>,
     pub pos_dir: String,
+    pub pos_dir_raw: Vec<u8>,
     pub x_size: char,
+    pub x_size_raw: Vec<u8>,
     pub y_size: char,
+    pub y_size_raw: Vec<u8>,
     pub state: char,
+    pub state_raw: Vec<u8>,
     pub clevel: u16,
+    pub clevel_raw: Vec<u8>,
 }
 
 impl PacketZcNotifyStandentry2 {
@@ -18561,31 +21333,57 @@ impl PacketZcNotifyStandentry2 {
         PacketZcNotifyStandentry2 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid_raw: buffer[2..6].to_vec(),
             speed: u16::from_le_bytes([buffer[6], buffer[7]]),
+            speed_raw: buffer[6..8].to_vec(),
             body_state: u16::from_le_bytes([buffer[8], buffer[9]]),
+            body_state_raw: buffer[8..10].to_vec(),
             health_state: u16::from_le_bytes([buffer[10], buffer[11]]),
+            health_state_raw: buffer[10..12].to_vec(),
             effect_state: u16::from_le_bytes([buffer[12], buffer[13]]),
+            effect_state_raw: buffer[12..14].to_vec(),
             job: u16::from_le_bytes([buffer[14], buffer[15]]),
+            job_raw: buffer[14..16].to_vec(),
             head: u16::from_le_bytes([buffer[16], buffer[17]]),
+            head_raw: buffer[16..18].to_vec(),
             weapon: u32::from_le_bytes([buffer[18], buffer[19], buffer[20], buffer[21]]),
+            weapon_raw: buffer[18..22].to_vec(),
             accessory: u16::from_le_bytes([buffer[22], buffer[23]]),
+            accessory_raw: buffer[22..24].to_vec(),
             accessory2: u16::from_le_bytes([buffer[24], buffer[25]]),
+            accessory2_raw: buffer[24..26].to_vec(),
             accessory3: u16::from_le_bytes([buffer[26], buffer[27]]),
+            accessory3_raw: buffer[26..28].to_vec(),
             headpalette: u16::from_le_bytes([buffer[28], buffer[29]]),
+            headpalette_raw: buffer[28..30].to_vec(),
             bodypalette: u16::from_le_bytes([buffer[30], buffer[31]]),
+            bodypalette_raw: buffer[30..32].to_vec(),
             head_dir: u16::from_le_bytes([buffer[32], buffer[33]]),
+            head_dir_raw: buffer[32..34].to_vec(),
             guid: u32::from_le_bytes([buffer[34], buffer[35], buffer[36], buffer[37]]),
+            guid_raw: buffer[34..38].to_vec(),
             gemblem_ver: u16::from_le_bytes([buffer[38], buffer[39]]),
+            gemblem_ver_raw: buffer[38..40].to_vec(),
             honor: u16::from_le_bytes([buffer[40], buffer[41]]),
+            honor_raw: buffer[40..42].to_vec(),
             virtue: u16::from_le_bytes([buffer[42], buffer[43]]),
+            virtue_raw: buffer[42..44].to_vec(),
             is_pkmode_on: buffer[44] == 1,
+            is_pkmode_on_raw: buffer[44..45].to_vec(),
             sex: buffer[45] as char,
+            sex_raw: buffer[45..46].to_vec(),
             pos_dir: String::from_utf8_lossy(&buffer[46..49]).to_string(),
+            pos_dir_raw: buffer[46..49].to_vec(),
             x_size: buffer[49] as char,
+            x_size_raw: buffer[49..50].to_vec(),
             y_size: buffer[50] as char,
+            y_size_raw: buffer[50..51].to_vec(),
             state: buffer[51] as char,
+            state_raw: buffer[51..52].to_vec(),
             clevel: u16::from_le_bytes([buffer[52], buffer[53]]),
+            clevel_raw: buffer[52..54].to_vec(),
         }
     }
 }
@@ -18639,30 +21437,55 @@ impl Debug for PacketZcNotifyStandentry2 {
 pub struct PacketZcNotifyNewentry2 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub speed: u16,
+    pub speed_raw: Vec<u8>,
     pub body_state: u16,
+    pub body_state_raw: Vec<u8>,
     pub health_state: u16,
+    pub health_state_raw: Vec<u8>,
     pub effect_state: u16,
+    pub effect_state_raw: Vec<u8>,
     pub job: u16,
+    pub job_raw: Vec<u8>,
     pub head: u16,
+    pub head_raw: Vec<u8>,
     pub weapon: u32,
+    pub weapon_raw: Vec<u8>,
     pub accessory: u16,
+    pub accessory_raw: Vec<u8>,
     pub accessory2: u16,
+    pub accessory2_raw: Vec<u8>,
     pub accessory3: u16,
+    pub accessory3_raw: Vec<u8>,
     pub headpalette: u16,
+    pub headpalette_raw: Vec<u8>,
     pub bodypalette: u16,
+    pub bodypalette_raw: Vec<u8>,
     pub head_dir: u16,
+    pub head_dir_raw: Vec<u8>,
     pub guid: u32,
+    pub guid_raw: Vec<u8>,
     pub gemblem_ver: u16,
+    pub gemblem_ver_raw: Vec<u8>,
     pub honor: u16,
+    pub honor_raw: Vec<u8>,
     pub virtue: u16,
+    pub virtue_raw: Vec<u8>,
     pub is_pkmode_on: bool,
+    pub is_pkmode_on_raw: Vec<u8>,
     pub sex: char,
+    pub sex_raw: Vec<u8>,
     pub pos_dir: String,
+    pub pos_dir_raw: Vec<u8>,
     pub x_size: char,
+    pub x_size_raw: Vec<u8>,
     pub y_size: char,
+    pub y_size_raw: Vec<u8>,
     pub clevel: u16,
+    pub clevel_raw: Vec<u8>,
 }
 
 impl PacketZcNotifyNewentry2 {
@@ -18670,30 +21493,55 @@ impl PacketZcNotifyNewentry2 {
         PacketZcNotifyNewentry2 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid_raw: buffer[2..6].to_vec(),
             speed: u16::from_le_bytes([buffer[6], buffer[7]]),
+            speed_raw: buffer[6..8].to_vec(),
             body_state: u16::from_le_bytes([buffer[8], buffer[9]]),
+            body_state_raw: buffer[8..10].to_vec(),
             health_state: u16::from_le_bytes([buffer[10], buffer[11]]),
+            health_state_raw: buffer[10..12].to_vec(),
             effect_state: u16::from_le_bytes([buffer[12], buffer[13]]),
+            effect_state_raw: buffer[12..14].to_vec(),
             job: u16::from_le_bytes([buffer[14], buffer[15]]),
+            job_raw: buffer[14..16].to_vec(),
             head: u16::from_le_bytes([buffer[16], buffer[17]]),
+            head_raw: buffer[16..18].to_vec(),
             weapon: u32::from_le_bytes([buffer[18], buffer[19], buffer[20], buffer[21]]),
+            weapon_raw: buffer[18..22].to_vec(),
             accessory: u16::from_le_bytes([buffer[22], buffer[23]]),
+            accessory_raw: buffer[22..24].to_vec(),
             accessory2: u16::from_le_bytes([buffer[24], buffer[25]]),
+            accessory2_raw: buffer[24..26].to_vec(),
             accessory3: u16::from_le_bytes([buffer[26], buffer[27]]),
+            accessory3_raw: buffer[26..28].to_vec(),
             headpalette: u16::from_le_bytes([buffer[28], buffer[29]]),
+            headpalette_raw: buffer[28..30].to_vec(),
             bodypalette: u16::from_le_bytes([buffer[30], buffer[31]]),
+            bodypalette_raw: buffer[30..32].to_vec(),
             head_dir: u16::from_le_bytes([buffer[32], buffer[33]]),
+            head_dir_raw: buffer[32..34].to_vec(),
             guid: u32::from_le_bytes([buffer[34], buffer[35], buffer[36], buffer[37]]),
+            guid_raw: buffer[34..38].to_vec(),
             gemblem_ver: u16::from_le_bytes([buffer[38], buffer[39]]),
+            gemblem_ver_raw: buffer[38..40].to_vec(),
             honor: u16::from_le_bytes([buffer[40], buffer[41]]),
+            honor_raw: buffer[40..42].to_vec(),
             virtue: u16::from_le_bytes([buffer[42], buffer[43]]),
+            virtue_raw: buffer[42..44].to_vec(),
             is_pkmode_on: buffer[44] == 1,
+            is_pkmode_on_raw: buffer[44..45].to_vec(),
             sex: buffer[45] as char,
+            sex_raw: buffer[45..46].to_vec(),
             pos_dir: String::from_utf8_lossy(&buffer[46..49]).to_string(),
+            pos_dir_raw: buffer[46..49].to_vec(),
             x_size: buffer[49] as char,
+            x_size_raw: buffer[49..50].to_vec(),
             y_size: buffer[50] as char,
+            y_size_raw: buffer[50..51].to_vec(),
             clevel: u16::from_le_bytes([buffer[51], buffer[52]]),
+            clevel_raw: buffer[51..53].to_vec(),
         }
     }
 }
@@ -18746,31 +21594,57 @@ impl Debug for PacketZcNotifyNewentry2 {
 pub struct PacketZcNotifyMoveentry2 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub speed: u16,
+    pub speed_raw: Vec<u8>,
     pub body_state: u16,
+    pub body_state_raw: Vec<u8>,
     pub health_state: u16,
+    pub health_state_raw: Vec<u8>,
     pub effect_state: u16,
+    pub effect_state_raw: Vec<u8>,
     pub job: u16,
+    pub job_raw: Vec<u8>,
     pub head: u16,
+    pub head_raw: Vec<u8>,
     pub weapon: u32,
+    pub weapon_raw: Vec<u8>,
     pub accessory: u16,
+    pub accessory_raw: Vec<u8>,
     pub move_start_time: u32,
+    pub move_start_time_raw: Vec<u8>,
     pub accessory2: u16,
+    pub accessory2_raw: Vec<u8>,
     pub accessory3: u16,
+    pub accessory3_raw: Vec<u8>,
     pub headpalette: u16,
+    pub headpalette_raw: Vec<u8>,
     pub bodypalette: u16,
+    pub bodypalette_raw: Vec<u8>,
     pub head_dir: u16,
+    pub head_dir_raw: Vec<u8>,
     pub guid: u32,
+    pub guid_raw: Vec<u8>,
     pub gemblem_ver: u16,
+    pub gemblem_ver_raw: Vec<u8>,
     pub honor: u16,
+    pub honor_raw: Vec<u8>,
     pub virtue: u16,
+    pub virtue_raw: Vec<u8>,
     pub is_pkmode_on: bool,
+    pub is_pkmode_on_raw: Vec<u8>,
     pub sex: char,
+    pub sex_raw: Vec<u8>,
     pub move_data: String,
+    pub move_data_raw: Vec<u8>,
     pub x_size: char,
+    pub x_size_raw: Vec<u8>,
     pub y_size: char,
+    pub y_size_raw: Vec<u8>,
     pub clevel: u16,
+    pub clevel_raw: Vec<u8>,
 }
 
 impl PacketZcNotifyMoveentry2 {
@@ -18778,31 +21652,57 @@ impl PacketZcNotifyMoveentry2 {
         PacketZcNotifyMoveentry2 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid_raw: buffer[2..6].to_vec(),
             speed: u16::from_le_bytes([buffer[6], buffer[7]]),
+            speed_raw: buffer[6..8].to_vec(),
             body_state: u16::from_le_bytes([buffer[8], buffer[9]]),
+            body_state_raw: buffer[8..10].to_vec(),
             health_state: u16::from_le_bytes([buffer[10], buffer[11]]),
+            health_state_raw: buffer[10..12].to_vec(),
             effect_state: u16::from_le_bytes([buffer[12], buffer[13]]),
+            effect_state_raw: buffer[12..14].to_vec(),
             job: u16::from_le_bytes([buffer[14], buffer[15]]),
+            job_raw: buffer[14..16].to_vec(),
             head: u16::from_le_bytes([buffer[16], buffer[17]]),
+            head_raw: buffer[16..18].to_vec(),
             weapon: u32::from_le_bytes([buffer[18], buffer[19], buffer[20], buffer[21]]),
+            weapon_raw: buffer[18..22].to_vec(),
             accessory: u16::from_le_bytes([buffer[22], buffer[23]]),
+            accessory_raw: buffer[22..24].to_vec(),
             move_start_time: u32::from_le_bytes([buffer[24], buffer[25], buffer[26], buffer[27]]),
+            move_start_time_raw: buffer[24..28].to_vec(),
             accessory2: u16::from_le_bytes([buffer[28], buffer[29]]),
+            accessory2_raw: buffer[28..30].to_vec(),
             accessory3: u16::from_le_bytes([buffer[30], buffer[31]]),
+            accessory3_raw: buffer[30..32].to_vec(),
             headpalette: u16::from_le_bytes([buffer[32], buffer[33]]),
+            headpalette_raw: buffer[32..34].to_vec(),
             bodypalette: u16::from_le_bytes([buffer[34], buffer[35]]),
+            bodypalette_raw: buffer[34..36].to_vec(),
             head_dir: u16::from_le_bytes([buffer[36], buffer[37]]),
+            head_dir_raw: buffer[36..38].to_vec(),
             guid: u32::from_le_bytes([buffer[38], buffer[39], buffer[40], buffer[41]]),
+            guid_raw: buffer[38..42].to_vec(),
             gemblem_ver: u16::from_le_bytes([buffer[42], buffer[43]]),
+            gemblem_ver_raw: buffer[42..44].to_vec(),
             honor: u16::from_le_bytes([buffer[44], buffer[45]]),
+            honor_raw: buffer[44..46].to_vec(),
             virtue: u16::from_le_bytes([buffer[46], buffer[47]]),
+            virtue_raw: buffer[46..48].to_vec(),
             is_pkmode_on: buffer[48] == 1,
+            is_pkmode_on_raw: buffer[48..49].to_vec(),
             sex: buffer[49] as char,
+            sex_raw: buffer[49..50].to_vec(),
             move_data: String::from_utf8_lossy(&buffer[50..56]).to_string(),
+            move_data_raw: buffer[50..56].to_vec(),
             x_size: buffer[56] as char,
+            x_size_raw: buffer[56..57].to_vec(),
             y_size: buffer[57] as char,
+            y_size_raw: buffer[57..58].to_vec(),
             clevel: u16::from_le_bytes([buffer[58], buffer[59]]),
+            clevel_raw: buffer[58..60].to_vec(),
         }
     }
 }
@@ -18856,6 +21756,7 @@ impl Debug for PacketZcNotifyMoveentry2 {
 pub struct PacketCaReqHash {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketCaReqHash {
@@ -18863,6 +21764,7 @@ impl PacketCaReqHash {
         PacketCaReqHash {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -18891,8 +21793,11 @@ impl Debug for PacketCaReqHash {
 pub struct PacketAcAckHash {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub secret: String,
+    pub secret_raw: Vec<u8>,
 }
 
 impl PacketAcAckHash {
@@ -18900,8 +21805,11 @@ impl PacketAcAckHash {
         PacketAcAckHash {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             secret: String::from_utf8_lossy(&buffer[4..buffer.len()]).to_string(),
+            secret_raw: buffer[4..buffer.len()].to_vec(),
         }
     }
 }
@@ -18932,10 +21840,15 @@ impl Debug for PacketAcAckHash {
 pub struct PacketCaLogin2 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub version: u32,
+    pub version_raw: Vec<u8>,
     pub id: String,
+    pub id_raw: Vec<u8>,
     pub passwd_md5: String,
+    pub passwd_md5_raw: Vec<u8>,
     pub clienttype: char,
+    pub clienttype_raw: Vec<u8>,
 }
 
 impl PacketCaLogin2 {
@@ -18943,10 +21856,15 @@ impl PacketCaLogin2 {
         PacketCaLogin2 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             version: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            version_raw: buffer[2..6].to_vec(),
             id: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            id_raw: buffer[6..30].to_vec(),
             passwd_md5: String::from_utf8_lossy(&buffer[30..46]).to_string(),
+            passwd_md5_raw: buffer[30..46].to_vec(),
             clienttype: buffer[46] as char,
+            clienttype_raw: buffer[46..47].to_vec(),
         }
     }
 }
@@ -18979,16 +21897,27 @@ impl Debug for PacketCaLogin2 {
 pub struct PacketZcNotifySkill2 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub skid: u16,
+    pub skid_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub target_id: u32,
+    pub target_id_raw: Vec<u8>,
     pub start_time: u32,
+    pub start_time_raw: Vec<u8>,
     pub attack_mt: u32,
+    pub attack_mt_raw: Vec<u8>,
     pub attacked_mt: u32,
+    pub attacked_mt_raw: Vec<u8>,
     pub damage: u32,
+    pub damage_raw: Vec<u8>,
     pub level: u16,
+    pub level_raw: Vec<u8>,
     pub count: u16,
+    pub count_raw: Vec<u8>,
     pub action: char,
+    pub action_raw: Vec<u8>,
 }
 
 impl PacketZcNotifySkill2 {
@@ -18996,16 +21925,27 @@ impl PacketZcNotifySkill2 {
         PacketZcNotifySkill2 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             skid: u16::from_le_bytes([buffer[2], buffer[3]]),
+            skid_raw: buffer[2..4].to_vec(),
             aid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            aid_raw: buffer[4..8].to_vec(),
             target_id: u32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
+            target_id_raw: buffer[8..12].to_vec(),
             start_time: u32::from_le_bytes([buffer[12], buffer[13], buffer[14], buffer[15]]),
+            start_time_raw: buffer[12..16].to_vec(),
             attack_mt: u32::from_le_bytes([buffer[16], buffer[17], buffer[18], buffer[19]]),
+            attack_mt_raw: buffer[16..20].to_vec(),
             attacked_mt: u32::from_le_bytes([buffer[20], buffer[21], buffer[22], buffer[23]]),
+            attacked_mt_raw: buffer[20..24].to_vec(),
             damage: u32::from_le_bytes([buffer[24], buffer[25], buffer[26], buffer[27]]),
+            damage_raw: buffer[24..28].to_vec(),
             level: u16::from_le_bytes([buffer[28], buffer[29]]),
+            level_raw: buffer[28..30].to_vec(),
             count: u16::from_le_bytes([buffer[30], buffer[31]]),
+            count_raw: buffer[30..32].to_vec(),
             action: buffer[32] as char,
+            action_raw: buffer[32..33].to_vec(),
         }
     }
 }
@@ -19044,7 +21984,9 @@ impl Debug for PacketZcNotifySkill2 {
 pub struct PacketCzReqAccountname {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
 }
 
 impl PacketCzReqAccountname {
@@ -19052,7 +21994,9 @@ impl PacketCzReqAccountname {
         PacketCzReqAccountname {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -19082,8 +22026,11 @@ impl Debug for PacketCzReqAccountname {
 pub struct PacketZcAckAccountname {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub name: String,
+    pub name_raw: Vec<u8>,
 }
 
 impl PacketZcAckAccountname {
@@ -19091,8 +22038,11 @@ impl PacketZcAckAccountname {
         PacketZcAckAccountname {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             name: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            name_raw: buffer[6..30].to_vec(),
         }
     }
 }
@@ -19123,8 +22073,11 @@ impl Debug for PacketZcAckAccountname {
 pub struct PacketZcSpirits2 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub num: u16,
+    pub num_raw: Vec<u8>,
 }
 
 impl PacketZcSpirits2 {
@@ -19132,8 +22085,11 @@ impl PacketZcSpirits2 {
         PacketZcSpirits2 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             num: u16::from_le_bytes([buffer[6], buffer[7]]),
+            num_raw: buffer[6..8].to_vec(),
         }
     }
 }
@@ -19164,9 +22120,13 @@ impl Debug for PacketZcSpirits2 {
 pub struct PacketZcReqCouple {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub name: String,
+    pub name_raw: Vec<u8>,
 }
 
 impl PacketZcReqCouple {
@@ -19174,9 +22134,13 @@ impl PacketZcReqCouple {
         PacketZcReqCouple {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             gid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            gid_raw: buffer[6..10].to_vec(),
             name: String::from_utf8_lossy(&buffer[10..34]).to_string(),
+            name_raw: buffer[10..34].to_vec(),
         }
     }
 }
@@ -19208,9 +22172,13 @@ impl Debug for PacketZcReqCouple {
 pub struct PacketCzJoinCouple {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub answer: u32,
+    pub answer_raw: Vec<u8>,
 }
 
 impl PacketCzJoinCouple {
@@ -19218,9 +22186,13 @@ impl PacketCzJoinCouple {
         PacketCzJoinCouple {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             gid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            gid_raw: buffer[6..10].to_vec(),
             answer: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            answer_raw: buffer[10..14].to_vec(),
         }
     }
 }
@@ -19252,6 +22224,7 @@ impl Debug for PacketCzJoinCouple {
 pub struct PacketZcStartCouple {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketZcStartCouple {
@@ -19259,6 +22232,7 @@ impl PacketZcStartCouple {
         PacketZcStartCouple {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -19287,7 +22261,9 @@ impl Debug for PacketZcStartCouple {
 pub struct PacketCzReqJoinCouple {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
 }
 
 impl PacketCzReqJoinCouple {
@@ -19295,7 +22271,9 @@ impl PacketCzReqJoinCouple {
         PacketCzReqJoinCouple {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -19325,7 +22303,9 @@ impl Debug for PacketCzReqJoinCouple {
 pub struct PacketZcCouplename {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub couple_name: String,
+    pub couple_name_raw: Vec<u8>,
 }
 
 impl PacketZcCouplename {
@@ -19333,7 +22313,9 @@ impl PacketZcCouplename {
         PacketZcCouplename {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             couple_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            couple_name_raw: buffer[2..26].to_vec(),
         }
     }
 }
@@ -19363,6 +22345,7 @@ impl Debug for PacketZcCouplename {
 pub struct PacketCzDoridori {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketCzDoridori {
@@ -19370,6 +22353,7 @@ impl PacketCzDoridori {
         PacketCzDoridori {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -19398,9 +22382,13 @@ impl Debug for PacketCzDoridori {
 pub struct PacketCzMakeGroup2 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub group_name: String,
+    pub group_name_raw: Vec<u8>,
     pub item_pickup_rule: char,
+    pub item_pickup_rule_raw: Vec<u8>,
     pub item_division_rule: char,
+    pub item_division_rule_raw: Vec<u8>,
 }
 
 impl PacketCzMakeGroup2 {
@@ -19408,9 +22396,13 @@ impl PacketCzMakeGroup2 {
         PacketCzMakeGroup2 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             group_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            group_name_raw: buffer[2..26].to_vec(),
             item_pickup_rule: buffer[26] as char,
+            item_pickup_rule_raw: buffer[26..27].to_vec(),
             item_division_rule: buffer[27] as char,
+            item_division_rule_raw: buffer[27..28].to_vec(),
         }
     }
 }
@@ -19442,16 +22434,27 @@ impl Debug for PacketCzMakeGroup2 {
 pub struct PacketZcAddMemberToGroup2 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub role: u32,
+    pub role_raw: Vec<u8>,
     pub x_pos: u16,
+    pub x_pos_raw: Vec<u8>,
     pub y_pos: u16,
+    pub y_pos_raw: Vec<u8>,
     pub state: char,
+    pub state_raw: Vec<u8>,
     pub group_name: String,
+    pub group_name_raw: Vec<u8>,
     pub character_name: String,
+    pub character_name_raw: Vec<u8>,
     pub map_name: String,
+    pub map_name_raw: Vec<u8>,
     pub item_pickup_rule: char,
+    pub item_pickup_rule_raw: Vec<u8>,
     pub item_division_rule: char,
+    pub item_division_rule_raw: Vec<u8>,
 }
 
 impl PacketZcAddMemberToGroup2 {
@@ -19459,16 +22462,27 @@ impl PacketZcAddMemberToGroup2 {
         PacketZcAddMemberToGroup2 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             role: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            role_raw: buffer[6..10].to_vec(),
             x_pos: u16::from_le_bytes([buffer[10], buffer[11]]),
+            x_pos_raw: buffer[10..12].to_vec(),
             y_pos: u16::from_le_bytes([buffer[12], buffer[13]]),
+            y_pos_raw: buffer[12..14].to_vec(),
             state: buffer[14] as char,
+            state_raw: buffer[14..15].to_vec(),
             group_name: String::from_utf8_lossy(&buffer[15..39]).to_string(),
+            group_name_raw: buffer[15..39].to_vec(),
             character_name: String::from_utf8_lossy(&buffer[39..63]).to_string(),
+            character_name_raw: buffer[39..63].to_vec(),
             map_name: String::from_utf8_lossy(&buffer[63..79]).to_string(),
+            map_name_raw: buffer[63..79].to_vec(),
             item_pickup_rule: buffer[79] as char,
+            item_pickup_rule_raw: buffer[79..80].to_vec(),
             item_division_rule: buffer[80] as char,
+            item_division_rule_raw: buffer[80..81].to_vec(),
         }
     }
 }
@@ -19507,7 +22521,9 @@ impl Debug for PacketZcAddMemberToGroup2 {
 pub struct PacketZcCongratulation {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
 }
 
 impl PacketZcCongratulation {
@@ -19515,7 +22531,9 @@ impl PacketZcCongratulation {
         PacketZcCongratulation {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -19545,9 +22563,13 @@ impl Debug for PacketZcCongratulation {
 pub struct PacketZcNotifyPositionToGuildm {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub x_pos: u16,
+    pub x_pos_raw: Vec<u8>,
     pub y_pos: u16,
+    pub y_pos_raw: Vec<u8>,
 }
 
 impl PacketZcNotifyPositionToGuildm {
@@ -19555,9 +22577,13 @@ impl PacketZcNotifyPositionToGuildm {
         PacketZcNotifyPositionToGuildm {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             x_pos: u16::from_le_bytes([buffer[6], buffer[7]]),
+            x_pos_raw: buffer[6..8].to_vec(),
             y_pos: u16::from_le_bytes([buffer[8], buffer[9]]),
+            y_pos_raw: buffer[8..10].to_vec(),
         }
     }
 }
@@ -19589,9 +22615,13 @@ impl Debug for PacketZcNotifyPositionToGuildm {
 pub struct PacketZcGuildMemberMapChange {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub gdid: u32,
+    pub gdid_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub map_name: String,
+    pub map_name_raw: Vec<u8>,
 }
 
 impl PacketZcGuildMemberMapChange {
@@ -19599,9 +22629,13 @@ impl PacketZcGuildMemberMapChange {
         PacketZcGuildMemberMapChange {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             gdid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gdid_raw: buffer[2..6].to_vec(),
             aid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            aid_raw: buffer[6..10].to_vec(),
             map_name: String::from_utf8_lossy(&buffer[10..26]).to_string(),
+            map_name_raw: buffer[10..26].to_vec(),
         }
     }
 }
@@ -19633,6 +22667,7 @@ impl Debug for PacketZcGuildMemberMapChange {
 pub struct PacketCzChopokgi {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketCzChopokgi {
@@ -19640,6 +22675,7 @@ impl PacketCzChopokgi {
         PacketCzChopokgi {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -19668,8 +22704,11 @@ impl Debug for PacketCzChopokgi {
 pub struct PacketZcNormalItemlist2 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub item_info: Vec<NormalitemExtrainfo2>,
+    pub item_info_raw: Vec<u8>,
 }
 
 impl PacketZcNormalItemlist2 {
@@ -19686,8 +22725,11 @@ impl PacketZcNormalItemlist2 {
         PacketZcNormalItemlist2 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             item_info: vec_field,
+            item_info_raw: buffer[4..22].to_vec(),
         }
     }
 }
@@ -19718,8 +22760,11 @@ impl Debug for PacketZcNormalItemlist2 {
 pub struct PacketZcCartNormalItemlist2 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub item_info: Vec<NormalitemExtrainfo2>,
+    pub item_info_raw: Vec<u8>,
 }
 
 impl PacketZcCartNormalItemlist2 {
@@ -19736,8 +22781,11 @@ impl PacketZcCartNormalItemlist2 {
         PacketZcCartNormalItemlist2 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             item_info: vec_field,
+            item_info_raw: buffer[4..22].to_vec(),
         }
     }
 }
@@ -19768,8 +22816,11 @@ impl Debug for PacketZcCartNormalItemlist2 {
 pub struct PacketZcStoreNormalItemlist2 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub item_info: Vec<NormalitemExtrainfo2>,
+    pub item_info_raw: Vec<u8>,
 }
 
 impl PacketZcStoreNormalItemlist2 {
@@ -19786,8 +22837,11 @@ impl PacketZcStoreNormalItemlist2 {
         PacketZcStoreNormalItemlist2 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             item_info: vec_field,
+            item_info_raw: buffer[4..22].to_vec(),
         }
     }
 }
@@ -19818,8 +22872,11 @@ impl Debug for PacketZcStoreNormalItemlist2 {
 pub struct PacketAcNotifyError {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub msg: String,
+    pub msg_raw: Vec<u8>,
 }
 
 impl PacketAcNotifyError {
@@ -19827,8 +22884,11 @@ impl PacketAcNotifyError {
         PacketAcNotifyError {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             msg: String::from_utf8_lossy(&buffer[4..buffer.len()]).to_string(),
+            msg_raw: buffer[4..buffer.len()].to_vec(),
         }
     }
 }
@@ -19859,12 +22919,19 @@ impl Debug for PacketAcNotifyError {
 pub struct PacketZcUpdateCharstat2 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub status: u32,
+    pub status_raw: Vec<u8>,
     pub sex: u16,
+    pub sex_raw: Vec<u8>,
     pub head: u16,
+    pub head_raw: Vec<u8>,
     pub head_palette: u16,
+    pub head_palette_raw: Vec<u8>,
 }
 
 impl PacketZcUpdateCharstat2 {
@@ -19872,12 +22939,19 @@ impl PacketZcUpdateCharstat2 {
         PacketZcUpdateCharstat2 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             gid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            gid_raw: buffer[6..10].to_vec(),
             status: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            status_raw: buffer[10..14].to_vec(),
             sex: u16::from_le_bytes([buffer[14], buffer[15]]),
+            sex_raw: buffer[14..16].to_vec(),
             head: u16::from_le_bytes([buffer[16], buffer[17]]),
+            head_raw: buffer[16..18].to_vec(),
             head_palette: u16::from_le_bytes([buffer[18], buffer[19]]),
+            head_palette_raw: buffer[18..20].to_vec(),
         }
     }
 }
@@ -19912,8 +22986,11 @@ impl Debug for PacketZcUpdateCharstat2 {
 pub struct PacketZcNotifyEffect2 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub effect_id: u32,
+    pub effect_id_raw: Vec<u8>,
 }
 
 impl PacketZcNotifyEffect2 {
@@ -19921,8 +22998,11 @@ impl PacketZcNotifyEffect2 {
         PacketZcNotifyEffect2 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             effect_id: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            effect_id_raw: buffer[6..10].to_vec(),
         }
     }
 }
@@ -19953,9 +23033,13 @@ impl Debug for PacketZcNotifyEffect2 {
 pub struct PacketZcReqExchangeItem2 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub name: String,
+    pub name_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub level: u16,
+    pub level_raw: Vec<u8>,
 }
 
 impl PacketZcReqExchangeItem2 {
@@ -19963,9 +23047,13 @@ impl PacketZcReqExchangeItem2 {
         PacketZcReqExchangeItem2 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            name_raw: buffer[2..26].to_vec(),
             gid: u32::from_le_bytes([buffer[26], buffer[27], buffer[28], buffer[29]]),
+            gid_raw: buffer[26..30].to_vec(),
             level: u16::from_le_bytes([buffer[30], buffer[31]]),
+            level_raw: buffer[30..32].to_vec(),
         }
     }
 }
@@ -19997,9 +23085,13 @@ impl Debug for PacketZcReqExchangeItem2 {
 pub struct PacketZcAckExchangeItem2 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub result: char,
+    pub result_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub level: u16,
+    pub level_raw: Vec<u8>,
 }
 
 impl PacketZcAckExchangeItem2 {
@@ -20007,9 +23099,13 @@ impl PacketZcAckExchangeItem2 {
         PacketZcAckExchangeItem2 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             result: buffer[2] as char,
+            result_raw: buffer[2..3].to_vec(),
             gid: u32::from_le_bytes([buffer[3], buffer[4], buffer[5], buffer[6]]),
+            gid_raw: buffer[3..7].to_vec(),
             level: u16::from_le_bytes([buffer[7], buffer[8]]),
+            level_raw: buffer[7..9].to_vec(),
         }
     }
 }
@@ -20041,9 +23137,13 @@ impl Debug for PacketZcAckExchangeItem2 {
 pub struct PacketZcReqBaby {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub name: String,
+    pub name_raw: Vec<u8>,
 }
 
 impl PacketZcReqBaby {
@@ -20051,9 +23151,13 @@ impl PacketZcReqBaby {
         PacketZcReqBaby {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             gid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            gid_raw: buffer[6..10].to_vec(),
             name: String::from_utf8_lossy(&buffer[10..34]).to_string(),
+            name_raw: buffer[10..34].to_vec(),
         }
     }
 }
@@ -20085,9 +23189,13 @@ impl Debug for PacketZcReqBaby {
 pub struct PacketCzJoinBaby {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub answer: u32,
+    pub answer_raw: Vec<u8>,
 }
 
 impl PacketCzJoinBaby {
@@ -20095,9 +23203,13 @@ impl PacketCzJoinBaby {
         PacketCzJoinBaby {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             gid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            gid_raw: buffer[6..10].to_vec(),
             answer: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            answer_raw: buffer[10..14].to_vec(),
         }
     }
 }
@@ -20129,6 +23241,7 @@ impl Debug for PacketCzJoinBaby {
 pub struct PacketZcStartBaby {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketZcStartBaby {
@@ -20136,6 +23249,7 @@ impl PacketZcStartBaby {
         PacketZcStartBaby {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -20164,7 +23278,9 @@ impl Debug for PacketZcStartBaby {
 pub struct PacketCzReqJoinBaby {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
 }
 
 impl PacketCzReqJoinBaby {
@@ -20172,7 +23288,9 @@ impl PacketCzReqJoinBaby {
         PacketCzReqJoinBaby {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -20202,11 +23320,17 @@ impl Debug for PacketCzReqJoinBaby {
 pub struct PacketCaLogin3 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub version: u32,
+    pub version_raw: Vec<u8>,
     pub id: String,
+    pub id_raw: Vec<u8>,
     pub passwd_md5: String,
+    pub passwd_md5_raw: Vec<u8>,
     pub clienttype: char,
+    pub clienttype_raw: Vec<u8>,
     pub client_info: char,
+    pub client_info_raw: Vec<u8>,
 }
 
 impl PacketCaLogin3 {
@@ -20214,11 +23338,17 @@ impl PacketCaLogin3 {
         PacketCaLogin3 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             version: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            version_raw: buffer[2..6].to_vec(),
             id: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            id_raw: buffer[6..30].to_vec(),
             passwd_md5: String::from_utf8_lossy(&buffer[30..46]).to_string(),
+            passwd_md5_raw: buffer[30..46].to_vec(),
             clienttype: buffer[46] as char,
+            clienttype_raw: buffer[46..47].to_vec(),
             client_info: buffer[47] as char,
+            client_info_raw: buffer[47..48].to_vec(),
         }
     }
 }
@@ -20252,8 +23382,11 @@ impl Debug for PacketCaLogin3 {
 pub struct PacketChDeleteChar2 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub key: String,
+    pub key_raw: Vec<u8>,
 }
 
 impl PacketChDeleteChar2 {
@@ -20261,8 +23394,11 @@ impl PacketChDeleteChar2 {
         PacketChDeleteChar2 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid_raw: buffer[2..6].to_vec(),
             key: String::from_utf8_lossy(&buffer[6..56]).to_string(),
+            key_raw: buffer[6..56].to_vec(),
         }
     }
 }
@@ -20293,8 +23429,11 @@ impl Debug for PacketChDeleteChar2 {
 pub struct PacketZcRepairitemlist {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub item_list: Vec<RepairitemInfo>,
+    pub item_list_raw: Vec<u8>,
 }
 
 impl PacketZcRepairitemlist {
@@ -20311,8 +23450,11 @@ impl PacketZcRepairitemlist {
         PacketZcRepairitemlist {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             item_list: vec_field,
+            item_list_raw: buffer[4..17].to_vec(),
         }
     }
 }
@@ -20343,7 +23485,9 @@ impl Debug for PacketZcRepairitemlist {
 pub struct PacketCzReqItemrepair {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub target_item_info: RepairitemInfo,
+    pub target_item_info_raw: Vec<u8>,
 }
 
 impl PacketCzReqItemrepair {
@@ -20351,7 +23495,9 @@ impl PacketCzReqItemrepair {
         PacketCzReqItemrepair {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             target_item_info: RepairitemInfo::from(&buffer[2..buffer.len()]),
+            target_item_info_raw: buffer[2..buffer.len()].to_vec(),
         }
     }
 }
@@ -20381,8 +23527,11 @@ impl Debug for PacketCzReqItemrepair {
 pub struct PacketZcAckItemrepair {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub index: u16,
+    pub index_raw: Vec<u8>,
     pub result: char,
+    pub result_raw: Vec<u8>,
 }
 
 impl PacketZcAckItemrepair {
@@ -20390,8 +23539,11 @@ impl PacketZcAckItemrepair {
         PacketZcAckItemrepair {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            index_raw: buffer[2..4].to_vec(),
             result: buffer[4] as char,
+            result_raw: buffer[4..5].to_vec(),
         }
     }
 }
@@ -20422,9 +23574,13 @@ impl Debug for PacketZcAckItemrepair {
 pub struct PacketZcHighjump {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub x_pos: u16,
+    pub x_pos_raw: Vec<u8>,
     pub y_pos: u16,
+    pub y_pos_raw: Vec<u8>,
 }
 
 impl PacketZcHighjump {
@@ -20432,9 +23588,13 @@ impl PacketZcHighjump {
         PacketZcHighjump {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             x_pos: u16::from_le_bytes([buffer[6], buffer[7]]),
+            x_pos_raw: buffer[6..8].to_vec(),
             y_pos: u16::from_le_bytes([buffer[8], buffer[9]]),
+            y_pos_raw: buffer[8..10].to_vec(),
         }
     }
 }
@@ -20466,7 +23626,9 @@ impl Debug for PacketZcHighjump {
 pub struct PacketCaConnectInfoChanged {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub id: String,
+    pub id_raw: Vec<u8>,
 }
 
 impl PacketCaConnectInfoChanged {
@@ -20474,7 +23636,9 @@ impl PacketCaConnectInfoChanged {
         PacketCaConnectInfoChanged {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             id: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            id_raw: buffer[2..26].to_vec(),
         }
     }
 }
@@ -20504,8 +23668,11 @@ impl Debug for PacketCaConnectInfoChanged {
 pub struct PacketZcFriendsList {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub friend_list: Vec<StructFriend>,
+    pub friend_list_raw: Vec<u8>,
 }
 
 impl PacketZcFriendsList {
@@ -20522,8 +23689,11 @@ impl PacketZcFriendsList {
         PacketZcFriendsList {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             friend_list: vec_field,
+            friend_list_raw: buffer[4..36].to_vec(),
         }
     }
 }
@@ -20554,7 +23724,9 @@ impl Debug for PacketZcFriendsList {
 pub struct PacketCzAddFriends {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub name: String,
+    pub name_raw: Vec<u8>,
 }
 
 impl PacketCzAddFriends {
@@ -20562,7 +23734,9 @@ impl PacketCzAddFriends {
         PacketCzAddFriends {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            name_raw: buffer[2..26].to_vec(),
         }
     }
 }
@@ -20592,8 +23766,11 @@ impl Debug for PacketCzAddFriends {
 pub struct PacketCzDeleteFriends {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
 }
 
 impl PacketCzDeleteFriends {
@@ -20601,8 +23778,11 @@ impl PacketCzDeleteFriends {
         PacketCzDeleteFriends {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             gid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            gid_raw: buffer[6..10].to_vec(),
         }
     }
 }
@@ -20633,7 +23813,9 @@ impl Debug for PacketCzDeleteFriends {
 pub struct PacketCaExeHashcheck {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub hash_value: String,
+    pub hash_value_raw: Vec<u8>,
 }
 
 impl PacketCaExeHashcheck {
@@ -20641,7 +23823,9 @@ impl PacketCaExeHashcheck {
         PacketCaExeHashcheck {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             hash_value: String::from_utf8_lossy(&buffer[2..18]).to_string(),
+            hash_value_raw: buffer[2..18].to_vec(),
         }
     }
 }
@@ -20671,7 +23855,9 @@ impl Debug for PacketCaExeHashcheck {
 pub struct PacketZcDivorce {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub name: String,
+    pub name_raw: Vec<u8>,
 }
 
 impl PacketZcDivorce {
@@ -20679,7 +23865,9 @@ impl PacketZcDivorce {
         PacketZcDivorce {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            name_raw: buffer[2..26].to_vec(),
         }
     }
 }
@@ -20709,9 +23897,13 @@ impl Debug for PacketZcDivorce {
 pub struct PacketZcFriendsState {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub state: bool,
+    pub state_raw: Vec<u8>,
 }
 
 impl PacketZcFriendsState {
@@ -20719,9 +23911,13 @@ impl PacketZcFriendsState {
         PacketZcFriendsState {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             gid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            gid_raw: buffer[6..10].to_vec(),
             state: buffer[10] == 1,
+            state_raw: buffer[10..11].to_vec(),
         }
     }
 }
@@ -20753,9 +23949,13 @@ impl Debug for PacketZcFriendsState {
 pub struct PacketZcReqAddFriends {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub req_aid: u32,
+    pub req_aid_raw: Vec<u8>,
     pub req_gid: u32,
+    pub req_gid_raw: Vec<u8>,
     pub name: String,
+    pub name_raw: Vec<u8>,
 }
 
 impl PacketZcReqAddFriends {
@@ -20763,9 +23963,13 @@ impl PacketZcReqAddFriends {
         PacketZcReqAddFriends {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             req_aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            req_aid_raw: buffer[2..6].to_vec(),
             req_gid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            req_gid_raw: buffer[6..10].to_vec(),
             name: String::from_utf8_lossy(&buffer[10..34]).to_string(),
+            name_raw: buffer[10..34].to_vec(),
         }
     }
 }
@@ -20797,9 +24001,13 @@ impl Debug for PacketZcReqAddFriends {
 pub struct PacketCzAckReqAddFriends {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub req_aid: u32,
+    pub req_aid_raw: Vec<u8>,
     pub req_gid: u32,
+    pub req_gid_raw: Vec<u8>,
     pub result: u32,
+    pub result_raw: Vec<u8>,
 }
 
 impl PacketCzAckReqAddFriends {
@@ -20807,9 +24015,13 @@ impl PacketCzAckReqAddFriends {
         PacketCzAckReqAddFriends {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             req_aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            req_aid_raw: buffer[2..6].to_vec(),
             req_gid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            req_gid_raw: buffer[6..10].to_vec(),
             result: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            result_raw: buffer[10..14].to_vec(),
         }
     }
 }
@@ -20841,10 +24053,15 @@ impl Debug for PacketCzAckReqAddFriends {
 pub struct PacketZcAddFriendsList {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub result: u16,
+    pub result_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub name: String,
+    pub name_raw: Vec<u8>,
 }
 
 impl PacketZcAddFriendsList {
@@ -20852,10 +24069,15 @@ impl PacketZcAddFriendsList {
         PacketZcAddFriendsList {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             result: u16::from_le_bytes([buffer[2], buffer[3]]),
+            result_raw: buffer[2..4].to_vec(),
             aid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            aid_raw: buffer[4..8].to_vec(),
             gid: u32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
+            gid_raw: buffer[8..12].to_vec(),
             name: String::from_utf8_lossy(&buffer[12..36]).to_string(),
+            name_raw: buffer[12..36].to_vec(),
         }
     }
 }
@@ -20888,8 +24110,11 @@ impl Debug for PacketZcAddFriendsList {
 pub struct PacketZcDeleteFriends {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
 }
 
 impl PacketZcDeleteFriends {
@@ -20897,8 +24122,11 @@ impl PacketZcDeleteFriends {
         PacketZcDeleteFriends {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             gid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            gid_raw: buffer[6..10].to_vec(),
         }
     }
 }
@@ -20929,8 +24157,11 @@ impl Debug for PacketZcDeleteFriends {
 pub struct PacketChExeHashcheck {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub client_type: char,
+    pub client_type_raw: Vec<u8>,
     pub hash_value: String,
+    pub hash_value_raw: Vec<u8>,
 }
 
 impl PacketChExeHashcheck {
@@ -20938,8 +24169,11 @@ impl PacketChExeHashcheck {
         PacketChExeHashcheck {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             client_type: buffer[2] as char,
+            client_type_raw: buffer[2..3].to_vec(),
             hash_value: String::from_utf8_lossy(&buffer[3..19]).to_string(),
+            hash_value_raw: buffer[3..19].to_vec(),
         }
     }
 }
@@ -20970,8 +24204,11 @@ impl Debug for PacketChExeHashcheck {
 pub struct PacketCzExeHashcheck {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub client_type: char,
+    pub client_type_raw: Vec<u8>,
     pub hash_value: String,
+    pub hash_value_raw: Vec<u8>,
 }
 
 impl PacketCzExeHashcheck {
@@ -20979,8 +24216,11 @@ impl PacketCzExeHashcheck {
         PacketCzExeHashcheck {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             client_type: buffer[2] as char,
+            client_type_raw: buffer[2..3].to_vec(),
             hash_value: String::from_utf8_lossy(&buffer[3..19]).to_string(),
+            hash_value_raw: buffer[3..19].to_vec(),
         }
     }
 }
@@ -21011,8 +24251,11 @@ impl Debug for PacketCzExeHashcheck {
 pub struct PacketHcBlockCharacter {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub character_list: Vec<TagCharacterBlockInfo>,
+    pub character_list_raw: Vec<u8>,
 }
 
 impl PacketHcBlockCharacter {
@@ -21029,8 +24272,11 @@ impl PacketHcBlockCharacter {
         PacketHcBlockCharacter {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             character_list: vec_field,
+            character_list_raw: buffer[4..28].to_vec(),
         }
     }
 }
@@ -21061,10 +24307,15 @@ impl Debug for PacketHcBlockCharacter {
 pub struct PacketZcStarskill {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub map_name: String,
+    pub map_name_raw: Vec<u8>,
     pub monster_id: u32,
+    pub monster_id_raw: Vec<u8>,
     pub star: char,
+    pub star_raw: Vec<u8>,
     pub result: char,
+    pub result_raw: Vec<u8>,
 }
 
 impl PacketZcStarskill {
@@ -21072,10 +24323,15 @@ impl PacketZcStarskill {
         PacketZcStarskill {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             map_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            map_name_raw: buffer[2..26].to_vec(),
             monster_id: u32::from_le_bytes([buffer[26], buffer[27], buffer[28], buffer[29]]),
+            monster_id_raw: buffer[26..30].to_vec(),
             star: buffer[30] as char,
+            star_raw: buffer[30..31].to_vec(),
             result: buffer[31] as char,
+            result_raw: buffer[31..32].to_vec(),
         }
     }
 }
@@ -21108,8 +24364,11 @@ impl Debug for PacketZcStarskill {
 pub struct PacketCzReqPvppoint {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
 }
 
 impl PacketCzReqPvppoint {
@@ -21117,8 +24376,11 @@ impl PacketCzReqPvppoint {
         PacketCzReqPvppoint {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             gid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            gid_raw: buffer[6..10].to_vec(),
         }
     }
 }
@@ -21149,9 +24411,13 @@ impl Debug for PacketCzReqPvppoint {
 pub struct PacketZcAckPvppoint {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub pvp: PVPINFO,
+    pub pvp_raw: Vec<u8>,
 }
 
 impl PacketZcAckPvppoint {
@@ -21159,9 +24425,13 @@ impl PacketZcAckPvppoint {
         PacketZcAckPvppoint {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             gid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            gid_raw: buffer[6..10].to_vec(),
             pvp: PVPINFO::from(&buffer[10..buffer.len()]),
+            pvp_raw: buffer[10..buffer.len()].to_vec(),
         }
     }
 }
@@ -21193,7 +24463,9 @@ impl Debug for PacketZcAckPvppoint {
 pub struct PacketZhMovePvpworld {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
 }
 
 impl PacketZhMovePvpworld {
@@ -21201,7 +24473,9 @@ impl PacketZhMovePvpworld {
         PacketZhMovePvpworld {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -21231,7 +24505,9 @@ impl Debug for PacketZhMovePvpworld {
 pub struct PacketCzReqGiveMannerByname {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub char_name: String,
+    pub char_name_raw: Vec<u8>,
 }
 
 impl PacketCzReqGiveMannerByname {
@@ -21239,7 +24515,9 @@ impl PacketCzReqGiveMannerByname {
         PacketCzReqGiveMannerByname {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             char_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            char_name_raw: buffer[2..26].to_vec(),
         }
     }
 }
@@ -21269,7 +24547,9 @@ impl Debug for PacketCzReqGiveMannerByname {
 pub struct PacketCzReqStatusGm {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub char_name: String,
+    pub char_name_raw: Vec<u8>,
 }
 
 impl PacketCzReqStatusGm {
@@ -21277,7 +24557,9 @@ impl PacketCzReqStatusGm {
         PacketCzReqStatusGm {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             char_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            char_name_raw: buffer[2..26].to_vec(),
         }
     }
 }
@@ -21307,32 +24589,59 @@ impl Debug for PacketCzReqStatusGm {
 pub struct PacketZcAckStatusGm {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub str: char,
+    pub str_raw: Vec<u8>,
     pub standard_str: char,
+    pub standard_str_raw: Vec<u8>,
     pub agi: char,
+    pub agi_raw: Vec<u8>,
     pub standard_agi: char,
+    pub standard_agi_raw: Vec<u8>,
     pub vit: char,
+    pub vit_raw: Vec<u8>,
     pub standard_vit: char,
+    pub standard_vit_raw: Vec<u8>,
     pub int: char,
+    pub int_raw: Vec<u8>,
     pub standard_int: char,
+    pub standard_int_raw: Vec<u8>,
     pub dex: char,
+    pub dex_raw: Vec<u8>,
     pub standard_dex: char,
+    pub standard_dex_raw: Vec<u8>,
     pub luk: char,
+    pub luk_raw: Vec<u8>,
     pub standard_luk: char,
+    pub standard_luk_raw: Vec<u8>,
     pub att_power: u16,
+    pub att_power_raw: Vec<u8>,
     pub refining_power: u16,
+    pub refining_power_raw: Vec<u8>,
     pub max_matt_power: u16,
+    pub max_matt_power_raw: Vec<u8>,
     pub min_matt_power: u16,
+    pub min_matt_power_raw: Vec<u8>,
     pub itemdef_power: u16,
+    pub itemdef_power_raw: Vec<u8>,
     pub plusdef_power: u16,
+    pub plusdef_power_raw: Vec<u8>,
     pub mdef_power: u16,
+    pub mdef_power_raw: Vec<u8>,
     pub plusmdef_power: u16,
+    pub plusmdef_power_raw: Vec<u8>,
     pub hit_success_value: u16,
+    pub hit_success_value_raw: Vec<u8>,
     pub avoid_success_value: u16,
+    pub avoid_success_value_raw: Vec<u8>,
     pub plus_avoid_success_value: u16,
+    pub plus_avoid_success_value_raw: Vec<u8>,
     pub critical_success_value: u16,
+    pub critical_success_value_raw: Vec<u8>,
     pub aspd: u16,
+    pub aspd_raw: Vec<u8>,
     pub plus_aspd: u16,
+    pub plus_aspd_raw: Vec<u8>,
 }
 
 impl PacketZcAckStatusGm {
@@ -21340,32 +24649,59 @@ impl PacketZcAckStatusGm {
         PacketZcAckStatusGm {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             str: buffer[2] as char,
+            str_raw: buffer[2..3].to_vec(),
             standard_str: buffer[3] as char,
+            standard_str_raw: buffer[3..4].to_vec(),
             agi: buffer[4] as char,
+            agi_raw: buffer[4..5].to_vec(),
             standard_agi: buffer[5] as char,
+            standard_agi_raw: buffer[5..6].to_vec(),
             vit: buffer[6] as char,
+            vit_raw: buffer[6..7].to_vec(),
             standard_vit: buffer[7] as char,
+            standard_vit_raw: buffer[7..8].to_vec(),
             int: buffer[8] as char,
+            int_raw: buffer[8..9].to_vec(),
             standard_int: buffer[9] as char,
+            standard_int_raw: buffer[9..10].to_vec(),
             dex: buffer[10] as char,
+            dex_raw: buffer[10..11].to_vec(),
             standard_dex: buffer[11] as char,
+            standard_dex_raw: buffer[11..12].to_vec(),
             luk: buffer[12] as char,
+            luk_raw: buffer[12..13].to_vec(),
             standard_luk: buffer[13] as char,
+            standard_luk_raw: buffer[13..14].to_vec(),
             att_power: u16::from_le_bytes([buffer[14], buffer[15]]),
+            att_power_raw: buffer[14..16].to_vec(),
             refining_power: u16::from_le_bytes([buffer[16], buffer[17]]),
+            refining_power_raw: buffer[16..18].to_vec(),
             max_matt_power: u16::from_le_bytes([buffer[18], buffer[19]]),
+            max_matt_power_raw: buffer[18..20].to_vec(),
             min_matt_power: u16::from_le_bytes([buffer[20], buffer[21]]),
+            min_matt_power_raw: buffer[20..22].to_vec(),
             itemdef_power: u16::from_le_bytes([buffer[22], buffer[23]]),
+            itemdef_power_raw: buffer[22..24].to_vec(),
             plusdef_power: u16::from_le_bytes([buffer[24], buffer[25]]),
+            plusdef_power_raw: buffer[24..26].to_vec(),
             mdef_power: u16::from_le_bytes([buffer[26], buffer[27]]),
+            mdef_power_raw: buffer[26..28].to_vec(),
             plusmdef_power: u16::from_le_bytes([buffer[28], buffer[29]]),
+            plusmdef_power_raw: buffer[28..30].to_vec(),
             hit_success_value: u16::from_le_bytes([buffer[30], buffer[31]]),
+            hit_success_value_raw: buffer[30..32].to_vec(),
             avoid_success_value: u16::from_le_bytes([buffer[32], buffer[33]]),
+            avoid_success_value_raw: buffer[32..34].to_vec(),
             plus_avoid_success_value: u16::from_le_bytes([buffer[34], buffer[35]]),
+            plus_avoid_success_value_raw: buffer[34..36].to_vec(),
             critical_success_value: u16::from_le_bytes([buffer[36], buffer[37]]),
+            critical_success_value_raw: buffer[36..38].to_vec(),
             aspd: u16::from_le_bytes([buffer[38], buffer[39]]),
+            aspd_raw: buffer[38..40].to_vec(),
             plus_aspd: u16::from_le_bytes([buffer[40], buffer[41]]),
+            plus_aspd_raw: buffer[40..42].to_vec(),
         }
     }
 }
@@ -21420,7 +24756,9 @@ impl Debug for PacketZcAckStatusGm {
 pub struct PacketZcSkillmsg {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub msg_no: u32,
+    pub msg_no_raw: Vec<u8>,
 }
 
 impl PacketZcSkillmsg {
@@ -21428,7 +24766,9 @@ impl PacketZcSkillmsg {
         PacketZcSkillmsg {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             msg_no: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            msg_no_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -21458,7 +24798,9 @@ impl Debug for PacketZcSkillmsg {
 pub struct PacketZcBabymsg {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub msg_no: u32,
+    pub msg_no_raw: Vec<u8>,
 }
 
 impl PacketZcBabymsg {
@@ -21466,7 +24808,9 @@ impl PacketZcBabymsg {
         PacketZcBabymsg {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             msg_no: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            msg_no_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -21496,6 +24840,7 @@ impl Debug for PacketZcBabymsg {
 pub struct PacketCzBlacksmithRank {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketCzBlacksmithRank {
@@ -21503,6 +24848,7 @@ impl PacketCzBlacksmithRank {
         PacketCzBlacksmithRank {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -21531,6 +24877,7 @@ impl Debug for PacketCzBlacksmithRank {
 pub struct PacketCzAlchemistRank {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketCzAlchemistRank {
@@ -21538,6 +24885,7 @@ impl PacketCzAlchemistRank {
         PacketCzAlchemistRank {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -21566,8 +24914,11 @@ impl Debug for PacketCzAlchemistRank {
 pub struct PacketZcBlacksmithRank {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub name: String,
+    pub name_raw: Vec<u8>,
     pub point: u32,
+    pub point_raw: Vec<u8>,
 }
 
 impl PacketZcBlacksmithRank {
@@ -21575,8 +24926,11 @@ impl PacketZcBlacksmithRank {
         PacketZcBlacksmithRank {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             name: String::from_utf8_lossy(&buffer[2..12]).to_string(),
+            name_raw: buffer[2..12].to_vec(),
             point: u32::from_le_bytes([buffer[242], buffer[243], buffer[244], buffer[245]]),
+            point_raw: buffer[242..246].to_vec(),
         }
     }
 }
@@ -21607,8 +24961,11 @@ impl Debug for PacketZcBlacksmithRank {
 pub struct PacketZcAlchemistRank {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub name: String,
+    pub name_raw: Vec<u8>,
     pub point: u32,
+    pub point_raw: Vec<u8>,
 }
 
 impl PacketZcAlchemistRank {
@@ -21616,8 +24973,11 @@ impl PacketZcAlchemistRank {
         PacketZcAlchemistRank {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             name: String::from_utf8_lossy(&buffer[2..12]).to_string(),
+            name_raw: buffer[2..12].to_vec(),
             point: u32::from_le_bytes([buffer[242], buffer[243], buffer[244], buffer[245]]),
+            point_raw: buffer[242..246].to_vec(),
         }
     }
 }
@@ -21648,8 +25008,11 @@ impl Debug for PacketZcAlchemistRank {
 pub struct PacketZcBlacksmithPoint {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub point: u32,
+    pub point_raw: Vec<u8>,
     pub total_point: u32,
+    pub total_point_raw: Vec<u8>,
 }
 
 impl PacketZcBlacksmithPoint {
@@ -21657,8 +25020,11 @@ impl PacketZcBlacksmithPoint {
         PacketZcBlacksmithPoint {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             point: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            point_raw: buffer[2..6].to_vec(),
             total_point: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            total_point_raw: buffer[6..10].to_vec(),
         }
     }
 }
@@ -21689,8 +25055,11 @@ impl Debug for PacketZcBlacksmithPoint {
 pub struct PacketZcAlchemistPoint {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub point: u32,
+    pub point_raw: Vec<u8>,
     pub total_point: u32,
+    pub total_point_raw: Vec<u8>,
 }
 
 impl PacketZcAlchemistPoint {
@@ -21698,8 +25067,11 @@ impl PacketZcAlchemistPoint {
         PacketZcAlchemistPoint {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             point: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            point_raw: buffer[2..6].to_vec(),
             total_point: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            total_point_raw: buffer[6..10].to_vec(),
         }
     }
 }
@@ -21730,7 +25102,9 @@ impl Debug for PacketZcAlchemistPoint {
 pub struct PacketCzLesseffect {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub is_less: u32,
+    pub is_less_raw: Vec<u8>,
 }
 
 impl PacketCzLesseffect {
@@ -21738,7 +25112,9 @@ impl PacketCzLesseffect {
         PacketCzLesseffect {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             is_less: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            is_less_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -21768,7 +25144,9 @@ impl Debug for PacketCzLesseffect {
 pub struct PacketZcLesseffect {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub is_less: u32,
+    pub is_less_raw: Vec<u8>,
 }
 
 impl PacketZcLesseffect {
@@ -21776,7 +25154,9 @@ impl PacketZcLesseffect {
         PacketZcLesseffect {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             is_less: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            is_less_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -21806,11 +25186,17 @@ impl Debug for PacketZcLesseffect {
 pub struct PacketZcNotifyPkinfo {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub win_point: u32,
+    pub win_point_raw: Vec<u8>,
     pub lose_point: u32,
+    pub lose_point_raw: Vec<u8>,
     pub kill_name: String,
+    pub kill_name_raw: Vec<u8>,
     pub killed_name: String,
+    pub killed_name_raw: Vec<u8>,
     pub expire_time: Filetime,
+    pub expire_time_raw: Vec<u8>,
 }
 
 impl PacketZcNotifyPkinfo {
@@ -21818,11 +25204,17 @@ impl PacketZcNotifyPkinfo {
         PacketZcNotifyPkinfo {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             win_point: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            win_point_raw: buffer[2..6].to_vec(),
             lose_point: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            lose_point_raw: buffer[6..10].to_vec(),
             kill_name: String::from_utf8_lossy(&buffer[10..34]).to_string(),
+            kill_name_raw: buffer[10..34].to_vec(),
             killed_name: String::from_utf8_lossy(&buffer[34..58]).to_string(),
+            killed_name_raw: buffer[34..58].to_vec(),
             expire_time: Filetime::from(&buffer[58..buffer.len()]),
+            expire_time_raw: buffer[58..buffer.len()].to_vec(),
         }
     }
 }
@@ -21856,8 +25248,11 @@ impl Debug for PacketZcNotifyPkinfo {
 pub struct PacketZcNotifyCrazykiller {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub is_crazy_killer: u32,
+    pub is_crazy_killer_raw: Vec<u8>,
 }
 
 impl PacketZcNotifyCrazykiller {
@@ -21865,8 +25260,11 @@ impl PacketZcNotifyCrazykiller {
         PacketZcNotifyCrazykiller {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             is_crazy_killer: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            is_crazy_killer_raw: buffer[6..10].to_vec(),
         }
     }
 }
@@ -21897,8 +25295,11 @@ impl Debug for PacketZcNotifyCrazykiller {
 pub struct PacketZcNotifyWeaponitemlist {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub item_list: Vec<RepairitemInfo>,
+    pub item_list_raw: Vec<u8>,
 }
 
 impl PacketZcNotifyWeaponitemlist {
@@ -21915,8 +25316,11 @@ impl PacketZcNotifyWeaponitemlist {
         PacketZcNotifyWeaponitemlist {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             item_list: vec_field,
+            item_list_raw: buffer[4..17].to_vec(),
         }
     }
 }
@@ -21947,7 +25351,9 @@ impl Debug for PacketZcNotifyWeaponitemlist {
 pub struct PacketCzReqWeaponrefine {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub index: u32,
+    pub index_raw: Vec<u8>,
 }
 
 impl PacketCzReqWeaponrefine {
@@ -21955,7 +25361,9 @@ impl PacketCzReqWeaponrefine {
         PacketCzReqWeaponrefine {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             index: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            index_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -21985,8 +25393,11 @@ impl Debug for PacketCzReqWeaponrefine {
 pub struct PacketZcAckWeaponrefine {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub msg: u32,
+    pub msg_raw: Vec<u8>,
     pub itid: u16,
+    pub itid_raw: Vec<u8>,
 }
 
 impl PacketZcAckWeaponrefine {
@@ -21994,8 +25405,11 @@ impl PacketZcAckWeaponrefine {
         PacketZcAckWeaponrefine {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             msg: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            msg_raw: buffer[2..6].to_vec(),
             itid: u16::from_le_bytes([buffer[6], buffer[7]]),
+            itid_raw: buffer[6..8].to_vec(),
         }
     }
 }
@@ -22026,8 +25440,11 @@ impl Debug for PacketZcAckWeaponrefine {
 pub struct PacketZcTaekwonPoint {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub point: u32,
+    pub point_raw: Vec<u8>,
     pub total_point: u32,
+    pub total_point_raw: Vec<u8>,
 }
 
 impl PacketZcTaekwonPoint {
@@ -22035,8 +25452,11 @@ impl PacketZcTaekwonPoint {
         PacketZcTaekwonPoint {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             point: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            point_raw: buffer[2..6].to_vec(),
             total_point: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            total_point_raw: buffer[6..10].to_vec(),
         }
     }
 }
@@ -22067,6 +25487,7 @@ impl Debug for PacketZcTaekwonPoint {
 pub struct PacketCzTaekwonRank {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketCzTaekwonRank {
@@ -22074,6 +25495,7 @@ impl PacketCzTaekwonRank {
         PacketCzTaekwonRank {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -22102,8 +25524,11 @@ impl Debug for PacketCzTaekwonRank {
 pub struct PacketZcTaekwonRank {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub name: String,
+    pub name_raw: Vec<u8>,
     pub point: u32,
+    pub point_raw: Vec<u8>,
 }
 
 impl PacketZcTaekwonRank {
@@ -22111,8 +25536,11 @@ impl PacketZcTaekwonRank {
         PacketZcTaekwonRank {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             name: String::from_utf8_lossy(&buffer[2..12]).to_string(),
+            name_raw: buffer[2..12].to_vec(),
             point: u32::from_le_bytes([buffer[242], buffer[243], buffer[244], buffer[245]]),
+            point_raw: buffer[242..246].to_vec(),
         }
     }
 }
@@ -22143,7 +25571,9 @@ impl Debug for PacketZcTaekwonRank {
 pub struct PacketZcGameGuard {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub auth_data: u32,
+    pub auth_data_raw: Vec<u8>,
 }
 
 impl PacketZcGameGuard {
@@ -22151,7 +25581,9 @@ impl PacketZcGameGuard {
         PacketZcGameGuard {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             auth_data: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            auth_data_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -22181,7 +25613,9 @@ impl Debug for PacketZcGameGuard {
 pub struct PacketCzAckGameGuard {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub auth_data: u32,
+    pub auth_data_raw: Vec<u8>,
 }
 
 impl PacketCzAckGameGuard {
@@ -22189,7 +25623,9 @@ impl PacketCzAckGameGuard {
         PacketCzAckGameGuard {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             auth_data: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            auth_data_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -22219,11 +25655,17 @@ impl Debug for PacketCzAckGameGuard {
 pub struct PacketZcStateChange3 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub body_state: u16,
+    pub body_state_raw: Vec<u8>,
     pub health_state: u16,
+    pub health_state_raw: Vec<u8>,
     pub effect_state: u32,
+    pub effect_state_raw: Vec<u8>,
     pub is_pkmode_on: bool,
+    pub is_pkmode_on_raw: Vec<u8>,
 }
 
 impl PacketZcStateChange3 {
@@ -22231,11 +25673,17 @@ impl PacketZcStateChange3 {
         PacketZcStateChange3 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             body_state: u16::from_le_bytes([buffer[6], buffer[7]]),
+            body_state_raw: buffer[6..8].to_vec(),
             health_state: u16::from_le_bytes([buffer[8], buffer[9]]),
+            health_state_raw: buffer[8..10].to_vec(),
             effect_state: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            effect_state_raw: buffer[10..14].to_vec(),
             is_pkmode_on: buffer[14] == 1,
+            is_pkmode_on_raw: buffer[14..15].to_vec(),
         }
     }
 }
@@ -22269,31 +25717,57 @@ impl Debug for PacketZcStateChange3 {
 pub struct PacketZcNotifyStandentry3 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub speed: u16,
+    pub speed_raw: Vec<u8>,
     pub body_state: u16,
+    pub body_state_raw: Vec<u8>,
     pub health_state: u16,
+    pub health_state_raw: Vec<u8>,
     pub effect_state: u32,
+    pub effect_state_raw: Vec<u8>,
     pub job: u16,
+    pub job_raw: Vec<u8>,
     pub head: u16,
+    pub head_raw: Vec<u8>,
     pub weapon: u32,
+    pub weapon_raw: Vec<u8>,
     pub accessory: u16,
+    pub accessory_raw: Vec<u8>,
     pub accessory2: u16,
+    pub accessory2_raw: Vec<u8>,
     pub accessory3: u16,
+    pub accessory3_raw: Vec<u8>,
     pub headpalette: u16,
+    pub headpalette_raw: Vec<u8>,
     pub bodypalette: u16,
+    pub bodypalette_raw: Vec<u8>,
     pub head_dir: u16,
+    pub head_dir_raw: Vec<u8>,
     pub guid: u32,
+    pub guid_raw: Vec<u8>,
     pub gemblem_ver: u16,
+    pub gemblem_ver_raw: Vec<u8>,
     pub honor: u16,
+    pub honor_raw: Vec<u8>,
     pub virtue: u32,
+    pub virtue_raw: Vec<u8>,
     pub is_pkmode_on: bool,
+    pub is_pkmode_on_raw: Vec<u8>,
     pub sex: char,
+    pub sex_raw: Vec<u8>,
     pub pos_dir: String,
+    pub pos_dir_raw: Vec<u8>,
     pub x_size: char,
+    pub x_size_raw: Vec<u8>,
     pub y_size: char,
+    pub y_size_raw: Vec<u8>,
     pub state: char,
+    pub state_raw: Vec<u8>,
     pub clevel: u16,
+    pub clevel_raw: Vec<u8>,
 }
 
 impl PacketZcNotifyStandentry3 {
@@ -22301,31 +25775,57 @@ impl PacketZcNotifyStandentry3 {
         PacketZcNotifyStandentry3 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid_raw: buffer[2..6].to_vec(),
             speed: u16::from_le_bytes([buffer[6], buffer[7]]),
+            speed_raw: buffer[6..8].to_vec(),
             body_state: u16::from_le_bytes([buffer[8], buffer[9]]),
+            body_state_raw: buffer[8..10].to_vec(),
             health_state: u16::from_le_bytes([buffer[10], buffer[11]]),
+            health_state_raw: buffer[10..12].to_vec(),
             effect_state: u32::from_le_bytes([buffer[12], buffer[13], buffer[14], buffer[15]]),
+            effect_state_raw: buffer[12..16].to_vec(),
             job: u16::from_le_bytes([buffer[16], buffer[17]]),
+            job_raw: buffer[16..18].to_vec(),
             head: u16::from_le_bytes([buffer[18], buffer[19]]),
+            head_raw: buffer[18..20].to_vec(),
             weapon: u32::from_le_bytes([buffer[20], buffer[21], buffer[22], buffer[23]]),
+            weapon_raw: buffer[20..24].to_vec(),
             accessory: u16::from_le_bytes([buffer[24], buffer[25]]),
+            accessory_raw: buffer[24..26].to_vec(),
             accessory2: u16::from_le_bytes([buffer[26], buffer[27]]),
+            accessory2_raw: buffer[26..28].to_vec(),
             accessory3: u16::from_le_bytes([buffer[28], buffer[29]]),
+            accessory3_raw: buffer[28..30].to_vec(),
             headpalette: u16::from_le_bytes([buffer[30], buffer[31]]),
+            headpalette_raw: buffer[30..32].to_vec(),
             bodypalette: u16::from_le_bytes([buffer[32], buffer[33]]),
+            bodypalette_raw: buffer[32..34].to_vec(),
             head_dir: u16::from_le_bytes([buffer[34], buffer[35]]),
+            head_dir_raw: buffer[34..36].to_vec(),
             guid: u32::from_le_bytes([buffer[36], buffer[37], buffer[38], buffer[39]]),
+            guid_raw: buffer[36..40].to_vec(),
             gemblem_ver: u16::from_le_bytes([buffer[40], buffer[41]]),
+            gemblem_ver_raw: buffer[40..42].to_vec(),
             honor: u16::from_le_bytes([buffer[42], buffer[43]]),
+            honor_raw: buffer[42..44].to_vec(),
             virtue: u32::from_le_bytes([buffer[44], buffer[45], buffer[46], buffer[47]]),
+            virtue_raw: buffer[44..48].to_vec(),
             is_pkmode_on: buffer[48] == 1,
+            is_pkmode_on_raw: buffer[48..49].to_vec(),
             sex: buffer[49] as char,
+            sex_raw: buffer[49..50].to_vec(),
             pos_dir: String::from_utf8_lossy(&buffer[50..53]).to_string(),
+            pos_dir_raw: buffer[50..53].to_vec(),
             x_size: buffer[53] as char,
+            x_size_raw: buffer[53..54].to_vec(),
             y_size: buffer[54] as char,
+            y_size_raw: buffer[54..55].to_vec(),
             state: buffer[55] as char,
+            state_raw: buffer[55..56].to_vec(),
             clevel: u16::from_le_bytes([buffer[56], buffer[57]]),
+            clevel_raw: buffer[56..58].to_vec(),
         }
     }
 }
@@ -22379,30 +25879,55 @@ impl Debug for PacketZcNotifyStandentry3 {
 pub struct PacketZcNotifyNewentry3 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub speed: u16,
+    pub speed_raw: Vec<u8>,
     pub body_state: u16,
+    pub body_state_raw: Vec<u8>,
     pub health_state: u16,
+    pub health_state_raw: Vec<u8>,
     pub effect_state: u32,
+    pub effect_state_raw: Vec<u8>,
     pub job: u16,
+    pub job_raw: Vec<u8>,
     pub head: u16,
+    pub head_raw: Vec<u8>,
     pub weapon: u32,
+    pub weapon_raw: Vec<u8>,
     pub accessory: u16,
+    pub accessory_raw: Vec<u8>,
     pub accessory2: u16,
+    pub accessory2_raw: Vec<u8>,
     pub accessory3: u16,
+    pub accessory3_raw: Vec<u8>,
     pub headpalette: u16,
+    pub headpalette_raw: Vec<u8>,
     pub bodypalette: u16,
+    pub bodypalette_raw: Vec<u8>,
     pub head_dir: u16,
+    pub head_dir_raw: Vec<u8>,
     pub guid: u32,
+    pub guid_raw: Vec<u8>,
     pub gemblem_ver: u16,
+    pub gemblem_ver_raw: Vec<u8>,
     pub honor: u16,
+    pub honor_raw: Vec<u8>,
     pub virtue: u32,
+    pub virtue_raw: Vec<u8>,
     pub is_pkmode_on: bool,
+    pub is_pkmode_on_raw: Vec<u8>,
     pub sex: char,
+    pub sex_raw: Vec<u8>,
     pub pos_dir: String,
+    pub pos_dir_raw: Vec<u8>,
     pub x_size: char,
+    pub x_size_raw: Vec<u8>,
     pub y_size: char,
+    pub y_size_raw: Vec<u8>,
     pub clevel: u16,
+    pub clevel_raw: Vec<u8>,
 }
 
 impl PacketZcNotifyNewentry3 {
@@ -22410,30 +25935,55 @@ impl PacketZcNotifyNewentry3 {
         PacketZcNotifyNewentry3 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid_raw: buffer[2..6].to_vec(),
             speed: u16::from_le_bytes([buffer[6], buffer[7]]),
+            speed_raw: buffer[6..8].to_vec(),
             body_state: u16::from_le_bytes([buffer[8], buffer[9]]),
+            body_state_raw: buffer[8..10].to_vec(),
             health_state: u16::from_le_bytes([buffer[10], buffer[11]]),
+            health_state_raw: buffer[10..12].to_vec(),
             effect_state: u32::from_le_bytes([buffer[12], buffer[13], buffer[14], buffer[15]]),
+            effect_state_raw: buffer[12..16].to_vec(),
             job: u16::from_le_bytes([buffer[16], buffer[17]]),
+            job_raw: buffer[16..18].to_vec(),
             head: u16::from_le_bytes([buffer[18], buffer[19]]),
+            head_raw: buffer[18..20].to_vec(),
             weapon: u32::from_le_bytes([buffer[20], buffer[21], buffer[22], buffer[23]]),
+            weapon_raw: buffer[20..24].to_vec(),
             accessory: u16::from_le_bytes([buffer[24], buffer[25]]),
+            accessory_raw: buffer[24..26].to_vec(),
             accessory2: u16::from_le_bytes([buffer[26], buffer[27]]),
+            accessory2_raw: buffer[26..28].to_vec(),
             accessory3: u16::from_le_bytes([buffer[28], buffer[29]]),
+            accessory3_raw: buffer[28..30].to_vec(),
             headpalette: u16::from_le_bytes([buffer[30], buffer[31]]),
+            headpalette_raw: buffer[30..32].to_vec(),
             bodypalette: u16::from_le_bytes([buffer[32], buffer[33]]),
+            bodypalette_raw: buffer[32..34].to_vec(),
             head_dir: u16::from_le_bytes([buffer[34], buffer[35]]),
+            head_dir_raw: buffer[34..36].to_vec(),
             guid: u32::from_le_bytes([buffer[36], buffer[37], buffer[38], buffer[39]]),
+            guid_raw: buffer[36..40].to_vec(),
             gemblem_ver: u16::from_le_bytes([buffer[40], buffer[41]]),
+            gemblem_ver_raw: buffer[40..42].to_vec(),
             honor: u16::from_le_bytes([buffer[42], buffer[43]]),
+            honor_raw: buffer[42..44].to_vec(),
             virtue: u32::from_le_bytes([buffer[44], buffer[45], buffer[46], buffer[47]]),
+            virtue_raw: buffer[44..48].to_vec(),
             is_pkmode_on: buffer[48] == 1,
+            is_pkmode_on_raw: buffer[48..49].to_vec(),
             sex: buffer[49] as char,
+            sex_raw: buffer[49..50].to_vec(),
             pos_dir: String::from_utf8_lossy(&buffer[50..53]).to_string(),
+            pos_dir_raw: buffer[50..53].to_vec(),
             x_size: buffer[53] as char,
+            x_size_raw: buffer[53..54].to_vec(),
             y_size: buffer[54] as char,
+            y_size_raw: buffer[54..55].to_vec(),
             clevel: u16::from_le_bytes([buffer[55], buffer[56]]),
+            clevel_raw: buffer[55..57].to_vec(),
         }
     }
 }
@@ -22486,32 +26036,59 @@ impl Debug for PacketZcNotifyNewentry3 {
 pub struct PacketZcNotifyMoveentry3 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub objecttype: char,
+    pub objecttype_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub speed: u16,
+    pub speed_raw: Vec<u8>,
     pub body_state: u16,
+    pub body_state_raw: Vec<u8>,
     pub health_state: u16,
+    pub health_state_raw: Vec<u8>,
     pub effect_state: u32,
+    pub effect_state_raw: Vec<u8>,
     pub job: u16,
+    pub job_raw: Vec<u8>,
     pub head: u16,
+    pub head_raw: Vec<u8>,
     pub weapon: u32,
+    pub weapon_raw: Vec<u8>,
     pub accessory: u16,
+    pub accessory_raw: Vec<u8>,
     pub move_start_time: u32,
+    pub move_start_time_raw: Vec<u8>,
     pub accessory2: u16,
+    pub accessory2_raw: Vec<u8>,
     pub accessory3: u16,
+    pub accessory3_raw: Vec<u8>,
     pub headpalette: u16,
+    pub headpalette_raw: Vec<u8>,
     pub bodypalette: u16,
+    pub bodypalette_raw: Vec<u8>,
     pub head_dir: u16,
+    pub head_dir_raw: Vec<u8>,
     pub guid: u32,
+    pub guid_raw: Vec<u8>,
     pub gemblem_ver: u16,
+    pub gemblem_ver_raw: Vec<u8>,
     pub honor: u16,
+    pub honor_raw: Vec<u8>,
     pub virtue: u32,
+    pub virtue_raw: Vec<u8>,
     pub is_pkmode_on: bool,
+    pub is_pkmode_on_raw: Vec<u8>,
     pub sex: char,
+    pub sex_raw: Vec<u8>,
     pub move_data: String,
+    pub move_data_raw: Vec<u8>,
     pub x_size: char,
+    pub x_size_raw: Vec<u8>,
     pub y_size: char,
+    pub y_size_raw: Vec<u8>,
     pub clevel: u16,
+    pub clevel_raw: Vec<u8>,
 }
 
 impl PacketZcNotifyMoveentry3 {
@@ -22519,32 +26096,59 @@ impl PacketZcNotifyMoveentry3 {
         PacketZcNotifyMoveentry3 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             objecttype: buffer[2] as char,
+            objecttype_raw: buffer[2..3].to_vec(),
             gid: u32::from_le_bytes([buffer[3], buffer[4], buffer[5], buffer[6]]),
+            gid_raw: buffer[3..7].to_vec(),
             speed: u16::from_le_bytes([buffer[7], buffer[8]]),
+            speed_raw: buffer[7..9].to_vec(),
             body_state: u16::from_le_bytes([buffer[9], buffer[10]]),
+            body_state_raw: buffer[9..11].to_vec(),
             health_state: u16::from_le_bytes([buffer[11], buffer[12]]),
+            health_state_raw: buffer[11..13].to_vec(),
             effect_state: u32::from_le_bytes([buffer[13], buffer[14], buffer[15], buffer[16]]),
+            effect_state_raw: buffer[13..17].to_vec(),
             job: u16::from_le_bytes([buffer[17], buffer[18]]),
+            job_raw: buffer[17..19].to_vec(),
             head: u16::from_le_bytes([buffer[19], buffer[20]]),
+            head_raw: buffer[19..21].to_vec(),
             weapon: u32::from_le_bytes([buffer[21], buffer[22], buffer[23], buffer[24]]),
+            weapon_raw: buffer[21..25].to_vec(),
             accessory: u16::from_le_bytes([buffer[25], buffer[26]]),
+            accessory_raw: buffer[25..27].to_vec(),
             move_start_time: u32::from_le_bytes([buffer[27], buffer[28], buffer[29], buffer[30]]),
+            move_start_time_raw: buffer[27..31].to_vec(),
             accessory2: u16::from_le_bytes([buffer[31], buffer[32]]),
+            accessory2_raw: buffer[31..33].to_vec(),
             accessory3: u16::from_le_bytes([buffer[33], buffer[34]]),
+            accessory3_raw: buffer[33..35].to_vec(),
             headpalette: u16::from_le_bytes([buffer[35], buffer[36]]),
+            headpalette_raw: buffer[35..37].to_vec(),
             bodypalette: u16::from_le_bytes([buffer[37], buffer[38]]),
+            bodypalette_raw: buffer[37..39].to_vec(),
             head_dir: u16::from_le_bytes([buffer[39], buffer[40]]),
+            head_dir_raw: buffer[39..41].to_vec(),
             guid: u32::from_le_bytes([buffer[41], buffer[42], buffer[43], buffer[44]]),
+            guid_raw: buffer[41..45].to_vec(),
             gemblem_ver: u16::from_le_bytes([buffer[45], buffer[46]]),
+            gemblem_ver_raw: buffer[45..47].to_vec(),
             honor: u16::from_le_bytes([buffer[47], buffer[48]]),
+            honor_raw: buffer[47..49].to_vec(),
             virtue: u32::from_le_bytes([buffer[49], buffer[50], buffer[51], buffer[52]]),
+            virtue_raw: buffer[49..53].to_vec(),
             is_pkmode_on: buffer[53] == 1,
+            is_pkmode_on_raw: buffer[53..54].to_vec(),
             sex: buffer[54] as char,
+            sex_raw: buffer[54..55].to_vec(),
             move_data: String::from_utf8_lossy(&buffer[55..61]).to_string(),
+            move_data_raw: buffer[55..61].to_vec(),
             x_size: buffer[61] as char,
+            x_size_raw: buffer[61..62].to_vec(),
             y_size: buffer[62] as char,
+            y_size_raw: buffer[62..63].to_vec(),
             clevel: u16::from_le_bytes([buffer[63], buffer[64]]),
+            clevel_raw: buffer[63..65].to_vec(),
         }
     }
 }
@@ -22599,8 +26203,11 @@ impl Debug for PacketZcNotifyMoveentry3 {
 pub struct PacketCzCommandMer {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub type_: u16,
+    pub type__raw: Vec<u8>,
     pub command: char,
+    pub command_raw: Vec<u8>,
 }
 
 impl PacketCzCommandMer {
@@ -22608,8 +26215,11 @@ impl PacketCzCommandMer {
         PacketCzCommandMer {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             type_: u16::from_le_bytes([buffer[2], buffer[3]]),
+            type__raw: buffer[2..4].to_vec(),
             command: buffer[4] as char,
+            command_raw: buffer[4..5].to_vec(),
         }
     }
 }
@@ -22640,28 +26250,51 @@ impl Debug for PacketCzCommandMer {
 pub struct PacketZcPropertyHomun {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub sz_name: String,
+    pub sz_name_raw: Vec<u8>,
     pub b_modified: char,
+    pub b_modified_raw: Vec<u8>,
     pub n_level: u16,
+    pub n_level_raw: Vec<u8>,
     pub n_fullness: u16,
+    pub n_fullness_raw: Vec<u8>,
     pub n_relationship: u16,
+    pub n_relationship_raw: Vec<u8>,
     pub itid: u16,
+    pub itid_raw: Vec<u8>,
     pub atk: u16,
+    pub atk_raw: Vec<u8>,
     pub matk: u16,
+    pub matk_raw: Vec<u8>,
     pub hit: u16,
+    pub hit_raw: Vec<u8>,
     pub critical: u16,
+    pub critical_raw: Vec<u8>,
     pub def: u16,
+    pub def_raw: Vec<u8>,
     pub mdef: u16,
+    pub mdef_raw: Vec<u8>,
     pub flee: u16,
+    pub flee_raw: Vec<u8>,
     pub aspd: u16,
+    pub aspd_raw: Vec<u8>,
     pub hp: u16,
+    pub hp_raw: Vec<u8>,
     pub max_hp: u16,
+    pub max_hp_raw: Vec<u8>,
     pub sp: u16,
+    pub sp_raw: Vec<u8>,
     pub max_sp: u16,
+    pub max_sp_raw: Vec<u8>,
     pub exp: u32,
+    pub exp_raw: Vec<u8>,
     pub max_exp: u32,
+    pub max_exp_raw: Vec<u8>,
     pub skpoint: u16,
+    pub skpoint_raw: Vec<u8>,
     pub atkrange: u16,
+    pub atkrange_raw: Vec<u8>,
 }
 
 impl PacketZcPropertyHomun {
@@ -22669,28 +26302,51 @@ impl PacketZcPropertyHomun {
         PacketZcPropertyHomun {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             sz_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            sz_name_raw: buffer[2..26].to_vec(),
             b_modified: buffer[26] as char,
+            b_modified_raw: buffer[26..27].to_vec(),
             n_level: u16::from_le_bytes([buffer[27], buffer[28]]),
+            n_level_raw: buffer[27..29].to_vec(),
             n_fullness: u16::from_le_bytes([buffer[29], buffer[30]]),
+            n_fullness_raw: buffer[29..31].to_vec(),
             n_relationship: u16::from_le_bytes([buffer[31], buffer[32]]),
+            n_relationship_raw: buffer[31..33].to_vec(),
             itid: u16::from_le_bytes([buffer[33], buffer[34]]),
+            itid_raw: buffer[33..35].to_vec(),
             atk: u16::from_le_bytes([buffer[35], buffer[36]]),
+            atk_raw: buffer[35..37].to_vec(),
             matk: u16::from_le_bytes([buffer[37], buffer[38]]),
+            matk_raw: buffer[37..39].to_vec(),
             hit: u16::from_le_bytes([buffer[39], buffer[40]]),
+            hit_raw: buffer[39..41].to_vec(),
             critical: u16::from_le_bytes([buffer[41], buffer[42]]),
+            critical_raw: buffer[41..43].to_vec(),
             def: u16::from_le_bytes([buffer[43], buffer[44]]),
+            def_raw: buffer[43..45].to_vec(),
             mdef: u16::from_le_bytes([buffer[45], buffer[46]]),
+            mdef_raw: buffer[45..47].to_vec(),
             flee: u16::from_le_bytes([buffer[47], buffer[48]]),
+            flee_raw: buffer[47..49].to_vec(),
             aspd: u16::from_le_bytes([buffer[49], buffer[50]]),
+            aspd_raw: buffer[49..51].to_vec(),
             hp: u16::from_le_bytes([buffer[51], buffer[52]]),
+            hp_raw: buffer[51..53].to_vec(),
             max_hp: u16::from_le_bytes([buffer[53], buffer[54]]),
+            max_hp_raw: buffer[53..55].to_vec(),
             sp: u16::from_le_bytes([buffer[55], buffer[56]]),
+            sp_raw: buffer[55..57].to_vec(),
             max_sp: u16::from_le_bytes([buffer[57], buffer[58]]),
+            max_sp_raw: buffer[57..59].to_vec(),
             exp: u32::from_le_bytes([buffer[59], buffer[60], buffer[61], buffer[62]]),
+            exp_raw: buffer[59..63].to_vec(),
             max_exp: u32::from_le_bytes([buffer[63], buffer[64], buffer[65], buffer[66]]),
+            max_exp_raw: buffer[63..67].to_vec(),
             skpoint: u16::from_le_bytes([buffer[67], buffer[68]]),
+            skpoint_raw: buffer[67..69].to_vec(),
             atkrange: u16::from_le_bytes([buffer[69], buffer[70]]),
+            atkrange_raw: buffer[69..71].to_vec(),
         }
     }
 }
@@ -22741,10 +26397,15 @@ impl Debug for PacketZcPropertyHomun {
 pub struct PacketZcChangestateMer {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub type_: char,
+    pub type__raw: Vec<u8>,
     pub state: char,
+    pub state_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub data: u32,
+    pub data_raw: Vec<u8>,
 }
 
 impl PacketZcChangestateMer {
@@ -22752,10 +26413,15 @@ impl PacketZcChangestateMer {
         PacketZcChangestateMer {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             type_: buffer[2] as char,
+            type__raw: buffer[2..3].to_vec(),
             state: buffer[3] as char,
+            state_raw: buffer[3..4].to_vec(),
             gid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            gid_raw: buffer[4..8].to_vec(),
             data: u32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
+            data_raw: buffer[8..12].to_vec(),
         }
     }
 }
@@ -22788,7 +26454,9 @@ impl Debug for PacketZcChangestateMer {
 pub struct PacketCzRenameMer {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub name: String,
+    pub name_raw: Vec<u8>,
 }
 
 impl PacketCzRenameMer {
@@ -22796,7 +26464,9 @@ impl PacketCzRenameMer {
         PacketCzRenameMer {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            name_raw: buffer[2..26].to_vec(),
         }
     }
 }
@@ -22826,8 +26496,11 @@ impl Debug for PacketCzRenameMer {
 pub struct PacketCzRequestMovenpc {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub dest: String,
+    pub dest_raw: Vec<u8>,
 }
 
 impl PacketCzRequestMovenpc {
@@ -22835,8 +26508,11 @@ impl PacketCzRequestMovenpc {
         PacketCzRequestMovenpc {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid_raw: buffer[2..6].to_vec(),
             dest: String::from_utf8_lossy(&buffer[6..9]).to_string(),
+            dest_raw: buffer[6..9].to_vec(),
         }
     }
 }
@@ -22867,9 +26543,13 @@ impl Debug for PacketCzRequestMovenpc {
 pub struct PacketCzRequestActnpc {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub target_gid: u32,
+    pub target_gid_raw: Vec<u8>,
     pub action: char,
+    pub action_raw: Vec<u8>,
 }
 
 impl PacketCzRequestActnpc {
@@ -22877,9 +26557,13 @@ impl PacketCzRequestActnpc {
         PacketCzRequestActnpc {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid_raw: buffer[2..6].to_vec(),
             target_gid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            target_gid_raw: buffer[6..10].to_vec(),
             action: buffer[10] as char,
+            action_raw: buffer[10..11].to_vec(),
         }
     }
 }
@@ -22911,7 +26595,9 @@ impl Debug for PacketCzRequestActnpc {
 pub struct PacketCzRequestMovetoowner {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
 }
 
 impl PacketCzRequestMovetoowner {
@@ -22919,7 +26605,9 @@ impl PacketCzRequestMovetoowner {
         PacketCzRequestMovetoowner {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -22949,7 +26637,9 @@ impl Debug for PacketCzRequestMovetoowner {
 pub struct PacketZcReqStorePassword {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub info: u16,
+    pub info_raw: Vec<u8>,
 }
 
 impl PacketZcReqStorePassword {
@@ -22957,7 +26647,9 @@ impl PacketZcReqStorePassword {
         PacketZcReqStorePassword {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             info: u16::from_le_bytes([buffer[2], buffer[3]]),
+            info_raw: buffer[2..4].to_vec(),
         }
     }
 }
@@ -22987,9 +26679,13 @@ impl Debug for PacketZcReqStorePassword {
 pub struct PacketCzAckStorePassword {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub type_: u16,
+    pub type__raw: Vec<u8>,
     pub password: String,
+    pub password_raw: Vec<u8>,
     pub new_password: String,
+    pub new_password_raw: Vec<u8>,
 }
 
 impl PacketCzAckStorePassword {
@@ -22997,9 +26693,13 @@ impl PacketCzAckStorePassword {
         PacketCzAckStorePassword {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             type_: u16::from_le_bytes([buffer[2], buffer[3]]),
+            type__raw: buffer[2..4].to_vec(),
             password: String::from_utf8_lossy(&buffer[4..20]).to_string(),
+            password_raw: buffer[4..20].to_vec(),
             new_password: String::from_utf8_lossy(&buffer[20..36]).to_string(),
+            new_password_raw: buffer[20..36].to_vec(),
         }
     }
 }
@@ -23031,8 +26731,11 @@ impl Debug for PacketCzAckStorePassword {
 pub struct PacketZcResultStorePassword {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub result: u16,
+    pub result_raw: Vec<u8>,
     pub error_count: u16,
+    pub error_count_raw: Vec<u8>,
 }
 
 impl PacketZcResultStorePassword {
@@ -23040,8 +26743,11 @@ impl PacketZcResultStorePassword {
         PacketZcResultStorePassword {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             result: u16::from_le_bytes([buffer[2], buffer[3]]),
+            result_raw: buffer[2..4].to_vec(),
             error_count: u16::from_le_bytes([buffer[4], buffer[5]]),
+            error_count_raw: buffer[4..6].to_vec(),
         }
     }
 }
@@ -23072,7 +26778,9 @@ impl Debug for PacketZcResultStorePassword {
 pub struct PacketAcEventResult {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub event_item_count: u32,
+    pub event_item_count_raw: Vec<u8>,
 }
 
 impl PacketAcEventResult {
@@ -23080,7 +26788,9 @@ impl PacketAcEventResult {
         PacketAcEventResult {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             event_item_count: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            event_item_count_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -23110,8 +26820,11 @@ impl Debug for PacketAcEventResult {
 pub struct PacketHcRequestCharacterPassword {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub result: u16,
+    pub result_raw: Vec<u8>,
     pub dummy_value: u32,
+    pub dummy_value_raw: Vec<u8>,
 }
 
 impl PacketHcRequestCharacterPassword {
@@ -23119,8 +26832,11 @@ impl PacketHcRequestCharacterPassword {
         PacketHcRequestCharacterPassword {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             result: u16::from_le_bytes([buffer[2], buffer[3]]),
+            result_raw: buffer[2..4].to_vec(),
             dummy_value: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            dummy_value_raw: buffer[4..8].to_vec(),
         }
     }
 }
@@ -23151,6 +26867,7 @@ impl Debug for PacketHcRequestCharacterPassword {
 pub struct PacketCzMailGetList {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketCzMailGetList {
@@ -23158,6 +26875,7 @@ impl PacketCzMailGetList {
         PacketCzMailGetList {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -23186,9 +26904,13 @@ impl Debug for PacketCzMailGetList {
 pub struct PacketZcMailReqGetList {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub mail_number: u32,
+    pub mail_number_raw: Vec<u8>,
     pub mail_list: Vec<MailList>,
+    pub mail_list_raw: Vec<u8>,
 }
 
 impl PacketZcMailReqGetList {
@@ -23205,9 +26927,13 @@ impl PacketZcMailReqGetList {
         PacketZcMailReqGetList {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             mail_number: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            mail_number_raw: buffer[4..8].to_vec(),
             mail_list: vec_field,
+            mail_list_raw: buffer[8..81].to_vec(),
         }
     }
 }
@@ -23239,7 +26965,9 @@ impl Debug for PacketZcMailReqGetList {
 pub struct PacketCzMailOpen {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub mail_id: u32,
+    pub mail_id_raw: Vec<u8>,
 }
 
 impl PacketCzMailOpen {
@@ -23247,7 +26975,9 @@ impl PacketCzMailOpen {
         PacketCzMailOpen {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             mail_id: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            mail_id_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -23277,21 +27007,37 @@ impl Debug for PacketCzMailOpen {
 pub struct PacketZcMailReqOpen {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub mail_id: u32,
+    pub mail_id_raw: Vec<u8>,
     pub header: String,
+    pub header_raw: Vec<u8>,
     pub from_name: String,
+    pub from_name_raw: Vec<u8>,
     pub delete_time: u32,
+    pub delete_time_raw: Vec<u8>,
     pub money: u32,
+    pub money_raw: Vec<u8>,
     pub count: u32,
+    pub count_raw: Vec<u8>,
     pub itid: u16,
+    pub itid_raw: Vec<u8>,
     pub type_: u16,
+    pub type__raw: Vec<u8>,
     pub is_identified: bool,
+    pub is_identified_raw: Vec<u8>,
     pub is_damaged: bool,
+    pub is_damaged_raw: Vec<u8>,
     pub refining_level: char,
+    pub refining_level_raw: Vec<u8>,
     pub slot: EQUIPSLOTINFO,
+    pub slot_raw: Vec<u8>,
     pub msg_len: char,
+    pub msg_len_raw: Vec<u8>,
     pub msg: String,
+    pub msg_raw: Vec<u8>,
 }
 
 impl PacketZcMailReqOpen {
@@ -23299,21 +27045,37 @@ impl PacketZcMailReqOpen {
         PacketZcMailReqOpen {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             mail_id: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            mail_id_raw: buffer[4..8].to_vec(),
             header: String::from_utf8_lossy(&buffer[8..48]).to_string(),
+            header_raw: buffer[8..48].to_vec(),
             from_name: String::from_utf8_lossy(&buffer[48..72]).to_string(),
+            from_name_raw: buffer[48..72].to_vec(),
             delete_time: u32::from_le_bytes([buffer[72], buffer[73], buffer[74], buffer[75]]),
+            delete_time_raw: buffer[72..76].to_vec(),
             money: u32::from_le_bytes([buffer[76], buffer[77], buffer[78], buffer[79]]),
+            money_raw: buffer[76..80].to_vec(),
             count: u32::from_le_bytes([buffer[80], buffer[81], buffer[82], buffer[83]]),
+            count_raw: buffer[80..84].to_vec(),
             itid: u16::from_le_bytes([buffer[84], buffer[85]]),
+            itid_raw: buffer[84..86].to_vec(),
             type_: u16::from_le_bytes([buffer[86], buffer[87]]),
+            type__raw: buffer[86..88].to_vec(),
             is_identified: buffer[88] == 1,
+            is_identified_raw: buffer[88..89].to_vec(),
             is_damaged: buffer[89] == 1,
+            is_damaged_raw: buffer[89..90].to_vec(),
             refining_level: buffer[90] as char,
+            refining_level_raw: buffer[90..91].to_vec(),
             slot: EQUIPSLOTINFO::from(&buffer[91..99]),
+            slot_raw: buffer[91..99].to_vec(),
             msg_len: buffer[99] as char,
+            msg_len_raw: buffer[99..100].to_vec(),
             msg: String::from_utf8_lossy(&buffer[100..buffer.len()]).to_string(),
+            msg_raw: buffer[100..buffer.len()].to_vec(),
         }
     }
 }
@@ -23357,7 +27119,9 @@ impl Debug for PacketZcMailReqOpen {
 pub struct PacketCzMailDelete {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub mail_id: u32,
+    pub mail_id_raw: Vec<u8>,
 }
 
 impl PacketCzMailDelete {
@@ -23365,7 +27129,9 @@ impl PacketCzMailDelete {
         PacketCzMailDelete {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             mail_id: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            mail_id_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -23395,7 +27161,9 @@ impl Debug for PacketCzMailDelete {
 pub struct PacketCzMailGetItem {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub mail_id: u32,
+    pub mail_id_raw: Vec<u8>,
 }
 
 impl PacketCzMailGetItem {
@@ -23403,7 +27171,9 @@ impl PacketCzMailGetItem {
         PacketCzMailGetItem {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             mail_id: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            mail_id_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -23433,7 +27203,9 @@ impl Debug for PacketCzMailGetItem {
 pub struct PacketZcMailReqGetItem {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub result: char,
+    pub result_raw: Vec<u8>,
 }
 
 impl PacketZcMailReqGetItem {
@@ -23441,7 +27213,9 @@ impl PacketZcMailReqGetItem {
         PacketZcMailReqGetItem {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             result: buffer[2] as char,
+            result_raw: buffer[2..3].to_vec(),
         }
     }
 }
@@ -23471,7 +27245,9 @@ impl Debug for PacketZcMailReqGetItem {
 pub struct PacketCzMailResetItem {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub type_: u16,
+    pub type__raw: Vec<u8>,
 }
 
 impl PacketCzMailResetItem {
@@ -23479,7 +27255,9 @@ impl PacketCzMailResetItem {
         PacketCzMailResetItem {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             type_: u16::from_le_bytes([buffer[2], buffer[3]]),
+            type__raw: buffer[2..4].to_vec(),
         }
     }
 }
@@ -23509,8 +27287,11 @@ impl Debug for PacketCzMailResetItem {
 pub struct PacketCzMailAddItem {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub index: u16,
+    pub index_raw: Vec<u8>,
     pub count: u32,
+    pub count_raw: Vec<u8>,
 }
 
 impl PacketCzMailAddItem {
@@ -23518,8 +27299,11 @@ impl PacketCzMailAddItem {
         PacketCzMailAddItem {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            index_raw: buffer[2..4].to_vec(),
             count: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            count_raw: buffer[4..8].to_vec(),
         }
     }
 }
@@ -23550,11 +27334,17 @@ impl Debug for PacketCzMailAddItem {
 pub struct PacketCzMailSend {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub receive_name: String,
+    pub receive_name_raw: Vec<u8>,
     pub header: String,
+    pub header_raw: Vec<u8>,
     pub msg_len: u32,
+    pub msg_len_raw: Vec<u8>,
     pub msg: String,
+    pub msg_raw: Vec<u8>,
 }
 
 impl PacketCzMailSend {
@@ -23562,11 +27352,17 @@ impl PacketCzMailSend {
         PacketCzMailSend {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             receive_name: String::from_utf8_lossy(&buffer[4..28]).to_string(),
+            receive_name_raw: buffer[4..28].to_vec(),
             header: String::from_utf8_lossy(&buffer[28..68]).to_string(),
+            header_raw: buffer[28..68].to_vec(),
             msg_len: u32::from_le_bytes([buffer[68], buffer[69], buffer[70], buffer[71]]),
+            msg_len_raw: buffer[68..72].to_vec(),
             msg: String::from_utf8_lossy(&buffer[72..buffer.len()]).to_string(),
+            msg_raw: buffer[72..buffer.len()].to_vec(),
         }
     }
 }
@@ -23600,7 +27396,9 @@ impl Debug for PacketCzMailSend {
 pub struct PacketZcMailReqSend {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub result: char,
+    pub result_raw: Vec<u8>,
 }
 
 impl PacketZcMailReqSend {
@@ -23608,7 +27406,9 @@ impl PacketZcMailReqSend {
         PacketZcMailReqSend {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             result: buffer[2] as char,
+            result_raw: buffer[2..3].to_vec(),
         }
     }
 }
@@ -23638,9 +27438,13 @@ impl Debug for PacketZcMailReqSend {
 pub struct PacketZcMailReceive {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub mail_id: u32,
+    pub mail_id_raw: Vec<u8>,
     pub header: String,
+    pub header_raw: Vec<u8>,
     pub from_name: String,
+    pub from_name_raw: Vec<u8>,
 }
 
 impl PacketZcMailReceive {
@@ -23648,9 +27452,13 @@ impl PacketZcMailReceive {
         PacketZcMailReceive {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             mail_id: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            mail_id_raw: buffer[2..6].to_vec(),
             header: String::from_utf8_lossy(&buffer[6..46]).to_string(),
+            header_raw: buffer[6..46].to_vec(),
             from_name: String::from_utf8_lossy(&buffer[46..70]).to_string(),
+            from_name_raw: buffer[46..70].to_vec(),
         }
     }
 }
@@ -23682,7 +27490,9 @@ impl Debug for PacketZcMailReceive {
 pub struct PacketCzAuctionCreate {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub type_: u16,
+    pub type__raw: Vec<u8>,
 }
 
 impl PacketCzAuctionCreate {
@@ -23690,7 +27500,9 @@ impl PacketCzAuctionCreate {
         PacketCzAuctionCreate {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             type_: u16::from_le_bytes([buffer[2], buffer[3]]),
+            type__raw: buffer[2..4].to_vec(),
         }
     }
 }
@@ -23720,8 +27532,11 @@ impl Debug for PacketCzAuctionCreate {
 pub struct PacketCzAuctionAddItem {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub index: u16,
+    pub index_raw: Vec<u8>,
     pub count: u32,
+    pub count_raw: Vec<u8>,
 }
 
 impl PacketCzAuctionAddItem {
@@ -23729,8 +27544,11 @@ impl PacketCzAuctionAddItem {
         PacketCzAuctionAddItem {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            index_raw: buffer[2..4].to_vec(),
             count: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            count_raw: buffer[4..8].to_vec(),
         }
     }
 }
@@ -23761,9 +27579,13 @@ impl Debug for PacketCzAuctionAddItem {
 pub struct PacketCzAuctionAdd {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub now_money: u32,
+    pub now_money_raw: Vec<u8>,
     pub max_money: u32,
+    pub max_money_raw: Vec<u8>,
     pub delete_hour: u16,
+    pub delete_hour_raw: Vec<u8>,
 }
 
 impl PacketCzAuctionAdd {
@@ -23771,9 +27593,13 @@ impl PacketCzAuctionAdd {
         PacketCzAuctionAdd {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             now_money: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            now_money_raw: buffer[2..6].to_vec(),
             max_money: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            max_money_raw: buffer[6..10].to_vec(),
             delete_hour: u16::from_le_bytes([buffer[10], buffer[11]]),
+            delete_hour_raw: buffer[10..12].to_vec(),
         }
     }
 }
@@ -23805,7 +27631,9 @@ impl Debug for PacketCzAuctionAdd {
 pub struct PacketCzAuctionAddCancel {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub auction_id: u32,
+    pub auction_id_raw: Vec<u8>,
 }
 
 impl PacketCzAuctionAddCancel {
@@ -23813,7 +27641,9 @@ impl PacketCzAuctionAddCancel {
         PacketCzAuctionAddCancel {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             auction_id: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            auction_id_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -23843,8 +27673,11 @@ impl Debug for PacketCzAuctionAddCancel {
 pub struct PacketCzAuctionBuy {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub auction_id: u32,
+    pub auction_id_raw: Vec<u8>,
     pub money: u32,
+    pub money_raw: Vec<u8>,
 }
 
 impl PacketCzAuctionBuy {
@@ -23852,8 +27685,11 @@ impl PacketCzAuctionBuy {
         PacketCzAuctionBuy {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             auction_id: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            auction_id_raw: buffer[2..6].to_vec(),
             money: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            money_raw: buffer[6..10].to_vec(),
         }
     }
 }
@@ -23884,7 +27720,9 @@ impl Debug for PacketCzAuctionBuy {
 pub struct PacketZcAuctionResult {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub result: char,
+    pub result_raw: Vec<u8>,
 }
 
 impl PacketZcAuctionResult {
@@ -23892,7 +27730,9 @@ impl PacketZcAuctionResult {
         PacketZcAuctionResult {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             result: buffer[2] as char,
+            result_raw: buffer[2..3].to_vec(),
         }
     }
 }
@@ -23922,10 +27762,15 @@ impl Debug for PacketZcAuctionResult {
 pub struct PacketCzAuctionItemSearch {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub type_: u16,
+    pub type__raw: Vec<u8>,
     pub auction_id: u32,
+    pub auction_id_raw: Vec<u8>,
     pub name: String,
+    pub name_raw: Vec<u8>,
     pub page: u16,
+    pub page_raw: Vec<u8>,
 }
 
 impl PacketCzAuctionItemSearch {
@@ -23933,10 +27778,15 @@ impl PacketCzAuctionItemSearch {
         PacketCzAuctionItemSearch {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             type_: u16::from_le_bytes([buffer[2], buffer[3]]),
+            type__raw: buffer[2..4].to_vec(),
             auction_id: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            auction_id_raw: buffer[4..8].to_vec(),
             name: String::from_utf8_lossy(&buffer[8..32]).to_string(),
+            name_raw: buffer[8..32].to_vec(),
             page: u16::from_le_bytes([buffer[32], buffer[33]]),
+            page_raw: buffer[32..34].to_vec(),
         }
     }
 }
@@ -23969,10 +27819,15 @@ impl Debug for PacketCzAuctionItemSearch {
 pub struct PacketZcAuctionItemReqSearch {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub max_page: u32,
+    pub max_page_raw: Vec<u8>,
     pub number: u32,
+    pub number_raw: Vec<u8>,
     pub auction_item_list: Vec<AuctionItemSearchInfo>,
+    pub auction_item_list_raw: Vec<u8>,
 }
 
 impl PacketZcAuctionItemReqSearch {
@@ -23989,10 +27844,15 @@ impl PacketZcAuctionItemReqSearch {
         PacketZcAuctionItemReqSearch {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             max_page: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            max_page_raw: buffer[4..8].to_vec(),
             number: u32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
+            number_raw: buffer[8..12].to_vec(),
             auction_item_list: vec_field,
+            auction_item_list_raw: buffer[12..95].to_vec(),
         }
     }
 }
@@ -24025,7 +27885,9 @@ impl Debug for PacketZcAuctionItemReqSearch {
 pub struct PacketZcStarplace {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub which: char,
+    pub which_raw: Vec<u8>,
 }
 
 impl PacketZcStarplace {
@@ -24033,7 +27895,9 @@ impl PacketZcStarplace {
         PacketZcStarplace {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             which: buffer[2] as char,
+            which_raw: buffer[2..3].to_vec(),
         }
     }
 }
@@ -24063,7 +27927,9 @@ impl Debug for PacketZcStarplace {
 pub struct PacketCzAgreeStarplace {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub which: char,
+    pub which_raw: Vec<u8>,
 }
 
 impl PacketCzAgreeStarplace {
@@ -24071,7 +27937,9 @@ impl PacketCzAgreeStarplace {
         PacketCzAgreeStarplace {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             which: buffer[2] as char,
+            which_raw: buffer[2..3].to_vec(),
         }
     }
 }
@@ -24101,8 +27969,11 @@ impl Debug for PacketCzAgreeStarplace {
 pub struct PacketZcAckMailAddItem {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub index: u16,
+    pub index_raw: Vec<u8>,
     pub result: char,
+    pub result_raw: Vec<u8>,
 }
 
 impl PacketZcAckMailAddItem {
@@ -24110,8 +27981,11 @@ impl PacketZcAckMailAddItem {
         PacketZcAckMailAddItem {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            index_raw: buffer[2..4].to_vec(),
             result: buffer[4] as char,
+            result_raw: buffer[4..5].to_vec(),
         }
     }
 }
@@ -24142,8 +28016,11 @@ impl Debug for PacketZcAckMailAddItem {
 pub struct PacketZcAckAuctionAddItem {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub index: u16,
+    pub index_raw: Vec<u8>,
     pub result: char,
+    pub result_raw: Vec<u8>,
 }
 
 impl PacketZcAckAuctionAddItem {
@@ -24151,8 +28028,11 @@ impl PacketZcAckAuctionAddItem {
         PacketZcAckAuctionAddItem {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            index_raw: buffer[2..4].to_vec(),
             result: buffer[4] as char,
+            result_raw: buffer[4..5].to_vec(),
         }
     }
 }
@@ -24183,8 +28063,11 @@ impl Debug for PacketZcAckAuctionAddItem {
 pub struct PacketZcAckMailDelete {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub mail_id: u32,
+    pub mail_id_raw: Vec<u8>,
     pub result: u16,
+    pub result_raw: Vec<u8>,
 }
 
 impl PacketZcAckMailDelete {
@@ -24192,8 +28075,11 @@ impl PacketZcAckMailDelete {
         PacketZcAckMailDelete {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             mail_id: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            mail_id_raw: buffer[2..6].to_vec(),
             result: u16::from_le_bytes([buffer[6], buffer[7]]),
+            result_raw: buffer[6..8].to_vec(),
         }
     }
 }
@@ -24224,6 +28110,7 @@ impl Debug for PacketZcAckMailDelete {
 pub struct PacketCaReqGameGuardCheck {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketCaReqGameGuardCheck {
@@ -24231,6 +28118,7 @@ impl PacketCaReqGameGuardCheck {
         PacketCaReqGameGuardCheck {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -24259,7 +28147,9 @@ impl Debug for PacketCaReqGameGuardCheck {
 pub struct PacketAcAckGameGuard {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub uc_answer: char,
+    pub uc_answer_raw: Vec<u8>,
 }
 
 impl PacketAcAckGameGuard {
@@ -24267,7 +28157,9 @@ impl PacketAcAckGameGuard {
         PacketAcAckGameGuard {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             uc_answer: buffer[2] as char,
+            uc_answer_raw: buffer[2..3].to_vec(),
         }
     }
 }
@@ -24297,8 +28189,11 @@ impl Debug for PacketAcAckGameGuard {
 pub struct PacketZcMakingitemList {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub id_list: u16,
+    pub id_list_raw: Vec<u8>,
 }
 
 impl PacketZcMakingitemList {
@@ -24306,8 +28201,11 @@ impl PacketZcMakingitemList {
         PacketZcMakingitemList {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             id_list: u16::from_le_bytes([buffer[4], buffer[5]]),
+            id_list_raw: buffer[4..6].to_vec(),
         }
     }
 }
@@ -24338,8 +28236,11 @@ impl Debug for PacketZcMakingitemList {
 pub struct PacketCzReqMakingitem {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub mk_type: u16,
+    pub mk_type_raw: Vec<u8>,
     pub id: u16,
+    pub id_raw: Vec<u8>,
 }
 
 impl PacketCzReqMakingitem {
@@ -24347,8 +28248,11 @@ impl PacketCzReqMakingitem {
         PacketCzReqMakingitem {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             mk_type: u16::from_le_bytes([buffer[2], buffer[3]]),
+            mk_type_raw: buffer[2..4].to_vec(),
             id: u16::from_le_bytes([buffer[4], buffer[5]]),
+            id_raw: buffer[4..6].to_vec(),
         }
     }
 }
@@ -24379,7 +28283,9 @@ impl Debug for PacketCzReqMakingitem {
 pub struct PacketCzAuctionReqMyInfo {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub type_: u16,
+    pub type__raw: Vec<u8>,
 }
 
 impl PacketCzAuctionReqMyInfo {
@@ -24387,7 +28293,9 @@ impl PacketCzAuctionReqMyInfo {
         PacketCzAuctionReqMyInfo {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             type_: u16::from_le_bytes([buffer[2], buffer[3]]),
+            type__raw: buffer[2..4].to_vec(),
         }
     }
 }
@@ -24417,7 +28325,9 @@ impl Debug for PacketCzAuctionReqMyInfo {
 pub struct PacketCzAuctionReqMySellStop {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub auction_id: u32,
+    pub auction_id_raw: Vec<u8>,
 }
 
 impl PacketCzAuctionReqMySellStop {
@@ -24425,7 +28335,9 @@ impl PacketCzAuctionReqMySellStop {
         PacketCzAuctionReqMySellStop {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             auction_id: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            auction_id_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -24455,7 +28367,9 @@ impl Debug for PacketCzAuctionReqMySellStop {
 pub struct PacketZcAuctionAckMySellStop {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub result: u16,
+    pub result_raw: Vec<u8>,
 }
 
 impl PacketZcAuctionAckMySellStop {
@@ -24463,7 +28377,9 @@ impl PacketZcAuctionAckMySellStop {
         PacketZcAuctionAckMySellStop {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             result: u16::from_le_bytes([buffer[2], buffer[3]]),
+            result_raw: buffer[2..4].to_vec(),
         }
     }
 }
@@ -24493,7 +28409,9 @@ impl Debug for PacketZcAuctionAckMySellStop {
 pub struct PacketZcAuctionWindows {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub type_: u32,
+    pub type__raw: Vec<u8>,
 }
 
 impl PacketZcAuctionWindows {
@@ -24501,7 +28419,9 @@ impl PacketZcAuctionWindows {
         PacketZcAuctionWindows {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             type_: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            type__raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -24531,7 +28451,9 @@ impl Debug for PacketZcAuctionWindows {
 pub struct PacketZcMailWindows {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub type_: u32,
+    pub type__raw: Vec<u8>,
 }
 
 impl PacketZcMailWindows {
@@ -24539,7 +28461,9 @@ impl PacketZcMailWindows {
         PacketZcMailWindows {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             type_: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            type__raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -24569,7 +28493,9 @@ impl Debug for PacketZcMailWindows {
 pub struct PacketAcReqLoginOldekey {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub m_seed_value: String,
+    pub m_seed_value_raw: Vec<u8>,
 }
 
 impl PacketAcReqLoginOldekey {
@@ -24577,7 +28503,9 @@ impl PacketAcReqLoginOldekey {
         PacketAcReqLoginOldekey {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             m_seed_value: String::from_utf8_lossy(&buffer[2..11]).to_string(),
+            m_seed_value_raw: buffer[2..11].to_vec(),
         }
     }
 }
@@ -24607,7 +28535,9 @@ impl Debug for PacketAcReqLoginOldekey {
 pub struct PacketAcReqLoginNewekey {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub m_seed_value: String,
+    pub m_seed_value_raw: Vec<u8>,
 }
 
 impl PacketAcReqLoginNewekey {
@@ -24615,7 +28545,9 @@ impl PacketAcReqLoginNewekey {
         PacketAcReqLoginNewekey {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             m_seed_value: String::from_utf8_lossy(&buffer[2..11]).to_string(),
+            m_seed_value_raw: buffer[2..11].to_vec(),
         }
     }
 }
@@ -24645,7 +28577,9 @@ impl Debug for PacketAcReqLoginNewekey {
 pub struct PacketAcReqLoginCardpass {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub m_seed_value: String,
+    pub m_seed_value_raw: Vec<u8>,
 }
 
 impl PacketAcReqLoginCardpass {
@@ -24653,7 +28587,9 @@ impl PacketAcReqLoginCardpass {
         PacketAcReqLoginCardpass {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             m_seed_value: String::from_utf8_lossy(&buffer[2..11]).to_string(),
+            m_seed_value_raw: buffer[2..11].to_vec(),
         }
     }
 }
@@ -24683,8 +28619,11 @@ impl Debug for PacketAcReqLoginCardpass {
 pub struct PacketCaAckLoginOldekey {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub m_seed_value: String,
+    pub m_seed_value_raw: Vec<u8>,
     pub m_ekey: String,
+    pub m_ekey_raw: Vec<u8>,
 }
 
 impl PacketCaAckLoginOldekey {
@@ -24692,8 +28631,11 @@ impl PacketCaAckLoginOldekey {
         PacketCaAckLoginOldekey {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             m_seed_value: String::from_utf8_lossy(&buffer[2..11]).to_string(),
+            m_seed_value_raw: buffer[2..11].to_vec(),
             m_ekey: String::from_utf8_lossy(&buffer[11..20]).to_string(),
+            m_ekey_raw: buffer[11..20].to_vec(),
         }
     }
 }
@@ -24724,8 +28666,11 @@ impl Debug for PacketCaAckLoginOldekey {
 pub struct PacketCaAckLoginNewekey {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub m_seed_value: String,
+    pub m_seed_value_raw: Vec<u8>,
     pub m_ekey: String,
+    pub m_ekey_raw: Vec<u8>,
 }
 
 impl PacketCaAckLoginNewekey {
@@ -24733,8 +28678,11 @@ impl PacketCaAckLoginNewekey {
         PacketCaAckLoginNewekey {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             m_seed_value: String::from_utf8_lossy(&buffer[2..11]).to_string(),
+            m_seed_value_raw: buffer[2..11].to_vec(),
             m_ekey: String::from_utf8_lossy(&buffer[11..20]).to_string(),
+            m_ekey_raw: buffer[11..20].to_vec(),
         }
     }
 }
@@ -24765,7 +28713,9 @@ impl Debug for PacketCaAckLoginNewekey {
 pub struct PacketCaAckLoginCardpass {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub mcard_pass: String,
+    pub mcard_pass_raw: Vec<u8>,
 }
 
 impl PacketCaAckLoginCardpass {
@@ -24773,7 +28723,9 @@ impl PacketCaAckLoginCardpass {
         PacketCaAckLoginCardpass {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             mcard_pass: String::from_utf8_lossy(&buffer[2..30]).to_string(),
+            mcard_pass_raw: buffer[2..30].to_vec(),
         }
     }
 }
@@ -24803,7 +28755,9 @@ impl Debug for PacketCaAckLoginCardpass {
 pub struct PacketAcAckEkeyFailNotexist {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub error_code: u16,
+    pub error_code_raw: Vec<u8>,
 }
 
 impl PacketAcAckEkeyFailNotexist {
@@ -24811,7 +28765,9 @@ impl PacketAcAckEkeyFailNotexist {
         PacketAcAckEkeyFailNotexist {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             error_code: u16::from_le_bytes([buffer[2], buffer[3]]),
+            error_code_raw: buffer[2..4].to_vec(),
         }
     }
 }
@@ -24841,7 +28797,9 @@ impl Debug for PacketAcAckEkeyFailNotexist {
 pub struct PacketAcAckEkeyFailNotusesekey {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub error_code: u16,
+    pub error_code_raw: Vec<u8>,
 }
 
 impl PacketAcAckEkeyFailNotusesekey {
@@ -24849,7 +28807,9 @@ impl PacketAcAckEkeyFailNotusesekey {
         PacketAcAckEkeyFailNotusesekey {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             error_code: u16::from_le_bytes([buffer[2], buffer[3]]),
+            error_code_raw: buffer[2..4].to_vec(),
         }
     }
 }
@@ -24879,7 +28839,9 @@ impl Debug for PacketAcAckEkeyFailNotusesekey {
 pub struct PacketAcAckEkeyFailNotusedekey {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub error_code: u16,
+    pub error_code_raw: Vec<u8>,
 }
 
 impl PacketAcAckEkeyFailNotusedekey {
@@ -24887,7 +28849,9 @@ impl PacketAcAckEkeyFailNotusedekey {
         PacketAcAckEkeyFailNotusedekey {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             error_code: u16::from_le_bytes([buffer[2], buffer[3]]),
+            error_code_raw: buffer[2..4].to_vec(),
         }
     }
 }
@@ -24917,7 +28881,9 @@ impl Debug for PacketAcAckEkeyFailNotusedekey {
 pub struct PacketAcAckEkeyFailAuthrefuse {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub error_code: u16,
+    pub error_code_raw: Vec<u8>,
 }
 
 impl PacketAcAckEkeyFailAuthrefuse {
@@ -24925,7 +28891,9 @@ impl PacketAcAckEkeyFailAuthrefuse {
         PacketAcAckEkeyFailAuthrefuse {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             error_code: u16::from_le_bytes([buffer[2], buffer[3]]),
+            error_code_raw: buffer[2..4].to_vec(),
         }
     }
 }
@@ -24955,7 +28923,9 @@ impl Debug for PacketAcAckEkeyFailAuthrefuse {
 pub struct PacketAcAckEkeyFailInputekey {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub error_code: u16,
+    pub error_code_raw: Vec<u8>,
 }
 
 impl PacketAcAckEkeyFailInputekey {
@@ -24963,7 +28933,9 @@ impl PacketAcAckEkeyFailInputekey {
         PacketAcAckEkeyFailInputekey {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             error_code: u16::from_le_bytes([buffer[2], buffer[3]]),
+            error_code_raw: buffer[2..4].to_vec(),
         }
     }
 }
@@ -24993,7 +28965,9 @@ impl Debug for PacketAcAckEkeyFailInputekey {
 pub struct PacketAcAckEkeyFailNotice {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub error_code: u16,
+    pub error_code_raw: Vec<u8>,
 }
 
 impl PacketAcAckEkeyFailNotice {
@@ -25001,7 +28975,9 @@ impl PacketAcAckEkeyFailNotice {
         PacketAcAckEkeyFailNotice {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             error_code: u16::from_le_bytes([buffer[2], buffer[3]]),
+            error_code_raw: buffer[2..4].to_vec(),
         }
     }
 }
@@ -25031,7 +29007,9 @@ impl Debug for PacketAcAckEkeyFailNotice {
 pub struct PacketAcAckEkeyFailNeedcardpass {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub error_code: u16,
+    pub error_code_raw: Vec<u8>,
 }
 
 impl PacketAcAckEkeyFailNeedcardpass {
@@ -25039,7 +29017,9 @@ impl PacketAcAckEkeyFailNeedcardpass {
         PacketAcAckEkeyFailNeedcardpass {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             error_code: u16::from_le_bytes([buffer[2], buffer[3]]),
+            error_code_raw: buffer[2..4].to_vec(),
         }
     }
 }
@@ -25069,7 +29049,9 @@ impl Debug for PacketAcAckEkeyFailNeedcardpass {
 pub struct PacketAcAckAuthekeyFailNotmatchcardpass {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub error_code: u16,
+    pub error_code_raw: Vec<u8>,
 }
 
 impl PacketAcAckAuthekeyFailNotmatchcardpass {
@@ -25077,7 +29059,9 @@ impl PacketAcAckAuthekeyFailNotmatchcardpass {
         PacketAcAckAuthekeyFailNotmatchcardpass {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             error_code: u16::from_le_bytes([buffer[2], buffer[3]]),
+            error_code_raw: buffer[2..4].to_vec(),
         }
     }
 }
@@ -25107,6 +29091,7 @@ impl Debug for PacketAcAckAuthekeyFailNotmatchcardpass {
 pub struct PacketAcAckFirstLogin {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketAcAckFirstLogin {
@@ -25114,6 +29099,7 @@ impl PacketAcAckFirstLogin {
         PacketAcAckFirstLogin {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -25142,6 +29128,7 @@ impl Debug for PacketAcAckFirstLogin {
 pub struct PacketAcReqLoginAccountInfo {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketAcReqLoginAccountInfo {
@@ -25149,6 +29136,7 @@ impl PacketAcReqLoginAccountInfo {
         PacketAcReqLoginAccountInfo {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -25177,9 +29165,13 @@ impl Debug for PacketAcReqLoginAccountInfo {
 pub struct PacketCaAckLoginAccountInfo {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub sex: u16,
+    pub sex_raw: Vec<u8>,
     pub b_point: u16,
+    pub b_point_raw: Vec<u8>,
     pub email: String,
+    pub email_raw: Vec<u8>,
 }
 
 impl PacketCaAckLoginAccountInfo {
@@ -25187,9 +29179,13 @@ impl PacketCaAckLoginAccountInfo {
         PacketCaAckLoginAccountInfo {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             sex: u16::from_le_bytes([buffer[2], buffer[3]]),
+            sex_raw: buffer[2..4].to_vec(),
             b_point: u16::from_le_bytes([buffer[4], buffer[5]]),
+            b_point_raw: buffer[4..6].to_vec(),
             email: String::from_utf8_lossy(&buffer[6..40]).to_string(),
+            email_raw: buffer[6..40].to_vec(),
         }
     }
 }
@@ -25221,8 +29217,11 @@ impl Debug for PacketCaAckLoginAccountInfo {
 pub struct PacketAcAckPtIdInfo {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub sz_ptid: String,
+    pub sz_ptid_raw: Vec<u8>,
     pub sz_ptnum_id: String,
+    pub sz_ptnum_id_raw: Vec<u8>,
 }
 
 impl PacketAcAckPtIdInfo {
@@ -25230,8 +29229,11 @@ impl PacketAcAckPtIdInfo {
         PacketAcAckPtIdInfo {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             sz_ptid: String::from_utf8_lossy(&buffer[2..23]).to_string(),
+            sz_ptid_raw: buffer[2..23].to_vec(),
             sz_ptnum_id: String::from_utf8_lossy(&buffer[23..44]).to_string(),
+            sz_ptnum_id_raw: buffer[23..44].to_vec(),
         }
     }
 }
@@ -25262,8 +29264,11 @@ impl Debug for PacketAcAckPtIdInfo {
 pub struct PacketCzReqMailReturn {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub mail_id: u32,
+    pub mail_id_raw: Vec<u8>,
     pub receive_name: String,
+    pub receive_name_raw: Vec<u8>,
 }
 
 impl PacketCzReqMailReturn {
@@ -25271,8 +29276,11 @@ impl PacketCzReqMailReturn {
         PacketCzReqMailReturn {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             mail_id: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            mail_id_raw: buffer[2..6].to_vec(),
             receive_name: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            receive_name_raw: buffer[6..30].to_vec(),
         }
     }
 }
@@ -25303,8 +29311,11 @@ impl Debug for PacketCzReqMailReturn {
 pub struct PacketZcAckMailReturn {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub mail_id: u32,
+    pub mail_id_raw: Vec<u8>,
     pub result: u16,
+    pub result_raw: Vec<u8>,
 }
 
 impl PacketZcAckMailReturn {
@@ -25312,8 +29323,11 @@ impl PacketZcAckMailReturn {
         PacketZcAckMailReturn {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             mail_id: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            mail_id_raw: buffer[2..6].to_vec(),
             result: u16::from_le_bytes([buffer[6], buffer[7]]),
+            result_raw: buffer[6..8].to_vec(),
         }
     }
 }
@@ -25344,13 +29358,21 @@ impl Debug for PacketZcAckMailReturn {
 pub struct PacketChEnter2 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub auth_code: u32,
+    pub auth_code_raw: Vec<u8>,
     pub user_level: u32,
+    pub user_level_raw: Vec<u8>,
     pub client_type: u16,
+    pub client_type_raw: Vec<u8>,
     pub sex: char,
+    pub sex_raw: Vec<u8>,
     pub mac_data: String,
+    pub mac_data_raw: Vec<u8>,
     pub i_account_sid: u32,
+    pub i_account_sid_raw: Vec<u8>,
 }
 
 impl PacketChEnter2 {
@@ -25358,13 +29380,21 @@ impl PacketChEnter2 {
         PacketChEnter2 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             auth_code: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            auth_code_raw: buffer[6..10].to_vec(),
             user_level: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            user_level_raw: buffer[10..14].to_vec(),
             client_type: u16::from_le_bytes([buffer[14], buffer[15]]),
+            client_type_raw: buffer[14..16].to_vec(),
             sex: buffer[16] as char,
+            sex_raw: buffer[16..17].to_vec(),
             mac_data: String::from_utf8_lossy(&buffer[17..33]).to_string(),
+            mac_data_raw: buffer[17..33].to_vec(),
             i_account_sid: u32::from_le_bytes([buffer[33], buffer[34], buffer[35], buffer[36]]),
+            i_account_sid_raw: buffer[33..37].to_vec(),
         }
     }
 }
@@ -25400,14 +29430,23 @@ impl Debug for PacketChEnter2 {
 pub struct PacketAcAcceptLogin2 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub auth_code: u32,
+    pub auth_code_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub user_level: u32,
+    pub user_level_raw: Vec<u8>,
     pub last_login_ip: u32,
+    pub last_login_ip_raw: Vec<u8>,
     pub last_login_time: String,
+    pub last_login_time_raw: Vec<u8>,
     pub sex: char,
+    pub sex_raw: Vec<u8>,
     pub i_account_sid: u32,
+    pub i_account_sid_raw: Vec<u8>,
 }
 
 impl PacketAcAcceptLogin2 {
@@ -25415,14 +29454,23 @@ impl PacketAcAcceptLogin2 {
         PacketAcAcceptLogin2 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             auth_code: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            auth_code_raw: buffer[4..8].to_vec(),
             aid: u32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
+            aid_raw: buffer[8..12].to_vec(),
             user_level: u32::from_le_bytes([buffer[12], buffer[13], buffer[14], buffer[15]]),
+            user_level_raw: buffer[12..16].to_vec(),
             last_login_ip: u32::from_le_bytes([buffer[16], buffer[17], buffer[18], buffer[19]]),
+            last_login_ip_raw: buffer[16..20].to_vec(),
             last_login_time: String::from_utf8_lossy(&buffer[20..46]).to_string(),
+            last_login_time_raw: buffer[20..46].to_vec(),
             sex: buffer[46] as char,
+            sex_raw: buffer[46..47].to_vec(),
             i_account_sid: u32::from_le_bytes([buffer[47], buffer[48], buffer[49], buffer[50]]),
+            i_account_sid_raw: buffer[47..51].to_vec(),
         }
     }
 }
@@ -25459,12 +29507,19 @@ impl Debug for PacketAcAcceptLogin2 {
 pub struct PacketCaLoginPcbang {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub version: u32,
+    pub version_raw: Vec<u8>,
     pub id: String,
+    pub id_raw: Vec<u8>,
     pub passwd: String,
+    pub passwd_raw: Vec<u8>,
     pub clienttype: char,
+    pub clienttype_raw: Vec<u8>,
     pub ip: String,
+    pub ip_raw: Vec<u8>,
     pub mac_adress: String,
+    pub mac_adress_raw: Vec<u8>,
 }
 
 impl PacketCaLoginPcbang {
@@ -25472,12 +29527,19 @@ impl PacketCaLoginPcbang {
         PacketCaLoginPcbang {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             version: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            version_raw: buffer[2..6].to_vec(),
             id: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            id_raw: buffer[6..30].to_vec(),
             passwd: String::from_utf8_lossy(&buffer[30..54]).to_string(),
+            passwd_raw: buffer[30..54].to_vec(),
             clienttype: buffer[54] as char,
+            clienttype_raw: buffer[54..55].to_vec(),
             ip: String::from_utf8_lossy(&buffer[55..71]).to_string(),
+            ip_raw: buffer[55..71].to_vec(),
             mac_adress: String::from_utf8_lossy(&buffer[71..84]).to_string(),
+            mac_adress_raw: buffer[71..84].to_vec(),
         }
     }
 }
@@ -25512,6 +29574,7 @@ impl Debug for PacketCaLoginPcbang {
 pub struct PacketZcNotifyPcbang {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketZcNotifyPcbang {
@@ -25519,6 +29582,7 @@ impl PacketZcNotifyPcbang {
         PacketZcNotifyPcbang {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -25547,6 +29611,7 @@ impl Debug for PacketZcNotifyPcbang {
 pub struct PacketCzHuntinglist {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketCzHuntinglist {
@@ -25554,6 +29619,7 @@ impl PacketCzHuntinglist {
         PacketCzHuntinglist {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -25582,8 +29648,11 @@ impl Debug for PacketCzHuntinglist {
 pub struct PacketZcHuntinglist {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub hunting_list: Vec<PacketMobHunting>,
+    pub hunting_list_raw: Vec<u8>,
 }
 
 impl PacketZcHuntinglist {
@@ -25600,8 +29669,11 @@ impl PacketZcHuntinglist {
         PacketZcHuntinglist {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             hunting_list: vec_field,
+            hunting_list_raw: buffer[4..16].to_vec(),
         }
     }
 }
@@ -25632,9 +29704,13 @@ impl Debug for PacketZcHuntinglist {
 pub struct PacketZcPcbangEffect {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub exp_factor: u32,
+    pub exp_factor_raw: Vec<u8>,
     pub exp_factor2: u32,
+    pub exp_factor2_raw: Vec<u8>,
     pub drop_factor: u32,
+    pub drop_factor_raw: Vec<u8>,
 }
 
 impl PacketZcPcbangEffect {
@@ -25642,9 +29718,13 @@ impl PacketZcPcbangEffect {
         PacketZcPcbangEffect {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             exp_factor: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            exp_factor_raw: buffer[2..6].to_vec(),
             exp_factor2: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            exp_factor2_raw: buffer[6..10].to_vec(),
             drop_factor: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            drop_factor_raw: buffer[10..14].to_vec(),
         }
     }
 }
@@ -25676,11 +29756,17 @@ impl Debug for PacketZcPcbangEffect {
 pub struct PacketCaLogin4 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub version: u32,
+    pub version_raw: Vec<u8>,
     pub id: String,
+    pub id_raw: Vec<u8>,
     pub passwd_md5: String,
+    pub passwd_md5_raw: Vec<u8>,
     pub clienttype: char,
+    pub clienttype_raw: Vec<u8>,
     pub mac_data: String,
+    pub mac_data_raw: Vec<u8>,
 }
 
 impl PacketCaLogin4 {
@@ -25688,11 +29774,17 @@ impl PacketCaLogin4 {
         PacketCaLogin4 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             version: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            version_raw: buffer[2..6].to_vec(),
             id: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            id_raw: buffer[6..30].to_vec(),
             passwd_md5: String::from_utf8_lossy(&buffer[30..46]).to_string(),
+            passwd_md5_raw: buffer[30..46].to_vec(),
             clienttype: buffer[46] as char,
+            clienttype_raw: buffer[46..47].to_vec(),
             mac_data: String::from_utf8_lossy(&buffer[47..60]).to_string(),
+            mac_data_raw: buffer[47..60].to_vec(),
         }
     }
 }
@@ -25726,24 +29818,43 @@ impl Debug for PacketCaLogin4 {
 pub struct PacketZcPropertyMerce {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub name: String,
+    pub name_raw: Vec<u8>,
     pub level: u16,
+    pub level_raw: Vec<u8>,
     pub faith: u16,
+    pub faith_raw: Vec<u8>,
     pub summon_count: u16,
+    pub summon_count_raw: Vec<u8>,
     pub atk: u16,
+    pub atk_raw: Vec<u8>,
     pub matk: u16,
+    pub matk_raw: Vec<u8>,
     pub hit: u16,
+    pub hit_raw: Vec<u8>,
     pub critical: u16,
+    pub critical_raw: Vec<u8>,
     pub def: u16,
+    pub def_raw: Vec<u8>,
     pub mdef: u16,
+    pub mdef_raw: Vec<u8>,
     pub flee: u16,
+    pub flee_raw: Vec<u8>,
     pub aspd: u16,
+    pub aspd_raw: Vec<u8>,
     pub hp: u16,
+    pub hp_raw: Vec<u8>,
     pub max_hp: u16,
+    pub max_hp_raw: Vec<u8>,
     pub sp: u16,
+    pub sp_raw: Vec<u8>,
     pub max_sp: u16,
+    pub max_sp_raw: Vec<u8>,
     pub atkrange: u16,
+    pub atkrange_raw: Vec<u8>,
     pub exp: u32,
+    pub exp_raw: Vec<u8>,
 }
 
 impl PacketZcPropertyMerce {
@@ -25751,24 +29862,43 @@ impl PacketZcPropertyMerce {
         PacketZcPropertyMerce {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            name_raw: buffer[2..26].to_vec(),
             level: u16::from_le_bytes([buffer[26], buffer[27]]),
+            level_raw: buffer[26..28].to_vec(),
             faith: u16::from_le_bytes([buffer[28], buffer[29]]),
+            faith_raw: buffer[28..30].to_vec(),
             summon_count: u16::from_le_bytes([buffer[30], buffer[31]]),
+            summon_count_raw: buffer[30..32].to_vec(),
             atk: u16::from_le_bytes([buffer[32], buffer[33]]),
+            atk_raw: buffer[32..34].to_vec(),
             matk: u16::from_le_bytes([buffer[34], buffer[35]]),
+            matk_raw: buffer[34..36].to_vec(),
             hit: u16::from_le_bytes([buffer[36], buffer[37]]),
+            hit_raw: buffer[36..38].to_vec(),
             critical: u16::from_le_bytes([buffer[38], buffer[39]]),
+            critical_raw: buffer[38..40].to_vec(),
             def: u16::from_le_bytes([buffer[40], buffer[41]]),
+            def_raw: buffer[40..42].to_vec(),
             mdef: u16::from_le_bytes([buffer[42], buffer[43]]),
+            mdef_raw: buffer[42..44].to_vec(),
             flee: u16::from_le_bytes([buffer[44], buffer[45]]),
+            flee_raw: buffer[44..46].to_vec(),
             aspd: u16::from_le_bytes([buffer[46], buffer[47]]),
+            aspd_raw: buffer[46..48].to_vec(),
             hp: u16::from_le_bytes([buffer[48], buffer[49]]),
+            hp_raw: buffer[48..50].to_vec(),
             max_hp: u16::from_le_bytes([buffer[50], buffer[51]]),
+            max_hp_raw: buffer[50..52].to_vec(),
             sp: u16::from_le_bytes([buffer[52], buffer[53]]),
+            sp_raw: buffer[52..54].to_vec(),
             max_sp: u16::from_le_bytes([buffer[54], buffer[55]]),
+            max_sp_raw: buffer[54..56].to_vec(),
             atkrange: u16::from_le_bytes([buffer[56], buffer[57]]),
+            atkrange_raw: buffer[56..58].to_vec(),
             exp: u32::from_le_bytes([buffer[58], buffer[59], buffer[60], buffer[61]]),
+            exp_raw: buffer[58..62].to_vec(),
         }
     }
 }
@@ -25815,9 +29945,13 @@ impl Debug for PacketZcPropertyMerce {
 pub struct PacketZcShandaProtect {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub code_len: u16,
+    pub code_len_raw: Vec<u8>,
     pub code: String,
+    pub code_raw: Vec<u8>,
 }
 
 impl PacketZcShandaProtect {
@@ -25825,9 +29959,13 @@ impl PacketZcShandaProtect {
         PacketZcShandaProtect {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             code_len: u16::from_le_bytes([buffer[4], buffer[5]]),
+            code_len_raw: buffer[4..6].to_vec(),
             code: String::from_utf8_lossy(&buffer[6..buffer.len()]).to_string(),
+            code_raw: buffer[6..buffer.len()].to_vec(),
         }
     }
 }
@@ -25859,8 +29997,11 @@ impl Debug for PacketZcShandaProtect {
 pub struct PacketCaClientType {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub client_type: u16,
+    pub client_type_raw: Vec<u8>,
     pub n_ver: u32,
+    pub n_ver_raw: Vec<u8>,
 }
 
 impl PacketCaClientType {
@@ -25868,8 +30009,11 @@ impl PacketCaClientType {
         PacketCaClientType {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             client_type: u16::from_le_bytes([buffer[2], buffer[3]]),
+            client_type_raw: buffer[2..4].to_vec(),
             n_ver: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            n_ver_raw: buffer[4..8].to_vec(),
         }
     }
 }
@@ -25900,9 +30044,13 @@ impl Debug for PacketCaClientType {
 pub struct PacketZcGangsiPoint {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub point: u32,
+    pub point_raw: Vec<u8>,
     pub total_point: u32,
+    pub total_point_raw: Vec<u8>,
     pub packet_switch: u16,
+    pub packet_switch_raw: Vec<u8>,
 }
 
 impl PacketZcGangsiPoint {
@@ -25910,9 +30058,13 @@ impl PacketZcGangsiPoint {
         PacketZcGangsiPoint {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             point: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            point_raw: buffer[2..6].to_vec(),
             total_point: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            total_point_raw: buffer[6..10].to_vec(),
             packet_switch: u16::from_le_bytes([buffer[10], buffer[11]]),
+            packet_switch_raw: buffer[10..12].to_vec(),
         }
     }
 }
@@ -25944,7 +30096,9 @@ impl Debug for PacketZcGangsiPoint {
 pub struct PacketCzGangsiRank {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_switch: u16,
+    pub packet_switch_raw: Vec<u8>,
 }
 
 impl PacketCzGangsiRank {
@@ -25952,7 +30106,9 @@ impl PacketCzGangsiRank {
         PacketCzGangsiRank {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_switch: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_switch_raw: buffer[2..4].to_vec(),
         }
     }
 }
@@ -25982,9 +30138,13 @@ impl Debug for PacketCzGangsiRank {
 pub struct PacketZcGangsiRank {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub name: String,
+    pub name_raw: Vec<u8>,
     pub point: u32,
+    pub point_raw: Vec<u8>,
     pub packet_switch: u16,
+    pub packet_switch_raw: Vec<u8>,
 }
 
 impl PacketZcGangsiRank {
@@ -25992,9 +30152,13 @@ impl PacketZcGangsiRank {
         PacketZcGangsiRank {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             name: String::from_utf8_lossy(&buffer[2..12]).to_string(),
+            name_raw: buffer[2..12].to_vec(),
             point: u32::from_le_bytes([buffer[242], buffer[243], buffer[244], buffer[245]]),
+            point_raw: buffer[242..246].to_vec(),
             packet_switch: u16::from_le_bytes([buffer[282], buffer[283]]),
+            packet_switch_raw: buffer[282..284].to_vec(),
         }
     }
 }
@@ -26026,7 +30190,9 @@ impl Debug for PacketZcGangsiRank {
 pub struct PacketZcAid {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
 }
 
 impl PacketZcAid {
@@ -26034,7 +30200,9 @@ impl PacketZcAid {
         PacketZcAid {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -26064,9 +30232,13 @@ impl Debug for PacketZcAid {
 pub struct PacketZcNotifyEffect3 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub effect_id: u32,
+    pub effect_id_raw: Vec<u8>,
     pub numdata: u32,
+    pub numdata_raw: Vec<u8>,
 }
 
 impl PacketZcNotifyEffect3 {
@@ -26074,9 +30246,13 @@ impl PacketZcNotifyEffect3 {
         PacketZcNotifyEffect3 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             effect_id: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            effect_id_raw: buffer[6..10].to_vec(),
             numdata: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            numdata_raw: buffer[10..14].to_vec(),
         }
     }
 }
@@ -26108,8 +30284,11 @@ impl Debug for PacketZcNotifyEffect3 {
 pub struct PacketZcDeathQuestion {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub qcategory: u16,
+    pub qcategory_raw: Vec<u8>,
     pub qnum: u16,
+    pub qnum_raw: Vec<u8>,
 }
 
 impl PacketZcDeathQuestion {
@@ -26117,8 +30296,11 @@ impl PacketZcDeathQuestion {
         PacketZcDeathQuestion {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             qcategory: u16::from_le_bytes([buffer[2], buffer[3]]),
+            qcategory_raw: buffer[2..4].to_vec(),
             qnum: u16::from_le_bytes([buffer[4], buffer[5]]),
+            qnum_raw: buffer[4..6].to_vec(),
         }
     }
 }
@@ -26149,7 +30331,9 @@ impl Debug for PacketZcDeathQuestion {
 pub struct PacketCzDeathQuestion {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub qanswer: u16,
+    pub qanswer_raw: Vec<u8>,
 }
 
 impl PacketCzDeathQuestion {
@@ -26157,7 +30341,9 @@ impl PacketCzDeathQuestion {
         PacketCzDeathQuestion {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             qanswer: u16::from_le_bytes([buffer[2], buffer[3]]),
+            qanswer_raw: buffer[2..4].to_vec(),
         }
     }
 }
@@ -26187,9 +30373,13 @@ impl Debug for PacketCzDeathQuestion {
 pub struct PacketZcPcCashPointItemlist {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub cash_point: u32,
+    pub cash_point_raw: Vec<u8>,
     pub item_list: Vec<PurchaseItem>,
+    pub item_list_raw: Vec<u8>,
 }
 
 impl PacketZcPcCashPointItemlist {
@@ -26206,9 +30396,13 @@ impl PacketZcPcCashPointItemlist {
         PacketZcPcCashPointItemlist {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             cash_point: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            cash_point_raw: buffer[4..8].to_vec(),
             item_list: vec_field,
+            item_list_raw: buffer[8..19].to_vec(),
         }
     }
 }
@@ -26240,8 +30434,11 @@ impl Debug for PacketZcPcCashPointItemlist {
 pub struct PacketCzPcBuyCashPointItem {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub itid: u16,
+    pub itid_raw: Vec<u8>,
     pub count: u16,
+    pub count_raw: Vec<u8>,
 }
 
 impl PacketCzPcBuyCashPointItem {
@@ -26249,8 +30446,11 @@ impl PacketCzPcBuyCashPointItem {
         PacketCzPcBuyCashPointItem {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             itid: u16::from_le_bytes([buffer[2], buffer[3]]),
+            itid_raw: buffer[2..4].to_vec(),
             count: u16::from_le_bytes([buffer[4], buffer[5]]),
+            count_raw: buffer[4..6].to_vec(),
         }
     }
 }
@@ -26281,8 +30481,11 @@ impl Debug for PacketCzPcBuyCashPointItem {
 pub struct PacketZcPcCashPointUpdate {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub cash_point: u32,
+    pub cash_point_raw: Vec<u8>,
     pub error: u16,
+    pub error_raw: Vec<u8>,
 }
 
 impl PacketZcPcCashPointUpdate {
@@ -26290,8 +30493,11 @@ impl PacketZcPcCashPointUpdate {
         PacketZcPcCashPointUpdate {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             cash_point: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            cash_point_raw: buffer[2..6].to_vec(),
             error: u16::from_le_bytes([buffer[6], buffer[7]]),
+            error_raw: buffer[6..8].to_vec(),
         }
     }
 }
@@ -26322,10 +30528,15 @@ impl Debug for PacketZcPcCashPointUpdate {
 pub struct PacketZcNpcShowefstUpdate {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub effect_state: u32,
+    pub effect_state_raw: Vec<u8>,
     pub clevel: u32,
+    pub clevel_raw: Vec<u8>,
     pub show_efst: u32,
+    pub show_efst_raw: Vec<u8>,
 }
 
 impl PacketZcNpcShowefstUpdate {
@@ -26333,10 +30544,15 @@ impl PacketZcNpcShowefstUpdate {
         PacketZcNpcShowefstUpdate {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             effect_state: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            effect_state_raw: buffer[6..10].to_vec(),
             clevel: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            clevel_raw: buffer[10..14].to_vec(),
             show_efst: u32::from_le_bytes([buffer[14], buffer[15], buffer[16], buffer[17]]),
+            show_efst_raw: buffer[14..18].to_vec(),
         }
     }
 }
@@ -26369,9 +30585,13 @@ impl Debug for PacketZcNpcShowefstUpdate {
 pub struct PacketChSelectCharGoingtobeused {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub dw_aid: u32,
+    pub dw_aid_raw: Vec<u8>,
     pub n_count_selected_char: u32,
+    pub n_count_selected_char_raw: Vec<u8>,
     pub ardw_selected_gid: u32,
+    pub ardw_selected_gid_raw: Vec<u8>,
 }
 
 impl PacketChSelectCharGoingtobeused {
@@ -26379,9 +30599,13 @@ impl PacketChSelectCharGoingtobeused {
         PacketChSelectCharGoingtobeused {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             dw_aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            dw_aid_raw: buffer[2..6].to_vec(),
             n_count_selected_char: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            n_count_selected_char_raw: buffer[6..10].to_vec(),
             ardw_selected_gid: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            ardw_selected_gid_raw: buffer[10..14].to_vec(),
         }
     }
 }
@@ -26413,9 +30637,13 @@ impl Debug for PacketChSelectCharGoingtobeused {
 pub struct PacketChReqIsValidCharname {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub dw_aid: u32,
+    pub dw_aid_raw: Vec<u8>,
     pub dw_gid: u32,
+    pub dw_gid_raw: Vec<u8>,
     pub sz_char_name: String,
+    pub sz_char_name_raw: Vec<u8>,
 }
 
 impl PacketChReqIsValidCharname {
@@ -26423,9 +30651,13 @@ impl PacketChReqIsValidCharname {
         PacketChReqIsValidCharname {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             dw_aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            dw_aid_raw: buffer[2..6].to_vec(),
             dw_gid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            dw_gid_raw: buffer[6..10].to_vec(),
             sz_char_name: String::from_utf8_lossy(&buffer[10..34]).to_string(),
+            sz_char_name_raw: buffer[10..34].to_vec(),
         }
     }
 }
@@ -26457,7 +30689,9 @@ impl Debug for PacketChReqIsValidCharname {
 pub struct PacketHcAckIsValidCharname {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub s_result: u16,
+    pub s_result_raw: Vec<u8>,
 }
 
 impl PacketHcAckIsValidCharname {
@@ -26465,7 +30699,9 @@ impl PacketHcAckIsValidCharname {
         PacketHcAckIsValidCharname {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             s_result: u16::from_le_bytes([buffer[2], buffer[3]]),
+            s_result_raw: buffer[2..4].to_vec(),
         }
     }
 }
@@ -26495,7 +30731,9 @@ impl Debug for PacketHcAckIsValidCharname {
 pub struct PacketChReqChangeCharname {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub dw_gid: u32,
+    pub dw_gid_raw: Vec<u8>,
 }
 
 impl PacketChReqChangeCharname {
@@ -26503,7 +30741,9 @@ impl PacketChReqChangeCharname {
         PacketChReqChangeCharname {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             dw_gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            dw_gid_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -26533,7 +30773,9 @@ impl Debug for PacketChReqChangeCharname {
 pub struct PacketHcAckChangeCharname {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub s_result: u16,
+    pub s_result_raw: Vec<u8>,
 }
 
 impl PacketHcAckChangeCharname {
@@ -26541,7 +30783,9 @@ impl PacketHcAckChangeCharname {
         PacketHcAckChangeCharname {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             s_result: u16::from_le_bytes([buffer[2], buffer[3]]),
+            s_result_raw: buffer[2..4].to_vec(),
         }
     }
 }
@@ -26571,7 +30815,9 @@ impl Debug for PacketHcAckChangeCharname {
 pub struct PacketZcMsg {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub msg: u16,
+    pub msg_raw: Vec<u8>,
 }
 
 impl PacketZcMsg {
@@ -26579,7 +30825,9 @@ impl PacketZcMsg {
         PacketZcMsg {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             msg: u16::from_le_bytes([buffer[2], buffer[3]]),
+            msg_raw: buffer[2..4].to_vec(),
         }
     }
 }
@@ -26609,6 +30857,7 @@ impl Debug for PacketZcMsg {
 pub struct PacketCzStandingResurrection {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketCzStandingResurrection {
@@ -26616,6 +30865,7 @@ impl PacketCzStandingResurrection {
         PacketCzStandingResurrection {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -26644,14 +30894,23 @@ impl Debug for PacketCzStandingResurrection {
 pub struct PacketZcBossInfo {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub info_type: char,
+    pub info_type_raw: Vec<u8>,
     pub x_pos: u32,
+    pub x_pos_raw: Vec<u8>,
     pub y_pos: u32,
+    pub y_pos_raw: Vec<u8>,
     pub min_hour: u16,
+    pub min_hour_raw: Vec<u8>,
     pub min_minute: u16,
+    pub min_minute_raw: Vec<u8>,
     pub max_hour: u16,
+    pub max_hour_raw: Vec<u8>,
     pub max_minute: u16,
+    pub max_minute_raw: Vec<u8>,
     pub name: String,
+    pub name_raw: Vec<u8>,
 }
 
 impl PacketZcBossInfo {
@@ -26659,14 +30918,23 @@ impl PacketZcBossInfo {
         PacketZcBossInfo {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             info_type: buffer[2] as char,
+            info_type_raw: buffer[2..3].to_vec(),
             x_pos: u32::from_le_bytes([buffer[3], buffer[4], buffer[5], buffer[6]]),
+            x_pos_raw: buffer[3..7].to_vec(),
             y_pos: u32::from_le_bytes([buffer[7], buffer[8], buffer[9], buffer[10]]),
+            y_pos_raw: buffer[7..11].to_vec(),
             min_hour: u16::from_le_bytes([buffer[11], buffer[12]]),
+            min_hour_raw: buffer[11..13].to_vec(),
             min_minute: u16::from_le_bytes([buffer[13], buffer[14]]),
+            min_minute_raw: buffer[13..15].to_vec(),
             max_hour: u16::from_le_bytes([buffer[15], buffer[16]]),
+            max_hour_raw: buffer[15..17].to_vec(),
             max_minute: u16::from_le_bytes([buffer[17], buffer[18]]),
+            max_minute_raw: buffer[17..19].to_vec(),
             name: String::from_utf8_lossy(&buffer[19..70]).to_string(),
+            name_raw: buffer[19..70].to_vec(),
         }
     }
 }
@@ -26703,8 +30971,11 @@ impl Debug for PacketZcBossInfo {
 pub struct PacketZcReadBook {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub book_id: u32,
+    pub book_id_raw: Vec<u8>,
     pub page: u32,
+    pub page_raw: Vec<u8>,
 }
 
 impl PacketZcReadBook {
@@ -26712,8 +30983,11 @@ impl PacketZcReadBook {
         PacketZcReadBook {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             book_id: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            book_id_raw: buffer[2..6].to_vec(),
             page: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            page_raw: buffer[6..10].to_vec(),
         }
     }
 }
@@ -26744,8 +31018,11 @@ impl Debug for PacketZcReadBook {
 pub struct PacketZcEquipmentItemlist2 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub item_info: Vec<EquipmentitemExtrainfo2>,
+    pub item_info_raw: Vec<u8>,
 }
 
 impl PacketZcEquipmentItemlist2 {
@@ -26762,8 +31039,11 @@ impl PacketZcEquipmentItemlist2 {
         PacketZcEquipmentItemlist2 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             item_info: vec_field,
+            item_info_raw: buffer[4..28].to_vec(),
         }
     }
 }
@@ -26794,8 +31074,11 @@ impl Debug for PacketZcEquipmentItemlist2 {
 pub struct PacketZcStoreEquipmentItemlist2 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub item_info: Vec<EquipmentitemExtrainfo2>,
+    pub item_info_raw: Vec<u8>,
 }
 
 impl PacketZcStoreEquipmentItemlist2 {
@@ -26812,8 +31095,11 @@ impl PacketZcStoreEquipmentItemlist2 {
         PacketZcStoreEquipmentItemlist2 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             item_info: vec_field,
+            item_info_raw: buffer[4..28].to_vec(),
         }
     }
 }
@@ -26844,8 +31130,11 @@ impl Debug for PacketZcStoreEquipmentItemlist2 {
 pub struct PacketZcCartEquipmentItemlist2 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub item_info: Vec<EquipmentitemExtrainfo2>,
+    pub item_info_raw: Vec<u8>,
 }
 
 impl PacketZcCartEquipmentItemlist2 {
@@ -26862,8 +31151,11 @@ impl PacketZcCartEquipmentItemlist2 {
         PacketZcCartEquipmentItemlist2 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             item_info: vec_field,
+            item_info_raw: buffer[4..28].to_vec(),
         }
     }
 }
@@ -26894,8 +31186,11 @@ impl Debug for PacketZcCartEquipmentItemlist2 {
 pub struct PacketZcCashTimeCounter {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub itid: u16,
+    pub itid_raw: Vec<u8>,
     pub remain_second: u32,
+    pub remain_second_raw: Vec<u8>,
 }
 
 impl PacketZcCashTimeCounter {
@@ -26903,8 +31198,11 @@ impl PacketZcCashTimeCounter {
         PacketZcCashTimeCounter {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             itid: u16::from_le_bytes([buffer[2], buffer[3]]),
+            itid_raw: buffer[2..4].to_vec(),
             remain_second: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            remain_second_raw: buffer[4..8].to_vec(),
         }
     }
 }
@@ -26935,8 +31233,11 @@ impl Debug for PacketZcCashTimeCounter {
 pub struct PacketZcCashItemDelete {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub index: u16,
+    pub index_raw: Vec<u8>,
     pub itid: u16,
+    pub itid_raw: Vec<u8>,
 }
 
 impl PacketZcCashItemDelete {
@@ -26944,8 +31245,11 @@ impl PacketZcCashItemDelete {
         PacketZcCashItemDelete {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            index_raw: buffer[2..4].to_vec(),
             itid: u16::from_le_bytes([buffer[4], buffer[5]]),
+            itid_raw: buffer[4..6].to_vec(),
         }
     }
 }
@@ -26976,17 +31280,29 @@ impl Debug for PacketZcCashItemDelete {
 pub struct PacketZcItemPickupAck2 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub index: u16,
+    pub index_raw: Vec<u8>,
     pub count: u16,
+    pub count_raw: Vec<u8>,
     pub itid: u16,
+    pub itid_raw: Vec<u8>,
     pub is_identified: bool,
+    pub is_identified_raw: Vec<u8>,
     pub is_damaged: bool,
+    pub is_damaged_raw: Vec<u8>,
     pub refining_level: char,
+    pub refining_level_raw: Vec<u8>,
     pub slot: EQUIPSLOTINFO,
+    pub slot_raw: Vec<u8>,
     pub location: u16,
+    pub location_raw: Vec<u8>,
     pub type_: char,
+    pub type__raw: Vec<u8>,
     pub result: char,
+    pub result_raw: Vec<u8>,
     pub hire_expire_date: u32,
+    pub hire_expire_date_raw: Vec<u8>,
 }
 
 impl PacketZcItemPickupAck2 {
@@ -26994,17 +31310,29 @@ impl PacketZcItemPickupAck2 {
         PacketZcItemPickupAck2 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            index_raw: buffer[2..4].to_vec(),
             count: u16::from_le_bytes([buffer[4], buffer[5]]),
+            count_raw: buffer[4..6].to_vec(),
             itid: u16::from_le_bytes([buffer[6], buffer[7]]),
+            itid_raw: buffer[6..8].to_vec(),
             is_identified: buffer[8] == 1,
+            is_identified_raw: buffer[8..9].to_vec(),
             is_damaged: buffer[9] == 1,
+            is_damaged_raw: buffer[9..10].to_vec(),
             refining_level: buffer[10] as char,
+            refining_level_raw: buffer[10..11].to_vec(),
             slot: EQUIPSLOTINFO::from(&buffer[11..19]),
+            slot_raw: buffer[11..19].to_vec(),
             location: u16::from_le_bytes([buffer[19], buffer[20]]),
+            location_raw: buffer[19..21].to_vec(),
             type_: buffer[21] as char,
+            type__raw: buffer[21..22].to_vec(),
             result: buffer[22] as char,
+            result_raw: buffer[22..23].to_vec(),
             hire_expire_date: u32::from_le_bytes([buffer[23], buffer[24], buffer[25], buffer[26]]),
+            hire_expire_date_raw: buffer[23..27].to_vec(),
         }
     }
 }
@@ -27044,26 +31372,47 @@ impl Debug for PacketZcItemPickupAck2 {
 pub struct PacketZcMerInit {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub atk: u16,
+    pub atk_raw: Vec<u8>,
     pub matk: u16,
+    pub matk_raw: Vec<u8>,
     pub hit: u16,
+    pub hit_raw: Vec<u8>,
     pub critical: u16,
+    pub critical_raw: Vec<u8>,
     pub def: u16,
+    pub def_raw: Vec<u8>,
     pub mdef: u16,
+    pub mdef_raw: Vec<u8>,
     pub flee: u16,
+    pub flee_raw: Vec<u8>,
     pub aspd: u16,
+    pub aspd_raw: Vec<u8>,
     pub name: String,
+    pub name_raw: Vec<u8>,
     pub level: u16,
+    pub level_raw: Vec<u8>,
     pub hp: u32,
+    pub hp_raw: Vec<u8>,
     pub max_hp: u32,
+    pub max_hp_raw: Vec<u8>,
     pub sp: u32,
+    pub sp_raw: Vec<u8>,
     pub max_sp: u32,
+    pub max_sp_raw: Vec<u8>,
     pub expire_date: u32,
+    pub expire_date_raw: Vec<u8>,
     pub faith: u16,
+    pub faith_raw: Vec<u8>,
     pub toal_call_num: u32,
+    pub toal_call_num_raw: Vec<u8>,
     pub approval_monster_kill_counter: u32,
+    pub approval_monster_kill_counter_raw: Vec<u8>,
     pub atkrange: u16,
+    pub atkrange_raw: Vec<u8>,
 }
 
 impl PacketZcMerInit {
@@ -27071,26 +31420,47 @@ impl PacketZcMerInit {
         PacketZcMerInit {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             atk: u16::from_le_bytes([buffer[6], buffer[7]]),
+            atk_raw: buffer[6..8].to_vec(),
             matk: u16::from_le_bytes([buffer[8], buffer[9]]),
+            matk_raw: buffer[8..10].to_vec(),
             hit: u16::from_le_bytes([buffer[10], buffer[11]]),
+            hit_raw: buffer[10..12].to_vec(),
             critical: u16::from_le_bytes([buffer[12], buffer[13]]),
+            critical_raw: buffer[12..14].to_vec(),
             def: u16::from_le_bytes([buffer[14], buffer[15]]),
+            def_raw: buffer[14..16].to_vec(),
             mdef: u16::from_le_bytes([buffer[16], buffer[17]]),
+            mdef_raw: buffer[16..18].to_vec(),
             flee: u16::from_le_bytes([buffer[18], buffer[19]]),
+            flee_raw: buffer[18..20].to_vec(),
             aspd: u16::from_le_bytes([buffer[20], buffer[21]]),
+            aspd_raw: buffer[20..22].to_vec(),
             name: String::from_utf8_lossy(&buffer[22..46]).to_string(),
+            name_raw: buffer[22..46].to_vec(),
             level: u16::from_le_bytes([buffer[46], buffer[47]]),
+            level_raw: buffer[46..48].to_vec(),
             hp: u32::from_le_bytes([buffer[48], buffer[49], buffer[50], buffer[51]]),
+            hp_raw: buffer[48..52].to_vec(),
             max_hp: u32::from_le_bytes([buffer[52], buffer[53], buffer[54], buffer[55]]),
+            max_hp_raw: buffer[52..56].to_vec(),
             sp: u32::from_le_bytes([buffer[56], buffer[57], buffer[58], buffer[59]]),
+            sp_raw: buffer[56..60].to_vec(),
             max_sp: u32::from_le_bytes([buffer[60], buffer[61], buffer[62], buffer[63]]),
+            max_sp_raw: buffer[60..64].to_vec(),
             expire_date: u32::from_le_bytes([buffer[64], buffer[65], buffer[66], buffer[67]]),
+            expire_date_raw: buffer[64..68].to_vec(),
             faith: u16::from_le_bytes([buffer[68], buffer[69]]),
+            faith_raw: buffer[68..70].to_vec(),
             toal_call_num: u32::from_le_bytes([buffer[70], buffer[71], buffer[72], buffer[73]]),
+            toal_call_num_raw: buffer[70..74].to_vec(),
             approval_monster_kill_counter: u32::from_le_bytes([buffer[74], buffer[75], buffer[76], buffer[77]]),
+            approval_monster_kill_counter_raw: buffer[74..78].to_vec(),
             atkrange: u16::from_le_bytes([buffer[78], buffer[79]]),
+            atkrange_raw: buffer[78..80].to_vec(),
         }
     }
 }
@@ -27139,24 +31509,43 @@ impl Debug for PacketZcMerInit {
 pub struct PacketZcMerProperty {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub atk: u16,
+    pub atk_raw: Vec<u8>,
     pub matk: u16,
+    pub matk_raw: Vec<u8>,
     pub hit: u16,
+    pub hit_raw: Vec<u8>,
     pub critical: u16,
+    pub critical_raw: Vec<u8>,
     pub def: u16,
+    pub def_raw: Vec<u8>,
     pub mdef: u16,
+    pub mdef_raw: Vec<u8>,
     pub flee: u16,
+    pub flee_raw: Vec<u8>,
     pub aspd: u16,
+    pub aspd_raw: Vec<u8>,
     pub name: String,
+    pub name_raw: Vec<u8>,
     pub level: u16,
+    pub level_raw: Vec<u8>,
     pub hp: u16,
+    pub hp_raw: Vec<u8>,
     pub max_hp: u16,
+    pub max_hp_raw: Vec<u8>,
     pub sp: u16,
+    pub sp_raw: Vec<u8>,
     pub max_sp: u16,
+    pub max_sp_raw: Vec<u8>,
     pub expire_date: u32,
+    pub expire_date_raw: Vec<u8>,
     pub faith: u16,
+    pub faith_raw: Vec<u8>,
     pub toal_call_num: u32,
+    pub toal_call_num_raw: Vec<u8>,
     pub approval_monster_kill_counter: u32,
+    pub approval_monster_kill_counter_raw: Vec<u8>,
 }
 
 impl PacketZcMerProperty {
@@ -27164,24 +31553,43 @@ impl PacketZcMerProperty {
         PacketZcMerProperty {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             atk: u16::from_le_bytes([buffer[2], buffer[3]]),
+            atk_raw: buffer[2..4].to_vec(),
             matk: u16::from_le_bytes([buffer[4], buffer[5]]),
+            matk_raw: buffer[4..6].to_vec(),
             hit: u16::from_le_bytes([buffer[6], buffer[7]]),
+            hit_raw: buffer[6..8].to_vec(),
             critical: u16::from_le_bytes([buffer[8], buffer[9]]),
+            critical_raw: buffer[8..10].to_vec(),
             def: u16::from_le_bytes([buffer[10], buffer[11]]),
+            def_raw: buffer[10..12].to_vec(),
             mdef: u16::from_le_bytes([buffer[12], buffer[13]]),
+            mdef_raw: buffer[12..14].to_vec(),
             flee: u16::from_le_bytes([buffer[14], buffer[15]]),
+            flee_raw: buffer[14..16].to_vec(),
             aspd: u16::from_le_bytes([buffer[16], buffer[17]]),
+            aspd_raw: buffer[16..18].to_vec(),
             name: String::from_utf8_lossy(&buffer[18..42]).to_string(),
+            name_raw: buffer[18..42].to_vec(),
             level: u16::from_le_bytes([buffer[42], buffer[43]]),
+            level_raw: buffer[42..44].to_vec(),
             hp: u16::from_le_bytes([buffer[44], buffer[45]]),
+            hp_raw: buffer[44..46].to_vec(),
             max_hp: u16::from_le_bytes([buffer[46], buffer[47]]),
+            max_hp_raw: buffer[46..48].to_vec(),
             sp: u16::from_le_bytes([buffer[48], buffer[49]]),
+            sp_raw: buffer[48..50].to_vec(),
             max_sp: u16::from_le_bytes([buffer[50], buffer[51]]),
+            max_sp_raw: buffer[50..52].to_vec(),
             expire_date: u32::from_le_bytes([buffer[52], buffer[53], buffer[54], buffer[55]]),
+            expire_date_raw: buffer[52..56].to_vec(),
             faith: u16::from_le_bytes([buffer[56], buffer[57]]),
+            faith_raw: buffer[56..58].to_vec(),
             toal_call_num: u32::from_le_bytes([buffer[58], buffer[59], buffer[60], buffer[61]]),
+            toal_call_num_raw: buffer[58..62].to_vec(),
             approval_monster_kill_counter: u32::from_le_bytes([buffer[62], buffer[63], buffer[64], buffer[65]]),
+            approval_monster_kill_counter_raw: buffer[62..66].to_vec(),
         }
     }
 }
@@ -27228,8 +31636,11 @@ impl Debug for PacketZcMerProperty {
 pub struct PacketZcMerSkillinfoList {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub skill_list: Vec<SKILLINFO>,
+    pub skill_list_raw: Vec<u8>,
 }
 
 impl PacketZcMerSkillinfoList {
@@ -27246,8 +31657,11 @@ impl PacketZcMerSkillinfoList {
         PacketZcMerSkillinfoList {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             skill_list: vec_field,
+            skill_list_raw: buffer[4..41].to_vec(),
         }
     }
 }
@@ -27278,11 +31692,17 @@ impl Debug for PacketZcMerSkillinfoList {
 pub struct PacketZcMerSkillinfoUpdate {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub skid: u16,
+    pub skid_raw: Vec<u8>,
     pub level: u16,
+    pub level_raw: Vec<u8>,
     pub spcost: u16,
+    pub spcost_raw: Vec<u8>,
     pub attack_range: u16,
+    pub attack_range_raw: Vec<u8>,
     pub upgradable: bool,
+    pub upgradable_raw: Vec<u8>,
 }
 
 impl PacketZcMerSkillinfoUpdate {
@@ -27290,11 +31710,17 @@ impl PacketZcMerSkillinfoUpdate {
         PacketZcMerSkillinfoUpdate {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             skid: u16::from_le_bytes([buffer[2], buffer[3]]),
+            skid_raw: buffer[2..4].to_vec(),
             level: u16::from_le_bytes([buffer[4], buffer[5]]),
+            level_raw: buffer[4..6].to_vec(),
             spcost: u16::from_le_bytes([buffer[6], buffer[7]]),
+            spcost_raw: buffer[6..8].to_vec(),
             attack_range: u16::from_le_bytes([buffer[8], buffer[9]]),
+            attack_range_raw: buffer[8..10].to_vec(),
             upgradable: buffer[10] == 1,
+            upgradable_raw: buffer[10..11].to_vec(),
         }
     }
 }
@@ -27328,7 +31754,9 @@ impl Debug for PacketZcMerSkillinfoUpdate {
 pub struct PacketCzMerCommand {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub command: char,
+    pub command_raw: Vec<u8>,
 }
 
 impl PacketCzMerCommand {
@@ -27336,7 +31764,9 @@ impl PacketCzMerCommand {
         PacketCzMerCommand {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             command: buffer[2] as char,
+            command_raw: buffer[2..3].to_vec(),
         }
     }
 }
@@ -27366,9 +31796,13 @@ impl Debug for PacketCzMerCommand {
 pub struct UnusedPacketCzMerUseSkill {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub selected_level: u16,
+    pub selected_level_raw: Vec<u8>,
     pub skid: u16,
+    pub skid_raw: Vec<u8>,
     pub target_id: u32,
+    pub target_id_raw: Vec<u8>,
 }
 
 impl UnusedPacketCzMerUseSkill {
@@ -27376,9 +31810,13 @@ impl UnusedPacketCzMerUseSkill {
         UnusedPacketCzMerUseSkill {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             selected_level: u16::from_le_bytes([buffer[2], buffer[3]]),
+            selected_level_raw: buffer[2..4].to_vec(),
             skid: u16::from_le_bytes([buffer[4], buffer[5]]),
+            skid_raw: buffer[4..6].to_vec(),
             target_id: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            target_id_raw: buffer[6..10].to_vec(),
         }
     }
 }
@@ -27410,7 +31848,9 @@ impl Debug for UnusedPacketCzMerUseSkill {
 pub struct UnusedPacketCzMerUpgradeSkilllevel {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub skid: u16,
+    pub skid_raw: Vec<u8>,
 }
 
 impl UnusedPacketCzMerUpgradeSkilllevel {
@@ -27418,7 +31858,9 @@ impl UnusedPacketCzMerUpgradeSkilllevel {
         UnusedPacketCzMerUpgradeSkilllevel {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             skid: u16::from_le_bytes([buffer[2], buffer[3]]),
+            skid_raw: buffer[2..4].to_vec(),
         }
     }
 }
@@ -27448,8 +31890,11 @@ impl Debug for UnusedPacketCzMerUpgradeSkilllevel {
 pub struct PacketZcMerParChange {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub var: u16,
+    pub var_raw: Vec<u8>,
     pub value: u32,
+    pub value_raw: Vec<u8>,
 }
 
 impl PacketZcMerParChange {
@@ -27457,8 +31902,11 @@ impl PacketZcMerParChange {
         PacketZcMerParChange {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             var: u16::from_le_bytes([buffer[2], buffer[3]]),
+            var_raw: buffer[2..4].to_vec(),
             value: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            value_raw: buffer[4..8].to_vec(),
         }
     }
 }
@@ -27489,7 +31937,9 @@ impl Debug for PacketZcMerParChange {
 pub struct PacketZcGameguardLingoKey {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub lingo_key: PggLingoKeyTemp,
+    pub lingo_key_raw: Vec<u8>,
 }
 
 impl PacketZcGameguardLingoKey {
@@ -27497,7 +31947,9 @@ impl PacketZcGameguardLingoKey {
         PacketZcGameguardLingoKey {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             lingo_key: PggLingoKeyTemp::from(&buffer[2..buffer.len()]),
+            lingo_key_raw: buffer[2..buffer.len()].to_vec(),
         }
     }
 }
@@ -27527,8 +31979,11 @@ impl Debug for PacketZcGameguardLingoKey {
 pub struct PacketCzKsyEvent {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub index: u16,
+    pub index_raw: Vec<u8>,
     pub count: u32,
+    pub count_raw: Vec<u8>,
 }
 
 impl PacketCzKsyEvent {
@@ -27536,8 +31991,11 @@ impl PacketCzKsyEvent {
         PacketCzKsyEvent {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            index_raw: buffer[2..4].to_vec(),
             count: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            count_raw: buffer[4..8].to_vec(),
         }
     }
 }
@@ -27568,7 +32026,9 @@ impl Debug for PacketCzKsyEvent {
 pub struct PacketZcReqCashPassword {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub info: u16,
+    pub info_raw: Vec<u8>,
 }
 
 impl PacketZcReqCashPassword {
@@ -27576,7 +32036,9 @@ impl PacketZcReqCashPassword {
         PacketZcReqCashPassword {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             info: u16::from_le_bytes([buffer[2], buffer[3]]),
+            info_raw: buffer[2..4].to_vec(),
         }
     }
 }
@@ -27606,9 +32068,13 @@ impl Debug for PacketZcReqCashPassword {
 pub struct PacketCzAckCashPassword {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub type_: u16,
+    pub type__raw: Vec<u8>,
     pub password: String,
+    pub password_raw: Vec<u8>,
     pub new_password: String,
+    pub new_password_raw: Vec<u8>,
 }
 
 impl PacketCzAckCashPassword {
@@ -27616,9 +32082,13 @@ impl PacketCzAckCashPassword {
         PacketCzAckCashPassword {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             type_: u16::from_le_bytes([buffer[2], buffer[3]]),
+            type__raw: buffer[2..4].to_vec(),
             password: String::from_utf8_lossy(&buffer[4..20]).to_string(),
+            password_raw: buffer[4..20].to_vec(),
             new_password: String::from_utf8_lossy(&buffer[20..36]).to_string(),
+            new_password_raw: buffer[20..36].to_vec(),
         }
     }
 }
@@ -27650,8 +32120,11 @@ impl Debug for PacketCzAckCashPassword {
 pub struct PacketZcResultCashPassword {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub result: u16,
+    pub result_raw: Vec<u8>,
     pub error_count: u16,
+    pub error_count_raw: Vec<u8>,
 }
 
 impl PacketZcResultCashPassword {
@@ -27659,8 +32132,11 @@ impl PacketZcResultCashPassword {
         PacketZcResultCashPassword {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             result: u16::from_le_bytes([buffer[2], buffer[3]]),
+            result_raw: buffer[2..4].to_vec(),
             error_count: u16::from_le_bytes([buffer[4], buffer[5]]),
+            error_count_raw: buffer[4..6].to_vec(),
         }
     }
 }
@@ -27691,8 +32167,11 @@ impl Debug for PacketZcResultCashPassword {
 pub struct PacketAcRequestSecondPassword {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub result: u16,
+    pub result_raw: Vec<u8>,
     pub dw_seed: u32,
+    pub dw_seed_raw: Vec<u8>,
 }
 
 impl PacketAcRequestSecondPassword {
@@ -27700,8 +32179,11 @@ impl PacketAcRequestSecondPassword {
         PacketAcRequestSecondPassword {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             result: u16::from_le_bytes([buffer[2], buffer[3]]),
+            result_raw: buffer[2..4].to_vec(),
             dw_seed: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            dw_seed_raw: buffer[4..8].to_vec(),
         }
     }
 }
@@ -27732,13 +32214,21 @@ impl Debug for PacketAcRequestSecondPassword {
 pub struct PacketCaLoginHan {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub version: u32,
+    pub version_raw: Vec<u8>,
     pub id: String,
+    pub id_raw: Vec<u8>,
     pub passwd: String,
+    pub passwd_raw: Vec<u8>,
     pub clienttype: char,
+    pub clienttype_raw: Vec<u8>,
     pub m_sz_ip: String,
+    pub m_sz_ip_raw: Vec<u8>,
     pub m_sz_mac_addr: String,
+    pub m_sz_mac_addr_raw: Vec<u8>,
     pub is_han_game_user: char,
+    pub is_han_game_user_raw: Vec<u8>,
 }
 
 impl PacketCaLoginHan {
@@ -27746,13 +32236,21 @@ impl PacketCaLoginHan {
         PacketCaLoginHan {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             version: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            version_raw: buffer[2..6].to_vec(),
             id: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            id_raw: buffer[6..30].to_vec(),
             passwd: String::from_utf8_lossy(&buffer[30..54]).to_string(),
+            passwd_raw: buffer[30..54].to_vec(),
             clienttype: buffer[54] as char,
+            clienttype_raw: buffer[54..55].to_vec(),
             m_sz_ip: String::from_utf8_lossy(&buffer[55..71]).to_string(),
+            m_sz_ip_raw: buffer[55..71].to_vec(),
             m_sz_mac_addr: String::from_utf8_lossy(&buffer[71..84]).to_string(),
+            m_sz_mac_addr_raw: buffer[71..84].to_vec(),
             is_han_game_user: buffer[84] as char,
+            is_han_game_user_raw: buffer[84..85].to_vec(),
         }
     }
 }
@@ -27788,9 +32286,13 @@ impl Debug for PacketCaLoginHan {
 pub struct PacketZcAllQuestList {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub quest_count: u32,
+    pub quest_count_raw: Vec<u8>,
     pub quest_list: Vec<PacketZcQuestInfo>,
+    pub quest_list_raw: Vec<u8>,
 }
 
 impl PacketZcAllQuestList {
@@ -27807,9 +32309,13 @@ impl PacketZcAllQuestList {
         PacketZcAllQuestList {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             quest_count: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            quest_count_raw: buffer[4..8].to_vec(),
             quest_list: vec_field,
+            quest_list_raw: buffer[8..13].to_vec(),
         }
     }
 }
@@ -27841,9 +32347,13 @@ impl Debug for PacketZcAllQuestList {
 pub struct PacketZcAllQuestMission {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub count: u32,
+    pub count_raw: Vec<u8>,
     pub quest_mission_list: Vec<PacketZcQuestMissionInfo>,
+    pub quest_mission_list_raw: Vec<u8>,
 }
 
 impl PacketZcAllQuestMission {
@@ -27860,9 +32370,13 @@ impl PacketZcAllQuestMission {
         PacketZcAllQuestMission {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             count: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            count_raw: buffer[4..8].to_vec(),
             quest_mission_list: vec_field,
+            quest_mission_list_raw: buffer[8..112].to_vec(),
         }
     }
 }
@@ -27894,12 +32408,19 @@ impl Debug for PacketZcAllQuestMission {
 pub struct PacketZcAddQuest {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub quest_id: u32,
+    pub quest_id_raw: Vec<u8>,
     pub active: bool,
+    pub active_raw: Vec<u8>,
     pub quest_svr_time: u32,
+    pub quest_svr_time_raw: Vec<u8>,
     pub quest_end_time: u32,
+    pub quest_end_time_raw: Vec<u8>,
     pub count: u16,
+    pub count_raw: Vec<u8>,
     pub hunt: Vec<PacketZcMissionHunt>,
+    pub hunt_raw: Vec<u8>,
 }
 
 impl PacketZcAddQuest {
@@ -27916,12 +32437,19 @@ impl PacketZcAddQuest {
         PacketZcAddQuest {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             quest_id: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            quest_id_raw: buffer[2..6].to_vec(),
             active: buffer[6] == 1,
+            active_raw: buffer[6..7].to_vec(),
             quest_svr_time: u32::from_le_bytes([buffer[7], buffer[8], buffer[9], buffer[10]]),
+            quest_svr_time_raw: buffer[7..11].to_vec(),
             quest_end_time: u32::from_le_bytes([buffer[11], buffer[12], buffer[13], buffer[14]]),
+            quest_end_time_raw: buffer[11..15].to_vec(),
             count: u16::from_le_bytes([buffer[15], buffer[16]]),
+            count_raw: buffer[15..17].to_vec(),
             hunt: vec_field,
+            hunt_raw: buffer[17..47].to_vec(),
         }
     }
 }
@@ -27956,7 +32484,9 @@ impl Debug for PacketZcAddQuest {
 pub struct PacketZcDelQuest {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub quest_id: u32,
+    pub quest_id_raw: Vec<u8>,
 }
 
 impl PacketZcDelQuest {
@@ -27964,7 +32494,9 @@ impl PacketZcDelQuest {
         PacketZcDelQuest {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             quest_id: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            quest_id_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -27994,9 +32526,13 @@ impl Debug for PacketZcDelQuest {
 pub struct PacketZcUpdateMissionHunt {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub count: u16,
+    pub count_raw: Vec<u8>,
     pub mob_hunt_list: Vec<PacketMobHunting>,
+    pub mob_hunt_list_raw: Vec<u8>,
 }
 
 impl PacketZcUpdateMissionHunt {
@@ -28013,9 +32549,13 @@ impl PacketZcUpdateMissionHunt {
         PacketZcUpdateMissionHunt {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             count: u16::from_le_bytes([buffer[4], buffer[5]]),
+            count_raw: buffer[4..6].to_vec(),
             mob_hunt_list: vec_field,
+            mob_hunt_list_raw: buffer[6..18].to_vec(),
         }
     }
 }
@@ -28047,8 +32587,11 @@ impl Debug for PacketZcUpdateMissionHunt {
 pub struct PacketCzActiveQuest {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub quest_id: u32,
+    pub quest_id_raw: Vec<u8>,
     pub active: bool,
+    pub active_raw: Vec<u8>,
 }
 
 impl PacketCzActiveQuest {
@@ -28056,8 +32599,11 @@ impl PacketCzActiveQuest {
         PacketCzActiveQuest {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             quest_id: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            quest_id_raw: buffer[2..6].to_vec(),
             active: buffer[6] == 1,
+            active_raw: buffer[6..7].to_vec(),
         }
     }
 }
@@ -28088,8 +32634,11 @@ impl Debug for PacketCzActiveQuest {
 pub struct PacketZcActiveQuest {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub quest_id: u32,
+    pub quest_id_raw: Vec<u8>,
     pub active: bool,
+    pub active_raw: Vec<u8>,
 }
 
 impl PacketZcActiveQuest {
@@ -28097,8 +32646,11 @@ impl PacketZcActiveQuest {
         PacketZcActiveQuest {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             quest_id: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            quest_id_raw: buffer[2..6].to_vec(),
             active: buffer[6] == 1,
+            active_raw: buffer[6..7].to_vec(),
         }
     }
 }
@@ -28129,14 +32681,23 @@ impl Debug for PacketZcActiveQuest {
 pub struct PacketZcItemPickupParty {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub account_id: u32,
+    pub account_id_raw: Vec<u8>,
     pub itid: u16,
+    pub itid_raw: Vec<u8>,
     pub is_identified: bool,
+    pub is_identified_raw: Vec<u8>,
     pub is_damaged: bool,
+    pub is_damaged_raw: Vec<u8>,
     pub refining_level: char,
+    pub refining_level_raw: Vec<u8>,
     pub slot: EQUIPSLOTINFO,
+    pub slot_raw: Vec<u8>,
     pub location: u16,
+    pub location_raw: Vec<u8>,
     pub type_: char,
+    pub type__raw: Vec<u8>,
 }
 
 impl PacketZcItemPickupParty {
@@ -28144,14 +32705,23 @@ impl PacketZcItemPickupParty {
         PacketZcItemPickupParty {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             account_id: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            account_id_raw: buffer[2..6].to_vec(),
             itid: u16::from_le_bytes([buffer[6], buffer[7]]),
+            itid_raw: buffer[6..8].to_vec(),
             is_identified: buffer[8] == 1,
+            is_identified_raw: buffer[8..9].to_vec(),
             is_damaged: buffer[9] == 1,
+            is_damaged_raw: buffer[9..10].to_vec(),
             refining_level: buffer[10] as char,
+            refining_level_raw: buffer[10..11].to_vec(),
             slot: EQUIPSLOTINFO::from(&buffer[11..19]),
+            slot_raw: buffer[11..19].to_vec(),
             location: u16::from_le_bytes([buffer[19], buffer[20]]),
+            location_raw: buffer[19..21].to_vec(),
             type_: buffer[21] as char,
+            type__raw: buffer[21..22].to_vec(),
         }
     }
 }
@@ -28188,7 +32758,9 @@ impl Debug for PacketZcItemPickupParty {
 pub struct PacketZcShortcutKeyList {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub short_cut_key: Vec<ShortCutKey>,
+    pub short_cut_key_raw: Vec<u8>,
 }
 
 impl PacketZcShortcutKeyList {
@@ -28205,7 +32777,9 @@ impl PacketZcShortcutKeyList {
         PacketZcShortcutKeyList {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             short_cut_key: vec_field,
+            short_cut_key_raw: buffer[2..9].to_vec(),
         }
     }
 }
@@ -28235,8 +32809,11 @@ impl Debug for PacketZcShortcutKeyList {
 pub struct PacketCzShortcutKeyChange {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub index: u16,
+    pub index_raw: Vec<u8>,
     pub short_cut_key: ShortCutKey,
+    pub short_cut_key_raw: Vec<u8>,
 }
 
 impl PacketCzShortcutKeyChange {
@@ -28244,8 +32821,11 @@ impl PacketCzShortcutKeyChange {
         PacketCzShortcutKeyChange {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            index_raw: buffer[2..4].to_vec(),
             short_cut_key: ShortCutKey::from(&buffer[4..buffer.len()]),
+            short_cut_key_raw: buffer[4..buffer.len()].to_vec(),
         }
     }
 }
@@ -28276,8 +32856,11 @@ impl Debug for PacketCzShortcutKeyChange {
 pub struct PacketZcEquipitemDamaged {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub wear_location: u16,
+    pub wear_location_raw: Vec<u8>,
     pub account_id: u32,
+    pub account_id_raw: Vec<u8>,
 }
 
 impl PacketZcEquipitemDamaged {
@@ -28285,8 +32868,11 @@ impl PacketZcEquipitemDamaged {
         PacketZcEquipitemDamaged {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             wear_location: u16::from_le_bytes([buffer[2], buffer[3]]),
+            wear_location_raw: buffer[2..4].to_vec(),
             account_id: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            account_id_raw: buffer[4..8].to_vec(),
         }
     }
 }
@@ -28317,7 +32903,9 @@ impl Debug for PacketZcEquipitemDamaged {
 pub struct PacketZcNotifyPcbangPlayingTime {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub time_minute: u32,
+    pub time_minute_raw: Vec<u8>,
 }
 
 impl PacketZcNotifyPcbangPlayingTime {
@@ -28325,7 +32913,9 @@ impl PacketZcNotifyPcbangPlayingTime {
         PacketZcNotifyPcbangPlayingTime {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             time_minute: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            time_minute_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -28355,9 +32945,13 @@ impl Debug for PacketZcNotifyPcbangPlayingTime {
 pub struct PacketZcSrpacketr2Init {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub protect_factor: u16,
+    pub protect_factor_raw: Vec<u8>,
     pub deform_seed_factor: u32,
+    pub deform_seed_factor_raw: Vec<u8>,
     pub deform_add_factor: u32,
+    pub deform_add_factor_raw: Vec<u8>,
 }
 
 impl PacketZcSrpacketr2Init {
@@ -28365,9 +32959,13 @@ impl PacketZcSrpacketr2Init {
         PacketZcSrpacketr2Init {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             protect_factor: u16::from_le_bytes([buffer[2], buffer[3]]),
+            protect_factor_raw: buffer[2..4].to_vec(),
             deform_seed_factor: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            deform_seed_factor_raw: buffer[4..8].to_vec(),
             deform_add_factor: u32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
+            deform_add_factor_raw: buffer[8..12].to_vec(),
         }
     }
 }
@@ -28399,7 +32997,9 @@ impl Debug for PacketZcSrpacketr2Init {
 pub struct PacketCzSrpacketr2Start {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub protect_factor: u16,
+    pub protect_factor_raw: Vec<u8>,
 }
 
 impl PacketCzSrpacketr2Start {
@@ -28407,7 +33007,9 @@ impl PacketCzSrpacketr2Start {
         PacketCzSrpacketr2Start {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             protect_factor: u16::from_le_bytes([buffer[2], buffer[3]]),
+            protect_factor_raw: buffer[2..4].to_vec(),
         }
     }
 }
@@ -28437,10 +33039,15 @@ impl Debug for PacketCzSrpacketr2Start {
 pub struct PacketZcNpcChat {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub account_id: u32,
+    pub account_id_raw: Vec<u8>,
     pub color: u32,
+    pub color_raw: Vec<u8>,
     pub msg: String,
+    pub msg_raw: Vec<u8>,
 }
 
 impl PacketZcNpcChat {
@@ -28448,10 +33055,15 @@ impl PacketZcNpcChat {
         PacketZcNpcChat {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             account_id: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            account_id_raw: buffer[4..8].to_vec(),
             color: u32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
+            color_raw: buffer[8..12].to_vec(),
             msg: String::from_utf8_lossy(&buffer[12..buffer.len()]).to_string(),
+            msg_raw: buffer[12..buffer.len()].to_vec(),
         }
     }
 }
@@ -28484,9 +33096,13 @@ impl Debug for PacketZcNpcChat {
 pub struct PacketZcFormatstringMsg {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub msg: u16,
+    pub msg_raw: Vec<u8>,
     pub value: String,
+    pub value_raw: Vec<u8>,
 }
 
 impl PacketZcFormatstringMsg {
@@ -28494,9 +33110,13 @@ impl PacketZcFormatstringMsg {
         PacketZcFormatstringMsg {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             msg: u16::from_le_bytes([buffer[4], buffer[5]]),
+            msg_raw: buffer[4..6].to_vec(),
             value: String::from_utf8_lossy(&buffer[6..buffer.len()]).to_string(),
+            value_raw: buffer[6..buffer.len()].to_vec(),
         }
     }
 }
@@ -28528,7 +33148,9 @@ impl Debug for PacketZcFormatstringMsg {
 pub struct PacketCzPartyJoinReq {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub character_name: String,
+    pub character_name_raw: Vec<u8>,
 }
 
 impl PacketCzPartyJoinReq {
@@ -28536,7 +33158,9 @@ impl PacketCzPartyJoinReq {
         PacketCzPartyJoinReq {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             character_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            character_name_raw: buffer[2..26].to_vec(),
         }
     }
 }
@@ -28566,8 +33190,11 @@ impl Debug for PacketCzPartyJoinReq {
 pub struct PacketZcPartyJoinReqAck {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub character_name: String,
+    pub character_name_raw: Vec<u8>,
     pub answer: u32,
+    pub answer_raw: Vec<u8>,
 }
 
 impl PacketZcPartyJoinReqAck {
@@ -28575,8 +33202,11 @@ impl PacketZcPartyJoinReqAck {
         PacketZcPartyJoinReqAck {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             character_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            character_name_raw: buffer[2..26].to_vec(),
             answer: u32::from_le_bytes([buffer[26], buffer[27], buffer[28], buffer[29]]),
+            answer_raw: buffer[26..30].to_vec(),
         }
     }
 }
@@ -28607,8 +33237,11 @@ impl Debug for PacketZcPartyJoinReqAck {
 pub struct PacketZcPartyJoinReq {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub grid: u32,
+    pub grid_raw: Vec<u8>,
     pub group_name: String,
+    pub group_name_raw: Vec<u8>,
 }
 
 impl PacketZcPartyJoinReq {
@@ -28616,8 +33249,11 @@ impl PacketZcPartyJoinReq {
         PacketZcPartyJoinReq {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             grid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            grid_raw: buffer[2..6].to_vec(),
             group_name: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            group_name_raw: buffer[6..30].to_vec(),
         }
     }
 }
@@ -28648,8 +33284,11 @@ impl Debug for PacketZcPartyJoinReq {
 pub struct PacketCzPartyJoinReqAck {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub grid: u32,
+    pub grid_raw: Vec<u8>,
     pub b_accept: bool,
+    pub b_accept_raw: Vec<u8>,
 }
 
 impl PacketCzPartyJoinReqAck {
@@ -28657,8 +33296,11 @@ impl PacketCzPartyJoinReqAck {
         PacketCzPartyJoinReqAck {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             grid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            grid_raw: buffer[2..6].to_vec(),
             b_accept: buffer[6] == 1,
+            b_accept_raw: buffer[6..7].to_vec(),
         }
     }
 }
@@ -28689,7 +33331,9 @@ impl Debug for PacketCzPartyJoinReqAck {
 pub struct PacketCzPartyConfig {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub b_refuse_join_msg: bool,
+    pub b_refuse_join_msg_raw: Vec<u8>,
 }
 
 impl PacketCzPartyConfig {
@@ -28697,7 +33341,9 @@ impl PacketCzPartyConfig {
         PacketCzPartyConfig {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             b_refuse_join_msg: buffer[2] == 1,
+            b_refuse_join_msg_raw: buffer[2..3].to_vec(),
         }
     }
 }
@@ -28727,7 +33373,9 @@ impl Debug for PacketCzPartyConfig {
 pub struct PacketZcPartyConfig {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub b_refuse_join_msg: bool,
+    pub b_refuse_join_msg_raw: Vec<u8>,
 }
 
 impl PacketZcPartyConfig {
@@ -28735,7 +33383,9 @@ impl PacketZcPartyConfig {
         PacketZcPartyConfig {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             b_refuse_join_msg: buffer[2] == 1,
+            b_refuse_join_msg_raw: buffer[2..3].to_vec(),
         }
     }
 }
@@ -28765,7 +33415,9 @@ impl Debug for PacketZcPartyConfig {
 pub struct PacketHcRefuseSelectchar {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub error_code: char,
+    pub error_code_raw: Vec<u8>,
 }
 
 impl PacketHcRefuseSelectchar {
@@ -28773,7 +33425,9 @@ impl PacketHcRefuseSelectchar {
         PacketHcRefuseSelectchar {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             error_code: buffer[2] as char,
+            error_code_raw: buffer[2..3].to_vec(),
         }
     }
 }
@@ -28803,8 +33457,11 @@ impl Debug for PacketHcRefuseSelectchar {
 pub struct PacketZcMemorialdungeonSubscriptionInfo {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub memorial_dungeon_name: String,
+    pub memorial_dungeon_name_raw: Vec<u8>,
     pub priority_order_num: u16,
+    pub priority_order_num_raw: Vec<u8>,
 }
 
 impl PacketZcMemorialdungeonSubscriptionInfo {
@@ -28812,8 +33469,11 @@ impl PacketZcMemorialdungeonSubscriptionInfo {
         PacketZcMemorialdungeonSubscriptionInfo {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             memorial_dungeon_name: String::from_utf8_lossy(&buffer[2..63]).to_string(),
+            memorial_dungeon_name_raw: buffer[2..63].to_vec(),
             priority_order_num: u16::from_le_bytes([buffer[63], buffer[64]]),
+            priority_order_num_raw: buffer[63..65].to_vec(),
         }
     }
 }
@@ -28844,7 +33504,9 @@ impl Debug for PacketZcMemorialdungeonSubscriptionInfo {
 pub struct PacketZcMemorialdungeonSubscriptionNotify {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub priority_order_num: u16,
+    pub priority_order_num_raw: Vec<u8>,
 }
 
 impl PacketZcMemorialdungeonSubscriptionNotify {
@@ -28852,7 +33514,9 @@ impl PacketZcMemorialdungeonSubscriptionNotify {
         PacketZcMemorialdungeonSubscriptionNotify {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             priority_order_num: u16::from_le_bytes([buffer[2], buffer[3]]),
+            priority_order_num_raw: buffer[2..4].to_vec(),
         }
     }
 }
@@ -28882,9 +33546,13 @@ impl Debug for PacketZcMemorialdungeonSubscriptionNotify {
 pub struct PacketZcMemorialdungeonInfo {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub memorial_dungeon_name: String,
+    pub memorial_dungeon_name_raw: Vec<u8>,
     pub destroy_date: u32,
+    pub destroy_date_raw: Vec<u8>,
     pub enter_time_out_date: u32,
+    pub enter_time_out_date_raw: Vec<u8>,
 }
 
 impl PacketZcMemorialdungeonInfo {
@@ -28892,9 +33560,13 @@ impl PacketZcMemorialdungeonInfo {
         PacketZcMemorialdungeonInfo {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             memorial_dungeon_name: String::from_utf8_lossy(&buffer[2..63]).to_string(),
+            memorial_dungeon_name_raw: buffer[2..63].to_vec(),
             destroy_date: u32::from_le_bytes([buffer[63], buffer[64], buffer[65], buffer[66]]),
+            destroy_date_raw: buffer[63..67].to_vec(),
             enter_time_out_date: u32::from_le_bytes([buffer[67], buffer[68], buffer[69], buffer[70]]),
+            enter_time_out_date_raw: buffer[67..71].to_vec(),
         }
     }
 }
@@ -28926,8 +33598,11 @@ impl Debug for PacketZcMemorialdungeonInfo {
 pub struct PacketZcMemorialdungeonNotify {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub type_: u32,
+    pub type__raw: Vec<u8>,
     pub enter_limit_date: u32,
+    pub enter_limit_date_raw: Vec<u8>,
 }
 
 impl PacketZcMemorialdungeonNotify {
@@ -28935,8 +33610,11 @@ impl PacketZcMemorialdungeonNotify {
         PacketZcMemorialdungeonNotify {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             type_: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            type__raw: buffer[2..6].to_vec(),
             enter_limit_date: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            enter_limit_date_raw: buffer[6..10].to_vec(),
         }
     }
 }
@@ -28967,7 +33645,9 @@ impl Debug for PacketZcMemorialdungeonNotify {
 pub struct PacketCzMemorialdungeonCommand {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub command: u32,
+    pub command_raw: Vec<u8>,
 }
 
 impl PacketCzMemorialdungeonCommand {
@@ -28975,7 +33655,9 @@ impl PacketCzMemorialdungeonCommand {
         PacketCzMemorialdungeonCommand {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             command: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            command_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -29005,8 +33687,11 @@ impl Debug for PacketCzMemorialdungeonCommand {
 pub struct PacketZcEquipmentItemlist3 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub item_info: Vec<EquipmentitemExtrainfo301>,
+    pub item_info_raw: Vec<u8>,
 }
 
 impl PacketZcEquipmentItemlist3 {
@@ -29023,8 +33708,11 @@ impl PacketZcEquipmentItemlist3 {
         PacketZcEquipmentItemlist3 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             item_info: vec_field,
+            item_info_raw: buffer[4..32].to_vec(),
         }
     }
 }
@@ -29055,8 +33743,11 @@ impl Debug for PacketZcEquipmentItemlist3 {
 pub struct PacketZcStoreEquipmentItemlist3 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub item_info: Vec<EquipmentitemExtrainfo301>,
+    pub item_info_raw: Vec<u8>,
 }
 
 impl PacketZcStoreEquipmentItemlist3 {
@@ -29073,8 +33764,11 @@ impl PacketZcStoreEquipmentItemlist3 {
         PacketZcStoreEquipmentItemlist3 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             item_info: vec_field,
+            item_info_raw: buffer[4..32].to_vec(),
         }
     }
 }
@@ -29105,8 +33799,11 @@ impl Debug for PacketZcStoreEquipmentItemlist3 {
 pub struct PacketZcCartEquipmentItemlist3 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub item_info: Vec<EquipmentitemExtrainfo301>,
+    pub item_info_raw: Vec<u8>,
 }
 
 impl PacketZcCartEquipmentItemlist3 {
@@ -29123,8 +33820,11 @@ impl PacketZcCartEquipmentItemlist3 {
         PacketZcCartEquipmentItemlist3 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             item_info: vec_field,
+            item_info_raw: buffer[4..32].to_vec(),
         }
     }
 }
@@ -29155,7 +33855,9 @@ impl Debug for PacketZcCartEquipmentItemlist3 {
 pub struct PacketZcNotifyBindOnEquip {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub index: u16,
+    pub index_raw: Vec<u8>,
 }
 
 impl PacketZcNotifyBindOnEquip {
@@ -29163,7 +33865,9 @@ impl PacketZcNotifyBindOnEquip {
         PacketZcNotifyBindOnEquip {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            index_raw: buffer[2..4].to_vec(),
         }
     }
 }
@@ -29193,18 +33897,31 @@ impl Debug for PacketZcNotifyBindOnEquip {
 pub struct PacketZcItemPickupAck3 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub index: u16,
+    pub index_raw: Vec<u8>,
     pub count: u16,
+    pub count_raw: Vec<u8>,
     pub itid: u16,
+    pub itid_raw: Vec<u8>,
     pub is_identified: bool,
+    pub is_identified_raw: Vec<u8>,
     pub is_damaged: bool,
+    pub is_damaged_raw: Vec<u8>,
     pub refining_level: char,
+    pub refining_level_raw: Vec<u8>,
     pub slot: EQUIPSLOTINFO,
+    pub slot_raw: Vec<u8>,
     pub location: u16,
+    pub location_raw: Vec<u8>,
     pub type_: char,
+    pub type__raw: Vec<u8>,
     pub result: char,
+    pub result_raw: Vec<u8>,
     pub hire_expire_date: u32,
+    pub hire_expire_date_raw: Vec<u8>,
     pub bind_on_equip_type: u16,
+    pub bind_on_equip_type_raw: Vec<u8>,
 }
 
 impl PacketZcItemPickupAck3 {
@@ -29212,18 +33929,31 @@ impl PacketZcItemPickupAck3 {
         PacketZcItemPickupAck3 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            index_raw: buffer[2..4].to_vec(),
             count: u16::from_le_bytes([buffer[4], buffer[5]]),
+            count_raw: buffer[4..6].to_vec(),
             itid: u16::from_le_bytes([buffer[6], buffer[7]]),
+            itid_raw: buffer[6..8].to_vec(),
             is_identified: buffer[8] == 1,
+            is_identified_raw: buffer[8..9].to_vec(),
             is_damaged: buffer[9] == 1,
+            is_damaged_raw: buffer[9..10].to_vec(),
             refining_level: buffer[10] as char,
+            refining_level_raw: buffer[10..11].to_vec(),
             slot: EQUIPSLOTINFO::from(&buffer[11..19]),
+            slot_raw: buffer[11..19].to_vec(),
             location: u16::from_le_bytes([buffer[19], buffer[20]]),
+            location_raw: buffer[19..21].to_vec(),
             type_: buffer[21] as char,
+            type__raw: buffer[21..22].to_vec(),
             result: buffer[22] as char,
+            result_raw: buffer[22..23].to_vec(),
             hire_expire_date: u32::from_le_bytes([buffer[23], buffer[24], buffer[25], buffer[26]]),
+            hire_expire_date_raw: buffer[23..27].to_vec(),
             bind_on_equip_type: u16::from_le_bytes([buffer[27], buffer[28]]),
+            bind_on_equip_type_raw: buffer[27..29].to_vec(),
         }
     }
 }
@@ -29264,6 +33994,7 @@ impl Debug for PacketZcItemPickupAck3 {
 pub struct PacketZcIsvrDisconnect {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketZcIsvrDisconnect {
@@ -29271,6 +34002,7 @@ impl PacketZcIsvrDisconnect {
         PacketZcIsvrDisconnect {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -29299,7 +34031,9 @@ impl Debug for PacketZcIsvrDisconnect {
 pub struct PacketCzEquipwinMicroscope {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
 }
 
 impl PacketCzEquipwinMicroscope {
@@ -29307,7 +34041,9 @@ impl PacketCzEquipwinMicroscope {
         PacketCzEquipwinMicroscope {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -29337,17 +34073,29 @@ impl Debug for PacketCzEquipwinMicroscope {
 pub struct PacketZcEquipwinMicroscope {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub character_name: String,
+    pub character_name_raw: Vec<u8>,
     pub job: u16,
+    pub job_raw: Vec<u8>,
     pub head: u16,
+    pub head_raw: Vec<u8>,
     pub accessory: u16,
+    pub accessory_raw: Vec<u8>,
     pub accessory2: u16,
+    pub accessory2_raw: Vec<u8>,
     pub accessory3: u16,
+    pub accessory3_raw: Vec<u8>,
     pub headpalette: u16,
+    pub headpalette_raw: Vec<u8>,
     pub bodypalette: u16,
+    pub bodypalette_raw: Vec<u8>,
     pub sex: char,
+    pub sex_raw: Vec<u8>,
     pub item_info: Vec<EquipmentitemExtrainfo301>,
+    pub item_info_raw: Vec<u8>,
 }
 
 impl PacketZcEquipwinMicroscope {
@@ -29364,17 +34112,29 @@ impl PacketZcEquipwinMicroscope {
         PacketZcEquipwinMicroscope {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             character_name: String::from_utf8_lossy(&buffer[4..28]).to_string(),
+            character_name_raw: buffer[4..28].to_vec(),
             job: u16::from_le_bytes([buffer[28], buffer[29]]),
+            job_raw: buffer[28..30].to_vec(),
             head: u16::from_le_bytes([buffer[30], buffer[31]]),
+            head_raw: buffer[30..32].to_vec(),
             accessory: u16::from_le_bytes([buffer[32], buffer[33]]),
+            accessory_raw: buffer[32..34].to_vec(),
             accessory2: u16::from_le_bytes([buffer[34], buffer[35]]),
+            accessory2_raw: buffer[34..36].to_vec(),
             accessory3: u16::from_le_bytes([buffer[36], buffer[37]]),
+            accessory3_raw: buffer[36..38].to_vec(),
             headpalette: u16::from_le_bytes([buffer[38], buffer[39]]),
+            headpalette_raw: buffer[38..40].to_vec(),
             bodypalette: u16::from_le_bytes([buffer[40], buffer[41]]),
+            bodypalette_raw: buffer[40..42].to_vec(),
             sex: buffer[42] as char,
+            sex_raw: buffer[42..43].to_vec(),
             item_info: vec_field,
+            item_info_raw: buffer[43..71].to_vec(),
         }
     }
 }
@@ -29414,8 +34174,11 @@ impl Debug for PacketZcEquipwinMicroscope {
 pub struct PacketCzConfig {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub config: u32,
+    pub config_raw: Vec<u8>,
     pub value: u32,
+    pub value_raw: Vec<u8>,
 }
 
 impl PacketCzConfig {
@@ -29423,8 +34186,11 @@ impl PacketCzConfig {
         PacketCzConfig {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             config: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            config_raw: buffer[2..6].to_vec(),
             value: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            value_raw: buffer[6..10].to_vec(),
         }
     }
 }
@@ -29455,8 +34221,11 @@ impl Debug for PacketCzConfig {
 pub struct PacketZcConfig {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub config: u32,
+    pub config_raw: Vec<u8>,
     pub value: u32,
+    pub value_raw: Vec<u8>,
 }
 
 impl PacketZcConfig {
@@ -29464,8 +34233,11 @@ impl PacketZcConfig {
         PacketZcConfig {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             config: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            config_raw: buffer[2..6].to_vec(),
             value: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            value_raw: buffer[6..10].to_vec(),
         }
     }
 }
@@ -29496,7 +34268,9 @@ impl Debug for PacketZcConfig {
 pub struct PacketZcConfigNotify {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub b_open_equipment_win: bool,
+    pub b_open_equipment_win_raw: Vec<u8>,
 }
 
 impl PacketZcConfigNotify {
@@ -29504,7 +34278,9 @@ impl PacketZcConfigNotify {
         PacketZcConfigNotify {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             b_open_equipment_win: buffer[2] == 1,
+            b_open_equipment_win_raw: buffer[2..3].to_vec(),
         }
     }
 }
@@ -29534,8 +34310,11 @@ impl Debug for PacketZcConfigNotify {
 pub struct PacketCzBattlefieldChat {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub msg: String,
+    pub msg_raw: Vec<u8>,
 }
 
 impl PacketCzBattlefieldChat {
@@ -29543,8 +34322,11 @@ impl PacketCzBattlefieldChat {
         PacketCzBattlefieldChat {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             msg: String::from_utf8_lossy(&buffer[4..buffer.len()]).to_string(),
+            msg_raw: buffer[4..buffer.len()].to_vec(),
         }
     }
 }
@@ -29575,10 +34357,15 @@ impl Debug for PacketCzBattlefieldChat {
 pub struct PacketZcBattlefieldChat {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub account_id: u32,
+    pub account_id_raw: Vec<u8>,
     pub name: String,
+    pub name_raw: Vec<u8>,
     pub msg: String,
+    pub msg_raw: Vec<u8>,
 }
 
 impl PacketZcBattlefieldChat {
@@ -29586,10 +34373,15 @@ impl PacketZcBattlefieldChat {
         PacketZcBattlefieldChat {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             account_id: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            account_id_raw: buffer[4..8].to_vec(),
             name: String::from_utf8_lossy(&buffer[8..32]).to_string(),
+            name_raw: buffer[8..32].to_vec(),
             msg: String::from_utf8_lossy(&buffer[32..buffer.len()]).to_string(),
+            msg_raw: buffer[32..buffer.len()].to_vec(),
         }
     }
 }
@@ -29622,9 +34414,13 @@ impl Debug for PacketZcBattlefieldChat {
 pub struct PacketZcBattlefieldNotifyCampinfo {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub account_id: u32,
+    pub account_id_raw: Vec<u8>,
     pub name: String,
+    pub name_raw: Vec<u8>,
     pub camp: u16,
+    pub camp_raw: Vec<u8>,
 }
 
 impl PacketZcBattlefieldNotifyCampinfo {
@@ -29632,9 +34428,13 @@ impl PacketZcBattlefieldNotifyCampinfo {
         PacketZcBattlefieldNotifyCampinfo {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             account_id: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            account_id_raw: buffer[2..6].to_vec(),
             name: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            name_raw: buffer[6..30].to_vec(),
             camp: u16::from_le_bytes([buffer[30], buffer[31]]),
+            camp_raw: buffer[30..32].to_vec(),
         }
     }
 }
@@ -29666,8 +34466,11 @@ impl Debug for PacketZcBattlefieldNotifyCampinfo {
 pub struct PacketZcBattlefieldNotifyPoint {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub point_camp_a: u16,
+    pub point_camp_a_raw: Vec<u8>,
     pub point_camp_b: u16,
+    pub point_camp_b_raw: Vec<u8>,
 }
 
 impl PacketZcBattlefieldNotifyPoint {
@@ -29675,8 +34478,11 @@ impl PacketZcBattlefieldNotifyPoint {
         PacketZcBattlefieldNotifyPoint {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             point_camp_a: u16::from_le_bytes([buffer[2], buffer[3]]),
+            point_camp_a_raw: buffer[2..4].to_vec(),
             point_camp_b: u16::from_le_bytes([buffer[4], buffer[5]]),
+            point_camp_b_raw: buffer[4..6].to_vec(),
         }
     }
 }
@@ -29707,11 +34513,17 @@ impl Debug for PacketZcBattlefieldNotifyPoint {
 pub struct PacketZcBattlefieldNotifyPosition {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub account_id: u32,
+    pub account_id_raw: Vec<u8>,
     pub name: String,
+    pub name_raw: Vec<u8>,
     pub job: u16,
+    pub job_raw: Vec<u8>,
     pub x: u16,
+    pub x_raw: Vec<u8>,
     pub y: u16,
+    pub y_raw: Vec<u8>,
 }
 
 impl PacketZcBattlefieldNotifyPosition {
@@ -29719,11 +34531,17 @@ impl PacketZcBattlefieldNotifyPosition {
         PacketZcBattlefieldNotifyPosition {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             account_id: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            account_id_raw: buffer[2..6].to_vec(),
             name: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            name_raw: buffer[6..30].to_vec(),
             job: u16::from_le_bytes([buffer[30], buffer[31]]),
+            job_raw: buffer[30..32].to_vec(),
             x: u16::from_le_bytes([buffer[32], buffer[33]]),
+            x_raw: buffer[32..34].to_vec(),
             y: u16::from_le_bytes([buffer[34], buffer[35]]),
+            y_raw: buffer[34..36].to_vec(),
         }
     }
 }
@@ -29757,10 +34575,15 @@ impl Debug for PacketZcBattlefieldNotifyPosition {
 pub struct PacketZcBattlefieldNotifyHp {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub account_id: u32,
+    pub account_id_raw: Vec<u8>,
     pub name: String,
+    pub name_raw: Vec<u8>,
     pub hp: u16,
+    pub hp_raw: Vec<u8>,
     pub max_hp: u16,
+    pub max_hp_raw: Vec<u8>,
 }
 
 impl PacketZcBattlefieldNotifyHp {
@@ -29768,10 +34591,15 @@ impl PacketZcBattlefieldNotifyHp {
         PacketZcBattlefieldNotifyHp {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             account_id: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            account_id_raw: buffer[2..6].to_vec(),
             name: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            name_raw: buffer[6..30].to_vec(),
             hp: u16::from_le_bytes([buffer[30], buffer[31]]),
+            hp_raw: buffer[30..32].to_vec(),
             max_hp: u16::from_le_bytes([buffer[32], buffer[33]]),
+            max_hp_raw: buffer[32..34].to_vec(),
         }
     }
 }
@@ -29804,15 +34632,25 @@ impl Debug for PacketZcBattlefieldNotifyHp {
 pub struct PacketZcNotifyAct2 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub target_gid: u32,
+    pub target_gid_raw: Vec<u8>,
     pub start_time: u32,
+    pub start_time_raw: Vec<u8>,
     pub attack_mt: u32,
+    pub attack_mt_raw: Vec<u8>,
     pub attacked_mt: u32,
+    pub attacked_mt_raw: Vec<u8>,
     pub damage: u32,
+    pub damage_raw: Vec<u8>,
     pub count: u16,
+    pub count_raw: Vec<u8>,
     pub action: char,
+    pub action_raw: Vec<u8>,
     pub left_damage: u32,
+    pub left_damage_raw: Vec<u8>,
 }
 
 impl PacketZcNotifyAct2 {
@@ -29820,15 +34658,25 @@ impl PacketZcNotifyAct2 {
         PacketZcNotifyAct2 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid_raw: buffer[2..6].to_vec(),
             target_gid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            target_gid_raw: buffer[6..10].to_vec(),
             start_time: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            start_time_raw: buffer[10..14].to_vec(),
             attack_mt: u32::from_le_bytes([buffer[14], buffer[15], buffer[16], buffer[17]]),
+            attack_mt_raw: buffer[14..18].to_vec(),
             attacked_mt: u32::from_le_bytes([buffer[18], buffer[19], buffer[20], buffer[21]]),
+            attacked_mt_raw: buffer[18..22].to_vec(),
             damage: u32::from_le_bytes([buffer[22], buffer[23], buffer[24], buffer[25]]),
+            damage_raw: buffer[22..26].to_vec(),
             count: u16::from_le_bytes([buffer[26], buffer[27]]),
+            count_raw: buffer[26..28].to_vec(),
             action: buffer[28] as char,
+            action_raw: buffer[28..29].to_vec(),
             left_damage: u32::from_le_bytes([buffer[29], buffer[30], buffer[31], buffer[32]]),
+            left_damage_raw: buffer[29..33].to_vec(),
         }
     }
 }
@@ -29866,7 +34714,9 @@ impl Debug for PacketZcNotifyAct2 {
 pub struct PacketCzBotCheck {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub is_bot: u32,
+    pub is_bot_raw: Vec<u8>,
 }
 
 impl PacketCzBotCheck {
@@ -29874,7 +34724,9 @@ impl PacketCzBotCheck {
         PacketCzBotCheck {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             is_bot: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            is_bot_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -29904,9 +34756,13 @@ impl Debug for PacketCzBotCheck {
 pub struct PacketZcMapproperty {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub type_: u16,
+    pub type__raw: Vec<u8>,
     pub map_info_table: u32,
+    pub map_info_table_raw: Vec<u8>,
 }
 
 impl PacketZcMapproperty {
@@ -29914,9 +34770,13 @@ impl PacketZcMapproperty {
         PacketZcMapproperty {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             type_: u16::from_le_bytes([buffer[4], buffer[5]]),
+            type__raw: buffer[4..6].to_vec(),
             map_info_table: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            map_info_table_raw: buffer[6..10].to_vec(),
         }
     }
 }
@@ -29948,8 +34808,11 @@ impl Debug for PacketZcMapproperty {
 pub struct PacketZcNormalItemlist3 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub item_info: Vec<NormalitemExtrainfo3>,
+    pub item_info_raw: Vec<u8>,
 }
 
 impl PacketZcNormalItemlist3 {
@@ -29966,8 +34829,11 @@ impl PacketZcNormalItemlist3 {
         PacketZcNormalItemlist3 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             item_info: vec_field,
+            item_info_raw: buffer[4..26].to_vec(),
         }
     }
 }
@@ -29998,8 +34864,11 @@ impl Debug for PacketZcNormalItemlist3 {
 pub struct PacketZcCartNormalItemlist3 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub item_info: Vec<NormalitemExtrainfo3>,
+    pub item_info_raw: Vec<u8>,
 }
 
 impl PacketZcCartNormalItemlist3 {
@@ -30016,8 +34885,11 @@ impl PacketZcCartNormalItemlist3 {
         PacketZcCartNormalItemlist3 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             item_info: vec_field,
+            item_info_raw: buffer[4..26].to_vec(),
         }
     }
 }
@@ -30048,8 +34920,11 @@ impl Debug for PacketZcCartNormalItemlist3 {
 pub struct PacketZcStoreNormalItemlist3 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub item_info: Vec<NormalitemExtrainfo3>,
+    pub item_info_raw: Vec<u8>,
 }
 
 impl PacketZcStoreNormalItemlist3 {
@@ -30066,8 +34941,11 @@ impl PacketZcStoreNormalItemlist3 {
         PacketZcStoreNormalItemlist3 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             item_info: vec_field,
+            item_info_raw: buffer[4..26].to_vec(),
         }
     }
 }
@@ -30098,11 +34976,17 @@ impl Debug for PacketZcStoreNormalItemlist3 {
 pub struct PacketZcAcceptEnter2 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub start_time: u32,
+    pub start_time_raw: Vec<u8>,
     pub pos_dir: String,
+    pub pos_dir_raw: Vec<u8>,
     pub x_size: char,
+    pub x_size_raw: Vec<u8>,
     pub y_size: char,
+    pub y_size_raw: Vec<u8>,
     pub font: u16,
+    pub font_raw: Vec<u8>,
 }
 
 impl PacketZcAcceptEnter2 {
@@ -30110,11 +34994,17 @@ impl PacketZcAcceptEnter2 {
         PacketZcAcceptEnter2 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             start_time: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            start_time_raw: buffer[2..6].to_vec(),
             pos_dir: String::from_utf8_lossy(&buffer[6..9]).to_string(),
+            pos_dir_raw: buffer[6..9].to_vec(),
             x_size: buffer[9] as char,
+            x_size_raw: buffer[9..10].to_vec(),
             y_size: buffer[10] as char,
+            y_size_raw: buffer[10..11].to_vec(),
             font: u16::from_le_bytes([buffer[11], buffer[12]]),
+            font_raw: buffer[11..13].to_vec(),
         }
     }
 }
@@ -30148,33 +35038,61 @@ impl Debug for PacketZcAcceptEnter2 {
 pub struct PacketZcNotifyMoveentry4 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub objecttype: char,
+    pub objecttype_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub speed: u16,
+    pub speed_raw: Vec<u8>,
     pub body_state: u16,
+    pub body_state_raw: Vec<u8>,
     pub health_state: u16,
+    pub health_state_raw: Vec<u8>,
     pub effect_state: u32,
+    pub effect_state_raw: Vec<u8>,
     pub job: u16,
+    pub job_raw: Vec<u8>,
     pub head: u16,
+    pub head_raw: Vec<u8>,
     pub weapon: u32,
+    pub weapon_raw: Vec<u8>,
     pub accessory: u16,
+    pub accessory_raw: Vec<u8>,
     pub move_start_time: u32,
+    pub move_start_time_raw: Vec<u8>,
     pub accessory2: u16,
+    pub accessory2_raw: Vec<u8>,
     pub accessory3: u16,
+    pub accessory3_raw: Vec<u8>,
     pub headpalette: u16,
+    pub headpalette_raw: Vec<u8>,
     pub bodypalette: u16,
+    pub bodypalette_raw: Vec<u8>,
     pub head_dir: u16,
+    pub head_dir_raw: Vec<u8>,
     pub guid: u32,
+    pub guid_raw: Vec<u8>,
     pub gemblem_ver: u16,
+    pub gemblem_ver_raw: Vec<u8>,
     pub honor: u16,
+    pub honor_raw: Vec<u8>,
     pub virtue: u32,
+    pub virtue_raw: Vec<u8>,
     pub is_pkmode_on: bool,
+    pub is_pkmode_on_raw: Vec<u8>,
     pub sex: char,
+    pub sex_raw: Vec<u8>,
     pub move_data: String,
+    pub move_data_raw: Vec<u8>,
     pub x_size: char,
+    pub x_size_raw: Vec<u8>,
     pub y_size: char,
+    pub y_size_raw: Vec<u8>,
     pub clevel: u16,
+    pub clevel_raw: Vec<u8>,
     pub font: u16,
+    pub font_raw: Vec<u8>,
 }
 
 impl PacketZcNotifyMoveentry4 {
@@ -30182,33 +35100,61 @@ impl PacketZcNotifyMoveentry4 {
         PacketZcNotifyMoveentry4 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             objecttype: buffer[2] as char,
+            objecttype_raw: buffer[2..3].to_vec(),
             gid: u32::from_le_bytes([buffer[3], buffer[4], buffer[5], buffer[6]]),
+            gid_raw: buffer[3..7].to_vec(),
             speed: u16::from_le_bytes([buffer[7], buffer[8]]),
+            speed_raw: buffer[7..9].to_vec(),
             body_state: u16::from_le_bytes([buffer[9], buffer[10]]),
+            body_state_raw: buffer[9..11].to_vec(),
             health_state: u16::from_le_bytes([buffer[11], buffer[12]]),
+            health_state_raw: buffer[11..13].to_vec(),
             effect_state: u32::from_le_bytes([buffer[13], buffer[14], buffer[15], buffer[16]]),
+            effect_state_raw: buffer[13..17].to_vec(),
             job: u16::from_le_bytes([buffer[17], buffer[18]]),
+            job_raw: buffer[17..19].to_vec(),
             head: u16::from_le_bytes([buffer[19], buffer[20]]),
+            head_raw: buffer[19..21].to_vec(),
             weapon: u32::from_le_bytes([buffer[21], buffer[22], buffer[23], buffer[24]]),
+            weapon_raw: buffer[21..25].to_vec(),
             accessory: u16::from_le_bytes([buffer[25], buffer[26]]),
+            accessory_raw: buffer[25..27].to_vec(),
             move_start_time: u32::from_le_bytes([buffer[27], buffer[28], buffer[29], buffer[30]]),
+            move_start_time_raw: buffer[27..31].to_vec(),
             accessory2: u16::from_le_bytes([buffer[31], buffer[32]]),
+            accessory2_raw: buffer[31..33].to_vec(),
             accessory3: u16::from_le_bytes([buffer[33], buffer[34]]),
+            accessory3_raw: buffer[33..35].to_vec(),
             headpalette: u16::from_le_bytes([buffer[35], buffer[36]]),
+            headpalette_raw: buffer[35..37].to_vec(),
             bodypalette: u16::from_le_bytes([buffer[37], buffer[38]]),
+            bodypalette_raw: buffer[37..39].to_vec(),
             head_dir: u16::from_le_bytes([buffer[39], buffer[40]]),
+            head_dir_raw: buffer[39..41].to_vec(),
             guid: u32::from_le_bytes([buffer[41], buffer[42], buffer[43], buffer[44]]),
+            guid_raw: buffer[41..45].to_vec(),
             gemblem_ver: u16::from_le_bytes([buffer[45], buffer[46]]),
+            gemblem_ver_raw: buffer[45..47].to_vec(),
             honor: u16::from_le_bytes([buffer[47], buffer[48]]),
+            honor_raw: buffer[47..49].to_vec(),
             virtue: u32::from_le_bytes([buffer[49], buffer[50], buffer[51], buffer[52]]),
+            virtue_raw: buffer[49..53].to_vec(),
             is_pkmode_on: buffer[53] == 1,
+            is_pkmode_on_raw: buffer[53..54].to_vec(),
             sex: buffer[54] as char,
+            sex_raw: buffer[54..55].to_vec(),
             move_data: String::from_utf8_lossy(&buffer[55..61]).to_string(),
+            move_data_raw: buffer[55..61].to_vec(),
             x_size: buffer[61] as char,
+            x_size_raw: buffer[61..62].to_vec(),
             y_size: buffer[62] as char,
+            y_size_raw: buffer[62..63].to_vec(),
             clevel: u16::from_le_bytes([buffer[63], buffer[64]]),
+            clevel_raw: buffer[63..65].to_vec(),
             font: u16::from_le_bytes([buffer[65], buffer[66]]),
+            font_raw: buffer[65..67].to_vec(),
         }
     }
 }
@@ -30264,31 +35210,57 @@ impl Debug for PacketZcNotifyMoveentry4 {
 pub struct PacketZcNotifyNewentry4 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub speed: u16,
+    pub speed_raw: Vec<u8>,
     pub body_state: u16,
+    pub body_state_raw: Vec<u8>,
     pub health_state: u16,
+    pub health_state_raw: Vec<u8>,
     pub effect_state: u32,
+    pub effect_state_raw: Vec<u8>,
     pub job: u16,
+    pub job_raw: Vec<u8>,
     pub head: u16,
+    pub head_raw: Vec<u8>,
     pub weapon: u32,
+    pub weapon_raw: Vec<u8>,
     pub accessory: u16,
+    pub accessory_raw: Vec<u8>,
     pub accessory2: u16,
+    pub accessory2_raw: Vec<u8>,
     pub accessory3: u16,
+    pub accessory3_raw: Vec<u8>,
     pub headpalette: u16,
+    pub headpalette_raw: Vec<u8>,
     pub bodypalette: u16,
+    pub bodypalette_raw: Vec<u8>,
     pub head_dir: u16,
+    pub head_dir_raw: Vec<u8>,
     pub guid: u32,
+    pub guid_raw: Vec<u8>,
     pub gemblem_ver: u16,
+    pub gemblem_ver_raw: Vec<u8>,
     pub honor: u16,
+    pub honor_raw: Vec<u8>,
     pub virtue: u32,
+    pub virtue_raw: Vec<u8>,
     pub is_pkmode_on: bool,
+    pub is_pkmode_on_raw: Vec<u8>,
     pub sex: char,
+    pub sex_raw: Vec<u8>,
     pub pos_dir: String,
+    pub pos_dir_raw: Vec<u8>,
     pub x_size: char,
+    pub x_size_raw: Vec<u8>,
     pub y_size: char,
+    pub y_size_raw: Vec<u8>,
     pub clevel: u16,
+    pub clevel_raw: Vec<u8>,
     pub font: u16,
+    pub font_raw: Vec<u8>,
 }
 
 impl PacketZcNotifyNewentry4 {
@@ -30296,31 +35268,57 @@ impl PacketZcNotifyNewentry4 {
         PacketZcNotifyNewentry4 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid_raw: buffer[2..6].to_vec(),
             speed: u16::from_le_bytes([buffer[6], buffer[7]]),
+            speed_raw: buffer[6..8].to_vec(),
             body_state: u16::from_le_bytes([buffer[8], buffer[9]]),
+            body_state_raw: buffer[8..10].to_vec(),
             health_state: u16::from_le_bytes([buffer[10], buffer[11]]),
+            health_state_raw: buffer[10..12].to_vec(),
             effect_state: u32::from_le_bytes([buffer[12], buffer[13], buffer[14], buffer[15]]),
+            effect_state_raw: buffer[12..16].to_vec(),
             job: u16::from_le_bytes([buffer[16], buffer[17]]),
+            job_raw: buffer[16..18].to_vec(),
             head: u16::from_le_bytes([buffer[18], buffer[19]]),
+            head_raw: buffer[18..20].to_vec(),
             weapon: u32::from_le_bytes([buffer[20], buffer[21], buffer[22], buffer[23]]),
+            weapon_raw: buffer[20..24].to_vec(),
             accessory: u16::from_le_bytes([buffer[24], buffer[25]]),
+            accessory_raw: buffer[24..26].to_vec(),
             accessory2: u16::from_le_bytes([buffer[26], buffer[27]]),
+            accessory2_raw: buffer[26..28].to_vec(),
             accessory3: u16::from_le_bytes([buffer[28], buffer[29]]),
+            accessory3_raw: buffer[28..30].to_vec(),
             headpalette: u16::from_le_bytes([buffer[30], buffer[31]]),
+            headpalette_raw: buffer[30..32].to_vec(),
             bodypalette: u16::from_le_bytes([buffer[32], buffer[33]]),
+            bodypalette_raw: buffer[32..34].to_vec(),
             head_dir: u16::from_le_bytes([buffer[34], buffer[35]]),
+            head_dir_raw: buffer[34..36].to_vec(),
             guid: u32::from_le_bytes([buffer[36], buffer[37], buffer[38], buffer[39]]),
+            guid_raw: buffer[36..40].to_vec(),
             gemblem_ver: u16::from_le_bytes([buffer[40], buffer[41]]),
+            gemblem_ver_raw: buffer[40..42].to_vec(),
             honor: u16::from_le_bytes([buffer[42], buffer[43]]),
+            honor_raw: buffer[42..44].to_vec(),
             virtue: u32::from_le_bytes([buffer[44], buffer[45], buffer[46], buffer[47]]),
+            virtue_raw: buffer[44..48].to_vec(),
             is_pkmode_on: buffer[48] == 1,
+            is_pkmode_on_raw: buffer[48..49].to_vec(),
             sex: buffer[49] as char,
+            sex_raw: buffer[49..50].to_vec(),
             pos_dir: String::from_utf8_lossy(&buffer[50..53]).to_string(),
+            pos_dir_raw: buffer[50..53].to_vec(),
             x_size: buffer[53] as char,
+            x_size_raw: buffer[53..54].to_vec(),
             y_size: buffer[54] as char,
+            y_size_raw: buffer[54..55].to_vec(),
             clevel: u16::from_le_bytes([buffer[55], buffer[56]]),
+            clevel_raw: buffer[55..57].to_vec(),
             font: u16::from_le_bytes([buffer[57], buffer[58]]),
+            font_raw: buffer[57..59].to_vec(),
         }
     }
 }
@@ -30374,32 +35372,59 @@ impl Debug for PacketZcNotifyNewentry4 {
 pub struct PacketZcNotifyStandentry4 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub speed: u16,
+    pub speed_raw: Vec<u8>,
     pub body_state: u16,
+    pub body_state_raw: Vec<u8>,
     pub health_state: u16,
+    pub health_state_raw: Vec<u8>,
     pub effect_state: u32,
+    pub effect_state_raw: Vec<u8>,
     pub job: u16,
+    pub job_raw: Vec<u8>,
     pub head: u16,
+    pub head_raw: Vec<u8>,
     pub weapon: u32,
+    pub weapon_raw: Vec<u8>,
     pub accessory: u16,
+    pub accessory_raw: Vec<u8>,
     pub accessory2: u16,
+    pub accessory2_raw: Vec<u8>,
     pub accessory3: u16,
+    pub accessory3_raw: Vec<u8>,
     pub headpalette: u16,
+    pub headpalette_raw: Vec<u8>,
     pub bodypalette: u16,
+    pub bodypalette_raw: Vec<u8>,
     pub head_dir: u16,
+    pub head_dir_raw: Vec<u8>,
     pub guid: u32,
+    pub guid_raw: Vec<u8>,
     pub gemblem_ver: u16,
+    pub gemblem_ver_raw: Vec<u8>,
     pub honor: u16,
+    pub honor_raw: Vec<u8>,
     pub virtue: u32,
+    pub virtue_raw: Vec<u8>,
     pub is_pkmode_on: bool,
+    pub is_pkmode_on_raw: Vec<u8>,
     pub sex: char,
+    pub sex_raw: Vec<u8>,
     pub pos_dir: String,
+    pub pos_dir_raw: Vec<u8>,
     pub x_size: char,
+    pub x_size_raw: Vec<u8>,
     pub y_size: char,
+    pub y_size_raw: Vec<u8>,
     pub state: char,
+    pub state_raw: Vec<u8>,
     pub clevel: u16,
+    pub clevel_raw: Vec<u8>,
     pub font: u16,
+    pub font_raw: Vec<u8>,
 }
 
 impl PacketZcNotifyStandentry4 {
@@ -30407,32 +35432,59 @@ impl PacketZcNotifyStandentry4 {
         PacketZcNotifyStandentry4 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid_raw: buffer[2..6].to_vec(),
             speed: u16::from_le_bytes([buffer[6], buffer[7]]),
+            speed_raw: buffer[6..8].to_vec(),
             body_state: u16::from_le_bytes([buffer[8], buffer[9]]),
+            body_state_raw: buffer[8..10].to_vec(),
             health_state: u16::from_le_bytes([buffer[10], buffer[11]]),
+            health_state_raw: buffer[10..12].to_vec(),
             effect_state: u32::from_le_bytes([buffer[12], buffer[13], buffer[14], buffer[15]]),
+            effect_state_raw: buffer[12..16].to_vec(),
             job: u16::from_le_bytes([buffer[16], buffer[17]]),
+            job_raw: buffer[16..18].to_vec(),
             head: u16::from_le_bytes([buffer[18], buffer[19]]),
+            head_raw: buffer[18..20].to_vec(),
             weapon: u32::from_le_bytes([buffer[20], buffer[21], buffer[22], buffer[23]]),
+            weapon_raw: buffer[20..24].to_vec(),
             accessory: u16::from_le_bytes([buffer[24], buffer[25]]),
+            accessory_raw: buffer[24..26].to_vec(),
             accessory2: u16::from_le_bytes([buffer[26], buffer[27]]),
+            accessory2_raw: buffer[26..28].to_vec(),
             accessory3: u16::from_le_bytes([buffer[28], buffer[29]]),
+            accessory3_raw: buffer[28..30].to_vec(),
             headpalette: u16::from_le_bytes([buffer[30], buffer[31]]),
+            headpalette_raw: buffer[30..32].to_vec(),
             bodypalette: u16::from_le_bytes([buffer[32], buffer[33]]),
+            bodypalette_raw: buffer[32..34].to_vec(),
             head_dir: u16::from_le_bytes([buffer[34], buffer[35]]),
+            head_dir_raw: buffer[34..36].to_vec(),
             guid: u32::from_le_bytes([buffer[36], buffer[37], buffer[38], buffer[39]]),
+            guid_raw: buffer[36..40].to_vec(),
             gemblem_ver: u16::from_le_bytes([buffer[40], buffer[41]]),
+            gemblem_ver_raw: buffer[40..42].to_vec(),
             honor: u16::from_le_bytes([buffer[42], buffer[43]]),
+            honor_raw: buffer[42..44].to_vec(),
             virtue: u32::from_le_bytes([buffer[44], buffer[45], buffer[46], buffer[47]]),
+            virtue_raw: buffer[44..48].to_vec(),
             is_pkmode_on: buffer[48] == 1,
+            is_pkmode_on_raw: buffer[48..49].to_vec(),
             sex: buffer[49] as char,
+            sex_raw: buffer[49..50].to_vec(),
             pos_dir: String::from_utf8_lossy(&buffer[50..53]).to_string(),
+            pos_dir_raw: buffer[50..53].to_vec(),
             x_size: buffer[53] as char,
+            x_size_raw: buffer[53..54].to_vec(),
             y_size: buffer[54] as char,
+            y_size_raw: buffer[54..55].to_vec(),
             state: buffer[55] as char,
+            state_raw: buffer[55..56].to_vec(),
             clevel: u16::from_le_bytes([buffer[56], buffer[57]]),
+            clevel_raw: buffer[56..58].to_vec(),
             font: u16::from_le_bytes([buffer[58], buffer[59]]),
+            font_raw: buffer[58..60].to_vec(),
         }
     }
 }
@@ -30487,8 +35539,11 @@ impl Debug for PacketZcNotifyStandentry4 {
 pub struct PacketZcNotifyFont {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub font: u16,
+    pub font_raw: Vec<u8>,
 }
 
 impl PacketZcNotifyFont {
@@ -30496,8 +35551,11 @@ impl PacketZcNotifyFont {
         PacketZcNotifyFont {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             font: u16::from_le_bytes([buffer[6], buffer[7]]),
+            font_raw: buffer[6..8].to_vec(),
         }
     }
 }
@@ -30528,8 +35586,11 @@ impl Debug for PacketZcNotifyFont {
 pub struct PacketZcProgress {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub color: u32,
+    pub color_raw: Vec<u8>,
     pub time: u32,
+    pub time_raw: Vec<u8>,
 }
 
 impl PacketZcProgress {
@@ -30537,8 +35598,11 @@ impl PacketZcProgress {
         PacketZcProgress {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             color: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            color_raw: buffer[2..6].to_vec(),
             time: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            time_raw: buffer[6..10].to_vec(),
         }
     }
 }
@@ -30569,6 +35633,7 @@ impl Debug for PacketZcProgress {
 pub struct PacketCzProgress {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketCzProgress {
@@ -30576,6 +35641,7 @@ impl PacketCzProgress {
         PacketCzProgress {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -30604,6 +35670,7 @@ impl Debug for PacketCzProgress {
 pub struct PacketZcProgressCancel {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketZcProgressCancel {
@@ -30611,6 +35678,7 @@ impl PacketZcProgressCancel {
         PacketZcProgressCancel {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -30639,6 +35707,7 @@ impl Debug for PacketZcProgressCancel {
 pub struct PacketCzOpenSimpleCashshopItemlist {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketCzOpenSimpleCashshopItemlist {
@@ -30646,6 +35715,7 @@ impl PacketCzOpenSimpleCashshopItemlist {
         PacketCzOpenSimpleCashshopItemlist {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -30674,13 +35744,21 @@ impl Debug for PacketCzOpenSimpleCashshopItemlist {
 pub struct PacketZcSimpleCashshopPointItemlist {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub cash_point: u32,
+    pub cash_point_raw: Vec<u8>,
     pub md_itemcount: u16,
+    pub md_itemcount_raw: Vec<u8>,
     pub md_item_size: u16,
+    pub md_item_size_raw: Vec<u8>,
     pub best_itemcount: u16,
+    pub best_itemcount_raw: Vec<u8>,
     pub best_itemsize: u16,
+    pub best_itemsize_raw: Vec<u8>,
     pub item_list: Vec<PurchaseItem>,
+    pub item_list_raw: Vec<u8>,
 }
 
 impl PacketZcSimpleCashshopPointItemlist {
@@ -30697,13 +35775,21 @@ impl PacketZcSimpleCashshopPointItemlist {
         PacketZcSimpleCashshopPointItemlist {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             cash_point: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            cash_point_raw: buffer[4..8].to_vec(),
             md_itemcount: u16::from_le_bytes([buffer[8], buffer[9]]),
+            md_itemcount_raw: buffer[8..10].to_vec(),
             md_item_size: u16::from_le_bytes([buffer[10], buffer[11]]),
+            md_item_size_raw: buffer[10..12].to_vec(),
             best_itemcount: u16::from_le_bytes([buffer[12], buffer[13]]),
+            best_itemcount_raw: buffer[12..14].to_vec(),
             best_itemsize: u16::from_le_bytes([buffer[14], buffer[15]]),
+            best_itemsize_raw: buffer[14..16].to_vec(),
             item_list: vec_field,
+            item_list_raw: buffer[16..27].to_vec(),
         }
     }
 }
@@ -30739,6 +35825,7 @@ impl Debug for PacketZcSimpleCashshopPointItemlist {
 pub struct PacketCzCloseWindow {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketCzCloseWindow {
@@ -30746,6 +35833,7 @@ impl PacketCzCloseWindow {
         PacketCzCloseWindow {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -30774,7 +35862,9 @@ impl Debug for PacketCzCloseWindow {
 pub struct PacketAhcGameGuard {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub auth_data: u32,
+    pub auth_data_raw: Vec<u8>,
 }
 
 impl PacketAhcGameGuard {
@@ -30782,7 +35872,9 @@ impl PacketAhcGameGuard {
         PacketAhcGameGuard {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             auth_data: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            auth_data_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -30812,7 +35904,9 @@ impl Debug for PacketAhcGameGuard {
 pub struct PacketCahAckGameGuard {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub auth_data: u32,
+    pub auth_data_raw: Vec<u8>,
 }
 
 impl PacketCahAckGameGuard {
@@ -30820,7 +35914,9 @@ impl PacketCahAckGameGuard {
         PacketCahAckGameGuard {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             auth_data: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            auth_data_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -30850,11 +35946,17 @@ impl Debug for PacketCahAckGameGuard {
 pub struct PacketCzEnter2 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub auth_code: u32,
+    pub auth_code_raw: Vec<u8>,
     pub client_time: u32,
+    pub client_time_raw: Vec<u8>,
     pub sex: char,
+    pub sex_raw: Vec<u8>,
 }
 
 impl PacketCzEnter2 {
@@ -30862,11 +35964,17 @@ impl PacketCzEnter2 {
         PacketCzEnter2 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             gid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            gid_raw: buffer[6..10].to_vec(),
             auth_code: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            auth_code_raw: buffer[10..14].to_vec(),
             client_time: u32::from_le_bytes([buffer[14], buffer[15], buffer[16], buffer[17]]),
+            client_time_raw: buffer[14..18].to_vec(),
             sex: buffer[18] as char,
+            sex_raw: buffer[18..19].to_vec(),
         }
     }
 }
@@ -30900,8 +36008,11 @@ impl Debug for PacketCzEnter2 {
 pub struct PacketCzRequestAct2 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub target_gid: u32,
+    pub target_gid_raw: Vec<u8>,
     pub action: char,
+    pub action_raw: Vec<u8>,
 }
 
 impl PacketCzRequestAct2 {
@@ -30909,8 +36020,11 @@ impl PacketCzRequestAct2 {
         PacketCzRequestAct2 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             target_gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            target_gid_raw: buffer[2..6].to_vec(),
             action: buffer[6] as char,
+            action_raw: buffer[6..7].to_vec(),
         }
     }
 }
@@ -30941,9 +36055,13 @@ impl Debug for PacketCzRequestAct2 {
 pub struct PacketCzUseSkill2 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub selected_level: u16,
+    pub selected_level_raw: Vec<u8>,
     pub skid: u16,
+    pub skid_raw: Vec<u8>,
     pub target_id: u32,
+    pub target_id_raw: Vec<u8>,
 }
 
 impl PacketCzUseSkill2 {
@@ -30951,9 +36069,13 @@ impl PacketCzUseSkill2 {
         PacketCzUseSkill2 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             selected_level: u16::from_le_bytes([buffer[2], buffer[3]]),
+            selected_level_raw: buffer[2..4].to_vec(),
             skid: u16::from_le_bytes([buffer[4], buffer[5]]),
+            skid_raw: buffer[4..6].to_vec(),
             target_id: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            target_id_raw: buffer[6..10].to_vec(),
         }
     }
 }
@@ -30985,8 +36107,11 @@ impl Debug for PacketCzUseSkill2 {
 pub struct PacketCzUseItem2 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub index: u16,
+    pub index_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
 }
 
 impl PacketCzUseItem2 {
@@ -30994,8 +36119,11 @@ impl PacketCzUseItem2 {
         PacketCzUseItem2 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            index_raw: buffer[2..4].to_vec(),
             aid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            aid_raw: buffer[4..8].to_vec(),
         }
     }
 }
@@ -31026,8 +36154,11 @@ impl Debug for PacketCzUseItem2 {
 pub struct PacketZcSkillPostdelay {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub skid: u16,
+    pub skid_raw: Vec<u8>,
     pub delay_tm: u32,
+    pub delay_tm_raw: Vec<u8>,
 }
 
 impl PacketZcSkillPostdelay {
@@ -31035,8 +36166,11 @@ impl PacketZcSkillPostdelay {
         PacketZcSkillPostdelay {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             skid: u16::from_le_bytes([buffer[2], buffer[3]]),
+            skid_raw: buffer[2..4].to_vec(),
             delay_tm: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            delay_tm_raw: buffer[4..8].to_vec(),
         }
     }
 }
@@ -31067,8 +36201,11 @@ impl Debug for PacketZcSkillPostdelay {
 pub struct PacketZcSkillPostdelayList {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub delay_list: Vec<SkillPostdelay>,
+    pub delay_list_raw: Vec<u8>,
 }
 
 impl PacketZcSkillPostdelayList {
@@ -31085,8 +36222,11 @@ impl PacketZcSkillPostdelayList {
         PacketZcSkillPostdelayList {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             delay_list: vec_field,
+            delay_list_raw: buffer[4..10].to_vec(),
         }
     }
 }
@@ -31117,11 +36257,17 @@ impl Debug for PacketZcSkillPostdelayList {
 pub struct PacketZcMsgStateChange2 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub index: u16,
+    pub index_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub state: bool,
+    pub state_raw: Vec<u8>,
     pub remain_ms: u32,
+    pub remain_ms_raw: Vec<u8>,
     pub val: u32,
+    pub val_raw: Vec<u8>,
 }
 
 impl PacketZcMsgStateChange2 {
@@ -31129,11 +36275,17 @@ impl PacketZcMsgStateChange2 {
         PacketZcMsgStateChange2 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            index_raw: buffer[2..4].to_vec(),
             aid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            aid_raw: buffer[4..8].to_vec(),
             state: buffer[8] == 1,
+            state_raw: buffer[8..9].to_vec(),
             remain_ms: u32::from_le_bytes([buffer[9], buffer[10], buffer[11], buffer[12]]),
+            remain_ms_raw: buffer[9..13].to_vec(),
             val: u32::from_le_bytes([buffer[13], buffer[14], buffer[15], buffer[16]]),
+            val_raw: buffer[13..17].to_vec(),
         }
     }
 }
@@ -31167,9 +36319,13 @@ impl Debug for PacketZcMsgStateChange2 {
 pub struct PacketZcMillenniumshield {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub num: u16,
+    pub num_raw: Vec<u8>,
     pub state: u16,
+    pub state_raw: Vec<u8>,
 }
 
 impl PacketZcMillenniumshield {
@@ -31177,9 +36333,13 @@ impl PacketZcMillenniumshield {
         PacketZcMillenniumshield {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             num: u16::from_le_bytes([buffer[6], buffer[7]]),
+            num_raw: buffer[6..8].to_vec(),
             state: u16::from_le_bytes([buffer[8], buffer[9]]),
+            state_raw: buffer[8..10].to_vec(),
         }
     }
 }
@@ -31211,7 +36371,9 @@ impl Debug for PacketZcMillenniumshield {
 pub struct PacketZcSkillinfoDelete {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub skid: u16,
+    pub skid_raw: Vec<u8>,
 }
 
 impl PacketZcSkillinfoDelete {
@@ -31219,7 +36381,9 @@ impl PacketZcSkillinfoDelete {
         PacketZcSkillinfoDelete {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             skid: u16::from_le_bytes([buffer[2], buffer[3]]),
+            skid_raw: buffer[2..4].to_vec(),
         }
     }
 }
@@ -31249,9 +36413,13 @@ impl Debug for PacketZcSkillinfoDelete {
 pub struct PacketZcSkillSelectRequest {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub why: u32,
+    pub why_raw: Vec<u8>,
     pub skidlist: u16,
+    pub skidlist_raw: Vec<u8>,
 }
 
 impl PacketZcSkillSelectRequest {
@@ -31259,9 +36427,13 @@ impl PacketZcSkillSelectRequest {
         PacketZcSkillSelectRequest {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             why: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            why_raw: buffer[4..8].to_vec(),
             skidlist: u16::from_le_bytes([buffer[8], buffer[9]]),
+            skidlist_raw: buffer[8..10].to_vec(),
         }
     }
 }
@@ -31293,8 +36465,11 @@ impl Debug for PacketZcSkillSelectRequest {
 pub struct PacketCzSkillSelectResponse {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub why: u32,
+    pub why_raw: Vec<u8>,
     pub skid: u16,
+    pub skid_raw: Vec<u8>,
 }
 
 impl PacketCzSkillSelectResponse {
@@ -31302,8 +36477,11 @@ impl PacketCzSkillSelectResponse {
         PacketCzSkillSelectResponse {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             why: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            why_raw: buffer[2..6].to_vec(),
             skid: u16::from_le_bytes([buffer[6], buffer[7]]),
+            skid_raw: buffer[6..8].to_vec(),
         }
     }
 }
@@ -31334,9 +36512,13 @@ impl Debug for PacketCzSkillSelectResponse {
 pub struct PacketZcSimpleCashPointItemlist {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub cash_point: u32,
+    pub cash_point_raw: Vec<u8>,
     pub item_list: Vec<PurchaseItem>,
+    pub item_list_raw: Vec<u8>,
 }
 
 impl PacketZcSimpleCashPointItemlist {
@@ -31353,9 +36535,13 @@ impl PacketZcSimpleCashPointItemlist {
         PacketZcSimpleCashPointItemlist {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             cash_point: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            cash_point_raw: buffer[4..8].to_vec(),
             item_list: vec_field,
+            item_list_raw: buffer[8..19].to_vec(),
         }
     }
 }
@@ -31387,8 +36573,11 @@ impl Debug for PacketZcSimpleCashPointItemlist {
 pub struct PacketCzSimpleBuyCashPointItem {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub itid: u16,
+    pub itid_raw: Vec<u8>,
     pub count: u16,
+    pub count_raw: Vec<u8>,
 }
 
 impl PacketCzSimpleBuyCashPointItem {
@@ -31396,8 +36585,11 @@ impl PacketCzSimpleBuyCashPointItem {
         PacketCzSimpleBuyCashPointItem {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             itid: u16::from_le_bytes([buffer[2], buffer[3]]),
+            itid_raw: buffer[2..4].to_vec(),
             count: u16::from_le_bytes([buffer[4], buffer[5]]),
+            count_raw: buffer[4..6].to_vec(),
         }
     }
 }
@@ -31428,11 +36620,17 @@ impl Debug for PacketCzSimpleBuyCashPointItem {
 pub struct PacketZcQuestNotifyEffect {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub npc_id: u32,
+    pub npc_id_raw: Vec<u8>,
     pub x_pos: u16,
+    pub x_pos_raw: Vec<u8>,
     pub y_pos: u16,
+    pub y_pos_raw: Vec<u8>,
     pub effect: u16,
+    pub effect_raw: Vec<u8>,
     pub type_: u16,
+    pub type__raw: Vec<u8>,
 }
 
 impl PacketZcQuestNotifyEffect {
@@ -31440,11 +36638,17 @@ impl PacketZcQuestNotifyEffect {
         PacketZcQuestNotifyEffect {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             npc_id: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            npc_id_raw: buffer[2..6].to_vec(),
             x_pos: u16::from_le_bytes([buffer[6], buffer[7]]),
+            x_pos_raw: buffer[6..8].to_vec(),
             y_pos: u16::from_le_bytes([buffer[8], buffer[9]]),
+            y_pos_raw: buffer[8..10].to_vec(),
             effect: u16::from_le_bytes([buffer[10], buffer[11]]),
+            effect_raw: buffer[10..12].to_vec(),
             type_: u16::from_le_bytes([buffer[12], buffer[13]]),
+            type__raw: buffer[12..14].to_vec(),
         }
     }
 }
@@ -31478,6 +36682,7 @@ impl Debug for PacketZcQuestNotifyEffect {
 pub struct PacketCzBlockingPlayCancel {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketCzBlockingPlayCancel {
@@ -31485,6 +36690,7 @@ impl PacketCzBlockingPlayCancel {
         PacketCzBlockingPlayCancel {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -31513,8 +36719,11 @@ impl Debug for PacketCzBlockingPlayCancel {
 pub struct PacketHcCharacterList {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub character_list: Vec<CharacterList>,
+    pub character_list_raw: Vec<u8>,
 }
 
 impl PacketHcCharacterList {
@@ -31531,8 +36740,11 @@ impl PacketHcCharacterList {
         PacketHcCharacterList {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             character_list: vec_field,
+            character_list_raw: buffer[4..9].to_vec(),
         }
     }
 }
@@ -31563,7 +36775,9 @@ impl Debug for PacketHcCharacterList {
 pub struct PacketZcHackshErrorMsg {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub error_id: u16,
+    pub error_id_raw: Vec<u8>,
 }
 
 impl PacketZcHackshErrorMsg {
@@ -31571,7 +36785,9 @@ impl PacketZcHackshErrorMsg {
         PacketZcHackshErrorMsg {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             error_id: u16::from_le_bytes([buffer[2], buffer[3]]),
+            error_id_raw: buffer[2..4].to_vec(),
         }
     }
 }
@@ -31601,7 +36817,9 @@ impl Debug for PacketZcHackshErrorMsg {
 pub struct PacketCzClientVersion {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub client_ver: u32,
+    pub client_ver_raw: Vec<u8>,
 }
 
 impl PacketCzClientVersion {
@@ -31609,7 +36827,9 @@ impl PacketCzClientVersion {
         PacketCzClientVersion {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             client_ver: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            client_ver_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -31639,6 +36859,7 @@ impl Debug for PacketCzClientVersion {
 pub struct PacketCzCloseSimplecashShop {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketCzCloseSimplecashShop {
@@ -31646,6 +36867,7 @@ impl PacketCzCloseSimplecashShop {
         PacketCzCloseSimplecashShop {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -31674,8 +36896,11 @@ impl Debug for PacketCzCloseSimplecashShop {
 pub struct PacketZcEsResult {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub es_no: u16,
+    pub es_no_raw: Vec<u8>,
     pub es_msg: u16,
+    pub es_msg_raw: Vec<u8>,
 }
 
 impl PacketZcEsResult {
@@ -31683,8 +36908,11 @@ impl PacketZcEsResult {
         PacketZcEsResult {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             es_no: u16::from_le_bytes([buffer[2], buffer[3]]),
+            es_no_raw: buffer[2..4].to_vec(),
             es_msg: u16::from_le_bytes([buffer[4], buffer[5]]),
+            es_msg_raw: buffer[4..6].to_vec(),
         }
     }
 }
@@ -31715,6 +36943,7 @@ impl Debug for PacketZcEsResult {
 pub struct PacketCzEsGetList {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketCzEsGetList {
@@ -31722,6 +36951,7 @@ impl PacketCzEsGetList {
         PacketCzEsGetList {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -31750,8 +36980,11 @@ impl Debug for PacketCzEsGetList {
 pub struct PacketZcEsList {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub count: u16,
+    pub count_raw: Vec<u8>,
 }
 
 impl PacketZcEsList {
@@ -31759,8 +36992,11 @@ impl PacketZcEsList {
         PacketZcEsList {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             count: u16::from_le_bytes([buffer[4], buffer[5]]),
+            count_raw: buffer[4..6].to_vec(),
         }
     }
 }
@@ -31791,7 +37027,9 @@ impl Debug for PacketZcEsList {
 pub struct PacketCzEsChoose {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub es_no: u16,
+    pub es_no_raw: Vec<u8>,
 }
 
 impl PacketCzEsChoose {
@@ -31799,7 +37037,9 @@ impl PacketCzEsChoose {
         PacketCzEsChoose {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             es_no: u16::from_le_bytes([buffer[2], buffer[3]]),
+            es_no_raw: buffer[2..4].to_vec(),
         }
     }
 }
@@ -31829,7 +37069,9 @@ impl Debug for PacketCzEsChoose {
 pub struct PacketCzEsCancel {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub es_no: u16,
+    pub es_no_raw: Vec<u8>,
 }
 
 impl PacketCzEsCancel {
@@ -31837,7 +37079,9 @@ impl PacketCzEsCancel {
         PacketCzEsCancel {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             es_no: u16::from_le_bytes([buffer[2], buffer[3]]),
+            es_no_raw: buffer[2..4].to_vec(),
         }
     }
 }
@@ -31867,7 +37111,9 @@ impl Debug for PacketCzEsCancel {
 pub struct PacketZcEsReady {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub es_no: u16,
+    pub es_no_raw: Vec<u8>,
 }
 
 impl PacketZcEsReady {
@@ -31875,7 +37121,9 @@ impl PacketZcEsReady {
         PacketZcEsReady {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             es_no: u16::from_le_bytes([buffer[2], buffer[3]]),
+            es_no_raw: buffer[2..4].to_vec(),
         }
     }
 }
@@ -31905,7 +37153,9 @@ impl Debug for PacketZcEsReady {
 pub struct PacketZcEsGoto {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub es_no: u16,
+    pub es_no_raw: Vec<u8>,
 }
 
 impl PacketZcEsGoto {
@@ -31913,7 +37163,9 @@ impl PacketZcEsGoto {
         PacketZcEsGoto {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             es_no: u16::from_le_bytes([buffer[2], buffer[3]]),
+            es_no_raw: buffer[2..4].to_vec(),
         }
     }
 }
@@ -31943,9 +37195,13 @@ impl Debug for PacketZcEsGoto {
 pub struct PacketCzGroupinfoChangeV2 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub exp_option: u32,
+    pub exp_option_raw: Vec<u8>,
     pub item_pickup_rule: char,
+    pub item_pickup_rule_raw: Vec<u8>,
     pub item_division_rule: char,
+    pub item_division_rule_raw: Vec<u8>,
 }
 
 impl PacketCzGroupinfoChangeV2 {
@@ -31953,9 +37209,13 @@ impl PacketCzGroupinfoChangeV2 {
         PacketCzGroupinfoChangeV2 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             exp_option: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            exp_option_raw: buffer[2..6].to_vec(),
             item_pickup_rule: buffer[6] as char,
+            item_pickup_rule_raw: buffer[6..7].to_vec(),
             item_division_rule: buffer[7] as char,
+            item_division_rule_raw: buffer[7..8].to_vec(),
         }
     }
 }
@@ -31987,9 +37247,13 @@ impl Debug for PacketCzGroupinfoChangeV2 {
 pub struct PacketZcReqGroupinfoChangeV2 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub exp_option: u32,
+    pub exp_option_raw: Vec<u8>,
     pub item_pickup_rule: char,
+    pub item_pickup_rule_raw: Vec<u8>,
     pub item_division_rule: char,
+    pub item_division_rule_raw: Vec<u8>,
 }
 
 impl PacketZcReqGroupinfoChangeV2 {
@@ -31997,9 +37261,13 @@ impl PacketZcReqGroupinfoChangeV2 {
         PacketZcReqGroupinfoChangeV2 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             exp_option: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            exp_option_raw: buffer[2..6].to_vec(),
             item_pickup_rule: buffer[6] as char,
+            item_pickup_rule_raw: buffer[6..7].to_vec(),
             item_division_rule: buffer[7] as char,
+            item_division_rule_raw: buffer[7..8].to_vec(),
         }
     }
 }
@@ -32031,7 +37299,9 @@ impl Debug for PacketZcReqGroupinfoChangeV2 {
 pub struct PacketZcShortcutKeyListV2 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub short_cut_key: Vec<ShortCutKey>,
+    pub short_cut_key_raw: Vec<u8>,
 }
 
 impl PacketZcShortcutKeyListV2 {
@@ -32048,7 +37318,9 @@ impl PacketZcShortcutKeyListV2 {
         PacketZcShortcutKeyListV2 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             short_cut_key: vec_field,
+            short_cut_key_raw: buffer[2..9].to_vec(),
         }
     }
 }
@@ -32078,7 +37350,9 @@ impl Debug for PacketZcShortcutKeyListV2 {
 pub struct PacketCzChangeGroupMaster {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
 }
 
 impl PacketCzChangeGroupMaster {
@@ -32086,7 +37360,9 @@ impl PacketCzChangeGroupMaster {
         PacketCzChangeGroupMaster {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -32116,8 +37392,11 @@ impl Debug for PacketCzChangeGroupMaster {
 pub struct PacketZcHoParChange {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub var: u16,
+    pub var_raw: Vec<u8>,
     pub value: u32,
+    pub value_raw: Vec<u8>,
 }
 
 impl PacketZcHoParChange {
@@ -32125,8 +37404,11 @@ impl PacketZcHoParChange {
         PacketZcHoParChange {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             var: u16::from_le_bytes([buffer[2], buffer[3]]),
+            var_raw: buffer[2..4].to_vec(),
             value: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            value_raw: buffer[4..8].to_vec(),
         }
     }
 }
@@ -32157,7 +37439,9 @@ impl Debug for PacketZcHoParChange {
 pub struct PacketCzSeekParty {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub option: u32,
+    pub option_raw: Vec<u8>,
 }
 
 impl PacketCzSeekParty {
@@ -32165,7 +37449,9 @@ impl PacketCzSeekParty {
         PacketCzSeekParty {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             option: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            option_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -32195,11 +37481,17 @@ impl Debug for PacketCzSeekParty {
 pub struct PacketZcSeekParty {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub name: String,
+    pub name_raw: Vec<u8>,
     pub job: u32,
+    pub job_raw: Vec<u8>,
     pub level: u32,
+    pub level_raw: Vec<u8>,
     pub map_name: String,
+    pub map_name_raw: Vec<u8>,
     pub option: u32,
+    pub option_raw: Vec<u8>,
 }
 
 impl PacketZcSeekParty {
@@ -32207,11 +37499,17 @@ impl PacketZcSeekParty {
         PacketZcSeekParty {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            name_raw: buffer[2..26].to_vec(),
             job: u32::from_le_bytes([buffer[26], buffer[27], buffer[28], buffer[29]]),
+            job_raw: buffer[26..30].to_vec(),
             level: u32::from_le_bytes([buffer[30], buffer[31], buffer[32], buffer[33]]),
+            level_raw: buffer[30..34].to_vec(),
             map_name: String::from_utf8_lossy(&buffer[34..50]).to_string(),
+            map_name_raw: buffer[34..50].to_vec(),
             option: u32::from_le_bytes([buffer[50], buffer[51], buffer[52], buffer[53]]),
+            option_raw: buffer[50..54].to_vec(),
         }
     }
 }
@@ -32245,10 +37543,15 @@ impl Debug for PacketZcSeekParty {
 pub struct PacketCzSeekPartyMember {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub job: u32,
+    pub job_raw: Vec<u8>,
     pub level: u32,
+    pub level_raw: Vec<u8>,
     pub map_name: String,
+    pub map_name_raw: Vec<u8>,
     pub option: u32,
+    pub option_raw: Vec<u8>,
 }
 
 impl PacketCzSeekPartyMember {
@@ -32256,10 +37559,15 @@ impl PacketCzSeekPartyMember {
         PacketCzSeekPartyMember {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             job: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            job_raw: buffer[2..6].to_vec(),
             level: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            level_raw: buffer[6..10].to_vec(),
             map_name: String::from_utf8_lossy(&buffer[10..26]).to_string(),
+            map_name_raw: buffer[10..26].to_vec(),
             option: u32::from_le_bytes([buffer[26], buffer[27], buffer[28], buffer[29]]),
+            option_raw: buffer[26..30].to_vec(),
         }
     }
 }
@@ -32292,11 +37600,17 @@ impl Debug for PacketCzSeekPartyMember {
 pub struct PacketZcSeekPartyMember {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub name: String,
+    pub name_raw: Vec<u8>,
     pub job: u32,
+    pub job_raw: Vec<u8>,
     pub level: u32,
+    pub level_raw: Vec<u8>,
     pub map_name: String,
+    pub map_name_raw: Vec<u8>,
     pub option: u32,
+    pub option_raw: Vec<u8>,
 }
 
 impl PacketZcSeekPartyMember {
@@ -32304,11 +37618,17 @@ impl PacketZcSeekPartyMember {
         PacketZcSeekPartyMember {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            name_raw: buffer[2..26].to_vec(),
             job: u32::from_le_bytes([buffer[26], buffer[27], buffer[28], buffer[29]]),
+            job_raw: buffer[26..30].to_vec(),
             level: u32::from_le_bytes([buffer[30], buffer[31], buffer[32], buffer[33]]),
+            level_raw: buffer[30..34].to_vec(),
             map_name: String::from_utf8_lossy(&buffer[34..50]).to_string(),
+            map_name_raw: buffer[34..50].to_vec(),
             option: u32::from_le_bytes([buffer[50], buffer[51], buffer[52], buffer[53]]),
+            option_raw: buffer[50..54].to_vec(),
         }
     }
 }
@@ -32342,8 +37662,11 @@ impl Debug for PacketZcSeekPartyMember {
 pub struct PacketZcEsNotiMyinfo {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub es_no: u16,
+    pub es_no_raw: Vec<u8>,
     pub esname: String,
+    pub esname_raw: Vec<u8>,
 }
 
 impl PacketZcEsNotiMyinfo {
@@ -32351,8 +37674,11 @@ impl PacketZcEsNotiMyinfo {
         PacketZcEsNotiMyinfo {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             es_no: u16::from_le_bytes([buffer[2], buffer[3]]),
+            es_no_raw: buffer[2..4].to_vec(),
             esname: String::from_utf8_lossy(&buffer[4..58]).to_string(),
+            esname_raw: buffer[4..58].to_vec(),
         }
     }
 }
@@ -32383,12 +37709,19 @@ impl Debug for PacketZcEsNotiMyinfo {
 pub struct PacketZcSkillinfoUpdate2 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub skid: u16,
+    pub skid_raw: Vec<u8>,
     pub type_: u32,
+    pub type__raw: Vec<u8>,
     pub level: u16,
+    pub level_raw: Vec<u8>,
     pub spcost: u16,
+    pub spcost_raw: Vec<u8>,
     pub attack_range: u16,
+    pub attack_range_raw: Vec<u8>,
     pub upgradable: bool,
+    pub upgradable_raw: Vec<u8>,
 }
 
 impl PacketZcSkillinfoUpdate2 {
@@ -32396,12 +37729,19 @@ impl PacketZcSkillinfoUpdate2 {
         PacketZcSkillinfoUpdate2 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             skid: u16::from_le_bytes([buffer[2], buffer[3]]),
+            skid_raw: buffer[2..4].to_vec(),
             type_: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            type__raw: buffer[4..8].to_vec(),
             level: u16::from_le_bytes([buffer[8], buffer[9]]),
+            level_raw: buffer[8..10].to_vec(),
             spcost: u16::from_le_bytes([buffer[10], buffer[11]]),
+            spcost_raw: buffer[10..12].to_vec(),
             attack_range: u16::from_le_bytes([buffer[12], buffer[13]]),
+            attack_range_raw: buffer[12..14].to_vec(),
             upgradable: buffer[14] == 1,
+            upgradable_raw: buffer[14..15].to_vec(),
         }
     }
 }
@@ -32436,8 +37776,11 @@ impl Debug for PacketZcSkillinfoUpdate2 {
 pub struct PacketZcMsgValue {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub msg: u16,
+    pub msg_raw: Vec<u8>,
     pub value: u32,
+    pub value_raw: Vec<u8>,
 }
 
 impl PacketZcMsgValue {
@@ -32445,8 +37788,11 @@ impl PacketZcMsgValue {
         PacketZcMsgValue {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             msg: u16::from_le_bytes([buffer[2], buffer[3]]),
+            msg_raw: buffer[2..4].to_vec(),
             value: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            value_raw: buffer[4..8].to_vec(),
         }
     }
 }
@@ -32477,7 +37823,9 @@ impl Debug for PacketZcMsgValue {
 pub struct PacketZcItemlistwinOpen {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub type_: u32,
+    pub type__raw: Vec<u8>,
 }
 
 impl PacketZcItemlistwinOpen {
@@ -32485,7 +37833,9 @@ impl PacketZcItemlistwinOpen {
         PacketZcItemlistwinOpen {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             type_: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            type__raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -32515,10 +37865,15 @@ impl Debug for PacketZcItemlistwinOpen {
 pub struct PacketCzItemlistwinRes {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub type_: u32,
+    pub type__raw: Vec<u8>,
     pub action: u32,
+    pub action_raw: Vec<u8>,
     pub material_list: u16,
+    pub material_list_raw: Vec<u8>,
 }
 
 impl PacketCzItemlistwinRes {
@@ -32526,10 +37881,15 @@ impl PacketCzItemlistwinRes {
         PacketCzItemlistwinRes {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             type_: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            type__raw: buffer[4..8].to_vec(),
             action: u32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
+            action_raw: buffer[8..12].to_vec(),
             material_list: u16::from_le_bytes([buffer[12], buffer[13]]),
+            material_list_raw: buffer[12..14].to_vec(),
         }
     }
 }
@@ -32562,9 +37922,13 @@ impl Debug for PacketCzItemlistwinRes {
 pub struct PacketChEnterCheckbot {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub dw_aid: u32,
+    pub dw_aid_raw: Vec<u8>,
     pub sz_string_info: String,
+    pub sz_string_info_raw: Vec<u8>,
 }
 
 impl PacketChEnterCheckbot {
@@ -32572,9 +37936,13 @@ impl PacketChEnterCheckbot {
         PacketChEnterCheckbot {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             dw_aid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            dw_aid_raw: buffer[4..8].to_vec(),
             sz_string_info: String::from_utf8_lossy(&buffer[8..buffer.len()]).to_string(),
+            sz_string_info_raw: buffer[8..buffer.len()].to_vec(),
         }
     }
 }
@@ -32606,8 +37974,11 @@ impl Debug for PacketChEnterCheckbot {
 pub struct PacketZcMsgSkill {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub skid: u16,
+    pub skid_raw: Vec<u8>,
     pub msgid: u32,
+    pub msgid_raw: Vec<u8>,
 }
 
 impl PacketZcMsgSkill {
@@ -32615,8 +37986,11 @@ impl PacketZcMsgSkill {
         PacketZcMsgSkill {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             skid: u16::from_le_bytes([buffer[2], buffer[3]]),
+            skid_raw: buffer[2..4].to_vec(),
             msgid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            msgid_raw: buffer[4..8].to_vec(),
         }
     }
 }
@@ -32647,9 +38021,13 @@ impl Debug for PacketZcMsgSkill {
 pub struct PacketChCheckbot {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub dw_aid: u32,
+    pub dw_aid_raw: Vec<u8>,
     pub sz_string_info: String,
+    pub sz_string_info_raw: Vec<u8>,
 }
 
 impl PacketChCheckbot {
@@ -32657,9 +38035,13 @@ impl PacketChCheckbot {
         PacketChCheckbot {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             dw_aid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            dw_aid_raw: buffer[4..8].to_vec(),
             sz_string_info: String::from_utf8_lossy(&buffer[8..32]).to_string(),
+            sz_string_info_raw: buffer[8..32].to_vec(),
         }
     }
 }
@@ -32691,8 +38073,11 @@ impl Debug for PacketChCheckbot {
 pub struct PacketHcCheckbot {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub img: String,
+    pub img_raw: Vec<u8>,
 }
 
 impl PacketHcCheckbot {
@@ -32700,8 +38085,11 @@ impl PacketHcCheckbot {
         PacketHcCheckbot {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             img: String::from_utf8_lossy(&buffer[4..buffer.len()]).to_string(),
+            img_raw: buffer[4..buffer.len()].to_vec(),
         }
     }
 }
@@ -32732,8 +38120,11 @@ impl Debug for PacketHcCheckbot {
 pub struct PacketHcCheckbotResult {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub result: char,
+    pub result_raw: Vec<u8>,
 }
 
 impl PacketHcCheckbotResult {
@@ -32741,8 +38132,11 @@ impl PacketHcCheckbotResult {
         PacketHcCheckbotResult {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             result: buffer[4] as char,
+            result_raw: buffer[4..5].to_vec(),
         }
     }
 }
@@ -32773,6 +38167,7 @@ impl Debug for PacketHcCheckbotResult {
 pub struct PacketCzBattleFieldList {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketCzBattleFieldList {
@@ -32780,6 +38175,7 @@ impl PacketCzBattleFieldList {
         PacketCzBattleFieldList {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -32808,10 +38204,15 @@ impl Debug for PacketCzBattleFieldList {
 pub struct PacketZcBattleFieldList {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub count: u16,
+    pub count_raw: Vec<u8>,
     pub ack_type: u16,
+    pub ack_type_raw: Vec<u8>,
     pub info_list: Vec<BattleFieldInfo>,
+    pub info_list_raw: Vec<u8>,
 }
 
 impl PacketZcBattleFieldList {
@@ -32828,10 +38229,15 @@ impl PacketZcBattleFieldList {
         PacketZcBattleFieldList {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             count: u16::from_le_bytes([buffer[4], buffer[5]]),
+            count_raw: buffer[4..6].to_vec(),
             ack_type: u16::from_le_bytes([buffer[6], buffer[7]]),
+            ack_type_raw: buffer[6..8].to_vec(),
             info_list: vec_field,
+            info_list_raw: buffer[8..70].to_vec(),
         }
     }
 }
@@ -32864,8 +38270,11 @@ impl Debug for PacketZcBattleFieldList {
 pub struct PacketCzJoinBattleField {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub bfno: u32,
+    pub bfno_raw: Vec<u8>,
     pub join_team: u16,
+    pub join_team_raw: Vec<u8>,
 }
 
 impl PacketCzJoinBattleField {
@@ -32873,8 +38282,11 @@ impl PacketCzJoinBattleField {
         PacketCzJoinBattleField {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             bfno: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            bfno_raw: buffer[2..6].to_vec(),
             join_team: u16::from_le_bytes([buffer[6], buffer[7]]),
+            join_team_raw: buffer[6..8].to_vec(),
         }
     }
 }
@@ -32905,9 +38317,13 @@ impl Debug for PacketCzJoinBattleField {
 pub struct PacketZcJoinBattleField {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub bfno: u32,
+    pub bfno_raw: Vec<u8>,
     pub join_team: u16,
+    pub join_team_raw: Vec<u8>,
     pub result: u16,
+    pub result_raw: Vec<u8>,
 }
 
 impl PacketZcJoinBattleField {
@@ -32915,9 +38331,13 @@ impl PacketZcJoinBattleField {
         PacketZcJoinBattleField {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             bfno: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            bfno_raw: buffer[2..6].to_vec(),
             join_team: u16::from_le_bytes([buffer[6], buffer[7]]),
+            join_team_raw: buffer[6..8].to_vec(),
             result: u16::from_le_bytes([buffer[8], buffer[9]]),
+            result_raw: buffer[8..10].to_vec(),
         }
     }
 }
@@ -32949,7 +38369,9 @@ impl Debug for PacketZcJoinBattleField {
 pub struct PacketCzCancelBattleField {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub bfno: u32,
+    pub bfno_raw: Vec<u8>,
 }
 
 impl PacketCzCancelBattleField {
@@ -32957,7 +38379,9 @@ impl PacketCzCancelBattleField {
         PacketCzCancelBattleField {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             bfno: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            bfno_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -32987,8 +38411,11 @@ impl Debug for PacketCzCancelBattleField {
 pub struct PacketZcCancelBattleField {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub bfno: u32,
+    pub bfno_raw: Vec<u8>,
     pub result: u16,
+    pub result_raw: Vec<u8>,
 }
 
 impl PacketZcCancelBattleField {
@@ -32996,8 +38423,11 @@ impl PacketZcCancelBattleField {
         PacketZcCancelBattleField {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             bfno: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            bfno_raw: buffer[2..6].to_vec(),
             result: u16::from_le_bytes([buffer[6], buffer[7]]),
+            result_raw: buffer[6..8].to_vec(),
         }
     }
 }
@@ -33028,8 +38458,11 @@ impl Debug for PacketZcCancelBattleField {
 pub struct PacketCzReqBattleStateMonitor {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub bfno: u32,
+    pub bfno_raw: Vec<u8>,
     pub power_switch: u16,
+    pub power_switch_raw: Vec<u8>,
 }
 
 impl PacketCzReqBattleStateMonitor {
@@ -33037,8 +38470,11 @@ impl PacketCzReqBattleStateMonitor {
         PacketCzReqBattleStateMonitor {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             bfno: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            bfno_raw: buffer[2..6].to_vec(),
             power_switch: u16::from_le_bytes([buffer[6], buffer[7]]),
+            power_switch_raw: buffer[6..8].to_vec(),
         }
     }
 }
@@ -33069,13 +38505,21 @@ impl Debug for PacketCzReqBattleStateMonitor {
 pub struct PacketZcAckBattleStateMonitor {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub bfno: u32,
+    pub bfno_raw: Vec<u8>,
     pub play_count: u16,
+    pub play_count_raw: Vec<u8>,
     pub battle_state: u16,
+    pub battle_state_raw: Vec<u8>,
     pub team_count_a: u16,
+    pub team_count_a_raw: Vec<u8>,
     pub team_count_b: u16,
+    pub team_count_b_raw: Vec<u8>,
     pub my_count: u16,
+    pub my_count_raw: Vec<u8>,
     pub join_team: u16,
+    pub join_team_raw: Vec<u8>,
 }
 
 impl PacketZcAckBattleStateMonitor {
@@ -33083,13 +38527,21 @@ impl PacketZcAckBattleStateMonitor {
         PacketZcAckBattleStateMonitor {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             bfno: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            bfno_raw: buffer[2..6].to_vec(),
             play_count: u16::from_le_bytes([buffer[6], buffer[7]]),
+            play_count_raw: buffer[6..8].to_vec(),
             battle_state: u16::from_le_bytes([buffer[8], buffer[9]]),
+            battle_state_raw: buffer[8..10].to_vec(),
             team_count_a: u16::from_le_bytes([buffer[10], buffer[11]]),
+            team_count_a_raw: buffer[10..12].to_vec(),
             team_count_b: u16::from_le_bytes([buffer[12], buffer[13]]),
+            team_count_b_raw: buffer[12..14].to_vec(),
             my_count: u16::from_le_bytes([buffer[14], buffer[15]]),
+            my_count_raw: buffer[14..16].to_vec(),
             join_team: u16::from_le_bytes([buffer[16], buffer[17]]),
+            join_team_raw: buffer[16..18].to_vec(),
         }
     }
 }
@@ -33125,8 +38577,11 @@ impl Debug for PacketZcAckBattleStateMonitor {
 pub struct PacketZcBattleNotiStartStep {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub bfno: u32,
+    pub bfno_raw: Vec<u8>,
     pub result: u16,
+    pub result_raw: Vec<u8>,
 }
 
 impl PacketZcBattleNotiStartStep {
@@ -33134,8 +38589,11 @@ impl PacketZcBattleNotiStartStep {
         PacketZcBattleNotiStartStep {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             bfno: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            bfno_raw: buffer[2..6].to_vec(),
             result: u16::from_le_bytes([buffer[6], buffer[7]]),
+            result_raw: buffer[6..8].to_vec(),
         }
     }
 }
@@ -33166,7 +38624,9 @@ impl Debug for PacketZcBattleNotiStartStep {
 pub struct PacketZcBattleJoinNotiDefer {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub bfno: u32,
+    pub bfno_raw: Vec<u8>,
 }
 
 impl PacketZcBattleJoinNotiDefer {
@@ -33174,7 +38634,9 @@ impl PacketZcBattleJoinNotiDefer {
         PacketZcBattleJoinNotiDefer {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             bfno: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            bfno_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -33204,7 +38666,9 @@ impl Debug for PacketZcBattleJoinNotiDefer {
 pub struct PacketZcBattleJoinDisableState {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub enable: bool,
+    pub enable_raw: Vec<u8>,
 }
 
 impl PacketZcBattleJoinDisableState {
@@ -33212,7 +38676,9 @@ impl PacketZcBattleJoinDisableState {
         PacketZcBattleJoinDisableState {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             enable: buffer[2] == 1,
+            enable_raw: buffer[2..3].to_vec(),
         }
     }
 }
@@ -33242,7 +38708,9 @@ impl Debug for PacketZcBattleJoinDisableState {
 pub struct PacketCzGmFullstrip {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub target_aid: u32,
+    pub target_aid_raw: Vec<u8>,
 }
 
 impl PacketCzGmFullstrip {
@@ -33250,7 +38718,9 @@ impl PacketCzGmFullstrip {
         PacketCzGmFullstrip {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             target_aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            target_aid_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -33280,10 +38750,15 @@ impl Debug for PacketCzGmFullstrip {
 pub struct PacketZcNotifyExp {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub amount: u32,
+    pub amount_raw: Vec<u8>,
     pub var_id: u16,
+    pub var_id_raw: Vec<u8>,
     pub exp_type: u16,
+    pub exp_type_raw: Vec<u8>,
 }
 
 impl PacketZcNotifyExp {
@@ -33291,10 +38766,15 @@ impl PacketZcNotifyExp {
         PacketZcNotifyExp {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             amount: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            amount_raw: buffer[6..10].to_vec(),
             var_id: u16::from_le_bytes([buffer[10], buffer[11]]),
+            var_id_raw: buffer[10..12].to_vec(),
             exp_type: u16::from_le_bytes([buffer[12], buffer[13]]),
+            exp_type_raw: buffer[12..14].to_vec(),
         }
     }
 }
@@ -33327,35 +38807,65 @@ impl Debug for PacketZcNotifyExp {
 pub struct PacketZcNotifyMoveentry7 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub objecttype: char,
+    pub objecttype_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub speed: u16,
+    pub speed_raw: Vec<u8>,
     pub body_state: u16,
+    pub body_state_raw: Vec<u8>,
     pub health_state: u16,
+    pub health_state_raw: Vec<u8>,
     pub effect_state: u32,
+    pub effect_state_raw: Vec<u8>,
     pub job: u16,
+    pub job_raw: Vec<u8>,
     pub head: u16,
+    pub head_raw: Vec<u8>,
     pub weapon: u32,
+    pub weapon_raw: Vec<u8>,
     pub accessory: u16,
+    pub accessory_raw: Vec<u8>,
     pub move_start_time: u32,
+    pub move_start_time_raw: Vec<u8>,
     pub accessory2: u16,
+    pub accessory2_raw: Vec<u8>,
     pub accessory3: u16,
+    pub accessory3_raw: Vec<u8>,
     pub headpalette: u16,
+    pub headpalette_raw: Vec<u8>,
     pub bodypalette: u16,
+    pub bodypalette_raw: Vec<u8>,
     pub head_dir: u16,
+    pub head_dir_raw: Vec<u8>,
     pub guid: u32,
+    pub guid_raw: Vec<u8>,
     pub gemblem_ver: u16,
+    pub gemblem_ver_raw: Vec<u8>,
     pub honor: u16,
+    pub honor_raw: Vec<u8>,
     pub virtue: u32,
+    pub virtue_raw: Vec<u8>,
     pub is_pkmode_on: bool,
+    pub is_pkmode_on_raw: Vec<u8>,
     pub sex: char,
+    pub sex_raw: Vec<u8>,
     pub move_data: String,
+    pub move_data_raw: Vec<u8>,
     pub x_size: char,
+    pub x_size_raw: Vec<u8>,
     pub y_size: char,
+    pub y_size_raw: Vec<u8>,
     pub clevel: u16,
+    pub clevel_raw: Vec<u8>,
     pub font: u16,
+    pub font_raw: Vec<u8>,
     pub name: String,
+    pub name_raw: Vec<u8>,
 }
 
 impl PacketZcNotifyMoveentry7 {
@@ -33363,35 +38873,65 @@ impl PacketZcNotifyMoveentry7 {
         PacketZcNotifyMoveentry7 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             objecttype: buffer[4] as char,
+            objecttype_raw: buffer[4..5].to_vec(),
             gid: u32::from_le_bytes([buffer[5], buffer[6], buffer[7], buffer[8]]),
+            gid_raw: buffer[5..9].to_vec(),
             speed: u16::from_le_bytes([buffer[9], buffer[10]]),
+            speed_raw: buffer[9..11].to_vec(),
             body_state: u16::from_le_bytes([buffer[11], buffer[12]]),
+            body_state_raw: buffer[11..13].to_vec(),
             health_state: u16::from_le_bytes([buffer[13], buffer[14]]),
+            health_state_raw: buffer[13..15].to_vec(),
             effect_state: u32::from_le_bytes([buffer[15], buffer[16], buffer[17], buffer[18]]),
+            effect_state_raw: buffer[15..19].to_vec(),
             job: u16::from_le_bytes([buffer[19], buffer[20]]),
+            job_raw: buffer[19..21].to_vec(),
             head: u16::from_le_bytes([buffer[21], buffer[22]]),
+            head_raw: buffer[21..23].to_vec(),
             weapon: u32::from_le_bytes([buffer[23], buffer[24], buffer[25], buffer[26]]),
+            weapon_raw: buffer[23..27].to_vec(),
             accessory: u16::from_le_bytes([buffer[27], buffer[28]]),
+            accessory_raw: buffer[27..29].to_vec(),
             move_start_time: u32::from_le_bytes([buffer[29], buffer[30], buffer[31], buffer[32]]),
+            move_start_time_raw: buffer[29..33].to_vec(),
             accessory2: u16::from_le_bytes([buffer[33], buffer[34]]),
+            accessory2_raw: buffer[33..35].to_vec(),
             accessory3: u16::from_le_bytes([buffer[35], buffer[36]]),
+            accessory3_raw: buffer[35..37].to_vec(),
             headpalette: u16::from_le_bytes([buffer[37], buffer[38]]),
+            headpalette_raw: buffer[37..39].to_vec(),
             bodypalette: u16::from_le_bytes([buffer[39], buffer[40]]),
+            bodypalette_raw: buffer[39..41].to_vec(),
             head_dir: u16::from_le_bytes([buffer[41], buffer[42]]),
+            head_dir_raw: buffer[41..43].to_vec(),
             guid: u32::from_le_bytes([buffer[43], buffer[44], buffer[45], buffer[46]]),
+            guid_raw: buffer[43..47].to_vec(),
             gemblem_ver: u16::from_le_bytes([buffer[47], buffer[48]]),
+            gemblem_ver_raw: buffer[47..49].to_vec(),
             honor: u16::from_le_bytes([buffer[49], buffer[50]]),
+            honor_raw: buffer[49..51].to_vec(),
             virtue: u32::from_le_bytes([buffer[51], buffer[52], buffer[53], buffer[54]]),
+            virtue_raw: buffer[51..55].to_vec(),
             is_pkmode_on: buffer[55] == 1,
+            is_pkmode_on_raw: buffer[55..56].to_vec(),
             sex: buffer[56] as char,
+            sex_raw: buffer[56..57].to_vec(),
             move_data: String::from_utf8_lossy(&buffer[57..63]).to_string(),
+            move_data_raw: buffer[57..63].to_vec(),
             x_size: buffer[63] as char,
+            x_size_raw: buffer[63..64].to_vec(),
             y_size: buffer[64] as char,
+            y_size_raw: buffer[64..65].to_vec(),
             clevel: u16::from_le_bytes([buffer[65], buffer[66]]),
+            clevel_raw: buffer[65..67].to_vec(),
             font: u16::from_le_bytes([buffer[67], buffer[68]]),
+            font_raw: buffer[67..69].to_vec(),
             name: String::from_utf8_lossy(&buffer[69..93]).to_string(),
+            name_raw: buffer[69..93].to_vec(),
         }
     }
 }
@@ -33449,34 +38989,63 @@ impl Debug for PacketZcNotifyMoveentry7 {
 pub struct PacketZcNotifyNewentry5 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub objecttype: char,
+    pub objecttype_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub speed: u16,
+    pub speed_raw: Vec<u8>,
     pub body_state: u16,
+    pub body_state_raw: Vec<u8>,
     pub health_state: u16,
+    pub health_state_raw: Vec<u8>,
     pub effect_state: u32,
+    pub effect_state_raw: Vec<u8>,
     pub job: u16,
+    pub job_raw: Vec<u8>,
     pub head: u16,
+    pub head_raw: Vec<u8>,
     pub weapon: u32,
+    pub weapon_raw: Vec<u8>,
     pub accessory: u16,
+    pub accessory_raw: Vec<u8>,
     pub accessory2: u16,
+    pub accessory2_raw: Vec<u8>,
     pub accessory3: u16,
+    pub accessory3_raw: Vec<u8>,
     pub headpalette: u16,
+    pub headpalette_raw: Vec<u8>,
     pub bodypalette: u16,
+    pub bodypalette_raw: Vec<u8>,
     pub head_dir: u16,
+    pub head_dir_raw: Vec<u8>,
     pub guid: u32,
+    pub guid_raw: Vec<u8>,
     pub gemblem_ver: u16,
+    pub gemblem_ver_raw: Vec<u8>,
     pub honor: u16,
+    pub honor_raw: Vec<u8>,
     pub virtue: u32,
+    pub virtue_raw: Vec<u8>,
     pub is_pkmode_on: bool,
+    pub is_pkmode_on_raw: Vec<u8>,
     pub sex: char,
+    pub sex_raw: Vec<u8>,
     pub pos_dir: String,
+    pub pos_dir_raw: Vec<u8>,
     pub x_size: char,
+    pub x_size_raw: Vec<u8>,
     pub y_size: char,
+    pub y_size_raw: Vec<u8>,
     pub clevel: u16,
+    pub clevel_raw: Vec<u8>,
     pub font: u16,
+    pub font_raw: Vec<u8>,
     pub name: String,
+    pub name_raw: Vec<u8>,
 }
 
 impl PacketZcNotifyNewentry5 {
@@ -33484,34 +39053,63 @@ impl PacketZcNotifyNewentry5 {
         PacketZcNotifyNewentry5 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             objecttype: buffer[4] as char,
+            objecttype_raw: buffer[4..5].to_vec(),
             gid: u32::from_le_bytes([buffer[5], buffer[6], buffer[7], buffer[8]]),
+            gid_raw: buffer[5..9].to_vec(),
             speed: u16::from_le_bytes([buffer[9], buffer[10]]),
+            speed_raw: buffer[9..11].to_vec(),
             body_state: u16::from_le_bytes([buffer[11], buffer[12]]),
+            body_state_raw: buffer[11..13].to_vec(),
             health_state: u16::from_le_bytes([buffer[13], buffer[14]]),
+            health_state_raw: buffer[13..15].to_vec(),
             effect_state: u32::from_le_bytes([buffer[15], buffer[16], buffer[17], buffer[18]]),
+            effect_state_raw: buffer[15..19].to_vec(),
             job: u16::from_le_bytes([buffer[19], buffer[20]]),
+            job_raw: buffer[19..21].to_vec(),
             head: u16::from_le_bytes([buffer[21], buffer[22]]),
+            head_raw: buffer[21..23].to_vec(),
             weapon: u32::from_le_bytes([buffer[23], buffer[24], buffer[25], buffer[26]]),
+            weapon_raw: buffer[23..27].to_vec(),
             accessory: u16::from_le_bytes([buffer[27], buffer[28]]),
+            accessory_raw: buffer[27..29].to_vec(),
             accessory2: u16::from_le_bytes([buffer[29], buffer[30]]),
+            accessory2_raw: buffer[29..31].to_vec(),
             accessory3: u16::from_le_bytes([buffer[31], buffer[32]]),
+            accessory3_raw: buffer[31..33].to_vec(),
             headpalette: u16::from_le_bytes([buffer[33], buffer[34]]),
+            headpalette_raw: buffer[33..35].to_vec(),
             bodypalette: u16::from_le_bytes([buffer[35], buffer[36]]),
+            bodypalette_raw: buffer[35..37].to_vec(),
             head_dir: u16::from_le_bytes([buffer[37], buffer[38]]),
+            head_dir_raw: buffer[37..39].to_vec(),
             guid: u32::from_le_bytes([buffer[39], buffer[40], buffer[41], buffer[42]]),
+            guid_raw: buffer[39..43].to_vec(),
             gemblem_ver: u16::from_le_bytes([buffer[43], buffer[44]]),
+            gemblem_ver_raw: buffer[43..45].to_vec(),
             honor: u16::from_le_bytes([buffer[45], buffer[46]]),
+            honor_raw: buffer[45..47].to_vec(),
             virtue: u32::from_le_bytes([buffer[47], buffer[48], buffer[49], buffer[50]]),
+            virtue_raw: buffer[47..51].to_vec(),
             is_pkmode_on: buffer[51] == 1,
+            is_pkmode_on_raw: buffer[51..52].to_vec(),
             sex: buffer[52] as char,
+            sex_raw: buffer[52..53].to_vec(),
             pos_dir: String::from_utf8_lossy(&buffer[53..56]).to_string(),
+            pos_dir_raw: buffer[53..56].to_vec(),
             x_size: buffer[56] as char,
+            x_size_raw: buffer[56..57].to_vec(),
             y_size: buffer[57] as char,
+            y_size_raw: buffer[57..58].to_vec(),
             clevel: u16::from_le_bytes([buffer[58], buffer[59]]),
+            clevel_raw: buffer[58..60].to_vec(),
             font: u16::from_le_bytes([buffer[60], buffer[61]]),
+            font_raw: buffer[60..62].to_vec(),
             name: String::from_utf8_lossy(&buffer[62..86]).to_string(),
+            name_raw: buffer[62..86].to_vec(),
         }
     }
 }
@@ -33568,35 +39166,65 @@ impl Debug for PacketZcNotifyNewentry5 {
 pub struct PacketZcNotifyStandentry5 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub objecttype: char,
+    pub objecttype_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub speed: u16,
+    pub speed_raw: Vec<u8>,
     pub body_state: u16,
+    pub body_state_raw: Vec<u8>,
     pub health_state: u16,
+    pub health_state_raw: Vec<u8>,
     pub effect_state: u32,
+    pub effect_state_raw: Vec<u8>,
     pub job: u16,
+    pub job_raw: Vec<u8>,
     pub head: u16,
+    pub head_raw: Vec<u8>,
     pub weapon: u32,
+    pub weapon_raw: Vec<u8>,
     pub accessory: u16,
+    pub accessory_raw: Vec<u8>,
     pub accessory2: u16,
+    pub accessory2_raw: Vec<u8>,
     pub accessory3: u16,
+    pub accessory3_raw: Vec<u8>,
     pub headpalette: u16,
+    pub headpalette_raw: Vec<u8>,
     pub bodypalette: u16,
+    pub bodypalette_raw: Vec<u8>,
     pub head_dir: u16,
+    pub head_dir_raw: Vec<u8>,
     pub guid: u32,
+    pub guid_raw: Vec<u8>,
     pub gemblem_ver: u16,
+    pub gemblem_ver_raw: Vec<u8>,
     pub honor: u16,
+    pub honor_raw: Vec<u8>,
     pub virtue: u32,
+    pub virtue_raw: Vec<u8>,
     pub is_pkmode_on: bool,
+    pub is_pkmode_on_raw: Vec<u8>,
     pub sex: char,
+    pub sex_raw: Vec<u8>,
     pub pos_dir: String,
+    pub pos_dir_raw: Vec<u8>,
     pub x_size: char,
+    pub x_size_raw: Vec<u8>,
     pub y_size: char,
+    pub y_size_raw: Vec<u8>,
     pub state: char,
+    pub state_raw: Vec<u8>,
     pub clevel: u16,
+    pub clevel_raw: Vec<u8>,
     pub font: u16,
+    pub font_raw: Vec<u8>,
     pub name: String,
+    pub name_raw: Vec<u8>,
 }
 
 impl PacketZcNotifyStandentry5 {
@@ -33604,35 +39232,65 @@ impl PacketZcNotifyStandentry5 {
         PacketZcNotifyStandentry5 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             objecttype: buffer[4] as char,
+            objecttype_raw: buffer[4..5].to_vec(),
             gid: u32::from_le_bytes([buffer[5], buffer[6], buffer[7], buffer[8]]),
+            gid_raw: buffer[5..9].to_vec(),
             speed: u16::from_le_bytes([buffer[9], buffer[10]]),
+            speed_raw: buffer[9..11].to_vec(),
             body_state: u16::from_le_bytes([buffer[11], buffer[12]]),
+            body_state_raw: buffer[11..13].to_vec(),
             health_state: u16::from_le_bytes([buffer[13], buffer[14]]),
+            health_state_raw: buffer[13..15].to_vec(),
             effect_state: u32::from_le_bytes([buffer[15], buffer[16], buffer[17], buffer[18]]),
+            effect_state_raw: buffer[15..19].to_vec(),
             job: u16::from_le_bytes([buffer[19], buffer[20]]),
+            job_raw: buffer[19..21].to_vec(),
             head: u16::from_le_bytes([buffer[21], buffer[22]]),
+            head_raw: buffer[21..23].to_vec(),
             weapon: u32::from_le_bytes([buffer[23], buffer[24], buffer[25], buffer[26]]),
+            weapon_raw: buffer[23..27].to_vec(),
             accessory: u16::from_le_bytes([buffer[27], buffer[28]]),
+            accessory_raw: buffer[27..29].to_vec(),
             accessory2: u16::from_le_bytes([buffer[29], buffer[30]]),
+            accessory2_raw: buffer[29..31].to_vec(),
             accessory3: u16::from_le_bytes([buffer[31], buffer[32]]),
+            accessory3_raw: buffer[31..33].to_vec(),
             headpalette: u16::from_le_bytes([buffer[33], buffer[34]]),
+            headpalette_raw: buffer[33..35].to_vec(),
             bodypalette: u16::from_le_bytes([buffer[35], buffer[36]]),
+            bodypalette_raw: buffer[35..37].to_vec(),
             head_dir: u16::from_le_bytes([buffer[37], buffer[38]]),
+            head_dir_raw: buffer[37..39].to_vec(),
             guid: u32::from_le_bytes([buffer[39], buffer[40], buffer[41], buffer[42]]),
+            guid_raw: buffer[39..43].to_vec(),
             gemblem_ver: u16::from_le_bytes([buffer[43], buffer[44]]),
+            gemblem_ver_raw: buffer[43..45].to_vec(),
             honor: u16::from_le_bytes([buffer[45], buffer[46]]),
+            honor_raw: buffer[45..47].to_vec(),
             virtue: u32::from_le_bytes([buffer[47], buffer[48], buffer[49], buffer[50]]),
+            virtue_raw: buffer[47..51].to_vec(),
             is_pkmode_on: buffer[51] == 1,
+            is_pkmode_on_raw: buffer[51..52].to_vec(),
             sex: buffer[52] as char,
+            sex_raw: buffer[52..53].to_vec(),
             pos_dir: String::from_utf8_lossy(&buffer[53..56]).to_string(),
+            pos_dir_raw: buffer[53..56].to_vec(),
             x_size: buffer[56] as char,
+            x_size_raw: buffer[56..57].to_vec(),
             y_size: buffer[57] as char,
+            y_size_raw: buffer[57..58].to_vec(),
             state: buffer[58] as char,
+            state_raw: buffer[58..59].to_vec(),
             clevel: u16::from_le_bytes([buffer[59], buffer[60]]),
+            clevel_raw: buffer[59..61].to_vec(),
             font: u16::from_le_bytes([buffer[61], buffer[62]]),
+            font_raw: buffer[61..63].to_vec(),
             name: String::from_utf8_lossy(&buffer[63..87]).to_string(),
+            name_raw: buffer[63..87].to_vec(),
         }
     }
 }
@@ -33690,9 +39348,13 @@ impl Debug for PacketZcNotifyStandentry5 {
 pub struct PacketZcDeleteItemFromBody {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub delete_type: u16,
+    pub delete_type_raw: Vec<u8>,
     pub index: u16,
+    pub index_raw: Vec<u8>,
     pub count: u16,
+    pub count_raw: Vec<u8>,
 }
 
 impl PacketZcDeleteItemFromBody {
@@ -33700,9 +39362,13 @@ impl PacketZcDeleteItemFromBody {
         PacketZcDeleteItemFromBody {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             delete_type: u16::from_le_bytes([buffer[2], buffer[3]]),
+            delete_type_raw: buffer[2..4].to_vec(),
             index: u16::from_le_bytes([buffer[4], buffer[5]]),
+            index_raw: buffer[4..6].to_vec(),
             count: u16::from_le_bytes([buffer[6], buffer[7]]),
+            count_raw: buffer[6..8].to_vec(),
         }
     }
 }
@@ -33734,14 +39400,23 @@ impl Debug for PacketZcDeleteItemFromBody {
 pub struct PacketZcUseskillAck2 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub target_id: u32,
+    pub target_id_raw: Vec<u8>,
     pub x_pos: u16,
+    pub x_pos_raw: Vec<u8>,
     pub y_pos: u16,
+    pub y_pos_raw: Vec<u8>,
     pub skid: u16,
+    pub skid_raw: Vec<u8>,
     pub property: u32,
+    pub property_raw: Vec<u8>,
     pub delay_time: u32,
+    pub delay_time_raw: Vec<u8>,
     pub is_disposable: bool,
+    pub is_disposable_raw: Vec<u8>,
 }
 
 impl PacketZcUseskillAck2 {
@@ -33749,14 +39424,23 @@ impl PacketZcUseskillAck2 {
         PacketZcUseskillAck2 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             target_id: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            target_id_raw: buffer[6..10].to_vec(),
             x_pos: u16::from_le_bytes([buffer[10], buffer[11]]),
+            x_pos_raw: buffer[10..12].to_vec(),
             y_pos: u16::from_le_bytes([buffer[12], buffer[13]]),
+            y_pos_raw: buffer[12..14].to_vec(),
             skid: u16::from_le_bytes([buffer[14], buffer[15]]),
+            skid_raw: buffer[14..16].to_vec(),
             property: u32::from_le_bytes([buffer[16], buffer[17], buffer[18], buffer[19]]),
+            property_raw: buffer[16..20].to_vec(),
             delay_time: u32::from_le_bytes([buffer[20], buffer[21], buffer[22], buffer[23]]),
+            delay_time_raw: buffer[20..24].to_vec(),
             is_disposable: buffer[24] == 1,
+            is_disposable_raw: buffer[24..25].to_vec(),
         }
     }
 }
@@ -33793,8 +39477,11 @@ impl Debug for PacketZcUseskillAck2 {
 pub struct PacketZcChangeGroupMaster {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub old_master_aid: u32,
+    pub old_master_aid_raw: Vec<u8>,
     pub new_master_aid: u32,
+    pub new_master_aid_raw: Vec<u8>,
 }
 
 impl PacketZcChangeGroupMaster {
@@ -33802,8 +39489,11 @@ impl PacketZcChangeGroupMaster {
         PacketZcChangeGroupMaster {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             old_master_aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            old_master_aid_raw: buffer[2..6].to_vec(),
             new_master_aid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            new_master_aid_raw: buffer[6..10].to_vec(),
         }
     }
 }
@@ -33834,7 +39524,9 @@ impl Debug for PacketZcChangeGroupMaster {
 pub struct PacketZcPlayNpcBgm {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub bgm: String,
+    pub bgm_raw: Vec<u8>,
 }
 
 impl PacketZcPlayNpcBgm {
@@ -33842,7 +39534,9 @@ impl PacketZcPlayNpcBgm {
         PacketZcPlayNpcBgm {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             bgm: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            bgm_raw: buffer[2..26].to_vec(),
         }
     }
 }
@@ -33872,8 +39566,11 @@ impl Debug for PacketZcPlayNpcBgm {
 pub struct PacketZcDefineCheck {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub result: u32,
+    pub result_raw: Vec<u8>,
 }
 
 impl PacketZcDefineCheck {
@@ -33881,8 +39578,11 @@ impl PacketZcDefineCheck {
         PacketZcDefineCheck {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             result: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            result_raw: buffer[4..8].to_vec(),
         }
     }
 }
@@ -33913,10 +39613,15 @@ impl Debug for PacketZcDefineCheck {
 pub struct PacketZcPcPurchaseItemlistFrommc2 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub unique_id: u32,
+    pub unique_id_raw: Vec<u8>,
     pub item_list: Vec<PurchaseItemFrommc>,
+    pub item_list_raw: Vec<u8>,
 }
 
 impl PacketZcPcPurchaseItemlistFrommc2 {
@@ -33933,10 +39638,15 @@ impl PacketZcPcPurchaseItemlistFrommc2 {
         PacketZcPcPurchaseItemlistFrommc2 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             aid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            aid_raw: buffer[4..8].to_vec(),
             unique_id: u32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
+            unique_id_raw: buffer[8..12].to_vec(),
             item_list: vec_field,
+            item_list_raw: buffer[12..34].to_vec(),
         }
     }
 }
@@ -33969,10 +39679,15 @@ impl Debug for PacketZcPcPurchaseItemlistFrommc2 {
 pub struct PacketCzPcPurchaseItemlistFrommc2 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub unique_id: u32,
+    pub unique_id_raw: Vec<u8>,
     pub item_list: Vec<CzPurchaseItemFrommc>,
+    pub item_list_raw: Vec<u8>,
 }
 
 impl PacketCzPcPurchaseItemlistFrommc2 {
@@ -33989,10 +39704,15 @@ impl PacketCzPcPurchaseItemlistFrommc2 {
         PacketCzPcPurchaseItemlistFrommc2 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             aid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            aid_raw: buffer[4..8].to_vec(),
             unique_id: u32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
+            unique_id_raw: buffer[8..12].to_vec(),
             item_list: vec_field,
+            item_list_raw: buffer[12..16].to_vec(),
         }
     }
 }
@@ -34025,7 +39745,9 @@ impl Debug for PacketCzPcPurchaseItemlistFrommc2 {
 pub struct PacketCzPartyBookingReqRegister {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub register_info: PartyBookingDetail,
+    pub register_info_raw: Vec<u8>,
 }
 
 impl PacketCzPartyBookingReqRegister {
@@ -34033,7 +39755,9 @@ impl PacketCzPartyBookingReqRegister {
         PacketCzPartyBookingReqRegister {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             register_info: PartyBookingDetail::from(&buffer[2..buffer.len()]),
+            register_info_raw: buffer[2..buffer.len()].to_vec(),
         }
     }
 }
@@ -34063,7 +39787,9 @@ impl Debug for PacketCzPartyBookingReqRegister {
 pub struct PacketZcPartyBookingAckRegister {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub result: u16,
+    pub result_raw: Vec<u8>,
 }
 
 impl PacketZcPartyBookingAckRegister {
@@ -34071,7 +39797,9 @@ impl PacketZcPartyBookingAckRegister {
         PacketZcPartyBookingAckRegister {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             result: u16::from_le_bytes([buffer[2], buffer[3]]),
+            result_raw: buffer[2..4].to_vec(),
         }
     }
 }
@@ -34101,11 +39829,17 @@ impl Debug for PacketZcPartyBookingAckRegister {
 pub struct PacketCzPartyBookingReqSearch {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub level: u16,
+    pub level_raw: Vec<u8>,
     pub map_id: u16,
+    pub map_id_raw: Vec<u8>,
     pub job: u16,
+    pub job_raw: Vec<u8>,
     pub last_index: u32,
+    pub last_index_raw: Vec<u8>,
     pub result_count: u16,
+    pub result_count_raw: Vec<u8>,
 }
 
 impl PacketCzPartyBookingReqSearch {
@@ -34113,11 +39847,17 @@ impl PacketCzPartyBookingReqSearch {
         PacketCzPartyBookingReqSearch {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             level: u16::from_le_bytes([buffer[2], buffer[3]]),
+            level_raw: buffer[2..4].to_vec(),
             map_id: u16::from_le_bytes([buffer[4], buffer[5]]),
+            map_id_raw: buffer[4..6].to_vec(),
             job: u16::from_le_bytes([buffer[6], buffer[7]]),
+            job_raw: buffer[6..8].to_vec(),
             last_index: u32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
+            last_index_raw: buffer[8..12].to_vec(),
             result_count: u16::from_le_bytes([buffer[12], buffer[13]]),
+            result_count_raw: buffer[12..14].to_vec(),
         }
     }
 }
@@ -34151,9 +39891,13 @@ impl Debug for PacketCzPartyBookingReqSearch {
 pub struct PacketZcPartyBookingAckSearch {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub is_exist_more_result: bool,
+    pub is_exist_more_result_raw: Vec<u8>,
     pub info: Vec<PartyBookingAdInfo>,
+    pub info_raw: Vec<u8>,
 }
 
 impl PacketZcPartyBookingAckSearch {
@@ -34170,9 +39914,13 @@ impl PacketZcPartyBookingAckSearch {
         PacketZcPartyBookingAckSearch {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             is_exist_more_result: buffer[4] == 1,
+            is_exist_more_result_raw: buffer[4..5].to_vec(),
             info: vec_field,
+            info_raw: buffer[5..53].to_vec(),
         }
     }
 }
@@ -34204,6 +39952,7 @@ impl Debug for PacketZcPartyBookingAckSearch {
 pub struct PacketCzPartyBookingReqDelete {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketCzPartyBookingReqDelete {
@@ -34211,6 +39960,7 @@ impl PacketCzPartyBookingReqDelete {
         PacketCzPartyBookingReqDelete {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -34239,7 +39989,9 @@ impl Debug for PacketCzPartyBookingReqDelete {
 pub struct PacketZcPartyBookingAckDelete {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub result: u16,
+    pub result_raw: Vec<u8>,
 }
 
 impl PacketZcPartyBookingAckDelete {
@@ -34247,7 +39999,9 @@ impl PacketZcPartyBookingAckDelete {
         PacketZcPartyBookingAckDelete {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             result: u16::from_le_bytes([buffer[2], buffer[3]]),
+            result_raw: buffer[2..4].to_vec(),
         }
     }
 }
@@ -34277,7 +40031,9 @@ impl Debug for PacketZcPartyBookingAckDelete {
 pub struct PacketCzPartyBookingReqUpdate {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub job: u16,
+    pub job_raw: Vec<u8>,
 }
 
 impl PacketCzPartyBookingReqUpdate {
@@ -34285,7 +40041,9 @@ impl PacketCzPartyBookingReqUpdate {
         PacketCzPartyBookingReqUpdate {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             job: u16::from_le_bytes([buffer[2], buffer[3]]),
+            job_raw: buffer[2..4].to_vec(),
         }
     }
 }
@@ -34315,7 +40073,9 @@ impl Debug for PacketCzPartyBookingReqUpdate {
 pub struct PacketZcPartyBookingNotifyInsert {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub info: PartyBookingAdInfo,
+    pub info_raw: Vec<u8>,
 }
 
 impl PacketZcPartyBookingNotifyInsert {
@@ -34323,7 +40083,9 @@ impl PacketZcPartyBookingNotifyInsert {
         PacketZcPartyBookingNotifyInsert {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             info: PartyBookingAdInfo::from(&buffer[2..buffer.len()]),
+            info_raw: buffer[2..buffer.len()].to_vec(),
         }
     }
 }
@@ -34353,13 +40115,21 @@ impl Debug for PacketZcPartyBookingNotifyInsert {
 pub struct PacketZcPartyBookingNotifyUpdate {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub index: u32,
+    pub index_raw: Vec<u8>,
     pub job1: u16,
+    pub job1_raw: Vec<u8>,
     pub job2: u16,
+    pub job2_raw: Vec<u8>,
     pub job3: u16,
+    pub job3_raw: Vec<u8>,
     pub job4: u16,
+    pub job4_raw: Vec<u8>,
     pub job5: u16,
+    pub job5_raw: Vec<u8>,
     pub job6: u16,
+    pub job6_raw: Vec<u8>,
 }
 
 impl PacketZcPartyBookingNotifyUpdate {
@@ -34367,13 +40137,21 @@ impl PacketZcPartyBookingNotifyUpdate {
         PacketZcPartyBookingNotifyUpdate {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             index: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            index_raw: buffer[2..6].to_vec(),
             job1: u16::from_le_bytes([buffer[6], buffer[7]]),
+            job1_raw: buffer[6..8].to_vec(),
             job2: u16::from_le_bytes([buffer[8], buffer[9]]),
+            job2_raw: buffer[8..10].to_vec(),
             job3: u16::from_le_bytes([buffer[10], buffer[11]]),
+            job3_raw: buffer[10..12].to_vec(),
             job4: u16::from_le_bytes([buffer[12], buffer[13]]),
+            job4_raw: buffer[12..14].to_vec(),
             job5: u16::from_le_bytes([buffer[14], buffer[15]]),
+            job5_raw: buffer[14..16].to_vec(),
             job6: u16::from_le_bytes([buffer[16], buffer[17]]),
+            job6_raw: buffer[16..18].to_vec(),
         }
     }
 }
@@ -34409,7 +40187,9 @@ impl Debug for PacketZcPartyBookingNotifyUpdate {
 pub struct PacketZcPartyBookingNotifyDelete {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub index: u32,
+    pub index_raw: Vec<u8>,
 }
 
 impl PacketZcPartyBookingNotifyDelete {
@@ -34417,7 +40197,9 @@ impl PacketZcPartyBookingNotifyDelete {
         PacketZcPartyBookingNotifyDelete {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             index: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            index_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -34447,6 +40229,7 @@ impl Debug for PacketZcPartyBookingNotifyDelete {
 pub struct PacketCzSimpleCashBtnshow {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketCzSimpleCashBtnshow {
@@ -34454,6 +40237,7 @@ impl PacketCzSimpleCashBtnshow {
         PacketCzSimpleCashBtnshow {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -34482,7 +40266,9 @@ impl Debug for PacketCzSimpleCashBtnshow {
 pub struct PacketZcSimpleCashBtnshow {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub show: bool,
+    pub show_raw: Vec<u8>,
 }
 
 impl PacketZcSimpleCashBtnshow {
@@ -34490,7 +40276,9 @@ impl PacketZcSimpleCashBtnshow {
         PacketZcSimpleCashBtnshow {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             show: buffer[2] == 1,
+            show_raw: buffer[2..3].to_vec(),
         }
     }
 }
@@ -34520,9 +40308,13 @@ impl Debug for PacketZcSimpleCashBtnshow {
 pub struct PacketZcNotifyHpToGroupmR2 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub hp: u32,
+    pub hp_raw: Vec<u8>,
     pub maxhp: u32,
+    pub maxhp_raw: Vec<u8>,
 }
 
 impl PacketZcNotifyHpToGroupmR2 {
@@ -34530,9 +40322,13 @@ impl PacketZcNotifyHpToGroupmR2 {
         PacketZcNotifyHpToGroupmR2 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             hp: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            hp_raw: buffer[6..10].to_vec(),
             maxhp: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            maxhp_raw: buffer[10..14].to_vec(),
         }
     }
 }
@@ -34564,13 +40360,21 @@ impl Debug for PacketZcNotifyHpToGroupmR2 {
 pub struct PacketZcAddExchangeItem2 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub itid: u16,
+    pub itid_raw: Vec<u8>,
     pub type_: char,
+    pub type__raw: Vec<u8>,
     pub count: u32,
+    pub count_raw: Vec<u8>,
     pub is_identified: bool,
+    pub is_identified_raw: Vec<u8>,
     pub is_damaged: bool,
+    pub is_damaged_raw: Vec<u8>,
     pub refining_level: char,
+    pub refining_level_raw: Vec<u8>,
     pub slot: EQUIPSLOTINFO,
+    pub slot_raw: Vec<u8>,
 }
 
 impl PacketZcAddExchangeItem2 {
@@ -34578,13 +40382,21 @@ impl PacketZcAddExchangeItem2 {
         PacketZcAddExchangeItem2 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             itid: u16::from_le_bytes([buffer[2], buffer[3]]),
+            itid_raw: buffer[2..4].to_vec(),
             type_: buffer[4] as char,
+            type__raw: buffer[4..5].to_vec(),
             count: u32::from_le_bytes([buffer[5], buffer[6], buffer[7], buffer[8]]),
+            count_raw: buffer[5..9].to_vec(),
             is_identified: buffer[9] == 1,
+            is_identified_raw: buffer[9..10].to_vec(),
             is_damaged: buffer[10] == 1,
+            is_damaged_raw: buffer[10..11].to_vec(),
             refining_level: buffer[11] as char,
+            refining_level_raw: buffer[11..12].to_vec(),
             slot: EQUIPSLOTINFO::from(&buffer[12..20]),
+            slot_raw: buffer[12..20].to_vec(),
         }
     }
 }
@@ -34620,7 +40432,9 @@ impl Debug for PacketZcAddExchangeItem2 {
 pub struct PacketZcOpenBuyingStore {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub count: char,
+    pub count_raw: Vec<u8>,
 }
 
 impl PacketZcOpenBuyingStore {
@@ -34628,7 +40442,9 @@ impl PacketZcOpenBuyingStore {
         PacketZcOpenBuyingStore {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             count: buffer[2] as char,
+            count_raw: buffer[2..3].to_vec(),
         }
     }
 }
@@ -34658,11 +40474,17 @@ impl Debug for PacketZcOpenBuyingStore {
 pub struct PacketCzReqOpenBuyingStore {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub limit_zeny: u32,
+    pub limit_zeny_raw: Vec<u8>,
     pub result: char,
+    pub result_raw: Vec<u8>,
     pub store_name: String,
+    pub store_name_raw: Vec<u8>,
     pub item_list: Vec<ProductinfoInBuyingStore>,
+    pub item_list_raw: Vec<u8>,
 }
 
 impl PacketCzReqOpenBuyingStore {
@@ -34679,11 +40501,17 @@ impl PacketCzReqOpenBuyingStore {
         PacketCzReqOpenBuyingStore {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             limit_zeny: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            limit_zeny_raw: buffer[4..8].to_vec(),
             result: buffer[8] as char,
+            result_raw: buffer[8..9].to_vec(),
             store_name: String::from_utf8_lossy(&buffer[9..89]).to_string(),
+            store_name_raw: buffer[9..89].to_vec(),
             item_list: vec_field,
+            item_list_raw: buffer[89..97].to_vec(),
         }
     }
 }
@@ -34717,8 +40545,11 @@ impl Debug for PacketCzReqOpenBuyingStore {
 pub struct PacketZcFailedOpenBuyingStoreToBuyer {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub result: u16,
+    pub result_raw: Vec<u8>,
     pub total_weight: u32,
+    pub total_weight_raw: Vec<u8>,
 }
 
 impl PacketZcFailedOpenBuyingStoreToBuyer {
@@ -34726,8 +40557,11 @@ impl PacketZcFailedOpenBuyingStoreToBuyer {
         PacketZcFailedOpenBuyingStoreToBuyer {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             result: u16::from_le_bytes([buffer[2], buffer[3]]),
+            result_raw: buffer[2..4].to_vec(),
             total_weight: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            total_weight_raw: buffer[4..8].to_vec(),
         }
     }
 }
@@ -34758,10 +40592,15 @@ impl Debug for PacketZcFailedOpenBuyingStoreToBuyer {
 pub struct PacketZcMyitemlistBuyingStore {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub limit_zeny: u32,
+    pub limit_zeny_raw: Vec<u8>,
     pub item_list: Vec<BuyingStoreItemlist>,
+    pub item_list_raw: Vec<u8>,
 }
 
 impl PacketZcMyitemlistBuyingStore {
@@ -34778,10 +40617,15 @@ impl PacketZcMyitemlistBuyingStore {
         PacketZcMyitemlistBuyingStore {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             aid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            aid_raw: buffer[4..8].to_vec(),
             limit_zeny: u32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
+            limit_zeny_raw: buffer[8..12].to_vec(),
             item_list: vec_field,
+            item_list_raw: buffer[12..21].to_vec(),
         }
     }
 }
@@ -34814,8 +40658,11 @@ impl Debug for PacketZcMyitemlistBuyingStore {
 pub struct PacketZcBuyingStoreEntry {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub maker_aid: u32,
+    pub maker_aid_raw: Vec<u8>,
     pub store_name: String,
+    pub store_name_raw: Vec<u8>,
 }
 
 impl PacketZcBuyingStoreEntry {
@@ -34823,8 +40670,11 @@ impl PacketZcBuyingStoreEntry {
         PacketZcBuyingStoreEntry {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             maker_aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            maker_aid_raw: buffer[2..6].to_vec(),
             store_name: String::from_utf8_lossy(&buffer[6..86]).to_string(),
+            store_name_raw: buffer[6..86].to_vec(),
         }
     }
 }
@@ -34855,6 +40705,7 @@ impl Debug for PacketZcBuyingStoreEntry {
 pub struct PacketCzReqCloseBuyingStore {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketCzReqCloseBuyingStore {
@@ -34862,6 +40713,7 @@ impl PacketCzReqCloseBuyingStore {
         PacketCzReqCloseBuyingStore {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -34890,7 +40742,9 @@ impl Debug for PacketCzReqCloseBuyingStore {
 pub struct PacketZcDisappearBuyingStoreEntry {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub maker_aid: u32,
+    pub maker_aid_raw: Vec<u8>,
 }
 
 impl PacketZcDisappearBuyingStoreEntry {
@@ -34898,7 +40752,9 @@ impl PacketZcDisappearBuyingStoreEntry {
         PacketZcDisappearBuyingStoreEntry {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             maker_aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            maker_aid_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -34928,7 +40784,9 @@ impl Debug for PacketZcDisappearBuyingStoreEntry {
 pub struct PacketCzReqClickToBuyingStore {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub maker_aid: u32,
+    pub maker_aid_raw: Vec<u8>,
 }
 
 impl PacketCzReqClickToBuyingStore {
@@ -34936,7 +40794,9 @@ impl PacketCzReqClickToBuyingStore {
         PacketCzReqClickToBuyingStore {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             maker_aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            maker_aid_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -34966,11 +40826,17 @@ impl Debug for PacketCzReqClickToBuyingStore {
 pub struct PacketZcAckItemlistBuyingStore {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub maker_aid: u32,
+    pub maker_aid_raw: Vec<u8>,
     pub store_id: u32,
+    pub store_id_raw: Vec<u8>,
     pub limit_zeny: u32,
+    pub limit_zeny_raw: Vec<u8>,
     pub item_list: Vec<BuyingStoreItemlist>,
+    pub item_list_raw: Vec<u8>,
 }
 
 impl PacketZcAckItemlistBuyingStore {
@@ -34987,11 +40853,17 @@ impl PacketZcAckItemlistBuyingStore {
         PacketZcAckItemlistBuyingStore {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             maker_aid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            maker_aid_raw: buffer[4..8].to_vec(),
             store_id: u32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
+            store_id_raw: buffer[8..12].to_vec(),
             limit_zeny: u32::from_le_bytes([buffer[12], buffer[13], buffer[14], buffer[15]]),
+            limit_zeny_raw: buffer[12..16].to_vec(),
             item_list: vec_field,
+            item_list_raw: buffer[16..25].to_vec(),
         }
     }
 }
@@ -35025,10 +40897,15 @@ impl Debug for PacketZcAckItemlistBuyingStore {
 pub struct PacketCzReqTradeBuyingStore {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub maker_aid: u32,
+    pub maker_aid_raw: Vec<u8>,
     pub store_id: u32,
+    pub store_id_raw: Vec<u8>,
     pub item_list: Vec<TradeItemBuyingStore>,
+    pub item_list_raw: Vec<u8>,
 }
 
 impl PacketCzReqTradeBuyingStore {
@@ -35045,10 +40922,15 @@ impl PacketCzReqTradeBuyingStore {
         PacketCzReqTradeBuyingStore {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             maker_aid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            maker_aid_raw: buffer[4..8].to_vec(),
             store_id: u32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
+            store_id_raw: buffer[8..12].to_vec(),
             item_list: vec_field,
+            item_list_raw: buffer[12..18].to_vec(),
         }
     }
 }
@@ -35081,7 +40963,9 @@ impl Debug for PacketCzReqTradeBuyingStore {
 pub struct PacketZcFailedTradeBuyingStoreToBuyer {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub result: u16,
+    pub result_raw: Vec<u8>,
 }
 
 impl PacketZcFailedTradeBuyingStoreToBuyer {
@@ -35089,7 +40973,9 @@ impl PacketZcFailedTradeBuyingStoreToBuyer {
         PacketZcFailedTradeBuyingStoreToBuyer {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             result: u16::from_le_bytes([buffer[2], buffer[3]]),
+            result_raw: buffer[2..4].to_vec(),
         }
     }
 }
@@ -35119,9 +41005,13 @@ impl Debug for PacketZcFailedTradeBuyingStoreToBuyer {
 pub struct PacketZcUpdateItemFromBuyingStore {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub itid: u16,
+    pub itid_raw: Vec<u8>,
     pub count: u16,
+    pub count_raw: Vec<u8>,
     pub limit_zeny: u32,
+    pub limit_zeny_raw: Vec<u8>,
 }
 
 impl PacketZcUpdateItemFromBuyingStore {
@@ -35129,9 +41019,13 @@ impl PacketZcUpdateItemFromBuyingStore {
         PacketZcUpdateItemFromBuyingStore {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             itid: u16::from_le_bytes([buffer[2], buffer[3]]),
+            itid_raw: buffer[2..4].to_vec(),
             count: u16::from_le_bytes([buffer[4], buffer[5]]),
+            count_raw: buffer[4..6].to_vec(),
             limit_zeny: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            limit_zeny_raw: buffer[6..10].to_vec(),
         }
     }
 }
@@ -35163,9 +41057,13 @@ impl Debug for PacketZcUpdateItemFromBuyingStore {
 pub struct PacketZcItemDeleteBuyingStore {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub index: u16,
+    pub index_raw: Vec<u8>,
     pub count: u16,
+    pub count_raw: Vec<u8>,
     pub zeny: u32,
+    pub zeny_raw: Vec<u8>,
 }
 
 impl PacketZcItemDeleteBuyingStore {
@@ -35173,9 +41071,13 @@ impl PacketZcItemDeleteBuyingStore {
         PacketZcItemDeleteBuyingStore {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             index: u16::from_le_bytes([buffer[2], buffer[3]]),
+            index_raw: buffer[2..4].to_vec(),
             count: u16::from_le_bytes([buffer[4], buffer[5]]),
+            count_raw: buffer[4..6].to_vec(),
             zeny: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            zeny_raw: buffer[6..10].to_vec(),
         }
     }
 }
@@ -35207,11 +41109,17 @@ impl Debug for PacketZcItemDeleteBuyingStore {
 pub struct PacketZcElInit {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub hp: u32,
+    pub hp_raw: Vec<u8>,
     pub max_hp: u32,
+    pub max_hp_raw: Vec<u8>,
     pub sp: u32,
+    pub sp_raw: Vec<u8>,
     pub max_sp: u32,
+    pub max_sp_raw: Vec<u8>,
 }
 
 impl PacketZcElInit {
@@ -35219,11 +41127,17 @@ impl PacketZcElInit {
         PacketZcElInit {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             hp: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            hp_raw: buffer[6..10].to_vec(),
             max_hp: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            max_hp_raw: buffer[10..14].to_vec(),
             sp: u32::from_le_bytes([buffer[14], buffer[15], buffer[16], buffer[17]]),
+            sp_raw: buffer[14..18].to_vec(),
             max_sp: u32::from_le_bytes([buffer[18], buffer[19], buffer[20], buffer[21]]),
+            max_sp_raw: buffer[18..22].to_vec(),
         }
     }
 }
@@ -35257,8 +41171,11 @@ impl Debug for PacketZcElInit {
 pub struct PacketZcElParChange {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub var: u16,
+    pub var_raw: Vec<u8>,
     pub value: u32,
+    pub value_raw: Vec<u8>,
 }
 
 impl PacketZcElParChange {
@@ -35266,8 +41183,11 @@ impl PacketZcElParChange {
         PacketZcElParChange {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             var: u16::from_le_bytes([buffer[2], buffer[3]]),
+            var_raw: buffer[2..4].to_vec(),
             value: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            value_raw: buffer[4..8].to_vec(),
         }
     }
 }
@@ -35298,10 +41218,15 @@ impl Debug for PacketZcElParChange {
 pub struct PacketZcBroadcast4 {
             raw: Vec<u8>,
     pub pakcet_type: u16,
+    pub pakcet_type_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub msgtype: char,
+    pub msgtype_raw: Vec<u8>,
     pub color_rgb: u32,
+    pub color_rgb_raw: Vec<u8>,
     pub msg: String,
+    pub msg_raw: Vec<u8>,
 }
 
 impl PacketZcBroadcast4 {
@@ -35309,10 +41234,15 @@ impl PacketZcBroadcast4 {
         PacketZcBroadcast4 {
             raw: buffer.to_vec(),
             pakcet_type: u16::from_le_bytes([buffer[0], buffer[1]]),
+            pakcet_type_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             msgtype: buffer[4] as char,
+            msgtype_raw: buffer[4..5].to_vec(),
             color_rgb: u32::from_le_bytes([buffer[5], buffer[6], buffer[7], buffer[8]]),
+            color_rgb_raw: buffer[5..9].to_vec(),
             msg: String::from_utf8_lossy(&buffer[9..buffer.len()]).to_string(),
+            msg_raw: buffer[9..buffer.len()].to_vec(),
         }
     }
 }
@@ -35345,9 +41275,13 @@ impl Debug for PacketZcBroadcast4 {
 pub struct PacketZcCostumeSpriteChange {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub type_: char,
+    pub type__raw: Vec<u8>,
     pub value: u32,
+    pub value_raw: Vec<u8>,
 }
 
 impl PacketZcCostumeSpriteChange {
@@ -35355,9 +41289,13 @@ impl PacketZcCostumeSpriteChange {
         PacketZcCostumeSpriteChange {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid_raw: buffer[2..6].to_vec(),
             type_: buffer[6] as char,
+            type__raw: buffer[6..7].to_vec(),
             value: u32::from_le_bytes([buffer[7], buffer[8], buffer[9], buffer[10]]),
+            value_raw: buffer[7..11].to_vec(),
         }
     }
 }
@@ -35389,6 +41327,7 @@ impl Debug for PacketZcCostumeSpriteChange {
 pub struct PacketAcOtpUser {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketAcOtpUser {
@@ -35396,6 +41335,7 @@ impl PacketAcOtpUser {
         PacketAcOtpUser {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -35424,7 +41364,9 @@ impl Debug for PacketAcOtpUser {
 pub struct PacketCaOtpAuthReq {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub otpcode: String,
+    pub otpcode_raw: Vec<u8>,
 }
 
 impl PacketCaOtpAuthReq {
@@ -35432,7 +41374,9 @@ impl PacketCaOtpAuthReq {
         PacketCaOtpAuthReq {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             otpcode: String::from_utf8_lossy(&buffer[2..9]).to_string(),
+            otpcode_raw: buffer[2..9].to_vec(),
         }
     }
 }
@@ -35462,8 +41406,11 @@ impl Debug for PacketCaOtpAuthReq {
 pub struct PacketAcOtpAuthAck {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub login_result: u16,
+    pub login_result_raw: Vec<u8>,
 }
 
 impl PacketAcOtpAuthAck {
@@ -35471,8 +41418,11 @@ impl PacketAcOtpAuthAck {
         PacketAcOtpAuthAck {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             login_result: u16::from_le_bytes([buffer[4], buffer[5]]),
+            login_result_raw: buffer[4..6].to_vec(),
         }
     }
 }
@@ -35503,8 +41453,11 @@ impl Debug for PacketAcOtpAuthAck {
 pub struct PacketZcFailedTradeBuyingStoreToSeller {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub result: u16,
+    pub result_raw: Vec<u8>,
     pub itid: u16,
+    pub itid_raw: Vec<u8>,
 }
 
 impl PacketZcFailedTradeBuyingStoreToSeller {
@@ -35512,8 +41465,11 @@ impl PacketZcFailedTradeBuyingStoreToSeller {
         PacketZcFailedTradeBuyingStoreToSeller {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             result: u16::from_le_bytes([buffer[2], buffer[3]]),
+            result_raw: buffer[2..4].to_vec(),
             itid: u16::from_le_bytes([buffer[4], buffer[5]]),
+            itid_raw: buffer[4..6].to_vec(),
         }
     }
 }
@@ -35544,13 +41500,21 @@ impl Debug for PacketZcFailedTradeBuyingStoreToSeller {
 pub struct PacketCaSsoLoginReqa {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub version: u32,
+    pub version_raw: Vec<u8>,
     pub clienttype: char,
+    pub clienttype_raw: Vec<u8>,
     pub id: String,
+    pub id_raw: Vec<u8>,
     pub mac_addr: String,
+    pub mac_addr_raw: Vec<u8>,
     pub ip_addr: String,
+    pub ip_addr_raw: Vec<u8>,
     pub t1: String,
+    pub t1_raw: Vec<u8>,
 }
 
 impl PacketCaSsoLoginReqa {
@@ -35558,13 +41522,21 @@ impl PacketCaSsoLoginReqa {
         PacketCaSsoLoginReqa {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             version: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            version_raw: buffer[4..8].to_vec(),
             clienttype: buffer[8] as char,
+            clienttype_raw: buffer[8..9].to_vec(),
             id: String::from_utf8_lossy(&buffer[9..33]).to_string(),
+            id_raw: buffer[9..33].to_vec(),
             mac_addr: String::from_utf8_lossy(&buffer[33..50]).to_string(),
+            mac_addr_raw: buffer[33..50].to_vec(),
             ip_addr: String::from_utf8_lossy(&buffer[50..65]).to_string(),
+            ip_addr_raw: buffer[50..65].to_vec(),
             t1: String::from_utf8_lossy(&buffer[65..buffer.len()]).to_string(),
+            t1_raw: buffer[65..buffer.len()].to_vec(),
         }
     }
 }
@@ -35600,14 +41572,23 @@ impl Debug for PacketCaSsoLoginReqa {
 pub struct PacketCaSsoLoginReq {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub version: u32,
+    pub version_raw: Vec<u8>,
     pub clienttype: char,
+    pub clienttype_raw: Vec<u8>,
     pub id: String,
+    pub id_raw: Vec<u8>,
     pub passwd: String,
+    pub passwd_raw: Vec<u8>,
     pub mac_adress: String,
+    pub mac_adress_raw: Vec<u8>,
     pub ip: String,
+    pub ip_raw: Vec<u8>,
     pub t1: String,
+    pub t1_raw: Vec<u8>,
 }
 
 impl PacketCaSsoLoginReq {
@@ -35615,14 +41596,23 @@ impl PacketCaSsoLoginReq {
         PacketCaSsoLoginReq {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             version: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            version_raw: buffer[4..8].to_vec(),
             clienttype: buffer[8] as char,
+            clienttype_raw: buffer[8..9].to_vec(),
             id: String::from_utf8_lossy(&buffer[9..33]).to_string(),
+            id_raw: buffer[9..33].to_vec(),
             passwd: String::from_utf8_lossy(&buffer[33..60]).to_string(),
+            passwd_raw: buffer[33..60].to_vec(),
             mac_adress: String::from_utf8_lossy(&buffer[60..77]).to_string(),
+            mac_adress_raw: buffer[60..77].to_vec(),
             ip: String::from_utf8_lossy(&buffer[77..92]).to_string(),
+            ip_raw: buffer[77..92].to_vec(),
             t1: String::from_utf8_lossy(&buffer[92..buffer.len()]).to_string(),
+            t1_raw: buffer[92..buffer.len()].to_vec(),
         }
     }
 }
@@ -35659,7 +41649,9 @@ impl Debug for PacketCaSsoLoginReq {
 pub struct PacketAcSsoLoginAck {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub result: u16,
+    pub result_raw: Vec<u8>,
 }
 
 impl PacketAcSsoLoginAck {
@@ -35667,7 +41659,9 @@ impl PacketAcSsoLoginAck {
         PacketAcSsoLoginAck {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             result: u16::from_le_bytes([buffer[2], buffer[3]]),
+            result_raw: buffer[2..4].to_vec(),
         }
     }
 }
@@ -35697,7 +41691,9 @@ impl Debug for PacketAcSsoLoginAck {
 pub struct PacketChDeleteChar3Reserved {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
 }
 
 impl PacketChDeleteChar3Reserved {
@@ -35705,7 +41701,9 @@ impl PacketChDeleteChar3Reserved {
         PacketChDeleteChar3Reserved {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -35735,9 +41733,13 @@ impl Debug for PacketChDeleteChar3Reserved {
 pub struct PacketHcDeleteChar3Reserved {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub result: u32,
+    pub result_raw: Vec<u8>,
     pub delete_reserved_date: u32,
+    pub delete_reserved_date_raw: Vec<u8>,
 }
 
 impl PacketHcDeleteChar3Reserved {
@@ -35745,9 +41747,13 @@ impl PacketHcDeleteChar3Reserved {
         PacketHcDeleteChar3Reserved {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid_raw: buffer[2..6].to_vec(),
             result: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            result_raw: buffer[6..10].to_vec(),
             delete_reserved_date: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            delete_reserved_date_raw: buffer[10..14].to_vec(),
         }
     }
 }
@@ -35779,8 +41785,11 @@ impl Debug for PacketHcDeleteChar3Reserved {
 pub struct PacketChDeleteChar3 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub birth: String,
+    pub birth_raw: Vec<u8>,
 }
 
 impl PacketChDeleteChar3 {
@@ -35788,8 +41797,11 @@ impl PacketChDeleteChar3 {
         PacketChDeleteChar3 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid_raw: buffer[2..6].to_vec(),
             birth: String::from_utf8_lossy(&buffer[6..12]).to_string(),
+            birth_raw: buffer[6..12].to_vec(),
         }
     }
 }
@@ -35820,8 +41832,11 @@ impl Debug for PacketChDeleteChar3 {
 pub struct PacketHcDeleteChar3 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub result: u32,
+    pub result_raw: Vec<u8>,
 }
 
 impl PacketHcDeleteChar3 {
@@ -35829,8 +41844,11 @@ impl PacketHcDeleteChar3 {
         PacketHcDeleteChar3 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid_raw: buffer[2..6].to_vec(),
             result: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            result_raw: buffer[6..10].to_vec(),
         }
     }
 }
@@ -35861,7 +41879,9 @@ impl Debug for PacketHcDeleteChar3 {
 pub struct PacketChDeleteChar3Cancel {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
 }
 
 impl PacketChDeleteChar3Cancel {
@@ -35869,7 +41889,9 @@ impl PacketChDeleteChar3Cancel {
         PacketChDeleteChar3Cancel {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid_raw: buffer[2..6].to_vec(),
         }
     }
 }
@@ -35899,8 +41921,11 @@ impl Debug for PacketChDeleteChar3Cancel {
 pub struct PacketHcDeleteChar3Cancel {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub gid: u32,
+    pub gid_raw: Vec<u8>,
     pub result: u32,
+    pub result_raw: Vec<u8>,
 }
 
 impl PacketHcDeleteChar3Cancel {
@@ -35908,8 +41933,11 @@ impl PacketHcDeleteChar3Cancel {
         PacketHcDeleteChar3Cancel {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid_raw: buffer[2..6].to_vec(),
             result: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            result_raw: buffer[6..10].to_vec(),
         }
     }
 }
@@ -35940,12 +41968,19 @@ impl Debug for PacketHcDeleteChar3Cancel {
 pub struct PacketCzSearchStoreInfo {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub store_type: char,
+    pub store_type_raw: Vec<u8>,
     pub max_price: u32,
+    pub max_price_raw: Vec<u8>,
     pub min_price: u32,
+    pub min_price_raw: Vec<u8>,
     pub item_idlist_size: char,
+    pub item_idlist_size_raw: Vec<u8>,
     pub card_idlist_size: char,
+    pub card_idlist_size_raw: Vec<u8>,
 }
 
 impl PacketCzSearchStoreInfo {
@@ -35953,12 +41988,19 @@ impl PacketCzSearchStoreInfo {
         PacketCzSearchStoreInfo {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             store_type: buffer[4] as char,
+            store_type_raw: buffer[4..5].to_vec(),
             max_price: u32::from_le_bytes([buffer[5], buffer[6], buffer[7], buffer[8]]),
+            max_price_raw: buffer[5..9].to_vec(),
             min_price: u32::from_le_bytes([buffer[9], buffer[10], buffer[11], buffer[12]]),
+            min_price_raw: buffer[9..13].to_vec(),
             item_idlist_size: buffer[13] as char,
+            item_idlist_size_raw: buffer[13..14].to_vec(),
             card_idlist_size: buffer[14] as char,
+            card_idlist_size_raw: buffer[14..15].to_vec(),
         }
     }
 }
@@ -35993,11 +42035,17 @@ impl Debug for PacketCzSearchStoreInfo {
 pub struct PacketZcSearchStoreInfoAck {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub packet_length: u16,
+    pub packet_length_raw: Vec<u8>,
     pub is_first_page: bool,
+    pub is_first_page_raw: Vec<u8>,
     pub is_nex_page: bool,
+    pub is_nex_page_raw: Vec<u8>,
     pub remained_search_cnt: char,
+    pub remained_search_cnt_raw: Vec<u8>,
     pub ssilist: Vec<ResultItemInfo>,
+    pub ssilist_raw: Vec<u8>,
 }
 
 impl PacketZcSearchStoreInfoAck {
@@ -36014,11 +42062,17 @@ impl PacketZcSearchStoreInfoAck {
         PacketZcSearchStoreInfoAck {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             packet_length: u16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
             is_first_page: buffer[4] == 1,
+            is_first_page_raw: buffer[4..5].to_vec(),
             is_nex_page: buffer[5] == 1,
+            is_nex_page_raw: buffer[5..6].to_vec(),
             remained_search_cnt: buffer[6] as char,
+            remained_search_cnt_raw: buffer[6..7].to_vec(),
             ssilist: vec_field,
+            ssilist_raw: buffer[7..113].to_vec(),
         }
     }
 }
@@ -36052,7 +42106,9 @@ impl Debug for PacketZcSearchStoreInfoAck {
 pub struct PacketZcSearchStoreInfoFailed {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub reason: char,
+    pub reason_raw: Vec<u8>,
 }
 
 impl PacketZcSearchStoreInfoFailed {
@@ -36060,7 +42116,9 @@ impl PacketZcSearchStoreInfoFailed {
         PacketZcSearchStoreInfoFailed {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             reason: buffer[2] as char,
+            reason_raw: buffer[2..3].to_vec(),
         }
     }
 }
@@ -36090,6 +42148,7 @@ impl Debug for PacketZcSearchStoreInfoFailed {
 pub struct PacketCzSearchStoreInfoNextPage {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketCzSearchStoreInfoNextPage {
@@ -36097,6 +42156,7 @@ impl PacketCzSearchStoreInfoNextPage {
         PacketCzSearchStoreInfoNextPage {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -36125,8 +42185,11 @@ impl Debug for PacketCzSearchStoreInfoNextPage {
 pub struct PacketZcAckBanGuildSso {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub char_name: String,
+    pub char_name_raw: Vec<u8>,
     pub reason_desc: String,
+    pub reason_desc_raw: Vec<u8>,
 }
 
 impl PacketZcAckBanGuildSso {
@@ -36134,8 +42197,11 @@ impl PacketZcAckBanGuildSso {
         PacketZcAckBanGuildSso {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             char_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            char_name_raw: buffer[2..26].to_vec(),
             reason_desc: String::from_utf8_lossy(&buffer[26..66]).to_string(),
+            reason_desc_raw: buffer[26..66].to_vec(),
         }
     }
 }
@@ -36166,8 +42232,11 @@ impl Debug for PacketZcAckBanGuildSso {
 pub struct PacketZcOpenSearchStoreInfo {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub open_type: u16,
+    pub open_type_raw: Vec<u8>,
     pub search_cnt_max: char,
+    pub search_cnt_max_raw: Vec<u8>,
 }
 
 impl PacketZcOpenSearchStoreInfo {
@@ -36175,8 +42244,11 @@ impl PacketZcOpenSearchStoreInfo {
         PacketZcOpenSearchStoreInfo {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             open_type: u16::from_le_bytes([buffer[2], buffer[3]]),
+            open_type_raw: buffer[2..4].to_vec(),
             search_cnt_max: buffer[4] as char,
+            search_cnt_max_raw: buffer[4..5].to_vec(),
         }
     }
 }
@@ -36207,6 +42279,7 @@ impl Debug for PacketZcOpenSearchStoreInfo {
 pub struct PacketCzCloseSearchStoreInfo {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
 }
 
 impl PacketCzCloseSearchStoreInfo {
@@ -36214,6 +42287,7 @@ impl PacketCzCloseSearchStoreInfo {
         PacketCzCloseSearchStoreInfo {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
         }
     }
 }
@@ -36242,9 +42316,13 @@ impl Debug for PacketCzCloseSearchStoreInfo {
 pub struct PacketCzSsilistItemClick {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub aid: u32,
+    pub aid_raw: Vec<u8>,
     pub ssiid: u32,
+    pub ssiid_raw: Vec<u8>,
     pub itid: u16,
+    pub itid_raw: Vec<u8>,
 }
 
 impl PacketCzSsilistItemClick {
@@ -36252,9 +42330,13 @@ impl PacketCzSsilistItemClick {
         PacketCzSsilistItemClick {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: buffer[2..6].to_vec(),
             ssiid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            ssiid_raw: buffer[6..10].to_vec(),
             itid: u16::from_le_bytes([buffer[10], buffer[11]]),
+            itid_raw: buffer[10..12].to_vec(),
         }
     }
 }
@@ -36286,8 +42368,11 @@ impl Debug for PacketCzSsilistItemClick {
 pub struct PacketZcSsilistItemClickAck {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub x: u16,
+    pub x_raw: Vec<u8>,
     pub y: u16,
+    pub y_raw: Vec<u8>,
 }
 
 impl PacketZcSsilistItemClickAck {
@@ -36295,8 +42380,11 @@ impl PacketZcSsilistItemClickAck {
         PacketZcSsilistItemClickAck {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             x: u16::from_le_bytes([buffer[2], buffer[3]]),
+            x_raw: buffer[2..4].to_vec(),
             y: u16::from_le_bytes([buffer[4], buffer[5]]),
+            y_raw: buffer[4..6].to_vec(),
         }
     }
 }
@@ -36327,8 +42415,11 @@ impl Debug for PacketZcSsilistItemClickAck {
 pub struct PacketAcRefuseLoginR2 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub error_code: u32,
+    pub error_code_raw: Vec<u8>,
     pub block_date: String,
+    pub block_date_raw: Vec<u8>,
 }
 
 impl PacketAcRefuseLoginR2 {
@@ -36336,8 +42427,11 @@ impl PacketAcRefuseLoginR2 {
         PacketAcRefuseLoginR2 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             error_code: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            error_code_raw: buffer[2..6].to_vec(),
             block_date: String::from_utf8_lossy(&buffer[6..26]).to_string(),
+            block_date_raw: buffer[6..26].to_vec(),
         }
     }
 }
@@ -36368,8 +42462,11 @@ impl Debug for PacketAcRefuseLoginR2 {
 pub struct PacketChSelectAccessibleMapname {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub char_num: char,
+    pub char_num_raw: Vec<u8>,
     pub map_list_num: char,
+    pub map_list_num_raw: Vec<u8>,
 }
 
 impl PacketChSelectAccessibleMapname {
@@ -36377,8 +42474,11 @@ impl PacketChSelectAccessibleMapname {
         PacketChSelectAccessibleMapname {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             char_num: buffer[2] as char,
+            char_num_raw: buffer[2..3].to_vec(),
             map_list_num: buffer[3] as char,
+            map_list_num_raw: buffer[3..4].to_vec(),
         }
     }
 }
@@ -36409,7 +42509,9 @@ impl Debug for PacketChSelectAccessibleMapname {
 pub struct PacketCzRequestMove2 {
             raw: Vec<u8>,
     pub packet_id: u16,
+    pub packet_id_raw: Vec<u8>,
     pub dest: String,
+    pub dest_raw: Vec<u8>,
 }
 
 impl PacketCzRequestMove2 {
@@ -36417,7 +42519,9 @@ impl PacketCzRequestMove2 {
         PacketCzRequestMove2 {
             raw: buffer.to_vec(),
             packet_id: u16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
             dest: String::from_utf8_lossy(&buffer[2..5]).to_string(),
+            dest_raw: buffer[2..5].to_vec(),
         }
     }
 }

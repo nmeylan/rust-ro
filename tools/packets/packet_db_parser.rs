@@ -181,7 +181,7 @@ fn get_field_name(line: &String) -> String {
         cleaned_char
     }).collect();
     if name == "type" {
-        name = "type_".to_string();
+        name = "atype".to_string();
     }
     name = first_char_regex.replace_all(&name, |caps: &Captures| { caps.get(1).unwrap().as_str().to_ascii_lowercase() }).to_string();
     name = uppercase_char_regex.replace_all(&name, |caps: &Captures| { "_".to_owned() + caps.get(1).unwrap().as_str().to_ascii_lowercase().as_str() }).to_string();
