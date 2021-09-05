@@ -116,6 +116,7 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Server<T> {
                              bytes_read,
                              packet);
                     let packet1  = parse(packet);
+                    packet1.display();
                     packet1.debug();
                     println!("{:02X?}", packet1.raw());
                     if outgoing.write(packet).is_ok() {

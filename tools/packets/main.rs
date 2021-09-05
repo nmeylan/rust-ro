@@ -42,6 +42,7 @@ pub struct StructField<'a> {
 #[derive(Debug)]
 pub struct Type {
     pub name: String,
+    pub cname: String,
     pub length: Option<i32>,
 }
 

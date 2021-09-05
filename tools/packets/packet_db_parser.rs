@@ -17,14 +17,14 @@ use std::path::Path;
 
 lazy_static! {
     pub static ref static_types_map: HashMap<&'static str, Type> = hashmap!{
-        "char" => Type {name: "char".to_string(), length: Some(1)},
-        "short" => Type {name: "u16".to_string(), length: Some(2)},
-        "int" => Type {name: "u32".to_string(), length: Some(4)},
-        "long" => Type {name: "u32".to_string(), length: Some(4)},
-        "bool" => Type {name: "bool".to_string(), length: Some(1)},
-        "string" => Type {name: "String".to_string(), length: None},
-        "struct" => Type {name: "Struct".to_string(), length: None},
-        "array" => Type {name: "Vec".to_string(), length: None},
+        "char" => Type {name: "char".to_string(), cname: "char".to_string(), length: Some(1)},
+        "short" => Type {name: "u16".to_string(), cname: "short".to_string(), length: Some(2)},
+        "int" => Type {name: "u32".to_string(), cname: "int".to_string(), length: Some(4)},
+        "long" => Type {name: "u32".to_string(), cname: "long".to_string(), length: Some(4)},
+        "bool" => Type {name: "bool".to_string(), cname: "bool".to_string(), length: Some(1)},
+        "string" => Type {name: "String".to_string(), cname: "char[]".to_string(), length: None},
+        "struct" => Type {name: "Struct".to_string(), cname: "struct".to_string(), length: None},
+        "array" => Type {name: "Vec".to_string(), cname: "[]".to_string(), length: None},
     };
     static ref struct_regex: Regex = Regex::new(r"struct\s([^\s]*)\s.*").unwrap();
     static ref nested_struct_regex: Regex = Regex::new(r"struct\s([^\s]*)\s([^\s\[]*)\[?.*/?\s(\d+)?").unwrap();
