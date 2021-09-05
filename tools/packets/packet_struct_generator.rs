@@ -47,6 +47,7 @@ fn write_packet_trait(file: &mut File) {
     file.write(b"    fn id(&self) -> &str;\n");
     file.write(b"    fn display(&self);\n");
     file.write(b"    fn debug(&self);\n");
+    file.write(b"    fn pretty_debug(&self);\n");
     file.write(b"    fn raw(&self) -> &Vec<u8>;\n");
     file.write(b"}\n\n");
 }
@@ -62,6 +63,9 @@ fn write_packet_trait_impl(file: &mut File, packet: &PacketStructDefinition) {
     file.write(b"    }\n").unwrap();
     file.write(b"    fn display(&self) {\n").unwrap();
     file.write(b"            println!(\"{}\", self)\n");
+    file.write(b"    }\n").unwrap();
+    file.write(b"    fn pretty_debug(&self) {\n").unwrap();
+    file.write(b"            println!(\"{:#?}\", self)\n");
     file.write(b"    }\n").unwrap();
     file.write(b"    fn raw(&self) -> &Vec<u8> {\n").unwrap();
     file.write(b"            &self.raw\n");
@@ -119,7 +123,7 @@ fn write_struct_info_trait(file: &mut File, struct_definition: &StructDefinition
 fn write_struct_definition(file: &mut File, struct_definition: &StructDefinition, is_packet: bool) {
     file.write(format!("pub struct {} {{\n", struct_definition.name).as_bytes());
     if is_packet {
-        file.write(b"            raw: Vec<u8>,\n");
+        file.write(b"    pub raw: Vec<u8>,\n");
     }
     for field in &struct_definition.fields {
         if &field.data_type.name == "Vec" {
@@ -177,11 +181,23 @@ fn struct_impl_field_value(field: &StructField) -> String {
         "char" => {
             format!("buffer[{}] as char", field.position)
         }
+        "u8" => {
+            format!("u8::from_le_bytes([buffer[{}]])", field.position)
+        }
+        "i8" => {
+            format!("i8::from_le_bytes([buffer[{}]])", field.position)
+        }
         "u16" => {
             format!("u16::from_le_bytes([buffer[{}], buffer[{}]])", field.position, field.position + 1)
         }
+        "i16" => {
+            format!("i16::from_le_bytes([buffer[{}], buffer[{}]])", field.position, field.position + 1)
+        }
         "u32" => {
             format!("u32::from_le_bytes([buffer[{}], buffer[{}], buffer[{}], buffer[{}]])", field.position, field.position + 1, field.position + 2, field.position + 3)
+        }
+        "i32" => {
+            format!("i32::from_le_bytes([buffer[{}], buffer[{}], buffer[{}], buffer[{}]])", field.position, field.position + 1, field.position + 2, field.position + 3)
         }
         "bool" => {
             format!("buffer[{}] == 1", field.position)
@@ -202,8 +218,8 @@ fn field_length(field: &StructField) -> String {
 fn write_unknown_packet(file: &mut File) {
     file.write(b"#[derive(Debug)]\n");
     file.write(b"pub struct PacketUnknown {\n");
-    file.write(b"    raw: Vec<u8>,\n");
-    file.write(b"    packet_id: String,\n");
+    file.write(b"    pub raw: Vec<u8>,\n");
+    file.write(b"    pub packet_id: String,\n");
     file.write(b"}\n");
     file.write(b"impl Packet for PacketUnknown {\n");
     file.write(b"    fn id(&self) -> &str {\n");
@@ -213,6 +229,9 @@ fn write_unknown_packet(file: &mut File) {
     file.write(b"            println!(\"{:?}\", self)\n");
     file.write(b"    }\n").unwrap();
     file.write(b"    fn display(&self) {\n").unwrap();
+    file.write(b"            self.debug()\n");
+    file.write(b"    }\n").unwrap();
+    file.write(b"    fn pretty_debug(&self) {\n").unwrap();
     file.write(b"            self.debug()\n");
     file.write(b"    }\n").unwrap();
     file.write(b"    fn raw(&self) -> &Vec<u8> {\n").unwrap();

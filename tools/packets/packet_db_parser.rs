@@ -1,4 +1,3 @@
-
 use std::fs::File;
 use std::io;
 use std::io::{BufRead, Write};
@@ -17,10 +16,14 @@ use std::path::Path;
 
 lazy_static! {
     pub static ref static_types_map: HashMap<&'static str, Type> = hashmap!{
-        "char" => Type {name: "char".to_string(), cname: "char".to_string(), length: Some(1)},
-        "short" => Type {name: "u16".to_string(), cname: "short".to_string(), length: Some(2)},
-        "int" => Type {name: "u32".to_string(), cname: "int".to_string(), length: Some(4)},
-        "long" => Type {name: "u32".to_string(), cname: "long".to_string(), length: Some(4)},
+        "char" => Type {name: "i8".to_string(), cname: "char".to_string(), length: Some(1)},
+        "unsigned char" => Type {name: "u8".to_string(), cname: "unsigned char".to_string(), length: Some(1)},
+        "short" => Type {name: "i16".to_string(), cname: "short".to_string(), length: Some(2)},
+        "unsigned short" => Type {name: "u16".to_string(), cname: "unsigned short".to_string(), length: Some(2)},
+        "int" => Type {name: "i32".to_string(), cname: "int".to_string(), length: Some(4)},
+        "unsigned int" => Type {name: "u32".to_string(), cname: "unsigned int".to_string(), length: Some(4)},
+        "long" => Type {name: "i32".to_string(), cname: "long".to_string(), length: Some(4)},
+        "unsigned long" => Type {name: "u32".to_string(), cname: "unsigned long".to_string(), length: Some(4)},
         "bool" => Type {name: "bool".to_string(), cname: "bool".to_string(), length: Some(1)},
         "string" => Type {name: "String".to_string(), cname: "char[]".to_string(), length: None},
         "struct" => Type {name: "Struct".to_string(), cname: "struct".to_string(), length: None},
@@ -189,13 +192,17 @@ fn get_field_name(line: &String) -> String {
 }
 
 fn get_type(line: &String) -> &'static Type {
+    let is_unsigned = line.contains("unsigned");
     let mut type_str = line.replace("unsigned ", "");
     if type_str.contains("char") && type_str.contains("[") {
         return static_types_map.get("string").unwrap();
     }
     let frag: Vec<&str> = type_str.split(" ").collect();
-    let type_to_retrieve = frag[1].trim();
-    let found_type = static_types_map.get(type_to_retrieve);
+    let mut type_to_retrieve = frag[1].trim().to_string();
+    if is_unsigned {
+        type_to_retrieve = format!("unsigned {}", type_to_retrieve);
+    }
+    let found_type = static_types_map.get(type_to_retrieve.as_str());
     if found_type.is_none() {
         panic!("type {} not found in static_types_map", type_to_retrieve);
     }
