@@ -14,7 +14,6 @@ impl PacketHandler for LoginServer {
             // PACKET_AC_ACCEPT_LOGIN
             // char server IP is in bytes 64..68
             // char server port is in bytes 68..70
-            println!("{:x?}", &packet[64..70]);
             let mut wtr = Vec::new();
             wtr.write_u8(0xeb).unwrap();
             packet[68] = wtr[0];
