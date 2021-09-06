@@ -12,7 +12,7 @@ use std::sync::{Arc, Mutex};
 use std::borrow::{BorrowMut, Borrow};
 use std::ops::{DerefMut, Deref};
 use std::collections::HashMap;
-use crate::server::packets::{Packet, parse};
+use crate::server::packets::{Packet, parse, PacketUnknown, PacketZcNotifyTime};
 use std::any::Any;
 
 #[derive(Clone)]
@@ -109,16 +109,15 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Server<T> {
 
                     let tcp_stream_ref = Arc::new(Mutex::new(incoming.try_clone().unwrap()));
                     self.packet_handler.handle_packet(tcp_stream_ref, packet );
-                    println!("{} {} {} ({}) {:02X?}",
-                             self.name,
-                             if direction == ProxyDirection::Backward { "<" } else { ">" },
-                             packet_name(packet),
-                             bytes_read,
-                             packet);
+                    print!("{} {} ", self.name, if direction == ProxyDirection::Backward { "<" } else { ">" });
+                    println!("{} {:02X?}", bytes_read, packet);
                     let packet1  = parse(packet);
-                    packet1.display();
-                    packet1.pretty_debug();
-                    println!("{:02X?}", packet1.raw());
+                    if packet1.as_any().downcast_ref::<PacketUnknown>().is_some() {
+                        println!("Unknown packet {} of length {}", packet1.id(), bytes_read);
+                    } else if packet1.as_any().downcast_ref::<PacketZcNotifyTime>().is_none() {
+                        packet1.display();
+                        packet1.pretty_debug();
+                    }
                     if outgoing.write(packet).is_ok() {
                         outgoing.flush();
                     }

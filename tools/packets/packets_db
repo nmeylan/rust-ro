@@ -59,6 +59,28 @@
     /* this+0x1e */ unsigned short property
   }
  }
+0xc40a
+ struct PACKET_AC_ACCEPT_LOGIN2 {
+  /* this+0x0 */ short PacketId
+  /* this+0x2 */ short PacketLength
+  /* this+0x4 */ int AuthCode
+  /* this+0x8 */ unsigned long AID
+  /* this+0xc */ unsigned long userLevel
+  /* this+0x10 */ unsigned long lastLoginIP
+  /* this+0x14 */ char lastLoginTime[26]
+  /* this+0x2e */ unsigned char Sex
+  /* this+0x2f */ char twitterAuthToken[16]
+  /* this+0x3f */ unsigned short twitterFlag
+  /* this+0x40 */ struct SERVER_ADDR2 ServerList[...] { // Size 160
+    /* this+0x0 */ unsigned long ip
+    /* this+0x4 */ short port
+    /* this+0x6 */ unsigned char name[20]
+    /* this+0x1a */ unsigned short userCount
+    /* this+0x1c */ unsigned short state
+    /* this+0x1e */ unsigned short property
+    /* this+0x1f */ char unknown2[128]
+  }
+ }
 0x6a
  struct PACKET_AC_REFUSE_LOGIN {
   /* this+0x0 */ short PacketId
@@ -4083,7 +4105,7 @@
   /* this+0x21 */ int iAccountSID
  }
 0x276
- struct PACKET_AC_ACCEPT_LOGIN2 {
+ struct PACKET_CA_ACCEPT_LOGIN2 {
   /* this+0x0 */ short PacketId
   /* this+0x2 */ short PacketLength
   /* this+0x4 */ int AuthCode
