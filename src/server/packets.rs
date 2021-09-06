@@ -3,6 +3,8 @@
 
 use std::fmt::{Formatter, Debug, Display};
 
+ use std::any::Any;
+
 pub fn parse(buffer: &[u8]) -> Box<dyn Packet> {
     if buffer[0] == 0x64 && buffer[1] == 0x00 {
         return Box::new(PacketCaLogin::from(buffer));
@@ -21,6 +23,9 @@ pub fn parse(buffer: &[u8]) -> Box<dyn Packet> {
     }
     if buffer[0] == 0x69 && buffer[1] == 0x00 {
         return Box::new(PacketAcAcceptLogin::from(buffer));
+    }
+    if buffer[0] == 0xc4 && buffer[1] == 0x0a {
+        return Box::new(PacketAcAcceptLogin2::from(buffer));
     }
     if buffer[0] == 0x6a && buffer[1] == 0x00 {
         return Box::new(PacketAcRefuseLogin::from(buffer));
@@ -1568,7 +1573,7 @@ pub fn parse(buffer: &[u8]) -> Box<dyn Packet> {
         return Box::new(PacketChEnter2::from(buffer));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x76 {
-        return Box::new(PacketAcAcceptLogin2::from(buffer));
+        return Box::new(PacketCaAcceptLogin2::from(buffer));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x77 {
         return Box::new(PacketCaLoginPcbang::from(buffer));
@@ -2293,6 +2298,7 @@ pub trait Packet {
     fn debug(&self);
     fn pretty_debug(&self);
     fn raw(&self) -> &Vec<u8>;
+    fn as_any(&self) -> &dyn Any;
 }
 
 pub struct PacketCaLogin {
@@ -2342,6 +2348,9 @@ impl Packet for PacketCaLogin {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -2423,6 +2432,9 @@ impl Packet for PacketChEnter {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketChEnter {
@@ -2488,6 +2500,9 @@ impl Packet for PacketChSelectChar {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -2583,6 +2598,9 @@ impl Packet for PacketChMakeChar {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketChMakeChar {
@@ -2662,6 +2680,9 @@ impl Packet for PacketChDeleteChar {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -2760,6 +2781,9 @@ impl Packet for PacketAcAcceptLogin {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketAcAcceptLogin {
@@ -2792,6 +2816,130 @@ impl Display for PacketAcAcceptLogin {
             .field("last_login_time(char[] as String)[20, 46]", &self.last_login_time)
             .field("sex(unsigned char as u8)[46, 47]", &self.sex)
             .field("server_list([] as Vec)[47, 79]", &self.server_list)
+        .finish()
+    }
+}
+
+pub struct PacketAcAcceptLogin2 {
+    pub raw: Vec<u8>,
+    pub packet_id: i16,
+    pub packet_id_raw: Vec<u8>,
+    pub packet_length: i16,
+    pub packet_length_raw: Vec<u8>,
+    pub auth_code: i32,
+    pub auth_code_raw: Vec<u8>,
+    pub aid: u32,
+    pub aid_raw: Vec<u8>,
+    pub user_level: u32,
+    pub user_level_raw: Vec<u8>,
+    pub last_login_ip: u32,
+    pub last_login_ip_raw: Vec<u8>,
+    pub last_login_time: String,
+    pub last_login_time_raw: Vec<u8>,
+    pub sex: u8,
+    pub sex_raw: Vec<u8>,
+    pub twitter_auth_token: String,
+    pub twitter_auth_token_raw: Vec<u8>,
+    pub twitter_flag: u16,
+    pub twitter_flag_raw: Vec<u8>,
+    pub server_list: Vec<ServerAddr2>,
+    pub server_list_raw: Vec<u8>,
+}
+
+impl PacketAcAcceptLogin2 {
+    pub fn from(buffer: &[u8]) -> PacketAcAcceptLogin2 {
+        let iter_count = &buffer.len() / 160;
+        let mut vec_field: Vec<ServerAddr2> = Vec::new();
+        let mut i = 1;
+        while i <= iter_count {
+            let start_pos = 64 * i;
+            let end_pos = 224 * i;
+            vec_field.push(ServerAddr2::from(&buffer[start_pos..end_pos]));
+            i += 1;
+        }
+        PacketAcAcceptLogin2 {
+            raw: buffer.to_vec(),
+            packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: buffer[0..2].to_vec(),
+            packet_length: i16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: buffer[2..4].to_vec(),
+            auth_code: i32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            auth_code_raw: buffer[4..8].to_vec(),
+            aid: u32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
+            aid_raw: buffer[8..12].to_vec(),
+            user_level: u32::from_le_bytes([buffer[12], buffer[13], buffer[14], buffer[15]]),
+            user_level_raw: buffer[12..16].to_vec(),
+            last_login_ip: u32::from_le_bytes([buffer[16], buffer[17], buffer[18], buffer[19]]),
+            last_login_ip_raw: buffer[16..20].to_vec(),
+            last_login_time: String::from_utf8_lossy(&buffer[20..46]).to_string(),
+            last_login_time_raw: buffer[20..46].to_vec(),
+            sex: u8::from_le_bytes([buffer[46]]),
+            sex_raw: buffer[46..47].to_vec(),
+            twitter_auth_token: String::from_utf8_lossy(&buffer[47..63]).to_string(),
+            twitter_auth_token_raw: buffer[47..63].to_vec(),
+            twitter_flag: u16::from_le_bytes([buffer[63], buffer[64]]),
+            twitter_flag_raw: buffer[63..65].to_vec(),
+            server_list: vec_field,
+            server_list_raw: buffer[64..224].to_vec(),
+        }
+    }
+}
+
+impl Packet for PacketAcAcceptLogin2 {
+    fn id(&self) -> &str {
+       "0xc40a"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
+    }
+    fn display(&self) {
+            println!("{}", self)
+    }
+    fn pretty_debug(&self) {
+            println!("{:#?}", self)
+    }
+    fn raw(&self) -> &Vec<u8> {
+            &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
+}
+
+impl Debug for PacketAcAcceptLogin2 {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("PacketAcAcceptLogin2")
+            .field("id", &self.id())
+            .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
+            .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
+            .field("auth_code[4, 8]", &format!("{:02X?}", &self.auth_code_raw))
+            .field("aid[8, 12]", &format!("{:02X?}", &self.aid_raw))
+            .field("user_level[12, 16]", &format!("{:02X?}", &self.user_level_raw))
+            .field("last_login_ip[16, 20]", &format!("{:02X?}", &self.last_login_ip_raw))
+            .field("last_login_time[20, 46]", &format!("{:02X?}", &self.last_login_time_raw))
+            .field("sex[46, 47]", &format!("{:02X?}", &self.sex_raw))
+            .field("twitter_auth_token[47, 63]", &format!("{:02X?}", &self.twitter_auth_token_raw))
+            .field("twitter_flag[63, 65]", &format!("{:02X?}", &self.twitter_flag_raw))
+            .field("server_list[64, 224]", &format!("{:02X?}", &self.server_list_raw))
+        .finish()
+    }
+}
+
+impl Display for PacketAcAcceptLogin2 {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("PacketAcAcceptLogin2")
+            .field("id", &self.id())
+            .field("packet_id(short as i16)[0, 2]", &self.packet_id)
+            .field("packet_length(short as i16)[2, 4]", &self.packet_length)
+            .field("auth_code(int as i32)[4, 8]", &self.auth_code)
+            .field("aid(unsigned long as u32)[8, 12]", &self.aid)
+            .field("user_level(unsigned long as u32)[12, 16]", &self.user_level)
+            .field("last_login_ip(unsigned long as u32)[16, 20]", &self.last_login_ip)
+            .field("last_login_time(char[] as String)[20, 46]", &self.last_login_time)
+            .field("sex(unsigned char as u8)[46, 47]", &self.sex)
+            .field("twitter_auth_token(char[] as String)[47, 63]", &self.twitter_auth_token)
+            .field("twitter_flag(unsigned short as u16)[63, 65]", &self.twitter_flag)
+            .field("server_list([] as Vec)[64, 224]", &self.server_list)
         .finish()
     }
 }
@@ -2835,6 +2983,9 @@ impl Packet for PacketAcRefuseLogin {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -2941,6 +3092,9 @@ impl Packet for PacketHcAcceptEnterNeoUnion {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketHcAcceptEnterNeoUnion {
@@ -3017,6 +3171,9 @@ impl Packet for PacketHcRefuseEnter {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketHcRefuseEnter {
@@ -3074,6 +3231,9 @@ impl Packet for PacketHcAcceptMakecharNeoUnion {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -3133,6 +3293,9 @@ impl Packet for PacketHcRefuseMakechar {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketHcRefuseMakechar {
@@ -3186,6 +3349,9 @@ impl Packet for PacketHcAcceptDeletechar {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -3242,6 +3408,9 @@ impl Packet for PacketHcRefuseDeletechar {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -3308,6 +3477,9 @@ impl Packet for PacketHcNotifyZonesvr {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -3387,6 +3559,9 @@ impl Packet for PacketCzEnter {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzEnter {
@@ -3465,6 +3640,9 @@ impl Packet for PacketZcAcceptEnter {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAcceptEnter {
@@ -3528,6 +3706,9 @@ impl Packet for PacketZcRefuseEnter {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -3598,6 +3779,9 @@ impl Packet for PacketZcNotifyInitchar {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -3671,6 +3855,9 @@ impl Packet for PacketZcNotifyUpdatechar {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifyUpdatechar {
@@ -3736,6 +3923,9 @@ impl Packet for PacketZcNotifyUpdateplayer {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -3900,6 +4090,9 @@ impl Packet for PacketZcNotifyStandentry {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -4106,6 +4299,9 @@ impl Packet for PacketZcNotifyNewentry {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -4317,6 +4513,9 @@ impl Packet for PacketZcNotifyActentry {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifyActentry {
@@ -4527,6 +4726,9 @@ impl Packet for PacketZcNotifyMoveentry {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifyMoveentry {
@@ -4715,6 +4917,9 @@ impl Packet for PacketZcNotifyStandentryNpc {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifyStandentryNpc {
@@ -4809,6 +5014,9 @@ impl Packet for PacketCzNotifyActorinit {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzNotifyActorinit {
@@ -4864,6 +5072,9 @@ impl Packet for PacketCzRequestTime {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -4922,6 +5133,9 @@ impl Packet for PacketZcNotifyTime {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -4985,6 +5199,9 @@ impl Packet for PacketZcNotifyVanish {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifyVanish {
@@ -5045,6 +5262,9 @@ impl Packet for PacketScNotifyBan {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketScNotifyBan {
@@ -5099,6 +5319,9 @@ impl Packet for PacketCzRequestQuit {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzRequestQuit {
@@ -5151,6 +5374,9 @@ impl Packet for PacketZcAcceptQuit {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAcceptQuit {
@@ -5202,6 +5428,9 @@ impl Packet for PacketZcRefuseQuit {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -5258,6 +5487,9 @@ impl Packet for PacketCzRequestMove {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -5325,6 +5557,9 @@ impl Packet for PacketZcNotifyMove {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifyMove {
@@ -5390,6 +5625,9 @@ impl Packet for PacketZcNotifyPlayermove {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -5459,6 +5697,9 @@ impl Packet for PacketZcStopmove {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcStopmove {
@@ -5524,6 +5765,9 @@ impl Packet for PacketCzRequestAct {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -5616,6 +5860,9 @@ impl Packet for PacketZcNotifyAct {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -5719,6 +5966,9 @@ impl Packet for PacketZcNotifyActPosition {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifyActPosition {
@@ -5795,6 +6045,9 @@ impl Packet for PacketCzRequestChat {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzRequestChat {
@@ -5863,6 +6116,9 @@ impl Packet for PacketZcNotifyChat {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifyChat {
@@ -5929,6 +6185,9 @@ impl Packet for PacketZcNotifyPlayerchat {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifyPlayerchat {
@@ -5988,6 +6247,9 @@ impl Packet for PacketServerEntryAck {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -6050,6 +6312,9 @@ impl Packet for PacketCzContactnpc {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -6118,6 +6383,9 @@ impl Packet for PacketZcNpcackMapmove {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -6193,6 +6461,9 @@ impl Packet for PacketZcNpcackServermove {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNpcackServermove {
@@ -6253,6 +6524,9 @@ impl Packet for PacketZcNpcackEnable {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNpcackEnable {
@@ -6308,6 +6582,9 @@ impl Packet for PacketCzReqname {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -6370,6 +6647,9 @@ impl Packet for PacketZcAckReqname {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -6438,6 +6718,9 @@ impl Packet for PacketCzWhisper {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -6509,6 +6792,9 @@ impl Packet for PacketZcWhisper {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcWhisper {
@@ -6571,6 +6857,9 @@ impl Packet for PacketZcAckWhisper {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAckWhisper {
@@ -6632,6 +6921,9 @@ impl Packet for PacketCzBroadcast {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -6697,6 +6989,9 @@ impl Packet for PacketZcBroadcast {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcBroadcast {
@@ -6760,6 +7055,9 @@ impl Packet for PacketCzChangeDirection {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -6828,6 +7126,9 @@ impl Packet for PacketZcChangeDirection {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -6918,6 +7219,9 @@ impl Packet for PacketZcItemEntry {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -7019,6 +7323,9 @@ impl Packet for PacketZcItemFallEntry {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcItemFallEntry {
@@ -7090,6 +7397,9 @@ impl Packet for PacketCzItemPickup {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -7185,6 +7495,9 @@ impl Packet for PacketZcItemPickupAck {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcItemPickupAck {
@@ -7261,6 +7574,9 @@ impl Packet for PacketZcItemDisappear {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcItemDisappear {
@@ -7322,6 +7638,9 @@ impl Packet for PacketCzItemThrow {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -7396,6 +7715,9 @@ impl Packet for PacketZcNormalItemlist {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNormalItemlist {
@@ -7468,6 +7790,9 @@ impl Packet for PacketZcEquipmentItemlist {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -7542,6 +7867,9 @@ impl Packet for PacketZcStoreNormalItemlist {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcStoreNormalItemlist {
@@ -7615,6 +7943,9 @@ impl Packet for PacketZcStoreEquipmentItemlist {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcStoreEquipmentItemlist {
@@ -7678,6 +8009,9 @@ impl Packet for PacketCzUseItem {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -7747,6 +8081,9 @@ impl Packet for PacketZcUseItemAck {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcUseItemAck {
@@ -7812,6 +8149,9 @@ impl Packet for PacketCzReqWearEquip {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -7881,6 +8221,9 @@ impl Packet for PacketZcReqWearEquipAck {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcReqWearEquipAck {
@@ -7942,6 +8285,9 @@ impl Packet for PacketCzReqTakeoffEquip {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -8009,6 +8355,9 @@ impl Packet for PacketZcReqTakeoffEquipAck {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcReqTakeoffEquipAck {
@@ -8075,6 +8424,9 @@ impl Packet for PacketZcItemThrowAck {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcItemThrowAck {
@@ -8138,6 +8490,9 @@ impl Packet for PacketZcParChange {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -8203,6 +8558,9 @@ impl Packet for PacketZcLongparChange {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcLongparChange {
@@ -8263,6 +8621,9 @@ impl Packet for PacketCzRestart {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzRestart {
@@ -8320,6 +8681,9 @@ impl Packet for PacketZcRestartAck {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -8387,6 +8751,9 @@ impl Packet for PacketZcSayDialog {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcSayDialog {
@@ -8449,6 +8816,9 @@ impl Packet for PacketZcWaitDialog {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcWaitDialog {
@@ -8506,6 +8876,9 @@ impl Packet for PacketZcCloseDialog {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -8573,6 +8946,9 @@ impl Packet for PacketZcMenuList {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcMenuList {
@@ -8639,6 +9015,9 @@ impl Packet for PacketCzChooseMenu {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzChooseMenu {
@@ -8699,6 +9078,9 @@ impl Packet for PacketCzReqNextScript {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqNextScript {
@@ -8752,6 +9134,9 @@ impl Packet for PacketCzReqStatus {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -8812,6 +9197,9 @@ impl Packet for PacketCzStatusChange {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -8880,6 +9268,9 @@ impl Packet for PacketZcStatusChangeAck {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -9047,6 +9438,9 @@ impl Packet for PacketZcStatus {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcStatus {
@@ -9161,6 +9555,9 @@ impl Packet for PacketZcStatusChange {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcStatusChange {
@@ -9220,6 +9617,9 @@ impl Packet for PacketCzReqEmotion {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -9283,6 +9683,9 @@ impl Packet for PacketZcEmotion {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcEmotion {
@@ -9339,6 +9742,9 @@ impl Packet for PacketCzReqUserCount {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqUserCount {
@@ -9394,6 +9800,9 @@ impl Packet for PacketZcUserCount {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -9461,6 +9870,9 @@ impl Packet for PacketZcSpriteChange {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcSpriteChange {
@@ -9523,6 +9935,9 @@ impl Packet for PacketZcSelectDealtype {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcSelectDealtype {
@@ -9584,6 +9999,9 @@ impl Packet for PacketCzAckSelectDealtype {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -9658,6 +10076,9 @@ impl Packet for PacketZcPcPurchaseItemlist {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcPcPurchaseItemlist {
@@ -9730,6 +10151,9 @@ impl Packet for PacketZcPcSellItemlist {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -9804,6 +10228,9 @@ impl Packet for PacketCzPcPurchaseItemlist {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzPcPurchaseItemlist {
@@ -9877,6 +10304,9 @@ impl Packet for PacketCzPcSellItemlist {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzPcSellItemlist {
@@ -9937,6 +10367,9 @@ impl Packet for PacketZcPcPurchaseResult {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcPcPurchaseResult {
@@ -9994,6 +10427,9 @@ impl Packet for PacketZcPcSellResult {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -10053,6 +10489,9 @@ impl Packet for PacketCzDisconnectCharacter {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzDisconnectCharacter {
@@ -10111,6 +10550,9 @@ impl Packet for PacketZcAckDisconnectCharacter {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAckDisconnectCharacter {
@@ -10164,6 +10606,9 @@ impl Packet for PacketCzDisconnectAllCharacter {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -10225,6 +10670,9 @@ impl Packet for PacketCzSettingWhisperPc {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzSettingWhisperPc {
@@ -10284,6 +10732,9 @@ impl Packet for PacketCzSettingWhisperState {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -10346,6 +10797,9 @@ impl Packet for PacketZcSettingWhisperPc {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -10411,6 +10865,9 @@ impl Packet for PacketZcSettingWhisperState {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcSettingWhisperState {
@@ -10466,6 +10923,9 @@ impl Packet for PacketCzReqWhisperList {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -10535,6 +10995,9 @@ impl Packet for PacketZcWhisperList {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -10612,6 +11075,9 @@ impl Packet for PacketCzCreateChatroom {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzCreateChatroom {
@@ -10677,6 +11143,9 @@ impl Packet for PacketZcAckCreateChatroom {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -10760,6 +11229,9 @@ impl Packet for PacketZcRoomNewentry {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcRoomNewentry {
@@ -10830,6 +11302,9 @@ impl Packet for PacketZcDestroyRoom {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcDestroyRoom {
@@ -10892,6 +11367,9 @@ impl Packet for PacketCzReqEnterRoom {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqEnterRoom {
@@ -10951,6 +11429,9 @@ impl Packet for PacketZcRefuseEnterRoom {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -11027,6 +11508,9 @@ impl Packet for PacketZcEnterRoom {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcEnterRoom {
@@ -11092,6 +11576,9 @@ impl Packet for PacketZcMemberNewentry {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -11160,6 +11647,9 @@ impl Packet for PacketZcMemberExit {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -11238,6 +11728,9 @@ impl Packet for PacketCzChangeChatroom {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -11329,6 +11822,9 @@ impl Packet for PacketZcChangeChatroom {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcChangeChatroom {
@@ -11403,6 +11899,9 @@ impl Packet for PacketCzReqRoleChange {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqRoleChange {
@@ -11467,6 +11966,9 @@ impl Packet for PacketZcRoleChange {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcRoleChange {
@@ -11527,6 +12029,9 @@ impl Packet for PacketCzReqExpelMember {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqExpelMember {
@@ -11580,6 +12085,9 @@ impl Packet for PacketCzExitRoom {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -11636,6 +12144,9 @@ impl Packet for PacketCzReqExchangeItem {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -11695,6 +12206,9 @@ impl Packet for PacketZcReqExchangeItem {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcReqExchangeItem {
@@ -11753,6 +12267,9 @@ impl Packet for PacketCzAckExchangeItem {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzAckExchangeItem {
@@ -11810,6 +12327,9 @@ impl Packet for PacketZcAckExchangeItem {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -11872,6 +12392,9 @@ impl Packet for PacketCzAddExchangeItem {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -11953,6 +12476,9 @@ impl Packet for PacketZcAddExchangeItem {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAddExchangeItem {
@@ -12025,6 +12551,9 @@ impl Packet for PacketZcAckAddExchangeItem {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAckAddExchangeItem {
@@ -12080,6 +12609,9 @@ impl Packet for PacketCzConcludeExchangeItem {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -12137,6 +12669,9 @@ impl Packet for PacketZcConcludeExchangeItem {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcConcludeExchangeItem {
@@ -12191,6 +12726,9 @@ impl Packet for PacketCzCancelExchangeItem {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzCancelExchangeItem {
@@ -12243,6 +12781,9 @@ impl Packet for PacketZcCancelExchangeItem {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcCancelExchangeItem {
@@ -12294,6 +12835,9 @@ impl Packet for PacketCzExecExchangeItem {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -12351,6 +12895,9 @@ impl Packet for PacketZcExecExchangeItem {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcExecExchangeItem {
@@ -12404,6 +12951,9 @@ impl Packet for PacketZcExchangeitemUndo {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -12464,6 +13014,9 @@ impl Packet for PacketZcNotifyStoreitemCountinfo {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -12528,6 +13081,9 @@ impl Packet for PacketCzMoveItemFromBodyToStore {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -12613,6 +13169,9 @@ impl Packet for PacketZcAddItemToStore {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAddItemToStore {
@@ -12687,6 +13246,9 @@ impl Packet for PacketCzMoveItemFromStoreToBody {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzMoveItemFromStoreToBody {
@@ -12751,6 +13313,9 @@ impl Packet for PacketZcDeleteItemFromStore {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcDeleteItemFromStore {
@@ -12807,6 +13372,9 @@ impl Packet for PacketCzCloseStore {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzCloseStore {
@@ -12858,6 +13426,9 @@ impl Packet for PacketZcCloseStore {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -12914,6 +13485,9 @@ impl Packet for PacketCzMakeGroup {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -12972,6 +13546,9 @@ impl Packet for PacketZcAckMakeGroup {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -13048,6 +13625,9 @@ impl Packet for PacketZcGroupList {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcGroupList {
@@ -13110,6 +13690,9 @@ impl Packet for PacketCzReqJoinGroup {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqJoinGroup {
@@ -13171,6 +13754,9 @@ impl Packet for PacketZcAckReqJoinGroup {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -13236,6 +13822,9 @@ impl Packet for PacketZcReqJoinGroup {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcReqJoinGroup {
@@ -13300,6 +13889,9 @@ impl Packet for PacketCzJoinGroup {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzJoinGroup {
@@ -13356,6 +13948,9 @@ impl Packet for PacketCzReqLeaveGroup {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqLeaveGroup {
@@ -13411,6 +14006,9 @@ impl Packet for PacketZcGroupinfoChange {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -13469,6 +14067,9 @@ impl Packet for PacketCzChangeGroupexpoption {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -13531,6 +14132,9 @@ impl Packet for PacketCzReqExpelGroupMember {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -13620,6 +14224,9 @@ impl Packet for PacketZcAddMemberToGroup {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAddMemberToGroup {
@@ -13700,6 +14307,9 @@ impl Packet for PacketZcDeleteMemberFromGroup {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcDeleteMemberFromGroup {
@@ -13769,6 +14379,9 @@ impl Packet for PacketZcNotifyHpToGroupm {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -13840,6 +14453,9 @@ impl Packet for PacketZcNotifyPositionToGroupm {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifyPositionToGroupm {
@@ -13905,6 +14521,9 @@ impl Packet for PacketCzRequestChatParty {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -13974,6 +14593,9 @@ impl Packet for PacketZcNotifyChatParty {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifyChatParty {
@@ -14036,6 +14658,9 @@ impl Packet for PacketZcMvpGettingItem {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcMvpGettingItem {
@@ -14093,6 +14718,9 @@ impl Packet for PacketZcMvpGettingSpecialExp {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -14152,6 +14780,9 @@ impl Packet for PacketZcMvp {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcMvp {
@@ -14205,6 +14836,9 @@ impl Packet for PacketZcThrowMvpitem {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -14277,6 +14911,9 @@ impl Packet for PacketZcSkillinfoUpdate {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -14357,6 +14994,9 @@ impl Packet for PacketZcSkillinfoList {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcSkillinfoList {
@@ -14429,6 +15069,9 @@ impl Packet for PacketZcAckTouseskill {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAckTouseskill {
@@ -14493,6 +15136,9 @@ impl Packet for PacketZcAddSkill {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAddSkill {
@@ -14550,6 +15196,9 @@ impl Packet for PacketCzUpgradeSkilllevel {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -14616,6 +15265,9 @@ impl Packet for PacketCzUseSkill {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -14714,6 +15366,9 @@ impl Packet for PacketZcNotifySkill {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -14835,6 +15490,9 @@ impl Packet for PacketZcNotifySkillPosition {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifySkillPosition {
@@ -14927,6 +15585,9 @@ impl Packet for PacketCzUseSkillToground {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzUseSkillToground {
@@ -15011,6 +15672,9 @@ impl Packet for PacketZcNotifyGroundskill {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifyGroundskill {
@@ -15074,6 +15738,9 @@ impl Packet for PacketCzCancelLockon {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -15146,6 +15813,9 @@ impl Packet for PacketZcStateChange {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -15229,6 +15899,9 @@ impl Packet for PacketZcUseSkill {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcUseSkill {
@@ -15299,6 +15972,9 @@ impl Packet for PacketCzSelectWarppoint {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzSelectWarppoint {
@@ -15363,6 +16039,9 @@ impl Packet for PacketZcWarplist {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcWarplist {
@@ -15419,6 +16098,9 @@ impl Packet for PacketCzRememberWarppoint {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzRememberWarppoint {
@@ -15474,6 +16156,9 @@ impl Packet for PacketZcAckRememberWarppoint {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -15553,6 +16238,9 @@ impl Packet for PacketZcSkillEntry {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcSkillEntry {
@@ -15620,6 +16308,9 @@ impl Packet for PacketZcSkillDisappear {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -15690,6 +16381,9 @@ impl Packet for PacketZcNotifyCartitemCountinfo {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -15768,6 +16462,9 @@ impl Packet for PacketZcCartEquipmentItemlist {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcCartEquipmentItemlist {
@@ -15840,6 +16537,9 @@ impl Packet for PacketZcCartNormalItemlist {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -15925,6 +16625,9 @@ impl Packet for PacketZcAddItemToCart {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAddItemToCart {
@@ -15999,6 +16702,9 @@ impl Packet for PacketZcDeleteItemFromCart {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcDeleteItemFromCart {
@@ -16062,6 +16768,9 @@ impl Packet for PacketCzMoveItemFromBodyToCart {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -16127,6 +16836,9 @@ impl Packet for PacketCzMoveItemFromCartToBody {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzMoveItemFromCartToBody {
@@ -16190,6 +16902,9 @@ impl Packet for PacketCzMoveItemFromStoreToCart {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -16255,6 +16970,9 @@ impl Packet for PacketCzMoveItemFromCartToStore {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzMoveItemFromCartToStore {
@@ -16311,6 +17029,9 @@ impl Packet for PacketCzReqCartoff {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqCartoff {
@@ -16362,6 +17083,9 @@ impl Packet for PacketZcCartoff {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -16418,6 +17142,9 @@ impl Packet for PacketZcAckAdditemToCart {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -16477,6 +17204,9 @@ impl Packet for PacketZcOpenstore {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcOpenstore {
@@ -16530,6 +17260,9 @@ impl Packet for PacketCzReqClosestore {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -16604,6 +17337,9 @@ impl Packet for PacketCzReqOpenstore {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqOpenstore {
@@ -16665,6 +17401,9 @@ impl Packet for PacketCzReqBuyFrommc {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -16728,6 +17467,9 @@ impl Packet for PacketZcStoreEntry {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcStoreEntry {
@@ -16787,6 +17529,9 @@ impl Packet for PacketZcDisappearEntry {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -16862,6 +17607,9 @@ impl Packet for PacketZcPcPurchaseItemlistFrommc {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -16942,6 +17690,9 @@ impl Packet for PacketCzPcPurchaseItemlistFrommc {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzPcPurchaseItemlistFrommc {
@@ -17011,6 +17762,9 @@ impl Packet for PacketZcPcPurchaseResultFrommc {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -17091,6 +17845,9 @@ impl Packet for PacketZcPcPurchaseMyitemlist {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcPcPurchaseMyitemlist {
@@ -17157,6 +17914,9 @@ impl Packet for PacketZcDeleteitemFromMcstore {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcDeleteitemFromMcstore {
@@ -17216,6 +17976,9 @@ impl Packet for PacketCzPkmodeChange {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -17295,6 +18058,9 @@ impl Packet for PacketZcAttackFailureForDistance {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAttackFailureForDistance {
@@ -17363,6 +18129,9 @@ impl Packet for PacketZcAttackRange {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAttackRange {
@@ -17421,6 +18190,9 @@ impl Packet for PacketZcActionFailure {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcActionFailure {
@@ -17478,6 +18250,9 @@ impl Packet for PacketZcEquipArrow {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -17540,6 +18315,9 @@ impl Packet for PacketZcRecovery {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -17625,6 +18403,9 @@ impl Packet for PacketZcUseskillAck {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcUseskillAck {
@@ -17695,6 +18476,9 @@ impl Packet for PacketCzItemCreate {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzItemCreate {
@@ -17760,6 +18544,9 @@ impl Packet for PacketCzMovetoMap {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -17831,6 +18618,9 @@ impl Packet for PacketZcCouplestatus {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcCouplestatus {
@@ -17893,6 +18683,9 @@ impl Packet for PacketZcOpenEditdlg {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcOpenEditdlg {
@@ -17954,6 +18747,9 @@ impl Packet for PacketCzInputEditdlg {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -18035,6 +18831,9 @@ impl Packet for PacketZcCompass {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcCompass {
@@ -18107,6 +18906,9 @@ impl Packet for PacketZcShowImage {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcShowImage {
@@ -18167,6 +18969,9 @@ impl Packet for PacketCzCloseDialog {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzCloseDialog {
@@ -18224,6 +19029,9 @@ impl Packet for PacketZcAutorunSkill {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -18286,6 +19094,9 @@ impl Packet for PacketZcResurrection {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -18355,6 +19166,9 @@ impl Packet for PacketCzReqGiveMannerPoint {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqGiveMannerPoint {
@@ -18417,6 +19231,9 @@ impl Packet for PacketZcAckGiveMannerPoint {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAckGiveMannerPoint {
@@ -18478,6 +19295,9 @@ impl Packet for PacketZcNotifyMannerPointGiven {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -18552,6 +19372,9 @@ impl Packet for PacketZcMyguildBasicInfo {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcMyguildBasicInfo {
@@ -18608,6 +19431,9 @@ impl Packet for PacketCzReqGuildMenuinterface {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqGuildMenuinterface {
@@ -18663,6 +19489,9 @@ impl Packet for PacketZcAckGuildMenuinterface {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -18721,6 +19550,9 @@ impl Packet for PacketCzReqGuildMenu {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -18832,6 +19664,9 @@ impl Packet for PacketZcGuildInfo {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcGuildInfo {
@@ -18916,6 +19751,9 @@ impl Packet for PacketCzReqGuildEmblemImg {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqGuildEmblemImg {
@@ -18986,6 +19824,9 @@ impl Packet for PacketZcGuildEmblemImg {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcGuildEmblemImg {
@@ -19053,6 +19894,9 @@ impl Packet for PacketCzRegisterGuildEmblemImg {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -19127,6 +19971,9 @@ impl Packet for PacketZcMembermgrInfo {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcMembermgrInfo {
@@ -19199,6 +20046,9 @@ impl Packet for PacketCzReqChangeMemberpos {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -19273,6 +20123,9 @@ impl Packet for PacketZcAckReqChangeMembers {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAckReqChangeMembers {
@@ -19333,6 +20186,9 @@ impl Packet for PacketCzReqOpenMemberInfo {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqOpenMemberInfo {
@@ -19386,6 +20242,9 @@ impl Packet for PacketZcAckOpenMemberInfo {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -19455,6 +20314,9 @@ impl Packet for PacketCzReqLeaveGuild {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqLeaveGuild {
@@ -19522,6 +20384,9 @@ impl Packet for PacketZcAckLeaveGuild {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -19595,6 +20460,9 @@ impl Packet for PacketCzReqBanGuild {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqBanGuild {
@@ -19667,6 +20535,9 @@ impl Packet for PacketZcAckBanGuild {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAckBanGuild {
@@ -19729,6 +20600,9 @@ impl Packet for PacketCzReqDisorganizeGuild {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqDisorganizeGuild {
@@ -19787,6 +20661,9 @@ impl Packet for PacketZcAckDisorganizeGuildResult {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAckDisorganizeGuildResult {
@@ -19844,6 +20721,9 @@ impl Packet for PacketZcAckDisorganizeGuild {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -19915,6 +20795,9 @@ impl Packet for PacketZcPositionInfo {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -19988,6 +20871,9 @@ impl Packet for PacketCzRegChangeGuildPositioninfo {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -20066,6 +20952,9 @@ impl Packet for PacketZcGuildSkillinfo {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcGuildSkillinfo {
@@ -20141,6 +21030,9 @@ impl Packet for PacketZcBanList {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcBanList {
@@ -20214,6 +21106,9 @@ impl Packet for PacketZcOtherGuildList {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcOtherGuildList {
@@ -20277,6 +21172,9 @@ impl Packet for PacketCzReqMakeGuild {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -20351,6 +21249,9 @@ impl Packet for PacketZcPositionIdNameInfo {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcPositionIdNameInfo {
@@ -20410,6 +21311,9 @@ impl Packet for PacketZcResultMakeGuild {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -20477,6 +21381,9 @@ impl Packet for PacketCzReqJoinGuild {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqJoinGuild {
@@ -20539,6 +21446,9 @@ impl Packet for PacketZcAckReqJoinGuild {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAckReqJoinGuild {
@@ -20600,6 +21510,9 @@ impl Packet for PacketZcReqJoinGuild {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -20664,6 +21577,9 @@ impl Packet for PacketCzJoinGuild {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -20745,6 +21661,9 @@ impl Packet for PacketZcUpdateGdid {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcUpdateGdid {
@@ -20821,6 +21740,9 @@ impl Packet for PacketZcUpdateCharstat {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcUpdateCharstat {
@@ -20891,6 +21813,9 @@ impl Packet for PacketCzGuildNotice {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzGuildNotice {
@@ -20956,6 +21881,9 @@ impl Packet for PacketZcGuildNotice {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -21025,6 +21953,9 @@ impl Packet for PacketCzReqAllyGuild {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqAllyGuild {
@@ -21091,6 +22022,9 @@ impl Packet for PacketZcReqAllyGuild {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcReqAllyGuild {
@@ -21155,6 +22089,9 @@ impl Packet for PacketCzAllyGuild {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzAllyGuild {
@@ -21214,6 +22151,9 @@ impl Packet for PacketZcAckReqAllyGuild {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -21286,6 +22226,9 @@ impl Packet for PacketZcAckChangeGuildPositioninfo {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAckChangeGuildPositioninfo {
@@ -21346,6 +22289,9 @@ impl Packet for PacketCzReqGuildMemberInfo {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqGuildMemberInfo {
@@ -21403,6 +22349,9 @@ impl Packet for PacketZcAckGuildMemberInfo {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -21466,6 +22415,9 @@ impl Packet for PacketZcItemidentifyList {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcItemidentifyList {
@@ -21525,6 +22477,9 @@ impl Packet for PacketCzReqItemidentify {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -21588,6 +22543,9 @@ impl Packet for PacketZcAckItemidentify {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAckItemidentify {
@@ -21647,6 +22605,9 @@ impl Packet for PacketCzReqItemcompositionList {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -21709,6 +22670,9 @@ impl Packet for PacketZcItemcompositionList {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -21773,6 +22737,9 @@ impl Packet for PacketCzReqItemcomposition {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -21842,6 +22809,9 @@ impl Packet for PacketZcAckItemcomposition {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAckItemcomposition {
@@ -21908,6 +22878,9 @@ impl Packet for PacketCzGuildChat {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzGuildChat {
@@ -21972,6 +22945,9 @@ impl Packet for PacketZcGuildChat {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcGuildChat {
@@ -22032,6 +23008,9 @@ impl Packet for PacketCzReqHostileGuild {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqHostileGuild {
@@ -22090,6 +23069,9 @@ impl Packet for PacketZcAckReqHostileGuild {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAckReqHostileGuild {
@@ -22147,6 +23129,9 @@ impl Packet for PacketZcMemberAdd {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -22209,6 +23194,9 @@ impl Packet for PacketCzReqDeleteRelatedGuild {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -22274,6 +23262,9 @@ impl Packet for PacketZcDeleteRelatedGuild {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcDeleteRelatedGuild {
@@ -22334,6 +23325,9 @@ impl Packet for PacketZcAddRelatedGuild {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAddRelatedGuild {
@@ -22392,6 +23386,9 @@ impl Packet for PacketCollectordead {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCollectordead {
@@ -22449,6 +23446,9 @@ impl Packet for PacketPing {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -22516,6 +23516,9 @@ impl Packet for PacketZcAckItemrefining {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAckItemrefining {
@@ -22578,6 +23581,9 @@ impl Packet for PacketZcNotifyMapinfo {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifyMapinfo {
@@ -22636,6 +23642,9 @@ impl Packet for PacketCzReqDisconnect {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqDisconnect {
@@ -22693,6 +23702,9 @@ impl Packet for PacketZcAckReqDisconnect {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -22784,6 +23796,9 @@ impl Packet for PacketZcMonsterInfo {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcMonsterInfo {
@@ -22862,6 +23877,9 @@ impl Packet for PacketZcMakableitemlist {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcMakableitemlist {
@@ -22921,6 +23939,9 @@ impl Packet for PacketCzReqmakingitem {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -22983,6 +24004,9 @@ impl Packet for PacketZcAckReqmakingitem {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -23060,6 +24084,9 @@ impl Packet for PacketCzUseSkillTogroundWithtalkbox {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzUseSkillTogroundWithtalkbox {
@@ -23129,6 +24156,9 @@ impl Packet for PacketZcTalkboxChatcontents {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -23202,6 +24232,9 @@ impl Packet for PacketZcUpdateMapinfo {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcUpdateMapinfo {
@@ -23266,6 +24299,9 @@ impl Packet for PacketCzReqnameBygid {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqnameBygid {
@@ -23327,6 +24363,9 @@ impl Packet for PacketZcAckReqnameBygid {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -23404,6 +24443,9 @@ impl Packet for PacketZcAckReqnameall {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAckReqnameall {
@@ -23478,6 +24520,9 @@ impl Packet for PacketZcMsgStateChange {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcMsgStateChange {
@@ -23539,6 +24584,9 @@ impl Packet for PacketCzReset {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -23606,6 +24654,9 @@ impl Packet for PacketCzChangeMaptype {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzChangeMaptype {
@@ -23667,6 +24718,9 @@ impl Packet for PacketZcNotifyMapproperty {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -23734,6 +24788,9 @@ impl Packet for PacketZcNotifyRanking {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifyRanking {
@@ -23800,6 +24857,9 @@ impl Packet for PacketZcNotifyEffect {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifyEffect {
@@ -23860,6 +24920,9 @@ impl Packet for PacketCzChangeEffectstate {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzChangeEffectstate {
@@ -23913,6 +24976,9 @@ impl Packet for PacketZcStartCapture {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -23969,6 +25035,9 @@ impl Packet for PacketCzTrycaptureMonster {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -24028,6 +25097,9 @@ impl Packet for PacketZcTrycaptureMonster {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcTrycaptureMonster {
@@ -24085,6 +25157,9 @@ impl Packet for PacketCzCommandPet {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -24168,6 +25243,9 @@ impl Packet for PacketZcPropertyPet {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcPropertyPet {
@@ -24242,6 +25320,9 @@ impl Packet for PacketZcFeedPet {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcFeedPet {
@@ -24310,6 +25391,9 @@ impl Packet for PacketZcChangestatePet {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcChangestatePet {
@@ -24371,6 +25455,9 @@ impl Packet for PacketCzRenamePet {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -24443,6 +25530,9 @@ impl Packet for PacketZcPeteggList {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcPeteggList {
@@ -24503,6 +25593,9 @@ impl Packet for PacketCzSelectPetegg {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzSelectPetegg {
@@ -24561,6 +25654,9 @@ impl Packet for PacketCzPeteggInfo {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzPeteggInfo {
@@ -24618,6 +25714,9 @@ impl Packet for PacketCzPetAct {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -24680,6 +25779,9 @@ impl Packet for PacketZcPetAct {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -24749,6 +25851,9 @@ impl Packet for PacketZcParChangeUser {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcParChangeUser {
@@ -24810,6 +25915,9 @@ impl Packet for PacketZcSkillUpdate {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -24882,6 +25990,9 @@ impl Packet for PacketZcMakingarrowList {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcMakingarrowList {
@@ -24942,6 +26053,9 @@ impl Packet for PacketCzReqMakingarrow {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqMakingarrow {
@@ -24999,6 +26113,9 @@ impl Packet for PacketCzReqChangecart {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -25066,6 +26183,9 @@ impl Packet for PacketZcNpcspriteChange {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNpcspriteChange {
@@ -25131,6 +26251,9 @@ impl Packet for PacketZcShowdigit {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -25213,6 +26336,9 @@ impl Packet for PacketCzReqOpenstore2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqOpenstore2 {
@@ -25281,6 +26407,9 @@ impl Packet for PacketZcShowImage2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcShowImage2 {
@@ -25348,6 +26477,9 @@ impl Packet for PacketZcChangeGuild {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -25422,6 +26554,9 @@ impl Packet for PacketScBillingInfo {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -25543,6 +26678,9 @@ impl Packet for PacketZcGuildInfo2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcGuildInfo2 {
@@ -25629,6 +26767,9 @@ impl Packet for PacketCzGuildZeny {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzGuildZeny {
@@ -25686,6 +26827,9 @@ impl Packet for PacketZcGuildZenyAck {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -25745,6 +26889,9 @@ impl Packet for PacketZcDispel {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcDispel {
@@ -25802,6 +26949,9 @@ impl Packet for PacketCzRemoveAid {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -25861,6 +27011,9 @@ impl Packet for PacketCzShift {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzShift {
@@ -25918,6 +27071,9 @@ impl Packet for PacketCzRecall {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -25977,6 +27133,9 @@ impl Packet for PacketCzRecallGid {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzRecallGid {
@@ -26030,6 +27189,9 @@ impl Packet for PacketAcAskPngameroom {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -26087,6 +27249,9 @@ impl Packet for PacketCaReplyPngameroom {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCaReplyPngameroom {
@@ -26140,6 +27305,9 @@ impl Packet for PacketCzReqRemaintime {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -26204,6 +27372,9 @@ impl Packet for PacketZcReplyRemaintime {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -26270,6 +27441,9 @@ impl Packet for PacketZcInfoRemaintime {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -26354,6 +27528,9 @@ impl Packet for PacketZcBroadcast2 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -26452,6 +27629,9 @@ impl Packet for PacketZcAddItemToStore2 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -26553,6 +27733,9 @@ impl Packet for PacketZcAddItemToCart2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAddItemToCart2 {
@@ -26629,6 +27812,9 @@ impl Packet for PacketCsReqEncryption {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCsReqEncryption {
@@ -26684,6 +27870,9 @@ impl Packet for PacketScAckEncryption {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -26756,6 +27945,9 @@ impl Packet for PacketZcUseItemAck2 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -26851,6 +28043,9 @@ impl Packet for PacketZcSkillEntry2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcSkillEntry2 {
@@ -26923,6 +28118,9 @@ impl Packet for PacketCzReqmakinghomun {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqmakinghomun {
@@ -26992,6 +28190,9 @@ impl Packet for PacketCzMonsterTalk {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -27069,6 +28270,9 @@ impl Packet for PacketZcMonsterTalk {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcMonsterTalk {
@@ -27133,6 +28337,9 @@ impl Packet for PacketZcAutospelllist {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAutospelllist {
@@ -27190,6 +28397,9 @@ impl Packet for PacketCzSelectautospell {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -27257,6 +28467,9 @@ impl Packet for PacketZcDevotionlist {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcDevotionlist {
@@ -27322,6 +28535,9 @@ impl Packet for PacketZcSpirits {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -27391,6 +28607,9 @@ impl Packet for PacketZcBladestop {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcBladestop {
@@ -27456,6 +28675,9 @@ impl Packet for PacketZcCombodelay {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -27529,6 +28751,9 @@ impl Packet for PacketZcSound {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcSound {
@@ -27592,6 +28817,9 @@ impl Packet for PacketZcOpenEditdlgstr {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -27659,6 +28887,9 @@ impl Packet for PacketCzInputEditdlgstr {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzInputEditdlgstr {
@@ -27720,6 +28951,9 @@ impl Packet for PacketZcNotifyMapproperty2 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -27786,6 +29020,9 @@ impl Packet for PacketZcSpriteChange2 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -27944,6 +29181,9 @@ impl Packet for PacketZcNotifyStandentry2 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -28142,6 +29382,9 @@ impl Packet for PacketZcNotifyNewentry2 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -28343,6 +29586,9 @@ impl Packet for PacketZcNotifyMoveentry2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifyMoveentry2 {
@@ -28445,6 +29691,9 @@ impl Packet for PacketCaReqHash {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCaReqHash {
@@ -28504,6 +29753,9 @@ impl Packet for PacketAcAckHash {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -28576,6 +29828,9 @@ impl Packet for PacketCaLogin2 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -28677,6 +29932,9 @@ impl Packet for PacketZcNotifySkill2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifySkill2 {
@@ -28753,6 +30011,9 @@ impl Packet for PacketCzReqAccountname {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqAccountname {
@@ -28814,6 +30075,9 @@ impl Packet for PacketZcAckAccountname {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -28878,6 +30142,9 @@ impl Packet for PacketZcSpirits2 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -28946,6 +30213,9 @@ impl Packet for PacketZcReqCouple {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -29017,6 +30287,9 @@ impl Packet for PacketCzJoinCouple {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzJoinCouple {
@@ -29075,6 +30348,9 @@ impl Packet for PacketZcStartCouple {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcStartCouple {
@@ -29130,6 +30406,9 @@ impl Packet for PacketCzReqJoinCouple {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -29189,6 +30468,9 @@ impl Packet for PacketZcCouplename {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcCouplename {
@@ -29242,6 +30524,9 @@ impl Packet for PacketCzDoridori {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -29306,6 +30591,9 @@ impl Packet for PacketCzMakeGroup2 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -29405,6 +30693,9 @@ impl Packet for PacketZcAddMemberToGroup2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAddMemberToGroup2 {
@@ -29481,6 +30772,9 @@ impl Packet for PacketZcCongratulation {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcCongratulation {
@@ -29546,6 +30840,9 @@ impl Packet for PacketZcNotifyPositionToGuildm {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -29617,6 +30914,9 @@ impl Packet for PacketZcGuildMemberMapChange {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcGuildMemberMapChange {
@@ -29674,6 +30974,9 @@ impl Packet for PacketCzChopokgi {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -29743,6 +31046,9 @@ impl Packet for PacketZcNormalItemlist2 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -29817,6 +31123,9 @@ impl Packet for PacketZcCartNormalItemlist2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcCartNormalItemlist2 {
@@ -29890,6 +31199,9 @@ impl Packet for PacketZcStoreNormalItemlist2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcStoreNormalItemlist2 {
@@ -29953,6 +31265,9 @@ impl Packet for PacketAcNotifyError {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -30034,6 +31349,9 @@ impl Packet for PacketZcUpdateCharstat2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcUpdateCharstat2 {
@@ -30106,6 +31424,9 @@ impl Packet for PacketZcNotifyEffect2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifyEffect2 {
@@ -30173,6 +31494,9 @@ impl Packet for PacketZcReqExchangeItem2 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -30244,6 +31568,9 @@ impl Packet for PacketZcAckExchangeItem2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAckExchangeItem2 {
@@ -30313,6 +31640,9 @@ impl Packet for PacketZcReqBaby {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -30384,6 +31714,9 @@ impl Packet for PacketCzJoinBaby {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzJoinBaby {
@@ -30442,6 +31775,9 @@ impl Packet for PacketZcStartBaby {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcStartBaby {
@@ -30497,6 +31833,9 @@ impl Packet for PacketCzReqJoinBaby {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -30572,6 +31911,9 @@ impl Packet for PacketCaLogin3 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCaLogin3 {
@@ -30641,6 +31983,9 @@ impl Packet for PacketChDeleteChar2 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -30715,6 +32060,9 @@ impl Packet for PacketZcRepairitemlist {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcRepairitemlist {
@@ -30774,6 +32122,9 @@ impl Packet for PacketCzReqItemrepair {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -30836,6 +32187,9 @@ impl Packet for PacketZcAckItemrepair {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -30905,6 +32259,9 @@ impl Packet for PacketZcHighjump {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcHighjump {
@@ -30966,6 +32323,9 @@ impl Packet for PacketCaConnectInfoChanged {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -31038,6 +32398,9 @@ impl Packet for PacketZcFriendsList {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcFriendsList {
@@ -31097,6 +32460,9 @@ impl Packet for PacketCzAddFriends {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -31160,6 +32526,9 @@ impl Packet for PacketCzDeleteFriends {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzDeleteFriends {
@@ -31220,6 +32589,9 @@ impl Packet for PacketCaExeHashcheck {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCaExeHashcheck {
@@ -31277,6 +32649,9 @@ impl Packet for PacketZcDivorce {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -31343,6 +32718,9 @@ impl Packet for PacketZcFriendsState {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -31414,6 +32792,9 @@ impl Packet for PacketZcReqAddFriends {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcReqAddFriends {
@@ -31483,6 +32864,9 @@ impl Packet for PacketCzAckReqAddFriends {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -31558,6 +32942,9 @@ impl Packet for PacketZcAddFriendsList {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAddFriendsList {
@@ -31626,6 +33013,9 @@ impl Packet for PacketZcDeleteFriends {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcDeleteFriends {
@@ -31690,6 +33080,9 @@ impl Packet for PacketChExeHashcheck {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketChExeHashcheck {
@@ -31753,6 +33146,9 @@ impl Packet for PacketCzExeHashcheck {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -31827,6 +33223,9 @@ impl Packet for PacketHcBlockCharacter {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketHcBlockCharacter {
@@ -31899,6 +33298,9 @@ impl Packet for PacketZcStarskill {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcStarskill {
@@ -31966,6 +33368,9 @@ impl Packet for PacketCzReqPvppoint {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -32035,6 +33440,9 @@ impl Packet for PacketZcAckPvppoint {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAckPvppoint {
@@ -32097,6 +33505,9 @@ impl Packet for PacketZhMovePvpworld {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZhMovePvpworld {
@@ -32155,6 +33566,9 @@ impl Packet for PacketCzReqGiveMannerByname {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqGiveMannerByname {
@@ -32212,6 +33626,9 @@ impl Packet for PacketCzReqStatusGm {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -32371,6 +33788,9 @@ impl Packet for PacketZcAckStatusGm {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAckStatusGm {
@@ -32479,6 +33899,9 @@ impl Packet for PacketZcSkillmsg {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcSkillmsg {
@@ -32537,6 +33960,9 @@ impl Packet for PacketZcBabymsg {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcBabymsg {
@@ -32591,6 +34017,9 @@ impl Packet for PacketCzBlacksmithRank {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzBlacksmithRank {
@@ -32642,6 +34071,9 @@ impl Packet for PacketCzAlchemistRank {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -32702,6 +34134,9 @@ impl Packet for PacketZcBlacksmithRank {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -32767,6 +34202,9 @@ impl Packet for PacketZcAlchemistRank {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAlchemistRank {
@@ -32830,6 +34268,9 @@ impl Packet for PacketZcBlacksmithPoint {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -32895,6 +34336,9 @@ impl Packet for PacketZcAlchemistPoint {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAlchemistPoint {
@@ -32955,6 +34399,9 @@ impl Packet for PacketCzLesseffect {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzLesseffect {
@@ -33012,6 +34459,9 @@ impl Packet for PacketZcLesseffect {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -33087,6 +34537,9 @@ impl Packet for PacketZcNotifyPkinfo {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifyPkinfo {
@@ -33156,6 +34609,9 @@ impl Packet for PacketZcNotifyCrazykiller {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -33230,6 +34686,9 @@ impl Packet for PacketZcNotifyWeaponitemlist {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifyWeaponitemlist {
@@ -33289,6 +34748,9 @@ impl Packet for PacketCzReqWeaponrefine {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -33351,6 +34813,9 @@ impl Packet for PacketZcAckWeaponrefine {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -33416,6 +34881,9 @@ impl Packet for PacketZcTaekwonPoint {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcTaekwonPoint {
@@ -33471,6 +34939,9 @@ impl Packet for PacketCzTaekwonRank {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -33532,6 +35003,9 @@ impl Packet for PacketZcTaekwonRank {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcTaekwonRank {
@@ -33592,6 +35066,9 @@ impl Packet for PacketZcGameGuard {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcGameGuard {
@@ -33649,6 +35126,9 @@ impl Packet for PacketCzAckGameGuard {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -33723,6 +35203,9 @@ impl Packet for PacketZcStateChange3 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -33885,6 +35368,9 @@ impl Packet for PacketZcNotifyStandentry3 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -34083,6 +35569,9 @@ impl Packet for PacketZcNotifyNewentry3 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -34288,6 +35777,9 @@ impl Packet for PacketZcNotifyMoveentry3 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifyMoveentry3 {
@@ -34399,6 +35891,9 @@ impl Packet for PacketCzCommandMer {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -34544,6 +36039,9 @@ impl Packet for PacketZcPropertyHomun {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcPropertyHomun {
@@ -34656,6 +36154,9 @@ impl Packet for PacketZcChangestateMer {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcChangestateMer {
@@ -34720,6 +36221,9 @@ impl Packet for PacketCzRenameMer {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzRenameMer {
@@ -34781,6 +36285,9 @@ impl Packet for PacketCzRequestMovenpc {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -34850,6 +36357,9 @@ impl Packet for PacketCzRequestActnpc {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzRequestActnpc {
@@ -34912,6 +36422,9 @@ impl Packet for PacketCzRequestMovetoowner {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzRequestMovetoowner {
@@ -34969,6 +36482,9 @@ impl Packet for PacketZcReqStorePassword {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -35036,6 +36552,9 @@ impl Packet for PacketCzAckStorePassword {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzAckStorePassword {
@@ -35102,6 +36621,9 @@ impl Packet for PacketZcResultStorePassword {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcResultStorePassword {
@@ -35161,6 +36683,9 @@ impl Packet for PacketAcEventResult {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -35224,6 +36749,9 @@ impl Packet for PacketHcRequestCharacterPassword {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketHcRequestCharacterPassword {
@@ -35279,6 +36807,9 @@ impl Packet for PacketCzMailGetList {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -35353,6 +36884,9 @@ impl Packet for PacketZcMailReqGetList {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcMailReqGetList {
@@ -35414,6 +36948,9 @@ impl Packet for PacketCzMailOpen {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -35529,6 +37066,9 @@ impl Packet for PacketZcMailReqOpen {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcMailReqOpen {
@@ -35615,6 +37155,9 @@ impl Packet for PacketCzMailDelete {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzMailDelete {
@@ -35672,6 +37215,9 @@ impl Packet for PacketCzMailGetItem {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -35731,6 +37277,9 @@ impl Packet for PacketZcMailReqGetItem {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcMailReqGetItem {
@@ -35788,6 +37337,9 @@ impl Packet for PacketCzMailResetItem {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -35850,6 +37402,9 @@ impl Packet for PacketCzMailAddItem {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -35927,6 +37482,9 @@ impl Packet for PacketCzMailSend {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzMailSend {
@@ -35992,6 +37550,9 @@ impl Packet for PacketZcMailReqSend {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -36059,6 +37620,9 @@ impl Packet for PacketZcMailReceive {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcMailReceive {
@@ -36121,6 +37685,9 @@ impl Packet for PacketCzAuctionCreate {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzAuctionCreate {
@@ -36182,6 +37749,9 @@ impl Packet for PacketCzAuctionAddItem {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -36251,6 +37821,9 @@ impl Packet for PacketCzAuctionAdd {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzAuctionAdd {
@@ -36312,6 +37885,9 @@ impl Packet for PacketCzAuctionAddCancel {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -36375,6 +37951,9 @@ impl Packet for PacketCzAuctionBuy {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzAuctionBuy {
@@ -36434,6 +38013,9 @@ impl Packet for PacketZcAuctionResult {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -36504,6 +38086,9 @@ impl Packet for PacketCzAuctionItemSearch {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -36590,6 +38175,9 @@ impl Packet for PacketZcAuctionItemReqSearch {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAuctionItemReqSearch {
@@ -36654,6 +38242,9 @@ impl Packet for PacketZcStarplace {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcStarplace {
@@ -36711,6 +38302,9 @@ impl Packet for PacketCzAgreeStarplace {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -36773,6 +38367,9 @@ impl Packet for PacketZcAckMailAddItem {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -36838,6 +38435,9 @@ impl Packet for PacketZcAckAuctionAddItem {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAckAuctionAddItem {
@@ -36902,6 +38502,9 @@ impl Packet for PacketZcAckMailDelete {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAckMailDelete {
@@ -36958,6 +38561,9 @@ impl Packet for PacketCaReqGameGuardCheck {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCaReqGameGuardCheck {
@@ -37013,6 +38619,9 @@ impl Packet for PacketAcAckGameGuard {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -37075,6 +38684,9 @@ impl Packet for PacketZcMakingitemList {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -37140,6 +38752,9 @@ impl Packet for PacketCzReqMakingitem {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqMakingitem {
@@ -37200,6 +38815,9 @@ impl Packet for PacketCzAuctionReqMyInfo {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzAuctionReqMyInfo {
@@ -37257,6 +38875,9 @@ impl Packet for PacketCzAuctionReqMySellStop {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -37316,6 +38937,9 @@ impl Packet for PacketZcAuctionAckMySellStop {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAuctionAckMySellStop {
@@ -37373,6 +38997,9 @@ impl Packet for PacketZcAuctionWindows {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -37432,6 +39059,9 @@ impl Packet for PacketZcMailWindows {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcMailWindows {
@@ -37489,6 +39119,9 @@ impl Packet for PacketAcReqLoginOldekey {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -37548,6 +39181,9 @@ impl Packet for PacketAcReqLoginNewekey {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketAcReqLoginNewekey {
@@ -37605,6 +39241,9 @@ impl Packet for PacketAcReqLoginCardpass {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -37667,6 +39306,9 @@ impl Packet for PacketCaAckLoginOldekey {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -37732,6 +39374,9 @@ impl Packet for PacketCaAckLoginNewekey {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCaAckLoginNewekey {
@@ -37792,6 +39437,9 @@ impl Packet for PacketCaAckLoginCardpass {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCaAckLoginCardpass {
@@ -37849,6 +39497,9 @@ impl Packet for PacketAcAckEkeyFailNotexist {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -37908,6 +39559,9 @@ impl Packet for PacketAcAckEkeyFailNotusesekey {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketAcAckEkeyFailNotusesekey {
@@ -37965,6 +39619,9 @@ impl Packet for PacketAcAckEkeyFailNotusedekey {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -38024,6 +39681,9 @@ impl Packet for PacketAcAckEkeyFailAuthrefuse {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketAcAckEkeyFailAuthrefuse {
@@ -38081,6 +39741,9 @@ impl Packet for PacketAcAckEkeyFailInputekey {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -38140,6 +39803,9 @@ impl Packet for PacketAcAckEkeyFailNotice {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketAcAckEkeyFailNotice {
@@ -38197,6 +39863,9 @@ impl Packet for PacketAcAckEkeyFailNeedcardpass {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -38256,6 +39925,9 @@ impl Packet for PacketAcAckAuthekeyFailNotmatchcardpass {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketAcAckAuthekeyFailNotmatchcardpass {
@@ -38310,6 +39982,9 @@ impl Packet for PacketAcAckFirstLogin {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketAcAckFirstLogin {
@@ -38361,6 +40036,9 @@ impl Packet for PacketAcReqLoginAccountInfo {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -38425,6 +40103,9 @@ impl Packet for PacketCaAckLoginAccountInfo {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -38492,6 +40173,9 @@ impl Packet for PacketAcAckPtIdInfo {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketAcAckPtIdInfo {
@@ -38556,6 +40240,9 @@ impl Packet for PacketCzReqMailReturn {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqMailReturn {
@@ -38619,6 +40306,9 @@ impl Packet for PacketZcAckMailReturn {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -38704,6 +40394,9 @@ impl Packet for PacketChEnter2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketChEnter2 {
@@ -38738,7 +40431,7 @@ impl Display for PacketChEnter2 {
     }
 }
 
-pub struct PacketAcAcceptLogin2 {
+pub struct PacketCaAcceptLogin2 {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
@@ -38760,9 +40453,9 @@ pub struct PacketAcAcceptLogin2 {
     pub i_account_sid_raw: Vec<u8>,
 }
 
-impl PacketAcAcceptLogin2 {
-    pub fn from(buffer: &[u8]) -> PacketAcAcceptLogin2 {
-        PacketAcAcceptLogin2 {
+impl PacketCaAcceptLogin2 {
+    pub fn from(buffer: &[u8]) -> PacketCaAcceptLogin2 {
+        PacketCaAcceptLogin2 {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
@@ -38786,7 +40479,7 @@ impl PacketAcAcceptLogin2 {
     }
 }
 
-impl Packet for PacketAcAcceptLogin2 {
+impl Packet for PacketCaAcceptLogin2 {
     fn id(&self) -> &str {
        "0x0276"
     }
@@ -38802,11 +40495,14 @@ impl Packet for PacketAcAcceptLogin2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
-impl Debug for PacketAcAcceptLogin2 {
+impl Debug for PacketCaAcceptLogin2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        f.debug_struct("PacketAcAcceptLogin2")
+        f.debug_struct("PacketCaAcceptLogin2")
             .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
@@ -38821,9 +40517,9 @@ impl Debug for PacketAcAcceptLogin2 {
     }
 }
 
-impl Display for PacketAcAcceptLogin2 {
+impl Display for PacketCaAcceptLogin2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        f.debug_struct("PacketAcAcceptLogin2")
+        f.debug_struct("PacketCaAcceptLogin2")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("packet_length(short as i16)[2, 4]", &self.packet_length)
@@ -38894,6 +40590,9 @@ impl Packet for PacketCaLoginPcbang {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCaLoginPcbang {
@@ -38958,6 +40657,9 @@ impl Packet for PacketZcNotifyPcbang {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifyPcbang {
@@ -39009,6 +40711,9 @@ impl Packet for PacketCzHuntinglist {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -39079,6 +40784,9 @@ impl Packet for PacketZcHuntinglist {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcHuntinglist {
@@ -39146,6 +40854,9 @@ impl Packet for PacketZcPcbangEffect {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -39224,6 +40935,9 @@ impl Packet for PacketCaLogin4 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -39359,6 +41073,9 @@ impl Packet for PacketZcPropertyMerce {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcPropertyMerce {
@@ -39459,6 +41176,9 @@ impl Packet for PacketZcShandaProtect {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcShandaProtect {
@@ -39524,6 +41244,9 @@ impl Packet for PacketCaClientType {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -39593,6 +41316,9 @@ impl Packet for PacketZcGangsiPoint {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcGangsiPoint {
@@ -39654,6 +41380,9 @@ impl Packet for PacketCzGangsiRank {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -39721,6 +41450,9 @@ impl Packet for PacketZcGangsiRank {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcGangsiRank {
@@ -39782,6 +41514,9 @@ impl Packet for PacketZcAid {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -39849,6 +41584,9 @@ impl Packet for PacketZcNotifyEffect3 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifyEffect3 {
@@ -39915,6 +41653,9 @@ impl Packet for PacketZcDeathQuestion {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcDeathQuestion {
@@ -39974,6 +41715,9 @@ impl Packet for PacketCzDeathQuestion {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -40050,6 +41794,9 @@ impl Packet for PacketZcPcCashPointItemlist {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcPcCashPointItemlist {
@@ -40116,6 +41863,9 @@ impl Packet for PacketCzPcBuyCashPointItem {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzPcBuyCashPointItem {
@@ -40179,6 +41929,9 @@ impl Packet for PacketZcPcCashPointUpdate {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -40252,6 +42005,9 @@ impl Packet for PacketZcNpcShowefstUpdate {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNpcShowefstUpdate {
@@ -40324,6 +42080,9 @@ impl Packet for PacketChSelectCharGoingtobeused {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketChSelectCharGoingtobeused {
@@ -40394,6 +42153,9 @@ impl Packet for PacketChReqIsValidCharname {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketChReqIsValidCharname {
@@ -40456,6 +42218,9 @@ impl Packet for PacketHcAckIsValidCharname {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketHcAckIsValidCharname {
@@ -40513,6 +42278,9 @@ impl Packet for PacketChReqChangeCharname {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -40572,6 +42340,9 @@ impl Packet for PacketHcAckChangeCharname {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketHcAckChangeCharname {
@@ -40630,6 +42401,9 @@ impl Packet for PacketZcMsg {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcMsg {
@@ -40683,6 +42457,9 @@ impl Packet for PacketCzStandingResurrection {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -40768,6 +42545,9 @@ impl Packet for PacketZcBossInfo {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcBossInfo {
@@ -40844,6 +42624,9 @@ impl Packet for PacketZcReadBook {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcReadBook {
@@ -40916,6 +42699,9 @@ impl Packet for PacketZcEquipmentItemlist2 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -40990,6 +42776,9 @@ impl Packet for PacketZcStoreEquipmentItemlist2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcStoreEquipmentItemlist2 {
@@ -41063,6 +42852,9 @@ impl Packet for PacketZcCartEquipmentItemlist2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcCartEquipmentItemlist2 {
@@ -41127,6 +42919,9 @@ impl Packet for PacketZcCashTimeCounter {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcCashTimeCounter {
@@ -41190,6 +42985,9 @@ impl Packet for PacketZcCashItemDelete {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -41290,6 +43088,9 @@ impl Packet for PacketZcItemPickupAck2 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -41444,6 +43245,9 @@ impl Packet for PacketZcMerInit {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -41609,6 +43413,9 @@ impl Packet for PacketZcMerProperty {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcMerProperty {
@@ -41714,6 +43521,9 @@ impl Packet for PacketZcMerSkillinfoList {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcMerSkillinfoList {
@@ -41790,6 +43600,9 @@ impl Packet for PacketZcMerSkillinfoUpdate {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcMerSkillinfoUpdate {
@@ -41855,6 +43668,9 @@ impl Packet for PacketCzMerCommand {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -41922,6 +43738,9 @@ impl Packet for UnusedPacketCzMerUseSkill {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for UnusedPacketCzMerUseSkill {
@@ -41983,6 +43802,9 @@ impl Packet for UnusedPacketCzMerUpgradeSkilllevel {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -42046,6 +43868,9 @@ impl Packet for PacketZcMerParChange {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcMerParChange {
@@ -42105,6 +43930,9 @@ impl Packet for PacketZcGameguardLingoKey {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -42168,6 +43996,9 @@ impl Packet for PacketCzKsyEvent {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzKsyEvent {
@@ -42227,6 +44058,9 @@ impl Packet for PacketZcReqCashPassword {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -42294,6 +44128,9 @@ impl Packet for PacketCzAckCashPassword {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzAckCashPassword {
@@ -42360,6 +44197,9 @@ impl Packet for PacketZcResultCashPassword {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcResultCashPassword {
@@ -42423,6 +44263,9 @@ impl Packet for PacketAcRequestSecondPassword {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -42507,6 +44350,9 @@ impl Packet for PacketCaLoginHan {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -42595,6 +44441,9 @@ impl Packet for PacketZcAllQuestList {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAllQuestList {
@@ -42673,6 +44522,9 @@ impl Packet for PacketZcAllQuestMission {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -42765,6 +44617,9 @@ impl Packet for PacketZcAddQuest {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAddQuest {
@@ -42832,6 +44687,9 @@ impl Packet for PacketZcDelQuest {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -42908,6 +44766,9 @@ impl Packet for PacketZcUpdateMissionHunt {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcUpdateMissionHunt {
@@ -42974,6 +44835,9 @@ impl Packet for PacketCzActiveQuest {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzActiveQuest {
@@ -43037,6 +44901,9 @@ impl Packet for PacketZcActiveQuest {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -43126,6 +44993,9 @@ impl Packet for PacketZcItemPickupParty {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcItemPickupParty {
@@ -43207,6 +45077,9 @@ impl Packet for PacketZcShortcutKeyList {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcShortcutKeyList {
@@ -43268,6 +45141,9 @@ impl Packet for PacketCzShortcutKeyChange {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -43333,6 +45209,9 @@ impl Packet for PacketZcEquipitemDamaged {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcEquipitemDamaged {
@@ -43392,6 +45271,9 @@ impl Packet for PacketZcNotifyPcbangPlayingTime {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -43459,6 +45341,9 @@ impl Packet for PacketZcSrpacketr2Init {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcSrpacketr2Init {
@@ -43520,6 +45405,9 @@ impl Packet for PacketCzSrpacketr2Start {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -43590,6 +45478,9 @@ impl Packet for PacketZcNpcChat {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -43663,6 +45554,9 @@ impl Packet for PacketZcFormatstringMsg {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcFormatstringMsg {
@@ -43725,6 +45619,9 @@ impl Packet for PacketCzPartyJoinReq {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzPartyJoinReq {
@@ -43786,6 +45683,9 @@ impl Packet for PacketZcPartyJoinReqAck {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -43851,6 +45751,9 @@ impl Packet for PacketZcPartyJoinReq {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcPartyJoinReq {
@@ -43915,6 +45818,9 @@ impl Packet for PacketCzPartyJoinReqAck {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzPartyJoinReqAck {
@@ -43975,6 +45881,9 @@ impl Packet for PacketCzPartyConfig {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzPartyConfig {
@@ -44033,6 +45942,9 @@ impl Packet for PacketZcPartyConfig {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcPartyConfig {
@@ -44090,6 +46002,9 @@ impl Packet for PacketHcRefuseSelectchar {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -44153,6 +46068,9 @@ impl Packet for PacketZcMemorialdungeonSubscriptionInfo {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcMemorialdungeonSubscriptionInfo {
@@ -44212,6 +46130,9 @@ impl Packet for PacketZcMemorialdungeonSubscriptionNotify {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -44279,6 +46200,9 @@ impl Packet for PacketZcMemorialdungeonInfo {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcMemorialdungeonInfo {
@@ -44345,6 +46269,9 @@ impl Packet for PacketZcMemorialdungeonNotify {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcMemorialdungeonNotify {
@@ -44404,6 +46331,9 @@ impl Packet for PacketCzMemorialdungeonCommand {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -44475,6 +46405,9 @@ impl Packet for PacketZcEquipmentItemlist3 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -44549,6 +46482,9 @@ impl Packet for PacketZcStoreEquipmentItemlist3 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcStoreEquipmentItemlist3 {
@@ -44622,6 +46558,9 @@ impl Packet for PacketZcCartEquipmentItemlist3 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcCartEquipmentItemlist3 {
@@ -44681,6 +46620,9 @@ impl Packet for PacketZcNotifyBindOnEquip {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -44784,6 +46726,9 @@ impl Packet for PacketZcItemPickupAck3 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcItemPickupAck3 {
@@ -44860,6 +46805,9 @@ impl Packet for PacketZcIsvrDisconnect {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcIsvrDisconnect {
@@ -44915,6 +46863,9 @@ impl Packet for PacketCzEquipwinMicroscope {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -45023,6 +46974,9 @@ impl Packet for PacketZcEquipwinMicroscope {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcEquipwinMicroscope {
@@ -45105,6 +47059,9 @@ impl Packet for PacketCzConfig {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzConfig {
@@ -45169,6 +47126,9 @@ impl Packet for PacketZcConfig {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcConfig {
@@ -45228,6 +47188,9 @@ impl Packet for PacketZcConfigNotify {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -45290,6 +47253,9 @@ impl Packet for PacketCzBattlefieldChat {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -45363,6 +47329,9 @@ impl Packet for PacketZcBattlefieldChat {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcBattlefieldChat {
@@ -45435,6 +47404,9 @@ impl Packet for PacketZcBattlefieldNotifyCampinfo {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcBattlefieldNotifyCampinfo {
@@ -45500,6 +47472,9 @@ impl Packet for PacketZcBattlefieldNotifyPoint {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -45576,6 +47551,9 @@ impl Packet for PacketZcBattlefieldNotifyPosition {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -45654,6 +47632,9 @@ impl Packet for PacketZcBattlefieldNotifyHp {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -45751,6 +47732,9 @@ impl Packet for PacketZcNotifyAct2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifyAct2 {
@@ -45825,6 +47809,9 @@ impl Packet for PacketCzBotCheck {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzBotCheck {
@@ -45890,6 +47877,9 @@ impl Packet for PacketZcMapproperty {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -45966,6 +47956,9 @@ impl Packet for PacketZcNormalItemlist3 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNormalItemlist3 {
@@ -46039,6 +48032,9 @@ impl Packet for PacketZcCartNormalItemlist3 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcCartNormalItemlist3 {
@@ -46111,6 +48107,9 @@ impl Packet for PacketZcStoreNormalItemlist3 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -46187,6 +48186,9 @@ impl Packet for PacketZcAcceptEnter2 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -46357,6 +48359,9 @@ impl Packet for PacketZcNotifyMoveentry4 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -46564,6 +48569,9 @@ impl Packet for PacketZcNotifyNewentry4 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifyNewentry4 {
@@ -46770,6 +48778,9 @@ impl Packet for PacketZcNotifyStandentry4 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifyStandentry4 {
@@ -46882,6 +48893,9 @@ impl Packet for PacketZcNotifyFont {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifyFont {
@@ -46946,6 +48960,9 @@ impl Packet for PacketZcProgress {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcProgress {
@@ -47002,6 +49019,9 @@ impl Packet for PacketCzProgress {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzProgress {
@@ -47054,6 +49074,9 @@ impl Packet for PacketZcProgressCancel {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcProgressCancel {
@@ -47105,6 +49128,9 @@ impl Packet for PacketCzOpenSimpleCashshopItemlist {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -47195,6 +49221,9 @@ impl Packet for PacketZcSimpleCashshopPointItemlist {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcSimpleCashshopPointItemlist {
@@ -47261,6 +49290,9 @@ impl Packet for PacketCzCloseWindow {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzCloseWindow {
@@ -47316,6 +49348,9 @@ impl Packet for PacketAhcGameGuard {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -47374,6 +49409,9 @@ impl Packet for PacketCahAckGameGuard {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -47449,6 +49487,9 @@ impl Packet for PacketCzEnter2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzEnter2 {
@@ -47519,6 +49560,9 @@ impl Packet for PacketCzRequestAct2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzRequestAct2 {
@@ -47587,6 +49631,9 @@ impl Packet for PacketCzUseSkill2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzUseSkill2 {
@@ -47653,6 +49700,9 @@ impl Packet for PacketCzUseItem2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzUseItem2 {
@@ -47716,6 +49766,9 @@ impl Packet for PacketZcSkillPostdelay {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -47789,6 +49842,9 @@ impl Packet for PacketZcSkillPostdelayList {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -47866,6 +49922,9 @@ impl Packet for PacketZcMsgStateChange2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcMsgStateChange2 {
@@ -47940,6 +49999,9 @@ impl Packet for PacketZcMillenniumshield {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcMillenniumshield {
@@ -48001,6 +50063,9 @@ impl Packet for PacketZcSkillinfoDelete {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -48068,6 +50133,9 @@ impl Packet for PacketZcSkillSelectRequest {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcSkillSelectRequest {
@@ -48133,6 +50201,9 @@ impl Packet for PacketCzSkillSelectResponse {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -48211,6 +50282,9 @@ impl Packet for PacketZcSimpleCashPointItemlist {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcSimpleCashPointItemlist {
@@ -48276,6 +50350,9 @@ impl Packet for PacketCzSimpleBuyCashPointItem {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -48353,6 +50430,9 @@ impl Packet for PacketZcQuestNotifyEffect {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcQuestNotifyEffect {
@@ -48414,6 +50494,9 @@ impl Packet for PacketCzBlockingPlayCancel {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -48484,6 +50567,9 @@ impl Packet for PacketHcCharacterList {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketHcCharacterList {
@@ -48544,6 +50630,9 @@ impl Packet for PacketZcHackshErrorMsg {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcHackshErrorMsg {
@@ -48602,6 +50691,9 @@ impl Packet for PacketCzClientVersion {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzClientVersion {
@@ -48655,6 +50747,9 @@ impl Packet for PacketCzCloseSimplecashShop {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -48716,6 +50811,9 @@ impl Packet for PacketZcEsResult {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcEsResult {
@@ -48771,6 +50869,9 @@ impl Packet for PacketCzEsGetList {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -48832,6 +50933,9 @@ impl Packet for PacketZcEsList {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcEsList {
@@ -48892,6 +50996,9 @@ impl Packet for PacketCzEsChoose {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzEsChoose {
@@ -48949,6 +51056,9 @@ impl Packet for PacketCzEsCancel {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -49008,6 +51118,9 @@ impl Packet for PacketZcEsReady {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcEsReady {
@@ -49065,6 +51178,9 @@ impl Packet for PacketZcEsGoto {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -49131,6 +51247,9 @@ impl Packet for PacketCzGroupinfoChangeV2 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -49201,6 +51320,9 @@ impl Packet for PacketZcReqGroupinfoChangeV2 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -49273,6 +51395,9 @@ impl Packet for PacketZcShortcutKeyListV2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcShortcutKeyListV2 {
@@ -49330,6 +51455,9 @@ impl Packet for PacketCzChangeGroupMaster {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -49393,6 +51521,9 @@ impl Packet for PacketZcHoParChange {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcHoParChange {
@@ -49452,6 +51583,9 @@ impl Packet for PacketCzSeekParty {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -49526,6 +51660,9 @@ impl Packet for PacketZcSeekParty {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -49604,6 +51741,9 @@ impl Packet for PacketCzSeekPartyMember {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -49685,6 +51825,9 @@ impl Packet for PacketZcSeekPartyMember {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcSeekPartyMember {
@@ -49754,6 +51897,9 @@ impl Packet for PacketZcEsNotiMyinfo {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -49835,6 +51981,9 @@ impl Packet for PacketZcSkillinfoUpdate2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcSkillinfoUpdate2 {
@@ -49907,6 +52056,9 @@ impl Packet for PacketZcMsgValue {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcMsgValue {
@@ -49966,6 +52118,9 @@ impl Packet for PacketZcItemlistwinOpen {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -50036,6 +52191,9 @@ impl Packet for PacketCzItemlistwinRes {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -50109,6 +52267,9 @@ impl Packet for PacketChEnterCheckbot {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketChEnterCheckbot {
@@ -50174,6 +52335,9 @@ impl Packet for PacketZcMsgSkill {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -50243,6 +52407,9 @@ impl Packet for PacketChCheckbot {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketChCheckbot {
@@ -50309,6 +52476,9 @@ impl Packet for PacketHcCheckbot {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketHcCheckbot {
@@ -50373,6 +52543,9 @@ impl Packet for PacketHcCheckbotResult {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketHcCheckbotResult {
@@ -50428,6 +52601,9 @@ impl Packet for PacketCzBattleFieldList {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -50506,6 +52682,9 @@ impl Packet for PacketZcBattleFieldList {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcBattleFieldList {
@@ -50573,6 +52752,9 @@ impl Packet for PacketCzJoinBattleField {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -50642,6 +52824,9 @@ impl Packet for PacketZcJoinBattleField {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcJoinBattleField {
@@ -50704,6 +52889,9 @@ impl Packet for PacketCzCancelBattleField {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzCancelBattleField {
@@ -50765,6 +52953,9 @@ impl Packet for PacketZcCancelBattleField {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -50829,6 +53020,9 @@ impl Packet for PacketCzReqBattleStateMonitor {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -50914,6 +53108,9 @@ impl Packet for PacketZcAckBattleStateMonitor {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAckBattleStateMonitor {
@@ -50988,6 +53185,9 @@ impl Packet for PacketZcBattleNotiStartStep {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcBattleNotiStartStep {
@@ -51048,6 +53248,9 @@ impl Packet for PacketZcBattleJoinNotiDefer {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcBattleJoinNotiDefer {
@@ -51106,6 +53309,9 @@ impl Packet for PacketZcBattleJoinDisableState {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcBattleJoinDisableState {
@@ -51163,6 +53369,9 @@ impl Packet for PacketCzGmFullstrip {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -51233,6 +53442,9 @@ impl Packet for PacketZcNotifyExp {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -51409,6 +53621,9 @@ impl Packet for PacketZcNotifyMoveentry7 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -51631,6 +53846,9 @@ impl Packet for PacketZcNotifyNewentry5 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -51856,6 +54074,9 @@ impl Packet for PacketZcNotifyStandentry5 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifyStandentry5 {
@@ -51978,6 +54199,9 @@ impl Packet for PacketZcDeleteItemFromBody {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcDeleteItemFromBody {
@@ -52068,6 +54292,9 @@ impl Packet for PacketZcUseskillAck2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcUseskillAck2 {
@@ -52144,6 +54371,9 @@ impl Packet for PacketZcChangeGroupMaster {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcChangeGroupMaster {
@@ -52203,6 +54433,9 @@ impl Packet for PacketZcPlayNpcBgm {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -52265,6 +54498,9 @@ impl Packet for PacketZcDefineCheck {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -52346,6 +54582,9 @@ impl Packet for PacketZcPcPurchaseItemlistFrommc2 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -52432,6 +54671,9 @@ impl Packet for PacketCzPcPurchaseItemlistFrommc2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzPcPurchaseItemlistFrommc2 {
@@ -52496,6 +54738,9 @@ impl Packet for PacketCzPartyBookingReqRegister {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzPartyBookingReqRegister {
@@ -52553,6 +54798,9 @@ impl Packet for PacketZcPartyBookingAckRegister {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -52627,6 +54875,9 @@ impl Packet for PacketCzPartyBookingReqSearch {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -52711,6 +54962,9 @@ impl Packet for PacketZcPartyBookingAckSearch {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcPartyBookingAckSearch {
@@ -52769,6 +55023,9 @@ impl Packet for PacketCzPartyBookingReqDelete {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzPartyBookingReqDelete {
@@ -52824,6 +55081,9 @@ impl Packet for PacketZcPartyBookingAckDelete {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -52883,6 +55143,9 @@ impl Packet for PacketCzPartyBookingReqUpdate {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzPartyBookingReqUpdate {
@@ -52940,6 +55203,9 @@ impl Packet for PacketZcPartyBookingNotifyInsert {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -53023,6 +55289,9 @@ impl Packet for PacketZcPartyBookingNotifyUpdate {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcPartyBookingNotifyUpdate {
@@ -53093,6 +55362,9 @@ impl Packet for PacketZcPartyBookingNotifyDelete {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcPartyBookingNotifyDelete {
@@ -53146,6 +55418,9 @@ impl Packet for PacketCzSimpleCashBtnshow {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -53202,6 +55477,9 @@ impl Packet for PacketZcSimpleCashBtnshow {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -53268,6 +55546,9 @@ impl Packet for PacketZcNotifyHpToGroupmR2 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -53355,6 +55636,9 @@ impl Packet for PacketZcAddExchangeItem2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAddExchangeItem2 {
@@ -53424,6 +55708,9 @@ impl Packet for PacketZcOpenBuyingStore {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -53508,6 +55795,9 @@ impl Packet for PacketCzReqOpenBuyingStore {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqOpenBuyingStore {
@@ -53577,6 +55867,9 @@ impl Packet for PacketZcFailedOpenBuyingStoreToBuyer {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -53659,6 +55952,9 @@ impl Packet for PacketZcMyitemlistBuyingStore {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcMyitemlistBuyingStore {
@@ -53727,6 +56023,9 @@ impl Packet for PacketZcBuyingStoreEntry {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcBuyingStoreEntry {
@@ -53783,6 +56082,9 @@ impl Packet for PacketCzReqCloseBuyingStore {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqCloseBuyingStore {
@@ -53838,6 +56140,9 @@ impl Packet for PacketZcDisappearBuyingStoreEntry {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -53896,6 +56201,9 @@ impl Packet for PacketCzReqClickToBuyingStore {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -53979,6 +56287,9 @@ impl Packet for PacketZcAckItemlistBuyingStore {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -54067,6 +56378,9 @@ impl Packet for PacketCzReqTradeBuyingStore {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqTradeBuyingStore {
@@ -54130,6 +56444,9 @@ impl Packet for PacketZcFailedTradeBuyingStoreToBuyer {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -54196,6 +56513,9 @@ impl Packet for PacketZcUpdateItemFromBuyingStore {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -54266,6 +56586,9 @@ impl Packet for PacketZcItemDeleteBuyingStore {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -54345,6 +56668,9 @@ impl Packet for PacketZcElInit {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcElInit {
@@ -54414,6 +56740,9 @@ impl Packet for PacketZcElParChange {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -54487,6 +56816,9 @@ impl Packet for PacketZcBroadcast4 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcBroadcast4 {
@@ -54559,6 +56891,9 @@ impl Packet for PacketZcCostumeSpriteChange {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcCostumeSpriteChange {
@@ -54617,6 +56952,9 @@ impl Packet for PacketAcOtpUser {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketAcOtpUser {
@@ -54672,6 +57010,9 @@ impl Packet for PacketCaOtpAuthReq {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -54734,6 +57075,9 @@ impl Packet for PacketAcOtpAuthAck {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -54798,6 +57142,9 @@ impl Packet for PacketZcFailedTradeBuyingStoreToSeller {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -54882,6 +57229,9 @@ impl Packet for PacketCaSsoLoginReqa {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -54981,6 +57331,9 @@ impl Packet for PacketCaSsoLoginReq {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketCaSsoLoginReq {
@@ -55053,6 +57406,9 @@ impl Packet for PacketAcSsoLoginAck {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketAcSsoLoginAck {
@@ -55110,6 +57466,9 @@ impl Packet for PacketChDeleteChar3Reserved {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -55177,6 +57536,9 @@ impl Packet for PacketHcDeleteChar3Reserved {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketHcDeleteChar3Reserved {
@@ -55243,6 +57605,9 @@ impl Packet for PacketChDeleteChar3 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketChDeleteChar3 {
@@ -55307,6 +57672,9 @@ impl Packet for PacketHcDeleteChar3 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketHcDeleteChar3 {
@@ -55366,6 +57734,9 @@ impl Packet for PacketChDeleteChar3Cancel {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -55428,6 +57799,9 @@ impl Packet for PacketHcDeleteChar3Cancel {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -55508,6 +57882,9 @@ impl Packet for PacketCzSearchStoreInfo {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -55602,6 +57979,9 @@ impl Packet for PacketZcSearchStoreInfoAck {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcSearchStoreInfoAck {
@@ -55668,6 +58048,9 @@ impl Packet for PacketZcSearchStoreInfoFailed {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcSearchStoreInfoFailed {
@@ -55721,6 +58104,9 @@ impl Packet for PacketCzSearchStoreInfoNextPage {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -55781,6 +58167,9 @@ impl Packet for PacketZcAckBanGuildSso {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -55846,6 +58235,9 @@ impl Packet for PacketZcOpenSearchStoreInfo {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcOpenSearchStoreInfo {
@@ -55901,6 +58293,9 @@ impl Packet for PacketCzCloseSearchStoreInfo {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -55965,6 +58360,9 @@ impl Packet for PacketCzSsilistItemClick {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -56032,6 +58430,9 @@ impl Packet for PacketZcSsilistItemClickAck {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketZcSsilistItemClickAck {
@@ -56095,6 +58496,9 @@ impl Packet for PacketAcRefuseLoginR2 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -56160,6 +58564,9 @@ impl Packet for PacketChSelectAccessibleMapname {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
 }
 
 impl Debug for PacketChSelectAccessibleMapname {
@@ -56219,6 +58626,9 @@ impl Packet for PacketCzRequestMove2 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 
@@ -56298,6 +58708,72 @@ impl Display for ServerAddr {
             .field("user_count(unsigned short as u16)[26, 28]", &self.user_count)
             .field("state(unsigned short as u16)[28, 30]", &self.state)
             .field("property(unsigned short as u16)[30, 32]", &self.property)
+        .finish()
+    }
+}
+
+pub struct ServerAddr2 {
+    pub ip: u32,
+    pub ip_raw: Vec<u8>,
+    pub port: i16,
+    pub port_raw: Vec<u8>,
+    pub name: String,
+    pub name_raw: Vec<u8>,
+    pub user_count: u16,
+    pub user_count_raw: Vec<u8>,
+    pub state: u16,
+    pub state_raw: Vec<u8>,
+    pub property: u16,
+    pub property_raw: Vec<u8>,
+    pub unknown2: String,
+    pub unknown2_raw: Vec<u8>,
+}
+
+impl ServerAddr2 {
+    pub fn from(buffer: &[u8]) -> ServerAddr2 {
+        ServerAddr2 {
+            ip: u32::from_le_bytes([buffer[0], buffer[1], buffer[2], buffer[3]]),
+            ip_raw: buffer[0..4].to_vec(),
+            port: i16::from_le_bytes([buffer[4], buffer[5]]),
+            port_raw: buffer[4..6].to_vec(),
+            name: String::from_utf8_lossy(&buffer[6..26]).to_string(),
+            name_raw: buffer[6..26].to_vec(),
+            user_count: u16::from_le_bytes([buffer[26], buffer[27]]),
+            user_count_raw: buffer[26..28].to_vec(),
+            state: u16::from_le_bytes([buffer[28], buffer[29]]),
+            state_raw: buffer[28..30].to_vec(),
+            property: u16::from_le_bytes([buffer[30], buffer[31]]),
+            property_raw: buffer[30..32].to_vec(),
+            unknown2: String::from_utf8_lossy(&buffer[31..159]).to_string(),
+            unknown2_raw: buffer[31..159].to_vec(),
+        }
+    }
+}
+
+impl Debug for ServerAddr2 {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("ServerAddr2")
+            .field("ip[0, 4]", &format!("{:02X?}", &self.ip_raw))
+            .field("port[4, 6]", &format!("{:02X?}", &self.port_raw))
+            .field("name[6, 26]", &format!("{:02X?}", &self.name_raw))
+            .field("user_count[26, 28]", &format!("{:02X?}", &self.user_count_raw))
+            .field("state[28, 30]", &format!("{:02X?}", &self.state_raw))
+            .field("property[30, 32]", &format!("{:02X?}", &self.property_raw))
+            .field("unknown2[31, 159]", &format!("{:02X?}", &self.unknown2_raw))
+        .finish()
+    }
+}
+
+impl Display for ServerAddr2 {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("ServerAddr2")
+            .field("ip(unsigned long as u32)[0, 4]", &self.ip)
+            .field("port(short as i16)[4, 6]", &self.port)
+            .field("name(char[] as String)[6, 26]", &self.name)
+            .field("user_count(unsigned short as u16)[26, 28]", &self.user_count)
+            .field("state(unsigned short as u16)[28, 30]", &self.state)
+            .field("property(unsigned short as u16)[30, 32]", &self.property)
+            .field("unknown2(char[] as String)[31, 159]", &self.unknown2)
         .finish()
     }
 }
@@ -59511,6 +61987,9 @@ impl Packet for PacketUnknown {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 impl PacketUnknown {
