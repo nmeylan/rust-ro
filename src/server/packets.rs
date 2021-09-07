@@ -2307,9 +2307,9 @@ pub struct PacketCaLogin {
     pub packet_id_raw: Vec<u8>,
     pub version: u32,
     pub version_raw: Vec<u8>,
-    pub id: String,
+    pub id: [char; 24],
     pub id_raw: Vec<u8>,
-    pub passwd: String,
+    pub passwd: [char; 24],
     pub passwd_raw: Vec<u8>,
     pub client_type: u8,
     pub client_type_raw: Vec<u8>,
@@ -2323,9 +2323,17 @@ impl PacketCaLogin {
             packet_id_raw: buffer[0..2].to_vec(),
             version: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
             version_raw: buffer[2..6].to_vec(),
-            id: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            id:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[6..30].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             id_raw: buffer[6..30].to_vec(),
-            passwd: String::from_utf8_lossy(&buffer[30..54]).to_string(),
+            passwd:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[30..54].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             passwd_raw: buffer[30..54].to_vec(),
             client_type: u8::from_le_bytes([buffer[54]]),
             client_type_raw: buffer[54..55].to_vec(),
@@ -2373,8 +2381,8 @@ impl Display for PacketCaLogin {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("version(unsigned long as u32)[2, 6]", &self.version)
-            .field("id(char[] as String)[6, 30]", &self.id)
-            .field("passwd(char[] as String)[30, 54]", &self.passwd)
+            .field("id(char[] as char[])[6, 30]", &self.id)
+            .field("passwd(char[] as char[])[30, 54]", &self.passwd)
             .field("client_type(unsigned char as u8)[54, 55]", &self.client_type)
         .finish()
     }
@@ -2530,7 +2538,7 @@ pub struct PacketChMakeChar {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub name: String,
+    pub name: [char; 24],
     pub name_raw: Vec<u8>,
     pub str: u8,
     pub str_raw: Vec<u8>,
@@ -2558,7 +2566,11 @@ impl PacketChMakeChar {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[2..26].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             name_raw: buffer[2..26].to_vec(),
             str: u8::from_le_bytes([buffer[26]]),
             str_raw: buffer[26..27].to_vec(),
@@ -2627,7 +2639,7 @@ impl Display for PacketChMakeChar {
         f.debug_struct("PacketChMakeChar")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("name(char[] as String)[2, 26]", &self.name)
+            .field("name(char[] as char[])[2, 26]", &self.name)
             .field("str(unsigned char as u8)[26, 27]", &self.str)
             .field("agi(unsigned char as u8)[27, 28]", &self.agi)
             .field("vit(unsigned char as u8)[28, 29]", &self.vit)
@@ -2647,7 +2659,7 @@ pub struct PacketChDeleteChar {
     pub packet_id_raw: Vec<u8>,
     pub gid: u32,
     pub gid_raw: Vec<u8>,
-    pub key: String,
+    pub key: [char; 40],
     pub key_raw: Vec<u8>,
 }
 
@@ -2659,7 +2671,11 @@ impl PacketChDeleteChar {
             packet_id_raw: buffer[0..2].to_vec(),
             gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
             gid_raw: buffer[2..6].to_vec(),
-            key: String::from_utf8_lossy(&buffer[6..46]).to_string(),
+            key:  {
+                let mut dst: [char; 40] = [0 as char; 40];
+                for (index, byte) in buffer[6..46].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             key_raw: buffer[6..46].to_vec(),
         }
     }
@@ -2703,7 +2719,7 @@ impl Display for PacketChDeleteChar {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("gid(unsigned long as u32)[2, 6]", &self.gid)
-            .field("key(char[] as String)[6, 46]", &self.key)
+            .field("key(char[] as char[])[6, 46]", &self.key)
         .finish()
     }
 }
@@ -2722,7 +2738,7 @@ pub struct PacketAcAcceptLogin {
     pub user_level_raw: Vec<u8>,
     pub last_login_ip: u32,
     pub last_login_ip_raw: Vec<u8>,
-    pub last_login_time: String,
+    pub last_login_time: [char; 26],
     pub last_login_time_raw: Vec<u8>,
     pub sex: u8,
     pub sex_raw: Vec<u8>,
@@ -2755,7 +2771,11 @@ impl PacketAcAcceptLogin {
             user_level_raw: buffer[12..16].to_vec(),
             last_login_ip: u32::from_le_bytes([buffer[16], buffer[17], buffer[18], buffer[19]]),
             last_login_ip_raw: buffer[16..20].to_vec(),
-            last_login_time: String::from_utf8_lossy(&buffer[20..46]).to_string(),
+            last_login_time:  {
+                let mut dst: [char; 26] = [0 as char; 26];
+                for (index, byte) in buffer[20..46].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             last_login_time_raw: buffer[20..46].to_vec(),
             sex: u8::from_le_bytes([buffer[46]]),
             sex_raw: buffer[46..47].to_vec(),
@@ -2813,7 +2833,7 @@ impl Display for PacketAcAcceptLogin {
             .field("aid(unsigned long as u32)[8, 12]", &self.aid)
             .field("user_level(unsigned long as u32)[12, 16]", &self.user_level)
             .field("last_login_ip(unsigned long as u32)[16, 20]", &self.last_login_ip)
-            .field("last_login_time(char[] as String)[20, 46]", &self.last_login_time)
+            .field("last_login_time(char[] as char[])[20, 46]", &self.last_login_time)
             .field("sex(unsigned char as u8)[46, 47]", &self.sex)
             .field("server_list([] as Vec)[47, 79]", &self.server_list)
         .finish()
@@ -2834,11 +2854,11 @@ pub struct PacketAcAcceptLogin2 {
     pub user_level_raw: Vec<u8>,
     pub last_login_ip: u32,
     pub last_login_ip_raw: Vec<u8>,
-    pub last_login_time: String,
+    pub last_login_time: [char; 26],
     pub last_login_time_raw: Vec<u8>,
     pub sex: u8,
     pub sex_raw: Vec<u8>,
-    pub twitter_auth_token: String,
+    pub twitter_auth_token: [char; 16],
     pub twitter_auth_token_raw: Vec<u8>,
     pub twitter_flag: u16,
     pub twitter_flag_raw: Vec<u8>,
@@ -2871,11 +2891,19 @@ impl PacketAcAcceptLogin2 {
             user_level_raw: buffer[12..16].to_vec(),
             last_login_ip: u32::from_le_bytes([buffer[16], buffer[17], buffer[18], buffer[19]]),
             last_login_ip_raw: buffer[16..20].to_vec(),
-            last_login_time: String::from_utf8_lossy(&buffer[20..46]).to_string(),
+            last_login_time:  {
+                let mut dst: [char; 26] = [0 as char; 26];
+                for (index, byte) in buffer[20..46].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             last_login_time_raw: buffer[20..46].to_vec(),
             sex: u8::from_le_bytes([buffer[46]]),
             sex_raw: buffer[46..47].to_vec(),
-            twitter_auth_token: String::from_utf8_lossy(&buffer[47..63]).to_string(),
+            twitter_auth_token:  {
+                let mut dst: [char; 16] = [0 as char; 16];
+                for (index, byte) in buffer[47..63].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             twitter_auth_token_raw: buffer[47..63].to_vec(),
             twitter_flag: u16::from_le_bytes([buffer[63], buffer[64]]),
             twitter_flag_raw: buffer[63..65].to_vec(),
@@ -2935,9 +2963,9 @@ impl Display for PacketAcAcceptLogin2 {
             .field("aid(unsigned long as u32)[8, 12]", &self.aid)
             .field("user_level(unsigned long as u32)[12, 16]", &self.user_level)
             .field("last_login_ip(unsigned long as u32)[16, 20]", &self.last_login_ip)
-            .field("last_login_time(char[] as String)[20, 46]", &self.last_login_time)
+            .field("last_login_time(char[] as char[])[20, 46]", &self.last_login_time)
             .field("sex(unsigned char as u8)[46, 47]", &self.sex)
-            .field("twitter_auth_token(char[] as String)[47, 63]", &self.twitter_auth_token)
+            .field("twitter_auth_token(char[] as char[])[47, 63]", &self.twitter_auth_token)
             .field("twitter_flag(unsigned short as u16)[63, 65]", &self.twitter_flag)
             .field("server_list([] as Vec)[64, 224]", &self.server_list)
         .finish()
@@ -2950,7 +2978,7 @@ pub struct PacketAcRefuseLogin {
     pub packet_id_raw: Vec<u8>,
     pub error_code: u8,
     pub error_code_raw: Vec<u8>,
-    pub block_date: String,
+    pub block_date: [char; 20],
     pub block_date_raw: Vec<u8>,
 }
 
@@ -2962,7 +2990,11 @@ impl PacketAcRefuseLogin {
             packet_id_raw: buffer[0..2].to_vec(),
             error_code: u8::from_le_bytes([buffer[2]]),
             error_code_raw: buffer[2..3].to_vec(),
-            block_date: String::from_utf8_lossy(&buffer[3..23]).to_string(),
+            block_date:  {
+                let mut dst: [char; 20] = [0 as char; 20];
+                for (index, byte) in buffer[3..23].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             block_date_raw: buffer[3..23].to_vec(),
         }
     }
@@ -3006,7 +3038,7 @@ impl Display for PacketAcRefuseLogin {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("error_code(unsigned char as u8)[2, 3]", &self.error_code)
-            .field("block_date(char[] as String)[3, 23]", &self.block_date)
+            .field("block_date(char[] as char[])[3, 23]", &self.block_date)
         .finish()
     }
 }
@@ -3031,7 +3063,7 @@ pub struct PacketHcAcceptEnterNeoUnion {
     pub time1_raw: Vec<u8>,
     pub time2: u32,
     pub time2_raw: Vec<u8>,
-    pub dummy2_endbilling: String,
+    pub dummy2_endbilling: [char; 7],
     pub dummy2_endbilling_raw: Vec<u8>,
     pub char_info: Vec<CharacterInfoNeoUnion>,
     pub char_info_raw: Vec<u8>,
@@ -3068,7 +3100,11 @@ impl PacketHcAcceptEnterNeoUnion {
             time1_raw: buffer[12..16].to_vec(),
             time2: u32::from_le_bytes([buffer[16], buffer[17], buffer[18], buffer[19]]),
             time2_raw: buffer[16..20].to_vec(),
-            dummy2_endbilling: String::from_utf8_lossy(&buffer[20..27]).to_string(),
+            dummy2_endbilling:  {
+                let mut dst: [char; 7] = [0 as char; 7];
+                for (index, byte) in buffer[20..27].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             dummy2_endbilling_raw: buffer[20..27].to_vec(),
             char_info: vec_field,
             char_info_raw: buffer[27..171].to_vec(),
@@ -3129,7 +3165,7 @@ impl Display for PacketHcAcceptEnterNeoUnion {
             .field("code(unsigned long as u32)[8, 12]", &self.code)
             .field("time1(unsigned long as u32)[12, 16]", &self.time1)
             .field("time2(unsigned long as u32)[16, 20]", &self.time2)
-            .field("dummy2_endbilling(char[] as String)[20, 27]", &self.dummy2_endbilling)
+            .field("dummy2_endbilling(char[] as char[])[20, 27]", &self.dummy2_endbilling)
             .field("char_info([] as Vec)[27, 171]", &self.char_info)
         .finish()
     }
@@ -3440,7 +3476,7 @@ pub struct PacketHcNotifyZonesvr {
     pub packet_id_raw: Vec<u8>,
     pub gid: u32,
     pub gid_raw: Vec<u8>,
-    pub map_name: String,
+    pub map_name: [char; 16],
     pub map_name_raw: Vec<u8>,
     pub addr: ZserverAddr,
     pub addr_raw: Vec<u8>,
@@ -3454,7 +3490,11 @@ impl PacketHcNotifyZonesvr {
             packet_id_raw: buffer[0..2].to_vec(),
             gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
             gid_raw: buffer[2..6].to_vec(),
-            map_name: String::from_utf8_lossy(&buffer[6..22]).to_string(),
+            map_name:  {
+                let mut dst: [char; 16] = [0 as char; 16];
+                for (index, byte) in buffer[6..22].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             map_name_raw: buffer[6..22].to_vec(),
             addr: ZserverAddr::from(&buffer[22..buffer.len()]),
             addr_raw: buffer[22..buffer.len()].to_vec(),
@@ -3501,7 +3541,7 @@ impl Display for PacketHcNotifyZonesvr {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("gid(unsigned long as u32)[2, 6]", &self.gid)
-            .field("map_name(char[] as String)[6, 22]", &self.map_name)
+            .field("map_name(char[] as char[])[6, 22]", &self.map_name)
             .field("addr(struct as Struct)[22, ?]", &self.addr)
         .finish()
     }
@@ -3598,7 +3638,7 @@ pub struct PacketZcAcceptEnter {
     pub packet_id_raw: Vec<u8>,
     pub start_time: u32,
     pub start_time_raw: Vec<u8>,
-    pub pos_dir: String,
+    pub pos_dir: [char; 3],
     pub pos_dir_raw: Vec<u8>,
     pub x_size: u8,
     pub x_size_raw: Vec<u8>,
@@ -3614,7 +3654,11 @@ impl PacketZcAcceptEnter {
             packet_id_raw: buffer[0..2].to_vec(),
             start_time: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
             start_time_raw: buffer[2..6].to_vec(),
-            pos_dir: String::from_utf8_lossy(&buffer[6..9]).to_string(),
+            pos_dir:  {
+                let mut dst: [char; 3] = [0 as char; 3];
+                for (index, byte) in buffer[6..9].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             pos_dir_raw: buffer[6..9].to_vec(),
             x_size: u8::from_le_bytes([buffer[9]]),
             x_size_raw: buffer[9..10].to_vec(),
@@ -3664,7 +3708,7 @@ impl Display for PacketZcAcceptEnter {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("start_time(unsigned long as u32)[2, 6]", &self.start_time)
-            .field("pos_dir(char[] as String)[6, 9]", &self.pos_dir)
+            .field("pos_dir(char[] as char[])[6, 9]", &self.pos_dir)
             .field("x_size(unsigned char as u8)[9, 10]", &self.x_size)
             .field("y_size(unsigned char as u8)[10, 11]", &self.y_size)
         .finish()
@@ -3999,7 +4043,7 @@ pub struct PacketZcNotifyStandentry {
     pub is_pkmode_on_raw: Vec<u8>,
     pub sex: u8,
     pub sex_raw: Vec<u8>,
-    pub pos_dir: String,
+    pub pos_dir: [char; 3],
     pub pos_dir_raw: Vec<u8>,
     pub x_size: u8,
     pub x_size_raw: Vec<u8>,
@@ -4061,7 +4105,11 @@ impl PacketZcNotifyStandentry {
             is_pkmode_on_raw: buffer[45..46].to_vec(),
             sex: u8::from_le_bytes([buffer[46]]),
             sex_raw: buffer[46..47].to_vec(),
-            pos_dir: String::from_utf8_lossy(&buffer[47..50]).to_string(),
+            pos_dir:  {
+                let mut dst: [char; 3] = [0 as char; 3];
+                for (index, byte) in buffer[47..50].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             pos_dir_raw: buffer[47..50].to_vec(),
             x_size: u8::from_le_bytes([buffer[50]]),
             x_size_raw: buffer[50..51].to_vec(),
@@ -4159,7 +4207,7 @@ impl Display for PacketZcNotifyStandentry {
             .field("virtue(short as i16)[43, 45]", &self.virtue)
             .field("is_pkmode_on(bool as bool)[45, 46]", &self.is_pkmode_on)
             .field("sex(unsigned char as u8)[46, 47]", &self.sex)
-            .field("pos_dir(char[] as String)[47, 50]", &self.pos_dir)
+            .field("pos_dir(char[] as char[])[47, 50]", &self.pos_dir)
             .field("x_size(unsigned char as u8)[50, 51]", &self.x_size)
             .field("y_size(unsigned char as u8)[51, 52]", &self.y_size)
             .field("state(unsigned char as u8)[52, 53]", &self.state)
@@ -4214,7 +4262,7 @@ pub struct PacketZcNotifyNewentry {
     pub is_pkmode_on_raw: Vec<u8>,
     pub sex: u8,
     pub sex_raw: Vec<u8>,
-    pub pos_dir: String,
+    pub pos_dir: [char; 3],
     pub pos_dir_raw: Vec<u8>,
     pub x_size: u8,
     pub x_size_raw: Vec<u8>,
@@ -4272,7 +4320,11 @@ impl PacketZcNotifyNewentry {
             is_pkmode_on_raw: buffer[44..45].to_vec(),
             sex: u8::from_le_bytes([buffer[45]]),
             sex_raw: buffer[45..46].to_vec(),
-            pos_dir: String::from_utf8_lossy(&buffer[46..49]).to_string(),
+            pos_dir:  {
+                let mut dst: [char; 3] = [0 as char; 3];
+                for (index, byte) in buffer[46..49].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             pos_dir_raw: buffer[46..49].to_vec(),
             x_size: u8::from_le_bytes([buffer[49]]),
             x_size_raw: buffer[49..50].to_vec(),
@@ -4365,7 +4417,7 @@ impl Display for PacketZcNotifyNewentry {
             .field("virtue(short as i16)[42, 44]", &self.virtue)
             .field("is_pkmode_on(bool as bool)[44, 45]", &self.is_pkmode_on)
             .field("sex(unsigned char as u8)[45, 46]", &self.sex)
-            .field("pos_dir(char[] as String)[46, 49]", &self.pos_dir)
+            .field("pos_dir(char[] as char[])[46, 49]", &self.pos_dir)
             .field("x_size(unsigned char as u8)[49, 50]", &self.x_size)
             .field("y_size(unsigned char as u8)[50, 51]", &self.y_size)
             .field("clevel(short as i16)[51, 53]", &self.clevel)
@@ -4419,7 +4471,7 @@ pub struct PacketZcNotifyActentry {
     pub is_pkmode_on_raw: Vec<u8>,
     pub sex: u8,
     pub sex_raw: Vec<u8>,
-    pub pos_dir: String,
+    pub pos_dir: [char; 3],
     pub pos_dir_raw: Vec<u8>,
     pub x_size: u8,
     pub x_size_raw: Vec<u8>,
@@ -4481,7 +4533,11 @@ impl PacketZcNotifyActentry {
             is_pkmode_on_raw: buffer[44..45].to_vec(),
             sex: u8::from_le_bytes([buffer[45]]),
             sex_raw: buffer[45..46].to_vec(),
-            pos_dir: String::from_utf8_lossy(&buffer[46..49]).to_string(),
+            pos_dir:  {
+                let mut dst: [char; 3] = [0 as char; 3];
+                for (index, byte) in buffer[46..49].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             pos_dir_raw: buffer[46..49].to_vec(),
             x_size: u8::from_le_bytes([buffer[49]]),
             x_size_raw: buffer[49..50].to_vec(),
@@ -4580,7 +4636,7 @@ impl Display for PacketZcNotifyActentry {
             .field("virtue(short as i16)[42, 44]", &self.virtue)
             .field("is_pkmode_on(bool as bool)[44, 45]", &self.is_pkmode_on)
             .field("sex(unsigned char as u8)[45, 46]", &self.sex)
-            .field("pos_dir(char[] as String)[46, 49]", &self.pos_dir)
+            .field("pos_dir(char[] as char[])[46, 49]", &self.pos_dir)
             .field("x_size(unsigned char as u8)[49, 50]", &self.x_size)
             .field("y_size(unsigned char as u8)[50, 51]", &self.y_size)
             .field("action(unsigned char as u8)[51, 52]", &self.action)
@@ -4638,7 +4694,7 @@ pub struct PacketZcNotifyMoveentry {
     pub is_pkmode_on_raw: Vec<u8>,
     pub sex: u8,
     pub sex_raw: Vec<u8>,
-    pub move_data: String,
+    pub move_data: [u16; 6],
     pub move_data_raw: Vec<u8>,
     pub x_size: u8,
     pub x_size_raw: Vec<u8>,
@@ -4698,7 +4754,11 @@ impl PacketZcNotifyMoveentry {
             is_pkmode_on_raw: buffer[48..49].to_vec(),
             sex: u8::from_le_bytes([buffer[49]]),
             sex_raw: buffer[49..50].to_vec(),
-            move_data: String::from_utf8_lossy(&buffer[50..56]).to_string(),
+            move_data:  {
+                let mut dst: [u16; 6] = [0 as u16; 6];
+                for (index, byte) in buffer[50..56].iter().enumerate() {
+                dst[index] = *byte as u16;                }                dst
+            },
             move_data_raw: buffer[50..56].to_vec(),
             x_size: u8::from_le_bytes([buffer[56]]),
             x_size_raw: buffer[56..57].to_vec(),
@@ -4793,7 +4853,7 @@ impl Display for PacketZcNotifyMoveentry {
             .field("virtue(short as i16)[46, 48]", &self.virtue)
             .field("is_pkmode_on(bool as bool)[48, 49]", &self.is_pkmode_on)
             .field("sex(unsigned char as u8)[49, 50]", &self.sex)
-            .field("move_data(char[] as String)[50, 56]", &self.move_data)
+            .field("move_data(unsigned short[] as u16[])[50, 56]", &self.move_data)
             .field("x_size(unsigned char as u8)[56, 57]", &self.x_size)
             .field("y_size(unsigned char as u8)[57, 58]", &self.y_size)
             .field("clevel(short as i16)[58, 60]", &self.clevel)
@@ -4841,7 +4901,7 @@ pub struct PacketZcNotifyStandentryNpc {
     pub is_pkmode_on_raw: Vec<u8>,
     pub sex: u8,
     pub sex_raw: Vec<u8>,
-    pub pos_dir: String,
+    pub pos_dir: [char; 3],
     pub pos_dir_raw: Vec<u8>,
     pub x_size: u8,
     pub x_size_raw: Vec<u8>,
@@ -4891,7 +4951,11 @@ impl PacketZcNotifyStandentryNpc {
             is_pkmode_on_raw: buffer[35..36].to_vec(),
             sex: u8::from_le_bytes([buffer[36]]),
             sex_raw: buffer[36..37].to_vec(),
-            pos_dir: String::from_utf8_lossy(&buffer[37..40]).to_string(),
+            pos_dir:  {
+                let mut dst: [char; 3] = [0 as char; 3];
+                for (index, byte) in buffer[37..40].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             pos_dir_raw: buffer[37..40].to_vec(),
             x_size: u8::from_le_bytes([buffer[40]]),
             x_size_raw: buffer[40..41].to_vec(),
@@ -4975,7 +5039,7 @@ impl Display for PacketZcNotifyStandentryNpc {
             .field("head_dir(short as i16)[33, 35]", &self.head_dir)
             .field("is_pkmode_on(bool as bool)[35, 36]", &self.is_pkmode_on)
             .field("sex(unsigned char as u8)[36, 37]", &self.sex)
-            .field("pos_dir(char[] as String)[37, 40]", &self.pos_dir)
+            .field("pos_dir(char[] as char[])[37, 40]", &self.pos_dir)
             .field("x_size(unsigned char as u8)[40, 41]", &self.x_size)
             .field("y_size(unsigned char as u8)[41, 42]", &self.y_size)
         .finish()
@@ -5456,7 +5520,7 @@ pub struct PacketCzRequestMove {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub dest: String,
+    pub dest: [char; 3],
     pub dest_raw: Vec<u8>,
 }
 
@@ -5466,7 +5530,11 @@ impl PacketCzRequestMove {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            dest: String::from_utf8_lossy(&buffer[2..5]).to_string(),
+            dest:  {
+                let mut dst: [char; 3] = [0 as char; 3];
+                for (index, byte) in buffer[2..5].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             dest_raw: buffer[2..5].to_vec(),
         }
     }
@@ -5508,7 +5576,7 @@ impl Display for PacketCzRequestMove {
         f.debug_struct("PacketCzRequestMove")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("dest(char[] as String)[2, 5]", &self.dest)
+            .field("dest(char[] as char[])[2, 5]", &self.dest)
         .finish()
     }
 }
@@ -5519,7 +5587,7 @@ pub struct PacketZcNotifyMove {
     pub packet_id_raw: Vec<u8>,
     pub gid: u32,
     pub gid_raw: Vec<u8>,
-    pub move_data: String,
+    pub move_data: [u16; 6],
     pub move_data_raw: Vec<u8>,
     pub move_start_time: u32,
     pub move_start_time_raw: Vec<u8>,
@@ -5533,7 +5601,11 @@ impl PacketZcNotifyMove {
             packet_id_raw: buffer[0..2].to_vec(),
             gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
             gid_raw: buffer[2..6].to_vec(),
-            move_data: String::from_utf8_lossy(&buffer[6..12]).to_string(),
+            move_data:  {
+                let mut dst: [u16; 6] = [0 as u16; 6];
+                for (index, byte) in buffer[6..12].iter().enumerate() {
+                dst[index] = *byte as u16;                }                dst
+            },
             move_data_raw: buffer[6..12].to_vec(),
             move_start_time: u32::from_le_bytes([buffer[12], buffer[13], buffer[14], buffer[15]]),
             move_start_time_raw: buffer[12..16].to_vec(),
@@ -5580,7 +5652,7 @@ impl Display for PacketZcNotifyMove {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("gid(unsigned long as u32)[2, 6]", &self.gid)
-            .field("move_data(char[] as String)[6, 12]", &self.move_data)
+            .field("move_data(unsigned short[] as u16[])[6, 12]", &self.move_data)
             .field("move_start_time(unsigned long as u32)[12, 16]", &self.move_start_time)
         .finish()
     }
@@ -5592,7 +5664,7 @@ pub struct PacketZcNotifyPlayermove {
     pub packet_id_raw: Vec<u8>,
     pub move_start_time: u32,
     pub move_start_time_raw: Vec<u8>,
-    pub move_data: String,
+    pub move_data: [u16; 6],
     pub move_data_raw: Vec<u8>,
 }
 
@@ -5604,7 +5676,11 @@ impl PacketZcNotifyPlayermove {
             packet_id_raw: buffer[0..2].to_vec(),
             move_start_time: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
             move_start_time_raw: buffer[2..6].to_vec(),
-            move_data: String::from_utf8_lossy(&buffer[6..12]).to_string(),
+            move_data:  {
+                let mut dst: [u16; 6] = [0 as u16; 6];
+                for (index, byte) in buffer[6..12].iter().enumerate() {
+                dst[index] = *byte as u16;                }                dst
+            },
             move_data_raw: buffer[6..12].to_vec(),
         }
     }
@@ -5648,7 +5724,7 @@ impl Display for PacketZcNotifyPlayermove {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("move_start_time(unsigned long as u32)[2, 6]", &self.move_start_time)
-            .field("move_data(char[] as String)[6, 12]", &self.move_data)
+            .field("move_data(unsigned short[] as u16[])[6, 12]", &self.move_data)
         .finish()
     }
 }
@@ -6344,7 +6420,7 @@ pub struct PacketZcNpcackMapmove {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub map_name: String,
+    pub map_name: [char; 16],
     pub map_name_raw: Vec<u8>,
     pub x_pos: i16,
     pub x_pos_raw: Vec<u8>,
@@ -6358,7 +6434,11 @@ impl PacketZcNpcackMapmove {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            map_name: String::from_utf8_lossy(&buffer[2..18]).to_string(),
+            map_name:  {
+                let mut dst: [char; 16] = [0 as char; 16];
+                for (index, byte) in buffer[2..18].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             map_name_raw: buffer[2..18].to_vec(),
             x_pos: i16::from_le_bytes([buffer[18], buffer[19]]),
             x_pos_raw: buffer[18..20].to_vec(),
@@ -6406,7 +6486,7 @@ impl Display for PacketZcNpcackMapmove {
         f.debug_struct("PacketZcNpcackMapmove")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("map_name(char[] as String)[2, 18]", &self.map_name)
+            .field("map_name(char[] as char[])[2, 18]", &self.map_name)
             .field("x_pos(short as i16)[18, 20]", &self.x_pos)
             .field("y_pos(short as i16)[20, 22]", &self.y_pos)
         .finish()
@@ -6417,7 +6497,7 @@ pub struct PacketZcNpcackServermove {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub map_name: String,
+    pub map_name: [char; 16],
     pub map_name_raw: Vec<u8>,
     pub x_pos: i16,
     pub x_pos_raw: Vec<u8>,
@@ -6433,7 +6513,11 @@ impl PacketZcNpcackServermove {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            map_name: String::from_utf8_lossy(&buffer[2..18]).to_string(),
+            map_name:  {
+                let mut dst: [char; 16] = [0 as char; 16];
+                for (index, byte) in buffer[2..18].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             map_name_raw: buffer[2..18].to_vec(),
             x_pos: i16::from_le_bytes([buffer[18], buffer[19]]),
             x_pos_raw: buffer[18..20].to_vec(),
@@ -6484,7 +6568,7 @@ impl Display for PacketZcNpcackServermove {
         f.debug_struct("PacketZcNpcackServermove")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("map_name(char[] as String)[2, 18]", &self.map_name)
+            .field("map_name(char[] as char[])[2, 18]", &self.map_name)
             .field("x_pos(short as i16)[18, 20]", &self.x_pos)
             .field("y_pos(short as i16)[20, 22]", &self.y_pos)
             .field("addr(struct as Struct)[22, ?]", &self.addr)
@@ -6614,7 +6698,7 @@ pub struct PacketZcAckReqname {
     pub packet_id_raw: Vec<u8>,
     pub aid: u32,
     pub aid_raw: Vec<u8>,
-    pub cname: String,
+    pub cname: [char; 24],
     pub cname_raw: Vec<u8>,
 }
 
@@ -6626,7 +6710,11 @@ impl PacketZcAckReqname {
             packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
             aid_raw: buffer[2..6].to_vec(),
-            cname: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            cname:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[6..30].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             cname_raw: buffer[6..30].to_vec(),
         }
     }
@@ -6670,7 +6758,7 @@ impl Display for PacketZcAckReqname {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("aid(unsigned long as u32)[2, 6]", &self.aid)
-            .field("cname(char[] as String)[6, 30]", &self.cname)
+            .field("cname(char[] as char[])[6, 30]", &self.cname)
         .finish()
     }
 }
@@ -6681,7 +6769,7 @@ pub struct PacketCzWhisper {
     pub packet_id_raw: Vec<u8>,
     pub packet_length: i16,
     pub packet_length_raw: Vec<u8>,
-    pub receiver: String,
+    pub receiver: [char; 24],
     pub receiver_raw: Vec<u8>,
     pub msg: String,
     pub msg_raw: Vec<u8>,
@@ -6695,7 +6783,11 @@ impl PacketCzWhisper {
             packet_id_raw: buffer[0..2].to_vec(),
             packet_length: i16::from_le_bytes([buffer[2], buffer[3]]),
             packet_length_raw: buffer[2..4].to_vec(),
-            receiver: String::from_utf8_lossy(&buffer[4..28]).to_string(),
+            receiver:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[4..28].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             receiver_raw: buffer[4..28].to_vec(),
             msg: String::from_utf8_lossy(&buffer[44..buffer.len()]).to_string(),
             msg_raw: buffer[44..buffer.len()].to_vec(),
@@ -6742,7 +6834,7 @@ impl Display for PacketCzWhisper {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("packet_length(short as i16)[2, 4]", &self.packet_length)
-            .field("receiver(char[] as String)[4, 28]", &self.receiver)
+            .field("receiver(char[] as char[])[4, 28]", &self.receiver)
             .field("msg(char[] as String)[44, ?]", &self.msg)
         .finish()
     }
@@ -6754,7 +6846,7 @@ pub struct PacketZcWhisper {
     pub packet_id_raw: Vec<u8>,
     pub packet_length: i16,
     pub packet_length_raw: Vec<u8>,
-    pub sender: String,
+    pub sender: [char; 24],
     pub sender_raw: Vec<u8>,
     pub msg: String,
     pub msg_raw: Vec<u8>,
@@ -6768,7 +6860,11 @@ impl PacketZcWhisper {
             packet_id_raw: buffer[0..2].to_vec(),
             packet_length: i16::from_le_bytes([buffer[2], buffer[3]]),
             packet_length_raw: buffer[2..4].to_vec(),
-            sender: String::from_utf8_lossy(&buffer[4..28]).to_string(),
+            sender:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[4..28].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             sender_raw: buffer[4..28].to_vec(),
             msg: String::from_utf8_lossy(&buffer[44..buffer.len()]).to_string(),
             msg_raw: buffer[44..buffer.len()].to_vec(),
@@ -6815,7 +6911,7 @@ impl Display for PacketZcWhisper {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("packet_length(short as i16)[2, 4]", &self.packet_length)
-            .field("sender(char[] as String)[4, 28]", &self.sender)
+            .field("sender(char[] as char[])[4, 28]", &self.sender)
             .field("msg(char[] as String)[44, ?]", &self.msg)
         .finish()
     }
@@ -10634,7 +10730,7 @@ pub struct PacketCzSettingWhisperPc {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub name: String,
+    pub name: [char; 24],
     pub name_raw: Vec<u8>,
     pub atype: u8,
     pub atype_raw: Vec<u8>,
@@ -10646,7 +10742,11 @@ impl PacketCzSettingWhisperPc {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[2..26].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             name_raw: buffer[2..26].to_vec(),
             atype: u8::from_le_bytes([buffer[26]]),
             atype_raw: buffer[26..27].to_vec(),
@@ -10691,7 +10791,7 @@ impl Display for PacketCzSettingWhisperPc {
         f.debug_struct("PacketCzSettingWhisperPc")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("name(char[] as String)[2, 26]", &self.name)
+            .field("name(char[] as char[])[2, 26]", &self.name)
             .field("atype(unsigned char as u8)[26, 27]", &self.atype)
         .finish()
     }
@@ -11033,7 +11133,7 @@ pub struct PacketCzCreateChatroom {
     pub size_raw: Vec<u8>,
     pub atype: u8,
     pub atype_raw: Vec<u8>,
-    pub passwd: String,
+    pub passwd: [char; 8],
     pub passwd_raw: Vec<u8>,
     pub title: String,
     pub title_raw: Vec<u8>,
@@ -11051,7 +11151,11 @@ impl PacketCzCreateChatroom {
             size_raw: buffer[4..6].to_vec(),
             atype: u8::from_le_bytes([buffer[6]]),
             atype_raw: buffer[6..7].to_vec(),
-            passwd: String::from_utf8_lossy(&buffer[7..15]).to_string(),
+            passwd:  {
+                let mut dst: [char; 8] = [0 as char; 8];
+                for (index, byte) in buffer[7..15].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             passwd_raw: buffer[7..15].to_vec(),
             title: String::from_utf8_lossy(&buffer[15..buffer.len()]).to_string(),
             title_raw: buffer[15..buffer.len()].to_vec(),
@@ -11102,7 +11206,7 @@ impl Display for PacketCzCreateChatroom {
             .field("packet_length(short as i16)[2, 4]", &self.packet_length)
             .field("size(short as i16)[4, 6]", &self.size)
             .field("atype(unsigned char as u8)[6, 7]", &self.atype)
-            .field("passwd(char[] as String)[7, 15]", &self.passwd)
+            .field("passwd(char[] as char[])[7, 15]", &self.passwd)
             .field("title(char[] as String)[15, ?]", &self.title)
         .finish()
     }
@@ -11333,7 +11437,7 @@ pub struct PacketCzReqEnterRoom {
     pub packet_id_raw: Vec<u8>,
     pub room_id: u32,
     pub room_id_raw: Vec<u8>,
-    pub passwd: String,
+    pub passwd: [char; 8],
     pub passwd_raw: Vec<u8>,
 }
 
@@ -11345,7 +11449,11 @@ impl PacketCzReqEnterRoom {
             packet_id_raw: buffer[0..2].to_vec(),
             room_id: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
             room_id_raw: buffer[2..6].to_vec(),
-            passwd: String::from_utf8_lossy(&buffer[6..14]).to_string(),
+            passwd:  {
+                let mut dst: [char; 8] = [0 as char; 8];
+                for (index, byte) in buffer[6..14].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             passwd_raw: buffer[6..14].to_vec(),
         }
     }
@@ -11389,7 +11497,7 @@ impl Display for PacketCzReqEnterRoom {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("room_id(unsigned long as u32)[2, 6]", &self.room_id)
-            .field("passwd(char[] as String)[6, 14]", &self.passwd)
+            .field("passwd(char[] as char[])[6, 14]", &self.passwd)
         .finish()
     }
 }
@@ -11543,7 +11651,7 @@ pub struct PacketZcMemberNewentry {
     pub packet_id_raw: Vec<u8>,
     pub curcount: i16,
     pub curcount_raw: Vec<u8>,
-    pub name: String,
+    pub name: [char; 24],
     pub name_raw: Vec<u8>,
 }
 
@@ -11555,7 +11663,11 @@ impl PacketZcMemberNewentry {
             packet_id_raw: buffer[0..2].to_vec(),
             curcount: i16::from_le_bytes([buffer[2], buffer[3]]),
             curcount_raw: buffer[2..4].to_vec(),
-            name: String::from_utf8_lossy(&buffer[4..28]).to_string(),
+            name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[4..28].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             name_raw: buffer[4..28].to_vec(),
         }
     }
@@ -11599,7 +11711,7 @@ impl Display for PacketZcMemberNewentry {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("curcount(short as i16)[2, 4]", &self.curcount)
-            .field("name(char[] as String)[4, 28]", &self.name)
+            .field("name(char[] as char[])[4, 28]", &self.name)
         .finish()
     }
 }
@@ -11610,7 +11722,7 @@ pub struct PacketZcMemberExit {
     pub packet_id_raw: Vec<u8>,
     pub curcount: i16,
     pub curcount_raw: Vec<u8>,
-    pub name: String,
+    pub name: [char; 24],
     pub name_raw: Vec<u8>,
     pub atype: u8,
     pub atype_raw: Vec<u8>,
@@ -11624,7 +11736,11 @@ impl PacketZcMemberExit {
             packet_id_raw: buffer[0..2].to_vec(),
             curcount: i16::from_le_bytes([buffer[2], buffer[3]]),
             curcount_raw: buffer[2..4].to_vec(),
-            name: String::from_utf8_lossy(&buffer[4..28]).to_string(),
+            name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[4..28].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             name_raw: buffer[4..28].to_vec(),
             atype: u8::from_le_bytes([buffer[28]]),
             atype_raw: buffer[28..29].to_vec(),
@@ -11671,7 +11787,7 @@ impl Display for PacketZcMemberExit {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("curcount(short as i16)[2, 4]", &self.curcount)
-            .field("name(char[] as String)[4, 28]", &self.name)
+            .field("name(char[] as char[])[4, 28]", &self.name)
             .field("atype(unsigned char as u8)[28, 29]", &self.atype)
         .finish()
     }
@@ -11687,7 +11803,7 @@ pub struct PacketCzChangeChatroom {
     pub size_raw: Vec<u8>,
     pub atype: u8,
     pub atype_raw: Vec<u8>,
-    pub passwd: String,
+    pub passwd: [char; 8],
     pub passwd_raw: Vec<u8>,
     pub title: String,
     pub title_raw: Vec<u8>,
@@ -11705,7 +11821,11 @@ impl PacketCzChangeChatroom {
             size_raw: buffer[4..6].to_vec(),
             atype: u8::from_le_bytes([buffer[6]]),
             atype_raw: buffer[6..7].to_vec(),
-            passwd: String::from_utf8_lossy(&buffer[7..15]).to_string(),
+            passwd:  {
+                let mut dst: [char; 8] = [0 as char; 8];
+                for (index, byte) in buffer[7..15].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             passwd_raw: buffer[7..15].to_vec(),
             title: String::from_utf8_lossy(&buffer[15..buffer.len()]).to_string(),
             title_raw: buffer[15..buffer.len()].to_vec(),
@@ -11756,7 +11876,7 @@ impl Display for PacketCzChangeChatroom {
             .field("packet_length(short as i16)[2, 4]", &self.packet_length)
             .field("size(short as i16)[4, 6]", &self.size)
             .field("atype(unsigned char as u8)[6, 7]", &self.atype)
-            .field("passwd(char[] as String)[7, 15]", &self.passwd)
+            .field("passwd(char[] as char[])[7, 15]", &self.passwd)
             .field("title(char[] as String)[15, ?]", &self.title)
         .finish()
     }
@@ -11865,7 +11985,7 @@ pub struct PacketCzReqRoleChange {
     pub packet_id_raw: Vec<u8>,
     pub role: u32,
     pub role_raw: Vec<u8>,
-    pub name: String,
+    pub name: [char; 24],
     pub name_raw: Vec<u8>,
 }
 
@@ -11877,7 +11997,11 @@ impl PacketCzReqRoleChange {
             packet_id_raw: buffer[0..2].to_vec(),
             role: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
             role_raw: buffer[2..6].to_vec(),
-            name: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[6..30].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             name_raw: buffer[6..30].to_vec(),
         }
     }
@@ -11921,7 +12045,7 @@ impl Display for PacketCzReqRoleChange {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("role(unsigned long as u32)[2, 6]", &self.role)
-            .field("name(char[] as String)[6, 30]", &self.name)
+            .field("name(char[] as char[])[6, 30]", &self.name)
         .finish()
     }
 }
@@ -11932,7 +12056,7 @@ pub struct PacketZcRoleChange {
     pub packet_id_raw: Vec<u8>,
     pub role: u32,
     pub role_raw: Vec<u8>,
-    pub name: String,
+    pub name: [char; 24],
     pub name_raw: Vec<u8>,
 }
 
@@ -11944,7 +12068,11 @@ impl PacketZcRoleChange {
             packet_id_raw: buffer[0..2].to_vec(),
             role: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
             role_raw: buffer[2..6].to_vec(),
-            name: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[6..30].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             name_raw: buffer[6..30].to_vec(),
         }
     }
@@ -11988,7 +12116,7 @@ impl Display for PacketZcRoleChange {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("role(unsigned long as u32)[2, 6]", &self.role)
-            .field("name(char[] as String)[6, 30]", &self.name)
+            .field("name(char[] as char[])[6, 30]", &self.name)
         .finish()
     }
 }
@@ -11997,7 +12125,7 @@ pub struct PacketCzReqExpelMember {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub name: String,
+    pub name: [char; 24],
     pub name_raw: Vec<u8>,
 }
 
@@ -12007,7 +12135,11 @@ impl PacketCzReqExpelMember {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[2..26].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             name_raw: buffer[2..26].to_vec(),
         }
     }
@@ -12049,7 +12181,7 @@ impl Display for PacketCzReqExpelMember {
         f.debug_struct("PacketCzReqExpelMember")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("name(char[] as String)[2, 26]", &self.name)
+            .field("name(char[] as char[])[2, 26]", &self.name)
         .finish()
     }
 }
@@ -12174,7 +12306,7 @@ pub struct PacketZcReqExchangeItem {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub name: String,
+    pub name: [char; 24],
     pub name_raw: Vec<u8>,
 }
 
@@ -12184,7 +12316,11 @@ impl PacketZcReqExchangeItem {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[2..26].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             name_raw: buffer[2..26].to_vec(),
         }
     }
@@ -12226,7 +12362,7 @@ impl Display for PacketZcReqExchangeItem {
         f.debug_struct("PacketZcReqExchangeItem")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("name(char[] as String)[2, 26]", &self.name)
+            .field("name(char[] as char[])[2, 26]", &self.name)
         .finish()
     }
 }
@@ -13454,7 +13590,7 @@ pub struct PacketCzMakeGroup {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub group_name: String,
+    pub group_name: [char; 24],
     pub group_name_raw: Vec<u8>,
 }
 
@@ -13464,7 +13600,11 @@ impl PacketCzMakeGroup {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            group_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            group_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[2..26].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             group_name_raw: buffer[2..26].to_vec(),
         }
     }
@@ -13506,7 +13646,7 @@ impl Display for PacketCzMakeGroup {
         f.debug_struct("PacketCzMakeGroup")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("group_name(char[] as String)[2, 26]", &self.group_name)
+            .field("group_name(char[] as char[])[2, 26]", &self.group_name)
         .finish()
     }
 }
@@ -13578,7 +13718,7 @@ pub struct PacketZcGroupList {
     pub packet_id_raw: Vec<u8>,
     pub packet_length: i16,
     pub packet_length_raw: Vec<u8>,
-    pub group_name: String,
+    pub group_name: [char; 24],
     pub group_name_raw: Vec<u8>,
     pub group_info: Vec<GroupmemberInfo>,
     pub group_info_raw: Vec<u8>,
@@ -13601,7 +13741,11 @@ impl PacketZcGroupList {
             packet_id_raw: buffer[0..2].to_vec(),
             packet_length: i16::from_le_bytes([buffer[2], buffer[3]]),
             packet_length_raw: buffer[2..4].to_vec(),
-            group_name: String::from_utf8_lossy(&buffer[4..28]).to_string(),
+            group_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[4..28].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             group_name_raw: buffer[4..28].to_vec(),
             group_info: vec_field,
             group_info_raw: buffer[28..74].to_vec(),
@@ -13648,7 +13792,7 @@ impl Display for PacketZcGroupList {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("packet_length(short as i16)[2, 4]", &self.packet_length)
-            .field("group_name(char[] as String)[4, 28]", &self.group_name)
+            .field("group_name(char[] as char[])[4, 28]", &self.group_name)
             .field("group_info([] as Vec)[28, 74]", &self.group_info)
         .finish()
     }
@@ -13719,7 +13863,7 @@ pub struct PacketZcAckReqJoinGroup {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub character_name: String,
+    pub character_name: [char; 24],
     pub character_name_raw: Vec<u8>,
     pub answer: u8,
     pub answer_raw: Vec<u8>,
@@ -13731,7 +13875,11 @@ impl PacketZcAckReqJoinGroup {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            character_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            character_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[2..26].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             character_name_raw: buffer[2..26].to_vec(),
             answer: u8::from_le_bytes([buffer[26]]),
             answer_raw: buffer[26..27].to_vec(),
@@ -13776,7 +13924,7 @@ impl Display for PacketZcAckReqJoinGroup {
         f.debug_struct("PacketZcAckReqJoinGroup")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("character_name(char[] as String)[2, 26]", &self.character_name)
+            .field("character_name(char[] as char[])[2, 26]", &self.character_name)
             .field("answer(unsigned char as u8)[26, 27]", &self.answer)
         .finish()
     }
@@ -13788,7 +13936,7 @@ pub struct PacketZcReqJoinGroup {
     pub packet_id_raw: Vec<u8>,
     pub grid: u32,
     pub grid_raw: Vec<u8>,
-    pub group_name: String,
+    pub group_name: [char; 24],
     pub group_name_raw: Vec<u8>,
 }
 
@@ -13800,7 +13948,11 @@ impl PacketZcReqJoinGroup {
             packet_id_raw: buffer[0..2].to_vec(),
             grid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
             grid_raw: buffer[2..6].to_vec(),
-            group_name: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            group_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[6..30].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             group_name_raw: buffer[6..30].to_vec(),
         }
     }
@@ -13844,7 +13996,7 @@ impl Display for PacketZcReqJoinGroup {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("grid(unsigned long as u32)[2, 6]", &self.grid)
-            .field("group_name(char[] as String)[6, 30]", &self.group_name)
+            .field("group_name(char[] as char[])[6, 30]", &self.group_name)
         .finish()
     }
 }
@@ -14099,7 +14251,7 @@ pub struct PacketCzReqExpelGroupMember {
     pub packet_id_raw: Vec<u8>,
     pub aid: u32,
     pub aid_raw: Vec<u8>,
-    pub character_name: String,
+    pub character_name: [char; 24],
     pub character_name_raw: Vec<u8>,
 }
 
@@ -14111,7 +14263,11 @@ impl PacketCzReqExpelGroupMember {
             packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
             aid_raw: buffer[2..6].to_vec(),
-            character_name: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            character_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[6..30].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             character_name_raw: buffer[6..30].to_vec(),
         }
     }
@@ -14155,7 +14311,7 @@ impl Display for PacketCzReqExpelGroupMember {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("aid(unsigned long as u32)[2, 6]", &self.aid)
-            .field("character_name(char[] as String)[6, 30]", &self.character_name)
+            .field("character_name(char[] as char[])[6, 30]", &self.character_name)
         .finish()
     }
 }
@@ -14174,11 +14330,11 @@ pub struct PacketZcAddMemberToGroup {
     pub y_pos_raw: Vec<u8>,
     pub state: u8,
     pub state_raw: Vec<u8>,
-    pub group_name: String,
+    pub group_name: [char; 24],
     pub group_name_raw: Vec<u8>,
-    pub character_name: String,
+    pub character_name: [char; 24],
     pub character_name_raw: Vec<u8>,
-    pub map_name: String,
+    pub map_name: [char; 16],
     pub map_name_raw: Vec<u8>,
 }
 
@@ -14198,11 +14354,23 @@ impl PacketZcAddMemberToGroup {
             y_pos_raw: buffer[12..14].to_vec(),
             state: u8::from_le_bytes([buffer[14]]),
             state_raw: buffer[14..15].to_vec(),
-            group_name: String::from_utf8_lossy(&buffer[15..39]).to_string(),
+            group_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[15..39].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             group_name_raw: buffer[15..39].to_vec(),
-            character_name: String::from_utf8_lossy(&buffer[39..63]).to_string(),
+            character_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[39..63].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             character_name_raw: buffer[39..63].to_vec(),
-            map_name: String::from_utf8_lossy(&buffer[63..79]).to_string(),
+            map_name:  {
+                let mut dst: [char; 16] = [0 as char; 16];
+                for (index, byte) in buffer[63..79].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             map_name_raw: buffer[63..79].to_vec(),
         }
     }
@@ -14256,9 +14424,9 @@ impl Display for PacketZcAddMemberToGroup {
             .field("x_pos(short as i16)[10, 12]", &self.x_pos)
             .field("y_pos(short as i16)[12, 14]", &self.y_pos)
             .field("state(unsigned char as u8)[14, 15]", &self.state)
-            .field("group_name(char[] as String)[15, 39]", &self.group_name)
-            .field("character_name(char[] as String)[39, 63]", &self.character_name)
-            .field("map_name(char[] as String)[63, 79]", &self.map_name)
+            .field("group_name(char[] as char[])[15, 39]", &self.group_name)
+            .field("character_name(char[] as char[])[39, 63]", &self.character_name)
+            .field("map_name(char[] as char[])[63, 79]", &self.map_name)
         .finish()
     }
 }
@@ -14269,7 +14437,7 @@ pub struct PacketZcDeleteMemberFromGroup {
     pub packet_id_raw: Vec<u8>,
     pub aid: u32,
     pub aid_raw: Vec<u8>,
-    pub character_name: String,
+    pub character_name: [char; 24],
     pub character_name_raw: Vec<u8>,
     pub result: u8,
     pub result_raw: Vec<u8>,
@@ -14283,7 +14451,11 @@ impl PacketZcDeleteMemberFromGroup {
             packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
             aid_raw: buffer[2..6].to_vec(),
-            character_name: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            character_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[6..30].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             character_name_raw: buffer[6..30].to_vec(),
             result: u8::from_le_bytes([buffer[30]]),
             result_raw: buffer[30..31].to_vec(),
@@ -14330,7 +14502,7 @@ impl Display for PacketZcDeleteMemberFromGroup {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("aid(unsigned long as u32)[2, 6]", &self.aid)
-            .field("character_name(char[] as String)[6, 30]", &self.character_name)
+            .field("character_name(char[] as char[])[6, 30]", &self.character_name)
             .field("result(unsigned char as u8)[30, 31]", &self.result)
         .finish()
     }
@@ -15938,7 +16110,7 @@ pub struct PacketCzSelectWarppoint {
     pub packet_id_raw: Vec<u8>,
     pub skid: u16,
     pub skid_raw: Vec<u8>,
-    pub map_name: String,
+    pub map_name: [char; 16],
     pub map_name_raw: Vec<u8>,
 }
 
@@ -15950,7 +16122,11 @@ impl PacketCzSelectWarppoint {
             packet_id_raw: buffer[0..2].to_vec(),
             skid: u16::from_le_bytes([buffer[2], buffer[3]]),
             skid_raw: buffer[2..4].to_vec(),
-            map_name: String::from_utf8_lossy(&buffer[4..20]).to_string(),
+            map_name:  {
+                let mut dst: [char; 16] = [0 as char; 16];
+                for (index, byte) in buffer[4..20].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             map_name_raw: buffer[4..20].to_vec(),
         }
     }
@@ -15994,7 +16170,7 @@ impl Display for PacketCzSelectWarppoint {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("skid(unsigned short as u16)[2, 4]", &self.skid)
-            .field("map_name(char[] as String)[4, 20]", &self.map_name)
+            .field("map_name(char[] as char[])[4, 20]", &self.map_name)
         .finish()
     }
 }
@@ -16005,7 +16181,7 @@ pub struct PacketZcWarplist {
     pub packet_id_raw: Vec<u8>,
     pub skid: u16,
     pub skid_raw: Vec<u8>,
-    pub map_name: String,
+    pub map_name: [char; 4],
     pub map_name_raw: Vec<u8>,
 }
 
@@ -16017,7 +16193,11 @@ impl PacketZcWarplist {
             packet_id_raw: buffer[0..2].to_vec(),
             skid: u16::from_le_bytes([buffer[2], buffer[3]]),
             skid_raw: buffer[2..4].to_vec(),
-            map_name: String::from_utf8_lossy(&buffer[4..8]).to_string(),
+            map_name:  {
+                let mut dst: [char; 4] = [0 as char; 4];
+                for (index, byte) in buffer[4..8].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             map_name_raw: buffer[4..8].to_vec(),
         }
     }
@@ -16061,7 +16241,7 @@ impl Display for PacketZcWarplist {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("skid(unsigned short as u16)[2, 4]", &self.skid)
-            .field("map_name(char[] as String)[4, 8]", &self.map_name)
+            .field("map_name(char[] as char[])[4, 8]", &self.map_name)
         .finish()
     }
 }
@@ -17290,7 +17470,7 @@ pub struct PacketCzReqOpenstore {
     pub packet_id_raw: Vec<u8>,
     pub packet_length: i16,
     pub packet_length_raw: Vec<u8>,
-    pub store_name: String,
+    pub store_name: [char; 80],
     pub store_name_raw: Vec<u8>,
     pub store_list: Vec<StoreItem>,
     pub store_list_raw: Vec<u8>,
@@ -17313,7 +17493,11 @@ impl PacketCzReqOpenstore {
             packet_id_raw: buffer[0..2].to_vec(),
             packet_length: i16::from_le_bytes([buffer[2], buffer[3]]),
             packet_length_raw: buffer[2..4].to_vec(),
-            store_name: String::from_utf8_lossy(&buffer[4..84]).to_string(),
+            store_name:  {
+                let mut dst: [char; 80] = [0 as char; 80];
+                for (index, byte) in buffer[4..84].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             store_name_raw: buffer[4..84].to_vec(),
             store_list: vec_field,
             store_list_raw: buffer[84..92].to_vec(),
@@ -17360,7 +17544,7 @@ impl Display for PacketCzReqOpenstore {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("packet_length(short as i16)[2, 4]", &self.packet_length)
-            .field("store_name(char[] as String)[4, 84]", &self.store_name)
+            .field("store_name(char[] as char[])[4, 84]", &self.store_name)
             .field("store_list([] as Vec)[84, 92]", &self.store_list)
         .finish()
     }
@@ -17433,7 +17617,7 @@ pub struct PacketZcStoreEntry {
     pub packet_id_raw: Vec<u8>,
     pub maker_aid: u32,
     pub maker_aid_raw: Vec<u8>,
-    pub store_name: String,
+    pub store_name: [char; 80],
     pub store_name_raw: Vec<u8>,
 }
 
@@ -17445,7 +17629,11 @@ impl PacketZcStoreEntry {
             packet_id_raw: buffer[0..2].to_vec(),
             maker_aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
             maker_aid_raw: buffer[2..6].to_vec(),
-            store_name: String::from_utf8_lossy(&buffer[6..86]).to_string(),
+            store_name:  {
+                let mut dst: [char; 80] = [0 as char; 80];
+                for (index, byte) in buffer[6..86].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             store_name_raw: buffer[6..86].to_vec(),
         }
     }
@@ -17489,7 +17677,7 @@ impl Display for PacketZcStoreEntry {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("maker_aid(unsigned long as u32)[2, 6]", &self.maker_aid)
-            .field("store_name(char[] as String)[6, 86]", &self.store_name)
+            .field("store_name(char[] as char[])[6, 86]", &self.store_name)
         .finish()
     }
 }
@@ -18444,7 +18632,7 @@ pub struct PacketCzItemCreate {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub item_name: String,
+    pub item_name: [char; 24],
     pub item_name_raw: Vec<u8>,
 }
 
@@ -18454,7 +18642,11 @@ impl PacketCzItemCreate {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            item_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            item_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[2..26].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             item_name_raw: buffer[2..26].to_vec(),
         }
     }
@@ -18496,7 +18688,7 @@ impl Display for PacketCzItemCreate {
         f.debug_struct("PacketCzItemCreate")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("item_name(char[] as String)[2, 26]", &self.item_name)
+            .field("item_name(char[] as char[])[2, 26]", &self.item_name)
         .finish()
     }
 }
@@ -18505,7 +18697,7 @@ pub struct PacketCzMovetoMap {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub map_name: String,
+    pub map_name: [char; 16],
     pub map_name_raw: Vec<u8>,
     pub x_pos: i16,
     pub x_pos_raw: Vec<u8>,
@@ -18519,7 +18711,11 @@ impl PacketCzMovetoMap {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            map_name: String::from_utf8_lossy(&buffer[2..18]).to_string(),
+            map_name:  {
+                let mut dst: [char; 16] = [0 as char; 16];
+                for (index, byte) in buffer[2..18].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             map_name_raw: buffer[2..18].to_vec(),
             x_pos: i16::from_le_bytes([buffer[18], buffer[19]]),
             x_pos_raw: buffer[18..20].to_vec(),
@@ -18567,7 +18763,7 @@ impl Display for PacketCzMovetoMap {
         f.debug_struct("PacketCzMovetoMap")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("map_name(char[] as String)[2, 18]", &self.map_name)
+            .field("map_name(char[] as char[])[2, 18]", &self.map_name)
             .field("x_pos(short as i16)[18, 20]", &self.x_pos)
             .field("y_pos(short as i16)[20, 22]", &self.y_pos)
         .finish()
@@ -18870,7 +19066,7 @@ pub struct PacketZcShowImage {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub image_name: String,
+    pub image_name: [char; 16],
     pub image_name_raw: Vec<u8>,
     pub atype: u8,
     pub atype_raw: Vec<u8>,
@@ -18882,7 +19078,11 @@ impl PacketZcShowImage {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            image_name: String::from_utf8_lossy(&buffer[2..18]).to_string(),
+            image_name:  {
+                let mut dst: [char; 16] = [0 as char; 16];
+                for (index, byte) in buffer[2..18].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             image_name_raw: buffer[2..18].to_vec(),
             atype: u8::from_le_bytes([buffer[18]]),
             atype_raw: buffer[18..19].to_vec(),
@@ -18927,7 +19127,7 @@ impl Display for PacketZcShowImage {
         f.debug_struct("PacketZcShowImage")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("image_name(char[] as String)[2, 18]", &self.image_name)
+            .field("image_name(char[] as char[])[2, 18]", &self.image_name)
             .field("atype(unsigned char as u8)[18, 19]", &self.atype)
         .finish()
     }
@@ -19262,7 +19462,7 @@ pub struct PacketZcNotifyMannerPointGiven {
     pub packet_id_raw: Vec<u8>,
     pub atype: u8,
     pub atype_raw: Vec<u8>,
-    pub other_char_name: String,
+    pub other_char_name: [char; 24],
     pub other_char_name_raw: Vec<u8>,
 }
 
@@ -19274,7 +19474,11 @@ impl PacketZcNotifyMannerPointGiven {
             packet_id_raw: buffer[0..2].to_vec(),
             atype: u8::from_le_bytes([buffer[2]]),
             atype_raw: buffer[2..3].to_vec(),
-            other_char_name: String::from_utf8_lossy(&buffer[3..27]).to_string(),
+            other_char_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[3..27].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             other_char_name_raw: buffer[3..27].to_vec(),
         }
     }
@@ -19318,7 +19522,7 @@ impl Display for PacketZcNotifyMannerPointGiven {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("atype(unsigned char as u8)[2, 3]", &self.atype)
-            .field("other_char_name(char[] as String)[3, 27]", &self.other_char_name)
+            .field("other_char_name(char[] as char[])[3, 27]", &self.other_char_name)
         .finish()
     }
 }
@@ -19602,11 +19806,11 @@ pub struct PacketZcGuildInfo {
     pub virtue_raw: Vec<u8>,
     pub emblem_version: i32,
     pub emblem_version_raw: Vec<u8>,
-    pub guildname: String,
+    pub guildname: [char; 24],
     pub guildname_raw: Vec<u8>,
-    pub master_name: String,
+    pub master_name: [char; 24],
     pub master_name_raw: Vec<u8>,
-    pub manage_land: String,
+    pub manage_land: [char; 16],
     pub manage_land_raw: Vec<u8>,
 }
 
@@ -19638,11 +19842,23 @@ impl PacketZcGuildInfo {
             virtue_raw: buffer[38..42].to_vec(),
             emblem_version: i32::from_le_bytes([buffer[42], buffer[43], buffer[44], buffer[45]]),
             emblem_version_raw: buffer[42..46].to_vec(),
-            guildname: String::from_utf8_lossy(&buffer[46..70]).to_string(),
+            guildname:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[46..70].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             guildname_raw: buffer[46..70].to_vec(),
-            master_name: String::from_utf8_lossy(&buffer[70..94]).to_string(),
+            master_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[70..94].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             master_name_raw: buffer[70..94].to_vec(),
-            manage_land: String::from_utf8_lossy(&buffer[94..110]).to_string(),
+            manage_land:  {
+                let mut dst: [char; 16] = [0 as char; 16];
+                for (index, byte) in buffer[94..110].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             manage_land_raw: buffer[94..110].to_vec(),
         }
     }
@@ -19708,9 +19924,9 @@ impl Display for PacketZcGuildInfo {
             .field("honor(int as i32)[34, 38]", &self.honor)
             .field("virtue(int as i32)[38, 42]", &self.virtue)
             .field("emblem_version(int as i32)[42, 46]", &self.emblem_version)
-            .field("guildname(char[] as String)[46, 70]", &self.guildname)
-            .field("master_name(char[] as String)[70, 94]", &self.master_name)
-            .field("manage_land(char[] as String)[94, 110]", &self.manage_land)
+            .field("guildname(char[] as char[])[46, 70]", &self.guildname)
+            .field("master_name(char[] as char[])[70, 94]", &self.master_name)
+            .field("manage_land(char[] as char[])[94, 110]", &self.manage_land)
         .finish()
     }
 }
@@ -20276,7 +20492,7 @@ pub struct PacketCzReqLeaveGuild {
     pub aid_raw: Vec<u8>,
     pub gid: i32,
     pub gid_raw: Vec<u8>,
-    pub reason_desc: String,
+    pub reason_desc: [char; 40],
     pub reason_desc_raw: Vec<u8>,
 }
 
@@ -20292,7 +20508,11 @@ impl PacketCzReqLeaveGuild {
             aid_raw: buffer[6..10].to_vec(),
             gid: i32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
             gid_raw: buffer[10..14].to_vec(),
-            reason_desc: String::from_utf8_lossy(&buffer[14..54]).to_string(),
+            reason_desc:  {
+                let mut dst: [char; 40] = [0 as char; 40];
+                for (index, byte) in buffer[14..54].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             reason_desc_raw: buffer[14..54].to_vec(),
         }
     }
@@ -20340,7 +20560,7 @@ impl Display for PacketCzReqLeaveGuild {
             .field("gdid(unsigned long as u32)[2, 6]", &self.gdid)
             .field("aid(int as i32)[6, 10]", &self.aid)
             .field("gid(int as i32)[10, 14]", &self.gid)
-            .field("reason_desc(char[] as String)[14, 54]", &self.reason_desc)
+            .field("reason_desc(char[] as char[])[14, 54]", &self.reason_desc)
         .finish()
     }
 }
@@ -20349,9 +20569,9 @@ pub struct PacketZcAckLeaveGuild {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub char_name: String,
+    pub char_name: [char; 24],
     pub char_name_raw: Vec<u8>,
-    pub reason_desc: String,
+    pub reason_desc: [char; 40],
     pub reason_desc_raw: Vec<u8>,
 }
 
@@ -20361,9 +20581,17 @@ impl PacketZcAckLeaveGuild {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            char_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            char_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[2..26].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             char_name_raw: buffer[2..26].to_vec(),
-            reason_desc: String::from_utf8_lossy(&buffer[26..66]).to_string(),
+            reason_desc:  {
+                let mut dst: [char; 40] = [0 as char; 40];
+                for (index, byte) in buffer[26..66].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             reason_desc_raw: buffer[26..66].to_vec(),
         }
     }
@@ -20406,8 +20634,8 @@ impl Display for PacketZcAckLeaveGuild {
         f.debug_struct("PacketZcAckLeaveGuild")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("char_name(char[] as String)[2, 26]", &self.char_name)
-            .field("reason_desc(char[] as String)[26, 66]", &self.reason_desc)
+            .field("char_name(char[] as char[])[2, 26]", &self.char_name)
+            .field("reason_desc(char[] as char[])[26, 66]", &self.reason_desc)
         .finish()
     }
 }
@@ -20422,7 +20650,7 @@ pub struct PacketCzReqBanGuild {
     pub aid_raw: Vec<u8>,
     pub gid: i32,
     pub gid_raw: Vec<u8>,
-    pub reason_desc: String,
+    pub reason_desc: [char; 40],
     pub reason_desc_raw: Vec<u8>,
 }
 
@@ -20438,7 +20666,11 @@ impl PacketCzReqBanGuild {
             aid_raw: buffer[6..10].to_vec(),
             gid: i32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
             gid_raw: buffer[10..14].to_vec(),
-            reason_desc: String::from_utf8_lossy(&buffer[14..54]).to_string(),
+            reason_desc:  {
+                let mut dst: [char; 40] = [0 as char; 40];
+                for (index, byte) in buffer[14..54].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             reason_desc_raw: buffer[14..54].to_vec(),
         }
     }
@@ -20486,7 +20718,7 @@ impl Display for PacketCzReqBanGuild {
             .field("gdid(unsigned long as u32)[2, 6]", &self.gdid)
             .field("aid(int as i32)[6, 10]", &self.aid)
             .field("gid(int as i32)[10, 14]", &self.gid)
-            .field("reason_desc(char[] as String)[14, 54]", &self.reason_desc)
+            .field("reason_desc(char[] as char[])[14, 54]", &self.reason_desc)
         .finish()
     }
 }
@@ -20495,11 +20727,11 @@ pub struct PacketZcAckBanGuild {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub char_name: String,
+    pub char_name: [char; 24],
     pub char_name_raw: Vec<u8>,
-    pub reason_desc: String,
+    pub reason_desc: [char; 40],
     pub reason_desc_raw: Vec<u8>,
-    pub account: String,
+    pub account: [char; 24],
     pub account_raw: Vec<u8>,
 }
 
@@ -20509,11 +20741,23 @@ impl PacketZcAckBanGuild {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            char_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            char_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[2..26].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             char_name_raw: buffer[2..26].to_vec(),
-            reason_desc: String::from_utf8_lossy(&buffer[26..66]).to_string(),
+            reason_desc:  {
+                let mut dst: [char; 40] = [0 as char; 40];
+                for (index, byte) in buffer[26..66].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             reason_desc_raw: buffer[26..66].to_vec(),
-            account: String::from_utf8_lossy(&buffer[66..90]).to_string(),
+            account:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[66..90].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             account_raw: buffer[66..90].to_vec(),
         }
     }
@@ -20557,9 +20801,9 @@ impl Display for PacketZcAckBanGuild {
         f.debug_struct("PacketZcAckBanGuild")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("char_name(char[] as String)[2, 26]", &self.char_name)
-            .field("reason_desc(char[] as String)[26, 66]", &self.reason_desc)
-            .field("account(char[] as String)[66, 90]", &self.account)
+            .field("char_name(char[] as char[])[2, 26]", &self.char_name)
+            .field("reason_desc(char[] as char[])[26, 66]", &self.reason_desc)
+            .field("account(char[] as char[])[66, 90]", &self.account)
         .finish()
     }
 }
@@ -20568,7 +20812,7 @@ pub struct PacketCzReqDisorganizeGuild {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub key: String,
+    pub key: [char; 40],
     pub key_raw: Vec<u8>,
 }
 
@@ -20578,7 +20822,11 @@ impl PacketCzReqDisorganizeGuild {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            key: String::from_utf8_lossy(&buffer[2..42]).to_string(),
+            key:  {
+                let mut dst: [char; 40] = [0 as char; 40];
+                for (index, byte) in buffer[2..42].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             key_raw: buffer[2..42].to_vec(),
         }
     }
@@ -20620,7 +20868,7 @@ impl Display for PacketCzReqDisorganizeGuild {
         f.debug_struct("PacketCzReqDisorganizeGuild")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("key(char[] as String)[2, 42]", &self.key)
+            .field("key(char[] as char[])[2, 42]", &self.key)
         .finish()
     }
 }
@@ -20690,7 +20938,7 @@ pub struct PacketZcAckDisorganizeGuild {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub reason_desc: String,
+    pub reason_desc: [char; 40],
     pub reason_desc_raw: Vec<u8>,
 }
 
@@ -20700,7 +20948,11 @@ impl PacketZcAckDisorganizeGuild {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            reason_desc: String::from_utf8_lossy(&buffer[2..42]).to_string(),
+            reason_desc:  {
+                let mut dst: [char; 40] = [0 as char; 40];
+                for (index, byte) in buffer[2..42].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             reason_desc_raw: buffer[2..42].to_vec(),
         }
     }
@@ -20742,7 +20994,7 @@ impl Display for PacketZcAckDisorganizeGuild {
         f.debug_struct("PacketZcAckDisorganizeGuild")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("reason_desc(char[] as String)[2, 42]", &self.reason_desc)
+            .field("reason_desc(char[] as char[])[2, 42]", &self.reason_desc)
         .finish()
     }
 }
@@ -21139,7 +21391,7 @@ pub struct PacketCzReqMakeGuild {
     pub packet_id_raw: Vec<u8>,
     pub gid: u32,
     pub gid_raw: Vec<u8>,
-    pub gname: String,
+    pub gname: [char; 24],
     pub gname_raw: Vec<u8>,
 }
 
@@ -21151,7 +21403,11 @@ impl PacketCzReqMakeGuild {
             packet_id_raw: buffer[0..2].to_vec(),
             gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
             gid_raw: buffer[2..6].to_vec(),
-            gname: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            gname:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[6..30].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             gname_raw: buffer[6..30].to_vec(),
         }
     }
@@ -21195,7 +21451,7 @@ impl Display for PacketCzReqMakeGuild {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("gid(unsigned long as u32)[2, 6]", &self.gid)
-            .field("gname(char[] as String)[6, 30]", &self.gname)
+            .field("gname(char[] as char[])[6, 30]", &self.gname)
         .finish()
     }
 }
@@ -21477,7 +21733,7 @@ pub struct PacketZcReqJoinGuild {
     pub packet_id_raw: Vec<u8>,
     pub gdid: u32,
     pub gdid_raw: Vec<u8>,
-    pub guild_name: String,
+    pub guild_name: [char; 24],
     pub guild_name_raw: Vec<u8>,
 }
 
@@ -21489,7 +21745,11 @@ impl PacketZcReqJoinGuild {
             packet_id_raw: buffer[0..2].to_vec(),
             gdid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
             gdid_raw: buffer[2..6].to_vec(),
-            guild_name: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            guild_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[6..30].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             guild_name_raw: buffer[6..30].to_vec(),
         }
     }
@@ -21533,7 +21793,7 @@ impl Display for PacketZcReqJoinGuild {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("gdid(unsigned long as u32)[2, 6]", &self.gdid)
-            .field("guild_name(char[] as String)[6, 30]", &self.guild_name)
+            .field("guild_name(char[] as char[])[6, 30]", &self.guild_name)
         .finish()
     }
 }
@@ -21619,7 +21879,7 @@ pub struct PacketZcUpdateGdid {
     pub is_master_raw: Vec<u8>,
     pub inter_sid: i32,
     pub inter_sid_raw: Vec<u8>,
-    pub gname: String,
+    pub gname: [char; 24],
     pub gname_raw: Vec<u8>,
 }
 
@@ -21639,7 +21899,11 @@ impl PacketZcUpdateGdid {
             is_master_raw: buffer[14..15].to_vec(),
             inter_sid: i32::from_le_bytes([buffer[15], buffer[16], buffer[17], buffer[18]]),
             inter_sid_raw: buffer[15..19].to_vec(),
-            gname: String::from_utf8_lossy(&buffer[19..43]).to_string(),
+            gname:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[19..43].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             gname_raw: buffer[19..43].to_vec(),
         }
     }
@@ -21691,7 +21955,7 @@ impl Display for PacketZcUpdateGdid {
             .field("right(int as i32)[10, 14]", &self.right)
             .field("is_master(bool as bool)[14, 15]", &self.is_master)
             .field("inter_sid(int as i32)[15, 19]", &self.inter_sid)
-            .field("gname(char[] as String)[19, 43]", &self.gname)
+            .field("gname(char[] as char[])[19, 43]", &self.gname)
         .finish()
     }
 }
@@ -21775,9 +22039,9 @@ pub struct PacketCzGuildNotice {
     pub packet_id_raw: Vec<u8>,
     pub gdid: u32,
     pub gdid_raw: Vec<u8>,
-    pub subject: String,
+    pub subject: [char; 60],
     pub subject_raw: Vec<u8>,
-    pub notice: String,
+    pub notice: [char; 120],
     pub notice_raw: Vec<u8>,
 }
 
@@ -21789,9 +22053,17 @@ impl PacketCzGuildNotice {
             packet_id_raw: buffer[0..2].to_vec(),
             gdid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
             gdid_raw: buffer[2..6].to_vec(),
-            subject: String::from_utf8_lossy(&buffer[6..66]).to_string(),
+            subject:  {
+                let mut dst: [char; 60] = [0 as char; 60];
+                for (index, byte) in buffer[6..66].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             subject_raw: buffer[6..66].to_vec(),
-            notice: String::from_utf8_lossy(&buffer[66..186]).to_string(),
+            notice:  {
+                let mut dst: [char; 120] = [0 as char; 120];
+                for (index, byte) in buffer[66..186].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             notice_raw: buffer[66..186].to_vec(),
         }
     }
@@ -21836,8 +22108,8 @@ impl Display for PacketCzGuildNotice {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("gdid(unsigned long as u32)[2, 6]", &self.gdid)
-            .field("subject(char[] as String)[6, 66]", &self.subject)
-            .field("notice(char[] as String)[66, 186]", &self.notice)
+            .field("subject(char[] as char[])[6, 66]", &self.subject)
+            .field("notice(char[] as char[])[66, 186]", &self.notice)
         .finish()
     }
 }
@@ -21846,9 +22118,9 @@ pub struct PacketZcGuildNotice {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub subject: String,
+    pub subject: [char; 60],
     pub subject_raw: Vec<u8>,
-    pub notice: String,
+    pub notice: [char; 120],
     pub notice_raw: Vec<u8>,
 }
 
@@ -21858,9 +22130,17 @@ impl PacketZcGuildNotice {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            subject: String::from_utf8_lossy(&buffer[2..62]).to_string(),
+            subject:  {
+                let mut dst: [char; 60] = [0 as char; 60];
+                for (index, byte) in buffer[2..62].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             subject_raw: buffer[2..62].to_vec(),
-            notice: String::from_utf8_lossy(&buffer[62..182]).to_string(),
+            notice:  {
+                let mut dst: [char; 120] = [0 as char; 120];
+                for (index, byte) in buffer[62..182].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             notice_raw: buffer[62..182].to_vec(),
         }
     }
@@ -21903,8 +22183,8 @@ impl Display for PacketZcGuildNotice {
         f.debug_struct("PacketZcGuildNotice")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("subject(char[] as String)[2, 62]", &self.subject)
-            .field("notice(char[] as String)[62, 182]", &self.notice)
+            .field("subject(char[] as char[])[2, 62]", &self.subject)
+            .field("notice(char[] as char[])[62, 182]", &self.notice)
         .finish()
     }
 }
@@ -21988,7 +22268,7 @@ pub struct PacketZcReqAllyGuild {
     pub packet_id_raw: Vec<u8>,
     pub other_aid: u32,
     pub other_aid_raw: Vec<u8>,
-    pub guild_name: String,
+    pub guild_name: [char; 24],
     pub guild_name_raw: Vec<u8>,
 }
 
@@ -22000,7 +22280,11 @@ impl PacketZcReqAllyGuild {
             packet_id_raw: buffer[0..2].to_vec(),
             other_aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
             other_aid_raw: buffer[2..6].to_vec(),
-            guild_name: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            guild_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[6..30].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             guild_name_raw: buffer[6..30].to_vec(),
         }
     }
@@ -22044,7 +22328,7 @@ impl Display for PacketZcReqAllyGuild {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("other_aid(unsigned long as u32)[2, 6]", &self.other_aid)
-            .field("guild_name(char[] as String)[6, 30]", &self.guild_name)
+            .field("guild_name(char[] as char[])[6, 30]", &self.guild_name)
         .finish()
     }
 }
@@ -22381,7 +22665,7 @@ pub struct PacketZcItemidentifyList {
     pub packet_id_raw: Vec<u8>,
     pub packet_length: i16,
     pub packet_length_raw: Vec<u8>,
-    pub itidlist: u16,
+    pub itidlist: Vec<u8>,
     pub itidlist_raw: Vec<u8>,
 }
 
@@ -22393,8 +22677,11 @@ impl PacketZcItemidentifyList {
             packet_id_raw: buffer[0..2].to_vec(),
             packet_length: i16::from_le_bytes([buffer[2], buffer[3]]),
             packet_length_raw: buffer[2..4].to_vec(),
-            itidlist: u16::from_le_bytes([buffer[4], buffer[5]]),
-            itidlist_raw: buffer[4..6].to_vec(),
+            itidlist:  {
+                let dst: Vec<u8> = buffer[4..buffer.len()].to_vec();
+                dst
+            },
+            itidlist_raw: buffer[4..buffer.len()].to_vec(),
         }
     }
 }
@@ -22426,7 +22713,7 @@ impl Debug for PacketZcItemidentifyList {
             .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
-            .field("itidlist[4, 6]", &format!("{:02X?}", &self.itidlist_raw))
+            .field("itidlist[4, ?]", &format!("{:02X?}", &self.itidlist_raw))
         .finish()
     }
 }
@@ -22437,7 +22724,7 @@ impl Display for PacketZcItemidentifyList {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("packet_length(short as i16)[2, 4]", &self.packet_length)
-            .field("itidlist(unsigned short as u16)[4, 6]", &self.itidlist)
+            .field("itidlist([] as Array)[4, ?]", &self.itidlist)
         .finish()
     }
 }
@@ -22637,7 +22924,7 @@ pub struct PacketZcItemcompositionList {
     pub packet_id_raw: Vec<u8>,
     pub packet_length: i16,
     pub packet_length_raw: Vec<u8>,
-    pub itidlist: u16,
+    pub itidlist: Vec<u8>,
     pub itidlist_raw: Vec<u8>,
 }
 
@@ -22649,8 +22936,11 @@ impl PacketZcItemcompositionList {
             packet_id_raw: buffer[0..2].to_vec(),
             packet_length: i16::from_le_bytes([buffer[2], buffer[3]]),
             packet_length_raw: buffer[2..4].to_vec(),
-            itidlist: u16::from_le_bytes([buffer[4], buffer[5]]),
-            itidlist_raw: buffer[4..6].to_vec(),
+            itidlist:  {
+                let dst: Vec<u8> = buffer[4..buffer.len()].to_vec();
+                dst
+            },
+            itidlist_raw: buffer[4..buffer.len()].to_vec(),
         }
     }
 }
@@ -22682,7 +22972,7 @@ impl Debug for PacketZcItemcompositionList {
             .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
-            .field("itidlist[4, 6]", &format!("{:02X?}", &self.itidlist_raw))
+            .field("itidlist[4, ?]", &format!("{:02X?}", &self.itidlist_raw))
         .finish()
     }
 }
@@ -22693,7 +22983,7 @@ impl Display for PacketZcItemcompositionList {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("packet_length(short as i16)[2, 4]", &self.packet_length)
-            .field("itidlist(unsigned short as u16)[4, 6]", &self.itidlist)
+            .field("itidlist([] as Array)[4, ?]", &self.itidlist)
         .finish()
     }
 }
@@ -24044,7 +24334,7 @@ pub struct PacketCzUseSkillTogroundWithtalkbox {
     pub x_pos_raw: Vec<u8>,
     pub y_pos: i16,
     pub y_pos_raw: Vec<u8>,
-    pub contents: String,
+    pub contents: [char; 80],
     pub contents_raw: Vec<u8>,
 }
 
@@ -24062,7 +24352,11 @@ impl PacketCzUseSkillTogroundWithtalkbox {
             x_pos_raw: buffer[6..8].to_vec(),
             y_pos: i16::from_le_bytes([buffer[8], buffer[9]]),
             y_pos_raw: buffer[8..10].to_vec(),
-            contents: String::from_utf8_lossy(&buffer[10..90]).to_string(),
+            contents:  {
+                let mut dst: [char; 80] = [0 as char; 80];
+                for (index, byte) in buffer[10..90].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             contents_raw: buffer[10..90].to_vec(),
         }
     }
@@ -24112,7 +24406,7 @@ impl Display for PacketCzUseSkillTogroundWithtalkbox {
             .field("skid(unsigned short as u16)[4, 6]", &self.skid)
             .field("x_pos(short as i16)[6, 8]", &self.x_pos)
             .field("y_pos(short as i16)[8, 10]", &self.y_pos)
-            .field("contents(char[] as String)[10, 90]", &self.contents)
+            .field("contents(char[] as char[])[10, 90]", &self.contents)
         .finish()
     }
 }
@@ -24123,7 +24417,7 @@ pub struct PacketZcTalkboxChatcontents {
     pub packet_id_raw: Vec<u8>,
     pub aid: u32,
     pub aid_raw: Vec<u8>,
-    pub contents: String,
+    pub contents: [char; 80],
     pub contents_raw: Vec<u8>,
 }
 
@@ -24135,7 +24429,11 @@ impl PacketZcTalkboxChatcontents {
             packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
             aid_raw: buffer[2..6].to_vec(),
-            contents: String::from_utf8_lossy(&buffer[6..86]).to_string(),
+            contents:  {
+                let mut dst: [char; 80] = [0 as char; 80];
+                for (index, byte) in buffer[6..86].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             contents_raw: buffer[6..86].to_vec(),
         }
     }
@@ -24179,7 +24477,7 @@ impl Display for PacketZcTalkboxChatcontents {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("aid(unsigned long as u32)[2, 6]", &self.aid)
-            .field("contents(char[] as String)[6, 86]", &self.contents)
+            .field("contents(char[] as char[])[6, 86]", &self.contents)
         .finish()
     }
 }
@@ -24194,7 +24492,7 @@ pub struct PacketZcUpdateMapinfo {
     pub y_pos_raw: Vec<u8>,
     pub atype: i16,
     pub atype_raw: Vec<u8>,
-    pub map_name: String,
+    pub map_name: [char; 16],
     pub map_name_raw: Vec<u8>,
 }
 
@@ -24210,7 +24508,11 @@ impl PacketZcUpdateMapinfo {
             y_pos_raw: buffer[4..6].to_vec(),
             atype: i16::from_le_bytes([buffer[6], buffer[7]]),
             atype_raw: buffer[6..8].to_vec(),
-            map_name: String::from_utf8_lossy(&buffer[8..24]).to_string(),
+            map_name:  {
+                let mut dst: [char; 16] = [0 as char; 16];
+                for (index, byte) in buffer[8..24].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             map_name_raw: buffer[8..24].to_vec(),
         }
     }
@@ -24258,7 +24560,7 @@ impl Display for PacketZcUpdateMapinfo {
             .field("x_pos(short as i16)[2, 4]", &self.x_pos)
             .field("y_pos(short as i16)[4, 6]", &self.y_pos)
             .field("atype(short as i16)[6, 8]", &self.atype)
-            .field("map_name(char[] as String)[8, 24]", &self.map_name)
+            .field("map_name(char[] as char[])[8, 24]", &self.map_name)
         .finish()
     }
 }
@@ -24330,7 +24632,7 @@ pub struct PacketZcAckReqnameBygid {
     pub packet_id_raw: Vec<u8>,
     pub gid: u32,
     pub gid_raw: Vec<u8>,
-    pub cname: String,
+    pub cname: [char; 24],
     pub cname_raw: Vec<u8>,
 }
 
@@ -24342,7 +24644,11 @@ impl PacketZcAckReqnameBygid {
             packet_id_raw: buffer[0..2].to_vec(),
             gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
             gid_raw: buffer[2..6].to_vec(),
-            cname: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            cname:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[6..30].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             cname_raw: buffer[6..30].to_vec(),
         }
     }
@@ -24386,7 +24692,7 @@ impl Display for PacketZcAckReqnameBygid {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("gid(unsigned long as u32)[2, 6]", &self.gid)
-            .field("cname(char[] as String)[6, 30]", &self.cname)
+            .field("cname(char[] as char[])[6, 30]", &self.cname)
         .finish()
     }
 }
@@ -24397,13 +24703,13 @@ pub struct PacketZcAckReqnameall {
     pub packet_id_raw: Vec<u8>,
     pub aid: u32,
     pub aid_raw: Vec<u8>,
-    pub cname: String,
+    pub cname: [char; 24],
     pub cname_raw: Vec<u8>,
-    pub pname: String,
+    pub pname: [char; 24],
     pub pname_raw: Vec<u8>,
-    pub gname: String,
+    pub gname: [char; 24],
     pub gname_raw: Vec<u8>,
-    pub rname: String,
+    pub rname: [char; 24],
     pub rname_raw: Vec<u8>,
 }
 
@@ -24415,13 +24721,29 @@ impl PacketZcAckReqnameall {
             packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
             aid_raw: buffer[2..6].to_vec(),
-            cname: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            cname:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[6..30].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             cname_raw: buffer[6..30].to_vec(),
-            pname: String::from_utf8_lossy(&buffer[30..54]).to_string(),
+            pname:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[30..54].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             pname_raw: buffer[30..54].to_vec(),
-            gname: String::from_utf8_lossy(&buffer[54..78]).to_string(),
+            gname:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[54..78].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             gname_raw: buffer[54..78].to_vec(),
-            rname: String::from_utf8_lossy(&buffer[78..102]).to_string(),
+            rname:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[78..102].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             rname_raw: buffer[78..102].to_vec(),
         }
     }
@@ -24468,10 +24790,10 @@ impl Display for PacketZcAckReqnameall {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("aid(unsigned long as u32)[2, 6]", &self.aid)
-            .field("cname(char[] as String)[6, 30]", &self.cname)
-            .field("pname(char[] as String)[30, 54]", &self.pname)
-            .field("gname(char[] as String)[54, 78]", &self.gname)
-            .field("rname(char[] as String)[78, 102]", &self.rname)
+            .field("cname(char[] as char[])[6, 30]", &self.cname)
+            .field("pname(char[] as char[])[30, 54]", &self.pname)
+            .field("gname(char[] as char[])[54, 78]", &self.gname)
+            .field("rname(char[] as char[])[78, 102]", &self.rname)
         .finish()
     }
 }
@@ -25187,7 +25509,7 @@ pub struct PacketZcPropertyPet {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub sz_name: String,
+    pub sz_name: [char; 24],
     pub sz_name_raw: Vec<u8>,
     pub b_modified: u8,
     pub b_modified_raw: Vec<u8>,
@@ -25209,7 +25531,11 @@ impl PacketZcPropertyPet {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            sz_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            sz_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[2..26].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             sz_name_raw: buffer[2..26].to_vec(),
             b_modified: u8::from_le_bytes([buffer[26]]),
             b_modified_raw: buffer[26..27].to_vec(),
@@ -25269,7 +25595,7 @@ impl Display for PacketZcPropertyPet {
         f.debug_struct("PacketZcPropertyPet")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("sz_name(char[] as String)[2, 26]", &self.sz_name)
+            .field("sz_name(char[] as char[])[2, 26]", &self.sz_name)
             .field("b_modified(unsigned char as u8)[26, 27]", &self.b_modified)
             .field("n_level(short as i16)[27, 29]", &self.n_level)
             .field("n_fullness(short as i16)[29, 31]", &self.n_fullness)
@@ -25424,7 +25750,7 @@ pub struct PacketCzRenamePet {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub sz_name: String,
+    pub sz_name: [char; 24],
     pub sz_name_raw: Vec<u8>,
 }
 
@@ -25434,7 +25760,11 @@ impl PacketCzRenamePet {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            sz_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            sz_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[2..26].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             sz_name_raw: buffer[2..26].to_vec(),
         }
     }
@@ -25476,7 +25806,7 @@ impl Display for PacketCzRenamePet {
         f.debug_struct("PacketCzRenamePet")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("sz_name(char[] as String)[2, 26]", &self.sz_name)
+            .field("sz_name(char[] as char[])[2, 26]", &self.sz_name)
         .finish()
     }
 }
@@ -26285,7 +26615,7 @@ pub struct PacketCzReqOpenstore2 {
     pub packet_id_raw: Vec<u8>,
     pub packet_length: i16,
     pub packet_length_raw: Vec<u8>,
-    pub store_name: String,
+    pub store_name: [char; 80],
     pub store_name_raw: Vec<u8>,
     pub result: bool,
     pub result_raw: Vec<u8>,
@@ -26310,7 +26640,11 @@ impl PacketCzReqOpenstore2 {
             packet_id_raw: buffer[0..2].to_vec(),
             packet_length: i16::from_le_bytes([buffer[2], buffer[3]]),
             packet_length_raw: buffer[2..4].to_vec(),
-            store_name: String::from_utf8_lossy(&buffer[4..84]).to_string(),
+            store_name:  {
+                let mut dst: [char; 80] = [0 as char; 80];
+                for (index, byte) in buffer[4..84].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             store_name_raw: buffer[4..84].to_vec(),
             result: buffer[84] == 1,
             result_raw: buffer[84..85].to_vec(),
@@ -26360,7 +26694,7 @@ impl Display for PacketCzReqOpenstore2 {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("packet_length(short as i16)[2, 4]", &self.packet_length)
-            .field("store_name(char[] as String)[4, 84]", &self.store_name)
+            .field("store_name(char[] as char[])[4, 84]", &self.store_name)
             .field("result(bool as bool)[84, 85]", &self.result)
             .field("store_list([] as Vec)[85, 93]", &self.store_list)
         .finish()
@@ -26371,7 +26705,7 @@ pub struct PacketZcShowImage2 {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub image_name: String,
+    pub image_name: [char; 64],
     pub image_name_raw: Vec<u8>,
     pub atype: u8,
     pub atype_raw: Vec<u8>,
@@ -26383,7 +26717,11 @@ impl PacketZcShowImage2 {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            image_name: String::from_utf8_lossy(&buffer[2..66]).to_string(),
+            image_name:  {
+                let mut dst: [char; 64] = [0 as char; 64];
+                for (index, byte) in buffer[2..66].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             image_name_raw: buffer[2..66].to_vec(),
             atype: u8::from_le_bytes([buffer[66]]),
             atype_raw: buffer[66..67].to_vec(),
@@ -26428,7 +26766,7 @@ impl Display for PacketZcShowImage2 {
         f.debug_struct("PacketZcShowImage2")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("image_name(char[] as String)[2, 66]", &self.image_name)
+            .field("image_name(char[] as char[])[2, 66]", &self.image_name)
             .field("atype(unsigned char as u8)[66, 67]", &self.atype)
         .finish()
     }
@@ -26612,11 +26950,11 @@ pub struct PacketZcGuildInfo2 {
     pub virtue_raw: Vec<u8>,
     pub emblem_version: i32,
     pub emblem_version_raw: Vec<u8>,
-    pub guildname: String,
+    pub guildname: [char; 24],
     pub guildname_raw: Vec<u8>,
-    pub master_name: String,
+    pub master_name: [char; 24],
     pub master_name_raw: Vec<u8>,
-    pub manage_land: String,
+    pub manage_land: [char; 16],
     pub manage_land_raw: Vec<u8>,
     pub zeny: i32,
     pub zeny_raw: Vec<u8>,
@@ -26650,11 +26988,23 @@ impl PacketZcGuildInfo2 {
             virtue_raw: buffer[38..42].to_vec(),
             emblem_version: i32::from_le_bytes([buffer[42], buffer[43], buffer[44], buffer[45]]),
             emblem_version_raw: buffer[42..46].to_vec(),
-            guildname: String::from_utf8_lossy(&buffer[46..70]).to_string(),
+            guildname:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[46..70].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             guildname_raw: buffer[46..70].to_vec(),
-            master_name: String::from_utf8_lossy(&buffer[70..94]).to_string(),
+            master_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[70..94].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             master_name_raw: buffer[70..94].to_vec(),
-            manage_land: String::from_utf8_lossy(&buffer[94..110]).to_string(),
+            manage_land:  {
+                let mut dst: [char; 16] = [0 as char; 16];
+                for (index, byte) in buffer[94..110].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             manage_land_raw: buffer[94..110].to_vec(),
             zeny: i32::from_le_bytes([buffer[110], buffer[111], buffer[112], buffer[113]]),
             zeny_raw: buffer[110..114].to_vec(),
@@ -26723,9 +27073,9 @@ impl Display for PacketZcGuildInfo2 {
             .field("honor(int as i32)[34, 38]", &self.honor)
             .field("virtue(int as i32)[38, 42]", &self.virtue)
             .field("emblem_version(int as i32)[42, 46]", &self.emblem_version)
-            .field("guildname(char[] as String)[46, 70]", &self.guildname)
-            .field("master_name(char[] as String)[70, 94]", &self.master_name)
-            .field("manage_land(char[] as String)[94, 110]", &self.manage_land)
+            .field("guildname(char[] as char[])[46, 70]", &self.guildname)
+            .field("master_name(char[] as char[])[70, 94]", &self.master_name)
+            .field("manage_land(char[] as char[])[94, 110]", &self.manage_land)
             .field("zeny(int as i32)[110, 114]", &self.zeny)
         .finish()
     }
@@ -26918,7 +27268,7 @@ pub struct PacketCzRemoveAid {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub account_name: String,
+    pub account_name: [char; 24],
     pub account_name_raw: Vec<u8>,
 }
 
@@ -26928,7 +27278,11 @@ impl PacketCzRemoveAid {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            account_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            account_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[2..26].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             account_name_raw: buffer[2..26].to_vec(),
         }
     }
@@ -26970,7 +27324,7 @@ impl Display for PacketCzRemoveAid {
         f.debug_struct("PacketCzRemoveAid")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("account_name(char[] as String)[2, 26]", &self.account_name)
+            .field("account_name(char[] as char[])[2, 26]", &self.account_name)
         .finish()
     }
 }
@@ -26979,7 +27333,7 @@ pub struct PacketCzShift {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub character_name: String,
+    pub character_name: [char; 24],
     pub character_name_raw: Vec<u8>,
 }
 
@@ -26989,7 +27343,11 @@ impl PacketCzShift {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            character_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            character_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[2..26].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             character_name_raw: buffer[2..26].to_vec(),
         }
     }
@@ -27031,7 +27389,7 @@ impl Display for PacketCzShift {
         f.debug_struct("PacketCzShift")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("character_name(char[] as String)[2, 26]", &self.character_name)
+            .field("character_name(char[] as char[])[2, 26]", &self.character_name)
         .finish()
     }
 }
@@ -27040,7 +27398,7 @@ pub struct PacketCzRecall {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub account_name: String,
+    pub account_name: [char; 24],
     pub account_name_raw: Vec<u8>,
 }
 
@@ -27050,7 +27408,11 @@ impl PacketCzRecall {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            account_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            account_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[2..26].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             account_name_raw: buffer[2..26].to_vec(),
         }
     }
@@ -27092,7 +27454,7 @@ impl Display for PacketCzRecall {
         f.debug_struct("PacketCzRecall")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("account_name(char[] as String)[2, 26]", &self.account_name)
+            .field("account_name(char[] as char[])[2, 26]", &self.account_name)
         .finish()
     }
 }
@@ -27101,7 +27463,7 @@ pub struct PacketCzRecallGid {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub character_name: String,
+    pub character_name: [char; 24],
     pub character_name_raw: Vec<u8>,
 }
 
@@ -27111,7 +27473,11 @@ impl PacketCzRecallGid {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            character_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            character_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[2..26].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             character_name_raw: buffer[2..26].to_vec(),
         }
     }
@@ -27153,7 +27519,7 @@ impl Display for PacketCzRecallGid {
         f.debug_struct("PacketCzRecallGid")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("character_name(char[] as String)[2, 26]", &self.character_name)
+            .field("character_name(char[] as char[])[2, 26]", &self.character_name)
         .finish()
     }
 }
@@ -27997,7 +28363,7 @@ pub struct PacketZcSkillEntry2 {
     pub is_visible_raw: Vec<u8>,
     pub is_contens: bool,
     pub is_contens_raw: Vec<u8>,
-    pub msg: String,
+    pub msg: [char; 80],
     pub msg_raw: Vec<u8>,
 }
 
@@ -28021,7 +28387,11 @@ impl PacketZcSkillEntry2 {
             is_visible_raw: buffer[15..16].to_vec(),
             is_contens: buffer[16] == 1,
             is_contens_raw: buffer[16..17].to_vec(),
-            msg: String::from_utf8_lossy(&buffer[17..97]).to_string(),
+            msg:  {
+                let mut dst: [char; 80] = [0 as char; 80];
+                for (index, byte) in buffer[17..97].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             msg_raw: buffer[17..97].to_vec(),
         }
     }
@@ -28077,7 +28447,7 @@ impl Display for PacketZcSkillEntry2 {
             .field("job(unsigned char as u8)[14, 15]", &self.job)
             .field("is_visible(bool as bool)[15, 16]", &self.is_visible)
             .field("is_contens(bool as bool)[16, 17]", &self.is_contens)
-            .field("msg(char[] as String)[17, 97]", &self.msg)
+            .field("msg(char[] as char[])[17, 97]", &self.msg)
         .finish()
     }
 }
@@ -28305,7 +28675,7 @@ pub struct PacketZcAutospelllist {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub skid: i32,
+    pub skid: [i32; 7],
     pub skid_raw: Vec<u8>,
 }
 
@@ -28315,8 +28685,12 @@ impl PacketZcAutospelllist {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            skid: i32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
-            skid_raw: buffer[2..6].to_vec(),
+            skid:  {
+                let mut dst: [i32; 7] = [0 as i32; 7];
+                for (index, byte) in buffer[2..9].iter().enumerate() {
+                dst[index] = *byte as i32;                }                dst
+            },
+            skid_raw: buffer[2..9].to_vec(),
         }
     }
 }
@@ -28347,7 +28721,7 @@ impl Debug for PacketZcAutospelllist {
         f.debug_struct("PacketZcAutospelllist")
             .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-            .field("skid[2, 6]", &format!("{:02X?}", &self.skid_raw))
+            .field("skid[2, 9]", &format!("{:02X?}", &self.skid_raw))
         .finish()
     }
 }
@@ -28357,7 +28731,7 @@ impl Display for PacketZcAutospelllist {
         f.debug_struct("PacketZcAutospelllist")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("skid(int as i32)[2, 6]", &self.skid)
+            .field("skid(int[] as i32[])[2, 9]", &self.skid)
         .finish()
     }
 }
@@ -28429,7 +28803,7 @@ pub struct PacketZcDevotionlist {
     pub packet_id_raw: Vec<u8>,
     pub my_aid: u32,
     pub my_aid_raw: Vec<u8>,
-    pub aid: u32,
+    pub aid: [u32; 5],
     pub aid_raw: Vec<u8>,
     pub range: i16,
     pub range_raw: Vec<u8>,
@@ -28443,8 +28817,12 @@ impl PacketZcDevotionlist {
             packet_id_raw: buffer[0..2].to_vec(),
             my_aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
             my_aid_raw: buffer[2..6].to_vec(),
-            aid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
-            aid_raw: buffer[6..10].to_vec(),
+            aid:  {
+                let mut dst: [u32; 5] = [0 as u32; 5];
+                for (index, byte) in buffer[6..11].iter().enumerate() {
+                dst[index] = *byte as u32;                }                dst
+            },
+            aid_raw: buffer[6..11].to_vec(),
             range: i16::from_le_bytes([buffer[26], buffer[27]]),
             range_raw: buffer[26..28].to_vec(),
         }
@@ -28478,7 +28856,7 @@ impl Debug for PacketZcDevotionlist {
             .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("my_aid[2, 6]", &format!("{:02X?}", &self.my_aid_raw))
-            .field("aid[6, 10]", &format!("{:02X?}", &self.aid_raw))
+            .field("aid[6, 11]", &format!("{:02X?}", &self.aid_raw))
             .field("range[26, 28]", &format!("{:02X?}", &self.range_raw))
         .finish()
     }
@@ -28490,7 +28868,7 @@ impl Display for PacketZcDevotionlist {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("my_aid(unsigned long as u32)[2, 6]", &self.my_aid)
-            .field("aid(unsigned long as u32)[6, 10]", &self.aid)
+            .field("aid(unsigned long[] as u32[])[6, 11]", &self.aid)
             .field("range(short as i16)[26, 28]", &self.range)
         .finish()
     }
@@ -28707,7 +29085,7 @@ pub struct PacketZcSound {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub file_name: String,
+    pub file_name: [char; 24],
     pub file_name_raw: Vec<u8>,
     pub act: u8,
     pub act_raw: Vec<u8>,
@@ -28723,7 +29101,11 @@ impl PacketZcSound {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            file_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            file_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[2..26].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             file_name_raw: buffer[2..26].to_vec(),
             act: u8::from_le_bytes([buffer[26]]),
             act_raw: buffer[26..27].to_vec(),
@@ -28774,7 +29156,7 @@ impl Display for PacketZcSound {
         f.debug_struct("PacketZcSound")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("file_name(char[] as String)[2, 26]", &self.file_name)
+            .field("file_name(char[] as char[])[2, 26]", &self.file_name)
             .field("act(unsigned char as u8)[26, 27]", &self.act)
             .field("term(unsigned long as u32)[27, 31]", &self.term)
             .field("naid(unsigned long as u32)[31, 35]", &self.naid)
@@ -29094,7 +29476,7 @@ pub struct PacketZcNotifyStandentry2 {
     pub is_pkmode_on_raw: Vec<u8>,
     pub sex: u8,
     pub sex_raw: Vec<u8>,
-    pub pos_dir: String,
+    pub pos_dir: [char; 3],
     pub pos_dir_raw: Vec<u8>,
     pub x_size: u8,
     pub x_size_raw: Vec<u8>,
@@ -29152,7 +29534,11 @@ impl PacketZcNotifyStandentry2 {
             is_pkmode_on_raw: buffer[44..45].to_vec(),
             sex: u8::from_le_bytes([buffer[45]]),
             sex_raw: buffer[45..46].to_vec(),
-            pos_dir: String::from_utf8_lossy(&buffer[46..49]).to_string(),
+            pos_dir:  {
+                let mut dst: [char; 3] = [0 as char; 3];
+                for (index, byte) in buffer[46..49].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             pos_dir_raw: buffer[46..49].to_vec(),
             x_size: u8::from_le_bytes([buffer[49]]),
             x_size_raw: buffer[49..50].to_vec(),
@@ -29246,7 +29632,7 @@ impl Display for PacketZcNotifyStandentry2 {
             .field("virtue(short as i16)[42, 44]", &self.virtue)
             .field("is_pkmode_on(bool as bool)[44, 45]", &self.is_pkmode_on)
             .field("sex(unsigned char as u8)[45, 46]", &self.sex)
-            .field("pos_dir(char[] as String)[46, 49]", &self.pos_dir)
+            .field("pos_dir(char[] as char[])[46, 49]", &self.pos_dir)
             .field("x_size(unsigned char as u8)[49, 50]", &self.x_size)
             .field("y_size(unsigned char as u8)[50, 51]", &self.y_size)
             .field("state(unsigned char as u8)[51, 52]", &self.state)
@@ -29299,7 +29685,7 @@ pub struct PacketZcNotifyNewentry2 {
     pub is_pkmode_on_raw: Vec<u8>,
     pub sex: u8,
     pub sex_raw: Vec<u8>,
-    pub pos_dir: String,
+    pub pos_dir: [char; 3],
     pub pos_dir_raw: Vec<u8>,
     pub x_size: u8,
     pub x_size_raw: Vec<u8>,
@@ -29355,7 +29741,11 @@ impl PacketZcNotifyNewentry2 {
             is_pkmode_on_raw: buffer[44..45].to_vec(),
             sex: u8::from_le_bytes([buffer[45]]),
             sex_raw: buffer[45..46].to_vec(),
-            pos_dir: String::from_utf8_lossy(&buffer[46..49]).to_string(),
+            pos_dir:  {
+                let mut dst: [char; 3] = [0 as char; 3];
+                for (index, byte) in buffer[46..49].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             pos_dir_raw: buffer[46..49].to_vec(),
             x_size: u8::from_le_bytes([buffer[49]]),
             x_size_raw: buffer[49..50].to_vec(),
@@ -29446,7 +29836,7 @@ impl Display for PacketZcNotifyNewentry2 {
             .field("virtue(short as i16)[42, 44]", &self.virtue)
             .field("is_pkmode_on(bool as bool)[44, 45]", &self.is_pkmode_on)
             .field("sex(unsigned char as u8)[45, 46]", &self.sex)
-            .field("pos_dir(char[] as String)[46, 49]", &self.pos_dir)
+            .field("pos_dir(char[] as char[])[46, 49]", &self.pos_dir)
             .field("x_size(unsigned char as u8)[49, 50]", &self.x_size)
             .field("y_size(unsigned char as u8)[50, 51]", &self.y_size)
             .field("clevel(short as i16)[51, 53]", &self.clevel)
@@ -29500,7 +29890,7 @@ pub struct PacketZcNotifyMoveentry2 {
     pub is_pkmode_on_raw: Vec<u8>,
     pub sex: u8,
     pub sex_raw: Vec<u8>,
-    pub move_data: String,
+    pub move_data: [u16; 6],
     pub move_data_raw: Vec<u8>,
     pub x_size: u8,
     pub x_size_raw: Vec<u8>,
@@ -29558,7 +29948,11 @@ impl PacketZcNotifyMoveentry2 {
             is_pkmode_on_raw: buffer[48..49].to_vec(),
             sex: u8::from_le_bytes([buffer[49]]),
             sex_raw: buffer[49..50].to_vec(),
-            move_data: String::from_utf8_lossy(&buffer[50..56]).to_string(),
+            move_data:  {
+                let mut dst: [u16; 6] = [0 as u16; 6];
+                for (index, byte) in buffer[50..56].iter().enumerate() {
+                dst[index] = *byte as u16;                }                dst
+            },
             move_data_raw: buffer[50..56].to_vec(),
             x_size: u8::from_le_bytes([buffer[56]]),
             x_size_raw: buffer[56..57].to_vec(),
@@ -29651,7 +30045,7 @@ impl Display for PacketZcNotifyMoveentry2 {
             .field("virtue(short as i16)[46, 48]", &self.virtue)
             .field("is_pkmode_on(bool as bool)[48, 49]", &self.is_pkmode_on)
             .field("sex(unsigned char as u8)[49, 50]", &self.sex)
-            .field("move_data(char[] as String)[50, 56]", &self.move_data)
+            .field("move_data(unsigned short[] as u16[])[50, 56]", &self.move_data)
             .field("x_size(unsigned char as u8)[56, 57]", &self.x_size)
             .field("y_size(unsigned char as u8)[57, 58]", &self.y_size)
             .field("clevel(short as i16)[58, 60]", &self.clevel)
@@ -29787,9 +30181,9 @@ pub struct PacketCaLogin2 {
     pub packet_id_raw: Vec<u8>,
     pub version: u32,
     pub version_raw: Vec<u8>,
-    pub id: String,
+    pub id: [char; 24],
     pub id_raw: Vec<u8>,
-    pub passwd_md5: String,
+    pub passwd_md5: [char; 16],
     pub passwd_md5_raw: Vec<u8>,
     pub clienttype: u8,
     pub clienttype_raw: Vec<u8>,
@@ -29803,9 +30197,17 @@ impl PacketCaLogin2 {
             packet_id_raw: buffer[0..2].to_vec(),
             version: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
             version_raw: buffer[2..6].to_vec(),
-            id: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            id:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[6..30].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             id_raw: buffer[6..30].to_vec(),
-            passwd_md5: String::from_utf8_lossy(&buffer[30..46]).to_string(),
+            passwd_md5:  {
+                let mut dst: [char; 16] = [0 as char; 16];
+                for (index, byte) in buffer[30..46].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             passwd_md5_raw: buffer[30..46].to_vec(),
             clienttype: u8::from_le_bytes([buffer[46]]),
             clienttype_raw: buffer[46..47].to_vec(),
@@ -29853,8 +30255,8 @@ impl Display for PacketCaLogin2 {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("version(unsigned long as u32)[2, 6]", &self.version)
-            .field("id(char[] as String)[6, 30]", &self.id)
-            .field("passwd_md5(char[] as String)[30, 46]", &self.passwd_md5)
+            .field("id(char[] as char[])[6, 30]", &self.id)
+            .field("passwd_md5(char[] as char[])[30, 46]", &self.passwd_md5)
             .field("clienttype(unsigned char as u8)[46, 47]", &self.clienttype)
         .finish()
     }
@@ -30042,7 +30444,7 @@ pub struct PacketZcAckAccountname {
     pub packet_id_raw: Vec<u8>,
     pub aid: u32,
     pub aid_raw: Vec<u8>,
-    pub name: String,
+    pub name: [char; 24],
     pub name_raw: Vec<u8>,
 }
 
@@ -30054,7 +30456,11 @@ impl PacketZcAckAccountname {
             packet_id_raw: buffer[0..2].to_vec(),
             aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
             aid_raw: buffer[2..6].to_vec(),
-            name: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[6..30].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             name_raw: buffer[6..30].to_vec(),
         }
     }
@@ -30098,7 +30504,7 @@ impl Display for PacketZcAckAccountname {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("aid(unsigned long as u32)[2, 6]", &self.aid)
-            .field("name(char[] as String)[6, 30]", &self.name)
+            .field("name(char[] as char[])[6, 30]", &self.name)
         .finish()
     }
 }
@@ -30178,7 +30584,7 @@ pub struct PacketZcReqCouple {
     pub aid_raw: Vec<u8>,
     pub gid: u32,
     pub gid_raw: Vec<u8>,
-    pub name: String,
+    pub name: [char; 24],
     pub name_raw: Vec<u8>,
 }
 
@@ -30192,7 +30598,11 @@ impl PacketZcReqCouple {
             aid_raw: buffer[2..6].to_vec(),
             gid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
             gid_raw: buffer[6..10].to_vec(),
-            name: String::from_utf8_lossy(&buffer[10..34]).to_string(),
+            name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[10..34].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             name_raw: buffer[10..34].to_vec(),
         }
     }
@@ -30238,7 +30648,7 @@ impl Display for PacketZcReqCouple {
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("aid(unsigned long as u32)[2, 6]", &self.aid)
             .field("gid(unsigned long as u32)[6, 10]", &self.gid)
-            .field("name(char[] as String)[10, 34]", &self.name)
+            .field("name(char[] as char[])[10, 34]", &self.name)
         .finish()
     }
 }
@@ -30436,7 +30846,7 @@ pub struct PacketZcCouplename {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub couple_name: String,
+    pub couple_name: [char; 24],
     pub couple_name_raw: Vec<u8>,
 }
 
@@ -30446,7 +30856,11 @@ impl PacketZcCouplename {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            couple_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            couple_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[2..26].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             couple_name_raw: buffer[2..26].to_vec(),
         }
     }
@@ -30488,7 +30902,7 @@ impl Display for PacketZcCouplename {
         f.debug_struct("PacketZcCouplename")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("couple_name(char[] as String)[2, 26]", &self.couple_name)
+            .field("couple_name(char[] as char[])[2, 26]", &self.couple_name)
         .finish()
     }
 }
@@ -30552,7 +30966,7 @@ pub struct PacketCzMakeGroup2 {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub group_name: String,
+    pub group_name: [char; 24],
     pub group_name_raw: Vec<u8>,
     pub item_pickup_rule: u8,
     pub item_pickup_rule_raw: Vec<u8>,
@@ -30566,7 +30980,11 @@ impl PacketCzMakeGroup2 {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            group_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            group_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[2..26].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             group_name_raw: buffer[2..26].to_vec(),
             item_pickup_rule: u8::from_le_bytes([buffer[26]]),
             item_pickup_rule_raw: buffer[26..27].to_vec(),
@@ -30614,7 +31032,7 @@ impl Display for PacketCzMakeGroup2 {
         f.debug_struct("PacketCzMakeGroup2")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("group_name(char[] as String)[2, 26]", &self.group_name)
+            .field("group_name(char[] as char[])[2, 26]", &self.group_name)
             .field("item_pickup_rule(unsigned char as u8)[26, 27]", &self.item_pickup_rule)
             .field("item_division_rule(unsigned char as u8)[27, 28]", &self.item_division_rule)
         .finish()
@@ -30635,11 +31053,11 @@ pub struct PacketZcAddMemberToGroup2 {
     pub y_pos_raw: Vec<u8>,
     pub state: u8,
     pub state_raw: Vec<u8>,
-    pub group_name: String,
+    pub group_name: [char; 24],
     pub group_name_raw: Vec<u8>,
-    pub character_name: String,
+    pub character_name: [char; 24],
     pub character_name_raw: Vec<u8>,
-    pub map_name: String,
+    pub map_name: [char; 16],
     pub map_name_raw: Vec<u8>,
     pub item_pickup_rule: u8,
     pub item_pickup_rule_raw: Vec<u8>,
@@ -30663,11 +31081,23 @@ impl PacketZcAddMemberToGroup2 {
             y_pos_raw: buffer[12..14].to_vec(),
             state: u8::from_le_bytes([buffer[14]]),
             state_raw: buffer[14..15].to_vec(),
-            group_name: String::from_utf8_lossy(&buffer[15..39]).to_string(),
+            group_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[15..39].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             group_name_raw: buffer[15..39].to_vec(),
-            character_name: String::from_utf8_lossy(&buffer[39..63]).to_string(),
+            character_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[39..63].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             character_name_raw: buffer[39..63].to_vec(),
-            map_name: String::from_utf8_lossy(&buffer[63..79]).to_string(),
+            map_name:  {
+                let mut dst: [char; 16] = [0 as char; 16];
+                for (index, byte) in buffer[63..79].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             map_name_raw: buffer[63..79].to_vec(),
             item_pickup_rule: u8::from_le_bytes([buffer[79]]),
             item_pickup_rule_raw: buffer[79..80].to_vec(),
@@ -30727,9 +31157,9 @@ impl Display for PacketZcAddMemberToGroup2 {
             .field("x_pos(short as i16)[10, 12]", &self.x_pos)
             .field("y_pos(short as i16)[12, 14]", &self.y_pos)
             .field("state(unsigned char as u8)[14, 15]", &self.state)
-            .field("group_name(char[] as String)[15, 39]", &self.group_name)
-            .field("character_name(char[] as String)[39, 63]", &self.character_name)
-            .field("map_name(char[] as String)[63, 79]", &self.map_name)
+            .field("group_name(char[] as char[])[15, 39]", &self.group_name)
+            .field("character_name(char[] as char[])[39, 63]", &self.character_name)
+            .field("map_name(char[] as char[])[63, 79]", &self.map_name)
             .field("item_pickup_rule(unsigned char as u8)[79, 80]", &self.item_pickup_rule)
             .field("item_division_rule(unsigned char as u8)[80, 81]", &self.item_division_rule)
         .finish()
@@ -30878,7 +31308,7 @@ pub struct PacketZcGuildMemberMapChange {
     pub gdid_raw: Vec<u8>,
     pub aid: u32,
     pub aid_raw: Vec<u8>,
-    pub map_name: String,
+    pub map_name: [char; 16],
     pub map_name_raw: Vec<u8>,
 }
 
@@ -30892,7 +31322,11 @@ impl PacketZcGuildMemberMapChange {
             gdid_raw: buffer[2..6].to_vec(),
             aid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
             aid_raw: buffer[6..10].to_vec(),
-            map_name: String::from_utf8_lossy(&buffer[10..26]).to_string(),
+            map_name:  {
+                let mut dst: [char; 16] = [0 as char; 16];
+                for (index, byte) in buffer[10..26].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             map_name_raw: buffer[10..26].to_vec(),
         }
     }
@@ -30938,7 +31372,7 @@ impl Display for PacketZcGuildMemberMapChange {
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("gdid(unsigned long as u32)[2, 6]", &self.gdid)
             .field("aid(unsigned long as u32)[6, 10]", &self.aid)
-            .field("map_name(char[] as String)[10, 26]", &self.map_name)
+            .field("map_name(char[] as char[])[10, 26]", &self.map_name)
         .finish()
     }
 }
@@ -31455,7 +31889,7 @@ pub struct PacketZcReqExchangeItem2 {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub name: String,
+    pub name: [char; 24],
     pub name_raw: Vec<u8>,
     pub gid: u32,
     pub gid_raw: Vec<u8>,
@@ -31469,7 +31903,11 @@ impl PacketZcReqExchangeItem2 {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[2..26].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             name_raw: buffer[2..26].to_vec(),
             gid: u32::from_le_bytes([buffer[26], buffer[27], buffer[28], buffer[29]]),
             gid_raw: buffer[26..30].to_vec(),
@@ -31517,7 +31955,7 @@ impl Display for PacketZcReqExchangeItem2 {
         f.debug_struct("PacketZcReqExchangeItem2")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("name(char[] as String)[2, 26]", &self.name)
+            .field("name(char[] as char[])[2, 26]", &self.name)
             .field("gid(unsigned long as u32)[26, 30]", &self.gid)
             .field("level(short as i16)[30, 32]", &self.level)
         .finish()
@@ -31605,7 +32043,7 @@ pub struct PacketZcReqBaby {
     pub aid_raw: Vec<u8>,
     pub gid: u32,
     pub gid_raw: Vec<u8>,
-    pub name: String,
+    pub name: [char; 24],
     pub name_raw: Vec<u8>,
 }
 
@@ -31619,7 +32057,11 @@ impl PacketZcReqBaby {
             aid_raw: buffer[2..6].to_vec(),
             gid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
             gid_raw: buffer[6..10].to_vec(),
-            name: String::from_utf8_lossy(&buffer[10..34]).to_string(),
+            name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[10..34].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             name_raw: buffer[10..34].to_vec(),
         }
     }
@@ -31665,7 +32107,7 @@ impl Display for PacketZcReqBaby {
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("aid(unsigned long as u32)[2, 6]", &self.aid)
             .field("gid(unsigned long as u32)[6, 10]", &self.gid)
-            .field("name(char[] as String)[10, 34]", &self.name)
+            .field("name(char[] as char[])[10, 34]", &self.name)
         .finish()
     }
 }
@@ -31865,9 +32307,9 @@ pub struct PacketCaLogin3 {
     pub packet_id_raw: Vec<u8>,
     pub version: u32,
     pub version_raw: Vec<u8>,
-    pub id: String,
+    pub id: [char; 24],
     pub id_raw: Vec<u8>,
-    pub passwd_md5: String,
+    pub passwd_md5: [char; 16],
     pub passwd_md5_raw: Vec<u8>,
     pub clienttype: u8,
     pub clienttype_raw: Vec<u8>,
@@ -31883,9 +32325,17 @@ impl PacketCaLogin3 {
             packet_id_raw: buffer[0..2].to_vec(),
             version: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
             version_raw: buffer[2..6].to_vec(),
-            id: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            id:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[6..30].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             id_raw: buffer[6..30].to_vec(),
-            passwd_md5: String::from_utf8_lossy(&buffer[30..46]).to_string(),
+            passwd_md5:  {
+                let mut dst: [char; 16] = [0 as char; 16];
+                for (index, byte) in buffer[30..46].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             passwd_md5_raw: buffer[30..46].to_vec(),
             clienttype: u8::from_le_bytes([buffer[46]]),
             clienttype_raw: buffer[46..47].to_vec(),
@@ -31936,8 +32386,8 @@ impl Display for PacketCaLogin3 {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("version(unsigned long as u32)[2, 6]", &self.version)
-            .field("id(char[] as String)[6, 30]", &self.id)
-            .field("passwd_md5(char[] as String)[30, 46]", &self.passwd_md5)
+            .field("id(char[] as char[])[6, 30]", &self.id)
+            .field("passwd_md5(char[] as char[])[30, 46]", &self.passwd_md5)
             .field("clienttype(unsigned char as u8)[46, 47]", &self.clienttype)
             .field("client_info(unsigned char as u8)[47, 48]", &self.client_info)
         .finish()
@@ -31950,7 +32400,7 @@ pub struct PacketChDeleteChar2 {
     pub packet_id_raw: Vec<u8>,
     pub gid: u32,
     pub gid_raw: Vec<u8>,
-    pub key: String,
+    pub key: [char; 50],
     pub key_raw: Vec<u8>,
 }
 
@@ -31962,7 +32412,11 @@ impl PacketChDeleteChar2 {
             packet_id_raw: buffer[0..2].to_vec(),
             gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
             gid_raw: buffer[2..6].to_vec(),
-            key: String::from_utf8_lossy(&buffer[6..56]).to_string(),
+            key:  {
+                let mut dst: [char; 50] = [0 as char; 50];
+                for (index, byte) in buffer[6..56].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             key_raw: buffer[6..56].to_vec(),
         }
     }
@@ -32006,7 +32460,7 @@ impl Display for PacketChDeleteChar2 {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("gid(unsigned long as u32)[2, 6]", &self.gid)
-            .field("key(char[] as String)[6, 56]", &self.key)
+            .field("key(char[] as char[])[6, 56]", &self.key)
         .finish()
     }
 }
@@ -32292,7 +32746,7 @@ pub struct PacketCaConnectInfoChanged {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub id: String,
+    pub id: [char; 24],
     pub id_raw: Vec<u8>,
 }
 
@@ -32302,7 +32756,11 @@ impl PacketCaConnectInfoChanged {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            id: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            id:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[2..26].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             id_raw: buffer[2..26].to_vec(),
         }
     }
@@ -32344,7 +32802,7 @@ impl Display for PacketCaConnectInfoChanged {
         f.debug_struct("PacketCaConnectInfoChanged")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("id(char[] as String)[2, 26]", &self.id)
+            .field("id(char[] as char[])[2, 26]", &self.id)
         .finish()
     }
 }
@@ -32429,7 +32887,7 @@ pub struct PacketCzAddFriends {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub name: String,
+    pub name: [char; 24],
     pub name_raw: Vec<u8>,
 }
 
@@ -32439,7 +32897,11 @@ impl PacketCzAddFriends {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[2..26].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             name_raw: buffer[2..26].to_vec(),
         }
     }
@@ -32481,7 +32943,7 @@ impl Display for PacketCzAddFriends {
         f.debug_struct("PacketCzAddFriends")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("name(char[] as String)[2, 26]", &self.name)
+            .field("name(char[] as char[])[2, 26]", &self.name)
         .finish()
     }
 }
@@ -32557,7 +33019,7 @@ pub struct PacketCaExeHashcheck {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub hash_value: String,
+    pub hash_value: [char; 16],
     pub hash_value_raw: Vec<u8>,
 }
 
@@ -32567,7 +33029,11 @@ impl PacketCaExeHashcheck {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            hash_value: String::from_utf8_lossy(&buffer[2..18]).to_string(),
+            hash_value:  {
+                let mut dst: [char; 16] = [0 as char; 16];
+                for (index, byte) in buffer[2..18].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             hash_value_raw: buffer[2..18].to_vec(),
         }
     }
@@ -32609,7 +33075,7 @@ impl Display for PacketCaExeHashcheck {
         f.debug_struct("PacketCaExeHashcheck")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("hash_value(char[] as String)[2, 18]", &self.hash_value)
+            .field("hash_value(char[] as char[])[2, 18]", &self.hash_value)
         .finish()
     }
 }
@@ -32618,7 +33084,7 @@ pub struct PacketZcDivorce {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub name: String,
+    pub name: [char; 24],
     pub name_raw: Vec<u8>,
 }
 
@@ -32628,7 +33094,11 @@ impl PacketZcDivorce {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[2..26].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             name_raw: buffer[2..26].to_vec(),
         }
     }
@@ -32670,7 +33140,7 @@ impl Display for PacketZcDivorce {
         f.debug_struct("PacketZcDivorce")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("name(char[] as String)[2, 26]", &self.name)
+            .field("name(char[] as char[])[2, 26]", &self.name)
         .finish()
     }
 }
@@ -32756,7 +33226,7 @@ pub struct PacketZcReqAddFriends {
     pub req_aid_raw: Vec<u8>,
     pub req_gid: u32,
     pub req_gid_raw: Vec<u8>,
-    pub name: String,
+    pub name: [char; 24],
     pub name_raw: Vec<u8>,
 }
 
@@ -32770,7 +33240,11 @@ impl PacketZcReqAddFriends {
             req_aid_raw: buffer[2..6].to_vec(),
             req_gid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
             req_gid_raw: buffer[6..10].to_vec(),
-            name: String::from_utf8_lossy(&buffer[10..34]).to_string(),
+            name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[10..34].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             name_raw: buffer[10..34].to_vec(),
         }
     }
@@ -32816,7 +33290,7 @@ impl Display for PacketZcReqAddFriends {
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("req_aid(unsigned long as u32)[2, 6]", &self.req_aid)
             .field("req_gid(unsigned long as u32)[6, 10]", &self.req_gid)
-            .field("name(char[] as String)[10, 34]", &self.name)
+            .field("name(char[] as char[])[10, 34]", &self.name)
         .finish()
     }
 }
@@ -32904,7 +33378,7 @@ pub struct PacketZcAddFriendsList {
     pub aid_raw: Vec<u8>,
     pub gid: u32,
     pub gid_raw: Vec<u8>,
-    pub name: String,
+    pub name: [char; 24],
     pub name_raw: Vec<u8>,
 }
 
@@ -32920,7 +33394,11 @@ impl PacketZcAddFriendsList {
             aid_raw: buffer[4..8].to_vec(),
             gid: u32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
             gid_raw: buffer[8..12].to_vec(),
-            name: String::from_utf8_lossy(&buffer[12..36]).to_string(),
+            name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[12..36].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             name_raw: buffer[12..36].to_vec(),
         }
     }
@@ -32968,7 +33446,7 @@ impl Display for PacketZcAddFriendsList {
             .field("result(short as i16)[2, 4]", &self.result)
             .field("aid(unsigned long as u32)[4, 8]", &self.aid)
             .field("gid(unsigned long as u32)[8, 12]", &self.gid)
-            .field("name(char[] as String)[12, 36]", &self.name)
+            .field("name(char[] as char[])[12, 36]", &self.name)
         .finish()
     }
 }
@@ -33046,7 +33524,7 @@ pub struct PacketChExeHashcheck {
     pub packet_id_raw: Vec<u8>,
     pub client_type: u8,
     pub client_type_raw: Vec<u8>,
-    pub hash_value: String,
+    pub hash_value: [char; 16],
     pub hash_value_raw: Vec<u8>,
 }
 
@@ -33058,7 +33536,11 @@ impl PacketChExeHashcheck {
             packet_id_raw: buffer[0..2].to_vec(),
             client_type: u8::from_le_bytes([buffer[2]]),
             client_type_raw: buffer[2..3].to_vec(),
-            hash_value: String::from_utf8_lossy(&buffer[3..19]).to_string(),
+            hash_value:  {
+                let mut dst: [char; 16] = [0 as char; 16];
+                for (index, byte) in buffer[3..19].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             hash_value_raw: buffer[3..19].to_vec(),
         }
     }
@@ -33102,7 +33584,7 @@ impl Display for PacketChExeHashcheck {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("client_type(unsigned char as u8)[2, 3]", &self.client_type)
-            .field("hash_value(char[] as String)[3, 19]", &self.hash_value)
+            .field("hash_value(char[] as char[])[3, 19]", &self.hash_value)
         .finish()
     }
 }
@@ -33113,7 +33595,7 @@ pub struct PacketCzExeHashcheck {
     pub packet_id_raw: Vec<u8>,
     pub client_type: u8,
     pub client_type_raw: Vec<u8>,
-    pub hash_value: String,
+    pub hash_value: [char; 16],
     pub hash_value_raw: Vec<u8>,
 }
 
@@ -33125,7 +33607,11 @@ impl PacketCzExeHashcheck {
             packet_id_raw: buffer[0..2].to_vec(),
             client_type: u8::from_le_bytes([buffer[2]]),
             client_type_raw: buffer[2..3].to_vec(),
-            hash_value: String::from_utf8_lossy(&buffer[3..19]).to_string(),
+            hash_value:  {
+                let mut dst: [char; 16] = [0 as char; 16];
+                for (index, byte) in buffer[3..19].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             hash_value_raw: buffer[3..19].to_vec(),
         }
     }
@@ -33169,7 +33655,7 @@ impl Display for PacketCzExeHashcheck {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("client_type(unsigned char as u8)[2, 3]", &self.client_type)
-            .field("hash_value(char[] as String)[3, 19]", &self.hash_value)
+            .field("hash_value(char[] as char[])[3, 19]", &self.hash_value)
         .finish()
     }
 }
@@ -33254,7 +33740,7 @@ pub struct PacketZcStarskill {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub map_name: String,
+    pub map_name: [char; 24],
     pub map_name_raw: Vec<u8>,
     pub monster_id: i32,
     pub monster_id_raw: Vec<u8>,
@@ -33270,7 +33756,11 @@ impl PacketZcStarskill {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            map_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            map_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[2..26].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             map_name_raw: buffer[2..26].to_vec(),
             monster_id: i32::from_le_bytes([buffer[26], buffer[27], buffer[28], buffer[29]]),
             monster_id_raw: buffer[26..30].to_vec(),
@@ -33321,7 +33811,7 @@ impl Display for PacketZcStarskill {
         f.debug_struct("PacketZcStarskill")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("map_name(char[] as String)[2, 26]", &self.map_name)
+            .field("map_name(char[] as char[])[2, 26]", &self.map_name)
             .field("monster_id(int as i32)[26, 30]", &self.monster_id)
             .field("star(unsigned char as u8)[30, 31]", &self.star)
             .field("result(unsigned char as u8)[31, 32]", &self.result)
@@ -33534,7 +34024,7 @@ pub struct PacketCzReqGiveMannerByname {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub char_name: String,
+    pub char_name: [char; 24],
     pub char_name_raw: Vec<u8>,
 }
 
@@ -33544,7 +34034,11 @@ impl PacketCzReqGiveMannerByname {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            char_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            char_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[2..26].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             char_name_raw: buffer[2..26].to_vec(),
         }
     }
@@ -33586,7 +34080,7 @@ impl Display for PacketCzReqGiveMannerByname {
         f.debug_struct("PacketCzReqGiveMannerByname")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("char_name(char[] as String)[2, 26]", &self.char_name)
+            .field("char_name(char[] as char[])[2, 26]", &self.char_name)
         .finish()
     }
 }
@@ -33595,7 +34089,7 @@ pub struct PacketCzReqStatusGm {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub char_name: String,
+    pub char_name: [char; 24],
     pub char_name_raw: Vec<u8>,
 }
 
@@ -33605,7 +34099,11 @@ impl PacketCzReqStatusGm {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            char_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            char_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[2..26].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             char_name_raw: buffer[2..26].to_vec(),
         }
     }
@@ -33647,7 +34145,7 @@ impl Display for PacketCzReqStatusGm {
         f.debug_struct("PacketCzReqStatusGm")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("char_name(char[] as String)[2, 26]", &self.char_name)
+            .field("char_name(char[] as char[])[2, 26]", &self.char_name)
         .finish()
     }
 }
@@ -34099,9 +34597,9 @@ pub struct PacketZcBlacksmithRank {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub name: String,
+    pub name: [char; 10],
     pub name_raw: Vec<u8>,
-    pub point: i32,
+    pub point: [i32; 10],
     pub point_raw: Vec<u8>,
 }
 
@@ -34111,10 +34609,18 @@ impl PacketZcBlacksmithRank {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            name: String::from_utf8_lossy(&buffer[2..12]).to_string(),
+            name:  {
+                let mut dst: [char; 10] = [0 as char; 10];
+                for (index, byte) in buffer[2..12].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             name_raw: buffer[2..12].to_vec(),
-            point: i32::from_le_bytes([buffer[242], buffer[243], buffer[244], buffer[245]]),
-            point_raw: buffer[242..246].to_vec(),
+            point:  {
+                let mut dst: [i32; 10] = [0 as i32; 10];
+                for (index, byte) in buffer[242..252].iter().enumerate() {
+                dst[index] = *byte as i32;                }                dst
+            },
+            point_raw: buffer[242..252].to_vec(),
         }
     }
 }
@@ -34146,7 +34652,7 @@ impl Debug for PacketZcBlacksmithRank {
             .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("name[2, 12]", &format!("{:02X?}", &self.name_raw))
-            .field("point[242, 246]", &format!("{:02X?}", &self.point_raw))
+            .field("point[242, 252]", &format!("{:02X?}", &self.point_raw))
         .finish()
     }
 }
@@ -34156,8 +34662,8 @@ impl Display for PacketZcBlacksmithRank {
         f.debug_struct("PacketZcBlacksmithRank")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("name(char[] as String)[2, 12]", &self.name)
-            .field("point(int as i32)[242, 246]", &self.point)
+            .field("name(char[] as char[])[2, 12]", &self.name)
+            .field("point(int[] as i32[])[242, 252]", &self.point)
         .finish()
     }
 }
@@ -34166,9 +34672,9 @@ pub struct PacketZcAlchemistRank {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub name: String,
+    pub name: [char; 10],
     pub name_raw: Vec<u8>,
-    pub point: i32,
+    pub point: [i32; 10],
     pub point_raw: Vec<u8>,
 }
 
@@ -34178,10 +34684,18 @@ impl PacketZcAlchemistRank {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            name: String::from_utf8_lossy(&buffer[2..12]).to_string(),
+            name:  {
+                let mut dst: [char; 10] = [0 as char; 10];
+                for (index, byte) in buffer[2..12].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             name_raw: buffer[2..12].to_vec(),
-            point: i32::from_le_bytes([buffer[242], buffer[243], buffer[244], buffer[245]]),
-            point_raw: buffer[242..246].to_vec(),
+            point:  {
+                let mut dst: [i32; 10] = [0 as i32; 10];
+                for (index, byte) in buffer[242..252].iter().enumerate() {
+                dst[index] = *byte as i32;                }                dst
+            },
+            point_raw: buffer[242..252].to_vec(),
         }
     }
 }
@@ -34213,7 +34727,7 @@ impl Debug for PacketZcAlchemistRank {
             .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("name[2, 12]", &format!("{:02X?}", &self.name_raw))
-            .field("point[242, 246]", &format!("{:02X?}", &self.point_raw))
+            .field("point[242, 252]", &format!("{:02X?}", &self.point_raw))
         .finish()
     }
 }
@@ -34223,8 +34737,8 @@ impl Display for PacketZcAlchemistRank {
         f.debug_struct("PacketZcAlchemistRank")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("name(char[] as String)[2, 12]", &self.name)
-            .field("point(int as i32)[242, 246]", &self.point)
+            .field("name(char[] as char[])[2, 12]", &self.name)
+            .field("point(int[] as i32[])[242, 252]", &self.point)
         .finish()
     }
 }
@@ -34493,9 +35007,9 @@ pub struct PacketZcNotifyPkinfo {
     pub win_point_raw: Vec<u8>,
     pub lose_point: i32,
     pub lose_point_raw: Vec<u8>,
-    pub kill_name: String,
+    pub kill_name: [char; 24],
     pub kill_name_raw: Vec<u8>,
-    pub killed_name: String,
+    pub killed_name: [char; 24],
     pub killed_name_raw: Vec<u8>,
     pub expire_time: Filetime,
     pub expire_time_raw: Vec<u8>,
@@ -34511,9 +35025,17 @@ impl PacketZcNotifyPkinfo {
             win_point_raw: buffer[2..6].to_vec(),
             lose_point: i32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
             lose_point_raw: buffer[6..10].to_vec(),
-            kill_name: String::from_utf8_lossy(&buffer[10..34]).to_string(),
+            kill_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[10..34].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             kill_name_raw: buffer[10..34].to_vec(),
-            killed_name: String::from_utf8_lossy(&buffer[34..58]).to_string(),
+            killed_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[34..58].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             killed_name_raw: buffer[34..58].to_vec(),
             expire_time: Filetime::from(&buffer[58..buffer.len()]),
             expire_time_raw: buffer[58..buffer.len()].to_vec(),
@@ -34563,8 +35085,8 @@ impl Display for PacketZcNotifyPkinfo {
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("win_point(int as i32)[2, 6]", &self.win_point)
             .field("lose_point(int as i32)[6, 10]", &self.lose_point)
-            .field("kill_name(char[] as String)[10, 34]", &self.kill_name)
-            .field("killed_name(char[] as String)[34, 58]", &self.killed_name)
+            .field("kill_name(char[] as char[])[10, 34]", &self.kill_name)
+            .field("killed_name(char[] as char[])[34, 58]", &self.killed_name)
             .field("expire_time(struct as Struct)[58, ?]", &self.expire_time)
         .finish()
     }
@@ -34967,9 +35489,9 @@ pub struct PacketZcTaekwonRank {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub name: String,
+    pub name: [char; 10],
     pub name_raw: Vec<u8>,
-    pub point: i32,
+    pub point: [i32; 10],
     pub point_raw: Vec<u8>,
 }
 
@@ -34979,10 +35501,18 @@ impl PacketZcTaekwonRank {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            name: String::from_utf8_lossy(&buffer[2..12]).to_string(),
+            name:  {
+                let mut dst: [char; 10] = [0 as char; 10];
+                for (index, byte) in buffer[2..12].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             name_raw: buffer[2..12].to_vec(),
-            point: i32::from_le_bytes([buffer[242], buffer[243], buffer[244], buffer[245]]),
-            point_raw: buffer[242..246].to_vec(),
+            point:  {
+                let mut dst: [i32; 10] = [0 as i32; 10];
+                for (index, byte) in buffer[242..252].iter().enumerate() {
+                dst[index] = *byte as i32;                }                dst
+            },
+            point_raw: buffer[242..252].to_vec(),
         }
     }
 }
@@ -35014,7 +35544,7 @@ impl Debug for PacketZcTaekwonRank {
             .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("name[2, 12]", &format!("{:02X?}", &self.name_raw))
-            .field("point[242, 246]", &format!("{:02X?}", &self.point_raw))
+            .field("point[242, 252]", &format!("{:02X?}", &self.point_raw))
         .finish()
     }
 }
@@ -35024,8 +35554,8 @@ impl Display for PacketZcTaekwonRank {
         f.debug_struct("PacketZcTaekwonRank")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("name(char[] as String)[2, 12]", &self.name)
-            .field("point(int as i32)[242, 246]", &self.point)
+            .field("name(char[] as char[])[2, 12]", &self.name)
+            .field("point(int[] as i32[])[242, 252]", &self.point)
         .finish()
     }
 }
@@ -35034,7 +35564,7 @@ pub struct PacketZcGameGuard {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub auth_data: u32,
+    pub auth_data: [u32; 4],
     pub auth_data_raw: Vec<u8>,
 }
 
@@ -35044,7 +35574,11 @@ impl PacketZcGameGuard {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            auth_data: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            auth_data:  {
+                let mut dst: [u32; 4] = [0 as u32; 4];
+                for (index, byte) in buffer[2..6].iter().enumerate() {
+                dst[index] = *byte as u32;                }                dst
+            },
             auth_data_raw: buffer[2..6].to_vec(),
         }
     }
@@ -35086,7 +35620,7 @@ impl Display for PacketZcGameGuard {
         f.debug_struct("PacketZcGameGuard")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("auth_data(unsigned long as u32)[2, 6]", &self.auth_data)
+            .field("auth_data(unsigned long[] as u32[])[2, 6]", &self.auth_data)
         .finish()
     }
 }
@@ -35095,7 +35629,7 @@ pub struct PacketCzAckGameGuard {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub auth_data: u32,
+    pub auth_data: [u32; 4],
     pub auth_data_raw: Vec<u8>,
 }
 
@@ -35105,7 +35639,11 @@ impl PacketCzAckGameGuard {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            auth_data: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            auth_data:  {
+                let mut dst: [u32; 4] = [0 as u32; 4];
+                for (index, byte) in buffer[2..6].iter().enumerate() {
+                dst[index] = *byte as u32;                }                dst
+            },
             auth_data_raw: buffer[2..6].to_vec(),
         }
     }
@@ -35147,7 +35685,7 @@ impl Display for PacketCzAckGameGuard {
         f.debug_struct("PacketCzAckGameGuard")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("auth_data(unsigned long as u32)[2, 6]", &self.auth_data)
+            .field("auth_data(unsigned long[] as u32[])[2, 6]", &self.auth_data)
         .finish()
     }
 }
@@ -35281,7 +35819,7 @@ pub struct PacketZcNotifyStandentry3 {
     pub is_pkmode_on_raw: Vec<u8>,
     pub sex: u8,
     pub sex_raw: Vec<u8>,
-    pub pos_dir: String,
+    pub pos_dir: [char; 3],
     pub pos_dir_raw: Vec<u8>,
     pub x_size: u8,
     pub x_size_raw: Vec<u8>,
@@ -35339,7 +35877,11 @@ impl PacketZcNotifyStandentry3 {
             is_pkmode_on_raw: buffer[48..49].to_vec(),
             sex: u8::from_le_bytes([buffer[49]]),
             sex_raw: buffer[49..50].to_vec(),
-            pos_dir: String::from_utf8_lossy(&buffer[50..53]).to_string(),
+            pos_dir:  {
+                let mut dst: [char; 3] = [0 as char; 3];
+                for (index, byte) in buffer[50..53].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             pos_dir_raw: buffer[50..53].to_vec(),
             x_size: u8::from_le_bytes([buffer[53]]),
             x_size_raw: buffer[53..54].to_vec(),
@@ -35433,7 +35975,7 @@ impl Display for PacketZcNotifyStandentry3 {
             .field("virtue(int as i32)[44, 48]", &self.virtue)
             .field("is_pkmode_on(bool as bool)[48, 49]", &self.is_pkmode_on)
             .field("sex(unsigned char as u8)[49, 50]", &self.sex)
-            .field("pos_dir(char[] as String)[50, 53]", &self.pos_dir)
+            .field("pos_dir(char[] as char[])[50, 53]", &self.pos_dir)
             .field("x_size(unsigned char as u8)[53, 54]", &self.x_size)
             .field("y_size(unsigned char as u8)[54, 55]", &self.y_size)
             .field("state(unsigned char as u8)[55, 56]", &self.state)
@@ -35486,7 +36028,7 @@ pub struct PacketZcNotifyNewentry3 {
     pub is_pkmode_on_raw: Vec<u8>,
     pub sex: u8,
     pub sex_raw: Vec<u8>,
-    pub pos_dir: String,
+    pub pos_dir: [char; 3],
     pub pos_dir_raw: Vec<u8>,
     pub x_size: u8,
     pub x_size_raw: Vec<u8>,
@@ -35542,7 +36084,11 @@ impl PacketZcNotifyNewentry3 {
             is_pkmode_on_raw: buffer[48..49].to_vec(),
             sex: u8::from_le_bytes([buffer[49]]),
             sex_raw: buffer[49..50].to_vec(),
-            pos_dir: String::from_utf8_lossy(&buffer[50..53]).to_string(),
+            pos_dir:  {
+                let mut dst: [char; 3] = [0 as char; 3];
+                for (index, byte) in buffer[50..53].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             pos_dir_raw: buffer[50..53].to_vec(),
             x_size: u8::from_le_bytes([buffer[53]]),
             x_size_raw: buffer[53..54].to_vec(),
@@ -35633,7 +36179,7 @@ impl Display for PacketZcNotifyNewentry3 {
             .field("virtue(int as i32)[44, 48]", &self.virtue)
             .field("is_pkmode_on(bool as bool)[48, 49]", &self.is_pkmode_on)
             .field("sex(unsigned char as u8)[49, 50]", &self.sex)
-            .field("pos_dir(char[] as String)[50, 53]", &self.pos_dir)
+            .field("pos_dir(char[] as char[])[50, 53]", &self.pos_dir)
             .field("x_size(unsigned char as u8)[53, 54]", &self.x_size)
             .field("y_size(unsigned char as u8)[54, 55]", &self.y_size)
             .field("clevel(short as i16)[55, 57]", &self.clevel)
@@ -35689,7 +36235,7 @@ pub struct PacketZcNotifyMoveentry3 {
     pub is_pkmode_on_raw: Vec<u8>,
     pub sex: u8,
     pub sex_raw: Vec<u8>,
-    pub move_data: String,
+    pub move_data: [u16; 6],
     pub move_data_raw: Vec<u8>,
     pub x_size: u8,
     pub x_size_raw: Vec<u8>,
@@ -35749,7 +36295,11 @@ impl PacketZcNotifyMoveentry3 {
             is_pkmode_on_raw: buffer[53..54].to_vec(),
             sex: u8::from_le_bytes([buffer[54]]),
             sex_raw: buffer[54..55].to_vec(),
-            move_data: String::from_utf8_lossy(&buffer[55..61]).to_string(),
+            move_data:  {
+                let mut dst: [u16; 6] = [0 as u16; 6];
+                for (index, byte) in buffer[55..61].iter().enumerate() {
+                dst[index] = *byte as u16;                }                dst
+            },
             move_data_raw: buffer[55..61].to_vec(),
             x_size: u8::from_le_bytes([buffer[61]]),
             x_size_raw: buffer[61..62].to_vec(),
@@ -35844,7 +36394,7 @@ impl Display for PacketZcNotifyMoveentry3 {
             .field("virtue(int as i32)[49, 53]", &self.virtue)
             .field("is_pkmode_on(bool as bool)[53, 54]", &self.is_pkmode_on)
             .field("sex(unsigned char as u8)[54, 55]", &self.sex)
-            .field("move_data(char[] as String)[55, 61]", &self.move_data)
+            .field("move_data(unsigned short[] as u16[])[55, 61]", &self.move_data)
             .field("x_size(unsigned char as u8)[61, 62]", &self.x_size)
             .field("y_size(unsigned char as u8)[62, 63]", &self.y_size)
             .field("clevel(short as i16)[63, 65]", &self.clevel)
@@ -35923,7 +36473,7 @@ pub struct PacketZcPropertyHomun {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub sz_name: String,
+    pub sz_name: [char; 24],
     pub sz_name_raw: Vec<u8>,
     pub b_modified: u8,
     pub b_modified_raw: Vec<u8>,
@@ -35975,7 +36525,11 @@ impl PacketZcPropertyHomun {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            sz_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            sz_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[2..26].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             sz_name_raw: buffer[2..26].to_vec(),
             b_modified: u8::from_le_bytes([buffer[26]]),
             b_modified_raw: buffer[26..27].to_vec(),
@@ -36080,7 +36634,7 @@ impl Display for PacketZcPropertyHomun {
         f.debug_struct("PacketZcPropertyHomun")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("sz_name(char[] as String)[2, 26]", &self.sz_name)
+            .field("sz_name(char[] as char[])[2, 26]", &self.sz_name)
             .field("b_modified(unsigned char as u8)[26, 27]", &self.b_modified)
             .field("n_level(short as i16)[27, 29]", &self.n_level)
             .field("n_fullness(short as i16)[29, 31]", &self.n_fullness)
@@ -36189,7 +36743,7 @@ pub struct PacketCzRenameMer {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub name: String,
+    pub name: [char; 24],
     pub name_raw: Vec<u8>,
 }
 
@@ -36199,7 +36753,11 @@ impl PacketCzRenameMer {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[2..26].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             name_raw: buffer[2..26].to_vec(),
         }
     }
@@ -36241,7 +36799,7 @@ impl Display for PacketCzRenameMer {
         f.debug_struct("PacketCzRenameMer")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("name(char[] as String)[2, 26]", &self.name)
+            .field("name(char[] as char[])[2, 26]", &self.name)
         .finish()
     }
 }
@@ -36252,7 +36810,7 @@ pub struct PacketCzRequestMovenpc {
     pub packet_id_raw: Vec<u8>,
     pub gid: u32,
     pub gid_raw: Vec<u8>,
-    pub dest: String,
+    pub dest: [char; 3],
     pub dest_raw: Vec<u8>,
 }
 
@@ -36264,7 +36822,11 @@ impl PacketCzRequestMovenpc {
             packet_id_raw: buffer[0..2].to_vec(),
             gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
             gid_raw: buffer[2..6].to_vec(),
-            dest: String::from_utf8_lossy(&buffer[6..9]).to_string(),
+            dest:  {
+                let mut dst: [char; 3] = [0 as char; 3];
+                for (index, byte) in buffer[6..9].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             dest_raw: buffer[6..9].to_vec(),
         }
     }
@@ -36308,7 +36870,7 @@ impl Display for PacketCzRequestMovenpc {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("gid(unsigned long as u32)[2, 6]", &self.gid)
-            .field("dest(char[] as String)[6, 9]", &self.dest)
+            .field("dest(char[] as char[])[6, 9]", &self.dest)
         .finish()
     }
 }
@@ -36514,9 +37076,9 @@ pub struct PacketCzAckStorePassword {
     pub packet_id_raw: Vec<u8>,
     pub atype: i16,
     pub atype_raw: Vec<u8>,
-    pub password: String,
+    pub password: [char; 16],
     pub password_raw: Vec<u8>,
-    pub new_password: String,
+    pub new_password: [char; 16],
     pub new_password_raw: Vec<u8>,
 }
 
@@ -36528,9 +37090,17 @@ impl PacketCzAckStorePassword {
             packet_id_raw: buffer[0..2].to_vec(),
             atype: i16::from_le_bytes([buffer[2], buffer[3]]),
             atype_raw: buffer[2..4].to_vec(),
-            password: String::from_utf8_lossy(&buffer[4..20]).to_string(),
+            password:  {
+                let mut dst: [char; 16] = [0 as char; 16];
+                for (index, byte) in buffer[4..20].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             password_raw: buffer[4..20].to_vec(),
-            new_password: String::from_utf8_lossy(&buffer[20..36]).to_string(),
+            new_password:  {
+                let mut dst: [char; 16] = [0 as char; 16];
+                for (index, byte) in buffer[20..36].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             new_password_raw: buffer[20..36].to_vec(),
         }
     }
@@ -36575,8 +37145,8 @@ impl Display for PacketCzAckStorePassword {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("atype(short as i16)[2, 4]", &self.atype)
-            .field("password(char[] as String)[4, 20]", &self.password)
-            .field("new_password(char[] as String)[20, 36]", &self.new_password)
+            .field("password(char[] as char[])[4, 20]", &self.password)
+            .field("new_password(char[] as char[])[20, 36]", &self.new_password)
         .finish()
     }
 }
@@ -36982,9 +37552,9 @@ pub struct PacketZcMailReqOpen {
     pub packet_length_raw: Vec<u8>,
     pub mail_id: i32,
     pub mail_id_raw: Vec<u8>,
-    pub header: String,
+    pub header: [char; 40],
     pub header_raw: Vec<u8>,
-    pub from_name: String,
+    pub from_name: [char; 24],
     pub from_name_raw: Vec<u8>,
     pub delete_time: i32,
     pub delete_time_raw: Vec<u8>,
@@ -37020,9 +37590,17 @@ impl PacketZcMailReqOpen {
             packet_length_raw: buffer[2..4].to_vec(),
             mail_id: i32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
             mail_id_raw: buffer[4..8].to_vec(),
-            header: String::from_utf8_lossy(&buffer[8..48]).to_string(),
+            header:  {
+                let mut dst: [char; 40] = [0 as char; 40];
+                for (index, byte) in buffer[8..48].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             header_raw: buffer[8..48].to_vec(),
-            from_name: String::from_utf8_lossy(&buffer[48..72]).to_string(),
+            from_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[48..72].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             from_name_raw: buffer[48..72].to_vec(),
             delete_time: i32::from_le_bytes([buffer[72], buffer[73], buffer[74], buffer[75]]),
             delete_time_raw: buffer[72..76].to_vec(),
@@ -37102,8 +37680,8 @@ impl Display for PacketZcMailReqOpen {
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("packet_length(short as i16)[2, 4]", &self.packet_length)
             .field("mail_id(int as i32)[4, 8]", &self.mail_id)
-            .field("header(char[] as String)[8, 48]", &self.header)
-            .field("from_name(char[] as String)[48, 72]", &self.from_name)
+            .field("header(char[] as char[])[8, 48]", &self.header)
+            .field("from_name(char[] as char[])[48, 72]", &self.from_name)
             .field("delete_time(long as i32)[72, 76]", &self.delete_time)
             .field("money(unsigned long as u32)[76, 80]", &self.money)
             .field("count(int as i32)[80, 84]", &self.count)
@@ -37436,9 +38014,9 @@ pub struct PacketCzMailSend {
     pub packet_id_raw: Vec<u8>,
     pub packet_length: i16,
     pub packet_length_raw: Vec<u8>,
-    pub receive_name: String,
+    pub receive_name: [char; 24],
     pub receive_name_raw: Vec<u8>,
-    pub header: String,
+    pub header: [char; 40],
     pub header_raw: Vec<u8>,
     pub msg_len: u32,
     pub msg_len_raw: Vec<u8>,
@@ -37454,9 +38032,17 @@ impl PacketCzMailSend {
             packet_id_raw: buffer[0..2].to_vec(),
             packet_length: i16::from_le_bytes([buffer[2], buffer[3]]),
             packet_length_raw: buffer[2..4].to_vec(),
-            receive_name: String::from_utf8_lossy(&buffer[4..28]).to_string(),
+            receive_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[4..28].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             receive_name_raw: buffer[4..28].to_vec(),
-            header: String::from_utf8_lossy(&buffer[28..68]).to_string(),
+            header:  {
+                let mut dst: [char; 40] = [0 as char; 40];
+                for (index, byte) in buffer[28..68].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             header_raw: buffer[28..68].to_vec(),
             msg_len: u32::from_le_bytes([buffer[68], buffer[69], buffer[70], buffer[71]]),
             msg_len_raw: buffer[68..72].to_vec(),
@@ -37507,8 +38093,8 @@ impl Display for PacketCzMailSend {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("packet_length(short as i16)[2, 4]", &self.packet_length)
-            .field("receive_name(char[] as String)[4, 28]", &self.receive_name)
-            .field("header(char[] as String)[28, 68]", &self.header)
+            .field("receive_name(char[] as char[])[4, 28]", &self.receive_name)
+            .field("header(char[] as char[])[28, 68]", &self.header)
             .field("msg_len(unsigned long as u32)[68, 72]", &self.msg_len)
             .field("msg(char[] as String)[72, ?]", &self.msg)
         .finish()
@@ -37582,9 +38168,9 @@ pub struct PacketZcMailReceive {
     pub packet_id_raw: Vec<u8>,
     pub mail_id: u32,
     pub mail_id_raw: Vec<u8>,
-    pub header: String,
+    pub header: [char; 40],
     pub header_raw: Vec<u8>,
-    pub from_name: String,
+    pub from_name: [char; 24],
     pub from_name_raw: Vec<u8>,
 }
 
@@ -37596,9 +38182,17 @@ impl PacketZcMailReceive {
             packet_id_raw: buffer[0..2].to_vec(),
             mail_id: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
             mail_id_raw: buffer[2..6].to_vec(),
-            header: String::from_utf8_lossy(&buffer[6..46]).to_string(),
+            header:  {
+                let mut dst: [char; 40] = [0 as char; 40];
+                for (index, byte) in buffer[6..46].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             header_raw: buffer[6..46].to_vec(),
-            from_name: String::from_utf8_lossy(&buffer[46..70]).to_string(),
+            from_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[46..70].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             from_name_raw: buffer[46..70].to_vec(),
         }
     }
@@ -37643,8 +38237,8 @@ impl Display for PacketZcMailReceive {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("mail_id(unsigned long as u32)[2, 6]", &self.mail_id)
-            .field("header(char[] as String)[6, 46]", &self.header)
-            .field("from_name(char[] as String)[46, 70]", &self.from_name)
+            .field("header(char[] as char[])[6, 46]", &self.header)
+            .field("from_name(char[] as char[])[46, 70]", &self.from_name)
         .finish()
     }
 }
@@ -38047,7 +38641,7 @@ pub struct PacketCzAuctionItemSearch {
     pub atype_raw: Vec<u8>,
     pub auction_id: u32,
     pub auction_id_raw: Vec<u8>,
-    pub name: String,
+    pub name: [char; 24],
     pub name_raw: Vec<u8>,
     pub page: u16,
     pub page_raw: Vec<u8>,
@@ -38063,7 +38657,11 @@ impl PacketCzAuctionItemSearch {
             atype_raw: buffer[2..4].to_vec(),
             auction_id: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
             auction_id_raw: buffer[4..8].to_vec(),
-            name: String::from_utf8_lossy(&buffer[8..32]).to_string(),
+            name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[8..32].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             name_raw: buffer[8..32].to_vec(),
             page: u16::from_le_bytes([buffer[32], buffer[33]]),
             page_raw: buffer[32..34].to_vec(),
@@ -38112,7 +38710,7 @@ impl Display for PacketCzAuctionItemSearch {
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("atype(short as i16)[2, 4]", &self.atype)
             .field("auction_id(unsigned long as u32)[4, 8]", &self.auction_id)
-            .field("name(char[] as String)[8, 32]", &self.name)
+            .field("name(char[] as char[])[8, 32]", &self.name)
             .field("page(unsigned short as u16)[32, 34]", &self.page)
         .finish()
     }
@@ -38651,7 +39249,7 @@ pub struct PacketZcMakingitemList {
     pub packet_id_raw: Vec<u8>,
     pub packet_length: i16,
     pub packet_length_raw: Vec<u8>,
-    pub id_list: u16,
+    pub id_list: Vec<u8>,
     pub id_list_raw: Vec<u8>,
 }
 
@@ -38663,8 +39261,11 @@ impl PacketZcMakingitemList {
             packet_id_raw: buffer[0..2].to_vec(),
             packet_length: i16::from_le_bytes([buffer[2], buffer[3]]),
             packet_length_raw: buffer[2..4].to_vec(),
-            id_list: u16::from_le_bytes([buffer[4], buffer[5]]),
-            id_list_raw: buffer[4..6].to_vec(),
+            id_list:  {
+                let dst: Vec<u8> = buffer[4..buffer.len()].to_vec();
+                dst
+            },
+            id_list_raw: buffer[4..buffer.len()].to_vec(),
         }
     }
 }
@@ -38696,7 +39297,7 @@ impl Debug for PacketZcMakingitemList {
             .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
-            .field("id_list[4, 6]", &format!("{:02X?}", &self.id_list_raw))
+            .field("id_list[4, ?]", &format!("{:02X?}", &self.id_list_raw))
         .finish()
     }
 }
@@ -38707,7 +39308,7 @@ impl Display for PacketZcMakingitemList {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("packet_length(short as i16)[2, 4]", &self.packet_length)
-            .field("id_list(unsigned short as u16)[4, 6]", &self.id_list)
+            .field("id_list([] as Array)[4, ?]", &self.id_list)
         .finish()
     }
 }
@@ -39088,7 +39689,7 @@ pub struct PacketAcReqLoginOldekey {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub m_seed_value: String,
+    pub m_seed_value: [char; 9],
     pub m_seed_value_raw: Vec<u8>,
 }
 
@@ -39098,7 +39699,11 @@ impl PacketAcReqLoginOldekey {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            m_seed_value: String::from_utf8_lossy(&buffer[2..11]).to_string(),
+            m_seed_value:  {
+                let mut dst: [char; 9] = [0 as char; 9];
+                for (index, byte) in buffer[2..11].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             m_seed_value_raw: buffer[2..11].to_vec(),
         }
     }
@@ -39140,7 +39745,7 @@ impl Display for PacketAcReqLoginOldekey {
         f.debug_struct("PacketAcReqLoginOldekey")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("m_seed_value(char[] as String)[2, 11]", &self.m_seed_value)
+            .field("m_seed_value(char[] as char[])[2, 11]", &self.m_seed_value)
         .finish()
     }
 }
@@ -39149,7 +39754,7 @@ pub struct PacketAcReqLoginNewekey {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub m_seed_value: String,
+    pub m_seed_value: [char; 9],
     pub m_seed_value_raw: Vec<u8>,
 }
 
@@ -39159,7 +39764,11 @@ impl PacketAcReqLoginNewekey {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            m_seed_value: String::from_utf8_lossy(&buffer[2..11]).to_string(),
+            m_seed_value:  {
+                let mut dst: [char; 9] = [0 as char; 9];
+                for (index, byte) in buffer[2..11].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             m_seed_value_raw: buffer[2..11].to_vec(),
         }
     }
@@ -39201,7 +39810,7 @@ impl Display for PacketAcReqLoginNewekey {
         f.debug_struct("PacketAcReqLoginNewekey")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("m_seed_value(char[] as String)[2, 11]", &self.m_seed_value)
+            .field("m_seed_value(char[] as char[])[2, 11]", &self.m_seed_value)
         .finish()
     }
 }
@@ -39210,7 +39819,7 @@ pub struct PacketAcReqLoginCardpass {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub m_seed_value: String,
+    pub m_seed_value: [char; 9],
     pub m_seed_value_raw: Vec<u8>,
 }
 
@@ -39220,7 +39829,11 @@ impl PacketAcReqLoginCardpass {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            m_seed_value: String::from_utf8_lossy(&buffer[2..11]).to_string(),
+            m_seed_value:  {
+                let mut dst: [char; 9] = [0 as char; 9];
+                for (index, byte) in buffer[2..11].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             m_seed_value_raw: buffer[2..11].to_vec(),
         }
     }
@@ -39262,7 +39875,7 @@ impl Display for PacketAcReqLoginCardpass {
         f.debug_struct("PacketAcReqLoginCardpass")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("m_seed_value(char[] as String)[2, 11]", &self.m_seed_value)
+            .field("m_seed_value(char[] as char[])[2, 11]", &self.m_seed_value)
         .finish()
     }
 }
@@ -39271,9 +39884,9 @@ pub struct PacketCaAckLoginOldekey {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub m_seed_value: String,
+    pub m_seed_value: [char; 9],
     pub m_seed_value_raw: Vec<u8>,
-    pub m_ekey: String,
+    pub m_ekey: [char; 9],
     pub m_ekey_raw: Vec<u8>,
 }
 
@@ -39283,9 +39896,17 @@ impl PacketCaAckLoginOldekey {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            m_seed_value: String::from_utf8_lossy(&buffer[2..11]).to_string(),
+            m_seed_value:  {
+                let mut dst: [char; 9] = [0 as char; 9];
+                for (index, byte) in buffer[2..11].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             m_seed_value_raw: buffer[2..11].to_vec(),
-            m_ekey: String::from_utf8_lossy(&buffer[11..20]).to_string(),
+            m_ekey:  {
+                let mut dst: [char; 9] = [0 as char; 9];
+                for (index, byte) in buffer[11..20].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             m_ekey_raw: buffer[11..20].to_vec(),
         }
     }
@@ -39328,8 +39949,8 @@ impl Display for PacketCaAckLoginOldekey {
         f.debug_struct("PacketCaAckLoginOldekey")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("m_seed_value(char[] as String)[2, 11]", &self.m_seed_value)
-            .field("m_ekey(char[] as String)[11, 20]", &self.m_ekey)
+            .field("m_seed_value(char[] as char[])[2, 11]", &self.m_seed_value)
+            .field("m_ekey(char[] as char[])[11, 20]", &self.m_ekey)
         .finish()
     }
 }
@@ -39338,9 +39959,9 @@ pub struct PacketCaAckLoginNewekey {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub m_seed_value: String,
+    pub m_seed_value: [char; 9],
     pub m_seed_value_raw: Vec<u8>,
-    pub m_ekey: String,
+    pub m_ekey: [char; 9],
     pub m_ekey_raw: Vec<u8>,
 }
 
@@ -39350,9 +39971,17 @@ impl PacketCaAckLoginNewekey {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            m_seed_value: String::from_utf8_lossy(&buffer[2..11]).to_string(),
+            m_seed_value:  {
+                let mut dst: [char; 9] = [0 as char; 9];
+                for (index, byte) in buffer[2..11].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             m_seed_value_raw: buffer[2..11].to_vec(),
-            m_ekey: String::from_utf8_lossy(&buffer[11..20]).to_string(),
+            m_ekey:  {
+                let mut dst: [char; 9] = [0 as char; 9];
+                for (index, byte) in buffer[11..20].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             m_ekey_raw: buffer[11..20].to_vec(),
         }
     }
@@ -39395,8 +40024,8 @@ impl Display for PacketCaAckLoginNewekey {
         f.debug_struct("PacketCaAckLoginNewekey")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("m_seed_value(char[] as String)[2, 11]", &self.m_seed_value)
-            .field("m_ekey(char[] as String)[11, 20]", &self.m_ekey)
+            .field("m_seed_value(char[] as char[])[2, 11]", &self.m_seed_value)
+            .field("m_ekey(char[] as char[])[11, 20]", &self.m_ekey)
         .finish()
     }
 }
@@ -39405,7 +40034,7 @@ pub struct PacketCaAckLoginCardpass {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub mcard_pass: String,
+    pub mcard_pass: [char; 28],
     pub mcard_pass_raw: Vec<u8>,
 }
 
@@ -39415,7 +40044,11 @@ impl PacketCaAckLoginCardpass {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            mcard_pass: String::from_utf8_lossy(&buffer[2..30]).to_string(),
+            mcard_pass:  {
+                let mut dst: [char; 28] = [0 as char; 28];
+                for (index, byte) in buffer[2..30].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             mcard_pass_raw: buffer[2..30].to_vec(),
         }
     }
@@ -39457,7 +40090,7 @@ impl Display for PacketCaAckLoginCardpass {
         f.debug_struct("PacketCaAckLoginCardpass")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("mcard_pass(char[] as String)[2, 30]", &self.mcard_pass)
+            .field("mcard_pass(char[] as char[])[2, 30]", &self.mcard_pass)
         .finish()
     }
 }
@@ -40068,7 +40701,7 @@ pub struct PacketCaAckLoginAccountInfo {
     pub sex_raw: Vec<u8>,
     pub b_point: i16,
     pub b_point_raw: Vec<u8>,
-    pub email: String,
+    pub email: [char; 34],
     pub email_raw: Vec<u8>,
 }
 
@@ -40082,7 +40715,11 @@ impl PacketCaAckLoginAccountInfo {
             sex_raw: buffer[2..4].to_vec(),
             b_point: i16::from_le_bytes([buffer[4], buffer[5]]),
             b_point_raw: buffer[4..6].to_vec(),
-            email: String::from_utf8_lossy(&buffer[6..40]).to_string(),
+            email:  {
+                let mut dst: [char; 34] = [0 as char; 34];
+                for (index, byte) in buffer[6..40].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             email_raw: buffer[6..40].to_vec(),
         }
     }
@@ -40128,7 +40765,7 @@ impl Display for PacketCaAckLoginAccountInfo {
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("sex(short as i16)[2, 4]", &self.sex)
             .field("b_point(short as i16)[4, 6]", &self.b_point)
-            .field("email(char[] as String)[6, 40]", &self.email)
+            .field("email(char[] as char[])[6, 40]", &self.email)
         .finish()
     }
 }
@@ -40137,9 +40774,9 @@ pub struct PacketAcAckPtIdInfo {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub sz_ptid: String,
+    pub sz_ptid: [char; 21],
     pub sz_ptid_raw: Vec<u8>,
-    pub sz_ptnum_id: String,
+    pub sz_ptnum_id: [char; 21],
     pub sz_ptnum_id_raw: Vec<u8>,
 }
 
@@ -40149,9 +40786,17 @@ impl PacketAcAckPtIdInfo {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            sz_ptid: String::from_utf8_lossy(&buffer[2..23]).to_string(),
+            sz_ptid:  {
+                let mut dst: [char; 21] = [0 as char; 21];
+                for (index, byte) in buffer[2..23].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             sz_ptid_raw: buffer[2..23].to_vec(),
-            sz_ptnum_id: String::from_utf8_lossy(&buffer[23..44]).to_string(),
+            sz_ptnum_id:  {
+                let mut dst: [char; 21] = [0 as char; 21];
+                for (index, byte) in buffer[23..44].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             sz_ptnum_id_raw: buffer[23..44].to_vec(),
         }
     }
@@ -40194,8 +40839,8 @@ impl Display for PacketAcAckPtIdInfo {
         f.debug_struct("PacketAcAckPtIdInfo")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("sz_ptid(char[] as String)[2, 23]", &self.sz_ptid)
-            .field("sz_ptnum_id(char[] as String)[23, 44]", &self.sz_ptnum_id)
+            .field("sz_ptid(char[] as char[])[2, 23]", &self.sz_ptid)
+            .field("sz_ptnum_id(char[] as char[])[23, 44]", &self.sz_ptnum_id)
         .finish()
     }
 }
@@ -40206,7 +40851,7 @@ pub struct PacketCzReqMailReturn {
     pub packet_id_raw: Vec<u8>,
     pub mail_id: i32,
     pub mail_id_raw: Vec<u8>,
-    pub receive_name: String,
+    pub receive_name: [char; 24],
     pub receive_name_raw: Vec<u8>,
 }
 
@@ -40218,7 +40863,11 @@ impl PacketCzReqMailReturn {
             packet_id_raw: buffer[0..2].to_vec(),
             mail_id: i32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
             mail_id_raw: buffer[2..6].to_vec(),
-            receive_name: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            receive_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[6..30].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             receive_name_raw: buffer[6..30].to_vec(),
         }
     }
@@ -40262,7 +40911,7 @@ impl Display for PacketCzReqMailReturn {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("mail_id(int as i32)[2, 6]", &self.mail_id)
-            .field("receive_name(char[] as String)[6, 30]", &self.receive_name)
+            .field("receive_name(char[] as char[])[6, 30]", &self.receive_name)
         .finish()
     }
 }
@@ -40348,7 +40997,7 @@ pub struct PacketChEnter2 {
     pub client_type_raw: Vec<u8>,
     pub sex: u8,
     pub sex_raw: Vec<u8>,
-    pub mac_data: String,
+    pub mac_data: [char; 16],
     pub mac_data_raw: Vec<u8>,
     pub i_account_sid: i32,
     pub i_account_sid_raw: Vec<u8>,
@@ -40370,7 +41019,11 @@ impl PacketChEnter2 {
             client_type_raw: buffer[14..16].to_vec(),
             sex: u8::from_le_bytes([buffer[16]]),
             sex_raw: buffer[16..17].to_vec(),
-            mac_data: String::from_utf8_lossy(&buffer[17..33]).to_string(),
+            mac_data:  {
+                let mut dst: [char; 16] = [0 as char; 16];
+                for (index, byte) in buffer[17..33].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             mac_data_raw: buffer[17..33].to_vec(),
             i_account_sid: i32::from_le_bytes([buffer[33], buffer[34], buffer[35], buffer[36]]),
             i_account_sid_raw: buffer[33..37].to_vec(),
@@ -40425,7 +41078,7 @@ impl Display for PacketChEnter2 {
             .field("user_level(unsigned long as u32)[10, 14]", &self.user_level)
             .field("client_type(unsigned short as u16)[14, 16]", &self.client_type)
             .field("sex(unsigned char as u8)[16, 17]", &self.sex)
-            .field("mac_data(char[] as String)[17, 33]", &self.mac_data)
+            .field("mac_data(char[] as char[])[17, 33]", &self.mac_data)
             .field("i_account_sid(int as i32)[33, 37]", &self.i_account_sid)
         .finish()
     }
@@ -40445,7 +41098,7 @@ pub struct PacketCaAcceptLogin2 {
     pub user_level_raw: Vec<u8>,
     pub last_login_ip: u32,
     pub last_login_ip_raw: Vec<u8>,
-    pub last_login_time: String,
+    pub last_login_time: [char; 26],
     pub last_login_time_raw: Vec<u8>,
     pub sex: u8,
     pub sex_raw: Vec<u8>,
@@ -40469,7 +41122,11 @@ impl PacketCaAcceptLogin2 {
             user_level_raw: buffer[12..16].to_vec(),
             last_login_ip: u32::from_le_bytes([buffer[16], buffer[17], buffer[18], buffer[19]]),
             last_login_ip_raw: buffer[16..20].to_vec(),
-            last_login_time: String::from_utf8_lossy(&buffer[20..46]).to_string(),
+            last_login_time:  {
+                let mut dst: [char; 26] = [0 as char; 26];
+                for (index, byte) in buffer[20..46].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             last_login_time_raw: buffer[20..46].to_vec(),
             sex: u8::from_le_bytes([buffer[46]]),
             sex_raw: buffer[46..47].to_vec(),
@@ -40527,7 +41184,7 @@ impl Display for PacketCaAcceptLogin2 {
             .field("aid(unsigned long as u32)[8, 12]", &self.aid)
             .field("user_level(unsigned long as u32)[12, 16]", &self.user_level)
             .field("last_login_ip(unsigned long as u32)[16, 20]", &self.last_login_ip)
-            .field("last_login_time(char[] as String)[20, 46]", &self.last_login_time)
+            .field("last_login_time(char[] as char[])[20, 46]", &self.last_login_time)
             .field("sex(unsigned char as u8)[46, 47]", &self.sex)
             .field("i_account_sid(int as i32)[47, 51]", &self.i_account_sid)
         .finish()
@@ -40540,15 +41197,15 @@ pub struct PacketCaLoginPcbang {
     pub packet_id_raw: Vec<u8>,
     pub version: u32,
     pub version_raw: Vec<u8>,
-    pub id: String,
+    pub id: [char; 24],
     pub id_raw: Vec<u8>,
-    pub passwd: String,
+    pub passwd: [char; 24],
     pub passwd_raw: Vec<u8>,
     pub clienttype: u8,
     pub clienttype_raw: Vec<u8>,
-    pub ip: String,
+    pub ip: [char; 16],
     pub ip_raw: Vec<u8>,
-    pub mac_adress: String,
+    pub mac_adress: [char; 13],
     pub mac_adress_raw: Vec<u8>,
 }
 
@@ -40560,15 +41217,31 @@ impl PacketCaLoginPcbang {
             packet_id_raw: buffer[0..2].to_vec(),
             version: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
             version_raw: buffer[2..6].to_vec(),
-            id: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            id:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[6..30].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             id_raw: buffer[6..30].to_vec(),
-            passwd: String::from_utf8_lossy(&buffer[30..54]).to_string(),
+            passwd:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[30..54].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             passwd_raw: buffer[30..54].to_vec(),
             clienttype: u8::from_le_bytes([buffer[54]]),
             clienttype_raw: buffer[54..55].to_vec(),
-            ip: String::from_utf8_lossy(&buffer[55..71]).to_string(),
+            ip:  {
+                let mut dst: [char; 16] = [0 as char; 16];
+                for (index, byte) in buffer[55..71].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             ip_raw: buffer[55..71].to_vec(),
-            mac_adress: String::from_utf8_lossy(&buffer[71..84]).to_string(),
+            mac_adress:  {
+                let mut dst: [char; 13] = [0 as char; 13];
+                for (index, byte) in buffer[71..84].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             mac_adress_raw: buffer[71..84].to_vec(),
         }
     }
@@ -40616,11 +41289,11 @@ impl Display for PacketCaLoginPcbang {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("version(unsigned long as u32)[2, 6]", &self.version)
-            .field("id(char[] as String)[6, 30]", &self.id)
-            .field("passwd(char[] as String)[30, 54]", &self.passwd)
+            .field("id(char[] as char[])[6, 30]", &self.id)
+            .field("passwd(char[] as char[])[30, 54]", &self.passwd)
             .field("clienttype(unsigned char as u8)[54, 55]", &self.clienttype)
-            .field("ip(char[] as String)[55, 71]", &self.ip)
-            .field("mac_adress(char[] as String)[71, 84]", &self.mac_adress)
+            .field("ip(char[] as char[])[55, 71]", &self.ip)
+            .field("mac_adress(char[] as char[])[71, 84]", &self.mac_adress)
         .finish()
     }
 }
@@ -40890,13 +41563,13 @@ pub struct PacketCaLogin4 {
     pub packet_id_raw: Vec<u8>,
     pub version: u32,
     pub version_raw: Vec<u8>,
-    pub id: String,
+    pub id: [char; 24],
     pub id_raw: Vec<u8>,
-    pub passwd_md5: String,
+    pub passwd_md5: [char; 16],
     pub passwd_md5_raw: Vec<u8>,
     pub clienttype: u8,
     pub clienttype_raw: Vec<u8>,
-    pub mac_data: String,
+    pub mac_data: [char; 13],
     pub mac_data_raw: Vec<u8>,
 }
 
@@ -40908,13 +41581,25 @@ impl PacketCaLogin4 {
             packet_id_raw: buffer[0..2].to_vec(),
             version: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
             version_raw: buffer[2..6].to_vec(),
-            id: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            id:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[6..30].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             id_raw: buffer[6..30].to_vec(),
-            passwd_md5: String::from_utf8_lossy(&buffer[30..46]).to_string(),
+            passwd_md5:  {
+                let mut dst: [char; 16] = [0 as char; 16];
+                for (index, byte) in buffer[30..46].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             passwd_md5_raw: buffer[30..46].to_vec(),
             clienttype: u8::from_le_bytes([buffer[46]]),
             clienttype_raw: buffer[46..47].to_vec(),
-            mac_data: String::from_utf8_lossy(&buffer[47..60]).to_string(),
+            mac_data:  {
+                let mut dst: [char; 13] = [0 as char; 13];
+                for (index, byte) in buffer[47..60].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             mac_data_raw: buffer[47..60].to_vec(),
         }
     }
@@ -40961,10 +41646,10 @@ impl Display for PacketCaLogin4 {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("version(unsigned long as u32)[2, 6]", &self.version)
-            .field("id(char[] as String)[6, 30]", &self.id)
-            .field("passwd_md5(char[] as String)[30, 46]", &self.passwd_md5)
+            .field("id(char[] as char[])[6, 30]", &self.id)
+            .field("passwd_md5(char[] as char[])[30, 46]", &self.passwd_md5)
             .field("clienttype(unsigned char as u8)[46, 47]", &self.clienttype)
-            .field("mac_data(char[] as String)[47, 60]", &self.mac_data)
+            .field("mac_data(char[] as char[])[47, 60]", &self.mac_data)
         .finish()
     }
 }
@@ -40973,7 +41658,7 @@ pub struct PacketZcPropertyMerce {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub name: String,
+    pub name: [char; 24],
     pub name_raw: Vec<u8>,
     pub level: i16,
     pub level_raw: Vec<u8>,
@@ -41017,7 +41702,11 @@ impl PacketZcPropertyMerce {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[2..26].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             name_raw: buffer[2..26].to_vec(),
             level: i16::from_le_bytes([buffer[26], buffer[27]]),
             level_raw: buffer[26..28].to_vec(),
@@ -41110,7 +41799,7 @@ impl Display for PacketZcPropertyMerce {
         f.debug_struct("PacketZcPropertyMerce")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("name(char[] as String)[2, 26]", &self.name)
+            .field("name(char[] as char[])[2, 26]", &self.name)
             .field("level(short as i16)[26, 28]", &self.level)
             .field("faith(short as i16)[28, 30]", &self.faith)
             .field("summon_count(short as i16)[30, 32]", &self.summon_count)
@@ -41410,9 +42099,9 @@ pub struct PacketZcGangsiRank {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub name: String,
+    pub name: [char; 10],
     pub name_raw: Vec<u8>,
-    pub point: i32,
+    pub point: [i32; 10],
     pub point_raw: Vec<u8>,
     pub packet_switch: i16,
     pub packet_switch_raw: Vec<u8>,
@@ -41424,10 +42113,18 @@ impl PacketZcGangsiRank {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            name: String::from_utf8_lossy(&buffer[2..12]).to_string(),
+            name:  {
+                let mut dst: [char; 10] = [0 as char; 10];
+                for (index, byte) in buffer[2..12].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             name_raw: buffer[2..12].to_vec(),
-            point: i32::from_le_bytes([buffer[242], buffer[243], buffer[244], buffer[245]]),
-            point_raw: buffer[242..246].to_vec(),
+            point:  {
+                let mut dst: [i32; 10] = [0 as i32; 10];
+                for (index, byte) in buffer[242..252].iter().enumerate() {
+                dst[index] = *byte as i32;                }                dst
+            },
+            point_raw: buffer[242..252].to_vec(),
             packet_switch: i16::from_le_bytes([buffer[282], buffer[283]]),
             packet_switch_raw: buffer[282..284].to_vec(),
         }
@@ -41461,7 +42158,7 @@ impl Debug for PacketZcGangsiRank {
             .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("name[2, 12]", &format!("{:02X?}", &self.name_raw))
-            .field("point[242, 246]", &format!("{:02X?}", &self.point_raw))
+            .field("point[242, 252]", &format!("{:02X?}", &self.point_raw))
             .field("packet_switch[282, 284]", &format!("{:02X?}", &self.packet_switch_raw))
         .finish()
     }
@@ -41472,8 +42169,8 @@ impl Display for PacketZcGangsiRank {
         f.debug_struct("PacketZcGangsiRank")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("name(char[] as String)[2, 12]", &self.name)
-            .field("point(int as i32)[242, 246]", &self.point)
+            .field("name(char[] as char[])[2, 12]", &self.name)
+            .field("point(int[] as i32[])[242, 252]", &self.point)
             .field("packet_switch(short as i16)[282, 284]", &self.packet_switch)
         .finish()
     }
@@ -42044,7 +42741,7 @@ pub struct PacketChSelectCharGoingtobeused {
     pub dw_aid_raw: Vec<u8>,
     pub n_count_selected_char: i32,
     pub n_count_selected_char_raw: Vec<u8>,
-    pub ardw_selected_gid: u32,
+    pub ardw_selected_gid: [u32; 9],
     pub ardw_selected_gid_raw: Vec<u8>,
 }
 
@@ -42058,8 +42755,12 @@ impl PacketChSelectCharGoingtobeused {
             dw_aid_raw: buffer[2..6].to_vec(),
             n_count_selected_char: i32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
             n_count_selected_char_raw: buffer[6..10].to_vec(),
-            ardw_selected_gid: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
-            ardw_selected_gid_raw: buffer[10..14].to_vec(),
+            ardw_selected_gid:  {
+                let mut dst: [u32; 9] = [0 as u32; 9];
+                for (index, byte) in buffer[10..19].iter().enumerate() {
+                dst[index] = *byte as u32;                }                dst
+            },
+            ardw_selected_gid_raw: buffer[10..19].to_vec(),
         }
     }
 }
@@ -42092,7 +42793,7 @@ impl Debug for PacketChSelectCharGoingtobeused {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("dw_aid[2, 6]", &format!("{:02X?}", &self.dw_aid_raw))
             .field("n_count_selected_char[6, 10]", &format!("{:02X?}", &self.n_count_selected_char_raw))
-            .field("ardw_selected_gid[10, 14]", &format!("{:02X?}", &self.ardw_selected_gid_raw))
+            .field("ardw_selected_gid[10, 19]", &format!("{:02X?}", &self.ardw_selected_gid_raw))
         .finish()
     }
 }
@@ -42104,7 +42805,7 @@ impl Display for PacketChSelectCharGoingtobeused {
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("dw_aid(unsigned long as u32)[2, 6]", &self.dw_aid)
             .field("n_count_selected_char(int as i32)[6, 10]", &self.n_count_selected_char)
-            .field("ardw_selected_gid(unsigned long as u32)[10, 14]", &self.ardw_selected_gid)
+            .field("ardw_selected_gid(unsigned long[] as u32[])[10, 19]", &self.ardw_selected_gid)
         .finish()
     }
 }
@@ -42117,7 +42818,7 @@ pub struct PacketChReqIsValidCharname {
     pub dw_aid_raw: Vec<u8>,
     pub dw_gid: u32,
     pub dw_gid_raw: Vec<u8>,
-    pub sz_char_name: String,
+    pub sz_char_name: [char; 24],
     pub sz_char_name_raw: Vec<u8>,
 }
 
@@ -42131,7 +42832,11 @@ impl PacketChReqIsValidCharname {
             dw_aid_raw: buffer[2..6].to_vec(),
             dw_gid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
             dw_gid_raw: buffer[6..10].to_vec(),
-            sz_char_name: String::from_utf8_lossy(&buffer[10..34]).to_string(),
+            sz_char_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[10..34].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             sz_char_name_raw: buffer[10..34].to_vec(),
         }
     }
@@ -42177,7 +42882,7 @@ impl Display for PacketChReqIsValidCharname {
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("dw_aid(unsigned long as u32)[2, 6]", &self.dw_aid)
             .field("dw_gid(unsigned long as u32)[6, 10]", &self.dw_gid)
-            .field("sz_char_name(char[] as String)[10, 34]", &self.sz_char_name)
+            .field("sz_char_name(char[] as char[])[10, 34]", &self.sz_char_name)
         .finish()
     }
 }
@@ -42499,7 +43204,7 @@ pub struct PacketZcBossInfo {
     pub max_hour_raw: Vec<u8>,
     pub max_minute: u16,
     pub max_minute_raw: Vec<u8>,
-    pub name: String,
+    pub name: [char; 51],
     pub name_raw: Vec<u8>,
 }
 
@@ -42523,7 +43228,11 @@ impl PacketZcBossInfo {
             max_hour_raw: buffer[15..17].to_vec(),
             max_minute: u16::from_le_bytes([buffer[17], buffer[18]]),
             max_minute_raw: buffer[17..19].to_vec(),
-            name: String::from_utf8_lossy(&buffer[19..70]).to_string(),
+            name:  {
+                let mut dst: [char; 51] = [0 as char; 51];
+                for (index, byte) in buffer[19..70].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             name_raw: buffer[19..70].to_vec(),
         }
     }
@@ -42579,7 +43288,7 @@ impl Display for PacketZcBossInfo {
             .field("min_minute(unsigned short as u16)[13, 15]", &self.min_minute)
             .field("max_hour(unsigned short as u16)[15, 17]", &self.max_hour)
             .field("max_minute(unsigned short as u16)[17, 19]", &self.max_minute)
-            .field("name(char[] as String)[19, 70]", &self.name)
+            .field("name(char[] as char[])[19, 70]", &self.name)
         .finish()
     }
 }
@@ -43156,7 +43865,7 @@ pub struct PacketZcMerInit {
     pub flee_raw: Vec<u8>,
     pub aspd: i16,
     pub aspd_raw: Vec<u8>,
-    pub name: String,
+    pub name: [char; 24],
     pub name_raw: Vec<u8>,
     pub level: i16,
     pub level_raw: Vec<u8>,
@@ -43204,7 +43913,11 @@ impl PacketZcMerInit {
             flee_raw: buffer[18..20].to_vec(),
             aspd: i16::from_le_bytes([buffer[20], buffer[21]]),
             aspd_raw: buffer[20..22].to_vec(),
-            name: String::from_utf8_lossy(&buffer[22..46]).to_string(),
+            name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[22..46].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             name_raw: buffer[22..46].to_vec(),
             level: i16::from_le_bytes([buffer[46], buffer[47]]),
             level_raw: buffer[46..48].to_vec(),
@@ -43294,7 +44007,7 @@ impl Display for PacketZcMerInit {
             .field("mdef(short as i16)[16, 18]", &self.mdef)
             .field("flee(short as i16)[18, 20]", &self.flee)
             .field("aspd(short as i16)[20, 22]", &self.aspd)
-            .field("name(char[] as String)[22, 46]", &self.name)
+            .field("name(char[] as char[])[22, 46]", &self.name)
             .field("level(short as i16)[46, 48]", &self.level)
             .field("hp(int as i32)[48, 52]", &self.hp)
             .field("max_hp(int as i32)[52, 56]", &self.max_hp)
@@ -43329,7 +44042,7 @@ pub struct PacketZcMerProperty {
     pub flee_raw: Vec<u8>,
     pub aspd: i16,
     pub aspd_raw: Vec<u8>,
-    pub name: String,
+    pub name: [char; 24],
     pub name_raw: Vec<u8>,
     pub level: i16,
     pub level_raw: Vec<u8>,
@@ -43373,7 +44086,11 @@ impl PacketZcMerProperty {
             flee_raw: buffer[14..16].to_vec(),
             aspd: i16::from_le_bytes([buffer[16], buffer[17]]),
             aspd_raw: buffer[16..18].to_vec(),
-            name: String::from_utf8_lossy(&buffer[18..42]).to_string(),
+            name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[18..42].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             name_raw: buffer[18..42].to_vec(),
             level: i16::from_le_bytes([buffer[42], buffer[43]]),
             level_raw: buffer[42..44].to_vec(),
@@ -43458,7 +44175,7 @@ impl Display for PacketZcMerProperty {
             .field("mdef(short as i16)[12, 14]", &self.mdef)
             .field("flee(short as i16)[14, 16]", &self.flee)
             .field("aspd(short as i16)[16, 18]", &self.aspd)
-            .field("name(char[] as String)[18, 42]", &self.name)
+            .field("name(char[] as char[])[18, 42]", &self.name)
             .field("level(short as i16)[42, 44]", &self.level)
             .field("hp(short as i16)[44, 46]", &self.hp)
             .field("max_hp(short as i16)[46, 48]", &self.max_hp)
@@ -44090,9 +44807,9 @@ pub struct PacketCzAckCashPassword {
     pub packet_id_raw: Vec<u8>,
     pub atype: i16,
     pub atype_raw: Vec<u8>,
-    pub password: String,
+    pub password: [char; 16],
     pub password_raw: Vec<u8>,
-    pub new_password: String,
+    pub new_password: [char; 16],
     pub new_password_raw: Vec<u8>,
 }
 
@@ -44104,9 +44821,17 @@ impl PacketCzAckCashPassword {
             packet_id_raw: buffer[0..2].to_vec(),
             atype: i16::from_le_bytes([buffer[2], buffer[3]]),
             atype_raw: buffer[2..4].to_vec(),
-            password: String::from_utf8_lossy(&buffer[4..20]).to_string(),
+            password:  {
+                let mut dst: [char; 16] = [0 as char; 16];
+                for (index, byte) in buffer[4..20].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             password_raw: buffer[4..20].to_vec(),
-            new_password: String::from_utf8_lossy(&buffer[20..36]).to_string(),
+            new_password:  {
+                let mut dst: [char; 16] = [0 as char; 16];
+                for (index, byte) in buffer[20..36].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             new_password_raw: buffer[20..36].to_vec(),
         }
     }
@@ -44151,8 +44876,8 @@ impl Display for PacketCzAckCashPassword {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("atype(short as i16)[2, 4]", &self.atype)
-            .field("password(char[] as String)[4, 20]", &self.password)
-            .field("new_password(char[] as String)[20, 36]", &self.new_password)
+            .field("password(char[] as char[])[4, 20]", &self.password)
+            .field("new_password(char[] as char[])[20, 36]", &self.new_password)
         .finish()
     }
 }
@@ -44297,15 +45022,15 @@ pub struct PacketCaLoginHan {
     pub packet_id_raw: Vec<u8>,
     pub version: u32,
     pub version_raw: Vec<u8>,
-    pub id: String,
+    pub id: [char; 24],
     pub id_raw: Vec<u8>,
-    pub passwd: String,
+    pub passwd: [char; 24],
     pub passwd_raw: Vec<u8>,
     pub clienttype: u8,
     pub clienttype_raw: Vec<u8>,
-    pub m_sz_ip: String,
+    pub m_sz_ip: [char; 16],
     pub m_sz_ip_raw: Vec<u8>,
-    pub m_sz_mac_addr: String,
+    pub m_sz_mac_addr: [char; 13],
     pub m_sz_mac_addr_raw: Vec<u8>,
     pub is_han_game_user: u8,
     pub is_han_game_user_raw: Vec<u8>,
@@ -44319,15 +45044,31 @@ impl PacketCaLoginHan {
             packet_id_raw: buffer[0..2].to_vec(),
             version: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
             version_raw: buffer[2..6].to_vec(),
-            id: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            id:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[6..30].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             id_raw: buffer[6..30].to_vec(),
-            passwd: String::from_utf8_lossy(&buffer[30..54]).to_string(),
+            passwd:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[30..54].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             passwd_raw: buffer[30..54].to_vec(),
             clienttype: u8::from_le_bytes([buffer[54]]),
             clienttype_raw: buffer[54..55].to_vec(),
-            m_sz_ip: String::from_utf8_lossy(&buffer[55..71]).to_string(),
+            m_sz_ip:  {
+                let mut dst: [char; 16] = [0 as char; 16];
+                for (index, byte) in buffer[55..71].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             m_sz_ip_raw: buffer[55..71].to_vec(),
-            m_sz_mac_addr: String::from_utf8_lossy(&buffer[71..84]).to_string(),
+            m_sz_mac_addr:  {
+                let mut dst: [char; 13] = [0 as char; 13];
+                for (index, byte) in buffer[71..84].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             m_sz_mac_addr_raw: buffer[71..84].to_vec(),
             is_han_game_user: u8::from_le_bytes([buffer[84]]),
             is_han_game_user_raw: buffer[84..85].to_vec(),
@@ -44378,11 +45119,11 @@ impl Display for PacketCaLoginHan {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("version(unsigned long as u32)[2, 6]", &self.version)
-            .field("id(char[] as String)[6, 30]", &self.id)
-            .field("passwd(char[] as String)[30, 54]", &self.passwd)
+            .field("id(char[] as char[])[6, 30]", &self.id)
+            .field("passwd(char[] as char[])[30, 54]", &self.passwd)
             .field("clienttype(unsigned char as u8)[54, 55]", &self.clienttype)
-            .field("m_sz_ip(char[] as String)[55, 71]", &self.m_sz_ip)
-            .field("m_sz_mac_addr(char[] as String)[71, 84]", &self.m_sz_mac_addr)
+            .field("m_sz_ip(char[] as char[])[55, 71]", &self.m_sz_ip)
+            .field("m_sz_mac_addr(char[] as char[])[71, 84]", &self.m_sz_mac_addr)
             .field("is_han_game_user(unsigned char as u8)[84, 85]", &self.is_han_game_user)
         .finish()
     }
@@ -45587,7 +46328,7 @@ pub struct PacketCzPartyJoinReq {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub character_name: String,
+    pub character_name: [char; 24],
     pub character_name_raw: Vec<u8>,
 }
 
@@ -45597,7 +46338,11 @@ impl PacketCzPartyJoinReq {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            character_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            character_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[2..26].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             character_name_raw: buffer[2..26].to_vec(),
         }
     }
@@ -45639,7 +46384,7 @@ impl Display for PacketCzPartyJoinReq {
         f.debug_struct("PacketCzPartyJoinReq")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("character_name(char[] as String)[2, 26]", &self.character_name)
+            .field("character_name(char[] as char[])[2, 26]", &self.character_name)
         .finish()
     }
 }
@@ -45648,7 +46393,7 @@ pub struct PacketZcPartyJoinReqAck {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub character_name: String,
+    pub character_name: [char; 24],
     pub character_name_raw: Vec<u8>,
     pub answer: i32,
     pub answer_raw: Vec<u8>,
@@ -45660,7 +46405,11 @@ impl PacketZcPartyJoinReqAck {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            character_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            character_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[2..26].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             character_name_raw: buffer[2..26].to_vec(),
             answer: i32::from_le_bytes([buffer[26], buffer[27], buffer[28], buffer[29]]),
             answer_raw: buffer[26..30].to_vec(),
@@ -45705,7 +46454,7 @@ impl Display for PacketZcPartyJoinReqAck {
         f.debug_struct("PacketZcPartyJoinReqAck")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("character_name(char[] as String)[2, 26]", &self.character_name)
+            .field("character_name(char[] as char[])[2, 26]", &self.character_name)
             .field("answer(long as i32)[26, 30]", &self.answer)
         .finish()
     }
@@ -45717,7 +46466,7 @@ pub struct PacketZcPartyJoinReq {
     pub packet_id_raw: Vec<u8>,
     pub grid: u32,
     pub grid_raw: Vec<u8>,
-    pub group_name: String,
+    pub group_name: [char; 24],
     pub group_name_raw: Vec<u8>,
 }
 
@@ -45729,7 +46478,11 @@ impl PacketZcPartyJoinReq {
             packet_id_raw: buffer[0..2].to_vec(),
             grid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
             grid_raw: buffer[2..6].to_vec(),
-            group_name: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            group_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[6..30].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             group_name_raw: buffer[6..30].to_vec(),
         }
     }
@@ -45773,7 +46526,7 @@ impl Display for PacketZcPartyJoinReq {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("grid(unsigned long as u32)[2, 6]", &self.grid)
-            .field("group_name(char[] as String)[6, 30]", &self.group_name)
+            .field("group_name(char[] as char[])[6, 30]", &self.group_name)
         .finish()
     }
 }
@@ -46032,7 +46785,7 @@ pub struct PacketZcMemorialdungeonSubscriptionInfo {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub memorial_dungeon_name: String,
+    pub memorial_dungeon_name: [char; 61],
     pub memorial_dungeon_name_raw: Vec<u8>,
     pub priority_order_num: i16,
     pub priority_order_num_raw: Vec<u8>,
@@ -46044,7 +46797,11 @@ impl PacketZcMemorialdungeonSubscriptionInfo {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            memorial_dungeon_name: String::from_utf8_lossy(&buffer[2..63]).to_string(),
+            memorial_dungeon_name:  {
+                let mut dst: [char; 61] = [0 as char; 61];
+                for (index, byte) in buffer[2..63].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             memorial_dungeon_name_raw: buffer[2..63].to_vec(),
             priority_order_num: i16::from_le_bytes([buffer[63], buffer[64]]),
             priority_order_num_raw: buffer[63..65].to_vec(),
@@ -46089,7 +46846,7 @@ impl Display for PacketZcMemorialdungeonSubscriptionInfo {
         f.debug_struct("PacketZcMemorialdungeonSubscriptionInfo")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("memorial_dungeon_name(char[] as String)[2, 63]", &self.memorial_dungeon_name)
+            .field("memorial_dungeon_name(char[] as char[])[2, 63]", &self.memorial_dungeon_name)
             .field("priority_order_num(short as i16)[63, 65]", &self.priority_order_num)
         .finish()
     }
@@ -46160,7 +46917,7 @@ pub struct PacketZcMemorialdungeonInfo {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub memorial_dungeon_name: String,
+    pub memorial_dungeon_name: [char; 61],
     pub memorial_dungeon_name_raw: Vec<u8>,
     pub destroy_date: u32,
     pub destroy_date_raw: Vec<u8>,
@@ -46174,7 +46931,11 @@ impl PacketZcMemorialdungeonInfo {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            memorial_dungeon_name: String::from_utf8_lossy(&buffer[2..63]).to_string(),
+            memorial_dungeon_name:  {
+                let mut dst: [char; 61] = [0 as char; 61];
+                for (index, byte) in buffer[2..63].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             memorial_dungeon_name_raw: buffer[2..63].to_vec(),
             destroy_date: u32::from_le_bytes([buffer[63], buffer[64], buffer[65], buffer[66]]),
             destroy_date_raw: buffer[63..67].to_vec(),
@@ -46222,7 +46983,7 @@ impl Display for PacketZcMemorialdungeonInfo {
         f.debug_struct("PacketZcMemorialdungeonInfo")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("memorial_dungeon_name(char[] as String)[2, 63]", &self.memorial_dungeon_name)
+            .field("memorial_dungeon_name(char[] as char[])[2, 63]", &self.memorial_dungeon_name)
             .field("destroy_date(unsigned long as u32)[63, 67]", &self.destroy_date)
             .field("enter_time_out_date(unsigned long as u32)[67, 71]", &self.enter_time_out_date)
         .finish()
@@ -46895,7 +47656,7 @@ pub struct PacketZcEquipwinMicroscope {
     pub packet_id_raw: Vec<u8>,
     pub packet_length: i16,
     pub packet_length_raw: Vec<u8>,
-    pub character_name: String,
+    pub character_name: [char; 24],
     pub character_name_raw: Vec<u8>,
     pub job: i16,
     pub job_raw: Vec<u8>,
@@ -46934,7 +47695,11 @@ impl PacketZcEquipwinMicroscope {
             packet_id_raw: buffer[0..2].to_vec(),
             packet_length: i16::from_le_bytes([buffer[2], buffer[3]]),
             packet_length_raw: buffer[2..4].to_vec(),
-            character_name: String::from_utf8_lossy(&buffer[4..28]).to_string(),
+            character_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[4..28].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             character_name_raw: buffer[4..28].to_vec(),
             job: i16::from_le_bytes([buffer[28], buffer[29]]),
             job_raw: buffer[28..30].to_vec(),
@@ -47005,7 +47770,7 @@ impl Display for PacketZcEquipwinMicroscope {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("packet_length(short as i16)[2, 4]", &self.packet_length)
-            .field("character_name(char[] as String)[4, 28]", &self.character_name)
+            .field("character_name(char[] as char[])[4, 28]", &self.character_name)
             .field("job(short as i16)[28, 30]", &self.job)
             .field("head(short as i16)[30, 32]", &self.head)
             .field("accessory(short as i16)[32, 34]", &self.accessory)
@@ -47289,7 +48054,7 @@ pub struct PacketZcBattlefieldChat {
     pub packet_length_raw: Vec<u8>,
     pub account_id: u32,
     pub account_id_raw: Vec<u8>,
-    pub name: String,
+    pub name: [char; 24],
     pub name_raw: Vec<u8>,
     pub msg: String,
     pub msg_raw: Vec<u8>,
@@ -47305,7 +48070,11 @@ impl PacketZcBattlefieldChat {
             packet_length_raw: buffer[2..4].to_vec(),
             account_id: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
             account_id_raw: buffer[4..8].to_vec(),
-            name: String::from_utf8_lossy(&buffer[8..32]).to_string(),
+            name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[8..32].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             name_raw: buffer[8..32].to_vec(),
             msg: String::from_utf8_lossy(&buffer[32..buffer.len()]).to_string(),
             msg_raw: buffer[32..buffer.len()].to_vec(),
@@ -47354,7 +48123,7 @@ impl Display for PacketZcBattlefieldChat {
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("packet_length(short as i16)[2, 4]", &self.packet_length)
             .field("account_id(unsigned long as u32)[4, 8]", &self.account_id)
-            .field("name(char[] as String)[8, 32]", &self.name)
+            .field("name(char[] as char[])[8, 32]", &self.name)
             .field("msg(char[] as String)[32, ?]", &self.msg)
         .finish()
     }
@@ -47366,7 +48135,7 @@ pub struct PacketZcBattlefieldNotifyCampinfo {
     pub packet_id_raw: Vec<u8>,
     pub account_id: u32,
     pub account_id_raw: Vec<u8>,
-    pub name: String,
+    pub name: [char; 24],
     pub name_raw: Vec<u8>,
     pub camp: i16,
     pub camp_raw: Vec<u8>,
@@ -47380,7 +48149,11 @@ impl PacketZcBattlefieldNotifyCampinfo {
             packet_id_raw: buffer[0..2].to_vec(),
             account_id: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
             account_id_raw: buffer[2..6].to_vec(),
-            name: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[6..30].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             name_raw: buffer[6..30].to_vec(),
             camp: i16::from_le_bytes([buffer[30], buffer[31]]),
             camp_raw: buffer[30..32].to_vec(),
@@ -47427,7 +48200,7 @@ impl Display for PacketZcBattlefieldNotifyCampinfo {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("account_id(unsigned long as u32)[2, 6]", &self.account_id)
-            .field("name(char[] as String)[6, 30]", &self.name)
+            .field("name(char[] as char[])[6, 30]", &self.name)
             .field("camp(short as i16)[30, 32]", &self.camp)
         .finish()
     }
@@ -47506,7 +48279,7 @@ pub struct PacketZcBattlefieldNotifyPosition {
     pub packet_id_raw: Vec<u8>,
     pub account_id: u32,
     pub account_id_raw: Vec<u8>,
-    pub name: String,
+    pub name: [char; 24],
     pub name_raw: Vec<u8>,
     pub job: u16,
     pub job_raw: Vec<u8>,
@@ -47524,7 +48297,11 @@ impl PacketZcBattlefieldNotifyPosition {
             packet_id_raw: buffer[0..2].to_vec(),
             account_id: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
             account_id_raw: buffer[2..6].to_vec(),
-            name: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[6..30].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             name_raw: buffer[6..30].to_vec(),
             job: u16::from_le_bytes([buffer[30], buffer[31]]),
             job_raw: buffer[30..32].to_vec(),
@@ -47577,7 +48354,7 @@ impl Display for PacketZcBattlefieldNotifyPosition {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("account_id(unsigned long as u32)[2, 6]", &self.account_id)
-            .field("name(char[] as String)[6, 30]", &self.name)
+            .field("name(char[] as char[])[6, 30]", &self.name)
             .field("job(unsigned short as u16)[30, 32]", &self.job)
             .field("x(short as i16)[32, 34]", &self.x)
             .field("y(short as i16)[34, 36]", &self.y)
@@ -47591,7 +48368,7 @@ pub struct PacketZcBattlefieldNotifyHp {
     pub packet_id_raw: Vec<u8>,
     pub account_id: u32,
     pub account_id_raw: Vec<u8>,
-    pub name: String,
+    pub name: [char; 24],
     pub name_raw: Vec<u8>,
     pub hp: i16,
     pub hp_raw: Vec<u8>,
@@ -47607,7 +48384,11 @@ impl PacketZcBattlefieldNotifyHp {
             packet_id_raw: buffer[0..2].to_vec(),
             account_id: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
             account_id_raw: buffer[2..6].to_vec(),
-            name: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[6..30].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             name_raw: buffer[6..30].to_vec(),
             hp: i16::from_le_bytes([buffer[30], buffer[31]]),
             hp_raw: buffer[30..32].to_vec(),
@@ -47657,7 +48438,7 @@ impl Display for PacketZcBattlefieldNotifyHp {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("account_id(unsigned long as u32)[2, 6]", &self.account_id)
-            .field("name(char[] as String)[6, 30]", &self.name)
+            .field("name(char[] as char[])[6, 30]", &self.name)
             .field("hp(short as i16)[30, 32]", &self.hp)
             .field("max_hp(short as i16)[32, 34]", &self.max_hp)
         .finish()
@@ -47842,7 +48623,7 @@ pub struct PacketZcMapproperty {
     pub packet_length_raw: Vec<u8>,
     pub atype: i16,
     pub atype_raw: Vec<u8>,
-    pub map_info_table: i32,
+    pub map_info_table: Vec<u8>,
     pub map_info_table_raw: Vec<u8>,
 }
 
@@ -47856,8 +48637,11 @@ impl PacketZcMapproperty {
             packet_length_raw: buffer[2..4].to_vec(),
             atype: i16::from_le_bytes([buffer[4], buffer[5]]),
             atype_raw: buffer[4..6].to_vec(),
-            map_info_table: i32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
-            map_info_table_raw: buffer[6..10].to_vec(),
+            map_info_table:  {
+                let dst: Vec<u8> = buffer[6..buffer.len()].to_vec();
+                dst
+            },
+            map_info_table_raw: buffer[6..buffer.len()].to_vec(),
         }
     }
 }
@@ -47890,7 +48674,7 @@ impl Debug for PacketZcMapproperty {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("atype[4, 6]", &format!("{:02X?}", &self.atype_raw))
-            .field("map_info_table[6, 10]", &format!("{:02X?}", &self.map_info_table_raw))
+            .field("map_info_table[6, ?]", &format!("{:02X?}", &self.map_info_table_raw))
         .finish()
     }
 }
@@ -47902,7 +48686,7 @@ impl Display for PacketZcMapproperty {
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("packet_length(short as i16)[2, 4]", &self.packet_length)
             .field("atype(short as i16)[4, 6]", &self.atype)
-            .field("map_info_table(int as i32)[6, 10]", &self.map_info_table)
+            .field("map_info_table([] as Array)[6, ?]", &self.map_info_table)
         .finish()
     }
 }
@@ -48141,7 +48925,7 @@ pub struct PacketZcAcceptEnter2 {
     pub packet_id_raw: Vec<u8>,
     pub start_time: u32,
     pub start_time_raw: Vec<u8>,
-    pub pos_dir: String,
+    pub pos_dir: [char; 3],
     pub pos_dir_raw: Vec<u8>,
     pub x_size: u8,
     pub x_size_raw: Vec<u8>,
@@ -48159,7 +48943,11 @@ impl PacketZcAcceptEnter2 {
             packet_id_raw: buffer[0..2].to_vec(),
             start_time: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
             start_time_raw: buffer[2..6].to_vec(),
-            pos_dir: String::from_utf8_lossy(&buffer[6..9]).to_string(),
+            pos_dir:  {
+                let mut dst: [char; 3] = [0 as char; 3];
+                for (index, byte) in buffer[6..9].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             pos_dir_raw: buffer[6..9].to_vec(),
             x_size: u8::from_le_bytes([buffer[9]]),
             x_size_raw: buffer[9..10].to_vec(),
@@ -48212,7 +49000,7 @@ impl Display for PacketZcAcceptEnter2 {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("start_time(unsigned long as u32)[2, 6]", &self.start_time)
-            .field("pos_dir(char[] as String)[6, 9]", &self.pos_dir)
+            .field("pos_dir(char[] as char[])[6, 9]", &self.pos_dir)
             .field("x_size(unsigned char as u8)[9, 10]", &self.x_size)
             .field("y_size(unsigned char as u8)[10, 11]", &self.y_size)
             .field("font(short as i16)[11, 13]", &self.font)
@@ -48268,7 +49056,7 @@ pub struct PacketZcNotifyMoveentry4 {
     pub is_pkmode_on_raw: Vec<u8>,
     pub sex: u8,
     pub sex_raw: Vec<u8>,
-    pub move_data: String,
+    pub move_data: [u16; 6],
     pub move_data_raw: Vec<u8>,
     pub x_size: u8,
     pub x_size_raw: Vec<u8>,
@@ -48330,7 +49118,11 @@ impl PacketZcNotifyMoveentry4 {
             is_pkmode_on_raw: buffer[53..54].to_vec(),
             sex: u8::from_le_bytes([buffer[54]]),
             sex_raw: buffer[54..55].to_vec(),
-            move_data: String::from_utf8_lossy(&buffer[55..61]).to_string(),
+            move_data:  {
+                let mut dst: [u16; 6] = [0 as u16; 6];
+                for (index, byte) in buffer[55..61].iter().enumerate() {
+                dst[index] = *byte as u16;                }                dst
+            },
             move_data_raw: buffer[55..61].to_vec(),
             x_size: u8::from_le_bytes([buffer[61]]),
             x_size_raw: buffer[61..62].to_vec(),
@@ -48428,7 +49220,7 @@ impl Display for PacketZcNotifyMoveentry4 {
             .field("virtue(int as i32)[49, 53]", &self.virtue)
             .field("is_pkmode_on(bool as bool)[53, 54]", &self.is_pkmode_on)
             .field("sex(unsigned char as u8)[54, 55]", &self.sex)
-            .field("move_data(char[] as String)[55, 61]", &self.move_data)
+            .field("move_data(unsigned short[] as u16[])[55, 61]", &self.move_data)
             .field("x_size(unsigned char as u8)[61, 62]", &self.x_size)
             .field("y_size(unsigned char as u8)[62, 63]", &self.y_size)
             .field("clevel(short as i16)[63, 65]", &self.clevel)
@@ -48481,7 +49273,7 @@ pub struct PacketZcNotifyNewentry4 {
     pub is_pkmode_on_raw: Vec<u8>,
     pub sex: u8,
     pub sex_raw: Vec<u8>,
-    pub pos_dir: String,
+    pub pos_dir: [char; 3],
     pub pos_dir_raw: Vec<u8>,
     pub x_size: u8,
     pub x_size_raw: Vec<u8>,
@@ -48539,7 +49331,11 @@ impl PacketZcNotifyNewentry4 {
             is_pkmode_on_raw: buffer[48..49].to_vec(),
             sex: u8::from_le_bytes([buffer[49]]),
             sex_raw: buffer[49..50].to_vec(),
-            pos_dir: String::from_utf8_lossy(&buffer[50..53]).to_string(),
+            pos_dir:  {
+                let mut dst: [char; 3] = [0 as char; 3];
+                for (index, byte) in buffer[50..53].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             pos_dir_raw: buffer[50..53].to_vec(),
             x_size: u8::from_le_bytes([buffer[53]]),
             x_size_raw: buffer[53..54].to_vec(),
@@ -48633,7 +49429,7 @@ impl Display for PacketZcNotifyNewentry4 {
             .field("virtue(int as i32)[44, 48]", &self.virtue)
             .field("is_pkmode_on(bool as bool)[48, 49]", &self.is_pkmode_on)
             .field("sex(unsigned char as u8)[49, 50]", &self.sex)
-            .field("pos_dir(char[] as String)[50, 53]", &self.pos_dir)
+            .field("pos_dir(char[] as char[])[50, 53]", &self.pos_dir)
             .field("x_size(unsigned char as u8)[53, 54]", &self.x_size)
             .field("y_size(unsigned char as u8)[54, 55]", &self.y_size)
             .field("clevel(short as i16)[55, 57]", &self.clevel)
@@ -48686,7 +49482,7 @@ pub struct PacketZcNotifyStandentry4 {
     pub is_pkmode_on_raw: Vec<u8>,
     pub sex: u8,
     pub sex_raw: Vec<u8>,
-    pub pos_dir: String,
+    pub pos_dir: [char; 3],
     pub pos_dir_raw: Vec<u8>,
     pub x_size: u8,
     pub x_size_raw: Vec<u8>,
@@ -48746,7 +49542,11 @@ impl PacketZcNotifyStandentry4 {
             is_pkmode_on_raw: buffer[48..49].to_vec(),
             sex: u8::from_le_bytes([buffer[49]]),
             sex_raw: buffer[49..50].to_vec(),
-            pos_dir: String::from_utf8_lossy(&buffer[50..53]).to_string(),
+            pos_dir:  {
+                let mut dst: [char; 3] = [0 as char; 3];
+                for (index, byte) in buffer[50..53].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             pos_dir_raw: buffer[50..53].to_vec(),
             x_size: u8::from_le_bytes([buffer[53]]),
             x_size_raw: buffer[53..54].to_vec(),
@@ -48843,7 +49643,7 @@ impl Display for PacketZcNotifyStandentry4 {
             .field("virtue(int as i32)[44, 48]", &self.virtue)
             .field("is_pkmode_on(bool as bool)[48, 49]", &self.is_pkmode_on)
             .field("sex(unsigned char as u8)[49, 50]", &self.sex)
-            .field("pos_dir(char[] as String)[50, 53]", &self.pos_dir)
+            .field("pos_dir(char[] as char[])[50, 53]", &self.pos_dir)
             .field("x_size(unsigned char as u8)[53, 54]", &self.x_size)
             .field("y_size(unsigned char as u8)[54, 55]", &self.y_size)
             .field("state(unsigned char as u8)[55, 56]", &self.state)
@@ -49317,7 +50117,7 @@ pub struct PacketAhcGameGuard {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub auth_data: u32,
+    pub auth_data: [u32; 4],
     pub auth_data_raw: Vec<u8>,
 }
 
@@ -49327,7 +50127,11 @@ impl PacketAhcGameGuard {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            auth_data: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            auth_data:  {
+                let mut dst: [u32; 4] = [0 as u32; 4];
+                for (index, byte) in buffer[2..6].iter().enumerate() {
+                dst[index] = *byte as u32;                }                dst
+            },
             auth_data_raw: buffer[2..6].to_vec(),
         }
     }
@@ -49369,7 +50173,7 @@ impl Display for PacketAhcGameGuard {
         f.debug_struct("PacketAhcGameGuard")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("auth_data(unsigned long as u32)[2, 6]", &self.auth_data)
+            .field("auth_data(unsigned long[] as u32[])[2, 6]", &self.auth_data)
         .finish()
     }
 }
@@ -49378,7 +50182,7 @@ pub struct PacketCahAckGameGuard {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub auth_data: u32,
+    pub auth_data: [u32; 4],
     pub auth_data_raw: Vec<u8>,
 }
 
@@ -49388,7 +50192,11 @@ impl PacketCahAckGameGuard {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            auth_data: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            auth_data:  {
+                let mut dst: [u32; 4] = [0 as u32; 4];
+                for (index, byte) in buffer[2..6].iter().enumerate() {
+                dst[index] = *byte as u32;                }                dst
+            },
             auth_data_raw: buffer[2..6].to_vec(),
         }
     }
@@ -49430,7 +50238,7 @@ impl Display for PacketCahAckGameGuard {
         f.debug_struct("PacketCahAckGameGuard")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("auth_data(unsigned long as u32)[2, 6]", &self.auth_data)
+            .field("auth_data(unsigned long[] as u32[])[2, 6]", &self.auth_data)
         .finish()
     }
 }
@@ -49882,7 +50690,7 @@ pub struct PacketZcMsgStateChange2 {
     pub state_raw: Vec<u8>,
     pub remain_ms: u32,
     pub remain_ms_raw: Vec<u8>,
-    pub val: i32,
+    pub val: [i32; 3],
     pub val_raw: Vec<u8>,
 }
 
@@ -49900,8 +50708,12 @@ impl PacketZcMsgStateChange2 {
             state_raw: buffer[8..9].to_vec(),
             remain_ms: u32::from_le_bytes([buffer[9], buffer[10], buffer[11], buffer[12]]),
             remain_ms_raw: buffer[9..13].to_vec(),
-            val: i32::from_le_bytes([buffer[13], buffer[14], buffer[15], buffer[16]]),
-            val_raw: buffer[13..17].to_vec(),
+            val:  {
+                let mut dst: [i32; 3] = [0 as i32; 3];
+                for (index, byte) in buffer[13..16].iter().enumerate() {
+                dst[index] = *byte as i32;                }                dst
+            },
+            val_raw: buffer[13..16].to_vec(),
         }
     }
 }
@@ -49936,7 +50748,7 @@ impl Debug for PacketZcMsgStateChange2 {
             .field("aid[4, 8]", &format!("{:02X?}", &self.aid_raw))
             .field("state[8, 9]", &format!("{:02X?}", &self.state_raw))
             .field("remain_ms[9, 13]", &format!("{:02X?}", &self.remain_ms_raw))
-            .field("val[13, 17]", &format!("{:02X?}", &self.val_raw))
+            .field("val[13, 16]", &format!("{:02X?}", &self.val_raw))
         .finish()
     }
 }
@@ -49950,7 +50762,7 @@ impl Display for PacketZcMsgStateChange2 {
             .field("aid(unsigned long as u32)[4, 8]", &self.aid)
             .field("state(bool as bool)[8, 9]", &self.state)
             .field("remain_ms(unsigned long as u32)[9, 13]", &self.remain_ms)
-            .field("val(int as i32)[13, 17]", &self.val)
+            .field("val(int[] as i32[])[13, 16]", &self.val)
         .finish()
     }
 }
@@ -50097,7 +50909,7 @@ pub struct PacketZcSkillSelectRequest {
     pub packet_length_raw: Vec<u8>,
     pub why: i32,
     pub why_raw: Vec<u8>,
-    pub skidlist: u16,
+    pub skidlist: Vec<u8>,
     pub skidlist_raw: Vec<u8>,
 }
 
@@ -50111,8 +50923,11 @@ impl PacketZcSkillSelectRequest {
             packet_length_raw: buffer[2..4].to_vec(),
             why: i32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
             why_raw: buffer[4..8].to_vec(),
-            skidlist: u16::from_le_bytes([buffer[8], buffer[9]]),
-            skidlist_raw: buffer[8..10].to_vec(),
+            skidlist:  {
+                let dst: Vec<u8> = buffer[8..buffer.len()].to_vec();
+                dst
+            },
+            skidlist_raw: buffer[8..buffer.len()].to_vec(),
         }
     }
 }
@@ -50145,7 +50960,7 @@ impl Debug for PacketZcSkillSelectRequest {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("why[4, 8]", &format!("{:02X?}", &self.why_raw))
-            .field("skidlist[8, 10]", &format!("{:02X?}", &self.skidlist_raw))
+            .field("skidlist[8, ?]", &format!("{:02X?}", &self.skidlist_raw))
         .finish()
     }
 }
@@ -50157,7 +50972,7 @@ impl Display for PacketZcSkillSelectRequest {
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("packet_length(short as i16)[2, 4]", &self.packet_length)
             .field("why(long as i32)[4, 8]", &self.why)
-            .field("skidlist(unsigned short as u16)[8, 10]", &self.skidlist)
+            .field("skidlist([] as Array)[8, ?]", &self.skidlist)
         .finish()
     }
 }
@@ -51613,13 +52428,13 @@ pub struct PacketZcSeekParty {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub name: String,
+    pub name: [char; 24],
     pub name_raw: Vec<u8>,
     pub job: u32,
     pub job_raw: Vec<u8>,
     pub level: u32,
     pub level_raw: Vec<u8>,
-    pub map_name: String,
+    pub map_name: [char; 16],
     pub map_name_raw: Vec<u8>,
     pub option: u32,
     pub option_raw: Vec<u8>,
@@ -51631,13 +52446,21 @@ impl PacketZcSeekParty {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[2..26].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             name_raw: buffer[2..26].to_vec(),
             job: u32::from_le_bytes([buffer[26], buffer[27], buffer[28], buffer[29]]),
             job_raw: buffer[26..30].to_vec(),
             level: u32::from_le_bytes([buffer[30], buffer[31], buffer[32], buffer[33]]),
             level_raw: buffer[30..34].to_vec(),
-            map_name: String::from_utf8_lossy(&buffer[34..50]).to_string(),
+            map_name:  {
+                let mut dst: [char; 16] = [0 as char; 16];
+                for (index, byte) in buffer[34..50].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             map_name_raw: buffer[34..50].to_vec(),
             option: u32::from_le_bytes([buffer[50], buffer[51], buffer[52], buffer[53]]),
             option_raw: buffer[50..54].to_vec(),
@@ -51685,10 +52508,10 @@ impl Display for PacketZcSeekParty {
         f.debug_struct("PacketZcSeekParty")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("name(char[] as String)[2, 26]", &self.name)
+            .field("name(char[] as char[])[2, 26]", &self.name)
             .field("job(unsigned long as u32)[26, 30]", &self.job)
             .field("level(unsigned long as u32)[30, 34]", &self.level)
-            .field("map_name(char[] as String)[34, 50]", &self.map_name)
+            .field("map_name(char[] as char[])[34, 50]", &self.map_name)
             .field("option(unsigned long as u32)[50, 54]", &self.option)
         .finish()
     }
@@ -51702,7 +52525,7 @@ pub struct PacketCzSeekPartyMember {
     pub job_raw: Vec<u8>,
     pub level: u32,
     pub level_raw: Vec<u8>,
-    pub map_name: String,
+    pub map_name: [char; 16],
     pub map_name_raw: Vec<u8>,
     pub option: u32,
     pub option_raw: Vec<u8>,
@@ -51718,7 +52541,11 @@ impl PacketCzSeekPartyMember {
             job_raw: buffer[2..6].to_vec(),
             level: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
             level_raw: buffer[6..10].to_vec(),
-            map_name: String::from_utf8_lossy(&buffer[10..26]).to_string(),
+            map_name:  {
+                let mut dst: [char; 16] = [0 as char; 16];
+                for (index, byte) in buffer[10..26].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             map_name_raw: buffer[10..26].to_vec(),
             option: u32::from_le_bytes([buffer[26], buffer[27], buffer[28], buffer[29]]),
             option_raw: buffer[26..30].to_vec(),
@@ -51767,7 +52594,7 @@ impl Display for PacketCzSeekPartyMember {
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("job(unsigned long as u32)[2, 6]", &self.job)
             .field("level(unsigned long as u32)[6, 10]", &self.level)
-            .field("map_name(char[] as String)[10, 26]", &self.map_name)
+            .field("map_name(char[] as char[])[10, 26]", &self.map_name)
             .field("option(unsigned long as u32)[26, 30]", &self.option)
         .finish()
     }
@@ -51777,13 +52604,13 @@ pub struct PacketZcSeekPartyMember {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub name: String,
+    pub name: [char; 24],
     pub name_raw: Vec<u8>,
     pub job: u32,
     pub job_raw: Vec<u8>,
     pub level: u32,
     pub level_raw: Vec<u8>,
-    pub map_name: String,
+    pub map_name: [char; 16],
     pub map_name_raw: Vec<u8>,
     pub option: u32,
     pub option_raw: Vec<u8>,
@@ -51795,13 +52622,21 @@ impl PacketZcSeekPartyMember {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[2..26].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             name_raw: buffer[2..26].to_vec(),
             job: u32::from_le_bytes([buffer[26], buffer[27], buffer[28], buffer[29]]),
             job_raw: buffer[26..30].to_vec(),
             level: u32::from_le_bytes([buffer[30], buffer[31], buffer[32], buffer[33]]),
             level_raw: buffer[30..34].to_vec(),
-            map_name: String::from_utf8_lossy(&buffer[34..50]).to_string(),
+            map_name:  {
+                let mut dst: [char; 16] = [0 as char; 16];
+                for (index, byte) in buffer[34..50].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             map_name_raw: buffer[34..50].to_vec(),
             option: u32::from_le_bytes([buffer[50], buffer[51], buffer[52], buffer[53]]),
             option_raw: buffer[50..54].to_vec(),
@@ -51849,10 +52684,10 @@ impl Display for PacketZcSeekPartyMember {
         f.debug_struct("PacketZcSeekPartyMember")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("name(char[] as String)[2, 26]", &self.name)
+            .field("name(char[] as char[])[2, 26]", &self.name)
             .field("job(unsigned long as u32)[26, 30]", &self.job)
             .field("level(unsigned long as u32)[30, 34]", &self.level)
-            .field("map_name(char[] as String)[34, 50]", &self.map_name)
+            .field("map_name(char[] as char[])[34, 50]", &self.map_name)
             .field("option(unsigned long as u32)[50, 54]", &self.option)
         .finish()
     }
@@ -51864,7 +52699,7 @@ pub struct PacketZcEsNotiMyinfo {
     pub packet_id_raw: Vec<u8>,
     pub es_no: i16,
     pub es_no_raw: Vec<u8>,
-    pub esname: String,
+    pub esname: [char; 54],
     pub esname_raw: Vec<u8>,
 }
 
@@ -51876,7 +52711,11 @@ impl PacketZcEsNotiMyinfo {
             packet_id_raw: buffer[0..2].to_vec(),
             es_no: i16::from_le_bytes([buffer[2], buffer[3]]),
             es_no_raw: buffer[2..4].to_vec(),
-            esname: String::from_utf8_lossy(&buffer[4..58]).to_string(),
+            esname:  {
+                let mut dst: [char; 54] = [0 as char; 54];
+                for (index, byte) in buffer[4..58].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             esname_raw: buffer[4..58].to_vec(),
         }
     }
@@ -51920,7 +52759,7 @@ impl Display for PacketZcEsNotiMyinfo {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("es_no(short as i16)[2, 4]", &self.es_no)
-            .field("esname(char[] as String)[4, 58]", &self.esname)
+            .field("esname(char[] as char[])[4, 58]", &self.esname)
         .finish()
     }
 }
@@ -52371,7 +53210,7 @@ pub struct PacketChCheckbot {
     pub packet_length_raw: Vec<u8>,
     pub dw_aid: u32,
     pub dw_aid_raw: Vec<u8>,
-    pub sz_string_info: String,
+    pub sz_string_info: [char; 24],
     pub sz_string_info_raw: Vec<u8>,
 }
 
@@ -52385,7 +53224,11 @@ impl PacketChCheckbot {
             packet_length_raw: buffer[2..4].to_vec(),
             dw_aid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
             dw_aid_raw: buffer[4..8].to_vec(),
-            sz_string_info: String::from_utf8_lossy(&buffer[8..32]).to_string(),
+            sz_string_info:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[8..32].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             sz_string_info_raw: buffer[8..32].to_vec(),
         }
     }
@@ -52431,7 +53274,7 @@ impl Display for PacketChCheckbot {
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("packet_length(short as i16)[2, 4]", &self.packet_length)
             .field("dw_aid(unsigned long as u32)[4, 8]", &self.dw_aid)
-            .field("sz_string_info(char[] as String)[8, 32]", &self.sz_string_info)
+            .field("sz_string_info(char[] as char[])[8, 32]", &self.sz_string_info)
         .finish()
     }
 }
@@ -53524,7 +54367,7 @@ pub struct PacketZcNotifyMoveentry7 {
     pub is_pkmode_on_raw: Vec<u8>,
     pub sex: u8,
     pub sex_raw: Vec<u8>,
-    pub move_data: String,
+    pub move_data: [u16; 6],
     pub move_data_raw: Vec<u8>,
     pub x_size: u8,
     pub x_size_raw: Vec<u8>,
@@ -53534,7 +54377,7 @@ pub struct PacketZcNotifyMoveentry7 {
     pub clevel_raw: Vec<u8>,
     pub font: i16,
     pub font_raw: Vec<u8>,
-    pub name: String,
+    pub name: [char; 24],
     pub name_raw: Vec<u8>,
 }
 
@@ -53590,7 +54433,11 @@ impl PacketZcNotifyMoveentry7 {
             is_pkmode_on_raw: buffer[55..56].to_vec(),
             sex: u8::from_le_bytes([buffer[56]]),
             sex_raw: buffer[56..57].to_vec(),
-            move_data: String::from_utf8_lossy(&buffer[57..63]).to_string(),
+            move_data:  {
+                let mut dst: [u16; 6] = [0 as u16; 6];
+                for (index, byte) in buffer[57..63].iter().enumerate() {
+                dst[index] = *byte as u16;                }                dst
+            },
             move_data_raw: buffer[57..63].to_vec(),
             x_size: u8::from_le_bytes([buffer[63]]),
             x_size_raw: buffer[63..64].to_vec(),
@@ -53600,7 +54447,11 @@ impl PacketZcNotifyMoveentry7 {
             clevel_raw: buffer[65..67].to_vec(),
             font: i16::from_le_bytes([buffer[67], buffer[68]]),
             font_raw: buffer[67..69].to_vec(),
-            name: String::from_utf8_lossy(&buffer[69..93]).to_string(),
+            name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[69..93].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             name_raw: buffer[69..93].to_vec(),
         }
     }
@@ -53693,12 +54544,12 @@ impl Display for PacketZcNotifyMoveentry7 {
             .field("virtue(int as i32)[51, 55]", &self.virtue)
             .field("is_pkmode_on(bool as bool)[55, 56]", &self.is_pkmode_on)
             .field("sex(unsigned char as u8)[56, 57]", &self.sex)
-            .field("move_data(char[] as String)[57, 63]", &self.move_data)
+            .field("move_data(unsigned short[] as u16[])[57, 63]", &self.move_data)
             .field("x_size(unsigned char as u8)[63, 64]", &self.x_size)
             .field("y_size(unsigned char as u8)[64, 65]", &self.y_size)
             .field("clevel(short as i16)[65, 67]", &self.clevel)
             .field("font(short as i16)[67, 69]", &self.font)
-            .field("name(char[] as String)[69, 93]", &self.name)
+            .field("name(char[] as char[])[69, 93]", &self.name)
         .finish()
     }
 }
@@ -53751,7 +54602,7 @@ pub struct PacketZcNotifyNewentry5 {
     pub is_pkmode_on_raw: Vec<u8>,
     pub sex: u8,
     pub sex_raw: Vec<u8>,
-    pub pos_dir: String,
+    pub pos_dir: [char; 3],
     pub pos_dir_raw: Vec<u8>,
     pub x_size: u8,
     pub x_size_raw: Vec<u8>,
@@ -53761,7 +54612,7 @@ pub struct PacketZcNotifyNewentry5 {
     pub clevel_raw: Vec<u8>,
     pub font: i16,
     pub font_raw: Vec<u8>,
-    pub name: String,
+    pub name: [char; 24],
     pub name_raw: Vec<u8>,
 }
 
@@ -53815,7 +54666,11 @@ impl PacketZcNotifyNewentry5 {
             is_pkmode_on_raw: buffer[51..52].to_vec(),
             sex: u8::from_le_bytes([buffer[52]]),
             sex_raw: buffer[52..53].to_vec(),
-            pos_dir: String::from_utf8_lossy(&buffer[53..56]).to_string(),
+            pos_dir:  {
+                let mut dst: [char; 3] = [0 as char; 3];
+                for (index, byte) in buffer[53..56].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             pos_dir_raw: buffer[53..56].to_vec(),
             x_size: u8::from_le_bytes([buffer[56]]),
             x_size_raw: buffer[56..57].to_vec(),
@@ -53825,7 +54680,11 @@ impl PacketZcNotifyNewentry5 {
             clevel_raw: buffer[58..60].to_vec(),
             font: i16::from_le_bytes([buffer[60], buffer[61]]),
             font_raw: buffer[60..62].to_vec(),
-            name: String::from_utf8_lossy(&buffer[62..86]).to_string(),
+            name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[62..86].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             name_raw: buffer[62..86].to_vec(),
         }
     }
@@ -53916,12 +54775,12 @@ impl Display for PacketZcNotifyNewentry5 {
             .field("virtue(int as i32)[47, 51]", &self.virtue)
             .field("is_pkmode_on(bool as bool)[51, 52]", &self.is_pkmode_on)
             .field("sex(unsigned char as u8)[52, 53]", &self.sex)
-            .field("pos_dir(char[] as String)[53, 56]", &self.pos_dir)
+            .field("pos_dir(char[] as char[])[53, 56]", &self.pos_dir)
             .field("x_size(unsigned char as u8)[56, 57]", &self.x_size)
             .field("y_size(unsigned char as u8)[57, 58]", &self.y_size)
             .field("clevel(short as i16)[58, 60]", &self.clevel)
             .field("font(short as i16)[60, 62]", &self.font)
-            .field("name(char[] as String)[62, 86]", &self.name)
+            .field("name(char[] as char[])[62, 86]", &self.name)
         .finish()
     }
 }
@@ -53974,7 +54833,7 @@ pub struct PacketZcNotifyStandentry5 {
     pub is_pkmode_on_raw: Vec<u8>,
     pub sex: u8,
     pub sex_raw: Vec<u8>,
-    pub pos_dir: String,
+    pub pos_dir: [char; 3],
     pub pos_dir_raw: Vec<u8>,
     pub x_size: u8,
     pub x_size_raw: Vec<u8>,
@@ -53986,7 +54845,7 @@ pub struct PacketZcNotifyStandentry5 {
     pub clevel_raw: Vec<u8>,
     pub font: i16,
     pub font_raw: Vec<u8>,
-    pub name: String,
+    pub name: [char; 24],
     pub name_raw: Vec<u8>,
 }
 
@@ -54040,7 +54899,11 @@ impl PacketZcNotifyStandentry5 {
             is_pkmode_on_raw: buffer[51..52].to_vec(),
             sex: u8::from_le_bytes([buffer[52]]),
             sex_raw: buffer[52..53].to_vec(),
-            pos_dir: String::from_utf8_lossy(&buffer[53..56]).to_string(),
+            pos_dir:  {
+                let mut dst: [char; 3] = [0 as char; 3];
+                for (index, byte) in buffer[53..56].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             pos_dir_raw: buffer[53..56].to_vec(),
             x_size: u8::from_le_bytes([buffer[56]]),
             x_size_raw: buffer[56..57].to_vec(),
@@ -54052,7 +54915,11 @@ impl PacketZcNotifyStandentry5 {
             clevel_raw: buffer[59..61].to_vec(),
             font: i16::from_le_bytes([buffer[61], buffer[62]]),
             font_raw: buffer[61..63].to_vec(),
-            name: String::from_utf8_lossy(&buffer[63..87]).to_string(),
+            name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[63..87].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             name_raw: buffer[63..87].to_vec(),
         }
     }
@@ -54144,13 +55011,13 @@ impl Display for PacketZcNotifyStandentry5 {
             .field("virtue(int as i32)[47, 51]", &self.virtue)
             .field("is_pkmode_on(bool as bool)[51, 52]", &self.is_pkmode_on)
             .field("sex(unsigned char as u8)[52, 53]", &self.sex)
-            .field("pos_dir(char[] as String)[53, 56]", &self.pos_dir)
+            .field("pos_dir(char[] as char[])[53, 56]", &self.pos_dir)
             .field("x_size(unsigned char as u8)[56, 57]", &self.x_size)
             .field("y_size(unsigned char as u8)[57, 58]", &self.y_size)
             .field("state(unsigned char as u8)[58, 59]", &self.state)
             .field("clevel(short as i16)[59, 61]", &self.clevel)
             .field("font(short as i16)[61, 63]", &self.font)
-            .field("name(char[] as String)[63, 87]", &self.name)
+            .field("name(char[] as char[])[63, 87]", &self.name)
         .finish()
     }
 }
@@ -54402,7 +55269,7 @@ pub struct PacketZcPlayNpcBgm {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub bgm: String,
+    pub bgm: [char; 24],
     pub bgm_raw: Vec<u8>,
 }
 
@@ -54412,7 +55279,11 @@ impl PacketZcPlayNpcBgm {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            bgm: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            bgm:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[2..26].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             bgm_raw: buffer[2..26].to_vec(),
         }
     }
@@ -54454,7 +55325,7 @@ impl Display for PacketZcPlayNpcBgm {
         f.debug_struct("PacketZcPlayNpcBgm")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("bgm(char[] as String)[2, 26]", &self.bgm)
+            .field("bgm(char[] as char[])[2, 26]", &self.bgm)
         .finish()
     }
 }
@@ -55111,7 +55982,7 @@ pub struct PacketCzPartyBookingReqUpdate {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub job: i16,
+    pub job: [i16; 6],
     pub job_raw: Vec<u8>,
 }
 
@@ -55121,8 +55992,12 @@ impl PacketCzPartyBookingReqUpdate {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            job: i16::from_le_bytes([buffer[2], buffer[3]]),
-            job_raw: buffer[2..4].to_vec(),
+            job:  {
+                let mut dst: [i16; 6] = [0 as i16; 6];
+                for (index, byte) in buffer[2..8].iter().enumerate() {
+                dst[index] = *byte as i16;                }                dst
+            },
+            job_raw: buffer[2..8].to_vec(),
         }
     }
 }
@@ -55153,7 +56028,7 @@ impl Debug for PacketCzPartyBookingReqUpdate {
         f.debug_struct("PacketCzPartyBookingReqUpdate")
             .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-            .field("job[2, 4]", &format!("{:02X?}", &self.job_raw))
+            .field("job[2, 8]", &format!("{:02X?}", &self.job_raw))
         .finish()
     }
 }
@@ -55163,7 +56038,7 @@ impl Display for PacketCzPartyBookingReqUpdate {
         f.debug_struct("PacketCzPartyBookingReqUpdate")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("job(short as i16)[2, 4]", &self.job)
+            .field("job(short[] as i16[])[2, 8]", &self.job)
         .finish()
     }
 }
@@ -55744,7 +56619,7 @@ pub struct PacketCzReqOpenBuyingStore {
     pub limit_zeny_raw: Vec<u8>,
     pub result: u8,
     pub result_raw: Vec<u8>,
-    pub store_name: String,
+    pub store_name: [char; 80],
     pub store_name_raw: Vec<u8>,
     pub item_list: Vec<ProductinfoInBuyingStore>,
     pub item_list_raw: Vec<u8>,
@@ -55771,7 +56646,11 @@ impl PacketCzReqOpenBuyingStore {
             limit_zeny_raw: buffer[4..8].to_vec(),
             result: u8::from_le_bytes([buffer[8]]),
             result_raw: buffer[8..9].to_vec(),
-            store_name: String::from_utf8_lossy(&buffer[9..89]).to_string(),
+            store_name:  {
+                let mut dst: [char; 80] = [0 as char; 80];
+                for (index, byte) in buffer[9..89].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             store_name_raw: buffer[9..89].to_vec(),
             item_list: vec_field,
             item_list_raw: buffer[89..97].to_vec(),
@@ -55822,7 +56701,7 @@ impl Display for PacketCzReqOpenBuyingStore {
             .field("packet_length(short as i16)[2, 4]", &self.packet_length)
             .field("limit_zeny(unsigned long as u32)[4, 8]", &self.limit_zeny)
             .field("result(unsigned char as u8)[8, 9]", &self.result)
-            .field("store_name(char[] as String)[9, 89]", &self.store_name)
+            .field("store_name(char[] as char[])[9, 89]", &self.store_name)
             .field("item_list([] as Vec)[89, 97]", &self.item_list)
         .finish()
     }
@@ -55989,7 +56868,7 @@ pub struct PacketZcBuyingStoreEntry {
     pub packet_id_raw: Vec<u8>,
     pub maker_aid: u32,
     pub maker_aid_raw: Vec<u8>,
-    pub store_name: String,
+    pub store_name: [char; 80],
     pub store_name_raw: Vec<u8>,
 }
 
@@ -56001,7 +56880,11 @@ impl PacketZcBuyingStoreEntry {
             packet_id_raw: buffer[0..2].to_vec(),
             maker_aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
             maker_aid_raw: buffer[2..6].to_vec(),
-            store_name: String::from_utf8_lossy(&buffer[6..86]).to_string(),
+            store_name:  {
+                let mut dst: [char; 80] = [0 as char; 80];
+                for (index, byte) in buffer[6..86].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             store_name_raw: buffer[6..86].to_vec(),
         }
     }
@@ -56045,7 +56928,7 @@ impl Display for PacketZcBuyingStoreEntry {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("maker_aid(unsigned long as u32)[2, 6]", &self.maker_aid)
-            .field("store_name(char[] as String)[6, 86]", &self.store_name)
+            .field("store_name(char[] as char[])[6, 86]", &self.store_name)
         .finish()
     }
 }
@@ -56979,7 +57862,7 @@ pub struct PacketCaOtpAuthReq {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub otpcode: String,
+    pub otpcode: [char; 7],
     pub otpcode_raw: Vec<u8>,
 }
 
@@ -56989,7 +57872,11 @@ impl PacketCaOtpAuthReq {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            otpcode: String::from_utf8_lossy(&buffer[2..9]).to_string(),
+            otpcode:  {
+                let mut dst: [char; 7] = [0 as char; 7];
+                for (index, byte) in buffer[2..9].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             otpcode_raw: buffer[2..9].to_vec(),
         }
     }
@@ -57031,7 +57918,7 @@ impl Display for PacketCaOtpAuthReq {
         f.debug_struct("PacketCaOtpAuthReq")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("otpcode(char[] as String)[2, 9]", &self.otpcode)
+            .field("otpcode(char[] as char[])[2, 9]", &self.otpcode)
         .finish()
     }
 }
@@ -57180,11 +58067,11 @@ pub struct PacketCaSsoLoginReqa {
     pub version_raw: Vec<u8>,
     pub clienttype: u8,
     pub clienttype_raw: Vec<u8>,
-    pub id: String,
+    pub id: [char; 24],
     pub id_raw: Vec<u8>,
-    pub mac_addr: String,
+    pub mac_addr: [char; 17],
     pub mac_addr_raw: Vec<u8>,
-    pub ip_addr: String,
+    pub ip_addr: [char; 15],
     pub ip_addr_raw: Vec<u8>,
     pub t1: String,
     pub t1_raw: Vec<u8>,
@@ -57202,11 +58089,23 @@ impl PacketCaSsoLoginReqa {
             version_raw: buffer[4..8].to_vec(),
             clienttype: u8::from_le_bytes([buffer[8]]),
             clienttype_raw: buffer[8..9].to_vec(),
-            id: String::from_utf8_lossy(&buffer[9..33]).to_string(),
+            id:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[9..33].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             id_raw: buffer[9..33].to_vec(),
-            mac_addr: String::from_utf8_lossy(&buffer[33..50]).to_string(),
+            mac_addr:  {
+                let mut dst: [char; 17] = [0 as char; 17];
+                for (index, byte) in buffer[33..50].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             mac_addr_raw: buffer[33..50].to_vec(),
-            ip_addr: String::from_utf8_lossy(&buffer[50..65]).to_string(),
+            ip_addr:  {
+                let mut dst: [char; 15] = [0 as char; 15];
+                for (index, byte) in buffer[50..65].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             ip_addr_raw: buffer[50..65].to_vec(),
             t1: String::from_utf8_lossy(&buffer[65..buffer.len()]).to_string(),
             t1_raw: buffer[65..buffer.len()].to_vec(),
@@ -57259,9 +58158,9 @@ impl Display for PacketCaSsoLoginReqa {
             .field("packet_length(short as i16)[2, 4]", &self.packet_length)
             .field("version(unsigned long as u32)[4, 8]", &self.version)
             .field("clienttype(unsigned char as u8)[8, 9]", &self.clienttype)
-            .field("id(char[] as String)[9, 33]", &self.id)
-            .field("mac_addr(char[] as String)[33, 50]", &self.mac_addr)
-            .field("ip_addr(char[] as String)[50, 65]", &self.ip_addr)
+            .field("id(char[] as char[])[9, 33]", &self.id)
+            .field("mac_addr(char[] as char[])[33, 50]", &self.mac_addr)
+            .field("ip_addr(char[] as char[])[50, 65]", &self.ip_addr)
             .field("t1(char[] as String)[65, ?]", &self.t1)
         .finish()
     }
@@ -57277,13 +58176,13 @@ pub struct PacketCaSsoLoginReq {
     pub version_raw: Vec<u8>,
     pub clienttype: u8,
     pub clienttype_raw: Vec<u8>,
-    pub id: String,
+    pub id: [char; 24],
     pub id_raw: Vec<u8>,
-    pub passwd: String,
+    pub passwd: [char; 27],
     pub passwd_raw: Vec<u8>,
-    pub mac_adress: String,
+    pub mac_adress: [char; 17],
     pub mac_adress_raw: Vec<u8>,
-    pub ip: String,
+    pub ip: [char; 15],
     pub ip_raw: Vec<u8>,
     pub t1: String,
     pub t1_raw: Vec<u8>,
@@ -57301,13 +58200,29 @@ impl PacketCaSsoLoginReq {
             version_raw: buffer[4..8].to_vec(),
             clienttype: u8::from_le_bytes([buffer[8]]),
             clienttype_raw: buffer[8..9].to_vec(),
-            id: String::from_utf8_lossy(&buffer[9..33]).to_string(),
+            id:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[9..33].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             id_raw: buffer[9..33].to_vec(),
-            passwd: String::from_utf8_lossy(&buffer[33..60]).to_string(),
+            passwd:  {
+                let mut dst: [char; 27] = [0 as char; 27];
+                for (index, byte) in buffer[33..60].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             passwd_raw: buffer[33..60].to_vec(),
-            mac_adress: String::from_utf8_lossy(&buffer[60..77]).to_string(),
+            mac_adress:  {
+                let mut dst: [char; 17] = [0 as char; 17];
+                for (index, byte) in buffer[60..77].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             mac_adress_raw: buffer[60..77].to_vec(),
-            ip: String::from_utf8_lossy(&buffer[77..92]).to_string(),
+            ip:  {
+                let mut dst: [char; 15] = [0 as char; 15];
+                for (index, byte) in buffer[77..92].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             ip_raw: buffer[77..92].to_vec(),
             t1: String::from_utf8_lossy(&buffer[92..buffer.len()]).to_string(),
             t1_raw: buffer[92..buffer.len()].to_vec(),
@@ -57361,10 +58276,10 @@ impl Display for PacketCaSsoLoginReq {
             .field("packet_length(short as i16)[2, 4]", &self.packet_length)
             .field("version(unsigned long as u32)[4, 8]", &self.version)
             .field("clienttype(unsigned char as u8)[8, 9]", &self.clienttype)
-            .field("id(char[] as String)[9, 33]", &self.id)
-            .field("passwd(char[] as String)[33, 60]", &self.passwd)
-            .field("mac_adress(char[] as String)[60, 77]", &self.mac_adress)
-            .field("ip(char[] as String)[77, 92]", &self.ip)
+            .field("id(char[] as char[])[9, 33]", &self.id)
+            .field("passwd(char[] as char[])[33, 60]", &self.passwd)
+            .field("mac_adress(char[] as char[])[60, 77]", &self.mac_adress)
+            .field("ip(char[] as char[])[77, 92]", &self.ip)
             .field("t1(char[] as String)[92, ?]", &self.t1)
         .finish()
     }
@@ -57571,7 +58486,7 @@ pub struct PacketChDeleteChar3 {
     pub packet_id_raw: Vec<u8>,
     pub gid: u32,
     pub gid_raw: Vec<u8>,
-    pub birth: String,
+    pub birth: [char; 6],
     pub birth_raw: Vec<u8>,
 }
 
@@ -57583,7 +58498,11 @@ impl PacketChDeleteChar3 {
             packet_id_raw: buffer[0..2].to_vec(),
             gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
             gid_raw: buffer[2..6].to_vec(),
-            birth: String::from_utf8_lossy(&buffer[6..12]).to_string(),
+            birth:  {
+                let mut dst: [char; 6] = [0 as char; 6];
+                for (index, byte) in buffer[6..12].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             birth_raw: buffer[6..12].to_vec(),
         }
     }
@@ -57627,7 +58546,7 @@ impl Display for PacketChDeleteChar3 {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("gid(unsigned long as u32)[2, 6]", &self.gid)
-            .field("birth(char[] as String)[6, 12]", &self.birth)
+            .field("birth(char[] as char[])[6, 12]", &self.birth)
         .finish()
     }
 }
@@ -58132,9 +59051,9 @@ pub struct PacketZcAckBanGuildSso {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub char_name: String,
+    pub char_name: [char; 24],
     pub char_name_raw: Vec<u8>,
-    pub reason_desc: String,
+    pub reason_desc: [char; 40],
     pub reason_desc_raw: Vec<u8>,
 }
 
@@ -58144,9 +59063,17 @@ impl PacketZcAckBanGuildSso {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            char_name: String::from_utf8_lossy(&buffer[2..26]).to_string(),
+            char_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[2..26].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             char_name_raw: buffer[2..26].to_vec(),
-            reason_desc: String::from_utf8_lossy(&buffer[26..66]).to_string(),
+            reason_desc:  {
+                let mut dst: [char; 40] = [0 as char; 40];
+                for (index, byte) in buffer[26..66].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             reason_desc_raw: buffer[26..66].to_vec(),
         }
     }
@@ -58189,8 +59116,8 @@ impl Display for PacketZcAckBanGuildSso {
         f.debug_struct("PacketZcAckBanGuildSso")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("char_name(char[] as String)[2, 26]", &self.char_name)
-            .field("reason_desc(char[] as String)[26, 66]", &self.reason_desc)
+            .field("char_name(char[] as char[])[2, 26]", &self.char_name)
+            .field("reason_desc(char[] as char[])[26, 66]", &self.reason_desc)
         .finish()
     }
 }
@@ -58463,7 +59390,7 @@ pub struct PacketAcRefuseLoginR2 {
     pub packet_id_raw: Vec<u8>,
     pub error_code: u32,
     pub error_code_raw: Vec<u8>,
-    pub block_date: String,
+    pub block_date: [char; 20],
     pub block_date_raw: Vec<u8>,
 }
 
@@ -58475,7 +59402,11 @@ impl PacketAcRefuseLoginR2 {
             packet_id_raw: buffer[0..2].to_vec(),
             error_code: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
             error_code_raw: buffer[2..6].to_vec(),
-            block_date: String::from_utf8_lossy(&buffer[6..26]).to_string(),
+            block_date:  {
+                let mut dst: [char; 20] = [0 as char; 20];
+                for (index, byte) in buffer[6..26].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             block_date_raw: buffer[6..26].to_vec(),
         }
     }
@@ -58519,7 +59450,7 @@ impl Display for PacketAcRefuseLoginR2 {
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
             .field("error_code(unsigned int as u32)[2, 6]", &self.error_code)
-            .field("block_date(char[] as String)[6, 26]", &self.block_date)
+            .field("block_date(char[] as char[])[6, 26]", &self.block_date)
         .finish()
     }
 }
@@ -58595,7 +59526,7 @@ pub struct PacketCzRequestMove2 {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: Vec<u8>,
-    pub dest: String,
+    pub dest: [char; 3],
     pub dest_raw: Vec<u8>,
 }
 
@@ -58605,7 +59536,11 @@ impl PacketCzRequestMove2 {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: buffer[0..2].to_vec(),
-            dest: String::from_utf8_lossy(&buffer[2..5]).to_string(),
+            dest:  {
+                let mut dst: [char; 3] = [0 as char; 3];
+                for (index, byte) in buffer[2..5].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             dest_raw: buffer[2..5].to_vec(),
         }
     }
@@ -58647,7 +59582,7 @@ impl Display for PacketCzRequestMove2 {
         f.debug_struct("PacketCzRequestMove2")
             .field("id", &self.id())
             .field("packet_id(short as i16)[0, 2]", &self.packet_id)
-            .field("dest(char[] as String)[2, 5]", &self.dest)
+            .field("dest(char[] as char[])[2, 5]", &self.dest)
         .finish()
     }
 }
@@ -58657,7 +59592,7 @@ pub struct ServerAddr {
     pub ip_raw: Vec<u8>,
     pub port: i16,
     pub port_raw: Vec<u8>,
-    pub name: String,
+    pub name: [char; 20],
     pub name_raw: Vec<u8>,
     pub user_count: u16,
     pub user_count_raw: Vec<u8>,
@@ -58674,7 +59609,11 @@ impl ServerAddr {
             ip_raw: buffer[0..4].to_vec(),
             port: i16::from_le_bytes([buffer[4], buffer[5]]),
             port_raw: buffer[4..6].to_vec(),
-            name: String::from_utf8_lossy(&buffer[6..26]).to_string(),
+            name:  {
+                let mut dst: [char; 20] = [0 as char; 20];
+                for (index, byte) in buffer[6..26].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             name_raw: buffer[6..26].to_vec(),
             user_count: u16::from_le_bytes([buffer[26], buffer[27]]),
             user_count_raw: buffer[26..28].to_vec(),
@@ -58704,7 +59643,7 @@ impl Display for ServerAddr {
         f.debug_struct("ServerAddr")
             .field("ip(unsigned long as u32)[0, 4]", &self.ip)
             .field("port(short as i16)[4, 6]", &self.port)
-            .field("name(char[] as String)[6, 26]", &self.name)
+            .field("name(char[] as char[])[6, 26]", &self.name)
             .field("user_count(unsigned short as u16)[26, 28]", &self.user_count)
             .field("state(unsigned short as u16)[28, 30]", &self.state)
             .field("property(unsigned short as u16)[30, 32]", &self.property)
@@ -58717,7 +59656,7 @@ pub struct ServerAddr2 {
     pub ip_raw: Vec<u8>,
     pub port: i16,
     pub port_raw: Vec<u8>,
-    pub name: String,
+    pub name: [char; 20],
     pub name_raw: Vec<u8>,
     pub user_count: u16,
     pub user_count_raw: Vec<u8>,
@@ -58725,7 +59664,7 @@ pub struct ServerAddr2 {
     pub state_raw: Vec<u8>,
     pub property: u16,
     pub property_raw: Vec<u8>,
-    pub unknown2: String,
+    pub unknown2: [char; 128],
     pub unknown2_raw: Vec<u8>,
 }
 
@@ -58736,7 +59675,11 @@ impl ServerAddr2 {
             ip_raw: buffer[0..4].to_vec(),
             port: i16::from_le_bytes([buffer[4], buffer[5]]),
             port_raw: buffer[4..6].to_vec(),
-            name: String::from_utf8_lossy(&buffer[6..26]).to_string(),
+            name:  {
+                let mut dst: [char; 20] = [0 as char; 20];
+                for (index, byte) in buffer[6..26].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             name_raw: buffer[6..26].to_vec(),
             user_count: u16::from_le_bytes([buffer[26], buffer[27]]),
             user_count_raw: buffer[26..28].to_vec(),
@@ -58744,7 +59687,11 @@ impl ServerAddr2 {
             state_raw: buffer[28..30].to_vec(),
             property: u16::from_le_bytes([buffer[30], buffer[31]]),
             property_raw: buffer[30..32].to_vec(),
-            unknown2: String::from_utf8_lossy(&buffer[31..159]).to_string(),
+            unknown2:  {
+                let mut dst: [char; 128] = [0 as char; 128];
+                for (index, byte) in buffer[31..159].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             unknown2_raw: buffer[31..159].to_vec(),
         }
     }
@@ -58769,11 +59716,11 @@ impl Display for ServerAddr2 {
         f.debug_struct("ServerAddr2")
             .field("ip(unsigned long as u32)[0, 4]", &self.ip)
             .field("port(short as i16)[4, 6]", &self.port)
-            .field("name(char[] as String)[6, 26]", &self.name)
+            .field("name(char[] as char[])[6, 26]", &self.name)
             .field("user_count(unsigned short as u16)[26, 28]", &self.user_count)
             .field("state(unsigned short as u16)[28, 30]", &self.state)
             .field("property(unsigned short as u16)[30, 32]", &self.property)
-            .field("unknown2(char[] as String)[31, 159]", &self.unknown2)
+            .field("unknown2(char[] as char[])[31, 159]", &self.unknown2)
         .finish()
     }
 }
@@ -58833,7 +59780,7 @@ pub struct CharacterInfoNeoUnion {
     pub headpalette_raw: Vec<u8>,
     pub bodypalette: i16,
     pub bodypalette_raw: Vec<u8>,
-    pub name: String,
+    pub name: [char; 24],
     pub name_raw: Vec<u8>,
     pub str: u8,
     pub str_raw: Vec<u8>,
@@ -58853,7 +59800,7 @@ pub struct CharacterInfoNeoUnion {
     pub haircolor_raw: Vec<u8>,
     pub b_is_changed_char_name: i16,
     pub b_is_changed_char_name_raw: Vec<u8>,
-    pub last_map: String,
+    pub last_map: [char; 16],
     pub last_map_raw: Vec<u8>,
     pub delete_date: i32,
     pub delete_date_raw: Vec<u8>,
@@ -58922,7 +59869,11 @@ impl CharacterInfoNeoUnion {
             headpalette_raw: buffer[74..76].to_vec(),
             bodypalette: i16::from_le_bytes([buffer[76], buffer[77]]),
             bodypalette_raw: buffer[76..78].to_vec(),
-            name: String::from_utf8_lossy(&buffer[78..102]).to_string(),
+            name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[78..102].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             name_raw: buffer[78..102].to_vec(),
             str: u8::from_le_bytes([buffer[102]]),
             str_raw: buffer[102..103].to_vec(),
@@ -58942,7 +59893,11 @@ impl CharacterInfoNeoUnion {
             haircolor_raw: buffer[109..110].to_vec(),
             b_is_changed_char_name: i16::from_le_bytes([buffer[110], buffer[111]]),
             b_is_changed_char_name_raw: buffer[110..112].to_vec(),
-            last_map: String::from_utf8_lossy(&buffer[112..128]).to_string(),
+            last_map:  {
+                let mut dst: [char; 16] = [0 as char; 16];
+                for (index, byte) in buffer[112..128].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             last_map_raw: buffer[112..128].to_vec(),
             delete_date: i32::from_le_bytes([buffer[128], buffer[129], buffer[130], buffer[131]]),
             delete_date_raw: buffer[128..132].to_vec(),
@@ -59035,7 +59990,7 @@ impl Display for CharacterInfoNeoUnion {
             .field("accessory3(short as i16)[72, 74]", &self.accessory3)
             .field("headpalette(short as i16)[74, 76]", &self.headpalette)
             .field("bodypalette(short as i16)[76, 78]", &self.bodypalette)
-            .field("name(char[] as String)[78, 102]", &self.name)
+            .field("name(char[] as char[])[78, 102]", &self.name)
             .field("str(unsigned char as u8)[102, 103]", &self.str)
             .field("agi(unsigned char as u8)[103, 104]", &self.agi)
             .field("vit(unsigned char as u8)[104, 105]", &self.vit)
@@ -59045,7 +60000,7 @@ impl Display for CharacterInfoNeoUnion {
             .field("char_num(unsigned char as u8)[108, 109]", &self.char_num)
             .field("haircolor(unsigned char as u8)[109, 110]", &self.haircolor)
             .field("b_is_changed_char_name(short as i16)[110, 112]", &self.b_is_changed_char_name)
-            .field("last_map(char[] as String)[112, 128]", &self.last_map)
+            .field("last_map(char[] as char[])[112, 128]", &self.last_map)
             .field("delete_date(int as i32)[128, 132]", &self.delete_date)
             .field("robe(int as i32)[132, 136]", &self.robe)
             .field("slot_addon(int as i32)[136, 140]", &self.slot_addon)
@@ -59439,14 +60394,18 @@ impl Display for CzSellItem {
 }
 
 pub struct WhisperItem {
-    pub name: String,
+    pub name: [char; 24],
     pub name_raw: Vec<u8>,
 }
 
 impl WhisperItem {
     pub fn from(buffer: &[u8]) -> WhisperItem {
         WhisperItem {
-            name: String::from_utf8_lossy(&buffer[0..24]).to_string(),
+            name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[0..24].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             name_raw: buffer[0..24].to_vec(),
         }
     }
@@ -59463,7 +60422,7 @@ impl Debug for WhisperItem {
 impl Display for WhisperItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("WhisperItem")
-            .field("name(char[] as String)[0, 24]", &self.name)
+            .field("name(char[] as char[])[0, 24]", &self.name)
         .finish()
     }
 }
@@ -59471,7 +60430,7 @@ impl Display for WhisperItem {
 pub struct RoomMember {
     pub role: u32,
     pub role_raw: Vec<u8>,
-    pub name: String,
+    pub name: [char; 24],
     pub name_raw: Vec<u8>,
 }
 
@@ -59480,7 +60439,11 @@ impl RoomMember {
         RoomMember {
             role: u32::from_le_bytes([buffer[0], buffer[1], buffer[2], buffer[3]]),
             role_raw: buffer[0..4].to_vec(),
-            name: String::from_utf8_lossy(&buffer[4..28]).to_string(),
+            name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[4..28].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             name_raw: buffer[4..28].to_vec(),
         }
     }
@@ -59499,7 +60462,7 @@ impl Display for RoomMember {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("RoomMember")
             .field("role(unsigned long as u32)[0, 4]", &self.role)
-            .field("name(char[] as String)[4, 28]", &self.name)
+            .field("name(char[] as char[])[4, 28]", &self.name)
         .finish()
     }
 }
@@ -59507,9 +60470,9 @@ impl Display for RoomMember {
 pub struct GroupmemberInfo {
     pub aid: u32,
     pub aid_raw: Vec<u8>,
-    pub character_name: String,
+    pub character_name: [char; 24],
     pub character_name_raw: Vec<u8>,
-    pub map_name: String,
+    pub map_name: [char; 16],
     pub map_name_raw: Vec<u8>,
     pub role: u8,
     pub role_raw: Vec<u8>,
@@ -59522,9 +60485,17 @@ impl GroupmemberInfo {
         GroupmemberInfo {
             aid: u32::from_le_bytes([buffer[0], buffer[1], buffer[2], buffer[3]]),
             aid_raw: buffer[0..4].to_vec(),
-            character_name: String::from_utf8_lossy(&buffer[4..28]).to_string(),
+            character_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[4..28].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             character_name_raw: buffer[4..28].to_vec(),
-            map_name: String::from_utf8_lossy(&buffer[28..44]).to_string(),
+            map_name:  {
+                let mut dst: [char; 16] = [0 as char; 16];
+                for (index, byte) in buffer[28..44].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             map_name_raw: buffer[28..44].to_vec(),
             role: u8::from_le_bytes([buffer[44]]),
             role_raw: buffer[44..45].to_vec(),
@@ -59550,8 +60521,8 @@ impl Display for GroupmemberInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("GroupmemberInfo")
             .field("aid(unsigned long as u32)[0, 4]", &self.aid)
-            .field("character_name(char[] as String)[4, 28]", &self.character_name)
-            .field("map_name(char[] as String)[28, 44]", &self.map_name)
+            .field("character_name(char[] as char[])[4, 28]", &self.character_name)
+            .field("map_name(char[] as char[])[28, 44]", &self.map_name)
             .field("role(unsigned char as u8)[44, 45]", &self.role)
             .field("state(unsigned char as u8)[45, 46]", &self.state)
         .finish()
@@ -59569,7 +60540,7 @@ pub struct SKILLINFO {
     pub spcost_raw: Vec<u8>,
     pub attack_range: i16,
     pub attack_range_raw: Vec<u8>,
-    pub skill_name: String,
+    pub skill_name: [char; 24],
     pub skill_name_raw: Vec<u8>,
     pub upgradable: i8,
     pub upgradable_raw: Vec<u8>,
@@ -59588,7 +60559,11 @@ impl SKILLINFO {
             spcost_raw: buffer[8..10].to_vec(),
             attack_range: i16::from_le_bytes([buffer[10], buffer[11]]),
             attack_range_raw: buffer[10..12].to_vec(),
-            skill_name: String::from_utf8_lossy(&buffer[12..36]).to_string(),
+            skill_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[12..36].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             skill_name_raw: buffer[12..36].to_vec(),
             upgradable: i8::from_le_bytes([buffer[36]]),
             upgradable_raw: buffer[36..37].to_vec(),
@@ -59618,7 +60593,7 @@ impl Display for SKILLINFO {
             .field("level(short as i16)[6, 8]", &self.level)
             .field("spcost(short as i16)[8, 10]", &self.spcost)
             .field("attack_range(short as i16)[10, 12]", &self.attack_range)
-            .field("skill_name(char[] as String)[12, 36]", &self.skill_name)
+            .field("skill_name(char[] as char[])[12, 36]", &self.skill_name)
             .field("upgradable(char as i8)[36, 37]", &self.upgradable)
         .finish()
     }
@@ -59863,7 +60838,7 @@ pub struct RelatedGuild {
     pub gdid_raw: Vec<u8>,
     pub relation: i32,
     pub relation_raw: Vec<u8>,
-    pub guild_name: String,
+    pub guild_name: [char; 24],
     pub guild_name_raw: Vec<u8>,
 }
 
@@ -59874,7 +60849,11 @@ impl RelatedGuild {
             gdid_raw: buffer[0..4].to_vec(),
             relation: i32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
             relation_raw: buffer[4..8].to_vec(),
-            guild_name: String::from_utf8_lossy(&buffer[8..32]).to_string(),
+            guild_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[8..32].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             guild_name_raw: buffer[8..32].to_vec(),
         }
     }
@@ -59895,7 +60874,7 @@ impl Display for RelatedGuild {
         f.debug_struct("RelatedGuild")
             .field("gdid(int as i32)[0, 4]", &self.gdid)
             .field("relation(int as i32)[4, 8]", &self.relation)
-            .field("guild_name(char[] as String)[8, 32]", &self.guild_name)
+            .field("guild_name(char[] as char[])[8, 32]", &self.guild_name)
         .finish()
     }
 }
@@ -59921,9 +60900,9 @@ pub struct GuildMembermgrInfo {
     pub current_state_raw: Vec<u8>,
     pub gposition_id: i32,
     pub gposition_id_raw: Vec<u8>,
-    pub memo: String,
+    pub memo: [char; 50],
     pub memo_raw: Vec<u8>,
-    pub char_name: String,
+    pub char_name: [char; 24],
     pub char_name_raw: Vec<u8>,
 }
 
@@ -59950,9 +60929,17 @@ impl GuildMembermgrInfo {
             current_state_raw: buffer[22..26].to_vec(),
             gposition_id: i32::from_le_bytes([buffer[26], buffer[27], buffer[28], buffer[29]]),
             gposition_id_raw: buffer[26..30].to_vec(),
-            memo: String::from_utf8_lossy(&buffer[30..80]).to_string(),
+            memo:  {
+                let mut dst: [char; 50] = [0 as char; 50];
+                for (index, byte) in buffer[30..80].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             memo_raw: buffer[30..80].to_vec(),
-            char_name: String::from_utf8_lossy(&buffer[80..104]).to_string(),
+            char_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[80..104].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             char_name_raw: buffer[80..104].to_vec(),
         }
     }
@@ -59990,8 +60977,8 @@ impl Display for GuildMembermgrInfo {
             .field("member_exp(int as i32)[18, 22]", &self.member_exp)
             .field("current_state(int as i32)[22, 26]", &self.current_state)
             .field("gposition_id(int as i32)[26, 30]", &self.gposition_id)
-            .field("memo(char[] as String)[30, 80]", &self.memo)
-            .field("char_name(char[] as String)[80, 104]", &self.char_name)
+            .field("memo(char[] as char[])[30, 80]", &self.memo)
+            .field("char_name(char[] as char[])[80, 104]", &self.char_name)
         .finish()
     }
 }
@@ -60095,7 +61082,7 @@ pub struct GuildRegPositionInfo {
     pub ranking_raw: Vec<u8>,
     pub pay_rate: i32,
     pub pay_rate_raw: Vec<u8>,
-    pub pos_name: String,
+    pub pos_name: [char; 24],
     pub pos_name_raw: Vec<u8>,
 }
 
@@ -60110,7 +61097,11 @@ impl GuildRegPositionInfo {
             ranking_raw: buffer[8..12].to_vec(),
             pay_rate: i32::from_le_bytes([buffer[12], buffer[13], buffer[14], buffer[15]]),
             pay_rate_raw: buffer[12..16].to_vec(),
-            pos_name: String::from_utf8_lossy(&buffer[16..40]).to_string(),
+            pos_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[16..40].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             pos_name_raw: buffer[16..40].to_vec(),
         }
     }
@@ -60135,28 +61126,40 @@ impl Display for GuildRegPositionInfo {
             .field("right(int as i32)[4, 8]", &self.right)
             .field("ranking(int as i32)[8, 12]", &self.ranking)
             .field("pay_rate(int as i32)[12, 16]", &self.pay_rate)
-            .field("pos_name(char[] as String)[16, 40]", &self.pos_name)
+            .field("pos_name(char[] as char[])[16, 40]", &self.pos_name)
         .finish()
     }
 }
 
 pub struct GuildBanInfo {
-    pub charname: String,
+    pub charname: [char; 24],
     pub charname_raw: Vec<u8>,
-    pub account: String,
+    pub account: [char; 24],
     pub account_raw: Vec<u8>,
-    pub reason: String,
+    pub reason: [char; 40],
     pub reason_raw: Vec<u8>,
 }
 
 impl GuildBanInfo {
     pub fn from(buffer: &[u8]) -> GuildBanInfo {
         GuildBanInfo {
-            charname: String::from_utf8_lossy(&buffer[0..24]).to_string(),
+            charname:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[0..24].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             charname_raw: buffer[0..24].to_vec(),
-            account: String::from_utf8_lossy(&buffer[24..48]).to_string(),
+            account:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[24..48].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             account_raw: buffer[24..48].to_vec(),
-            reason: String::from_utf8_lossy(&buffer[48..88]).to_string(),
+            reason:  {
+                let mut dst: [char; 40] = [0 as char; 40];
+                for (index, byte) in buffer[48..88].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             reason_raw: buffer[48..88].to_vec(),
         }
     }
@@ -60175,15 +61178,15 @@ impl Debug for GuildBanInfo {
 impl Display for GuildBanInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("GuildBanInfo")
-            .field("charname(char[] as String)[0, 24]", &self.charname)
-            .field("account(char[] as String)[24, 48]", &self.account)
-            .field("reason(char[] as String)[48, 88]", &self.reason)
+            .field("charname(char[] as char[])[0, 24]", &self.charname)
+            .field("account(char[] as char[])[24, 48]", &self.account)
+            .field("reason(char[] as char[])[48, 88]", &self.reason)
         .finish()
     }
 }
 
 pub struct OtherGuildInfo {
-    pub guildname: String,
+    pub guildname: [char; 24],
     pub guildname_raw: Vec<u8>,
     pub guild_level: i32,
     pub guild_level_raw: Vec<u8>,
@@ -60196,7 +61199,11 @@ pub struct OtherGuildInfo {
 impl OtherGuildInfo {
     pub fn from(buffer: &[u8]) -> OtherGuildInfo {
         OtherGuildInfo {
-            guildname: String::from_utf8_lossy(&buffer[0..24]).to_string(),
+            guildname:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[0..24].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             guildname_raw: buffer[0..24].to_vec(),
             guild_level: i32::from_le_bytes([buffer[24], buffer[25], buffer[26], buffer[27]]),
             guild_level_raw: buffer[24..28].to_vec(),
@@ -60222,7 +61229,7 @@ impl Debug for OtherGuildInfo {
 impl Display for OtherGuildInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("OtherGuildInfo")
-            .field("guildname(char[] as String)[0, 24]", &self.guildname)
+            .field("guildname(char[] as char[])[0, 24]", &self.guildname)
             .field("guild_level(int as i32)[24, 28]", &self.guild_level)
             .field("guild_member_size(int as i32)[28, 32]", &self.guild_member_size)
             .field("guild_ranking(int as i32)[32, 36]", &self.guild_ranking)
@@ -60233,7 +61240,7 @@ impl Display for OtherGuildInfo {
 pub struct MemberPositionIdNameInfo {
     pub position_id: i32,
     pub position_id_raw: Vec<u8>,
-    pub pos_name: String,
+    pub pos_name: [char; 24],
     pub pos_name_raw: Vec<u8>,
 }
 
@@ -60242,7 +61249,11 @@ impl MemberPositionIdNameInfo {
         MemberPositionIdNameInfo {
             position_id: i32::from_le_bytes([buffer[0], buffer[1], buffer[2], buffer[3]]),
             position_id_raw: buffer[0..4].to_vec(),
-            pos_name: String::from_utf8_lossy(&buffer[4..28]).to_string(),
+            pos_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[4..28].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             pos_name_raw: buffer[4..28].to_vec(),
         }
     }
@@ -60261,7 +61272,7 @@ impl Display for MemberPositionIdNameInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("MemberPositionIdNameInfo")
             .field("position_id(int as i32)[0, 4]", &self.position_id)
-            .field("pos_name(char[] as String)[4, 28]", &self.pos_name)
+            .field("pos_name(char[] as char[])[4, 28]", &self.pos_name)
         .finish()
     }
 }
@@ -60287,9 +61298,9 @@ pub struct GuildMemberInfo {
     pub current_state_raw: Vec<u8>,
     pub position_id: i32,
     pub position_id_raw: Vec<u8>,
-    pub intro: String,
+    pub intro: [char; 50],
     pub intro_raw: Vec<u8>,
-    pub charname: String,
+    pub charname: [char; 24],
     pub charname_raw: Vec<u8>,
 }
 
@@ -60316,9 +61327,17 @@ impl GuildMemberInfo {
             current_state_raw: buffer[22..26].to_vec(),
             position_id: i32::from_le_bytes([buffer[26], buffer[27], buffer[28], buffer[29]]),
             position_id_raw: buffer[26..30].to_vec(),
-            intro: String::from_utf8_lossy(&buffer[30..80]).to_string(),
+            intro:  {
+                let mut dst: [char; 50] = [0 as char; 50];
+                for (index, byte) in buffer[30..80].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             intro_raw: buffer[30..80].to_vec(),
-            charname: String::from_utf8_lossy(&buffer[80..104]).to_string(),
+            charname:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[80..104].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             charname_raw: buffer[80..104].to_vec(),
         }
     }
@@ -60356,8 +61375,8 @@ impl Display for GuildMemberInfo {
             .field("contribution_exp(int as i32)[18, 22]", &self.contribution_exp)
             .field("current_state(int as i32)[22, 26]", &self.current_state)
             .field("position_id(int as i32)[26, 30]", &self.position_id)
-            .field("intro(char[] as String)[30, 80]", &self.intro)
-            .field("charname(char[] as String)[80, 104]", &self.charname)
+            .field("intro(char[] as char[])[30, 80]", &self.intro)
+            .field("charname(char[] as char[])[80, 104]", &self.charname)
         .finish()
     }
 }
@@ -60367,7 +61386,7 @@ pub struct RelatedGuildInfo {
     pub relation_raw: Vec<u8>,
     pub gdid: i32,
     pub gdid_raw: Vec<u8>,
-    pub guildname: String,
+    pub guildname: [char; 24],
     pub guildname_raw: Vec<u8>,
 }
 
@@ -60378,7 +61397,11 @@ impl RelatedGuildInfo {
             relation_raw: buffer[0..4].to_vec(),
             gdid: i32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
             gdid_raw: buffer[4..8].to_vec(),
-            guildname: String::from_utf8_lossy(&buffer[8..32]).to_string(),
+            guildname:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[8..32].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             guildname_raw: buffer[8..32].to_vec(),
         }
     }
@@ -60399,7 +61422,7 @@ impl Display for RelatedGuildInfo {
         f.debug_struct("RelatedGuildInfo")
             .field("relation(int as i32)[0, 4]", &self.relation)
             .field("gdid(int as i32)[4, 8]", &self.gdid)
-            .field("guildname(char[] as String)[8, 32]", &self.guildname)
+            .field("guildname(char[] as char[])[8, 32]", &self.guildname)
         .finish()
     }
 }
@@ -60485,7 +61508,7 @@ impl Display for MonsterInfoElement {
 pub struct MakableitemInfo {
     pub itid: u16,
     pub itid_raw: Vec<u8>,
-    pub material_id: u16,
+    pub material_id: [u16; 3],
     pub material_id_raw: Vec<u8>,
 }
 
@@ -60494,8 +61517,12 @@ impl MakableitemInfo {
         MakableitemInfo {
             itid: u16::from_le_bytes([buffer[0], buffer[1]]),
             itid_raw: buffer[0..2].to_vec(),
-            material_id: u16::from_le_bytes([buffer[2], buffer[3]]),
-            material_id_raw: buffer[2..4].to_vec(),
+            material_id:  {
+                let mut dst: [u16; 3] = [0 as u16; 3];
+                for (index, byte) in buffer[2..5].iter().enumerate() {
+                dst[index] = *byte as u16;                }                dst
+            },
+            material_id_raw: buffer[2..5].to_vec(),
         }
     }
 }
@@ -60504,7 +61531,7 @@ impl Debug for MakableitemInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("MakableitemInfo")
             .field("itid[0, 2]", &format!("{:02X?}", &self.itid_raw))
-            .field("material_id[2, 4]", &format!("{:02X?}", &self.material_id_raw))
+            .field("material_id[2, 5]", &format!("{:02X?}", &self.material_id_raw))
         .finish()
     }
 }
@@ -60513,7 +61540,7 @@ impl Display for MakableitemInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("MakableitemInfo")
             .field("itid(unsigned short as u16)[0, 2]", &self.itid)
-            .field("material_id(unsigned short as u16)[2, 4]", &self.material_id)
+            .field("material_id(unsigned short[] as u16[])[2, 5]", &self.material_id)
         .finish()
     }
 }
@@ -60697,7 +61724,7 @@ pub struct StructFriend {
     pub aid_raw: Vec<u8>,
     pub gid: u32,
     pub gid_raw: Vec<u8>,
-    pub name: String,
+    pub name: [char; 24],
     pub name_raw: Vec<u8>,
 }
 
@@ -60708,7 +61735,11 @@ impl StructFriend {
             aid_raw: buffer[0..4].to_vec(),
             gid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
             gid_raw: buffer[4..8].to_vec(),
-            name: String::from_utf8_lossy(&buffer[8..32]).to_string(),
+            name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[8..32].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             name_raw: buffer[8..32].to_vec(),
         }
     }
@@ -60729,7 +61760,7 @@ impl Display for StructFriend {
         f.debug_struct("StructFriend")
             .field("aid(unsigned long as u32)[0, 4]", &self.aid)
             .field("gid(unsigned long as u32)[4, 8]", &self.gid)
-            .field("name(char[] as String)[8, 32]", &self.name)
+            .field("name(char[] as char[])[8, 32]", &self.name)
         .finish()
     }
 }
@@ -60737,7 +61768,7 @@ impl Display for StructFriend {
 pub struct TagCharacterBlockInfo {
     pub gid: u32,
     pub gid_raw: Vec<u8>,
-    pub sz_expire_date: String,
+    pub sz_expire_date: [char; 20],
     pub sz_expire_date_raw: Vec<u8>,
 }
 
@@ -60746,7 +61777,11 @@ impl TagCharacterBlockInfo {
         TagCharacterBlockInfo {
             gid: u32::from_le_bytes([buffer[0], buffer[1], buffer[2], buffer[3]]),
             gid_raw: buffer[0..4].to_vec(),
-            sz_expire_date: String::from_utf8_lossy(&buffer[4..24]).to_string(),
+            sz_expire_date:  {
+                let mut dst: [char; 20] = [0 as char; 20];
+                for (index, byte) in buffer[4..24].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             sz_expire_date_raw: buffer[4..24].to_vec(),
         }
     }
@@ -60765,7 +61800,7 @@ impl Display for TagCharacterBlockInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("TagCharacterBlockInfo")
             .field("gid(unsigned long as u32)[0, 4]", &self.gid)
-            .field("sz_expire_date(char[] as String)[4, 24]", &self.sz_expire_date)
+            .field("sz_expire_date(char[] as char[])[4, 24]", &self.sz_expire_date)
         .finish()
     }
 }
@@ -60851,11 +61886,11 @@ impl Display for Filetime {
 pub struct MailList {
     pub mail_id: u32,
     pub mail_id_raw: Vec<u8>,
-    pub header: String,
+    pub header: [char; 40],
     pub header_raw: Vec<u8>,
     pub is_open: i8,
     pub is_open_raw: Vec<u8>,
-    pub from_name: String,
+    pub from_name: [char; 24],
     pub from_name_raw: Vec<u8>,
     pub delete_time: i32,
     pub delete_time_raw: Vec<u8>,
@@ -60866,11 +61901,19 @@ impl MailList {
         MailList {
             mail_id: u32::from_le_bytes([buffer[0], buffer[1], buffer[2], buffer[3]]),
             mail_id_raw: buffer[0..4].to_vec(),
-            header: String::from_utf8_lossy(&buffer[4..44]).to_string(),
+            header:  {
+                let mut dst: [char; 40] = [0 as char; 40];
+                for (index, byte) in buffer[4..44].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             header_raw: buffer[4..44].to_vec(),
             is_open: i8::from_le_bytes([buffer[44]]),
             is_open_raw: buffer[44..45].to_vec(),
-            from_name: String::from_utf8_lossy(&buffer[45..69]).to_string(),
+            from_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[45..69].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             from_name_raw: buffer[45..69].to_vec(),
             delete_time: i32::from_le_bytes([buffer[69], buffer[70], buffer[71], buffer[72]]),
             delete_time_raw: buffer[69..73].to_vec(),
@@ -60894,9 +61937,9 @@ impl Display for MailList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("MailList")
             .field("mail_id(unsigned long as u32)[0, 4]", &self.mail_id)
-            .field("header(char[] as String)[4, 44]", &self.header)
+            .field("header(char[] as char[])[4, 44]", &self.header)
             .field("is_open(char as i8)[44, 45]", &self.is_open)
-            .field("from_name(char[] as String)[45, 69]", &self.from_name)
+            .field("from_name(char[] as char[])[45, 69]", &self.from_name)
             .field("delete_time(long as i32)[69, 73]", &self.delete_time)
         .finish()
     }
@@ -60905,7 +61948,7 @@ impl Display for MailList {
 pub struct AuctionItemSearchInfo {
     pub auction_id: u32,
     pub auction_id_raw: Vec<u8>,
-    pub seller_name: String,
+    pub seller_name: [char; 24],
     pub seller_name_raw: Vec<u8>,
     pub itid: u16,
     pub itid_raw: Vec<u8>,
@@ -60925,7 +61968,7 @@ pub struct AuctionItemSearchInfo {
     pub now_price_raw: Vec<u8>,
     pub max_price: i32,
     pub max_price_raw: Vec<u8>,
-    pub buyer_name: String,
+    pub buyer_name: [char; 24],
     pub buyer_name_raw: Vec<u8>,
     pub delete_time: i32,
     pub delete_time_raw: Vec<u8>,
@@ -60936,7 +61979,11 @@ impl AuctionItemSearchInfo {
         AuctionItemSearchInfo {
             auction_id: u32::from_le_bytes([buffer[0], buffer[1], buffer[2], buffer[3]]),
             auction_id_raw: buffer[0..4].to_vec(),
-            seller_name: String::from_utf8_lossy(&buffer[4..28]).to_string(),
+            seller_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[4..28].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             seller_name_raw: buffer[4..28].to_vec(),
             itid: u16::from_le_bytes([buffer[28], buffer[29]]),
             itid_raw: buffer[28..30].to_vec(),
@@ -60956,7 +62003,11 @@ impl AuctionItemSearchInfo {
             now_price_raw: buffer[47..51].to_vec(),
             max_price: i32::from_le_bytes([buffer[51], buffer[52], buffer[53], buffer[54]]),
             max_price_raw: buffer[51..55].to_vec(),
-            buyer_name: String::from_utf8_lossy(&buffer[55..79]).to_string(),
+            buyer_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[55..79].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             buyer_name_raw: buffer[55..79].to_vec(),
             delete_time: i32::from_le_bytes([buffer[79], buffer[80], buffer[81], buffer[82]]),
             delete_time_raw: buffer[79..83].to_vec(),
@@ -60988,7 +62039,7 @@ impl Display for AuctionItemSearchInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("AuctionItemSearchInfo")
             .field("auction_id(unsigned long as u32)[0, 4]", &self.auction_id)
-            .field("seller_name(char[] as String)[4, 28]", &self.seller_name)
+            .field("seller_name(char[] as char[])[4, 28]", &self.seller_name)
             .field("itid(unsigned short as u16)[28, 30]", &self.itid)
             .field("atype(int as i32)[30, 34]", &self.atype)
             .field("count(short as i16)[34, 36]", &self.count)
@@ -60998,7 +62049,7 @@ impl Display for AuctionItemSearchInfo {
             .field("slot(struct as Struct)[39, 47]", &self.slot)
             .field("now_price(int as i32)[47, 51]", &self.now_price)
             .field("max_price(int as i32)[51, 55]", &self.max_price)
-            .field("buyer_name(char[] as String)[55, 79]", &self.buyer_name)
+            .field("buyer_name(char[] as char[])[55, 79]", &self.buyer_name)
             .field("delete_time(long as i32)[79, 83]", &self.delete_time)
         .finish()
     }
@@ -61225,7 +62276,7 @@ pub struct PacketZcMissionHunt {
     pub mob_gid_raw: Vec<u8>,
     pub hunt_count: i16,
     pub hunt_count_raw: Vec<u8>,
-    pub mob_name: String,
+    pub mob_name: [char; 24],
     pub mob_name_raw: Vec<u8>,
 }
 
@@ -61236,7 +62287,11 @@ impl PacketZcMissionHunt {
             mob_gid_raw: buffer[0..4].to_vec(),
             hunt_count: i16::from_le_bytes([buffer[4], buffer[5]]),
             hunt_count_raw: buffer[4..6].to_vec(),
-            mob_name: String::from_utf8_lossy(&buffer[6..30]).to_string(),
+            mob_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[6..30].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             mob_name_raw: buffer[6..30].to_vec(),
         }
     }
@@ -61257,7 +62312,7 @@ impl Display for PacketZcMissionHunt {
         f.debug_struct("PacketZcMissionHunt")
             .field("mob_gid(unsigned long as u32)[0, 4]", &self.mob_gid)
             .field("hunt_count(short as i16)[4, 6]", &self.hunt_count)
-            .field("mob_name(char[] as String)[6, 30]", &self.mob_name)
+            .field("mob_name(char[] as char[])[6, 30]", &self.mob_name)
         .finish()
     }
 }
@@ -61610,7 +62665,7 @@ impl Display for CharacterList {
 pub struct BattleFieldInfo {
     pub bfno: u32,
     pub bfno_raw: Vec<u8>,
-    pub battle_field_name: String,
+    pub battle_field_name: [char; 56],
     pub battle_field_name_raw: Vec<u8>,
     pub join_team: i16,
     pub join_team_raw: Vec<u8>,
@@ -61621,7 +62676,11 @@ impl BattleFieldInfo {
         BattleFieldInfo {
             bfno: u32::from_le_bytes([buffer[0], buffer[1], buffer[2], buffer[3]]),
             bfno_raw: buffer[0..4].to_vec(),
-            battle_field_name: String::from_utf8_lossy(&buffer[4..60]).to_string(),
+            battle_field_name:  {
+                let mut dst: [char; 56] = [0 as char; 56];
+                for (index, byte) in buffer[4..60].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             battle_field_name_raw: buffer[4..60].to_vec(),
             join_team: i16::from_le_bytes([buffer[60], buffer[61]]),
             join_team_raw: buffer[60..62].to_vec(),
@@ -61643,7 +62702,7 @@ impl Display for BattleFieldInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("BattleFieldInfo")
             .field("bfno(unsigned long as u32)[0, 4]", &self.bfno)
-            .field("battle_field_name(char[] as String)[4, 60]", &self.battle_field_name)
+            .field("battle_field_name(char[] as char[])[4, 60]", &self.battle_field_name)
             .field("join_team(short as i16)[60, 62]", &self.join_team)
         .finish()
     }
@@ -61654,7 +62713,7 @@ pub struct PartyBookingDetail {
     pub level_raw: Vec<u8>,
     pub map_id: i16,
     pub map_id_raw: Vec<u8>,
-    pub job: i16,
+    pub job: [i16; 6],
     pub job_raw: Vec<u8>,
 }
 
@@ -61665,8 +62724,12 @@ impl PartyBookingDetail {
             level_raw: buffer[0..2].to_vec(),
             map_id: i16::from_le_bytes([buffer[2], buffer[3]]),
             map_id_raw: buffer[2..4].to_vec(),
-            job: i16::from_le_bytes([buffer[4], buffer[5]]),
-            job_raw: buffer[4..6].to_vec(),
+            job:  {
+                let mut dst: [i16; 6] = [0 as i16; 6];
+                for (index, byte) in buffer[4..10].iter().enumerate() {
+                dst[index] = *byte as i16;                }                dst
+            },
+            job_raw: buffer[4..10].to_vec(),
         }
     }
 }
@@ -61676,7 +62739,7 @@ impl Debug for PartyBookingDetail {
         f.debug_struct("PartyBookingDetail")
             .field("level[0, 2]", &format!("{:02X?}", &self.level_raw))
             .field("map_id[2, 4]", &format!("{:02X?}", &self.map_id_raw))
-            .field("job[4, 6]", &format!("{:02X?}", &self.job_raw))
+            .field("job[4, 10]", &format!("{:02X?}", &self.job_raw))
         .finish()
     }
 }
@@ -61686,7 +62749,7 @@ impl Display for PartyBookingDetail {
         f.debug_struct("PartyBookingDetail")
             .field("level(short as i16)[0, 2]", &self.level)
             .field("map_id(short as i16)[2, 4]", &self.map_id)
-            .field("job(short as i16)[4, 6]", &self.job)
+            .field("job(short[] as i16[])[4, 10]", &self.job)
         .finish()
     }
 }
@@ -61694,7 +62757,7 @@ impl Display for PartyBookingDetail {
 pub struct PartyBookingAdInfo {
     pub index: u32,
     pub index_raw: Vec<u8>,
-    pub char_name: String,
+    pub char_name: [char; 24],
     pub char_name_raw: Vec<u8>,
     pub expire_time: i32,
     pub expire_time_raw: Vec<u8>,
@@ -61707,7 +62770,11 @@ impl PartyBookingAdInfo {
         PartyBookingAdInfo {
             index: u32::from_le_bytes([buffer[0], buffer[1], buffer[2], buffer[3]]),
             index_raw: buffer[0..4].to_vec(),
-            char_name: String::from_utf8_lossy(&buffer[4..28]).to_string(),
+            char_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[4..28].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             char_name_raw: buffer[4..28].to_vec(),
             expire_time: i32::from_le_bytes([buffer[28], buffer[29], buffer[30], buffer[31]]),
             expire_time_raw: buffer[28..32].to_vec(),
@@ -61732,7 +62799,7 @@ impl Display for PartyBookingAdInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PartyBookingAdInfo")
             .field("index(unsigned long as u32)[0, 4]", &self.index)
-            .field("char_name(char[] as String)[4, 28]", &self.char_name)
+            .field("char_name(char[] as char[])[4, 28]", &self.char_name)
             .field("expire_time(long as i32)[28, 32]", &self.expire_time)
             .field("detail(struct as Struct)[32, ?]", &self.detail)
         .finish()
@@ -61876,7 +62943,7 @@ pub struct ResultItemInfo {
     pub ssiid_raw: Vec<u8>,
     pub aid: u32,
     pub aid_raw: Vec<u8>,
-    pub store_name: String,
+    pub store_name: [char; 80],
     pub store_name_raw: Vec<u8>,
     pub itid: u16,
     pub itid_raw: Vec<u8>,
@@ -61905,7 +62972,11 @@ impl ResultItemInfo {
             ssiid_raw: buffer[0..4].to_vec(),
             aid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
             aid_raw: buffer[4..8].to_vec(),
-            store_name: String::from_utf8_lossy(&buffer[8..88]).to_string(),
+            store_name:  {
+                let mut dst: [char; 80] = [0 as char; 80];
+                for (index, byte) in buffer[8..88].iter().enumerate() {
+                dst[index] = *byte as char;                }                dst
+            },
             store_name_raw: buffer[8..88].to_vec(),
             itid: u16::from_le_bytes([buffer[88], buffer[89]]),
             itid_raw: buffer[88..90].to_vec(),
@@ -61953,7 +63024,7 @@ impl Display for ResultItemInfo {
         f.debug_struct("ResultItemInfo")
             .field("ssiid(unsigned int as u32)[0, 4]", &self.ssiid)
             .field("aid(unsigned int as u32)[4, 8]", &self.aid)
-            .field("store_name(char[] as String)[8, 88]", &self.store_name)
+            .field("store_name(char[] as char[])[8, 88]", &self.store_name)
             .field("itid(unsigned short as u16)[88, 90]", &self.itid)
             .field("item_type(unsigned char as u8)[90, 91]", &self.item_type)
             .field("price(int as i32)[91, 95]", &self.price)

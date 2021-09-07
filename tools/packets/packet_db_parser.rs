@@ -18,6 +18,7 @@ lazy_static! {
     pub static ref static_types_map: HashMap<&'static str, Type> = hashmap!{
         "char" => Type {name: "i8".to_string(), cname: "char".to_string(), length: Some(1)},
         "unsigned char" => Type {name: "u8".to_string(), cname: "unsigned char".to_string(), length: Some(1)},
+        "rust char" => Type {name: "char".to_string(), cname: "char".to_string(), length: Some(1)},
         "short" => Type {name: "i16".to_string(), cname: "short".to_string(), length: Some(2)},
         "unsigned short" => Type {name: "u16".to_string(), cname: "unsigned short".to_string(), length: Some(2)},
         "int" => Type {name: "i32".to_string(), cname: "int".to_string(), length: Some(4)},
@@ -27,7 +28,8 @@ lazy_static! {
         "bool" => Type {name: "bool".to_string(), cname: "bool".to_string(), length: Some(1)},
         "string" => Type {name: "String".to_string(), cname: "char[]".to_string(), length: None},
         "struct" => Type {name: "Struct".to_string(), cname: "struct".to_string(), length: None},
-        "array" => Type {name: "Vec".to_string(), cname: "[]".to_string(), length: None},
+        "array of struct" => Type {name: "Vec".to_string(), cname: "[]".to_string(), length: None},
+        "array" => Type {name: "Array".to_string(), cname: "[]".to_string(), length: None},
     };
     static ref struct_regex: Regex = Regex::new(r"struct\s([^\s]*)\s.*").unwrap();
     static ref nested_struct_regex: Regex = Regex::new(r"struct\s([^\s]*)\s([^\s\[]*)\[?.*/?\s(\d+)?").unwrap();
@@ -36,6 +38,8 @@ lazy_static! {
     static ref after_underscore_char_regex: Regex = Regex::new(r"_(\w)").unwrap();
     static ref uppercase_char_regex: Regex = Regex::new(r"([A-Z])").unwrap();
     static ref first_char_regex: Regex = Regex::new(r"^(\w)").unwrap();
+    static ref array_regex: Regex = Regex::new(r"\s([A-Za-z_0-9]*)\[(\d+)\]").unwrap();
+    static ref array_of_unknown_length_regex: Regex = Regex::new(r"\s([A-Za-z_0-9]*)\[...\]").unwrap();
 }
 
 pub fn parse(packet_db_path: &Path) -> (Vec<PacketStructDefinition>, Vec<StructDefinition>) {
@@ -126,21 +130,38 @@ fn get_field_for_nested_struct<'a>(line: String) -> StructField<'a> {
     StructField {
         name: get_field_name(&name),
         position,
-        data_type: if line.contains("[") { static_types_map.get("array").unwrap() } else { static_types_map.get("struct").unwrap() },
+        data_type: if line.contains("[") { static_types_map.get("array of struct").unwrap() } else { static_types_map.get("struct").unwrap() },
         length,
         complex_type: Some(struct_name(&complex_type_name)),
+        sub_type: None,
     }
 }
 
 fn get_field<'a>(line_without_this: String, full_line: String) -> StructField<'a> {
-    let field_type = get_type(&line_without_this);
+    let mut field_type = get_type(&line_without_this, false);
     let name = get_field_name(&line_without_this);
     let position = get_field_position(&full_line);
     let mut length: i32 = -1;
+    let mut sub_type = None;
     if field_type.length.is_some() {
         length = field_type.length.unwrap();
     } else if field_type.name == "String" {
         length = get_string_field_length(&line_without_this);
+    }
+
+    if field_type.name ==  "Array" {
+        let captures_option = array_regex.captures(line_without_this.as_str());
+        if captures_option.is_some() { // match xxx[12]
+            let options = captures_option.unwrap();
+            if line_without_this.contains("char") {
+                sub_type = Some(static_types_map.get("rust char").unwrap());
+            } else {
+                sub_type = Some(get_type(&line_without_this, true));
+            }
+            length = options.get(2).unwrap().as_str().parse::<i32>().unwrap();
+        } else if line_without_this.contains("char") { // match char xxx[...]
+            field_type = static_types_map.get("string").unwrap();
+        }
     }
 
     StructField {
@@ -149,6 +170,7 @@ fn get_field<'a>(line_without_this: String, full_line: String) -> StructField<'a
         data_type: field_type,
         length,
         complex_type: None,
+        sub_type
     }
 }
 
@@ -191,11 +213,11 @@ fn get_field_name(line: &String) -> String {
     name
 }
 
-fn get_type(line: &String) -> &'static Type {
+fn get_type(line: &String, should_ignore_array: bool) -> &'static Type {
     let is_unsigned = line.contains("unsigned");
     let mut type_str = line.replace("unsigned ", "");
-    if type_str.contains("char") && type_str.contains("[") {
-        return static_types_map.get("string").unwrap();
+    if type_str.contains("[") && !should_ignore_array {
+        return static_types_map.get("array").unwrap();
     }
     let frag: Vec<&str> = type_str.split(" ").collect();
     let mut type_to_retrieve = frag[1].trim().to_string();
