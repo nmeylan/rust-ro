@@ -37,6 +37,7 @@ pub struct StructField<'a> {
     pub length: i32,
     pub data_type: &'a Type,
     pub complex_type: Option<String>,
+    pub sub_type: Option<&'a Type>,
 }
 
 #[derive(Debug)]

@@ -375,7 +375,7 @@
   /* this+0x2e */ short virtue
   /* this+0x30 */ bool isPKModeON
   /* this+0x31 */ unsigned char sex
-  /* this+0x32 */ unsigned char MoveData[6]
+  /* this+0x32 */ unsigned short MoveData[6]
   /* this+0x38 */ unsigned char xSize
   /* this+0x39 */ unsigned char ySize
   /* this+0x3a */ short clevel
@@ -451,14 +451,14 @@
  struct PACKET_ZC_NOTIFY_MOVE {
   /* this+0x0 */ short PacketId
   /* this+0x2 */ unsigned long GID
-  /* this+0x6 */ unsigned char MoveData[6]
+  /* this+0x6 */ unsigned short MoveData[6]
   /* this+0xc */ unsigned long moveStartTime
  }
 0x87
  struct PACKET_ZC_NOTIFY_PLAYERMOVE {
   /* this+0x0 */ short PacketId
   /* this+0x2 */ unsigned long moveStartTime
-  /* this+0x6 */ unsigned char MoveData[6]
+  /* this+0x6 */ unsigned short MoveData[6]
  }
 0x88
  struct PACKET_ZC_STOPMOVE {
@@ -2974,7 +2974,7 @@
   /* this+0x2e */ short virtue
   /* this+0x30 */ bool isPKModeON
   /* this+0x31 */ unsigned char sex
-  /* this+0x32 */ unsigned char MoveData[6]
+  /* this+0x32 */ unsigned short MoveData[6]
   /* this+0x38 */ unsigned char xSize
   /* this+0x39 */ unsigned char ySize
   /* this+0x3a */ short clevel
@@ -3655,7 +3655,7 @@
   /* this+0x31 */ int virtue
   /* this+0x35 */ bool isPKModeON
   /* this+0x36 */ unsigned char sex
-  /* this+0x37 */ unsigned char MoveData[6]
+  /* this+0x37 */ unsigned short MoveData[6]
   /* this+0x3d */ unsigned char xSize
   /* this+0x3e */ unsigned char ySize
   /* this+0x3f */ short clevel
@@ -5100,7 +5100,7 @@ struct UNUSED_PACKET_CZ_MER_UPGRADE_SKILLLEVEL {
   /* this+0x31 */ int virtue
   /* this+0x35 */ bool isPKModeON
   /* this+0x36 */ unsigned char sex
-  /* this+0x37 */ unsigned char MoveData[6]
+  /* this+0x37 */ unsigned short MoveData[6]
   /* this+0x3d */ unsigned char xSize
   /* this+0x3e */ unsigned char ySize
   /* this+0x3f */ short clevel
@@ -5630,7 +5630,7 @@ struct UNUSED_PACKET_CZ_MER_UPGRADE_SKILLLEVEL {
   /* this+0x33 */ int virtue
   /* this+0x37 */ bool isPKModeON
   /* this+0x38 */ unsigned char sex
-  /* this+0x39 */ unsigned char MoveData[6]
+  /* this+0x39 */ unsigned short MoveData[6]
   /* this+0x3f */ unsigned char xSize
   /* this+0x40 */ unsigned char ySize
   /* this+0x41 */ short clevel

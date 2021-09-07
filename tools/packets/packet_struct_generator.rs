@@ -114,7 +114,7 @@ fn write_struct_info_trait(file: &mut File, struct_definition: &StructDefinition
         } else {
             file.write(format!("            .field(\"{}{}{}\", &self.{})\n",
                                field.name,
-                               format!("({} as {})", field.data_type.cname, field.data_type.name),
+                               get_display_type(&field),
                                format!("[{}, {}]", field.position, if field.length > -1 { (i32::from(field.position) + field.length).to_string() } else { "?".to_string() }),
                                field.name
             ).as_bytes());
@@ -125,6 +125,14 @@ fn write_struct_info_trait(file: &mut File, struct_definition: &StructDefinition
     file.write(b"}\n\n");
 }
 
+fn get_display_type(field: &StructField) -> String {
+    if field.data_type.name == "Array" && field.sub_type.is_some() {
+        let sub_type = field.sub_type.unwrap();
+        return format!("({}[] as {}[])", sub_type.cname, sub_type.name);
+    }
+
+    format!("({} as {})", field.data_type.cname, field.data_type.name)
+}
 fn write_struct_definition(file: &mut File, struct_definition: &StructDefinition, is_packet: bool) {
     file.write(format!("pub struct {} {{\n", struct_definition.name).as_bytes());
     if is_packet {
@@ -135,7 +143,14 @@ fn write_struct_definition(file: &mut File, struct_definition: &StructDefinition
             file.write(format!("    pub {}: Vec<{}>,\n", field.name, &field.complex_type.as_ref().unwrap()).as_bytes());
         } else if &field.data_type.name == "Struct" {
             file.write(format!("    pub {}: {},\n", field.name, &field.complex_type.as_ref().unwrap()).as_bytes());
-        } else {
+        } else if &field.data_type.name == "Array" {
+            if field.sub_type.is_some() {
+                file.write(format!("    pub {}: [{}; {}],\n", field.name, &field.sub_type.unwrap().name, field.length).as_bytes());
+            } else {
+                file.write(format!("    pub {}: Vec<u8>,\n", field.name).as_bytes());
+            }
+        }
+        else {
             file.write(format!("    pub {}: {},\n", field.name, field.data_type.name).as_bytes());
         }
         file.write(format!("    pub {}_raw: Vec<u8>,\n", field.name).as_bytes());
@@ -209,6 +224,25 @@ fn struct_impl_field_value(field: &StructField) -> String {
         }
         "String" => {
             format!("String::from_utf8_lossy(&buffer[{}..{}]).to_string()", field.position, field_length(field))
+        }
+        "Array" => {
+            let mut array_block = " {\n".to_string();
+            let length = &field.length;
+            if field.sub_type.is_some() {
+                let sub_type_name = &field.sub_type.unwrap().name;
+                array_block = format!("{}                let mut dst: [{}; {}] = [0 as {}; {}];\n", array_block, sub_type_name, length, sub_type_name, length);
+                array_block = format!("{}                for (index, byte) in buffer[{}..{}].iter().enumerate() {{\n", array_block, field.position, field.position + field.length as i16);
+                array_block = format!("{}                dst[index] = *byte as {};", array_block, sub_type_name);
+                array_block = format!("{}                }}", array_block);
+                // array_block = format!("{}                dst.clone_from_slice(&buffer[{}..{}].iter().map(|byte| *byte as {}).collect());\n", array_block, field.position, field.position + field.length as i16, sub_type_name);
+            } else if field.length > -1 {
+                array_block = format!("{}                let mut dst: [u8; {}] = [0; {}];\n", array_block, length, length);
+                array_block = format!("{}                dst.clone_from_slice(&buffer[{}..{}]);\n", array_block, field.position, field.position + field.length as i16);
+            } else {
+                array_block = format!("{}                let dst: Vec<u8> = buffer[{}..buffer.len()].to_vec();\n", array_block, field.position);
+            }
+            array_block = format!("{}                dst\n            }}", array_block);
+            array_block
         }
         _ => {
             format!("\"found unknown type {} for field {}. this won't compile!\"", field.data_type.name, field.name)
