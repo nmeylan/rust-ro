@@ -2326,13 +2326,17 @@ impl PacketCaLogin {
             id:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[6..30].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             id_raw: buffer[6..30].to_vec(),
             passwd:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[30..54].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             passwd_raw: buffer[30..54].to_vec(),
             client_type: u8::from_le_bytes([buffer[54]]),
@@ -2569,7 +2573,9 @@ impl PacketChMakeChar {
             name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[2..26].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             name_raw: buffer[2..26].to_vec(),
             str: u8::from_le_bytes([buffer[26]]),
@@ -2674,7 +2680,9 @@ impl PacketChDeleteChar {
             key:  {
                 let mut dst: [char; 40] = [0 as char; 40];
                 for (index, byte) in buffer[6..46].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             key_raw: buffer[6..46].to_vec(),
         }
@@ -2774,7 +2782,9 @@ impl PacketAcAcceptLogin {
             last_login_time:  {
                 let mut dst: [char; 26] = [0 as char; 26];
                 for (index, byte) in buffer[20..46].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             last_login_time_raw: buffer[20..46].to_vec(),
             sex: u8::from_le_bytes([buffer[46]]),
@@ -2894,7 +2904,9 @@ impl PacketAcAcceptLogin2 {
             last_login_time:  {
                 let mut dst: [char; 26] = [0 as char; 26];
                 for (index, byte) in buffer[20..46].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             last_login_time_raw: buffer[20..46].to_vec(),
             sex: u8::from_le_bytes([buffer[46]]),
@@ -2902,7 +2914,9 @@ impl PacketAcAcceptLogin2 {
             twitter_auth_token:  {
                 let mut dst: [char; 16] = [0 as char; 16];
                 for (index, byte) in buffer[47..63].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             twitter_auth_token_raw: buffer[47..63].to_vec(),
             twitter_flag: u16::from_le_bytes([buffer[63], buffer[64]]),
@@ -2993,7 +3007,9 @@ impl PacketAcRefuseLogin {
             block_date:  {
                 let mut dst: [char; 20] = [0 as char; 20];
                 for (index, byte) in buffer[3..23].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             block_date_raw: buffer[3..23].to_vec(),
         }
@@ -3103,7 +3119,9 @@ impl PacketHcAcceptEnterNeoUnion {
             dummy2_endbilling:  {
                 let mut dst: [char; 7] = [0 as char; 7];
                 for (index, byte) in buffer[20..27].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             dummy2_endbilling_raw: buffer[20..27].to_vec(),
             char_info: vec_field,
@@ -3493,7 +3511,9 @@ impl PacketHcNotifyZonesvr {
             map_name:  {
                 let mut dst: [char; 16] = [0 as char; 16];
                 for (index, byte) in buffer[6..22].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             map_name_raw: buffer[6..22].to_vec(),
             addr: ZserverAddr::from(&buffer[22..buffer.len()]),
@@ -3657,7 +3677,9 @@ impl PacketZcAcceptEnter {
             pos_dir:  {
                 let mut dst: [char; 3] = [0 as char; 3];
                 for (index, byte) in buffer[6..9].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             pos_dir_raw: buffer[6..9].to_vec(),
             x_size: u8::from_le_bytes([buffer[9]]),
@@ -4108,7 +4130,9 @@ impl PacketZcNotifyStandentry {
             pos_dir:  {
                 let mut dst: [char; 3] = [0 as char; 3];
                 for (index, byte) in buffer[47..50].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             pos_dir_raw: buffer[47..50].to_vec(),
             x_size: u8::from_le_bytes([buffer[50]]),
@@ -4323,7 +4347,9 @@ impl PacketZcNotifyNewentry {
             pos_dir:  {
                 let mut dst: [char; 3] = [0 as char; 3];
                 for (index, byte) in buffer[46..49].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             pos_dir_raw: buffer[46..49].to_vec(),
             x_size: u8::from_le_bytes([buffer[49]]),
@@ -4536,7 +4562,9 @@ impl PacketZcNotifyActentry {
             pos_dir:  {
                 let mut dst: [char; 3] = [0 as char; 3];
                 for (index, byte) in buffer[46..49].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             pos_dir_raw: buffer[46..49].to_vec(),
             x_size: u8::from_le_bytes([buffer[49]]),
@@ -4757,7 +4785,9 @@ impl PacketZcNotifyMoveentry {
             move_data:  {
                 let mut dst: [u16; 6] = [0 as u16; 6];
                 for (index, byte) in buffer[50..56].iter().enumerate() {
-                dst[index] = *byte as u16;                }                dst
+                    dst[index] = *byte as u16;
+                }
+                dst
             },
             move_data_raw: buffer[50..56].to_vec(),
             x_size: u8::from_le_bytes([buffer[56]]),
@@ -4954,7 +4984,9 @@ impl PacketZcNotifyStandentryNpc {
             pos_dir:  {
                 let mut dst: [char; 3] = [0 as char; 3];
                 for (index, byte) in buffer[37..40].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             pos_dir_raw: buffer[37..40].to_vec(),
             x_size: u8::from_le_bytes([buffer[40]]),
@@ -5533,7 +5565,9 @@ impl PacketCzRequestMove {
             dest:  {
                 let mut dst: [char; 3] = [0 as char; 3];
                 for (index, byte) in buffer[2..5].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             dest_raw: buffer[2..5].to_vec(),
         }
@@ -5604,7 +5638,9 @@ impl PacketZcNotifyMove {
             move_data:  {
                 let mut dst: [u16; 6] = [0 as u16; 6];
                 for (index, byte) in buffer[6..12].iter().enumerate() {
-                dst[index] = *byte as u16;                }                dst
+                    dst[index] = *byte as u16;
+                }
+                dst
             },
             move_data_raw: buffer[6..12].to_vec(),
             move_start_time: u32::from_le_bytes([buffer[12], buffer[13], buffer[14], buffer[15]]),
@@ -5679,7 +5715,9 @@ impl PacketZcNotifyPlayermove {
             move_data:  {
                 let mut dst: [u16; 6] = [0 as u16; 6];
                 for (index, byte) in buffer[6..12].iter().enumerate() {
-                dst[index] = *byte as u16;                }                dst
+                    dst[index] = *byte as u16;
+                }
+                dst
             },
             move_data_raw: buffer[6..12].to_vec(),
         }
@@ -6437,7 +6475,9 @@ impl PacketZcNpcackMapmove {
             map_name:  {
                 let mut dst: [char; 16] = [0 as char; 16];
                 for (index, byte) in buffer[2..18].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             map_name_raw: buffer[2..18].to_vec(),
             x_pos: i16::from_le_bytes([buffer[18], buffer[19]]),
@@ -6516,7 +6556,9 @@ impl PacketZcNpcackServermove {
             map_name:  {
                 let mut dst: [char; 16] = [0 as char; 16];
                 for (index, byte) in buffer[2..18].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             map_name_raw: buffer[2..18].to_vec(),
             x_pos: i16::from_le_bytes([buffer[18], buffer[19]]),
@@ -6713,7 +6755,9 @@ impl PacketZcAckReqname {
             cname:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[6..30].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             cname_raw: buffer[6..30].to_vec(),
         }
@@ -6786,7 +6830,9 @@ impl PacketCzWhisper {
             receiver:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[4..28].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             receiver_raw: buffer[4..28].to_vec(),
             msg: String::from_utf8_lossy(&buffer[44..buffer.len()]).to_string(),
@@ -6863,7 +6909,9 @@ impl PacketZcWhisper {
             sender:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[4..28].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             sender_raw: buffer[4..28].to_vec(),
             msg: String::from_utf8_lossy(&buffer[44..buffer.len()]).to_string(),
@@ -10745,7 +10793,9 @@ impl PacketCzSettingWhisperPc {
             name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[2..26].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             name_raw: buffer[2..26].to_vec(),
             atype: u8::from_le_bytes([buffer[26]]),
@@ -11154,7 +11204,9 @@ impl PacketCzCreateChatroom {
             passwd:  {
                 let mut dst: [char; 8] = [0 as char; 8];
                 for (index, byte) in buffer[7..15].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             passwd_raw: buffer[7..15].to_vec(),
             title: String::from_utf8_lossy(&buffer[15..buffer.len()]).to_string(),
@@ -11452,7 +11504,9 @@ impl PacketCzReqEnterRoom {
             passwd:  {
                 let mut dst: [char; 8] = [0 as char; 8];
                 for (index, byte) in buffer[6..14].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             passwd_raw: buffer[6..14].to_vec(),
         }
@@ -11666,7 +11720,9 @@ impl PacketZcMemberNewentry {
             name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[4..28].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             name_raw: buffer[4..28].to_vec(),
         }
@@ -11739,7 +11795,9 @@ impl PacketZcMemberExit {
             name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[4..28].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             name_raw: buffer[4..28].to_vec(),
             atype: u8::from_le_bytes([buffer[28]]),
@@ -11824,7 +11882,9 @@ impl PacketCzChangeChatroom {
             passwd:  {
                 let mut dst: [char; 8] = [0 as char; 8];
                 for (index, byte) in buffer[7..15].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             passwd_raw: buffer[7..15].to_vec(),
             title: String::from_utf8_lossy(&buffer[15..buffer.len()]).to_string(),
@@ -12000,7 +12060,9 @@ impl PacketCzReqRoleChange {
             name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[6..30].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             name_raw: buffer[6..30].to_vec(),
         }
@@ -12071,7 +12133,9 @@ impl PacketZcRoleChange {
             name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[6..30].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             name_raw: buffer[6..30].to_vec(),
         }
@@ -12138,7 +12202,9 @@ impl PacketCzReqExpelMember {
             name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[2..26].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             name_raw: buffer[2..26].to_vec(),
         }
@@ -12319,7 +12385,9 @@ impl PacketZcReqExchangeItem {
             name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[2..26].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             name_raw: buffer[2..26].to_vec(),
         }
@@ -13603,7 +13671,9 @@ impl PacketCzMakeGroup {
             group_name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[2..26].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             group_name_raw: buffer[2..26].to_vec(),
         }
@@ -13744,7 +13814,9 @@ impl PacketZcGroupList {
             group_name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[4..28].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             group_name_raw: buffer[4..28].to_vec(),
             group_info: vec_field,
@@ -13878,7 +13950,9 @@ impl PacketZcAckReqJoinGroup {
             character_name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[2..26].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             character_name_raw: buffer[2..26].to_vec(),
             answer: u8::from_le_bytes([buffer[26]]),
@@ -13951,7 +14025,9 @@ impl PacketZcReqJoinGroup {
             group_name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[6..30].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             group_name_raw: buffer[6..30].to_vec(),
         }
@@ -14266,7 +14342,9 @@ impl PacketCzReqExpelGroupMember {
             character_name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[6..30].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             character_name_raw: buffer[6..30].to_vec(),
         }
@@ -14357,19 +14435,25 @@ impl PacketZcAddMemberToGroup {
             group_name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[15..39].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             group_name_raw: buffer[15..39].to_vec(),
             character_name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[39..63].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             character_name_raw: buffer[39..63].to_vec(),
             map_name:  {
                 let mut dst: [char; 16] = [0 as char; 16];
                 for (index, byte) in buffer[63..79].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             map_name_raw: buffer[63..79].to_vec(),
         }
@@ -14454,7 +14538,9 @@ impl PacketZcDeleteMemberFromGroup {
             character_name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[6..30].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             character_name_raw: buffer[6..30].to_vec(),
             result: u8::from_le_bytes([buffer[30]]),
@@ -16125,7 +16211,9 @@ impl PacketCzSelectWarppoint {
             map_name:  {
                 let mut dst: [char; 16] = [0 as char; 16];
                 for (index, byte) in buffer[4..20].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             map_name_raw: buffer[4..20].to_vec(),
         }
@@ -16196,7 +16284,9 @@ impl PacketZcWarplist {
             map_name:  {
                 let mut dst: [char; 4] = [0 as char; 4];
                 for (index, byte) in buffer[4..8].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             map_name_raw: buffer[4..8].to_vec(),
         }
@@ -17496,7 +17586,9 @@ impl PacketCzReqOpenstore {
             store_name:  {
                 let mut dst: [char; 80] = [0 as char; 80];
                 for (index, byte) in buffer[4..84].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             store_name_raw: buffer[4..84].to_vec(),
             store_list: vec_field,
@@ -17632,7 +17724,9 @@ impl PacketZcStoreEntry {
             store_name:  {
                 let mut dst: [char; 80] = [0 as char; 80];
                 for (index, byte) in buffer[6..86].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             store_name_raw: buffer[6..86].to_vec(),
         }
@@ -18645,7 +18739,9 @@ impl PacketCzItemCreate {
             item_name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[2..26].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             item_name_raw: buffer[2..26].to_vec(),
         }
@@ -18714,7 +18810,9 @@ impl PacketCzMovetoMap {
             map_name:  {
                 let mut dst: [char; 16] = [0 as char; 16];
                 for (index, byte) in buffer[2..18].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             map_name_raw: buffer[2..18].to_vec(),
             x_pos: i16::from_le_bytes([buffer[18], buffer[19]]),
@@ -19081,7 +19179,9 @@ impl PacketZcShowImage {
             image_name:  {
                 let mut dst: [char; 16] = [0 as char; 16];
                 for (index, byte) in buffer[2..18].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             image_name_raw: buffer[2..18].to_vec(),
             atype: u8::from_le_bytes([buffer[18]]),
@@ -19477,7 +19577,9 @@ impl PacketZcNotifyMannerPointGiven {
             other_char_name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[3..27].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             other_char_name_raw: buffer[3..27].to_vec(),
         }
@@ -19845,19 +19947,25 @@ impl PacketZcGuildInfo {
             guildname:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[46..70].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             guildname_raw: buffer[46..70].to_vec(),
             master_name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[70..94].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             master_name_raw: buffer[70..94].to_vec(),
             manage_land:  {
                 let mut dst: [char; 16] = [0 as char; 16];
                 for (index, byte) in buffer[94..110].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             manage_land_raw: buffer[94..110].to_vec(),
         }
@@ -20511,7 +20619,9 @@ impl PacketCzReqLeaveGuild {
             reason_desc:  {
                 let mut dst: [char; 40] = [0 as char; 40];
                 for (index, byte) in buffer[14..54].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             reason_desc_raw: buffer[14..54].to_vec(),
         }
@@ -20584,13 +20694,17 @@ impl PacketZcAckLeaveGuild {
             char_name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[2..26].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             char_name_raw: buffer[2..26].to_vec(),
             reason_desc:  {
                 let mut dst: [char; 40] = [0 as char; 40];
                 for (index, byte) in buffer[26..66].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             reason_desc_raw: buffer[26..66].to_vec(),
         }
@@ -20669,7 +20783,9 @@ impl PacketCzReqBanGuild {
             reason_desc:  {
                 let mut dst: [char; 40] = [0 as char; 40];
                 for (index, byte) in buffer[14..54].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             reason_desc_raw: buffer[14..54].to_vec(),
         }
@@ -20744,19 +20860,25 @@ impl PacketZcAckBanGuild {
             char_name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[2..26].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             char_name_raw: buffer[2..26].to_vec(),
             reason_desc:  {
                 let mut dst: [char; 40] = [0 as char; 40];
                 for (index, byte) in buffer[26..66].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             reason_desc_raw: buffer[26..66].to_vec(),
             account:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[66..90].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             account_raw: buffer[66..90].to_vec(),
         }
@@ -20825,7 +20947,9 @@ impl PacketCzReqDisorganizeGuild {
             key:  {
                 let mut dst: [char; 40] = [0 as char; 40];
                 for (index, byte) in buffer[2..42].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             key_raw: buffer[2..42].to_vec(),
         }
@@ -20951,7 +21075,9 @@ impl PacketZcAckDisorganizeGuild {
             reason_desc:  {
                 let mut dst: [char; 40] = [0 as char; 40];
                 for (index, byte) in buffer[2..42].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             reason_desc_raw: buffer[2..42].to_vec(),
         }
@@ -21406,7 +21532,9 @@ impl PacketCzReqMakeGuild {
             gname:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[6..30].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             gname_raw: buffer[6..30].to_vec(),
         }
@@ -21748,7 +21876,9 @@ impl PacketZcReqJoinGuild {
             guild_name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[6..30].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             guild_name_raw: buffer[6..30].to_vec(),
         }
@@ -21902,7 +22032,9 @@ impl PacketZcUpdateGdid {
             gname:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[19..43].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             gname_raw: buffer[19..43].to_vec(),
         }
@@ -22056,13 +22188,17 @@ impl PacketCzGuildNotice {
             subject:  {
                 let mut dst: [char; 60] = [0 as char; 60];
                 for (index, byte) in buffer[6..66].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             subject_raw: buffer[6..66].to_vec(),
             notice:  {
                 let mut dst: [char; 120] = [0 as char; 120];
                 for (index, byte) in buffer[66..186].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             notice_raw: buffer[66..186].to_vec(),
         }
@@ -22133,13 +22269,17 @@ impl PacketZcGuildNotice {
             subject:  {
                 let mut dst: [char; 60] = [0 as char; 60];
                 for (index, byte) in buffer[2..62].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             subject_raw: buffer[2..62].to_vec(),
             notice:  {
                 let mut dst: [char; 120] = [0 as char; 120];
                 for (index, byte) in buffer[62..182].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             notice_raw: buffer[62..182].to_vec(),
         }
@@ -22283,7 +22423,9 @@ impl PacketZcReqAllyGuild {
             guild_name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[6..30].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             guild_name_raw: buffer[6..30].to_vec(),
         }
@@ -24355,7 +24497,9 @@ impl PacketCzUseSkillTogroundWithtalkbox {
             contents:  {
                 let mut dst: [char; 80] = [0 as char; 80];
                 for (index, byte) in buffer[10..90].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             contents_raw: buffer[10..90].to_vec(),
         }
@@ -24432,7 +24576,9 @@ impl PacketZcTalkboxChatcontents {
             contents:  {
                 let mut dst: [char; 80] = [0 as char; 80];
                 for (index, byte) in buffer[6..86].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             contents_raw: buffer[6..86].to_vec(),
         }
@@ -24511,7 +24657,9 @@ impl PacketZcUpdateMapinfo {
             map_name:  {
                 let mut dst: [char; 16] = [0 as char; 16];
                 for (index, byte) in buffer[8..24].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             map_name_raw: buffer[8..24].to_vec(),
         }
@@ -24647,7 +24795,9 @@ impl PacketZcAckReqnameBygid {
             cname:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[6..30].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             cname_raw: buffer[6..30].to_vec(),
         }
@@ -24724,25 +24874,33 @@ impl PacketZcAckReqnameall {
             cname:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[6..30].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             cname_raw: buffer[6..30].to_vec(),
             pname:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[30..54].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             pname_raw: buffer[30..54].to_vec(),
             gname:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[54..78].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             gname_raw: buffer[54..78].to_vec(),
             rname:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[78..102].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             rname_raw: buffer[78..102].to_vec(),
         }
@@ -25534,7 +25692,9 @@ impl PacketZcPropertyPet {
             sz_name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[2..26].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             sz_name_raw: buffer[2..26].to_vec(),
             b_modified: u8::from_le_bytes([buffer[26]]),
@@ -25763,7 +25923,9 @@ impl PacketCzRenamePet {
             sz_name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[2..26].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             sz_name_raw: buffer[2..26].to_vec(),
         }
@@ -26643,7 +26805,9 @@ impl PacketCzReqOpenstore2 {
             store_name:  {
                 let mut dst: [char; 80] = [0 as char; 80];
                 for (index, byte) in buffer[4..84].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             store_name_raw: buffer[4..84].to_vec(),
             result: buffer[84] == 1,
@@ -26720,7 +26884,9 @@ impl PacketZcShowImage2 {
             image_name:  {
                 let mut dst: [char; 64] = [0 as char; 64];
                 for (index, byte) in buffer[2..66].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             image_name_raw: buffer[2..66].to_vec(),
             atype: u8::from_le_bytes([buffer[66]]),
@@ -26991,19 +27157,25 @@ impl PacketZcGuildInfo2 {
             guildname:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[46..70].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             guildname_raw: buffer[46..70].to_vec(),
             master_name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[70..94].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             master_name_raw: buffer[70..94].to_vec(),
             manage_land:  {
                 let mut dst: [char; 16] = [0 as char; 16];
                 for (index, byte) in buffer[94..110].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             manage_land_raw: buffer[94..110].to_vec(),
             zeny: i32::from_le_bytes([buffer[110], buffer[111], buffer[112], buffer[113]]),
@@ -27281,7 +27453,9 @@ impl PacketCzRemoveAid {
             account_name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[2..26].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             account_name_raw: buffer[2..26].to_vec(),
         }
@@ -27346,7 +27520,9 @@ impl PacketCzShift {
             character_name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[2..26].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             character_name_raw: buffer[2..26].to_vec(),
         }
@@ -27411,7 +27587,9 @@ impl PacketCzRecall {
             account_name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[2..26].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             account_name_raw: buffer[2..26].to_vec(),
         }
@@ -27476,7 +27654,9 @@ impl PacketCzRecallGid {
             character_name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[2..26].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             character_name_raw: buffer[2..26].to_vec(),
         }
@@ -28390,7 +28570,9 @@ impl PacketZcSkillEntry2 {
             msg:  {
                 let mut dst: [char; 80] = [0 as char; 80];
                 for (index, byte) in buffer[17..97].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             msg_raw: buffer[17..97].to_vec(),
         }
@@ -28688,7 +28870,9 @@ impl PacketZcAutospelllist {
             skid:  {
                 let mut dst: [i32; 7] = [0 as i32; 7];
                 for (index, byte) in buffer[2..9].iter().enumerate() {
-                dst[index] = *byte as i32;                }                dst
+                    dst[index] = *byte as i32;
+                }
+                dst
             },
             skid_raw: buffer[2..9].to_vec(),
         }
@@ -28820,7 +29004,9 @@ impl PacketZcDevotionlist {
             aid:  {
                 let mut dst: [u32; 5] = [0 as u32; 5];
                 for (index, byte) in buffer[6..11].iter().enumerate() {
-                dst[index] = *byte as u32;                }                dst
+                    dst[index] = *byte as u32;
+                }
+                dst
             },
             aid_raw: buffer[6..11].to_vec(),
             range: i16::from_le_bytes([buffer[26], buffer[27]]),
@@ -29104,7 +29290,9 @@ impl PacketZcSound {
             file_name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[2..26].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             file_name_raw: buffer[2..26].to_vec(),
             act: u8::from_le_bytes([buffer[26]]),
@@ -29537,7 +29725,9 @@ impl PacketZcNotifyStandentry2 {
             pos_dir:  {
                 let mut dst: [char; 3] = [0 as char; 3];
                 for (index, byte) in buffer[46..49].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             pos_dir_raw: buffer[46..49].to_vec(),
             x_size: u8::from_le_bytes([buffer[49]]),
@@ -29744,7 +29934,9 @@ impl PacketZcNotifyNewentry2 {
             pos_dir:  {
                 let mut dst: [char; 3] = [0 as char; 3];
                 for (index, byte) in buffer[46..49].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             pos_dir_raw: buffer[46..49].to_vec(),
             x_size: u8::from_le_bytes([buffer[49]]),
@@ -29951,7 +30143,9 @@ impl PacketZcNotifyMoveentry2 {
             move_data:  {
                 let mut dst: [u16; 6] = [0 as u16; 6];
                 for (index, byte) in buffer[50..56].iter().enumerate() {
-                dst[index] = *byte as u16;                }                dst
+                    dst[index] = *byte as u16;
+                }
+                dst
             },
             move_data_raw: buffer[50..56].to_vec(),
             x_size: u8::from_le_bytes([buffer[56]]),
@@ -30200,13 +30394,17 @@ impl PacketCaLogin2 {
             id:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[6..30].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             id_raw: buffer[6..30].to_vec(),
             passwd_md5:  {
                 let mut dst: [char; 16] = [0 as char; 16];
                 for (index, byte) in buffer[30..46].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             passwd_md5_raw: buffer[30..46].to_vec(),
             clienttype: u8::from_le_bytes([buffer[46]]),
@@ -30459,7 +30657,9 @@ impl PacketZcAckAccountname {
             name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[6..30].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             name_raw: buffer[6..30].to_vec(),
         }
@@ -30601,7 +30801,9 @@ impl PacketZcReqCouple {
             name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[10..34].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             name_raw: buffer[10..34].to_vec(),
         }
@@ -30859,7 +31061,9 @@ impl PacketZcCouplename {
             couple_name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[2..26].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             couple_name_raw: buffer[2..26].to_vec(),
         }
@@ -30983,7 +31187,9 @@ impl PacketCzMakeGroup2 {
             group_name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[2..26].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             group_name_raw: buffer[2..26].to_vec(),
             item_pickup_rule: u8::from_le_bytes([buffer[26]]),
@@ -31084,19 +31290,25 @@ impl PacketZcAddMemberToGroup2 {
             group_name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[15..39].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             group_name_raw: buffer[15..39].to_vec(),
             character_name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[39..63].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             character_name_raw: buffer[39..63].to_vec(),
             map_name:  {
                 let mut dst: [char; 16] = [0 as char; 16];
                 for (index, byte) in buffer[63..79].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             map_name_raw: buffer[63..79].to_vec(),
             item_pickup_rule: u8::from_le_bytes([buffer[79]]),
@@ -31325,7 +31537,9 @@ impl PacketZcGuildMemberMapChange {
             map_name:  {
                 let mut dst: [char; 16] = [0 as char; 16];
                 for (index, byte) in buffer[10..26].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             map_name_raw: buffer[10..26].to_vec(),
         }
@@ -31906,7 +32120,9 @@ impl PacketZcReqExchangeItem2 {
             name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[2..26].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             name_raw: buffer[2..26].to_vec(),
             gid: u32::from_le_bytes([buffer[26], buffer[27], buffer[28], buffer[29]]),
@@ -32060,7 +32276,9 @@ impl PacketZcReqBaby {
             name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[10..34].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             name_raw: buffer[10..34].to_vec(),
         }
@@ -32328,13 +32546,17 @@ impl PacketCaLogin3 {
             id:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[6..30].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             id_raw: buffer[6..30].to_vec(),
             passwd_md5:  {
                 let mut dst: [char; 16] = [0 as char; 16];
                 for (index, byte) in buffer[30..46].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             passwd_md5_raw: buffer[30..46].to_vec(),
             clienttype: u8::from_le_bytes([buffer[46]]),
@@ -32415,7 +32637,9 @@ impl PacketChDeleteChar2 {
             key:  {
                 let mut dst: [char; 50] = [0 as char; 50];
                 for (index, byte) in buffer[6..56].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             key_raw: buffer[6..56].to_vec(),
         }
@@ -32759,7 +32983,9 @@ impl PacketCaConnectInfoChanged {
             id:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[2..26].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             id_raw: buffer[2..26].to_vec(),
         }
@@ -32900,7 +33126,9 @@ impl PacketCzAddFriends {
             name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[2..26].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             name_raw: buffer[2..26].to_vec(),
         }
@@ -33032,7 +33260,9 @@ impl PacketCaExeHashcheck {
             hash_value:  {
                 let mut dst: [char; 16] = [0 as char; 16];
                 for (index, byte) in buffer[2..18].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             hash_value_raw: buffer[2..18].to_vec(),
         }
@@ -33097,7 +33327,9 @@ impl PacketZcDivorce {
             name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[2..26].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             name_raw: buffer[2..26].to_vec(),
         }
@@ -33243,7 +33475,9 @@ impl PacketZcReqAddFriends {
             name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[10..34].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             name_raw: buffer[10..34].to_vec(),
         }
@@ -33397,7 +33631,9 @@ impl PacketZcAddFriendsList {
             name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[12..36].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             name_raw: buffer[12..36].to_vec(),
         }
@@ -33539,7 +33775,9 @@ impl PacketChExeHashcheck {
             hash_value:  {
                 let mut dst: [char; 16] = [0 as char; 16];
                 for (index, byte) in buffer[3..19].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             hash_value_raw: buffer[3..19].to_vec(),
         }
@@ -33610,7 +33848,9 @@ impl PacketCzExeHashcheck {
             hash_value:  {
                 let mut dst: [char; 16] = [0 as char; 16];
                 for (index, byte) in buffer[3..19].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             hash_value_raw: buffer[3..19].to_vec(),
         }
@@ -33759,7 +33999,9 @@ impl PacketZcStarskill {
             map_name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[2..26].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             map_name_raw: buffer[2..26].to_vec(),
             monster_id: i32::from_le_bytes([buffer[26], buffer[27], buffer[28], buffer[29]]),
@@ -34037,7 +34279,9 @@ impl PacketCzReqGiveMannerByname {
             char_name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[2..26].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             char_name_raw: buffer[2..26].to_vec(),
         }
@@ -34102,7 +34346,9 @@ impl PacketCzReqStatusGm {
             char_name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[2..26].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             char_name_raw: buffer[2..26].to_vec(),
         }
@@ -34612,13 +34858,17 @@ impl PacketZcBlacksmithRank {
             name:  {
                 let mut dst: [char; 10] = [0 as char; 10];
                 for (index, byte) in buffer[2..12].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             name_raw: buffer[2..12].to_vec(),
             point:  {
                 let mut dst: [i32; 10] = [0 as i32; 10];
                 for (index, byte) in buffer[242..252].iter().enumerate() {
-                dst[index] = *byte as i32;                }                dst
+                    dst[index] = *byte as i32;
+                }
+                dst
             },
             point_raw: buffer[242..252].to_vec(),
         }
@@ -34687,13 +34937,17 @@ impl PacketZcAlchemistRank {
             name:  {
                 let mut dst: [char; 10] = [0 as char; 10];
                 for (index, byte) in buffer[2..12].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             name_raw: buffer[2..12].to_vec(),
             point:  {
                 let mut dst: [i32; 10] = [0 as i32; 10];
                 for (index, byte) in buffer[242..252].iter().enumerate() {
-                dst[index] = *byte as i32;                }                dst
+                    dst[index] = *byte as i32;
+                }
+                dst
             },
             point_raw: buffer[242..252].to_vec(),
         }
@@ -35028,13 +35282,17 @@ impl PacketZcNotifyPkinfo {
             kill_name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[10..34].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             kill_name_raw: buffer[10..34].to_vec(),
             killed_name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[34..58].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             killed_name_raw: buffer[34..58].to_vec(),
             expire_time: Filetime::from(&buffer[58..buffer.len()]),
@@ -35504,13 +35762,17 @@ impl PacketZcTaekwonRank {
             name:  {
                 let mut dst: [char; 10] = [0 as char; 10];
                 for (index, byte) in buffer[2..12].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             name_raw: buffer[2..12].to_vec(),
             point:  {
                 let mut dst: [i32; 10] = [0 as i32; 10];
                 for (index, byte) in buffer[242..252].iter().enumerate() {
-                dst[index] = *byte as i32;                }                dst
+                    dst[index] = *byte as i32;
+                }
+                dst
             },
             point_raw: buffer[242..252].to_vec(),
         }
@@ -35577,7 +35839,9 @@ impl PacketZcGameGuard {
             auth_data:  {
                 let mut dst: [u32; 4] = [0 as u32; 4];
                 for (index, byte) in buffer[2..6].iter().enumerate() {
-                dst[index] = *byte as u32;                }                dst
+                    dst[index] = *byte as u32;
+                }
+                dst
             },
             auth_data_raw: buffer[2..6].to_vec(),
         }
@@ -35642,7 +35906,9 @@ impl PacketCzAckGameGuard {
             auth_data:  {
                 let mut dst: [u32; 4] = [0 as u32; 4];
                 for (index, byte) in buffer[2..6].iter().enumerate() {
-                dst[index] = *byte as u32;                }                dst
+                    dst[index] = *byte as u32;
+                }
+                dst
             },
             auth_data_raw: buffer[2..6].to_vec(),
         }
@@ -35880,7 +36146,9 @@ impl PacketZcNotifyStandentry3 {
             pos_dir:  {
                 let mut dst: [char; 3] = [0 as char; 3];
                 for (index, byte) in buffer[50..53].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             pos_dir_raw: buffer[50..53].to_vec(),
             x_size: u8::from_le_bytes([buffer[53]]),
@@ -36087,7 +36355,9 @@ impl PacketZcNotifyNewentry3 {
             pos_dir:  {
                 let mut dst: [char; 3] = [0 as char; 3];
                 for (index, byte) in buffer[50..53].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             pos_dir_raw: buffer[50..53].to_vec(),
             x_size: u8::from_le_bytes([buffer[53]]),
@@ -36298,7 +36568,9 @@ impl PacketZcNotifyMoveentry3 {
             move_data:  {
                 let mut dst: [u16; 6] = [0 as u16; 6];
                 for (index, byte) in buffer[55..61].iter().enumerate() {
-                dst[index] = *byte as u16;                }                dst
+                    dst[index] = *byte as u16;
+                }
+                dst
             },
             move_data_raw: buffer[55..61].to_vec(),
             x_size: u8::from_le_bytes([buffer[61]]),
@@ -36528,7 +36800,9 @@ impl PacketZcPropertyHomun {
             sz_name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[2..26].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             sz_name_raw: buffer[2..26].to_vec(),
             b_modified: u8::from_le_bytes([buffer[26]]),
@@ -36756,7 +37030,9 @@ impl PacketCzRenameMer {
             name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[2..26].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             name_raw: buffer[2..26].to_vec(),
         }
@@ -36825,7 +37101,9 @@ impl PacketCzRequestMovenpc {
             dest:  {
                 let mut dst: [char; 3] = [0 as char; 3];
                 for (index, byte) in buffer[6..9].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             dest_raw: buffer[6..9].to_vec(),
         }
@@ -37093,13 +37371,17 @@ impl PacketCzAckStorePassword {
             password:  {
                 let mut dst: [char; 16] = [0 as char; 16];
                 for (index, byte) in buffer[4..20].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             password_raw: buffer[4..20].to_vec(),
             new_password:  {
                 let mut dst: [char; 16] = [0 as char; 16];
                 for (index, byte) in buffer[20..36].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             new_password_raw: buffer[20..36].to_vec(),
         }
@@ -37593,13 +37875,17 @@ impl PacketZcMailReqOpen {
             header:  {
                 let mut dst: [char; 40] = [0 as char; 40];
                 for (index, byte) in buffer[8..48].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             header_raw: buffer[8..48].to_vec(),
             from_name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[48..72].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             from_name_raw: buffer[48..72].to_vec(),
             delete_time: i32::from_le_bytes([buffer[72], buffer[73], buffer[74], buffer[75]]),
@@ -38035,13 +38321,17 @@ impl PacketCzMailSend {
             receive_name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[4..28].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             receive_name_raw: buffer[4..28].to_vec(),
             header:  {
                 let mut dst: [char; 40] = [0 as char; 40];
                 for (index, byte) in buffer[28..68].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             header_raw: buffer[28..68].to_vec(),
             msg_len: u32::from_le_bytes([buffer[68], buffer[69], buffer[70], buffer[71]]),
@@ -38185,13 +38475,17 @@ impl PacketZcMailReceive {
             header:  {
                 let mut dst: [char; 40] = [0 as char; 40];
                 for (index, byte) in buffer[6..46].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             header_raw: buffer[6..46].to_vec(),
             from_name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[46..70].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             from_name_raw: buffer[46..70].to_vec(),
         }
@@ -38660,7 +38954,9 @@ impl PacketCzAuctionItemSearch {
             name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[8..32].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             name_raw: buffer[8..32].to_vec(),
             page: u16::from_le_bytes([buffer[32], buffer[33]]),
@@ -39702,7 +39998,9 @@ impl PacketAcReqLoginOldekey {
             m_seed_value:  {
                 let mut dst: [char; 9] = [0 as char; 9];
                 for (index, byte) in buffer[2..11].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             m_seed_value_raw: buffer[2..11].to_vec(),
         }
@@ -39767,7 +40065,9 @@ impl PacketAcReqLoginNewekey {
             m_seed_value:  {
                 let mut dst: [char; 9] = [0 as char; 9];
                 for (index, byte) in buffer[2..11].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             m_seed_value_raw: buffer[2..11].to_vec(),
         }
@@ -39832,7 +40132,9 @@ impl PacketAcReqLoginCardpass {
             m_seed_value:  {
                 let mut dst: [char; 9] = [0 as char; 9];
                 for (index, byte) in buffer[2..11].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             m_seed_value_raw: buffer[2..11].to_vec(),
         }
@@ -39899,13 +40201,17 @@ impl PacketCaAckLoginOldekey {
             m_seed_value:  {
                 let mut dst: [char; 9] = [0 as char; 9];
                 for (index, byte) in buffer[2..11].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             m_seed_value_raw: buffer[2..11].to_vec(),
             m_ekey:  {
                 let mut dst: [char; 9] = [0 as char; 9];
                 for (index, byte) in buffer[11..20].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             m_ekey_raw: buffer[11..20].to_vec(),
         }
@@ -39974,13 +40280,17 @@ impl PacketCaAckLoginNewekey {
             m_seed_value:  {
                 let mut dst: [char; 9] = [0 as char; 9];
                 for (index, byte) in buffer[2..11].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             m_seed_value_raw: buffer[2..11].to_vec(),
             m_ekey:  {
                 let mut dst: [char; 9] = [0 as char; 9];
                 for (index, byte) in buffer[11..20].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             m_ekey_raw: buffer[11..20].to_vec(),
         }
@@ -40047,7 +40357,9 @@ impl PacketCaAckLoginCardpass {
             mcard_pass:  {
                 let mut dst: [char; 28] = [0 as char; 28];
                 for (index, byte) in buffer[2..30].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             mcard_pass_raw: buffer[2..30].to_vec(),
         }
@@ -40718,7 +41030,9 @@ impl PacketCaAckLoginAccountInfo {
             email:  {
                 let mut dst: [char; 34] = [0 as char; 34];
                 for (index, byte) in buffer[6..40].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             email_raw: buffer[6..40].to_vec(),
         }
@@ -40789,13 +41103,17 @@ impl PacketAcAckPtIdInfo {
             sz_ptid:  {
                 let mut dst: [char; 21] = [0 as char; 21];
                 for (index, byte) in buffer[2..23].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             sz_ptid_raw: buffer[2..23].to_vec(),
             sz_ptnum_id:  {
                 let mut dst: [char; 21] = [0 as char; 21];
                 for (index, byte) in buffer[23..44].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             sz_ptnum_id_raw: buffer[23..44].to_vec(),
         }
@@ -40866,7 +41184,9 @@ impl PacketCzReqMailReturn {
             receive_name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[6..30].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             receive_name_raw: buffer[6..30].to_vec(),
         }
@@ -41022,7 +41342,9 @@ impl PacketChEnter2 {
             mac_data:  {
                 let mut dst: [char; 16] = [0 as char; 16];
                 for (index, byte) in buffer[17..33].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             mac_data_raw: buffer[17..33].to_vec(),
             i_account_sid: i32::from_le_bytes([buffer[33], buffer[34], buffer[35], buffer[36]]),
@@ -41125,7 +41447,9 @@ impl PacketCaAcceptLogin2 {
             last_login_time:  {
                 let mut dst: [char; 26] = [0 as char; 26];
                 for (index, byte) in buffer[20..46].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             last_login_time_raw: buffer[20..46].to_vec(),
             sex: u8::from_le_bytes([buffer[46]]),
@@ -41220,13 +41544,17 @@ impl PacketCaLoginPcbang {
             id:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[6..30].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             id_raw: buffer[6..30].to_vec(),
             passwd:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[30..54].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             passwd_raw: buffer[30..54].to_vec(),
             clienttype: u8::from_le_bytes([buffer[54]]),
@@ -41234,13 +41562,17 @@ impl PacketCaLoginPcbang {
             ip:  {
                 let mut dst: [char; 16] = [0 as char; 16];
                 for (index, byte) in buffer[55..71].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             ip_raw: buffer[55..71].to_vec(),
             mac_adress:  {
                 let mut dst: [char; 13] = [0 as char; 13];
                 for (index, byte) in buffer[71..84].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             mac_adress_raw: buffer[71..84].to_vec(),
         }
@@ -41584,13 +41916,17 @@ impl PacketCaLogin4 {
             id:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[6..30].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             id_raw: buffer[6..30].to_vec(),
             passwd_md5:  {
                 let mut dst: [char; 16] = [0 as char; 16];
                 for (index, byte) in buffer[30..46].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             passwd_md5_raw: buffer[30..46].to_vec(),
             clienttype: u8::from_le_bytes([buffer[46]]),
@@ -41598,7 +41934,9 @@ impl PacketCaLogin4 {
             mac_data:  {
                 let mut dst: [char; 13] = [0 as char; 13];
                 for (index, byte) in buffer[47..60].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             mac_data_raw: buffer[47..60].to_vec(),
         }
@@ -41705,7 +42043,9 @@ impl PacketZcPropertyMerce {
             name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[2..26].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             name_raw: buffer[2..26].to_vec(),
             level: i16::from_le_bytes([buffer[26], buffer[27]]),
@@ -42116,13 +42456,17 @@ impl PacketZcGangsiRank {
             name:  {
                 let mut dst: [char; 10] = [0 as char; 10];
                 for (index, byte) in buffer[2..12].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             name_raw: buffer[2..12].to_vec(),
             point:  {
                 let mut dst: [i32; 10] = [0 as i32; 10];
                 for (index, byte) in buffer[242..252].iter().enumerate() {
-                dst[index] = *byte as i32;                }                dst
+                    dst[index] = *byte as i32;
+                }
+                dst
             },
             point_raw: buffer[242..252].to_vec(),
             packet_switch: i16::from_le_bytes([buffer[282], buffer[283]]),
@@ -42758,7 +43102,9 @@ impl PacketChSelectCharGoingtobeused {
             ardw_selected_gid:  {
                 let mut dst: [u32; 9] = [0 as u32; 9];
                 for (index, byte) in buffer[10..19].iter().enumerate() {
-                dst[index] = *byte as u32;                }                dst
+                    dst[index] = *byte as u32;
+                }
+                dst
             },
             ardw_selected_gid_raw: buffer[10..19].to_vec(),
         }
@@ -42835,7 +43181,9 @@ impl PacketChReqIsValidCharname {
             sz_char_name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[10..34].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             sz_char_name_raw: buffer[10..34].to_vec(),
         }
@@ -43231,7 +43579,9 @@ impl PacketZcBossInfo {
             name:  {
                 let mut dst: [char; 51] = [0 as char; 51];
                 for (index, byte) in buffer[19..70].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             name_raw: buffer[19..70].to_vec(),
         }
@@ -43916,7 +44266,9 @@ impl PacketZcMerInit {
             name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[22..46].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             name_raw: buffer[22..46].to_vec(),
             level: i16::from_le_bytes([buffer[46], buffer[47]]),
@@ -44089,7 +44441,9 @@ impl PacketZcMerProperty {
             name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[18..42].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             name_raw: buffer[18..42].to_vec(),
             level: i16::from_le_bytes([buffer[42], buffer[43]]),
@@ -44824,13 +45178,17 @@ impl PacketCzAckCashPassword {
             password:  {
                 let mut dst: [char; 16] = [0 as char; 16];
                 for (index, byte) in buffer[4..20].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             password_raw: buffer[4..20].to_vec(),
             new_password:  {
                 let mut dst: [char; 16] = [0 as char; 16];
                 for (index, byte) in buffer[20..36].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             new_password_raw: buffer[20..36].to_vec(),
         }
@@ -45047,13 +45405,17 @@ impl PacketCaLoginHan {
             id:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[6..30].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             id_raw: buffer[6..30].to_vec(),
             passwd:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[30..54].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             passwd_raw: buffer[30..54].to_vec(),
             clienttype: u8::from_le_bytes([buffer[54]]),
@@ -45061,13 +45423,17 @@ impl PacketCaLoginHan {
             m_sz_ip:  {
                 let mut dst: [char; 16] = [0 as char; 16];
                 for (index, byte) in buffer[55..71].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             m_sz_ip_raw: buffer[55..71].to_vec(),
             m_sz_mac_addr:  {
                 let mut dst: [char; 13] = [0 as char; 13];
                 for (index, byte) in buffer[71..84].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             m_sz_mac_addr_raw: buffer[71..84].to_vec(),
             is_han_game_user: u8::from_le_bytes([buffer[84]]),
@@ -46341,7 +46707,9 @@ impl PacketCzPartyJoinReq {
             character_name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[2..26].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             character_name_raw: buffer[2..26].to_vec(),
         }
@@ -46408,7 +46776,9 @@ impl PacketZcPartyJoinReqAck {
             character_name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[2..26].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             character_name_raw: buffer[2..26].to_vec(),
             answer: i32::from_le_bytes([buffer[26], buffer[27], buffer[28], buffer[29]]),
@@ -46481,7 +46851,9 @@ impl PacketZcPartyJoinReq {
             group_name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[6..30].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             group_name_raw: buffer[6..30].to_vec(),
         }
@@ -46800,7 +47172,9 @@ impl PacketZcMemorialdungeonSubscriptionInfo {
             memorial_dungeon_name:  {
                 let mut dst: [char; 61] = [0 as char; 61];
                 for (index, byte) in buffer[2..63].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             memorial_dungeon_name_raw: buffer[2..63].to_vec(),
             priority_order_num: i16::from_le_bytes([buffer[63], buffer[64]]),
@@ -46934,7 +47308,9 @@ impl PacketZcMemorialdungeonInfo {
             memorial_dungeon_name:  {
                 let mut dst: [char; 61] = [0 as char; 61];
                 for (index, byte) in buffer[2..63].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             memorial_dungeon_name_raw: buffer[2..63].to_vec(),
             destroy_date: u32::from_le_bytes([buffer[63], buffer[64], buffer[65], buffer[66]]),
@@ -47698,7 +48074,9 @@ impl PacketZcEquipwinMicroscope {
             character_name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[4..28].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             character_name_raw: buffer[4..28].to_vec(),
             job: i16::from_le_bytes([buffer[28], buffer[29]]),
@@ -48073,7 +48451,9 @@ impl PacketZcBattlefieldChat {
             name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[8..32].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             name_raw: buffer[8..32].to_vec(),
             msg: String::from_utf8_lossy(&buffer[32..buffer.len()]).to_string(),
@@ -48152,7 +48532,9 @@ impl PacketZcBattlefieldNotifyCampinfo {
             name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[6..30].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             name_raw: buffer[6..30].to_vec(),
             camp: i16::from_le_bytes([buffer[30], buffer[31]]),
@@ -48300,7 +48682,9 @@ impl PacketZcBattlefieldNotifyPosition {
             name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[6..30].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             name_raw: buffer[6..30].to_vec(),
             job: u16::from_le_bytes([buffer[30], buffer[31]]),
@@ -48387,7 +48771,9 @@ impl PacketZcBattlefieldNotifyHp {
             name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[6..30].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             name_raw: buffer[6..30].to_vec(),
             hp: i16::from_le_bytes([buffer[30], buffer[31]]),
@@ -48946,7 +49332,9 @@ impl PacketZcAcceptEnter2 {
             pos_dir:  {
                 let mut dst: [char; 3] = [0 as char; 3];
                 for (index, byte) in buffer[6..9].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             pos_dir_raw: buffer[6..9].to_vec(),
             x_size: u8::from_le_bytes([buffer[9]]),
@@ -49121,7 +49509,9 @@ impl PacketZcNotifyMoveentry4 {
             move_data:  {
                 let mut dst: [u16; 6] = [0 as u16; 6];
                 for (index, byte) in buffer[55..61].iter().enumerate() {
-                dst[index] = *byte as u16;                }                dst
+                    dst[index] = *byte as u16;
+                }
+                dst
             },
             move_data_raw: buffer[55..61].to_vec(),
             x_size: u8::from_le_bytes([buffer[61]]),
@@ -49334,7 +49724,9 @@ impl PacketZcNotifyNewentry4 {
             pos_dir:  {
                 let mut dst: [char; 3] = [0 as char; 3];
                 for (index, byte) in buffer[50..53].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             pos_dir_raw: buffer[50..53].to_vec(),
             x_size: u8::from_le_bytes([buffer[53]]),
@@ -49545,7 +49937,9 @@ impl PacketZcNotifyStandentry4 {
             pos_dir:  {
                 let mut dst: [char; 3] = [0 as char; 3];
                 for (index, byte) in buffer[50..53].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             pos_dir_raw: buffer[50..53].to_vec(),
             x_size: u8::from_le_bytes([buffer[53]]),
@@ -50130,7 +50524,9 @@ impl PacketAhcGameGuard {
             auth_data:  {
                 let mut dst: [u32; 4] = [0 as u32; 4];
                 for (index, byte) in buffer[2..6].iter().enumerate() {
-                dst[index] = *byte as u32;                }                dst
+                    dst[index] = *byte as u32;
+                }
+                dst
             },
             auth_data_raw: buffer[2..6].to_vec(),
         }
@@ -50195,7 +50591,9 @@ impl PacketCahAckGameGuard {
             auth_data:  {
                 let mut dst: [u32; 4] = [0 as u32; 4];
                 for (index, byte) in buffer[2..6].iter().enumerate() {
-                dst[index] = *byte as u32;                }                dst
+                    dst[index] = *byte as u32;
+                }
+                dst
             },
             auth_data_raw: buffer[2..6].to_vec(),
         }
@@ -50711,7 +51109,9 @@ impl PacketZcMsgStateChange2 {
             val:  {
                 let mut dst: [i32; 3] = [0 as i32; 3];
                 for (index, byte) in buffer[13..16].iter().enumerate() {
-                dst[index] = *byte as i32;                }                dst
+                    dst[index] = *byte as i32;
+                }
+                dst
             },
             val_raw: buffer[13..16].to_vec(),
         }
@@ -52449,7 +52849,9 @@ impl PacketZcSeekParty {
             name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[2..26].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             name_raw: buffer[2..26].to_vec(),
             job: u32::from_le_bytes([buffer[26], buffer[27], buffer[28], buffer[29]]),
@@ -52459,7 +52861,9 @@ impl PacketZcSeekParty {
             map_name:  {
                 let mut dst: [char; 16] = [0 as char; 16];
                 for (index, byte) in buffer[34..50].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             map_name_raw: buffer[34..50].to_vec(),
             option: u32::from_le_bytes([buffer[50], buffer[51], buffer[52], buffer[53]]),
@@ -52544,7 +52948,9 @@ impl PacketCzSeekPartyMember {
             map_name:  {
                 let mut dst: [char; 16] = [0 as char; 16];
                 for (index, byte) in buffer[10..26].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             map_name_raw: buffer[10..26].to_vec(),
             option: u32::from_le_bytes([buffer[26], buffer[27], buffer[28], buffer[29]]),
@@ -52625,7 +53031,9 @@ impl PacketZcSeekPartyMember {
             name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[2..26].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             name_raw: buffer[2..26].to_vec(),
             job: u32::from_le_bytes([buffer[26], buffer[27], buffer[28], buffer[29]]),
@@ -52635,7 +53043,9 @@ impl PacketZcSeekPartyMember {
             map_name:  {
                 let mut dst: [char; 16] = [0 as char; 16];
                 for (index, byte) in buffer[34..50].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             map_name_raw: buffer[34..50].to_vec(),
             option: u32::from_le_bytes([buffer[50], buffer[51], buffer[52], buffer[53]]),
@@ -52714,7 +53124,9 @@ impl PacketZcEsNotiMyinfo {
             esname:  {
                 let mut dst: [char; 54] = [0 as char; 54];
                 for (index, byte) in buffer[4..58].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             esname_raw: buffer[4..58].to_vec(),
         }
@@ -53227,7 +53639,9 @@ impl PacketChCheckbot {
             sz_string_info:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[8..32].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             sz_string_info_raw: buffer[8..32].to_vec(),
         }
@@ -54436,7 +54850,9 @@ impl PacketZcNotifyMoveentry7 {
             move_data:  {
                 let mut dst: [u16; 6] = [0 as u16; 6];
                 for (index, byte) in buffer[57..63].iter().enumerate() {
-                dst[index] = *byte as u16;                }                dst
+                    dst[index] = *byte as u16;
+                }
+                dst
             },
             move_data_raw: buffer[57..63].to_vec(),
             x_size: u8::from_le_bytes([buffer[63]]),
@@ -54450,7 +54866,9 @@ impl PacketZcNotifyMoveentry7 {
             name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[69..93].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             name_raw: buffer[69..93].to_vec(),
         }
@@ -54669,7 +55087,9 @@ impl PacketZcNotifyNewentry5 {
             pos_dir:  {
                 let mut dst: [char; 3] = [0 as char; 3];
                 for (index, byte) in buffer[53..56].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             pos_dir_raw: buffer[53..56].to_vec(),
             x_size: u8::from_le_bytes([buffer[56]]),
@@ -54683,7 +55103,9 @@ impl PacketZcNotifyNewentry5 {
             name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[62..86].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             name_raw: buffer[62..86].to_vec(),
         }
@@ -54902,7 +55324,9 @@ impl PacketZcNotifyStandentry5 {
             pos_dir:  {
                 let mut dst: [char; 3] = [0 as char; 3];
                 for (index, byte) in buffer[53..56].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             pos_dir_raw: buffer[53..56].to_vec(),
             x_size: u8::from_le_bytes([buffer[56]]),
@@ -54918,7 +55342,9 @@ impl PacketZcNotifyStandentry5 {
             name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[63..87].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             name_raw: buffer[63..87].to_vec(),
         }
@@ -55282,7 +55708,9 @@ impl PacketZcPlayNpcBgm {
             bgm:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[2..26].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             bgm_raw: buffer[2..26].to_vec(),
         }
@@ -55995,7 +56423,9 @@ impl PacketCzPartyBookingReqUpdate {
             job:  {
                 let mut dst: [i16; 6] = [0 as i16; 6];
                 for (index, byte) in buffer[2..8].iter().enumerate() {
-                dst[index] = *byte as i16;                }                dst
+                    dst[index] = *byte as i16;
+                }
+                dst
             },
             job_raw: buffer[2..8].to_vec(),
         }
@@ -56649,7 +57079,9 @@ impl PacketCzReqOpenBuyingStore {
             store_name:  {
                 let mut dst: [char; 80] = [0 as char; 80];
                 for (index, byte) in buffer[9..89].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             store_name_raw: buffer[9..89].to_vec(),
             item_list: vec_field,
@@ -56883,7 +57315,9 @@ impl PacketZcBuyingStoreEntry {
             store_name:  {
                 let mut dst: [char; 80] = [0 as char; 80];
                 for (index, byte) in buffer[6..86].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             store_name_raw: buffer[6..86].to_vec(),
         }
@@ -57875,7 +58309,9 @@ impl PacketCaOtpAuthReq {
             otpcode:  {
                 let mut dst: [char; 7] = [0 as char; 7];
                 for (index, byte) in buffer[2..9].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             otpcode_raw: buffer[2..9].to_vec(),
         }
@@ -58092,19 +58528,25 @@ impl PacketCaSsoLoginReqa {
             id:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[9..33].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             id_raw: buffer[9..33].to_vec(),
             mac_addr:  {
                 let mut dst: [char; 17] = [0 as char; 17];
                 for (index, byte) in buffer[33..50].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             mac_addr_raw: buffer[33..50].to_vec(),
             ip_addr:  {
                 let mut dst: [char; 15] = [0 as char; 15];
                 for (index, byte) in buffer[50..65].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             ip_addr_raw: buffer[50..65].to_vec(),
             t1: String::from_utf8_lossy(&buffer[65..buffer.len()]).to_string(),
@@ -58203,25 +58645,33 @@ impl PacketCaSsoLoginReq {
             id:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[9..33].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             id_raw: buffer[9..33].to_vec(),
             passwd:  {
                 let mut dst: [char; 27] = [0 as char; 27];
                 for (index, byte) in buffer[33..60].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             passwd_raw: buffer[33..60].to_vec(),
             mac_adress:  {
                 let mut dst: [char; 17] = [0 as char; 17];
                 for (index, byte) in buffer[60..77].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             mac_adress_raw: buffer[60..77].to_vec(),
             ip:  {
                 let mut dst: [char; 15] = [0 as char; 15];
                 for (index, byte) in buffer[77..92].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             ip_raw: buffer[77..92].to_vec(),
             t1: String::from_utf8_lossy(&buffer[92..buffer.len()]).to_string(),
@@ -58501,7 +58951,9 @@ impl PacketChDeleteChar3 {
             birth:  {
                 let mut dst: [char; 6] = [0 as char; 6];
                 for (index, byte) in buffer[6..12].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             birth_raw: buffer[6..12].to_vec(),
         }
@@ -59066,13 +59518,17 @@ impl PacketZcAckBanGuildSso {
             char_name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[2..26].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             char_name_raw: buffer[2..26].to_vec(),
             reason_desc:  {
                 let mut dst: [char; 40] = [0 as char; 40];
                 for (index, byte) in buffer[26..66].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             reason_desc_raw: buffer[26..66].to_vec(),
         }
@@ -59405,7 +59861,9 @@ impl PacketAcRefuseLoginR2 {
             block_date:  {
                 let mut dst: [char; 20] = [0 as char; 20];
                 for (index, byte) in buffer[6..26].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             block_date_raw: buffer[6..26].to_vec(),
         }
@@ -59539,7 +59997,9 @@ impl PacketCzRequestMove2 {
             dest:  {
                 let mut dst: [char; 3] = [0 as char; 3];
                 for (index, byte) in buffer[2..5].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             dest_raw: buffer[2..5].to_vec(),
         }
@@ -59612,7 +60072,9 @@ impl ServerAddr {
             name:  {
                 let mut dst: [char; 20] = [0 as char; 20];
                 for (index, byte) in buffer[6..26].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             name_raw: buffer[6..26].to_vec(),
             user_count: u16::from_le_bytes([buffer[26], buffer[27]]),
@@ -59678,7 +60140,9 @@ impl ServerAddr2 {
             name:  {
                 let mut dst: [char; 20] = [0 as char; 20];
                 for (index, byte) in buffer[6..26].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             name_raw: buffer[6..26].to_vec(),
             user_count: u16::from_le_bytes([buffer[26], buffer[27]]),
@@ -59690,7 +60154,9 @@ impl ServerAddr2 {
             unknown2:  {
                 let mut dst: [char; 128] = [0 as char; 128];
                 for (index, byte) in buffer[31..159].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             unknown2_raw: buffer[31..159].to_vec(),
         }
@@ -59872,7 +60338,9 @@ impl CharacterInfoNeoUnion {
             name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[78..102].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             name_raw: buffer[78..102].to_vec(),
             str: u8::from_le_bytes([buffer[102]]),
@@ -59896,7 +60364,9 @@ impl CharacterInfoNeoUnion {
             last_map:  {
                 let mut dst: [char; 16] = [0 as char; 16];
                 for (index, byte) in buffer[112..128].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             last_map_raw: buffer[112..128].to_vec(),
             delete_date: i32::from_le_bytes([buffer[128], buffer[129], buffer[130], buffer[131]]),
@@ -60404,7 +60874,9 @@ impl WhisperItem {
             name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[0..24].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             name_raw: buffer[0..24].to_vec(),
         }
@@ -60442,7 +60914,9 @@ impl RoomMember {
             name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[4..28].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             name_raw: buffer[4..28].to_vec(),
         }
@@ -60488,13 +60962,17 @@ impl GroupmemberInfo {
             character_name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[4..28].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             character_name_raw: buffer[4..28].to_vec(),
             map_name:  {
                 let mut dst: [char; 16] = [0 as char; 16];
                 for (index, byte) in buffer[28..44].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             map_name_raw: buffer[28..44].to_vec(),
             role: u8::from_le_bytes([buffer[44]]),
@@ -60562,7 +61040,9 @@ impl SKILLINFO {
             skill_name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[12..36].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             skill_name_raw: buffer[12..36].to_vec(),
             upgradable: i8::from_le_bytes([buffer[36]]),
@@ -60852,7 +61332,9 @@ impl RelatedGuild {
             guild_name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[8..32].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             guild_name_raw: buffer[8..32].to_vec(),
         }
@@ -60932,13 +61414,17 @@ impl GuildMembermgrInfo {
             memo:  {
                 let mut dst: [char; 50] = [0 as char; 50];
                 for (index, byte) in buffer[30..80].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             memo_raw: buffer[30..80].to_vec(),
             char_name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[80..104].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             char_name_raw: buffer[80..104].to_vec(),
         }
@@ -61100,7 +61586,9 @@ impl GuildRegPositionInfo {
             pos_name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[16..40].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             pos_name_raw: buffer[16..40].to_vec(),
         }
@@ -61146,19 +61634,25 @@ impl GuildBanInfo {
             charname:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[0..24].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             charname_raw: buffer[0..24].to_vec(),
             account:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[24..48].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             account_raw: buffer[24..48].to_vec(),
             reason:  {
                 let mut dst: [char; 40] = [0 as char; 40];
                 for (index, byte) in buffer[48..88].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             reason_raw: buffer[48..88].to_vec(),
         }
@@ -61202,7 +61696,9 @@ impl OtherGuildInfo {
             guildname:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[0..24].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             guildname_raw: buffer[0..24].to_vec(),
             guild_level: i32::from_le_bytes([buffer[24], buffer[25], buffer[26], buffer[27]]),
@@ -61252,7 +61748,9 @@ impl MemberPositionIdNameInfo {
             pos_name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[4..28].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             pos_name_raw: buffer[4..28].to_vec(),
         }
@@ -61330,13 +61828,17 @@ impl GuildMemberInfo {
             intro:  {
                 let mut dst: [char; 50] = [0 as char; 50];
                 for (index, byte) in buffer[30..80].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             intro_raw: buffer[30..80].to_vec(),
             charname:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[80..104].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             charname_raw: buffer[80..104].to_vec(),
         }
@@ -61400,7 +61902,9 @@ impl RelatedGuildInfo {
             guildname:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[8..32].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             guildname_raw: buffer[8..32].to_vec(),
         }
@@ -61520,7 +62024,9 @@ impl MakableitemInfo {
             material_id:  {
                 let mut dst: [u16; 3] = [0 as u16; 3];
                 for (index, byte) in buffer[2..5].iter().enumerate() {
-                dst[index] = *byte as u16;                }                dst
+                    dst[index] = *byte as u16;
+                }
+                dst
             },
             material_id_raw: buffer[2..5].to_vec(),
         }
@@ -61738,7 +62244,9 @@ impl StructFriend {
             name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[8..32].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             name_raw: buffer[8..32].to_vec(),
         }
@@ -61780,7 +62288,9 @@ impl TagCharacterBlockInfo {
             sz_expire_date:  {
                 let mut dst: [char; 20] = [0 as char; 20];
                 for (index, byte) in buffer[4..24].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             sz_expire_date_raw: buffer[4..24].to_vec(),
         }
@@ -61904,7 +62414,9 @@ impl MailList {
             header:  {
                 let mut dst: [char; 40] = [0 as char; 40];
                 for (index, byte) in buffer[4..44].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             header_raw: buffer[4..44].to_vec(),
             is_open: i8::from_le_bytes([buffer[44]]),
@@ -61912,7 +62424,9 @@ impl MailList {
             from_name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[45..69].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             from_name_raw: buffer[45..69].to_vec(),
             delete_time: i32::from_le_bytes([buffer[69], buffer[70], buffer[71], buffer[72]]),
@@ -61982,7 +62496,9 @@ impl AuctionItemSearchInfo {
             seller_name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[4..28].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             seller_name_raw: buffer[4..28].to_vec(),
             itid: u16::from_le_bytes([buffer[28], buffer[29]]),
@@ -62006,7 +62522,9 @@ impl AuctionItemSearchInfo {
             buyer_name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[55..79].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             buyer_name_raw: buffer[55..79].to_vec(),
             delete_time: i32::from_le_bytes([buffer[79], buffer[80], buffer[81], buffer[82]]),
@@ -62290,7 +62808,9 @@ impl PacketZcMissionHunt {
             mob_name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[6..30].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             mob_name_raw: buffer[6..30].to_vec(),
         }
@@ -62679,7 +63199,9 @@ impl BattleFieldInfo {
             battle_field_name:  {
                 let mut dst: [char; 56] = [0 as char; 56];
                 for (index, byte) in buffer[4..60].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             battle_field_name_raw: buffer[4..60].to_vec(),
             join_team: i16::from_le_bytes([buffer[60], buffer[61]]),
@@ -62727,7 +63249,9 @@ impl PartyBookingDetail {
             job:  {
                 let mut dst: [i16; 6] = [0 as i16; 6];
                 for (index, byte) in buffer[4..10].iter().enumerate() {
-                dst[index] = *byte as i16;                }                dst
+                    dst[index] = *byte as i16;
+                }
+                dst
             },
             job_raw: buffer[4..10].to_vec(),
         }
@@ -62773,7 +63297,9 @@ impl PartyBookingAdInfo {
             char_name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
                 for (index, byte) in buffer[4..28].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             char_name_raw: buffer[4..28].to_vec(),
             expire_time: i32::from_le_bytes([buffer[28], buffer[29], buffer[30], buffer[31]]),
@@ -62975,7 +63501,9 @@ impl ResultItemInfo {
             store_name:  {
                 let mut dst: [char; 80] = [0 as char; 80];
                 for (index, byte) in buffer[8..88].iter().enumerate() {
-                dst[index] = *byte as char;                }                dst
+                    dst[index] = *byte as char;
+                }
+                dst
             },
             store_name_raw: buffer[8..88].to_vec(),
             itid: u16::from_le_bytes([buffer[88], buffer[89]]),
