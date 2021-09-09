@@ -1,17 +1,11 @@
 use std::net::{SocketAddr, TcpListener, TcpStream, Shutdown};
 use std::thread::{JoinHandle, spawn};
-use std::io::{Read, Write, Bytes, Cursor};
+use std::io::{Read, Write};
 use std::thread;
-use byteorder::{ReadBytesExt, LittleEndian, WriteBytesExt};
-use std::time::{Instant, SystemTime};
 use std::fmt::{Display, Formatter, Debug};
-use std::cell::RefCell;
 use std::sync::{Arc, Mutex};
-use std::borrow::{BorrowMut, Borrow};
-use std::ops::{DerefMut, Deref};
 use std::collections::HashMap;
-use crate::server::packets::{Packet, parse, PacketUnknown, PacketZcNotifyTime};
-use std::any::Any;
+use crate::server::packets::{parse, PacketUnknown, PacketZcNotifyTime};
 
 #[derive(Clone)]
 pub struct Server<T: PacketHandler + Clone + Send> {
@@ -68,7 +62,7 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Server<T> {
         })
     }
 
-    fn proxy_connection(&self, mut incoming_stream: TcpStream) -> Result<(), String> {
+    fn proxy_connection(&self, incoming_stream: TcpStream) -> Result<(), String> {
         let mut forward_thread_incoming = incoming_stream.try_clone().unwrap();
         println!("Client connected from: {:#?} to {:#?}", incoming_stream.peer_addr().unwrap(), incoming_stream.local_addr().unwrap());
 
@@ -103,7 +97,7 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Server<T> {
                         outgoing.shutdown(Shutdown::Both);
                         break;
                     }
-                    let mut packet = &mut buffer[..bytes_read];
+                    let packet = &mut buffer[..bytes_read];
 
                     let tcp_stream_ref = Arc::new(Mutex::new(incoming.try_clone().unwrap()));
                     self.packet_handler.handle_packet(tcp_stream_ref, packet );

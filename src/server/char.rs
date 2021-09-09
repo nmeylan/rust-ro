@@ -2,12 +2,10 @@ use crate::server::server::{PacketHandler, Server, ServerContext, Session};
 use byteorder::{WriteBytesExt, LittleEndian, ReadBytesExt};
 use std::net::{SocketAddr, Ipv4Addr, TcpStream};
 use std::net::IpAddr;
-use std::io::{Write, Cursor};
-use std::cell::RefCell;
+use std::io::{Cursor};
 use std::sync::{Arc, Mutex};
-use std::thread::{spawn, sleep};
+use std::thread::{sleep};
 use std::time::Duration;
-use std::borrow::Borrow;
 use std::thread;
 
 #[derive(Clone)]
@@ -27,7 +25,7 @@ impl CharServer {
         };
         let server_context_ref = server_context.clone();
         thread::Builder::new().name("char server tick".to_string()).spawn(move || {
-            while(true) {
+            loop {
                 // let server_context_guard = server_context_ref.lock().unwrap();
                 // println!("current sessions {}", server_context_guard.sessions.len());
                 // for tcp_stream in &server_context_guard.sessions {

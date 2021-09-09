@@ -2,11 +2,11 @@ use crate::server::server::{PacketHandler, ServerContext, Server, Session};
 use std::sync::{Arc, Mutex};
 use std::net::IpAddr;
 use std::net::{TcpStream, Ipv4Addr, SocketAddr};
-use std::thread::{spawn, sleep};
+use std::thread::{sleep};
 use std::time::Duration;
 use std::io::{Write, Cursor};
 use std::thread;
-use byteorder::{LittleEndian, ReadBytesExt, BigEndian, WriteBytesExt};
+use byteorder::{LittleEndian, ReadBytesExt};
 
 #[derive(Clone)]
 pub struct MapServer {
@@ -25,10 +25,10 @@ impl MapServer {
         };
         let server_context_ref = server_context.clone();
         thread::Builder::new().name("map server tick".to_string()).spawn(move || {
-            while (true) {
+            loop {
                 let server_context_guard = server_context_ref.lock().unwrap();
                 for session in server_context_guard.sessions.values() {
-                    if (session.map_server_socket.as_ref().is_none()) {
+                    if session.map_server_socket.as_ref().is_none() {
                         continue;
                     }
                     let mut tcp_stream_guard = session.map_server_socket.as_ref().unwrap().lock().unwrap();
@@ -62,13 +62,13 @@ impl PacketHandler for MapServer {
                 account_id,
             });
         } else {
-            let mut server_context_guard = self.server_context.lock().unwrap();
+            let server_context_guard = self.server_context.lock().unwrap();
             let incoming_stream_guard = tcp_stream.lock().unwrap();
-            let session = server_context_guard.sessions.iter().find(|(key, value)| {
+            let session = server_context_guard.sessions.iter().find(|(_, value)| {
                 let map_server_socket = value.map_server_socket.as_ref().unwrap().lock().unwrap();
                 map_server_socket.peer_addr().unwrap() == incoming_stream_guard.peer_addr().unwrap()
             });
-            if (session.is_some()) {
+            if session.is_some() {
                 println!("found session {}", session.unwrap().0);
             }
         }

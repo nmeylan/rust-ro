@@ -1,18 +1,14 @@
 mod server;
 mod util;
 
-use std::net::{TcpListener, SocketAddr, TcpStream, Shutdown, SocketAddrV4, Ipv4Addr, IpAddr};
-use std::str::FromStr;
-use std::thread::{spawn, JoinHandle};
-use std::io::{BufReader, BufWriter, Read, Write};
-use std::time::Duration;
+use std::net::{SocketAddr, Ipv4Addr, IpAddr};
+use std::thread::{JoinHandle};
 use server::login::LoginServer;
 use server::map::MapServer;
 use crate::server::char::CharServer;
 use crate::server::server::ServerContext;
 use std::sync::{Arc, Mutex};
 use std::collections::HashMap;
-use crate::server::packets::PacketCaLogin;
 
 fn main() {
     let login = server::server::Server {
