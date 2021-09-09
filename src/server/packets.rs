@@ -5,6 +5,8 @@ use std::fmt::{Formatter, Debug, Display};
 
 use std::any::Any;
 
+
+
 use crate::util::print::PrettyOutput;
 
 pub fn parse(buffer: &[u8]) -> Box<dyn Packet> {
@@ -2301,6 +2303,7 @@ pub trait Packet {
     fn pretty_debug(&self);
     fn raw(&self) -> &Vec<u8>;
     fn as_any(&self) -> &dyn Any;
+    fn as_any_mut(&mut self) -> &mut Any;
 }
 
 pub struct PacketCaLogin {
@@ -2318,6 +2321,15 @@ pub struct PacketCaLogin {
 }
 
 impl PacketCaLogin {
+pub fn serialize(&mut self) {
+    let mut wtr = vec![];
+    wtr.write_u8(self.client_type).unwrap();
+    self.client_type_raw = wtr.try_into().unwrap();
+    wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.packet_id).unwrap();
+    self.packet_id_raw =wtr.try_into().unwrap();
+
+}
     pub fn from(buffer: &[u8]) -> PacketCaLogin {
         PacketCaLogin {
             raw: buffer.to_vec(),
@@ -2384,6 +2396,9 @@ impl Packet for PacketCaLogin {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -2492,6 +2507,9 @@ impl Packet for PacketChEnter {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketChEnter {
@@ -2566,6 +2584,9 @@ impl Packet for PacketChSelectChar {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -2714,6 +2735,9 @@ impl Packet for PacketChMakeChar {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketChMakeChar {
@@ -2812,6 +2836,9 @@ impl Packet for PacketChDeleteChar {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -2953,6 +2980,9 @@ impl Packet for PacketAcAcceptLogin {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -3131,6 +3161,9 @@ impl Packet for PacketAcAcceptLogin2 {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketAcAcceptLogin2 {
@@ -3230,6 +3263,9 @@ impl Packet for PacketAcRefuseLogin {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -3389,6 +3425,9 @@ impl Packet for PacketHcAcceptEnterNeoUnion {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketHcAcceptEnterNeoUnion {
@@ -3476,6 +3515,9 @@ impl Packet for PacketHcRefuseEnter {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketHcRefuseEnter {
@@ -3538,6 +3580,9 @@ impl Packet for PacketHcAcceptMakecharNeoUnion {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -3608,6 +3653,9 @@ impl Packet for PacketHcRefuseMakechar {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketHcRefuseMakechar {
@@ -3666,6 +3714,9 @@ impl Packet for PacketHcAcceptDeletechar {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -3732,6 +3783,9 @@ impl Packet for PacketHcRefuseDeletechar {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -3818,6 +3872,9 @@ impl Packet for PacketHcNotifyZonesvr {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -3922,6 +3979,9 @@ impl Packet for PacketCzEnter {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -4030,6 +4090,9 @@ impl Packet for PacketZcAcceptEnter {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAcceptEnter {
@@ -4102,6 +4165,9 @@ impl Packet for PacketZcRefuseEnter {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -4196,6 +4262,9 @@ impl Packet for PacketZcNotifyInitchar {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifyInitchar {
@@ -4286,6 +4355,9 @@ impl Packet for PacketZcNotifyUpdatechar {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifyUpdatechar {
@@ -4364,6 +4436,9 @@ impl Packet for PacketZcNotifyUpdateplayer {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -4648,6 +4723,9 @@ impl Packet for PacketZcNotifyStandentry {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -4966,6 +5044,9 @@ impl Packet for PacketZcNotifyNewentry {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -5298,6 +5379,9 @@ impl Packet for PacketZcNotifyActentry {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifyActentry {
@@ -5624,6 +5708,9 @@ impl Packet for PacketZcNotifyMoveentry {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifyMoveentry {
@@ -5908,6 +5995,9 @@ impl Packet for PacketZcNotifyStandentryNpc {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifyStandentryNpc {
@@ -6008,6 +6098,9 @@ impl Packet for PacketCzNotifyActorinit {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzNotifyActorinit {
@@ -6072,6 +6165,9 @@ impl Packet for PacketCzRequestTime {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -6140,6 +6236,9 @@ impl Packet for PacketZcNotifyTime {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -6218,6 +6317,9 @@ impl Packet for PacketZcNotifyVanish {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifyVanish {
@@ -6288,6 +6390,9 @@ impl Packet for PacketScNotifyBan {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketScNotifyBan {
@@ -6348,6 +6453,9 @@ impl Packet for PacketCzRequestQuit {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzRequestQuit {
@@ -6406,6 +6514,9 @@ impl Packet for PacketZcAcceptQuit {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAcceptQuit {
@@ -6462,6 +6573,9 @@ impl Packet for PacketZcRefuseQuit {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -6534,6 +6648,9 @@ impl Packet for PacketCzRequestMove {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -6626,6 +6743,9 @@ impl Packet for PacketZcNotifyMove {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifyMove {
@@ -6710,6 +6830,9 @@ impl Packet for PacketZcNotifyPlayermove {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -6798,6 +6921,9 @@ impl Packet for PacketZcStopmove {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcStopmove {
@@ -6876,6 +7002,9 @@ impl Packet for PacketCzRequestAct {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -7010,6 +7139,9 @@ impl Packet for PacketZcNotifyAct {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -7152,6 +7284,9 @@ impl Packet for PacketZcNotifyActPosition {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifyActPosition {
@@ -7238,6 +7373,9 @@ impl Packet for PacketCzRequestChat {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzRequestChat {
@@ -7320,6 +7458,9 @@ impl Packet for PacketZcNotifyChat {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifyChat {
@@ -7396,6 +7537,9 @@ impl Packet for PacketZcNotifyPlayerchat {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifyPlayerchat {
@@ -7464,6 +7608,9 @@ impl Packet for PacketServerEntryAck {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -7540,6 +7687,9 @@ impl Packet for PacketCzContactnpc {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -7632,6 +7782,9 @@ impl Packet for PacketZcNpcackMapmove {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -7732,6 +7885,9 @@ impl Packet for PacketZcNpcackServermove {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNpcackServermove {
@@ -7798,6 +7954,9 @@ impl Packet for PacketZcNpcackEnable {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNpcackEnable {
@@ -7862,6 +8021,9 @@ impl Packet for PacketCzReqname {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -7944,6 +8106,9 @@ impl Packet for PacketZcAckReqname {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -8032,6 +8197,9 @@ impl Packet for PacketCzWhisper {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -8124,6 +8292,9 @@ impl Packet for PacketZcWhisper {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcWhisper {
@@ -8194,6 +8365,9 @@ impl Packet for PacketZcAckWhisper {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -8268,6 +8442,9 @@ impl Packet for PacketCzBroadcast {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzBroadcast {
@@ -8340,6 +8517,9 @@ impl Packet for PacketZcBroadcast {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -8418,6 +8598,9 @@ impl Packet for PacketCzChangeDirection {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -8504,6 +8687,9 @@ impl Packet for PacketZcChangeDirection {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -8632,6 +8818,9 @@ impl Packet for PacketZcItemEntry {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -8772,6 +8961,9 @@ impl Packet for PacketZcItemFallEntry {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcItemFallEntry {
@@ -8852,6 +9044,9 @@ impl Packet for PacketCzItemPickup {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -8994,6 +9189,9 @@ impl Packet for PacketZcItemPickupAck {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcItemPickupAck {
@@ -9080,6 +9278,9 @@ impl Packet for PacketZcItemDisappear {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcItemDisappear {
@@ -9154,6 +9355,9 @@ impl Packet for PacketCzItemThrow {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -9241,6 +9445,9 @@ impl Packet for PacketZcNormalItemlist {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -9331,6 +9538,9 @@ impl Packet for PacketZcEquipmentItemlist {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcEquipmentItemlist {
@@ -9417,6 +9627,9 @@ impl Packet for PacketZcStoreNormalItemlist {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -9507,6 +9720,9 @@ impl Packet for PacketZcStoreEquipmentItemlist {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcStoreEquipmentItemlist {
@@ -9584,6 +9800,9 @@ impl Packet for PacketCzUseItem {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -9672,6 +9891,9 @@ impl Packet for PacketZcUseItemAck {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcUseItemAck {
@@ -9750,6 +9972,9 @@ impl Packet for PacketCzReqWearEquip {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -9838,6 +10063,9 @@ impl Packet for PacketZcReqWearEquipAck {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcReqWearEquipAck {
@@ -9908,6 +10136,9 @@ impl Packet for PacketCzReqTakeoffEquip {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -9994,6 +10225,9 @@ impl Packet for PacketZcReqTakeoffEquipAck {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcReqTakeoffEquipAck {
@@ -10074,6 +10308,9 @@ impl Packet for PacketZcItemThrowAck {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcItemThrowAck {
@@ -10150,6 +10387,9 @@ impl Packet for PacketZcParChange {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -10230,6 +10470,9 @@ impl Packet for PacketZcLongparChange {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcLongparChange {
@@ -10300,6 +10543,9 @@ impl Packet for PacketCzRestart {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzRestart {
@@ -10366,6 +10612,9 @@ impl Packet for PacketZcRestartAck {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -10448,6 +10697,9 @@ impl Packet for PacketZcSayDialog {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcSayDialog {
@@ -10520,6 +10772,9 @@ impl Packet for PacketZcWaitDialog {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcWaitDialog {
@@ -10586,6 +10841,9 @@ impl Packet for PacketZcCloseDialog {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -10668,6 +10926,9 @@ impl Packet for PacketZcMenuList {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcMenuList {
@@ -10748,6 +11009,9 @@ impl Packet for PacketCzChooseMenu {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzChooseMenu {
@@ -10818,6 +11082,9 @@ impl Packet for PacketCzReqNextScript {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqNextScript {
@@ -10876,6 +11143,9 @@ impl Packet for PacketCzReqStatus {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -10950,6 +11220,9 @@ impl Packet for PacketCzStatusChange {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -11036,6 +11309,9 @@ impl Packet for PacketZcStatusChangeAck {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -11318,6 +11594,9 @@ impl Packet for PacketZcStatus {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcStatus {
@@ -11446,6 +11725,9 @@ impl Packet for PacketZcStatusChange {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcStatusChange {
@@ -11514,6 +11796,9 @@ impl Packet for PacketCzReqEmotion {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -11592,6 +11877,9 @@ impl Packet for PacketZcEmotion {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcEmotion {
@@ -11652,6 +11940,9 @@ impl Packet for PacketCzReqUserCount {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -11718,6 +12009,9 @@ impl Packet for PacketZcUserCount {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -11804,6 +12098,9 @@ impl Packet for PacketZcSpriteChange {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcSpriteChange {
@@ -11874,6 +12171,9 @@ impl Packet for PacketZcSelectDealtype {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -11950,6 +12250,9 @@ impl Packet for PacketCzAckSelectDealtype {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -12037,6 +12340,9 @@ impl Packet for PacketZcPcPurchaseItemlist {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -12127,6 +12433,9 @@ impl Packet for PacketZcPcSellItemlist {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcPcSellItemlist {
@@ -12213,6 +12522,9 @@ impl Packet for PacketCzPcPurchaseItemlist {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -12303,6 +12615,9 @@ impl Packet for PacketCzPcSellItemlist {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzPcSellItemlist {
@@ -12374,6 +12689,9 @@ impl Packet for PacketZcPcPurchaseResult {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcPcPurchaseResult {
@@ -12440,6 +12758,9 @@ impl Packet for PacketZcPcSellResult {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -12510,6 +12831,9 @@ impl Packet for PacketCzDisconnectCharacter {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzDisconnectCharacter {
@@ -12578,6 +12902,9 @@ impl Packet for PacketZcAckDisconnectCharacter {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAckDisconnectCharacter {
@@ -12636,6 +12963,9 @@ impl Packet for PacketCzDisconnectAllCharacter {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -12718,6 +13048,9 @@ impl Packet for PacketCzSettingWhisperPc {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzSettingWhisperPc {
@@ -12786,6 +13119,9 @@ impl Packet for PacketCzSettingWhisperState {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -12862,6 +13198,9 @@ impl Packet for PacketZcSettingWhisperPc {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -12942,6 +13281,9 @@ impl Packet for PacketZcSettingWhisperState {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcSettingWhisperState {
@@ -13002,6 +13344,9 @@ impl Packet for PacketCzReqWhisperList {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -13085,6 +13430,9 @@ impl Packet for PacketZcWhisperList {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -13192,6 +13540,9 @@ impl Packet for PacketCzCreateChatroom {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzCreateChatroom {
@@ -13266,6 +13617,9 @@ impl Packet for PacketZcAckCreateChatroom {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -13380,6 +13734,9 @@ impl Packet for PacketZcRoomNewentry {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcRoomNewentry {
@@ -13458,6 +13815,9 @@ impl Packet for PacketZcDestroyRoom {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -13542,6 +13902,9 @@ impl Packet for PacketCzReqEnterRoom {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqEnterRoom {
@@ -13610,6 +13973,9 @@ impl Packet for PacketZcRefuseEnterRoom {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -13705,6 +14071,9 @@ impl Packet for PacketZcEnterRoom {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcEnterRoom {
@@ -13790,6 +14159,9 @@ impl Packet for PacketZcMemberNewentry {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -13882,6 +14254,9 @@ impl Packet for PacketZcMemberExit {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -13988,6 +14363,9 @@ impl Packet for PacketCzChangeChatroom {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -14110,6 +14488,9 @@ impl Packet for PacketZcChangeChatroom {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcChangeChatroom {
@@ -14204,6 +14585,9 @@ impl Packet for PacketCzReqRoleChange {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqRoleChange {
@@ -14288,6 +14672,9 @@ impl Packet for PacketZcRoleChange {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcRoleChange {
@@ -14364,6 +14751,9 @@ impl Packet for PacketCzReqExpelMember {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqExpelMember {
@@ -14422,6 +14812,9 @@ impl Packet for PacketCzExitRoom {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -14488,6 +14881,9 @@ impl Packet for PacketCzReqExchangeItem {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -14564,6 +14960,9 @@ impl Packet for PacketZcReqExchangeItem {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcReqExchangeItem {
@@ -14632,6 +15031,9 @@ impl Packet for PacketCzAckExchangeItem {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzAckExchangeItem {
@@ -14698,6 +15100,9 @@ impl Packet for PacketZcAckExchangeItem {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -14774,6 +15179,9 @@ impl Packet for PacketCzAddExchangeItem {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -14886,6 +15294,9 @@ impl Packet for PacketZcAddExchangeItem {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAddExchangeItem {
@@ -14972,6 +15383,9 @@ impl Packet for PacketZcAckAddExchangeItem {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAckAddExchangeItem {
@@ -15032,6 +15446,9 @@ impl Packet for PacketCzConcludeExchangeItem {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -15100,6 +15517,9 @@ impl Packet for PacketZcConcludeExchangeItem {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcConcludeExchangeItem {
@@ -15160,6 +15580,9 @@ impl Packet for PacketCzCancelExchangeItem {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzCancelExchangeItem {
@@ -15218,6 +15641,9 @@ impl Packet for PacketZcCancelExchangeItem {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcCancelExchangeItem {
@@ -15274,6 +15700,9 @@ impl Packet for PacketCzExecExchangeItem {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -15342,6 +15771,9 @@ impl Packet for PacketZcExecExchangeItem {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcExecExchangeItem {
@@ -15400,6 +15832,9 @@ impl Packet for PacketZcExchangeitemUndo {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -15474,6 +15909,9 @@ impl Packet for PacketZcNotifyStoreitemCountinfo {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -15552,6 +15990,9 @@ impl Packet for PacketCzMoveItemFromBodyToStore {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -15672,6 +16113,9 @@ impl Packet for PacketZcAddItemToStore {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAddItemToStore {
@@ -15760,6 +16204,9 @@ impl Packet for PacketCzMoveItemFromStoreToBody {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzMoveItemFromStoreToBody {
@@ -15838,6 +16285,9 @@ impl Packet for PacketZcDeleteItemFromStore {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcDeleteItemFromStore {
@@ -15900,6 +16350,9 @@ impl Packet for PacketCzCloseStore {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzCloseStore {
@@ -15956,6 +16409,9 @@ impl Packet for PacketZcCloseStore {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -16030,6 +16486,9 @@ impl Packet for PacketCzMakeGroup {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzMakeGroup {
@@ -16096,6 +16555,9 @@ impl Packet for PacketZcAckMakeGroup {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -16197,6 +16659,9 @@ impl Packet for PacketZcGroupList {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcGroupList {
@@ -16268,6 +16733,9 @@ impl Packet for PacketCzReqJoinGroup {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -16350,6 +16818,9 @@ impl Packet for PacketZcAckReqJoinGroup {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -16436,6 +16907,9 @@ impl Packet for PacketZcReqJoinGroup {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcReqJoinGroup {
@@ -16514,6 +16988,9 @@ impl Packet for PacketCzJoinGroup {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzJoinGroup {
@@ -16574,6 +17051,9 @@ impl Packet for PacketCzReqLeaveGroup {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -16642,6 +17122,9 @@ impl Packet for PacketZcGroupinfoChange {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcGroupinfoChange {
@@ -16708,6 +17191,9 @@ impl Packet for PacketCzChangeGroupexpoption {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -16790,6 +17276,9 @@ impl Packet for PacketCzReqExpelGroupMember {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -16936,6 +17425,9 @@ impl Packet for PacketZcAddMemberToGroup {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAddMemberToGroup {
@@ -17040,6 +17532,9 @@ impl Packet for PacketZcDeleteMemberFromGroup {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcDeleteMemberFromGroup {
@@ -17126,6 +17621,9 @@ impl Packet for PacketZcNotifyHpToGroupm {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -17216,6 +17714,9 @@ impl Packet for PacketZcNotifyPositionToGroupm {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifyPositionToGroupm {
@@ -17290,6 +17791,9 @@ impl Packet for PacketCzRequestChatParty {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -17374,6 +17878,9 @@ impl Packet for PacketZcNotifyChatParty {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifyChatParty {
@@ -17446,6 +17953,9 @@ impl Packet for PacketZcMvpGettingItem {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcMvpGettingItem {
@@ -17512,6 +18022,9 @@ impl Packet for PacketZcMvpGettingSpecialExp {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -17582,6 +18095,9 @@ impl Packet for PacketZcMvp {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcMvp {
@@ -17640,6 +18156,9 @@ impl Packet for PacketZcThrowMvpitem {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -17740,6 +18259,9 @@ impl Packet for PacketZcSkillinfoUpdate {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcSkillinfoUpdate {
@@ -17831,6 +18353,9 @@ impl Packet for PacketZcSkillinfoList {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -17928,6 +18453,9 @@ impl Packet for PacketZcAckTouseskill {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAckTouseskill {
@@ -17998,6 +18526,9 @@ impl Packet for PacketZcAddSkill {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAddSkill {
@@ -18064,6 +18595,9 @@ impl Packet for PacketCzUpgradeSkilllevel {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -18148,6 +18682,9 @@ impl Packet for PacketCzUseSkill {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -18292,6 +18829,9 @@ impl Packet for PacketZcNotifySkill {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -18468,6 +19008,9 @@ impl Packet for PacketZcNotifySkillPosition {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifySkillPosition {
@@ -18580,6 +19123,9 @@ impl Packet for PacketCzUseSkillToground {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -18696,6 +19242,9 @@ impl Packet for PacketZcNotifyGroundskill {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifyGroundskill {
@@ -18764,6 +19313,9 @@ impl Packet for PacketCzCancelLockon {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -18862,6 +19414,9 @@ impl Packet for PacketZcStateChange {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -18972,6 +19527,9 @@ impl Packet for PacketZcUseSkill {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcUseSkill {
@@ -19062,6 +19620,9 @@ impl Packet for PacketCzSelectWarppoint {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzSelectWarppoint {
@@ -19146,6 +19707,9 @@ impl Packet for PacketZcWarplist {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcWarplist {
@@ -19206,6 +19770,9 @@ impl Packet for PacketCzRememberWarppoint {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -19272,6 +19839,9 @@ impl Packet for PacketZcAckRememberWarppoint {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -19382,6 +19952,9 @@ impl Packet for PacketZcSkillEntry {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcSkillEntry {
@@ -19458,6 +20031,9 @@ impl Packet for PacketZcSkillDisappear {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -19552,6 +20128,9 @@ impl Packet for PacketZcNotifyCartitemCountinfo {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifyCartitemCountinfo {
@@ -19643,6 +20222,9 @@ impl Packet for PacketZcCartEquipmentItemlist {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcCartEquipmentItemlist {
@@ -19729,6 +20311,9 @@ impl Packet for PacketZcCartNormalItemlist {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -19850,6 +20435,9 @@ impl Packet for PacketZcAddItemToCart {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAddItemToCart {
@@ -19938,6 +20526,9 @@ impl Packet for PacketZcDeleteItemFromCart {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcDeleteItemFromCart {
@@ -20014,6 +20605,9 @@ impl Packet for PacketCzMoveItemFromBodyToCart {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -20094,6 +20688,9 @@ impl Packet for PacketCzMoveItemFromCartToBody {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzMoveItemFromCartToBody {
@@ -20170,6 +20767,9 @@ impl Packet for PacketCzMoveItemFromStoreToCart {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -20250,6 +20850,9 @@ impl Packet for PacketCzMoveItemFromCartToStore {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzMoveItemFromCartToStore {
@@ -20312,6 +20915,9 @@ impl Packet for PacketCzReqCartoff {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqCartoff {
@@ -20368,6 +20974,9 @@ impl Packet for PacketZcCartoff {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -20434,6 +21043,9 @@ impl Packet for PacketZcAckAdditemToCart {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -20504,6 +21116,9 @@ impl Packet for PacketZcOpenstore {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcOpenstore {
@@ -20562,6 +21177,9 @@ impl Packet for PacketCzReqClosestore {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -20661,6 +21279,9 @@ impl Packet for PacketCzReqOpenstore {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqOpenstore {
@@ -20732,6 +21353,9 @@ impl Packet for PacketCzReqBuyFrommc {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -20816,6 +21440,9 @@ impl Packet for PacketZcStoreEntry {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcStoreEntry {
@@ -20884,6 +21511,9 @@ impl Packet for PacketZcDisappearEntry {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -20977,6 +21607,9 @@ impl Packet for PacketZcPcPurchaseItemlistFrommc {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -21077,6 +21710,9 @@ impl Packet for PacketCzPcPurchaseItemlistFrommc {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzPcPurchaseItemlistFrommc {
@@ -21164,6 +21800,9 @@ impl Packet for PacketZcPcPurchaseResultFrommc {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -21263,6 +21902,9 @@ impl Packet for PacketZcPcPurchaseMyitemlist {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcPcPurchaseMyitemlist {
@@ -21344,6 +21986,9 @@ impl Packet for PacketZcDeleteitemFromMcstore {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcDeleteitemFromMcstore {
@@ -21412,6 +22057,9 @@ impl Packet for PacketCzPkmodeChange {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -21522,6 +22170,9 @@ impl Packet for PacketZcAttackFailureForDistance {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAttackFailureForDistance {
@@ -21600,6 +22251,9 @@ impl Packet for PacketZcAttackRange {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAttackRange {
@@ -21668,6 +22322,9 @@ impl Packet for PacketZcActionFailure {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcActionFailure {
@@ -21734,6 +22391,9 @@ impl Packet for PacketZcEquipArrow {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -21810,6 +22470,9 @@ impl Packet for PacketZcRecovery {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -21930,6 +22593,9 @@ impl Packet for PacketZcUseskillAck {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcUseskillAck {
@@ -22014,6 +22680,9 @@ impl Packet for PacketCzItemCreate {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -22106,6 +22775,9 @@ impl Packet for PacketCzMovetoMap {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzMovetoMap {
@@ -22194,6 +22866,9 @@ impl Packet for PacketZcCouplestatus {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcCouplestatus {
@@ -22264,6 +22939,9 @@ impl Packet for PacketZcOpenEditdlg {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -22340,6 +23018,9 @@ impl Packet for PacketCzInputEditdlg {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -22452,6 +23133,9 @@ impl Packet for PacketZcCompass {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcCompass {
@@ -22544,6 +23228,9 @@ impl Packet for PacketZcShowImage {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcShowImage {
@@ -22614,6 +23301,9 @@ impl Packet for PacketCzCloseDialog {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzCloseDialog {
@@ -22676,6 +23366,9 @@ impl Packet for PacketZcAutorunSkill {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -22752,6 +23445,9 @@ impl Packet for PacketZcResurrection {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -22840,6 +23536,9 @@ impl Packet for PacketCzReqGiveMannerPoint {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqGiveMannerPoint {
@@ -22910,6 +23609,9 @@ impl Packet for PacketZcAckGiveMannerPoint {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -22992,6 +23694,9 @@ impl Packet for PacketZcNotifyMannerPointGiven {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -23081,6 +23786,9 @@ impl Packet for PacketZcMyguildBasicInfo {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcMyguildBasicInfo {
@@ -23142,6 +23850,9 @@ impl Packet for PacketCzReqGuildMenuinterface {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -23210,6 +23921,9 @@ impl Packet for PacketZcAckGuildMenuinterface {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAckGuildMenuinterface {
@@ -23276,6 +23990,9 @@ impl Packet for PacketCzReqGuildMenu {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -23468,6 +24185,9 @@ impl Packet for PacketZcGuildInfo {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcGuildInfo {
@@ -23562,6 +24282,9 @@ impl Packet for PacketCzReqGuildEmblemImg {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqGuildEmblemImg {
@@ -23650,6 +24373,9 @@ impl Packet for PacketZcGuildEmblemImg {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcGuildEmblemImg {
@@ -23726,6 +24452,9 @@ impl Packet for PacketCzRegisterGuildEmblemImg {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -23813,6 +24542,9 @@ impl Packet for PacketZcMembermgrInfo {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -23903,6 +24635,9 @@ impl Packet for PacketCzReqChangeMemberpos {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqChangeMemberpos {
@@ -23991,6 +24726,9 @@ impl Packet for PacketZcAckReqChangeMembers {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAckReqChangeMembers {
@@ -24062,6 +24800,9 @@ impl Packet for PacketCzReqOpenMemberInfo {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqOpenMemberInfo {
@@ -24120,6 +24861,9 @@ impl Packet for PacketZcAckOpenMemberInfo {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -24218,6 +24962,9 @@ impl Packet for PacketCzReqLeaveGuild {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqLeaveGuild {
@@ -24310,6 +25057,9 @@ impl Packet for PacketZcAckLeaveGuild {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -24410,6 +25160,9 @@ impl Packet for PacketCzReqBanGuild {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -24520,6 +25273,9 @@ impl Packet for PacketZcAckBanGuild {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAckBanGuild {
@@ -24598,6 +25354,9 @@ impl Packet for PacketCzReqDisorganizeGuild {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqDisorganizeGuild {
@@ -24664,6 +25423,9 @@ impl Packet for PacketZcAckDisorganizeGuildResult {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -24738,6 +25500,9 @@ impl Packet for PacketZcAckDisorganizeGuild {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -24823,6 +25588,9 @@ impl Packet for PacketZcPositionInfo {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -24911,6 +25679,9 @@ impl Packet for PacketCzRegChangeGuildPositioninfo {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -25009,6 +25780,9 @@ impl Packet for PacketZcGuildSkillinfo {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcGuildSkillinfo {
@@ -25099,6 +25873,9 @@ impl Packet for PacketZcBanList {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcBanList {
@@ -25187,6 +25964,9 @@ impl Packet for PacketZcOtherGuildList {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcOtherGuildList {
@@ -25270,6 +26050,9 @@ impl Packet for PacketCzReqMakeGuild {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -25359,6 +26142,9 @@ impl Packet for PacketZcPositionIdNameInfo {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcPositionIdNameInfo {
@@ -25428,6 +26214,9 @@ impl Packet for PacketZcResultMakeGuild {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -25514,6 +26303,9 @@ impl Packet for PacketCzReqJoinGuild {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqJoinGuild {
@@ -25584,6 +26376,9 @@ impl Packet for PacketZcAckReqJoinGuild {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -25668,6 +26463,9 @@ impl Packet for PacketZcReqJoinGuild {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcReqJoinGuild {
@@ -25744,6 +26542,9 @@ impl Packet for PacketCzJoinGuild {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -25862,6 +26663,9 @@ impl Packet for PacketZcUpdateGdid {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcUpdateGdid {
@@ -25954,6 +26758,9 @@ impl Packet for PacketZcUpdateCharstat {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -26056,6 +26863,9 @@ impl Packet for PacketCzGuildNotice {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzGuildNotice {
@@ -26148,6 +26958,9 @@ impl Packet for PacketZcGuildNotice {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcGuildNotice {
@@ -26232,6 +27045,9 @@ impl Packet for PacketCzReqAllyGuild {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -26320,6 +27136,9 @@ impl Packet for PacketZcReqAllyGuild {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcReqAllyGuild {
@@ -26398,6 +27217,9 @@ impl Packet for PacketCzAllyGuild {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzAllyGuild {
@@ -26466,6 +27288,9 @@ impl Packet for PacketZcAckReqAllyGuild {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -26553,6 +27378,9 @@ impl Packet for PacketZcAckChangeGuildPositioninfo {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAckChangeGuildPositioninfo {
@@ -26624,6 +27452,9 @@ impl Packet for PacketCzReqGuildMemberInfo {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqGuildMemberInfo {
@@ -26686,6 +27517,9 @@ impl Packet for PacketZcAckGuildMemberInfo {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -26763,6 +27597,9 @@ impl Packet for PacketZcItemidentifyList {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcItemidentifyList {
@@ -26831,6 +27668,9 @@ impl Packet for PacketCzReqItemidentify {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -26909,6 +27749,9 @@ impl Packet for PacketZcAckItemidentify {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAckItemidentify {
@@ -26977,6 +27820,9 @@ impl Packet for PacketCzReqItemcompositionList {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -27052,6 +27898,9 @@ impl Packet for PacketZcItemcompositionList {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -27130,6 +27979,9 @@ impl Packet for PacketCzReqItemcomposition {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -27218,6 +28070,9 @@ impl Packet for PacketZcAckItemcomposition {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAckItemcomposition {
@@ -27294,6 +28149,9 @@ impl Packet for PacketCzGuildChat {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzGuildChat {
@@ -27368,6 +28226,9 @@ impl Packet for PacketZcGuildChat {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcGuildChat {
@@ -27438,6 +28299,9 @@ impl Packet for PacketCzReqHostileGuild {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqHostileGuild {
@@ -27506,6 +28370,9 @@ impl Packet for PacketZcAckReqHostileGuild {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAckReqHostileGuild {
@@ -27568,6 +28435,9 @@ impl Packet for PacketZcMemberAdd {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -27644,6 +28514,9 @@ impl Packet for PacketCzReqDeleteRelatedGuild {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -27724,6 +28597,9 @@ impl Packet for PacketZcDeleteRelatedGuild {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcDeleteRelatedGuild {
@@ -27788,6 +28664,9 @@ impl Packet for PacketZcAddRelatedGuild {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -27858,6 +28737,9 @@ impl Packet for PacketCollectordead {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCollectordead {
@@ -27924,6 +28806,9 @@ impl Packet for PacketPing {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -28010,6 +28895,9 @@ impl Packet for PacketZcAckItemrefining {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAckItemrefining {
@@ -28082,6 +28970,9 @@ impl Packet for PacketZcNotifyMapinfo {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifyMapinfo {
@@ -28150,6 +29041,9 @@ impl Packet for PacketCzReqDisconnect {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqDisconnect {
@@ -28216,6 +29110,9 @@ impl Packet for PacketZcAckReqDisconnect {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -28346,6 +29243,9 @@ impl Packet for PacketZcMonsterInfo {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcMonsterInfo {
@@ -28434,6 +29334,9 @@ impl Packet for PacketZcMakableitemlist {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcMakableitemlist {
@@ -28498,6 +29401,9 @@ impl Packet for PacketCzReqmakingitem {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -28574,6 +29480,9 @@ impl Packet for PacketZcAckReqmakingitem {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -28684,6 +29593,9 @@ impl Packet for PacketCzUseSkillTogroundWithtalkbox {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzUseSkillTogroundWithtalkbox {
@@ -28772,6 +29684,9 @@ impl Packet for PacketZcTalkboxChatcontents {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -28874,6 +29789,9 @@ impl Packet for PacketZcUpdateMapinfo {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcUpdateMapinfo {
@@ -28946,6 +29864,9 @@ impl Packet for PacketCzReqnameBygid {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -29028,6 +29949,9 @@ impl Packet for PacketZcAckReqnameBygid {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -29156,6 +30080,9 @@ impl Packet for PacketZcAckReqnameall {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAckReqnameall {
@@ -29248,6 +30175,9 @@ impl Packet for PacketZcMsgStateChange {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcMsgStateChange {
@@ -29318,6 +30248,9 @@ impl Packet for PacketCzReset {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -29404,6 +30337,9 @@ impl Packet for PacketCzChangeMaptype {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzChangeMaptype {
@@ -29474,6 +30410,9 @@ impl Packet for PacketZcNotifyMapproperty {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -29560,6 +30499,9 @@ impl Packet for PacketZcNotifyRanking {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifyRanking {
@@ -29640,6 +30582,9 @@ impl Packet for PacketZcNotifyEffect {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifyEffect {
@@ -29710,6 +30655,9 @@ impl Packet for PacketCzChangeEffectstate {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzChangeEffectstate {
@@ -29768,6 +30716,9 @@ impl Packet for PacketZcStartCapture {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -29834,6 +30785,9 @@ impl Packet for PacketCzTrycaptureMonster {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -29904,6 +30858,9 @@ impl Packet for PacketZcTrycaptureMonster {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcTrycaptureMonster {
@@ -29970,6 +30927,9 @@ impl Packet for PacketCzCommandPet {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -30094,6 +31054,9 @@ impl Packet for PacketZcPropertyPet {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcPropertyPet {
@@ -30182,6 +31145,9 @@ impl Packet for PacketZcFeedPet {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcFeedPet {
@@ -30268,6 +31234,9 @@ impl Packet for PacketZcChangestatePet {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcChangestatePet {
@@ -30344,6 +31313,9 @@ impl Packet for PacketCzRenamePet {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -30431,6 +31403,9 @@ impl Packet for PacketZcPeteggList {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcPeteggList {
@@ -30502,6 +31477,9 @@ impl Packet for PacketCzSelectPetegg {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzSelectPetegg {
@@ -30570,6 +31548,9 @@ impl Packet for PacketCzPeteggInfo {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzPeteggInfo {
@@ -30636,6 +31617,9 @@ impl Packet for PacketCzPetAct {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -30712,6 +31696,9 @@ impl Packet for PacketZcPetAct {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -30800,6 +31787,9 @@ impl Packet for PacketZcParChangeUser {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcParChangeUser {
@@ -30870,6 +31860,9 @@ impl Packet for PacketZcSkillUpdate {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -30957,6 +31950,9 @@ impl Packet for PacketZcMakingarrowList {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcMakingarrowList {
@@ -31028,6 +32024,9 @@ impl Packet for PacketCzReqMakingarrow {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqMakingarrow {
@@ -31094,6 +32093,9 @@ impl Packet for PacketCzReqChangecart {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -31180,6 +32182,9 @@ impl Packet for PacketZcNpcspriteChange {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNpcspriteChange {
@@ -31258,6 +32263,9 @@ impl Packet for PacketZcShowdigit {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -31369,6 +32377,9 @@ impl Packet for PacketCzReqOpenstore2 {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqOpenstore2 {
@@ -31458,6 +32469,9 @@ impl Packet for PacketZcShowImage2 {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcShowImage2 {
@@ -31542,6 +32556,9 @@ impl Packet for PacketZcChangeGuild {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -31638,6 +32655,9 @@ impl Packet for PacketScBillingInfo {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -31844,6 +32864,9 @@ impl Packet for PacketZcGuildInfo2 {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcGuildInfo2 {
@@ -31940,6 +32963,9 @@ impl Packet for PacketCzGuildZeny {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzGuildZeny {
@@ -32008,6 +33034,9 @@ impl Packet for PacketZcGuildZenyAck {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcGuildZenyAck {
@@ -32074,6 +33103,9 @@ impl Packet for PacketZcDispel {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -32150,6 +33182,9 @@ impl Packet for PacketCzRemoveAid {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzRemoveAid {
@@ -32222,6 +33257,9 @@ impl Packet for PacketCzShift {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -32298,6 +33336,9 @@ impl Packet for PacketCzRecall {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzRecall {
@@ -32372,6 +33413,9 @@ impl Packet for PacketCzRecallGid {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzRecallGid {
@@ -32430,6 +33474,9 @@ impl Packet for PacketAcAskPngameroom {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -32498,6 +33545,9 @@ impl Packet for PacketCaReplyPngameroom {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCaReplyPngameroom {
@@ -32556,6 +33606,9 @@ impl Packet for PacketCzReqRemaintime {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -32640,6 +33693,9 @@ impl Packet for PacketZcReplyRemaintime {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcReplyRemaintime {
@@ -32718,6 +33774,9 @@ impl Packet for PacketZcInfoRemaintime {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -32832,6 +33891,9 @@ impl Packet for PacketZcBroadcast2 {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -32968,6 +34030,9 @@ impl Packet for PacketZcAddItemToStore2 {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -33108,6 +34173,9 @@ impl Packet for PacketZcAddItemToCart2 {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAddItemToCart2 {
@@ -33198,6 +34266,9 @@ impl Packet for PacketCsReqEncryption {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCsReqEncryption {
@@ -33258,6 +34329,9 @@ impl Packet for PacketScAckEncryption {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -33356,6 +34430,9 @@ impl Packet for PacketZcUseItemAck2 {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -33496,6 +34573,9 @@ impl Packet for PacketZcSkillEntry2 {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcSkillEntry2 {
@@ -33576,6 +34656,9 @@ impl Packet for PacketCzReqmakinghomun {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -33668,6 +34751,9 @@ impl Packet for PacketCzMonsterTalk {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -33768,6 +34854,9 @@ impl Packet for PacketZcMonsterTalk {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcMonsterTalk {
@@ -33848,6 +34937,9 @@ impl Packet for PacketZcAutospelllist {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAutospelllist {
@@ -33914,6 +35006,9 @@ impl Packet for PacketCzSelectautospell {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -34006,6 +35101,9 @@ impl Packet for PacketZcDevotionlist {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcDevotionlist {
@@ -34084,6 +35182,9 @@ impl Packet for PacketZcSpirits {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -34172,6 +35273,9 @@ impl Packet for PacketZcBladestop {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcBladestop {
@@ -34250,6 +35354,9 @@ impl Packet for PacketZcCombodelay {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -34352,6 +35459,9 @@ impl Packet for PacketZcSound {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcSound {
@@ -34424,6 +35534,9 @@ impl Packet for PacketZcOpenEditdlgstr {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -34506,6 +35619,9 @@ impl Packet for PacketCzInputEditdlgstr {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzInputEditdlgstr {
@@ -34576,6 +35692,9 @@ impl Packet for PacketZcNotifyMapproperty2 {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -34660,6 +35779,9 @@ impl Packet for PacketZcSpriteChange2 {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -34930,6 +36052,9 @@ impl Packet for PacketZcNotifyStandentry2 {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -35236,6 +36361,9 @@ impl Packet for PacketZcNotifyNewentry2 {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -35550,6 +36678,9 @@ impl Packet for PacketZcNotifyMoveentry2 {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifyMoveentry2 {
@@ -35658,6 +36789,9 @@ impl Packet for PacketCaReqHash {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCaReqHash {
@@ -35726,6 +36860,9 @@ impl Packet for PacketAcAckHash {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -35832,6 +36969,9 @@ impl Packet for PacketCaLogin2 {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -35980,6 +37120,9 @@ impl Packet for PacketZcNotifySkill2 {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifySkill2 {
@@ -36066,6 +37209,9 @@ impl Packet for PacketCzReqAccountname {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqAccountname {
@@ -36148,6 +37294,9 @@ impl Packet for PacketZcAckAccountname {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAckAccountname {
@@ -36224,6 +37373,9 @@ impl Packet for PacketZcSpirits2 {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -36318,6 +37470,9 @@ impl Packet for PacketZcReqCouple {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcReqCouple {
@@ -36406,6 +37561,9 @@ impl Packet for PacketCzJoinCouple {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzJoinCouple {
@@ -36468,6 +37626,9 @@ impl Packet for PacketZcStartCouple {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -36534,6 +37695,9 @@ impl Packet for PacketCzReqJoinCouple {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -36610,6 +37774,9 @@ impl Packet for PacketZcCouplename {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcCouplename {
@@ -36668,6 +37835,9 @@ impl Packet for PacketCzDoridori {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -36756,6 +37926,9 @@ impl Packet for PacketCzMakeGroup2 {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -36920,6 +38093,9 @@ impl Packet for PacketZcAddMemberToGroup2 {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAddMemberToGroup2 {
@@ -37006,6 +38182,9 @@ impl Packet for PacketZcCongratulation {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcCongratulation {
@@ -37088,6 +38267,9 @@ impl Packet for PacketZcNotifyPositionToGuildm {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -37184,6 +38366,9 @@ impl Packet for PacketZcGuildMemberMapChange {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcGuildMemberMapChange {
@@ -37246,6 +38431,9 @@ impl Packet for PacketCzChopokgi {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -37329,6 +38517,9 @@ impl Packet for PacketZcNormalItemlist2 {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -37419,6 +38610,9 @@ impl Packet for PacketZcCartNormalItemlist2 {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcCartNormalItemlist2 {
@@ -37507,6 +38701,9 @@ impl Packet for PacketZcStoreNormalItemlist2 {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcStoreNormalItemlist2 {
@@ -37580,6 +38777,9 @@ impl Packet for PacketAcNotifyError {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -37692,6 +38892,9 @@ impl Packet for PacketZcUpdateCharstat2 {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcUpdateCharstat2 {
@@ -37776,6 +38979,9 @@ impl Packet for PacketZcNotifyEffect2 {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -37870,6 +39076,9 @@ impl Packet for PacketZcReqExchangeItem2 {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcReqExchangeItem2 {
@@ -37956,6 +39165,9 @@ impl Packet for PacketZcAckExchangeItem2 {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -38052,6 +39264,9 @@ impl Packet for PacketZcReqBaby {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcReqBaby {
@@ -38140,6 +39355,9 @@ impl Packet for PacketCzJoinBaby {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzJoinBaby {
@@ -38202,6 +39420,9 @@ impl Packet for PacketZcStartBaby {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -38268,6 +39489,9 @@ impl Packet for PacketCzReqJoinBaby {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -38382,6 +39606,9 @@ impl Packet for PacketCaLogin3 {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCaLogin3 {
@@ -38472,6 +39699,9 @@ impl Packet for PacketChDeleteChar2 {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketChDeleteChar2 {
@@ -38559,6 +39789,9 @@ impl Packet for PacketZcRepairitemlist {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcRepairitemlist {
@@ -38624,6 +39857,9 @@ impl Packet for PacketCzReqItemrepair {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -38700,6 +39936,9 @@ impl Packet for PacketZcAckItemrepair {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -38788,6 +40027,9 @@ impl Packet for PacketZcHighjump {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcHighjump {
@@ -38864,6 +40106,9 @@ impl Packet for PacketCaConnectInfoChanged {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -38951,6 +40196,9 @@ impl Packet for PacketZcFriendsList {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcFriendsList {
@@ -39026,6 +40274,9 @@ impl Packet for PacketCzAddFriends {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -39104,6 +40355,9 @@ impl Packet for PacketCzDeleteFriends {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzDeleteFriends {
@@ -39180,6 +40434,9 @@ impl Packet for PacketCaExeHashcheck {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCaExeHashcheck {
@@ -39252,6 +40509,9 @@ impl Packet for PacketZcDivorce {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -39336,6 +40596,9 @@ impl Packet for PacketZcFriendsState {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -39432,6 +40695,9 @@ impl Packet for PacketZcReqAddFriends {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcReqAddFriends {
@@ -39518,6 +40784,9 @@ impl Packet for PacketCzAckReqAddFriends {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -39622,6 +40891,9 @@ impl Packet for PacketZcAddFriendsList {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAddFriendsList {
@@ -39702,6 +40974,9 @@ impl Packet for PacketZcDeleteFriends {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -39788,6 +41063,9 @@ impl Packet for PacketChExeHashcheck {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketChExeHashcheck {
@@ -39870,6 +41148,9 @@ impl Packet for PacketCzExeHashcheck {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -39957,6 +41238,9 @@ impl Packet for PacketHcBlockCharacter {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -40060,6 +41344,9 @@ impl Packet for PacketZcStarskill {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcStarskill {
@@ -40140,6 +41427,9 @@ impl Packet for PacketCzReqPvppoint {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -40224,6 +41514,9 @@ impl Packet for PacketZcAckPvppoint {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAckPvppoint {
@@ -40294,6 +41587,9 @@ impl Packet for PacketZhMovePvpworld {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -40370,6 +41666,9 @@ impl Packet for PacketCzReqGiveMannerByname {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqGiveMannerByname {
@@ -40442,6 +41741,9 @@ impl Packet for PacketCzReqStatusGm {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -40712,6 +42014,9 @@ impl Packet for PacketZcAckStatusGm {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAckStatusGm {
@@ -40830,6 +42135,9 @@ impl Packet for PacketZcSkillmsg {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcSkillmsg {
@@ -40898,6 +42206,9 @@ impl Packet for PacketZcBabymsg {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcBabymsg {
@@ -40958,6 +42269,9 @@ impl Packet for PacketCzBlacksmithRank {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzBlacksmithRank {
@@ -41014,6 +42328,9 @@ impl Packet for PacketCzAlchemistRank {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -41100,6 +42417,9 @@ impl Packet for PacketZcBlacksmithRank {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -41192,6 +42512,9 @@ impl Packet for PacketZcAlchemistRank {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAlchemistRank {
@@ -41268,6 +42591,9 @@ impl Packet for PacketZcBlacksmithPoint {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -41348,6 +42674,9 @@ impl Packet for PacketZcAlchemistPoint {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAlchemistPoint {
@@ -41418,6 +42747,9 @@ impl Packet for PacketCzLesseffect {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzLesseffect {
@@ -41484,6 +42816,9 @@ impl Packet for PacketZcLesseffect {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -41594,6 +42929,9 @@ impl Packet for PacketZcNotifyPkinfo {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifyPkinfo {
@@ -41676,6 +43014,9 @@ impl Packet for PacketZcNotifyCrazykiller {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -41765,6 +43106,9 @@ impl Packet for PacketZcNotifyWeaponitemlist {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifyWeaponitemlist {
@@ -41834,6 +43178,9 @@ impl Packet for PacketCzReqWeaponrefine {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -41910,6 +43257,9 @@ impl Packet for PacketZcAckWeaponrefine {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -41990,6 +43340,9 @@ impl Packet for PacketZcTaekwonPoint {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcTaekwonPoint {
@@ -42050,6 +43403,9 @@ impl Packet for PacketCzTaekwonRank {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -42138,6 +43494,9 @@ impl Packet for PacketZcTaekwonRank {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcTaekwonRank {
@@ -42214,6 +43573,9 @@ impl Packet for PacketZcGameGuard {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcGameGuard {
@@ -42286,6 +43648,9 @@ impl Packet for PacketCzAckGameGuard {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -42386,6 +43751,9 @@ impl Packet for PacketZcStateChange3 {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -42660,6 +44028,9 @@ impl Packet for PacketZcNotifyStandentry3 {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -42966,6 +44337,9 @@ impl Packet for PacketZcNotifyNewentry3 {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -43288,6 +44662,9 @@ impl Packet for PacketZcNotifyMoveentry3 {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifyMoveentry3 {
@@ -43412,6 +44789,9 @@ impl Packet for PacketCzCommandMer {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -43658,6 +45038,9 @@ impl Packet for PacketZcPropertyHomun {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcPropertyHomun {
@@ -43792,6 +45175,9 @@ impl Packet for PacketZcChangestateMer {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcChangestateMer {
@@ -43870,6 +45256,9 @@ impl Packet for PacketCzRenameMer {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -43952,6 +45341,9 @@ impl Packet for PacketCzRequestMovenpc {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -44040,6 +45432,9 @@ impl Packet for PacketCzRequestActnpc {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzRequestActnpc {
@@ -44112,6 +45507,9 @@ impl Packet for PacketCzRequestMovetoowner {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzRequestMovetoowner {
@@ -44178,6 +45576,9 @@ impl Packet for PacketZcReqStorePassword {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -44276,6 +45677,9 @@ impl Packet for PacketCzAckStorePassword {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzAckStorePassword {
@@ -44356,6 +45760,9 @@ impl Packet for PacketZcResultStorePassword {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcResultStorePassword {
@@ -44424,6 +45831,9 @@ impl Packet for PacketAcEventResult {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -44502,6 +45912,9 @@ impl Packet for PacketHcRequestCharacterPassword {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketHcRequestCharacterPassword {
@@ -44562,6 +45975,9 @@ impl Packet for PacketCzMailGetList {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -44655,6 +46071,9 @@ impl Packet for PacketZcMailReqGetList {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcMailReqGetList {
@@ -44726,6 +46145,9 @@ impl Packet for PacketCzMailOpen {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -44916,6 +46338,9 @@ impl Packet for PacketZcMailReqOpen {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcMailReqOpen {
@@ -45012,6 +46437,9 @@ impl Packet for PacketCzMailDelete {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzMailDelete {
@@ -45078,6 +46506,9 @@ impl Packet for PacketCzMailGetItem {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -45148,6 +46579,9 @@ impl Packet for PacketZcMailReqGetItem {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcMailReqGetItem {
@@ -45214,6 +46648,9 @@ impl Packet for PacketCzMailResetItem {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -45290,6 +46727,9 @@ impl Packet for PacketCzMailAddItem {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -45402,6 +46842,9 @@ impl Packet for PacketCzMailSend {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzMailSend {
@@ -45476,6 +46919,9 @@ impl Packet for PacketZcMailReqSend {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -45574,6 +47020,9 @@ impl Packet for PacketZcMailReceive {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcMailReceive {
@@ -45644,6 +47093,9 @@ impl Packet for PacketCzAuctionCreate {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -45720,6 +47172,9 @@ impl Packet for PacketCzAuctionAddItem {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -45808,6 +47263,9 @@ impl Packet for PacketCzAuctionAdd {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzAuctionAdd {
@@ -45878,6 +47336,9 @@ impl Packet for PacketCzAuctionAddCancel {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -45956,6 +47417,9 @@ impl Packet for PacketCzAuctionBuy {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzAuctionBuy {
@@ -46024,6 +47488,9 @@ impl Packet for PacketZcAuctionResult {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -46122,6 +47589,9 @@ impl Packet for PacketCzAuctionItemSearch {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -46231,6 +47701,9 @@ impl Packet for PacketZcAuctionItemReqSearch {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAuctionItemReqSearch {
@@ -46306,6 +47779,9 @@ impl Packet for PacketZcStarplace {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcStarplace {
@@ -46372,6 +47848,9 @@ impl Packet for PacketCzAgreeStarplace {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -46448,6 +47927,9 @@ impl Packet for PacketZcAckMailAddItem {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -46528,6 +48010,9 @@ impl Packet for PacketZcAckAuctionAddItem {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAckAuctionAddItem {
@@ -46606,6 +48091,9 @@ impl Packet for PacketZcAckMailDelete {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAckMailDelete {
@@ -46666,6 +48154,9 @@ impl Packet for PacketCaReqGameGuardCheck {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -46732,6 +48223,9 @@ impl Packet for PacketAcAckGameGuard {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -46807,6 +48301,9 @@ impl Packet for PacketZcMakingitemList {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -46887,6 +48384,9 @@ impl Packet for PacketCzReqMakingitem {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqMakingitem {
@@ -46957,6 +48457,9 @@ impl Packet for PacketCzAuctionReqMyInfo {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzAuctionReqMyInfo {
@@ -47023,6 +48526,9 @@ impl Packet for PacketCzAuctionReqMySellStop {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -47093,6 +48599,9 @@ impl Packet for PacketZcAuctionAckMySellStop {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAuctionAckMySellStop {
@@ -47161,6 +48670,9 @@ impl Packet for PacketZcAuctionWindows {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAuctionWindows {
@@ -47227,6 +48739,9 @@ impl Packet for PacketZcMailWindows {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -47303,6 +48818,9 @@ impl Packet for PacketAcReqLoginOldekey {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketAcReqLoginOldekey {
@@ -47377,6 +48895,9 @@ impl Packet for PacketAcReqLoginNewekey {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketAcReqLoginNewekey {
@@ -47449,6 +48970,9 @@ impl Packet for PacketAcReqLoginCardpass {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -47537,6 +49061,9 @@ impl Packet for PacketCaAckLoginOldekey {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -47629,6 +49156,9 @@ impl Packet for PacketCaAckLoginNewekey {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCaAckLoginNewekey {
@@ -47705,6 +49235,9 @@ impl Packet for PacketCaAckLoginCardpass {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCaAckLoginCardpass {
@@ -47771,6 +49304,9 @@ impl Packet for PacketAcAckEkeyFailNotexist {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -47841,6 +49377,9 @@ impl Packet for PacketAcAckEkeyFailNotusesekey {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketAcAckEkeyFailNotusesekey {
@@ -47907,6 +49446,9 @@ impl Packet for PacketAcAckEkeyFailNotusedekey {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -47977,6 +49519,9 @@ impl Packet for PacketAcAckEkeyFailAuthrefuse {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketAcAckEkeyFailAuthrefuse {
@@ -48043,6 +49588,9 @@ impl Packet for PacketAcAckEkeyFailInputekey {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -48113,6 +49661,9 @@ impl Packet for PacketAcAckEkeyFailNotice {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketAcAckEkeyFailNotice {
@@ -48179,6 +49730,9 @@ impl Packet for PacketAcAckEkeyFailNeedcardpass {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -48249,6 +49803,9 @@ impl Packet for PacketAcAckAuthekeyFailNotmatchcardpass {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketAcAckAuthekeyFailNotmatchcardpass {
@@ -48309,6 +49866,9 @@ impl Packet for PacketAcAckFirstLogin {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketAcAckFirstLogin {
@@ -48365,6 +49925,9 @@ impl Packet for PacketAcReqLoginAccountInfo {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -48453,6 +50016,9 @@ impl Packet for PacketCaAckLoginAccountInfo {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -48547,6 +50113,9 @@ impl Packet for PacketAcAckPtIdInfo {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketAcAckPtIdInfo {
@@ -48631,6 +50200,9 @@ impl Packet for PacketCzReqMailReturn {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqMailReturn {
@@ -48707,6 +50279,9 @@ impl Packet for PacketZcAckMailReturn {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -48831,6 +50406,9 @@ impl Packet for PacketChEnter2 {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -48973,6 +50551,9 @@ impl Packet for PacketCaAcceptLogin2 {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -49121,6 +50702,9 @@ impl Packet for PacketCaLoginPcbang {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCaLoginPcbang {
@@ -49191,6 +50775,9 @@ impl Packet for PacketZcNotifyPcbang {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifyPcbang {
@@ -49247,6 +50834,9 @@ impl Packet for PacketCzHuntinglist {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -49330,6 +50920,9 @@ impl Packet for PacketZcHuntinglist {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -49417,6 +51010,9 @@ impl Packet for PacketZcPcbangEffect {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -49539,6 +51135,9 @@ impl Packet for PacketCaLogin4 {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -49759,6 +51358,9 @@ impl Packet for PacketZcPropertyMerce {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcPropertyMerce {
@@ -49873,6 +51475,9 @@ impl Packet for PacketZcShandaProtect {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcShandaProtect {
@@ -49951,6 +51556,9 @@ impl Packet for PacketCaClientType {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -50039,6 +51647,9 @@ impl Packet for PacketZcGangsiPoint {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcGangsiPoint {
@@ -50109,6 +51720,9 @@ impl Packet for PacketCzGangsiRank {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -50207,6 +51821,9 @@ impl Packet for PacketZcGangsiRank {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcGangsiRank {
@@ -50277,6 +51894,9 @@ impl Packet for PacketZcAid {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -50363,6 +51983,9 @@ impl Packet for PacketZcNotifyEffect3 {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifyEffect3 {
@@ -50443,6 +52066,9 @@ impl Packet for PacketZcDeathQuestion {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcDeathQuestion {
@@ -50511,6 +52137,9 @@ impl Packet for PacketCzDeathQuestion {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -50606,6 +52235,9 @@ impl Packet for PacketZcPcCashPointItemlist {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcPcCashPointItemlist {
@@ -50687,6 +52319,9 @@ impl Packet for PacketCzPcBuyCashPointItem {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzPcBuyCashPointItem {
@@ -50763,6 +52398,9 @@ impl Packet for PacketZcPcCashPointUpdate {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -50857,6 +52495,9 @@ impl Packet for PacketZcNpcShowefstUpdate {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -50955,6 +52596,9 @@ impl Packet for PacketChSelectCharGoingtobeused {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketChSelectCharGoingtobeused {
@@ -51049,6 +52693,9 @@ impl Packet for PacketChReqIsValidCharname {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketChReqIsValidCharname {
@@ -51121,6 +52768,9 @@ impl Packet for PacketHcAckIsValidCharname {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketHcAckIsValidCharname {
@@ -51187,6 +52837,9 @@ impl Packet for PacketChReqChangeCharname {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -51257,6 +52910,9 @@ impl Packet for PacketHcAckChangeCharname {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketHcAckChangeCharname {
@@ -51325,6 +52981,9 @@ impl Packet for PacketZcMsg {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcMsg {
@@ -51383,6 +53042,9 @@ impl Packet for PacketCzStandingResurrection {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -51513,6 +53175,9 @@ impl Packet for PacketZcBossInfo {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcBossInfo {
@@ -51603,6 +53268,9 @@ impl Packet for PacketZcReadBook {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcReadBook {
@@ -51688,6 +53356,9 @@ impl Packet for PacketZcEquipmentItemlist2 {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -51778,6 +53449,9 @@ impl Packet for PacketZcStoreEquipmentItemlist2 {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcStoreEquipmentItemlist2 {
@@ -51866,6 +53540,9 @@ impl Packet for PacketZcCartEquipmentItemlist2 {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcCartEquipmentItemlist2 {
@@ -51945,6 +53622,9 @@ impl Packet for PacketZcCashTimeCounter {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcCashTimeCounter {
@@ -52021,6 +53701,9 @@ impl Packet for PacketZcCashItemDelete {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -52171,6 +53854,9 @@ impl Packet for PacketZcItemPickupAck2 {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -52417,6 +54103,9 @@ impl Packet for PacketZcMerInit {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -52667,6 +54356,9 @@ impl Packet for PacketZcMerProperty {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcMerProperty {
@@ -52786,6 +54478,9 @@ impl Packet for PacketZcMerSkillinfoList {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcMerSkillinfoList {
@@ -52889,6 +54584,9 @@ impl Packet for PacketZcMerSkillinfoUpdate {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcMerSkillinfoUpdate {
@@ -52963,6 +54661,9 @@ impl Packet for PacketCzMerCommand {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -53049,6 +54750,9 @@ impl Packet for UnusedPacketCzMerUseSkill {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for UnusedPacketCzMerUseSkill {
@@ -53119,6 +54823,9 @@ impl Packet for UnusedPacketCzMerUpgradeSkilllevel {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -53197,6 +54904,9 @@ impl Packet for PacketZcMerParChange {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcMerParChange {
@@ -53261,6 +54971,9 @@ impl Packet for PacketZcGameguardLingoKey {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -53339,6 +55052,9 @@ impl Packet for PacketCzKsyEvent {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzKsyEvent {
@@ -53407,6 +55123,9 @@ impl Packet for PacketZcReqCashPassword {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -53505,6 +55224,9 @@ impl Packet for PacketCzAckCashPassword {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzAckCashPassword {
@@ -53585,6 +55307,9 @@ impl Packet for PacketZcResultCashPassword {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcResultCashPassword {
@@ -53661,6 +55386,9 @@ impl Packet for PacketAcRequestSecondPassword {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -53805,6 +55533,9 @@ impl Packet for PacketCaLoginHan {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCaLoginHan {
@@ -53910,6 +55641,9 @@ impl Packet for PacketZcAllQuestList {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAllQuestList {
@@ -54006,6 +55740,9 @@ impl Packet for PacketZcAllQuestMission {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -54130,6 +55867,9 @@ impl Packet for PacketZcAddQuest {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAddQuest {
@@ -54207,6 +55947,9 @@ impl Packet for PacketZcDelQuest {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -54302,6 +56045,9 @@ impl Packet for PacketZcUpdateMissionHunt {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcUpdateMissionHunt {
@@ -54383,6 +56129,9 @@ impl Packet for PacketCzActiveQuest {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzActiveQuest {
@@ -54459,6 +56208,9 @@ impl Packet for PacketZcActiveQuest {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -54587,6 +56339,9 @@ impl Packet for PacketZcItemPickupParty {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcItemPickupParty {
@@ -54678,6 +56433,9 @@ impl Packet for PacketZcShortcutKeyList {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcShortcutKeyList {
@@ -54749,6 +56507,9 @@ impl Packet for PacketCzShortcutKeyChange {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -54829,6 +56590,9 @@ impl Packet for PacketZcEquipitemDamaged {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcEquipitemDamaged {
@@ -54897,6 +56661,9 @@ impl Packet for PacketZcNotifyPcbangPlayingTime {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -54983,6 +56750,9 @@ impl Packet for PacketZcSrpacketr2Init {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcSrpacketr2Init {
@@ -55053,6 +56823,9 @@ impl Packet for PacketCzSrpacketr2Start {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -55143,6 +56916,9 @@ impl Packet for PacketZcNpcChat {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNpcChat {
@@ -55229,6 +57005,9 @@ impl Packet for PacketZcFormatstringMsg {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcFormatstringMsg {
@@ -55305,6 +57084,9 @@ impl Packet for PacketCzPartyJoinReq {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -55387,6 +57169,9 @@ impl Packet for PacketZcPartyJoinReqAck {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -55473,6 +57258,9 @@ impl Packet for PacketZcPartyJoinReq {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcPartyJoinReq {
@@ -55551,6 +57339,9 @@ impl Packet for PacketCzPartyJoinReqAck {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzPartyJoinReqAck {
@@ -55621,6 +57412,9 @@ impl Packet for PacketCzPartyConfig {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzPartyConfig {
@@ -55689,6 +57483,9 @@ impl Packet for PacketZcPartyConfig {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcPartyConfig {
@@ -55755,6 +57552,9 @@ impl Packet for PacketHcRefuseSelectchar {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -55839,6 +57639,9 @@ impl Packet for PacketZcMemorialdungeonSubscriptionInfo {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcMemorialdungeonSubscriptionInfo {
@@ -55907,6 +57710,9 @@ impl Packet for PacketZcMemorialdungeonSubscriptionNotify {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -55999,6 +57805,9 @@ impl Packet for PacketZcMemorialdungeonInfo {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcMemorialdungeonInfo {
@@ -56079,6 +57888,9 @@ impl Packet for PacketZcMemorialdungeonNotify {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcMemorialdungeonNotify {
@@ -56147,6 +57959,9 @@ impl Packet for PacketCzMemorialdungeonCommand {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -56232,6 +58047,9 @@ impl Packet for PacketZcEquipmentItemlist3 {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -56322,6 +58140,9 @@ impl Packet for PacketZcStoreEquipmentItemlist3 {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcStoreEquipmentItemlist3 {
@@ -56410,6 +58231,9 @@ impl Packet for PacketZcCartEquipmentItemlist3 {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcCartEquipmentItemlist3 {
@@ -56479,6 +58303,9 @@ impl Packet for PacketZcNotifyBindOnEquip {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -56637,6 +58464,9 @@ impl Packet for PacketZcItemPickupAck3 {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcItemPickupAck3 {
@@ -56719,6 +58549,9 @@ impl Packet for PacketZcIsvrDisconnect {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcIsvrDisconnect {
@@ -56783,6 +58616,9 @@ impl Packet for PacketCzEquipwinMicroscope {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -56948,6 +58784,9 @@ impl Packet for PacketZcEquipwinMicroscope {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcEquipwinMicroscope {
@@ -57045,6 +58884,9 @@ impl Packet for PacketCzConfig {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzConfig {
@@ -57123,6 +58965,9 @@ impl Packet for PacketZcConfig {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcConfig {
@@ -57191,6 +59036,9 @@ impl Packet for PacketZcConfigNotify {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -57263,6 +59111,9 @@ impl Packet for PacketCzBattlefieldChat {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -57361,6 +59212,9 @@ impl Packet for PacketZcBattlefieldChat {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcBattlefieldChat {
@@ -57457,6 +59311,9 @@ impl Packet for PacketZcBattlefieldNotifyCampinfo {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcBattlefieldNotifyCampinfo {
@@ -57535,6 +59392,9 @@ impl Packet for PacketZcBattlefieldNotifyPoint {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -57645,6 +59505,9 @@ impl Packet for PacketZcBattlefieldNotifyPosition {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcBattlefieldNotifyPosition {
@@ -57749,6 +59612,9 @@ impl Packet for PacketZcBattlefieldNotifyHp {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -57889,6 +59755,9 @@ impl Packet for PacketZcNotifyAct2 {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifyAct2 {
@@ -57973,6 +59842,9 @@ impl Packet for PacketCzBotCheck {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzBotCheck {
@@ -58054,6 +59926,9 @@ impl Packet for PacketZcMapproperty {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -58145,6 +60020,9 @@ impl Packet for PacketZcNormalItemlist3 {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNormalItemlist3 {
@@ -58233,6 +60111,9 @@ impl Packet for PacketZcCartNormalItemlist3 {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcCartNormalItemlist3 {
@@ -58319,6 +60200,9 @@ impl Packet for PacketZcStoreNormalItemlist3 {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -58428,6 +60312,9 @@ impl Packet for PacketZcAcceptEnter2 {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -58718,6 +60605,9 @@ impl Packet for PacketZcNotifyMoveentry4 {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -59036,6 +60926,9 @@ impl Packet for PacketZcNotifyNewentry4 {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -59360,6 +61253,9 @@ impl Packet for PacketZcNotifyStandentry4 {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifyStandentry4 {
@@ -59486,6 +61382,9 @@ impl Packet for PacketZcNotifyFont {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifyFont {
@@ -59564,6 +61463,9 @@ impl Packet for PacketZcProgress {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcProgress {
@@ -59626,6 +61528,9 @@ impl Packet for PacketCzProgress {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzProgress {
@@ -59684,6 +61589,9 @@ impl Packet for PacketZcProgressCancel {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcProgressCancel {
@@ -59740,6 +61648,9 @@ impl Packet for PacketCzOpenSimpleCashshopItemlist {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -59865,6 +61776,9 @@ impl Packet for PacketZcSimpleCashshopPointItemlist {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcSimpleCashshopPointItemlist {
@@ -59936,6 +61850,9 @@ impl Packet for PacketCzCloseWindow {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -60010,6 +61927,9 @@ impl Packet for PacketAhcGameGuard {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketAhcGameGuard {
@@ -60082,6 +62002,9 @@ impl Packet for PacketCahAckGameGuard {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -60184,6 +62107,9 @@ impl Packet for PacketCzEnter2 {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzEnter2 {
@@ -60266,6 +62192,9 @@ impl Packet for PacketCzRequestAct2 {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -60354,6 +62283,9 @@ impl Packet for PacketCzUseSkill2 {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzUseSkill2 {
@@ -60434,6 +62366,9 @@ impl Packet for PacketCzUseItem2 {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzUseItem2 {
@@ -60510,6 +62445,9 @@ impl Packet for PacketZcSkillPostdelay {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -60597,6 +62535,9 @@ impl Packet for PacketZcSkillPostdelayList {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -60708,6 +62649,9 @@ impl Packet for PacketZcMsgStateChange2 {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcMsgStateChange2 {
@@ -60800,6 +62744,9 @@ impl Packet for PacketZcMillenniumshield {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcMillenniumshield {
@@ -60870,6 +62817,9 @@ impl Packet for PacketZcSkillinfoDelete {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -60955,6 +62905,9 @@ impl Packet for PacketZcSkillSelectRequest {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcSkillSelectRequest {
@@ -61033,6 +62986,9 @@ impl Packet for PacketCzSkillSelectResponse {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -61130,6 +63086,9 @@ impl Packet for PacketZcSimpleCashPointItemlist {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcSimpleCashPointItemlist {
@@ -61209,6 +63168,9 @@ impl Packet for PacketCzSimpleBuyCashPointItem {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -61313,6 +63275,9 @@ impl Packet for PacketZcQuestNotifyEffect {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcQuestNotifyEffect {
@@ -61379,6 +63344,9 @@ impl Packet for PacketCzBlockingPlayCancel {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -61464,6 +63432,9 @@ impl Packet for PacketHcCharacterList {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketHcCharacterList {
@@ -61535,6 +63506,9 @@ impl Packet for PacketZcHackshErrorMsg {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcHackshErrorMsg {
@@ -61603,6 +63577,9 @@ impl Packet for PacketCzClientVersion {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzClientVersion {
@@ -61661,6 +63638,9 @@ impl Packet for PacketCzCloseSimplecashShop {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -61737,6 +63717,9 @@ impl Packet for PacketZcEsResult {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcEsResult {
@@ -61797,6 +63780,9 @@ impl Packet for PacketCzEsGetList {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -61873,6 +63859,9 @@ impl Packet for PacketZcEsList {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcEsList {
@@ -61943,6 +63932,9 @@ impl Packet for PacketCzEsChoose {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzEsChoose {
@@ -62009,6 +64001,9 @@ impl Packet for PacketCzEsCancel {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -62079,6 +64074,9 @@ impl Packet for PacketZcEsReady {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcEsReady {
@@ -62145,6 +64143,9 @@ impl Packet for PacketZcEsGoto {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -62229,6 +64230,9 @@ impl Packet for PacketCzGroupinfoChangeV2 {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -62319,6 +64323,9 @@ impl Packet for PacketZcReqGroupinfoChangeV2 {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcReqGroupinfoChangeV2 {
@@ -62400,6 +64407,9 @@ impl Packet for PacketZcShortcutKeyListV2 {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcShortcutKeyListV2 {
@@ -62467,6 +64477,9 @@ impl Packet for PacketCzChangeGroupMaster {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -62545,6 +64558,9 @@ impl Packet for PacketZcHoParChange {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcHoParChange {
@@ -62613,6 +64629,9 @@ impl Packet for PacketCzSeekParty {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -62727,6 +64746,9 @@ impl Packet for PacketZcSeekParty {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcSeekParty {
@@ -62831,6 +64853,9 @@ impl Packet for PacketCzSeekPartyMember {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -62951,6 +64976,9 @@ impl Packet for PacketZcSeekPartyMember {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcSeekPartyMember {
@@ -63039,6 +65067,9 @@ impl Packet for PacketZcEsNotiMyinfo {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -63151,6 +65182,9 @@ impl Packet for PacketZcSkillinfoUpdate2 {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcSkillinfoUpdate2 {
@@ -63237,6 +65271,9 @@ impl Packet for PacketZcMsgValue {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcMsgValue {
@@ -63305,6 +65342,9 @@ impl Packet for PacketZcItemlistwinOpen {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -63399,6 +65439,9 @@ impl Packet for PacketCzItemlistwinRes {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzItemlistwinRes {
@@ -63485,6 +65528,9 @@ impl Packet for PacketChEnterCheckbot {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketChEnterCheckbot {
@@ -63563,6 +65609,9 @@ impl Packet for PacketZcMsgSkill {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -63657,6 +65706,9 @@ impl Packet for PacketChCheckbot {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketChCheckbot {
@@ -63731,6 +65783,9 @@ impl Packet for PacketHcCheckbot {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -63811,6 +65866,9 @@ impl Packet for PacketHcCheckbotResult {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketHcCheckbotResult {
@@ -63871,6 +65929,9 @@ impl Packet for PacketCzBattleFieldList {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -63972,6 +66033,9 @@ impl Packet for PacketZcBattleFieldList {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcBattleFieldList {
@@ -64053,6 +66117,9 @@ impl Packet for PacketCzJoinBattleField {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -64141,6 +66208,9 @@ impl Packet for PacketZcJoinBattleField {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcJoinBattleField {
@@ -64211,6 +66281,9 @@ impl Packet for PacketCzCancelBattleField {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -64289,6 +66362,9 @@ impl Packet for PacketZcCancelBattleField {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcCancelBattleField {
@@ -64365,6 +66441,9 @@ impl Packet for PacketCzReqBattleStateMonitor {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -64485,6 +66564,9 @@ impl Packet for PacketZcAckBattleStateMonitor {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAckBattleStateMonitor {
@@ -64573,6 +66655,9 @@ impl Packet for PacketZcBattleNotiStartStep {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcBattleNotiStartStep {
@@ -64643,6 +66728,9 @@ impl Packet for PacketZcBattleJoinNotiDefer {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcBattleJoinNotiDefer {
@@ -64711,6 +66799,9 @@ impl Packet for PacketZcBattleJoinDisableState {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcBattleJoinDisableState {
@@ -64777,6 +66868,9 @@ impl Packet for PacketCzGmFullstrip {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -64869,6 +66963,9 @@ impl Packet for PacketZcNotifyExp {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -65179,6 +67276,9 @@ impl Packet for PacketZcNotifyMoveentry7 {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -65531,6 +67631,9 @@ impl Packet for PacketZcNotifyNewentry5 {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -65891,6 +67994,9 @@ impl Packet for PacketZcNotifyStandentry5 {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcNotifyStandentry5 {
@@ -66031,6 +68137,9 @@ impl Packet for PacketZcDeleteItemFromBody {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcDeleteItemFromBody {
@@ -66159,6 +68268,9 @@ impl Packet for PacketZcUseskillAck2 {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcUseskillAck2 {
@@ -66249,6 +68361,9 @@ impl Packet for PacketZcChangeGroupMaster {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcChangeGroupMaster {
@@ -66325,6 +68440,9 @@ impl Packet for PacketZcPlayNpcBgm {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcPlayNpcBgm {
@@ -66399,6 +68517,9 @@ impl Packet for PacketZcDefineCheck {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -66502,6 +68623,9 @@ impl Packet for PacketZcPcPurchaseItemlistFrommc2 {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -66612,6 +68736,9 @@ impl Packet for PacketCzPcPurchaseItemlistFrommc2 {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzPcPurchaseItemlistFrommc2 {
@@ -66683,6 +68810,9 @@ impl Packet for PacketCzPartyBookingReqRegister {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzPartyBookingReqRegister {
@@ -66749,6 +68879,9 @@ impl Packet for PacketZcPartyBookingAckRegister {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -66849,6 +68982,9 @@ impl Packet for PacketCzPartyBookingReqSearch {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -66952,6 +69088,9 @@ impl Packet for PacketZcPartyBookingAckSearch {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcPartyBookingAckSearch {
@@ -67015,6 +69154,9 @@ impl Packet for PacketCzPartyBookingReqDelete {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -67081,6 +69223,9 @@ impl Packet for PacketZcPartyBookingAckDelete {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -67157,6 +69302,9 @@ impl Packet for PacketCzPartyBookingReqUpdate {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzPartyBookingReqUpdate {
@@ -67219,6 +69367,9 @@ impl Packet for PacketZcPartyBookingNotifyInsert {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -67337,6 +69488,9 @@ impl Packet for PacketZcPartyBookingNotifyUpdate {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcPartyBookingNotifyUpdate {
@@ -67417,6 +69571,9 @@ impl Packet for PacketZcPartyBookingNotifyDelete {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcPartyBookingNotifyDelete {
@@ -67475,6 +69632,9 @@ impl Packet for PacketCzSimpleCashBtnshow {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -67541,6 +69701,9 @@ impl Packet for PacketZcSimpleCashBtnshow {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -67625,6 +69788,9 @@ impl Packet for PacketZcNotifyHpToGroupmR2 {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -67747,6 +69913,9 @@ impl Packet for PacketZcAddExchangeItem2 {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAddExchangeItem2 {
@@ -67825,6 +69994,9 @@ impl Packet for PacketZcOpenBuyingStore {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -67942,6 +70114,9 @@ impl Packet for PacketCzReqOpenBuyingStore {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqOpenBuyingStore {
@@ -68025,6 +70200,9 @@ impl Packet for PacketZcFailedOpenBuyingStoreToBuyer {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -68130,6 +70308,9 @@ impl Packet for PacketZcMyitemlistBuyingStore {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcMyitemlistBuyingStore {
@@ -68219,6 +70400,9 @@ impl Packet for PacketZcBuyingStoreEntry {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcBuyingStoreEntry {
@@ -68279,6 +70463,9 @@ impl Packet for PacketCzReqCloseBuyingStore {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -68347,6 +70534,9 @@ impl Packet for PacketZcDisappearBuyingStoreEntry {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcDisappearBuyingStoreEntry {
@@ -68413,6 +70603,9 @@ impl Packet for PacketCzReqClickToBuyingStore {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -68522,6 +70715,9 @@ impl Packet for PacketZcAckItemlistBuyingStore {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -68634,6 +70830,9 @@ impl Packet for PacketCzReqTradeBuyingStore {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzReqTradeBuyingStore {
@@ -68707,6 +70906,9 @@ impl Packet for PacketZcFailedTradeBuyingStoreToBuyer {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -68791,6 +70993,9 @@ impl Packet for PacketZcUpdateItemFromBuyingStore {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -68879,6 +71084,9 @@ impl Packet for PacketZcItemDeleteBuyingStore {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -68985,6 +71193,9 @@ impl Packet for PacketZcElInit {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcElInit {
@@ -69067,6 +71278,9 @@ impl Packet for PacketZcElParChange {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -69159,6 +71373,9 @@ impl Packet for PacketZcBroadcast4 {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcBroadcast4 {
@@ -69249,6 +71466,9 @@ impl Packet for PacketZcCostumeSpriteChange {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcCostumeSpriteChange {
@@ -69311,6 +71531,9 @@ impl Packet for PacketAcOtpUser {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -69383,6 +71606,9 @@ impl Packet for PacketCaOtpAuthReq {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -69461,6 +71687,9 @@ impl Packet for PacketAcOtpAuthAck {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketAcOtpAuthAck {
@@ -69537,6 +71766,9 @@ impl Packet for PacketZcFailedTradeBuyingStoreToSeller {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -69669,6 +71901,9 @@ impl Packet for PacketCaSsoLoginReqa {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -69827,6 +72062,9 @@ impl Packet for PacketCaSsoLoginReq {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCaSsoLoginReq {
@@ -69909,6 +72147,9 @@ impl Packet for PacketAcSsoLoginAck {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketAcSsoLoginAck {
@@ -69975,6 +72216,9 @@ impl Packet for PacketChDeleteChar3Reserved {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -70059,6 +72303,9 @@ impl Packet for PacketHcDeleteChar3Reserved {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -70147,6 +72394,9 @@ impl Packet for PacketChDeleteChar3 {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketChDeleteChar3 {
@@ -70225,6 +72475,9 @@ impl Packet for PacketHcDeleteChar3 {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketHcDeleteChar3 {
@@ -70293,6 +72546,9 @@ impl Packet for PacketChDeleteChar3Cancel {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -70369,6 +72625,9 @@ impl Packet for PacketHcDeleteChar3Cancel {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -70479,6 +72738,9 @@ impl Packet for PacketCzSearchStoreInfo {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -70600,6 +72862,9 @@ impl Packet for PacketZcSearchStoreInfoAck {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcSearchStoreInfoAck {
@@ -70677,6 +72942,9 @@ impl Packet for PacketZcSearchStoreInfoFailed {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcSearchStoreInfoFailed {
@@ -70735,6 +73003,9 @@ impl Packet for PacketCzSearchStoreInfoNextPage {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -70823,6 +73094,9 @@ impl Packet for PacketZcAckBanGuildSso {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcAckBanGuildSso {
@@ -70901,6 +73175,9 @@ impl Packet for PacketZcOpenSearchStoreInfo {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketZcOpenSearchStoreInfo {
@@ -70961,6 +73238,9 @@ impl Packet for PacketCzCloseSearchStoreInfo {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -71045,6 +73325,9 @@ impl Packet for PacketCzSsilistItemClick {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketCzSsilistItemClick {
@@ -71123,6 +73406,9 @@ impl Packet for PacketZcSsilistItemClickAck {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -71209,6 +73495,9 @@ impl Packet for PacketAcRefuseLoginR2 {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketAcRefuseLoginR2 {
@@ -71287,6 +73576,9 @@ impl Packet for PacketChSelectAccessibleMapname {
     fn as_any(&self) -> &dyn Any{
         self
     }
+    fn as_any_mut(&mut self) -> &mut Any{
+        self
+    }
 }
 
 impl Debug for PacketChSelectAccessibleMapname {
@@ -71361,6 +73653,9 @@ impl Packet for PacketCzRequestMove2 {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
@@ -76182,6 +78477,9 @@ impl Packet for PacketUnknown {
             &self.raw
     }
     fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut Any{
         self
     }
 }
