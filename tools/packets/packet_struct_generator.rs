@@ -52,6 +52,7 @@ fn write_packet_trait(file: &mut File) {
     file.write(b"    fn pretty_debug(&self);\n");
     file.write(b"    fn raw(&self) -> &Vec<u8>;\n");
     file.write(b"    fn as_any(&self) -> &dyn Any;\n");
+    file.write(b"    fn as_any_mut(&mut self) -> &mut Any;\n");
     file.write(b"}\n\n");
 }
 
@@ -74,6 +75,9 @@ fn write_packet_trait_impl(file: &mut File, packet: &PacketStructDefinition) {
     file.write(b"            &self.raw\n");
     file.write(b"    }\n");
     file.write(b"    fn as_any(&self) -> &dyn Any{\n");
+    file.write(b"        self\n");
+    file.write(b"    }\n");
+    file.write(b"    fn as_any_mut(&mut self) -> &mut Any{\n");
     file.write(b"        self\n");
     file.write(b"    }\n");
     file.write(b"}\n\n");
@@ -297,6 +301,9 @@ fn write_unknown_packet(file: &mut File) {
     file.write(b"            &self.raw\n");
     file.write(b"    }\n");
     file.write(b"    fn as_any(&self) -> &dyn Any{\n");
+    file.write(b"        self\n");
+    file.write(b"    }\n");
+    file.write(b"    fn as_any_mut(&mut self) -> &mut Any{\n");
     file.write(b"        self\n");
     file.write(b"    }\n");
     file.write(b"}\n");
