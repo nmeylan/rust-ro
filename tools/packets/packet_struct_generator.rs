@@ -162,7 +162,11 @@ fn write_struct_definition(file: &mut File, struct_definition: &StructDefinition
         } else {
             file.write(format!("    pub {}: {},\n", field.name, field.data_type.name).as_bytes());
         }
-        file.write(format!("    pub {}_raw: Vec<u8>,\n", field.name).as_bytes());
+        if field.length > -1 {
+            file.write(format!("    pub {}_raw: [u8; {}],\n", field.name, field.length).as_bytes());
+        } else {
+            file.write(format!("    pub {}_raw: Vec<u8>,\n", field.name).as_bytes());
+        }
     }
     file.write(b"}\n\n");
 }
@@ -186,7 +190,15 @@ fn write_struct_impl(file: &mut File, struct_definition: &StructDefinition, is_p
         } else {
             file.write(format!("            {}: {},\n", field.name, struct_impl_field_value(field)).as_bytes());
         }
-        file.write(format!("            {}_raw: buffer[{}..{}].to_vec(),\n", field.name, field.position, field_length(field)).as_bytes());
+        if field.length > -1 {
+            file.write(format!("            {}_raw: {{\n", field.name).as_bytes());
+            file.write(format!("                let mut dst: [u8; {}] = [0u8; {}];\n", field.length, field.length).as_bytes());
+            file.write(format!("                dst.clone_from_slice(&buffer[{}..{}]);\n", field.position, field.position + field.length as i16).as_bytes());
+            file.write(b"                dst\n");
+            file.write(b"            },\n");
+        } else {
+            file.write(format!("            {}_raw: buffer[{}..{}].to_vec(),\n", field.name, field.position, field_length(field)).as_bytes());
+        }
     }
     file.write(b"        }\n");
     file.write(b"    }\n");
