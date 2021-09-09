@@ -128,7 +128,7 @@ fn write_display_trait(file: &mut File, struct_definition: &StructDefinition, is
                            value_to_print
         ).as_bytes());
     }
-    file.write(format!("        write!(f, \"{} {{}}\", fields.join(\",\n \"))\n", struct_definition.name).as_bytes());
+    file.write(format!("        write!(f, \"{}\n {{}}\", fields.join(\",\n \"))\n", struct_definition.name).as_bytes());
     file.write(b"    }\n");
     file.write(b"}\n\n");
 }
