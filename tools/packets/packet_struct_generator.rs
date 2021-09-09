@@ -128,7 +128,7 @@ fn write_display_trait(file: &mut File, struct_definition: &StructDefinition, is
                            value_to_print
         ).as_bytes());
     }
-    file.write(format!("        write!(f, \"{}\n {{}}\", fields.join(\",\n \"))\n", struct_definition.name).as_bytes());
+    file.write(format!("        write!(f, \"{}\\n {{}}\", fields.join(\",\\n \"))\n", struct_definition.name).as_bytes());
     file.write(b"    }\n");
     file.write(b"}\n\n");
 }
@@ -255,7 +255,6 @@ fn struct_impl_field_value(field: &StructField) -> String {
                 array_block = format!("{}                for (index, byte) in buffer[{}..{}].iter().enumerate() {{\n", array_block, field.position, field.position + field.length as i16);
                 array_block = format!("{}                    dst[index] = *byte as {};\n", array_block, sub_type_name);
                 array_block = format!("{}                }}\n", array_block);
-                // array_block = format!("{}                dst.clone_from_slice(&buffer[{}..{}].iter().map(|byte| *byte as {}).collect());\n", array_block, field.position, field.position + field.length as i16, sub_type_name);
             } else if field.length > -1 {
                 array_block = format!("{}                let mut dst: [u8; {}] = [0; {}];\n", array_block, length, length);
                 array_block = format!("{}                dst.clone_from_slice(&buffer[{}..{}]);\n", array_block, field.position, field.position + field.length as i16);
