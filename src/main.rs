@@ -1,4 +1,5 @@
 mod server;
+mod util;
 
 use std::net::{TcpListener, SocketAddr, TcpStream, Shutdown, SocketAddrV4, Ipv4Addr, IpAddr};
 use std::str::FromStr;
