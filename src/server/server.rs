@@ -5,8 +5,6 @@ use std::thread;
 use byteorder::{ReadBytesExt, LittleEndian, WriteBytesExt};
 use std::time::{Instant, SystemTime};
 use std::fmt::{Display, Formatter, Debug};
-use crate::server::packet_db::PACKETS_DB;
-use crate::server::packet_parser::packet_name;
 use std::cell::RefCell;
 use std::sync::{Arc, Mutex};
 use std::borrow::{BorrowMut, Borrow};
