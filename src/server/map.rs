@@ -4,9 +4,8 @@ use std::net::IpAddr;
 use std::net::{TcpStream, Ipv4Addr, SocketAddr};
 use std::thread::{sleep};
 use std::time::Duration;
-use std::io::{Write, Cursor};
+use std::io::{Write};
 use std::thread;
-use byteorder::{LittleEndian, ReadBytesExt};
 use crate::packets::packets::{Packet, PacketCzEnter2};
 
 #[derive(Clone)]
@@ -50,7 +49,7 @@ impl MapServer {
 impl PacketHandler for MapServer {
     fn handle_packet(&self, tcp_stream: Arc<Mutex<TcpStream>>, packet: &mut dyn Packet) -> Result<String, String> {
         if packet.as_any().downcast_ref::<PacketCzEnter2>().is_some() { // PACKET_CZ_ENTER2
-            let mut packet_ch_enter = packet.as_any().downcast_ref::<PacketCzEnter2>().unwrap();
+            let packet_ch_enter = packet.as_any().downcast_ref::<PacketCzEnter2>().unwrap();
             let account_id = packet_ch_enter.aid;
             println!("New connection in map server: account {} {}", account_id, tcp_stream.lock().unwrap().peer_addr().unwrap());
             let mut server_context_guard = self.server_context.lock().unwrap();
