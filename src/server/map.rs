@@ -7,6 +7,7 @@ use std::time::Duration;
 use std::io::{Write, Cursor};
 use std::thread;
 use byteorder::{LittleEndian, ReadBytesExt};
+use crate::packets::packets::{Packet, PacketCzEnter2};
 
 #[derive(Clone)]
 pub struct MapServer {
@@ -47,11 +48,10 @@ impl MapServer {
 }
 
 impl PacketHandler for MapServer {
-    fn handle_packet(&self, tcp_stream: Arc<Mutex<TcpStream>>, packet: &mut [u8]) -> Result<String, String> {
-        if packet[0] == 0x36 && packet[1] == 0x04 { // PACKET_CZ_ENTER2
-            let mut rdr = Cursor::new(&packet[2..6]);
-            let account_id = rdr.read_u32::<LittleEndian>().unwrap();
-
+    fn handle_packet(&self, tcp_stream: Arc<Mutex<TcpStream>>, packet: &mut dyn Packet) -> Result<String, String> {
+        if packet.as_any().downcast_ref::<PacketCzEnter2>().is_some() { // PACKET_CZ_ENTER2
+            let mut packet_ch_enter = packet.as_any().downcast_ref::<PacketCzEnter2>().unwrap();
+            let account_id = packet_ch_enter.aid;
             println!("New connection in map server: account {} {}", account_id, tcp_stream.lock().unwrap().peer_addr().unwrap());
             let mut server_context_guard = self.server_context.lock().unwrap();
             let existing_session = server_context_guard.sessions.get(&account_id).unwrap();
