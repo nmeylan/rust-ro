@@ -1,8 +1,6 @@
 use crate::server::server::{PacketHandler, Server, ServerContext, Session};
-use byteorder::{WriteBytesExt, LittleEndian, ReadBytesExt};
 use std::net::{SocketAddr, Ipv4Addr, TcpStream};
 use std::net::IpAddr;
-use std::io::{Cursor};
 use std::sync::{Arc, Mutex};
 use std::thread::{sleep};
 use std::time::Duration;
@@ -47,12 +45,12 @@ impl PacketHandler for CharServer {
 
     fn handle_packet(&self, tcp_stream: Arc<Mutex<TcpStream>>, packet: &mut dyn Packet) -> Result<String, String> {
         if packet.as_any().downcast_ref::<PacketChSendMapInfo>().is_some() {
-            let mut packet_send_map_info = packet.as_any_mut().downcast_mut::<PacketChSendMapInfo>().unwrap();
+            let packet_send_map_info = packet.as_any_mut().downcast_mut::<PacketChSendMapInfo>().unwrap();
             packet_send_map_info.set_map_server_port(6124);
             packet_send_map_info.fill_raw();
         }
         if packet.as_any().downcast_ref::<PacketChEnter>().is_some() { // PACKET_CH_ENTER
-            let mut packet_ch_enter = packet.as_any().downcast_ref::<PacketChEnter>().unwrap();
+            let packet_ch_enter = packet.as_any().downcast_ref::<PacketChEnter>().unwrap();
             let account_id = packet_ch_enter.aid;
             println!("New connection in char server: account {}", account_id);
             let mut server_context_guard = self.server_context.lock().unwrap();

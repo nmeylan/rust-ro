@@ -5,10 +5,8 @@ use std::thread;
 use std::fmt::{Display, Formatter, Debug};
 use std::sync::{Arc, Mutex};
 use std::collections::HashMap;
-use crate::packets::packets::{PacketUnknown, PacketZcNotifyTime, Packet, PacketAcAcceptLogin2};
+use crate::packets::packets::{PacketUnknown, PacketZcNotifyTime, Packet};
 use crate::packets::packets_parser::parse;
-use std::borrow::BorrowMut;
-use std::convert::TryInto;
 
 #[derive(Clone)]
 pub struct Server<T: PacketHandler + Clone + Send> {
