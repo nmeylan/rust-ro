@@ -43,6 +43,7 @@ impl Display for ProxyDirection {
 }
 
 impl<T: 'static + PacketHandler + Clone + Send + Sync> Server<T> {
+
     pub fn proxy(&self) -> JoinHandle<()> {
         let listener = TcpListener::bind(format!("0.0.0.0:{}", self.local_port)).unwrap();
         let immutable_self_ref = Arc::new(self.clone()); // make An Arc of self to be able to share it with other threads
