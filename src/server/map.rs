@@ -6,7 +6,7 @@ use std::thread::{sleep};
 use std::time::Duration;
 use std::io::{Write};
 use std::thread;
-use crate::packets::packets::{Packet, PacketCzEnter2};
+use crate::packets::packets::{Packet, PacketCzEnter2, PacketZcNotifyChat};
 
 #[derive(Clone)]
 pub struct MapServer {
@@ -32,9 +32,21 @@ impl MapServer {
                         continue;
                     }
                     let mut tcp_stream_guard = session.map_server_socket.as_ref().unwrap().lock().unwrap();
-                    let buffer: [u8; 25] = [0x8D, 0x00, 0x19, 0x00, 0x80, 0x84, 0x1E, 0x00, 0x77, 0x61, 0x6C, 0x6B, 0x69, 0x72, 0x79, 0x20, 0x3A, 0x20, 0x71, 0x77, 0x65, 0x72, 0x74, 0x7A, 0x00];
+                    let mut chat = PacketZcNotifyChat {
+                        raw: vec![],
+                        packet_id: 141,
+                        packet_id_raw: [0x8D, 0x00],
+                        packet_length: 23,
+                        packet_length_raw: [0; 2],
+                        gid: 2000001,
+                        gid_raw: [0; 4],
+                        msg: "walkira: qwertz".to_string(),
+                        msg_raw: vec![]
+                    };
+                    chat.fill_raw();
                     // println!("Send {:02X?} to {}", buffer, session.account_id);
-                    tcp_stream_guard.write(&buffer);
+                    println!("{:02X?}", chat.raw());
+                    tcp_stream_guard.write(&chat.raw());
                     tcp_stream_guard.flush();
                     drop(tcp_stream_guard);
                 }
