@@ -1,5 +1,6 @@
 mod server;
 mod util;
+mod packets;
 
 use std::net::{SocketAddr, Ipv4Addr, IpAddr};
 use std::thread::{JoinHandle};
