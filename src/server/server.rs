@@ -5,7 +5,10 @@ use std::thread;
 use std::fmt::{Display, Formatter, Debug};
 use std::sync::{Arc, Mutex};
 use std::collections::HashMap;
-use crate::server::packets::{parse, PacketUnknown, PacketZcNotifyTime};
+use crate::packets::packets::{PacketUnknown, PacketZcNotifyTime, Packet, PacketAcAcceptLogin2};
+use crate::packets::packets_parser::parse;
+use std::borrow::BorrowMut;
+use std::convert::TryInto;
 
 #[derive(Clone)]
 pub struct Server<T: PacketHandler + Clone + Send> {
@@ -26,7 +29,7 @@ pub struct Session {
 }
 
 pub trait PacketHandler {
-    fn handle_packet(&self, tcp_stream: Arc<Mutex<TcpStream>>, packet: &mut [u8]) -> Result<String, String>;
+    fn handle_packet(&self, tcp_stream: Arc<Mutex<TcpStream>>, packet: &mut dyn Packet) -> Result<String, String>;
 }
 
 #[derive(Debug, PartialEq)]
@@ -100,17 +103,19 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Server<T> {
                     let packet = &mut buffer[..bytes_read];
 
                     let tcp_stream_ref = Arc::new(Mutex::new(incoming.try_clone().unwrap()));
-                    self.packet_handler.handle_packet(tcp_stream_ref, packet );
                     print!("{} {} ", self.name, if direction == ProxyDirection::Backward { "<" } else { ">" });
                     println!("{} {:02X?}", bytes_read, packet);
-                    let packet1  = parse(packet);
+                    let mut packet1 = parse(packet);
+                    println!("DEBUG");
+                    packet1.pretty_debug();
+                    self.packet_handler.handle_packet(tcp_stream_ref, packet1.as_mut());
                     if packet1.as_any().downcast_ref::<PacketUnknown>().is_some() {
                         println!("Unknown packet {} of length {}", packet1.id(), bytes_read);
                     } else if packet1.as_any().downcast_ref::<PacketZcNotifyTime>().is_none() {
-                        packet1.display();
                         packet1.pretty_debug();
+                        println!("{:02X?}",packet1.raw());
                     }
-                    if outgoing.write(packet).is_ok() {
+                    if outgoing.write(packet1.raw()).is_ok() {
                         outgoing.flush();
                     }
                 }

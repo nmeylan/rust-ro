@@ -70,7 +70,7 @@
   /* this+0x14 */ char lastLoginTime[26]
   /* this+0x2e */ unsigned char Sex
   /* this+0x2f */ char twitterAuthToken[16]
-  /* this+0x3f */ unsigned short twitterFlag
+  /* this+0x3f */ unsigned char twitterFlag
   /* this+0x40 */ struct SERVER_ADDR2 ServerList[...] { // Size 160
     /* this+0x0 */ unsigned long ip
     /* this+0x4 */ short port
@@ -5219,7 +5219,7 @@ struct UNUSED_PACKET_CZ_MER_UPGRADE_SKILLLEVEL {
   /* this+0x0 */ short PacketId
   /* this+0x2 */ unsigned long AuthData[4]
  }
-0x436
+0x3604
  struct PACKET_CZ_ENTER2 {
   /* this+0x0 */ short PacketId
   /* this+0x2 */ unsigned long AID
@@ -6194,4 +6194,14 @@ struct UNUSED_PACKET_CZ_MER_UPGRADE_SKILLLEVEL {
 struct PACKET_CZ_REQUEST_MOVE2 {
 /* this+0x0 */ short PacketId
 /* this+0x2 */ unsigned short dest[3]
+}
+0xc50a
+struct PACKET_CH_SEND_MAP_INFO {
+ /* this+0x0 */ short PacketId
+ /* this+0x2 */ unsigned long GID
+ /* this+0x6 */ char mapName[16]
+ /* this+0x16 */ unsigned long mapServerIp
+ /* this+0x1a */ short mapServerPort
+ /* this+0x1c */ char dnsHost[128]
+
 }

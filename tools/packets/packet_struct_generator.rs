@@ -3,39 +3,53 @@ use std::fs::File;
 use std::io::Write;
 use std::path::Path;
 use crate::packet_db_parser::static_types_map;
+use byteorder::WriteBytesExt;
 
 pub fn write_packets_struct(packets: Vec<PacketStructDefinition>, nested_structures: &Vec<StructDefinition>, output_path: &Path) {
     let mut file_packets_res = File::create(output_path.join("packets.rs"));
+    let mut file_packets_impl_res = File::create(output_path.join("packets_impl.rs"));
     let mut file_print_res = File::create(output_path.join("packets_print.rs"));
-    let mut file = file_packets_res.unwrap();
-    let mut file_print = file_print_res.unwrap();
-    write_file_header(&mut file);
-    write_file_header(&mut file_print);
-    file.write(b"use std::any::Any;\n");
-    file.write(b"use byteorder::{LittleEndian,WriteBytesExt};\n");
-    file.write(b"use std::convert::TryInto;\n\n");
+    let mut file_packets_parser_res = File::create(output_path.join("packets_parser.rs"));
+    let mut file_packets = file_packets_res.unwrap();
+    let mut file_packets_print = file_print_res.unwrap();
+    let mut file_packets_impl = file_packets_impl_res.unwrap();
+    let mut file_packets_parser = file_packets_parser_res.unwrap();
+    write_file_header(&mut file_packets);
+    write_file_header(&mut file_packets_print);
+    write_file_header(&mut file_packets_impl);
+    write_file_header(&mut file_packets_parser);
 
-    file_print.write(b"use crate::packets::packets::*;\n");
-    file_print.write(b"use std::fmt::{Formatter, Debug, Display};\n");
-    file_print.write(b"use crate::util::print::PrettyOutput;\n");
+    file_packets.write(b"use std::any::Any;\n\n");
 
-    write_packet_parser(&mut file, &packets);
-    write_packet_trait(&mut file);
+    file_packets_print.write(b"use crate::packets::packets::*;\n");
+    file_packets_print.write(b"use std::fmt::{Formatter, Debug, Display};\n");
+    file_packets_print.write(b"use crate::util::print::PrettyOutput;\n\n");
+
+    file_packets_parser.write(b"use crate::packets::packets::*;\n\n");
+
+    file_packets_impl.write(b"#![allow(dead_code)]\n\n");
+    file_packets_impl.write(b"use crate::packets::packets::*;\n");
+    file_packets_impl.write(b"use byteorder::{LittleEndian,WriteBytesExt};\n");
+    file_packets_impl.write(b"use std::any::Any;\n");
+    file_packets_impl.write(b"use std::convert::TryInto;\n\n");
+
+    write_packet_parser(&mut file_packets_parser, &packets);
+    write_packet_trait(&mut file_packets);
     for packet in packets {
-        write_struct_definition(&mut file, &packet.struct_def);
-        write_struct_impl(&mut file, &packet.struct_def);
-        write_packet_trait_impl(&mut file, &packet);
-        write_debug_trait(&mut file_print, &packet.struct_def, true);
-        write_display_trait(&mut file_print, &packet.struct_def, true);
+        write_struct_definition(&mut file_packets, &packet.struct_def);
+        write_struct_impl(&mut file_packets_impl, &packet.struct_def);
+        write_packet_trait_impl(&mut file_packets_impl, &packet);
+        write_debug_trait(&mut file_packets_print, &packet.struct_def, true);
+        write_display_trait(&mut file_packets_print, &packet.struct_def, true);
     }
 
     for nested_struct in nested_structures {
-        write_struct_definition(&mut file, &nested_struct);
-        write_struct_impl(&mut file, &nested_struct);
-        write_debug_trait(&mut file_print, &nested_struct, false);
-        write_display_trait(&mut file_print, &nested_struct, false);
+        write_struct_definition(&mut file_packets, &nested_struct);
+        write_struct_impl(&mut file_packets_impl, &nested_struct);
+        write_debug_trait(&mut file_packets_print, &nested_struct, false);
+        write_display_trait(&mut file_packets_print, &nested_struct, false);
     }
-    write_unknown_packet(&mut file);
+    write_unknown_packet(&mut file_packets);
 }
 
 fn write_file_header(file: &mut File) {
@@ -144,26 +158,8 @@ fn write_struct_definition(file: &mut File, struct_definition: &StructDefinition
     file.write(format!("pub struct {} {{\n", struct_definition.name).as_bytes());
     file.write(b"    pub raw: Vec<u8>,\n");
     for field in &struct_definition.fields {
-        if &field.data_type.name == "Vec" {
-            file.write(format!("    pub {}: Vec<{}>,\n", field.name, &field.complex_type.as_ref().unwrap()).as_bytes());
-        } else if &field.data_type.name == "Struct" {
-            file.write(format!("    pub {}: {},\n", field.name, &field.complex_type.as_ref().unwrap()).as_bytes());
-        } else if &field.data_type.name == "Array" {
-            if field.sub_type.is_some() {
-                file.write(format!("    pub {}: [{}; {}],\n", field.name, &field.sub_type.unwrap().name, field.length).as_bytes());
-            } else {
-                file.write(format!("    pub {}: Vec<u8>,\n", field.name).as_bytes());
-            }
-        } else {
-            file.write(format!("    pub {}: {},\n", field.name, field.data_type.name).as_bytes());
-        }
-        if &field.data_type.name == "Vec" {
-            file.write(format!("    pub {}_raw: Vec<Vec<u8>>,\n", field.name).as_bytes());
-        } else if field.length > -1 {
-            file.write(format!("    pub {}_raw: [u8; {}],\n", field.name, field.length).as_bytes());
-        } else {
-            file.write(format!("    pub {}_raw: Vec<u8>,\n", field.name).as_bytes());
-        }
+        file.write(format!("    pub {}: {},\n", field.name, field_type(field)).as_bytes());
+        file.write(format!("    pub {}_raw: {},\n", field.name, field_type_raw(field)).as_bytes());
     }
     file.write(b"}\n\n");
 }
@@ -171,7 +167,8 @@ fn write_struct_definition(file: &mut File, struct_definition: &StructDefinition
 fn write_struct_impl(file: &mut File, struct_definition: &StructDefinition) {
     file.write(format!("impl {} {{\n", struct_definition.name).as_bytes());
     write_struct_from_method(file, struct_definition);
-    write_struct_serialize_method(file, struct_definition);
+    write_struct_fill_raw_method(file, struct_definition);
+    write_struct_setter_methods(file, struct_definition);
     file.write(b"}\n\n");
 }
 
@@ -207,14 +204,34 @@ fn write_struct_from_method(file: &mut File, struct_definition: &StructDefinitio
     file.write(b"    }\n");
 }
 
-fn write_struct_serialize_method(file: &mut File, struct_definition: &StructDefinition) {
-    file.write(b"    pub fn serialize(&mut self) {\n");
+fn write_struct_fill_raw_method(file: &mut File, struct_definition: &StructDefinition) {
+    file.write(b"    pub fn fill_raw(&mut self) {\n");
     file.write(b"    let mut wtr;\n");
     for field in &struct_definition.fields {
         file.write(field_serialization(field).as_bytes());
         file.write(b"\n");
     }
+    file.write(b"        wtr = vec![];\n");
+    for field in &struct_definition.fields {
+        if field.data_type.name == "Vec" &&  field.complex_type.is_some() {
+            file.write(format!("        self.{}.iter_mut().for_each(|item| wtr.append(&mut item.raw));\n", field.name).as_bytes());
+        } else {
+            file.write(format!("        wtr.append(&mut self.{}_raw.to_vec());\n", field.name).as_bytes());
+        }
+    }
+    file.write(b"        self.raw = wtr;\n");
     file.write(b"    }\n");
+}
+
+fn write_struct_setter_methods(file: &mut File, struct_definition: &StructDefinition) {
+    for field in &struct_definition.fields {
+        file.write(format!("    pub fn set_{}(&mut self, value: {}) {{\n", field.name, field_type(field)).as_bytes());
+        file.write(format!("        self.{} = value;\n", field.name).as_bytes());
+        file.write(b"    }\n");
+        file.write(format!("    pub fn set_{}_raw(&mut self, value: {}) {{\n", field.name, field_type_raw(field)).as_bytes());
+        file.write(format!("        self.{}_raw = value;\n", field.name).as_bytes());
+        file.write(b"    }\n");
+    }
 }
 
 fn write_vec_field(file: &mut File, field: &StructField) {
@@ -371,7 +388,7 @@ fn field_serialization(field: &StructField) -> String {
             res
         }
         "String" => {
-            format!("        self.{}_raw = self.{}.as_bytes().to_vec()", field.name, field.name)
+            format!("        self.{}_raw = self.{}.as_bytes().to_vec();", field.name, field.name)
         }
         "Array" => {
             if field.sub_type.is_some() {
@@ -399,7 +416,7 @@ fn field_serialization(field: &StructField) -> String {
         "Vec" => {
             if field.complex_type.is_some() {
                 res = format!("        self.{}_raw = {{\n", field.name);
-                res = format!("{}            self.{}.iter_mut().for_each(|item| item.serialize());\n", res, field.name);
+                res = format!("{}            self.{}.iter_mut().for_each(|item| item.fill_raw());\n", res, field.name);
                 res = format!("{}            self.{}.iter().map(|item| item.raw.clone()).collect()\n", res, field.name);
                 res = format!("{}      }};\n", res);
                 res
@@ -428,7 +445,6 @@ fn packet_id(packet: &PacketStructDefinition) -> String {
     id
 }
 
-
 fn display_type(field: &StructField) -> String {
     if field.data_type.name == "Array" && field.sub_type.is_some() {
         let sub_type = field.sub_type.unwrap();
@@ -436,4 +452,30 @@ fn display_type(field: &StructField) -> String {
     }
 
     format!("({} as {})", field.data_type.cname, field.data_type.name)
+}
+
+fn field_type(field: &StructField) -> String {
+    if field.data_type.name == "Vec" {
+        format!("Vec<{}>", field.complex_type.as_ref().unwrap())
+    } else if field.data_type.name == "Struct" {
+        field.complex_type.as_ref().unwrap().to_string()
+    } else if field.data_type.name == "Array" {
+        if field.sub_type.is_some() {
+            format!("[{}; {}]", &field.sub_type.unwrap().name, field.length)
+        } else {
+            "Vec<u8>".to_string()
+        }
+    } else {
+        format!("{}", field.data_type.name)
+    }
+}
+
+fn field_type_raw(field: &StructField) -> String {
+    if field.data_type.name == "Vec" {
+        "Vec<Vec<u8>>".to_string()
+    } else if field.length > -1 {
+        format!("[u8; {}]", field.length)
+    } else {
+        "Vec<u8>".to_string()
+    }
 }

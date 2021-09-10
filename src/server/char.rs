@@ -7,6 +7,7 @@ use std::sync::{Arc, Mutex};
 use std::thread::{sleep};
 use std::time::Duration;
 use std::thread;
+use crate::packets::packets::{Packet, PacketChEnter, PacketChSendMapInfo};
 
 #[derive(Clone)]
 pub struct CharServer {
@@ -44,20 +45,15 @@ impl CharServer {
 }
 impl PacketHandler for CharServer {
 
-    fn handle_packet(&self, tcp_stream: Arc<Mutex<TcpStream>>, packet: &mut [u8]) -> Result<String, String> {
-        if packet[0] == 0xc5 && packet[1] == 0x0a { // PACKET_SEND_MAP_INFO
-            // char_send_map_info
-            // map server IP is in bytes 22..26
-            // map server port is in bytes 26..28
-            println!("{:x?}", &packet[22..28]);
-            let mut wtr = Vec::new();
-            wtr.write_u8(0xec).unwrap();
-            packet[26] = wtr[0];
+    fn handle_packet(&self, tcp_stream: Arc<Mutex<TcpStream>>, packet: &mut dyn Packet) -> Result<String, String> {
+        if packet.as_any().downcast_ref::<PacketChSendMapInfo>().is_some() {
+            let mut packet_send_map_info = packet.as_any_mut().downcast_mut::<PacketChSendMapInfo>().unwrap();
+            packet_send_map_info.set_map_server_port(6124);
+            packet_send_map_info.fill_raw();
         }
-        if packet[0] == 0x65 && packet[1] == 0x00 { // PACKET_CH_ENTER
-            let mut rdr = Cursor::new(&packet[2..6]);
-            let account_id = rdr.read_u32::<LittleEndian>().unwrap();
-
+        if packet.as_any().downcast_ref::<PacketChEnter>().is_some() { // PACKET_CH_ENTER
+            let mut packet_ch_enter = packet.as_any().downcast_ref::<PacketChEnter>().unwrap();
+            let account_id = packet_ch_enter.aid;
             println!("New connection in char server: account {}", account_id);
             let mut server_context_guard = self.server_context.lock().unwrap();
             server_context_guard.sessions.insert(account_id, Session {
