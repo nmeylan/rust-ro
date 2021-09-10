@@ -5,25 +5,27 @@ use std::thread;
 use std::fmt::{Display, Formatter, Debug};
 use std::sync::{Arc, Mutex};
 use std::collections::HashMap;
-use crate::packets::packets::{PacketUnknown, PacketZcNotifyTime, Packet};
+use crate::packets::packets::{Packet};
 use crate::packets::packets_parser::parse;
+use crate::server::core::{Server, FeatureState};
 
 #[derive(Clone)]
-pub struct Server<T: PacketHandler + Clone + Send> {
+pub struct Proxy<T: PacketHandler + Clone + Send> {
     pub name: String,
+    pub server: Arc<Server>,
     pub local_port: u16,
     pub target: SocketAddr,
-    pub packet_handler: T,
+    pub specific_proxy: T,
 }
 
 pub struct ServerContext {
-    pub sessions: HashMap<u32, Session>
+    pub sessions: HashMap<u32, Session>,
 }
 
 pub struct Session {
     pub char_server_socket: Option<Arc<Mutex<TcpStream>>>,
     pub map_server_socket: Option<Arc<Mutex<TcpStream>>>,
-    pub account_id: u32
+    pub account_id: u32,
 }
 
 pub trait PacketHandler {
@@ -42,14 +44,13 @@ impl Display for ProxyDirection {
     }
 }
 
-impl<T: 'static + PacketHandler + Clone + Send + Sync> Server<T> {
-
+impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
     pub fn proxy(&self) -> JoinHandle<()> {
         let listener = TcpListener::bind(format!("0.0.0.0:{}", self.local_port)).unwrap();
         let immutable_self_ref = Arc::new(self.clone()); // make An Arc of self to be able to share it with other threads
         let server_ref = immutable_self_ref.clone(); // cloning the ref to use in thread below
         spawn(move || {
-            println!("Start proxy for {} server, {}:{}", server_ref.name, server_ref.local_port, server_ref.target.port());
+            println!("Start proxy for {} proxy, {}:{}", server_ref.name, server_ref.local_port, server_ref.target.port());
             for tcp_stream in listener.incoming() {
                 let server_ref = immutable_self_ref.clone(); // cloning the ref to use in thread below
                 // Receive new connection, starting new thread
@@ -99,22 +100,20 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Server<T> {
                         outgoing.shutdown(Shutdown::Both);
                         break;
                     }
-                    let packet = &mut buffer[..bytes_read];
-
                     let tcp_stream_ref = Arc::new(Mutex::new(incoming.try_clone().unwrap()));
-                    print!("{} {} ", self.name, if direction == ProxyDirection::Backward { "<" } else { ">" });
-                    println!("{} {:02X?}", bytes_read, packet);
-                    let mut packet1 = parse(packet);
-                    println!("DEBUG");
-                    packet1.pretty_debug();
-                    self.packet_handler.handle_packet(tcp_stream_ref, packet1.as_mut());
-                    if packet1.as_any().downcast_ref::<PacketUnknown>().is_some() {
-                        println!("Unknown packet {} of length {}", packet1.id(), bytes_read);
-                    } else if packet1.as_any().downcast_ref::<PacketZcNotifyTime>().is_none() {
-                        packet1.pretty_debug();
-                        println!("{:02X?}",packet1.raw());
+                    let mut packet = parse(&mut buffer[..bytes_read]);
+                    let feature_state = self.server.dispatch(packet.as_mut());
+                    match feature_state {
+                        FeatureState::Unimplemented => {
+                            print!("{} {} ", self.name, if direction == ProxyDirection::Backward { "<" } else { ">" });
+                            packet.pretty_debug();
+                            self.specific_proxy.handle_packet(tcp_stream_ref, packet.as_mut());
+                        }
+                        FeatureState::Implemented(response_packet) => {
+                            packet = response_packet;
+                        }
                     }
-                    if outgoing.write(packet1.raw()).is_ok() {
+                    if outgoing.write(packet.raw()).is_ok() {
                         outgoing.flush();
                     }
                 }
@@ -123,5 +122,4 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Server<T> {
         }
         Ok(())
     }
-
 }
