@@ -106,15 +106,18 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
                     match feature_state {
                         FeatureState::Unimplemented => {
                             print!("{} {} ", self.name, if direction == ProxyDirection::Backward { "<" } else { ">" });
-                            packet.pretty_debug();
                             self.specific_proxy.handle_packet(tcp_stream_ref, packet.as_mut());
+                            packet.pretty_debug();
+                            if outgoing.write(packet.raw()).is_ok() {
+                                outgoing.flush();
+                            }
                         }
                         FeatureState::Implemented(response_packet) => {
                             packet = response_packet;
+                            if incoming.write(packet.raw()).is_ok() {
+                                incoming.flush();
+                            }
                         }
-                    }
-                    if outgoing.write(packet.raw()).is_ok() {
-                        outgoing.flush();
                     }
                 }
                 Err(error) => return Err(format!("Could not read data: {}", error))
