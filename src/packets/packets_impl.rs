@@ -118,8 +118,8 @@ impl PacketCaLogin {
     pub fn new() -> PacketCaLogin {
         PacketCaLogin {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x64, 0x0]),
+        packet_id_raw: [0x64, 0x0],
         version: 0,
         version_raw: [0; 4],
         id: [0 as char; 24],
@@ -266,8 +266,8 @@ impl PacketChEnter {
     pub fn new() -> PacketChEnter {
         PacketChEnter {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x65, 0x0]),
+        packet_id_raw: [0x65, 0x0],
         aid: 0,
         aid_raw: [0; 4],
         auth_code: 0,
@@ -352,8 +352,8 @@ impl PacketChSelectChar {
     pub fn new() -> PacketChSelectChar {
         PacketChSelectChar {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x66, 0x0]),
+        packet_id_raw: [0x66, 0x0],
         char_num: 0,
         char_num_raw: [0; 1],
         }
@@ -582,8 +582,8 @@ impl PacketChMakeChar {
     pub fn new() -> PacketChMakeChar {
         PacketChMakeChar {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x67, 0x0]),
+        packet_id_raw: [0x67, 0x0],
         name: [0 as char; 24],
         name_raw: [0; 24],
         str: 0,
@@ -702,8 +702,8 @@ impl PacketChDeleteChar {
     pub fn new() -> PacketChDeleteChar {
         PacketChDeleteChar {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x68, 0x0]),
+        packet_id_raw: [0x68, 0x0],
         gid: 0,
         gid_raw: [0; 4],
         key: [0 as char; 40],
@@ -909,8 +909,8 @@ impl PacketAcAcceptLogin {
     pub fn new() -> PacketAcAcceptLogin {
         PacketAcAcceptLogin {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x69, 0x0]),
+        packet_id_raw: [0x69, 0x0],
         packet_length: 0,
         packet_length_raw: [0; 2],
         auth_code: 0,
@@ -1168,8 +1168,8 @@ impl PacketAcAcceptLogin2 {
     pub fn new() -> PacketAcAcceptLogin2 {
         PacketAcAcceptLogin2 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xc4, 0x0a]),
+        packet_id_raw: [0xc4, 0x0a],
         packet_length: 0,
         packet_length_raw: [0; 2],
         auth_code: 0,
@@ -1288,8 +1288,8 @@ impl PacketAcRefuseLogin {
     pub fn new() -> PacketAcRefuseLogin {
         PacketAcRefuseLogin {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x6a, 0x0]),
+        packet_id_raw: [0x6a, 0x0],
         error_code: 0,
         error_code_raw: [0; 1],
         block_date: [0 as char; 20],
@@ -1527,8 +1527,8 @@ impl PacketHcAcceptEnterNeoUnion {
     pub fn new() -> PacketHcAcceptEnterNeoUnion {
         PacketHcAcceptEnterNeoUnion {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x6b, 0x0]),
+        packet_id_raw: [0x6b, 0x0],
         packet_length: 0,
         packet_length_raw: [0; 2],
         total_slot_num: 0,
@@ -1623,8 +1623,8 @@ impl PacketHcRefuseEnter {
     pub fn new() -> PacketHcRefuseEnter {
         PacketHcRefuseEnter {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x6c, 0x0]),
+        packet_id_raw: [0x6c, 0x0],
         error_code: 0,
         error_code_raw: [0; 1],
         }
@@ -1695,8 +1695,8 @@ impl PacketHcAcceptMakecharNeoUnion {
     pub fn new() -> PacketHcAcceptMakecharNeoUnion {
         PacketHcAcceptMakecharNeoUnion {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x6d, 0x0]),
+        packet_id_raw: [0x6d, 0x0],
         charinfo: CharacterInfoNeoUnion::new(),
         charinfo_raw: vec![],
         }
@@ -1773,8 +1773,8 @@ impl PacketHcRefuseMakechar {
     pub fn new() -> PacketHcRefuseMakechar {
         PacketHcRefuseMakechar {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x6e, 0x0]),
+        packet_id_raw: [0x6e, 0x0],
         error_code: 0,
         error_code_raw: [0; 1],
         }
@@ -1835,8 +1835,8 @@ impl PacketHcAcceptDeletechar {
     pub fn new() -> PacketHcAcceptDeletechar {
         PacketHcAcceptDeletechar {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x6f, 0x0]),
+        packet_id_raw: [0x6f, 0x0],
         }
     }
 }
@@ -1911,8 +1911,8 @@ impl PacketHcRefuseDeletechar {
     pub fn new() -> PacketHcRefuseDeletechar {
         PacketHcRefuseDeletechar {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x70, 0x0]),
+        packet_id_raw: [0x70, 0x0],
         error_code: 0,
         error_code_raw: [0; 1],
         }
@@ -2023,8 +2023,8 @@ impl PacketHcNotifyZonesvr {
     pub fn new() -> PacketHcNotifyZonesvr {
         PacketHcNotifyZonesvr {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x71, 0x0]),
+        packet_id_raw: [0x71, 0x0],
         gid: 0,
         gid_raw: [0; 4],
         map_name: [0 as char; 16],
@@ -2169,8 +2169,8 @@ impl PacketCzEnter {
     pub fn new() -> PacketCzEnter {
         PacketCzEnter {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x72, 0x0]),
+        packet_id_raw: [0x72, 0x0],
         aid: 0,
         aid_raw: [0; 4],
         gid: 0,
@@ -2311,8 +2311,8 @@ impl PacketZcAcceptEnter {
     pub fn new() -> PacketZcAcceptEnter {
         PacketZcAcceptEnter {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x73, 0x0]),
+        packet_id_raw: [0x73, 0x0],
         start_time: 0,
         start_time_raw: [0; 4],
         pos_dir: [0 as char; 3],
@@ -2395,8 +2395,8 @@ impl PacketZcRefuseEnter {
     pub fn new() -> PacketZcRefuseEnter {
         PacketZcRefuseEnter {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x74, 0x0]),
+        packet_id_raw: [0x74, 0x0],
         error_code: 0,
         error_code_raw: [0; 1],
         }
@@ -2521,8 +2521,8 @@ impl PacketZcNotifyInitchar {
     pub fn new() -> PacketZcNotifyInitchar {
         PacketZcNotifyInitchar {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x75, 0x0]),
+        packet_id_raw: [0x75, 0x0],
         packet_length: 0,
         packet_length_raw: [0; 2],
         gid: 0,
@@ -2637,8 +2637,8 @@ impl PacketZcNotifyUpdatechar {
     pub fn new() -> PacketZcNotifyUpdatechar {
         PacketZcNotifyUpdatechar {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x76, 0x0]),
+        packet_id_raw: [0x76, 0x0],
         gid: 0,
         gid_raw: [0; 4],
         style: 0,
@@ -2735,8 +2735,8 @@ impl PacketZcNotifyUpdateplayer {
     pub fn new() -> PacketZcNotifyUpdateplayer {
         PacketZcNotifyUpdateplayer {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x77, 0x0]),
+        packet_id_raw: [0x77, 0x0],
         style: 0,
         style_raw: [0; 2],
         item: 0,
@@ -3239,8 +3239,8 @@ impl PacketZcNotifyStandentry {
     pub fn new() -> PacketZcNotifyStandentry {
         PacketZcNotifyStandentry {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x78, 0x0]),
+        packet_id_raw: [0x78, 0x0],
         objecttype: 0,
         objecttype_raw: [0; 1],
         gid: 0,
@@ -3761,8 +3761,8 @@ impl PacketZcNotifyNewentry {
     pub fn new() -> PacketZcNotifyNewentry {
         PacketZcNotifyNewentry {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x79, 0x0]),
+        packet_id_raw: [0x79, 0x0],
         gid: 0,
         gid_raw: [0; 4],
         speed: 0,
@@ -4311,8 +4311,8 @@ impl PacketZcNotifyActentry {
     pub fn new() -> PacketZcNotifyActentry {
         PacketZcNotifyActentry {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x7a, 0x0]),
+        packet_id_raw: [0x7a, 0x0],
         gid: 0,
         gid_raw: [0; 4],
         speed: 0,
@@ -4849,8 +4849,8 @@ impl PacketZcNotifyMoveentry {
     pub fn new() -> PacketZcNotifyMoveentry {
         PacketZcNotifyMoveentry {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x7b, 0x0]),
+        packet_id_raw: [0x7b, 0x0],
         gid: 0,
         gid_raw: [0; 4],
         speed: 0,
@@ -5305,8 +5305,8 @@ impl PacketZcNotifyStandentryNpc {
     pub fn new() -> PacketZcNotifyStandentryNpc {
         PacketZcNotifyStandentryNpc {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x7c, 0x0]),
+        packet_id_raw: [0x7c, 0x0],
         objecttype: 0,
         objecttype_raw: [0; 1],
         gid: 0,
@@ -5407,8 +5407,8 @@ impl PacketCzNotifyActorinit {
     pub fn new() -> PacketCzNotifyActorinit {
         PacketCzNotifyActorinit {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x7d, 0x0]),
+        packet_id_raw: [0x7d, 0x0],
         }
     }
 }
@@ -5483,8 +5483,8 @@ impl PacketCzRequestTime {
     pub fn new() -> PacketCzRequestTime {
         PacketCzRequestTime {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x7e, 0x0]),
+        packet_id_raw: [0x7e, 0x0],
         client_time: 0,
         client_time_raw: [0; 4],
         }
@@ -5561,8 +5561,8 @@ impl PacketZcNotifyTime {
     pub fn new() -> PacketZcNotifyTime {
         PacketZcNotifyTime {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x7f, 0x0]),
+        packet_id_raw: [0x7f, 0x0],
         time: 0,
         time_raw: [0; 4],
         }
@@ -5655,8 +5655,8 @@ impl PacketZcNotifyVanish {
     pub fn new() -> PacketZcNotifyVanish {
         PacketZcNotifyVanish {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x80, 0x0]),
+        packet_id_raw: [0x80, 0x0],
         gid: 0,
         gid_raw: [0; 4],
         atype: 0,
@@ -5735,8 +5735,8 @@ impl PacketScNotifyBan {
     pub fn new() -> PacketScNotifyBan {
         PacketScNotifyBan {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x81, 0x0]),
+        packet_id_raw: [0x81, 0x0],
         error_code: 0,
         error_code_raw: [0; 1],
         }
@@ -5797,8 +5797,8 @@ impl PacketCzRequestQuit {
     pub fn new() -> PacketCzRequestQuit {
         PacketCzRequestQuit {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x82, 0x0]),
+        packet_id_raw: [0x82, 0x0],
         }
     }
 }
@@ -5857,8 +5857,8 @@ impl PacketZcAcceptQuit {
     pub fn new() -> PacketZcAcceptQuit {
         PacketZcAcceptQuit {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x83, 0x0]),
+        packet_id_raw: [0x83, 0x0],
         }
     }
 }
@@ -5917,8 +5917,8 @@ impl PacketZcRefuseQuit {
     pub fn new() -> PacketZcRefuseQuit {
         PacketZcRefuseQuit {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x84, 0x0]),
+        packet_id_raw: [0x84, 0x0],
         }
     }
 }
@@ -6001,8 +6001,8 @@ impl PacketCzRequestMove {
     pub fn new() -> PacketCzRequestMove {
         PacketCzRequestMove {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x85, 0x0]),
+        packet_id_raw: [0x85, 0x0],
         dest: [0 as char; 3],
         dest_raw: [0; 3],
         }
@@ -6119,8 +6119,8 @@ impl PacketZcNotifyMove {
     pub fn new() -> PacketZcNotifyMove {
         PacketZcNotifyMove {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x86, 0x0]),
+        packet_id_raw: [0x86, 0x0],
         gid: 0,
         gid_raw: [0; 4],
         move_data: [0; 6],
@@ -6225,8 +6225,8 @@ impl PacketZcNotifyPlayermove {
     pub fn new() -> PacketZcNotifyPlayermove {
         PacketZcNotifyPlayermove {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x87, 0x0]),
+        packet_id_raw: [0x87, 0x0],
         move_start_time: 0,
         move_start_time_raw: [0; 4],
         move_data: [0; 6],
@@ -6337,8 +6337,8 @@ impl PacketZcStopmove {
     pub fn new() -> PacketZcStopmove {
         PacketZcStopmove {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x88, 0x0]),
+        packet_id_raw: [0x88, 0x0],
         aid: 0,
         aid_raw: [0; 4],
         x_pos: 0,
@@ -6435,8 +6435,8 @@ impl PacketCzRequestAct {
     pub fn new() -> PacketCzRequestAct {
         PacketCzRequestAct {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x89, 0x0]),
+        packet_id_raw: [0x89, 0x0],
         target_gid: 0,
         target_gid_raw: [0; 4],
         action: 0,
@@ -6643,8 +6643,8 @@ impl PacketZcNotifyAct {
     pub fn new() -> PacketZcNotifyAct {
         PacketZcNotifyAct {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x8a, 0x0]),
+        packet_id_raw: [0x8a, 0x0],
         gid: 0,
         gid_raw: [0; 4],
         target_gid: 0,
@@ -6849,8 +6849,8 @@ impl PacketZcNotifyActPosition {
     pub fn new() -> PacketZcNotifyActPosition {
         PacketZcNotifyActPosition {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x8b, 0x0]),
+        packet_id_raw: [0x8b, 0x0],
         gid: 0,
         gid_raw: [0; 4],
         target_gid: 0,
@@ -6951,8 +6951,8 @@ impl PacketCzRequestChat {
     pub fn new() -> PacketCzRequestChat {
         PacketCzRequestChat {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x8c, 0x0]),
+        packet_id_raw: [0x8c, 0x0],
         packet_length: 0,
         packet_length_raw: [0; 2],
         msg: String::new(),
@@ -7057,8 +7057,8 @@ impl PacketZcNotifyChat {
     pub fn new() -> PacketZcNotifyChat {
         PacketZcNotifyChat {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x8d, 0x0]),
+        packet_id_raw: [0x8d, 0x0],
         packet_length: 0,
         packet_length_raw: [0; 2],
         gid: 0,
@@ -7149,8 +7149,8 @@ impl PacketZcNotifyPlayerchat {
     pub fn new() -> PacketZcNotifyPlayerchat {
         PacketZcNotifyPlayerchat {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x8e, 0x0]),
+        packet_id_raw: [0x8e, 0x0],
         packet_length: 0,
         packet_length_raw: [0; 2],
         msg: String::new(),
@@ -7323,8 +7323,8 @@ impl PacketCzContactnpc {
     pub fn new() -> PacketCzContactnpc {
         PacketCzContactnpc {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x90, 0x0]),
+        packet_id_raw: [0x90, 0x0],
         naid: 0,
         naid_raw: [0; 4],
         atype: 0,
@@ -7443,8 +7443,8 @@ impl PacketZcNpcackMapmove {
     pub fn new() -> PacketZcNpcackMapmove {
         PacketZcNpcackMapmove {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x91, 0x0]),
+        packet_id_raw: [0x91, 0x0],
         map_name: [0 as char; 16],
         map_name_raw: [0; 16],
         x_pos: 0,
@@ -7575,8 +7575,8 @@ impl PacketZcNpcackServermove {
     pub fn new() -> PacketZcNpcackServermove {
         PacketZcNpcackServermove {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x92, 0x0]),
+        packet_id_raw: [0x92, 0x0],
         map_name: [0 as char; 16],
         map_name_raw: [0; 16],
         x_pos: 0,
@@ -7643,8 +7643,8 @@ impl PacketZcNpcackEnable {
     pub fn new() -> PacketZcNpcackEnable {
         PacketZcNpcackEnable {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x93, 0x0]),
+        packet_id_raw: [0x93, 0x0],
         }
     }
 }
@@ -7719,8 +7719,8 @@ impl PacketCzReqname {
     pub fn new() -> PacketCzReqname {
         PacketCzReqname {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x94, 0x0]),
+        packet_id_raw: [0x94, 0x0],
         aid: 0,
         aid_raw: [0; 4],
         }
@@ -7821,8 +7821,8 @@ impl PacketZcAckReqname {
     pub fn new() -> PacketZcAckReqname {
         PacketZcAckReqname {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x95, 0x0]),
+        packet_id_raw: [0x95, 0x0],
         aid: 0,
         aid_raw: [0; 4],
         cname: [0 as char; 24],
@@ -7935,8 +7935,8 @@ impl PacketCzWhisper {
     pub fn new() -> PacketCzWhisper {
         PacketCzWhisper {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x96, 0x0]),
+        packet_id_raw: [0x96, 0x0],
         packet_length: 0,
         packet_length_raw: [0; 2],
         receiver: [0 as char; 24],
@@ -8051,8 +8051,8 @@ impl PacketZcWhisper {
     pub fn new() -> PacketZcWhisper {
         PacketZcWhisper {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x97, 0x0]),
+        packet_id_raw: [0x97, 0x0],
         packet_length: 0,
         packet_length_raw: [0; 2],
         sender: [0 as char; 24],
@@ -8133,8 +8133,8 @@ impl PacketZcAckWhisper {
     pub fn new() -> PacketZcAckWhisper {
         PacketZcAckWhisper {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x98, 0x0]),
+        packet_id_raw: [0x98, 0x0],
         result: 0,
         result_raw: [0; 1],
         }
@@ -8221,8 +8221,8 @@ impl PacketCzBroadcast {
     pub fn new() -> PacketCzBroadcast {
         PacketCzBroadcast {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x99, 0x0]),
+        packet_id_raw: [0x99, 0x0],
         packet_length: 0,
         packet_length_raw: [0; 2],
         msg: String::new(),
@@ -8311,8 +8311,8 @@ impl PacketZcBroadcast {
     pub fn new() -> PacketZcBroadcast {
         PacketZcBroadcast {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x9a, 0x0]),
+        packet_id_raw: [0x9a, 0x0],
         packet_length: 0,
         packet_length_raw: [0; 2],
         msg: String::new(),
@@ -8407,8 +8407,8 @@ impl PacketCzChangeDirection {
     pub fn new() -> PacketCzChangeDirection {
         PacketCzChangeDirection {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x9b, 0x0]),
+        packet_id_raw: [0x9b, 0x0],
         head_dir: 0,
         head_dir_raw: [0; 2],
         dir: 0,
@@ -8519,8 +8519,8 @@ impl PacketZcChangeDirection {
     pub fn new() -> PacketZcChangeDirection {
         PacketZcChangeDirection {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x9c, 0x0]),
+        packet_id_raw: [0x9c, 0x0],
         aid: 0,
         aid_raw: [0; 4],
         head_dir: 0,
@@ -8713,8 +8713,8 @@ impl PacketZcItemEntry {
     pub fn new() -> PacketZcItemEntry {
         PacketZcItemEntry {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x9d, 0x0]),
+        packet_id_raw: [0x9d, 0x0],
         itaid: 0,
         itaid_raw: [0; 4],
         itid: 0,
@@ -8917,8 +8917,8 @@ impl PacketZcItemFallEntry {
     pub fn new() -> PacketZcItemFallEntry {
         PacketZcItemFallEntry {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x9e, 0x0]),
+        packet_id_raw: [0x9e, 0x0],
         itaid: 0,
         itaid_raw: [0; 4],
         itid: 0,
@@ -9009,8 +9009,8 @@ impl PacketCzItemPickup {
     pub fn new() -> PacketCzItemPickup {
         PacketCzItemPickup {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x9f, 0x0]),
+        packet_id_raw: [0x9f, 0x0],
         itaid: 0,
         itaid_raw: [0; 4],
         }
@@ -9229,8 +9229,8 @@ impl PacketZcItemPickupAck {
     pub fn new() -> PacketZcItemPickupAck {
         PacketZcItemPickupAck {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xa0, 0x0]),
+        packet_id_raw: [0xa0, 0x0],
         index: 0,
         index_raw: [0; 2],
         count: 0,
@@ -9325,8 +9325,8 @@ impl PacketZcItemDisappear {
     pub fn new() -> PacketZcItemDisappear {
         PacketZcItemDisappear {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xa1, 0x0]),
+        packet_id_raw: [0xa1, 0x0],
         itaid: 0,
         itaid_raw: [0; 4],
         }
@@ -9419,8 +9419,8 @@ impl PacketCzItemThrow {
     pub fn new() -> PacketCzItemThrow {
         PacketCzItemThrow {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xa2, 0x0]),
+        packet_id_raw: [0xa2, 0x0],
         index: 0,
         index_raw: [0; 2],
         count: 0,
@@ -9522,8 +9522,8 @@ impl PacketZcNormalItemlist {
     pub fn new() -> PacketZcNormalItemlist {
         PacketZcNormalItemlist {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xa3, 0x0]),
+        packet_id_raw: [0xa3, 0x0],
         packet_length: 0,
         packet_length_raw: [0; 2],
         item_info: vec![],
@@ -9625,8 +9625,8 @@ impl PacketZcEquipmentItemlist {
     pub fn new() -> PacketZcEquipmentItemlist {
         PacketZcEquipmentItemlist {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xa4, 0x0]),
+        packet_id_raw: [0xa4, 0x0],
         packet_length: 0,
         packet_length_raw: [0; 2],
         item_info: vec![],
@@ -9728,8 +9728,8 @@ impl PacketZcStoreNormalItemlist {
     pub fn new() -> PacketZcStoreNormalItemlist {
         PacketZcStoreNormalItemlist {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xa5, 0x0]),
+        packet_id_raw: [0xa5, 0x0],
         packet_length: 0,
         packet_length_raw: [0; 2],
         item_info: vec![],
@@ -9831,8 +9831,8 @@ impl PacketZcStoreEquipmentItemlist {
     pub fn new() -> PacketZcStoreEquipmentItemlist {
         PacketZcStoreEquipmentItemlist {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xa6, 0x0]),
+        packet_id_raw: [0xa6, 0x0],
         packet_length: 0,
         packet_length_raw: [0; 2],
         item_info: vec![],
@@ -9927,8 +9927,8 @@ impl PacketCzUseItem {
     pub fn new() -> PacketCzUseItem {
         PacketCzUseItem {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xa7, 0x0]),
+        packet_id_raw: [0xa7, 0x0],
         index: 0,
         index_raw: [0; 2],
         aid: 0,
@@ -10039,8 +10039,8 @@ impl PacketZcUseItemAck {
     pub fn new() -> PacketZcUseItemAck {
         PacketZcUseItemAck {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xa8, 0x0]),
+        packet_id_raw: [0xa8, 0x0],
         index: 0,
         index_raw: [0; 2],
         count: 0,
@@ -10137,8 +10137,8 @@ impl PacketCzReqWearEquip {
     pub fn new() -> PacketCzReqWearEquip {
         PacketCzReqWearEquip {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xa9, 0x0]),
+        packet_id_raw: [0xa9, 0x0],
         index: 0,
         index_raw: [0; 2],
         wear_location: 0,
@@ -10249,8 +10249,8 @@ impl PacketZcReqWearEquipAck {
     pub fn new() -> PacketZcReqWearEquipAck {
         PacketZcReqWearEquipAck {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xaa, 0x0]),
+        packet_id_raw: [0xaa, 0x0],
         index: 0,
         index_raw: [0; 2],
         wear_location: 0,
@@ -10331,8 +10331,8 @@ impl PacketCzReqTakeoffEquip {
     pub fn new() -> PacketCzReqTakeoffEquip {
         PacketCzReqTakeoffEquip {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xab, 0x0]),
+        packet_id_raw: [0xab, 0x0],
         index: 0,
         index_raw: [0; 2],
         }
@@ -10441,8 +10441,8 @@ impl PacketZcReqTakeoffEquipAck {
     pub fn new() -> PacketZcReqTakeoffEquipAck {
         PacketZcReqTakeoffEquipAck {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xac, 0x0]),
+        packet_id_raw: [0xac, 0x0],
         index: 0,
         index_raw: [0; 2],
         wear_location: 0,
@@ -10539,8 +10539,8 @@ impl PacketZcItemThrowAck {
     pub fn new() -> PacketZcItemThrowAck {
         PacketZcItemThrowAck {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xaf, 0x0]),
+        packet_id_raw: [0xaf, 0x0],
         index: 0,
         index_raw: [0; 2],
         count: 0,
@@ -10635,8 +10635,8 @@ impl PacketZcParChange {
     pub fn new() -> PacketZcParChange {
         PacketZcParChange {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xb0, 0x0]),
+        packet_id_raw: [0xb0, 0x0],
         var_id: 0,
         var_id_raw: [0; 2],
         count: 0,
@@ -10731,8 +10731,8 @@ impl PacketZcLongparChange {
     pub fn new() -> PacketZcLongparChange {
         PacketZcLongparChange {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xb1, 0x0]),
+        packet_id_raw: [0xb1, 0x0],
         var_id: 0,
         var_id_raw: [0; 2],
         amount: 0,
@@ -10811,8 +10811,8 @@ impl PacketCzRestart {
     pub fn new() -> PacketCzRestart {
         PacketCzRestart {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xb2, 0x0]),
+        packet_id_raw: [0xb2, 0x0],
         atype: 0,
         atype_raw: [0; 1],
         }
@@ -10889,8 +10889,8 @@ impl PacketZcRestartAck {
     pub fn new() -> PacketZcRestartAck {
         PacketZcRestartAck {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xb3, 0x0]),
+        packet_id_raw: [0xb3, 0x0],
         atype: 0,
         atype_raw: [0; 1],
         }
@@ -10993,8 +10993,8 @@ impl PacketZcSayDialog {
     pub fn new() -> PacketZcSayDialog {
         PacketZcSayDialog {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xb4, 0x0]),
+        packet_id_raw: [0xb4, 0x0],
         packet_length: 0,
         packet_length_raw: [0; 2],
         naid: 0,
@@ -11075,8 +11075,8 @@ impl PacketZcWaitDialog {
     pub fn new() -> PacketZcWaitDialog {
         PacketZcWaitDialog {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xb5, 0x0]),
+        packet_id_raw: [0xb5, 0x0],
         naid: 0,
         naid_raw: [0; 4],
         }
@@ -11153,8 +11153,8 @@ impl PacketZcCloseDialog {
     pub fn new() -> PacketZcCloseDialog {
         PacketZcCloseDialog {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xb6, 0x0]),
+        packet_id_raw: [0xb6, 0x0],
         naid: 0,
         naid_raw: [0; 4],
         }
@@ -11257,8 +11257,8 @@ impl PacketZcMenuList {
     pub fn new() -> PacketZcMenuList {
         PacketZcMenuList {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xb7, 0x0]),
+        packet_id_raw: [0xb7, 0x0],
         packet_length: 0,
         packet_length_raw: [0; 2],
         naid: 0,
@@ -11355,8 +11355,8 @@ impl PacketCzChooseMenu {
     pub fn new() -> PacketCzChooseMenu {
         PacketCzChooseMenu {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xb8, 0x0]),
+        packet_id_raw: [0xb8, 0x0],
         naid: 0,
         naid_raw: [0; 4],
         num: 0,
@@ -11435,8 +11435,8 @@ impl PacketCzReqNextScript {
     pub fn new() -> PacketCzReqNextScript {
         PacketCzReqNextScript {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xb9, 0x0]),
+        packet_id_raw: [0xb9, 0x0],
         naid: 0,
         naid_raw: [0; 4],
         }
@@ -11497,8 +11497,8 @@ impl PacketCzReqStatus {
     pub fn new() -> PacketCzReqStatus {
         PacketCzReqStatus {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xba, 0x0]),
+        packet_id_raw: [0xba, 0x0],
         }
     }
 }
@@ -11589,8 +11589,8 @@ impl PacketCzStatusChange {
     pub fn new() -> PacketCzStatusChange {
         PacketCzStatusChange {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xbb, 0x0]),
+        packet_id_raw: [0xbb, 0x0],
         status_id: 0,
         status_id_raw: [0; 2],
         change_amount: 0,
@@ -11701,8 +11701,8 @@ impl PacketZcStatusChangeAck {
     pub fn new() -> PacketZcStatusChangeAck {
         PacketZcStatusChangeAck {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xbc, 0x0]),
+        packet_id_raw: [0xbc, 0x0],
         status_id: 0,
         status_id_raw: [0; 2],
         result: false,
@@ -12199,8 +12199,8 @@ impl PacketZcStatus {
     pub fn new() -> PacketZcStatus {
         PacketZcStatus {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xbd, 0x0]),
+        packet_id_raw: [0xbd, 0x0],
         point: 0,
         point_raw: [0; 2],
         str: 0,
@@ -12345,8 +12345,8 @@ impl PacketZcStatusChange {
     pub fn new() -> PacketZcStatusChange {
         PacketZcStatusChange {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xbe, 0x0]),
+        packet_id_raw: [0xbe, 0x0],
         status_id: 0,
         status_id_raw: [0; 2],
         value: 0,
@@ -12425,8 +12425,8 @@ impl PacketCzReqEmotion {
     pub fn new() -> PacketCzReqEmotion {
         PacketCzReqEmotion {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xbf, 0x0]),
+        packet_id_raw: [0xbf, 0x0],
         atype: 0,
         atype_raw: [0; 1],
         }
@@ -12519,8 +12519,8 @@ impl PacketZcEmotion {
     pub fn new() -> PacketZcEmotion {
         PacketZcEmotion {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xc0, 0x0]),
+        packet_id_raw: [0xc0, 0x0],
         gid: 0,
         gid_raw: [0; 4],
         atype: 0,
@@ -12583,8 +12583,8 @@ impl PacketCzReqUserCount {
     pub fn new() -> PacketCzReqUserCount {
         PacketCzReqUserCount {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xc1, 0x0]),
+        packet_id_raw: [0xc1, 0x0],
         }
     }
 }
@@ -12659,8 +12659,8 @@ impl PacketZcUserCount {
     pub fn new() -> PacketZcUserCount {
         PacketZcUserCount {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xc2, 0x0]),
+        packet_id_raw: [0xc2, 0x0],
         count: 0,
         count_raw: [0; 4],
         }
@@ -12769,8 +12769,8 @@ impl PacketZcSpriteChange {
     pub fn new() -> PacketZcSpriteChange {
         PacketZcSpriteChange {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xc3, 0x0]),
+        packet_id_raw: [0xc3, 0x0],
         gid: 0,
         gid_raw: [0; 4],
         atype: 0,
@@ -12851,8 +12851,8 @@ impl PacketZcSelectDealtype {
     pub fn new() -> PacketZcSelectDealtype {
         PacketZcSelectDealtype {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xc4, 0x0]),
+        packet_id_raw: [0xc4, 0x0],
         naid: 0,
         naid_raw: [0; 4],
         }
@@ -12945,8 +12945,8 @@ impl PacketCzAckSelectDealtype {
     pub fn new() -> PacketCzAckSelectDealtype {
         PacketCzAckSelectDealtype {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xc5, 0x0]),
+        packet_id_raw: [0xc5, 0x0],
         naid: 0,
         naid_raw: [0; 4],
         atype: 0,
@@ -13048,8 +13048,8 @@ impl PacketZcPcPurchaseItemlist {
     pub fn new() -> PacketZcPcPurchaseItemlist {
         PacketZcPcPurchaseItemlist {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xc6, 0x0]),
+        packet_id_raw: [0xc6, 0x0],
         packet_length: 0,
         packet_length_raw: [0; 2],
         item_list: vec![],
@@ -13151,8 +13151,8 @@ impl PacketZcPcSellItemlist {
     pub fn new() -> PacketZcPcSellItemlist {
         PacketZcPcSellItemlist {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xc7, 0x0]),
+        packet_id_raw: [0xc7, 0x0],
         packet_length: 0,
         packet_length_raw: [0; 2],
         item_list: vec![],
@@ -13254,8 +13254,8 @@ impl PacketCzPcPurchaseItemlist {
     pub fn new() -> PacketCzPcPurchaseItemlist {
         PacketCzPcPurchaseItemlist {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xc8, 0x0]),
+        packet_id_raw: [0xc8, 0x0],
         packet_length: 0,
         packet_length_raw: [0; 2],
         item_list: vec![],
@@ -13357,8 +13357,8 @@ impl PacketCzPcSellItemlist {
     pub fn new() -> PacketCzPcSellItemlist {
         PacketCzPcSellItemlist {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xc9, 0x0]),
+        packet_id_raw: [0xc9, 0x0],
         packet_length: 0,
         packet_length_raw: [0; 2],
         item_list: vec![],
@@ -13437,8 +13437,8 @@ impl PacketZcPcPurchaseResult {
     pub fn new() -> PacketZcPcPurchaseResult {
         PacketZcPcPurchaseResult {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xca, 0x0]),
+        packet_id_raw: [0xca, 0x0],
         result: 0,
         result_raw: [0; 1],
         }
@@ -13515,8 +13515,8 @@ impl PacketZcPcSellResult {
     pub fn new() -> PacketZcPcSellResult {
         PacketZcPcSellResult {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xcb, 0x0]),
+        packet_id_raw: [0xcb, 0x0],
         result: 0,
         result_raw: [0; 1],
         }
@@ -13593,8 +13593,8 @@ impl PacketCzDisconnectCharacter {
     pub fn new() -> PacketCzDisconnectCharacter {
         PacketCzDisconnectCharacter {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xcc, 0x0]),
+        packet_id_raw: [0xcc, 0x0],
         aid: 0,
         aid_raw: [0; 4],
         }
@@ -13671,8 +13671,8 @@ impl PacketZcAckDisconnectCharacter {
     pub fn new() -> PacketZcAckDisconnectCharacter {
         PacketZcAckDisconnectCharacter {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xcd, 0x0]),
+        packet_id_raw: [0xcd, 0x0],
         result: 0,
         result_raw: [0; 1],
         }
@@ -13733,8 +13733,8 @@ impl PacketCzDisconnectAllCharacter {
     pub fn new() -> PacketCzDisconnectAllCharacter {
         PacketCzDisconnectAllCharacter {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xce, 0x0]),
+        packet_id_raw: [0xce, 0x0],
         }
     }
 }
@@ -13833,8 +13833,8 @@ impl PacketCzSettingWhisperPc {
     pub fn new() -> PacketCzSettingWhisperPc {
         PacketCzSettingWhisperPc {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xcf, 0x0]),
+        packet_id_raw: [0xcf, 0x0],
         name: [0 as char; 24],
         name_raw: [0; 24],
         atype: 0,
@@ -13913,8 +13913,8 @@ impl PacketCzSettingWhisperState {
     pub fn new() -> PacketCzSettingWhisperState {
         PacketCzSettingWhisperState {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xd0, 0x0]),
+        packet_id_raw: [0xd0, 0x0],
         atype: 0,
         atype_raw: [0; 1],
         }
@@ -14007,8 +14007,8 @@ impl PacketZcSettingWhisperPc {
     pub fn new() -> PacketZcSettingWhisperPc {
         PacketZcSettingWhisperPc {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xd1, 0x0]),
+        packet_id_raw: [0xd1, 0x0],
         atype: 0,
         atype_raw: [0; 1],
         result: 0,
@@ -14103,8 +14103,8 @@ impl PacketZcSettingWhisperState {
     pub fn new() -> PacketZcSettingWhisperState {
         PacketZcSettingWhisperState {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xd2, 0x0]),
+        packet_id_raw: [0xd2, 0x0],
         atype: 0,
         atype_raw: [0; 1],
         result: 0,
@@ -14167,8 +14167,8 @@ impl PacketCzReqWhisperList {
     pub fn new() -> PacketCzReqWhisperList {
         PacketCzReqWhisperList {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xd3, 0x0]),
+        packet_id_raw: [0xd3, 0x0],
         }
     }
 }
@@ -14266,8 +14266,8 @@ impl PacketZcWhisperList {
     pub fn new() -> PacketZcWhisperList {
         PacketZcWhisperList {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xd4, 0x0]),
+        packet_id_raw: [0xd4, 0x0],
         packet_length: 0,
         packet_length_raw: [0; 2],
         wisper_list: vec![],
@@ -14412,8 +14412,8 @@ impl PacketCzCreateChatroom {
     pub fn new() -> PacketCzCreateChatroom {
         PacketCzCreateChatroom {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xd5, 0x0]),
+        packet_id_raw: [0xd5, 0x0],
         packet_length: 0,
         packet_length_raw: [0; 2],
         size: 0,
@@ -14498,8 +14498,8 @@ impl PacketZcAckCreateChatroom {
     pub fn new() -> PacketZcAckCreateChatroom {
         PacketZcAckCreateChatroom {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xd6, 0x0]),
+        packet_id_raw: [0xd6, 0x0],
         result: 0,
         result_raw: [0; 1],
         }
@@ -14666,8 +14666,8 @@ impl PacketZcRoomNewentry {
     pub fn new() -> PacketZcRoomNewentry {
         PacketZcRoomNewentry {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xd7, 0x0]),
+        packet_id_raw: [0xd7, 0x0],
         packet_length: 0,
         packet_length_raw: [0; 2],
         aid: 0,
@@ -14756,8 +14756,8 @@ impl PacketZcDestroyRoom {
     pub fn new() -> PacketZcDestroyRoom {
         PacketZcDestroyRoom {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xd8, 0x0]),
+        packet_id_raw: [0xd8, 0x0],
         room_id: 0,
         room_id_raw: [0; 4],
         }
@@ -14858,8 +14858,8 @@ impl PacketCzReqEnterRoom {
     pub fn new() -> PacketCzReqEnterRoom {
         PacketCzReqEnterRoom {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xd9, 0x0]),
+        packet_id_raw: [0xd9, 0x0],
         room_id: 0,
         room_id_raw: [0; 4],
         passwd: [0 as char; 8],
@@ -14938,8 +14938,8 @@ impl PacketZcRefuseEnterRoom {
     pub fn new() -> PacketZcRefuseEnterRoom {
         PacketZcRefuseEnterRoom {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xda, 0x0]),
+        packet_id_raw: [0xda, 0x0],
         result: 0,
         result_raw: [0; 1],
         }
@@ -15055,8 +15055,8 @@ impl PacketZcEnterRoom {
     pub fn new() -> PacketZcEnterRoom {
         PacketZcEnterRoom {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xdb, 0x0]),
+        packet_id_raw: [0xdb, 0x0],
         packet_length: 0,
         packet_length_raw: [0; 2],
         room_id: 0,
@@ -15161,8 +15161,8 @@ impl PacketZcMemberNewentry {
     pub fn new() -> PacketZcMemberNewentry {
         PacketZcMemberNewentry {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xdc, 0x0]),
+        packet_id_raw: [0xdc, 0x0],
         curcount: 0,
         curcount_raw: [0; 2],
         name: [0 as char; 24],
@@ -15281,8 +15281,8 @@ impl PacketZcMemberExit {
     pub fn new() -> PacketZcMemberExit {
         PacketZcMemberExit {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xdd, 0x0]),
+        packet_id_raw: [0xdd, 0x0],
         curcount: 0,
         curcount_raw: [0; 2],
         name: [0 as char; 24],
@@ -15429,8 +15429,8 @@ impl PacketCzChangeChatroom {
     pub fn new() -> PacketCzChangeChatroom {
         PacketCzChangeChatroom {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xde, 0x0]),
+        packet_id_raw: [0xde, 0x0],
         packet_length: 0,
         packet_length_raw: [0; 2],
         size: 0,
@@ -15605,8 +15605,8 @@ impl PacketZcChangeChatroom {
     pub fn new() -> PacketZcChangeChatroom {
         PacketZcChangeChatroom {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xdf, 0x0]),
+        packet_id_raw: [0xdf, 0x0],
         packet_length: 0,
         packet_length_raw: [0; 2],
         aid: 0,
@@ -15719,8 +15719,8 @@ impl PacketCzReqRoleChange {
     pub fn new() -> PacketCzReqRoleChange {
         PacketCzReqRoleChange {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xe0, 0x0]),
+        packet_id_raw: [0xe0, 0x0],
         role: 0,
         role_raw: [0; 4],
         name: [0 as char; 24],
@@ -15823,8 +15823,8 @@ impl PacketZcRoleChange {
     pub fn new() -> PacketZcRoleChange {
         PacketZcRoleChange {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xe1, 0x0]),
+        packet_id_raw: [0xe1, 0x0],
         role: 0,
         role_raw: [0; 4],
         name: [0 as char; 24],
@@ -15911,8 +15911,8 @@ impl PacketCzReqExpelMember {
     pub fn new() -> PacketCzReqExpelMember {
         PacketCzReqExpelMember {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xe2, 0x0]),
+        packet_id_raw: [0xe2, 0x0],
         name: [0 as char; 24],
         name_raw: [0; 24],
         }
@@ -15973,8 +15973,8 @@ impl PacketCzExitRoom {
     pub fn new() -> PacketCzExitRoom {
         PacketCzExitRoom {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xe3, 0x0]),
+        packet_id_raw: [0xe3, 0x0],
         }
     }
 }
@@ -16049,8 +16049,8 @@ impl PacketCzReqExchangeItem {
     pub fn new() -> PacketCzReqExchangeItem {
         PacketCzReqExchangeItem {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xe4, 0x0]),
+        packet_id_raw: [0xe4, 0x0],
         aid: 0,
         aid_raw: [0; 4],
         }
@@ -16135,8 +16135,8 @@ impl PacketZcReqExchangeItem {
     pub fn new() -> PacketZcReqExchangeItem {
         PacketZcReqExchangeItem {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xe5, 0x0]),
+        packet_id_raw: [0xe5, 0x0],
         name: [0 as char; 24],
         name_raw: [0; 24],
         }
@@ -16213,8 +16213,8 @@ impl PacketCzAckExchangeItem {
     pub fn new() -> PacketCzAckExchangeItem {
         PacketCzAckExchangeItem {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xe6, 0x0]),
+        packet_id_raw: [0xe6, 0x0],
         result: 0,
         result_raw: [0; 1],
         }
@@ -16291,8 +16291,8 @@ impl PacketZcAckExchangeItem {
     pub fn new() -> PacketZcAckExchangeItem {
         PacketZcAckExchangeItem {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xe7, 0x0]),
+        packet_id_raw: [0xe7, 0x0],
         result: 0,
         result_raw: [0; 1],
         }
@@ -16385,8 +16385,8 @@ impl PacketCzAddExchangeItem {
     pub fn new() -> PacketCzAddExchangeItem {
         PacketCzAddExchangeItem {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xe8, 0x0]),
+        packet_id_raw: [0xe8, 0x0],
         index: 0,
         index_raw: [0; 2],
         count: 0,
@@ -16543,8 +16543,8 @@ impl PacketZcAddExchangeItem {
     pub fn new() -> PacketZcAddExchangeItem {
         PacketZcAddExchangeItem {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xe9, 0x0]),
+        packet_id_raw: [0xe9, 0x0],
         count: 0,
         count_raw: [0; 4],
         itid: 0,
@@ -16647,8 +16647,8 @@ impl PacketZcAckAddExchangeItem {
     pub fn new() -> PacketZcAckAddExchangeItem {
         PacketZcAckAddExchangeItem {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xea, 0x0]),
+        packet_id_raw: [0xea, 0x0],
         index: 0,
         index_raw: [0; 2],
         result: 0,
@@ -16711,8 +16711,8 @@ impl PacketCzConcludeExchangeItem {
     pub fn new() -> PacketCzConcludeExchangeItem {
         PacketCzConcludeExchangeItem {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xeb, 0x0]),
+        packet_id_raw: [0xeb, 0x0],
         }
     }
 }
@@ -16787,8 +16787,8 @@ impl PacketZcConcludeExchangeItem {
     pub fn new() -> PacketZcConcludeExchangeItem {
         PacketZcConcludeExchangeItem {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xec, 0x0]),
+        packet_id_raw: [0xec, 0x0],
         who: 0,
         who_raw: [0; 1],
         }
@@ -16849,8 +16849,8 @@ impl PacketCzCancelExchangeItem {
     pub fn new() -> PacketCzCancelExchangeItem {
         PacketCzCancelExchangeItem {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xed, 0x0]),
+        packet_id_raw: [0xed, 0x0],
         }
     }
 }
@@ -16909,8 +16909,8 @@ impl PacketZcCancelExchangeItem {
     pub fn new() -> PacketZcCancelExchangeItem {
         PacketZcCancelExchangeItem {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xee, 0x0]),
+        packet_id_raw: [0xee, 0x0],
         }
     }
 }
@@ -16969,8 +16969,8 @@ impl PacketCzExecExchangeItem {
     pub fn new() -> PacketCzExecExchangeItem {
         PacketCzExecExchangeItem {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xef, 0x0]),
+        packet_id_raw: [0xef, 0x0],
         }
     }
 }
@@ -17045,8 +17045,8 @@ impl PacketZcExecExchangeItem {
     pub fn new() -> PacketZcExecExchangeItem {
         PacketZcExecExchangeItem {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xf0, 0x0]),
+        packet_id_raw: [0xf0, 0x0],
         result: 0,
         result_raw: [0; 1],
         }
@@ -17107,8 +17107,8 @@ impl PacketZcExchangeitemUndo {
     pub fn new() -> PacketZcExchangeitemUndo {
         PacketZcExchangeitemUndo {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xf1, 0x0]),
+        packet_id_raw: [0xf1, 0x0],
         }
     }
 }
@@ -17199,8 +17199,8 @@ impl PacketZcNotifyStoreitemCountinfo {
     pub fn new() -> PacketZcNotifyStoreitemCountinfo {
         PacketZcNotifyStoreitemCountinfo {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xf2, 0x0]),
+        packet_id_raw: [0xf2, 0x0],
         cur_count: 0,
         cur_count_raw: [0; 2],
         max_count: 0,
@@ -17295,8 +17295,8 @@ impl PacketCzMoveItemFromBodyToStore {
     pub fn new() -> PacketCzMoveItemFromBodyToStore {
         PacketCzMoveItemFromBodyToStore {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xf3, 0x0]),
+        packet_id_raw: [0xf3, 0x0],
         index: 0,
         index_raw: [0; 2],
         count: 0,
@@ -17469,8 +17469,8 @@ impl PacketZcAddItemToStore {
     pub fn new() -> PacketZcAddItemToStore {
         PacketZcAddItemToStore {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xf4, 0x0]),
+        packet_id_raw: [0xf4, 0x0],
         index: 0,
         index_raw: [0; 2],
         count: 0,
@@ -17575,8 +17575,8 @@ impl PacketCzMoveItemFromStoreToBody {
     pub fn new() -> PacketCzMoveItemFromStoreToBody {
         PacketCzMoveItemFromStoreToBody {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xf5, 0x0]),
+        packet_id_raw: [0xf5, 0x0],
         index: 0,
         index_raw: [0; 2],
         count: 0,
@@ -17671,8 +17671,8 @@ impl PacketZcDeleteItemFromStore {
     pub fn new() -> PacketZcDeleteItemFromStore {
         PacketZcDeleteItemFromStore {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xf6, 0x0]),
+        packet_id_raw: [0xf6, 0x0],
         index: 0,
         index_raw: [0; 2],
         count: 0,
@@ -17735,8 +17735,8 @@ impl PacketCzCloseStore {
     pub fn new() -> PacketCzCloseStore {
         PacketCzCloseStore {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xf7, 0x0]),
+        packet_id_raw: [0xf7, 0x0],
         }
     }
 }
@@ -17795,8 +17795,8 @@ impl PacketZcCloseStore {
     pub fn new() -> PacketZcCloseStore {
         PacketZcCloseStore {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xf8, 0x0]),
+        packet_id_raw: [0xf8, 0x0],
         }
     }
 }
@@ -17879,8 +17879,8 @@ impl PacketCzMakeGroup {
     pub fn new() -> PacketCzMakeGroup {
         PacketCzMakeGroup {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xf9, 0x0]),
+        packet_id_raw: [0xf9, 0x0],
         group_name: [0 as char; 24],
         group_name_raw: [0; 24],
         }
@@ -17957,8 +17957,8 @@ impl PacketZcAckMakeGroup {
     pub fn new() -> PacketZcAckMakeGroup {
         PacketZcAckMakeGroup {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xfa, 0x0]),
+        packet_id_raw: [0xfa, 0x0],
         result: 0,
         result_raw: [0; 1],
         }
@@ -18082,8 +18082,8 @@ impl PacketZcGroupList {
     pub fn new() -> PacketZcGroupList {
         PacketZcGroupList {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xfb, 0x0]),
+        packet_id_raw: [0xfb, 0x0],
         packet_length: 0,
         packet_length_raw: [0; 2],
         group_name: [0 as char; 24],
@@ -18164,8 +18164,8 @@ impl PacketCzReqJoinGroup {
     pub fn new() -> PacketCzReqJoinGroup {
         PacketCzReqJoinGroup {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xfc, 0x0]),
+        packet_id_raw: [0xfc, 0x0],
         aid: 0,
         aid_raw: [0; 4],
         }
@@ -18266,8 +18266,8 @@ impl PacketZcAckReqJoinGroup {
     pub fn new() -> PacketZcAckReqJoinGroup {
         PacketZcAckReqJoinGroup {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xfd, 0x0]),
+        packet_id_raw: [0xfd, 0x0],
         character_name: [0 as char; 24],
         character_name_raw: [0; 24],
         answer: 0,
@@ -18370,8 +18370,8 @@ impl PacketZcReqJoinGroup {
     pub fn new() -> PacketZcReqJoinGroup {
         PacketZcReqJoinGroup {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xfe, 0x0]),
+        packet_id_raw: [0xfe, 0x0],
         grid: 0,
         grid_raw: [0; 4],
         group_name: [0 as char; 24],
@@ -18466,8 +18466,8 @@ impl PacketCzJoinGroup {
     pub fn new() -> PacketCzJoinGroup {
         PacketCzJoinGroup {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xff, 0x0]),
+        packet_id_raw: [0xff, 0x0],
         grid: 0,
         grid_raw: [0; 4],
         answer: 0,
@@ -18530,8 +18530,8 @@ impl PacketCzReqLeaveGroup {
     pub fn new() -> PacketCzReqLeaveGroup {
         PacketCzReqLeaveGroup {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x10, 0x0]),
+        packet_id_raw: [0x10, 0x0],
         }
     }
 }
@@ -18606,8 +18606,8 @@ impl PacketZcGroupinfoChange {
     pub fn new() -> PacketZcGroupinfoChange {
         PacketZcGroupinfoChange {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x10, 0x1]),
+        packet_id_raw: [0x10, 0x1],
         exp_option: 0,
         exp_option_raw: [0; 4],
         }
@@ -18684,8 +18684,8 @@ impl PacketCzChangeGroupexpoption {
     pub fn new() -> PacketCzChangeGroupexpoption {
         PacketCzChangeGroupexpoption {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x10, 0x2]),
+        packet_id_raw: [0x10, 0x2],
         exp_option: 0,
         exp_option_raw: [0; 4],
         }
@@ -18786,8 +18786,8 @@ impl PacketCzReqExpelGroupMember {
     pub fn new() -> PacketCzReqExpelGroupMember {
         PacketCzReqExpelGroupMember {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x10, 0x3]),
+        packet_id_raw: [0x10, 0x3],
         aid: 0,
         aid_raw: [0; 4],
         character_name: [0 as char; 24],
@@ -19002,8 +19002,8 @@ impl PacketZcAddMemberToGroup {
     pub fn new() -> PacketZcAddMemberToGroup {
         PacketZcAddMemberToGroup {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x10, 0x4]),
+        packet_id_raw: [0x10, 0x4],
         aid: 0,
         aid_raw: [0; 4],
         role: 0,
@@ -19134,8 +19134,8 @@ impl PacketZcDeleteMemberFromGroup {
     pub fn new() -> PacketZcDeleteMemberFromGroup {
         PacketZcDeleteMemberFromGroup {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x10, 0x5]),
+        packet_id_raw: [0x10, 0x5],
         aid: 0,
         aid_raw: [0; 4],
         character_name: [0 as char; 24],
@@ -19248,8 +19248,8 @@ impl PacketZcNotifyHpToGroupm {
     pub fn new() -> PacketZcNotifyHpToGroupm {
         PacketZcNotifyHpToGroupm {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x10, 0x6]),
+        packet_id_raw: [0x10, 0x6],
         aid: 0,
         aid_raw: [0; 4],
         hp: 0,
@@ -19362,8 +19362,8 @@ impl PacketZcNotifyPositionToGroupm {
     pub fn new() -> PacketZcNotifyPositionToGroupm {
         PacketZcNotifyPositionToGroupm {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x10, 0x7]),
+        packet_id_raw: [0x10, 0x7],
         aid: 0,
         aid_raw: [0; 4],
         x_pos: 0,
@@ -19454,8 +19454,8 @@ impl PacketCzRequestChatParty {
     pub fn new() -> PacketCzRequestChatParty {
         PacketCzRequestChatParty {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x10, 0x8]),
+        packet_id_raw: [0x10, 0x8],
         packet_length: 0,
         packet_length_raw: [0; 2],
         msg: String::new(),
@@ -19560,8 +19560,8 @@ impl PacketZcNotifyChatParty {
     pub fn new() -> PacketZcNotifyChatParty {
         PacketZcNotifyChatParty {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x10, 0x9]),
+        packet_id_raw: [0x10, 0x9],
         packet_length: 0,
         packet_length_raw: [0; 2],
         aid: 0,
@@ -19642,8 +19642,8 @@ impl PacketZcMvpGettingItem {
     pub fn new() -> PacketZcMvpGettingItem {
         PacketZcMvpGettingItem {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x10, 0xa]),
+        packet_id_raw: [0x10, 0xa],
         itid: 0,
         itid_raw: [0; 2],
         }
@@ -19720,8 +19720,8 @@ impl PacketZcMvpGettingSpecialExp {
     pub fn new() -> PacketZcMvpGettingSpecialExp {
         PacketZcMvpGettingSpecialExp {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x10, 0xb]),
+        packet_id_raw: [0x10, 0xb],
         exp: 0,
         exp_raw: [0; 4],
         }
@@ -19798,8 +19798,8 @@ impl PacketZcMvp {
     pub fn new() -> PacketZcMvp {
         PacketZcMvp {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x10, 0xc]),
+        packet_id_raw: [0x10, 0xc],
         aid: 0,
         aid_raw: [0; 4],
         }
@@ -19860,8 +19860,8 @@ impl PacketZcThrowMvpitem {
     pub fn new() -> PacketZcThrowMvpitem {
         PacketZcThrowMvpitem {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x10, 0xd]),
+        packet_id_raw: [0x10, 0xd],
         }
     }
 }
@@ -20000,8 +20000,8 @@ impl PacketZcSkillinfoUpdate {
     pub fn new() -> PacketZcSkillinfoUpdate {
         PacketZcSkillinfoUpdate {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x10, 0xe]),
+        packet_id_raw: [0x10, 0xe],
         skid: 0,
         skid_raw: [0; 2],
         level: 0,
@@ -20109,8 +20109,8 @@ impl PacketZcSkillinfoList {
     pub fn new() -> PacketZcSkillinfoList {
         PacketZcSkillinfoList {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x10, 0xf]),
+        packet_id_raw: [0x10, 0xf],
         packet_length: 0,
         packet_length_raw: [0; 2],
         skill_list: vec![],
@@ -20237,8 +20237,8 @@ impl PacketZcAckTouseskill {
     pub fn new() -> PacketZcAckTouseskill {
         PacketZcAckTouseskill {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x11, 0x0]),
+        packet_id_raw: [0x11, 0x0],
         skid: 0,
         skid_raw: [0; 2],
         num: 0,
@@ -20315,8 +20315,8 @@ impl PacketZcAddSkill {
     pub fn new() -> PacketZcAddSkill {
         PacketZcAddSkill {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x11, 0x1]),
+        packet_id_raw: [0x11, 0x1],
         data: SKILLINFO::new(),
         data_raw: vec![],
         }
@@ -20393,8 +20393,8 @@ impl PacketCzUpgradeSkilllevel {
     pub fn new() -> PacketCzUpgradeSkilllevel {
         PacketCzUpgradeSkilllevel {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x11, 0x2]),
+        packet_id_raw: [0x11, 0x2],
         skid: 0,
         skid_raw: [0; 2],
         }
@@ -20503,8 +20503,8 @@ impl PacketCzUseSkill {
     pub fn new() -> PacketCzUseSkill {
         PacketCzUseSkill {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x11, 0x3]),
+        packet_id_raw: [0x11, 0x3],
         selected_level: 0,
         selected_level_raw: [0; 2],
         skid: 0,
@@ -20729,8 +20729,8 @@ impl PacketZcNotifySkill {
     pub fn new() -> PacketZcNotifySkill {
         PacketZcNotifySkill {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x11, 0x4]),
+        packet_id_raw: [0x11, 0x4],
         skid: 0,
         skid_raw: [0; 2],
         aid: 0,
@@ -21001,8 +21001,8 @@ impl PacketZcNotifySkillPosition {
     pub fn new() -> PacketZcNotifySkillPosition {
         PacketZcNotifySkillPosition {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x11, 0x5]),
+        packet_id_raw: [0x11, 0x5],
         skid: 0,
         skid_raw: [0; 2],
         aid: 0,
@@ -21149,8 +21149,8 @@ impl PacketCzUseSkillToground {
     pub fn new() -> PacketCzUseSkillToground {
         PacketCzUseSkillToground {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x11, 0x6]),
+        packet_id_raw: [0x11, 0x6],
         selected_level: 0,
         selected_level_raw: [0; 2],
         skid: 0,
@@ -21313,8 +21313,8 @@ impl PacketZcNotifyGroundskill {
     pub fn new() -> PacketZcNotifyGroundskill {
         PacketZcNotifyGroundskill {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x11, 0x7]),
+        packet_id_raw: [0x11, 0x7],
         skid: 0,
         skid_raw: [0; 2],
         aid: 0,
@@ -21385,8 +21385,8 @@ impl PacketCzCancelLockon {
     pub fn new() -> PacketCzCancelLockon {
         PacketCzCancelLockon {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x11, 0x8]),
+        packet_id_raw: [0x11, 0x8],
         }
     }
 }
@@ -21525,8 +21525,8 @@ impl PacketZcStateChange {
     pub fn new() -> PacketZcStateChange {
         PacketZcStateChange {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x11, 0x9]),
+        packet_id_raw: [0x11, 0x9],
         aid: 0,
         aid_raw: [0; 4],
         body_state: 0,
@@ -21675,8 +21675,8 @@ impl PacketZcUseSkill {
     pub fn new() -> PacketZcUseSkill {
         PacketZcUseSkill {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x11, 0xa]),
+        packet_id_raw: [0x11, 0xa],
         skid: 0,
         skid_raw: [0; 2],
         level: 0,
@@ -21785,8 +21785,8 @@ impl PacketCzSelectWarppoint {
     pub fn new() -> PacketCzSelectWarppoint {
         PacketCzSelectWarppoint {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x11, 0xb]),
+        packet_id_raw: [0x11, 0xb],
         skid: 0,
         skid_raw: [0; 2],
         map_name: [0 as char; 16],
@@ -21889,8 +21889,8 @@ impl PacketZcWarplist {
     pub fn new() -> PacketZcWarplist {
         PacketZcWarplist {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x11, 0xc]),
+        packet_id_raw: [0x11, 0xc],
         skid: 0,
         skid_raw: [0; 2],
         map_name: [0 as char; 4],
@@ -21953,8 +21953,8 @@ impl PacketCzRememberWarppoint {
     pub fn new() -> PacketCzRememberWarppoint {
         PacketCzRememberWarppoint {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x11, 0xd]),
+        packet_id_raw: [0x11, 0xd],
         }
     }
 }
@@ -22029,8 +22029,8 @@ impl PacketZcAckRememberWarppoint {
     pub fn new() -> PacketZcAckRememberWarppoint {
         PacketZcAckRememberWarppoint {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x11, 0xe]),
+        packet_id_raw: [0x11, 0xe],
         error_code: 0,
         error_code_raw: [0; 1],
         }
@@ -22187,8 +22187,8 @@ impl PacketZcSkillEntry {
     pub fn new() -> PacketZcSkillEntry {
         PacketZcSkillEntry {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x11, 0xf]),
+        packet_id_raw: [0x11, 0xf],
         aid: 0,
         aid_raw: [0; 4],
         creator_aid: 0,
@@ -22275,8 +22275,8 @@ impl PacketZcSkillDisappear {
     pub fn new() -> PacketZcSkillDisappear {
         PacketZcSkillDisappear {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x12, 0x0]),
+        packet_id_raw: [0x12, 0x0],
         aid: 0,
         aid_raw: [0; 4],
         }
@@ -22401,8 +22401,8 @@ impl PacketZcNotifyCartitemCountinfo {
     pub fn new() -> PacketZcNotifyCartitemCountinfo {
         PacketZcNotifyCartitemCountinfo {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x12, 0x1]),
+        packet_id_raw: [0x12, 0x1],
         cur_count: 0,
         cur_count_raw: [0; 2],
         max_count: 0,
@@ -22508,8 +22508,8 @@ impl PacketZcCartEquipmentItemlist {
     pub fn new() -> PacketZcCartEquipmentItemlist {
         PacketZcCartEquipmentItemlist {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x12, 0x2]),
+        packet_id_raw: [0x12, 0x2],
         packet_length: 0,
         packet_length_raw: [0; 2],
         item_info: vec![],
@@ -22611,8 +22611,8 @@ impl PacketZcCartNormalItemlist {
     pub fn new() -> PacketZcCartNormalItemlist {
         PacketZcCartNormalItemlist {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x12, 0x3]),
+        packet_id_raw: [0x12, 0x3],
         packet_length: 0,
         packet_length_raw: [0; 2],
         item_info: vec![],
@@ -22785,8 +22785,8 @@ impl PacketZcAddItemToCart {
     pub fn new() -> PacketZcAddItemToCart {
         PacketZcAddItemToCart {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x12, 0x4]),
+        packet_id_raw: [0x12, 0x4],
         index: 0,
         index_raw: [0; 2],
         count: 0,
@@ -22891,8 +22891,8 @@ impl PacketZcDeleteItemFromCart {
     pub fn new() -> PacketZcDeleteItemFromCart {
         PacketZcDeleteItemFromCart {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x12, 0x5]),
+        packet_id_raw: [0x12, 0x5],
         index: 0,
         index_raw: [0; 2],
         count: 0,
@@ -22987,8 +22987,8 @@ impl PacketCzMoveItemFromBodyToCart {
     pub fn new() -> PacketCzMoveItemFromBodyToCart {
         PacketCzMoveItemFromBodyToCart {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x12, 0x6]),
+        packet_id_raw: [0x12, 0x6],
         index: 0,
         index_raw: [0; 2],
         count: 0,
@@ -23083,8 +23083,8 @@ impl PacketCzMoveItemFromCartToBody {
     pub fn new() -> PacketCzMoveItemFromCartToBody {
         PacketCzMoveItemFromCartToBody {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x12, 0x7]),
+        packet_id_raw: [0x12, 0x7],
         index: 0,
         index_raw: [0; 2],
         count: 0,
@@ -23179,8 +23179,8 @@ impl PacketCzMoveItemFromStoreToCart {
     pub fn new() -> PacketCzMoveItemFromStoreToCart {
         PacketCzMoveItemFromStoreToCart {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x12, 0x8]),
+        packet_id_raw: [0x12, 0x8],
         index: 0,
         index_raw: [0; 2],
         count: 0,
@@ -23275,8 +23275,8 @@ impl PacketCzMoveItemFromCartToStore {
     pub fn new() -> PacketCzMoveItemFromCartToStore {
         PacketCzMoveItemFromCartToStore {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x12, 0x9]),
+        packet_id_raw: [0x12, 0x9],
         index: 0,
         index_raw: [0; 2],
         count: 0,
@@ -23339,8 +23339,8 @@ impl PacketCzReqCartoff {
     pub fn new() -> PacketCzReqCartoff {
         PacketCzReqCartoff {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x12, 0xa]),
+        packet_id_raw: [0x12, 0xa],
         }
     }
 }
@@ -23399,8 +23399,8 @@ impl PacketZcCartoff {
     pub fn new() -> PacketZcCartoff {
         PacketZcCartoff {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x12, 0xb]),
+        packet_id_raw: [0x12, 0xb],
         }
     }
 }
@@ -23475,8 +23475,8 @@ impl PacketZcAckAdditemToCart {
     pub fn new() -> PacketZcAckAdditemToCart {
         PacketZcAckAdditemToCart {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x12, 0xc]),
+        packet_id_raw: [0x12, 0xc],
         result: 0,
         result_raw: [0; 1],
         }
@@ -23553,8 +23553,8 @@ impl PacketZcOpenstore {
     pub fn new() -> PacketZcOpenstore {
         PacketZcOpenstore {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x12, 0xd]),
+        packet_id_raw: [0x12, 0xd],
         itemcount: 0,
         itemcount_raw: [0; 2],
         }
@@ -23615,8 +23615,8 @@ impl PacketCzReqClosestore {
     pub fn new() -> PacketCzReqClosestore {
         PacketCzReqClosestore {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x12, 0xe]),
+        packet_id_raw: [0x12, 0xe],
         }
     }
 }
@@ -23738,8 +23738,8 @@ impl PacketCzReqOpenstore {
     pub fn new() -> PacketCzReqOpenstore {
         PacketCzReqOpenstore {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x12, 0xf]),
+        packet_id_raw: [0x12, 0xf],
         packet_length: 0,
         packet_length_raw: [0; 2],
         store_name: [0 as char; 80],
@@ -23820,8 +23820,8 @@ impl PacketCzReqBuyFrommc {
     pub fn new() -> PacketCzReqBuyFrommc {
         PacketCzReqBuyFrommc {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x13, 0x0]),
+        packet_id_raw: [0x13, 0x0],
         aid: 0,
         aid_raw: [0; 4],
         }
@@ -23922,8 +23922,8 @@ impl PacketZcStoreEntry {
     pub fn new() -> PacketZcStoreEntry {
         PacketZcStoreEntry {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x13, 0x1]),
+        packet_id_raw: [0x13, 0x1],
         maker_aid: 0,
         maker_aid_raw: [0; 4],
         store_name: [0 as char; 80],
@@ -24002,8 +24002,8 @@ impl PacketZcDisappearEntry {
     pub fn new() -> PacketZcDisappearEntry {
         PacketZcDisappearEntry {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x13, 0x2]),
+        packet_id_raw: [0x13, 0x2],
         maker_aid: 0,
         maker_aid_raw: [0; 4],
         }
@@ -24119,8 +24119,8 @@ impl PacketZcPcPurchaseItemlistFrommc {
     pub fn new() -> PacketZcPcPurchaseItemlistFrommc {
         PacketZcPcPurchaseItemlistFrommc {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x13, 0x3]),
+        packet_id_raw: [0x13, 0x3],
         packet_length: 0,
         packet_length_raw: [0; 2],
         aid: 0,
@@ -24240,8 +24240,8 @@ impl PacketCzPcPurchaseItemlistFrommc {
     pub fn new() -> PacketCzPcPurchaseItemlistFrommc {
         PacketCzPcPurchaseItemlistFrommc {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x13, 0x4]),
+        packet_id_raw: [0x13, 0x4],
         packet_length: 0,
         packet_length_raw: [0; 2],
         aid: 0,
@@ -24354,8 +24354,8 @@ impl PacketZcPcPurchaseResultFrommc {
     pub fn new() -> PacketZcPcPurchaseResultFrommc {
         PacketZcPcPurchaseResultFrommc {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x13, 0x5]),
+        packet_id_raw: [0x13, 0x5],
         index: 0,
         index_raw: [0; 2],
         curcount: 0,
@@ -24475,8 +24475,8 @@ impl PacketZcPcPurchaseMyitemlist {
     pub fn new() -> PacketZcPcPurchaseMyitemlist {
         PacketZcPcPurchaseMyitemlist {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x13, 0x6]),
+        packet_id_raw: [0x13, 0x6],
         packet_length: 0,
         packet_length_raw: [0; 2],
         aid: 0,
@@ -24573,8 +24573,8 @@ impl PacketZcDeleteitemFromMcstore {
     pub fn new() -> PacketZcDeleteitemFromMcstore {
         PacketZcDeleteitemFromMcstore {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x13, 0x7]),
+        packet_id_raw: [0x13, 0x7],
         index: 0,
         index_raw: [0; 2],
         count: 0,
@@ -24653,8 +24653,8 @@ impl PacketCzPkmodeChange {
     pub fn new() -> PacketCzPkmodeChange {
         PacketCzPkmodeChange {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x13, 0x8]),
+        packet_id_raw: [0x13, 0x8],
         is_turn_on: false,
         is_turn_on_raw: [0; 1],
         }
@@ -24811,8 +24811,8 @@ impl PacketZcAttackFailureForDistance {
     pub fn new() -> PacketZcAttackFailureForDistance {
         PacketZcAttackFailureForDistance {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x13, 0x9]),
+        packet_id_raw: [0x13, 0x9],
         target_aid: 0,
         target_aid_raw: [0; 4],
         target_xpos: 0,
@@ -24899,8 +24899,8 @@ impl PacketZcAttackRange {
     pub fn new() -> PacketZcAttackRange {
         PacketZcAttackRange {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x13, 0xa]),
+        packet_id_raw: [0x13, 0xa],
         current_att_range: 0,
         current_att_range_raw: [0; 2],
         }
@@ -24977,8 +24977,8 @@ impl PacketZcActionFailure {
     pub fn new() -> PacketZcActionFailure {
         PacketZcActionFailure {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x13, 0xb]),
+        packet_id_raw: [0x13, 0xb],
         error_code: 0,
         error_code_raw: [0; 2],
         }
@@ -25055,8 +25055,8 @@ impl PacketZcEquipArrow {
     pub fn new() -> PacketZcEquipArrow {
         PacketZcEquipArrow {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x13, 0xc]),
+        packet_id_raw: [0x13, 0xc],
         index: 0,
         index_raw: [0; 2],
         }
@@ -25149,8 +25149,8 @@ impl PacketZcRecovery {
     pub fn new() -> PacketZcRecovery {
         PacketZcRecovery {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x13, 0xd]),
+        packet_id_raw: [0x13, 0xd],
         var_id: 0,
         var_id_raw: [0; 2],
         amount: 0,
@@ -25325,8 +25325,8 @@ impl PacketZcUseskillAck {
     pub fn new() -> PacketZcUseskillAck {
         PacketZcUseskillAck {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x13, 0xe]),
+        packet_id_raw: [0x13, 0xe],
         aid: 0,
         aid_raw: [0; 4],
         target_id: 0,
@@ -25423,8 +25423,8 @@ impl PacketCzItemCreate {
     pub fn new() -> PacketCzItemCreate {
         PacketCzItemCreate {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x13, 0xf]),
+        packet_id_raw: [0x13, 0xf],
         item_name: [0 as char; 24],
         item_name_raw: [0; 24],
         }
@@ -25541,8 +25541,8 @@ impl PacketCzMovetoMap {
     pub fn new() -> PacketCzMovetoMap {
         PacketCzMovetoMap {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x14, 0x0]),
+        packet_id_raw: [0x14, 0x0],
         map_name: [0 as char; 16],
         map_name_raw: [0; 16],
         x_pos: 0,
@@ -25655,8 +25655,8 @@ impl PacketZcCouplestatus {
     pub fn new() -> PacketZcCouplestatus {
         PacketZcCouplestatus {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x14, 0x1]),
+        packet_id_raw: [0x14, 0x1],
         status_type: 0,
         status_type_raw: [0; 4],
         default_status: 0,
@@ -25737,8 +25737,8 @@ impl PacketZcOpenEditdlg {
     pub fn new() -> PacketZcOpenEditdlg {
         PacketZcOpenEditdlg {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x14, 0x2]),
+        packet_id_raw: [0x14, 0x2],
         naid: 0,
         naid_raw: [0; 4],
         }
@@ -25831,8 +25831,8 @@ impl PacketCzInputEditdlg {
     pub fn new() -> PacketCzInputEditdlg {
         PacketCzInputEditdlg {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x14, 0x3]),
+        packet_id_raw: [0x14, 0x3],
         naid: 0,
         naid_raw: [0; 4],
         value: 0,
@@ -25991,8 +25991,8 @@ impl PacketZcCompass {
     pub fn new() -> PacketZcCompass {
         PacketZcCompass {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x14, 0x4]),
+        packet_id_raw: [0x14, 0x4],
         naid: 0,
         naid_raw: [0; 4],
         atype: 0,
@@ -26103,8 +26103,8 @@ impl PacketZcShowImage {
     pub fn new() -> PacketZcShowImage {
         PacketZcShowImage {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x14, 0x5]),
+        packet_id_raw: [0x14, 0x5],
         image_name: [0 as char; 16],
         image_name_raw: [0; 16],
         atype: 0,
@@ -26183,8 +26183,8 @@ impl PacketCzCloseDialog {
     pub fn new() -> PacketCzCloseDialog {
         PacketCzCloseDialog {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x14, 0x6]),
+        packet_id_raw: [0x14, 0x6],
         naid: 0,
         naid_raw: [0; 4],
         }
@@ -26255,8 +26255,8 @@ impl PacketZcAutorunSkill {
     pub fn new() -> PacketZcAutorunSkill {
         PacketZcAutorunSkill {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x14, 0x7]),
+        packet_id_raw: [0x14, 0x7],
         data: SKILLINFO::new(),
         data_raw: vec![],
         }
@@ -26349,8 +26349,8 @@ impl PacketZcResurrection {
     pub fn new() -> PacketZcResurrection {
         PacketZcResurrection {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x14, 0x8]),
+        packet_id_raw: [0x14, 0x8],
         aid: 0,
         aid_raw: [0; 4],
         atype: 0,
@@ -26461,8 +26461,8 @@ impl PacketCzReqGiveMannerPoint {
     pub fn new() -> PacketCzReqGiveMannerPoint {
         PacketCzReqGiveMannerPoint {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x14, 0x9]),
+        packet_id_raw: [0x14, 0x9],
         other_aid: 0,
         other_aid_raw: [0; 4],
         atype: 0,
@@ -26543,8 +26543,8 @@ impl PacketZcAckGiveMannerPoint {
     pub fn new() -> PacketZcAckGiveMannerPoint {
         PacketZcAckGiveMannerPoint {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x14, 0xa]),
+        packet_id_raw: [0x14, 0xa],
         result: 0,
         result_raw: [0; 4],
         }
@@ -26645,8 +26645,8 @@ impl PacketZcNotifyMannerPointGiven {
     pub fn new() -> PacketZcNotifyMannerPointGiven {
         PacketZcNotifyMannerPointGiven {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x14, 0xb]),
+        packet_id_raw: [0x14, 0xb],
         atype: 0,
         atype_raw: [0; 1],
         other_char_name: [0 as char; 24],
@@ -26748,8 +26748,8 @@ impl PacketZcMyguildBasicInfo {
     pub fn new() -> PacketZcMyguildBasicInfo {
         PacketZcMyguildBasicInfo {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x14, 0xc]),
+        packet_id_raw: [0x14, 0xc],
         packet_length: 0,
         packet_length_raw: [0; 2],
         related_guild_list: vec![],
@@ -26812,8 +26812,8 @@ impl PacketCzReqGuildMenuinterface {
     pub fn new() -> PacketCzReqGuildMenuinterface {
         PacketCzReqGuildMenuinterface {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x14, 0xd]),
+        packet_id_raw: [0x14, 0xd],
         }
     }
 }
@@ -26888,8 +26888,8 @@ impl PacketZcAckGuildMenuinterface {
     pub fn new() -> PacketZcAckGuildMenuinterface {
         PacketZcAckGuildMenuinterface {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x14, 0xe]),
+        packet_id_raw: [0x14, 0xe],
         guild_memu_flag: 0,
         guild_memu_flag_raw: [0; 4],
         }
@@ -26966,8 +26966,8 @@ impl PacketCzReqGuildMenu {
     pub fn new() -> PacketCzReqGuildMenu {
         PacketCzReqGuildMenu {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x14, 0xf]),
+        packet_id_raw: [0x14, 0xf],
         atype: 0,
         atype_raw: [0; 4],
         }
@@ -27276,8 +27276,8 @@ impl PacketZcGuildInfo {
     pub fn new() -> PacketZcGuildInfo {
         PacketZcGuildInfo {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x15, 0x0]),
+        packet_id_raw: [0x15, 0x0],
         gdid: 0,
         gdid_raw: [0; 4],
         level: 0,
@@ -27380,8 +27380,8 @@ impl PacketCzReqGuildEmblemImg {
     pub fn new() -> PacketCzReqGuildEmblemImg {
         PacketCzReqGuildEmblemImg {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x15, 0x1]),
+        packet_id_raw: [0x15, 0x1],
         gdid: 0,
         gdid_raw: [0; 4],
         }
@@ -27500,8 +27500,8 @@ impl PacketZcGuildEmblemImg {
     pub fn new() -> PacketZcGuildEmblemImg {
         PacketZcGuildEmblemImg {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x15, 0x2]),
+        packet_id_raw: [0x15, 0x2],
         packet_length: 0,
         packet_length_raw: [0; 2],
         gdid: 0,
@@ -27594,8 +27594,8 @@ impl PacketCzRegisterGuildEmblemImg {
     pub fn new() -> PacketCzRegisterGuildEmblemImg {
         PacketCzRegisterGuildEmblemImg {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x15, 0x3]),
+        packet_id_raw: [0x15, 0x3],
         packet_length: 0,
         packet_length_raw: [0; 2],
         img: String::new(),
@@ -27697,8 +27697,8 @@ impl PacketZcMembermgrInfo {
     pub fn new() -> PacketZcMembermgrInfo {
         PacketZcMembermgrInfo {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x15, 0x4]),
+        packet_id_raw: [0x15, 0x4],
         packet_length: 0,
         packet_length_raw: [0; 2],
         member_info: vec![],
@@ -27800,8 +27800,8 @@ impl PacketCzReqChangeMemberpos {
     pub fn new() -> PacketCzReqChangeMemberpos {
         PacketCzReqChangeMemberpos {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x15, 0x5]),
+        packet_id_raw: [0x15, 0x5],
         packet_length: 0,
         packet_length_raw: [0; 2],
         member_info: vec![],
@@ -27903,8 +27903,8 @@ impl PacketZcAckReqChangeMembers {
     pub fn new() -> PacketZcAckReqChangeMembers {
         PacketZcAckReqChangeMembers {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x15, 0x6]),
+        packet_id_raw: [0x15, 0x6],
         packet_length: 0,
         packet_length_raw: [0; 2],
         member_info: vec![],
@@ -27983,8 +27983,8 @@ impl PacketCzReqOpenMemberInfo {
     pub fn new() -> PacketCzReqOpenMemberInfo {
         PacketCzReqOpenMemberInfo {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x15, 0x7]),
+        packet_id_raw: [0x15, 0x7],
         aid: 0,
         aid_raw: [0; 4],
         }
@@ -28045,8 +28045,8 @@ impl PacketZcAckOpenMemberInfo {
     pub fn new() -> PacketZcAckOpenMemberInfo {
         PacketZcAckOpenMemberInfo {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x15, 0x8]),
+        packet_id_raw: [0x15, 0x8],
         }
     }
 }
@@ -28177,8 +28177,8 @@ impl PacketCzReqLeaveGuild {
     pub fn new() -> PacketCzReqLeaveGuild {
         PacketCzReqLeaveGuild {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x15, 0x9]),
+        packet_id_raw: [0x15, 0x9],
         gdid: 0,
         gdid_raw: [0; 4],
         aid: 0,
@@ -28293,8 +28293,8 @@ impl PacketZcAckLeaveGuild {
     pub fn new() -> PacketZcAckLeaveGuild {
         PacketZcAckLeaveGuild {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x15, 0xa]),
+        packet_id_raw: [0x15, 0xa],
         char_name: [0 as char; 24],
         char_name_raw: [0; 24],
         reason_desc: [0 as char; 40],
@@ -28429,8 +28429,8 @@ impl PacketCzReqBanGuild {
     pub fn new() -> PacketCzReqBanGuild {
         PacketCzReqBanGuild {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x15, 0xb]),
+        packet_id_raw: [0x15, 0xb],
         gdid: 0,
         gdid_raw: [0; 4],
         aid: 0,
@@ -28569,8 +28569,8 @@ impl PacketZcAckBanGuild {
     pub fn new() -> PacketZcAckBanGuild {
         PacketZcAckBanGuild {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x15, 0xc]),
+        packet_id_raw: [0x15, 0xc],
         char_name: [0 as char; 24],
         char_name_raw: [0; 24],
         reason_desc: [0 as char; 40],
@@ -28659,8 +28659,8 @@ impl PacketCzReqDisorganizeGuild {
     pub fn new() -> PacketCzReqDisorganizeGuild {
         PacketCzReqDisorganizeGuild {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x15, 0xd]),
+        packet_id_raw: [0x15, 0xd],
         key: [0 as char; 40],
         key_raw: [0; 40],
         }
@@ -28737,8 +28737,8 @@ impl PacketZcAckDisorganizeGuildResult {
     pub fn new() -> PacketZcAckDisorganizeGuildResult {
         PacketZcAckDisorganizeGuildResult {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x15, 0xe]),
+        packet_id_raw: [0x15, 0xe],
         reason: 0,
         reason_raw: [0; 4],
         }
@@ -28823,8 +28823,8 @@ impl PacketZcAckDisorganizeGuild {
     pub fn new() -> PacketZcAckDisorganizeGuild {
         PacketZcAckDisorganizeGuild {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x15, 0xf]),
+        packet_id_raw: [0x15, 0xf],
         reason_desc: [0 as char; 40],
         reason_desc_raw: [0; 40],
         }
@@ -28924,8 +28924,8 @@ impl PacketZcPositionInfo {
     pub fn new() -> PacketZcPositionInfo {
         PacketZcPositionInfo {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x16, 0x0]),
+        packet_id_raw: [0x16, 0x0],
         packet_length: 0,
         packet_length_raw: [0; 2],
         member_info: vec![],
@@ -29027,8 +29027,8 @@ impl PacketCzRegChangeGuildPositioninfo {
     pub fn new() -> PacketCzRegChangeGuildPositioninfo {
         PacketCzRegChangeGuildPositioninfo {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x16, 0x1]),
+        packet_id_raw: [0x16, 0x1],
         packet_length: 0,
         packet_length_raw: [0; 2],
         member_list: vec![],
@@ -29146,8 +29146,8 @@ impl PacketZcGuildSkillinfo {
     pub fn new() -> PacketZcGuildSkillinfo {
         PacketZcGuildSkillinfo {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x16, 0x2]),
+        packet_id_raw: [0x16, 0x2],
         packet_length: 0,
         packet_length_raw: [0; 2],
         skill_point: 0,
@@ -29251,8 +29251,8 @@ impl PacketZcBanList {
     pub fn new() -> PacketZcBanList {
         PacketZcBanList {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x16, 0x3]),
+        packet_id_raw: [0x16, 0x3],
         packet_length: 0,
         packet_length_raw: [0; 2],
         ban_list: vec![],
@@ -29354,8 +29354,8 @@ impl PacketZcOtherGuildList {
     pub fn new() -> PacketZcOtherGuildList {
         PacketZcOtherGuildList {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x16, 0x4]),
+        packet_id_raw: [0x16, 0x4],
         packet_length: 0,
         packet_length_raw: [0; 2],
         guild_list: vec![],
@@ -29458,8 +29458,8 @@ impl PacketCzReqMakeGuild {
     pub fn new() -> PacketCzReqMakeGuild {
         PacketCzReqMakeGuild {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x16, 0x5]),
+        packet_id_raw: [0x16, 0x5],
         gid: 0,
         gid_raw: [0; 4],
         gname: [0 as char; 24],
@@ -29561,8 +29561,8 @@ impl PacketZcPositionIdNameInfo {
     pub fn new() -> PacketZcPositionIdNameInfo {
         PacketZcPositionIdNameInfo {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x16, 0x6]),
+        packet_id_raw: [0x16, 0x6],
         packet_length: 0,
         packet_length_raw: [0; 2],
         member_list: vec![],
@@ -29641,8 +29641,8 @@ impl PacketZcResultMakeGuild {
     pub fn new() -> PacketZcResultMakeGuild {
         PacketZcResultMakeGuild {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x16, 0x7]),
+        packet_id_raw: [0x16, 0x7],
         result: 0,
         result_raw: [0; 1],
         }
@@ -29751,8 +29751,8 @@ impl PacketCzReqJoinGuild {
     pub fn new() -> PacketCzReqJoinGuild {
         PacketCzReqJoinGuild {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x16, 0x8]),
+        packet_id_raw: [0x16, 0x8],
         aid: 0,
         aid_raw: [0; 4],
         my_aid: 0,
@@ -29833,8 +29833,8 @@ impl PacketZcAckReqJoinGuild {
     pub fn new() -> PacketZcAckReqJoinGuild {
         PacketZcAckReqJoinGuild {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x16, 0x9]),
+        packet_id_raw: [0x16, 0x9],
         answer: 0,
         answer_raw: [0; 1],
         }
@@ -29935,8 +29935,8 @@ impl PacketZcReqJoinGuild {
     pub fn new() -> PacketZcReqJoinGuild {
         PacketZcReqJoinGuild {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x16, 0xa]),
+        packet_id_raw: [0x16, 0xa],
         gdid: 0,
         gdid_raw: [0; 4],
         guild_name: [0 as char; 24],
@@ -30031,8 +30031,8 @@ impl PacketCzJoinGuild {
     pub fn new() -> PacketCzJoinGuild {
         PacketCzJoinGuild {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x16, 0xb]),
+        packet_id_raw: [0x16, 0xb],
         gdid: 0,
         gdid_raw: [0; 4],
         answer: 0,
@@ -30199,8 +30199,8 @@ impl PacketZcUpdateGdid {
     pub fn new() -> PacketZcUpdateGdid {
         PacketZcUpdateGdid {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x16, 0xc]),
+        packet_id_raw: [0x16, 0xc],
         gdid: 0,
         gdid_raw: [0; 4],
         emblem_version: 0,
@@ -30319,8 +30319,8 @@ impl PacketZcUpdateCharstat {
     pub fn new() -> PacketZcUpdateCharstat {
         PacketZcUpdateCharstat {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x16, 0xd]),
+        packet_id_raw: [0x16, 0xd],
         aid: 0,
         aid_raw: [0; 4],
         gid: 0,
@@ -30449,8 +30449,8 @@ impl PacketCzGuildNotice {
     pub fn new() -> PacketCzGuildNotice {
         PacketCzGuildNotice {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x16, 0xe]),
+        packet_id_raw: [0x16, 0xe],
         gdid: 0,
         gdid_raw: [0; 4],
         subject: [0 as char; 60],
@@ -30563,8 +30563,8 @@ impl PacketZcGuildNotice {
     pub fn new() -> PacketZcGuildNotice {
         PacketZcGuildNotice {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x16, 0xf]),
+        packet_id_raw: [0x16, 0xf],
         subject: [0 as char; 60],
         subject_raw: [0; 60],
         notice: [0 as char; 120],
@@ -30675,8 +30675,8 @@ impl PacketCzReqAllyGuild {
     pub fn new() -> PacketCzReqAllyGuild {
         PacketCzReqAllyGuild {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x17, 0x0]),
+        packet_id_raw: [0x17, 0x0],
         aid: 0,
         aid_raw: [0; 4],
         my_aid: 0,
@@ -30781,8 +30781,8 @@ impl PacketZcReqAllyGuild {
     pub fn new() -> PacketZcReqAllyGuild {
         PacketZcReqAllyGuild {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x17, 0x1]),
+        packet_id_raw: [0x17, 0x1],
         other_aid: 0,
         other_aid_raw: [0; 4],
         guild_name: [0 as char; 24],
@@ -30877,8 +30877,8 @@ impl PacketCzAllyGuild {
     pub fn new() -> PacketCzAllyGuild {
         PacketCzAllyGuild {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x17, 0x2]),
+        packet_id_raw: [0x17, 0x2],
         other_aid: 0,
         other_aid_raw: [0; 4],
         answer: 0,
@@ -30957,8 +30957,8 @@ impl PacketZcAckReqAllyGuild {
     pub fn new() -> PacketZcAckReqAllyGuild {
         PacketZcAckReqAllyGuild {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x17, 0x3]),
+        packet_id_raw: [0x17, 0x3],
         answer: 0,
         answer_raw: [0; 1],
         }
@@ -31058,8 +31058,8 @@ impl PacketZcAckChangeGuildPositioninfo {
     pub fn new() -> PacketZcAckChangeGuildPositioninfo {
         PacketZcAckChangeGuildPositioninfo {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x17, 0x4]),
+        packet_id_raw: [0x17, 0x4],
         packet_length: 0,
         packet_length_raw: [0; 2],
         member_list: vec![],
@@ -31138,8 +31138,8 @@ impl PacketCzReqGuildMemberInfo {
     pub fn new() -> PacketCzReqGuildMemberInfo {
         PacketCzReqGuildMemberInfo {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x17, 0x5]),
+        packet_id_raw: [0x17, 0x5],
         gid: 0,
         gid_raw: [0; 4],
         }
@@ -31210,8 +31210,8 @@ impl PacketZcAckGuildMemberInfo {
     pub fn new() -> PacketZcAckGuildMemberInfo {
         PacketZcAckGuildMemberInfo {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x17, 0x6]),
+        packet_id_raw: [0x17, 0x6],
         info: GuildMemberInfo::new(),
         info_raw: vec![],
         }
@@ -31301,8 +31301,8 @@ impl PacketZcItemidentifyList {
     pub fn new() -> PacketZcItemidentifyList {
         PacketZcItemidentifyList {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x17, 0x7]),
+        packet_id_raw: [0x17, 0x7],
         packet_length: 0,
         packet_length_raw: [0; 2],
         itidlist: vec![],
@@ -31381,8 +31381,8 @@ impl PacketCzReqItemidentify {
     pub fn new() -> PacketCzReqItemidentify {
         PacketCzReqItemidentify {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x17, 0x8]),
+        packet_id_raw: [0x17, 0x8],
         index: 0,
         index_raw: [0; 2],
         }
@@ -31475,8 +31475,8 @@ impl PacketZcAckItemidentify {
     pub fn new() -> PacketZcAckItemidentify {
         PacketZcAckItemidentify {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x17, 0x9]),
+        packet_id_raw: [0x17, 0x9],
         index: 0,
         index_raw: [0; 2],
         result: 0,
@@ -31555,8 +31555,8 @@ impl PacketCzReqItemcompositionList {
     pub fn new() -> PacketCzReqItemcompositionList {
         PacketCzReqItemcompositionList {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x17, 0xa]),
+        packet_id_raw: [0x17, 0xa],
         card_index: 0,
         card_index_raw: [0; 2],
         }
@@ -31646,8 +31646,8 @@ impl PacketZcItemcompositionList {
     pub fn new() -> PacketZcItemcompositionList {
         PacketZcItemcompositionList {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x17, 0xb]),
+        packet_id_raw: [0x17, 0xb],
         packet_length: 0,
         packet_length_raw: [0; 2],
         itidlist: vec![],
@@ -31742,8 +31742,8 @@ impl PacketCzReqItemcomposition {
     pub fn new() -> PacketCzReqItemcomposition {
         PacketCzReqItemcomposition {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x17, 0xc]),
+        packet_id_raw: [0x17, 0xc],
         card_index: 0,
         card_index_raw: [0; 2],
         equip_index: 0,
@@ -31854,8 +31854,8 @@ impl PacketZcAckItemcomposition {
     pub fn new() -> PacketZcAckItemcomposition {
         PacketZcAckItemcomposition {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x17, 0xd]),
+        packet_id_raw: [0x17, 0xd],
         equip_index: 0,
         equip_index_raw: [0; 2],
         card_index: 0,
@@ -31946,8 +31946,8 @@ impl PacketCzGuildChat {
     pub fn new() -> PacketCzGuildChat {
         PacketCzGuildChat {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x17, 0xe]),
+        packet_id_raw: [0x17, 0xe],
         packet_length: 0,
         packet_length_raw: [0; 2],
         msg: String::new(),
@@ -32036,8 +32036,8 @@ impl PacketZcGuildChat {
     pub fn new() -> PacketZcGuildChat {
         PacketZcGuildChat {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x17, 0xf]),
+        packet_id_raw: [0x17, 0xf],
         packet_length: 0,
         packet_length_raw: [0; 2],
         msg: String::new(),
@@ -32116,8 +32116,8 @@ impl PacketCzReqHostileGuild {
     pub fn new() -> PacketCzReqHostileGuild {
         PacketCzReqHostileGuild {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x18, 0x0]),
+        packet_id_raw: [0x18, 0x0],
         aid: 0,
         aid_raw: [0; 4],
         }
@@ -32194,8 +32194,8 @@ impl PacketZcAckReqHostileGuild {
     pub fn new() -> PacketZcAckReqHostileGuild {
         PacketZcAckReqHostileGuild {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x18, 0x1]),
+        packet_id_raw: [0x18, 0x1],
         result: 0,
         result_raw: [0; 1],
         }
@@ -32266,8 +32266,8 @@ impl PacketZcMemberAdd {
     pub fn new() -> PacketZcMemberAdd {
         PacketZcMemberAdd {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x18, 0x2]),
+        packet_id_raw: [0x18, 0x2],
         info: GuildMemberInfo::new(),
         info_raw: vec![],
         }
@@ -32360,8 +32360,8 @@ impl PacketCzReqDeleteRelatedGuild {
     pub fn new() -> PacketCzReqDeleteRelatedGuild {
         PacketCzReqDeleteRelatedGuild {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x18, 0x3]),
+        packet_id_raw: [0x18, 0x3],
         opponent_gdid: 0,
         opponent_gdid_raw: [0; 4],
         relation: 0,
@@ -32456,8 +32456,8 @@ impl PacketZcDeleteRelatedGuild {
     pub fn new() -> PacketZcDeleteRelatedGuild {
         PacketZcDeleteRelatedGuild {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x18, 0x4]),
+        packet_id_raw: [0x18, 0x4],
         opponent_gdid: 0,
         opponent_gdid_raw: [0; 4],
         relation: 0,
@@ -32530,8 +32530,8 @@ impl PacketZcAddRelatedGuild {
     pub fn new() -> PacketZcAddRelatedGuild {
         PacketZcAddRelatedGuild {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x18, 0x5]),
+        packet_id_raw: [0x18, 0x5],
         info: RelatedGuildInfo::new(),
         info_raw: vec![],
         }
@@ -32608,8 +32608,8 @@ impl PacketCollectordead {
     pub fn new() -> PacketCollectordead {
         PacketCollectordead {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x18, 0x6]),
+        packet_id_raw: [0x18, 0x6],
         server_id: 0,
         server_id_raw: [0; 4],
         }
@@ -32686,8 +32686,8 @@ impl PacketPing {
     pub fn new() -> PacketPing {
         PacketPing {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x18, 0x7]),
+        packet_id_raw: [0x18, 0x7],
         aid: 0,
         aid_raw: [0; 4],
         }
@@ -32796,8 +32796,8 @@ impl PacketZcAckItemrefining {
     pub fn new() -> PacketZcAckItemrefining {
         PacketZcAckItemrefining {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x18, 0x8]),
+        packet_id_raw: [0x18, 0x8],
         result: 0,
         result_raw: [0; 2],
         item_index: 0,
@@ -32878,8 +32878,8 @@ impl PacketZcNotifyMapinfo {
     pub fn new() -> PacketZcNotifyMapinfo {
         PacketZcNotifyMapinfo {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x18, 0x9]),
+        packet_id_raw: [0x18, 0x9],
         atype: 0,
         atype_raw: [0; 2],
         }
@@ -32956,8 +32956,8 @@ impl PacketCzReqDisconnect {
     pub fn new() -> PacketCzReqDisconnect {
         PacketCzReqDisconnect {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x18, 0xa]),
+        packet_id_raw: [0x18, 0xa],
         atype: 0,
         atype_raw: [0; 2],
         }
@@ -33034,8 +33034,8 @@ impl PacketZcAckReqDisconnect {
     pub fn new() -> PacketZcAckReqDisconnect {
         PacketZcAckReqDisconnect {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x18, 0xb]),
+        packet_id_raw: [0x18, 0xb],
         result: 0,
         result_raw: [0; 2],
         }
@@ -33234,8 +33234,8 @@ impl PacketZcMonsterInfo {
     pub fn new() -> PacketZcMonsterInfo {
         PacketZcMonsterInfo {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x18, 0xc]),
+        packet_id_raw: [0x18, 0xc],
         job: 0,
         job_raw: [0; 2],
         level: 0,
@@ -33338,8 +33338,8 @@ impl PacketZcMakableitemlist {
     pub fn new() -> PacketZcMakableitemlist {
         PacketZcMakableitemlist {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x18, 0xd]),
+        packet_id_raw: [0x18, 0xd],
         packet_length: 0,
         packet_length_raw: [0; 2],
         info: MakableitemInfo::new(),
@@ -33412,8 +33412,8 @@ impl PacketCzReqmakingitem {
     pub fn new() -> PacketCzReqmakingitem {
         PacketCzReqmakingitem {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x18, 0xe]),
+        packet_id_raw: [0x18, 0xe],
         info: MakableitemInfo::new(),
         info_raw: vec![],
         }
@@ -33506,8 +33506,8 @@ impl PacketZcAckReqmakingitem {
     pub fn new() -> PacketZcAckReqmakingitem {
         PacketZcAckReqmakingitem {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x18, 0xf]),
+        packet_id_raw: [0x18, 0xf],
         result: 0,
         result_raw: [0; 2],
         itid: 0,
@@ -33658,8 +33658,8 @@ impl PacketCzUseSkillTogroundWithtalkbox {
     pub fn new() -> PacketCzUseSkillTogroundWithtalkbox {
         PacketCzUseSkillTogroundWithtalkbox {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x19, 0x0]),
+        packet_id_raw: [0x19, 0x0],
         selected_level: 0,
         selected_level_raw: [0; 2],
         skid: 0,
@@ -33768,8 +33768,8 @@ impl PacketZcTalkboxChatcontents {
     pub fn new() -> PacketZcTalkboxChatcontents {
         PacketZcTalkboxChatcontents {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x19, 0x1]),
+        packet_id_raw: [0x19, 0x1],
         aid: 0,
         aid_raw: [0; 4],
         contents: [0 as char; 80],
@@ -33904,8 +33904,8 @@ impl PacketZcUpdateMapinfo {
     pub fn new() -> PacketZcUpdateMapinfo {
         PacketZcUpdateMapinfo {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x19, 0x2]),
+        packet_id_raw: [0x19, 0x2],
         x_pos: 0,
         x_pos_raw: [0; 2],
         y_pos: 0,
@@ -33988,8 +33988,8 @@ impl PacketCzReqnameBygid {
     pub fn new() -> PacketCzReqnameBygid {
         PacketCzReqnameBygid {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x19, 0x3]),
+        packet_id_raw: [0x19, 0x3],
         gid: 0,
         gid_raw: [0; 4],
         }
@@ -34090,8 +34090,8 @@ impl PacketZcAckReqnameBygid {
     pub fn new() -> PacketZcAckReqnameBygid {
         PacketZcAckReqnameBygid {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x19, 0x4]),
+        packet_id_raw: [0x19, 0x4],
         gid: 0,
         gid_raw: [0; 4],
         cname: [0 as char; 24],
@@ -34266,8 +34266,8 @@ impl PacketZcAckReqnameall {
     pub fn new() -> PacketZcAckReqnameall {
         PacketZcAckReqnameall {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x19, 0x5]),
+        packet_id_raw: [0x19, 0x5],
         aid: 0,
         aid_raw: [0; 4],
         cname: [0 as char; 24],
@@ -34384,8 +34384,8 @@ impl PacketZcMsgStateChange {
     pub fn new() -> PacketZcMsgStateChange {
         PacketZcMsgStateChange {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x19, 0x6]),
+        packet_id_raw: [0x19, 0x6],
         index: 0,
         index_raw: [0; 2],
         aid: 0,
@@ -34466,8 +34466,8 @@ impl PacketCzReset {
     pub fn new() -> PacketCzReset {
         PacketCzReset {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x19, 0x7]),
+        packet_id_raw: [0x19, 0x7],
         atype: 0,
         atype_raw: [0; 2],
         }
@@ -34576,8 +34576,8 @@ impl PacketCzChangeMaptype {
     pub fn new() -> PacketCzChangeMaptype {
         PacketCzChangeMaptype {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x19, 0x8]),
+        packet_id_raw: [0x19, 0x8],
         x_pos: 0,
         x_pos_raw: [0; 2],
         y_pos: 0,
@@ -34658,8 +34658,8 @@ impl PacketZcNotifyMapproperty {
     pub fn new() -> PacketZcNotifyMapproperty {
         PacketZcNotifyMapproperty {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x19, 0x9]),
+        packet_id_raw: [0x19, 0x9],
         atype: 0,
         atype_raw: [0; 2],
         }
@@ -34768,8 +34768,8 @@ impl PacketZcNotifyRanking {
     pub fn new() -> PacketZcNotifyRanking {
         PacketZcNotifyRanking {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x19, 0xa]),
+        packet_id_raw: [0x19, 0xa],
         aid: 0,
         aid_raw: [0; 4],
         ranking: 0,
@@ -34866,8 +34866,8 @@ impl PacketZcNotifyEffect {
     pub fn new() -> PacketZcNotifyEffect {
         PacketZcNotifyEffect {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x19, 0xb]),
+        packet_id_raw: [0x19, 0xb],
         aid: 0,
         aid_raw: [0; 4],
         effect_id: 0,
@@ -34946,8 +34946,8 @@ impl PacketCzChangeEffectstate {
     pub fn new() -> PacketCzChangeEffectstate {
         PacketCzChangeEffectstate {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x19, 0xd]),
+        packet_id_raw: [0x19, 0xd],
         effect_state: 0,
         effect_state_raw: [0; 4],
         }
@@ -35008,8 +35008,8 @@ impl PacketZcStartCapture {
     pub fn new() -> PacketZcStartCapture {
         PacketZcStartCapture {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x19, 0xe]),
+        packet_id_raw: [0x19, 0xe],
         }
     }
 }
@@ -35084,8 +35084,8 @@ impl PacketCzTrycaptureMonster {
     pub fn new() -> PacketCzTrycaptureMonster {
         PacketCzTrycaptureMonster {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x19, 0xf]),
+        packet_id_raw: [0x19, 0xf],
         target_aid: 0,
         target_aid_raw: [0; 4],
         }
@@ -35162,8 +35162,8 @@ impl PacketZcTrycaptureMonster {
     pub fn new() -> PacketZcTrycaptureMonster {
         PacketZcTrycaptureMonster {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1a, 0x0]),
+        packet_id_raw: [0x1a, 0x0],
         result: 0,
         result_raw: [0; 1],
         }
@@ -35240,8 +35240,8 @@ impl PacketCzCommandPet {
     pub fn new() -> PacketCzCommandPet {
         PacketCzCommandPet {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1a, 0x1]),
+        packet_id_raw: [0x1a, 0x1],
         c_sub: 0,
         c_sub_raw: [0; 1],
         }
@@ -35422,8 +35422,8 @@ impl PacketZcPropertyPet {
     pub fn new() -> PacketZcPropertyPet {
         PacketZcPropertyPet {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1a, 0x2]),
+        packet_id_raw: [0x1a, 0x2],
         sz_name: [0 as char; 24],
         sz_name_raw: [0; 24],
         b_modified: 0,
@@ -35528,8 +35528,8 @@ impl PacketZcFeedPet {
     pub fn new() -> PacketZcFeedPet {
         PacketZcFeedPet {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1a, 0x3]),
+        packet_id_raw: [0x1a, 0x3],
         c_ret: 0,
         c_ret_raw: [0; 1],
         itid: 0,
@@ -35640,8 +35640,8 @@ impl PacketZcChangestatePet {
     pub fn new() -> PacketZcChangestatePet {
         PacketZcChangestatePet {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1a, 0x4]),
+        packet_id_raw: [0x1a, 0x4],
         atype: 0,
         atype_raw: [0; 1],
         gid: 0,
@@ -35730,8 +35730,8 @@ impl PacketCzRenamePet {
     pub fn new() -> PacketCzRenamePet {
         PacketCzRenamePet {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1a, 0x5]),
+        packet_id_raw: [0x1a, 0x5],
         sz_name: [0 as char; 24],
         sz_name_raw: [0; 24],
         }
@@ -35831,8 +35831,8 @@ impl PacketZcPeteggList {
     pub fn new() -> PacketZcPeteggList {
         PacketZcPeteggList {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1a, 0x6]),
+        packet_id_raw: [0x1a, 0x6],
         packet_length: 0,
         packet_length_raw: [0; 2],
         egg_list: vec![],
@@ -35911,8 +35911,8 @@ impl PacketCzSelectPetegg {
     pub fn new() -> PacketCzSelectPetegg {
         PacketCzSelectPetegg {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1a, 0x7]),
+        packet_id_raw: [0x1a, 0x7],
         index: 0,
         index_raw: [0; 2],
         }
@@ -35989,8 +35989,8 @@ impl PacketCzPeteggInfo {
     pub fn new() -> PacketCzPeteggInfo {
         PacketCzPeteggInfo {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1a, 0x8]),
+        packet_id_raw: [0x1a, 0x8],
         index: 0,
         index_raw: [0; 2],
         }
@@ -36067,8 +36067,8 @@ impl PacketCzPetAct {
     pub fn new() -> PacketCzPetAct {
         PacketCzPetAct {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1a, 0x9]),
+        packet_id_raw: [0x1a, 0x9],
         data: 0,
         data_raw: [0; 4],
         }
@@ -36161,8 +36161,8 @@ impl PacketZcPetAct {
     pub fn new() -> PacketZcPetAct {
         PacketZcPetAct {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1a, 0xa]),
+        packet_id_raw: [0x1a, 0xa],
         gid: 0,
         gid_raw: [0; 4],
         data: 0,
@@ -36273,8 +36273,8 @@ impl PacketZcParChangeUser {
     pub fn new() -> PacketZcParChangeUser {
         PacketZcParChangeUser {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1a, 0xb]),
+        packet_id_raw: [0x1a, 0xb],
         aid: 0,
         aid_raw: [0; 4],
         var_id: 0,
@@ -36355,8 +36355,8 @@ impl PacketZcSkillUpdate {
     pub fn new() -> PacketZcSkillUpdate {
         PacketZcSkillUpdate {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1a, 0xc]),
+        packet_id_raw: [0x1a, 0xc],
         aid: 0,
         aid_raw: [0; 4],
         }
@@ -36456,8 +36456,8 @@ impl PacketZcMakingarrowList {
     pub fn new() -> PacketZcMakingarrowList {
         PacketZcMakingarrowList {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1a, 0xd]),
+        packet_id_raw: [0x1a, 0xd],
         packet_length: 0,
         packet_length_raw: [0; 2],
         arrow_list: vec![],
@@ -36536,8 +36536,8 @@ impl PacketCzReqMakingarrow {
     pub fn new() -> PacketCzReqMakingarrow {
         PacketCzReqMakingarrow {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1a, 0xe]),
+        packet_id_raw: [0x1a, 0xe],
         id: 0,
         id_raw: [0; 2],
         }
@@ -36614,8 +36614,8 @@ impl PacketCzReqChangecart {
     pub fn new() -> PacketCzReqChangecart {
         PacketCzReqChangecart {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1a, 0xf]),
+        packet_id_raw: [0x1a, 0xf],
         num: 0,
         num_raw: [0; 2],
         }
@@ -36724,8 +36724,8 @@ impl PacketZcNpcspriteChange {
     pub fn new() -> PacketZcNpcspriteChange {
         PacketZcNpcspriteChange {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1b, 0x0]),
+        packet_id_raw: [0x1b, 0x0],
         gid: 0,
         gid_raw: [0; 4],
         atype: 0,
@@ -36822,8 +36822,8 @@ impl PacketZcShowdigit {
     pub fn new() -> PacketZcShowdigit {
         PacketZcShowdigit {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1b, 0x1]),
+        packet_id_raw: [0x1b, 0x1],
         atype: 0,
         atype_raw: [0; 1],
         value: 0,
@@ -36965,8 +36965,8 @@ impl PacketCzReqOpenstore2 {
     pub fn new() -> PacketCzReqOpenstore2 {
         PacketCzReqOpenstore2 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1b, 0x2]),
+        packet_id_raw: [0x1b, 0x2],
         packet_length: 0,
         packet_length_raw: [0; 2],
         store_name: [0 as char; 80],
@@ -37073,8 +37073,8 @@ impl PacketZcShowImage2 {
     pub fn new() -> PacketZcShowImage2 {
         PacketZcShowImage2 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1b, 0x3]),
+        packet_id_raw: [0x1b, 0x3],
         image_name: [0 as char; 64],
         image_name_raw: [0; 64],
         atype: 0,
@@ -37185,8 +37185,8 @@ impl PacketZcChangeGuild {
     pub fn new() -> PacketZcChangeGuild {
         PacketZcChangeGuild {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1b, 0x4]),
+        packet_id_raw: [0x1b, 0x4],
         aid: 0,
         aid_raw: [0; 4],
         gdid: 0,
@@ -37315,8 +37315,8 @@ impl PacketScBillingInfo {
     pub fn new() -> PacketScBillingInfo {
         PacketScBillingInfo {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1b, 0x5]),
+        packet_id_raw: [0x1b, 0x5],
         dw_amount_remain: 0,
         dw_amount_remain_raw: [0; 4],
         dw_quantity_remain: 0,
@@ -37647,8 +37647,8 @@ impl PacketZcGuildInfo2 {
     pub fn new() -> PacketZcGuildInfo2 {
         PacketZcGuildInfo2 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1b, 0x6]),
+        packet_id_raw: [0x1b, 0x6],
         gdid: 0,
         gdid_raw: [0; 4],
         level: 0,
@@ -37753,8 +37753,8 @@ impl PacketCzGuildZeny {
     pub fn new() -> PacketCzGuildZeny {
         PacketCzGuildZeny {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1b, 0x7]),
+        packet_id_raw: [0x1b, 0x7],
         zeny: 0,
         zeny_raw: [0; 4],
         }
@@ -37831,8 +37831,8 @@ impl PacketZcGuildZenyAck {
     pub fn new() -> PacketZcGuildZenyAck {
         PacketZcGuildZenyAck {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1b, 0x8]),
+        packet_id_raw: [0x1b, 0x8],
         ret: 0,
         ret_raw: [0; 1],
         }
@@ -37909,8 +37909,8 @@ impl PacketZcDispel {
     pub fn new() -> PacketZcDispel {
         PacketZcDispel {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1b, 0x9]),
+        packet_id_raw: [0x1b, 0x9],
         aid: 0,
         aid_raw: [0; 4],
         }
@@ -37995,8 +37995,8 @@ impl PacketCzRemoveAid {
     pub fn new() -> PacketCzRemoveAid {
         PacketCzRemoveAid {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1b, 0xa]),
+        packet_id_raw: [0x1b, 0xa],
         account_name: [0 as char; 24],
         account_name_raw: [0; 24],
         }
@@ -38081,8 +38081,8 @@ impl PacketCzShift {
     pub fn new() -> PacketCzShift {
         PacketCzShift {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1b, 0xb]),
+        packet_id_raw: [0x1b, 0xb],
         character_name: [0 as char; 24],
         character_name_raw: [0; 24],
         }
@@ -38167,8 +38167,8 @@ impl PacketCzRecall {
     pub fn new() -> PacketCzRecall {
         PacketCzRecall {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1b, 0xc]),
+        packet_id_raw: [0x1b, 0xc],
         account_name: [0 as char; 24],
         account_name_raw: [0; 24],
         }
@@ -38253,8 +38253,8 @@ impl PacketCzRecallGid {
     pub fn new() -> PacketCzRecallGid {
         PacketCzRecallGid {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1b, 0xd]),
+        packet_id_raw: [0x1b, 0xd],
         character_name: [0 as char; 24],
         character_name_raw: [0; 24],
         }
@@ -38315,8 +38315,8 @@ impl PacketAcAskPngameroom {
     pub fn new() -> PacketAcAskPngameroom {
         PacketAcAskPngameroom {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1b, 0xe]),
+        packet_id_raw: [0x1b, 0xe],
         }
     }
 }
@@ -38391,8 +38391,8 @@ impl PacketCaReplyPngameroom {
     pub fn new() -> PacketCaReplyPngameroom {
         PacketCaReplyPngameroom {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1b, 0xf]),
+        packet_id_raw: [0x1b, 0xf],
         permission: 0,
         permission_raw: [0; 1],
         }
@@ -38453,8 +38453,8 @@ impl PacketCzReqRemaintime {
     pub fn new() -> PacketCzReqRemaintime {
         PacketCzReqRemaintime {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1c, 0x0]),
+        packet_id_raw: [0x1c, 0x0],
         }
     }
 }
@@ -38561,8 +38561,8 @@ impl PacketZcReplyRemaintime {
     pub fn new() -> PacketZcReplyRemaintime {
         PacketZcReplyRemaintime {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1c, 0x1]),
+        packet_id_raw: [0x1c, 0x1],
         result: 0,
         result_raw: [0; 4],
         expiration_date: 0,
@@ -38659,8 +38659,8 @@ impl PacketZcInfoRemaintime {
     pub fn new() -> PacketZcInfoRemaintime {
         PacketZcInfoRemaintime {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1c, 0x2]),
+        packet_id_raw: [0x1c, 0x2],
         atype: 0,
         atype_raw: [0; 4],
         remain_time: 0,
@@ -38829,8 +38829,8 @@ impl PacketZcBroadcast2 {
     pub fn new() -> PacketZcBroadcast2 {
         PacketZcBroadcast2 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1c, 0x3]),
+        packet_id_raw: [0x1c, 0x3],
         packet_length: 0,
         packet_length_raw: [0; 2],
         font_color: 0,
@@ -39029,8 +39029,8 @@ impl PacketZcAddItemToStore2 {
     pub fn new() -> PacketZcAddItemToStore2 {
         PacketZcAddItemToStore2 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1c, 0x4]),
+        packet_id_raw: [0x1c, 0x4],
         index: 0,
         index_raw: [0; 2],
         count: 0,
@@ -39231,8 +39231,8 @@ impl PacketZcAddItemToCart2 {
     pub fn new() -> PacketZcAddItemToCart2 {
         PacketZcAddItemToCart2 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1c, 0x5]),
+        packet_id_raw: [0x1c, 0x5],
         index: 0,
         index_raw: [0; 2],
         count: 0,
@@ -39339,8 +39339,8 @@ impl PacketCsReqEncryption {
     pub fn new() -> PacketCsReqEncryption {
         PacketCsReqEncryption {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1c, 0x6]),
+        packet_id_raw: [0x1c, 0x6],
         enc_count: 0,
         enc_count_raw: [0; 1],
         dec_count: 0,
@@ -39403,8 +39403,8 @@ impl PacketScAckEncryption {
     pub fn new() -> PacketScAckEncryption {
         PacketScAckEncryption {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1c, 0x7]),
+        packet_id_raw: [0x1c, 0x7],
         }
     }
 }
@@ -39543,8 +39543,8 @@ impl PacketZcUseItemAck2 {
     pub fn new() -> PacketZcUseItemAck2 {
         PacketZcUseItemAck2 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1c, 0x8]),
+        packet_id_raw: [0x1c, 0x8],
         index: 0,
         index_raw: [0; 2],
         id: 0,
@@ -39749,8 +39749,8 @@ impl PacketZcSkillEntry2 {
     pub fn new() -> PacketZcSkillEntry2 {
         PacketZcSkillEntry2 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1c, 0x9]),
+        packet_id_raw: [0x1c, 0x9],
         aid: 0,
         aid_raw: [0; 4],
         creator_aid: 0,
@@ -39841,8 +39841,8 @@ impl PacketCzReqmakinghomun {
     pub fn new() -> PacketCzReqmakinghomun {
         PacketCzReqmakinghomun {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1c, 0xa]),
+        packet_id_raw: [0x1c, 0xa],
         result: false,
         result_raw: [0; 1],
         }
@@ -39967,8 +39967,8 @@ impl PacketCzMonsterTalk {
     pub fn new() -> PacketCzMonsterTalk {
         PacketCzMonsterTalk {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1c, 0xb]),
+        packet_id_raw: [0x1c, 0xb],
         gid: 0,
         gid_raw: [0; 4],
         state_id: 0,
@@ -40099,8 +40099,8 @@ impl PacketZcMonsterTalk {
     pub fn new() -> PacketZcMonsterTalk {
         PacketZcMonsterTalk {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1c, 0xc]),
+        packet_id_raw: [0x1c, 0xc],
         gid: 0,
         gid_raw: [0; 4],
         state_id: 0,
@@ -40191,8 +40191,8 @@ impl PacketZcAutospelllist {
     pub fn new() -> PacketZcAutospelllist {
         PacketZcAutospelllist {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1c, 0xd]),
+        packet_id_raw: [0x1c, 0xd],
         skid: [0; 7],
         skid_raw: [0; 7],
         }
@@ -40269,8 +40269,8 @@ impl PacketCzSelectautospell {
     pub fn new() -> PacketCzSelectautospell {
         PacketCzSelectautospell {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1c, 0xe]),
+        packet_id_raw: [0x1c, 0xe],
         skid: 0,
         skid_raw: [0; 4],
         }
@@ -40387,8 +40387,8 @@ impl PacketZcDevotionlist {
     pub fn new() -> PacketZcDevotionlist {
         PacketZcDevotionlist {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1c, 0xf]),
+        packet_id_raw: [0x1c, 0xf],
         my_aid: 0,
         my_aid_raw: [0; 4],
         aid: [0; 5],
@@ -40485,8 +40485,8 @@ impl PacketZcSpirits {
     pub fn new() -> PacketZcSpirits {
         PacketZcSpirits {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1d, 0x0]),
+        packet_id_raw: [0x1d, 0x0],
         aid: 0,
         aid_raw: [0; 4],
         num: 0,
@@ -40597,8 +40597,8 @@ impl PacketZcBladestop {
     pub fn new() -> PacketZcBladestop {
         PacketZcBladestop {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1d, 0x1]),
+        packet_id_raw: [0x1d, 0x1],
         src_aid: 0,
         src_aid_raw: [0; 4],
         dest_aid: 0,
@@ -40695,8 +40695,8 @@ impl PacketZcCombodelay {
     pub fn new() -> PacketZcCombodelay {
         PacketZcCombodelay {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1d, 0x2]),
+        packet_id_raw: [0x1d, 0x2],
         aid: 0,
         aid_raw: [0; 4],
         delay_time: 0,
@@ -40831,8 +40831,8 @@ impl PacketZcSound {
     pub fn new() -> PacketZcSound {
         PacketZcSound {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1d, 0x3]),
+        packet_id_raw: [0x1d, 0x3],
         file_name: [0 as char; 24],
         file_name_raw: [0; 24],
         act: 0,
@@ -40915,8 +40915,8 @@ impl PacketZcOpenEditdlgstr {
     pub fn new() -> PacketZcOpenEditdlgstr {
         PacketZcOpenEditdlgstr {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1d, 0x4]),
+        packet_id_raw: [0x1d, 0x4],
         naid: 0,
         naid_raw: [0; 4],
         }
@@ -41019,8 +41019,8 @@ impl PacketCzInputEditdlgstr {
     pub fn new() -> PacketCzInputEditdlgstr {
         PacketCzInputEditdlgstr {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1d, 0x5]),
+        packet_id_raw: [0x1d, 0x5],
         packet_length: 0,
         packet_length_raw: [0; 2],
         naid: 0,
@@ -41101,8 +41101,8 @@ impl PacketZcNotifyMapproperty2 {
     pub fn new() -> PacketZcNotifyMapproperty2 {
         PacketZcNotifyMapproperty2 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1d, 0x6]),
+        packet_id_raw: [0x1d, 0x6],
         atype: 0,
         atype_raw: [0; 2],
         }
@@ -41211,8 +41211,8 @@ impl PacketZcSpriteChange2 {
     pub fn new() -> PacketZcSpriteChange2 {
         PacketZcSpriteChange2 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1d, 0x7]),
+        packet_id_raw: [0x1d, 0x7],
         gid: 0,
         gid_raw: [0; 4],
         atype: 0,
@@ -41685,8 +41685,8 @@ impl PacketZcNotifyStandentry2 {
     pub fn new() -> PacketZcNotifyStandentry2 {
         PacketZcNotifyStandentry2 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1d, 0x8]),
+        packet_id_raw: [0x1d, 0x8],
         gid: 0,
         gid_raw: [0; 4],
         speed: 0,
@@ -42187,8 +42187,8 @@ impl PacketZcNotifyNewentry2 {
     pub fn new() -> PacketZcNotifyNewentry2 {
         PacketZcNotifyNewentry2 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1d, 0x9]),
+        packet_id_raw: [0x1d, 0x9],
         gid: 0,
         gid_raw: [0; 4],
         speed: 0,
@@ -42703,8 +42703,8 @@ impl PacketZcNotifyMoveentry2 {
     pub fn new() -> PacketZcNotifyMoveentry2 {
         PacketZcNotifyMoveentry2 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1d, 0xa]),
+        packet_id_raw: [0x1d, 0xa],
         gid: 0,
         gid_raw: [0; 4],
         speed: 0,
@@ -42813,8 +42813,8 @@ impl PacketCaReqHash {
     pub fn new() -> PacketCaReqHash {
         PacketCaReqHash {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1d, 0xb]),
+        packet_id_raw: [0x1d, 0xb],
         }
     }
 }
@@ -42899,8 +42899,8 @@ impl PacketAcAckHash {
     pub fn new() -> PacketAcAckHash {
         PacketAcAckHash {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1d, 0xc]),
+        packet_id_raw: [0x1d, 0xc],
         packet_length: 0,
         packet_length_raw: [0; 2],
         secret: String::new(),
@@ -43043,8 +43043,8 @@ impl PacketCaLogin2 {
     pub fn new() -> PacketCaLogin2 {
         PacketCaLogin2 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1d, 0xd]),
+        packet_id_raw: [0x1d, 0xd],
         version: 0,
         version_raw: [0; 4],
         id: [0 as char; 24],
@@ -43271,8 +43271,8 @@ impl PacketZcNotifySkill2 {
     pub fn new() -> PacketZcNotifySkill2 {
         PacketZcNotifySkill2 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1d, 0xe]),
+        packet_id_raw: [0x1d, 0xe],
         skid: 0,
         skid_raw: [0; 2],
         aid: 0,
@@ -43367,8 +43367,8 @@ impl PacketCzReqAccountname {
     pub fn new() -> PacketCzReqAccountname {
         PacketCzReqAccountname {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1d, 0xf]),
+        packet_id_raw: [0x1d, 0xf],
         aid: 0,
         aid_raw: [0; 4],
         }
@@ -43469,8 +43469,8 @@ impl PacketZcAckAccountname {
     pub fn new() -> PacketZcAckAccountname {
         PacketZcAckAccountname {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1e, 0x0]),
+        packet_id_raw: [0x1e, 0x0],
         aid: 0,
         aid_raw: [0; 4],
         name: [0 as char; 24],
@@ -43565,8 +43565,8 @@ impl PacketZcSpirits2 {
     pub fn new() -> PacketZcSpirits2 {
         PacketZcSpirits2 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1e, 0x1]),
+        packet_id_raw: [0x1e, 0x1],
         aid: 0,
         aid_raw: [0; 4],
         num: 0,
@@ -43685,8 +43685,8 @@ impl PacketZcReqCouple {
     pub fn new() -> PacketZcReqCouple {
         PacketZcReqCouple {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1e, 0x2]),
+        packet_id_raw: [0x1e, 0x2],
         aid: 0,
         aid_raw: [0; 4],
         gid: 0,
@@ -43799,8 +43799,8 @@ impl PacketCzJoinCouple {
     pub fn new() -> PacketCzJoinCouple {
         PacketCzJoinCouple {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1e, 0x3]),
+        packet_id_raw: [0x1e, 0x3],
         aid: 0,
         aid_raw: [0; 4],
         gid: 0,
@@ -43865,8 +43865,8 @@ impl PacketZcStartCouple {
     pub fn new() -> PacketZcStartCouple {
         PacketZcStartCouple {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1e, 0x4]),
+        packet_id_raw: [0x1e, 0x4],
         }
     }
 }
@@ -43941,8 +43941,8 @@ impl PacketCzReqJoinCouple {
     pub fn new() -> PacketCzReqJoinCouple {
         PacketCzReqJoinCouple {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1e, 0x5]),
+        packet_id_raw: [0x1e, 0x5],
         aid: 0,
         aid_raw: [0; 4],
         }
@@ -44027,8 +44027,8 @@ impl PacketZcCouplename {
     pub fn new() -> PacketZcCouplename {
         PacketZcCouplename {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1e, 0x6]),
+        packet_id_raw: [0x1e, 0x6],
         couple_name: [0 as char; 24],
         couple_name_raw: [0; 24],
         }
@@ -44089,8 +44089,8 @@ impl PacketCzDoridori {
     pub fn new() -> PacketCzDoridori {
         PacketCzDoridori {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1e, 0x7]),
+        packet_id_raw: [0x1e, 0x7],
         }
     }
 }
@@ -44205,8 +44205,8 @@ impl PacketCzMakeGroup2 {
     pub fn new() -> PacketCzMakeGroup2 {
         PacketCzMakeGroup2 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1e, 0x8]),
+        packet_id_raw: [0x1e, 0x8],
         group_name: [0 as char; 24],
         group_name_raw: [0; 24],
         item_pickup_rule: 0,
@@ -44455,8 +44455,8 @@ impl PacketZcAddMemberToGroup2 {
     pub fn new() -> PacketZcAddMemberToGroup2 {
         PacketZcAddMemberToGroup2 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1e, 0x9]),
+        packet_id_raw: [0x1e, 0x9],
         aid: 0,
         aid_raw: [0; 4],
         role: 0,
@@ -44551,8 +44551,8 @@ impl PacketZcCongratulation {
     pub fn new() -> PacketZcCongratulation {
         PacketZcCongratulation {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1e, 0xa]),
+        packet_id_raw: [0x1e, 0xa],
         aid: 0,
         aid_raw: [0; 4],
         }
@@ -44661,8 +44661,8 @@ impl PacketZcNotifyPositionToGuildm {
     pub fn new() -> PacketZcNotifyPositionToGuildm {
         PacketZcNotifyPositionToGuildm {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1e, 0xb]),
+        packet_id_raw: [0x1e, 0xb],
         aid: 0,
         aid_raw: [0; 4],
         x_pos: 0,
@@ -44783,8 +44783,8 @@ impl PacketZcGuildMemberMapChange {
     pub fn new() -> PacketZcGuildMemberMapChange {
         PacketZcGuildMemberMapChange {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1e, 0xc]),
+        packet_id_raw: [0x1e, 0xc],
         gdid: 0,
         gdid_raw: [0; 4],
         aid: 0,
@@ -44849,8 +44849,8 @@ impl PacketCzChopokgi {
     pub fn new() -> PacketCzChopokgi {
         PacketCzChopokgi {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1e, 0xd]),
+        packet_id_raw: [0x1e, 0xd],
         }
     }
 }
@@ -44948,8 +44948,8 @@ impl PacketZcNormalItemlist2 {
     pub fn new() -> PacketZcNormalItemlist2 {
         PacketZcNormalItemlist2 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1e, 0xe]),
+        packet_id_raw: [0x1e, 0xe],
         packet_length: 0,
         packet_length_raw: [0; 2],
         item_info: vec![],
@@ -45051,8 +45051,8 @@ impl PacketZcCartNormalItemlist2 {
     pub fn new() -> PacketZcCartNormalItemlist2 {
         PacketZcCartNormalItemlist2 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1e, 0xf]),
+        packet_id_raw: [0x1e, 0xf],
         packet_length: 0,
         packet_length_raw: [0; 2],
         item_info: vec![],
@@ -45154,8 +45154,8 @@ impl PacketZcStoreNormalItemlist2 {
     pub fn new() -> PacketZcStoreNormalItemlist2 {
         PacketZcStoreNormalItemlist2 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1f, 0x0]),
+        packet_id_raw: [0x1f, 0x0],
         packet_length: 0,
         packet_length_raw: [0; 2],
         item_info: vec![],
@@ -45244,8 +45244,8 @@ impl PacketAcNotifyError {
     pub fn new() -> PacketAcNotifyError {
         PacketAcNotifyError {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1f, 0x1]),
+        packet_id_raw: [0x1f, 0x1],
         packet_length: 0,
         packet_length_raw: [0; 2],
         msg: String::new(),
@@ -45404,8 +45404,8 @@ impl PacketZcUpdateCharstat2 {
     pub fn new() -> PacketZcUpdateCharstat2 {
         PacketZcUpdateCharstat2 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1f, 0x2]),
+        packet_id_raw: [0x1f, 0x2],
         aid: 0,
         aid_raw: [0; 4],
         gid: 0,
@@ -45508,8 +45508,8 @@ impl PacketZcNotifyEffect2 {
     pub fn new() -> PacketZcNotifyEffect2 {
         PacketZcNotifyEffect2 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1f, 0x3]),
+        packet_id_raw: [0x1f, 0x3],
         aid: 0,
         aid_raw: [0; 4],
         effect_id: 0,
@@ -45628,8 +45628,8 @@ impl PacketZcReqExchangeItem2 {
     pub fn new() -> PacketZcReqExchangeItem2 {
         PacketZcReqExchangeItem2 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1f, 0x4]),
+        packet_id_raw: [0x1f, 0x4],
         name: [0 as char; 24],
         name_raw: [0; 24],
         gid: 0,
@@ -45742,8 +45742,8 @@ impl PacketZcAckExchangeItem2 {
     pub fn new() -> PacketZcAckExchangeItem2 {
         PacketZcAckExchangeItem2 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1f, 0x5]),
+        packet_id_raw: [0x1f, 0x5],
         result: 0,
         result_raw: [0; 1],
         gid: 0,
@@ -45864,8 +45864,8 @@ impl PacketZcReqBaby {
     pub fn new() -> PacketZcReqBaby {
         PacketZcReqBaby {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1f, 0x6]),
+        packet_id_raw: [0x1f, 0x6],
         aid: 0,
         aid_raw: [0; 4],
         gid: 0,
@@ -45978,8 +45978,8 @@ impl PacketCzJoinBaby {
     pub fn new() -> PacketCzJoinBaby {
         PacketCzJoinBaby {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1f, 0x7]),
+        packet_id_raw: [0x1f, 0x7],
         aid: 0,
         aid_raw: [0; 4],
         gid: 0,
@@ -46044,8 +46044,8 @@ impl PacketZcStartBaby {
     pub fn new() -> PacketZcStartBaby {
         PacketZcStartBaby {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1f, 0x8]),
+        packet_id_raw: [0x1f, 0x8],
         }
     }
 }
@@ -46120,8 +46120,8 @@ impl PacketCzReqJoinBaby {
     pub fn new() -> PacketCzReqJoinBaby {
         PacketCzReqJoinBaby {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1f, 0x9]),
+        packet_id_raw: [0x1f, 0x9],
         aid: 0,
         aid_raw: [0; 4],
         }
@@ -46278,8 +46278,8 @@ impl PacketCaLogin3 {
     pub fn new() -> PacketCaLogin3 {
         PacketCaLogin3 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1f, 0xa]),
+        packet_id_raw: [0x1f, 0xa],
         version: 0,
         version_raw: [0; 4],
         id: [0 as char; 24],
@@ -46388,8 +46388,8 @@ impl PacketChDeleteChar2 {
     pub fn new() -> PacketChDeleteChar2 {
         PacketChDeleteChar2 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1f, 0xb]),
+        packet_id_raw: [0x1f, 0xb],
         gid: 0,
         gid_raw: [0; 4],
         key: [0 as char; 50],
@@ -46491,8 +46491,8 @@ impl PacketZcRepairitemlist {
     pub fn new() -> PacketZcRepairitemlist {
         PacketZcRepairitemlist {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1f, 0xc]),
+        packet_id_raw: [0x1f, 0xc],
         packet_length: 0,
         packet_length_raw: [0; 2],
         item_list: vec![],
@@ -46565,8 +46565,8 @@ impl PacketCzReqItemrepair {
     pub fn new() -> PacketCzReqItemrepair {
         PacketCzReqItemrepair {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1f, 0xd]),
+        packet_id_raw: [0x1f, 0xd],
         target_item_info: RepairitemInfo::new(),
         target_item_info_raw: vec![],
         }
@@ -46659,8 +46659,8 @@ impl PacketZcAckItemrepair {
     pub fn new() -> PacketZcAckItemrepair {
         PacketZcAckItemrepair {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1f, 0xe]),
+        packet_id_raw: [0x1f, 0xe],
         index: 0,
         index_raw: [0; 2],
         result: 0,
@@ -46771,8 +46771,8 @@ impl PacketZcHighjump {
     pub fn new() -> PacketZcHighjump {
         PacketZcHighjump {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x1f, 0xf]),
+        packet_id_raw: [0x1f, 0xf],
         aid: 0,
         aid_raw: [0; 4],
         x_pos: 0,
@@ -46861,8 +46861,8 @@ impl PacketCaConnectInfoChanged {
     pub fn new() -> PacketCaConnectInfoChanged {
         PacketCaConnectInfoChanged {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x20, 0x0]),
+        packet_id_raw: [0x20, 0x0],
         id: [0 as char; 24],
         id_raw: [0; 24],
         }
@@ -46962,8 +46962,8 @@ impl PacketZcFriendsList {
     pub fn new() -> PacketZcFriendsList {
         PacketZcFriendsList {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x20, 0x1]),
+        packet_id_raw: [0x20, 0x1],
         packet_length: 0,
         packet_length_raw: [0; 2],
         friend_list: vec![],
@@ -47050,8 +47050,8 @@ impl PacketCzAddFriends {
     pub fn new() -> PacketCzAddFriends {
         PacketCzAddFriends {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x20, 0x2]),
+        packet_id_raw: [0x20, 0x2],
         name: [0 as char; 24],
         name_raw: [0; 24],
         }
@@ -47144,8 +47144,8 @@ impl PacketCzDeleteFriends {
     pub fn new() -> PacketCzDeleteFriends {
         PacketCzDeleteFriends {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x20, 0x3]),
+        packet_id_raw: [0x20, 0x3],
         aid: 0,
         aid_raw: [0; 4],
         gid: 0,
@@ -47232,8 +47232,8 @@ impl PacketCaExeHashcheck {
     pub fn new() -> PacketCaExeHashcheck {
         PacketCaExeHashcheck {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x20, 0x4]),
+        packet_id_raw: [0x20, 0x4],
         hash_value: [0 as char; 16],
         hash_value_raw: [0; 16],
         }
@@ -47318,8 +47318,8 @@ impl PacketZcDivorce {
     pub fn new() -> PacketZcDivorce {
         PacketZcDivorce {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x20, 0x5]),
+        packet_id_raw: [0x20, 0x5],
         name: [0 as char; 24],
         name_raw: [0; 24],
         }
@@ -47428,8 +47428,8 @@ impl PacketZcFriendsState {
     pub fn new() -> PacketZcFriendsState {
         PacketZcFriendsState {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x20, 0x6]),
+        packet_id_raw: [0x20, 0x6],
         aid: 0,
         aid_raw: [0; 4],
         gid: 0,
@@ -47550,8 +47550,8 @@ impl PacketZcReqAddFriends {
     pub fn new() -> PacketZcReqAddFriends {
         PacketZcReqAddFriends {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x20, 0x7]),
+        packet_id_raw: [0x20, 0x7],
         req_aid: 0,
         req_aid_raw: [0; 4],
         req_gid: 0,
@@ -47664,8 +47664,8 @@ impl PacketCzAckReqAddFriends {
     pub fn new() -> PacketCzAckReqAddFriends {
         PacketCzAckReqAddFriends {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x20, 0x8]),
+        packet_id_raw: [0x20, 0x8],
         req_aid: 0,
         req_aid_raw: [0; 4],
         req_gid: 0,
@@ -47802,8 +47802,8 @@ impl PacketZcAddFriendsList {
     pub fn new() -> PacketZcAddFriendsList {
         PacketZcAddFriendsList {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x20, 0x9]),
+        packet_id_raw: [0x20, 0x9],
         result: 0,
         result_raw: [0; 2],
         aid: 0,
@@ -47902,8 +47902,8 @@ impl PacketZcDeleteFriends {
     pub fn new() -> PacketZcDeleteFriends {
         PacketZcDeleteFriends {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x20, 0xa]),
+        packet_id_raw: [0x20, 0xa],
         aid: 0,
         aid_raw: [0; 4],
         gid: 0,
@@ -48006,8 +48006,8 @@ impl PacketChExeHashcheck {
     pub fn new() -> PacketChExeHashcheck {
         PacketChExeHashcheck {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x20, 0xb]),
+        packet_id_raw: [0x20, 0xb],
         client_type: 0,
         client_type_raw: [0; 1],
         hash_value: [0 as char; 16],
@@ -48110,8 +48110,8 @@ impl PacketCzExeHashcheck {
     pub fn new() -> PacketCzExeHashcheck {
         PacketCzExeHashcheck {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x20, 0xc]),
+        packet_id_raw: [0x20, 0xc],
         client_type: 0,
         client_type_raw: [0; 1],
         hash_value: [0 as char; 16],
@@ -48213,8 +48213,8 @@ impl PacketHcBlockCharacter {
     pub fn new() -> PacketHcBlockCharacter {
         PacketHcBlockCharacter {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x20, 0xd]),
+        packet_id_raw: [0x20, 0xd],
         packet_length: 0,
         packet_length_raw: [0; 2],
         character_list: vec![],
@@ -48349,8 +48349,8 @@ impl PacketZcStarskill {
     pub fn new() -> PacketZcStarskill {
         PacketZcStarskill {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x20, 0xe]),
+        packet_id_raw: [0x20, 0xe],
         map_name: [0 as char; 24],
         map_name_raw: [0; 24],
         monster_id: 0,
@@ -48449,8 +48449,8 @@ impl PacketCzReqPvppoint {
     pub fn new() -> PacketCzReqPvppoint {
         PacketCzReqPvppoint {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x20, 0xf]),
+        packet_id_raw: [0x20, 0xf],
         aid: 0,
         aid_raw: [0; 4],
         gid: 0,
@@ -48555,8 +48555,8 @@ impl PacketZcAckPvppoint {
     pub fn new() -> PacketZcAckPvppoint {
         PacketZcAckPvppoint {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x21, 0x0]),
+        packet_id_raw: [0x21, 0x0],
         aid: 0,
         aid_raw: [0; 4],
         gid: 0,
@@ -48637,8 +48637,8 @@ impl PacketZhMovePvpworld {
     pub fn new() -> PacketZhMovePvpworld {
         PacketZhMovePvpworld {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x21, 0x1]),
+        packet_id_raw: [0x21, 0x1],
         gid: 0,
         gid_raw: [0; 4],
         }
@@ -48723,8 +48723,8 @@ impl PacketCzReqGiveMannerByname {
     pub fn new() -> PacketCzReqGiveMannerByname {
         PacketCzReqGiveMannerByname {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x21, 0x2]),
+        packet_id_raw: [0x21, 0x2],
         char_name: [0 as char; 24],
         char_name_raw: [0; 24],
         }
@@ -48809,8 +48809,8 @@ impl PacketCzReqStatusGm {
     pub fn new() -> PacketCzReqStatusGm {
         PacketCzReqStatusGm {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x21, 0x3]),
+        packet_id_raw: [0x21, 0x3],
         char_name: [0 as char; 24],
         char_name_raw: [0; 24],
         }
@@ -49287,8 +49287,8 @@ impl PacketZcAckStatusGm {
     pub fn new() -> PacketZcAckStatusGm {
         PacketZcAckStatusGm {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x21, 0x4]),
+        packet_id_raw: [0x21, 0x4],
         str: 0,
         str_raw: [0; 1],
         standard_str: 0,
@@ -49415,8 +49415,8 @@ impl PacketZcSkillmsg {
     pub fn new() -> PacketZcSkillmsg {
         PacketZcSkillmsg {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x21, 0x5]),
+        packet_id_raw: [0x21, 0x5],
         msg_no: 0,
         msg_no_raw: [0; 4],
         }
@@ -49493,8 +49493,8 @@ impl PacketZcBabymsg {
     pub fn new() -> PacketZcBabymsg {
         PacketZcBabymsg {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x21, 0x6]),
+        packet_id_raw: [0x21, 0x6],
         msg_no: 0,
         msg_no_raw: [0; 4],
         }
@@ -49555,8 +49555,8 @@ impl PacketCzBlacksmithRank {
     pub fn new() -> PacketCzBlacksmithRank {
         PacketCzBlacksmithRank {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x21, 0x7]),
+        packet_id_raw: [0x21, 0x7],
         }
     }
 }
@@ -49615,8 +49615,8 @@ impl PacketCzAlchemistRank {
     pub fn new() -> PacketCzAlchemistRank {
         PacketCzAlchemistRank {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x21, 0x8]),
+        packet_id_raw: [0x21, 0x8],
         }
     }
 }
@@ -49723,8 +49723,8 @@ impl PacketZcBlacksmithRank {
     pub fn new() -> PacketZcBlacksmithRank {
         PacketZcBlacksmithRank {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x21, 0x9]),
+        packet_id_raw: [0x21, 0x9],
         name: [0 as char; 10],
         name_raw: [0; 10],
         point: [0; 10],
@@ -49835,8 +49835,8 @@ impl PacketZcAlchemistRank {
     pub fn new() -> PacketZcAlchemistRank {
         PacketZcAlchemistRank {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x21, 0xa]),
+        packet_id_raw: [0x21, 0xa],
         name: [0 as char; 10],
         name_raw: [0; 10],
         point: [0; 10],
@@ -49931,8 +49931,8 @@ impl PacketZcBlacksmithPoint {
     pub fn new() -> PacketZcBlacksmithPoint {
         PacketZcBlacksmithPoint {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x21, 0xb]),
+        packet_id_raw: [0x21, 0xb],
         point: 0,
         point_raw: [0; 4],
         total_point: 0,
@@ -50027,8 +50027,8 @@ impl PacketZcAlchemistPoint {
     pub fn new() -> PacketZcAlchemistPoint {
         PacketZcAlchemistPoint {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x21, 0xc]),
+        packet_id_raw: [0x21, 0xc],
         point: 0,
         point_raw: [0; 4],
         total_point: 0,
@@ -50107,8 +50107,8 @@ impl PacketCzLesseffect {
     pub fn new() -> PacketCzLesseffect {
         PacketCzLesseffect {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x21, 0xd]),
+        packet_id_raw: [0x21, 0xd],
         is_less: 0,
         is_less_raw: [0; 4],
         }
@@ -50185,8 +50185,8 @@ impl PacketZcLesseffect {
     pub fn new() -> PacketZcLesseffect {
         PacketZcLesseffect {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x21, 0xe]),
+        packet_id_raw: [0x21, 0xe],
         is_less: 0,
         is_less_raw: [0; 4],
         }
@@ -50337,8 +50337,8 @@ impl PacketZcNotifyPkinfo {
     pub fn new() -> PacketZcNotifyPkinfo {
         PacketZcNotifyPkinfo {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x21, 0xf]),
+        packet_id_raw: [0x21, 0xf],
         win_point: 0,
         win_point_raw: [0; 4],
         lose_point: 0,
@@ -50439,8 +50439,8 @@ impl PacketZcNotifyCrazykiller {
     pub fn new() -> PacketZcNotifyCrazykiller {
         PacketZcNotifyCrazykiller {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x22, 0x0]),
+        packet_id_raw: [0x22, 0x0],
         aid: 0,
         aid_raw: [0; 4],
         is_crazy_killer: 0,
@@ -50542,8 +50542,8 @@ impl PacketZcNotifyWeaponitemlist {
     pub fn new() -> PacketZcNotifyWeaponitemlist {
         PacketZcNotifyWeaponitemlist {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x22, 0x1]),
+        packet_id_raw: [0x22, 0x1],
         packet_length: 0,
         packet_length_raw: [0; 2],
         item_list: vec![],
@@ -50622,8 +50622,8 @@ impl PacketCzReqWeaponrefine {
     pub fn new() -> PacketCzReqWeaponrefine {
         PacketCzReqWeaponrefine {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x22, 0x2]),
+        packet_id_raw: [0x22, 0x2],
         index: 0,
         index_raw: [0; 4],
         }
@@ -50716,8 +50716,8 @@ impl PacketZcAckWeaponrefine {
     pub fn new() -> PacketZcAckWeaponrefine {
         PacketZcAckWeaponrefine {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x22, 0x3]),
+        packet_id_raw: [0x22, 0x3],
         msg: 0,
         msg_raw: [0; 4],
         itid: 0,
@@ -50812,8 +50812,8 @@ impl PacketZcTaekwonPoint {
     pub fn new() -> PacketZcTaekwonPoint {
         PacketZcTaekwonPoint {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x22, 0x4]),
+        packet_id_raw: [0x22, 0x4],
         point: 0,
         point_raw: [0; 4],
         total_point: 0,
@@ -50876,8 +50876,8 @@ impl PacketCzTaekwonRank {
     pub fn new() -> PacketCzTaekwonRank {
         PacketCzTaekwonRank {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x22, 0x5]),
+        packet_id_raw: [0x22, 0x5],
         }
     }
 }
@@ -50984,8 +50984,8 @@ impl PacketZcTaekwonRank {
     pub fn new() -> PacketZcTaekwonRank {
         PacketZcTaekwonRank {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x22, 0x6]),
+        packet_id_raw: [0x22, 0x6],
         name: [0 as char; 10],
         name_raw: [0; 10],
         point: [0; 10],
@@ -51072,8 +51072,8 @@ impl PacketZcGameGuard {
     pub fn new() -> PacketZcGameGuard {
         PacketZcGameGuard {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x22, 0x7]),
+        packet_id_raw: [0x22, 0x7],
         auth_data: [0; 4],
         auth_data_raw: [0; 4],
         }
@@ -51158,8 +51158,8 @@ impl PacketCzAckGameGuard {
     pub fn new() -> PacketCzAckGameGuard {
         PacketCzAckGameGuard {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x22, 0x8]),
+        packet_id_raw: [0x22, 0x8],
         auth_data: [0; 4],
         auth_data_raw: [0; 4],
         }
@@ -51300,8 +51300,8 @@ impl PacketZcStateChange3 {
     pub fn new() -> PacketZcStateChange3 {
         PacketZcStateChange3 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x22, 0x9]),
+        packet_id_raw: [0x22, 0x9],
         aid: 0,
         aid_raw: [0; 4],
         body_state: 0,
@@ -51778,8 +51778,8 @@ impl PacketZcNotifyStandentry3 {
     pub fn new() -> PacketZcNotifyStandentry3 {
         PacketZcNotifyStandentry3 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x22, 0xa]),
+        packet_id_raw: [0x22, 0xa],
         gid: 0,
         gid_raw: [0; 4],
         speed: 0,
@@ -52280,8 +52280,8 @@ impl PacketZcNotifyNewentry3 {
     pub fn new() -> PacketZcNotifyNewentry3 {
         PacketZcNotifyNewentry3 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x22, 0xb]),
+        packet_id_raw: [0x22, 0xb],
         gid: 0,
         gid_raw: [0; 4],
         speed: 0,
@@ -52812,8 +52812,8 @@ impl PacketZcNotifyMoveentry3 {
     pub fn new() -> PacketZcNotifyMoveentry3 {
         PacketZcNotifyMoveentry3 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x22, 0xc]),
+        packet_id_raw: [0x22, 0xc],
         objecttype: 0,
         objecttype_raw: [0; 1],
         gid: 0,
@@ -52956,8 +52956,8 @@ impl PacketCzCommandMer {
     pub fn new() -> PacketCzCommandMer {
         PacketCzCommandMer {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x22, 0xd]),
+        packet_id_raw: [0x22, 0xd],
         atype: 0,
         atype_raw: [0; 2],
         command: 0,
@@ -53380,8 +53380,8 @@ impl PacketZcPropertyHomun {
     pub fn new() -> PacketZcPropertyHomun {
         PacketZcPropertyHomun {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x22, 0xe]),
+        packet_id_raw: [0x22, 0xe],
         sz_name: [0 as char; 24],
         sz_name_raw: [0; 24],
         b_modified: 0,
@@ -53548,8 +53548,8 @@ impl PacketZcChangestateMer {
     pub fn new() -> PacketZcChangestateMer {
         PacketZcChangestateMer {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x23, 0x0]),
+        packet_id_raw: [0x23, 0x0],
         atype: 0,
         atype_raw: [0; 1],
         state: 0,
@@ -53640,8 +53640,8 @@ impl PacketCzRenameMer {
     pub fn new() -> PacketCzRenameMer {
         PacketCzRenameMer {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x23, 0x1]),
+        packet_id_raw: [0x23, 0x1],
         name: [0 as char; 24],
         name_raw: [0; 24],
         }
@@ -53742,8 +53742,8 @@ impl PacketCzRequestMovenpc {
     pub fn new() -> PacketCzRequestMovenpc {
         PacketCzRequestMovenpc {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x23, 0x2]),
+        packet_id_raw: [0x23, 0x2],
         gid: 0,
         gid_raw: [0; 4],
         dest: [0 as char; 3],
@@ -53854,8 +53854,8 @@ impl PacketCzRequestActnpc {
     pub fn new() -> PacketCzRequestActnpc {
         PacketCzRequestActnpc {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x23, 0x3]),
+        packet_id_raw: [0x23, 0x3],
         gid: 0,
         gid_raw: [0; 4],
         target_gid: 0,
@@ -53936,8 +53936,8 @@ impl PacketCzRequestMovetoowner {
     pub fn new() -> PacketCzRequestMovetoowner {
         PacketCzRequestMovetoowner {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x23, 0x4]),
+        packet_id_raw: [0x23, 0x4],
         gid: 0,
         gid_raw: [0; 4],
         }
@@ -54014,8 +54014,8 @@ impl PacketZcReqStorePassword {
     pub fn new() -> PacketZcReqStorePassword {
         PacketZcReqStorePassword {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x23, 0xa]),
+        packet_id_raw: [0x23, 0xa],
         info: 0,
         info_raw: [0; 2],
         }
@@ -54140,8 +54140,8 @@ impl PacketCzAckStorePassword {
     pub fn new() -> PacketCzAckStorePassword {
         PacketCzAckStorePassword {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x23, 0xb]),
+        packet_id_raw: [0x23, 0xb],
         atype: 0,
         atype_raw: [0; 2],
         password: [0 as char; 16],
@@ -54238,8 +54238,8 @@ impl PacketZcResultStorePassword {
     pub fn new() -> PacketZcResultStorePassword {
         PacketZcResultStorePassword {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x23, 0xc]),
+        packet_id_raw: [0x23, 0xc],
         result: 0,
         result_raw: [0; 2],
         error_count: 0,
@@ -54318,8 +54318,8 @@ impl PacketAcEventResult {
     pub fn new() -> PacketAcEventResult {
         PacketAcEventResult {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x23, 0xd]),
+        packet_id_raw: [0x23, 0xd],
         event_item_count: 0,
         event_item_count_raw: [0; 4],
         }
@@ -54412,8 +54412,8 @@ impl PacketHcRequestCharacterPassword {
     pub fn new() -> PacketHcRequestCharacterPassword {
         PacketHcRequestCharacterPassword {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x23, 0xe]),
+        packet_id_raw: [0x23, 0xe],
         result: 0,
         result_raw: [0; 2],
         dummy_value: 0,
@@ -54476,8 +54476,8 @@ impl PacketCzMailGetList {
     pub fn new() -> PacketCzMailGetList {
         PacketCzMailGetList {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x23, 0xf]),
+        packet_id_raw: [0x23, 0xf],
         }
     }
 }
@@ -54591,8 +54591,8 @@ impl PacketZcMailReqGetList {
     pub fn new() -> PacketZcMailReqGetList {
         PacketZcMailReqGetList {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x24, 0x0]),
+        packet_id_raw: [0x24, 0x0],
         packet_length: 0,
         packet_length_raw: [0; 2],
         mail_number: 0,
@@ -54673,8 +54673,8 @@ impl PacketCzMailOpen {
     pub fn new() -> PacketCzMailOpen {
         PacketCzMailOpen {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x24, 0x1]),
+        packet_id_raw: [0x24, 0x1],
         mail_id: 0,
         mail_id_raw: [0; 4],
         }
@@ -54983,8 +54983,8 @@ impl PacketZcMailReqOpen {
     pub fn new() -> PacketZcMailReqOpen {
         PacketZcMailReqOpen {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x24, 0x2]),
+        packet_id_raw: [0x24, 0x2],
         packet_length: 0,
         packet_length_raw: [0; 2],
         mail_id: 0,
@@ -55089,8 +55089,8 @@ impl PacketCzMailDelete {
     pub fn new() -> PacketCzMailDelete {
         PacketCzMailDelete {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x24, 0x3]),
+        packet_id_raw: [0x24, 0x3],
         mail_id: 0,
         mail_id_raw: [0; 4],
         }
@@ -55167,8 +55167,8 @@ impl PacketCzMailGetItem {
     pub fn new() -> PacketCzMailGetItem {
         PacketCzMailGetItem {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x24, 0x4]),
+        packet_id_raw: [0x24, 0x4],
         mail_id: 0,
         mail_id_raw: [0; 4],
         }
@@ -55245,8 +55245,8 @@ impl PacketZcMailReqGetItem {
     pub fn new() -> PacketZcMailReqGetItem {
         PacketZcMailReqGetItem {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x24, 0x5]),
+        packet_id_raw: [0x24, 0x5],
         result: 0,
         result_raw: [0; 1],
         }
@@ -55323,8 +55323,8 @@ impl PacketCzMailResetItem {
     pub fn new() -> PacketCzMailResetItem {
         PacketCzMailResetItem {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x24, 0x6]),
+        packet_id_raw: [0x24, 0x6],
         atype: 0,
         atype_raw: [0; 2],
         }
@@ -55417,8 +55417,8 @@ impl PacketCzMailAddItem {
     pub fn new() -> PacketCzMailAddItem {
         PacketCzMailAddItem {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x24, 0x7]),
+        packet_id_raw: [0x24, 0x7],
         index: 0,
         index_raw: [0; 2],
         count: 0,
@@ -55571,8 +55571,8 @@ impl PacketCzMailSend {
     pub fn new() -> PacketCzMailSend {
         PacketCzMailSend {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x24, 0x8]),
+        packet_id_raw: [0x24, 0x8],
         packet_length: 0,
         packet_length_raw: [0; 2],
         receive_name: [0 as char; 24],
@@ -55657,8 +55657,8 @@ impl PacketZcMailReqSend {
     pub fn new() -> PacketZcMailReqSend {
         PacketZcMailReqSend {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x24, 0x9]),
+        packet_id_raw: [0x24, 0x9],
         result: 0,
         result_raw: [0; 1],
         }
@@ -55783,8 +55783,8 @@ impl PacketZcMailReceive {
     pub fn new() -> PacketZcMailReceive {
         PacketZcMailReceive {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x24, 0xa]),
+        packet_id_raw: [0x24, 0xa],
         mail_id: 0,
         mail_id_raw: [0; 4],
         header: [0 as char; 40],
@@ -55865,8 +55865,8 @@ impl PacketCzAuctionCreate {
     pub fn new() -> PacketCzAuctionCreate {
         PacketCzAuctionCreate {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x24, 0xb]),
+        packet_id_raw: [0x24, 0xb],
         atype: 0,
         atype_raw: [0; 2],
         }
@@ -55959,8 +55959,8 @@ impl PacketCzAuctionAddItem {
     pub fn new() -> PacketCzAuctionAddItem {
         PacketCzAuctionAddItem {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x24, 0xc]),
+        packet_id_raw: [0x24, 0xc],
         index: 0,
         index_raw: [0; 2],
         count: 0,
@@ -56071,8 +56071,8 @@ impl PacketCzAuctionAdd {
     pub fn new() -> PacketCzAuctionAdd {
         PacketCzAuctionAdd {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x24, 0xd]),
+        packet_id_raw: [0x24, 0xd],
         now_money: 0,
         now_money_raw: [0; 4],
         max_money: 0,
@@ -56153,8 +56153,8 @@ impl PacketCzAuctionAddCancel {
     pub fn new() -> PacketCzAuctionAddCancel {
         PacketCzAuctionAddCancel {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x24, 0xe]),
+        packet_id_raw: [0x24, 0xe],
         auction_id: 0,
         auction_id_raw: [0; 4],
         }
@@ -56247,8 +56247,8 @@ impl PacketCzAuctionBuy {
     pub fn new() -> PacketCzAuctionBuy {
         PacketCzAuctionBuy {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x24, 0xf]),
+        packet_id_raw: [0x24, 0xf],
         auction_id: 0,
         auction_id_raw: [0; 4],
         money: 0,
@@ -56327,8 +56327,8 @@ impl PacketZcAuctionResult {
     pub fn new() -> PacketZcAuctionResult {
         PacketZcAuctionResult {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x25, 0x0]),
+        packet_id_raw: [0x25, 0x0],
         result: 0,
         result_raw: [0; 1],
         }
@@ -56461,8 +56461,8 @@ impl PacketCzAuctionItemSearch {
     pub fn new() -> PacketCzAuctionItemSearch {
         PacketCzAuctionItemSearch {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x25, 0x1]),
+        packet_id_raw: [0x25, 0x1],
         atype: 0,
         atype_raw: [0; 2],
         auction_id: 0,
@@ -56600,8 +56600,8 @@ impl PacketZcAuctionItemReqSearch {
     pub fn new() -> PacketZcAuctionItemReqSearch {
         PacketZcAuctionItemReqSearch {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x25, 0x2]),
+        packet_id_raw: [0x25, 0x2],
         packet_length: 0,
         packet_length_raw: [0; 2],
         max_page: 0,
@@ -56684,8 +56684,8 @@ impl PacketZcStarplace {
     pub fn new() -> PacketZcStarplace {
         PacketZcStarplace {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x25, 0x3]),
+        packet_id_raw: [0x25, 0x3],
         which: 0,
         which_raw: [0; 1],
         }
@@ -56762,8 +56762,8 @@ impl PacketCzAgreeStarplace {
     pub fn new() -> PacketCzAgreeStarplace {
         PacketCzAgreeStarplace {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x25, 0x4]),
+        packet_id_raw: [0x25, 0x4],
         which: 0,
         which_raw: [0; 1],
         }
@@ -56856,8 +56856,8 @@ impl PacketZcAckMailAddItem {
     pub fn new() -> PacketZcAckMailAddItem {
         PacketZcAckMailAddItem {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x25, 0x5]),
+        packet_id_raw: [0x25, 0x5],
         index: 0,
         index_raw: [0; 2],
         result: 0,
@@ -56952,8 +56952,8 @@ impl PacketZcAckAuctionAddItem {
     pub fn new() -> PacketZcAckAuctionAddItem {
         PacketZcAckAuctionAddItem {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x25, 0x6]),
+        packet_id_raw: [0x25, 0x6],
         index: 0,
         index_raw: [0; 2],
         result: 0,
@@ -57048,8 +57048,8 @@ impl PacketZcAckMailDelete {
     pub fn new() -> PacketZcAckMailDelete {
         PacketZcAckMailDelete {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x25, 0x7]),
+        packet_id_raw: [0x25, 0x7],
         mail_id: 0,
         mail_id_raw: [0; 4],
         result: 0,
@@ -57112,8 +57112,8 @@ impl PacketCaReqGameGuardCheck {
     pub fn new() -> PacketCaReqGameGuardCheck {
         PacketCaReqGameGuardCheck {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x25, 0x8]),
+        packet_id_raw: [0x25, 0x8],
         }
     }
 }
@@ -57188,8 +57188,8 @@ impl PacketAcAckGameGuard {
     pub fn new() -> PacketAcAckGameGuard {
         PacketAcAckGameGuard {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x25, 0x9]),
+        packet_id_raw: [0x25, 0x9],
         uc_answer: 0,
         uc_answer_raw: [0; 1],
         }
@@ -57279,8 +57279,8 @@ impl PacketZcMakingitemList {
     pub fn new() -> PacketZcMakingitemList {
         PacketZcMakingitemList {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x25, 0xa]),
+        packet_id_raw: [0x25, 0xa],
         packet_length: 0,
         packet_length_raw: [0; 2],
         id_list: vec![],
@@ -57375,8 +57375,8 @@ impl PacketCzReqMakingitem {
     pub fn new() -> PacketCzReqMakingitem {
         PacketCzReqMakingitem {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x25, 0xb]),
+        packet_id_raw: [0x25, 0xb],
         mk_type: 0,
         mk_type_raw: [0; 2],
         id: 0,
@@ -57455,8 +57455,8 @@ impl PacketCzAuctionReqMyInfo {
     pub fn new() -> PacketCzAuctionReqMyInfo {
         PacketCzAuctionReqMyInfo {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x25, 0xc]),
+        packet_id_raw: [0x25, 0xc],
         atype: 0,
         atype_raw: [0; 2],
         }
@@ -57533,8 +57533,8 @@ impl PacketCzAuctionReqMySellStop {
     pub fn new() -> PacketCzAuctionReqMySellStop {
         PacketCzAuctionReqMySellStop {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x25, 0xd]),
+        packet_id_raw: [0x25, 0xd],
         auction_id: 0,
         auction_id_raw: [0; 4],
         }
@@ -57611,8 +57611,8 @@ impl PacketZcAuctionAckMySellStop {
     pub fn new() -> PacketZcAuctionAckMySellStop {
         PacketZcAuctionAckMySellStop {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x25, 0xe]),
+        packet_id_raw: [0x25, 0xe],
         result: 0,
         result_raw: [0; 2],
         }
@@ -57689,8 +57689,8 @@ impl PacketZcAuctionWindows {
     pub fn new() -> PacketZcAuctionWindows {
         PacketZcAuctionWindows {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x25, 0xf]),
+        packet_id_raw: [0x25, 0xf],
         atype: 0,
         atype_raw: [0; 4],
         }
@@ -57767,8 +57767,8 @@ impl PacketZcMailWindows {
     pub fn new() -> PacketZcMailWindows {
         PacketZcMailWindows {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x26, 0x0]),
+        packet_id_raw: [0x26, 0x0],
         atype: 0,
         atype_raw: [0; 4],
         }
@@ -57853,8 +57853,8 @@ impl PacketAcReqLoginOldekey {
     pub fn new() -> PacketAcReqLoginOldekey {
         PacketAcReqLoginOldekey {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x26, 0x1]),
+        packet_id_raw: [0x26, 0x1],
         m_seed_value: [0 as char; 9],
         m_seed_value_raw: [0; 9],
         }
@@ -57939,8 +57939,8 @@ impl PacketAcReqLoginNewekey {
     pub fn new() -> PacketAcReqLoginNewekey {
         PacketAcReqLoginNewekey {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x26, 0x2]),
+        packet_id_raw: [0x26, 0x2],
         m_seed_value: [0 as char; 9],
         m_seed_value_raw: [0; 9],
         }
@@ -58025,8 +58025,8 @@ impl PacketAcReqLoginCardpass {
     pub fn new() -> PacketAcReqLoginCardpass {
         PacketAcReqLoginCardpass {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x26, 0x3]),
+        packet_id_raw: [0x26, 0x3],
         m_seed_value: [0 as char; 9],
         m_seed_value_raw: [0; 9],
         }
@@ -58135,8 +58135,8 @@ impl PacketCaAckLoginOldekey {
     pub fn new() -> PacketCaAckLoginOldekey {
         PacketCaAckLoginOldekey {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x26, 0x4]),
+        packet_id_raw: [0x26, 0x4],
         m_seed_value: [0 as char; 9],
         m_seed_value_raw: [0; 9],
         m_ekey: [0 as char; 9],
@@ -58247,8 +58247,8 @@ impl PacketCaAckLoginNewekey {
     pub fn new() -> PacketCaAckLoginNewekey {
         PacketCaAckLoginNewekey {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x26, 0x5]),
+        packet_id_raw: [0x26, 0x5],
         m_seed_value: [0 as char; 9],
         m_seed_value_raw: [0; 9],
         m_ekey: [0 as char; 9],
@@ -58335,8 +58335,8 @@ impl PacketCaAckLoginCardpass {
     pub fn new() -> PacketCaAckLoginCardpass {
         PacketCaAckLoginCardpass {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x26, 0x6]),
+        packet_id_raw: [0x26, 0x6],
         mcard_pass: [0 as char; 28],
         mcard_pass_raw: [0; 28],
         }
@@ -58413,8 +58413,8 @@ impl PacketAcAckEkeyFailNotexist {
     pub fn new() -> PacketAcAckEkeyFailNotexist {
         PacketAcAckEkeyFailNotexist {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x26, 0x7]),
+        packet_id_raw: [0x26, 0x7],
         error_code: 0,
         error_code_raw: [0; 2],
         }
@@ -58491,8 +58491,8 @@ impl PacketAcAckEkeyFailNotusesekey {
     pub fn new() -> PacketAcAckEkeyFailNotusesekey {
         PacketAcAckEkeyFailNotusesekey {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x26, 0x8]),
+        packet_id_raw: [0x26, 0x8],
         error_code: 0,
         error_code_raw: [0; 2],
         }
@@ -58569,8 +58569,8 @@ impl PacketAcAckEkeyFailNotusedekey {
     pub fn new() -> PacketAcAckEkeyFailNotusedekey {
         PacketAcAckEkeyFailNotusedekey {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x26, 0x9]),
+        packet_id_raw: [0x26, 0x9],
         error_code: 0,
         error_code_raw: [0; 2],
         }
@@ -58647,8 +58647,8 @@ impl PacketAcAckEkeyFailAuthrefuse {
     pub fn new() -> PacketAcAckEkeyFailAuthrefuse {
         PacketAcAckEkeyFailAuthrefuse {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x26, 0xa]),
+        packet_id_raw: [0x26, 0xa],
         error_code: 0,
         error_code_raw: [0; 2],
         }
@@ -58725,8 +58725,8 @@ impl PacketAcAckEkeyFailInputekey {
     pub fn new() -> PacketAcAckEkeyFailInputekey {
         PacketAcAckEkeyFailInputekey {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x26, 0xb]),
+        packet_id_raw: [0x26, 0xb],
         error_code: 0,
         error_code_raw: [0; 2],
         }
@@ -58803,8 +58803,8 @@ impl PacketAcAckEkeyFailNotice {
     pub fn new() -> PacketAcAckEkeyFailNotice {
         PacketAcAckEkeyFailNotice {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x26, 0xc]),
+        packet_id_raw: [0x26, 0xc],
         error_code: 0,
         error_code_raw: [0; 2],
         }
@@ -58881,8 +58881,8 @@ impl PacketAcAckEkeyFailNeedcardpass {
     pub fn new() -> PacketAcAckEkeyFailNeedcardpass {
         PacketAcAckEkeyFailNeedcardpass {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x26, 0xd]),
+        packet_id_raw: [0x26, 0xd],
         error_code: 0,
         error_code_raw: [0; 2],
         }
@@ -58959,8 +58959,8 @@ impl PacketAcAckAuthekeyFailNotmatchcardpass {
     pub fn new() -> PacketAcAckAuthekeyFailNotmatchcardpass {
         PacketAcAckAuthekeyFailNotmatchcardpass {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x26, 0xe]),
+        packet_id_raw: [0x26, 0xe],
         error_code: 0,
         error_code_raw: [0; 2],
         }
@@ -59021,8 +59021,8 @@ impl PacketAcAckFirstLogin {
     pub fn new() -> PacketAcAckFirstLogin {
         PacketAcAckFirstLogin {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x26, 0xf]),
+        packet_id_raw: [0x26, 0xf],
         }
     }
 }
@@ -59081,8 +59081,8 @@ impl PacketAcReqLoginAccountInfo {
     pub fn new() -> PacketAcReqLoginAccountInfo {
         PacketAcReqLoginAccountInfo {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x27, 0x0]),
+        packet_id_raw: [0x27, 0x0],
         }
     }
 }
@@ -59197,8 +59197,8 @@ impl PacketCaAckLoginAccountInfo {
     pub fn new() -> PacketCaAckLoginAccountInfo {
         PacketCaAckLoginAccountInfo {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x27, 0x1]),
+        packet_id_raw: [0x27, 0x1],
         sex: 0,
         sex_raw: [0; 2],
         b_point: 0,
@@ -59311,8 +59311,8 @@ impl PacketAcAckPtIdInfo {
     pub fn new() -> PacketAcAckPtIdInfo {
         PacketAcAckPtIdInfo {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x27, 0x2]),
+        packet_id_raw: [0x27, 0x2],
         sz_ptid: [0 as char; 21],
         sz_ptid_raw: [0; 21],
         sz_ptnum_id: [0 as char; 21],
@@ -59415,8 +59415,8 @@ impl PacketCzReqMailReturn {
     pub fn new() -> PacketCzReqMailReturn {
         PacketCzReqMailReturn {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x27, 0x3]),
+        packet_id_raw: [0x27, 0x3],
         mail_id: 0,
         mail_id_raw: [0; 4],
         receive_name: [0 as char; 24],
@@ -59511,8 +59511,8 @@ impl PacketZcAckMailReturn {
     pub fn new() -> PacketZcAckMailReturn {
         PacketZcAckMailReturn {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x27, 0x4]),
+        packet_id_raw: [0x27, 0x4],
         mail_id: 0,
         mail_id_raw: [0; 4],
         result: 0,
@@ -59695,8 +59695,8 @@ impl PacketChEnter2 {
     pub fn new() -> PacketChEnter2 {
         PacketChEnter2 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x27, 0x5]),
+        packet_id_raw: [0x27, 0x5],
         aid: 0,
         aid_raw: [0; 4],
         auth_code: 0,
@@ -59905,8 +59905,8 @@ impl PacketCaAcceptLogin2 {
     pub fn new() -> PacketCaAcceptLogin2 {
         PacketCaAcceptLogin2 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x27, 0x6]),
+        packet_id_raw: [0x27, 0x6],
         packet_length: 0,
         packet_length_raw: [0; 2],
         auth_code: 0,
@@ -60109,8 +60109,8 @@ impl PacketCaLoginPcbang {
     pub fn new() -> PacketCaLoginPcbang {
         PacketCaLoginPcbang {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x27, 0x7]),
+        packet_id_raw: [0x27, 0x7],
         version: 0,
         version_raw: [0; 4],
         id: [0 as char; 24],
@@ -60181,8 +60181,8 @@ impl PacketZcNotifyPcbang {
     pub fn new() -> PacketZcNotifyPcbang {
         PacketZcNotifyPcbang {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x27, 0x8]),
+        packet_id_raw: [0x27, 0x8],
         }
     }
 }
@@ -60241,8 +60241,8 @@ impl PacketCzHuntinglist {
     pub fn new() -> PacketCzHuntinglist {
         PacketCzHuntinglist {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x27, 0x9]),
+        packet_id_raw: [0x27, 0x9],
         }
     }
 }
@@ -60340,8 +60340,8 @@ impl PacketZcHuntinglist {
     pub fn new() -> PacketZcHuntinglist {
         PacketZcHuntinglist {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x27, 0xa]),
+        packet_id_raw: [0x27, 0xa],
         packet_length: 0,
         packet_length_raw: [0; 2],
         hunting_list: vec![],
@@ -60452,8 +60452,8 @@ impl PacketZcPcbangEffect {
     pub fn new() -> PacketZcPcbangEffect {
         PacketZcPcbangEffect {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x27, 0xb]),
+        packet_id_raw: [0x27, 0xb],
         exp_factor: 0,
         exp_factor_raw: [0; 4],
         exp_factor2: 0,
@@ -60622,8 +60622,8 @@ impl PacketCaLogin4 {
     pub fn new() -> PacketCaLogin4 {
         PacketCaLogin4 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x27, 0xc]),
+        packet_id_raw: [0x27, 0xc],
         version: 0,
         version_raw: [0; 4],
         id: [0 as char; 24],
@@ -60988,8 +60988,8 @@ impl PacketZcPropertyMerce {
     pub fn new() -> PacketZcPropertyMerce {
         PacketZcPropertyMerce {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x27, 0xd]),
+        packet_id_raw: [0x27, 0xd],
         name: [0 as char; 24],
         name_raw: [0; 24],
         level: 0,
@@ -61126,8 +61126,8 @@ impl PacketZcShandaProtect {
     pub fn new() -> PacketZcShandaProtect {
         PacketZcShandaProtect {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x27, 0xe]),
+        packet_id_raw: [0x27, 0xe],
         packet_length: 0,
         packet_length_raw: [0; 2],
         code_len: 0,
@@ -61224,8 +61224,8 @@ impl PacketCaClientType {
     pub fn new() -> PacketCaClientType {
         PacketCaClientType {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x27, 0xf]),
+        packet_id_raw: [0x27, 0xf],
         client_type: 0,
         client_type_raw: [0; 2],
         n_ver: 0,
@@ -61336,8 +61336,8 @@ impl PacketZcGangsiPoint {
     pub fn new() -> PacketZcGangsiPoint {
         PacketZcGangsiPoint {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x28, 0x0]),
+        packet_id_raw: [0x28, 0x0],
         point: 0,
         point_raw: [0; 4],
         total_point: 0,
@@ -61418,8 +61418,8 @@ impl PacketCzGangsiRank {
     pub fn new() -> PacketCzGangsiRank {
         PacketCzGangsiRank {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x28, 0x1]),
+        packet_id_raw: [0x28, 0x1],
         packet_switch: 0,
         packet_switch_raw: [0; 2],
         }
@@ -61544,8 +61544,8 @@ impl PacketZcGangsiRank {
     pub fn new() -> PacketZcGangsiRank {
         PacketZcGangsiRank {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x28, 0x2]),
+        packet_id_raw: [0x28, 0x2],
         name: [0 as char; 10],
         name_raw: [0; 10],
         point: [0; 10],
@@ -61626,8 +61626,8 @@ impl PacketZcAid {
     pub fn new() -> PacketZcAid {
         PacketZcAid {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x28, 0x3]),
+        packet_id_raw: [0x28, 0x3],
         aid: 0,
         aid_raw: [0; 4],
         }
@@ -61736,8 +61736,8 @@ impl PacketZcNotifyEffect3 {
     pub fn new() -> PacketZcNotifyEffect3 {
         PacketZcNotifyEffect3 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x28, 0x4]),
+        packet_id_raw: [0x28, 0x4],
         aid: 0,
         aid_raw: [0; 4],
         effect_id: 0,
@@ -61834,8 +61834,8 @@ impl PacketZcDeathQuestion {
     pub fn new() -> PacketZcDeathQuestion {
         PacketZcDeathQuestion {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x28, 0x5]),
+        packet_id_raw: [0x28, 0x5],
         qcategory: 0,
         qcategory_raw: [0; 2],
         qnum: 0,
@@ -61914,8 +61914,8 @@ impl PacketCzDeathQuestion {
     pub fn new() -> PacketCzDeathQuestion {
         PacketCzDeathQuestion {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x28, 0x6]),
+        packet_id_raw: [0x28, 0x6],
         qanswer: 0,
         qanswer_raw: [0; 2],
         }
@@ -62031,8 +62031,8 @@ impl PacketZcPcCashPointItemlist {
     pub fn new() -> PacketZcPcCashPointItemlist {
         PacketZcPcCashPointItemlist {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x28, 0x7]),
+        packet_id_raw: [0x28, 0x7],
         packet_length: 0,
         packet_length_raw: [0; 2],
         cash_point: 0,
@@ -62129,8 +62129,8 @@ impl PacketCzPcBuyCashPointItem {
     pub fn new() -> PacketCzPcBuyCashPointItem {
         PacketCzPcBuyCashPointItem {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x28, 0x8]),
+        packet_id_raw: [0x28, 0x8],
         itid: 0,
         itid_raw: [0; 2],
         count: 0,
@@ -62225,8 +62225,8 @@ impl PacketZcPcCashPointUpdate {
     pub fn new() -> PacketZcPcCashPointUpdate {
         PacketZcPcCashPointUpdate {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x28, 0x9]),
+        packet_id_raw: [0x28, 0x9],
         cash_point: 0,
         cash_point_raw: [0; 4],
         error: 0,
@@ -62353,8 +62353,8 @@ impl PacketZcNpcShowefstUpdate {
     pub fn new() -> PacketZcNpcShowefstUpdate {
         PacketZcNpcShowefstUpdate {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x28, 0xa]),
+        packet_id_raw: [0x28, 0xa],
         aid: 0,
         aid_raw: [0; 4],
         effect_state: 0,
@@ -62477,8 +62477,8 @@ impl PacketChSelectCharGoingtobeused {
     pub fn new() -> PacketChSelectCharGoingtobeused {
         PacketChSelectCharGoingtobeused {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x28, 0xc]),
+        packet_id_raw: [0x28, 0xc],
         dw_aid: 0,
         dw_aid_raw: [0; 4],
         n_count_selected_char: 0,
@@ -62599,8 +62599,8 @@ impl PacketChReqIsValidCharname {
     pub fn new() -> PacketChReqIsValidCharname {
         PacketChReqIsValidCharname {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x28, 0xd]),
+        packet_id_raw: [0x28, 0xd],
         dw_aid: 0,
         dw_aid_raw: [0; 4],
         dw_gid: 0,
@@ -62681,8 +62681,8 @@ impl PacketHcAckIsValidCharname {
     pub fn new() -> PacketHcAckIsValidCharname {
         PacketHcAckIsValidCharname {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x28, 0xe]),
+        packet_id_raw: [0x28, 0xe],
         s_result: 0,
         s_result_raw: [0; 2],
         }
@@ -62759,8 +62759,8 @@ impl PacketChReqChangeCharname {
     pub fn new() -> PacketChReqChangeCharname {
         PacketChReqChangeCharname {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x28, 0xf]),
+        packet_id_raw: [0x28, 0xf],
         dw_gid: 0,
         dw_gid_raw: [0; 4],
         }
@@ -62837,8 +62837,8 @@ impl PacketHcAckChangeCharname {
     pub fn new() -> PacketHcAckChangeCharname {
         PacketHcAckChangeCharname {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x29, 0x0]),
+        packet_id_raw: [0x29, 0x0],
         s_result: 0,
         s_result_raw: [0; 2],
         }
@@ -62915,8 +62915,8 @@ impl PacketZcMsg {
     pub fn new() -> PacketZcMsg {
         PacketZcMsg {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x29, 0x1]),
+        packet_id_raw: [0x29, 0x1],
         msg: 0,
         msg_raw: [0; 2],
         }
@@ -62977,8 +62977,8 @@ impl PacketCzStandingResurrection {
     pub fn new() -> PacketCzStandingResurrection {
         PacketCzStandingResurrection {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x29, 0x2]),
+        packet_id_raw: [0x29, 0x2],
         }
     }
 }
@@ -63173,8 +63173,8 @@ impl PacketZcBossInfo {
     pub fn new() -> PacketZcBossInfo {
         PacketZcBossInfo {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x29, 0x3]),
+        packet_id_raw: [0x29, 0x3],
         info_type: 0,
         info_type_raw: [0; 1],
         x_pos: 0,
@@ -63281,8 +63281,8 @@ impl PacketZcReadBook {
     pub fn new() -> PacketZcReadBook {
         PacketZcReadBook {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x29, 0x4]),
+        packet_id_raw: [0x29, 0x4],
         book_id: 0,
         book_id_raw: [0; 4],
         page: 0,
@@ -63384,8 +63384,8 @@ impl PacketZcEquipmentItemlist2 {
     pub fn new() -> PacketZcEquipmentItemlist2 {
         PacketZcEquipmentItemlist2 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x29, 0x5]),
+        packet_id_raw: [0x29, 0x5],
         packet_length: 0,
         packet_length_raw: [0; 2],
         item_info: vec![],
@@ -63487,8 +63487,8 @@ impl PacketZcStoreEquipmentItemlist2 {
     pub fn new() -> PacketZcStoreEquipmentItemlist2 {
         PacketZcStoreEquipmentItemlist2 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x29, 0x6]),
+        packet_id_raw: [0x29, 0x6],
         packet_length: 0,
         packet_length_raw: [0; 2],
         item_info: vec![],
@@ -63590,8 +63590,8 @@ impl PacketZcCartEquipmentItemlist2 {
     pub fn new() -> PacketZcCartEquipmentItemlist2 {
         PacketZcCartEquipmentItemlist2 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x29, 0x7]),
+        packet_id_raw: [0x29, 0x7],
         packet_length: 0,
         packet_length_raw: [0; 2],
         item_info: vec![],
@@ -63686,8 +63686,8 @@ impl PacketZcCashTimeCounter {
     pub fn new() -> PacketZcCashTimeCounter {
         PacketZcCashTimeCounter {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x29, 0x8]),
+        packet_id_raw: [0x29, 0x8],
         itid: 0,
         itid_raw: [0; 2],
         remain_second: 0,
@@ -63782,8 +63782,8 @@ impl PacketZcCashItemDelete {
     pub fn new() -> PacketZcCashItemDelete {
         PacketZcCashItemDelete {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x29, 0x9]),
+        packet_id_raw: [0x29, 0x9],
         index: 0,
         index_raw: [0; 2],
         itid: 0,
@@ -64020,8 +64020,8 @@ impl PacketZcItemPickupAck2 {
     pub fn new() -> PacketZcItemPickupAck2 {
         PacketZcItemPickupAck2 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x29, 0xa]),
+        packet_id_raw: [0x29, 0xa],
         index: 0,
         index_raw: [0; 2],
         count: 0,
@@ -64430,8 +64430,8 @@ impl PacketZcMerInit {
     pub fn new() -> PacketZcMerInit {
         PacketZcMerInit {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x29, 0xb]),
+        packet_id_raw: [0x29, 0xb],
         aid: 0,
         aid_raw: [0; 4],
         atk: 0,
@@ -64826,8 +64826,8 @@ impl PacketZcMerProperty {
     pub fn new() -> PacketZcMerProperty {
         PacketZcMerProperty {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x29, 0xc]),
+        packet_id_raw: [0x29, 0xc],
         atk: 0,
         atk_raw: [0; 2],
         matk: 0,
@@ -64961,8 +64961,8 @@ impl PacketZcMerSkillinfoList {
     pub fn new() -> PacketZcMerSkillinfoList {
         PacketZcMerSkillinfoList {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x29, 0xd]),
+        packet_id_raw: [0x29, 0xd],
         packet_length: 0,
         packet_length_raw: [0; 2],
         skill_list: vec![],
@@ -65105,8 +65105,8 @@ impl PacketZcMerSkillinfoUpdate {
     pub fn new() -> PacketZcMerSkillinfoUpdate {
         PacketZcMerSkillinfoUpdate {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x29, 0xe]),
+        packet_id_raw: [0x29, 0xe],
         skid: 0,
         skid_raw: [0; 2],
         level: 0,
@@ -65191,8 +65191,8 @@ impl PacketCzMerCommand {
     pub fn new() -> PacketCzMerCommand {
         PacketCzMerCommand {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x29, 0xf]),
+        packet_id_raw: [0x29, 0xf],
         command: 0,
         command_raw: [0; 1],
         }
@@ -65301,8 +65301,8 @@ impl UnusedPacketCzMerUseSkill {
     pub fn new() -> UnusedPacketCzMerUseSkill {
         UnusedPacketCzMerUseSkill {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2a, 0x0]),
+        packet_id_raw: [0x2a, 0x0],
         selected_level: 0,
         selected_level_raw: [0; 2],
         skid: 0,
@@ -65383,8 +65383,8 @@ impl UnusedPacketCzMerUpgradeSkilllevel {
     pub fn new() -> UnusedPacketCzMerUpgradeSkilllevel {
         UnusedPacketCzMerUpgradeSkilllevel {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2a, 0x1]),
+        packet_id_raw: [0x2a, 0x1],
         skid: 0,
         skid_raw: [0; 2],
         }
@@ -65477,8 +65477,8 @@ impl PacketZcMerParChange {
     pub fn new() -> PacketZcMerParChange {
         PacketZcMerParChange {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2a, 0x2]),
+        packet_id_raw: [0x2a, 0x2],
         var: 0,
         var_raw: [0; 2],
         value: 0,
@@ -65551,8 +65551,8 @@ impl PacketZcGameguardLingoKey {
     pub fn new() -> PacketZcGameguardLingoKey {
         PacketZcGameguardLingoKey {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2a, 0x3]),
+        packet_id_raw: [0x2a, 0x3],
         lingo_key: PggLingoKeyTemp::new(),
         lingo_key_raw: vec![],
         }
@@ -65645,8 +65645,8 @@ impl PacketCzKsyEvent {
     pub fn new() -> PacketCzKsyEvent {
         PacketCzKsyEvent {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2a, 0x5]),
+        packet_id_raw: [0x2a, 0x5],
         index: 0,
         index_raw: [0; 2],
         count: 0,
@@ -65725,8 +65725,8 @@ impl PacketZcReqCashPassword {
     pub fn new() -> PacketZcReqCashPassword {
         PacketZcReqCashPassword {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2a, 0xa]),
+        packet_id_raw: [0x2a, 0xa],
         info: 0,
         info_raw: [0; 2],
         }
@@ -65851,8 +65851,8 @@ impl PacketCzAckCashPassword {
     pub fn new() -> PacketCzAckCashPassword {
         PacketCzAckCashPassword {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2a, 0xb]),
+        packet_id_raw: [0x2a, 0xb],
         atype: 0,
         atype_raw: [0; 2],
         password: [0 as char; 16],
@@ -65949,8 +65949,8 @@ impl PacketZcResultCashPassword {
     pub fn new() -> PacketZcResultCashPassword {
         PacketZcResultCashPassword {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2a, 0xc]),
+        packet_id_raw: [0x2a, 0xc],
         result: 0,
         result_raw: [0; 2],
         error_count: 0,
@@ -66045,8 +66045,8 @@ impl PacketAcRequestSecondPassword {
     pub fn new() -> PacketAcRequestSecondPassword {
         PacketAcRequestSecondPassword {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2a, 0xd]),
+        packet_id_raw: [0x2a, 0xd],
         result: 0,
         result_raw: [0; 2],
         dw_seed: 0,
@@ -66253,8 +66253,8 @@ impl PacketCaLoginHan {
     pub fn new() -> PacketCaLoginHan {
         PacketCaLoginHan {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2b, 0x0]),
+        packet_id_raw: [0x2b, 0x0],
         version: 0,
         version_raw: [0; 4],
         id: [0 as char; 24],
@@ -66382,8 +66382,8 @@ impl PacketZcAllQuestList {
     pub fn new() -> PacketZcAllQuestList {
         PacketZcAllQuestList {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2b, 0x1]),
+        packet_id_raw: [0x2b, 0x1],
         packet_length: 0,
         packet_length_raw: [0; 2],
         quest_count: 0,
@@ -66503,8 +66503,8 @@ impl PacketZcAllQuestMission {
     pub fn new() -> PacketZcAllQuestMission {
         PacketZcAllQuestMission {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2b, 0x2]),
+        packet_id_raw: [0x2b, 0x2],
         packet_length: 0,
         packet_length_raw: [0; 2],
         count: 0,
@@ -66672,8 +66672,8 @@ impl PacketZcAddQuest {
     pub fn new() -> PacketZcAddQuest {
         PacketZcAddQuest {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2b, 0x3]),
+        packet_id_raw: [0x2b, 0x3],
         quest_id: 0,
         quest_id_raw: [0; 4],
         active: false,
@@ -66760,8 +66760,8 @@ impl PacketZcDelQuest {
     pub fn new() -> PacketZcDelQuest {
         PacketZcDelQuest {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2b, 0x4]),
+        packet_id_raw: [0x2b, 0x4],
         quest_id: 0,
         quest_id_raw: [0; 4],
         }
@@ -66877,8 +66877,8 @@ impl PacketZcUpdateMissionHunt {
     pub fn new() -> PacketZcUpdateMissionHunt {
         PacketZcUpdateMissionHunt {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2b, 0x5]),
+        packet_id_raw: [0x2b, 0x5],
         packet_length: 0,
         packet_length_raw: [0; 2],
         count: 0,
@@ -66975,8 +66975,8 @@ impl PacketCzActiveQuest {
     pub fn new() -> PacketCzActiveQuest {
         PacketCzActiveQuest {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2b, 0x6]),
+        packet_id_raw: [0x2b, 0x6],
         quest_id: 0,
         quest_id_raw: [0; 4],
         active: false,
@@ -67071,8 +67071,8 @@ impl PacketZcActiveQuest {
     pub fn new() -> PacketZcActiveQuest {
         PacketZcActiveQuest {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2b, 0x7]),
+        packet_id_raw: [0x2b, 0x7],
         quest_id: 0,
         quest_id_raw: [0; 4],
         active: false,
@@ -67261,8 +67261,8 @@ impl PacketZcItemPickupParty {
     pub fn new() -> PacketZcItemPickupParty {
         PacketZcItemPickupParty {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2b, 0x8]),
+        packet_id_raw: [0x2b, 0x8],
         account_id: 0,
         account_id_raw: [0; 4],
         itid: 0,
@@ -67360,8 +67360,8 @@ impl PacketZcShortcutKeyList {
     pub fn new() -> PacketZcShortcutKeyList {
         PacketZcShortcutKeyList {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2b, 0x9]),
+        packet_id_raw: [0x2b, 0x9],
         short_cut_key: vec![],
         short_cut_key_raw: vec![],
         }
@@ -67448,8 +67448,8 @@ impl PacketCzShortcutKeyChange {
     pub fn new() -> PacketCzShortcutKeyChange {
         PacketCzShortcutKeyChange {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2b, 0xa]),
+        packet_id_raw: [0x2b, 0xa],
         index: 0,
         index_raw: [0; 2],
         short_cut_key: ShortCutKey::new(),
@@ -67544,8 +67544,8 @@ impl PacketZcEquipitemDamaged {
     pub fn new() -> PacketZcEquipitemDamaged {
         PacketZcEquipitemDamaged {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2b, 0xb]),
+        packet_id_raw: [0x2b, 0xb],
         wear_location: 0,
         wear_location_raw: [0; 2],
         account_id: 0,
@@ -67624,8 +67624,8 @@ impl PacketZcNotifyPcbangPlayingTime {
     pub fn new() -> PacketZcNotifyPcbangPlayingTime {
         PacketZcNotifyPcbangPlayingTime {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2b, 0xc]),
+        packet_id_raw: [0x2b, 0xc],
         time_minute: 0,
         time_minute_raw: [0; 4],
         }
@@ -67734,8 +67734,8 @@ impl PacketZcSrpacketr2Init {
     pub fn new() -> PacketZcSrpacketr2Init {
         PacketZcSrpacketr2Init {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2b, 0xf]),
+        packet_id_raw: [0x2b, 0xf],
         protect_factor: 0,
         protect_factor_raw: [0; 2],
         deform_seed_factor: 0,
@@ -67816,8 +67816,8 @@ impl PacketCzSrpacketr2Start {
     pub fn new() -> PacketCzSrpacketr2Start {
         PacketCzSrpacketr2Start {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2c, 0x0]),
+        packet_id_raw: [0x2c, 0x0],
         protect_factor: 0,
         protect_factor_raw: [0; 2],
         }
@@ -67936,8 +67936,8 @@ impl PacketZcNpcChat {
     pub fn new() -> PacketZcNpcChat {
         PacketZcNpcChat {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2c, 0x1]),
+        packet_id_raw: [0x2c, 0x1],
         packet_length: 0,
         packet_length_raw: [0; 2],
         account_id: 0,
@@ -68046,8 +68046,8 @@ impl PacketZcFormatstringMsg {
     pub fn new() -> PacketZcFormatstringMsg {
         PacketZcFormatstringMsg {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2c, 0x2]),
+        packet_id_raw: [0x2c, 0x2],
         packet_length: 0,
         packet_length_raw: [0; 2],
         msg: 0,
@@ -68136,8 +68136,8 @@ impl PacketCzPartyJoinReq {
     pub fn new() -> PacketCzPartyJoinReq {
         PacketCzPartyJoinReq {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2c, 0x4]),
+        packet_id_raw: [0x2c, 0x4],
         character_name: [0 as char; 24],
         character_name_raw: [0; 24],
         }
@@ -68238,8 +68238,8 @@ impl PacketZcPartyJoinReqAck {
     pub fn new() -> PacketZcPartyJoinReqAck {
         PacketZcPartyJoinReqAck {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2c, 0x5]),
+        packet_id_raw: [0x2c, 0x5],
         character_name: [0 as char; 24],
         character_name_raw: [0; 24],
         answer: 0,
@@ -68342,8 +68342,8 @@ impl PacketZcPartyJoinReq {
     pub fn new() -> PacketZcPartyJoinReq {
         PacketZcPartyJoinReq {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2c, 0x6]),
+        packet_id_raw: [0x2c, 0x6],
         grid: 0,
         grid_raw: [0; 4],
         group_name: [0 as char; 24],
@@ -68438,8 +68438,8 @@ impl PacketCzPartyJoinReqAck {
     pub fn new() -> PacketCzPartyJoinReqAck {
         PacketCzPartyJoinReqAck {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2c, 0x7]),
+        packet_id_raw: [0x2c, 0x7],
         grid: 0,
         grid_raw: [0; 4],
         b_accept: false,
@@ -68518,8 +68518,8 @@ impl PacketCzPartyConfig {
     pub fn new() -> PacketCzPartyConfig {
         PacketCzPartyConfig {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2c, 0x8]),
+        packet_id_raw: [0x2c, 0x8],
         b_refuse_join_msg: false,
         b_refuse_join_msg_raw: [0; 1],
         }
@@ -68596,8 +68596,8 @@ impl PacketZcPartyConfig {
     pub fn new() -> PacketZcPartyConfig {
         PacketZcPartyConfig {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2c, 0x9]),
+        packet_id_raw: [0x2c, 0x9],
         b_refuse_join_msg: false,
         b_refuse_join_msg_raw: [0; 1],
         }
@@ -68674,8 +68674,8 @@ impl PacketHcRefuseSelectchar {
     pub fn new() -> PacketHcRefuseSelectchar {
         PacketHcRefuseSelectchar {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2c, 0xa]),
+        packet_id_raw: [0x2c, 0xa],
         error_code: 0,
         error_code_raw: [0; 1],
         }
@@ -68776,8 +68776,8 @@ impl PacketZcMemorialdungeonSubscriptionInfo {
     pub fn new() -> PacketZcMemorialdungeonSubscriptionInfo {
         PacketZcMemorialdungeonSubscriptionInfo {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2c, 0xb]),
+        packet_id_raw: [0x2c, 0xb],
         memorial_dungeon_name: [0 as char; 61],
         memorial_dungeon_name_raw: [0; 61],
         priority_order_num: 0,
@@ -68856,8 +68856,8 @@ impl PacketZcMemorialdungeonSubscriptionNotify {
     pub fn new() -> PacketZcMemorialdungeonSubscriptionNotify {
         PacketZcMemorialdungeonSubscriptionNotify {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2c, 0xc]),
+        packet_id_raw: [0x2c, 0xc],
         priority_order_num: 0,
         priority_order_num_raw: [0; 2],
         }
@@ -68974,8 +68974,8 @@ impl PacketZcMemorialdungeonInfo {
     pub fn new() -> PacketZcMemorialdungeonInfo {
         PacketZcMemorialdungeonInfo {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2c, 0xd]),
+        packet_id_raw: [0x2c, 0xd],
         memorial_dungeon_name: [0 as char; 61],
         memorial_dungeon_name_raw: [0; 61],
         destroy_date: 0,
@@ -69072,8 +69072,8 @@ impl PacketZcMemorialdungeonNotify {
     pub fn new() -> PacketZcMemorialdungeonNotify {
         PacketZcMemorialdungeonNotify {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2c, 0xe]),
+        packet_id_raw: [0x2c, 0xe],
         atype: 0,
         atype_raw: [0; 4],
         enter_limit_date: 0,
@@ -69152,8 +69152,8 @@ impl PacketCzMemorialdungeonCommand {
     pub fn new() -> PacketCzMemorialdungeonCommand {
         PacketCzMemorialdungeonCommand {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2c, 0xf]),
+        packet_id_raw: [0x2c, 0xf],
         command: 0,
         command_raw: [0; 4],
         }
@@ -69253,8 +69253,8 @@ impl PacketZcEquipmentItemlist3 {
     pub fn new() -> PacketZcEquipmentItemlist3 {
         PacketZcEquipmentItemlist3 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2d, 0x0]),
+        packet_id_raw: [0x2d, 0x0],
         packet_length: 0,
         packet_length_raw: [0; 2],
         item_info: vec![],
@@ -69356,8 +69356,8 @@ impl PacketZcStoreEquipmentItemlist3 {
     pub fn new() -> PacketZcStoreEquipmentItemlist3 {
         PacketZcStoreEquipmentItemlist3 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2d, 0x1]),
+        packet_id_raw: [0x2d, 0x1],
         packet_length: 0,
         packet_length_raw: [0; 2],
         item_info: vec![],
@@ -69459,8 +69459,8 @@ impl PacketZcCartEquipmentItemlist3 {
     pub fn new() -> PacketZcCartEquipmentItemlist3 {
         PacketZcCartEquipmentItemlist3 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2d, 0x2]),
+        packet_id_raw: [0x2d, 0x2],
         packet_length: 0,
         packet_length_raw: [0; 2],
         item_info: vec![],
@@ -69539,8 +69539,8 @@ impl PacketZcNotifyBindOnEquip {
     pub fn new() -> PacketZcNotifyBindOnEquip {
         PacketZcNotifyBindOnEquip {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2d, 0x3]),
+        packet_id_raw: [0x2d, 0x3],
         index: 0,
         index_raw: [0; 2],
         }
@@ -69791,8 +69791,8 @@ impl PacketZcItemPickupAck3 {
     pub fn new() -> PacketZcItemPickupAck3 {
         PacketZcItemPickupAck3 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2d, 0x4]),
+        packet_id_raw: [0x2d, 0x4],
         index: 0,
         index_raw: [0; 2],
         count: 0,
@@ -69875,8 +69875,8 @@ impl PacketZcIsvrDisconnect {
     pub fn new() -> PacketZcIsvrDisconnect {
         PacketZcIsvrDisconnect {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2d, 0x5]),
+        packet_id_raw: [0x2d, 0x5],
         }
     }
 }
@@ -69951,8 +69951,8 @@ impl PacketCzEquipwinMicroscope {
     pub fn new() -> PacketCzEquipwinMicroscope {
         PacketCzEquipwinMicroscope {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2d, 0x6]),
+        packet_id_raw: [0x2d, 0x6],
         aid: 0,
         aid_raw: [0; 4],
         }
@@ -70204,8 +70204,8 @@ impl PacketZcEquipwinMicroscope {
     pub fn new() -> PacketZcEquipwinMicroscope {
         PacketZcEquipwinMicroscope {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2d, 0x7]),
+        packet_id_raw: [0x2d, 0x7],
         packet_length: 0,
         packet_length_raw: [0; 2],
         character_name: [0 as char; 24],
@@ -70318,8 +70318,8 @@ impl PacketCzConfig {
     pub fn new() -> PacketCzConfig {
         PacketCzConfig {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2d, 0x8]),
+        packet_id_raw: [0x2d, 0x8],
         config: 0,
         config_raw: [0; 4],
         value: 0,
@@ -70414,8 +70414,8 @@ impl PacketZcConfig {
     pub fn new() -> PacketZcConfig {
         PacketZcConfig {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2d, 0x9]),
+        packet_id_raw: [0x2d, 0x9],
         config: 0,
         config_raw: [0; 4],
         value: 0,
@@ -70494,8 +70494,8 @@ impl PacketZcConfigNotify {
     pub fn new() -> PacketZcConfigNotify {
         PacketZcConfigNotify {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2d, 0xa]),
+        packet_id_raw: [0x2d, 0xa],
         b_open_equipment_win: false,
         b_open_equipment_win_raw: [0; 1],
         }
@@ -70582,8 +70582,8 @@ impl PacketCzBattlefieldChat {
     pub fn new() -> PacketCzBattlefieldChat {
         PacketCzBattlefieldChat {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2d, 0xb]),
+        packet_id_raw: [0x2d, 0xb],
         packet_length: 0,
         packet_length_raw: [0; 2],
         msg: String::new(),
@@ -70712,8 +70712,8 @@ impl PacketZcBattlefieldChat {
     pub fn new() -> PacketZcBattlefieldChat {
         PacketZcBattlefieldChat {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2d, 0xc]),
+        packet_id_raw: [0x2d, 0xc],
         packet_length: 0,
         packet_length_raw: [0; 2],
         account_id: 0,
@@ -70836,8 +70836,8 @@ impl PacketZcBattlefieldNotifyCampinfo {
     pub fn new() -> PacketZcBattlefieldNotifyCampinfo {
         PacketZcBattlefieldNotifyCampinfo {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2d, 0xd]),
+        packet_id_raw: [0x2d, 0xd],
         account_id: 0,
         account_id_raw: [0; 4],
         name: [0 as char; 24],
@@ -70934,8 +70934,8 @@ impl PacketZcBattlefieldNotifyPoint {
     pub fn new() -> PacketZcBattlefieldNotifyPoint {
         PacketZcBattlefieldNotifyPoint {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2d, 0xe]),
+        packet_id_raw: [0x2d, 0xe],
         point_camp_a: 0,
         point_camp_a_raw: [0; 2],
         point_camp_b: 0,
@@ -71086,8 +71086,8 @@ impl PacketZcBattlefieldNotifyPosition {
     pub fn new() -> PacketZcBattlefieldNotifyPosition {
         PacketZcBattlefieldNotifyPosition {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2d, 0xf]),
+        packet_id_raw: [0x2d, 0xf],
         account_id: 0,
         account_id_raw: [0; 4],
         name: [0 as char; 24],
@@ -71228,8 +71228,8 @@ impl PacketZcBattlefieldNotifyHp {
     pub fn new() -> PacketZcBattlefieldNotifyHp {
         PacketZcBattlefieldNotifyHp {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2e, 0x0]),
+        packet_id_raw: [0x2e, 0x0],
         account_id: 0,
         account_id_raw: [0; 4],
         name: [0 as char; 24],
@@ -71440,8 +71440,8 @@ impl PacketZcNotifyAct2 {
     pub fn new() -> PacketZcNotifyAct2 {
         PacketZcNotifyAct2 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2e, 0x1]),
+        packet_id_raw: [0x2e, 0x1],
         gid: 0,
         gid_raw: [0; 4],
         target_gid: 0,
@@ -71534,8 +71534,8 @@ impl PacketCzBotCheck {
     pub fn new() -> PacketCzBotCheck {
         PacketCzBotCheck {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2e, 0x6]),
+        packet_id_raw: [0x2e, 0x6],
         is_bot: 0,
         is_bot_raw: [0; 4],
         }
@@ -71641,8 +71641,8 @@ impl PacketZcMapproperty {
     pub fn new() -> PacketZcMapproperty {
         PacketZcMapproperty {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2e, 0x7]),
+        packet_id_raw: [0x2e, 0x7],
         packet_length: 0,
         packet_length_raw: [0; 2],
         atype: 0,
@@ -71746,8 +71746,8 @@ impl PacketZcNormalItemlist3 {
     pub fn new() -> PacketZcNormalItemlist3 {
         PacketZcNormalItemlist3 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2e, 0x8]),
+        packet_id_raw: [0x2e, 0x8],
         packet_length: 0,
         packet_length_raw: [0; 2],
         item_info: vec![],
@@ -71849,8 +71849,8 @@ impl PacketZcCartNormalItemlist3 {
     pub fn new() -> PacketZcCartNormalItemlist3 {
         PacketZcCartNormalItemlist3 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2e, 0x9]),
+        packet_id_raw: [0x2e, 0x9],
         packet_length: 0,
         packet_length_raw: [0; 2],
         item_info: vec![],
@@ -71952,8 +71952,8 @@ impl PacketZcStoreNormalItemlist3 {
     pub fn new() -> PacketZcStoreNormalItemlist3 {
         PacketZcStoreNormalItemlist3 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2e, 0xa]),
+        packet_id_raw: [0x2e, 0xa],
         packet_length: 0,
         packet_length_raw: [0; 2],
         item_info: vec![],
@@ -72104,8 +72104,8 @@ impl PacketZcAcceptEnter2 {
     pub fn new() -> PacketZcAcceptEnter2 {
         PacketZcAcceptEnter2 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2e, 0xb]),
+        packet_id_raw: [0x2e, 0xb],
         start_time: 0,
         start_time_raw: [0; 4],
         pos_dir: [0 as char; 3],
@@ -72614,8 +72614,8 @@ impl PacketZcNotifyMoveentry4 {
     pub fn new() -> PacketZcNotifyMoveentry4 {
         PacketZcNotifyMoveentry4 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2e, 0xc]),
+        packet_id_raw: [0x2e, 0xc],
         objecttype: 0,
         objecttype_raw: [0; 1],
         gid: 0,
@@ -73136,8 +73136,8 @@ impl PacketZcNotifyNewentry4 {
     pub fn new() -> PacketZcNotifyNewentry4 {
         PacketZcNotifyNewentry4 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2e, 0xd]),
+        packet_id_raw: [0x2e, 0xd],
         gid: 0,
         gid_raw: [0; 4],
         speed: 0,
@@ -73670,8 +73670,8 @@ impl PacketZcNotifyStandentry4 {
     pub fn new() -> PacketZcNotifyStandentry4 {
         PacketZcNotifyStandentry4 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2e, 0xe]),
+        packet_id_raw: [0x2e, 0xe],
         gid: 0,
         gid_raw: [0; 4],
         speed: 0,
@@ -73814,8 +73814,8 @@ impl PacketZcNotifyFont {
     pub fn new() -> PacketZcNotifyFont {
         PacketZcNotifyFont {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2e, 0xf]),
+        packet_id_raw: [0x2e, 0xf],
         aid: 0,
         aid_raw: [0; 4],
         font: 0,
@@ -73910,8 +73910,8 @@ impl PacketZcProgress {
     pub fn new() -> PacketZcProgress {
         PacketZcProgress {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2f, 0x0]),
+        packet_id_raw: [0x2f, 0x0],
         color: 0,
         color_raw: [0; 4],
         time: 0,
@@ -73974,8 +73974,8 @@ impl PacketCzProgress {
     pub fn new() -> PacketCzProgress {
         PacketCzProgress {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2f, 0x1]),
+        packet_id_raw: [0x2f, 0x1],
         }
     }
 }
@@ -74034,8 +74034,8 @@ impl PacketZcProgressCancel {
     pub fn new() -> PacketZcProgressCancel {
         PacketZcProgressCancel {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x2f, 0x2]),
+        packet_id_raw: [0x2f, 0x2],
         }
     }
 }
@@ -74094,8 +74094,8 @@ impl PacketCzOpenSimpleCashshopItemlist {
     pub fn new() -> PacketCzOpenSimpleCashshopItemlist {
         PacketCzOpenSimpleCashshopItemlist {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x35, 0xc]),
+        packet_id_raw: [0x35, 0xc],
         }
     }
 }
@@ -74273,8 +74273,8 @@ impl PacketZcSimpleCashshopPointItemlist {
     pub fn new() -> PacketZcSimpleCashshopPointItemlist {
         PacketZcSimpleCashshopPointItemlist {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x35, 0xd]),
+        packet_id_raw: [0x35, 0xd],
         packet_length: 0,
         packet_length_raw: [0; 2],
         cash_point: 0,
@@ -74347,8 +74347,8 @@ impl PacketCzCloseWindow {
     pub fn new() -> PacketCzCloseWindow {
         PacketCzCloseWindow {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x35, 0xe]),
+        packet_id_raw: [0x35, 0xe],
         }
     }
 }
@@ -74431,8 +74431,8 @@ impl PacketAhcGameGuard {
     pub fn new() -> PacketAhcGameGuard {
         PacketAhcGameGuard {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x3d, 0xd]),
+        packet_id_raw: [0x3d, 0xd],
         auth_data: [0; 4],
         auth_data_raw: [0; 4],
         }
@@ -74517,8 +74517,8 @@ impl PacketCahAckGameGuard {
     pub fn new() -> PacketCahAckGameGuard {
         PacketCahAckGameGuard {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x3d, 0xe]),
+        packet_id_raw: [0x3d, 0xe],
         auth_data: [0; 4],
         auth_data_raw: [0; 4],
         }
@@ -74659,8 +74659,8 @@ impl PacketCzEnter2 {
     pub fn new() -> PacketCzEnter2 {
         PacketCzEnter2 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x36, 0x04]),
+        packet_id_raw: [0x36, 0x04],
         aid: 0,
         aid_raw: [0; 4],
         gid: 0,
@@ -74761,8 +74761,8 @@ impl PacketCzRequestAct2 {
     pub fn new() -> PacketCzRequestAct2 {
         PacketCzRequestAct2 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x43, 0x7]),
+        packet_id_raw: [0x43, 0x7],
         target_gid: 0,
         target_gid_raw: [0; 4],
         action: 0,
@@ -74873,8 +74873,8 @@ impl PacketCzUseSkill2 {
     pub fn new() -> PacketCzUseSkill2 {
         PacketCzUseSkill2 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x43, 0x8]),
+        packet_id_raw: [0x43, 0x8],
         selected_level: 0,
         selected_level_raw: [0; 2],
         skid: 0,
@@ -74971,8 +74971,8 @@ impl PacketCzUseItem2 {
     pub fn new() -> PacketCzUseItem2 {
         PacketCzUseItem2 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x43, 0x9]),
+        packet_id_raw: [0x43, 0x9],
         index: 0,
         index_raw: [0; 2],
         aid: 0,
@@ -75067,8 +75067,8 @@ impl PacketZcSkillPostdelay {
     pub fn new() -> PacketZcSkillPostdelay {
         PacketZcSkillPostdelay {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x43, 0xd]),
+        packet_id_raw: [0x43, 0xd],
         skid: 0,
         skid_raw: [0; 2],
         delay_tm: 0,
@@ -75170,8 +75170,8 @@ impl PacketZcSkillPostdelayList {
     pub fn new() -> PacketZcSkillPostdelayList {
         PacketZcSkillPostdelayList {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x43, 0xe]),
+        packet_id_raw: [0x43, 0xe],
         packet_length: 0,
         packet_length_raw: [0; 2],
         delay_list: vec![],
@@ -75322,8 +75322,8 @@ impl PacketZcMsgStateChange2 {
     pub fn new() -> PacketZcMsgStateChange2 {
         PacketZcMsgStateChange2 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x43, 0xf]),
+        packet_id_raw: [0x43, 0xf],
         index: 0,
         index_raw: [0; 2],
         aid: 0,
@@ -75440,8 +75440,8 @@ impl PacketZcMillenniumshield {
     pub fn new() -> PacketZcMillenniumshield {
         PacketZcMillenniumshield {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x44, 0x0]),
+        packet_id_raw: [0x44, 0x0],
         aid: 0,
         aid_raw: [0; 4],
         num: 0,
@@ -75522,8 +75522,8 @@ impl PacketZcSkillinfoDelete {
     pub fn new() -> PacketZcSkillinfoDelete {
         PacketZcSkillinfoDelete {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x44, 0x1]),
+        packet_id_raw: [0x44, 0x1],
         skid: 0,
         skid_raw: [0; 2],
         }
@@ -75629,8 +75629,8 @@ impl PacketZcSkillSelectRequest {
     pub fn new() -> PacketZcSkillSelectRequest {
         PacketZcSkillSelectRequest {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x44, 0x2]),
+        packet_id_raw: [0x44, 0x2],
         packet_length: 0,
         packet_length_raw: [0; 2],
         why: 0,
@@ -75727,8 +75727,8 @@ impl PacketCzSkillSelectResponse {
     pub fn new() -> PacketCzSkillSelectResponse {
         PacketCzSkillSelectResponse {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x44, 0x3]),
+        packet_id_raw: [0x44, 0x3],
         why: 0,
         why_raw: [0; 4],
         skid: 0,
@@ -75846,8 +75846,8 @@ impl PacketZcSimpleCashPointItemlist {
     pub fn new() -> PacketZcSimpleCashPointItemlist {
         PacketZcSimpleCashPointItemlist {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x44, 0x4]),
+        packet_id_raw: [0x44, 0x4],
         packet_length: 0,
         packet_length_raw: [0; 2],
         cash_point: 0,
@@ -75944,8 +75944,8 @@ impl PacketCzSimpleBuyCashPointItem {
     pub fn new() -> PacketCzSimpleBuyCashPointItem {
         PacketCzSimpleBuyCashPointItem {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x44, 0x5]),
+        packet_id_raw: [0x44, 0x5],
         itid: 0,
         itid_raw: [0; 2],
         count: 0,
@@ -76088,8 +76088,8 @@ impl PacketZcQuestNotifyEffect {
     pub fn new() -> PacketZcQuestNotifyEffect {
         PacketZcQuestNotifyEffect {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x44, 0x6]),
+        packet_id_raw: [0x44, 0x6],
         npc_id: 0,
         npc_id_raw: [0; 4],
         x_pos: 0,
@@ -76158,8 +76158,8 @@ impl PacketCzBlockingPlayCancel {
     pub fn new() -> PacketCzBlockingPlayCancel {
         PacketCzBlockingPlayCancel {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x44, 0x7]),
+        packet_id_raw: [0x44, 0x7],
         }
     }
 }
@@ -76257,8 +76257,8 @@ impl PacketHcCharacterList {
     pub fn new() -> PacketHcCharacterList {
         PacketHcCharacterList {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x44, 0x8]),
+        packet_id_raw: [0x44, 0x8],
         packet_length: 0,
         packet_length_raw: [0; 2],
         character_list: vec![],
@@ -76337,8 +76337,8 @@ impl PacketZcHackshErrorMsg {
     pub fn new() -> PacketZcHackshErrorMsg {
         PacketZcHackshErrorMsg {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x44, 0x9]),
+        packet_id_raw: [0x44, 0x9],
         error_id: 0,
         error_id_raw: [0; 2],
         }
@@ -76415,8 +76415,8 @@ impl PacketCzClientVersion {
     pub fn new() -> PacketCzClientVersion {
         PacketCzClientVersion {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x44, 0xa]),
+        packet_id_raw: [0x44, 0xa],
         client_ver: 0,
         client_ver_raw: [0; 4],
         }
@@ -76477,8 +76477,8 @@ impl PacketCzCloseSimplecashShop {
     pub fn new() -> PacketCzCloseSimplecashShop {
         PacketCzCloseSimplecashShop {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x44, 0xb]),
+        packet_id_raw: [0x44, 0xb],
         }
     }
 }
@@ -76569,8 +76569,8 @@ impl PacketZcEsResult {
     pub fn new() -> PacketZcEsResult {
         PacketZcEsResult {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x7d, 0x0]),
+        packet_id_raw: [0x7d, 0x0],
         es_no: 0,
         es_no_raw: [0; 2],
         es_msg: 0,
@@ -76633,8 +76633,8 @@ impl PacketCzEsGetList {
     pub fn new() -> PacketCzEsGetList {
         PacketCzEsGetList {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x7d, 0x1]),
+        packet_id_raw: [0x7d, 0x1],
         }
     }
 }
@@ -76725,8 +76725,8 @@ impl PacketZcEsList {
     pub fn new() -> PacketZcEsList {
         PacketZcEsList {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x7d, 0x2]),
+        packet_id_raw: [0x7d, 0x2],
         packet_length: 0,
         packet_length_raw: [0; 2],
         count: 0,
@@ -76805,8 +76805,8 @@ impl PacketCzEsChoose {
     pub fn new() -> PacketCzEsChoose {
         PacketCzEsChoose {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x7d, 0x3]),
+        packet_id_raw: [0x7d, 0x3],
         es_no: 0,
         es_no_raw: [0; 2],
         }
@@ -76883,8 +76883,8 @@ impl PacketCzEsCancel {
     pub fn new() -> PacketCzEsCancel {
         PacketCzEsCancel {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x7d, 0x4]),
+        packet_id_raw: [0x7d, 0x4],
         es_no: 0,
         es_no_raw: [0; 2],
         }
@@ -76961,8 +76961,8 @@ impl PacketZcEsReady {
     pub fn new() -> PacketZcEsReady {
         PacketZcEsReady {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x7d, 0x5]),
+        packet_id_raw: [0x7d, 0x5],
         es_no: 0,
         es_no_raw: [0; 2],
         }
@@ -77039,8 +77039,8 @@ impl PacketZcEsGoto {
     pub fn new() -> PacketZcEsGoto {
         PacketZcEsGoto {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x7d, 0x6]),
+        packet_id_raw: [0x7d, 0x6],
         es_no: 0,
         es_no_raw: [0; 2],
         }
@@ -77149,8 +77149,8 @@ impl PacketCzGroupinfoChangeV2 {
     pub fn new() -> PacketCzGroupinfoChangeV2 {
         PacketCzGroupinfoChangeV2 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x7d, 0x7]),
+        packet_id_raw: [0x7d, 0x7],
         exp_option: 0,
         exp_option_raw: [0; 4],
         item_pickup_rule: 0,
@@ -77263,8 +77263,8 @@ impl PacketZcReqGroupinfoChangeV2 {
     pub fn new() -> PacketZcReqGroupinfoChangeV2 {
         PacketZcReqGroupinfoChangeV2 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x7d, 0x8]),
+        packet_id_raw: [0x7d, 0x8],
         exp_option: 0,
         exp_option_raw: [0; 4],
         item_pickup_rule: 0,
@@ -77352,8 +77352,8 @@ impl PacketZcShortcutKeyListV2 {
     pub fn new() -> PacketZcShortcutKeyListV2 {
         PacketZcShortcutKeyListV2 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x7d, 0x9]),
+        packet_id_raw: [0x7d, 0x9],
         short_cut_key: vec![],
         short_cut_key_raw: vec![],
         }
@@ -77430,8 +77430,8 @@ impl PacketCzChangeGroupMaster {
     pub fn new() -> PacketCzChangeGroupMaster {
         PacketCzChangeGroupMaster {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x7d, 0xa]),
+        packet_id_raw: [0x7d, 0xa],
         aid: 0,
         aid_raw: [0; 4],
         }
@@ -77524,8 +77524,8 @@ impl PacketZcHoParChange {
     pub fn new() -> PacketZcHoParChange {
         PacketZcHoParChange {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x7d, 0xb]),
+        packet_id_raw: [0x7d, 0xb],
         var: 0,
         var_raw: [0; 2],
         value: 0,
@@ -77604,8 +77604,8 @@ impl PacketCzSeekParty {
     pub fn new() -> PacketCzSeekParty {
         PacketCzSeekParty {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x7d, 0xc]),
+        packet_id_raw: [0x7d, 0xc],
         option: 0,
         option_raw: [0; 4],
         }
@@ -77762,8 +77762,8 @@ impl PacketZcSeekParty {
     pub fn new() -> PacketZcSeekParty {
         PacketZcSeekParty {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x7d, 0xd]),
+        packet_id_raw: [0x7d, 0xd],
         name: [0 as char; 24],
         name_raw: [0; 24],
         job: 0,
@@ -77904,8 +77904,8 @@ impl PacketCzSeekPartyMember {
     pub fn new() -> PacketCzSeekPartyMember {
         PacketCzSeekPartyMember {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x7d, 0xe]),
+        packet_id_raw: [0x7d, 0xe],
         job: 0,
         job_raw: [0; 4],
         level: 0,
@@ -78068,8 +78068,8 @@ impl PacketZcSeekPartyMember {
     pub fn new() -> PacketZcSeekPartyMember {
         PacketZcSeekPartyMember {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x7d, 0xf]),
+        packet_id_raw: [0x7d, 0xf],
         name: [0 as char; 24],
         name_raw: [0; 24],
         job: 0,
@@ -78178,8 +78178,8 @@ impl PacketZcEsNotiMyinfo {
     pub fn new() -> PacketZcEsNotiMyinfo {
         PacketZcEsNotiMyinfo {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x7e, 0x0]),
+        packet_id_raw: [0x7e, 0x0],
         es_no: 0,
         es_no_raw: [0; 2],
         esname: [0 as char; 54],
@@ -78338,8 +78338,8 @@ impl PacketZcSkillinfoUpdate2 {
     pub fn new() -> PacketZcSkillinfoUpdate2 {
         PacketZcSkillinfoUpdate2 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x7e, 0x1]),
+        packet_id_raw: [0x7e, 0x1],
         skid: 0,
         skid_raw: [0; 2],
         atype: 0,
@@ -78442,8 +78442,8 @@ impl PacketZcMsgValue {
     pub fn new() -> PacketZcMsgValue {
         PacketZcMsgValue {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x7e, 0x2]),
+        packet_id_raw: [0x7e, 0x2],
         msg: 0,
         msg_raw: [0; 2],
         value: 0,
@@ -78522,8 +78522,8 @@ impl PacketZcItemlistwinOpen {
     pub fn new() -> PacketZcItemlistwinOpen {
         PacketZcItemlistwinOpen {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x7e, 0x3]),
+        packet_id_raw: [0x7e, 0x3],
         atype: 0,
         atype_raw: [0; 4],
         }
@@ -78648,8 +78648,8 @@ impl PacketCzItemlistwinRes {
     pub fn new() -> PacketCzItemlistwinRes {
         PacketCzItemlistwinRes {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x7e, 0x4]),
+        packet_id_raw: [0x7e, 0x4],
         packet_length: 0,
         packet_length_raw: [0; 2],
         atype: 0,
@@ -78758,8 +78758,8 @@ impl PacketChEnterCheckbot {
     pub fn new() -> PacketChEnterCheckbot {
         PacketChEnterCheckbot {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x7e, 0x5]),
+        packet_id_raw: [0x7e, 0x5],
         packet_length: 0,
         packet_length_raw: [0; 2],
         dw_aid: 0,
@@ -78856,8 +78856,8 @@ impl PacketZcMsgSkill {
     pub fn new() -> PacketZcMsgSkill {
         PacketZcMsgSkill {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x7e, 0x6]),
+        packet_id_raw: [0x7e, 0x6],
         skid: 0,
         skid_raw: [0; 2],
         msgid: 0,
@@ -78976,8 +78976,8 @@ impl PacketChCheckbot {
     pub fn new() -> PacketChCheckbot {
         PacketChCheckbot {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x7e, 0x7]),
+        packet_id_raw: [0x7e, 0x7],
         packet_length: 0,
         packet_length_raw: [0; 2],
         dw_aid: 0,
@@ -79068,8 +79068,8 @@ impl PacketHcCheckbot {
     pub fn new() -> PacketHcCheckbot {
         PacketHcCheckbot {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x7e, 0x8]),
+        packet_id_raw: [0x7e, 0x8],
         packet_length: 0,
         packet_length_raw: [0; 2],
         img: String::new(),
@@ -79164,8 +79164,8 @@ impl PacketHcCheckbotResult {
     pub fn new() -> PacketHcCheckbotResult {
         PacketHcCheckbotResult {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x7e, 0x9]),
+        packet_id_raw: [0x7e, 0x9],
         packet_length: 0,
         packet_length_raw: [0; 2],
         result: 0,
@@ -79228,8 +79228,8 @@ impl PacketCzBattleFieldList {
     pub fn new() -> PacketCzBattleFieldList {
         PacketCzBattleFieldList {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x7e, 0xa]),
+        packet_id_raw: [0x7e, 0xa],
         }
     }
 }
@@ -79359,8 +79359,8 @@ impl PacketZcBattleFieldList {
     pub fn new() -> PacketZcBattleFieldList {
         PacketZcBattleFieldList {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x7e, 0xb]),
+        packet_id_raw: [0x7e, 0xb],
         packet_length: 0,
         packet_length_raw: [0; 2],
         count: 0,
@@ -79459,8 +79459,8 @@ impl PacketCzJoinBattleField {
     pub fn new() -> PacketCzJoinBattleField {
         PacketCzJoinBattleField {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x7e, 0xc]),
+        packet_id_raw: [0x7e, 0xc],
         bfno: 0,
         bfno_raw: [0; 4],
         join_team: 0,
@@ -79571,8 +79571,8 @@ impl PacketZcJoinBattleField {
     pub fn new() -> PacketZcJoinBattleField {
         PacketZcJoinBattleField {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x7e, 0xd]),
+        packet_id_raw: [0x7e, 0xd],
         bfno: 0,
         bfno_raw: [0; 4],
         join_team: 0,
@@ -79653,8 +79653,8 @@ impl PacketCzCancelBattleField {
     pub fn new() -> PacketCzCancelBattleField {
         PacketCzCancelBattleField {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x7e, 0xe]),
+        packet_id_raw: [0x7e, 0xe],
         bfno: 0,
         bfno_raw: [0; 4],
         }
@@ -79747,8 +79747,8 @@ impl PacketZcCancelBattleField {
     pub fn new() -> PacketZcCancelBattleField {
         PacketZcCancelBattleField {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x7e, 0xf]),
+        packet_id_raw: [0x7e, 0xf],
         bfno: 0,
         bfno_raw: [0; 4],
         result: 0,
@@ -79843,8 +79843,8 @@ impl PacketCzReqBattleStateMonitor {
     pub fn new() -> PacketCzReqBattleStateMonitor {
         PacketCzReqBattleStateMonitor {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x7f, 0x0]),
+        packet_id_raw: [0x7f, 0x0],
         bfno: 0,
         bfno_raw: [0; 4],
         power_switch: 0,
@@ -80019,8 +80019,8 @@ impl PacketZcAckBattleStateMonitor {
     pub fn new() -> PacketZcAckBattleStateMonitor {
         PacketZcAckBattleStateMonitor {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x7f, 0x1]),
+        packet_id_raw: [0x7f, 0x1],
         bfno: 0,
         bfno_raw: [0; 4],
         play_count: 0,
@@ -80125,8 +80125,8 @@ impl PacketZcBattleNotiStartStep {
     pub fn new() -> PacketZcBattleNotiStartStep {
         PacketZcBattleNotiStartStep {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x7f, 0x2]),
+        packet_id_raw: [0x7f, 0x2],
         bfno: 0,
         bfno_raw: [0; 4],
         result: 0,
@@ -80205,8 +80205,8 @@ impl PacketZcBattleJoinNotiDefer {
     pub fn new() -> PacketZcBattleJoinNotiDefer {
         PacketZcBattleJoinNotiDefer {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x7f, 0x3]),
+        packet_id_raw: [0x7f, 0x3],
         bfno: 0,
         bfno_raw: [0; 4],
         }
@@ -80283,8 +80283,8 @@ impl PacketZcBattleJoinDisableState {
     pub fn new() -> PacketZcBattleJoinDisableState {
         PacketZcBattleJoinDisableState {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x7f, 0x4]),
+        packet_id_raw: [0x7f, 0x4],
         enable: false,
         enable_raw: [0; 1],
         }
@@ -80361,8 +80361,8 @@ impl PacketCzGmFullstrip {
     pub fn new() -> PacketCzGmFullstrip {
         PacketCzGmFullstrip {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x7f, 0x5]),
+        packet_id_raw: [0x7f, 0x5],
         target_aid: 0,
         target_aid_raw: [0; 4],
         }
@@ -80487,8 +80487,8 @@ impl PacketZcNotifyExp {
     pub fn new() -> PacketZcNotifyExp {
         PacketZcNotifyExp {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x7f, 0x6]),
+        packet_id_raw: [0x7f, 0x6],
         aid: 0,
         aid_raw: [0; 4],
         amount: 0,
@@ -81035,8 +81035,8 @@ impl PacketZcNotifyMoveentry7 {
     pub fn new() -> PacketZcNotifyMoveentry7 {
         PacketZcNotifyMoveentry7 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x7f, 0x7]),
+        packet_id_raw: [0x7f, 0x7],
         packet_length: 0,
         packet_length_raw: [0; 2],
         objecttype: 0,
@@ -81617,8 +81617,8 @@ impl PacketZcNotifyNewentry5 {
     pub fn new() -> PacketZcNotifyNewentry5 {
         PacketZcNotifyNewentry5 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x7f, 0x8]),
+        packet_id_raw: [0x7f, 0x8],
         packet_length: 0,
         packet_length_raw: [0; 2],
         objecttype: 0,
@@ -82213,8 +82213,8 @@ impl PacketZcNotifyStandentry5 {
     pub fn new() -> PacketZcNotifyStandentry5 {
         PacketZcNotifyStandentry5 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x7f, 0x9]),
+        packet_id_raw: [0x7f, 0x9],
         packet_length: 0,
         packet_length_raw: [0; 2],
         objecttype: 0,
@@ -82379,8 +82379,8 @@ impl PacketZcDeleteItemFromBody {
     pub fn new() -> PacketZcDeleteItemFromBody {
         PacketZcDeleteItemFromBody {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x7f, 0xa]),
+        packet_id_raw: [0x7f, 0xa],
         delete_type: 0,
         delete_type_raw: [0; 2],
         index: 0,
@@ -82573,8 +82573,8 @@ impl PacketZcUseskillAck2 {
     pub fn new() -> PacketZcUseskillAck2 {
         PacketZcUseskillAck2 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x7f, 0xb]),
+        packet_id_raw: [0x7f, 0xb],
         aid: 0,
         aid_raw: [0; 4],
         target_id: 0,
@@ -82681,8 +82681,8 @@ impl PacketZcChangeGroupMaster {
     pub fn new() -> PacketZcChangeGroupMaster {
         PacketZcChangeGroupMaster {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x7f, 0xc]),
+        packet_id_raw: [0x7f, 0xc],
         old_master_aid: 0,
         old_master_aid_raw: [0; 4],
         new_master_aid: 0,
@@ -82769,8 +82769,8 @@ impl PacketZcPlayNpcBgm {
     pub fn new() -> PacketZcPlayNpcBgm {
         PacketZcPlayNpcBgm {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x7f, 0xe]),
+        packet_id_raw: [0x7f, 0xe],
         bgm: [0 as char; 24],
         bgm_raw: [0; 24],
         }
@@ -82863,8 +82863,8 @@ impl PacketZcDefineCheck {
     pub fn new() -> PacketZcDefineCheck {
         PacketZcDefineCheck {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x7f, 0xf]),
+        packet_id_raw: [0x7f, 0xf],
         packet_length: 0,
         packet_length_raw: [0; 2],
         result: 0,
@@ -82998,8 +82998,8 @@ impl PacketZcPcPurchaseItemlistFrommc2 {
     pub fn new() -> PacketZcPcPurchaseItemlistFrommc2 {
         PacketZcPcPurchaseItemlistFrommc2 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x80, 0x0]),
+        packet_id_raw: [0x80, 0x0],
         packet_length: 0,
         packet_length_raw: [0; 2],
         aid: 0,
@@ -83137,8 +83137,8 @@ impl PacketCzPcPurchaseItemlistFrommc2 {
     pub fn new() -> PacketCzPcPurchaseItemlistFrommc2 {
         PacketCzPcPurchaseItemlistFrommc2 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x80, 0x1]),
+        packet_id_raw: [0x80, 0x1],
         packet_length: 0,
         packet_length_raw: [0; 2],
         aid: 0,
@@ -83215,8 +83215,8 @@ impl PacketCzPartyBookingReqRegister {
     pub fn new() -> PacketCzPartyBookingReqRegister {
         PacketCzPartyBookingReqRegister {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x80, 0x2]),
+        packet_id_raw: [0x80, 0x2],
         register_info: PartyBookingDetail::new(),
         register_info_raw: vec![],
         }
@@ -83293,8 +83293,8 @@ impl PacketZcPartyBookingAckRegister {
     pub fn new() -> PacketZcPartyBookingAckRegister {
         PacketZcPartyBookingAckRegister {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x80, 0x3]),
+        packet_id_raw: [0x80, 0x3],
         result: 0,
         result_raw: [0; 2],
         }
@@ -83435,8 +83435,8 @@ impl PacketCzPartyBookingReqSearch {
     pub fn new() -> PacketCzPartyBookingReqSearch {
         PacketCzPartyBookingReqSearch {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x80, 0x4]),
+        packet_id_raw: [0x80, 0x4],
         level: 0,
         level_raw: [0; 2],
         map_id: 0,
@@ -83560,8 +83560,8 @@ impl PacketZcPartyBookingAckSearch {
     pub fn new() -> PacketZcPartyBookingAckSearch {
         PacketZcPartyBookingAckSearch {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x80, 0x5]),
+        packet_id_raw: [0x80, 0x5],
         packet_length: 0,
         packet_length_raw: [0; 2],
         is_exist_more_result: false,
@@ -83626,8 +83626,8 @@ impl PacketCzPartyBookingReqDelete {
     pub fn new() -> PacketCzPartyBookingReqDelete {
         PacketCzPartyBookingReqDelete {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x80, 0x6]),
+        packet_id_raw: [0x80, 0x6],
         }
     }
 }
@@ -83702,8 +83702,8 @@ impl PacketZcPartyBookingAckDelete {
     pub fn new() -> PacketZcPartyBookingAckDelete {
         PacketZcPartyBookingAckDelete {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x80, 0x7]),
+        packet_id_raw: [0x80, 0x7],
         result: 0,
         result_raw: [0; 2],
         }
@@ -83788,8 +83788,8 @@ impl PacketCzPartyBookingReqUpdate {
     pub fn new() -> PacketCzPartyBookingReqUpdate {
         PacketCzPartyBookingReqUpdate {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x80, 0x8]),
+        packet_id_raw: [0x80, 0x8],
         job: [0; 6],
         job_raw: [0; 6],
         }
@@ -83860,8 +83860,8 @@ impl PacketZcPartyBookingNotifyInsert {
     pub fn new() -> PacketZcPartyBookingNotifyInsert {
         PacketZcPartyBookingNotifyInsert {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x80, 0x9]),
+        packet_id_raw: [0x80, 0x9],
         info: PartyBookingAdInfo::new(),
         info_raw: vec![],
         }
@@ -84034,8 +84034,8 @@ impl PacketZcPartyBookingNotifyUpdate {
     pub fn new() -> PacketZcPartyBookingNotifyUpdate {
         PacketZcPartyBookingNotifyUpdate {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x80, 0xa]),
+        packet_id_raw: [0x80, 0xa],
         index: 0,
         index_raw: [0; 4],
         job1: 0,
@@ -84124,8 +84124,8 @@ impl PacketZcPartyBookingNotifyDelete {
     pub fn new() -> PacketZcPartyBookingNotifyDelete {
         PacketZcPartyBookingNotifyDelete {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x80, 0xb]),
+        packet_id_raw: [0x80, 0xb],
         index: 0,
         index_raw: [0; 4],
         }
@@ -84186,8 +84186,8 @@ impl PacketCzSimpleCashBtnshow {
     pub fn new() -> PacketCzSimpleCashBtnshow {
         PacketCzSimpleCashBtnshow {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x80, 0xc]),
+        packet_id_raw: [0x80, 0xc],
         }
     }
 }
@@ -84262,8 +84262,8 @@ impl PacketZcSimpleCashBtnshow {
     pub fn new() -> PacketZcSimpleCashBtnshow {
         PacketZcSimpleCashBtnshow {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x80, 0xd]),
+        packet_id_raw: [0x80, 0xd],
         show: false,
         show_raw: [0; 1],
         }
@@ -84372,8 +84372,8 @@ impl PacketZcNotifyHpToGroupmR2 {
     pub fn new() -> PacketZcNotifyHpToGroupmR2 {
         PacketZcNotifyHpToGroupmR2 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x80, 0xe]),
+        packet_id_raw: [0x80, 0xe],
         aid: 0,
         aid_raw: [0; 4],
         hp: 0,
@@ -84548,8 +84548,8 @@ impl PacketZcAddExchangeItem2 {
     pub fn new() -> PacketZcAddExchangeItem2 {
         PacketZcAddExchangeItem2 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x80, 0xf]),
+        packet_id_raw: [0x80, 0xf],
         itid: 0,
         itid_raw: [0; 2],
         atype: 0,
@@ -84638,8 +84638,8 @@ impl PacketZcOpenBuyingStore {
     pub fn new() -> PacketZcOpenBuyingStore {
         PacketZcOpenBuyingStore {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x81, 0x0]),
+        packet_id_raw: [0x81, 0x0],
         count: 0,
         count_raw: [0; 1],
         }
@@ -84795,8 +84795,8 @@ impl PacketCzReqOpenBuyingStore {
     pub fn new() -> PacketCzReqOpenBuyingStore {
         PacketCzReqOpenBuyingStore {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x81, 0x1]),
+        packet_id_raw: [0x81, 0x1],
         packet_length: 0,
         packet_length_raw: [0; 2],
         limit_zeny: 0,
@@ -84897,8 +84897,8 @@ impl PacketZcFailedOpenBuyingStoreToBuyer {
     pub fn new() -> PacketZcFailedOpenBuyingStoreToBuyer {
         PacketZcFailedOpenBuyingStoreToBuyer {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x81, 0x2]),
+        packet_id_raw: [0x81, 0x2],
         result: 0,
         result_raw: [0; 2],
         total_weight: 0,
@@ -85032,8 +85032,8 @@ impl PacketZcMyitemlistBuyingStore {
     pub fn new() -> PacketZcMyitemlistBuyingStore {
         PacketZcMyitemlistBuyingStore {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x81, 0x3]),
+        packet_id_raw: [0x81, 0x3],
         packet_length: 0,
         packet_length_raw: [0; 2],
         aid: 0,
@@ -85140,8 +85140,8 @@ impl PacketZcBuyingStoreEntry {
     pub fn new() -> PacketZcBuyingStoreEntry {
         PacketZcBuyingStoreEntry {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x81, 0x4]),
+        packet_id_raw: [0x81, 0x4],
         maker_aid: 0,
         maker_aid_raw: [0; 4],
         store_name: [0 as char; 80],
@@ -85204,8 +85204,8 @@ impl PacketCzReqCloseBuyingStore {
     pub fn new() -> PacketCzReqCloseBuyingStore {
         PacketCzReqCloseBuyingStore {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x81, 0x5]),
+        packet_id_raw: [0x81, 0x5],
         }
     }
 }
@@ -85280,8 +85280,8 @@ impl PacketZcDisappearBuyingStoreEntry {
     pub fn new() -> PacketZcDisappearBuyingStoreEntry {
         PacketZcDisappearBuyingStoreEntry {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x81, 0x6]),
+        packet_id_raw: [0x81, 0x6],
         maker_aid: 0,
         maker_aid_raw: [0; 4],
         }
@@ -85358,8 +85358,8 @@ impl PacketCzReqClickToBuyingStore {
     pub fn new() -> PacketCzReqClickToBuyingStore {
         PacketCzReqClickToBuyingStore {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x81, 0x7]),
+        packet_id_raw: [0x81, 0x7],
         maker_aid: 0,
         maker_aid_raw: [0; 4],
         }
@@ -85507,8 +85507,8 @@ impl PacketZcAckItemlistBuyingStore {
     pub fn new() -> PacketZcAckItemlistBuyingStore {
         PacketZcAckItemlistBuyingStore {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x81, 0x8]),
+        packet_id_raw: [0x81, 0x8],
         packet_length: 0,
         packet_length_raw: [0; 2],
         maker_aid: 0,
@@ -85648,8 +85648,8 @@ impl PacketCzReqTradeBuyingStore {
     pub fn new() -> PacketCzReqTradeBuyingStore {
         PacketCzReqTradeBuyingStore {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x81, 0x9]),
+        packet_id_raw: [0x81, 0x9],
         packet_length: 0,
         packet_length_raw: [0; 2],
         maker_aid: 0,
@@ -85732,8 +85732,8 @@ impl PacketZcFailedTradeBuyingStoreToBuyer {
     pub fn new() -> PacketZcFailedTradeBuyingStoreToBuyer {
         PacketZcFailedTradeBuyingStoreToBuyer {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x81, 0xa]),
+        packet_id_raw: [0x81, 0xa],
         result: 0,
         result_raw: [0; 2],
         }
@@ -85842,8 +85842,8 @@ impl PacketZcUpdateItemFromBuyingStore {
     pub fn new() -> PacketZcUpdateItemFromBuyingStore {
         PacketZcUpdateItemFromBuyingStore {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x81, 0xb]),
+        packet_id_raw: [0x81, 0xb],
         itid: 0,
         itid_raw: [0; 2],
         count: 0,
@@ -85956,8 +85956,8 @@ impl PacketZcItemDeleteBuyingStore {
     pub fn new() -> PacketZcItemDeleteBuyingStore {
         PacketZcItemDeleteBuyingStore {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x81, 0xc]),
+        packet_id_raw: [0x81, 0xc],
         index: 0,
         index_raw: [0; 2],
         count: 0,
@@ -86102,8 +86102,8 @@ impl PacketZcElInit {
     pub fn new() -> PacketZcElInit {
         PacketZcElInit {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x81, 0xd]),
+        packet_id_raw: [0x81, 0xd],
         aid: 0,
         aid_raw: [0; 4],
         hp: 0,
@@ -86204,8 +86204,8 @@ impl PacketZcElParChange {
     pub fn new() -> PacketZcElParChange {
         PacketZcElParChange {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x81, 0xe]),
+        packet_id_raw: [0x81, 0xe],
         var: 0,
         var_raw: [0; 2],
         value: 0,
@@ -86442,8 +86442,8 @@ impl PacketZcCostumeSpriteChange {
     pub fn new() -> PacketZcCostumeSpriteChange {
         PacketZcCostumeSpriteChange {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x82, 0x0]),
+        packet_id_raw: [0x82, 0x0],
         gid: 0,
         gid_raw: [0; 4],
         atype: 0,
@@ -86508,8 +86508,8 @@ impl PacketAcOtpUser {
     pub fn new() -> PacketAcOtpUser {
         PacketAcOtpUser {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x82, 0x1]),
+        packet_id_raw: [0x82, 0x1],
         }
     }
 }
@@ -86592,8 +86592,8 @@ impl PacketCaOtpAuthReq {
     pub fn new() -> PacketCaOtpAuthReq {
         PacketCaOtpAuthReq {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x82, 0x2]),
+        packet_id_raw: [0x82, 0x2],
         otpcode: [0 as char; 7],
         otpcode_raw: [0; 7],
         }
@@ -86686,8 +86686,8 @@ impl PacketAcOtpAuthAck {
     pub fn new() -> PacketAcOtpAuthAck {
         PacketAcOtpAuthAck {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x82, 0x3]),
+        packet_id_raw: [0x82, 0x3],
         packet_length: 0,
         packet_length_raw: [0; 2],
         login_result: 0,
@@ -86782,8 +86782,8 @@ impl PacketZcFailedTradeBuyingStoreToSeller {
     pub fn new() -> PacketZcFailedTradeBuyingStoreToSeller {
         PacketZcFailedTradeBuyingStoreToSeller {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x82, 0x4]),
+        packet_id_raw: [0x82, 0x4],
         result: 0,
         result_raw: [0; 2],
         itid: 0,
@@ -86976,8 +86976,8 @@ impl PacketCaSsoLoginReqa {
     pub fn new() -> PacketCaSsoLoginReqa {
         PacketCaSsoLoginReqa {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x82, 0x5a]),
+        packet_id_raw: [0x82, 0x5a],
         packet_length: 0,
         packet_length_raw: [0; 2],
         version: 0,
@@ -87204,8 +87204,8 @@ impl PacketCaSsoLoginReq {
     pub fn new() -> PacketCaSsoLoginReq {
         PacketCaSsoLoginReq {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x82, 0x5]),
+        packet_id_raw: [0x82, 0x5],
         packet_length: 0,
         packet_length_raw: [0; 2],
         version: 0,
@@ -87296,8 +87296,8 @@ impl PacketAcSsoLoginAck {
     pub fn new() -> PacketAcSsoLoginAck {
         PacketAcSsoLoginAck {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x82, 0x6]),
+        packet_id_raw: [0x82, 0x6],
         result: 0,
         result_raw: [0; 2],
         }
@@ -87374,8 +87374,8 @@ impl PacketChDeleteChar3Reserved {
     pub fn new() -> PacketChDeleteChar3Reserved {
         PacketChDeleteChar3Reserved {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x82, 0x7]),
+        packet_id_raw: [0x82, 0x7],
         gid: 0,
         gid_raw: [0; 4],
         }
@@ -87484,8 +87484,8 @@ impl PacketHcDeleteChar3Reserved {
     pub fn new() -> PacketHcDeleteChar3Reserved {
         PacketHcDeleteChar3Reserved {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x82, 0x8]),
+        packet_id_raw: [0x82, 0x8],
         gid: 0,
         gid_raw: [0; 4],
         result: 0,
@@ -87590,8 +87590,8 @@ impl PacketChDeleteChar3 {
     pub fn new() -> PacketChDeleteChar3 {
         PacketChDeleteChar3 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x82, 0x9]),
+        packet_id_raw: [0x82, 0x9],
         gid: 0,
         gid_raw: [0; 4],
         birth: [0 as char; 6],
@@ -87686,8 +87686,8 @@ impl PacketHcDeleteChar3 {
     pub fn new() -> PacketHcDeleteChar3 {
         PacketHcDeleteChar3 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x82, 0xa]),
+        packet_id_raw: [0x82, 0xa],
         gid: 0,
         gid_raw: [0; 4],
         result: 0,
@@ -87766,8 +87766,8 @@ impl PacketChDeleteChar3Cancel {
     pub fn new() -> PacketChDeleteChar3Cancel {
         PacketChDeleteChar3Cancel {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x82, 0xb]),
+        packet_id_raw: [0x82, 0xb],
         gid: 0,
         gid_raw: [0; 4],
         }
@@ -87860,8 +87860,8 @@ impl PacketHcDeleteChar3Cancel {
     pub fn new() -> PacketHcDeleteChar3Cancel {
         PacketHcDeleteChar3Cancel {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x82, 0xc]),
+        packet_id_raw: [0x82, 0xc],
         gid: 0,
         gid_raw: [0; 4],
         result: 0,
@@ -88020,8 +88020,8 @@ impl PacketCzSearchStoreInfo {
     pub fn new() -> PacketCzSearchStoreInfo {
         PacketCzSearchStoreInfo {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x83, 0x5]),
+        packet_id_raw: [0x83, 0x5],
         packet_length: 0,
         packet_length_raw: [0; 2],
         store_type: 0,
@@ -88179,8 +88179,8 @@ impl PacketZcSearchStoreInfoAck {
     pub fn new() -> PacketZcSearchStoreInfoAck {
         PacketZcSearchStoreInfoAck {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x83, 0x6]),
+        packet_id_raw: [0x83, 0x6],
         packet_length: 0,
         packet_length_raw: [0; 2],
         is_first_page: false,
@@ -88265,8 +88265,8 @@ impl PacketZcSearchStoreInfoFailed {
     pub fn new() -> PacketZcSearchStoreInfoFailed {
         PacketZcSearchStoreInfoFailed {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x83, 0x7]),
+        packet_id_raw: [0x83, 0x7],
         reason: 0,
         reason_raw: [0; 1],
         }
@@ -88327,8 +88327,8 @@ impl PacketCzSearchStoreInfoNextPage {
     pub fn new() -> PacketCzSearchStoreInfoNextPage {
         PacketCzSearchStoreInfoNextPage {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x83, 0x8]),
+        packet_id_raw: [0x83, 0x8],
         }
     }
 }
@@ -88435,8 +88435,8 @@ impl PacketZcAckBanGuildSso {
     pub fn new() -> PacketZcAckBanGuildSso {
         PacketZcAckBanGuildSso {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x83, 0x9]),
+        packet_id_raw: [0x83, 0x9],
         char_name: [0 as char; 24],
         char_name_raw: [0; 24],
         reason_desc: [0 as char; 40],
@@ -88531,8 +88531,8 @@ impl PacketZcOpenSearchStoreInfo {
     pub fn new() -> PacketZcOpenSearchStoreInfo {
         PacketZcOpenSearchStoreInfo {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x83, 0xa]),
+        packet_id_raw: [0x83, 0xa],
         open_type: 0,
         open_type_raw: [0; 2],
         search_cnt_max: 0,
@@ -88595,8 +88595,8 @@ impl PacketCzCloseSearchStoreInfo {
     pub fn new() -> PacketCzCloseSearchStoreInfo {
         PacketCzCloseSearchStoreInfo {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x83, 0xb]),
+        packet_id_raw: [0x83, 0xb],
         }
     }
 }
@@ -88703,8 +88703,8 @@ impl PacketCzSsilistItemClick {
     pub fn new() -> PacketCzSsilistItemClick {
         PacketCzSsilistItemClick {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x83, 0xc]),
+        packet_id_raw: [0x83, 0xc],
         aid: 0,
         aid_raw: [0; 4],
         ssiid: 0,
@@ -88801,8 +88801,8 @@ impl PacketZcSsilistItemClickAck {
     pub fn new() -> PacketZcSsilistItemClickAck {
         PacketZcSsilistItemClickAck {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x83, 0xd]),
+        packet_id_raw: [0x83, 0xd],
         x: 0,
         x_raw: [0; 2],
         y: 0,
@@ -88905,8 +88905,8 @@ impl PacketAcRefuseLoginR2 {
     pub fn new() -> PacketAcRefuseLoginR2 {
         PacketAcRefuseLoginR2 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x83, 0xe]),
+        packet_id_raw: [0x83, 0xe],
         error_code: 0,
         error_code_raw: [0; 4],
         block_date: [0 as char; 20],
@@ -89001,8 +89001,8 @@ impl PacketChSelectAccessibleMapname {
     pub fn new() -> PacketChSelectAccessibleMapname {
         PacketChSelectAccessibleMapname {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x84, 0x1]),
+        packet_id_raw: [0x84, 0x1],
         char_num: 0,
         char_num_raw: [0; 1],
         map_list_num: 0,
@@ -89089,8 +89089,8 @@ impl PacketCzRequestMove2 {
     pub fn new() -> PacketCzRequestMove2 {
         PacketCzRequestMove2 {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0x5f, 0x03]),
+        packet_id_raw: [0x5f, 0x03],
         dest: [0; 3],
         dest_raw: [0; 3],
         }
@@ -89247,8 +89247,8 @@ impl PacketChSendMapInfo {
     pub fn new() -> PacketChSendMapInfo {
         PacketChSendMapInfo {
         raw: vec![],
-        packet_id: 0,
-        packet_id_raw: [0; 2],
+        packet_id: i16::from_le_bytes([0xc5, 0x0a]),
+        packet_id_raw: [0xc5, 0x0a],
         gid: 0,
         gid_raw: [0; 4],
         map_name: [0 as char; 16],
