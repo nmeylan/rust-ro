@@ -37,7 +37,7 @@ pub fn write_packets_struct(packets: Vec<PacketStructDefinition>, nested_structu
     write_packet_trait(&mut file_packets);
     for packet in packets {
         write_struct_definition(&mut file_packets, &packet.struct_def);
-        write_struct_impl(&mut file_packets_impl, &packet.struct_def);
+        write_struct_impl(&mut file_packets_impl, &packet.struct_def, Some(packet.id.clone()));
         write_packet_trait_impl(&mut file_packets_impl, &packet);
         write_debug_trait(&mut file_packets_print, &packet.struct_def, true);
         write_display_trait(&mut file_packets_print, &packet.struct_def, true);
@@ -45,7 +45,7 @@ pub fn write_packets_struct(packets: Vec<PacketStructDefinition>, nested_structu
 
     for nested_struct in nested_structures {
         write_struct_definition(&mut file_packets, &nested_struct);
-        write_struct_impl(&mut file_packets_impl, &nested_struct);
+        write_struct_impl(&mut file_packets_impl, &nested_struct, None);
         write_debug_trait(&mut file_packets_print, &nested_struct, false);
         write_display_trait(&mut file_packets_print, &nested_struct, false);
     }
@@ -164,12 +164,12 @@ fn write_struct_definition(file: &mut File, struct_definition: &StructDefinition
     file.write(b"}\n\n");
 }
 
-fn write_struct_impl(file: &mut File, struct_definition: &StructDefinition) {
+fn write_struct_impl(file: &mut File, struct_definition: &StructDefinition, packet_id: Option<String>) {
     file.write(format!("impl {} {{\n", struct_definition.name).as_bytes());
     write_struct_from_method(file, struct_definition);
     write_struct_fill_raw_method(file, struct_definition);
     write_struct_setter_methods(file, struct_definition);
-    write_struct_new_method(file, struct_definition);
+    write_struct_new_method(file, struct_definition, packet_id);
     file.write(b"}\n\n");
 }
 
@@ -235,12 +235,23 @@ fn write_struct_setter_methods(file: &mut File, struct_definition: &StructDefini
     }
 }
 
-fn write_struct_new_method(file: &mut File, struct_definition: &StructDefinition) {
+fn write_struct_new_method(file: &mut File, struct_definition: &StructDefinition, packet_id: Option<String>) {
     file.write(format!("    pub fn new() -> {} {{\n", struct_definition.name).as_bytes());
     file.write(format!("        {} {{\n", struct_definition.name).as_bytes());
     file.write(b"        raw: vec![],\n");
     for field in &struct_definition.fields {
-        file.write(field_default_value(field).as_bytes());
+        if field.name == "packet_id" && packet_id.is_some() {
+            let id = packet_id.clone().unwrap().replace("0x", "");
+            let (first_byte, second_byte) = id.split_at(2);
+            let mut second_byte = second_byte;
+            if second_byte == "" {
+                second_byte = "0"
+            }
+            file.write(format!("        packet_id: i16::from_le_bytes([0x{}, 0x{}]),\n", first_byte, second_byte).as_bytes());
+            file.write(format!("        packet_id_raw: [0x{}, 0x{}],\n", first_byte, second_byte).as_bytes());
+        } else {
+            file.write(field_default_value(field).as_bytes());
+        }
     }
     file.write(b"        }\n");
     file.write(b"    }\n");
