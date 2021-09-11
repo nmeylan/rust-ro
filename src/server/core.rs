@@ -1,27 +1,32 @@
 // This is the core of this server. As all feature won't be implemented in one shot, the idea is to proxy unimplemented feature to hercules server.
 // For the moment I won't implement TCPListener in this file, but in the "future" proxies will be removed and only this file will have a TCPListener.
 
-use crate::packets::packets::{Packet, PacketUnknown, PacketZcNotifyTime, PacketZcNotifyChat};
+use crate::packets::packets::{Packet, PacketUnknown, PacketZcNotifyTime, PacketZcNotifyChat, PacketCaLogin};
 use std::sync::{Arc, Mutex};
 use crate::proxy::proxy::ServerContext;
 use std::thread;
 use std::thread::sleep;
 use std::time::Duration;
 use std::io::Write;
+use crate::repository::lib::Repository;
+use sqlx::{Database, MySql};
+use crate::server::login::authenticate;
 
 pub struct Server {
     pub server_context: Arc<Mutex<ServerContext>>,
+    repository: Arc<Repository<MySql>>,
 }
 
 pub enum FeatureState {
     Implemented(Box<dyn Packet>),
-    Unimplemented
+    Unimplemented,
 }
 
 impl Server {
-    pub fn new(server_context: Arc<Mutex<ServerContext>>) -> Server {
+    pub fn new(server_context: Arc<Mutex<ServerContext>>, repository: Arc<Repository<MySql>>) -> Server {
         let server = Server {
-            server_context
+            server_context,
+            repository,
         };
         server.start_tick();
         server
@@ -46,7 +51,7 @@ impl Server {
                         gid: 2000001,
                         gid_raw: [0; 4],
                         msg: "walkira: qwertz".to_string(),
-                        msg_raw: vec![]
+                        msg_raw: vec![],
                     };
                     chat.fill_raw();
                     // println!("Send {:02X?} to {}", buffer, session.account_id);
@@ -64,9 +69,12 @@ impl Server {
     pub fn dispatch(&self, packet: &mut dyn Packet) -> FeatureState {
         if packet.as_any().downcast_ref::<PacketUnknown>().is_some() {
             println!("Unknown packet {} of length {}", packet.id(), packet.raw().len());
+        } else if packet.as_any().downcast_ref::<PacketCaLogin>().is_some() {
+            let res = authenticate(packet.as_any().downcast_ref::<PacketCaLogin>().unwrap(), &self.repository);
+            println!("Response");
+            res.pretty_debug();
+            return FeatureState::Implemented(res);
         } else if packet.as_any().downcast_ref::<PacketZcNotifyTime>().is_none() {
-            packet.pretty_debug();
-            println!("{:02X?}",packet.raw());
         }
         FeatureState::Unimplemented
     }

@@ -2,6 +2,7 @@ mod proxy;
 mod util;
 mod packets;
 mod server;
+mod repository;
 
 use std::net::{SocketAddr, Ipv4Addr, IpAddr};
 use std::thread::{JoinHandle};
@@ -12,13 +13,18 @@ use crate::proxy::proxy::ServerContext;
 use std::sync::{Arc, Mutex};
 use std::collections::HashMap;
 use crate::server::core::Server;
+use crate::repository::lib::Repository;
+use sqlx::MySql;
 
-fn main() {
+#[tokio::main]
+pub async fn main() {
+    let repository : Repository<MySql> = Repository::<MySql>::new_mysql().await;
+
     let server_context = ServerContext{
         sessions: HashMap::new()
     };
     let server_context_arc = Arc::new(Mutex::new(server_context));
-    let server = Server::new(server_context_arc.clone());
+    let server = Server::new(server_context_arc.clone(), Arc::new(repository));
     let server_arc = Arc::new(server);
     let login_proxy = proxy::proxy::Proxy {
         name: "login".to_string(),
