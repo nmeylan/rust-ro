@@ -115,6 +115,21 @@ impl PacketCaLogin {
     pub fn set_client_type_raw(&mut self, value: [u8; 1]) {
         self.client_type_raw = value;
     }
+    pub fn new() -> PacketCaLogin {
+        PacketCaLogin {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        version: 0,
+        version_raw: [0; 4],
+        id: [0 as char; 24],
+        id_raw: [0; 24],
+        passwd: [0 as char; 24],
+        passwd_raw: [0; 24],
+        client_type: 0,
+        client_type_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketCaLogin {
@@ -248,6 +263,23 @@ impl PacketChEnter {
     pub fn set_sex_raw(&mut self, value: [u8; 1]) {
         self.sex_raw = value;
     }
+    pub fn new() -> PacketChEnter {
+        PacketChEnter {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        auth_code: 0,
+        auth_code_raw: [0; 4],
+        user_level: 0,
+        user_level_raw: [0; 4],
+        client_type: 0,
+        client_type_raw: [0; 2],
+        sex: 0,
+        sex_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketChEnter {
@@ -316,6 +348,15 @@ impl PacketChSelectChar {
     }
     pub fn set_char_num_raw(&mut self, value: [u8; 1]) {
         self.char_num_raw = value;
+    }
+    pub fn new() -> PacketChSelectChar {
+        PacketChSelectChar {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        char_num: 0,
+        char_num_raw: [0; 1],
+        }
     }
 }
 
@@ -538,6 +579,33 @@ impl PacketChMakeChar {
     pub fn set_head_raw(&mut self, value: [u8; 2]) {
         self.head_raw = value;
     }
+    pub fn new() -> PacketChMakeChar {
+        PacketChMakeChar {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        name: [0 as char; 24],
+        name_raw: [0; 24],
+        str: 0,
+        str_raw: [0; 1],
+        agi: 0,
+        agi_raw: [0; 1],
+        vit: 0,
+        vit_raw: [0; 1],
+        int: 0,
+        int_raw: [0; 1],
+        dex: 0,
+        dex_raw: [0; 1],
+        luk: 0,
+        luk_raw: [0; 1],
+        char_num: 0,
+        char_num_raw: [0; 1],
+        head_pal: 0,
+        head_pal_raw: [0; 2],
+        head: 0,
+        head_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketChMakeChar {
@@ -630,6 +698,17 @@ impl PacketChDeleteChar {
     }
     pub fn set_key_raw(&mut self, value: [u8; 40]) {
         self.key_raw = value;
+    }
+    pub fn new() -> PacketChDeleteChar {
+        PacketChDeleteChar {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        gid: 0,
+        gid_raw: [0; 4],
+        key: [0 as char; 40],
+        key_raw: [0; 40],
+        }
     }
 }
 
@@ -826,6 +905,29 @@ impl PacketAcAcceptLogin {
     }
     pub fn set_server_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.server_list_raw = value;
+    }
+    pub fn new() -> PacketAcAcceptLogin {
+        PacketAcAcceptLogin {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        auth_code: 0,
+        auth_code_raw: [0; 4],
+        aid: 0,
+        aid_raw: [0; 4],
+        user_level: 0,
+        user_level_raw: [0; 4],
+        last_login_ip: 0,
+        last_login_ip_raw: [0; 4],
+        last_login_time: [0 as char; 26],
+        last_login_time_raw: [0; 26],
+        sex: 0,
+        sex_raw: [0; 1],
+        server_list: vec![],
+        server_list_raw: vec![],
+        }
     }
 }
 
@@ -1063,6 +1165,33 @@ impl PacketAcAcceptLogin2 {
     pub fn set_server_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.server_list_raw = value;
     }
+    pub fn new() -> PacketAcAcceptLogin2 {
+        PacketAcAcceptLogin2 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        auth_code: 0,
+        auth_code_raw: [0; 4],
+        aid: 0,
+        aid_raw: [0; 4],
+        user_level: 0,
+        user_level_raw: [0; 4],
+        last_login_ip: 0,
+        last_login_ip_raw: [0; 4],
+        last_login_time: [0 as char; 26],
+        last_login_time_raw: [0; 26],
+        sex: 0,
+        sex_raw: [0; 1],
+        twitter_auth_token: [0 as char; 16],
+        twitter_auth_token_raw: [0; 16],
+        twitter_flag: 0,
+        twitter_flag_raw: [0; 1],
+        server_list: vec![],
+        server_list_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketAcAcceptLogin2 {
@@ -1155,6 +1284,17 @@ impl PacketAcRefuseLogin {
     }
     pub fn set_block_date_raw(&mut self, value: [u8; 20]) {
         self.block_date_raw = value;
+    }
+    pub fn new() -> PacketAcRefuseLogin {
+        PacketAcRefuseLogin {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        error_code: 0,
+        error_code_raw: [0; 1],
+        block_date: [0 as char; 20],
+        block_date_raw: [0; 20],
+        }
     }
 }
 
@@ -1384,6 +1524,33 @@ impl PacketHcAcceptEnterNeoUnion {
     pub fn set_char_info_raw(&mut self, value: Vec<Vec<u8>>) {
         self.char_info_raw = value;
     }
+    pub fn new() -> PacketHcAcceptEnterNeoUnion {
+        PacketHcAcceptEnterNeoUnion {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        total_slot_num: 0,
+        total_slot_num_raw: [0; 1],
+        premium_start_slot: 0,
+        premium_start_slot_raw: [0; 1],
+        premium_end_slot: 0,
+        premium_end_slot_raw: [0; 1],
+        dummy1_beginbilling: 0,
+        dummy1_beginbilling_raw: [0; 1],
+        code: 0,
+        code_raw: [0; 4],
+        time1: 0,
+        time1_raw: [0; 4],
+        time2: 0,
+        time2_raw: [0; 4],
+        dummy2_endbilling: [0 as char; 7],
+        dummy2_endbilling_raw: [0; 7],
+        char_info: vec![],
+        char_info_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketHcAcceptEnterNeoUnion {
@@ -1453,6 +1620,15 @@ impl PacketHcRefuseEnter {
     pub fn set_error_code_raw(&mut self, value: [u8; 1]) {
         self.error_code_raw = value;
     }
+    pub fn new() -> PacketHcRefuseEnter {
+        PacketHcRefuseEnter {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        error_code: 0,
+        error_code_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketHcRefuseEnter {
@@ -1515,6 +1691,15 @@ impl PacketHcAcceptMakecharNeoUnion {
     }
     pub fn set_charinfo_raw(&mut self, value: Vec<u8>) {
         self.charinfo_raw = value;
+    }
+    pub fn new() -> PacketHcAcceptMakecharNeoUnion {
+        PacketHcAcceptMakecharNeoUnion {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        charinfo: CharacterInfoNeoUnion::new(),
+        charinfo_raw: vec![],
+        }
     }
 }
 
@@ -1585,6 +1770,15 @@ impl PacketHcRefuseMakechar {
     pub fn set_error_code_raw(&mut self, value: [u8; 1]) {
         self.error_code_raw = value;
     }
+    pub fn new() -> PacketHcRefuseMakechar {
+        PacketHcRefuseMakechar {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        error_code: 0,
+        error_code_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketHcRefuseMakechar {
@@ -1637,6 +1831,13 @@ impl PacketHcAcceptDeletechar {
     }
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
+    }
+    pub fn new() -> PacketHcAcceptDeletechar {
+        PacketHcAcceptDeletechar {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
     }
 }
 
@@ -1706,6 +1907,15 @@ impl PacketHcRefuseDeletechar {
     }
     pub fn set_error_code_raw(&mut self, value: [u8; 1]) {
         self.error_code_raw = value;
+    }
+    pub fn new() -> PacketHcRefuseDeletechar {
+        PacketHcRefuseDeletechar {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        error_code: 0,
+        error_code_raw: [0; 1],
+        }
     }
 }
 
@@ -1809,6 +2019,19 @@ impl PacketHcNotifyZonesvr {
     }
     pub fn set_addr_raw(&mut self, value: Vec<u8>) {
         self.addr_raw = value;
+    }
+    pub fn new() -> PacketHcNotifyZonesvr {
+        PacketHcNotifyZonesvr {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        gid: 0,
+        gid_raw: [0; 4],
+        map_name: [0 as char; 16],
+        map_name_raw: [0; 16],
+        addr: ZserverAddr::new(),
+        addr_raw: vec![],
+        }
     }
 }
 
@@ -1943,6 +2166,23 @@ impl PacketCzEnter {
     pub fn set_sex_raw(&mut self, value: [u8; 1]) {
         self.sex_raw = value;
     }
+    pub fn new() -> PacketCzEnter {
+        PacketCzEnter {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        gid: 0,
+        gid_raw: [0; 4],
+        auth_code: 0,
+        auth_code_raw: [0; 4],
+        client_time: 0,
+        client_time_raw: [0; 4],
+        sex: 0,
+        sex_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketCzEnter {
@@ -2068,6 +2308,21 @@ impl PacketZcAcceptEnter {
     pub fn set_y_size_raw(&mut self, value: [u8; 1]) {
         self.y_size_raw = value;
     }
+    pub fn new() -> PacketZcAcceptEnter {
+        PacketZcAcceptEnter {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        start_time: 0,
+        start_time_raw: [0; 4],
+        pos_dir: [0 as char; 3],
+        pos_dir_raw: [0; 3],
+        x_size: 0,
+        x_size_raw: [0; 1],
+        y_size: 0,
+        y_size_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketZcAcceptEnter {
@@ -2136,6 +2391,15 @@ impl PacketZcRefuseEnter {
     }
     pub fn set_error_code_raw(&mut self, value: [u8; 1]) {
         self.error_code_raw = value;
+    }
+    pub fn new() -> PacketZcRefuseEnter {
+        PacketZcRefuseEnter {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        error_code: 0,
+        error_code_raw: [0; 1],
+        }
     }
 }
 
@@ -2254,6 +2518,21 @@ impl PacketZcNotifyInitchar {
     pub fn set_item_raw(&mut self, value: [u8; 1]) {
         self.item_raw = value;
     }
+    pub fn new() -> PacketZcNotifyInitchar {
+        PacketZcNotifyInitchar {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        gid: 0,
+        gid_raw: [0; 4],
+        style: 0,
+        style_raw: [0; 2],
+        item: 0,
+        item_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketZcNotifyInitchar {
@@ -2355,6 +2634,19 @@ impl PacketZcNotifyUpdatechar {
     pub fn set_item_raw(&mut self, value: [u8; 1]) {
         self.item_raw = value;
     }
+    pub fn new() -> PacketZcNotifyUpdatechar {
+        PacketZcNotifyUpdatechar {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        gid: 0,
+        gid_raw: [0; 4],
+        style: 0,
+        style_raw: [0; 2],
+        item: 0,
+        item_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketZcNotifyUpdatechar {
@@ -2439,6 +2731,17 @@ impl PacketZcNotifyUpdateplayer {
     }
     pub fn set_item_raw(&mut self, value: [u8; 1]) {
         self.item_raw = value;
+    }
+    pub fn new() -> PacketZcNotifyUpdateplayer {
+        PacketZcNotifyUpdateplayer {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        style: 0,
+        style_raw: [0; 2],
+        item: 0,
+        item_raw: [0; 1],
+        }
     }
 }
 
@@ -2933,6 +3236,67 @@ impl PacketZcNotifyStandentry {
     pub fn set_clevel_raw(&mut self, value: [u8; 2]) {
         self.clevel_raw = value;
     }
+    pub fn new() -> PacketZcNotifyStandentry {
+        PacketZcNotifyStandentry {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        objecttype: 0,
+        objecttype_raw: [0; 1],
+        gid: 0,
+        gid_raw: [0; 4],
+        speed: 0,
+        speed_raw: [0; 2],
+        body_state: 0,
+        body_state_raw: [0; 2],
+        health_state: 0,
+        health_state_raw: [0; 2],
+        effect_state: 0,
+        effect_state_raw: [0; 2],
+        job: 0,
+        job_raw: [0; 2],
+        head: 0,
+        head_raw: [0; 2],
+        weapon: 0,
+        weapon_raw: [0; 2],
+        accessory: 0,
+        accessory_raw: [0; 2],
+        shield: 0,
+        shield_raw: [0; 2],
+        accessory2: 0,
+        accessory2_raw: [0; 2],
+        accessory3: 0,
+        accessory3_raw: [0; 2],
+        headpalette: 0,
+        headpalette_raw: [0; 2],
+        bodypalette: 0,
+        bodypalette_raw: [0; 2],
+        head_dir: 0,
+        head_dir_raw: [0; 2],
+        guid: 0,
+        guid_raw: [0; 4],
+        gemblem_ver: 0,
+        gemblem_ver_raw: [0; 2],
+        honor: 0,
+        honor_raw: [0; 2],
+        virtue: 0,
+        virtue_raw: [0; 2],
+        is_pkmode_on: false,
+        is_pkmode_on_raw: [0; 1],
+        sex: 0,
+        sex_raw: [0; 1],
+        pos_dir: [0 as char; 3],
+        pos_dir_raw: [0; 3],
+        x_size: 0,
+        x_size_raw: [0; 1],
+        y_size: 0,
+        y_size_raw: [0; 1],
+        state: 0,
+        state_raw: [0; 1],
+        clevel: 0,
+        clevel_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketZcNotifyStandentry {
@@ -3393,6 +3757,63 @@ impl PacketZcNotifyNewentry {
     }
     pub fn set_clevel_raw(&mut self, value: [u8; 2]) {
         self.clevel_raw = value;
+    }
+    pub fn new() -> PacketZcNotifyNewentry {
+        PacketZcNotifyNewentry {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        gid: 0,
+        gid_raw: [0; 4],
+        speed: 0,
+        speed_raw: [0; 2],
+        body_state: 0,
+        body_state_raw: [0; 2],
+        health_state: 0,
+        health_state_raw: [0; 2],
+        effect_state: 0,
+        effect_state_raw: [0; 2],
+        job: 0,
+        job_raw: [0; 2],
+        head: 0,
+        head_raw: [0; 2],
+        weapon: 0,
+        weapon_raw: [0; 2],
+        accessory: 0,
+        accessory_raw: [0; 2],
+        shield: 0,
+        shield_raw: [0; 2],
+        accessory2: 0,
+        accessory2_raw: [0; 2],
+        accessory3: 0,
+        accessory3_raw: [0; 2],
+        headpalette: 0,
+        headpalette_raw: [0; 2],
+        bodypalette: 0,
+        bodypalette_raw: [0; 2],
+        head_dir: 0,
+        head_dir_raw: [0; 2],
+        guid: 0,
+        guid_raw: [0; 4],
+        gemblem_ver: 0,
+        gemblem_ver_raw: [0; 2],
+        honor: 0,
+        honor_raw: [0; 2],
+        virtue: 0,
+        virtue_raw: [0; 2],
+        is_pkmode_on: false,
+        is_pkmode_on_raw: [0; 1],
+        sex: 0,
+        sex_raw: [0; 1],
+        pos_dir: [0 as char; 3],
+        pos_dir_raw: [0; 3],
+        x_size: 0,
+        x_size_raw: [0; 1],
+        y_size: 0,
+        y_size_raw: [0; 1],
+        clevel: 0,
+        clevel_raw: [0; 2],
+        }
     }
 }
 
@@ -3887,6 +4308,67 @@ impl PacketZcNotifyActentry {
     pub fn set_clevel_raw(&mut self, value: [u8; 2]) {
         self.clevel_raw = value;
     }
+    pub fn new() -> PacketZcNotifyActentry {
+        PacketZcNotifyActentry {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        gid: 0,
+        gid_raw: [0; 4],
+        speed: 0,
+        speed_raw: [0; 2],
+        body_state: 0,
+        body_state_raw: [0; 2],
+        health_state: 0,
+        health_state_raw: [0; 2],
+        effect_state: 0,
+        effect_state_raw: [0; 2],
+        job: 0,
+        job_raw: [0; 2],
+        head: 0,
+        head_raw: [0; 2],
+        weapon: 0,
+        weapon_raw: [0; 2],
+        accessory: 0,
+        accessory_raw: [0; 2],
+        shield: 0,
+        shield_raw: [0; 2],
+        accessory2: 0,
+        accessory2_raw: [0; 2],
+        accessory3: 0,
+        accessory3_raw: [0; 2],
+        headpalette: 0,
+        headpalette_raw: [0; 2],
+        bodypalette: 0,
+        bodypalette_raw: [0; 2],
+        head_dir: 0,
+        head_dir_raw: [0; 2],
+        guid: 0,
+        guid_raw: [0; 4],
+        gemblem_ver: 0,
+        gemblem_ver_raw: [0; 2],
+        honor: 0,
+        honor_raw: [0; 2],
+        virtue: 0,
+        virtue_raw: [0; 2],
+        is_pkmode_on: false,
+        is_pkmode_on_raw: [0; 1],
+        sex: 0,
+        sex_raw: [0; 1],
+        pos_dir: [0 as char; 3],
+        pos_dir_raw: [0; 3],
+        x_size: 0,
+        x_size_raw: [0; 1],
+        y_size: 0,
+        y_size_raw: [0; 1],
+        action: 0,
+        action_raw: [0; 1],
+        act_start_time: 0,
+        act_start_time_raw: [0; 4],
+        clevel: 0,
+        clevel_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketZcNotifyActentry {
@@ -4364,6 +4846,65 @@ impl PacketZcNotifyMoveentry {
     pub fn set_clevel_raw(&mut self, value: [u8; 2]) {
         self.clevel_raw = value;
     }
+    pub fn new() -> PacketZcNotifyMoveentry {
+        PacketZcNotifyMoveentry {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        gid: 0,
+        gid_raw: [0; 4],
+        speed: 0,
+        speed_raw: [0; 2],
+        body_state: 0,
+        body_state_raw: [0; 2],
+        health_state: 0,
+        health_state_raw: [0; 2],
+        effect_state: 0,
+        effect_state_raw: [0; 2],
+        job: 0,
+        job_raw: [0; 2],
+        head: 0,
+        head_raw: [0; 2],
+        weapon: 0,
+        weapon_raw: [0; 2],
+        accessory: 0,
+        accessory_raw: [0; 2],
+        move_start_time: 0,
+        move_start_time_raw: [0; 4],
+        shield: 0,
+        shield_raw: [0; 2],
+        accessory2: 0,
+        accessory2_raw: [0; 2],
+        accessory3: 0,
+        accessory3_raw: [0; 2],
+        headpalette: 0,
+        headpalette_raw: [0; 2],
+        bodypalette: 0,
+        bodypalette_raw: [0; 2],
+        head_dir: 0,
+        head_dir_raw: [0; 2],
+        guid: 0,
+        guid_raw: [0; 4],
+        gemblem_ver: 0,
+        gemblem_ver_raw: [0; 2],
+        honor: 0,
+        honor_raw: [0; 2],
+        virtue: 0,
+        virtue_raw: [0; 2],
+        is_pkmode_on: false,
+        is_pkmode_on_raw: [0; 1],
+        sex: 0,
+        sex_raw: [0; 1],
+        move_data: [0; 6],
+        move_data_raw: [0; 6],
+        x_size: 0,
+        x_size_raw: [0; 1],
+        y_size: 0,
+        y_size_raw: [0; 1],
+        clevel: 0,
+        clevel_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketZcNotifyMoveentry {
@@ -4761,6 +5302,55 @@ impl PacketZcNotifyStandentryNpc {
     pub fn set_y_size_raw(&mut self, value: [u8; 1]) {
         self.y_size_raw = value;
     }
+    pub fn new() -> PacketZcNotifyStandentryNpc {
+        PacketZcNotifyStandentryNpc {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        objecttype: 0,
+        objecttype_raw: [0; 1],
+        gid: 0,
+        gid_raw: [0; 4],
+        speed: 0,
+        speed_raw: [0; 2],
+        body_state: 0,
+        body_state_raw: [0; 2],
+        health_state: 0,
+        health_state_raw: [0; 2],
+        effect_state: 0,
+        effect_state_raw: [0; 2],
+        head: 0,
+        head_raw: [0; 2],
+        weapon: 0,
+        weapon_raw: [0; 2],
+        accessory: 0,
+        accessory_raw: [0; 2],
+        job: 0,
+        job_raw: [0; 2],
+        shield: 0,
+        shield_raw: [0; 2],
+        accessory2: 0,
+        accessory2_raw: [0; 2],
+        accessory3: 0,
+        accessory3_raw: [0; 2],
+        headpalette: 0,
+        headpalette_raw: [0; 2],
+        bodypalette: 0,
+        bodypalette_raw: [0; 2],
+        head_dir: 0,
+        head_dir_raw: [0; 2],
+        is_pkmode_on: false,
+        is_pkmode_on_raw: [0; 1],
+        sex: 0,
+        sex_raw: [0; 1],
+        pos_dir: [0 as char; 3],
+        pos_dir_raw: [0; 3],
+        x_size: 0,
+        x_size_raw: [0; 1],
+        y_size: 0,
+        y_size_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketZcNotifyStandentryNpc {
@@ -4813,6 +5403,13 @@ impl PacketCzNotifyActorinit {
     }
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
+    }
+    pub fn new() -> PacketCzNotifyActorinit {
+        PacketCzNotifyActorinit {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
     }
 }
 
@@ -4883,6 +5480,15 @@ impl PacketCzRequestTime {
     pub fn set_client_time_raw(&mut self, value: [u8; 4]) {
         self.client_time_raw = value;
     }
+    pub fn new() -> PacketCzRequestTime {
+        PacketCzRequestTime {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        client_time: 0,
+        client_time_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketCzRequestTime {
@@ -4951,6 +5557,15 @@ impl PacketZcNotifyTime {
     }
     pub fn set_time_raw(&mut self, value: [u8; 4]) {
         self.time_raw = value;
+    }
+    pub fn new() -> PacketZcNotifyTime {
+        PacketZcNotifyTime {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        time: 0,
+        time_raw: [0; 4],
+        }
     }
 }
 
@@ -5037,6 +5652,17 @@ impl PacketZcNotifyVanish {
     pub fn set_atype_raw(&mut self, value: [u8; 1]) {
         self.atype_raw = value;
     }
+    pub fn new() -> PacketZcNotifyVanish {
+        PacketZcNotifyVanish {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        gid: 0,
+        gid_raw: [0; 4],
+        atype: 0,
+        atype_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketZcNotifyVanish {
@@ -5106,6 +5732,15 @@ impl PacketScNotifyBan {
     pub fn set_error_code_raw(&mut self, value: [u8; 1]) {
         self.error_code_raw = value;
     }
+    pub fn new() -> PacketScNotifyBan {
+        PacketScNotifyBan {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        error_code: 0,
+        error_code_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketScNotifyBan {
@@ -5158,6 +5793,13 @@ impl PacketCzRequestQuit {
     }
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
+    }
+    pub fn new() -> PacketCzRequestQuit {
+        PacketCzRequestQuit {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
     }
 }
 
@@ -5212,6 +5854,13 @@ impl PacketZcAcceptQuit {
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
     }
+    pub fn new() -> PacketZcAcceptQuit {
+        PacketZcAcceptQuit {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketZcAcceptQuit {
@@ -5264,6 +5913,13 @@ impl PacketZcRefuseQuit {
     }
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
+    }
+    pub fn new() -> PacketZcRefuseQuit {
+        PacketZcRefuseQuit {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
     }
 }
 
@@ -5341,6 +5997,15 @@ impl PacketCzRequestMove {
     }
     pub fn set_dest_raw(&mut self, value: [u8; 3]) {
         self.dest_raw = value;
+    }
+    pub fn new() -> PacketCzRequestMove {
+        PacketCzRequestMove {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        dest: [0 as char; 3],
+        dest_raw: [0; 3],
+        }
     }
 }
 
@@ -5451,6 +6116,19 @@ impl PacketZcNotifyMove {
     pub fn set_move_start_time_raw(&mut self, value: [u8; 4]) {
         self.move_start_time_raw = value;
     }
+    pub fn new() -> PacketZcNotifyMove {
+        PacketZcNotifyMove {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        gid: 0,
+        gid_raw: [0; 4],
+        move_data: [0; 6],
+        move_data_raw: [0; 6],
+        move_start_time: 0,
+        move_start_time_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketZcNotifyMove {
@@ -5543,6 +6221,17 @@ impl PacketZcNotifyPlayermove {
     }
     pub fn set_move_data_raw(&mut self, value: [u8; 6]) {
         self.move_data_raw = value;
+    }
+    pub fn new() -> PacketZcNotifyPlayermove {
+        PacketZcNotifyPlayermove {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        move_start_time: 0,
+        move_start_time_raw: [0; 4],
+        move_data: [0; 6],
+        move_data_raw: [0; 6],
+        }
     }
 }
 
@@ -5645,6 +6334,19 @@ impl PacketZcStopmove {
     pub fn set_y_pos_raw(&mut self, value: [u8; 2]) {
         self.y_pos_raw = value;
     }
+    pub fn new() -> PacketZcStopmove {
+        PacketZcStopmove {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        x_pos: 0,
+        x_pos_raw: [0; 2],
+        y_pos: 0,
+        y_pos_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketZcStopmove {
@@ -5729,6 +6431,17 @@ impl PacketCzRequestAct {
     }
     pub fn set_action_raw(&mut self, value: [u8; 1]) {
         self.action_raw = value;
+    }
+    pub fn new() -> PacketCzRequestAct {
+        PacketCzRequestAct {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        target_gid: 0,
+        target_gid_raw: [0; 4],
+        action: 0,
+        action_raw: [0; 1],
+        }
     }
 }
 
@@ -5927,6 +6640,31 @@ impl PacketZcNotifyAct {
     pub fn set_left_damage_raw(&mut self, value: [u8; 2]) {
         self.left_damage_raw = value;
     }
+    pub fn new() -> PacketZcNotifyAct {
+        PacketZcNotifyAct {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        gid: 0,
+        gid_raw: [0; 4],
+        target_gid: 0,
+        target_gid_raw: [0; 4],
+        start_time: 0,
+        start_time_raw: [0; 4],
+        attack_mt: 0,
+        attack_mt_raw: [0; 4],
+        attacked_mt: 0,
+        attacked_mt_raw: [0; 4],
+        damage: 0,
+        damage_raw: [0; 2],
+        count: 0,
+        count_raw: [0; 2],
+        action: 0,
+        action_raw: [0; 1],
+        left_damage: 0,
+        left_damage_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketZcNotifyAct {
@@ -6108,6 +6846,29 @@ impl PacketZcNotifyActPosition {
     pub fn set_action_raw(&mut self, value: [u8; 1]) {
         self.action_raw = value;
     }
+    pub fn new() -> PacketZcNotifyActPosition {
+        PacketZcNotifyActPosition {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        gid: 0,
+        gid_raw: [0; 4],
+        target_gid: 0,
+        target_gid_raw: [0; 4],
+        start_time: 0,
+        start_time_raw: [0; 4],
+        x_pos: 0,
+        x_pos_raw: [0; 2],
+        y_pos: 0,
+        y_pos_raw: [0; 2],
+        damage: 0,
+        damage_raw: [0; 2],
+        count: 0,
+        count_raw: [0; 2],
+        action: 0,
+        action_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketZcNotifyActPosition {
@@ -6186,6 +6947,17 @@ impl PacketCzRequestChat {
     }
     pub fn set_msg_raw(&mut self, value: Vec<u8>) {
         self.msg_raw = value;
+    }
+    pub fn new() -> PacketCzRequestChat {
+        PacketCzRequestChat {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        msg: String::new(),
+        msg_raw: vec![],
+        }
     }
 }
 
@@ -6282,6 +7054,19 @@ impl PacketZcNotifyChat {
     pub fn set_msg_raw(&mut self, value: Vec<u8>) {
         self.msg_raw = value;
     }
+    pub fn new() -> PacketZcNotifyChat {
+        PacketZcNotifyChat {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        gid: 0,
+        gid_raw: [0; 4],
+        msg: String::new(),
+        msg_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcNotifyChat {
@@ -6361,6 +7146,17 @@ impl PacketZcNotifyPlayerchat {
     pub fn set_msg_raw(&mut self, value: Vec<u8>) {
         self.msg_raw = value;
     }
+    pub fn new() -> PacketZcNotifyPlayerchat {
+        PacketZcNotifyPlayerchat {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        msg: String::new(),
+        msg_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcNotifyPlayerchat {
@@ -6429,6 +7225,15 @@ impl PacketServerEntryAck {
     }
     pub fn set_aid_raw(&mut self, value: [u8; 4]) {
         self.aid_raw = value;
+    }
+    pub fn new() -> PacketServerEntryAck {
+        PacketServerEntryAck {
+        raw: vec![],
+        header: 0,
+        header_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        }
     }
 }
 
@@ -6514,6 +7319,17 @@ impl PacketCzContactnpc {
     }
     pub fn set_atype_raw(&mut self, value: [u8; 1]) {
         self.atype_raw = value;
+    }
+    pub fn new() -> PacketCzContactnpc {
+        PacketCzContactnpc {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        naid: 0,
+        naid_raw: [0; 4],
+        atype: 0,
+        atype_raw: [0; 1],
+        }
     }
 }
 
@@ -6623,6 +7439,19 @@ impl PacketZcNpcackMapmove {
     }
     pub fn set_y_pos_raw(&mut self, value: [u8; 2]) {
         self.y_pos_raw = value;
+    }
+    pub fn new() -> PacketZcNpcackMapmove {
+        PacketZcNpcackMapmove {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        map_name: [0 as char; 16],
+        map_name_raw: [0; 16],
+        x_pos: 0,
+        x_pos_raw: [0; 2],
+        y_pos: 0,
+        y_pos_raw: [0; 2],
+        }
     }
 }
 
@@ -6743,6 +7572,21 @@ impl PacketZcNpcackServermove {
     pub fn set_addr_raw(&mut self, value: Vec<u8>) {
         self.addr_raw = value;
     }
+    pub fn new() -> PacketZcNpcackServermove {
+        PacketZcNpcackServermove {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        map_name: [0 as char; 16],
+        map_name_raw: [0; 16],
+        x_pos: 0,
+        x_pos_raw: [0; 2],
+        y_pos: 0,
+        y_pos_raw: [0; 2],
+        addr: ZserverAddr::new(),
+        addr_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcNpcackServermove {
@@ -6795,6 +7639,13 @@ impl PacketZcNpcackEnable {
     }
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
+    }
+    pub fn new() -> PacketZcNpcackEnable {
+        PacketZcNpcackEnable {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
     }
 }
 
@@ -6864,6 +7715,15 @@ impl PacketCzReqname {
     }
     pub fn set_aid_raw(&mut self, value: [u8; 4]) {
         self.aid_raw = value;
+    }
+    pub fn new() -> PacketCzReqname {
+        PacketCzReqname {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        }
     }
 }
 
@@ -6957,6 +7817,17 @@ impl PacketZcAckReqname {
     }
     pub fn set_cname_raw(&mut self, value: [u8; 24]) {
         self.cname_raw = value;
+    }
+    pub fn new() -> PacketZcAckReqname {
+        PacketZcAckReqname {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        cname: [0 as char; 24],
+        cname_raw: [0; 24],
+        }
     }
 }
 
@@ -7061,6 +7932,19 @@ impl PacketCzWhisper {
     pub fn set_msg_raw(&mut self, value: Vec<u8>) {
         self.msg_raw = value;
     }
+    pub fn new() -> PacketCzWhisper {
+        PacketCzWhisper {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        receiver: [0 as char; 24],
+        receiver_raw: [0; 24],
+        msg: String::new(),
+        msg_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketCzWhisper {
@@ -7164,6 +8048,19 @@ impl PacketZcWhisper {
     pub fn set_msg_raw(&mut self, value: Vec<u8>) {
         self.msg_raw = value;
     }
+    pub fn new() -> PacketZcWhisper {
+        PacketZcWhisper {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        sender: [0 as char; 24],
+        sender_raw: [0; 24],
+        msg: String::new(),
+        msg_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcWhisper {
@@ -7232,6 +8129,15 @@ impl PacketZcAckWhisper {
     }
     pub fn set_result_raw(&mut self, value: [u8; 1]) {
         self.result_raw = value;
+    }
+    pub fn new() -> PacketZcAckWhisper {
+        PacketZcAckWhisper {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        result: 0,
+        result_raw: [0; 1],
+        }
     }
 }
 
@@ -7312,6 +8218,17 @@ impl PacketCzBroadcast {
     pub fn set_msg_raw(&mut self, value: Vec<u8>) {
         self.msg_raw = value;
     }
+    pub fn new() -> PacketCzBroadcast {
+        PacketCzBroadcast {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        msg: String::new(),
+        msg_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketCzBroadcast {
@@ -7390,6 +8307,17 @@ impl PacketZcBroadcast {
     }
     pub fn set_msg_raw(&mut self, value: Vec<u8>) {
         self.msg_raw = value;
+    }
+    pub fn new() -> PacketZcBroadcast {
+        PacketZcBroadcast {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        msg: String::new(),
+        msg_raw: vec![],
+        }
     }
 }
 
@@ -7475,6 +8403,17 @@ impl PacketCzChangeDirection {
     }
     pub fn set_dir_raw(&mut self, value: [u8; 1]) {
         self.dir_raw = value;
+    }
+    pub fn new() -> PacketCzChangeDirection {
+        PacketCzChangeDirection {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        head_dir: 0,
+        head_dir_raw: [0; 2],
+        dir: 0,
+        dir_raw: [0; 1],
+        }
     }
 }
 
@@ -7576,6 +8515,19 @@ impl PacketZcChangeDirection {
     }
     pub fn set_dir_raw(&mut self, value: [u8; 1]) {
         self.dir_raw = value;
+    }
+    pub fn new() -> PacketZcChangeDirection {
+        PacketZcChangeDirection {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        head_dir: 0,
+        head_dir_raw: [0; 2],
+        dir: 0,
+        dir_raw: [0; 1],
+        }
     }
 }
 
@@ -7758,6 +8710,29 @@ impl PacketZcItemEntry {
     pub fn set_sub_y_raw(&mut self, value: [u8; 1]) {
         self.sub_y_raw = value;
     }
+    pub fn new() -> PacketZcItemEntry {
+        PacketZcItemEntry {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        itaid: 0,
+        itaid_raw: [0; 4],
+        itid: 0,
+        itid_raw: [0; 2],
+        is_identified: false,
+        is_identified_raw: [0; 1],
+        x_pos: 0,
+        x_pos_raw: [0; 2],
+        y_pos: 0,
+        y_pos_raw: [0; 2],
+        count: 0,
+        count_raw: [0; 2],
+        sub_x: 0,
+        sub_x_raw: [0; 1],
+        sub_y: 0,
+        sub_y_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketZcItemEntry {
@@ -7939,6 +8914,29 @@ impl PacketZcItemFallEntry {
     pub fn set_count_raw(&mut self, value: [u8; 2]) {
         self.count_raw = value;
     }
+    pub fn new() -> PacketZcItemFallEntry {
+        PacketZcItemFallEntry {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        itaid: 0,
+        itaid_raw: [0; 4],
+        itid: 0,
+        itid_raw: [0; 2],
+        is_identified: false,
+        is_identified_raw: [0; 1],
+        x_pos: 0,
+        x_pos_raw: [0; 2],
+        y_pos: 0,
+        y_pos_raw: [0; 2],
+        sub_x: 0,
+        sub_x_raw: [0; 1],
+        sub_y: 0,
+        sub_y_raw: [0; 1],
+        count: 0,
+        count_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketZcItemFallEntry {
@@ -8007,6 +9005,15 @@ impl PacketCzItemPickup {
     }
     pub fn set_itaid_raw(&mut self, value: [u8; 4]) {
         self.itaid_raw = value;
+    }
+    pub fn new() -> PacketCzItemPickup {
+        PacketCzItemPickup {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        itaid: 0,
+        itaid_raw: [0; 4],
+        }
     }
 }
 
@@ -8219,6 +9226,33 @@ impl PacketZcItemPickupAck {
     pub fn set_result_raw(&mut self, value: [u8; 1]) {
         self.result_raw = value;
     }
+    pub fn new() -> PacketZcItemPickupAck {
+        PacketZcItemPickupAck {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        index: 0,
+        index_raw: [0; 2],
+        count: 0,
+        count_raw: [0; 2],
+        itid: 0,
+        itid_raw: [0; 2],
+        is_identified: false,
+        is_identified_raw: [0; 1],
+        is_damaged: false,
+        is_damaged_raw: [0; 1],
+        refining_level: 0,
+        refining_level_raw: [0; 1],
+        slot: EQUIPSLOTINFO::new(),
+        slot_raw: [0; 8],
+        location: 0,
+        location_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 1],
+        result: 0,
+        result_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketZcItemPickupAck {
@@ -8287,6 +9321,15 @@ impl PacketZcItemDisappear {
     }
     pub fn set_itaid_raw(&mut self, value: [u8; 4]) {
         self.itaid_raw = value;
+    }
+    pub fn new() -> PacketZcItemDisappear {
+        PacketZcItemDisappear {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        itaid: 0,
+        itaid_raw: [0; 4],
+        }
     }
 }
 
@@ -8372,6 +9415,17 @@ impl PacketCzItemThrow {
     }
     pub fn set_count_raw(&mut self, value: [u8; 2]) {
         self.count_raw = value;
+    }
+    pub fn new() -> PacketCzItemThrow {
+        PacketCzItemThrow {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        index: 0,
+        index_raw: [0; 2],
+        count: 0,
+        count_raw: [0; 2],
+        }
     }
 }
 
@@ -8465,6 +9519,17 @@ impl PacketZcNormalItemlist {
     pub fn set_item_info_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_info_raw = value;
     }
+    pub fn new() -> PacketZcNormalItemlist {
+        PacketZcNormalItemlist {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        item_info: vec![],
+        item_info_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcNormalItemlist {
@@ -8556,6 +9621,17 @@ impl PacketZcEquipmentItemlist {
     }
     pub fn set_item_info_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_info_raw = value;
+    }
+    pub fn new() -> PacketZcEquipmentItemlist {
+        PacketZcEquipmentItemlist {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        item_info: vec![],
+        item_info_raw: vec![],
+        }
     }
 }
 
@@ -8649,6 +9725,17 @@ impl PacketZcStoreNormalItemlist {
     pub fn set_item_info_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_info_raw = value;
     }
+    pub fn new() -> PacketZcStoreNormalItemlist {
+        PacketZcStoreNormalItemlist {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        item_info: vec![],
+        item_info_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcStoreNormalItemlist {
@@ -8741,6 +9828,17 @@ impl PacketZcStoreEquipmentItemlist {
     pub fn set_item_info_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_info_raw = value;
     }
+    pub fn new() -> PacketZcStoreEquipmentItemlist {
+        PacketZcStoreEquipmentItemlist {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        item_info: vec![],
+        item_info_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcStoreEquipmentItemlist {
@@ -8825,6 +9923,17 @@ impl PacketCzUseItem {
     }
     pub fn set_aid_raw(&mut self, value: [u8; 4]) {
         self.aid_raw = value;
+    }
+    pub fn new() -> PacketCzUseItem {
+        PacketCzUseItem {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        index: 0,
+        index_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        }
     }
 }
 
@@ -8927,6 +10036,19 @@ impl PacketZcUseItemAck {
     pub fn set_result_raw(&mut self, value: [u8; 1]) {
         self.result_raw = value;
     }
+    pub fn new() -> PacketZcUseItemAck {
+        PacketZcUseItemAck {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        index: 0,
+        index_raw: [0; 2],
+        count: 0,
+        count_raw: [0; 2],
+        result: false,
+        result_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketZcUseItemAck {
@@ -9011,6 +10133,17 @@ impl PacketCzReqWearEquip {
     }
     pub fn set_wear_location_raw(&mut self, value: [u8; 2]) {
         self.wear_location_raw = value;
+    }
+    pub fn new() -> PacketCzReqWearEquip {
+        PacketCzReqWearEquip {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        index: 0,
+        index_raw: [0; 2],
+        wear_location: 0,
+        wear_location_raw: [0; 2],
+        }
     }
 }
 
@@ -9113,6 +10246,19 @@ impl PacketZcReqWearEquipAck {
     pub fn set_result_raw(&mut self, value: [u8; 1]) {
         self.result_raw = value;
     }
+    pub fn new() -> PacketZcReqWearEquipAck {
+        PacketZcReqWearEquipAck {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        index: 0,
+        index_raw: [0; 2],
+        wear_location: 0,
+        wear_location_raw: [0; 2],
+        result: 0,
+        result_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketZcReqWearEquipAck {
@@ -9181,6 +10327,15 @@ impl PacketCzReqTakeoffEquip {
     }
     pub fn set_index_raw(&mut self, value: [u8; 2]) {
         self.index_raw = value;
+    }
+    pub fn new() -> PacketCzReqTakeoffEquip {
+        PacketCzReqTakeoffEquip {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        index: 0,
+        index_raw: [0; 2],
+        }
     }
 }
 
@@ -9283,6 +10438,19 @@ impl PacketZcReqTakeoffEquipAck {
     pub fn set_result_raw(&mut self, value: [u8; 1]) {
         self.result_raw = value;
     }
+    pub fn new() -> PacketZcReqTakeoffEquipAck {
+        PacketZcReqTakeoffEquipAck {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        index: 0,
+        index_raw: [0; 2],
+        wear_location: 0,
+        wear_location_raw: [0; 2],
+        result: false,
+        result_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketZcReqTakeoffEquipAck {
@@ -9367,6 +10535,17 @@ impl PacketZcItemThrowAck {
     }
     pub fn set_count_raw(&mut self, value: [u8; 2]) {
         self.count_raw = value;
+    }
+    pub fn new() -> PacketZcItemThrowAck {
+        PacketZcItemThrowAck {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        index: 0,
+        index_raw: [0; 2],
+        count: 0,
+        count_raw: [0; 2],
+        }
     }
 }
 
@@ -9453,6 +10632,17 @@ impl PacketZcParChange {
     pub fn set_count_raw(&mut self, value: [u8; 4]) {
         self.count_raw = value;
     }
+    pub fn new() -> PacketZcParChange {
+        PacketZcParChange {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        var_id: 0,
+        var_id_raw: [0; 2],
+        count: 0,
+        count_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketZcParChange {
@@ -9538,6 +10728,17 @@ impl PacketZcLongparChange {
     pub fn set_amount_raw(&mut self, value: [u8; 4]) {
         self.amount_raw = value;
     }
+    pub fn new() -> PacketZcLongparChange {
+        PacketZcLongparChange {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        var_id: 0,
+        var_id_raw: [0; 2],
+        amount: 0,
+        amount_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketZcLongparChange {
@@ -9607,6 +10808,15 @@ impl PacketCzRestart {
     pub fn set_atype_raw(&mut self, value: [u8; 1]) {
         self.atype_raw = value;
     }
+    pub fn new() -> PacketCzRestart {
+        PacketCzRestart {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketCzRestart {
@@ -9675,6 +10885,15 @@ impl PacketZcRestartAck {
     }
     pub fn set_atype_raw(&mut self, value: [u8; 1]) {
         self.atype_raw = value;
+    }
+    pub fn new() -> PacketZcRestartAck {
+        PacketZcRestartAck {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 1],
+        }
     }
 }
 
@@ -9771,6 +10990,19 @@ impl PacketZcSayDialog {
     pub fn set_msg_raw(&mut self, value: Vec<u8>) {
         self.msg_raw = value;
     }
+    pub fn new() -> PacketZcSayDialog {
+        PacketZcSayDialog {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        naid: 0,
+        naid_raw: [0; 4],
+        msg: String::new(),
+        msg_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcSayDialog {
@@ -9840,6 +11072,15 @@ impl PacketZcWaitDialog {
     pub fn set_naid_raw(&mut self, value: [u8; 4]) {
         self.naid_raw = value;
     }
+    pub fn new() -> PacketZcWaitDialog {
+        PacketZcWaitDialog {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        naid: 0,
+        naid_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketZcWaitDialog {
@@ -9908,6 +11149,15 @@ impl PacketZcCloseDialog {
     }
     pub fn set_naid_raw(&mut self, value: [u8; 4]) {
         self.naid_raw = value;
+    }
+    pub fn new() -> PacketZcCloseDialog {
+        PacketZcCloseDialog {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        naid: 0,
+        naid_raw: [0; 4],
+        }
     }
 }
 
@@ -10004,6 +11254,19 @@ impl PacketZcMenuList {
     pub fn set_msg_raw(&mut self, value: Vec<u8>) {
         self.msg_raw = value;
     }
+    pub fn new() -> PacketZcMenuList {
+        PacketZcMenuList {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        naid: 0,
+        naid_raw: [0; 4],
+        msg: String::new(),
+        msg_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcMenuList {
@@ -10089,6 +11352,17 @@ impl PacketCzChooseMenu {
     pub fn set_num_raw(&mut self, value: [u8; 1]) {
         self.num_raw = value;
     }
+    pub fn new() -> PacketCzChooseMenu {
+        PacketCzChooseMenu {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        naid: 0,
+        naid_raw: [0; 4],
+        num: 0,
+        num_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketCzChooseMenu {
@@ -10158,6 +11432,15 @@ impl PacketCzReqNextScript {
     pub fn set_naid_raw(&mut self, value: [u8; 4]) {
         self.naid_raw = value;
     }
+    pub fn new() -> PacketCzReqNextScript {
+        PacketCzReqNextScript {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        naid: 0,
+        naid_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketCzReqNextScript {
@@ -10210,6 +11493,13 @@ impl PacketCzReqStatus {
     }
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
+    }
+    pub fn new() -> PacketCzReqStatus {
+        PacketCzReqStatus {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
     }
 }
 
@@ -10295,6 +11585,17 @@ impl PacketCzStatusChange {
     }
     pub fn set_change_amount_raw(&mut self, value: [u8; 1]) {
         self.change_amount_raw = value;
+    }
+    pub fn new() -> PacketCzStatusChange {
+        PacketCzStatusChange {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        status_id: 0,
+        status_id_raw: [0; 2],
+        change_amount: 0,
+        change_amount_raw: [0; 1],
+        }
     }
 }
 
@@ -10396,6 +11697,19 @@ impl PacketZcStatusChangeAck {
     }
     pub fn set_value_raw(&mut self, value: [u8; 1]) {
         self.value_raw = value;
+    }
+    pub fn new() -> PacketZcStatusChangeAck {
+        PacketZcStatusChangeAck {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        status_id: 0,
+        status_id_raw: [0; 2],
+        result: false,
+        result_raw: [0; 1],
+        value: 0,
+        value_raw: [0; 1],
+        }
     }
 }
 
@@ -10882,6 +12196,67 @@ impl PacketZcStatus {
     pub fn set_plus_aspd_raw(&mut self, value: [u8; 2]) {
         self.plus_aspd_raw = value;
     }
+    pub fn new() -> PacketZcStatus {
+        PacketZcStatus {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        point: 0,
+        point_raw: [0; 2],
+        str: 0,
+        str_raw: [0; 1],
+        standard_str: 0,
+        standard_str_raw: [0; 1],
+        agi: 0,
+        agi_raw: [0; 1],
+        standard_agi: 0,
+        standard_agi_raw: [0; 1],
+        vit: 0,
+        vit_raw: [0; 1],
+        standard_vit: 0,
+        standard_vit_raw: [0; 1],
+        int: 0,
+        int_raw: [0; 1],
+        standard_int: 0,
+        standard_int_raw: [0; 1],
+        dex: 0,
+        dex_raw: [0; 1],
+        standard_dex: 0,
+        standard_dex_raw: [0; 1],
+        luk: 0,
+        luk_raw: [0; 1],
+        standard_luk: 0,
+        standard_luk_raw: [0; 1],
+        att_power: 0,
+        att_power_raw: [0; 2],
+        refining_power: 0,
+        refining_power_raw: [0; 2],
+        max_matt_power: 0,
+        max_matt_power_raw: [0; 2],
+        min_matt_power: 0,
+        min_matt_power_raw: [0; 2],
+        itemdef_power: 0,
+        itemdef_power_raw: [0; 2],
+        plusdef_power: 0,
+        plusdef_power_raw: [0; 2],
+        mdef_power: 0,
+        mdef_power_raw: [0; 2],
+        plusmdef_power: 0,
+        plusmdef_power_raw: [0; 2],
+        hit_success_value: 0,
+        hit_success_value_raw: [0; 2],
+        avoid_success_value: 0,
+        avoid_success_value_raw: [0; 2],
+        plus_avoid_success_value: 0,
+        plus_avoid_success_value_raw: [0; 2],
+        critical_success_value: 0,
+        critical_success_value_raw: [0; 2],
+        aspd: 0,
+        aspd_raw: [0; 2],
+        plus_aspd: 0,
+        plus_aspd_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketZcStatus {
@@ -10967,6 +12342,17 @@ impl PacketZcStatusChange {
     pub fn set_value_raw(&mut self, value: [u8; 1]) {
         self.value_raw = value;
     }
+    pub fn new() -> PacketZcStatusChange {
+        PacketZcStatusChange {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        status_id: 0,
+        status_id_raw: [0; 2],
+        value: 0,
+        value_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketZcStatusChange {
@@ -11035,6 +12421,15 @@ impl PacketCzReqEmotion {
     }
     pub fn set_atype_raw(&mut self, value: [u8; 1]) {
         self.atype_raw = value;
+    }
+    pub fn new() -> PacketCzReqEmotion {
+        PacketCzReqEmotion {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 1],
+        }
     }
 }
 
@@ -11121,6 +12516,17 @@ impl PacketZcEmotion {
     pub fn set_atype_raw(&mut self, value: [u8; 1]) {
         self.atype_raw = value;
     }
+    pub fn new() -> PacketZcEmotion {
+        PacketZcEmotion {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        gid: 0,
+        gid_raw: [0; 4],
+        atype: 0,
+        atype_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketZcEmotion {
@@ -11173,6 +12579,13 @@ impl PacketCzReqUserCount {
     }
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
+    }
+    pub fn new() -> PacketCzReqUserCount {
+        PacketCzReqUserCount {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
     }
 }
 
@@ -11242,6 +12655,15 @@ impl PacketZcUserCount {
     }
     pub fn set_count_raw(&mut self, value: [u8; 4]) {
         self.count_raw = value;
+    }
+    pub fn new() -> PacketZcUserCount {
+        PacketZcUserCount {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        count: 0,
+        count_raw: [0; 4],
+        }
     }
 }
 
@@ -11344,6 +12766,19 @@ impl PacketZcSpriteChange {
     pub fn set_value_raw(&mut self, value: [u8; 1]) {
         self.value_raw = value;
     }
+    pub fn new() -> PacketZcSpriteChange {
+        PacketZcSpriteChange {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        gid: 0,
+        gid_raw: [0; 4],
+        atype: 0,
+        atype_raw: [0; 1],
+        value: 0,
+        value_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketZcSpriteChange {
@@ -11412,6 +12847,15 @@ impl PacketZcSelectDealtype {
     }
     pub fn set_naid_raw(&mut self, value: [u8; 4]) {
         self.naid_raw = value;
+    }
+    pub fn new() -> PacketZcSelectDealtype {
+        PacketZcSelectDealtype {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        naid: 0,
+        naid_raw: [0; 4],
+        }
     }
 }
 
@@ -11497,6 +12941,17 @@ impl PacketCzAckSelectDealtype {
     }
     pub fn set_atype_raw(&mut self, value: [u8; 1]) {
         self.atype_raw = value;
+    }
+    pub fn new() -> PacketCzAckSelectDealtype {
+        PacketCzAckSelectDealtype {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        naid: 0,
+        naid_raw: [0; 4],
+        atype: 0,
+        atype_raw: [0; 1],
+        }
     }
 }
 
@@ -11590,6 +13045,17 @@ impl PacketZcPcPurchaseItemlist {
     pub fn set_item_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_list_raw = value;
     }
+    pub fn new() -> PacketZcPcPurchaseItemlist {
+        PacketZcPcPurchaseItemlist {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        item_list: vec![],
+        item_list_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcPcPurchaseItemlist {
@@ -11681,6 +13147,17 @@ impl PacketZcPcSellItemlist {
     }
     pub fn set_item_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_list_raw = value;
+    }
+    pub fn new() -> PacketZcPcSellItemlist {
+        PacketZcPcSellItemlist {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        item_list: vec![],
+        item_list_raw: vec![],
+        }
     }
 }
 
@@ -11774,6 +13251,17 @@ impl PacketCzPcPurchaseItemlist {
     pub fn set_item_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_list_raw = value;
     }
+    pub fn new() -> PacketCzPcPurchaseItemlist {
+        PacketCzPcPurchaseItemlist {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        item_list: vec![],
+        item_list_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketCzPcPurchaseItemlist {
@@ -11866,6 +13354,17 @@ impl PacketCzPcSellItemlist {
     pub fn set_item_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_list_raw = value;
     }
+    pub fn new() -> PacketCzPcSellItemlist {
+        PacketCzPcSellItemlist {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        item_list: vec![],
+        item_list_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketCzPcSellItemlist {
@@ -11934,6 +13433,15 @@ impl PacketZcPcPurchaseResult {
     }
     pub fn set_result_raw(&mut self, value: [u8; 1]) {
         self.result_raw = value;
+    }
+    pub fn new() -> PacketZcPcPurchaseResult {
+        PacketZcPcPurchaseResult {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        result: 0,
+        result_raw: [0; 1],
+        }
     }
 }
 
@@ -12004,6 +13512,15 @@ impl PacketZcPcSellResult {
     pub fn set_result_raw(&mut self, value: [u8; 1]) {
         self.result_raw = value;
     }
+    pub fn new() -> PacketZcPcSellResult {
+        PacketZcPcSellResult {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        result: 0,
+        result_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketZcPcSellResult {
@@ -12072,6 +13589,15 @@ impl PacketCzDisconnectCharacter {
     }
     pub fn set_aid_raw(&mut self, value: [u8; 4]) {
         self.aid_raw = value;
+    }
+    pub fn new() -> PacketCzDisconnectCharacter {
+        PacketCzDisconnectCharacter {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        }
     }
 }
 
@@ -12142,6 +13668,15 @@ impl PacketZcAckDisconnectCharacter {
     pub fn set_result_raw(&mut self, value: [u8; 1]) {
         self.result_raw = value;
     }
+    pub fn new() -> PacketZcAckDisconnectCharacter {
+        PacketZcAckDisconnectCharacter {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        result: 0,
+        result_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketZcAckDisconnectCharacter {
@@ -12194,6 +13729,13 @@ impl PacketCzDisconnectAllCharacter {
     }
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
+    }
+    pub fn new() -> PacketCzDisconnectAllCharacter {
+        PacketCzDisconnectAllCharacter {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
     }
 }
 
@@ -12288,6 +13830,17 @@ impl PacketCzSettingWhisperPc {
     pub fn set_atype_raw(&mut self, value: [u8; 1]) {
         self.atype_raw = value;
     }
+    pub fn new() -> PacketCzSettingWhisperPc {
+        PacketCzSettingWhisperPc {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        name: [0 as char; 24],
+        name_raw: [0; 24],
+        atype: 0,
+        atype_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketCzSettingWhisperPc {
@@ -12356,6 +13909,15 @@ impl PacketCzSettingWhisperState {
     }
     pub fn set_atype_raw(&mut self, value: [u8; 1]) {
         self.atype_raw = value;
+    }
+    pub fn new() -> PacketCzSettingWhisperState {
+        PacketCzSettingWhisperState {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 1],
+        }
     }
 }
 
@@ -12442,6 +14004,17 @@ impl PacketZcSettingWhisperPc {
     pub fn set_result_raw(&mut self, value: [u8; 1]) {
         self.result_raw = value;
     }
+    pub fn new() -> PacketZcSettingWhisperPc {
+        PacketZcSettingWhisperPc {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 1],
+        result: 0,
+        result_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketZcSettingWhisperPc {
@@ -12527,6 +14100,17 @@ impl PacketZcSettingWhisperState {
     pub fn set_result_raw(&mut self, value: [u8; 1]) {
         self.result_raw = value;
     }
+    pub fn new() -> PacketZcSettingWhisperState {
+        PacketZcSettingWhisperState {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 1],
+        result: 0,
+        result_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketZcSettingWhisperState {
@@ -12579,6 +14163,13 @@ impl PacketCzReqWhisperList {
     }
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
+    }
+    pub fn new() -> PacketCzReqWhisperList {
+        PacketCzReqWhisperList {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
     }
 }
 
@@ -12671,6 +14262,17 @@ impl PacketZcWhisperList {
     }
     pub fn set_wisper_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.wisper_list_raw = value;
+    }
+    pub fn new() -> PacketZcWhisperList {
+        PacketZcWhisperList {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        wisper_list: vec![],
+        wisper_list_raw: vec![],
+        }
     }
 }
 
@@ -12807,6 +14409,23 @@ impl PacketCzCreateChatroom {
     pub fn set_title_raw(&mut self, value: Vec<u8>) {
         self.title_raw = value;
     }
+    pub fn new() -> PacketCzCreateChatroom {
+        PacketCzCreateChatroom {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        size: 0,
+        size_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 1],
+        passwd: [0 as char; 8],
+        passwd_raw: [0; 8],
+        title: String::new(),
+        title_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketCzCreateChatroom {
@@ -12875,6 +14494,15 @@ impl PacketZcAckCreateChatroom {
     }
     pub fn set_result_raw(&mut self, value: [u8; 1]) {
         self.result_raw = value;
+    }
+    pub fn new() -> PacketZcAckCreateChatroom {
+        PacketZcAckCreateChatroom {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        result: 0,
+        result_raw: [0; 1],
+        }
     }
 }
 
@@ -13035,6 +14663,27 @@ impl PacketZcRoomNewentry {
     pub fn set_title_raw(&mut self, value: Vec<u8>) {
         self.title_raw = value;
     }
+    pub fn new() -> PacketZcRoomNewentry {
+        PacketZcRoomNewentry {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        room_id: 0,
+        room_id_raw: [0; 4],
+        maxcount: 0,
+        maxcount_raw: [0; 2],
+        curcount: 0,
+        curcount_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 1],
+        title: String::new(),
+        title_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcRoomNewentry {
@@ -13103,6 +14752,15 @@ impl PacketZcDestroyRoom {
     }
     pub fn set_room_id_raw(&mut self, value: [u8; 4]) {
         self.room_id_raw = value;
+    }
+    pub fn new() -> PacketZcDestroyRoom {
+        PacketZcDestroyRoom {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        room_id: 0,
+        room_id_raw: [0; 4],
+        }
     }
 }
 
@@ -13197,6 +14855,17 @@ impl PacketCzReqEnterRoom {
     pub fn set_passwd_raw(&mut self, value: [u8; 8]) {
         self.passwd_raw = value;
     }
+    pub fn new() -> PacketCzReqEnterRoom {
+        PacketCzReqEnterRoom {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        room_id: 0,
+        room_id_raw: [0; 4],
+        passwd: [0 as char; 8],
+        passwd_raw: [0; 8],
+        }
+    }
 }
 
 impl Packet for PacketCzReqEnterRoom {
@@ -13265,6 +14934,15 @@ impl PacketZcRefuseEnterRoom {
     }
     pub fn set_result_raw(&mut self, value: [u8; 1]) {
         self.result_raw = value;
+    }
+    pub fn new() -> PacketZcRefuseEnterRoom {
+        PacketZcRefuseEnterRoom {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        result: 0,
+        result_raw: [0; 1],
+        }
     }
 }
 
@@ -13374,6 +15052,19 @@ impl PacketZcEnterRoom {
     pub fn set_member_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.member_list_raw = value;
     }
+    pub fn new() -> PacketZcEnterRoom {
+        PacketZcEnterRoom {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        room_id: 0,
+        room_id_raw: [0; 4],
+        member_list: vec![],
+        member_list_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcEnterRoom {
@@ -13466,6 +15157,17 @@ impl PacketZcMemberNewentry {
     }
     pub fn set_name_raw(&mut self, value: [u8; 24]) {
         self.name_raw = value;
+    }
+    pub fn new() -> PacketZcMemberNewentry {
+        PacketZcMemberNewentry {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        curcount: 0,
+        curcount_raw: [0; 2],
+        name: [0 as char; 24],
+        name_raw: [0; 24],
+        }
     }
 }
 
@@ -13575,6 +15277,19 @@ impl PacketZcMemberExit {
     }
     pub fn set_atype_raw(&mut self, value: [u8; 1]) {
         self.atype_raw = value;
+    }
+    pub fn new() -> PacketZcMemberExit {
+        PacketZcMemberExit {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        curcount: 0,
+        curcount_raw: [0; 2],
+        name: [0 as char; 24],
+        name_raw: [0; 24],
+        atype: 0,
+        atype_raw: [0; 1],
+        }
     }
 }
 
@@ -13710,6 +15425,23 @@ impl PacketCzChangeChatroom {
     }
     pub fn set_title_raw(&mut self, value: Vec<u8>) {
         self.title_raw = value;
+    }
+    pub fn new() -> PacketCzChangeChatroom {
+        PacketCzChangeChatroom {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        size: 0,
+        size_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 1],
+        passwd: [0 as char; 8],
+        passwd_raw: [0; 8],
+        title: String::new(),
+        title_raw: vec![],
+        }
     }
 }
 
@@ -13870,6 +15602,27 @@ impl PacketZcChangeChatroom {
     pub fn set_title_raw(&mut self, value: Vec<u8>) {
         self.title_raw = value;
     }
+    pub fn new() -> PacketZcChangeChatroom {
+        PacketZcChangeChatroom {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        room_id: 0,
+        room_id_raw: [0; 4],
+        maxcount: 0,
+        maxcount_raw: [0; 2],
+        curcount: 0,
+        curcount_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 1],
+        title: String::new(),
+        title_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcChangeChatroom {
@@ -13962,6 +15715,17 @@ impl PacketCzReqRoleChange {
     }
     pub fn set_name_raw(&mut self, value: [u8; 24]) {
         self.name_raw = value;
+    }
+    pub fn new() -> PacketCzReqRoleChange {
+        PacketCzReqRoleChange {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        role: 0,
+        role_raw: [0; 4],
+        name: [0 as char; 24],
+        name_raw: [0; 24],
+        }
     }
 }
 
@@ -14056,6 +15820,17 @@ impl PacketZcRoleChange {
     pub fn set_name_raw(&mut self, value: [u8; 24]) {
         self.name_raw = value;
     }
+    pub fn new() -> PacketZcRoleChange {
+        PacketZcRoleChange {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        role: 0,
+        role_raw: [0; 4],
+        name: [0 as char; 24],
+        name_raw: [0; 24],
+        }
+    }
 }
 
 impl Packet for PacketZcRoleChange {
@@ -14133,6 +15908,15 @@ impl PacketCzReqExpelMember {
     pub fn set_name_raw(&mut self, value: [u8; 24]) {
         self.name_raw = value;
     }
+    pub fn new() -> PacketCzReqExpelMember {
+        PacketCzReqExpelMember {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        name: [0 as char; 24],
+        name_raw: [0; 24],
+        }
+    }
 }
 
 impl Packet for PacketCzReqExpelMember {
@@ -14185,6 +15969,13 @@ impl PacketCzExitRoom {
     }
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
+    }
+    pub fn new() -> PacketCzExitRoom {
+        PacketCzExitRoom {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
     }
 }
 
@@ -14254,6 +16045,15 @@ impl PacketCzReqExchangeItem {
     }
     pub fn set_aid_raw(&mut self, value: [u8; 4]) {
         self.aid_raw = value;
+    }
+    pub fn new() -> PacketCzReqExchangeItem {
+        PacketCzReqExchangeItem {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        }
     }
 }
 
@@ -14332,6 +16132,15 @@ impl PacketZcReqExchangeItem {
     pub fn set_name_raw(&mut self, value: [u8; 24]) {
         self.name_raw = value;
     }
+    pub fn new() -> PacketZcReqExchangeItem {
+        PacketZcReqExchangeItem {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        name: [0 as char; 24],
+        name_raw: [0; 24],
+        }
+    }
 }
 
 impl Packet for PacketZcReqExchangeItem {
@@ -14401,6 +16210,15 @@ impl PacketCzAckExchangeItem {
     pub fn set_result_raw(&mut self, value: [u8; 1]) {
         self.result_raw = value;
     }
+    pub fn new() -> PacketCzAckExchangeItem {
+        PacketCzAckExchangeItem {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        result: 0,
+        result_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketCzAckExchangeItem {
@@ -14469,6 +16287,15 @@ impl PacketZcAckExchangeItem {
     }
     pub fn set_result_raw(&mut self, value: [u8; 1]) {
         self.result_raw = value;
+    }
+    pub fn new() -> PacketZcAckExchangeItem {
+        PacketZcAckExchangeItem {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        result: 0,
+        result_raw: [0; 1],
+        }
     }
 }
 
@@ -14554,6 +16381,17 @@ impl PacketCzAddExchangeItem {
     }
     pub fn set_count_raw(&mut self, value: [u8; 4]) {
         self.count_raw = value;
+    }
+    pub fn new() -> PacketCzAddExchangeItem {
+        PacketCzAddExchangeItem {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        index: 0,
+        index_raw: [0; 2],
+        count: 0,
+        count_raw: [0; 4],
+        }
     }
 }
 
@@ -14702,6 +16540,25 @@ impl PacketZcAddExchangeItem {
     pub fn set_slot_raw(&mut self, value: [u8; 8]) {
         self.slot_raw = value;
     }
+    pub fn new() -> PacketZcAddExchangeItem {
+        PacketZcAddExchangeItem {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        count: 0,
+        count_raw: [0; 4],
+        itid: 0,
+        itid_raw: [0; 2],
+        is_identified: false,
+        is_identified_raw: [0; 1],
+        is_damaged: false,
+        is_damaged_raw: [0; 1],
+        refining_level: 0,
+        refining_level_raw: [0; 1],
+        slot: EQUIPSLOTINFO::new(),
+        slot_raw: [0; 8],
+        }
+    }
 }
 
 impl Packet for PacketZcAddExchangeItem {
@@ -14787,6 +16644,17 @@ impl PacketZcAckAddExchangeItem {
     pub fn set_result_raw(&mut self, value: [u8; 1]) {
         self.result_raw = value;
     }
+    pub fn new() -> PacketZcAckAddExchangeItem {
+        PacketZcAckAddExchangeItem {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        index: 0,
+        index_raw: [0; 2],
+        result: 0,
+        result_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketZcAckAddExchangeItem {
@@ -14839,6 +16707,13 @@ impl PacketCzConcludeExchangeItem {
     }
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
+    }
+    pub fn new() -> PacketCzConcludeExchangeItem {
+        PacketCzConcludeExchangeItem {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
     }
 }
 
@@ -14909,6 +16784,15 @@ impl PacketZcConcludeExchangeItem {
     pub fn set_who_raw(&mut self, value: [u8; 1]) {
         self.who_raw = value;
     }
+    pub fn new() -> PacketZcConcludeExchangeItem {
+        PacketZcConcludeExchangeItem {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        who: 0,
+        who_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketZcConcludeExchangeItem {
@@ -14961,6 +16845,13 @@ impl PacketCzCancelExchangeItem {
     }
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
+    }
+    pub fn new() -> PacketCzCancelExchangeItem {
+        PacketCzCancelExchangeItem {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
     }
 }
 
@@ -15015,6 +16906,13 @@ impl PacketZcCancelExchangeItem {
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
     }
+    pub fn new() -> PacketZcCancelExchangeItem {
+        PacketZcCancelExchangeItem {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketZcCancelExchangeItem {
@@ -15067,6 +16965,13 @@ impl PacketCzExecExchangeItem {
     }
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
+    }
+    pub fn new() -> PacketCzExecExchangeItem {
+        PacketCzExecExchangeItem {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
     }
 }
 
@@ -15137,6 +17042,15 @@ impl PacketZcExecExchangeItem {
     pub fn set_result_raw(&mut self, value: [u8; 1]) {
         self.result_raw = value;
     }
+    pub fn new() -> PacketZcExecExchangeItem {
+        PacketZcExecExchangeItem {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        result: 0,
+        result_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketZcExecExchangeItem {
@@ -15189,6 +17103,13 @@ impl PacketZcExchangeitemUndo {
     }
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
+    }
+    pub fn new() -> PacketZcExchangeitemUndo {
+        PacketZcExchangeitemUndo {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
     }
 }
 
@@ -15275,6 +17196,17 @@ impl PacketZcNotifyStoreitemCountinfo {
     pub fn set_max_count_raw(&mut self, value: [u8; 2]) {
         self.max_count_raw = value;
     }
+    pub fn new() -> PacketZcNotifyStoreitemCountinfo {
+        PacketZcNotifyStoreitemCountinfo {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        cur_count: 0,
+        cur_count_raw: [0; 2],
+        max_count: 0,
+        max_count_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketZcNotifyStoreitemCountinfo {
@@ -15359,6 +17291,17 @@ impl PacketCzMoveItemFromBodyToStore {
     }
     pub fn set_count_raw(&mut self, value: [u8; 4]) {
         self.count_raw = value;
+    }
+    pub fn new() -> PacketCzMoveItemFromBodyToStore {
+        PacketCzMoveItemFromBodyToStore {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        index: 0,
+        index_raw: [0; 2],
+        count: 0,
+        count_raw: [0; 4],
+        }
     }
 }
 
@@ -15523,6 +17466,27 @@ impl PacketZcAddItemToStore {
     pub fn set_slot_raw(&mut self, value: [u8; 8]) {
         self.slot_raw = value;
     }
+    pub fn new() -> PacketZcAddItemToStore {
+        PacketZcAddItemToStore {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        index: 0,
+        index_raw: [0; 2],
+        count: 0,
+        count_raw: [0; 4],
+        itid: 0,
+        itid_raw: [0; 2],
+        is_identified: false,
+        is_identified_raw: [0; 1],
+        is_damaged: false,
+        is_damaged_raw: [0; 1],
+        refining_level: 0,
+        refining_level_raw: [0; 1],
+        slot: EQUIPSLOTINFO::new(),
+        slot_raw: [0; 8],
+        }
+    }
 }
 
 impl Packet for PacketZcAddItemToStore {
@@ -15607,6 +17571,17 @@ impl PacketCzMoveItemFromStoreToBody {
     }
     pub fn set_count_raw(&mut self, value: [u8; 4]) {
         self.count_raw = value;
+    }
+    pub fn new() -> PacketCzMoveItemFromStoreToBody {
+        PacketCzMoveItemFromStoreToBody {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        index: 0,
+        index_raw: [0; 2],
+        count: 0,
+        count_raw: [0; 4],
+        }
     }
 }
 
@@ -15693,6 +17668,17 @@ impl PacketZcDeleteItemFromStore {
     pub fn set_count_raw(&mut self, value: [u8; 4]) {
         self.count_raw = value;
     }
+    pub fn new() -> PacketZcDeleteItemFromStore {
+        PacketZcDeleteItemFromStore {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        index: 0,
+        index_raw: [0; 2],
+        count: 0,
+        count_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketZcDeleteItemFromStore {
@@ -15746,6 +17732,13 @@ impl PacketCzCloseStore {
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
     }
+    pub fn new() -> PacketCzCloseStore {
+        PacketCzCloseStore {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketCzCloseStore {
@@ -15798,6 +17791,13 @@ impl PacketZcCloseStore {
     }
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
+    }
+    pub fn new() -> PacketZcCloseStore {
+        PacketZcCloseStore {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
     }
 }
 
@@ -15876,6 +17876,15 @@ impl PacketCzMakeGroup {
     pub fn set_group_name_raw(&mut self, value: [u8; 24]) {
         self.group_name_raw = value;
     }
+    pub fn new() -> PacketCzMakeGroup {
+        PacketCzMakeGroup {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        group_name: [0 as char; 24],
+        group_name_raw: [0; 24],
+        }
+    }
 }
 
 impl Packet for PacketCzMakeGroup {
@@ -15944,6 +17953,15 @@ impl PacketZcAckMakeGroup {
     }
     pub fn set_result_raw(&mut self, value: [u8; 1]) {
         self.result_raw = value;
+    }
+    pub fn new() -> PacketZcAckMakeGroup {
+        PacketZcAckMakeGroup {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        result: 0,
+        result_raw: [0; 1],
+        }
     }
 }
 
@@ -16061,6 +18079,19 @@ impl PacketZcGroupList {
     pub fn set_group_info_raw(&mut self, value: Vec<Vec<u8>>) {
         self.group_info_raw = value;
     }
+    pub fn new() -> PacketZcGroupList {
+        PacketZcGroupList {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        group_name: [0 as char; 24],
+        group_name_raw: [0; 24],
+        group_info: vec![],
+        group_info_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcGroupList {
@@ -16129,6 +18160,15 @@ impl PacketCzReqJoinGroup {
     }
     pub fn set_aid_raw(&mut self, value: [u8; 4]) {
         self.aid_raw = value;
+    }
+    pub fn new() -> PacketCzReqJoinGroup {
+        PacketCzReqJoinGroup {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        }
     }
 }
 
@@ -16223,6 +18263,17 @@ impl PacketZcAckReqJoinGroup {
     pub fn set_answer_raw(&mut self, value: [u8; 1]) {
         self.answer_raw = value;
     }
+    pub fn new() -> PacketZcAckReqJoinGroup {
+        PacketZcAckReqJoinGroup {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        character_name: [0 as char; 24],
+        character_name_raw: [0; 24],
+        answer: 0,
+        answer_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketZcAckReqJoinGroup {
@@ -16316,6 +18367,17 @@ impl PacketZcReqJoinGroup {
     pub fn set_group_name_raw(&mut self, value: [u8; 24]) {
         self.group_name_raw = value;
     }
+    pub fn new() -> PacketZcReqJoinGroup {
+        PacketZcReqJoinGroup {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        grid: 0,
+        grid_raw: [0; 4],
+        group_name: [0 as char; 24],
+        group_name_raw: [0; 24],
+        }
+    }
 }
 
 impl Packet for PacketZcReqJoinGroup {
@@ -16401,6 +18463,17 @@ impl PacketCzJoinGroup {
     pub fn set_answer_raw(&mut self, value: [u8; 4]) {
         self.answer_raw = value;
     }
+    pub fn new() -> PacketCzJoinGroup {
+        PacketCzJoinGroup {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        grid: 0,
+        grid_raw: [0; 4],
+        answer: 0,
+        answer_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketCzJoinGroup {
@@ -16453,6 +18526,13 @@ impl PacketCzReqLeaveGroup {
     }
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
+    }
+    pub fn new() -> PacketCzReqLeaveGroup {
+        PacketCzReqLeaveGroup {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
     }
 }
 
@@ -16523,6 +18603,15 @@ impl PacketZcGroupinfoChange {
     pub fn set_exp_option_raw(&mut self, value: [u8; 4]) {
         self.exp_option_raw = value;
     }
+    pub fn new() -> PacketZcGroupinfoChange {
+        PacketZcGroupinfoChange {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        exp_option: 0,
+        exp_option_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketZcGroupinfoChange {
@@ -16591,6 +18680,15 @@ impl PacketCzChangeGroupexpoption {
     }
     pub fn set_exp_option_raw(&mut self, value: [u8; 4]) {
         self.exp_option_raw = value;
+    }
+    pub fn new() -> PacketCzChangeGroupexpoption {
+        PacketCzChangeGroupexpoption {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        exp_option: 0,
+        exp_option_raw: [0; 4],
+        }
     }
 }
 
@@ -16684,6 +18782,17 @@ impl PacketCzReqExpelGroupMember {
     }
     pub fn set_character_name_raw(&mut self, value: [u8; 24]) {
         self.character_name_raw = value;
+    }
+    pub fn new() -> PacketCzReqExpelGroupMember {
+        PacketCzReqExpelGroupMember {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        character_name: [0 as char; 24],
+        character_name_raw: [0; 24],
+        }
     }
 }
 
@@ -16890,6 +18999,29 @@ impl PacketZcAddMemberToGroup {
     pub fn set_map_name_raw(&mut self, value: [u8; 16]) {
         self.map_name_raw = value;
     }
+    pub fn new() -> PacketZcAddMemberToGroup {
+        PacketZcAddMemberToGroup {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        role: 0,
+        role_raw: [0; 4],
+        x_pos: 0,
+        x_pos_raw: [0; 2],
+        y_pos: 0,
+        y_pos_raw: [0; 2],
+        state: 0,
+        state_raw: [0; 1],
+        group_name: [0 as char; 24],
+        group_name_raw: [0; 24],
+        character_name: [0 as char; 24],
+        character_name_raw: [0; 24],
+        map_name: [0 as char; 16],
+        map_name_raw: [0; 16],
+        }
+    }
 }
 
 impl Packet for PacketZcAddMemberToGroup {
@@ -16999,6 +19131,19 @@ impl PacketZcDeleteMemberFromGroup {
     pub fn set_result_raw(&mut self, value: [u8; 1]) {
         self.result_raw = value;
     }
+    pub fn new() -> PacketZcDeleteMemberFromGroup {
+        PacketZcDeleteMemberFromGroup {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        character_name: [0 as char; 24],
+        character_name_raw: [0; 24],
+        result: 0,
+        result_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketZcDeleteMemberFromGroup {
@@ -17099,6 +19244,19 @@ impl PacketZcNotifyHpToGroupm {
     }
     pub fn set_maxhp_raw(&mut self, value: [u8; 2]) {
         self.maxhp_raw = value;
+    }
+    pub fn new() -> PacketZcNotifyHpToGroupm {
+        PacketZcNotifyHpToGroupm {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        hp: 0,
+        hp_raw: [0; 2],
+        maxhp: 0,
+        maxhp_raw: [0; 2],
+        }
     }
 }
 
@@ -17201,6 +19359,19 @@ impl PacketZcNotifyPositionToGroupm {
     pub fn set_y_pos_raw(&mut self, value: [u8; 2]) {
         self.y_pos_raw = value;
     }
+    pub fn new() -> PacketZcNotifyPositionToGroupm {
+        PacketZcNotifyPositionToGroupm {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        x_pos: 0,
+        x_pos_raw: [0; 2],
+        y_pos: 0,
+        y_pos_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketZcNotifyPositionToGroupm {
@@ -17279,6 +19450,17 @@ impl PacketCzRequestChatParty {
     }
     pub fn set_msg_raw(&mut self, value: Vec<u8>) {
         self.msg_raw = value;
+    }
+    pub fn new() -> PacketCzRequestChatParty {
+        PacketCzRequestChatParty {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        msg: String::new(),
+        msg_raw: vec![],
+        }
     }
 }
 
@@ -17375,6 +19557,19 @@ impl PacketZcNotifyChatParty {
     pub fn set_msg_raw(&mut self, value: Vec<u8>) {
         self.msg_raw = value;
     }
+    pub fn new() -> PacketZcNotifyChatParty {
+        PacketZcNotifyChatParty {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        msg: String::new(),
+        msg_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcNotifyChatParty {
@@ -17443,6 +19638,15 @@ impl PacketZcMvpGettingItem {
     }
     pub fn set_itid_raw(&mut self, value: [u8; 2]) {
         self.itid_raw = value;
+    }
+    pub fn new() -> PacketZcMvpGettingItem {
+        PacketZcMvpGettingItem {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        itid: 0,
+        itid_raw: [0; 2],
+        }
     }
 }
 
@@ -17513,6 +19717,15 @@ impl PacketZcMvpGettingSpecialExp {
     pub fn set_exp_raw(&mut self, value: [u8; 4]) {
         self.exp_raw = value;
     }
+    pub fn new() -> PacketZcMvpGettingSpecialExp {
+        PacketZcMvpGettingSpecialExp {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        exp: 0,
+        exp_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketZcMvpGettingSpecialExp {
@@ -17582,6 +19795,15 @@ impl PacketZcMvp {
     pub fn set_aid_raw(&mut self, value: [u8; 4]) {
         self.aid_raw = value;
     }
+    pub fn new() -> PacketZcMvp {
+        PacketZcMvp {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketZcMvp {
@@ -17634,6 +19856,13 @@ impl PacketZcThrowMvpitem {
     }
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
+    }
+    pub fn new() -> PacketZcThrowMvpitem {
+        PacketZcThrowMvpitem {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
     }
 }
 
@@ -17768,6 +19997,23 @@ impl PacketZcSkillinfoUpdate {
     pub fn set_upgradable_raw(&mut self, value: [u8; 1]) {
         self.upgradable_raw = value;
     }
+    pub fn new() -> PacketZcSkillinfoUpdate {
+        PacketZcSkillinfoUpdate {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        skid: 0,
+        skid_raw: [0; 2],
+        level: 0,
+        level_raw: [0; 2],
+        spcost: 0,
+        spcost_raw: [0; 2],
+        attack_range: 0,
+        attack_range_raw: [0; 2],
+        upgradable: false,
+        upgradable_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketZcSkillinfoUpdate {
@@ -17859,6 +20105,17 @@ impl PacketZcSkillinfoList {
     }
     pub fn set_skill_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.skill_list_raw = value;
+    }
+    pub fn new() -> PacketZcSkillinfoList {
+        PacketZcSkillinfoList {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        skill_list: vec![],
+        skill_list_raw: vec![],
+        }
     }
 }
 
@@ -17977,6 +20234,21 @@ impl PacketZcAckTouseskill {
     pub fn set_cause_raw(&mut self, value: [u8; 1]) {
         self.cause_raw = value;
     }
+    pub fn new() -> PacketZcAckTouseskill {
+        PacketZcAckTouseskill {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        skid: 0,
+        skid_raw: [0; 2],
+        num: 0,
+        num_raw: [0; 4],
+        result: false,
+        result_raw: [0; 1],
+        cause: 0,
+        cause_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketZcAckTouseskill {
@@ -18039,6 +20311,15 @@ impl PacketZcAddSkill {
     }
     pub fn set_data_raw(&mut self, value: Vec<u8>) {
         self.data_raw = value;
+    }
+    pub fn new() -> PacketZcAddSkill {
+        PacketZcAddSkill {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        data: SKILLINFO::new(),
+        data_raw: vec![],
+        }
     }
 }
 
@@ -18108,6 +20389,15 @@ impl PacketCzUpgradeSkilllevel {
     }
     pub fn set_skid_raw(&mut self, value: [u8; 2]) {
         self.skid_raw = value;
+    }
+    pub fn new() -> PacketCzUpgradeSkilllevel {
+        PacketCzUpgradeSkilllevel {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        skid: 0,
+        skid_raw: [0; 2],
+        }
     }
 }
 
@@ -18209,6 +20499,19 @@ impl PacketCzUseSkill {
     }
     pub fn set_target_id_raw(&mut self, value: [u8; 4]) {
         self.target_id_raw = value;
+    }
+    pub fn new() -> PacketCzUseSkill {
+        PacketCzUseSkill {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        selected_level: 0,
+        selected_level_raw: [0; 2],
+        skid: 0,
+        skid_raw: [0; 2],
+        target_id: 0,
+        target_id_raw: [0; 4],
+        }
     }
 }
 
@@ -18422,6 +20725,33 @@ impl PacketZcNotifySkill {
     }
     pub fn set_action_raw(&mut self, value: [u8; 1]) {
         self.action_raw = value;
+    }
+    pub fn new() -> PacketZcNotifySkill {
+        PacketZcNotifySkill {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        skid: 0,
+        skid_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        target_id: 0,
+        target_id_raw: [0; 4],
+        start_time: 0,
+        start_time_raw: [0; 4],
+        attack_mt: 0,
+        attack_mt_raw: [0; 4],
+        attacked_mt: 0,
+        attacked_mt_raw: [0; 4],
+        damage: 0,
+        damage_raw: [0; 2],
+        level: 0,
+        level_raw: [0; 2],
+        count: 0,
+        count_raw: [0; 2],
+        action: 0,
+        action_raw: [0; 1],
+        }
     }
 }
 
@@ -18668,6 +20998,37 @@ impl PacketZcNotifySkillPosition {
     pub fn set_action_raw(&mut self, value: [u8; 1]) {
         self.action_raw = value;
     }
+    pub fn new() -> PacketZcNotifySkillPosition {
+        PacketZcNotifySkillPosition {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        skid: 0,
+        skid_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        target_id: 0,
+        target_id_raw: [0; 4],
+        start_time: 0,
+        start_time_raw: [0; 4],
+        attack_mt: 0,
+        attack_mt_raw: [0; 4],
+        attacked_mt: 0,
+        attacked_mt_raw: [0; 4],
+        x_pos: 0,
+        x_pos_raw: [0; 2],
+        y_pos: 0,
+        y_pos_raw: [0; 2],
+        damage: 0,
+        damage_raw: [0; 2],
+        level: 0,
+        level_raw: [0; 2],
+        count: 0,
+        count_raw: [0; 2],
+        action: 0,
+        action_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketZcNotifySkillPosition {
@@ -18784,6 +21145,21 @@ impl PacketCzUseSkillToground {
     }
     pub fn set_y_pos_raw(&mut self, value: [u8; 2]) {
         self.y_pos_raw = value;
+    }
+    pub fn new() -> PacketCzUseSkillToground {
+        PacketCzUseSkillToground {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        selected_level: 0,
+        selected_level_raw: [0; 2],
+        skid: 0,
+        skid_raw: [0; 2],
+        x_pos: 0,
+        x_pos_raw: [0; 2],
+        y_pos: 0,
+        y_pos_raw: [0; 2],
+        }
     }
 }
 
@@ -18934,6 +21310,25 @@ impl PacketZcNotifyGroundskill {
     pub fn set_start_time_raw(&mut self, value: [u8; 4]) {
         self.start_time_raw = value;
     }
+    pub fn new() -> PacketZcNotifyGroundskill {
+        PacketZcNotifyGroundskill {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        skid: 0,
+        skid_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        level: 0,
+        level_raw: [0; 2],
+        x_pos: 0,
+        x_pos_raw: [0; 2],
+        y_pos: 0,
+        y_pos_raw: [0; 2],
+        start_time: 0,
+        start_time_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketZcNotifyGroundskill {
@@ -18986,6 +21381,13 @@ impl PacketCzCancelLockon {
     }
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
+    }
+    pub fn new() -> PacketCzCancelLockon {
+        PacketCzCancelLockon {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
     }
 }
 
@@ -19120,6 +21522,23 @@ impl PacketZcStateChange {
     pub fn set_is_pkmode_on_raw(&mut self, value: [u8; 1]) {
         self.is_pkmode_on_raw = value;
     }
+    pub fn new() -> PacketZcStateChange {
+        PacketZcStateChange {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        body_state: 0,
+        body_state_raw: [0; 2],
+        health_state: 0,
+        health_state_raw: [0; 2],
+        effect_state: 0,
+        effect_state_raw: [0; 2],
+        is_pkmode_on: false,
+        is_pkmode_on_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketZcStateChange {
@@ -19253,6 +21672,23 @@ impl PacketZcUseSkill {
     pub fn set_result_raw(&mut self, value: [u8; 1]) {
         self.result_raw = value;
     }
+    pub fn new() -> PacketZcUseSkill {
+        PacketZcUseSkill {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        skid: 0,
+        skid_raw: [0; 2],
+        level: 0,
+        level_raw: [0; 2],
+        target_aid: 0,
+        target_aid_raw: [0; 4],
+        src_aid: 0,
+        src_aid_raw: [0; 4],
+        result: false,
+        result_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketZcUseSkill {
@@ -19345,6 +21781,17 @@ impl PacketCzSelectWarppoint {
     }
     pub fn set_map_name_raw(&mut self, value: [u8; 16]) {
         self.map_name_raw = value;
+    }
+    pub fn new() -> PacketCzSelectWarppoint {
+        PacketCzSelectWarppoint {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        skid: 0,
+        skid_raw: [0; 2],
+        map_name: [0 as char; 16],
+        map_name_raw: [0; 16],
+        }
     }
 }
 
@@ -19439,6 +21886,17 @@ impl PacketZcWarplist {
     pub fn set_map_name_raw(&mut self, value: [u8; 4]) {
         self.map_name_raw = value;
     }
+    pub fn new() -> PacketZcWarplist {
+        PacketZcWarplist {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        skid: 0,
+        skid_raw: [0; 2],
+        map_name: [0 as char; 4],
+        map_name_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketZcWarplist {
@@ -19491,6 +21949,13 @@ impl PacketCzRememberWarppoint {
     }
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
+    }
+    pub fn new() -> PacketCzRememberWarppoint {
+        PacketCzRememberWarppoint {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
     }
 }
 
@@ -19560,6 +22025,15 @@ impl PacketZcAckRememberWarppoint {
     }
     pub fn set_error_code_raw(&mut self, value: [u8; 1]) {
         self.error_code_raw = value;
+    }
+    pub fn new() -> PacketZcAckRememberWarppoint {
+        PacketZcAckRememberWarppoint {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        error_code: 0,
+        error_code_raw: [0; 1],
+        }
     }
 }
 
@@ -19710,6 +22184,25 @@ impl PacketZcSkillEntry {
     pub fn set_is_visible_raw(&mut self, value: [u8; 1]) {
         self.is_visible_raw = value;
     }
+    pub fn new() -> PacketZcSkillEntry {
+        PacketZcSkillEntry {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        creator_aid: 0,
+        creator_aid_raw: [0; 4],
+        x_pos: 0,
+        x_pos_raw: [0; 2],
+        y_pos: 0,
+        y_pos_raw: [0; 2],
+        job: 0,
+        job_raw: [0; 1],
+        is_visible: false,
+        is_visible_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketZcSkillEntry {
@@ -19778,6 +22271,15 @@ impl PacketZcSkillDisappear {
     }
     pub fn set_aid_raw(&mut self, value: [u8; 4]) {
         self.aid_raw = value;
+    }
+    pub fn new() -> PacketZcSkillDisappear {
+        PacketZcSkillDisappear {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        }
     }
 }
 
@@ -19896,6 +22398,21 @@ impl PacketZcNotifyCartitemCountinfo {
     pub fn set_max_weight_raw(&mut self, value: [u8; 4]) {
         self.max_weight_raw = value;
     }
+    pub fn new() -> PacketZcNotifyCartitemCountinfo {
+        PacketZcNotifyCartitemCountinfo {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        cur_count: 0,
+        cur_count_raw: [0; 2],
+        max_count: 0,
+        max_count_raw: [0; 2],
+        cur_weight: 0,
+        cur_weight_raw: [0; 4],
+        max_weight: 0,
+        max_weight_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketZcNotifyCartitemCountinfo {
@@ -19988,6 +22505,17 @@ impl PacketZcCartEquipmentItemlist {
     pub fn set_item_info_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_info_raw = value;
     }
+    pub fn new() -> PacketZcCartEquipmentItemlist {
+        PacketZcCartEquipmentItemlist {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        item_info: vec![],
+        item_info_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcCartEquipmentItemlist {
@@ -20079,6 +22607,17 @@ impl PacketZcCartNormalItemlist {
     }
     pub fn set_item_info_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_info_raw = value;
+    }
+    pub fn new() -> PacketZcCartNormalItemlist {
+        PacketZcCartNormalItemlist {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        item_info: vec![],
+        item_info_raw: vec![],
+        }
     }
 }
 
@@ -20243,6 +22782,27 @@ impl PacketZcAddItemToCart {
     pub fn set_slot_raw(&mut self, value: [u8; 8]) {
         self.slot_raw = value;
     }
+    pub fn new() -> PacketZcAddItemToCart {
+        PacketZcAddItemToCart {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        index: 0,
+        index_raw: [0; 2],
+        count: 0,
+        count_raw: [0; 4],
+        itid: 0,
+        itid_raw: [0; 2],
+        is_identified: false,
+        is_identified_raw: [0; 1],
+        is_damaged: false,
+        is_damaged_raw: [0; 1],
+        refining_level: 0,
+        refining_level_raw: [0; 1],
+        slot: EQUIPSLOTINFO::new(),
+        slot_raw: [0; 8],
+        }
+    }
 }
 
 impl Packet for PacketZcAddItemToCart {
@@ -20327,6 +22887,17 @@ impl PacketZcDeleteItemFromCart {
     }
     pub fn set_count_raw(&mut self, value: [u8; 4]) {
         self.count_raw = value;
+    }
+    pub fn new() -> PacketZcDeleteItemFromCart {
+        PacketZcDeleteItemFromCart {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        index: 0,
+        index_raw: [0; 2],
+        count: 0,
+        count_raw: [0; 4],
+        }
     }
 }
 
@@ -20413,6 +22984,17 @@ impl PacketCzMoveItemFromBodyToCart {
     pub fn set_count_raw(&mut self, value: [u8; 4]) {
         self.count_raw = value;
     }
+    pub fn new() -> PacketCzMoveItemFromBodyToCart {
+        PacketCzMoveItemFromBodyToCart {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        index: 0,
+        index_raw: [0; 2],
+        count: 0,
+        count_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketCzMoveItemFromBodyToCart {
@@ -20497,6 +23079,17 @@ impl PacketCzMoveItemFromCartToBody {
     }
     pub fn set_count_raw(&mut self, value: [u8; 4]) {
         self.count_raw = value;
+    }
+    pub fn new() -> PacketCzMoveItemFromCartToBody {
+        PacketCzMoveItemFromCartToBody {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        index: 0,
+        index_raw: [0; 2],
+        count: 0,
+        count_raw: [0; 4],
+        }
     }
 }
 
@@ -20583,6 +23176,17 @@ impl PacketCzMoveItemFromStoreToCart {
     pub fn set_count_raw(&mut self, value: [u8; 4]) {
         self.count_raw = value;
     }
+    pub fn new() -> PacketCzMoveItemFromStoreToCart {
+        PacketCzMoveItemFromStoreToCart {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        index: 0,
+        index_raw: [0; 2],
+        count: 0,
+        count_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketCzMoveItemFromStoreToCart {
@@ -20668,6 +23272,17 @@ impl PacketCzMoveItemFromCartToStore {
     pub fn set_count_raw(&mut self, value: [u8; 4]) {
         self.count_raw = value;
     }
+    pub fn new() -> PacketCzMoveItemFromCartToStore {
+        PacketCzMoveItemFromCartToStore {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        index: 0,
+        index_raw: [0; 2],
+        count: 0,
+        count_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketCzMoveItemFromCartToStore {
@@ -20721,6 +23336,13 @@ impl PacketCzReqCartoff {
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
     }
+    pub fn new() -> PacketCzReqCartoff {
+        PacketCzReqCartoff {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketCzReqCartoff {
@@ -20773,6 +23395,13 @@ impl PacketZcCartoff {
     }
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
+    }
+    pub fn new() -> PacketZcCartoff {
+        PacketZcCartoff {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
     }
 }
 
@@ -20843,6 +23472,15 @@ impl PacketZcAckAdditemToCart {
     pub fn set_result_raw(&mut self, value: [u8; 1]) {
         self.result_raw = value;
     }
+    pub fn new() -> PacketZcAckAdditemToCart {
+        PacketZcAckAdditemToCart {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        result: 0,
+        result_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketZcAckAdditemToCart {
@@ -20912,6 +23550,15 @@ impl PacketZcOpenstore {
     pub fn set_itemcount_raw(&mut self, value: [u8; 2]) {
         self.itemcount_raw = value;
     }
+    pub fn new() -> PacketZcOpenstore {
+        PacketZcOpenstore {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        itemcount: 0,
+        itemcount_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketZcOpenstore {
@@ -20964,6 +23611,13 @@ impl PacketCzReqClosestore {
     }
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
+    }
+    pub fn new() -> PacketCzReqClosestore {
+        PacketCzReqClosestore {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
     }
 }
 
@@ -21081,6 +23735,19 @@ impl PacketCzReqOpenstore {
     pub fn set_store_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.store_list_raw = value;
     }
+    pub fn new() -> PacketCzReqOpenstore {
+        PacketCzReqOpenstore {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        store_name: [0 as char; 80],
+        store_name_raw: [0; 80],
+        store_list: vec![],
+        store_list_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketCzReqOpenstore {
@@ -21149,6 +23816,15 @@ impl PacketCzReqBuyFrommc {
     }
     pub fn set_aid_raw(&mut self, value: [u8; 4]) {
         self.aid_raw = value;
+    }
+    pub fn new() -> PacketCzReqBuyFrommc {
+        PacketCzReqBuyFrommc {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        }
     }
 }
 
@@ -21243,6 +23919,17 @@ impl PacketZcStoreEntry {
     pub fn set_store_name_raw(&mut self, value: [u8; 80]) {
         self.store_name_raw = value;
     }
+    pub fn new() -> PacketZcStoreEntry {
+        PacketZcStoreEntry {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        maker_aid: 0,
+        maker_aid_raw: [0; 4],
+        store_name: [0 as char; 80],
+        store_name_raw: [0; 80],
+        }
+    }
 }
 
 impl Packet for PacketZcStoreEntry {
@@ -21311,6 +23998,15 @@ impl PacketZcDisappearEntry {
     }
     pub fn set_maker_aid_raw(&mut self, value: [u8; 4]) {
         self.maker_aid_raw = value;
+    }
+    pub fn new() -> PacketZcDisappearEntry {
+        PacketZcDisappearEntry {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        maker_aid: 0,
+        maker_aid_raw: [0; 4],
+        }
     }
 }
 
@@ -21420,6 +24116,19 @@ impl PacketZcPcPurchaseItemlistFrommc {
     pub fn set_item_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_list_raw = value;
     }
+    pub fn new() -> PacketZcPcPurchaseItemlistFrommc {
+        PacketZcPcPurchaseItemlistFrommc {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        item_list: vec![],
+        item_list_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcPcPurchaseItemlistFrommc {
@@ -21528,6 +24237,19 @@ impl PacketCzPcPurchaseItemlistFrommc {
     pub fn set_item_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_list_raw = value;
     }
+    pub fn new() -> PacketCzPcPurchaseItemlistFrommc {
+        PacketCzPcPurchaseItemlistFrommc {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        item_list: vec![],
+        item_list_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketCzPcPurchaseItemlistFrommc {
@@ -21628,6 +24350,19 @@ impl PacketZcPcPurchaseResultFrommc {
     }
     pub fn set_result_raw(&mut self, value: [u8; 1]) {
         self.result_raw = value;
+    }
+    pub fn new() -> PacketZcPcPurchaseResultFrommc {
+        PacketZcPcPurchaseResultFrommc {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        index: 0,
+        index_raw: [0; 2],
+        curcount: 0,
+        curcount_raw: [0; 2],
+        result: 0,
+        result_raw: [0; 1],
+        }
     }
 }
 
@@ -21737,6 +24472,19 @@ impl PacketZcPcPurchaseMyitemlist {
     pub fn set_item_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_list_raw = value;
     }
+    pub fn new() -> PacketZcPcPurchaseMyitemlist {
+        PacketZcPcPurchaseMyitemlist {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        item_list: vec![],
+        item_list_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcPcPurchaseMyitemlist {
@@ -21822,6 +24570,17 @@ impl PacketZcDeleteitemFromMcstore {
     pub fn set_count_raw(&mut self, value: [u8; 2]) {
         self.count_raw = value;
     }
+    pub fn new() -> PacketZcDeleteitemFromMcstore {
+        PacketZcDeleteitemFromMcstore {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        index: 0,
+        index_raw: [0; 2],
+        count: 0,
+        count_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketZcDeleteitemFromMcstore {
@@ -21890,6 +24649,15 @@ impl PacketCzPkmodeChange {
     }
     pub fn set_is_turn_on_raw(&mut self, value: [u8; 1]) {
         self.is_turn_on_raw = value;
+    }
+    pub fn new() -> PacketCzPkmodeChange {
+        PacketCzPkmodeChange {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        is_turn_on: false,
+        is_turn_on_raw: [0; 1],
+        }
     }
 }
 
@@ -22040,6 +24808,25 @@ impl PacketZcAttackFailureForDistance {
     pub fn set_current_att_range_raw(&mut self, value: [u8; 2]) {
         self.current_att_range_raw = value;
     }
+    pub fn new() -> PacketZcAttackFailureForDistance {
+        PacketZcAttackFailureForDistance {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        target_aid: 0,
+        target_aid_raw: [0; 4],
+        target_xpos: 0,
+        target_xpos_raw: [0; 2],
+        target_ypos: 0,
+        target_ypos_raw: [0; 2],
+        x_pos: 0,
+        x_pos_raw: [0; 2],
+        y_pos: 0,
+        y_pos_raw: [0; 2],
+        current_att_range: 0,
+        current_att_range_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketZcAttackFailureForDistance {
@@ -22108,6 +24895,15 @@ impl PacketZcAttackRange {
     }
     pub fn set_current_att_range_raw(&mut self, value: [u8; 2]) {
         self.current_att_range_raw = value;
+    }
+    pub fn new() -> PacketZcAttackRange {
+        PacketZcAttackRange {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        current_att_range: 0,
+        current_att_range_raw: [0; 2],
+        }
     }
 }
 
@@ -22178,6 +24974,15 @@ impl PacketZcActionFailure {
     pub fn set_error_code_raw(&mut self, value: [u8; 2]) {
         self.error_code_raw = value;
     }
+    pub fn new() -> PacketZcActionFailure {
+        PacketZcActionFailure {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        error_code: 0,
+        error_code_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketZcActionFailure {
@@ -22246,6 +25051,15 @@ impl PacketZcEquipArrow {
     }
     pub fn set_index_raw(&mut self, value: [u8; 2]) {
         self.index_raw = value;
+    }
+    pub fn new() -> PacketZcEquipArrow {
+        PacketZcEquipArrow {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        index: 0,
+        index_raw: [0; 2],
+        }
     }
 }
 
@@ -22331,6 +25145,17 @@ impl PacketZcRecovery {
     }
     pub fn set_amount_raw(&mut self, value: [u8; 2]) {
         self.amount_raw = value;
+    }
+    pub fn new() -> PacketZcRecovery {
+        PacketZcRecovery {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        var_id: 0,
+        var_id_raw: [0; 2],
+        amount: 0,
+        amount_raw: [0; 2],
+        }
     }
 }
 
@@ -22497,6 +25322,27 @@ impl PacketZcUseskillAck {
     pub fn set_delay_time_raw(&mut self, value: [u8; 4]) {
         self.delay_time_raw = value;
     }
+    pub fn new() -> PacketZcUseskillAck {
+        PacketZcUseskillAck {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        target_id: 0,
+        target_id_raw: [0; 4],
+        x_pos: 0,
+        x_pos_raw: [0; 2],
+        y_pos: 0,
+        y_pos_raw: [0; 2],
+        skid: 0,
+        skid_raw: [0; 2],
+        property: 0,
+        property_raw: [0; 4],
+        delay_time: 0,
+        delay_time_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketZcUseskillAck {
@@ -22573,6 +25419,15 @@ impl PacketCzItemCreate {
     }
     pub fn set_item_name_raw(&mut self, value: [u8; 24]) {
         self.item_name_raw = value;
+    }
+    pub fn new() -> PacketCzItemCreate {
+        PacketCzItemCreate {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        item_name: [0 as char; 24],
+        item_name_raw: [0; 24],
+        }
     }
 }
 
@@ -22683,6 +25538,19 @@ impl PacketCzMovetoMap {
     pub fn set_y_pos_raw(&mut self, value: [u8; 2]) {
         self.y_pos_raw = value;
     }
+    pub fn new() -> PacketCzMovetoMap {
+        PacketCzMovetoMap {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        map_name: [0 as char; 16],
+        map_name_raw: [0; 16],
+        x_pos: 0,
+        x_pos_raw: [0; 2],
+        y_pos: 0,
+        y_pos_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketCzMovetoMap {
@@ -22784,6 +25652,19 @@ impl PacketZcCouplestatus {
     pub fn set_plus_status_raw(&mut self, value: [u8; 4]) {
         self.plus_status_raw = value;
     }
+    pub fn new() -> PacketZcCouplestatus {
+        PacketZcCouplestatus {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        status_type: 0,
+        status_type_raw: [0; 4],
+        default_status: 0,
+        default_status_raw: [0; 4],
+        plus_status: 0,
+        plus_status_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketZcCouplestatus {
@@ -22852,6 +25733,15 @@ impl PacketZcOpenEditdlg {
     }
     pub fn set_naid_raw(&mut self, value: [u8; 4]) {
         self.naid_raw = value;
+    }
+    pub fn new() -> PacketZcOpenEditdlg {
+        PacketZcOpenEditdlg {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        naid: 0,
+        naid_raw: [0; 4],
+        }
     }
 }
 
@@ -22937,6 +25827,17 @@ impl PacketCzInputEditdlg {
     }
     pub fn set_value_raw(&mut self, value: [u8; 4]) {
         self.value_raw = value;
+    }
+    pub fn new() -> PacketCzInputEditdlg {
+        PacketCzInputEditdlg {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        naid: 0,
+        naid_raw: [0; 4],
+        value: 0,
+        value_raw: [0; 4],
+        }
     }
 }
 
@@ -23087,6 +25988,25 @@ impl PacketZcCompass {
     pub fn set_color_raw(&mut self, value: [u8; 4]) {
         self.color_raw = value;
     }
+    pub fn new() -> PacketZcCompass {
+        PacketZcCompass {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        naid: 0,
+        naid_raw: [0; 4],
+        atype: 0,
+        atype_raw: [0; 4],
+        x_pos: 0,
+        x_pos_raw: [0; 4],
+        y_pos: 0,
+        y_pos_raw: [0; 4],
+        id: 0,
+        id_raw: [0; 1],
+        color: 0,
+        color_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketZcCompass {
@@ -23180,6 +26100,17 @@ impl PacketZcShowImage {
     pub fn set_atype_raw(&mut self, value: [u8; 1]) {
         self.atype_raw = value;
     }
+    pub fn new() -> PacketZcShowImage {
+        PacketZcShowImage {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        image_name: [0 as char; 16],
+        image_name_raw: [0; 16],
+        atype: 0,
+        atype_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketZcShowImage {
@@ -23249,6 +26180,15 @@ impl PacketCzCloseDialog {
     pub fn set_naid_raw(&mut self, value: [u8; 4]) {
         self.naid_raw = value;
     }
+    pub fn new() -> PacketCzCloseDialog {
+        PacketCzCloseDialog {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        naid: 0,
+        naid_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketCzCloseDialog {
@@ -23311,6 +26251,15 @@ impl PacketZcAutorunSkill {
     }
     pub fn set_data_raw(&mut self, value: Vec<u8>) {
         self.data_raw = value;
+    }
+    pub fn new() -> PacketZcAutorunSkill {
+        PacketZcAutorunSkill {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        data: SKILLINFO::new(),
+        data_raw: vec![],
+        }
     }
 }
 
@@ -23396,6 +26345,17 @@ impl PacketZcResurrection {
     }
     pub fn set_atype_raw(&mut self, value: [u8; 2]) {
         self.atype_raw = value;
+    }
+    pub fn new() -> PacketZcResurrection {
+        PacketZcResurrection {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        atype: 0,
+        atype_raw: [0; 2],
+        }
     }
 }
 
@@ -23498,6 +26458,19 @@ impl PacketCzReqGiveMannerPoint {
     pub fn set_point_raw(&mut self, value: [u8; 2]) {
         self.point_raw = value;
     }
+    pub fn new() -> PacketCzReqGiveMannerPoint {
+        PacketCzReqGiveMannerPoint {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        other_aid: 0,
+        other_aid_raw: [0; 4],
+        atype: 0,
+        atype_raw: [0; 1],
+        point: 0,
+        point_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketCzReqGiveMannerPoint {
@@ -23566,6 +26539,15 @@ impl PacketZcAckGiveMannerPoint {
     }
     pub fn set_result_raw(&mut self, value: [u8; 4]) {
         self.result_raw = value;
+    }
+    pub fn new() -> PacketZcAckGiveMannerPoint {
+        PacketZcAckGiveMannerPoint {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        result: 0,
+        result_raw: [0; 4],
+        }
     }
 }
 
@@ -23660,6 +26642,17 @@ impl PacketZcNotifyMannerPointGiven {
     pub fn set_other_char_name_raw(&mut self, value: [u8; 24]) {
         self.other_char_name_raw = value;
     }
+    pub fn new() -> PacketZcNotifyMannerPointGiven {
+        PacketZcNotifyMannerPointGiven {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 1],
+        other_char_name: [0 as char; 24],
+        other_char_name_raw: [0; 24],
+        }
+    }
 }
 
 impl Packet for PacketZcNotifyMannerPointGiven {
@@ -23752,6 +26745,17 @@ impl PacketZcMyguildBasicInfo {
     pub fn set_related_guild_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.related_guild_list_raw = value;
     }
+    pub fn new() -> PacketZcMyguildBasicInfo {
+        PacketZcMyguildBasicInfo {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        related_guild_list: vec![],
+        related_guild_list_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcMyguildBasicInfo {
@@ -23804,6 +26808,13 @@ impl PacketCzReqGuildMenuinterface {
     }
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
+    }
+    pub fn new() -> PacketCzReqGuildMenuinterface {
+        PacketCzReqGuildMenuinterface {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
     }
 }
 
@@ -23874,6 +26885,15 @@ impl PacketZcAckGuildMenuinterface {
     pub fn set_guild_memu_flag_raw(&mut self, value: [u8; 4]) {
         self.guild_memu_flag_raw = value;
     }
+    pub fn new() -> PacketZcAckGuildMenuinterface {
+        PacketZcAckGuildMenuinterface {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        guild_memu_flag: 0,
+        guild_memu_flag_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketZcAckGuildMenuinterface {
@@ -23942,6 +26962,15 @@ impl PacketCzReqGuildMenu {
     }
     pub fn set_atype_raw(&mut self, value: [u8; 4]) {
         self.atype_raw = value;
+    }
+    pub fn new() -> PacketCzReqGuildMenu {
+        PacketCzReqGuildMenu {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 4],
+        }
     }
 }
 
@@ -24244,6 +27273,41 @@ impl PacketZcGuildInfo {
     pub fn set_manage_land_raw(&mut self, value: [u8; 16]) {
         self.manage_land_raw = value;
     }
+    pub fn new() -> PacketZcGuildInfo {
+        PacketZcGuildInfo {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        gdid: 0,
+        gdid_raw: [0; 4],
+        level: 0,
+        level_raw: [0; 4],
+        user_num: 0,
+        user_num_raw: [0; 4],
+        max_user_num: 0,
+        max_user_num_raw: [0; 4],
+        user_average_level: 0,
+        user_average_level_raw: [0; 4],
+        exp: 0,
+        exp_raw: [0; 4],
+        max_exp: 0,
+        max_exp_raw: [0; 4],
+        point: 0,
+        point_raw: [0; 4],
+        honor: 0,
+        honor_raw: [0; 4],
+        virtue: 0,
+        virtue_raw: [0; 4],
+        emblem_version: 0,
+        emblem_version_raw: [0; 4],
+        guildname: [0 as char; 24],
+        guildname_raw: [0; 24],
+        master_name: [0 as char; 24],
+        master_name_raw: [0; 24],
+        manage_land: [0 as char; 16],
+        manage_land_raw: [0; 16],
+        }
+    }
 }
 
 impl Packet for PacketZcGuildInfo {
@@ -24312,6 +27376,15 @@ impl PacketCzReqGuildEmblemImg {
     }
     pub fn set_gdid_raw(&mut self, value: [u8; 4]) {
         self.gdid_raw = value;
+    }
+    pub fn new() -> PacketCzReqGuildEmblemImg {
+        PacketCzReqGuildEmblemImg {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        gdid: 0,
+        gdid_raw: [0; 4],
+        }
     }
 }
 
@@ -24424,6 +27497,21 @@ impl PacketZcGuildEmblemImg {
     pub fn set_img_raw(&mut self, value: Vec<u8>) {
         self.img_raw = value;
     }
+    pub fn new() -> PacketZcGuildEmblemImg {
+        PacketZcGuildEmblemImg {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        gdid: 0,
+        gdid_raw: [0; 4],
+        emblem_version: 0,
+        emblem_version_raw: [0; 4],
+        img: String::new(),
+        img_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcGuildEmblemImg {
@@ -24502,6 +27590,17 @@ impl PacketCzRegisterGuildEmblemImg {
     }
     pub fn set_img_raw(&mut self, value: Vec<u8>) {
         self.img_raw = value;
+    }
+    pub fn new() -> PacketCzRegisterGuildEmblemImg {
+        PacketCzRegisterGuildEmblemImg {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        img: String::new(),
+        img_raw: vec![],
+        }
     }
 }
 
@@ -24595,6 +27694,17 @@ impl PacketZcMembermgrInfo {
     pub fn set_member_info_raw(&mut self, value: Vec<Vec<u8>>) {
         self.member_info_raw = value;
     }
+    pub fn new() -> PacketZcMembermgrInfo {
+        PacketZcMembermgrInfo {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        member_info: vec![],
+        member_info_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcMembermgrInfo {
@@ -24686,6 +27796,17 @@ impl PacketCzReqChangeMemberpos {
     }
     pub fn set_member_info_raw(&mut self, value: Vec<Vec<u8>>) {
         self.member_info_raw = value;
+    }
+    pub fn new() -> PacketCzReqChangeMemberpos {
+        PacketCzReqChangeMemberpos {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        member_info: vec![],
+        member_info_raw: vec![],
+        }
     }
 }
 
@@ -24779,6 +27900,17 @@ impl PacketZcAckReqChangeMembers {
     pub fn set_member_info_raw(&mut self, value: Vec<Vec<u8>>) {
         self.member_info_raw = value;
     }
+    pub fn new() -> PacketZcAckReqChangeMembers {
+        PacketZcAckReqChangeMembers {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        member_info: vec![],
+        member_info_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcAckReqChangeMembers {
@@ -24848,6 +27980,15 @@ impl PacketCzReqOpenMemberInfo {
     pub fn set_aid_raw(&mut self, value: [u8; 4]) {
         self.aid_raw = value;
     }
+    pub fn new() -> PacketCzReqOpenMemberInfo {
+        PacketCzReqOpenMemberInfo {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketCzReqOpenMemberInfo {
@@ -24900,6 +28041,13 @@ impl PacketZcAckOpenMemberInfo {
     }
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
+    }
+    pub fn new() -> PacketZcAckOpenMemberInfo {
+        PacketZcAckOpenMemberInfo {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
     }
 }
 
@@ -25026,6 +28174,21 @@ impl PacketCzReqLeaveGuild {
     pub fn set_reason_desc_raw(&mut self, value: [u8; 40]) {
         self.reason_desc_raw = value;
     }
+    pub fn new() -> PacketCzReqLeaveGuild {
+        PacketCzReqLeaveGuild {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        gdid: 0,
+        gdid_raw: [0; 4],
+        aid: 0,
+        aid_raw: [0; 4],
+        gid: 0,
+        gid_raw: [0; 4],
+        reason_desc: [0 as char; 40],
+        reason_desc_raw: [0; 40],
+        }
+    }
 }
 
 impl Packet for PacketCzReqLeaveGuild {
@@ -25126,6 +28289,17 @@ impl PacketZcAckLeaveGuild {
     }
     pub fn set_reason_desc_raw(&mut self, value: [u8; 40]) {
         self.reason_desc_raw = value;
+    }
+    pub fn new() -> PacketZcAckLeaveGuild {
+        PacketZcAckLeaveGuild {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        char_name: [0 as char; 24],
+        char_name_raw: [0; 24],
+        reason_desc: [0 as char; 40],
+        reason_desc_raw: [0; 40],
+        }
     }
 }
 
@@ -25252,6 +28426,21 @@ impl PacketCzReqBanGuild {
     pub fn set_reason_desc_raw(&mut self, value: [u8; 40]) {
         self.reason_desc_raw = value;
     }
+    pub fn new() -> PacketCzReqBanGuild {
+        PacketCzReqBanGuild {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        gdid: 0,
+        gdid_raw: [0; 4],
+        aid: 0,
+        aid_raw: [0; 4],
+        gid: 0,
+        gid_raw: [0; 4],
+        reason_desc: [0 as char; 40],
+        reason_desc_raw: [0; 40],
+        }
+    }
 }
 
 impl Packet for PacketCzReqBanGuild {
@@ -25377,6 +28566,19 @@ impl PacketZcAckBanGuild {
     pub fn set_account_raw(&mut self, value: [u8; 24]) {
         self.account_raw = value;
     }
+    pub fn new() -> PacketZcAckBanGuild {
+        PacketZcAckBanGuild {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        char_name: [0 as char; 24],
+        char_name_raw: [0; 24],
+        reason_desc: [0 as char; 40],
+        reason_desc_raw: [0; 40],
+        account: [0 as char; 24],
+        account_raw: [0; 24],
+        }
+    }
 }
 
 impl Packet for PacketZcAckBanGuild {
@@ -25454,6 +28656,15 @@ impl PacketCzReqDisorganizeGuild {
     pub fn set_key_raw(&mut self, value: [u8; 40]) {
         self.key_raw = value;
     }
+    pub fn new() -> PacketCzReqDisorganizeGuild {
+        PacketCzReqDisorganizeGuild {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        key: [0 as char; 40],
+        key_raw: [0; 40],
+        }
+    }
 }
 
 impl Packet for PacketCzReqDisorganizeGuild {
@@ -25522,6 +28733,15 @@ impl PacketZcAckDisorganizeGuildResult {
     }
     pub fn set_reason_raw(&mut self, value: [u8; 4]) {
         self.reason_raw = value;
+    }
+    pub fn new() -> PacketZcAckDisorganizeGuildResult {
+        PacketZcAckDisorganizeGuildResult {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        reason: 0,
+        reason_raw: [0; 4],
+        }
     }
 }
 
@@ -25599,6 +28819,15 @@ impl PacketZcAckDisorganizeGuild {
     }
     pub fn set_reason_desc_raw(&mut self, value: [u8; 40]) {
         self.reason_desc_raw = value;
+    }
+    pub fn new() -> PacketZcAckDisorganizeGuild {
+        PacketZcAckDisorganizeGuild {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        reason_desc: [0 as char; 40],
+        reason_desc_raw: [0; 40],
+        }
     }
 }
 
@@ -25692,6 +28921,17 @@ impl PacketZcPositionInfo {
     pub fn set_member_info_raw(&mut self, value: Vec<Vec<u8>>) {
         self.member_info_raw = value;
     }
+    pub fn new() -> PacketZcPositionInfo {
+        PacketZcPositionInfo {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        member_info: vec![],
+        member_info_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcPositionInfo {
@@ -25783,6 +29023,17 @@ impl PacketCzRegChangeGuildPositioninfo {
     }
     pub fn set_member_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.member_list_raw = value;
+    }
+    pub fn new() -> PacketCzRegChangeGuildPositioninfo {
+        PacketCzRegChangeGuildPositioninfo {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        member_list: vec![],
+        member_list_raw: vec![],
+        }
     }
 }
 
@@ -25892,6 +29143,19 @@ impl PacketZcGuildSkillinfo {
     pub fn set_skill_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.skill_list_raw = value;
     }
+    pub fn new() -> PacketZcGuildSkillinfo {
+        PacketZcGuildSkillinfo {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        skill_point: 0,
+        skill_point_raw: [0; 2],
+        skill_list: vec![],
+        skill_list_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcGuildSkillinfo {
@@ -25984,6 +29248,17 @@ impl PacketZcBanList {
     pub fn set_ban_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.ban_list_raw = value;
     }
+    pub fn new() -> PacketZcBanList {
+        PacketZcBanList {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        ban_list: vec![],
+        ban_list_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcBanList {
@@ -26075,6 +29350,17 @@ impl PacketZcOtherGuildList {
     }
     pub fn set_guild_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.guild_list_raw = value;
+    }
+    pub fn new() -> PacketZcOtherGuildList {
+        PacketZcOtherGuildList {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        guild_list: vec![],
+        guild_list_raw: vec![],
+        }
     }
 }
 
@@ -26169,6 +29455,17 @@ impl PacketCzReqMakeGuild {
     pub fn set_gname_raw(&mut self, value: [u8; 24]) {
         self.gname_raw = value;
     }
+    pub fn new() -> PacketCzReqMakeGuild {
+        PacketCzReqMakeGuild {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        gid: 0,
+        gid_raw: [0; 4],
+        gname: [0 as char; 24],
+        gname_raw: [0; 24],
+        }
+    }
 }
 
 impl Packet for PacketCzReqMakeGuild {
@@ -26261,6 +29558,17 @@ impl PacketZcPositionIdNameInfo {
     pub fn set_member_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.member_list_raw = value;
     }
+    pub fn new() -> PacketZcPositionIdNameInfo {
+        PacketZcPositionIdNameInfo {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        member_list: vec![],
+        member_list_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcPositionIdNameInfo {
@@ -26329,6 +29637,15 @@ impl PacketZcResultMakeGuild {
     }
     pub fn set_result_raw(&mut self, value: [u8; 1]) {
         self.result_raw = value;
+    }
+    pub fn new() -> PacketZcResultMakeGuild {
+        PacketZcResultMakeGuild {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        result: 0,
+        result_raw: [0; 1],
+        }
     }
 }
 
@@ -26431,6 +29748,19 @@ impl PacketCzReqJoinGuild {
     pub fn set_my_gid_raw(&mut self, value: [u8; 4]) {
         self.my_gid_raw = value;
     }
+    pub fn new() -> PacketCzReqJoinGuild {
+        PacketCzReqJoinGuild {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        my_aid: 0,
+        my_aid_raw: [0; 4],
+        my_gid: 0,
+        my_gid_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketCzReqJoinGuild {
@@ -26499,6 +29829,15 @@ impl PacketZcAckReqJoinGuild {
     }
     pub fn set_answer_raw(&mut self, value: [u8; 1]) {
         self.answer_raw = value;
+    }
+    pub fn new() -> PacketZcAckReqJoinGuild {
+        PacketZcAckReqJoinGuild {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        answer: 0,
+        answer_raw: [0; 1],
+        }
     }
 }
 
@@ -26593,6 +29932,17 @@ impl PacketZcReqJoinGuild {
     pub fn set_guild_name_raw(&mut self, value: [u8; 24]) {
         self.guild_name_raw = value;
     }
+    pub fn new() -> PacketZcReqJoinGuild {
+        PacketZcReqJoinGuild {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        gdid: 0,
+        gdid_raw: [0; 4],
+        guild_name: [0 as char; 24],
+        guild_name_raw: [0; 24],
+        }
+    }
 }
 
 impl Packet for PacketZcReqJoinGuild {
@@ -26677,6 +30027,17 @@ impl PacketCzJoinGuild {
     }
     pub fn set_answer_raw(&mut self, value: [u8; 4]) {
         self.answer_raw = value;
+    }
+    pub fn new() -> PacketCzJoinGuild {
+        PacketCzJoinGuild {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        gdid: 0,
+        gdid_raw: [0; 4],
+        answer: 0,
+        answer_raw: [0; 4],
+        }
     }
 }
 
@@ -26835,6 +30196,25 @@ impl PacketZcUpdateGdid {
     pub fn set_gname_raw(&mut self, value: [u8; 24]) {
         self.gname_raw = value;
     }
+    pub fn new() -> PacketZcUpdateGdid {
+        PacketZcUpdateGdid {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        gdid: 0,
+        gdid_raw: [0; 4],
+        emblem_version: 0,
+        emblem_version_raw: [0; 4],
+        right: 0,
+        right_raw: [0; 4],
+        is_master: false,
+        is_master_raw: [0; 1],
+        inter_sid: 0,
+        inter_sid_raw: [0; 4],
+        gname: [0 as char; 24],
+        gname_raw: [0; 24],
+        }
+    }
 }
 
 impl Packet for PacketZcUpdateGdid {
@@ -26935,6 +30315,19 @@ impl PacketZcUpdateCharstat {
     }
     pub fn set_status_raw(&mut self, value: [u8; 4]) {
         self.status_raw = value;
+    }
+    pub fn new() -> PacketZcUpdateCharstat {
+        PacketZcUpdateCharstat {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        gid: 0,
+        gid_raw: [0; 4],
+        status: 0,
+        status_raw: [0; 4],
+        }
     }
 }
 
@@ -27053,6 +30446,19 @@ impl PacketCzGuildNotice {
     pub fn set_notice_raw(&mut self, value: [u8; 120]) {
         self.notice_raw = value;
     }
+    pub fn new() -> PacketCzGuildNotice {
+        PacketCzGuildNotice {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        gdid: 0,
+        gdid_raw: [0; 4],
+        subject: [0 as char; 60],
+        subject_raw: [0; 60],
+        notice: [0 as char; 120],
+        notice_raw: [0; 120],
+        }
+    }
 }
 
 impl Packet for PacketCzGuildNotice {
@@ -27153,6 +30559,17 @@ impl PacketZcGuildNotice {
     }
     pub fn set_notice_raw(&mut self, value: [u8; 120]) {
         self.notice_raw = value;
+    }
+    pub fn new() -> PacketZcGuildNotice {
+        PacketZcGuildNotice {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        subject: [0 as char; 60],
+        subject_raw: [0; 60],
+        notice: [0 as char; 120],
+        notice_raw: [0; 120],
+        }
     }
 }
 
@@ -27255,6 +30672,19 @@ impl PacketCzReqAllyGuild {
     pub fn set_my_gid_raw(&mut self, value: [u8; 4]) {
         self.my_gid_raw = value;
     }
+    pub fn new() -> PacketCzReqAllyGuild {
+        PacketCzReqAllyGuild {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        my_aid: 0,
+        my_aid_raw: [0; 4],
+        my_gid: 0,
+        my_gid_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketCzReqAllyGuild {
@@ -27348,6 +30778,17 @@ impl PacketZcReqAllyGuild {
     pub fn set_guild_name_raw(&mut self, value: [u8; 24]) {
         self.guild_name_raw = value;
     }
+    pub fn new() -> PacketZcReqAllyGuild {
+        PacketZcReqAllyGuild {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        other_aid: 0,
+        other_aid_raw: [0; 4],
+        guild_name: [0 as char; 24],
+        guild_name_raw: [0; 24],
+        }
+    }
 }
 
 impl Packet for PacketZcReqAllyGuild {
@@ -27433,6 +30874,17 @@ impl PacketCzAllyGuild {
     pub fn set_answer_raw(&mut self, value: [u8; 4]) {
         self.answer_raw = value;
     }
+    pub fn new() -> PacketCzAllyGuild {
+        PacketCzAllyGuild {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        other_aid: 0,
+        other_aid_raw: [0; 4],
+        answer: 0,
+        answer_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketCzAllyGuild {
@@ -27501,6 +30953,15 @@ impl PacketZcAckReqAllyGuild {
     }
     pub fn set_answer_raw(&mut self, value: [u8; 1]) {
         self.answer_raw = value;
+    }
+    pub fn new() -> PacketZcAckReqAllyGuild {
+        PacketZcAckReqAllyGuild {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        answer: 0,
+        answer_raw: [0; 1],
+        }
     }
 }
 
@@ -27594,6 +31055,17 @@ impl PacketZcAckChangeGuildPositioninfo {
     pub fn set_member_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.member_list_raw = value;
     }
+    pub fn new() -> PacketZcAckChangeGuildPositioninfo {
+        PacketZcAckChangeGuildPositioninfo {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        member_list: vec![],
+        member_list_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcAckChangeGuildPositioninfo {
@@ -27663,6 +31135,15 @@ impl PacketCzReqGuildMemberInfo {
     pub fn set_gid_raw(&mut self, value: [u8; 4]) {
         self.gid_raw = value;
     }
+    pub fn new() -> PacketCzReqGuildMemberInfo {
+        PacketCzReqGuildMemberInfo {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        gid: 0,
+        gid_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketCzReqGuildMemberInfo {
@@ -27725,6 +31206,15 @@ impl PacketZcAckGuildMemberInfo {
     }
     pub fn set_info_raw(&mut self, value: Vec<u8>) {
         self.info_raw = value;
+    }
+    pub fn new() -> PacketZcAckGuildMemberInfo {
+        PacketZcAckGuildMemberInfo {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        info: GuildMemberInfo::new(),
+        info_raw: vec![],
+        }
     }
 }
 
@@ -27808,6 +31298,17 @@ impl PacketZcItemidentifyList {
     pub fn set_itidlist_raw(&mut self, value: Vec<u8>) {
         self.itidlist_raw = value;
     }
+    pub fn new() -> PacketZcItemidentifyList {
+        PacketZcItemidentifyList {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        itidlist: vec![],
+        itidlist_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcItemidentifyList {
@@ -27876,6 +31377,15 @@ impl PacketCzReqItemidentify {
     }
     pub fn set_index_raw(&mut self, value: [u8; 2]) {
         self.index_raw = value;
+    }
+    pub fn new() -> PacketCzReqItemidentify {
+        PacketCzReqItemidentify {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        index: 0,
+        index_raw: [0; 2],
+        }
     }
 }
 
@@ -27962,6 +31472,17 @@ impl PacketZcAckItemidentify {
     pub fn set_result_raw(&mut self, value: [u8; 1]) {
         self.result_raw = value;
     }
+    pub fn new() -> PacketZcAckItemidentify {
+        PacketZcAckItemidentify {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        index: 0,
+        index_raw: [0; 2],
+        result: 0,
+        result_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketZcAckItemidentify {
@@ -28030,6 +31551,15 @@ impl PacketCzReqItemcompositionList {
     }
     pub fn set_card_index_raw(&mut self, value: [u8; 2]) {
         self.card_index_raw = value;
+    }
+    pub fn new() -> PacketCzReqItemcompositionList {
+        PacketCzReqItemcompositionList {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        card_index: 0,
+        card_index_raw: [0; 2],
+        }
     }
 }
 
@@ -28112,6 +31642,17 @@ impl PacketZcItemcompositionList {
     }
     pub fn set_itidlist_raw(&mut self, value: Vec<u8>) {
         self.itidlist_raw = value;
+    }
+    pub fn new() -> PacketZcItemcompositionList {
+        PacketZcItemcompositionList {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        itidlist: vec![],
+        itidlist_raw: vec![],
+        }
     }
 }
 
@@ -28197,6 +31738,17 @@ impl PacketCzReqItemcomposition {
     }
     pub fn set_equip_index_raw(&mut self, value: [u8; 2]) {
         self.equip_index_raw = value;
+    }
+    pub fn new() -> PacketCzReqItemcomposition {
+        PacketCzReqItemcomposition {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        card_index: 0,
+        card_index_raw: [0; 2],
+        equip_index: 0,
+        equip_index_raw: [0; 2],
+        }
     }
 }
 
@@ -28299,6 +31851,19 @@ impl PacketZcAckItemcomposition {
     pub fn set_result_raw(&mut self, value: [u8; 1]) {
         self.result_raw = value;
     }
+    pub fn new() -> PacketZcAckItemcomposition {
+        PacketZcAckItemcomposition {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        equip_index: 0,
+        equip_index_raw: [0; 2],
+        card_index: 0,
+        card_index_raw: [0; 2],
+        result: 0,
+        result_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketZcAckItemcomposition {
@@ -28377,6 +31942,17 @@ impl PacketCzGuildChat {
     }
     pub fn set_msg_raw(&mut self, value: Vec<u8>) {
         self.msg_raw = value;
+    }
+    pub fn new() -> PacketCzGuildChat {
+        PacketCzGuildChat {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        msg: String::new(),
+        msg_raw: vec![],
+        }
     }
 }
 
@@ -28457,6 +32033,17 @@ impl PacketZcGuildChat {
     pub fn set_msg_raw(&mut self, value: Vec<u8>) {
         self.msg_raw = value;
     }
+    pub fn new() -> PacketZcGuildChat {
+        PacketZcGuildChat {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        msg: String::new(),
+        msg_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcGuildChat {
@@ -28525,6 +32112,15 @@ impl PacketCzReqHostileGuild {
     }
     pub fn set_aid_raw(&mut self, value: [u8; 4]) {
         self.aid_raw = value;
+    }
+    pub fn new() -> PacketCzReqHostileGuild {
+        PacketCzReqHostileGuild {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        }
     }
 }
 
@@ -28595,6 +32191,15 @@ impl PacketZcAckReqHostileGuild {
     pub fn set_result_raw(&mut self, value: [u8; 1]) {
         self.result_raw = value;
     }
+    pub fn new() -> PacketZcAckReqHostileGuild {
+        PacketZcAckReqHostileGuild {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        result: 0,
+        result_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketZcAckReqHostileGuild {
@@ -28657,6 +32262,15 @@ impl PacketZcMemberAdd {
     }
     pub fn set_info_raw(&mut self, value: Vec<u8>) {
         self.info_raw = value;
+    }
+    pub fn new() -> PacketZcMemberAdd {
+        PacketZcMemberAdd {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        info: GuildMemberInfo::new(),
+        info_raw: vec![],
+        }
     }
 }
 
@@ -28743,6 +32357,17 @@ impl PacketCzReqDeleteRelatedGuild {
     pub fn set_relation_raw(&mut self, value: [u8; 4]) {
         self.relation_raw = value;
     }
+    pub fn new() -> PacketCzReqDeleteRelatedGuild {
+        PacketCzReqDeleteRelatedGuild {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        opponent_gdid: 0,
+        opponent_gdid_raw: [0; 4],
+        relation: 0,
+        relation_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketCzReqDeleteRelatedGuild {
@@ -28828,6 +32453,17 @@ impl PacketZcDeleteRelatedGuild {
     pub fn set_relation_raw(&mut self, value: [u8; 4]) {
         self.relation_raw = value;
     }
+    pub fn new() -> PacketZcDeleteRelatedGuild {
+        PacketZcDeleteRelatedGuild {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        opponent_gdid: 0,
+        opponent_gdid_raw: [0; 4],
+        relation: 0,
+        relation_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketZcDeleteRelatedGuild {
@@ -28890,6 +32526,15 @@ impl PacketZcAddRelatedGuild {
     }
     pub fn set_info_raw(&mut self, value: Vec<u8>) {
         self.info_raw = value;
+    }
+    pub fn new() -> PacketZcAddRelatedGuild {
+        PacketZcAddRelatedGuild {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        info: RelatedGuildInfo::new(),
+        info_raw: vec![],
+        }
     }
 }
 
@@ -28960,6 +32605,15 @@ impl PacketCollectordead {
     pub fn set_server_id_raw(&mut self, value: [u8; 4]) {
         self.server_id_raw = value;
     }
+    pub fn new() -> PacketCollectordead {
+        PacketCollectordead {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        server_id: 0,
+        server_id_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketCollectordead {
@@ -29028,6 +32682,15 @@ impl PacketPing {
     }
     pub fn set_aid_raw(&mut self, value: [u8; 4]) {
         self.aid_raw = value;
+    }
+    pub fn new() -> PacketPing {
+        PacketPing {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        }
     }
 }
 
@@ -29130,6 +32793,19 @@ impl PacketZcAckItemrefining {
     pub fn set_refining_level_raw(&mut self, value: [u8; 2]) {
         self.refining_level_raw = value;
     }
+    pub fn new() -> PacketZcAckItemrefining {
+        PacketZcAckItemrefining {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        result: 0,
+        result_raw: [0; 2],
+        item_index: 0,
+        item_index_raw: [0; 2],
+        refining_level: 0,
+        refining_level_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketZcAckItemrefining {
@@ -29198,6 +32874,15 @@ impl PacketZcNotifyMapinfo {
     }
     pub fn set_atype_raw(&mut self, value: [u8; 2]) {
         self.atype_raw = value;
+    }
+    pub fn new() -> PacketZcNotifyMapinfo {
+        PacketZcNotifyMapinfo {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 2],
+        }
     }
 }
 
@@ -29268,6 +32953,15 @@ impl PacketCzReqDisconnect {
     pub fn set_atype_raw(&mut self, value: [u8; 2]) {
         self.atype_raw = value;
     }
+    pub fn new() -> PacketCzReqDisconnect {
+        PacketCzReqDisconnect {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketCzReqDisconnect {
@@ -29336,6 +33030,15 @@ impl PacketZcAckReqDisconnect {
     }
     pub fn set_result_raw(&mut self, value: [u8; 2]) {
         self.result_raw = value;
+    }
+    pub fn new() -> PacketZcAckReqDisconnect {
+        PacketZcAckReqDisconnect {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        result: 0,
+        result_raw: [0; 2],
+        }
     }
 }
 
@@ -29528,6 +33231,31 @@ impl PacketZcMonsterInfo {
     pub fn set_property_table_raw(&mut self, value: Vec<u8>) {
         self.property_table_raw = value;
     }
+    pub fn new() -> PacketZcMonsterInfo {
+        PacketZcMonsterInfo {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        job: 0,
+        job_raw: [0; 2],
+        level: 0,
+        level_raw: [0; 2],
+        size: 0,
+        size_raw: [0; 2],
+        hp: 0,
+        hp_raw: [0; 4],
+        def: 0,
+        def_raw: [0; 2],
+        race_type: 0,
+        race_type_raw: [0; 2],
+        mdef_power: 0,
+        mdef_power_raw: [0; 2],
+        property: 0,
+        property_raw: [0; 2],
+        property_table: MonsterInfoElement::new(),
+        property_table_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcMonsterInfo {
@@ -29607,6 +33335,17 @@ impl PacketZcMakableitemlist {
     pub fn set_info_raw(&mut self, value: Vec<u8>) {
         self.info_raw = value;
     }
+    pub fn new() -> PacketZcMakableitemlist {
+        PacketZcMakableitemlist {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        info: MakableitemInfo::new(),
+        info_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcMakableitemlist {
@@ -29669,6 +33408,15 @@ impl PacketCzReqmakingitem {
     }
     pub fn set_info_raw(&mut self, value: Vec<u8>) {
         self.info_raw = value;
+    }
+    pub fn new() -> PacketCzReqmakingitem {
+        PacketCzReqmakingitem {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        info: MakableitemInfo::new(),
+        info_raw: vec![],
+        }
     }
 }
 
@@ -29754,6 +33502,17 @@ impl PacketZcAckReqmakingitem {
     }
     pub fn set_itid_raw(&mut self, value: [u8; 2]) {
         self.itid_raw = value;
+    }
+    pub fn new() -> PacketZcAckReqmakingitem {
+        PacketZcAckReqmakingitem {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        result: 0,
+        result_raw: [0; 2],
+        itid: 0,
+        itid_raw: [0; 2],
+        }
     }
 }
 
@@ -29896,6 +33655,23 @@ impl PacketCzUseSkillTogroundWithtalkbox {
     pub fn set_contents_raw(&mut self, value: [u8; 80]) {
         self.contents_raw = value;
     }
+    pub fn new() -> PacketCzUseSkillTogroundWithtalkbox {
+        PacketCzUseSkillTogroundWithtalkbox {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        selected_level: 0,
+        selected_level_raw: [0; 2],
+        skid: 0,
+        skid_raw: [0; 2],
+        x_pos: 0,
+        x_pos_raw: [0; 2],
+        y_pos: 0,
+        y_pos_raw: [0; 2],
+        contents: [0 as char; 80],
+        contents_raw: [0; 80],
+        }
+    }
 }
 
 impl Packet for PacketCzUseSkillTogroundWithtalkbox {
@@ -29988,6 +33764,17 @@ impl PacketZcTalkboxChatcontents {
     }
     pub fn set_contents_raw(&mut self, value: [u8; 80]) {
         self.contents_raw = value;
+    }
+    pub fn new() -> PacketZcTalkboxChatcontents {
+        PacketZcTalkboxChatcontents {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        contents: [0 as char; 80],
+        contents_raw: [0; 80],
+        }
     }
 }
 
@@ -30114,6 +33901,21 @@ impl PacketZcUpdateMapinfo {
     pub fn set_map_name_raw(&mut self, value: [u8; 16]) {
         self.map_name_raw = value;
     }
+    pub fn new() -> PacketZcUpdateMapinfo {
+        PacketZcUpdateMapinfo {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        x_pos: 0,
+        x_pos_raw: [0; 2],
+        y_pos: 0,
+        y_pos_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 2],
+        map_name: [0 as char; 16],
+        map_name_raw: [0; 16],
+        }
+    }
 }
 
 impl Packet for PacketZcUpdateMapinfo {
@@ -30182,6 +33984,15 @@ impl PacketCzReqnameBygid {
     }
     pub fn set_gid_raw(&mut self, value: [u8; 4]) {
         self.gid_raw = value;
+    }
+    pub fn new() -> PacketCzReqnameBygid {
+        PacketCzReqnameBygid {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        gid: 0,
+        gid_raw: [0; 4],
+        }
     }
 }
 
@@ -30275,6 +34086,17 @@ impl PacketZcAckReqnameBygid {
     }
     pub fn set_cname_raw(&mut self, value: [u8; 24]) {
         self.cname_raw = value;
+    }
+    pub fn new() -> PacketZcAckReqnameBygid {
+        PacketZcAckReqnameBygid {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        gid: 0,
+        gid_raw: [0; 4],
+        cname: [0 as char; 24],
+        cname_raw: [0; 24],
+        }
     }
 }
 
@@ -30441,6 +34263,23 @@ impl PacketZcAckReqnameall {
     pub fn set_rname_raw(&mut self, value: [u8; 24]) {
         self.rname_raw = value;
     }
+    pub fn new() -> PacketZcAckReqnameall {
+        PacketZcAckReqnameall {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        cname: [0 as char; 24],
+        cname_raw: [0; 24],
+        pname: [0 as char; 24],
+        pname_raw: [0; 24],
+        gname: [0 as char; 24],
+        gname_raw: [0; 24],
+        rname: [0 as char; 24],
+        rname_raw: [0; 24],
+        }
+    }
 }
 
 impl Packet for PacketZcAckReqnameall {
@@ -30542,6 +34381,19 @@ impl PacketZcMsgStateChange {
     pub fn set_state_raw(&mut self, value: [u8; 1]) {
         self.state_raw = value;
     }
+    pub fn new() -> PacketZcMsgStateChange {
+        PacketZcMsgStateChange {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        index: 0,
+        index_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        state: false,
+        state_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketZcMsgStateChange {
@@ -30610,6 +34462,15 @@ impl PacketCzReset {
     }
     pub fn set_atype_raw(&mut self, value: [u8; 2]) {
         self.atype_raw = value;
+    }
+    pub fn new() -> PacketCzReset {
+        PacketCzReset {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 2],
+        }
     }
 }
 
@@ -30712,6 +34573,19 @@ impl PacketCzChangeMaptype {
     pub fn set_atype_raw(&mut self, value: [u8; 2]) {
         self.atype_raw = value;
     }
+    pub fn new() -> PacketCzChangeMaptype {
+        PacketCzChangeMaptype {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        x_pos: 0,
+        x_pos_raw: [0; 2],
+        y_pos: 0,
+        y_pos_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketCzChangeMaptype {
@@ -30780,6 +34654,15 @@ impl PacketZcNotifyMapproperty {
     }
     pub fn set_atype_raw(&mut self, value: [u8; 2]) {
         self.atype_raw = value;
+    }
+    pub fn new() -> PacketZcNotifyMapproperty {
+        PacketZcNotifyMapproperty {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 2],
+        }
     }
 }
 
@@ -30882,6 +34765,19 @@ impl PacketZcNotifyRanking {
     pub fn set_total_raw(&mut self, value: [u8; 4]) {
         self.total_raw = value;
     }
+    pub fn new() -> PacketZcNotifyRanking {
+        PacketZcNotifyRanking {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        ranking: 0,
+        ranking_raw: [0; 4],
+        total: 0,
+        total_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketZcNotifyRanking {
@@ -30967,6 +34863,17 @@ impl PacketZcNotifyEffect {
     pub fn set_effect_id_raw(&mut self, value: [u8; 4]) {
         self.effect_id_raw = value;
     }
+    pub fn new() -> PacketZcNotifyEffect {
+        PacketZcNotifyEffect {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        effect_id: 0,
+        effect_id_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketZcNotifyEffect {
@@ -31036,6 +34943,15 @@ impl PacketCzChangeEffectstate {
     pub fn set_effect_state_raw(&mut self, value: [u8; 4]) {
         self.effect_state_raw = value;
     }
+    pub fn new() -> PacketCzChangeEffectstate {
+        PacketCzChangeEffectstate {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        effect_state: 0,
+        effect_state_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketCzChangeEffectstate {
@@ -31088,6 +35004,13 @@ impl PacketZcStartCapture {
     }
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
+    }
+    pub fn new() -> PacketZcStartCapture {
+        PacketZcStartCapture {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
     }
 }
 
@@ -31158,6 +35081,15 @@ impl PacketCzTrycaptureMonster {
     pub fn set_target_aid_raw(&mut self, value: [u8; 4]) {
         self.target_aid_raw = value;
     }
+    pub fn new() -> PacketCzTrycaptureMonster {
+        PacketCzTrycaptureMonster {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        target_aid: 0,
+        target_aid_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketCzTrycaptureMonster {
@@ -31227,6 +35159,15 @@ impl PacketZcTrycaptureMonster {
     pub fn set_result_raw(&mut self, value: [u8; 1]) {
         self.result_raw = value;
     }
+    pub fn new() -> PacketZcTrycaptureMonster {
+        PacketZcTrycaptureMonster {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        result: 0,
+        result_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketZcTrycaptureMonster {
@@ -31295,6 +35236,15 @@ impl PacketCzCommandPet {
     }
     pub fn set_c_sub_raw(&mut self, value: [u8; 1]) {
         self.c_sub_raw = value;
+    }
+    pub fn new() -> PacketCzCommandPet {
+        PacketCzCommandPet {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        c_sub: 0,
+        c_sub_raw: [0; 1],
+        }
     }
 }
 
@@ -31469,6 +35419,27 @@ impl PacketZcPropertyPet {
     pub fn set_job_raw(&mut self, value: [u8; 2]) {
         self.job_raw = value;
     }
+    pub fn new() -> PacketZcPropertyPet {
+        PacketZcPropertyPet {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        sz_name: [0 as char; 24],
+        sz_name_raw: [0; 24],
+        b_modified: 0,
+        b_modified_raw: [0; 1],
+        n_level: 0,
+        n_level_raw: [0; 2],
+        n_fullness: 0,
+        n_fullness_raw: [0; 2],
+        n_relationship: 0,
+        n_relationship_raw: [0; 2],
+        itid: 0,
+        itid_raw: [0; 2],
+        job: 0,
+        job_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketZcPropertyPet {
@@ -31553,6 +35524,17 @@ impl PacketZcFeedPet {
     }
     pub fn set_itid_raw(&mut self, value: [u8; 2]) {
         self.itid_raw = value;
+    }
+    pub fn new() -> PacketZcFeedPet {
+        PacketZcFeedPet {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        c_ret: 0,
+        c_ret_raw: [0; 1],
+        itid: 0,
+        itid_raw: [0; 2],
+        }
     }
 }
 
@@ -31655,6 +35637,19 @@ impl PacketZcChangestatePet {
     pub fn set_data_raw(&mut self, value: [u8; 4]) {
         self.data_raw = value;
     }
+    pub fn new() -> PacketZcChangestatePet {
+        PacketZcChangestatePet {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 1],
+        gid: 0,
+        gid_raw: [0; 4],
+        data: 0,
+        data_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketZcChangestatePet {
@@ -31731,6 +35726,15 @@ impl PacketCzRenamePet {
     }
     pub fn set_sz_name_raw(&mut self, value: [u8; 24]) {
         self.sz_name_raw = value;
+    }
+    pub fn new() -> PacketCzRenamePet {
+        PacketCzRenamePet {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        sz_name: [0 as char; 24],
+        sz_name_raw: [0; 24],
+        }
     }
 }
 
@@ -31824,6 +35828,17 @@ impl PacketZcPeteggList {
     pub fn set_egg_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.egg_list_raw = value;
     }
+    pub fn new() -> PacketZcPeteggList {
+        PacketZcPeteggList {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        egg_list: vec![],
+        egg_list_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcPeteggList {
@@ -31892,6 +35907,15 @@ impl PacketCzSelectPetegg {
     }
     pub fn set_index_raw(&mut self, value: [u8; 2]) {
         self.index_raw = value;
+    }
+    pub fn new() -> PacketCzSelectPetegg {
+        PacketCzSelectPetegg {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        index: 0,
+        index_raw: [0; 2],
+        }
     }
 }
 
@@ -31962,6 +35986,15 @@ impl PacketCzPeteggInfo {
     pub fn set_index_raw(&mut self, value: [u8; 2]) {
         self.index_raw = value;
     }
+    pub fn new() -> PacketCzPeteggInfo {
+        PacketCzPeteggInfo {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        index: 0,
+        index_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketCzPeteggInfo {
@@ -32030,6 +36063,15 @@ impl PacketCzPetAct {
     }
     pub fn set_data_raw(&mut self, value: [u8; 4]) {
         self.data_raw = value;
+    }
+    pub fn new() -> PacketCzPetAct {
+        PacketCzPetAct {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        data: 0,
+        data_raw: [0; 4],
+        }
     }
 }
 
@@ -32115,6 +36157,17 @@ impl PacketZcPetAct {
     }
     pub fn set_data_raw(&mut self, value: [u8; 4]) {
         self.data_raw = value;
+    }
+    pub fn new() -> PacketZcPetAct {
+        PacketZcPetAct {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        gid: 0,
+        gid_raw: [0; 4],
+        data: 0,
+        data_raw: [0; 4],
+        }
     }
 }
 
@@ -32217,6 +36270,19 @@ impl PacketZcParChangeUser {
     pub fn set_count_raw(&mut self, value: [u8; 4]) {
         self.count_raw = value;
     }
+    pub fn new() -> PacketZcParChangeUser {
+        PacketZcParChangeUser {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        var_id: 0,
+        var_id_raw: [0; 2],
+        count: 0,
+        count_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketZcParChangeUser {
@@ -32285,6 +36351,15 @@ impl PacketZcSkillUpdate {
     }
     pub fn set_aid_raw(&mut self, value: [u8; 4]) {
         self.aid_raw = value;
+    }
+    pub fn new() -> PacketZcSkillUpdate {
+        PacketZcSkillUpdate {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        }
     }
 }
 
@@ -32378,6 +36453,17 @@ impl PacketZcMakingarrowList {
     pub fn set_arrow_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.arrow_list_raw = value;
     }
+    pub fn new() -> PacketZcMakingarrowList {
+        PacketZcMakingarrowList {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        arrow_list: vec![],
+        arrow_list_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcMakingarrowList {
@@ -32447,6 +36533,15 @@ impl PacketCzReqMakingarrow {
     pub fn set_id_raw(&mut self, value: [u8; 2]) {
         self.id_raw = value;
     }
+    pub fn new() -> PacketCzReqMakingarrow {
+        PacketCzReqMakingarrow {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        id: 0,
+        id_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketCzReqMakingarrow {
@@ -32515,6 +36610,15 @@ impl PacketCzReqChangecart {
     }
     pub fn set_num_raw(&mut self, value: [u8; 2]) {
         self.num_raw = value;
+    }
+    pub fn new() -> PacketCzReqChangecart {
+        PacketCzReqChangecart {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        num: 0,
+        num_raw: [0; 2],
+        }
     }
 }
 
@@ -32617,6 +36721,19 @@ impl PacketZcNpcspriteChange {
     pub fn set_value_raw(&mut self, value: [u8; 4]) {
         self.value_raw = value;
     }
+    pub fn new() -> PacketZcNpcspriteChange {
+        PacketZcNpcspriteChange {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        gid: 0,
+        gid_raw: [0; 4],
+        atype: 0,
+        atype_raw: [0; 1],
+        value: 0,
+        value_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketZcNpcspriteChange {
@@ -32701,6 +36818,17 @@ impl PacketZcShowdigit {
     }
     pub fn set_value_raw(&mut self, value: [u8; 4]) {
         self.value_raw = value;
+    }
+    pub fn new() -> PacketZcShowdigit {
+        PacketZcShowdigit {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 1],
+        value: 0,
+        value_raw: [0; 4],
+        }
     }
 }
 
@@ -32834,6 +36962,21 @@ impl PacketCzReqOpenstore2 {
     pub fn set_store_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.store_list_raw = value;
     }
+    pub fn new() -> PacketCzReqOpenstore2 {
+        PacketCzReqOpenstore2 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        store_name: [0 as char; 80],
+        store_name_raw: [0; 80],
+        result: false,
+        result_raw: [0; 1],
+        store_list: vec![],
+        store_list_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketCzReqOpenstore2 {
@@ -32926,6 +37069,17 @@ impl PacketZcShowImage2 {
     }
     pub fn set_atype_raw(&mut self, value: [u8; 1]) {
         self.atype_raw = value;
+    }
+    pub fn new() -> PacketZcShowImage2 {
+        PacketZcShowImage2 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        image_name: [0 as char; 64],
+        image_name_raw: [0; 64],
+        atype: 0,
+        atype_raw: [0; 1],
+        }
     }
 }
 
@@ -33027,6 +37181,19 @@ impl PacketZcChangeGuild {
     }
     pub fn set_emblem_version_raw(&mut self, value: [u8; 2]) {
         self.emblem_version_raw = value;
+    }
+    pub fn new() -> PacketZcChangeGuild {
+        PacketZcChangeGuild {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        gdid: 0,
+        gdid_raw: [0; 4],
+        emblem_version: 0,
+        emblem_version_raw: [0; 2],
+        }
     }
 }
 
@@ -33144,6 +37311,21 @@ impl PacketScBillingInfo {
     }
     pub fn set_dw_reserved2_raw(&mut self, value: [u8; 4]) {
         self.dw_reserved2_raw = value;
+    }
+    pub fn new() -> PacketScBillingInfo {
+        PacketScBillingInfo {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        dw_amount_remain: 0,
+        dw_amount_remain_raw: [0; 4],
+        dw_quantity_remain: 0,
+        dw_quantity_remain_raw: [0; 4],
+        dw_reserved1: 0,
+        dw_reserved1_raw: [0; 4],
+        dw_reserved2: 0,
+        dw_reserved2_raw: [0; 4],
+        }
     }
 }
 
@@ -33462,6 +37644,43 @@ impl PacketZcGuildInfo2 {
     pub fn set_zeny_raw(&mut self, value: [u8; 4]) {
         self.zeny_raw = value;
     }
+    pub fn new() -> PacketZcGuildInfo2 {
+        PacketZcGuildInfo2 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        gdid: 0,
+        gdid_raw: [0; 4],
+        level: 0,
+        level_raw: [0; 4],
+        user_num: 0,
+        user_num_raw: [0; 4],
+        max_user_num: 0,
+        max_user_num_raw: [0; 4],
+        user_average_level: 0,
+        user_average_level_raw: [0; 4],
+        exp: 0,
+        exp_raw: [0; 4],
+        max_exp: 0,
+        max_exp_raw: [0; 4],
+        point: 0,
+        point_raw: [0; 4],
+        honor: 0,
+        honor_raw: [0; 4],
+        virtue: 0,
+        virtue_raw: [0; 4],
+        emblem_version: 0,
+        emblem_version_raw: [0; 4],
+        guildname: [0 as char; 24],
+        guildname_raw: [0; 24],
+        master_name: [0 as char; 24],
+        master_name_raw: [0; 24],
+        manage_land: [0 as char; 16],
+        manage_land_raw: [0; 16],
+        zeny: 0,
+        zeny_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketZcGuildInfo2 {
@@ -33530,6 +37749,15 @@ impl PacketCzGuildZeny {
     }
     pub fn set_zeny_raw(&mut self, value: [u8; 4]) {
         self.zeny_raw = value;
+    }
+    pub fn new() -> PacketCzGuildZeny {
+        PacketCzGuildZeny {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        zeny: 0,
+        zeny_raw: [0; 4],
+        }
     }
 }
 
@@ -33600,6 +37828,15 @@ impl PacketZcGuildZenyAck {
     pub fn set_ret_raw(&mut self, value: [u8; 1]) {
         self.ret_raw = value;
     }
+    pub fn new() -> PacketZcGuildZenyAck {
+        PacketZcGuildZenyAck {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        ret: 0,
+        ret_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketZcGuildZenyAck {
@@ -33668,6 +37905,15 @@ impl PacketZcDispel {
     }
     pub fn set_aid_raw(&mut self, value: [u8; 4]) {
         self.aid_raw = value;
+    }
+    pub fn new() -> PacketZcDispel {
+        PacketZcDispel {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        }
     }
 }
 
@@ -33746,6 +37992,15 @@ impl PacketCzRemoveAid {
     pub fn set_account_name_raw(&mut self, value: [u8; 24]) {
         self.account_name_raw = value;
     }
+    pub fn new() -> PacketCzRemoveAid {
+        PacketCzRemoveAid {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        account_name: [0 as char; 24],
+        account_name_raw: [0; 24],
+        }
+    }
 }
 
 impl Packet for PacketCzRemoveAid {
@@ -33822,6 +38077,15 @@ impl PacketCzShift {
     }
     pub fn set_character_name_raw(&mut self, value: [u8; 24]) {
         self.character_name_raw = value;
+    }
+    pub fn new() -> PacketCzShift {
+        PacketCzShift {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        character_name: [0 as char; 24],
+        character_name_raw: [0; 24],
+        }
     }
 }
 
@@ -33900,6 +38164,15 @@ impl PacketCzRecall {
     pub fn set_account_name_raw(&mut self, value: [u8; 24]) {
         self.account_name_raw = value;
     }
+    pub fn new() -> PacketCzRecall {
+        PacketCzRecall {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        account_name: [0 as char; 24],
+        account_name_raw: [0; 24],
+        }
+    }
 }
 
 impl Packet for PacketCzRecall {
@@ -33977,6 +38250,15 @@ impl PacketCzRecallGid {
     pub fn set_character_name_raw(&mut self, value: [u8; 24]) {
         self.character_name_raw = value;
     }
+    pub fn new() -> PacketCzRecallGid {
+        PacketCzRecallGid {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        character_name: [0 as char; 24],
+        character_name_raw: [0; 24],
+        }
+    }
 }
 
 impl Packet for PacketCzRecallGid {
@@ -34029,6 +38311,13 @@ impl PacketAcAskPngameroom {
     }
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
+    }
+    pub fn new() -> PacketAcAskPngameroom {
+        PacketAcAskPngameroom {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
     }
 }
 
@@ -34099,6 +38388,15 @@ impl PacketCaReplyPngameroom {
     pub fn set_permission_raw(&mut self, value: [u8; 1]) {
         self.permission_raw = value;
     }
+    pub fn new() -> PacketCaReplyPngameroom {
+        PacketCaReplyPngameroom {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        permission: 0,
+        permission_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketCaReplyPngameroom {
@@ -34151,6 +38449,13 @@ impl PacketCzReqRemaintime {
     }
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
+    }
+    pub fn new() -> PacketCzReqRemaintime {
+        PacketCzReqRemaintime {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
     }
 }
 
@@ -34253,6 +38558,19 @@ impl PacketZcReplyRemaintime {
     pub fn set_remain_time_raw(&mut self, value: [u8; 4]) {
         self.remain_time_raw = value;
     }
+    pub fn new() -> PacketZcReplyRemaintime {
+        PacketZcReplyRemaintime {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        result: 0,
+        result_raw: [0; 4],
+        expiration_date: 0,
+        expiration_date_raw: [0; 4],
+        remain_time: 0,
+        remain_time_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketZcReplyRemaintime {
@@ -34337,6 +38655,17 @@ impl PacketZcInfoRemaintime {
     }
     pub fn set_remain_time_raw(&mut self, value: [u8; 4]) {
         self.remain_time_raw = value;
+    }
+    pub fn new() -> PacketZcInfoRemaintime {
+        PacketZcInfoRemaintime {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 4],
+        remain_time: 0,
+        remain_time_raw: [0; 4],
+        }
     }
 }
 
@@ -34496,6 +38825,27 @@ impl PacketZcBroadcast2 {
     }
     pub fn set_msg_raw(&mut self, value: Vec<u8>) {
         self.msg_raw = value;
+    }
+    pub fn new() -> PacketZcBroadcast2 {
+        PacketZcBroadcast2 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        font_color: 0,
+        font_color_raw: [0; 4],
+        font_type: 0,
+        font_type_raw: [0; 2],
+        font_size: 0,
+        font_size_raw: [0; 2],
+        font_align: 0,
+        font_align_raw: [0; 2],
+        font_y: 0,
+        font_y_raw: [0; 2],
+        msg: String::new(),
+        msg_raw: vec![],
+        }
     }
 }
 
@@ -34676,6 +39026,29 @@ impl PacketZcAddItemToStore2 {
     pub fn set_slot_raw(&mut self, value: [u8; 8]) {
         self.slot_raw = value;
     }
+    pub fn new() -> PacketZcAddItemToStore2 {
+        PacketZcAddItemToStore2 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        index: 0,
+        index_raw: [0; 2],
+        count: 0,
+        count_raw: [0; 4],
+        itid: 0,
+        itid_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 1],
+        is_identified: false,
+        is_identified_raw: [0; 1],
+        is_damaged: false,
+        is_damaged_raw: [0; 1],
+        refining_level: 0,
+        refining_level_raw: [0; 1],
+        slot: EQUIPSLOTINFO::new(),
+        slot_raw: [0; 8],
+        }
+    }
 }
 
 impl Packet for PacketZcAddItemToStore2 {
@@ -34855,6 +39228,29 @@ impl PacketZcAddItemToCart2 {
     pub fn set_slot_raw(&mut self, value: [u8; 8]) {
         self.slot_raw = value;
     }
+    pub fn new() -> PacketZcAddItemToCart2 {
+        PacketZcAddItemToCart2 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        index: 0,
+        index_raw: [0; 2],
+        count: 0,
+        count_raw: [0; 4],
+        itid: 0,
+        itid_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 1],
+        is_identified: false,
+        is_identified_raw: [0; 1],
+        is_damaged: false,
+        is_damaged_raw: [0; 1],
+        refining_level: 0,
+        refining_level_raw: [0; 1],
+        slot: EQUIPSLOTINFO::new(),
+        slot_raw: [0; 8],
+        }
+    }
 }
 
 impl Packet for PacketZcAddItemToCart2 {
@@ -34940,6 +39336,17 @@ impl PacketCsReqEncryption {
     pub fn set_dec_count_raw(&mut self, value: [u8; 1]) {
         self.dec_count_raw = value;
     }
+    pub fn new() -> PacketCsReqEncryption {
+        PacketCsReqEncryption {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        enc_count: 0,
+        enc_count_raw: [0; 1],
+        dec_count: 0,
+        dec_count_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketCsReqEncryption {
@@ -34992,6 +39399,13 @@ impl PacketScAckEncryption {
     }
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
+    }
+    pub fn new() -> PacketScAckEncryption {
+        PacketScAckEncryption {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
     }
 }
 
@@ -35125,6 +39539,23 @@ impl PacketZcUseItemAck2 {
     }
     pub fn set_result_raw(&mut self, value: [u8; 1]) {
         self.result_raw = value;
+    }
+    pub fn new() -> PacketZcUseItemAck2 {
+        PacketZcUseItemAck2 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        index: 0,
+        index_raw: [0; 2],
+        id: 0,
+        id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        count: 0,
+        count_raw: [0; 2],
+        result: false,
+        result_raw: [0; 1],
+        }
     }
 }
 
@@ -35315,6 +39746,29 @@ impl PacketZcSkillEntry2 {
     pub fn set_msg_raw(&mut self, value: [u8; 80]) {
         self.msg_raw = value;
     }
+    pub fn new() -> PacketZcSkillEntry2 {
+        PacketZcSkillEntry2 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        creator_aid: 0,
+        creator_aid_raw: [0; 4],
+        x_pos: 0,
+        x_pos_raw: [0; 2],
+        y_pos: 0,
+        y_pos_raw: [0; 2],
+        job: 0,
+        job_raw: [0; 1],
+        is_visible: false,
+        is_visible_raw: [0; 1],
+        is_contens: false,
+        is_contens_raw: [0; 1],
+        msg: [0 as char; 80],
+        msg_raw: [0; 80],
+        }
+    }
 }
 
 impl Packet for PacketZcSkillEntry2 {
@@ -35383,6 +39837,15 @@ impl PacketCzReqmakinghomun {
     }
     pub fn set_result_raw(&mut self, value: [u8; 1]) {
         self.result_raw = value;
+    }
+    pub fn new() -> PacketCzReqmakinghomun {
+        PacketCzReqmakinghomun {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        result: false,
+        result_raw: [0; 1],
+        }
     }
 }
 
@@ -35501,6 +39964,21 @@ impl PacketCzMonsterTalk {
     pub fn set_arg1_raw(&mut self, value: [u8; 1]) {
         self.arg1_raw = value;
     }
+    pub fn new() -> PacketCzMonsterTalk {
+        PacketCzMonsterTalk {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        gid: 0,
+        gid_raw: [0; 4],
+        state_id: 0,
+        state_id_raw: [0; 1],
+        skill_id: 0,
+        skill_id_raw: [0; 1],
+        arg1: 0,
+        arg1_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketCzMonsterTalk {
@@ -35618,6 +40096,21 @@ impl PacketZcMonsterTalk {
     pub fn set_arg1_raw(&mut self, value: [u8; 1]) {
         self.arg1_raw = value;
     }
+    pub fn new() -> PacketZcMonsterTalk {
+        PacketZcMonsterTalk {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        gid: 0,
+        gid_raw: [0; 4],
+        state_id: 0,
+        state_id_raw: [0; 1],
+        skill_id: 0,
+        skill_id_raw: [0; 1],
+        arg1: 0,
+        arg1_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketZcMonsterTalk {
@@ -35695,6 +40188,15 @@ impl PacketZcAutospelllist {
     pub fn set_skid_raw(&mut self, value: [u8; 7]) {
         self.skid_raw = value;
     }
+    pub fn new() -> PacketZcAutospelllist {
+        PacketZcAutospelllist {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        skid: [0; 7],
+        skid_raw: [0; 7],
+        }
+    }
 }
 
 impl Packet for PacketZcAutospelllist {
@@ -35763,6 +40265,15 @@ impl PacketCzSelectautospell {
     }
     pub fn set_skid_raw(&mut self, value: [u8; 4]) {
         self.skid_raw = value;
+    }
+    pub fn new() -> PacketCzSelectautospell {
+        PacketCzSelectautospell {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        skid: 0,
+        skid_raw: [0; 4],
+        }
     }
 }
 
@@ -35873,6 +40384,19 @@ impl PacketZcDevotionlist {
     pub fn set_range_raw(&mut self, value: [u8; 2]) {
         self.range_raw = value;
     }
+    pub fn new() -> PacketZcDevotionlist {
+        PacketZcDevotionlist {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        my_aid: 0,
+        my_aid_raw: [0; 4],
+        aid: [0; 5],
+        aid_raw: [0; 5],
+        range: 0,
+        range_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketZcDevotionlist {
@@ -35957,6 +40481,17 @@ impl PacketZcSpirits {
     }
     pub fn set_num_raw(&mut self, value: [u8; 2]) {
         self.num_raw = value;
+    }
+    pub fn new() -> PacketZcSpirits {
+        PacketZcSpirits {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        num: 0,
+        num_raw: [0; 2],
+        }
     }
 }
 
@@ -36059,6 +40594,19 @@ impl PacketZcBladestop {
     pub fn set_flag_raw(&mut self, value: [u8; 4]) {
         self.flag_raw = value;
     }
+    pub fn new() -> PacketZcBladestop {
+        PacketZcBladestop {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        src_aid: 0,
+        src_aid_raw: [0; 4],
+        dest_aid: 0,
+        dest_aid_raw: [0; 4],
+        flag: 0,
+        flag_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketZcBladestop {
@@ -36143,6 +40691,17 @@ impl PacketZcCombodelay {
     }
     pub fn set_delay_time_raw(&mut self, value: [u8; 4]) {
         self.delay_time_raw = value;
+    }
+    pub fn new() -> PacketZcCombodelay {
+        PacketZcCombodelay {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        delay_time: 0,
+        delay_time_raw: [0; 4],
+        }
     }
 }
 
@@ -36269,6 +40828,21 @@ impl PacketZcSound {
     pub fn set_naid_raw(&mut self, value: [u8; 4]) {
         self.naid_raw = value;
     }
+    pub fn new() -> PacketZcSound {
+        PacketZcSound {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        file_name: [0 as char; 24],
+        file_name_raw: [0; 24],
+        act: 0,
+        act_raw: [0; 1],
+        term: 0,
+        term_raw: [0; 4],
+        naid: 0,
+        naid_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketZcSound {
@@ -36337,6 +40911,15 @@ impl PacketZcOpenEditdlgstr {
     }
     pub fn set_naid_raw(&mut self, value: [u8; 4]) {
         self.naid_raw = value;
+    }
+    pub fn new() -> PacketZcOpenEditdlgstr {
+        PacketZcOpenEditdlgstr {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        naid: 0,
+        naid_raw: [0; 4],
+        }
     }
 }
 
@@ -36433,6 +41016,19 @@ impl PacketCzInputEditdlgstr {
     pub fn set_msg_raw(&mut self, value: Vec<u8>) {
         self.msg_raw = value;
     }
+    pub fn new() -> PacketCzInputEditdlgstr {
+        PacketCzInputEditdlgstr {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        naid: 0,
+        naid_raw: [0; 4],
+        msg: String::new(),
+        msg_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketCzInputEditdlgstr {
@@ -36501,6 +41097,15 @@ impl PacketZcNotifyMapproperty2 {
     }
     pub fn set_atype_raw(&mut self, value: [u8; 2]) {
         self.atype_raw = value;
+    }
+    pub fn new() -> PacketZcNotifyMapproperty2 {
+        PacketZcNotifyMapproperty2 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 2],
+        }
     }
 }
 
@@ -36602,6 +41207,19 @@ impl PacketZcSpriteChange2 {
     }
     pub fn set_value_raw(&mut self, value: [u8; 4]) {
         self.value_raw = value;
+    }
+    pub fn new() -> PacketZcSpriteChange2 {
+        PacketZcSpriteChange2 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        gid: 0,
+        gid_raw: [0; 4],
+        atype: 0,
+        atype_raw: [0; 1],
+        value: 0,
+        value_raw: [0; 4],
+        }
     }
 }
 
@@ -37064,6 +41682,63 @@ impl PacketZcNotifyStandentry2 {
     pub fn set_clevel_raw(&mut self, value: [u8; 2]) {
         self.clevel_raw = value;
     }
+    pub fn new() -> PacketZcNotifyStandentry2 {
+        PacketZcNotifyStandentry2 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        gid: 0,
+        gid_raw: [0; 4],
+        speed: 0,
+        speed_raw: [0; 2],
+        body_state: 0,
+        body_state_raw: [0; 2],
+        health_state: 0,
+        health_state_raw: [0; 2],
+        effect_state: 0,
+        effect_state_raw: [0; 2],
+        job: 0,
+        job_raw: [0; 2],
+        head: 0,
+        head_raw: [0; 2],
+        weapon: 0,
+        weapon_raw: [0; 4],
+        accessory: 0,
+        accessory_raw: [0; 2],
+        accessory2: 0,
+        accessory2_raw: [0; 2],
+        accessory3: 0,
+        accessory3_raw: [0; 2],
+        headpalette: 0,
+        headpalette_raw: [0; 2],
+        bodypalette: 0,
+        bodypalette_raw: [0; 2],
+        head_dir: 0,
+        head_dir_raw: [0; 2],
+        guid: 0,
+        guid_raw: [0; 4],
+        gemblem_ver: 0,
+        gemblem_ver_raw: [0; 2],
+        honor: 0,
+        honor_raw: [0; 2],
+        virtue: 0,
+        virtue_raw: [0; 2],
+        is_pkmode_on: false,
+        is_pkmode_on_raw: [0; 1],
+        sex: 0,
+        sex_raw: [0; 1],
+        pos_dir: [0 as char; 3],
+        pos_dir_raw: [0; 3],
+        x_size: 0,
+        x_size_raw: [0; 1],
+        y_size: 0,
+        y_size_raw: [0; 1],
+        state: 0,
+        state_raw: [0; 1],
+        clevel: 0,
+        clevel_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketZcNotifyStandentry2 {
@@ -37508,6 +42183,61 @@ impl PacketZcNotifyNewentry2 {
     }
     pub fn set_clevel_raw(&mut self, value: [u8; 2]) {
         self.clevel_raw = value;
+    }
+    pub fn new() -> PacketZcNotifyNewentry2 {
+        PacketZcNotifyNewentry2 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        gid: 0,
+        gid_raw: [0; 4],
+        speed: 0,
+        speed_raw: [0; 2],
+        body_state: 0,
+        body_state_raw: [0; 2],
+        health_state: 0,
+        health_state_raw: [0; 2],
+        effect_state: 0,
+        effect_state_raw: [0; 2],
+        job: 0,
+        job_raw: [0; 2],
+        head: 0,
+        head_raw: [0; 2],
+        weapon: 0,
+        weapon_raw: [0; 4],
+        accessory: 0,
+        accessory_raw: [0; 2],
+        accessory2: 0,
+        accessory2_raw: [0; 2],
+        accessory3: 0,
+        accessory3_raw: [0; 2],
+        headpalette: 0,
+        headpalette_raw: [0; 2],
+        bodypalette: 0,
+        bodypalette_raw: [0; 2],
+        head_dir: 0,
+        head_dir_raw: [0; 2],
+        guid: 0,
+        guid_raw: [0; 4],
+        gemblem_ver: 0,
+        gemblem_ver_raw: [0; 2],
+        honor: 0,
+        honor_raw: [0; 2],
+        virtue: 0,
+        virtue_raw: [0; 2],
+        is_pkmode_on: false,
+        is_pkmode_on_raw: [0; 1],
+        sex: 0,
+        sex_raw: [0; 1],
+        pos_dir: [0 as char; 3],
+        pos_dir_raw: [0; 3],
+        x_size: 0,
+        x_size_raw: [0; 1],
+        y_size: 0,
+        y_size_raw: [0; 1],
+        clevel: 0,
+        clevel_raw: [0; 2],
+        }
     }
 }
 
@@ -37970,6 +42700,63 @@ impl PacketZcNotifyMoveentry2 {
     pub fn set_clevel_raw(&mut self, value: [u8; 2]) {
         self.clevel_raw = value;
     }
+    pub fn new() -> PacketZcNotifyMoveentry2 {
+        PacketZcNotifyMoveentry2 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        gid: 0,
+        gid_raw: [0; 4],
+        speed: 0,
+        speed_raw: [0; 2],
+        body_state: 0,
+        body_state_raw: [0; 2],
+        health_state: 0,
+        health_state_raw: [0; 2],
+        effect_state: 0,
+        effect_state_raw: [0; 2],
+        job: 0,
+        job_raw: [0; 2],
+        head: 0,
+        head_raw: [0; 2],
+        weapon: 0,
+        weapon_raw: [0; 4],
+        accessory: 0,
+        accessory_raw: [0; 2],
+        move_start_time: 0,
+        move_start_time_raw: [0; 4],
+        accessory2: 0,
+        accessory2_raw: [0; 2],
+        accessory3: 0,
+        accessory3_raw: [0; 2],
+        headpalette: 0,
+        headpalette_raw: [0; 2],
+        bodypalette: 0,
+        bodypalette_raw: [0; 2],
+        head_dir: 0,
+        head_dir_raw: [0; 2],
+        guid: 0,
+        guid_raw: [0; 4],
+        gemblem_ver: 0,
+        gemblem_ver_raw: [0; 2],
+        honor: 0,
+        honor_raw: [0; 2],
+        virtue: 0,
+        virtue_raw: [0; 2],
+        is_pkmode_on: false,
+        is_pkmode_on_raw: [0; 1],
+        sex: 0,
+        sex_raw: [0; 1],
+        move_data: [0; 6],
+        move_data_raw: [0; 6],
+        x_size: 0,
+        x_size_raw: [0; 1],
+        y_size: 0,
+        y_size_raw: [0; 1],
+        clevel: 0,
+        clevel_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketZcNotifyMoveentry2 {
@@ -38022,6 +42809,13 @@ impl PacketCaReqHash {
     }
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
+    }
+    pub fn new() -> PacketCaReqHash {
+        PacketCaReqHash {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
     }
 }
 
@@ -38101,6 +42895,17 @@ impl PacketAcAckHash {
     }
     pub fn set_secret_raw(&mut self, value: Vec<u8>) {
         self.secret_raw = value;
+    }
+    pub fn new() -> PacketAcAckHash {
+        PacketAcAckHash {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        secret: String::new(),
+        secret_raw: vec![],
+        }
     }
 }
 
@@ -38234,6 +43039,21 @@ impl PacketCaLogin2 {
     }
     pub fn set_clienttype_raw(&mut self, value: [u8; 1]) {
         self.clienttype_raw = value;
+    }
+    pub fn new() -> PacketCaLogin2 {
+        PacketCaLogin2 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        version: 0,
+        version_raw: [0; 4],
+        id: [0 as char; 24],
+        id_raw: [0; 24],
+        passwd_md5: [0 as char; 16],
+        passwd_md5_raw: [0; 16],
+        clienttype: 0,
+        clienttype_raw: [0; 1],
+        }
     }
 }
 
@@ -38448,6 +43268,33 @@ impl PacketZcNotifySkill2 {
     pub fn set_action_raw(&mut self, value: [u8; 1]) {
         self.action_raw = value;
     }
+    pub fn new() -> PacketZcNotifySkill2 {
+        PacketZcNotifySkill2 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        skid: 0,
+        skid_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        target_id: 0,
+        target_id_raw: [0; 4],
+        start_time: 0,
+        start_time_raw: [0; 4],
+        attack_mt: 0,
+        attack_mt_raw: [0; 4],
+        attacked_mt: 0,
+        attacked_mt_raw: [0; 4],
+        damage: 0,
+        damage_raw: [0; 4],
+        level: 0,
+        level_raw: [0; 2],
+        count: 0,
+        count_raw: [0; 2],
+        action: 0,
+        action_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketZcNotifySkill2 {
@@ -38516,6 +43363,15 @@ impl PacketCzReqAccountname {
     }
     pub fn set_aid_raw(&mut self, value: [u8; 4]) {
         self.aid_raw = value;
+    }
+    pub fn new() -> PacketCzReqAccountname {
+        PacketCzReqAccountname {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        }
     }
 }
 
@@ -38610,6 +43466,17 @@ impl PacketZcAckAccountname {
     pub fn set_name_raw(&mut self, value: [u8; 24]) {
         self.name_raw = value;
     }
+    pub fn new() -> PacketZcAckAccountname {
+        PacketZcAckAccountname {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        name: [0 as char; 24],
+        name_raw: [0; 24],
+        }
+    }
 }
 
 impl Packet for PacketZcAckAccountname {
@@ -38694,6 +43561,17 @@ impl PacketZcSpirits2 {
     }
     pub fn set_num_raw(&mut self, value: [u8; 2]) {
         self.num_raw = value;
+    }
+    pub fn new() -> PacketZcSpirits2 {
+        PacketZcSpirits2 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        num: 0,
+        num_raw: [0; 2],
+        }
     }
 }
 
@@ -38804,6 +43682,19 @@ impl PacketZcReqCouple {
     pub fn set_name_raw(&mut self, value: [u8; 24]) {
         self.name_raw = value;
     }
+    pub fn new() -> PacketZcReqCouple {
+        PacketZcReqCouple {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        gid: 0,
+        gid_raw: [0; 4],
+        name: [0 as char; 24],
+        name_raw: [0; 24],
+        }
+    }
 }
 
 impl Packet for PacketZcReqCouple {
@@ -38905,6 +43796,19 @@ impl PacketCzJoinCouple {
     pub fn set_answer_raw(&mut self, value: [u8; 4]) {
         self.answer_raw = value;
     }
+    pub fn new() -> PacketCzJoinCouple {
+        PacketCzJoinCouple {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        gid: 0,
+        gid_raw: [0; 4],
+        answer: 0,
+        answer_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketCzJoinCouple {
@@ -38957,6 +43861,13 @@ impl PacketZcStartCouple {
     }
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
+    }
+    pub fn new() -> PacketZcStartCouple {
+        PacketZcStartCouple {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
     }
 }
 
@@ -39026,6 +43937,15 @@ impl PacketCzReqJoinCouple {
     }
     pub fn set_aid_raw(&mut self, value: [u8; 4]) {
         self.aid_raw = value;
+    }
+    pub fn new() -> PacketCzReqJoinCouple {
+        PacketCzReqJoinCouple {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        }
     }
 }
 
@@ -39104,6 +44024,15 @@ impl PacketZcCouplename {
     pub fn set_couple_name_raw(&mut self, value: [u8; 24]) {
         self.couple_name_raw = value;
     }
+    pub fn new() -> PacketZcCouplename {
+        PacketZcCouplename {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        couple_name: [0 as char; 24],
+        couple_name_raw: [0; 24],
+        }
+    }
 }
 
 impl Packet for PacketZcCouplename {
@@ -39156,6 +44085,13 @@ impl PacketCzDoridori {
     }
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
+    }
+    pub fn new() -> PacketCzDoridori {
+        PacketCzDoridori {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
     }
 }
 
@@ -39265,6 +44201,19 @@ impl PacketCzMakeGroup2 {
     }
     pub fn set_item_division_rule_raw(&mut self, value: [u8; 1]) {
         self.item_division_rule_raw = value;
+    }
+    pub fn new() -> PacketCzMakeGroup2 {
+        PacketCzMakeGroup2 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        group_name: [0 as char; 24],
+        group_name_raw: [0; 24],
+        item_pickup_rule: 0,
+        item_pickup_rule_raw: [0; 1],
+        item_division_rule: 0,
+        item_division_rule_raw: [0; 1],
+        }
     }
 }
 
@@ -39503,6 +44452,33 @@ impl PacketZcAddMemberToGroup2 {
     pub fn set_item_division_rule_raw(&mut self, value: [u8; 1]) {
         self.item_division_rule_raw = value;
     }
+    pub fn new() -> PacketZcAddMemberToGroup2 {
+        PacketZcAddMemberToGroup2 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        role: 0,
+        role_raw: [0; 4],
+        x_pos: 0,
+        x_pos_raw: [0; 2],
+        y_pos: 0,
+        y_pos_raw: [0; 2],
+        state: 0,
+        state_raw: [0; 1],
+        group_name: [0 as char; 24],
+        group_name_raw: [0; 24],
+        character_name: [0 as char; 24],
+        character_name_raw: [0; 24],
+        map_name: [0 as char; 16],
+        map_name_raw: [0; 16],
+        item_pickup_rule: 0,
+        item_pickup_rule_raw: [0; 1],
+        item_division_rule: 0,
+        item_division_rule_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketZcAddMemberToGroup2 {
@@ -39571,6 +44547,15 @@ impl PacketZcCongratulation {
     }
     pub fn set_aid_raw(&mut self, value: [u8; 4]) {
         self.aid_raw = value;
+    }
+    pub fn new() -> PacketZcCongratulation {
+        PacketZcCongratulation {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        }
     }
 }
 
@@ -39672,6 +44657,19 @@ impl PacketZcNotifyPositionToGuildm {
     }
     pub fn set_y_pos_raw(&mut self, value: [u8; 2]) {
         self.y_pos_raw = value;
+    }
+    pub fn new() -> PacketZcNotifyPositionToGuildm {
+        PacketZcNotifyPositionToGuildm {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        x_pos: 0,
+        x_pos_raw: [0; 2],
+        y_pos: 0,
+        y_pos_raw: [0; 2],
+        }
     }
 }
 
@@ -39782,6 +44780,19 @@ impl PacketZcGuildMemberMapChange {
     pub fn set_map_name_raw(&mut self, value: [u8; 16]) {
         self.map_name_raw = value;
     }
+    pub fn new() -> PacketZcGuildMemberMapChange {
+        PacketZcGuildMemberMapChange {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        gdid: 0,
+        gdid_raw: [0; 4],
+        aid: 0,
+        aid_raw: [0; 4],
+        map_name: [0 as char; 16],
+        map_name_raw: [0; 16],
+        }
+    }
 }
 
 impl Packet for PacketZcGuildMemberMapChange {
@@ -39834,6 +44845,13 @@ impl PacketCzChopokgi {
     }
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
+    }
+    pub fn new() -> PacketCzChopokgi {
+        PacketCzChopokgi {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
     }
 }
 
@@ -39927,6 +44945,17 @@ impl PacketZcNormalItemlist2 {
     pub fn set_item_info_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_info_raw = value;
     }
+    pub fn new() -> PacketZcNormalItemlist2 {
+        PacketZcNormalItemlist2 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        item_info: vec![],
+        item_info_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcNormalItemlist2 {
@@ -40018,6 +45047,17 @@ impl PacketZcCartNormalItemlist2 {
     }
     pub fn set_item_info_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_info_raw = value;
+    }
+    pub fn new() -> PacketZcCartNormalItemlist2 {
+        PacketZcCartNormalItemlist2 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        item_info: vec![],
+        item_info_raw: vec![],
+        }
     }
 }
 
@@ -40111,6 +45151,17 @@ impl PacketZcStoreNormalItemlist2 {
     pub fn set_item_info_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_info_raw = value;
     }
+    pub fn new() -> PacketZcStoreNormalItemlist2 {
+        PacketZcStoreNormalItemlist2 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        item_info: vec![],
+        item_info_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcStoreNormalItemlist2 {
@@ -40189,6 +45240,17 @@ impl PacketAcNotifyError {
     }
     pub fn set_msg_raw(&mut self, value: Vec<u8>) {
         self.msg_raw = value;
+    }
+    pub fn new() -> PacketAcNotifyError {
+        PacketAcNotifyError {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        msg: String::new(),
+        msg_raw: vec![],
+        }
     }
 }
 
@@ -40339,6 +45401,25 @@ impl PacketZcUpdateCharstat2 {
     pub fn set_head_palette_raw(&mut self, value: [u8; 2]) {
         self.head_palette_raw = value;
     }
+    pub fn new() -> PacketZcUpdateCharstat2 {
+        PacketZcUpdateCharstat2 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        gid: 0,
+        gid_raw: [0; 4],
+        status: 0,
+        status_raw: [0; 4],
+        sex: 0,
+        sex_raw: [0; 2],
+        head: 0,
+        head_raw: [0; 2],
+        head_palette: 0,
+        head_palette_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketZcUpdateCharstat2 {
@@ -40423,6 +45504,17 @@ impl PacketZcNotifyEffect2 {
     }
     pub fn set_effect_id_raw(&mut self, value: [u8; 4]) {
         self.effect_id_raw = value;
+    }
+    pub fn new() -> PacketZcNotifyEffect2 {
+        PacketZcNotifyEffect2 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        effect_id: 0,
+        effect_id_raw: [0; 4],
+        }
     }
 }
 
@@ -40533,6 +45625,19 @@ impl PacketZcReqExchangeItem2 {
     pub fn set_level_raw(&mut self, value: [u8; 2]) {
         self.level_raw = value;
     }
+    pub fn new() -> PacketZcReqExchangeItem2 {
+        PacketZcReqExchangeItem2 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        name: [0 as char; 24],
+        name_raw: [0; 24],
+        gid: 0,
+        gid_raw: [0; 4],
+        level: 0,
+        level_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketZcReqExchangeItem2 {
@@ -40633,6 +45738,19 @@ impl PacketZcAckExchangeItem2 {
     }
     pub fn set_level_raw(&mut self, value: [u8; 2]) {
         self.level_raw = value;
+    }
+    pub fn new() -> PacketZcAckExchangeItem2 {
+        PacketZcAckExchangeItem2 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        result: 0,
+        result_raw: [0; 1],
+        gid: 0,
+        gid_raw: [0; 4],
+        level: 0,
+        level_raw: [0; 2],
+        }
     }
 }
 
@@ -40743,6 +45861,19 @@ impl PacketZcReqBaby {
     pub fn set_name_raw(&mut self, value: [u8; 24]) {
         self.name_raw = value;
     }
+    pub fn new() -> PacketZcReqBaby {
+        PacketZcReqBaby {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        gid: 0,
+        gid_raw: [0; 4],
+        name: [0 as char; 24],
+        name_raw: [0; 24],
+        }
+    }
 }
 
 impl Packet for PacketZcReqBaby {
@@ -40844,6 +45975,19 @@ impl PacketCzJoinBaby {
     pub fn set_answer_raw(&mut self, value: [u8; 4]) {
         self.answer_raw = value;
     }
+    pub fn new() -> PacketCzJoinBaby {
+        PacketCzJoinBaby {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        gid: 0,
+        gid_raw: [0; 4],
+        answer: 0,
+        answer_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketCzJoinBaby {
@@ -40896,6 +46040,13 @@ impl PacketZcStartBaby {
     }
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
+    }
+    pub fn new() -> PacketZcStartBaby {
+        PacketZcStartBaby {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
     }
 }
 
@@ -40965,6 +46116,15 @@ impl PacketCzReqJoinBaby {
     }
     pub fn set_aid_raw(&mut self, value: [u8; 4]) {
         self.aid_raw = value;
+    }
+    pub fn new() -> PacketCzReqJoinBaby {
+        PacketCzReqJoinBaby {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        }
     }
 }
 
@@ -41115,6 +46275,23 @@ impl PacketCaLogin3 {
     pub fn set_client_info_raw(&mut self, value: [u8; 1]) {
         self.client_info_raw = value;
     }
+    pub fn new() -> PacketCaLogin3 {
+        PacketCaLogin3 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        version: 0,
+        version_raw: [0; 4],
+        id: [0 as char; 24],
+        id_raw: [0; 24],
+        passwd_md5: [0 as char; 16],
+        passwd_md5_raw: [0; 16],
+        clienttype: 0,
+        clienttype_raw: [0; 1],
+        client_info: 0,
+        client_info_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketCaLogin3 {
@@ -41208,6 +46385,17 @@ impl PacketChDeleteChar2 {
     pub fn set_key_raw(&mut self, value: [u8; 50]) {
         self.key_raw = value;
     }
+    pub fn new() -> PacketChDeleteChar2 {
+        PacketChDeleteChar2 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        gid: 0,
+        gid_raw: [0; 4],
+        key: [0 as char; 50],
+        key_raw: [0; 50],
+        }
+    }
 }
 
 impl Packet for PacketChDeleteChar2 {
@@ -41300,6 +46488,17 @@ impl PacketZcRepairitemlist {
     pub fn set_item_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_list_raw = value;
     }
+    pub fn new() -> PacketZcRepairitemlist {
+        PacketZcRepairitemlist {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        item_list: vec![],
+        item_list_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcRepairitemlist {
@@ -41362,6 +46561,15 @@ impl PacketCzReqItemrepair {
     }
     pub fn set_target_item_info_raw(&mut self, value: Vec<u8>) {
         self.target_item_info_raw = value;
+    }
+    pub fn new() -> PacketCzReqItemrepair {
+        PacketCzReqItemrepair {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        target_item_info: RepairitemInfo::new(),
+        target_item_info_raw: vec![],
+        }
     }
 }
 
@@ -41447,6 +46655,17 @@ impl PacketZcAckItemrepair {
     }
     pub fn set_result_raw(&mut self, value: [u8; 1]) {
         self.result_raw = value;
+    }
+    pub fn new() -> PacketZcAckItemrepair {
+        PacketZcAckItemrepair {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        index: 0,
+        index_raw: [0; 2],
+        result: 0,
+        result_raw: [0; 1],
+        }
     }
 }
 
@@ -41549,6 +46768,19 @@ impl PacketZcHighjump {
     pub fn set_y_pos_raw(&mut self, value: [u8; 2]) {
         self.y_pos_raw = value;
     }
+    pub fn new() -> PacketZcHighjump {
+        PacketZcHighjump {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        x_pos: 0,
+        x_pos_raw: [0; 2],
+        y_pos: 0,
+        y_pos_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketZcHighjump {
@@ -41625,6 +46857,15 @@ impl PacketCaConnectInfoChanged {
     }
     pub fn set_id_raw(&mut self, value: [u8; 24]) {
         self.id_raw = value;
+    }
+    pub fn new() -> PacketCaConnectInfoChanged {
+        PacketCaConnectInfoChanged {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        id: [0 as char; 24],
+        id_raw: [0; 24],
+        }
     }
 }
 
@@ -41718,6 +46959,17 @@ impl PacketZcFriendsList {
     pub fn set_friend_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.friend_list_raw = value;
     }
+    pub fn new() -> PacketZcFriendsList {
+        PacketZcFriendsList {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        friend_list: vec![],
+        friend_list_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcFriendsList {
@@ -41794,6 +47046,15 @@ impl PacketCzAddFriends {
     }
     pub fn set_name_raw(&mut self, value: [u8; 24]) {
         self.name_raw = value;
+    }
+    pub fn new() -> PacketCzAddFriends {
+        PacketCzAddFriends {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        name: [0 as char; 24],
+        name_raw: [0; 24],
+        }
     }
 }
 
@@ -41880,6 +47141,17 @@ impl PacketCzDeleteFriends {
     pub fn set_gid_raw(&mut self, value: [u8; 4]) {
         self.gid_raw = value;
     }
+    pub fn new() -> PacketCzDeleteFriends {
+        PacketCzDeleteFriends {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        gid: 0,
+        gid_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketCzDeleteFriends {
@@ -41957,6 +47229,15 @@ impl PacketCaExeHashcheck {
     pub fn set_hash_value_raw(&mut self, value: [u8; 16]) {
         self.hash_value_raw = value;
     }
+    pub fn new() -> PacketCaExeHashcheck {
+        PacketCaExeHashcheck {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        hash_value: [0 as char; 16],
+        hash_value_raw: [0; 16],
+        }
+    }
 }
 
 impl Packet for PacketCaExeHashcheck {
@@ -42033,6 +47314,15 @@ impl PacketZcDivorce {
     }
     pub fn set_name_raw(&mut self, value: [u8; 24]) {
         self.name_raw = value;
+    }
+    pub fn new() -> PacketZcDivorce {
+        PacketZcDivorce {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        name: [0 as char; 24],
+        name_raw: [0; 24],
+        }
     }
 }
 
@@ -42134,6 +47424,19 @@ impl PacketZcFriendsState {
     }
     pub fn set_state_raw(&mut self, value: [u8; 1]) {
         self.state_raw = value;
+    }
+    pub fn new() -> PacketZcFriendsState {
+        PacketZcFriendsState {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        gid: 0,
+        gid_raw: [0; 4],
+        state: false,
+        state_raw: [0; 1],
+        }
     }
 }
 
@@ -42244,6 +47547,19 @@ impl PacketZcReqAddFriends {
     pub fn set_name_raw(&mut self, value: [u8; 24]) {
         self.name_raw = value;
     }
+    pub fn new() -> PacketZcReqAddFriends {
+        PacketZcReqAddFriends {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        req_aid: 0,
+        req_aid_raw: [0; 4],
+        req_gid: 0,
+        req_gid_raw: [0; 4],
+        name: [0 as char; 24],
+        name_raw: [0; 24],
+        }
+    }
 }
 
 impl Packet for PacketZcReqAddFriends {
@@ -42344,6 +47660,19 @@ impl PacketCzAckReqAddFriends {
     }
     pub fn set_result_raw(&mut self, value: [u8; 4]) {
         self.result_raw = value;
+    }
+    pub fn new() -> PacketCzAckReqAddFriends {
+        PacketCzAckReqAddFriends {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        req_aid: 0,
+        req_aid_raw: [0; 4],
+        req_gid: 0,
+        req_gid_raw: [0; 4],
+        result: 0,
+        result_raw: [0; 4],
+        }
     }
 }
 
@@ -42470,6 +47799,21 @@ impl PacketZcAddFriendsList {
     pub fn set_name_raw(&mut self, value: [u8; 24]) {
         self.name_raw = value;
     }
+    pub fn new() -> PacketZcAddFriendsList {
+        PacketZcAddFriendsList {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        result: 0,
+        result_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        gid: 0,
+        gid_raw: [0; 4],
+        name: [0 as char; 24],
+        name_raw: [0; 24],
+        }
+    }
 }
 
 impl Packet for PacketZcAddFriendsList {
@@ -42554,6 +47898,17 @@ impl PacketZcDeleteFriends {
     }
     pub fn set_gid_raw(&mut self, value: [u8; 4]) {
         self.gid_raw = value;
+    }
+    pub fn new() -> PacketZcDeleteFriends {
+        PacketZcDeleteFriends {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        gid: 0,
+        gid_raw: [0; 4],
+        }
     }
 }
 
@@ -42648,6 +48003,17 @@ impl PacketChExeHashcheck {
     pub fn set_hash_value_raw(&mut self, value: [u8; 16]) {
         self.hash_value_raw = value;
     }
+    pub fn new() -> PacketChExeHashcheck {
+        PacketChExeHashcheck {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        client_type: 0,
+        client_type_raw: [0; 1],
+        hash_value: [0 as char; 16],
+        hash_value_raw: [0; 16],
+        }
+    }
 }
 
 impl Packet for PacketChExeHashcheck {
@@ -42741,6 +48107,17 @@ impl PacketCzExeHashcheck {
     pub fn set_hash_value_raw(&mut self, value: [u8; 16]) {
         self.hash_value_raw = value;
     }
+    pub fn new() -> PacketCzExeHashcheck {
+        PacketCzExeHashcheck {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        client_type: 0,
+        client_type_raw: [0; 1],
+        hash_value: [0 as char; 16],
+        hash_value_raw: [0; 16],
+        }
+    }
 }
 
 impl Packet for PacketCzExeHashcheck {
@@ -42832,6 +48209,17 @@ impl PacketHcBlockCharacter {
     }
     pub fn set_character_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.character_list_raw = value;
+    }
+    pub fn new() -> PacketHcBlockCharacter {
+        PacketHcBlockCharacter {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        character_list: vec![],
+        character_list_raw: vec![],
+        }
     }
 }
 
@@ -42958,6 +48346,21 @@ impl PacketZcStarskill {
     pub fn set_result_raw(&mut self, value: [u8; 1]) {
         self.result_raw = value;
     }
+    pub fn new() -> PacketZcStarskill {
+        PacketZcStarskill {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        map_name: [0 as char; 24],
+        map_name_raw: [0; 24],
+        monster_id: 0,
+        monster_id_raw: [0; 4],
+        star: 0,
+        star_raw: [0; 1],
+        result: 0,
+        result_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketZcStarskill {
@@ -43042,6 +48445,17 @@ impl PacketCzReqPvppoint {
     }
     pub fn set_gid_raw(&mut self, value: [u8; 4]) {
         self.gid_raw = value;
+    }
+    pub fn new() -> PacketCzReqPvppoint {
+        PacketCzReqPvppoint {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        gid: 0,
+        gid_raw: [0; 4],
+        }
     }
 }
 
@@ -43138,6 +48552,19 @@ impl PacketZcAckPvppoint {
     pub fn set_pvp_raw(&mut self, value: Vec<u8>) {
         self.pvp_raw = value;
     }
+    pub fn new() -> PacketZcAckPvppoint {
+        PacketZcAckPvppoint {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        gid: 0,
+        gid_raw: [0; 4],
+        pvp: PVPINFO::new(),
+        pvp_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcAckPvppoint {
@@ -43206,6 +48633,15 @@ impl PacketZhMovePvpworld {
     }
     pub fn set_gid_raw(&mut self, value: [u8; 4]) {
         self.gid_raw = value;
+    }
+    pub fn new() -> PacketZhMovePvpworld {
+        PacketZhMovePvpworld {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        gid: 0,
+        gid_raw: [0; 4],
+        }
     }
 }
 
@@ -43284,6 +48720,15 @@ impl PacketCzReqGiveMannerByname {
     pub fn set_char_name_raw(&mut self, value: [u8; 24]) {
         self.char_name_raw = value;
     }
+    pub fn new() -> PacketCzReqGiveMannerByname {
+        PacketCzReqGiveMannerByname {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        char_name: [0 as char; 24],
+        char_name_raw: [0; 24],
+        }
+    }
 }
 
 impl Packet for PacketCzReqGiveMannerByname {
@@ -43360,6 +48805,15 @@ impl PacketCzReqStatusGm {
     }
     pub fn set_char_name_raw(&mut self, value: [u8; 24]) {
         self.char_name_raw = value;
+    }
+    pub fn new() -> PacketCzReqStatusGm {
+        PacketCzReqStatusGm {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        char_name: [0 as char; 24],
+        char_name_raw: [0; 24],
+        }
     }
 }
 
@@ -43830,6 +49284,65 @@ impl PacketZcAckStatusGm {
     pub fn set_plus_aspd_raw(&mut self, value: [u8; 2]) {
         self.plus_aspd_raw = value;
     }
+    pub fn new() -> PacketZcAckStatusGm {
+        PacketZcAckStatusGm {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        str: 0,
+        str_raw: [0; 1],
+        standard_str: 0,
+        standard_str_raw: [0; 1],
+        agi: 0,
+        agi_raw: [0; 1],
+        standard_agi: 0,
+        standard_agi_raw: [0; 1],
+        vit: 0,
+        vit_raw: [0; 1],
+        standard_vit: 0,
+        standard_vit_raw: [0; 1],
+        int: 0,
+        int_raw: [0; 1],
+        standard_int: 0,
+        standard_int_raw: [0; 1],
+        dex: 0,
+        dex_raw: [0; 1],
+        standard_dex: 0,
+        standard_dex_raw: [0; 1],
+        luk: 0,
+        luk_raw: [0; 1],
+        standard_luk: 0,
+        standard_luk_raw: [0; 1],
+        att_power: 0,
+        att_power_raw: [0; 2],
+        refining_power: 0,
+        refining_power_raw: [0; 2],
+        max_matt_power: 0,
+        max_matt_power_raw: [0; 2],
+        min_matt_power: 0,
+        min_matt_power_raw: [0; 2],
+        itemdef_power: 0,
+        itemdef_power_raw: [0; 2],
+        plusdef_power: 0,
+        plusdef_power_raw: [0; 2],
+        mdef_power: 0,
+        mdef_power_raw: [0; 2],
+        plusmdef_power: 0,
+        plusmdef_power_raw: [0; 2],
+        hit_success_value: 0,
+        hit_success_value_raw: [0; 2],
+        avoid_success_value: 0,
+        avoid_success_value_raw: [0; 2],
+        plus_avoid_success_value: 0,
+        plus_avoid_success_value_raw: [0; 2],
+        critical_success_value: 0,
+        critical_success_value_raw: [0; 2],
+        aspd: 0,
+        aspd_raw: [0; 2],
+        plus_aspd: 0,
+        plus_aspd_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketZcAckStatusGm {
@@ -43898,6 +49411,15 @@ impl PacketZcSkillmsg {
     }
     pub fn set_msg_no_raw(&mut self, value: [u8; 4]) {
         self.msg_no_raw = value;
+    }
+    pub fn new() -> PacketZcSkillmsg {
+        PacketZcSkillmsg {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        msg_no: 0,
+        msg_no_raw: [0; 4],
+        }
     }
 }
 
@@ -43968,6 +49490,15 @@ impl PacketZcBabymsg {
     pub fn set_msg_no_raw(&mut self, value: [u8; 4]) {
         self.msg_no_raw = value;
     }
+    pub fn new() -> PacketZcBabymsg {
+        PacketZcBabymsg {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        msg_no: 0,
+        msg_no_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketZcBabymsg {
@@ -44021,6 +49552,13 @@ impl PacketCzBlacksmithRank {
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
     }
+    pub fn new() -> PacketCzBlacksmithRank {
+        PacketCzBlacksmithRank {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketCzBlacksmithRank {
@@ -44073,6 +49611,13 @@ impl PacketCzAlchemistRank {
     }
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
+    }
+    pub fn new() -> PacketCzAlchemistRank {
+        PacketCzAlchemistRank {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
     }
 }
 
@@ -44175,6 +49720,17 @@ impl PacketZcBlacksmithRank {
     pub fn set_point_raw(&mut self, value: [u8; 10]) {
         self.point_raw = value;
     }
+    pub fn new() -> PacketZcBlacksmithRank {
+        PacketZcBlacksmithRank {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        name: [0 as char; 10],
+        name_raw: [0; 10],
+        point: [0; 10],
+        point_raw: [0; 10],
+        }
+    }
 }
 
 impl Packet for PacketZcBlacksmithRank {
@@ -44276,6 +49832,17 @@ impl PacketZcAlchemistRank {
     pub fn set_point_raw(&mut self, value: [u8; 10]) {
         self.point_raw = value;
     }
+    pub fn new() -> PacketZcAlchemistRank {
+        PacketZcAlchemistRank {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        name: [0 as char; 10],
+        name_raw: [0; 10],
+        point: [0; 10],
+        point_raw: [0; 10],
+        }
+    }
 }
 
 impl Packet for PacketZcAlchemistRank {
@@ -44360,6 +49927,17 @@ impl PacketZcBlacksmithPoint {
     }
     pub fn set_total_point_raw(&mut self, value: [u8; 4]) {
         self.total_point_raw = value;
+    }
+    pub fn new() -> PacketZcBlacksmithPoint {
+        PacketZcBlacksmithPoint {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        point: 0,
+        point_raw: [0; 4],
+        total_point: 0,
+        total_point_raw: [0; 4],
+        }
     }
 }
 
@@ -44446,6 +50024,17 @@ impl PacketZcAlchemistPoint {
     pub fn set_total_point_raw(&mut self, value: [u8; 4]) {
         self.total_point_raw = value;
     }
+    pub fn new() -> PacketZcAlchemistPoint {
+        PacketZcAlchemistPoint {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        point: 0,
+        point_raw: [0; 4],
+        total_point: 0,
+        total_point_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketZcAlchemistPoint {
@@ -44515,6 +50104,15 @@ impl PacketCzLesseffect {
     pub fn set_is_less_raw(&mut self, value: [u8; 4]) {
         self.is_less_raw = value;
     }
+    pub fn new() -> PacketCzLesseffect {
+        PacketCzLesseffect {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        is_less: 0,
+        is_less_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketCzLesseffect {
@@ -44583,6 +50181,15 @@ impl PacketZcLesseffect {
     }
     pub fn set_is_less_raw(&mut self, value: [u8; 4]) {
         self.is_less_raw = value;
+    }
+    pub fn new() -> PacketZcLesseffect {
+        PacketZcLesseffect {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        is_less: 0,
+        is_less_raw: [0; 4],
+        }
     }
 }
 
@@ -44727,6 +50334,23 @@ impl PacketZcNotifyPkinfo {
     pub fn set_expire_time_raw(&mut self, value: Vec<u8>) {
         self.expire_time_raw = value;
     }
+    pub fn new() -> PacketZcNotifyPkinfo {
+        PacketZcNotifyPkinfo {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        win_point: 0,
+        win_point_raw: [0; 4],
+        lose_point: 0,
+        lose_point_raw: [0; 4],
+        kill_name: [0 as char; 24],
+        kill_name_raw: [0; 24],
+        killed_name: [0 as char; 24],
+        killed_name_raw: [0; 24],
+        expire_time: Filetime::new(),
+        expire_time_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcNotifyPkinfo {
@@ -44811,6 +50435,17 @@ impl PacketZcNotifyCrazykiller {
     }
     pub fn set_is_crazy_killer_raw(&mut self, value: [u8; 4]) {
         self.is_crazy_killer_raw = value;
+    }
+    pub fn new() -> PacketZcNotifyCrazykiller {
+        PacketZcNotifyCrazykiller {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        is_crazy_killer: 0,
+        is_crazy_killer_raw: [0; 4],
+        }
     }
 }
 
@@ -44904,6 +50539,17 @@ impl PacketZcNotifyWeaponitemlist {
     pub fn set_item_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_list_raw = value;
     }
+    pub fn new() -> PacketZcNotifyWeaponitemlist {
+        PacketZcNotifyWeaponitemlist {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        item_list: vec![],
+        item_list_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcNotifyWeaponitemlist {
@@ -44972,6 +50618,15 @@ impl PacketCzReqWeaponrefine {
     }
     pub fn set_index_raw(&mut self, value: [u8; 4]) {
         self.index_raw = value;
+    }
+    pub fn new() -> PacketCzReqWeaponrefine {
+        PacketCzReqWeaponrefine {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        index: 0,
+        index_raw: [0; 4],
+        }
     }
 }
 
@@ -45058,6 +50713,17 @@ impl PacketZcAckWeaponrefine {
     pub fn set_itid_raw(&mut self, value: [u8; 2]) {
         self.itid_raw = value;
     }
+    pub fn new() -> PacketZcAckWeaponrefine {
+        PacketZcAckWeaponrefine {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        msg: 0,
+        msg_raw: [0; 4],
+        itid: 0,
+        itid_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketZcAckWeaponrefine {
@@ -45143,6 +50809,17 @@ impl PacketZcTaekwonPoint {
     pub fn set_total_point_raw(&mut self, value: [u8; 4]) {
         self.total_point_raw = value;
     }
+    pub fn new() -> PacketZcTaekwonPoint {
+        PacketZcTaekwonPoint {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        point: 0,
+        point_raw: [0; 4],
+        total_point: 0,
+        total_point_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketZcTaekwonPoint {
@@ -45195,6 +50872,13 @@ impl PacketCzTaekwonRank {
     }
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
+    }
+    pub fn new() -> PacketCzTaekwonRank {
+        PacketCzTaekwonRank {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
     }
 }
 
@@ -45297,6 +50981,17 @@ impl PacketZcTaekwonRank {
     pub fn set_point_raw(&mut self, value: [u8; 10]) {
         self.point_raw = value;
     }
+    pub fn new() -> PacketZcTaekwonRank {
+        PacketZcTaekwonRank {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        name: [0 as char; 10],
+        name_raw: [0; 10],
+        point: [0; 10],
+        point_raw: [0; 10],
+        }
+    }
 }
 
 impl Packet for PacketZcTaekwonRank {
@@ -45374,6 +51069,15 @@ impl PacketZcGameGuard {
     pub fn set_auth_data_raw(&mut self, value: [u8; 4]) {
         self.auth_data_raw = value;
     }
+    pub fn new() -> PacketZcGameGuard {
+        PacketZcGameGuard {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        auth_data: [0; 4],
+        auth_data_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketZcGameGuard {
@@ -45450,6 +51154,15 @@ impl PacketCzAckGameGuard {
     }
     pub fn set_auth_data_raw(&mut self, value: [u8; 4]) {
         self.auth_data_raw = value;
+    }
+    pub fn new() -> PacketCzAckGameGuard {
+        PacketCzAckGameGuard {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        auth_data: [0; 4],
+        auth_data_raw: [0; 4],
+        }
     }
 }
 
@@ -45583,6 +51296,23 @@ impl PacketZcStateChange3 {
     }
     pub fn set_is_pkmode_on_raw(&mut self, value: [u8; 1]) {
         self.is_pkmode_on_raw = value;
+    }
+    pub fn new() -> PacketZcStateChange3 {
+        PacketZcStateChange3 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        body_state: 0,
+        body_state_raw: [0; 2],
+        health_state: 0,
+        health_state_raw: [0; 2],
+        effect_state: 0,
+        effect_state_raw: [0; 4],
+        is_pkmode_on: false,
+        is_pkmode_on_raw: [0; 1],
+        }
     }
 }
 
@@ -46045,6 +51775,63 @@ impl PacketZcNotifyStandentry3 {
     pub fn set_clevel_raw(&mut self, value: [u8; 2]) {
         self.clevel_raw = value;
     }
+    pub fn new() -> PacketZcNotifyStandentry3 {
+        PacketZcNotifyStandentry3 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        gid: 0,
+        gid_raw: [0; 4],
+        speed: 0,
+        speed_raw: [0; 2],
+        body_state: 0,
+        body_state_raw: [0; 2],
+        health_state: 0,
+        health_state_raw: [0; 2],
+        effect_state: 0,
+        effect_state_raw: [0; 4],
+        job: 0,
+        job_raw: [0; 2],
+        head: 0,
+        head_raw: [0; 2],
+        weapon: 0,
+        weapon_raw: [0; 4],
+        accessory: 0,
+        accessory_raw: [0; 2],
+        accessory2: 0,
+        accessory2_raw: [0; 2],
+        accessory3: 0,
+        accessory3_raw: [0; 2],
+        headpalette: 0,
+        headpalette_raw: [0; 2],
+        bodypalette: 0,
+        bodypalette_raw: [0; 2],
+        head_dir: 0,
+        head_dir_raw: [0; 2],
+        guid: 0,
+        guid_raw: [0; 4],
+        gemblem_ver: 0,
+        gemblem_ver_raw: [0; 2],
+        honor: 0,
+        honor_raw: [0; 2],
+        virtue: 0,
+        virtue_raw: [0; 4],
+        is_pkmode_on: false,
+        is_pkmode_on_raw: [0; 1],
+        sex: 0,
+        sex_raw: [0; 1],
+        pos_dir: [0 as char; 3],
+        pos_dir_raw: [0; 3],
+        x_size: 0,
+        x_size_raw: [0; 1],
+        y_size: 0,
+        y_size_raw: [0; 1],
+        state: 0,
+        state_raw: [0; 1],
+        clevel: 0,
+        clevel_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketZcNotifyStandentry3 {
@@ -46489,6 +52276,61 @@ impl PacketZcNotifyNewentry3 {
     }
     pub fn set_clevel_raw(&mut self, value: [u8; 2]) {
         self.clevel_raw = value;
+    }
+    pub fn new() -> PacketZcNotifyNewentry3 {
+        PacketZcNotifyNewentry3 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        gid: 0,
+        gid_raw: [0; 4],
+        speed: 0,
+        speed_raw: [0; 2],
+        body_state: 0,
+        body_state_raw: [0; 2],
+        health_state: 0,
+        health_state_raw: [0; 2],
+        effect_state: 0,
+        effect_state_raw: [0; 4],
+        job: 0,
+        job_raw: [0; 2],
+        head: 0,
+        head_raw: [0; 2],
+        weapon: 0,
+        weapon_raw: [0; 4],
+        accessory: 0,
+        accessory_raw: [0; 2],
+        accessory2: 0,
+        accessory2_raw: [0; 2],
+        accessory3: 0,
+        accessory3_raw: [0; 2],
+        headpalette: 0,
+        headpalette_raw: [0; 2],
+        bodypalette: 0,
+        bodypalette_raw: [0; 2],
+        head_dir: 0,
+        head_dir_raw: [0; 2],
+        guid: 0,
+        guid_raw: [0; 4],
+        gemblem_ver: 0,
+        gemblem_ver_raw: [0; 2],
+        honor: 0,
+        honor_raw: [0; 2],
+        virtue: 0,
+        virtue_raw: [0; 4],
+        is_pkmode_on: false,
+        is_pkmode_on_raw: [0; 1],
+        sex: 0,
+        sex_raw: [0; 1],
+        pos_dir: [0 as char; 3],
+        pos_dir_raw: [0; 3],
+        x_size: 0,
+        x_size_raw: [0; 1],
+        y_size: 0,
+        y_size_raw: [0; 1],
+        clevel: 0,
+        clevel_raw: [0; 2],
+        }
     }
 }
 
@@ -46967,6 +52809,65 @@ impl PacketZcNotifyMoveentry3 {
     pub fn set_clevel_raw(&mut self, value: [u8; 2]) {
         self.clevel_raw = value;
     }
+    pub fn new() -> PacketZcNotifyMoveentry3 {
+        PacketZcNotifyMoveentry3 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        objecttype: 0,
+        objecttype_raw: [0; 1],
+        gid: 0,
+        gid_raw: [0; 4],
+        speed: 0,
+        speed_raw: [0; 2],
+        body_state: 0,
+        body_state_raw: [0; 2],
+        health_state: 0,
+        health_state_raw: [0; 2],
+        effect_state: 0,
+        effect_state_raw: [0; 4],
+        job: 0,
+        job_raw: [0; 2],
+        head: 0,
+        head_raw: [0; 2],
+        weapon: 0,
+        weapon_raw: [0; 4],
+        accessory: 0,
+        accessory_raw: [0; 2],
+        move_start_time: 0,
+        move_start_time_raw: [0; 4],
+        accessory2: 0,
+        accessory2_raw: [0; 2],
+        accessory3: 0,
+        accessory3_raw: [0; 2],
+        headpalette: 0,
+        headpalette_raw: [0; 2],
+        bodypalette: 0,
+        bodypalette_raw: [0; 2],
+        head_dir: 0,
+        head_dir_raw: [0; 2],
+        guid: 0,
+        guid_raw: [0; 4],
+        gemblem_ver: 0,
+        gemblem_ver_raw: [0; 2],
+        honor: 0,
+        honor_raw: [0; 2],
+        virtue: 0,
+        virtue_raw: [0; 4],
+        is_pkmode_on: false,
+        is_pkmode_on_raw: [0; 1],
+        sex: 0,
+        sex_raw: [0; 1],
+        move_data: [0; 6],
+        move_data_raw: [0; 6],
+        x_size: 0,
+        x_size_raw: [0; 1],
+        y_size: 0,
+        y_size_raw: [0; 1],
+        clevel: 0,
+        clevel_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketZcNotifyMoveentry3 {
@@ -47051,6 +52952,17 @@ impl PacketCzCommandMer {
     }
     pub fn set_command_raw(&mut self, value: [u8; 1]) {
         self.command_raw = value;
+    }
+    pub fn new() -> PacketCzCommandMer {
+        PacketCzCommandMer {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 2],
+        command: 0,
+        command_raw: [0; 1],
+        }
     }
 }
 
@@ -47465,6 +53377,57 @@ impl PacketZcPropertyHomun {
     pub fn set_atkrange_raw(&mut self, value: [u8; 2]) {
         self.atkrange_raw = value;
     }
+    pub fn new() -> PacketZcPropertyHomun {
+        PacketZcPropertyHomun {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        sz_name: [0 as char; 24],
+        sz_name_raw: [0; 24],
+        b_modified: 0,
+        b_modified_raw: [0; 1],
+        n_level: 0,
+        n_level_raw: [0; 2],
+        n_fullness: 0,
+        n_fullness_raw: [0; 2],
+        n_relationship: 0,
+        n_relationship_raw: [0; 2],
+        itid: 0,
+        itid_raw: [0; 2],
+        atk: 0,
+        atk_raw: [0; 2],
+        matk: 0,
+        matk_raw: [0; 2],
+        hit: 0,
+        hit_raw: [0; 2],
+        critical: 0,
+        critical_raw: [0; 2],
+        def: 0,
+        def_raw: [0; 2],
+        mdef: 0,
+        mdef_raw: [0; 2],
+        flee: 0,
+        flee_raw: [0; 2],
+        aspd: 0,
+        aspd_raw: [0; 2],
+        hp: 0,
+        hp_raw: [0; 2],
+        max_hp: 0,
+        max_hp_raw: [0; 2],
+        sp: 0,
+        sp_raw: [0; 2],
+        max_sp: 0,
+        max_sp_raw: [0; 2],
+        exp: 0,
+        exp_raw: [0; 4],
+        max_exp: 0,
+        max_exp_raw: [0; 4],
+        skpoint: 0,
+        skpoint_raw: [0; 2],
+        atkrange: 0,
+        atkrange_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketZcPropertyHomun {
@@ -47582,6 +53545,21 @@ impl PacketZcChangestateMer {
     pub fn set_data_raw(&mut self, value: [u8; 4]) {
         self.data_raw = value;
     }
+    pub fn new() -> PacketZcChangestateMer {
+        PacketZcChangestateMer {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 1],
+        state: 0,
+        state_raw: [0; 1],
+        gid: 0,
+        gid_raw: [0; 4],
+        data: 0,
+        data_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketZcChangestateMer {
@@ -47658,6 +53636,15 @@ impl PacketCzRenameMer {
     }
     pub fn set_name_raw(&mut self, value: [u8; 24]) {
         self.name_raw = value;
+    }
+    pub fn new() -> PacketCzRenameMer {
+        PacketCzRenameMer {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        name: [0 as char; 24],
+        name_raw: [0; 24],
+        }
     }
 }
 
@@ -47751,6 +53738,17 @@ impl PacketCzRequestMovenpc {
     }
     pub fn set_dest_raw(&mut self, value: [u8; 3]) {
         self.dest_raw = value;
+    }
+    pub fn new() -> PacketCzRequestMovenpc {
+        PacketCzRequestMovenpc {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        gid: 0,
+        gid_raw: [0; 4],
+        dest: [0 as char; 3],
+        dest_raw: [0; 3],
+        }
     }
 }
 
@@ -47853,6 +53851,19 @@ impl PacketCzRequestActnpc {
     pub fn set_action_raw(&mut self, value: [u8; 1]) {
         self.action_raw = value;
     }
+    pub fn new() -> PacketCzRequestActnpc {
+        PacketCzRequestActnpc {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        gid: 0,
+        gid_raw: [0; 4],
+        target_gid: 0,
+        target_gid_raw: [0; 4],
+        action: 0,
+        action_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketCzRequestActnpc {
@@ -47922,6 +53933,15 @@ impl PacketCzRequestMovetoowner {
     pub fn set_gid_raw(&mut self, value: [u8; 4]) {
         self.gid_raw = value;
     }
+    pub fn new() -> PacketCzRequestMovetoowner {
+        PacketCzRequestMovetoowner {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        gid: 0,
+        gid_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketCzRequestMovetoowner {
@@ -47990,6 +54010,15 @@ impl PacketZcReqStorePassword {
     }
     pub fn set_info_raw(&mut self, value: [u8; 2]) {
         self.info_raw = value;
+    }
+    pub fn new() -> PacketZcReqStorePassword {
+        PacketZcReqStorePassword {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        info: 0,
+        info_raw: [0; 2],
+        }
     }
 }
 
@@ -48108,6 +54137,19 @@ impl PacketCzAckStorePassword {
     pub fn set_new_password_raw(&mut self, value: [u8; 16]) {
         self.new_password_raw = value;
     }
+    pub fn new() -> PacketCzAckStorePassword {
+        PacketCzAckStorePassword {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 2],
+        password: [0 as char; 16],
+        password_raw: [0; 16],
+        new_password: [0 as char; 16],
+        new_password_raw: [0; 16],
+        }
+    }
 }
 
 impl Packet for PacketCzAckStorePassword {
@@ -48193,6 +54235,17 @@ impl PacketZcResultStorePassword {
     pub fn set_error_count_raw(&mut self, value: [u8; 2]) {
         self.error_count_raw = value;
     }
+    pub fn new() -> PacketZcResultStorePassword {
+        PacketZcResultStorePassword {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        result: 0,
+        result_raw: [0; 2],
+        error_count: 0,
+        error_count_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketZcResultStorePassword {
@@ -48261,6 +54314,15 @@ impl PacketAcEventResult {
     }
     pub fn set_event_item_count_raw(&mut self, value: [u8; 4]) {
         self.event_item_count_raw = value;
+    }
+    pub fn new() -> PacketAcEventResult {
+        PacketAcEventResult {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        event_item_count: 0,
+        event_item_count_raw: [0; 4],
+        }
     }
 }
 
@@ -48347,6 +54409,17 @@ impl PacketHcRequestCharacterPassword {
     pub fn set_dummy_value_raw(&mut self, value: [u8; 4]) {
         self.dummy_value_raw = value;
     }
+    pub fn new() -> PacketHcRequestCharacterPassword {
+        PacketHcRequestCharacterPassword {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        result: 0,
+        result_raw: [0; 2],
+        dummy_value: 0,
+        dummy_value_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketHcRequestCharacterPassword {
@@ -48399,6 +54472,13 @@ impl PacketCzMailGetList {
     }
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
+    }
+    pub fn new() -> PacketCzMailGetList {
+        PacketCzMailGetList {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
     }
 }
 
@@ -48508,6 +54588,19 @@ impl PacketZcMailReqGetList {
     pub fn set_mail_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.mail_list_raw = value;
     }
+    pub fn new() -> PacketZcMailReqGetList {
+        PacketZcMailReqGetList {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        mail_number: 0,
+        mail_number_raw: [0; 4],
+        mail_list: vec![],
+        mail_list_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcMailReqGetList {
@@ -48576,6 +54669,15 @@ impl PacketCzMailOpen {
     }
     pub fn set_mail_id_raw(&mut self, value: [u8; 4]) {
         self.mail_id_raw = value;
+    }
+    pub fn new() -> PacketCzMailOpen {
+        PacketCzMailOpen {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        mail_id: 0,
+        mail_id_raw: [0; 4],
+        }
     }
 }
 
@@ -48878,6 +54980,43 @@ impl PacketZcMailReqOpen {
     pub fn set_msg_raw(&mut self, value: Vec<u8>) {
         self.msg_raw = value;
     }
+    pub fn new() -> PacketZcMailReqOpen {
+        PacketZcMailReqOpen {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        mail_id: 0,
+        mail_id_raw: [0; 4],
+        header: [0 as char; 40],
+        header_raw: [0; 40],
+        from_name: [0 as char; 24],
+        from_name_raw: [0; 24],
+        delete_time: 0,
+        delete_time_raw: [0; 4],
+        money: 0,
+        money_raw: [0; 4],
+        count: 0,
+        count_raw: [0; 4],
+        itid: 0,
+        itid_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 2],
+        is_identified: false,
+        is_identified_raw: [0; 1],
+        is_damaged: false,
+        is_damaged_raw: [0; 1],
+        refining_level: 0,
+        refining_level_raw: [0; 1],
+        slot: EQUIPSLOTINFO::new(),
+        slot_raw: [0; 8],
+        msg_len: 0,
+        msg_len_raw: [0; 1],
+        msg: String::new(),
+        msg_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcMailReqOpen {
@@ -48946,6 +55085,15 @@ impl PacketCzMailDelete {
     }
     pub fn set_mail_id_raw(&mut self, value: [u8; 4]) {
         self.mail_id_raw = value;
+    }
+    pub fn new() -> PacketCzMailDelete {
+        PacketCzMailDelete {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        mail_id: 0,
+        mail_id_raw: [0; 4],
+        }
     }
 }
 
@@ -49016,6 +55164,15 @@ impl PacketCzMailGetItem {
     pub fn set_mail_id_raw(&mut self, value: [u8; 4]) {
         self.mail_id_raw = value;
     }
+    pub fn new() -> PacketCzMailGetItem {
+        PacketCzMailGetItem {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        mail_id: 0,
+        mail_id_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketCzMailGetItem {
@@ -49085,6 +55242,15 @@ impl PacketZcMailReqGetItem {
     pub fn set_result_raw(&mut self, value: [u8; 1]) {
         self.result_raw = value;
     }
+    pub fn new() -> PacketZcMailReqGetItem {
+        PacketZcMailReqGetItem {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        result: 0,
+        result_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketZcMailReqGetItem {
@@ -49153,6 +55319,15 @@ impl PacketCzMailResetItem {
     }
     pub fn set_atype_raw(&mut self, value: [u8; 2]) {
         self.atype_raw = value;
+    }
+    pub fn new() -> PacketCzMailResetItem {
+        PacketCzMailResetItem {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 2],
+        }
     }
 }
 
@@ -49238,6 +55413,17 @@ impl PacketCzMailAddItem {
     }
     pub fn set_count_raw(&mut self, value: [u8; 4]) {
         self.count_raw = value;
+    }
+    pub fn new() -> PacketCzMailAddItem {
+        PacketCzMailAddItem {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        index: 0,
+        index_raw: [0; 2],
+        count: 0,
+        count_raw: [0; 4],
+        }
     }
 }
 
@@ -49382,6 +55568,23 @@ impl PacketCzMailSend {
     pub fn set_msg_raw(&mut self, value: Vec<u8>) {
         self.msg_raw = value;
     }
+    pub fn new() -> PacketCzMailSend {
+        PacketCzMailSend {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        receive_name: [0 as char; 24],
+        receive_name_raw: [0; 24],
+        header: [0 as char; 40],
+        header_raw: [0; 40],
+        msg_len: 0,
+        msg_len_raw: [0; 4],
+        msg: String::new(),
+        msg_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketCzMailSend {
@@ -49450,6 +55653,15 @@ impl PacketZcMailReqSend {
     }
     pub fn set_result_raw(&mut self, value: [u8; 1]) {
         self.result_raw = value;
+    }
+    pub fn new() -> PacketZcMailReqSend {
+        PacketZcMailReqSend {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        result: 0,
+        result_raw: [0; 1],
+        }
     }
 }
 
@@ -49568,6 +55780,19 @@ impl PacketZcMailReceive {
     pub fn set_from_name_raw(&mut self, value: [u8; 24]) {
         self.from_name_raw = value;
     }
+    pub fn new() -> PacketZcMailReceive {
+        PacketZcMailReceive {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        mail_id: 0,
+        mail_id_raw: [0; 4],
+        header: [0 as char; 40],
+        header_raw: [0; 40],
+        from_name: [0 as char; 24],
+        from_name_raw: [0; 24],
+        }
+    }
 }
 
 impl Packet for PacketZcMailReceive {
@@ -49636,6 +55861,15 @@ impl PacketCzAuctionCreate {
     }
     pub fn set_atype_raw(&mut self, value: [u8; 2]) {
         self.atype_raw = value;
+    }
+    pub fn new() -> PacketCzAuctionCreate {
+        PacketCzAuctionCreate {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 2],
+        }
     }
 }
 
@@ -49721,6 +55955,17 @@ impl PacketCzAuctionAddItem {
     }
     pub fn set_count_raw(&mut self, value: [u8; 4]) {
         self.count_raw = value;
+    }
+    pub fn new() -> PacketCzAuctionAddItem {
+        PacketCzAuctionAddItem {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        index: 0,
+        index_raw: [0; 2],
+        count: 0,
+        count_raw: [0; 4],
+        }
     }
 }
 
@@ -49823,6 +56068,19 @@ impl PacketCzAuctionAdd {
     pub fn set_delete_hour_raw(&mut self, value: [u8; 2]) {
         self.delete_hour_raw = value;
     }
+    pub fn new() -> PacketCzAuctionAdd {
+        PacketCzAuctionAdd {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        now_money: 0,
+        now_money_raw: [0; 4],
+        max_money: 0,
+        max_money_raw: [0; 4],
+        delete_hour: 0,
+        delete_hour_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketCzAuctionAdd {
@@ -49891,6 +56149,15 @@ impl PacketCzAuctionAddCancel {
     }
     pub fn set_auction_id_raw(&mut self, value: [u8; 4]) {
         self.auction_id_raw = value;
+    }
+    pub fn new() -> PacketCzAuctionAddCancel {
+        PacketCzAuctionAddCancel {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        auction_id: 0,
+        auction_id_raw: [0; 4],
+        }
     }
 }
 
@@ -49977,6 +56244,17 @@ impl PacketCzAuctionBuy {
     pub fn set_money_raw(&mut self, value: [u8; 4]) {
         self.money_raw = value;
     }
+    pub fn new() -> PacketCzAuctionBuy {
+        PacketCzAuctionBuy {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        auction_id: 0,
+        auction_id_raw: [0; 4],
+        money: 0,
+        money_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketCzAuctionBuy {
@@ -50045,6 +56323,15 @@ impl PacketZcAuctionResult {
     }
     pub fn set_result_raw(&mut self, value: [u8; 1]) {
         self.result_raw = value;
+    }
+    pub fn new() -> PacketZcAuctionResult {
+        PacketZcAuctionResult {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        result: 0,
+        result_raw: [0; 1],
+        }
     }
 }
 
@@ -50171,6 +56458,21 @@ impl PacketCzAuctionItemSearch {
     pub fn set_page_raw(&mut self, value: [u8; 2]) {
         self.page_raw = value;
     }
+    pub fn new() -> PacketCzAuctionItemSearch {
+        PacketCzAuctionItemSearch {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 2],
+        auction_id: 0,
+        auction_id_raw: [0; 4],
+        name: [0 as char; 24],
+        name_raw: [0; 24],
+        page: 0,
+        page_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketCzAuctionItemSearch {
@@ -50295,6 +56597,21 @@ impl PacketZcAuctionItemReqSearch {
     pub fn set_auction_item_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.auction_item_list_raw = value;
     }
+    pub fn new() -> PacketZcAuctionItemReqSearch {
+        PacketZcAuctionItemReqSearch {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        max_page: 0,
+        max_page_raw: [0; 4],
+        number: 0,
+        number_raw: [0; 4],
+        auction_item_list: vec![],
+        auction_item_list_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcAuctionItemReqSearch {
@@ -50364,6 +56681,15 @@ impl PacketZcStarplace {
     pub fn set_which_raw(&mut self, value: [u8; 1]) {
         self.which_raw = value;
     }
+    pub fn new() -> PacketZcStarplace {
+        PacketZcStarplace {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        which: 0,
+        which_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketZcStarplace {
@@ -50432,6 +56758,15 @@ impl PacketCzAgreeStarplace {
     }
     pub fn set_which_raw(&mut self, value: [u8; 1]) {
         self.which_raw = value;
+    }
+    pub fn new() -> PacketCzAgreeStarplace {
+        PacketCzAgreeStarplace {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        which: 0,
+        which_raw: [0; 1],
+        }
     }
 }
 
@@ -50518,6 +56853,17 @@ impl PacketZcAckMailAddItem {
     pub fn set_result_raw(&mut self, value: [u8; 1]) {
         self.result_raw = value;
     }
+    pub fn new() -> PacketZcAckMailAddItem {
+        PacketZcAckMailAddItem {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        index: 0,
+        index_raw: [0; 2],
+        result: 0,
+        result_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketZcAckMailAddItem {
@@ -50602,6 +56948,17 @@ impl PacketZcAckAuctionAddItem {
     }
     pub fn set_result_raw(&mut self, value: [u8; 1]) {
         self.result_raw = value;
+    }
+    pub fn new() -> PacketZcAckAuctionAddItem {
+        PacketZcAckAuctionAddItem {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        index: 0,
+        index_raw: [0; 2],
+        result: 0,
+        result_raw: [0; 1],
+        }
     }
 }
 
@@ -50688,6 +57045,17 @@ impl PacketZcAckMailDelete {
     pub fn set_result_raw(&mut self, value: [u8; 2]) {
         self.result_raw = value;
     }
+    pub fn new() -> PacketZcAckMailDelete {
+        PacketZcAckMailDelete {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        mail_id: 0,
+        mail_id_raw: [0; 4],
+        result: 0,
+        result_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketZcAckMailDelete {
@@ -50740,6 +57108,13 @@ impl PacketCaReqGameGuardCheck {
     }
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
+    }
+    pub fn new() -> PacketCaReqGameGuardCheck {
+        PacketCaReqGameGuardCheck {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
     }
 }
 
@@ -50809,6 +57184,15 @@ impl PacketAcAckGameGuard {
     }
     pub fn set_uc_answer_raw(&mut self, value: [u8; 1]) {
         self.uc_answer_raw = value;
+    }
+    pub fn new() -> PacketAcAckGameGuard {
+        PacketAcAckGameGuard {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        uc_answer: 0,
+        uc_answer_raw: [0; 1],
+        }
     }
 }
 
@@ -50891,6 +57275,17 @@ impl PacketZcMakingitemList {
     }
     pub fn set_id_list_raw(&mut self, value: Vec<u8>) {
         self.id_list_raw = value;
+    }
+    pub fn new() -> PacketZcMakingitemList {
+        PacketZcMakingitemList {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        id_list: vec![],
+        id_list_raw: vec![],
+        }
     }
 }
 
@@ -50977,6 +57372,17 @@ impl PacketCzReqMakingitem {
     pub fn set_id_raw(&mut self, value: [u8; 2]) {
         self.id_raw = value;
     }
+    pub fn new() -> PacketCzReqMakingitem {
+        PacketCzReqMakingitem {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        mk_type: 0,
+        mk_type_raw: [0; 2],
+        id: 0,
+        id_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketCzReqMakingitem {
@@ -51045,6 +57451,15 @@ impl PacketCzAuctionReqMyInfo {
     }
     pub fn set_atype_raw(&mut self, value: [u8; 2]) {
         self.atype_raw = value;
+    }
+    pub fn new() -> PacketCzAuctionReqMyInfo {
+        PacketCzAuctionReqMyInfo {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 2],
+        }
     }
 }
 
@@ -51115,6 +57530,15 @@ impl PacketCzAuctionReqMySellStop {
     pub fn set_auction_id_raw(&mut self, value: [u8; 4]) {
         self.auction_id_raw = value;
     }
+    pub fn new() -> PacketCzAuctionReqMySellStop {
+        PacketCzAuctionReqMySellStop {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        auction_id: 0,
+        auction_id_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketCzAuctionReqMySellStop {
@@ -51183,6 +57607,15 @@ impl PacketZcAuctionAckMySellStop {
     }
     pub fn set_result_raw(&mut self, value: [u8; 2]) {
         self.result_raw = value;
+    }
+    pub fn new() -> PacketZcAuctionAckMySellStop {
+        PacketZcAuctionAckMySellStop {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        result: 0,
+        result_raw: [0; 2],
+        }
     }
 }
 
@@ -51253,6 +57686,15 @@ impl PacketZcAuctionWindows {
     pub fn set_atype_raw(&mut self, value: [u8; 4]) {
         self.atype_raw = value;
     }
+    pub fn new() -> PacketZcAuctionWindows {
+        PacketZcAuctionWindows {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketZcAuctionWindows {
@@ -51321,6 +57763,15 @@ impl PacketZcMailWindows {
     }
     pub fn set_atype_raw(&mut self, value: [u8; 4]) {
         self.atype_raw = value;
+    }
+    pub fn new() -> PacketZcMailWindows {
+        PacketZcMailWindows {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 4],
+        }
     }
 }
 
@@ -51399,6 +57850,15 @@ impl PacketAcReqLoginOldekey {
     pub fn set_m_seed_value_raw(&mut self, value: [u8; 9]) {
         self.m_seed_value_raw = value;
     }
+    pub fn new() -> PacketAcReqLoginOldekey {
+        PacketAcReqLoginOldekey {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        m_seed_value: [0 as char; 9],
+        m_seed_value_raw: [0; 9],
+        }
+    }
 }
 
 impl Packet for PacketAcReqLoginOldekey {
@@ -51476,6 +57936,15 @@ impl PacketAcReqLoginNewekey {
     pub fn set_m_seed_value_raw(&mut self, value: [u8; 9]) {
         self.m_seed_value_raw = value;
     }
+    pub fn new() -> PacketAcReqLoginNewekey {
+        PacketAcReqLoginNewekey {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        m_seed_value: [0 as char; 9],
+        m_seed_value_raw: [0; 9],
+        }
+    }
 }
 
 impl Packet for PacketAcReqLoginNewekey {
@@ -51552,6 +58021,15 @@ impl PacketAcReqLoginCardpass {
     }
     pub fn set_m_seed_value_raw(&mut self, value: [u8; 9]) {
         self.m_seed_value_raw = value;
+    }
+    pub fn new() -> PacketAcReqLoginCardpass {
+        PacketAcReqLoginCardpass {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        m_seed_value: [0 as char; 9],
+        m_seed_value_raw: [0; 9],
+        }
     }
 }
 
@@ -51654,6 +58132,17 @@ impl PacketCaAckLoginOldekey {
     pub fn set_m_ekey_raw(&mut self, value: [u8; 9]) {
         self.m_ekey_raw = value;
     }
+    pub fn new() -> PacketCaAckLoginOldekey {
+        PacketCaAckLoginOldekey {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        m_seed_value: [0 as char; 9],
+        m_seed_value_raw: [0; 9],
+        m_ekey: [0 as char; 9],
+        m_ekey_raw: [0; 9],
+        }
+    }
 }
 
 impl Packet for PacketCaAckLoginOldekey {
@@ -51755,6 +58244,17 @@ impl PacketCaAckLoginNewekey {
     pub fn set_m_ekey_raw(&mut self, value: [u8; 9]) {
         self.m_ekey_raw = value;
     }
+    pub fn new() -> PacketCaAckLoginNewekey {
+        PacketCaAckLoginNewekey {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        m_seed_value: [0 as char; 9],
+        m_seed_value_raw: [0; 9],
+        m_ekey: [0 as char; 9],
+        m_ekey_raw: [0; 9],
+        }
+    }
 }
 
 impl Packet for PacketCaAckLoginNewekey {
@@ -51832,6 +58332,15 @@ impl PacketCaAckLoginCardpass {
     pub fn set_mcard_pass_raw(&mut self, value: [u8; 28]) {
         self.mcard_pass_raw = value;
     }
+    pub fn new() -> PacketCaAckLoginCardpass {
+        PacketCaAckLoginCardpass {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        mcard_pass: [0 as char; 28],
+        mcard_pass_raw: [0; 28],
+        }
+    }
 }
 
 impl Packet for PacketCaAckLoginCardpass {
@@ -51900,6 +58409,15 @@ impl PacketAcAckEkeyFailNotexist {
     }
     pub fn set_error_code_raw(&mut self, value: [u8; 2]) {
         self.error_code_raw = value;
+    }
+    pub fn new() -> PacketAcAckEkeyFailNotexist {
+        PacketAcAckEkeyFailNotexist {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        error_code: 0,
+        error_code_raw: [0; 2],
+        }
     }
 }
 
@@ -51970,6 +58488,15 @@ impl PacketAcAckEkeyFailNotusesekey {
     pub fn set_error_code_raw(&mut self, value: [u8; 2]) {
         self.error_code_raw = value;
     }
+    pub fn new() -> PacketAcAckEkeyFailNotusesekey {
+        PacketAcAckEkeyFailNotusesekey {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        error_code: 0,
+        error_code_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketAcAckEkeyFailNotusesekey {
@@ -52038,6 +58565,15 @@ impl PacketAcAckEkeyFailNotusedekey {
     }
     pub fn set_error_code_raw(&mut self, value: [u8; 2]) {
         self.error_code_raw = value;
+    }
+    pub fn new() -> PacketAcAckEkeyFailNotusedekey {
+        PacketAcAckEkeyFailNotusedekey {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        error_code: 0,
+        error_code_raw: [0; 2],
+        }
     }
 }
 
@@ -52108,6 +58644,15 @@ impl PacketAcAckEkeyFailAuthrefuse {
     pub fn set_error_code_raw(&mut self, value: [u8; 2]) {
         self.error_code_raw = value;
     }
+    pub fn new() -> PacketAcAckEkeyFailAuthrefuse {
+        PacketAcAckEkeyFailAuthrefuse {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        error_code: 0,
+        error_code_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketAcAckEkeyFailAuthrefuse {
@@ -52176,6 +58721,15 @@ impl PacketAcAckEkeyFailInputekey {
     }
     pub fn set_error_code_raw(&mut self, value: [u8; 2]) {
         self.error_code_raw = value;
+    }
+    pub fn new() -> PacketAcAckEkeyFailInputekey {
+        PacketAcAckEkeyFailInputekey {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        error_code: 0,
+        error_code_raw: [0; 2],
+        }
     }
 }
 
@@ -52246,6 +58800,15 @@ impl PacketAcAckEkeyFailNotice {
     pub fn set_error_code_raw(&mut self, value: [u8; 2]) {
         self.error_code_raw = value;
     }
+    pub fn new() -> PacketAcAckEkeyFailNotice {
+        PacketAcAckEkeyFailNotice {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        error_code: 0,
+        error_code_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketAcAckEkeyFailNotice {
@@ -52314,6 +58877,15 @@ impl PacketAcAckEkeyFailNeedcardpass {
     }
     pub fn set_error_code_raw(&mut self, value: [u8; 2]) {
         self.error_code_raw = value;
+    }
+    pub fn new() -> PacketAcAckEkeyFailNeedcardpass {
+        PacketAcAckEkeyFailNeedcardpass {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        error_code: 0,
+        error_code_raw: [0; 2],
+        }
     }
 }
 
@@ -52384,6 +58956,15 @@ impl PacketAcAckAuthekeyFailNotmatchcardpass {
     pub fn set_error_code_raw(&mut self, value: [u8; 2]) {
         self.error_code_raw = value;
     }
+    pub fn new() -> PacketAcAckAuthekeyFailNotmatchcardpass {
+        PacketAcAckAuthekeyFailNotmatchcardpass {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        error_code: 0,
+        error_code_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketAcAckAuthekeyFailNotmatchcardpass {
@@ -52437,6 +59018,13 @@ impl PacketAcAckFirstLogin {
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
     }
+    pub fn new() -> PacketAcAckFirstLogin {
+        PacketAcAckFirstLogin {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketAcAckFirstLogin {
@@ -52489,6 +59077,13 @@ impl PacketAcReqLoginAccountInfo {
     }
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
+    }
+    pub fn new() -> PacketAcReqLoginAccountInfo {
+        PacketAcReqLoginAccountInfo {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
     }
 }
 
@@ -52599,6 +59194,19 @@ impl PacketCaAckLoginAccountInfo {
     pub fn set_email_raw(&mut self, value: [u8; 34]) {
         self.email_raw = value;
     }
+    pub fn new() -> PacketCaAckLoginAccountInfo {
+        PacketCaAckLoginAccountInfo {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        sex: 0,
+        sex_raw: [0; 2],
+        b_point: 0,
+        b_point_raw: [0; 2],
+        email: [0 as char; 34],
+        email_raw: [0; 34],
+        }
+    }
 }
 
 impl Packet for PacketCaAckLoginAccountInfo {
@@ -52700,6 +59308,17 @@ impl PacketAcAckPtIdInfo {
     pub fn set_sz_ptnum_id_raw(&mut self, value: [u8; 21]) {
         self.sz_ptnum_id_raw = value;
     }
+    pub fn new() -> PacketAcAckPtIdInfo {
+        PacketAcAckPtIdInfo {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        sz_ptid: [0 as char; 21],
+        sz_ptid_raw: [0; 21],
+        sz_ptnum_id: [0 as char; 21],
+        sz_ptnum_id_raw: [0; 21],
+        }
+    }
 }
 
 impl Packet for PacketAcAckPtIdInfo {
@@ -52793,6 +59412,17 @@ impl PacketCzReqMailReturn {
     pub fn set_receive_name_raw(&mut self, value: [u8; 24]) {
         self.receive_name_raw = value;
     }
+    pub fn new() -> PacketCzReqMailReturn {
+        PacketCzReqMailReturn {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        mail_id: 0,
+        mail_id_raw: [0; 4],
+        receive_name: [0 as char; 24],
+        receive_name_raw: [0; 24],
+        }
+    }
 }
 
 impl Packet for PacketCzReqMailReturn {
@@ -52877,6 +59507,17 @@ impl PacketZcAckMailReturn {
     }
     pub fn set_result_raw(&mut self, value: [u8; 2]) {
         self.result_raw = value;
+    }
+    pub fn new() -> PacketZcAckMailReturn {
+        PacketZcAckMailReturn {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        mail_id: 0,
+        mail_id_raw: [0; 4],
+        result: 0,
+        result_raw: [0; 2],
+        }
     }
 }
 
@@ -53050,6 +59691,27 @@ impl PacketChEnter2 {
     }
     pub fn set_i_account_sid_raw(&mut self, value: [u8; 4]) {
         self.i_account_sid_raw = value;
+    }
+    pub fn new() -> PacketChEnter2 {
+        PacketChEnter2 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        auth_code: 0,
+        auth_code_raw: [0; 4],
+        user_level: 0,
+        user_level_raw: [0; 4],
+        client_type: 0,
+        client_type_raw: [0; 2],
+        sex: 0,
+        sex_raw: [0; 1],
+        mac_data: [0 as char; 16],
+        mac_data_raw: [0; 16],
+        i_account_sid: 0,
+        i_account_sid_raw: [0; 4],
+        }
     }
 }
 
@@ -53240,6 +59902,29 @@ impl PacketCaAcceptLogin2 {
     pub fn set_i_account_sid_raw(&mut self, value: [u8; 4]) {
         self.i_account_sid_raw = value;
     }
+    pub fn new() -> PacketCaAcceptLogin2 {
+        PacketCaAcceptLogin2 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        auth_code: 0,
+        auth_code_raw: [0; 4],
+        aid: 0,
+        aid_raw: [0; 4],
+        user_level: 0,
+        user_level_raw: [0; 4],
+        last_login_ip: 0,
+        last_login_ip_raw: [0; 4],
+        last_login_time: [0 as char; 26],
+        last_login_time_raw: [0; 26],
+        sex: 0,
+        sex_raw: [0; 1],
+        i_account_sid: 0,
+        i_account_sid_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketCaAcceptLogin2 {
@@ -53421,6 +60106,25 @@ impl PacketCaLoginPcbang {
     pub fn set_mac_adress_raw(&mut self, value: [u8; 13]) {
         self.mac_adress_raw = value;
     }
+    pub fn new() -> PacketCaLoginPcbang {
+        PacketCaLoginPcbang {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        version: 0,
+        version_raw: [0; 4],
+        id: [0 as char; 24],
+        id_raw: [0; 24],
+        passwd: [0 as char; 24],
+        passwd_raw: [0; 24],
+        clienttype: 0,
+        clienttype_raw: [0; 1],
+        ip: [0 as char; 16],
+        ip_raw: [0; 16],
+        mac_adress: [0 as char; 13],
+        mac_adress_raw: [0; 13],
+        }
+    }
 }
 
 impl Packet for PacketCaLoginPcbang {
@@ -53474,6 +60178,13 @@ impl PacketZcNotifyPcbang {
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
     }
+    pub fn new() -> PacketZcNotifyPcbang {
+        PacketZcNotifyPcbang {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketZcNotifyPcbang {
@@ -53526,6 +60237,13 @@ impl PacketCzHuntinglist {
     }
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
+    }
+    pub fn new() -> PacketCzHuntinglist {
+        PacketCzHuntinglist {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
     }
 }
 
@@ -53618,6 +60336,17 @@ impl PacketZcHuntinglist {
     }
     pub fn set_hunting_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.hunting_list_raw = value;
+    }
+    pub fn new() -> PacketZcHuntinglist {
+        PacketZcHuntinglist {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        hunting_list: vec![],
+        hunting_list_raw: vec![],
+        }
     }
 }
 
@@ -53719,6 +60448,19 @@ impl PacketZcPcbangEffect {
     }
     pub fn set_drop_factor_raw(&mut self, value: [u8; 4]) {
         self.drop_factor_raw = value;
+    }
+    pub fn new() -> PacketZcPcbangEffect {
+        PacketZcPcbangEffect {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        exp_factor: 0,
+        exp_factor_raw: [0; 4],
+        exp_factor2: 0,
+        exp_factor2_raw: [0; 4],
+        drop_factor: 0,
+        drop_factor_raw: [0; 4],
+        }
     }
 }
 
@@ -53876,6 +60618,23 @@ impl PacketCaLogin4 {
     }
     pub fn set_mac_data_raw(&mut self, value: [u8; 13]) {
         self.mac_data_raw = value;
+    }
+    pub fn new() -> PacketCaLogin4 {
+        PacketCaLogin4 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        version: 0,
+        version_raw: [0; 4],
+        id: [0 as char; 24],
+        id_raw: [0; 24],
+        passwd_md5: [0 as char; 16],
+        passwd_md5_raw: [0; 16],
+        clienttype: 0,
+        clienttype_raw: [0; 1],
+        mac_data: [0 as char; 13],
+        mac_data_raw: [0; 13],
+        }
     }
 }
 
@@ -54226,6 +60985,49 @@ impl PacketZcPropertyMerce {
     pub fn set_exp_raw(&mut self, value: [u8; 4]) {
         self.exp_raw = value;
     }
+    pub fn new() -> PacketZcPropertyMerce {
+        PacketZcPropertyMerce {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        name: [0 as char; 24],
+        name_raw: [0; 24],
+        level: 0,
+        level_raw: [0; 2],
+        faith: 0,
+        faith_raw: [0; 2],
+        summon_count: 0,
+        summon_count_raw: [0; 2],
+        atk: 0,
+        atk_raw: [0; 2],
+        matk: 0,
+        matk_raw: [0; 2],
+        hit: 0,
+        hit_raw: [0; 2],
+        critical: 0,
+        critical_raw: [0; 2],
+        def: 0,
+        def_raw: [0; 2],
+        mdef: 0,
+        mdef_raw: [0; 2],
+        flee: 0,
+        flee_raw: [0; 2],
+        aspd: 0,
+        aspd_raw: [0; 2],
+        hp: 0,
+        hp_raw: [0; 2],
+        max_hp: 0,
+        max_hp_raw: [0; 2],
+        sp: 0,
+        sp_raw: [0; 2],
+        max_sp: 0,
+        max_sp_raw: [0; 2],
+        atkrange: 0,
+        atkrange_raw: [0; 2],
+        exp: 0,
+        exp_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketZcPropertyMerce {
@@ -54321,6 +61123,19 @@ impl PacketZcShandaProtect {
     pub fn set_code_raw(&mut self, value: Vec<u8>) {
         self.code_raw = value;
     }
+    pub fn new() -> PacketZcShandaProtect {
+        PacketZcShandaProtect {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        code_len: 0,
+        code_len_raw: [0; 2],
+        code: String::new(),
+        code_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcShandaProtect {
@@ -54405,6 +61220,17 @@ impl PacketCaClientType {
     }
     pub fn set_n_ver_raw(&mut self, value: [u8; 4]) {
         self.n_ver_raw = value;
+    }
+    pub fn new() -> PacketCaClientType {
+        PacketCaClientType {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        client_type: 0,
+        client_type_raw: [0; 2],
+        n_ver: 0,
+        n_ver_raw: [0; 4],
+        }
     }
 }
 
@@ -54507,6 +61333,19 @@ impl PacketZcGangsiPoint {
     pub fn set_packet_switch_raw(&mut self, value: [u8; 2]) {
         self.packet_switch_raw = value;
     }
+    pub fn new() -> PacketZcGangsiPoint {
+        PacketZcGangsiPoint {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        point: 0,
+        point_raw: [0; 4],
+        total_point: 0,
+        total_point_raw: [0; 4],
+        packet_switch: 0,
+        packet_switch_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketZcGangsiPoint {
@@ -54575,6 +61414,15 @@ impl PacketCzGangsiRank {
     }
     pub fn set_packet_switch_raw(&mut self, value: [u8; 2]) {
         self.packet_switch_raw = value;
+    }
+    pub fn new() -> PacketCzGangsiRank {
+        PacketCzGangsiRank {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_switch: 0,
+        packet_switch_raw: [0; 2],
+        }
     }
 }
 
@@ -54693,6 +61541,19 @@ impl PacketZcGangsiRank {
     pub fn set_packet_switch_raw(&mut self, value: [u8; 2]) {
         self.packet_switch_raw = value;
     }
+    pub fn new() -> PacketZcGangsiRank {
+        PacketZcGangsiRank {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        name: [0 as char; 10],
+        name_raw: [0; 10],
+        point: [0; 10],
+        point_raw: [0; 10],
+        packet_switch: 0,
+        packet_switch_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketZcGangsiRank {
@@ -54761,6 +61622,15 @@ impl PacketZcAid {
     }
     pub fn set_aid_raw(&mut self, value: [u8; 4]) {
         self.aid_raw = value;
+    }
+    pub fn new() -> PacketZcAid {
+        PacketZcAid {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        }
     }
 }
 
@@ -54863,6 +61733,19 @@ impl PacketZcNotifyEffect3 {
     pub fn set_numdata_raw(&mut self, value: [u8; 4]) {
         self.numdata_raw = value;
     }
+    pub fn new() -> PacketZcNotifyEffect3 {
+        PacketZcNotifyEffect3 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        effect_id: 0,
+        effect_id_raw: [0; 4],
+        numdata: 0,
+        numdata_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketZcNotifyEffect3 {
@@ -54948,6 +61831,17 @@ impl PacketZcDeathQuestion {
     pub fn set_qnum_raw(&mut self, value: [u8; 2]) {
         self.qnum_raw = value;
     }
+    pub fn new() -> PacketZcDeathQuestion {
+        PacketZcDeathQuestion {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        qcategory: 0,
+        qcategory_raw: [0; 2],
+        qnum: 0,
+        qnum_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketZcDeathQuestion {
@@ -55016,6 +61910,15 @@ impl PacketCzDeathQuestion {
     }
     pub fn set_qanswer_raw(&mut self, value: [u8; 2]) {
         self.qanswer_raw = value;
+    }
+    pub fn new() -> PacketCzDeathQuestion {
+        PacketCzDeathQuestion {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        qanswer: 0,
+        qanswer_raw: [0; 2],
+        }
     }
 }
 
@@ -55125,6 +62028,19 @@ impl PacketZcPcCashPointItemlist {
     pub fn set_item_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_list_raw = value;
     }
+    pub fn new() -> PacketZcPcCashPointItemlist {
+        PacketZcPcCashPointItemlist {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        cash_point: 0,
+        cash_point_raw: [0; 4],
+        item_list: vec![],
+        item_list_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcPcCashPointItemlist {
@@ -55210,6 +62126,17 @@ impl PacketCzPcBuyCashPointItem {
     pub fn set_count_raw(&mut self, value: [u8; 2]) {
         self.count_raw = value;
     }
+    pub fn new() -> PacketCzPcBuyCashPointItem {
+        PacketCzPcBuyCashPointItem {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        itid: 0,
+        itid_raw: [0; 2],
+        count: 0,
+        count_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketCzPcBuyCashPointItem {
@@ -55294,6 +62221,17 @@ impl PacketZcPcCashPointUpdate {
     }
     pub fn set_error_raw(&mut self, value: [u8; 2]) {
         self.error_raw = value;
+    }
+    pub fn new() -> PacketZcPcCashPointUpdate {
+        PacketZcPcCashPointUpdate {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        cash_point: 0,
+        cash_point_raw: [0; 4],
+        error: 0,
+        error_raw: [0; 2],
+        }
     }
 }
 
@@ -55412,6 +62350,21 @@ impl PacketZcNpcShowefstUpdate {
     pub fn set_show_efst_raw(&mut self, value: [u8; 4]) {
         self.show_efst_raw = value;
     }
+    pub fn new() -> PacketZcNpcShowefstUpdate {
+        PacketZcNpcShowefstUpdate {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        effect_state: 0,
+        effect_state_raw: [0; 4],
+        clevel: 0,
+        clevel_raw: [0; 4],
+        show_efst: 0,
+        show_efst_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketZcNpcShowefstUpdate {
@@ -55520,6 +62473,19 @@ impl PacketChSelectCharGoingtobeused {
     }
     pub fn set_ardw_selected_gid_raw(&mut self, value: [u8; 9]) {
         self.ardw_selected_gid_raw = value;
+    }
+    pub fn new() -> PacketChSelectCharGoingtobeused {
+        PacketChSelectCharGoingtobeused {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        dw_aid: 0,
+        dw_aid_raw: [0; 4],
+        n_count_selected_char: 0,
+        n_count_selected_char_raw: [0; 4],
+        ardw_selected_gid: [0; 9],
+        ardw_selected_gid_raw: [0; 9],
+        }
     }
 }
 
@@ -55630,6 +62596,19 @@ impl PacketChReqIsValidCharname {
     pub fn set_sz_char_name_raw(&mut self, value: [u8; 24]) {
         self.sz_char_name_raw = value;
     }
+    pub fn new() -> PacketChReqIsValidCharname {
+        PacketChReqIsValidCharname {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        dw_aid: 0,
+        dw_aid_raw: [0; 4],
+        dw_gid: 0,
+        dw_gid_raw: [0; 4],
+        sz_char_name: [0 as char; 24],
+        sz_char_name_raw: [0; 24],
+        }
+    }
 }
 
 impl Packet for PacketChReqIsValidCharname {
@@ -55698,6 +62677,15 @@ impl PacketHcAckIsValidCharname {
     }
     pub fn set_s_result_raw(&mut self, value: [u8; 2]) {
         self.s_result_raw = value;
+    }
+    pub fn new() -> PacketHcAckIsValidCharname {
+        PacketHcAckIsValidCharname {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        s_result: 0,
+        s_result_raw: [0; 2],
+        }
     }
 }
 
@@ -55768,6 +62756,15 @@ impl PacketChReqChangeCharname {
     pub fn set_dw_gid_raw(&mut self, value: [u8; 4]) {
         self.dw_gid_raw = value;
     }
+    pub fn new() -> PacketChReqChangeCharname {
+        PacketChReqChangeCharname {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        dw_gid: 0,
+        dw_gid_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketChReqChangeCharname {
@@ -55836,6 +62833,15 @@ impl PacketHcAckChangeCharname {
     }
     pub fn set_s_result_raw(&mut self, value: [u8; 2]) {
         self.s_result_raw = value;
+    }
+    pub fn new() -> PacketHcAckChangeCharname {
+        PacketHcAckChangeCharname {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        s_result: 0,
+        s_result_raw: [0; 2],
+        }
     }
 }
 
@@ -55906,6 +62912,15 @@ impl PacketZcMsg {
     pub fn set_msg_raw(&mut self, value: [u8; 2]) {
         self.msg_raw = value;
     }
+    pub fn new() -> PacketZcMsg {
+        PacketZcMsg {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        msg: 0,
+        msg_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketZcMsg {
@@ -55958,6 +62973,13 @@ impl PacketCzStandingResurrection {
     }
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
+    }
+    pub fn new() -> PacketCzStandingResurrection {
+        PacketCzStandingResurrection {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
     }
 }
 
@@ -56148,6 +63170,29 @@ impl PacketZcBossInfo {
     pub fn set_name_raw(&mut self, value: [u8; 51]) {
         self.name_raw = value;
     }
+    pub fn new() -> PacketZcBossInfo {
+        PacketZcBossInfo {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        info_type: 0,
+        info_type_raw: [0; 1],
+        x_pos: 0,
+        x_pos_raw: [0; 4],
+        y_pos: 0,
+        y_pos_raw: [0; 4],
+        min_hour: 0,
+        min_hour_raw: [0; 2],
+        min_minute: 0,
+        min_minute_raw: [0; 2],
+        max_hour: 0,
+        max_hour_raw: [0; 2],
+        max_minute: 0,
+        max_minute_raw: [0; 2],
+        name: [0 as char; 51],
+        name_raw: [0; 51],
+        }
+    }
 }
 
 impl Packet for PacketZcBossInfo {
@@ -56232,6 +63277,17 @@ impl PacketZcReadBook {
     }
     pub fn set_page_raw(&mut self, value: [u8; 4]) {
         self.page_raw = value;
+    }
+    pub fn new() -> PacketZcReadBook {
+        PacketZcReadBook {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        book_id: 0,
+        book_id_raw: [0; 4],
+        page: 0,
+        page_raw: [0; 4],
+        }
     }
 }
 
@@ -56325,6 +63381,17 @@ impl PacketZcEquipmentItemlist2 {
     pub fn set_item_info_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_info_raw = value;
     }
+    pub fn new() -> PacketZcEquipmentItemlist2 {
+        PacketZcEquipmentItemlist2 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        item_info: vec![],
+        item_info_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcEquipmentItemlist2 {
@@ -56416,6 +63483,17 @@ impl PacketZcStoreEquipmentItemlist2 {
     }
     pub fn set_item_info_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_info_raw = value;
+    }
+    pub fn new() -> PacketZcStoreEquipmentItemlist2 {
+        PacketZcStoreEquipmentItemlist2 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        item_info: vec![],
+        item_info_raw: vec![],
+        }
     }
 }
 
@@ -56509,6 +63587,17 @@ impl PacketZcCartEquipmentItemlist2 {
     pub fn set_item_info_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_info_raw = value;
     }
+    pub fn new() -> PacketZcCartEquipmentItemlist2 {
+        PacketZcCartEquipmentItemlist2 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        item_info: vec![],
+        item_info_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcCartEquipmentItemlist2 {
@@ -56594,6 +63683,17 @@ impl PacketZcCashTimeCounter {
     pub fn set_remain_second_raw(&mut self, value: [u8; 4]) {
         self.remain_second_raw = value;
     }
+    pub fn new() -> PacketZcCashTimeCounter {
+        PacketZcCashTimeCounter {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        itid: 0,
+        itid_raw: [0; 2],
+        remain_second: 0,
+        remain_second_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketZcCashTimeCounter {
@@ -56678,6 +63778,17 @@ impl PacketZcCashItemDelete {
     }
     pub fn set_itid_raw(&mut self, value: [u8; 2]) {
         self.itid_raw = value;
+    }
+    pub fn new() -> PacketZcCashItemDelete {
+        PacketZcCashItemDelete {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        index: 0,
+        index_raw: [0; 2],
+        itid: 0,
+        itid_raw: [0; 2],
+        }
     }
 }
 
@@ -56905,6 +64016,35 @@ impl PacketZcItemPickupAck2 {
     }
     pub fn set_hire_expire_date_raw(&mut self, value: [u8; 4]) {
         self.hire_expire_date_raw = value;
+    }
+    pub fn new() -> PacketZcItemPickupAck2 {
+        PacketZcItemPickupAck2 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        index: 0,
+        index_raw: [0; 2],
+        count: 0,
+        count_raw: [0; 2],
+        itid: 0,
+        itid_raw: [0; 2],
+        is_identified: false,
+        is_identified_raw: [0; 1],
+        is_damaged: false,
+        is_damaged_raw: [0; 1],
+        refining_level: 0,
+        refining_level_raw: [0; 1],
+        slot: EQUIPSLOTINFO::new(),
+        slot_raw: [0; 8],
+        location: 0,
+        location_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 1],
+        result: 0,
+        result_raw: [0; 1],
+        hire_expire_date: 0,
+        hire_expire_date_raw: [0; 4],
+        }
     }
 }
 
@@ -57287,6 +64427,53 @@ impl PacketZcMerInit {
     pub fn set_atkrange_raw(&mut self, value: [u8; 2]) {
         self.atkrange_raw = value;
     }
+    pub fn new() -> PacketZcMerInit {
+        PacketZcMerInit {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        atk: 0,
+        atk_raw: [0; 2],
+        matk: 0,
+        matk_raw: [0; 2],
+        hit: 0,
+        hit_raw: [0; 2],
+        critical: 0,
+        critical_raw: [0; 2],
+        def: 0,
+        def_raw: [0; 2],
+        mdef: 0,
+        mdef_raw: [0; 2],
+        flee: 0,
+        flee_raw: [0; 2],
+        aspd: 0,
+        aspd_raw: [0; 2],
+        name: [0 as char; 24],
+        name_raw: [0; 24],
+        level: 0,
+        level_raw: [0; 2],
+        hp: 0,
+        hp_raw: [0; 4],
+        max_hp: 0,
+        max_hp_raw: [0; 4],
+        sp: 0,
+        sp_raw: [0; 4],
+        max_sp: 0,
+        max_sp_raw: [0; 4],
+        expire_date: 0,
+        expire_date_raw: [0; 4],
+        faith: 0,
+        faith_raw: [0; 2],
+        toal_call_num: 0,
+        toal_call_num_raw: [0; 4],
+        approval_monster_kill_counter: 0,
+        approval_monster_kill_counter_raw: [0; 4],
+        atkrange: 0,
+        atkrange_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketZcMerInit {
@@ -57636,6 +64823,49 @@ impl PacketZcMerProperty {
     pub fn set_approval_monster_kill_counter_raw(&mut self, value: [u8; 4]) {
         self.approval_monster_kill_counter_raw = value;
     }
+    pub fn new() -> PacketZcMerProperty {
+        PacketZcMerProperty {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        atk: 0,
+        atk_raw: [0; 2],
+        matk: 0,
+        matk_raw: [0; 2],
+        hit: 0,
+        hit_raw: [0; 2],
+        critical: 0,
+        critical_raw: [0; 2],
+        def: 0,
+        def_raw: [0; 2],
+        mdef: 0,
+        mdef_raw: [0; 2],
+        flee: 0,
+        flee_raw: [0; 2],
+        aspd: 0,
+        aspd_raw: [0; 2],
+        name: [0 as char; 24],
+        name_raw: [0; 24],
+        level: 0,
+        level_raw: [0; 2],
+        hp: 0,
+        hp_raw: [0; 2],
+        max_hp: 0,
+        max_hp_raw: [0; 2],
+        sp: 0,
+        sp_raw: [0; 2],
+        max_sp: 0,
+        max_sp_raw: [0; 2],
+        expire_date: 0,
+        expire_date_raw: [0; 4],
+        faith: 0,
+        faith_raw: [0; 2],
+        toal_call_num: 0,
+        toal_call_num_raw: [0; 4],
+        approval_monster_kill_counter: 0,
+        approval_monster_kill_counter_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketZcMerProperty {
@@ -57727,6 +64957,17 @@ impl PacketZcMerSkillinfoList {
     }
     pub fn set_skill_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.skill_list_raw = value;
+    }
+    pub fn new() -> PacketZcMerSkillinfoList {
+        PacketZcMerSkillinfoList {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        skill_list: vec![],
+        skill_list_raw: vec![],
+        }
     }
 }
 
@@ -57861,6 +65102,23 @@ impl PacketZcMerSkillinfoUpdate {
     pub fn set_upgradable_raw(&mut self, value: [u8; 1]) {
         self.upgradable_raw = value;
     }
+    pub fn new() -> PacketZcMerSkillinfoUpdate {
+        PacketZcMerSkillinfoUpdate {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        skid: 0,
+        skid_raw: [0; 2],
+        level: 0,
+        level_raw: [0; 2],
+        spcost: 0,
+        spcost_raw: [0; 2],
+        attack_range: 0,
+        attack_range_raw: [0; 2],
+        upgradable: false,
+        upgradable_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketZcMerSkillinfoUpdate {
@@ -57929,6 +65187,15 @@ impl PacketCzMerCommand {
     }
     pub fn set_command_raw(&mut self, value: [u8; 1]) {
         self.command_raw = value;
+    }
+    pub fn new() -> PacketCzMerCommand {
+        PacketCzMerCommand {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        command: 0,
+        command_raw: [0; 1],
+        }
     }
 }
 
@@ -58031,6 +65298,19 @@ impl UnusedPacketCzMerUseSkill {
     pub fn set_target_id_raw(&mut self, value: [u8; 4]) {
         self.target_id_raw = value;
     }
+    pub fn new() -> UnusedPacketCzMerUseSkill {
+        UnusedPacketCzMerUseSkill {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        selected_level: 0,
+        selected_level_raw: [0; 2],
+        skid: 0,
+        skid_raw: [0; 2],
+        target_id: 0,
+        target_id_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for UnusedPacketCzMerUseSkill {
@@ -58099,6 +65379,15 @@ impl UnusedPacketCzMerUpgradeSkilllevel {
     }
     pub fn set_skid_raw(&mut self, value: [u8; 2]) {
         self.skid_raw = value;
+    }
+    pub fn new() -> UnusedPacketCzMerUpgradeSkilllevel {
+        UnusedPacketCzMerUpgradeSkilllevel {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        skid: 0,
+        skid_raw: [0; 2],
+        }
     }
 }
 
@@ -58185,6 +65474,17 @@ impl PacketZcMerParChange {
     pub fn set_value_raw(&mut self, value: [u8; 4]) {
         self.value_raw = value;
     }
+    pub fn new() -> PacketZcMerParChange {
+        PacketZcMerParChange {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        var: 0,
+        var_raw: [0; 2],
+        value: 0,
+        value_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketZcMerParChange {
@@ -58247,6 +65547,15 @@ impl PacketZcGameguardLingoKey {
     }
     pub fn set_lingo_key_raw(&mut self, value: Vec<u8>) {
         self.lingo_key_raw = value;
+    }
+    pub fn new() -> PacketZcGameguardLingoKey {
+        PacketZcGameguardLingoKey {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        lingo_key: PggLingoKeyTemp::new(),
+        lingo_key_raw: vec![],
+        }
     }
 }
 
@@ -58333,6 +65642,17 @@ impl PacketCzKsyEvent {
     pub fn set_count_raw(&mut self, value: [u8; 4]) {
         self.count_raw = value;
     }
+    pub fn new() -> PacketCzKsyEvent {
+        PacketCzKsyEvent {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        index: 0,
+        index_raw: [0; 2],
+        count: 0,
+        count_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketCzKsyEvent {
@@ -58401,6 +65721,15 @@ impl PacketZcReqCashPassword {
     }
     pub fn set_info_raw(&mut self, value: [u8; 2]) {
         self.info_raw = value;
+    }
+    pub fn new() -> PacketZcReqCashPassword {
+        PacketZcReqCashPassword {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        info: 0,
+        info_raw: [0; 2],
+        }
     }
 }
 
@@ -58519,6 +65848,19 @@ impl PacketCzAckCashPassword {
     pub fn set_new_password_raw(&mut self, value: [u8; 16]) {
         self.new_password_raw = value;
     }
+    pub fn new() -> PacketCzAckCashPassword {
+        PacketCzAckCashPassword {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 2],
+        password: [0 as char; 16],
+        password_raw: [0; 16],
+        new_password: [0 as char; 16],
+        new_password_raw: [0; 16],
+        }
+    }
 }
 
 impl Packet for PacketCzAckCashPassword {
@@ -58604,6 +65946,17 @@ impl PacketZcResultCashPassword {
     pub fn set_error_count_raw(&mut self, value: [u8; 2]) {
         self.error_count_raw = value;
     }
+    pub fn new() -> PacketZcResultCashPassword {
+        PacketZcResultCashPassword {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        result: 0,
+        result_raw: [0; 2],
+        error_count: 0,
+        error_count_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketZcResultCashPassword {
@@ -58688,6 +66041,17 @@ impl PacketAcRequestSecondPassword {
     }
     pub fn set_dw_seed_raw(&mut self, value: [u8; 4]) {
         self.dw_seed_raw = value;
+    }
+    pub fn new() -> PacketAcRequestSecondPassword {
+        PacketAcRequestSecondPassword {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        result: 0,
+        result_raw: [0; 2],
+        dw_seed: 0,
+        dw_seed_raw: [0; 4],
+        }
     }
 }
 
@@ -58886,6 +66250,27 @@ impl PacketCaLoginHan {
     pub fn set_is_han_game_user_raw(&mut self, value: [u8; 1]) {
         self.is_han_game_user_raw = value;
     }
+    pub fn new() -> PacketCaLoginHan {
+        PacketCaLoginHan {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        version: 0,
+        version_raw: [0; 4],
+        id: [0 as char; 24],
+        id_raw: [0; 24],
+        passwd: [0 as char; 24],
+        passwd_raw: [0; 24],
+        clienttype: 0,
+        clienttype_raw: [0; 1],
+        m_sz_ip: [0 as char; 16],
+        m_sz_ip_raw: [0; 16],
+        m_sz_mac_addr: [0 as char; 13],
+        m_sz_mac_addr_raw: [0; 13],
+        is_han_game_user: 0,
+        is_han_game_user_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketCaLoginHan {
@@ -58994,6 +66379,19 @@ impl PacketZcAllQuestList {
     pub fn set_quest_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.quest_list_raw = value;
     }
+    pub fn new() -> PacketZcAllQuestList {
+        PacketZcAllQuestList {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        quest_count: 0,
+        quest_count_raw: [0; 4],
+        quest_list: vec![],
+        quest_list_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcAllQuestList {
@@ -59101,6 +66499,19 @@ impl PacketZcAllQuestMission {
     }
     pub fn set_quest_mission_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.quest_mission_list_raw = value;
+    }
+    pub fn new() -> PacketZcAllQuestMission {
+        PacketZcAllQuestMission {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        count: 0,
+        count_raw: [0; 4],
+        quest_mission_list: vec![],
+        quest_mission_list_raw: vec![],
+        }
     }
 }
 
@@ -59258,6 +66669,25 @@ impl PacketZcAddQuest {
     pub fn set_hunt_raw(&mut self, value: Vec<Vec<u8>>) {
         self.hunt_raw = value;
     }
+    pub fn new() -> PacketZcAddQuest {
+        PacketZcAddQuest {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        quest_id: 0,
+        quest_id_raw: [0; 4],
+        active: false,
+        active_raw: [0; 1],
+        quest_svr_time: 0,
+        quest_svr_time_raw: [0; 4],
+        quest_end_time: 0,
+        quest_end_time_raw: [0; 4],
+        count: 0,
+        count_raw: [0; 2],
+        hunt: vec![],
+        hunt_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcAddQuest {
@@ -59326,6 +66756,15 @@ impl PacketZcDelQuest {
     }
     pub fn set_quest_id_raw(&mut self, value: [u8; 4]) {
         self.quest_id_raw = value;
+    }
+    pub fn new() -> PacketZcDelQuest {
+        PacketZcDelQuest {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        quest_id: 0,
+        quest_id_raw: [0; 4],
+        }
     }
 }
 
@@ -59435,6 +66874,19 @@ impl PacketZcUpdateMissionHunt {
     pub fn set_mob_hunt_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.mob_hunt_list_raw = value;
     }
+    pub fn new() -> PacketZcUpdateMissionHunt {
+        PacketZcUpdateMissionHunt {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        count: 0,
+        count_raw: [0; 2],
+        mob_hunt_list: vec![],
+        mob_hunt_list_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcUpdateMissionHunt {
@@ -59520,6 +66972,17 @@ impl PacketCzActiveQuest {
     pub fn set_active_raw(&mut self, value: [u8; 1]) {
         self.active_raw = value;
     }
+    pub fn new() -> PacketCzActiveQuest {
+        PacketCzActiveQuest {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        quest_id: 0,
+        quest_id_raw: [0; 4],
+        active: false,
+        active_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketCzActiveQuest {
@@ -59604,6 +67067,17 @@ impl PacketZcActiveQuest {
     }
     pub fn set_active_raw(&mut self, value: [u8; 1]) {
         self.active_raw = value;
+    }
+    pub fn new() -> PacketZcActiveQuest {
+        PacketZcActiveQuest {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        quest_id: 0,
+        quest_id_raw: [0; 4],
+        active: false,
+        active_raw: [0; 1],
+        }
     }
 }
 
@@ -59784,6 +67258,29 @@ impl PacketZcItemPickupParty {
     pub fn set_atype_raw(&mut self, value: [u8; 1]) {
         self.atype_raw = value;
     }
+    pub fn new() -> PacketZcItemPickupParty {
+        PacketZcItemPickupParty {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        account_id: 0,
+        account_id_raw: [0; 4],
+        itid: 0,
+        itid_raw: [0; 2],
+        is_identified: false,
+        is_identified_raw: [0; 1],
+        is_damaged: false,
+        is_damaged_raw: [0; 1],
+        refining_level: 0,
+        refining_level_raw: [0; 1],
+        slot: EQUIPSLOTINFO::new(),
+        slot_raw: [0; 8],
+        location: 0,
+        location_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketZcItemPickupParty {
@@ -59859,6 +67356,15 @@ impl PacketZcShortcutKeyList {
     }
     pub fn set_short_cut_key_raw(&mut self, value: Vec<Vec<u8>>) {
         self.short_cut_key_raw = value;
+    }
+    pub fn new() -> PacketZcShortcutKeyList {
+        PacketZcShortcutKeyList {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        short_cut_key: vec![],
+        short_cut_key_raw: vec![],
+        }
     }
 }
 
@@ -59938,6 +67444,17 @@ impl PacketCzShortcutKeyChange {
     }
     pub fn set_short_cut_key_raw(&mut self, value: Vec<u8>) {
         self.short_cut_key_raw = value;
+    }
+    pub fn new() -> PacketCzShortcutKeyChange {
+        PacketCzShortcutKeyChange {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        index: 0,
+        index_raw: [0; 2],
+        short_cut_key: ShortCutKey::new(),
+        short_cut_key_raw: vec![],
+        }
     }
 }
 
@@ -60024,6 +67541,17 @@ impl PacketZcEquipitemDamaged {
     pub fn set_account_id_raw(&mut self, value: [u8; 4]) {
         self.account_id_raw = value;
     }
+    pub fn new() -> PacketZcEquipitemDamaged {
+        PacketZcEquipitemDamaged {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        wear_location: 0,
+        wear_location_raw: [0; 2],
+        account_id: 0,
+        account_id_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketZcEquipitemDamaged {
@@ -60092,6 +67620,15 @@ impl PacketZcNotifyPcbangPlayingTime {
     }
     pub fn set_time_minute_raw(&mut self, value: [u8; 4]) {
         self.time_minute_raw = value;
+    }
+    pub fn new() -> PacketZcNotifyPcbangPlayingTime {
+        PacketZcNotifyPcbangPlayingTime {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        time_minute: 0,
+        time_minute_raw: [0; 4],
+        }
     }
 }
 
@@ -60194,6 +67731,19 @@ impl PacketZcSrpacketr2Init {
     pub fn set_deform_add_factor_raw(&mut self, value: [u8; 4]) {
         self.deform_add_factor_raw = value;
     }
+    pub fn new() -> PacketZcSrpacketr2Init {
+        PacketZcSrpacketr2Init {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        protect_factor: 0,
+        protect_factor_raw: [0; 2],
+        deform_seed_factor: 0,
+        deform_seed_factor_raw: [0; 4],
+        deform_add_factor: 0,
+        deform_add_factor_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketZcSrpacketr2Init {
@@ -60262,6 +67812,15 @@ impl PacketCzSrpacketr2Start {
     }
     pub fn set_protect_factor_raw(&mut self, value: [u8; 2]) {
         self.protect_factor_raw = value;
+    }
+    pub fn new() -> PacketCzSrpacketr2Start {
+        PacketCzSrpacketr2Start {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        protect_factor: 0,
+        protect_factor_raw: [0; 2],
+        }
     }
 }
 
@@ -60374,6 +67933,21 @@ impl PacketZcNpcChat {
     pub fn set_msg_raw(&mut self, value: Vec<u8>) {
         self.msg_raw = value;
     }
+    pub fn new() -> PacketZcNpcChat {
+        PacketZcNpcChat {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        account_id: 0,
+        account_id_raw: [0; 4],
+        color: 0,
+        color_raw: [0; 4],
+        msg: String::new(),
+        msg_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcNpcChat {
@@ -60469,6 +68043,19 @@ impl PacketZcFormatstringMsg {
     pub fn set_value_raw(&mut self, value: Vec<u8>) {
         self.value_raw = value;
     }
+    pub fn new() -> PacketZcFormatstringMsg {
+        PacketZcFormatstringMsg {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        msg: 0,
+        msg_raw: [0; 2],
+        value: String::new(),
+        value_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcFormatstringMsg {
@@ -60545,6 +68132,15 @@ impl PacketCzPartyJoinReq {
     }
     pub fn set_character_name_raw(&mut self, value: [u8; 24]) {
         self.character_name_raw = value;
+    }
+    pub fn new() -> PacketCzPartyJoinReq {
+        PacketCzPartyJoinReq {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        character_name: [0 as char; 24],
+        character_name_raw: [0; 24],
+        }
     }
 }
 
@@ -60639,6 +68235,17 @@ impl PacketZcPartyJoinReqAck {
     pub fn set_answer_raw(&mut self, value: [u8; 4]) {
         self.answer_raw = value;
     }
+    pub fn new() -> PacketZcPartyJoinReqAck {
+        PacketZcPartyJoinReqAck {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        character_name: [0 as char; 24],
+        character_name_raw: [0; 24],
+        answer: 0,
+        answer_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketZcPartyJoinReqAck {
@@ -60732,6 +68339,17 @@ impl PacketZcPartyJoinReq {
     pub fn set_group_name_raw(&mut self, value: [u8; 24]) {
         self.group_name_raw = value;
     }
+    pub fn new() -> PacketZcPartyJoinReq {
+        PacketZcPartyJoinReq {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        grid: 0,
+        grid_raw: [0; 4],
+        group_name: [0 as char; 24],
+        group_name_raw: [0; 24],
+        }
+    }
 }
 
 impl Packet for PacketZcPartyJoinReq {
@@ -60817,6 +68435,17 @@ impl PacketCzPartyJoinReqAck {
     pub fn set_b_accept_raw(&mut self, value: [u8; 1]) {
         self.b_accept_raw = value;
     }
+    pub fn new() -> PacketCzPartyJoinReqAck {
+        PacketCzPartyJoinReqAck {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        grid: 0,
+        grid_raw: [0; 4],
+        b_accept: false,
+        b_accept_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketCzPartyJoinReqAck {
@@ -60885,6 +68514,15 @@ impl PacketCzPartyConfig {
     }
     pub fn set_b_refuse_join_msg_raw(&mut self, value: [u8; 1]) {
         self.b_refuse_join_msg_raw = value;
+    }
+    pub fn new() -> PacketCzPartyConfig {
+        PacketCzPartyConfig {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        b_refuse_join_msg: false,
+        b_refuse_join_msg_raw: [0; 1],
+        }
     }
 }
 
@@ -60955,6 +68593,15 @@ impl PacketZcPartyConfig {
     pub fn set_b_refuse_join_msg_raw(&mut self, value: [u8; 1]) {
         self.b_refuse_join_msg_raw = value;
     }
+    pub fn new() -> PacketZcPartyConfig {
+        PacketZcPartyConfig {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        b_refuse_join_msg: false,
+        b_refuse_join_msg_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketZcPartyConfig {
@@ -61023,6 +68670,15 @@ impl PacketHcRefuseSelectchar {
     }
     pub fn set_error_code_raw(&mut self, value: [u8; 1]) {
         self.error_code_raw = value;
+    }
+    pub fn new() -> PacketHcRefuseSelectchar {
+        PacketHcRefuseSelectchar {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        error_code: 0,
+        error_code_raw: [0; 1],
+        }
     }
 }
 
@@ -61117,6 +68773,17 @@ impl PacketZcMemorialdungeonSubscriptionInfo {
     pub fn set_priority_order_num_raw(&mut self, value: [u8; 2]) {
         self.priority_order_num_raw = value;
     }
+    pub fn new() -> PacketZcMemorialdungeonSubscriptionInfo {
+        PacketZcMemorialdungeonSubscriptionInfo {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        memorial_dungeon_name: [0 as char; 61],
+        memorial_dungeon_name_raw: [0; 61],
+        priority_order_num: 0,
+        priority_order_num_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketZcMemorialdungeonSubscriptionInfo {
@@ -61185,6 +68852,15 @@ impl PacketZcMemorialdungeonSubscriptionNotify {
     }
     pub fn set_priority_order_num_raw(&mut self, value: [u8; 2]) {
         self.priority_order_num_raw = value;
+    }
+    pub fn new() -> PacketZcMemorialdungeonSubscriptionNotify {
+        PacketZcMemorialdungeonSubscriptionNotify {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        priority_order_num: 0,
+        priority_order_num_raw: [0; 2],
+        }
     }
 }
 
@@ -61295,6 +68971,19 @@ impl PacketZcMemorialdungeonInfo {
     pub fn set_enter_time_out_date_raw(&mut self, value: [u8; 4]) {
         self.enter_time_out_date_raw = value;
     }
+    pub fn new() -> PacketZcMemorialdungeonInfo {
+        PacketZcMemorialdungeonInfo {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        memorial_dungeon_name: [0 as char; 61],
+        memorial_dungeon_name_raw: [0; 61],
+        destroy_date: 0,
+        destroy_date_raw: [0; 4],
+        enter_time_out_date: 0,
+        enter_time_out_date_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketZcMemorialdungeonInfo {
@@ -61380,6 +69069,17 @@ impl PacketZcMemorialdungeonNotify {
     pub fn set_enter_limit_date_raw(&mut self, value: [u8; 4]) {
         self.enter_limit_date_raw = value;
     }
+    pub fn new() -> PacketZcMemorialdungeonNotify {
+        PacketZcMemorialdungeonNotify {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 4],
+        enter_limit_date: 0,
+        enter_limit_date_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketZcMemorialdungeonNotify {
@@ -61448,6 +69148,15 @@ impl PacketCzMemorialdungeonCommand {
     }
     pub fn set_command_raw(&mut self, value: [u8; 4]) {
         self.command_raw = value;
+    }
+    pub fn new() -> PacketCzMemorialdungeonCommand {
+        PacketCzMemorialdungeonCommand {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        command: 0,
+        command_raw: [0; 4],
+        }
     }
 }
 
@@ -61541,6 +69250,17 @@ impl PacketZcEquipmentItemlist3 {
     pub fn set_item_info_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_info_raw = value;
     }
+    pub fn new() -> PacketZcEquipmentItemlist3 {
+        PacketZcEquipmentItemlist3 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        item_info: vec![],
+        item_info_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcEquipmentItemlist3 {
@@ -61632,6 +69352,17 @@ impl PacketZcStoreEquipmentItemlist3 {
     }
     pub fn set_item_info_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_info_raw = value;
+    }
+    pub fn new() -> PacketZcStoreEquipmentItemlist3 {
+        PacketZcStoreEquipmentItemlist3 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        item_info: vec![],
+        item_info_raw: vec![],
+        }
     }
 }
 
@@ -61725,6 +69456,17 @@ impl PacketZcCartEquipmentItemlist3 {
     pub fn set_item_info_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_info_raw = value;
     }
+    pub fn new() -> PacketZcCartEquipmentItemlist3 {
+        PacketZcCartEquipmentItemlist3 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        item_info: vec![],
+        item_info_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcCartEquipmentItemlist3 {
@@ -61793,6 +69535,15 @@ impl PacketZcNotifyBindOnEquip {
     }
     pub fn set_index_raw(&mut self, value: [u8; 2]) {
         self.index_raw = value;
+    }
+    pub fn new() -> PacketZcNotifyBindOnEquip {
+        PacketZcNotifyBindOnEquip {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        index: 0,
+        index_raw: [0; 2],
+        }
     }
 }
 
@@ -62037,6 +69788,37 @@ impl PacketZcItemPickupAck3 {
     pub fn set_bind_on_equip_type_raw(&mut self, value: [u8; 2]) {
         self.bind_on_equip_type_raw = value;
     }
+    pub fn new() -> PacketZcItemPickupAck3 {
+        PacketZcItemPickupAck3 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        index: 0,
+        index_raw: [0; 2],
+        count: 0,
+        count_raw: [0; 2],
+        itid: 0,
+        itid_raw: [0; 2],
+        is_identified: false,
+        is_identified_raw: [0; 1],
+        is_damaged: false,
+        is_damaged_raw: [0; 1],
+        refining_level: 0,
+        refining_level_raw: [0; 1],
+        slot: EQUIPSLOTINFO::new(),
+        slot_raw: [0; 8],
+        location: 0,
+        location_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 1],
+        result: 0,
+        result_raw: [0; 1],
+        hire_expire_date: 0,
+        hire_expire_date_raw: [0; 4],
+        bind_on_equip_type: 0,
+        bind_on_equip_type_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketZcItemPickupAck3 {
@@ -62089,6 +69871,13 @@ impl PacketZcIsvrDisconnect {
     }
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
+    }
+    pub fn new() -> PacketZcIsvrDisconnect {
+        PacketZcIsvrDisconnect {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
     }
 }
 
@@ -62158,6 +69947,15 @@ impl PacketCzEquipwinMicroscope {
     }
     pub fn set_aid_raw(&mut self, value: [u8; 4]) {
         self.aid_raw = value;
+    }
+    pub fn new() -> PacketCzEquipwinMicroscope {
+        PacketCzEquipwinMicroscope {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        }
     }
 }
 
@@ -62403,6 +70201,35 @@ impl PacketZcEquipwinMicroscope {
     pub fn set_item_info_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_info_raw = value;
     }
+    pub fn new() -> PacketZcEquipwinMicroscope {
+        PacketZcEquipwinMicroscope {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        character_name: [0 as char; 24],
+        character_name_raw: [0; 24],
+        job: 0,
+        job_raw: [0; 2],
+        head: 0,
+        head_raw: [0; 2],
+        accessory: 0,
+        accessory_raw: [0; 2],
+        accessory2: 0,
+        accessory2_raw: [0; 2],
+        accessory3: 0,
+        accessory3_raw: [0; 2],
+        headpalette: 0,
+        headpalette_raw: [0; 2],
+        bodypalette: 0,
+        bodypalette_raw: [0; 2],
+        sex: 0,
+        sex_raw: [0; 1],
+        item_info: vec![],
+        item_info_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcEquipwinMicroscope {
@@ -62487,6 +70314,17 @@ impl PacketCzConfig {
     }
     pub fn set_value_raw(&mut self, value: [u8; 4]) {
         self.value_raw = value;
+    }
+    pub fn new() -> PacketCzConfig {
+        PacketCzConfig {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        config: 0,
+        config_raw: [0; 4],
+        value: 0,
+        value_raw: [0; 4],
+        }
     }
 }
 
@@ -62573,6 +70411,17 @@ impl PacketZcConfig {
     pub fn set_value_raw(&mut self, value: [u8; 4]) {
         self.value_raw = value;
     }
+    pub fn new() -> PacketZcConfig {
+        PacketZcConfig {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        config: 0,
+        config_raw: [0; 4],
+        value: 0,
+        value_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketZcConfig {
@@ -62641,6 +70490,15 @@ impl PacketZcConfigNotify {
     }
     pub fn set_b_open_equipment_win_raw(&mut self, value: [u8; 1]) {
         self.b_open_equipment_win_raw = value;
+    }
+    pub fn new() -> PacketZcConfigNotify {
+        PacketZcConfigNotify {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        b_open_equipment_win: false,
+        b_open_equipment_win_raw: [0; 1],
+        }
     }
 }
 
@@ -62720,6 +70578,17 @@ impl PacketCzBattlefieldChat {
     }
     pub fn set_msg_raw(&mut self, value: Vec<u8>) {
         self.msg_raw = value;
+    }
+    pub fn new() -> PacketCzBattlefieldChat {
+        PacketCzBattlefieldChat {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        msg: String::new(),
+        msg_raw: vec![],
+        }
     }
 }
 
@@ -62840,6 +70709,21 @@ impl PacketZcBattlefieldChat {
     pub fn set_msg_raw(&mut self, value: Vec<u8>) {
         self.msg_raw = value;
     }
+    pub fn new() -> PacketZcBattlefieldChat {
+        PacketZcBattlefieldChat {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        account_id: 0,
+        account_id_raw: [0; 4],
+        name: [0 as char; 24],
+        name_raw: [0; 24],
+        msg: String::new(),
+        msg_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcBattlefieldChat {
@@ -62949,6 +70833,19 @@ impl PacketZcBattlefieldNotifyCampinfo {
     pub fn set_camp_raw(&mut self, value: [u8; 2]) {
         self.camp_raw = value;
     }
+    pub fn new() -> PacketZcBattlefieldNotifyCampinfo {
+        PacketZcBattlefieldNotifyCampinfo {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        account_id: 0,
+        account_id_raw: [0; 4],
+        name: [0 as char; 24],
+        name_raw: [0; 24],
+        camp: 0,
+        camp_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketZcBattlefieldNotifyCampinfo {
@@ -63033,6 +70930,17 @@ impl PacketZcBattlefieldNotifyPoint {
     }
     pub fn set_point_camp_b_raw(&mut self, value: [u8; 2]) {
         self.point_camp_b_raw = value;
+    }
+    pub fn new() -> PacketZcBattlefieldNotifyPoint {
+        PacketZcBattlefieldNotifyPoint {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        point_camp_a: 0,
+        point_camp_a_raw: [0; 2],
+        point_camp_b: 0,
+        point_camp_b_raw: [0; 2],
+        }
     }
 }
 
@@ -63175,6 +71083,23 @@ impl PacketZcBattlefieldNotifyPosition {
     pub fn set_y_raw(&mut self, value: [u8; 2]) {
         self.y_raw = value;
     }
+    pub fn new() -> PacketZcBattlefieldNotifyPosition {
+        PacketZcBattlefieldNotifyPosition {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        account_id: 0,
+        account_id_raw: [0; 4],
+        name: [0 as char; 24],
+        name_raw: [0; 24],
+        job: 0,
+        job_raw: [0; 2],
+        x: 0,
+        x_raw: [0; 2],
+        y: 0,
+        y_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketZcBattlefieldNotifyPosition {
@@ -63299,6 +71224,21 @@ impl PacketZcBattlefieldNotifyHp {
     }
     pub fn set_max_hp_raw(&mut self, value: [u8; 2]) {
         self.max_hp_raw = value;
+    }
+    pub fn new() -> PacketZcBattlefieldNotifyHp {
+        PacketZcBattlefieldNotifyHp {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        account_id: 0,
+        account_id_raw: [0; 4],
+        name: [0 as char; 24],
+        name_raw: [0; 24],
+        hp: 0,
+        hp_raw: [0; 2],
+        max_hp: 0,
+        max_hp_raw: [0; 2],
+        }
     }
 }
 
@@ -63497,6 +71437,31 @@ impl PacketZcNotifyAct2 {
     pub fn set_left_damage_raw(&mut self, value: [u8; 4]) {
         self.left_damage_raw = value;
     }
+    pub fn new() -> PacketZcNotifyAct2 {
+        PacketZcNotifyAct2 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        gid: 0,
+        gid_raw: [0; 4],
+        target_gid: 0,
+        target_gid_raw: [0; 4],
+        start_time: 0,
+        start_time_raw: [0; 4],
+        attack_mt: 0,
+        attack_mt_raw: [0; 4],
+        attacked_mt: 0,
+        attacked_mt_raw: [0; 4],
+        damage: 0,
+        damage_raw: [0; 4],
+        count: 0,
+        count_raw: [0; 2],
+        action: 0,
+        action_raw: [0; 1],
+        left_damage: 0,
+        left_damage_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketZcNotifyAct2 {
@@ -63565,6 +71530,15 @@ impl PacketCzBotCheck {
     }
     pub fn set_is_bot_raw(&mut self, value: [u8; 4]) {
         self.is_bot_raw = value;
+    }
+    pub fn new() -> PacketCzBotCheck {
+        PacketCzBotCheck {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        is_bot: 0,
+        is_bot_raw: [0; 4],
+        }
     }
 }
 
@@ -63664,6 +71638,19 @@ impl PacketZcMapproperty {
     pub fn set_map_info_table_raw(&mut self, value: Vec<u8>) {
         self.map_info_table_raw = value;
     }
+    pub fn new() -> PacketZcMapproperty {
+        PacketZcMapproperty {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 2],
+        map_info_table: vec![],
+        map_info_table_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcMapproperty {
@@ -63755,6 +71742,17 @@ impl PacketZcNormalItemlist3 {
     }
     pub fn set_item_info_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_info_raw = value;
+    }
+    pub fn new() -> PacketZcNormalItemlist3 {
+        PacketZcNormalItemlist3 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        item_info: vec![],
+        item_info_raw: vec![],
+        }
     }
 }
 
@@ -63848,6 +71846,17 @@ impl PacketZcCartNormalItemlist3 {
     pub fn set_item_info_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_info_raw = value;
     }
+    pub fn new() -> PacketZcCartNormalItemlist3 {
+        PacketZcCartNormalItemlist3 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        item_info: vec![],
+        item_info_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcCartNormalItemlist3 {
@@ -63939,6 +71948,17 @@ impl PacketZcStoreNormalItemlist3 {
     }
     pub fn set_item_info_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_info_raw = value;
+    }
+    pub fn new() -> PacketZcStoreNormalItemlist3 {
+        PacketZcStoreNormalItemlist3 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        item_info: vec![],
+        item_info_raw: vec![],
+        }
     }
 }
 
@@ -64080,6 +72100,23 @@ impl PacketZcAcceptEnter2 {
     }
     pub fn set_font_raw(&mut self, value: [u8; 2]) {
         self.font_raw = value;
+    }
+    pub fn new() -> PacketZcAcceptEnter2 {
+        PacketZcAcceptEnter2 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        start_time: 0,
+        start_time_raw: [0; 4],
+        pos_dir: [0 as char; 3],
+        pos_dir_raw: [0; 3],
+        x_size: 0,
+        x_size_raw: [0; 1],
+        y_size: 0,
+        y_size_raw: [0; 1],
+        font: 0,
+        font_raw: [0; 2],
+        }
     }
 }
 
@@ -64574,6 +72611,67 @@ impl PacketZcNotifyMoveentry4 {
     pub fn set_font_raw(&mut self, value: [u8; 2]) {
         self.font_raw = value;
     }
+    pub fn new() -> PacketZcNotifyMoveentry4 {
+        PacketZcNotifyMoveentry4 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        objecttype: 0,
+        objecttype_raw: [0; 1],
+        gid: 0,
+        gid_raw: [0; 4],
+        speed: 0,
+        speed_raw: [0; 2],
+        body_state: 0,
+        body_state_raw: [0; 2],
+        health_state: 0,
+        health_state_raw: [0; 2],
+        effect_state: 0,
+        effect_state_raw: [0; 4],
+        job: 0,
+        job_raw: [0; 2],
+        head: 0,
+        head_raw: [0; 2],
+        weapon: 0,
+        weapon_raw: [0; 4],
+        accessory: 0,
+        accessory_raw: [0; 2],
+        move_start_time: 0,
+        move_start_time_raw: [0; 4],
+        accessory2: 0,
+        accessory2_raw: [0; 2],
+        accessory3: 0,
+        accessory3_raw: [0; 2],
+        headpalette: 0,
+        headpalette_raw: [0; 2],
+        bodypalette: 0,
+        bodypalette_raw: [0; 2],
+        head_dir: 0,
+        head_dir_raw: [0; 2],
+        guid: 0,
+        guid_raw: [0; 4],
+        gemblem_ver: 0,
+        gemblem_ver_raw: [0; 2],
+        honor: 0,
+        honor_raw: [0; 2],
+        virtue: 0,
+        virtue_raw: [0; 4],
+        is_pkmode_on: false,
+        is_pkmode_on_raw: [0; 1],
+        sex: 0,
+        sex_raw: [0; 1],
+        move_data: [0; 6],
+        move_data_raw: [0; 6],
+        x_size: 0,
+        x_size_raw: [0; 1],
+        y_size: 0,
+        y_size_raw: [0; 1],
+        clevel: 0,
+        clevel_raw: [0; 2],
+        font: 0,
+        font_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketZcNotifyMoveentry4 {
@@ -65034,6 +73132,63 @@ impl PacketZcNotifyNewentry4 {
     }
     pub fn set_font_raw(&mut self, value: [u8; 2]) {
         self.font_raw = value;
+    }
+    pub fn new() -> PacketZcNotifyNewentry4 {
+        PacketZcNotifyNewentry4 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        gid: 0,
+        gid_raw: [0; 4],
+        speed: 0,
+        speed_raw: [0; 2],
+        body_state: 0,
+        body_state_raw: [0; 2],
+        health_state: 0,
+        health_state_raw: [0; 2],
+        effect_state: 0,
+        effect_state_raw: [0; 4],
+        job: 0,
+        job_raw: [0; 2],
+        head: 0,
+        head_raw: [0; 2],
+        weapon: 0,
+        weapon_raw: [0; 4],
+        accessory: 0,
+        accessory_raw: [0; 2],
+        accessory2: 0,
+        accessory2_raw: [0; 2],
+        accessory3: 0,
+        accessory3_raw: [0; 2],
+        headpalette: 0,
+        headpalette_raw: [0; 2],
+        bodypalette: 0,
+        bodypalette_raw: [0; 2],
+        head_dir: 0,
+        head_dir_raw: [0; 2],
+        guid: 0,
+        guid_raw: [0; 4],
+        gemblem_ver: 0,
+        gemblem_ver_raw: [0; 2],
+        honor: 0,
+        honor_raw: [0; 2],
+        virtue: 0,
+        virtue_raw: [0; 4],
+        is_pkmode_on: false,
+        is_pkmode_on_raw: [0; 1],
+        sex: 0,
+        sex_raw: [0; 1],
+        pos_dir: [0 as char; 3],
+        pos_dir_raw: [0; 3],
+        x_size: 0,
+        x_size_raw: [0; 1],
+        y_size: 0,
+        y_size_raw: [0; 1],
+        clevel: 0,
+        clevel_raw: [0; 2],
+        font: 0,
+        font_raw: [0; 2],
+        }
     }
 }
 
@@ -65512,6 +73667,65 @@ impl PacketZcNotifyStandentry4 {
     pub fn set_font_raw(&mut self, value: [u8; 2]) {
         self.font_raw = value;
     }
+    pub fn new() -> PacketZcNotifyStandentry4 {
+        PacketZcNotifyStandentry4 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        gid: 0,
+        gid_raw: [0; 4],
+        speed: 0,
+        speed_raw: [0; 2],
+        body_state: 0,
+        body_state_raw: [0; 2],
+        health_state: 0,
+        health_state_raw: [0; 2],
+        effect_state: 0,
+        effect_state_raw: [0; 4],
+        job: 0,
+        job_raw: [0; 2],
+        head: 0,
+        head_raw: [0; 2],
+        weapon: 0,
+        weapon_raw: [0; 4],
+        accessory: 0,
+        accessory_raw: [0; 2],
+        accessory2: 0,
+        accessory2_raw: [0; 2],
+        accessory3: 0,
+        accessory3_raw: [0; 2],
+        headpalette: 0,
+        headpalette_raw: [0; 2],
+        bodypalette: 0,
+        bodypalette_raw: [0; 2],
+        head_dir: 0,
+        head_dir_raw: [0; 2],
+        guid: 0,
+        guid_raw: [0; 4],
+        gemblem_ver: 0,
+        gemblem_ver_raw: [0; 2],
+        honor: 0,
+        honor_raw: [0; 2],
+        virtue: 0,
+        virtue_raw: [0; 4],
+        is_pkmode_on: false,
+        is_pkmode_on_raw: [0; 1],
+        sex: 0,
+        sex_raw: [0; 1],
+        pos_dir: [0 as char; 3],
+        pos_dir_raw: [0; 3],
+        x_size: 0,
+        x_size_raw: [0; 1],
+        y_size: 0,
+        y_size_raw: [0; 1],
+        state: 0,
+        state_raw: [0; 1],
+        clevel: 0,
+        clevel_raw: [0; 2],
+        font: 0,
+        font_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketZcNotifyStandentry4 {
@@ -65596,6 +73810,17 @@ impl PacketZcNotifyFont {
     }
     pub fn set_font_raw(&mut self, value: [u8; 2]) {
         self.font_raw = value;
+    }
+    pub fn new() -> PacketZcNotifyFont {
+        PacketZcNotifyFont {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        font: 0,
+        font_raw: [0; 2],
+        }
     }
 }
 
@@ -65682,6 +73907,17 @@ impl PacketZcProgress {
     pub fn set_time_raw(&mut self, value: [u8; 4]) {
         self.time_raw = value;
     }
+    pub fn new() -> PacketZcProgress {
+        PacketZcProgress {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        color: 0,
+        color_raw: [0; 4],
+        time: 0,
+        time_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketZcProgress {
@@ -65734,6 +73970,13 @@ impl PacketCzProgress {
     }
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
+    }
+    pub fn new() -> PacketCzProgress {
+        PacketCzProgress {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
     }
 }
 
@@ -65788,6 +74031,13 @@ impl PacketZcProgressCancel {
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
     }
+    pub fn new() -> PacketZcProgressCancel {
+        PacketZcProgressCancel {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketZcProgressCancel {
@@ -65840,6 +74090,13 @@ impl PacketCzOpenSimpleCashshopItemlist {
     }
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
+    }
+    pub fn new() -> PacketCzOpenSimpleCashshopItemlist {
+        PacketCzOpenSimpleCashshopItemlist {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
     }
 }
 
@@ -66013,6 +74270,27 @@ impl PacketZcSimpleCashshopPointItemlist {
     pub fn set_item_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_list_raw = value;
     }
+    pub fn new() -> PacketZcSimpleCashshopPointItemlist {
+        PacketZcSimpleCashshopPointItemlist {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        cash_point: 0,
+        cash_point_raw: [0; 4],
+        md_itemcount: 0,
+        md_itemcount_raw: [0; 2],
+        md_item_size: 0,
+        md_item_size_raw: [0; 2],
+        best_itemcount: 0,
+        best_itemcount_raw: [0; 2],
+        best_itemsize: 0,
+        best_itemsize_raw: [0; 2],
+        item_list: vec![],
+        item_list_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcSimpleCashshopPointItemlist {
@@ -66065,6 +74343,13 @@ impl PacketCzCloseWindow {
     }
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
+    }
+    pub fn new() -> PacketCzCloseWindow {
+        PacketCzCloseWindow {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
     }
 }
 
@@ -66143,6 +74428,15 @@ impl PacketAhcGameGuard {
     pub fn set_auth_data_raw(&mut self, value: [u8; 4]) {
         self.auth_data_raw = value;
     }
+    pub fn new() -> PacketAhcGameGuard {
+        PacketAhcGameGuard {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        auth_data: [0; 4],
+        auth_data_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketAhcGameGuard {
@@ -66219,6 +74513,15 @@ impl PacketCahAckGameGuard {
     }
     pub fn set_auth_data_raw(&mut self, value: [u8; 4]) {
         self.auth_data_raw = value;
+    }
+    pub fn new() -> PacketCahAckGameGuard {
+        PacketCahAckGameGuard {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        auth_data: [0; 4],
+        auth_data_raw: [0; 4],
+        }
     }
 }
 
@@ -66353,6 +74656,23 @@ impl PacketCzEnter2 {
     pub fn set_sex_raw(&mut self, value: [u8; 1]) {
         self.sex_raw = value;
     }
+    pub fn new() -> PacketCzEnter2 {
+        PacketCzEnter2 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        gid: 0,
+        gid_raw: [0; 4],
+        auth_code: 0,
+        auth_code_raw: [0; 4],
+        client_time: 0,
+        client_time_raw: [0; 4],
+        sex: 0,
+        sex_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketCzEnter2 {
@@ -66437,6 +74757,17 @@ impl PacketCzRequestAct2 {
     }
     pub fn set_action_raw(&mut self, value: [u8; 1]) {
         self.action_raw = value;
+    }
+    pub fn new() -> PacketCzRequestAct2 {
+        PacketCzRequestAct2 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        target_gid: 0,
+        target_gid_raw: [0; 4],
+        action: 0,
+        action_raw: [0; 1],
+        }
     }
 }
 
@@ -66539,6 +74870,19 @@ impl PacketCzUseSkill2 {
     pub fn set_target_id_raw(&mut self, value: [u8; 4]) {
         self.target_id_raw = value;
     }
+    pub fn new() -> PacketCzUseSkill2 {
+        PacketCzUseSkill2 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        selected_level: 0,
+        selected_level_raw: [0; 2],
+        skid: 0,
+        skid_raw: [0; 2],
+        target_id: 0,
+        target_id_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketCzUseSkill2 {
@@ -66624,6 +74968,17 @@ impl PacketCzUseItem2 {
     pub fn set_aid_raw(&mut self, value: [u8; 4]) {
         self.aid_raw = value;
     }
+    pub fn new() -> PacketCzUseItem2 {
+        PacketCzUseItem2 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        index: 0,
+        index_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketCzUseItem2 {
@@ -66708,6 +75063,17 @@ impl PacketZcSkillPostdelay {
     }
     pub fn set_delay_tm_raw(&mut self, value: [u8; 4]) {
         self.delay_tm_raw = value;
+    }
+    pub fn new() -> PacketZcSkillPostdelay {
+        PacketZcSkillPostdelay {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        skid: 0,
+        skid_raw: [0; 2],
+        delay_tm: 0,
+        delay_tm_raw: [0; 4],
+        }
     }
 }
 
@@ -66800,6 +75166,17 @@ impl PacketZcSkillPostdelayList {
     }
     pub fn set_delay_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.delay_list_raw = value;
+    }
+    pub fn new() -> PacketZcSkillPostdelayList {
+        PacketZcSkillPostdelayList {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        delay_list: vec![],
+        delay_list_raw: vec![],
+        }
     }
 }
 
@@ -66942,6 +75319,23 @@ impl PacketZcMsgStateChange2 {
     pub fn set_val_raw(&mut self, value: [u8; 3]) {
         self.val_raw = value;
     }
+    pub fn new() -> PacketZcMsgStateChange2 {
+        PacketZcMsgStateChange2 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        index: 0,
+        index_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        state: false,
+        state_raw: [0; 1],
+        remain_ms: 0,
+        remain_ms_raw: [0; 4],
+        val: [0; 3],
+        val_raw: [0; 3],
+        }
+    }
 }
 
 impl Packet for PacketZcMsgStateChange2 {
@@ -67043,6 +75437,19 @@ impl PacketZcMillenniumshield {
     pub fn set_state_raw(&mut self, value: [u8; 2]) {
         self.state_raw = value;
     }
+    pub fn new() -> PacketZcMillenniumshield {
+        PacketZcMillenniumshield {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        num: 0,
+        num_raw: [0; 2],
+        state: 0,
+        state_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketZcMillenniumshield {
@@ -67111,6 +75518,15 @@ impl PacketZcSkillinfoDelete {
     }
     pub fn set_skid_raw(&mut self, value: [u8; 2]) {
         self.skid_raw = value;
+    }
+    pub fn new() -> PacketZcSkillinfoDelete {
+        PacketZcSkillinfoDelete {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        skid: 0,
+        skid_raw: [0; 2],
+        }
     }
 }
 
@@ -67210,6 +75626,19 @@ impl PacketZcSkillSelectRequest {
     pub fn set_skidlist_raw(&mut self, value: Vec<u8>) {
         self.skidlist_raw = value;
     }
+    pub fn new() -> PacketZcSkillSelectRequest {
+        PacketZcSkillSelectRequest {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        why: 0,
+        why_raw: [0; 4],
+        skidlist: vec![],
+        skidlist_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcSkillSelectRequest {
@@ -67294,6 +75723,17 @@ impl PacketCzSkillSelectResponse {
     }
     pub fn set_skid_raw(&mut self, value: [u8; 2]) {
         self.skid_raw = value;
+    }
+    pub fn new() -> PacketCzSkillSelectResponse {
+        PacketCzSkillSelectResponse {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        why: 0,
+        why_raw: [0; 4],
+        skid: 0,
+        skid_raw: [0; 2],
+        }
     }
 }
 
@@ -67403,6 +75843,19 @@ impl PacketZcSimpleCashPointItemlist {
     pub fn set_item_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_list_raw = value;
     }
+    pub fn new() -> PacketZcSimpleCashPointItemlist {
+        PacketZcSimpleCashPointItemlist {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        cash_point: 0,
+        cash_point_raw: [0; 4],
+        item_list: vec![],
+        item_list_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcSimpleCashPointItemlist {
@@ -67487,6 +75940,17 @@ impl PacketCzSimpleBuyCashPointItem {
     }
     pub fn set_count_raw(&mut self, value: [u8; 2]) {
         self.count_raw = value;
+    }
+    pub fn new() -> PacketCzSimpleBuyCashPointItem {
+        PacketCzSimpleBuyCashPointItem {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        itid: 0,
+        itid_raw: [0; 2],
+        count: 0,
+        count_raw: [0; 2],
+        }
     }
 }
 
@@ -67621,6 +76085,23 @@ impl PacketZcQuestNotifyEffect {
     pub fn set_atype_raw(&mut self, value: [u8; 2]) {
         self.atype_raw = value;
     }
+    pub fn new() -> PacketZcQuestNotifyEffect {
+        PacketZcQuestNotifyEffect {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        npc_id: 0,
+        npc_id_raw: [0; 4],
+        x_pos: 0,
+        x_pos_raw: [0; 2],
+        y_pos: 0,
+        y_pos_raw: [0; 2],
+        effect: 0,
+        effect_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketZcQuestNotifyEffect {
@@ -67673,6 +76154,13 @@ impl PacketCzBlockingPlayCancel {
     }
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
+    }
+    pub fn new() -> PacketCzBlockingPlayCancel {
+        PacketCzBlockingPlayCancel {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
     }
 }
 
@@ -67766,6 +76254,17 @@ impl PacketHcCharacterList {
     pub fn set_character_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.character_list_raw = value;
     }
+    pub fn new() -> PacketHcCharacterList {
+        PacketHcCharacterList {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        character_list: vec![],
+        character_list_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketHcCharacterList {
@@ -67834,6 +76333,15 @@ impl PacketZcHackshErrorMsg {
     }
     pub fn set_error_id_raw(&mut self, value: [u8; 2]) {
         self.error_id_raw = value;
+    }
+    pub fn new() -> PacketZcHackshErrorMsg {
+        PacketZcHackshErrorMsg {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        error_id: 0,
+        error_id_raw: [0; 2],
+        }
     }
 }
 
@@ -67904,6 +76412,15 @@ impl PacketCzClientVersion {
     pub fn set_client_ver_raw(&mut self, value: [u8; 4]) {
         self.client_ver_raw = value;
     }
+    pub fn new() -> PacketCzClientVersion {
+        PacketCzClientVersion {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        client_ver: 0,
+        client_ver_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketCzClientVersion {
@@ -67956,6 +76473,13 @@ impl PacketCzCloseSimplecashShop {
     }
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
+    }
+    pub fn new() -> PacketCzCloseSimplecashShop {
+        PacketCzCloseSimplecashShop {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
     }
 }
 
@@ -68042,6 +76566,17 @@ impl PacketZcEsResult {
     pub fn set_es_msg_raw(&mut self, value: [u8; 2]) {
         self.es_msg_raw = value;
     }
+    pub fn new() -> PacketZcEsResult {
+        PacketZcEsResult {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        es_no: 0,
+        es_no_raw: [0; 2],
+        es_msg: 0,
+        es_msg_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketZcEsResult {
@@ -68094,6 +76629,13 @@ impl PacketCzEsGetList {
     }
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
+    }
+    pub fn new() -> PacketCzEsGetList {
+        PacketCzEsGetList {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
     }
 }
 
@@ -68180,6 +76722,17 @@ impl PacketZcEsList {
     pub fn set_count_raw(&mut self, value: [u8; 2]) {
         self.count_raw = value;
     }
+    pub fn new() -> PacketZcEsList {
+        PacketZcEsList {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        count: 0,
+        count_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketZcEsList {
@@ -68248,6 +76801,15 @@ impl PacketCzEsChoose {
     }
     pub fn set_es_no_raw(&mut self, value: [u8; 2]) {
         self.es_no_raw = value;
+    }
+    pub fn new() -> PacketCzEsChoose {
+        PacketCzEsChoose {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        es_no: 0,
+        es_no_raw: [0; 2],
+        }
     }
 }
 
@@ -68318,6 +76880,15 @@ impl PacketCzEsCancel {
     pub fn set_es_no_raw(&mut self, value: [u8; 2]) {
         self.es_no_raw = value;
     }
+    pub fn new() -> PacketCzEsCancel {
+        PacketCzEsCancel {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        es_no: 0,
+        es_no_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketCzEsCancel {
@@ -68387,6 +76958,15 @@ impl PacketZcEsReady {
     pub fn set_es_no_raw(&mut self, value: [u8; 2]) {
         self.es_no_raw = value;
     }
+    pub fn new() -> PacketZcEsReady {
+        PacketZcEsReady {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        es_no: 0,
+        es_no_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketZcEsReady {
@@ -68455,6 +77035,15 @@ impl PacketZcEsGoto {
     }
     pub fn set_es_no_raw(&mut self, value: [u8; 2]) {
         self.es_no_raw = value;
+    }
+    pub fn new() -> PacketZcEsGoto {
+        PacketZcEsGoto {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        es_no: 0,
+        es_no_raw: [0; 2],
+        }
     }
 }
 
@@ -68557,6 +77146,19 @@ impl PacketCzGroupinfoChangeV2 {
     pub fn set_item_division_rule_raw(&mut self, value: [u8; 1]) {
         self.item_division_rule_raw = value;
     }
+    pub fn new() -> PacketCzGroupinfoChangeV2 {
+        PacketCzGroupinfoChangeV2 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        exp_option: 0,
+        exp_option_raw: [0; 4],
+        item_pickup_rule: 0,
+        item_pickup_rule_raw: [0; 1],
+        item_division_rule: 0,
+        item_division_rule_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketCzGroupinfoChangeV2 {
@@ -68658,6 +77260,19 @@ impl PacketZcReqGroupinfoChangeV2 {
     pub fn set_item_division_rule_raw(&mut self, value: [u8; 1]) {
         self.item_division_rule_raw = value;
     }
+    pub fn new() -> PacketZcReqGroupinfoChangeV2 {
+        PacketZcReqGroupinfoChangeV2 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        exp_option: 0,
+        exp_option_raw: [0; 4],
+        item_pickup_rule: 0,
+        item_pickup_rule_raw: [0; 1],
+        item_division_rule: 0,
+        item_division_rule_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketZcReqGroupinfoChangeV2 {
@@ -68734,6 +77349,15 @@ impl PacketZcShortcutKeyListV2 {
     pub fn set_short_cut_key_raw(&mut self, value: Vec<Vec<u8>>) {
         self.short_cut_key_raw = value;
     }
+    pub fn new() -> PacketZcShortcutKeyListV2 {
+        PacketZcShortcutKeyListV2 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        short_cut_key: vec![],
+        short_cut_key_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcShortcutKeyListV2 {
@@ -68802,6 +77426,15 @@ impl PacketCzChangeGroupMaster {
     }
     pub fn set_aid_raw(&mut self, value: [u8; 4]) {
         self.aid_raw = value;
+    }
+    pub fn new() -> PacketCzChangeGroupMaster {
+        PacketCzChangeGroupMaster {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        }
     }
 }
 
@@ -68888,6 +77521,17 @@ impl PacketZcHoParChange {
     pub fn set_value_raw(&mut self, value: [u8; 4]) {
         self.value_raw = value;
     }
+    pub fn new() -> PacketZcHoParChange {
+        PacketZcHoParChange {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        var: 0,
+        var_raw: [0; 2],
+        value: 0,
+        value_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketZcHoParChange {
@@ -68956,6 +77600,15 @@ impl PacketCzSeekParty {
     }
     pub fn set_option_raw(&mut self, value: [u8; 4]) {
         self.option_raw = value;
+    }
+    pub fn new() -> PacketCzSeekParty {
+        PacketCzSeekParty {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        option: 0,
+        option_raw: [0; 4],
+        }
     }
 }
 
@@ -69106,6 +77759,23 @@ impl PacketZcSeekParty {
     pub fn set_option_raw(&mut self, value: [u8; 4]) {
         self.option_raw = value;
     }
+    pub fn new() -> PacketZcSeekParty {
+        PacketZcSeekParty {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        name: [0 as char; 24],
+        name_raw: [0; 24],
+        job: 0,
+        job_raw: [0; 4],
+        level: 0,
+        level_raw: [0; 4],
+        map_name: [0 as char; 16],
+        map_name_raw: [0; 16],
+        option: 0,
+        option_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketZcSeekParty {
@@ -69230,6 +77900,21 @@ impl PacketCzSeekPartyMember {
     }
     pub fn set_option_raw(&mut self, value: [u8; 4]) {
         self.option_raw = value;
+    }
+    pub fn new() -> PacketCzSeekPartyMember {
+        PacketCzSeekPartyMember {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        job: 0,
+        job_raw: [0; 4],
+        level: 0,
+        level_raw: [0; 4],
+        map_name: [0 as char; 16],
+        map_name_raw: [0; 16],
+        option: 0,
+        option_raw: [0; 4],
+        }
     }
 }
 
@@ -69380,6 +78065,23 @@ impl PacketZcSeekPartyMember {
     pub fn set_option_raw(&mut self, value: [u8; 4]) {
         self.option_raw = value;
     }
+    pub fn new() -> PacketZcSeekPartyMember {
+        PacketZcSeekPartyMember {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        name: [0 as char; 24],
+        name_raw: [0; 24],
+        job: 0,
+        job_raw: [0; 4],
+        level: 0,
+        level_raw: [0; 4],
+        map_name: [0 as char; 16],
+        map_name_raw: [0; 16],
+        option: 0,
+        option_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketZcSeekPartyMember {
@@ -69472,6 +78174,17 @@ impl PacketZcEsNotiMyinfo {
     }
     pub fn set_esname_raw(&mut self, value: [u8; 54]) {
         self.esname_raw = value;
+    }
+    pub fn new() -> PacketZcEsNotiMyinfo {
+        PacketZcEsNotiMyinfo {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        es_no: 0,
+        es_no_raw: [0; 2],
+        esname: [0 as char; 54],
+        esname_raw: [0; 54],
+        }
     }
 }
 
@@ -69622,6 +78335,25 @@ impl PacketZcSkillinfoUpdate2 {
     pub fn set_upgradable_raw(&mut self, value: [u8; 1]) {
         self.upgradable_raw = value;
     }
+    pub fn new() -> PacketZcSkillinfoUpdate2 {
+        PacketZcSkillinfoUpdate2 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        skid: 0,
+        skid_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 4],
+        level: 0,
+        level_raw: [0; 2],
+        spcost: 0,
+        spcost_raw: [0; 2],
+        attack_range: 0,
+        attack_range_raw: [0; 2],
+        upgradable: false,
+        upgradable_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketZcSkillinfoUpdate2 {
@@ -69707,6 +78439,17 @@ impl PacketZcMsgValue {
     pub fn set_value_raw(&mut self, value: [u8; 4]) {
         self.value_raw = value;
     }
+    pub fn new() -> PacketZcMsgValue {
+        PacketZcMsgValue {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        msg: 0,
+        msg_raw: [0; 2],
+        value: 0,
+        value_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketZcMsgValue {
@@ -69775,6 +78518,15 @@ impl PacketZcItemlistwinOpen {
     }
     pub fn set_atype_raw(&mut self, value: [u8; 4]) {
         self.atype_raw = value;
+    }
+    pub fn new() -> PacketZcItemlistwinOpen {
+        PacketZcItemlistwinOpen {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 4],
+        }
     }
 }
 
@@ -69893,6 +78645,21 @@ impl PacketCzItemlistwinRes {
     pub fn set_material_list_raw(&mut self, value: [u8; 2]) {
         self.material_list_raw = value;
     }
+    pub fn new() -> PacketCzItemlistwinRes {
+        PacketCzItemlistwinRes {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 4],
+        action: 0,
+        action_raw: [0; 4],
+        material_list: 0,
+        material_list_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketCzItemlistwinRes {
@@ -69988,6 +78755,19 @@ impl PacketChEnterCheckbot {
     pub fn set_sz_string_info_raw(&mut self, value: Vec<u8>) {
         self.sz_string_info_raw = value;
     }
+    pub fn new() -> PacketChEnterCheckbot {
+        PacketChEnterCheckbot {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        dw_aid: 0,
+        dw_aid_raw: [0; 4],
+        sz_string_info: String::new(),
+        sz_string_info_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketChEnterCheckbot {
@@ -70072,6 +78852,17 @@ impl PacketZcMsgSkill {
     }
     pub fn set_msgid_raw(&mut self, value: [u8; 4]) {
         self.msgid_raw = value;
+    }
+    pub fn new() -> PacketZcMsgSkill {
+        PacketZcMsgSkill {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        skid: 0,
+        skid_raw: [0; 2],
+        msgid: 0,
+        msgid_raw: [0; 4],
+        }
     }
 }
 
@@ -70182,6 +78973,19 @@ impl PacketChCheckbot {
     pub fn set_sz_string_info_raw(&mut self, value: [u8; 24]) {
         self.sz_string_info_raw = value;
     }
+    pub fn new() -> PacketChCheckbot {
+        PacketChCheckbot {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        dw_aid: 0,
+        dw_aid_raw: [0; 4],
+        sz_string_info: [0 as char; 24],
+        sz_string_info_raw: [0; 24],
+        }
+    }
 }
 
 impl Packet for PacketChCheckbot {
@@ -70260,6 +79064,17 @@ impl PacketHcCheckbot {
     }
     pub fn set_img_raw(&mut self, value: Vec<u8>) {
         self.img_raw = value;
+    }
+    pub fn new() -> PacketHcCheckbot {
+        PacketHcCheckbot {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        img: String::new(),
+        img_raw: vec![],
+        }
     }
 }
 
@@ -70346,6 +79161,17 @@ impl PacketHcCheckbotResult {
     pub fn set_result_raw(&mut self, value: [u8; 1]) {
         self.result_raw = value;
     }
+    pub fn new() -> PacketHcCheckbotResult {
+        PacketHcCheckbotResult {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        result: 0,
+        result_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketHcCheckbotResult {
@@ -70398,6 +79224,13 @@ impl PacketCzBattleFieldList {
     }
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
+    }
+    pub fn new() -> PacketCzBattleFieldList {
+        PacketCzBattleFieldList {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
     }
 }
 
@@ -70523,6 +79356,21 @@ impl PacketZcBattleFieldList {
     pub fn set_info_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.info_list_raw = value;
     }
+    pub fn new() -> PacketZcBattleFieldList {
+        PacketZcBattleFieldList {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        count: 0,
+        count_raw: [0; 2],
+        ack_type: 0,
+        ack_type_raw: [0; 2],
+        info_list: vec![],
+        info_list_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcBattleFieldList {
@@ -70607,6 +79455,17 @@ impl PacketCzJoinBattleField {
     }
     pub fn set_join_team_raw(&mut self, value: [u8; 2]) {
         self.join_team_raw = value;
+    }
+    pub fn new() -> PacketCzJoinBattleField {
+        PacketCzJoinBattleField {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        bfno: 0,
+        bfno_raw: [0; 4],
+        join_team: 0,
+        join_team_raw: [0; 2],
+        }
     }
 }
 
@@ -70709,6 +79568,19 @@ impl PacketZcJoinBattleField {
     pub fn set_result_raw(&mut self, value: [u8; 2]) {
         self.result_raw = value;
     }
+    pub fn new() -> PacketZcJoinBattleField {
+        PacketZcJoinBattleField {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        bfno: 0,
+        bfno_raw: [0; 4],
+        join_team: 0,
+        join_team_raw: [0; 2],
+        result: 0,
+        result_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketZcJoinBattleField {
@@ -70777,6 +79649,15 @@ impl PacketCzCancelBattleField {
     }
     pub fn set_bfno_raw(&mut self, value: [u8; 4]) {
         self.bfno_raw = value;
+    }
+    pub fn new() -> PacketCzCancelBattleField {
+        PacketCzCancelBattleField {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        bfno: 0,
+        bfno_raw: [0; 4],
+        }
     }
 }
 
@@ -70863,6 +79744,17 @@ impl PacketZcCancelBattleField {
     pub fn set_result_raw(&mut self, value: [u8; 2]) {
         self.result_raw = value;
     }
+    pub fn new() -> PacketZcCancelBattleField {
+        PacketZcCancelBattleField {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        bfno: 0,
+        bfno_raw: [0; 4],
+        result: 0,
+        result_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketZcCancelBattleField {
@@ -70947,6 +79839,17 @@ impl PacketCzReqBattleStateMonitor {
     }
     pub fn set_power_switch_raw(&mut self, value: [u8; 2]) {
         self.power_switch_raw = value;
+    }
+    pub fn new() -> PacketCzReqBattleStateMonitor {
+        PacketCzReqBattleStateMonitor {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        bfno: 0,
+        bfno_raw: [0; 4],
+        power_switch: 0,
+        power_switch_raw: [0; 2],
+        }
     }
 }
 
@@ -71113,6 +80016,27 @@ impl PacketZcAckBattleStateMonitor {
     pub fn set_join_team_raw(&mut self, value: [u8; 2]) {
         self.join_team_raw = value;
     }
+    pub fn new() -> PacketZcAckBattleStateMonitor {
+        PacketZcAckBattleStateMonitor {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        bfno: 0,
+        bfno_raw: [0; 4],
+        play_count: 0,
+        play_count_raw: [0; 2],
+        battle_state: 0,
+        battle_state_raw: [0; 2],
+        team_count_a: 0,
+        team_count_a_raw: [0; 2],
+        team_count_b: 0,
+        team_count_b_raw: [0; 2],
+        my_count: 0,
+        my_count_raw: [0; 2],
+        join_team: 0,
+        join_team_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketZcAckBattleStateMonitor {
@@ -71198,6 +80122,17 @@ impl PacketZcBattleNotiStartStep {
     pub fn set_result_raw(&mut self, value: [u8; 2]) {
         self.result_raw = value;
     }
+    pub fn new() -> PacketZcBattleNotiStartStep {
+        PacketZcBattleNotiStartStep {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        bfno: 0,
+        bfno_raw: [0; 4],
+        result: 0,
+        result_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketZcBattleNotiStartStep {
@@ -71266,6 +80201,15 @@ impl PacketZcBattleJoinNotiDefer {
     }
     pub fn set_bfno_raw(&mut self, value: [u8; 4]) {
         self.bfno_raw = value;
+    }
+    pub fn new() -> PacketZcBattleJoinNotiDefer {
+        PacketZcBattleJoinNotiDefer {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        bfno: 0,
+        bfno_raw: [0; 4],
+        }
     }
 }
 
@@ -71336,6 +80280,15 @@ impl PacketZcBattleJoinDisableState {
     pub fn set_enable_raw(&mut self, value: [u8; 1]) {
         self.enable_raw = value;
     }
+    pub fn new() -> PacketZcBattleJoinDisableState {
+        PacketZcBattleJoinDisableState {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        enable: false,
+        enable_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketZcBattleJoinDisableState {
@@ -71404,6 +80357,15 @@ impl PacketCzGmFullstrip {
     }
     pub fn set_target_aid_raw(&mut self, value: [u8; 4]) {
         self.target_aid_raw = value;
+    }
+    pub fn new() -> PacketCzGmFullstrip {
+        PacketCzGmFullstrip {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        target_aid: 0,
+        target_aid_raw: [0; 4],
+        }
     }
 }
 
@@ -71521,6 +80483,21 @@ impl PacketZcNotifyExp {
     }
     pub fn set_exp_type_raw(&mut self, value: [u8; 2]) {
         self.exp_type_raw = value;
+    }
+    pub fn new() -> PacketZcNotifyExp {
+        PacketZcNotifyExp {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        amount: 0,
+        amount_raw: [0; 4],
+        var_id: 0,
+        var_id_raw: [0; 2],
+        exp_type: 0,
+        exp_type_raw: [0; 2],
+        }
     }
 }
 
@@ -72055,6 +81032,71 @@ impl PacketZcNotifyMoveentry7 {
     pub fn set_name_raw(&mut self, value: [u8; 24]) {
         self.name_raw = value;
     }
+    pub fn new() -> PacketZcNotifyMoveentry7 {
+        PacketZcNotifyMoveentry7 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        objecttype: 0,
+        objecttype_raw: [0; 1],
+        gid: 0,
+        gid_raw: [0; 4],
+        speed: 0,
+        speed_raw: [0; 2],
+        body_state: 0,
+        body_state_raw: [0; 2],
+        health_state: 0,
+        health_state_raw: [0; 2],
+        effect_state: 0,
+        effect_state_raw: [0; 4],
+        job: 0,
+        job_raw: [0; 2],
+        head: 0,
+        head_raw: [0; 2],
+        weapon: 0,
+        weapon_raw: [0; 4],
+        accessory: 0,
+        accessory_raw: [0; 2],
+        move_start_time: 0,
+        move_start_time_raw: [0; 4],
+        accessory2: 0,
+        accessory2_raw: [0; 2],
+        accessory3: 0,
+        accessory3_raw: [0; 2],
+        headpalette: 0,
+        headpalette_raw: [0; 2],
+        bodypalette: 0,
+        bodypalette_raw: [0; 2],
+        head_dir: 0,
+        head_dir_raw: [0; 2],
+        guid: 0,
+        guid_raw: [0; 4],
+        gemblem_ver: 0,
+        gemblem_ver_raw: [0; 2],
+        honor: 0,
+        honor_raw: [0; 2],
+        virtue: 0,
+        virtue_raw: [0; 4],
+        is_pkmode_on: false,
+        is_pkmode_on_raw: [0; 1],
+        sex: 0,
+        sex_raw: [0; 1],
+        move_data: [0; 6],
+        move_data_raw: [0; 6],
+        x_size: 0,
+        x_size_raw: [0; 1],
+        y_size: 0,
+        y_size_raw: [0; 1],
+        clevel: 0,
+        clevel_raw: [0; 2],
+        font: 0,
+        font_raw: [0; 2],
+        name: [0 as char; 24],
+        name_raw: [0; 24],
+        }
+    }
 }
 
 impl Packet for PacketZcNotifyMoveentry7 {
@@ -72571,6 +81613,69 @@ impl PacketZcNotifyNewentry5 {
     }
     pub fn set_name_raw(&mut self, value: [u8; 24]) {
         self.name_raw = value;
+    }
+    pub fn new() -> PacketZcNotifyNewentry5 {
+        PacketZcNotifyNewentry5 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        objecttype: 0,
+        objecttype_raw: [0; 1],
+        gid: 0,
+        gid_raw: [0; 4],
+        speed: 0,
+        speed_raw: [0; 2],
+        body_state: 0,
+        body_state_raw: [0; 2],
+        health_state: 0,
+        health_state_raw: [0; 2],
+        effect_state: 0,
+        effect_state_raw: [0; 4],
+        job: 0,
+        job_raw: [0; 2],
+        head: 0,
+        head_raw: [0; 2],
+        weapon: 0,
+        weapon_raw: [0; 4],
+        accessory: 0,
+        accessory_raw: [0; 2],
+        accessory2: 0,
+        accessory2_raw: [0; 2],
+        accessory3: 0,
+        accessory3_raw: [0; 2],
+        headpalette: 0,
+        headpalette_raw: [0; 2],
+        bodypalette: 0,
+        bodypalette_raw: [0; 2],
+        head_dir: 0,
+        head_dir_raw: [0; 2],
+        guid: 0,
+        guid_raw: [0; 4],
+        gemblem_ver: 0,
+        gemblem_ver_raw: [0; 2],
+        honor: 0,
+        honor_raw: [0; 2],
+        virtue: 0,
+        virtue_raw: [0; 4],
+        is_pkmode_on: false,
+        is_pkmode_on_raw: [0; 1],
+        sex: 0,
+        sex_raw: [0; 1],
+        pos_dir: [0 as char; 3],
+        pos_dir_raw: [0; 3],
+        x_size: 0,
+        x_size_raw: [0; 1],
+        y_size: 0,
+        y_size_raw: [0; 1],
+        clevel: 0,
+        clevel_raw: [0; 2],
+        font: 0,
+        font_raw: [0; 2],
+        name: [0 as char; 24],
+        name_raw: [0; 24],
+        }
     }
 }
 
@@ -73105,6 +82210,71 @@ impl PacketZcNotifyStandentry5 {
     pub fn set_name_raw(&mut self, value: [u8; 24]) {
         self.name_raw = value;
     }
+    pub fn new() -> PacketZcNotifyStandentry5 {
+        PacketZcNotifyStandentry5 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        objecttype: 0,
+        objecttype_raw: [0; 1],
+        gid: 0,
+        gid_raw: [0; 4],
+        speed: 0,
+        speed_raw: [0; 2],
+        body_state: 0,
+        body_state_raw: [0; 2],
+        health_state: 0,
+        health_state_raw: [0; 2],
+        effect_state: 0,
+        effect_state_raw: [0; 4],
+        job: 0,
+        job_raw: [0; 2],
+        head: 0,
+        head_raw: [0; 2],
+        weapon: 0,
+        weapon_raw: [0; 4],
+        accessory: 0,
+        accessory_raw: [0; 2],
+        accessory2: 0,
+        accessory2_raw: [0; 2],
+        accessory3: 0,
+        accessory3_raw: [0; 2],
+        headpalette: 0,
+        headpalette_raw: [0; 2],
+        bodypalette: 0,
+        bodypalette_raw: [0; 2],
+        head_dir: 0,
+        head_dir_raw: [0; 2],
+        guid: 0,
+        guid_raw: [0; 4],
+        gemblem_ver: 0,
+        gemblem_ver_raw: [0; 2],
+        honor: 0,
+        honor_raw: [0; 2],
+        virtue: 0,
+        virtue_raw: [0; 4],
+        is_pkmode_on: false,
+        is_pkmode_on_raw: [0; 1],
+        sex: 0,
+        sex_raw: [0; 1],
+        pos_dir: [0 as char; 3],
+        pos_dir_raw: [0; 3],
+        x_size: 0,
+        x_size_raw: [0; 1],
+        y_size: 0,
+        y_size_raw: [0; 1],
+        state: 0,
+        state_raw: [0; 1],
+        clevel: 0,
+        clevel_raw: [0; 2],
+        font: 0,
+        font_raw: [0; 2],
+        name: [0 as char; 24],
+        name_raw: [0; 24],
+        }
+    }
 }
 
 impl Packet for PacketZcNotifyStandentry5 {
@@ -73205,6 +82375,19 @@ impl PacketZcDeleteItemFromBody {
     }
     pub fn set_count_raw(&mut self, value: [u8; 2]) {
         self.count_raw = value;
+    }
+    pub fn new() -> PacketZcDeleteItemFromBody {
+        PacketZcDeleteItemFromBody {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        delete_type: 0,
+        delete_type_raw: [0; 2],
+        index: 0,
+        index_raw: [0; 2],
+        count: 0,
+        count_raw: [0; 2],
+        }
     }
 }
 
@@ -73387,6 +82570,29 @@ impl PacketZcUseskillAck2 {
     pub fn set_is_disposable_raw(&mut self, value: [u8; 1]) {
         self.is_disposable_raw = value;
     }
+    pub fn new() -> PacketZcUseskillAck2 {
+        PacketZcUseskillAck2 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        target_id: 0,
+        target_id_raw: [0; 4],
+        x_pos: 0,
+        x_pos_raw: [0; 2],
+        y_pos: 0,
+        y_pos_raw: [0; 2],
+        skid: 0,
+        skid_raw: [0; 2],
+        property: 0,
+        property_raw: [0; 4],
+        delay_time: 0,
+        delay_time_raw: [0; 4],
+        is_disposable: false,
+        is_disposable_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketZcUseskillAck2 {
@@ -73472,6 +82678,17 @@ impl PacketZcChangeGroupMaster {
     pub fn set_new_master_aid_raw(&mut self, value: [u8; 4]) {
         self.new_master_aid_raw = value;
     }
+    pub fn new() -> PacketZcChangeGroupMaster {
+        PacketZcChangeGroupMaster {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        old_master_aid: 0,
+        old_master_aid_raw: [0; 4],
+        new_master_aid: 0,
+        new_master_aid_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketZcChangeGroupMaster {
@@ -73548,6 +82765,15 @@ impl PacketZcPlayNpcBgm {
     }
     pub fn set_bgm_raw(&mut self, value: [u8; 24]) {
         self.bgm_raw = value;
+    }
+    pub fn new() -> PacketZcPlayNpcBgm {
+        PacketZcPlayNpcBgm {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        bgm: [0 as char; 24],
+        bgm_raw: [0; 24],
+        }
     }
 }
 
@@ -73633,6 +82859,17 @@ impl PacketZcDefineCheck {
     }
     pub fn set_result_raw(&mut self, value: [u8; 4]) {
         self.result_raw = value;
+    }
+    pub fn new() -> PacketZcDefineCheck {
+        PacketZcDefineCheck {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        result: 0,
+        result_raw: [0; 4],
+        }
     }
 }
 
@@ -73758,6 +82995,21 @@ impl PacketZcPcPurchaseItemlistFrommc2 {
     pub fn set_item_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_list_raw = value;
     }
+    pub fn new() -> PacketZcPcPurchaseItemlistFrommc2 {
+        PacketZcPcPurchaseItemlistFrommc2 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        unique_id: 0,
+        unique_id_raw: [0; 4],
+        item_list: vec![],
+        item_list_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcPcPurchaseItemlistFrommc2 {
@@ -73882,6 +83134,21 @@ impl PacketCzPcPurchaseItemlistFrommc2 {
     pub fn set_item_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_list_raw = value;
     }
+    pub fn new() -> PacketCzPcPurchaseItemlistFrommc2 {
+        PacketCzPcPurchaseItemlistFrommc2 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        unique_id: 0,
+        unique_id_raw: [0; 4],
+        item_list: vec![],
+        item_list_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketCzPcPurchaseItemlistFrommc2 {
@@ -73944,6 +83211,15 @@ impl PacketCzPartyBookingReqRegister {
     }
     pub fn set_register_info_raw(&mut self, value: Vec<u8>) {
         self.register_info_raw = value;
+    }
+    pub fn new() -> PacketCzPartyBookingReqRegister {
+        PacketCzPartyBookingReqRegister {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        register_info: PartyBookingDetail::new(),
+        register_info_raw: vec![],
+        }
     }
 }
 
@@ -74013,6 +83289,15 @@ impl PacketZcPartyBookingAckRegister {
     }
     pub fn set_result_raw(&mut self, value: [u8; 2]) {
         self.result_raw = value;
+    }
+    pub fn new() -> PacketZcPartyBookingAckRegister {
+        PacketZcPartyBookingAckRegister {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        result: 0,
+        result_raw: [0; 2],
+        }
     }
 }
 
@@ -74147,6 +83432,23 @@ impl PacketCzPartyBookingReqSearch {
     pub fn set_result_count_raw(&mut self, value: [u8; 2]) {
         self.result_count_raw = value;
     }
+    pub fn new() -> PacketCzPartyBookingReqSearch {
+        PacketCzPartyBookingReqSearch {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        level: 0,
+        level_raw: [0; 2],
+        map_id: 0,
+        map_id_raw: [0; 2],
+        job: 0,
+        job_raw: [0; 2],
+        last_index: 0,
+        last_index_raw: [0; 4],
+        result_count: 0,
+        result_count_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketCzPartyBookingReqSearch {
@@ -74255,6 +83557,19 @@ impl PacketZcPartyBookingAckSearch {
     pub fn set_info_raw(&mut self, value: Vec<Vec<u8>>) {
         self.info_raw = value;
     }
+    pub fn new() -> PacketZcPartyBookingAckSearch {
+        PacketZcPartyBookingAckSearch {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        is_exist_more_result: false,
+        is_exist_more_result_raw: [0; 1],
+        info: vec![],
+        info_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcPartyBookingAckSearch {
@@ -74307,6 +83622,13 @@ impl PacketCzPartyBookingReqDelete {
     }
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
+    }
+    pub fn new() -> PacketCzPartyBookingReqDelete {
+        PacketCzPartyBookingReqDelete {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
     }
 }
 
@@ -74376,6 +83698,15 @@ impl PacketZcPartyBookingAckDelete {
     }
     pub fn set_result_raw(&mut self, value: [u8; 2]) {
         self.result_raw = value;
+    }
+    pub fn new() -> PacketZcPartyBookingAckDelete {
+        PacketZcPartyBookingAckDelete {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        result: 0,
+        result_raw: [0; 2],
+        }
     }
 }
 
@@ -74454,6 +83785,15 @@ impl PacketCzPartyBookingReqUpdate {
     pub fn set_job_raw(&mut self, value: [u8; 6]) {
         self.job_raw = value;
     }
+    pub fn new() -> PacketCzPartyBookingReqUpdate {
+        PacketCzPartyBookingReqUpdate {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        job: [0; 6],
+        job_raw: [0; 6],
+        }
+    }
 }
 
 impl Packet for PacketCzPartyBookingReqUpdate {
@@ -74516,6 +83856,15 @@ impl PacketZcPartyBookingNotifyInsert {
     }
     pub fn set_info_raw(&mut self, value: Vec<u8>) {
         self.info_raw = value;
+    }
+    pub fn new() -> PacketZcPartyBookingNotifyInsert {
+        PacketZcPartyBookingNotifyInsert {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        info: PartyBookingAdInfo::new(),
+        info_raw: vec![],
+        }
     }
 }
 
@@ -74682,6 +84031,27 @@ impl PacketZcPartyBookingNotifyUpdate {
     pub fn set_job6_raw(&mut self, value: [u8; 2]) {
         self.job6_raw = value;
     }
+    pub fn new() -> PacketZcPartyBookingNotifyUpdate {
+        PacketZcPartyBookingNotifyUpdate {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        index: 0,
+        index_raw: [0; 4],
+        job1: 0,
+        job1_raw: [0; 2],
+        job2: 0,
+        job2_raw: [0; 2],
+        job3: 0,
+        job3_raw: [0; 2],
+        job4: 0,
+        job4_raw: [0; 2],
+        job5: 0,
+        job5_raw: [0; 2],
+        job6: 0,
+        job6_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketZcPartyBookingNotifyUpdate {
@@ -74751,6 +84121,15 @@ impl PacketZcPartyBookingNotifyDelete {
     pub fn set_index_raw(&mut self, value: [u8; 4]) {
         self.index_raw = value;
     }
+    pub fn new() -> PacketZcPartyBookingNotifyDelete {
+        PacketZcPartyBookingNotifyDelete {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        index: 0,
+        index_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketZcPartyBookingNotifyDelete {
@@ -74803,6 +84182,13 @@ impl PacketCzSimpleCashBtnshow {
     }
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
+    }
+    pub fn new() -> PacketCzSimpleCashBtnshow {
+        PacketCzSimpleCashBtnshow {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
     }
 }
 
@@ -74872,6 +84258,15 @@ impl PacketZcSimpleCashBtnshow {
     }
     pub fn set_show_raw(&mut self, value: [u8; 1]) {
         self.show_raw = value;
+    }
+    pub fn new() -> PacketZcSimpleCashBtnshow {
+        PacketZcSimpleCashBtnshow {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        show: false,
+        show_raw: [0; 1],
+        }
     }
 }
 
@@ -74973,6 +84368,19 @@ impl PacketZcNotifyHpToGroupmR2 {
     }
     pub fn set_maxhp_raw(&mut self, value: [u8; 4]) {
         self.maxhp_raw = value;
+    }
+    pub fn new() -> PacketZcNotifyHpToGroupmR2 {
+        PacketZcNotifyHpToGroupmR2 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        hp: 0,
+        hp_raw: [0; 4],
+        maxhp: 0,
+        maxhp_raw: [0; 4],
+        }
     }
 }
 
@@ -75137,6 +84545,27 @@ impl PacketZcAddExchangeItem2 {
     pub fn set_slot_raw(&mut self, value: [u8; 8]) {
         self.slot_raw = value;
     }
+    pub fn new() -> PacketZcAddExchangeItem2 {
+        PacketZcAddExchangeItem2 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        itid: 0,
+        itid_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 1],
+        count: 0,
+        count_raw: [0; 4],
+        is_identified: false,
+        is_identified_raw: [0; 1],
+        is_damaged: false,
+        is_damaged_raw: [0; 1],
+        refining_level: 0,
+        refining_level_raw: [0; 1],
+        slot: EQUIPSLOTINFO::new(),
+        slot_raw: [0; 8],
+        }
+    }
 }
 
 impl Packet for PacketZcAddExchangeItem2 {
@@ -75205,6 +84634,15 @@ impl PacketZcOpenBuyingStore {
     }
     pub fn set_count_raw(&mut self, value: [u8; 1]) {
         self.count_raw = value;
+    }
+    pub fn new() -> PacketZcOpenBuyingStore {
+        PacketZcOpenBuyingStore {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        count: 0,
+        count_raw: [0; 1],
+        }
     }
 }
 
@@ -75354,6 +84792,23 @@ impl PacketCzReqOpenBuyingStore {
     pub fn set_item_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_list_raw = value;
     }
+    pub fn new() -> PacketCzReqOpenBuyingStore {
+        PacketCzReqOpenBuyingStore {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        limit_zeny: 0,
+        limit_zeny_raw: [0; 4],
+        result: 0,
+        result_raw: [0; 1],
+        store_name: [0 as char; 80],
+        store_name_raw: [0; 80],
+        item_list: vec![],
+        item_list_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketCzReqOpenBuyingStore {
@@ -75438,6 +84893,17 @@ impl PacketZcFailedOpenBuyingStoreToBuyer {
     }
     pub fn set_total_weight_raw(&mut self, value: [u8; 4]) {
         self.total_weight_raw = value;
+    }
+    pub fn new() -> PacketZcFailedOpenBuyingStoreToBuyer {
+        PacketZcFailedOpenBuyingStoreToBuyer {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        result: 0,
+        result_raw: [0; 2],
+        total_weight: 0,
+        total_weight_raw: [0; 4],
+        }
     }
 }
 
@@ -75563,6 +85029,21 @@ impl PacketZcMyitemlistBuyingStore {
     pub fn set_item_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_list_raw = value;
     }
+    pub fn new() -> PacketZcMyitemlistBuyingStore {
+        PacketZcMyitemlistBuyingStore {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        limit_zeny: 0,
+        limit_zeny_raw: [0; 4],
+        item_list: vec![],
+        item_list_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcMyitemlistBuyingStore {
@@ -75656,6 +85137,17 @@ impl PacketZcBuyingStoreEntry {
     pub fn set_store_name_raw(&mut self, value: [u8; 80]) {
         self.store_name_raw = value;
     }
+    pub fn new() -> PacketZcBuyingStoreEntry {
+        PacketZcBuyingStoreEntry {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        maker_aid: 0,
+        maker_aid_raw: [0; 4],
+        store_name: [0 as char; 80],
+        store_name_raw: [0; 80],
+        }
+    }
 }
 
 impl Packet for PacketZcBuyingStoreEntry {
@@ -75708,6 +85200,13 @@ impl PacketCzReqCloseBuyingStore {
     }
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
+    }
+    pub fn new() -> PacketCzReqCloseBuyingStore {
+        PacketCzReqCloseBuyingStore {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
     }
 }
 
@@ -75778,6 +85277,15 @@ impl PacketZcDisappearBuyingStoreEntry {
     pub fn set_maker_aid_raw(&mut self, value: [u8; 4]) {
         self.maker_aid_raw = value;
     }
+    pub fn new() -> PacketZcDisappearBuyingStoreEntry {
+        PacketZcDisappearBuyingStoreEntry {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        maker_aid: 0,
+        maker_aid_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketZcDisappearBuyingStoreEntry {
@@ -75846,6 +85354,15 @@ impl PacketCzReqClickToBuyingStore {
     }
     pub fn set_maker_aid_raw(&mut self, value: [u8; 4]) {
         self.maker_aid_raw = value;
+    }
+    pub fn new() -> PacketCzReqClickToBuyingStore {
+        PacketCzReqClickToBuyingStore {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        maker_aid: 0,
+        maker_aid_raw: [0; 4],
+        }
     }
 }
 
@@ -75987,6 +85504,23 @@ impl PacketZcAckItemlistBuyingStore {
     pub fn set_item_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_list_raw = value;
     }
+    pub fn new() -> PacketZcAckItemlistBuyingStore {
+        PacketZcAckItemlistBuyingStore {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        maker_aid: 0,
+        maker_aid_raw: [0; 4],
+        store_id: 0,
+        store_id_raw: [0; 4],
+        limit_zeny: 0,
+        limit_zeny_raw: [0; 4],
+        item_list: vec![],
+        item_list_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcAckItemlistBuyingStore {
@@ -76111,6 +85645,21 @@ impl PacketCzReqTradeBuyingStore {
     pub fn set_item_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_list_raw = value;
     }
+    pub fn new() -> PacketCzReqTradeBuyingStore {
+        PacketCzReqTradeBuyingStore {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        maker_aid: 0,
+        maker_aid_raw: [0; 4],
+        store_id: 0,
+        store_id_raw: [0; 4],
+        item_list: vec![],
+        item_list_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketCzReqTradeBuyingStore {
@@ -76179,6 +85728,15 @@ impl PacketZcFailedTradeBuyingStoreToBuyer {
     }
     pub fn set_result_raw(&mut self, value: [u8; 2]) {
         self.result_raw = value;
+    }
+    pub fn new() -> PacketZcFailedTradeBuyingStoreToBuyer {
+        PacketZcFailedTradeBuyingStoreToBuyer {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        result: 0,
+        result_raw: [0; 2],
+        }
     }
 }
 
@@ -76281,6 +85839,19 @@ impl PacketZcUpdateItemFromBuyingStore {
     pub fn set_limit_zeny_raw(&mut self, value: [u8; 4]) {
         self.limit_zeny_raw = value;
     }
+    pub fn new() -> PacketZcUpdateItemFromBuyingStore {
+        PacketZcUpdateItemFromBuyingStore {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        itid: 0,
+        itid_raw: [0; 2],
+        count: 0,
+        count_raw: [0; 2],
+        limit_zeny: 0,
+        limit_zeny_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketZcUpdateItemFromBuyingStore {
@@ -76381,6 +85952,19 @@ impl PacketZcItemDeleteBuyingStore {
     }
     pub fn set_zeny_raw(&mut self, value: [u8; 4]) {
         self.zeny_raw = value;
+    }
+    pub fn new() -> PacketZcItemDeleteBuyingStore {
+        PacketZcItemDeleteBuyingStore {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        index: 0,
+        index_raw: [0; 2],
+        count: 0,
+        count_raw: [0; 2],
+        zeny: 0,
+        zeny_raw: [0; 4],
+        }
     }
 }
 
@@ -76515,6 +86099,23 @@ impl PacketZcElInit {
     pub fn set_max_sp_raw(&mut self, value: [u8; 4]) {
         self.max_sp_raw = value;
     }
+    pub fn new() -> PacketZcElInit {
+        PacketZcElInit {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        hp: 0,
+        hp_raw: [0; 4],
+        max_hp: 0,
+        max_hp_raw: [0; 4],
+        sp: 0,
+        sp_raw: [0; 4],
+        max_sp: 0,
+        max_sp_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketZcElInit {
@@ -76599,6 +86200,17 @@ impl PacketZcElParChange {
     }
     pub fn set_value_raw(&mut self, value: [u8; 4]) {
         self.value_raw = value;
+    }
+    pub fn new() -> PacketZcElParChange {
+        PacketZcElParChange {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        var: 0,
+        var_raw: [0; 2],
+        value: 0,
+        value_raw: [0; 4],
+        }
     }
 }
 
@@ -76711,6 +86323,21 @@ impl PacketZcBroadcast4 {
     pub fn set_msg_raw(&mut self, value: Vec<u8>) {
         self.msg_raw = value;
     }
+    pub fn new() -> PacketZcBroadcast4 {
+        PacketZcBroadcast4 {
+        raw: vec![],
+        pakcet_type: 0,
+        pakcet_type_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        msgtype: 0,
+        msgtype_raw: [0; 1],
+        color_rgb: 0,
+        color_rgb_raw: [0; 4],
+        msg: String::new(),
+        msg_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcBroadcast4 {
@@ -76812,6 +86439,19 @@ impl PacketZcCostumeSpriteChange {
     pub fn set_value_raw(&mut self, value: [u8; 4]) {
         self.value_raw = value;
     }
+    pub fn new() -> PacketZcCostumeSpriteChange {
+        PacketZcCostumeSpriteChange {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        gid: 0,
+        gid_raw: [0; 4],
+        atype: 0,
+        atype_raw: [0; 1],
+        value: 0,
+        value_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketZcCostumeSpriteChange {
@@ -76864,6 +86504,13 @@ impl PacketAcOtpUser {
     }
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
+    }
+    pub fn new() -> PacketAcOtpUser {
+        PacketAcOtpUser {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
     }
 }
 
@@ -76941,6 +86588,15 @@ impl PacketCaOtpAuthReq {
     }
     pub fn set_otpcode_raw(&mut self, value: [u8; 7]) {
         self.otpcode_raw = value;
+    }
+    pub fn new() -> PacketCaOtpAuthReq {
+        PacketCaOtpAuthReq {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        otpcode: [0 as char; 7],
+        otpcode_raw: [0; 7],
+        }
     }
 }
 
@@ -77027,6 +86683,17 @@ impl PacketAcOtpAuthAck {
     pub fn set_login_result_raw(&mut self, value: [u8; 2]) {
         self.login_result_raw = value;
     }
+    pub fn new() -> PacketAcOtpAuthAck {
+        PacketAcOtpAuthAck {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        login_result: 0,
+        login_result_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketAcOtpAuthAck {
@@ -77111,6 +86778,17 @@ impl PacketZcFailedTradeBuyingStoreToSeller {
     }
     pub fn set_itid_raw(&mut self, value: [u8; 2]) {
         self.itid_raw = value;
+    }
+    pub fn new() -> PacketZcFailedTradeBuyingStoreToSeller {
+        PacketZcFailedTradeBuyingStoreToSeller {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        result: 0,
+        result_raw: [0; 2],
+        itid: 0,
+        itid_raw: [0; 2],
+        }
     }
 }
 
@@ -77294,6 +86972,27 @@ impl PacketCaSsoLoginReqa {
     }
     pub fn set_t1_raw(&mut self, value: Vec<u8>) {
         self.t1_raw = value;
+    }
+    pub fn new() -> PacketCaSsoLoginReqa {
+        PacketCaSsoLoginReqa {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        version: 0,
+        version_raw: [0; 4],
+        clienttype: 0,
+        clienttype_raw: [0; 1],
+        id: [0 as char; 24],
+        id_raw: [0; 24],
+        mac_addr: [0 as char; 17],
+        mac_addr_raw: [0; 17],
+        ip_addr: [0 as char; 15],
+        ip_addr_raw: [0; 15],
+        t1: String::new(),
+        t1_raw: vec![],
+        }
     }
 }
 
@@ -77502,6 +87201,29 @@ impl PacketCaSsoLoginReq {
     pub fn set_t1_raw(&mut self, value: Vec<u8>) {
         self.t1_raw = value;
     }
+    pub fn new() -> PacketCaSsoLoginReq {
+        PacketCaSsoLoginReq {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        version: 0,
+        version_raw: [0; 4],
+        clienttype: 0,
+        clienttype_raw: [0; 1],
+        id: [0 as char; 24],
+        id_raw: [0; 24],
+        passwd: [0 as char; 27],
+        passwd_raw: [0; 27],
+        mac_adress: [0 as char; 17],
+        mac_adress_raw: [0; 17],
+        ip: [0 as char; 15],
+        ip_raw: [0; 15],
+        t1: String::new(),
+        t1_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketCaSsoLoginReq {
@@ -77571,6 +87293,15 @@ impl PacketAcSsoLoginAck {
     pub fn set_result_raw(&mut self, value: [u8; 2]) {
         self.result_raw = value;
     }
+    pub fn new() -> PacketAcSsoLoginAck {
+        PacketAcSsoLoginAck {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        result: 0,
+        result_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketAcSsoLoginAck {
@@ -77639,6 +87370,15 @@ impl PacketChDeleteChar3Reserved {
     }
     pub fn set_gid_raw(&mut self, value: [u8; 4]) {
         self.gid_raw = value;
+    }
+    pub fn new() -> PacketChDeleteChar3Reserved {
+        PacketChDeleteChar3Reserved {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        gid: 0,
+        gid_raw: [0; 4],
+        }
     }
 }
 
@@ -77741,6 +87481,19 @@ impl PacketHcDeleteChar3Reserved {
     pub fn set_delete_reserved_date_raw(&mut self, value: [u8; 4]) {
         self.delete_reserved_date_raw = value;
     }
+    pub fn new() -> PacketHcDeleteChar3Reserved {
+        PacketHcDeleteChar3Reserved {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        gid: 0,
+        gid_raw: [0; 4],
+        result: 0,
+        result_raw: [0; 4],
+        delete_reserved_date: 0,
+        delete_reserved_date_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketHcDeleteChar3Reserved {
@@ -77834,6 +87587,17 @@ impl PacketChDeleteChar3 {
     pub fn set_birth_raw(&mut self, value: [u8; 6]) {
         self.birth_raw = value;
     }
+    pub fn new() -> PacketChDeleteChar3 {
+        PacketChDeleteChar3 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        gid: 0,
+        gid_raw: [0; 4],
+        birth: [0 as char; 6],
+        birth_raw: [0; 6],
+        }
+    }
 }
 
 impl Packet for PacketChDeleteChar3 {
@@ -77919,6 +87683,17 @@ impl PacketHcDeleteChar3 {
     pub fn set_result_raw(&mut self, value: [u8; 4]) {
         self.result_raw = value;
     }
+    pub fn new() -> PacketHcDeleteChar3 {
+        PacketHcDeleteChar3 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        gid: 0,
+        gid_raw: [0; 4],
+        result: 0,
+        result_raw: [0; 4],
+        }
+    }
 }
 
 impl Packet for PacketHcDeleteChar3 {
@@ -77987,6 +87762,15 @@ impl PacketChDeleteChar3Cancel {
     }
     pub fn set_gid_raw(&mut self, value: [u8; 4]) {
         self.gid_raw = value;
+    }
+    pub fn new() -> PacketChDeleteChar3Cancel {
+        PacketChDeleteChar3Cancel {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        gid: 0,
+        gid_raw: [0; 4],
+        }
     }
 }
 
@@ -78072,6 +87856,17 @@ impl PacketHcDeleteChar3Cancel {
     }
     pub fn set_result_raw(&mut self, value: [u8; 4]) {
         self.result_raw = value;
+    }
+    pub fn new() -> PacketHcDeleteChar3Cancel {
+        PacketHcDeleteChar3Cancel {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        gid: 0,
+        gid_raw: [0; 4],
+        result: 0,
+        result_raw: [0; 4],
+        }
     }
 }
 
@@ -78222,6 +88017,25 @@ impl PacketCzSearchStoreInfo {
     pub fn set_card_idlist_size_raw(&mut self, value: [u8; 1]) {
         self.card_idlist_size_raw = value;
     }
+    pub fn new() -> PacketCzSearchStoreInfo {
+        PacketCzSearchStoreInfo {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        store_type: 0,
+        store_type_raw: [0; 1],
+        max_price: 0,
+        max_price_raw: [0; 4],
+        min_price: 0,
+        min_price_raw: [0; 4],
+        item_idlist_size: 0,
+        item_idlist_size_raw: [0; 1],
+        card_idlist_size: 0,
+        card_idlist_size_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketCzSearchStoreInfo {
@@ -78362,6 +88176,23 @@ impl PacketZcSearchStoreInfoAck {
     pub fn set_ssilist_raw(&mut self, value: Vec<Vec<u8>>) {
         self.ssilist_raw = value;
     }
+    pub fn new() -> PacketZcSearchStoreInfoAck {
+        PacketZcSearchStoreInfoAck {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        is_first_page: false,
+        is_first_page_raw: [0; 1],
+        is_nex_page: false,
+        is_nex_page_raw: [0; 1],
+        remained_search_cnt: 0,
+        remained_search_cnt_raw: [0; 1],
+        ssilist: vec![],
+        ssilist_raw: vec![],
+        }
+    }
 }
 
 impl Packet for PacketZcSearchStoreInfoAck {
@@ -78431,6 +88262,15 @@ impl PacketZcSearchStoreInfoFailed {
     pub fn set_reason_raw(&mut self, value: [u8; 1]) {
         self.reason_raw = value;
     }
+    pub fn new() -> PacketZcSearchStoreInfoFailed {
+        PacketZcSearchStoreInfoFailed {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        reason: 0,
+        reason_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketZcSearchStoreInfoFailed {
@@ -78483,6 +88323,13 @@ impl PacketCzSearchStoreInfoNextPage {
     }
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
+    }
+    pub fn new() -> PacketCzSearchStoreInfoNextPage {
+        PacketCzSearchStoreInfoNextPage {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
     }
 }
 
@@ -78585,6 +88432,17 @@ impl PacketZcAckBanGuildSso {
     pub fn set_reason_desc_raw(&mut self, value: [u8; 40]) {
         self.reason_desc_raw = value;
     }
+    pub fn new() -> PacketZcAckBanGuildSso {
+        PacketZcAckBanGuildSso {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        char_name: [0 as char; 24],
+        char_name_raw: [0; 24],
+        reason_desc: [0 as char; 40],
+        reason_desc_raw: [0; 40],
+        }
+    }
 }
 
 impl Packet for PacketZcAckBanGuildSso {
@@ -78670,6 +88528,17 @@ impl PacketZcOpenSearchStoreInfo {
     pub fn set_search_cnt_max_raw(&mut self, value: [u8; 1]) {
         self.search_cnt_max_raw = value;
     }
+    pub fn new() -> PacketZcOpenSearchStoreInfo {
+        PacketZcOpenSearchStoreInfo {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        open_type: 0,
+        open_type_raw: [0; 2],
+        search_cnt_max: 0,
+        search_cnt_max_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketZcOpenSearchStoreInfo {
@@ -78722,6 +88591,13 @@ impl PacketCzCloseSearchStoreInfo {
     }
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
+    }
+    pub fn new() -> PacketCzCloseSearchStoreInfo {
+        PacketCzCloseSearchStoreInfo {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        }
     }
 }
 
@@ -78824,6 +88700,19 @@ impl PacketCzSsilistItemClick {
     pub fn set_itid_raw(&mut self, value: [u8; 2]) {
         self.itid_raw = value;
     }
+    pub fn new() -> PacketCzSsilistItemClick {
+        PacketCzSsilistItemClick {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        ssiid: 0,
+        ssiid_raw: [0; 4],
+        itid: 0,
+        itid_raw: [0; 2],
+        }
+    }
 }
 
 impl Packet for PacketCzSsilistItemClick {
@@ -78908,6 +88797,17 @@ impl PacketZcSsilistItemClickAck {
     }
     pub fn set_y_raw(&mut self, value: [u8; 2]) {
         self.y_raw = value;
+    }
+    pub fn new() -> PacketZcSsilistItemClickAck {
+        PacketZcSsilistItemClickAck {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        x: 0,
+        x_raw: [0; 2],
+        y: 0,
+        y_raw: [0; 2],
+        }
     }
 }
 
@@ -79002,6 +88902,17 @@ impl PacketAcRefuseLoginR2 {
     pub fn set_block_date_raw(&mut self, value: [u8; 20]) {
         self.block_date_raw = value;
     }
+    pub fn new() -> PacketAcRefuseLoginR2 {
+        PacketAcRefuseLoginR2 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        error_code: 0,
+        error_code_raw: [0; 4],
+        block_date: [0 as char; 20],
+        block_date_raw: [0; 20],
+        }
+    }
 }
 
 impl Packet for PacketAcRefuseLoginR2 {
@@ -79087,6 +88998,17 @@ impl PacketChSelectAccessibleMapname {
     pub fn set_map_list_num_raw(&mut self, value: [u8; 1]) {
         self.map_list_num_raw = value;
     }
+    pub fn new() -> PacketChSelectAccessibleMapname {
+        PacketChSelectAccessibleMapname {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        char_num: 0,
+        char_num_raw: [0; 1],
+        map_list_num: 0,
+        map_list_num_raw: [0; 1],
+        }
+    }
 }
 
 impl Packet for PacketChSelectAccessibleMapname {
@@ -79163,6 +89085,15 @@ impl PacketCzRequestMove2 {
     }
     pub fn set_dest_raw(&mut self, value: [u8; 3]) {
         self.dest_raw = value;
+    }
+    pub fn new() -> PacketCzRequestMove2 {
+        PacketCzRequestMove2 {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        dest: [0; 3],
+        dest_raw: [0; 3],
+        }
     }
 }
 
@@ -79313,6 +89244,23 @@ impl PacketChSendMapInfo {
     pub fn set_dns_host_raw(&mut self, value: [u8; 128]) {
         self.dns_host_raw = value;
     }
+    pub fn new() -> PacketChSendMapInfo {
+        PacketChSendMapInfo {
+        raw: vec![],
+        packet_id: 0,
+        packet_id_raw: [0; 2],
+        gid: 0,
+        gid_raw: [0; 4],
+        map_name: [0 as char; 16],
+        map_name_raw: [0; 16],
+        map_server_ip: 0,
+        map_server_ip_raw: [0; 4],
+        map_server_port: 0,
+        map_server_port_raw: [0; 2],
+        dns_host: [0 as char; 128],
+        dns_host_raw: [0; 128],
+        }
+    }
 }
 
 impl Packet for PacketChSendMapInfo {
@@ -79454,6 +89402,23 @@ impl ServerAddr {
     pub fn set_property_raw(&mut self, value: [u8; 2]) {
         self.property_raw = value;
     }
+    pub fn new() -> ServerAddr {
+        ServerAddr {
+        raw: vec![],
+        ip: 0,
+        ip_raw: [0; 4],
+        port: 0,
+        port_raw: [0; 2],
+        name: [0 as char; 20],
+        name_raw: [0; 20],
+        user_count: 0,
+        user_count_raw: [0; 2],
+        state: 0,
+        state_raw: [0; 2],
+        property: 0,
+        property_raw: [0; 2],
+        }
+    }
 }
 
 impl ServerAddr2 {
@@ -79594,6 +89559,25 @@ impl ServerAddr2 {
     }
     pub fn set_unknown2_raw(&mut self, value: [u8; 128]) {
         self.unknown2_raw = value;
+    }
+    pub fn new() -> ServerAddr2 {
+        ServerAddr2 {
+        raw: vec![],
+        ip: 0,
+        ip_raw: [0; 4],
+        port: 0,
+        port_raw: [0; 2],
+        name: [0 as char; 20],
+        name_raw: [0; 20],
+        user_count: 0,
+        user_count_raw: [0; 2],
+        state: 0,
+        state_raw: [0; 2],
+        property: 0,
+        property_raw: [0; 2],
+        unknown2: [0 as char; 128],
+        unknown2_raw: [0; 128],
+        }
     }
 }
 
@@ -80296,6 +90280,95 @@ impl CharacterInfoNeoUnion {
     pub fn set_rename_addon_raw(&mut self, value: [u8; 4]) {
         self.rename_addon_raw = value;
     }
+    pub fn new() -> CharacterInfoNeoUnion {
+        CharacterInfoNeoUnion {
+        raw: vec![],
+        gid: 0,
+        gid_raw: [0; 4],
+        exp: 0,
+        exp_raw: [0; 4],
+        money: 0,
+        money_raw: [0; 4],
+        jobexp: 0,
+        jobexp_raw: [0; 4],
+        joblevel: 0,
+        joblevel_raw: [0; 4],
+        bodystate: 0,
+        bodystate_raw: [0; 4],
+        healthstate: 0,
+        healthstate_raw: [0; 4],
+        effectstate: 0,
+        effectstate_raw: [0; 4],
+        virtue: 0,
+        virtue_raw: [0; 4],
+        honor: 0,
+        honor_raw: [0; 4],
+        jobpoint: 0,
+        jobpoint_raw: [0; 2],
+        hp: 0,
+        hp_raw: [0; 4],
+        maxhp: 0,
+        maxhp_raw: [0; 4],
+        sp: 0,
+        sp_raw: [0; 2],
+        maxsp: 0,
+        maxsp_raw: [0; 2],
+        speed: 0,
+        speed_raw: [0; 2],
+        job: 0,
+        job_raw: [0; 2],
+        head: 0,
+        head_raw: [0; 2],
+        weapon: 0,
+        weapon_raw: [0; 2],
+        level: 0,
+        level_raw: [0; 2],
+        sppoint: 0,
+        sppoint_raw: [0; 2],
+        accessory: 0,
+        accessory_raw: [0; 2],
+        shield: 0,
+        shield_raw: [0; 2],
+        accessory2: 0,
+        accessory2_raw: [0; 2],
+        accessory3: 0,
+        accessory3_raw: [0; 2],
+        headpalette: 0,
+        headpalette_raw: [0; 2],
+        bodypalette: 0,
+        bodypalette_raw: [0; 2],
+        name: [0 as char; 24],
+        name_raw: [0; 24],
+        str: 0,
+        str_raw: [0; 1],
+        agi: 0,
+        agi_raw: [0; 1],
+        vit: 0,
+        vit_raw: [0; 1],
+        int: 0,
+        int_raw: [0; 1],
+        dex: 0,
+        dex_raw: [0; 1],
+        luk: 0,
+        luk_raw: [0; 1],
+        char_num: 0,
+        char_num_raw: [0; 1],
+        haircolor: 0,
+        haircolor_raw: [0; 1],
+        b_is_changed_char_name: 0,
+        b_is_changed_char_name_raw: [0; 2],
+        last_map: [0 as char; 16],
+        last_map_raw: [0; 16],
+        delete_date: 0,
+        delete_date_raw: [0; 4],
+        robe: 0,
+        robe_raw: [0; 4],
+        slot_addon: 0,
+        slot_addon_raw: [0; 4],
+        rename_addon: 0,
+        rename_addon_raw: [0; 4],
+        }
+    }
 }
 
 impl ZserverAddr {
@@ -80340,6 +90413,15 @@ impl ZserverAddr {
     }
     pub fn set_port_raw(&mut self, value: [u8; 2]) {
         self.port_raw = value;
+    }
+    pub fn new() -> ZserverAddr {
+        ZserverAddr {
+        raw: vec![],
+        ip: 0,
+        ip_raw: [0; 4],
+        port: 0,
+        port_raw: [0; 2],
+        }
     }
 }
 
@@ -80417,6 +90499,19 @@ impl EQUIPSLOTINFO {
     }
     pub fn set_card4_raw(&mut self, value: [u8; 2]) {
         self.card4_raw = value;
+    }
+    pub fn new() -> EQUIPSLOTINFO {
+        EQUIPSLOTINFO {
+        raw: vec![],
+        card1: 0,
+        card1_raw: [0; 2],
+        card2: 0,
+        card2_raw: [0; 2],
+        card3: 0,
+        card3_raw: [0; 2],
+        card4: 0,
+        card4_raw: [0; 2],
+        }
     }
 }
 
@@ -80526,6 +90621,23 @@ impl NormalitemExtrainfo {
     }
     pub fn set_wear_state_raw(&mut self, value: [u8; 2]) {
         self.wear_state_raw = value;
+    }
+    pub fn new() -> NormalitemExtrainfo {
+        NormalitemExtrainfo {
+        raw: vec![],
+        index: 0,
+        index_raw: [0; 2],
+        itid: 0,
+        itid_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 1],
+        is_identified: false,
+        is_identified_raw: [0; 1],
+        count: 0,
+        count_raw: [0; 2],
+        wear_state: 0,
+        wear_state_raw: [0; 2],
+        }
     }
 }
 
@@ -80682,6 +90794,29 @@ impl EquipmentitemExtrainfo {
     pub fn set_slot_raw(&mut self, value: [u8; 8]) {
         self.slot_raw = value;
     }
+    pub fn new() -> EquipmentitemExtrainfo {
+        EquipmentitemExtrainfo {
+        raw: vec![],
+        index: 0,
+        index_raw: [0; 2],
+        itid: 0,
+        itid_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 1],
+        is_identified: false,
+        is_identified_raw: [0; 1],
+        location: 0,
+        location_raw: [0; 2],
+        wear_state: 0,
+        wear_state_raw: [0; 2],
+        is_damaged: false,
+        is_damaged_raw: [0; 1],
+        refining_level: 0,
+        refining_level_raw: [0; 1],
+        slot: EQUIPSLOTINFO::new(),
+        slot_raw: [0; 8],
+        }
+    }
 }
 
 impl PurchaseItem {
@@ -80759,6 +90894,19 @@ impl PurchaseItem {
     pub fn set_itid_raw(&mut self, value: [u8; 2]) {
         self.itid_raw = value;
     }
+    pub fn new() -> PurchaseItem {
+        PurchaseItem {
+        raw: vec![],
+        price: 0,
+        price_raw: [0; 4],
+        discountprice: 0,
+        discountprice_raw: [0; 4],
+        atype: 0,
+        atype_raw: [0; 1],
+        itid: 0,
+        itid_raw: [0; 2],
+        }
+    }
 }
 
 impl SellItem {
@@ -80820,6 +90968,17 @@ impl SellItem {
     pub fn set_overchargeprice_raw(&mut self, value: [u8; 4]) {
         self.overchargeprice_raw = value;
     }
+    pub fn new() -> SellItem {
+        SellItem {
+        raw: vec![],
+        index: 0,
+        index_raw: [0; 2],
+        price: 0,
+        price_raw: [0; 4],
+        overchargeprice: 0,
+        overchargeprice_raw: [0; 4],
+        }
+    }
 }
 
 impl CzPurchaseItem {
@@ -80864,6 +91023,15 @@ impl CzPurchaseItem {
     }
     pub fn set_itid_raw(&mut self, value: [u8; 2]) {
         self.itid_raw = value;
+    }
+    pub fn new() -> CzPurchaseItem {
+        CzPurchaseItem {
+        raw: vec![],
+        count: 0,
+        count_raw: [0; 2],
+        itid: 0,
+        itid_raw: [0; 2],
+        }
     }
 }
 
@@ -80910,6 +91078,15 @@ impl CzSellItem {
     pub fn set_count_raw(&mut self, value: [u8; 2]) {
         self.count_raw = value;
     }
+    pub fn new() -> CzSellItem {
+        CzSellItem {
+        raw: vec![],
+        index: 0,
+        index_raw: [0; 2],
+        count: 0,
+        count_raw: [0; 2],
+        }
+    }
 }
 
 impl WhisperItem {
@@ -80946,6 +91123,13 @@ impl WhisperItem {
     }
     pub fn set_name_raw(&mut self, value: [u8; 24]) {
         self.name_raw = value;
+    }
+    pub fn new() -> WhisperItem {
+        WhisperItem {
+        raw: vec![],
+        name: [0 as char; 24],
+        name_raw: [0; 24],
+        }
     }
 }
 
@@ -80999,6 +91183,15 @@ impl RoomMember {
     }
     pub fn set_name_raw(&mut self, value: [u8; 24]) {
         self.name_raw = value;
+    }
+    pub fn new() -> RoomMember {
+        RoomMember {
+        raw: vec![],
+        role: 0,
+        role_raw: [0; 4],
+        name: [0 as char; 24],
+        name_raw: [0; 24],
+        }
     }
 }
 
@@ -81108,6 +91301,21 @@ impl GroupmemberInfo {
     }
     pub fn set_state_raw(&mut self, value: [u8; 1]) {
         self.state_raw = value;
+    }
+    pub fn new() -> GroupmemberInfo {
+        GroupmemberInfo {
+        raw: vec![],
+        aid: 0,
+        aid_raw: [0; 4],
+        character_name: [0 as char; 24],
+        character_name_raw: [0; 24],
+        map_name: [0 as char; 16],
+        map_name_raw: [0; 16],
+        role: 0,
+        role_raw: [0; 1],
+        state: 0,
+        state_raw: [0; 1],
+        }
     }
 }
 
@@ -81242,6 +91450,25 @@ impl SKILLINFO {
     pub fn set_upgradable_raw(&mut self, value: [u8; 1]) {
         self.upgradable_raw = value;
     }
+    pub fn new() -> SKILLINFO {
+        SKILLINFO {
+        raw: vec![],
+        skid: 0,
+        skid_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 4],
+        level: 0,
+        level_raw: [0; 2],
+        spcost: 0,
+        spcost_raw: [0; 2],
+        attack_range: 0,
+        attack_range_raw: [0; 2],
+        skill_name: [0 as char; 24],
+        skill_name_raw: [0; 24],
+        upgradable: 0,
+        upgradable_raw: [0; 1],
+        }
+    }
 }
 
 impl StoreItem {
@@ -81302,6 +91529,17 @@ impl StoreItem {
     }
     pub fn set_price_raw(&mut self, value: [u8; 4]) {
         self.price_raw = value;
+    }
+    pub fn new() -> StoreItem {
+        StoreItem {
+        raw: vec![],
+        index: 0,
+        index_raw: [0; 2],
+        count: 0,
+        count_raw: [0; 2],
+        price: 0,
+        price_raw: [0; 4],
+        }
     }
 }
 
@@ -81458,6 +91696,29 @@ impl PurchaseItemFrommc {
     pub fn set_slot_raw(&mut self, value: [u8; 8]) {
         self.slot_raw = value;
     }
+    pub fn new() -> PurchaseItemFrommc {
+        PurchaseItemFrommc {
+        raw: vec![],
+        price: 0,
+        price_raw: [0; 4],
+        count: 0,
+        count_raw: [0; 2],
+        index: 0,
+        index_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 1],
+        itid: 0,
+        itid_raw: [0; 2],
+        is_identified: 0,
+        is_identified_raw: [0; 1],
+        is_damaged: 0,
+        is_damaged_raw: [0; 1],
+        refining_level: 0,
+        refining_level_raw: [0; 1],
+        slot: EQUIPSLOTINFO::new(),
+        slot_raw: [0; 8],
+        }
+    }
 }
 
 impl CzPurchaseItemFrommc {
@@ -81502,6 +91763,15 @@ impl CzPurchaseItemFrommc {
     }
     pub fn set_index_raw(&mut self, value: [u8; 2]) {
         self.index_raw = value;
+    }
+    pub fn new() -> CzPurchaseItemFrommc {
+        CzPurchaseItemFrommc {
+        raw: vec![],
+        count: 0,
+        count_raw: [0; 2],
+        index: 0,
+        index_raw: [0; 2],
+        }
     }
 }
 
@@ -81658,6 +91928,29 @@ impl PurchaseMyitem {
     pub fn set_slot_raw(&mut self, value: [u8; 8]) {
         self.slot_raw = value;
     }
+    pub fn new() -> PurchaseMyitem {
+        PurchaseMyitem {
+        raw: vec![],
+        price: 0,
+        price_raw: [0; 4],
+        index: 0,
+        index_raw: [0; 2],
+        count: 0,
+        count_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 1],
+        itid: 0,
+        itid_raw: [0; 2],
+        is_identified: 0,
+        is_identified_raw: [0; 1],
+        is_damaged: 0,
+        is_damaged_raw: [0; 1],
+        refining_level: 0,
+        refining_level_raw: [0; 1],
+        slot: EQUIPSLOTINFO::new(),
+        slot_raw: [0; 8],
+        }
+    }
 }
 
 impl RelatedGuild {
@@ -81726,6 +92019,17 @@ impl RelatedGuild {
     }
     pub fn set_guild_name_raw(&mut self, value: [u8; 24]) {
         self.guild_name_raw = value;
+    }
+    pub fn new() -> RelatedGuild {
+        RelatedGuild {
+        raw: vec![],
+        gdid: 0,
+        gdid_raw: [0; 4],
+        relation: 0,
+        relation_raw: [0; 4],
+        guild_name: [0 as char; 24],
+        guild_name_raw: [0; 24],
+        }
     }
 }
 
@@ -81948,6 +92252,35 @@ impl GuildMembermgrInfo {
     pub fn set_char_name_raw(&mut self, value: [u8; 24]) {
         self.char_name_raw = value;
     }
+    pub fn new() -> GuildMembermgrInfo {
+        GuildMembermgrInfo {
+        raw: vec![],
+        aid: 0,
+        aid_raw: [0; 4],
+        gid: 0,
+        gid_raw: [0; 4],
+        head_type: 0,
+        head_type_raw: [0; 2],
+        head_palette: 0,
+        head_palette_raw: [0; 2],
+        sex: 0,
+        sex_raw: [0; 2],
+        job: 0,
+        job_raw: [0; 2],
+        level: 0,
+        level_raw: [0; 2],
+        member_exp: 0,
+        member_exp_raw: [0; 4],
+        current_state: 0,
+        current_state_raw: [0; 4],
+        gposition_id: 0,
+        gposition_id_raw: [0; 4],
+        memo: [0 as char; 50],
+        memo_raw: [0; 50],
+        char_name: [0 as char; 24],
+        char_name_raw: [0; 24],
+        }
+    }
 }
 
 impl MemberPositionInfo {
@@ -82008,6 +92341,17 @@ impl MemberPositionInfo {
     }
     pub fn set_position_id_raw(&mut self, value: [u8; 4]) {
         self.position_id_raw = value;
+    }
+    pub fn new() -> MemberPositionInfo {
+        MemberPositionInfo {
+        raw: vec![],
+        aid: 0,
+        aid_raw: [0; 4],
+        gid: 0,
+        gid_raw: [0; 4],
+        position_id: 0,
+        position_id_raw: [0; 4],
+        }
     }
 }
 
@@ -82085,6 +92429,19 @@ impl GuildMemberPositionInfo {
     }
     pub fn set_pay_rate_raw(&mut self, value: [u8; 4]) {
         self.pay_rate_raw = value;
+    }
+    pub fn new() -> GuildMemberPositionInfo {
+        GuildMemberPositionInfo {
+        raw: vec![],
+        position_id: 0,
+        position_id_raw: [0; 4],
+        right: 0,
+        right_raw: [0; 4],
+        ranking: 0,
+        ranking_raw: [0; 4],
+        pay_rate: 0,
+        pay_rate_raw: [0; 4],
+        }
     }
 }
 
@@ -82187,6 +92544,21 @@ impl GuildRegPositionInfo {
     pub fn set_pos_name_raw(&mut self, value: [u8; 24]) {
         self.pos_name_raw = value;
     }
+    pub fn new() -> GuildRegPositionInfo {
+        GuildRegPositionInfo {
+        raw: vec![],
+        position_id: 0,
+        position_id_raw: [0; 4],
+        right: 0,
+        right_raw: [0; 4],
+        ranking: 0,
+        ranking_raw: [0; 4],
+        pay_rate: 0,
+        pay_rate_raw: [0; 4],
+        pos_name: [0 as char; 24],
+        pos_name_raw: [0; 24],
+        }
+    }
 }
 
 impl GuildBanInfo {
@@ -82271,6 +92643,17 @@ impl GuildBanInfo {
     }
     pub fn set_reason_raw(&mut self, value: [u8; 40]) {
         self.reason_raw = value;
+    }
+    pub fn new() -> GuildBanInfo {
+        GuildBanInfo {
+        raw: vec![],
+        charname: [0 as char; 24],
+        charname_raw: [0; 24],
+        account: [0 as char; 24],
+        account_raw: [0; 24],
+        reason: [0 as char; 40],
+        reason_raw: [0; 40],
+        }
     }
 }
 
@@ -82357,6 +92740,19 @@ impl OtherGuildInfo {
     pub fn set_guild_ranking_raw(&mut self, value: [u8; 4]) {
         self.guild_ranking_raw = value;
     }
+    pub fn new() -> OtherGuildInfo {
+        OtherGuildInfo {
+        raw: vec![],
+        guildname: [0 as char; 24],
+        guildname_raw: [0; 24],
+        guild_level: 0,
+        guild_level_raw: [0; 4],
+        guild_member_size: 0,
+        guild_member_size_raw: [0; 4],
+        guild_ranking: 0,
+        guild_ranking_raw: [0; 4],
+        }
+    }
 }
 
 impl MemberPositionIdNameInfo {
@@ -82409,6 +92805,15 @@ impl MemberPositionIdNameInfo {
     }
     pub fn set_pos_name_raw(&mut self, value: [u8; 24]) {
         self.pos_name_raw = value;
+    }
+    pub fn new() -> MemberPositionIdNameInfo {
+        MemberPositionIdNameInfo {
+        raw: vec![],
+        position_id: 0,
+        position_id_raw: [0; 4],
+        pos_name: [0 as char; 24],
+        pos_name_raw: [0; 24],
+        }
     }
 }
 
@@ -82631,6 +93036,35 @@ impl GuildMemberInfo {
     pub fn set_charname_raw(&mut self, value: [u8; 24]) {
         self.charname_raw = value;
     }
+    pub fn new() -> GuildMemberInfo {
+        GuildMemberInfo {
+        raw: vec![],
+        aid: 0,
+        aid_raw: [0; 4],
+        gid: 0,
+        gid_raw: [0; 4],
+        head: 0,
+        head_raw: [0; 2],
+        head_palette: 0,
+        head_palette_raw: [0; 2],
+        sex: 0,
+        sex_raw: [0; 2],
+        job: 0,
+        job_raw: [0; 2],
+        level: 0,
+        level_raw: [0; 2],
+        contribution_exp: 0,
+        contribution_exp_raw: [0; 4],
+        current_state: 0,
+        current_state_raw: [0; 4],
+        position_id: 0,
+        position_id_raw: [0; 4],
+        intro: [0 as char; 50],
+        intro_raw: [0; 50],
+        charname: [0 as char; 24],
+        charname_raw: [0; 24],
+        }
+    }
 }
 
 impl RelatedGuildInfo {
@@ -82699,6 +93133,17 @@ impl RelatedGuildInfo {
     }
     pub fn set_guildname_raw(&mut self, value: [u8; 24]) {
         self.guildname_raw = value;
+    }
+    pub fn new() -> RelatedGuildInfo {
+        RelatedGuildInfo {
+        raw: vec![],
+        relation: 0,
+        relation_raw: [0; 4],
+        gdid: 0,
+        gdid_raw: [0; 4],
+        guildname: [0 as char; 24],
+        guildname_raw: [0; 24],
+        }
     }
 }
 
@@ -82857,6 +93302,29 @@ impl MonsterInfoElement {
     pub fn set_undead_raw(&mut self, value: [u8; 1]) {
         self.undead_raw = value;
     }
+    pub fn new() -> MonsterInfoElement {
+        MonsterInfoElement {
+        raw: vec![],
+        water: 0,
+        water_raw: [0; 1],
+        earth: 0,
+        earth_raw: [0; 1],
+        fire: 0,
+        fire_raw: [0; 1],
+        wind: 0,
+        wind_raw: [0; 1],
+        poison: 0,
+        poison_raw: [0; 1],
+        saint: 0,
+        saint_raw: [0; 1],
+        dark: 0,
+        dark_raw: [0; 1],
+        mental: 0,
+        mental_raw: [0; 1],
+        undead: 0,
+        undead_raw: [0; 1],
+        }
+    }
 }
 
 impl MakableitemInfo {
@@ -82910,6 +93378,15 @@ impl MakableitemInfo {
     pub fn set_material_id_raw(&mut self, value: [u8; 3]) {
         self.material_id_raw = value;
     }
+    pub fn new() -> MakableitemInfo {
+        MakableitemInfo {
+        raw: vec![],
+        itid: 0,
+        itid_raw: [0; 2],
+        material_id: [0; 3],
+        material_id_raw: [0; 3],
+        }
+    }
 }
 
 impl PeteggitemInfo {
@@ -82939,6 +93416,13 @@ impl PeteggitemInfo {
     pub fn set_index_raw(&mut self, value: [u8; 2]) {
         self.index_raw = value;
     }
+    pub fn new() -> PeteggitemInfo {
+        PeteggitemInfo {
+        raw: vec![],
+        index: 0,
+        index_raw: [0; 2],
+        }
+    }
 }
 
 impl ArrowitemInfo {
@@ -82967,6 +93451,13 @@ impl ArrowitemInfo {
     }
     pub fn set_index_raw(&mut self, value: [u8; 2]) {
         self.index_raw = value;
+    }
+    pub fn new() -> ArrowitemInfo {
+        ArrowitemInfo {
+        raw: vec![],
+        index: 0,
+        index_raw: [0; 2],
+        }
     }
 }
 
@@ -83091,6 +93582,25 @@ impl NormalitemExtrainfo2 {
     pub fn set_slot_raw(&mut self, value: [u8; 8]) {
         self.slot_raw = value;
     }
+    pub fn new() -> NormalitemExtrainfo2 {
+        NormalitemExtrainfo2 {
+        raw: vec![],
+        index: 0,
+        index_raw: [0; 2],
+        itid: 0,
+        itid_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 1],
+        is_identified: false,
+        is_identified_raw: [0; 1],
+        count: 0,
+        count_raw: [0; 2],
+        wear_state: 0,
+        wear_state_raw: [0; 2],
+        slot: EQUIPSLOTINFO::new(),
+        slot_raw: [0; 8],
+        }
+    }
 }
 
 impl RepairitemInfo {
@@ -83166,6 +93676,19 @@ impl RepairitemInfo {
     pub fn set_slot_raw(&mut self, value: [u8; 8]) {
         self.slot_raw = value;
     }
+    pub fn new() -> RepairitemInfo {
+        RepairitemInfo {
+        raw: vec![],
+        index: 0,
+        index_raw: [0; 2],
+        itid: 0,
+        itid_raw: [0; 2],
+        refining_level: 0,
+        refining_level_raw: [0; 1],
+        slot: EQUIPSLOTINFO::new(),
+        slot_raw: [0; 8],
+        }
+    }
 }
 
 impl StructFriend {
@@ -83235,6 +93758,17 @@ impl StructFriend {
     pub fn set_name_raw(&mut self, value: [u8; 24]) {
         self.name_raw = value;
     }
+    pub fn new() -> StructFriend {
+        StructFriend {
+        raw: vec![],
+        aid: 0,
+        aid_raw: [0; 4],
+        gid: 0,
+        gid_raw: [0; 4],
+        name: [0 as char; 24],
+        name_raw: [0; 24],
+        }
+    }
 }
 
 impl TagCharacterBlockInfo {
@@ -83287,6 +93821,15 @@ impl TagCharacterBlockInfo {
     }
     pub fn set_sz_expire_date_raw(&mut self, value: [u8; 20]) {
         self.sz_expire_date_raw = value;
+    }
+    pub fn new() -> TagCharacterBlockInfo {
+        TagCharacterBlockInfo {
+        raw: vec![],
+        gid: 0,
+        gid_raw: [0; 4],
+        sz_expire_date: [0 as char; 20],
+        sz_expire_date_raw: [0; 20],
+        }
     }
 }
 
@@ -83349,6 +93892,17 @@ impl PVPINFO {
     pub fn set_point_raw(&mut self, value: [u8; 4]) {
         self.point_raw = value;
     }
+    pub fn new() -> PVPINFO {
+        PVPINFO {
+        raw: vec![],
+        win_point: 0,
+        win_point_raw: [0; 4],
+        lose_point: 0,
+        lose_point_raw: [0; 4],
+        point: 0,
+        point_raw: [0; 4],
+        }
+    }
 }
 
 impl Filetime {
@@ -83393,6 +93947,15 @@ impl Filetime {
     }
     pub fn set_dw_high_date_time_raw(&mut self, value: [u8; 4]) {
         self.dw_high_date_time_raw = value;
+    }
+    pub fn new() -> Filetime {
+        Filetime {
+        raw: vec![],
+        dw_low_date_time: 0,
+        dw_low_date_time_raw: [0; 4],
+        dw_high_date_time: 0,
+        dw_high_date_time_raw: [0; 4],
+        }
     }
 }
 
@@ -83502,6 +94065,21 @@ impl MailList {
     }
     pub fn set_delete_time_raw(&mut self, value: [u8; 4]) {
         self.delete_time_raw = value;
+    }
+    pub fn new() -> MailList {
+        MailList {
+        raw: vec![],
+        mail_id: 0,
+        mail_id_raw: [0; 4],
+        header: [0 as char; 40],
+        header_raw: [0; 40],
+        is_open: 0,
+        is_open_raw: [0; 1],
+        from_name: [0 as char; 24],
+        from_name_raw: [0; 24],
+        delete_time: 0,
+        delete_time_raw: [0; 4],
+        }
     }
 }
 
@@ -83738,6 +94316,37 @@ impl AuctionItemSearchInfo {
     pub fn set_delete_time_raw(&mut self, value: [u8; 4]) {
         self.delete_time_raw = value;
     }
+    pub fn new() -> AuctionItemSearchInfo {
+        AuctionItemSearchInfo {
+        raw: vec![],
+        auction_id: 0,
+        auction_id_raw: [0; 4],
+        seller_name: [0 as char; 24],
+        seller_name_raw: [0; 24],
+        itid: 0,
+        itid_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 4],
+        count: 0,
+        count_raw: [0; 2],
+        is_identified: false,
+        is_identified_raw: [0; 1],
+        is_damaged: false,
+        is_damaged_raw: [0; 1],
+        refining_level: 0,
+        refining_level_raw: [0; 1],
+        slot: EQUIPSLOTINFO::new(),
+        slot_raw: [0; 8],
+        now_price: 0,
+        now_price_raw: [0; 4],
+        max_price: 0,
+        max_price_raw: [0; 4],
+        buyer_name: [0 as char; 24],
+        buyer_name_raw: [0; 24],
+        delete_time: 0,
+        delete_time_raw: [0; 4],
+        }
+    }
 }
 
 impl PacketMobHunting {
@@ -83814,6 +94423,19 @@ impl PacketMobHunting {
     }
     pub fn set_count_raw(&mut self, value: [u8; 2]) {
         self.count_raw = value;
+    }
+    pub fn new() -> PacketMobHunting {
+        PacketMobHunting {
+        raw: vec![],
+        quest_id: 0,
+        quest_id_raw: [0; 4],
+        mob_gid: 0,
+        mob_gid_raw: [0; 4],
+        max_count: 0,
+        max_count_raw: [0; 2],
+        count: 0,
+        count_raw: [0; 2],
+        }
     }
 }
 
@@ -83986,6 +94608,31 @@ impl EquipmentitemExtrainfo2 {
     pub fn set_hire_expire_date_raw(&mut self, value: [u8; 4]) {
         self.hire_expire_date_raw = value;
     }
+    pub fn new() -> EquipmentitemExtrainfo2 {
+        EquipmentitemExtrainfo2 {
+        raw: vec![],
+        index: 0,
+        index_raw: [0; 2],
+        itid: 0,
+        itid_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 1],
+        is_identified: false,
+        is_identified_raw: [0; 1],
+        location: 0,
+        location_raw: [0; 2],
+        wear_state: 0,
+        wear_state_raw: [0; 2],
+        is_damaged: false,
+        is_damaged_raw: [0; 1],
+        refining_level: 0,
+        refining_level_raw: [0; 1],
+        slot: EQUIPSLOTINFO::new(),
+        slot_raw: [0; 8],
+        hire_expire_date: 0,
+        hire_expire_date_raw: [0; 4],
+        }
+    }
 }
 
 impl PggLingoKeyTemp {
@@ -84063,6 +94710,19 @@ impl PggLingoKeyTemp {
     pub fn set_dw_seed_raw(&mut self, value: [u8; 4]) {
         self.dw_seed_raw = value;
     }
+    pub fn new() -> PggLingoKeyTemp {
+        PggLingoKeyTemp {
+        raw: vec![],
+        dw_alg_num: 0,
+        dw_alg_num_raw: [0; 4],
+        dw_alg_key1: 0,
+        dw_alg_key1_raw: [0; 4],
+        dw_alg_key2: 0,
+        dw_alg_key2_raw: [0; 4],
+        dw_seed: 0,
+        dw_seed_raw: [0; 4],
+        }
+    }
 }
 
 impl PacketZcQuestInfo {
@@ -84107,6 +94767,15 @@ impl PacketZcQuestInfo {
     }
     pub fn set_active_raw(&mut self, value: [u8; 1]) {
         self.active_raw = value;
+    }
+    pub fn new() -> PacketZcQuestInfo {
+        PacketZcQuestInfo {
+        raw: vec![],
+        quest_id: 0,
+        quest_id_raw: [0; 4],
+        active: false,
+        active_raw: [0; 1],
+        }
     }
 }
 
@@ -84176,6 +94845,17 @@ impl PacketZcMissionHunt {
     }
     pub fn set_mob_name_raw(&mut self, value: [u8; 24]) {
         self.mob_name_raw = value;
+    }
+    pub fn new() -> PacketZcMissionHunt {
+        PacketZcMissionHunt {
+        raw: vec![],
+        mob_gid: 0,
+        mob_gid_raw: [0; 4],
+        hunt_count: 0,
+        hunt_count_raw: [0; 2],
+        mob_name: [0 as char; 24],
+        mob_name_raw: [0; 24],
+        }
     }
 }
 
@@ -84277,6 +94957,21 @@ impl PacketZcQuestMissionInfo {
     pub fn set_hunt_raw(&mut self, value: Vec<Vec<u8>>) {
         self.hunt_raw = value;
     }
+    pub fn new() -> PacketZcQuestMissionInfo {
+        PacketZcQuestMissionInfo {
+        raw: vec![],
+        quest_id: 0,
+        quest_id_raw: [0; 4],
+        quest_svr_time: 0,
+        quest_svr_time_raw: [0; 4],
+        quest_end_time: 0,
+        quest_end_time_raw: [0; 4],
+        count: 0,
+        count_raw: [0; 2],
+        hunt: vec![],
+        hunt_raw: vec![],
+        }
+    }
 }
 
 impl ShortCutKey {
@@ -84337,6 +95032,17 @@ impl ShortCutKey {
     }
     pub fn set_count_raw(&mut self, value: [u8; 2]) {
         self.count_raw = value;
+    }
+    pub fn new() -> ShortCutKey {
+        ShortCutKey {
+        raw: vec![],
+        is_skill: 0,
+        is_skill_raw: [0; 1],
+        id: 0,
+        id_raw: [0; 4],
+        count: 0,
+        count_raw: [0; 2],
+        }
     }
 }
 
@@ -84541,6 +95247,35 @@ impl EquipmentitemExtrainfo301 {
     pub fn set_w_item_sprite_number_raw(&mut self, value: [u8; 2]) {
         self.w_item_sprite_number_raw = value;
     }
+    pub fn new() -> EquipmentitemExtrainfo301 {
+        EquipmentitemExtrainfo301 {
+        raw: vec![],
+        index: 0,
+        index_raw: [0; 2],
+        itid: 0,
+        itid_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 1],
+        is_identified: false,
+        is_identified_raw: [0; 1],
+        location: 0,
+        location_raw: [0; 2],
+        wear_state: 0,
+        wear_state_raw: [0; 2],
+        is_damaged: false,
+        is_damaged_raw: [0; 1],
+        refining_level: 0,
+        refining_level_raw: [0; 1],
+        slot: EQUIPSLOTINFO::new(),
+        slot_raw: [0; 8],
+        hire_expire_date: 0,
+        hire_expire_date_raw: [0; 4],
+        bind_on_equip_type: 0,
+        bind_on_equip_type_raw: [0; 2],
+        w_item_sprite_number: 0,
+        w_item_sprite_number_raw: [0; 2],
+        }
+    }
 }
 
 impl NormalitemExtrainfo3 {
@@ -84680,6 +95415,27 @@ impl NormalitemExtrainfo3 {
     pub fn set_hire_expire_date_raw(&mut self, value: [u8; 4]) {
         self.hire_expire_date_raw = value;
     }
+    pub fn new() -> NormalitemExtrainfo3 {
+        NormalitemExtrainfo3 {
+        raw: vec![],
+        index: 0,
+        index_raw: [0; 2],
+        itid: 0,
+        itid_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 1],
+        is_identified: false,
+        is_identified_raw: [0; 1],
+        count: 0,
+        count_raw: [0; 2],
+        wear_state: 0,
+        wear_state_raw: [0; 2],
+        slot: EQUIPSLOTINFO::new(),
+        slot_raw: [0; 8],
+        hire_expire_date: 0,
+        hire_expire_date_raw: [0; 4],
+        }
+    }
 }
 
 impl SkillPostdelay {
@@ -84725,6 +95481,15 @@ impl SkillPostdelay {
     pub fn set_delay_tm_raw(&mut self, value: [u8; 4]) {
         self.delay_tm_raw = value;
     }
+    pub fn new() -> SkillPostdelay {
+        SkillPostdelay {
+        raw: vec![],
+        skid: 0,
+        skid_raw: [0; 2],
+        delay_tm: 0,
+        delay_tm_raw: [0; 4],
+        }
+    }
 }
 
 impl CharacterList {
@@ -84769,6 +95534,15 @@ impl CharacterList {
     }
     pub fn set_slot_idx_raw(&mut self, value: [u8; 1]) {
         self.slot_idx_raw = value;
+    }
+    pub fn new() -> CharacterList {
+        CharacterList {
+        raw: vec![],
+        dw_gid: 0,
+        dw_gid_raw: [0; 4],
+        slot_idx: 0,
+        slot_idx_raw: [0; 1],
+        }
     }
 }
 
@@ -84839,6 +95613,17 @@ impl BattleFieldInfo {
     pub fn set_join_team_raw(&mut self, value: [u8; 2]) {
         self.join_team_raw = value;
     }
+    pub fn new() -> BattleFieldInfo {
+        BattleFieldInfo {
+        raw: vec![],
+        bfno: 0,
+        bfno_raw: [0; 4],
+        battle_field_name: [0 as char; 56],
+        battle_field_name_raw: [0; 56],
+        join_team: 0,
+        join_team_raw: [0; 2],
+        }
+    }
 }
 
 impl PartyBookingDetail {
@@ -84907,6 +95692,17 @@ impl PartyBookingDetail {
     }
     pub fn set_job_raw(&mut self, value: [u8; 6]) {
         self.job_raw = value;
+    }
+    pub fn new() -> PartyBookingDetail {
+        PartyBookingDetail {
+        raw: vec![],
+        level: 0,
+        level_raw: [0; 2],
+        map_id: 0,
+        map_id_raw: [0; 2],
+        job: [0; 6],
+        job_raw: [0; 6],
+        }
     }
 }
 
@@ -84987,6 +95783,19 @@ impl PartyBookingAdInfo {
     pub fn set_detail_raw(&mut self, value: Vec<u8>) {
         self.detail_raw = value;
     }
+    pub fn new() -> PartyBookingAdInfo {
+        PartyBookingAdInfo {
+        raw: vec![],
+        index: 0,
+        index_raw: [0; 4],
+        char_name: [0 as char; 24],
+        char_name_raw: [0; 24],
+        expire_time: 0,
+        expire_time_raw: [0; 4],
+        detail: PartyBookingDetail::new(),
+        detail_raw: vec![],
+        }
+    }
 }
 
 impl ProductinfoInBuyingStore {
@@ -85047,6 +95856,17 @@ impl ProductinfoInBuyingStore {
     }
     pub fn set_price_raw(&mut self, value: [u8; 4]) {
         self.price_raw = value;
+    }
+    pub fn new() -> ProductinfoInBuyingStore {
+        ProductinfoInBuyingStore {
+        raw: vec![],
+        itid: 0,
+        itid_raw: [0; 2],
+        count: 0,
+        count_raw: [0; 2],
+        price: 0,
+        price_raw: [0; 4],
+        }
     }
 }
 
@@ -85125,6 +95945,19 @@ impl BuyingStoreItemlist {
     pub fn set_itid_raw(&mut self, value: [u8; 2]) {
         self.itid_raw = value;
     }
+    pub fn new() -> BuyingStoreItemlist {
+        BuyingStoreItemlist {
+        raw: vec![],
+        price: 0,
+        price_raw: [0; 4],
+        count: 0,
+        count_raw: [0; 2],
+        atype: 0,
+        atype_raw: [0; 1],
+        itid: 0,
+        itid_raw: [0; 2],
+        }
+    }
 }
 
 impl TradeItemBuyingStore {
@@ -85185,6 +96018,17 @@ impl TradeItemBuyingStore {
     }
     pub fn set_count_raw(&mut self, value: [u8; 2]) {
         self.count_raw = value;
+    }
+    pub fn new() -> TradeItemBuyingStore {
+        TradeItemBuyingStore {
+        raw: vec![],
+        index: 0,
+        index_raw: [0; 2],
+        itid: 0,
+        itid_raw: [0; 2],
+        count: 0,
+        count_raw: [0; 2],
+        }
     }
 }
 
@@ -85398,6 +96242,35 @@ impl ResultItemInfo {
     }
     pub fn set_card4_raw(&mut self, value: [u8; 2]) {
         self.card4_raw = value;
+    }
+    pub fn new() -> ResultItemInfo {
+        ResultItemInfo {
+        raw: vec![],
+        ssiid: 0,
+        ssiid_raw: [0; 4],
+        aid: 0,
+        aid_raw: [0; 4],
+        store_name: [0 as char; 80],
+        store_name_raw: [0; 80],
+        itid: 0,
+        itid_raw: [0; 2],
+        item_type: 0,
+        item_type_raw: [0; 1],
+        price: 0,
+        price_raw: [0; 4],
+        count: 0,
+        count_raw: [0; 2],
+        refining_level: 0,
+        refining_level_raw: [0; 1],
+        card1: 0,
+        card1_raw: [0; 2],
+        card2: 0,
+        card2_raw: [0; 2],
+        card3: 0,
+        card3_raw: [0; 2],
+        card4: 0,
+        card4_raw: [0; 2],
+        }
     }
 }
 

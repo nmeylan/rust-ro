@@ -169,6 +169,7 @@ fn write_struct_impl(file: &mut File, struct_definition: &StructDefinition) {
     write_struct_from_method(file, struct_definition);
     write_struct_fill_raw_method(file, struct_definition);
     write_struct_setter_methods(file, struct_definition);
+    write_struct_new_method(file, struct_definition);
     file.write(b"}\n\n");
 }
 
@@ -213,7 +214,7 @@ fn write_struct_fill_raw_method(file: &mut File, struct_definition: &StructDefin
     }
     file.write(b"        wtr = vec![];\n");
     for field in &struct_definition.fields {
-        if field.data_type.name == "Vec" &&  field.complex_type.is_some() {
+        if field.data_type.name == "Vec" && field.complex_type.is_some() {
             file.write(format!("        self.{}.iter_mut().for_each(|item| wtr.append(&mut item.raw));\n", field.name).as_bytes());
         } else {
             file.write(format!("        wtr.append(&mut self.{}_raw.to_vec());\n", field.name).as_bytes());
@@ -232,6 +233,17 @@ fn write_struct_setter_methods(file: &mut File, struct_definition: &StructDefini
         file.write(format!("        self.{}_raw = value;\n", field.name).as_bytes());
         file.write(b"    }\n");
     }
+}
+
+fn write_struct_new_method(file: &mut File, struct_definition: &StructDefinition) {
+    file.write(format!("    pub fn new() -> {} {{\n", struct_definition.name).as_bytes());
+    file.write(format!("        {} {{\n", struct_definition.name).as_bytes());
+    file.write(b"        raw: vec![],\n");
+    for field in &struct_definition.fields {
+        file.write(field_default_value(field).as_bytes());
+    }
+    file.write(b"        }\n");
+    file.write(b"    }\n");
 }
 
 fn write_vec_field(file: &mut File, field: &StructField) {
@@ -345,45 +357,21 @@ fn field_serialization(field: &StructField) -> String {
             res = format!("{}        self.{}_raw = wtr.try_into().unwrap();", res, field.name);
             res
         }
-        "u8" => {
-            res = "        wtr = vec![];\n".to_string();
-            res = format!("{}        wtr.write_u8(self.{}).unwrap();\n", res, field.name);
-            res = format!("{}        self.{}_raw = wtr.try_into().unwrap();", res, field.name);
-            res
-        }
-        "i8" => {
-            res = "        wtr = vec![];\n".to_string();
-            res = format!("{}        wtr.write_i8(self.{}).unwrap();\n", res, field.name);
-            res = format!("{}        self.{}_raw = wtr.try_into().unwrap();", res, field.name);
-            res
-        }
-        "u16" => {
-            res = "        wtr = vec![];\n".to_string();
-            res = format!("{}        wtr.write_u16::<LittleEndian>(self.{}).unwrap();\n", res, field.name);
-            res = format!("{}        self.{}_raw = wtr.try_into().unwrap();", res, field.name);
-            res
-        }
-        "i16" => {
-            res = "        wtr = vec![];\n".to_string();
-            res = format!("{}        wtr.write_i16::<LittleEndian>(self.{}).unwrap();\n", res, field.name);
-            res = format!("{}        self.{}_raw = wtr.try_into().unwrap();", res, field.name);
-            res
-        }
-        "u32" => {
-            res = "        wtr = vec![];\n".to_string();
-            res = format!("{}        wtr.write_u32::<LittleEndian>(self.{}).unwrap();\n", res, field.name);
-            res = format!("{}        self.{}_raw = wtr.try_into().unwrap();", res, field.name);
-            res
-        }
-        "i32" => {
-            res = "        wtr = vec![];\n".to_string();
-            res = format!("{}        wtr.write_i32::<LittleEndian>(self.{}).unwrap();\n", res, field.name);
-            res = format!("{}        self.{}_raw = wtr.try_into().unwrap();", res, field.name);
-            res
-        }
         "bool" => {
             res = "        wtr = vec![];\n".to_string();
             res = format!("{}        wtr.write_u8(self.{} as u8).unwrap();\n", res, field.name);
+            res = format!("{}        self.{}_raw = wtr.try_into().unwrap();", res, field.name);
+            res
+        }
+        "u8" | "i8" => {
+            res = "        wtr = vec![];\n".to_string();
+            res = format!("{}        wtr.write_{}(self.{}).unwrap();\n", res, field.data_type.name, field.name);
+            res = format!("{}        self.{}_raw = wtr.try_into().unwrap();", res, field.name);
+            res
+        }
+        "u16" | "i16" | "u32" | "i32" => {
+            res = "        wtr = vec![];\n".to_string();
+            res = format!("{}        wtr.write_{}::<LittleEndian>(self.{}).unwrap();\n", res, field.data_type.name, field.name);
             res = format!("{}        self.{}_raw = wtr.try_into().unwrap();", res, field.name);
             res
         }
@@ -477,5 +465,64 @@ fn field_type_raw(field: &StructField) -> String {
         format!("[u8; {}]", field.length)
     } else {
         "Vec<u8>".to_string()
+    }
+}
+
+fn field_default_value(field: &StructField) -> String {
+    let mut res = String::new();
+    match field.data_type.name.as_str() {
+        "char" => {
+            res = format!("{}        {}: '',\n", res, field.name);
+            res = format!("{}        {}_raw: 0,\n", res, field.name);
+            res
+        }
+        "u8" | "i8" | "u16" | "i16" | "u32" | "i32" => {
+            res = format!("{}        {}: 0,\n", res, field.name);
+            res = format!("{}        {}_raw: [0; {}],\n", res, field.name, field.length);
+            res
+        }
+        "bool" => {
+            res = format!("{}        {}: false,\n", res, field.name);
+            res = format!("{}        {}_raw: [0; 1],\n", res, field.name);
+            res
+        }
+        "String" => {
+            res = format!("{}        {}: String::new(),\n", res, field.name);
+            res = format!("{}        {}_raw: vec![],\n", res, field.name);
+            res
+        }
+        "Array" => {
+            if field.length > -1 {
+                let mut value = "0";
+                if field.sub_type.unwrap().name == "char" {
+                    value = "0 as char";
+                }
+                res = format!("{}        {}: [{}; {}],\n", res, field.name, value, field.length);
+                res = format!("{}        {}_raw: [0; {}],\n", res, field.name, field.length);
+                res
+            } else {
+                res = format!("{}        {}: vec![],\n", res, field.name);
+                res = format!("{}        {}_raw: vec![],\n", res, field.name);
+                res
+            }
+        }
+        "Vec" => {
+            res = format!("{}        {}: vec![],\n", res, field.name);
+            res = format!("{}        {}_raw: vec![],\n", res, field.name);
+            res
+        }
+        "Struct" => {
+            res = format!("{}        {}: {}::new(),\n", res, field.name, field.complex_type.as_ref().unwrap());
+            if field.length > -1 {
+                res = format!("{}        {}_raw: [0; {}],\n", res, field.name, field.length);
+            } else {
+                res = format!("{}        {}_raw: vec![],\n", res, field.name);
+            }
+            res
+        }
+        _ => {
+            res
+            // format!("\"found unknown type {} for field {}. this won't compile!\"", field.data_type.name, field.name)
+        }
     }
 }
