@@ -258,12 +258,12 @@ fn write_struct_new_method(file: &mut File, struct_definition: &StructDefinition
 }
 
 fn write_vec_field(file: &mut File, field: &StructField) {
-    file.write(format!("        let iter_count = &buffer.len() / {};\n", field.length).as_bytes());
+    file.write(format!("        let iter_count = (&buffer.len() - {}) / {};\n", field.position, field.length).as_bytes());
     file.write(format!("        let mut vec_field: Vec<{}> = Vec::new();\n", field.complex_type.as_ref().unwrap()).as_bytes());
     file.write(b"        let mut i = 1;\n");
     file.write(b"        while i <= iter_count {\n");
-    file.write(format!("            let start_pos = {} * i;\n", field.position).as_bytes());
-    file.write(format!("            let end_pos = {} * i;\n", field.position + field.length as i16).as_bytes());
+    file.write(format!("            let start_pos = {} + ({} * (i - 1));\n", field.position, field.length).as_bytes());
+    file.write(format!("            let end_pos = {} + {} * i;\n", field.position, field.length).as_bytes());
     file.write(format!("            vec_field.push({}::from(&buffer[start_pos..end_pos]));\n", field.complex_type.as_ref().unwrap()).as_bytes());
     file.write(b"            i += 1;\n");
     file.write(b"        }\n");
@@ -329,6 +329,12 @@ fn struct_impl_field_value(field: &StructField) -> String {
         "i32" => {
             format!("i32::from_le_bytes([buffer[{}], buffer[{}], buffer[{}], buffer[{}]])", field.position, field.position + 1, field.position + 2, field.position + 3)
         }
+        "u64" => {
+            format!("u64::from_le_bytes([buffer[{}], buffer[{}], buffer[{}], buffer[{}], buffer[{}], buffer[{}], buffer[{}], buffer[{}]])", field.position, field.position + 1, field.position + 2, field.position + 3, field.position + 4, field.position + 5, field.position + 6, field.position + 7)
+        }
+        "i64" => {
+            format!("i64::from_le_bytes([buffer[{}], buffer[{}], buffer[{}], buffer[{}], buffer[{}], buffer[{}], buffer[{}], buffer[{}]])", field.position, field.position + 1, field.position + 2, field.position + 3, field.position + 4, field.position + 5, field.position + 6, field.position + 7)
+        }
         "bool" => {
             format!("buffer[{}] == 1", field.position)
         }
@@ -380,7 +386,7 @@ fn field_serialization(field: &StructField) -> String {
             res = format!("{}        self.{}_raw = wtr.try_into().unwrap();", res, field.name);
             res
         }
-        "u16" | "i16" | "u32" | "i32" => {
+        "u16" | "i16" | "u32" | "i32" | "u64" | "i64" => {
             res = "        wtr = vec![];\n".to_string();
             res = format!("{}        wtr.write_{}::<LittleEndian>(self.{}).unwrap();\n", res, field.data_type.name, field.name);
             res = format!("{}        self.{}_raw = wtr.try_into().unwrap();", res, field.name);
@@ -487,7 +493,7 @@ fn field_default_value(field: &StructField) -> String {
             res = format!("{}        {}_raw: 0,\n", res, field.name);
             res
         }
-        "u8" | "i8" | "u16" | "i16" | "u32" | "i32" => {
+        "u8" | "i8" | "u16" | "i16" | "u32" | "i32" | "u64" | "i64" => {
             res = format!("{}        {}: 0,\n", res, field.name);
             res = format!("{}        {}_raw: [0; {}],\n", res, field.name, field.length);
             res
@@ -532,8 +538,7 @@ fn field_default_value(field: &StructField) -> String {
             res
         }
         _ => {
-            res
-            // format!("\"found unknown type {} for field {}. this won't compile!\"", field.data_type.name, field.name)
+            panic!("\"found unknown type {} for field {}. this won't compile!\"", field.data_type.name, field.name)
         }
     }
 }

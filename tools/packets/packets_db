@@ -99,50 +99,51 @@
   /* this+0xc */ unsigned long time1
   /* this+0x10 */ unsigned long time2
   /* this+0x14 */ char dummy2_endbilling[7]
-  /* this+0x1b */ struct CHARACTER_INFO_NEO_UNION charInfo[...] { // Size 145
+  /* this+0x1b */ struct CHARACTER_INFO_NEO_UNION charInfo[...] { // Size 155
     /* this+0x0 */ unsigned long GID
-    /* this+0x4 */ int exp
-    /* this+0x8 */ int money
-    /* this+0xc */ int jobexp
-    /* this+0x10 */ int joblevel
-    /* this+0x14 */ int bodystate
-    /* this+0x18 */ int healthstate
-    /* this+0x1c */ int effectstate
-    /* this+0x20 */ int virtue
-    /* this+0x24 */ int honor
-    /* this+0x28 */ short jobpoint
-    /* this+0x2a */ int hp
-    /* this+0x2e */ int maxhp
-    /* this+0x32 */ short sp
-    /* this+0x34 */ short maxsp
-    /* this+0x36 */ short speed
-    /* this+0x38 */ short job
-    /* this+0x3a */ short head
-    /* this+0x3c */ short weapon
-    /* this+0x3e */ short level
-    /* this+0x40 */ short sppoint
-    /* this+0x42 */ short accessory
-    /* this+0x44 */ short shield
-    /* this+0x46 */ short accessory2
-    /* this+0x48 */ short accessory3
-    /* this+0x4a */ short headpalette
-    /* this+0x4c */ short bodypalette
-    /* this+0x4e */ unsigned char name[24]
-    /* this+0x66 */ unsigned char Str
-    /* this+0x67 */ unsigned char Agi
-    /* this+0x68 */ unsigned char Vit
-    /* this+0x69 */ unsigned char Int
-    /* this+0x6a */ unsigned char Dex
-    /* this+0x6b */ unsigned char Luk
-    /* this+0x6c */ unsigned char CharNum
-    /* this+0x6d */ unsigned char haircolor
-    /* this+0x6e */ short bIsChangedCharName
-    /* this+0x70 */ unsigned char lastMap[16]
-    /* this+0x80 */ int DeleteDate
-    /* this+0x84 */ int Robe
-    /* this+0x88 */ int SlotAddon
-    /* this+0x8c */ int RenameAddon
-    /* this+0x8d */ char sex
+    /* this+0x4 */ int64 exp
+    /* this+0xc */ int money
+    /* this+0x10 */ int64 jobexp
+    /* this+0x18 */ int joblevel
+    /* this+0x1c */ int bodystate
+    /* this+0x20 */ int healthstate
+    /* this+0x24 */ int effectstate
+    /* this+0x28 */ int virtue
+    /* this+0x2c */ int honor
+    /* this+0x30 */ short jobpoint
+    /* this+0x32 */ int hp
+    /* this+0x36 */ int maxhp
+    /* this+0x3a */ short sp
+    /* this+0x3c */ short maxsp
+    /* this+0x3e */ short speed
+    /* this+0x40 */ short job
+    /* this+0x42 */ short head
+    /* this+0x44 */ short body
+    /* this+0x46 */ short weapon
+    /* this+0x48 */ short level
+    /* this+0x4a */ short sppoint
+    /* this+0x4c */ short accessory
+    /* this+0x4e */ short shield
+    /* this+0x50 */ short accessory2
+    /* this+0x52 */ short accessory3
+    /* this+0x54 */ short headpalette
+    /* this+0x56 */ short bodypalette
+    /* this+0x58 */ unsigned char name[24]
+    /* this+0x70 */ unsigned char Str
+    /* this+0x71 */ unsigned char Agi
+    /* this+0x72 */ unsigned char Vit
+    /* this+0x73 */ unsigned char Int
+    /* this+0x74 */ unsigned char Dex
+    /* this+0x75 */ unsigned char Luk
+    /* this+0x76 */ unsigned char CharNum
+    /* this+0x77 */ unsigned char haircolor
+    /* this+0x78 */ short bIsChangedCharName
+    /* this+0x7a */ unsigned char lastMap[16]
+    /* this+0x8a */ int DeleteDate
+    /* this+0x8e */ int Robe
+    /* this+0x92 */ int SlotAddon
+    /* this+0x96 */ int RenameAddon
+    /* this+0x9a */ unsigned char sex
   }
  }
 0x6c

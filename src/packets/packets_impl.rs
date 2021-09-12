@@ -738,12 +738,12 @@ impl Packet for PacketChDeleteChar {
 
 impl PacketAcAcceptLogin {
     pub fn from(buffer: &[u8]) -> PacketAcAcceptLogin {
-        let iter_count = &buffer.len() / 32;
+        let iter_count = (&buffer.len() - 47) / 32;
         let mut vec_field: Vec<ServerAddr> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 47 * i;
-            let end_pos = 79 * i;
+            let start_pos = 47 + (32 * (i - 1));
+            let end_pos = 47 + 32 * i;
             vec_field.push(ServerAddr::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -957,12 +957,12 @@ impl Packet for PacketAcAcceptLogin {
 
 impl PacketAcAcceptLogin2 {
     pub fn from(buffer: &[u8]) -> PacketAcAcceptLogin2 {
-        let iter_count = &buffer.len() / 160;
+        let iter_count = (&buffer.len() - 64) / 160;
         let mut vec_field: Vec<ServerAddr2> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 64 * i;
-            let end_pos = 224 * i;
+            let start_pos = 64 + (160 * (i - 1));
+            let end_pos = 64 + 160 * i;
             vec_field.push(ServerAddr2::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -1324,12 +1324,12 @@ impl Packet for PacketAcRefuseLogin {
 
 impl PacketHcAcceptEnterNeoUnion {
     pub fn from(buffer: &[u8]) -> PacketHcAcceptEnterNeoUnion {
-        let iter_count = &buffer.len() / 145;
+        let iter_count = (&buffer.len() - 27) / 155;
         let mut vec_field: Vec<CharacterInfoNeoUnion> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 27 * i;
-            let end_pos = 172 * i;
+            let start_pos = 27 + (155 * (i - 1));
+            let end_pos = 27 + 155 * i;
             vec_field.push(CharacterInfoNeoUnion::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -9455,12 +9455,12 @@ impl Packet for PacketCzItemThrow {
 
 impl PacketZcNormalItemlist {
     pub fn from(buffer: &[u8]) -> PacketZcNormalItemlist {
-        let iter_count = &buffer.len() / 10;
+        let iter_count = (&buffer.len() - 4) / 10;
         let mut vec_field: Vec<NormalitemExtrainfo> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 4 * i;
-            let end_pos = 14 * i;
+            let start_pos = 4 + (10 * (i - 1));
+            let end_pos = 4 + 10 * i;
             vec_field.push(NormalitemExtrainfo::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -9558,12 +9558,12 @@ impl Packet for PacketZcNormalItemlist {
 
 impl PacketZcEquipmentItemlist {
     pub fn from(buffer: &[u8]) -> PacketZcEquipmentItemlist {
-        let iter_count = &buffer.len() / 20;
+        let iter_count = (&buffer.len() - 4) / 20;
         let mut vec_field: Vec<EquipmentitemExtrainfo> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 4 * i;
-            let end_pos = 24 * i;
+            let start_pos = 4 + (20 * (i - 1));
+            let end_pos = 4 + 20 * i;
             vec_field.push(EquipmentitemExtrainfo::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -9661,12 +9661,12 @@ impl Packet for PacketZcEquipmentItemlist {
 
 impl PacketZcStoreNormalItemlist {
     pub fn from(buffer: &[u8]) -> PacketZcStoreNormalItemlist {
-        let iter_count = &buffer.len() / 10;
+        let iter_count = (&buffer.len() - 4) / 10;
         let mut vec_field: Vec<NormalitemExtrainfo> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 4 * i;
-            let end_pos = 14 * i;
+            let start_pos = 4 + (10 * (i - 1));
+            let end_pos = 4 + 10 * i;
             vec_field.push(NormalitemExtrainfo::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -9764,12 +9764,12 @@ impl Packet for PacketZcStoreNormalItemlist {
 
 impl PacketZcStoreEquipmentItemlist {
     pub fn from(buffer: &[u8]) -> PacketZcStoreEquipmentItemlist {
-        let iter_count = &buffer.len() / 20;
+        let iter_count = (&buffer.len() - 4) / 20;
         let mut vec_field: Vec<EquipmentitemExtrainfo> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 4 * i;
-            let end_pos = 24 * i;
+            let start_pos = 4 + (20 * (i - 1));
+            let end_pos = 4 + 20 * i;
             vec_field.push(EquipmentitemExtrainfo::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -12981,12 +12981,12 @@ impl Packet for PacketCzAckSelectDealtype {
 
 impl PacketZcPcPurchaseItemlist {
     pub fn from(buffer: &[u8]) -> PacketZcPcPurchaseItemlist {
-        let iter_count = &buffer.len() / 11;
+        let iter_count = (&buffer.len() - 4) / 11;
         let mut vec_field: Vec<PurchaseItem> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 4 * i;
-            let end_pos = 15 * i;
+            let start_pos = 4 + (11 * (i - 1));
+            let end_pos = 4 + 11 * i;
             vec_field.push(PurchaseItem::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -13084,12 +13084,12 @@ impl Packet for PacketZcPcPurchaseItemlist {
 
 impl PacketZcPcSellItemlist {
     pub fn from(buffer: &[u8]) -> PacketZcPcSellItemlist {
-        let iter_count = &buffer.len() / 10;
+        let iter_count = (&buffer.len() - 4) / 10;
         let mut vec_field: Vec<SellItem> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 4 * i;
-            let end_pos = 14 * i;
+            let start_pos = 4 + (10 * (i - 1));
+            let end_pos = 4 + 10 * i;
             vec_field.push(SellItem::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -13187,12 +13187,12 @@ impl Packet for PacketZcPcSellItemlist {
 
 impl PacketCzPcPurchaseItemlist {
     pub fn from(buffer: &[u8]) -> PacketCzPcPurchaseItemlist {
-        let iter_count = &buffer.len() / 4;
+        let iter_count = (&buffer.len() - 4) / 4;
         let mut vec_field: Vec<CzPurchaseItem> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 4 * i;
-            let end_pos = 8 * i;
+            let start_pos = 4 + (4 * (i - 1));
+            let end_pos = 4 + 4 * i;
             vec_field.push(CzPurchaseItem::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -13290,12 +13290,12 @@ impl Packet for PacketCzPcPurchaseItemlist {
 
 impl PacketCzPcSellItemlist {
     pub fn from(buffer: &[u8]) -> PacketCzPcSellItemlist {
-        let iter_count = &buffer.len() / 4;
+        let iter_count = (&buffer.len() - 4) / 4;
         let mut vec_field: Vec<CzSellItem> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 4 * i;
-            let end_pos = 8 * i;
+            let start_pos = 4 + (4 * (i - 1));
+            let end_pos = 4 + 4 * i;
             vec_field.push(CzSellItem::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -14199,12 +14199,12 @@ impl Packet for PacketCzReqWhisperList {
 
 impl PacketZcWhisperList {
     pub fn from(buffer: &[u8]) -> PacketZcWhisperList {
-        let iter_count = &buffer.len() / 24;
+        let iter_count = (&buffer.len() - 4) / 24;
         let mut vec_field: Vec<WhisperItem> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 4 * i;
-            let end_pos = 28 * i;
+            let start_pos = 4 + (24 * (i - 1));
+            let end_pos = 4 + 24 * i;
             vec_field.push(WhisperItem::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -14972,12 +14972,12 @@ impl Packet for PacketZcRefuseEnterRoom {
 
 impl PacketZcEnterRoom {
     pub fn from(buffer: &[u8]) -> PacketZcEnterRoom {
-        let iter_count = &buffer.len() / 28;
+        let iter_count = (&buffer.len() - 8) / 28;
         let mut vec_field: Vec<RoomMember> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 8 * i;
-            let end_pos = 36 * i;
+            let start_pos = 8 + (28 * (i - 1));
+            let end_pos = 8 + 28 * i;
             vec_field.push(RoomMember::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -17991,12 +17991,12 @@ impl Packet for PacketZcAckMakeGroup {
 
 impl PacketZcGroupList {
     pub fn from(buffer: &[u8]) -> PacketZcGroupList {
-        let iter_count = &buffer.len() / 46;
+        let iter_count = (&buffer.len() - 28) / 46;
         let mut vec_field: Vec<GroupmemberInfo> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 28 * i;
-            let end_pos = 74 * i;
+            let start_pos = 28 + (46 * (i - 1));
+            let end_pos = 28 + 46 * i;
             vec_field.push(GroupmemberInfo::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -20042,12 +20042,12 @@ impl Packet for PacketZcSkillinfoUpdate {
 
 impl PacketZcSkillinfoList {
     pub fn from(buffer: &[u8]) -> PacketZcSkillinfoList {
-        let iter_count = &buffer.len() / 37;
+        let iter_count = (&buffer.len() - 4) / 37;
         let mut vec_field: Vec<SKILLINFO> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 4 * i;
-            let end_pos = 41 * i;
+            let start_pos = 4 + (37 * (i - 1));
+            let end_pos = 4 + 37 * i;
             vec_field.push(SKILLINFO::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -22441,12 +22441,12 @@ impl Packet for PacketZcNotifyCartitemCountinfo {
 
 impl PacketZcCartEquipmentItemlist {
     pub fn from(buffer: &[u8]) -> PacketZcCartEquipmentItemlist {
-        let iter_count = &buffer.len() / 20;
+        let iter_count = (&buffer.len() - 4) / 20;
         let mut vec_field: Vec<EquipmentitemExtrainfo> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 4 * i;
-            let end_pos = 24 * i;
+            let start_pos = 4 + (20 * (i - 1));
+            let end_pos = 4 + 20 * i;
             vec_field.push(EquipmentitemExtrainfo::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -22544,12 +22544,12 @@ impl Packet for PacketZcCartEquipmentItemlist {
 
 impl PacketZcCartNormalItemlist {
     pub fn from(buffer: &[u8]) -> PacketZcCartNormalItemlist {
-        let iter_count = &buffer.len() / 10;
+        let iter_count = (&buffer.len() - 4) / 10;
         let mut vec_field: Vec<NormalitemExtrainfo> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 4 * i;
-            let end_pos = 14 * i;
+            let start_pos = 4 + (10 * (i - 1));
+            let end_pos = 4 + 10 * i;
             vec_field.push(NormalitemExtrainfo::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -23647,12 +23647,12 @@ impl Packet for PacketCzReqClosestore {
 
 impl PacketCzReqOpenstore {
     pub fn from(buffer: &[u8]) -> PacketCzReqOpenstore {
-        let iter_count = &buffer.len() / 8;
+        let iter_count = (&buffer.len() - 84) / 8;
         let mut vec_field: Vec<StoreItem> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 84 * i;
-            let end_pos = 92 * i;
+            let start_pos = 84 + (8 * (i - 1));
+            let end_pos = 84 + 8 * i;
             vec_field.push(StoreItem::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -24036,12 +24036,12 @@ impl Packet for PacketZcDisappearEntry {
 
 impl PacketZcPcPurchaseItemlistFrommc {
     pub fn from(buffer: &[u8]) -> PacketZcPcPurchaseItemlistFrommc {
-        let iter_count = &buffer.len() / 22;
+        let iter_count = (&buffer.len() - 8) / 22;
         let mut vec_field: Vec<PurchaseItemFrommc> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 8 * i;
-            let end_pos = 30 * i;
+            let start_pos = 8 + (22 * (i - 1));
+            let end_pos = 8 + 22 * i;
             vec_field.push(PurchaseItemFrommc::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -24157,12 +24157,12 @@ impl Packet for PacketZcPcPurchaseItemlistFrommc {
 
 impl PacketCzPcPurchaseItemlistFrommc {
     pub fn from(buffer: &[u8]) -> PacketCzPcPurchaseItemlistFrommc {
-        let iter_count = &buffer.len() / 4;
+        let iter_count = (&buffer.len() - 8) / 4;
         let mut vec_field: Vec<CzPurchaseItemFrommc> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 8 * i;
-            let end_pos = 12 * i;
+            let start_pos = 8 + (4 * (i - 1));
+            let end_pos = 8 + 4 * i;
             vec_field.push(CzPurchaseItemFrommc::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -24392,12 +24392,12 @@ impl Packet for PacketZcPcPurchaseResultFrommc {
 
 impl PacketZcPcPurchaseMyitemlist {
     pub fn from(buffer: &[u8]) -> PacketZcPcPurchaseMyitemlist {
-        let iter_count = &buffer.len() / 22;
+        let iter_count = (&buffer.len() - 8) / 22;
         let mut vec_field: Vec<PurchaseMyitem> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 8 * i;
-            let end_pos = 30 * i;
+            let start_pos = 8 + (22 * (i - 1));
+            let end_pos = 8 + 22 * i;
             vec_field.push(PurchaseMyitem::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -26681,12 +26681,12 @@ impl Packet for PacketZcNotifyMannerPointGiven {
 
 impl PacketZcMyguildBasicInfo {
     pub fn from(buffer: &[u8]) -> PacketZcMyguildBasicInfo {
-        let iter_count = &buffer.len() / 32;
+        let iter_count = (&buffer.len() - 4) / 32;
         let mut vec_field: Vec<RelatedGuild> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 4 * i;
-            let end_pos = 36 * i;
+            let start_pos = 4 + (32 * (i - 1));
+            let end_pos = 4 + 32 * i;
             vec_field.push(RelatedGuild::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -27630,12 +27630,12 @@ impl Packet for PacketCzRegisterGuildEmblemImg {
 
 impl PacketZcMembermgrInfo {
     pub fn from(buffer: &[u8]) -> PacketZcMembermgrInfo {
-        let iter_count = &buffer.len() / 104;
+        let iter_count = (&buffer.len() - 4) / 104;
         let mut vec_field: Vec<GuildMembermgrInfo> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 4 * i;
-            let end_pos = 108 * i;
+            let start_pos = 4 + (104 * (i - 1));
+            let end_pos = 4 + 104 * i;
             vec_field.push(GuildMembermgrInfo::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -27733,12 +27733,12 @@ impl Packet for PacketZcMembermgrInfo {
 
 impl PacketCzReqChangeMemberpos {
     pub fn from(buffer: &[u8]) -> PacketCzReqChangeMemberpos {
-        let iter_count = &buffer.len() / 12;
+        let iter_count = (&buffer.len() - 4) / 12;
         let mut vec_field: Vec<MemberPositionInfo> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 4 * i;
-            let end_pos = 16 * i;
+            let start_pos = 4 + (12 * (i - 1));
+            let end_pos = 4 + 12 * i;
             vec_field.push(MemberPositionInfo::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -27836,12 +27836,12 @@ impl Packet for PacketCzReqChangeMemberpos {
 
 impl PacketZcAckReqChangeMembers {
     pub fn from(buffer: &[u8]) -> PacketZcAckReqChangeMembers {
-        let iter_count = &buffer.len() / 12;
+        let iter_count = (&buffer.len() - 4) / 12;
         let mut vec_field: Vec<MemberPositionInfo> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 4 * i;
-            let end_pos = 16 * i;
+            let start_pos = 4 + (12 * (i - 1));
+            let end_pos = 4 + 12 * i;
             vec_field.push(MemberPositionInfo::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -28857,12 +28857,12 @@ impl Packet for PacketZcAckDisorganizeGuild {
 
 impl PacketZcPositionInfo {
     pub fn from(buffer: &[u8]) -> PacketZcPositionInfo {
-        let iter_count = &buffer.len() / 16;
+        let iter_count = (&buffer.len() - 4) / 16;
         let mut vec_field: Vec<GuildMemberPositionInfo> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 4 * i;
-            let end_pos = 20 * i;
+            let start_pos = 4 + (16 * (i - 1));
+            let end_pos = 4 + 16 * i;
             vec_field.push(GuildMemberPositionInfo::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -28960,12 +28960,12 @@ impl Packet for PacketZcPositionInfo {
 
 impl PacketCzRegChangeGuildPositioninfo {
     pub fn from(buffer: &[u8]) -> PacketCzRegChangeGuildPositioninfo {
-        let iter_count = &buffer.len() / 40;
+        let iter_count = (&buffer.len() - 4) / 40;
         let mut vec_field: Vec<GuildRegPositionInfo> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 4 * i;
-            let end_pos = 44 * i;
+            let start_pos = 4 + (40 * (i - 1));
+            let end_pos = 4 + 40 * i;
             vec_field.push(GuildRegPositionInfo::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -29063,12 +29063,12 @@ impl Packet for PacketCzRegChangeGuildPositioninfo {
 
 impl PacketZcGuildSkillinfo {
     pub fn from(buffer: &[u8]) -> PacketZcGuildSkillinfo {
-        let iter_count = &buffer.len() / 37;
+        let iter_count = (&buffer.len() - 6) / 37;
         let mut vec_field: Vec<SKILLINFO> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 6 * i;
-            let end_pos = 43 * i;
+            let start_pos = 6 + (37 * (i - 1));
+            let end_pos = 6 + 37 * i;
             vec_field.push(SKILLINFO::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -29184,12 +29184,12 @@ impl Packet for PacketZcGuildSkillinfo {
 
 impl PacketZcBanList {
     pub fn from(buffer: &[u8]) -> PacketZcBanList {
-        let iter_count = &buffer.len() / 88;
+        let iter_count = (&buffer.len() - 4) / 88;
         let mut vec_field: Vec<GuildBanInfo> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 4 * i;
-            let end_pos = 92 * i;
+            let start_pos = 4 + (88 * (i - 1));
+            let end_pos = 4 + 88 * i;
             vec_field.push(GuildBanInfo::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -29287,12 +29287,12 @@ impl Packet for PacketZcBanList {
 
 impl PacketZcOtherGuildList {
     pub fn from(buffer: &[u8]) -> PacketZcOtherGuildList {
-        let iter_count = &buffer.len() / 36;
+        let iter_count = (&buffer.len() - 4) / 36;
         let mut vec_field: Vec<OtherGuildInfo> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 4 * i;
-            let end_pos = 40 * i;
+            let start_pos = 4 + (36 * (i - 1));
+            let end_pos = 4 + 36 * i;
             vec_field.push(OtherGuildInfo::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -29494,12 +29494,12 @@ impl Packet for PacketCzReqMakeGuild {
 
 impl PacketZcPositionIdNameInfo {
     pub fn from(buffer: &[u8]) -> PacketZcPositionIdNameInfo {
-        let iter_count = &buffer.len() / 28;
+        let iter_count = (&buffer.len() - 4) / 28;
         let mut vec_field: Vec<MemberPositionIdNameInfo> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 4 * i;
-            let end_pos = 32 * i;
+            let start_pos = 4 + (28 * (i - 1));
+            let end_pos = 4 + 28 * i;
             vec_field.push(MemberPositionIdNameInfo::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -30991,12 +30991,12 @@ impl Packet for PacketZcAckReqAllyGuild {
 
 impl PacketZcAckChangeGuildPositioninfo {
     pub fn from(buffer: &[u8]) -> PacketZcAckChangeGuildPositioninfo {
-        let iter_count = &buffer.len() / 30;
+        let iter_count = (&buffer.len() - 4) / 30;
         let mut vec_field: Vec<GuildRegPositionInfo> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 4 * i;
-            let end_pos = 34 * i;
+            let start_pos = 4 + (30 * (i - 1));
+            let end_pos = 4 + 30 * i;
             vec_field.push(GuildRegPositionInfo::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -35764,12 +35764,12 @@ impl Packet for PacketCzRenamePet {
 
 impl PacketZcPeteggList {
     pub fn from(buffer: &[u8]) -> PacketZcPeteggList {
-        let iter_count = &buffer.len() / 2;
+        let iter_count = (&buffer.len() - 4) / 2;
         let mut vec_field: Vec<PeteggitemInfo> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 4 * i;
-            let end_pos = 6 * i;
+            let start_pos = 4 + (2 * (i - 1));
+            let end_pos = 4 + 2 * i;
             vec_field.push(PeteggitemInfo::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -36389,12 +36389,12 @@ impl Packet for PacketZcSkillUpdate {
 
 impl PacketZcMakingarrowList {
     pub fn from(buffer: &[u8]) -> PacketZcMakingarrowList {
-        let iter_count = &buffer.len() / 2;
+        let iter_count = (&buffer.len() - 4) / 2;
         let mut vec_field: Vec<ArrowitemInfo> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 4 * i;
-            let end_pos = 6 * i;
+            let start_pos = 4 + (2 * (i - 1));
+            let end_pos = 4 + 2 * i;
             vec_field.push(ArrowitemInfo::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -36858,12 +36858,12 @@ impl Packet for PacketZcShowdigit {
 
 impl PacketCzReqOpenstore2 {
     pub fn from(buffer: &[u8]) -> PacketCzReqOpenstore2 {
-        let iter_count = &buffer.len() / 8;
+        let iter_count = (&buffer.len() - 85) / 8;
         let mut vec_field: Vec<StoreItem> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 85 * i;
-            let end_pos = 93 * i;
+            let start_pos = 85 + (8 * (i - 1));
+            let end_pos = 85 + 8 * i;
             vec_field.push(StoreItem::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -44881,12 +44881,12 @@ impl Packet for PacketCzChopokgi {
 
 impl PacketZcNormalItemlist2 {
     pub fn from(buffer: &[u8]) -> PacketZcNormalItemlist2 {
-        let iter_count = &buffer.len() / 18;
+        let iter_count = (&buffer.len() - 4) / 18;
         let mut vec_field: Vec<NormalitemExtrainfo2> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 4 * i;
-            let end_pos = 22 * i;
+            let start_pos = 4 + (18 * (i - 1));
+            let end_pos = 4 + 18 * i;
             vec_field.push(NormalitemExtrainfo2::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -44984,12 +44984,12 @@ impl Packet for PacketZcNormalItemlist2 {
 
 impl PacketZcCartNormalItemlist2 {
     pub fn from(buffer: &[u8]) -> PacketZcCartNormalItemlist2 {
-        let iter_count = &buffer.len() / 18;
+        let iter_count = (&buffer.len() - 4) / 18;
         let mut vec_field: Vec<NormalitemExtrainfo2> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 4 * i;
-            let end_pos = 22 * i;
+            let start_pos = 4 + (18 * (i - 1));
+            let end_pos = 4 + 18 * i;
             vec_field.push(NormalitemExtrainfo2::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -45087,12 +45087,12 @@ impl Packet for PacketZcCartNormalItemlist2 {
 
 impl PacketZcStoreNormalItemlist2 {
     pub fn from(buffer: &[u8]) -> PacketZcStoreNormalItemlist2 {
-        let iter_count = &buffer.len() / 18;
+        let iter_count = (&buffer.len() - 4) / 18;
         let mut vec_field: Vec<NormalitemExtrainfo2> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 4 * i;
-            let end_pos = 22 * i;
+            let start_pos = 4 + (18 * (i - 1));
+            let end_pos = 4 + 18 * i;
             vec_field.push(NormalitemExtrainfo2::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -46424,12 +46424,12 @@ impl Packet for PacketChDeleteChar2 {
 
 impl PacketZcRepairitemlist {
     pub fn from(buffer: &[u8]) -> PacketZcRepairitemlist {
-        let iter_count = &buffer.len() / 13;
+        let iter_count = (&buffer.len() - 4) / 13;
         let mut vec_field: Vec<RepairitemInfo> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 4 * i;
-            let end_pos = 17 * i;
+            let start_pos = 4 + (13 * (i - 1));
+            let end_pos = 4 + 13 * i;
             vec_field.push(RepairitemInfo::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -46895,12 +46895,12 @@ impl Packet for PacketCaConnectInfoChanged {
 
 impl PacketZcFriendsList {
     pub fn from(buffer: &[u8]) -> PacketZcFriendsList {
-        let iter_count = &buffer.len() / 32;
+        let iter_count = (&buffer.len() - 4) / 32;
         let mut vec_field: Vec<StructFriend> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 4 * i;
-            let end_pos = 36 * i;
+            let start_pos = 4 + (32 * (i - 1));
+            let end_pos = 4 + 32 * i;
             vec_field.push(StructFriend::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -48146,12 +48146,12 @@ impl Packet for PacketCzExeHashcheck {
 
 impl PacketHcBlockCharacter {
     pub fn from(buffer: &[u8]) -> PacketHcBlockCharacter {
-        let iter_count = &buffer.len() / 24;
+        let iter_count = (&buffer.len() - 4) / 24;
         let mut vec_field: Vec<TagCharacterBlockInfo> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 4 * i;
-            let end_pos = 28 * i;
+            let start_pos = 4 + (24 * (i - 1));
+            let end_pos = 4 + 24 * i;
             vec_field.push(TagCharacterBlockInfo::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -50475,12 +50475,12 @@ impl Packet for PacketZcNotifyCrazykiller {
 
 impl PacketZcNotifyWeaponitemlist {
     pub fn from(buffer: &[u8]) -> PacketZcNotifyWeaponitemlist {
-        let iter_count = &buffer.len() / 13;
+        let iter_count = (&buffer.len() - 4) / 13;
         let mut vec_field: Vec<RepairitemInfo> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 4 * i;
-            let end_pos = 17 * i;
+            let start_pos = 4 + (13 * (i - 1));
+            let end_pos = 4 + 13 * i;
             vec_field.push(RepairitemInfo::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -54508,12 +54508,12 @@ impl Packet for PacketCzMailGetList {
 
 impl PacketZcMailReqGetList {
     pub fn from(buffer: &[u8]) -> PacketZcMailReqGetList {
-        let iter_count = &buffer.len() / 73;
+        let iter_count = (&buffer.len() - 8) / 73;
         let mut vec_field: Vec<MailList> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 8 * i;
-            let end_pos = 81 * i;
+            let start_pos = 8 + (73 * (i - 1));
+            let end_pos = 8 + 73 * i;
             vec_field.push(MailList::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -56501,12 +56501,12 @@ impl Packet for PacketCzAuctionItemSearch {
 
 impl PacketZcAuctionItemReqSearch {
     pub fn from(buffer: &[u8]) -> PacketZcAuctionItemReqSearch {
-        let iter_count = &buffer.len() / 83;
+        let iter_count = (&buffer.len() - 12) / 83;
         let mut vec_field: Vec<AuctionItemSearchInfo> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 12 * i;
-            let end_pos = 95 * i;
+            let start_pos = 12 + (83 * (i - 1));
+            let end_pos = 12 + 83 * i;
             vec_field.push(AuctionItemSearchInfo::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -60273,12 +60273,12 @@ impl Packet for PacketCzHuntinglist {
 
 impl PacketZcHuntinglist {
     pub fn from(buffer: &[u8]) -> PacketZcHuntinglist {
-        let iter_count = &buffer.len() / 12;
+        let iter_count = (&buffer.len() - 4) / 12;
         let mut vec_field: Vec<PacketMobHunting> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 4 * i;
-            let end_pos = 16 * i;
+            let start_pos = 4 + (12 * (i - 1));
+            let end_pos = 4 + 12 * i;
             vec_field.push(PacketMobHunting::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -61948,12 +61948,12 @@ impl Packet for PacketCzDeathQuestion {
 
 impl PacketZcPcCashPointItemlist {
     pub fn from(buffer: &[u8]) -> PacketZcPcCashPointItemlist {
-        let iter_count = &buffer.len() / 11;
+        let iter_count = (&buffer.len() - 8) / 11;
         let mut vec_field: Vec<PurchaseItem> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 8 * i;
-            let end_pos = 19 * i;
+            let start_pos = 8 + (11 * (i - 1));
+            let end_pos = 8 + 11 * i;
             vec_field.push(PurchaseItem::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -63317,12 +63317,12 @@ impl Packet for PacketZcReadBook {
 
 impl PacketZcEquipmentItemlist2 {
     pub fn from(buffer: &[u8]) -> PacketZcEquipmentItemlist2 {
-        let iter_count = &buffer.len() / 24;
+        let iter_count = (&buffer.len() - 4) / 24;
         let mut vec_field: Vec<EquipmentitemExtrainfo2> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 4 * i;
-            let end_pos = 28 * i;
+            let start_pos = 4 + (24 * (i - 1));
+            let end_pos = 4 + 24 * i;
             vec_field.push(EquipmentitemExtrainfo2::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -63420,12 +63420,12 @@ impl Packet for PacketZcEquipmentItemlist2 {
 
 impl PacketZcStoreEquipmentItemlist2 {
     pub fn from(buffer: &[u8]) -> PacketZcStoreEquipmentItemlist2 {
-        let iter_count = &buffer.len() / 24;
+        let iter_count = (&buffer.len() - 4) / 24;
         let mut vec_field: Vec<EquipmentitemExtrainfo2> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 4 * i;
-            let end_pos = 28 * i;
+            let start_pos = 4 + (24 * (i - 1));
+            let end_pos = 4 + 24 * i;
             vec_field.push(EquipmentitemExtrainfo2::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -63523,12 +63523,12 @@ impl Packet for PacketZcStoreEquipmentItemlist2 {
 
 impl PacketZcCartEquipmentItemlist2 {
     pub fn from(buffer: &[u8]) -> PacketZcCartEquipmentItemlist2 {
-        let iter_count = &buffer.len() / 24;
+        let iter_count = (&buffer.len() - 4) / 24;
         let mut vec_field: Vec<EquipmentitemExtrainfo2> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 4 * i;
-            let end_pos = 28 * i;
+            let start_pos = 4 + (24 * (i - 1));
+            let end_pos = 4 + 24 * i;
             vec_field.push(EquipmentitemExtrainfo2::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -64894,12 +64894,12 @@ impl Packet for PacketZcMerProperty {
 
 impl PacketZcMerSkillinfoList {
     pub fn from(buffer: &[u8]) -> PacketZcMerSkillinfoList {
-        let iter_count = &buffer.len() / 37;
+        let iter_count = (&buffer.len() - 4) / 37;
         let mut vec_field: Vec<SKILLINFO> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 4 * i;
-            let end_pos = 41 * i;
+            let start_pos = 4 + (37 * (i - 1));
+            let end_pos = 4 + 37 * i;
             vec_field.push(SKILLINFO::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -66299,12 +66299,12 @@ impl Packet for PacketCaLoginHan {
 
 impl PacketZcAllQuestList {
     pub fn from(buffer: &[u8]) -> PacketZcAllQuestList {
-        let iter_count = &buffer.len() / 5;
+        let iter_count = (&buffer.len() - 8) / 5;
         let mut vec_field: Vec<PacketZcQuestInfo> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 8 * i;
-            let end_pos = 13 * i;
+            let start_pos = 8 + (5 * (i - 1));
+            let end_pos = 8 + 5 * i;
             vec_field.push(PacketZcQuestInfo::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -66420,12 +66420,12 @@ impl Packet for PacketZcAllQuestList {
 
 impl PacketZcAllQuestMission {
     pub fn from(buffer: &[u8]) -> PacketZcAllQuestMission {
-        let iter_count = &buffer.len() / 104;
+        let iter_count = (&buffer.len() - 8) / 104;
         let mut vec_field: Vec<PacketZcQuestMissionInfo> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 8 * i;
-            let end_pos = 112 * i;
+            let start_pos = 8 + (104 * (i - 1));
+            let end_pos = 8 + 104 * i;
             vec_field.push(PacketZcQuestMissionInfo::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -66541,12 +66541,12 @@ impl Packet for PacketZcAllQuestMission {
 
 impl PacketZcAddQuest {
     pub fn from(buffer: &[u8]) -> PacketZcAddQuest {
-        let iter_count = &buffer.len() / 30;
+        let iter_count = (&buffer.len() - 17) / 30;
         let mut vec_field: Vec<PacketZcMissionHunt> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 17 * i;
-            let end_pos = 47 * i;
+            let start_pos = 17 + (30 * (i - 1));
+            let end_pos = 17 + 30 * i;
             vec_field.push(PacketZcMissionHunt::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -66794,12 +66794,12 @@ impl Packet for PacketZcDelQuest {
 
 impl PacketZcUpdateMissionHunt {
     pub fn from(buffer: &[u8]) -> PacketZcUpdateMissionHunt {
-        let iter_count = &buffer.len() / 12;
+        let iter_count = (&buffer.len() - 6) / 12;
         let mut vec_field: Vec<PacketMobHunting> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 6 * i;
-            let end_pos = 18 * i;
+            let start_pos = 6 + (12 * (i - 1));
+            let end_pos = 6 + 12 * i;
             vec_field.push(PacketMobHunting::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -67309,12 +67309,12 @@ impl Packet for PacketZcItemPickupParty {
 
 impl PacketZcShortcutKeyList {
     pub fn from(buffer: &[u8]) -> PacketZcShortcutKeyList {
-        let iter_count = &buffer.len() / 7;
+        let iter_count = (&buffer.len() - 2) / 7;
         let mut vec_field: Vec<ShortCutKey> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 2 * i;
-            let end_pos = 9 * i;
+            let start_pos = 2 + (7 * (i - 1));
+            let end_pos = 2 + 7 * i;
             vec_field.push(ShortCutKey::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -69186,12 +69186,12 @@ impl Packet for PacketCzMemorialdungeonCommand {
 
 impl PacketZcEquipmentItemlist3 {
     pub fn from(buffer: &[u8]) -> PacketZcEquipmentItemlist3 {
-        let iter_count = &buffer.len() / 28;
+        let iter_count = (&buffer.len() - 4) / 28;
         let mut vec_field: Vec<EquipmentitemExtrainfo301> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 4 * i;
-            let end_pos = 32 * i;
+            let start_pos = 4 + (28 * (i - 1));
+            let end_pos = 4 + 28 * i;
             vec_field.push(EquipmentitemExtrainfo301::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -69289,12 +69289,12 @@ impl Packet for PacketZcEquipmentItemlist3 {
 
 impl PacketZcStoreEquipmentItemlist3 {
     pub fn from(buffer: &[u8]) -> PacketZcStoreEquipmentItemlist3 {
-        let iter_count = &buffer.len() / 28;
+        let iter_count = (&buffer.len() - 4) / 28;
         let mut vec_field: Vec<EquipmentitemExtrainfo301> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 4 * i;
-            let end_pos = 32 * i;
+            let start_pos = 4 + (28 * (i - 1));
+            let end_pos = 4 + 28 * i;
             vec_field.push(EquipmentitemExtrainfo301::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -69392,12 +69392,12 @@ impl Packet for PacketZcStoreEquipmentItemlist3 {
 
 impl PacketZcCartEquipmentItemlist3 {
     pub fn from(buffer: &[u8]) -> PacketZcCartEquipmentItemlist3 {
-        let iter_count = &buffer.len() / 28;
+        let iter_count = (&buffer.len() - 4) / 28;
         let mut vec_field: Vec<EquipmentitemExtrainfo301> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 4 * i;
-            let end_pos = 32 * i;
+            let start_pos = 4 + (28 * (i - 1));
+            let end_pos = 4 + 28 * i;
             vec_field.push(EquipmentitemExtrainfo301::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -69985,12 +69985,12 @@ impl Packet for PacketCzEquipwinMicroscope {
 
 impl PacketZcEquipwinMicroscope {
     pub fn from(buffer: &[u8]) -> PacketZcEquipwinMicroscope {
-        let iter_count = &buffer.len() / 28;
+        let iter_count = (&buffer.len() - 43) / 28;
         let mut vec_field: Vec<EquipmentitemExtrainfo301> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 43 * i;
-            let end_pos = 71 * i;
+            let start_pos = 43 + (28 * (i - 1));
+            let end_pos = 43 + 28 * i;
             vec_field.push(EquipmentitemExtrainfo301::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -71679,12 +71679,12 @@ impl Packet for PacketZcMapproperty {
 
 impl PacketZcNormalItemlist3 {
     pub fn from(buffer: &[u8]) -> PacketZcNormalItemlist3 {
-        let iter_count = &buffer.len() / 22;
+        let iter_count = (&buffer.len() - 4) / 22;
         let mut vec_field: Vec<NormalitemExtrainfo3> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 4 * i;
-            let end_pos = 26 * i;
+            let start_pos = 4 + (22 * (i - 1));
+            let end_pos = 4 + 22 * i;
             vec_field.push(NormalitemExtrainfo3::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -71782,12 +71782,12 @@ impl Packet for PacketZcNormalItemlist3 {
 
 impl PacketZcCartNormalItemlist3 {
     pub fn from(buffer: &[u8]) -> PacketZcCartNormalItemlist3 {
-        let iter_count = &buffer.len() / 22;
+        let iter_count = (&buffer.len() - 4) / 22;
         let mut vec_field: Vec<NormalitemExtrainfo3> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 4 * i;
-            let end_pos = 26 * i;
+            let start_pos = 4 + (22 * (i - 1));
+            let end_pos = 4 + 22 * i;
             vec_field.push(NormalitemExtrainfo3::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -71885,12 +71885,12 @@ impl Packet for PacketZcCartNormalItemlist3 {
 
 impl PacketZcStoreNormalItemlist3 {
     pub fn from(buffer: &[u8]) -> PacketZcStoreNormalItemlist3 {
-        let iter_count = &buffer.len() / 22;
+        let iter_count = (&buffer.len() - 4) / 22;
         let mut vec_field: Vec<NormalitemExtrainfo3> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 4 * i;
-            let end_pos = 26 * i;
+            let start_pos = 4 + (22 * (i - 1));
+            let end_pos = 4 + 22 * i;
             vec_field.push(NormalitemExtrainfo3::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -74126,12 +74126,12 @@ impl Packet for PacketCzOpenSimpleCashshopItemlist {
 
 impl PacketZcSimpleCashshopPointItemlist {
     pub fn from(buffer: &[u8]) -> PacketZcSimpleCashshopPointItemlist {
-        let iter_count = &buffer.len() / 11;
+        let iter_count = (&buffer.len() - 16) / 11;
         let mut vec_field: Vec<PurchaseItem> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 16 * i;
-            let end_pos = 27 * i;
+            let start_pos = 16 + (11 * (i - 1));
+            let end_pos = 16 + 11 * i;
             vec_field.push(PurchaseItem::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -75103,12 +75103,12 @@ impl Packet for PacketZcSkillPostdelay {
 
 impl PacketZcSkillPostdelayList {
     pub fn from(buffer: &[u8]) -> PacketZcSkillPostdelayList {
-        let iter_count = &buffer.len() / 6;
+        let iter_count = (&buffer.len() - 4) / 6;
         let mut vec_field: Vec<SkillPostdelay> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 4 * i;
-            let end_pos = 10 * i;
+            let start_pos = 4 + (6 * (i - 1));
+            let end_pos = 4 + 6 * i;
             vec_field.push(SkillPostdelay::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -75763,12 +75763,12 @@ impl Packet for PacketCzSkillSelectResponse {
 
 impl PacketZcSimpleCashPointItemlist {
     pub fn from(buffer: &[u8]) -> PacketZcSimpleCashPointItemlist {
-        let iter_count = &buffer.len() / 11;
+        let iter_count = (&buffer.len() - 8) / 11;
         let mut vec_field: Vec<PurchaseItem> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 8 * i;
-            let end_pos = 19 * i;
+            let start_pos = 8 + (11 * (i - 1));
+            let end_pos = 8 + 11 * i;
             vec_field.push(PurchaseItem::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -76190,12 +76190,12 @@ impl Packet for PacketCzBlockingPlayCancel {
 
 impl PacketHcCharacterList {
     pub fn from(buffer: &[u8]) -> PacketHcCharacterList {
-        let iter_count = &buffer.len() / 5;
+        let iter_count = (&buffer.len() - 4) / 5;
         let mut vec_field: Vec<CharacterList> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 4 * i;
-            let end_pos = 9 * i;
+            let start_pos = 4 + (5 * (i - 1));
+            let end_pos = 4 + 5 * i;
             vec_field.push(CharacterList::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -77301,12 +77301,12 @@ impl Packet for PacketZcReqGroupinfoChangeV2 {
 
 impl PacketZcShortcutKeyListV2 {
     pub fn from(buffer: &[u8]) -> PacketZcShortcutKeyListV2 {
-        let iter_count = &buffer.len() / 7;
+        let iter_count = (&buffer.len() - 2) / 7;
         let mut vec_field: Vec<ShortCutKey> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 2 * i;
-            let end_pos = 9 * i;
+            let start_pos = 2 + (7 * (i - 1));
+            let end_pos = 2 + 7 * i;
             vec_field.push(ShortCutKey::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -79260,12 +79260,12 @@ impl Packet for PacketCzBattleFieldList {
 
 impl PacketZcBattleFieldList {
     pub fn from(buffer: &[u8]) -> PacketZcBattleFieldList {
-        let iter_count = &buffer.len() / 62;
+        let iter_count = (&buffer.len() - 8) / 62;
         let mut vec_field: Vec<BattleFieldInfo> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 8 * i;
-            let end_pos = 70 * i;
+            let start_pos = 8 + (62 * (i - 1));
+            let end_pos = 8 + 62 * i;
             vec_field.push(BattleFieldInfo::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -82899,12 +82899,12 @@ impl Packet for PacketZcDefineCheck {
 
 impl PacketZcPcPurchaseItemlistFrommc2 {
     pub fn from(buffer: &[u8]) -> PacketZcPcPurchaseItemlistFrommc2 {
-        let iter_count = &buffer.len() / 22;
+        let iter_count = (&buffer.len() - 12) / 22;
         let mut vec_field: Vec<PurchaseItemFrommc> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 12 * i;
-            let end_pos = 34 * i;
+            let start_pos = 12 + (22 * (i - 1));
+            let end_pos = 12 + 22 * i;
             vec_field.push(PurchaseItemFrommc::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -83038,12 +83038,12 @@ impl Packet for PacketZcPcPurchaseItemlistFrommc2 {
 
 impl PacketCzPcPurchaseItemlistFrommc2 {
     pub fn from(buffer: &[u8]) -> PacketCzPcPurchaseItemlistFrommc2 {
-        let iter_count = &buffer.len() / 4;
+        let iter_count = (&buffer.len() - 12) / 4;
         let mut vec_field: Vec<CzPurchaseItemFrommc> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 12 * i;
-            let end_pos = 16 * i;
+            let start_pos = 12 + (4 * (i - 1));
+            let end_pos = 12 + 4 * i;
             vec_field.push(CzPurchaseItemFrommc::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -83477,12 +83477,12 @@ impl Packet for PacketCzPartyBookingReqSearch {
 
 impl PacketZcPartyBookingAckSearch {
     pub fn from(buffer: &[u8]) -> PacketZcPartyBookingAckSearch {
-        let iter_count = &buffer.len() / 48;
+        let iter_count = (&buffer.len() - 5) / 48;
         let mut vec_field: Vec<PartyBookingAdInfo> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 5 * i;
-            let end_pos = 53 * i;
+            let start_pos = 5 + (48 * (i - 1));
+            let end_pos = 5 + 48 * i;
             vec_field.push(PartyBookingAdInfo::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -84672,12 +84672,12 @@ impl Packet for PacketZcOpenBuyingStore {
 
 impl PacketCzReqOpenBuyingStore {
     pub fn from(buffer: &[u8]) -> PacketCzReqOpenBuyingStore {
-        let iter_count = &buffer.len() / 8;
+        let iter_count = (&buffer.len() - 89) / 8;
         let mut vec_field: Vec<ProductinfoInBuyingStore> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 89 * i;
-            let end_pos = 97 * i;
+            let start_pos = 89 + (8 * (i - 1));
+            let end_pos = 89 + 8 * i;
             vec_field.push(ProductinfoInBuyingStore::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -84933,12 +84933,12 @@ impl Packet for PacketZcFailedOpenBuyingStoreToBuyer {
 
 impl PacketZcMyitemlistBuyingStore {
     pub fn from(buffer: &[u8]) -> PacketZcMyitemlistBuyingStore {
-        let iter_count = &buffer.len() / 9;
+        let iter_count = (&buffer.len() - 12) / 9;
         let mut vec_field: Vec<BuyingStoreItemlist> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 12 * i;
-            let end_pos = 21 * i;
+            let start_pos = 12 + (9 * (i - 1));
+            let end_pos = 12 + 9 * i;
             vec_field.push(BuyingStoreItemlist::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -85392,12 +85392,12 @@ impl Packet for PacketCzReqClickToBuyingStore {
 
 impl PacketZcAckItemlistBuyingStore {
     pub fn from(buffer: &[u8]) -> PacketZcAckItemlistBuyingStore {
-        let iter_count = &buffer.len() / 9;
+        let iter_count = (&buffer.len() - 16) / 9;
         let mut vec_field: Vec<BuyingStoreItemlist> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 16 * i;
-            let end_pos = 25 * i;
+            let start_pos = 16 + (9 * (i - 1));
+            let end_pos = 16 + 9 * i;
             vec_field.push(BuyingStoreItemlist::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -85549,12 +85549,12 @@ impl Packet for PacketZcAckItemlistBuyingStore {
 
 impl PacketCzReqTradeBuyingStore {
     pub fn from(buffer: &[u8]) -> PacketCzReqTradeBuyingStore {
-        let iter_count = &buffer.len() / 6;
+        let iter_count = (&buffer.len() - 12) / 6;
         let mut vec_field: Vec<TradeItemBuyingStore> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 12 * i;
-            let end_pos = 18 * i;
+            let start_pos = 12 + (6 * (i - 1));
+            let end_pos = 12 + 6 * i;
             vec_field.push(TradeItemBuyingStore::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -88064,12 +88064,12 @@ impl Packet for PacketCzSearchStoreInfo {
 
 impl PacketZcSearchStoreInfoAck {
     pub fn from(buffer: &[u8]) -> PacketZcSearchStoreInfoAck {
-        let iter_count = &buffer.len() / 106;
+        let iter_count = (&buffer.len() - 7) / 106;
         let mut vec_field: Vec<ResultItemInfo> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 7 * i;
-            let end_pos = 113 * i;
+            let start_pos = 7 + (106 * (i - 1));
+            let end_pos = 7 + 106 * i;
             vec_field.push(ResultItemInfo::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -89779,268 +89779,274 @@ impl CharacterInfoNeoUnion {
                 dst.clone_from_slice(&buffer[0..4]);
                 dst
             },
-            exp: i32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            exp: i64::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7], buffer[8], buffer[9], buffer[10], buffer[11]]),
             exp_raw: {
                 let mut dst: [u8; 4] = [0u8; 4];
                 dst.clone_from_slice(&buffer[4..8]);
                 dst
             },
-            money: i32::from_le_bytes([buffer[8], buffer[9], buffer[10], buffer[11]]),
+            money: i32::from_le_bytes([buffer[12], buffer[13], buffer[14], buffer[15]]),
             money_raw: {
-                let mut dst: [u8; 4] = [0u8; 4];
-                dst.clone_from_slice(&buffer[8..12]);
-                dst
-            },
-            jobexp: i32::from_le_bytes([buffer[12], buffer[13], buffer[14], buffer[15]]),
-            jobexp_raw: {
                 let mut dst: [u8; 4] = [0u8; 4];
                 dst.clone_from_slice(&buffer[12..16]);
                 dst
             },
-            joblevel: i32::from_le_bytes([buffer[16], buffer[17], buffer[18], buffer[19]]),
-            joblevel_raw: {
+            jobexp: i64::from_le_bytes([buffer[16], buffer[17], buffer[18], buffer[19], buffer[20], buffer[21], buffer[22], buffer[23]]),
+            jobexp_raw: {
                 let mut dst: [u8; 4] = [0u8; 4];
                 dst.clone_from_slice(&buffer[16..20]);
                 dst
             },
-            bodystate: i32::from_le_bytes([buffer[20], buffer[21], buffer[22], buffer[23]]),
-            bodystate_raw: {
-                let mut dst: [u8; 4] = [0u8; 4];
-                dst.clone_from_slice(&buffer[20..24]);
-                dst
-            },
-            healthstate: i32::from_le_bytes([buffer[24], buffer[25], buffer[26], buffer[27]]),
-            healthstate_raw: {
+            joblevel: i32::from_le_bytes([buffer[24], buffer[25], buffer[26], buffer[27]]),
+            joblevel_raw: {
                 let mut dst: [u8; 4] = [0u8; 4];
                 dst.clone_from_slice(&buffer[24..28]);
                 dst
             },
-            effectstate: i32::from_le_bytes([buffer[28], buffer[29], buffer[30], buffer[31]]),
-            effectstate_raw: {
+            bodystate: i32::from_le_bytes([buffer[28], buffer[29], buffer[30], buffer[31]]),
+            bodystate_raw: {
                 let mut dst: [u8; 4] = [0u8; 4];
                 dst.clone_from_slice(&buffer[28..32]);
                 dst
             },
-            virtue: i32::from_le_bytes([buffer[32], buffer[33], buffer[34], buffer[35]]),
-            virtue_raw: {
+            healthstate: i32::from_le_bytes([buffer[32], buffer[33], buffer[34], buffer[35]]),
+            healthstate_raw: {
                 let mut dst: [u8; 4] = [0u8; 4];
                 dst.clone_from_slice(&buffer[32..36]);
                 dst
             },
-            honor: i32::from_le_bytes([buffer[36], buffer[37], buffer[38], buffer[39]]),
-            honor_raw: {
+            effectstate: i32::from_le_bytes([buffer[36], buffer[37], buffer[38], buffer[39]]),
+            effectstate_raw: {
                 let mut dst: [u8; 4] = [0u8; 4];
                 dst.clone_from_slice(&buffer[36..40]);
                 dst
             },
-            jobpoint: i16::from_le_bytes([buffer[40], buffer[41]]),
+            virtue: i32::from_le_bytes([buffer[40], buffer[41], buffer[42], buffer[43]]),
+            virtue_raw: {
+                let mut dst: [u8; 4] = [0u8; 4];
+                dst.clone_from_slice(&buffer[40..44]);
+                dst
+            },
+            honor: i32::from_le_bytes([buffer[44], buffer[45], buffer[46], buffer[47]]),
+            honor_raw: {
+                let mut dst: [u8; 4] = [0u8; 4];
+                dst.clone_from_slice(&buffer[44..48]);
+                dst
+            },
+            jobpoint: i16::from_le_bytes([buffer[48], buffer[49]]),
             jobpoint_raw: {
                 let mut dst: [u8; 2] = [0u8; 2];
-                dst.clone_from_slice(&buffer[40..42]);
+                dst.clone_from_slice(&buffer[48..50]);
                 dst
             },
-            hp: i32::from_le_bytes([buffer[42], buffer[43], buffer[44], buffer[45]]),
+            hp: i32::from_le_bytes([buffer[50], buffer[51], buffer[52], buffer[53]]),
             hp_raw: {
                 let mut dst: [u8; 4] = [0u8; 4];
-                dst.clone_from_slice(&buffer[42..46]);
+                dst.clone_from_slice(&buffer[50..54]);
                 dst
             },
-            maxhp: i32::from_le_bytes([buffer[46], buffer[47], buffer[48], buffer[49]]),
+            maxhp: i32::from_le_bytes([buffer[54], buffer[55], buffer[56], buffer[57]]),
             maxhp_raw: {
                 let mut dst: [u8; 4] = [0u8; 4];
-                dst.clone_from_slice(&buffer[46..50]);
+                dst.clone_from_slice(&buffer[54..58]);
                 dst
             },
-            sp: i16::from_le_bytes([buffer[50], buffer[51]]),
+            sp: i16::from_le_bytes([buffer[58], buffer[59]]),
             sp_raw: {
-                let mut dst: [u8; 2] = [0u8; 2];
-                dst.clone_from_slice(&buffer[50..52]);
-                dst
-            },
-            maxsp: i16::from_le_bytes([buffer[52], buffer[53]]),
-            maxsp_raw: {
-                let mut dst: [u8; 2] = [0u8; 2];
-                dst.clone_from_slice(&buffer[52..54]);
-                dst
-            },
-            speed: i16::from_le_bytes([buffer[54], buffer[55]]),
-            speed_raw: {
-                let mut dst: [u8; 2] = [0u8; 2];
-                dst.clone_from_slice(&buffer[54..56]);
-                dst
-            },
-            job: i16::from_le_bytes([buffer[56], buffer[57]]),
-            job_raw: {
-                let mut dst: [u8; 2] = [0u8; 2];
-                dst.clone_from_slice(&buffer[56..58]);
-                dst
-            },
-            head: i16::from_le_bytes([buffer[58], buffer[59]]),
-            head_raw: {
                 let mut dst: [u8; 2] = [0u8; 2];
                 dst.clone_from_slice(&buffer[58..60]);
                 dst
             },
-            weapon: i16::from_le_bytes([buffer[60], buffer[61]]),
-            weapon_raw: {
+            maxsp: i16::from_le_bytes([buffer[60], buffer[61]]),
+            maxsp_raw: {
                 let mut dst: [u8; 2] = [0u8; 2];
                 dst.clone_from_slice(&buffer[60..62]);
                 dst
             },
-            level: i16::from_le_bytes([buffer[62], buffer[63]]),
-            level_raw: {
+            speed: i16::from_le_bytes([buffer[62], buffer[63]]),
+            speed_raw: {
                 let mut dst: [u8; 2] = [0u8; 2];
                 dst.clone_from_slice(&buffer[62..64]);
                 dst
             },
-            sppoint: i16::from_le_bytes([buffer[64], buffer[65]]),
-            sppoint_raw: {
+            job: i16::from_le_bytes([buffer[64], buffer[65]]),
+            job_raw: {
                 let mut dst: [u8; 2] = [0u8; 2];
                 dst.clone_from_slice(&buffer[64..66]);
                 dst
             },
-            accessory: i16::from_le_bytes([buffer[66], buffer[67]]),
-            accessory_raw: {
+            head: i16::from_le_bytes([buffer[66], buffer[67]]),
+            head_raw: {
                 let mut dst: [u8; 2] = [0u8; 2];
                 dst.clone_from_slice(&buffer[66..68]);
                 dst
             },
-            shield: i16::from_le_bytes([buffer[68], buffer[69]]),
-            shield_raw: {
+            body: i16::from_le_bytes([buffer[68], buffer[69]]),
+            body_raw: {
                 let mut dst: [u8; 2] = [0u8; 2];
                 dst.clone_from_slice(&buffer[68..70]);
                 dst
             },
-            accessory2: i16::from_le_bytes([buffer[70], buffer[71]]),
-            accessory2_raw: {
+            weapon: i16::from_le_bytes([buffer[70], buffer[71]]),
+            weapon_raw: {
                 let mut dst: [u8; 2] = [0u8; 2];
                 dst.clone_from_slice(&buffer[70..72]);
                 dst
             },
-            accessory3: i16::from_le_bytes([buffer[72], buffer[73]]),
-            accessory3_raw: {
+            level: i16::from_le_bytes([buffer[72], buffer[73]]),
+            level_raw: {
                 let mut dst: [u8; 2] = [0u8; 2];
                 dst.clone_from_slice(&buffer[72..74]);
                 dst
             },
-            headpalette: i16::from_le_bytes([buffer[74], buffer[75]]),
-            headpalette_raw: {
+            sppoint: i16::from_le_bytes([buffer[74], buffer[75]]),
+            sppoint_raw: {
                 let mut dst: [u8; 2] = [0u8; 2];
                 dst.clone_from_slice(&buffer[74..76]);
                 dst
             },
-            bodypalette: i16::from_le_bytes([buffer[76], buffer[77]]),
-            bodypalette_raw: {
+            accessory: i16::from_le_bytes([buffer[76], buffer[77]]),
+            accessory_raw: {
                 let mut dst: [u8; 2] = [0u8; 2];
                 dst.clone_from_slice(&buffer[76..78]);
                 dst
             },
+            shield: i16::from_le_bytes([buffer[78], buffer[79]]),
+            shield_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[78..80]);
+                dst
+            },
+            accessory2: i16::from_le_bytes([buffer[80], buffer[81]]),
+            accessory2_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[80..82]);
+                dst
+            },
+            accessory3: i16::from_le_bytes([buffer[82], buffer[83]]),
+            accessory3_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[82..84]);
+                dst
+            },
+            headpalette: i16::from_le_bytes([buffer[84], buffer[85]]),
+            headpalette_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[84..86]);
+                dst
+            },
+            bodypalette: i16::from_le_bytes([buffer[86], buffer[87]]),
+            bodypalette_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[86..88]);
+                dst
+            },
             name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
-                for (index, byte) in buffer[78..102].iter().enumerate() {
+                for (index, byte) in buffer[88..112].iter().enumerate() {
                     dst[index] = *byte as char;
                 }
                 dst
             },
             name_raw: {
                 let mut dst: [u8; 24] = [0u8; 24];
-                dst.clone_from_slice(&buffer[78..102]);
+                dst.clone_from_slice(&buffer[88..112]);
                 dst
             },
-            str: u8::from_le_bytes([buffer[102]]),
+            str: u8::from_le_bytes([buffer[112]]),
             str_raw: {
                 let mut dst: [u8; 1] = [0u8; 1];
-                dst.clone_from_slice(&buffer[102..103]);
+                dst.clone_from_slice(&buffer[112..113]);
                 dst
             },
-            agi: u8::from_le_bytes([buffer[103]]),
+            agi: u8::from_le_bytes([buffer[113]]),
             agi_raw: {
                 let mut dst: [u8; 1] = [0u8; 1];
-                dst.clone_from_slice(&buffer[103..104]);
+                dst.clone_from_slice(&buffer[113..114]);
                 dst
             },
-            vit: u8::from_le_bytes([buffer[104]]),
+            vit: u8::from_le_bytes([buffer[114]]),
             vit_raw: {
                 let mut dst: [u8; 1] = [0u8; 1];
-                dst.clone_from_slice(&buffer[104..105]);
+                dst.clone_from_slice(&buffer[114..115]);
                 dst
             },
-            int: u8::from_le_bytes([buffer[105]]),
+            int: u8::from_le_bytes([buffer[115]]),
             int_raw: {
                 let mut dst: [u8; 1] = [0u8; 1];
-                dst.clone_from_slice(&buffer[105..106]);
+                dst.clone_from_slice(&buffer[115..116]);
                 dst
             },
-            dex: u8::from_le_bytes([buffer[106]]),
+            dex: u8::from_le_bytes([buffer[116]]),
             dex_raw: {
                 let mut dst: [u8; 1] = [0u8; 1];
-                dst.clone_from_slice(&buffer[106..107]);
+                dst.clone_from_slice(&buffer[116..117]);
                 dst
             },
-            luk: u8::from_le_bytes([buffer[107]]),
+            luk: u8::from_le_bytes([buffer[117]]),
             luk_raw: {
                 let mut dst: [u8; 1] = [0u8; 1];
-                dst.clone_from_slice(&buffer[107..108]);
+                dst.clone_from_slice(&buffer[117..118]);
                 dst
             },
-            char_num: u8::from_le_bytes([buffer[108]]),
+            char_num: u8::from_le_bytes([buffer[118]]),
             char_num_raw: {
                 let mut dst: [u8; 1] = [0u8; 1];
-                dst.clone_from_slice(&buffer[108..109]);
+                dst.clone_from_slice(&buffer[118..119]);
                 dst
             },
-            haircolor: u8::from_le_bytes([buffer[109]]),
+            haircolor: u8::from_le_bytes([buffer[119]]),
             haircolor_raw: {
                 let mut dst: [u8; 1] = [0u8; 1];
-                dst.clone_from_slice(&buffer[109..110]);
+                dst.clone_from_slice(&buffer[119..120]);
                 dst
             },
-            b_is_changed_char_name: i16::from_le_bytes([buffer[110], buffer[111]]),
+            b_is_changed_char_name: i16::from_le_bytes([buffer[120], buffer[121]]),
             b_is_changed_char_name_raw: {
                 let mut dst: [u8; 2] = [0u8; 2];
-                dst.clone_from_slice(&buffer[110..112]);
+                dst.clone_from_slice(&buffer[120..122]);
                 dst
             },
             last_map:  {
                 let mut dst: [char; 16] = [0 as char; 16];
-                for (index, byte) in buffer[112..128].iter().enumerate() {
+                for (index, byte) in buffer[122..138].iter().enumerate() {
                     dst[index] = *byte as char;
                 }
                 dst
             },
             last_map_raw: {
                 let mut dst: [u8; 16] = [0u8; 16];
-                dst.clone_from_slice(&buffer[112..128]);
+                dst.clone_from_slice(&buffer[122..138]);
                 dst
             },
-            delete_date: i32::from_le_bytes([buffer[128], buffer[129], buffer[130], buffer[131]]),
+            delete_date: i32::from_le_bytes([buffer[138], buffer[139], buffer[140], buffer[141]]),
             delete_date_raw: {
                 let mut dst: [u8; 4] = [0u8; 4];
-                dst.clone_from_slice(&buffer[128..132]);
+                dst.clone_from_slice(&buffer[138..142]);
                 dst
             },
-            robe: i32::from_le_bytes([buffer[132], buffer[133], buffer[134], buffer[135]]),
+            robe: i32::from_le_bytes([buffer[142], buffer[143], buffer[144], buffer[145]]),
             robe_raw: {
                 let mut dst: [u8; 4] = [0u8; 4];
-                dst.clone_from_slice(&buffer[132..136]);
+                dst.clone_from_slice(&buffer[142..146]);
                 dst
             },
-            slot_addon: i32::from_le_bytes([buffer[136], buffer[137], buffer[138], buffer[139]]),
+            slot_addon: i32::from_le_bytes([buffer[146], buffer[147], buffer[148], buffer[149]]),
             slot_addon_raw: {
                 let mut dst: [u8; 4] = [0u8; 4];
-                dst.clone_from_slice(&buffer[136..140]);
+                dst.clone_from_slice(&buffer[146..150]);
                 dst
             },
-            rename_addon: i32::from_le_bytes([buffer[140], buffer[141], buffer[142], buffer[143]]),
+            rename_addon: i32::from_le_bytes([buffer[150], buffer[151], buffer[152], buffer[153]]),
             rename_addon_raw: {
                 let mut dst: [u8; 4] = [0u8; 4];
-                dst.clone_from_slice(&buffer[140..144]);
+                dst.clone_from_slice(&buffer[150..154]);
                 dst
             },
-            sex: i8::from_le_bytes([buffer[141]]),
+            sex: u8::from_le_bytes([buffer[154]]),
             sex_raw: {
                 let mut dst: [u8; 1] = [0u8; 1];
-                dst.clone_from_slice(&buffer[141..142]);
+                dst.clone_from_slice(&buffer[154..155]);
                 dst
             },
         }
@@ -90051,13 +90057,13 @@ impl CharacterInfoNeoUnion {
         wtr.write_u32::<LittleEndian>(self.gid).unwrap();
         self.gid_raw = wtr.try_into().unwrap();
         wtr = vec![];
-        wtr.write_i32::<LittleEndian>(self.exp).unwrap();
+        wtr.write_i64::<LittleEndian>(self.exp).unwrap();
         self.exp_raw = wtr.try_into().unwrap();
         wtr = vec![];
         wtr.write_i32::<LittleEndian>(self.money).unwrap();
         self.money_raw = wtr.try_into().unwrap();
         wtr = vec![];
-        wtr.write_i32::<LittleEndian>(self.jobexp).unwrap();
+        wtr.write_i64::<LittleEndian>(self.jobexp).unwrap();
         self.jobexp_raw = wtr.try_into().unwrap();
         wtr = vec![];
         wtr.write_i32::<LittleEndian>(self.joblevel).unwrap();
@@ -90101,6 +90107,9 @@ impl CharacterInfoNeoUnion {
         wtr = vec![];
         wtr.write_i16::<LittleEndian>(self.head).unwrap();
         self.head_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.body).unwrap();
+        self.body_raw = wtr.try_into().unwrap();
         wtr = vec![];
         wtr.write_i16::<LittleEndian>(self.weapon).unwrap();
         self.weapon_raw = wtr.try_into().unwrap();
@@ -90178,7 +90187,7 @@ impl CharacterInfoNeoUnion {
         wtr.write_i32::<LittleEndian>(self.rename_addon).unwrap();
         self.rename_addon_raw = wtr.try_into().unwrap();
         wtr = vec![];
-        wtr.write_i8(self.sex).unwrap();
+        wtr.write_u8(self.sex).unwrap();
         self.sex_raw = wtr.try_into().unwrap();
         wtr = vec![];
         wtr.append(&mut self.gid_raw.to_vec());
@@ -90199,6 +90208,7 @@ impl CharacterInfoNeoUnion {
         wtr.append(&mut self.speed_raw.to_vec());
         wtr.append(&mut self.job_raw.to_vec());
         wtr.append(&mut self.head_raw.to_vec());
+        wtr.append(&mut self.body_raw.to_vec());
         wtr.append(&mut self.weapon_raw.to_vec());
         wtr.append(&mut self.level_raw.to_vec());
         wtr.append(&mut self.sppoint_raw.to_vec());
@@ -90232,7 +90242,7 @@ impl CharacterInfoNeoUnion {
     pub fn set_gid_raw(&mut self, value: [u8; 4]) {
         self.gid_raw = value;
     }
-    pub fn set_exp(&mut self, value: i32) {
+    pub fn set_exp(&mut self, value: i64) {
         self.exp = value;
     }
     pub fn set_exp_raw(&mut self, value: [u8; 4]) {
@@ -90244,7 +90254,7 @@ impl CharacterInfoNeoUnion {
     pub fn set_money_raw(&mut self, value: [u8; 4]) {
         self.money_raw = value;
     }
-    pub fn set_jobexp(&mut self, value: i32) {
+    pub fn set_jobexp(&mut self, value: i64) {
         self.jobexp = value;
     }
     pub fn set_jobexp_raw(&mut self, value: [u8; 4]) {
@@ -90333,6 +90343,12 @@ impl CharacterInfoNeoUnion {
     }
     pub fn set_head_raw(&mut self, value: [u8; 2]) {
         self.head_raw = value;
+    }
+    pub fn set_body(&mut self, value: i16) {
+        self.body = value;
+    }
+    pub fn set_body_raw(&mut self, value: [u8; 2]) {
+        self.body_raw = value;
     }
     pub fn set_weapon(&mut self, value: i16) {
         self.weapon = value;
@@ -90478,7 +90494,7 @@ impl CharacterInfoNeoUnion {
     pub fn set_rename_addon_raw(&mut self, value: [u8; 4]) {
         self.rename_addon_raw = value;
     }
-    pub fn set_sex(&mut self, value: i8) {
+    pub fn set_sex(&mut self, value: u8) {
         self.sex = value;
     }
     pub fn set_sex_raw(&mut self, value: [u8; 1]) {
@@ -90523,6 +90539,8 @@ impl CharacterInfoNeoUnion {
         job_raw: [0; 2],
         head: 0,
         head_raw: [0; 2],
+        body: 0,
+        body_raw: [0; 2],
         weapon: 0,
         weapon_raw: [0; 2],
         level: 0,
@@ -95067,12 +95085,12 @@ impl PacketZcMissionHunt {
 
 impl PacketZcQuestMissionInfo {
     pub fn from(buffer: &[u8]) -> PacketZcQuestMissionInfo {
-        let iter_count = &buffer.len() / 30;
+        let iter_count = (&buffer.len() - 14) / 30;
         let mut vec_field: Vec<PacketZcMissionHunt> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
-            let start_pos = 14 * i;
-            let end_pos = 44 * i;
+            let start_pos = 14 + (30 * (i - 1));
+            let end_pos = 14 + 30 * i;
             vec_field.push(PacketZcMissionHunt::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
