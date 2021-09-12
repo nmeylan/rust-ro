@@ -99,7 +99,7 @@
   /* this+0xc */ unsigned long time1
   /* this+0x10 */ unsigned long time2
   /* this+0x14 */ char dummy2_endbilling[7]
-  /* this+0x1b */ struct CHARACTER_INFO_NEO_UNION charInfo[...] { // Size 144
+  /* this+0x1b */ struct CHARACTER_INFO_NEO_UNION charInfo[...] { // Size 145
     /* this+0x0 */ unsigned long GID
     /* this+0x4 */ int exp
     /* this+0x8 */ int money
@@ -142,6 +142,7 @@
     /* this+0x84 */ int Robe
     /* this+0x88 */ int SlotAddon
     /* this+0x8c */ int RenameAddon
+    /* this+0x8d */ char sex
   }
  }
 0x6c
@@ -6203,5 +6204,17 @@ struct PACKET_CH_SEND_MAP_INFO {
  /* this+0x16 */ unsigned long mapServerIp
  /* this+0x1a */ short mapServerPort
  /* this+0x1c */ char dnsHost[128]
-
 }
+0x2d08
+ struct PACKET_HC_ACCEPT_ENTER_NEO_UNION_HEADER {
+    /* this+0x0 */ short PacketId
+    /* this+0x2 */ short PacketLen
+    /* this+0x4 */ char charSlot
+    /* this+0x5 */ short maxChar
+    /* this+0x7 */ char premiumSlotStart
+    /* this+0x8 */ char premiumSlotEnd
+    /* this+0x9 */ char emptyBuffer[20]
+    /* this+0x1D */ struct PACKET_HC_ACCEPT_ENTER_NEO_UNION charInfo {
+
+    }
+ }

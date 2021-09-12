@@ -241,7 +241,7 @@ impl Debug for PacketHcAcceptEnterNeoUnion {
             .field("time1[12, 16]", &format!("{:02X?}", &self.time1_raw))
             .field("time2[16, 20]", &format!("{:02X?}", &self.time2_raw))
             .field("dummy2_endbilling[20, 27]", &format!("{:02X?}", &self.dummy2_endbilling_raw))
-            .field("char_info[27, 171]", &format!("{:02X?}", &self.char_info_raw))
+            .field("char_info[27, 172]", &format!("{:02X?}", &self.char_info_raw))
         .finish()
     }
 }
@@ -259,7 +259,7 @@ impl Display for PacketHcAcceptEnterNeoUnion {
         fields.push(format!("time1(unsigned long as u32)[12, 16]: {}", &self.time1));
         fields.push(format!("time2(unsigned long as u32)[16, 20]: {}", &self.time2));
         fields.push(format!("dummy2_endbilling(char[] as char[])[20, 27]: {}", &self.dummy2_endbilling.pretty_output()));
-        fields.push(format!("char_info([] as Vec)[27, 171]: {}", &self.char_info.iter().map(|item| format!("
+        fields.push(format!("char_info([] as Vec)[27, 172]: {}", &self.char_info.iter().map(|item| format!("
   >{}", item)).collect::<String>()));
         write!(f, "PacketHcAcceptEnterNeoUnion\n {}", fields.join(",\n "))
     }
@@ -17649,6 +17649,37 @@ impl Display for PacketChSendMapInfo {
     }
 }
 
+impl Debug for PacketHcAcceptEnterNeoUnionHeader {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("PacketHcAcceptEnterNeoUnionHeader")
+            .field("id", &self.id())
+            .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
+            .field("packet_len[2, 4]", &format!("{:02X?}", &self.packet_len_raw))
+            .field("char_slot[4, 5]", &format!("{:02X?}", &self.char_slot_raw))
+            .field("max_char[5, 7]", &format!("{:02X?}", &self.max_char_raw))
+            .field("premium_slot_start[7, 8]", &format!("{:02X?}", &self.premium_slot_start_raw))
+            .field("premium_slot_end[8, 9]", &format!("{:02X?}", &self.premium_slot_end_raw))
+            .field("empty_buffer[9, 29]", &format!("{:02X?}", &self.empty_buffer_raw))
+            .field("char_info[29, ?]", &format!("{:02X?}", &self.char_info_raw))
+        .finish()
+    }
+}
+
+impl Display for PacketHcAcceptEnterNeoUnionHeader {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        let mut fields = Vec::new();
+        fields.push(format!("packet_id(short as i16)[0, 2]: {}", &self.packet_id));
+        fields.push(format!("packet_len(short as i16)[2, 4]: {}", &self.packet_len));
+        fields.push(format!("char_slot(char as i8)[4, 5]: {}", &self.char_slot));
+        fields.push(format!("max_char(short as i16)[5, 7]: {}", &self.max_char));
+        fields.push(format!("premium_slot_start(char as i8)[7, 8]: {}", &self.premium_slot_start));
+        fields.push(format!("premium_slot_end(char as i8)[8, 9]: {}", &self.premium_slot_end));
+        fields.push(format!("empty_buffer(char[] as char[])[9, 29]: {}", &self.empty_buffer.pretty_output()));
+        fields.push(format!("char_info(struct as Struct)[29, ?]: {}", &self.char_info));
+        write!(f, "PacketHcAcceptEnterNeoUnionHeader\n {}", fields.join(",\n "))
+    }
+}
+
 impl Debug for ServerAddr {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("ServerAddr")
@@ -17748,6 +17779,7 @@ impl Debug for CharacterInfoNeoUnion {
             .field("robe[132, 136]", &format!("{:02X?}", &self.robe_raw))
             .field("slot_addon[136, 140]", &format!("{:02X?}", &self.slot_addon_raw))
             .field("rename_addon[140, 144]", &format!("{:02X?}", &self.rename_addon_raw))
+            .field("sex[141, 142]", &format!("{:02X?}", &self.sex_raw))
         .finish()
     }
 }
@@ -17797,6 +17829,7 @@ impl Display for CharacterInfoNeoUnion {
         fields.push(format!("robe(int as i32)[132, 136]: {}", &self.robe));
         fields.push(format!("slot_addon(int as i32)[136, 140]: {}", &self.slot_addon));
         fields.push(format!("rename_addon(int as i32)[140, 144]: {}", &self.rename_addon));
+        fields.push(format!("sex(char as i8)[141, 142]: {}", &self.sex));
         write!(f, "CharacterInfoNeoUnion\n {}", fields.join(",\n "))
     }
 }

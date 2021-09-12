@@ -9962,6 +9962,27 @@ pub struct PacketChSendMapInfo {
 }
 
 #[derive(Clone)]
+pub struct PacketHcAcceptEnterNeoUnionHeader {
+    pub raw: Vec<u8>,
+    pub packet_id: i16,
+    pub packet_id_raw: [u8; 2],
+    pub packet_len: i16,
+    pub packet_len_raw: [u8; 2],
+    pub char_slot: i8,
+    pub char_slot_raw: [u8; 1],
+    pub max_char: i16,
+    pub max_char_raw: [u8; 2],
+    pub premium_slot_start: i8,
+    pub premium_slot_start_raw: [u8; 1],
+    pub premium_slot_end: i8,
+    pub premium_slot_end_raw: [u8; 1],
+    pub empty_buffer: [char; 20],
+    pub empty_buffer_raw: [u8; 20],
+    pub char_info: PacketHcAcceptEnterNeoUnion,
+    pub char_info_raw: Vec<u8>,
+}
+
+#[derive(Clone)]
 pub struct ServerAddr {
     pub raw: Vec<u8>,
     pub ip: u32,
@@ -10084,6 +10105,8 @@ pub struct CharacterInfoNeoUnion {
     pub slot_addon_raw: [u8; 4],
     pub rename_addon: i32,
     pub rename_addon_raw: [u8; 4],
+    pub sex: i8,
+    pub sex_raw: [u8; 1],
 }
 
 #[derive(Clone)]
