@@ -3352,11 +3352,11 @@
   /* this+0x2 */ unsigned long AID
   /* this+0x6 */ unsigned long GID
  }
-0x20b
- struct PACKET_CH_EXE_HASHCHECK {
+0x020b
+ struct PACKET_AC_REFUSE_LOGIN_R3 {
   /* this+0x0 */ short PacketId
-  /* this+0x2 */ unsigned char ClientType
-  /* this+0x3 */ unsigned char HashValue[16]
+  /* this+0x2 */ unsigned int ErrorCode
+  /* this+0x6 */ char blockDate[20]
  }
 0x20c
  struct PACKET_CZ_EXE_HASHCHECK {

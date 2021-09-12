@@ -1268,7 +1268,7 @@ pub fn parse(buffer: &[u8]) -> Box<dyn Packet> {
         return Box::new(PacketZcDeleteFriends::from(buffer));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x0b {
-        return Box::new(PacketChExeHashcheck::from(buffer));
+        return Box::new(PacketAcRefuseLoginR3::from(buffer));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x0c {
         return Box::new(PacketCzExeHashcheck::from(buffer));

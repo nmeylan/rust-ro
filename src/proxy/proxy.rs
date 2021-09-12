@@ -18,16 +18,6 @@ pub struct Proxy<T: PacketHandler + Clone + Send> {
     pub specific_proxy: T,
 }
 
-pub struct ServerContext {
-    pub sessions: HashMap<u32, Session>,
-}
-
-pub struct Session {
-    pub char_server_socket: Option<Arc<Mutex<TcpStream>>>,
-    pub map_server_socket: Option<Arc<Mutex<TcpStream>>>,
-    pub account_id: u32,
-}
-
 pub trait PacketHandler {
     fn handle_packet(&self, tcp_stream: Arc<Mutex<TcpStream>>, packet: &mut dyn Packet) -> Result<String, String>;
 }

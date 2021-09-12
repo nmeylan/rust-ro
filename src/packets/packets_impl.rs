@@ -47936,9 +47936,9 @@ impl Packet for PacketZcDeleteFriends {
     }
 }
 
-impl PacketChExeHashcheck {
-    pub fn from(buffer: &[u8]) -> PacketChExeHashcheck {
-        PacketChExeHashcheck {
+impl PacketAcRefuseLoginR3 {
+    pub fn from(buffer: &[u8]) -> PacketAcRefuseLoginR3 {
+        PacketAcRefuseLoginR3 {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: {
@@ -47946,22 +47946,22 @@ impl PacketChExeHashcheck {
                 dst.clone_from_slice(&buffer[0..2]);
                 dst
             },
-            client_type: u8::from_le_bytes([buffer[2]]),
-            client_type_raw: {
-                let mut dst: [u8; 1] = [0u8; 1];
-                dst.clone_from_slice(&buffer[2..3]);
+            error_code: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            error_code_raw: {
+                let mut dst: [u8; 4] = [0u8; 4];
+                dst.clone_from_slice(&buffer[2..6]);
                 dst
             },
-            hash_value:  {
-                let mut dst: [char; 16] = [0 as char; 16];
-                for (index, byte) in buffer[3..19].iter().enumerate() {
+            block_date:  {
+                let mut dst: [char; 20] = [0 as char; 20];
+                for (index, byte) in buffer[6..26].iter().enumerate() {
                     dst[index] = *byte as char;
                 }
                 dst
             },
-            hash_value_raw: {
-                let mut dst: [u8; 16] = [0u8; 16];
-                dst.clone_from_slice(&buffer[3..19]);
+            block_date_raw: {
+                let mut dst: [u8; 20] = [0u8; 20];
+                dst.clone_from_slice(&buffer[6..26]);
                 dst
             },
         }
@@ -47972,17 +47972,17 @@ impl PacketChExeHashcheck {
         wtr.write_i16::<LittleEndian>(self.packet_id).unwrap();
         self.packet_id_raw = wtr.try_into().unwrap();
         wtr = vec![];
-        wtr.write_u8(self.client_type).unwrap();
-        self.client_type_raw = wtr.try_into().unwrap();
+        wtr.write_u32::<LittleEndian>(self.error_code).unwrap();
+        self.error_code_raw = wtr.try_into().unwrap();
         wtr = vec![];
-        for item in self.hash_value {
+        for item in self.block_date {
             wtr.write_u8(item as u8 ).unwrap();
         }
-        self.hash_value_raw = wtr.try_into().unwrap();
+        self.block_date_raw = wtr.try_into().unwrap();
         wtr = vec![];
         wtr.append(&mut self.packet_id_raw.to_vec());
-        wtr.append(&mut self.client_type_raw.to_vec());
-        wtr.append(&mut self.hash_value_raw.to_vec());
+        wtr.append(&mut self.error_code_raw.to_vec());
+        wtr.append(&mut self.block_date_raw.to_vec());
         self.raw = wtr;
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -47991,32 +47991,32 @@ impl PacketChExeHashcheck {
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
     }
-    pub fn set_client_type(&mut self, value: u8) {
-        self.client_type = value;
+    pub fn set_error_code(&mut self, value: u32) {
+        self.error_code = value;
     }
-    pub fn set_client_type_raw(&mut self, value: [u8; 1]) {
-        self.client_type_raw = value;
+    pub fn set_error_code_raw(&mut self, value: [u8; 4]) {
+        self.error_code_raw = value;
     }
-    pub fn set_hash_value(&mut self, value: [char; 16]) {
-        self.hash_value = value;
+    pub fn set_block_date(&mut self, value: [char; 20]) {
+        self.block_date = value;
     }
-    pub fn set_hash_value_raw(&mut self, value: [u8; 16]) {
-        self.hash_value_raw = value;
+    pub fn set_block_date_raw(&mut self, value: [u8; 20]) {
+        self.block_date_raw = value;
     }
-    pub fn new() -> PacketChExeHashcheck {
-        PacketChExeHashcheck {
+    pub fn new() -> PacketAcRefuseLoginR3 {
+        PacketAcRefuseLoginR3 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x20, 0xb]),
-        packet_id_raw: [0x20, 0xb],
-        client_type: 0,
-        client_type_raw: [0; 1],
-        hash_value: [0 as char; 16],
-        hash_value_raw: [0; 16],
+        packet_id: i16::from_le_bytes([0x02, 0x0b]),
+        packet_id_raw: [0x02, 0x0b],
+        error_code: 0,
+        error_code_raw: [0; 4],
+        block_date: [0 as char; 20],
+        block_date_raw: [0; 20],
         }
     }
 }
 
-impl Packet for PacketChExeHashcheck {
+impl Packet for PacketAcRefuseLoginR3 {
     fn id(&self) -> &str {
        "0x020b"
     }

@@ -1,9 +1,9 @@
-use crate::proxy::proxy::{PacketHandler, ServerContext, Proxy, Session};
+use crate::proxy::proxy::{PacketHandler, Proxy};
 use std::sync::{Arc, Mutex};
 use std::net::IpAddr;
 use std::net::{TcpStream, Ipv4Addr, SocketAddr};
 use crate::packets::packets::{Packet, PacketCzEnter2};
-use crate::server::core::Server;
+use crate::server::core::{Server, ServerContext, Session};
 
 #[derive(Clone)]
 pub struct MapProxy {
@@ -38,6 +38,8 @@ impl PacketHandler for MapProxy {
                 char_server_socket: Some(char_server_socket_ref),
                 map_server_socket: Some(tcp_stream),
                 account_id,
+                login_id1: 0,
+                login_id2: 0
             });
         } else {
             let server_context_guard = self.server_context.lock().unwrap();

@@ -5369,14 +5369,14 @@ pub struct PacketZcDeleteFriends {
 }
 
 #[derive(Clone)]
-pub struct PacketChExeHashcheck {
+pub struct PacketAcRefuseLoginR3 {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
-    pub client_type: u8,
-    pub client_type_raw: [u8; 1],
-    pub hash_value: [char; 16],
-    pub hash_value_raw: [u8; 16],
+    pub error_code: u32,
+    pub error_code_raw: [u8; 4],
+    pub block_date: [char; 20],
+    pub block_date_raw: [u8; 20],
 }
 
 #[derive(Clone)]
