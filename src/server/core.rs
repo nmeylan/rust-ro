@@ -73,7 +73,7 @@ impl Server {
             let res = authenticate(packet.as_any().downcast_ref::<PacketCaLogin>().unwrap(), &self.repository);
             println!("Response");
             res.pretty_debug();
-            return FeatureState::Implemented(res);
+            // return FeatureState::Implemented(res);
         } else if packet.as_any().downcast_ref::<PacketZcNotifyTime>().is_none() {
         }
         FeatureState::Unimplemented

@@ -25,6 +25,8 @@ lazy_static! {
         "unsigned int" => Type {name: "u32".to_string(), cname: "unsigned int".to_string(), length: Some(4)},
         "long" => Type {name: "i32".to_string(), cname: "long".to_string(), length: Some(4)},
         "unsigned long" => Type {name: "u32".to_string(), cname: "unsigned long".to_string(), length: Some(4)},
+        "int64" => Type {name: "i64".to_string(), cname: "int64".to_string(), length: Some(4)},
+        "unsigned int64" => Type {name: "u64".to_string(), cname: "unsigned int64".to_string(), length: Some(4)},
         "bool" => Type {name: "bool".to_string(), cname: "bool".to_string(), length: Some(1)},
         "string" => Type {name: "String".to_string(), cname: "char[]".to_string(), length: None},
         "struct" => Type {name: "Struct".to_string(), cname: "struct".to_string(), length: None},

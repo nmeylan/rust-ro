@@ -241,7 +241,7 @@ impl Debug for PacketHcAcceptEnterNeoUnion {
             .field("time1[12, 16]", &format!("{:02X?}", &self.time1_raw))
             .field("time2[16, 20]", &format!("{:02X?}", &self.time2_raw))
             .field("dummy2_endbilling[20, 27]", &format!("{:02X?}", &self.dummy2_endbilling_raw))
-            .field("char_info[27, 172]", &format!("{:02X?}", &self.char_info_raw))
+            .field("char_info[27, 182]", &format!("{:02X?}", &self.char_info_raw))
         .finish()
     }
 }
@@ -259,7 +259,7 @@ impl Display for PacketHcAcceptEnterNeoUnion {
         fields.push(format!("time1(unsigned long as u32)[12, 16]: {}", &self.time1));
         fields.push(format!("time2(unsigned long as u32)[16, 20]: {}", &self.time2));
         fields.push(format!("dummy2_endbilling(char[] as char[])[20, 27]: {}", &self.dummy2_endbilling.pretty_output()));
-        fields.push(format!("char_info([] as Vec)[27, 172]: {}", &self.char_info.iter().map(|item| format!("
+        fields.push(format!("char_info([] as Vec)[27, 182]: {}", &self.char_info.iter().map(|item| format!("
   >{}", item)).collect::<String>()));
         write!(f, "PacketHcAcceptEnterNeoUnion\n {}", fields.join(",\n "))
     }
@@ -17739,47 +17739,48 @@ impl Debug for CharacterInfoNeoUnion {
         f.debug_struct("CharacterInfoNeoUnion")
             .field("gid[0, 4]", &format!("{:02X?}", &self.gid_raw))
             .field("exp[4, 8]", &format!("{:02X?}", &self.exp_raw))
-            .field("money[8, 12]", &format!("{:02X?}", &self.money_raw))
-            .field("jobexp[12, 16]", &format!("{:02X?}", &self.jobexp_raw))
-            .field("joblevel[16, 20]", &format!("{:02X?}", &self.joblevel_raw))
-            .field("bodystate[20, 24]", &format!("{:02X?}", &self.bodystate_raw))
-            .field("healthstate[24, 28]", &format!("{:02X?}", &self.healthstate_raw))
-            .field("effectstate[28, 32]", &format!("{:02X?}", &self.effectstate_raw))
-            .field("virtue[32, 36]", &format!("{:02X?}", &self.virtue_raw))
-            .field("honor[36, 40]", &format!("{:02X?}", &self.honor_raw))
-            .field("jobpoint[40, 42]", &format!("{:02X?}", &self.jobpoint_raw))
-            .field("hp[42, 46]", &format!("{:02X?}", &self.hp_raw))
-            .field("maxhp[46, 50]", &format!("{:02X?}", &self.maxhp_raw))
-            .field("sp[50, 52]", &format!("{:02X?}", &self.sp_raw))
-            .field("maxsp[52, 54]", &format!("{:02X?}", &self.maxsp_raw))
-            .field("speed[54, 56]", &format!("{:02X?}", &self.speed_raw))
-            .field("job[56, 58]", &format!("{:02X?}", &self.job_raw))
-            .field("head[58, 60]", &format!("{:02X?}", &self.head_raw))
-            .field("weapon[60, 62]", &format!("{:02X?}", &self.weapon_raw))
-            .field("level[62, 64]", &format!("{:02X?}", &self.level_raw))
-            .field("sppoint[64, 66]", &format!("{:02X?}", &self.sppoint_raw))
-            .field("accessory[66, 68]", &format!("{:02X?}", &self.accessory_raw))
-            .field("shield[68, 70]", &format!("{:02X?}", &self.shield_raw))
-            .field("accessory2[70, 72]", &format!("{:02X?}", &self.accessory2_raw))
-            .field("accessory3[72, 74]", &format!("{:02X?}", &self.accessory3_raw))
-            .field("headpalette[74, 76]", &format!("{:02X?}", &self.headpalette_raw))
-            .field("bodypalette[76, 78]", &format!("{:02X?}", &self.bodypalette_raw))
-            .field("name[78, 102]", &format!("{:02X?}", &self.name_raw))
-            .field("str[102, 103]", &format!("{:02X?}", &self.str_raw))
-            .field("agi[103, 104]", &format!("{:02X?}", &self.agi_raw))
-            .field("vit[104, 105]", &format!("{:02X?}", &self.vit_raw))
-            .field("int[105, 106]", &format!("{:02X?}", &self.int_raw))
-            .field("dex[106, 107]", &format!("{:02X?}", &self.dex_raw))
-            .field("luk[107, 108]", &format!("{:02X?}", &self.luk_raw))
-            .field("char_num[108, 109]", &format!("{:02X?}", &self.char_num_raw))
-            .field("haircolor[109, 110]", &format!("{:02X?}", &self.haircolor_raw))
-            .field("b_is_changed_char_name[110, 112]", &format!("{:02X?}", &self.b_is_changed_char_name_raw))
-            .field("last_map[112, 128]", &format!("{:02X?}", &self.last_map_raw))
-            .field("delete_date[128, 132]", &format!("{:02X?}", &self.delete_date_raw))
-            .field("robe[132, 136]", &format!("{:02X?}", &self.robe_raw))
-            .field("slot_addon[136, 140]", &format!("{:02X?}", &self.slot_addon_raw))
-            .field("rename_addon[140, 144]", &format!("{:02X?}", &self.rename_addon_raw))
-            .field("sex[141, 142]", &format!("{:02X?}", &self.sex_raw))
+            .field("money[12, 16]", &format!("{:02X?}", &self.money_raw))
+            .field("jobexp[16, 20]", &format!("{:02X?}", &self.jobexp_raw))
+            .field("joblevel[24, 28]", &format!("{:02X?}", &self.joblevel_raw))
+            .field("bodystate[28, 32]", &format!("{:02X?}", &self.bodystate_raw))
+            .field("healthstate[32, 36]", &format!("{:02X?}", &self.healthstate_raw))
+            .field("effectstate[36, 40]", &format!("{:02X?}", &self.effectstate_raw))
+            .field("virtue[40, 44]", &format!("{:02X?}", &self.virtue_raw))
+            .field("honor[44, 48]", &format!("{:02X?}", &self.honor_raw))
+            .field("jobpoint[48, 50]", &format!("{:02X?}", &self.jobpoint_raw))
+            .field("hp[50, 54]", &format!("{:02X?}", &self.hp_raw))
+            .field("maxhp[54, 58]", &format!("{:02X?}", &self.maxhp_raw))
+            .field("sp[58, 60]", &format!("{:02X?}", &self.sp_raw))
+            .field("maxsp[60, 62]", &format!("{:02X?}", &self.maxsp_raw))
+            .field("speed[62, 64]", &format!("{:02X?}", &self.speed_raw))
+            .field("job[64, 66]", &format!("{:02X?}", &self.job_raw))
+            .field("head[66, 68]", &format!("{:02X?}", &self.head_raw))
+            .field("body[68, 70]", &format!("{:02X?}", &self.body_raw))
+            .field("weapon[70, 72]", &format!("{:02X?}", &self.weapon_raw))
+            .field("level[72, 74]", &format!("{:02X?}", &self.level_raw))
+            .field("sppoint[74, 76]", &format!("{:02X?}", &self.sppoint_raw))
+            .field("accessory[76, 78]", &format!("{:02X?}", &self.accessory_raw))
+            .field("shield[78, 80]", &format!("{:02X?}", &self.shield_raw))
+            .field("accessory2[80, 82]", &format!("{:02X?}", &self.accessory2_raw))
+            .field("accessory3[82, 84]", &format!("{:02X?}", &self.accessory3_raw))
+            .field("headpalette[84, 86]", &format!("{:02X?}", &self.headpalette_raw))
+            .field("bodypalette[86, 88]", &format!("{:02X?}", &self.bodypalette_raw))
+            .field("name[88, 112]", &format!("{:02X?}", &self.name_raw))
+            .field("str[112, 113]", &format!("{:02X?}", &self.str_raw))
+            .field("agi[113, 114]", &format!("{:02X?}", &self.agi_raw))
+            .field("vit[114, 115]", &format!("{:02X?}", &self.vit_raw))
+            .field("int[115, 116]", &format!("{:02X?}", &self.int_raw))
+            .field("dex[116, 117]", &format!("{:02X?}", &self.dex_raw))
+            .field("luk[117, 118]", &format!("{:02X?}", &self.luk_raw))
+            .field("char_num[118, 119]", &format!("{:02X?}", &self.char_num_raw))
+            .field("haircolor[119, 120]", &format!("{:02X?}", &self.haircolor_raw))
+            .field("b_is_changed_char_name[120, 122]", &format!("{:02X?}", &self.b_is_changed_char_name_raw))
+            .field("last_map[122, 138]", &format!("{:02X?}", &self.last_map_raw))
+            .field("delete_date[138, 142]", &format!("{:02X?}", &self.delete_date_raw))
+            .field("robe[142, 146]", &format!("{:02X?}", &self.robe_raw))
+            .field("slot_addon[146, 150]", &format!("{:02X?}", &self.slot_addon_raw))
+            .field("rename_addon[150, 154]", &format!("{:02X?}", &self.rename_addon_raw))
+            .field("sex[154, 155]", &format!("{:02X?}", &self.sex_raw))
         .finish()
     }
 }
@@ -17788,48 +17789,49 @@ impl Display for CharacterInfoNeoUnion {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
         fields.push(format!("gid(unsigned long as u32)[0, 4]: {}", &self.gid));
-        fields.push(format!("exp(int as i32)[4, 8]: {}", &self.exp));
-        fields.push(format!("money(int as i32)[8, 12]: {}", &self.money));
-        fields.push(format!("jobexp(int as i32)[12, 16]: {}", &self.jobexp));
-        fields.push(format!("joblevel(int as i32)[16, 20]: {}", &self.joblevel));
-        fields.push(format!("bodystate(int as i32)[20, 24]: {}", &self.bodystate));
-        fields.push(format!("healthstate(int as i32)[24, 28]: {}", &self.healthstate));
-        fields.push(format!("effectstate(int as i32)[28, 32]: {}", &self.effectstate));
-        fields.push(format!("virtue(int as i32)[32, 36]: {}", &self.virtue));
-        fields.push(format!("honor(int as i32)[36, 40]: {}", &self.honor));
-        fields.push(format!("jobpoint(short as i16)[40, 42]: {}", &self.jobpoint));
-        fields.push(format!("hp(int as i32)[42, 46]: {}", &self.hp));
-        fields.push(format!("maxhp(int as i32)[46, 50]: {}", &self.maxhp));
-        fields.push(format!("sp(short as i16)[50, 52]: {}", &self.sp));
-        fields.push(format!("maxsp(short as i16)[52, 54]: {}", &self.maxsp));
-        fields.push(format!("speed(short as i16)[54, 56]: {}", &self.speed));
-        fields.push(format!("job(short as i16)[56, 58]: {}", &self.job));
-        fields.push(format!("head(short as i16)[58, 60]: {}", &self.head));
-        fields.push(format!("weapon(short as i16)[60, 62]: {}", &self.weapon));
-        fields.push(format!("level(short as i16)[62, 64]: {}", &self.level));
-        fields.push(format!("sppoint(short as i16)[64, 66]: {}", &self.sppoint));
-        fields.push(format!("accessory(short as i16)[66, 68]: {}", &self.accessory));
-        fields.push(format!("shield(short as i16)[68, 70]: {}", &self.shield));
-        fields.push(format!("accessory2(short as i16)[70, 72]: {}", &self.accessory2));
-        fields.push(format!("accessory3(short as i16)[72, 74]: {}", &self.accessory3));
-        fields.push(format!("headpalette(short as i16)[74, 76]: {}", &self.headpalette));
-        fields.push(format!("bodypalette(short as i16)[76, 78]: {}", &self.bodypalette));
-        fields.push(format!("name(char[] as char[])[78, 102]: {}", &self.name.pretty_output()));
-        fields.push(format!("str(unsigned char as u8)[102, 103]: {}", &self.str));
-        fields.push(format!("agi(unsigned char as u8)[103, 104]: {}", &self.agi));
-        fields.push(format!("vit(unsigned char as u8)[104, 105]: {}", &self.vit));
-        fields.push(format!("int(unsigned char as u8)[105, 106]: {}", &self.int));
-        fields.push(format!("dex(unsigned char as u8)[106, 107]: {}", &self.dex));
-        fields.push(format!("luk(unsigned char as u8)[107, 108]: {}", &self.luk));
-        fields.push(format!("char_num(unsigned char as u8)[108, 109]: {}", &self.char_num));
-        fields.push(format!("haircolor(unsigned char as u8)[109, 110]: {}", &self.haircolor));
-        fields.push(format!("b_is_changed_char_name(short as i16)[110, 112]: {}", &self.b_is_changed_char_name));
-        fields.push(format!("last_map(char[] as char[])[112, 128]: {}", &self.last_map.pretty_output()));
-        fields.push(format!("delete_date(int as i32)[128, 132]: {}", &self.delete_date));
-        fields.push(format!("robe(int as i32)[132, 136]: {}", &self.robe));
-        fields.push(format!("slot_addon(int as i32)[136, 140]: {}", &self.slot_addon));
-        fields.push(format!("rename_addon(int as i32)[140, 144]: {}", &self.rename_addon));
-        fields.push(format!("sex(char as i8)[141, 142]: {}", &self.sex));
+        fields.push(format!("exp(int64 as i64)[4, 8]: {}", &self.exp));
+        fields.push(format!("money(int as i32)[12, 16]: {}", &self.money));
+        fields.push(format!("jobexp(int64 as i64)[16, 20]: {}", &self.jobexp));
+        fields.push(format!("joblevel(int as i32)[24, 28]: {}", &self.joblevel));
+        fields.push(format!("bodystate(int as i32)[28, 32]: {}", &self.bodystate));
+        fields.push(format!("healthstate(int as i32)[32, 36]: {}", &self.healthstate));
+        fields.push(format!("effectstate(int as i32)[36, 40]: {}", &self.effectstate));
+        fields.push(format!("virtue(int as i32)[40, 44]: {}", &self.virtue));
+        fields.push(format!("honor(int as i32)[44, 48]: {}", &self.honor));
+        fields.push(format!("jobpoint(short as i16)[48, 50]: {}", &self.jobpoint));
+        fields.push(format!("hp(int as i32)[50, 54]: {}", &self.hp));
+        fields.push(format!("maxhp(int as i32)[54, 58]: {}", &self.maxhp));
+        fields.push(format!("sp(short as i16)[58, 60]: {}", &self.sp));
+        fields.push(format!("maxsp(short as i16)[60, 62]: {}", &self.maxsp));
+        fields.push(format!("speed(short as i16)[62, 64]: {}", &self.speed));
+        fields.push(format!("job(short as i16)[64, 66]: {}", &self.job));
+        fields.push(format!("head(short as i16)[66, 68]: {}", &self.head));
+        fields.push(format!("body(short as i16)[68, 70]: {}", &self.body));
+        fields.push(format!("weapon(short as i16)[70, 72]: {}", &self.weapon));
+        fields.push(format!("level(short as i16)[72, 74]: {}", &self.level));
+        fields.push(format!("sppoint(short as i16)[74, 76]: {}", &self.sppoint));
+        fields.push(format!("accessory(short as i16)[76, 78]: {}", &self.accessory));
+        fields.push(format!("shield(short as i16)[78, 80]: {}", &self.shield));
+        fields.push(format!("accessory2(short as i16)[80, 82]: {}", &self.accessory2));
+        fields.push(format!("accessory3(short as i16)[82, 84]: {}", &self.accessory3));
+        fields.push(format!("headpalette(short as i16)[84, 86]: {}", &self.headpalette));
+        fields.push(format!("bodypalette(short as i16)[86, 88]: {}", &self.bodypalette));
+        fields.push(format!("name(char[] as char[])[88, 112]: {}", &self.name.pretty_output()));
+        fields.push(format!("str(unsigned char as u8)[112, 113]: {}", &self.str));
+        fields.push(format!("agi(unsigned char as u8)[113, 114]: {}", &self.agi));
+        fields.push(format!("vit(unsigned char as u8)[114, 115]: {}", &self.vit));
+        fields.push(format!("int(unsigned char as u8)[115, 116]: {}", &self.int));
+        fields.push(format!("dex(unsigned char as u8)[116, 117]: {}", &self.dex));
+        fields.push(format!("luk(unsigned char as u8)[117, 118]: {}", &self.luk));
+        fields.push(format!("char_num(unsigned char as u8)[118, 119]: {}", &self.char_num));
+        fields.push(format!("haircolor(unsigned char as u8)[119, 120]: {}", &self.haircolor));
+        fields.push(format!("b_is_changed_char_name(short as i16)[120, 122]: {}", &self.b_is_changed_char_name));
+        fields.push(format!("last_map(char[] as char[])[122, 138]: {}", &self.last_map.pretty_output()));
+        fields.push(format!("delete_date(int as i32)[138, 142]: {}", &self.delete_date));
+        fields.push(format!("robe(int as i32)[142, 146]: {}", &self.robe));
+        fields.push(format!("slot_addon(int as i32)[146, 150]: {}", &self.slot_addon));
+        fields.push(format!("rename_addon(int as i32)[150, 154]: {}", &self.rename_addon));
+        fields.push(format!("sex(unsigned char as u8)[154, 155]: {}", &self.sex));
         write!(f, "CharacterInfoNeoUnion\n {}", fields.join(",\n "))
     }
 }

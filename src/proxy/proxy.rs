@@ -108,6 +108,8 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
                             print!("{} {} ", self.name, if direction == ProxyDirection::Backward { "<" } else { ">" });
                             self.specific_proxy.handle_packet(tcp_stream_ref, packet.as_mut());
                             packet.pretty_debug();
+                            packet.display();
+                            println!("{:02X?}", packet.raw());
                             if outgoing.write(packet.raw()).is_ok() {
                                 outgoing.flush();
                             }
