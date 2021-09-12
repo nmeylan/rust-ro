@@ -17680,6 +17680,63 @@ impl Display for PacketHcAcceptEnterNeoUnionHeader {
     }
 }
 
+impl Debug for PacketCzPing {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("PacketCzPing")
+            .field("id", &self.id())
+            .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
+            .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
+        .finish()
+    }
+}
+
+impl Display for PacketCzPing {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        let mut fields = Vec::new();
+        fields.push(format!("packet_id(short as i16)[0, 2]: {}", &self.packet_id));
+        fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
+        write!(f, "PacketCzPing\n {}", fields.join(",\n "))
+    }
+}
+
+impl Debug for PacketZcAid2 {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("PacketZcAid2")
+            .field("id", &self.id())
+            .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
+            .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
+        .finish()
+    }
+}
+
+impl Display for PacketZcAid2 {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        let mut fields = Vec::new();
+        fields.push(format!("packet_id(short as i16)[0, 2]: {}", &self.packet_id));
+        fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
+        write!(f, "PacketZcAid2\n {}", fields.join(",\n "))
+    }
+}
+
+impl Debug for PacketMapConnection {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("PacketMapConnection")
+            .field("id", &self.id())
+            .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
+            .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
+        .finish()
+    }
+}
+
+impl Display for PacketMapConnection {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        let mut fields = Vec::new();
+        fields.push(format!("packet_id(short as i16)[0, 2]: {}", &self.packet_id));
+        fields.push(format!("aid(unsigned long as u32)[2, 6]: {}", &self.aid));
+        write!(f, "PacketMapConnection\n {}", fields.join(",\n "))
+    }
+}
+
 impl Debug for ServerAddr {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("ServerAddr")

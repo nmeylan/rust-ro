@@ -68,13 +68,14 @@ impl Server {
 
     pub fn dispatch(&self, packet: &mut dyn Packet) -> FeatureState {
         if packet.as_any().downcast_ref::<PacketUnknown>().is_some() {
-            println!("Unknown packet {} of length {}", packet.id(), packet.raw().len());
+            println!("Unknown packet {} of length {}: {:02X?}", packet.id(), packet.raw().len(), packet.raw());
         } else if packet.as_any().downcast_ref::<PacketCaLogin>().is_some() {
             let res = authenticate(packet.as_any().downcast_ref::<PacketCaLogin>().unwrap(), &self.repository);
             println!("Response");
             res.pretty_debug();
             // return FeatureState::Implemented(res);
         } else if packet.as_any().downcast_ref::<PacketZcNotifyTime>().is_none() {
+            packet.display()
         }
         FeatureState::Unimplemented
     }

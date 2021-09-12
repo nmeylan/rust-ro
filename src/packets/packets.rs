@@ -9983,6 +9983,33 @@ pub struct PacketHcAcceptEnterNeoUnionHeader {
 }
 
 #[derive(Clone)]
+pub struct PacketCzPing {
+    pub raw: Vec<u8>,
+    pub packet_id: i16,
+    pub packet_id_raw: [u8; 2],
+    pub aid: u32,
+    pub aid_raw: [u8; 4],
+}
+
+#[derive(Clone)]
+pub struct PacketZcAid2 {
+    pub raw: Vec<u8>,
+    pub packet_id: i16,
+    pub packet_id_raw: [u8; 2],
+    pub aid: u32,
+    pub aid_raw: [u8; 4],
+}
+
+#[derive(Clone)]
+pub struct PacketMapConnection {
+    pub raw: Vec<u8>,
+    pub packet_id: i16,
+    pub packet_id_raw: [u8; 2],
+    pub aid: u32,
+    pub aid_raw: [u8; 4],
+}
+
+#[derive(Clone)]
 pub struct ServerAddr {
     pub raw: Vec<u8>,
     pub ip: u32,
