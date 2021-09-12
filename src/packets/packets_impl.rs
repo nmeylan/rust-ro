@@ -89475,6 +89475,240 @@ impl Packet for PacketHcAcceptEnterNeoUnionHeader {
     }
 }
 
+impl PacketCzPing {
+    pub fn from(buffer: &[u8]) -> PacketCzPing {
+        PacketCzPing {
+            raw: buffer.to_vec(),
+            packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[0..2]);
+                dst
+            },
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: {
+                let mut dst: [u8; 4] = [0u8; 4];
+                dst.clone_from_slice(&buffer[2..6]);
+                dst
+            },
+        }
+    }
+    pub fn fill_raw(&mut self) {
+    let mut wtr;
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.packet_id).unwrap();
+        self.packet_id_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u32::<LittleEndian>(self.aid).unwrap();
+        self.aid_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.append(&mut self.packet_id_raw.to_vec());
+        wtr.append(&mut self.aid_raw.to_vec());
+        self.raw = wtr;
+    }
+    pub fn set_packet_id(&mut self, value: i16) {
+        self.packet_id = value;
+    }
+    pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
+        self.packet_id_raw = value;
+    }
+    pub fn set_aid(&mut self, value: u32) {
+        self.aid = value;
+    }
+    pub fn set_aid_raw(&mut self, value: [u8; 4]) {
+        self.aid_raw = value;
+    }
+    pub fn new() -> PacketCzPing {
+        PacketCzPing {
+        raw: vec![],
+        packet_id: i16::from_le_bytes([0x87, 0x01]),
+        packet_id_raw: [0x87, 0x01],
+        aid: 0,
+        aid_raw: [0; 4],
+        }
+    }
+}
+
+impl Packet for PacketCzPing {
+    fn id(&self) -> &str {
+       "0x8701"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
+    }
+    fn display(&self) {
+            println!("{}", self)
+    }
+    fn pretty_debug(&self) {
+            println!("{:#?}", self)
+    }
+    fn raw(&self) -> &Vec<u8> {
+            &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut dyn Any{
+        self
+    }
+}
+
+impl PacketZcAid2 {
+    pub fn from(buffer: &[u8]) -> PacketZcAid2 {
+        PacketZcAid2 {
+            raw: buffer.to_vec(),
+            packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[0..2]);
+                dst
+            },
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: {
+                let mut dst: [u8; 4] = [0u8; 4];
+                dst.clone_from_slice(&buffer[2..6]);
+                dst
+            },
+        }
+    }
+    pub fn fill_raw(&mut self) {
+    let mut wtr;
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.packet_id).unwrap();
+        self.packet_id_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u32::<LittleEndian>(self.aid).unwrap();
+        self.aid_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.append(&mut self.packet_id_raw.to_vec());
+        wtr.append(&mut self.aid_raw.to_vec());
+        self.raw = wtr;
+    }
+    pub fn set_packet_id(&mut self, value: i16) {
+        self.packet_id = value;
+    }
+    pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
+        self.packet_id_raw = value;
+    }
+    pub fn set_aid(&mut self, value: u32) {
+        self.aid = value;
+    }
+    pub fn set_aid_raw(&mut self, value: [u8; 4]) {
+        self.aid_raw = value;
+    }
+    pub fn new() -> PacketZcAid2 {
+        PacketZcAid2 {
+        raw: vec![],
+        packet_id: i16::from_le_bytes([0x87, 0x01]),
+        packet_id_raw: [0x87, 0x01],
+        aid: 0,
+        aid_raw: [0; 4],
+        }
+    }
+}
+
+impl Packet for PacketZcAid2 {
+    fn id(&self) -> &str {
+       "0x8701"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
+    }
+    fn display(&self) {
+            println!("{}", self)
+    }
+    fn pretty_debug(&self) {
+            println!("{:#?}", self)
+    }
+    fn raw(&self) -> &Vec<u8> {
+            &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut dyn Any{
+        self
+    }
+}
+
+impl PacketMapConnection {
+    pub fn from(buffer: &[u8]) -> PacketMapConnection {
+        PacketMapConnection {
+            raw: buffer.to_vec(),
+            packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[0..2]);
+                dst
+            },
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: {
+                let mut dst: [u8; 4] = [0u8; 4];
+                dst.clone_from_slice(&buffer[2..6]);
+                dst
+            },
+        }
+    }
+    pub fn fill_raw(&mut self) {
+    let mut wtr;
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.packet_id).unwrap();
+        self.packet_id_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u32::<LittleEndian>(self.aid).unwrap();
+        self.aid_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.append(&mut self.packet_id_raw.to_vec());
+        wtr.append(&mut self.aid_raw.to_vec());
+        self.raw = wtr;
+    }
+    pub fn set_packet_id(&mut self, value: i16) {
+        self.packet_id = value;
+    }
+    pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
+        self.packet_id_raw = value;
+    }
+    pub fn set_aid(&mut self, value: u32) {
+        self.aid = value;
+    }
+    pub fn set_aid_raw(&mut self, value: [u8; 4]) {
+        self.aid_raw = value;
+    }
+    pub fn new() -> PacketMapConnection {
+        PacketMapConnection {
+        raw: vec![],
+        packet_id: i16::from_le_bytes([0x83, 0x02]),
+        packet_id_raw: [0x83, 0x02],
+        aid: 0,
+        aid_raw: [0; 4],
+        }
+    }
+}
+
+impl Packet for PacketMapConnection {
+    fn id(&self) -> &str {
+       "0x8302"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
+    }
+    fn display(&self) {
+            println!("{}", self)
+    }
+    fn pretty_debug(&self) {
+            println!("{:#?}", self)
+    }
+    fn raw(&self) -> &Vec<u8> {
+            &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut dyn Any{
+        self
+    }
+}
+
 impl ServerAddr {
     pub fn from(buffer: &[u8]) -> ServerAddr {
         ServerAddr {

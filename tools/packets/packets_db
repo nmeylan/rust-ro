@@ -6219,3 +6219,18 @@ struct PACKET_CH_SEND_MAP_INFO {
 
     }
  }
+0x8701
+ struct PACKET_CZ_PING {
+   /* this+0x0 */ short PacketId
+   /* this+0x2 */ unsigned long AID
+ }
+0x8701
+ struct PACKET_ZC_AID2 {
+   /* this+0x0 */ short PacketId
+   /* this+0x2 */ unsigned long AID
+ }
+0x8302
+ struct PACKET_MAP_CONNECTION {
+   /* this+0x0 */ short PacketId
+   /* this+0x2 */ unsigned long AID
+ }

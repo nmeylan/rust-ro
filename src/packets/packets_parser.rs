@@ -2293,6 +2293,15 @@ pub fn parse(buffer: &[u8]) -> Box<dyn Packet> {
     if buffer[0] == 0x2d && buffer[1] == 0x08 {
         return Box::new(PacketHcAcceptEnterNeoUnionHeader::from(buffer));
     }
+    if buffer[0] == 0x87 && buffer[1] == 0x01 {
+        return Box::new(PacketCzPing::from(buffer));
+    }
+    if buffer[0] == 0x87 && buffer[1] == 0x01 {
+        return Box::new(PacketZcAid2::from(buffer));
+    }
+    if buffer[0] == 0x83 && buffer[1] == 0x02 {
+        return Box::new(PacketMapConnection::from(buffer));
+    }
     Box::new(PacketUnknown::from(buffer))
 }
 
