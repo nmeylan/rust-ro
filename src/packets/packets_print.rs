@@ -9610,24 +9610,24 @@ impl Display for PacketZcDeleteFriends {
     }
 }
 
-impl Debug for PacketChExeHashcheck {
+impl Debug for PacketAcRefuseLoginR3 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        f.debug_struct("PacketChExeHashcheck")
+        f.debug_struct("PacketAcRefuseLoginR3")
             .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-            .field("client_type[2, 3]", &format!("{:02X?}", &self.client_type_raw))
-            .field("hash_value[3, 19]", &format!("{:02X?}", &self.hash_value_raw))
+            .field("error_code[2, 6]", &format!("{:02X?}", &self.error_code_raw))
+            .field("block_date[6, 26]", &format!("{:02X?}", &self.block_date_raw))
         .finish()
     }
 }
 
-impl Display for PacketChExeHashcheck {
+impl Display for PacketAcRefuseLoginR3 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
         fields.push(format!("packet_id(short as i16)[0, 2]: {}", &self.packet_id));
-        fields.push(format!("client_type(unsigned char as u8)[2, 3]: {}", &self.client_type));
-        fields.push(format!("hash_value(char[] as char[])[3, 19]: {}", &self.hash_value.pretty_output()));
-        write!(f, "PacketChExeHashcheck\n {}", fields.join(",\n "))
+        fields.push(format!("error_code(unsigned int as u32)[2, 6]: {}", &self.error_code));
+        fields.push(format!("block_date(char[] as char[])[6, 26]: {}", &self.block_date.pretty_output()));
+        write!(f, "PacketAcRefuseLoginR3\n {}", fields.join(",\n "))
     }
 }
 

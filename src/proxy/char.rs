@@ -1,9 +1,9 @@
-use crate::proxy::proxy::{PacketHandler, Proxy, ServerContext, Session};
+use crate::proxy::proxy::{PacketHandler, Proxy};
 use std::net::{SocketAddr, Ipv4Addr, TcpStream};
 use std::net::IpAddr;
 use std::sync::{Arc, Mutex};
 use crate::packets::packets::{Packet, PacketChEnter, PacketChSendMapInfo};
-use crate::server::core::Server;
+use crate::server::core::{Server, ServerContext, Session};
 
 #[derive(Clone)]
 pub struct CharProxy {
@@ -40,7 +40,9 @@ impl PacketHandler for CharProxy {
             server_context_guard.sessions.insert(account_id, Session {
                 char_server_socket: Some(tcp_stream),
                 map_server_socket: None,
-                account_id
+                account_id,
+                login_id1: 0,
+                login_id2: 0
             });
         }
         Result::Ok("res".to_string())

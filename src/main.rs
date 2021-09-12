@@ -9,10 +9,9 @@ use std::thread::{JoinHandle};
 use proxy::login::LoginProxy;
 use proxy::map::MapProxy;
 use crate::proxy::char::CharProxy;
-use crate::proxy::proxy::ServerContext;
 use std::sync::{Arc, Mutex};
 use std::collections::HashMap;
-use crate::server::core::Server;
+use crate::server::core::{Server, ServerContext};
 use crate::repository::lib::Repository;
 use sqlx::MySql;
 
