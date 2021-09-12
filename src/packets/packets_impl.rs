@@ -1324,12 +1324,12 @@ impl Packet for PacketAcRefuseLogin {
 
 impl PacketHcAcceptEnterNeoUnion {
     pub fn from(buffer: &[u8]) -> PacketHcAcceptEnterNeoUnion {
-        let iter_count = &buffer.len() / 144;
+        let iter_count = &buffer.len() / 145;
         let mut vec_field: Vec<CharacterInfoNeoUnion> = Vec::new();
         let mut i = 1;
         while i <= iter_count {
             let start_pos = 27 * i;
-            let end_pos = 171 * i;
+            let end_pos = 172 * i;
             vec_field.push(CharacterInfoNeoUnion::from(&buffer[start_pos..end_pos]));
             i += 1;
         }
@@ -89287,6 +89287,194 @@ impl Packet for PacketChSendMapInfo {
     }
 }
 
+impl PacketHcAcceptEnterNeoUnionHeader {
+    pub fn from(buffer: &[u8]) -> PacketHcAcceptEnterNeoUnionHeader {
+        PacketHcAcceptEnterNeoUnionHeader {
+            raw: buffer.to_vec(),
+            packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[0..2]);
+                dst
+            },
+            packet_len: i16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_len_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[2..4]);
+                dst
+            },
+            char_slot: i8::from_le_bytes([buffer[4]]),
+            char_slot_raw: {
+                let mut dst: [u8; 1] = [0u8; 1];
+                dst.clone_from_slice(&buffer[4..5]);
+                dst
+            },
+            max_char: i16::from_le_bytes([buffer[5], buffer[6]]),
+            max_char_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[5..7]);
+                dst
+            },
+            premium_slot_start: i8::from_le_bytes([buffer[7]]),
+            premium_slot_start_raw: {
+                let mut dst: [u8; 1] = [0u8; 1];
+                dst.clone_from_slice(&buffer[7..8]);
+                dst
+            },
+            premium_slot_end: i8::from_le_bytes([buffer[8]]),
+            premium_slot_end_raw: {
+                let mut dst: [u8; 1] = [0u8; 1];
+                dst.clone_from_slice(&buffer[8..9]);
+                dst
+            },
+            empty_buffer:  {
+                let mut dst: [char; 20] = [0 as char; 20];
+                for (index, byte) in buffer[9..29].iter().enumerate() {
+                    dst[index] = *byte as char;
+                }
+                dst
+            },
+            empty_buffer_raw: {
+                let mut dst: [u8; 20] = [0u8; 20];
+                dst.clone_from_slice(&buffer[9..29]);
+                dst
+            },
+            char_info: PacketHcAcceptEnterNeoUnion::from(&buffer[29..buffer.len()]),
+            char_info_raw: buffer[29..buffer.len()].to_vec(),
+        }
+    }
+    pub fn fill_raw(&mut self) {
+    let mut wtr;
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.packet_id).unwrap();
+        self.packet_id_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.packet_len).unwrap();
+        self.packet_len_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_i8(self.char_slot).unwrap();
+        self.char_slot_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.max_char).unwrap();
+        self.max_char_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_i8(self.premium_slot_start).unwrap();
+        self.premium_slot_start_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_i8(self.premium_slot_end).unwrap();
+        self.premium_slot_end_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        for item in self.empty_buffer {
+            wtr.write_u8(item as u8 ).unwrap();
+        }
+        self.empty_buffer_raw = wtr.try_into().unwrap();
+
+        wtr = vec![];
+        wtr.append(&mut self.packet_id_raw.to_vec());
+        wtr.append(&mut self.packet_len_raw.to_vec());
+        wtr.append(&mut self.char_slot_raw.to_vec());
+        wtr.append(&mut self.max_char_raw.to_vec());
+        wtr.append(&mut self.premium_slot_start_raw.to_vec());
+        wtr.append(&mut self.premium_slot_end_raw.to_vec());
+        wtr.append(&mut self.empty_buffer_raw.to_vec());
+        wtr.append(&mut self.char_info_raw.to_vec());
+        self.raw = wtr;
+    }
+    pub fn set_packet_id(&mut self, value: i16) {
+        self.packet_id = value;
+    }
+    pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
+        self.packet_id_raw = value;
+    }
+    pub fn set_packet_len(&mut self, value: i16) {
+        self.packet_len = value;
+    }
+    pub fn set_packet_len_raw(&mut self, value: [u8; 2]) {
+        self.packet_len_raw = value;
+    }
+    pub fn set_char_slot(&mut self, value: i8) {
+        self.char_slot = value;
+    }
+    pub fn set_char_slot_raw(&mut self, value: [u8; 1]) {
+        self.char_slot_raw = value;
+    }
+    pub fn set_max_char(&mut self, value: i16) {
+        self.max_char = value;
+    }
+    pub fn set_max_char_raw(&mut self, value: [u8; 2]) {
+        self.max_char_raw = value;
+    }
+    pub fn set_premium_slot_start(&mut self, value: i8) {
+        self.premium_slot_start = value;
+    }
+    pub fn set_premium_slot_start_raw(&mut self, value: [u8; 1]) {
+        self.premium_slot_start_raw = value;
+    }
+    pub fn set_premium_slot_end(&mut self, value: i8) {
+        self.premium_slot_end = value;
+    }
+    pub fn set_premium_slot_end_raw(&mut self, value: [u8; 1]) {
+        self.premium_slot_end_raw = value;
+    }
+    pub fn set_empty_buffer(&mut self, value: [char; 20]) {
+        self.empty_buffer = value;
+    }
+    pub fn set_empty_buffer_raw(&mut self, value: [u8; 20]) {
+        self.empty_buffer_raw = value;
+    }
+    pub fn set_char_info(&mut self, value: PacketHcAcceptEnterNeoUnion) {
+        self.char_info = value;
+    }
+    pub fn set_char_info_raw(&mut self, value: Vec<u8>) {
+        self.char_info_raw = value;
+    }
+    pub fn new() -> PacketHcAcceptEnterNeoUnionHeader {
+        PacketHcAcceptEnterNeoUnionHeader {
+        raw: vec![],
+        packet_id: i16::from_le_bytes([0x2d, 0x08]),
+        packet_id_raw: [0x2d, 0x08],
+        packet_len: 0,
+        packet_len_raw: [0; 2],
+        char_slot: 0,
+        char_slot_raw: [0; 1],
+        max_char: 0,
+        max_char_raw: [0; 2],
+        premium_slot_start: 0,
+        premium_slot_start_raw: [0; 1],
+        premium_slot_end: 0,
+        premium_slot_end_raw: [0; 1],
+        empty_buffer: [0 as char; 20],
+        empty_buffer_raw: [0; 20],
+        char_info: PacketHcAcceptEnterNeoUnion::new(),
+        char_info_raw: vec![],
+        }
+    }
+}
+
+impl Packet for PacketHcAcceptEnterNeoUnionHeader {
+    fn id(&self) -> &str {
+       "0x2d08"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
+    }
+    fn display(&self) {
+            println!("{}", self)
+    }
+    fn pretty_debug(&self) {
+            println!("{:#?}", self)
+    }
+    fn raw(&self) -> &Vec<u8> {
+            &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut dyn Any{
+        self
+    }
+}
+
 impl ServerAddr {
     pub fn from(buffer: &[u8]) -> ServerAddr {
         ServerAddr {
@@ -89849,6 +90037,12 @@ impl CharacterInfoNeoUnion {
                 dst.clone_from_slice(&buffer[140..144]);
                 dst
             },
+            sex: i8::from_le_bytes([buffer[141]]),
+            sex_raw: {
+                let mut dst: [u8; 1] = [0u8; 1];
+                dst.clone_from_slice(&buffer[141..142]);
+                dst
+            },
         }
     }
     pub fn fill_raw(&mut self) {
@@ -89984,6 +90178,9 @@ impl CharacterInfoNeoUnion {
         wtr.write_i32::<LittleEndian>(self.rename_addon).unwrap();
         self.rename_addon_raw = wtr.try_into().unwrap();
         wtr = vec![];
+        wtr.write_i8(self.sex).unwrap();
+        self.sex_raw = wtr.try_into().unwrap();
+        wtr = vec![];
         wtr.append(&mut self.gid_raw.to_vec());
         wtr.append(&mut self.exp_raw.to_vec());
         wtr.append(&mut self.money_raw.to_vec());
@@ -90026,6 +90223,7 @@ impl CharacterInfoNeoUnion {
         wtr.append(&mut self.robe_raw.to_vec());
         wtr.append(&mut self.slot_addon_raw.to_vec());
         wtr.append(&mut self.rename_addon_raw.to_vec());
+        wtr.append(&mut self.sex_raw.to_vec());
         self.raw = wtr;
     }
     pub fn set_gid(&mut self, value: u32) {
@@ -90280,6 +90478,12 @@ impl CharacterInfoNeoUnion {
     pub fn set_rename_addon_raw(&mut self, value: [u8; 4]) {
         self.rename_addon_raw = value;
     }
+    pub fn set_sex(&mut self, value: i8) {
+        self.sex = value;
+    }
+    pub fn set_sex_raw(&mut self, value: [u8; 1]) {
+        self.sex_raw = value;
+    }
     pub fn new() -> CharacterInfoNeoUnion {
         CharacterInfoNeoUnion {
         raw: vec![],
@@ -90367,6 +90571,8 @@ impl CharacterInfoNeoUnion {
         slot_addon_raw: [0; 4],
         rename_addon: 0,
         rename_addon_raw: [0; 4],
+        sex: 0,
+        sex_raw: [0; 1],
         }
     }
 }

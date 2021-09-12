@@ -2290,6 +2290,9 @@ pub fn parse(buffer: &[u8]) -> Box<dyn Packet> {
     if buffer[0] == 0xc5 && buffer[1] == 0x0a {
         return Box::new(PacketChSendMapInfo::from(buffer));
     }
+    if buffer[0] == 0x2d && buffer[1] == 0x08 {
+        return Box::new(PacketHcAcceptEnterNeoUnionHeader::from(buffer));
+    }
     Box::new(PacketUnknown::from(buffer))
 }
 

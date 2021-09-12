@@ -76,7 +76,8 @@ pub fn parse(packet_db_path: &Path) -> (Vec<PacketStructDefinition>, Vec<StructD
             let struct_def_ref = structs_for_packet.get(current_structure_def).unwrap().borrow_mut();
             if current_structure_def > 0 { // meaning we are in a nested field
                 let struct_def_copy = copy_struct_definition(struct_def_ref);
-                if nested_structures.iter().find(|st| st.name.clone().as_str() == struct_def_copy.name.as_str()).is_none() { // if struct not already present as it might be defined multiple times in packets_db
+                if nested_structures.iter().find(|st| st.name.clone().as_str() == struct_def_copy.name.as_str()).is_none() &&
+                    packets.iter().find(|st| st.struct_def.name.clone().as_str() == struct_def_copy.name.as_str()).is_none(){ // if struct not already present as it might be defined multiple times in packets_db
                     nested_structures.push(struct_def_copy);
                 }
                 current_structure_def -= 1;
