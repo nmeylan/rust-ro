@@ -429,9 +429,21 @@ fn field_serialization(field: &StructField) -> String {
                 format!("\"found unknown type {} for field {}. this won't compile!\"", field.data_type.name, field.name)
             }
         }
+        "Struct" => {
+            if field.complex_type.is_some() {
+                res = format!("        self.{}.fill_raw();\n", field.name);
+                if field.length > -1 {
+                    res = format!("{}        self.{}_raw = self.{}.clone().raw.try_into().unwrap();\n", res, field.name, field.name);
+                } else {
+                    res = format!("{}        self.{}_raw = self.{}.clone().raw;\n", res, field.name, field.name);
+                }
+                res
+            } else {
+                format!("\"found unknown type {} for field {}. this won't compile!\"", field.data_type.name, field.name)
+            }
+        }
         _ => {
-            res
-            // format!("\"found unknown type {} for field {}. this won't compile!\"", field.data_type.name, field.name)
+            format!("\"found unknown type {} for field {}. this won't compile!\"", field.data_type.name, field.name)
         }
     }
 }
