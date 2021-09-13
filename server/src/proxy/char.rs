@@ -2,7 +2,7 @@ use crate::proxy::proxy::{PacketHandler, Proxy};
 use std::net::{SocketAddr, Ipv4Addr, TcpStream};
 use std::net::IpAddr;
 use std::sync::{Arc, Mutex};
-use crate::packets::packets::{Packet, PacketChEnter, PacketChSendMapInfo};
+use crate::packets::packets::{Packet, PacketChEnter, PacketChSendMapInfo, PacketHcRefuseEnter};
 use crate::server::core::{Server, ServerContext, Session};
 
 #[derive(Clone)]
@@ -31,19 +31,6 @@ impl PacketHandler for CharProxy {
             let packet_send_map_info = packet.as_any_mut().downcast_mut::<PacketChSendMapInfo>().unwrap();
             packet_send_map_info.set_map_server_port(6124);
             packet_send_map_info.fill_raw();
-        }
-        if packet.as_any().downcast_ref::<PacketChEnter>().is_some() { // PACKET_CH_ENTER
-            let packet_ch_enter = packet.as_any().downcast_ref::<PacketChEnter>().unwrap();
-            let account_id = packet_ch_enter.aid;
-            println!("New connection in char proxy: account {}", account_id);
-            let mut server_context_guard = self.server_context.lock().unwrap();
-            server_context_guard.sessions.insert(account_id, Session {
-                char_server_socket: Some(tcp_stream),
-                map_server_socket: None,
-                account_id,
-                login_id1: 0,
-                login_id2: 0
-            });
         }
         Result::Ok("res".to_string())
     }

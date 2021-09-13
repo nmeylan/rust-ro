@@ -4,7 +4,7 @@
 #![allow(dead_code)]
 
 use crate::packets::packets::*;
-use byteorder::{LittleEndian,WriteBytesExt};
+use byteorder::{LittleEndian, WriteBytesExt, BigEndian};
 use std::any::Any;
 use std::convert::TryInto;
 
@@ -89769,6 +89769,488 @@ impl Packet for PacketMapConnection {
     }
 }
 
+impl PacketPincodeLoginstate {
+    pub fn from(buffer: &[u8]) -> PacketPincodeLoginstate {
+        PacketPincodeLoginstate {
+            raw: buffer.to_vec(),
+            packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[0..2]);
+                dst
+            },
+            pincode_seed: i32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            pincode_seed_raw: {
+                let mut dst: [u8; 4] = [0u8; 4];
+                dst.clone_from_slice(&buffer[2..6]);
+                dst
+            },
+            aid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            aid_raw: {
+                let mut dst: [u8; 4] = [0u8; 4];
+                dst.clone_from_slice(&buffer[6..10]);
+                dst
+            },
+            response: i16::from_le_bytes([buffer[10], buffer[11]]),
+            response_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[10..12]);
+                dst
+            },
+        }
+    }
+    pub fn fill_raw(&mut self) {
+    let mut wtr;
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.packet_id).unwrap();
+        self.packet_id_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_i32::<LittleEndian>(self.pincode_seed).unwrap();
+        self.pincode_seed_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u32::<LittleEndian>(self.aid).unwrap();
+        self.aid_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.response).unwrap();
+        self.response_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.append(&mut self.packet_id_raw.to_vec());
+        wtr.append(&mut self.pincode_seed_raw.to_vec());
+        wtr.append(&mut self.aid_raw.to_vec());
+        wtr.append(&mut self.response_raw.to_vec());
+        self.raw = wtr;
+    }
+    pub fn set_packet_id(&mut self, value: i16) {
+        self.packet_id = value;
+    }
+    pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
+        self.packet_id_raw = value;
+    }
+    pub fn set_pincode_seed(&mut self, value: i32) {
+        self.pincode_seed = value;
+    }
+    pub fn set_pincode_seed_raw(&mut self, value: [u8; 4]) {
+        self.pincode_seed_raw = value;
+    }
+    pub fn set_aid(&mut self, value: u32) {
+        self.aid = value;
+    }
+    pub fn set_aid_raw(&mut self, value: [u8; 4]) {
+        self.aid_raw = value;
+    }
+    pub fn set_response(&mut self, value: i16) {
+        self.response = value;
+    }
+    pub fn set_response_raw(&mut self, value: [u8; 2]) {
+        self.response_raw = value;
+    }
+    pub fn new() -> PacketPincodeLoginstate {
+        PacketPincodeLoginstate {
+        raw: vec![],
+        packet_id: i16::from_le_bytes([0xb9, 0x08]),
+        packet_id_raw: [0xb9, 0x08],
+        pincode_seed: 0,
+        pincode_seed_raw: [0; 4],
+        aid: 0,
+        aid_raw: [0; 4],
+        response: 0,
+        response_raw: [0; 2],
+        }
+    }
+}
+
+impl Packet for PacketPincodeLoginstate {
+    fn id(&self) -> &str {
+       "0xb908"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
+    }
+    fn display(&self) {
+            println!("{}", self)
+    }
+    fn pretty_debug(&self) {
+            println!("{:#?}", self)
+    }
+    fn raw(&self) -> &Vec<u8> {
+            &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut dyn Any{
+        self
+    }
+}
+
+impl PacketChMakeChar2 {
+    pub fn from(buffer: &[u8]) -> PacketChMakeChar2 {
+        PacketChMakeChar2 {
+            raw: buffer.to_vec(),
+            packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[0..2]);
+                dst
+            },
+            name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[2..26].iter().enumerate() {
+                    dst[index] = *byte as char;
+                }
+                dst
+            },
+            name_raw: {
+                let mut dst: [u8; 24] = [0u8; 24];
+                dst.clone_from_slice(&buffer[2..26]);
+                dst
+            },
+            char_num: u8::from_le_bytes([buffer[26]]),
+            char_num_raw: {
+                let mut dst: [u8; 1] = [0u8; 1];
+                dst.clone_from_slice(&buffer[26..27]);
+                dst
+            },
+            head_pal: i16::from_le_bytes([buffer[27], buffer[28]]),
+            head_pal_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[27..29]);
+                dst
+            },
+            head: i16::from_le_bytes([buffer[29], buffer[30]]),
+            head_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[29..31]);
+                dst
+            },
+            class: i32::from_le_bytes([buffer[31], buffer[32], buffer[33], buffer[34]]),
+            class_raw: {
+                let mut dst: [u8; 4] = [0u8; 4];
+                dst.clone_from_slice(&buffer[31..35]);
+                dst
+            },
+            sex: u8::from_le_bytes([buffer[35]]),
+            sex_raw: {
+                let mut dst: [u8; 1] = [0u8; 1];
+                dst.clone_from_slice(&buffer[35..36]);
+                dst
+            },
+        }
+    }
+    pub fn fill_raw(&mut self) {
+    let mut wtr;
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.packet_id).unwrap();
+        self.packet_id_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        for item in self.name {
+            wtr.write_u8(item as u8 ).unwrap();
+        }
+        self.name_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u8(self.char_num).unwrap();
+        self.char_num_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.head_pal).unwrap();
+        self.head_pal_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.head).unwrap();
+        self.head_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_i32::<LittleEndian>(self.class).unwrap();
+        self.class_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u8(self.sex).unwrap();
+        self.sex_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.append(&mut self.packet_id_raw.to_vec());
+        wtr.append(&mut self.name_raw.to_vec());
+        wtr.append(&mut self.char_num_raw.to_vec());
+        wtr.append(&mut self.head_pal_raw.to_vec());
+        wtr.append(&mut self.head_raw.to_vec());
+        wtr.append(&mut self.class_raw.to_vec());
+        wtr.append(&mut self.sex_raw.to_vec());
+        self.raw = wtr;
+    }
+    pub fn set_packet_id(&mut self, value: i16) {
+        self.packet_id = value;
+    }
+    pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
+        self.packet_id_raw = value;
+    }
+    pub fn set_name(&mut self, value: [char; 24]) {
+        self.name = value;
+    }
+    pub fn set_name_raw(&mut self, value: [u8; 24]) {
+        self.name_raw = value;
+    }
+    pub fn set_char_num(&mut self, value: u8) {
+        self.char_num = value;
+    }
+    pub fn set_char_num_raw(&mut self, value: [u8; 1]) {
+        self.char_num_raw = value;
+    }
+    pub fn set_head_pal(&mut self, value: i16) {
+        self.head_pal = value;
+    }
+    pub fn set_head_pal_raw(&mut self, value: [u8; 2]) {
+        self.head_pal_raw = value;
+    }
+    pub fn set_head(&mut self, value: i16) {
+        self.head = value;
+    }
+    pub fn set_head_raw(&mut self, value: [u8; 2]) {
+        self.head_raw = value;
+    }
+    pub fn set_class(&mut self, value: i32) {
+        self.class = value;
+    }
+    pub fn set_class_raw(&mut self, value: [u8; 4]) {
+        self.class_raw = value;
+    }
+    pub fn set_sex(&mut self, value: u8) {
+        self.sex = value;
+    }
+    pub fn set_sex_raw(&mut self, value: [u8; 1]) {
+        self.sex_raw = value;
+    }
+    pub fn new() -> PacketChMakeChar2 {
+        PacketChMakeChar2 {
+        raw: vec![],
+        packet_id: i16::from_le_bytes([0x39, 0x0a]),
+        packet_id_raw: [0x39, 0x0a],
+        name: [0 as char; 24],
+        name_raw: [0; 24],
+        char_num: 0,
+        char_num_raw: [0; 1],
+        head_pal: 0,
+        head_pal_raw: [0; 2],
+        head: 0,
+        head_raw: [0; 2],
+        class: 0,
+        class_raw: [0; 4],
+        sex: 0,
+        sex_raw: [0; 1],
+        }
+    }
+}
+
+impl Packet for PacketChMakeChar2 {
+    fn id(&self) -> &str {
+       "0x390a"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
+    }
+    fn display(&self) {
+            println!("{}", self)
+    }
+    fn pretty_debug(&self) {
+            println!("{:#?}", self)
+    }
+    fn raw(&self) -> &Vec<u8> {
+            &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut dyn Any{
+        self
+    }
+}
+
+impl PacketChDeleteChar4Reserved {
+    pub fn from(buffer: &[u8]) -> PacketChDeleteChar4Reserved {
+        PacketChDeleteChar4Reserved {
+            raw: buffer.to_vec(),
+            packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[0..2]);
+                dst
+            },
+            gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid_raw: {
+                let mut dst: [u8; 4] = [0u8; 4];
+                dst.clone_from_slice(&buffer[2..6]);
+                dst
+            },
+        }
+    }
+    pub fn fill_raw(&mut self) {
+    let mut wtr;
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.packet_id).unwrap();
+        self.packet_id_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u32::<LittleEndian>(self.gid).unwrap();
+        self.gid_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.append(&mut self.packet_id_raw.to_vec());
+        wtr.append(&mut self.gid_raw.to_vec());
+        self.raw = wtr;
+    }
+    pub fn set_packet_id(&mut self, value: i16) {
+        self.packet_id = value;
+    }
+    pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
+        self.packet_id_raw = value;
+    }
+    pub fn set_gid(&mut self, value: u32) {
+        self.gid = value;
+    }
+    pub fn set_gid_raw(&mut self, value: [u8; 4]) {
+        self.gid_raw = value;
+    }
+    pub fn new() -> PacketChDeleteChar4Reserved {
+        PacketChDeleteChar4Reserved {
+        raw: vec![],
+        packet_id: i16::from_le_bytes([0x27, 0x08]),
+        packet_id_raw: [0x27, 0x08],
+        gid: 0,
+        gid_raw: [0; 4],
+        }
+    }
+}
+
+impl Packet for PacketChDeleteChar4Reserved {
+    fn id(&self) -> &str {
+       "0x2708"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
+    }
+    fn display(&self) {
+            println!("{}", self)
+    }
+    fn pretty_debug(&self) {
+            println!("{:#?}", self)
+    }
+    fn raw(&self) -> &Vec<u8> {
+            &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut dyn Any{
+        self
+    }
+}
+
+impl PacketHcDeleteChar4Reserved {
+    pub fn from(buffer: &[u8]) -> PacketHcDeleteChar4Reserved {
+        PacketHcDeleteChar4Reserved {
+            raw: buffer.to_vec(),
+            packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[0..2]);
+                dst
+            },
+            gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid_raw: {
+                let mut dst: [u8; 4] = [0u8; 4];
+                dst.clone_from_slice(&buffer[2..6]);
+                dst
+            },
+            result: i32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            result_raw: {
+                let mut dst: [u8; 4] = [0u8; 4];
+                dst.clone_from_slice(&buffer[6..10]);
+                dst
+            },
+            delete_reserved_date: i32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            delete_reserved_date_raw: {
+                let mut dst: [u8; 4] = [0u8; 4];
+                dst.clone_from_slice(&buffer[10..14]);
+                dst
+            },
+        }
+    }
+    pub fn fill_raw(&mut self) {
+    let mut wtr;
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.packet_id).unwrap();
+        self.packet_id_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u32::<LittleEndian>(self.gid).unwrap();
+        self.gid_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_i32::<LittleEndian>(self.result).unwrap();
+        self.result_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_i32::<LittleEndian>(self.delete_reserved_date).unwrap();
+        self.delete_reserved_date_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.append(&mut self.packet_id_raw.to_vec());
+        wtr.append(&mut self.gid_raw.to_vec());
+        wtr.append(&mut self.result_raw.to_vec());
+        wtr.append(&mut self.delete_reserved_date_raw.to_vec());
+        self.raw = wtr;
+    }
+    pub fn set_packet_id(&mut self, value: i16) {
+        self.packet_id = value;
+    }
+    pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
+        self.packet_id_raw = value;
+    }
+    pub fn set_gid(&mut self, value: u32) {
+        self.gid = value;
+    }
+    pub fn set_gid_raw(&mut self, value: [u8; 4]) {
+        self.gid_raw = value;
+    }
+    pub fn set_result(&mut self, value: i32) {
+        self.result = value;
+    }
+    pub fn set_result_raw(&mut self, value: [u8; 4]) {
+        self.result_raw = value;
+    }
+    pub fn set_delete_reserved_date(&mut self, value: i32) {
+        self.delete_reserved_date = value;
+    }
+    pub fn set_delete_reserved_date_raw(&mut self, value: [u8; 4]) {
+        self.delete_reserved_date_raw = value;
+    }
+    pub fn new() -> PacketHcDeleteChar4Reserved {
+        PacketHcDeleteChar4Reserved {
+        raw: vec![],
+        packet_id: i16::from_le_bytes([0x28, 0x08]),
+        packet_id_raw: [0x28, 0x08],
+        gid: 0,
+        gid_raw: [0; 4],
+        result: 0,
+        result_raw: [0; 4],
+        delete_reserved_date: 0,
+        delete_reserved_date_raw: [0; 4],
+        }
+    }
+}
+
+impl Packet for PacketHcDeleteChar4Reserved {
+    fn id(&self) -> &str {
+       "0x2808"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
+    }
+    fn display(&self) {
+            println!("{}", self)
+    }
+    fn pretty_debug(&self) {
+            println!("{:#?}", self)
+    }
+    fn raw(&self) -> &Vec<u8> {
+            &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut dyn Any{
+        self
+    }
+}
+
 impl ServerAddr {
     pub fn from(buffer: &[u8]) -> ServerAddr {
         ServerAddr {
@@ -90127,8 +90609,8 @@ impl CharacterInfoNeoUnion {
                 dst.clone_from_slice(&buffer[44..48]);
                 dst
             },
-            jobpoint: u16::from_le_bytes([buffer[48], buffer[49]]),
-            jobpoint_raw: {
+            status_point: u16::from_le_bytes([buffer[48], buffer[49]]),
+            status_point_raw: {
                 let mut dst: [u8; 2] = [0u8; 2];
                 dst.clone_from_slice(&buffer[48..50]);
                 dst
@@ -90163,8 +90645,8 @@ impl CharacterInfoNeoUnion {
                 dst.clone_from_slice(&buffer[62..64]);
                 dst
             },
-            job: u16::from_le_bytes([buffer[64], buffer[65]]),
-            job_raw: {
+            class: u16::from_le_bytes([buffer[64], buffer[65]]),
+            class_raw: {
                 let mut dst: [u8; 2] = [0u8; 2];
                 dst.clone_from_slice(&buffer[64..66]);
                 dst
@@ -90193,14 +90675,14 @@ impl CharacterInfoNeoUnion {
                 dst.clone_from_slice(&buffer[72..74]);
                 dst
             },
-            sppoint: u16::from_le_bytes([buffer[74], buffer[75]]),
-            sppoint_raw: {
+            skill_point: u16::from_le_bytes([buffer[74], buffer[75]]),
+            skill_point_raw: {
                 let mut dst: [u8; 2] = [0u8; 2];
                 dst.clone_from_slice(&buffer[74..76]);
                 dst
             },
-            accessory: u16::from_le_bytes([buffer[76], buffer[77]]),
-            accessory_raw: {
+            head_bottom: u16::from_le_bytes([buffer[76], buffer[77]]),
+            head_bottom_raw: {
                 let mut dst: [u8; 2] = [0u8; 2];
                 dst.clone_from_slice(&buffer[76..78]);
                 dst
@@ -90211,26 +90693,26 @@ impl CharacterInfoNeoUnion {
                 dst.clone_from_slice(&buffer[78..80]);
                 dst
             },
-            accessory2: u16::from_le_bytes([buffer[80], buffer[81]]),
-            accessory2_raw: {
+            head_top: u16::from_le_bytes([buffer[80], buffer[81]]),
+            head_top_raw: {
                 let mut dst: [u8; 2] = [0u8; 2];
                 dst.clone_from_slice(&buffer[80..82]);
                 dst
             },
-            accessory3: u16::from_le_bytes([buffer[82], buffer[83]]),
-            accessory3_raw: {
+            head_mid: u16::from_le_bytes([buffer[82], buffer[83]]),
+            head_mid_raw: {
                 let mut dst: [u8; 2] = [0u8; 2];
                 dst.clone_from_slice(&buffer[82..84]);
                 dst
             },
-            headpalette: u16::from_le_bytes([buffer[84], buffer[85]]),
-            headpalette_raw: {
+            hair_color: u16::from_le_bytes([buffer[84], buffer[85]]),
+            hair_color_raw: {
                 let mut dst: [u8; 2] = [0u8; 2];
                 dst.clone_from_slice(&buffer[84..86]);
                 dst
             },
-            bodypalette: u16::from_le_bytes([buffer[86], buffer[87]]),
-            bodypalette_raw: {
+            body_color: u16::from_le_bytes([buffer[86], buffer[87]]),
+            body_color_raw: {
                 let mut dst: [u8; 2] = [0u8; 2];
                 dst.clone_from_slice(&buffer[86..88]);
                 dst
@@ -90378,8 +90860,8 @@ impl CharacterInfoNeoUnion {
         wtr.write_i32::<LittleEndian>(self.honor).unwrap();
         self.honor_raw = wtr.try_into().unwrap();
         wtr = vec![];
-        wtr.write_u16::<LittleEndian>(self.jobpoint).unwrap();
-        self.jobpoint_raw = wtr.try_into().unwrap();
+        wtr.write_u16::<LittleEndian>(self.status_point).unwrap();
+        self.status_point_raw = wtr.try_into().unwrap();
         wtr = vec![];
         wtr.write_u32::<LittleEndian>(self.hp).unwrap();
         self.hp_raw = wtr.try_into().unwrap();
@@ -90396,8 +90878,8 @@ impl CharacterInfoNeoUnion {
         wtr.write_u16::<LittleEndian>(self.speed).unwrap();
         self.speed_raw = wtr.try_into().unwrap();
         wtr = vec![];
-        wtr.write_u16::<LittleEndian>(self.job).unwrap();
-        self.job_raw = wtr.try_into().unwrap();
+        wtr.write_u16::<LittleEndian>(self.class).unwrap();
+        self.class_raw = wtr.try_into().unwrap();
         wtr = vec![];
         wtr.write_u16::<LittleEndian>(self.head).unwrap();
         self.head_raw = wtr.try_into().unwrap();
@@ -90411,26 +90893,26 @@ impl CharacterInfoNeoUnion {
         wtr.write_u16::<LittleEndian>(self.level).unwrap();
         self.level_raw = wtr.try_into().unwrap();
         wtr = vec![];
-        wtr.write_u16::<LittleEndian>(self.sppoint).unwrap();
-        self.sppoint_raw = wtr.try_into().unwrap();
+        wtr.write_u16::<LittleEndian>(self.skill_point).unwrap();
+        self.skill_point_raw = wtr.try_into().unwrap();
         wtr = vec![];
-        wtr.write_u16::<LittleEndian>(self.accessory).unwrap();
-        self.accessory_raw = wtr.try_into().unwrap();
+        wtr.write_u16::<LittleEndian>(self.head_bottom).unwrap();
+        self.head_bottom_raw = wtr.try_into().unwrap();
         wtr = vec![];
         wtr.write_u16::<LittleEndian>(self.shield).unwrap();
         self.shield_raw = wtr.try_into().unwrap();
         wtr = vec![];
-        wtr.write_u16::<LittleEndian>(self.accessory2).unwrap();
-        self.accessory2_raw = wtr.try_into().unwrap();
+        wtr.write_u16::<LittleEndian>(self.head_top).unwrap();
+        self.head_top_raw = wtr.try_into().unwrap();
         wtr = vec![];
-        wtr.write_u16::<LittleEndian>(self.accessory3).unwrap();
-        self.accessory3_raw = wtr.try_into().unwrap();
+        wtr.write_u16::<LittleEndian>(self.head_mid).unwrap();
+        self.head_mid_raw = wtr.try_into().unwrap();
         wtr = vec![];
-        wtr.write_u16::<LittleEndian>(self.headpalette).unwrap();
-        self.headpalette_raw = wtr.try_into().unwrap();
+        wtr.write_u16::<LittleEndian>(self.hair_color).unwrap();
+        self.hair_color_raw = wtr.try_into().unwrap();
         wtr = vec![];
-        wtr.write_u16::<LittleEndian>(self.bodypalette).unwrap();
-        self.bodypalette_raw = wtr.try_into().unwrap();
+        wtr.write_u16::<LittleEndian>(self.body_color).unwrap();
+        self.body_color_raw = wtr.try_into().unwrap();
         wtr = vec![];
         for item in self.name {
             wtr.write_u8(item as u8 ).unwrap();
@@ -90494,24 +90976,24 @@ impl CharacterInfoNeoUnion {
         wtr.append(&mut self.effectstate_raw.to_vec());
         wtr.append(&mut self.virtue_raw.to_vec());
         wtr.append(&mut self.honor_raw.to_vec());
-        wtr.append(&mut self.jobpoint_raw.to_vec());
+        wtr.append(&mut self.status_point_raw.to_vec());
         wtr.append(&mut self.hp_raw.to_vec());
         wtr.append(&mut self.maxhp_raw.to_vec());
         wtr.append(&mut self.sp_raw.to_vec());
         wtr.append(&mut self.maxsp_raw.to_vec());
         wtr.append(&mut self.speed_raw.to_vec());
-        wtr.append(&mut self.job_raw.to_vec());
+        wtr.append(&mut self.class_raw.to_vec());
         wtr.append(&mut self.head_raw.to_vec());
         wtr.append(&mut self.body_raw.to_vec());
         wtr.append(&mut self.weapon_raw.to_vec());
         wtr.append(&mut self.level_raw.to_vec());
-        wtr.append(&mut self.sppoint_raw.to_vec());
-        wtr.append(&mut self.accessory_raw.to_vec());
+        wtr.append(&mut self.skill_point_raw.to_vec());
+        wtr.append(&mut self.head_bottom_raw.to_vec());
         wtr.append(&mut self.shield_raw.to_vec());
-        wtr.append(&mut self.accessory2_raw.to_vec());
-        wtr.append(&mut self.accessory3_raw.to_vec());
-        wtr.append(&mut self.headpalette_raw.to_vec());
-        wtr.append(&mut self.bodypalette_raw.to_vec());
+        wtr.append(&mut self.head_top_raw.to_vec());
+        wtr.append(&mut self.head_mid_raw.to_vec());
+        wtr.append(&mut self.hair_color_raw.to_vec());
+        wtr.append(&mut self.body_color_raw.to_vec());
         wtr.append(&mut self.name_raw.to_vec());
         wtr.append(&mut self.str_raw.to_vec());
         wtr.append(&mut self.agi_raw.to_vec());
@@ -90590,11 +91072,11 @@ impl CharacterInfoNeoUnion {
     pub fn set_honor_raw(&mut self, value: [u8; 4]) {
         self.honor_raw = value;
     }
-    pub fn set_jobpoint(&mut self, value: u16) {
-        self.jobpoint = value;
+    pub fn set_status_point(&mut self, value: u16) {
+        self.status_point = value;
     }
-    pub fn set_jobpoint_raw(&mut self, value: [u8; 2]) {
-        self.jobpoint_raw = value;
+    pub fn set_status_point_raw(&mut self, value: [u8; 2]) {
+        self.status_point_raw = value;
     }
     pub fn set_hp(&mut self, value: u32) {
         self.hp = value;
@@ -90626,11 +91108,11 @@ impl CharacterInfoNeoUnion {
     pub fn set_speed_raw(&mut self, value: [u8; 2]) {
         self.speed_raw = value;
     }
-    pub fn set_job(&mut self, value: u16) {
-        self.job = value;
+    pub fn set_class(&mut self, value: u16) {
+        self.class = value;
     }
-    pub fn set_job_raw(&mut self, value: [u8; 2]) {
-        self.job_raw = value;
+    pub fn set_class_raw(&mut self, value: [u8; 2]) {
+        self.class_raw = value;
     }
     pub fn set_head(&mut self, value: u16) {
         self.head = value;
@@ -90656,17 +91138,17 @@ impl CharacterInfoNeoUnion {
     pub fn set_level_raw(&mut self, value: [u8; 2]) {
         self.level_raw = value;
     }
-    pub fn set_sppoint(&mut self, value: u16) {
-        self.sppoint = value;
+    pub fn set_skill_point(&mut self, value: u16) {
+        self.skill_point = value;
     }
-    pub fn set_sppoint_raw(&mut self, value: [u8; 2]) {
-        self.sppoint_raw = value;
+    pub fn set_skill_point_raw(&mut self, value: [u8; 2]) {
+        self.skill_point_raw = value;
     }
-    pub fn set_accessory(&mut self, value: u16) {
-        self.accessory = value;
+    pub fn set_head_bottom(&mut self, value: u16) {
+        self.head_bottom = value;
     }
-    pub fn set_accessory_raw(&mut self, value: [u8; 2]) {
-        self.accessory_raw = value;
+    pub fn set_head_bottom_raw(&mut self, value: [u8; 2]) {
+        self.head_bottom_raw = value;
     }
     pub fn set_shield(&mut self, value: u16) {
         self.shield = value;
@@ -90674,29 +91156,29 @@ impl CharacterInfoNeoUnion {
     pub fn set_shield_raw(&mut self, value: [u8; 2]) {
         self.shield_raw = value;
     }
-    pub fn set_accessory2(&mut self, value: u16) {
-        self.accessory2 = value;
+    pub fn set_head_top(&mut self, value: u16) {
+        self.head_top = value;
     }
-    pub fn set_accessory2_raw(&mut self, value: [u8; 2]) {
-        self.accessory2_raw = value;
+    pub fn set_head_top_raw(&mut self, value: [u8; 2]) {
+        self.head_top_raw = value;
     }
-    pub fn set_accessory3(&mut self, value: u16) {
-        self.accessory3 = value;
+    pub fn set_head_mid(&mut self, value: u16) {
+        self.head_mid = value;
     }
-    pub fn set_accessory3_raw(&mut self, value: [u8; 2]) {
-        self.accessory3_raw = value;
+    pub fn set_head_mid_raw(&mut self, value: [u8; 2]) {
+        self.head_mid_raw = value;
     }
-    pub fn set_headpalette(&mut self, value: u16) {
-        self.headpalette = value;
+    pub fn set_hair_color(&mut self, value: u16) {
+        self.hair_color = value;
     }
-    pub fn set_headpalette_raw(&mut self, value: [u8; 2]) {
-        self.headpalette_raw = value;
+    pub fn set_hair_color_raw(&mut self, value: [u8; 2]) {
+        self.hair_color_raw = value;
     }
-    pub fn set_bodypalette(&mut self, value: u16) {
-        self.bodypalette = value;
+    pub fn set_body_color(&mut self, value: u16) {
+        self.body_color = value;
     }
-    pub fn set_bodypalette_raw(&mut self, value: [u8; 2]) {
-        self.bodypalette_raw = value;
+    pub fn set_body_color_raw(&mut self, value: [u8; 2]) {
+        self.body_color_raw = value;
     }
     pub fn set_name(&mut self, value: [char; 24]) {
         self.name = value;
@@ -90817,8 +91299,8 @@ impl CharacterInfoNeoUnion {
         virtue_raw: [0; 4],
         honor: 0,
         honor_raw: [0; 4],
-        jobpoint: 0,
-        jobpoint_raw: [0; 2],
+        status_point: 0,
+        status_point_raw: [0; 2],
         hp: 0,
         hp_raw: [0; 4],
         maxhp: 0,
@@ -90829,8 +91311,8 @@ impl CharacterInfoNeoUnion {
         maxsp_raw: [0; 2],
         speed: 0,
         speed_raw: [0; 2],
-        job: 0,
-        job_raw: [0; 2],
+        class: 0,
+        class_raw: [0; 2],
         head: 0,
         head_raw: [0; 2],
         body: 0,
@@ -90839,20 +91321,20 @@ impl CharacterInfoNeoUnion {
         weapon_raw: [0; 2],
         level: 0,
         level_raw: [0; 2],
-        sppoint: 0,
-        sppoint_raw: [0; 2],
-        accessory: 0,
-        accessory_raw: [0; 2],
+        skill_point: 0,
+        skill_point_raw: [0; 2],
+        head_bottom: 0,
+        head_bottom_raw: [0; 2],
         shield: 0,
         shield_raw: [0; 2],
-        accessory2: 0,
-        accessory2_raw: [0; 2],
-        accessory3: 0,
-        accessory3_raw: [0; 2],
-        headpalette: 0,
-        headpalette_raw: [0; 2],
-        bodypalette: 0,
-        bodypalette_raw: [0; 2],
+        head_top: 0,
+        head_top_raw: [0; 2],
+        head_mid: 0,
+        head_mid_raw: [0; 2],
+        hair_color: 0,
+        hair_color_raw: [0; 2],
+        body_color: 0,
+        body_color_raw: [0; 2],
         name: [0 as char; 24],
         name_raw: [0; 24],
         str: 0,

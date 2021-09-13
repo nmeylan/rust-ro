@@ -2,6 +2,45 @@ use crate::packets::packets::{PacketCaLogin, PacketAcAcceptLogin2, Packet, Serve
 use crate::repository::lib::Repository;
 use sqlx::{MySql, Row};
 use rand::Rng;
+use tokio::runtime::Runtime;
+use crate::server::core::{FeatureState, Session, Server};
+use std::net::TcpStream;
+use std::sync::{Mutex, Arc};
+use std::io::Write;
+
+pub(crate) fn handle_login(server: &Server, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<Mutex<TcpStream>>) -> FeatureState {
+    let res = runtime.block_on(async {
+        authenticate(packet.as_any().downcast_ref::<PacketCaLogin>().unwrap(), &server.repository).await
+    });
+    if res.as_any().downcast_ref::<PacketAcAcceptLogin2>().is_some() {
+        let packet_response = res.as_any().downcast_ref::<PacketAcAcceptLogin2>().unwrap();
+        // Currently only handle this account to be able to still use proxy in other accounts
+        if packet_response.aid != 2000000 {
+            return FeatureState::Unimplemented;
+        }
+        let new_user_session = Session {
+            char_server_socket: None,
+            map_server_socket: None,
+            account_id: packet_response.aid,
+            login_id1: packet_response.auth_code,
+            login_id2: packet_response.user_level
+        };
+        let mut server_context_guard = server.server_context.lock().unwrap();
+        server_context_guard.sessions.insert(packet_response.aid.clone(), new_user_session);
+
+        let mut tcp_stream_guard = tcp_stream.lock().unwrap();
+        tcp_stream_guard.write(res.raw());
+        tcp_stream_guard.flush();
+        std::mem::drop(tcp_stream_guard);
+        return FeatureState::Implemented(res);
+    } else if res.as_any().downcast_ref::<PacketAcRefuseLoginR3>().is_some() {
+        let mut tcp_stream_guard = tcp_stream.lock().unwrap();
+        tcp_stream_guard.write(res.raw());
+        tcp_stream_guard.flush();
+        return FeatureState::Implemented(res);
+    }
+    FeatureState::Unimplemented
+}
 
 pub async fn authenticate(packet: &PacketCaLogin, repository: &Repository<MySql>) -> Box<dyn Packet> {
     let mut rng = rand::thread_rng();
@@ -20,7 +59,6 @@ pub async fn authenticate(packet: &PacketCaLogin, repository: &Repository<MySql>
     if row_result.is_ok() {
         let row = row_result.unwrap();
         let account_id: u32 = row.get("account_id");
-        println!("{:?}", account_id);
         // TODO check credentials with database entries
         let mut ac_accept_login2 = PacketAcAcceptLogin2::new();
         ac_accept_login2.set_packet_length(224);

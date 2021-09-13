@@ -110,24 +110,24 @@
     /* this+0x24 */ int effectstate
     /* this+0x28 */ int virtue
     /* this+0x2c */ int honor
-    /* this+0x30 */ unsigned short jobpoint
+    /* this+0x30 */ unsigned short statusPoint
     /* this+0x32 */ unsigned int hp
     /* this+0x36 */ unsigned int maxhp
     /* this+0x3a */ unsigned short sp
     /* this+0x3c */ unsigned short maxsp
     /* this+0x3e */ unsigned short speed
-    /* this+0x40 */ unsigned short job
+    /* this+0x40 */ unsigned short class
     /* this+0x42 */ unsigned short head
     /* this+0x44 */ unsigned short body
     /* this+0x46 */ unsigned short weapon
     /* this+0x48 */ unsigned short level
-    /* this+0x4a */ unsigned short sppoint
-    /* this+0x4c */ unsigned short accessory
+    /* this+0x4a */ unsigned short skillPoint
+    /* this+0x4c */ unsigned short headBottom
     /* this+0x4e */ unsigned short shield
-    /* this+0x50 */ unsigned short accessory2
-    /* this+0x52 */ unsigned short accessory3
-    /* this+0x54 */ unsigned short headpalette
-    /* this+0x56 */ unsigned short bodypalette
+    /* this+0x50 */ unsigned short headTop
+    /* this+0x52 */ unsigned short headMid
+    /* this+0x54 */ unsigned short hairColor
+    /* this+0x56 */ unsigned short bodyColor
     /* this+0x58 */ unsigned char name[24]
     /* this+0x70 */ unsigned char Str
     /* this+0x71 */ unsigned char Agi
@@ -6198,3 +6198,34 @@ struct PACKET_CH_SEND_MAP_INFO {
    /* this+0x0 */ short PacketId
    /* this+0x2 */ unsigned long AID
  }
+0xb908
+struct PACKET_PINCODE_LOGINSTATE {
+ /* this+0x0 */ short PacketId
+ /* this+0x2 */ int pincodeSeed
+ /* this+0x6 */ unsigned long AID
+ /* this+0xa */ short response
+}
+
+0x390a
+ struct PACKET_CH_MAKE_CHAR2 {
+  /* this+0x0 */ short PacketId
+  /* this+0x2 */ unsigned char name[24]
+  /* this+0x1a */ unsigned char CharNum
+  /* this+0x1b */ short headPal
+  /* this+0x1d */ short head
+  /* this+0x1f */ int class
+  /* this+0x23 */ unsigned char sex
+ }
+
+0x2708
+ struct PACKET_CH_DELETE_CHAR4_RESERVED {
+  /* this+0x0 */ short PacketId
+  /* this+0x2 */ unsigned long GID
+ }
+0x2808
+ struct PACKET_HC_DELETE_CHAR4_RESERVED {
+  /* this+0x0 */ short PacketId
+  /* this+0x2 */ unsigned long GID
+  /* this+0x6 */ int Result
+  /* this+0xa */ long DeleteReservedDate
+}

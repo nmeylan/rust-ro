@@ -2302,6 +2302,18 @@ pub fn parse(buffer: &[u8]) -> Box<dyn Packet> {
     if buffer[0] == 0x83 && buffer[1] == 0x02 {
         return Box::new(PacketMapConnection::from(buffer));
     }
+    if buffer[0] == 0xb9 && buffer[1] == 0x08 {
+        return Box::new(PacketPincodeLoginstate::from(buffer));
+    }
+    if buffer[0] == 0x39 && buffer[1] == 0x0a {
+        return Box::new(PacketChMakeChar2::from(buffer));
+    }
+    if buffer[0] == 0x27 && buffer[1] == 0x08 {
+        return Box::new(PacketChDeleteChar4Reserved::from(buffer));
+    }
+    if buffer[0] == 0x28 && buffer[1] == 0x08 {
+        return Box::new(PacketHcDeleteChar4Reserved::from(buffer));
+    }
     Box::new(PacketUnknown::from(buffer))
 }
 

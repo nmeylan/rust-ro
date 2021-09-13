@@ -3,7 +3,7 @@ use std::sync::{Arc, Mutex};
 use std::net::IpAddr;
 use std::net::{TcpStream, Ipv4Addr, SocketAddr};
 use crate::packets::packets::{Packet, PacketCzEnter2};
-use crate::server::core::{Server, ServerContext, Session};
+use crate::server::core::{Server, ServerContext, Session, SessionsIter};
 
 #[derive(Clone)]
 pub struct MapProxy {
@@ -44,12 +44,9 @@ impl PacketHandler for MapProxy {
         } else {
             let server_context_guard = self.server_context.lock().unwrap();
             let incoming_stream_guard = tcp_stream.lock().unwrap();
-            let session = server_context_guard.sessions.iter().find(|(_, value)| {
-                let map_server_socket = value.map_server_socket.as_ref().unwrap().lock().unwrap();
-                map_server_socket.peer_addr().unwrap() == incoming_stream_guard.peer_addr().unwrap()
-            });
-            if session.is_some() {
-                println!("found session {}", session.unwrap().0);
+            let session_id = server_context_guard.sessions.find_by_stream(&incoming_stream_guard);
+            if session_id.is_some() {
+                println!("found session {}", session_id.unwrap());
             }
         }
 

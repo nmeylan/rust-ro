@@ -782,19 +782,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "rust-ragnarok-server"
-version = "0.1.0"
-dependencies = [
- "byteorder",
- "lazy_static",
- "maplit",
- "rand",
- "regex",
- "sqlx",
- "tokio",
-]
-
-[[package]]
 name = "rustls"
 version = "0.19.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -821,6 +808,20 @@ checksum = "b362b83898e0e69f38515b82ee15aa80636befe47c3b6d3d89a911e78fc228ce"
 dependencies = [
  "ring",
  "untrusted",
+]
+
+[[package]]
+name = "server"
+version = "0.1.0"
+dependencies = [
+ "byteorder",
+ "lazy_static",
+ "maplit",
+ "rand",
+ "regex",
+ "sql",
+ "sqlx",
+ "tokio",
 ]
 
 [[package]]
@@ -887,6 +888,14 @@ name = "spin"
 version = "0.5.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "6e63cff320ae2c57904679ba7cb63280a3dc4613885beafb148ee7bf9aa9042d"
+
+[[package]]
+name = "sql"
+version = "0.1.0"
+dependencies = [
+ "quote",
+ "syn",
+]
 
 [[package]]
 name = "sqlformat"
