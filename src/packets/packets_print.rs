@@ -17795,9 +17795,9 @@ impl Debug for CharacterInfoNeoUnion {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("CharacterInfoNeoUnion")
             .field("gid[0, 4]", &format!("{:02X?}", &self.gid_raw))
-            .field("exp[4, 8]", &format!("{:02X?}", &self.exp_raw))
+            .field("exp[4, 12]", &format!("{:02X?}", &self.exp_raw))
             .field("money[12, 16]", &format!("{:02X?}", &self.money_raw))
-            .field("jobexp[16, 20]", &format!("{:02X?}", &self.jobexp_raw))
+            .field("jobexp[16, 24]", &format!("{:02X?}", &self.jobexp_raw))
             .field("joblevel[24, 28]", &format!("{:02X?}", &self.joblevel_raw))
             .field("bodystate[28, 32]", &format!("{:02X?}", &self.bodystate_raw))
             .field("healthstate[32, 36]", &format!("{:02X?}", &self.healthstate_raw))
@@ -17846,33 +17846,33 @@ impl Display for CharacterInfoNeoUnion {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
         fields.push(format!("gid(unsigned long as u32)[0, 4]: {}", &self.gid));
-        fields.push(format!("exp(int64 as i64)[4, 8]: {}", &self.exp));
-        fields.push(format!("money(int as i32)[12, 16]: {}", &self.money));
-        fields.push(format!("jobexp(int64 as i64)[16, 20]: {}", &self.jobexp));
-        fields.push(format!("joblevel(int as i32)[24, 28]: {}", &self.joblevel));
-        fields.push(format!("bodystate(int as i32)[28, 32]: {}", &self.bodystate));
-        fields.push(format!("healthstate(int as i32)[32, 36]: {}", &self.healthstate));
+        fields.push(format!("exp(unsigned int64 as u64)[4, 12]: {}", &self.exp));
+        fields.push(format!("money(unsigned int as u32)[12, 16]: {}", &self.money));
+        fields.push(format!("jobexp(unsigned int64 as u64)[16, 24]: {}", &self.jobexp));
+        fields.push(format!("joblevel(unsigned int as u32)[24, 28]: {}", &self.joblevel));
+        fields.push(format!("bodystate(unsigned int as u32)[28, 32]: {}", &self.bodystate));
+        fields.push(format!("healthstate(unsigned int as u32)[32, 36]: {}", &self.healthstate));
         fields.push(format!("effectstate(int as i32)[36, 40]: {}", &self.effectstate));
         fields.push(format!("virtue(int as i32)[40, 44]: {}", &self.virtue));
         fields.push(format!("honor(int as i32)[44, 48]: {}", &self.honor));
-        fields.push(format!("jobpoint(short as i16)[48, 50]: {}", &self.jobpoint));
-        fields.push(format!("hp(int as i32)[50, 54]: {}", &self.hp));
-        fields.push(format!("maxhp(int as i32)[54, 58]: {}", &self.maxhp));
-        fields.push(format!("sp(short as i16)[58, 60]: {}", &self.sp));
-        fields.push(format!("maxsp(short as i16)[60, 62]: {}", &self.maxsp));
-        fields.push(format!("speed(short as i16)[62, 64]: {}", &self.speed));
-        fields.push(format!("job(short as i16)[64, 66]: {}", &self.job));
-        fields.push(format!("head(short as i16)[66, 68]: {}", &self.head));
-        fields.push(format!("body(short as i16)[68, 70]: {}", &self.body));
-        fields.push(format!("weapon(short as i16)[70, 72]: {}", &self.weapon));
-        fields.push(format!("level(short as i16)[72, 74]: {}", &self.level));
-        fields.push(format!("sppoint(short as i16)[74, 76]: {}", &self.sppoint));
-        fields.push(format!("accessory(short as i16)[76, 78]: {}", &self.accessory));
-        fields.push(format!("shield(short as i16)[78, 80]: {}", &self.shield));
-        fields.push(format!("accessory2(short as i16)[80, 82]: {}", &self.accessory2));
-        fields.push(format!("accessory3(short as i16)[82, 84]: {}", &self.accessory3));
-        fields.push(format!("headpalette(short as i16)[84, 86]: {}", &self.headpalette));
-        fields.push(format!("bodypalette(short as i16)[86, 88]: {}", &self.bodypalette));
+        fields.push(format!("jobpoint(unsigned short as u16)[48, 50]: {}", &self.jobpoint));
+        fields.push(format!("hp(unsigned int as u32)[50, 54]: {}", &self.hp));
+        fields.push(format!("maxhp(unsigned int as u32)[54, 58]: {}", &self.maxhp));
+        fields.push(format!("sp(unsigned short as u16)[58, 60]: {}", &self.sp));
+        fields.push(format!("maxsp(unsigned short as u16)[60, 62]: {}", &self.maxsp));
+        fields.push(format!("speed(unsigned short as u16)[62, 64]: {}", &self.speed));
+        fields.push(format!("job(unsigned short as u16)[64, 66]: {}", &self.job));
+        fields.push(format!("head(unsigned short as u16)[66, 68]: {}", &self.head));
+        fields.push(format!("body(unsigned short as u16)[68, 70]: {}", &self.body));
+        fields.push(format!("weapon(unsigned short as u16)[70, 72]: {}", &self.weapon));
+        fields.push(format!("level(unsigned short as u16)[72, 74]: {}", &self.level));
+        fields.push(format!("sppoint(unsigned short as u16)[74, 76]: {}", &self.sppoint));
+        fields.push(format!("accessory(unsigned short as u16)[76, 78]: {}", &self.accessory));
+        fields.push(format!("shield(unsigned short as u16)[78, 80]: {}", &self.shield));
+        fields.push(format!("accessory2(unsigned short as u16)[80, 82]: {}", &self.accessory2));
+        fields.push(format!("accessory3(unsigned short as u16)[82, 84]: {}", &self.accessory3));
+        fields.push(format!("headpalette(unsigned short as u16)[84, 86]: {}", &self.headpalette));
+        fields.push(format!("bodypalette(unsigned short as u16)[86, 88]: {}", &self.bodypalette));
         fields.push(format!("name(char[] as char[])[88, 112]: {}", &self.name.pretty_output()));
         fields.push(format!("str(unsigned char as u8)[112, 113]: {}", &self.str));
         fields.push(format!("agi(unsigned char as u8)[113, 114]: {}", &self.agi));
@@ -17880,14 +17880,14 @@ impl Display for CharacterInfoNeoUnion {
         fields.push(format!("int(unsigned char as u8)[115, 116]: {}", &self.int));
         fields.push(format!("dex(unsigned char as u8)[116, 117]: {}", &self.dex));
         fields.push(format!("luk(unsigned char as u8)[117, 118]: {}", &self.luk));
-        fields.push(format!("char_num(unsigned char as u8)[118, 119]: {}", &self.char_num));
+        fields.push(format!("char_num(char as i8)[118, 119]: {}", &self.char_num));
         fields.push(format!("haircolor(unsigned char as u8)[119, 120]: {}", &self.haircolor));
-        fields.push(format!("b_is_changed_char_name(short as i16)[120, 122]: {}", &self.b_is_changed_char_name));
+        fields.push(format!("b_is_changed_char_name(unsigned short as u16)[120, 122]: {}", &self.b_is_changed_char_name));
         fields.push(format!("last_map(char[] as char[])[122, 138]: {}", &self.last_map.pretty_output()));
-        fields.push(format!("delete_date(int as i32)[138, 142]: {}", &self.delete_date));
-        fields.push(format!("robe(int as i32)[142, 146]: {}", &self.robe));
-        fields.push(format!("slot_addon(int as i32)[146, 150]: {}", &self.slot_addon));
-        fields.push(format!("rename_addon(int as i32)[150, 154]: {}", &self.rename_addon));
+        fields.push(format!("delete_date(unsigned int as u32)[138, 142]: {}", &self.delete_date));
+        fields.push(format!("robe(unsigned int as u32)[142, 146]: {}", &self.robe));
+        fields.push(format!("slot_addon(unsigned int as u32)[146, 150]: {}", &self.slot_addon));
+        fields.push(format!("rename_addon(unsigned int as u32)[150, 154]: {}", &self.rename_addon));
         fields.push(format!("sex(unsigned char as u8)[154, 155]: {}", &self.sex));
         write!(f, "CharacterInfoNeoUnion\n {}", fields.join(",\n "))
     }

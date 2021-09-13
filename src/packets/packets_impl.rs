@@ -1674,6 +1674,8 @@ impl PacketHcAcceptMakecharNeoUnion {
         wtr = vec![];
         wtr.write_i16::<LittleEndian>(self.packet_id).unwrap();
         self.packet_id_raw = wtr.try_into().unwrap();
+        self.charinfo.fill_raw();
+        self.charinfo_raw = self.charinfo.clone().raw;
 
         wtr = vec![];
         wtr.append(&mut self.packet_id_raw.to_vec());
@@ -1988,6 +1990,8 @@ impl PacketHcNotifyZonesvr {
             wtr.write_u8(item as u8 ).unwrap();
         }
         self.map_name_raw = wtr.try_into().unwrap();
+        self.addr.fill_raw();
+        self.addr_raw = self.addr.clone().raw;
 
         wtr = vec![];
         wtr.append(&mut self.packet_id_raw.to_vec());
@@ -7533,6 +7537,8 @@ impl PacketZcNpcackServermove {
         wtr = vec![];
         wtr.write_i16::<LittleEndian>(self.y_pos).unwrap();
         self.y_pos_raw = wtr.try_into().unwrap();
+        self.addr.fill_raw();
+        self.addr_raw = self.addr.clone().raw;
 
         wtr = vec![];
         wtr.append(&mut self.packet_id_raw.to_vec());
@@ -9136,6 +9142,8 @@ impl PacketZcItemPickupAck {
         wtr = vec![];
         wtr.write_u8(self.refining_level).unwrap();
         self.refining_level_raw = wtr.try_into().unwrap();
+        self.slot.fill_raw();
+        self.slot_raw = self.slot.clone().raw.try_into().unwrap();
 
         wtr = vec![];
         wtr.write_u16::<LittleEndian>(self.location).unwrap();
@@ -16487,6 +16495,8 @@ impl PacketZcAddExchangeItem {
         wtr = vec![];
         wtr.write_u8(self.refining_level).unwrap();
         self.refining_level_raw = wtr.try_into().unwrap();
+        self.slot.fill_raw();
+        self.slot_raw = self.slot.clone().raw.try_into().unwrap();
 
         wtr = vec![];
         wtr.append(&mut self.packet_id_raw.to_vec());
@@ -17406,6 +17416,8 @@ impl PacketZcAddItemToStore {
         wtr = vec![];
         wtr.write_u8(self.refining_level).unwrap();
         self.refining_level_raw = wtr.try_into().unwrap();
+        self.slot.fill_raw();
+        self.slot_raw = self.slot.clone().raw.try_into().unwrap();
 
         wtr = vec![];
         wtr.append(&mut self.packet_id_raw.to_vec());
@@ -20294,6 +20306,8 @@ impl PacketZcAddSkill {
         wtr = vec![];
         wtr.write_i16::<LittleEndian>(self.packet_id).unwrap();
         self.packet_id_raw = wtr.try_into().unwrap();
+        self.data.fill_raw();
+        self.data_raw = self.data.clone().raw;
 
         wtr = vec![];
         wtr.append(&mut self.packet_id_raw.to_vec());
@@ -22722,6 +22736,8 @@ impl PacketZcAddItemToCart {
         wtr = vec![];
         wtr.write_u8(self.refining_level).unwrap();
         self.refining_level_raw = wtr.try_into().unwrap();
+        self.slot.fill_raw();
+        self.slot_raw = self.slot.clone().raw.try_into().unwrap();
 
         wtr = vec![];
         wtr.append(&mut self.packet_id_raw.to_vec());
@@ -26234,6 +26250,8 @@ impl PacketZcAutorunSkill {
         wtr = vec![];
         wtr.write_i16::<LittleEndian>(self.packet_id).unwrap();
         self.packet_id_raw = wtr.try_into().unwrap();
+        self.data.fill_raw();
+        self.data_raw = self.data.clone().raw;
 
         wtr = vec![];
         wtr.append(&mut self.packet_id_raw.to_vec());
@@ -31189,6 +31207,8 @@ impl PacketZcAckGuildMemberInfo {
         wtr = vec![];
         wtr.write_i16::<LittleEndian>(self.packet_id).unwrap();
         self.packet_id_raw = wtr.try_into().unwrap();
+        self.info.fill_raw();
+        self.info_raw = self.info.clone().raw;
 
         wtr = vec![];
         wtr.append(&mut self.packet_id_raw.to_vec());
@@ -32245,6 +32265,8 @@ impl PacketZcMemberAdd {
         wtr = vec![];
         wtr.write_i16::<LittleEndian>(self.packet_id).unwrap();
         self.packet_id_raw = wtr.try_into().unwrap();
+        self.info.fill_raw();
+        self.info_raw = self.info.clone().raw;
 
         wtr = vec![];
         wtr.append(&mut self.packet_id_raw.to_vec());
@@ -32509,6 +32531,8 @@ impl PacketZcAddRelatedGuild {
         wtr = vec![];
         wtr.write_i16::<LittleEndian>(self.packet_id).unwrap();
         self.packet_id_raw = wtr.try_into().unwrap();
+        self.info.fill_raw();
+        self.info_raw = self.info.clone().raw;
 
         wtr = vec![];
         wtr.append(&mut self.packet_id_raw.to_vec());
@@ -33157,6 +33181,8 @@ impl PacketZcMonsterInfo {
         wtr = vec![];
         wtr.write_i16::<LittleEndian>(self.property).unwrap();
         self.property_raw = wtr.try_into().unwrap();
+        self.property_table.fill_raw();
+        self.property_table_raw = self.property_table.clone().raw;
 
         wtr = vec![];
         wtr.append(&mut self.packet_id_raw.to_vec());
@@ -33310,6 +33336,8 @@ impl PacketZcMakableitemlist {
         wtr = vec![];
         wtr.write_i16::<LittleEndian>(self.packet_length).unwrap();
         self.packet_length_raw = wtr.try_into().unwrap();
+        self.info.fill_raw();
+        self.info_raw = self.info.clone().raw;
 
         wtr = vec![];
         wtr.append(&mut self.packet_id_raw.to_vec());
@@ -33391,6 +33419,8 @@ impl PacketCzReqmakingitem {
         wtr = vec![];
         wtr.write_i16::<LittleEndian>(self.packet_id).unwrap();
         self.packet_id_raw = wtr.try_into().unwrap();
+        self.info.fill_raw();
+        self.info_raw = self.info.clone().raw;
 
         wtr = vec![];
         wtr.append(&mut self.packet_id_raw.to_vec());
@@ -38959,6 +38989,8 @@ impl PacketZcAddItemToStore2 {
         wtr = vec![];
         wtr.write_u8(self.refining_level).unwrap();
         self.refining_level_raw = wtr.try_into().unwrap();
+        self.slot.fill_raw();
+        self.slot_raw = self.slot.clone().raw.try_into().unwrap();
 
         wtr = vec![];
         wtr.append(&mut self.packet_id_raw.to_vec());
@@ -39161,6 +39193,8 @@ impl PacketZcAddItemToCart2 {
         wtr = vec![];
         wtr.write_u8(self.refining_level).unwrap();
         self.refining_level_raw = wtr.try_into().unwrap();
+        self.slot.fill_raw();
+        self.slot_raw = self.slot.clone().raw.try_into().unwrap();
 
         wtr = vec![];
         wtr.append(&mut self.packet_id_raw.to_vec());
@@ -46544,6 +46578,8 @@ impl PacketCzReqItemrepair {
         wtr = vec![];
         wtr.write_i16::<LittleEndian>(self.packet_id).unwrap();
         self.packet_id_raw = wtr.try_into().unwrap();
+        self.target_item_info.fill_raw();
+        self.target_item_info_raw = self.target_item_info.clone().raw;
 
         wtr = vec![];
         wtr.append(&mut self.packet_id_raw.to_vec());
@@ -48520,6 +48556,8 @@ impl PacketZcAckPvppoint {
         wtr = vec![];
         wtr.write_u32::<LittleEndian>(self.gid).unwrap();
         self.gid_raw = wtr.try_into().unwrap();
+        self.pvp.fill_raw();
+        self.pvp_raw = self.pvp.clone().raw;
 
         wtr = vec![];
         wtr.append(&mut self.packet_id_raw.to_vec());
@@ -50288,6 +50326,8 @@ impl PacketZcNotifyPkinfo {
             wtr.write_u8(item as u8 ).unwrap();
         }
         self.killed_name_raw = wtr.try_into().unwrap();
+        self.expire_time.fill_raw();
+        self.expire_time_raw = self.expire_time.clone().raw;
 
         wtr = vec![];
         wtr.append(&mut self.packet_id_raw.to_vec());
@@ -54860,6 +54900,8 @@ impl PacketZcMailReqOpen {
         wtr = vec![];
         wtr.write_u8(self.refining_level).unwrap();
         self.refining_level_raw = wtr.try_into().unwrap();
+        self.slot.fill_raw();
+        self.slot_raw = self.slot.clone().raw.try_into().unwrap();
 
         wtr = vec![];
         wtr.write_u8(self.msg_len).unwrap();
@@ -63917,6 +63959,8 @@ impl PacketZcItemPickupAck2 {
         wtr = vec![];
         wtr.write_u8(self.refining_level).unwrap();
         self.refining_level_raw = wtr.try_into().unwrap();
+        self.slot.fill_raw();
+        self.slot_raw = self.slot.clone().raw.try_into().unwrap();
 
         wtr = vec![];
         wtr.write_u16::<LittleEndian>(self.location).unwrap();
@@ -65530,6 +65574,8 @@ impl PacketZcGameguardLingoKey {
         wtr = vec![];
         wtr.write_i16::<LittleEndian>(self.packet_id).unwrap();
         self.packet_id_raw = wtr.try_into().unwrap();
+        self.lingo_key.fill_raw();
+        self.lingo_key_raw = self.lingo_key.clone().raw;
 
         wtr = vec![];
         wtr.append(&mut self.packet_id_raw.to_vec());
@@ -67185,6 +67231,8 @@ impl PacketZcItemPickupParty {
         wtr = vec![];
         wtr.write_u8(self.refining_level).unwrap();
         self.refining_level_raw = wtr.try_into().unwrap();
+        self.slot.fill_raw();
+        self.slot_raw = self.slot.clone().raw.try_into().unwrap();
 
         wtr = vec![];
         wtr.write_u16::<LittleEndian>(self.location).unwrap();
@@ -67420,6 +67468,8 @@ impl PacketCzShortcutKeyChange {
         wtr = vec![];
         wtr.write_u16::<LittleEndian>(self.index).unwrap();
         self.index_raw = wtr.try_into().unwrap();
+        self.short_cut_key.fill_raw();
+        self.short_cut_key_raw = self.short_cut_key.clone().raw;
 
         wtr = vec![];
         wtr.append(&mut self.packet_id_raw.to_vec());
@@ -69678,6 +69728,8 @@ impl PacketZcItemPickupAck3 {
         wtr = vec![];
         wtr.write_u8(self.refining_level).unwrap();
         self.refining_level_raw = wtr.try_into().unwrap();
+        self.slot.fill_raw();
+        self.slot_raw = self.slot.clone().raw.try_into().unwrap();
 
         wtr = vec![];
         wtr.write_u16::<LittleEndian>(self.location).unwrap();
@@ -83194,6 +83246,8 @@ impl PacketCzPartyBookingReqRegister {
         wtr = vec![];
         wtr.write_i16::<LittleEndian>(self.packet_id).unwrap();
         self.packet_id_raw = wtr.try_into().unwrap();
+        self.register_info.fill_raw();
+        self.register_info_raw = self.register_info.clone().raw;
 
         wtr = vec![];
         wtr.append(&mut self.packet_id_raw.to_vec());
@@ -83839,6 +83893,8 @@ impl PacketZcPartyBookingNotifyInsert {
         wtr = vec![];
         wtr.write_i16::<LittleEndian>(self.packet_id).unwrap();
         self.packet_id_raw = wtr.try_into().unwrap();
+        self.info.fill_raw();
+        self.info_raw = self.info.clone().raw;
 
         wtr = vec![];
         wtr.append(&mut self.packet_id_raw.to_vec());
@@ -84485,6 +84541,8 @@ impl PacketZcAddExchangeItem2 {
         wtr = vec![];
         wtr.write_u8(self.refining_level).unwrap();
         self.refining_level_raw = wtr.try_into().unwrap();
+        self.slot.fill_raw();
+        self.slot_raw = self.slot.clone().raw.try_into().unwrap();
 
         wtr = vec![];
         wtr.append(&mut self.packet_id_raw.to_vec());
@@ -89368,6 +89426,8 @@ impl PacketHcAcceptEnterNeoUnionHeader {
             wtr.write_u8(item as u8 ).unwrap();
         }
         self.empty_buffer_raw = wtr.try_into().unwrap();
+        self.char_info.fill_raw();
+        self.char_info_raw = self.char_info.clone().raw;
 
         wtr = vec![];
         wtr.append(&mut self.packet_id_raw.to_vec());
@@ -90013,37 +90073,37 @@ impl CharacterInfoNeoUnion {
                 dst.clone_from_slice(&buffer[0..4]);
                 dst
             },
-            exp: i64::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7], buffer[8], buffer[9], buffer[10], buffer[11]]),
+            exp: u64::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7], buffer[8], buffer[9], buffer[10], buffer[11]]),
             exp_raw: {
-                let mut dst: [u8; 4] = [0u8; 4];
-                dst.clone_from_slice(&buffer[4..8]);
+                let mut dst: [u8; 8] = [0u8; 8];
+                dst.clone_from_slice(&buffer[4..12]);
                 dst
             },
-            money: i32::from_le_bytes([buffer[12], buffer[13], buffer[14], buffer[15]]),
+            money: u32::from_le_bytes([buffer[12], buffer[13], buffer[14], buffer[15]]),
             money_raw: {
                 let mut dst: [u8; 4] = [0u8; 4];
                 dst.clone_from_slice(&buffer[12..16]);
                 dst
             },
-            jobexp: i64::from_le_bytes([buffer[16], buffer[17], buffer[18], buffer[19], buffer[20], buffer[21], buffer[22], buffer[23]]),
+            jobexp: u64::from_le_bytes([buffer[16], buffer[17], buffer[18], buffer[19], buffer[20], buffer[21], buffer[22], buffer[23]]),
             jobexp_raw: {
-                let mut dst: [u8; 4] = [0u8; 4];
-                dst.clone_from_slice(&buffer[16..20]);
+                let mut dst: [u8; 8] = [0u8; 8];
+                dst.clone_from_slice(&buffer[16..24]);
                 dst
             },
-            joblevel: i32::from_le_bytes([buffer[24], buffer[25], buffer[26], buffer[27]]),
+            joblevel: u32::from_le_bytes([buffer[24], buffer[25], buffer[26], buffer[27]]),
             joblevel_raw: {
                 let mut dst: [u8; 4] = [0u8; 4];
                 dst.clone_from_slice(&buffer[24..28]);
                 dst
             },
-            bodystate: i32::from_le_bytes([buffer[28], buffer[29], buffer[30], buffer[31]]),
+            bodystate: u32::from_le_bytes([buffer[28], buffer[29], buffer[30], buffer[31]]),
             bodystate_raw: {
                 let mut dst: [u8; 4] = [0u8; 4];
                 dst.clone_from_slice(&buffer[28..32]);
                 dst
             },
-            healthstate: i32::from_le_bytes([buffer[32], buffer[33], buffer[34], buffer[35]]),
+            healthstate: u32::from_le_bytes([buffer[32], buffer[33], buffer[34], buffer[35]]),
             healthstate_raw: {
                 let mut dst: [u8; 4] = [0u8; 4];
                 dst.clone_from_slice(&buffer[32..36]);
@@ -90067,109 +90127,109 @@ impl CharacterInfoNeoUnion {
                 dst.clone_from_slice(&buffer[44..48]);
                 dst
             },
-            jobpoint: i16::from_le_bytes([buffer[48], buffer[49]]),
+            jobpoint: u16::from_le_bytes([buffer[48], buffer[49]]),
             jobpoint_raw: {
                 let mut dst: [u8; 2] = [0u8; 2];
                 dst.clone_from_slice(&buffer[48..50]);
                 dst
             },
-            hp: i32::from_le_bytes([buffer[50], buffer[51], buffer[52], buffer[53]]),
+            hp: u32::from_le_bytes([buffer[50], buffer[51], buffer[52], buffer[53]]),
             hp_raw: {
                 let mut dst: [u8; 4] = [0u8; 4];
                 dst.clone_from_slice(&buffer[50..54]);
                 dst
             },
-            maxhp: i32::from_le_bytes([buffer[54], buffer[55], buffer[56], buffer[57]]),
+            maxhp: u32::from_le_bytes([buffer[54], buffer[55], buffer[56], buffer[57]]),
             maxhp_raw: {
                 let mut dst: [u8; 4] = [0u8; 4];
                 dst.clone_from_slice(&buffer[54..58]);
                 dst
             },
-            sp: i16::from_le_bytes([buffer[58], buffer[59]]),
+            sp: u16::from_le_bytes([buffer[58], buffer[59]]),
             sp_raw: {
                 let mut dst: [u8; 2] = [0u8; 2];
                 dst.clone_from_slice(&buffer[58..60]);
                 dst
             },
-            maxsp: i16::from_le_bytes([buffer[60], buffer[61]]),
+            maxsp: u16::from_le_bytes([buffer[60], buffer[61]]),
             maxsp_raw: {
                 let mut dst: [u8; 2] = [0u8; 2];
                 dst.clone_from_slice(&buffer[60..62]);
                 dst
             },
-            speed: i16::from_le_bytes([buffer[62], buffer[63]]),
+            speed: u16::from_le_bytes([buffer[62], buffer[63]]),
             speed_raw: {
                 let mut dst: [u8; 2] = [0u8; 2];
                 dst.clone_from_slice(&buffer[62..64]);
                 dst
             },
-            job: i16::from_le_bytes([buffer[64], buffer[65]]),
+            job: u16::from_le_bytes([buffer[64], buffer[65]]),
             job_raw: {
                 let mut dst: [u8; 2] = [0u8; 2];
                 dst.clone_from_slice(&buffer[64..66]);
                 dst
             },
-            head: i16::from_le_bytes([buffer[66], buffer[67]]),
+            head: u16::from_le_bytes([buffer[66], buffer[67]]),
             head_raw: {
                 let mut dst: [u8; 2] = [0u8; 2];
                 dst.clone_from_slice(&buffer[66..68]);
                 dst
             },
-            body: i16::from_le_bytes([buffer[68], buffer[69]]),
+            body: u16::from_le_bytes([buffer[68], buffer[69]]),
             body_raw: {
                 let mut dst: [u8; 2] = [0u8; 2];
                 dst.clone_from_slice(&buffer[68..70]);
                 dst
             },
-            weapon: i16::from_le_bytes([buffer[70], buffer[71]]),
+            weapon: u16::from_le_bytes([buffer[70], buffer[71]]),
             weapon_raw: {
                 let mut dst: [u8; 2] = [0u8; 2];
                 dst.clone_from_slice(&buffer[70..72]);
                 dst
             },
-            level: i16::from_le_bytes([buffer[72], buffer[73]]),
+            level: u16::from_le_bytes([buffer[72], buffer[73]]),
             level_raw: {
                 let mut dst: [u8; 2] = [0u8; 2];
                 dst.clone_from_slice(&buffer[72..74]);
                 dst
             },
-            sppoint: i16::from_le_bytes([buffer[74], buffer[75]]),
+            sppoint: u16::from_le_bytes([buffer[74], buffer[75]]),
             sppoint_raw: {
                 let mut dst: [u8; 2] = [0u8; 2];
                 dst.clone_from_slice(&buffer[74..76]);
                 dst
             },
-            accessory: i16::from_le_bytes([buffer[76], buffer[77]]),
+            accessory: u16::from_le_bytes([buffer[76], buffer[77]]),
             accessory_raw: {
                 let mut dst: [u8; 2] = [0u8; 2];
                 dst.clone_from_slice(&buffer[76..78]);
                 dst
             },
-            shield: i16::from_le_bytes([buffer[78], buffer[79]]),
+            shield: u16::from_le_bytes([buffer[78], buffer[79]]),
             shield_raw: {
                 let mut dst: [u8; 2] = [0u8; 2];
                 dst.clone_from_slice(&buffer[78..80]);
                 dst
             },
-            accessory2: i16::from_le_bytes([buffer[80], buffer[81]]),
+            accessory2: u16::from_le_bytes([buffer[80], buffer[81]]),
             accessory2_raw: {
                 let mut dst: [u8; 2] = [0u8; 2];
                 dst.clone_from_slice(&buffer[80..82]);
                 dst
             },
-            accessory3: i16::from_le_bytes([buffer[82], buffer[83]]),
+            accessory3: u16::from_le_bytes([buffer[82], buffer[83]]),
             accessory3_raw: {
                 let mut dst: [u8; 2] = [0u8; 2];
                 dst.clone_from_slice(&buffer[82..84]);
                 dst
             },
-            headpalette: i16::from_le_bytes([buffer[84], buffer[85]]),
+            headpalette: u16::from_le_bytes([buffer[84], buffer[85]]),
             headpalette_raw: {
                 let mut dst: [u8; 2] = [0u8; 2];
                 dst.clone_from_slice(&buffer[84..86]);
                 dst
             },
-            bodypalette: i16::from_le_bytes([buffer[86], buffer[87]]),
+            bodypalette: u16::from_le_bytes([buffer[86], buffer[87]]),
             bodypalette_raw: {
                 let mut dst: [u8; 2] = [0u8; 2];
                 dst.clone_from_slice(&buffer[86..88]);
@@ -90223,7 +90283,7 @@ impl CharacterInfoNeoUnion {
                 dst.clone_from_slice(&buffer[117..118]);
                 dst
             },
-            char_num: u8::from_le_bytes([buffer[118]]),
+            char_num: i8::from_le_bytes([buffer[118]]),
             char_num_raw: {
                 let mut dst: [u8; 1] = [0u8; 1];
                 dst.clone_from_slice(&buffer[118..119]);
@@ -90235,7 +90295,7 @@ impl CharacterInfoNeoUnion {
                 dst.clone_from_slice(&buffer[119..120]);
                 dst
             },
-            b_is_changed_char_name: i16::from_le_bytes([buffer[120], buffer[121]]),
+            b_is_changed_char_name: u16::from_le_bytes([buffer[120], buffer[121]]),
             b_is_changed_char_name_raw: {
                 let mut dst: [u8; 2] = [0u8; 2];
                 dst.clone_from_slice(&buffer[120..122]);
@@ -90253,25 +90313,25 @@ impl CharacterInfoNeoUnion {
                 dst.clone_from_slice(&buffer[122..138]);
                 dst
             },
-            delete_date: i32::from_le_bytes([buffer[138], buffer[139], buffer[140], buffer[141]]),
+            delete_date: u32::from_le_bytes([buffer[138], buffer[139], buffer[140], buffer[141]]),
             delete_date_raw: {
                 let mut dst: [u8; 4] = [0u8; 4];
                 dst.clone_from_slice(&buffer[138..142]);
                 dst
             },
-            robe: i32::from_le_bytes([buffer[142], buffer[143], buffer[144], buffer[145]]),
+            robe: u32::from_le_bytes([buffer[142], buffer[143], buffer[144], buffer[145]]),
             robe_raw: {
                 let mut dst: [u8; 4] = [0u8; 4];
                 dst.clone_from_slice(&buffer[142..146]);
                 dst
             },
-            slot_addon: i32::from_le_bytes([buffer[146], buffer[147], buffer[148], buffer[149]]),
+            slot_addon: u32::from_le_bytes([buffer[146], buffer[147], buffer[148], buffer[149]]),
             slot_addon_raw: {
                 let mut dst: [u8; 4] = [0u8; 4];
                 dst.clone_from_slice(&buffer[146..150]);
                 dst
             },
-            rename_addon: i32::from_le_bytes([buffer[150], buffer[151], buffer[152], buffer[153]]),
+            rename_addon: u32::from_le_bytes([buffer[150], buffer[151], buffer[152], buffer[153]]),
             rename_addon_raw: {
                 let mut dst: [u8; 4] = [0u8; 4];
                 dst.clone_from_slice(&buffer[150..154]);
@@ -90291,22 +90351,22 @@ impl CharacterInfoNeoUnion {
         wtr.write_u32::<LittleEndian>(self.gid).unwrap();
         self.gid_raw = wtr.try_into().unwrap();
         wtr = vec![];
-        wtr.write_i64::<LittleEndian>(self.exp).unwrap();
+        wtr.write_u64::<LittleEndian>(self.exp).unwrap();
         self.exp_raw = wtr.try_into().unwrap();
         wtr = vec![];
-        wtr.write_i32::<LittleEndian>(self.money).unwrap();
+        wtr.write_u32::<LittleEndian>(self.money).unwrap();
         self.money_raw = wtr.try_into().unwrap();
         wtr = vec![];
-        wtr.write_i64::<LittleEndian>(self.jobexp).unwrap();
+        wtr.write_u64::<LittleEndian>(self.jobexp).unwrap();
         self.jobexp_raw = wtr.try_into().unwrap();
         wtr = vec![];
-        wtr.write_i32::<LittleEndian>(self.joblevel).unwrap();
+        wtr.write_u32::<LittleEndian>(self.joblevel).unwrap();
         self.joblevel_raw = wtr.try_into().unwrap();
         wtr = vec![];
-        wtr.write_i32::<LittleEndian>(self.bodystate).unwrap();
+        wtr.write_u32::<LittleEndian>(self.bodystate).unwrap();
         self.bodystate_raw = wtr.try_into().unwrap();
         wtr = vec![];
-        wtr.write_i32::<LittleEndian>(self.healthstate).unwrap();
+        wtr.write_u32::<LittleEndian>(self.healthstate).unwrap();
         self.healthstate_raw = wtr.try_into().unwrap();
         wtr = vec![];
         wtr.write_i32::<LittleEndian>(self.effectstate).unwrap();
@@ -90318,58 +90378,58 @@ impl CharacterInfoNeoUnion {
         wtr.write_i32::<LittleEndian>(self.honor).unwrap();
         self.honor_raw = wtr.try_into().unwrap();
         wtr = vec![];
-        wtr.write_i16::<LittleEndian>(self.jobpoint).unwrap();
+        wtr.write_u16::<LittleEndian>(self.jobpoint).unwrap();
         self.jobpoint_raw = wtr.try_into().unwrap();
         wtr = vec![];
-        wtr.write_i32::<LittleEndian>(self.hp).unwrap();
+        wtr.write_u32::<LittleEndian>(self.hp).unwrap();
         self.hp_raw = wtr.try_into().unwrap();
         wtr = vec![];
-        wtr.write_i32::<LittleEndian>(self.maxhp).unwrap();
+        wtr.write_u32::<LittleEndian>(self.maxhp).unwrap();
         self.maxhp_raw = wtr.try_into().unwrap();
         wtr = vec![];
-        wtr.write_i16::<LittleEndian>(self.sp).unwrap();
+        wtr.write_u16::<LittleEndian>(self.sp).unwrap();
         self.sp_raw = wtr.try_into().unwrap();
         wtr = vec![];
-        wtr.write_i16::<LittleEndian>(self.maxsp).unwrap();
+        wtr.write_u16::<LittleEndian>(self.maxsp).unwrap();
         self.maxsp_raw = wtr.try_into().unwrap();
         wtr = vec![];
-        wtr.write_i16::<LittleEndian>(self.speed).unwrap();
+        wtr.write_u16::<LittleEndian>(self.speed).unwrap();
         self.speed_raw = wtr.try_into().unwrap();
         wtr = vec![];
-        wtr.write_i16::<LittleEndian>(self.job).unwrap();
+        wtr.write_u16::<LittleEndian>(self.job).unwrap();
         self.job_raw = wtr.try_into().unwrap();
         wtr = vec![];
-        wtr.write_i16::<LittleEndian>(self.head).unwrap();
+        wtr.write_u16::<LittleEndian>(self.head).unwrap();
         self.head_raw = wtr.try_into().unwrap();
         wtr = vec![];
-        wtr.write_i16::<LittleEndian>(self.body).unwrap();
+        wtr.write_u16::<LittleEndian>(self.body).unwrap();
         self.body_raw = wtr.try_into().unwrap();
         wtr = vec![];
-        wtr.write_i16::<LittleEndian>(self.weapon).unwrap();
+        wtr.write_u16::<LittleEndian>(self.weapon).unwrap();
         self.weapon_raw = wtr.try_into().unwrap();
         wtr = vec![];
-        wtr.write_i16::<LittleEndian>(self.level).unwrap();
+        wtr.write_u16::<LittleEndian>(self.level).unwrap();
         self.level_raw = wtr.try_into().unwrap();
         wtr = vec![];
-        wtr.write_i16::<LittleEndian>(self.sppoint).unwrap();
+        wtr.write_u16::<LittleEndian>(self.sppoint).unwrap();
         self.sppoint_raw = wtr.try_into().unwrap();
         wtr = vec![];
-        wtr.write_i16::<LittleEndian>(self.accessory).unwrap();
+        wtr.write_u16::<LittleEndian>(self.accessory).unwrap();
         self.accessory_raw = wtr.try_into().unwrap();
         wtr = vec![];
-        wtr.write_i16::<LittleEndian>(self.shield).unwrap();
+        wtr.write_u16::<LittleEndian>(self.shield).unwrap();
         self.shield_raw = wtr.try_into().unwrap();
         wtr = vec![];
-        wtr.write_i16::<LittleEndian>(self.accessory2).unwrap();
+        wtr.write_u16::<LittleEndian>(self.accessory2).unwrap();
         self.accessory2_raw = wtr.try_into().unwrap();
         wtr = vec![];
-        wtr.write_i16::<LittleEndian>(self.accessory3).unwrap();
+        wtr.write_u16::<LittleEndian>(self.accessory3).unwrap();
         self.accessory3_raw = wtr.try_into().unwrap();
         wtr = vec![];
-        wtr.write_i16::<LittleEndian>(self.headpalette).unwrap();
+        wtr.write_u16::<LittleEndian>(self.headpalette).unwrap();
         self.headpalette_raw = wtr.try_into().unwrap();
         wtr = vec![];
-        wtr.write_i16::<LittleEndian>(self.bodypalette).unwrap();
+        wtr.write_u16::<LittleEndian>(self.bodypalette).unwrap();
         self.bodypalette_raw = wtr.try_into().unwrap();
         wtr = vec![];
         for item in self.name {
@@ -90395,13 +90455,13 @@ impl CharacterInfoNeoUnion {
         wtr.write_u8(self.luk).unwrap();
         self.luk_raw = wtr.try_into().unwrap();
         wtr = vec![];
-        wtr.write_u8(self.char_num).unwrap();
+        wtr.write_i8(self.char_num).unwrap();
         self.char_num_raw = wtr.try_into().unwrap();
         wtr = vec![];
         wtr.write_u8(self.haircolor).unwrap();
         self.haircolor_raw = wtr.try_into().unwrap();
         wtr = vec![];
-        wtr.write_i16::<LittleEndian>(self.b_is_changed_char_name).unwrap();
+        wtr.write_u16::<LittleEndian>(self.b_is_changed_char_name).unwrap();
         self.b_is_changed_char_name_raw = wtr.try_into().unwrap();
         wtr = vec![];
         for item in self.last_map {
@@ -90409,16 +90469,16 @@ impl CharacterInfoNeoUnion {
         }
         self.last_map_raw = wtr.try_into().unwrap();
         wtr = vec![];
-        wtr.write_i32::<LittleEndian>(self.delete_date).unwrap();
+        wtr.write_u32::<LittleEndian>(self.delete_date).unwrap();
         self.delete_date_raw = wtr.try_into().unwrap();
         wtr = vec![];
-        wtr.write_i32::<LittleEndian>(self.robe).unwrap();
+        wtr.write_u32::<LittleEndian>(self.robe).unwrap();
         self.robe_raw = wtr.try_into().unwrap();
         wtr = vec![];
-        wtr.write_i32::<LittleEndian>(self.slot_addon).unwrap();
+        wtr.write_u32::<LittleEndian>(self.slot_addon).unwrap();
         self.slot_addon_raw = wtr.try_into().unwrap();
         wtr = vec![];
-        wtr.write_i32::<LittleEndian>(self.rename_addon).unwrap();
+        wtr.write_u32::<LittleEndian>(self.rename_addon).unwrap();
         self.rename_addon_raw = wtr.try_into().unwrap();
         wtr = vec![];
         wtr.write_u8(self.sex).unwrap();
@@ -90476,37 +90536,37 @@ impl CharacterInfoNeoUnion {
     pub fn set_gid_raw(&mut self, value: [u8; 4]) {
         self.gid_raw = value;
     }
-    pub fn set_exp(&mut self, value: i64) {
+    pub fn set_exp(&mut self, value: u64) {
         self.exp = value;
     }
-    pub fn set_exp_raw(&mut self, value: [u8; 4]) {
+    pub fn set_exp_raw(&mut self, value: [u8; 8]) {
         self.exp_raw = value;
     }
-    pub fn set_money(&mut self, value: i32) {
+    pub fn set_money(&mut self, value: u32) {
         self.money = value;
     }
     pub fn set_money_raw(&mut self, value: [u8; 4]) {
         self.money_raw = value;
     }
-    pub fn set_jobexp(&mut self, value: i64) {
+    pub fn set_jobexp(&mut self, value: u64) {
         self.jobexp = value;
     }
-    pub fn set_jobexp_raw(&mut self, value: [u8; 4]) {
+    pub fn set_jobexp_raw(&mut self, value: [u8; 8]) {
         self.jobexp_raw = value;
     }
-    pub fn set_joblevel(&mut self, value: i32) {
+    pub fn set_joblevel(&mut self, value: u32) {
         self.joblevel = value;
     }
     pub fn set_joblevel_raw(&mut self, value: [u8; 4]) {
         self.joblevel_raw = value;
     }
-    pub fn set_bodystate(&mut self, value: i32) {
+    pub fn set_bodystate(&mut self, value: u32) {
         self.bodystate = value;
     }
     pub fn set_bodystate_raw(&mut self, value: [u8; 4]) {
         self.bodystate_raw = value;
     }
-    pub fn set_healthstate(&mut self, value: i32) {
+    pub fn set_healthstate(&mut self, value: u32) {
         self.healthstate = value;
     }
     pub fn set_healthstate_raw(&mut self, value: [u8; 4]) {
@@ -90530,109 +90590,109 @@ impl CharacterInfoNeoUnion {
     pub fn set_honor_raw(&mut self, value: [u8; 4]) {
         self.honor_raw = value;
     }
-    pub fn set_jobpoint(&mut self, value: i16) {
+    pub fn set_jobpoint(&mut self, value: u16) {
         self.jobpoint = value;
     }
     pub fn set_jobpoint_raw(&mut self, value: [u8; 2]) {
         self.jobpoint_raw = value;
     }
-    pub fn set_hp(&mut self, value: i32) {
+    pub fn set_hp(&mut self, value: u32) {
         self.hp = value;
     }
     pub fn set_hp_raw(&mut self, value: [u8; 4]) {
         self.hp_raw = value;
     }
-    pub fn set_maxhp(&mut self, value: i32) {
+    pub fn set_maxhp(&mut self, value: u32) {
         self.maxhp = value;
     }
     pub fn set_maxhp_raw(&mut self, value: [u8; 4]) {
         self.maxhp_raw = value;
     }
-    pub fn set_sp(&mut self, value: i16) {
+    pub fn set_sp(&mut self, value: u16) {
         self.sp = value;
     }
     pub fn set_sp_raw(&mut self, value: [u8; 2]) {
         self.sp_raw = value;
     }
-    pub fn set_maxsp(&mut self, value: i16) {
+    pub fn set_maxsp(&mut self, value: u16) {
         self.maxsp = value;
     }
     pub fn set_maxsp_raw(&mut self, value: [u8; 2]) {
         self.maxsp_raw = value;
     }
-    pub fn set_speed(&mut self, value: i16) {
+    pub fn set_speed(&mut self, value: u16) {
         self.speed = value;
     }
     pub fn set_speed_raw(&mut self, value: [u8; 2]) {
         self.speed_raw = value;
     }
-    pub fn set_job(&mut self, value: i16) {
+    pub fn set_job(&mut self, value: u16) {
         self.job = value;
     }
     pub fn set_job_raw(&mut self, value: [u8; 2]) {
         self.job_raw = value;
     }
-    pub fn set_head(&mut self, value: i16) {
+    pub fn set_head(&mut self, value: u16) {
         self.head = value;
     }
     pub fn set_head_raw(&mut self, value: [u8; 2]) {
         self.head_raw = value;
     }
-    pub fn set_body(&mut self, value: i16) {
+    pub fn set_body(&mut self, value: u16) {
         self.body = value;
     }
     pub fn set_body_raw(&mut self, value: [u8; 2]) {
         self.body_raw = value;
     }
-    pub fn set_weapon(&mut self, value: i16) {
+    pub fn set_weapon(&mut self, value: u16) {
         self.weapon = value;
     }
     pub fn set_weapon_raw(&mut self, value: [u8; 2]) {
         self.weapon_raw = value;
     }
-    pub fn set_level(&mut self, value: i16) {
+    pub fn set_level(&mut self, value: u16) {
         self.level = value;
     }
     pub fn set_level_raw(&mut self, value: [u8; 2]) {
         self.level_raw = value;
     }
-    pub fn set_sppoint(&mut self, value: i16) {
+    pub fn set_sppoint(&mut self, value: u16) {
         self.sppoint = value;
     }
     pub fn set_sppoint_raw(&mut self, value: [u8; 2]) {
         self.sppoint_raw = value;
     }
-    pub fn set_accessory(&mut self, value: i16) {
+    pub fn set_accessory(&mut self, value: u16) {
         self.accessory = value;
     }
     pub fn set_accessory_raw(&mut self, value: [u8; 2]) {
         self.accessory_raw = value;
     }
-    pub fn set_shield(&mut self, value: i16) {
+    pub fn set_shield(&mut self, value: u16) {
         self.shield = value;
     }
     pub fn set_shield_raw(&mut self, value: [u8; 2]) {
         self.shield_raw = value;
     }
-    pub fn set_accessory2(&mut self, value: i16) {
+    pub fn set_accessory2(&mut self, value: u16) {
         self.accessory2 = value;
     }
     pub fn set_accessory2_raw(&mut self, value: [u8; 2]) {
         self.accessory2_raw = value;
     }
-    pub fn set_accessory3(&mut self, value: i16) {
+    pub fn set_accessory3(&mut self, value: u16) {
         self.accessory3 = value;
     }
     pub fn set_accessory3_raw(&mut self, value: [u8; 2]) {
         self.accessory3_raw = value;
     }
-    pub fn set_headpalette(&mut self, value: i16) {
+    pub fn set_headpalette(&mut self, value: u16) {
         self.headpalette = value;
     }
     pub fn set_headpalette_raw(&mut self, value: [u8; 2]) {
         self.headpalette_raw = value;
     }
-    pub fn set_bodypalette(&mut self, value: i16) {
+    pub fn set_bodypalette(&mut self, value: u16) {
         self.bodypalette = value;
     }
     pub fn set_bodypalette_raw(&mut self, value: [u8; 2]) {
@@ -90680,7 +90740,7 @@ impl CharacterInfoNeoUnion {
     pub fn set_luk_raw(&mut self, value: [u8; 1]) {
         self.luk_raw = value;
     }
-    pub fn set_char_num(&mut self, value: u8) {
+    pub fn set_char_num(&mut self, value: i8) {
         self.char_num = value;
     }
     pub fn set_char_num_raw(&mut self, value: [u8; 1]) {
@@ -90692,7 +90752,7 @@ impl CharacterInfoNeoUnion {
     pub fn set_haircolor_raw(&mut self, value: [u8; 1]) {
         self.haircolor_raw = value;
     }
-    pub fn set_b_is_changed_char_name(&mut self, value: i16) {
+    pub fn set_b_is_changed_char_name(&mut self, value: u16) {
         self.b_is_changed_char_name = value;
     }
     pub fn set_b_is_changed_char_name_raw(&mut self, value: [u8; 2]) {
@@ -90704,25 +90764,25 @@ impl CharacterInfoNeoUnion {
     pub fn set_last_map_raw(&mut self, value: [u8; 16]) {
         self.last_map_raw = value;
     }
-    pub fn set_delete_date(&mut self, value: i32) {
+    pub fn set_delete_date(&mut self, value: u32) {
         self.delete_date = value;
     }
     pub fn set_delete_date_raw(&mut self, value: [u8; 4]) {
         self.delete_date_raw = value;
     }
-    pub fn set_robe(&mut self, value: i32) {
+    pub fn set_robe(&mut self, value: u32) {
         self.robe = value;
     }
     pub fn set_robe_raw(&mut self, value: [u8; 4]) {
         self.robe_raw = value;
     }
-    pub fn set_slot_addon(&mut self, value: i32) {
+    pub fn set_slot_addon(&mut self, value: u32) {
         self.slot_addon = value;
     }
     pub fn set_slot_addon_raw(&mut self, value: [u8; 4]) {
         self.slot_addon_raw = value;
     }
-    pub fn set_rename_addon(&mut self, value: i32) {
+    pub fn set_rename_addon(&mut self, value: u32) {
         self.rename_addon = value;
     }
     pub fn set_rename_addon_raw(&mut self, value: [u8; 4]) {
@@ -90740,11 +90800,11 @@ impl CharacterInfoNeoUnion {
         gid: 0,
         gid_raw: [0; 4],
         exp: 0,
-        exp_raw: [0; 4],
+        exp_raw: [0; 8],
         money: 0,
         money_raw: [0; 4],
         jobexp: 0,
-        jobexp_raw: [0; 4],
+        jobexp_raw: [0; 8],
         joblevel: 0,
         joblevel_raw: [0; 4],
         bodystate: 0,
@@ -91185,6 +91245,8 @@ impl EquipmentitemExtrainfo {
         wtr = vec![];
         wtr.write_u8(self.refining_level).unwrap();
         self.refining_level_raw = wtr.try_into().unwrap();
+        self.slot.fill_raw();
+        self.slot_raw = self.slot.clone().raw.try_into().unwrap();
 
         wtr = vec![];
         wtr.append(&mut self.index_raw.to_vec());
@@ -92087,6 +92149,8 @@ impl PurchaseItemFrommc {
         wtr = vec![];
         wtr.write_u8(self.refining_level).unwrap();
         self.refining_level_raw = wtr.try_into().unwrap();
+        self.slot.fill_raw();
+        self.slot_raw = self.slot.clone().raw.try_into().unwrap();
 
         wtr = vec![];
         wtr.append(&mut self.price_raw.to_vec());
@@ -92319,6 +92383,8 @@ impl PurchaseMyitem {
         wtr = vec![];
         wtr.write_u8(self.refining_level).unwrap();
         self.refining_level_raw = wtr.try_into().unwrap();
+        self.slot.fill_raw();
+        self.slot_raw = self.slot.clone().raw.try_into().unwrap();
 
         wtr = vec![];
         wtr.append(&mut self.price_raw.to_vec());
@@ -93987,6 +94053,8 @@ impl NormalitemExtrainfo2 {
         wtr = vec![];
         wtr.write_u16::<LittleEndian>(self.wear_state).unwrap();
         self.wear_state_raw = wtr.try_into().unwrap();
+        self.slot.fill_raw();
+        self.slot_raw = self.slot.clone().raw.try_into().unwrap();
 
         wtr = vec![];
         wtr.append(&mut self.index_raw.to_vec());
@@ -94102,6 +94170,8 @@ impl RepairitemInfo {
         wtr = vec![];
         wtr.write_u8(self.refining_level).unwrap();
         self.refining_level_raw = wtr.try_into().unwrap();
+        self.slot.fill_raw();
+        self.slot_raw = self.slot.clone().raw.try_into().unwrap();
 
         wtr = vec![];
         wtr.append(&mut self.index_raw.to_vec());
@@ -94665,6 +94735,8 @@ impl AuctionItemSearchInfo {
         wtr = vec![];
         wtr.write_u8(self.refining_level).unwrap();
         self.refining_level_raw = wtr.try_into().unwrap();
+        self.slot.fill_raw();
+        self.slot_raw = self.slot.clone().raw.try_into().unwrap();
 
         wtr = vec![];
         wtr.write_i32::<LittleEndian>(self.now_price).unwrap();
@@ -94989,6 +95061,8 @@ impl EquipmentitemExtrainfo2 {
         wtr = vec![];
         wtr.write_u8(self.refining_level).unwrap();
         self.refining_level_raw = wtr.try_into().unwrap();
+        self.slot.fill_raw();
+        self.slot_raw = self.slot.clone().raw.try_into().unwrap();
 
         wtr = vec![];
         wtr.write_i32::<LittleEndian>(self.hire_expire_date).unwrap();
@@ -95608,6 +95682,8 @@ impl EquipmentitemExtrainfo301 {
         wtr = vec![];
         wtr.write_u8(self.refining_level).unwrap();
         self.refining_level_raw = wtr.try_into().unwrap();
+        self.slot.fill_raw();
+        self.slot_raw = self.slot.clone().raw.try_into().unwrap();
 
         wtr = vec![];
         wtr.write_i32::<LittleEndian>(self.hire_expire_date).unwrap();
@@ -95810,6 +95886,8 @@ impl NormalitemExtrainfo3 {
         wtr = vec![];
         wtr.write_u16::<LittleEndian>(self.wear_state).unwrap();
         self.wear_state_raw = wtr.try_into().unwrap();
+        self.slot.fill_raw();
+        self.slot_raw = self.slot.clone().raw.try_into().unwrap();
 
         wtr = vec![];
         wtr.write_i32::<LittleEndian>(self.hire_expire_date).unwrap();
@@ -96209,6 +96287,8 @@ impl PartyBookingAdInfo {
         wtr = vec![];
         wtr.write_i32::<LittleEndian>(self.expire_time).unwrap();
         self.expire_time_raw = wtr.try_into().unwrap();
+        self.detail.fill_raw();
+        self.detail_raw = self.detail.clone().raw;
 
         wtr = vec![];
         wtr.append(&mut self.index_raw.to_vec());
