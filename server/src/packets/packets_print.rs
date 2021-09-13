@@ -17737,6 +17737,100 @@ impl Display for PacketMapConnection {
     }
 }
 
+impl Debug for PacketPincodeLoginstate {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("PacketPincodeLoginstate")
+            .field("id", &self.id())
+            .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
+            .field("pincode_seed[2, 6]", &format!("{:02X?}", &self.pincode_seed_raw))
+            .field("aid[6, 10]", &format!("{:02X?}", &self.aid_raw))
+            .field("response[10, 12]", &format!("{:02X?}", &self.response_raw))
+        .finish()
+    }
+}
+
+impl Display for PacketPincodeLoginstate {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        let mut fields = Vec::new();
+        fields.push(format!("packet_id(short as i16)[0, 2]: {}", &self.packet_id));
+        fields.push(format!("pincode_seed(int as i32)[2, 6]: {}", &self.pincode_seed));
+        fields.push(format!("aid(unsigned long as u32)[6, 10]: {}", &self.aid));
+        fields.push(format!("response(short as i16)[10, 12]: {}", &self.response));
+        write!(f, "PacketPincodeLoginstate\n {}", fields.join(",\n "))
+    }
+}
+
+impl Debug for PacketChMakeChar2 {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("PacketChMakeChar2")
+            .field("id", &self.id())
+            .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
+            .field("name[2, 26]", &format!("{:02X?}", &self.name_raw))
+            .field("char_num[26, 27]", &format!("{:02X?}", &self.char_num_raw))
+            .field("head_pal[27, 29]", &format!("{:02X?}", &self.head_pal_raw))
+            .field("head[29, 31]", &format!("{:02X?}", &self.head_raw))
+            .field("class[31, 35]", &format!("{:02X?}", &self.class_raw))
+            .field("sex[35, 36]", &format!("{:02X?}", &self.sex_raw))
+        .finish()
+    }
+}
+
+impl Display for PacketChMakeChar2 {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        let mut fields = Vec::new();
+        fields.push(format!("packet_id(short as i16)[0, 2]: {}", &self.packet_id));
+        fields.push(format!("name(char[] as char[])[2, 26]: {}", &self.name.pretty_output()));
+        fields.push(format!("char_num(unsigned char as u8)[26, 27]: {}", &self.char_num));
+        fields.push(format!("head_pal(short as i16)[27, 29]: {}", &self.head_pal));
+        fields.push(format!("head(short as i16)[29, 31]: {}", &self.head));
+        fields.push(format!("class(int as i32)[31, 35]: {}", &self.class));
+        fields.push(format!("sex(unsigned char as u8)[35, 36]: {}", &self.sex));
+        write!(f, "PacketChMakeChar2\n {}", fields.join(",\n "))
+    }
+}
+
+impl Debug for PacketChDeleteChar4Reserved {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("PacketChDeleteChar4Reserved")
+            .field("id", &self.id())
+            .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
+            .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
+        .finish()
+    }
+}
+
+impl Display for PacketChDeleteChar4Reserved {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        let mut fields = Vec::new();
+        fields.push(format!("packet_id(short as i16)[0, 2]: {}", &self.packet_id));
+        fields.push(format!("gid(unsigned long as u32)[2, 6]: {}", &self.gid));
+        write!(f, "PacketChDeleteChar4Reserved\n {}", fields.join(",\n "))
+    }
+}
+
+impl Debug for PacketHcDeleteChar4Reserved {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("PacketHcDeleteChar4Reserved")
+            .field("id", &self.id())
+            .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
+            .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
+            .field("result[6, 10]", &format!("{:02X?}", &self.result_raw))
+            .field("delete_reserved_date[10, 14]", &format!("{:02X?}", &self.delete_reserved_date_raw))
+        .finish()
+    }
+}
+
+impl Display for PacketHcDeleteChar4Reserved {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        let mut fields = Vec::new();
+        fields.push(format!("packet_id(short as i16)[0, 2]: {}", &self.packet_id));
+        fields.push(format!("gid(unsigned long as u32)[2, 6]: {}", &self.gid));
+        fields.push(format!("result(int as i32)[6, 10]: {}", &self.result));
+        fields.push(format!("delete_reserved_date(long as i32)[10, 14]: {}", &self.delete_reserved_date));
+        write!(f, "PacketHcDeleteChar4Reserved\n {}", fields.join(",\n "))
+    }
+}
+
 impl Debug for ServerAddr {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("ServerAddr")
@@ -17804,24 +17898,24 @@ impl Debug for CharacterInfoNeoUnion {
             .field("effectstate[36, 40]", &format!("{:02X?}", &self.effectstate_raw))
             .field("virtue[40, 44]", &format!("{:02X?}", &self.virtue_raw))
             .field("honor[44, 48]", &format!("{:02X?}", &self.honor_raw))
-            .field("jobpoint[48, 50]", &format!("{:02X?}", &self.jobpoint_raw))
+            .field("status_point[48, 50]", &format!("{:02X?}", &self.status_point_raw))
             .field("hp[50, 54]", &format!("{:02X?}", &self.hp_raw))
             .field("maxhp[54, 58]", &format!("{:02X?}", &self.maxhp_raw))
             .field("sp[58, 60]", &format!("{:02X?}", &self.sp_raw))
             .field("maxsp[60, 62]", &format!("{:02X?}", &self.maxsp_raw))
             .field("speed[62, 64]", &format!("{:02X?}", &self.speed_raw))
-            .field("job[64, 66]", &format!("{:02X?}", &self.job_raw))
+            .field("class[64, 66]", &format!("{:02X?}", &self.class_raw))
             .field("head[66, 68]", &format!("{:02X?}", &self.head_raw))
             .field("body[68, 70]", &format!("{:02X?}", &self.body_raw))
             .field("weapon[70, 72]", &format!("{:02X?}", &self.weapon_raw))
             .field("level[72, 74]", &format!("{:02X?}", &self.level_raw))
-            .field("sppoint[74, 76]", &format!("{:02X?}", &self.sppoint_raw))
-            .field("accessory[76, 78]", &format!("{:02X?}", &self.accessory_raw))
+            .field("skill_point[74, 76]", &format!("{:02X?}", &self.skill_point_raw))
+            .field("head_bottom[76, 78]", &format!("{:02X?}", &self.head_bottom_raw))
             .field("shield[78, 80]", &format!("{:02X?}", &self.shield_raw))
-            .field("accessory2[80, 82]", &format!("{:02X?}", &self.accessory2_raw))
-            .field("accessory3[82, 84]", &format!("{:02X?}", &self.accessory3_raw))
-            .field("headpalette[84, 86]", &format!("{:02X?}", &self.headpalette_raw))
-            .field("bodypalette[86, 88]", &format!("{:02X?}", &self.bodypalette_raw))
+            .field("head_top[80, 82]", &format!("{:02X?}", &self.head_top_raw))
+            .field("head_mid[82, 84]", &format!("{:02X?}", &self.head_mid_raw))
+            .field("hair_color[84, 86]", &format!("{:02X?}", &self.hair_color_raw))
+            .field("body_color[86, 88]", &format!("{:02X?}", &self.body_color_raw))
             .field("name[88, 112]", &format!("{:02X?}", &self.name_raw))
             .field("str[112, 113]", &format!("{:02X?}", &self.str_raw))
             .field("agi[113, 114]", &format!("{:02X?}", &self.agi_raw))
@@ -17855,24 +17949,24 @@ impl Display for CharacterInfoNeoUnion {
         fields.push(format!("effectstate(int as i32)[36, 40]: {}", &self.effectstate));
         fields.push(format!("virtue(int as i32)[40, 44]: {}", &self.virtue));
         fields.push(format!("honor(int as i32)[44, 48]: {}", &self.honor));
-        fields.push(format!("jobpoint(unsigned short as u16)[48, 50]: {}", &self.jobpoint));
+        fields.push(format!("status_point(unsigned short as u16)[48, 50]: {}", &self.status_point));
         fields.push(format!("hp(unsigned int as u32)[50, 54]: {}", &self.hp));
         fields.push(format!("maxhp(unsigned int as u32)[54, 58]: {}", &self.maxhp));
         fields.push(format!("sp(unsigned short as u16)[58, 60]: {}", &self.sp));
         fields.push(format!("maxsp(unsigned short as u16)[60, 62]: {}", &self.maxsp));
         fields.push(format!("speed(unsigned short as u16)[62, 64]: {}", &self.speed));
-        fields.push(format!("job(unsigned short as u16)[64, 66]: {}", &self.job));
+        fields.push(format!("class(unsigned short as u16)[64, 66]: {}", &self.class));
         fields.push(format!("head(unsigned short as u16)[66, 68]: {}", &self.head));
         fields.push(format!("body(unsigned short as u16)[68, 70]: {}", &self.body));
         fields.push(format!("weapon(unsigned short as u16)[70, 72]: {}", &self.weapon));
         fields.push(format!("level(unsigned short as u16)[72, 74]: {}", &self.level));
-        fields.push(format!("sppoint(unsigned short as u16)[74, 76]: {}", &self.sppoint));
-        fields.push(format!("accessory(unsigned short as u16)[76, 78]: {}", &self.accessory));
+        fields.push(format!("skill_point(unsigned short as u16)[74, 76]: {}", &self.skill_point));
+        fields.push(format!("head_bottom(unsigned short as u16)[76, 78]: {}", &self.head_bottom));
         fields.push(format!("shield(unsigned short as u16)[78, 80]: {}", &self.shield));
-        fields.push(format!("accessory2(unsigned short as u16)[80, 82]: {}", &self.accessory2));
-        fields.push(format!("accessory3(unsigned short as u16)[82, 84]: {}", &self.accessory3));
-        fields.push(format!("headpalette(unsigned short as u16)[84, 86]: {}", &self.headpalette));
-        fields.push(format!("bodypalette(unsigned short as u16)[86, 88]: {}", &self.bodypalette));
+        fields.push(format!("head_top(unsigned short as u16)[80, 82]: {}", &self.head_top));
+        fields.push(format!("head_mid(unsigned short as u16)[82, 84]: {}", &self.head_mid));
+        fields.push(format!("hair_color(unsigned short as u16)[84, 86]: {}", &self.hair_color));
+        fields.push(format!("body_color(unsigned short as u16)[86, 88]: {}", &self.body_color));
         fields.push(format!("name(char[] as char[])[88, 112]: {}", &self.name.pretty_output()));
         fields.push(format!("str(unsigned char as u8)[112, 113]: {}", &self.str));
         fields.push(format!("agi(unsigned char as u8)[113, 114]: {}", &self.agi));

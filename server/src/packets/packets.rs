@@ -10010,6 +10010,60 @@ pub struct PacketMapConnection {
 }
 
 #[derive(Clone)]
+pub struct PacketPincodeLoginstate {
+    pub raw: Vec<u8>,
+    pub packet_id: i16,
+    pub packet_id_raw: [u8; 2],
+    pub pincode_seed: i32,
+    pub pincode_seed_raw: [u8; 4],
+    pub aid: u32,
+    pub aid_raw: [u8; 4],
+    pub response: i16,
+    pub response_raw: [u8; 2],
+}
+
+#[derive(Clone)]
+pub struct PacketChMakeChar2 {
+    pub raw: Vec<u8>,
+    pub packet_id: i16,
+    pub packet_id_raw: [u8; 2],
+    pub name: [char; 24],
+    pub name_raw: [u8; 24],
+    pub char_num: u8,
+    pub char_num_raw: [u8; 1],
+    pub head_pal: i16,
+    pub head_pal_raw: [u8; 2],
+    pub head: i16,
+    pub head_raw: [u8; 2],
+    pub class: i32,
+    pub class_raw: [u8; 4],
+    pub sex: u8,
+    pub sex_raw: [u8; 1],
+}
+
+#[derive(Clone)]
+pub struct PacketChDeleteChar4Reserved {
+    pub raw: Vec<u8>,
+    pub packet_id: i16,
+    pub packet_id_raw: [u8; 2],
+    pub gid: u32,
+    pub gid_raw: [u8; 4],
+}
+
+#[derive(Clone)]
+pub struct PacketHcDeleteChar4Reserved {
+    pub raw: Vec<u8>,
+    pub packet_id: i16,
+    pub packet_id_raw: [u8; 2],
+    pub gid: u32,
+    pub gid_raw: [u8; 4],
+    pub result: i32,
+    pub result_raw: [u8; 4],
+    pub delete_reserved_date: i32,
+    pub delete_reserved_date_raw: [u8; 4],
+}
+
+#[derive(Clone)]
 pub struct ServerAddr {
     pub raw: Vec<u8>,
     pub ip: u32,
@@ -10068,8 +10122,8 @@ pub struct CharacterInfoNeoUnion {
     pub virtue_raw: [u8; 4],
     pub honor: i32,
     pub honor_raw: [u8; 4],
-    pub jobpoint: u16,
-    pub jobpoint_raw: [u8; 2],
+    pub status_point: u16,
+    pub status_point_raw: [u8; 2],
     pub hp: u32,
     pub hp_raw: [u8; 4],
     pub maxhp: u32,
@@ -10080,8 +10134,8 @@ pub struct CharacterInfoNeoUnion {
     pub maxsp_raw: [u8; 2],
     pub speed: u16,
     pub speed_raw: [u8; 2],
-    pub job: u16,
-    pub job_raw: [u8; 2],
+    pub class: u16,
+    pub class_raw: [u8; 2],
     pub head: u16,
     pub head_raw: [u8; 2],
     pub body: u16,
@@ -10090,20 +10144,20 @@ pub struct CharacterInfoNeoUnion {
     pub weapon_raw: [u8; 2],
     pub level: u16,
     pub level_raw: [u8; 2],
-    pub sppoint: u16,
-    pub sppoint_raw: [u8; 2],
-    pub accessory: u16,
-    pub accessory_raw: [u8; 2],
+    pub skill_point: u16,
+    pub skill_point_raw: [u8; 2],
+    pub head_bottom: u16,
+    pub head_bottom_raw: [u8; 2],
     pub shield: u16,
     pub shield_raw: [u8; 2],
-    pub accessory2: u16,
-    pub accessory2_raw: [u8; 2],
-    pub accessory3: u16,
-    pub accessory3_raw: [u8; 2],
-    pub headpalette: u16,
-    pub headpalette_raw: [u8; 2],
-    pub bodypalette: u16,
-    pub bodypalette_raw: [u8; 2],
+    pub head_top: u16,
+    pub head_top_raw: [u8; 2],
+    pub head_mid: u16,
+    pub head_mid_raw: [u8; 2],
+    pub hair_color: u16,
+    pub hair_color_raw: [u8; 2],
+    pub body_color: u16,
+    pub body_color_raw: [u8; 2],
     pub name: [char; 24],
     pub name_raw: [u8; 24],
     pub str: u8,

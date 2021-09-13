@@ -1,19 +1,5 @@
-[package]
-name = "rust-ragnarok-server"
-version = "0.1.0"
-edition = "2018"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
-[dependencies]
-byteorder = "1.4.3"
-lazy_static  = "1.4.0"
-maplit = "1.0.2"
-regex = "1.5"
-tokio = { version = "1", features = ["full"] }
-sqlx = { version = "0.5", features = [ "runtime-tokio-rustls", "mysql" ] }
-rand = "0.8"
-
-[[bin]]
-name = "tool"
-path = "tools/packets/main.rs"
+[workspace]
+members = [
+    "server",
+    "lib/sql"
+]

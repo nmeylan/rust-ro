@@ -48,8 +48,8 @@ pub struct Type {
 }
 
 fn main() {
-    let packet_db_path = Path::new("tools/packets/packets_db");
-    let output_path = Path::new("src/packets");
+    let packet_db_path = Path::new("server/tools/packets/packets_db");
+    let output_path = Path::new("server/src/packets");
     let (packets, nested_structs) = parse(packet_db_path);
     write_packets_struct(packets, &nested_structs, output_path);
 }

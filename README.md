@@ -9,5 +9,10 @@ The goal is to rewrite some part of hercules on rust while forwarding client req
 - packet structure generator
 - packet parser
 - packet debug
+- login
+- display char list
+- create char
+- delete char
+
 
 ![packets](img/packet_analyzer.PNG)
