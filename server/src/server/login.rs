@@ -22,8 +22,9 @@ pub(crate) fn handle_login(server: &Server, packet: &mut dyn Packet, runtime: &R
             char_server_socket: None,
             map_server_socket: None,
             account_id: packet_response.aid,
-            login_id1: packet_response.auth_code,
-            login_id2: packet_response.user_level
+            auth_code: packet_response.auth_code,
+            user_level: packet_response.user_level,
+            character: None
         };
         let mut server_context_guard = server.server_context.lock().unwrap();
         server_context_guard.sessions.insert(packet_response.aid.clone(), new_user_session);
@@ -59,7 +60,6 @@ pub async fn authenticate(packet: &PacketCaLogin, repository: &Repository<MySql>
     if row_result.is_ok() {
         let row = row_result.unwrap();
         let account_id: u32 = row.get("account_id");
-        // TODO check credentials with database entries
         let mut ac_accept_login2 = PacketAcAcceptLogin2::new();
         ac_accept_login2.set_packet_length(224);
         ac_accept_login2.set_aid(account_id);

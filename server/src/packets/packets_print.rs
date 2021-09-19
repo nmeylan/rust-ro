@@ -5094,9 +5094,9 @@ impl Display for PacketCzMovetoMap {
     }
 }
 
-impl Debug for PacketZcCouplestatus {
+impl Debug for PacketZcStatusValues {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        f.debug_struct("PacketZcCouplestatus")
+        f.debug_struct("PacketZcStatusValues")
             .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("status_type[2, 6]", &format!("{:02X?}", &self.status_type_raw))
@@ -5106,14 +5106,14 @@ impl Debug for PacketZcCouplestatus {
     }
 }
 
-impl Display for PacketZcCouplestatus {
+impl Display for PacketZcStatusValues {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
         fields.push(format!("packet_id(short as i16)[0, 2]: {}", &self.packet_id));
         fields.push(format!("status_type(unsigned long as u32)[2, 6]: {}", &self.status_type));
         fields.push(format!("default_status(int as i32)[6, 10]: {}", &self.default_status));
         fields.push(format!("plus_status(int as i32)[10, 14]: {}", &self.plus_status));
-        write!(f, "PacketZcCouplestatus\n {}", fields.join(",\n "))
+        write!(f, "PacketZcStatusValues\n {}", fields.join(",\n "))
     }
 }
 
@@ -17828,6 +17828,44 @@ impl Display for PacketHcDeleteChar4Reserved {
         fields.push(format!("result(int as i32)[6, 10]: {}", &self.result));
         fields.push(format!("delete_reserved_date(long as i32)[10, 14]: {}", &self.delete_reserved_date));
         write!(f, "PacketHcDeleteChar4Reserved\n {}", fields.join(",\n "))
+    }
+}
+
+impl Debug for PacketZcInventoryExpansionInfo {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("PacketZcInventoryExpansionInfo")
+            .field("id", &self.id())
+            .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
+            .field("expansion_size[2, 4]", &format!("{:02X?}", &self.expansion_size_raw))
+        .finish()
+    }
+}
+
+impl Display for PacketZcInventoryExpansionInfo {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        let mut fields = Vec::new();
+        fields.push(format!("packet_id(short as i16)[0, 2]: {}", &self.packet_id));
+        fields.push(format!("expansion_size(short as i16)[2, 4]: {}", &self.expansion_size));
+        write!(f, "PacketZcInventoryExpansionInfo\n {}", fields.join(",\n "))
+    }
+}
+
+impl Debug for PacketZcOverweightPercent {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("PacketZcOverweightPercent")
+            .field("id", &self.id())
+            .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
+            .field("percent[2, 6]", &format!("{:02X?}", &self.percent_raw))
+        .finish()
+    }
+}
+
+impl Display for PacketZcOverweightPercent {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        let mut fields = Vec::new();
+        fields.push(format!("packet_id(short as i16)[0, 2]: {}", &self.packet_id));
+        fields.push(format!("percent(int as i32)[2, 6]: {}", &self.percent));
+        write!(f, "PacketZcOverweightPercent\n {}", fields.join(",\n "))
     }
 }
 

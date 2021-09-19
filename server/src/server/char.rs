@@ -1,5 +1,5 @@
-use crate::server::core::{Server, FeatureState, Session};
-use crate::packets::packets::{Packet, PacketChEnter, PacketHcRefuseEnter, CharacterInfoNeoUnion, PacketHcAcceptEnterNeoUnionHeader, PacketHcAcceptEnterNeoUnion, PacketPincodeLoginstate, PacketChMakeChar2, PacketHcAcceptMakecharNeoUnion, PacketChDeleteChar4Reserved, PacketHcDeleteChar4Reserved};
+use crate::server::core::{Server, FeatureState, Session, CharacterSession};
+use crate::packets::packets::{Packet, PacketChEnter, PacketHcRefuseEnter, CharacterInfoNeoUnion, PacketHcAcceptEnterNeoUnionHeader, PacketHcAcceptEnterNeoUnion, PacketPincodeLoginstate, PacketChMakeChar2, PacketHcAcceptMakecharNeoUnion, PacketChDeleteChar4Reserved, PacketHcDeleteChar4Reserved, PacketChSelectChar, PacketChSendMapInfo, PacketCzEnter2, PacketMapConnection, PacketZcInventoryExpansionInfo, PacketZcOverweightPercent, PacketZcAcceptEnter2, PacketZcNpcackMapmove, PacketZcStatusValues, PacketZcParChange, PacketZcAttackRange, PacketZcNotifyChat};
 use crate::repository::lib::Repository;
 use sqlx::{MySql, Error, Row};
 use tokio::runtime::Runtime;
@@ -9,6 +9,11 @@ use std::io::Write;
 use byteorder::{LittleEndian, WriteBytesExt, BigEndian};
 use crate::repository::model::char_model::{CharInsertModel, CharSelectModel};
 use sqlx::mysql::{MySqlQueryResult, MySqlRow};
+use crate::util::string::StringUtil;
+use std::net::Shutdown::Both;
+use crate::util::packet::chain_packets;
+use std::time::SystemTime;
+use crate::server::enums::StatusTypes;
 
 pub fn handle_char_enter(server: &Server, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<Mutex<TcpStream>>) -> FeatureState {
     let packet_char_enter = packet.as_any().downcast_ref::<PacketChEnter>().unwrap();
@@ -19,29 +24,27 @@ pub fn handle_char_enter(server: &Server, packet: &mut dyn Packet, runtime: &Run
     if server_context_guard.sessions.contains_key(&packet_char_enter.aid) {
         let mut session = server_context_guard.sessions.get_mut(&packet_char_enter.aid).unwrap();
         session.set_char_server_socket(tcp_stream);
-        if session.login_id1 == packet_char_enter.auth_code && session.login_id2 == packet_char_enter.user_level {
-            let res = runtime.block_on(async {
+        if session.auth_code == packet_char_enter.auth_code && session.user_level == packet_char_enter.user_level {
+            let packet_hc_accept_enter_neo_union = runtime.block_on(async {
                 load_chars_info(session.account_id, &server.repository).await
             });
             let mut tcp_stream_guard = session.char_server_socket.as_ref().unwrap().lock().unwrap();
-            // The pincode packet should be appended to PacketHcAcceptEnterNeoUnionHeader packet
             let mut pincode_loginstate = PacketPincodeLoginstate::new();
             pincode_loginstate.set_aid(session.account_id);
-            pincode_loginstate.set_pincode_seed(session.login_id1);
+            pincode_loginstate.set_pincode_seed(session.auth_code);
             pincode_loginstate.fill_raw();
-            let mut packet_res = res.raw();
-            let mut pincode_res = pincode_loginstate.raw();
-            let char_info_packet: Vec<u8> = packet_res.iter().cloned().chain(pincode_res.iter().cloned()).collect();
+            // The pincode packet should be appended to PacketHcAcceptEnterNeoUnionHeader packet
+            let final_response_packet: Vec<u8> = chain_packets(vec![&packet_hc_accept_enter_neo_union, &pincode_loginstate]);
             let mut wtr = vec![];
             // A "account id packet" should be sent just before char info packet
             wtr.write_u32::<LittleEndian>(session.account_id);
             tcp_stream_guard.write(&wtr);
             tcp_stream_guard.flush();
-            tcp_stream_guard.write(&char_info_packet);
+            tcp_stream_guard.write(&final_response_packet);
             tcp_stream_guard.flush();
             std::mem::drop(tcp_stream_guard);
             std::mem::drop(server_context_guard);
-            return FeatureState::Implemented(Box::new(res));
+            return FeatureState::Implemented(Box::new(packet_hc_accept_enter_neo_union));
         }
         // should not happen, but in case of forged packet, remove session
         server_context_guard.sessions.remove(&packet_char_enter.aid);
@@ -124,6 +127,193 @@ pub fn handle_delete_reserved_char(server: &Server, packet: &mut dyn Packet, run
     tcp_stream_guard.write(&packet_hc_delete_char4reserved.raw());
     tcp_stream_guard.flush();
     return FeatureState::Implemented(Box::new(packet_hc_delete_char4reserved));
+}
+
+pub fn handle_select_char(server: &Server, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<Mutex<TcpStream>>, session_id: u32) -> FeatureState {
+    let packet_select_char = packet.as_any().downcast_ref::<PacketChSelectChar>().unwrap();
+    let row = runtime.block_on(async {
+       sqlx::query("SELECT char_id, last_map, last_x, last_y, name FROM `char` WHERE account_id = ? AND char_num = ?")
+            .bind(session_id)
+            .bind(packet_select_char.char_num)
+            .fetch_one(&server.repository.pool).await.unwrap()
+    });
+    let mut server_context_guard = server.server_context.lock().unwrap();
+    let mut session = server_context_guard.sessions.get_mut(&session_id).unwrap();
+    let char_id: u32 = row.get("char_id");
+    let last_x: u16 = row.get("last_x");
+    let last_y: u16 = row.get("last_y");
+    let mut last_map: String = row.get("last_map");
+    let mut packet_ch_send_map_info = PacketChSendMapInfo::new();
+    packet_ch_send_map_info.set_gid(char_id.clone());
+    let mut map_name = [0 as char; 16];
+    let mut char_name = [0 as char; 24];
+    last_map = format!("{}.gat", last_map);
+    last_map.fill_char_array(map_name.as_mut());
+    row.get::<String, _>("name").fill_char_array(char_name.as_mut());
+    session.set_character(CharacterSession {
+        name: char_name,
+        char_id,
+        current_map: map_name.clone(),
+        current_x: last_x as i16,
+        current_y: last_y as i16,
+    });
+    packet_ch_send_map_info.set_map_name(map_name);
+    packet_ch_send_map_info.set_map_server_port(6124);
+    packet_ch_send_map_info.set_map_server_ip(16777343); // 7F 00 00 01 -> to little endian -> 01 00 00 7F
+    packet_ch_send_map_info.fill_raw();
+    let mut tcp_stream_guard = tcp_stream.lock().unwrap();
+    tcp_stream_guard.write(&packet_ch_send_map_info.raw());
+    tcp_stream_guard.flush();
+    return FeatureState::Implemented(Box::new(packet_ch_send_map_info));
+}
+
+
+pub fn handle_enter_game(server: &Server, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<Mutex<TcpStream>>) -> FeatureState {
+    /*
+    Client expect multiple packets in response to packet PacketCzEnter2
+    */
+    let packet_enter_game = packet.as_any().downcast_ref::<PacketCzEnter2>().unwrap();
+    if packet_enter_game.aid != 2000000 { // Currently only handle this account to be able to still use proxy in other accounts
+        return FeatureState::Unimplemented;
+    }
+    let mut server_context_guard = server.server_context.lock().unwrap();
+    let mut session = server_context_guard.sessions.get_mut(&packet_enter_game.aid);
+    if session.is_none() {
+        tcp_stream.lock().unwrap().shutdown(Both);
+        return FeatureState::Unimplemented;
+    }
+    let mut session = session.unwrap();
+    if packet_enter_game.auth_code != session.auth_code {
+        tcp_stream.lock().unwrap().shutdown(Both);
+        server_context_guard.sessions.remove(&packet_enter_game.aid);
+        return FeatureState::Unimplemented;
+    }
+    session.set_map_server_socket(tcp_stream);
+    let mut packet_map_connection = PacketMapConnection::new();
+    packet_map_connection.set_aid(session.account_id);
+    let mut tcp_stream_guard = session.map_server_socket.as_ref().unwrap().lock().unwrap();
+    tcp_stream_guard.write(&packet_map_connection.raw());
+    tcp_stream_guard.flush();
+
+    let mut packet_inventory_expansion_info = PacketZcInventoryExpansionInfo::new();
+    packet_inventory_expansion_info.fill_raw();
+    let mut packet_overweight_percent = PacketZcOverweightPercent::new();
+    packet_overweight_percent.fill_raw();
+    let mut packet_accept_enter = PacketZcAcceptEnter2::new();
+    packet_accept_enter.set_start_time(SystemTime::now().elapsed().unwrap().as_secs() as u32);
+    packet_accept_enter.set_x_size(5); // Commented as not used, set at 5 in Hercules
+    packet_accept_enter.set_y_size(5); // Commented as not used, set at 5 in Hercules
+    packet_accept_enter.set_font(0);
+    packet_accept_enter.fill_raw();
+    let character = session.character.as_ref().unwrap();
+    let mut packet_npc_ack_map_move = PacketZcNpcackMapmove::new();
+    packet_npc_ack_map_move.set_map_name(character.current_map);
+    packet_npc_ack_map_move.set_x_pos(character.current_x);
+    packet_npc_ack_map_move.set_y_pos(character.current_y);
+    packet_npc_ack_map_move.fill_raw();
+    let final_response_packet: Vec<u8> = chain_packets(vec![&packet_inventory_expansion_info, &packet_overweight_percent, &packet_accept_enter, &packet_npc_ack_map_move]);
+    tcp_stream_guard.write(&final_response_packet);
+    tcp_stream_guard.flush();
+
+    let mut packet_str = PacketZcStatusValues::new();
+    packet_str.set_status_type(StatusTypes::STR.value());
+    packet_str.set_default_status(1);
+    packet_str.fill_raw();
+    let mut packet_agi = PacketZcStatusValues::new();
+    packet_agi.set_status_type(StatusTypes::AGI.value());
+    packet_agi.set_default_status(1);
+    packet_agi.fill_raw();
+    let mut packet_dex = PacketZcStatusValues::new();
+    packet_dex.set_status_type(StatusTypes::DEX.value());
+    packet_dex.set_default_status(1);
+    packet_dex.fill_raw();
+    let mut packet_int = PacketZcStatusValues::new();
+    packet_int.set_status_type(StatusTypes::INT.value());
+    packet_int.set_default_status(1);
+    packet_int.fill_raw();
+    let mut packet_luk = PacketZcStatusValues::new();
+    packet_luk.set_status_type(StatusTypes::LUK.value());
+    packet_luk.set_default_status(1);
+    packet_luk.fill_raw();
+    let mut packet_hit = PacketZcParChange::new();
+    packet_hit.set_var_id(StatusTypes::HIT.value() as u16);
+    packet_hit.set_count(1);
+    packet_hit.fill_raw();
+    let mut packet_flee = PacketZcParChange::new();
+    packet_flee.set_var_id(StatusTypes::FLEE1.value() as u16);
+    packet_flee.set_count(1);
+    packet_flee.fill_raw();
+    let mut packet_aspd = PacketZcParChange::new();
+    packet_aspd.set_var_id(StatusTypes::ASPD.value() as u16);
+    packet_aspd.set_count(1);
+    packet_aspd.fill_raw();
+    let mut packet_atk = PacketZcParChange::new();
+    packet_atk.set_var_id(StatusTypes::ATK1.value() as u16);
+    packet_atk.set_count(1);
+    packet_atk.fill_raw();
+    let mut packet_def = PacketZcParChange::new();
+    packet_def.set_var_id(StatusTypes::DEF1.value() as u16);
+    packet_def.set_count(1);
+    packet_def.fill_raw();
+    let mut packet_def2 = PacketZcParChange::new();
+    packet_def2.set_var_id(StatusTypes::DEF2.value() as u16);
+    packet_def2.set_count(1);
+    packet_def2.fill_raw();
+    let mut packet_flee2 = PacketZcParChange::new();
+    packet_flee2.set_var_id(StatusTypes::FLEE2.value() as u16);
+    packet_flee2.set_count(1);
+    packet_flee2.fill_raw();
+    let mut packet_crit = PacketZcParChange::new();
+    packet_crit.set_var_id(StatusTypes::CRITICAL.value() as u16);
+    packet_crit.set_count(1);
+    packet_crit.fill_raw();
+    let mut packet_matk = PacketZcParChange::new();
+    packet_matk.set_var_id(StatusTypes::MATK1.value() as u16);
+    packet_matk.set_count(1);
+    packet_matk.fill_raw();
+    let mut packet_matk2 = PacketZcParChange::new();
+    packet_matk2.set_var_id(StatusTypes::MATK2.value() as u16);
+    packet_matk2.set_count(1);
+    packet_matk2.fill_raw();
+    let mut packet_mdef2 = PacketZcParChange::new();
+    packet_mdef2.set_var_id(StatusTypes::MDEF2.value() as u16);
+    packet_mdef2.set_count(1);
+    packet_mdef2.fill_raw();
+    let mut packet_attack_range = PacketZcAttackRange::new();
+    packet_attack_range.set_current_att_range(1);
+    packet_attack_range.fill_raw();
+    let mut packet_maxhp = PacketZcParChange::new();
+    packet_maxhp.set_var_id(StatusTypes::MAXHP.value() as u16);
+    packet_maxhp.set_count(1);
+    packet_maxhp.fill_raw();
+    let mut packet_maxsp = PacketZcParChange::new();
+    packet_maxsp.set_var_id(StatusTypes::MAXSP.value() as u16);
+    packet_maxsp.set_count(1);
+    packet_maxsp.fill_raw();
+    let mut packet_hp = PacketZcParChange::new();
+    packet_hp.set_var_id(StatusTypes::HP.value() as u16);
+    packet_hp.set_count(1);
+    packet_hp.fill_raw();
+    let mut packet_sp = PacketZcParChange::new();
+    packet_sp.set_var_id(StatusTypes::SP.value() as u16);
+    packet_sp.set_count(1);
+    packet_sp.fill_raw();
+    let mut packet_notify_chat = PacketZcNotifyChat::new();
+    packet_notify_chat.set_gid(character.char_id);
+    packet_notify_chat.set_msg("Hello from rust ragnarok".to_string());
+
+    let final_response_packet: Vec<u8> = chain_packets(vec![
+        &packet_str, &packet_agi, &packet_dex, &packet_int, &packet_luk,
+        &packet_hit, &packet_flee, &packet_aspd, &packet_atk, &packet_def,
+        &packet_def2, &packet_flee2, &packet_crit, &packet_matk, &packet_matk2,
+        &packet_mdef2, &packet_attack_range, &packet_maxhp, &packet_maxsp, &packet_hp,
+        &packet_sp, &packet_notify_chat
+    ]);
+    println!("{:02X?}", &final_response_packet[..]);
+    tcp_stream_guard.write(&final_response_packet);
+    tcp_stream_guard.flush();
+
+    return FeatureState::Implemented(Box::new(packet_map_connection));
 }
 
 async fn load_chars_info(account_id: u32, repository: &Repository<MySql>) -> PacketHcAcceptEnterNeoUnionHeader {

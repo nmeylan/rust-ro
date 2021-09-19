@@ -112,8 +112,6 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
                                 self.proxy_request(outgoing, &direction, tcp_stream_ref, packet)
                             }
                             FeatureState::Implemented(response_packet) => {
-                                response_packet.display();
-                                response_packet.pretty_debug();
                             }
                         }
                     } else {
