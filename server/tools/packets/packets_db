@@ -1731,7 +1731,7 @@
   /* this+0xc */ short yPos
   /* this+0xe */ short currentAttRange
  }
-0x13a
+0x3a01
  struct PACKET_ZC_ATTACK_RANGE {
   /* this+0x0 */ short PacketId
   /* this+0x2 */ short currentAttRange
@@ -1763,37 +1763,37 @@
   /* this+0x10 */ unsigned long property
   /* this+0x14 */ unsigned long delayTime
  }
-0x13f
+0x013f
  struct PACKET_CZ_ITEM_CREATE {
   /* this+0x0 */ short PacketId
   /* this+0x2 */ char itemName[24]
  }
-0x140
+0x0140
  struct PACKET_CZ_MOVETO_MAP {
   /* this+0x0 */ short PacketId
   /* this+0x2 */ char mapName[16]
   /* this+0x12 */ short xPos
   /* this+0x14 */ short yPos
  }
-0x141
- struct PACKET_ZC_COUPLESTATUS {
+0x4101
+ struct PACKET_ZC_STATUS_VALUES {
   /* this+0x0 */ short PacketId
   /* this+0x2 */ unsigned long statusType
   /* this+0x6 */ int defaultStatus
   /* this+0xa */ int plusStatus
  }
-0x142
+0x0142
  struct PACKET_ZC_OPEN_EDITDLG {
   /* this+0x0 */ short PacketId
   /* this+0x2 */ unsigned long NAID
  }
-0x143
+0x0143
  struct PACKET_CZ_INPUT_EDITDLG {
   /* this+0x0 */ short PacketId
   /* this+0x2 */ unsigned long NAID
   /* this+0x6 */ int value
  }
-0x144
+0x0144
  struct PACKET_ZC_COMPASS {
   /* this+0x0 */ short PacketId
   /* this+0x2 */ unsigned long NAID
@@ -1803,18 +1803,18 @@
   /* this+0x12 */ unsigned char id
   /* this+0x13 */ unsigned long color
  }
-0x145
+0x0145
  struct PACKET_ZC_SHOW_IMAGE {
   /* this+0x0 */ short PacketId
   /* this+0x2 */ char imageName[16]
   /* this+0x12 */ unsigned char type
  }
-0x146
+0x0146
  struct PACKET_CZ_CLOSE_DIALOG {
   /* this+0x0 */ short PacketId
   /* this+0x2 */ unsigned long NAID
  }
-0x147
+0x0147
  struct PACKET_ZC_AUTORUN_SKILL {
   /* this+0x0 */ short PacketId
   /* this+0x2 */ struct SKILLINFO data {
@@ -1827,31 +1827,31 @@
     /* this+0x24 */ bool upgradable
   }
  }
-0x148
+0x0148
  struct PACKET_ZC_RESURRECTION {
   /* this+0x0 */ short PacketId
   /* this+0x2 */ unsigned long AID
   /* this+0x6 */ short type
  }
-0x149
+0x0149
  struct PACKET_CZ_REQ_GIVE_MANNER_POINT {
   /* this+0x0 */ short PacketId
   /* this+0x2 */ unsigned long otherAID
   /* this+0x6 */ unsigned char type
   /* this+0x7 */ short point
  }
-0x14a
+0x014a
  struct PACKET_ZC_ACK_GIVE_MANNER_POINT {
   /* this+0x0 */ short PacketId
   /* this+0x2 */ unsigned long result
  }
-0x14b
+0x014b
  struct PACKET_ZC_NOTIFY_MANNER_POINT_GIVEN {
   /* this+0x0 */ short PacketId
   /* this+0x2 */ unsigned char type
   /* this+0x3 */ char otherCharName[24]
  }
-0x14c
+0x014c
  struct PACKET_ZC_MYGUILD_BASIC_INFO {
   /* this+0x0 */ short PacketId
   /* this+0x2 */ short PacketLength
@@ -5032,7 +5032,7 @@ struct UNUSED_PACKET_CZ_MER_UPGRADE_SKILLLEVEL {
     /* this+0x12 */ long HireExpireDate
   }
  }
-0x2eb
+0xeb02
  struct PACKET_ZC_ACCEPT_ENTER2 {
   /* this+0x0 */ short PacketId
   /* this+0x2 */ unsigned long startTime
@@ -5041,7 +5041,7 @@ struct UNUSED_PACKET_CZ_MER_UPGRADE_SKILLLEVEL {
   /* this+0xa */ unsigned char ySize
   /* this+0xb */ short font
  }
-0x2ec
+0x02ec
  struct PACKET_ZC_NOTIFY_MOVEENTRY4 {
   /* this+0x0 */ short PacketId
   /* this+0x2 */ unsigned char objecttype
@@ -5072,7 +5072,7 @@ struct UNUSED_PACKET_CZ_MER_UPGRADE_SKILLLEVEL {
   /* this+0x3f */ short clevel
   /* this+0x41 */ short font
  }
-0x2ed
+0x02ed
  struct PACKET_ZC_NOTIFY_NEWENTRY4 {
   /* this+0x0 */ short PacketId
   /* this+0x2 */ unsigned long GID
@@ -5101,7 +5101,7 @@ struct UNUSED_PACKET_CZ_MER_UPGRADE_SKILLLEVEL {
   /* this+0x37 */ short clevel
   /* this+0x39 */ short font
  }
-0x2ee
+0x02ee
  struct PACKET_ZC_NOTIFY_STANDENTRY4 {
   /* this+0x0 */ short PacketId
   /* this+0x2 */ unsigned long GID
@@ -5131,7 +5131,7 @@ struct UNUSED_PACKET_CZ_MER_UPGRADE_SKILLLEVEL {
   /* this+0x38 */ short clevel
   /* this+0x3a */ short font
  }
-0x2ef
+0x02ef
  struct PACKET_ZC_NOTIFY_FONT {
   /* this+0x0 */ short PacketId
   /* this+0x2 */ unsigned long AID
@@ -6228,4 +6228,14 @@ struct PACKET_PINCODE_LOGINSTATE {
   /* this+0x2 */ unsigned long GID
   /* this+0x6 */ int Result
   /* this+0xa */ long DeleteReservedDate
+}
+0x180b
+struct PACKET_ZC_INVENTORY_EXPANSION_INFO {
+  /* this+0x0 */ short PacketId
+  /* this+0x2 */ short expansionSize
+}
+0xde0a
+struct PACKET_ZC_OVERWEIGHT_PERCENT {
+  /* this+0x0 */ short PacketId
+  /* this+0x2 */ int percent
 }

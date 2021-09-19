@@ -643,7 +643,7 @@ pub fn parse(buffer: &[u8]) -> Box<dyn Packet> {
     if buffer[0] == 0x01 && buffer[1] == 0x39 {
         return Box::new(PacketZcAttackFailureForDistance::from(buffer));
     }
-    if buffer[0] == 0x01 && buffer[1] == 0x3a {
+    if buffer[0] == 0x3a && buffer[1] == 0x01 {
         return Box::new(PacketZcAttackRange::from(buffer));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x3b {
@@ -664,8 +664,8 @@ pub fn parse(buffer: &[u8]) -> Box<dyn Packet> {
     if buffer[0] == 0x01 && buffer[1] == 0x40 {
         return Box::new(PacketCzMovetoMap::from(buffer));
     }
-    if buffer[0] == 0x01 && buffer[1] == 0x41 {
-        return Box::new(PacketZcCouplestatus::from(buffer));
+    if buffer[0] == 0x41 && buffer[1] == 0x01 {
+        return Box::new(PacketZcStatusValues::from(buffer));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x42 {
         return Box::new(PacketZcOpenEditdlg::from(buffer));
@@ -1876,7 +1876,7 @@ pub fn parse(buffer: &[u8]) -> Box<dyn Packet> {
     if buffer[0] == 0x02 && buffer[1] == 0xea {
         return Box::new(PacketZcStoreNormalItemlist3::from(buffer));
     }
-    if buffer[0] == 0x02 && buffer[1] == 0xeb {
+    if buffer[0] == 0xeb && buffer[1] == 0x02 {
         return Box::new(PacketZcAcceptEnter2::from(buffer));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xec {
@@ -2313,6 +2313,12 @@ pub fn parse(buffer: &[u8]) -> Box<dyn Packet> {
     }
     if buffer[0] == 0x28 && buffer[1] == 0x08 {
         return Box::new(PacketHcDeleteChar4Reserved::from(buffer));
+    }
+    if buffer[0] == 0x18 && buffer[1] == 0x0b {
+        return Box::new(PacketZcInventoryExpansionInfo::from(buffer));
+    }
+    if buffer[0] == 0xde && buffer[1] == 0x0a {
+        return Box::new(PacketZcOverweightPercent::from(buffer));
     }
     Box::new(PacketUnknown::from(buffer))
 }

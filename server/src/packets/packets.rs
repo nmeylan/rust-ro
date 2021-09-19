@@ -2882,7 +2882,7 @@ pub struct PacketCzMovetoMap {
 }
 
 #[derive(Clone)]
-pub struct PacketZcCouplestatus {
+pub struct PacketZcStatusValues {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -10061,6 +10061,24 @@ pub struct PacketHcDeleteChar4Reserved {
     pub result_raw: [u8; 4],
     pub delete_reserved_date: i32,
     pub delete_reserved_date_raw: [u8; 4],
+}
+
+#[derive(Clone)]
+pub struct PacketZcInventoryExpansionInfo {
+    pub raw: Vec<u8>,
+    pub packet_id: i16,
+    pub packet_id_raw: [u8; 2],
+    pub expansion_size: i16,
+    pub expansion_size_raw: [u8; 2],
+}
+
+#[derive(Clone)]
+pub struct PacketZcOverweightPercent {
+    pub raw: Vec<u8>,
+    pub packet_id: i16,
+    pub packet_id_raw: [u8; 2],
+    pub percent: i32,
+    pub percent_raw: [u8; 4],
 }
 
 #[derive(Clone)]
