@@ -13,7 +13,7 @@ use tokio::runtime::Runtime;
 #[derive(Clone)]
 pub struct Proxy<T: PacketHandler + Clone + Send> {
     pub name: String,
-    pub server: Arc<Server>,
+    pub server: Arc<Mutex<Server>>,
     pub local_port: u16,
     pub target: SocketAddr,
     pub specific_proxy: T,
@@ -65,8 +65,8 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
 
         let mut backward_thread_incoming_clone = incoming_stream.try_clone().map_err(|e| e.to_string())?;
         let mut backward_thread_outgoing_clone = forward_thread_outgoing.try_clone().map_err(|e| e.to_string())?;
-        let server_copy_forward_thread = self.clone();
-        let server_copy_backward_thread = self.clone();
+        let mut server_copy_forward_thread = self.clone();
+        let mut server_copy_backward_thread = self.clone();
         // Pipe for- and backward asynchronously
         let forward = thread::Builder::new().name(format!("{}-{}", self.name, "forward"))
             .spawn(move || {
@@ -87,7 +87,7 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
         Ok(())
     }
 
-    fn pipe(&self, incoming: &mut TcpStream, outgoing: &mut TcpStream, direction: ProxyDirection, runtime: &Runtime) -> Result<(), String> {
+    fn pipe(&mut self, incoming: &mut TcpStream, outgoing: &mut TcpStream, direction: ProxyDirection, runtime: &Runtime) -> Result<(), String> {
         let mut buffer = [0; 2048];
         loop {
             println!("loop direction {} incoming peer {} incoming local {} outgoing local {} outgoing peer {} ", direction,
@@ -106,7 +106,8 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
                     let tcp_stream_ref = Arc::new(Mutex::new(incoming.try_clone().unwrap()));
                     let mut packet = parse(&mut buffer[..bytes_read]);
                     if direction == ProxyDirection::Forward {
-                        let feature_state = self.server.dispatch(runtime, tcp_stream_ref.clone(), packet.as_mut());
+                        let server_guard = self.server.lock().unwrap();
+                        let feature_state = server_guard.dispatch(runtime, tcp_stream_ref.clone(), packet.as_mut());
                         match feature_state {
                             FeatureState::Unimplemented => {
                                 self.proxy_request(outgoing, &direction, tcp_stream_ref, packet)

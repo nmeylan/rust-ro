@@ -7,19 +7,16 @@ use crate::server::core::{Server, ServerContext, Session, SessionsIter};
 
 #[derive(Clone)]
 pub struct MapProxy {
-    server_context: Arc<Mutex<ServerContext>>,
 }
 
 impl MapProxy {
-    pub(crate) fn new(server_context: Arc<Mutex<ServerContext>>, server: Arc<Server>) -> Proxy<MapProxy> {
+    pub(crate) fn new(server: Arc<Mutex<Server>>) -> Proxy<MapProxy> {
         let server = Proxy {
             name: "map".to_string(),
             local_port: 6124,
             target: SocketAddr::new(IpAddr::from(Ipv4Addr::new(127, 0, 0, 1)), 6122),
             server,
-            specific_proxy: MapProxy {
-                server_context: server_context.clone()
-            },
+            specific_proxy: MapProxy {},
         };
         return server;
     }

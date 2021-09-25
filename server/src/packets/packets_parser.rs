@@ -2320,6 +2320,12 @@ pub fn parse(buffer: &[u8]) -> Box<dyn Packet> {
     if buffer[0] == 0xde && buffer[1] == 0x0a {
         return Box::new(PacketZcOverweightPercent::from(buffer));
     }
+    if buffer[0] == 0x8a && buffer[1] == 0x01 {
+        return Box::new(PacketCzReqDisconnect2::from(buffer));
+    }
+    if buffer[0] == 0x8b && buffer[1] == 0x01 {
+        return Box::new(PacketZcReqDisconnectAck2::from(buffer));
+    }
     Box::new(PacketUnknown::from(buffer))
 }
 

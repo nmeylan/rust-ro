@@ -10082,6 +10082,24 @@ pub struct PacketZcOverweightPercent {
 }
 
 #[derive(Clone)]
+pub struct PacketCzReqDisconnect2 {
+    pub raw: Vec<u8>,
+    pub packet_id: i16,
+    pub packet_id_raw: [u8; 2],
+    pub empty: i16,
+    pub empty_raw: [u8; 2],
+}
+
+#[derive(Clone)]
+pub struct PacketZcReqDisconnectAck2 {
+    pub raw: Vec<u8>,
+    pub packet_id: i16,
+    pub packet_id_raw: [u8; 2],
+    pub empty: i16,
+    pub empty_raw: [u8; 2],
+}
+
+#[derive(Clone)]
 pub struct ServerAddr {
     pub raw: Vec<u8>,
     pub ip: u32,

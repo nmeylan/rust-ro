@@ -7,19 +7,16 @@ use crate::server::core::{Server, ServerContext, Session};
 
 #[derive(Clone)]
 pub struct CharProxy {
-    server_context: Arc<Mutex<ServerContext>>
 }
 
 impl CharProxy {
-    pub(crate) fn new(server_context: Arc<Mutex<ServerContext>>, server: Arc<Server>) -> Proxy<CharProxy> {
+    pub(crate) fn new(server: Arc<Mutex<Server>>) -> Proxy<CharProxy> {
         let server = Proxy {
             name: "Char".to_string(),
             local_port: 6123,
             server,
             target: SocketAddr::new(IpAddr::from(Ipv4Addr::new(127, 0, 0, 1)), 6121),
-            specific_proxy: CharProxy {
-                server_context: server_context.clone()
-            }
+            specific_proxy: CharProxy {}
         };
         return server;
     }

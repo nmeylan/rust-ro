@@ -90407,6 +90407,162 @@ impl Packet for PacketZcOverweightPercent {
     }
 }
 
+impl PacketCzReqDisconnect2 {
+    pub fn from(buffer: &[u8]) -> PacketCzReqDisconnect2 {
+        PacketCzReqDisconnect2 {
+            raw: buffer.to_vec(),
+            packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[0..2]);
+                dst
+            },
+            empty: i16::from_le_bytes([buffer[2], buffer[3]]),
+            empty_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[2..4]);
+                dst
+            },
+        }
+    }
+    pub fn fill_raw(&mut self) {
+    let mut wtr;
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.packet_id).unwrap();
+        self.packet_id_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.empty).unwrap();
+        self.empty_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.append(&mut self.packet_id_raw.to_vec());
+        wtr.append(&mut self.empty_raw.to_vec());
+        self.raw = wtr;
+    }
+    pub fn set_packet_id(&mut self, value: i16) {
+        self.packet_id = value;
+    }
+    pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
+        self.packet_id_raw = value;
+    }
+    pub fn set_empty(&mut self, value: i16) {
+        self.empty = value;
+    }
+    pub fn set_empty_raw(&mut self, value: [u8; 2]) {
+        self.empty_raw = value;
+    }
+    pub fn new() -> PacketCzReqDisconnect2 {
+        PacketCzReqDisconnect2 {
+        raw: vec![],
+        packet_id: i16::from_le_bytes([0x8a, 0x01]),
+        packet_id_raw: [0x8a, 0x01],
+        empty: 0,
+        empty_raw: [0; 2],
+        }
+    }
+}
+
+impl Packet for PacketCzReqDisconnect2 {
+    fn id(&self) -> &str {
+       "0x8a01"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
+    }
+    fn display(&self) {
+            println!("{}", self)
+    }
+    fn pretty_debug(&self) {
+            println!("{:#?}", self)
+    }
+    fn raw(&self) -> &Vec<u8> {
+            &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut dyn Any{
+        self
+    }
+}
+
+impl PacketZcReqDisconnectAck2 {
+    pub fn from(buffer: &[u8]) -> PacketZcReqDisconnectAck2 {
+        PacketZcReqDisconnectAck2 {
+            raw: buffer.to_vec(),
+            packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[0..2]);
+                dst
+            },
+            empty: i16::from_le_bytes([buffer[2], buffer[3]]),
+            empty_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[2..4]);
+                dst
+            },
+        }
+    }
+    pub fn fill_raw(&mut self) {
+    let mut wtr;
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.packet_id).unwrap();
+        self.packet_id_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.empty).unwrap();
+        self.empty_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.append(&mut self.packet_id_raw.to_vec());
+        wtr.append(&mut self.empty_raw.to_vec());
+        self.raw = wtr;
+    }
+    pub fn set_packet_id(&mut self, value: i16) {
+        self.packet_id = value;
+    }
+    pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
+        self.packet_id_raw = value;
+    }
+    pub fn set_empty(&mut self, value: i16) {
+        self.empty = value;
+    }
+    pub fn set_empty_raw(&mut self, value: [u8; 2]) {
+        self.empty_raw = value;
+    }
+    pub fn new() -> PacketZcReqDisconnectAck2 {
+        PacketZcReqDisconnectAck2 {
+        raw: vec![],
+        packet_id: i16::from_le_bytes([0x8b, 0x01]),
+        packet_id_raw: [0x8b, 0x01],
+        empty: 0,
+        empty_raw: [0; 2],
+        }
+    }
+}
+
+impl Packet for PacketZcReqDisconnectAck2 {
+    fn id(&self) -> &str {
+       "0x8b01"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
+    }
+    fn display(&self) {
+            println!("{}", self)
+    }
+    fn pretty_debug(&self) {
+            println!("{:#?}", self)
+    }
+    fn raw(&self) -> &Vec<u8> {
+            &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut dyn Any{
+        self
+    }
+}
+
 impl ServerAddr {
     pub fn from(buffer: &[u8]) -> ServerAddr {
         ServerAddr {

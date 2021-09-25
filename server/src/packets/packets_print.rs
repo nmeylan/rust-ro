@@ -17869,6 +17869,44 @@ impl Display for PacketZcOverweightPercent {
     }
 }
 
+impl Debug for PacketCzReqDisconnect2 {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("PacketCzReqDisconnect2")
+            .field("id", &self.id())
+            .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
+            .field("empty[2, 4]", &format!("{:02X?}", &self.empty_raw))
+        .finish()
+    }
+}
+
+impl Display for PacketCzReqDisconnect2 {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        let mut fields = Vec::new();
+        fields.push(format!("packet_id(short as i16)[0, 2]: {}", &self.packet_id));
+        fields.push(format!("empty(short as i16)[2, 4]: {}", &self.empty));
+        write!(f, "PacketCzReqDisconnect2\n {}", fields.join(",\n "))
+    }
+}
+
+impl Debug for PacketZcReqDisconnectAck2 {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("PacketZcReqDisconnectAck2")
+            .field("id", &self.id())
+            .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
+            .field("empty[2, 4]", &format!("{:02X?}", &self.empty_raw))
+        .finish()
+    }
+}
+
+impl Display for PacketZcReqDisconnectAck2 {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        let mut fields = Vec::new();
+        fields.push(format!("packet_id(short as i16)[0, 2]: {}", &self.packet_id));
+        fields.push(format!("empty(short as i16)[2, 4]: {}", &self.empty));
+        write!(f, "PacketZcReqDisconnectAck2\n {}", fields.join(",\n "))
+    }
+}
+
 impl Debug for ServerAddr {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("ServerAddr")
