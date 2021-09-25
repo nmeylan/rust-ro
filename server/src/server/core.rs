@@ -1,7 +1,7 @@
 // This is the core of this server. As all feature won't be implemented in one shot, the idea is to proxy unimplemented feature to hercules server.
 // For the moment I won't implement TCPListener in this file, but in the "future" proxies will be removed and only this file will have a TCPListener.
 
-use crate::packets::packets::{Packet, PacketUnknown, PacketZcNotifyTime, PacketZcNotifyChat, PacketCaLogin, PacketAcAcceptLogin2, PacketAcRefuseLoginR2, PacketAcRefuseLoginR3, PacketChEnter, PacketHcRefuseEnter, PacketChMakeChar2, PacketChDeleteChar2, PacketHcDeleteChar3Reserved, PacketChDeleteChar4Reserved, PacketCzEnter2, PacketChSelectChar};
+use crate::packets::packets::{Packet, PacketUnknown, PacketZcNotifyTime, PacketZcNotifyChat, PacketCaLogin, PacketAcAcceptLogin2, PacketAcRefuseLoginR2, PacketAcRefuseLoginR3, PacketChEnter, PacketHcRefuseEnter, PacketChMakeChar2, PacketChDeleteChar2, PacketHcDeleteChar3Reserved, PacketChDeleteChar4Reserved, PacketCzEnter2, PacketChSelectChar, PacketCzRestart, PacketCzReqDisconnect, PacketCzReqDisconnect2};
 use std::sync::{Arc, Mutex};
 use std::thread;
 use std::thread::sleep;
@@ -14,7 +14,7 @@ use std::collections::HashMap;
 use std::net::TcpStream;
 use tokio::runtime::Runtime;
 use crate::server::login::handle_login;
-use crate::server::char::{handle_char_enter, handle_make_char, handle_delete_reserved_char, handle_select_char, handle_enter_game};
+use crate::server::char::{handle_char_enter, handle_make_char, handle_delete_reserved_char, handle_select_char, handle_enter_game, handle_restart, handle_disconnect};
 use std::net::Shutdown::Both;
 
 pub struct Server {
@@ -29,6 +29,11 @@ pub enum FeatureState {
 
 pub struct ServerContext {
     pub sessions: HashMap<u32, Session>,
+}
+impl ServerContext {
+    pub fn remove_session(&mut self, session_id: u32) {
+        self.sessions.remove(&session_id);
+    }
 }
 
 pub trait SessionsIter {
@@ -50,7 +55,7 @@ impl SessionsIter for HashMap<u32, Session> {
             }
             is_char_stream || is_map_stream
         });
-        if map_entry_option.is_none(){
+        if map_entry_option.is_none() {
             return None;
         }
         Some(map_entry_option.unwrap().0.clone())
@@ -61,8 +66,10 @@ pub struct Session {
     pub char_server_socket: Option<Arc<Mutex<TcpStream>>>,
     pub map_server_socket: Option<Arc<Mutex<TcpStream>>>,
     pub account_id: u32,
-    pub auth_code: i32,  // random value, known as login_id1 in hercules
-    pub user_level: u32, // random value, known as login_id2 in hercules
+    pub auth_code: i32,
+    // random value, known as login_id1 in hercules
+    pub user_level: u32,
+    // random value, known as login_id2 in hercules
     pub character: Option<CharacterSession>
 }
 
@@ -83,6 +90,9 @@ impl Session {
     }
     pub fn set_character(&mut self, character: CharacterSession) {
         self.character = Some(character);
+    }
+    pub fn unset_character(&mut self) {
+        self.character = None;
     }
 }
 
@@ -117,7 +127,7 @@ impl Server {
     pub fn start_tick(&self) {
         thread::Builder::new().name("main tick thread".to_string()).spawn(move || {
             loop {
-               sleep(Duration::new(2, 0));
+                sleep(Duration::new(2, 0));
             }
         });
     }
@@ -159,6 +169,20 @@ impl Server {
         // Enter game
         if packet.as_any().downcast_ref::<PacketCzEnter2>().is_some() {
             return handle_enter_game(self, packet, runtime, tcp_stream);
+        }
+        // Game menu "Character select"
+        if packet.as_any().downcast_ref::<PacketCzRestart>().is_some() {
+            let session_id = self.ensure_session_exists(&tcp_stream);
+            if session_id.is_some() {
+                return handle_restart(self, packet, runtime, tcp_stream, session_id.unwrap());
+            }
+        }
+        // Game menu "Exit to windows"
+        if packet.as_any().downcast_ref::<PacketCzReqDisconnect2>().is_some() {
+            let session_id = self.ensure_session_exists(&tcp_stream);
+            if session_id.is_some() {
+                return handle_disconnect(self, packet, runtime, tcp_stream, session_id.unwrap());
+            }
         }
         println!("{}", packet.id());
         // Char creation

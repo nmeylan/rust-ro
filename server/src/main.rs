@@ -24,7 +24,7 @@ pub async fn main() {
     };
     let server_context_arc = Arc::new(Mutex::new(server_context));
     let server = Server::new(server_context_arc.clone(), Arc::new(repository));
-    let server_arc = Arc::new(server);
+    let server_arc = Arc::new(Mutex::new(server));
     let login_proxy = proxy::proxy::Proxy {
         name: "login".to_string(),
         local_port: 6901,
@@ -32,8 +32,8 @@ pub async fn main() {
         server: server_arc.clone(),
         specific_proxy: LoginProxy
     };
-    let char_proxy = CharProxy::new(server_context_arc.clone(), server_arc.clone());
-    let map_proxy = MapProxy::new(server_context_arc.clone(), server_arc.clone());
+    let char_proxy = CharProxy::new(server_arc.clone());
+    let map_proxy = MapProxy::new(server_arc.clone());
     let mut handles: Vec<JoinHandle<()>> = Vec::new();
     &handles.push(login_proxy.proxy());
     &handles.push(char_proxy.proxy());

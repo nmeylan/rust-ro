@@ -6239,3 +6239,13 @@ struct PACKET_ZC_OVERWEIGHT_PERCENT {
   /* this+0x0 */ short PacketId
   /* this+0x2 */ int percent
 }
+0x8a01
+struct PACKET_CZ_REQ_DISCONNECT2 {
+  /* this+0x0 */ short PacketId
+  /* this+0x2 */ short empty
+}
+0x8b01
+struct PACKET_ZC_REQ_DISCONNECT_ACK2 {
+  /* this+0x0 */ short PacketId
+  /* this+0x2 */ short empty
+}

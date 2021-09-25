@@ -1,5 +1,5 @@
 use crate::server::core::{Server, FeatureState, Session, CharacterSession};
-use crate::packets::packets::{Packet, PacketChEnter, PacketHcRefuseEnter, CharacterInfoNeoUnion, PacketHcAcceptEnterNeoUnionHeader, PacketHcAcceptEnterNeoUnion, PacketPincodeLoginstate, PacketChMakeChar2, PacketHcAcceptMakecharNeoUnion, PacketChDeleteChar4Reserved, PacketHcDeleteChar4Reserved, PacketChSelectChar, PacketChSendMapInfo, PacketCzEnter2, PacketMapConnection, PacketZcInventoryExpansionInfo, PacketZcOverweightPercent, PacketZcAcceptEnter2, PacketZcNpcackMapmove, PacketZcStatusValues, PacketZcParChange, PacketZcAttackRange, PacketZcNotifyChat};
+use crate::packets::packets::{Packet, PacketChEnter, PacketHcRefuseEnter, CharacterInfoNeoUnion, PacketHcAcceptEnterNeoUnionHeader, PacketHcAcceptEnterNeoUnion, PacketPincodeLoginstate, PacketChMakeChar2, PacketHcAcceptMakecharNeoUnion, PacketChDeleteChar4Reserved, PacketHcDeleteChar4Reserved, PacketChSelectChar, PacketChSendMapInfo, PacketCzEnter2, PacketMapConnection, PacketZcInventoryExpansionInfo, PacketZcOverweightPercent, PacketZcAcceptEnter2, PacketZcNpcackMapmove, PacketZcStatusValues, PacketZcParChange, PacketZcAttackRange, PacketZcNotifyChat, PacketCzRestart, PacketZcRestartAck, PacketZcReqDisconnectAck2};
 use crate::repository::lib::Repository;
 use sqlx::{MySql, Error, Row};
 use tokio::runtime::Runtime;
@@ -14,6 +14,7 @@ use std::net::Shutdown::Both;
 use crate::util::packet::chain_packets;
 use std::time::SystemTime;
 use crate::server::enums::StatusTypes;
+use std::ops::DerefMut;
 
 pub fn handle_char_enter(server: &Server, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<Mutex<TcpStream>>) -> FeatureState {
     let packet_char_enter = packet.as_any().downcast_ref::<PacketChEnter>().unwrap();
@@ -169,9 +170,6 @@ pub fn handle_select_char(server: &Server, packet: &mut dyn Packet, runtime: &Ru
 
 
 pub fn handle_enter_game(server: &Server, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<Mutex<TcpStream>>) -> FeatureState {
-    /*
-    Client expect multiple packets in response to packet PacketCzEnter2
-    */
     let packet_enter_game = packet.as_any().downcast_ref::<PacketCzEnter2>().unwrap();
     if packet_enter_game.aid != 2000000 { // Currently only handle this account to be able to still use proxy in other accounts
         return FeatureState::Unimplemented;
@@ -195,6 +193,9 @@ pub fn handle_enter_game(server: &Server, packet: &mut dyn Packet, runtime: &Run
     tcp_stream_guard.write(&packet_map_connection.raw());
     tcp_stream_guard.flush();
 
+    /*
+    Client expect multiple packets in response to packet PacketCzEnter2
+    */
     let mut packet_inventory_expansion_info = PacketZcInventoryExpansionInfo::new();
     packet_inventory_expansion_info.fill_raw();
     let mut packet_overweight_percent = PacketZcOverweightPercent::new();
@@ -314,6 +315,33 @@ pub fn handle_enter_game(server: &Server, packet: &mut dyn Packet, runtime: &Run
     tcp_stream_guard.flush();
 
     return FeatureState::Implemented(Box::new(packet_map_connection));
+}
+
+pub fn handle_restart(server: &Server, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<Mutex<TcpStream>>, session_id: u32) -> FeatureState {
+    let packet_restart = packet.as_any().downcast_ref::<PacketCzRestart>().unwrap();
+    let mut server_context_guard = server.server_context.lock().unwrap();
+    let mut session = server_context_guard.sessions.get_mut(&session_id).unwrap();
+    session.unset_character();
+
+    let mut restart_ack = PacketZcRestartAck::new();
+    restart_ack.set_atype(packet_restart.atype);
+    restart_ack.fill_raw();
+    let mut tcp_stream_guard = tcp_stream.lock().unwrap();
+    tcp_stream_guard.write(&restart_ack.raw());
+    tcp_stream_guard.flush();
+    return FeatureState::Implemented(Box::new(restart_ack));
+}
+
+pub fn handle_disconnect(server: &Server, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<Mutex<TcpStream>>, session_id: u32) -> FeatureState {
+    let mut server_context_guard = server.server_context.lock().unwrap();
+    server_context_guard.remove_session(session_id);
+
+    let mut disconnect_ack = PacketZcReqDisconnectAck2::new();
+    disconnect_ack.fill_raw();
+    let mut tcp_stream_guard = tcp_stream.lock().unwrap();
+    tcp_stream_guard.write(&disconnect_ack.raw());
+    tcp_stream_guard.flush();
+    return FeatureState::Implemented(Box::new(disconnect_ack));
 }
 
 async fn load_chars_info(account_id: u32, repository: &Repository<MySql>) -> PacketHcAcceptEnterNeoUnionHeader {
