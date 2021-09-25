@@ -24,7 +24,7 @@ pub async fn main() {
     };
     let server_context_arc = Arc::new(Mutex::new(server_context));
     let server = Server::new(server_context_arc.clone(), Arc::new(repository));
-    let server_arc = Arc::new(Mutex::new(server));
+    let server_arc = Arc::new(server);
     let login_proxy = proxy::proxy::Proxy {
         name: "login".to_string(),
         local_port: 6901,
