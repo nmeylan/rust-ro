@@ -10,7 +10,7 @@ pub struct MapProxy {
 }
 
 impl MapProxy {
-    pub(crate) fn new(server: Arc<Mutex<Server>>) -> Proxy<MapProxy> {
+    pub(crate) fn new(server: Arc<Server>) -> Proxy<MapProxy> {
         let server = Proxy {
             name: "map".to_string(),
             local_port: 6124,

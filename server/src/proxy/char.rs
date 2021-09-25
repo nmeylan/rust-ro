@@ -10,7 +10,7 @@ pub struct CharProxy {
 }
 
 impl CharProxy {
-    pub(crate) fn new(server: Arc<Mutex<Server>>) -> Proxy<CharProxy> {
+    pub(crate) fn new(server: Arc<Server>) -> Proxy<CharProxy> {
         let server = Proxy {
             name: "Char".to_string(),
             local_port: 6123,

@@ -13,7 +13,7 @@ use tokio::runtime::Runtime;
 #[derive(Clone)]
 pub struct Proxy<T: PacketHandler + Clone + Send> {
     pub name: String,
-    pub server: Arc<Mutex<Server>>,
+    pub server: Arc<Server>,
     pub local_port: u16,
     pub target: SocketAddr,
     pub specific_proxy: T,
@@ -106,8 +106,7 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
                     let tcp_stream_ref = Arc::new(Mutex::new(incoming.try_clone().unwrap()));
                     let mut packet = parse(&mut buffer[..bytes_read]);
                     if direction == ProxyDirection::Forward {
-                        let server_guard = self.server.lock().unwrap();
-                        let feature_state = server_guard.dispatch(runtime, tcp_stream_ref.clone(), packet.as_mut());
+                        let feature_state = self.server.dispatch(runtime, tcp_stream_ref.clone(), packet.as_mut());
                         match feature_state {
                             FeatureState::Unimplemented => {
                                 self.proxy_request(outgoing, &direction, tcp_stream_ref, packet)
