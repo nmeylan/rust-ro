@@ -14,7 +14,6 @@ use std::net::Shutdown::Both;
 use crate::util::packet::chain_packets;
 use std::time::SystemTime;
 use crate::server::enums::StatusTypes;
-use std::ops::DerefMut;
 
 pub fn handle_char_enter(server: &Server, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<Mutex<TcpStream>>) -> FeatureState {
     let packet_char_enter = packet.as_any().downcast_ref::<PacketChEnter>().unwrap();

@@ -5,6 +5,10 @@ use std::sync::{Arc, Mutex};
 use std::net::TcpStream;
 use std::time::SystemTime;
 use std::io::Write;
+use crate::util::debug::debug_in_game_chat;
+use std::cell::RefCell;
+use std::rc::Rc;
+use std::ops::DerefMut;
 
 #[derive(Debug, Clone)]
 pub struct Position {
@@ -34,19 +38,21 @@ impl Position {
     }
 }
 
-
 pub fn handle_char_move(server: &Server, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<Mutex<TcpStream>>, session_id: u32) -> FeatureState {
     let move_packet = packet.as_any().downcast_ref::<PacketCzRequestMove2>().unwrap();
     let mut server_context_guard = server.server_context.lock().unwrap();
     let mut session = server_context_guard.sessions.get_mut(&session_id).unwrap();
+    let mut session_rc = Rc::new(RefCell::new(session));
     let destination = Position::from_move_packet(move_packet);
-    let character_session = session.character.as_mut().unwrap();
+    let mut session_rc_mut = session_rc.borrow_mut();
+    let character_session = session_rc_mut.character.as_mut().unwrap();
     let current_position = Position { x: character_session.current_x as u8, y: character_session.current_y as u8, dir: 0 };
-    println!("{:?}", current_position);
-    println!("{:?}", destination);
+    // TODO
+    // * Control if cell is walkable
+    // * Control player state (dead? stun?, frozen?)
     let mut packet_zc_notify_playermove = PacketZcNotifyPlayermove::new();
     packet_zc_notify_playermove.set_move_data(current_position.to_move_data(destination.clone()));
-    packet_zc_notify_playermove.set_move_start_time(SystemTime::now().elapsed().unwrap().as_secs() as u32);
+    // packet_zc_notify_playermove.set_move_start_time(SystemTime::now().elapsed().unwrap().as_secs() as u32);
     packet_zc_notify_playermove.fill_raw();
 
     let mut tcp_stream_guard = tcp_stream.lock().unwrap();
@@ -54,5 +60,7 @@ pub fn handle_char_move(server: &Server, packet: &mut dyn Packet, runtime: &Runt
     tcp_stream_guard.flush();
     character_session.set_current_x(destination.x as i16);
     character_session.set_current_y(destination.y as i16);
+    std::mem::drop(session_rc_mut);
+    debug_in_game_chat(session_rc.clone(), format!("move_data {:?}", packet_zc_notify_playermove.move_data_raw));
     return FeatureState::Implemented(Box::new(packet_zc_notify_playermove));
 }
