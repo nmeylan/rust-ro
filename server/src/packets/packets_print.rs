@@ -17953,6 +17953,25 @@ impl Display for PacketZcAckReqnameall2 {
     }
 }
 
+impl Debug for PacketCzRequestTime2 {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("PacketCzRequestTime2")
+            .field("id", &self.id())
+            .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
+            .field("client_time[2, 6]", &format!("{:02X?}", &self.client_time_raw))
+        .finish()
+    }
+}
+
+impl Display for PacketCzRequestTime2 {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        let mut fields = Vec::new();
+        fields.push(format!("packet_id(short as i16)[0, 2]: {}", &self.packet_id));
+        fields.push(format!("client_time(unsigned long as u32)[2, 6]: {}", &self.client_time));
+        write!(f, "PacketCzRequestTime2\n {}", fields.join(",\n "))
+    }
+}
+
 impl Debug for ServerAddr {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("ServerAddr")

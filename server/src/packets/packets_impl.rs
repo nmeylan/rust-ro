@@ -90815,6 +90815,84 @@ impl Packet for PacketZcAckReqnameall2 {
     }
 }
 
+impl PacketCzRequestTime2 {
+    pub fn from(buffer: &[u8]) -> PacketCzRequestTime2 {
+        PacketCzRequestTime2 {
+            raw: buffer.to_vec(),
+            packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[0..2]);
+                dst
+            },
+            client_time: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            client_time_raw: {
+                let mut dst: [u8; 4] = [0u8; 4];
+                dst.clone_from_slice(&buffer[2..6]);
+                dst
+            },
+        }
+    }
+    pub fn fill_raw(&mut self) {
+    let mut wtr;
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.packet_id).unwrap();
+        self.packet_id_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u32::<LittleEndian>(self.client_time).unwrap();
+        self.client_time_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.append(&mut self.packet_id_raw.to_vec());
+        wtr.append(&mut self.client_time_raw.to_vec());
+        self.raw = wtr;
+    }
+    pub fn set_packet_id(&mut self, value: i16) {
+        self.packet_id = value;
+    }
+    pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
+        self.packet_id_raw = value;
+    }
+    pub fn set_client_time(&mut self, value: u32) {
+        self.client_time = value;
+    }
+    pub fn set_client_time_raw(&mut self, value: [u8; 4]) {
+        self.client_time_raw = value;
+    }
+    pub fn new() -> PacketCzRequestTime2 {
+        PacketCzRequestTime2 {
+        raw: vec![],
+        packet_id: i16::from_le_bytes([0x60, 0x03]),
+        packet_id_raw: [0x60, 0x03],
+        client_time: 0,
+        client_time_raw: [0; 4],
+        }
+    }
+}
+
+impl Packet for PacketCzRequestTime2 {
+    fn id(&self) -> &str {
+       "0x6003"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
+    }
+    fn display(&self) {
+            println!("{}", self)
+    }
+    fn pretty_debug(&self) {
+            println!("{:#?}", self)
+    }
+    fn raw(&self) -> &Vec<u8> {
+            &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut dyn Any{
+        self
+    }
+}
+
 impl ServerAddr {
     pub fn from(buffer: &[u8]) -> ServerAddr {
         ServerAddr {

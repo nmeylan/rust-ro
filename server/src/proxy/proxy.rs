@@ -5,7 +5,7 @@ use std::thread;
 use std::fmt::{Display, Formatter, Debug};
 use std::sync::{Arc, Mutex};
 use std::collections::HashMap;
-use crate::packets::packets::{Packet};
+use crate::packets::packets::{Packet, PacketZcNotifyTime, PacketCzRequestTime2};
 use crate::packets::packets_parser::parse;
 use crate::server::core::{Server, FeatureState};
 use tokio::runtime::Runtime;
@@ -90,10 +90,10 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
     fn pipe(&mut self, incoming: &mut TcpStream, outgoing: &mut TcpStream, direction: ProxyDirection, runtime: &Runtime) -> Result<(), String> {
         let mut buffer = [0; 2048];
         loop {
-            println!("loop direction {} incoming peer {} incoming local {} outgoing local {} outgoing peer {} ", direction,
-                     incoming.peer_addr().unwrap(), incoming.local_addr().unwrap(),
-                     outgoing.local_addr().unwrap(), outgoing.peer_addr().unwrap(),
-            );
+            // println!("loop direction {} incoming peer {} incoming local {} outgoing local {} outgoing peer {} ", direction,
+            //          incoming.peer_addr().unwrap(), incoming.local_addr().unwrap(),
+            //          outgoing.local_addr().unwrap(), outgoing.peer_addr().unwrap(),
+            // );
             match incoming.read(&mut buffer) {
                 Ok(bytes_read) => {
                     // no more data
@@ -111,13 +111,11 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
                             FeatureState::Unimplemented => {
                                 self.proxy_request(outgoing, &direction, tcp_stream_ref, packet)
                             }
-                            FeatureState::Implemented(response_packet) => {
-                            }
+                            FeatureState::Implemented(response_packet) => {}
                         }
                     } else {
                         self.proxy_request(outgoing, &direction, tcp_stream_ref, packet)
                     }
-
                 }
                 Err(error) => return Err(format!("Could not read data: {}", error))
             }
@@ -126,12 +124,13 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
     }
 
     fn proxy_request(&self, outgoing: &mut TcpStream, direction: &ProxyDirection, tcp_stream_ref: Arc<Mutex<TcpStream>>, mut packet: Box<dyn Packet>) {
-
-        print!("{} {} {} ", self.name, if *direction.clone() == ProxyDirection::Backward { "<" } else { ">" }, outgoing.peer_addr().unwrap());
-        self.specific_proxy.handle_packet(tcp_stream_ref, packet.as_mut());
-        packet.display();
-        packet.pretty_debug();
-        println!("{:02X?}", packet.raw());
+        if packet.id() != "0x6003" && packet.id() != "0x7f00" {
+            print!("{} {} {} ", self.name, if *direction.clone() == ProxyDirection::Backward { "<" } else { ">" }, outgoing.peer_addr().unwrap());
+            self.specific_proxy.handle_packet(tcp_stream_ref, packet.as_mut());
+            packet.display();
+            packet.pretty_debug();
+            println!("{:02X?}", packet.raw());
+        }
         if outgoing.write(packet.raw()).is_ok() {
             outgoing.flush();
         }

@@ -6263,3 +6263,9 @@ struct PACKET_ZC_ACK_REQNAMEALL2 {
   /* this+0x36 */ unsigned char guild_name[24]
   /* this+0x4e */ int titleId
 }
+
+0x6003
+ struct PACKET_CZ_REQUEST_TIME2 {
+  /* this+0x0 */ short PacketId
+  /* this+0x2 */ unsigned long clientTime
+ }
