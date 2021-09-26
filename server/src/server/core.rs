@@ -133,7 +133,6 @@ impl Server {
     }
 
     pub fn dispatch(&self, runtime: &Runtime, tcp_stream: Arc<Mutex<TcpStream>>, packet: &mut dyn Packet) -> FeatureState {
-        packet.pretty_debug();
         if packet.as_any().downcast_ref::<PacketUnknown>().is_some() {
             println!("Unknown packet {} of length {}: {:02X?}", packet.id(), packet.raw().len(), packet.raw());
         }
@@ -184,7 +183,6 @@ impl Server {
                 return handle_disconnect(self, packet, runtime, tcp_stream, session_id.unwrap());
             }
         }
-        println!("{}", packet.id());
         // Char creation
         FeatureState::Unimplemented
     }

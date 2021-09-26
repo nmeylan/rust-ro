@@ -10126,6 +10126,15 @@ pub struct PacketZcAckReqnameall2 {
 }
 
 #[derive(Clone)]
+pub struct PacketCzRequestTime2 {
+    pub raw: Vec<u8>,
+    pub packet_id: i16,
+    pub packet_id_raw: [u8; 2],
+    pub client_time: u32,
+    pub client_time_raw: [u8; 4],
+}
+
+#[derive(Clone)]
 pub struct ServerAddr {
     pub raw: Vec<u8>,
     pub ip: u32,
