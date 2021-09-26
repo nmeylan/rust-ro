@@ -13,6 +13,11 @@ The goal is to rewrite some part of hercules on rust while forwarding client req
 - display char list
 - create char
 - delete char
+- join game
+- move in loaded map
+- debug log in in-game chat 
 
 
 ![packets](img/packet_analyzer.PNG)
+
+![packets](img/in_game_debug.PNG)
