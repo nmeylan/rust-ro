@@ -126,6 +126,7 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
     }
 
     fn proxy_request(&self, outgoing: &mut TcpStream, direction: &ProxyDirection, tcp_stream_ref: Arc<Mutex<TcpStream>>, mut packet: Box<dyn Packet>) {
+
         print!("{} {} {} ", self.name, if *direction.clone() == ProxyDirection::Backward { "<" } else { ">" }, outgoing.peer_addr().unwrap());
         self.specific_proxy.handle_packet(tcp_stream_ref, packet.as_mut());
         packet.display();

@@ -90563,6 +90563,258 @@ impl Packet for PacketZcReqDisconnectAck2 {
     }
 }
 
+impl PacketCzReqnameall2 {
+    pub fn from(buffer: &[u8]) -> PacketCzReqnameall2 {
+        PacketCzReqnameall2 {
+            raw: buffer.to_vec(),
+            packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[0..2]);
+                dst
+            },
+            gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid_raw: {
+                let mut dst: [u8; 4] = [0u8; 4];
+                dst.clone_from_slice(&buffer[2..6]);
+                dst
+            },
+        }
+    }
+    pub fn fill_raw(&mut self) {
+    let mut wtr;
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.packet_id).unwrap();
+        self.packet_id_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u32::<LittleEndian>(self.gid).unwrap();
+        self.gid_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.append(&mut self.packet_id_raw.to_vec());
+        wtr.append(&mut self.gid_raw.to_vec());
+        self.raw = wtr;
+    }
+    pub fn set_packet_id(&mut self, value: i16) {
+        self.packet_id = value;
+    }
+    pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
+        self.packet_id_raw = value;
+    }
+    pub fn set_gid(&mut self, value: u32) {
+        self.gid = value;
+    }
+    pub fn set_gid_raw(&mut self, value: [u8; 4]) {
+        self.gid_raw = value;
+    }
+    pub fn new() -> PacketCzReqnameall2 {
+        PacketCzReqnameall2 {
+        raw: vec![],
+        packet_id: i16::from_le_bytes([0x68, 0x03]),
+        packet_id_raw: [0x68, 0x03],
+        gid: 0,
+        gid_raw: [0; 4],
+        }
+    }
+}
+
+impl Packet for PacketCzReqnameall2 {
+    fn id(&self) -> &str {
+       "0x6803"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
+    }
+    fn display(&self) {
+            println!("{}", self)
+    }
+    fn pretty_debug(&self) {
+            println!("{:#?}", self)
+    }
+    fn raw(&self) -> &Vec<u8> {
+            &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut dyn Any{
+        self
+    }
+}
+
+impl PacketZcAckReqnameall2 {
+    pub fn from(buffer: &[u8]) -> PacketZcAckReqnameall2 {
+        PacketZcAckReqnameall2 {
+            raw: buffer.to_vec(),
+            packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[0..2]);
+                dst
+            },
+            gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid_raw: {
+                let mut dst: [u8; 4] = [0u8; 4];
+                dst.clone_from_slice(&buffer[2..6]);
+                dst
+            },
+            name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[6..30].iter().enumerate() {
+                    dst[index] = *byte as char;
+                }
+                dst
+            },
+            name_raw: {
+                let mut dst: [u8; 24] = [0u8; 24];
+                dst.clone_from_slice(&buffer[6..30]);
+                dst
+            },
+            party_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[30..54].iter().enumerate() {
+                    dst[index] = *byte as char;
+                }
+                dst
+            },
+            party_name_raw: {
+                let mut dst: [u8; 24] = [0u8; 24];
+                dst.clone_from_slice(&buffer[30..54]);
+                dst
+            },
+            guild_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[54..78].iter().enumerate() {
+                    dst[index] = *byte as char;
+                }
+                dst
+            },
+            guild_name_raw: {
+                let mut dst: [u8; 24] = [0u8; 24];
+                dst.clone_from_slice(&buffer[54..78]);
+                dst
+            },
+            title_id: i32::from_le_bytes([buffer[78], buffer[79], buffer[80], buffer[81]]),
+            title_id_raw: {
+                let mut dst: [u8; 4] = [0u8; 4];
+                dst.clone_from_slice(&buffer[78..82]);
+                dst
+            },
+        }
+    }
+    pub fn fill_raw(&mut self) {
+    let mut wtr;
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.packet_id).unwrap();
+        self.packet_id_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u32::<LittleEndian>(self.gid).unwrap();
+        self.gid_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        for item in self.name {
+            wtr.write_u8(item as u8 ).unwrap();
+        }
+        self.name_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        for item in self.party_name {
+            wtr.write_u8(item as u8 ).unwrap();
+        }
+        self.party_name_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        for item in self.guild_name {
+            wtr.write_u8(item as u8 ).unwrap();
+        }
+        self.guild_name_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_i32::<LittleEndian>(self.title_id).unwrap();
+        self.title_id_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.append(&mut self.packet_id_raw.to_vec());
+        wtr.append(&mut self.gid_raw.to_vec());
+        wtr.append(&mut self.name_raw.to_vec());
+        wtr.append(&mut self.party_name_raw.to_vec());
+        wtr.append(&mut self.guild_name_raw.to_vec());
+        wtr.append(&mut self.title_id_raw.to_vec());
+        self.raw = wtr;
+    }
+    pub fn set_packet_id(&mut self, value: i16) {
+        self.packet_id = value;
+    }
+    pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
+        self.packet_id_raw = value;
+    }
+    pub fn set_gid(&mut self, value: u32) {
+        self.gid = value;
+    }
+    pub fn set_gid_raw(&mut self, value: [u8; 4]) {
+        self.gid_raw = value;
+    }
+    pub fn set_name(&mut self, value: [char; 24]) {
+        self.name = value;
+    }
+    pub fn set_name_raw(&mut self, value: [u8; 24]) {
+        self.name_raw = value;
+    }
+    pub fn set_party_name(&mut self, value: [char; 24]) {
+        self.party_name = value;
+    }
+    pub fn set_party_name_raw(&mut self, value: [u8; 24]) {
+        self.party_name_raw = value;
+    }
+    pub fn set_guild_name(&mut self, value: [char; 24]) {
+        self.guild_name = value;
+    }
+    pub fn set_guild_name_raw(&mut self, value: [u8; 24]) {
+        self.guild_name_raw = value;
+    }
+    pub fn set_title_id(&mut self, value: i32) {
+        self.title_id = value;
+    }
+    pub fn set_title_id_raw(&mut self, value: [u8; 4]) {
+        self.title_id_raw = value;
+    }
+    pub fn new() -> PacketZcAckReqnameall2 {
+        PacketZcAckReqnameall2 {
+        raw: vec![],
+        packet_id: i16::from_le_bytes([0x30, 0x0a]),
+        packet_id_raw: [0x30, 0x0a],
+        gid: 0,
+        gid_raw: [0; 4],
+        name: [0 as char; 24],
+        name_raw: [0; 24],
+        party_name: [0 as char; 24],
+        party_name_raw: [0; 24],
+        guild_name: [0 as char; 24],
+        guild_name_raw: [0; 24],
+        title_id: 0,
+        title_id_raw: [0; 4],
+        }
+    }
+}
+
+impl Packet for PacketZcAckReqnameall2 {
+    fn id(&self) -> &str {
+       "0x300a"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
+    }
+    fn display(&self) {
+            println!("{}", self)
+    }
+    fn pretty_debug(&self) {
+            println!("{:#?}", self)
+    }
+    fn raw(&self) -> &Vec<u8> {
+            &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut dyn Any{
+        self
+    }
+}
+
 impl ServerAddr {
     pub fn from(buffer: &[u8]) -> ServerAddr {
         ServerAddr {

@@ -17907,6 +17907,52 @@ impl Display for PacketZcReqDisconnectAck2 {
     }
 }
 
+impl Debug for PacketCzReqnameall2 {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("PacketCzReqnameall2")
+            .field("id", &self.id())
+            .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
+            .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
+        .finish()
+    }
+}
+
+impl Display for PacketCzReqnameall2 {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        let mut fields = Vec::new();
+        fields.push(format!("packet_id(short as i16)[0, 2]: {}", &self.packet_id));
+        fields.push(format!("gid(unsigned long as u32)[2, 6]: {}", &self.gid));
+        write!(f, "PacketCzReqnameall2\n {}", fields.join(",\n "))
+    }
+}
+
+impl Debug for PacketZcAckReqnameall2 {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("PacketZcAckReqnameall2")
+            .field("id", &self.id())
+            .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
+            .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
+            .field("name[6, 30]", &format!("{:02X?}", &self.name_raw))
+            .field("party_name[30, 54]", &format!("{:02X?}", &self.party_name_raw))
+            .field("guild_name[54, 78]", &format!("{:02X?}", &self.guild_name_raw))
+            .field("title_id[78, 82]", &format!("{:02X?}", &self.title_id_raw))
+        .finish()
+    }
+}
+
+impl Display for PacketZcAckReqnameall2 {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        let mut fields = Vec::new();
+        fields.push(format!("packet_id(short as i16)[0, 2]: {}", &self.packet_id));
+        fields.push(format!("gid(unsigned long as u32)[2, 6]: {}", &self.gid));
+        fields.push(format!("name(char[] as char[])[6, 30]: {}", &self.name.pretty_output()));
+        fields.push(format!("party_name(char[] as char[])[30, 54]: {}", &self.party_name.pretty_output()));
+        fields.push(format!("guild_name(char[] as char[])[54, 78]: {}", &self.guild_name.pretty_output()));
+        fields.push(format!("title_id(int as i32)[78, 82]: {}", &self.title_id));
+        write!(f, "PacketZcAckReqnameall2\n {}", fields.join(",\n "))
+    }
+}
+
 impl Debug for ServerAddr {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("ServerAddr")
