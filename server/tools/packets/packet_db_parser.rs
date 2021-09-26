@@ -18,6 +18,7 @@ lazy_static! {
     pub static ref static_types_map: HashMap<&'static str, Type> = hashmap!{
         "char" => Type {name: "i8".to_string(), cname: "char".to_string(), length: Some(1)},
         "unsigned char" => Type {name: "u8".to_string(), cname: "unsigned char".to_string(), length: Some(1)},
+        "unsigned byte" => Type {name: "u8".to_string(), cname: "unsigned char".to_string(), length: Some(1)},
         "rust char" => Type {name: "char".to_string(), cname: "char".to_string(), length: Some(1)},
         "short" => Type {name: "i16".to_string(), cname: "short".to_string(), length: Some(2)},
         "unsigned short" => Type {name: "u16".to_string(), cname: "unsigned short".to_string(), length: Some(2)},

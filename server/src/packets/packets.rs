@@ -674,7 +674,7 @@ pub struct PacketCzRequestMove {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
-    pub dest: [char; 3],
+    pub dest: [u8; 3],
     pub dest_raw: [u8; 3],
 }
 
@@ -685,7 +685,7 @@ pub struct PacketZcNotifyMove {
     pub packet_id_raw: [u8; 2],
     pub gid: u32,
     pub gid_raw: [u8; 4],
-    pub move_data: [u16; 6],
+    pub move_data: [u8; 6],
     pub move_data_raw: [u8; 6],
     pub move_start_time: u32,
     pub move_start_time_raw: [u8; 4],
@@ -698,7 +698,7 @@ pub struct PacketZcNotifyPlayermove {
     pub packet_id_raw: [u8; 2],
     pub move_start_time: u32,
     pub move_start_time_raw: [u8; 4],
-    pub move_data: [u16; 6],
+    pub move_data: [u8; 6],
     pub move_data_raw: [u8; 6],
 }
 

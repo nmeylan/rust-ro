@@ -5962,9 +5962,9 @@ impl PacketCzRequestMove {
                 dst
             },
             dest:  {
-                let mut dst: [char; 3] = [0 as char; 3];
+                let mut dst: [u8; 3] = [0 as u8; 3];
                 for (index, byte) in buffer[2..5].iter().enumerate() {
-                    dst[index] = *byte as char;
+                    dst[index] = *byte as u8;
                 }
                 dst
             },
@@ -5982,7 +5982,7 @@ impl PacketCzRequestMove {
         self.packet_id_raw = wtr.try_into().unwrap();
         wtr = vec![];
         for item in self.dest {
-            wtr.write_u8(item as u8 ).unwrap();
+            wtr.write_u8(item).unwrap();
         }
         self.dest_raw = wtr.try_into().unwrap();
         wtr = vec![];
@@ -5996,7 +5996,7 @@ impl PacketCzRequestMove {
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
     }
-    pub fn set_dest(&mut self, value: [char; 3]) {
+    pub fn set_dest(&mut self, value: [u8; 3]) {
         self.dest = value;
     }
     pub fn set_dest_raw(&mut self, value: [u8; 3]) {
@@ -6007,7 +6007,7 @@ impl PacketCzRequestMove {
         raw: vec![],
         packet_id: i16::from_le_bytes([0x85, 0x0]),
         packet_id_raw: [0x85, 0x0],
-        dest: [0 as char; 3],
+        dest: [0; 3],
         dest_raw: [0; 3],
         }
     }
@@ -6054,9 +6054,9 @@ impl PacketZcNotifyMove {
                 dst
             },
             move_data:  {
-                let mut dst: [u16; 6] = [0 as u16; 6];
+                let mut dst: [u8; 6] = [0 as u8; 6];
                 for (index, byte) in buffer[6..12].iter().enumerate() {
-                    dst[index] = *byte as u16;
+                    dst[index] = *byte as u8;
                 }
                 dst
             },
@@ -6083,7 +6083,7 @@ impl PacketZcNotifyMove {
         self.gid_raw = wtr.try_into().unwrap();
         wtr = vec![];
         for item in self.move_data {
-            wtr.write_u16::<LittleEndian>(item).unwrap();
+            wtr.write_u8(item).unwrap();
         }
         self.move_data_raw = wtr.try_into().unwrap();
         wtr = vec![];
@@ -6108,7 +6108,7 @@ impl PacketZcNotifyMove {
     pub fn set_gid_raw(&mut self, value: [u8; 4]) {
         self.gid_raw = value;
     }
-    pub fn set_move_data(&mut self, value: [u16; 6]) {
+    pub fn set_move_data(&mut self, value: [u8; 6]) {
         self.move_data = value;
     }
     pub fn set_move_data_raw(&mut self, value: [u8; 6]) {
@@ -6176,9 +6176,9 @@ impl PacketZcNotifyPlayermove {
                 dst
             },
             move_data:  {
-                let mut dst: [u16; 6] = [0 as u16; 6];
+                let mut dst: [u8; 6] = [0 as u8; 6];
                 for (index, byte) in buffer[6..12].iter().enumerate() {
-                    dst[index] = *byte as u16;
+                    dst[index] = *byte as u8;
                 }
                 dst
             },
@@ -6199,7 +6199,7 @@ impl PacketZcNotifyPlayermove {
         self.move_start_time_raw = wtr.try_into().unwrap();
         wtr = vec![];
         for item in self.move_data {
-            wtr.write_u16::<LittleEndian>(item).unwrap();
+            wtr.write_u8(item).unwrap();
         }
         self.move_data_raw = wtr.try_into().unwrap();
         wtr = vec![];
@@ -6220,7 +6220,7 @@ impl PacketZcNotifyPlayermove {
     pub fn set_move_start_time_raw(&mut self, value: [u8; 4]) {
         self.move_start_time_raw = value;
     }
-    pub fn set_move_data(&mut self, value: [u16; 6]) {
+    pub fn set_move_data(&mut self, value: [u8; 6]) {
         self.move_data = value;
     }
     pub fn set_move_data_raw(&mut self, value: [u8; 6]) {
