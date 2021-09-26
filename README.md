@@ -6,7 +6,7 @@ The goal is to rewrite some part of hercules on rust while forwarding client req
 
 # What has been done?
 - proxy login, char and map request to hercules login, char and map servers
-- packet structure generator
+- packet structure generator from [packet db](https://github.com/nmeylan/rust-ro-hercules/blob/master/server/tools/packets/packets_db)
 - packet parser
 - packet debug
 - login
