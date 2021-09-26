@@ -17,6 +17,18 @@ impl PrettyOutput for [char] {
     }
 }
 
+impl PrettyOutput for [u8] {
+    fn pretty_output(&self) -> String {
+        pretty_output_primitive_array(self.iter())
+    }
+}
+
+impl PrettyOutput for [i8] {
+    fn pretty_output(&self) -> String {
+        pretty_output_primitive_array(self.iter())
+    }
+}
+
 impl PrettyOutput for [i16] {
     fn pretty_output(&self) -> String {
         pretty_output_primitive_array(self.iter())

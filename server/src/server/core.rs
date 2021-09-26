@@ -1,7 +1,7 @@
 // This is the core of this server. As all feature won't be implemented in one shot, the idea is to proxy unimplemented feature to hercules server.
 // For the moment I won't implement TCPListener in this file, but in the "future" proxies will be removed and only this file will have a TCPListener.
 
-use crate::packets::packets::{Packet, PacketUnknown, PacketZcNotifyTime, PacketZcNotifyChat, PacketCaLogin, PacketAcAcceptLogin2, PacketAcRefuseLoginR2, PacketAcRefuseLoginR3, PacketChEnter, PacketHcRefuseEnter, PacketChMakeChar2, PacketChDeleteChar2, PacketHcDeleteChar3Reserved, PacketChDeleteChar4Reserved, PacketCzEnter2, PacketChSelectChar, PacketCzRestart, PacketCzReqDisconnect, PacketCzReqDisconnect2};
+use crate::packets::packets::{Packet, PacketUnknown, PacketZcNotifyTime, PacketZcNotifyChat, PacketCaLogin, PacketAcAcceptLogin2, PacketAcRefuseLoginR2, PacketAcRefuseLoginR3, PacketChEnter, PacketHcRefuseEnter, PacketChMakeChar2, PacketChDeleteChar2, PacketHcDeleteChar3Reserved, PacketChDeleteChar4Reserved, PacketCzEnter2, PacketChSelectChar, PacketCzRestart, PacketCzReqDisconnect, PacketCzReqDisconnect2, PacketCzRequestMove2};
 use std::sync::{Arc, Mutex};
 use std::thread;
 use std::thread::sleep;
@@ -16,6 +16,7 @@ use tokio::runtime::Runtime;
 use crate::server::login::handle_login;
 use crate::server::char::{handle_char_enter, handle_make_char, handle_delete_reserved_char, handle_select_char, handle_enter_game, handle_restart, handle_disconnect};
 use std::net::Shutdown::Both;
+use crate::server::movement::{handle_char_move};
 
 pub struct Server {
     pub server_context: Arc<Mutex<ServerContext>>,
@@ -181,6 +182,13 @@ impl Server {
             let session_id = self.ensure_session_exists(&tcp_stream);
             if session_id.is_some() {
                 return handle_disconnect(self, packet, runtime, tcp_stream, session_id.unwrap());
+            }
+        }
+        // Player click on map cell
+        if packet.as_any().downcast_ref::<PacketCzRequestMove2>().is_some() {
+            let session_id = self.ensure_session_exists(&tcp_stream);
+            if session_id.is_some() {
+                return handle_char_move(self, packet, runtime, tcp_stream, session_id.unwrap());
             }
         }
         // Char creation

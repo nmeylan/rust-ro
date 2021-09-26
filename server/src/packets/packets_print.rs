@@ -1018,7 +1018,7 @@ impl Display for PacketCzRequestMove {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
         fields.push(format!("packet_id(short as i16)[0, 2]: {}", &self.packet_id));
-        fields.push(format!("dest(char[] as char[])[2, 5]: {}", &self.dest.pretty_output()));
+        fields.push(format!("dest(unsigned char[] as u8[])[2, 5]: {}", &self.dest.pretty_output()));
         write!(f, "PacketCzRequestMove\n {}", fields.join(",\n "))
     }
 }
@@ -1040,7 +1040,7 @@ impl Display for PacketZcNotifyMove {
         let mut fields = Vec::new();
         fields.push(format!("packet_id(short as i16)[0, 2]: {}", &self.packet_id));
         fields.push(format!("gid(unsigned long as u32)[2, 6]: {}", &self.gid));
-        fields.push(format!("move_data(unsigned short[] as u16[])[6, 12]: {}", &self.move_data.pretty_output()));
+        fields.push(format!("move_data(unsigned char[] as u8[])[6, 12]: {}", &self.move_data.pretty_output()));
         fields.push(format!("move_start_time(unsigned long as u32)[12, 16]: {}", &self.move_start_time));
         write!(f, "PacketZcNotifyMove\n {}", fields.join(",\n "))
     }
@@ -1062,7 +1062,7 @@ impl Display for PacketZcNotifyPlayermove {
         let mut fields = Vec::new();
         fields.push(format!("packet_id(short as i16)[0, 2]: {}", &self.packet_id));
         fields.push(format!("move_start_time(unsigned long as u32)[2, 6]: {}", &self.move_start_time));
-        fields.push(format!("move_data(unsigned short[] as u16[])[6, 12]: {}", &self.move_data.pretty_output()));
+        fields.push(format!("move_data(unsigned char[] as u8[])[6, 12]: {}", &self.move_data.pretty_output()));
         write!(f, "PacketZcNotifyPlayermove\n {}", fields.join(",\n "))
     }
 }
