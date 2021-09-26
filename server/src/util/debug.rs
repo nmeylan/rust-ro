@@ -5,8 +5,7 @@ use std::sync::MutexGuard;
 use std::cell::RefCell;
 use std::rc::Rc;
 
-pub fn debug_in_game_chat(session: Rc<RefCell<&mut Session>>, text: String) {
-    let session = session.borrow();
+pub fn debug_in_game_chat(session: &mut Session, text: String) {
     let mut tcp_stream_guard = session.map_server_socket.as_ref().unwrap().lock().unwrap();
     let mut zc_notify_chat = PacketZcNotifyChat::new();
     zc_notify_chat.set_gid(session.account_id);
