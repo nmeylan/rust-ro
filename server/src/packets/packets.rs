@@ -10100,6 +10100,32 @@ pub struct PacketZcReqDisconnectAck2 {
 }
 
 #[derive(Clone)]
+pub struct PacketCzReqnameall2 {
+    pub raw: Vec<u8>,
+    pub packet_id: i16,
+    pub packet_id_raw: [u8; 2],
+    pub gid: u32,
+    pub gid_raw: [u8; 4],
+}
+
+#[derive(Clone)]
+pub struct PacketZcAckReqnameall2 {
+    pub raw: Vec<u8>,
+    pub packet_id: i16,
+    pub packet_id_raw: [u8; 2],
+    pub gid: u32,
+    pub gid_raw: [u8; 4],
+    pub name: [char; 24],
+    pub name_raw: [u8; 24],
+    pub party_name: [char; 24],
+    pub party_name_raw: [u8; 24],
+    pub guild_name: [char; 24],
+    pub guild_name_raw: [u8; 24],
+    pub title_id: i32,
+    pub title_id_raw: [u8; 4],
+}
+
+#[derive(Clone)]
 pub struct ServerAddr {
     pub raw: Vec<u8>,
     pub ip: u32,

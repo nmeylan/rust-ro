@@ -6249,3 +6249,17 @@ struct PACKET_ZC_REQ_DISCONNECT_ACK2 {
   /* this+0x0 */ short PacketId
   /* this+0x2 */ short empty
 }
+0x6803
+struct PACKET_CZ_REQNAMEALL2 {
+  /* this+0x0 */ short PacketId
+  /* this+0x2 */ unsigned long GID
+}
+0x300a
+struct PACKET_ZC_ACK_REQNAMEALL2 {
+  /* this+0x0 */ short PacketId
+  /* this+0x2 */ unsigned long GID
+  /* this+0x6 */ unsigned char name[24]
+  /* this+0x1e */ unsigned char party_name[24]
+  /* this+0x36 */ unsigned char guild_name[24]
+  /* this+0x4e */ int titleId
+}

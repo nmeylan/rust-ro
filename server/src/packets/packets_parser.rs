@@ -2326,6 +2326,12 @@ pub fn parse(buffer: &[u8]) -> Box<dyn Packet> {
     if buffer[0] == 0x8b && buffer[1] == 0x01 {
         return Box::new(PacketZcReqDisconnectAck2::from(buffer));
     }
+    if buffer[0] == 0x68 && buffer[1] == 0x03 {
+        return Box::new(PacketCzReqnameall2::from(buffer));
+    }
+    if buffer[0] == 0x30 && buffer[1] == 0x0a {
+        return Box::new(PacketZcAckReqnameall2::from(buffer));
+    }
     Box::new(PacketUnknown::from(buffer))
 }
 
