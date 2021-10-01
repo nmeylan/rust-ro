@@ -9,12 +9,13 @@ use crate::util::debug::debug_in_game_chat;
 use std::cell::RefCell;
 use std::rc::Rc;
 use std::ops::DerefMut;
+use crate::server::map::Map;
 
 #[derive(Debug, Clone)]
 pub struct Position {
-    x: i16,
-    y: i16,
-    dir: i16
+    pub x: i16,
+    pub y: i16,
+    pub(crate) dir: i16
 }
 
 impl Position {
@@ -26,7 +27,7 @@ impl Position {
         Position { x, y, dir }
     }
 
-    pub fn to_move_data(self, destination: Position) -> [u8; 6] {
+    pub fn to_move_data(&self, destination: Position) -> [u8; 6] {
         let mut move_data: [u8; 6] = [0; 6];
         move_data[0] = (self.x >> 2) as u8;
         move_data[1] = ((self.x << 6) | ((self.y >> 4) & 0x3f)) as u8;
@@ -36,6 +37,10 @@ impl Position {
         move_data[5] = 136; // hardcoded value in hercules (8 << 4) | (8 & 0x0f)
         move_data
     }
+
+    pub fn is_equals(&self, other: &Position) -> bool {
+        self.x == other.x && self.y == other.y
+    }
 }
 
 pub fn handle_char_move(server: &Server, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<Mutex<TcpStream>>, session_id: u32) -> FeatureState {
@@ -44,12 +49,16 @@ pub fn handle_char_move(server: &Server, packet: &mut dyn Packet, runtime: &Runt
     let mut session = server_context_guard.sessions.get_mut(&session_id).unwrap();
     let destination = Position::from_move_packet(move_packet);
     let character_session = session.character.as_mut().unwrap();
-    let current_position = Position { x: character_session.current_x, y: character_session.current_y, dir: 0 };
+
+    let map_name : String = Map::name_without_ext(character_session.get_current_map_name());
+    let maps_guard = server.maps.lock().unwrap();
+    let map = maps_guard.get(&map_name[..]).unwrap();
+    let is_walkable = map.is_cell_walkable(destination.x, destination.y);
     // TODO
     // * Control if cell is walkable
     // * Control player state (dead? stun?, frozen?)
     let mut packet_zc_notify_playermove = PacketZcNotifyPlayermove::new();
-    packet_zc_notify_playermove.set_move_data(current_position.to_move_data(destination.clone()));
+    packet_zc_notify_playermove.set_move_data(character_session.current_position.to_move_data(destination.clone()));
     packet_zc_notify_playermove.set_move_start_time(SystemTime::now().elapsed().unwrap().as_secs() as u32);
     packet_zc_notify_playermove.fill_raw();
 
@@ -58,7 +67,7 @@ pub fn handle_char_move(server: &Server, packet: &mut dyn Packet, runtime: &Runt
     tcp_stream_guard.flush();
     character_session.set_current_x(destination.x);
     character_session.set_current_y(destination.y);
-    debug_in_game_chat(session, format!("destination {:?}", destination));
+    debug_in_game_chat(session, format!("destination: {:?}, is_walkable: {:?}", destination, is_walkable));
     debug_in_game_chat(session, format!("move_data {:X?}", packet_zc_notify_playermove.move_data_raw));
     return FeatureState::Implemented(Box::new(packet_zc_notify_playermove));
 }

@@ -14,16 +14,22 @@ use std::collections::HashMap;
 use crate::server::core::{Server, ServerContext};
 use crate::repository::lib::Repository;
 use sqlx::MySql;
+use std::time::{SystemTime, Instant};
+use crate::server::map::Map;
 
 #[tokio::main]
 pub async fn main() {
     let repository : Repository<MySql> = Repository::<MySql>::new_mysql().await;
-
     let server_context = ServerContext{
-        sessions: HashMap::new()
+        sessions: HashMap::new(),
     };
     let server_context_arc = Arc::new(Mutex::new(server_context));
-    let server = Server::new(server_context_arc.clone(), Arc::new(repository));
+
+    let start = Instant::now();
+    let maps = Map::load_maps();
+    println!("load {} maps in {} secs", maps.len(), start.elapsed().as_millis() as f32 / 1000.0);
+
+    let server = Server::new(server_context_arc.clone(), Arc::new(repository), Arc::new(Mutex::new(maps)));
     let server_arc = Arc::new(server);
     let login_proxy = proxy::proxy::Proxy {
         name: "login".to_string(),
