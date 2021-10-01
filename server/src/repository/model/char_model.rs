@@ -21,7 +21,7 @@ impl <'r>FromRow<'r, MySqlRow> for CharacterInfoNeoUnion {
         character_info_neo_union.set_maxhp(row.get("max_hp"));
         character_info_neo_union.set_sp(row.get("sp"));
         character_info_neo_union.set_maxsp(row.get("max_sp"));
-        character_info_neo_union.set_speed(100); // TODO make this configurable
+        character_info_neo_union.set_speed(100); // TODO make this configurable SPEED
         character_info_neo_union.set_class(row.get("class"));
         character_info_neo_union.set_head(row.get("hair"));
         character_info_neo_union.set_body(row.get("body"));

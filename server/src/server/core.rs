@@ -16,13 +16,15 @@ use tokio::runtime::Runtime;
 use crate::server::login::handle_login;
 use crate::server::char::{handle_char_enter, handle_make_char, handle_delete_reserved_char, handle_select_char, handle_enter_game, handle_restart, handle_disconnect};
 use std::net::Shutdown::Both;
-use crate::server::movement::{handle_char_move};
+use crate::server::movement::{handle_char_move, Position};
 use std::ops::{DerefMut, Deref};
 use std::rc::Rc;
+use crate::server::map::Map;
 
 pub struct Server {
     pub server_context: Arc<Mutex<ServerContext>>,
     pub repository: Arc<Repository<MySql>>,
+    pub maps: Arc<Mutex<HashMap<String, Map>>>
 }
 
 pub enum FeatureState {
@@ -31,7 +33,7 @@ pub enum FeatureState {
 }
 
 pub struct ServerContext {
-    pub sessions: HashMap<u32, Session>,
+    pub sessions: HashMap<u32, Session>
 }
 impl ServerContext {
     pub fn remove_session(&mut self, session_id: u32) {
@@ -78,10 +80,11 @@ pub struct Session {
 
 pub struct CharacterSession {
     pub name: [char; 24],
+    pub speed: u16,
     pub char_id: u32,
     pub current_map: [char; 16],
-    pub current_x: i16,
-    pub current_y: i16,
+    pub current_position: Position,
+    pub movement: Option<Position>
 }
 
 impl Session {
@@ -110,18 +113,39 @@ impl CharacterSession {
         self.current_map = current_map;
     }
     pub fn set_current_x(&mut self, current_x: i16) {
-        self.current_x = current_x;
+        self.current_position.x = current_x;
     }
     pub fn set_current_y(&mut self, current_y: i16) {
-        self.current_y = current_y;
+        self.current_position.y = current_y;
+    }
+    pub fn is_moving(&self) -> bool {
+        self.movement.is_some()
+    }
+    pub fn get_current_map_name(&self) -> String {
+        self.current_map.iter().filter(|c| **c != '\0').collect()
+    }
+    pub fn has_reached_destination(&self)  -> bool {
+        if !self.is_moving() {
+            return false;
+        }
+        let movement = self.movement.as_ref().unwrap();
+        movement.is_equals(&self.current_position)
+    }
+    pub fn update_current_position_while_moving(&mut self, target: Position) {
+        self.set_current_x(target.x);
+        self.set_current_y(target.y);
+        if self.has_reached_destination() {
+            self.movement = None
+        }
     }
 }
 
 impl Server {
-    pub fn new(server_context: Arc<Mutex<ServerContext>>, repository: Arc<Repository<MySql>>) -> Server {
+    pub fn new(server_context: Arc<Mutex<ServerContext>>, repository: Arc<Repository<MySql>>, maps: Arc<Mutex<HashMap<String, Map>>>) -> Server {
         let server = Server {
             server_context,
             repository,
+            maps
         };
         server.start_tick();
         server

@@ -14,6 +14,8 @@ use std::net::Shutdown::Both;
 use crate::util::packet::chain_packets;
 use std::time::SystemTime;
 use crate::server::enums::StatusTypes;
+use crate::server::movement::Position;
+use crate::server::map::Map;
 
 pub fn handle_char_enter(server: &Server, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<Mutex<TcpStream>>) -> FeatureState {
     let packet_char_enter = packet.as_any().downcast_ref::<PacketChEnter>().unwrap();
@@ -153,9 +155,10 @@ pub fn handle_select_char(server: &Server, packet: &mut dyn Packet, runtime: &Ru
     session.set_character(CharacterSession {
         name: char_name,
         char_id,
+        speed: 100,
         current_map: map_name.clone(),
-        current_x: last_x as i16,
-        current_y: last_y as i16,
+        current_position: Position { x: last_x as i16, y: last_y as i16, dir: 0},
+        movement: None
     });
     packet_ch_send_map_info.set_map_name(map_name);
     packet_ch_send_map_info.set_map_server_port(6124);
@@ -206,10 +209,14 @@ pub fn handle_enter_game(server: &Server, packet: &mut dyn Packet, runtime: &Run
     packet_accept_enter.set_font(0);
     packet_accept_enter.fill_raw();
     let character = session.character.as_ref().unwrap();
+    let map_name : String = Map::name_without_ext(character.get_current_map_name());
+    let mut maps_guard = server.maps.lock().unwrap();
+    let map = maps_guard.get_mut(&map_name[..]).unwrap();
+    map.player_join_map();
     let mut packet_npc_ack_map_move = PacketZcNpcackMapmove::new();
     packet_npc_ack_map_move.set_map_name(character.current_map);
-    packet_npc_ack_map_move.set_x_pos(character.current_x);
-    packet_npc_ack_map_move.set_y_pos(character.current_y);
+    packet_npc_ack_map_move.set_x_pos(character.current_position.x);
+    packet_npc_ack_map_move.set_y_pos(character.current_position.y);
     packet_npc_ack_map_move.fill_raw();
     let final_response_packet: Vec<u8> = chain_packets(vec![&packet_inventory_expansion_info, &packet_overweight_percent, &packet_accept_enter, &packet_npc_ack_map_move]);
     tcp_stream_guard.write(&final_response_packet);

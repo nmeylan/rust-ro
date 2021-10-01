@@ -854,6 +854,7 @@ dependencies = [
  "byteorder",
  "flate2",
  "lazy_static",
+ "log",
  "maplit",
  "rand",
  "regex",

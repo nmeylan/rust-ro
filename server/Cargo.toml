@@ -13,6 +13,7 @@ sqlx = { version = "0.5", features = [ "runtime-tokio-rustls", "mysql" ] }
 rand = "0.8"
 sql = { path = "../lib/sql" }
 flate2 = "1.0"
+log = "0.4.14"
 
 [[bin]]
 name = "packets"
