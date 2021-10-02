@@ -27,7 +27,7 @@ pub async fn main() {
 
     let start = Instant::now();
     let maps = Map::load_maps();
-    println!("load {} maps in {} secs", maps.len(), start.elapsed().as_millis() as f32 / 1000.0);
+    println!("load {} map-cache in {} secs", maps.len(), start.elapsed().as_millis() as f32 / 1000.0);
 
     let server = Server::new(server_context_arc.clone(), Arc::new(repository), Arc::new(Mutex::new(maps)));
     let server_arc = Arc::new(server);

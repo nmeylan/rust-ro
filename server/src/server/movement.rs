@@ -68,6 +68,10 @@ pub fn handle_char_move(server: &Server, packet: &mut dyn Packet, runtime: &Runt
     character_session.set_current_x(destination.x);
     character_session.set_current_y(destination.y);
     debug_in_game_chat(session, format!("destination: {:?}, is_walkable: {:?}", destination, is_walkable));
+    debug_in_game_chat(session, format!("{:?}{:?}, is_walkable: {:?}", destination.x, destination.y + 1, map.is_cell_walkable(destination.x, destination.y + 1)));
+    debug_in_game_chat(session, format!("{:?}{:?}, is_walkable: {:?}", destination.x + 1, destination.y, map.is_cell_walkable(destination.x + 1, destination.y)));
+    debug_in_game_chat(session, format!("{:?}{:?}, is_walkable: {:?}", destination.x, destination.y - 1, map.is_cell_walkable(destination.x, destination.y - 1)));
+    debug_in_game_chat(session, format!("{:?}{:?}, is_walkable: {:?}", destination.x - 1, destination.y , map.is_cell_walkable(destination.x - 1, destination.y)));
     debug_in_game_chat(session, format!("move_data {:X?}", packet_zc_notify_playermove.move_data_raw));
     return FeatureState::Implemented(Box::new(packet_zc_notify_playermove));
 }
