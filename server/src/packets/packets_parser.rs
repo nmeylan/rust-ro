@@ -2335,6 +2335,9 @@ pub fn parse(buffer: &[u8]) -> Box<dyn Packet> {
     if buffer[0] == 0x60 && buffer[1] == 0x03 {
         return Box::new(PacketCzRequestTime2::from(buffer));
     }
+    if buffer[0] == 0xcd && buffer[1] == 0x09 {
+        return Box::new(PacketZcMsgColor::from(buffer));
+    }
     Box::new(PacketUnknown::from(buffer))
 }
 

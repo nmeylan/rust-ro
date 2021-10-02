@@ -1,5 +1,5 @@
 use crate::server::core::{Server, FeatureState, Session, CharacterSession};
-use crate::packets::packets::{Packet, PacketChEnter, PacketHcRefuseEnter, CharacterInfoNeoUnion, PacketHcAcceptEnterNeoUnionHeader, PacketHcAcceptEnterNeoUnion, PacketPincodeLoginstate, PacketChMakeChar2, PacketHcAcceptMakecharNeoUnion, PacketChDeleteChar4Reserved, PacketHcDeleteChar4Reserved, PacketChSelectChar, PacketChSendMapInfo, PacketCzEnter2, PacketMapConnection, PacketZcInventoryExpansionInfo, PacketZcOverweightPercent, PacketZcAcceptEnter2, PacketZcNpcackMapmove, PacketZcStatusValues, PacketZcParChange, PacketZcAttackRange, PacketZcNotifyChat, PacketCzRestart, PacketZcRestartAck, PacketZcReqDisconnectAck2};
+use crate::packets::packets::{Packet, PacketChEnter, PacketHcRefuseEnter, CharacterInfoNeoUnion, PacketHcAcceptEnterNeoUnionHeader, PacketHcAcceptEnterNeoUnion, PacketPincodeLoginstate, PacketChMakeChar2, PacketHcAcceptMakecharNeoUnion, PacketChDeleteChar4Reserved, PacketHcDeleteChar4Reserved, PacketChSelectChar, PacketChSendMapInfo, PacketCzEnter2, PacketMapConnection, PacketZcInventoryExpansionInfo, PacketZcOverweightPercent, PacketZcAcceptEnter2, PacketZcNpcackMapmove, PacketZcStatusValues, PacketZcParChange, PacketZcAttackRange, PacketZcNotifyChat, PacketCzRestart, PacketZcRestartAck, PacketZcReqDisconnectAck2, PacketZcMsgColor};
 use crate::repository::lib::Repository;
 use sqlx::{MySql, Error, Row};
 use tokio::runtime::Runtime;
@@ -13,9 +13,10 @@ use crate::util::string::StringUtil;
 use std::net::Shutdown::Both;
 use crate::util::packet::chain_packets;
 use std::time::SystemTime;
-use crate::server::enums::StatusTypes;
 use crate::server::movement::Position;
 use crate::server::map::Map;
+use crate::server::enums::status::StatusTypes;
+use crate::server::enums::client_messages::ClientMessages;
 
 pub fn handle_char_enter(server: &Server, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<Mutex<TcpStream>>) -> FeatureState {
     let packet_char_enter = packet.as_any().downcast_ref::<PacketChEnter>().unwrap();
@@ -348,6 +349,17 @@ pub fn handle_disconnect(server: &Server, packet: &mut dyn Packet, runtime: &Run
     tcp_stream_guard.write(&disconnect_ack.raw());
     tcp_stream_guard.flush();
     return FeatureState::Implemented(Box::new(disconnect_ack));
+}
+
+pub fn handle_char_loaded_client_side(server: &Server, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<Mutex<TcpStream>>, session_id: u32) -> FeatureState {
+    let mut packet_zc_msg_color = PacketZcMsgColor::new();
+    packet_zc_msg_color.set_msg_id(ClientMessages::MSGATTENDANCEUNAVAILABLE.value());
+    packet_zc_msg_color.set_msg_color(255);
+
+    let mut tcp_stream_guard = tcp_stream.lock().unwrap();
+    tcp_stream_guard.write(&packet_zc_msg_color.raw());
+    tcp_stream_guard.flush();
+    return FeatureState::Implemented(Box::new(packet_zc_msg_color));
 }
 
 async fn load_chars_info(account_id: u32, repository: &Repository<MySql>) -> PacketHcAcceptEnterNeoUnionHeader {

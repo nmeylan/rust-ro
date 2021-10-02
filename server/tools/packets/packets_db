@@ -1178,10 +1178,10 @@
   /* this+0x4 */ short maxCount
  }
 0xf3
- struct PACKET_CZ_MOVE_ITEM_FROM_BODY_TO_STORE {
+ struct PACKET_CZ_PLAYER_CHAT {
   /* this+0x0 */ short PacketId
-  /* this+0x2 */ short index
-  /* this+0x4 */ int count
+  /* this+0x2 */ short PacketLength
+  /* this+0x4 */ char msg[...]
  }
 0xf4
  struct PACKET_ZC_ADD_ITEM_TO_STORE {
@@ -6269,3 +6269,9 @@ struct PACKET_ZC_ACK_REQNAMEALL2 {
   /* this+0x0 */ short PacketId
   /* this+0x2 */ unsigned long clientTime
  }
+0xcd09
+struct PACKET_ZC_MSG_COLOR {
+  /* this+0x0 */ short PacketId
+  /* this+0x2 */ unsigned short msgId
+  /* this+0x4 */ unsigned int msgColor
+}

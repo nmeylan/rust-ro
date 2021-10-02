@@ -43,7 +43,6 @@ async fn main() {
     let mut map_iter = map_names.into_iter();
     for (i, file_name) in file_paths.into_iter().enumerate() {
         let map_name = map_iter.next().unwrap();
-        info!("{}: generating map cache", map_name);
         futures.push(tokio::task::spawn_blocking(move || {
             let gat_name = format!("{}.gat", file_name);
             let rsw_name = format!("{}.rsw", file_name);
