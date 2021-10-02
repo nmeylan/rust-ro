@@ -90893,6 +90893,102 @@ impl Packet for PacketCzRequestTime2 {
     }
 }
 
+impl PacketZcMsgColor {
+    pub fn from(buffer: &[u8]) -> PacketZcMsgColor {
+        PacketZcMsgColor {
+            raw: buffer.to_vec(),
+            packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[0..2]);
+                dst
+            },
+            msg_id: u16::from_le_bytes([buffer[2], buffer[3]]),
+            msg_id_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[2..4]);
+                dst
+            },
+            msg_color: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            msg_color_raw: {
+                let mut dst: [u8; 4] = [0u8; 4];
+                dst.clone_from_slice(&buffer[4..8]);
+                dst
+            },
+        }
+    }
+    pub fn fill_raw(&mut self) {
+    let mut wtr;
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.packet_id).unwrap();
+        self.packet_id_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u16::<LittleEndian>(self.msg_id).unwrap();
+        self.msg_id_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u32::<LittleEndian>(self.msg_color).unwrap();
+        self.msg_color_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.append(&mut self.packet_id_raw.to_vec());
+        wtr.append(&mut self.msg_id_raw.to_vec());
+        wtr.append(&mut self.msg_color_raw.to_vec());
+        self.raw = wtr;
+    }
+    pub fn set_packet_id(&mut self, value: i16) {
+        self.packet_id = value;
+    }
+    pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
+        self.packet_id_raw = value;
+    }
+    pub fn set_msg_id(&mut self, value: u16) {
+        self.msg_id = value;
+    }
+    pub fn set_msg_id_raw(&mut self, value: [u8; 2]) {
+        self.msg_id_raw = value;
+    }
+    pub fn set_msg_color(&mut self, value: u32) {
+        self.msg_color = value;
+    }
+    pub fn set_msg_color_raw(&mut self, value: [u8; 4]) {
+        self.msg_color_raw = value;
+    }
+    pub fn new() -> PacketZcMsgColor {
+        PacketZcMsgColor {
+        raw: vec![],
+        packet_id: i16::from_le_bytes([0xcd, 0x09]),
+        packet_id_raw: [0xcd, 0x09],
+        msg_id: 0,
+        msg_id_raw: [0; 2],
+        msg_color: 0,
+        msg_color_raw: [0; 4],
+        }
+    }
+}
+
+impl Packet for PacketZcMsgColor {
+    fn id(&self) -> &str {
+       "0xcd09"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
+    }
+    fn display(&self) {
+            println!("{}", self)
+    }
+    fn pretty_debug(&self) {
+            println!("{:#?}", self)
+    }
+    fn raw(&self) -> &Vec<u8> {
+            &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut dyn Any{
+        self
+    }
+}
+
 impl ServerAddr {
     pub fn from(buffer: &[u8]) -> ServerAddr {
         ServerAddr {

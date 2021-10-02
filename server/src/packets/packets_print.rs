@@ -17974,6 +17974,27 @@ impl Display for PacketCzRequestTime2 {
     }
 }
 
+impl Debug for PacketZcMsgColor {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("PacketZcMsgColor")
+            .field("id", &self.id())
+            .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
+            .field("msg_id[2, 4]", &format!("{:02X?}", &self.msg_id_raw))
+            .field("msg_color[4, 8]", &format!("{:02X?}", &self.msg_color_raw))
+        .finish()
+    }
+}
+
+impl Display for PacketZcMsgColor {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        let mut fields = Vec::new();
+        fields.push(format!("packet_id(short as i16)[0, 2]: {}", &self.packet_id));
+        fields.push(format!("msg_id(unsigned short as u16)[2, 4]: {}", &self.msg_id));
+        fields.push(format!("msg_color(unsigned int as u32)[4, 8]: {}", &self.msg_color));
+        write!(f, "PacketZcMsgColor\n {}", fields.join(",\n "))
+    }
+}
+
 impl Debug for ServerAddr {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("ServerAddr")

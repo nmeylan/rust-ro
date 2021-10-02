@@ -10137,6 +10137,17 @@ pub struct PacketCzRequestTime2 {
 }
 
 #[derive(Clone)]
+pub struct PacketZcMsgColor {
+    pub raw: Vec<u8>,
+    pub packet_id: i16,
+    pub packet_id_raw: [u8; 2],
+    pub msg_id: u16,
+    pub msg_id_raw: [u8; 2],
+    pub msg_color: u32,
+    pub msg_color_raw: [u8; 4],
+}
+
+#[derive(Clone)]
 pub struct ServerAddr {
     pub raw: Vec<u8>,
     pub ip: u32,

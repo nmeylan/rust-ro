@@ -88,7 +88,6 @@ impl Map {
                 _ => 0
             })
         }
-        println!("{:?}", cells);
         self.cells = Some(cells);
     }
 
