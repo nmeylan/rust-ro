@@ -158,7 +158,7 @@ pub fn handle_select_char(server: &Server, packet: &mut dyn Packet, runtime: &Ru
         char_id,
         speed: 100,
         current_map: map_name.clone(),
-        current_position: Position { x: last_x as i16, y: last_y as i16, dir: 0},
+        current_position: Position { x: last_x, y: last_y, dir: 0},
         movement: None
     });
     packet_ch_send_map_info.set_map_name(map_name);
@@ -216,8 +216,8 @@ pub fn handle_enter_game(server: &Server, packet: &mut dyn Packet, runtime: &Run
     map.player_join_map();
     let mut packet_npc_ack_map_move = PacketZcNpcackMapmove::new();
     packet_npc_ack_map_move.set_map_name(character.current_map);
-    packet_npc_ack_map_move.set_x_pos(character.current_position.x);
-    packet_npc_ack_map_move.set_y_pos(character.current_position.y);
+    packet_npc_ack_map_move.set_x_pos(character.current_position.x as i16);
+    packet_npc_ack_map_move.set_y_pos(character.current_position.y as i16);
     packet_npc_ack_map_move.fill_raw();
     let final_response_packet: Vec<u8> = chain_packets(vec![&packet_inventory_expansion_info, &packet_overweight_percent, &packet_accept_enter, &packet_npc_ack_map_move]);
     tcp_stream_guard.write(&final_response_packet);

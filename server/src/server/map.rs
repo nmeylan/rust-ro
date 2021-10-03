@@ -44,16 +44,16 @@ pub struct Map {
 }
 
 impl Map {
-    pub fn get_cell_index_of(&self, x: i16, y: i16) -> usize {
+    pub fn get_cell_index_of(&self, x: u16, y: u16) -> usize {
         (x as u32 + y as u32 * self.x_size as u32) as usize
     }
-    pub fn get_pos_of(&self, index: u32) -> (i16, i16) {
-        let y: i16 = (index / self.x_size as u32) as i16;
-        let x: i16 = (index - (y as u32 * self.x_size as u32) as u32) as i16;
+    pub fn get_pos_of(&self, index: u32) -> (u16, u16) {
+        let y: u16 = (index / self.x_size as u32) as u16;
+        let x: u16 = (index - (y as u32 * self.x_size as u32) as u32) as u16;
         (x, y)
     }
 
-    pub fn is_cell_walkable(&self, x: i16, y: i16) -> bool {
+    pub fn is_cell_walkable(&self, x: u16, y: u16) -> bool {
         if self.cells.is_none() {
             warn!("Cannot call is_cell_walkable as cells are not initialized, returning false");
             return false
