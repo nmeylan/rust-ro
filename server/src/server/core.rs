@@ -20,11 +20,13 @@ use crate::server::movement::{handle_char_move, Position};
 use std::ops::{DerefMut, Deref};
 use std::rc::Rc;
 use crate::server::map::Map;
+use tokio::task::JoinHandle;
 
 pub struct Server {
     pub server_context: Arc<Mutex<ServerContext>>,
     pub repository: Arc<Repository<MySql>>,
-    pub maps: Arc<Mutex<HashMap<String, Map>>>
+    pub maps: Arc<Mutex<HashMap<String, Map>>>,
+    pub tasks: Arc<Mutex<HashMap<String, Arc<Mutex<JoinHandle<()>>>>>>, // keep track of some task, that can be cancellable
 }
 
 pub enum FeatureState {
@@ -75,7 +77,7 @@ pub struct Session {
     // random value, known as login_id1 in hercules
     pub user_level: u32,
     // random value, known as login_id2 in hercules
-    pub character: Option<CharacterSession>
+    pub character: Option<Arc<Mutex<CharacterSession>>>
 }
 
 pub struct CharacterSession {
@@ -94,7 +96,7 @@ impl Session {
     pub fn set_map_server_socket(&mut self, tcpStream: Arc<Mutex<TcpStream>>) {
         self.map_server_socket = Some(tcpStream);
     }
-    pub fn set_character(&mut self, character: CharacterSession) {
+    pub fn set_character(&mut self, character: Arc<Mutex<CharacterSession>>) {
         self.character = Some(character);
     }
     pub fn unset_character(&mut self) {
@@ -145,7 +147,8 @@ impl Server {
         let server = Server {
             server_context,
             repository,
-            maps
+            maps,
+            tasks: Arc::new(Mutex::new(HashMap::<String, Arc<Mutex<JoinHandle<()>>>>::new()))
         };
         server.start_tick();
         server
