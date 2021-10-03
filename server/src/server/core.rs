@@ -112,10 +112,10 @@ impl CharacterSession {
     pub fn set_current_map(&mut self, current_map: [char; 16]) {
         self.current_map = current_map;
     }
-    pub fn set_current_x(&mut self, current_x: i16) {
+    pub fn set_current_x(&mut self, current_x: u16) {
         self.current_position.x = current_x;
     }
-    pub fn set_current_y(&mut self, current_y: i16) {
+    pub fn set_current_y(&mut self, current_y: u16) {
         self.current_position.y = current_y;
     }
     pub fn is_moving(&self) -> bool {
