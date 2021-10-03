@@ -153,14 +153,15 @@ pub fn handle_select_char(server: &Server, packet: &mut dyn Packet, runtime: &Ru
     last_map = format!("{}.gat", last_map);
     last_map.fill_char_array(map_name.as_mut());
     row.get::<String, _>("name").fill_char_array(char_name.as_mut());
-    session.set_character(CharacterSession {
+    let character = CharacterSession {
         name: char_name,
         char_id,
         speed: 100,
         current_map: map_name.clone(),
-        current_position: Position { x: last_x, y: last_y, dir: 0},
+        current_position: Position { x: last_x, y: last_y, dir: 0 },
         movement: None
-    });
+    };
+    session.set_character(Arc::new(Mutex::new(character)));
     packet_ch_send_map_info.set_map_name(map_name);
     packet_ch_send_map_info.set_map_server_port(6124);
     packet_ch_send_map_info.set_map_server_ip(16777343); // 7F 00 00 01 -> to little endian -> 01 00 00 7F
@@ -210,14 +211,15 @@ pub fn handle_enter_game(server: &Server, packet: &mut dyn Packet, runtime: &Run
     packet_accept_enter.set_font(0);
     packet_accept_enter.fill_raw();
     let character = session.character.as_ref().unwrap();
-    let map_name : String = Map::name_without_ext(character.get_current_map_name());
+    let character_session_guard = character.lock().unwrap();
+    let map_name : String = Map::name_without_ext(character_session_guard.get_current_map_name());
     let mut maps_guard = server.maps.lock().unwrap();
     let map = maps_guard.get_mut(&map_name[..]).unwrap();
     map.player_join_map();
     let mut packet_npc_ack_map_move = PacketZcNpcackMapmove::new();
-    packet_npc_ack_map_move.set_map_name(character.current_map);
-    packet_npc_ack_map_move.set_x_pos(character.current_position.x as i16);
-    packet_npc_ack_map_move.set_y_pos(character.current_position.y as i16);
+    packet_npc_ack_map_move.set_map_name(character_session_guard.current_map);
+    packet_npc_ack_map_move.set_x_pos(character_session_guard.current_position.x as i16);
+    packet_npc_ack_map_move.set_y_pos(character_session_guard.current_position.y as i16);
     packet_npc_ack_map_move.fill_raw();
     let final_response_packet: Vec<u8> = chain_packets(vec![&packet_inventory_expansion_info, &packet_overweight_percent, &packet_accept_enter, &packet_npc_ack_map_move]);
     tcp_stream_guard.write(&final_response_packet);
@@ -307,7 +309,7 @@ pub fn handle_enter_game(server: &Server, packet: &mut dyn Packet, runtime: &Run
     packet_sp.set_count(1);
     packet_sp.fill_raw();
     let mut packet_notify_chat = PacketZcNotifyChat::new();
-    packet_notify_chat.set_gid(character.char_id);
+    packet_notify_chat.set_gid(character_session_guard.char_id);
     packet_notify_chat.set_msg("Hello from rust ragnarok".to_string());
 
     let final_response_packet: Vec<u8> = chain_packets(vec![

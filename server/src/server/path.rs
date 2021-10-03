@@ -4,8 +4,8 @@ use std::collections::LinkedList;
 use std::time::Instant;
 
 // Coming from herculesWS
-static MOVE_COST: u16 = 10;
-static MOVE_DIAGONAL_COST: u16 = 10;
+pub static MOVE_COST: u16 = 10;
+pub static MOVE_DIAGONAL_COST: u16 = 10;
 
 static DIR_NORTH: u8 = 1;
 static DIR_WEST: u8 = 2;
@@ -105,25 +105,25 @@ pub fn path_search_client_side_algorithm(map: &Map, source: &Position, destinati
         if is_direction(allowed_dirs, DIR_SOUTH | DIR_EAST) && map.is_cell_walkable(current_node.x + 1, current_node.y - 1) {
             add_neighbor(current_node.x + 1, current_node.y - 1, destination, max_x, &mut open_set, &mut discovered_nodes, &current_node, MOVE_DIAGONAL_COST);
         }
-        if is_direction(allowed_dirs, DIR_EAST) && map.is_cell_walkable(current_node.x + 1, current_node.y) {
+        if is_direction(allowed_dirs, DIR_EAST) {
             add_neighbor(current_node.x + 1, current_node.y, destination, max_x, &mut open_set, &mut discovered_nodes, &current_node, MOVE_COST);
         }
         if is_direction(allowed_dirs, DIR_NORTH | DIR_EAST) && map.is_cell_walkable(current_node.x + 1, current_node.y + 1) {
             add_neighbor(current_node.x + 1, current_node.y + 1, destination, max_x, &mut open_set, &mut discovered_nodes, &current_node, MOVE_DIAGONAL_COST);
         }
-        if is_direction(allowed_dirs, DIR_NORTH) && map.is_cell_walkable(current_node.x, current_node.y + 1) {
+        if is_direction(allowed_dirs, DIR_NORTH) {
             add_neighbor(current_node.x, current_node.y + 1, destination, max_x, &mut open_set, &mut discovered_nodes, &current_node, MOVE_COST);
         }
         if is_direction(allowed_dirs, DIR_NORTH | DIR_WEST) && map.is_cell_walkable(current_node.x - 1, current_node.y + 1) {
             add_neighbor(current_node.x - 1, current_node.y + 1, destination, max_x, &mut open_set, &mut discovered_nodes, &current_node, MOVE_DIAGONAL_COST);
         }
-        if is_direction(allowed_dirs, DIR_WEST) && map.is_cell_walkable(current_node.x - 1, current_node.y) {
+        if is_direction(allowed_dirs, DIR_WEST) {
             add_neighbor(current_node.x - 1, current_node.y, destination, max_x, &mut open_set, &mut discovered_nodes, &current_node, MOVE_COST);
         }
         if is_direction(allowed_dirs, DIR_SOUTH | DIR_WEST) && map.is_cell_walkable(current_node.x - 1, current_node.y - 1) {
             add_neighbor(current_node.x - 1, current_node.y - 1, destination, max_x, &mut open_set, &mut discovered_nodes, &current_node, MOVE_DIAGONAL_COST);
         }
-        if is_direction(allowed_dirs, DIR_SOUTH) && map.is_cell_walkable(current_node.x, current_node.y - 1) {
+        if is_direction(allowed_dirs, DIR_SOUTH) {
             add_neighbor(current_node.x, current_node.y - 1, destination, max_x, &mut open_set, &mut discovered_nodes, &current_node, MOVE_COST);
         }
     }
