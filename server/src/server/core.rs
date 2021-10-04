@@ -21,12 +21,13 @@ use std::ops::{DerefMut, Deref};
 use std::rc::Rc;
 use crate::server::map::Map;
 use tokio::task::JoinHandle;
+use tokio::sync::mpsc::Sender;
 
 pub struct Server {
     pub server_context: Arc<Mutex<ServerContext>>,
     pub repository: Arc<Repository<MySql>>,
     pub maps: Arc<Mutex<HashMap<String, Map>>>,
-    pub tasks: Arc<Mutex<HashMap<String, Arc<Mutex<JoinHandle<()>>>>>>, // keep track of some task, that can be cancellable
+    pub tasks: Arc<Mutex<HashMap<String, Arc<Mutex<Sender<bool>>>>>>, // keep track of some task, that can be cancellable
 }
 
 pub enum FeatureState {
@@ -148,7 +149,7 @@ impl Server {
             server_context,
             repository,
             maps,
-            tasks: Arc::new(Mutex::new(HashMap::<String, Arc<Mutex<JoinHandle<()>>>>::new()))
+            tasks: Arc::new(Mutex::new(HashMap::<String, Arc<Mutex<Sender<bool>>>>::new()))
         };
         server.start_tick();
         server

@@ -12,7 +12,7 @@ use sqlx::mysql::{MySqlQueryResult, MySqlRow};
 use crate::util::string::StringUtil;
 use std::net::Shutdown::Both;
 use crate::util::packet::chain_packets;
-use std::time::SystemTime;
+use std::time::{SystemTime, UNIX_EPOCH};
 use crate::server::movement::Position;
 use crate::server::map::Map;
 use crate::server::enums::status::StatusTypes;
@@ -205,7 +205,7 @@ pub fn handle_enter_game(server: &Server, packet: &mut dyn Packet, runtime: &Run
     let mut packet_overweight_percent = PacketZcOverweightPercent::new();
     packet_overweight_percent.fill_raw();
     let mut packet_accept_enter = PacketZcAcceptEnter2::new();
-    packet_accept_enter.set_start_time(SystemTime::now().elapsed().unwrap().as_secs() as u32);
+    packet_accept_enter.set_start_time(SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_secs() as u32);
     packet_accept_enter.set_x_size(5); // Commented as not used, set at 5 in Hercules
     packet_accept_enter.set_y_size(5); // Commented as not used, set at 5 in Hercules
     packet_accept_enter.set_font(0);

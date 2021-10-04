@@ -3,18 +3,21 @@ use crate::server::core::{Server, FeatureState, CharacterSession};
 use tokio::runtime::Runtime;
 use std::sync::{Arc, Mutex};
 use std::net::TcpStream;
-use std::time::{SystemTime};
+use std::time::{SystemTime, UNIX_EPOCH};
 use std::io::Write;
 use crate::util::debug::debug_in_game_chat;
 use std::cell::RefCell;
 use std::rc::Rc;
-use std::ops::DerefMut;
+use std::ops::{DerefMut};
 use crate::server::map::Map;
 use crate::server::path::{path_search_client_side_algorithm, PathNode, MOVE_DIAGONAL_COST, MOVE_COST};
 use std::thread::sleep;
 use tokio::time::Duration;
 use futures::FutureExt;
 use tokio::task::JoinHandle;
+use tokio::sync::mpsc;
+use tokio::sync::mpsc::Receiver;
+use tokio::sync::mpsc::error::TryRecvError;
 
 #[derive(Debug, Clone)]
 pub struct Position {
@@ -67,9 +70,8 @@ pub fn handle_char_move(server: &Server, packet: &mut dyn Packet, runtime: &Runt
     // * Control player state (dead? stun?, frozen?)
     let mut packet_zc_notify_playermove = PacketZcNotifyPlayermove::new();
     packet_zc_notify_playermove.set_move_data(current_position.to_move_data(destination.clone()));
-    packet_zc_notify_playermove.set_move_start_time(SystemTime::now().elapsed().unwrap().as_secs() as u32);
+    packet_zc_notify_playermove.set_move_start_time(SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_secs() as u32);
     packet_zc_notify_playermove.fill_raw();
-
     let mut tcp_stream_guard = tcp_stream.lock().unwrap();
     tcp_stream_guard.write(&packet_zc_notify_playermove.raw());
     tcp_stream_guard.flush();
@@ -78,21 +80,29 @@ pub fn handle_char_move(server: &Server, packet: &mut dyn Packet, runtime: &Runt
         let key = &*format!("movement_{}", session.account_id);
         let movement_task = server_tasks_guard.get_mut(key);
         if movement_task.is_some() {
-            let movement_task_guard = movement_task.unwrap().lock().unwrap();
+            let mut movement_task_guard = movement_task.unwrap().lock().unwrap();
             println!("cancel movement task");
-            movement_task_guard.abort();
+            movement_task_guard.send(true);
         }
+        let (tx, mut rx) = mpsc::channel(100);
+        move_character(runtime, path.clone(), session.character.as_ref().unwrap().clone(), rx);
         server_tasks_guard.insert(
-            key.to_string(), Arc::new(Mutex::new(move_character(runtime, path.clone(), session.character.as_ref().unwrap().clone()))));
+            key.to_string(), Arc::new(Mutex::new(tx)));
     }
     debug_in_game_chat(session, format!("source: {:?}, destination: {:?}, is_walkable: {:?}", current_position, destination, is_walkable));
     debug_in_game_chat(session, format!("path: {:?}", path.iter().map(|node| (node.x, node.y)).collect::<Vec<(u16, u16)>>()));
     return FeatureState::Implemented(Box::new(packet_zc_notify_playermove));
 }
 
-fn move_character(runtime: &Runtime, path: Vec<PathNode>, character: Arc<Mutex<CharacterSession>>) -> JoinHandle<()> {
+fn move_character(runtime: &Runtime, path: Vec<PathNode>, character: Arc<Mutex<CharacterSession>>, mut rx: Receiver<bool>) -> JoinHandle<()> {
     let handle = runtime.spawn(async move {
-        for path_node in path {
+        let start = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_secs();
+        for (i, path_node) in path.iter().enumerate() {
+            if rx.try_recv().is_ok() || rx.try_recv().err().unwrap() == TryRecvError::Disconnected{
+                println!("canceled movement task: {}", start);
+                break;
+            }
+            println!("{}, i -> {} / {}", start, i, path.len() - 1);
             let mut delay: u64;
             {
                 let mut character_session = character.lock().unwrap();
@@ -106,6 +116,11 @@ fn move_character(runtime: &Runtime, path: Vec<PathNode>, character: Arc<Mutex<C
             }
             sleep(Duration::from_millis(delay));
         }
+
     });
     handle
+}
+
+async fn do_move(path: Vec<PathNode>, character: Arc<Mutex<CharacterSession>>, start: u64) {
+
 }
