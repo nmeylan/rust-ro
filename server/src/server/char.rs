@@ -159,7 +159,7 @@ pub fn handle_select_char(server: &Server, packet: &mut dyn Packet, runtime: &Ru
         speed: 100,
         current_map: map_name.clone(),
         current_position: Position { x: last_x, y: last_y, dir: 0 },
-        movement: None
+        movement_task_id: None
     };
     session.set_character(Arc::new(Mutex::new(character)));
     packet_ch_send_map_info.set_map_name(map_name);

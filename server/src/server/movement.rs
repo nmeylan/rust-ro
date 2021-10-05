@@ -56,35 +56,25 @@ pub fn handle_char_move(server: &Server, packet: &mut dyn Packet, runtime: &Runt
     let mut server_context_guard = server.server_context.lock().unwrap();
     let mut session = server_context_guard.sessions.get_mut(&session_id).unwrap();
     let destination = Position::from_move_packet(move_packet);
-    let character_session_guard = session.character.as_ref().unwrap().lock().unwrap();
+    let mut character_session_guard = session.character.as_ref().unwrap().lock().unwrap();
     let map_name: String = Map::name_without_ext(character_session_guard.get_current_map_name());
     let maps_guard = server.maps.lock().unwrap();
     let map = maps_guard.get(&map_name[..]).unwrap();
     let current_position = character_session_guard.current_position.clone();
-    std::mem::drop(character_session_guard);
 
     let path = path_search_client_side_algorithm(map, &current_position, &destination);
     let is_walkable = map.is_cell_walkable(destination.x, destination.y);
     // TODO
     // * Control if cell is walkable
     // * Control player state (dead? stun?, frozen?)
-    {
-        let mut server_tasks_guard = server.tasks.lock().unwrap();
-        let key = &*format!("movement_{}", session.account_id);
-        let movement_task = server_tasks_guard.get_mut(key);
-        if movement_task.is_some() {
-            let mut movement_task_guard = movement_task.unwrap().lock().unwrap();
-            println!("cancel movement task");
-            movement_task_guard.send(true);
-        }
-        let (tx, mut rx) = mpsc::channel(100);
-        move_character(runtime, path.clone(), session.character.as_ref().unwrap().clone(), rx);
-        server_tasks_guard.insert(
-            key.to_string(), Arc::new(Mutex::new(tx)));
-    }
+    let now = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_secs();
+    let id = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_nanos();
+    character_session_guard.set_movement_task_id(id);
+    std::mem::drop(character_session_guard);
+    move_character(runtime, path.clone(), session.character.as_ref().unwrap().clone(), id.clone());
     let mut packet_zc_notify_playermove = PacketZcNotifyPlayermove::new();
     packet_zc_notify_playermove.set_move_data(current_position.to_move_data(destination.clone()));
-    packet_zc_notify_playermove.set_move_start_time(SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_secs() as u32);
+    packet_zc_notify_playermove.set_move_start_time(now as u32);
     packet_zc_notify_playermove.fill_raw();
     let mut tcp_stream_guard = tcp_stream.lock().unwrap();
     tcp_stream_guard.write(&packet_zc_notify_playermove.raw());
@@ -94,20 +84,20 @@ pub fn handle_char_move(server: &Server, packet: &mut dyn Packet, runtime: &Runt
     return FeatureState::Implemented(Box::new(packet_zc_notify_playermove));
 }
 
-fn move_character(runtime: &Runtime, path: Vec<PathNode>, character: Arc<Mutex<CharacterSession>>, mut rx: Receiver<bool>) -> JoinHandle<()> {
+fn move_character(runtime: &Runtime, path: Vec<PathNode>, character: Arc<Mutex<CharacterSession>>, task_id: u128) -> JoinHandle<()> {
     let handle = runtime.spawn(async move {
         for (i, path_node) in path.iter().enumerate() {
-            if rx.try_recv().is_ok() || rx.try_recv().err().unwrap() == TryRecvError::Disconnected {
-                break;
-            }
-            println!("i -> {} / {}", i, path.len() - 1);
             let mut delay: u64;
             {
                 let mut character_session = character.lock().unwrap();
+                if task_id != character_session.movement_task_id.unwrap(){
+                    break;
+                }
+                println!("i -> {} / {}", i, path.len() - 1);
                 if character_session.current_position.x != path_node.x && character_session.current_position.y != path_node.y { // diagonal movement
                     delay = (character_session.speed * (MOVE_DIAGONAL_COST / MOVE_COST)) as u64;
                 } else {
-                    delay = (character_session.speed - 30) as u64;
+                    delay = (character_session.speed - 25) as u64;
                 }
                 character_session.set_current_x(path_node.x);
                 character_session.set_current_y(path_node.y);
@@ -117,5 +107,3 @@ fn move_character(runtime: &Runtime, path: Vec<PathNode>, character: Arc<Mutex<C
     });
     handle
 }
-
-async fn do_move(path: Vec<PathNode>, character: Arc<Mutex<CharacterSession>>, start: u64) {}
