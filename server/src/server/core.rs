@@ -27,7 +27,6 @@ pub struct Server {
     pub server_context: Arc<Mutex<ServerContext>>,
     pub repository: Arc<Repository<MySql>>,
     pub maps: Arc<Mutex<HashMap<String, Map>>>,
-    pub tasks: Arc<Mutex<HashMap<String, Arc<Mutex<Sender<bool>>>>>>, // keep track of some task, that can be cancellable
 }
 
 pub enum FeatureState {
@@ -74,10 +73,10 @@ pub struct Session {
     pub char_server_socket: Option<Arc<Mutex<TcpStream>>>,
     pub map_server_socket: Option<Arc<Mutex<TcpStream>>>,
     pub account_id: u32,
-    pub auth_code: i32,
     // random value, known as login_id1 in hercules
-    pub user_level: u32,
+    pub auth_code: i32,
     // random value, known as login_id2 in hercules
+    pub user_level: u32,
     pub character: Option<Arc<Mutex<CharacterSession>>>
 }
 
@@ -87,7 +86,7 @@ pub struct CharacterSession {
     pub char_id: u32,
     pub current_map: [char; 16],
     pub current_position: Position,
-    pub movement: Option<Position>
+    pub movement_task_id: Option<u128>
 }
 
 impl Session {
@@ -121,25 +120,11 @@ impl CharacterSession {
     pub fn set_current_y(&mut self, current_y: u16) {
         self.current_position.y = current_y;
     }
-    pub fn is_moving(&self) -> bool {
-        self.movement.is_some()
-    }
     pub fn get_current_map_name(&self) -> String {
         self.current_map.iter().filter(|c| **c != '\0').collect()
     }
-    pub fn has_reached_destination(&self)  -> bool {
-        if !self.is_moving() {
-            return false;
-        }
-        let movement = self.movement.as_ref().unwrap();
-        movement.is_equals(&self.current_position)
-    }
-    pub fn update_current_position_while_moving(&mut self, target: Position) {
-        self.set_current_x(target.x);
-        self.set_current_y(target.y);
-        if self.has_reached_destination() {
-            self.movement = None
-        }
+    pub fn set_movement_task_id(&mut self, id: u128) {
+        self.movement_task_id = Some(id);
     }
 }
 
@@ -149,7 +134,6 @@ impl Server {
             server_context,
             repository,
             maps,
-            tasks: Arc::new(Mutex::new(HashMap::<String, Arc<Mutex<Sender<bool>>>>::new()))
         };
         server.start_tick();
         server
