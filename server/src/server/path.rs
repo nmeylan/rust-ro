@@ -16,8 +16,8 @@ struct Path {}
 
 #[derive(Copy, Clone, Debug)]
 pub struct PathNode {
-    pub id: u16,
-    pub parent_id: u16,
+    pub id: u32,
+    pub parent_id: u32,
     pub x: u16,
     pub y: u16,
     pub g_cost: u16,
@@ -25,7 +25,7 @@ pub struct PathNode {
 }
 
 impl PathNode {
-    pub fn set_parent_id(&mut self, parent_id: u16) {
+    pub fn set_parent_id(&mut self, parent_id: u32) {
         self.parent_id = parent_id;
     }
     pub fn set_gcost(&mut self, g_cost: u16) {
@@ -48,8 +48,8 @@ fn is_direction(allowed_dir: u8, direction: u8) -> bool {
 }
 
 #[inline]
-fn node_id(x: u16, y: u16, x_size: u16) -> u16 {
-    x + y * x_size
+fn node_id(x: u16, y: u16, x_size: u16) -> u32 {
+    x  as u32 + y  as u32 * x_size as u32
 }
 
 /**
@@ -138,7 +138,6 @@ pub fn path_search_client_side_algorithm(map: &Map, source: &Position, destinati
         current_node = *current_node_option.unwrap();
     }
     final_path.reverse();
-    println!("path found in {}ms", start.elapsed().as_micros() as f32 / 1000.0);
     final_path
 }
 
