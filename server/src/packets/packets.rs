@@ -1948,14 +1948,14 @@ pub struct PacketZcNotifyStoreitemCountinfo {
 }
 
 #[derive(Clone)]
-pub struct PacketCzMoveItemFromBodyToStore {
+pub struct PacketCzPlayerChat {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
-    pub index: i16,
-    pub index_raw: [u8; 2],
-    pub count: i32,
-    pub count_raw: [u8; 4],
+    pub packet_length: i16,
+    pub packet_length_raw: [u8; 2],
+    pub msg: String,
+    pub msg_raw: Vec<u8>,
 }
 
 #[derive(Clone)]
