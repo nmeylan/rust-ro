@@ -3372,24 +3372,24 @@ impl Display for PacketZcNotifyStoreitemCountinfo {
     }
 }
 
-impl Debug for PacketCzMoveItemFromBodyToStore {
+impl Debug for PacketCzPlayerChat {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        f.debug_struct("PacketCzMoveItemFromBodyToStore")
+        f.debug_struct("PacketCzPlayerChat")
             .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-            .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
-            .field("count[4, 8]", &format!("{:02X?}", &self.count_raw))
+            .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
+            .field("msg[4, ?]", &format!("{:02X?}", &self.msg_raw))
         .finish()
     }
 }
 
-impl Display for PacketCzMoveItemFromBodyToStore {
+impl Display for PacketCzPlayerChat {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
         fields.push(format!("packet_id(short as i16)[0, 2]: {}", &self.packet_id));
-        fields.push(format!("index(short as i16)[2, 4]: {}", &self.index));
-        fields.push(format!("count(int as i32)[4, 8]: {}", &self.count));
-        write!(f, "PacketCzMoveItemFromBodyToStore\n {}", fields.join(",\n "))
+        fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
+        fields.push(format!("msg(char[] as String)[4, ?]: {}", &self.msg));
+        write!(f, "PacketCzPlayerChat\n {}", fields.join(",\n "))
     }
 }
 

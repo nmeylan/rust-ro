@@ -431,7 +431,7 @@ pub fn parse(buffer: &[u8]) -> Box<dyn Packet> {
         return Box::new(PacketZcNotifyStoreitemCountinfo::from(buffer));
     }
     if buffer[0] == 0xf3 && buffer[1] == 0x00 {
-        return Box::new(PacketCzMoveItemFromBodyToStore::from(buffer));
+        return Box::new(PacketCzPlayerChat::from(buffer));
     }
     if buffer[0] == 0xf4 && buffer[1] == 0x00 {
         return Box::new(PacketZcAddItemToStore::from(buffer));

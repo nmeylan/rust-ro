@@ -17243,9 +17243,9 @@ impl Packet for PacketZcNotifyStoreitemCountinfo {
     }
 }
 
-impl PacketCzMoveItemFromBodyToStore {
-    pub fn from(buffer: &[u8]) -> PacketCzMoveItemFromBodyToStore {
-        PacketCzMoveItemFromBodyToStore {
+impl PacketCzPlayerChat {
+    pub fn from(buffer: &[u8]) -> PacketCzPlayerChat {
+        PacketCzPlayerChat {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: {
@@ -17253,18 +17253,14 @@ impl PacketCzMoveItemFromBodyToStore {
                 dst.clone_from_slice(&buffer[0..2]);
                 dst
             },
-            index: i16::from_le_bytes([buffer[2], buffer[3]]),
-            index_raw: {
+            packet_length: i16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: {
                 let mut dst: [u8; 2] = [0u8; 2];
                 dst.clone_from_slice(&buffer[2..4]);
                 dst
             },
-            count: i32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
-            count_raw: {
-                let mut dst: [u8; 4] = [0u8; 4];
-                dst.clone_from_slice(&buffer[4..8]);
-                dst
-            },
+            msg: String::from_utf8_lossy(&buffer[4..buffer.len()]).to_string(),
+            msg_raw: buffer[4..buffer.len()].to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -17273,15 +17269,13 @@ impl PacketCzMoveItemFromBodyToStore {
         wtr.write_i16::<LittleEndian>(self.packet_id).unwrap();
         self.packet_id_raw = wtr.try_into().unwrap();
         wtr = vec![];
-        wtr.write_i16::<LittleEndian>(self.index).unwrap();
-        self.index_raw = wtr.try_into().unwrap();
-        wtr = vec![];
-        wtr.write_i32::<LittleEndian>(self.count).unwrap();
-        self.count_raw = wtr.try_into().unwrap();
+        wtr.write_i16::<LittleEndian>(self.packet_length).unwrap();
+        self.packet_length_raw = wtr.try_into().unwrap();
+        self.msg_raw = self.msg.as_bytes().to_vec();
         wtr = vec![];
         wtr.append(&mut self.packet_id_raw.to_vec());
-        wtr.append(&mut self.index_raw.to_vec());
-        wtr.append(&mut self.count_raw.to_vec());
+        wtr.append(&mut self.packet_length_raw.to_vec());
+        wtr.append(&mut self.msg_raw.to_vec());
         self.raw = wtr;
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -17290,32 +17284,32 @@ impl PacketCzMoveItemFromBodyToStore {
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
     }
-    pub fn set_index(&mut self, value: i16) {
-        self.index = value;
+    pub fn set_packet_length(&mut self, value: i16) {
+        self.packet_length = value;
     }
-    pub fn set_index_raw(&mut self, value: [u8; 2]) {
-        self.index_raw = value;
+    pub fn set_packet_length_raw(&mut self, value: [u8; 2]) {
+        self.packet_length_raw = value;
     }
-    pub fn set_count(&mut self, value: i32) {
-        self.count = value;
+    pub fn set_msg(&mut self, value: String) {
+        self.msg = value;
     }
-    pub fn set_count_raw(&mut self, value: [u8; 4]) {
-        self.count_raw = value;
+    pub fn set_msg_raw(&mut self, value: Vec<u8>) {
+        self.msg_raw = value;
     }
-    pub fn new() -> PacketCzMoveItemFromBodyToStore {
-        PacketCzMoveItemFromBodyToStore {
+    pub fn new() -> PacketCzPlayerChat {
+        PacketCzPlayerChat {
         raw: vec![],
         packet_id: i16::from_le_bytes([0xf3, 0x0]),
         packet_id_raw: [0xf3, 0x0],
-        index: 0,
-        index_raw: [0; 2],
-        count: 0,
-        count_raw: [0; 4],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        msg: String::new(),
+        msg_raw: vec![],
         }
     }
 }
 
-impl Packet for PacketCzMoveItemFromBodyToStore {
+impl Packet for PacketCzPlayerChat {
     fn id(&self) -> &str {
        "0xf300"
     }
