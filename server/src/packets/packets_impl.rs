@@ -41083,9 +41083,9 @@ impl Packet for PacketCzInputEditdlgstr {
     }
 }
 
-impl PacketZcNotifyMapproperty2 {
-    pub fn from(buffer: &[u8]) -> PacketZcNotifyMapproperty2 {
-        PacketZcNotifyMapproperty2 {
+impl PacketZcNotifyMaptypeproperty2 {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyMaptypeproperty2 {
+        PacketZcNotifyMaptypeproperty2 {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: {
@@ -41126,8 +41126,8 @@ impl PacketZcNotifyMapproperty2 {
     pub fn set_atype_raw(&mut self, value: [u8; 2]) {
         self.atype_raw = value;
     }
-    pub fn new() -> PacketZcNotifyMapproperty2 {
-        PacketZcNotifyMapproperty2 {
+    pub fn new() -> PacketZcNotifyMaptypeproperty2 {
+        PacketZcNotifyMaptypeproperty2 {
         raw: vec![],
         packet_id: i16::from_le_bytes([0x1d, 0x6]),
         packet_id_raw: [0x1d, 0x6],
@@ -41137,7 +41137,7 @@ impl PacketZcNotifyMapproperty2 {
     }
 }
 
-impl Packet for PacketZcNotifyMapproperty2 {
+impl Packet for PacketZcNotifyMaptypeproperty2 {
     fn id(&self) -> &str {
        "0x01d6"
     }
@@ -76174,66 +76174,6 @@ impl Packet for PacketZcQuestNotifyEffect {
     }
 }
 
-impl PacketCzBlockingPlayCancel {
-    pub fn from(buffer: &[u8]) -> PacketCzBlockingPlayCancel {
-        PacketCzBlockingPlayCancel {
-            raw: buffer.to_vec(),
-            packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
-            packet_id_raw: {
-                let mut dst: [u8; 2] = [0u8; 2];
-                dst.clone_from_slice(&buffer[0..2]);
-                dst
-            },
-        }
-    }
-    pub fn fill_raw(&mut self) {
-    let mut wtr;
-        wtr = vec![];
-        wtr.write_i16::<LittleEndian>(self.packet_id).unwrap();
-        self.packet_id_raw = wtr.try_into().unwrap();
-        wtr = vec![];
-        wtr.append(&mut self.packet_id_raw.to_vec());
-        self.raw = wtr;
-    }
-    pub fn set_packet_id(&mut self, value: i16) {
-        self.packet_id = value;
-    }
-    pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
-        self.packet_id_raw = value;
-    }
-    pub fn new() -> PacketCzBlockingPlayCancel {
-        PacketCzBlockingPlayCancel {
-        raw: vec![],
-        packet_id: i16::from_le_bytes([0x44, 0x7]),
-        packet_id_raw: [0x44, 0x7],
-        }
-    }
-}
-
-impl Packet for PacketCzBlockingPlayCancel {
-    fn id(&self) -> &str {
-       "0x0447"
-    }
-    fn debug(&self) {
-            println!("{:?}", self)
-    }
-    fn display(&self) {
-            println!("{}", self)
-    }
-    fn pretty_debug(&self) {
-            println!("{:#?}", self)
-    }
-    fn raw(&self) -> &Vec<u8> {
-            &self.raw
-    }
-    fn as_any(&self) -> &dyn Any{
-        self
-    }
-    fn as_any_mut(&mut self) -> &mut dyn Any{
-        self
-    }
-}
-
 impl PacketHcCharacterList {
     pub fn from(buffer: &[u8]) -> PacketHcCharacterList {
         let iter_count = (&buffer.len() - 4) / 5;
@@ -90962,6 +90902,351 @@ impl PacketZcMsgColor {
 impl Packet for PacketZcMsgColor {
     fn id(&self) -> &str {
        "0xcd09"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
+    }
+    fn display(&self) {
+            println!("{}", self)
+    }
+    fn pretty_debug(&self) {
+            println!("{:#?}", self)
+    }
+    fn raw(&self) -> &Vec<u8> {
+            &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut dyn Any{
+        self
+    }
+}
+
+impl PacketZcNotifyMapproperty2 {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyMapproperty2 {
+        PacketZcNotifyMapproperty2 {
+            raw: buffer.to_vec(),
+            packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[0..2]);
+                dst
+            },
+            atype: i16::from_le_bytes([buffer[2], buffer[3]]),
+            atype_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[2..4]);
+                dst
+            },
+            flags: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            flags_raw: {
+                let mut dst: [u8; 4] = [0u8; 4];
+                dst.clone_from_slice(&buffer[4..8]);
+                dst
+            },
+        }
+    }
+    pub fn fill_raw(&mut self) {
+    let mut wtr;
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.packet_id).unwrap();
+        self.packet_id_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.atype).unwrap();
+        self.atype_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u32::<LittleEndian>(self.flags).unwrap();
+        self.flags_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.append(&mut self.packet_id_raw.to_vec());
+        wtr.append(&mut self.atype_raw.to_vec());
+        wtr.append(&mut self.flags_raw.to_vec());
+        self.raw = wtr;
+    }
+    pub fn set_packet_id(&mut self, value: i16) {
+        self.packet_id = value;
+    }
+    pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
+        self.packet_id_raw = value;
+    }
+    pub fn set_atype(&mut self, value: i16) {
+        self.atype = value;
+    }
+    pub fn set_atype_raw(&mut self, value: [u8; 2]) {
+        self.atype_raw = value;
+    }
+    pub fn set_flags(&mut self, value: u32) {
+        self.flags = value;
+    }
+    pub fn set_flags_raw(&mut self, value: [u8; 4]) {
+        self.flags_raw = value;
+    }
+    pub fn new() -> PacketZcNotifyMapproperty2 {
+        PacketZcNotifyMapproperty2 {
+        raw: vec![],
+        packet_id: i16::from_le_bytes([0x9b, 0x09]),
+        packet_id_raw: [0x9b, 0x09],
+        atype: 0,
+        atype_raw: [0; 2],
+        flags: 0,
+        flags_raw: [0; 4],
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyMapproperty2 {
+    fn id(&self) -> &str {
+       "0x9b09"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
+    }
+    fn display(&self) {
+            println!("{}", self)
+    }
+    fn pretty_debug(&self) {
+            println!("{:#?}", self)
+    }
+    fn raw(&self) -> &Vec<u8> {
+            &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut dyn Any{
+        self
+    }
+}
+
+impl PacketZcHatEffect {
+    pub fn from(buffer: &[u8]) -> PacketZcHatEffect {
+        PacketZcHatEffect {
+            raw: buffer.to_vec(),
+            packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[0..2]);
+                dst
+            },
+            len: i16::from_le_bytes([buffer[2], buffer[3]]),
+            len_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[2..4]);
+                dst
+            },
+            aid: u32::from_le_bytes([buffer[4], buffer[5], buffer[6], buffer[7]]),
+            aid_raw: {
+                let mut dst: [u8; 4] = [0u8; 4];
+                dst.clone_from_slice(&buffer[4..8]);
+                dst
+            },
+            status: u8::from_le_bytes([buffer[8]]),
+            status_raw: {
+                let mut dst: [u8; 1] = [0u8; 1];
+                dst.clone_from_slice(&buffer[8..9]);
+                dst
+            },
+            effect:  {
+                let dst: Vec<u8> = buffer[9..buffer.len()].to_vec();
+                dst
+            },
+            effect_raw: buffer[9..buffer.len()].to_vec(),
+        }
+    }
+    pub fn fill_raw(&mut self) {
+    let mut wtr;
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.packet_id).unwrap();
+        self.packet_id_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.len).unwrap();
+        self.len_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u32::<LittleEndian>(self.aid).unwrap();
+        self.aid_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u8(self.status).unwrap();
+        self.status_raw = wtr.try_into().unwrap();
+
+        wtr = vec![];
+        wtr.append(&mut self.packet_id_raw.to_vec());
+        wtr.append(&mut self.len_raw.to_vec());
+        wtr.append(&mut self.aid_raw.to_vec());
+        wtr.append(&mut self.status_raw.to_vec());
+        wtr.append(&mut self.effect_raw.to_vec());
+        self.raw = wtr;
+    }
+    pub fn set_packet_id(&mut self, value: i16) {
+        self.packet_id = value;
+    }
+    pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
+        self.packet_id_raw = value;
+    }
+    pub fn set_len(&mut self, value: i16) {
+        self.len = value;
+    }
+    pub fn set_len_raw(&mut self, value: [u8; 2]) {
+        self.len_raw = value;
+    }
+    pub fn set_aid(&mut self, value: u32) {
+        self.aid = value;
+    }
+    pub fn set_aid_raw(&mut self, value: [u8; 4]) {
+        self.aid_raw = value;
+    }
+    pub fn set_status(&mut self, value: u8) {
+        self.status = value;
+    }
+    pub fn set_status_raw(&mut self, value: [u8; 1]) {
+        self.status_raw = value;
+    }
+    pub fn set_effect(&mut self, value: Vec<u8>) {
+        self.effect = value;
+    }
+    pub fn set_effect_raw(&mut self, value: Vec<u8>) {
+        self.effect_raw = value;
+    }
+    pub fn new() -> PacketZcHatEffect {
+        PacketZcHatEffect {
+        raw: vec![],
+        packet_id: i16::from_le_bytes([0x3b, 0x0a]),
+        packet_id_raw: [0x3b, 0x0a],
+        len: 0,
+        len_raw: [0; 2],
+        aid: 0,
+        aid_raw: [0; 4],
+        status: 0,
+        status_raw: [0; 1],
+        effect: vec![],
+        effect_raw: vec![],
+        }
+    }
+}
+
+impl Packet for PacketZcHatEffect {
+    fn id(&self) -> &str {
+       "0x3b0a"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
+    }
+    fn display(&self) {
+            println!("{}", self)
+    }
+    fn pretty_debug(&self) {
+            println!("{:#?}", self)
+    }
+    fn raw(&self) -> &Vec<u8> {
+            &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut dyn Any{
+        self
+    }
+}
+
+impl PacketCzBlockingPlayCancel {
+    pub fn from(buffer: &[u8]) -> PacketCzBlockingPlayCancel {
+        PacketCzBlockingPlayCancel {
+            raw: buffer.to_vec(),
+            packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[0..2]);
+                dst
+            },
+        }
+    }
+    pub fn fill_raw(&mut self) {
+    let mut wtr;
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.packet_id).unwrap();
+        self.packet_id_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.append(&mut self.packet_id_raw.to_vec());
+        self.raw = wtr;
+    }
+    pub fn set_packet_id(&mut self, value: i16) {
+        self.packet_id = value;
+    }
+    pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
+        self.packet_id_raw = value;
+    }
+    pub fn new() -> PacketCzBlockingPlayCancel {
+        PacketCzBlockingPlayCancel {
+        raw: vec![],
+        packet_id: i16::from_le_bytes([0x47, 0x04]),
+        packet_id_raw: [0x47, 0x04],
+        }
+    }
+}
+
+impl Packet for PacketCzBlockingPlayCancel {
+    fn id(&self) -> &str {
+       "0x4704"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
+    }
+    fn display(&self) {
+            println!("{}", self)
+    }
+    fn pretty_debug(&self) {
+            println!("{:#?}", self)
+    }
+    fn raw(&self) -> &Vec<u8> {
+            &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut dyn Any{
+        self
+    }
+}
+
+impl PacketZcLoadConfirm {
+    pub fn from(buffer: &[u8]) -> PacketZcLoadConfirm {
+        PacketZcLoadConfirm {
+            raw: buffer.to_vec(),
+            packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[0..2]);
+                dst
+            },
+        }
+    }
+    pub fn fill_raw(&mut self) {
+    let mut wtr;
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.packet_id).unwrap();
+        self.packet_id_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.append(&mut self.packet_id_raw.to_vec());
+        self.raw = wtr;
+    }
+    pub fn set_packet_id(&mut self, value: i16) {
+        self.packet_id = value;
+    }
+    pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
+        self.packet_id_raw = value;
+    }
+    pub fn new() -> PacketZcLoadConfirm {
+        PacketZcLoadConfirm {
+        raw: vec![],
+        packet_id: i16::from_le_bytes([0x1B, 0x0B]),
+        packet_id_raw: [0x1B, 0x0B],
+        }
+    }
+}
+
+impl Packet for PacketZcLoadConfirm {
+    fn id(&self) -> &str {
+       "0x1B0B"
     }
     fn debug(&self) {
             println!("{:?}", self)

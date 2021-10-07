@@ -4612,7 +4612,7 @@ pub struct PacketCzInputEditdlgstr {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNotifyMapproperty2 {
+pub struct PacketZcNotifyMaptypeproperty2 {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -8497,13 +8497,6 @@ pub struct PacketZcQuestNotifyEffect {
 }
 
 #[derive(Clone)]
-pub struct PacketCzBlockingPlayCancel {
-    pub raw: Vec<u8>,
-    pub packet_id: i16,
-    pub packet_id_raw: [u8; 2],
-}
-
-#[derive(Clone)]
 pub struct PacketHcCharacterList {
     pub raw: Vec<u8>,
     pub packet_id: i16,
@@ -10145,6 +10138,46 @@ pub struct PacketZcMsgColor {
     pub msg_id_raw: [u8; 2],
     pub msg_color: u32,
     pub msg_color_raw: [u8; 4],
+}
+
+#[derive(Clone)]
+pub struct PacketZcNotifyMapproperty2 {
+    pub raw: Vec<u8>,
+    pub packet_id: i16,
+    pub packet_id_raw: [u8; 2],
+    pub atype: i16,
+    pub atype_raw: [u8; 2],
+    pub flags: u32,
+    pub flags_raw: [u8; 4],
+}
+
+#[derive(Clone)]
+pub struct PacketZcHatEffect {
+    pub raw: Vec<u8>,
+    pub packet_id: i16,
+    pub packet_id_raw: [u8; 2],
+    pub len: i16,
+    pub len_raw: [u8; 2],
+    pub aid: u32,
+    pub aid_raw: [u8; 4],
+    pub status: u8,
+    pub status_raw: [u8; 1],
+    pub effect: Vec<u8>,
+    pub effect_raw: Vec<u8>,
+}
+
+#[derive(Clone)]
+pub struct PacketCzBlockingPlayCancel {
+    pub raw: Vec<u8>,
+    pub packet_id: i16,
+    pub packet_id_raw: [u8; 2],
+}
+
+#[derive(Clone)]
+pub struct PacketZcLoadConfirm {
+    pub raw: Vec<u8>,
+    pub packet_id: i16,
+    pub packet_id_raw: [u8; 2],
 }
 
 #[derive(Clone)]

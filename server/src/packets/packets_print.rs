@@ -8318,9 +8318,9 @@ impl Display for PacketCzInputEditdlgstr {
     }
 }
 
-impl Debug for PacketZcNotifyMapproperty2 {
+impl Debug for PacketZcNotifyMaptypeproperty2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        f.debug_struct("PacketZcNotifyMapproperty2")
+        f.debug_struct("PacketZcNotifyMaptypeproperty2")
             .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("atype[2, 4]", &format!("{:02X?}", &self.atype_raw))
@@ -8328,12 +8328,12 @@ impl Debug for PacketZcNotifyMapproperty2 {
     }
 }
 
-impl Display for PacketZcNotifyMapproperty2 {
+impl Display for PacketZcNotifyMaptypeproperty2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
         fields.push(format!("packet_id(short as i16)[0, 2]: {}", &self.packet_id));
         fields.push(format!("atype(short as i16)[2, 4]: {}", &self.atype));
-        write!(f, "PacketZcNotifyMapproperty2\n {}", fields.join(",\n "))
+        write!(f, "PacketZcNotifyMaptypeproperty2\n {}", fields.join(",\n "))
     }
 }
 
@@ -15063,23 +15063,6 @@ impl Display for PacketZcQuestNotifyEffect {
     }
 }
 
-impl Debug for PacketCzBlockingPlayCancel {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        f.debug_struct("PacketCzBlockingPlayCancel")
-            .field("id", &self.id())
-            .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-        .finish()
-    }
-}
-
-impl Display for PacketCzBlockingPlayCancel {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: {}", &self.packet_id));
-        write!(f, "PacketCzBlockingPlayCancel\n {}", fields.join(",\n "))
-    }
-}
-
 impl Debug for PacketHcCharacterList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketHcCharacterList")
@@ -17992,6 +17975,86 @@ impl Display for PacketZcMsgColor {
         fields.push(format!("msg_id(unsigned short as u16)[2, 4]: {}", &self.msg_id));
         fields.push(format!("msg_color(unsigned int as u32)[4, 8]: {}", &self.msg_color));
         write!(f, "PacketZcMsgColor\n {}", fields.join(",\n "))
+    }
+}
+
+impl Debug for PacketZcNotifyMapproperty2 {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("PacketZcNotifyMapproperty2")
+            .field("id", &self.id())
+            .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
+            .field("atype[2, 4]", &format!("{:02X?}", &self.atype_raw))
+            .field("flags[4, 8]", &format!("{:02X?}", &self.flags_raw))
+        .finish()
+    }
+}
+
+impl Display for PacketZcNotifyMapproperty2 {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        let mut fields = Vec::new();
+        fields.push(format!("packet_id(short as i16)[0, 2]: {}", &self.packet_id));
+        fields.push(format!("atype(short as i16)[2, 4]: {}", &self.atype));
+        fields.push(format!("flags(unsigned int as u32)[4, 8]: {}", &self.flags));
+        write!(f, "PacketZcNotifyMapproperty2\n {}", fields.join(",\n "))
+    }
+}
+
+impl Debug for PacketZcHatEffect {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("PacketZcHatEffect")
+            .field("id", &self.id())
+            .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
+            .field("len[2, 4]", &format!("{:02X?}", &self.len_raw))
+            .field("aid[4, 8]", &format!("{:02X?}", &self.aid_raw))
+            .field("status[8, 9]", &format!("{:02X?}", &self.status_raw))
+            .field("effect[9, ?]", &format!("{:02X?}", &self.effect_raw))
+        .finish()
+    }
+}
+
+impl Display for PacketZcHatEffect {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        let mut fields = Vec::new();
+        fields.push(format!("packet_id(short as i16)[0, 2]: {}", &self.packet_id));
+        fields.push(format!("len(short as i16)[2, 4]: {}", &self.len));
+        fields.push(format!("aid(unsigned long as u32)[4, 8]: {}", &self.aid));
+        fields.push(format!("status(unsigned char as u8)[8, 9]: {}", &self.status));
+        fields.push(format!("effect([] as Array)[9, ?]: {}", &self.effect.pretty_output()));
+        write!(f, "PacketZcHatEffect\n {}", fields.join(",\n "))
+    }
+}
+
+impl Debug for PacketCzBlockingPlayCancel {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("PacketCzBlockingPlayCancel")
+            .field("id", &self.id())
+            .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
+        .finish()
+    }
+}
+
+impl Display for PacketCzBlockingPlayCancel {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        let mut fields = Vec::new();
+        fields.push(format!("packet_id(short as i16)[0, 2]: {}", &self.packet_id));
+        write!(f, "PacketCzBlockingPlayCancel\n {}", fields.join(",\n "))
+    }
+}
+
+impl Debug for PacketZcLoadConfirm {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("PacketZcLoadConfirm")
+            .field("id", &self.id())
+            .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
+        .finish()
+    }
+}
+
+impl Display for PacketZcLoadConfirm {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        let mut fields = Vec::new();
+        fields.push(format!("packet_id(short as i16)[0, 2]: {}", &self.packet_id));
+        write!(f, "PacketZcLoadConfirm\n {}", fields.join(",\n "))
     }
 }
 

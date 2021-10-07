@@ -1,7 +1,7 @@
 // This is the core of this server. As all feature won't be implemented in one shot, the idea is to proxy unimplemented feature to hercules server.
 // For the moment I won't implement TCPListener in this file, but in the "future" proxies will be removed and only this file will have a TCPListener.
 
-use crate::packets::packets::{Packet, PacketUnknown, PacketZcNotifyTime, PacketZcNotifyChat, PacketCaLogin, PacketAcAcceptLogin2, PacketAcRefuseLoginR2, PacketAcRefuseLoginR3, PacketChEnter, PacketHcRefuseEnter, PacketChMakeChar2, PacketChDeleteChar2, PacketHcDeleteChar3Reserved, PacketChDeleteChar4Reserved, PacketCzEnter2, PacketChSelectChar, PacketCzRestart, PacketCzReqDisconnect, PacketCzReqDisconnect2, PacketCzRequestMove2, PacketCzNotifyActorinit};
+use crate::packets::packets::{Packet, PacketUnknown, PacketZcNotifyTime, PacketZcNotifyChat, PacketCaLogin, PacketAcAcceptLogin2, PacketAcRefuseLoginR2, PacketAcRefuseLoginR3, PacketChEnter, PacketHcRefuseEnter, PacketChMakeChar2, PacketChDeleteChar2, PacketHcDeleteChar3Reserved, PacketChDeleteChar4Reserved, PacketCzEnter2, PacketChSelectChar, PacketCzRestart, PacketCzReqDisconnect, PacketCzReqDisconnect2, PacketCzRequestMove2, PacketCzNotifyActorinit, PacketCzBlockingPlayCancel, PacketZcLoadConfirm};
 use std::sync::{Arc, Mutex};
 use std::thread;
 use std::thread::sleep;
@@ -14,7 +14,7 @@ use std::collections::HashMap;
 use std::net::TcpStream;
 use tokio::runtime::Runtime;
 use crate::server::login::handle_login;
-use crate::server::char::{handle_char_enter, handle_make_char, handle_delete_reserved_char, handle_select_char, handle_enter_game, handle_restart, handle_disconnect, handle_char_loaded_client_side};
+use crate::server::char::{handle_char_enter, handle_make_char, handle_delete_reserved_char, handle_select_char, handle_enter_game, handle_restart, handle_disconnect, handle_char_loaded_client_side, handle_blocking_play_cancel};
 use std::net::Shutdown::Both;
 use crate::server::movement::{handle_char_move, Position};
 use std::ops::{DerefMut, Deref};
@@ -207,11 +207,20 @@ impl Server {
         }
         // Client notify player has been loaded
         if packet.as_any().downcast_ref::<PacketCzNotifyActorinit>().is_some() {
-            packet.debug();
             let session_id = self.ensure_session_exists(&tcp_stream);
             if session_id.is_some() {
                 return handle_char_loaded_client_side(self, packet, runtime, tcp_stream, session_id.unwrap());
             }
+        }
+        // Client send PACKET_CZ_BLOCKING_PLAY_CANCEL after char has loaded
+        if packet.as_any().downcast_ref::<PacketCzBlockingPlayCancel>().is_some() {
+            packet.debug();
+            let mut packet_zc_load_confirm = PacketZcLoadConfirm::new();
+            packet_zc_load_confirm.fill_raw();
+            let mut tcp_stream_guard = tcp_stream.lock().unwrap();
+            tcp_stream_guard.write(&packet_zc_load_confirm.raw());
+            tcp_stream_guard.flush();
+            return FeatureState::Implemented(Box::new(packet_zc_load_confirm));
         }
         // Char creation
         FeatureState::Unimplemented

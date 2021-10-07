@@ -43,6 +43,71 @@ pub struct Map {
     pub cells: Option<Vec<u16>>
 }
 
+pub struct MapPropertyFlags {
+    // PARTY - Show attack cursor on non-party members (PvP)
+    pub is_party: bool,
+    // GUILD - Show attack cursor on non-guild members (GvG)
+    pub is_guild: bool,
+    // SIEGE - Show emblem over characters heads when in GvG (WoE castle)
+    pub is_siege: bool,
+    // USE_SIMPLE_EFFECT - Automatically enable /mineffect
+    pub use_simple_effect: bool,
+    // DISABLE_LOCKON - Only allow attacks on other players with shift key or /ns active
+    pub is_no_lockon: bool,
+    // COUNT_PK - Show the PvP counter
+    pub count_pk: bool,
+    // NO_PARTY_FORMATION - Prevents party creation/modification (Might be used for instance dungeons)
+    pub party_lock: bool,
+    // BATTLEFIELD - Unknown (Does something for battlegrounds areas)
+    pub is_battleground: bool,
+    // DISABLE_COSTUMEITEM - Disable costume sprites
+    pub is_no_costum: bool,
+    // USECART - Allow opening cart inventory (Well force it to always allow it)
+    pub is_use_cart: bool,
+    // SUNMOONSTAR_MIRACLE - Blocks Star Gladiator's Miracle from activating
+    pub is_summonstar_miracle: bool,
+    // Unused bits. 1 - 10 is 0x1 length and 11 is 0x15 length. May be used for future settings.
+    pub unused: bool,
+}
+
+impl MapPropertyFlags {
+    pub fn new() -> MapPropertyFlags {
+        MapPropertyFlags {
+            is_party: false,
+            is_guild: false,
+            is_siege: false,
+            use_simple_effect: false,
+            is_no_lockon: false,
+            count_pk: false,
+            party_lock: false,
+            is_battleground: false,
+            is_no_costum: false,
+            is_use_cart: false,
+            is_summonstar_miracle: false,
+            unused: false
+        }
+    }
+
+    pub fn raw(&self) -> u32 {
+        (((self.is_party as u32) << 0)
+            | ((self.is_guild as u32) << 1)
+            | ((self.is_siege as u32) << 2)
+            | ((self.use_simple_effect as u32) << 3)
+            | ((self.is_no_lockon as u32) << 4)
+            | ((self.count_pk as u32) << 5)
+            | ((self.party_lock as u32) << 6)
+            | ((self.is_battleground as u32) << 7)
+            | ((self.is_no_costum as u32) << 8)
+            | ((self.is_use_cart as u32) << 9)
+            | ((self.is_summonstar_miracle as u32) << 10)
+            | ((self.unused as u32) << 11))
+    }
+
+    pub fn set_use_cart(&mut self, use_cart: bool) {
+        self.is_use_cart = use_cart
+    }
+}
+
 impl Map {
     pub fn get_cell_index_of(&self, x: u16, y: u16) -> usize {
         (x as u32 + y as u32 * self.x_size as u32) as usize
