@@ -1109,7 +1109,7 @@ pub fn parse(buffer: &[u8]) -> Box<dyn Packet> {
         return Box::new(PacketCzInputEditdlgstr::from(buffer));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xd6 {
-        return Box::new(PacketZcNotifyMapproperty2::from(buffer));
+        return Box::new(PacketZcNotifyMaptypeproperty2::from(buffer));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xd7 {
         return Box::new(PacketZcSpriteChange2::from(buffer));
@@ -1957,9 +1957,6 @@ pub fn parse(buffer: &[u8]) -> Box<dyn Packet> {
     if buffer[0] == 0x04 && buffer[1] == 0x46 {
         return Box::new(PacketZcQuestNotifyEffect::from(buffer));
     }
-    if buffer[0] == 0x04 && buffer[1] == 0x47 {
-        return Box::new(PacketCzBlockingPlayCancel::from(buffer));
-    }
     if buffer[0] == 0x04 && buffer[1] == 0x48 {
         return Box::new(PacketHcCharacterList::from(buffer));
     }
@@ -2337,6 +2334,18 @@ pub fn parse(buffer: &[u8]) -> Box<dyn Packet> {
     }
     if buffer[0] == 0xcd && buffer[1] == 0x09 {
         return Box::new(PacketZcMsgColor::from(buffer));
+    }
+    if buffer[0] == 0x9b && buffer[1] == 0x09 {
+        return Box::new(PacketZcNotifyMapproperty2::from(buffer));
+    }
+    if buffer[0] == 0x3b && buffer[1] == 0x0a {
+        return Box::new(PacketZcHatEffect::from(buffer));
+    }
+    if buffer[0] == 0x47 && buffer[1] == 0x04 {
+        return Box::new(PacketCzBlockingPlayCancel::from(buffer));
+    }
+    if buffer[0] == 0x1B && buffer[1] == 0x0B {
+        return Box::new(PacketZcLoadConfirm::from(buffer));
     }
     Box::new(PacketUnknown::from(buffer))
 }

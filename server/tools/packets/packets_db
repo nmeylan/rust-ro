@@ -2848,7 +2848,7 @@
   /* this+0x8 */ char msg[...]
  }
 0x1d6
- struct PACKET_ZC_NOTIFY_MAPPROPERTY2 {
+ struct PACKET_ZC_NOTIFY_MAPTYPEPROPERTY2 {
   /* this+0x0 */ short PacketId
   /* this+0x2 */ short type
  }
@@ -5289,10 +5289,6 @@ struct UNUSED_PACKET_CZ_MER_UPGRADE_SKILLLEVEL {
   /* this+0xa */ short effect
   /* this+0xc */ short type
  }
-0x447
- struct PACKET_CZ_BLOCKING_PLAY_CANCEL {
-  /* this+0x0 */ short PacketId
- }
 0x448
  struct PACKET_HC_CHARACTER_LIST {
   /* this+0x0 */ short PacketId
@@ -6274,4 +6270,26 @@ struct PACKET_ZC_MSG_COLOR {
   /* this+0x0 */ short PacketId
   /* this+0x2 */ unsigned short msgId
   /* this+0x4 */ unsigned int msgColor
+}
+0x9b09
+ struct PACKET_ZC_NOTIFY_MAPPROPERTY2 {
+  /* this+0x0 */ short PacketId
+  /* this+0x2 */ short type
+  /* this+0x4 */ unsigned int flags
+ }
+0x3b0a
+struct PACKET_ZC_HAT_EFFECT {
+  /* this+0x0 */ short PacketId
+  /* this+0x2 */ short len
+ /* this+0x4 */ unsigned long AID
+ /* this+0x8 */ unsigned byte status
+ /* this+0x9 */ unsigned short effect[...]
+}
+0x4704
+struct PACKET_CZ_BLOCKING_PLAY_CANCEL {
+  /* this+0x0 */ short PacketId
+}
+0x1B0B
+struct PACKET_ZC_LOAD_CONFIRM {
+  /* this+0x0 */ short PacketId
 }
