@@ -9,6 +9,7 @@ use std::fs;
 use std::time::Instant;
 use std::collections::HashMap;
 use log::warn;
+use accessor::Setters;
 
 static MAP_EXT: &str = ".mcache";
 static MAP_DIR: &str = "./maps/pre-re";
@@ -45,28 +46,40 @@ pub struct Map {
     pub is_initialized: bool, // maps initialization is lazy, this bool indicate if maps has been initialized or not
 }
 
+#[derive(Setters)]
 pub struct MapPropertyFlags {
     // PARTY - Show attack cursor on non-party members (PvP)
+    #[set]
     pub is_party: bool,
     // GUILD - Show attack cursor on non-guild members (GvG)
+    #[set]
     pub is_guild: bool,
     // SIEGE - Show emblem over characters heads when in GvG (WoE castle)
+    #[set]
     pub is_siege: bool,
     // USE_SIMPLE_EFFECT - Automatically enable /mineffect
+    #[set]
     pub use_simple_effect: bool,
     // DISABLE_LOCKON - Only allow attacks on other players with shift key or /ns active
+    #[set]
     pub is_no_lockon: bool,
     // COUNT_PK - Show the PvP counter
+    #[set]
     pub count_pk: bool,
     // NO_PARTY_FORMATION - Prevents party creation/modification (Might be used for instance dungeons)
+    #[set]
     pub party_lock: bool,
     // BATTLEFIELD - Unknown (Does something for battlegrounds areas)
+    #[set]
     pub is_battleground: bool,
     // DISABLE_COSTUMEITEM - Disable costume sprites
+    #[set]
     pub is_no_costum: bool,
     // USECART - Allow opening cart inventory (Well force it to always allow it)
+    #[set]
     pub is_use_cart: bool,
     // SUNMOONSTAR_MIRACLE - Blocks Star Gladiator's Miracle from activating
+    #[set]
     pub is_summonstar_miracle: bool,
     // Unused bits. 1 - 10 is 0x1 length and 11 is 0x15 length. May be used for future settings.
     pub unused: bool,
@@ -103,10 +116,6 @@ impl MapPropertyFlags {
             | ((self.is_use_cart as u32) << 9)
             | ((self.is_summonstar_miracle as u32) << 10)
             | ((self.unused as u32) << 11))
-    }
-
-    pub fn set_use_cart(&mut self, use_cart: bool) {
-        self.is_use_cart = use_cart
     }
 }
 
@@ -195,7 +204,6 @@ impl Map {
                 cells: None,
                 is_initialized: false
             };
-            println!("Map {} loaded in {} secs", map.name, start.elapsed().as_millis() as f32 / 1000.0);
             maps.insert(map.name.clone(), map);
         }
         maps

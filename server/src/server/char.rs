@@ -361,7 +361,7 @@ pub fn handle_char_loaded_client_side(server: &Server, packet: &mut dyn Packet, 
     packet_zc_msg_color.set_msg_color(255);
     packet_zc_notify_mapproperty2.set_atype(0x28);
     let mut flags = MapPropertyFlags::new();
-    flags.set_use_cart(true); // TODO add other flags correctly
+    flags.set_is_use_cart(true); // TODO add other flags correctly
     packet_zc_notify_mapproperty2.set_flags(flags.raw());
     packet_zc_notify_mapproperty2.fill_raw();
     packet_zc_hat_effect.set_aid(session_id);
