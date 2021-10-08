@@ -40,7 +40,9 @@ pub struct Map {
     // byte 8 -> icewall
     // byte 9 -> noicewall
     // byte 10 -> noskill
-    pub cells: Option<Vec<u16>>
+    // byte 11 -> warp
+    pub cells: Option<Vec<u32>>,
+    pub is_initialized: bool, // maps initialization is lazy, this bool indicate if maps has been initialized or not
 }
 
 pub struct MapPropertyFlags {
@@ -129,10 +131,15 @@ impl Map {
     }
 
     pub fn player_join_map(&mut self) {
-        if self.cells.is_none() {
-            self.set_cells();
+        if !self.is_initialized {
+            self.initialize();
         }
         // TODO maintain a list of player in the map
+    }
+
+    fn initialize(&mut self) {
+        self.set_cells();
+        self.is_initialized = true;
     }
 
     pub fn set_cells(&mut self) {
@@ -145,13 +152,13 @@ impl Map {
         let mut decoder = ZlibDecoder::new(&map_cache_zip_content_buf[26..]); // skip header
         decoder.read_to_end(&mut map_cache_content_buf).unwrap();
 
-        let mut cells: Vec<u16> = Vec::new();
+        let mut cells: Vec<u32> = Vec::new();
         for cell in map_cache_content_buf {
             cells.push(match cell {
-                0 | 2 | 4 | 6 => 0b0000_0000_0000_0011, // walkable ground values 2,4,6 are unknown, should not be present in mapcache file. but hercules set them to this value.
+                0 | 2 | 4 | 6 => 3, // 3 => bytes 0 and byte 1 are set. walkable ground values 2,4,6 are unknown, should not be present in mapcache file. but hercules set them to this value.
                 1 => 0, // no walkable ground
-                3 => 0b0000_0000_0000_0111, // walkable water
-                5 => 0b0000_0000_0000_0010, // gap, (shootable)
+                3 => 7, // 7 => bytes 0, 1 ,2 are set. walkable water
+                5 => 2, // 2 => byte 1 is set gap, (shootable)
                 _ => 0
             })
         }
@@ -185,7 +192,8 @@ impl Map {
                 y_size: header.y_size as u16,
                 length: header.length,
                 name: map_name.to_string(),
-                cells: None
+                cells: None,
+                is_initialized: false
             };
             println!("Map {} loaded in {} secs", map.name, start.elapsed().as_millis() as f32 / 1000.0);
             maps.insert(map.name.clone(), map);
