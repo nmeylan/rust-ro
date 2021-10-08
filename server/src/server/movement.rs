@@ -79,8 +79,6 @@ pub fn handle_char_move(server: &Server, packet: &mut dyn Packet, runtime: &Runt
     let mut tcp_stream_guard = tcp_stream.lock().unwrap();
     tcp_stream_guard.write(&packet_zc_notify_playermove.raw());
     tcp_stream_guard.flush();
-    debug_in_game_chat(session, format!("source: {:?}, destination: {:?}, is_walkable: {:?}", current_position, destination, is_walkable));
-    debug_in_game_chat(session, format!("path: {:?}", path.iter().map(|node| (node.x, node.y)).collect::<Vec<(u16, u16)>>()));
     return FeatureState::Implemented(Box::new(packet_zc_notify_playermove));
 }
 
@@ -93,7 +91,6 @@ fn move_character(runtime: &Runtime, path: Vec<PathNode>, character: Arc<Mutex<C
                 if task_id != character_session.movement_task_id.unwrap(){
                     break;
                 }
-                println!("i -> {} / {}", i, path.len() - 1);
                 if character_session.current_position.x != path_node.x && character_session.current_position.y != path_node.y { // diagonal movement
                     delay = (character_session.speed * (MOVE_DIAGONAL_COST / MOVE_COST)) as u64;
                 } else {
