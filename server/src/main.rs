@@ -16,6 +16,7 @@ use crate::repository::lib::Repository;
 use sqlx::MySql;
 use std::time::{SystemTime, Instant};
 use crate::server::map::Map;
+use crate::server::scripts::warps::Warp;
 
 #[tokio::main]
 pub async fn main() {
@@ -26,6 +27,8 @@ pub async fn main() {
     let server_context_arc = Arc::new(Mutex::new(server_context));
 
     let start = Instant::now();
+    let warps = Warp::load_warps().await;
+    println!("load {} warps in {} secs", warps.len(), start.elapsed().as_millis() as f32 / 1000.0);
     let maps = Map::load_maps();
     println!("load {} map-cache in {} secs", maps.len(), start.elapsed().as_millis() as f32 / 1000.0);
 
