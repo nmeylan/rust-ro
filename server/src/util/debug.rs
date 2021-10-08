@@ -1,5 +1,5 @@
 use crate::packets::packets::{PacketZcNotifyChat, Packet};
-use crate::server::core::{Server, ServerContext, Session};
+use crate::server::core::{Server, Session};
 use std::io::Write;
 use std::sync::MutexGuard;
 use std::cell::RefCell;

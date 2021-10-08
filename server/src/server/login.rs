@@ -5,7 +5,7 @@ use rand::Rng;
 use tokio::runtime::Runtime;
 use crate::server::core::{FeatureState, Session, Server};
 use std::net::TcpStream;
-use std::sync::{Mutex, Arc};
+use std::sync::{Mutex, Arc, RwLock};
 use std::io::Write;
 
 pub(crate) fn handle_login(server: &Server, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<Mutex<TcpStream>>) -> FeatureState {
@@ -26,13 +26,13 @@ pub(crate) fn handle_login(server: &Server, packet: &mut dyn Packet, runtime: &R
             user_level: packet_response.user_level,
             character: None
         };
-        let mut server_context_guard = server.server_context.lock().unwrap();
-        server_context_guard.sessions.insert(packet_response.aid.clone(), new_user_session);
-
+        {
+            let mut sessions_guard = server.sessions.write().unwrap();
+            sessions_guard.insert(packet_response.aid.clone(), RwLock::new(new_user_session));
+        }
         let mut tcp_stream_guard = tcp_stream.lock().unwrap();
         tcp_stream_guard.write(res.raw());
         tcp_stream_guard.flush();
-        std::mem::drop(tcp_stream_guard);
         return FeatureState::Implemented(res);
     } else if res.as_any().downcast_ref::<PacketAcRefuseLoginR3>().is_some() {
         let mut tcp_stream_guard = tcp_stream.lock().unwrap();

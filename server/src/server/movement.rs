@@ -53,17 +53,16 @@ impl Position {
 
 pub fn handle_char_move(server: &Server, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<Mutex<TcpStream>>, session_id: u32) -> FeatureState {
     let move_packet = packet.as_any().downcast_ref::<PacketCzRequestMove2>().unwrap();
-    let mut server_context_guard = server.server_context.lock().unwrap();
-    let mut session = server_context_guard.sessions.get_mut(&session_id).unwrap();
+    let sessions_guard = server.sessions.read().unwrap();
+    let mut session = sessions_guard.get(&session_id).unwrap().try_read().unwrap();
     let destination = Position::from_move_packet(move_packet);
     let mut character_session_guard = session.character.as_ref().unwrap().lock().unwrap();
     let map_name: String = Map::name_without_ext(character_session_guard.get_current_map_name());
-    let maps_guard = server.maps.lock().unwrap();
+    let maps_guard = server.maps.read().unwrap();
     let map = maps_guard.get(&map_name[..]).unwrap();
     let current_position = character_session_guard.current_position.clone();
 
     let path = path_search_client_side_algorithm(map, &current_position, &destination);
-    let is_walkable = map.is_cell_walkable(destination.x, destination.y);
     // TODO
     // * Control if cell is walkable
     // * Control player state (dead? stun?, frozen?)
