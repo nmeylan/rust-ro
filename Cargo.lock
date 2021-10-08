@@ -3,6 +3,15 @@
 version = 3
 
 [[package]]
+name = "accessor"
+version = "0.1.0"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
+]
+
+[[package]]
 name = "adler"
 version = "1.0.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -909,6 +918,7 @@ dependencies = [
 name = "server"
 version = "0.1.0"
 dependencies = [
+ "accessor",
  "byteorder",
  "flate2",
  "flexi_logger",

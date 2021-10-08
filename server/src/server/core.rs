@@ -22,7 +22,7 @@ use std::rc::Rc;
 use crate::server::map::Map;
 use tokio::task::JoinHandle;
 use tokio::sync::mpsc::Sender;
-
+use accessor::Setters;
 pub struct Server {
     pub server_context: Arc<Mutex<ServerContext>>,
     pub repository: Arc<Repository<MySql>>,
@@ -80,11 +80,17 @@ pub struct Session {
     pub character: Option<Arc<Mutex<CharacterSession>>>
 }
 
+#[derive(Setters)]
 pub struct CharacterSession {
+    #[set]
     pub name: [char; 24],
+    #[set]
     pub speed: u16,
+    #[set]
     pub char_id: u32,
+    #[set]
     pub current_map: [char; 16],
+    #[set]
     pub current_position: Position,
     pub movement_task_id: Option<u128>
 }
@@ -105,15 +111,6 @@ impl Session {
 }
 
 impl CharacterSession {
-    pub fn set_name(&mut self, name: [char; 24]) {
-        self.name = name;
-    }
-    pub fn set_char_id(&mut self, char_id: u32) {
-        self.char_id = char_id;
-    }
-    pub fn set_current_map(&mut self, current_map: [char; 16]) {
-        self.current_map = current_map;
-    }
     pub fn set_current_x(&mut self, current_x: u16) {
         self.current_position.x = current_x;
     }

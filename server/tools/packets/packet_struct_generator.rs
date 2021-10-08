@@ -25,7 +25,7 @@ pub fn write_packets_struct(packets: Vec<PacketStructDefinition>, nested_structu
     file_packets_print.write(b"#![allow(dead_code)]\n\n");
     file_packets_print.write(b"use crate::packets::packets::*;\n");
     file_packets_print.write(b"use std::fmt::{Formatter, Debug, Display};\n");
-    file_packets_print.write(b"use crate::util::print::PrettyOutput;\n\n");
+    file_packets_print.write(b"use crate::accessor::print::PrettyOutput;\n\n");
 
     file_packets_parser.write(b"use crate::packets::packets::*;\n\n");
 

@@ -13,6 +13,7 @@ futures = "0.3"
 sqlx = { version = "0.5", features = [ "runtime-tokio-rustls", "mysql" ] }
 rand = "0.8"
 sql = { path = "../lib/sql" }
+accessor = { path = "../lib/accessor" }
 flate2 = "1.0"
 md5 = "0.7.0"
 log = "0.4"

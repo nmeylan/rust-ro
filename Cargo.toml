@@ -1,5 +1,6 @@
 [workspace]
 members = [
     "server",
-    "lib/sql"
+    "lib/sql",
+    "lib/accessor",
 ]
