@@ -1,6 +1,6 @@
-# rust-ro-hercules
+# rust-ro
 
-An attempt to learn rust while toying with [herculesWS](https://github.com/HerculesWS/Hercules)
+An attempt to learn rust while toying with creation of a mmorpg server. Inspired by [herculesWS](https://github.com/HerculesWS/Hercules) and [rathena](https://github.com/rathena/rathena)
 
 The goal is to rewrite some part of hercules on rust while forwarding client request to actual hercules if feature are not implemented in this project.
 
@@ -15,6 +15,7 @@ The goal is to rewrite some part of hercules on rust while forwarding client req
 - delete char
 - join game
 - move in loaded map
+- character position calculation (implementation of client side path finding)
 - debug log in in-game chat 
 
 
