@@ -16,15 +16,29 @@ use std::num::ParseIntError;
 use std::borrow::Borrow;
 use futures::future::join_all;
 use std::rc::Rc;
-use std::sync::Arc;
+use std::sync::{Arc, Mutex};
+use tokio::sync::Semaphore;
+use std::time::Instant;
 
+static PARALLEL_EXECUTIONS: usize = 100;
 static NO_WATER: f32 = 1000000.0;
-static GRF_DATA_PATH: &str = "D:\\ragnarok\\kRO_client\\data";
-static MAP_CACHE_PATH: &str = "maps/pre-re";
+static GRF_DATA_PATH: &str = "D:\\ragnarok\\kRO_client\\data"; // source .gat/.rsw
+static MAP_CACHE_PATH: &str = "maps/pre-re"; // destination
 
-// !! No semaphore are implemented, all map cache are generated in parallel, it will slow down your computer while generating map cache
+struct Counter {
+    pub value: u32
+}
+
+impl Counter {
+    pub fn increment_and_get(&mut self) -> u32 {
+        self.value += 1;
+        self.value
+    }
+}
+
 #[tokio::main]
 async fn main() {
+    let start = Instant::now();
     Logger::try_with_str("info").unwrap().start().unwrap();
     let grf_data_path = Path::new(GRF_DATA_PATH);
     let paths = fs::read_dir(grf_data_path).unwrap();
@@ -38,12 +52,18 @@ async fn main() {
             file_paths.push(file_path_without_ext.replace(".gat", ""));
         }
     }
+    let semaphore = Semaphore::new(PARALLEL_EXECUTIONS);
 
+    let len = file_paths.len();
+    let counter: Arc<Mutex<Counter>> = Arc::new(Mutex::new(Counter{value: 0}));
     let mut futures = Vec::new();
     let mut map_iter = map_names.into_iter();
     for (i, file_name) in file_paths.into_iter().enumerate() {
+        semaphore.acquire().await.unwrap();
         let map_name = map_iter.next().unwrap();
+        let counter_clone = counter.clone();
         futures.push(tokio::task::spawn_blocking(move || {
+            let start = Instant::now();
             let gat_name = format!("{}.gat", file_name);
             let rsw_name = format!("{}.rsw", file_name);
 
@@ -106,8 +126,6 @@ async fn main() {
                 tile_cursor += 20;
                 cells.push(cell_type as u8);
             }
-
-            info!("{}: writing map cache", map_name);
             let map_cache_path = Path::join(Path::new(MAP_CACHE_PATH), format!("{}.mcache", map_name));
             let mut map_cache_file = File::create(map_cache_path).unwrap();
 
@@ -126,9 +144,16 @@ async fn main() {
             wtr.write_i32::<LittleEndian>(compressed_cells.len() as i32);
             wtr.write_all(&compressed_cells[..]);
             map_cache_file.write_all(&wtr[..]);
+
+            {
+                let mut counter = counter_clone.lock().unwrap();
+                info!("{}: map cache ({}/{}), {}ms", map_name, counter.increment_and_get(), len, start.elapsed().as_millis());
+            }
         }));
     }
-    join_all(futures);
+    join_all(futures).await;
+    println!();
+    info!("Map cache generation took {}s", start.elapsed().as_millis() as f32 / 1000.0);
 }
 
 fn decode_hex(s: &str) -> Result<Vec<u8>, ParseIntError> {
