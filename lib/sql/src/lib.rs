@@ -9,7 +9,7 @@ use syn::{parse_macro_input, Data, DataStruct, DeriveInput, Fields};
 fn question_marks(max: usize) -> String {
     let itr = 1..max + 1;
     itr.into_iter()
-        .map(|s| "?".to_string())
+        .map(|_| "?".to_string())
         .collect::<Vec<String>>()
         .join(",")
 }
@@ -29,8 +29,6 @@ pub fn derive_from_struct_sqlite(input: TokenStream) -> TokenStream {
     // Attributes -> field names
     let field_name = fields.iter().map(|field| &field.ident);
     let field_name2 = fields.iter().map(|field| &field.ident);
-    let field_name3 = fields.iter().map(|field| &field.ident);
-    let field_name4= fields.iter().map(|field| &field.ident);
 
     let struct_name = &input.ident;
 
