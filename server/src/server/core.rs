@@ -2,7 +2,7 @@
 // For the moment I won't implement TCPListener in this file, but in the "future" proxies will be removed and only this file will have a TCPListener.
 
 use crate::packets::packets::{Packet, PacketUnknown, PacketZcNotifyTime, PacketZcNotifyChat, PacketCaLogin, PacketAcAcceptLogin2, PacketAcRefuseLoginR2, PacketAcRefuseLoginR3, PacketChEnter, PacketHcRefuseEnter, PacketChMakeChar2, PacketChDeleteChar2, PacketHcDeleteChar3Reserved, PacketChDeleteChar4Reserved, PacketCzEnter2, PacketChSelectChar, PacketCzRestart, PacketCzReqDisconnect, PacketCzReqDisconnect2, PacketCzRequestMove2, PacketCzNotifyActorinit, PacketCzBlockingPlayCancel, PacketZcLoadConfirm};
-use std::sync::{Arc, Mutex};
+use std::sync::{Arc, Mutex, RwLock};
 use std::thread;
 use std::thread::sleep;
 use std::time::Duration;
@@ -23,10 +23,13 @@ use crate::server::map::Map;
 use tokio::task::JoinHandle;
 use tokio::sync::mpsc::Sender;
 use accessor::Setters;
+use crate::server::scripts::warps::Warp;
+
 pub struct Server {
-    pub server_context: Arc<Mutex<ServerContext>>,
+    pub sessions: Arc<RwLock<HashMap<u32, RwLock<Session>>>>,
     pub repository: Arc<Repository<MySql>>,
-    pub maps: Arc<Mutex<HashMap<String, Map>>>,
+    pub maps: Arc<RwLock<HashMap<String, Map>>>,
+    pub warps: Arc<HashMap<String, Warp>>,
 }
 
 pub enum FeatureState {
@@ -34,12 +37,10 @@ pub enum FeatureState {
     Unimplemented,
 }
 
-pub struct ServerContext {
-    pub sessions: HashMap<u32, Session>
-}
-impl ServerContext {
-    pub fn remove_session(&mut self, session_id: u32) {
-        self.sessions.remove(&session_id);
+impl Server {
+    pub fn remove_session(&self, session_id: u32) {
+        let mut sessions = self.sessions.write().unwrap();
+        sessions.remove(&session_id);
     }
 }
 
@@ -47,17 +48,18 @@ pub trait SessionsIter {
     fn find_by_stream(&self, tcpStream: &TcpStream) -> Option<u32>;
 }
 
-impl SessionsIter for HashMap<u32, Session> {
+impl SessionsIter for HashMap<u32, RwLock<Session>> {
     fn find_by_stream(&self, tcpStream: &TcpStream) -> Option<u32> {
-        let map_entry_option = self.iter().find(|(_, value)| {
-            if value.char_server_socket.as_ref().is_none() {
+        let map_entry_option = self.iter().find(|(_, session)| {
+            let session = session.read().unwrap();
+            if session.char_server_socket.as_ref().is_none() {
                 return false
             }
-            let char_server_socket = value.char_server_socket.as_ref().unwrap().lock().unwrap();
+            let char_server_socket = session.char_server_socket.as_ref().unwrap().lock().unwrap();
             let is_char_stream = char_server_socket.peer_addr().unwrap() == tcpStream.peer_addr().unwrap();
             let mut is_map_stream = false;
-            if value.map_server_socket.as_ref().is_some() {
-                let map_server_socket = value.map_server_socket.as_ref().unwrap().lock().unwrap();
+            if session.map_server_socket.as_ref().is_some() {
+                let map_server_socket = session.map_server_socket.as_ref().unwrap().lock().unwrap();
                 is_map_stream = map_server_socket.peer_addr().unwrap() == tcpStream.peer_addr().unwrap();
             }
             is_char_stream || is_map_stream
@@ -80,7 +82,7 @@ pub struct Session {
     pub character: Option<Arc<Mutex<CharacterSession>>>
 }
 
-#[derive(Setters)]
+#[derive(Setters, Debug)]
 pub struct CharacterSession {
     #[set]
     pub name: [char; 24],
@@ -126,11 +128,16 @@ impl CharacterSession {
 }
 
 impl Server {
-    pub fn new(server_context: Arc<Mutex<ServerContext>>, repository: Arc<Repository<MySql>>, maps: Arc<Mutex<HashMap<String, Map>>>) -> Server {
+    pub fn new(
+        repository: Arc<Repository<MySql>>,
+        maps: Arc<RwLock<HashMap<String, Map>>>,
+        warps: Arc<HashMap<String, Warp>>
+    ) -> Server {
         let server = Server {
-            server_context,
+            sessions: Arc::new(RwLock::new(HashMap::<u32, RwLock<Session>>::new())),
             repository,
             maps,
+            warps
         };
         server.start_tick();
         server
@@ -224,9 +231,9 @@ impl Server {
     }
 
     pub fn ensure_session_exists(&self, tcp_stream: &Arc<Mutex<TcpStream>>) -> Option<u32> {
-        let server_context_guard = self.server_context.lock().unwrap();
+        let session_guard = self.sessions.read().unwrap();
         let stream_guard = tcp_stream.lock().unwrap();
-        let session_option = server_context_guard.sessions.find_by_stream(&stream_guard);
+        let session_option = session_guard.find_by_stream(&stream_guard);
         if session_option.is_none() {
             // TODO uncomment below. keep it comment while we need to proxy data to hercules, so until forever
             // stream_guard.shutdown(Both);

@@ -20,12 +20,12 @@ use crate::server::enums::client_messages::ClientMessages;
 
 pub fn handle_char_enter(server: &Server, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<Mutex<TcpStream>>) -> FeatureState {
     let packet_char_enter = packet.as_any().downcast_ref::<PacketChEnter>().unwrap();
-    let mut server_context_guard = server.server_context.lock().unwrap();
+    let mut sessions_guard = server.sessions.read().unwrap();
     if packet_char_enter.aid != 2000000 {
         return FeatureState::Unimplemented;
     }
-    if server_context_guard.sessions.contains_key(&packet_char_enter.aid) {
-        let mut session = server_context_guard.sessions.get_mut(&packet_char_enter.aid).unwrap();
+    if sessions_guard.contains_key(&packet_char_enter.aid) {
+        let mut session = sessions_guard.get(&packet_char_enter.aid).unwrap().write().unwrap();
         session.set_char_server_socket(tcp_stream);
         if session.auth_code == packet_char_enter.auth_code && session.user_level == packet_char_enter.user_level {
             let packet_hc_accept_enter_neo_union = runtime.block_on(async {
@@ -45,13 +45,10 @@ pub fn handle_char_enter(server: &Server, packet: &mut dyn Packet, runtime: &Run
             tcp_stream_guard.flush();
             tcp_stream_guard.write(&final_response_packet);
             tcp_stream_guard.flush();
-            std::mem::drop(tcp_stream_guard);
-            std::mem::drop(server_context_guard);
             return FeatureState::Implemented(Box::new(packet_hc_accept_enter_neo_union));
         }
         // should not happen, but in case of forged packet, remove session
-        server_context_guard.sessions.remove(&packet_char_enter.aid);
-        std::mem::drop(server_context_guard);
+        server.remove_session(packet_char_enter.aid);
     }
     let mut res = PacketHcRefuseEnter::new();
     res.set_error_code(0);
@@ -140,8 +137,8 @@ pub fn handle_select_char(server: &Server, packet: &mut dyn Packet, runtime: &Ru
             .bind(packet_select_char.char_num)
             .fetch_one(&server.repository.pool).await.unwrap()
     });
-    let mut server_context_guard = server.server_context.lock().unwrap();
-    let mut session = server_context_guard.sessions.get_mut(&session_id).unwrap();
+    let sessions_guard = server.sessions.read().unwrap();
+    let mut session = sessions_guard.get(&session_id).unwrap().write().unwrap();
     let char_id: u32 = row.get("char_id");
     let last_x: u16 = row.get("last_x");
     let last_y: u16 = row.get("last_y");
@@ -178,16 +175,16 @@ pub fn handle_enter_game(server: &Server, packet: &mut dyn Packet, runtime: &Run
     if packet_enter_game.aid != 2000000 { // Currently only handle this account to be able to still use proxy in other accounts
         return FeatureState::Unimplemented;
     }
-    let mut server_context_guard = server.server_context.lock().unwrap();
-    let mut session = server_context_guard.sessions.get_mut(&packet_enter_game.aid);
+    let sessions_guard = server.sessions.read().unwrap();
+    let mut session = sessions_guard.get(&packet_enter_game.aid);
     if session.is_none() {
         tcp_stream.lock().unwrap().shutdown(Both);
         return FeatureState::Unimplemented;
     }
-    let mut session = session.unwrap();
+    let mut session = session.unwrap().write().unwrap();
     if packet_enter_game.auth_code != session.auth_code {
         tcp_stream.lock().unwrap().shutdown(Both);
-        server_context_guard.sessions.remove(&packet_enter_game.aid);
+        server.remove_session(packet_enter_game.aid);
         return FeatureState::Unimplemented;
     }
     session.set_map_server_socket(tcp_stream);
@@ -212,10 +209,6 @@ pub fn handle_enter_game(server: &Server, packet: &mut dyn Packet, runtime: &Run
     packet_accept_enter.fill_raw();
     let character = session.character.as_ref().unwrap();
     let character_session_guard = character.lock().unwrap();
-    let map_name : String = Map::name_without_ext(character_session_guard.get_current_map_name());
-    let mut maps_guard = server.maps.lock().unwrap();
-    let map = maps_guard.get_mut(&map_name[..]).unwrap();
-    map.player_join_map();
     let mut packet_npc_ack_map_move = PacketZcNpcackMapmove::new();
     packet_npc_ack_map_move.set_map_name(character_session_guard.current_map);
     packet_npc_ack_map_move.set_x_pos(character_session_guard.current_position.x as i16);
@@ -328,8 +321,8 @@ pub fn handle_enter_game(server: &Server, packet: &mut dyn Packet, runtime: &Run
 
 pub fn handle_restart(server: &Server, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<Mutex<TcpStream>>, session_id: u32) -> FeatureState {
     let packet_restart = packet.as_any().downcast_ref::<PacketCzRestart>().unwrap();
-    let mut server_context_guard = server.server_context.lock().unwrap();
-    let mut session = server_context_guard.sessions.get_mut(&session_id).unwrap();
+    let sessions_guard = server.sessions.read().unwrap();
+    let mut session = sessions_guard.get(&session_id).unwrap().write().unwrap();
     session.unset_character();
 
     let mut restart_ack = PacketZcRestartAck::new();
@@ -342,8 +335,7 @@ pub fn handle_restart(server: &Server, packet: &mut dyn Packet, runtime: &Runtim
 }
 
 pub fn handle_disconnect(server: &Server, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<Mutex<TcpStream>>, session_id: u32) -> FeatureState {
-    let mut server_context_guard = server.server_context.lock().unwrap();
-    server_context_guard.remove_session(session_id);
+    server.remove_session(session_id);
 
     let mut disconnect_ack = PacketZcReqDisconnectAck2::new();
     disconnect_ack.fill_raw();
@@ -354,6 +346,15 @@ pub fn handle_disconnect(server: &Server, packet: &mut dyn Packet, runtime: &Run
 }
 
 pub fn handle_char_loaded_client_side(server: &Server, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<Mutex<TcpStream>>, session_id: u32) -> FeatureState {
+
+    let sessions_guard = server.sessions.read().unwrap();
+    let mut session = sessions_guard.get(&session_id).unwrap().read().unwrap();
+    let character = session.character.as_ref().unwrap().lock().unwrap();
+    let mut maps_guard = server.maps.write().unwrap();
+    let map_name : String = Map::name_without_ext(character.get_current_map_name());
+    let map = maps_guard.get_mut(&map_name).unwrap();
+    map.player_join_map();
+
     let mut packet_zc_msg_color = PacketZcMsgColor::new();
     let mut packet_zc_notify_mapproperty2 = PacketZcNotifyMapproperty2::new();
     let mut packet_zc_hat_effect = PacketZcHatEffect::new();

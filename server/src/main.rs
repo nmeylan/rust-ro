@@ -9,9 +9,9 @@ use std::thread::{JoinHandle};
 use proxy::login::LoginProxy;
 use proxy::map::MapProxy;
 use crate::proxy::char::CharProxy;
-use std::sync::{Arc, Mutex};
+use std::sync::{Arc, Mutex, RwLock};
 use std::collections::HashMap;
-use crate::server::core::{Server, ServerContext};
+use crate::server::core::{Server};
 use crate::repository::lib::Repository;
 use sqlx::MySql;
 use std::time::{SystemTime, Instant};
@@ -21,10 +21,6 @@ use crate::server::scripts::warps::Warp;
 #[tokio::main]
 pub async fn main() {
     let repository : Repository<MySql> = Repository::<MySql>::new_mysql().await;
-    let server_context = ServerContext{
-        sessions: HashMap::new(),
-    };
-    let server_context_arc = Arc::new(Mutex::new(server_context));
 
     let start = Instant::now();
     let warps = Warp::load_warps().await;
@@ -32,7 +28,7 @@ pub async fn main() {
     let maps = Map::load_maps();
     println!("load {} map-cache in {} secs", maps.len(), start.elapsed().as_millis() as f32 / 1000.0);
 
-    let server = Server::new(server_context_arc.clone(), Arc::new(repository), Arc::new(Mutex::new(maps)));
+    let server = Server::new(Arc::new(repository), Arc::new(RwLock::new(maps)), Arc::new(warps));
     let server_arc = Arc::new(server);
     let login_proxy = proxy::proxy::Proxy {
         name: "login".to_string(),

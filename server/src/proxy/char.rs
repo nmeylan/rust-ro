@@ -3,7 +3,7 @@ use std::net::{SocketAddr, Ipv4Addr, TcpStream};
 use std::net::IpAddr;
 use std::sync::{Arc, Mutex};
 use crate::packets::packets::{Packet, PacketChSendMapInfo};
-use crate::server::core::{Server, ServerContext, Session};
+use crate::server::core::{Server, Session};
 
 #[derive(Clone)]
 pub struct CharProxy {
