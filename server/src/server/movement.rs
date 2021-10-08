@@ -18,6 +18,7 @@ use tokio::task::JoinHandle;
 use tokio::sync::mpsc;
 use tokio::sync::mpsc::Receiver;
 use tokio::sync::mpsc::error::TryRecvError;
+use crate::{read_lock, read_session, write_session, write_lock, cast};
 
 #[derive(Debug, Clone)]
 pub struct Position {
@@ -52,13 +53,13 @@ impl Position {
 }
 
 pub fn handle_char_move(server: &Server, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<Mutex<TcpStream>>, session_id: u32) -> FeatureState {
-    let move_packet = packet.as_any().downcast_ref::<PacketCzRequestMove2>().unwrap();
-    let sessions_guard = server.sessions.read().unwrap();
-    let mut session = sessions_guard.get(&session_id).unwrap().try_read().unwrap();
+    let move_packet = cast!(packet, PacketCzRequestMove2);
+    let sessions_guard = read_lock!(server.sessions);
+    let mut session = read_session!(sessions_guard, &session_id);
     let destination = Position::from_move_packet(move_packet);
     let mut character_session_guard = session.character.as_ref().unwrap().lock().unwrap();
     let map_name: String = Map::name_without_ext(character_session_guard.get_current_map_name());
-    let maps_guard = server.maps.read().unwrap();
+    let maps_guard = read_lock!(server.maps);
     let map = maps_guard.get(&map_name[..]).unwrap();
     let current_position = character_session_guard.current_position.clone();
 
