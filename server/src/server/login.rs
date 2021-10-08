@@ -7,10 +7,11 @@ use crate::server::core::{FeatureState, Session, Server};
 use std::net::TcpStream;
 use std::sync::{Mutex, Arc, RwLock};
 use std::io::Write;
+use crate::{cast};
 
 pub(crate) fn handle_login(server: &Server, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<Mutex<TcpStream>>) -> FeatureState {
     let res = runtime.block_on(async {
-        authenticate(packet.as_any().downcast_ref::<PacketCaLogin>().unwrap(), &server.repository).await
+        authenticate(cast!(packet, PacketCaLogin), &server.repository).await
     });
     if res.as_any().downcast_ref::<PacketAcAcceptLogin2>().is_some() {
         let packet_response = res.as_any().downcast_ref::<PacketAcAcceptLogin2>().unwrap();

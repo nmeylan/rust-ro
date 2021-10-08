@@ -17,15 +17,16 @@ use crate::server::movement::Position;
 use crate::server::map::{Map, MapPropertyFlags};
 use crate::server::enums::status::StatusTypes;
 use crate::server::enums::client_messages::ClientMessages;
+use crate::{read_lock, read_session, write_session, write_lock, cast};
 
 pub fn handle_char_enter(server: &Server, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<Mutex<TcpStream>>) -> FeatureState {
-    let packet_char_enter = packet.as_any().downcast_ref::<PacketChEnter>().unwrap();
-    let mut sessions_guard = server.sessions.read().unwrap();
+    let packet_char_enter = cast!(packet, PacketChEnter);
+    let mut sessions_guard = read_lock!(server.sessions);
     if packet_char_enter.aid != 2000000 {
         return FeatureState::Unimplemented;
     }
     if sessions_guard.contains_key(&packet_char_enter.aid) {
-        let mut session = sessions_guard.get(&packet_char_enter.aid).unwrap().write().unwrap();
+        let mut session = write_session!(sessions_guard, packet_char_enter.aid);
         session.set_char_server_socket(tcp_stream);
         if session.auth_code == packet_char_enter.auth_code && session.user_level == packet_char_enter.user_level {
             let packet_hc_accept_enter_neo_union = runtime.block_on(async {
@@ -57,7 +58,7 @@ pub fn handle_char_enter(server: &Server, packet: &mut dyn Packet, runtime: &Run
 }
 
 pub fn handle_make_char(server: &Server, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<Mutex<TcpStream>>, session_id: u32) -> FeatureState {
-    let packet_make_char = packet.as_any().downcast_ref::<PacketChMakeChar2>().unwrap();
+    let packet_make_char = cast!(packet, PacketChMakeChar2);
     let vit = 1;
     let max_hp = (40 * (100 + vit as u32) / 100) ;
     let int = 1;
@@ -111,7 +112,7 @@ pub fn handle_make_char(server: &Server, packet: &mut dyn Packet, runtime: &Runt
 }
 
 pub fn handle_delete_reserved_char(server: &Server, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<Mutex<TcpStream>>, session_id: u32) -> FeatureState {
-    let packet_delete_reserved_char = packet.as_any().downcast_ref::<PacketChDeleteChar4Reserved>().unwrap();
+    let packet_delete_reserved_char = cast!(packet, PacketChDeleteChar4Reserved);
     runtime.block_on(async {
         sqlx::query("UPDATE `char` SET delete_date = UNIX_TIMESTAMP(now() + INTERVAL 1 DAY) WHERE account_id = ? AND char_id = ?")
             .bind(session_id)
@@ -130,7 +131,7 @@ pub fn handle_delete_reserved_char(server: &Server, packet: &mut dyn Packet, run
 }
 
 pub fn handle_select_char(server: &Server, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<Mutex<TcpStream>>, session_id: u32) -> FeatureState {
-    let packet_select_char = packet.as_any().downcast_ref::<PacketChSelectChar>().unwrap();
+    let packet_select_char = cast!(packet, PacketChSelectChar);
     let row = runtime.block_on(async {
        sqlx::query("SELECT char_id, last_map, last_x, last_y, name FROM `char` WHERE account_id = ? AND char_num = ?")
             .bind(session_id)
@@ -171,17 +172,17 @@ pub fn handle_select_char(server: &Server, packet: &mut dyn Packet, runtime: &Ru
 
 
 pub fn handle_enter_game(server: &Server, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<Mutex<TcpStream>>) -> FeatureState {
-    let packet_enter_game = packet.as_any().downcast_ref::<PacketCzEnter2>().unwrap();
+    let packet_enter_game = cast!(packet, PacketCzEnter2);
     if packet_enter_game.aid != 2000000 { // Currently only handle this account to be able to still use proxy in other accounts
         return FeatureState::Unimplemented;
     }
-    let sessions_guard = server.sessions.read().unwrap();
+    let sessions_guard = read_lock!(server.sessions);
     let mut session = sessions_guard.get(&packet_enter_game.aid);
     if session.is_none() {
         tcp_stream.lock().unwrap().shutdown(Both);
         return FeatureState::Unimplemented;
     }
-    let mut session = session.unwrap().write().unwrap();
+    let mut session = write_lock!(session.unwrap());
     if packet_enter_game.auth_code != session.auth_code {
         tcp_stream.lock().unwrap().shutdown(Both);
         server.remove_session(packet_enter_game.aid);
@@ -320,9 +321,9 @@ pub fn handle_enter_game(server: &Server, packet: &mut dyn Packet, runtime: &Run
 }
 
 pub fn handle_restart(server: &Server, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<Mutex<TcpStream>>, session_id: u32) -> FeatureState {
-    let packet_restart = packet.as_any().downcast_ref::<PacketCzRestart>().unwrap();
-    let sessions_guard = server.sessions.read().unwrap();
-    let mut session = sessions_guard.get(&session_id).unwrap().write().unwrap();
+    let packet_restart = cast!(packet, PacketCzRestart);
+    let sessions_guard = read_lock!(server.sessions);
+    let mut session = write_session!(sessions_guard, session_id);
     session.unset_character();
 
     let mut restart_ack = PacketZcRestartAck::new();
@@ -347,8 +348,8 @@ pub fn handle_disconnect(server: &Server, packet: &mut dyn Packet, runtime: &Run
 
 pub fn handle_char_loaded_client_side(server: &Server, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<Mutex<TcpStream>>, session_id: u32) -> FeatureState {
 
-    let sessions_guard = server.sessions.read().unwrap();
-    let mut session = sessions_guard.get(&session_id).unwrap().read().unwrap();
+    let sessions_guard = read_lock!(server.sessions);
+    let mut session = read_session!(sessions_guard, &session_id);
     let character = session.character.as_ref().unwrap().lock().unwrap();
     let mut maps_guard = server.maps.write().unwrap();
     let map_name : String = Map::name_without_ext(character.get_current_map_name());
