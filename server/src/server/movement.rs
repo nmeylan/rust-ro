@@ -18,7 +18,7 @@ use tokio::task::JoinHandle;
 use tokio::sync::mpsc;
 use tokio::sync::mpsc::Receiver;
 use tokio::sync::mpsc::error::TryRecvError;
-use crate::{read_lock, read_session, write_session, write_lock, cast};
+use crate::{read_lock, read_session, write_session, write_lock, cast, socket_send};
 
 #[derive(Debug, Clone)]
 pub struct Position {
@@ -76,9 +76,7 @@ pub fn handle_char_move(server: &Server, packet: &mut dyn Packet, runtime: &Runt
     packet_zc_notify_playermove.set_move_data(current_position.to_move_data(destination.clone()));
     packet_zc_notify_playermove.set_move_start_time(now as u32);
     packet_zc_notify_playermove.fill_raw();
-    let mut tcp_stream_guard = tcp_stream.lock().unwrap();
-    tcp_stream_guard.write(&packet_zc_notify_playermove.raw());
-    tcp_stream_guard.flush();
+    socket_send!(tcp_stream, &packet_zc_notify_playermove.raw());
     return FeatureState::Implemented(Box::new(packet_zc_notify_playermove));
 }
 
