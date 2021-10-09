@@ -10,9 +10,14 @@ use std::time::Instant;
 use std::collections::HashMap;
 use log::warn;
 use accessor::Setters;
+use crate::server::core::Server;
+use crate::server::scripts::warps::Warp;
+use std::sync::Arc;
 
 static MAP_EXT: &str = ".mcache";
 static MAP_DIR: &str = "./maps/pre-re";
+
+static WARP_MASK: u16 = 0b00000100_00000000;
 
 struct Header {
     pub version: i16,
@@ -23,6 +28,13 @@ struct Header {
 }
 
 #[derive(Debug)]
+pub struct WarpDestination {
+    pub map_name: String,
+    pub x: u16,
+    pub y: u16,
+}
+
+#[derive(Debug)]
 pub struct Map {
     pub x_size: u16,
     pub y_size: u16,
@@ -30,19 +42,20 @@ pub struct Map {
     pub name: String,
     // index in this array will give x and y position of the cell.
     // 2 bytes representing cell type:
-    // byte 0 -> walkable
-    // byte 1 -> shootable
-    // byte 2 -> water
-    // byte 3 -> npc
-    // byte 4 -> basilica
-    // byte 5 -> landprotector
-    // byte 6 -> novending
-    // byte 7 -> nochat
-    // byte 8 -> icewall
-    // byte 9 -> noicewall
-    // byte 10 -> noskill
-    // byte 11 -> warp
-    pub cells: Option<Vec<u32>>,
+    // bit 0 -> walkable
+    // bit 1 -> shootable
+    // bit 2 -> water
+    // bit 3 -> npc
+    // bit 4 -> basilica
+    // bit 5 -> landprotector
+    // bit 6 -> novending
+    // bit 7 -> nochat
+    // bit 8 -> icewall
+    // bit 9 -> noicewall
+    // bit 10 -> noskill
+    // bit 11 -> warp
+    pub cells: Option<Vec<u16>>,
+    pub warps: HashMap<usize, Arc<WarpDestination>>,
     pub is_initialized: bool, // maps initialization is lazy, this bool indicate if maps has been initialized or not
 }
 
@@ -139,15 +152,30 @@ impl Map {
         (self.cells.as_ref().unwrap().get(self.get_cell_index_of(x, y)).unwrap() & 0b0000_0000_0000_0001) == 0b0000_0000_0000_0001
     }
 
-    pub fn player_join_map(&mut self) {
+    pub fn is_warp_cell(&self, x: u16, y: u16) -> bool {
+        if self.cells.is_none() {
+            warn!("Cannot call is_warp_cell as cells are not initialized, returning false");
+            return false
+        }
+        let i = self.get_cell_index_of(x, y);
+        match self.cells.as_ref().unwrap().get(i) {
+            Some(value) => (value & WARP_MASK) == WARP_MASK,
+            None => false
+        }
+    }
+
+    pub fn player_join_map(&mut self, warps: Option<&Vec<Warp>>) {
         if !self.is_initialized {
-            self.initialize();
+            self.initialize(warps);
         }
         // TODO maintain a list of player in the map
     }
 
-    fn initialize(&mut self) {
+    fn initialize(&mut self, warps: Option<&Vec<Warp>>) {
         self.set_cells();
+        if warps.is_some() {
+            self.set_warps(warps.unwrap());
+        }
         self.is_initialized = true;
     }
 
@@ -161,7 +189,7 @@ impl Map {
         let mut decoder = ZlibDecoder::new(&map_cache_zip_content_buf[26..]); // skip header
         decoder.read_to_end(&mut map_cache_content_buf).unwrap();
 
-        let mut cells: Vec<u32> = Vec::new();
+        let mut cells: Vec<u16> = Vec::new();
         for cell in map_cache_content_buf {
             cells.push(match cell {
                 0 | 2 | 4 | 6 => 3, // 3 => bytes 0 and byte 1 are set. walkable ground values 2,4,6 are unknown, should not be present in mapcache file. but hercules set them to this value.
@@ -172,6 +200,28 @@ impl Map {
             })
         }
         self.cells = Some(cells);
+    }
+
+    fn set_warps(&mut self, warps: &Vec<Warp>) {
+        for warp in warps {
+            let start_x = warp.x - warp.x_size;
+            let to_x = warp.x + warp.x_size;
+            let start_y = warp.y - warp.y_size;
+            let to_y = warp.y + warp.y_size;
+            let destination = Arc::new(WarpDestination {
+                map_name: warp.dest_map_name.clone(),
+                x: warp.to_x,
+                y: warp.to_y
+            });
+            for x in start_x..to_x {
+                for y in start_y..to_y {
+                    let index = self.get_cell_index_of(x, y);
+                    let cell = self.cells.as_mut().unwrap().get_mut(index).unwrap();
+                    *cell |= WARP_MASK;
+                    self.warps.insert(index, destination.clone());
+                }
+            }
+        }
     }
 
     pub fn load_maps() -> HashMap<String, Map> {
@@ -202,6 +252,7 @@ impl Map {
                 length: header.length,
                 name: map_name.to_string(),
                 cells: None,
+                warps: Default::default(),
                 is_initialized: false
             };
             maps.insert(map.name.clone(), map);

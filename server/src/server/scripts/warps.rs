@@ -50,11 +50,11 @@ impl Warp {
             to_y: 0
         }
     }
-    pub async fn load_warps() -> HashMap<String, Warp> {
+    pub async fn load_warps() -> HashMap<String, Vec<Warp>> {
         let semaphore = Semaphore::new(PARALLEL_EXECUTIONS);
         let file = File::open(Path::new(WARP_CONF_PATH)).unwrap();
         let mut reader = BufReader::new(file);
-        let mut warps_by_map = Arc::new(Mutex::new(HashMap::<String, Warp>::new()));
+        let mut warps_by_map = Arc::new(Mutex::new(HashMap::<String, Vec<Warp>>::new()));
         let mut futures : Vec<JoinHandle<()>> = Vec::new();
         for line in reader.lines() {
             if !line.is_ok() {
@@ -75,31 +75,34 @@ impl Warp {
                     warn!("Not able to load warp script: {}, due to {}", warp_script_path, warp_script_file_res.err().unwrap());
                     return;
                 }
-                let warp = Warp::parse_warp(&warp_script_file_res.unwrap());
-                if warp.is_some() {
-                    let warp = warp.unwrap();
-                    {
-                        let mut res_guard = res.lock().unwrap();
-                        res_guard.insert(warp.map_name.clone(), warp.clone());
+                let warps = Warp::parse_warp(&warp_script_file_res.unwrap());
+                for warp in warps {
+                    let mut res_guard = res.lock().unwrap();
+                    let map_name = warp.map_name.clone();
+                    if res_guard.contains_key(&map_name) {
+                        res_guard.get_mut(&map_name).unwrap().push(warp.clone());
+                    } else {
+                        res_guard.insert(map_name, vec![warp]);
                     }
                 }
             }));
         }
         join_all(futures).await;
         let mut guard = warps_by_map.lock().unwrap();
-        let mut res= HashMap::<String, Warp>::new();
+        let mut res= HashMap::<String, Vec<Warp>>::new();
         guard.iter().for_each(|(k, v)| {
             res.insert(k.clone(), v.clone());
         });
         res
     }
 
-    fn parse_warp(file: &File) -> Option<Warp> {
+    fn parse_warp(file: &File) -> Vec::<Warp> {
         let mut reader = BufReader::new(file);
-        let mut warp = Warp::new();
+        let mut warps = Vec::<Warp>::new();
         for line in reader.lines() {
+            let mut warp = Warp::new();
             if !line.is_ok() {
-                return None
+                break;
             }
             let line = line.unwrap();
             if line.starts_with("//") || !line.contains("\twarp\t") {
@@ -120,7 +123,8 @@ impl Warp {
             warp.set_dest_map_name(wapr_and_destination_information_split[2].to_string());
             warp.set_to_x(wapr_and_destination_information_split[3].parse::<u16>().unwrap());
             warp.set_to_y(wapr_and_destination_information_split[4].parse::<u16>().unwrap());
+            warps.push(warp);
         }
-        Some(warp)
+        warps
     }
 }
