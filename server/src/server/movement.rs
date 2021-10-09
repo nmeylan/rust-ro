@@ -78,6 +78,8 @@ pub fn handle_char_move(server: &Server, packet: &mut dyn Packet, runtime: &Runt
     packet_zc_notify_playermove.set_move_start_time(now as u32);
     packet_zc_notify_playermove.fill_raw();
     socket_send!(tcp_stream, &packet_zc_notify_playermove.raw());
+    // debug_in_game_chat(&session, format!("path: {:?}", path.iter().map(|node| (node.x, node.y)).collect::<Vec<(u16, u16)>>()));
+    // debug_in_game_chat(&session, format!("current_position: {:?}, destination {:?}", current_position, destination));
     return FeatureState::Implemented(Box::new(packet_zc_notify_playermove));
 }
 

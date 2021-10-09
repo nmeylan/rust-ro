@@ -2,10 +2,12 @@ use crate::server::map::Map;
 use crate::server::movement::Position;
 use std::collections::LinkedList;
 use std::time::Instant;
+use accessor::Setters;
+use log::{debug};
 
 // Coming from herculesWS
 pub static MOVE_COST: u16 = 10;
-pub static MOVE_DIAGONAL_COST: u16 = 10;
+pub static MOVE_DIAGONAL_COST: u16 = 14;
 
 static DIR_NORTH: u8 = 1;
 static DIR_WEST: u8 = 2;
@@ -14,26 +16,19 @@ static DIR_EAST: u8 = 8;
 
 struct Path {}
 
-#[derive(Copy, Clone, Debug)]
+#[derive(Copy, Clone, Debug, Setters)]
 pub struct PathNode {
     pub id: u32,
+    #[set]
     pub parent_id: u32,
     pub x: u16,
     pub y: u16,
+    #[set]
     pub g_cost: u16,
+    #[set]
     pub f_cost: u16, // g_cost + heuristic
-}
-
-impl PathNode {
-    pub fn set_parent_id(&mut self, parent_id: u32) {
-        self.parent_id = parent_id;
-    }
-    pub fn set_gcost(&mut self, g_cost: u16) {
-        self.g_cost = g_cost;
-    }
-    pub fn set_fcost(&mut self, f_cost: u16) {
-        self.f_cost = f_cost;
-    }
+    #[set]
+    pub is_open: bool
 }
 
 // Coming from herculesWS
@@ -44,7 +39,7 @@ fn client_side_heuristic(x0: u16, y0: u16, x1: u16, y1: u16) -> u16 {
 
 #[inline]
 fn is_direction(allowed_dir: u8, direction: u8) -> bool {
-    allowed_dir & direction == direction
+    (allowed_dir & direction) == direction
 }
 
 #[inline]
@@ -66,37 +61,43 @@ pub fn path_search_client_side_algorithm(map: &Map, source: &Position, destinati
         y: source.y as u16,
         g_cost: 0,
         f_cost: client_side_heuristic(source.x, source.y, destination.x, destination.y),
+        is_open: true,
     };
     let mut open_set = vec![start_node];
     let mut discovered_nodes = vec![start_node];
     let mut current_node = start_node;
+    let mut i = 0;
     while !open_set.is_empty() {
         let mut open_set_iter = open_set.iter();
-        let init_node = open_set_iter.next().unwrap();
-        let mut current: (usize, &PathNode) = open_set_iter.enumerate().fold((0, init_node), |(min_node_index, min_node), (cur_index, cur_node)| {
-            if cur_node.f_cost <= min_node.f_cost {
+        let mut current: (usize, &PathNode) = open_set_iter.enumerate().reduce(|(min_node_index, min_node), (cur_index, cur_node)| {
+            if cur_node.f_cost < min_node.f_cost {
                 return (cur_index, cur_node)
             }
             (min_node_index, min_node)
-        }); // current node is the node with minimum f_cost
+        }).unwrap(); // current node is the node with minimum f_cost
         current_node = current.1.clone();
         let current_index = current.0;
         if current_node.x == destination.x && current_node.y == destination.y {
+            debug!("found destination");
             break;
         }
+        debug!("{:?}", open_set);
+        debug!("iteration: {} -> current_node({}) {},{}", i, current_index, current_node.x, current_node.y);
         open_set.remove(current_index);
-
+        debug!("{:?}", open_set);
+        current_node.set_is_open(false);
+        i += 1;
         let mut allowed_dirs: u8 = 0;
-        if current_node.y < max_y && map.is_cell_walkable(current_node.x, current_node.y + 1) {
+        if current_node.y < max_y {
             allowed_dirs |= DIR_NORTH;
         }
-        if current_node.y > 0 && map.is_cell_walkable(current_node.x, current_node.y - 1) {
+        if current_node.y > 0 {
             allowed_dirs |= DIR_SOUTH;
         }
-        if current_node.x < max_x && map.is_cell_walkable(current_node.x + 1, current_node.y) {
+        if current_node.x < max_x {
             allowed_dirs |= DIR_EAST;
         }
-        if current_node.x > 0 && map.is_cell_walkable(current_node.x - 1, current_node.y) {
+        if current_node.x > 0  {
             allowed_dirs |= DIR_WEST;
         }
         /**
@@ -105,25 +106,25 @@ pub fn path_search_client_side_algorithm(map: &Map, source: &Position, destinati
         if is_direction(allowed_dirs, DIR_SOUTH | DIR_EAST) && map.is_cell_walkable(current_node.x + 1, current_node.y - 1) {
             add_neighbor(current_node.x + 1, current_node.y - 1, destination, max_x, &mut open_set, &mut discovered_nodes, &current_node, MOVE_DIAGONAL_COST);
         }
-        if is_direction(allowed_dirs, DIR_EAST) {
+        if is_direction(allowed_dirs, DIR_EAST)  && map.is_cell_walkable(current_node.x + 1, current_node.y){
             add_neighbor(current_node.x + 1, current_node.y, destination, max_x, &mut open_set, &mut discovered_nodes, &current_node, MOVE_COST);
         }
         if is_direction(allowed_dirs, DIR_NORTH | DIR_EAST) && map.is_cell_walkable(current_node.x + 1, current_node.y + 1) {
             add_neighbor(current_node.x + 1, current_node.y + 1, destination, max_x, &mut open_set, &mut discovered_nodes, &current_node, MOVE_DIAGONAL_COST);
         }
-        if is_direction(allowed_dirs, DIR_NORTH) {
+        if is_direction(allowed_dirs, DIR_NORTH) && map.is_cell_walkable(current_node.x, current_node.y + 1) {
             add_neighbor(current_node.x, current_node.y + 1, destination, max_x, &mut open_set, &mut discovered_nodes, &current_node, MOVE_COST);
         }
         if is_direction(allowed_dirs, DIR_NORTH | DIR_WEST) && map.is_cell_walkable(current_node.x - 1, current_node.y + 1) {
             add_neighbor(current_node.x - 1, current_node.y + 1, destination, max_x, &mut open_set, &mut discovered_nodes, &current_node, MOVE_DIAGONAL_COST);
         }
-        if is_direction(allowed_dirs, DIR_WEST) {
+        if is_direction(allowed_dirs, DIR_WEST) && map.is_cell_walkable(current_node.x - 1, current_node.y) {
             add_neighbor(current_node.x - 1, current_node.y, destination, max_x, &mut open_set, &mut discovered_nodes, &current_node, MOVE_COST);
         }
         if is_direction(allowed_dirs, DIR_SOUTH | DIR_WEST) && map.is_cell_walkable(current_node.x - 1, current_node.y - 1) {
             add_neighbor(current_node.x - 1, current_node.y - 1, destination, max_x, &mut open_set, &mut discovered_nodes, &current_node, MOVE_DIAGONAL_COST);
         }
-        if is_direction(allowed_dirs, DIR_SOUTH) {
+        if is_direction(allowed_dirs, DIR_SOUTH) && map.is_cell_walkable(current_node.x, current_node.y - 1) {
             add_neighbor(current_node.x, current_node.y - 1, destination, max_x, &mut open_set, &mut discovered_nodes, &current_node, MOVE_COST);
         }
     }
@@ -133,6 +134,7 @@ pub fn path_search_client_side_algorithm(map: &Map, source: &Position, destinati
         final_path.push(current_node);
         let current_node_option = discovered_nodes.iter().find(|node| node.id == current_node.parent_id);
         if current_node_option.is_none() {
+            debug!("current_node_option.is_none()");
             break;
         }
         current_node = *current_node_option.unwrap();
@@ -150,20 +152,23 @@ fn add_neighbor(x: u16, y: u16, destination: &Position, max_x: u16, open_set: &m
         neighbor = *neighbor_option.unwrap();
         if tentative_gcost < neighbor.g_cost {
             neighbor.set_parent_id(current_node.id);
-            neighbor.set_gcost(tentative_gcost);
-            neighbor.set_fcost(tentative_gcost + h_cost);
-            if open_set.iter().any(|node| node.x == neighbor.x && node.y == neighbor.y) {
+            neighbor.set_g_cost(tentative_gcost);
+            neighbor.set_f_cost(tentative_gcost + h_cost);
+            if !neighbor.is_open {
                 open_set.push(neighbor);
             }
+            neighbor.set_is_open(true);
         }
     } else {
+        debug!("neighbor: {},{}", x, y);
         neighbor = PathNode {
             id: node_id(x, y, max_x),
             parent_id: current_node.id,
             x,
             y,
             g_cost: tentative_gcost,
-            f_cost: tentative_gcost + h_cost
+            f_cost: tentative_gcost + h_cost,
+            is_open: true
         };
         open_set.push(neighbor);
         discovered_nodes.push(neighbor);
