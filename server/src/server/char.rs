@@ -340,7 +340,7 @@ pub fn handle_char_loaded_client_side(server: &Server, packet: &mut dyn Packet, 
     let mut maps_guard = server.maps.write().unwrap();
     let map_name : String = Map::name_without_ext(character.get_current_map_name());
     let map = maps_guard.get_mut(&map_name).unwrap();
-    map.player_join_map();
+    map.player_join_map(server.warps.get(&map_name));
 
     let mut packet_zc_msg_color = PacketZcMsgColor::new();
     let mut packet_zc_notify_mapproperty2 = PacketZcNotifyMapproperty2::new();

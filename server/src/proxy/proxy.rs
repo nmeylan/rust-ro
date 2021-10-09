@@ -4,7 +4,7 @@ use std::io::{Read, Write};
 use std::thread;
 use std::fmt::{Display, Formatter, Debug};
 use std::sync::{Arc, Mutex};
-use crate::packets::packets::{Packet,};
+use crate::packets::packets::{Packet};
 use crate::packets::packets_parser::parse;
 use crate::server::core::{Server, FeatureState};
 use tokio::runtime::Runtime;

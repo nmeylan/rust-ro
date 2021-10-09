@@ -1,7 +1,7 @@
 use crate::packets::packets::{PacketCzRequestMove2, Packet, PacketZcNotifyPlayermove};
 use crate::server::core::{Server, FeatureState, CharacterSession};
 use tokio::runtime::Runtime;
-use std::sync::{Arc, Mutex};
+use std::sync::{Arc, Mutex, RwLock};
 use std::net::TcpStream;
 use std::time::{SystemTime, UNIX_EPOCH};
 use std::io::Write;
@@ -19,6 +19,7 @@ use tokio::sync::mpsc;
 use tokio::sync::mpsc::Receiver;
 use tokio::sync::mpsc::error::TryRecvError;
 use crate::{read_lock, read_session, write_session, write_lock, cast, socket_send};
+use std::collections::HashMap;
 
 #[derive(Debug, Clone)]
 pub struct Position {
@@ -71,7 +72,7 @@ pub fn handle_char_move(server: &Server, packet: &mut dyn Packet, runtime: &Runt
     let id = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_nanos();
     character_session_guard.set_movement_task_id(id);
     std::mem::drop(character_session_guard);
-    move_character(runtime, path.clone(), session.character.as_ref().unwrap().clone(), id.clone());
+    move_character(runtime, path.clone(), session.character.as_ref().unwrap().clone(), map_name,server.maps.clone(), id.clone());
     let mut packet_zc_notify_playermove = PacketZcNotifyPlayermove::new();
     packet_zc_notify_playermove.set_move_data(current_position.to_move_data(destination.clone()));
     packet_zc_notify_playermove.set_move_start_time(now as u32);
@@ -80,8 +81,10 @@ pub fn handle_char_move(server: &Server, packet: &mut dyn Packet, runtime: &Runt
     return FeatureState::Implemented(Box::new(packet_zc_notify_playermove));
 }
 
-fn move_character(runtime: &Runtime, path: Vec<PathNode>, character: Arc<Mutex<CharacterSession>>, task_id: u128) -> JoinHandle<()> {
+fn move_character(runtime: &Runtime, path: Vec<PathNode>, character: Arc<Mutex<CharacterSession>>, map_name: String, maps: Arc<RwLock<HashMap<String, Map>>>, task_id: u128) -> JoinHandle<()> {
     let handle = runtime.spawn(async move {
+        let maps = read_lock!(maps);
+        let map = maps.get(&map_name).unwrap();
         for (i, path_node) in path.iter().enumerate() {
             let mut delay: u64;
             {
@@ -93,6 +96,9 @@ fn move_character(runtime: &Runtime, path: Vec<PathNode>, character: Arc<Mutex<C
                     delay = (character_session.speed * (MOVE_DIAGONAL_COST / MOVE_COST)) as u64;
                 } else {
                     delay = (character_session.speed - 25) as u64;
+                }
+                if map.is_warp_cell(path_node.x, path_node.y) {
+                    println!("On a warp cell!");
                 }
                 character_session.set_current_x(path_node.x);
                 character_session.set_current_y(path_node.y);

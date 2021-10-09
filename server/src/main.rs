@@ -24,7 +24,7 @@ pub async fn main() {
 
     let start = Instant::now();
     let warps = Warp::load_warps().await;
-    println!("load {} warps in {} secs", warps.len(), start.elapsed().as_millis() as f32 / 1000.0);
+    println!("load {} warps in {} secs", warps.iter().fold(0, |memo, curr| memo + curr.1.len()), start.elapsed().as_millis() as f32 / 1000.0);
     let maps = Map::load_maps();
     println!("load {} map-cache in {} secs", maps.len(), start.elapsed().as_millis() as f32 / 1000.0);
 

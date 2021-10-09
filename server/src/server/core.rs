@@ -29,7 +29,7 @@ pub struct Server {
     pub sessions: Arc<RwLock<HashMap<u32, RwLock<Session>>>>,
     pub repository: Arc<Repository<MySql>>,
     pub maps: Arc<RwLock<HashMap<String, Map>>>,
-    pub warps: Arc<HashMap<String, Warp>>,
+    pub warps: Arc<HashMap<String, Vec<Warp>>>,
 }
 
 pub enum FeatureState {
@@ -131,7 +131,7 @@ impl Server {
     pub fn new(
         repository: Arc<Repository<MySql>>,
         maps: Arc<RwLock<HashMap<String, Map>>>,
-        warps: Arc<HashMap<String, Warp>>
+        warps: Arc<HashMap<String, Vec<Warp>>>
     ) -> Server {
         let server = Server {
             sessions: Arc::new(RwLock::new(HashMap::<u32, RwLock<Session>>::new())),
