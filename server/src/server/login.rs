@@ -7,7 +7,7 @@ use crate::server::core::{FeatureState, Session, Server};
 use std::net::TcpStream;
 use std::sync::{Mutex, Arc, RwLock};
 use std::io::Write;
-use crate::{cast};
+use crate::{cast, socket_send};
 
 pub(crate) fn handle_login(server: &Server, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<Mutex<TcpStream>>) -> FeatureState {
     let res = runtime.block_on(async {
@@ -31,14 +31,10 @@ pub(crate) fn handle_login(server: &Server, packet: &mut dyn Packet, runtime: &R
             let mut sessions_guard = server.sessions.write().unwrap();
             sessions_guard.insert(packet_response.aid.clone(), RwLock::new(new_user_session));
         }
-        let mut tcp_stream_guard = tcp_stream.lock().unwrap();
-        tcp_stream_guard.write(res.raw());
-        tcp_stream_guard.flush();
+        socket_send!(tcp_stream, res.raw());
         return FeatureState::Implemented(res);
     } else if res.as_any().downcast_ref::<PacketAcRefuseLoginR3>().is_some() {
-        let mut tcp_stream_guard = tcp_stream.lock().unwrap();
-        tcp_stream_guard.write(res.raw());
-        tcp_stream_guard.flush();
+        socket_send!(tcp_stream, res.raw());
         return FeatureState::Implemented(res);
     }
     FeatureState::Unimplemented

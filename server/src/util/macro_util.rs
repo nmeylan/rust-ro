@@ -10,8 +10,6 @@ macro_rules! write_lock {
     $rw_lock.write().unwrap()
   };
 }
-pub(crate) use read_lock;
-pub(crate) use write_lock;
 
 #[macro_export]
 macro_rules! read_session {
@@ -32,5 +30,13 @@ macro_rules! cast {
   };
 }
 
-pub(crate) use read_session;
-pub(crate) use write_session;
+#[macro_export]
+macro_rules! socket_send {
+    ( $tcp_stream:expr, $data:expr ) => {
+    {
+       let mut tcp_stream_guard = $tcp_stream.lock().unwrap();
+        tcp_stream_guard.write($data);
+        tcp_stream_guard.flush();
+    }
+  }
+}

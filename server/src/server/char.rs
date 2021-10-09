@@ -17,7 +17,7 @@ use crate::server::movement::Position;
 use crate::server::map::{Map, MapPropertyFlags};
 use crate::server::enums::status::StatusTypes;
 use crate::server::enums::client_messages::ClientMessages;
-use crate::{read_lock, read_session, write_session, write_lock, cast};
+use crate::{read_lock, read_session, write_session, write_lock, cast, socket_send};
 
 pub fn handle_char_enter(server: &Server, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<Mutex<TcpStream>>) -> FeatureState {
     let packet_char_enter = cast!(packet, PacketChEnter);
@@ -32,7 +32,6 @@ pub fn handle_char_enter(server: &Server, packet: &mut dyn Packet, runtime: &Run
             let packet_hc_accept_enter_neo_union = runtime.block_on(async {
                 load_chars_info(session.account_id, &server.repository).await
             });
-            let mut tcp_stream_guard = session.char_server_socket.as_ref().unwrap().lock().unwrap();
             let mut pincode_loginstate = PacketPincodeLoginstate::new();
             pincode_loginstate.set_aid(session.account_id);
             pincode_loginstate.set_pincode_seed(session.auth_code);
@@ -42,6 +41,7 @@ pub fn handle_char_enter(server: &Server, packet: &mut dyn Packet, runtime: &Run
             let mut wtr = vec![];
             // A "account id packet" should be sent just before char info packet
             wtr.write_u32::<LittleEndian>(session.account_id);
+            let mut tcp_stream_guard = session.char_server_socket.as_ref().unwrap().lock().unwrap();
             tcp_stream_guard.write(&wtr);
             tcp_stream_guard.flush();
             tcp_stream_guard.write(&final_response_packet);
@@ -102,12 +102,10 @@ pub fn handle_make_char(server: &Server, packet: &mut dyn Packet, runtime: &Runt
             .await.unwrap();
         created_char
     });
-    let mut tcp_stream_guard = tcp_stream.lock().unwrap();
     let mut packet_hc_accept_makechar_neo_union = PacketHcAcceptMakecharNeoUnion::new();
     packet_hc_accept_makechar_neo_union.set_charinfo(created_char);
     packet_hc_accept_makechar_neo_union.fill_raw();
-    tcp_stream_guard.write(&packet_hc_accept_makechar_neo_union.raw());
-    tcp_stream_guard.flush();
+    socket_send!(tcp_stream, &packet_hc_accept_makechar_neo_union.raw());
     return FeatureState::Implemented(Box::new(packet_hc_accept_makechar_neo_union));
 }
 
@@ -124,9 +122,7 @@ pub fn handle_delete_reserved_char(server: &Server, packet: &mut dyn Packet, run
     packet_hc_delete_char4reserved.set_delete_reserved_date(24 * 60 * 60);
     packet_hc_delete_char4reserved.set_result(1);
     packet_hc_delete_char4reserved.fill_raw();
-    let mut tcp_stream_guard = tcp_stream.lock().unwrap();
-    tcp_stream_guard.write(&packet_hc_delete_char4reserved.raw());
-    tcp_stream_guard.flush();
+    socket_send!(tcp_stream, &packet_hc_delete_char4reserved.raw());
     return FeatureState::Implemented(Box::new(packet_hc_delete_char4reserved));
 }
 
@@ -164,9 +160,7 @@ pub fn handle_select_char(server: &Server, packet: &mut dyn Packet, runtime: &Ru
     packet_ch_send_map_info.set_map_server_port(6124);
     packet_ch_send_map_info.set_map_server_ip(16777343); // 7F 00 00 01 -> to little endian -> 01 00 00 7F
     packet_ch_send_map_info.fill_raw();
-    let mut tcp_stream_guard = tcp_stream.lock().unwrap();
-    tcp_stream_guard.write(&packet_ch_send_map_info.raw());
-    tcp_stream_guard.flush();
+    socket_send!(tcp_stream, &packet_ch_send_map_info.raw());
     return FeatureState::Implemented(Box::new(packet_ch_send_map_info));
 }
 
@@ -188,12 +182,11 @@ pub fn handle_enter_game(server: &Server, packet: &mut dyn Packet, runtime: &Run
         server.remove_session(packet_enter_game.aid);
         return FeatureState::Unimplemented;
     }
-    session.set_map_server_socket(tcp_stream);
+    session.set_map_server_socket(tcp_stream.clone());
     let mut packet_map_connection = PacketMapConnection::new();
     packet_map_connection.set_aid(session.account_id);
-    let mut tcp_stream_guard = session.map_server_socket.as_ref().unwrap().lock().unwrap();
-    tcp_stream_guard.write(&packet_map_connection.raw());
-    tcp_stream_guard.flush();
+
+    socket_send!(tcp_stream, &packet_map_connection.raw());
 
     /*
     Client expect multiple packets in response to packet PacketCzEnter2
@@ -216,8 +209,7 @@ pub fn handle_enter_game(server: &Server, packet: &mut dyn Packet, runtime: &Run
     packet_npc_ack_map_move.set_y_pos(character_session_guard.current_position.y as i16);
     packet_npc_ack_map_move.fill_raw();
     let final_response_packet: Vec<u8> = chain_packets(vec![&packet_inventory_expansion_info, &packet_overweight_percent, &packet_accept_enter, &packet_npc_ack_map_move]);
-    tcp_stream_guard.write(&final_response_packet);
-    tcp_stream_guard.flush();
+    socket_send!(tcp_stream, &final_response_packet);
 
     let mut packet_str = PacketZcStatusValues::new();
     packet_str.set_status_type(StatusTypes::STR.value());
@@ -313,9 +305,7 @@ pub fn handle_enter_game(server: &Server, packet: &mut dyn Packet, runtime: &Run
         &packet_mdef2, &packet_attack_range, &packet_maxhp, &packet_maxsp, &packet_hp,
         &packet_sp, &packet_notify_chat
     ]);
-    println!("{:02X?}", &final_response_packet[..]);
-    tcp_stream_guard.write(&final_response_packet);
-    tcp_stream_guard.flush();
+    socket_send!(tcp_stream, &final_response_packet);
 
     return FeatureState::Implemented(Box::new(packet_map_connection));
 }
@@ -329,9 +319,7 @@ pub fn handle_restart(server: &Server, packet: &mut dyn Packet, runtime: &Runtim
     let mut restart_ack = PacketZcRestartAck::new();
     restart_ack.set_atype(packet_restart.atype);
     restart_ack.fill_raw();
-    let mut tcp_stream_guard = tcp_stream.lock().unwrap();
-    tcp_stream_guard.write(&restart_ack.raw());
-    tcp_stream_guard.flush();
+    socket_send!(tcp_stream, &restart_ack.raw());
     return FeatureState::Implemented(Box::new(restart_ack));
 }
 
@@ -340,9 +328,7 @@ pub fn handle_disconnect(server: &Server, packet: &mut dyn Packet, runtime: &Run
 
     let mut disconnect_ack = PacketZcReqDisconnectAck2::new();
     disconnect_ack.fill_raw();
-    let mut tcp_stream_guard = tcp_stream.lock().unwrap();
-    tcp_stream_guard.write(&disconnect_ack.raw());
-    tcp_stream_guard.flush();
+    socket_send!(tcp_stream, &disconnect_ack.raw());
     return FeatureState::Implemented(Box::new(disconnect_ack));
 }
 
@@ -370,21 +356,16 @@ pub fn handle_char_loaded_client_side(server: &Server, packet: &mut dyn Packet, 
     packet_zc_hat_effect.set_status(1);
     packet_zc_hat_effect.set_len(9 + 0); // len is: 9 (packet len) + number of effects
     packet_zc_hat_effect.fill_raw();
-    let mut tcp_stream_guard = tcp_stream.lock().unwrap();
-    tcp_stream_guard.write(&packet_zc_msg_color.raw());
-    tcp_stream_guard.flush();
+    socket_send!(tcp_stream, &packet_zc_msg_color.raw());
     let mut final_response_packet: Vec<u8> = chain_packets(vec![&packet_zc_hat_effect, &packet_zc_notify_mapproperty2]);
-    tcp_stream_guard.write(&final_response_packet);
-    tcp_stream_guard.flush();
+    socket_send!(tcp_stream, &final_response_packet);
     return FeatureState::Implemented(Box::new(packet_zc_msg_color));
 }
 
 pub fn handle_blocking_play_cancel(server: &Server, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<Mutex<TcpStream>>, session_id: u32) -> FeatureState {
     let mut packet_zc_load_confirm = PacketZcLoadConfirm::new();
     packet_zc_load_confirm.fill_raw();
-    let mut tcp_stream_guard = tcp_stream.lock().unwrap();
-    tcp_stream_guard.write(&packet_zc_load_confirm.raw());
-    tcp_stream_guard.flush();
+    socket_send!(tcp_stream, &packet_zc_load_confirm.raw());
     return FeatureState::Implemented(Box::new(packet_zc_load_confirm));
 }
 
