@@ -10,11 +10,10 @@ pub struct CharProxy {
 }
 
 impl CharProxy {
-    pub(crate) fn new(server: Arc<Server>) -> Proxy<CharProxy> {
+    pub(crate) fn new() -> Proxy<CharProxy> {
         let server = Proxy {
             name: "Char".to_string(),
             local_port: 6123,
-            server,
             target: SocketAddr::new(IpAddr::from(Ipv4Addr::new(127, 0, 0, 1)), 6121),
             specific_proxy: CharProxy {}
         };

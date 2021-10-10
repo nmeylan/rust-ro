@@ -1,5 +1,5 @@
 use crate::packets::packets::{PacketCzRequestMove2, Packet, PacketZcNotifyPlayermove};
-use crate::server::core::{Server, FeatureState, CharacterSession};
+use crate::server::core::{Server, CharacterSession};
 use tokio::runtime::Runtime;
 use std::sync::{Arc, Mutex, RwLock};
 use std::net::TcpStream;
@@ -53,7 +53,7 @@ impl Position {
     }
 }
 
-pub fn handle_char_move(server: &Server, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<Mutex<TcpStream>>, session_id: u32) -> FeatureState {
+pub fn handle_char_move(server: &Server, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, session_id: u32) {
     let move_packet = cast!(packet, PacketCzRequestMove2);
     let sessions_guard = read_lock!(server.sessions);
     let mut session = read_session!(sessions_guard, &session_id);
@@ -80,7 +80,6 @@ pub fn handle_char_move(server: &Server, packet: &mut dyn Packet, runtime: &Runt
     socket_send!(tcp_stream, &packet_zc_notify_playermove.raw());
     // debug_in_game_chat(&session, format!("path: {:?}", path.iter().map(|node| (node.x, node.y)).collect::<Vec<(u16, u16)>>()));
     // debug_in_game_chat(&session, format!("current_position: {:?}, destination {:?}", current_position, destination));
-    return FeatureState::Implemented(Box::new(packet_zc_notify_playermove));
 }
 
 fn move_character(runtime: &Runtime, path: Vec<PathNode>, character: Arc<Mutex<CharacterSession>>, map_name: String, maps: Arc<RwLock<HashMap<String, Map>>>, task_id: u128) -> JoinHandle<()> {
