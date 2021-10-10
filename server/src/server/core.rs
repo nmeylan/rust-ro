@@ -21,7 +21,7 @@ use crate::packets::packets_parser::parse;
 use crate::{read_lock, socket_send};
 
 pub struct Server {
-    pub sessions: Arc<RwLock<HashMap<u32, RwLock<Session>>>>,
+    pub sessions: Arc<RwLock<HashMap<u32, Arc<RwLock<Session>>>>>,
     pub repository: Arc<Repository<MySql>>,
     pub maps: Arc<RwLock<HashMap<String, Map>>>,
     pub warps: Arc<HashMap<String, Vec<Arc<Warp>>>>,
@@ -38,7 +38,7 @@ pub trait SessionsIter {
     fn find_by_stream(&self, tcpStream: &TcpStream) -> Option<u32>;
 }
 
-impl SessionsIter for HashMap<u32, RwLock<Session>> {
+impl SessionsIter for HashMap<u32, Arc<RwLock<Session>>> {
     fn find_by_stream(&self, tcpStream: &TcpStream) -> Option<u32> {
         let map_entry_option = self.iter().find(|(_, session)| {
             let session = session.read().unwrap();
@@ -124,7 +124,7 @@ impl Server {
         warps: Arc<HashMap<String, Vec<Arc<Warp>>>>
     ) -> Server {
         let server = Server {
-            sessions: Arc::new(RwLock::new(HashMap::<u32, RwLock<Session>>::new())),
+            sessions: Arc::new(RwLock::new(HashMap::<u32, Arc<RwLock<Session>>>::new())),
             repository,
             maps,
             warps
