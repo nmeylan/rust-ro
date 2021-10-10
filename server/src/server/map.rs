@@ -12,9 +12,9 @@ use accessor::Setters;
 use crate::server::scripts::warps::Warp;
 use std::sync::Arc;
 
-static MAP_EXT: &str = ".mcache";
+static MAPCACHE_EXT: &str = ".mcache";
 static MAP_DIR: &str = "./maps/pre-re";
-
+pub static MAP_EXT: &str = ".gat";
 static WARP_MASK: u16 = 0b00000100_00000000;
 
 struct Header {
@@ -170,7 +170,7 @@ impl Map {
     }
 
     pub fn set_cells(&mut self) {
-        let file_path = Path::join(Path::new(MAP_DIR), format!("{}{}", self.name, MAP_EXT));
+        let file_path = Path::join(Path::new(MAP_DIR), format!("{}{}", self.name, MAPCACHE_EXT));
         let file = File::open(file_path).unwrap();
         let mut reader = BufReader::new(file);
         let mut map_cache_zip_content_buf = Vec::new();
@@ -215,7 +215,7 @@ impl Map {
         for path in paths {
             let _start = Instant::now();
             let path = path.as_ref().unwrap();
-            let map_name = path.file_name().to_str().unwrap().replace(MAP_EXT, "");
+            let map_name = path.file_name().to_str().unwrap().replace(MAPCACHE_EXT, "");
             let file = File::open(path.path()).unwrap();
             let mut reader = BufReader::new(file);
             let mut buf = [0 as u8; 26];
@@ -246,6 +246,6 @@ impl Map {
     }
 
     pub fn name_without_ext(map_name: String) -> String {
-        map_name.replace(".gat", "")
+        map_name.replace(MAP_EXT, "")
     }
 }

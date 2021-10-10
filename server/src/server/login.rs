@@ -33,7 +33,7 @@ pub(crate) fn handle_login(server: &Server, packet: &mut dyn Packet, runtime: &R
         };
         {
             let mut sessions_guard = server.sessions.write().unwrap();
-            sessions_guard.insert(packet_response.aid.clone(), RwLock::new(new_user_session));
+            sessions_guard.insert(packet_response.aid.clone(), Arc::new(RwLock::new(new_user_session)));
         }
         socket_send!(tcp_stream, res.raw());
     } else if res.as_any().downcast_ref::<PacketAcRefuseLoginR3>().is_some() {

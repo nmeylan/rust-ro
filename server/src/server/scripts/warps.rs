@@ -14,7 +14,7 @@ use std::sync::{Mutex, Arc};
 static PARALLEL_EXECUTIONS: usize = 100; // TODO add a conf for this
 static WARP_CONF_PATH: &str = "./npc/scripts_warps.conf";
 
-#[derive(Setters, Clone)]
+#[derive(Setters, Clone, Debug)]
 pub struct Warp {
     #[set]
     pub map_name: String,

@@ -1,11 +1,11 @@
-use crate::packets::packets::{PacketCzRequestMove2, Packet, PacketZcNotifyPlayermove};
-use crate::server::core::{Server, CharacterSession};
+use crate::packets::packets::{PacketCzRequestMove2, Packet, PacketZcNotifyPlayermove, PacketZcNpcackMapmove};
+use crate::server::core::{Server, CharacterSession, Session};
 use tokio::runtime::Runtime;
 use std::sync::{Arc, Mutex, RwLock};
 use std::net::TcpStream;
 use std::time::{SystemTime, UNIX_EPOCH};
 use std::io::Write;
-use crate::server::map::Map;
+use crate::server::map::{Map, MAP_EXT};
 use crate::server::path::{path_search_client_side_algorithm, PathNode, MOVE_DIAGONAL_COST, MOVE_COST};
 use std::thread::sleep;
 use tokio::time::Duration;
@@ -13,6 +13,7 @@ use tokio::time::Duration;
 use tokio::task::JoinHandle;
 use crate::{read_lock, read_session, cast, socket_send};
 use std::collections::HashMap;
+use crate::util::string::StringUtil;
 
 #[derive(Debug, Clone)]
 pub struct Position {
@@ -49,9 +50,10 @@ impl Position {
 pub fn handle_char_move(server: &Server, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, session_id: u32) {
     let move_packet = cast!(packet, PacketCzRequestMove2);
     let sessions_guard = read_lock!(server.sessions);
-    let session = read_session!(sessions_guard, &session_id);
+    let session = sessions_guard.get(&session_id).unwrap();
+    let session_guard = read_lock!(session);
     let destination = Position::from_move_packet(move_packet);
-    let mut character_session_guard = session.character.as_ref().unwrap().lock().unwrap();
+    let mut character_session_guard = session_guard.character.as_ref().unwrap().lock().unwrap();
     let map_name: String = Map::name_without_ext(character_session_guard.get_current_map_name());
     let maps_guard = read_lock!(server.maps);
     let map = maps_guard.get(&map_name[..]).unwrap();
@@ -65,7 +67,7 @@ pub fn handle_char_move(server: &Server, packet: &mut dyn Packet, runtime: &Runt
     let id = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_nanos();
     character_session_guard.set_movement_task_id(id);
     std::mem::drop(character_session_guard);
-    move_character(runtime, path.clone(), session.character.as_ref().unwrap().clone(), map_name,server.maps.clone(), id.clone());
+    move_character(runtime, path.clone(), session.clone(), map_name,server.maps.clone(), id.clone());
     let mut packet_zc_notify_playermove = PacketZcNotifyPlayermove::new();
     packet_zc_notify_playermove.set_move_data(current_position.to_move_data(destination.clone()));
     packet_zc_notify_playermove.set_move_start_time(now as u32);
@@ -75,14 +77,15 @@ pub fn handle_char_move(server: &Server, packet: &mut dyn Packet, runtime: &Runt
     // debug_in_game_chat(&session, format!("current_position: {:?}, destination {:?}", current_position, destination));
 }
 
-fn move_character(runtime: &Runtime, path: Vec<PathNode>, character: Arc<Mutex<CharacterSession>>, map_name: String, maps: Arc<RwLock<HashMap<String, Map>>>, task_id: u128) -> JoinHandle<()> {
+fn move_character(runtime: &Runtime, path: Vec<PathNode>, session: Arc<RwLock<Session>>, map_name: String, maps: Arc<RwLock<HashMap<String, Map>>>, task_id: u128) -> JoinHandle<()> {
     let handle = runtime.spawn(async move {
         let maps = read_lock!(maps);
         let map = maps.get(&map_name).unwrap();
-        for (_i, path_node) in path.iter().enumerate() {
+        for path_node in path {
             let delay: u64;
             {
-                let mut character_session = character.lock().unwrap();
+                let session = read_lock!(session);
+                let mut character_session = session.character.as_ref().unwrap().lock().unwrap();
                 if task_id != character_session.movement_task_id.unwrap(){
                     break;
                 }
@@ -92,7 +95,23 @@ fn move_character(runtime: &Runtime, path: Vec<PathNode>, character: Arc<Mutex<C
                     delay = (character_session.speed - 25) as u64;
                 }
                 if map.is_warp_cell(path_node.x, path_node.y) {
-                    println!("On a warp cell!");
+                    let warp = map.warps.get(&map.get_cell_index_of(path_node.x, path_node.y)).unwrap();
+                    let mut new_current_map: [char; 16] = [0 as char; 16];
+                    let map_name = format!("{}{}", warp.dest_map_name, MAP_EXT);
+                    map_name.fill_char_array(new_current_map.as_mut());
+                    character_session.current_map = new_current_map.clone();
+                    character_session.set_current_x(warp.to_x);
+                    character_session.set_current_y(warp.to_y);
+
+                    let mut packet_zc_npcack_mapmove = PacketZcNpcackMapmove::new();
+                    packet_zc_npcack_mapmove.set_map_name(new_current_map);
+                    packet_zc_npcack_mapmove.set_x_pos(character_session.current_position.x as i16);
+                    packet_zc_npcack_mapmove.set_y_pos(character_session.current_position.y as i16);
+                    packet_zc_npcack_mapmove.fill_raw();
+                    let tcp_stream = session.map_server_socket.as_ref().unwrap();
+                    socket_send!(tcp_stream, packet_zc_npcack_mapmove.raw());
+
+                    break;
                 }
                 character_session.set_current_x(path_node.x);
                 character_session.set_current_y(path_node.y);
@@ -102,3 +121,6 @@ fn move_character(runtime: &Runtime, path: Vec<PathNode>, character: Arc<Mutex<C
     });
     handle
 }
+
+
+fn save_character_position()
