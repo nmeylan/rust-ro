@@ -27,14 +27,6 @@ struct Header {
     pub length: i32,
 }
 
-#[derive(Debug)]
-pub struct WarpDestination {
-    pub map_name: String,
-    pub x: u16,
-    pub y: u16,
-}
-
-#[derive(Debug)]
 pub struct Map {
     pub x_size: u16,
     pub y_size: u16,
@@ -55,7 +47,7 @@ pub struct Map {
     // bit 10 -> noskill
     // bit 11 -> warp
     pub cells: Option<Vec<u16>>,
-    pub warps: HashMap<usize, Arc<WarpDestination>>,
+    pub warps: HashMap<usize, Arc<Warp>>,
     pub is_initialized: bool, // maps initialization is lazy, this bool indicate if maps has been initialized or not
 }
 
@@ -164,14 +156,14 @@ impl Map {
         }
     }
 
-    pub fn player_join_map(&mut self, warps: Option<&Vec<Warp>>) {
+    pub fn player_join_map(&mut self, warps: Option<&Vec<Arc<Warp>>>) {
         if !self.is_initialized {
             self.initialize(warps);
         }
         // TODO maintain a list of player in the map
     }
 
-    fn initialize(&mut self, warps: Option<&Vec<Warp>>) {
+    fn initialize(&mut self, warps: Option<&Vec<Arc<Warp>>>) {
         self.set_cells();
         if warps.is_some() {
             self.set_warps(warps.unwrap());
@@ -202,23 +194,18 @@ impl Map {
         self.cells = Some(cells);
     }
 
-    fn set_warps(&mut self, warps: &Vec<Warp>) {
+    fn set_warps(&mut self, warps: &Vec<Arc<Warp>>) {
         for warp in warps {
             let start_x = warp.x - warp.x_size;
             let to_x = warp.x + warp.x_size;
             let start_y = warp.y - warp.y_size;
             let to_y = warp.y + warp.y_size;
-            let destination = Arc::new(WarpDestination {
-                map_name: warp.dest_map_name.clone(),
-                x: warp.to_x,
-                y: warp.to_y
-            });
             for x in start_x..to_x {
                 for y in start_y..to_y {
                     let index = self.get_cell_index_of(x, y);
                     let cell = self.cells.as_mut().unwrap().get_mut(index).unwrap();
                     *cell |= WARP_MASK;
-                    self.warps.insert(index, destination.clone());
+                    self.warps.insert(index, warp.clone());
                 }
             }
         }

@@ -50,11 +50,11 @@ impl Warp {
             to_y: 0
         }
     }
-    pub async fn load_warps() -> HashMap<String, Vec<Warp>> {
+    pub async fn load_warps() -> HashMap<String, Vec<Arc<Warp>>> {
         let semaphore = Semaphore::new(PARALLEL_EXECUTIONS);
         let file = File::open(Path::new(WARP_CONF_PATH)).unwrap();
         let mut reader = BufReader::new(file);
-        let mut warps_by_map = Arc::new(Mutex::new(HashMap::<String, Vec<Warp>>::new()));
+        let mut warps_by_map = Arc::new(Mutex::new(HashMap::<String, Vec<Arc<Warp>>>::new()));
         let mut futures : Vec<JoinHandle<()>> = Vec::new();
         for line in reader.lines() {
             if !line.is_ok() {
@@ -80,16 +80,16 @@ impl Warp {
                     let mut res_guard = res.lock().unwrap();
                     let map_name = warp.map_name.clone();
                     if res_guard.contains_key(&map_name) {
-                        res_guard.get_mut(&map_name).unwrap().push(warp.clone());
+                        res_guard.get_mut(&map_name).unwrap().push(Arc::new(warp));
                     } else {
-                        res_guard.insert(map_name, vec![warp]);
+                        res_guard.insert(map_name, vec![Arc::new(warp)]);
                     }
                 }
             }));
         }
         join_all(futures).await;
         let mut guard = warps_by_map.lock().unwrap();
-        let mut res= HashMap::<String, Vec<Warp>>::new();
+        let mut res= HashMap::<String, Vec<Arc<Warp>>>::new();
         guard.iter().for_each(|(k, v)| {
             res.insert(k.clone(), v.clone());
         });
