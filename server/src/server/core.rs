@@ -4,14 +4,12 @@
 use crate::packets::packets::{Packet, PacketUnknown, PacketZcNotifyTime, PacketZcNotifyChat, PacketCaLogin, PacketAcAcceptLogin2, PacketAcRefuseLoginR2, PacketAcRefuseLoginR3, PacketChEnter, PacketHcRefuseEnter, PacketChMakeChar2, PacketChDeleteChar2, PacketHcDeleteChar3Reserved, PacketChDeleteChar4Reserved, PacketCzEnter2, PacketChSelectChar, PacketCzRestart, PacketCzReqDisconnect, PacketCzReqDisconnect2, PacketCzRequestMove2, PacketCzNotifyActorinit, PacketCzBlockingPlayCancel, PacketZcLoadConfirm};
 use std::sync::{Arc, Mutex, RwLock};
 use std::thread;
-use std::thread::sleep;
+use std::thread::{sleep, spawn, JoinHandle};
 use std::time::Duration;
-use std::io::Write;
 use crate::repository::lib::Repository;
 use sqlx::{Database, MySql};
 use crate::server::login::authenticate;
 use std::collections::HashMap;
-use std::net::TcpStream;
 use tokio::runtime::Runtime;
 use crate::server::login::handle_login;
 use crate::server::char::{handle_char_enter, handle_make_char, handle_delete_reserved_char, handle_select_char, handle_enter_game, handle_restart, handle_disconnect, handle_char_loaded_client_side, handle_blocking_play_cancel};
@@ -20,21 +18,19 @@ use crate::server::movement::{handle_char_move, Position};
 use std::ops::{DerefMut, Deref};
 use std::rc::Rc;
 use crate::server::map::Map;
-use tokio::task::JoinHandle;
-use tokio::sync::mpsc::Sender;
 use accessor::Setters;
 use crate::server::scripts::warps::Warp;
+use std::io::{Read, Write};
+use std::net::{TcpStream, TcpListener, Shutdown};
+use log::{error};
+use crate::packets::packets_parser::parse;
+use crate::{read_lock, write_lock, socket_send};
 
 pub struct Server {
     pub sessions: Arc<RwLock<HashMap<u32, RwLock<Session>>>>,
     pub repository: Arc<Repository<MySql>>,
     pub maps: Arc<RwLock<HashMap<String, Map>>>,
     pub warps: Arc<HashMap<String, Vec<Arc<Warp>>>>,
-}
-
-pub enum FeatureState {
-    Implemented(Box<dyn Packet>),
-    Unimplemented,
 }
 
 impl Server {
@@ -55,11 +51,11 @@ impl SessionsIter for HashMap<u32, RwLock<Session>> {
             if session.char_server_socket.as_ref().is_none() {
                 return false
             }
-            let char_server_socket = session.char_server_socket.as_ref().unwrap().lock().unwrap();
+            let char_server_socket = read_lock!(session.char_server_socket.as_ref().unwrap());
             let is_char_stream = char_server_socket.peer_addr().unwrap() == tcpStream.peer_addr().unwrap();
             let mut is_map_stream = false;
             if session.map_server_socket.as_ref().is_some() {
-                let map_server_socket = session.map_server_socket.as_ref().unwrap().lock().unwrap();
+                let map_server_socket = read_lock!(session.map_server_socket.as_ref().unwrap());
                 is_map_stream = map_server_socket.peer_addr().unwrap() == tcpStream.peer_addr().unwrap();
             }
             is_char_stream || is_map_stream
@@ -72,8 +68,8 @@ impl SessionsIter for HashMap<u32, RwLock<Session>> {
 }
 
 pub struct Session {
-    pub char_server_socket: Option<Arc<Mutex<TcpStream>>>,
-    pub map_server_socket: Option<Arc<Mutex<TcpStream>>>,
+    pub char_server_socket: Option<Arc<RwLock<TcpStream>>>,
+    pub map_server_socket: Option<Arc<RwLock<TcpStream>>>,
     pub account_id: u32,
     // random value, known as login_id1 in hercules
     pub auth_code: i32,
@@ -98,10 +94,10 @@ pub struct CharacterSession {
 }
 
 impl Session {
-    pub fn set_char_server_socket(&mut self, tcpStream: Arc<Mutex<TcpStream>>) {
+    pub fn set_char_server_socket(&mut self, tcpStream: Arc<RwLock<TcpStream>>) {
         self.char_server_socket = Some(tcpStream);
     }
-    pub fn set_map_server_socket(&mut self, tcpStream: Arc<Mutex<TcpStream>>) {
+    pub fn set_map_server_socket(&mut self, tcpStream: Arc<RwLock<TcpStream>>) {
         self.map_server_socket = Some(tcpStream);
     }
     pub fn set_character(&mut self, character: Arc<Mutex<CharacterSession>>) {
@@ -139,19 +135,47 @@ impl Server {
             maps,
             warps
         };
-        server.start_tick();
         server
     }
 
-    pub fn start_tick(&self) {
-        thread::Builder::new().name("main tick thread".to_string()).spawn(move || {
-            loop {
-                sleep(Duration::new(2, 0));
-            }
-        });
+    pub fn start(self, port: u16) -> JoinHandle<()> {
+        self.listen(port)
     }
 
-    pub fn dispatch(&self, runtime: &Runtime, tcp_stream: Arc<Mutex<TcpStream>>, packet: &mut dyn Packet) -> FeatureState {
+    fn listen(self, port: u16) -> JoinHandle<()> {
+        let listener = TcpListener::bind(format!("0.0.0.0:{}", port)).unwrap();
+        println!("Server listen on 0.0.0.0:{}", port);
+        let server_shared_ref = Arc::new(self);
+        let server_shared_ref = server_shared_ref.clone();
+        spawn(move || {
+            for mut tcp_stream in listener.incoming() {
+                // Receive new connection, starting new thread
+                let server_shared_ref = server_shared_ref.clone();
+                spawn(move || {
+                    let runtime = Runtime::new().unwrap();
+                    let mut tcp_stream = tcp_stream.unwrap();
+                    let tcp_stream_arc = Arc::new(RwLock::new(tcp_stream.try_clone().unwrap())); // todo remove this clone
+                    let mut buffer = [0; 2048];
+                    loop {
+                        match tcp_stream.read(&mut buffer) {
+                            Ok(bytes_read) => {
+                                if bytes_read == 0 {
+                                    tcp_stream.shutdown(Shutdown::Both);
+                                    break;
+                                }
+                                let mut packet = parse(&mut buffer[..bytes_read]);
+                                server_shared_ref.dispatch(&runtime, tcp_stream_arc.clone(), packet.as_mut());
+                            }
+                            Err(err) => error!("{}", err)
+                        }
+                    }
+                });
+            }
+        })
+    }
+
+
+    pub fn dispatch(&self, runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, packet: &mut dyn Packet) {
         if packet.as_any().downcast_ref::<PacketUnknown>().is_some() {
             println!("Unknown packet {} of length {}: {:02X?}", packet.id(), packet.raw().len(), packet.raw());
         }
@@ -218,21 +242,15 @@ impl Server {
         }
         // Client send PACKET_CZ_BLOCKING_PLAY_CANCEL after char has loaded
         if packet.as_any().downcast_ref::<PacketCzBlockingPlayCancel>().is_some() {
-            packet.debug();
             let mut packet_zc_load_confirm = PacketZcLoadConfirm::new();
             packet_zc_load_confirm.fill_raw();
-            let mut tcp_stream_guard = tcp_stream.lock().unwrap();
-            tcp_stream_guard.write(&packet_zc_load_confirm.raw());
-            tcp_stream_guard.flush();
-            return FeatureState::Implemented(Box::new(packet_zc_load_confirm));
+            socket_send!(tcp_stream, &packet_zc_load_confirm.raw());
         }
-        // Char creation
-        FeatureState::Unimplemented
     }
 
-    pub fn ensure_session_exists(&self, tcp_stream: &Arc<Mutex<TcpStream>>) -> Option<u32> {
+    pub fn ensure_session_exists(&self, tcp_stream: &Arc<RwLock<TcpStream>>) -> Option<u32> {
         let session_guard = self.sessions.read().unwrap();
-        let stream_guard = tcp_stream.lock().unwrap();
+        let stream_guard = read_lock!(tcp_stream);
         let session_option = session_guard.find_by_stream(&stream_guard);
         if session_option.is_none() {
             // TODO uncomment below. keep it comment while we need to proxy data to hercules, so until forever

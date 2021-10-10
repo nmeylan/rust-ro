@@ -6,7 +6,6 @@ mod repository;
 
 use std::net::{SocketAddr, Ipv4Addr, IpAddr};
 use std::thread::{JoinHandle};
-use proxy::login::LoginProxy;
 use proxy::map::MapProxy;
 use crate::proxy::char::CharProxy;
 use std::sync::{Arc, Mutex, RwLock};
@@ -28,19 +27,11 @@ pub async fn main() {
     let maps = Map::load_maps();
     println!("load {} map-cache in {} secs", maps.len(), start.elapsed().as_millis() as f32 / 1000.0);
 
-    let server = Server::new(Arc::new(repository), Arc::new(RwLock::new(maps)), Arc::new(warps));
-    let server_arc = Arc::new(server);
-    let login_proxy = proxy::proxy::Proxy {
-        name: "login".to_string(),
-        local_port: 6901,
-        target: SocketAddr::new(IpAddr::from(Ipv4Addr::new(127, 0, 0, 1)), 6900),
-        server: server_arc.clone(),
-        specific_proxy: LoginProxy
-    };
-    let char_proxy = CharProxy::new(server_arc.clone());
-    let map_proxy = MapProxy::new(server_arc.clone());
+    let mut server = Server::new(Arc::new(repository), Arc::new(RwLock::new(maps)), Arc::new(warps));
     let mut handles: Vec<JoinHandle<()>> = Vec::new();
-    &handles.push(login_proxy.proxy());
+    &handles.push(server.start(6901));
+    let char_proxy = CharProxy::new();
+    let map_proxy = MapProxy::new();
     &handles.push(char_proxy.proxy());
     &handles.push(map_proxy.proxy());
 

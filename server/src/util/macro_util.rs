@@ -34,7 +34,7 @@ macro_rules! cast {
 macro_rules! socket_send {
     ( $tcp_stream:expr, $data:expr ) => {
     {
-       let mut tcp_stream_guard = $tcp_stream.lock().unwrap();
+       let mut tcp_stream_guard = $tcp_stream.write().unwrap();
         tcp_stream_guard.write($data);
         tcp_stream_guard.flush();
     }

@@ -6,13 +6,12 @@ use std::fmt::{Display, Formatter, Debug};
 use std::sync::{Arc, Mutex};
 use crate::packets::packets::{Packet};
 use crate::packets::packets_parser::parse;
-use crate::server::core::{Server, FeatureState};
+use crate::server::core::{Server};
 use tokio::runtime::Runtime;
 
 #[derive(Clone)]
 pub struct Proxy<T: PacketHandler + Clone + Send> {
     pub name: String,
-    pub server: Arc<Server>,
     pub local_port: u16,
     pub target: SocketAddr,
     pub specific_proxy: T,
@@ -104,17 +103,7 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
                     }
                     let tcp_stream_ref = Arc::new(Mutex::new(incoming.try_clone().unwrap()));
                     let mut packet = parse(&mut buffer[..bytes_read]);
-                    if direction == ProxyDirection::Forward {
-                        let feature_state = self.server.dispatch(runtime, tcp_stream_ref.clone(), packet.as_mut());
-                        match feature_state {
-                            FeatureState::Unimplemented => {
-                                self.proxy_request(outgoing, &direction, tcp_stream_ref, packet)
-                            }
-                            FeatureState::Implemented(response_packet) => {}
-                        }
-                    } else {
-                        self.proxy_request(outgoing, &direction, tcp_stream_ref, packet)
-                    }
+                    self.proxy_request(outgoing, &direction, tcp_stream_ref, packet)
                 }
                 Err(error) => return Err(format!("Could not read data: {}", error))
             }

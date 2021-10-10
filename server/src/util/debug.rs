@@ -6,7 +6,7 @@ use std::cell::RefCell;
 use std::rc::Rc;
 
 pub fn debug_in_game_chat(session: &Session, text: String) {
-    let mut tcp_stream_guard = session.map_server_socket.as_ref().unwrap().lock().unwrap();
+    let mut tcp_stream_guard = crate::write_lock!(session.map_server_socket.as_ref().unwrap());
     let mut zc_notify_chat = PacketZcNotifyChat::new();
     zc_notify_chat.set_gid(session.account_id);
     zc_notify_chat.set_packet_length((text.len() + 8) as i16);

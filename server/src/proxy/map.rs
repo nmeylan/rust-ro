@@ -10,12 +10,11 @@ pub struct MapProxy {
 }
 
 impl MapProxy {
-    pub(crate) fn new(server: Arc<Server>) -> Proxy<MapProxy> {
+    pub(crate) fn new() -> Proxy<MapProxy> {
         let server = Proxy {
             name: "map".to_string(),
             local_port: 6124,
             target: SocketAddr::new(IpAddr::from(Ipv4Addr::new(127, 0, 0, 1)), 6122),
-            server,
             specific_proxy: MapProxy {},
         };
         return server;
