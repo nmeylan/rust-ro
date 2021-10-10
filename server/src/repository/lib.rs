@@ -1,4 +1,3 @@
-use sqlx::mysql::MySqlPoolOptions;
 use sqlx::{MySqlPool, MySql, Pool, Database};
 
 

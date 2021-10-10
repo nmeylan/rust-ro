@@ -1,22 +1,16 @@
 // This is the core of this server. As all feature won't be implemented in one shot, the idea is to proxy unimplemented feature to hercules server.
 // For the moment I won't implement TCPListener in this file, but in the "future" proxies will be removed and only this file will have a TCPListener.
 
-use crate::packets::packets::{Packet, PacketUnknown, PacketZcNotifyTime, PacketZcNotifyChat, PacketCaLogin, PacketAcAcceptLogin2, PacketAcRefuseLoginR2, PacketAcRefuseLoginR3, PacketChEnter, PacketHcRefuseEnter, PacketChMakeChar2, PacketChDeleteChar2, PacketHcDeleteChar3Reserved, PacketChDeleteChar4Reserved, PacketCzEnter2, PacketChSelectChar, PacketCzRestart, PacketCzReqDisconnect, PacketCzReqDisconnect2, PacketCzRequestMove2, PacketCzNotifyActorinit, PacketCzBlockingPlayCancel, PacketZcLoadConfirm};
+use crate::packets::packets::{Packet, PacketUnknown, PacketCaLogin, PacketChEnter, PacketChMakeChar2, PacketChDeleteChar4Reserved, PacketCzEnter2, PacketChSelectChar, PacketCzRestart,  PacketCzReqDisconnect2, PacketCzRequestMove2, PacketCzNotifyActorinit, PacketCzBlockingPlayCancel, PacketZcLoadConfirm};
 use std::sync::{Arc, Mutex, RwLock};
-use std::thread;
-use std::thread::{sleep, spawn, JoinHandle};
-use std::time::Duration;
+use std::thread::{spawn, JoinHandle};
 use crate::repository::lib::Repository;
-use sqlx::{Database, MySql};
-use crate::server::login::authenticate;
+use sqlx::{MySql};
 use std::collections::HashMap;
 use tokio::runtime::Runtime;
 use crate::server::login::handle_login;
-use crate::server::char::{handle_char_enter, handle_make_char, handle_delete_reserved_char, handle_select_char, handle_enter_game, handle_restart, handle_disconnect, handle_char_loaded_client_side, handle_blocking_play_cancel};
-use std::net::Shutdown::Both;
+use crate::server::char::{handle_char_enter, handle_make_char, handle_delete_reserved_char, handle_select_char, handle_enter_game, handle_restart, handle_disconnect, handle_char_loaded_client_side};
 use crate::server::movement::{handle_char_move, Position};
-use std::ops::{DerefMut, Deref};
-use std::rc::Rc;
 use crate::server::map::Map;
 use accessor::Setters;
 use crate::server::scripts::warps::Warp;
@@ -24,7 +18,7 @@ use std::io::{Read, Write};
 use std::net::{TcpStream, TcpListener, Shutdown};
 use log::{error};
 use crate::packets::packets_parser::parse;
-use crate::{read_lock, write_lock, socket_send};
+use crate::{read_lock, socket_send};
 
 pub struct Server {
     pub sessions: Arc<RwLock<HashMap<u32, RwLock<Session>>>>,

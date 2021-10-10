@@ -2,8 +2,6 @@ use crate::{PacketStructDefinition, StructDefinition, StructField};
 use std::fs::File;
 use std::io::Write;
 use std::path::Path;
-use crate::packet_db_parser::static_types_map;
-use byteorder::WriteBytesExt;
 
 pub fn write_packets_struct(packets: Vec<PacketStructDefinition>, nested_structures: &Vec<StructDefinition>, output_path: &Path) {
     let mut file_packets_res = File::create(output_path.join("packets.rs"));

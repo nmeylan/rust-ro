@@ -1,14 +1,13 @@
-use crate::server::core::{Server, Session, CharacterSession};
+use crate::server::core::{Server, CharacterSession};
 use crate::packets::packets::{Packet, PacketChEnter, PacketHcRefuseEnter, CharacterInfoNeoUnion, PacketHcAcceptEnterNeoUnionHeader, PacketHcAcceptEnterNeoUnion, PacketPincodeLoginstate, PacketChMakeChar2, PacketHcAcceptMakecharNeoUnion, PacketChDeleteChar4Reserved, PacketHcDeleteChar4Reserved, PacketChSelectChar, PacketChSendMapInfo, PacketCzEnter2, PacketMapConnection, PacketZcInventoryExpansionInfo, PacketZcOverweightPercent, PacketZcAcceptEnter2, PacketZcNpcackMapmove, PacketZcStatusValues, PacketZcParChange, PacketZcAttackRange, PacketZcNotifyChat, PacketCzRestart, PacketZcRestartAck, PacketZcReqDisconnectAck2, PacketZcMsgColor, PacketZcNotifyMapproperty2, PacketZcHatEffect, PacketZcLoadConfirm};
 use crate::repository::lib::Repository;
-use sqlx::{MySql, Error, Row};
+use sqlx::{MySql, Row};
 use tokio::runtime::Runtime;
 use std::sync::{Arc, Mutex, RwLock};
 use std::net::TcpStream;
 use std::io::Write;
-use byteorder::{LittleEndian, WriteBytesExt, BigEndian};
-use crate::repository::model::char_model::{CharInsertModel, CharSelectModel};
-use sqlx::mysql::{MySqlQueryResult, MySqlRow};
+use byteorder::{LittleEndian, WriteBytesExt};
+use crate::repository::model::char_model::{CharInsertModel};
 use crate::util::string::StringUtil;
 use std::net::Shutdown::Both;
 use crate::util::packet::chain_packets;
