@@ -1,17 +1,8 @@
 mod packet_struct_generator;
 mod packet_db_parser;
 
-use std::fs::File;
-use std::io;
 use std::io::{BufRead, Write};
-use std::collections::HashMap;
-use std::sync::{Mutex};
-use std::rc::Rc;
-use std::cell::{RefCell, RefMut};
-use maplit::hashmap;
-use lazy_static::lazy_static;
-use regex::{Regex, Captures};
-use std::fmt::{Debug, Formatter, Alignment};
+use std::fmt::{Debug};
 use std::ops::Deref;
 use std::borrow::{BorrowMut, Borrow};
 use crate::packet_struct_generator::write_packets_struct;

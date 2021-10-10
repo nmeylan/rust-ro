@@ -3,14 +3,12 @@ use std::fs::File;
 use std::io::{BufReader, Read, Cursor};
 use std::convert::TryInto;
 use byteorder::{ReadBytesExt, LittleEndian};
-use flate2::{Decompress, FlushDecompress};
 use flate2::read::ZlibDecoder;
 use std::fs;
 use std::time::Instant;
 use std::collections::HashMap;
 use log::warn;
 use accessor::Setters;
-use crate::server::core::Server;
 use crate::server::scripts::warps::Warp;
 use std::sync::Arc;
 

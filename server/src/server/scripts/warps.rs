@@ -5,13 +5,10 @@ use std::path::Path;
 use std::io::{BufReader, BufRead};
 use tokio::sync::Semaphore;
 use tokio::task::JoinHandle;
-use log::{error, info, warn};
+use log::{warn};
 use futures::future::join_all;
 use std::sync::{Mutex, Arc};
-use std::ops::Deref;
 use std::borrow::Borrow;
-use std::mem;
-use std::convert::TryInto;
 use std::hash::Hash;
 
 static PARALLEL_EXECUTIONS: usize = 100; // TODO add a conf for this

@@ -5,7 +5,7 @@ use rand::Rng;
 use tokio::runtime::Runtime;
 use crate::server::core::{Session, Server};
 use std::net::{TcpStream, Shutdown};
-use std::sync::{Mutex, Arc, RwLock};
+use std::sync::{Arc, RwLock};
 use std::io::{Write, Read};
 use crate::{cast, socket_send};
 use futures::task::SpawnExt;

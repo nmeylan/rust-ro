@@ -3,7 +3,6 @@ use std::sync::{Arc, Mutex};
 use std::net::IpAddr;
 use std::net::{TcpStream, Ipv4Addr, SocketAddr};
 use crate::packets::packets::{Packet};
-use crate::server::core::{Server};
 
 #[derive(Clone)]
 pub struct MapProxy {

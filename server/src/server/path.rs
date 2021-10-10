@@ -1,6 +1,5 @@
 use crate::server::map::Map;
 use crate::server::movement::Position;
-use std::collections::LinkedList;
 use std::time::Instant;
 use accessor::Setters;
 use log::{debug};

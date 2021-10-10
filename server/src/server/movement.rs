@@ -5,20 +5,13 @@ use std::sync::{Arc, Mutex, RwLock};
 use std::net::TcpStream;
 use std::time::{SystemTime, UNIX_EPOCH};
 use std::io::Write;
-use crate::util::debug::debug_in_game_chat;
-use std::cell::RefCell;
-use std::rc::Rc;
-use std::ops::{DerefMut};
 use crate::server::map::Map;
 use crate::server::path::{path_search_client_side_algorithm, PathNode, MOVE_DIAGONAL_COST, MOVE_COST};
 use std::thread::sleep;
 use tokio::time::Duration;
 use futures::FutureExt;
 use tokio::task::JoinHandle;
-use tokio::sync::mpsc;
-use tokio::sync::mpsc::Receiver;
-use tokio::sync::mpsc::error::TryRecvError;
-use crate::{read_lock, read_session, write_session, write_lock, cast, socket_send};
+use crate::{read_lock, read_session, cast, socket_send};
 use std::collections::HashMap;
 
 #[derive(Debug, Clone)]
