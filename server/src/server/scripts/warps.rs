@@ -63,7 +63,6 @@ impl Warp {
             }
             line = line.replace("npc: ", "");
             let warp_script_path = line.trim().clone().to_string();
-
             semaphore.acquire().await.unwrap();
             let res = warps_by_map.clone();
             futures.push(tokio::task::spawn_blocking(move || {

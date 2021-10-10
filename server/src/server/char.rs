@@ -18,7 +18,7 @@ use crate::server::enums::status::StatusTypes;
 use crate::server::enums::client_messages::ClientMessages;
 use crate::{read_lock, read_session, write_session, write_lock, cast, socket_send};
 
-pub fn handle_char_enter(server: &Server, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>) {
+pub fn handle_char_enter(server: Arc<Server>, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>) {
     let packet_char_enter = cast!(packet, PacketChEnter);
     let sessions_guard = read_lock!(server.sessions);
 
@@ -54,7 +54,7 @@ pub fn handle_char_enter(server: &Server, packet: &mut dyn Packet, runtime: &Run
     socket_send!(tcp_stream, res.raw());
 }
 
-pub fn handle_make_char(server: &Server, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, session_id: u32) {
+pub fn handle_make_char(server: Arc<Server>, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, session_id: u32) {
     let packet_make_char = cast!(packet, PacketChMakeChar2);
     let vit = 1;
     let max_hp = 40 * (100 + vit as u32) / 100 ;
@@ -105,7 +105,7 @@ pub fn handle_make_char(server: &Server, packet: &mut dyn Packet, runtime: &Runt
     socket_send!(tcp_stream, &packet_hc_accept_makechar_neo_union.raw());
 }
 
-pub fn handle_delete_reserved_char(server: &Server, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, session_id: u32) {
+pub fn handle_delete_reserved_char(server: Arc<Server>, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, session_id: u32) {
     let packet_delete_reserved_char = cast!(packet, PacketChDeleteChar4Reserved);
     runtime.block_on(async {
         sqlx::query("UPDATE `char` SET delete_date = UNIX_TIMESTAMP(now() + INTERVAL 1 DAY) WHERE account_id = ? AND char_id = ?")
@@ -121,7 +121,7 @@ pub fn handle_delete_reserved_char(server: &Server, packet: &mut dyn Packet, run
     socket_send!(tcp_stream, &packet_hc_delete_char4reserved.raw());
 }
 
-pub fn handle_select_char(server: &Server, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, session_id: u32) {
+pub fn handle_select_char(server: Arc<Server>, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, session_id: u32) {
     let packet_select_char = cast!(packet, PacketChSelectChar);
     let row = runtime.block_on(async {
        sqlx::query("SELECT char_id, last_map, last_x, last_y, name FROM `char` WHERE account_id = ? AND char_num = ?")
@@ -160,7 +160,7 @@ pub fn handle_select_char(server: &Server, packet: &mut dyn Packet, runtime: &Ru
 }
 
 
-pub fn handle_enter_game(server: &Server, packet: &mut dyn Packet, _runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>) {
+pub fn handle_enter_game(server: Arc<Server>, packet: &mut dyn Packet, _runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>) {
     let packet_enter_game = cast!(packet, PacketCzEnter2);
     let sessions_guard = read_lock!(server.sessions);
     let session = sessions_guard.get(&packet_enter_game.aid);
@@ -300,7 +300,7 @@ pub fn handle_enter_game(server: &Server, packet: &mut dyn Packet, _runtime: &Ru
     socket_send!(tcp_stream, &final_response_packet);
 }
 
-pub fn handle_restart(server: &Server, packet: &mut dyn Packet, _runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, session_id: u32) {
+pub fn handle_restart(server: Arc<Server>, packet: &mut dyn Packet, _runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, session_id: u32) {
     let packet_restart = cast!(packet, PacketCzRestart);
     let sessions_guard = read_lock!(server.sessions);
     let mut session = write_session!(sessions_guard, session_id);
@@ -312,7 +312,7 @@ pub fn handle_restart(server: &Server, packet: &mut dyn Packet, _runtime: &Runti
     socket_send!(tcp_stream, &restart_ack.raw());
 }
 
-pub fn handle_disconnect(server: &Server, _packet: &mut dyn Packet, _runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, session_id: u32) {
+pub fn handle_disconnect(server: Arc<Server>, _packet: &mut dyn Packet, _runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, session_id: u32) {
     server.remove_session(session_id);
 
     let mut disconnect_ack = PacketZcReqDisconnectAck2::new();
@@ -320,7 +320,7 @@ pub fn handle_disconnect(server: &Server, _packet: &mut dyn Packet, _runtime: &R
     socket_send!(tcp_stream, &disconnect_ack.raw());
 }
 
-pub fn handle_char_loaded_client_side(server: &Server, _packet: &mut dyn Packet, _runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, session_id: u32) {
+pub fn handle_char_loaded_client_side(server: Arc<Server>, _packet: &mut dyn Packet, _runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, session_id: u32) {
 
     let sessions_guard = read_lock!(server.sessions);
     let session = read_session!(sessions_guard, &session_id);
@@ -349,7 +349,7 @@ pub fn handle_char_loaded_client_side(server: &Server, _packet: &mut dyn Packet,
     socket_send!(tcp_stream, &final_response_packet);
 }
 
-pub fn handle_blocking_play_cancel(_server: &Server, _packet: &mut dyn Packet, _runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, _session_id: u32) {
+pub fn handle_blocking_play_cancel(_server: Arc<Server>, _packet: &mut dyn Packet, _runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, _session_id: u32) {
     let mut packet_zc_load_confirm = PacketZcLoadConfirm::new();
     packet_zc_load_confirm.fill_raw();
     socket_send!(tcp_stream, &packet_zc_load_confirm.raw());

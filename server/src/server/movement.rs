@@ -47,7 +47,7 @@ impl Position {
     }
 }
 
-pub fn handle_char_move(server: &Server, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, session_id: u32) {
+pub fn handle_char_move(server: Arc<Server>, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, session_id: u32) {
     let move_packet = cast!(packet, PacketCzRequestMove2);
     let sessions_guard = read_lock!(server.sessions);
     let session = sessions_guard.get(&session_id).unwrap();
@@ -67,7 +67,7 @@ pub fn handle_char_move(server: &Server, packet: &mut dyn Packet, runtime: &Runt
     let id = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_nanos();
     character_session_guard.set_movement_task_id(id);
     std::mem::drop(character_session_guard);
-    move_character(runtime, path.clone(), session.clone(), map_name,server.maps.clone(), id.clone());
+    move_character(runtime, path.clone(), session.clone(), map_name, server.clone(), id.clone());
     let mut packet_zc_notify_playermove = PacketZcNotifyPlayermove::new();
     packet_zc_notify_playermove.set_move_data(current_position.to_move_data(destination.clone()));
     packet_zc_notify_playermove.set_move_start_time(now as u32);
@@ -77,50 +77,79 @@ pub fn handle_char_move(server: &Server, packet: &mut dyn Packet, runtime: &Runt
     // debug_in_game_chat(&session, format!("current_position: {:?}, destination {:?}", current_position, destination));
 }
 
-fn move_character(runtime: &Runtime, path: Vec<PathNode>, session: Arc<RwLock<Session>>, map_name: String, maps: Arc<RwLock<HashMap<String, Map>>>, task_id: u128) -> JoinHandle<()> {
+fn move_character(runtime: &Runtime, path: Vec<PathNode>, session: Arc<RwLock<Session>>, map_name: String, server: Arc<Server>, task_id: u128) -> JoinHandle<()> {
+    let server = server.clone();
     let handle = runtime.spawn(async move {
-        let maps = read_lock!(maps);
-        let map = maps.get(&map_name).unwrap();
-        for path_node in path {
-            let delay: u64;
-            {
-                let session = read_lock!(session);
-                let mut character_session = session.character.as_ref().unwrap().lock().unwrap();
-                if task_id != character_session.movement_task_id.unwrap(){
-                    break;
-                }
-                if character_session.current_position.x != path_node.x && character_session.current_position.y != path_node.y { // diagonal movement
-                    delay = (character_session.speed * (MOVE_DIAGONAL_COST / MOVE_COST)) as u64;
-                } else {
-                    delay = (character_session.speed - 25) as u64;
-                }
-                if map.is_warp_cell(path_node.x, path_node.y) {
-                    let warp = map.warps.get(&map.get_cell_index_of(path_node.x, path_node.y)).unwrap();
-                    let mut new_current_map: [char; 16] = [0 as char; 16];
-                    let map_name = format!("{}{}", warp.dest_map_name, MAP_EXT);
-                    map_name.fill_char_array(new_current_map.as_mut());
-                    character_session.current_map = new_current_map.clone();
-                    character_session.set_current_x(warp.to_x);
-                    character_session.set_current_y(warp.to_y);
+        let mut has_been_canceled = false;
+        {
+            let maps = read_lock!(server.maps);
+            let map = maps.get(&map_name).unwrap();
+            for path_node in path {
+                let delay: u64;
+                {
+                    let session = read_lock!(session);
+                    let mut character_session = session.character.as_ref().unwrap().lock().unwrap();
+                    if task_id != character_session.movement_task_id.unwrap() {
+                        has_been_canceled = true;
+                        break;
+                    }
+                    if character_session.current_position.x != path_node.x && character_session.current_position.y != path_node.y { // diagonal movement
+                        delay = (character_session.speed * (MOVE_DIAGONAL_COST / MOVE_COST)) as u64;
+                    } else {
+                        delay = (character_session.speed - 25) as u64;
+                    }
+                    if map.is_warp_cell(path_node.x, path_node.y) {
+                        println!("on a warp");
+                        let warp = map.warps.get(&map.get_cell_index_of(path_node.x, path_node.y)).unwrap();
+                        let mut new_current_map: [char; 16] = [0 as char; 16];
+                        let map_name = format!("{}{}", warp.dest_map_name, MAP_EXT);
+                        map_name.fill_char_array(new_current_map.as_mut());
+                        character_session.current_map = new_current_map.clone();
+                        character_session.set_current_x(warp.to_x);
+                        character_session.set_current_y(warp.to_y);
 
-                    let mut packet_zc_npcack_mapmove = PacketZcNpcackMapmove::new();
-                    packet_zc_npcack_mapmove.set_map_name(new_current_map);
-                    packet_zc_npcack_mapmove.set_x_pos(character_session.current_position.x as i16);
-                    packet_zc_npcack_mapmove.set_y_pos(character_session.current_position.y as i16);
-                    packet_zc_npcack_mapmove.fill_raw();
-                    let tcp_stream = session.map_server_socket.as_ref().unwrap();
-                    socket_send!(tcp_stream, packet_zc_npcack_mapmove.raw());
+                        let mut packet_zc_npcack_mapmove = PacketZcNpcackMapmove::new();
+                        packet_zc_npcack_mapmove.set_map_name(new_current_map);
+                        packet_zc_npcack_mapmove.set_x_pos(character_session.current_position.x as i16);
+                        packet_zc_npcack_mapmove.set_y_pos(character_session.current_position.y as i16);
+                        packet_zc_npcack_mapmove.fill_raw();
 
-                    break;
+                        // TODO should we call method below?
+                        // let mut maps_guard = server.maps.write().unwrap();
+                        // let map = maps_guard.get_mut(&map_name).unwrap();
+                        // map.player_join_map(server.warps.get(&map_name));
+
+                        let tcp_stream = session.map_server_socket.as_ref().unwrap();
+                        socket_send!(tcp_stream, packet_zc_npcack_mapmove.raw());
+                        break;
+                    }
+                    character_session.set_current_x(path_node.x);
+                    character_session.set_current_y(path_node.y);
                 }
-                character_session.set_current_x(path_node.x);
-                character_session.set_current_y(path_node.y);
+                sleep(Duration::from_millis(delay));
             }
-            sleep(Duration::from_millis(delay));
+        }
+        if !has_been_canceled {
+            save_character_position(server.clone(), session.clone()).await;
         }
     });
     handle
 }
 
 
-fn save_character_position()
+async fn save_character_position(server: Arc<Server>, session: Arc<RwLock<Session>>) {
+    let mut res;
+    {
+        let session = read_lock!(session);
+        let character_session = session.character.as_ref().unwrap().lock().unwrap();
+        res = sqlx::query("UPDATE `char` SET last_map = ?, last_x = ?, last_y = ? WHERE account_id = ? AND char_id = ?") // TODO add bcrypt on user_pass column, but not supported by hercules
+            .bind(Map::name_without_ext(character_session.get_current_map_name()))
+            .bind(character_session.current_position.x)
+            .bind(character_session.current_position.y)
+            .bind(session.account_id)
+            .bind(character_session.char_id)
+            .execute(&server.repository.pool);
+    }
+    let res = res.await;
+    println!("{:?}", res);
+}

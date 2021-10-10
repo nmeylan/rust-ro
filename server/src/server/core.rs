@@ -158,7 +158,7 @@ impl Server {
                                     break;
                                 }
                                 let mut packet = parse(&mut buffer[..bytes_read]);
-                                server_shared_ref.dispatch(&runtime, tcp_stream_arc.clone(), packet.as_mut());
+                                server_shared_ref.dispatch(server_shared_ref.clone(), &runtime, tcp_stream_arc.clone(), packet.as_mut());
                             }
                             Err(err) => error!("{}", err)
                         }
@@ -169,69 +169,70 @@ impl Server {
     }
 
 
-    pub fn dispatch(&self, runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, packet: &mut dyn Packet) {
+    pub fn dispatch(&self, server: Arc<Server>, runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, packet: &mut dyn Packet) {
+        let self_ref = server;
         if packet.as_any().downcast_ref::<PacketUnknown>().is_some() {
             println!("Unknown packet {} of length {}: {:02X?}", packet.id(), packet.raw().len(), packet.raw());
         }
         // Login
         if packet.as_any().downcast_ref::<PacketCaLogin>().is_some() {
-            return handle_login(self, packet, runtime, tcp_stream);
+            return handle_login(self_ref.clone(), packet, runtime, tcp_stream);
         }
         // Char selection
         if packet.as_any().downcast_ref::<PacketChEnter>().is_some() {
-            return handle_char_enter(self, packet, runtime, tcp_stream);
+            return handle_char_enter(self_ref.clone(), packet, runtime, tcp_stream);
         }
         // Char creation
         if packet.as_any().downcast_ref::<PacketChMakeChar2>().is_some() {
             let session_id = self.ensure_session_exists(&tcp_stream);
             if session_id.is_some() {
-                return handle_make_char(self, packet, runtime, tcp_stream, session_id.unwrap());
+                return handle_make_char(self_ref.clone(), packet, runtime, tcp_stream, session_id.unwrap());
             }
         }
         // Delete char reservation
         if packet.as_any().downcast_ref::<PacketChDeleteChar4Reserved>().is_some() {
             let session_id = self.ensure_session_exists(&tcp_stream);
             if session_id.is_some() {
-                return handle_delete_reserved_char(self, packet, runtime, tcp_stream, session_id.unwrap());
+                return handle_delete_reserved_char(self_ref.clone(), packet, runtime, tcp_stream, session_id.unwrap());
             }
         }
         // Select char
         if packet.as_any().downcast_ref::<PacketChSelectChar>().is_some() {
             let session_id = self.ensure_session_exists(&tcp_stream);
             if session_id.is_some() {
-                return handle_select_char(self, packet, runtime, tcp_stream, session_id.unwrap());
+                return handle_select_char(self_ref.clone(), packet, runtime, tcp_stream, session_id.unwrap());
             }
         }
         // Enter game
         if packet.as_any().downcast_ref::<PacketCzEnter2>().is_some() {
-            return handle_enter_game(self, packet, runtime, tcp_stream);
+            return handle_enter_game(self_ref.clone(), packet, runtime, tcp_stream);
         }
         // Game menu "Character select"
         if packet.as_any().downcast_ref::<PacketCzRestart>().is_some() {
             let session_id = self.ensure_session_exists(&tcp_stream);
             if session_id.is_some() {
-                return handle_restart(self, packet, runtime, tcp_stream, session_id.unwrap());
+                return handle_restart(self_ref.clone(), packet, runtime, tcp_stream, session_id.unwrap());
             }
         }
         // Game menu "Exit to windows"
         if packet.as_any().downcast_ref::<PacketCzReqDisconnect2>().is_some() {
             let session_id = self.ensure_session_exists(&tcp_stream);
             if session_id.is_some() {
-                return handle_disconnect(self, packet, runtime, tcp_stream, session_id.unwrap());
+                return handle_disconnect(self_ref.clone(), packet, runtime, tcp_stream, session_id.unwrap());
             }
         }
         // Player click on map cell
         if packet.as_any().downcast_ref::<PacketCzRequestMove2>().is_some() {
             let session_id = self.ensure_session_exists(&tcp_stream);
             if session_id.is_some() {
-                return handle_char_move(self, packet, runtime, tcp_stream, session_id.unwrap());
+                return handle_char_move(self_ref.clone(), packet, runtime, tcp_stream, session_id.unwrap());
             }
         }
         // Client notify player has been loaded
         if packet.as_any().downcast_ref::<PacketCzNotifyActorinit>().is_some() {
             let session_id = self.ensure_session_exists(&tcp_stream);
             if session_id.is_some() {
-                return handle_char_loaded_client_side(self, packet, runtime, tcp_stream, session_id.unwrap());
+                return handle_char_loaded_client_side(self_ref.clone(), packet, runtime, tcp_stream, session_id.unwrap());
             }
         }
         // Client send PACKET_CZ_BLOCKING_PLAY_CANCEL after char has loaded
