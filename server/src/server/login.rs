@@ -12,7 +12,7 @@ use crate::{cast, socket_send};
 use std::thread::spawn;
 use crate::packets::packets_parser::parse;
 
-pub(crate) fn handle_login(server: &Server, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>) {
+pub(crate) fn handle_login(server: Arc<Server>, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>) {
     let res = runtime.block_on(async {
         authenticate(cast!(packet, PacketCaLogin), &server.repository).await
     });
