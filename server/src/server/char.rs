@@ -20,7 +20,7 @@ use crate::{read_lock, read_session, write_session, write_lock, cast, socket_sen
 
 pub fn handle_char_enter(server: &Server, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>) {
     let packet_char_enter = cast!(packet, PacketChEnter);
-    let mut sessions_guard = read_lock!(server.sessions);
+    let sessions_guard = read_lock!(server.sessions);
 
     if sessions_guard.contains_key(&packet_char_enter.aid) {
         let mut session = write_session!(sessions_guard, packet_char_enter.aid);
@@ -57,9 +57,9 @@ pub fn handle_char_enter(server: &Server, packet: &mut dyn Packet, runtime: &Run
 pub fn handle_make_char(server: &Server, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, session_id: u32) {
     let packet_make_char = cast!(packet, PacketChMakeChar2);
     let vit = 1;
-    let max_hp = (40 * (100 + vit as u32) / 100) ;
+    let max_hp = 40 * (100 + vit as u32) / 100 ;
     let int = 1;
-    let max_sp = (40 * (100 + int as u32) / 100);
+    let max_sp = 40 * (100 + int as u32) / 100;
     let char_model = CharInsertModel {
         account_id: session_id,
         char_num: packet_make_char.char_num as i8,
@@ -160,10 +160,10 @@ pub fn handle_select_char(server: &Server, packet: &mut dyn Packet, runtime: &Ru
 }
 
 
-pub fn handle_enter_game(server: &Server, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>) {
+pub fn handle_enter_game(server: &Server, packet: &mut dyn Packet, _runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>) {
     let packet_enter_game = cast!(packet, PacketCzEnter2);
     let sessions_guard = read_lock!(server.sessions);
-    let mut session = sessions_guard.get(&packet_enter_game.aid);
+    let session = sessions_guard.get(&packet_enter_game.aid);
     if session.is_none() {
         write_lock!(tcp_stream).shutdown(Both);
         return;
@@ -300,7 +300,7 @@ pub fn handle_enter_game(server: &Server, packet: &mut dyn Packet, runtime: &Run
     socket_send!(tcp_stream, &final_response_packet);
 }
 
-pub fn handle_restart(server: &Server, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, session_id: u32) {
+pub fn handle_restart(server: &Server, packet: &mut dyn Packet, _runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, session_id: u32) {
     let packet_restart = cast!(packet, PacketCzRestart);
     let sessions_guard = read_lock!(server.sessions);
     let mut session = write_session!(sessions_guard, session_id);
@@ -312,7 +312,7 @@ pub fn handle_restart(server: &Server, packet: &mut dyn Packet, runtime: &Runtim
     socket_send!(tcp_stream, &restart_ack.raw());
 }
 
-pub fn handle_disconnect(server: &Server, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, session_id: u32) {
+pub fn handle_disconnect(server: &Server, _packet: &mut dyn Packet, _runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, session_id: u32) {
     server.remove_session(session_id);
 
     let mut disconnect_ack = PacketZcReqDisconnectAck2::new();
@@ -320,10 +320,10 @@ pub fn handle_disconnect(server: &Server, packet: &mut dyn Packet, runtime: &Run
     socket_send!(tcp_stream, &disconnect_ack.raw());
 }
 
-pub fn handle_char_loaded_client_side(server: &Server, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, session_id: u32) {
+pub fn handle_char_loaded_client_side(server: &Server, _packet: &mut dyn Packet, _runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, session_id: u32) {
 
     let sessions_guard = read_lock!(server.sessions);
-    let mut session = read_session!(sessions_guard, &session_id);
+    let session = read_session!(sessions_guard, &session_id);
     let character = session.character.as_ref().unwrap().lock().unwrap();
     let mut maps_guard = server.maps.write().unwrap();
     let map_name : String = Map::name_without_ext(character.get_current_map_name());
@@ -345,18 +345,18 @@ pub fn handle_char_loaded_client_side(server: &Server, packet: &mut dyn Packet, 
     packet_zc_hat_effect.set_len(9 + 0); // len is: 9 (packet len) + number of effects
     packet_zc_hat_effect.fill_raw();
     socket_send!(tcp_stream, &packet_zc_msg_color.raw());
-    let mut final_response_packet: Vec<u8> = chain_packets(vec![&packet_zc_hat_effect, &packet_zc_notify_mapproperty2]);
+    let final_response_packet: Vec<u8> = chain_packets(vec![&packet_zc_hat_effect, &packet_zc_notify_mapproperty2]);
     socket_send!(tcp_stream, &final_response_packet);
 }
 
-pub fn handle_blocking_play_cancel(server: &Server, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, session_id: u32) {
+pub fn handle_blocking_play_cancel(_server: &Server, _packet: &mut dyn Packet, _runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, _session_id: u32) {
     let mut packet_zc_load_confirm = PacketZcLoadConfirm::new();
     packet_zc_load_confirm.fill_raw();
     socket_send!(tcp_stream, &packet_zc_load_confirm.raw());
 }
 
 async fn load_chars_info(account_id: u32, repository: &Repository<MySql>) -> PacketHcAcceptEnterNeoUnionHeader {
-    let mut row_results = sqlx::query_as::<_, CharacterInfoNeoUnion>("SELECT * FROM `char` WHERE account_id = ?")
+    let row_results = sqlx::query_as::<_, CharacterInfoNeoUnion>("SELECT * FROM `char` WHERE account_id = ?")
         .bind(account_id)
         .fetch_all(&repository.pool).await.unwrap();
     let mut accept_enter_neo_union_header = PacketHcAcceptEnterNeoUnionHeader::new();

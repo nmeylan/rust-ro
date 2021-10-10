@@ -8,7 +8,7 @@ use std::net::{TcpStream, Shutdown};
 use std::sync::{Arc, RwLock};
 use std::io::{Write, Read};
 use crate::{cast, socket_send};
-use futures::task::SpawnExt;
+
 use std::thread::spawn;
 use crate::packets::packets_parser::parse;
 
@@ -51,7 +51,7 @@ pub async fn authenticate(packet: &PacketCaLogin, repository: &Repository<MySql>
     for c in packet.passwd {
         if c == 0 as char { break; } else { password.push(c) }
     }
-    let mut row_result = sqlx::query("SELECT * FROM login WHERE userid = ? AND user_pass = ?") // TODO add bcrypt on user_pass column, but not supported by hercules
+    let row_result = sqlx::query("SELECT * FROM login WHERE userid = ? AND user_pass = ?") // TODO add bcrypt on user_pass column, but not supported by hercules
         .bind(username)
         .bind(password)
         .fetch_one(&repository.pool).await;

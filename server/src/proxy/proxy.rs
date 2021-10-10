@@ -84,7 +84,7 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
         Ok(())
     }
 
-    fn pipe(&mut self, incoming: &mut TcpStream, outgoing: &mut TcpStream, direction: ProxyDirection, runtime: &Runtime) -> Result<(), String> {
+    fn pipe(&mut self, incoming: &mut TcpStream, outgoing: &mut TcpStream, direction: ProxyDirection, _runtime: &Runtime) -> Result<(), String> {
         let mut buffer = [0; 2048];
         loop {
             // println!("loop direction {} incoming peer {} incoming local {} outgoing local {} outgoing peer {} ", direction,
@@ -101,7 +101,7 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
                         break;
                     }
                     let tcp_stream_ref = Arc::new(Mutex::new(incoming.try_clone().unwrap()));
-                    let mut packet = parse(&mut buffer[..bytes_read]);
+                    let packet = parse(&mut buffer[..bytes_read]);
                     self.proxy_request(outgoing, &direction, tcp_stream_ref, packet)
                 }
                 Err(error) => return Err(format!("Could not read data: {}", error))
