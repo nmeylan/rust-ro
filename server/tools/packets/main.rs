@@ -1,10 +1,10 @@
 mod packet_struct_generator;
 mod packet_db_parser;
 
-use std::io::{BufRead, Write};
+
 use std::fmt::{Debug};
-use std::ops::Deref;
-use std::borrow::{BorrowMut, Borrow};
+
+
 use crate::packet_struct_generator::write_packets_struct;
 use crate::packet_db_parser::parse;
 use std::path::Path;

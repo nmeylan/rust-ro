@@ -4,10 +4,10 @@ use std::io::Write;
 use std::path::Path;
 
 pub fn write_packets_struct(packets: Vec<PacketStructDefinition>, nested_structures: &Vec<StructDefinition>, output_path: &Path) {
-    let mut file_packets_res = File::create(output_path.join("packets.rs"));
-    let mut file_packets_impl_res = File::create(output_path.join("packets_impl.rs"));
-    let mut file_print_res = File::create(output_path.join("packets_print.rs"));
-    let mut file_packets_parser_res = File::create(output_path.join("packets_parser.rs"));
+    let file_packets_res = File::create(output_path.join("packets.rs"));
+    let file_packets_impl_res = File::create(output_path.join("packets_impl.rs"));
+    let file_print_res = File::create(output_path.join("packets_print.rs"));
+    let file_packets_parser_res = File::create(output_path.join("packets_parser.rs"));
     let mut file_packets = file_packets_res.unwrap();
     let mut file_packets_print = file_print_res.unwrap();
     let mut file_packets_impl = file_packets_impl_res.unwrap();
@@ -128,7 +128,7 @@ fn write_debug_trait(file: &mut File, struct_definition: &StructDefinition, is_p
     file.write(b"}\n\n");
 }
 
-fn write_display_trait(file: &mut File, struct_definition: &StructDefinition, is_packet: bool) {
+fn write_display_trait(file: &mut File, struct_definition: &StructDefinition, _is_packet: bool) {
     file.write(format!("impl Display for {} {{\n", struct_definition.name).as_bytes());
     file.write(b"    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {\n");
     file.write(b"        let mut fields = Vec::new();\n");

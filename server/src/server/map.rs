@@ -107,7 +107,7 @@ impl MapPropertyFlags {
     }
 
     pub fn raw(&self) -> u32 {
-        (((self.is_party as u32) << 0)
+        ((self.is_party as u32) << 0)
             | ((self.is_guild as u32) << 1)
             | ((self.is_siege as u32) << 2)
             | ((self.use_simple_effect as u32) << 3)
@@ -118,7 +118,7 @@ impl MapPropertyFlags {
             | ((self.is_no_costum as u32) << 8)
             | ((self.is_use_cart as u32) << 9)
             | ((self.is_summonstar_miracle as u32) << 10)
-            | ((self.unused as u32) << 11))
+            | ((self.unused as u32) << 11)
     }
 }
 
@@ -213,7 +213,7 @@ impl Map {
         let mut maps = HashMap::<String, Map>::new();
         let paths = fs::read_dir(MAP_DIR).unwrap();
         for path in paths {
-            let start = Instant::now();
+            let _start = Instant::now();
             let path = path.as_ref().unwrap();
             let map_name = path.file_name().to_str().unwrap().replace(MAP_EXT, "");
             let file = File::open(path.path()).unwrap();

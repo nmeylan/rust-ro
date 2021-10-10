@@ -21,7 +21,7 @@ impl MapProxy {
 }
 
 impl PacketHandler for MapProxy {
-    fn handle_packet(&self, tcp_stream: Arc<Mutex<TcpStream>>, packet: &mut dyn Packet) -> Result<String, String> {
+    fn handle_packet(&self, _tcp_stream: Arc<Mutex<TcpStream>>, _packet: &mut dyn Packet) -> Result<String, String> {
         Result::Ok("res".to_string())
     }
 }

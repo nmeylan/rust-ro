@@ -25,13 +25,13 @@ pub async fn main() {
     let maps = Map::load_maps();
     println!("load {} map-cache in {} secs", maps.len(), start.elapsed().as_millis() as f32 / 1000.0);
 
-    let mut server = Server::new(Arc::new(repository), Arc::new(RwLock::new(maps)), Arc::new(warps));
+    let server = Server::new(Arc::new(repository), Arc::new(RwLock::new(maps)), Arc::new(warps));
     let mut handles: Vec<JoinHandle<()>> = Vec::new();
-    &handles.push(server.start(6901));
+    let _ = &handles.push(server.start(6901));
     let char_proxy = CharProxy::new();
     let map_proxy = MapProxy::new();
-    &handles.push(char_proxy.proxy());
-    &handles.push(map_proxy.proxy());
+    let _ = &handles.push(char_proxy.proxy());
+    let _ = &handles.push(map_proxy.proxy());
 
     for handle in handles {
         handle.join();

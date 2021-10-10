@@ -9,7 +9,7 @@ use crate::server::map::Map;
 use crate::server::path::{path_search_client_side_algorithm, PathNode, MOVE_DIAGONAL_COST, MOVE_COST};
 use std::thread::sleep;
 use tokio::time::Duration;
-use futures::FutureExt;
+
 use tokio::task::JoinHandle;
 use crate::{read_lock, read_session, cast, socket_send};
 use std::collections::HashMap;
@@ -49,7 +49,7 @@ impl Position {
 pub fn handle_char_move(server: &Server, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, session_id: u32) {
     let move_packet = cast!(packet, PacketCzRequestMove2);
     let sessions_guard = read_lock!(server.sessions);
-    let mut session = read_session!(sessions_guard, &session_id);
+    let session = read_session!(sessions_guard, &session_id);
     let destination = Position::from_move_packet(move_packet);
     let mut character_session_guard = session.character.as_ref().unwrap().lock().unwrap();
     let map_name: String = Map::name_without_ext(character_session_guard.get_current_map_name());
@@ -79,8 +79,8 @@ fn move_character(runtime: &Runtime, path: Vec<PathNode>, character: Arc<Mutex<C
     let handle = runtime.spawn(async move {
         let maps = read_lock!(maps);
         let map = maps.get(&map_name).unwrap();
-        for (i, path_node) in path.iter().enumerate() {
-            let mut delay: u64;
+        for (_i, path_node) in path.iter().enumerate() {
+            let delay: u64;
             {
                 let mut character_session = character.lock().unwrap();
                 if task_id != character_session.movement_task_id.unwrap(){

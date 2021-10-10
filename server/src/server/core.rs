@@ -142,7 +142,7 @@ impl Server {
         let server_shared_ref = Arc::new(self);
         let server_shared_ref = server_shared_ref.clone();
         spawn(move || {
-            for mut tcp_stream in listener.incoming() {
+            for tcp_stream in listener.incoming() {
                 // Receive new connection, starting new thread
                 let server_shared_ref = server_shared_ref.clone();
                 spawn(move || {

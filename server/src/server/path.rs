@@ -33,7 +33,7 @@ pub struct PathNode {
 // Coming from herculesWS
 #[inline]
 fn client_side_heuristic(x0: u16, y0: u16, x1: u16, y1: u16) -> u16 {
-    MOVE_COST * (i16::abs((x1 as i16 - x0 as i16)) as u16 + i16::abs((y1 as i16 - y0 as i16)) as u16) // Manhattan distance
+    MOVE_COST * (i16::abs(x1 as i16 - x0 as i16) as u16 + i16::abs(y1 as i16 - y0 as i16) as u16) // Manhattan distance
 }
 
 #[inline]
@@ -50,10 +50,10 @@ fn node_id(x: u16, y: u16, x_size: u16) -> u32 {
 * Client use a A* algorithm for path finding.
 */
 pub fn path_search_client_side_algorithm(map: &Map, source: &Position, destination: &Position) -> Vec<PathNode> {
-    let start = Instant::now();
-    let max_x = (map.x_size - 1);
-    let max_y = (map.y_size - 1);
-    let mut start_node = PathNode {
+    let _start = Instant::now();
+    let max_x = map.x_size - 1;
+    let max_y = map.y_size - 1;
+    let start_node = PathNode {
         id: node_id(source.x, source.y, max_x),
         parent_id: node_id(source.x, source.y, max_x),
         x: source.x as u16,
@@ -67,8 +67,8 @@ pub fn path_search_client_side_algorithm(map: &Map, source: &Position, destinati
     let mut current_node = start_node;
     let mut i = 0;
     while !open_set.is_empty() {
-        let mut open_set_iter = open_set.iter();
-        let mut current: (usize, &PathNode) = open_set_iter.enumerate().reduce(|(min_node_index, min_node), (cur_index, cur_node)| {
+        let open_set_iter = open_set.iter();
+        let current: (usize, &PathNode) = open_set_iter.enumerate().reduce(|(min_node_index, min_node), (cur_index, cur_node)| {
             if cur_node.f_cost < min_node.f_cost {
                 return (cur_index, cur_node)
             }

@@ -1,7 +1,7 @@
 use std::path::{Path};
 use std::fs::File;
 use std::io::{BufReader, Read, Cursor, Write};
-use std::convert::TryInto;
+
 use byteorder::{ReadBytesExt, LittleEndian, WriteBytesExt};
 use flate2::{Compression};
 use std::fs;
@@ -12,7 +12,7 @@ use std::process::exit;
 use flate2::write::ZlibEncoder;
 use md5;
 use std::num::ParseIntError;
-use std::borrow::Borrow;
+
 use futures::future::join_all;
 use std::sync::{Arc, Mutex};
 use tokio::sync::Semaphore;
@@ -56,7 +56,7 @@ async fn main() {
     let counter: Arc<Mutex<Counter>> = Arc::new(Mutex::new(Counter{value: 0}));
     let mut futures = Vec::new();
     let mut map_iter = map_names.into_iter();
-    for (i, file_name) in file_paths.into_iter().enumerate() {
+    for (_i, file_name) in file_paths.into_iter().enumerate() {
         semaphore.acquire().await.unwrap();
         let map_name = map_iter.next().unwrap();
         let counter_clone = counter.clone();
@@ -113,7 +113,7 @@ async fn main() {
             let tiles_height_offset = 30;
             let mut tile_cursor = 0;
             let mut cells = Vec::<u8>::new();
-            for i in 0..map_size {
+            for _i in 0..map_size {
                 let mut pos = tile_cursor + tiles_beginning_offset;
                 let cell_height = Cursor::new(gat_content_buf[pos..(pos + 4)].to_vec()).read_f32::<LittleEndian>().unwrap();
                 pos = tile_cursor + tiles_height_offset;

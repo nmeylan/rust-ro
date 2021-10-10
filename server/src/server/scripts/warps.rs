@@ -8,8 +8,8 @@ use tokio::task::JoinHandle;
 use log::{warn};
 use futures::future::join_all;
 use std::sync::{Mutex, Arc};
-use std::borrow::Borrow;
-use std::hash::Hash;
+
+
 
 static PARALLEL_EXECUTIONS: usize = 100; // TODO add a conf for this
 static WARP_CONF_PATH: &str = "./npc/scripts_warps.conf";
@@ -50,8 +50,8 @@ impl Warp {
     pub async fn load_warps() -> HashMap<String, Vec<Arc<Warp>>> {
         let semaphore = Semaphore::new(PARALLEL_EXECUTIONS);
         let file = File::open(Path::new(WARP_CONF_PATH)).unwrap();
-        let mut reader = BufReader::new(file);
-        let mut warps_by_map = Arc::new(Mutex::new(HashMap::<String, Vec<Arc<Warp>>>::new()));
+        let reader = BufReader::new(file);
+        let warps_by_map = Arc::new(Mutex::new(HashMap::<String, Vec<Arc<Warp>>>::new()));
         let mut futures : Vec<JoinHandle<()>> = Vec::new();
         for line in reader.lines() {
             if !line.is_ok() {
@@ -85,7 +85,7 @@ impl Warp {
             }));
         }
         join_all(futures).await;
-        let mut guard = warps_by_map.lock().unwrap();
+        let guard = warps_by_map.lock().unwrap();
         let mut res= HashMap::<String, Vec<Arc<Warp>>>::new();
         guard.iter().for_each(|(k, v)| {
             res.insert(k.clone(), v.clone());
@@ -94,7 +94,7 @@ impl Warp {
     }
 
     fn parse_warp(file: &File) -> Vec::<Warp> {
-        let mut reader = BufReader::new(file);
+        let reader = BufReader::new(file);
         let mut warps = Vec::<Warp>::new();
         for line in reader.lines() {
             let mut warp = Warp::new();

@@ -6,8 +6,8 @@ use std::cell::{RefCell, RefMut};
 use maplit::hashmap;
 use lazy_static::lazy_static;
 use regex::{Regex, Captures};
-use std::fmt::{Debug};
-use std::borrow::{BorrowMut, Borrow};
+
+use std::borrow::{BorrowMut};
 use crate::{PacketStructDefinition, StructDefinition, StructField, Type};
 use std::path::Path;
 
@@ -177,7 +177,7 @@ fn get_field<'a>(line_without_this: String, full_line: String) -> StructField<'a
 
 fn get_string_field_length(line: &String) -> i32 {
     let frag: Vec<&str> = line.split(" ").collect();
-    let mut name = frag[frag.len() - 1].to_string();
+    let name = frag[frag.len() - 1].to_string();
     let string_len = string_len_regex.captures(name.as_str());
     if string_len.is_some() {
         string_len.unwrap().get(1).unwrap().as_str().parse::<i32>().unwrap()
@@ -216,7 +216,7 @@ fn get_field_name(line: &String) -> String {
 
 fn get_type(line: &String, should_ignore_array: bool) -> &'static Type {
     let is_unsigned = line.contains("unsigned");
-    let mut type_str = line.replace("unsigned ", "");
+    let type_str = line.replace("unsigned ", "");
     if type_str.contains("[") && !should_ignore_array {
         return static_types_map.get("array").unwrap();
     }
