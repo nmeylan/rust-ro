@@ -18058,6 +18058,95 @@ impl Display for PacketZcLoadConfirm {
     }
 }
 
+impl Debug for PacketZcNotifyStandentry6 {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("PacketZcNotifyStandentry6")
+            .field("id", &self.id())
+            .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
+            .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
+            .field("objecttype[4, 5]", &format!("{:02X?}", &self.objecttype_raw))
+            .field("aid[5, 9]", &format!("{:02X?}", &self.aid_raw))
+            .field("gid[9, 13]", &format!("{:02X?}", &self.gid_raw))
+            .field("speed[13, 15]", &format!("{:02X?}", &self.speed_raw))
+            .field("body_state[15, 17]", &format!("{:02X?}", &self.body_state_raw))
+            .field("health_state[17, 19]", &format!("{:02X?}", &self.health_state_raw))
+            .field("effect_state[19, 23]", &format!("{:02X?}", &self.effect_state_raw))
+            .field("job[23, 25]", &format!("{:02X?}", &self.job_raw))
+            .field("head[25, 27]", &format!("{:02X?}", &self.head_raw))
+            .field("weapon[27, 31]", &format!("{:02X?}", &self.weapon_raw))
+            .field("shield[31, 35]", &format!("{:02X?}", &self.shield_raw))
+            .field("accessory[35, 37]", &format!("{:02X?}", &self.accessory_raw))
+            .field("accessory2[37, 39]", &format!("{:02X?}", &self.accessory2_raw))
+            .field("accessory3[39, 41]", &format!("{:02X?}", &self.accessory3_raw))
+            .field("headpalette[41, 43]", &format!("{:02X?}", &self.headpalette_raw))
+            .field("bodypalette[43, 45]", &format!("{:02X?}", &self.bodypalette_raw))
+            .field("head_dir[45, 47]", &format!("{:02X?}", &self.head_dir_raw))
+            .field("robe[47, 49]", &format!("{:02X?}", &self.robe_raw))
+            .field("guid[49, 53]", &format!("{:02X?}", &self.guid_raw))
+            .field("gemblem_ver[53, 55]", &format!("{:02X?}", &self.gemblem_ver_raw))
+            .field("honor[55, 57]", &format!("{:02X?}", &self.honor_raw))
+            .field("virtue[57, 61]", &format!("{:02X?}", &self.virtue_raw))
+            .field("is_pkmode_on[61, 62]", &format!("{:02X?}", &self.is_pkmode_on_raw))
+            .field("sex[62, 63]", &format!("{:02X?}", &self.sex_raw))
+            .field("pos_dir[63, 66]", &format!("{:02X?}", &self.pos_dir_raw))
+            .field("x_size[66, 67]", &format!("{:02X?}", &self.x_size_raw))
+            .field("y_size[67, 68]", &format!("{:02X?}", &self.y_size_raw))
+            .field("state[68, 69]", &format!("{:02X?}", &self.state_raw))
+            .field("clevel[69, 71]", &format!("{:02X?}", &self.clevel_raw))
+            .field("font[71, 73]", &format!("{:02X?}", &self.font_raw))
+            .field("max_hp[73, 77]", &format!("{:02X?}", &self.max_hp_raw))
+            .field("hp[77, 81]", &format!("{:02X?}", &self.hp_raw))
+            .field("is_boss[81, 82]", &format!("{:02X?}", &self.is_boss_raw))
+            .field("body[82, 84]", &format!("{:02X?}", &self.body_raw))
+            .field("name[84, 108]", &format!("{:02X?}", &self.name_raw))
+        .finish()
+    }
+}
+
+impl Display for PacketZcNotifyStandentry6 {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        let mut fields = Vec::new();
+        fields.push(format!("packet_id(short as i16)[0, 2]: {}", &self.packet_id));
+        fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
+        fields.push(format!("objecttype(unsigned char as u8)[4, 5]: {}", &self.objecttype));
+        fields.push(format!("aid(unsigned long as u32)[5, 9]: {}", &self.aid));
+        fields.push(format!("gid(unsigned long as u32)[9, 13]: {}", &self.gid));
+        fields.push(format!("speed(short as i16)[13, 15]: {}", &self.speed));
+        fields.push(format!("body_state(short as i16)[15, 17]: {}", &self.body_state));
+        fields.push(format!("health_state(short as i16)[17, 19]: {}", &self.health_state));
+        fields.push(format!("effect_state(int as i32)[19, 23]: {}", &self.effect_state));
+        fields.push(format!("job(short as i16)[23, 25]: {}", &self.job));
+        fields.push(format!("head(short as i16)[25, 27]: {}", &self.head));
+        fields.push(format!("weapon(unsigned long as u32)[27, 31]: {}", &self.weapon));
+        fields.push(format!("shield(unsigned long as u32)[31, 35]: {}", &self.shield));
+        fields.push(format!("accessory(unsigned short as u16)[35, 37]: {}", &self.accessory));
+        fields.push(format!("accessory2(unsigned short as u16)[37, 39]: {}", &self.accessory2));
+        fields.push(format!("accessory3(unsigned short as u16)[39, 41]: {}", &self.accessory3));
+        fields.push(format!("headpalette(unsigned short as u16)[41, 43]: {}", &self.headpalette));
+        fields.push(format!("bodypalette(unsigned short as u16)[43, 45]: {}", &self.bodypalette));
+        fields.push(format!("head_dir(unsigned short as u16)[45, 47]: {}", &self.head_dir));
+        fields.push(format!("robe(unsigned short as u16)[47, 49]: {}", &self.robe));
+        fields.push(format!("guid(unsigned long as u32)[49, 53]: {}", &self.guid));
+        fields.push(format!("gemblem_ver(short as i16)[53, 55]: {}", &self.gemblem_ver));
+        fields.push(format!("honor(short as i16)[55, 57]: {}", &self.honor));
+        fields.push(format!("virtue(int as i32)[57, 61]: {}", &self.virtue));
+        fields.push(format!("is_pkmode_on(bool as bool)[61, 62]: {}", &self.is_pkmode_on));
+        fields.push(format!("sex(unsigned char as u8)[62, 63]: {}", &self.sex));
+        fields.push(format!("pos_dir(char[] as char[])[63, 66]: {}", &self.pos_dir.pretty_output()));
+        fields.push(format!("x_size(unsigned char as u8)[66, 67]: {}", &self.x_size));
+        fields.push(format!("y_size(unsigned char as u8)[67, 68]: {}", &self.y_size));
+        fields.push(format!("state(unsigned char as u8)[68, 69]: {}", &self.state));
+        fields.push(format!("clevel(short as i16)[69, 71]: {}", &self.clevel));
+        fields.push(format!("font(short as i16)[71, 73]: {}", &self.font));
+        fields.push(format!("max_hp(unsigned long as u32)[73, 77]: {}", &self.max_hp));
+        fields.push(format!("hp(unsigned long as u32)[77, 81]: {}", &self.hp));
+        fields.push(format!("is_boss(bool as bool)[81, 82]: {}", &self.is_boss));
+        fields.push(format!("body(short as i16)[82, 84]: {}", &self.body));
+        fields.push(format!("name(char[] as char[])[84, 108]: {}", &self.name.pretty_output()));
+        write!(f, "PacketZcNotifyStandentry6\n {}", fields.join(",\n "))
+    }
+}
+
 impl Debug for ServerAddr {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("ServerAddr")

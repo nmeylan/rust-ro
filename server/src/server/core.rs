@@ -19,6 +19,10 @@ use std::net::{TcpStream, TcpListener, Shutdown};
 use log::{error};
 use crate::packets::packets_parser::parse;
 use crate::{read_lock, socket_send};
+use crate::util::coordinate;
+
+// Todo make this configurable
+pub const PLAYER_FOV: usize = 14;
 
 pub struct Server {
     pub sessions: Arc<RwLock<HashMap<u32, Arc<RwLock<Session>>>>>,
@@ -84,7 +88,8 @@ pub struct CharacterSession {
     pub current_map: [char; 16],
     #[set]
     pub current_position: Position,
-    pub movement_task_id: Option<u128>
+    pub movement_task_id: Option<u128>,
+    pub map_view: [u16; PLAYER_FOV * PLAYER_FOV]
 }
 
 impl Session {
@@ -114,6 +119,14 @@ impl CharacterSession {
     }
     pub fn set_movement_task_id(&mut self, id: u128) {
         self.movement_task_id = Some(id);
+    }
+    pub fn get_map_item_at(&self, x: u16, y: u16) -> u16 {
+        let i = coordinate::get_cell_index_of(x, y, PLAYER_FOV as u16);
+        self.map_view[i]
+    }
+    pub fn set_map_item_at(&mut self, x: u16, y: u16, item: u16) {
+        let i = coordinate::get_cell_index_of(x, y, PLAYER_FOV as u16);
+        self.map_view[i] = item
     }
 }
 

@@ -11,11 +11,12 @@ use log::warn;
 use accessor::Setters;
 use crate::server::scripts::warps::Warp;
 use std::sync::Arc;
+use crate::util::coordinate;
 
 static MAPCACHE_EXT: &str = ".mcache";
 static MAP_DIR: &str = "./maps/pre-re";
 pub static MAP_EXT: &str = ".gat";
-static WARP_MASK: u16 = 0b00000100_00000000;
+pub static WARP_MASK: u16 = 0b00000100_00000000;
 
 struct Header {
     pub version: i16,
@@ -125,13 +126,11 @@ impl MapPropertyFlags {
 impl Map {
     #[inline]
     pub fn get_cell_index_of(&self, x: u16, y: u16) -> usize {
-        (x as u32 + y as u32 * self.x_size as u32) as usize
+        coordinate::get_cell_index_of(x, y, self.x_size)
     }
     #[inline]
     pub fn get_pos_of(&self, index: u32) -> (u16, u16) {
-        let y: u16 = (index / self.x_size as u32) as u16;
-        let x: u16 = (index - (y as u32 * self.x_size as u32) as u32) as u16;
-        (x, y)
+        coordinate::get_pos_of(index, self.x_size)
     }
 
     pub fn is_cell_walkable(&self, x: u16, y: u16) -> bool {
