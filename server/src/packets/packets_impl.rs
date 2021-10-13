@@ -91268,6 +91268,730 @@ impl Packet for PacketZcLoadConfirm {
     }
 }
 
+impl PacketZcNotifyStandentry6 {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyStandentry6 {
+        PacketZcNotifyStandentry6 {
+            raw: buffer.to_vec(),
+            packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[0..2]);
+                dst
+            },
+            packet_length: i16::from_le_bytes([buffer[2], buffer[3]]),
+            packet_length_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[2..4]);
+                dst
+            },
+            objecttype: u8::from_le_bytes([buffer[4]]),
+            objecttype_raw: {
+                let mut dst: [u8; 1] = [0u8; 1];
+                dst.clone_from_slice(&buffer[4..5]);
+                dst
+            },
+            aid: u32::from_le_bytes([buffer[5], buffer[6], buffer[7], buffer[8]]),
+            aid_raw: {
+                let mut dst: [u8; 4] = [0u8; 4];
+                dst.clone_from_slice(&buffer[5..9]);
+                dst
+            },
+            gid: u32::from_le_bytes([buffer[9], buffer[10], buffer[11], buffer[12]]),
+            gid_raw: {
+                let mut dst: [u8; 4] = [0u8; 4];
+                dst.clone_from_slice(&buffer[9..13]);
+                dst
+            },
+            speed: i16::from_le_bytes([buffer[13], buffer[14]]),
+            speed_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[13..15]);
+                dst
+            },
+            body_state: i16::from_le_bytes([buffer[15], buffer[16]]),
+            body_state_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[15..17]);
+                dst
+            },
+            health_state: i16::from_le_bytes([buffer[17], buffer[18]]),
+            health_state_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[17..19]);
+                dst
+            },
+            effect_state: i32::from_le_bytes([buffer[19], buffer[20], buffer[21], buffer[22]]),
+            effect_state_raw: {
+                let mut dst: [u8; 4] = [0u8; 4];
+                dst.clone_from_slice(&buffer[19..23]);
+                dst
+            },
+            job: i16::from_le_bytes([buffer[23], buffer[24]]),
+            job_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[23..25]);
+                dst
+            },
+            head: i16::from_le_bytes([buffer[25], buffer[26]]),
+            head_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[25..27]);
+                dst
+            },
+            weapon: u32::from_le_bytes([buffer[27], buffer[28], buffer[29], buffer[30]]),
+            weapon_raw: {
+                let mut dst: [u8; 4] = [0u8; 4];
+                dst.clone_from_slice(&buffer[27..31]);
+                dst
+            },
+            shield: u32::from_le_bytes([buffer[31], buffer[32], buffer[33], buffer[34]]),
+            shield_raw: {
+                let mut dst: [u8; 4] = [0u8; 4];
+                dst.clone_from_slice(&buffer[31..35]);
+                dst
+            },
+            accessory: u16::from_le_bytes([buffer[35], buffer[36]]),
+            accessory_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[35..37]);
+                dst
+            },
+            accessory2: u16::from_le_bytes([buffer[37], buffer[38]]),
+            accessory2_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[37..39]);
+                dst
+            },
+            accessory3: u16::from_le_bytes([buffer[39], buffer[40]]),
+            accessory3_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[39..41]);
+                dst
+            },
+            headpalette: u16::from_le_bytes([buffer[41], buffer[42]]),
+            headpalette_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[41..43]);
+                dst
+            },
+            bodypalette: u16::from_le_bytes([buffer[43], buffer[44]]),
+            bodypalette_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[43..45]);
+                dst
+            },
+            head_dir: u16::from_le_bytes([buffer[45], buffer[46]]),
+            head_dir_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[45..47]);
+                dst
+            },
+            robe: u16::from_le_bytes([buffer[47], buffer[48]]),
+            robe_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[47..49]);
+                dst
+            },
+            guid: u32::from_le_bytes([buffer[49], buffer[50], buffer[51], buffer[52]]),
+            guid_raw: {
+                let mut dst: [u8; 4] = [0u8; 4];
+                dst.clone_from_slice(&buffer[49..53]);
+                dst
+            },
+            gemblem_ver: i16::from_le_bytes([buffer[53], buffer[54]]),
+            gemblem_ver_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[53..55]);
+                dst
+            },
+            honor: i16::from_le_bytes([buffer[55], buffer[56]]),
+            honor_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[55..57]);
+                dst
+            },
+            virtue: i32::from_le_bytes([buffer[57], buffer[58], buffer[59], buffer[60]]),
+            virtue_raw: {
+                let mut dst: [u8; 4] = [0u8; 4];
+                dst.clone_from_slice(&buffer[57..61]);
+                dst
+            },
+            is_pkmode_on: buffer[61] == 1,
+            is_pkmode_on_raw: {
+                let mut dst: [u8; 1] = [0u8; 1];
+                dst.clone_from_slice(&buffer[61..62]);
+                dst
+            },
+            sex: u8::from_le_bytes([buffer[62]]),
+            sex_raw: {
+                let mut dst: [u8; 1] = [0u8; 1];
+                dst.clone_from_slice(&buffer[62..63]);
+                dst
+            },
+            pos_dir:  {
+                let mut dst: [char; 3] = [0 as char; 3];
+                for (index, byte) in buffer[63..66].iter().enumerate() {
+                    dst[index] = *byte as char;
+                }
+                dst
+            },
+            pos_dir_raw: {
+                let mut dst: [u8; 3] = [0u8; 3];
+                dst.clone_from_slice(&buffer[63..66]);
+                dst
+            },
+            x_size: u8::from_le_bytes([buffer[66]]),
+            x_size_raw: {
+                let mut dst: [u8; 1] = [0u8; 1];
+                dst.clone_from_slice(&buffer[66..67]);
+                dst
+            },
+            y_size: u8::from_le_bytes([buffer[67]]),
+            y_size_raw: {
+                let mut dst: [u8; 1] = [0u8; 1];
+                dst.clone_from_slice(&buffer[67..68]);
+                dst
+            },
+            state: u8::from_le_bytes([buffer[68]]),
+            state_raw: {
+                let mut dst: [u8; 1] = [0u8; 1];
+                dst.clone_from_slice(&buffer[68..69]);
+                dst
+            },
+            clevel: i16::from_le_bytes([buffer[69], buffer[70]]),
+            clevel_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[69..71]);
+                dst
+            },
+            font: i16::from_le_bytes([buffer[71], buffer[72]]),
+            font_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[71..73]);
+                dst
+            },
+            max_hp: u32::from_le_bytes([buffer[73], buffer[74], buffer[75], buffer[76]]),
+            max_hp_raw: {
+                let mut dst: [u8; 4] = [0u8; 4];
+                dst.clone_from_slice(&buffer[73..77]);
+                dst
+            },
+            hp: u32::from_le_bytes([buffer[77], buffer[78], buffer[79], buffer[80]]),
+            hp_raw: {
+                let mut dst: [u8; 4] = [0u8; 4];
+                dst.clone_from_slice(&buffer[77..81]);
+                dst
+            },
+            is_boss: buffer[81] == 1,
+            is_boss_raw: {
+                let mut dst: [u8; 1] = [0u8; 1];
+                dst.clone_from_slice(&buffer[81..82]);
+                dst
+            },
+            body: i16::from_le_bytes([buffer[82], buffer[83]]),
+            body_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[82..84]);
+                dst
+            },
+            name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[84..108].iter().enumerate() {
+                    dst[index] = *byte as char;
+                }
+                dst
+            },
+            name_raw: {
+                let mut dst: [u8; 24] = [0u8; 24];
+                dst.clone_from_slice(&buffer[84..108]);
+                dst
+            },
+        }
+    }
+    pub fn fill_raw(&mut self) {
+    let mut wtr;
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.packet_id).unwrap();
+        self.packet_id_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.packet_length).unwrap();
+        self.packet_length_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u8(self.objecttype).unwrap();
+        self.objecttype_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u32::<LittleEndian>(self.aid).unwrap();
+        self.aid_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u32::<LittleEndian>(self.gid).unwrap();
+        self.gid_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.speed).unwrap();
+        self.speed_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.body_state).unwrap();
+        self.body_state_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.health_state).unwrap();
+        self.health_state_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_i32::<LittleEndian>(self.effect_state).unwrap();
+        self.effect_state_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.job).unwrap();
+        self.job_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.head).unwrap();
+        self.head_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u32::<LittleEndian>(self.weapon).unwrap();
+        self.weapon_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u32::<LittleEndian>(self.shield).unwrap();
+        self.shield_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u16::<LittleEndian>(self.accessory).unwrap();
+        self.accessory_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u16::<LittleEndian>(self.accessory2).unwrap();
+        self.accessory2_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u16::<LittleEndian>(self.accessory3).unwrap();
+        self.accessory3_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u16::<LittleEndian>(self.headpalette).unwrap();
+        self.headpalette_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u16::<LittleEndian>(self.bodypalette).unwrap();
+        self.bodypalette_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u16::<LittleEndian>(self.head_dir).unwrap();
+        self.head_dir_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u16::<LittleEndian>(self.robe).unwrap();
+        self.robe_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u32::<LittleEndian>(self.guid).unwrap();
+        self.guid_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.gemblem_ver).unwrap();
+        self.gemblem_ver_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.honor).unwrap();
+        self.honor_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_i32::<LittleEndian>(self.virtue).unwrap();
+        self.virtue_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u8(self.is_pkmode_on as u8).unwrap();
+        self.is_pkmode_on_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u8(self.sex).unwrap();
+        self.sex_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        for item in self.pos_dir {
+            wtr.write_u8(item as u8 ).unwrap();
+        }
+        self.pos_dir_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u8(self.x_size).unwrap();
+        self.x_size_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u8(self.y_size).unwrap();
+        self.y_size_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u8(self.state).unwrap();
+        self.state_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.clevel).unwrap();
+        self.clevel_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.font).unwrap();
+        self.font_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u32::<LittleEndian>(self.max_hp).unwrap();
+        self.max_hp_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u32::<LittleEndian>(self.hp).unwrap();
+        self.hp_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u8(self.is_boss as u8).unwrap();
+        self.is_boss_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.body).unwrap();
+        self.body_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        for item in self.name {
+            wtr.write_u8(item as u8 ).unwrap();
+        }
+        self.name_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.append(&mut self.packet_id_raw.to_vec());
+        wtr.append(&mut self.packet_length_raw.to_vec());
+        wtr.append(&mut self.objecttype_raw.to_vec());
+        wtr.append(&mut self.aid_raw.to_vec());
+        wtr.append(&mut self.gid_raw.to_vec());
+        wtr.append(&mut self.speed_raw.to_vec());
+        wtr.append(&mut self.body_state_raw.to_vec());
+        wtr.append(&mut self.health_state_raw.to_vec());
+        wtr.append(&mut self.effect_state_raw.to_vec());
+        wtr.append(&mut self.job_raw.to_vec());
+        wtr.append(&mut self.head_raw.to_vec());
+        wtr.append(&mut self.weapon_raw.to_vec());
+        wtr.append(&mut self.shield_raw.to_vec());
+        wtr.append(&mut self.accessory_raw.to_vec());
+        wtr.append(&mut self.accessory2_raw.to_vec());
+        wtr.append(&mut self.accessory3_raw.to_vec());
+        wtr.append(&mut self.headpalette_raw.to_vec());
+        wtr.append(&mut self.bodypalette_raw.to_vec());
+        wtr.append(&mut self.head_dir_raw.to_vec());
+        wtr.append(&mut self.robe_raw.to_vec());
+        wtr.append(&mut self.guid_raw.to_vec());
+        wtr.append(&mut self.gemblem_ver_raw.to_vec());
+        wtr.append(&mut self.honor_raw.to_vec());
+        wtr.append(&mut self.virtue_raw.to_vec());
+        wtr.append(&mut self.is_pkmode_on_raw.to_vec());
+        wtr.append(&mut self.sex_raw.to_vec());
+        wtr.append(&mut self.pos_dir_raw.to_vec());
+        wtr.append(&mut self.x_size_raw.to_vec());
+        wtr.append(&mut self.y_size_raw.to_vec());
+        wtr.append(&mut self.state_raw.to_vec());
+        wtr.append(&mut self.clevel_raw.to_vec());
+        wtr.append(&mut self.font_raw.to_vec());
+        wtr.append(&mut self.max_hp_raw.to_vec());
+        wtr.append(&mut self.hp_raw.to_vec());
+        wtr.append(&mut self.is_boss_raw.to_vec());
+        wtr.append(&mut self.body_raw.to_vec());
+        wtr.append(&mut self.name_raw.to_vec());
+        self.raw = wtr;
+    }
+    pub fn set_packet_id(&mut self, value: i16) {
+        self.packet_id = value;
+    }
+    pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
+        self.packet_id_raw = value;
+    }
+    pub fn set_packet_length(&mut self, value: i16) {
+        self.packet_length = value;
+    }
+    pub fn set_packet_length_raw(&mut self, value: [u8; 2]) {
+        self.packet_length_raw = value;
+    }
+    pub fn set_objecttype(&mut self, value: u8) {
+        self.objecttype = value;
+    }
+    pub fn set_objecttype_raw(&mut self, value: [u8; 1]) {
+        self.objecttype_raw = value;
+    }
+    pub fn set_aid(&mut self, value: u32) {
+        self.aid = value;
+    }
+    pub fn set_aid_raw(&mut self, value: [u8; 4]) {
+        self.aid_raw = value;
+    }
+    pub fn set_gid(&mut self, value: u32) {
+        self.gid = value;
+    }
+    pub fn set_gid_raw(&mut self, value: [u8; 4]) {
+        self.gid_raw = value;
+    }
+    pub fn set_speed(&mut self, value: i16) {
+        self.speed = value;
+    }
+    pub fn set_speed_raw(&mut self, value: [u8; 2]) {
+        self.speed_raw = value;
+    }
+    pub fn set_body_state(&mut self, value: i16) {
+        self.body_state = value;
+    }
+    pub fn set_body_state_raw(&mut self, value: [u8; 2]) {
+        self.body_state_raw = value;
+    }
+    pub fn set_health_state(&mut self, value: i16) {
+        self.health_state = value;
+    }
+    pub fn set_health_state_raw(&mut self, value: [u8; 2]) {
+        self.health_state_raw = value;
+    }
+    pub fn set_effect_state(&mut self, value: i32) {
+        self.effect_state = value;
+    }
+    pub fn set_effect_state_raw(&mut self, value: [u8; 4]) {
+        self.effect_state_raw = value;
+    }
+    pub fn set_job(&mut self, value: i16) {
+        self.job = value;
+    }
+    pub fn set_job_raw(&mut self, value: [u8; 2]) {
+        self.job_raw = value;
+    }
+    pub fn set_head(&mut self, value: i16) {
+        self.head = value;
+    }
+    pub fn set_head_raw(&mut self, value: [u8; 2]) {
+        self.head_raw = value;
+    }
+    pub fn set_weapon(&mut self, value: u32) {
+        self.weapon = value;
+    }
+    pub fn set_weapon_raw(&mut self, value: [u8; 4]) {
+        self.weapon_raw = value;
+    }
+    pub fn set_shield(&mut self, value: u32) {
+        self.shield = value;
+    }
+    pub fn set_shield_raw(&mut self, value: [u8; 4]) {
+        self.shield_raw = value;
+    }
+    pub fn set_accessory(&mut self, value: u16) {
+        self.accessory = value;
+    }
+    pub fn set_accessory_raw(&mut self, value: [u8; 2]) {
+        self.accessory_raw = value;
+    }
+    pub fn set_accessory2(&mut self, value: u16) {
+        self.accessory2 = value;
+    }
+    pub fn set_accessory2_raw(&mut self, value: [u8; 2]) {
+        self.accessory2_raw = value;
+    }
+    pub fn set_accessory3(&mut self, value: u16) {
+        self.accessory3 = value;
+    }
+    pub fn set_accessory3_raw(&mut self, value: [u8; 2]) {
+        self.accessory3_raw = value;
+    }
+    pub fn set_headpalette(&mut self, value: u16) {
+        self.headpalette = value;
+    }
+    pub fn set_headpalette_raw(&mut self, value: [u8; 2]) {
+        self.headpalette_raw = value;
+    }
+    pub fn set_bodypalette(&mut self, value: u16) {
+        self.bodypalette = value;
+    }
+    pub fn set_bodypalette_raw(&mut self, value: [u8; 2]) {
+        self.bodypalette_raw = value;
+    }
+    pub fn set_head_dir(&mut self, value: u16) {
+        self.head_dir = value;
+    }
+    pub fn set_head_dir_raw(&mut self, value: [u8; 2]) {
+        self.head_dir_raw = value;
+    }
+    pub fn set_robe(&mut self, value: u16) {
+        self.robe = value;
+    }
+    pub fn set_robe_raw(&mut self, value: [u8; 2]) {
+        self.robe_raw = value;
+    }
+    pub fn set_guid(&mut self, value: u32) {
+        self.guid = value;
+    }
+    pub fn set_guid_raw(&mut self, value: [u8; 4]) {
+        self.guid_raw = value;
+    }
+    pub fn set_gemblem_ver(&mut self, value: i16) {
+        self.gemblem_ver = value;
+    }
+    pub fn set_gemblem_ver_raw(&mut self, value: [u8; 2]) {
+        self.gemblem_ver_raw = value;
+    }
+    pub fn set_honor(&mut self, value: i16) {
+        self.honor = value;
+    }
+    pub fn set_honor_raw(&mut self, value: [u8; 2]) {
+        self.honor_raw = value;
+    }
+    pub fn set_virtue(&mut self, value: i32) {
+        self.virtue = value;
+    }
+    pub fn set_virtue_raw(&mut self, value: [u8; 4]) {
+        self.virtue_raw = value;
+    }
+    pub fn set_is_pkmode_on(&mut self, value: bool) {
+        self.is_pkmode_on = value;
+    }
+    pub fn set_is_pkmode_on_raw(&mut self, value: [u8; 1]) {
+        self.is_pkmode_on_raw = value;
+    }
+    pub fn set_sex(&mut self, value: u8) {
+        self.sex = value;
+    }
+    pub fn set_sex_raw(&mut self, value: [u8; 1]) {
+        self.sex_raw = value;
+    }
+    pub fn set_pos_dir(&mut self, value: [char; 3]) {
+        self.pos_dir = value;
+    }
+    pub fn set_pos_dir_raw(&mut self, value: [u8; 3]) {
+        self.pos_dir_raw = value;
+    }
+    pub fn set_x_size(&mut self, value: u8) {
+        self.x_size = value;
+    }
+    pub fn set_x_size_raw(&mut self, value: [u8; 1]) {
+        self.x_size_raw = value;
+    }
+    pub fn set_y_size(&mut self, value: u8) {
+        self.y_size = value;
+    }
+    pub fn set_y_size_raw(&mut self, value: [u8; 1]) {
+        self.y_size_raw = value;
+    }
+    pub fn set_state(&mut self, value: u8) {
+        self.state = value;
+    }
+    pub fn set_state_raw(&mut self, value: [u8; 1]) {
+        self.state_raw = value;
+    }
+    pub fn set_clevel(&mut self, value: i16) {
+        self.clevel = value;
+    }
+    pub fn set_clevel_raw(&mut self, value: [u8; 2]) {
+        self.clevel_raw = value;
+    }
+    pub fn set_font(&mut self, value: i16) {
+        self.font = value;
+    }
+    pub fn set_font_raw(&mut self, value: [u8; 2]) {
+        self.font_raw = value;
+    }
+    pub fn set_max_hp(&mut self, value: u32) {
+        self.max_hp = value;
+    }
+    pub fn set_max_hp_raw(&mut self, value: [u8; 4]) {
+        self.max_hp_raw = value;
+    }
+    pub fn set_hp(&mut self, value: u32) {
+        self.hp = value;
+    }
+    pub fn set_hp_raw(&mut self, value: [u8; 4]) {
+        self.hp_raw = value;
+    }
+    pub fn set_is_boss(&mut self, value: bool) {
+        self.is_boss = value;
+    }
+    pub fn set_is_boss_raw(&mut self, value: [u8; 1]) {
+        self.is_boss_raw = value;
+    }
+    pub fn set_body(&mut self, value: i16) {
+        self.body = value;
+    }
+    pub fn set_body_raw(&mut self, value: [u8; 2]) {
+        self.body_raw = value;
+    }
+    pub fn set_name(&mut self, value: [char; 24]) {
+        self.name = value;
+    }
+    pub fn set_name_raw(&mut self, value: [u8; 24]) {
+        self.name_raw = value;
+    }
+    pub fn new() -> PacketZcNotifyStandentry6 {
+        PacketZcNotifyStandentry6 {
+        raw: vec![],
+        packet_id: i16::from_le_bytes([0xff, 0x09]),
+        packet_id_raw: [0xff, 0x09],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        objecttype: 0,
+        objecttype_raw: [0; 1],
+        aid: 0,
+        aid_raw: [0; 4],
+        gid: 0,
+        gid_raw: [0; 4],
+        speed: 0,
+        speed_raw: [0; 2],
+        body_state: 0,
+        body_state_raw: [0; 2],
+        health_state: 0,
+        health_state_raw: [0; 2],
+        effect_state: 0,
+        effect_state_raw: [0; 4],
+        job: 0,
+        job_raw: [0; 2],
+        head: 0,
+        head_raw: [0; 2],
+        weapon: 0,
+        weapon_raw: [0; 4],
+        shield: 0,
+        shield_raw: [0; 4],
+        accessory: 0,
+        accessory_raw: [0; 2],
+        accessory2: 0,
+        accessory2_raw: [0; 2],
+        accessory3: 0,
+        accessory3_raw: [0; 2],
+        headpalette: 0,
+        headpalette_raw: [0; 2],
+        bodypalette: 0,
+        bodypalette_raw: [0; 2],
+        head_dir: 0,
+        head_dir_raw: [0; 2],
+        robe: 0,
+        robe_raw: [0; 2],
+        guid: 0,
+        guid_raw: [0; 4],
+        gemblem_ver: 0,
+        gemblem_ver_raw: [0; 2],
+        honor: 0,
+        honor_raw: [0; 2],
+        virtue: 0,
+        virtue_raw: [0; 4],
+        is_pkmode_on: false,
+        is_pkmode_on_raw: [0; 1],
+        sex: 0,
+        sex_raw: [0; 1],
+        pos_dir: [0 as char; 3],
+        pos_dir_raw: [0; 3],
+        x_size: 0,
+        x_size_raw: [0; 1],
+        y_size: 0,
+        y_size_raw: [0; 1],
+        state: 0,
+        state_raw: [0; 1],
+        clevel: 0,
+        clevel_raw: [0; 2],
+        font: 0,
+        font_raw: [0; 2],
+        max_hp: 0,
+        max_hp_raw: [0; 4],
+        hp: 0,
+        hp_raw: [0; 4],
+        is_boss: false,
+        is_boss_raw: [0; 1],
+        body: 0,
+        body_raw: [0; 2],
+        name: [0 as char; 24],
+        name_raw: [0; 24],
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyStandentry6 {
+    fn id(&self) -> &str {
+       "0xff09"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
+    }
+    fn display(&self) {
+            println!("{}", self)
+    }
+    fn pretty_debug(&self) {
+            println!("{:#?}", self)
+    }
+    fn raw(&self) -> &Vec<u8> {
+            &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut dyn Any{
+        self
+    }
+}
+
 impl ServerAddr {
     pub fn from(buffer: &[u8]) -> ServerAddr {
         ServerAddr {

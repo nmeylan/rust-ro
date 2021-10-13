@@ -1,18 +1,18 @@
 use crate::packets::packets::{PacketCzRequestMove2, Packet, PacketZcNotifyPlayermove, PacketZcNpcackMapmove};
 use crate::server::core::{Server, CharacterSession, Session};
 use tokio::runtime::Runtime;
-use std::sync::{Arc, Mutex, RwLock};
+use std::sync::{Arc, MutexGuard, RwLock};
 use std::net::TcpStream;
 use std::time::{SystemTime, UNIX_EPOCH};
 use std::io::Write;
+use std::cmp;
 use crate::server::map::{Map, MAP_EXT};
 use crate::server::path::{path_search_client_side_algorithm, PathNode, MOVE_DIAGONAL_COST, MOVE_COST};
 use std::thread::sleep;
 use tokio::time::Duration;
-
+use crate::server::map::WARP_MASK;
 use tokio::task::JoinHandle;
-use crate::{read_lock, read_session, cast, socket_send};
-use std::collections::HashMap;
+use crate::{read_lock, cast, socket_send};
 use crate::util::string::StringUtil;
 
 #[derive(Debug, Clone)]
@@ -21,6 +21,9 @@ pub struct Position {
     pub y: u16,
     pub(crate) dir: u16
 }
+
+// Todo make this configurable
+static PLAYER_FOV: u16 = 14;
 
 impl Position {
     pub fn from_move_packet(packet: &PacketCzRequestMove2) -> Position {
@@ -87,8 +90,8 @@ fn move_character(runtime: &Runtime, path: Vec<PathNode>, session: Arc<RwLock<Se
             for path_node in path {
                 let delay: u64;
                 {
-                    let session = read_lock!(session);
-                    let mut character_session = session.character.as_ref().unwrap().lock().unwrap();
+                    let session_guard = read_lock!(session);
+                    let mut character_session = session_guard.character.as_ref().unwrap().lock().unwrap();
                     if task_id != character_session.movement_task_id.unwrap() {
                         has_been_canceled = true;
                         break;
@@ -98,33 +101,24 @@ fn move_character(runtime: &Runtime, path: Vec<PathNode>, session: Arc<RwLock<Se
                     } else {
                         delay = (character_session.speed - 25) as u64;
                     }
+
                     if map.is_warp_cell(path_node.x, path_node.y) {
-                        println!("on a warp");
-                        let warp = map.warps.get(&map.get_cell_index_of(path_node.x, path_node.y)).unwrap();
-                        let mut new_current_map: [char; 16] = [0 as char; 16];
-                        let map_name = format!("{}{}", warp.dest_map_name, MAP_EXT);
-                        map_name.fill_char_array(new_current_map.as_mut());
-                        character_session.current_map = new_current_map.clone();
-                        character_session.set_current_x(warp.to_x);
-                        character_session.set_current_y(warp.to_y);
-
-                        let mut packet_zc_npcack_mapmove = PacketZcNpcackMapmove::new();
-                        packet_zc_npcack_mapmove.set_map_name(new_current_map);
-                        packet_zc_npcack_mapmove.set_x_pos(character_session.current_position.x as i16);
-                        packet_zc_npcack_mapmove.set_y_pos(character_session.current_position.y as i16);
-                        packet_zc_npcack_mapmove.fill_raw();
-
-                        // TODO should we call method below?
-                        // let mut maps_guard = server.maps.write().unwrap();
-                        // let map = maps_guard.get_mut(&map_name).unwrap();
-                        // map.player_join_map(server.warps.get(&map_name));
-
-                        let tcp_stream = session.map_server_socket.as_ref().unwrap();
-                        socket_send!(tcp_stream, packet_zc_npcack_mapmove.raw());
+                        change_map(&map, &path_node, session.clone(), &mut character_session);
                         break;
                     }
                     character_session.set_current_x(path_node.x);
                     character_session.set_current_y(path_node.y);
+                    let start_x = cmp::max(character_session.current_position.x - PLAYER_FOV, 0);
+                    let end_x = cmp::min(character_session.current_position.x + PLAYER_FOV, map.x_size);
+                    let start_y = cmp::max(character_session.current_position.y - PLAYER_FOV, 0);
+                    let end_y = cmp::min(character_session.current_position.y + PLAYER_FOV, map.y_size);
+                    for x in start_x..end_x {
+                        for y in start_y..end_y {
+                            if map.is_warp_cell(x, y) {
+                                character_session.set_map_item_at(x, y, WARP_MASK);
+                            }
+                        }
+                    }
                 }
                 sleep(Duration::from_millis(delay));
             }
@@ -134,6 +128,32 @@ fn move_character(runtime: &Runtime, path: Vec<PathNode>, session: Arc<RwLock<Se
         }
     });
     handle
+}
+
+fn change_map(map: &&Map, path_node: &PathNode, session: Arc<RwLock<Session>>, mut character_session: &mut MutexGuard<CharacterSession>) {
+    let session_guard = read_lock!(session);
+    println!("on a warp");
+    let warp = map.warps.get(&map.get_cell_index_of(path_node.x, path_node.y)).unwrap();
+    let mut new_current_map: [char; 16] = [0 as char; 16];
+    let map_name = format!("{}{}", warp.dest_map_name, MAP_EXT);
+    map_name.fill_char_array(new_current_map.as_mut());
+    character_session.current_map = new_current_map.clone();
+    character_session.set_current_x(warp.to_x);
+    character_session.set_current_y(warp.to_y);
+
+    let mut packet_zc_npcack_mapmove = PacketZcNpcackMapmove::new();
+    packet_zc_npcack_mapmove.set_map_name(new_current_map);
+    packet_zc_npcack_mapmove.set_x_pos(character_session.current_position.x as i16);
+    packet_zc_npcack_mapmove.set_y_pos(character_session.current_position.y as i16);
+    packet_zc_npcack_mapmove.fill_raw();
+
+    // TODO should we call method below?
+    // let mut maps_guard = server.maps.write().unwrap();
+    // let map = maps_guard.get_mut(&map_name).unwrap();
+    // map.player_join_map(server.warps.get(&map_name));
+
+    let tcp_stream = session_guard.map_server_socket.as_ref().unwrap();
+    socket_send!(tcp_stream, packet_zc_npcack_mapmove.raw());
 }
 
 

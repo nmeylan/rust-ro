@@ -6293,3 +6293,43 @@ struct PACKET_CZ_BLOCKING_PLAY_CANCEL {
 struct PACKET_ZC_LOAD_CONFIRM {
   /* this+0x0 */ short PacketId
 }
+0xff09
+ struct PACKET_ZC_NOTIFY_STANDENTRY6 {
+  /* this+0x0 */ short PacketId
+  /* this+0x2 */ short PacketLength
+  /* this+0x4 */ unsigned char objecttype
+  /* this+0x5 */ unsigned long AID
+  /* this+0x9 */ unsigned long GID
+  /* this+0xd */ short speed
+  /* this+0xf */ short bodyState
+  /* this+0x11 */ short healthState
+  /* this+0x13 */ int effectState
+  /* this+0x17 */ short job
+  /* this+0x19 */ short head
+  /* this+0x1b */ unsigned long weapon
+  /* this+0x1f */ unsigned long shield
+  /* this+0x23 */ unsigned short accessory
+  /* this+0x25 */ unsigned short accessory2
+  /* this+0x27 */ unsigned short accessory3
+  /* this+0x29 */ unsigned short headpalette
+  /* this+0x2b */ unsigned short bodypalette
+  /* this+0x2d */ unsigned short headDir
+  /* this+0x2f */ unsigned short robe
+  /* this+0x31 */ unsigned long GUID
+  /* this+0x35 */ short GEmblemVer
+  /* this+0x37 */ short honor
+  /* this+0x39 */ int virtue
+  /* this+0x3d */ bool isPKModeON
+  /* this+0x3e */ unsigned char sex
+  /* this+0x3f */ unsigned char PosDir[3]
+  /* this+0x42 */ unsigned char xSize
+  /* this+0x43 */ unsigned char ySize
+  /* this+0x44 */ unsigned char state
+  /* this+0x45 */ short clevel
+  /* this+0x47 */ short font
+  /* this+0x49 */ unsigned long maxHP
+  /* this+0x4d */ unsigned long hp
+  /* this+0x51 */ bool isBoss
+  /* this+0x52 */ short body
+  /* this+0x54 */ unsigned char name[24]
+ }
