@@ -2,7 +2,7 @@
 // For the moment I won't implement TCPListener in this file, but in the "future" proxies will be removed and only this file will have a TCPListener.
 
 use crate::packets::packets::{Packet, PacketUnknown, PacketCaLogin, PacketChEnter, PacketChMakeChar2, PacketChDeleteChar4Reserved, PacketCzEnter2, PacketChSelectChar, PacketCzRestart,  PacketCzReqDisconnect2, PacketCzRequestMove2, PacketCzNotifyActorinit, PacketCzBlockingPlayCancel, PacketZcLoadConfirm};
-use std::sync::{Arc, Mutex, RwLock};
+use std::sync::{Arc, Mutex, RwLock, RwLockWriteGuard};
 use std::thread::{spawn, JoinHandle};
 use crate::repository::lib::Repository;
 use sqlx::{MySql};
@@ -11,15 +11,16 @@ use tokio::runtime::Runtime;
 use crate::server::login::handle_login;
 use crate::server::char::{handle_char_enter, handle_make_char, handle_delete_reserved_char, handle_select_char, handle_enter_game, handle_restart, handle_disconnect, handle_char_loaded_client_side};
 use crate::server::movement::{handle_char_move, Position};
-use crate::server::map::Map;
+use crate::server::map::{Map};
 use accessor::Setters;
-use crate::server::scripts::warps::Warp;
 use std::io::{Read, Write};
 use std::net::{TcpStream, TcpListener, Shutdown};
 use log::{error};
+use rand::{Rng};
 use crate::packets::packets_parser::parse;
-use crate::{read_lock, socket_send};
+use crate::{read_lock, socket_send, write_lock};
 use crate::util::coordinate;
+use crate::server::map::MapItem;
 
 // Todo make this configurable
 pub const PLAYER_FOV: usize = 14;
@@ -28,7 +29,7 @@ pub struct Server {
     pub sessions: Arc<RwLock<HashMap<u32, Arc<RwLock<Session>>>>>,
     pub repository: Arc<Repository<MySql>>,
     pub maps: Arc<RwLock<HashMap<String, Map>>>,
-    pub warps: Arc<HashMap<String, Vec<Arc<Warp>>>>,
+    pub map_item_ids: Arc<RwLock<Vec<u32>>>
 }
 
 impl Server {
@@ -89,7 +90,6 @@ pub struct CharacterSession {
     #[set]
     pub current_position: Position,
     pub movement_task_id: Option<u128>,
-    pub map_view: [u16; PLAYER_FOV * PLAYER_FOV]
 }
 
 impl Session {
@@ -120,29 +120,34 @@ impl CharacterSession {
     pub fn set_movement_task_id(&mut self, id: u128) {
         self.movement_task_id = Some(id);
     }
-    pub fn get_map_item_at(&self, x: u16, y: u16) -> u16 {
-        let i = coordinate::get_cell_index_of(x, y, PLAYER_FOV as u16);
-        self.map_view[i]
-    }
-    pub fn set_map_item_at(&mut self, x: u16, y: u16, item: u16) {
-        let i = coordinate::get_cell_index_of(x, y, PLAYER_FOV as u16);
-        self.map_view[i] = item
-    }
 }
 
 impl Server {
-    pub fn new(
-        repository: Arc<Repository<MySql>>,
-        maps: Arc<RwLock<HashMap<String, Map>>>,
-        warps: Arc<HashMap<String, Vec<Arc<Warp>>>>
-    ) -> Server {
+    pub fn new(repository: Arc<Repository<MySql>>, maps: Arc<RwLock<HashMap<String, Map>>>, map_item_ids: Arc<RwLock<Vec<u32>>>) -> Server {
         let server = Server {
             sessions: Arc::new(RwLock::new(HashMap::<u32, Arc<RwLock<Session>>>::new())),
             repository,
             maps,
-            warps
+            map_item_ids
         };
         server
+    }
+
+    pub fn generate_map_item_id(&self) -> u32 {
+        let mut ids = write_lock!(self.map_item_ids);
+        Server::generate_id(&mut ids)
+    }
+
+    pub fn generate_id(ids: &mut RwLockWriteGuard<Vec<u32>>) -> u32 {
+        let mut id: u32;
+        loop {
+            id = rand::thread_rng().gen::<u32>();
+            if !ids.contains(&id) {
+                ids.push(id);
+                break;
+            }
+        }
+        id
     }
 
     pub fn start(self, port: u16) -> JoinHandle<()> {

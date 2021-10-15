@@ -108,6 +108,8 @@ fn move_character(runtime: &Runtime, path: Vec<PathNode>, session: Arc<RwLock<Se
                     }
                     character_session.set_current_x(path_node.x);
                     character_session.set_current_y(path_node.y);
+
+                    // TODO extract in function
                     let start_x = cmp::max(character_session.current_position.x - PLAYER_FOV, 0);
                     let end_x = cmp::min(character_session.current_position.x + PLAYER_FOV, map.x_size);
                     let start_y = cmp::max(character_session.current_position.y - PLAYER_FOV, 0);
@@ -115,7 +117,6 @@ fn move_character(runtime: &Runtime, path: Vec<PathNode>, session: Arc<RwLock<Se
                     for x in start_x..end_x {
                         for y in start_y..end_y {
                             if map.is_warp_cell(x, y) {
-                                character_session.set_map_item_at(x, y, WARP_MASK);
                             }
                         }
                     }
@@ -133,7 +134,7 @@ fn move_character(runtime: &Runtime, path: Vec<PathNode>, session: Arc<RwLock<Se
 fn change_map(map: &&Map, path_node: &PathNode, session: Arc<RwLock<Session>>, mut character_session: &mut MutexGuard<CharacterSession>) {
     let session_guard = read_lock!(session);
     println!("on a warp");
-    let warp = map.warps.get(&map.get_cell_index_of(path_node.x, path_node.y)).unwrap();
+    let warp = map.get_warp_at(path_node.x, path_node.y).unwrap();
     let mut new_current_map: [char; 16] = [0 as char; 16];
     let map_name = format!("{}{}", warp.dest_map_name, MAP_EXT);
     map_name.fill_char_array(new_current_map.as_mut());
