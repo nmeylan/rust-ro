@@ -148,7 +148,8 @@ pub fn handle_select_char(server: Arc<Server>, packet: &mut dyn Packet, runtime:
         speed: 100,
         current_map: map_name.clone(),
         current_position: Position { x: last_x, y: last_y, dir: 0 },
-        movement_task_id: None
+        movement_task_id: None,
+        map_view: Default::default(),
     };
     session.set_character(Arc::new(Mutex::new(character)));
     packet_ch_send_map_info.set_map_name(map_name);

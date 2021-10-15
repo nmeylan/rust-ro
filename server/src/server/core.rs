@@ -7,11 +7,12 @@ use std::thread::{spawn, JoinHandle};
 use crate::repository::lib::Repository;
 use sqlx::{MySql};
 use std::collections::HashMap;
+use std::fmt::Debug;
 use tokio::runtime::Runtime;
 use crate::server::login::handle_login;
 use crate::server::char::{handle_char_enter, handle_make_char, handle_delete_reserved_char, handle_select_char, handle_enter_game, handle_restart, handle_disconnect, handle_char_loaded_client_side};
 use crate::server::movement::{handle_char_move, Position};
-use crate::server::map::{Map};
+use crate::server::map::{Map, MapItem};
 use accessor::Setters;
 use std::io::{Read, Write};
 use std::net::{TcpStream, TcpListener, Shutdown};
@@ -20,7 +21,6 @@ use rand::{Rng};
 use crate::packets::packets_parser::parse;
 use crate::{read_lock, socket_send, write_lock};
 use crate::util::coordinate;
-use crate::server::map::MapItem;
 
 // Todo make this configurable
 pub const PLAYER_FOV: usize = 14;
@@ -90,6 +90,7 @@ pub struct CharacterSession {
     #[set]
     pub current_position: Position,
     pub movement_task_id: Option<u128>,
+    pub map_view: HashMap<usize, Arc<dyn MapItem>>
 }
 
 impl Session {
@@ -119,6 +120,14 @@ impl CharacterSession {
     }
     pub fn set_movement_task_id(&mut self, id: u128) {
         self.movement_task_id = Some(id);
+    }
+    pub fn get_map_item_at(&self, x: u16, y: u16) -> Option<&Arc<MapItem>> {
+        let i = coordinate::get_cell_index_of(x, y, PLAYER_FOV as u16);
+        self.map_view.get(&i)
+    }
+    pub fn set_map_item_at(&mut self, x: u16, y: u16, item: Arc<dyn MapItem>) {
+        let i = coordinate::get_cell_index_of(x, y, PLAYER_FOV as u16);
+        self.map_view.insert(i, item);
     }
 }
 

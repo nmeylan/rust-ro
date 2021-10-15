@@ -195,7 +195,7 @@
  struct PACKET_ZC_ACCEPT_ENTER {
   /* this+0x0 */ short PacketId
   /* this+0x2 */ unsigned long startTime
-  /* this+0x6 */ unsigned char PosDir[3]
+  /* this+0x6 */ unsigned byte PosDir[3]
   /* this+0x9 */ unsigned char xSize
   /* this+0xa */ unsigned char ySize
  }
@@ -250,7 +250,7 @@
   /* this+0x2b */ short virtue
   /* this+0x2d */ bool isPKModeON
   /* this+0x2e */ unsigned char sex
-  /* this+0x2f */ unsigned char PosDir[3]
+  /* this+0x2f */ unsigned byte PosDir[3]
   /* this+0x32 */ unsigned char xSize
   /* this+0x33 */ unsigned char ySize
   /* this+0x34 */ unsigned char state
@@ -280,7 +280,7 @@
   /* this+0x2a */ short virtue
   /* this+0x2c */ bool isPKModeON
   /* this+0x2d */ unsigned char sex
-  /* this+0x2e */ unsigned char PosDir[3]
+  /* this+0x2e */ unsigned byte PosDir[3]
   /* this+0x31 */ unsigned char xSize
   /* this+0x32 */ unsigned char ySize
   /* this+0x33 */ short clevel
@@ -309,7 +309,7 @@
   /* this+0x2a */ short virtue
   /* this+0x2c */ bool isPKModeON
   /* this+0x2d */ unsigned char sex
-  /* this+0x2e */ unsigned char PosDir[3]
+  /* this+0x2e */ unsigned byte PosDir[3]
   /* this+0x31 */ unsigned char xSize
   /* this+0x32 */ unsigned char ySize
   /* this+0x33 */ unsigned char action
@@ -367,7 +367,7 @@
   /* this+0x21 */ short headDir
   /* this+0x23 */ bool isPKModeON
   /* this+0x24 */ unsigned char sex
-  /* this+0x25 */ unsigned char PosDir[3]
+  /* this+0x25 */ unsigned byte PosDir[3]
   /* this+0x28 */ unsigned char xSize
   /* this+0x29 */ unsigned char ySize
  }
@@ -2882,7 +2882,7 @@
   /* this+0x2a */ short virtue
   /* this+0x2c */ bool isPKModeON
   /* this+0x2d */ unsigned char sex
-  /* this+0x2e */ unsigned char PosDir[3]
+  /* this+0x2e */ unsigned byte PosDir[3]
   /* this+0x31 */ unsigned char xSize
   /* this+0x32 */ unsigned char ySize
   /* this+0x33 */ unsigned char state
@@ -2911,7 +2911,7 @@
   /* this+0x2a */ short virtue
   /* this+0x2c */ bool isPKModeON
   /* this+0x2d */ unsigned char sex
-  /* this+0x2e */ unsigned char PosDir[3]
+  /* this+0x2e */ unsigned byte PosDir[3]
   /* this+0x31 */ unsigned char xSize
   /* this+0x32 */ unsigned char ySize
   /* this+0x33 */ short clevel
@@ -3562,7 +3562,7 @@
   /* this+0x2c */ int virtue
   /* this+0x30 */ bool isPKModeON
   /* this+0x31 */ unsigned char sex
-  /* this+0x32 */ unsigned char PosDir[3]
+  /* this+0x32 */ unsigned byte PosDir[3]
   /* this+0x35 */ unsigned char xSize
   /* this+0x36 */ unsigned char ySize
   /* this+0x37 */ unsigned char state
@@ -3591,7 +3591,7 @@
   /* this+0x2c */ int virtue
   /* this+0x30 */ bool isPKModeON
   /* this+0x31 */ unsigned char sex
-  /* this+0x32 */ unsigned char PosDir[3]
+  /* this+0x32 */ unsigned byte PosDir[3]
   /* this+0x35 */ unsigned char xSize
   /* this+0x36 */ unsigned char ySize
   /* this+0x37 */ short clevel
@@ -5036,7 +5036,7 @@ struct UNUSED_PACKET_CZ_MER_UPGRADE_SKILLLEVEL {
  struct PACKET_ZC_ACCEPT_ENTER2 {
   /* this+0x0 */ short PacketId
   /* this+0x2 */ unsigned long startTime
-  /* this+0x6 */ unsigned char PosDir[3]
+  /* this+0x6 */ unsigned byte PosDir[3]
   /* this+0x9 */ unsigned char xSize
   /* this+0xa */ unsigned char ySize
   /* this+0xb */ short font
@@ -5095,7 +5095,7 @@ struct UNUSED_PACKET_CZ_MER_UPGRADE_SKILLLEVEL {
   /* this+0x2c */ int virtue
   /* this+0x30 */ bool isPKModeON
   /* this+0x31 */ unsigned char sex
-  /* this+0x32 */ unsigned char PosDir[3]
+  /* this+0x32 */ unsigned byte PosDir[3]
   /* this+0x35 */ unsigned char xSize
   /* this+0x36 */ unsigned char ySize
   /* this+0x37 */ short clevel
@@ -5124,7 +5124,7 @@ struct UNUSED_PACKET_CZ_MER_UPGRADE_SKILLLEVEL {
   /* this+0x2c */ int virtue
   /* this+0x30 */ bool isPKModeON
   /* this+0x31 */ unsigned char sex
-  /* this+0x32 */ unsigned char PosDir[3]
+  /* this+0x32 */ unsigned byte PosDir[3]
   /* this+0x35 */ unsigned char xSize
   /* this+0x36 */ unsigned char ySize
   /* this+0x37 */ unsigned char state
@@ -5624,7 +5624,7 @@ struct UNUSED_PACKET_CZ_MER_UPGRADE_SKILLLEVEL {
   /* this+0x2f */ int virtue
   /* this+0x33 */ bool isPKModeON
   /* this+0x34 */ unsigned char sex
-  /* this+0x35 */ unsigned char PosDir[3]
+  /* this+0x35 */ unsigned byte PosDir[3]
   /* this+0x38 */ unsigned char xSize
   /* this+0x39 */ unsigned char ySize
   /* this+0x3a */ short clevel
@@ -5656,7 +5656,7 @@ struct UNUSED_PACKET_CZ_MER_UPGRADE_SKILLLEVEL {
   /* this+0x2f */ int virtue
   /* this+0x33 */ bool isPKModeON
   /* this+0x34 */ unsigned char sex
-  /* this+0x35 */ unsigned char PosDir[3]
+  /* this+0x35 */ unsigned byte PosDir[3]
   /* this+0x38 */ unsigned char xSize
   /* this+0x39 */ unsigned char ySize
   /* this+0x3a */ unsigned char state
@@ -6321,7 +6321,7 @@ struct PACKET_ZC_LOAD_CONFIRM {
   /* this+0x39 */ int virtue
   /* this+0x3d */ bool isPKModeON
   /* this+0x3e */ unsigned char sex
-  /* this+0x3f */ unsigned char PosDir[3]
+  /* this+0x3f */ unsigned byte PosDir[3]
   /* this+0x42 */ unsigned char xSize
   /* this+0x43 */ unsigned char ySize
   /* this+0x44 */ unsigned char state

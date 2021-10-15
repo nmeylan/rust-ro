@@ -1,4 +1,4 @@
-use crate::packets::packets::{PacketCzRequestMove2, Packet, PacketZcNotifyPlayermove, PacketZcNpcackMapmove};
+use crate::packets::packets::{PacketCzRequestMove2, Packet, PacketZcNotifyPlayermove, PacketZcNpcackMapmove, PacketZcNotifyStandentry6};
 use crate::server::core::{Server, CharacterSession, Session};
 use tokio::runtime::Runtime;
 use std::sync::{Arc, MutexGuard, RwLock};
@@ -6,7 +6,7 @@ use std::net::TcpStream;
 use std::time::{SystemTime, UNIX_EPOCH};
 use std::io::Write;
 use std::cmp;
-use crate::server::map::{Map, MAP_EXT};
+use crate::server::map::{Map, MAP_EXT, MapItem};
 use crate::server::path::{path_search_client_side_algorithm, PathNode, MOVE_DIAGONAL_COST, MOVE_COST};
 use std::thread::sleep;
 use tokio::time::Duration;
@@ -42,6 +42,14 @@ impl Position {
         move_data[3] = ((destination.x << 2) | (destination.y >> 8) & 0x03) as u8;
         move_data[4] = destination.y as u8;
         move_data[5] = 136; // hardcoded value in hercules (8 << 4) | (8 & 0x0f)
+        move_data
+    }
+
+    pub fn to_pos(&self) -> [u8; 3] {
+        let mut move_data: [u8; 3] = [0; 3];
+        move_data[0] = (self.x >> 2) as u8;
+        move_data[1] = ((self.x << 6) | ((self.y >> 4) & 0x3f)) as u8;
+        move_data[2] = ((self.y << 4) | (self.dir &0xf)) as u8;
         move_data
     }
 
@@ -117,6 +125,26 @@ fn move_character(runtime: &Runtime, path: Vec<PathNode>, session: Arc<RwLock<Se
                     for x in start_x..end_x {
                         for y in start_y..end_y {
                             if map.is_warp_cell(x, y) {
+                                let warp = map.get_warp_at(x, y).unwrap();
+                                if character_session.get_map_item_at(warp.x, warp.y).is_none() {
+                                    println!("Seen a warp at: {},{} {:?}", x, y, warp);
+                                    let mut packet_zc_notify_standentry = PacketZcNotifyStandentry6::new();
+                                    packet_zc_notify_standentry.set_job(warp.client_item_class());
+                                    packet_zc_notify_standentry.set_packet_length(108);
+                                    packet_zc_notify_standentry.set_objecttype(6);
+                                    packet_zc_notify_standentry.set_aid(warp.id());
+                                    packet_zc_notify_standentry.set_pos_dir(Position {x: warp.x, y: warp.y, dir: 0 }.to_pos());
+                                    let mut warp_name = [0 as char; 24];
+                                    warp.name.fill_char_array(warp_name.as_mut());
+                                    packet_zc_notify_standentry.set_name(warp_name);
+                                    packet_zc_notify_standentry.fill_raw();
+
+                                    packet_zc_notify_standentry.display();
+                                    packet_zc_notify_standentry.pretty_debug();
+                                    let tcp_stream = session_guard.map_server_socket.as_ref().unwrap();
+                                    socket_send!(tcp_stream, packet_zc_notify_standentry.raw());
+                                    character_session.set_map_item_at(warp.x, warp.y, warp as Arc<dyn MapItem>);
+                                }
                             }
                         }
                     }

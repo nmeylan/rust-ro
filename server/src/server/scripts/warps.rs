@@ -8,7 +8,7 @@ use tokio::task::JoinHandle;
 use log::{warn};
 use futures::future::join_all;
 use std::sync::{Mutex, Arc};
-
+use crate::server::map::MapItem;
 
 
 static PARALLEL_EXECUTIONS: usize = 100; // TODO add a conf for this
@@ -18,6 +18,8 @@ static WARP_CONF_PATH: &str = "./npc/scripts_warps.conf";
 pub struct Warp {
     #[set]
     pub map_name: String,
+    #[set]
+    pub name: String,
     #[set]
     pub id: u32,
     #[set]
@@ -36,11 +38,21 @@ pub struct Warp {
     pub to_y: u16,
 }
 
+impl MapItem for Warp {
+    fn id(&self) -> u32 {
+        self.id
+    }
+
+    fn client_item_class(&self) -> i16 {
+        45
+    }
+}
 
 impl Warp {
     pub fn new() -> Warp {
         Warp {
             id: 0,
+            name: "".to_string(),
             map_name: "".to_string(),
             x: 0,
             y: 0,
@@ -112,17 +124,19 @@ impl Warp {
             // anthell01,253,32,0	warp	ant01	2,1,anthell02,34,263
             let line_fragment = line.split("\t").collect::<Vec<&str>>();
             let source_information = line_fragment[0];
-            let wapr_and_destination_information = line_fragment[3];
+            let name = line_fragment[2];
+            let warp_and_destination_information = line_fragment[3];
             let source_information_split = source_information.split(",").collect::<Vec<&str>>();
-            let wapr_and_destination_information_split = wapr_and_destination_information.split(",").collect::<Vec<&str>>();
+            let warp_and_destination_information_split = warp_and_destination_information.split(",").collect::<Vec<&str>>();
+            warp.set_name(name.to_string());
             warp.set_map_name(source_information_split[0].to_string());
             warp.set_x(source_information_split[1].parse::<u16>().unwrap());
             warp.set_y(source_information_split[2].parse::<u16>().unwrap());
-            warp.set_x_size(wapr_and_destination_information_split[0].parse::<u16>().unwrap());
-            warp.set_y_size(wapr_and_destination_information_split[1].parse::<u16>().unwrap());
-            warp.set_dest_map_name(wapr_and_destination_information_split[2].to_string());
-            warp.set_to_x(wapr_and_destination_information_split[3].parse::<u16>().unwrap());
-            warp.set_to_y(wapr_and_destination_information_split[4].parse::<u16>().unwrap());
+            warp.set_x_size(warp_and_destination_information_split[0].parse::<u16>().unwrap());
+            warp.set_y_size(warp_and_destination_information_split[1].parse::<u16>().unwrap());
+            warp.set_dest_map_name(warp_and_destination_information_split[2].to_string());
+            warp.set_to_x(warp_and_destination_information_split[3].parse::<u16>().unwrap());
+            warp.set_to_y(warp_and_destination_information_split[4].parse::<u16>().unwrap());
             warps.push(warp);
         }
         warps

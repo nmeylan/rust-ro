@@ -428,7 +428,7 @@ impl Display for PacketZcAcceptEnter {
         let mut fields = Vec::new();
         fields.push(format!("packet_id(short as i16)[0, 2]: {}", &self.packet_id));
         fields.push(format!("start_time(unsigned long as u32)[2, 6]: {}", &self.start_time));
-        fields.push(format!("pos_dir(char[] as char[])[6, 9]: {}", &self.pos_dir.pretty_output()));
+        fields.push(format!("pos_dir(unsigned char[] as u8[])[6, 9]: {}", &self.pos_dir.pretty_output()));
         fields.push(format!("x_size(unsigned char as u8)[9, 10]: {}", &self.x_size));
         fields.push(format!("y_size(unsigned char as u8)[10, 11]: {}", &self.y_size));
         write!(f, "PacketZcAcceptEnter\n {}", fields.join(",\n "))
@@ -585,7 +585,7 @@ impl Display for PacketZcNotifyStandentry {
         fields.push(format!("virtue(short as i16)[43, 45]: {}", &self.virtue));
         fields.push(format!("is_pkmode_on(bool as bool)[45, 46]: {}", &self.is_pkmode_on));
         fields.push(format!("sex(unsigned char as u8)[46, 47]: {}", &self.sex));
-        fields.push(format!("pos_dir(char[] as char[])[47, 50]: {}", &self.pos_dir.pretty_output()));
+        fields.push(format!("pos_dir(unsigned char[] as u8[])[47, 50]: {}", &self.pos_dir.pretty_output()));
         fields.push(format!("x_size(unsigned char as u8)[50, 51]: {}", &self.x_size));
         fields.push(format!("y_size(unsigned char as u8)[51, 52]: {}", &self.y_size));
         fields.push(format!("state(unsigned char as u8)[52, 53]: {}", &self.state));
@@ -653,7 +653,7 @@ impl Display for PacketZcNotifyNewentry {
         fields.push(format!("virtue(short as i16)[42, 44]: {}", &self.virtue));
         fields.push(format!("is_pkmode_on(bool as bool)[44, 45]: {}", &self.is_pkmode_on));
         fields.push(format!("sex(unsigned char as u8)[45, 46]: {}", &self.sex));
-        fields.push(format!("pos_dir(char[] as char[])[46, 49]: {}", &self.pos_dir.pretty_output()));
+        fields.push(format!("pos_dir(unsigned char[] as u8[])[46, 49]: {}", &self.pos_dir.pretty_output()));
         fields.push(format!("x_size(unsigned char as u8)[49, 50]: {}", &self.x_size));
         fields.push(format!("y_size(unsigned char as u8)[50, 51]: {}", &self.y_size));
         fields.push(format!("clevel(short as i16)[51, 53]: {}", &self.clevel));
@@ -722,7 +722,7 @@ impl Display for PacketZcNotifyActentry {
         fields.push(format!("virtue(short as i16)[42, 44]: {}", &self.virtue));
         fields.push(format!("is_pkmode_on(bool as bool)[44, 45]: {}", &self.is_pkmode_on));
         fields.push(format!("sex(unsigned char as u8)[45, 46]: {}", &self.sex));
-        fields.push(format!("pos_dir(char[] as char[])[46, 49]: {}", &self.pos_dir.pretty_output()));
+        fields.push(format!("pos_dir(unsigned char[] as u8[])[46, 49]: {}", &self.pos_dir.pretty_output()));
         fields.push(format!("x_size(unsigned char as u8)[49, 50]: {}", &self.x_size));
         fields.push(format!("y_size(unsigned char as u8)[50, 51]: {}", &self.y_size));
         fields.push(format!("action(unsigned char as u8)[51, 52]: {}", &self.action));
@@ -853,7 +853,7 @@ impl Display for PacketZcNotifyStandentryNpc {
         fields.push(format!("head_dir(short as i16)[33, 35]: {}", &self.head_dir));
         fields.push(format!("is_pkmode_on(bool as bool)[35, 36]: {}", &self.is_pkmode_on));
         fields.push(format!("sex(unsigned char as u8)[36, 37]: {}", &self.sex));
-        fields.push(format!("pos_dir(char[] as char[])[37, 40]: {}", &self.pos_dir.pretty_output()));
+        fields.push(format!("pos_dir(unsigned char[] as u8[])[37, 40]: {}", &self.pos_dir.pretty_output()));
         fields.push(format!("x_size(unsigned char as u8)[40, 41]: {}", &self.x_size));
         fields.push(format!("y_size(unsigned char as u8)[41, 42]: {}", &self.y_size));
         write!(f, "PacketZcNotifyStandentryNpc\n {}", fields.join(",\n "))
@@ -8418,7 +8418,7 @@ impl Display for PacketZcNotifyStandentry2 {
         fields.push(format!("virtue(short as i16)[42, 44]: {}", &self.virtue));
         fields.push(format!("is_pkmode_on(bool as bool)[44, 45]: {}", &self.is_pkmode_on));
         fields.push(format!("sex(unsigned char as u8)[45, 46]: {}", &self.sex));
-        fields.push(format!("pos_dir(char[] as char[])[46, 49]: {}", &self.pos_dir.pretty_output()));
+        fields.push(format!("pos_dir(unsigned char[] as u8[])[46, 49]: {}", &self.pos_dir.pretty_output()));
         fields.push(format!("x_size(unsigned char as u8)[49, 50]: {}", &self.x_size));
         fields.push(format!("y_size(unsigned char as u8)[50, 51]: {}", &self.y_size));
         fields.push(format!("state(unsigned char as u8)[51, 52]: {}", &self.state));
@@ -8484,7 +8484,7 @@ impl Display for PacketZcNotifyNewentry2 {
         fields.push(format!("virtue(short as i16)[42, 44]: {}", &self.virtue));
         fields.push(format!("is_pkmode_on(bool as bool)[44, 45]: {}", &self.is_pkmode_on));
         fields.push(format!("sex(unsigned char as u8)[45, 46]: {}", &self.sex));
-        fields.push(format!("pos_dir(char[] as char[])[46, 49]: {}", &self.pos_dir.pretty_output()));
+        fields.push(format!("pos_dir(unsigned char[] as u8[])[46, 49]: {}", &self.pos_dir.pretty_output()));
         fields.push(format!("x_size(unsigned char as u8)[49, 50]: {}", &self.x_size));
         fields.push(format!("y_size(unsigned char as u8)[50, 51]: {}", &self.y_size));
         fields.push(format!("clevel(short as i16)[51, 53]: {}", &self.clevel));
@@ -10357,7 +10357,7 @@ impl Display for PacketZcNotifyStandentry3 {
         fields.push(format!("virtue(int as i32)[44, 48]: {}", &self.virtue));
         fields.push(format!("is_pkmode_on(bool as bool)[48, 49]: {}", &self.is_pkmode_on));
         fields.push(format!("sex(unsigned char as u8)[49, 50]: {}", &self.sex));
-        fields.push(format!("pos_dir(char[] as char[])[50, 53]: {}", &self.pos_dir.pretty_output()));
+        fields.push(format!("pos_dir(unsigned char[] as u8[])[50, 53]: {}", &self.pos_dir.pretty_output()));
         fields.push(format!("x_size(unsigned char as u8)[53, 54]: {}", &self.x_size));
         fields.push(format!("y_size(unsigned char as u8)[54, 55]: {}", &self.y_size));
         fields.push(format!("state(unsigned char as u8)[55, 56]: {}", &self.state));
@@ -10423,7 +10423,7 @@ impl Display for PacketZcNotifyNewentry3 {
         fields.push(format!("virtue(int as i32)[44, 48]: {}", &self.virtue));
         fields.push(format!("is_pkmode_on(bool as bool)[48, 49]: {}", &self.is_pkmode_on));
         fields.push(format!("sex(unsigned char as u8)[49, 50]: {}", &self.sex));
-        fields.push(format!("pos_dir(char[] as char[])[50, 53]: {}", &self.pos_dir.pretty_output()));
+        fields.push(format!("pos_dir(unsigned char[] as u8[])[50, 53]: {}", &self.pos_dir.pretty_output()));
         fields.push(format!("x_size(unsigned char as u8)[53, 54]: {}", &self.x_size));
         fields.push(format!("y_size(unsigned char as u8)[54, 55]: {}", &self.y_size));
         fields.push(format!("clevel(short as i16)[55, 57]: {}", &self.clevel));
@@ -14348,7 +14348,7 @@ impl Display for PacketZcAcceptEnter2 {
         let mut fields = Vec::new();
         fields.push(format!("packet_id(short as i16)[0, 2]: {}", &self.packet_id));
         fields.push(format!("start_time(unsigned long as u32)[2, 6]: {}", &self.start_time));
-        fields.push(format!("pos_dir(char[] as char[])[6, 9]: {}", &self.pos_dir.pretty_output()));
+        fields.push(format!("pos_dir(unsigned char[] as u8[])[6, 9]: {}", &self.pos_dir.pretty_output()));
         fields.push(format!("x_size(unsigned char as u8)[9, 10]: {}", &self.x_size));
         fields.push(format!("y_size(unsigned char as u8)[10, 11]: {}", &self.y_size));
         fields.push(format!("font(short as i16)[11, 13]: {}", &self.font));
@@ -14485,7 +14485,7 @@ impl Display for PacketZcNotifyNewentry4 {
         fields.push(format!("virtue(int as i32)[44, 48]: {}", &self.virtue));
         fields.push(format!("is_pkmode_on(bool as bool)[48, 49]: {}", &self.is_pkmode_on));
         fields.push(format!("sex(unsigned char as u8)[49, 50]: {}", &self.sex));
-        fields.push(format!("pos_dir(char[] as char[])[50, 53]: {}", &self.pos_dir.pretty_output()));
+        fields.push(format!("pos_dir(unsigned char[] as u8[])[50, 53]: {}", &self.pos_dir.pretty_output()));
         fields.push(format!("x_size(unsigned char as u8)[53, 54]: {}", &self.x_size));
         fields.push(format!("y_size(unsigned char as u8)[54, 55]: {}", &self.y_size));
         fields.push(format!("clevel(short as i16)[55, 57]: {}", &self.clevel));
@@ -14553,7 +14553,7 @@ impl Display for PacketZcNotifyStandentry4 {
         fields.push(format!("virtue(int as i32)[44, 48]: {}", &self.virtue));
         fields.push(format!("is_pkmode_on(bool as bool)[48, 49]: {}", &self.is_pkmode_on));
         fields.push(format!("sex(unsigned char as u8)[49, 50]: {}", &self.sex));
-        fields.push(format!("pos_dir(char[] as char[])[50, 53]: {}", &self.pos_dir.pretty_output()));
+        fields.push(format!("pos_dir(unsigned char[] as u8[])[50, 53]: {}", &self.pos_dir.pretty_output()));
         fields.push(format!("x_size(unsigned char as u8)[53, 54]: {}", &self.x_size));
         fields.push(format!("y_size(unsigned char as u8)[54, 55]: {}", &self.y_size));
         fields.push(format!("state(unsigned char as u8)[55, 56]: {}", &self.state));
@@ -16123,7 +16123,7 @@ impl Display for PacketZcNotifyNewentry5 {
         fields.push(format!("virtue(int as i32)[47, 51]: {}", &self.virtue));
         fields.push(format!("is_pkmode_on(bool as bool)[51, 52]: {}", &self.is_pkmode_on));
         fields.push(format!("sex(unsigned char as u8)[52, 53]: {}", &self.sex));
-        fields.push(format!("pos_dir(char[] as char[])[53, 56]: {}", &self.pos_dir.pretty_output()));
+        fields.push(format!("pos_dir(unsigned char[] as u8[])[53, 56]: {}", &self.pos_dir.pretty_output()));
         fields.push(format!("x_size(unsigned char as u8)[56, 57]: {}", &self.x_size));
         fields.push(format!("y_size(unsigned char as u8)[57, 58]: {}", &self.y_size));
         fields.push(format!("clevel(short as i16)[58, 60]: {}", &self.clevel));
@@ -16197,7 +16197,7 @@ impl Display for PacketZcNotifyStandentry5 {
         fields.push(format!("virtue(int as i32)[47, 51]: {}", &self.virtue));
         fields.push(format!("is_pkmode_on(bool as bool)[51, 52]: {}", &self.is_pkmode_on));
         fields.push(format!("sex(unsigned char as u8)[52, 53]: {}", &self.sex));
-        fields.push(format!("pos_dir(char[] as char[])[53, 56]: {}", &self.pos_dir.pretty_output()));
+        fields.push(format!("pos_dir(unsigned char[] as u8[])[53, 56]: {}", &self.pos_dir.pretty_output()));
         fields.push(format!("x_size(unsigned char as u8)[56, 57]: {}", &self.x_size));
         fields.push(format!("y_size(unsigned char as u8)[57, 58]: {}", &self.y_size));
         fields.push(format!("state(unsigned char as u8)[58, 59]: {}", &self.state));
@@ -18132,7 +18132,7 @@ impl Display for PacketZcNotifyStandentry6 {
         fields.push(format!("virtue(int as i32)[57, 61]: {}", &self.virtue));
         fields.push(format!("is_pkmode_on(bool as bool)[61, 62]: {}", &self.is_pkmode_on));
         fields.push(format!("sex(unsigned char as u8)[62, 63]: {}", &self.sex));
-        fields.push(format!("pos_dir(char[] as char[])[63, 66]: {}", &self.pos_dir.pretty_output()));
+        fields.push(format!("pos_dir(unsigned char[] as u8[])[63, 66]: {}", &self.pos_dir.pretty_output()));
         fields.push(format!("x_size(unsigned char as u8)[66, 67]: {}", &self.x_size));
         fields.push(format!("y_size(unsigned char as u8)[67, 68]: {}", &self.y_size));
         fields.push(format!("state(unsigned char as u8)[68, 69]: {}", &self.state));
