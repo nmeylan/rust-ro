@@ -7,10 +7,11 @@ use flate2::read::ZlibDecoder;
 use std::fs;
 use std::time::Instant;
 use std::collections::HashMap;
+use std::sync::RwLock;
 use log::warn;
 use accessor::Setters;
+use crate::server::core::Server;
 use crate::server::scripts::warps::Warp;
-use std::sync::Arc;
 use crate::util::coordinate;
 
 static MAPCACHE_EXT: &str = ".mcache";
@@ -46,9 +47,15 @@ pub struct Map {
     // bit 10 -> noskill
     // bit 11 -> warp
     pub cells: Option<Vec<u16>>,
-    pub warps: HashMap<usize, Arc<Warp>>,
+    pub warps: Vec<Warp>,
     pub is_initialized: bool, // maps initialization is lazy, this bool indicate if maps has been initialized or not
 }
+
+pub(crate) trait MapItem {
+    fn id(&self) -> u32;
+    fn client_item_class(&self) -> i16;
+}
+
 
 #[derive(Setters)]
 pub struct MapPropertyFlags {
@@ -153,18 +160,16 @@ impl Map {
         }
     }
 
-    pub fn player_join_map(&mut self, warps: Option<&Vec<Arc<Warp>>>) {
+    pub fn player_join_map(&mut self) {
         if !self.is_initialized {
-            self.initialize(warps);
+            self.initialize();
         }
         // TODO maintain a list of player in the map
     }
 
-    fn initialize(&mut self, warps: Option<&Vec<Arc<Warp>>>) {
+    fn initialize(&mut self) {
         self.set_cells();
-        if warps.is_some() {
-            self.set_warps(warps.unwrap());
-        }
+        self.update_warp_cells();
         self.is_initialized = true;
     }
 
@@ -191,8 +196,18 @@ impl Map {
         self.cells = Some(cells);
     }
 
-    fn set_warps(&mut self, warps: &Vec<Arc<Warp>>) {
-        for warp in warps {
+    pub fn get_warp_at(&self, x: u16, y: u16) -> Option<&Warp> {
+        for warp in &self.warps {
+            if x >= warp.x - warp.x_size && x <= warp.x + warp.x_size
+                && y >= warp.y - warp.y_size && y <= warp.y + warp.y_size {
+                return Some(warp);
+            }
+        }
+        None
+    }
+
+    fn update_warp_cells(&mut self) {
+        for warp in &self.warps {
             let start_x = warp.x - warp.x_size;
             let to_x = warp.x + warp.x_size;
             let start_y = warp.y - warp.y_size;
@@ -202,13 +217,21 @@ impl Map {
                     let index = self.get_cell_index_of(x, y);
                     let cell = self.cells.as_mut().unwrap().get_mut(index).unwrap();
                     *cell |= WARP_MASK;
-                    self.warps.insert(index, warp.clone());
                 }
             }
         }
     }
 
-    pub fn load_maps() -> HashMap<String, Map> {
+    fn set_warps(&mut self, warps: &Vec<Warp>, map_item_ids: &RwLock<Vec<u32>>) {
+        let mut ids_write_guard = map_item_ids.write().unwrap();
+        for warp in warps {
+            let mut warp = warp.clone();
+            warp.set_id(Server::generate_id(&mut ids_write_guard));
+            self.warps.push(warp);
+        }
+    }
+
+    pub fn load_maps(warps: HashMap<String, Vec<Warp>>, map_item_ids: &RwLock<Vec<u32>>) -> HashMap<String, Map> {
         let mut maps = HashMap::<String, Map>::new();
         let paths = fs::read_dir(MAP_DIR).unwrap();
         for path in paths {
@@ -230,7 +253,7 @@ impl Map {
             // TODO validate size + length
 
 
-            let map = Map {
+            let mut map = Map {
                 x_size: header.x_size as u16,
                 y_size: header.y_size as u16,
                 length: header.length,
@@ -239,6 +262,7 @@ impl Map {
                 warps: Default::default(),
                 is_initialized: false
             };
+            map.set_warps(warps.get(&map_name).unwrap_or(&vec![]), map_item_ids);
             maps.insert(map.name.clone(), map);
         }
         maps

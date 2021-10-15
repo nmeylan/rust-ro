@@ -22,10 +22,11 @@ pub async fn main() {
     let start = Instant::now();
     let warps = Warp::load_warps().await;
     println!("load {} warps in {} secs", warps.iter().fold(0, |memo, curr| memo + curr.1.len()), start.elapsed().as_millis() as f32 / 1000.0);
-    let maps = Map::load_maps();
+    let map_item_ids = RwLock::new(Vec::<u32>::new());
+    let maps = Map::load_maps(warps, &map_item_ids);
     println!("load {} map-cache in {} secs", maps.len(), start.elapsed().as_millis() as f32 / 1000.0);
 
-    let server = Server::new(Arc::new(repository), Arc::new(RwLock::new(maps)), Arc::new(warps));
+    let server = Server::new(Arc::new(repository), Arc::new(RwLock::new(maps)), Arc::new(map_item_ids));
     let mut handles: Vec<JoinHandle<()>> = Vec::new();
     let _ = &handles.push(server.start(6901));
     let char_proxy = CharProxy::new();

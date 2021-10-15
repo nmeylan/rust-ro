@@ -148,8 +148,7 @@ pub fn handle_select_char(server: Arc<Server>, packet: &mut dyn Packet, runtime:
         speed: 100,
         current_map: map_name.clone(),
         current_position: Position { x: last_x, y: last_y, dir: 0 },
-        movement_task_id: None,
-        map_view: [0; PLAYER_FOV * PLAYER_FOV]
+        movement_task_id: None
     };
     session.set_character(Arc::new(Mutex::new(character)));
     packet_ch_send_map_info.set_map_name(map_name);
@@ -329,7 +328,7 @@ pub fn handle_char_loaded_client_side(server: Arc<Server>, _packet: &mut dyn Pac
     let mut maps_guard = server.maps.write().unwrap();
     let map_name : String = Map::name_without_ext(character.get_current_map_name());
     let map = maps_guard.get_mut(&map_name).unwrap();
-    map.player_join_map(server.warps.get(&map_name));
+    map.player_join_map();
 
     let mut packet_zc_msg_color = PacketZcMsgColor::new();
     let mut packet_zc_notify_mapproperty2 = PacketZcNotifyMapproperty2::new();
