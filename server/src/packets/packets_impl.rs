@@ -2230,9 +2230,9 @@ impl PacketZcAcceptEnter {
                 dst
             },
             pos_dir:  {
-                let mut dst: [char; 3] = [0 as char; 3];
+                let mut dst: [u8; 3] = [0 as u8; 3];
                 for (index, byte) in buffer[6..9].iter().enumerate() {
-                    dst[index] = *byte as char;
+                    dst[index] = *byte as u8;
                 }
                 dst
             },
@@ -2265,7 +2265,7 @@ impl PacketZcAcceptEnter {
         self.start_time_raw = wtr.try_into().unwrap();
         wtr = vec![];
         for item in self.pos_dir {
-            wtr.write_u8(item as u8 ).unwrap();
+            wtr.write_u8(item).unwrap();
         }
         self.pos_dir_raw = wtr.try_into().unwrap();
         wtr = vec![];
@@ -2294,7 +2294,7 @@ impl PacketZcAcceptEnter {
     pub fn set_start_time_raw(&mut self, value: [u8; 4]) {
         self.start_time_raw = value;
     }
-    pub fn set_pos_dir(&mut self, value: [char; 3]) {
+    pub fn set_pos_dir(&mut self, value: [u8; 3]) {
         self.pos_dir = value;
     }
     pub fn set_pos_dir_raw(&mut self, value: [u8; 3]) {
@@ -2319,7 +2319,7 @@ impl PacketZcAcceptEnter {
         packet_id_raw: [0x73, 0x0],
         start_time: 0,
         start_time_raw: [0; 4],
-        pos_dir: [0 as char; 3],
+        pos_dir: [0; 3],
         pos_dir_raw: [0; 3],
         x_size: 0,
         x_size_raw: [0; 1],
@@ -2916,9 +2916,9 @@ impl PacketZcNotifyStandentry {
                 dst
             },
             pos_dir:  {
-                let mut dst: [char; 3] = [0 as char; 3];
+                let mut dst: [u8; 3] = [0 as u8; 3];
                 for (index, byte) in buffer[47..50].iter().enumerate() {
-                    dst[index] = *byte as char;
+                    dst[index] = *byte as u8;
                 }
                 dst
             },
@@ -3026,7 +3026,7 @@ impl PacketZcNotifyStandentry {
         self.sex_raw = wtr.try_into().unwrap();
         wtr = vec![];
         for item in self.pos_dir {
-            wtr.write_u8(item as u8 ).unwrap();
+            wtr.write_u8(item).unwrap();
         }
         self.pos_dir_raw = wtr.try_into().unwrap();
         wtr = vec![];
@@ -3210,7 +3210,7 @@ impl PacketZcNotifyStandentry {
     pub fn set_sex_raw(&mut self, value: [u8; 1]) {
         self.sex_raw = value;
     }
-    pub fn set_pos_dir(&mut self, value: [char; 3]) {
+    pub fn set_pos_dir(&mut self, value: [u8; 3]) {
         self.pos_dir = value;
     }
     pub fn set_pos_dir_raw(&mut self, value: [u8; 3]) {
@@ -3289,7 +3289,7 @@ impl PacketZcNotifyStandentry {
         is_pkmode_on_raw: [0; 1],
         sex: 0,
         sex_raw: [0; 1],
-        pos_dir: [0 as char; 3],
+        pos_dir: [0; 3],
         pos_dir_raw: [0; 3],
         x_size: 0,
         x_size_raw: [0; 1],
@@ -3464,9 +3464,9 @@ impl PacketZcNotifyNewentry {
                 dst
             },
             pos_dir:  {
-                let mut dst: [char; 3] = [0 as char; 3];
+                let mut dst: [u8; 3] = [0 as u8; 3];
                 for (index, byte) in buffer[46..49].iter().enumerate() {
-                    dst[index] = *byte as char;
+                    dst[index] = *byte as u8;
                 }
                 dst
             },
@@ -3565,7 +3565,7 @@ impl PacketZcNotifyNewentry {
         self.sex_raw = wtr.try_into().unwrap();
         wtr = vec![];
         for item in self.pos_dir {
-            wtr.write_u8(item as u8 ).unwrap();
+            wtr.write_u8(item).unwrap();
         }
         self.pos_dir_raw = wtr.try_into().unwrap();
         wtr = vec![];
@@ -3738,7 +3738,7 @@ impl PacketZcNotifyNewentry {
     pub fn set_sex_raw(&mut self, value: [u8; 1]) {
         self.sex_raw = value;
     }
-    pub fn set_pos_dir(&mut self, value: [char; 3]) {
+    pub fn set_pos_dir(&mut self, value: [u8; 3]) {
         self.pos_dir = value;
     }
     pub fn set_pos_dir_raw(&mut self, value: [u8; 3]) {
@@ -3809,7 +3809,7 @@ impl PacketZcNotifyNewentry {
         is_pkmode_on_raw: [0; 1],
         sex: 0,
         sex_raw: [0; 1],
-        pos_dir: [0 as char; 3],
+        pos_dir: [0; 3],
         pos_dir_raw: [0; 3],
         x_size: 0,
         x_size_raw: [0; 1],
@@ -3982,9 +3982,9 @@ impl PacketZcNotifyActentry {
                 dst
             },
             pos_dir:  {
-                let mut dst: [char; 3] = [0 as char; 3];
+                let mut dst: [u8; 3] = [0 as u8; 3];
                 for (index, byte) in buffer[46..49].iter().enumerate() {
-                    dst[index] = *byte as char;
+                    dst[index] = *byte as u8;
                 }
                 dst
             },
@@ -4095,7 +4095,7 @@ impl PacketZcNotifyActentry {
         self.sex_raw = wtr.try_into().unwrap();
         wtr = vec![];
         for item in self.pos_dir {
-            wtr.write_u8(item as u8 ).unwrap();
+            wtr.write_u8(item).unwrap();
         }
         self.pos_dir_raw = wtr.try_into().unwrap();
         wtr = vec![];
@@ -4276,7 +4276,7 @@ impl PacketZcNotifyActentry {
     pub fn set_sex_raw(&mut self, value: [u8; 1]) {
         self.sex_raw = value;
     }
-    pub fn set_pos_dir(&mut self, value: [char; 3]) {
+    pub fn set_pos_dir(&mut self, value: [u8; 3]) {
         self.pos_dir = value;
     }
     pub fn set_pos_dir_raw(&mut self, value: [u8; 3]) {
@@ -4359,7 +4359,7 @@ impl PacketZcNotifyActentry {
         is_pkmode_on_raw: [0; 1],
         sex: 0,
         sex_raw: [0; 1],
-        pos_dir: [0 as char; 3],
+        pos_dir: [0; 3],
         pos_dir_raw: [0; 3],
         x_size: 0,
         x_size_raw: [0; 1],
@@ -5054,9 +5054,9 @@ impl PacketZcNotifyStandentryNpc {
                 dst
             },
             pos_dir:  {
-                let mut dst: [char; 3] = [0 as char; 3];
+                let mut dst: [u8; 3] = [0 as u8; 3];
                 for (index, byte) in buffer[37..40].iter().enumerate() {
-                    dst[index] = *byte as char;
+                    dst[index] = *byte as u8;
                 }
                 dst
             },
@@ -5140,7 +5140,7 @@ impl PacketZcNotifyStandentryNpc {
         self.sex_raw = wtr.try_into().unwrap();
         wtr = vec![];
         for item in self.pos_dir {
-            wtr.write_u8(item as u8 ).unwrap();
+            wtr.write_u8(item).unwrap();
         }
         self.pos_dir_raw = wtr.try_into().unwrap();
         wtr = vec![];
@@ -5288,7 +5288,7 @@ impl PacketZcNotifyStandentryNpc {
     pub fn set_sex_raw(&mut self, value: [u8; 1]) {
         self.sex_raw = value;
     }
-    pub fn set_pos_dir(&mut self, value: [char; 3]) {
+    pub fn set_pos_dir(&mut self, value: [u8; 3]) {
         self.pos_dir = value;
     }
     pub fn set_pos_dir_raw(&mut self, value: [u8; 3]) {
@@ -5347,7 +5347,7 @@ impl PacketZcNotifyStandentryNpc {
         is_pkmode_on_raw: [0; 1],
         sex: 0,
         sex_raw: [0; 1],
-        pos_dir: [0 as char; 3],
+        pos_dir: [0; 3],
         pos_dir_raw: [0; 3],
         x_size: 0,
         x_size_raw: [0; 1],
@@ -41406,9 +41406,9 @@ impl PacketZcNotifyStandentry2 {
                 dst
             },
             pos_dir:  {
-                let mut dst: [char; 3] = [0 as char; 3];
+                let mut dst: [u8; 3] = [0 as u8; 3];
                 for (index, byte) in buffer[46..49].iter().enumerate() {
-                    dst[index] = *byte as char;
+                    dst[index] = *byte as u8;
                 }
                 dst
             },
@@ -41510,7 +41510,7 @@ impl PacketZcNotifyStandentry2 {
         self.sex_raw = wtr.try_into().unwrap();
         wtr = vec![];
         for item in self.pos_dir {
-            wtr.write_u8(item as u8 ).unwrap();
+            wtr.write_u8(item).unwrap();
         }
         self.pos_dir_raw = wtr.try_into().unwrap();
         wtr = vec![];
@@ -41680,7 +41680,7 @@ impl PacketZcNotifyStandentry2 {
     pub fn set_sex_raw(&mut self, value: [u8; 1]) {
         self.sex_raw = value;
     }
-    pub fn set_pos_dir(&mut self, value: [char; 3]) {
+    pub fn set_pos_dir(&mut self, value: [u8; 3]) {
         self.pos_dir = value;
     }
     pub fn set_pos_dir_raw(&mut self, value: [u8; 3]) {
@@ -41755,7 +41755,7 @@ impl PacketZcNotifyStandentry2 {
         is_pkmode_on_raw: [0; 1],
         sex: 0,
         sex_raw: [0; 1],
-        pos_dir: [0 as char; 3],
+        pos_dir: [0; 3],
         pos_dir_raw: [0; 3],
         x_size: 0,
         x_size_raw: [0; 1],
@@ -41924,9 +41924,9 @@ impl PacketZcNotifyNewentry2 {
                 dst
             },
             pos_dir:  {
-                let mut dst: [char; 3] = [0 as char; 3];
+                let mut dst: [u8; 3] = [0 as u8; 3];
                 for (index, byte) in buffer[46..49].iter().enumerate() {
-                    dst[index] = *byte as char;
+                    dst[index] = *byte as u8;
                 }
                 dst
             },
@@ -42022,7 +42022,7 @@ impl PacketZcNotifyNewentry2 {
         self.sex_raw = wtr.try_into().unwrap();
         wtr = vec![];
         for item in self.pos_dir {
-            wtr.write_u8(item as u8 ).unwrap();
+            wtr.write_u8(item).unwrap();
         }
         self.pos_dir_raw = wtr.try_into().unwrap();
         wtr = vec![];
@@ -42188,7 +42188,7 @@ impl PacketZcNotifyNewentry2 {
     pub fn set_sex_raw(&mut self, value: [u8; 1]) {
         self.sex_raw = value;
     }
-    pub fn set_pos_dir(&mut self, value: [char; 3]) {
+    pub fn set_pos_dir(&mut self, value: [u8; 3]) {
         self.pos_dir = value;
     }
     pub fn set_pos_dir_raw(&mut self, value: [u8; 3]) {
@@ -42257,7 +42257,7 @@ impl PacketZcNotifyNewentry2 {
         is_pkmode_on_raw: [0; 1],
         sex: 0,
         sex_raw: [0; 1],
-        pos_dir: [0 as char; 3],
+        pos_dir: [0; 3],
         pos_dir_raw: [0; 3],
         x_size: 0,
         x_size_raw: [0; 1],
@@ -51505,9 +51505,9 @@ impl PacketZcNotifyStandentry3 {
                 dst
             },
             pos_dir:  {
-                let mut dst: [char; 3] = [0 as char; 3];
+                let mut dst: [u8; 3] = [0 as u8; 3];
                 for (index, byte) in buffer[50..53].iter().enumerate() {
-                    dst[index] = *byte as char;
+                    dst[index] = *byte as u8;
                 }
                 dst
             },
@@ -51609,7 +51609,7 @@ impl PacketZcNotifyStandentry3 {
         self.sex_raw = wtr.try_into().unwrap();
         wtr = vec![];
         for item in self.pos_dir {
-            wtr.write_u8(item as u8 ).unwrap();
+            wtr.write_u8(item).unwrap();
         }
         self.pos_dir_raw = wtr.try_into().unwrap();
         wtr = vec![];
@@ -51779,7 +51779,7 @@ impl PacketZcNotifyStandentry3 {
     pub fn set_sex_raw(&mut self, value: [u8; 1]) {
         self.sex_raw = value;
     }
-    pub fn set_pos_dir(&mut self, value: [char; 3]) {
+    pub fn set_pos_dir(&mut self, value: [u8; 3]) {
         self.pos_dir = value;
     }
     pub fn set_pos_dir_raw(&mut self, value: [u8; 3]) {
@@ -51854,7 +51854,7 @@ impl PacketZcNotifyStandentry3 {
         is_pkmode_on_raw: [0; 1],
         sex: 0,
         sex_raw: [0; 1],
-        pos_dir: [0 as char; 3],
+        pos_dir: [0; 3],
         pos_dir_raw: [0; 3],
         x_size: 0,
         x_size_raw: [0; 1],
@@ -52023,9 +52023,9 @@ impl PacketZcNotifyNewentry3 {
                 dst
             },
             pos_dir:  {
-                let mut dst: [char; 3] = [0 as char; 3];
+                let mut dst: [u8; 3] = [0 as u8; 3];
                 for (index, byte) in buffer[50..53].iter().enumerate() {
-                    dst[index] = *byte as char;
+                    dst[index] = *byte as u8;
                 }
                 dst
             },
@@ -52121,7 +52121,7 @@ impl PacketZcNotifyNewentry3 {
         self.sex_raw = wtr.try_into().unwrap();
         wtr = vec![];
         for item in self.pos_dir {
-            wtr.write_u8(item as u8 ).unwrap();
+            wtr.write_u8(item).unwrap();
         }
         self.pos_dir_raw = wtr.try_into().unwrap();
         wtr = vec![];
@@ -52287,7 +52287,7 @@ impl PacketZcNotifyNewentry3 {
     pub fn set_sex_raw(&mut self, value: [u8; 1]) {
         self.sex_raw = value;
     }
-    pub fn set_pos_dir(&mut self, value: [char; 3]) {
+    pub fn set_pos_dir(&mut self, value: [u8; 3]) {
         self.pos_dir = value;
     }
     pub fn set_pos_dir_raw(&mut self, value: [u8; 3]) {
@@ -52356,7 +52356,7 @@ impl PacketZcNotifyNewentry3 {
         is_pkmode_on_raw: [0; 1],
         sex: 0,
         sex_raw: [0; 1],
-        pos_dir: [0 as char; 3],
+        pos_dir: [0; 3],
         pos_dir_raw: [0; 3],
         x_size: 0,
         x_size_raw: [0; 1],
@@ -72049,9 +72049,9 @@ impl PacketZcAcceptEnter2 {
                 dst
             },
             pos_dir:  {
-                let mut dst: [char; 3] = [0 as char; 3];
+                let mut dst: [u8; 3] = [0 as u8; 3];
                 for (index, byte) in buffer[6..9].iter().enumerate() {
-                    dst[index] = *byte as char;
+                    dst[index] = *byte as u8;
                 }
                 dst
             },
@@ -72090,7 +72090,7 @@ impl PacketZcAcceptEnter2 {
         self.start_time_raw = wtr.try_into().unwrap();
         wtr = vec![];
         for item in self.pos_dir {
-            wtr.write_u8(item as u8 ).unwrap();
+            wtr.write_u8(item).unwrap();
         }
         self.pos_dir_raw = wtr.try_into().unwrap();
         wtr = vec![];
@@ -72123,7 +72123,7 @@ impl PacketZcAcceptEnter2 {
     pub fn set_start_time_raw(&mut self, value: [u8; 4]) {
         self.start_time_raw = value;
     }
-    pub fn set_pos_dir(&mut self, value: [char; 3]) {
+    pub fn set_pos_dir(&mut self, value: [u8; 3]) {
         self.pos_dir = value;
     }
     pub fn set_pos_dir_raw(&mut self, value: [u8; 3]) {
@@ -72154,7 +72154,7 @@ impl PacketZcAcceptEnter2 {
         packet_id_raw: [0xeb, 0x02],
         start_time: 0,
         start_time_raw: [0; 4],
-        pos_dir: [0 as char; 3],
+        pos_dir: [0; 3],
         pos_dir_raw: [0; 3],
         x_size: 0,
         x_size_raw: [0; 1],
@@ -72875,9 +72875,9 @@ impl PacketZcNotifyNewentry4 {
                 dst
             },
             pos_dir:  {
-                let mut dst: [char; 3] = [0 as char; 3];
+                let mut dst: [u8; 3] = [0 as u8; 3];
                 for (index, byte) in buffer[50..53].iter().enumerate() {
-                    dst[index] = *byte as char;
+                    dst[index] = *byte as u8;
                 }
                 dst
             },
@@ -72979,7 +72979,7 @@ impl PacketZcNotifyNewentry4 {
         self.sex_raw = wtr.try_into().unwrap();
         wtr = vec![];
         for item in self.pos_dir {
-            wtr.write_u8(item as u8 ).unwrap();
+            wtr.write_u8(item).unwrap();
         }
         self.pos_dir_raw = wtr.try_into().unwrap();
         wtr = vec![];
@@ -73149,7 +73149,7 @@ impl PacketZcNotifyNewentry4 {
     pub fn set_sex_raw(&mut self, value: [u8; 1]) {
         self.sex_raw = value;
     }
-    pub fn set_pos_dir(&mut self, value: [char; 3]) {
+    pub fn set_pos_dir(&mut self, value: [u8; 3]) {
         self.pos_dir = value;
     }
     pub fn set_pos_dir_raw(&mut self, value: [u8; 3]) {
@@ -73224,7 +73224,7 @@ impl PacketZcNotifyNewentry4 {
         is_pkmode_on_raw: [0; 1],
         sex: 0,
         sex_raw: [0; 1],
-        pos_dir: [0 as char; 3],
+        pos_dir: [0; 3],
         pos_dir_raw: [0; 3],
         x_size: 0,
         x_size_raw: [0; 1],
@@ -73393,9 +73393,9 @@ impl PacketZcNotifyStandentry4 {
                 dst
             },
             pos_dir:  {
-                let mut dst: [char; 3] = [0 as char; 3];
+                let mut dst: [u8; 3] = [0 as u8; 3];
                 for (index, byte) in buffer[50..53].iter().enumerate() {
-                    dst[index] = *byte as char;
+                    dst[index] = *byte as u8;
                 }
                 dst
             },
@@ -73503,7 +73503,7 @@ impl PacketZcNotifyStandentry4 {
         self.sex_raw = wtr.try_into().unwrap();
         wtr = vec![];
         for item in self.pos_dir {
-            wtr.write_u8(item as u8 ).unwrap();
+            wtr.write_u8(item).unwrap();
         }
         self.pos_dir_raw = wtr.try_into().unwrap();
         wtr = vec![];
@@ -73677,7 +73677,7 @@ impl PacketZcNotifyStandentry4 {
     pub fn set_sex_raw(&mut self, value: [u8; 1]) {
         self.sex_raw = value;
     }
-    pub fn set_pos_dir(&mut self, value: [char; 3]) {
+    pub fn set_pos_dir(&mut self, value: [u8; 3]) {
         self.pos_dir = value;
     }
     pub fn set_pos_dir_raw(&mut self, value: [u8; 3]) {
@@ -73758,7 +73758,7 @@ impl PacketZcNotifyStandentry4 {
         is_pkmode_on_raw: [0; 1],
         sex: 0,
         sex_raw: [0; 1],
-        pos_dir: [0 as char; 3],
+        pos_dir: [0; 3],
         pos_dir_raw: [0; 3],
         x_size: 0,
         x_size_raw: [0; 1],
@@ -81252,9 +81252,9 @@ impl PacketZcNotifyNewentry5 {
                 dst
             },
             pos_dir:  {
-                let mut dst: [char; 3] = [0 as char; 3];
+                let mut dst: [u8; 3] = [0 as u8; 3];
                 for (index, byte) in buffer[53..56].iter().enumerate() {
-                    dst[index] = *byte as char;
+                    dst[index] = *byte as u8;
                 }
                 dst
             },
@@ -81374,7 +81374,7 @@ impl PacketZcNotifyNewentry5 {
         self.sex_raw = wtr.try_into().unwrap();
         wtr = vec![];
         for item in self.pos_dir {
-            wtr.write_u8(item as u8 ).unwrap();
+            wtr.write_u8(item).unwrap();
         }
         self.pos_dir_raw = wtr.try_into().unwrap();
         wtr = vec![];
@@ -81564,7 +81564,7 @@ impl PacketZcNotifyNewentry5 {
     pub fn set_sex_raw(&mut self, value: [u8; 1]) {
         self.sex_raw = value;
     }
-    pub fn set_pos_dir(&mut self, value: [char; 3]) {
+    pub fn set_pos_dir(&mut self, value: [u8; 3]) {
         self.pos_dir = value;
     }
     pub fn set_pos_dir_raw(&mut self, value: [u8; 3]) {
@@ -81649,7 +81649,7 @@ impl PacketZcNotifyNewentry5 {
         is_pkmode_on_raw: [0; 1],
         sex: 0,
         sex_raw: [0; 1],
-        pos_dir: [0 as char; 3],
+        pos_dir: [0; 3],
         pos_dir_raw: [0; 3],
         x_size: 0,
         x_size_raw: [0; 1],
@@ -81832,9 +81832,9 @@ impl PacketZcNotifyStandentry5 {
                 dst
             },
             pos_dir:  {
-                let mut dst: [char; 3] = [0 as char; 3];
+                let mut dst: [u8; 3] = [0 as u8; 3];
                 for (index, byte) in buffer[53..56].iter().enumerate() {
-                    dst[index] = *byte as char;
+                    dst[index] = *byte as u8;
                 }
                 dst
             },
@@ -81960,7 +81960,7 @@ impl PacketZcNotifyStandentry5 {
         self.sex_raw = wtr.try_into().unwrap();
         wtr = vec![];
         for item in self.pos_dir {
-            wtr.write_u8(item as u8 ).unwrap();
+            wtr.write_u8(item).unwrap();
         }
         self.pos_dir_raw = wtr.try_into().unwrap();
         wtr = vec![];
@@ -82154,7 +82154,7 @@ impl PacketZcNotifyStandentry5 {
     pub fn set_sex_raw(&mut self, value: [u8; 1]) {
         self.sex_raw = value;
     }
-    pub fn set_pos_dir(&mut self, value: [char; 3]) {
+    pub fn set_pos_dir(&mut self, value: [u8; 3]) {
         self.pos_dir = value;
     }
     pub fn set_pos_dir_raw(&mut self, value: [u8; 3]) {
@@ -82245,7 +82245,7 @@ impl PacketZcNotifyStandentry5 {
         is_pkmode_on_raw: [0; 1],
         sex: 0,
         sex_raw: [0; 1],
-        pos_dir: [0 as char; 3],
+        pos_dir: [0; 3],
         pos_dir_raw: [0; 3],
         x_size: 0,
         x_size_raw: [0; 1],
@@ -91429,9 +91429,9 @@ impl PacketZcNotifyStandentry6 {
                 dst
             },
             pos_dir:  {
-                let mut dst: [char; 3] = [0 as char; 3];
+                let mut dst: [u8; 3] = [0 as u8; 3];
                 for (index, byte) in buffer[63..66].iter().enumerate() {
-                    dst[index] = *byte as char;
+                    dst[index] = *byte as u8;
                 }
                 dst
             },
@@ -91590,7 +91590,7 @@ impl PacketZcNotifyStandentry6 {
         self.sex_raw = wtr.try_into().unwrap();
         wtr = vec![];
         for item in self.pos_dir {
-            wtr.write_u8(item as u8 ).unwrap();
+            wtr.write_u8(item).unwrap();
         }
         self.pos_dir_raw = wtr.try_into().unwrap();
         wtr = vec![];
@@ -91821,7 +91821,7 @@ impl PacketZcNotifyStandentry6 {
     pub fn set_sex_raw(&mut self, value: [u8; 1]) {
         self.sex_raw = value;
     }
-    pub fn set_pos_dir(&mut self, value: [char; 3]) {
+    pub fn set_pos_dir(&mut self, value: [u8; 3]) {
         self.pos_dir = value;
     }
     pub fn set_pos_dir_raw(&mut self, value: [u8; 3]) {
@@ -91942,7 +91942,7 @@ impl PacketZcNotifyStandentry6 {
         is_pkmode_on_raw: [0; 1],
         sex: 0,
         sex_raw: [0; 1],
-        pos_dir: [0 as char; 3],
+        pos_dir: [0; 3],
         pos_dir_raw: [0; 3],
         x_size: 0,
         x_size_raw: [0; 1],

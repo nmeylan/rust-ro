@@ -7,7 +7,8 @@ use flate2::read::ZlibDecoder;
 use std::fs;
 use std::time::Instant;
 use std::collections::HashMap;
-use std::sync::RwLock;
+use std::fmt::Debug;
+use std::sync::{Arc, RwLock};
 use log::warn;
 use accessor::Setters;
 use crate::server::core::Server;
@@ -47,15 +48,14 @@ pub struct Map {
     // bit 10 -> noskill
     // bit 11 -> warp
     pub cells: Option<Vec<u16>>,
-    pub warps: Vec<Warp>,
+    pub warps: Vec<Arc<Warp>>,
     pub is_initialized: bool, // maps initialization is lazy, this bool indicate if maps has been initialized or not
 }
 
-pub(crate) trait MapItem {
+pub trait MapItem: Send + Sync + Debug{
     fn id(&self) -> u32;
     fn client_item_class(&self) -> i16;
 }
-
 
 #[derive(Setters)]
 pub struct MapPropertyFlags {
@@ -196,11 +196,11 @@ impl Map {
         self.cells = Some(cells);
     }
 
-    pub fn get_warp_at(&self, x: u16, y: u16) -> Option<&Warp> {
+    pub fn get_warp_at(&self, x: u16, y: u16) -> Option<Arc<Warp>> {
         for warp in &self.warps {
             if x >= warp.x - warp.x_size && x <= warp.x + warp.x_size
                 && y >= warp.y - warp.y_size && y <= warp.y + warp.y_size {
-                return Some(warp);
+                return Some(warp.clone());
             }
         }
         None
@@ -227,7 +227,7 @@ impl Map {
         for warp in warps {
             let mut warp = warp.clone();
             warp.set_id(Server::generate_id(&mut ids_write_guard));
-            self.warps.push(warp);
+            self.warps.push(Arc::new(warp));
         }
     }
 
