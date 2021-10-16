@@ -1,7 +1,7 @@
-use crate::packets::packets::{PacketCzRequestMove2, Packet, PacketZcNotifyPlayermove, PacketZcNpcackMapmove, PacketZcNotifyStandentry6};
+use crate::packets::packets::{PacketCzRequestMove2, Packet, PacketZcNotifyPlayermove, PacketZcNpcackMapmove, PacketZcNotifyStandentry6, PacketZcNotifyVanish};
 use crate::server::core::{Server, CharacterSession, Session};
 use tokio::runtime::Runtime;
-use std::sync::{Arc, MutexGuard, RwLock};
+use std::sync::{Arc, MutexGuard, RwLock, RwLockReadGuard};
 use std::net::TcpStream;
 use std::time::{SystemTime, UNIX_EPOCH};
 use std::io::Write;
@@ -13,6 +13,7 @@ use tokio::time::Duration;
 use crate::server::map::WARP_MASK;
 use tokio::task::JoinHandle;
 use crate::{read_lock, cast, socket_send};
+use crate::util::coordinate;
 use crate::util::string::StringUtil;
 
 #[derive(Debug, Clone)]
@@ -117,37 +118,7 @@ fn move_character(runtime: &Runtime, path: Vec<PathNode>, session: Arc<RwLock<Se
                     character_session.set_current_x(path_node.x);
                     character_session.set_current_y(path_node.y);
 
-                    // TODO extract in function
-                    let start_x = cmp::max(character_session.current_position.x - PLAYER_FOV, 0);
-                    let end_x = cmp::min(character_session.current_position.x + PLAYER_FOV, map.x_size);
-                    let start_y = cmp::max(character_session.current_position.y - PLAYER_FOV, 0);
-                    let end_y = cmp::min(character_session.current_position.y + PLAYER_FOV, map.y_size);
-                    for x in start_x..end_x {
-                        for y in start_y..end_y {
-                            if map.is_warp_cell(x, y) {
-                                let warp = map.get_warp_at(x, y).unwrap();
-                                if character_session.get_map_item_at(warp.x, warp.y).is_none() {
-                                    println!("Seen a warp at: {},{} {:?}", x, y, warp);
-                                    let mut packet_zc_notify_standentry = PacketZcNotifyStandentry6::new();
-                                    packet_zc_notify_standentry.set_job(warp.client_item_class());
-                                    packet_zc_notify_standentry.set_packet_length(108);
-                                    packet_zc_notify_standentry.set_objecttype(6);
-                                    packet_zc_notify_standentry.set_aid(warp.id());
-                                    packet_zc_notify_standentry.set_pos_dir(Position {x: warp.x, y: warp.y, dir: 0 }.to_pos());
-                                    let mut warp_name = [0 as char; 24];
-                                    warp.name.fill_char_array(warp_name.as_mut());
-                                    packet_zc_notify_standentry.set_name(warp_name);
-                                    packet_zc_notify_standentry.fill_raw();
-
-                                    packet_zc_notify_standentry.display();
-                                    packet_zc_notify_standentry.pretty_debug();
-                                    let tcp_stream = session_guard.map_server_socket.as_ref().unwrap();
-                                    socket_send!(tcp_stream, packet_zc_notify_standentry.raw());
-                                    character_session.set_map_item_at(warp.x, warp.y, warp as Arc<dyn MapItem>);
-                                }
-                            }
-                        }
-                    }
+                    character_session.load_units_in_fov(map, &session_guard);
                 }
                 sleep(Duration::from_millis(delay));
             }
@@ -158,6 +129,7 @@ fn move_character(runtime: &Runtime, path: Vec<PathNode>, session: Arc<RwLock<Se
     });
     handle
 }
+
 
 fn change_map(map: &&Map, path_node: &PathNode, session: Arc<RwLock<Session>>, mut character_session: &mut MutexGuard<CharacterSession>) {
     let session_guard = read_lock!(session);
