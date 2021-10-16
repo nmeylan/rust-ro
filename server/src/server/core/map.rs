@@ -11,8 +11,8 @@ use std::fmt::Debug;
 use std::sync::{Arc, RwLock};
 use log::warn;
 use accessor::Setters;
-use crate::server::core::Server;
 use crate::server::scripts::warps::Warp;
+use crate::server::server::Server;
 use crate::util::coordinate;
 
 static MAPCACHE_EXT: &str = ".mcache";

@@ -1,4 +1,3 @@
-use crate::server::core::{Server, CharacterSession, PLAYER_FOV};
 use crate::packets::packets::{Packet, PacketChEnter, PacketHcRefuseEnter, CharacterInfoNeoUnion, PacketHcAcceptEnterNeoUnionHeader, PacketHcAcceptEnterNeoUnion, PacketPincodeLoginstate, PacketChMakeChar2, PacketHcAcceptMakecharNeoUnion, PacketChDeleteChar4Reserved, PacketHcDeleteChar4Reserved, PacketChSelectChar, PacketChSendMapInfo, PacketCzEnter2, PacketMapConnection, PacketZcInventoryExpansionInfo, PacketZcOverweightPercent, PacketZcAcceptEnter2, PacketZcNpcackMapmove, PacketZcStatusValues, PacketZcParChange, PacketZcAttackRange, PacketZcNotifyChat, PacketCzRestart, PacketZcRestartAck, PacketZcReqDisconnectAck2, PacketZcMsgColor, PacketZcNotifyMapproperty2, PacketZcHatEffect, PacketZcLoadConfirm};
 use crate::repository::lib::Repository;
 use sqlx::{MySql, Row};
@@ -12,11 +11,13 @@ use crate::util::string::StringUtil;
 use std::net::Shutdown::Both;
 use crate::util::packet::chain_packets;
 use std::time::{SystemTime, UNIX_EPOCH};
-use crate::server::movement::Position;
-use crate::server::map::{Map, MapPropertyFlags};
 use crate::server::enums::status::StatusTypes;
 use crate::server::enums::client_messages::ClientMessages;
 use crate::{read_lock, read_session, write_session, write_lock, cast, socket_send};
+use crate::server::core::character::CharacterSession;
+use crate::server::core::map::{Map, MapPropertyFlags};
+use crate::server::core::movement::Position;
+use crate::server::server::Server;
 
 pub fn handle_char_enter(server: Arc<Server>, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>) {
     let packet_char_enter = cast!(packet, PacketChEnter);

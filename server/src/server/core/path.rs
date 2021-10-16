@@ -1,8 +1,8 @@
-use crate::server::map::Map;
-use crate::server::movement::Position;
 use std::time::Instant;
 use accessor::Setters;
 use log::{debug};
+use crate::server::core::map::Map;
+use crate::server::core::movement::Position;
 
 // Coming from herculesWS
 pub static MOVE_COST: u16 = 10;

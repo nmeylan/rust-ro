@@ -1,6 +1,6 @@
 use crate::packets::packets::{PacketZcNotifyChat, Packet};
-use crate::server::core::{Session};
 use std::io::Write;
+use crate::server::core::session::Session;
 
 pub fn debug_in_game_chat(session: &Session, text: String) {
     let mut tcp_stream_guard = crate::write_lock!(session.map_server_socket.as_ref().unwrap());

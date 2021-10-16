@@ -26,7 +26,7 @@ macro_rules! write_session {
 #[macro_export]
 macro_rules! cast {
     ( $packet:expr, $type:ty ) => {
-       $packet.as_any().downcast_ref::<$type>().unwrap();
+       $packet.as_any().downcast_ref::<$type>().unwrap()
   };
 }
 
@@ -36,7 +36,7 @@ macro_rules! socket_send {
     {
        let mut tcp_stream_guard = $tcp_stream.write().unwrap();
         tcp_stream_guard.write($data);
-        tcp_stream_guard.flush();
+        tcp_stream_guard.flush()
     }
   }
 }

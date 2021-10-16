@@ -1,19 +1,16 @@
-use crate::packets::packets::{PacketCzRequestMove2, Packet, PacketZcNotifyPlayermove, PacketZcNpcackMapmove, PacketZcNotifyStandentry6, PacketZcNotifyVanish};
-use crate::server::core::{Server, CharacterSession, Session};
+use crate::packets::packets::{PacketCzRequestMove2, Packet, PacketZcNpcackMapmove};
 use tokio::runtime::Runtime;
-use std::sync::{Arc, MutexGuard, RwLock, RwLockReadGuard};
-use std::net::TcpStream;
-use std::time::{SystemTime, UNIX_EPOCH};
+use std::sync::{Arc, MutexGuard, RwLock};
 use std::io::Write;
-use std::cmp;
-use crate::server::map::{Map, MAP_EXT, MapItem};
-use crate::server::path::{path_search_client_side_algorithm, PathNode, MOVE_DIAGONAL_COST, MOVE_COST};
 use std::thread::sleep;
 use tokio::time::Duration;
-use crate::server::map::WARP_MASK;
 use tokio::task::JoinHandle;
-use crate::{read_lock, cast, socket_send};
-use crate::util::coordinate;
+use crate::{read_lock, socket_send};
+use crate::server::core::character::CharacterSession;
+use crate::server::core::map::{Map, MAP_EXT};
+use crate::server::core::path::{MOVE_COST, MOVE_DIAGONAL_COST, PathNode};
+use crate::server::core::session::Session;
+use crate::server::server::Server;
 use crate::util::string::StringUtil;
 
 #[derive(Debug, Clone)]
@@ -59,37 +56,7 @@ impl Position {
     }
 }
 
-pub fn handle_char_move(server: Arc<Server>, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, session_id: u32) {
-    let move_packet = cast!(packet, PacketCzRequestMove2);
-    let sessions_guard = read_lock!(server.sessions);
-    let session = sessions_guard.get(&session_id).unwrap();
-    let session_guard = read_lock!(session);
-    let destination = Position::from_move_packet(move_packet);
-    let mut character_session_guard = session_guard.character.as_ref().unwrap().lock().unwrap();
-    let map_name: String = Map::name_without_ext(character_session_guard.get_current_map_name());
-    let maps_guard = read_lock!(server.maps);
-    let map = maps_guard.get(&map_name[..]).unwrap();
-    let current_position = character_session_guard.current_position.clone();
-
-    let path = path_search_client_side_algorithm(map, &current_position, &destination);
-    // TODO
-    // * Control if cell is walkable
-    // * Control player state (dead? stun?, frozen?)
-    let now = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_secs();
-    let id = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_nanos();
-    character_session_guard.set_movement_task_id(id);
-    std::mem::drop(character_session_guard);
-    move_character(runtime, path.clone(), session.clone(), map_name, server.clone(), id.clone());
-    let mut packet_zc_notify_playermove = PacketZcNotifyPlayermove::new();
-    packet_zc_notify_playermove.set_move_data(current_position.to_move_data(destination.clone()));
-    packet_zc_notify_playermove.set_move_start_time(now as u32);
-    packet_zc_notify_playermove.fill_raw();
-    socket_send!(tcp_stream, &packet_zc_notify_playermove.raw());
-    // debug_in_game_chat(&session, format!("path: {:?}", path.iter().map(|node| (node.x, node.y)).collect::<Vec<(u16, u16)>>()));
-    // debug_in_game_chat(&session, format!("current_position: {:?}, destination {:?}", current_position, destination));
-}
-
-fn move_character(runtime: &Runtime, path: Vec<PathNode>, session: Arc<RwLock<Session>>, map_name: String, server: Arc<Server>, task_id: u128) -> JoinHandle<()> {
+pub fn move_character(runtime: &Runtime, path: Vec<PathNode>, session: Arc<RwLock<Session>>, map_name: String, server: Arc<Server>, task_id: u128) -> JoinHandle<()> {
     let server = server.clone();
     let handle = runtime.spawn(async move {
         let mut has_been_canceled = false;
