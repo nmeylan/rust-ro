@@ -3,7 +3,6 @@ use crate::repository::lib::Repository;
 use sqlx::{MySql, Row};
 use rand::Rng;
 use tokio::runtime::Runtime;
-use crate::server::core::{Session, Server};
 use std::net::{TcpStream, Shutdown};
 use std::sync::{Arc, RwLock};
 use std::io::{Write, Read};
@@ -11,6 +10,8 @@ use crate::{cast, socket_send};
 
 use std::thread::spawn;
 use crate::packets::packets_parser::parse;
+use crate::server::core::session::Session;
+use crate::server::server::Server;
 
 pub(crate) fn handle_login(server: Arc<Server>, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>) {
     let res = runtime.block_on(async {

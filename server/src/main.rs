@@ -8,12 +8,12 @@ use std::thread::{JoinHandle};
 use proxy::map::MapProxy;
 use crate::proxy::char::CharProxy;
 use std::sync::{Arc, RwLock};
-use crate::server::core::{Server};
 use crate::repository::lib::Repository;
 use sqlx::MySql;
 use std::time::{Instant};
-use crate::server::map::Map;
+use crate::server::core::map::Map;
 use crate::server::scripts::warps::Warp;
+use crate::server::server::Server;
 
 #[tokio::main]
 pub async fn main() {

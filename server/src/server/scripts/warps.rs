@@ -8,7 +8,7 @@ use tokio::task::JoinHandle;
 use log::{warn};
 use futures::future::join_all;
 use std::sync::{Mutex, Arc};
-use crate::server::map::MapItem;
+use crate::server::core::map::MapItem;
 
 
 static PARALLEL_EXECUTIONS: usize = 100; // TODO add a conf for this
