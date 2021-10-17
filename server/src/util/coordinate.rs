@@ -12,6 +12,7 @@ pub fn get_pos_of(index: u32, x_size: u16) -> (u16, u16) {
     (x, y)
 }
 
+#[inline]
 pub fn get_item_at<T>(x: u16, y: u16, x_size: u16, items: &HashMap<usize, T>) -> Option<&T> {
     let i = get_cell_index_of(x, y, x_size);
     items.get(&i)

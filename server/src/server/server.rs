@@ -10,6 +10,7 @@ use std::net::{TcpStream, TcpListener, Shutdown};
 use log::{error};
 use rand::{Rng};
 use crate::packets::packets_parser::parse;
+use crate::server::configuration::Config;
 use crate::server::core::map::Map;
 use crate::server::core::session::{Session, SessionsIter};
 use crate::server::handler::char::{handle_char_enter, handle_char_loaded_client_side, handle_delete_reserved_char, handle_disconnect, handle_enter_game, handle_make_char, handle_restart, handle_select_char};
@@ -20,6 +21,7 @@ use crate::server::handler::movement::handle_char_move;
 pub const PLAYER_FOV: u16 = 14;
 
 pub struct Server {
+    pub configuration: Config,
     pub sessions: Arc<RwLock<HashMap<u32, Arc<RwLock<Session>>>>>,
     pub repository: Arc<Repository<MySql>>,
     pub maps: Arc<RwLock<HashMap<String, Map>>>,
@@ -34,8 +36,9 @@ impl Server {
 }
 
 impl Server {
-    pub fn new(repository: Arc<Repository<MySql>>, maps: Arc<RwLock<HashMap<String, Map>>>, map_item_ids: Arc<RwLock<Vec<u32>>>) -> Server {
+    pub fn new(configuration: Config, repository: Arc<Repository<MySql>>, maps: Arc<RwLock<HashMap<String, Map>>>, map_item_ids: Arc<RwLock<Vec<u32>>>) -> Server {
         let server = Server {
+            configuration,
             sessions: Arc::new(RwLock::new(HashMap::<u32, Arc<RwLock<Session>>>::new())),
             repository,
             maps,
@@ -61,13 +64,14 @@ impl Server {
         id
     }
 
-    pub fn start(self, port: u16) -> JoinHandle<()> {
+    pub fn start(self) -> JoinHandle<()> {
+        let port = self.configuration.server.port.clone();
         self.listen(port)
     }
 
     fn listen(self, port: u16) -> JoinHandle<()> {
         let listener = TcpListener::bind(format!("0.0.0.0:{}", port)).unwrap();
-        println!("Server listen on 0.0.0.0:{}", port);
+        info!("Server listen on 0.0.0.0:{}", port);
         let server_shared_ref = Arc::new(self);
         let server_shared_ref = server_shared_ref.clone();
         spawn(move || {
@@ -101,7 +105,7 @@ impl Server {
     pub fn dispatch(&self, server: Arc<Server>, runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, packet: &mut dyn Packet) {
         let self_ref = server;
         if packet.as_any().downcast_ref::<PacketUnknown>().is_some() {
-            println!("Unknown packet {} of length {}: {:02X?}", packet.id(), packet.raw().len(), packet.raw());
+            error!("Unknown packet {} of length {}: {:02X?}", packet.id(), packet.raw().len(), packet.raw());
         }
         // Login
         if packet.as_any().downcast_ref::<PacketCaLogin>().is_some() {

@@ -38,7 +38,7 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
         let immutable_self_ref = Arc::new(self.clone()); // make An Arc of self to be able to share it with other threads
         let server_ref = immutable_self_ref.clone(); // cloning the ref to use in thread below
         spawn(move || {
-            println!("Start proxy for {} proxy, {}:{}", server_ref.name, server_ref.local_port, server_ref.target.port());
+            info!("Start proxy for {} proxy, {}:{}", server_ref.name, server_ref.local_port, server_ref.target.port());
             for tcp_stream in listener.incoming() {
                 let server_ref = immutable_self_ref.clone(); // cloning the ref to use in thread below
                 // Receive new connection, starting new thread
@@ -46,7 +46,7 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
                     // Use Arc to be able to share reference across thread.
                     // Arc are immutable, use a mutex to be able to mutate arc value.
                     if let Err(error) = server_ref.proxy_connection(tcp_stream.unwrap()) {
-                        println!("{}", error);
+                        error!("{}", error);
                     }
                 });
             }
@@ -55,7 +55,7 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
 
     fn proxy_connection(&self, incoming_stream: TcpStream) -> Result<(), String> {
         let mut forward_thread_incoming = incoming_stream.try_clone().unwrap();
-        println!("Client connected from: {:#?} to {:#?}", incoming_stream.peer_addr().unwrap(), incoming_stream.local_addr().unwrap());
+        debug!("Client connected from: {:#?} to {:#?}", incoming_stream.peer_addr().unwrap(), incoming_stream.local_addr().unwrap());
 
         let mut forward_thread_outgoing = TcpStream::connect(self.target)
             .map_err(|error| format!("Could not establish connection to {}: {}", self.target, error))?;
@@ -75,11 +75,10 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
                 let rt = Runtime::new().unwrap();
                 server_copy_backward_thread.pipe(&mut backward_thread_outgoing_clone, &mut backward_thread_incoming_clone, ProxyDirection::Backward, &rt)
             }).unwrap();
-        println!("Proxying data...");
         forward.join().map_err(|error| format!("Forward failed: {:?}", error))?;
         backward.join().map_err(|error| format!("Backward failed: {:?}", error))?;
 
-        println!("Socket closed");
+        debug!("Socket closed");
 
         Ok(())
     }
@@ -95,7 +94,7 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
                 Ok(bytes_read) => {
                     // no more data
                     if bytes_read == 0 {
-                        println!("shutdown {} direction {}", outgoing.local_addr().unwrap(), direction);
+                        debug!("shutdown {} direction {}", outgoing.local_addr().unwrap(), direction);
                         outgoing.shutdown(Shutdown::Both);
                         incoming.shutdown(Shutdown::Both);
                         break;
@@ -112,11 +111,11 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
 
     fn proxy_request(&self, outgoing: &mut TcpStream, direction: &ProxyDirection, tcp_stream_ref: Arc<Mutex<TcpStream>>, mut packet: Box<dyn Packet>) {
         if packet.id() != "0x6003" && packet.id() != "0x7f00" {
-            print!("{} {} {} ", self.name, if *direction.clone() == ProxyDirection::Backward { "<" } else { ">" }, outgoing.peer_addr().unwrap());
+            info!("{} {} {} ", self.name, if *direction.clone() == ProxyDirection::Backward { "<" } else { ">" }, outgoing.peer_addr().unwrap());
             self.specific_proxy.handle_packet(tcp_stream_ref, packet.as_mut());
             packet.display();
             packet.pretty_debug();
-            println!("{:02X?}", packet.raw());
+            info!("{:02X?}", packet.raw());
         }
         if outgoing.write(packet.raw()).is_ok() {
             outgoing.flush();

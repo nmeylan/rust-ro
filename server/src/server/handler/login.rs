@@ -14,13 +14,13 @@ use crate::server::server::Server;
 
 pub(crate) fn handle_login(server: Arc<Server>, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>) {
     let res = runtime.block_on(async {
-        authenticate(cast!(packet, PacketCaLogin), &server.repository).await
+        authenticate(server.clone(), cast!(packet, PacketCaLogin), &server.repository).await
     });
     if res.as_any().downcast_ref::<PacketAcAcceptLogin2>().is_some() {
         let packet_response = res.as_any().downcast_ref::<PacketAcAcceptLogin2>().unwrap();
         // Currently only handle this account to be able to still use proxy in other accounts
-        if packet_response.aid != 2000000 {
-            proxy_login(packet, tcp_stream);
+        if !server.configuration.server.accounts.contains(&packet_response.aid) {
+            proxy_login(server.clone(), packet, tcp_stream);
             return;
         }
         let new_user_session = Session {
@@ -41,7 +41,7 @@ pub(crate) fn handle_login(server: Arc<Server>, packet: &mut dyn Packet, runtime
     }
 }
 
-pub async fn authenticate(packet: &PacketCaLogin, repository: &Repository<MySql>) -> Box<dyn Packet> {
+pub async fn authenticate(server: Arc<Server>, packet: &PacketCaLogin, repository: &Repository<MySql>) -> Box<dyn Packet> {
     let mut rng = rand::thread_rng();
     let mut username = String::new();
     let mut password = String::new();
@@ -64,13 +64,13 @@ pub async fn authenticate(packet: &PacketCaLogin, repository: &Repository<MySql>
         ac_accept_login2.set_auth_code(rng.gen::<i32>());
         ac_accept_login2.set_user_level(rng.gen::<u32>());
         ac_accept_login2.set_sex(1);
-        let mut server = ServerAddr2::new();
-        server.set_ip(16777343); // 7F 00 00 01 -> to little endian -> 01 00 00 7F
-        server.set_port(6901);
+        let mut server_addr = ServerAddr2::new();
+        server_addr.set_ip(16777343); // 7F 00 00 01 -> to little endian -> 01 00 00 7F
+        server_addr.set_port(server.configuration.server.port as i16);
         let mut name_chars = [0 as char; 20];
         "Rust ragnarok".chars().enumerate().for_each(|(i, c)| name_chars[i] = c);
-        server.set_name(name_chars);
-        ac_accept_login2.set_server_list(vec![server]);
+        server_addr.set_name(name_chars);
+        ac_accept_login2.set_server_list(vec![server_addr]);
         ac_accept_login2.fill_raw();
         return Box::new(ac_accept_login2)
     }
@@ -80,8 +80,8 @@ pub async fn authenticate(packet: &PacketCaLogin, repository: &Repository<MySql>
     return Box::new(r2)
 }
 
-fn proxy_login(packet: &mut dyn Packet, tcp_stream: Arc<RwLock<TcpStream>>) {
-    let target = format!("127.0.0.1:6900");
+fn proxy_login(server: Arc<Server>, packet: &mut dyn Packet, tcp_stream: Arc<RwLock<TcpStream>>) {
+    let target = format!("{}:{}", server.configuration.proxy.remote_login_server_ip, server.configuration.proxy.remote_login_server_port);
     let mut remote_login_server = TcpStream::connect(target.clone()).map_err(|error| format!("Could not establish connection to {}: {}", target, error)).unwrap();
     let mut remote_login_server_clone = remote_login_server.try_clone().unwrap();
     let handle = spawn(move || {
@@ -98,7 +98,7 @@ fn proxy_login(packet: &mut dyn Packet, tcp_stream: Arc<RwLock<TcpStream>>) {
                     if packet.as_any().downcast_ref::<PacketAcAcceptLogin2>().is_some() {
                         let packet_accept_login2 = packet.as_any_mut().downcast_mut::<PacketAcAcceptLogin2>().unwrap();
                         let server_char = packet_accept_login2.server_list.get_mut(0).unwrap();
-                        server_char.set_port(6123);
+                        server_char.set_port(server.configuration.proxy.remote_char_server_port as i16);
                         packet_accept_login2.fill_raw();
                         let mut tcp_stream_guard = tcp_stream.write().unwrap();
                         tcp_stream_guard.write(packet_accept_login2.raw());

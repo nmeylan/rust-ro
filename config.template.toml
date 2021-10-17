@@ -1,0 +1,24 @@
+[server]
+port = 6901
+log_level = "info"
+# Packets sent by user accounts listed below are handled by this server, otherwise they will be proxied to hercules or rathena.
+accounts = [
+    2000000
+]
+
+[database]
+db = "ragnarok"
+host = "localhost"
+port = 3306
+username = "root"
+# password to be set in env, DATABASE_PASSWORD
+
+[proxy]
+remote_login_server_ip = "127.0.0.1"
+remote_login_server_port = 6900
+remote_char_server_ip = "127.0.0.1"
+remote_char_server_port = 6121
+local_char_server_port = 6123
+remote_map_server_ip = "127.0.0.1"
+remote_map_server_port = 6122
+local_map_server_port = 6124
