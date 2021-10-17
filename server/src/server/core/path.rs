@@ -13,8 +13,6 @@ static DIR_WEST: u8 = 2;
 static DIR_SOUTH: u8 = 4;
 static DIR_EAST: u8 = 8;
 
-struct Path {}
-
 #[derive(Copy, Clone, Debug, Setters)]
 pub struct PathNode {
     pub id: u32,
@@ -99,9 +97,9 @@ pub fn path_search_client_side_algorithm(map: &Map, source: &Position, destinati
         if current_node.x > 0  {
             allowed_dirs |= DIR_WEST;
         }
-        /**
+        /*
         For all allowed neighbor cells
-        **/
+        */
         if is_direction(allowed_dirs, DIR_SOUTH | DIR_EAST) && map.is_cell_walkable(current_node.x + 1, current_node.y - 1) {
             add_neighbor(current_node.x + 1, current_node.y - 1, destination, max_x, &mut open_set, &mut discovered_nodes, &current_node, MOVE_DIAGONAL_COST);
         }
