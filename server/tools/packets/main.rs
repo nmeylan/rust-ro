@@ -38,6 +38,9 @@ pub struct Type {
     pub length: Option<i32>,
 }
 
+/*
+TODO make a cli from this.
+ */
 fn main() {
     let packet_db_path = Path::new("server/tools/packets/packets_db");
     let output_path = Path::new("server/src/packets");
