@@ -99,7 +99,6 @@ pub fn move_character(runtime: &Runtime, path: Vec<PathNode>, session: Arc<RwLoc
 
 fn change_map(map: &&Map, path_node: &PathNode, session: Arc<RwLock<Session>>, mut character_session: &mut MutexGuard<CharacterSession>) {
     let session_guard = read_lock!(session);
-    println!("on a warp");
     let warp = map.get_warp_at(path_node.x, path_node.y).unwrap();
     let mut new_current_map: [char; 16] = [0 as char; 16];
     let map_name = format!("{}{}", warp.dest_map_name, MAP_EXT);
@@ -138,5 +137,5 @@ async fn save_character_position(server: Arc<Server>, session: Arc<RwLock<Sessio
             .execute(&server.repository.pool);
     }
     let res = res.await;
-    println!("{:?}", res);
+    debug!("Update char last position {:?}", res);
 }

@@ -1,4 +1,5 @@
 use sqlx::{MySqlPool, MySql, Pool, Database};
+use crate::server::configuration::DatabaseConfig;
 
 
 pub struct Repository<T: Database> {
@@ -6,8 +7,13 @@ pub struct Repository<T: Database> {
 }
 
 impl <T: Database> Repository<T> {
-    pub async fn new_mysql() -> Repository<MySql> {
-        let pool = MySqlPool::connect("mysql://root:root@localhost:3306/ragnarok").await.unwrap();
+    pub async fn new_mysql(configuration: &DatabaseConfig) -> Repository<MySql> {
+        let connection_url = format!("mysql://{}:{}@{}:{}/{}",
+                             configuration.username, configuration.password.as_ref().unwrap(),
+                             configuration.host, configuration.port,
+                             configuration.db);
+        let pool = MySqlPool::connect(
+            &connection_url).await.unwrap();
         Repository {
             pool
         }

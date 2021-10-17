@@ -153,10 +153,9 @@ pub fn handle_select_char(server: Arc<Server>, packet: &mut dyn Packet, runtime:
     };
     session.set_character(Arc::new(Mutex::new(character)));
     packet_ch_send_map_info.set_map_name(map_name);
-    packet_ch_send_map_info.set_map_server_port(6901);
+    packet_ch_send_map_info.set_map_server_port(server.configuration.server.port as i16);
     packet_ch_send_map_info.set_map_server_ip(16777343); // 7F 00 00 01 -> to little endian -> 01 00 00 7F
     packet_ch_send_map_info.fill_raw();
-    packet_ch_send_map_info.pretty_debug();
     socket_send!(tcp_stream, &packet_ch_send_map_info.raw());
 }
 

@@ -1,19 +1,21 @@
 use crate::proxy::proxy::{PacketHandler, Proxy};
 use std::net::{SocketAddr, Ipv4Addr, TcpStream};
 use std::net::IpAddr;
+use std::str::FromStr;
 use std::sync::{Arc, Mutex};
 use crate::packets::packets::{Packet, PacketChSendMapInfo};
+use crate::server::configuration::ProxyConfig;
 
 #[derive(Clone)]
 pub struct CharProxy {
 }
 
 impl CharProxy {
-    pub(crate) fn new() -> Proxy<CharProxy> {
+    pub(crate) fn new(config: &ProxyConfig) -> Proxy<CharProxy> {
         let server = Proxy {
             name: "Char".to_string(),
-            local_port: 6123,
-            target: SocketAddr::new(IpAddr::from(Ipv4Addr::new(127, 0, 0, 1)), 6121),
+            local_port: config.local_char_server_port,
+            target: SocketAddr::new(IpAddr::from_str(&config.remote_char_server_ip).unwrap(), config.remote_char_server_port),
             specific_proxy: CharProxy {}
         };
         return server;

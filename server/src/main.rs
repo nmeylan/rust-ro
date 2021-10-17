@@ -5,6 +5,9 @@ mod packets;
 mod server;
 mod repository;
 
+#[macro_use]
+extern crate log;
+
 use std::thread::{JoinHandle};
 use proxy::map::MapProxy;
 use crate::proxy::char::CharProxy;
@@ -12,26 +15,30 @@ use std::sync::{Arc, RwLock};
 use crate::repository::lib::Repository;
 use sqlx::MySql;
 use std::time::{Instant};
+use flexi_logger::Logger;
 use crate::server::core::map::Map;
 use crate::server::scripts::warps::Warp;
 use crate::server::server::Server;
+use crate::server::configuration::Config;
 
 #[tokio::main]
 pub async fn main() {
-    let repository : Repository<MySql> = Repository::<MySql>::new_mysql().await;
-
+    let config = Config::load().unwrap();
+    let logger= Logger::try_with_str(config.server.log_level.as_ref().unwrap()).unwrap();
+    logger.start().unwrap();
+    let repository : Repository<MySql> = Repository::<MySql>::new_mysql(&config.database).await;
     let start = Instant::now();
     let warps = Warp::load_warps().await;
-    println!("load {} warps in {} secs", warps.iter().fold(0, |memo, curr| memo + curr.1.len()), start.elapsed().as_millis() as f32 / 1000.0);
+    info!("load {} warps in {} secs", warps.iter().fold(0, |memo, curr| memo + curr.1.len()), start.elapsed().as_millis() as f32 / 1000.0);
     let map_item_ids = RwLock::new(Vec::<u32>::new());
     let maps = Map::load_maps(warps, &map_item_ids);
-    println!("load {} map-cache in {} secs", maps.len(), start.elapsed().as_millis() as f32 / 1000.0);
+    info!("load {} map-cache in {} secs", maps.len(), start.elapsed().as_millis() as f32 / 1000.0);
 
-    let server = Server::new(Arc::new(repository), Arc::new(RwLock::new(maps)), Arc::new(map_item_ids));
+    let server = Server::new(config.clone(), Arc::new(repository), Arc::new(RwLock::new(maps)), Arc::new(map_item_ids));
     let mut handles: Vec<JoinHandle<()>> = Vec::new();
-    let _ = &handles.push(server.start(6901));
-    let char_proxy = CharProxy::new();
-    let map_proxy = MapProxy::new();
+    let _ = &handles.push(server.start());
+    let char_proxy = CharProxy::new(&config.proxy);
+    let map_proxy = MapProxy::new(&config.proxy);
     let _ = &handles.push(char_proxy.proxy());
     let _ = &handles.push(map_proxy.proxy());
 
