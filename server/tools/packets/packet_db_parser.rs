@@ -3,7 +3,6 @@ use std::io;
 use std::io::{BufRead};
 use std::collections::HashMap;
 use std::cell::{RefCell, RefMut};
-use maplit::hashmap;
 use lazy_static::lazy_static;
 use regex::{Regex, Captures};
 
@@ -12,25 +11,25 @@ use crate::{PacketStructDefinition, StructDefinition, StructField, Type};
 use std::path::Path;
 
 lazy_static! {
-    pub static ref static_types_map: HashMap<&'static str, Type> = hashmap!{
-        "char" => Type {name: "i8".to_string(), cname: "char".to_string(), length: Some(1)},
-        "unsigned char" => Type {name: "u8".to_string(), cname: "unsigned char".to_string(), length: Some(1)},
-        "unsigned byte" => Type {name: "u8".to_string(), cname: "unsigned char".to_string(), length: Some(1)},
-        "rust char" => Type {name: "char".to_string(), cname: "char".to_string(), length: Some(1)},
-        "short" => Type {name: "i16".to_string(), cname: "short".to_string(), length: Some(2)},
-        "unsigned short" => Type {name: "u16".to_string(), cname: "unsigned short".to_string(), length: Some(2)},
-        "int" => Type {name: "i32".to_string(), cname: "int".to_string(), length: Some(4)},
-        "unsigned int" => Type {name: "u32".to_string(), cname: "unsigned int".to_string(), length: Some(4)},
-        "long" => Type {name: "i32".to_string(), cname: "long".to_string(), length: Some(4)},
-        "unsigned long" => Type {name: "u32".to_string(), cname: "unsigned long".to_string(), length: Some(4)},
-        "int64" => Type {name: "i64".to_string(), cname: "int64".to_string(), length: Some(8)},
-        "unsigned int64" => Type {name: "u64".to_string(), cname: "unsigned int64".to_string(), length: Some(8)},
-        "bool" => Type {name: "bool".to_string(), cname: "bool".to_string(), length: Some(1)},
-        "string" => Type {name: "String".to_string(), cname: "char[]".to_string(), length: None},
-        "struct" => Type {name: "Struct".to_string(), cname: "struct".to_string(), length: None},
-        "array of struct" => Type {name: "Vec".to_string(), cname: "[]".to_string(), length: None},
-        "array" => Type {name: "Array".to_string(), cname: "[]".to_string(), length: None},
-    };
+    pub static ref static_types_map: HashMap<&'static str, Type> = HashMap::from([
+        ("char", Type {name: "i8".to_string(), cname: "char".to_string(), length: Some(1)}),
+        ("unsigned char", Type {name: "u8".to_string(), cname: "unsigned char".to_string(), length: Some(1)}),
+        ("unsigned byte", Type {name: "u8".to_string(), cname: "unsigned char".to_string(), length: Some(1)}),
+        ("rust char", Type {name: "char".to_string(), cname: "char".to_string(), length: Some(1)}),
+        ("short", Type {name: "i16".to_string(), cname: "short".to_string(), length: Some(2)}),
+        ("unsigned short", Type {name: "u16".to_string(), cname: "unsigned short".to_string(), length: Some(2)}),
+        ("int", Type {name: "i32".to_string(), cname: "int".to_string(), length: Some(4)}),
+        ("unsigned int", Type {name: "u32".to_string(), cname: "unsigned int".to_string(), length: Some(4)}),
+        ("long", Type {name: "i32".to_string(), cname: "long".to_string(), length: Some(4)}),
+        ("unsigned long", Type {name: "u32".to_string(), cname: "unsigned long".to_string(), length: Some(4)}),
+        ("int64", Type {name: "i64".to_string(), cname: "int64".to_string(), length: Some(8)}),
+        ("unsigned int64", Type {name: "u64".to_string(), cname: "unsigned int64".to_string(), length: Some(8)}),
+        ("bool", Type {name: "bool".to_string(), cname: "bool".to_string(), length: Some(1)}),
+        ("string", Type {name: "String".to_string(), cname: "char[]".to_string(), length: None}),
+        ("struct", Type {name: "Struct".to_string(), cname: "struct".to_string(), length: None}),
+        ("array of struct", Type {name: "Vec".to_string(), cname: "[]".to_string(), length: None}),
+        ("array", Type {name: "Array".to_string(), cname: "[]".to_string(), length: None}),
+    ]);
     static ref struct_regex: Regex = Regex::new(r"struct\s([^\s]*)\s.*").unwrap();
     static ref nested_struct_regex: Regex = Regex::new(r"struct\s([^\s]*)\s([^\s\[]*)\[?.*/?\s(\d+)?").unwrap();
     static ref string_len_regex: Regex = Regex::new(r"\w*\[(\d*)\]").unwrap();
