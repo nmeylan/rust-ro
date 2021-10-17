@@ -18,6 +18,14 @@ use std::sync::{Arc, Mutex};
 use tokio::sync::Semaphore;
 use std::time::Instant;
 
+/*
+TODO make a cli from this.
+
+Usage: this tool need .gat and .rsw files to generated mapcache.
+Using GRF editor, extract .gat and .rsw into a folder.
+
+set GRF_DATA_PATH to this folder.
+ */
 static PARALLEL_EXECUTIONS: usize = 100;
 static NO_WATER: f32 = 1000000.0;
 static GRF_DATA_PATH: &str = "D:\\ragnarok\\kRO_client\\data"; // source .gat/.rsw
