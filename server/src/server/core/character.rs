@@ -9,7 +9,6 @@ use crate::server::server::PLAYER_FOV;
 use crate::packets::packets::Packet;
 use crate::util::coordinate;
 use crate::util::string::StringUtil;
-use crate::{socket_send};
 use std::io::Write;
 use accessor::Setters;
 
@@ -43,7 +42,7 @@ impl CharacterSession {
         self.movement_task_id = Some(id);
     }
 
-    pub fn get_map_item_at(&self, x: u16, y: u16) -> Option<&Arc<MapItem>> {
+    pub fn get_map_item_at(&self, x: u16, y: u16) -> Option<&Arc<dyn MapItem>> {
         coordinate::get_item_at(x, y, PLAYER_FOV , &self.map_view)
     }
     pub fn set_map_item_at(&mut self, x: u16, y: u16, item: Arc<dyn MapItem>) {
