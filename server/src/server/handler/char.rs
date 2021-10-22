@@ -13,7 +13,7 @@ use crate::util::packet::chain_packets;
 use std::time::{SystemTime, UNIX_EPOCH};
 use crate::server::enums::status::StatusTypes;
 use crate::server::enums::client_messages::ClientMessages;
-use crate::server::core::character::CharacterSession;
+use crate::server::core::character::{CharacterSession};
 use crate::server::core::map::{Map, MapPropertyFlags};
 use crate::server::core::movement::Position;
 use crate::server::server::Server;
@@ -145,7 +145,7 @@ pub fn handle_select_char(server: Arc<Server>, packet: &mut dyn Packet, runtime:
     let character = CharacterSession {
         name: char_name,
         char_id,
-        speed: 100,
+        speed: server.configuration.game.default_char_speed,
         current_map: map_name.clone(),
         current_position: Position { x: last_x, y: last_y, dir: 0 },
         movement_task_id: None,
@@ -286,6 +286,10 @@ pub fn handle_enter_game(server: Arc<Server>, packet: &mut dyn Packet, _runtime:
     packet_sp.set_var_id(StatusTypes::SP.value() as u16);
     packet_sp.set_count(1);
     packet_sp.fill_raw();
+    let mut packet_speed = PacketZcParChange::new();
+    packet_speed.set_var_id(StatusTypes::SPEED.value() as u16);
+    packet_speed.set_count(server.configuration.game.default_char_speed as i32);
+    packet_speed.fill_raw();
     let mut packet_notify_chat = PacketZcNotifyChat::new();
     packet_notify_chat.set_gid(character_session_guard.char_id);
     packet_notify_chat.set_msg("Hello from rust ragnarok".to_string());
@@ -295,7 +299,7 @@ pub fn handle_enter_game(server: Arc<Server>, packet: &mut dyn Packet, _runtime:
         &packet_hit, &packet_flee, &packet_aspd, &packet_atk, &packet_def,
         &packet_def2, &packet_flee2, &packet_crit, &packet_matk, &packet_matk2,
         &packet_mdef2, &packet_attack_range, &packet_maxhp, &packet_maxsp, &packet_hp,
-        &packet_sp, &packet_notify_chat
+        &packet_sp, &packet_speed, &packet_notify_chat
     ]);
     socket_send!(tcp_stream, &final_response_packet);
 }

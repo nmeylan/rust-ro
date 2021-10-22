@@ -22,3 +22,6 @@ local_char_server_port = 6123
 remote_map_server_ip = "127.0.0.1"
 remote_map_server_port = 6122
 local_map_server_port = 6124
+
+[game]
+default_char_speed = 100
