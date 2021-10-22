@@ -19,9 +19,6 @@ pub struct Position {
     pub(crate) dir: u16
 }
 
-// Todo make this configurable
-static PLAYER_FOV: u16 = 14;
-
 impl Position {
     pub fn from_move_packet(packet: &PacketCzRequestMove2) -> Position {
         // example: for a movement to 158, 158 cell we receive following bytes for packet.dest_raw: 27, 89, E0
@@ -55,6 +52,17 @@ impl Position {
     }
 }
 
+// TODO find a formula
+fn extra_delay(speed: u16) -> i16 {
+    if speed < 100 {
+        -10
+    } else if speed > 100 {
+        60
+    } else {
+        20
+    }
+}
+
 pub fn move_character(runtime: &Runtime, path: Vec<PathNode>, session: Arc<RwLock<Session>>, map_name: String, server: Arc<Server>, task_id: u128) -> JoinHandle<()> {
     let server = server.clone();
     let handle = runtime.spawn(async move {
@@ -72,9 +80,9 @@ pub fn move_character(runtime: &Runtime, path: Vec<PathNode>, session: Arc<RwLoc
                         break;
                     }
                     if character_session.current_position.x != path_node.x && character_session.current_position.y != path_node.y { // diagonal movement
-                        delay = (character_session.speed * (MOVE_DIAGONAL_COST / MOVE_COST)) as u64;
+                        delay = (character_session.speed * (MOVE_DIAGONAL_COST / MOVE_COST) + 10) as u64;
                     } else {
-                        delay = (character_session.speed - 25) as u64;
+                        delay = ((character_session.speed / 2) as i16 + extra_delay(character_session.speed)) as u64;
                     }
 
                     if map.is_warp_cell(path_node.x, path_node.y) {

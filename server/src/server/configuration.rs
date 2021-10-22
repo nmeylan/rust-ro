@@ -9,6 +9,7 @@ const LOG_LEVELS: [&str; 4] = ["debug", "info", "warn", "error"];
 #[derive(Deserialize, Debug, Clone)]
 pub struct Config {
     pub server: ServerConfig,
+    pub game: GameConfig,
     pub database: DatabaseConfig,
     pub proxy: ProxyConfig,
 
@@ -20,6 +21,11 @@ pub struct ServerConfig {
     pub log_level: Option<String>,
     pub accounts: Vec<u32>,
     pub port: u16,
+}
+#[derive(Deserialize, Debug, Setters, Clone)]
+pub struct GameConfig {
+    #[set]
+    pub default_char_speed: u16,
 }
 
 #[derive(Deserialize, Debug, Setters, Clone)]
