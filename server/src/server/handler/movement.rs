@@ -30,7 +30,7 @@ pub fn handle_char_move(server: Arc<Server>, packet: &mut dyn Packet, runtime: &
     let id = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_nanos();
     character_session_guard.set_movement_task_id(id);
     std::mem::drop(character_session_guard);
-    movement::move_character(runtime, path.clone(), session.clone(), map_name, server.clone(), id.clone());
+    movement::move_character_task(runtime, path.clone(), session.clone(), map_name, server.clone(), id.clone());
     let mut packet_zc_notify_playermove = PacketZcNotifyPlayermove::new();
     packet_zc_notify_playermove.set_move_data(current_position.to_move_data(destination.clone()));
     packet_zc_notify_playermove.set_move_start_time(now as u32);
