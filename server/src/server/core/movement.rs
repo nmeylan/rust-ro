@@ -80,9 +80,9 @@ pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<
                         break;
                     }
                     if character_session.current_position.x != path_node.x && character_session.current_position.y != path_node.y { // diagonal movement
-                        delay = (character_session.speed * (MOVE_DIAGONAL_COST / MOVE_COST) + 10) as u64;
+                        delay = (character_session.status.speed * (MOVE_DIAGONAL_COST / MOVE_COST) + 10) as u64;
                     } else {
-                        delay = ((character_session.speed / 2) as i16 + extra_delay(character_session.speed)) as u64;
+                        delay = ((character_session.status.speed / 2) as i16 + extra_delay(character_session.status.speed)) as u64;
                     }
 
                     if map.is_warp_cell(path_node.x, path_node.y) {
