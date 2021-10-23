@@ -7,6 +7,8 @@ mod repository;
 
 #[macro_use]
 extern crate log;
+#[macro_use]
+extern crate accessor;
 
 use std::thread::{JoinHandle};
 use proxy::map::MapProxy;

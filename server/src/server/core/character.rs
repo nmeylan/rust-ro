@@ -11,13 +11,13 @@ use crate::util::coordinate;
 use crate::util::string::StringUtil;
 use std::io::Write;
 use accessor::Setters;
+use crate::server::core::status::Status;
 
 #[derive(Setters, Debug)]
 pub struct CharacterSession {
     #[set]
     pub name: [char; 24],
-    #[set]
-    pub speed: u16,
+    pub status: Status,
     #[set]
     pub char_id: u32,
     #[set]
