@@ -98,7 +98,7 @@ fn proxy_login(server: Arc<Server>, packet: &mut dyn Packet, tcp_stream: Arc<RwL
                     if packet.as_any().downcast_ref::<PacketAcAcceptLogin2>().is_some() {
                         let packet_accept_login2 = packet.as_any_mut().downcast_mut::<PacketAcAcceptLogin2>().unwrap();
                         let server_char = packet_accept_login2.server_list.get_mut(0).unwrap();
-                        server_char.set_port(server.configuration.proxy.remote_char_server_port as i16);
+                        server_char.set_port(server.configuration.proxy.local_char_server_port as i16);
                         packet_accept_login2.fill_raw();
                         let mut tcp_stream_guard = tcp_stream.write().unwrap();
                         tcp_stream_guard.write(packet_accept_login2.raw());
