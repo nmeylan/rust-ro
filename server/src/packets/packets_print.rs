@@ -1398,7 +1398,7 @@ impl Debug for PacketCzWhisper {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("receiver[4, 28]", &format!("{:02X?}", &self.receiver_raw))
-            .field("msg[44, ?]", &format!("{:02X?}", &self.msg_raw))
+            .field("msg[28, ?]", &format!("{:02X?}", &self.msg_raw))
         .finish()
     }
 }
@@ -1409,7 +1409,7 @@ impl Display for PacketCzWhisper {
         fields.push(format!("packet_id(short as i16)[0, 2]: {}", &self.packet_id));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("receiver(char[] as char[])[4, 28]: {}", &self.receiver.pretty_output()));
-        fields.push(format!("msg(char[] as String)[44, ?]: {}", &self.msg));
+        fields.push(format!("msg(char[] as String)[28, ?]: {}", &self.msg));
         write!(f, "PacketCzWhisper\n {}", fields.join(",\n "))
     }
 }
@@ -1421,7 +1421,7 @@ impl Debug for PacketZcWhisper {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("sender[4, 28]", &format!("{:02X?}", &self.sender_raw))
-            .field("msg[44, ?]", &format!("{:02X?}", &self.msg_raw))
+            .field("msg[28, ?]", &format!("{:02X?}", &self.msg_raw))
         .finish()
     }
 }
@@ -1432,7 +1432,7 @@ impl Display for PacketZcWhisper {
         fields.push(format!("packet_id(short as i16)[0, 2]: {}", &self.packet_id));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("sender(char[] as char[])[4, 28]: {}", &self.sender.pretty_output()));
-        fields.push(format!("msg(char[] as String)[44, ?]: {}", &self.msg));
+        fields.push(format!("msg(char[] as String)[28, ?]: {}", &self.msg));
         write!(f, "PacketZcWhisper\n {}", fields.join(",\n "))
     }
 }
@@ -1639,9 +1639,9 @@ impl Debug for PacketZcItemPickupAck {
             .field("is_damaged[9, 10]", &format!("{:02X?}", &self.is_damaged_raw))
             .field("refining_level[10, 11]", &format!("{:02X?}", &self.refining_level_raw))
             .field("slot[11, 19]", &format!("{:02X?}", &self.slot_raw))
-            .field("location[19, 21]", &format!("{:02X?}", &self.location_raw))
-            .field("atype[21, 22]", &format!("{:02X?}", &self.atype_raw))
-            .field("result[22, 23]", &format!("{:02X?}", &self.result_raw))
+            .field("location[11, 13]", &format!("{:02X?}", &self.location_raw))
+            .field("atype[13, 14]", &format!("{:02X?}", &self.atype_raw))
+            .field("result[14, 15]", &format!("{:02X?}", &self.result_raw))
         .finish()
     }
 }
@@ -1657,9 +1657,9 @@ impl Display for PacketZcItemPickupAck {
         fields.push(format!("is_damaged(bool as bool)[9, 10]: {}", &self.is_damaged));
         fields.push(format!("refining_level(unsigned char as u8)[10, 11]: {}", &self.refining_level));
         fields.push(format!("slot(struct as Struct)[11, 19]: {}", &self.slot));
-        fields.push(format!("location(unsigned short as u16)[19, 21]: {}", &self.location));
-        fields.push(format!("atype(unsigned char as u8)[21, 22]: {}", &self.atype));
-        fields.push(format!("result(unsigned char as u8)[22, 23]: {}", &self.result));
+        fields.push(format!("location(unsigned short as u16)[11, 13]: {}", &self.location));
+        fields.push(format!("atype(unsigned char as u8)[13, 14]: {}", &self.atype));
+        fields.push(format!("result(unsigned char as u8)[14, 15]: {}", &self.result));
         write!(f, "PacketZcItemPickupAck\n {}", fields.join(",\n "))
     }
 }
@@ -8170,7 +8170,7 @@ impl Debug for PacketZcDevotionlist {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("my_aid[2, 6]", &format!("{:02X?}", &self.my_aid_raw))
             .field("aid[6, 11]", &format!("{:02X?}", &self.aid_raw))
-            .field("range[26, 28]", &format!("{:02X?}", &self.range_raw))
+            .field("range[11, 13]", &format!("{:02X?}", &self.range_raw))
         .finish()
     }
 }
@@ -8181,7 +8181,7 @@ impl Display for PacketZcDevotionlist {
         fields.push(format!("packet_id(short as i16)[0, 2]: {}", &self.packet_id));
         fields.push(format!("my_aid(unsigned long as u32)[2, 6]: {}", &self.my_aid));
         fields.push(format!("aid(unsigned long[] as u32[])[6, 11]: {}", &self.aid.pretty_output()));
-        fields.push(format!("range(short as i16)[26, 28]: {}", &self.range));
+        fields.push(format!("range(short as i16)[11, 13]: {}", &self.range));
         write!(f, "PacketZcDevotionlist\n {}", fields.join(",\n "))
     }
 }
@@ -9949,7 +9949,7 @@ impl Debug for PacketZcBlacksmithRank {
             .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("name[2, 12]", &format!("{:02X?}", &self.name_raw))
-            .field("point[242, 252]", &format!("{:02X?}", &self.point_raw))
+            .field("point[12, 22]", &format!("{:02X?}", &self.point_raw))
         .finish()
     }
 }
@@ -9959,7 +9959,7 @@ impl Display for PacketZcBlacksmithRank {
         let mut fields = Vec::new();
         fields.push(format!("packet_id(short as i16)[0, 2]: {}", &self.packet_id));
         fields.push(format!("name(char[] as char[])[2, 12]: {}", &self.name.pretty_output()));
-        fields.push(format!("point(int[] as i32[])[242, 252]: {}", &self.point.pretty_output()));
+        fields.push(format!("point(int[] as i32[])[12, 22]: {}", &self.point.pretty_output()));
         write!(f, "PacketZcBlacksmithRank\n {}", fields.join(",\n "))
     }
 }
@@ -9970,7 +9970,7 @@ impl Debug for PacketZcAlchemistRank {
             .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("name[2, 12]", &format!("{:02X?}", &self.name_raw))
-            .field("point[242, 252]", &format!("{:02X?}", &self.point_raw))
+            .field("point[12, 22]", &format!("{:02X?}", &self.point_raw))
         .finish()
     }
 }
@@ -9980,7 +9980,7 @@ impl Display for PacketZcAlchemistRank {
         let mut fields = Vec::new();
         fields.push(format!("packet_id(short as i16)[0, 2]: {}", &self.packet_id));
         fields.push(format!("name(char[] as char[])[2, 12]: {}", &self.name.pretty_output()));
-        fields.push(format!("point(int[] as i32[])[242, 252]: {}", &self.point.pretty_output()));
+        fields.push(format!("point(int[] as i32[])[12, 22]: {}", &self.point.pretty_output()));
         write!(f, "PacketZcAlchemistRank\n {}", fields.join(",\n "))
     }
 }
@@ -10219,7 +10219,7 @@ impl Debug for PacketZcTaekwonRank {
             .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("name[2, 12]", &format!("{:02X?}", &self.name_raw))
-            .field("point[242, 252]", &format!("{:02X?}", &self.point_raw))
+            .field("point[12, 22]", &format!("{:02X?}", &self.point_raw))
         .finish()
     }
 }
@@ -10229,7 +10229,7 @@ impl Display for PacketZcTaekwonRank {
         let mut fields = Vec::new();
         fields.push(format!("packet_id(short as i16)[0, 2]: {}", &self.packet_id));
         fields.push(format!("name(char[] as char[])[2, 12]: {}", &self.name.pretty_output()));
-        fields.push(format!("point(int[] as i32[])[242, 252]: {}", &self.point.pretty_output()));
+        fields.push(format!("point(int[] as i32[])[12, 22]: {}", &self.point.pretty_output()));
         write!(f, "PacketZcTaekwonRank\n {}", fields.join(",\n "))
     }
 }
@@ -10870,8 +10870,8 @@ impl Debug for PacketZcMailReqOpen {
             .field("is_damaged[89, 90]", &format!("{:02X?}", &self.is_damaged_raw))
             .field("refining_level[90, 91]", &format!("{:02X?}", &self.refining_level_raw))
             .field("slot[91, 99]", &format!("{:02X?}", &self.slot_raw))
-            .field("msg_len[99, 100]", &format!("{:02X?}", &self.msg_len_raw))
-            .field("msg[100, ?]", &format!("{:02X?}", &self.msg_raw))
+            .field("msg_len[91, 92]", &format!("{:02X?}", &self.msg_len_raw))
+            .field("msg[92, ?]", &format!("{:02X?}", &self.msg_raw))
         .finish()
     }
 }
@@ -10893,8 +10893,8 @@ impl Display for PacketZcMailReqOpen {
         fields.push(format!("is_damaged(bool as bool)[89, 90]: {}", &self.is_damaged));
         fields.push(format!("refining_level(unsigned char as u8)[90, 91]: {}", &self.refining_level));
         fields.push(format!("slot(struct as Struct)[91, 99]: {}", &self.slot));
-        fields.push(format!("msg_len(unsigned char as u8)[99, 100]: {}", &self.msg_len));
-        fields.push(format!("msg(char[] as String)[100, ?]: {}", &self.msg));
+        fields.push(format!("msg_len(unsigned char as u8)[91, 92]: {}", &self.msg_len));
+        fields.push(format!("msg(char[] as String)[92, ?]: {}", &self.msg));
         write!(f, "PacketZcMailReqOpen\n {}", fields.join(",\n "))
     }
 }
@@ -12246,8 +12246,8 @@ impl Debug for PacketZcGangsiRank {
             .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("name[2, 12]", &format!("{:02X?}", &self.name_raw))
-            .field("point[242, 252]", &format!("{:02X?}", &self.point_raw))
-            .field("packet_switch[282, 284]", &format!("{:02X?}", &self.packet_switch_raw))
+            .field("point[12, 22]", &format!("{:02X?}", &self.point_raw))
+            .field("packet_switch[22, 24]", &format!("{:02X?}", &self.packet_switch_raw))
         .finish()
     }
 }
@@ -12257,8 +12257,8 @@ impl Display for PacketZcGangsiRank {
         let mut fields = Vec::new();
         fields.push(format!("packet_id(short as i16)[0, 2]: {}", &self.packet_id));
         fields.push(format!("name(char[] as char[])[2, 12]: {}", &self.name.pretty_output()));
-        fields.push(format!("point(int[] as i32[])[242, 252]: {}", &self.point.pretty_output()));
-        fields.push(format!("packet_switch(short as i16)[282, 284]: {}", &self.packet_switch));
+        fields.push(format!("point(int[] as i32[])[12, 22]: {}", &self.point.pretty_output()));
+        fields.push(format!("packet_switch(short as i16)[22, 24]: {}", &self.packet_switch));
         write!(f, "PacketZcGangsiRank\n {}", fields.join(",\n "))
     }
 }
@@ -12749,10 +12749,10 @@ impl Debug for PacketZcItemPickupAck2 {
             .field("is_damaged[9, 10]", &format!("{:02X?}", &self.is_damaged_raw))
             .field("refining_level[10, 11]", &format!("{:02X?}", &self.refining_level_raw))
             .field("slot[11, 19]", &format!("{:02X?}", &self.slot_raw))
-            .field("location[19, 21]", &format!("{:02X?}", &self.location_raw))
-            .field("atype[21, 22]", &format!("{:02X?}", &self.atype_raw))
-            .field("result[22, 23]", &format!("{:02X?}", &self.result_raw))
-            .field("hire_expire_date[23, 27]", &format!("{:02X?}", &self.hire_expire_date_raw))
+            .field("location[11, 13]", &format!("{:02X?}", &self.location_raw))
+            .field("atype[13, 14]", &format!("{:02X?}", &self.atype_raw))
+            .field("result[14, 15]", &format!("{:02X?}", &self.result_raw))
+            .field("hire_expire_date[15, 19]", &format!("{:02X?}", &self.hire_expire_date_raw))
         .finish()
     }
 }
@@ -12768,10 +12768,10 @@ impl Display for PacketZcItemPickupAck2 {
         fields.push(format!("is_damaged(bool as bool)[9, 10]: {}", &self.is_damaged));
         fields.push(format!("refining_level(unsigned char as u8)[10, 11]: {}", &self.refining_level));
         fields.push(format!("slot(struct as Struct)[11, 19]: {}", &self.slot));
-        fields.push(format!("location(unsigned short as u16)[19, 21]: {}", &self.location));
-        fields.push(format!("atype(unsigned char as u8)[21, 22]: {}", &self.atype));
-        fields.push(format!("result(unsigned char as u8)[22, 23]: {}", &self.result));
-        fields.push(format!("hire_expire_date(long as i32)[23, 27]: {}", &self.hire_expire_date));
+        fields.push(format!("location(unsigned short as u16)[11, 13]: {}", &self.location));
+        fields.push(format!("atype(unsigned char as u8)[13, 14]: {}", &self.atype));
+        fields.push(format!("result(unsigned char as u8)[14, 15]: {}", &self.result));
+        fields.push(format!("hire_expire_date(long as i32)[15, 19]: {}", &self.hire_expire_date));
         write!(f, "PacketZcItemPickupAck2\n {}", fields.join(",\n "))
     }
 }
@@ -13346,8 +13346,8 @@ impl Debug for PacketZcItemPickupParty {
             .field("is_damaged[9, 10]", &format!("{:02X?}", &self.is_damaged_raw))
             .field("refining_level[10, 11]", &format!("{:02X?}", &self.refining_level_raw))
             .field("slot[11, 19]", &format!("{:02X?}", &self.slot_raw))
-            .field("location[19, 21]", &format!("{:02X?}", &self.location_raw))
-            .field("atype[21, 22]", &format!("{:02X?}", &self.atype_raw))
+            .field("location[11, 13]", &format!("{:02X?}", &self.location_raw))
+            .field("atype[13, 14]", &format!("{:02X?}", &self.atype_raw))
         .finish()
     }
 }
@@ -13362,8 +13362,8 @@ impl Display for PacketZcItemPickupParty {
         fields.push(format!("is_damaged(bool as bool)[9, 10]: {}", &self.is_damaged));
         fields.push(format!("refining_level(unsigned char as u8)[10, 11]: {}", &self.refining_level));
         fields.push(format!("slot(struct as Struct)[11, 19]: {}", &self.slot));
-        fields.push(format!("location(unsigned short as u16)[19, 21]: {}", &self.location));
-        fields.push(format!("atype(unsigned char as u8)[21, 22]: {}", &self.atype));
+        fields.push(format!("location(unsigned short as u16)[11, 13]: {}", &self.location));
+        fields.push(format!("atype(unsigned char as u8)[13, 14]: {}", &self.atype));
         write!(f, "PacketZcItemPickupParty\n {}", fields.join(",\n "))
     }
 }
@@ -13878,11 +13878,11 @@ impl Debug for PacketZcItemPickupAck3 {
             .field("is_damaged[9, 10]", &format!("{:02X?}", &self.is_damaged_raw))
             .field("refining_level[10, 11]", &format!("{:02X?}", &self.refining_level_raw))
             .field("slot[11, 19]", &format!("{:02X?}", &self.slot_raw))
-            .field("location[19, 21]", &format!("{:02X?}", &self.location_raw))
-            .field("atype[21, 22]", &format!("{:02X?}", &self.atype_raw))
-            .field("result[22, 23]", &format!("{:02X?}", &self.result_raw))
-            .field("hire_expire_date[23, 27]", &format!("{:02X?}", &self.hire_expire_date_raw))
-            .field("bind_on_equip_type[27, 29]", &format!("{:02X?}", &self.bind_on_equip_type_raw))
+            .field("location[11, 13]", &format!("{:02X?}", &self.location_raw))
+            .field("atype[13, 14]", &format!("{:02X?}", &self.atype_raw))
+            .field("result[14, 15]", &format!("{:02X?}", &self.result_raw))
+            .field("hire_expire_date[15, 19]", &format!("{:02X?}", &self.hire_expire_date_raw))
+            .field("bind_on_equip_type[19, 21]", &format!("{:02X?}", &self.bind_on_equip_type_raw))
         .finish()
     }
 }
@@ -13898,11 +13898,11 @@ impl Display for PacketZcItemPickupAck3 {
         fields.push(format!("is_damaged(bool as bool)[9, 10]: {}", &self.is_damaged));
         fields.push(format!("refining_level(unsigned char as u8)[10, 11]: {}", &self.refining_level));
         fields.push(format!("slot(struct as Struct)[11, 19]: {}", &self.slot));
-        fields.push(format!("location(unsigned short as u16)[19, 21]: {}", &self.location));
-        fields.push(format!("atype(unsigned char as u8)[21, 22]: {}", &self.atype));
-        fields.push(format!("result(unsigned char as u8)[22, 23]: {}", &self.result));
-        fields.push(format!("hire_expire_date(long as i32)[23, 27]: {}", &self.hire_expire_date));
-        fields.push(format!("bind_on_equip_type(unsigned short as u16)[27, 29]: {}", &self.bind_on_equip_type));
+        fields.push(format!("location(unsigned short as u16)[11, 13]: {}", &self.location));
+        fields.push(format!("atype(unsigned char as u8)[13, 14]: {}", &self.atype));
+        fields.push(format!("result(unsigned char as u8)[14, 15]: {}", &self.result));
+        fields.push(format!("hire_expire_date(long as i32)[15, 19]: {}", &self.hire_expire_date));
+        fields.push(format!("bind_on_equip_type(unsigned short as u16)[19, 21]: {}", &self.bind_on_equip_type));
         write!(f, "PacketZcItemPickupAck3\n {}", fields.join(",\n "))
     }
 }
@@ -18074,8 +18074,8 @@ impl Debug for PacketZcNotifyStandentry6 {
             .field("job[23, 25]", &format!("{:02X?}", &self.job_raw))
             .field("head[25, 27]", &format!("{:02X?}", &self.head_raw))
             .field("weapon[27, 31]", &format!("{:02X?}", &self.weapon_raw))
-            .field("shield[31, 35]", &format!("{:02X?}", &self.shield_raw))
-            .field("accessory[35, 37]", &format!("{:02X?}", &self.accessory_raw))
+            .field("accessory[31, 33]", &format!("{:02X?}", &self.accessory_raw))
+            .field("shield[33, 37]", &format!("{:02X?}", &self.shield_raw))
             .field("accessory2[37, 39]", &format!("{:02X?}", &self.accessory2_raw))
             .field("accessory3[39, 41]", &format!("{:02X?}", &self.accessory3_raw))
             .field("headpalette[41, 43]", &format!("{:02X?}", &self.headpalette_raw))
@@ -18118,8 +18118,8 @@ impl Display for PacketZcNotifyStandentry6 {
         fields.push(format!("job(short as i16)[23, 25]: {}", &self.job));
         fields.push(format!("head(short as i16)[25, 27]: {}", &self.head));
         fields.push(format!("weapon(unsigned long as u32)[27, 31]: {}", &self.weapon));
-        fields.push(format!("shield(unsigned long as u32)[31, 35]: {}", &self.shield));
-        fields.push(format!("accessory(unsigned short as u16)[35, 37]: {}", &self.accessory));
+        fields.push(format!("accessory(unsigned short as u16)[31, 33]: {}", &self.accessory));
+        fields.push(format!("shield(unsigned long as u32)[33, 37]: {}", &self.shield));
         fields.push(format!("accessory2(unsigned short as u16)[37, 39]: {}", &self.accessory2));
         fields.push(format!("accessory3(unsigned short as u16)[39, 41]: {}", &self.accessory3));
         fields.push(format!("headpalette(unsigned short as u16)[41, 43]: {}", &self.headpalette));
@@ -18144,6 +18144,95 @@ impl Display for PacketZcNotifyStandentry6 {
         fields.push(format!("body(short as i16)[82, 84]: {}", &self.body));
         fields.push(format!("name(char[] as char[])[84, 108]: {}", &self.name.pretty_output()));
         write!(f, "PacketZcNotifyStandentry6\n {}", fields.join(",\n "))
+    }
+}
+
+impl Debug for PacketZcNotifyMoveentry8 {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("PacketZcNotifyMoveentry8")
+            .field("id", &self.id())
+            .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
+            .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
+            .field("objecttype[4, 5]", &format!("{:02X?}", &self.objecttype_raw))
+            .field("aid[5, 9]", &format!("{:02X?}", &self.aid_raw))
+            .field("gid[9, 13]", &format!("{:02X?}", &self.gid_raw))
+            .field("speed[13, 15]", &format!("{:02X?}", &self.speed_raw))
+            .field("body_state[15, 17]", &format!("{:02X?}", &self.body_state_raw))
+            .field("health_state[17, 19]", &format!("{:02X?}", &self.health_state_raw))
+            .field("effect_state[19, 23]", &format!("{:02X?}", &self.effect_state_raw))
+            .field("job[23, 25]", &format!("{:02X?}", &self.job_raw))
+            .field("head[25, 27]", &format!("{:02X?}", &self.head_raw))
+            .field("weapon[27, 31]", &format!("{:02X?}", &self.weapon_raw))
+            .field("accessory[31, 33]", &format!("{:02X?}", &self.accessory_raw))
+            .field("move_start_time[33, 37]", &format!("{:02X?}", &self.move_start_time_raw))
+            .field("shield[37, 41]", &format!("{:02X?}", &self.shield_raw))
+            .field("accessory2[41, 43]", &format!("{:02X?}", &self.accessory2_raw))
+            .field("accessory3[43, 45]", &format!("{:02X?}", &self.accessory3_raw))
+            .field("headpalette[45, 47]", &format!("{:02X?}", &self.headpalette_raw))
+            .field("bodypalette[47, 49]", &format!("{:02X?}", &self.bodypalette_raw))
+            .field("head_dir[49, 51]", &format!("{:02X?}", &self.head_dir_raw))
+            .field("robe[51, 53]", &format!("{:02X?}", &self.robe_raw))
+            .field("guid[53, 57]", &format!("{:02X?}", &self.guid_raw))
+            .field("gemblem_ver[57, 59]", &format!("{:02X?}", &self.gemblem_ver_raw))
+            .field("honor[59, 61]", &format!("{:02X?}", &self.honor_raw))
+            .field("virtue[61, 65]", &format!("{:02X?}", &self.virtue_raw))
+            .field("is_pkmode_on[65, 66]", &format!("{:02X?}", &self.is_pkmode_on_raw))
+            .field("sex[66, 67]", &format!("{:02X?}", &self.sex_raw))
+            .field("pos_dir[67, 70]", &format!("{:02X?}", &self.pos_dir_raw))
+            .field("x_size[70, 71]", &format!("{:02X?}", &self.x_size_raw))
+            .field("y_size[71, 72]", &format!("{:02X?}", &self.y_size_raw))
+            .field("clevel[72, 74]", &format!("{:02X?}", &self.clevel_raw))
+            .field("font[74, 76]", &format!("{:02X?}", &self.font_raw))
+            .field("max_hp[76, 80]", &format!("{:02X?}", &self.max_hp_raw))
+            .field("hp[80, 84]", &format!("{:02X?}", &self.hp_raw))
+            .field("is_boss[84, 85]", &format!("{:02X?}", &self.is_boss_raw))
+            .field("body[85, 87]", &format!("{:02X?}", &self.body_raw))
+            .field("name[87, 111]", &format!("{:02X?}", &self.name_raw))
+        .finish()
+    }
+}
+
+impl Display for PacketZcNotifyMoveentry8 {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        let mut fields = Vec::new();
+        fields.push(format!("packet_id(short as i16)[0, 2]: {}", &self.packet_id));
+        fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
+        fields.push(format!("objecttype(unsigned char as u8)[4, 5]: {}", &self.objecttype));
+        fields.push(format!("aid(unsigned long as u32)[5, 9]: {}", &self.aid));
+        fields.push(format!("gid(unsigned long as u32)[9, 13]: {}", &self.gid));
+        fields.push(format!("speed(short as i16)[13, 15]: {}", &self.speed));
+        fields.push(format!("body_state(short as i16)[15, 17]: {}", &self.body_state));
+        fields.push(format!("health_state(short as i16)[17, 19]: {}", &self.health_state));
+        fields.push(format!("effect_state(int as i32)[19, 23]: {}", &self.effect_state));
+        fields.push(format!("job(short as i16)[23, 25]: {}", &self.job));
+        fields.push(format!("head(short as i16)[25, 27]: {}", &self.head));
+        fields.push(format!("weapon(unsigned long as u32)[27, 31]: {}", &self.weapon));
+        fields.push(format!("accessory(unsigned short as u16)[31, 33]: {}", &self.accessory));
+        fields.push(format!("move_start_time(unsigned int as u32)[33, 37]: {}", &self.move_start_time));
+        fields.push(format!("shield(unsigned long as u32)[37, 41]: {}", &self.shield));
+        fields.push(format!("accessory2(unsigned short as u16)[41, 43]: {}", &self.accessory2));
+        fields.push(format!("accessory3(unsigned short as u16)[43, 45]: {}", &self.accessory3));
+        fields.push(format!("headpalette(unsigned short as u16)[45, 47]: {}", &self.headpalette));
+        fields.push(format!("bodypalette(unsigned short as u16)[47, 49]: {}", &self.bodypalette));
+        fields.push(format!("head_dir(unsigned short as u16)[49, 51]: {}", &self.head_dir));
+        fields.push(format!("robe(unsigned short as u16)[51, 53]: {}", &self.robe));
+        fields.push(format!("guid(unsigned long as u32)[53, 57]: {}", &self.guid));
+        fields.push(format!("gemblem_ver(short as i16)[57, 59]: {}", &self.gemblem_ver));
+        fields.push(format!("honor(short as i16)[59, 61]: {}", &self.honor));
+        fields.push(format!("virtue(int as i32)[61, 65]: {}", &self.virtue));
+        fields.push(format!("is_pkmode_on(bool as bool)[65, 66]: {}", &self.is_pkmode_on));
+        fields.push(format!("sex(unsigned char as u8)[66, 67]: {}", &self.sex));
+        fields.push(format!("pos_dir(unsigned char[] as u8[])[67, 70]: {}", &self.pos_dir.pretty_output()));
+        fields.push(format!("x_size(unsigned char as u8)[70, 71]: {}", &self.x_size));
+        fields.push(format!("y_size(unsigned char as u8)[71, 72]: {}", &self.y_size));
+        fields.push(format!("clevel(short as i16)[72, 74]: {}", &self.clevel));
+        fields.push(format!("font(short as i16)[74, 76]: {}", &self.font));
+        fields.push(format!("max_hp(unsigned long as u32)[76, 80]: {}", &self.max_hp));
+        fields.push(format!("hp(unsigned long as u32)[80, 84]: {}", &self.hp));
+        fields.push(format!("is_boss(bool as bool)[84, 85]: {}", &self.is_boss));
+        fields.push(format!("body(short as i16)[85, 87]: {}", &self.body));
+        fields.push(format!("name(char[] as char[])[87, 111]: {}", &self.name.pretty_output()));
+        write!(f, "PacketZcNotifyMoveentry8\n {}", fields.join(",\n "))
     }
 }
 
@@ -18182,7 +18271,7 @@ impl Debug for ServerAddr2 {
             .field("user_count[26, 28]", &format!("{:02X?}", &self.user_count_raw))
             .field("state[28, 30]", &format!("{:02X?}", &self.state_raw))
             .field("property[30, 32]", &format!("{:02X?}", &self.property_raw))
-            .field("unknown2[31, 159]", &format!("{:02X?}", &self.unknown2_raw))
+            .field("unknown2[32, 160]", &format!("{:02X?}", &self.unknown2_raw))
         .finish()
     }
 }
@@ -18196,7 +18285,7 @@ impl Display for ServerAddr2 {
         fields.push(format!("user_count(unsigned short as u16)[26, 28]: {}", &self.user_count));
         fields.push(format!("state(unsigned short as u16)[28, 30]: {}", &self.state));
         fields.push(format!("property(unsigned short as u16)[30, 32]: {}", &self.property));
-        fields.push(format!("unknown2(char[] as char[])[31, 159]: {}", &self.unknown2.pretty_output()));
+        fields.push(format!("unknown2(char[] as char[])[32, 160]: {}", &self.unknown2.pretty_output()));
         write!(f, "ServerAddr2\n {}", fields.join(",\n "))
     }
 }
@@ -19041,9 +19130,9 @@ impl Display for RepairitemInfo {
     }
 }
 
-impl Debug for StructFriend {
+impl Debug for FRIEND {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        f.debug_struct("StructFriend")
+        f.debug_struct("FRIEND")
             .field("aid[0, 4]", &format!("{:02X?}", &self.aid_raw))
             .field("gid[4, 8]", &format!("{:02X?}", &self.gid_raw))
             .field("name[8, 32]", &format!("{:02X?}", &self.name_raw))
@@ -19051,13 +19140,13 @@ impl Debug for StructFriend {
     }
 }
 
-impl Display for StructFriend {
+impl Display for FRIEND {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut fields = Vec::new();
         fields.push(format!("aid(unsigned long as u32)[0, 4]: {}", &self.aid));
         fields.push(format!("gid(unsigned long as u32)[4, 8]: {}", &self.gid));
         fields.push(format!("name(char[] as char[])[8, 32]: {}", &self.name.pretty_output()));
-        write!(f, "StructFriend\n {}", fields.join(",\n "))
+        write!(f, "FRIEND\n {}", fields.join(",\n "))
     }
 }
 
@@ -19153,10 +19242,10 @@ impl Debug for AuctionItemSearchInfo {
             .field("is_damaged[37, 38]", &format!("{:02X?}", &self.is_damaged_raw))
             .field("refining_level[38, 39]", &format!("{:02X?}", &self.refining_level_raw))
             .field("slot[39, 47]", &format!("{:02X?}", &self.slot_raw))
-            .field("now_price[47, 51]", &format!("{:02X?}", &self.now_price_raw))
-            .field("max_price[51, 55]", &format!("{:02X?}", &self.max_price_raw))
-            .field("buyer_name[55, 79]", &format!("{:02X?}", &self.buyer_name_raw))
-            .field("delete_time[79, 83]", &format!("{:02X?}", &self.delete_time_raw))
+            .field("now_price[39, 43]", &format!("{:02X?}", &self.now_price_raw))
+            .field("max_price[43, 47]", &format!("{:02X?}", &self.max_price_raw))
+            .field("buyer_name[47, 71]", &format!("{:02X?}", &self.buyer_name_raw))
+            .field("delete_time[71, 75]", &format!("{:02X?}", &self.delete_time_raw))
         .finish()
     }
 }
@@ -19173,10 +19262,10 @@ impl Display for AuctionItemSearchInfo {
         fields.push(format!("is_damaged(bool as bool)[37, 38]: {}", &self.is_damaged));
         fields.push(format!("refining_level(unsigned char as u8)[38, 39]: {}", &self.refining_level));
         fields.push(format!("slot(struct as Struct)[39, 47]: {}", &self.slot));
-        fields.push(format!("now_price(int as i32)[47, 51]: {}", &self.now_price));
-        fields.push(format!("max_price(int as i32)[51, 55]: {}", &self.max_price));
-        fields.push(format!("buyer_name(char[] as char[])[55, 79]: {}", &self.buyer_name.pretty_output()));
-        fields.push(format!("delete_time(long as i32)[79, 83]: {}", &self.delete_time));
+        fields.push(format!("now_price(int as i32)[39, 43]: {}", &self.now_price));
+        fields.push(format!("max_price(int as i32)[43, 47]: {}", &self.max_price));
+        fields.push(format!("buyer_name(char[] as char[])[47, 71]: {}", &self.buyer_name.pretty_output()));
+        fields.push(format!("delete_time(long as i32)[71, 75]: {}", &self.delete_time));
         write!(f, "AuctionItemSearchInfo\n {}", fields.join(",\n "))
     }
 }
@@ -19215,7 +19304,7 @@ impl Debug for EquipmentitemExtrainfo2 {
             .field("is_damaged[10, 11]", &format!("{:02X?}", &self.is_damaged_raw))
             .field("refining_level[11, 12]", &format!("{:02X?}", &self.refining_level_raw))
             .field("slot[12, 20]", &format!("{:02X?}", &self.slot_raw))
-            .field("hire_expire_date[20, 24]", &format!("{:02X?}", &self.hire_expire_date_raw))
+            .field("hire_expire_date[12, 16]", &format!("{:02X?}", &self.hire_expire_date_raw))
         .finish()
     }
 }
@@ -19232,7 +19321,7 @@ impl Display for EquipmentitemExtrainfo2 {
         fields.push(format!("is_damaged(bool as bool)[10, 11]: {}", &self.is_damaged));
         fields.push(format!("refining_level(unsigned char as u8)[11, 12]: {}", &self.refining_level));
         fields.push(format!("slot(struct as Struct)[12, 20]: {}", &self.slot));
-        fields.push(format!("hire_expire_date(long as i32)[20, 24]: {}", &self.hire_expire_date));
+        fields.push(format!("hire_expire_date(long as i32)[12, 16]: {}", &self.hire_expire_date));
         write!(f, "EquipmentitemExtrainfo2\n {}", fields.join(",\n "))
     }
 }
@@ -19354,9 +19443,9 @@ impl Debug for EquipmentitemExtrainfo301 {
             .field("is_damaged[10, 11]", &format!("{:02X?}", &self.is_damaged_raw))
             .field("refining_level[11, 12]", &format!("{:02X?}", &self.refining_level_raw))
             .field("slot[12, 20]", &format!("{:02X?}", &self.slot_raw))
-            .field("hire_expire_date[20, 24]", &format!("{:02X?}", &self.hire_expire_date_raw))
-            .field("bind_on_equip_type[24, 26]", &format!("{:02X?}", &self.bind_on_equip_type_raw))
-            .field("w_item_sprite_number[26, 28]", &format!("{:02X?}", &self.w_item_sprite_number_raw))
+            .field("hire_expire_date[12, 16]", &format!("{:02X?}", &self.hire_expire_date_raw))
+            .field("bind_on_equip_type[16, 18]", &format!("{:02X?}", &self.bind_on_equip_type_raw))
+            .field("w_item_sprite_number[18, 20]", &format!("{:02X?}", &self.w_item_sprite_number_raw))
         .finish()
     }
 }
@@ -19373,9 +19462,9 @@ impl Display for EquipmentitemExtrainfo301 {
         fields.push(format!("is_damaged(bool as bool)[10, 11]: {}", &self.is_damaged));
         fields.push(format!("refining_level(unsigned char as u8)[11, 12]: {}", &self.refining_level));
         fields.push(format!("slot(struct as Struct)[12, 20]: {}", &self.slot));
-        fields.push(format!("hire_expire_date(long as i32)[20, 24]: {}", &self.hire_expire_date));
-        fields.push(format!("bind_on_equip_type(unsigned short as u16)[24, 26]: {}", &self.bind_on_equip_type));
-        fields.push(format!("w_item_sprite_number(unsigned short as u16)[26, 28]: {}", &self.w_item_sprite_number));
+        fields.push(format!("hire_expire_date(long as i32)[12, 16]: {}", &self.hire_expire_date));
+        fields.push(format!("bind_on_equip_type(unsigned short as u16)[16, 18]: {}", &self.bind_on_equip_type));
+        fields.push(format!("w_item_sprite_number(unsigned short as u16)[18, 20]: {}", &self.w_item_sprite_number));
         write!(f, "EquipmentitemExtrainfo301\n {}", fields.join(",\n "))
     }
 }
@@ -19390,7 +19479,7 @@ impl Debug for NormalitemExtrainfo3 {
             .field("count[6, 8]", &format!("{:02X?}", &self.count_raw))
             .field("wear_state[8, 10]", &format!("{:02X?}", &self.wear_state_raw))
             .field("slot[10, 18]", &format!("{:02X?}", &self.slot_raw))
-            .field("hire_expire_date[18, 22]", &format!("{:02X?}", &self.hire_expire_date_raw))
+            .field("hire_expire_date[10, 14]", &format!("{:02X?}", &self.hire_expire_date_raw))
         .finish()
     }
 }
@@ -19405,7 +19494,7 @@ impl Display for NormalitemExtrainfo3 {
         fields.push(format!("count(short as i16)[6, 8]: {}", &self.count));
         fields.push(format!("wear_state(unsigned short as u16)[8, 10]: {}", &self.wear_state));
         fields.push(format!("slot(struct as Struct)[10, 18]: {}", &self.slot));
-        fields.push(format!("hire_expire_date(long as i32)[18, 22]: {}", &self.hire_expire_date));
+        fields.push(format!("hire_expire_date(long as i32)[10, 14]: {}", &self.hire_expire_date));
         write!(f, "NormalitemExtrainfo3\n {}", fields.join(",\n "))
     }
 }

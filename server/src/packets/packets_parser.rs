@@ -2350,6 +2350,9 @@ pub fn parse(buffer: &[u8]) -> Box<dyn Packet> {
     if buffer[0] == 0xff && buffer[1] == 0x09 {
         return Box::new(PacketZcNotifyStandentry6::from(buffer));
     }
+    if buffer[0] == 0xfd && buffer[1] == 0x09 {
+        return Box::new(PacketZcNotifyMoveentry8::from(buffer));
+    }
     Box::new(PacketUnknown::from(buffer))
 }
 

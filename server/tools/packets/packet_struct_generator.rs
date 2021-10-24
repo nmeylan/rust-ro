@@ -119,7 +119,7 @@ fn write_debug_trait(file: &mut File, struct_definition: &StructDefinition, is_p
     for field in &struct_definition.fields {
         file.write(format!("            .field(\"{}{}\", &format!(\"{{:02X?}}\", &self.{}_raw))\n",
                            field.name,
-                           format!("[{}, {}]", field.position, if field.length > -1 { (i32::from(field.position) + field.length).to_string() } else { "?".to_string() }),
+                           format!("[{}, {}]", field.position, if field.length > -1 { (field.position + field.length).to_string() } else { "?".to_string() }),
                            field.name
         ).as_bytes());
     }
@@ -144,7 +144,7 @@ fn write_display_trait(file: &mut File, struct_definition: &StructDefinition, _i
         file.write(format!("        fields.push(format!(\"{}{}{}: {{}}\", {}));\n",
                            field.name,
                            display_type(&field),
-                           format!("[{}, {}]", field.position, if field.length > -1 { (i32::from(field.position) + field.length).to_string() } else { "?".to_string() }),
+                           format!("[{}, {}]", field.position, if field.length > -1 { (field.position + field.length).to_string() } else { "?".to_string() }),
                            value_to_print
         ).as_bytes());
     }
