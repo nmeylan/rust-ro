@@ -1,3 +1,5 @@
+#![feature(in_band_lifetimes)]
+
 mod packet_struct_generator;
 mod packet_db_parser;
 
@@ -18,6 +20,7 @@ pub struct PacketStructDefinition<'a> {
 #[derive(Debug)]
 pub struct StructDefinition<'a> {
     pub name: String,
+    pub current_field_position: i16,
     pub fields: Vec<StructField<'a>>,
 }
 
@@ -25,7 +28,7 @@ pub struct StructDefinition<'a> {
 pub struct StructField<'a> {
     pub name: String,
     pub position: i16,
-    pub length: i32,
+    pub length: i16,
     pub data_type: &'a Type,
     pub complex_type: Option<String>,
     pub sub_type: Option<&'a Type>,
@@ -35,7 +38,13 @@ pub struct StructField<'a> {
 pub struct Type {
     pub name: String,
     pub cname: String,
-    pub length: Option<i32>,
+    pub length: Option<i16>,
+}
+
+impl StructDefinition<'a> {
+    pub fn increment_current_field_position(&mut self, last_field_length: i16) {
+        self.current_field_position += last_field_length;
+    }
 }
 
 /*
