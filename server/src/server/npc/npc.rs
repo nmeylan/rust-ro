@@ -13,7 +13,7 @@ pub struct NpcLoader {
 }
 
 pub trait Npc {
-    fn parse_npc(file: &File) -> Vec<Self> where Self: Sized;
+    fn parse_npc(file: &File) -> Result<Vec<Self>, String> where Self: Sized;
     fn get_map_name(&self) -> String;
 }
 
@@ -42,7 +42,12 @@ impl NpcLoader {
                     return;
                 }
                 
-                let npcs = T::parse_npc(&npc_script_file_res.unwrap());
+                let npcs_result = T::parse_npc(&npc_script_file_res.unwrap());
+                if npcs_result.is_err() {
+                    error!("{}", npcs_result.err().unwrap());
+                    return ;
+                }
+                let npcs = npcs_result.unwrap();
                 for npc in npcs {
                     let mut res_guard = res.lock().unwrap();
                     let map_name = npc.get_map_name();

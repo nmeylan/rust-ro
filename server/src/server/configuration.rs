@@ -59,7 +59,7 @@ impl Config {
         let mut config: Config = toml::from_str(&fs::read_to_string(path).unwrap()).unwrap();
         match env::var("DATABASE_PASSWORD"){
             Ok(password) => config.database.set_password(Some(password)),
-            Err(e) => return Err("DATABASE_PASSWORD env is missing. please provide this env".to_string())
+            Err(_) => return Err("DATABASE_PASSWORD env is missing. please provide this env".to_string())
         }
 
         if config.server.log_level.is_some() {

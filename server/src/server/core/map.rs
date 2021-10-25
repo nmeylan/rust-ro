@@ -11,6 +11,7 @@ use std::fmt::Debug;
 use std::sync::{Arc, RwLock};
 use log::warn;
 use accessor::Setters;
+use crate::server::npc::mob::MobSpawn;
 use crate::server::npc::warps::Warp;
 use crate::server::server::Server;
 use crate::util::coordinate;
@@ -49,6 +50,7 @@ pub struct Map {
     // bit 11 -> warp
     pub cells: Option<Vec<u16>>,
     pub warps: Vec<Arc<Warp>>,
+    pub mob_spawns: Vec<Arc<MobSpawn>>,
     pub is_initialized: bool, // maps initialization is lazy, this bool indicate if maps has been initialized or not
 }
 
@@ -231,7 +233,13 @@ impl Map {
         }
     }
 
-    pub fn load_maps(warps: HashMap<String, Vec<Warp>>, map_item_ids: &RwLock<Vec<u32>>) -> HashMap<String, Map> {
+    fn set_mob_spawns(&mut self, mob_spawns: &Vec<MobSpawn>) {
+        for mob_spawn in mob_spawns {
+            self.mob_spawns.push(Arc::new(mob_spawn.clone()));
+        }
+    }
+
+    pub fn load_maps(warps: HashMap<String, Vec<Warp>>, mob_spawns: HashMap<String, Vec<MobSpawn>>, map_item_ids: &RwLock<Vec<u32>>) -> HashMap<String, Map> {
         let mut maps = HashMap::<String, Map>::new();
         let paths = fs::read_dir(MAP_DIR).unwrap();
         for path in paths {
@@ -260,9 +268,11 @@ impl Map {
                 name: map_name.to_string(),
                 cells: None,
                 warps: Default::default(),
+                mob_spawns: Default::default(),
                 is_initialized: false
             };
             map.set_warps(warps.get(&map_name).unwrap_or(&vec![]), map_item_ids);
+            map.set_mob_spawns(mob_spawns.get(&map_name).unwrap_or(&vec![]));
             maps.insert(map.name.clone(), map);
         }
         maps
