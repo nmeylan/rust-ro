@@ -2,10 +2,7 @@ use std::collections::HashMap;
 use std::fs::File;
 use std::path::Path;
 use std::io::{BufReader, BufRead};
-use tokio::sync::Semaphore;
-use tokio::task::JoinHandle;
-use futures::future::join_all;
-use std::sync::{Mutex, Arc};
+use std::time::Instant;
 use crate::server::core::map::MapItem;
 use crate::server::npc::npc::{Npc, NpcLoader};
 
@@ -48,7 +45,7 @@ impl MapItem for Warp {
 }
 
 impl Npc for Warp {
-    fn parse_npc(file: &File) -> Vec<Self> where Self: Sized {
+    fn parse_npc(file: &File) -> Result<Vec<Warp>, String> {
         let reader = BufReader::new(file);
         let mut warps = Vec::<Warp>::new();
         for line in reader.lines() {
@@ -79,7 +76,7 @@ impl Npc for Warp {
             warp.set_to_y(warp_and_destination_information_split[4].parse::<u16>().unwrap());
             warps.push(warp);
         }
-        warps
+        Ok(warps)
     }
 
     fn get_map_name(&self) -> String {
@@ -102,11 +99,15 @@ impl Warp {
             to_y: 0
         }
     }
+
     pub async fn load_warps() -> HashMap<String, Vec<Warp>> {
+        let start = Instant::now();
         let npc_loader = NpcLoader {
             conf_file: File::open(Path::new(WARP_CONF_PATH)).unwrap(),
             parallel_execution: PARALLEL_EXECUTIONS,
         };
-        npc_loader.load_npc::<Warp>().await
+        let warps = npc_loader.load_npc::<Warp>().await;
+        info!("load {} warps in {} secs", warps.iter().fold(0, |memo, curr| memo + curr.1.len()), start.elapsed().as_millis() as f32 / 1000.0);
+        warps
     }
 }

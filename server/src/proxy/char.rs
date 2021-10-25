@@ -1,5 +1,5 @@
 use crate::proxy::proxy::{PacketHandler, Proxy};
-use std::net::{SocketAddr, Ipv4Addr, TcpStream};
+use std::net::{SocketAddr, TcpStream};
 use std::net::IpAddr;
 use std::str::FromStr;
 use std::sync::{Arc, Mutex};
