@@ -1,4 +1,4 @@
-use crate::packets::packets::{Packet, PacketChEnter, PacketHcRefuseEnter, CharacterInfoNeoUnion, PacketHcAcceptEnterNeoUnionHeader, PacketHcAcceptEnterNeoUnion, PacketPincodeLoginstate, PacketChMakeChar2, PacketHcAcceptMakecharNeoUnion, PacketChDeleteChar4Reserved, PacketHcDeleteChar4Reserved, PacketChSelectChar, PacketChSendMapInfo, PacketCzEnter2, PacketMapConnection, PacketZcInventoryExpansionInfo, PacketZcOverweightPercent, PacketZcAcceptEnter2, PacketZcNpcackMapmove, PacketZcStatusValues, PacketZcParChange, PacketZcAttackRange, PacketZcNotifyChat, PacketCzRestart, PacketZcRestartAck, PacketZcReqDisconnectAck2, PacketZcMsgColor, PacketZcNotifyMapproperty2, PacketZcHatEffect, PacketZcLoadConfirm};
+use packets::packets::{Packet, PacketChEnter, PacketHcRefuseEnter, CharacterInfoNeoUnion, PacketHcAcceptEnterNeoUnionHeader, PacketHcAcceptEnterNeoUnion, PacketPincodeLoginstate, PacketChMakeChar2, PacketHcAcceptMakecharNeoUnion, PacketChDeleteChar4Reserved, PacketHcDeleteChar4Reserved, PacketChSelectChar, PacketChSendMapInfo, PacketCzEnter2, PacketMapConnection, PacketZcInventoryExpansionInfo, PacketZcOverweightPercent, PacketZcAcceptEnter2, PacketZcNpcackMapmove, PacketZcStatusValues, PacketZcParChange, PacketZcAttackRange, PacketZcNotifyChat, PacketCzRestart, PacketZcRestartAck, PacketZcReqDisconnectAck2, PacketZcMsgColor, PacketZcNotifyMapproperty2, PacketZcHatEffect, PacketZcLoadConfirm};
 use crate::repository::lib::Repository;
 use sqlx::{MySql, Row};
 use tokio::runtime::Runtime;
@@ -6,7 +6,7 @@ use std::sync::{Arc, Mutex, RwLock};
 use std::net::TcpStream;
 use std::io::Write;
 use byteorder::{LittleEndian, WriteBytesExt};
-use crate::repository::model::char_model::{CharInsertModel, CharSelectModel};
+use crate::repository::model::char_model::{CharacterInfoNeoUnionWrapped, CharInsertModel, CharSelectModel};
 use crate::util::string::StringUtil;
 use std::net::Shutdown::Both;
 use crate::util::packet::chain_packets;
@@ -93,12 +93,12 @@ pub fn handle_make_char(server: Arc<Server>, packet: &mut dyn Packet, runtime: &
     let created_char = runtime.block_on(async {
         char_model.insert(&server.repository.pool, "char").await.unwrap();
         // TODO add default stuff
-        let created_char = sqlx::query_as::<_, CharacterInfoNeoUnion>("SELECT * from `char` WHERE `name`= ? AND `account_id` = ?")
+        let created_char: CharacterInfoNeoUnionWrapped = sqlx::query_as::<_, CharacterInfoNeoUnionWrapped>("SELECT * from `char` WHERE `name`= ? AND `account_id` = ?")
             .bind(char_model.name)
             .bind(char_model.account_id)
             .fetch_one(&server.repository.pool)
             .await.unwrap();
-        created_char
+        created_char.data
     });
     let mut packet_hc_accept_makechar_neo_union = PacketHcAcceptMakecharNeoUnion::new();
     packet_hc_accept_makechar_neo_union.set_charinfo(created_char);
@@ -358,13 +358,13 @@ pub fn handle_blocking_play_cancel(_server: Arc<Server>, _packet: &mut dyn Packe
 }
 
 async fn load_chars_info(account_id: u32, repository: &Repository<MySql>) -> PacketHcAcceptEnterNeoUnionHeader {
-    let row_results = sqlx::query_as::<_, CharacterInfoNeoUnion>("SELECT * FROM `char` WHERE account_id = ?")
+    let row_results = sqlx::query_as::<_, CharacterInfoNeoUnionWrapped>("SELECT * FROM `char` WHERE account_id = ?")
         .bind(account_id)
         .fetch_all(&repository.pool).await.unwrap();
     let mut accept_enter_neo_union_header = PacketHcAcceptEnterNeoUnionHeader::new();
     let mut accept_enter_neo_union = PacketHcAcceptEnterNeoUnion::new();
     accept_enter_neo_union.set_packet_length((27 + row_results.len() * 155) as i16);
-    accept_enter_neo_union.set_char_info(row_results);
+    accept_enter_neo_union.set_char_info(row_results.iter().map(|wrapped| wrapped.data.clone()).collect::<Vec<CharacterInfoNeoUnion>>());
     accept_enter_neo_union.set_premium_start_slot(12);
     accept_enter_neo_union.set_premium_end_slot(12);
     accept_enter_neo_union.set_total_slot_num(12);

@@ -4,8 +4,8 @@ use std::io::{Read, Write};
 use std::thread;
 use std::fmt::{Display, Formatter, Debug};
 use std::sync::{Arc, Mutex};
-use crate::packets::packets::{Packet};
-use crate::packets::packets_parser::parse;
+use packets::packets::{Packet};
+use packets::packets_parser::parse;
 use tokio::runtime::Runtime;
 
 #[derive(Clone)]

@@ -3,7 +3,7 @@
 
 #![allow(dead_code)]
 
-use crate::packets::packets::*;
+use crate::packets::*;
 use byteorder::{LittleEndian,WriteBytesExt};
 use std::any::Any;
 use std::convert::TryInto;

@@ -1,4 +1,4 @@
-use crate::packets::packets::{PacketCzRequestMove2, Packet, PacketZcNotifyPlayermove};
+use packets::packets::{PacketCzRequestMove2, Packet, PacketZcNotifyPlayermove};
 use tokio::runtime::Runtime;
 use std::sync::{Arc, RwLock};
 use std::net::TcpStream;

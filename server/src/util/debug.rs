@@ -1,4 +1,4 @@
-use crate::packets::packets::{PacketZcNotifyChat, Packet};
+use packets::packets::{PacketZcNotifyChat, Packet};
 use std::io::Write;
 use crate::server::core::session::Session;
 

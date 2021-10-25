@@ -21,14 +21,14 @@ pub fn write_packets_struct(packets: Vec<PacketStructDefinition>, nested_structu
     file_packets.write(b"use std::any::Any;\n\n");
 
     file_packets_print.write(b"#![allow(dead_code)]\n\n");
-    file_packets_print.write(b"use crate::packets::packets::*;\n");
+    file_packets_print.write(b"use crate::packets::*;\n");
     file_packets_print.write(b"use std::fmt::{Formatter, Debug, Display};\n");
-    file_packets_print.write(b"use crate::util::print::PrettyOutput;\n\n");
+    file_packets_print.write(b"use crate::print::PrettyOutput;\n\n");
 
-    file_packets_parser.write(b"use crate::packets::packets::*;\n\n");
+    file_packets_parser.write(b"use crate::packets::*;\n\n");
 
     file_packets_impl.write(b"#![allow(dead_code)]\n\n");
-    file_packets_impl.write(b"use crate::packets::packets::*;\n");
+    file_packets_impl.write(b"use crate::packets::*;\n");
     file_packets_impl.write(b"use byteorder::{LittleEndian,WriteBytesExt};\n");
     file_packets_impl.write(b"use std::any::Any;\n");
     file_packets_impl.write(b"use std::convert::TryInto;\n\n");
