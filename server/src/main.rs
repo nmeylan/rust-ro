@@ -19,7 +19,7 @@ use sqlx::MySql;
 use std::time::{Instant};
 use flexi_logger::Logger;
 use crate::server::core::map::Map;
-use crate::server::scripts::warps::Warp;
+use crate::server::npc::warps::Warp;
 use crate::server::server::Server;
 use crate::server::configuration::Config;
 

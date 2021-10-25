@@ -1,6 +1,6 @@
 pub mod server;
 pub mod enums;
-pub mod scripts;
+pub mod npc;
 pub mod handler;
 pub mod core;
 pub mod configuration;

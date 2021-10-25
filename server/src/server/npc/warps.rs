@@ -1,4 +1,3 @@
-use accessor::Setters;
 use std::collections::HashMap;
 use std::fs::File;
 use std::path::Path;
@@ -8,6 +7,7 @@ use tokio::task::JoinHandle;
 use futures::future::join_all;
 use std::sync::{Mutex, Arc};
 use crate::server::core::map::MapItem;
+use crate::server::npc::npc::{Npc, NpcLoader};
 
 
 static PARALLEL_EXECUTIONS: usize = 100; // TODO add a conf for this
@@ -47,67 +47,8 @@ impl MapItem for Warp {
     }
 }
 
-impl Warp {
-    pub fn new() -> Warp {
-        Warp {
-            id: 0,
-            name: "".to_string(),
-            map_name: "".to_string(),
-            x: 0,
-            y: 0,
-            x_size: 0,
-            y_size: 0,
-            dest_map_name: "".to_string(),
-            to_x: 0,
-            to_y: 0
-        }
-    }
-    pub async fn load_warps() -> HashMap<String, Vec<Warp>> {
-        let semaphore = Semaphore::new(PARALLEL_EXECUTIONS);
-        let file = File::open(Path::new(WARP_CONF_PATH)).unwrap();
-        let reader = BufReader::new(file);
-        let warps_by_map = Arc::new(Mutex::new(HashMap::<String, Vec<Warp>>::new()));
-        let mut futures : Vec<JoinHandle<()>> = Vec::new();
-        for line in reader.lines() {
-            if !line.is_ok() {
-                break;
-            }
-            let mut line = line.unwrap();
-            if !line.starts_with("npc:") {
-                continue;
-            }
-            line = line.replace("npc: ", "");
-            let warp_script_path = line.trim().clone().to_string();
-            semaphore.acquire().await.unwrap();
-            let res = warps_by_map.clone();
-            futures.push(tokio::task::spawn_blocking(move || {
-                let warp_script_file_res = File::open(Path::new(&warp_script_path));
-                if warp_script_file_res.is_err() {
-                    warn!("Not able to load warp script: {}, due to {}", warp_script_path, warp_script_file_res.err().unwrap());
-                    return;
-                }
-                let warps = Warp::parse_warp(&warp_script_file_res.unwrap());
-                for warp in warps {
-                    let mut res_guard = res.lock().unwrap();
-                    let map_name = warp.map_name.clone();
-                    if res_guard.contains_key(&map_name) {
-                        res_guard.get_mut(&map_name).unwrap().push(warp);
-                    } else {
-                        res_guard.insert(map_name, vec![warp]);
-                    }
-                }
-            }));
-        }
-        join_all(futures).await;
-        let guard = warps_by_map.lock().unwrap();
-        let mut res= HashMap::<String, Vec<Warp>>::new();
-        guard.iter().for_each(|(k, v)| {
-            res.insert(k.clone(), v.clone());
-        });
-        res
-    }
-
-    fn parse_warp(file: &File) -> Vec::<Warp> {
+impl Npc for Warp {
+    fn parse_npc(file: &File) -> Vec<Self> where Self: Sized {
         let reader = BufReader::new(file);
         let mut warps = Vec::<Warp>::new();
         for line in reader.lines() {
@@ -139,5 +80,33 @@ impl Warp {
             warps.push(warp);
         }
         warps
+    }
+
+    fn get_map_name(&self) -> String {
+        self.map_name.clone()
+    }
+}
+
+impl Warp {
+    pub fn new() -> Warp {
+        Warp {
+            id: 0,
+            name: "".to_string(),
+            map_name: "".to_string(),
+            x: 0,
+            y: 0,
+            x_size: 0,
+            y_size: 0,
+            dest_map_name: "".to_string(),
+            to_x: 0,
+            to_y: 0
+        }
+    }
+    pub async fn load_warps() -> HashMap<String, Vec<Warp>> {
+        let npc_loader = NpcLoader {
+            conf_file: File::open(Path::new(WARP_CONF_PATH)).unwrap(),
+            parallel_execution: PARALLEL_EXECUTIONS,
+        };
+        npc_loader.load_npc::<Warp>().await
     }
 }
