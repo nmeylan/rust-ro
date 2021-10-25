@@ -11,7 +11,7 @@ use std::fmt::Debug;
 use std::sync::{Arc, RwLock};
 use log::warn;
 use accessor::Setters;
-use crate::server::scripts::warps::Warp;
+use crate::server::npc::warps::Warp;
 use crate::server::server::Server;
 use crate::util::coordinate;
 
