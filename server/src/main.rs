@@ -16,18 +16,21 @@ use std::sync::{Arc, RwLock};
 use crate::repository::lib::Repository;
 use sqlx::MySql;
 use std::time::{Instant};
+use flexi_logger::filter::LogLineFilter;
 use flexi_logger::Logger;
 use crate::server::core::map::Map;
 use crate::server::npc::warps::Warp;
 use crate::server::server::Server;
 use crate::server::configuration::Config;
 use crate::server::npc::mob::MobSpawn;
+use crate::util::log_filter::LogFilter;
+
 
 #[tokio::main]
 pub async fn main() {
     let config = Config::load().unwrap();
     let logger= Logger::try_with_str(config.server.log_level.as_ref().unwrap()).unwrap();
-    logger.start().unwrap();
+    logger.filter(Box::new(LogFilter::new())).start().unwrap();
     let repository : Repository<MySql> = Repository::<MySql>::new_mysql(&config.database).await;
     let warps = Warp::load_warps().await;
     let mob_spawns = MobSpawn::load_mob_spawns().await;
