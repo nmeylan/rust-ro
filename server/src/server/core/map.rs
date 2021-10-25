@@ -4,12 +4,16 @@ use std::io::{BufReader, Read, Cursor};
 use std::convert::TryInto;
 use byteorder::{ReadBytesExt, LittleEndian};
 use flate2::read::ZlibDecoder;
-use std::fs;
-use std::time::Instant;
+use std::{fs, thread};
+use std::time::{Duration, Instant};
 use std::collections::HashMap;
 use std::fmt::Debug;
 use std::sync::{Arc, RwLock};
+use std::thread::sleep;
 use log::warn;
+use tokio::runtime::Runtime;
+use tokio::sync::mpsc;
+use tokio::sync::mpsc::{Receiver, Sender};
 use accessor::Setters;
 use crate::server::npc::mob::MobSpawn;
 use crate::server::npc::warps::Warp;
@@ -29,6 +33,7 @@ struct Header {
     pub length: i32,
 }
 
+#[derive(Clone)]
 pub struct Map {
     pub x_size: u16,
     pub y_size: u16,
@@ -52,6 +57,7 @@ pub struct Map {
     pub warps: Vec<Arc<Warp>>,
     pub mob_spawns: Vec<Arc<MobSpawn>>,
     pub is_initialized: bool, // maps initialization is lazy, this bool indicate if maps has been initialized or not
+    pub map_thread_channel: Option<Sender<String>>,
 }
 
 pub trait MapItem: Send + Sync + Debug{
@@ -162,9 +168,20 @@ impl Map {
         }
     }
 
-    pub fn player_join_map(&mut self) {
+    // TODO: implement map instance. This method should return map instance id (or ref) for char session.
+    // Char interact with instance instead of map directly.
+    // Instances will make map lifecycle easier to maintain
+    // Only 1 instance will be needed for most use case, but it make possible to wipe map instance after a while when no player are on it. to free memory
+    pub fn player_join_map(&mut self, runtime: &Runtime) {
         if !self.is_initialized {
             self.initialize();
+        }
+
+        // TODO remove, it was for a quick test.
+        if self.map_thread_channel.is_some() {
+            info!("Send signal to stop thead for map {}", self.name);
+            let signal = self.map_thread_channel.as_ref().unwrap().clone();
+            runtime.block_on(async {signal.send("Clean up".to_string()).await.unwrap()});
         }
         // TODO maintain a list of player in the map
     }
@@ -173,6 +190,9 @@ impl Map {
         self.set_cells();
         self.update_warp_cells();
         self.is_initialized = true;
+        let (tx, rx) = mpsc::channel::<String>(32);
+        self.map_thread_channel = Some(tx);
+        Map::start_thread(Arc::new(self.clone()), rx);
     }
 
     pub fn set_cells(&mut self) {
@@ -239,6 +259,25 @@ impl Map {
         }
     }
 
+    fn start_thread(map: Arc<Map>, mut rx: Receiver<String>) {
+        info!("Start thread for {}", map.name);
+        thread::Builder::new().name(format!("{}-thread", map.name))
+            .spawn(move || {
+                let mut cleanup_notified_at: Option<Instant> = None;
+                while cleanup_notified_at.is_none() || Instant::now().duration_since(cleanup_notified_at.unwrap()).as_secs() < 5 {
+                    if cleanup_notified_at.is_some() {
+                        println!("{}", Instant::now().duration_since(cleanup_notified_at.unwrap()).as_secs());
+                    }
+                    if rx.try_recv().is_ok() {
+                        info!("received clean up sig");
+                        cleanup_notified_at = Some(Instant::now());
+                    }
+                    sleep(Duration::from_millis(20));
+                }
+                info!("Clean up {} map", map.name);
+            });
+    }
+
     pub fn load_maps(warps: HashMap<String, Vec<Warp>>, mob_spawns: HashMap<String, Vec<MobSpawn>>, map_item_ids: &RwLock<Vec<u32>>) -> HashMap<String, Map> {
         let mut maps = HashMap::<String, Map>::new();
         let paths = fs::read_dir(MAP_DIR).unwrap();
@@ -269,7 +308,8 @@ impl Map {
                 cells: None,
                 warps: Default::default(),
                 mob_spawns: Default::default(),
-                is_initialized: false
+                is_initialized: false,
+                map_thread_channel: None
             };
             map.set_warps(warps.get(&map_name).unwrap_or(&vec![]), map_item_ids);
             map.set_mob_spawns(mob_spawns.get(&map_name).unwrap_or(&vec![]));
