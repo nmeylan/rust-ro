@@ -1,8 +1,12 @@
 use sqlx::{FromRow, Error, Row};
-use crate::packets::packets::CharacterInfoNeoUnion;
+use packets::packets::CharacterInfoNeoUnion;
 use sqlx::mysql::MySqlRow;
 
-impl <'r>FromRow<'r, MySqlRow> for CharacterInfoNeoUnion {
+pub struct CharacterInfoNeoUnionWrapped {
+    pub data: CharacterInfoNeoUnion
+}
+
+impl <'r>FromRow<'r, MySqlRow> for CharacterInfoNeoUnionWrapped {
     fn from_row(row: &'r MySqlRow) -> Result<Self, Error> {
         let mut character_info_neo_union = CharacterInfoNeoUnion::new();
 
@@ -61,7 +65,8 @@ impl <'r>FromRow<'r, MySqlRow> for CharacterInfoNeoUnion {
         character_info_neo_union.set_rename_addon(0);
         character_info_neo_union.set_sex(if row.get::<&str, _>("sex") == "M" { 1 } else { 0 });
         character_info_neo_union.fill_raw();
-        Ok(character_info_neo_union)
+        let wrapped = CharacterInfoNeoUnionWrapped {data: character_info_neo_union};
+        Ok(wrapped)
     }
 }
 

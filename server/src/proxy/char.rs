@@ -3,7 +3,7 @@ use std::net::{SocketAddr, Ipv4Addr, TcpStream};
 use std::net::IpAddr;
 use std::str::FromStr;
 use std::sync::{Arc, Mutex};
-use crate::packets::packets::{Packet, PacketChSendMapInfo};
+use packets::packets::{Packet, PacketChSendMapInfo};
 use crate::server::configuration::ProxyConfig;
 
 #[derive(Clone)]

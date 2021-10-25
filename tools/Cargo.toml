@@ -1,0 +1,22 @@
+[package]
+name = "tools"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+byteorder = "1.4.3"
+lazy_static  = "1.4.0"
+regex = "1.5"
+tokio = { version = "1.12", features = ["full"] }
+futures = "0.3"
+flate2 = "1.0"
+md5 = "0.7.0"
+log = "0.4"
+flexi_logger = "0.19"
+
+[[bin]]
+name = "packets"
+path = "packets/main.rs"
+[[bin]]
+name = "maps"
+path = "map-cache/main.rs"

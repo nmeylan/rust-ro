@@ -1,4 +1,4 @@
-use crate::packets::packets::{PacketCaLogin, PacketAcAcceptLogin2, Packet, ServerAddr2, PacketAcRefuseLoginR3};
+use packets::packets::{PacketCaLogin, PacketAcAcceptLogin2, Packet, ServerAddr2, PacketAcRefuseLoginR3};
 use crate::repository::lib::Repository;
 use sqlx::{MySql, Row};
 use rand::Rng;
@@ -8,7 +8,7 @@ use std::sync::{Arc, RwLock};
 use std::io::{Write, Read};
 
 use std::thread::spawn;
-use crate::packets::packets_parser::parse;
+use packets::packets_parser::parse;
 use crate::server::core::session::Session;
 use crate::server::server::Server;
 

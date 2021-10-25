@@ -1,4 +1,4 @@
-use crate::packets::packets::{PacketCzRequestMove2, Packet, PacketZcNpcackMapmove};
+use packets::packets::{PacketCzRequestMove2, Packet, PacketZcNpcackMapmove};
 use tokio::runtime::Runtime;
 use std::sync::{Arc, MutexGuard, RwLock};
 use std::io::Write;

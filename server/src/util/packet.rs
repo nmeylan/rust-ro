@@ -1,4 +1,4 @@
-use crate::packets::packets::Packet;
+use packets::packets::Packet;
 
 pub fn chain_packets(packets: Vec<&dyn Packet>) -> Vec<u8> {
     let mut res: Vec<u8> = Vec::new();

@@ -1,12 +1,12 @@
 use std::cmp;
 use std::collections::HashMap;
 use std::sync::{Arc, RwLockReadGuard};
-use crate::packets::packets::{PacketZcNotifyStandentry6, PacketZcNotifyVanish};
+use packets::packets::{PacketZcNotifyStandentry6, PacketZcNotifyVanish};
 use crate::server::core::map::{Map, MapItem};
 use crate::server::core::movement::Position;
 use crate::server::core::session::Session;
 use crate::server::server::PLAYER_FOV;
-use crate::packets::packets::Packet;
+use packets::packets::Packet;
 use crate::util::coordinate;
 use crate::util::string::StringUtil;
 use std::io::Write;

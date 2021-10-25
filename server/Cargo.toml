@@ -11,8 +11,6 @@ tokio = { version = "1.12", features = ["full"] }
 futures = "0.3"
 sqlx = { version = "0.5", features = [ "runtime-tokio-rustls", "mysql" ] }
 rand = "0.8"
-sql = { path = "../lib/sql" }
-accessor = { path = "../lib/accessor" }
 flate2 = "1.0"
 md5 = "0.7.0"
 log = "0.4"
@@ -20,9 +18,13 @@ flexi_logger = "0.19"
 toml = "0.5"
 serde = { version = "1.0", features = ["derive"] }
 
+sql = { path = "../lib/sql" }
+accessor = { path = "../lib/accessor" }
+packets = { path = "../lib/packets" }
+
 [[bin]]
 name = "packets"
-path = "tools/packets/main.rs"
+path = "../tools/packets/main.rs"
 [[bin]]
 name = "maps"
-path = "tools/map-cache/main.rs"
+path = "../tools/map-cache/main.rs"

@@ -3,9 +3,9 @@
 
 #![allow(dead_code)]
 
-use crate::packets::packets::*;
+use crate::packets::*;
 use std::fmt::{Formatter, Debug, Display};
-use crate::util::print::PrettyOutput;
+use crate::print::PrettyOutput;
 
 impl Debug for PacketCaLogin {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {

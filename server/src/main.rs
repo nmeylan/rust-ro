@@ -1,7 +1,6 @@
 mod proxy;
 #[macro_use]
 mod util;
-mod packets;
 mod server;
 mod repository;
 
