@@ -105,7 +105,7 @@ pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<
 }
 
 
-fn change_map(map: &&Map, path_node: &PathNode, session: Arc<RwLock<Session>>, mut character_session: &mut MutexGuard<CharacterSession>) {
+fn change_map(map: &&Map, path_node: &PathNode, session: Arc<RwLock<Session>>, character_session: &mut MutexGuard<CharacterSession>) {
     let session_guard = read_lock!(session);
     let warp = map.get_warp_at(path_node.x, path_node.y).unwrap();
     let mut new_current_map: [char; 16] = [0 as char; 16];
@@ -132,7 +132,7 @@ fn change_map(map: &&Map, path_node: &PathNode, session: Arc<RwLock<Session>>, m
 
 
 async fn save_character_position(server: Arc<Server>, session: Arc<RwLock<Session>>) {
-    let mut res;
+    let res;
     {
         let session = read_lock!(session);
         let character_session = session.character.as_ref().unwrap().lock().unwrap();

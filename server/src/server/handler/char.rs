@@ -1,6 +1,6 @@
 use packets::packets::{Packet, PacketChEnter, PacketHcRefuseEnter, CharacterInfoNeoUnion, PacketHcAcceptEnterNeoUnionHeader, PacketHcAcceptEnterNeoUnion, PacketPincodeLoginstate, PacketChMakeChar2, PacketHcAcceptMakecharNeoUnion, PacketChDeleteChar4Reserved, PacketHcDeleteChar4Reserved, PacketChSelectChar, PacketChSendMapInfo, PacketCzEnter2, PacketMapConnection, PacketZcInventoryExpansionInfo, PacketZcOverweightPercent, PacketZcAcceptEnter2, PacketZcNpcackMapmove, PacketZcStatusValues, PacketZcParChange, PacketZcAttackRange, PacketZcNotifyChat, PacketCzRestart, PacketZcRestartAck, PacketZcReqDisconnectAck2, PacketZcMsgColor, PacketZcNotifyMapproperty2, PacketZcHatEffect, PacketZcLoadConfirm};
 use crate::repository::lib::Repository;
-use sqlx::{MySql, Row};
+use sqlx::{MySql};
 use tokio::runtime::Runtime;
 use std::sync::{Arc, Mutex, RwLock};
 use std::net::TcpStream;
@@ -321,7 +321,7 @@ pub fn handle_disconnect(server: Arc<Server>, _packet: &mut dyn Packet, _runtime
     socket_send!(tcp_stream, &disconnect_ack.raw());
 }
 
-pub fn handle_char_loaded_client_side(server: Arc<Server>, _packet: &mut dyn Packet, _runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, session_id: u32) {
+pub fn handle_char_loaded_client_side(server: Arc<Server>, _packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, session_id: u32) {
 
     let sessions_guard = read_lock!(server.sessions);
     let session = read_session!(sessions_guard, &session_id);
@@ -329,7 +329,7 @@ pub fn handle_char_loaded_client_side(server: Arc<Server>, _packet: &mut dyn Pac
     let mut maps_guard = server.maps.write().unwrap();
     let map_name : String = Map::name_without_ext(character.get_current_map_name());
     let map = maps_guard.get_mut(&map_name).unwrap();
-    map.player_join_map();
+    map.player_join_map(runtime);
     character.load_units_in_fov(map, &session);
 
     let mut packet_zc_msg_color = PacketZcMsgColor::new();
