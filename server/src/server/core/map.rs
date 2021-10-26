@@ -53,9 +53,9 @@ pub struct Map {
     // bit 9 -> noicewall
     // bit 10 -> noskill
     // bit 11 -> warp
-    pub cells: Option<Vec<u16>>,
-    pub warps: Vec<Arc<Warp>>,
-    pub mob_spawns: Vec<Arc<MobSpawn>>,
+    pub cells: Arc<Vec<u16>>,
+    pub warps: Arc<Vec<Arc<Warp>>>,
+    pub mob_spawns: Arc<Vec<Arc<MobSpawn>>>,
     pub is_initialized: bool, // maps initialization is lazy, this bool indicate if maps has been initialized or not
     pub map_thread_channel: Option<Sender<String>>,
 }
@@ -149,20 +149,20 @@ impl Map {
     }
 
     pub fn is_cell_walkable(&self, x: u16, y: u16) -> bool {
-        if self.cells.is_none() {
+        if self.cells.is_empty() {
             warn!("Cannot call is_cell_walkable as cells are not initialized, returning false");
             return false
         }
-        (self.cells.as_ref().unwrap().get(self.get_cell_index_of(x, y)).unwrap() & 0b0000_0000_0000_0001) == 0b0000_0000_0000_0001
+        (self.cells.get(self.get_cell_index_of(x, y)).unwrap() & 0b0000_0000_0000_0001) == 0b0000_0000_0000_0001
     }
 
     pub fn is_warp_cell(&self, x: u16, y: u16) -> bool {
-        if self.cells.is_none() {
+        if self.cells.is_empty() {
             warn!("Cannot call is_warp_cell as cells are not initialized, returning false");
             return false
         }
         let i = self.get_cell_index_of(x, y);
-        match self.cells.as_ref().unwrap().get(i) {
+        match self.cells.get(i) {
             Some(value) => (value & WARP_MASK) == WARP_MASK,
             None => false
         }
@@ -188,7 +188,6 @@ impl Map {
 
     fn initialize(&mut self) {
         self.set_cells();
-        self.update_warp_cells();
         self.is_initialized = true;
         let (tx, rx) = mpsc::channel::<String>(32);
         self.map_thread_channel = Some(tx);
@@ -215,11 +214,13 @@ impl Map {
                 _ => 0
             })
         }
-        self.cells = Some(cells);
+
+        self.set_warp_cells(&mut cells);
+        self.cells = Arc::new(cells);
     }
 
     pub fn get_warp_at(&self, x: u16, y: u16) -> Option<Arc<Warp>> {
-        for warp in &self.warps {
+        for warp in self.warps.iter() {
             if x >= warp.x - warp.x_size && x <= warp.x + warp.x_size
                 && y >= warp.y - warp.y_size && y <= warp.y + warp.y_size {
                 return Some(warp.clone());
@@ -228,8 +229,8 @@ impl Map {
         None
     }
 
-    fn update_warp_cells(&mut self) {
-        for warp in &self.warps {
+    fn set_warp_cells(&mut self, cells: &mut Vec<u16>) {
+        for warp in self.warps.iter() {
             let start_x = warp.x - warp.x_size;
             let to_x = warp.x + warp.x_size;
             let start_y = warp.y - warp.y_size;
@@ -237,7 +238,7 @@ impl Map {
             for x in start_x..to_x {
                 for y in start_y..to_y {
                     let index = self.get_cell_index_of(x, y);
-                    let cell = self.cells.as_mut().unwrap().get_mut(index).unwrap();
+                    let cell = cells.get_mut(index).unwrap();
                     *cell |= WARP_MASK;
                 }
             }
@@ -246,17 +247,18 @@ impl Map {
 
     fn set_warps(&mut self, warps: &Vec<Warp>, map_item_ids: &RwLock<Vec<u32>>) {
         let mut ids_write_guard = map_item_ids.write().unwrap();
-        for warp in warps {
+        let warps = warps.iter().map(|warp| {
             let mut warp = warp.clone();
             warp.set_id(Server::generate_id(&mut ids_write_guard));
-            self.warps.push(Arc::new(warp));
-        }
+            Arc::new(warp)
+        }).collect::<Vec<Arc<Warp>>>();
+        self.warps = Arc::new(warps);
     }
 
     fn set_mob_spawns(&mut self, mob_spawns: &Vec<MobSpawn>) {
-        for mob_spawn in mob_spawns {
-            self.mob_spawns.push(Arc::new(mob_spawn.clone()));
-        }
+        self.mob_spawns = Arc::new(
+            mob_spawns.iter().map(|mob_spawn| Arc::new(mob_spawn.clone())).collect::<Vec<Arc<MobSpawn>>>()
+        );
     }
 
     fn start_thread(map: Arc<Map>, mut rx: Receiver<String>) {
@@ -305,7 +307,7 @@ impl Map {
                 y_size: header.y_size as u16,
                 length: header.length,
                 name: map_name.to_string(),
-                cells: None,
+                cells: Default::default(),
                 warps: Default::default(),
                 mob_spawns: Default::default(),
                 is_initialized: false,
