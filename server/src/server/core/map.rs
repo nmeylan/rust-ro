@@ -58,6 +58,27 @@ pub struct Map {
     pub mob_spawns: Arc<Vec<Arc<MobSpawn>>>,
     pub is_initialized: bool, // maps initialization is lazy, this bool indicate if maps has been initialized or not
     pub map_thread_channel: Option<Sender<String>>,
+    pub map_instances: Vec<Arc<RwLock<MapInstance>>>
+}
+
+pub struct MapInstance {
+    pub name: String,
+    pub id: u32,
+    pub cells: Arc<Vec<u16>>,
+    pub warps: Arc<Vec<Arc<Warp>>>,
+    pub mob_spawns: Arc<Vec<Arc<MobSpawn>>>,
+}
+
+impl MapInstance {
+    pub fn from_map(map: &Map, id: u32) -> MapInstance {
+        MapInstance {
+            name: map.name.clone(),
+            id,
+            cells: map.cells.clone(),
+            warps: map.warps.clone(),
+            mob_spawns: map.mob_spawns.clone(),
+        }
+    }
 }
 
 pub trait MapItem: Send + Sync + Debug{
@@ -191,7 +212,10 @@ impl Map {
         self.is_initialized = true;
         let (tx, rx) = mpsc::channel::<String>(32);
         self.map_thread_channel = Some(tx);
-        Map::start_thread(Arc::new(self.clone()), rx);
+        let map_instance = MapInstance::from_map(&self, 0);
+        let map_instance_lock = Arc::new(RwLock::new(map_instance));
+        self.map_instances.push(map_instance_lock.clone());
+        Map::start_thread(map_instance_lock.clone(), rx);
     }
 
     pub fn set_cells(&mut self) {
@@ -261,22 +285,22 @@ impl Map {
         );
     }
 
-    fn start_thread(map: Arc<Map>, mut rx: Receiver<String>) {
-        info!("Start thread for {}", map.name);
-        thread::Builder::new().name(format!("{}-thread", map.name))
+    fn start_thread(map_instance: Arc<RwLock<MapInstance>>, mut rx: Receiver<String>) {
+        let map_instance_clone = map_instance.clone();
+        let map_instance_guard = read_lock!(map_instance_clone);
+        info!("Start thread for {}", map_instance_guard.name);
+        thread::Builder::new().name(format!("{}-thread", map_instance_guard.name))
             .spawn(move || {
                 let mut cleanup_notified_at: Option<Instant> = None;
                 while cleanup_notified_at.is_none() || Instant::now().duration_since(cleanup_notified_at.unwrap()).as_secs() < 5 {
-                    if cleanup_notified_at.is_some() {
-                        println!("{}", Instant::now().duration_since(cleanup_notified_at.unwrap()).as_secs());
-                    }
                     if rx.try_recv().is_ok() {
                         info!("received clean up sig");
                         cleanup_notified_at = Some(Instant::now());
                     }
                     sleep(Duration::from_millis(20));
                 }
-                info!("Clean up {} map", map.name);
+                let map_instance_guard = read_lock!(map_instance);
+                info!("Clean up {} map", map_instance_guard.name);
             });
     }
 
@@ -311,7 +335,8 @@ impl Map {
                 warps: Default::default(),
                 mob_spawns: Default::default(),
                 is_initialized: false,
-                map_thread_channel: None
+                map_thread_channel: None,
+                map_instances: Default::default(),
             };
             map.set_warps(warps.get(&map_name).unwrap_or(&vec![]), map_item_ids);
             map.set_mob_spawns(mob_spawns.get(&map_name).unwrap_or(&vec![]));
