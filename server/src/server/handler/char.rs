@@ -329,7 +329,7 @@ pub fn handle_char_loaded_client_side(server: Arc<Server>, _packet: &mut dyn Pac
     let mut maps_guard = server.maps.write().unwrap();
     let map_name : String = Map::name_without_ext(character.get_current_map_name());
     let map = maps_guard.get_mut(&map_name).unwrap();
-    map.player_join_map(runtime);
+    map.player_join_map(server.clone());
     character.load_units_in_fov(map, &session);
 
     let mut packet_zc_msg_color = PacketZcMsgColor::new();

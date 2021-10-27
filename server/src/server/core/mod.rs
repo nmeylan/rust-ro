@@ -8,3 +8,5 @@ pub mod map;
 pub mod movement;
 pub mod path;
 pub mod status;
+pub mod map_instance;
+pub mod mob;
