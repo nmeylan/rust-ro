@@ -11,10 +11,13 @@ use std::fmt::Debug;
 use std::sync::{Arc, RwLock};
 use std::thread::sleep;
 use log::warn;
+use rand::Rng;
 use tokio::runtime::Runtime;
 use tokio::sync::mpsc;
 use tokio::sync::mpsc::{Receiver, Sender};
 use accessor::Setters;
+use crate::server::core::map_instance::MapInstance;
+use crate::server::core::mob::Mob;
 use crate::server::npc::mob::MobSpawn;
 use crate::server::npc::warps::Warp;
 use crate::server::server::Server;
@@ -23,7 +26,7 @@ use crate::util::coordinate;
 static MAPCACHE_EXT: &str = ".mcache";
 static MAP_DIR: &str = "./maps/pre-re";
 pub static MAP_EXT: &str = ".gat";
-pub static WARP_MASK: u16 = 0b00000100_00000000;
+pub static WARP_MASK: u16 = 0b0000_0100_0000_0000;
 
 struct Header {
     pub version: i16,
@@ -59,26 +62,6 @@ pub struct Map {
     pub is_initialized: bool, // maps initialization is lazy, this bool indicate if maps has been initialized or not
     pub map_thread_channel: Option<Sender<String>>,
     pub map_instances: Vec<Arc<RwLock<MapInstance>>>
-}
-
-pub struct MapInstance {
-    pub name: String,
-    pub id: u32,
-    pub cells: Arc<Vec<u16>>,
-    pub warps: Arc<Vec<Arc<Warp>>>,
-    pub mob_spawns: Arc<Vec<Arc<MobSpawn>>>,
-}
-
-impl MapInstance {
-    pub fn from_map(map: &Map, id: u32) -> MapInstance {
-        MapInstance {
-            name: map.name.clone(),
-            id,
-            cells: map.cells.clone(),
-            warps: map.warps.clone(),
-            mob_spawns: map.mob_spawns.clone(),
-        }
-    }
 }
 
 pub trait MapItem: Send + Sync + Debug{
@@ -193,21 +176,25 @@ impl Map {
     // Char interact with instance instead of map directly.
     // Instances will make map lifecycle easier to maintain
     // Only 1 instance will be needed for most use case, but it make possible to wipe map instance after a while when no player are on it. to free memory
-    pub fn player_join_map(&mut self, runtime: &Runtime) {
+    pub fn player_join_map(&mut self, server: Arc<Server>) {
         if !self.is_initialized {
-            self.initialize();
-        }
-
-        // TODO remove, it was for a quick test.
-        if self.map_thread_channel.is_some() {
-            info!("Send signal to stop thead for map {}", self.name);
-            let signal = self.map_thread_channel.as_ref().unwrap().clone();
-            runtime.block_on(async {signal.send("Clean up".to_string()).await.unwrap()});
+            self.initialize(server);
         }
         // TODO maintain a list of player in the map
     }
 
-    fn initialize(&mut self) {
+    pub fn find_random_walkable_cell(cells: &Vec<u16>, x_size: u16) -> (u16, u16) {
+        let mut rng = rand::thread_rng();
+
+        loop {
+            let index = rng.gen_range(0..cells.len());
+            if cells.get(index).unwrap() & 0000000000000001 == 1 {
+                return coordinate::get_pos_of(index as u32, x_size)
+            }
+        }
+    }
+
+    fn initialize(&mut self, server: Arc<Server>) {
         self.set_cells();
         self.is_initialized = true;
         let (tx, rx) = mpsc::channel::<String>(32);
@@ -215,7 +202,7 @@ impl Map {
         let map_instance = MapInstance::from_map(&self, 0);
         let map_instance_lock = Arc::new(RwLock::new(map_instance));
         self.map_instances.push(map_instance_lock.clone());
-        Map::start_thread(map_instance_lock.clone(), rx);
+        Map::start_thread(map_instance_lock.clone(), rx, server);
     }
 
     pub fn set_cells(&mut self) {
@@ -253,6 +240,15 @@ impl Map {
         None
     }
 
+    pub fn get_mob_at(&self, x: u16, y: u16, instance_id: u32) -> Option<Arc<RwLock<Mob>>> {
+        let map_instance = self.map_instances.iter().find(|instance| {
+            let map_instance_guard = read_lock!(instance);
+            map_instance_guard.id == instance_id
+        }).unwrap();
+        let map_instance_guard = read_lock!(map_instance);
+        map_instance_guard.get_mob_at(x, y)
+    }
+
     fn set_warp_cells(&mut self, cells: &mut Vec<u16>) {
         for warp in self.warps.iter() {
             let start_x = warp.x - warp.x_size;
@@ -285,17 +281,23 @@ impl Map {
         );
     }
 
-    fn start_thread(map_instance: Arc<RwLock<MapInstance>>, mut rx: Receiver<String>) {
+    fn start_thread(map_instance: Arc<RwLock<MapInstance>>, mut rx: Receiver<String>, server: Arc<Server>) {
         let map_instance_clone = map_instance.clone();
+        let map_instance_clone_for_thread = map_instance.clone();
         let map_instance_guard = read_lock!(map_instance_clone);
         info!("Start thread for {}", map_instance_guard.name);
         thread::Builder::new().name(format!("{}-thread", map_instance_guard.name))
             .spawn(move || {
+                let now = Instant::now();
                 let mut cleanup_notified_at: Option<Instant> = None;
-                while cleanup_notified_at.is_none() || Instant::now().duration_since(cleanup_notified_at.unwrap()).as_secs() < 5 {
+                while cleanup_notified_at.is_none() || now.clone().duration_since(cleanup_notified_at.unwrap()).as_secs() < 5 {
                     if rx.try_recv().is_ok() {
                         info!("received clean up sig");
-                        cleanup_notified_at = Some(Instant::now());
+                        cleanup_notified_at = Some(now.clone());
+                    }
+                    {
+                        let mut map_instance_guard = write_lock!(map_instance_clone_for_thread);
+                        map_instance_guard.spawn_mobs(server.clone(), now.clone().elapsed().as_millis());
                     }
                     sleep(Duration::from_millis(20));
                 }

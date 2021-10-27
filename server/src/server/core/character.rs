@@ -43,7 +43,7 @@ impl CharacterSession {
     }
 
     pub fn get_map_item_at(&self, x: u16, y: u16) -> Option<&Arc<dyn MapItem>> {
-        coordinate::get_item_at(x, y, PLAYER_FOV , &self.map_view)
+        coordinate::get_item_at(x, y, PLAYER_FOV, &self.map_view)
     }
     pub fn set_map_item_at(&mut self, x: u16, y: u16, item: Arc<dyn MapItem>) {
         let i = coordinate::get_cell_index_of(x, y, PLAYER_FOV);
@@ -77,6 +77,29 @@ impl CharacterSession {
                         socket_send!(tcp_stream, packet_zc_notify_standentry.raw());
                     }
                     self.set_map_item_at(warp.x, warp.y, warp as Arc<dyn MapItem>);
+                }
+                let mob = map.get_mob_at(x, y, 0);
+                if mob.is_some() {
+                    let mob = mob.unwrap();
+                    let mob_clone = mob.clone();
+                    let mob_guard = read_lock!(mob_clone);
+                    if coordinate::get_item_at(mob_guard.x, mob_guard.y, PLAYER_FOV, &old_map_view).is_none() {
+                        info!("Seeing: {} at {},{}",mob_guard.name, mob_guard.x, mob_guard.y);
+                        let mut mob_name = [0 as char; 24];
+                        mob_guard.name.fill_char_array(mob_name.as_mut());
+                        let mut packet_zc_notify_standentry = PacketZcNotifyStandentry6::new();
+                        packet_zc_notify_standentry.set_job(mob_guard.client_item_class());
+                        packet_zc_notify_standentry.set_packet_length(108);
+                        packet_zc_notify_standentry.set_objecttype(6);
+                        packet_zc_notify_standentry.set_aid(mob_guard.id());
+                        packet_zc_notify_standentry.set_pos_dir(Position { x: mob_guard.x, y: mob_guard.y, dir: 0 }.to_pos());
+                        packet_zc_notify_standentry.set_name(mob_name);
+                        packet_zc_notify_standentry.fill_raw();
+
+                        let tcp_stream = session_guard.map_server_socket.as_ref().unwrap();
+                        socket_send!(tcp_stream, packet_zc_notify_standentry.raw());
+                    }
+                    self.set_map_item_at(mob_guard.x, mob_guard.y, mob as Arc<dyn MapItem>);
                 }
             }
         }

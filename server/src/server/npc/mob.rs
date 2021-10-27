@@ -15,11 +15,9 @@ pub struct MobSpawn {
     #[set]
     pub name: String,
     #[set]
-    pub mob_id: u16,
+    pub mob_id: i16,
     #[set]
     pub to_spawn_amount: i16,
-    #[set]
-    pub spawned_amount: i16,
     #[set]
     pub id: u32,
     #[set]
@@ -60,13 +58,12 @@ impl MobType {
 }
 
 impl MobSpawn {
-    pub fn new() -> MobSpawn {
+    pub fn default() -> MobSpawn {
         MobSpawn {
             map_name: "".to_string(),
             name: "".to_string(),
             mob_id: 0,
             to_spawn_amount: 0,
-            spawned_amount: 0,
             id: 0,
             x: 0,
             y: 0,
@@ -78,14 +75,31 @@ impl MobSpawn {
             random_variance_delay_in_ms: 0
         }
     }
+
+    pub fn is_fixed_position(&self) -> bool {
+        self.x != 0 && self.y != 0
+    }
+
+    pub fn is_zone_constraint(&self) -> bool {
+        self.x_size != 0 || self.y_size != 0
+    }
+
+    pub fn has_delay(&self) -> bool {
+        self.fixed_delay_in_ms != 0
+    }
+
+    pub fn has_delay_variance(&self) -> bool {
+        self.random_variance_delay_in_ms != 0
+    }
 }
 
 impl Npc for MobSpawn {
     fn parse_npc(file: &File) -> Result<Vec<Self>, String> {
         let reader = BufReader::new(file);
         let mut mob_spawns = Vec::<MobSpawn>::new();
+        let mut i = 0_u32;
         for line in reader.lines() {
-            let mut mob_spawn = MobSpawn::new();
+            let mut mob_spawn = MobSpawn::default();
             if !line.is_ok() {
                 break;
             }
@@ -123,7 +137,7 @@ impl Npc for MobSpawn {
                 mob_spawn.set_level(mob_info[1].parse::<u16>().unwrap());
             }
             let spawn_info = line_fragment[3].split(",").collect::<Vec<&str>>();
-            let result = spawn_info[0].parse::<u16>();
+            let result = spawn_info[0].parse::<i16>();
             if result.is_err() {
                 return Err(format!("{}: {} {}", line, spawn_info[0], result.err().unwrap()));
             }
@@ -135,7 +149,9 @@ impl Npc for MobSpawn {
             if mob_info.len() >= 4 {
                 mob_spawn.set_random_variance_delay_in_ms(spawn_info[3].parse::<u32>().unwrap());
             }
+            mob_spawn.set_id(i);
             mob_spawns.push(mob_spawn);
+            i += 1;
         }
         Ok(mob_spawns)
     }
