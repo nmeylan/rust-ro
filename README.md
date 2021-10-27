@@ -21,16 +21,17 @@ In proxy mode:
 - packet parser
 - packet debug
 - login
-- display char list
-- create char
-- delete char
-- join game
-- character position calculation (implementation of client side path finding)
+- char server features(create char, delete char, join game)
 - move character in a loaded map, synchronized with client side movement (no lag, or teleportation, movement is smooth)
+- character position calculation (implementation of client side path finding)
 - debug log in in-game chat 
-- parse scripts (only warps at the moment)
+- parse scripts (only warps and mobs at the moment)
 - warp (change map, reset states)
-- display scripts client side (only warps at the moment)
+- display scripts client side (only warps and mobs at the moment)
+
+# Wip
+- Map instances + mob spawn
+- mob move
 
 ## Proxied packets
 ![packets](img/packet_analyzer.PNG)
