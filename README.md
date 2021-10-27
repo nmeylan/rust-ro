@@ -33,6 +33,11 @@ In proxy mode:
 - Map instances + mob spawn
 - mob move
 
+## warp
+![packets](img/warp_spawn.PNG)
+## mob
+![packets](img/mob_spawn.PNG)
+
 ## Proxied packets
 ![packets](img/packet_analyzer.PNG)
 
