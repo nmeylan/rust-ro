@@ -5194,7 +5194,7 @@ struct PACKET_CZ_ENTER2 {
   unsigned long clientTime
   unsigned char Sex
  }
-0x437
+0x3704
 struct PACKET_CZ_REQUEST_ACT2 {
   short PacketId
   unsigned long targetGID
@@ -6374,3 +6374,18 @@ struct PACKET_ZC_NOTIFY_MOVEENTRY8 {
   short body
   unsigned char name[24]
 }
+
+0xc808
+struct PACKET_ZC_NOTIFY_ACT3 {
+  short PacketId
+  unsigned long GID
+  unsigned long targetGID
+  unsigned long startTime
+  int attackMT
+  int attackedMT
+  int damage
+  bool isSpDamaged
+  short count
+  unsigned char action
+  int leftDamage
+ }

@@ -10339,6 +10339,33 @@ pub struct PacketZcNotifyMoveentry8 {
 }
 
 #[derive(Clone)]
+pub struct PacketZcNotifyAct3 {
+    pub raw: Vec<u8>,
+    pub packet_id: i16,
+    pub packet_id_raw: [u8; 2],
+    pub gid: u32,
+    pub gid_raw: [u8; 4],
+    pub target_gid: u32,
+    pub target_gid_raw: [u8; 4],
+    pub start_time: u32,
+    pub start_time_raw: [u8; 4],
+    pub attack_mt: i32,
+    pub attack_mt_raw: [u8; 4],
+    pub attacked_mt: i32,
+    pub attacked_mt_raw: [u8; 4],
+    pub damage: i32,
+    pub damage_raw: [u8; 4],
+    pub is_sp_damaged: bool,
+    pub is_sp_damaged_raw: [u8; 1],
+    pub count: i16,
+    pub count_raw: [u8; 2],
+    pub action: u8,
+    pub action_raw: [u8; 1],
+    pub left_damage: i32,
+    pub left_damage_raw: [u8; 4],
+}
+
+#[derive(Clone)]
 pub struct ServerAddr {
     pub raw: Vec<u8>,
     pub ip: u32,

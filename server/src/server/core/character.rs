@@ -92,7 +92,7 @@ impl CharacterSession {
                         let mut packet_zc_notify_standentry = PacketZcNotifyStandentry6::new();
                         packet_zc_notify_standentry.set_job(mob_guard.client_item_class());
                         packet_zc_notify_standentry.set_packet_length(108);
-                        packet_zc_notify_standentry.set_objecttype(6);
+                        packet_zc_notify_standentry.set_objecttype(2);
                         packet_zc_notify_standentry.set_aid(mob_guard.id());
                         packet_zc_notify_standentry.set_pos_dir(Position { x: mob_guard.x, y: mob_guard.y, dir: 3 }.to_pos());
                         packet_zc_notify_standentry.set_name(mob_name);
