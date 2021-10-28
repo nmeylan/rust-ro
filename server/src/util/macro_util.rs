@@ -40,3 +40,10 @@ macro_rules! socket_send {
     }
   }
 }
+
+#[macro_export]
+macro_rules! elapsed {
+    ( $instant:expr ) => {
+       info!("{} ms", $instant.elapsed().as_nanos() as f64 / 1000.0 / 1000.0);
+  };
+}
