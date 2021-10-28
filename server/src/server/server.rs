@@ -173,7 +173,16 @@ impl Server {
             let mut packet_zc_load_confirm = PacketZcLoadConfirm::new();
             packet_zc_load_confirm.fill_raw();
             socket_send!(tcp_stream, &packet_zc_load_confirm.raw());
+            return;
         }
+        if packet.id() == "0x6803" // PacketCzReqnameall2
+            || packet.id() == "0x6003" // PacketCzRequestTime2
+        {
+            // TODO handle those packets
+            return;
+        }
+        packet.display();
+        packet.pretty_debug();
     }
 
     pub fn ensure_session_exists(&self, tcp_stream: &Arc<RwLock<TcpStream>>) -> Option<u32> {

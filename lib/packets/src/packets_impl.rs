@@ -74807,8 +74807,8 @@ impl PacketCzRequestAct2 {
     pub fn new() -> PacketCzRequestAct2 {
         PacketCzRequestAct2 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x43, 0x7]),
-        packet_id_raw: [0x43, 0x7],
+        packet_id: i16::from_le_bytes([0x37, 0x04]),
+        packet_id_raw: [0x37, 0x04],
         target_gid: 0,
         target_gid_raw: [0; 4],
         action: 0,
@@ -74819,7 +74819,7 @@ impl PacketCzRequestAct2 {
 
 impl Packet for PacketCzRequestAct2 {
     fn id(&self) -> &str {
-       "0x0437"
+       "0x3704"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -92695,6 +92695,246 @@ impl PacketZcNotifyMoveentry8 {
 impl Packet for PacketZcNotifyMoveentry8 {
     fn id(&self) -> &str {
        "0xfd09"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
+    }
+    fn display(&self) {
+            println!("{}", self)
+    }
+    fn pretty_debug(&self) {
+            println!("{:#?}", self)
+    }
+    fn raw(&self) -> &Vec<u8> {
+            &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut dyn Any{
+        self
+    }
+}
+
+impl PacketZcNotifyAct3 {
+    pub fn from(buffer: &[u8]) -> PacketZcNotifyAct3 {
+        PacketZcNotifyAct3 {
+            raw: buffer.to_vec(),
+            packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[0..2]);
+                dst
+            },
+            gid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            gid_raw: {
+                let mut dst: [u8; 4] = [0u8; 4];
+                dst.clone_from_slice(&buffer[2..6]);
+                dst
+            },
+            target_gid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            target_gid_raw: {
+                let mut dst: [u8; 4] = [0u8; 4];
+                dst.clone_from_slice(&buffer[6..10]);
+                dst
+            },
+            start_time: u32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            start_time_raw: {
+                let mut dst: [u8; 4] = [0u8; 4];
+                dst.clone_from_slice(&buffer[10..14]);
+                dst
+            },
+            attack_mt: i32::from_le_bytes([buffer[14], buffer[15], buffer[16], buffer[17]]),
+            attack_mt_raw: {
+                let mut dst: [u8; 4] = [0u8; 4];
+                dst.clone_from_slice(&buffer[14..18]);
+                dst
+            },
+            attacked_mt: i32::from_le_bytes([buffer[18], buffer[19], buffer[20], buffer[21]]),
+            attacked_mt_raw: {
+                let mut dst: [u8; 4] = [0u8; 4];
+                dst.clone_from_slice(&buffer[18..22]);
+                dst
+            },
+            damage: i32::from_le_bytes([buffer[22], buffer[23], buffer[24], buffer[25]]),
+            damage_raw: {
+                let mut dst: [u8; 4] = [0u8; 4];
+                dst.clone_from_slice(&buffer[22..26]);
+                dst
+            },
+            is_sp_damaged: buffer[26] == 1,
+            is_sp_damaged_raw: {
+                let mut dst: [u8; 1] = [0u8; 1];
+                dst.clone_from_slice(&buffer[26..27]);
+                dst
+            },
+            count: i16::from_le_bytes([buffer[27], buffer[28]]),
+            count_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[27..29]);
+                dst
+            },
+            action: u8::from_le_bytes([buffer[29]]),
+            action_raw: {
+                let mut dst: [u8; 1] = [0u8; 1];
+                dst.clone_from_slice(&buffer[29..30]);
+                dst
+            },
+            left_damage: i32::from_le_bytes([buffer[30], buffer[31], buffer[32], buffer[33]]),
+            left_damage_raw: {
+                let mut dst: [u8; 4] = [0u8; 4];
+                dst.clone_from_slice(&buffer[30..34]);
+                dst
+            },
+        }
+    }
+    pub fn fill_raw(&mut self) {
+    let mut wtr;
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.packet_id).unwrap();
+        self.packet_id_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u32::<LittleEndian>(self.gid).unwrap();
+        self.gid_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u32::<LittleEndian>(self.target_gid).unwrap();
+        self.target_gid_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u32::<LittleEndian>(self.start_time).unwrap();
+        self.start_time_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_i32::<LittleEndian>(self.attack_mt).unwrap();
+        self.attack_mt_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_i32::<LittleEndian>(self.attacked_mt).unwrap();
+        self.attacked_mt_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_i32::<LittleEndian>(self.damage).unwrap();
+        self.damage_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u8(self.is_sp_damaged as u8).unwrap();
+        self.is_sp_damaged_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.count).unwrap();
+        self.count_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u8(self.action).unwrap();
+        self.action_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_i32::<LittleEndian>(self.left_damage).unwrap();
+        self.left_damage_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.append(&mut self.packet_id_raw.to_vec());
+        wtr.append(&mut self.gid_raw.to_vec());
+        wtr.append(&mut self.target_gid_raw.to_vec());
+        wtr.append(&mut self.start_time_raw.to_vec());
+        wtr.append(&mut self.attack_mt_raw.to_vec());
+        wtr.append(&mut self.attacked_mt_raw.to_vec());
+        wtr.append(&mut self.damage_raw.to_vec());
+        wtr.append(&mut self.is_sp_damaged_raw.to_vec());
+        wtr.append(&mut self.count_raw.to_vec());
+        wtr.append(&mut self.action_raw.to_vec());
+        wtr.append(&mut self.left_damage_raw.to_vec());
+        self.raw = wtr;
+    }
+    pub fn set_packet_id(&mut self, value: i16) {
+        self.packet_id = value;
+    }
+    pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
+        self.packet_id_raw = value;
+    }
+    pub fn set_gid(&mut self, value: u32) {
+        self.gid = value;
+    }
+    pub fn set_gid_raw(&mut self, value: [u8; 4]) {
+        self.gid_raw = value;
+    }
+    pub fn set_target_gid(&mut self, value: u32) {
+        self.target_gid = value;
+    }
+    pub fn set_target_gid_raw(&mut self, value: [u8; 4]) {
+        self.target_gid_raw = value;
+    }
+    pub fn set_start_time(&mut self, value: u32) {
+        self.start_time = value;
+    }
+    pub fn set_start_time_raw(&mut self, value: [u8; 4]) {
+        self.start_time_raw = value;
+    }
+    pub fn set_attack_mt(&mut self, value: i32) {
+        self.attack_mt = value;
+    }
+    pub fn set_attack_mt_raw(&mut self, value: [u8; 4]) {
+        self.attack_mt_raw = value;
+    }
+    pub fn set_attacked_mt(&mut self, value: i32) {
+        self.attacked_mt = value;
+    }
+    pub fn set_attacked_mt_raw(&mut self, value: [u8; 4]) {
+        self.attacked_mt_raw = value;
+    }
+    pub fn set_damage(&mut self, value: i32) {
+        self.damage = value;
+    }
+    pub fn set_damage_raw(&mut self, value: [u8; 4]) {
+        self.damage_raw = value;
+    }
+    pub fn set_is_sp_damaged(&mut self, value: bool) {
+        self.is_sp_damaged = value;
+    }
+    pub fn set_is_sp_damaged_raw(&mut self, value: [u8; 1]) {
+        self.is_sp_damaged_raw = value;
+    }
+    pub fn set_count(&mut self, value: i16) {
+        self.count = value;
+    }
+    pub fn set_count_raw(&mut self, value: [u8; 2]) {
+        self.count_raw = value;
+    }
+    pub fn set_action(&mut self, value: u8) {
+        self.action = value;
+    }
+    pub fn set_action_raw(&mut self, value: [u8; 1]) {
+        self.action_raw = value;
+    }
+    pub fn set_left_damage(&mut self, value: i32) {
+        self.left_damage = value;
+    }
+    pub fn set_left_damage_raw(&mut self, value: [u8; 4]) {
+        self.left_damage_raw = value;
+    }
+    pub fn new() -> PacketZcNotifyAct3 {
+        PacketZcNotifyAct3 {
+        raw: vec![],
+        packet_id: i16::from_le_bytes([0xc8, 0x08]),
+        packet_id_raw: [0xc8, 0x08],
+        gid: 0,
+        gid_raw: [0; 4],
+        target_gid: 0,
+        target_gid_raw: [0; 4],
+        start_time: 0,
+        start_time_raw: [0; 4],
+        attack_mt: 0,
+        attack_mt_raw: [0; 4],
+        attacked_mt: 0,
+        attacked_mt_raw: [0; 4],
+        damage: 0,
+        damage_raw: [0; 4],
+        is_sp_damaged: false,
+        is_sp_damaged_raw: [0; 1],
+        count: 0,
+        count_raw: [0; 2],
+        action: 0,
+        action_raw: [0; 1],
+        left_damage: 0,
+        left_damage_raw: [0; 4],
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyAct3 {
+    fn id(&self) -> &str {
+       "0xc808"
     }
     fn debug(&self) {
             println!("{:?}", self)

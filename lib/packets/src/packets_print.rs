@@ -18236,6 +18236,43 @@ impl Display for PacketZcNotifyMoveentry8 {
     }
 }
 
+impl Debug for PacketZcNotifyAct3 {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("PacketZcNotifyAct3")
+            .field("id", &self.id())
+            .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
+            .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
+            .field("target_gid[6, 10]", &format!("{:02X?}", &self.target_gid_raw))
+            .field("start_time[10, 14]", &format!("{:02X?}", &self.start_time_raw))
+            .field("attack_mt[14, 18]", &format!("{:02X?}", &self.attack_mt_raw))
+            .field("attacked_mt[18, 22]", &format!("{:02X?}", &self.attacked_mt_raw))
+            .field("damage[22, 26]", &format!("{:02X?}", &self.damage_raw))
+            .field("is_sp_damaged[26, 27]", &format!("{:02X?}", &self.is_sp_damaged_raw))
+            .field("count[27, 29]", &format!("{:02X?}", &self.count_raw))
+            .field("action[29, 30]", &format!("{:02X?}", &self.action_raw))
+            .field("left_damage[30, 34]", &format!("{:02X?}", &self.left_damage_raw))
+        .finish()
+    }
+}
+
+impl Display for PacketZcNotifyAct3 {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        let mut fields = Vec::new();
+        fields.push(format!("packet_id(short as i16)[0, 2]: {}", &self.packet_id));
+        fields.push(format!("gid(unsigned long as u32)[2, 6]: {}", &self.gid));
+        fields.push(format!("target_gid(unsigned long as u32)[6, 10]: {}", &self.target_gid));
+        fields.push(format!("start_time(unsigned long as u32)[10, 14]: {}", &self.start_time));
+        fields.push(format!("attack_mt(int as i32)[14, 18]: {}", &self.attack_mt));
+        fields.push(format!("attacked_mt(int as i32)[18, 22]: {}", &self.attacked_mt));
+        fields.push(format!("damage(int as i32)[22, 26]: {}", &self.damage));
+        fields.push(format!("is_sp_damaged(bool as bool)[26, 27]: {}", &self.is_sp_damaged));
+        fields.push(format!("count(short as i16)[27, 29]: {}", &self.count));
+        fields.push(format!("action(unsigned char as u8)[29, 30]: {}", &self.action));
+        fields.push(format!("left_damage(int as i32)[30, 34]: {}", &self.left_damage));
+        write!(f, "PacketZcNotifyAct3\n {}", fields.join(",\n "))
+    }
+}
+
 impl Debug for ServerAddr {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("ServerAddr")

@@ -1918,7 +1918,7 @@ pub fn parse(buffer: &[u8]) -> Box<dyn Packet> {
     if buffer[0] == 0x36 && buffer[1] == 0x04 {
         return Box::new(PacketCzEnter2::from(buffer));
     }
-    if buffer[0] == 0x04 && buffer[1] == 0x37 {
+    if buffer[0] == 0x37 && buffer[1] == 0x04 {
         return Box::new(PacketCzRequestAct2::from(buffer));
     }
     if buffer[0] == 0x04 && buffer[1] == 0x38 {
@@ -2352,6 +2352,9 @@ pub fn parse(buffer: &[u8]) -> Box<dyn Packet> {
     }
     if buffer[0] == 0xfd && buffer[1] == 0x09 {
         return Box::new(PacketZcNotifyMoveentry8::from(buffer));
+    }
+    if buffer[0] == 0xc8 && buffer[1] == 0x08 {
+        return Box::new(PacketZcNotifyAct3::from(buffer));
     }
     Box::new(PacketUnknown::from(buffer))
 }
