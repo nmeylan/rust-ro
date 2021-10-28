@@ -10,6 +10,7 @@ use packets::packets::Packet;
 use crate::util::coordinate;
 use crate::util::string::StringUtil;
 use std::io::Write;
+use std::time::Instant;
 use accessor::Setters;
 use crate::server::core::status::Status;
 
@@ -50,6 +51,7 @@ impl CharacterSession {
         self.map_view.insert(i, item);
     }
 
+    // TODO try to optimize, method below take ~0.5ms to execute (peak at 1.5ms)
     pub fn load_units_in_fov(&mut self, map: &Map, session_guard: &RwLockReadGuard<Session>) {
         let old_map_view = self.map_view.clone();
         self.map_view.clear();
@@ -92,7 +94,7 @@ impl CharacterSession {
                         packet_zc_notify_standentry.set_packet_length(108);
                         packet_zc_notify_standentry.set_objecttype(6);
                         packet_zc_notify_standentry.set_aid(mob_guard.id());
-                        packet_zc_notify_standentry.set_pos_dir(Position { x: mob_guard.x, y: mob_guard.y, dir: 0 }.to_pos());
+                        packet_zc_notify_standentry.set_pos_dir(Position { x: mob_guard.x, y: mob_guard.y, dir: 3 }.to_pos());
                         packet_zc_notify_standentry.set_name(mob_name);
                         packet_zc_notify_standentry.fill_raw();
 
