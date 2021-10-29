@@ -5,3 +5,4 @@ pub mod char;
 pub mod login;
 pub mod movement;
 pub mod action;
+pub mod map;

@@ -145,7 +145,7 @@ pub fn handle_select_char(server: Arc<Server>, packet: &mut dyn Packet, runtime:
     last_map.fill_char_array(map_name.as_mut());
     char_model.name.clone().fill_char_array(char_name.as_mut());
     let character = CharacterSession {
-        name: char_name,
+        name: char_model.name.clone(),
         char_id,
         status: Status::from_char_model(&char_model, &server.configuration.game),
         current_map_name: map_name.clone(),

@@ -26,6 +26,10 @@ impl MapItem for Mob {
     fn object_type(&self) -> i16 {
         5
     }
+
+    fn name(&self) -> String {
+        self.name.clone()
+    }
 }
 
 impl MapItem for std::sync::RwLock<Mob> {
@@ -39,6 +43,11 @@ impl MapItem for std::sync::RwLock<Mob> {
     }
     fn object_type(&self) -> i16 {
         5
+    }
+
+    fn name(&self) -> String {
+        let self_guard = read_lock!(self);
+        self_guard.name.clone()
     }
 }
 
