@@ -2,7 +2,7 @@ use std::cmp;
 use std::collections::HashMap;
 use std::sync::{Arc, RwLock, RwLockReadGuard};
 use packets::packets::{PacketZcNotifyStandentry6, PacketZcNotifyVanish};
-use crate::server::core::map::{Map, MapItem};
+use crate::server::core::map::{MapItem};
 use crate::server::core::movement::Position;
 use crate::server::core::session::Session;
 use crate::server::server::PLAYER_FOV;
@@ -96,12 +96,14 @@ impl CharacterSession {
                         let mut packet_zc_notify_standentry = PacketZcNotifyStandentry6::new();
                         packet_zc_notify_standentry.set_job(mob_guard.client_item_class());
                         packet_zc_notify_standentry.set_packet_length(108);
-                        packet_zc_notify_standentry.set_objecttype(2);
+                        packet_zc_notify_standentry.set_objecttype(5);
+                        packet_zc_notify_standentry.set_clevel(3);
                         packet_zc_notify_standentry.set_aid(mob_guard.id());
                         packet_zc_notify_standentry.set_pos_dir(Position { x: mob_guard.x, y: mob_guard.y, dir: 3 }.to_pos());
                         packet_zc_notify_standentry.set_name(mob_name);
                         packet_zc_notify_standentry.fill_raw();
-
+                        packet_zc_notify_standentry.display();
+                        packet_zc_notify_standentry.pretty_debug();
                         let tcp_stream = session_guard.map_server_socket.as_ref().unwrap();
                         socket_send!(tcp_stream, packet_zc_notify_standentry.raw());
                     }

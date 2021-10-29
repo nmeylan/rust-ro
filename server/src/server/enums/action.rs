@@ -17,7 +17,7 @@ pub enum ActionType {
 }
 
 impl ActionType {
-    pub fn value(&self) -> u32 {
+    pub fn value(&self) -> u8 {
         match *self {
             ActionType::ATTACK => 0,
             ActionType::ITEMPICKUP => 1,
