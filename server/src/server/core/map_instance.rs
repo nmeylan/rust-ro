@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 use std::sync::{Arc, RwLock};
-use crate::server::core::map::{Map};
+use crate::server::core::map::{Map, WARP_MASK};
 use crate::server::core::mob::Mob;
 use crate::server::npc::mob::MobSpawn;
 use crate::server::npc::warps::Warp;
@@ -13,12 +13,28 @@ pub struct MapInstance {
     pub id: u32,
     pub x_size: u16,
     pub y_size: u16,
-    pub cells: Arc<Vec<u16>>,
+    // index in this array will give x and y position of the cell.
+    // 2 bytes representing cell type:
+    // bit 0 -> walkable
+    // bit 1 -> shootable
+    // bit 2 -> water
+    // bit 3 -> npc
+    // bit 4 -> basilica
+    // bit 5 -> landprotector
+    // bit 6 -> novending
+    // bit 7 -> nochat
+    // bit 8 -> icewall
+    // bit 9 -> noicewall
+    // bit 10 -> noskill
+    // bit 11 -> warp
+    // bit 12 -> mob
+    pub cells: Vec<u16>,
     pub warps: Arc<Vec<Arc<Warp>>>,
     pub mob_spawns: Arc<Vec<Arc<MobSpawn>>>,
     pub mob_spawns_tracks: Vec<MobSpawnTrack>,
     pub mobs: HashMap<u32, Arc<RwLock<Mob>>>,
     pub mobs_location: HashMap<usize, Arc<RwLock<Mob>>>,
+    pub characters_ids: Vec<u32>
 }
 
 pub struct MobSpawnTrack {
@@ -42,18 +58,48 @@ impl MobSpawnTrack {
 }
 
 impl MapInstance {
-    pub fn from_map(map: &Map, id: u32) -> MapInstance {
+    pub fn from_map(map: &Map, id: u32, cells: Vec<u16>) -> MapInstance {
         MapInstance {
             name: map.name.clone(),
             id,
             x_size: map.x_size.clone(),
             y_size: map.y_size.clone(),
-            cells: map.cells.clone(),
+            cells,
             warps: map.warps.clone(),
             mob_spawns: map.mob_spawns.clone(),
             mob_spawns_tracks: map.mob_spawns.iter().map(|spawn| MobSpawnTrack::default(spawn.id.clone())).collect::<Vec<MobSpawnTrack>>(),
             mobs: Default::default(),
-            mobs_location: Default::default()
+            mobs_location: Default::default(),
+            characters_ids: Default::default(),
+        }
+    }
+
+    #[inline]
+    pub fn get_cell_index_of(&self, x: u16, y: u16) -> usize {
+        coordinate::get_cell_index_of(x, y, self.x_size)
+    }
+    #[inline]
+    pub fn get_pos_of(&self, index: u32) -> (u16, u16) {
+        coordinate::get_pos_of(index, self.x_size)
+    }
+
+    pub fn is_cell_walkable(&self, x: u16, y: u16) -> bool {
+        if self.cells.is_empty() {
+            warn!("Cannot call is_cell_walkable as cells are not initialized, returning false");
+            return false
+        }
+        (self.cells.get(self.get_cell_index_of(x, y)).unwrap() & 0b0000_0000_0000_0001) == 0b0000_0000_0000_0001
+    }
+
+    pub fn is_warp_cell(&self, x: u16, y: u16) -> bool {
+        if self.cells.is_empty() {
+            warn!("Cannot call is_warp_cell as cells are not initialized, returning false");
+            return false
+        }
+        let i = self.get_cell_index_of(x, y);
+        match self.cells.get(i) {
+            Some(value) => (value & WARP_MASK) == WARP_MASK,
+            None => false
         }
     }
 
@@ -99,5 +145,19 @@ impl MapInstance {
             Some(e) => Some(e.clone()),
             None => None
         }
+    }
+
+    pub fn get_warp_at(&self, x: u16, y: u16) -> Option<Arc<Warp>> {
+        for warp in self.warps.iter() {
+            if x >= warp.x - warp.x_size && x <= warp.x + warp.x_size
+                && y >= warp.y - warp.y_size && y <= warp.y + warp.y_size {
+                return Some(warp.clone());
+            }
+        }
+        None
+    }
+
+    pub fn add_char_id_to_map(&mut self, char_id: u32) {
+        self.characters_ids.push(char_id);
     }
 }

@@ -9,6 +9,7 @@ use byteorder::{LittleEndian, WriteBytesExt};
 use crate::repository::model::char_model::{CharacterInfoNeoUnionWrapped, CharInsertModel, CharSelectModel};
 use crate::util::string::StringUtil;
 use std::net::Shutdown::Both;
+use std::ops::Deref;
 use crate::util::packet::chain_packets;
 use std::time::{SystemTime, UNIX_EPOCH};
 use crate::server::enums::status::StatusTypes;
@@ -147,10 +148,11 @@ pub fn handle_select_char(server: Arc<Server>, packet: &mut dyn Packet, runtime:
         name: char_name,
         char_id,
         status: Status::from_char_model(&char_model, &server.configuration.game),
-        current_map: map_name.clone(),
+        current_map_name: map_name.clone(),
         current_position: Position { x: last_x, y: last_y, dir: 0 },
         movement_task_id: None,
         map_view: Default::default(),
+        current_map: None
     };
     session.set_character(Arc::new(Mutex::new(character)));
     packet_ch_send_map_info.set_map_name(map_name);
@@ -197,7 +199,7 @@ pub fn handle_enter_game(server: Arc<Server>, packet: &mut dyn Packet, _runtime:
     let character = session.character.as_ref().unwrap();
     let character_session_guard = character.lock().unwrap();
     let mut packet_npc_ack_map_move = PacketZcNpcackMapmove::new();
-    packet_npc_ack_map_move.set_map_name(character_session_guard.current_map);
+    packet_npc_ack_map_move.set_map_name(character_session_guard.current_map_name);
     packet_npc_ack_map_move.set_x_pos(character_session_guard.current_position.x as i16);
     packet_npc_ack_map_move.set_y_pos(character_session_guard.current_position.y as i16);
     packet_npc_ack_map_move.fill_raw();
@@ -322,15 +324,18 @@ pub fn handle_disconnect(server: Arc<Server>, _packet: &mut dyn Packet, _runtime
 }
 
 pub fn handle_char_loaded_client_side(server: Arc<Server>, _packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, session_id: u32) {
-
+    info!("Reload char");
     let sessions_guard = read_lock!(server.sessions);
     let session = read_session!(sessions_guard, &session_id);
     let mut character = session.character.as_ref().unwrap().lock().unwrap();
-    let mut maps_guard = server.maps.write().unwrap();
     let map_name : String = Map::name_without_ext(character.get_current_map_name());
-    let map = maps_guard.get_mut(&map_name).unwrap();
-    map.player_join_map(server.clone());
-    character.load_units_in_fov(map, &session);
+    let map_ref = server.maps.get(&map_name).unwrap();
+    {
+        let map = map_ref.clone();
+        let map_instance = map.player_join_map(character.char_id, server.clone());
+        character.set_current_map(Some(map_instance));
+    }
+    character.load_units_in_fov(&session);
 
     let mut packet_zc_msg_color = PacketZcMsgColor::new();
     let mut packet_zc_notify_mapproperty2 = PacketZcNotifyMapproperty2::new();

@@ -10,14 +10,11 @@ use std::collections::HashMap;
 use std::fmt::Debug;
 use std::sync::{Arc, RwLock};
 use std::thread::sleep;
-use log::warn;
 use rand::Rng;
-use tokio::runtime::Runtime;
-use tokio::sync::mpsc;
-use tokio::sync::mpsc::{Receiver, Sender};
+use tokio::sync::broadcast;
+use tokio::sync::broadcast::{Receiver, Sender};
 use accessor::Setters;
 use crate::server::core::map_instance::MapInstance;
-use crate::server::core::mob::Mob;
 use crate::server::npc::mob::MobSpawn;
 use crate::server::npc::warps::Warp;
 use crate::server::server::Server;
@@ -26,7 +23,7 @@ use crate::util::coordinate;
 static MAPCACHE_EXT: &str = ".mcache";
 static MAP_DIR: &str = "./maps/pre-re";
 pub static MAP_EXT: &str = ".gat";
-pub static WARP_MASK: u16 = 0b0000_0100_0000_0000;
+pub const WARP_MASK: u16 = 0b0000_0100_0000_0000;
 
 struct Header {
     pub version: i16,
@@ -36,33 +33,15 @@ struct Header {
     pub length: i32,
 }
 
-#[derive(Clone)]
 pub struct Map {
     pub x_size: u16,
     pub y_size: u16,
     pub length: i32,
     pub name: String,
-    // index in this array will give x and y position of the cell.
-    // 2 bytes representing cell type:
-    // bit 0 -> walkable
-    // bit 1 -> shootable
-    // bit 2 -> water
-    // bit 3 -> npc
-    // bit 4 -> basilica
-    // bit 5 -> landprotector
-    // bit 6 -> novending
-    // bit 7 -> nochat
-    // bit 8 -> icewall
-    // bit 9 -> noicewall
-    // bit 10 -> noskill
-    // bit 11 -> warp
-    // bit 12 -> mob
-    pub cells: Arc<Vec<u16>>,
     pub warps: Arc<Vec<Arc<Warp>>>,
     pub mob_spawns: Arc<Vec<Arc<MobSpawn>>>,
-    pub is_initialized: bool, // maps initialization is lazy, this bool indicate if maps has been initialized or not
-    pub map_thread_channel: Option<Sender<String>>,
-    pub map_instances: Vec<Arc<RwLock<MapInstance>>>
+    pub map_thread_channel_sender: Sender<String>,
+    pub map_instances: RwLock<Vec<Arc<RwLock<MapInstance>>>>
 }
 
 pub trait MapItem: Send + Sync + Debug{
@@ -144,44 +123,26 @@ impl MapPropertyFlags {
 }
 
 impl Map {
-    #[inline]
-    pub fn get_cell_index_of(&self, x: u16, y: u16) -> usize {
-        coordinate::get_cell_index_of(x, y, self.x_size)
-    }
-    #[inline]
-    pub fn get_pos_of(&self, index: u32) -> (u16, u16) {
-        coordinate::get_pos_of(index, self.x_size)
-    }
-
-    pub fn is_cell_walkable(&self, x: u16, y: u16) -> bool {
-        if self.cells.is_empty() {
-            warn!("Cannot call is_cell_walkable as cells are not initialized, returning false");
-            return false
-        }
-        (self.cells.get(self.get_cell_index_of(x, y)).unwrap() & 0b0000_0000_0000_0001) == 0b0000_0000_0000_0001
-    }
-
-    pub fn is_warp_cell(&self, x: u16, y: u16) -> bool {
-        if self.cells.is_empty() {
-            warn!("Cannot call is_warp_cell as cells are not initialized, returning false");
-            return false
-        }
-        let i = self.get_cell_index_of(x, y);
-        match self.cells.get(i) {
-            Some(value) => (value & WARP_MASK) == WARP_MASK,
-            None => false
-        }
-    }
-
     // TODO: implement map instance. This method should return map instance id (or ref) for char session.
     // Char interact with instance instead of map directly.
     // Instances will make map lifecycle easier to maintain
     // Only 1 instance will be needed for most use case, but it make possible to wipe map instance after a while when no player are on it. to free memory
-    pub fn player_join_map(&mut self, server: Arc<Server>) {
-        if !self.is_initialized {
-            self.initialize(server);
+    pub fn player_join_map(&self, char_id: u32, server: Arc<Server>) -> Arc<RwLock<MapInstance>> {
+        let map_instance_id = 0_u32;
+        let mut instance_exists = false; {
+            let map_instances_guard = read_lock!(self.map_instances);
+            instance_exists = map_instances_guard.get(map_instance_id as usize).is_some();
         }
-        // TODO maintain a list of player in the map
+        if !instance_exists {
+            self.create_map_instance(server, map_instance_id);
+        }
+        let map_instances_guard = read_lock!(self.map_instances);
+        let map_instance = map_instances_guard.get(map_instance_id as usize).unwrap();
+        {
+            let mut map_instance_guard = write_lock!(map_instance);
+            map_instance_guard.add_char_id_to_map(char_id);
+        }
+        map_instance.clone()
     }
 
     pub fn find_random_walkable_cell(cells: &Vec<u16>, x_size: u16) -> (u16, u16) {
@@ -195,18 +156,19 @@ impl Map {
         }
     }
 
-    fn initialize(&mut self, server: Arc<Server>) {
-        self.set_cells();
-        self.is_initialized = true;
-        let (tx, rx) = mpsc::channel::<String>(32);
-        self.map_thread_channel = Some(tx);
-        let map_instance = MapInstance::from_map(&self, 0);
+    fn create_map_instance(&self, server: Arc<Server>, instance_id: u32) -> Arc<RwLock<MapInstance>> {
+        let cells = self.generate_cells();
+        let map_instance = MapInstance::from_map(&self, instance_id, cells);
         let map_instance_lock = Arc::new(RwLock::new(map_instance));
-        self.map_instances.push(map_instance_lock.clone());
-        Map::start_thread(map_instance_lock.clone(), rx, server);
+        {
+            let mut map_instance_guard = write_lock!(self.map_instances);
+            map_instance_guard.push(map_instance_lock.clone());
+        }
+        Map::start_thread(map_instance_lock.clone(), self.map_thread_channel_sender.subscribe(), server);
+        map_instance_lock.clone()
     }
 
-    pub fn set_cells(&mut self) {
+    pub fn generate_cells(&self) -> Vec<u16> {
         let file_path = Path::join(Path::new(MAP_DIR), format!("{}{}", self.name, MAPCACHE_EXT));
         let file = File::open(file_path).unwrap();
         let mut reader = BufReader::new(file);
@@ -228,29 +190,10 @@ impl Map {
         }
 
         self.set_warp_cells(&mut cells);
-        self.cells = Arc::new(cells);
+        cells
     }
 
-    pub fn get_warp_at(&self, x: u16, y: u16) -> Option<Arc<Warp>> {
-        for warp in self.warps.iter() {
-            if x >= warp.x - warp.x_size && x <= warp.x + warp.x_size
-                && y >= warp.y - warp.y_size && y <= warp.y + warp.y_size {
-                return Some(warp.clone());
-            }
-        }
-        None
-    }
-
-    pub fn get_mob_at(&self, x: u16, y: u16, instance_id: u32) -> Option<Arc<RwLock<Mob>>> {
-        let map_instance = self.map_instances.iter().find(|instance| {
-            let map_instance_guard = read_lock!(instance);
-            map_instance_guard.id == instance_id
-        }).unwrap();
-        let map_instance_guard = read_lock!(map_instance);
-        map_instance_guard.get_mob_at(x, y)
-    }
-
-    fn set_warp_cells(&mut self, cells: &mut Vec<u16>) {
+    fn set_warp_cells(&self, cells: &mut Vec<u16>) {
         for warp in self.warps.iter() {
             let start_x = warp.x - warp.x_size;
             let to_x = warp.x + warp.x_size;
@@ -258,7 +201,7 @@ impl Map {
             let to_y = warp.y + warp.y_size;
             for x in start_x..to_x {
                 for y in start_y..to_y {
-                    let index = self.get_cell_index_of(x, y);
+                    let index = coordinate::get_cell_index_of(x, y, self.x_size);
                     let cell = cells.get_mut(index).unwrap();
                     *cell |= WARP_MASK;
                 }
@@ -328,17 +271,15 @@ impl Map {
             // TODO validate checksum
             // TODO validate size + length
 
-
+            let (tx, _) = broadcast::channel::<String>(32);
             let mut map = Map {
                 x_size: header.x_size as u16,
                 y_size: header.y_size as u16,
                 length: header.length,
                 name: map_name.to_string(),
-                cells: Default::default(),
                 warps: Default::default(),
                 mob_spawns: Default::default(),
-                is_initialized: false,
-                map_thread_channel: None,
+                map_thread_channel_sender: tx,
                 map_instances: Default::default(),
             };
             map.set_warps(warps.get(&map_name).unwrap_or(&vec![]), map_item_ids);
