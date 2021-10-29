@@ -327,7 +327,7 @@ pub fn handle_char_loaded_client_side(server: Arc<Server>, _packet: &mut dyn Pac
     info!("Reload char");
     let sessions_guard = read_lock!(server.sessions);
     let session = read_session!(sessions_guard, &session_id);
-    let mut character = session.character.as_ref().unwrap().lock().unwrap();
+    let mut character = character_lock!(session);
     let map_name : String = Map::name_without_ext(character.get_current_map_name());
     let map_ref = server.maps.get(&map_name).unwrap();
     {
@@ -335,6 +335,7 @@ pub fn handle_char_loaded_client_side(server: Arc<Server>, _packet: &mut dyn Pac
         let map_instance = map.player_join_map(character.char_id, server.clone());
         character.set_current_map(Some(map_instance));
     }
+    server.insert_map_item(session_id, session.character.as_ref().unwrap().clone());
     character.load_units_in_fov(&session);
 
     let mut packet_zc_msg_color = PacketZcMsgColor::new();

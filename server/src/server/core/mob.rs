@@ -22,6 +22,10 @@ impl MapItem for Mob {
     fn client_item_class(&self) -> i16 {
         self.mob_id
     }
+
+    fn object_type(&self) -> i16 {
+        5
+    }
 }
 
 impl MapItem for std::sync::RwLock<Mob> {
@@ -32,6 +36,9 @@ impl MapItem for std::sync::RwLock<Mob> {
     fn client_item_class(&self) -> i16 {
         let self_guard = read_lock!(self);
         self_guard.mob_id
+    }
+    fn object_type(&self) -> i16 {
+        5
     }
 }
 

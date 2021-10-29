@@ -1,6 +1,6 @@
 use std::cmp;
 use std::collections::HashMap;
-use std::sync::{Arc, RwLock, RwLockReadGuard};
+use std::sync::{Arc, Mutex, RwLock, RwLockReadGuard};
 use packets::packets::{PacketZcNotifyStandentry6, PacketZcNotifyVanish};
 use crate::server::core::map::{MapItem};
 use crate::server::core::movement::Position;
@@ -29,6 +29,21 @@ pub struct CharacterSession {
     pub current_position: Position,
     pub movement_task_id: Option<u128>,
     pub map_view: HashMap<usize, Arc<dyn MapItem>>
+}
+
+impl MapItem for Mutex<CharacterSession> {
+    fn id(&self) -> u32 {
+        let self_guard = mutex_lock!(self);
+        self_guard.char_id
+    }
+
+    fn client_item_class(&self) -> i16 {
+        todo!() // TODO return job id
+    }
+
+    fn object_type(&self) -> i16 {
+        0
+    }
 }
 
 impl CharacterSession {

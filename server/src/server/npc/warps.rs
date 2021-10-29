@@ -42,6 +42,9 @@ impl MapItem for Warp {
     fn client_item_class(&self) -> i16 {
         45
     }
+    fn object_type(&self) -> i16 {
+        6
+    }
 }
 
 impl Npc for Warp {

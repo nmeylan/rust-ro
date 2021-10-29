@@ -11,22 +11,42 @@ use log::{error};
 use rand::{Rng};
 use packets::packets_parser::parse;
 use crate::server::configuration::Config;
-use crate::server::core::map::Map;
+use crate::server::core::map::{Map, MapItem};
 use crate::server::core::session::{Session, SessionsIter};
 use crate::server::handler::action::attack::handle_attack;
 use crate::server::handler::char::{handle_char_enter, handle_char_loaded_client_side, handle_delete_reserved_char, handle_disconnect, handle_enter_game, handle_make_char, handle_restart, handle_select_char};
 use crate::server::handler::login::handle_login;
 use crate::server::handler::movement::handle_char_move;
+use lazy_static::lazy_static;
 
 // Todo make this configurable
 pub const PLAYER_FOV: u16 = 14;
+lazy_static! {
+    pub static ref UNKNOWN_MAP_ITEM: Arc<dyn MapItem> = Arc::new(UnknownMapItem {});
+}
+
 
 pub struct Server {
     pub configuration: Config,
     pub sessions: Arc<RwLock<HashMap<u32, Arc<RwLock<Session>>>>>,
     pub repository: Arc<Repository<MySql>>,
     pub maps: HashMap<String, Arc<Map>>,
-    pub map_item_ids: Arc<RwLock<Vec<u32>>>
+    pub map_items: Arc<RwLock<HashMap<u32, Arc<dyn MapItem>>>>
+}
+
+pub struct UnknownMapItem;
+impl MapItem for UnknownMapItem {
+    fn id(&self) -> u32 {
+        0
+    }
+
+    fn client_item_class(&self) -> i16 {
+        0
+    }
+
+    fn object_type(&self) -> i16 {
+        0
+    }
 }
 
 impl Server {
@@ -37,28 +57,33 @@ impl Server {
 }
 
 impl Server {
-    pub fn new(configuration: Config, repository: Arc<Repository<MySql>>, maps: HashMap<String, Arc<Map>>, map_item_ids: Arc<RwLock<Vec<u32>>>) -> Server {
+    pub fn new(configuration: Config, repository: Arc<Repository<MySql>>, maps: HashMap<String, Arc<Map>>, map_items: Arc<RwLock<HashMap<u32, Arc<dyn MapItem>>>>) -> Server {
         let server = Server {
             configuration,
             sessions: Arc::new(RwLock::new(HashMap::<u32, Arc<RwLock<Session>>>::new())),
             repository,
             maps,
-            map_item_ids
+            map_items
         };
         server
     }
 
     pub fn generate_map_item_id(&self) -> u32 {
-        let mut ids = write_lock!(self.map_item_ids);
-        Server::generate_id(&mut ids)
+        let mut map_items = write_lock!(self.map_items);
+        Server::generate_id(&mut map_items)
     }
 
-    pub fn generate_id(ids: &mut RwLockWriteGuard<Vec<u32>>) -> u32 {
+    pub fn insert_map_item(&self, id: u32, map_item: Arc<dyn MapItem>) {
+        let mut map_items = write_lock!(self.map_items);
+        map_items.insert(id, map_item);
+    }
+
+    pub fn generate_id(map_items: &mut RwLockWriteGuard<HashMap<u32, Arc<dyn MapItem>>>) -> u32 {
         let mut id: u32;
         loop {
             id = rand::thread_rng().gen::<u32>();
-            if !ids.contains(&id) {
-                ids.push(id);
+            if !map_items.contains_key(&id) {
+                map_items.insert(id, UNKNOWN_MAP_ITEM.clone());
                 break;
             }
         }
