@@ -56,6 +56,7 @@ pub struct Map {
     // bit 9 -> noicewall
     // bit 10 -> noskill
     // bit 11 -> warp
+    // bit 12 -> mob
     pub cells: Arc<Vec<u16>>,
     pub warps: Arc<Vec<Arc<Warp>>>,
     pub mob_spawns: Arc<Vec<Arc<MobSpawn>>>,

@@ -1,6 +1,5 @@
 use std::collections::HashMap;
 use std::sync::{Arc, RwLock};
-use std::time::Instant;
 use crate::server::core::map::{Map};
 use crate::server::core::mob::Mob;
 use crate::server::npc::mob::MobSpawn;
@@ -18,7 +17,8 @@ pub struct MapInstance {
     pub warps: Arc<Vec<Arc<Warp>>>,
     pub mob_spawns: Arc<Vec<Arc<MobSpawn>>>,
     pub mob_spawns_tracks: Vec<MobSpawnTrack>,
-    pub mobs: HashMap<usize, Arc<RwLock<Mob>>>,
+    pub mobs: HashMap<u32, Arc<RwLock<Mob>>>,
+    pub mobs_location: HashMap<usize, Arc<RwLock<Mob>>>,
 }
 
 pub struct MobSpawnTrack {
@@ -52,7 +52,8 @@ impl MapInstance {
             warps: map.warps.clone(),
             mob_spawns: map.mob_spawns.clone(),
             mob_spawns_tracks: map.mob_spawns.iter().map(|spawn| MobSpawnTrack::default(spawn.id.clone())).collect::<Vec<MobSpawnTrack>>(),
-            mobs: Default::default()
+            mobs: Default::default(),
+            mobs_location: Default::default()
         }
     }
 
@@ -80,9 +81,12 @@ impl MapInstance {
                 } else {
                     cell = Map::find_random_walkable_cell(self.cells.as_ref(), self.x_size);
                 }
-                let mob = Mob::new(server.generate_map_item_id(), cell.0, cell.1, mob_spawn.mob_id, mob_spawn.id, mob_spawn.name.clone());
+                let mob_id = server.generate_map_item_id();
+                let mob = Mob::new(mob_id, cell.0, cell.1, mob_spawn.mob_id, mob_spawn.id, mob_spawn.name.clone());
                 info!("Spawned {} at {},{})", mob_spawn.name, cell.0, cell.1);
-                self.mobs.insert(coordinate::get_cell_index_of(cell.0, cell.1, self.x_size), Arc::new(RwLock::new(mob)));
+                let mob_ref = Arc::new(RwLock::new(mob));
+                self.mobs.insert(mob_id, mob_ref.clone());
+                self.mobs_location.insert(coordinate::get_cell_index_of(cell.0, cell.1, self.x_size), mob_ref);
                 mob_spawn_track.increment_spawn();
             }
             info!("Spawned {} {} (spawn id {})", spawned, mob_spawn.name, mob_spawn.id);
@@ -90,7 +94,7 @@ impl MapInstance {
     }
 
     pub fn get_mob_at(&self, x: u16, y: u16) -> Option<Arc<RwLock<Mob>>> {
-        let option = self.mobs.get(&coordinate::get_cell_index_of(x, y, self.x_size));
+        let option = self.mobs_location.get(&coordinate::get_cell_index_of(x, y, self.x_size));
         match option {
             Some(e) => Some(e.clone()),
             None => None

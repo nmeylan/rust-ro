@@ -10,7 +10,6 @@ use packets::packets::Packet;
 use crate::util::coordinate;
 use crate::util::string::StringUtil;
 use std::io::Write;
-use std::time::Instant;
 use accessor::Setters;
 use crate::server::core::status::Status;
 
