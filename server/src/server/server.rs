@@ -24,7 +24,7 @@ pub struct Server {
     pub configuration: Config,
     pub sessions: Arc<RwLock<HashMap<u32, Arc<RwLock<Session>>>>>,
     pub repository: Arc<Repository<MySql>>,
-    pub maps: Arc<RwLock<HashMap<String, Map>>>,
+    pub maps: HashMap<String, Arc<Map>>,
     pub map_item_ids: Arc<RwLock<Vec<u32>>>
 }
 
@@ -36,7 +36,7 @@ impl Server {
 }
 
 impl Server {
-    pub fn new(configuration: Config, repository: Arc<Repository<MySql>>, maps: Arc<RwLock<HashMap<String, Map>>>, map_item_ids: Arc<RwLock<Vec<u32>>>) -> Server {
+    pub fn new(configuration: Config, repository: Arc<Repository<MySql>>, maps: HashMap<String, Arc<Map>>, map_item_ids: Arc<RwLock<Vec<u32>>>) -> Server {
         let server = Server {
             configuration,
             sessions: Arc::new(RwLock::new(HashMap::<u32, Arc<RwLock<Session>>>::new())),

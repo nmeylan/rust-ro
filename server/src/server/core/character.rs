@@ -1,6 +1,6 @@
 use std::cmp;
 use std::collections::HashMap;
-use std::sync::{Arc, RwLockReadGuard};
+use std::sync::{Arc, RwLock, RwLockReadGuard};
 use packets::packets::{PacketZcNotifyStandentry6, PacketZcNotifyVanish};
 use crate::server::core::map::{Map, MapItem};
 use crate::server::core::movement::Position;
@@ -11,9 +11,10 @@ use crate::util::coordinate;
 use crate::util::string::StringUtil;
 use std::io::Write;
 use accessor::Setters;
+use crate::server::core::map_instance::MapInstance;
 use crate::server::core::status::Status;
 
-#[derive(Setters, Debug)]
+#[derive(Setters)]
 pub struct CharacterSession {
     #[set]
     pub name: [char; 24],
@@ -21,7 +22,9 @@ pub struct CharacterSession {
     #[set]
     pub char_id: u32,
     #[set]
-    pub current_map: [char; 16],
+    pub current_map: Option<Arc<RwLock<MapInstance>>>,
+    #[set]
+    pub current_map_name: [char; 16],
     #[set]
     pub current_position: Position,
     pub movement_task_id: Option<u128>,
@@ -36,7 +39,7 @@ impl CharacterSession {
         self.current_position.y = current_y;
     }
     pub fn get_current_map_name(&self) -> String {
-        self.current_map.iter().filter(|c| **c != '\0').collect()
+        self.current_map_name.iter().filter(|c| **c != '\0').collect()
     }
     pub fn set_movement_task_id(&mut self, id: u128) {
         self.movement_task_id = Some(id);
@@ -51,9 +54,11 @@ impl CharacterSession {
     }
 
     // TODO try to optimize, method below take ~0.5ms to execute (peak at 1.5ms)
-    pub fn load_units_in_fov(&mut self, map: &Map, session_guard: &RwLockReadGuard<Session>) {
+    pub fn load_units_in_fov(&mut self, session_guard: &RwLockReadGuard<Session>) {
         let old_map_view = self.map_view.clone();
         self.map_view.clear();
+        let map_ref = self.current_map.as_ref().unwrap().clone();
+        let map = read_lock!(map_ref);
         let start_x = cmp::max(self.current_position.x - PLAYER_FOV, 0);
         let end_x = cmp::min(self.current_position.x + PLAYER_FOV, map.x_size);
         let start_y = cmp::max(self.current_position.y - PLAYER_FOV, 0);
@@ -79,7 +84,7 @@ impl CharacterSession {
                     }
                     self.set_map_item_at(warp.x, warp.y, warp as Arc<dyn MapItem>);
                 }
-                let mob = map.get_mob_at(x, y, 0);
+                let mob = map.get_mob_at(x, y);
                 if mob.is_some() {
                     let mob = mob.unwrap();
                     let mob_clone = mob.clone();

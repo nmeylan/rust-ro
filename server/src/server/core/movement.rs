@@ -2,11 +2,13 @@ use packets::packets::{PacketCzRequestMove2, Packet, PacketZcNpcackMapmove};
 use tokio::runtime::Runtime;
 use std::sync::{Arc, MutexGuard, RwLock};
 use std::io::Write;
+use std::ops::Deref;
 use std::thread::sleep;
 use tokio::time::Duration;
 use tokio::task::JoinHandle;
 use crate::server::core::character::CharacterSession;
 use crate::server::core::map::{Map, MAP_EXT};
+use crate::server::core::map_instance::MapInstance;
 use crate::server::core::path::{MOVE_COST, MOVE_DIAGONAL_COST, PathNode};
 use crate::server::core::session::Session;
 use crate::server::server::Server;
@@ -68,8 +70,6 @@ pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<
     let handle = runtime.spawn(async move {
         let mut has_been_canceled = false;
         {
-            let maps = read_lock!(server.maps);
-            let map = maps.get(&map_name).unwrap();
             for path_node in path {
                 let delay: u64;
                 {
@@ -84,15 +84,18 @@ pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<
                     } else {
                         delay = ((character_session.status.speed / 2) as i16 + extra_delay(character_session.status.speed)) as u64;
                     }
-
-                    if map.is_warp_cell(path_node.x, path_node.y) {
-                        change_map(&map, &path_node, session.clone(), &mut character_session);
-                        break;
+                    {
+                        let map_ref = character_session.current_map.as_ref().unwrap().clone();
+                        let map = read_lock!(map_ref);
+                        if map.is_warp_cell(path_node.x, path_node.y) {
+                            change_map(map.deref(), &path_node, session.clone(), &mut character_session);
+                            break;
+                        }
                     }
                     character_session.set_current_x(path_node.x);
                     character_session.set_current_y(path_node.y);
 
-                    character_session.load_units_in_fov(map, &session_guard);
+                    character_session.load_units_in_fov(&session_guard);
                 }
                 sleep(Duration::from_millis(delay));
             }
@@ -105,13 +108,13 @@ pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<
 }
 
 
-fn change_map(map: &&Map, path_node: &PathNode, session: Arc<RwLock<Session>>, character_session: &mut MutexGuard<CharacterSession>) {
+fn change_map(map: &MapInstance, path_node: &PathNode, session: Arc<RwLock<Session>>, character_session: &mut MutexGuard<CharacterSession>) {
     let session_guard = read_lock!(session);
     let warp = map.get_warp_at(path_node.x, path_node.y).unwrap();
     let mut new_current_map: [char; 16] = [0 as char; 16];
     let map_name = format!("{}{}", warp.dest_map_name, MAP_EXT);
     map_name.fill_char_array(new_current_map.as_mut());
-    character_session.current_map = new_current_map.clone();
+    character_session.current_map_name = new_current_map.clone();
     character_session.set_current_x(warp.to_x);
     character_session.set_current_y(warp.to_y);
 

@@ -4,6 +4,7 @@ use std::sync::{Arc, RwLock};
 use std::net::TcpStream;
 use std::time::{SystemTime, UNIX_EPOCH};
 use std::io::Write;
+use std::ops::Deref;
 use crate::server::core::map::Map;
 use crate::server::core::movement;
 use crate::server::core::movement::Position;
@@ -18,11 +19,10 @@ pub fn handle_char_move(server: Arc<Server>, packet: &mut dyn Packet, runtime: &
     let destination = Position::from_move_packet(move_packet);
     let mut character_session_guard = session_guard.character.as_ref().unwrap().lock().unwrap();
     let map_name: String = Map::name_without_ext(character_session_guard.get_current_map_name());
-    let maps_guard = read_lock!(server.maps);
-    let map = maps_guard.get(&map_name[..]).unwrap();
+    let map = character_session_guard.current_map.as_ref().unwrap().clone();
+    let map_guard = read_lock!(map);
     let current_position = character_session_guard.current_position.clone();
-
-    let path = path_search_client_side_algorithm(map, &current_position, &destination);
+    let path = path_search_client_side_algorithm(map_guard.deref(), &current_position, &destination);
     // TODO
     // * Control if cell is walkable
     // * Control player state (dead? stun?, frozen?)

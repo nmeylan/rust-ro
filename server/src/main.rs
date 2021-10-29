@@ -9,6 +9,9 @@ extern crate log;
 #[macro_use]
 extern crate accessor;
 
+use std::collections::HashMap;
+use std::hash::Hash;
+use std::ops::Deref;
 use std::thread::{JoinHandle};
 use proxy::map::MapProxy;
 use crate::proxy::char::CharProxy;
@@ -37,9 +40,10 @@ pub async fn main() {
     let map_item_ids = RwLock::new(Vec::<u32>::new());
     let start = Instant::now();
     let maps = Map::load_maps(warps, mob_spawns, &map_item_ids);
+    let maps = maps.into_iter().map(|(k, v)| (k.to_string(), Arc::new(v))).collect::<HashMap<String, Arc<Map>>>();
     info!("load {} map-cache in {} secs", maps.len(), start.elapsed().as_millis() as f32 / 1000.0);
 
-    let server = Server::new(config.clone(), Arc::new(repository), Arc::new(RwLock::new(maps)), Arc::new(map_item_ids));
+    let server = Server::new(config.clone(), Arc::new(repository), maps, Arc::new(map_item_ids));
     let mut handles: Vec<JoinHandle<()>> = Vec::new();
     let _ = &handles.push(server.start());
     let char_proxy = CharProxy::new(&config.proxy);
