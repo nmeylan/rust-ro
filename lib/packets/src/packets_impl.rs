@@ -90627,10 +90627,22 @@ impl PacketZcAckReqnameall2 {
                 dst.clone_from_slice(&buffer[54..78]);
                 dst
             },
-            title_id: i32::from_le_bytes([buffer[78], buffer[79], buffer[80], buffer[81]]),
+            position_name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[78..102].iter().enumerate() {
+                    dst[index] = *byte as char;
+                }
+                dst
+            },
+            position_name_raw: {
+                let mut dst: [u8; 24] = [0u8; 24];
+                dst.clone_from_slice(&buffer[78..102]);
+                dst
+            },
+            title_id: i32::from_le_bytes([buffer[102], buffer[103], buffer[104], buffer[105]]),
             title_id_raw: {
                 let mut dst: [u8; 4] = [0u8; 4];
-                dst.clone_from_slice(&buffer[78..82]);
+                dst.clone_from_slice(&buffer[102..106]);
                 dst
             },
         }
@@ -90659,6 +90671,11 @@ impl PacketZcAckReqnameall2 {
         }
         self.guild_name_raw = wtr.try_into().unwrap();
         wtr = vec![];
+        for item in self.position_name {
+            wtr.write_u8(item as u8 ).unwrap();
+        }
+        self.position_name_raw = wtr.try_into().unwrap();
+        wtr = vec![];
         wtr.write_i32::<LittleEndian>(self.title_id).unwrap();
         self.title_id_raw = wtr.try_into().unwrap();
         wtr = vec![];
@@ -90667,6 +90684,7 @@ impl PacketZcAckReqnameall2 {
         wtr.append(&mut self.name_raw.to_vec());
         wtr.append(&mut self.party_name_raw.to_vec());
         wtr.append(&mut self.guild_name_raw.to_vec());
+        wtr.append(&mut self.position_name_raw.to_vec());
         wtr.append(&mut self.title_id_raw.to_vec());
         self.raw = wtr;
     }
@@ -90700,6 +90718,12 @@ impl PacketZcAckReqnameall2 {
     pub fn set_guild_name_raw(&mut self, value: [u8; 24]) {
         self.guild_name_raw = value;
     }
+    pub fn set_position_name(&mut self, value: [char; 24]) {
+        self.position_name = value;
+    }
+    pub fn set_position_name_raw(&mut self, value: [u8; 24]) {
+        self.position_name_raw = value;
+    }
     pub fn set_title_id(&mut self, value: i32) {
         self.title_id = value;
     }
@@ -90719,6 +90743,8 @@ impl PacketZcAckReqnameall2 {
         party_name_raw: [0; 24],
         guild_name: [0 as char; 24],
         guild_name_raw: [0; 24],
+        position_name: [0 as char; 24],
+        position_name_raw: [0; 24],
         title_id: 0,
         title_id_raw: [0; 4],
         }

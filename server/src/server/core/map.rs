@@ -48,6 +48,7 @@ pub trait MapItem: Send + Sync {
     fn id(&self) -> u32;
     fn client_item_class(&self) -> i16;
     fn object_type(&self) -> i16;
+    fn name(&self) -> String;
 }
 
 #[derive(Setters)]

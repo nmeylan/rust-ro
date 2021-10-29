@@ -45,6 +45,10 @@ impl MapItem for Warp {
     fn object_type(&self) -> i16 {
         6
     }
+
+    fn name(&self) -> String {
+        String::from("warp")
+    }
 }
 
 impl Npc for Warp {

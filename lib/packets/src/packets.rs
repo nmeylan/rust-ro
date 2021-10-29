@@ -10116,6 +10116,8 @@ pub struct PacketZcAckReqnameall2 {
     pub party_name_raw: [u8; 24],
     pub guild_name: [char; 24],
     pub guild_name_raw: [u8; 24],
+    pub position_name: [char; 24],
+    pub position_name_raw: [u8; 24],
     pub title_id: i32,
     pub title_id_raw: [u8; 4],
 }

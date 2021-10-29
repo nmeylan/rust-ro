@@ -17,7 +17,7 @@ use crate::server::core::status::Status;
 #[derive(Setters)]
 pub struct CharacterSession {
     #[set]
-    pub name: [char; 24],
+    pub name: String,
     pub status: Status,
     #[set]
     pub char_id: u32,
@@ -43,6 +43,11 @@ impl MapItem for Mutex<CharacterSession> {
 
     fn object_type(&self) -> i16 {
         0
+    }
+
+    fn name(&self) -> String {
+        let self_guard = mutex_lock!(self);
+        self_guard.name.clone()
     }
 }
 

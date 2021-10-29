@@ -1,4 +1,4 @@
-use packets::packets::{Packet, PacketUnknown, PacketCaLogin, PacketChEnter, PacketChMakeChar2, PacketChDeleteChar4Reserved, PacketCzEnter2, PacketChSelectChar, PacketCzRestart, PacketCzReqDisconnect2, PacketCzRequestMove2, PacketCzNotifyActorinit, PacketCzBlockingPlayCancel, PacketZcLoadConfirm, PacketCzRequestAct2};
+use packets::packets::{Packet, PacketUnknown, PacketCaLogin, PacketChEnter, PacketChMakeChar2, PacketChDeleteChar4Reserved, PacketCzEnter2, PacketChSelectChar, PacketCzRestart, PacketCzReqDisconnect2, PacketCzRequestMove2, PacketCzNotifyActorinit, PacketCzBlockingPlayCancel, PacketZcLoadConfirm, PacketCzRequestAct2, PacketCzReqnameall2, PacketZcAckReqnameall2};
 use std::sync::{Arc, RwLock, RwLockWriteGuard};
 use std::thread::{spawn, JoinHandle};
 use crate::repository::lib::Repository;
@@ -7,6 +7,7 @@ use std::collections::HashMap;
 use tokio::runtime::Runtime;
 use std::io::{Read, Write};
 use std::net::{TcpStream, TcpListener, Shutdown};
+use std::thread;
 use log::{error};
 use rand::{Rng};
 use packets::packets_parser::parse;
@@ -18,6 +19,8 @@ use crate::server::handler::char::{handle_char_enter, handle_char_loaded_client_
 use crate::server::handler::login::handle_login;
 use crate::server::handler::movement::handle_char_move;
 use lazy_static::lazy_static;
+use crate::server::handler::map::handle_map_item_name;
+use crate::util::string::StringUtil;
 
 // Todo make this configurable
 pub const PLAYER_FOV: u16 = 14;
@@ -35,6 +38,7 @@ pub struct Server {
 }
 
 pub struct UnknownMapItem;
+
 impl MapItem for UnknownMapItem {
     fn id(&self) -> u32 {
         0
@@ -46,6 +50,10 @@ impl MapItem for UnknownMapItem {
 
     fn object_type(&self) -> i16 {
         0
+    }
+
+    fn name(&self) -> String {
+        String::from("unknown")
     }
 }
 
@@ -100,11 +108,11 @@ impl Server {
         info!("Server listen on 0.0.0.0:{}", port);
         let server_shared_ref = Arc::new(self);
         let server_shared_ref = server_shared_ref.clone();
-        spawn(move || {
+        thread::Builder::new().name("server-incoming-connection".to_string()).spawn(move || {
             for tcp_stream in listener.incoming() {
                 // Receive new connection, starting new thread
                 let server_shared_ref = server_shared_ref.clone();
-                spawn(move || {
+                thread::Builder::new().name("server-handle-request".to_string()).spawn(move || {
                     let runtime = Runtime::new().unwrap();
                     let mut tcp_stream = tcp_stream.unwrap();
                     let tcp_stream_arc = Arc::new(RwLock::new(tcp_stream.try_clone().unwrap())); // todo remove this clone
@@ -124,7 +132,7 @@ impl Server {
                     }
                 });
             }
-        })
+        }).unwrap()
     }
 
 
@@ -207,8 +215,15 @@ impl Server {
                 return handle_attack(self_ref.clone(), packet, runtime, tcp_stream, session_id.unwrap());
             }
         }
-        if packet.id() == "0x6803" // PacketCzReqnameall2
-            || packet.id() == "0x6003" // PacketCzRequestTime2
+
+        if packet.as_any().downcast_ref::<PacketCzReqnameall2>().is_some() {
+            let session_id = self.ensure_session_exists(&tcp_stream);
+            if session_id.is_some() {
+                return handle_map_item_name(self_ref.clone(), packet, runtime, tcp_stream, session_id.unwrap());
+            }
+        }
+
+        if packet.id() == "0x6003" // PacketCzRequestTime2
         {
             // TODO handle those packets
             return;

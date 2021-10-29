@@ -17920,7 +17920,8 @@ impl Debug for PacketZcAckReqnameall2 {
             .field("name[6, 30]", &format!("{:02X?}", &self.name_raw))
             .field("party_name[30, 54]", &format!("{:02X?}", &self.party_name_raw))
             .field("guild_name[54, 78]", &format!("{:02X?}", &self.guild_name_raw))
-            .field("title_id[78, 82]", &format!("{:02X?}", &self.title_id_raw))
+            .field("position_name[78, 102]", &format!("{:02X?}", &self.position_name_raw))
+            .field("title_id[102, 106]", &format!("{:02X?}", &self.title_id_raw))
         .finish()
     }
 }
@@ -17933,7 +17934,8 @@ impl Display for PacketZcAckReqnameall2 {
         fields.push(format!("name(char[] as char[])[6, 30]: {}", &self.name.pretty_output()));
         fields.push(format!("party_name(char[] as char[])[30, 54]: {}", &self.party_name.pretty_output()));
         fields.push(format!("guild_name(char[] as char[])[54, 78]: {}", &self.guild_name.pretty_output()));
-        fields.push(format!("title_id(int as i32)[78, 82]: {}", &self.title_id));
+        fields.push(format!("position_name(char[] as char[])[78, 102]: {}", &self.position_name.pretty_output()));
+        fields.push(format!("title_id(int as i32)[102, 106]: {}", &self.title_id));
         write!(f, "PacketZcAckReqnameall2\n {}", fields.join(",\n "))
     }
 }
