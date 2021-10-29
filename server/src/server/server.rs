@@ -1,4 +1,4 @@
-use packets::packets::{Packet, PacketUnknown, PacketCaLogin, PacketChEnter, PacketChMakeChar2, PacketChDeleteChar4Reserved, PacketCzEnter2, PacketChSelectChar, PacketCzRestart, PacketCzReqDisconnect2, PacketCzRequestMove2, PacketCzNotifyActorinit, PacketCzBlockingPlayCancel, PacketZcLoadConfirm};
+use packets::packets::{Packet, PacketUnknown, PacketCaLogin, PacketChEnter, PacketChMakeChar2, PacketChDeleteChar4Reserved, PacketCzEnter2, PacketChSelectChar, PacketCzRestart, PacketCzReqDisconnect2, PacketCzRequestMove2, PacketCzNotifyActorinit, PacketCzBlockingPlayCancel, PacketZcLoadConfirm, PacketCzRequestAct2};
 use std::sync::{Arc, RwLock, RwLockWriteGuard};
 use std::thread::{spawn, JoinHandle};
 use crate::repository::lib::Repository;
@@ -13,6 +13,7 @@ use packets::packets_parser::parse;
 use crate::server::configuration::Config;
 use crate::server::core::map::Map;
 use crate::server::core::session::{Session, SessionsIter};
+use crate::server::handler::action::attack::handle_attack;
 use crate::server::handler::char::{handle_char_enter, handle_char_loaded_client_side, handle_delete_reserved_char, handle_disconnect, handle_enter_game, handle_make_char, handle_restart, handle_select_char};
 use crate::server::handler::login::handle_login;
 use crate::server::handler::movement::handle_char_move;
@@ -174,6 +175,12 @@ impl Server {
             packet_zc_load_confirm.fill_raw();
             socket_send!(tcp_stream, &packet_zc_load_confirm.raw());
             return;
+        }
+        if packet.as_any().downcast_ref::<PacketCzRequestAct2>().is_some() {
+            let session_id = self.ensure_session_exists(&tcp_stream);
+            if session_id.is_some() {
+                return handle_attack(self_ref.clone(), packet, runtime, tcp_stream, session_id.unwrap());
+            }
         }
         if packet.id() == "0x6803" // PacketCzReqnameall2
             || packet.id() == "0x6003" // PacketCzRequestTime2
