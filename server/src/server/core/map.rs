@@ -15,7 +15,7 @@ use tokio::sync::broadcast;
 use tokio::sync::broadcast::{Receiver, Sender};
 use accessor::Setters;
 use crate::server::core::map_instance::MapInstance;
-use crate::server::npc::mob::MobSpawn;
+use crate::server::npc::mob_spawn::MobSpawn;
 use crate::server::npc::warps::Warp;
 use crate::server::server::Server;
 use crate::util::coordinate;
@@ -44,9 +44,10 @@ pub struct Map {
     pub map_instances: RwLock<Vec<Arc<RwLock<MapInstance>>>>
 }
 
-pub trait MapItem: Send + Sync + Debug{
+pub trait MapItem: Send + Sync {
     fn id(&self) -> u32;
     fn client_item_class(&self) -> i16;
+    fn object_type(&self) -> i16;
 }
 
 #[derive(Setters)]
@@ -157,7 +158,7 @@ impl Map {
     }
 
     fn create_map_instance(&self, server: Arc<Server>, instance_id: u32) -> Arc<RwLock<MapInstance>> {
-        let cells = self.generate_cells();
+        let cells = self.generate_cells(server.clone());
         let map_instance = MapInstance::from_map(&self, instance_id, cells);
         let map_instance_lock = Arc::new(RwLock::new(map_instance));
         {
@@ -168,7 +169,7 @@ impl Map {
         map_instance_lock.clone()
     }
 
-    pub fn generate_cells(&self) -> Vec<u16> {
+    pub fn generate_cells(&self, server: Arc<Server>) -> Vec<u16> {
         let file_path = Path::join(Path::new(MAP_DIR), format!("{}{}", self.name, MAPCACHE_EXT));
         let file = File::open(file_path).unwrap();
         let mut reader = BufReader::new(file);
@@ -189,12 +190,13 @@ impl Map {
             })
         }
 
-        self.set_warp_cells(&mut cells);
+        self.set_warp_cells(&mut cells, server);
         cells
     }
 
-    fn set_warp_cells(&self, cells: &mut Vec<u16>) {
+    fn set_warp_cells(&self, cells: &mut Vec<u16>, server: Arc<Server>) {
         for warp in self.warps.iter() {
+            server.insert_map_item(warp.id, warp.clone());
             let start_x = warp.x - warp.x_size;
             let to_x = warp.x + warp.x_size;
             let start_y = warp.y - warp.y_size;
@@ -209,12 +211,13 @@ impl Map {
         }
     }
 
-    fn set_warps(&mut self, warps: &Vec<Warp>, map_item_ids: &RwLock<Vec<u32>>) {
+    fn set_warps(&mut self, warps: &Vec<Warp>, map_item_ids: &RwLock<HashMap<u32, Arc<dyn MapItem>>>) {
         let mut ids_write_guard = map_item_ids.write().unwrap();
         let warps = warps.iter().map(|warp| {
             let mut warp = warp.clone();
             warp.set_id(Server::generate_id(&mut ids_write_guard));
-            Arc::new(warp)
+            let warp_ref = Arc::new(warp);
+            warp_ref
         }).collect::<Vec<Arc<Warp>>>();
         self.warps = Arc::new(warps);
     }
@@ -250,7 +253,7 @@ impl Map {
             });
     }
 
-    pub fn load_maps(warps: HashMap<String, Vec<Warp>>, mob_spawns: HashMap<String, Vec<MobSpawn>>, map_item_ids: &RwLock<Vec<u32>>) -> HashMap<String, Map> {
+    pub fn load_maps(warps: HashMap<String, Vec<Warp>>, mob_spawns: HashMap<String, Vec<MobSpawn>>, map_items: &RwLock<HashMap<u32, Arc<dyn MapItem>>>) -> HashMap<String, Map> {
         let mut maps = HashMap::<String, Map>::new();
         let paths = fs::read_dir(MAP_DIR).unwrap();
         for path in paths {
@@ -282,7 +285,7 @@ impl Map {
                 map_thread_channel_sender: tx,
                 map_instances: Default::default(),
             };
-            map.set_warps(warps.get(&map_name).unwrap_or(&vec![]), map_item_ids);
+            map.set_warps(warps.get(&map_name).unwrap_or(&vec![]), map_items);
             map.set_mob_spawns(mob_spawns.get(&map_name).unwrap_or(&vec![]));
             maps.insert(map.name.clone(), map);
         }

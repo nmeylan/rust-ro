@@ -2,7 +2,7 @@ use std::collections::HashMap;
 use std::sync::{Arc, RwLock};
 use crate::server::core::map::{Map, WARP_MASK};
 use crate::server::core::mob::Mob;
-use crate::server::npc::mob::MobSpawn;
+use crate::server::npc::mob_spawn::MobSpawn;
 use crate::server::npc::warps::Warp;
 use crate::server::server::Server;
 use crate::util::coordinate;
@@ -131,8 +131,11 @@ impl MapInstance {
                 let mob = Mob::new(mob_id, cell.0, cell.1, mob_spawn.mob_id, mob_spawn.id, mob_spawn.name.clone());
                 info!("Spawned {} at {},{})", mob_spawn.name, cell.0, cell.1);
                 let mob_ref = Arc::new(RwLock::new(mob));
+                // TODO: On mob dead clean up should be down also for items below
+                server.insert_map_item(mob_id, mob_ref.clone());
                 self.mobs.insert(mob_id, mob_ref.clone());
                 self.mobs_location.insert(coordinate::get_cell_index_of(cell.0, cell.1, self.x_size), mob_ref);
+                // END
                 mob_spawn_track.increment_spawn();
             }
             info!("Spawned {} {} (spawn id {})", spawned, mob_spawn.name, mob_spawn.id);

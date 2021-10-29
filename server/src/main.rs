@@ -21,11 +21,11 @@ use sqlx::MySql;
 use std::time::{Instant};
 use flexi_logger::filter::LogLineFilter;
 use flexi_logger::Logger;
-use crate::server::core::map::Map;
+use crate::server::core::map::{Map, MapItem};
 use crate::server::npc::warps::Warp;
 use crate::server::server::Server;
 use crate::server::configuration::Config;
-use crate::server::npc::mob::MobSpawn;
+use crate::server::npc::mob_spawn::MobSpawn;
 use crate::util::log_filter::LogFilter;
 
 
@@ -37,7 +37,7 @@ pub async fn main() {
     let repository : Repository<MySql> = Repository::<MySql>::new_mysql(&config.database).await;
     let warps = Warp::load_warps().await;
     let mob_spawns = MobSpawn::load_mob_spawns().await;
-    let map_item_ids = RwLock::new(Vec::<u32>::new());
+    let map_item_ids = RwLock::new(HashMap::<u32, Arc<dyn MapItem>>::new());
     let start = Instant::now();
     let maps = Map::load_maps(warps, mob_spawns, &map_item_ids);
     let maps = maps.into_iter().map(|(k, v)| (k.to_string(), Arc::new(v))).collect::<HashMap<String, Arc<Map>>>();

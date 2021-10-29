@@ -10,6 +10,12 @@ macro_rules! write_lock {
     $rw_lock.write().unwrap()
   };
 }
+#[macro_export]
+macro_rules! mutex_lock {
+    ( $mutex:expr ) => {
+    $mutex.lock().unwrap()
+  };
+}
 
 #[macro_export]
 macro_rules! read_session {
@@ -21,6 +27,12 @@ macro_rules! read_session {
 macro_rules! write_session {
     ( $session_map:expr, $session_id:expr ) => {
         crate::write_lock!($session_map.get(&$session_id).unwrap())
+  };
+}
+#[macro_export]
+macro_rules! character_lock {
+    ( $session:expr ) => {
+        $session.character.as_ref().unwrap().lock().unwrap()
   };
 }
 #[macro_export]
