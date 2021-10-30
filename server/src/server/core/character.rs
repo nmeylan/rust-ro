@@ -122,8 +122,6 @@ impl CharacterSession {
                         packet_zc_notify_standentry.set_pos_dir(Position { x: mob_guard.x, y: mob_guard.y, dir: 3 }.to_pos());
                         packet_zc_notify_standentry.set_name(mob_name);
                         packet_zc_notify_standentry.fill_raw();
-                        packet_zc_notify_standentry.display();
-                        packet_zc_notify_standentry.pretty_debug();
                         let tcp_stream = session_guard.map_server_socket.as_ref().unwrap();
                         socket_send!(tcp_stream, packet_zc_notify_standentry.raw());
                     }
