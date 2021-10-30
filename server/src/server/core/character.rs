@@ -58,6 +58,31 @@ impl CharacterSession {
     pub fn set_current_y(&mut self, current_y: u16) {
         self.current_position.y = current_y;
     }
+
+    pub fn get_pos_index(&self) -> usize {
+        let map = read_lock!(self.current_map.as_ref().unwrap());
+        coordinate::get_cell_index_of(self.current_position.y, self.current_position.y, map.x_size)
+    }
+
+    pub fn join_and_set_map(&mut self, map_instance: Arc<RwLock<MapInstance>>) {
+        self.set_current_map(Some(map_instance.clone()));
+        let pos_index = self.get_pos_index();
+        let mut map_instance_guard = write_lock!(map_instance);
+        map_instance_guard.add_char_id_to_map(pos_index, self.char_id);
+    }
+
+    pub fn update_position(&mut self, x:u16, y: u16) {
+        let map_ref = self.current_map.as_ref().unwrap().clone();
+        let mut map = write_lock!(map_ref);
+        let old_position_index = coordinate::get_cell_index_of(self.current_position.y, self.current_position.y, map.x_size);
+        map.characters_ids_location.remove(&old_position_index);
+        self.set_current_x(x);
+        self.set_current_y(y);
+        let new_position_index = coordinate::get_cell_index_of(self.current_position.y, self.current_position.y, map.x_size);
+        map.characters_ids_location.insert(new_position_index, self.char_id);
+        info!("{:?}", map.characters_ids_location);
+    }
+
     pub fn get_current_map_name(&self) -> String {
         self.current_map_name.iter().filter(|c| **c != '\0').collect()
     }
@@ -129,8 +154,8 @@ impl CharacterSession {
                 }
             }
         }
-        let items = old_map_view.keys().map(|k| *k).collect::<Vec<usize>>();
-        for item in items {
+        let vanish_items = old_map_view.keys().map(|k| *k).collect::<Vec<usize>>();
+        for item in vanish_items {
             if !self.map_view.contains_key(&item) {
                 let mut packet_zc_notify_vanish = PacketZcNotifyVanish::new();
                 packet_zc_notify_vanish.set_gid(old_map_view.get(&item).unwrap().id());

@@ -1,5 +1,6 @@
 use std::collections::HashMap;
 use std::sync::{Arc, RwLock};
+use crate::server::core::character::CharacterSession;
 use crate::server::core::map::{Map, WARP_MASK};
 use crate::server::core::mob::Mob;
 use crate::server::npc::mob_spawn::MobSpawn;
@@ -34,7 +35,7 @@ pub struct MapInstance {
     pub mob_spawns_tracks: Vec<MobSpawnTrack>,
     pub mobs: HashMap<u32, Arc<RwLock<Mob>>>,
     pub mobs_location: HashMap<usize, Arc<RwLock<Mob>>>,
-    pub characters_ids: Vec<u32>
+    pub characters_ids_location: HashMap<usize, u32>
 }
 
 pub struct MobSpawnTrack {
@@ -70,7 +71,7 @@ impl MapInstance {
             mob_spawns_tracks: map.mob_spawns.iter().map(|spawn| MobSpawnTrack::default(spawn.id.clone())).collect::<Vec<MobSpawnTrack>>(),
             mobs: Default::default(),
             mobs_location: Default::default(),
-            characters_ids: Default::default(),
+            characters_ids_location: Default::default(),
         }
     }
 
@@ -103,7 +104,7 @@ impl MapInstance {
         }
     }
 
-    pub fn spawn_mobs(&mut self, server: Arc<Server>, now: u128) {
+    pub fn spawn_mobs(&mut self, server: Arc<Server>, now: u128, self_ref: Arc<RwLock<MapInstance>>) {
         for mob_spawn in self.mob_spawns.iter() {
             let mob_spawn_track = self.mob_spawns_tracks.iter_mut().find(|spawn_track| spawn_track.spawn_id == mob_spawn.id).unwrap();
             if mob_spawn_track.spawned_amount >= mob_spawn.to_spawn_amount {
@@ -128,7 +129,7 @@ impl MapInstance {
                     cell = Map::find_random_walkable_cell(self.cells.as_ref(), self.x_size);
                 }
                 let mob_id = server.generate_map_item_id();
-                let mob = Mob::new(mob_id, cell.0, cell.1, mob_spawn.mob_id, mob_spawn.id, mob_spawn.name.clone());
+                let mob = Mob::new(mob_id, cell.0, cell.1, mob_spawn.mob_id, mob_spawn.id, mob_spawn.name.clone(), self_ref.clone());
                 info!("Spawned {} at {},{})", mob_spawn.name, cell.0, cell.1);
                 let mob_ref = Arc::new(RwLock::new(mob));
                 // TODO: On mob dead clean up should be down also for items below
@@ -160,7 +161,7 @@ impl MapInstance {
         None
     }
 
-    pub fn add_char_id_to_map(&mut self, char_id: u32) {
-        self.characters_ids.push(char_id);
+    pub fn add_char_id_to_map(&mut self, pos_index: usize, char_id: u32) {
+        self.characters_ids_location.insert(pos_index, char_id);
     }
 }

@@ -65,7 +65,7 @@ fn extra_delay(speed: u16) -> i16 {
     }
 }
 
-pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<RwLock<Session>>, map_name: String, server: Arc<Server>, task_id: u128) -> JoinHandle<()> {
+pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<RwLock<Session>>, server: Arc<Server>, task_id: u128) -> JoinHandle<()> {
     let server = server.clone();
     let handle = runtime.spawn(async move {
         let mut has_been_canceled = false;
@@ -92,8 +92,7 @@ pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<
                             break;
                         }
                     }
-                    character_session.set_current_x(path_node.x);
-                    character_session.set_current_y(path_node.y);
+                    character_session.update_position(path_node.x, path_node.y);
 
                     character_session.load_units_in_fov(&session_guard);
                 }
