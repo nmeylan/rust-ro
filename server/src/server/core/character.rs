@@ -64,7 +64,21 @@ impl CharacterSession {
         coordinate::get_cell_index_of(self.current_position.y, self.current_position.y, map.x_size)
     }
 
-    pub fn join_and_set_map(&mut self, map_instance: Arc<RwLock<MapInstance>>) {
+    pub fn change_map(&mut self, map_instance: Arc<RwLock<MapInstance>>) {
+        self.map_view.clear(); // TODO reset map_view of MapItem present in this map view
+        self.remove_from_existing_map();
+        self.join_and_set_map(map_instance);
+    }
+
+    fn remove_from_existing_map(&mut self) {
+        if self.current_map.is_some() {
+            let map_instance_ref = self.current_map.as_ref().unwrap();
+            let mut map_instance_ref_guard = write_lock!(map_instance_ref);
+            map_instance_ref_guard.remove_char_id_from_map(self.char_id);
+        }
+    }
+
+    fn join_and_set_map(&mut self, map_instance: Arc<RwLock<MapInstance>>) {
         self.set_current_map(Some(map_instance.clone()));
         let pos_index = self.get_pos_index();
         let mut map_instance_guard = write_lock!(map_instance);

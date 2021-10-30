@@ -163,5 +163,16 @@ impl MapInstance {
 
     pub fn add_char_id_to_map(&mut self, pos_index: usize, char_id: u32) {
         self.characters_ids_location.insert(pos_index, char_id);
+        // TODO notify mobs
+    }
+
+    pub fn remove_char_id_from_map(&mut self, char_id: u32) {
+        let char_location = self.characters_ids_location.iter().find(|(k, v)| **v == char_id).map(|(k ,v )| (k.clone(), v.clone()));
+        if char_location.is_some() {
+            let char_location = char_location.clone().unwrap();
+            info!("Remove entry in map instance characters_ids_location map for char {}", char_location.1);
+            self.characters_ids_location.remove(&char_location.0);
+            // TODO notify mobs
+        }
     }
 }

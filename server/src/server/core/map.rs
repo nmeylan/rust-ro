@@ -131,6 +131,7 @@ impl Map {
     // Instances will make map lifecycle easier to maintain
     // Only 1 instance will be needed for most use case, but it make possible to wipe map instance after a while when no player are on it. to free memory
     pub fn player_join_map(&self, char_session: &CharacterSession, server: Arc<Server>) -> Arc<RwLock<MapInstance>> {
+
         let map_instance_id = 0_u32;
         let mut instance_exists = false; {
             let map_instances_guard = read_lock!(self.map_instances);
