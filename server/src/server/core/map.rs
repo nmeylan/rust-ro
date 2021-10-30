@@ -14,6 +14,7 @@ use rand::Rng;
 use tokio::sync::broadcast;
 use tokio::sync::broadcast::{Receiver, Sender};
 use accessor::Setters;
+use crate::server::core::character::CharacterSession;
 use crate::server::core::map_instance::MapInstance;
 use crate::server::npc::mob_spawn::MobSpawn;
 use crate::server::npc::warps::Warp;
@@ -129,7 +130,7 @@ impl Map {
     // Char interact with instance instead of map directly.
     // Instances will make map lifecycle easier to maintain
     // Only 1 instance will be needed for most use case, but it make possible to wipe map instance after a while when no player are on it. to free memory
-    pub fn player_join_map(&self, char_id: u32, server: Arc<Server>) -> Arc<RwLock<MapInstance>> {
+    pub fn player_join_map(&self, char_session: &CharacterSession, server: Arc<Server>) -> Arc<RwLock<MapInstance>> {
         let map_instance_id = 0_u32;
         let mut instance_exists = false; {
             let map_instances_guard = read_lock!(self.map_instances);
@@ -140,10 +141,6 @@ impl Map {
         }
         let map_instances_guard = read_lock!(self.map_instances);
         let map_instance = map_instances_guard.get(map_instance_id as usize).unwrap();
-        {
-            let mut map_instance_guard = write_lock!(map_instance);
-            map_instance_guard.add_char_id_to_map(char_id);
-        }
         map_instance.clone()
     }
 
@@ -245,7 +242,7 @@ impl Map {
                     }
                     {
                         let mut map_instance_guard = write_lock!(map_instance_clone_for_thread);
-                        map_instance_guard.spawn_mobs(server.clone(), now.clone().elapsed().as_millis());
+                        map_instance_guard.spawn_mobs(server.clone(), now.clone().elapsed().as_millis(), map_instance.clone());
                     }
                     sleep(Duration::from_millis(20));
                 }

@@ -20,10 +20,11 @@ use crate::server::handler::login::handle_login;
 use crate::server::handler::movement::handle_char_move;
 use lazy_static::lazy_static;
 use crate::server::handler::map::handle_map_item_name;
-use crate::util::string::StringUtil;
 
 // Todo make this configurable
 pub const PLAYER_FOV: u16 = 14;
+pub const MOB_FOV: u16 = 20;
+
 lazy_static! {
     pub static ref UNKNOWN_MAP_ITEM: Arc<dyn MapItem> = Arc::new(UnknownMapItem {});
 }
