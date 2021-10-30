@@ -20,8 +20,7 @@ pub fn handle_map_item_name(server: Arc<Server>, packet: &mut dyn Packet, runtim
     let mut name: [char; 24] = [0 as char; 24];
     map_item.name().fill_char_array(name.as_mut());
     packet_zc_ack_reqnameall2.set_name(name);
+    // TODO handle guild name, guild title
     packet_zc_ack_reqnameall2.fill_raw();
-    packet_zc_ack_reqnameall2.display();
-    packet_zc_ack_reqnameall2.pretty_debug();
     socket_send!(tcp_stream, packet_zc_ack_reqnameall2.raw());
 }
