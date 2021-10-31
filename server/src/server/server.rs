@@ -23,7 +23,7 @@ use crate::server::handler::map::handle_map_item_name;
 
 // Todo make this configurable
 pub const PLAYER_FOV: u16 = 14;
-pub const MOB_FOV: u16 = 20;
+pub const MOB_FOV: u16 = 14;
 
 lazy_static! {
     pub static ref UNKNOWN_MAP_ITEM: Arc<dyn MapItem> = Arc::new(UnknownMapItem {});

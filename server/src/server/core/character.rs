@@ -88,13 +88,12 @@ impl CharacterSession {
     pub fn update_position(&mut self, x:u16, y: u16) {
         let map_ref = self.current_map.as_ref().unwrap().clone();
         let mut map = write_lock!(map_ref);
-        let old_position_index = coordinate::get_cell_index_of(self.current_position.y, self.current_position.y, map.x_size);
+        let old_position_index = coordinate::get_cell_index_of(self.current_position.x, self.current_position.y, map.x_size);
         map.characters_ids_location.remove(&old_position_index);
         self.set_current_x(x);
         self.set_current_y(y);
-        let new_position_index = coordinate::get_cell_index_of(self.current_position.y, self.current_position.y, map.x_size);
+        let new_position_index = coordinate::get_cell_index_of(self.current_position.x, self.current_position.y, map.x_size);
         map.characters_ids_location.insert(new_position_index, self.char_id);
-        info!("{:?}", map.characters_ids_location);
     }
 
     pub fn get_current_map_name(&self) -> String {

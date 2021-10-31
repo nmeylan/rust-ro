@@ -244,6 +244,7 @@ impl Map {
                     {
                         let mut map_instance_guard = write_lock!(map_instance_clone_for_thread);
                         map_instance_guard.spawn_mobs(server.clone(), now.clone().elapsed().as_millis(), map_instance.clone());
+                        map_instance_guard.update_mob_fov();
                     }
                     sleep(Duration::from_millis(20));
                 }
