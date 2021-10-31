@@ -8,6 +8,8 @@ mod repository;
 extern crate log;
 #[macro_use]
 extern crate accessor;
+#[macro_use]
+extern crate metrics;
 
 use std::collections::HashMap;
 use std::hash::Hash;

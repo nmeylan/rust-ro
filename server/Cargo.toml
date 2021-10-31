@@ -18,9 +18,10 @@ flexi_logger = "0.19"
 toml = "0.5"
 serde = { version = "1.0", features = ["derive"] }
 
-sql = { path = "../lib/sql" }
 accessor = { path = "../lib/accessor" }
+metrics = { path = "../lib/metrics" }
 packets = { path = "../lib/packets" }
+sql = { path = "../lib/sql" }
 
 [[bin]]
 name = "packets"

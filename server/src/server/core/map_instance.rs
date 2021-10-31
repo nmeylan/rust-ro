@@ -1,6 +1,5 @@
 use std::collections::HashMap;
 use std::sync::{Arc, RwLock};
-use crate::server::core::character::CharacterSession;
 use crate::server::core::map::{Map, WARP_MASK};
 use crate::server::core::mob::Mob;
 use crate::server::npc::mob_spawn::MobSpawn;
