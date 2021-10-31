@@ -113,6 +113,8 @@ impl CharacterSession {
     }
 
     // TODO try to optimize, method below take ~0.5ms to execute (peak at 1.5ms)
+
+    #[elapsed]
     pub fn load_units_in_fov(&mut self, session_guard: &RwLockReadGuard<Session>) {
         let old_map_view = self.map_view.clone();
         self.map_view.clear();

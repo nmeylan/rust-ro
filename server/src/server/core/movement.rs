@@ -65,6 +65,17 @@ fn extra_delay(speed: u16) -> i16 {
     }
 }
 
+fn a () -> u32 {
+    let i = ||{
+        if 1 == 0 {
+            return 3;
+        }
+        return 4;
+    };
+    println!("aa");
+    return i()
+}
+
 pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<RwLock<Session>>, server: Arc<Server>, task_id: u128) -> JoinHandle<()> {
     let server = server.clone();
     let handle = runtime.spawn(async move {
