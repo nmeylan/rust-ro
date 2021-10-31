@@ -133,6 +133,7 @@ impl MapInstance {
                 let mob_ref = Arc::new(RwLock::new(mob));
                 // TODO: On mob dead clean up should be down also for items below
                 server.insert_map_item(mob_id, mob_ref.clone());
+
                 self.mobs.insert(mob_id, mob_ref.clone());
                 self.mobs_location.insert(coordinate::get_cell_index_of(cell.0, cell.1, self.x_size), mob_ref);
                 // END
@@ -142,10 +143,25 @@ impl MapInstance {
         }
     }
 
+    pub fn update_mob_fov(&mut self) {
+        for mob in self.mobs.values() {
+            let mut mob_guard = write_lock!(mob);
+            mob_guard.load_units_in_fov(&self);
+        }
+    }
+
     pub fn get_mob_at(&self, x: u16, y: u16) -> Option<Arc<RwLock<Mob>>> {
         let option = self.mobs_location.get(&coordinate::get_cell_index_of(x, y, self.x_size));
         match option {
             Some(e) => Some(e.clone()),
+            None => None
+        }
+    }
+
+    pub fn get_char_at(&self, x: u16, y: u16) -> Option<u32> {
+        let option = self.characters_ids_location.get(&coordinate::get_cell_index_of(x, y, self.x_size));
+        match option {
+            Some(e) => Some(*e),
             None => None
         }
     }

@@ -20,7 +20,7 @@ pub struct Mob {
     #[set]
     pub y: u16,
     pub current_map: Arc<RwLock<MapInstance>>,
-    pub map_view: HashMap<usize, Arc<dyn MapItem>>,
+    pub map_view: HashMap<usize, u32>,
 }
 
 impl MapItem for Mob {
@@ -74,20 +74,32 @@ impl Mob {
         }
     }
 
-    pub fn load_units_in_fov(&mut self) {
+    pub fn set_map_item_at(&mut self, x: u16, y: u16, item: u32) {
+        let i = coordinate::get_cell_index_of(x, y, MOB_FOV);
+        self.map_view.insert(i, item);
+    }
+
+    pub fn load_units_in_fov(&mut self, map_ref: &MapInstance) {
         let old_map_view = self.map_view.clone();
         self.map_view.clear();
-        let map_ref = self.current_map.clone();
-        let map = read_lock!(map_ref);
         let start_x = cmp::max(self.x - MOB_FOV, 0);
-        let end_x = cmp::min(self.x + MOB_FOV, map.x_size);
+        let end_x = cmp::min(self.x + MOB_FOV, map_ref.x_size);
         let start_y = cmp::max(self.y - MOB_FOV, 0);
-        let end_y = cmp::min(self.y + MOB_FOV, map.y_size);
+        let end_y = cmp::min(self.y + MOB_FOV, map_ref.y_size);
         for x in start_x..end_x {
             for y in start_y..end_y {
-
+                let char_option = map_ref.get_char_at(x, y);
+                if char_option.is_some() {
+                    info!("{} {} - Add char_id {} to map view, {},{}", self.name, self.id, char_option.unwrap(), x, y);
+                    self.set_map_item_at(x,y,char_option.unwrap());
+                }
             }
         }
         let vanish_items = old_map_view.keys().map(|k| *k).collect::<Vec<usize>>();
+        for item in vanish_items {
+            if !self.map_view.contains_key(&item) {
+                info!("{} {} - removed char_id {} from map view", self.name, self.id, item);
+            }
+        }
     }
 }
