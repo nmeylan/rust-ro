@@ -104,9 +104,8 @@ pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<
                     {
                         let current_map_guard = read_lock!(character.current_map);
                         let map_ref = current_map_guard.as_ref().unwrap().clone();
-                        let map = read_lock!(map_ref);
-                        if map.is_warp_cell(path_node.x, path_node.y) {
-                            change_map(map.deref(), &path_node, session.clone(), &character);
+                        if map_ref.is_warp_cell(path_node.x, path_node.y) {
+                            change_map(map_ref, &path_node, session.clone(), &character);
                             break;
                         }
                     }
@@ -125,7 +124,7 @@ pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<
 }
 
 
-fn change_map(map: &MapInstance, path_node: &PathNode, session: Arc<RwLock<Session>>, character_session: &CharacterSession) {
+fn change_map(map: Arc<MapInstance>, path_node: &PathNode, session: Arc<RwLock<Session>>, character_session: &CharacterSession) {
     let session_guard = read_lock!(session);
     let warp = map.get_warp_at(path_node.x, path_node.y).unwrap();
     let mut new_current_map: [char; 16] = [0 as char; 16];

@@ -18,7 +18,7 @@ use crate::server::core::character::{CharacterSession};
 use crate::server::core::map::{Map, MapPropertyFlags};
 use crate::server::core::movement::Position;
 use crate::server::core::status::Status;
-use crate::server::server::Server;
+use crate::server::server::{MOB_FOV_SLICE_LEN, Server};
 
 pub fn handle_char_enter(server: Arc<Server>, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>) {
     let packet_char_enter = cast!(packet, PacketChEnter);
@@ -151,7 +151,7 @@ pub fn handle_select_char(server: Arc<Server>, packet: &mut dyn Packet, runtime:
         current_map_name: RwLock::new(map_name.clone()),
         current_position: RwLock::new(Position { x: last_x, y: last_y, dir: 0 }),
         movement_task_id: RwLock::new(None),
-        map_view: Default::default(),
+        map_view: RwLock::new(vec![None; MOB_FOV_SLICE_LEN]),
         current_map: RwLock::new(None),
         self_ref: RwLock::new(None)
     };

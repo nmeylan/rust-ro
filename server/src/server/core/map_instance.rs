@@ -1,5 +1,6 @@
 use std::any::Any;
 use std::collections::HashMap;
+use std::ops::Deref;
 use std::sync::{Arc, RwLock};
 use crate::server::core::map::{Map, MapItem, WARP_MASK};
 use crate::server::core::mob::Mob;
@@ -33,9 +34,9 @@ pub struct MapInstance {
     pub cells: Vec<u16>,
     pub warps: Arc<Vec<Arc<Warp>>>,
     pub mob_spawns: Arc<Vec<Arc<MobSpawn>>>,
-    pub mob_spawns_tracks: Vec<MobSpawnTrack>,
-    pub mobs: HashMap<u32, Arc<Mob>>,
-    pub map_items: Vec<Arc<dyn MapItem>>
+    pub mob_spawns_tracks: RwLock<Vec<MobSpawnTrack>>,
+    pub mobs: RwLock<HashMap<u32, Arc<Mob>>>,
+    pub map_items: RwLock<Vec<Option<Arc<dyn MapItem>>>>
 }
 
 pub struct MobSpawnTrack {
@@ -69,9 +70,9 @@ impl MapInstance {
             cells,
             warps: map.warps.clone(),
             mob_spawns: map.mob_spawns.clone(),
-            mob_spawns_tracks: map.mob_spawns.iter().map(|spawn| MobSpawnTrack::default(spawn.id.clone())).collect::<Vec<MobSpawnTrack>>(),
+            mob_spawns_tracks: RwLock::new(map.mob_spawns.iter().map(|spawn| MobSpawnTrack::default(spawn.id.clone())).collect::<Vec<MobSpawnTrack>>()),
             mobs: Default::default(),
-            map_items: vec![UNKNOWN_MAP_ITEM.clone(); cells_len]
+            map_items: RwLock::new(vec![None; cells_len])
         }
     }
 
@@ -104,9 +105,10 @@ impl MapInstance {
         }
     }
 
-    pub fn spawn_mobs(&mut self, server: Arc<Server>, now: u128, self_ref: Arc<RwLock<MapInstance>>) {
+    pub fn spawn_mobs(&self, server: Arc<Server>, now: u128, self_ref: Arc<MapInstance>) {
         for mob_spawn in self.mob_spawns.iter() {
-            let mob_spawn_track = self.mob_spawns_tracks.iter_mut().find(|spawn_track| spawn_track.spawn_id == mob_spawn.id).unwrap();
+            let mut mob_spawns_tracks_guard = write_lock!(self.mob_spawns_tracks);
+            let mob_spawn_track = mob_spawns_tracks_guard.iter_mut().find(|spawn_track| spawn_track.spawn_id == mob_spawn.id).unwrap();
             if mob_spawn_track.spawned_amount >= mob_spawn.to_spawn_amount {
                 continue;
             }
@@ -130,13 +132,15 @@ impl MapInstance {
                 }
                 let mob_id = server.generate_map_item_id();
                 let mob = Mob::new(mob_id, cell.0, cell.1, mob_spawn.mob_id, mob_spawn.id, mob_spawn.name.clone(), self_ref.clone());
-                info!("Spawned {} at {},{})", mob_spawn.name, cell.0, cell.1);
+                info!("Spawned {} at {},{} (index {})", mob_spawn.name, cell.0, cell.1, coordinate::get_cell_index_of(cell.0, cell.1, self.x_size));
                 let mob_ref = Arc::new(mob);
                 // TODO: On mob dead clean up should be down also for items below
                 server.insert_map_item(mob_id, mob_ref.clone());
 
-                self.mobs.insert(mob_id, mob_ref.clone());
-                self.map_items.insert(coordinate::get_cell_index_of(cell.0, cell.1, self.x_size), mob_ref);
+                let mut mobs_guard = write_lock!(self.mobs);
+                let mut map_items_guard = write_lock!(self.map_items);
+                mobs_guard.insert(mob_id, mob_ref.clone());
+                map_items_guard.insert(coordinate::get_cell_index_of(cell.0, cell.1, self.x_size), Some(mob_ref));
                 // END
                 mob_spawn_track.increment_spawn();
             }
@@ -144,17 +148,28 @@ impl MapInstance {
         }
     }
 
-    pub fn update_mob_fov(&mut self) {
-        for mob in self.mobs.values() {
+    // #[elapsed]
+    pub fn update_mob_fov(&self) {
+        let mobs_guard = read_lock!(self.mobs);
+        for mob in mobs_guard.values() {
             mob.load_units_in_fov(&self);
         }
     }
 
+    // TODO implement a batch mod, read_lock make function cost 2-3 times performance
     pub fn get_map_item_at(&self, x: u16, y: u16) -> Option<Arc<dyn MapItem>> {
         let key = coordinate::get_cell_index_of(x, y, self.x_size);
-        let option = self.map_items.get(key);
+        let map_items_guard = read_lock!(self.map_items);
+        let map_item_option = map_items_guard.get(key);
+        if map_item_option.is_none() {
+            return None;
+        }
+        let option = map_item_option.unwrap();
         match option {
-            Some(e) => Some(e.clone()),
+            Some(e) => {
+                // info!("get_map_item_at({}, {}, {}) => {}. item id {}", x, y, self.x_size, key, e.id());
+                return Some(e.clone())
+            },
             None => None
         }
     }
@@ -169,12 +184,14 @@ impl MapInstance {
         None
     }
 
-    pub fn add_char_to_map(&mut self, pos_index: usize, char_session: Arc<dyn MapItem>) {
-        self.map_items.insert(pos_index, char_session);
+    pub fn insert_item_at(&self, pos_index: usize, char_session: Arc<dyn MapItem>) {
+        let mut map_item_guard = write_lock!(self.map_items);
+        map_item_guard.insert(pos_index, Some(char_session));
         // TODO notify mobs
     }
 
-    pub fn remove_char_id_from_map(&mut self, pos_index: usize) {
-        self.map_items.remove(pos_index);
+    pub fn remove_item_at(&self, pos_index: usize) {
+        let mut map_item_guard = write_lock!(self.map_items);
+        map_item_guard.remove(pos_index);
     }
 }

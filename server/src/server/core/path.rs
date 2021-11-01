@@ -1,3 +1,4 @@
+use std::sync::Arc;
 use std::time::Instant;
 use accessor::Setters;
 use log::{debug};
@@ -48,7 +49,7 @@ fn node_id(x: u16, y: u16, x_size: u16) -> u32 {
 /**
 * Client use a A* algorithm for path finding.
 */
-pub fn path_search_client_side_algorithm(map: &MapInstance, source: &Position, destination: &Position) -> Vec<PathNode> {
+pub fn path_search_client_side_algorithm(map: Arc<MapInstance>, source: &Position, destination: &Position) -> Vec<PathNode> {
     let _start = Instant::now();
     let max_x = map.x_size - 1;
     let max_y = map.y_size - 1;
