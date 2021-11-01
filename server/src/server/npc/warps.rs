@@ -1,3 +1,4 @@
+use std::any::Any;
 use std::collections::HashMap;
 use std::fs::File;
 use std::path::Path;
@@ -48,6 +49,18 @@ impl MapItem for Warp {
 
     fn name(&self) -> String {
         String::from("warp")
+    }
+
+    fn x(&self) -> u16 {
+        self.x
+    }
+
+    fn y(&self) -> u16 {
+        self.y
+    }
+
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 

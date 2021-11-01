@@ -1,3 +1,4 @@
+use std::any::Any;
 use packets::packets::{Packet, PacketUnknown, PacketCaLogin, PacketChEnter, PacketChMakeChar2, PacketChDeleteChar4Reserved, PacketCzEnter2, PacketChSelectChar, PacketCzRestart, PacketCzReqDisconnect2, PacketCzRequestMove2, PacketCzNotifyActorinit, PacketCzBlockingPlayCancel, PacketZcLoadConfirm, PacketCzRequestAct2, PacketCzReqnameall2, PacketZcAckReqnameall2};
 use std::sync::{Arc, RwLock, RwLockWriteGuard};
 use std::thread::{spawn, JoinHandle};
@@ -44,6 +45,12 @@ impl MapItem for UnknownMapItem {
     fn id(&self) -> u32 {
         0
     }
+    fn x(&self) -> u16 {
+        0
+    }
+    fn y(&self) -> u16 {
+        0
+    }
 
     fn client_item_class(&self) -> i16 {
         0
@@ -55,6 +62,10 @@ impl MapItem for UnknownMapItem {
 
     fn name(&self) -> String {
         String::from("unknown")
+    }
+
+    fn as_any(&self) -> &dyn Any{
+        self
     }
 }
 

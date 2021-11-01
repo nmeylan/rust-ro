@@ -1,6 +1,6 @@
 use packets::packets::{PacketCzRequestMove2, Packet, PacketZcNpcackMapmove};
 use tokio::runtime::Runtime;
-use std::sync::{Arc, MutexGuard, RwLock};
+use std::sync::{Arc, MutexGuard, RwLock, RwLockWriteGuard};
 use std::io::Write;
 use std::ops::Deref;
 use std::thread::sleep;
@@ -45,7 +45,7 @@ impl Position {
         let mut move_data: [u8; 3] = [0; 3];
         move_data[0] = (self.x >> 2) as u8;
         move_data[1] = ((self.x << 6) | ((self.y >> 4) & 0x3f)) as u8;
-        move_data[2] = ((self.y << 4) | (self.dir &0xf)) as u8;
+        move_data[2] = ((self.y << 4) | (self.dir & 0xf)) as u8;
         move_data
     }
 
@@ -65,8 +65,8 @@ fn extra_delay(speed: u16) -> i16 {
     }
 }
 
-fn a () -> u32 {
-    let i = ||{
+fn a() -> u32 {
+    let i = || {
         if 1 == 0 {
             return 3;
         }
@@ -85,27 +85,34 @@ pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<
                 let delay: u64;
                 {
                     let session_guard = read_lock!(session);
-                    let mut character_session = session_guard.character.as_ref().unwrap().lock().unwrap();
-                    if task_id != character_session.movement_task_id.unwrap() {
-                        has_been_canceled = true;
-                        break;
-                    }
-                    if character_session.current_position.x != path_node.x && character_session.current_position.y != path_node.y { // diagonal movement
-                        delay = (character_session.status.speed * (MOVE_DIAGONAL_COST / MOVE_COST) + 10) as u64;
-                    } else {
-                        delay = ((character_session.status.speed / 2) as i16 + extra_delay(character_session.status.speed)) as u64;
-                    }
+                    let mut character = session_guard.character.as_ref().unwrap();
                     {
-                        let map_ref = character_session.current_map.as_ref().unwrap().clone();
-                        let map = read_lock!(map_ref);
-                        if map.is_warp_cell(path_node.x, path_node.y) {
-                            change_map(map.deref(), &path_node, session.clone(), &mut character_session);
+                        let movement_task_id_guard = read_lock!(character.movement_task_id);
+                        if task_id != movement_task_id_guard.unwrap() {
+                            has_been_canceled = true;
                             break;
                         }
                     }
-                    character_session.update_position(path_node.x, path_node.y);
+                    {
+                        let current_position_guard = read_lock!(character.current_position);
+                        if current_position_guard.x != path_node.x && current_position_guard.y != path_node.y { // diagonal movement
+                            delay = (character.status.speed * (MOVE_DIAGONAL_COST / MOVE_COST) + 10) as u64;
+                        } else {
+                            delay = ((character.status.speed / 2) as i16 + extra_delay(character.status.speed)) as u64;
+                        }
+                    }
+                    {
+                        let current_map_guard = read_lock!(character.current_map);
+                        let map_ref = current_map_guard.as_ref().unwrap().clone();
+                        let map = read_lock!(map_ref);
+                        if map.is_warp_cell(path_node.x, path_node.y) {
+                            change_map(map.deref(), &path_node, session.clone(), &character);
+                            break;
+                        }
+                    }
+                    character.update_position(path_node.x, path_node.y);
 
-                    character_session.load_units_in_fov(&session_guard);
+                    character.load_units_in_fov(&session_guard);
                 }
                 sleep(Duration::from_millis(delay));
             }
@@ -118,20 +125,20 @@ pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<
 }
 
 
-fn change_map(map: &MapInstance, path_node: &PathNode, session: Arc<RwLock<Session>>, character_session: &mut MutexGuard<CharacterSession>) {
+fn change_map(map: &MapInstance, path_node: &PathNode, session: Arc<RwLock<Session>>, character_session: &CharacterSession) {
     let session_guard = read_lock!(session);
     let warp = map.get_warp_at(path_node.x, path_node.y).unwrap();
     let mut new_current_map: [char; 16] = [0 as char; 16];
     let map_name = format!("{}{}", warp.dest_map_name, MAP_EXT);
     map_name.fill_char_array(new_current_map.as_mut());
-    character_session.current_map_name = new_current_map.clone();
-    character_session.set_current_x(warp.to_x);
-    character_session.set_current_y(warp.to_y);
+    character_session.set_current_map_name(new_current_map.clone());
+    character_session.update_x_y(warp.to_x, warp.to_y);
 
     let mut packet_zc_npcack_mapmove = PacketZcNpcackMapmove::new();
+    let current_position_guard = read_lock!(character_session.current_position);
     packet_zc_npcack_mapmove.set_map_name(new_current_map);
-    packet_zc_npcack_mapmove.set_x_pos(character_session.current_position.x as i16);
-    packet_zc_npcack_mapmove.set_y_pos(character_session.current_position.y as i16);
+    packet_zc_npcack_mapmove.set_x_pos(current_position_guard.x as i16);
+    packet_zc_npcack_mapmove.set_y_pos(current_position_guard.y as i16);
     packet_zc_npcack_mapmove.fill_raw();
 
     // TODO should we call method below?
@@ -148,11 +155,12 @@ async fn save_character_position(server: Arc<Server>, session: Arc<RwLock<Sessio
     let res;
     {
         let session = read_lock!(session);
-        let character_session = session.character.as_ref().unwrap().lock().unwrap();
+        let character_session = session.character.as_ref().unwrap();
+        let current_position_guard = read_lock!(character_session.current_position);
         res = sqlx::query("UPDATE `char` SET last_map = ?, last_x = ?, last_y = ? WHERE account_id = ? AND char_id = ?") // TODO add bcrypt on user_pass column, but not supported by hercules
             .bind(Map::name_without_ext(character_session.get_current_map_name()))
-            .bind(character_session.current_position.x)
-            .bind(character_session.current_position.y)
+            .bind(current_position_guard.x)
+            .bind(current_position_guard.y)
             .bind(session.account_id)
             .bind(character_session.char_id)
             .execute(&server.repository.pool);

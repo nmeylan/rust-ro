@@ -11,7 +11,7 @@ pub struct Session {
     pub auth_code: i32,
     // random value, known as login_id2 in hercules
     pub user_level: u32,
-    pub character: Option<Arc<Mutex<CharacterSession>>>
+    pub character: Option<Arc<CharacterSession>>
 }
 
 pub trait SessionsIter {
@@ -48,7 +48,7 @@ impl Session {
     pub fn set_map_server_socket(&mut self, tcpStream: Arc<RwLock<TcpStream>>) {
         self.map_server_socket = Some(tcpStream);
     }
-    pub fn set_character(&mut self, character: Arc<Mutex<CharacterSession>>) {
+    pub fn set_character(&mut self, character: Arc<CharacterSession>) {
         self.character = Some(character);
     }
     pub fn unset_character(&mut self) {
