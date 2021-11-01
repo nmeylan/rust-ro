@@ -3,7 +3,7 @@ use std::cmp;
 use std::fmt::{Debug};
 use std::sync::{Arc, RwLock};
 use crate::server::core::character::CharacterSession;
-use crate::server::server::UNKNOWN_MAP_ITEM;
+use crate::server::server::{MOB_FOV_SLICE_LEN, UNKNOWN_MAP_ITEM};
 use crate::server::core::map::MapItem;
 use crate::server::core::map_instance::MapInstance;
 use crate::server::core::status::Status;
@@ -21,8 +21,8 @@ pub struct Mob {
     pub x: u16,
     #[set]
     pub y: u16,
-    pub current_map: Arc<RwLock<MapInstance>>,
-    pub map_view: RwLock<Vec<Arc<dyn MapItem>>>,
+    pub current_map: RwLock<Arc<MapInstance>>,
+    pub map_view: RwLock<Vec<Option<Arc<dyn MapItem>>>>,
     pub is_view_char: RwLock<bool>
 }
 
@@ -56,7 +56,7 @@ impl MapItem for Mob {
 }
 
 impl Mob {
-    pub fn new(id: u32, x: u16, y: u16, mob_id: i16, spawn_id: u32, name: String, current_map: Arc<RwLock<MapInstance>>) -> Mob {
+    pub fn new(id: u32, x: u16, y: u16, mob_id: i16, spawn_id: u32, name: String, current_map: Arc<MapInstance>) -> Mob {
         Mob {
             id,
             x,
@@ -65,8 +65,8 @@ impl Mob {
             spawn_id,
             status: Status::default(),
             name,
-            map_view: RwLock::new(vec![UNKNOWN_MAP_ITEM.clone(); ((MOB_FOV * 2) * (MOB_FOV * 2)) as usize]),
-            current_map: current_map.clone(),
+            map_view: RwLock::new(vec![None; MOB_FOV_SLICE_LEN]),
+            current_map: RwLock::new(current_map.clone()),
             is_view_char: RwLock::new(false)
         }
     }
@@ -75,21 +75,22 @@ impl Mob {
         let mut is_view_char_guard = write_lock!(self.is_view_char);
         *is_view_char_guard = false;
         let mut map_view_guard = write_lock!(self.map_view);
-        *map_view_guard = vec![UNKNOWN_MAP_ITEM.clone(); (((MOB_FOV + 1) * 2) * ((MOB_FOV + 1) * 2)) as usize];
-        let start_x = self.get_fov_start_x();
-        let start_y = self.get_fov_start_y();
+        *map_view_guard = vec![None; MOB_FOV_SLICE_LEN];
         for i in 0..(MOB_FOV * 2) {
             for j in 0..(MOB_FOV * 2) {
-                let char_option = map_ref.get_map_item_at(i + start_x, j + start_y);
+                let x = self.get_item_x_from_fov(i as usize);
+                let y = self.get_item_y_from_fov(j as usize);
+                let char_option = map_ref.get_map_item_at(x, y);
                 if char_option.as_ref().is_none() {
                     continue;
                 }
-                let map_item = char_option.as_ref().unwrap();
+                let map_item = char_option.unwrap();
 
                 if map_item.as_any().downcast_ref::<CharacterSession>().is_some() {
-                    // info!("{} {} - seen char_id {} from map view, at {},{}", self.name, self.id, map_item.id(), i + start_x, j + start_y);
+                    // info!("{{{}:{}}},{{{}:{}}} {},{}", self.get_fov_start_x(), self.get_fov_start_y(), self.get_fov_start_x()  + (MOB_FOV * 2), self.get_fov_start_y() + (MOB_FOV * 2), self.x, self.y  );
+                    // info!("{} {} - seen char_id {} from map view, at {},{}", self.name, self.id, map_item.id(), map_item.x(), map_item.y());
                     *is_view_char_guard = true;
-                    map_view_guard.insert(coordinate::get_cell_index_of(i, j, MOB_FOV), char_option.as_ref().unwrap().clone());
+                    map_view_guard[coordinate::get_cell_index_of(i, j, MOB_FOV)] = Some(map_item.clone());
                 }
             }
         }

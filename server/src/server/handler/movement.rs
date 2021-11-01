@@ -20,12 +20,11 @@ pub fn handle_char_move(server: Arc<Server>, packet: &mut dyn Packet, runtime: &
     let character = session_guard.character.as_ref().unwrap();
     let current_map_guard = read_lock!(character.current_map);
     let map = current_map_guard.as_ref().unwrap().clone();
-    let map_guard = read_lock!(map);
     let mut current_position;
     {
         current_position = read_lock!(character.current_position);
     }
-    let path = path_search_client_side_algorithm(map_guard.deref(), &current_position, &destination);
+    let path = path_search_client_side_algorithm(map, &current_position, &destination);
     // TODO
     // * Control if cell is walkable
     // * Control player state (dead? stun?, frozen?)

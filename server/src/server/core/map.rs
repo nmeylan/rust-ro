@@ -43,7 +43,7 @@ pub struct Map {
     pub warps: Arc<Vec<Arc<Warp>>>,
     pub mob_spawns: Arc<Vec<Arc<MobSpawn>>>,
     pub map_thread_channel_sender: Sender<String>,
-    pub map_instances: RwLock<Vec<Arc<RwLock<MapInstance>>>>
+    pub map_instances: RwLock<Vec<Arc<MapInstance>>>
 }
 
 pub trait MapItem: Send + Sync {
@@ -134,7 +134,7 @@ impl Map {
     // Char interact with instance instead of map directly.
     // Instances will make map lifecycle easier to maintain
     // Only 1 instance will be needed for most use case, but it make possible to wipe map instance after a while when no player are on it. to free memory
-    pub fn player_join_map(&self, char_session: &CharacterSession, server: Arc<Server>) -> Arc<RwLock<MapInstance>> {
+    pub fn player_join_map(&self, char_session: &CharacterSession, server: Arc<Server>) -> Arc<MapInstance> {
 
         let map_instance_id = 0_u32;
         let mut instance_exists = false; {
@@ -160,16 +160,16 @@ impl Map {
         }
     }
 
-    fn create_map_instance(&self, server: Arc<Server>, instance_id: u32) -> Arc<RwLock<MapInstance>> {
+    fn create_map_instance(&self, server: Arc<Server>, instance_id: u32) -> Arc<MapInstance> {
         let cells = self.generate_cells(server.clone());
         let map_instance = MapInstance::from_map(&self, instance_id, cells);
-        let map_instance_lock = Arc::new(RwLock::new(map_instance));
+        let map_instance_ref = Arc::new(map_instance);
         {
             let mut map_instance_guard = write_lock!(self.map_instances);
-            map_instance_guard.push(map_instance_lock.clone());
+            map_instance_guard.push(map_instance_ref.clone());
         }
-        Map::start_thread(map_instance_lock.clone(), self.map_thread_channel_sender.subscribe(), server);
-        map_instance_lock.clone()
+        Map::start_thread(map_instance_ref.clone(), self.map_thread_channel_sender.subscribe(), server);
+        map_instance_ref.clone()
     }
 
     pub fn generate_cells(&self, server: Arc<Server>) -> Vec<u16> {
@@ -231,12 +231,11 @@ impl Map {
         );
     }
 
-    fn start_thread(map_instance: Arc<RwLock<MapInstance>>, mut rx: Receiver<String>, server: Arc<Server>) {
+    fn start_thread(map_instance: Arc<MapInstance>, mut rx: Receiver<String>, server: Arc<Server>) {
         let map_instance_clone = map_instance.clone();
         let map_instance_clone_for_thread = map_instance.clone();
-        let map_instance_guard = read_lock!(map_instance_clone);
-        info!("Start thread for {}", map_instance_guard.name);
-        thread::Builder::new().name(format!("{}-thread", map_instance_guard.name))
+        info!("Start thread for {}", map_instance_clone.name);
+        thread::Builder::new().name(format!("{}-thread", map_instance_clone.name))
             .spawn(move || {
                 let now = Instant::now();
                 let mut cleanup_notified_at: Option<Instant> = None;
@@ -246,14 +245,12 @@ impl Map {
                         cleanup_notified_at = Some(now.clone());
                     }
                     {
-                        let mut map_instance_guard = write_lock!(map_instance_clone_for_thread);
-                        map_instance_guard.spawn_mobs(server.clone(), now.clone().elapsed().as_millis(), map_instance.clone());
-                        map_instance_guard.update_mob_fov();
+                        map_instance_clone_for_thread.spawn_mobs(server.clone(), now.clone().elapsed().as_millis(), map_instance.clone());
+                        map_instance_clone_for_thread.update_mob_fov();
                     }
                     sleep(Duration::from_millis(20));
                 }
-                let map_instance_guard = read_lock!(map_instance);
-                info!("Clean up {} map", map_instance_guard.name);
+                info!("Clean up {} map", map_instance_clone.name);
             });
     }
 
