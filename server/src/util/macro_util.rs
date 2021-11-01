@@ -30,12 +30,6 @@ macro_rules! write_session {
   };
 }
 #[macro_export]
-macro_rules! character_lock {
-    ( $session:expr ) => {
-        $session.character.as_ref().unwrap().lock().unwrap()
-  };
-}
-#[macro_export]
 macro_rules! cast {
     ( $packet:expr, $type:ty ) => {
        $packet.as_any().downcast_ref::<$type>().unwrap()

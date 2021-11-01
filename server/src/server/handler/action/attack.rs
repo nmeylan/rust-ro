@@ -10,14 +10,13 @@ pub fn handle_attack(server: Arc<Server>, packet: &mut dyn Packet, runtime: &Run
     let packet_cz_request_act2 = cast!(packet, PacketCzRequestAct2);
     let sessions_guard = read_lock!(server.sessions);
     let session = read_session!(sessions_guard, &session_id);
-    let mut character = session.character.as_ref().unwrap().lock().unwrap();
-    let map_ref = character.current_map.as_ref().unwrap().clone();
+    let character = session.character.as_ref().unwrap();
+    let current_map_guard = read_lock!(character.current_map);
+    let map_ref = current_map_guard.as_ref().unwrap().clone();
     let map_guard = read_lock!(map_ref);
     let mob_found = map_guard.mobs.get(&packet_cz_request_act2.target_gid);
     if mob_found.is_some() {
-        let mob = mob_found.unwrap();
-        let mob_guard = read_lock!(mob);
-        info!("Hit {}!", mob_guard.name);
+        info!("Hit {}!", mob_found.unwrap().name);
     }
     let mut packet_zc_notify_act3 = PacketZcNotifyAct3::new();
     packet_zc_notify_act3.set_target_gid(packet_cz_request_act2.target_gid);

@@ -1,10 +1,12 @@
+use std::any::Any;
 use std::collections::HashMap;
 use std::sync::{Arc, RwLock};
-use crate::server::core::map::{Map, WARP_MASK};
+use crate::server::core::map::{Map, MapItem, WARP_MASK};
 use crate::server::core::mob::Mob;
 use crate::server::npc::mob_spawn::MobSpawn;
 use crate::server::npc::warps::Warp;
 use crate::server::server::Server;
+use crate::server::server::UNKNOWN_MAP_ITEM;
 use crate::util::coordinate;
 
 
@@ -32,9 +34,8 @@ pub struct MapInstance {
     pub warps: Arc<Vec<Arc<Warp>>>,
     pub mob_spawns: Arc<Vec<Arc<MobSpawn>>>,
     pub mob_spawns_tracks: Vec<MobSpawnTrack>,
-    pub mobs: HashMap<u32, Arc<RwLock<Mob>>>,
-    pub mobs_location: HashMap<usize, Arc<RwLock<Mob>>>,
-    pub characters_ids_location: HashMap<usize, u32>
+    pub mobs: HashMap<u32, Arc<Mob>>,
+    pub map_items: Vec<Arc<dyn MapItem>>
 }
 
 pub struct MobSpawnTrack {
@@ -59,6 +60,7 @@ impl MobSpawnTrack {
 
 impl MapInstance {
     pub fn from_map(map: &Map, id: u32, cells: Vec<u16>) -> MapInstance {
+        let cells_len = cells.len();
         MapInstance {
             name: map.name.clone(),
             id,
@@ -69,8 +71,7 @@ impl MapInstance {
             mob_spawns: map.mob_spawns.clone(),
             mob_spawns_tracks: map.mob_spawns.iter().map(|spawn| MobSpawnTrack::default(spawn.id.clone())).collect::<Vec<MobSpawnTrack>>(),
             mobs: Default::default(),
-            mobs_location: Default::default(),
-            characters_ids_location: Default::default(),
+            map_items: vec![UNKNOWN_MAP_ITEM.clone(); cells_len]
         }
     }
 
@@ -130,12 +131,12 @@ impl MapInstance {
                 let mob_id = server.generate_map_item_id();
                 let mob = Mob::new(mob_id, cell.0, cell.1, mob_spawn.mob_id, mob_spawn.id, mob_spawn.name.clone(), self_ref.clone());
                 info!("Spawned {} at {},{})", mob_spawn.name, cell.0, cell.1);
-                let mob_ref = Arc::new(RwLock::new(mob));
+                let mob_ref = Arc::new(mob);
                 // TODO: On mob dead clean up should be down also for items below
                 server.insert_map_item(mob_id, mob_ref.clone());
 
                 self.mobs.insert(mob_id, mob_ref.clone());
-                self.mobs_location.insert(coordinate::get_cell_index_of(cell.0, cell.1, self.x_size), mob_ref);
+                self.map_items.insert(coordinate::get_cell_index_of(cell.0, cell.1, self.x_size), mob_ref);
                 // END
                 mob_spawn_track.increment_spawn();
             }
@@ -145,23 +146,15 @@ impl MapInstance {
 
     pub fn update_mob_fov(&mut self) {
         for mob in self.mobs.values() {
-            let mut mob_guard = write_lock!(mob);
-            mob_guard.load_units_in_fov(&self);
+            mob.load_units_in_fov(&self);
         }
     }
 
-    pub fn get_mob_at(&self, x: u16, y: u16) -> Option<Arc<RwLock<Mob>>> {
-        let option = self.mobs_location.get(&coordinate::get_cell_index_of(x, y, self.x_size));
+    pub fn get_map_item_at(&self, x: u16, y: u16) -> Option<Arc<dyn MapItem>> {
+        let key = coordinate::get_cell_index_of(x, y, self.x_size);
+        let option = self.map_items.get(key);
         match option {
             Some(e) => Some(e.clone()),
-            None => None
-        }
-    }
-
-    pub fn get_char_at(&self, x: u16, y: u16) -> Option<u32> {
-        let option = self.characters_ids_location.get(&coordinate::get_cell_index_of(x, y, self.x_size));
-        match option {
-            Some(e) => Some(*e),
             None => None
         }
     }
@@ -176,18 +169,12 @@ impl MapInstance {
         None
     }
 
-    pub fn add_char_id_to_map(&mut self, pos_index: usize, char_id: u32) {
-        self.characters_ids_location.insert(pos_index, char_id);
+    pub fn add_char_to_map(&mut self, pos_index: usize, char_session: Arc<dyn MapItem>) {
+        self.map_items.insert(pos_index, char_session);
         // TODO notify mobs
     }
 
-    pub fn remove_char_id_from_map(&mut self, char_id: u32) {
-        let char_location = self.characters_ids_location.iter().find(|(k, v)| **v == char_id).map(|(k ,v )| (k.clone(), v.clone()));
-        if char_location.is_some() {
-            let char_location = char_location.clone().unwrap();
-            info!("Remove entry in map instance characters_ids_location map for char {}", char_location.1);
-            self.characters_ids_location.remove(&char_location.0);
-            // TODO notify mobs
-        }
+    pub fn remove_char_id_from_map(&mut self, pos_index: usize) {
+        self.map_items.remove(pos_index);
     }
 }

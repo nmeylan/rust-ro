@@ -5,6 +5,7 @@ use std::convert::TryInto;
 use byteorder::{ReadBytesExt, LittleEndian};
 use flate2::read::ZlibDecoder;
 use std::{fs, thread};
+use std::any::Any;
 use std::time::{Duration, Instant};
 use std::collections::HashMap;
 use std::fmt::Debug;
@@ -50,6 +51,9 @@ pub trait MapItem: Send + Sync {
     fn client_item_class(&self) -> i16;
     fn object_type(&self) -> i16;
     fn name(&self) -> String;
+    fn x(&self) -> u16;
+    fn y(&self) -> u16;
+    fn as_any(&self) -> &dyn Any;
 }
 
 #[derive(Setters)]

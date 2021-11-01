@@ -17,18 +17,22 @@ pub fn handle_char_move(server: Arc<Server>, packet: &mut dyn Packet, runtime: &
     let session = sessions_guard.get(&session_id).unwrap();
     let session_guard = read_lock!(session);
     let destination = Position::from_move_packet(move_packet);
-    let mut character_session_guard = session_guard.character.as_ref().unwrap().lock().unwrap();
-    let map = character_session_guard.current_map.as_ref().unwrap().clone();
+    let character = session_guard.character.as_ref().unwrap();
+    let current_map_guard = read_lock!(character.current_map);
+    let map = current_map_guard.as_ref().unwrap().clone();
     let map_guard = read_lock!(map);
-    let current_position = character_session_guard.current_position.clone();
+    let mut current_position;
+    {
+        current_position = read_lock!(character.current_position);
+    }
     let path = path_search_client_side_algorithm(map_guard.deref(), &current_position, &destination);
     // TODO
     // * Control if cell is walkable
     // * Control player state (dead? stun?, frozen?)
     let now = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_secs();
     let id = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_nanos();
-    character_session_guard.set_movement_task_id(id);
-    std::mem::drop(character_session_guard);
+    character.set_movement_task_id(id);
+    std::mem::drop(character);
     movement::move_character_task(runtime, path.clone(), session.clone(), server.clone(), id.clone());
     let mut packet_zc_notify_playermove = PacketZcNotifyPlayermove::new();
     packet_zc_notify_playermove.set_move_data(current_position.to_move_data(destination.clone()));
