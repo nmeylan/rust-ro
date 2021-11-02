@@ -5,7 +5,7 @@ use packets::packets::{PacketZcNotifyStandentry6, PacketZcNotifyVanish};
 use crate::server::core::map::{MapItem};
 use crate::server::core::movement::Position;
 use crate::server::core::session::Session;
-use crate::server::server::{PLAYER_FOV_SLICE_LEN, PLAYER_FOV};
+use crate::server::server::{PLAYER_FOV_SLICE_LEN, PLAYER_FOV, MOB_FOV};
 use packets::packets::Packet;
 use crate::util::coordinate;
 use crate::util::string::StringUtil;
@@ -152,6 +152,7 @@ impl CharacterSession {
     }
 
     // TODO try to optimize, method below take ~0.5ms to execute (peak at 1.5ms)
+    #[elapsed]
     pub fn load_units_in_fov(&self, session_guard: &RwLockReadGuard<Session>) {
         let mut new_map_view = vec![None; PLAYER_FOV_SLICE_LEN];
         let current_map_guard = read_lock!(self.current_map);
@@ -166,6 +167,33 @@ impl CharacterSession {
                 previous_item_ids.push(item.id());
             }
         }
+
+        let map_items = map_ref.get_map_items(self.x(), self.y(), PLAYER_FOV);
+        for map_item in map_items {
+            if map_item.object_type() != 5 {
+                continue;
+            }
+            // info!("{{{}:{}}},{{{}:{}}} {},{}", self.get_fov_start_x(), self.get_fov_start_y(), self.get_fov_start_x()  + (PLAYER_FOV * 2), self.get_fov_start_y() + (PLAYER_FOV * 2), self.x(), self.y()  );
+            // info!("See mob at {},{} index {}, id {} (inner {},{} - index {})", map_item.x(), map_item.y(),  coordinate::get_cell_index_of(map_item.x(), map_item.y(), 400), map_item.id(),  x, y, coordinate::get_cell_index_of(x, y, 400));
+            new_map_view.push(Some(map_item.clone()));
+            seen_items_ids.push(map_item.id());
+            if !previous_item_ids.contains(&map_item.id()) {
+                let mut mob_name = [0 as char; 24];
+                map_item.name().fill_char_array(mob_name.as_mut());
+                let mut packet_zc_notify_standentry = PacketZcNotifyStandentry6::new();
+                packet_zc_notify_standentry.set_job(map_item.client_item_class());
+                packet_zc_notify_standentry.set_packet_length(108);
+                packet_zc_notify_standentry.set_objecttype(map_item.object_type() as u8);
+                packet_zc_notify_standentry.set_clevel(3);
+                packet_zc_notify_standentry.set_aid(map_item.id());
+                packet_zc_notify_standentry.set_pos_dir(Position { x: map_item.x(), y: map_item.y(), dir: 3 }.to_pos());
+                packet_zc_notify_standentry.set_name(mob_name);
+                packet_zc_notify_standentry.fill_raw();
+                let tcp_stream = session_guard.map_server_socket.as_ref().unwrap();
+                socket_send!(tcp_stream, packet_zc_notify_standentry.raw());
+            }
+        }
+
 
         for i in 0..(PLAYER_FOV * 2) {
             for j in 0..(PLAYER_FOV * 2) {
@@ -189,33 +217,7 @@ impl CharacterSession {
                         let tcp_stream = session_guard.map_server_socket.as_ref().unwrap();
                         socket_send!(tcp_stream, packet_zc_notify_standentry.raw());
                     }
-                    new_map_view[coordinate::get_cell_index_of(i, j, PLAYER_FOV)] = Some(warp as Arc<dyn MapItem>);
-                }
-                let map_item = map_ref.get_map_item_at(x, y);
-                if map_item.is_some() {
-                    let map_item = map_item.as_ref().unwrap();
-                    if map_item.object_type() != 5 {
-                        continue;
-                    }
-                    // info!("{{{}:{}}},{{{}:{}}} {},{}", self.get_fov_start_x(), self.get_fov_start_y(), self.get_fov_start_x()  + (PLAYER_FOV * 2), self.get_fov_start_y() + (PLAYER_FOV * 2), self.x(), self.y()  );
-                    // info!("See mob at {},{} index {}, id {} (inner {},{} - index {})", map_item.x(), map_item.y(),  coordinate::get_cell_index_of(map_item.x(), map_item.y(), 400), map_item.id(),  x, y, coordinate::get_cell_index_of(x, y, 400));
-                    new_map_view[coordinate::get_cell_index_of(i, j, PLAYER_FOV)] = Some(map_item.clone());
-                    seen_items_ids.push(map_item.id());
-                    if !previous_item_ids.contains(&map_item.id()) {
-                        let mut mob_name = [0 as char; 24];
-                        map_item.name().fill_char_array(mob_name.as_mut());
-                        let mut packet_zc_notify_standentry = PacketZcNotifyStandentry6::new();
-                        packet_zc_notify_standentry.set_job(map_item.client_item_class());
-                        packet_zc_notify_standentry.set_packet_length(108);
-                        packet_zc_notify_standentry.set_objecttype(map_item.object_type() as u8);
-                        packet_zc_notify_standentry.set_clevel(3);
-                        packet_zc_notify_standentry.set_aid(map_item.id());
-                        packet_zc_notify_standentry.set_pos_dir(Position { x, y, dir: 3 }.to_pos());
-                        packet_zc_notify_standentry.set_name(mob_name);
-                        packet_zc_notify_standentry.fill_raw();
-                        let tcp_stream = session_guard.map_server_socket.as_ref().unwrap();
-                        socket_send!(tcp_stream, packet_zc_notify_standentry.raw());
-                    }
+                    new_map_view.push(Some(warp as Arc<dyn MapItem>));
                 }
             }
         }

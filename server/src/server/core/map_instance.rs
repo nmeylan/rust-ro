@@ -147,7 +147,6 @@ impl MapInstance {
         }
     }
 
-    #[elapsed]
     pub fn update_mob_fov(&self) {
         let mobs_guard = read_lock!(self.mobs);
         for mob in mobs_guard.values() {
