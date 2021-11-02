@@ -193,7 +193,7 @@ impl CharacterSession {
                 }
                 let map_item = map_ref.get_map_item_at(x, y);
                 if map_item.is_some() {
-                    let map_item = map_item.unwrap();
+                    let map_item = map_item.as_ref().unwrap();
                     if map_item.object_type() != 5 {
                         continue;
                     }

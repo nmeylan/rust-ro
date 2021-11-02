@@ -48,10 +48,10 @@ impl MapItem for Mob {
     }
 
     fn y(&self) -> u16 {
-       self.y
+        self.y
     }
 
-    fn as_any(&self) -> &dyn Any{
+    fn as_any(&self) -> &dyn Any {
         self
     }
 }
@@ -73,44 +73,21 @@ impl Mob {
     }
 
     pub fn load_units_in_fov(&self, map_ref: &MapInstance) {
-        let mut is_view_char_guard = write_lock!(self.is_view_char);
-        *is_view_char_guard = false;
-        let mut map_view_guard = write_lock!(self.map_view);
-        *map_view_guard = Vec::with_capacity(MOB_FOV_SLICE_LEN);
-        map_view_guard.resize(MOB_FOV_SLICE_LEN, None);
-        for i in 0..(MOB_FOV * 2) {
-            for j in 0..(MOB_FOV * 2) {
-                let x = self.get_item_x_from_fov(i as usize);
-                let y = self.get_item_y_from_fov(j as usize);
-                let char_option = map_ref.get_map_item_at(x, y);
-                if char_option.as_ref().is_none() {
-                    continue;
-                }
-                let map_item = char_option.unwrap();
-
-                if map_item.as_any().downcast_ref::<CharacterSession>().is_some() {
-                    // info!("{{{}:{}}},{{{}:{}}} {},{}", self.get_fov_start_x(), self.get_fov_start_y(), self.get_fov_start_x()  + (MOB_FOV * 2), self.get_fov_start_y() + (MOB_FOV * 2), self.x, self.y  );
-                    // info!("{} {} - seen char_id {} from map view, at {},{}", self.name, self.id, map_item.id(), map_item.x(), map_item.y());
-                    *is_view_char_guard = true;
-                    map_view_guard[coordinate::get_cell_index_of(i, j, MOB_FOV)] = Some(map_item.clone());
-                }
+        let mut items = Vec::with_capacity(MOB_FOV_SLICE_LEN);
+        let mut has_seen_char = false;
+        let map_items = map_ref.get_map_items(self.x, self.y, MOB_FOV);
+        for map_item in map_items {
+            if map_item.as_any().downcast_ref::<CharacterSession>().is_some() {
+                // info!("{{{}:{}}},{{{}:{}}} {},{}", self.get_fov_start_x(), self.get_fov_start_y(), self.get_fov_start_x()  + (MOB_FOV * 2), self.get_fov_start_y() + (MOB_FOV * 2), self.x, self.y  );
+                info!("{} {} {},{} - seen char_id {} from map view, at {},{}", self.name, self.id, self.x, self.y, map_item.id(), map_item.x(), map_item.y());
+                has_seen_char = true;
+                items.push(Some(map_item.clone()));
             }
         }
+        let mut is_view_char_guard = write_lock!(self.is_view_char);
+        let mut map_view_guard = write_lock!(self.map_view);
+        *is_view_char_guard = has_seen_char;
+        *map_view_guard = items;
     }
 
-    pub fn get_fov_start_x(&self) -> u16 {
-        cmp::max(self.x - MOB_FOV, 0)
-    }
-
-    pub fn get_fov_start_y(&self) -> u16 {
-        cmp::max(self.y - MOB_FOV, 0)
-    }
-
-    pub fn get_item_x_from_fov(&self, i: usize) -> u16 {
-        self.get_fov_start_x() + i as u16
-    }
-
-    pub fn get_item_y_from_fov(&self, j: usize) -> u16 {
-        self.get_fov_start_y() + j as u16
-    }
 }

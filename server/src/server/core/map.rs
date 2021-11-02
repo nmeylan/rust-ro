@@ -249,7 +249,7 @@ impl Map {
                         map_instance_clone_for_thread.spawn_mobs(server.clone(), now.clone().elapsed().as_millis(), map_instance.clone());
                         map_instance_clone_for_thread.update_mob_fov();
                     }
-                    sleep(Duration::from_millis(20));
+                    sleep(Duration::from_millis(200));
                 }
                 info!("Clean up {} map", map_instance_clone.name);
             });
