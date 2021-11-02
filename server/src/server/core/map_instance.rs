@@ -1,3 +1,4 @@
+use std::cmp;
 use std::collections::HashMap;
 use std::sync::{Arc};
 use crate::server::core::map::{Map, MapItem, WARP_MASK};
@@ -6,7 +7,8 @@ use crate::server::npc::mob_spawn::MobSpawn;
 use crate::server::npc::warps::Warp;
 use crate::server::server::Server;
 use crate::util::coordinate;
-use parking_lot::RwLock;
+use parking_lot::{RawRwLock, RwLock};
+use parking_lot::lock_api::RwLockReadGuard;
 
 pub struct MapInstance {
     pub name: String,
@@ -155,22 +157,32 @@ impl MapInstance {
 
     // TODO implement a batch mod, read_lock make function cost 2-3 times performance
     pub fn get_map_item_at(&self, x: u16, y: u16) -> Option<Arc<dyn MapItem>> {
-        let key = coordinate::get_cell_index_of(x, y, self.x_size);
         let map_items_guard = read_lock!(self.map_items);
+        let key = coordinate::get_cell_index_of(x, y, self.x_size);
         let mut map_item_option;
         unsafe {
             map_item_option = map_items_guard.get_unchecked(key);
         }
-        if map_item_option.is_none() {
-            return None;
+        return map_item_option.clone();
+    }
+
+    pub fn get_map_items(&self, x: u16, y: u16, range: u16) -> Vec<Arc<dyn MapItem>> {
+        let map_items_guard = read_lock!(self.map_items);
+        let row_size = range * 2;
+        let mut items = Vec::with_capacity((row_size * row_size) as usize);
+        for j in 0..row_size {
+            for i in 0..row_size {
+                let item_option = map_items_guard[
+                    coordinate::get_cell_index_of(
+                        self.get_item_x_from_fov(x, range, i),
+                        self.get_item_y_from_fov(y, range, j), self.x_size)
+                    ].as_ref();
+                if item_option.is_some() {
+                    items.push(item_option.unwrap().clone());
+                }
+            }
         }
-        match map_item_option {
-            Some(e) => {
-                // info!("get_map_item_at({}, {}, {}) => {}. item id {}", x, y, self.x_size, key, e.id());
-                return Some(e.clone())
-            },
-            None => None
-        }
+        items
     }
 
     pub fn get_warp_at(&self, x: u16, y: u16) -> Option<Arc<Warp>> {
@@ -192,5 +204,31 @@ impl MapInstance {
     pub fn remove_item_at(&self, pos_index: usize) {
         let mut map_item_guard = write_lock!(self.map_items);
         map_item_guard.remove(pos_index);
+    }
+
+    #[inline]
+    pub fn get_fov_start_x(&self, x: u16, range: u16) -> u16 {
+        if range > x {
+            return 0
+        }
+        x - range
+    }
+
+    #[inline]
+    pub fn get_fov_start_y(&self, y: u16, range: u16) -> u16 {
+        if range > y {
+            return 0
+        }
+        y - range
+    }
+
+    #[inline]
+    pub fn get_item_x_from_fov(&self, x: u16, range: u16, i: u16) -> u16 {
+        self.get_fov_start_x(x, range) + i
+    }
+
+    #[inline]
+    pub fn get_item_y_from_fov(&self, y: u16, range: u16, j: u16) -> u16 {
+        self.get_fov_start_y(y, range) + j
     }
 }
