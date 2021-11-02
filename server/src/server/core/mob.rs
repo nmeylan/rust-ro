@@ -1,7 +1,8 @@
 use std::any::Any;
 use std::cmp;
 use std::fmt::{Debug};
-use std::sync::{Arc, RwLock};
+use std::sync::{Arc};
+use parking_lot::RwLock;
 use crate::server::core::character::CharacterSession;
 use crate::server::server::{MOB_FOV_SLICE_LEN, UNKNOWN_MAP_ITEM};
 use crate::server::core::map::MapItem;

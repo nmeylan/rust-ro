@@ -2,7 +2,7 @@ use packets::packets::{Packet, PacketChEnter, PacketHcRefuseEnter, CharacterInfo
 use crate::repository::lib::Repository;
 use sqlx::{MySql};
 use tokio::runtime::Runtime;
-use std::sync::{Arc, Mutex, RwLock};
+use std::sync::{Arc};
 use std::net::TcpStream;
 use std::io::Write;
 use byteorder::{LittleEndian, WriteBytesExt};
@@ -12,6 +12,7 @@ use std::net::Shutdown::Both;
 use std::ops::Deref;
 use crate::util::packet::chain_packets;
 use std::time::{SystemTime, UNIX_EPOCH};
+use parking_lot::RwLock;
 use crate::server::enums::status::StatusTypes;
 use crate::server::enums::client_messages::ClientMessages;
 use crate::server::core::character::{CharacterSession};
@@ -131,8 +132,8 @@ pub fn handle_select_char(server: Arc<Server>, packet: &mut dyn Packet, runtime:
             .bind(packet_select_char.char_num)
             .fetch_one(&server.repository.pool).await.unwrap()
     });
-    let sessions_guard = server.sessions.read().unwrap();
-    let mut session = sessions_guard.get(&session_id).unwrap().write().unwrap();
+    let sessions_guard = read_lock!(server.sessions);
+    let mut session = write_lock!(sessions_guard.get(&session_id).unwrap());
     let char_id: u32 = char_model.char_id.clone();
     let last_x: u16 = char_model.last_x.clone();
     let last_y: u16 = char_model.last_y.clone();

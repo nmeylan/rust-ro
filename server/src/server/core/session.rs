@@ -1,7 +1,8 @@
 use std::collections::HashMap;
 use std::net::TcpStream;
-use std::sync::{Arc, Mutex, RwLock};
+use std::sync::{Arc};
 use crate::server::core::character::CharacterSession;
+use parking_lot::RwLock;
 
 pub struct Session {
     pub char_server_socket: Option<Arc<RwLock<TcpStream>>>,
@@ -21,7 +22,7 @@ pub trait SessionsIter {
 impl SessionsIter for HashMap<u32, Arc<RwLock<Session>>> {
     fn find_by_stream(&self, tcp_stream: &TcpStream) -> Option<u32> {
         let map_entry_option = self.iter().find(|(_, session)| {
-            let session = session.read().unwrap();
+            let session = read_lock!(session);
             if session.char_server_socket.as_ref().is_none() {
                 return false
             }

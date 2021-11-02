@@ -4,10 +4,11 @@ use sqlx::{MySql, Row};
 use rand::Rng;
 use tokio::runtime::Runtime;
 use std::net::{TcpStream, Shutdown};
-use std::sync::{Arc, RwLock};
+use std::sync::{Arc};
 use std::io::{Write, Read};
 
 use std::thread::spawn;
+use parking_lot::RwLock;
 use packets::packets_parser::parse;
 use crate::server::core::session::Session;
 use crate::server::server::Server;
@@ -32,7 +33,7 @@ pub(crate) fn handle_login(server: Arc<Server>, packet: &mut dyn Packet, runtime
             character: None
         };
         {
-            let mut sessions_guard = server.sessions.write().unwrap();
+            let mut sessions_guard = write_lock!(server.sessions);
             sessions_guard.insert(packet_response.aid.clone(), Arc::new(RwLock::new(new_user_session)));
         }
         socket_send!(tcp_stream, res.raw());
@@ -100,9 +101,7 @@ fn proxy_login(server: Arc<Server>, packet: &mut dyn Packet, tcp_stream: Arc<RwL
                         let server_char = packet_accept_login2.server_list.get_mut(0).unwrap();
                         server_char.set_port(server.configuration.proxy.local_char_server_port as i16);
                         packet_accept_login2.fill_raw();
-                        let mut tcp_stream_guard = tcp_stream.write().unwrap();
-                        tcp_stream_guard.write(packet_accept_login2.raw());
-                        tcp_stream_guard.flush();
+                        socket_send!(tcp_stream, packet_accept_login2.raw());
                     } else {
                         panic!("Received packet is not PacketAcAcceptLogin2");
                     }

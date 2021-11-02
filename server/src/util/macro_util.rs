@@ -1,13 +1,13 @@
 #[macro_export]
 macro_rules! read_lock {
     ( $rw_lock:expr ) => {
-    $rw_lock.read().unwrap()
+    $rw_lock.read()
   };
 }
 #[macro_export]
 macro_rules! write_lock {
     ( $rw_lock:expr ) => {
-    $rw_lock.write().unwrap()
+    $rw_lock.write()
   };
 }
 #[macro_export]
@@ -40,7 +40,7 @@ macro_rules! cast {
 macro_rules! socket_send {
     ( $tcp_stream:expr, $data:expr ) => {
     {
-       let mut tcp_stream_guard = $tcp_stream.write().unwrap();
+       let mut tcp_stream_guard = $tcp_stream.write();
         tcp_stream_guard.write($data);
         tcp_stream_guard.flush()
     }

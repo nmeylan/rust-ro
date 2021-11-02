@@ -1,6 +1,6 @@
 use std::any::Any;
 use packets::packets::{Packet, PacketUnknown, PacketCaLogin, PacketChEnter, PacketChMakeChar2, PacketChDeleteChar4Reserved, PacketCzEnter2, PacketChSelectChar, PacketCzRestart, PacketCzReqDisconnect2, PacketCzRequestMove2, PacketCzNotifyActorinit, PacketCzBlockingPlayCancel, PacketZcLoadConfirm, PacketCzRequestAct2, PacketCzReqnameall2, PacketZcAckReqnameall2};
-use std::sync::{Arc, RwLock, RwLockWriteGuard};
+use std::sync::{Arc};
 use std::thread::{spawn, JoinHandle};
 use crate::repository::lib::Repository;
 use sqlx::{MySql};
@@ -20,6 +20,7 @@ use crate::server::handler::char::{handle_char_enter, handle_char_loaded_client_
 use crate::server::handler::login::handle_login;
 use crate::server::handler::movement::handle_char_move;
 use lazy_static::lazy_static;
+use parking_lot::{RwLock, RwLockWriteGuard};
 use crate::server::handler::map::handle_map_item_name;
 
 // Todo make this configurable
@@ -73,7 +74,7 @@ impl MapItem for UnknownMapItem {
 
 impl Server {
     pub fn remove_session(&self, session_id: u32) {
-        let mut sessions = self.sessions.write().unwrap();
+        let mut sessions = self.sessions.write();
         sessions.remove(&session_id);
     }
 }
@@ -247,7 +248,7 @@ impl Server {
     }
 
     pub fn ensure_session_exists(&self, tcp_stream: &Arc<RwLock<TcpStream>>) -> Option<u32> {
-        let session_guard = self.sessions.read().unwrap();
+        let session_guard = read_lock!(self.sessions);
         let stream_guard = read_lock!(tcp_stream);
         let session_option = session_guard.find_by_stream(&stream_guard);
         if session_option.is_none() {
