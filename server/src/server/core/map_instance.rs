@@ -134,13 +134,13 @@ impl MapInstance {
                 let mob = Mob::new(mob_id, cell.0, cell.1, mob_spawn.mob_id, mob_spawn.id, mob_spawn.name.clone(), self_ref.clone());
                 info!("Spawned {} at {},{} (index {})", mob_spawn.name, cell.0, cell.1, coordinate::get_cell_index_of(cell.0, cell.1, self.x_size));
                 let mob_ref = Arc::new(mob);
-                // TODO: On mob dead clean up should be down also for items below
-                server.insert_map_item(mob_id, mob_ref.clone());
 
                 let mut mobs_guard = write_lock!(self.mobs);
                 let mut map_items_guard = write_lock!(self.map_items);
+                // TODO: On mob dead clean up should be down also for items below
+                server.insert_map_item(mob_id, mob_ref.clone());
                 mobs_guard.insert(mob_id, mob_ref.clone());
-                map_items_guard.insert(coordinate::get_cell_index_of(cell.0, cell.1, self.x_size), Some(mob_ref));
+                map_items_guard[coordinate::get_cell_index_of(cell.0, cell.1, self.x_size)] = Some(mob_ref);
                 // END
                 mob_spawn_track.increment_spawn();
             }
@@ -148,7 +148,7 @@ impl MapInstance {
         }
     }
 
-    // #[elapsed]
+    #[elapsed]
     pub fn update_mob_fov(&self) {
         let mobs_guard = read_lock!(self.mobs);
         for mob in mobs_guard.values() {
@@ -160,12 +160,14 @@ impl MapInstance {
     pub fn get_map_item_at(&self, x: u16, y: u16) -> Option<Arc<dyn MapItem>> {
         let key = coordinate::get_cell_index_of(x, y, self.x_size);
         let map_items_guard = read_lock!(self.map_items);
-        let map_item_option = map_items_guard.get(key);
+        let mut map_item_option;
+        unsafe {
+            map_item_option = map_items_guard.get_unchecked(key);
+        }
         if map_item_option.is_none() {
             return None;
         }
-        let option = map_item_option.unwrap();
-        match option {
+        match map_item_option {
             Some(e) => {
                 // info!("get_map_item_at({}, {}, {}) => {}. item id {}", x, y, self.x_size, key, e.id());
                 return Some(e.clone())

@@ -158,18 +158,6 @@ impl CharacterSession {
         let mut map_view_guard = write_lock!(self.map_view);
         let mut previous_item_ids: Vec<u32> = vec![];
         let mut seen_items_ids: Vec<u32> = vec![];
-        {
-            let current_map_guard = read_lock!(self.current_map);
-            let current_map_guard = current_map_guard.as_ref().unwrap();
-            let map_items_guard = read_lock!(current_map_guard.map_items);
-            for item in map_items_guard.iter() {
-                if item.is_some() {
-                    let item = item.as_ref().unwrap();
-                    info!("MapItem {},{} (index {}) => item id {}", item.x(), item.y(), coordinate::get_cell_index_of(item.x(), item.y(), 400), item.id());
-
-                }
-            }
-        }
 
         for item in map_view_guard.iter() {
             if item.is_some() {
@@ -208,8 +196,8 @@ impl CharacterSession {
                     if map_item.object_type() != 5 {
                         continue;
                     }
-                    info!("{{{}:{}}},{{{}:{}}} {},{}", self.get_fov_start_x(), self.get_fov_start_y(), self.get_fov_start_x()  + (PLAYER_FOV * 2), self.get_fov_start_y() + (PLAYER_FOV * 2), self.x(), self.y()  );
-                    info!("See mob at {},{} index {} (inner {},{} - index {})", map_item.x(), map_item.y(),  coordinate::get_cell_index_of(map_item.x(), map_item.y(), 400),  x, y, coordinate::get_cell_index_of(x, y, 400));
+                    // info!("{{{}:{}}},{{{}:{}}} {},{}", self.get_fov_start_x(), self.get_fov_start_y(), self.get_fov_start_x()  + (PLAYER_FOV * 2), self.get_fov_start_y() + (PLAYER_FOV * 2), self.x(), self.y()  );
+                    // info!("See mob at {},{} index {}, id {} (inner {},{} - index {})", map_item.x(), map_item.y(),  coordinate::get_cell_index_of(map_item.x(), map_item.y(), 400), map_item.id(),  x, y, coordinate::get_cell_index_of(x, y, 400));
                     new_map_view[coordinate::get_cell_index_of(i, j, PLAYER_FOV)] = Some(map_item.clone());
                     seen_items_ids.push(map_item.id());
                     if !previous_item_ids.contains(&map_item.id()) {

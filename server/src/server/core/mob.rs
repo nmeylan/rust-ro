@@ -75,7 +75,8 @@ impl Mob {
         let mut is_view_char_guard = write_lock!(self.is_view_char);
         *is_view_char_guard = false;
         let mut map_view_guard = write_lock!(self.map_view);
-        *map_view_guard = vec![None; MOB_FOV_SLICE_LEN];
+        *map_view_guard = Vec::with_capacity(MOB_FOV_SLICE_LEN);
+        map_view_guard.resize(MOB_FOV_SLICE_LEN, None);
         for i in 0..(MOB_FOV * 2) {
             for j in 0..(MOB_FOV * 2) {
                 let x = self.get_item_x_from_fov(i as usize);
