@@ -1,10 +1,11 @@
 use std::net::TcpStream;
-use std::sync::{Arc, RwLock};
+use std::sync::{Arc};
 use tokio::runtime::Runtime;
 use packets::packets::{Packet, PacketCzRequestAct2, PacketZcNotifyAct3};
 use crate::server::enums::action::ActionType;
 use crate::server::server::Server;
 use std::io::Write;
+use parking_lot::RwLock;
 
 pub fn handle_attack(server: Arc<Server>, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, session_id: u32) {
     let packet_cz_request_act2 = cast!(packet, PacketCzRequestAct2);

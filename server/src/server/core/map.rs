@@ -9,8 +9,9 @@ use std::any::Any;
 use std::time::{Duration, Instant};
 use std::collections::HashMap;
 use std::fmt::Debug;
-use std::sync::{Arc, RwLock};
+use std::sync::{Arc};
 use std::thread::sleep;
+use parking_lot::RwLock;
 use rand::Rng;
 use tokio::sync::broadcast;
 use tokio::sync::broadcast::{Receiver, Sender};
@@ -215,7 +216,7 @@ impl Map {
     }
 
     fn set_warps(&mut self, warps: &Vec<Warp>, map_item_ids: &RwLock<HashMap<u32, Arc<dyn MapItem>>>) {
-        let mut ids_write_guard = map_item_ids.write().unwrap();
+        let mut ids_write_guard = write_lock!(map_item_ids);
         let warps = warps.iter().map(|warp| {
             let mut warp = warp.clone();
             warp.set_id(Server::generate_id(&mut ids_write_guard));
