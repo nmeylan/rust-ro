@@ -79,7 +79,7 @@ impl Mob {
         for map_item in map_items {
             if map_item.as_any().downcast_ref::<CharacterSession>().is_some() {
                 // info!("{{{}:{}}},{{{}:{}}} {},{}", self.get_fov_start_x(), self.get_fov_start_y(), self.get_fov_start_x()  + (MOB_FOV * 2), self.get_fov_start_y() + (MOB_FOV * 2), self.x, self.y  );
-                info!("{} {} {},{} - seen char_id {} from map view, at {},{}", self.name, self.id, self.x, self.y, map_item.id(), map_item.x(), map_item.y());
+                // info!("{} {} {},{} - seen char_id {} from map view, at {},{}", self.name, self.id, self.x, self.y, map_item.id(), map_item.x(), map_item.y());
                 has_seen_char = true;
                 items.push(Some(map_item.clone()));
             }
