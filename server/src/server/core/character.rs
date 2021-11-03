@@ -5,11 +5,13 @@ use packets::packets::{PacketZcNotifyStandentry6, PacketZcNotifyVanish};
 use crate::server::core::map::{MapItem};
 use crate::server::core::movement::Position;
 use crate::server::core::session::Session;
-use crate::server::server::{PLAYER_FOV_SLICE_LEN, PLAYER_FOV, MOB_FOV};
+use crate::server::server::{PLAYER_FOV_SLICE_LEN, PLAYER_FOV};
 use packets::packets::Packet;
 use crate::util::coordinate;
 use crate::util::string::StringUtil;
 use std::io::Write;
+use std::sync::atomic::{AtomicI16, AtomicU16};
+use std::sync::atomic::Ordering::{Acquire, Relaxed, Release};
 use parking_lot::{RwLock, RwLockReadGuard};
 use accessor::Setters;
 use crate::server::core::map_instance::MapInstance;
@@ -24,7 +26,8 @@ pub struct CharacterSession {
     pub char_id: u32,
     pub current_map: RwLock<Option<Arc<MapInstance>>>,
     pub current_map_name: RwLock<[char; 16]>,
-    pub current_position: RwLock<Position>,
+    pub x: AtomicU16,
+    pub y: AtomicU16,
     pub movement_task_id: RwLock<Option<u128>>,
     pub map_view: RwLock<Vec<Option<Arc<dyn MapItem>>>>,
     pub self_ref: RwLock<Option<Arc<CharacterSession>>>,
@@ -40,7 +43,7 @@ impl MapItem for CharacterSession {
     }
 
     fn object_type(&self) -> i16 {
-        0
+        1
     }
 
     fn name(&self) -> String {
@@ -48,13 +51,11 @@ impl MapItem for CharacterSession {
     }
 
     fn x(&self) -> u16 {
-        let current_position_guard = read_lock!(self.current_position);
-        current_position_guard.x
+        self.x.load(Acquire)
     }
 
     fn y(&self) -> u16 {
-        let current_position_guard = read_lock!(self.current_position);
-        current_position_guard.y
+        self.y.load(Acquire)
     }
 
     fn as_any(&self) -> &dyn Any {
@@ -68,9 +69,8 @@ impl CharacterSession {
         *self_ref_guard = Some(self_ref);
     }
     pub fn update_x_y(&self, x: u16, y: u16) {
-        let mut current_position_guard = write_lock!(self.current_position);
-        current_position_guard.x = x;
-        current_position_guard.y = y;
+        self.x.store(x, Relaxed);
+        self.y.store(y, Relaxed);
     }
     pub fn set_current_map_name(&self, new_name: [char; 16]) {
         let mut current_map_name_guard = write_lock!(self.current_map_name);
@@ -79,8 +79,7 @@ impl CharacterSession {
 
     pub fn get_pos_index(&self) -> usize {
         let current_map_guard = read_lock!(self.current_map);
-        let current_position_guard = read_lock!(self.current_position);
-        coordinate::get_cell_index_of(current_position_guard.y, current_position_guard.y, current_map_guard.as_ref().unwrap().x_size)
+        coordinate::get_cell_index_of(self.x(), self.y(), current_map_guard.as_ref().unwrap().x_size)
     }
 
     pub fn change_map(&self, map_instance: Arc<MapInstance>) {
@@ -95,8 +94,7 @@ impl CharacterSession {
         if current_map_guard.is_some() {
             let map_instance_ref = current_map_guard.as_ref().unwrap();
             let x_size = map_instance_ref.x_size;
-            let current_position_guard = read_lock!(self.current_position);
-            map_instance_ref.remove_item_at(coordinate::get_cell_index_of(current_position_guard.x, current_position_guard.y, x_size));
+            map_instance_ref.remove_item_at(coordinate::get_cell_index_of(self.x(), self.y(), x_size));
         }
     }
 
@@ -111,13 +109,11 @@ impl CharacterSession {
         let current_map_guard = read_lock!(self.current_map);
         let map_ref = current_map_guard.as_ref().unwrap().clone();
         {
-            let current_position_guard = read_lock!(self.current_position);
-            let old_position_index = coordinate::get_cell_index_of(current_position_guard.x, current_position_guard.y, map_ref.x_size);
+            let old_position_index = coordinate::get_cell_index_of(self.x(), self.y(), map_ref.x_size);
             map_ref.remove_item_at(old_position_index);
         }
         self.update_x_y(x, y);
-        let current_position_guard = read_lock!(self.current_position);
-        let new_position_index = coordinate::get_cell_index_of(current_position_guard.x, current_position_guard.y, map_ref.x_size);
+        let new_position_index = coordinate::get_cell_index_of(self.x(), self.y(), map_ref.x_size);
         let self_ref_guard = read_lock!(self.self_ref);
         map_ref.insert_item_at(new_position_index, self_ref_guard.as_ref().unwrap().clone());
     }

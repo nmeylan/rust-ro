@@ -19,7 +19,9 @@ pub fn handle_map_item_name(server: Arc<Server>, packet: &mut dyn Packet, runtim
     let mut packet_zc_ack_reqnameall2 = PacketZcAckReqnameall2::new();
     packet_zc_ack_reqnameall2.set_gid(packet_cz_req_allname2.gid);
     let mut name: [char; 24] = [0 as char; 24];
-    map_item.name().fill_char_array(name.as_mut());
+    let aaaaa = format!("{} {}", map_item.x(), map_item.y());
+    aaaaa.fill_char_array(name.as_mut());
+    // map_item.name().fill_char_array(name.as_mut());
     packet_zc_ack_reqnameall2.set_name(name);
     // TODO handle guild name, guild title
     packet_zc_ack_reqnameall2.fill_raw();
