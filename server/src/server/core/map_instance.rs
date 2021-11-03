@@ -210,7 +210,11 @@ impl MapInstance {
         if range > x {
             return 0
         }
-        x - range
+        let mut x = x - range;
+        if x > self.x_size {
+            x = self.x_size;
+        }
+        x
     }
 
     #[inline]
@@ -218,7 +222,11 @@ impl MapInstance {
         if range > y {
             return 0
         }
-        y - range
+        let mut y = y - range;
+        if y > self.y_size {
+            y = self.y_size;
+        }
+        y
     }
 
     #[inline]
