@@ -27,6 +27,7 @@ static MAPCACHE_EXT: &str = ".mcache";
 static MAP_DIR: &str = "./maps/pre-re";
 pub static MAP_EXT: &str = ".gat";
 pub const WARP_MASK: u16 = 0b0000_0100_0000_0000;
+pub const WALKABLE_MASK: u16 = 0b0000000000000001;
 
 struct Header {
     pub version: i16,
@@ -155,7 +156,7 @@ impl Map {
 
         loop {
             let index = rng.gen_range(0..cells.len());
-            if cells.get(index).unwrap() & 0000000000000001 == 1 {
+            if cells.get(index).unwrap() & WALKABLE_MASK == 1 {
                 return coordinate::get_pos_of(index as u32, x_size)
             }
         }
@@ -163,6 +164,7 @@ impl Map {
 
     fn create_map_instance(&self, server: Arc<Server>, instance_id: u32) -> Arc<MapInstance> {
         let cells = self.generate_cells(server.clone());
+        println!("x_size: {}, y_size {}, length: {}, cells len {}", self.x_size, self.y_size, self.length, cells.len());
         let map_instance = MapInstance::from_map(&self, instance_id, cells);
         let map_instance_ref = Arc::new(map_instance);
         {
@@ -183,7 +185,7 @@ impl Map {
         let mut decoder = ZlibDecoder::new(&map_cache_zip_content_buf[26..]); // skip header
         decoder.read_to_end(&mut map_cache_content_buf).unwrap();
 
-        let mut cells: Vec<u16> = Vec::new();
+        let mut cells: Vec<u16> = Vec::with_capacity(self.length as usize);
         for cell in map_cache_content_buf {
             cells.push(match cell {
                 0 | 2 | 4 | 6 => 3, // 3 => bytes 0 and byte 1 are set. walkable ground values 2,4,6 are unknown, should not be present in mapcache file. but hercules set them to this value.

@@ -7,7 +7,7 @@ use parking_lot::RwLock;
 use tokio::time::Duration;
 use tokio::task::JoinHandle;
 use crate::server::core::character::CharacterSession;
-use crate::server::core::map::{Map, MAP_EXT};
+use crate::server::core::map::{Map, MAP_EXT, MapItem};
 use crate::server::core::map_instance::MapInstance;
 use crate::server::core::path::{MOVE_COST, MOVE_DIAGONAL_COST, PathNode};
 use crate::server::core::session::Session;
@@ -94,8 +94,7 @@ pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<
                         }
                     }
                     {
-                        let current_position_guard = read_lock!(character.current_position);
-                        if current_position_guard.x != path_node.x && current_position_guard.y != path_node.y { // diagonal movement
+                        if character.x() != path_node.x && character.y() != path_node.y { // diagonal movement
                             delay = (character.status.speed * (MOVE_DIAGONAL_COST / MOVE_COST) + 10) as u64;
                         } else {
                             delay = ((character.status.speed / 2) as i16 + extra_delay(character.status.speed)) as u64;
@@ -134,10 +133,9 @@ fn change_map(map: Arc<MapInstance>, path_node: &PathNode, session: Arc<RwLock<S
     character_session.update_x_y(warp.to_x, warp.to_y);
 
     let mut packet_zc_npcack_mapmove = PacketZcNpcackMapmove::new();
-    let current_position_guard = read_lock!(character_session.current_position);
     packet_zc_npcack_mapmove.set_map_name(new_current_map);
-    packet_zc_npcack_mapmove.set_x_pos(current_position_guard.x as i16);
-    packet_zc_npcack_mapmove.set_y_pos(current_position_guard.y as i16);
+    packet_zc_npcack_mapmove.set_x_pos(character_session.x() as i16);
+    packet_zc_npcack_mapmove.set_y_pos(character_session.y() as i16);
     packet_zc_npcack_mapmove.fill_raw();
 
     // TODO should we call method below?
@@ -155,11 +153,10 @@ async fn save_character_position(server: Arc<Server>, session: Arc<RwLock<Sessio
     {
         let session = read_lock!(session);
         let character_session = session.character.as_ref().unwrap();
-        let current_position_guard = read_lock!(character_session.current_position);
         res = sqlx::query("UPDATE `char` SET last_map = ?, last_x = ?, last_y = ? WHERE account_id = ? AND char_id = ?") // TODO add bcrypt on user_pass column, but not supported by hercules
             .bind(Map::name_without_ext(character_session.get_current_map_name()))
-            .bind(current_position_guard.x)
-            .bind(current_position_guard.y)
+            .bind(character_session.x())
+            .bind(character_session.y())
             .bind(session.account_id)
             .bind(character_session.char_id)
             .execute(&server.repository.pool);

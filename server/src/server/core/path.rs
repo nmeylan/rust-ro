@@ -49,17 +49,17 @@ fn node_id(x: u16, y: u16, x_size: u16) -> u32 {
 /**
 * Client use a A* algorithm for path finding.
 */
-pub fn path_search_client_side_algorithm(map: Arc<MapInstance>, source: &Position, destination: &Position) -> Vec<PathNode> {
+pub fn path_search_client_side_algorithm(map: Arc<MapInstance>, source_x: u16, source_y: u16, destination_x: u16, destination_y: u16) -> Vec<PathNode> {
     let _start = Instant::now();
     let max_x = map.x_size - 1;
     let max_y = map.y_size - 1;
     let start_node = PathNode {
-        id: node_id(source.x, source.y, max_x),
-        parent_id: node_id(source.x, source.y, max_x),
-        x: source.x as u16,
-        y: source.y as u16,
+        id: node_id(source_x, source_y, max_x),
+        parent_id: node_id(source_x, source_y, max_x),
+        x: source_x as u16,
+        y: source_y as u16,
         g_cost: 0,
-        f_cost: client_side_heuristic(source.x, source.y, destination.x, destination.y),
+        f_cost: client_side_heuristic(source_x, source_y, destination_x, destination_y),
         is_open: true,
     };
     let mut open_set = vec![start_node];
@@ -76,7 +76,7 @@ pub fn path_search_client_side_algorithm(map: Arc<MapInstance>, source: &Positio
         }).unwrap(); // current node is the node with minimum f_cost
         current_node = current.1.clone();
         let current_index = current.0;
-        if current_node.x == destination.x && current_node.y == destination.y {
+        if current_node.x == destination_x && current_node.y == destination_y {
             debug!("found destination");
             break;
         }
@@ -103,28 +103,28 @@ pub fn path_search_client_side_algorithm(map: Arc<MapInstance>, source: &Positio
         For all allowed neighbor cells
         */
         if is_direction(allowed_dirs, DIR_SOUTH | DIR_EAST) && map.is_cell_walkable(current_node.x + 1, current_node.y - 1) {
-            add_neighbor(current_node.x + 1, current_node.y - 1, destination, max_x, &mut open_set, &mut discovered_nodes, &current_node, MOVE_DIAGONAL_COST);
+            add_neighbor(current_node.x + 1, current_node.y - 1, destination_x, destination_y, max_x, &mut open_set, &mut discovered_nodes, &current_node, MOVE_DIAGONAL_COST);
         }
         if is_direction(allowed_dirs, DIR_EAST)  && map.is_cell_walkable(current_node.x + 1, current_node.y){
-            add_neighbor(current_node.x + 1, current_node.y, destination, max_x, &mut open_set, &mut discovered_nodes, &current_node, MOVE_COST);
+            add_neighbor(current_node.x + 1, current_node.y, destination_x, destination_y, max_x, &mut open_set, &mut discovered_nodes, &current_node, MOVE_COST);
         }
         if is_direction(allowed_dirs, DIR_NORTH | DIR_EAST) && map.is_cell_walkable(current_node.x + 1, current_node.y + 1) {
-            add_neighbor(current_node.x + 1, current_node.y + 1, destination, max_x, &mut open_set, &mut discovered_nodes, &current_node, MOVE_DIAGONAL_COST);
+            add_neighbor(current_node.x + 1, current_node.y + 1, destination_x, destination_y, max_x, &mut open_set, &mut discovered_nodes, &current_node, MOVE_DIAGONAL_COST);
         }
         if is_direction(allowed_dirs, DIR_NORTH) && map.is_cell_walkable(current_node.x, current_node.y + 1) {
-            add_neighbor(current_node.x, current_node.y + 1, destination, max_x, &mut open_set, &mut discovered_nodes, &current_node, MOVE_COST);
+            add_neighbor(current_node.x, current_node.y + 1, destination_x, destination_y, max_x, &mut open_set, &mut discovered_nodes, &current_node, MOVE_COST);
         }
         if is_direction(allowed_dirs, DIR_NORTH | DIR_WEST) && map.is_cell_walkable(current_node.x - 1, current_node.y + 1) {
-            add_neighbor(current_node.x - 1, current_node.y + 1, destination, max_x, &mut open_set, &mut discovered_nodes, &current_node, MOVE_DIAGONAL_COST);
+            add_neighbor(current_node.x - 1, current_node.y + 1, destination_x, destination_y, max_x, &mut open_set, &mut discovered_nodes, &current_node, MOVE_DIAGONAL_COST);
         }
         if is_direction(allowed_dirs, DIR_WEST) && map.is_cell_walkable(current_node.x - 1, current_node.y) {
-            add_neighbor(current_node.x - 1, current_node.y, destination, max_x, &mut open_set, &mut discovered_nodes, &current_node, MOVE_COST);
+            add_neighbor(current_node.x - 1, current_node.y, destination_x, destination_y, max_x, &mut open_set, &mut discovered_nodes, &current_node, MOVE_COST);
         }
         if is_direction(allowed_dirs, DIR_SOUTH | DIR_WEST) && map.is_cell_walkable(current_node.x - 1, current_node.y - 1) {
-            add_neighbor(current_node.x - 1, current_node.y - 1, destination, max_x, &mut open_set, &mut discovered_nodes, &current_node, MOVE_DIAGONAL_COST);
+            add_neighbor(current_node.x - 1, current_node.y - 1, destination_x, destination_y, max_x, &mut open_set, &mut discovered_nodes, &current_node, MOVE_DIAGONAL_COST);
         }
         if is_direction(allowed_dirs, DIR_SOUTH) && map.is_cell_walkable(current_node.x, current_node.y - 1) {
-            add_neighbor(current_node.x, current_node.y - 1, destination, max_x, &mut open_set, &mut discovered_nodes, &current_node, MOVE_COST);
+            add_neighbor(current_node.x, current_node.y - 1, destination_x, destination_y, max_x, &mut open_set, &mut discovered_nodes, &current_node, MOVE_COST);
         }
     }
 
@@ -142,10 +142,10 @@ pub fn path_search_client_side_algorithm(map: Arc<MapInstance>, source: &Positio
     final_path
 }
 
-fn add_neighbor(x: u16, y: u16, destination: &Position, max_x: u16, open_set: &mut Vec<PathNode>, discovered_nodes: &mut Vec<PathNode>, current_node: &PathNode, move_cost: u16) {
+fn add_neighbor(x: u16, y: u16, destination_x: u16, destination_y: u16, max_x: u16, open_set: &mut Vec<PathNode>, discovered_nodes: &mut Vec<PathNode>, current_node: &PathNode, move_cost: u16) {
     let neighbor_option = discovered_nodes.iter().find(|node| node.x == x && node.y == y);
     let tentative_gcost = current_node.g_cost + move_cost;
-    let h_cost = client_side_heuristic(x, y, destination.x, destination.y);
+    let h_cost = client_side_heuristic(x, y, destination_x, destination_y);
     let mut neighbor: PathNode;
     if neighbor_option.is_some() {
         neighbor = *neighbor_option.unwrap();

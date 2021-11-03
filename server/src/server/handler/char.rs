@@ -10,13 +10,14 @@ use crate::repository::model::char_model::{CharacterInfoNeoUnionWrapped, CharIns
 use crate::util::string::StringUtil;
 use std::net::Shutdown::Both;
 use std::ops::Deref;
+use std::sync::atomic::AtomicU16;
 use crate::util::packet::chain_packets;
 use std::time::{SystemTime, UNIX_EPOCH};
 use parking_lot::RwLock;
 use crate::server::enums::status::StatusTypes;
 use crate::server::enums::client_messages::ClientMessages;
 use crate::server::core::character::{CharacterSession};
-use crate::server::core::map::{Map, MapPropertyFlags};
+use crate::server::core::map::{Map, MapItem, MapPropertyFlags};
 use crate::server::core::movement::Position;
 use crate::server::core::status::Status;
 use crate::server::server::{MOB_FOV_SLICE_LEN, Server};
@@ -150,7 +151,8 @@ pub fn handle_select_char(server: Arc<Server>, packet: &mut dyn Packet, runtime:
         char_id,
         status: Status::from_char_model(&char_model, &server.configuration.game),
         current_map_name: RwLock::new(map_name.clone()),
-        current_position: RwLock::new(Position { x: last_x, y: last_y, dir: 0 }),
+        x: AtomicU16::new(last_x),
+        y: AtomicU16::new(last_y),
         movement_task_id: RwLock::new(None),
         map_view: RwLock::new(vec![None; MOB_FOV_SLICE_LEN]),
         current_map: RwLock::new(None),
@@ -205,10 +207,9 @@ pub fn handle_enter_game(server: Arc<Server>, packet: &mut dyn Packet, _runtime:
     let character = session.character.as_ref().unwrap();
     let mut packet_npc_ack_map_move = PacketZcNpcackMapmove::new();
     let current_map_name_guard = read_lock!(character.current_map_name);
-    let current_position_guard = read_lock!(character.current_position);
     packet_npc_ack_map_move.set_map_name(*current_map_name_guard.deref());
-    packet_npc_ack_map_move.set_x_pos(current_position_guard.x as i16);
-    packet_npc_ack_map_move.set_y_pos(current_position_guard.y as i16);
+    packet_npc_ack_map_move.set_x_pos(character.x() as i16);
+    packet_npc_ack_map_move.set_y_pos(character.y() as i16);
     packet_npc_ack_map_move.fill_raw();
     let final_response_packet: Vec<u8> = chain_packets(vec![&packet_inventory_expansion_info, &packet_overweight_percent, &packet_accept_enter, &packet_npc_ack_map_move]);
     socket_send!(tcp_stream, &final_response_packet);

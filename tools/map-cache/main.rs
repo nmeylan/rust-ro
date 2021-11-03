@@ -120,7 +120,7 @@ async fn main() {
             let tiles_beginning_offset = 14;
             let tiles_height_offset = 30;
             let mut tile_cursor = 0;
-            let mut cells = Vec::<u8>::new();
+            let mut cells = Vec::<u8>::with_capacity(map_size as usize);
             for _i in 0..map_size {
                 let mut pos = tile_cursor + tiles_beginning_offset;
                 let cell_height = Cursor::new(gat_content_buf[pos..(pos + 4)].to_vec()).read_f32::<LittleEndian>().unwrap();

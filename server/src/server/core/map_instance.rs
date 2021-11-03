@@ -1,14 +1,12 @@
-use std::cmp;
 use std::collections::HashMap;
 use std::sync::{Arc};
-use crate::server::core::map::{Map, MapItem, WARP_MASK};
+use crate::server::core::map::{Map, MapItem, WALKABLE_MASK, WARP_MASK};
 use crate::server::core::mob::Mob;
 use crate::server::npc::mob_spawn::MobSpawn;
 use crate::server::npc::warps::Warp;
 use crate::server::server::Server;
 use crate::util::coordinate;
-use parking_lot::{RawRwLock, RwLock};
-use parking_lot::lock_api::RwLockReadGuard;
+use parking_lot::{RwLock};
 
 pub struct MapInstance {
     pub name: String,
@@ -79,10 +77,6 @@ impl MapInstance {
     pub fn get_cell_index_of(&self, x: u16, y: u16) -> usize {
         coordinate::get_cell_index_of(x, y, self.x_size)
     }
-    #[inline]
-    pub fn get_pos_of(&self, index: u32) -> (u16, u16) {
-        coordinate::get_pos_of(index, self.x_size)
-    }
 
     pub fn is_cell_walkable(&self, x: u16, y: u16) -> bool {
         if self.cells.is_empty() {
@@ -105,6 +99,7 @@ impl MapInstance {
     }
 
     pub fn spawn_mobs(&self, server: Arc<Server>, now: u128, self_ref: Arc<MapInstance>) {
+        let mut spawned_something = false;
         for mob_spawn in self.mob_spawns.iter() {
             let mut mob_spawns_tracks_guard = write_lock!(self.mob_spawns_tracks);
             let mob_spawn_track = mob_spawns_tracks_guard.iter_mut().find(|spawn_track| spawn_track.spawn_id == mob_spawn.id).unwrap();
@@ -115,7 +110,7 @@ impl MapInstance {
                 // TODO check when respawn is planned
             }
             let mut cell: (u16, u16);
-
+            spawned_something = true;
             let spawned = (mob_spawn.to_spawn_amount - mob_spawn_track.spawned_amount);
             for _ in 0..spawned {
                 if mob_spawn.is_fixed_position() {
@@ -144,6 +139,9 @@ impl MapInstance {
                 mob_spawn_track.increment_spawn();
             }
             info!("Spawned {} {} (spawn id {})", spawned, mob_spawn.name, mob_spawn.id);
+        }
+        if spawned_something {
+            self.print_map_cells();
         }
     }
 
@@ -184,6 +182,34 @@ impl MapInstance {
         items
     }
 
+    pub fn print_map_cells(&self) {
+        for i in (0..self.y_size).rev() {
+            for j in 0..self.x_size {
+                let index = coordinate::get_cell_index_of(j, i, self.x_size);
+                let cell = self.cells.get(index).unwrap();
+                let mut c = "0";
+                if cell & WARP_MASK == WARP_MASK{
+                    c = "w";
+                } else if cell & WALKABLE_MASK == WALKABLE_MASK{
+                    c = "1"
+                }
+                let option = self.get_map_item_at(j, i);
+                if option.is_some() {
+                    let item = option.unwrap();
+                    if item.object_type() == 5 {
+                        c = "m";
+                    } else if item.object_type() == 1 {
+                        c = "p";
+                    } else {
+                        c = "u"
+                    }
+                }
+                print!("{}", c);
+            }
+            println!("");
+        }
+    }
+
     pub fn get_warp_at(&self, x: u16, y: u16) -> Option<Arc<Warp>> {
         for warp in self.warps.iter() {
             if x >= warp.x - warp.x_size && x <= warp.x + warp.x_size
@@ -210,11 +236,7 @@ impl MapInstance {
         if range > x {
             return 0
         }
-        let mut x = x - range;
-        if x > self.x_size {
-            x = self.x_size;
-        }
-        x
+        x - range
     }
 
     #[inline]
@@ -222,20 +244,24 @@ impl MapInstance {
         if range > y {
             return 0
         }
-        let mut y = y - range;
-        if y > self.y_size {
-            y = self.y_size;
-        }
-        y
+        y - range
     }
 
     #[inline]
     pub fn get_item_x_from_fov(&self, x: u16, range: u16, i: u16) -> u16 {
-        self.get_fov_start_x(x, range) + i
+        let mut x = self.get_fov_start_x(x, range) + i;
+        if x > self.x_size {
+            x = self.x_size;
+        }
+        x
     }
 
     #[inline]
     pub fn get_item_y_from_fov(&self, y: u16, range: u16, j: u16) -> u16 {
-        self.get_fov_start_y(y, range) + j
+        let mut y = self.get_fov_start_y(y, range) + j;
+        if y > self.y_size {
+            y = self.y_size;
+        }
+        y
     }
 }
