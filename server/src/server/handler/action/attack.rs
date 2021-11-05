@@ -7,7 +7,7 @@ use crate::server::server::Server;
 use std::io::Write;
 use parking_lot::RwLock;
 
-pub fn handle_attack(server: Arc<Server>, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, session_id: u32) {
+pub fn handle_attack(server: Arc<Server>, packet: &mut dyn Packet, _runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, session_id: u32) {
     let packet_cz_request_act2 = cast!(packet, PacketCzRequestAct2);
     let sessions_guard = read_lock!(server.sessions);
     let session = sessions_guard.get(&session_id).unwrap();
@@ -21,7 +21,7 @@ pub fn handle_attack(server: Arc<Server>, packet: &mut dyn Packet, runtime: &Run
     }
     let mut packet_zc_notify_act3 = PacketZcNotifyAct3::new();
     packet_zc_notify_act3.set_target_gid(packet_cz_request_act2.target_gid);
-    packet_zc_notify_act3.set_action(ActionType::ATTACK_MULTIPLE.value());
+    packet_zc_notify_act3.set_action(ActionType::AttackMultiple.value());
     packet_zc_notify_act3.set_gid(session_id);
     packet_zc_notify_act3.set_attack_mt(498);
     packet_zc_notify_act3.set_attacked_mt(1);

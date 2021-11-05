@@ -1,37 +1,37 @@
 #![allow(dead_code)]
 
 pub enum ActionType {
-    ATTACK,
-    ITEMPICKUP,
-    SIT,
-    STAND,
-    ATTACK_NOMOTION,
-    SPLASH,
-    SKILL,
-    ATTACK_REPEAT,
-    ATTACK_MULTIPLE,
-    ATTACK_MULTIPLE_NOMOTION,
-    ATTACK_CRITICAL,
-    ATTACK_LUCKY,
-    TOUCHSKILL
+    Attack,
+    Itempickup,
+    Sit,
+    Stand,
+    AttackNomotion,
+    Splash,
+    Skill,
+    AttackRepeat,
+    AttackMultiple,
+    AttackMultipleNomotion,
+    AttackCritical,
+    AttackLucky,
+    Touchskill
 }
 
 impl ActionType {
     pub fn value(&self) -> u8 {
         match *self {
-            ActionType::ATTACK => 0,
-            ActionType::ITEMPICKUP => 1,
-            ActionType::SIT => 2,
-            ActionType::STAND => 3,
-            ActionType::ATTACK_NOMOTION => 4,
-            ActionType::SPLASH => 5,
-            ActionType::SKILL => 6,
-            ActionType::ATTACK_REPEAT => 7,
-            ActionType::ATTACK_MULTIPLE => 8,
-            ActionType::ATTACK_MULTIPLE_NOMOTION => 9,
-            ActionType::ATTACK_CRITICAL => 10,
-            ActionType::ATTACK_LUCKY => 11,
-            ActionType::TOUCHSKILL => 12
+            ActionType::Attack => 0,
+            ActionType::Itempickup => 1,
+            ActionType::Sit => 2,
+            ActionType::Stand => 3,
+            ActionType::AttackNomotion => 4,
+            ActionType::Splash => 5,
+            ActionType::Skill => 6,
+            ActionType::AttackRepeat => 7,
+            ActionType::AttackMultiple => 8,
+            ActionType::AttackMultipleNomotion => 9,
+            ActionType::AttackCritical => 10,
+            ActionType::AttackLucky => 11,
+            ActionType::Touchskill => 12
         }
     }
 }

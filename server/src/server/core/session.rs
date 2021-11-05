@@ -22,7 +22,7 @@ pub trait SessionsIter {
 
 impl SessionsIter for HashMap<u32, Arc<Session>> {
     fn find_by_stream(&self, tcp_stream: &TcpStream) -> Option<u32> {
-        let map_entry_option = self.iter().find(|(_, session)| unsafe {
+        let map_entry_option = self.iter().find(|(_, session)| {
             if session.char_server_socket.is_none() {
                 return false
             }

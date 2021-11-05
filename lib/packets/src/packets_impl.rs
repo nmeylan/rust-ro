@@ -156,6 +156,13 @@ impl Packet for PacketCaLogin {
     }
 }
 
+impl Default for PacketCaLogin {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketChEnter {
     pub fn from(buffer: &[u8]) -> PacketChEnter {
         PacketChEnter {
@@ -306,6 +313,13 @@ impl Packet for PacketChEnter {
     }
 }
 
+impl Default for PacketChEnter {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketChSelectChar {
     pub fn from(buffer: &[u8]) -> PacketChSelectChar {
         PacketChSelectChar {
@@ -381,6 +395,13 @@ impl Packet for PacketChSelectChar {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketChSelectChar {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -632,6 +653,13 @@ impl Packet for PacketChMakeChar {
     }
 }
 
+impl Default for PacketChMakeChar {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketChDeleteChar {
     pub fn from(buffer: &[u8]) -> PacketChDeleteChar {
         PacketChDeleteChar {
@@ -733,6 +761,13 @@ impl Packet for PacketChDeleteChar {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketChDeleteChar {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -952,6 +987,13 @@ impl Packet for PacketAcAcceptLogin {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketAcAcceptLogin {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -1218,6 +1260,13 @@ impl Packet for PacketAcAcceptLogin2 {
     }
 }
 
+impl Default for PacketAcAcceptLogin2 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketAcRefuseLogin {
     pub fn from(buffer: &[u8]) -> PacketAcRefuseLogin {
         PacketAcRefuseLogin {
@@ -1319,6 +1368,13 @@ impl Packet for PacketAcRefuseLogin {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketAcRefuseLogin {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -1577,6 +1633,13 @@ impl Packet for PacketHcAcceptEnterNeoUnion {
     }
 }
 
+impl Default for PacketHcAcceptEnterNeoUnion {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketHcRefuseEnter {
     pub fn from(buffer: &[u8]) -> PacketHcRefuseEnter {
         PacketHcRefuseEnter {
@@ -1655,6 +1718,13 @@ impl Packet for PacketHcRefuseEnter {
     }
 }
 
+impl Default for PacketHcRefuseEnter {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketHcAcceptMakecharNeoUnion {
     pub fn from(buffer: &[u8]) -> PacketHcAcceptMakecharNeoUnion {
         PacketHcAcceptMakecharNeoUnion {
@@ -1726,6 +1796,13 @@ impl Packet for PacketHcAcceptMakecharNeoUnion {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketHcAcceptMakecharNeoUnion {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -1807,6 +1884,13 @@ impl Packet for PacketHcRefuseMakechar {
     }
 }
 
+impl Default for PacketHcRefuseMakechar {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketHcAcceptDeletechar {
     pub fn from(buffer: &[u8]) -> PacketHcAcceptDeletechar {
         PacketHcAcceptDeletechar {
@@ -1864,6 +1948,13 @@ impl Packet for PacketHcAcceptDeletechar {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketHcAcceptDeletechar {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -1942,6 +2033,13 @@ impl Packet for PacketHcRefuseDeletechar {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketHcRefuseDeletechar {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -2060,6 +2158,13 @@ impl Packet for PacketHcNotifyZonesvr {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketHcNotifyZonesvr {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -2213,6 +2318,13 @@ impl Packet for PacketCzEnter {
     }
 }
 
+impl Default for PacketCzEnter {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcAcceptEnter {
     pub fn from(buffer: &[u8]) -> PacketZcAcceptEnter {
         PacketZcAcceptEnter {
@@ -2230,7 +2342,7 @@ impl PacketZcAcceptEnter {
                 dst
             },
             pos_dir:  {
-                let mut dst: [u8; 3] = [0 as u8; 3];
+                let mut dst: [u8; 3] = [0_u8; 3];
                 for (index, byte) in buffer[6..9].iter().enumerate() {
                     dst[index] = *byte as u8;
                 }
@@ -2353,6 +2465,13 @@ impl Packet for PacketZcAcceptEnter {
     }
 }
 
+impl Default for PacketZcAcceptEnter {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcRefuseEnter {
     pub fn from(buffer: &[u8]) -> PacketZcRefuseEnter {
         PacketZcRefuseEnter {
@@ -2428,6 +2547,13 @@ impl Packet for PacketZcRefuseEnter {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcRefuseEnter {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -2563,6 +2689,13 @@ impl Packet for PacketZcNotifyInitchar {
     }
 }
 
+impl Default for PacketZcNotifyInitchar {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcNotifyUpdatechar {
     pub fn from(buffer: &[u8]) -> PacketZcNotifyUpdatechar {
         PacketZcNotifyUpdatechar {
@@ -2677,6 +2810,13 @@ impl Packet for PacketZcNotifyUpdatechar {
     }
 }
 
+impl Default for PacketZcNotifyUpdatechar {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcNotifyUpdateplayer {
     pub fn from(buffer: &[u8]) -> PacketZcNotifyUpdateplayer {
         PacketZcNotifyUpdateplayer {
@@ -2770,6 +2910,13 @@ impl Packet for PacketZcNotifyUpdateplayer {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcNotifyUpdateplayer {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -2916,7 +3063,7 @@ impl PacketZcNotifyStandentry {
                 dst
             },
             pos_dir:  {
-                let mut dst: [u8; 3] = [0 as u8; 3];
+                let mut dst: [u8; 3] = [0_u8; 3];
                 for (index, byte) in buffer[47..50].iter().enumerate() {
                     dst[index] = *byte as u8;
                 }
@@ -3327,6 +3474,13 @@ impl Packet for PacketZcNotifyStandentry {
     }
 }
 
+impl Default for PacketZcNotifyStandentry {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcNotifyNewentry {
     pub fn from(buffer: &[u8]) -> PacketZcNotifyNewentry {
         PacketZcNotifyNewentry {
@@ -3464,7 +3618,7 @@ impl PacketZcNotifyNewentry {
                 dst
             },
             pos_dir:  {
-                let mut dst: [u8; 3] = [0 as u8; 3];
+                let mut dst: [u8; 3] = [0_u8; 3];
                 for (index, byte) in buffer[46..49].iter().enumerate() {
                     dst[index] = *byte as u8;
                 }
@@ -3845,6 +3999,13 @@ impl Packet for PacketZcNotifyNewentry {
     }
 }
 
+impl Default for PacketZcNotifyNewentry {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcNotifyActentry {
     pub fn from(buffer: &[u8]) -> PacketZcNotifyActentry {
         PacketZcNotifyActentry {
@@ -3982,7 +4143,7 @@ impl PacketZcNotifyActentry {
                 dst
             },
             pos_dir:  {
-                let mut dst: [u8; 3] = [0 as u8; 3];
+                let mut dst: [u8; 3] = [0_u8; 3];
                 for (index, byte) in buffer[46..49].iter().enumerate() {
                     dst[index] = *byte as u8;
                 }
@@ -4399,6 +4560,13 @@ impl Packet for PacketZcNotifyActentry {
     }
 }
 
+impl Default for PacketZcNotifyActentry {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcNotifyMoveentry {
     pub fn from(buffer: &[u8]) -> PacketZcNotifyMoveentry {
         PacketZcNotifyMoveentry {
@@ -4542,7 +4710,7 @@ impl PacketZcNotifyMoveentry {
                 dst
             },
             move_data:  {
-                let mut dst: [u16; 6] = [0 as u16; 6];
+                let mut dst: [u16; 6] = [0_u16; 6];
                 for (index, byte) in buffer[50..56].iter().enumerate() {
                     dst[index] = *byte as u16;
                 }
@@ -4935,6 +5103,13 @@ impl Packet for PacketZcNotifyMoveentry {
     }
 }
 
+impl Default for PacketZcNotifyMoveentry {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcNotifyStandentryNpc {
     pub fn from(buffer: &[u8]) -> PacketZcNotifyStandentryNpc {
         PacketZcNotifyStandentryNpc {
@@ -5054,7 +5229,7 @@ impl PacketZcNotifyStandentryNpc {
                 dst
             },
             pos_dir:  {
-                let mut dst: [u8; 3] = [0 as u8; 3];
+                let mut dst: [u8; 3] = [0_u8; 3];
                 for (index, byte) in buffer[37..40].iter().enumerate() {
                     dst[index] = *byte as u8;
                 }
@@ -5381,6 +5556,13 @@ impl Packet for PacketZcNotifyStandentryNpc {
     }
 }
 
+impl Default for PacketZcNotifyStandentryNpc {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzNotifyActorinit {
     pub fn from(buffer: &[u8]) -> PacketCzNotifyActorinit {
         PacketCzNotifyActorinit {
@@ -5438,6 +5620,13 @@ impl Packet for PacketCzNotifyActorinit {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzNotifyActorinit {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -5519,6 +5708,13 @@ impl Packet for PacketCzRequestTime {
     }
 }
 
+impl Default for PacketCzRequestTime {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcNotifyTime {
     pub fn from(buffer: &[u8]) -> PacketZcNotifyTime {
         PacketZcNotifyTime {
@@ -5594,6 +5790,13 @@ impl Packet for PacketZcNotifyTime {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcNotifyTime {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -5693,6 +5896,13 @@ impl Packet for PacketZcNotifyVanish {
     }
 }
 
+impl Default for PacketZcNotifyVanish {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketScNotifyBan {
     pub fn from(buffer: &[u8]) -> PacketScNotifyBan {
         PacketScNotifyBan {
@@ -5771,6 +5981,13 @@ impl Packet for PacketScNotifyBan {
     }
 }
 
+impl Default for PacketScNotifyBan {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzRequestQuit {
     pub fn from(buffer: &[u8]) -> PacketCzRequestQuit {
         PacketCzRequestQuit {
@@ -5828,6 +6045,13 @@ impl Packet for PacketCzRequestQuit {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzRequestQuit {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -5891,6 +6115,13 @@ impl Packet for PacketZcAcceptQuit {
     }
 }
 
+impl Default for PacketZcAcceptQuit {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcRefuseQuit {
     pub fn from(buffer: &[u8]) -> PacketZcRefuseQuit {
         PacketZcRefuseQuit {
@@ -5951,6 +6182,13 @@ impl Packet for PacketZcRefuseQuit {
     }
 }
 
+impl Default for PacketZcRefuseQuit {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzRequestMove {
     pub fn from(buffer: &[u8]) -> PacketCzRequestMove {
         PacketCzRequestMove {
@@ -5962,7 +6200,7 @@ impl PacketCzRequestMove {
                 dst
             },
             dest:  {
-                let mut dst: [u8; 3] = [0 as u8; 3];
+                let mut dst: [u8; 3] = [0_u8; 3];
                 for (index, byte) in buffer[2..5].iter().enumerate() {
                     dst[index] = *byte as u8;
                 }
@@ -6037,6 +6275,13 @@ impl Packet for PacketCzRequestMove {
     }
 }
 
+impl Default for PacketCzRequestMove {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcNotifyMove {
     pub fn from(buffer: &[u8]) -> PacketZcNotifyMove {
         PacketZcNotifyMove {
@@ -6054,7 +6299,7 @@ impl PacketZcNotifyMove {
                 dst
             },
             move_data:  {
-                let mut dst: [u8; 6] = [0 as u8; 6];
+                let mut dst: [u8; 6] = [0_u8; 6];
                 for (index, byte) in buffer[6..12].iter().enumerate() {
                     dst[index] = *byte as u8;
                 }
@@ -6159,6 +6404,13 @@ impl Packet for PacketZcNotifyMove {
     }
 }
 
+impl Default for PacketZcNotifyMove {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcNotifyPlayermove {
     pub fn from(buffer: &[u8]) -> PacketZcNotifyPlayermove {
         PacketZcNotifyPlayermove {
@@ -6176,7 +6428,7 @@ impl PacketZcNotifyPlayermove {
                 dst
             },
             move_data:  {
-                let mut dst: [u8; 6] = [0 as u8; 6];
+                let mut dst: [u8; 6] = [0_u8; 6];
                 for (index, byte) in buffer[6..12].iter().enumerate() {
                     dst[index] = *byte as u8;
                 }
@@ -6260,6 +6512,13 @@ impl Packet for PacketZcNotifyPlayermove {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcNotifyPlayermove {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -6377,6 +6636,13 @@ impl Packet for PacketZcStopmove {
     }
 }
 
+impl Default for PacketZcStopmove {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzRequestAct {
     pub fn from(buffer: &[u8]) -> PacketCzRequestAct {
         PacketCzRequestAct {
@@ -6470,6 +6736,13 @@ impl Packet for PacketCzRequestAct {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzRequestAct {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -6695,6 +6968,13 @@ impl Packet for PacketZcNotifyAct {
     }
 }
 
+impl Default for PacketZcNotifyAct {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcNotifyActPosition {
     pub fn from(buffer: &[u8]) -> PacketZcNotifyActPosition {
         PacketZcNotifyActPosition {
@@ -6899,6 +7179,13 @@ impl Packet for PacketZcNotifyActPosition {
     }
 }
 
+impl Default for PacketZcNotifyActPosition {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzRequestChat {
     pub fn from(buffer: &[u8]) -> PacketCzRequestChat {
         PacketCzRequestChat {
@@ -6986,6 +7273,13 @@ impl Packet for PacketCzRequestChat {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzRequestChat {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -7097,6 +7391,13 @@ impl Packet for PacketZcNotifyChat {
     }
 }
 
+impl Default for PacketZcNotifyChat {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcNotifyPlayerchat {
     pub fn from(buffer: &[u8]) -> PacketZcNotifyPlayerchat {
         PacketZcNotifyPlayerchat {
@@ -7187,6 +7488,13 @@ impl Packet for PacketZcNotifyPlayerchat {
     }
 }
 
+impl Default for PacketZcNotifyPlayerchat {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketServerEntryAck {
     pub fn from(buffer: &[u8]) -> PacketServerEntryAck {
         PacketServerEntryAck {
@@ -7262,6 +7570,13 @@ impl Packet for PacketServerEntryAck {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketServerEntryAck {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -7358,6 +7673,13 @@ impl Packet for PacketCzContactnpc {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzContactnpc {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -7480,6 +7802,13 @@ impl Packet for PacketZcNpcackMapmove {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcNpcackMapmove {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -7619,6 +7948,13 @@ impl Packet for PacketZcNpcackServermove {
     }
 }
 
+impl Default for PacketZcNpcackServermove {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcNpcackEnable {
     pub fn from(buffer: &[u8]) -> PacketZcNpcackEnable {
         PacketZcNpcackEnable {
@@ -7676,6 +8012,13 @@ impl Packet for PacketZcNpcackEnable {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcNpcackEnable {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -7754,6 +8097,13 @@ impl Packet for PacketCzReqname {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzReqname {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -7858,6 +8208,13 @@ impl Packet for PacketZcAckReqname {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcAckReqname {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -7977,6 +8334,13 @@ impl Packet for PacketCzWhisper {
     }
 }
 
+impl Default for PacketCzWhisper {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcWhisper {
     pub fn from(buffer: &[u8]) -> PacketZcWhisper {
         PacketZcWhisper {
@@ -8093,6 +8457,13 @@ impl Packet for PacketZcWhisper {
     }
 }
 
+impl Default for PacketZcWhisper {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcAckWhisper {
     pub fn from(buffer: &[u8]) -> PacketZcAckWhisper {
         PacketZcAckWhisper {
@@ -8168,6 +8539,13 @@ impl Packet for PacketZcAckWhisper {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcAckWhisper {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -8261,6 +8639,13 @@ impl Packet for PacketCzBroadcast {
     }
 }
 
+impl Default for PacketCzBroadcast {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcBroadcast {
     pub fn from(buffer: &[u8]) -> PacketZcBroadcast {
         PacketZcBroadcast {
@@ -8348,6 +8733,13 @@ impl Packet for PacketZcBroadcast {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcBroadcast {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -8444,6 +8836,13 @@ impl Packet for PacketCzChangeDirection {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzChangeDirection {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -8558,6 +8957,13 @@ impl Packet for PacketZcChangeDirection {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcChangeDirection {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -8765,6 +9171,13 @@ impl Packet for PacketZcItemEntry {
     }
 }
 
+impl Default for PacketZcItemEntry {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcItemFallEntry {
     pub fn from(buffer: &[u8]) -> PacketZcItemFallEntry {
         PacketZcItemFallEntry {
@@ -8969,6 +9382,13 @@ impl Packet for PacketZcItemFallEntry {
     }
 }
 
+impl Default for PacketZcItemFallEntry {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzItemPickup {
     pub fn from(buffer: &[u8]) -> PacketCzItemPickup {
         PacketCzItemPickup {
@@ -9044,6 +9464,13 @@ impl Packet for PacketCzItemPickup {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzItemPickup {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -9287,6 +9714,13 @@ impl Packet for PacketZcItemPickupAck {
     }
 }
 
+impl Default for PacketZcItemPickupAck {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcItemDisappear {
     pub fn from(buffer: &[u8]) -> PacketZcItemDisappear {
         PacketZcItemDisappear {
@@ -9362,6 +9796,13 @@ impl Packet for PacketZcItemDisappear {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcItemDisappear {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -9458,6 +9899,13 @@ impl Packet for PacketCzItemThrow {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzItemThrow {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -9564,6 +10012,13 @@ impl Packet for PacketZcNormalItemlist {
     }
 }
 
+impl Default for PacketZcNormalItemlist {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcEquipmentItemlist {
     pub fn from(buffer: &[u8]) -> PacketZcEquipmentItemlist {
         let iter_count = (&buffer.len() - 4) / 20;
@@ -9664,6 +10119,13 @@ impl Packet for PacketZcEquipmentItemlist {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcEquipmentItemlist {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -9770,6 +10232,13 @@ impl Packet for PacketZcStoreNormalItemlist {
     }
 }
 
+impl Default for PacketZcStoreNormalItemlist {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcStoreEquipmentItemlist {
     pub fn from(buffer: &[u8]) -> PacketZcStoreEquipmentItemlist {
         let iter_count = (&buffer.len() - 4) / 20;
@@ -9873,6 +10342,13 @@ impl Packet for PacketZcStoreEquipmentItemlist {
     }
 }
 
+impl Default for PacketZcStoreEquipmentItemlist {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzUseItem {
     pub fn from(buffer: &[u8]) -> PacketCzUseItem {
         PacketCzUseItem {
@@ -9966,6 +10442,13 @@ impl Packet for PacketCzUseItem {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzUseItem {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -10083,6 +10566,13 @@ impl Packet for PacketZcUseItemAck {
     }
 }
 
+impl Default for PacketZcUseItemAck {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzReqWearEquip {
     pub fn from(buffer: &[u8]) -> PacketCzReqWearEquip {
         PacketCzReqWearEquip {
@@ -10176,6 +10666,13 @@ impl Packet for PacketCzReqWearEquip {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzReqWearEquip {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -10293,6 +10790,13 @@ impl Packet for PacketZcReqWearEquipAck {
     }
 }
 
+impl Default for PacketZcReqWearEquipAck {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzReqTakeoffEquip {
     pub fn from(buffer: &[u8]) -> PacketCzReqTakeoffEquip {
         PacketCzReqTakeoffEquip {
@@ -10368,6 +10872,13 @@ impl Packet for PacketCzReqTakeoffEquip {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzReqTakeoffEquip {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -10485,6 +10996,13 @@ impl Packet for PacketZcReqTakeoffEquipAck {
     }
 }
 
+impl Default for PacketZcReqTakeoffEquipAck {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcItemThrowAck {
     pub fn from(buffer: &[u8]) -> PacketZcItemThrowAck {
         PacketZcItemThrowAck {
@@ -10578,6 +11096,13 @@ impl Packet for PacketZcItemThrowAck {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcItemThrowAck {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -10677,6 +11202,13 @@ impl Packet for PacketZcParChange {
     }
 }
 
+impl Default for PacketZcParChange {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcLongparChange {
     pub fn from(buffer: &[u8]) -> PacketZcLongparChange {
         PacketZcLongparChange {
@@ -10773,6 +11305,13 @@ impl Packet for PacketZcLongparChange {
     }
 }
 
+impl Default for PacketZcLongparChange {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzRestart {
     pub fn from(buffer: &[u8]) -> PacketCzRestart {
         PacketCzRestart {
@@ -10851,6 +11390,13 @@ impl Packet for PacketCzRestart {
     }
 }
 
+impl Default for PacketCzRestart {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcRestartAck {
     pub fn from(buffer: &[u8]) -> PacketZcRestartAck {
         PacketZcRestartAck {
@@ -10926,6 +11472,13 @@ impl Packet for PacketZcRestartAck {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcRestartAck {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -11037,6 +11590,13 @@ impl Packet for PacketZcSayDialog {
     }
 }
 
+impl Default for PacketZcSayDialog {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcWaitDialog {
     pub fn from(buffer: &[u8]) -> PacketZcWaitDialog {
         PacketZcWaitDialog {
@@ -11115,6 +11675,13 @@ impl Packet for PacketZcWaitDialog {
     }
 }
 
+impl Default for PacketZcWaitDialog {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcCloseDialog {
     pub fn from(buffer: &[u8]) -> PacketZcCloseDialog {
         PacketZcCloseDialog {
@@ -11190,6 +11757,13 @@ impl Packet for PacketZcCloseDialog {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcCloseDialog {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -11301,6 +11875,13 @@ impl Packet for PacketZcMenuList {
     }
 }
 
+impl Default for PacketZcMenuList {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzChooseMenu {
     pub fn from(buffer: &[u8]) -> PacketCzChooseMenu {
         PacketCzChooseMenu {
@@ -11397,6 +11978,13 @@ impl Packet for PacketCzChooseMenu {
     }
 }
 
+impl Default for PacketCzChooseMenu {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzReqNextScript {
     pub fn from(buffer: &[u8]) -> PacketCzReqNextScript {
         PacketCzReqNextScript {
@@ -11475,6 +12063,13 @@ impl Packet for PacketCzReqNextScript {
     }
 }
 
+impl Default for PacketCzReqNextScript {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzReqStatus {
     pub fn from(buffer: &[u8]) -> PacketCzReqStatus {
         PacketCzReqStatus {
@@ -11532,6 +12127,13 @@ impl Packet for PacketCzReqStatus {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzReqStatus {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -11628,6 +12230,13 @@ impl Packet for PacketCzStatusChange {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzStatusChange {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -11742,6 +12351,13 @@ impl Packet for PacketZcStatusChangeAck {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcStatusChangeAck {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -12291,6 +12907,13 @@ impl Packet for PacketZcStatus {
     }
 }
 
+impl Default for PacketZcStatus {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcStatusChange {
     pub fn from(buffer: &[u8]) -> PacketZcStatusChange {
         PacketZcStatusChange {
@@ -12387,6 +13010,13 @@ impl Packet for PacketZcStatusChange {
     }
 }
 
+impl Default for PacketZcStatusChange {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzReqEmotion {
     pub fn from(buffer: &[u8]) -> PacketCzReqEmotion {
         PacketCzReqEmotion {
@@ -12462,6 +13092,13 @@ impl Packet for PacketCzReqEmotion {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzReqEmotion {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -12561,6 +13198,13 @@ impl Packet for PacketZcEmotion {
     }
 }
 
+impl Default for PacketZcEmotion {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzReqUserCount {
     pub fn from(buffer: &[u8]) -> PacketCzReqUserCount {
         PacketCzReqUserCount {
@@ -12618,6 +13262,13 @@ impl Packet for PacketCzReqUserCount {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzReqUserCount {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -12696,6 +13347,13 @@ impl Packet for PacketZcUserCount {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcUserCount {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -12813,6 +13471,13 @@ impl Packet for PacketZcSpriteChange {
     }
 }
 
+impl Default for PacketZcSpriteChange {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcSelectDealtype {
     pub fn from(buffer: &[u8]) -> PacketZcSelectDealtype {
         PacketZcSelectDealtype {
@@ -12888,6 +13553,13 @@ impl Packet for PacketZcSelectDealtype {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcSelectDealtype {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -12984,6 +13656,13 @@ impl Packet for PacketCzAckSelectDealtype {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzAckSelectDealtype {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -13090,6 +13769,13 @@ impl Packet for PacketZcPcPurchaseItemlist {
     }
 }
 
+impl Default for PacketZcPcPurchaseItemlist {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcPcSellItemlist {
     pub fn from(buffer: &[u8]) -> PacketZcPcSellItemlist {
         let iter_count = (&buffer.len() - 4) / 10;
@@ -13190,6 +13876,13 @@ impl Packet for PacketZcPcSellItemlist {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcPcSellItemlist {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -13296,6 +13989,13 @@ impl Packet for PacketCzPcPurchaseItemlist {
     }
 }
 
+impl Default for PacketCzPcPurchaseItemlist {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzPcSellItemlist {
     pub fn from(buffer: &[u8]) -> PacketCzPcSellItemlist {
         let iter_count = (&buffer.len() - 4) / 4;
@@ -13399,6 +14099,13 @@ impl Packet for PacketCzPcSellItemlist {
     }
 }
 
+impl Default for PacketCzPcSellItemlist {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcPcPurchaseResult {
     pub fn from(buffer: &[u8]) -> PacketZcPcPurchaseResult {
         PacketZcPcPurchaseResult {
@@ -13474,6 +14181,13 @@ impl Packet for PacketZcPcPurchaseResult {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcPcPurchaseResult {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -13555,6 +14269,13 @@ impl Packet for PacketZcPcSellResult {
     }
 }
 
+impl Default for PacketZcPcSellResult {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzDisconnectCharacter {
     pub fn from(buffer: &[u8]) -> PacketCzDisconnectCharacter {
         PacketCzDisconnectCharacter {
@@ -13630,6 +14351,13 @@ impl Packet for PacketCzDisconnectCharacter {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzDisconnectCharacter {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -13711,6 +14439,13 @@ impl Packet for PacketZcAckDisconnectCharacter {
     }
 }
 
+impl Default for PacketZcAckDisconnectCharacter {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzDisconnectAllCharacter {
     pub fn from(buffer: &[u8]) -> PacketCzDisconnectAllCharacter {
         PacketCzDisconnectAllCharacter {
@@ -13768,6 +14503,13 @@ impl Packet for PacketCzDisconnectAllCharacter {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzDisconnectAllCharacter {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -13875,6 +14617,13 @@ impl Packet for PacketCzSettingWhisperPc {
     }
 }
 
+impl Default for PacketCzSettingWhisperPc {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzSettingWhisperState {
     pub fn from(buffer: &[u8]) -> PacketCzSettingWhisperState {
         PacketCzSettingWhisperState {
@@ -13950,6 +14699,13 @@ impl Packet for PacketCzSettingWhisperState {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzSettingWhisperState {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -14049,6 +14805,13 @@ impl Packet for PacketZcSettingWhisperPc {
     }
 }
 
+impl Default for PacketZcSettingWhisperPc {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcSettingWhisperState {
     pub fn from(buffer: &[u8]) -> PacketZcSettingWhisperState {
         PacketZcSettingWhisperState {
@@ -14145,6 +14908,13 @@ impl Packet for PacketZcSettingWhisperState {
     }
 }
 
+impl Default for PacketZcSettingWhisperState {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzReqWhisperList {
     pub fn from(buffer: &[u8]) -> PacketCzReqWhisperList {
         PacketCzReqWhisperList {
@@ -14202,6 +14972,13 @@ impl Packet for PacketCzReqWhisperList {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzReqWhisperList {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -14305,6 +15082,13 @@ impl Packet for PacketZcWhisperList {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcWhisperList {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -14460,6 +15244,13 @@ impl Packet for PacketCzCreateChatroom {
     }
 }
 
+impl Default for PacketCzCreateChatroom {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcAckCreateChatroom {
     pub fn from(buffer: &[u8]) -> PacketZcAckCreateChatroom {
         PacketZcAckCreateChatroom {
@@ -14535,6 +15326,13 @@ impl Packet for PacketZcAckCreateChatroom {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcAckCreateChatroom {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -14718,6 +15516,13 @@ impl Packet for PacketZcRoomNewentry {
     }
 }
 
+impl Default for PacketZcRoomNewentry {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcDestroyRoom {
     pub fn from(buffer: &[u8]) -> PacketZcDestroyRoom {
         PacketZcDestroyRoom {
@@ -14793,6 +15598,13 @@ impl Packet for PacketZcDestroyRoom {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcDestroyRoom {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -14900,6 +15712,13 @@ impl Packet for PacketCzReqEnterRoom {
     }
 }
 
+impl Default for PacketCzReqEnterRoom {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcRefuseEnterRoom {
     pub fn from(buffer: &[u8]) -> PacketZcRefuseEnterRoom {
         PacketZcRefuseEnterRoom {
@@ -14975,6 +15794,13 @@ impl Packet for PacketZcRefuseEnterRoom {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcRefuseEnterRoom {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -15099,6 +15925,13 @@ impl Packet for PacketZcEnterRoom {
     }
 }
 
+impl Default for PacketZcEnterRoom {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcMemberNewentry {
     pub fn from(buffer: &[u8]) -> PacketZcMemberNewentry {
         PacketZcMemberNewentry {
@@ -15200,6 +16033,13 @@ impl Packet for PacketZcMemberNewentry {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcMemberNewentry {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -15322,6 +16162,13 @@ impl Packet for PacketZcMemberExit {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcMemberExit {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -15474,6 +16321,13 @@ impl Packet for PacketCzChangeChatroom {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzChangeChatroom {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -15657,6 +16511,13 @@ impl Packet for PacketZcChangeChatroom {
     }
 }
 
+impl Default for PacketZcChangeChatroom {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzReqRoleChange {
     pub fn from(buffer: &[u8]) -> PacketCzReqRoleChange {
         PacketCzReqRoleChange {
@@ -15758,6 +16619,13 @@ impl Packet for PacketCzReqRoleChange {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzReqRoleChange {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -15865,6 +16733,13 @@ impl Packet for PacketZcRoleChange {
     }
 }
 
+impl Default for PacketZcRoleChange {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzReqExpelMember {
     pub fn from(buffer: &[u8]) -> PacketCzReqExpelMember {
         PacketCzReqExpelMember {
@@ -15951,6 +16826,13 @@ impl Packet for PacketCzReqExpelMember {
     }
 }
 
+impl Default for PacketCzReqExpelMember {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzExitRoom {
     pub fn from(buffer: &[u8]) -> PacketCzExitRoom {
         PacketCzExitRoom {
@@ -16008,6 +16890,13 @@ impl Packet for PacketCzExitRoom {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzExitRoom {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -16086,6 +16975,13 @@ impl Packet for PacketCzReqExchangeItem {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzReqExchangeItem {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -16175,6 +17071,13 @@ impl Packet for PacketZcReqExchangeItem {
     }
 }
 
+impl Default for PacketZcReqExchangeItem {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzAckExchangeItem {
     pub fn from(buffer: &[u8]) -> PacketCzAckExchangeItem {
         PacketCzAckExchangeItem {
@@ -16253,6 +17156,13 @@ impl Packet for PacketCzAckExchangeItem {
     }
 }
 
+impl Default for PacketCzAckExchangeItem {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcAckExchangeItem {
     pub fn from(buffer: &[u8]) -> PacketZcAckExchangeItem {
         PacketZcAckExchangeItem {
@@ -16328,6 +17238,13 @@ impl Packet for PacketZcAckExchangeItem {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcAckExchangeItem {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -16424,6 +17341,13 @@ impl Packet for PacketCzAddExchangeItem {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzAddExchangeItem {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -16595,6 +17519,13 @@ impl Packet for PacketZcAddExchangeItem {
     }
 }
 
+impl Default for PacketZcAddExchangeItem {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcAckAddExchangeItem {
     pub fn from(buffer: &[u8]) -> PacketZcAckAddExchangeItem {
         PacketZcAckAddExchangeItem {
@@ -16691,6 +17622,13 @@ impl Packet for PacketZcAckAddExchangeItem {
     }
 }
 
+impl Default for PacketZcAckAddExchangeItem {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzConcludeExchangeItem {
     pub fn from(buffer: &[u8]) -> PacketCzConcludeExchangeItem {
         PacketCzConcludeExchangeItem {
@@ -16748,6 +17686,13 @@ impl Packet for PacketCzConcludeExchangeItem {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzConcludeExchangeItem {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -16829,6 +17774,13 @@ impl Packet for PacketZcConcludeExchangeItem {
     }
 }
 
+impl Default for PacketZcConcludeExchangeItem {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzCancelExchangeItem {
     pub fn from(buffer: &[u8]) -> PacketCzCancelExchangeItem {
         PacketCzCancelExchangeItem {
@@ -16886,6 +17838,13 @@ impl Packet for PacketCzCancelExchangeItem {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzCancelExchangeItem {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -16949,6 +17908,13 @@ impl Packet for PacketZcCancelExchangeItem {
     }
 }
 
+impl Default for PacketZcCancelExchangeItem {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzExecExchangeItem {
     pub fn from(buffer: &[u8]) -> PacketCzExecExchangeItem {
         PacketCzExecExchangeItem {
@@ -17006,6 +17972,13 @@ impl Packet for PacketCzExecExchangeItem {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzExecExchangeItem {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -17087,6 +18060,13 @@ impl Packet for PacketZcExecExchangeItem {
     }
 }
 
+impl Default for PacketZcExecExchangeItem {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcExchangeitemUndo {
     pub fn from(buffer: &[u8]) -> PacketZcExchangeitemUndo {
         PacketZcExchangeitemUndo {
@@ -17144,6 +18124,13 @@ impl Packet for PacketZcExchangeitemUndo {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcExchangeitemUndo {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -17243,6 +18230,13 @@ impl Packet for PacketZcNotifyStoreitemCountinfo {
     }
 }
 
+impl Default for PacketZcNotifyStoreitemCountinfo {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzPlayerChat {
     pub fn from(buffer: &[u8]) -> PacketCzPlayerChat {
         PacketCzPlayerChat {
@@ -17330,6 +18324,13 @@ impl Packet for PacketCzPlayerChat {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzPlayerChat {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -17519,6 +18520,13 @@ impl Packet for PacketZcAddItemToStore {
     }
 }
 
+impl Default for PacketZcAddItemToStore {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzMoveItemFromStoreToBody {
     pub fn from(buffer: &[u8]) -> PacketCzMoveItemFromStoreToBody {
         PacketCzMoveItemFromStoreToBody {
@@ -17612,6 +18620,13 @@ impl Packet for PacketCzMoveItemFromStoreToBody {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzMoveItemFromStoreToBody {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -17711,6 +18726,13 @@ impl Packet for PacketZcDeleteItemFromStore {
     }
 }
 
+impl Default for PacketZcDeleteItemFromStore {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzCloseStore {
     pub fn from(buffer: &[u8]) -> PacketCzCloseStore {
         PacketCzCloseStore {
@@ -17771,6 +18793,13 @@ impl Packet for PacketCzCloseStore {
     }
 }
 
+impl Default for PacketCzCloseStore {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcCloseStore {
     pub fn from(buffer: &[u8]) -> PacketZcCloseStore {
         PacketZcCloseStore {
@@ -17828,6 +18857,13 @@ impl Packet for PacketZcCloseStore {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcCloseStore {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -17917,6 +18953,13 @@ impl Packet for PacketCzMakeGroup {
     }
 }
 
+impl Default for PacketCzMakeGroup {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcAckMakeGroup {
     pub fn from(buffer: &[u8]) -> PacketZcAckMakeGroup {
         PacketZcAckMakeGroup {
@@ -17992,6 +19035,13 @@ impl Packet for PacketZcAckMakeGroup {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcAckMakeGroup {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -18124,6 +19174,13 @@ impl Packet for PacketZcGroupList {
     }
 }
 
+impl Default for PacketZcGroupList {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzReqJoinGroup {
     pub fn from(buffer: &[u8]) -> PacketCzReqJoinGroup {
         PacketCzReqJoinGroup {
@@ -18199,6 +19256,13 @@ impl Packet for PacketCzReqJoinGroup {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzReqJoinGroup {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -18306,6 +19370,13 @@ impl Packet for PacketZcAckReqJoinGroup {
     }
 }
 
+impl Default for PacketZcAckReqJoinGroup {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcReqJoinGroup {
     pub fn from(buffer: &[u8]) -> PacketZcReqJoinGroup {
         PacketZcReqJoinGroup {
@@ -18410,6 +19481,13 @@ impl Packet for PacketZcReqJoinGroup {
     }
 }
 
+impl Default for PacketZcReqJoinGroup {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzJoinGroup {
     pub fn from(buffer: &[u8]) -> PacketCzJoinGroup {
         PacketCzJoinGroup {
@@ -18506,6 +19584,13 @@ impl Packet for PacketCzJoinGroup {
     }
 }
 
+impl Default for PacketCzJoinGroup {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzReqLeaveGroup {
     pub fn from(buffer: &[u8]) -> PacketCzReqLeaveGroup {
         PacketCzReqLeaveGroup {
@@ -18563,6 +19648,13 @@ impl Packet for PacketCzReqLeaveGroup {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzReqLeaveGroup {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -18644,6 +19736,13 @@ impl Packet for PacketZcGroupinfoChange {
     }
 }
 
+impl Default for PacketZcGroupinfoChange {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzChangeGroupexpoption {
     pub fn from(buffer: &[u8]) -> PacketCzChangeGroupexpoption {
         PacketCzChangeGroupexpoption {
@@ -18719,6 +19818,13 @@ impl Packet for PacketCzChangeGroupexpoption {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzChangeGroupexpoption {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -18823,6 +19929,13 @@ impl Packet for PacketCzReqExpelGroupMember {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzReqExpelGroupMember {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -19054,6 +20167,13 @@ impl Packet for PacketZcAddMemberToGroup {
     }
 }
 
+impl Default for PacketZcAddMemberToGroup {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcDeleteMemberFromGroup {
     pub fn from(buffer: &[u8]) -> PacketZcDeleteMemberFromGroup {
         PacketZcDeleteMemberFromGroup {
@@ -19176,6 +20296,13 @@ impl Packet for PacketZcDeleteMemberFromGroup {
     }
 }
 
+impl Default for PacketZcDeleteMemberFromGroup {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcNotifyHpToGroupm {
     pub fn from(buffer: &[u8]) -> PacketZcNotifyHpToGroupm {
         PacketZcNotifyHpToGroupm {
@@ -19287,6 +20414,13 @@ impl Packet for PacketZcNotifyHpToGroupm {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcNotifyHpToGroupm {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -19404,6 +20538,13 @@ impl Packet for PacketZcNotifyPositionToGroupm {
     }
 }
 
+impl Default for PacketZcNotifyPositionToGroupm {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzRequestChatParty {
     pub fn from(buffer: &[u8]) -> PacketCzRequestChatParty {
         PacketCzRequestChatParty {
@@ -19491,6 +20632,13 @@ impl Packet for PacketCzRequestChatParty {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzRequestChatParty {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -19602,6 +20750,13 @@ impl Packet for PacketZcNotifyChatParty {
     }
 }
 
+impl Default for PacketZcNotifyChatParty {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcMvpGettingItem {
     pub fn from(buffer: &[u8]) -> PacketZcMvpGettingItem {
         PacketZcMvpGettingItem {
@@ -19677,6 +20832,13 @@ impl Packet for PacketZcMvpGettingItem {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcMvpGettingItem {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -19758,6 +20920,13 @@ impl Packet for PacketZcMvpGettingSpecialExp {
     }
 }
 
+impl Default for PacketZcMvpGettingSpecialExp {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcMvp {
     pub fn from(buffer: &[u8]) -> PacketZcMvp {
         PacketZcMvp {
@@ -19836,6 +21005,13 @@ impl Packet for PacketZcMvp {
     }
 }
 
+impl Default for PacketZcMvp {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcThrowMvpitem {
     pub fn from(buffer: &[u8]) -> PacketZcThrowMvpitem {
         PacketZcThrowMvpitem {
@@ -19893,6 +21069,13 @@ impl Packet for PacketZcThrowMvpitem {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcThrowMvpitem {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -20046,6 +21229,13 @@ impl Packet for PacketZcSkillinfoUpdate {
     }
 }
 
+impl Default for PacketZcSkillinfoUpdate {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcSkillinfoList {
     pub fn from(buffer: &[u8]) -> PacketZcSkillinfoList {
         let iter_count = (&buffer.len() - 4) / 37;
@@ -20146,6 +21336,13 @@ impl Packet for PacketZcSkillinfoList {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcSkillinfoList {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -20281,6 +21478,13 @@ impl Packet for PacketZcAckTouseskill {
     }
 }
 
+impl Default for PacketZcAckTouseskill {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcAddSkill {
     pub fn from(buffer: &[u8]) -> PacketZcAddSkill {
         PacketZcAddSkill {
@@ -20352,6 +21556,13 @@ impl Packet for PacketZcAddSkill {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcAddSkill {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -20430,6 +21641,13 @@ impl Packet for PacketCzUpgradeSkilllevel {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzUpgradeSkilllevel {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -20544,6 +21762,13 @@ impl Packet for PacketCzUseSkill {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzUseSkill {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -20784,6 +22009,13 @@ impl Packet for PacketZcNotifySkill {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcNotifySkill {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -21063,6 +22295,13 @@ impl Packet for PacketZcNotifySkillPosition {
     }
 }
 
+impl Default for PacketZcNotifySkillPosition {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzUseSkillToground {
     pub fn from(buffer: &[u8]) -> PacketCzUseSkillToground {
         PacketCzUseSkillToground {
@@ -21192,6 +22431,13 @@ impl Packet for PacketCzUseSkillToground {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzUseSkillToground {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -21363,6 +22609,13 @@ impl Packet for PacketZcNotifyGroundskill {
     }
 }
 
+impl Default for PacketZcNotifyGroundskill {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzCancelLockon {
     pub fn from(buffer: &[u8]) -> PacketCzCancelLockon {
         PacketCzCancelLockon {
@@ -21420,6 +22673,13 @@ impl Packet for PacketCzCancelLockon {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzCancelLockon {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -21573,6 +22833,13 @@ impl Packet for PacketZcStateChange {
     }
 }
 
+impl Default for PacketZcStateChange {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcUseSkill {
     pub fn from(buffer: &[u8]) -> PacketZcUseSkill {
         PacketZcUseSkill {
@@ -21723,6 +22990,13 @@ impl Packet for PacketZcUseSkill {
     }
 }
 
+impl Default for PacketZcUseSkill {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzSelectWarppoint {
     pub fn from(buffer: &[u8]) -> PacketCzSelectWarppoint {
         PacketCzSelectWarppoint {
@@ -21824,6 +23098,13 @@ impl Packet for PacketCzSelectWarppoint {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzSelectWarppoint {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -21931,6 +23212,13 @@ impl Packet for PacketZcWarplist {
     }
 }
 
+impl Default for PacketZcWarplist {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzRememberWarppoint {
     pub fn from(buffer: &[u8]) -> PacketCzRememberWarppoint {
         PacketCzRememberWarppoint {
@@ -21988,6 +23276,13 @@ impl Packet for PacketCzRememberWarppoint {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzRememberWarppoint {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -22066,6 +23361,13 @@ impl Packet for PacketZcAckRememberWarppoint {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcAckRememberWarppoint {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -22237,6 +23539,13 @@ impl Packet for PacketZcSkillEntry {
     }
 }
 
+impl Default for PacketZcSkillEntry {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcSkillDisappear {
     pub fn from(buffer: &[u8]) -> PacketZcSkillDisappear {
         PacketZcSkillDisappear {
@@ -22312,6 +23621,13 @@ impl Packet for PacketZcSkillDisappear {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcSkillDisappear {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -22447,6 +23763,13 @@ impl Packet for PacketZcNotifyCartitemCountinfo {
     }
 }
 
+impl Default for PacketZcNotifyCartitemCountinfo {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcCartEquipmentItemlist {
     pub fn from(buffer: &[u8]) -> PacketZcCartEquipmentItemlist {
         let iter_count = (&buffer.len() - 4) / 20;
@@ -22550,6 +23873,13 @@ impl Packet for PacketZcCartEquipmentItemlist {
     }
 }
 
+impl Default for PacketZcCartEquipmentItemlist {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcCartNormalItemlist {
     pub fn from(buffer: &[u8]) -> PacketZcCartNormalItemlist {
         let iter_count = (&buffer.len() - 4) / 10;
@@ -22650,6 +23980,13 @@ impl Packet for PacketZcCartNormalItemlist {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcCartNormalItemlist {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -22839,6 +24176,13 @@ impl Packet for PacketZcAddItemToCart {
     }
 }
 
+impl Default for PacketZcAddItemToCart {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcDeleteItemFromCart {
     pub fn from(buffer: &[u8]) -> PacketZcDeleteItemFromCart {
         PacketZcDeleteItemFromCart {
@@ -22932,6 +24276,13 @@ impl Packet for PacketZcDeleteItemFromCart {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcDeleteItemFromCart {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -23031,6 +24382,13 @@ impl Packet for PacketCzMoveItemFromBodyToCart {
     }
 }
 
+impl Default for PacketCzMoveItemFromBodyToCart {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzMoveItemFromCartToBody {
     pub fn from(buffer: &[u8]) -> PacketCzMoveItemFromCartToBody {
         PacketCzMoveItemFromCartToBody {
@@ -23124,6 +24482,13 @@ impl Packet for PacketCzMoveItemFromCartToBody {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzMoveItemFromCartToBody {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -23223,6 +24588,13 @@ impl Packet for PacketCzMoveItemFromStoreToCart {
     }
 }
 
+impl Default for PacketCzMoveItemFromStoreToCart {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzMoveItemFromCartToStore {
     pub fn from(buffer: &[u8]) -> PacketCzMoveItemFromCartToStore {
         PacketCzMoveItemFromCartToStore {
@@ -23319,6 +24691,13 @@ impl Packet for PacketCzMoveItemFromCartToStore {
     }
 }
 
+impl Default for PacketCzMoveItemFromCartToStore {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzReqCartoff {
     pub fn from(buffer: &[u8]) -> PacketCzReqCartoff {
         PacketCzReqCartoff {
@@ -23379,6 +24758,13 @@ impl Packet for PacketCzReqCartoff {
     }
 }
 
+impl Default for PacketCzReqCartoff {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcCartoff {
     pub fn from(buffer: &[u8]) -> PacketZcCartoff {
         PacketZcCartoff {
@@ -23436,6 +24822,13 @@ impl Packet for PacketZcCartoff {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcCartoff {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -23517,6 +24910,13 @@ impl Packet for PacketZcAckAdditemToCart {
     }
 }
 
+impl Default for PacketZcAckAdditemToCart {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcOpenstore {
     pub fn from(buffer: &[u8]) -> PacketZcOpenstore {
         PacketZcOpenstore {
@@ -23595,6 +24995,13 @@ impl Packet for PacketZcOpenstore {
     }
 }
 
+impl Default for PacketZcOpenstore {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzReqClosestore {
     pub fn from(buffer: &[u8]) -> PacketCzReqClosestore {
         PacketCzReqClosestore {
@@ -23652,6 +25059,13 @@ impl Packet for PacketCzReqClosestore {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzReqClosestore {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -23784,6 +25198,13 @@ impl Packet for PacketCzReqOpenstore {
     }
 }
 
+impl Default for PacketCzReqOpenstore {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzReqBuyFrommc {
     pub fn from(buffer: &[u8]) -> PacketCzReqBuyFrommc {
         PacketCzReqBuyFrommc {
@@ -23859,6 +25280,13 @@ impl Packet for PacketCzReqBuyFrommc {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzReqBuyFrommc {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -23966,6 +25394,13 @@ impl Packet for PacketZcStoreEntry {
     }
 }
 
+impl Default for PacketZcStoreEntry {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcDisappearEntry {
     pub fn from(buffer: &[u8]) -> PacketZcDisappearEntry {
         PacketZcDisappearEntry {
@@ -24041,6 +25476,13 @@ impl Packet for PacketZcDisappearEntry {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcDisappearEntry {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -24165,6 +25607,13 @@ impl Packet for PacketZcPcPurchaseItemlistFrommc {
     }
 }
 
+impl Default for PacketZcPcPurchaseItemlistFrommc {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzPcPurchaseItemlistFrommc {
     pub fn from(buffer: &[u8]) -> PacketCzPcPurchaseItemlistFrommc {
         let iter_count = (&buffer.len() - 8) / 4;
@@ -24286,6 +25735,13 @@ impl Packet for PacketCzPcPurchaseItemlistFrommc {
     }
 }
 
+impl Default for PacketCzPcPurchaseItemlistFrommc {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcPcPurchaseResultFrommc {
     pub fn from(buffer: &[u8]) -> PacketZcPcPurchaseResultFrommc {
         PacketZcPcPurchaseResultFrommc {
@@ -24397,6 +25853,13 @@ impl Packet for PacketZcPcPurchaseResultFrommc {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcPcPurchaseResultFrommc {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -24521,6 +25984,13 @@ impl Packet for PacketZcPcPurchaseMyitemlist {
     }
 }
 
+impl Default for PacketZcPcPurchaseMyitemlist {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcDeleteitemFromMcstore {
     pub fn from(buffer: &[u8]) -> PacketZcDeleteitemFromMcstore {
         PacketZcDeleteitemFromMcstore {
@@ -24617,6 +26087,13 @@ impl Packet for PacketZcDeleteitemFromMcstore {
     }
 }
 
+impl Default for PacketZcDeleteitemFromMcstore {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzPkmodeChange {
     pub fn from(buffer: &[u8]) -> PacketCzPkmodeChange {
         PacketCzPkmodeChange {
@@ -24692,6 +26169,13 @@ impl Packet for PacketCzPkmodeChange {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzPkmodeChange {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -24863,6 +26347,13 @@ impl Packet for PacketZcAttackFailureForDistance {
     }
 }
 
+impl Default for PacketZcAttackFailureForDistance {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcAttackRange {
     pub fn from(buffer: &[u8]) -> PacketZcAttackRange {
         PacketZcAttackRange {
@@ -24938,6 +26429,13 @@ impl Packet for PacketZcAttackRange {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcAttackRange {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -25019,6 +26517,13 @@ impl Packet for PacketZcActionFailure {
     }
 }
 
+impl Default for PacketZcActionFailure {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcEquipArrow {
     pub fn from(buffer: &[u8]) -> PacketZcEquipArrow {
         PacketZcEquipArrow {
@@ -25094,6 +26599,13 @@ impl Packet for PacketZcEquipArrow {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcEquipArrow {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -25190,6 +26702,13 @@ impl Packet for PacketZcRecovery {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcRecovery {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -25379,6 +26898,13 @@ impl Packet for PacketZcUseskillAck {
     }
 }
 
+impl Default for PacketZcUseskillAck {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzItemCreate {
     pub fn from(buffer: &[u8]) -> PacketCzItemCreate {
         PacketCzItemCreate {
@@ -25462,6 +26988,13 @@ impl Packet for PacketCzItemCreate {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzItemCreate {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -25587,6 +27120,13 @@ impl Packet for PacketCzMovetoMap {
     }
 }
 
+impl Default for PacketCzMovetoMap {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcStatusValues {
     pub fn from(buffer: &[u8]) -> PacketZcStatusValues {
         PacketZcStatusValues {
@@ -25701,6 +27241,13 @@ impl Packet for PacketZcStatusValues {
     }
 }
 
+impl Default for PacketZcStatusValues {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcOpenEditdlg {
     pub fn from(buffer: &[u8]) -> PacketZcOpenEditdlg {
         PacketZcOpenEditdlg {
@@ -25776,6 +27323,13 @@ impl Packet for PacketZcOpenEditdlg {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcOpenEditdlg {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -25872,6 +27426,13 @@ impl Packet for PacketCzInputEditdlg {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzInputEditdlg {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -26043,6 +27604,13 @@ impl Packet for PacketZcCompass {
     }
 }
 
+impl Default for PacketZcCompass {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcShowImage {
     pub fn from(buffer: &[u8]) -> PacketZcShowImage {
         PacketZcShowImage {
@@ -26147,6 +27715,13 @@ impl Packet for PacketZcShowImage {
     }
 }
 
+impl Default for PacketZcShowImage {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzCloseDialog {
     pub fn from(buffer: &[u8]) -> PacketCzCloseDialog {
         PacketCzCloseDialog {
@@ -26225,6 +27800,13 @@ impl Packet for PacketCzCloseDialog {
     }
 }
 
+impl Default for PacketCzCloseDialog {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcAutorunSkill {
     pub fn from(buffer: &[u8]) -> PacketZcAutorunSkill {
         PacketZcAutorunSkill {
@@ -26296,6 +27878,13 @@ impl Packet for PacketZcAutorunSkill {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcAutorunSkill {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -26392,6 +27981,13 @@ impl Packet for PacketZcResurrection {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcResurrection {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -26509,6 +28105,13 @@ impl Packet for PacketCzReqGiveMannerPoint {
     }
 }
 
+impl Default for PacketCzReqGiveMannerPoint {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcAckGiveMannerPoint {
     pub fn from(buffer: &[u8]) -> PacketZcAckGiveMannerPoint {
         PacketZcAckGiveMannerPoint {
@@ -26584,6 +28187,13 @@ impl Packet for PacketZcAckGiveMannerPoint {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcAckGiveMannerPoint {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -26691,6 +28301,13 @@ impl Packet for PacketZcNotifyMannerPointGiven {
     }
 }
 
+impl Default for PacketZcNotifyMannerPointGiven {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcMyguildBasicInfo {
     pub fn from(buffer: &[u8]) -> PacketZcMyguildBasicInfo {
         let iter_count = (&buffer.len() - 4) / 32;
@@ -26794,6 +28411,13 @@ impl Packet for PacketZcMyguildBasicInfo {
     }
 }
 
+impl Default for PacketZcMyguildBasicInfo {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzReqGuildMenuinterface {
     pub fn from(buffer: &[u8]) -> PacketCzReqGuildMenuinterface {
         PacketCzReqGuildMenuinterface {
@@ -26851,6 +28475,13 @@ impl Packet for PacketCzReqGuildMenuinterface {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzReqGuildMenuinterface {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -26932,6 +28563,13 @@ impl Packet for PacketZcAckGuildMenuinterface {
     }
 }
 
+impl Default for PacketZcAckGuildMenuinterface {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzReqGuildMenu {
     pub fn from(buffer: &[u8]) -> PacketCzReqGuildMenu {
         PacketCzReqGuildMenu {
@@ -27007,6 +28645,13 @@ impl Packet for PacketCzReqGuildMenu {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzReqGuildMenu {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -27346,6 +28991,13 @@ impl Packet for PacketZcGuildInfo {
     }
 }
 
+impl Default for PacketZcGuildInfo {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzReqGuildEmblemImg {
     pub fn from(buffer: &[u8]) -> PacketCzReqGuildEmblemImg {
         PacketCzReqGuildEmblemImg {
@@ -27421,6 +29073,13 @@ impl Packet for PacketCzReqGuildEmblemImg {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzReqGuildEmblemImg {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -27550,6 +29209,13 @@ impl Packet for PacketZcGuildEmblemImg {
     }
 }
 
+impl Default for PacketZcGuildEmblemImg {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzRegisterGuildEmblemImg {
     pub fn from(buffer: &[u8]) -> PacketCzRegisterGuildEmblemImg {
         PacketCzRegisterGuildEmblemImg {
@@ -27637,6 +29303,13 @@ impl Packet for PacketCzRegisterGuildEmblemImg {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzRegisterGuildEmblemImg {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -27743,6 +29416,13 @@ impl Packet for PacketZcMembermgrInfo {
     }
 }
 
+impl Default for PacketZcMembermgrInfo {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzReqChangeMemberpos {
     pub fn from(buffer: &[u8]) -> PacketCzReqChangeMemberpos {
         let iter_count = (&buffer.len() - 4) / 12;
@@ -27843,6 +29523,13 @@ impl Packet for PacketCzReqChangeMemberpos {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzReqChangeMemberpos {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -27949,6 +29636,13 @@ impl Packet for PacketZcAckReqChangeMembers {
     }
 }
 
+impl Default for PacketZcAckReqChangeMembers {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzReqOpenMemberInfo {
     pub fn from(buffer: &[u8]) -> PacketCzReqOpenMemberInfo {
         PacketCzReqOpenMemberInfo {
@@ -28027,6 +29721,13 @@ impl Packet for PacketCzReqOpenMemberInfo {
     }
 }
 
+impl Default for PacketCzReqOpenMemberInfo {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcAckOpenMemberInfo {
     pub fn from(buffer: &[u8]) -> PacketZcAckOpenMemberInfo {
         PacketZcAckOpenMemberInfo {
@@ -28084,6 +29785,13 @@ impl Packet for PacketZcAckOpenMemberInfo {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcAckOpenMemberInfo {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -28227,6 +29935,13 @@ impl Packet for PacketCzReqLeaveGuild {
     }
 }
 
+impl Default for PacketCzReqLeaveGuild {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcAckLeaveGuild {
     pub fn from(buffer: &[u8]) -> PacketZcAckLeaveGuild {
         PacketZcAckLeaveGuild {
@@ -28336,6 +30051,13 @@ impl Packet for PacketZcAckLeaveGuild {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcAckLeaveGuild {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -28479,6 +30201,13 @@ impl Packet for PacketCzReqBanGuild {
     }
 }
 
+impl Default for PacketCzReqBanGuild {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcAckBanGuild {
     pub fn from(buffer: &[u8]) -> PacketZcAckBanGuild {
         PacketZcAckBanGuild {
@@ -28617,6 +30346,13 @@ impl Packet for PacketZcAckBanGuild {
     }
 }
 
+impl Default for PacketZcAckBanGuild {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzReqDisorganizeGuild {
     pub fn from(buffer: &[u8]) -> PacketCzReqDisorganizeGuild {
         PacketCzReqDisorganizeGuild {
@@ -28703,6 +30439,13 @@ impl Packet for PacketCzReqDisorganizeGuild {
     }
 }
 
+impl Default for PacketCzReqDisorganizeGuild {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcAckDisorganizeGuildResult {
     pub fn from(buffer: &[u8]) -> PacketZcAckDisorganizeGuildResult {
         PacketZcAckDisorganizeGuildResult {
@@ -28778,6 +30521,13 @@ impl Packet for PacketZcAckDisorganizeGuildResult {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcAckDisorganizeGuildResult {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -28864,6 +30614,13 @@ impl Packet for PacketZcAckDisorganizeGuild {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcAckDisorganizeGuild {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -28970,6 +30727,13 @@ impl Packet for PacketZcPositionInfo {
     }
 }
 
+impl Default for PacketZcPositionInfo {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzRegChangeGuildPositioninfo {
     pub fn from(buffer: &[u8]) -> PacketCzRegChangeGuildPositioninfo {
         let iter_count = (&buffer.len() - 4) / 40;
@@ -29070,6 +30834,13 @@ impl Packet for PacketCzRegChangeGuildPositioninfo {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzRegChangeGuildPositioninfo {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -29194,6 +30965,13 @@ impl Packet for PacketZcGuildSkillinfo {
     }
 }
 
+impl Default for PacketZcGuildSkillinfo {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcBanList {
     pub fn from(buffer: &[u8]) -> PacketZcBanList {
         let iter_count = (&buffer.len() - 4) / 88;
@@ -29297,6 +31075,13 @@ impl Packet for PacketZcBanList {
     }
 }
 
+impl Default for PacketZcBanList {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcOtherGuildList {
     pub fn from(buffer: &[u8]) -> PacketZcOtherGuildList {
         let iter_count = (&buffer.len() - 4) / 36;
@@ -29397,6 +31182,13 @@ impl Packet for PacketZcOtherGuildList {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcOtherGuildList {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -29504,6 +31296,13 @@ impl Packet for PacketCzReqMakeGuild {
     }
 }
 
+impl Default for PacketCzReqMakeGuild {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcPositionIdNameInfo {
     pub fn from(buffer: &[u8]) -> PacketZcPositionIdNameInfo {
         let iter_count = (&buffer.len() - 4) / 28;
@@ -29607,6 +31406,13 @@ impl Packet for PacketZcPositionIdNameInfo {
     }
 }
 
+impl Default for PacketZcPositionIdNameInfo {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcResultMakeGuild {
     pub fn from(buffer: &[u8]) -> PacketZcResultMakeGuild {
         PacketZcResultMakeGuild {
@@ -29682,6 +31488,13 @@ impl Packet for PacketZcResultMakeGuild {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcResultMakeGuild {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -29799,6 +31612,13 @@ impl Packet for PacketCzReqJoinGuild {
     }
 }
 
+impl Default for PacketCzReqJoinGuild {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcAckReqJoinGuild {
     pub fn from(buffer: &[u8]) -> PacketZcAckReqJoinGuild {
         PacketZcAckReqJoinGuild {
@@ -29874,6 +31694,13 @@ impl Packet for PacketZcAckReqJoinGuild {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcAckReqJoinGuild {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -29981,6 +31808,13 @@ impl Packet for PacketZcReqJoinGuild {
     }
 }
 
+impl Default for PacketZcReqJoinGuild {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzJoinGuild {
     pub fn from(buffer: &[u8]) -> PacketCzJoinGuild {
         PacketCzJoinGuild {
@@ -30074,6 +31908,13 @@ impl Packet for PacketCzJoinGuild {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzJoinGuild {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -30253,6 +32094,13 @@ impl Packet for PacketZcUpdateGdid {
     }
 }
 
+impl Default for PacketZcUpdateGdid {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcUpdateCharstat {
     pub fn from(buffer: &[u8]) -> PacketZcUpdateCharstat {
         PacketZcUpdateCharstat {
@@ -30364,6 +32212,13 @@ impl Packet for PacketZcUpdateCharstat {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcUpdateCharstat {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -30497,6 +32352,13 @@ impl Packet for PacketCzGuildNotice {
     }
 }
 
+impl Default for PacketCzGuildNotice {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcGuildNotice {
     pub fn from(buffer: &[u8]) -> PacketZcGuildNotice {
         PacketZcGuildNotice {
@@ -30606,6 +32468,13 @@ impl Packet for PacketZcGuildNotice {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcGuildNotice {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -30723,6 +32592,13 @@ impl Packet for PacketCzReqAllyGuild {
     }
 }
 
+impl Default for PacketCzReqAllyGuild {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcReqAllyGuild {
     pub fn from(buffer: &[u8]) -> PacketZcReqAllyGuild {
         PacketZcReqAllyGuild {
@@ -30827,6 +32703,13 @@ impl Packet for PacketZcReqAllyGuild {
     }
 }
 
+impl Default for PacketZcReqAllyGuild {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzAllyGuild {
     pub fn from(buffer: &[u8]) -> PacketCzAllyGuild {
         PacketCzAllyGuild {
@@ -30923,6 +32806,13 @@ impl Packet for PacketCzAllyGuild {
     }
 }
 
+impl Default for PacketCzAllyGuild {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcAckReqAllyGuild {
     pub fn from(buffer: &[u8]) -> PacketZcAckReqAllyGuild {
         PacketZcAckReqAllyGuild {
@@ -30998,6 +32888,13 @@ impl Packet for PacketZcAckReqAllyGuild {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcAckReqAllyGuild {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -31104,6 +33001,13 @@ impl Packet for PacketZcAckChangeGuildPositioninfo {
     }
 }
 
+impl Default for PacketZcAckChangeGuildPositioninfo {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzReqGuildMemberInfo {
     pub fn from(buffer: &[u8]) -> PacketCzReqGuildMemberInfo {
         PacketCzReqGuildMemberInfo {
@@ -31182,6 +33086,13 @@ impl Packet for PacketCzReqGuildMemberInfo {
     }
 }
 
+impl Default for PacketCzReqGuildMemberInfo {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcAckGuildMemberInfo {
     pub fn from(buffer: &[u8]) -> PacketZcAckGuildMemberInfo {
         PacketZcAckGuildMemberInfo {
@@ -31253,6 +33164,13 @@ impl Packet for PacketZcAckGuildMemberInfo {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcAckGuildMemberInfo {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -31349,6 +33267,13 @@ impl Packet for PacketZcItemidentifyList {
     }
 }
 
+impl Default for PacketZcItemidentifyList {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzReqItemidentify {
     pub fn from(buffer: &[u8]) -> PacketCzReqItemidentify {
         PacketCzReqItemidentify {
@@ -31424,6 +33349,13 @@ impl Packet for PacketCzReqItemidentify {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzReqItemidentify {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -31523,6 +33455,13 @@ impl Packet for PacketZcAckItemidentify {
     }
 }
 
+impl Default for PacketZcAckItemidentify {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzReqItemcompositionList {
     pub fn from(buffer: &[u8]) -> PacketCzReqItemcompositionList {
         PacketCzReqItemcompositionList {
@@ -31598,6 +33537,13 @@ impl Packet for PacketCzReqItemcompositionList {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzReqItemcompositionList {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -31694,6 +33640,13 @@ impl Packet for PacketZcItemcompositionList {
     }
 }
 
+impl Default for PacketZcItemcompositionList {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzReqItemcomposition {
     pub fn from(buffer: &[u8]) -> PacketCzReqItemcomposition {
         PacketCzReqItemcomposition {
@@ -31787,6 +33740,13 @@ impl Packet for PacketCzReqItemcomposition {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzReqItemcomposition {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -31904,6 +33864,13 @@ impl Packet for PacketZcAckItemcomposition {
     }
 }
 
+impl Default for PacketZcAckItemcomposition {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzGuildChat {
     pub fn from(buffer: &[u8]) -> PacketCzGuildChat {
         PacketCzGuildChat {
@@ -31991,6 +33958,13 @@ impl Packet for PacketCzGuildChat {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzGuildChat {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -32084,6 +34058,13 @@ impl Packet for PacketZcGuildChat {
     }
 }
 
+impl Default for PacketZcGuildChat {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzReqHostileGuild {
     pub fn from(buffer: &[u8]) -> PacketCzReqHostileGuild {
         PacketCzReqHostileGuild {
@@ -32159,6 +34140,13 @@ impl Packet for PacketCzReqHostileGuild {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzReqHostileGuild {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -32240,6 +34228,13 @@ impl Packet for PacketZcAckReqHostileGuild {
     }
 }
 
+impl Default for PacketZcAckReqHostileGuild {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcMemberAdd {
     pub fn from(buffer: &[u8]) -> PacketZcMemberAdd {
         PacketZcMemberAdd {
@@ -32311,6 +34306,13 @@ impl Packet for PacketZcMemberAdd {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcMemberAdd {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -32410,6 +34412,13 @@ impl Packet for PacketCzReqDeleteRelatedGuild {
     }
 }
 
+impl Default for PacketCzReqDeleteRelatedGuild {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcDeleteRelatedGuild {
     pub fn from(buffer: &[u8]) -> PacketZcDeleteRelatedGuild {
         PacketZcDeleteRelatedGuild {
@@ -32506,6 +34515,13 @@ impl Packet for PacketZcDeleteRelatedGuild {
     }
 }
 
+impl Default for PacketZcDeleteRelatedGuild {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcAddRelatedGuild {
     pub fn from(buffer: &[u8]) -> PacketZcAddRelatedGuild {
         PacketZcAddRelatedGuild {
@@ -32577,6 +34593,13 @@ impl Packet for PacketZcAddRelatedGuild {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcAddRelatedGuild {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -32658,6 +34681,13 @@ impl Packet for PacketCollectordead {
     }
 }
 
+impl Default for PacketCollectordead {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketPing {
     pub fn from(buffer: &[u8]) -> PacketPing {
         PacketPing {
@@ -32733,6 +34763,13 @@ impl Packet for PacketPing {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketPing {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -32850,6 +34887,13 @@ impl Packet for PacketZcAckItemrefining {
     }
 }
 
+impl Default for PacketZcAckItemrefining {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcNotifyMapinfo {
     pub fn from(buffer: &[u8]) -> PacketZcNotifyMapinfo {
         PacketZcNotifyMapinfo {
@@ -32925,6 +34969,13 @@ impl Packet for PacketZcNotifyMapinfo {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcNotifyMapinfo {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -33006,6 +35057,13 @@ impl Packet for PacketCzReqDisconnect {
     }
 }
 
+impl Default for PacketCzReqDisconnect {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcAckReqDisconnect {
     pub fn from(buffer: &[u8]) -> PacketZcAckReqDisconnect {
         PacketZcAckReqDisconnect {
@@ -33081,6 +35139,13 @@ impl Packet for PacketZcAckReqDisconnect {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcAckReqDisconnect {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -33302,6 +35367,13 @@ impl Packet for PacketZcMonsterInfo {
     }
 }
 
+impl Default for PacketZcMonsterInfo {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcMakableitemlist {
     pub fn from(buffer: &[u8]) -> PacketZcMakableitemlist {
         PacketZcMakableitemlist {
@@ -33394,6 +35466,13 @@ impl Packet for PacketZcMakableitemlist {
     }
 }
 
+impl Default for PacketZcMakableitemlist {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzReqmakingitem {
     pub fn from(buffer: &[u8]) -> PacketCzReqmakingitem {
         PacketCzReqmakingitem {
@@ -33465,6 +35544,13 @@ impl Packet for PacketCzReqmakingitem {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzReqmakingitem {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -33561,6 +35647,13 @@ impl Packet for PacketZcAckReqmakingitem {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcAckReqmakingitem {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -33722,6 +35815,13 @@ impl Packet for PacketCzUseSkillTogroundWithtalkbox {
     }
 }
 
+impl Default for PacketCzUseSkillTogroundWithtalkbox {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcTalkboxChatcontents {
     pub fn from(buffer: &[u8]) -> PacketZcTalkboxChatcontents {
         PacketZcTalkboxChatcontents {
@@ -33823,6 +35923,13 @@ impl Packet for PacketZcTalkboxChatcontents {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcTalkboxChatcontents {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -33966,6 +36073,13 @@ impl Packet for PacketZcUpdateMapinfo {
     }
 }
 
+impl Default for PacketZcUpdateMapinfo {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzReqnameBygid {
     pub fn from(buffer: &[u8]) -> PacketCzReqnameBygid {
         PacketCzReqnameBygid {
@@ -34041,6 +36155,13 @@ impl Packet for PacketCzReqnameBygid {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzReqnameBygid {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -34145,6 +36266,13 @@ impl Packet for PacketZcAckReqnameBygid {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcAckReqnameBygid {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -34330,6 +36458,13 @@ impl Packet for PacketZcAckReqnameall {
     }
 }
 
+impl Default for PacketZcAckReqnameall {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcMsgStateChange {
     pub fn from(buffer: &[u8]) -> PacketZcMsgStateChange {
         PacketZcMsgStateChange {
@@ -34444,6 +36579,13 @@ impl Packet for PacketZcMsgStateChange {
     }
 }
 
+impl Default for PacketZcMsgStateChange {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzReset {
     pub fn from(buffer: &[u8]) -> PacketCzReset {
         PacketCzReset {
@@ -34519,6 +36661,13 @@ impl Packet for PacketCzReset {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzReset {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -34636,6 +36785,13 @@ impl Packet for PacketCzChangeMaptype {
     }
 }
 
+impl Default for PacketCzChangeMaptype {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcNotifyMapproperty {
     pub fn from(buffer: &[u8]) -> PacketZcNotifyMapproperty {
         PacketZcNotifyMapproperty {
@@ -34711,6 +36867,13 @@ impl Packet for PacketZcNotifyMapproperty {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcNotifyMapproperty {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -34828,6 +36991,13 @@ impl Packet for PacketZcNotifyRanking {
     }
 }
 
+impl Default for PacketZcNotifyRanking {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcNotifyEffect {
     pub fn from(buffer: &[u8]) -> PacketZcNotifyEffect {
         PacketZcNotifyEffect {
@@ -34924,6 +37094,13 @@ impl Packet for PacketZcNotifyEffect {
     }
 }
 
+impl Default for PacketZcNotifyEffect {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzChangeEffectstate {
     pub fn from(buffer: &[u8]) -> PacketCzChangeEffectstate {
         PacketCzChangeEffectstate {
@@ -35002,6 +37179,13 @@ impl Packet for PacketCzChangeEffectstate {
     }
 }
 
+impl Default for PacketCzChangeEffectstate {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcStartCapture {
     pub fn from(buffer: &[u8]) -> PacketZcStartCapture {
         PacketZcStartCapture {
@@ -35059,6 +37243,13 @@ impl Packet for PacketZcStartCapture {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcStartCapture {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -35140,6 +37331,13 @@ impl Packet for PacketCzTrycaptureMonster {
     }
 }
 
+impl Default for PacketCzTrycaptureMonster {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcTrycaptureMonster {
     pub fn from(buffer: &[u8]) -> PacketZcTrycaptureMonster {
         PacketZcTrycaptureMonster {
@@ -35218,6 +37416,13 @@ impl Packet for PacketZcTrycaptureMonster {
     }
 }
 
+impl Default for PacketZcTrycaptureMonster {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzCommandPet {
     pub fn from(buffer: &[u8]) -> PacketCzCommandPet {
         PacketCzCommandPet {
@@ -35293,6 +37498,13 @@ impl Packet for PacketCzCommandPet {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzCommandPet {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -35490,6 +37702,13 @@ impl Packet for PacketZcPropertyPet {
     }
 }
 
+impl Default for PacketZcPropertyPet {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcFeedPet {
     pub fn from(buffer: &[u8]) -> PacketZcFeedPet {
         PacketZcFeedPet {
@@ -35583,6 +37802,13 @@ impl Packet for PacketZcFeedPet {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcFeedPet {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -35700,6 +37926,13 @@ impl Packet for PacketZcChangestatePet {
     }
 }
 
+impl Default for PacketZcChangestatePet {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzRenamePet {
     pub fn from(buffer: &[u8]) -> PacketCzRenamePet {
         PacketCzRenamePet {
@@ -35783,6 +38016,13 @@ impl Packet for PacketCzRenamePet {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzRenamePet {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -35889,6 +38129,13 @@ impl Packet for PacketZcPeteggList {
     }
 }
 
+impl Default for PacketZcPeteggList {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzSelectPetegg {
     pub fn from(buffer: &[u8]) -> PacketCzSelectPetegg {
         PacketCzSelectPetegg {
@@ -35964,6 +38211,13 @@ impl Packet for PacketCzSelectPetegg {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzSelectPetegg {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -36045,6 +38299,13 @@ impl Packet for PacketCzPeteggInfo {
     }
 }
 
+impl Default for PacketCzPeteggInfo {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzPetAct {
     pub fn from(buffer: &[u8]) -> PacketCzPetAct {
         PacketCzPetAct {
@@ -36120,6 +38381,13 @@ impl Packet for PacketCzPetAct {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzPetAct {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -36216,6 +38484,13 @@ impl Packet for PacketZcPetAct {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcPetAct {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -36333,6 +38608,13 @@ impl Packet for PacketZcParChangeUser {
     }
 }
 
+impl Default for PacketZcParChangeUser {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcSkillUpdate {
     pub fn from(buffer: &[u8]) -> PacketZcSkillUpdate {
         PacketZcSkillUpdate {
@@ -36408,6 +38690,13 @@ impl Packet for PacketZcSkillUpdate {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcSkillUpdate {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -36514,6 +38803,13 @@ impl Packet for PacketZcMakingarrowList {
     }
 }
 
+impl Default for PacketZcMakingarrowList {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzReqMakingarrow {
     pub fn from(buffer: &[u8]) -> PacketCzReqMakingarrow {
         PacketCzReqMakingarrow {
@@ -36592,6 +38888,13 @@ impl Packet for PacketCzReqMakingarrow {
     }
 }
 
+impl Default for PacketCzReqMakingarrow {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzReqChangecart {
     pub fn from(buffer: &[u8]) -> PacketCzReqChangecart {
         PacketCzReqChangecart {
@@ -36667,6 +38970,13 @@ impl Packet for PacketCzReqChangecart {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzReqChangecart {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -36784,6 +39094,13 @@ impl Packet for PacketZcNpcspriteChange {
     }
 }
 
+impl Default for PacketZcNpcspriteChange {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcShowdigit {
     pub fn from(buffer: &[u8]) -> PacketZcShowdigit {
         PacketZcShowdigit {
@@ -36877,6 +39194,13 @@ impl Packet for PacketZcShowdigit {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcShowdigit {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -37027,6 +39351,13 @@ impl Packet for PacketCzReqOpenstore2 {
     }
 }
 
+impl Default for PacketCzReqOpenstore2 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcShowImage2 {
     pub fn from(buffer: &[u8]) -> PacketZcShowImage2 {
         PacketZcShowImage2 {
@@ -37128,6 +39459,13 @@ impl Packet for PacketZcShowImage2 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcShowImage2 {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -37242,6 +39580,13 @@ impl Packet for PacketZcChangeGuild {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcChangeGuild {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -37374,6 +39719,13 @@ impl Packet for PacketScBillingInfo {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketScBillingInfo {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -37731,6 +40083,13 @@ impl Packet for PacketZcGuildInfo2 {
     }
 }
 
+impl Default for PacketZcGuildInfo2 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzGuildZeny {
     pub fn from(buffer: &[u8]) -> PacketCzGuildZeny {
         PacketCzGuildZeny {
@@ -37806,6 +40165,13 @@ impl Packet for PacketCzGuildZeny {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzGuildZeny {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -37887,6 +40253,13 @@ impl Packet for PacketZcGuildZenyAck {
     }
 }
 
+impl Default for PacketZcGuildZenyAck {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcDispel {
     pub fn from(buffer: &[u8]) -> PacketZcDispel {
         PacketZcDispel {
@@ -37962,6 +40335,13 @@ impl Packet for PacketZcDispel {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcDispel {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -38051,6 +40431,13 @@ impl Packet for PacketCzRemoveAid {
     }
 }
 
+impl Default for PacketCzRemoveAid {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzShift {
     pub fn from(buffer: &[u8]) -> PacketCzShift {
         PacketCzShift {
@@ -38134,6 +40521,13 @@ impl Packet for PacketCzShift {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzShift {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -38223,6 +40617,13 @@ impl Packet for PacketCzRecall {
     }
 }
 
+impl Default for PacketCzRecall {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzRecallGid {
     pub fn from(buffer: &[u8]) -> PacketCzRecallGid {
         PacketCzRecallGid {
@@ -38309,6 +40710,13 @@ impl Packet for PacketCzRecallGid {
     }
 }
 
+impl Default for PacketCzRecallGid {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketAcAskPngameroom {
     pub fn from(buffer: &[u8]) -> PacketAcAskPngameroom {
         PacketAcAskPngameroom {
@@ -38366,6 +40774,13 @@ impl Packet for PacketAcAskPngameroom {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketAcAskPngameroom {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -38447,6 +40862,13 @@ impl Packet for PacketCaReplyPngameroom {
     }
 }
 
+impl Default for PacketCaReplyPngameroom {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzReqRemaintime {
     pub fn from(buffer: &[u8]) -> PacketCzReqRemaintime {
         PacketCzReqRemaintime {
@@ -38504,6 +40926,13 @@ impl Packet for PacketCzReqRemaintime {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzReqRemaintime {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -38621,6 +41050,13 @@ impl Packet for PacketZcReplyRemaintime {
     }
 }
 
+impl Default for PacketZcReplyRemaintime {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcInfoRemaintime {
     pub fn from(buffer: &[u8]) -> PacketZcInfoRemaintime {
         PacketZcInfoRemaintime {
@@ -38714,6 +41150,13 @@ impl Packet for PacketZcInfoRemaintime {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcInfoRemaintime {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -38894,6 +41337,13 @@ impl Packet for PacketZcBroadcast2 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcBroadcast2 {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -39101,6 +41551,13 @@ impl Packet for PacketZcAddItemToStore2 {
     }
 }
 
+impl Default for PacketZcAddItemToStore2 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcAddItemToCart2 {
     pub fn from(buffer: &[u8]) -> PacketZcAddItemToCart2 {
         PacketZcAddItemToCart2 {
@@ -39305,6 +41762,13 @@ impl Packet for PacketZcAddItemToCart2 {
     }
 }
 
+impl Default for PacketZcAddItemToCart2 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCsReqEncryption {
     pub fn from(buffer: &[u8]) -> PacketCsReqEncryption {
         PacketCsReqEncryption {
@@ -39401,6 +41865,13 @@ impl Packet for PacketCsReqEncryption {
     }
 }
 
+impl Default for PacketCsReqEncryption {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketScAckEncryption {
     pub fn from(buffer: &[u8]) -> PacketScAckEncryption {
         PacketScAckEncryption {
@@ -39458,6 +41929,13 @@ impl Packet for PacketScAckEncryption {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketScAckEncryption {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -39608,6 +42086,13 @@ impl Packet for PacketZcUseItemAck2 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcUseItemAck2 {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -39823,6 +42308,13 @@ impl Packet for PacketZcSkillEntry2 {
     }
 }
 
+impl Default for PacketZcSkillEntry2 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzReqmakinghomun {
     pub fn from(buffer: &[u8]) -> PacketCzReqmakinghomun {
         PacketCzReqmakinghomun {
@@ -39898,6 +42390,13 @@ impl Packet for PacketCzReqmakinghomun {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzReqmakinghomun {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -40033,6 +42532,13 @@ impl Packet for PacketCzMonsterTalk {
     }
 }
 
+impl Default for PacketCzMonsterTalk {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcMonsterTalk {
     pub fn from(buffer: &[u8]) -> PacketZcMonsterTalk {
         PacketZcMonsterTalk {
@@ -40165,6 +42671,13 @@ impl Packet for PacketZcMonsterTalk {
     }
 }
 
+impl Default for PacketZcMonsterTalk {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcAutospelllist {
     pub fn from(buffer: &[u8]) -> PacketZcAutospelllist {
         PacketZcAutospelllist {
@@ -40176,7 +42689,7 @@ impl PacketZcAutospelllist {
                 dst
             },
             skid:  {
-                let mut dst: [i32; 7] = [0 as i32; 7];
+                let mut dst: [i32; 7] = [0_i32; 7];
                 for (index, byte) in buffer[2..9].iter().enumerate() {
                     dst[index] = *byte as i32;
                 }
@@ -40248,6 +42761,13 @@ impl Packet for PacketZcAutospelllist {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcAutospelllist {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -40329,6 +42849,13 @@ impl Packet for PacketCzSelectautospell {
     }
 }
 
+impl Default for PacketCzSelectautospell {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcDevotionlist {
     pub fn from(buffer: &[u8]) -> PacketZcDevotionlist {
         PacketZcDevotionlist {
@@ -40346,7 +42873,7 @@ impl PacketZcDevotionlist {
                 dst
             },
             aid:  {
-                let mut dst: [u32; 5] = [0 as u32; 5];
+                let mut dst: [u32; 5] = [0_u32; 5];
                 for (index, byte) in buffer[6..11].iter().enumerate() {
                     dst[index] = *byte as u32;
                 }
@@ -40451,6 +42978,13 @@ impl Packet for PacketZcDevotionlist {
     }
 }
 
+impl Default for PacketZcDevotionlist {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcSpirits {
     pub fn from(buffer: &[u8]) -> PacketZcSpirits {
         PacketZcSpirits {
@@ -40544,6 +43078,13 @@ impl Packet for PacketZcSpirits {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcSpirits {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -40661,6 +43202,13 @@ impl Packet for PacketZcBladestop {
     }
 }
 
+impl Default for PacketZcBladestop {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcCombodelay {
     pub fn from(buffer: &[u8]) -> PacketZcCombodelay {
         PacketZcCombodelay {
@@ -40754,6 +43302,13 @@ impl Packet for PacketZcCombodelay {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcCombodelay {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -40897,6 +43452,13 @@ impl Packet for PacketZcSound {
     }
 }
 
+impl Default for PacketZcSound {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcOpenEditdlgstr {
     pub fn from(buffer: &[u8]) -> PacketZcOpenEditdlgstr {
         PacketZcOpenEditdlgstr {
@@ -40972,6 +43534,13 @@ impl Packet for PacketZcOpenEditdlgstr {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcOpenEditdlgstr {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -41083,6 +43652,13 @@ impl Packet for PacketCzInputEditdlgstr {
     }
 }
 
+impl Default for PacketCzInputEditdlgstr {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcNotifyMaptypeproperty2 {
     pub fn from(buffer: &[u8]) -> PacketZcNotifyMaptypeproperty2 {
         PacketZcNotifyMaptypeproperty2 {
@@ -41158,6 +43734,13 @@ impl Packet for PacketZcNotifyMaptypeproperty2 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcNotifyMaptypeproperty2 {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -41272,6 +43855,13 @@ impl Packet for PacketZcSpriteChange2 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcSpriteChange2 {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -41406,7 +43996,7 @@ impl PacketZcNotifyStandentry2 {
                 dst
             },
             pos_dir:  {
-                let mut dst: [u8; 3] = [0 as u8; 3];
+                let mut dst: [u8; 3] = [0_u8; 3];
                 for (index, byte) in buffer[46..49].iter().enumerate() {
                     dst[index] = *byte as u8;
                 }
@@ -41793,6 +44383,13 @@ impl Packet for PacketZcNotifyStandentry2 {
     }
 }
 
+impl Default for PacketZcNotifyStandentry2 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcNotifyNewentry2 {
     pub fn from(buffer: &[u8]) -> PacketZcNotifyNewentry2 {
         PacketZcNotifyNewentry2 {
@@ -41924,7 +44521,7 @@ impl PacketZcNotifyNewentry2 {
                 dst
             },
             pos_dir:  {
-                let mut dst: [u8; 3] = [0 as u8; 3];
+                let mut dst: [u8; 3] = [0_u8; 3];
                 for (index, byte) in buffer[46..49].iter().enumerate() {
                     dst[index] = *byte as u8;
                 }
@@ -42293,6 +44890,13 @@ impl Packet for PacketZcNotifyNewentry2 {
     }
 }
 
+impl Default for PacketZcNotifyNewentry2 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcNotifyMoveentry2 {
     pub fn from(buffer: &[u8]) -> PacketZcNotifyMoveentry2 {
         PacketZcNotifyMoveentry2 {
@@ -42430,7 +45034,7 @@ impl PacketZcNotifyMoveentry2 {
                 dst
             },
             move_data:  {
-                let mut dst: [u16; 6] = [0 as u16; 6];
+                let mut dst: [u16; 6] = [0_u16; 6];
                 for (index, byte) in buffer[50..56].iter().enumerate() {
                     dst[index] = *byte as u16;
                 }
@@ -42811,6 +45415,13 @@ impl Packet for PacketZcNotifyMoveentry2 {
     }
 }
 
+impl Default for PacketZcNotifyMoveentry2 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCaReqHash {
     pub fn from(buffer: &[u8]) -> PacketCaReqHash {
         PacketCaReqHash {
@@ -42868,6 +45479,13 @@ impl Packet for PacketCaReqHash {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCaReqHash {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -42958,6 +45576,13 @@ impl Packet for PacketAcAckHash {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketAcAckHash {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -43106,6 +45731,13 @@ impl Packet for PacketCaLogin2 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCaLogin2 {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -43349,6 +45981,13 @@ impl Packet for PacketZcNotifySkill2 {
     }
 }
 
+impl Default for PacketZcNotifySkill2 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzReqAccountname {
     pub fn from(buffer: &[u8]) -> PacketCzReqAccountname {
         PacketCzReqAccountname {
@@ -43424,6 +46063,13 @@ impl Packet for PacketCzReqAccountname {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzReqAccountname {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -43531,6 +46177,13 @@ impl Packet for PacketZcAckAccountname {
     }
 }
 
+impl Default for PacketZcAckAccountname {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcSpirits2 {
     pub fn from(buffer: &[u8]) -> PacketZcSpirits2 {
         PacketZcSpirits2 {
@@ -43624,6 +46277,13 @@ impl Packet for PacketZcSpirits2 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcSpirits2 {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -43749,6 +46409,13 @@ impl Packet for PacketZcReqCouple {
     }
 }
 
+impl Default for PacketZcReqCouple {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzJoinCouple {
     pub fn from(buffer: &[u8]) -> PacketCzJoinCouple {
         PacketCzJoinCouple {
@@ -43863,6 +46530,13 @@ impl Packet for PacketCzJoinCouple {
     }
 }
 
+impl Default for PacketCzJoinCouple {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcStartCouple {
     pub fn from(buffer: &[u8]) -> PacketZcStartCouple {
         PacketZcStartCouple {
@@ -43920,6 +46594,13 @@ impl Packet for PacketZcStartCouple {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcStartCouple {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -43998,6 +46679,13 @@ impl Packet for PacketCzReqJoinCouple {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzReqJoinCouple {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -44087,6 +46775,13 @@ impl Packet for PacketZcCouplename {
     }
 }
 
+impl Default for PacketZcCouplename {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzDoridori {
     pub fn from(buffer: &[u8]) -> PacketCzDoridori {
         PacketCzDoridori {
@@ -44144,6 +46839,13 @@ impl Packet for PacketCzDoridori {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzDoridori {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -44266,6 +46968,13 @@ impl Packet for PacketCzMakeGroup2 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzMakeGroup2 {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -44533,6 +47242,13 @@ impl Packet for PacketZcAddMemberToGroup2 {
     }
 }
 
+impl Default for PacketZcAddMemberToGroup2 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcCongratulation {
     pub fn from(buffer: &[u8]) -> PacketZcCongratulation {
         PacketZcCongratulation {
@@ -44608,6 +47324,13 @@ impl Packet for PacketZcCongratulation {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcCongratulation {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -44722,6 +47445,13 @@ impl Packet for PacketZcNotifyPositionToGuildm {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcNotifyPositionToGuildm {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -44847,6 +47577,13 @@ impl Packet for PacketZcGuildMemberMapChange {
     }
 }
 
+impl Default for PacketZcGuildMemberMapChange {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzChopokgi {
     pub fn from(buffer: &[u8]) -> PacketCzChopokgi {
         PacketCzChopokgi {
@@ -44904,6 +47641,13 @@ impl Packet for PacketCzChopokgi {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzChopokgi {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -45010,6 +47754,13 @@ impl Packet for PacketZcNormalItemlist2 {
     }
 }
 
+impl Default for PacketZcNormalItemlist2 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcCartNormalItemlist2 {
     pub fn from(buffer: &[u8]) -> PacketZcCartNormalItemlist2 {
         let iter_count = (&buffer.len() - 4) / 18;
@@ -45110,6 +47861,13 @@ impl Packet for PacketZcCartNormalItemlist2 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcCartNormalItemlist2 {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -45216,6 +47974,13 @@ impl Packet for PacketZcStoreNormalItemlist2 {
     }
 }
 
+impl Default for PacketZcStoreNormalItemlist2 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketAcNotifyError {
     pub fn from(buffer: &[u8]) -> PacketAcNotifyError {
         PacketAcNotifyError {
@@ -45303,6 +48068,13 @@ impl Packet for PacketAcNotifyError {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketAcNotifyError {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -45474,6 +48246,13 @@ impl Packet for PacketZcUpdateCharstat2 {
     }
 }
 
+impl Default for PacketZcUpdateCharstat2 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcNotifyEffect2 {
     pub fn from(buffer: &[u8]) -> PacketZcNotifyEffect2 {
         PacketZcNotifyEffect2 {
@@ -45567,6 +48346,13 @@ impl Packet for PacketZcNotifyEffect2 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcNotifyEffect2 {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -45692,6 +48478,13 @@ impl Packet for PacketZcReqExchangeItem2 {
     }
 }
 
+impl Default for PacketZcReqExchangeItem2 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcAckExchangeItem2 {
     pub fn from(buffer: &[u8]) -> PacketZcAckExchangeItem2 {
         PacketZcAckExchangeItem2 {
@@ -45803,6 +48596,13 @@ impl Packet for PacketZcAckExchangeItem2 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcAckExchangeItem2 {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -45928,6 +48728,13 @@ impl Packet for PacketZcReqBaby {
     }
 }
 
+impl Default for PacketZcReqBaby {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzJoinBaby {
     pub fn from(buffer: &[u8]) -> PacketCzJoinBaby {
         PacketCzJoinBaby {
@@ -46042,6 +48849,13 @@ impl Packet for PacketCzJoinBaby {
     }
 }
 
+impl Default for PacketCzJoinBaby {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcStartBaby {
     pub fn from(buffer: &[u8]) -> PacketZcStartBaby {
         PacketZcStartBaby {
@@ -46099,6 +48913,13 @@ impl Packet for PacketZcStartBaby {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcStartBaby {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -46177,6 +48998,13 @@ impl Packet for PacketCzReqJoinBaby {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzReqJoinBaby {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -46346,6 +49174,13 @@ impl Packet for PacketCaLogin3 {
     }
 }
 
+impl Default for PacketCaLogin3 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketChDeleteChar2 {
     pub fn from(buffer: &[u8]) -> PacketChDeleteChar2 {
         PacketChDeleteChar2 {
@@ -46447,6 +49282,13 @@ impl Packet for PacketChDeleteChar2 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketChDeleteChar2 {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -46553,6 +49395,13 @@ impl Packet for PacketZcRepairitemlist {
     }
 }
 
+impl Default for PacketZcRepairitemlist {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzReqItemrepair {
     pub fn from(buffer: &[u8]) -> PacketCzReqItemrepair {
         PacketCzReqItemrepair {
@@ -46624,6 +49473,13 @@ impl Packet for PacketCzReqItemrepair {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzReqItemrepair {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -46720,6 +49576,13 @@ impl Packet for PacketZcAckItemrepair {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcAckItemrepair {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -46837,6 +49700,13 @@ impl Packet for PacketZcHighjump {
     }
 }
 
+impl Default for PacketZcHighjump {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCaConnectInfoChanged {
     pub fn from(buffer: &[u8]) -> PacketCaConnectInfoChanged {
         PacketCaConnectInfoChanged {
@@ -46920,6 +49790,13 @@ impl Packet for PacketCaConnectInfoChanged {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCaConnectInfoChanged {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -47026,6 +49903,13 @@ impl Packet for PacketZcFriendsList {
     }
 }
 
+impl Default for PacketZcFriendsList {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzAddFriends {
     pub fn from(buffer: &[u8]) -> PacketCzAddFriends {
         PacketCzAddFriends {
@@ -47109,6 +49993,13 @@ impl Packet for PacketCzAddFriends {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzAddFriends {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -47208,6 +50099,13 @@ impl Packet for PacketCzDeleteFriends {
     }
 }
 
+impl Default for PacketCzDeleteFriends {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCaExeHashcheck {
     pub fn from(buffer: &[u8]) -> PacketCaExeHashcheck {
         PacketCaExeHashcheck {
@@ -47294,6 +50192,13 @@ impl Packet for PacketCaExeHashcheck {
     }
 }
 
+impl Default for PacketCaExeHashcheck {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcDivorce {
     pub fn from(buffer: &[u8]) -> PacketZcDivorce {
         PacketZcDivorce {
@@ -47377,6 +50282,13 @@ impl Packet for PacketZcDivorce {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcDivorce {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -47491,6 +50403,13 @@ impl Packet for PacketZcFriendsState {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcFriendsState {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -47616,6 +50535,13 @@ impl Packet for PacketZcReqAddFriends {
     }
 }
 
+impl Default for PacketZcReqAddFriends {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzAckReqAddFriends {
     pub fn from(buffer: &[u8]) -> PacketCzAckReqAddFriends {
         PacketCzAckReqAddFriends {
@@ -47727,6 +50653,13 @@ impl Packet for PacketCzAckReqAddFriends {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzAckReqAddFriends {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -47870,6 +50803,13 @@ impl Packet for PacketZcAddFriendsList {
     }
 }
 
+impl Default for PacketZcAddFriendsList {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcDeleteFriends {
     pub fn from(buffer: &[u8]) -> PacketZcDeleteFriends {
         PacketZcDeleteFriends {
@@ -47963,6 +50903,13 @@ impl Packet for PacketZcDeleteFriends {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcDeleteFriends {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -48070,6 +51017,13 @@ impl Packet for PacketAcRefuseLoginR3 {
     }
 }
 
+impl Default for PacketAcRefuseLoginR3 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzExeHashcheck {
     pub fn from(buffer: &[u8]) -> PacketCzExeHashcheck {
         PacketCzExeHashcheck {
@@ -48174,6 +51128,13 @@ impl Packet for PacketCzExeHashcheck {
     }
 }
 
+impl Default for PacketCzExeHashcheck {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketHcBlockCharacter {
     pub fn from(buffer: &[u8]) -> PacketHcBlockCharacter {
         let iter_count = (&buffer.len() - 4) / 24;
@@ -48274,6 +51235,13 @@ impl Packet for PacketHcBlockCharacter {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketHcBlockCharacter {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -48417,6 +51385,13 @@ impl Packet for PacketZcStarskill {
     }
 }
 
+impl Default for PacketZcStarskill {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzReqPvppoint {
     pub fn from(buffer: &[u8]) -> PacketCzReqPvppoint {
         PacketCzReqPvppoint {
@@ -48510,6 +51485,13 @@ impl Packet for PacketCzReqPvppoint {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzReqPvppoint {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -48623,6 +51605,13 @@ impl Packet for PacketZcAckPvppoint {
     }
 }
 
+impl Default for PacketZcAckPvppoint {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZhMovePvpworld {
     pub fn from(buffer: &[u8]) -> PacketZhMovePvpworld {
         PacketZhMovePvpworld {
@@ -48698,6 +51687,13 @@ impl Packet for PacketZhMovePvpworld {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZhMovePvpworld {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -48787,6 +51783,13 @@ impl Packet for PacketCzReqGiveMannerByname {
     }
 }
 
+impl Default for PacketCzReqGiveMannerByname {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzReqStatusGm {
     pub fn from(buffer: &[u8]) -> PacketCzReqStatusGm {
         PacketCzReqStatusGm {
@@ -48870,6 +51873,13 @@ impl Packet for PacketCzReqStatusGm {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzReqStatusGm {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -49401,6 +52411,13 @@ impl Packet for PacketZcAckStatusGm {
     }
 }
 
+impl Default for PacketZcAckStatusGm {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcSkillmsg {
     pub fn from(buffer: &[u8]) -> PacketZcSkillmsg {
         PacketZcSkillmsg {
@@ -49476,6 +52493,13 @@ impl Packet for PacketZcSkillmsg {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcSkillmsg {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -49557,6 +52581,13 @@ impl Packet for PacketZcBabymsg {
     }
 }
 
+impl Default for PacketZcBabymsg {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzBlacksmithRank {
     pub fn from(buffer: &[u8]) -> PacketCzBlacksmithRank {
         PacketCzBlacksmithRank {
@@ -49614,6 +52645,13 @@ impl Packet for PacketCzBlacksmithRank {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzBlacksmithRank {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -49677,6 +52715,13 @@ impl Packet for PacketCzAlchemistRank {
     }
 }
 
+impl Default for PacketCzAlchemistRank {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcBlacksmithRank {
     pub fn from(buffer: &[u8]) -> PacketZcBlacksmithRank {
         PacketZcBlacksmithRank {
@@ -49700,7 +52745,7 @@ impl PacketZcBlacksmithRank {
                 dst
             },
             point:  {
-                let mut dst: [i32; 10] = [0 as i32; 10];
+                let mut dst: [i32; 10] = [0_i32; 10];
                 for (index, byte) in buffer[12..22].iter().enumerate() {
                     dst[index] = *byte as i32;
                 }
@@ -49789,6 +52834,13 @@ impl Packet for PacketZcBlacksmithRank {
     }
 }
 
+impl Default for PacketZcBlacksmithRank {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcAlchemistRank {
     pub fn from(buffer: &[u8]) -> PacketZcAlchemistRank {
         PacketZcAlchemistRank {
@@ -49812,7 +52864,7 @@ impl PacketZcAlchemistRank {
                 dst
             },
             point:  {
-                let mut dst: [i32; 10] = [0 as i32; 10];
+                let mut dst: [i32; 10] = [0_i32; 10];
                 for (index, byte) in buffer[12..22].iter().enumerate() {
                     dst[index] = *byte as i32;
                 }
@@ -49898,6 +52950,13 @@ impl Packet for PacketZcAlchemistRank {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcAlchemistRank {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -49997,6 +53056,13 @@ impl Packet for PacketZcBlacksmithPoint {
     }
 }
 
+impl Default for PacketZcBlacksmithPoint {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcAlchemistPoint {
     pub fn from(buffer: &[u8]) -> PacketZcAlchemistPoint {
         PacketZcAlchemistPoint {
@@ -50093,6 +53159,13 @@ impl Packet for PacketZcAlchemistPoint {
     }
 }
 
+impl Default for PacketZcAlchemistPoint {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzLesseffect {
     pub fn from(buffer: &[u8]) -> PacketCzLesseffect {
         PacketCzLesseffect {
@@ -50171,6 +53244,13 @@ impl Packet for PacketCzLesseffect {
     }
 }
 
+impl Default for PacketCzLesseffect {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcLesseffect {
     pub fn from(buffer: &[u8]) -> PacketZcLesseffect {
         PacketZcLesseffect {
@@ -50246,6 +53326,13 @@ impl Packet for PacketZcLesseffect {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcLesseffect {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -50411,6 +53498,13 @@ impl Packet for PacketZcNotifyPkinfo {
     }
 }
 
+impl Default for PacketZcNotifyPkinfo {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcNotifyCrazykiller {
     pub fn from(buffer: &[u8]) -> PacketZcNotifyCrazykiller {
         PacketZcNotifyCrazykiller {
@@ -50504,6 +53598,13 @@ impl Packet for PacketZcNotifyCrazykiller {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcNotifyCrazykiller {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -50610,6 +53711,13 @@ impl Packet for PacketZcNotifyWeaponitemlist {
     }
 }
 
+impl Default for PacketZcNotifyWeaponitemlist {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzReqWeaponrefine {
     pub fn from(buffer: &[u8]) -> PacketCzReqWeaponrefine {
         PacketCzReqWeaponrefine {
@@ -50685,6 +53793,13 @@ impl Packet for PacketCzReqWeaponrefine {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzReqWeaponrefine {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -50784,6 +53899,13 @@ impl Packet for PacketZcAckWeaponrefine {
     }
 }
 
+impl Default for PacketZcAckWeaponrefine {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcTaekwonPoint {
     pub fn from(buffer: &[u8]) -> PacketZcTaekwonPoint {
         PacketZcTaekwonPoint {
@@ -50880,6 +54002,13 @@ impl Packet for PacketZcTaekwonPoint {
     }
 }
 
+impl Default for PacketZcTaekwonPoint {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzTaekwonRank {
     pub fn from(buffer: &[u8]) -> PacketCzTaekwonRank {
         PacketCzTaekwonRank {
@@ -50940,6 +54069,13 @@ impl Packet for PacketCzTaekwonRank {
     }
 }
 
+impl Default for PacketCzTaekwonRank {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcTaekwonRank {
     pub fn from(buffer: &[u8]) -> PacketZcTaekwonRank {
         PacketZcTaekwonRank {
@@ -50963,7 +54099,7 @@ impl PacketZcTaekwonRank {
                 dst
             },
             point:  {
-                let mut dst: [i32; 10] = [0 as i32; 10];
+                let mut dst: [i32; 10] = [0_i32; 10];
                 for (index, byte) in buffer[12..22].iter().enumerate() {
                     dst[index] = *byte as i32;
                 }
@@ -51052,6 +54188,13 @@ impl Packet for PacketZcTaekwonRank {
     }
 }
 
+impl Default for PacketZcTaekwonRank {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcGameGuard {
     pub fn from(buffer: &[u8]) -> PacketZcGameGuard {
         PacketZcGameGuard {
@@ -51063,7 +54206,7 @@ impl PacketZcGameGuard {
                 dst
             },
             auth_data:  {
-                let mut dst: [u32; 4] = [0 as u32; 4];
+                let mut dst: [u32; 4] = [0_u32; 4];
                 for (index, byte) in buffer[2..6].iter().enumerate() {
                     dst[index] = *byte as u32;
                 }
@@ -51138,6 +54281,13 @@ impl Packet for PacketZcGameGuard {
     }
 }
 
+impl Default for PacketZcGameGuard {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzAckGameGuard {
     pub fn from(buffer: &[u8]) -> PacketCzAckGameGuard {
         PacketCzAckGameGuard {
@@ -51149,7 +54299,7 @@ impl PacketCzAckGameGuard {
                 dst
             },
             auth_data:  {
-                let mut dst: [u32; 4] = [0 as u32; 4];
+                let mut dst: [u32; 4] = [0_u32; 4];
                 for (index, byte) in buffer[2..6].iter().enumerate() {
                     dst[index] = *byte as u32;
                 }
@@ -51221,6 +54371,13 @@ impl Packet for PacketCzAckGameGuard {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzAckGameGuard {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -51374,6 +54531,13 @@ impl Packet for PacketZcStateChange3 {
     }
 }
 
+impl Default for PacketZcStateChange3 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcNotifyStandentry3 {
     pub fn from(buffer: &[u8]) -> PacketZcNotifyStandentry3 {
         PacketZcNotifyStandentry3 {
@@ -51505,7 +54669,7 @@ impl PacketZcNotifyStandentry3 {
                 dst
             },
             pos_dir:  {
-                let mut dst: [u8; 3] = [0 as u8; 3];
+                let mut dst: [u8; 3] = [0_u8; 3];
                 for (index, byte) in buffer[50..53].iter().enumerate() {
                     dst[index] = *byte as u8;
                 }
@@ -51892,6 +55056,13 @@ impl Packet for PacketZcNotifyStandentry3 {
     }
 }
 
+impl Default for PacketZcNotifyStandentry3 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcNotifyNewentry3 {
     pub fn from(buffer: &[u8]) -> PacketZcNotifyNewentry3 {
         PacketZcNotifyNewentry3 {
@@ -52023,7 +55194,7 @@ impl PacketZcNotifyNewentry3 {
                 dst
             },
             pos_dir:  {
-                let mut dst: [u8; 3] = [0 as u8; 3];
+                let mut dst: [u8; 3] = [0_u8; 3];
                 for (index, byte) in buffer[50..53].iter().enumerate() {
                     dst[index] = *byte as u8;
                 }
@@ -52392,6 +55563,13 @@ impl Packet for PacketZcNotifyNewentry3 {
     }
 }
 
+impl Default for PacketZcNotifyNewentry3 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcNotifyMoveentry3 {
     pub fn from(buffer: &[u8]) -> PacketZcNotifyMoveentry3 {
         PacketZcNotifyMoveentry3 {
@@ -52535,7 +55713,7 @@ impl PacketZcNotifyMoveentry3 {
                 dst
             },
             move_data:  {
-                let mut dst: [u16; 6] = [0 as u16; 6];
+                let mut dst: [u16; 6] = [0_u16; 6];
                 for (index, byte) in buffer[55..61].iter().enumerate() {
                     dst[index] = *byte as u16;
                 }
@@ -52928,6 +56106,13 @@ impl Packet for PacketZcNotifyMoveentry3 {
     }
 }
 
+impl Default for PacketZcNotifyMoveentry3 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzCommandMer {
     pub fn from(buffer: &[u8]) -> PacketCzCommandMer {
         PacketCzCommandMer {
@@ -53021,6 +56206,13 @@ impl Packet for PacketCzCommandMer {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzCommandMer {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -53488,6 +56680,13 @@ impl Packet for PacketZcPropertyHomun {
     }
 }
 
+impl Default for PacketZcPropertyHomun {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcChangestateMer {
     pub fn from(buffer: &[u8]) -> PacketZcChangestateMer {
         PacketZcChangestateMer {
@@ -53620,6 +56819,13 @@ impl Packet for PacketZcChangestateMer {
     }
 }
 
+impl Default for PacketZcChangestateMer {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzRenameMer {
     pub fn from(buffer: &[u8]) -> PacketCzRenameMer {
         PacketCzRenameMer {
@@ -53703,6 +56909,13 @@ impl Packet for PacketCzRenameMer {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzRenameMer {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -53807,6 +57020,13 @@ impl Packet for PacketCzRequestMovenpc {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzRequestMovenpc {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -53924,6 +57144,13 @@ impl Packet for PacketCzRequestActnpc {
     }
 }
 
+impl Default for PacketCzRequestActnpc {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzRequestMovetoowner {
     pub fn from(buffer: &[u8]) -> PacketCzRequestMovetoowner {
         PacketCzRequestMovetoowner {
@@ -54002,6 +57229,13 @@ impl Packet for PacketCzRequestMovetoowner {
     }
 }
 
+impl Default for PacketCzRequestMovetoowner {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcReqStorePassword {
     pub fn from(buffer: &[u8]) -> PacketZcReqStorePassword {
         PacketZcReqStorePassword {
@@ -54077,6 +57311,13 @@ impl Packet for PacketZcReqStorePassword {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcReqStorePassword {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -54210,6 +57451,13 @@ impl Packet for PacketCzAckStorePassword {
     }
 }
 
+impl Default for PacketCzAckStorePassword {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcResultStorePassword {
     pub fn from(buffer: &[u8]) -> PacketZcResultStorePassword {
         PacketZcResultStorePassword {
@@ -54306,6 +57554,13 @@ impl Packet for PacketZcResultStorePassword {
     }
 }
 
+impl Default for PacketZcResultStorePassword {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketAcEventResult {
     pub fn from(buffer: &[u8]) -> PacketAcEventResult {
         PacketAcEventResult {
@@ -54381,6 +57636,13 @@ impl Packet for PacketAcEventResult {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketAcEventResult {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -54480,6 +57742,13 @@ impl Packet for PacketHcRequestCharacterPassword {
     }
 }
 
+impl Default for PacketHcRequestCharacterPassword {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzMailGetList {
     pub fn from(buffer: &[u8]) -> PacketCzMailGetList {
         PacketCzMailGetList {
@@ -54537,6 +57806,13 @@ impl Packet for PacketCzMailGetList {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzMailGetList {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -54661,6 +57937,13 @@ impl Packet for PacketZcMailReqGetList {
     }
 }
 
+impl Default for PacketZcMailReqGetList {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzMailOpen {
     pub fn from(buffer: &[u8]) -> PacketCzMailOpen {
         PacketCzMailOpen {
@@ -54736,6 +58019,13 @@ impl Packet for PacketCzMailOpen {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzMailOpen {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -55079,6 +58369,13 @@ impl Packet for PacketZcMailReqOpen {
     }
 }
 
+impl Default for PacketZcMailReqOpen {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzMailDelete {
     pub fn from(buffer: &[u8]) -> PacketCzMailDelete {
         PacketCzMailDelete {
@@ -55154,6 +58451,13 @@ impl Packet for PacketCzMailDelete {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzMailDelete {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -55235,6 +58539,13 @@ impl Packet for PacketCzMailGetItem {
     }
 }
 
+impl Default for PacketCzMailGetItem {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcMailReqGetItem {
     pub fn from(buffer: &[u8]) -> PacketZcMailReqGetItem {
         PacketZcMailReqGetItem {
@@ -55313,6 +58624,13 @@ impl Packet for PacketZcMailReqGetItem {
     }
 }
 
+impl Default for PacketZcMailReqGetItem {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzMailResetItem {
     pub fn from(buffer: &[u8]) -> PacketCzMailResetItem {
         PacketCzMailResetItem {
@@ -55388,6 +58706,13 @@ impl Packet for PacketCzMailResetItem {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzMailResetItem {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -55484,6 +58809,13 @@ impl Packet for PacketCzMailAddItem {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzMailAddItem {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -55647,6 +58979,13 @@ impl Packet for PacketCzMailSend {
     }
 }
 
+impl Default for PacketCzMailSend {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcMailReqSend {
     pub fn from(buffer: &[u8]) -> PacketZcMailReqSend {
         PacketZcMailReqSend {
@@ -55722,6 +59061,13 @@ impl Packet for PacketZcMailReqSend {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcMailReqSend {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -55855,6 +59201,13 @@ impl Packet for PacketZcMailReceive {
     }
 }
 
+impl Default for PacketZcMailReceive {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzAuctionCreate {
     pub fn from(buffer: &[u8]) -> PacketCzAuctionCreate {
         PacketCzAuctionCreate {
@@ -55930,6 +59283,13 @@ impl Packet for PacketCzAuctionCreate {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzAuctionCreate {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -56026,6 +59386,13 @@ impl Packet for PacketCzAuctionAddItem {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzAuctionAddItem {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -56143,6 +59510,13 @@ impl Packet for PacketCzAuctionAdd {
     }
 }
 
+impl Default for PacketCzAuctionAdd {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzAuctionAddCancel {
     pub fn from(buffer: &[u8]) -> PacketCzAuctionAddCancel {
         PacketCzAuctionAddCancel {
@@ -56218,6 +59592,13 @@ impl Packet for PacketCzAuctionAddCancel {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzAuctionAddCancel {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -56317,6 +59698,13 @@ impl Packet for PacketCzAuctionBuy {
     }
 }
 
+impl Default for PacketCzAuctionBuy {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcAuctionResult {
     pub fn from(buffer: &[u8]) -> PacketZcAuctionResult {
         PacketZcAuctionResult {
@@ -56392,6 +59780,13 @@ impl Packet for PacketZcAuctionResult {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcAuctionResult {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -56535,6 +59930,13 @@ impl Packet for PacketCzAuctionItemSearch {
     }
 }
 
+impl Default for PacketCzAuctionItemSearch {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcAuctionItemReqSearch {
     pub fn from(buffer: &[u8]) -> PacketZcAuctionItemReqSearch {
         let iter_count = (&buffer.len() - 12) / 83;
@@ -56674,6 +60076,13 @@ impl Packet for PacketZcAuctionItemReqSearch {
     }
 }
 
+impl Default for PacketZcAuctionItemReqSearch {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcStarplace {
     pub fn from(buffer: &[u8]) -> PacketZcStarplace {
         PacketZcStarplace {
@@ -56752,6 +60161,13 @@ impl Packet for PacketZcStarplace {
     }
 }
 
+impl Default for PacketZcStarplace {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzAgreeStarplace {
     pub fn from(buffer: &[u8]) -> PacketCzAgreeStarplace {
         PacketCzAgreeStarplace {
@@ -56827,6 +60243,13 @@ impl Packet for PacketCzAgreeStarplace {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzAgreeStarplace {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -56926,6 +60349,13 @@ impl Packet for PacketZcAckMailAddItem {
     }
 }
 
+impl Default for PacketZcAckMailAddItem {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcAckAuctionAddItem {
     pub fn from(buffer: &[u8]) -> PacketZcAckAuctionAddItem {
         PacketZcAckAuctionAddItem {
@@ -57019,6 +60449,13 @@ impl Packet for PacketZcAckAuctionAddItem {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcAckAuctionAddItem {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -57118,6 +60555,13 @@ impl Packet for PacketZcAckMailDelete {
     }
 }
 
+impl Default for PacketZcAckMailDelete {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCaReqGameGuardCheck {
     pub fn from(buffer: &[u8]) -> PacketCaReqGameGuardCheck {
         PacketCaReqGameGuardCheck {
@@ -57175,6 +60619,13 @@ impl Packet for PacketCaReqGameGuardCheck {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCaReqGameGuardCheck {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -57253,6 +60704,13 @@ impl Packet for PacketAcAckGameGuard {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketAcAckGameGuard {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -57346,6 +60804,13 @@ impl Packet for PacketZcMakingitemList {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcMakingitemList {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -57445,6 +60910,13 @@ impl Packet for PacketCzReqMakingitem {
     }
 }
 
+impl Default for PacketCzReqMakingitem {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzAuctionReqMyInfo {
     pub fn from(buffer: &[u8]) -> PacketCzAuctionReqMyInfo {
         PacketCzAuctionReqMyInfo {
@@ -57520,6 +60992,13 @@ impl Packet for PacketCzAuctionReqMyInfo {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzAuctionReqMyInfo {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -57601,6 +61080,13 @@ impl Packet for PacketCzAuctionReqMySellStop {
     }
 }
 
+impl Default for PacketCzAuctionReqMySellStop {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcAuctionAckMySellStop {
     pub fn from(buffer: &[u8]) -> PacketZcAuctionAckMySellStop {
         PacketZcAuctionAckMySellStop {
@@ -57676,6 +61162,13 @@ impl Packet for PacketZcAuctionAckMySellStop {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcAuctionAckMySellStop {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -57757,6 +61250,13 @@ impl Packet for PacketZcAuctionWindows {
     }
 }
 
+impl Default for PacketZcAuctionWindows {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcMailWindows {
     pub fn from(buffer: &[u8]) -> PacketZcMailWindows {
         PacketZcMailWindows {
@@ -57832,6 +61332,13 @@ impl Packet for PacketZcMailWindows {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcMailWindows {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -57921,6 +61428,13 @@ impl Packet for PacketAcReqLoginOldekey {
     }
 }
 
+impl Default for PacketAcReqLoginOldekey {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketAcReqLoginNewekey {
     pub fn from(buffer: &[u8]) -> PacketAcReqLoginNewekey {
         PacketAcReqLoginNewekey {
@@ -58007,6 +61521,13 @@ impl Packet for PacketAcReqLoginNewekey {
     }
 }
 
+impl Default for PacketAcReqLoginNewekey {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketAcReqLoginCardpass {
     pub fn from(buffer: &[u8]) -> PacketAcReqLoginCardpass {
         PacketAcReqLoginCardpass {
@@ -58090,6 +61611,13 @@ impl Packet for PacketAcReqLoginCardpass {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketAcReqLoginCardpass {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -58205,6 +61733,13 @@ impl Packet for PacketCaAckLoginOldekey {
     }
 }
 
+impl Default for PacketCaAckLoginOldekey {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCaAckLoginNewekey {
     pub fn from(buffer: &[u8]) -> PacketCaAckLoginNewekey {
         PacketCaAckLoginNewekey {
@@ -58317,6 +61852,13 @@ impl Packet for PacketCaAckLoginNewekey {
     }
 }
 
+impl Default for PacketCaAckLoginNewekey {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCaAckLoginCardpass {
     pub fn from(buffer: &[u8]) -> PacketCaAckLoginCardpass {
         PacketCaAckLoginCardpass {
@@ -58403,6 +61945,13 @@ impl Packet for PacketCaAckLoginCardpass {
     }
 }
 
+impl Default for PacketCaAckLoginCardpass {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketAcAckEkeyFailNotexist {
     pub fn from(buffer: &[u8]) -> PacketAcAckEkeyFailNotexist {
         PacketAcAckEkeyFailNotexist {
@@ -58478,6 +62027,13 @@ impl Packet for PacketAcAckEkeyFailNotexist {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketAcAckEkeyFailNotexist {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -58559,6 +62115,13 @@ impl Packet for PacketAcAckEkeyFailNotusesekey {
     }
 }
 
+impl Default for PacketAcAckEkeyFailNotusesekey {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketAcAckEkeyFailNotusedekey {
     pub fn from(buffer: &[u8]) -> PacketAcAckEkeyFailNotusedekey {
         PacketAcAckEkeyFailNotusedekey {
@@ -58634,6 +62197,13 @@ impl Packet for PacketAcAckEkeyFailNotusedekey {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketAcAckEkeyFailNotusedekey {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -58715,6 +62285,13 @@ impl Packet for PacketAcAckEkeyFailAuthrefuse {
     }
 }
 
+impl Default for PacketAcAckEkeyFailAuthrefuse {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketAcAckEkeyFailInputekey {
     pub fn from(buffer: &[u8]) -> PacketAcAckEkeyFailInputekey {
         PacketAcAckEkeyFailInputekey {
@@ -58790,6 +62367,13 @@ impl Packet for PacketAcAckEkeyFailInputekey {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketAcAckEkeyFailInputekey {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -58871,6 +62455,13 @@ impl Packet for PacketAcAckEkeyFailNotice {
     }
 }
 
+impl Default for PacketAcAckEkeyFailNotice {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketAcAckEkeyFailNeedcardpass {
     pub fn from(buffer: &[u8]) -> PacketAcAckEkeyFailNeedcardpass {
         PacketAcAckEkeyFailNeedcardpass {
@@ -58946,6 +62537,13 @@ impl Packet for PacketAcAckEkeyFailNeedcardpass {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketAcAckEkeyFailNeedcardpass {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -59027,6 +62625,13 @@ impl Packet for PacketAcAckAuthekeyFailNotmatchcardpass {
     }
 }
 
+impl Default for PacketAcAckAuthekeyFailNotmatchcardpass {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketAcAckFirstLogin {
     pub fn from(buffer: &[u8]) -> PacketAcAckFirstLogin {
         PacketAcAckFirstLogin {
@@ -59087,6 +62692,13 @@ impl Packet for PacketAcAckFirstLogin {
     }
 }
 
+impl Default for PacketAcAckFirstLogin {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketAcReqLoginAccountInfo {
     pub fn from(buffer: &[u8]) -> PacketAcReqLoginAccountInfo {
         PacketAcReqLoginAccountInfo {
@@ -59144,6 +62756,13 @@ impl Packet for PacketAcReqLoginAccountInfo {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketAcReqLoginAccountInfo {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -59269,6 +62888,13 @@ impl Packet for PacketCaAckLoginAccountInfo {
     }
 }
 
+impl Default for PacketCaAckLoginAccountInfo {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketAcAckPtIdInfo {
     pub fn from(buffer: &[u8]) -> PacketAcAckPtIdInfo {
         PacketAcAckPtIdInfo {
@@ -59381,6 +63007,13 @@ impl Packet for PacketAcAckPtIdInfo {
     }
 }
 
+impl Default for PacketAcAckPtIdInfo {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzReqMailReturn {
     pub fn from(buffer: &[u8]) -> PacketCzReqMailReturn {
         PacketCzReqMailReturn {
@@ -59485,6 +63118,13 @@ impl Packet for PacketCzReqMailReturn {
     }
 }
 
+impl Default for PacketCzReqMailReturn {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcAckMailReturn {
     pub fn from(buffer: &[u8]) -> PacketZcAckMailReturn {
         PacketZcAckMailReturn {
@@ -59578,6 +63218,13 @@ impl Packet for PacketZcAckMailReturn {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcAckMailReturn {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -59772,6 +63419,13 @@ impl Packet for PacketChEnter2 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketChEnter2 {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -59987,6 +63641,13 @@ impl Packet for PacketCaAcceptLogin2 {
     }
 }
 
+impl Default for PacketCaAcceptLogin2 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCaLoginPcbang {
     pub fn from(buffer: &[u8]) -> PacketCaLoginPcbang {
         PacketCaLoginPcbang {
@@ -60187,6 +63848,13 @@ impl Packet for PacketCaLoginPcbang {
     }
 }
 
+impl Default for PacketCaLoginPcbang {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcNotifyPcbang {
     pub fn from(buffer: &[u8]) -> PacketZcNotifyPcbang {
         PacketZcNotifyPcbang {
@@ -60247,6 +63915,13 @@ impl Packet for PacketZcNotifyPcbang {
     }
 }
 
+impl Default for PacketZcNotifyPcbang {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzHuntinglist {
     pub fn from(buffer: &[u8]) -> PacketCzHuntinglist {
         PacketCzHuntinglist {
@@ -60304,6 +63979,13 @@ impl Packet for PacketCzHuntinglist {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzHuntinglist {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -60407,6 +64089,13 @@ impl Packet for PacketZcHuntinglist {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcHuntinglist {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -60521,6 +64210,13 @@ impl Packet for PacketZcPcbangEffect {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcPcbangEffect {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -60695,6 +64391,13 @@ impl Packet for PacketCaLogin4 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCaLogin4 {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -61090,6 +64793,13 @@ impl Packet for PacketZcPropertyMerce {
     }
 }
 
+impl Default for PacketZcPropertyMerce {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcShandaProtect {
     pub fn from(buffer: &[u8]) -> PacketZcShandaProtect {
         PacketZcShandaProtect {
@@ -61198,6 +64908,13 @@ impl Packet for PacketZcShandaProtect {
     }
 }
 
+impl Default for PacketZcShandaProtect {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCaClientType {
     pub fn from(buffer: &[u8]) -> PacketCaClientType {
         PacketCaClientType {
@@ -61291,6 +65008,13 @@ impl Packet for PacketCaClientType {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCaClientType {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -61408,6 +65132,13 @@ impl Packet for PacketZcGangsiPoint {
     }
 }
 
+impl Default for PacketZcGangsiPoint {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzGangsiRank {
     pub fn from(buffer: &[u8]) -> PacketCzGangsiRank {
         PacketCzGangsiRank {
@@ -61486,6 +65217,13 @@ impl Packet for PacketCzGangsiRank {
     }
 }
 
+impl Default for PacketCzGangsiRank {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcGangsiRank {
     pub fn from(buffer: &[u8]) -> PacketZcGangsiRank {
         PacketZcGangsiRank {
@@ -61509,7 +65247,7 @@ impl PacketZcGangsiRank {
                 dst
             },
             point:  {
-                let mut dst: [i32; 10] = [0 as i32; 10];
+                let mut dst: [i32; 10] = [0_i32; 10];
                 for (index, byte) in buffer[12..22].iter().enumerate() {
                     dst[index] = *byte as i32;
                 }
@@ -61616,6 +65354,13 @@ impl Packet for PacketZcGangsiRank {
     }
 }
 
+impl Default for PacketZcGangsiRank {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcAid {
     pub fn from(buffer: &[u8]) -> PacketZcAid {
         PacketZcAid {
@@ -61691,6 +65436,13 @@ impl Packet for PacketZcAid {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcAid {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -61808,6 +65560,13 @@ impl Packet for PacketZcNotifyEffect3 {
     }
 }
 
+impl Default for PacketZcNotifyEffect3 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcDeathQuestion {
     pub fn from(buffer: &[u8]) -> PacketZcDeathQuestion {
         PacketZcDeathQuestion {
@@ -61904,6 +65663,13 @@ impl Packet for PacketZcDeathQuestion {
     }
 }
 
+impl Default for PacketZcDeathQuestion {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzDeathQuestion {
     pub fn from(buffer: &[u8]) -> PacketCzDeathQuestion {
         PacketCzDeathQuestion {
@@ -61979,6 +65745,13 @@ impl Packet for PacketCzDeathQuestion {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzDeathQuestion {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -62103,6 +65876,13 @@ impl Packet for PacketZcPcCashPointItemlist {
     }
 }
 
+impl Default for PacketZcPcCashPointItemlist {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzPcBuyCashPointItem {
     pub fn from(buffer: &[u8]) -> PacketCzPcBuyCashPointItem {
         PacketCzPcBuyCashPointItem {
@@ -62199,6 +65979,13 @@ impl Packet for PacketCzPcBuyCashPointItem {
     }
 }
 
+impl Default for PacketCzPcBuyCashPointItem {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcPcCashPointUpdate {
     pub fn from(buffer: &[u8]) -> PacketZcPcCashPointUpdate {
         PacketZcPcCashPointUpdate {
@@ -62292,6 +66079,13 @@ impl Packet for PacketZcPcCashPointUpdate {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcPcCashPointUpdate {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -62427,6 +66221,13 @@ impl Packet for PacketZcNpcShowefstUpdate {
     }
 }
 
+impl Default for PacketZcNpcShowefstUpdate {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketChSelectCharGoingtobeused {
     pub fn from(buffer: &[u8]) -> PacketChSelectCharGoingtobeused {
         PacketChSelectCharGoingtobeused {
@@ -62450,7 +66251,7 @@ impl PacketChSelectCharGoingtobeused {
                 dst
             },
             ardw_selected_gid:  {
-                let mut dst: [u32; 9] = [0 as u32; 9];
+                let mut dst: [u32; 9] = [0_u32; 9];
                 for (index, byte) in buffer[10..19].iter().enumerate() {
                     dst[index] = *byte as u32;
                 }
@@ -62546,6 +66347,13 @@ impl Packet for PacketChSelectCharGoingtobeused {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketChSelectCharGoingtobeused {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -62671,6 +66479,13 @@ impl Packet for PacketChReqIsValidCharname {
     }
 }
 
+impl Default for PacketChReqIsValidCharname {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketHcAckIsValidCharname {
     pub fn from(buffer: &[u8]) -> PacketHcAckIsValidCharname {
         PacketHcAckIsValidCharname {
@@ -62746,6 +66561,13 @@ impl Packet for PacketHcAckIsValidCharname {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketHcAckIsValidCharname {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -62827,6 +66649,13 @@ impl Packet for PacketChReqChangeCharname {
     }
 }
 
+impl Default for PacketChReqChangeCharname {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketHcAckChangeCharname {
     pub fn from(buffer: &[u8]) -> PacketHcAckChangeCharname {
         PacketHcAckChangeCharname {
@@ -62902,6 +66731,13 @@ impl Packet for PacketHcAckChangeCharname {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketHcAckChangeCharname {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -62983,6 +66819,13 @@ impl Packet for PacketZcMsg {
     }
 }
 
+impl Default for PacketZcMsg {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzStandingResurrection {
     pub fn from(buffer: &[u8]) -> PacketCzStandingResurrection {
         PacketCzStandingResurrection {
@@ -63040,6 +66883,13 @@ impl Packet for PacketCzStandingResurrection {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzStandingResurrection {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -63255,6 +67105,13 @@ impl Packet for PacketZcBossInfo {
     }
 }
 
+impl Default for PacketZcBossInfo {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcReadBook {
     pub fn from(buffer: &[u8]) -> PacketZcReadBook {
         PacketZcReadBook {
@@ -63348,6 +67205,13 @@ impl Packet for PacketZcReadBook {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcReadBook {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -63454,6 +67318,13 @@ impl Packet for PacketZcEquipmentItemlist2 {
     }
 }
 
+impl Default for PacketZcEquipmentItemlist2 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcStoreEquipmentItemlist2 {
     pub fn from(buffer: &[u8]) -> PacketZcStoreEquipmentItemlist2 {
         let iter_count = (&buffer.len() - 4) / 24;
@@ -63554,6 +67425,13 @@ impl Packet for PacketZcStoreEquipmentItemlist2 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcStoreEquipmentItemlist2 {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -63660,6 +67538,13 @@ impl Packet for PacketZcCartEquipmentItemlist2 {
     }
 }
 
+impl Default for PacketZcCartEquipmentItemlist2 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcCashTimeCounter {
     pub fn from(buffer: &[u8]) -> PacketZcCashTimeCounter {
         PacketZcCashTimeCounter {
@@ -63756,6 +67641,13 @@ impl Packet for PacketZcCashTimeCounter {
     }
 }
 
+impl Default for PacketZcCashTimeCounter {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcCashItemDelete {
     pub fn from(buffer: &[u8]) -> PacketZcCashItemDelete {
         PacketZcCashItemDelete {
@@ -63849,6 +67741,13 @@ impl Packet for PacketZcCashItemDelete {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcCashItemDelete {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -64107,6 +68006,13 @@ impl Packet for PacketZcItemPickupAck2 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcItemPickupAck2 {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -64538,6 +68444,13 @@ impl Packet for PacketZcMerInit {
     }
 }
 
+impl Default for PacketZcMerInit {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcMerProperty {
     pub fn from(buffer: &[u8]) -> PacketZcMerProperty {
         PacketZcMerProperty {
@@ -64930,6 +68843,13 @@ impl Packet for PacketZcMerProperty {
     }
 }
 
+impl Default for PacketZcMerProperty {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcMerSkillinfoList {
     pub fn from(buffer: &[u8]) -> PacketZcMerSkillinfoList {
         let iter_count = (&buffer.len() - 4) / 37;
@@ -65030,6 +68950,13 @@ impl Packet for PacketZcMerSkillinfoList {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcMerSkillinfoList {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -65183,6 +69110,13 @@ impl Packet for PacketZcMerSkillinfoUpdate {
     }
 }
 
+impl Default for PacketZcMerSkillinfoUpdate {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzMerCommand {
     pub fn from(buffer: &[u8]) -> PacketCzMerCommand {
         PacketCzMerCommand {
@@ -65258,6 +69192,13 @@ impl Packet for PacketCzMerCommand {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzMerCommand {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -65375,6 +69316,13 @@ impl Packet for UnusedPacketCzMerUseSkill {
     }
 }
 
+impl Default for UnusedPacketCzMerUseSkill {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl UnusedPacketCzMerUpgradeSkilllevel {
     pub fn from(buffer: &[u8]) -> UnusedPacketCzMerUpgradeSkilllevel {
         UnusedPacketCzMerUpgradeSkilllevel {
@@ -65450,6 +69398,13 @@ impl Packet for UnusedPacketCzMerUpgradeSkilllevel {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for UnusedPacketCzMerUpgradeSkilllevel {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -65549,6 +69504,13 @@ impl Packet for PacketZcMerParChange {
     }
 }
 
+impl Default for PacketZcMerParChange {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcGameguardLingoKey {
     pub fn from(buffer: &[u8]) -> PacketZcGameguardLingoKey {
         PacketZcGameguardLingoKey {
@@ -65620,6 +69582,13 @@ impl Packet for PacketZcGameguardLingoKey {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcGameguardLingoKey {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -65719,6 +69688,13 @@ impl Packet for PacketCzKsyEvent {
     }
 }
 
+impl Default for PacketCzKsyEvent {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcReqCashPassword {
     pub fn from(buffer: &[u8]) -> PacketZcReqCashPassword {
         PacketZcReqCashPassword {
@@ -65794,6 +69770,13 @@ impl Packet for PacketZcReqCashPassword {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcReqCashPassword {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -65927,6 +69910,13 @@ impl Packet for PacketCzAckCashPassword {
     }
 }
 
+impl Default for PacketCzAckCashPassword {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcResultCashPassword {
     pub fn from(buffer: &[u8]) -> PacketZcResultCashPassword {
         PacketZcResultCashPassword {
@@ -66023,6 +70013,13 @@ impl Packet for PacketZcResultCashPassword {
     }
 }
 
+impl Default for PacketZcResultCashPassword {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketAcRequestSecondPassword {
     pub fn from(buffer: &[u8]) -> PacketAcRequestSecondPassword {
         PacketAcRequestSecondPassword {
@@ -66116,6 +70113,13 @@ impl Packet for PacketAcRequestSecondPassword {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketAcRequestSecondPassword {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -66337,6 +70341,13 @@ impl Packet for PacketCaLoginHan {
     }
 }
 
+impl Default for PacketCaLoginHan {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcAllQuestList {
     pub fn from(buffer: &[u8]) -> PacketZcAllQuestList {
         let iter_count = (&buffer.len() - 8) / 5;
@@ -66458,6 +70469,13 @@ impl Packet for PacketZcAllQuestList {
     }
 }
 
+impl Default for PacketZcAllQuestList {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcAllQuestMission {
     pub fn from(buffer: &[u8]) -> PacketZcAllQuestMission {
         let iter_count = (&buffer.len() - 8) / 104;
@@ -66576,6 +70594,13 @@ impl Packet for PacketZcAllQuestMission {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcAllQuestMission {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -66754,6 +70779,13 @@ impl Packet for PacketZcAddQuest {
     }
 }
 
+impl Default for PacketZcAddQuest {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcDelQuest {
     pub fn from(buffer: &[u8]) -> PacketZcDelQuest {
         PacketZcDelQuest {
@@ -66829,6 +70861,13 @@ impl Packet for PacketZcDelQuest {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcDelQuest {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -66953,6 +70992,13 @@ impl Packet for PacketZcUpdateMissionHunt {
     }
 }
 
+impl Default for PacketZcUpdateMissionHunt {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzActiveQuest {
     pub fn from(buffer: &[u8]) -> PacketCzActiveQuest {
         PacketCzActiveQuest {
@@ -67049,6 +71095,13 @@ impl Packet for PacketCzActiveQuest {
     }
 }
 
+impl Default for PacketCzActiveQuest {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcActiveQuest {
     pub fn from(buffer: &[u8]) -> PacketZcActiveQuest {
         PacketZcActiveQuest {
@@ -67142,6 +71195,13 @@ impl Packet for PacketZcActiveQuest {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcActiveQuest {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -67349,6 +71409,13 @@ impl Packet for PacketZcItemPickupParty {
     }
 }
 
+impl Default for PacketZcItemPickupParty {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcShortcutKeyList {
     pub fn from(buffer: &[u8]) -> PacketZcShortcutKeyList {
         let iter_count = (&buffer.len() - 2) / 7;
@@ -67431,6 +71498,13 @@ impl Packet for PacketZcShortcutKeyList {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcShortcutKeyList {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -67523,6 +71597,13 @@ impl Packet for PacketCzShortcutKeyChange {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzShortcutKeyChange {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -67622,6 +71703,13 @@ impl Packet for PacketZcEquipitemDamaged {
     }
 }
 
+impl Default for PacketZcEquipitemDamaged {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcNotifyPcbangPlayingTime {
     pub fn from(buffer: &[u8]) -> PacketZcNotifyPcbangPlayingTime {
         PacketZcNotifyPcbangPlayingTime {
@@ -67697,6 +71785,13 @@ impl Packet for PacketZcNotifyPcbangPlayingTime {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcNotifyPcbangPlayingTime {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -67814,6 +71909,13 @@ impl Packet for PacketZcSrpacketr2Init {
     }
 }
 
+impl Default for PacketZcSrpacketr2Init {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzSrpacketr2Start {
     pub fn from(buffer: &[u8]) -> PacketCzSrpacketr2Start {
         PacketCzSrpacketr2Start {
@@ -67889,6 +71991,13 @@ impl Packet for PacketCzSrpacketr2Start {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzSrpacketr2Start {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -68018,6 +72127,13 @@ impl Packet for PacketZcNpcChat {
     }
 }
 
+impl Default for PacketZcNpcChat {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcFormatstringMsg {
     pub fn from(buffer: &[u8]) -> PacketZcFormatstringMsg {
         PacketZcFormatstringMsg {
@@ -68126,6 +72242,13 @@ impl Packet for PacketZcFormatstringMsg {
     }
 }
 
+impl Default for PacketZcFormatstringMsg {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzPartyJoinReq {
     pub fn from(buffer: &[u8]) -> PacketCzPartyJoinReq {
         PacketCzPartyJoinReq {
@@ -68209,6 +72332,13 @@ impl Packet for PacketCzPartyJoinReq {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzPartyJoinReq {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -68316,6 +72446,13 @@ impl Packet for PacketZcPartyJoinReqAck {
     }
 }
 
+impl Default for PacketZcPartyJoinReqAck {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcPartyJoinReq {
     pub fn from(buffer: &[u8]) -> PacketZcPartyJoinReq {
         PacketZcPartyJoinReq {
@@ -68420,6 +72557,13 @@ impl Packet for PacketZcPartyJoinReq {
     }
 }
 
+impl Default for PacketZcPartyJoinReq {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzPartyJoinReqAck {
     pub fn from(buffer: &[u8]) -> PacketCzPartyJoinReqAck {
         PacketCzPartyJoinReqAck {
@@ -68516,6 +72660,13 @@ impl Packet for PacketCzPartyJoinReqAck {
     }
 }
 
+impl Default for PacketCzPartyJoinReqAck {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzPartyConfig {
     pub fn from(buffer: &[u8]) -> PacketCzPartyConfig {
         PacketCzPartyConfig {
@@ -68591,6 +72742,13 @@ impl Packet for PacketCzPartyConfig {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzPartyConfig {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -68672,6 +72830,13 @@ impl Packet for PacketZcPartyConfig {
     }
 }
 
+impl Default for PacketZcPartyConfig {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketHcRefuseSelectchar {
     pub fn from(buffer: &[u8]) -> PacketHcRefuseSelectchar {
         PacketHcRefuseSelectchar {
@@ -68747,6 +72912,13 @@ impl Packet for PacketHcRefuseSelectchar {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketHcRefuseSelectchar {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -68854,6 +73026,13 @@ impl Packet for PacketZcMemorialdungeonSubscriptionInfo {
     }
 }
 
+impl Default for PacketZcMemorialdungeonSubscriptionInfo {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcMemorialdungeonSubscriptionNotify {
     pub fn from(buffer: &[u8]) -> PacketZcMemorialdungeonSubscriptionNotify {
         PacketZcMemorialdungeonSubscriptionNotify {
@@ -68929,6 +73108,13 @@ impl Packet for PacketZcMemorialdungeonSubscriptionNotify {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcMemorialdungeonSubscriptionNotify {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -69054,6 +73240,13 @@ impl Packet for PacketZcMemorialdungeonInfo {
     }
 }
 
+impl Default for PacketZcMemorialdungeonInfo {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcMemorialdungeonNotify {
     pub fn from(buffer: &[u8]) -> PacketZcMemorialdungeonNotify {
         PacketZcMemorialdungeonNotify {
@@ -69150,6 +73343,13 @@ impl Packet for PacketZcMemorialdungeonNotify {
     }
 }
 
+impl Default for PacketZcMemorialdungeonNotify {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzMemorialdungeonCommand {
     pub fn from(buffer: &[u8]) -> PacketCzMemorialdungeonCommand {
         PacketCzMemorialdungeonCommand {
@@ -69225,6 +73425,13 @@ impl Packet for PacketCzMemorialdungeonCommand {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzMemorialdungeonCommand {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -69331,6 +73538,13 @@ impl Packet for PacketZcEquipmentItemlist3 {
     }
 }
 
+impl Default for PacketZcEquipmentItemlist3 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcStoreEquipmentItemlist3 {
     pub fn from(buffer: &[u8]) -> PacketZcStoreEquipmentItemlist3 {
         let iter_count = (&buffer.len() - 4) / 28;
@@ -69431,6 +73645,13 @@ impl Packet for PacketZcStoreEquipmentItemlist3 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcStoreEquipmentItemlist3 {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -69537,6 +73758,13 @@ impl Packet for PacketZcCartEquipmentItemlist3 {
     }
 }
 
+impl Default for PacketZcCartEquipmentItemlist3 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcNotifyBindOnEquip {
     pub fn from(buffer: &[u8]) -> PacketZcNotifyBindOnEquip {
         PacketZcNotifyBindOnEquip {
@@ -69612,6 +73840,13 @@ impl Packet for PacketZcNotifyBindOnEquip {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcNotifyBindOnEquip {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -69891,6 +74126,13 @@ impl Packet for PacketZcItemPickupAck3 {
     }
 }
 
+impl Default for PacketZcItemPickupAck3 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcIsvrDisconnect {
     pub fn from(buffer: &[u8]) -> PacketZcIsvrDisconnect {
         PacketZcIsvrDisconnect {
@@ -69948,6 +74190,13 @@ impl Packet for PacketZcIsvrDisconnect {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcIsvrDisconnect {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -70026,6 +74275,13 @@ impl Packet for PacketCzEquipwinMicroscope {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzEquipwinMicroscope {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -70302,6 +74558,13 @@ impl Packet for PacketZcEquipwinMicroscope {
     }
 }
 
+impl Default for PacketZcEquipwinMicroscope {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzConfig {
     pub fn from(buffer: &[u8]) -> PacketCzConfig {
         PacketCzConfig {
@@ -70395,6 +74658,13 @@ impl Packet for PacketCzConfig {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzConfig {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -70494,6 +74764,13 @@ impl Packet for PacketZcConfig {
     }
 }
 
+impl Default for PacketZcConfig {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcConfigNotify {
     pub fn from(buffer: &[u8]) -> PacketZcConfigNotify {
         PacketZcConfigNotify {
@@ -70569,6 +74846,13 @@ impl Packet for PacketZcConfigNotify {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcConfigNotify {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -70659,6 +74943,13 @@ impl Packet for PacketCzBattlefieldChat {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzBattlefieldChat {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -70796,6 +75087,13 @@ impl Packet for PacketZcBattlefieldChat {
     }
 }
 
+impl Default for PacketZcBattlefieldChat {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcBattlefieldNotifyCampinfo {
     pub fn from(buffer: &[u8]) -> PacketZcBattlefieldNotifyCampinfo {
         PacketZcBattlefieldNotifyCampinfo {
@@ -70918,6 +75216,13 @@ impl Packet for PacketZcBattlefieldNotifyCampinfo {
     }
 }
 
+impl Default for PacketZcBattlefieldNotifyCampinfo {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcBattlefieldNotifyPoint {
     pub fn from(buffer: &[u8]) -> PacketZcBattlefieldNotifyPoint {
         PacketZcBattlefieldNotifyPoint {
@@ -71011,6 +75316,13 @@ impl Packet for PacketZcBattlefieldNotifyPoint {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcBattlefieldNotifyPoint {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -71172,6 +75484,13 @@ impl Packet for PacketZcBattlefieldNotifyPosition {
     }
 }
 
+impl Default for PacketZcBattlefieldNotifyPosition {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcBattlefieldNotifyHp {
     pub fn from(buffer: &[u8]) -> PacketZcBattlefieldNotifyHp {
         PacketZcBattlefieldNotifyHp {
@@ -71309,6 +75628,13 @@ impl Packet for PacketZcBattlefieldNotifyHp {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcBattlefieldNotifyHp {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -71534,6 +75860,13 @@ impl Packet for PacketZcNotifyAct2 {
     }
 }
 
+impl Default for PacketZcNotifyAct2 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzBotCheck {
     pub fn from(buffer: &[u8]) -> PacketCzBotCheck {
         PacketCzBotCheck {
@@ -71609,6 +75942,13 @@ impl Packet for PacketCzBotCheck {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzBotCheck {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -71723,6 +76063,13 @@ impl Packet for PacketZcMapproperty {
     }
 }
 
+impl Default for PacketZcMapproperty {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcNormalItemlist3 {
     pub fn from(buffer: &[u8]) -> PacketZcNormalItemlist3 {
         let iter_count = (&buffer.len() - 4) / 22;
@@ -71823,6 +76170,13 @@ impl Packet for PacketZcNormalItemlist3 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcNormalItemlist3 {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -71929,6 +76283,13 @@ impl Packet for PacketZcCartNormalItemlist3 {
     }
 }
 
+impl Default for PacketZcCartNormalItemlist3 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcStoreNormalItemlist3 {
     pub fn from(buffer: &[u8]) -> PacketZcStoreNormalItemlist3 {
         let iter_count = (&buffer.len() - 4) / 22;
@@ -72032,6 +76393,13 @@ impl Packet for PacketZcStoreNormalItemlist3 {
     }
 }
 
+impl Default for PacketZcStoreNormalItemlist3 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcAcceptEnter2 {
     pub fn from(buffer: &[u8]) -> PacketZcAcceptEnter2 {
         PacketZcAcceptEnter2 {
@@ -72049,7 +76417,7 @@ impl PacketZcAcceptEnter2 {
                 dst
             },
             pos_dir:  {
-                let mut dst: [u8; 3] = [0 as u8; 3];
+                let mut dst: [u8; 3] = [0_u8; 3];
                 for (index, byte) in buffer[6..9].iter().enumerate() {
                     dst[index] = *byte as u8;
                 }
@@ -72187,6 +76555,13 @@ impl Packet for PacketZcAcceptEnter2 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcAcceptEnter2 {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -72333,7 +76708,7 @@ impl PacketZcNotifyMoveentry4 {
                 dst
             },
             move_data:  {
-                let mut dst: [u16; 6] = [0 as u16; 6];
+                let mut dst: [u16; 6] = [0_u16; 6];
                 for (index, byte) in buffer[55..61].iter().enumerate() {
                     dst[index] = *byte as u16;
                 }
@@ -72744,6 +77119,13 @@ impl Packet for PacketZcNotifyMoveentry4 {
     }
 }
 
+impl Default for PacketZcNotifyMoveentry4 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcNotifyNewentry4 {
     pub fn from(buffer: &[u8]) -> PacketZcNotifyNewentry4 {
         PacketZcNotifyNewentry4 {
@@ -72875,7 +77257,7 @@ impl PacketZcNotifyNewentry4 {
                 dst
             },
             pos_dir:  {
-                let mut dst: [u8; 3] = [0 as u8; 3];
+                let mut dst: [u8; 3] = [0_u8; 3];
                 for (index, byte) in buffer[50..53].iter().enumerate() {
                     dst[index] = *byte as u8;
                 }
@@ -73262,6 +77644,13 @@ impl Packet for PacketZcNotifyNewentry4 {
     }
 }
 
+impl Default for PacketZcNotifyNewentry4 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcNotifyStandentry4 {
     pub fn from(buffer: &[u8]) -> PacketZcNotifyStandentry4 {
         PacketZcNotifyStandentry4 {
@@ -73393,7 +77782,7 @@ impl PacketZcNotifyStandentry4 {
                 dst
             },
             pos_dir:  {
-                let mut dst: [u8; 3] = [0 as u8; 3];
+                let mut dst: [u8; 3] = [0_u8; 3];
                 for (index, byte) in buffer[50..53].iter().enumerate() {
                     dst[index] = *byte as u8;
                 }
@@ -73798,6 +78187,13 @@ impl Packet for PacketZcNotifyStandentry4 {
     }
 }
 
+impl Default for PacketZcNotifyStandentry4 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcNotifyFont {
     pub fn from(buffer: &[u8]) -> PacketZcNotifyFont {
         PacketZcNotifyFont {
@@ -73891,6 +78287,13 @@ impl Packet for PacketZcNotifyFont {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcNotifyFont {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -73990,6 +78393,13 @@ impl Packet for PacketZcProgress {
     }
 }
 
+impl Default for PacketZcProgress {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzProgress {
     pub fn from(buffer: &[u8]) -> PacketCzProgress {
         PacketCzProgress {
@@ -74047,6 +78457,13 @@ impl Packet for PacketCzProgress {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzProgress {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -74110,6 +78527,13 @@ impl Packet for PacketZcProgressCancel {
     }
 }
 
+impl Default for PacketZcProgressCancel {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzOpenSimpleCashshopItemlist {
     pub fn from(buffer: &[u8]) -> PacketCzOpenSimpleCashshopItemlist {
         PacketCzOpenSimpleCashshopItemlist {
@@ -74167,6 +78591,13 @@ impl Packet for PacketCzOpenSimpleCashshopItemlist {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzOpenSimpleCashshopItemlist {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -74363,6 +78794,13 @@ impl Packet for PacketZcSimpleCashshopPointItemlist {
     }
 }
 
+impl Default for PacketZcSimpleCashshopPointItemlist {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzCloseWindow {
     pub fn from(buffer: &[u8]) -> PacketCzCloseWindow {
         PacketCzCloseWindow {
@@ -74423,6 +78861,13 @@ impl Packet for PacketCzCloseWindow {
     }
 }
 
+impl Default for PacketCzCloseWindow {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketAhcGameGuard {
     pub fn from(buffer: &[u8]) -> PacketAhcGameGuard {
         PacketAhcGameGuard {
@@ -74434,7 +78879,7 @@ impl PacketAhcGameGuard {
                 dst
             },
             auth_data:  {
-                let mut dst: [u32; 4] = [0 as u32; 4];
+                let mut dst: [u32; 4] = [0_u32; 4];
                 for (index, byte) in buffer[2..6].iter().enumerate() {
                     dst[index] = *byte as u32;
                 }
@@ -74509,6 +78954,13 @@ impl Packet for PacketAhcGameGuard {
     }
 }
 
+impl Default for PacketAhcGameGuard {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCahAckGameGuard {
     pub fn from(buffer: &[u8]) -> PacketCahAckGameGuard {
         PacketCahAckGameGuard {
@@ -74520,7 +78972,7 @@ impl PacketCahAckGameGuard {
                 dst
             },
             auth_data:  {
-                let mut dst: [u32; 4] = [0 as u32; 4];
+                let mut dst: [u32; 4] = [0_u32; 4];
                 for (index, byte) in buffer[2..6].iter().enumerate() {
                     dst[index] = *byte as u32;
                 }
@@ -74592,6 +79044,13 @@ impl Packet for PacketCahAckGameGuard {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCahAckGameGuard {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -74745,6 +79204,13 @@ impl Packet for PacketCzEnter2 {
     }
 }
 
+impl Default for PacketCzEnter2 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzRequestAct2 {
     pub fn from(buffer: &[u8]) -> PacketCzRequestAct2 {
         PacketCzRequestAct2 {
@@ -74838,6 +79304,13 @@ impl Packet for PacketCzRequestAct2 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzRequestAct2 {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -74955,6 +79428,13 @@ impl Packet for PacketCzUseSkill2 {
     }
 }
 
+impl Default for PacketCzUseSkill2 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzUseItem2 {
     pub fn from(buffer: &[u8]) -> PacketCzUseItem2 {
         PacketCzUseItem2 {
@@ -75051,6 +79531,13 @@ impl Packet for PacketCzUseItem2 {
     }
 }
 
+impl Default for PacketCzUseItem2 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcSkillPostdelay {
     pub fn from(buffer: &[u8]) -> PacketZcSkillPostdelay {
         PacketZcSkillPostdelay {
@@ -75144,6 +79631,13 @@ impl Packet for PacketZcSkillPostdelay {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcSkillPostdelay {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -75250,6 +79744,13 @@ impl Packet for PacketZcSkillPostdelayList {
     }
 }
 
+impl Default for PacketZcSkillPostdelayList {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcMsgStateChange2 {
     pub fn from(buffer: &[u8]) -> PacketZcMsgStateChange2 {
         PacketZcMsgStateChange2 {
@@ -75285,7 +79786,7 @@ impl PacketZcMsgStateChange2 {
                 dst
             },
             val:  {
-                let mut dst: [i32; 3] = [0 as i32; 3];
+                let mut dst: [i32; 3] = [0_i32; 3];
                 for (index, byte) in buffer[13..16].iter().enumerate() {
                     dst[index] = *byte as i32;
                 }
@@ -75408,6 +79909,13 @@ impl Packet for PacketZcMsgStateChange2 {
     }
 }
 
+impl Default for PacketZcMsgStateChange2 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcMillenniumshield {
     pub fn from(buffer: &[u8]) -> PacketZcMillenniumshield {
         PacketZcMillenniumshield {
@@ -75522,6 +80030,13 @@ impl Packet for PacketZcMillenniumshield {
     }
 }
 
+impl Default for PacketZcMillenniumshield {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcSkillinfoDelete {
     pub fn from(buffer: &[u8]) -> PacketZcSkillinfoDelete {
         PacketZcSkillinfoDelete {
@@ -75597,6 +80112,13 @@ impl Packet for PacketZcSkillinfoDelete {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcSkillinfoDelete {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -75711,6 +80233,13 @@ impl Packet for PacketZcSkillSelectRequest {
     }
 }
 
+impl Default for PacketZcSkillSelectRequest {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzSkillSelectResponse {
     pub fn from(buffer: &[u8]) -> PacketCzSkillSelectResponse {
         PacketCzSkillSelectResponse {
@@ -75804,6 +80333,13 @@ impl Packet for PacketCzSkillSelectResponse {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzSkillSelectResponse {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -75928,6 +80464,13 @@ impl Packet for PacketZcSimpleCashPointItemlist {
     }
 }
 
+impl Default for PacketZcSimpleCashPointItemlist {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzSimpleBuyCashPointItem {
     pub fn from(buffer: &[u8]) -> PacketCzSimpleBuyCashPointItem {
         PacketCzSimpleBuyCashPointItem {
@@ -76021,6 +80564,13 @@ impl Packet for PacketCzSimpleBuyCashPointItem {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzSimpleBuyCashPointItem {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -76174,6 +80724,13 @@ impl Packet for PacketZcQuestNotifyEffect {
     }
 }
 
+impl Default for PacketZcQuestNotifyEffect {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketHcCharacterList {
     pub fn from(buffer: &[u8]) -> PacketHcCharacterList {
         let iter_count = (&buffer.len() - 4) / 5;
@@ -76277,6 +80834,13 @@ impl Packet for PacketHcCharacterList {
     }
 }
 
+impl Default for PacketHcCharacterList {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcHackshErrorMsg {
     pub fn from(buffer: &[u8]) -> PacketZcHackshErrorMsg {
         PacketZcHackshErrorMsg {
@@ -76352,6 +80916,13 @@ impl Packet for PacketZcHackshErrorMsg {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcHackshErrorMsg {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -76433,6 +81004,13 @@ impl Packet for PacketCzClientVersion {
     }
 }
 
+impl Default for PacketCzClientVersion {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzCloseSimplecashShop {
     pub fn from(buffer: &[u8]) -> PacketCzCloseSimplecashShop {
         PacketCzCloseSimplecashShop {
@@ -76490,6 +81068,13 @@ impl Packet for PacketCzCloseSimplecashShop {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzCloseSimplecashShop {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -76589,6 +81174,13 @@ impl Packet for PacketZcEsResult {
     }
 }
 
+impl Default for PacketZcEsResult {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzEsGetList {
     pub fn from(buffer: &[u8]) -> PacketCzEsGetList {
         PacketCzEsGetList {
@@ -76646,6 +81238,13 @@ impl Packet for PacketCzEsGetList {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzEsGetList {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -76745,6 +81344,13 @@ impl Packet for PacketZcEsList {
     }
 }
 
+impl Default for PacketZcEsList {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzEsChoose {
     pub fn from(buffer: &[u8]) -> PacketCzEsChoose {
         PacketCzEsChoose {
@@ -76820,6 +81426,13 @@ impl Packet for PacketCzEsChoose {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzEsChoose {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -76901,6 +81514,13 @@ impl Packet for PacketCzEsCancel {
     }
 }
 
+impl Default for PacketCzEsCancel {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcEsReady {
     pub fn from(buffer: &[u8]) -> PacketZcEsReady {
         PacketZcEsReady {
@@ -76979,6 +81599,13 @@ impl Packet for PacketZcEsReady {
     }
 }
 
+impl Default for PacketZcEsReady {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcEsGoto {
     pub fn from(buffer: &[u8]) -> PacketZcEsGoto {
         PacketZcEsGoto {
@@ -77054,6 +81681,13 @@ impl Packet for PacketZcEsGoto {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcEsGoto {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -77171,6 +81805,13 @@ impl Packet for PacketCzGroupinfoChangeV2 {
     }
 }
 
+impl Default for PacketCzGroupinfoChangeV2 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcReqGroupinfoChangeV2 {
     pub fn from(buffer: &[u8]) -> PacketZcReqGroupinfoChangeV2 {
         PacketZcReqGroupinfoChangeV2 {
@@ -77285,6 +81926,13 @@ impl Packet for PacketZcReqGroupinfoChangeV2 {
     }
 }
 
+impl Default for PacketZcReqGroupinfoChangeV2 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcShortcutKeyListV2 {
     pub fn from(buffer: &[u8]) -> PacketZcShortcutKeyListV2 {
         let iter_count = (&buffer.len() - 2) / 7;
@@ -77370,6 +82018,13 @@ impl Packet for PacketZcShortcutKeyListV2 {
     }
 }
 
+impl Default for PacketZcShortcutKeyListV2 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzChangeGroupMaster {
     pub fn from(buffer: &[u8]) -> PacketCzChangeGroupMaster {
         PacketCzChangeGroupMaster {
@@ -77445,6 +82100,13 @@ impl Packet for PacketCzChangeGroupMaster {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzChangeGroupMaster {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -77544,6 +82206,13 @@ impl Packet for PacketZcHoParChange {
     }
 }
 
+impl Default for PacketZcHoParChange {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzSeekParty {
     pub fn from(buffer: &[u8]) -> PacketCzSeekParty {
         PacketCzSeekParty {
@@ -77619,6 +82288,13 @@ impl Packet for PacketCzSeekParty {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzSeekParty {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -77788,6 +82464,13 @@ impl Packet for PacketZcSeekParty {
     }
 }
 
+impl Default for PacketZcSeekParty {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzSeekPartyMember {
     pub fn from(buffer: &[u8]) -> PacketCzSeekPartyMember {
         PacketCzSeekPartyMember {
@@ -77925,6 +82608,13 @@ impl Packet for PacketCzSeekPartyMember {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzSeekPartyMember {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -78094,6 +82784,13 @@ impl Packet for PacketZcSeekPartyMember {
     }
 }
 
+impl Default for PacketZcSeekPartyMember {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcEsNotiMyinfo {
     pub fn from(buffer: &[u8]) -> PacketZcEsNotiMyinfo {
         PacketZcEsNotiMyinfo {
@@ -78195,6 +82892,13 @@ impl Packet for PacketZcEsNotiMyinfo {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcEsNotiMyinfo {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -78366,6 +83070,13 @@ impl Packet for PacketZcSkillinfoUpdate2 {
     }
 }
 
+impl Default for PacketZcSkillinfoUpdate2 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcMsgValue {
     pub fn from(buffer: &[u8]) -> PacketZcMsgValue {
         PacketZcMsgValue {
@@ -78462,6 +83173,13 @@ impl Packet for PacketZcMsgValue {
     }
 }
 
+impl Default for PacketZcMsgValue {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcItemlistwinOpen {
     pub fn from(buffer: &[u8]) -> PacketZcItemlistwinOpen {
         PacketZcItemlistwinOpen {
@@ -78537,6 +83255,13 @@ impl Packet for PacketZcItemlistwinOpen {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcItemlistwinOpen {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -78672,6 +83397,13 @@ impl Packet for PacketCzItemlistwinRes {
     }
 }
 
+impl Default for PacketCzItemlistwinRes {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketChEnterCheckbot {
     pub fn from(buffer: &[u8]) -> PacketChEnterCheckbot {
         PacketChEnterCheckbot {
@@ -78780,6 +83512,13 @@ impl Packet for PacketChEnterCheckbot {
     }
 }
 
+impl Default for PacketChEnterCheckbot {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcMsgSkill {
     pub fn from(buffer: &[u8]) -> PacketZcMsgSkill {
         PacketZcMsgSkill {
@@ -78873,6 +83612,13 @@ impl Packet for PacketZcMsgSkill {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcMsgSkill {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -78998,6 +83744,13 @@ impl Packet for PacketChCheckbot {
     }
 }
 
+impl Default for PacketChCheckbot {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketHcCheckbot {
     pub fn from(buffer: &[u8]) -> PacketHcCheckbot {
         PacketHcCheckbot {
@@ -79085,6 +83838,13 @@ impl Packet for PacketHcCheckbot {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketHcCheckbot {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -79184,6 +83944,13 @@ impl Packet for PacketHcCheckbotResult {
     }
 }
 
+impl Default for PacketHcCheckbotResult {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzBattleFieldList {
     pub fn from(buffer: &[u8]) -> PacketCzBattleFieldList {
         PacketCzBattleFieldList {
@@ -79241,6 +84008,13 @@ impl Packet for PacketCzBattleFieldList {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzBattleFieldList {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -79383,6 +84157,13 @@ impl Packet for PacketZcBattleFieldList {
     }
 }
 
+impl Default for PacketZcBattleFieldList {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzJoinBattleField {
     pub fn from(buffer: &[u8]) -> PacketCzJoinBattleField {
         PacketCzJoinBattleField {
@@ -79476,6 +84257,13 @@ impl Packet for PacketCzJoinBattleField {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzJoinBattleField {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -79593,6 +84381,13 @@ impl Packet for PacketZcJoinBattleField {
     }
 }
 
+impl Default for PacketZcJoinBattleField {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzCancelBattleField {
     pub fn from(buffer: &[u8]) -> PacketCzCancelBattleField {
         PacketCzCancelBattleField {
@@ -79668,6 +84463,13 @@ impl Packet for PacketCzCancelBattleField {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzCancelBattleField {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -79767,6 +84569,13 @@ impl Packet for PacketZcCancelBattleField {
     }
 }
 
+impl Default for PacketZcCancelBattleField {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzReqBattleStateMonitor {
     pub fn from(buffer: &[u8]) -> PacketCzReqBattleStateMonitor {
         PacketCzReqBattleStateMonitor {
@@ -79860,6 +84669,13 @@ impl Packet for PacketCzReqBattleStateMonitor {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzReqBattleStateMonitor {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -80049,6 +84865,13 @@ impl Packet for PacketZcAckBattleStateMonitor {
     }
 }
 
+impl Default for PacketZcAckBattleStateMonitor {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcBattleNotiStartStep {
     pub fn from(buffer: &[u8]) -> PacketZcBattleNotiStartStep {
         PacketZcBattleNotiStartStep {
@@ -80145,6 +84968,13 @@ impl Packet for PacketZcBattleNotiStartStep {
     }
 }
 
+impl Default for PacketZcBattleNotiStartStep {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcBattleJoinNotiDefer {
     pub fn from(buffer: &[u8]) -> PacketZcBattleJoinNotiDefer {
         PacketZcBattleJoinNotiDefer {
@@ -80220,6 +85050,13 @@ impl Packet for PacketZcBattleJoinNotiDefer {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcBattleJoinNotiDefer {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -80301,6 +85138,13 @@ impl Packet for PacketZcBattleJoinDisableState {
     }
 }
 
+impl Default for PacketZcBattleJoinDisableState {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzGmFullstrip {
     pub fn from(buffer: &[u8]) -> PacketCzGmFullstrip {
         PacketCzGmFullstrip {
@@ -80376,6 +85220,13 @@ impl Packet for PacketCzGmFullstrip {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzGmFullstrip {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -80508,6 +85359,13 @@ impl Packet for PacketZcNotifyExp {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcNotifyExp {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -80660,7 +85518,7 @@ impl PacketZcNotifyMoveentry7 {
                 dst
             },
             move_data:  {
-                let mut dst: [u16; 6] = [0 as u16; 6];
+                let mut dst: [u16; 6] = [0_u16; 6];
                 for (index, byte) in buffer[57..63].iter().enumerate() {
                     dst[index] = *byte as u16;
                 }
@@ -81109,6 +85967,13 @@ impl Packet for PacketZcNotifyMoveentry7 {
     }
 }
 
+impl Default for PacketZcNotifyMoveentry7 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcNotifyNewentry5 {
     pub fn from(buffer: &[u8]) -> PacketZcNotifyNewentry5 {
         PacketZcNotifyNewentry5 {
@@ -81252,7 +86117,7 @@ impl PacketZcNotifyNewentry5 {
                 dst
             },
             pos_dir:  {
-                let mut dst: [u8; 3] = [0 as u8; 3];
+                let mut dst: [u8; 3] = [0_u8; 3];
                 for (index, byte) in buffer[53..56].iter().enumerate() {
                     dst[index] = *byte as u8;
                 }
@@ -81689,6 +86554,13 @@ impl Packet for PacketZcNotifyNewentry5 {
     }
 }
 
+impl Default for PacketZcNotifyNewentry5 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcNotifyStandentry5 {
     pub fn from(buffer: &[u8]) -> PacketZcNotifyStandentry5 {
         PacketZcNotifyStandentry5 {
@@ -81832,7 +86704,7 @@ impl PacketZcNotifyStandentry5 {
                 dst
             },
             pos_dir:  {
-                let mut dst: [u8; 3] = [0 as u8; 3];
+                let mut dst: [u8; 3] = [0_u8; 3];
                 for (index, byte) in buffer[53..56].iter().enumerate() {
                     dst[index] = *byte as u8;
                 }
@@ -82287,6 +87159,13 @@ impl Packet for PacketZcNotifyStandentry5 {
     }
 }
 
+impl Default for PacketZcNotifyStandentry5 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcDeleteItemFromBody {
     pub fn from(buffer: &[u8]) -> PacketZcDeleteItemFromBody {
         PacketZcDeleteItemFromBody {
@@ -82398,6 +87277,13 @@ impl Packet for PacketZcDeleteItemFromBody {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcDeleteItemFromBody {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -82605,6 +87491,13 @@ impl Packet for PacketZcUseskillAck2 {
     }
 }
 
+impl Default for PacketZcUseskillAck2 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcChangeGroupMaster {
     pub fn from(buffer: &[u8]) -> PacketZcChangeGroupMaster {
         PacketZcChangeGroupMaster {
@@ -82701,6 +87594,13 @@ impl Packet for PacketZcChangeGroupMaster {
     }
 }
 
+impl Default for PacketZcChangeGroupMaster {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcPlayNpcBgm {
     pub fn from(buffer: &[u8]) -> PacketZcPlayNpcBgm {
         PacketZcPlayNpcBgm {
@@ -82784,6 +87684,13 @@ impl Packet for PacketZcPlayNpcBgm {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcPlayNpcBgm {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -82880,6 +87787,13 @@ impl Packet for PacketZcDefineCheck {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcDefineCheck {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -83022,6 +87936,13 @@ impl Packet for PacketZcPcPurchaseItemlistFrommc2 {
     }
 }
 
+impl Default for PacketZcPcPurchaseItemlistFrommc2 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzPcPurchaseItemlistFrommc2 {
     pub fn from(buffer: &[u8]) -> PacketCzPcPurchaseItemlistFrommc2 {
         let iter_count = (&buffer.len() - 12) / 4;
@@ -83161,6 +88082,13 @@ impl Packet for PacketCzPcPurchaseItemlistFrommc2 {
     }
 }
 
+impl Default for PacketCzPcPurchaseItemlistFrommc2 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzPartyBookingReqRegister {
     pub fn from(buffer: &[u8]) -> PacketCzPartyBookingReqRegister {
         PacketCzPartyBookingReqRegister {
@@ -83232,6 +88160,13 @@ impl Packet for PacketCzPartyBookingReqRegister {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzPartyBookingReqRegister {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -83310,6 +88245,13 @@ impl Packet for PacketZcPartyBookingAckRegister {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcPartyBookingAckRegister {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -83463,6 +88405,13 @@ impl Packet for PacketCzPartyBookingReqSearch {
     }
 }
 
+impl Default for PacketCzPartyBookingReqSearch {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcPartyBookingAckSearch {
     pub fn from(buffer: &[u8]) -> PacketZcPartyBookingAckSearch {
         let iter_count = (&buffer.len() - 5) / 48;
@@ -83584,6 +88533,13 @@ impl Packet for PacketZcPartyBookingAckSearch {
     }
 }
 
+impl Default for PacketZcPartyBookingAckSearch {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzPartyBookingReqDelete {
     pub fn from(buffer: &[u8]) -> PacketCzPartyBookingReqDelete {
         PacketCzPartyBookingReqDelete {
@@ -83641,6 +88597,13 @@ impl Packet for PacketCzPartyBookingReqDelete {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzPartyBookingReqDelete {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -83722,6 +88685,13 @@ impl Packet for PacketZcPartyBookingAckDelete {
     }
 }
 
+impl Default for PacketZcPartyBookingAckDelete {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzPartyBookingReqUpdate {
     pub fn from(buffer: &[u8]) -> PacketCzPartyBookingReqUpdate {
         PacketCzPartyBookingReqUpdate {
@@ -83733,7 +88703,7 @@ impl PacketCzPartyBookingReqUpdate {
                 dst
             },
             job:  {
-                let mut dst: [i16; 6] = [0 as i16; 6];
+                let mut dst: [i16; 6] = [0_i16; 6];
                 for (index, byte) in buffer[2..8].iter().enumerate() {
                     dst[index] = *byte as i16;
                 }
@@ -83808,6 +88778,13 @@ impl Packet for PacketCzPartyBookingReqUpdate {
     }
 }
 
+impl Default for PacketCzPartyBookingReqUpdate {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcPartyBookingNotifyInsert {
     pub fn from(buffer: &[u8]) -> PacketZcPartyBookingNotifyInsert {
         PacketZcPartyBookingNotifyInsert {
@@ -83879,6 +88856,13 @@ impl Packet for PacketZcPartyBookingNotifyInsert {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcPartyBookingNotifyInsert {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -84068,6 +89052,13 @@ impl Packet for PacketZcPartyBookingNotifyUpdate {
     }
 }
 
+impl Default for PacketZcPartyBookingNotifyUpdate {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcPartyBookingNotifyDelete {
     pub fn from(buffer: &[u8]) -> PacketZcPartyBookingNotifyDelete {
         PacketZcPartyBookingNotifyDelete {
@@ -84146,6 +89137,13 @@ impl Packet for PacketZcPartyBookingNotifyDelete {
     }
 }
 
+impl Default for PacketZcPartyBookingNotifyDelete {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzSimpleCashBtnshow {
     pub fn from(buffer: &[u8]) -> PacketCzSimpleCashBtnshow {
         PacketCzSimpleCashBtnshow {
@@ -84203,6 +89201,13 @@ impl Packet for PacketCzSimpleCashBtnshow {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzSimpleCashBtnshow {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -84281,6 +89286,13 @@ impl Packet for PacketZcSimpleCashBtnshow {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcSimpleCashBtnshow {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -84395,6 +89407,13 @@ impl Packet for PacketZcNotifyHpToGroupmR2 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcNotifyHpToGroupmR2 {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -84584,6 +89603,13 @@ impl Packet for PacketZcAddExchangeItem2 {
     }
 }
 
+impl Default for PacketZcAddExchangeItem2 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcOpenBuyingStore {
     pub fn from(buffer: &[u8]) -> PacketZcOpenBuyingStore {
         PacketZcOpenBuyingStore {
@@ -84659,6 +89685,13 @@ impl Packet for PacketZcOpenBuyingStore {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcOpenBuyingStore {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -84827,6 +89860,13 @@ impl Packet for PacketCzReqOpenBuyingStore {
     }
 }
 
+impl Default for PacketCzReqOpenBuyingStore {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcFailedOpenBuyingStoreToBuyer {
     pub fn from(buffer: &[u8]) -> PacketZcFailedOpenBuyingStoreToBuyer {
         PacketZcFailedOpenBuyingStoreToBuyer {
@@ -84920,6 +89960,13 @@ impl Packet for PacketZcFailedOpenBuyingStoreToBuyer {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcFailedOpenBuyingStoreToBuyer {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -85062,6 +90109,13 @@ impl Packet for PacketZcMyitemlistBuyingStore {
     }
 }
 
+impl Default for PacketZcMyitemlistBuyingStore {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcBuyingStoreEntry {
     pub fn from(buffer: &[u8]) -> PacketZcBuyingStoreEntry {
         PacketZcBuyingStoreEntry {
@@ -85166,6 +90220,13 @@ impl Packet for PacketZcBuyingStoreEntry {
     }
 }
 
+impl Default for PacketZcBuyingStoreEntry {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzReqCloseBuyingStore {
     pub fn from(buffer: &[u8]) -> PacketCzReqCloseBuyingStore {
         PacketCzReqCloseBuyingStore {
@@ -85223,6 +90284,13 @@ impl Packet for PacketCzReqCloseBuyingStore {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzReqCloseBuyingStore {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -85304,6 +90372,13 @@ impl Packet for PacketZcDisappearBuyingStoreEntry {
     }
 }
 
+impl Default for PacketZcDisappearBuyingStoreEntry {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzReqClickToBuyingStore {
     pub fn from(buffer: &[u8]) -> PacketCzReqClickToBuyingStore {
         PacketCzReqClickToBuyingStore {
@@ -85379,6 +90454,13 @@ impl Packet for PacketCzReqClickToBuyingStore {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzReqClickToBuyingStore {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -85539,6 +90621,13 @@ impl Packet for PacketZcAckItemlistBuyingStore {
     }
 }
 
+impl Default for PacketZcAckItemlistBuyingStore {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzReqTradeBuyingStore {
     pub fn from(buffer: &[u8]) -> PacketCzReqTradeBuyingStore {
         let iter_count = (&buffer.len() - 12) / 6;
@@ -85678,6 +90767,13 @@ impl Packet for PacketCzReqTradeBuyingStore {
     }
 }
 
+impl Default for PacketCzReqTradeBuyingStore {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcFailedTradeBuyingStoreToBuyer {
     pub fn from(buffer: &[u8]) -> PacketZcFailedTradeBuyingStoreToBuyer {
         PacketZcFailedTradeBuyingStoreToBuyer {
@@ -85753,6 +90849,13 @@ impl Packet for PacketZcFailedTradeBuyingStoreToBuyer {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcFailedTradeBuyingStoreToBuyer {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -85870,6 +90973,13 @@ impl Packet for PacketZcUpdateItemFromBuyingStore {
     }
 }
 
+impl Default for PacketZcUpdateItemFromBuyingStore {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcItemDeleteBuyingStore {
     pub fn from(buffer: &[u8]) -> PacketZcItemDeleteBuyingStore {
         PacketZcItemDeleteBuyingStore {
@@ -85981,6 +91091,13 @@ impl Packet for PacketZcItemDeleteBuyingStore {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcItemDeleteBuyingStore {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -86134,6 +91251,13 @@ impl Packet for PacketZcElInit {
     }
 }
 
+impl Default for PacketZcElInit {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcElParChange {
     pub fn from(buffer: &[u8]) -> PacketZcElParChange {
         PacketZcElParChange {
@@ -86227,6 +91351,13 @@ impl Packet for PacketZcElParChange {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcElParChange {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -86356,6 +91487,13 @@ impl Packet for PacketZcBroadcast4 {
     }
 }
 
+impl Default for PacketZcBroadcast4 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcCostumeSpriteChange {
     pub fn from(buffer: &[u8]) -> PacketZcCostumeSpriteChange {
         PacketZcCostumeSpriteChange {
@@ -86470,6 +91608,13 @@ impl Packet for PacketZcCostumeSpriteChange {
     }
 }
 
+impl Default for PacketZcCostumeSpriteChange {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketAcOtpUser {
     pub fn from(buffer: &[u8]) -> PacketAcOtpUser {
         PacketAcOtpUser {
@@ -86527,6 +91672,13 @@ impl Packet for PacketAcOtpUser {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketAcOtpUser {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -86613,6 +91765,13 @@ impl Packet for PacketCaOtpAuthReq {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCaOtpAuthReq {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -86712,6 +91871,13 @@ impl Packet for PacketAcOtpAuthAck {
     }
 }
 
+impl Default for PacketAcOtpAuthAck {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcFailedTradeBuyingStoreToSeller {
     pub fn from(buffer: &[u8]) -> PacketZcFailedTradeBuyingStoreToSeller {
         PacketZcFailedTradeBuyingStoreToSeller {
@@ -86805,6 +91971,13 @@ impl Packet for PacketZcFailedTradeBuyingStoreToSeller {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcFailedTradeBuyingStoreToSeller {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -87009,6 +92182,13 @@ impl Packet for PacketCaSsoLoginReqa {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCaSsoLoginReqa {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -87242,6 +92422,13 @@ impl Packet for PacketCaSsoLoginReq {
     }
 }
 
+impl Default for PacketCaSsoLoginReq {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketAcSsoLoginAck {
     pub fn from(buffer: &[u8]) -> PacketAcSsoLoginAck {
         PacketAcSsoLoginAck {
@@ -87320,6 +92507,13 @@ impl Packet for PacketAcSsoLoginAck {
     }
 }
 
+impl Default for PacketAcSsoLoginAck {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketChDeleteChar3Reserved {
     pub fn from(buffer: &[u8]) -> PacketChDeleteChar3Reserved {
         PacketChDeleteChar3Reserved {
@@ -87395,6 +92589,13 @@ impl Packet for PacketChDeleteChar3Reserved {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketChDeleteChar3Reserved {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -87512,6 +92713,13 @@ impl Packet for PacketHcDeleteChar3Reserved {
     }
 }
 
+impl Default for PacketHcDeleteChar3Reserved {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketChDeleteChar3 {
     pub fn from(buffer: &[u8]) -> PacketChDeleteChar3 {
         PacketChDeleteChar3 {
@@ -87616,6 +92824,13 @@ impl Packet for PacketChDeleteChar3 {
     }
 }
 
+impl Default for PacketChDeleteChar3 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketHcDeleteChar3 {
     pub fn from(buffer: &[u8]) -> PacketHcDeleteChar3 {
         PacketHcDeleteChar3 {
@@ -87712,6 +92927,13 @@ impl Packet for PacketHcDeleteChar3 {
     }
 }
 
+impl Default for PacketHcDeleteChar3 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketChDeleteChar3Cancel {
     pub fn from(buffer: &[u8]) -> PacketChDeleteChar3Cancel {
         PacketChDeleteChar3Cancel {
@@ -87787,6 +93009,13 @@ impl Packet for PacketChDeleteChar3Cancel {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketChDeleteChar3Cancel {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -87883,6 +93112,13 @@ impl Packet for PacketHcDeleteChar3Cancel {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketHcDeleteChar3Cancel {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -88054,6 +93290,13 @@ impl Packet for PacketCzSearchStoreInfo {
     }
 }
 
+impl Default for PacketCzSearchStoreInfo {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcSearchStoreInfoAck {
     pub fn from(buffer: &[u8]) -> PacketZcSearchStoreInfoAck {
         let iter_count = (&buffer.len() - 7) / 106;
@@ -88211,6 +93454,13 @@ impl Packet for PacketZcSearchStoreInfoAck {
     }
 }
 
+impl Default for PacketZcSearchStoreInfoAck {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcSearchStoreInfoFailed {
     pub fn from(buffer: &[u8]) -> PacketZcSearchStoreInfoFailed {
         PacketZcSearchStoreInfoFailed {
@@ -88289,6 +93539,13 @@ impl Packet for PacketZcSearchStoreInfoFailed {
     }
 }
 
+impl Default for PacketZcSearchStoreInfoFailed {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzSearchStoreInfoNextPage {
     pub fn from(buffer: &[u8]) -> PacketCzSearchStoreInfoNextPage {
         PacketCzSearchStoreInfoNextPage {
@@ -88346,6 +93603,13 @@ impl Packet for PacketCzSearchStoreInfoNextPage {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzSearchStoreInfoNextPage {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -88461,6 +93725,13 @@ impl Packet for PacketZcAckBanGuildSso {
     }
 }
 
+impl Default for PacketZcAckBanGuildSso {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcOpenSearchStoreInfo {
     pub fn from(buffer: &[u8]) -> PacketZcOpenSearchStoreInfo {
         PacketZcOpenSearchStoreInfo {
@@ -88557,6 +93828,13 @@ impl Packet for PacketZcOpenSearchStoreInfo {
     }
 }
 
+impl Default for PacketZcOpenSearchStoreInfo {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzCloseSearchStoreInfo {
     pub fn from(buffer: &[u8]) -> PacketCzCloseSearchStoreInfo {
         PacketCzCloseSearchStoreInfo {
@@ -88614,6 +93892,13 @@ impl Packet for PacketCzCloseSearchStoreInfo {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzCloseSearchStoreInfo {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -88731,6 +94016,13 @@ impl Packet for PacketCzSsilistItemClick {
     }
 }
 
+impl Default for PacketCzSsilistItemClick {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcSsilistItemClickAck {
     pub fn from(buffer: &[u8]) -> PacketZcSsilistItemClickAck {
         PacketZcSsilistItemClickAck {
@@ -88824,6 +94116,13 @@ impl Packet for PacketZcSsilistItemClickAck {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcSsilistItemClickAck {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -88931,6 +94230,13 @@ impl Packet for PacketAcRefuseLoginR2 {
     }
 }
 
+impl Default for PacketAcRefuseLoginR2 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketChSelectAccessibleMapname {
     pub fn from(buffer: &[u8]) -> PacketChSelectAccessibleMapname {
         PacketChSelectAccessibleMapname {
@@ -89027,6 +94333,13 @@ impl Packet for PacketChSelectAccessibleMapname {
     }
 }
 
+impl Default for PacketChSelectAccessibleMapname {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzRequestMove2 {
     pub fn from(buffer: &[u8]) -> PacketCzRequestMove2 {
         PacketCzRequestMove2 {
@@ -89038,7 +94351,7 @@ impl PacketCzRequestMove2 {
                 dst
             },
             dest:  {
-                let mut dst: [u16; 3] = [0 as u16; 3];
+                let mut dst: [u16; 3] = [0_u16; 3];
                 for (index, byte) in buffer[2..5].iter().enumerate() {
                     dst[index] = *byte as u16;
                 }
@@ -89110,6 +94423,13 @@ impl Packet for PacketCzRequestMove2 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzRequestMove2 {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -89276,6 +94596,13 @@ impl Packet for PacketChSendMapInfo {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketChSendMapInfo {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -89469,6 +94796,13 @@ impl Packet for PacketHcAcceptEnterNeoUnionHeader {
     }
 }
 
+impl Default for PacketHcAcceptEnterNeoUnionHeader {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzPing {
     pub fn from(buffer: &[u8]) -> PacketCzPing {
         PacketCzPing {
@@ -89544,6 +94878,13 @@ impl Packet for PacketCzPing {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzPing {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -89625,6 +94966,13 @@ impl Packet for PacketZcAid2 {
     }
 }
 
+impl Default for PacketZcAid2 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketMapConnection {
     pub fn from(buffer: &[u8]) -> PacketMapConnection {
         PacketMapConnection {
@@ -89700,6 +95048,13 @@ impl Packet for PacketMapConnection {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketMapConnection {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -89814,6 +95169,13 @@ impl Packet for PacketPincodeLoginstate {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketPincodeLoginstate {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -89993,6 +95355,13 @@ impl Packet for PacketChMakeChar2 {
     }
 }
 
+impl Default for PacketChMakeChar2 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketChDeleteChar4Reserved {
     pub fn from(buffer: &[u8]) -> PacketChDeleteChar4Reserved {
         PacketChDeleteChar4Reserved {
@@ -90068,6 +95437,13 @@ impl Packet for PacketChDeleteChar4Reserved {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketChDeleteChar4Reserved {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -90185,6 +95561,13 @@ impl Packet for PacketHcDeleteChar4Reserved {
     }
 }
 
+impl Default for PacketHcDeleteChar4Reserved {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcInventoryExpansionInfo {
     pub fn from(buffer: &[u8]) -> PacketZcInventoryExpansionInfo {
         PacketZcInventoryExpansionInfo {
@@ -90260,6 +95643,13 @@ impl Packet for PacketZcInventoryExpansionInfo {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcInventoryExpansionInfo {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -90341,6 +95731,13 @@ impl Packet for PacketZcOverweightPercent {
     }
 }
 
+impl Default for PacketZcOverweightPercent {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzReqDisconnect2 {
     pub fn from(buffer: &[u8]) -> PacketCzReqDisconnect2 {
         PacketCzReqDisconnect2 {
@@ -90416,6 +95813,13 @@ impl Packet for PacketCzReqDisconnect2 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzReqDisconnect2 {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -90497,6 +95901,13 @@ impl Packet for PacketZcReqDisconnectAck2 {
     }
 }
 
+impl Default for PacketZcReqDisconnectAck2 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzReqnameall2 {
     pub fn from(buffer: &[u8]) -> PacketCzReqnameall2 {
         PacketCzReqnameall2 {
@@ -90572,6 +95983,13 @@ impl Packet for PacketCzReqnameall2 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzReqnameall2 {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -90775,6 +96193,13 @@ impl Packet for PacketZcAckReqnameall2 {
     }
 }
 
+impl Default for PacketZcAckReqnameall2 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzRequestTime2 {
     pub fn from(buffer: &[u8]) -> PacketCzRequestTime2 {
         PacketCzRequestTime2 {
@@ -90850,6 +96275,13 @@ impl Packet for PacketCzRequestTime2 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketCzRequestTime2 {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -90949,6 +96381,13 @@ impl Packet for PacketZcMsgColor {
     }
 }
 
+impl Default for PacketZcMsgColor {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcNotifyMapproperty2 {
     pub fn from(buffer: &[u8]) -> PacketZcNotifyMapproperty2 {
         PacketZcNotifyMapproperty2 {
@@ -91042,6 +96481,13 @@ impl Packet for PacketZcNotifyMapproperty2 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcNotifyMapproperty2 {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -91174,6 +96620,13 @@ impl Packet for PacketZcHatEffect {
     }
 }
 
+impl Default for PacketZcHatEffect {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzBlockingPlayCancel {
     pub fn from(buffer: &[u8]) -> PacketCzBlockingPlayCancel {
         PacketCzBlockingPlayCancel {
@@ -91234,6 +96687,13 @@ impl Packet for PacketCzBlockingPlayCancel {
     }
 }
 
+impl Default for PacketCzBlockingPlayCancel {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcLoadConfirm {
     pub fn from(buffer: &[u8]) -> PacketZcLoadConfirm {
         PacketZcLoadConfirm {
@@ -91291,6 +96751,13 @@ impl Packet for PacketZcLoadConfirm {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+}
+
+impl Default for PacketZcLoadConfirm {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -91455,7 +96922,7 @@ impl PacketZcNotifyStandentry6 {
                 dst
             },
             pos_dir:  {
-                let mut dst: [u8; 3] = [0 as u8; 3];
+                let mut dst: [u8; 3] = [0_u8; 3];
                 for (index, byte) in buffer[63..66].iter().enumerate() {
                     dst[index] = *byte as u8;
                 }
@@ -92018,6 +97485,13 @@ impl Packet for PacketZcNotifyStandentry6 {
     }
 }
 
+impl Default for PacketZcNotifyStandentry6 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcNotifyMoveentry8 {
     pub fn from(buffer: &[u8]) -> PacketZcNotifyMoveentry8 {
         PacketZcNotifyMoveentry8 {
@@ -92185,7 +97659,7 @@ impl PacketZcNotifyMoveentry8 {
                 dst
             },
             pos_dir:  {
-                let mut dst: [u8; 3] = [0 as u8; 3];
+                let mut dst: [u8; 3] = [0_u8; 3];
                 for (index, byte) in buffer[67..70].iter().enumerate() {
                     dst[index] = *byte as u8;
                 }
@@ -92742,6 +98216,13 @@ impl Packet for PacketZcNotifyMoveentry8 {
     }
 }
 
+impl Default for PacketZcNotifyMoveentry8 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcNotifyAct3 {
     pub fn from(buffer: &[u8]) -> PacketZcNotifyAct3 {
         PacketZcNotifyAct3 {
@@ -92982,6 +98463,20 @@ impl Packet for PacketZcNotifyAct3 {
     }
 }
 
+impl Default for PacketZcNotifyAct3 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
+impl Default for ServerAddr {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl ServerAddr {
     pub fn from(buffer: &[u8]) -> ServerAddr {
         ServerAddr {
@@ -93113,6 +98608,13 @@ impl ServerAddr {
         property: 0,
         property_raw: [0; 2],
         }
+    }
+}
+
+impl Default for ServerAddr2 {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -93273,6 +98775,13 @@ impl ServerAddr2 {
         unknown2: [0 as char; 128],
         unknown2_raw: [0; 128],
         }
+    }
+}
+
+impl Default for CharacterInfoNeoUnion {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -94102,6 +99611,13 @@ impl CharacterInfoNeoUnion {
     }
 }
 
+impl Default for ZserverAddr {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl ZserverAddr {
     pub fn from(buffer: &[u8]) -> ZserverAddr {
         ZserverAddr {
@@ -94153,6 +99669,13 @@ impl ZserverAddr {
         port: 0,
         port_raw: [0; 2],
         }
+    }
+}
+
+impl Default for EQUIPSLOTINFO {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -94243,6 +99766,13 @@ impl EQUIPSLOTINFO {
         card4: 0,
         card4_raw: [0; 2],
         }
+    }
+}
+
+impl Default for NormalitemExtrainfo {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -94369,6 +99899,13 @@ impl NormalitemExtrainfo {
         wear_state: 0,
         wear_state_raw: [0; 2],
         }
+    }
+}
+
+impl Default for EquipmentitemExtrainfo {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -94552,6 +100089,13 @@ impl EquipmentitemExtrainfo {
     }
 }
 
+impl Default for PurchaseItem {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PurchaseItem {
     pub fn from(buffer: &[u8]) -> PurchaseItem {
         PurchaseItem {
@@ -94642,6 +100186,13 @@ impl PurchaseItem {
     }
 }
 
+impl Default for SellItem {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl SellItem {
     pub fn from(buffer: &[u8]) -> SellItem {
         SellItem {
@@ -94714,6 +100265,13 @@ impl SellItem {
     }
 }
 
+impl Default for CzPurchaseItem {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl CzPurchaseItem {
     pub fn from(buffer: &[u8]) -> CzPurchaseItem {
         CzPurchaseItem {
@@ -94765,6 +100323,13 @@ impl CzPurchaseItem {
         itid: 0,
         itid_raw: [0; 2],
         }
+    }
+}
+
+impl Default for CzSellItem {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -94822,6 +100387,13 @@ impl CzSellItem {
     }
 }
 
+impl Default for WhisperItem {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl WhisperItem {
     pub fn from(buffer: &[u8]) -> WhisperItem {
         WhisperItem {
@@ -94863,6 +100435,13 @@ impl WhisperItem {
         name: [0 as char; 24],
         name_raw: [0; 24],
         }
+    }
+}
+
+impl Default for RoomMember {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -94925,6 +100504,13 @@ impl RoomMember {
         name: [0 as char; 24],
         name_raw: [0; 24],
         }
+    }
+}
+
+impl Default for GroupmemberInfo {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -95049,6 +100635,13 @@ impl GroupmemberInfo {
         state: 0,
         state_raw: [0; 1],
         }
+    }
+}
+
+impl Default for SKILLINFO {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -95204,6 +100797,13 @@ impl SKILLINFO {
     }
 }
 
+impl Default for StoreItem {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl StoreItem {
     pub fn from(buffer: &[u8]) -> StoreItem {
         StoreItem {
@@ -95273,6 +100873,13 @@ impl StoreItem {
         price: 0,
         price_raw: [0; 4],
         }
+    }
+}
+
+impl Default for PurchaseItemFrommc {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -95456,6 +101063,13 @@ impl PurchaseItemFrommc {
     }
 }
 
+impl Default for CzPurchaseItemFrommc {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl CzPurchaseItemFrommc {
     pub fn from(buffer: &[u8]) -> CzPurchaseItemFrommc {
         CzPurchaseItemFrommc {
@@ -95507,6 +101121,13 @@ impl CzPurchaseItemFrommc {
         index: 0,
         index_raw: [0; 2],
         }
+    }
+}
+
+impl Default for PurchaseMyitem {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -95690,6 +101311,13 @@ impl PurchaseMyitem {
     }
 }
 
+impl Default for RelatedGuild {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl RelatedGuild {
     pub fn from(buffer: &[u8]) -> RelatedGuild {
         RelatedGuild {
@@ -95767,6 +101395,13 @@ impl RelatedGuild {
         guild_name: [0 as char; 24],
         guild_name_raw: [0; 24],
         }
+    }
+}
+
+impl Default for GuildMembermgrInfo {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -96020,6 +101655,13 @@ impl GuildMembermgrInfo {
     }
 }
 
+impl Default for MemberPositionInfo {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl MemberPositionInfo {
     pub fn from(buffer: &[u8]) -> MemberPositionInfo {
         MemberPositionInfo {
@@ -96089,6 +101731,13 @@ impl MemberPositionInfo {
         position_id: 0,
         position_id_raw: [0; 4],
         }
+    }
+}
+
+impl Default for GuildMemberPositionInfo {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -96179,6 +101828,13 @@ impl GuildMemberPositionInfo {
         pay_rate: 0,
         pay_rate_raw: [0; 4],
         }
+    }
+}
+
+impl Default for GuildRegPositionInfo {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -96298,6 +101954,13 @@ impl GuildRegPositionInfo {
     }
 }
 
+impl Default for GuildBanInfo {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl GuildBanInfo {
     pub fn from(buffer: &[u8]) -> GuildBanInfo {
         GuildBanInfo {
@@ -96391,6 +102054,13 @@ impl GuildBanInfo {
         reason: [0 as char; 40],
         reason_raw: [0; 40],
         }
+    }
+}
+
+impl Default for OtherGuildInfo {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -96492,6 +102162,13 @@ impl OtherGuildInfo {
     }
 }
 
+impl Default for MemberPositionIdNameInfo {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl MemberPositionIdNameInfo {
     pub fn from(buffer: &[u8]) -> MemberPositionIdNameInfo {
         MemberPositionIdNameInfo {
@@ -96551,6 +102228,13 @@ impl MemberPositionIdNameInfo {
         pos_name: [0 as char; 24],
         pos_name_raw: [0; 24],
         }
+    }
+}
+
+impl Default for GuildMemberInfo {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -96804,6 +102488,13 @@ impl GuildMemberInfo {
     }
 }
 
+impl Default for RelatedGuildInfo {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl RelatedGuildInfo {
     pub fn from(buffer: &[u8]) -> RelatedGuildInfo {
         RelatedGuildInfo {
@@ -96881,6 +102572,13 @@ impl RelatedGuildInfo {
         guildname: [0 as char; 24],
         guildname_raw: [0; 24],
         }
+    }
+}
+
+impl Default for MonsterInfoElement {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -97064,6 +102762,13 @@ impl MonsterInfoElement {
     }
 }
 
+impl Default for MakableitemInfo {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl MakableitemInfo {
     pub fn from(buffer: &[u8]) -> MakableitemInfo {
         MakableitemInfo {
@@ -97075,7 +102780,7 @@ impl MakableitemInfo {
                 dst
             },
             material_id:  {
-                let mut dst: [u16; 3] = [0 as u16; 3];
+                let mut dst: [u16; 3] = [0_u16; 3];
                 for (index, byte) in buffer[2..5].iter().enumerate() {
                     dst[index] = *byte as u16;
                 }
@@ -97126,6 +102831,13 @@ impl MakableitemInfo {
     }
 }
 
+impl Default for PeteggitemInfo {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PeteggitemInfo {
     pub fn from(buffer: &[u8]) -> PeteggitemInfo {
         PeteggitemInfo {
@@ -97162,6 +102874,13 @@ impl PeteggitemInfo {
     }
 }
 
+impl Default for ArrowitemInfo {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl ArrowitemInfo {
     pub fn from(buffer: &[u8]) -> ArrowitemInfo {
         ArrowitemInfo {
@@ -97195,6 +102914,13 @@ impl ArrowitemInfo {
         index: 0,
         index_raw: [0; 2],
         }
+    }
+}
+
+impl Default for NormalitemExtrainfo2 {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -97342,6 +103068,13 @@ impl NormalitemExtrainfo2 {
     }
 }
 
+impl Default for RepairitemInfo {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl RepairitemInfo {
     pub fn from(buffer: &[u8]) -> RepairitemInfo {
         RepairitemInfo {
@@ -97432,6 +103165,13 @@ impl RepairitemInfo {
     }
 }
 
+impl Default for FRIEND {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl FRIEND {
     pub fn from(buffer: &[u8]) -> FRIEND {
         FRIEND {
@@ -97512,6 +103252,13 @@ impl FRIEND {
     }
 }
 
+impl Default for TagCharacterBlockInfo {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl TagCharacterBlockInfo {
     pub fn from(buffer: &[u8]) -> TagCharacterBlockInfo {
         TagCharacterBlockInfo {
@@ -97571,6 +103318,13 @@ impl TagCharacterBlockInfo {
         sz_expire_date: [0 as char; 20],
         sz_expire_date_raw: [0; 20],
         }
+    }
+}
+
+impl Default for PVPINFO {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -97646,6 +103400,13 @@ impl PVPINFO {
     }
 }
 
+impl Default for Filetime {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl Filetime {
     pub fn from(buffer: &[u8]) -> Filetime {
         Filetime {
@@ -97697,6 +103458,13 @@ impl Filetime {
         dw_high_date_time: 0,
         dw_high_date_time_raw: [0; 4],
         }
+    }
+}
+
+impl Default for MailList {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -97821,6 +103589,13 @@ impl MailList {
         delete_time: 0,
         delete_time_raw: [0; 4],
         }
+    }
+}
+
+impl Default for AuctionItemSearchInfo {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -98092,6 +103867,13 @@ impl AuctionItemSearchInfo {
     }
 }
 
+impl Default for PacketMobHunting {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketMobHunting {
     pub fn from(buffer: &[u8]) -> PacketMobHunting {
         PacketMobHunting {
@@ -98179,6 +103961,13 @@ impl PacketMobHunting {
         count: 0,
         count_raw: [0; 2],
         }
+    }
+}
+
+impl Default for EquipmentitemExtrainfo2 {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -98380,6 +104169,13 @@ impl EquipmentitemExtrainfo2 {
     }
 }
 
+impl Default for PggLingoKeyTemp {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PggLingoKeyTemp {
     pub fn from(buffer: &[u8]) -> PggLingoKeyTemp {
         PggLingoKeyTemp {
@@ -98470,6 +104266,13 @@ impl PggLingoKeyTemp {
     }
 }
 
+impl Default for PacketZcQuestInfo {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcQuestInfo {
     pub fn from(buffer: &[u8]) -> PacketZcQuestInfo {
         PacketZcQuestInfo {
@@ -98521,6 +104324,13 @@ impl PacketZcQuestInfo {
         active: false,
         active_raw: [0; 1],
         }
+    }
+}
+
+impl Default for PacketZcMissionHunt {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -98601,6 +104411,13 @@ impl PacketZcMissionHunt {
         mob_name: [0 as char; 24],
         mob_name_raw: [0; 24],
         }
+    }
+}
+
+impl Default for PacketZcQuestMissionInfo {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -98719,6 +104536,13 @@ impl PacketZcQuestMissionInfo {
     }
 }
 
+impl Default for ShortCutKey {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl ShortCutKey {
     pub fn from(buffer: &[u8]) -> ShortCutKey {
         ShortCutKey {
@@ -98788,6 +104612,13 @@ impl ShortCutKey {
         count: 0,
         count_raw: [0; 2],
         }
+    }
+}
+
+impl Default for EquipmentitemExtrainfo301 {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -99025,6 +104856,13 @@ impl EquipmentitemExtrainfo301 {
     }
 }
 
+impl Default for NormalitemExtrainfo3 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl NormalitemExtrainfo3 {
     pub fn from(buffer: &[u8]) -> NormalitemExtrainfo3 {
         NormalitemExtrainfo3 {
@@ -99187,6 +105025,13 @@ impl NormalitemExtrainfo3 {
     }
 }
 
+impl Default for SkillPostdelay {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl SkillPostdelay {
     pub fn from(buffer: &[u8]) -> SkillPostdelay {
         SkillPostdelay {
@@ -99241,6 +105086,13 @@ impl SkillPostdelay {
     }
 }
 
+impl Default for CharacterList {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl CharacterList {
     pub fn from(buffer: &[u8]) -> CharacterList {
         CharacterList {
@@ -99292,6 +105144,13 @@ impl CharacterList {
         slot_idx: 0,
         slot_idx_raw: [0; 1],
         }
+    }
+}
+
+impl Default for BattleFieldInfo {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -99375,6 +105234,13 @@ impl BattleFieldInfo {
     }
 }
 
+impl Default for PartyBookingDetail {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PartyBookingDetail {
     pub fn from(buffer: &[u8]) -> PartyBookingDetail {
         PartyBookingDetail {
@@ -99392,7 +105258,7 @@ impl PartyBookingDetail {
                 dst
             },
             job:  {
-                let mut dst: [i16; 6] = [0 as i16; 6];
+                let mut dst: [i16; 6] = [0_i16; 6];
                 for (index, byte) in buffer[4..10].iter().enumerate() {
                     dst[index] = *byte as i16;
                 }
@@ -99452,6 +105318,13 @@ impl PartyBookingDetail {
         job: [0; 6],
         job_raw: [0; 6],
         }
+    }
+}
+
+impl Default for PartyBookingAdInfo {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -99549,6 +105422,13 @@ impl PartyBookingAdInfo {
     }
 }
 
+impl Default for ProductinfoInBuyingStore {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl ProductinfoInBuyingStore {
     pub fn from(buffer: &[u8]) -> ProductinfoInBuyingStore {
         ProductinfoInBuyingStore {
@@ -99618,6 +105498,13 @@ impl ProductinfoInBuyingStore {
         price: 0,
         price_raw: [0; 4],
         }
+    }
+}
+
+impl Default for BuyingStoreItemlist {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 
@@ -99711,6 +105598,13 @@ impl BuyingStoreItemlist {
     }
 }
 
+impl Default for TradeItemBuyingStore {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl TradeItemBuyingStore {
     pub fn from(buffer: &[u8]) -> TradeItemBuyingStore {
         TradeItemBuyingStore {
@@ -99780,6 +105674,13 @@ impl TradeItemBuyingStore {
         count: 0,
         count_raw: [0; 2],
         }
+    }
+}
+
+impl Default for ResultItemInfo {
+    fn default() -> Self {
+
+       Self::new()
     }
 }
 

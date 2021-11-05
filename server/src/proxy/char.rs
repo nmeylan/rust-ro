@@ -23,13 +23,12 @@ impl CharProxy {
 }
 impl PacketHandler for CharProxy {
 
-    fn handle_packet(&self, _tcp_stream: Arc<Mutex<TcpStream>>, packet: &mut dyn Packet) -> Result<String, String> {
+    fn handle_packet(&self, _tcp_stream: Arc<Mutex<TcpStream>>, packet: &mut dyn Packet) {
         if packet.as_any().downcast_ref::<PacketChSendMapInfo>().is_some() {
             let packet_send_map_info = packet.as_any_mut().downcast_mut::<PacketChSendMapInfo>().unwrap();
             packet_send_map_info.set_map_server_port(6124);
             packet_send_map_info.fill_raw();
         }
-        Result::Ok("res".to_string())
     }
 
 }

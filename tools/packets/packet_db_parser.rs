@@ -29,14 +29,14 @@ lazy_static! {
         ("array of struct", Type {name: "Vec".to_string(), cname: "[]".to_string(), length: None}),
         ("array", Type {name: "Array".to_string(), cname: "[]".to_string(), length: None}),
     ]);
-    static ref struct_regex: Regex = Regex::new(r"struct\s([^\s]*)\s.*").unwrap();
-    static ref nested_struct_regex: Regex = Regex::new(r"struct\s([^\s]*)\s([^\s\[]*)\[?.*/?\s(\d+)?").unwrap();
-    static ref string_len_regex: Regex = Regex::new(r"\w*\[(\d*)\]").unwrap();
-    static ref after_underscore_char_regex: Regex = Regex::new(r"_(\w)").unwrap();
-    static ref uppercase_char_regex: Regex = Regex::new(r"([A-Z])").unwrap();
-    static ref first_char_regex: Regex = Regex::new(r"^(\w)").unwrap();
-    static ref array_regex: Regex = Regex::new(r"\s([A-Za-z_0-9]*)\[(\d+)\]").unwrap();
-    static ref array_of_unknown_length_regex: Regex = Regex::new(r"\s([A-Za-z_0-9]*)\[...\]").unwrap();
+    static ref STRUCT_REGEX: Regex = Regex::new(r"struct\s([^\s]*)\s.*").unwrap();
+    static ref NESTED_STRUCT_REGEX: Regex = Regex::new(r"struct\s([^\s]*)\s([^\s\[]*)\[?.*/?\s(\d+)?").unwrap();
+    static ref STRING_LEN_REGEX: Regex = Regex::new(r"\w*\[(\d*)\]").unwrap();
+    static ref AFTER_UNDERSCORE_CHAR_REGEX: Regex = Regex::new(r"_(\w)").unwrap();
+    static ref UPPERCASE_CHAR_REGEX: Regex = Regex::new(r"([A-Z])").unwrap();
+    static ref FIRST_CHAR_REGEX: Regex = Regex::new(r"^(\w)").unwrap();
+    static ref ARRAY_REGEX: Regex = Regex::new(r"\s([A-Za-z_0-9]*)\[(\d+)\]").unwrap();
+    static ref ARRAY_OF_UNKNOWN_LENGTH_REGEX: Regex = Regex::new(r"\s([A-Za-z_0-9]*)\[...\]").unwrap();
 }
 
 pub fn parse(packet_db_path: &Path) -> (Vec<PacketStructDefinition>, Vec<StructDefinition>) {
@@ -54,7 +54,7 @@ pub fn parse(packet_db_path: &Path) -> (Vec<PacketStructDefinition>, Vec<StructD
             current_structure_def = 0;
             structs_for_packet = Vec::new();
         } else if line_content.contains("struct") && structs_for_packet.len() > 0 { // start of nested struct
-            let name = struct_regex.captures(line_content.as_str()).unwrap().get(1).unwrap();
+            let name = STRUCT_REGEX.captures(line_content.as_str()).unwrap().get(1).unwrap();
             let current_packet = structs_for_packet.get_mut(current_structure_def).unwrap().get_mut();
             current_packet.fields.push( // register this nested struct a field of current struct
                               get_field_for_nested_struct(line_content.clone(), current_packet.current_field_position.clone()));
@@ -65,7 +65,7 @@ pub fn parse(packet_db_path: &Path) -> (Vec<PacketStructDefinition>, Vec<StructD
             }));
             current_structure_def += 1;
         } else if line_content.contains("struct") { // start of "main" struct. matching: struct PACKET_HC_ACCEPT_MAKECHAR_NEO_UNION {
-            let name = struct_regex.captures(line_content.as_str()).unwrap().get(1).unwrap();
+            let name = STRUCT_REGEX.captures(line_content.as_str()).unwrap().get(1).unwrap();
             structs_for_packet.push(RefCell::new(StructDefinition {
                 name: name.as_str().to_string(),
                 current_field_position: 0,
@@ -110,13 +110,13 @@ fn struct_name(name: &String) -> String {
         return name.clone();
     }
     let mut new_name = name.to_lowercase();
-    new_name = after_underscore_char_regex.replace_all(&new_name, |caps: &Captures| { caps.get(1).unwrap().as_str().to_uppercase() }).to_string();
-    new_name = first_char_regex.replace_all(&new_name, |caps: &Captures| { caps.get(1).unwrap().as_str().to_uppercase() }).to_string();
+    new_name = AFTER_UNDERSCORE_CHAR_REGEX.replace_all(&new_name, |caps: &Captures| { caps.get(1).unwrap().as_str().to_uppercase() }).to_string();
+    new_name = FIRST_CHAR_REGEX.replace_all(&new_name, |caps: &Captures| { caps.get(1).unwrap().as_str().to_uppercase() }).to_string();
     new_name
 }
 
 fn get_field_for_nested_struct<'a>(line: String, position: i16) -> StructField<'a> {
-    let nested_struct_matches = nested_struct_regex.captures(line.as_str()).unwrap();
+    let nested_struct_matches = NESTED_STRUCT_REGEX.captures(line.as_str()).unwrap();
     let complex_type_name = nested_struct_matches.get(1).unwrap().as_str().to_string();
     let name = nested_struct_matches.get(2).unwrap().as_str().to_string();
     let mut length: i16 = -1;
@@ -146,7 +146,7 @@ fn get_field<'a>(field_line: String, position: i16) -> StructField<'a> {
     }
 
     if field_type.name ==  "Array" {
-        let captures_option = array_regex.captures(field_line.as_str());
+        let captures_option = ARRAY_REGEX.captures(field_line.as_str());
         if captures_option.is_some() { // match xxx[12]
             let options = captures_option.unwrap();
             if field_line.contains("char") {
@@ -173,7 +173,7 @@ fn get_field<'a>(field_line: String, position: i16) -> StructField<'a> {
 fn get_string_field_length(line: &String) -> i16 {
     let frag: Vec<&str> = line.split(" ").collect();
     let name = frag[frag.len() - 1].to_string();
-    let string_len = string_len_regex.captures(name.as_str());
+    let string_len = STRING_LEN_REGEX.captures(name.as_str());
     if string_len.is_some() {
         string_len.unwrap().get(1).unwrap().as_str().parse::<i16>().unwrap()
     } else {
@@ -204,8 +204,8 @@ fn get_field_name(line: &String) -> String {
     if name == "type" {
         name = "atype".to_string();
     }
-    name = first_char_regex.replace_all(&name, |caps: &Captures| { caps.get(1).unwrap().as_str().to_ascii_lowercase() }).to_string();
-    name = uppercase_char_regex.replace_all(&name, |caps: &Captures| { "_".to_owned() + caps.get(1).unwrap().as_str().to_ascii_lowercase().as_str() }).to_string();
+    name = FIRST_CHAR_REGEX.replace_all(&name, |caps: &Captures| { caps.get(1).unwrap().as_str().to_ascii_lowercase() }).to_string();
+    name = UPPERCASE_CHAR_REGEX.replace_all(&name, |caps: &Captures| { "_".to_owned() + caps.get(1).unwrap().as_str().to_ascii_lowercase().as_str() }).to_string();
     name
 }
 

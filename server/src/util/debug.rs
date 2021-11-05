@@ -1,8 +1,9 @@
 use packets::packets::{PacketZcNotifyChat};
 use crate::server::core::session::Session;
-use std::io::Write;
+
 use packets::packets::Packet;
 
+#[allow(dead_code)]
 pub fn debug_in_game_chat(session: &Session, text: String) {
     let mut zc_notify_chat = PacketZcNotifyChat::new();
     zc_notify_chat.set_gid(session.account_id);

@@ -1,15 +1,13 @@
 use std::any::Any;
-use std::cmp;
-use std::fmt::{Debug};
+
 use std::sync::{Arc};
 use parking_lot::RwLock;
 use crate::server::core::character::Character;
-use crate::server::server::{MOB_FOV_SLICE_LEN, UNKNOWN_MAP_ITEM};
+use crate::server::server::{MOB_FOV_SLICE_LEN};
 use crate::server::core::map::MapItem;
 use crate::server::core::map_instance::MapInstance;
 use crate::server::core::status::Status;
 use crate::server::server::MOB_FOV;
-use crate::util::coordinate;
 
 #[derive(Setters)]
 pub struct Mob {

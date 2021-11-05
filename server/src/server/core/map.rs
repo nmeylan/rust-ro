@@ -8,7 +8,7 @@ use std::{fs, thread};
 use std::any::Any;
 use std::time::{Duration, Instant};
 use std::collections::HashMap;
-use std::fmt::Debug;
+
 use std::sync::{Arc};
 use std::thread::sleep;
 use parking_lot::RwLock;
@@ -30,7 +30,9 @@ pub const WARP_MASK: u16 = 0b0000_0100_0000_0000;
 pub const WALKABLE_MASK: u16 = 0b0000000000000001;
 
 struct Header {
+    #[allow(dead_code)]
     pub version: i16,
+    #[allow(dead_code)]
     pub checksum: [u8; 16],
     pub x_size: i16,
     pub y_size: i16,
@@ -136,10 +138,11 @@ impl Map {
     // Char interact with instance instead of map directly.
     // Instances will make map lifecycle easier to maintain
     // Only 1 instance will be needed for most use case, but it make possible to wipe map instance after a while when no player are on it. to free memory
-    pub fn player_join_map(&self, char_session: &Character, server: Arc<Server>) -> Arc<MapInstance> {
+    pub fn player_join_map(&self, _char_session: &Character, server: Arc<Server>) -> Arc<MapInstance> {
 
         let map_instance_id = 0_u32;
-        let mut instance_exists = false; {
+        let instance_exists;
+        {
             let map_instances_guard = read_lock!(self.map_instances);
             instance_exists = map_instances_guard.get(map_instance_id as usize).is_some();
         }
@@ -182,9 +185,9 @@ impl Map {
         let mut reader = BufReader::new(file);
         let mut map_cache_zip_content_buf = Vec::new();
         let mut map_cache_content_buf = Vec::new();
-        reader.read_to_end(&mut map_cache_zip_content_buf);
+        reader.read_to_end(&mut map_cache_zip_content_buf).expect(&*format!("Fail to read map-cache zip content for map: {}", self.name));
         let mut decoder = ZlibDecoder::new(&map_cache_zip_content_buf[26..]); // skip header
-        decoder.read_to_end(&mut map_cache_content_buf).unwrap();
+        decoder.read_to_end(&mut map_cache_content_buf).expect(&*format!("Fail to read map-cache unzipped content for map: {}", self.name));
 
         let mut cells: Vec<u16> = Vec::with_capacity(self.length as usize);
         for cell in map_cache_content_buf {
@@ -256,7 +259,7 @@ impl Map {
                     sleep(Duration::from_millis(200));
                 }
                 info!("Clean up {} map", map_instance_clone.name);
-            });
+            }).unwrap();
     }
 
     pub fn load_maps(warps: HashMap<String, Vec<Warp>>, mob_spawns: HashMap<String, Vec<MobSpawn>>, map_items: &RwLock<HashMap<u32, Arc<dyn MapItem>>>) -> HashMap<String, Map> {
@@ -266,10 +269,10 @@ impl Map {
             let _start = Instant::now();
             let path = path.as_ref().unwrap();
             let map_name = path.file_name().to_str().unwrap().replace(MAPCACHE_EXT, "");
-            let file = File::open(path.path()).unwrap();
+            let file = File::open(path.path()).expect(&*format!("Can't open file for map: {}", map_name));
             let mut reader = BufReader::new(file);
             let mut buf = [0 as u8; 26];
-            reader.read(&mut buf);
+            reader.read_exact(&mut buf).expect(&*format!("Can't read file for map: {}", map_name));
             let header = Header {
                 version: Cursor::new(buf[0..2].to_vec()).read_i16::<LittleEndian>().unwrap(),
                 checksum: buf[2..18].try_into().unwrap(),

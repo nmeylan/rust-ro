@@ -6,7 +6,7 @@ use tokio::runtime::Runtime;
 use std::net::{TcpStream, Shutdown};
 use std::sync::{Arc};
 use std::io::{Write, Read};
-use std::sync::atomic::AtomicPtr;
+
 
 use std::thread::spawn;
 use parking_lot::RwLock;
@@ -84,7 +84,7 @@ fn proxy_login(server: Arc<Server>, packet: &mut dyn Packet, tcp_stream: Arc<RwL
                 Ok(bytes_read) => {
                     // no more data
                     if bytes_read == 0 {
-                        remote_login_server_clone.shutdown(Shutdown::Both);
+                        remote_login_server_clone.shutdown(Shutdown::Both).expect("Unable to shutdown remote login server socket");
                         break;
                     }
                     let mut packet = parse(&mut buffer[..bytes_read]);
@@ -102,7 +102,7 @@ fn proxy_login(server: Arc<Server>, packet: &mut dyn Packet, tcp_stream: Arc<RwL
             }
         }
     });
-    remote_login_server.write(packet.raw());
-    remote_login_server.flush();
-    handle.join();
+    remote_login_server.write_all(packet.raw()).expect("Failed to write packet for remote login server");
+    remote_login_server.flush().expect("Failed to flush packet for remote login server");
+    handle.join().expect("Failed to await login request proxy");
 }
