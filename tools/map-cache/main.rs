@@ -147,7 +147,7 @@ async fn main() {
             wtr.write_all(&checksum_buf);
             wtr.write_i16::<LittleEndian>(x_size as i16);
             wtr.write_i16::<LittleEndian>(y_size as i16);
-            wtr.write_i32::<LittleEndian>(compressed_cells.len() as i32);
+            wtr.write_i32::<LittleEndian>(cells.len() as i32);
             wtr.write_all(&compressed_cells[..]);
             map_cache_file.write_all(&wtr[..]);
 
