@@ -1,11 +1,11 @@
 use proc_macro::TokenStream;
-use quote::{quote, ToTokens};
+use quote::{quote};
 use syn::{ItemFn};
-use syn::parse::Parse;
+
 
 #[proc_macro_attribute]
 pub fn elapsed(_args: TokenStream, function_def: TokenStream) -> TokenStream {
-    let mut item: syn::Item = syn::parse(function_def.clone()).unwrap();
+    let mut item: syn::Item = syn::parse(function_def).unwrap();
     let fn_item = match &mut item {
         syn::Item::Fn(fn_item) => fn_item,
         _ => panic!("expected fn")

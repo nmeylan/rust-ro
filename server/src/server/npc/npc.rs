@@ -32,8 +32,8 @@ impl NpcLoader {
                 continue;
             }
             line = line.replace("npc: ", "");
-            let npc_script_path = line.trim().clone().to_string();
-            semaphore.acquire().await.unwrap();
+            let npc_script_path = line.trim().to_string();
+            let _ = semaphore.acquire().await.unwrap();
             let res = npcs_by_map.clone();
             futures.push(tokio::task::spawn_blocking(move || {
                 let npc_script_file_res = File::open(Path::new(&npc_script_path));

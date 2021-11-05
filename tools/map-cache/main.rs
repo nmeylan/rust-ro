@@ -10,7 +10,6 @@ use flexi_logger::Logger;
 use std::str;
 use std::process::exit;
 use flate2::write::ZlibEncoder;
-use md5;
 use std::num::ParseIntError;
 
 use futures::future::join_all;

@@ -1,12 +1,12 @@
 use std::any::Any;
-use packets::packets::{Packet, PacketUnknown, PacketCaLogin, PacketChEnter, PacketChMakeChar2, PacketChDeleteChar4Reserved, PacketCzEnter2, PacketChSelectChar, PacketCzRestart, PacketCzReqDisconnect2, PacketCzRequestMove2, PacketCzNotifyActorinit, PacketCzBlockingPlayCancel, PacketZcLoadConfirm, PacketCzRequestAct2, PacketCzReqnameall2, PacketZcAckReqnameall2};
+use packets::packets::{Packet, PacketUnknown, PacketCaLogin, PacketChEnter, PacketChMakeChar2, PacketChDeleteChar4Reserved, PacketCzEnter2, PacketChSelectChar, PacketCzRestart, PacketCzReqDisconnect2, PacketCzRequestMove2, PacketCzNotifyActorinit, PacketCzBlockingPlayCancel, PacketCzRequestAct2, PacketCzReqnameall2};
 use std::sync::{Arc};
-use std::thread::{spawn, JoinHandle};
+use std::thread::{JoinHandle};
 use crate::repository::lib::Repository;
 use sqlx::{MySql};
 use std::collections::HashMap;
 use tokio::runtime::Runtime;
-use std::io::{Read, Write};
+use std::io::{Read};
 use std::net::{TcpStream, TcpListener, Shutdown};
 use std::thread;
 use log::{error};
@@ -16,7 +16,7 @@ use crate::server::configuration::Config;
 use crate::server::core::map::{Map, MapItem};
 use crate::server::core::session::{Session, SessionsIter};
 use crate::server::handler::action::attack::handle_attack;
-use crate::server::handler::char::{handle_char_enter, handle_char_loaded_client_side, handle_delete_reserved_char, handle_disconnect, handle_enter_game, handle_make_char, handle_restart, handle_select_char};
+use crate::server::handler::char::{handle_blocking_play_cancel, handle_char_enter, handle_char_loaded_client_side, handle_delete_reserved_char, handle_disconnect, handle_enter_game, handle_make_char, handle_restart, handle_select_char};
 use crate::server::handler::login::handle_login;
 use crate::server::handler::movement::handle_char_move;
 use lazy_static::lazy_static;
@@ -136,7 +136,7 @@ impl Server {
                         match tcp_stream.read(&mut buffer) {
                             Ok(bytes_read) => {
                                 if bytes_read == 0 {
-                                    tcp_stream.shutdown(Shutdown::Both);
+                                    tcp_stream.shutdown(Shutdown::Both).expect("Unable to shutdown incoming socket. Shutdown was done because remote socket seems cloded.");
                                     break;
                                 }
                                 let mut packet = parse(&mut buffer[..bytes_read]);
@@ -145,9 +145,9 @@ impl Server {
                             Err(err) => error!("{}", err)
                         }
                     }
-                });
+                }).expect("Failed to create sever-handle-request thread");
             }
-        }).unwrap()
+        }).expect("Failed to create sever-incoming-connection thread")
     }
 
 
@@ -219,10 +219,8 @@ impl Server {
         }
         // Client send PACKET_CZ_BLOCKING_PLAY_CANCEL after char has loaded
         if packet.as_any().downcast_ref::<PacketCzBlockingPlayCancel>().is_some() {
-            let mut packet_zc_load_confirm = PacketZcLoadConfirm::new();
-            packet_zc_load_confirm.fill_raw();
-            socket_send!(tcp_stream, &packet_zc_load_confirm.raw());
-            return;
+            let session_id = self.ensure_session_exists(&tcp_stream);
+            return handle_blocking_play_cancel(self_ref.clone(), packet, runtime, tcp_stream, session_id.unwrap());
         }
         if packet.as_any().downcast_ref::<PacketCzRequestAct2>().is_some() {
             let session_id = self.ensure_session_exists(&tcp_stream);

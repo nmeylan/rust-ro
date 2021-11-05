@@ -8,12 +8,13 @@ mod repository;
 extern crate log;
 #[macro_use]
 extern crate accessor;
+
 #[macro_use]
 extern crate metrics;
 
 use std::collections::HashMap;
-use std::hash::Hash;
-use std::ops::Deref;
+
+
 use std::thread::{JoinHandle};
 use proxy::map::MapProxy;
 use crate::proxy::char::CharProxy;
@@ -21,7 +22,7 @@ use std::sync::{Arc};
 use crate::repository::lib::Repository;
 use sqlx::MySql;
 use std::time::{Instant};
-use flexi_logger::filter::LogLineFilter;
+
 use flexi_logger::Logger;
 use parking_lot::RwLock;
 use crate::server::core::map::{Map, MapItem};
@@ -55,6 +56,6 @@ pub async fn main() {
     let _ = &handles.push(map_proxy.proxy());
 
     for handle in handles {
-        handle.join();
+        handle.join().expect("Failed await server and proxy threads");
     }
 }

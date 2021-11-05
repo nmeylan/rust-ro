@@ -58,7 +58,7 @@ impl MobSpawnTrack {
 
 impl MapInstance {
     pub fn from_map(map: &Map, id: u32, cells: Vec<u16>, map_items: Vec<Option<Arc<dyn MapItem>>>) -> MapInstance {
-        let cells_len = cells.len();
+        let _cells_len = cells.len();
         MapInstance {
             name: map.name.clone(),
             id,
@@ -98,7 +98,7 @@ impl MapInstance {
         }
     }
 
-    pub fn spawn_mobs(&self, server: Arc<Server>, now: u128, self_ref: Arc<MapInstance>) {
+    pub fn spawn_mobs(&self, server: Arc<Server>, _now: u128, self_ref: Arc<MapInstance>) {
         let mut spawned_something = false;
         for mob_spawn in self.mob_spawns.iter() {
             let mut mob_spawns_tracks_guard = write_lock!(self.mob_spawns_tracks);
@@ -111,17 +111,13 @@ impl MapInstance {
             }
             let mut cell: (u16, u16);
             spawned_something = true;
-            let spawned = (mob_spawn.to_spawn_amount - mob_spawn_track.spawned_amount);
+            let spawned = mob_spawn.to_spawn_amount - mob_spawn_track.spawned_amount;
             for _ in 0..spawned {
                 if mob_spawn.is_fixed_position() {
                     cell = (mob_spawn.x, mob_spawn.y);
-                } else {}
-                if mob_spawn.is_fixed_position() {
-                    cell = (mob_spawn.x, mob_spawn.y);
-                } else if mob_spawn.is_zone_constraint() {
-                    // TODO implement constraint zone
-                    cell = Map::find_random_walkable_cell(self.cells.as_ref(), self.x_size);
                 } else {
+                    // if mob_spawn.is_zone_constraint() {
+                    // TODO implement constraint zone
                     cell = Map::find_random_walkable_cell(self.cells.as_ref(), self.x_size);
                 }
                 let mob_id = server.generate_map_item_id();
@@ -152,14 +148,11 @@ impl MapInstance {
         }
     }
 
-    // TODO implement a batch mod, read_lock make function cost 2-3 times performance
+    #[allow(dead_code)]
     pub fn get_map_item_at(&self, x: u16, y: u16) -> Option<Arc<dyn MapItem>> {
         let map_items_guard = read_lock!(self.map_items);
         let key = coordinate::get_cell_index_of(x, y, self.x_size);
-        let mut map_item_option;
-        unsafe {
-            map_item_option = map_items_guard.get_unchecked(key);
-        }
+        let map_item_option = unsafe { map_items_guard.get_unchecked(key) };
         return map_item_option.clone();
     }
 
@@ -185,6 +178,7 @@ impl MapInstance {
         items
     }
 
+    #[allow(dead_code)]
     pub fn print_map_cells(&self) {
         for i in (0..self.y_size).rev() {
             for j in 0..self.x_size {
@@ -254,7 +248,7 @@ impl MapInstance {
 
     #[inline]
     pub fn get_item_x_from_fov(&self, x: u16, range: u16, i: u16) -> u16 {
-        let mut x = self.get_fov_start_x(x, range) + i;
+        let x = self.get_fov_start_x(x, range) + i;
         if x >= self.x_size {
             return self.x_size - 1;
         }
@@ -263,7 +257,7 @@ impl MapInstance {
 
     #[inline]
     pub fn get_item_y_from_fov(&self, y: u16, range: u16, j: u16) -> u16 {
-        let mut y = self.get_fov_start_y(y, range) + j;
+        let y = self.get_fov_start_y(y, range) + j;
         if y >= self.y_size {
             return self.y_size - 1;
         }

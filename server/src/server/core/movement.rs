@@ -1,10 +1,10 @@
 use packets::packets::{PacketCzRequestMove2, Packet, PacketZcNpcackMapmove};
 use tokio::runtime::Runtime;
 use std::sync::{Arc};
-use std::io::Write;
+
 use std::sync::atomic::Ordering::{Acquire, Relaxed};
 use std::thread::sleep;
-use parking_lot::RwLock;
+
 use tokio::time::Duration;
 use tokio::task::JoinHandle;
 use crate::server::core::character::Character;
@@ -49,10 +49,6 @@ impl Position {
         move_data[2] = ((self.y << 4) | (self.dir & 0xf)) as u8;
         move_data
     }
-
-    pub fn is_equals(&self, other: &Position) -> bool {
-        self.x == other.x && self.y == other.y
-    }
 }
 
 // TODO find a formula
@@ -66,17 +62,6 @@ fn extra_delay(speed: u16) -> i16 {
     }
 }
 
-fn a() -> u32 {
-    let i = || {
-        if 1 == 0 {
-            return 3;
-        }
-        return 4;
-    };
-    println!("aa");
-    return i()
-}
-
 pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<Session>, server: Arc<Server>, task_id: u128) -> JoinHandle<()> {
     let server = server.clone();
     let handle = runtime.spawn(async move {
@@ -85,9 +70,9 @@ pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<
             for path_node in path {
                 let delay: u64;
                 {
-                    let mut character = session.get_character();
+                    let character = session.get_character();
                     {
-                        let movement_task_id_guard = unsafe{ character.movement_task_id.load(Acquire).as_ref().unwrap()};
+                        let movement_task_id_guard = unsafe { character.movement_task_id.load(Acquire).as_ref().unwrap() };
                         if movement_task_id_guard.is_some() && task_id != movement_task_id_guard.unwrap() {
                             has_been_canceled = true;
                             break;
@@ -118,7 +103,7 @@ pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<
         if !has_been_canceled {
             {
                 let session_clone = session.clone();
-                let mut character = session_clone.get_character();
+                let character = session_clone.get_character();
                 character.movement_task_id.store(&mut None, Relaxed);
             }
             save_character_position(server.clone(), session.clone()).await;
@@ -152,17 +137,14 @@ fn change_map(map: Arc<MapInstance>, path_node: &PathNode, session: Arc<Session>
 
 
 async fn save_character_position(server: Arc<Server>, session: Arc<Session>) {
-    let res;
-    unsafe {
-        let character = session.get_character();
-        res = sqlx::query("UPDATE `char` SET last_map = ?, last_x = ?, last_y = ? WHERE account_id = ? AND char_id = ?") // TODO add bcrypt on user_pass column, but not supported by hercules
-            .bind(Map::name_without_ext(character.get_current_map_name()))
-            .bind(character.x())
-            .bind(character.y())
-            .bind(session.account_id)
-            .bind(character.char_id)
-            .execute(&server.repository.pool);
-    }
+    let character = session.get_character();
+    let res = sqlx::query("UPDATE `char` SET last_map = ?, last_x = ?, last_y = ? WHERE account_id = ? AND char_id = ?") // TODO add bcrypt on user_pass column, but not supported by hercules
+        .bind(Map::name_without_ext(character.get_current_map_name()))
+        .bind(character.x())
+        .bind(character.y())
+        .bind(session.account_id)
+        .bind(character.char_id)
+        .execute(&server.repository.pool);
     let res = res.await;
     debug!("Update char last position {:?}", res);
 }

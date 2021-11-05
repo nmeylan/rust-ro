@@ -7,7 +7,7 @@ use crate::util::string::StringUtil;
 use std::io::Write;
 use parking_lot::RwLock;
 
-pub fn handle_map_item_name(server: Arc<Server>, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, session_id: u32) {
+pub fn handle_map_item_name(server: Arc<Server>, packet: &mut dyn Packet, _runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, _session_id: u32) {
     let packet_cz_req_allname2 = cast!(packet, PacketCzReqnameall2);
     let map_items_guard = read_lock!(server.map_items);
     let map_item_found = map_items_guard.get(&packet_cz_req_allname2.gid);

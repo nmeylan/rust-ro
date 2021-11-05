@@ -17,7 +17,7 @@ pub struct Proxy<T: PacketHandler + Clone + Send> {
 }
 
 pub trait PacketHandler {
-    fn handle_packet(&self, tcp_stream: Arc<Mutex<TcpStream>>, packet: &mut dyn Packet) -> Result<String, String>;
+    fn handle_packet(&self, tcp_stream: Arc<Mutex<TcpStream>>, packet: &mut dyn Packet);
 }
 
 #[derive(Debug, PartialEq)]
@@ -45,23 +45,21 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
                 spawn(move || {
                     // Use Arc to be able to share reference across thread.
                     // Arc are immutable, use a mutex to be able to mutate arc value.
-                    if let Err(error) = server_ref.proxy_connection(tcp_stream.unwrap()) {
-                        error!("{}", error);
-                    }
+                    server_ref.proxy_connection(tcp_stream.unwrap());
                 });
             }
         })
     }
 
-    fn proxy_connection(&self, incoming_stream: TcpStream) -> Result<(), String> {
+    fn proxy_connection(&self, incoming_stream: TcpStream) {
         let mut forward_thread_incoming = incoming_stream.try_clone().unwrap();
         debug!("Client connected from: {:#?} to {:#?}", incoming_stream.peer_addr().unwrap(), incoming_stream.local_addr().unwrap());
 
         let mut forward_thread_outgoing = TcpStream::connect(self.target)
-            .map_err(|error| format!("Could not establish connection to {}: {}", self.target, error))?;
+            .expect(&*format!("Could not establish connection to {}", self.target));
 
-        let mut backward_thread_incoming_clone = incoming_stream.try_clone().map_err(|e| e.to_string())?;
-        let mut backward_thread_outgoing_clone = forward_thread_outgoing.try_clone().map_err(|e| e.to_string())?;
+        let mut backward_thread_incoming_clone = incoming_stream.try_clone().expect("Unable to clone incoming tcp stream for proxy");
+        let mut backward_thread_outgoing_clone = forward_thread_outgoing.try_clone().expect("Unable to clone outgoing tcp stream for proxy");
         let mut server_copy_forward_thread = self.clone();
         let mut server_copy_backward_thread = self.clone();
         // Pipe for- and backward asynchronously
@@ -75,12 +73,11 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
                 let rt = Runtime::new().unwrap();
                 server_copy_backward_thread.pipe(&mut backward_thread_outgoing_clone, &mut backward_thread_incoming_clone, ProxyDirection::Backward, &rt)
             }).unwrap();
-        forward.join().map_err(|error| format!("Forward failed: {:?}", error))?;
-        backward.join().map_err(|error| format!("Backward failed: {:?}", error))?;
+        let _ = forward.join().expect("Forward failed");
+        let _ = backward.join().expect("Backward failed");
 
         debug!("Socket closed");
 
-        Ok(())
     }
 
     fn pipe(&mut self, incoming: &mut TcpStream, outgoing: &mut TcpStream, direction: ProxyDirection, _runtime: &Runtime) -> Result<(), String> {
@@ -95,8 +92,8 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
                     // no more data
                     if bytes_read == 0 {
                         debug!("shutdown {} direction {}", outgoing.local_addr().unwrap(), direction);
-                        outgoing.shutdown(Shutdown::Both);
-                        incoming.shutdown(Shutdown::Both);
+                        outgoing.shutdown(Shutdown::Both).expect("Failed to shutdown incoming socket for proxy");
+                        incoming.shutdown(Shutdown::Both).expect("Failed to shutdown incoming socket for proxy");
                         break;
                     }
                     let tcp_stream_ref = Arc::new(Mutex::new(incoming.try_clone().unwrap()));
@@ -111,14 +108,14 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
 
     fn proxy_request(&self, outgoing: &mut TcpStream, direction: &ProxyDirection, tcp_stream_ref: Arc<Mutex<TcpStream>>, mut packet: Box<dyn Packet>) {
         if packet.id() != "0x6003" && packet.id() != "0x7f00" {
-            info!("{} {} {} ", self.name, if *direction.clone() == ProxyDirection::Backward { "<" } else { ">" }, outgoing.peer_addr().unwrap());
+            info!("{} {} {} ", self.name, if *direction == ProxyDirection::Backward { "<" } else { ">" }, outgoing.peer_addr().unwrap());
             self.specific_proxy.handle_packet(tcp_stream_ref, packet.as_mut());
             packet.display();
             packet.pretty_debug();
             info!("{:02X?}", packet.raw());
         }
         if outgoing.write(packet.raw()).is_ok() {
-            outgoing.flush();
+            outgoing.flush().expect("Failed to flush packet for outgoing socket to proxied server");
         }
     }
 }

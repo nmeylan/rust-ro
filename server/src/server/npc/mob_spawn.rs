@@ -76,18 +76,19 @@ impl MobSpawn {
         }
     }
 
+    #[allow(dead_code)]
     pub fn is_fixed_position(&self) -> bool {
         self.x != 0 && self.y != 0
     }
-
+    #[allow(dead_code)]
     pub fn is_zone_constraint(&self) -> bool {
         self.x_size != 0 || self.y_size != 0
     }
-
+    #[allow(dead_code)]
     pub fn has_delay(&self) -> bool {
         self.fixed_delay_in_ms != 0
     }
-
+    #[allow(dead_code)]
     pub fn has_delay_variance(&self) -> bool {
         self.random_variance_delay_in_ms != 0
     }

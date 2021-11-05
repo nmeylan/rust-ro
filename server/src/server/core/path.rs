@@ -2,9 +2,9 @@ use std::sync::Arc;
 use std::time::Instant;
 use accessor::Setters;
 use log::{debug};
-use crate::server::core::map::Map;
+
 use crate::server::core::map_instance::MapInstance;
-use crate::server::core::movement::Position;
+
 
 // Coming from herculesWS
 pub static MOVE_COST: u16 = 10;

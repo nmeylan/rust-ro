@@ -41,7 +41,7 @@ pub fn handle_char_enter(server: Arc<Server>, packet: &mut dyn Packet, runtime: 
             let final_response_packet: Vec<u8> = chain_packets(vec![&packet_hc_accept_enter_neo_union, &pincode_loginstate]);
             let mut wtr = vec![];
             // A "account id packet" should be sent just before char info packet
-            wtr.write_u32::<LittleEndian>(session.account_id);
+            wtr.write_u32::<LittleEndian>(session.account_id).expect("Unable to write Little endian u32 from session account id");
             socket_send!(tcp_stream, &wtr);
             socket_send!(tcp_stream, &final_response_packet);
             return;
@@ -131,7 +131,7 @@ pub fn handle_select_char(server: Arc<Server>, packet: &mut dyn Packet, runtime:
             .fetch_one(&server.repository.pool).await.unwrap()
     });
     let mut sessions_guard = write_lock!(server.sessions);
-    let mut session = sessions_guard.get(&session_id).unwrap();
+    let session = sessions_guard.get(&session_id).unwrap();
     let char_id: u32 = char_model.char_id.clone();
     let last_x: u16 = char_model.last_x.clone();
     let last_y: u16 = char_model.last_y.clone();
@@ -174,12 +174,12 @@ pub fn handle_enter_game(server: Arc<Server>, packet: &mut dyn Packet, _runtime:
     let mut sessions_guard = write_lock!(server.sessions);
     let session = sessions_guard.get(&packet_enter_game.aid);
     if session.is_none() {
-        write_lock!(tcp_stream).shutdown(Both);
+        write_lock!(tcp_stream).shutdown(Both).expect("Unable to shutdown incoming socket. Shutdown was done because session does not exists");
         return;
     }
     let session = session.unwrap();
     if packet_enter_game.auth_code != session.auth_code {
-        write_lock!(tcp_stream).shutdown(Both);
+        write_lock!(tcp_stream).shutdown(Both).expect("Unable to shutdown incoming socket. Shutdown was done because packet auth_code mismatching session auth_code");
         server.remove_session(packet_enter_game.aid);
         return;
     }
@@ -214,86 +214,86 @@ pub fn handle_enter_game(server: Arc<Server>, packet: &mut dyn Packet, _runtime:
     socket_send!(tcp_stream, &final_response_packet);
 
     let mut packet_str = PacketZcStatusValues::new();
-    packet_str.set_status_type(StatusTypes::STR.value());
+    packet_str.set_status_type(StatusTypes::Str.value());
     packet_str.set_default_status(character.status.str as i32);
     packet_str.fill_raw();
     let mut packet_agi = PacketZcStatusValues::new();
-    packet_agi.set_status_type(StatusTypes::AGI.value());
+    packet_agi.set_status_type(StatusTypes::Agi.value());
     packet_agi.set_default_status(character.status.agi as i32);
     packet_agi.fill_raw();
     let mut packet_dex = PacketZcStatusValues::new();
-    packet_dex.set_status_type(StatusTypes::DEX.value());
+    packet_dex.set_status_type(StatusTypes::Dex.value());
     packet_dex.set_default_status(character.status.dex as i32);
     packet_dex.fill_raw();
     let mut packet_int = PacketZcStatusValues::new();
-    packet_int.set_status_type(StatusTypes::INT.value());
+    packet_int.set_status_type(StatusTypes::Int.value());
     packet_int.set_default_status(character.status.int as i32);
     packet_int.fill_raw();
     let mut packet_luk = PacketZcStatusValues::new();
-    packet_luk.set_status_type(StatusTypes::LUK.value());
+    packet_luk.set_status_type(StatusTypes::Luk.value());
     packet_luk.set_default_status(character.status.luk as i32);
     packet_luk.fill_raw();
     let mut packet_hit = PacketZcParChange::new();
-    packet_hit.set_var_id(StatusTypes::HIT.value() as u16);
+    packet_hit.set_var_id(StatusTypes::Hit.value() as u16);
     packet_hit.set_count(character.status.hit as i32);
     packet_hit.fill_raw();
     let mut packet_flee = PacketZcParChange::new();
-    packet_flee.set_var_id(StatusTypes::FLEE1.value() as u16);
+    packet_flee.set_var_id(StatusTypes::Flee1.value() as u16);
     packet_flee.set_count(character.status.flee as i32);
     packet_flee.fill_raw();
     let mut packet_aspd = PacketZcParChange::new();
-    packet_aspd.set_var_id(StatusTypes::ASPD.value() as u16);
+    packet_aspd.set_var_id(StatusTypes::Aspd.value() as u16);
     packet_aspd.set_count(character.status.aspd as i32);
     packet_aspd.fill_raw();
     let mut packet_atk = PacketZcParChange::new();
-    packet_atk.set_var_id(StatusTypes::ATK1.value() as u16);
+    packet_atk.set_var_id(StatusTypes::Atk1.value() as u16);
     packet_atk.set_count(character.status.base_atk as i32);
     packet_atk.fill_raw();
     let mut packet_def = PacketZcParChange::new();
-    packet_def.set_var_id(StatusTypes::DEF1.value() as u16);
+    packet_def.set_var_id(StatusTypes::Def1.value() as u16);
     packet_def.set_count(character.status.def as i32);
     packet_def.fill_raw();
     let mut packet_flee2 = PacketZcParChange::new();
-    packet_flee2.set_var_id(StatusTypes::FLEE2.value() as u16);
+    packet_flee2.set_var_id(StatusTypes::Flee2.value() as u16);
     packet_flee2.set_count(character.status.flee as i32);
     packet_flee2.fill_raw();
     let mut packet_crit = PacketZcParChange::new();
-    packet_crit.set_var_id(StatusTypes::CRITICAL.value() as u16);
+    packet_crit.set_var_id(StatusTypes::Critical.value() as u16);
     packet_crit.set_count(character.status.crit as i32);
     packet_crit.fill_raw();
     let mut packet_matk = PacketZcParChange::new();
-    packet_matk.set_var_id(StatusTypes::MATK1.value() as u16);
+    packet_matk.set_var_id(StatusTypes::Matk1.value() as u16);
     packet_matk.set_count(character.status.matk_min as i32);
     packet_matk.fill_raw();
     let mut packet_matk2 = PacketZcParChange::new();
-    packet_matk2.set_var_id(StatusTypes::MATK2.value() as u16);
+    packet_matk2.set_var_id(StatusTypes::Matk2.value() as u16);
     packet_matk2.set_count(character.status.matk_max as i32);
     packet_matk2.fill_raw();
     let mut packet_mdef2 = PacketZcParChange::new();
-    packet_mdef2.set_var_id(StatusTypes::MDEF2.value() as u16);
+    packet_mdef2.set_var_id(StatusTypes::Mdef2.value() as u16);
     packet_mdef2.set_count(character.status.mdef as i32);
     packet_mdef2.fill_raw();
     let mut packet_attack_range = PacketZcAttackRange::new();
     packet_attack_range.set_current_att_range(1);
     packet_attack_range.fill_raw();
     let mut packet_maxhp = PacketZcParChange::new();
-    packet_maxhp.set_var_id(StatusTypes::MAXHP.value() as u16);
+    packet_maxhp.set_var_id(StatusTypes::Maxhp.value() as u16);
     packet_maxhp.set_count(character.status.max_hp as i32);
     packet_maxhp.fill_raw();
     let mut packet_maxsp = PacketZcParChange::new();
-    packet_maxsp.set_var_id(StatusTypes::MAXSP.value() as u16);
+    packet_maxsp.set_var_id(StatusTypes::Maxsp.value() as u16);
     packet_maxsp.set_count(character.status.max_sp as i32);
     packet_maxsp.fill_raw();
     let mut packet_hp = PacketZcParChange::new();
-    packet_hp.set_var_id(StatusTypes::HP.value() as u16);
+    packet_hp.set_var_id(StatusTypes::Hp.value() as u16);
     packet_hp.set_count(character.status.hp as i32);
     packet_hp.fill_raw();
     let mut packet_sp = PacketZcParChange::new();
-    packet_sp.set_var_id(StatusTypes::SP.value() as u16);
+    packet_sp.set_var_id(StatusTypes::Sp.value() as u16);
     packet_sp.set_count(character.status.sp as i32);
     packet_sp.fill_raw();
     let mut packet_speed = PacketZcParChange::new();
-    packet_speed.set_var_id(StatusTypes::SPEED.value() as u16);
+    packet_speed.set_var_id(StatusTypes::Speed.value() as u16);
     packet_speed.set_count(character.status.speed as i32);
     packet_speed.fill_raw();
     let mut packet_notify_chat = PacketZcNotifyChat::new();
@@ -331,11 +331,11 @@ pub fn handle_disconnect(server: Arc<Server>, _packet: &mut dyn Packet, _runtime
     socket_send!(tcp_stream, &disconnect_ack.raw());
 }
 
-pub fn handle_char_loaded_client_side(server: Arc<Server>, _packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, session_id: u32) {
+pub fn handle_char_loaded_client_side(server: Arc<Server>, _packet: &mut dyn Packet, _runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, session_id: u32) {
     info!("Reload char");
     let sessions_guard = read_lock!(server.sessions);
     let session = sessions_guard.get(&session_id).unwrap();
-    let mut character = session.get_character();
+    let character = session.get_character();
     let map_name : String = Map::name_without_ext(character.get_current_map_name());
     let map_ref = server.maps.get(&map_name).unwrap();
 
@@ -348,7 +348,7 @@ pub fn handle_char_loaded_client_side(server: Arc<Server>, _packet: &mut dyn Pac
     let mut packet_zc_msg_color = PacketZcMsgColor::new();
     let mut packet_zc_notify_mapproperty2 = PacketZcNotifyMapproperty2::new();
     let mut packet_zc_hat_effect = PacketZcHatEffect::new();
-    packet_zc_msg_color.set_msg_id(ClientMessages::MSGATTENDANCEUNAVAILABLE.value());
+    packet_zc_msg_color.set_msg_id(ClientMessages::MsgAttendanceunavailable.value()); // Just a sample of message
     packet_zc_msg_color.set_msg_color(255);
     packet_zc_msg_color.fill_raw();
     packet_zc_notify_mapproperty2.set_atype(0x2); // TODO set this correctly see enum map_type in hercules
