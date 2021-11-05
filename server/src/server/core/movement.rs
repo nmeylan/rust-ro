@@ -77,7 +77,7 @@ fn a() -> u32 {
     return i()
 }
 
-pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<RwLock<Session>>, server: Arc<Server>, task_id: u128) -> JoinHandle<()> {
+pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<Session>, server: Arc<Server>, task_id: u128) -> JoinHandle<()> {
     let server = server.clone();
     let handle = runtime.spawn(async move {
         let mut has_been_canceled = false;
@@ -85,8 +85,7 @@ pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<
             for path_node in path {
                 let delay: u64;
                 {
-                    let session_guard = read_lock!(session);
-                    let mut character = session_guard.character.as_ref().unwrap();
+                    let mut character = session.get_character();
                     {
                         let movement_task_id_guard = unsafe{ character.movement_task_id.load(Acquire).as_ref().unwrap()};
                         if movement_task_id_guard.is_some() && task_id != movement_task_id_guard.unwrap() {
@@ -111,7 +110,7 @@ pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<
                     }
                     character.update_position(path_node.x, path_node.y);
 
-                    character.load_units_in_fov(&session_guard);
+                    character.load_units_in_fov(&session);
                 }
                 sleep(Duration::from_millis(delay));
             }
@@ -119,8 +118,7 @@ pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<
         if !has_been_canceled {
             {
                 let session_clone = session.clone();
-                let session_guard = read_lock!(session_clone);
-                let mut character = session_guard.character.as_ref().unwrap();
+                let mut character = session_clone.get_character();
                 character.movement_task_id.store(&mut None, Relaxed);
             }
             save_character_position(server.clone(), session.clone()).await;
@@ -130,8 +128,7 @@ pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<
 }
 
 
-fn change_map(map: Arc<MapInstance>, path_node: &PathNode, session: Arc<RwLock<Session>>, character_session: &Character) {
-    let session_guard = read_lock!(session);
+fn change_map(map: Arc<MapInstance>, path_node: &PathNode, session: Arc<Session>, character_session: &Character) {
     let warp = map.get_warp_at(path_node.x, path_node.y).unwrap();
     let mut new_current_map: [char; 16] = [0 as char; 16];
     let map_name = format!("{}{}", warp.dest_map_name, MAP_EXT);
@@ -150,22 +147,20 @@ fn change_map(map: Arc<MapInstance>, path_node: &PathNode, session: Arc<RwLock<S
     // let map = maps_guard.get_mut(&map_name).unwrap();
     // map.player_join_map(server.warps.get(&map_name));
 
-    let tcp_stream = session_guard.map_server_socket.as_ref().unwrap();
-    socket_send!(tcp_stream, packet_zc_npcack_mapmove.raw());
+    session.send_to_map_socket(packet_zc_npcack_mapmove.raw());
 }
 
 
-async fn save_character_position(server: Arc<Server>, session: Arc<RwLock<Session>>) {
+async fn save_character_position(server: Arc<Server>, session: Arc<Session>) {
     let res;
-    {
-        let session = read_lock!(session);
-        let character_session = session.character.as_ref().unwrap();
+    unsafe {
+        let character = session.get_character();
         res = sqlx::query("UPDATE `char` SET last_map = ?, last_x = ?, last_y = ? WHERE account_id = ? AND char_id = ?") // TODO add bcrypt on user_pass column, but not supported by hercules
-            .bind(Map::name_without_ext(character_session.get_current_map_name()))
-            .bind(character_session.x())
-            .bind(character_session.y())
+            .bind(Map::name_without_ext(character.get_current_map_name()))
+            .bind(character.x())
+            .bind(character.y())
             .bind(session.account_id)
-            .bind(character_session.char_id)
+            .bind(character.char_id)
             .execute(&server.repository.pool);
     }
     let res = res.await;
