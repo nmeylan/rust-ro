@@ -2,11 +2,12 @@ use packets::packets::{PacketCzRequestMove2, Packet, PacketZcNpcackMapmove};
 use tokio::runtime::Runtime;
 use std::sync::{Arc};
 use std::io::Write;
+use std::sync::atomic::Ordering::{Acquire, Relaxed};
 use std::thread::sleep;
 use parking_lot::RwLock;
 use tokio::time::Duration;
 use tokio::task::JoinHandle;
-use crate::server::core::character::CharacterSession;
+use crate::server::core::character::Character;
 use crate::server::core::map::{Map, MAP_EXT, MapItem};
 use crate::server::core::map_instance::MapInstance;
 use crate::server::core::path::{MOVE_COST, MOVE_DIAGONAL_COST, PathNode};
@@ -87,8 +88,8 @@ pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<
                     let session_guard = read_lock!(session);
                     let mut character = session_guard.character.as_ref().unwrap();
                     {
-                        let movement_task_id_guard = read_lock!(character.movement_task_id);
-                        if task_id != movement_task_id_guard.unwrap() {
+                        let movement_task_id_guard = unsafe{ character.movement_task_id.load(Acquire).as_ref().unwrap()};
+                        if movement_task_id_guard.is_some() && task_id != movement_task_id_guard.unwrap() {
                             has_been_canceled = true;
                             break;
                         }
@@ -116,6 +117,12 @@ pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<
             }
         }
         if !has_been_canceled {
+            {
+                let session_clone = session.clone();
+                let session_guard = read_lock!(session_clone);
+                let mut character = session_guard.character.as_ref().unwrap();
+                character.movement_task_id.store(&mut None, Relaxed);
+            }
             save_character_position(server.clone(), session.clone()).await;
         }
     });
@@ -123,7 +130,7 @@ pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<
 }
 
 
-fn change_map(map: Arc<MapInstance>, path_node: &PathNode, session: Arc<RwLock<Session>>, character_session: &CharacterSession) {
+fn change_map(map: Arc<MapInstance>, path_node: &PathNode, session: Arc<RwLock<Session>>, character_session: &Character) {
     let session_guard = read_lock!(session);
     let warp = map.get_warp_at(path_node.x, path_node.y).unwrap();
     let mut new_current_map: [char; 16] = [0 as char; 16];

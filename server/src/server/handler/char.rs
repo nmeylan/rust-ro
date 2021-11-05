@@ -10,15 +10,14 @@ use crate::repository::model::char_model::{CharacterInfoNeoUnionWrapped, CharIns
 use crate::util::string::StringUtil;
 use std::net::Shutdown::Both;
 use std::ops::Deref;
-use std::sync::atomic::AtomicU16;
+use std::sync::atomic::{AtomicPtr, AtomicU16};
 use crate::util::packet::chain_packets;
 use std::time::{SystemTime, UNIX_EPOCH};
 use parking_lot::RwLock;
 use crate::server::enums::status::StatusTypes;
 use crate::server::enums::client_messages::ClientMessages;
-use crate::server::core::character::{CharacterSession};
+use crate::server::core::character::{Character};
 use crate::server::core::map::{Map, MapItem, MapPropertyFlags};
-use crate::server::core::movement::Position;
 use crate::server::core::status::Status;
 use crate::server::server::{MOB_FOV_SLICE_LEN, Server};
 
@@ -146,14 +145,14 @@ pub fn handle_select_char(server: Arc<Server>, packet: &mut dyn Packet, runtime:
     last_map = format!("{}.gat", last_map);
     last_map.fill_char_array(map_name.as_mut());
     char_model.name.clone().fill_char_array(char_name.as_mut());
-    let character = CharacterSession {
+    let character = Character {
         name: char_model.name.clone(),
         char_id,
         status: Status::from_char_model(&char_model, &server.configuration.game),
         current_map_name: RwLock::new(map_name.clone()),
         x: AtomicU16::new(last_x),
         y: AtomicU16::new(last_y),
-        movement_task_id: RwLock::new(None),
+        movement_task_id: AtomicPtr::new(&mut None),
         map_view: RwLock::new(vec![None; MOB_FOV_SLICE_LEN]),
         current_map: RwLock::new(None),
         self_ref: RwLock::new(None)

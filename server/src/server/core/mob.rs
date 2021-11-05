@@ -3,7 +3,7 @@ use std::cmp;
 use std::fmt::{Debug};
 use std::sync::{Arc};
 use parking_lot::RwLock;
-use crate::server::core::character::CharacterSession;
+use crate::server::core::character::Character;
 use crate::server::server::{MOB_FOV_SLICE_LEN, UNKNOWN_MAP_ITEM};
 use crate::server::core::map::MapItem;
 use crate::server::core::map_instance::MapInstance;
@@ -77,7 +77,7 @@ impl Mob {
         let mut has_seen_char = false;
         let map_items = map_ref.get_map_items(self.x, self.y, MOB_FOV);
         for map_item in map_items {
-            if map_item.as_any().downcast_ref::<CharacterSession>().is_some() {
+            if map_item.as_any().downcast_ref::<Character>().is_some() {
                 // info!("{{{}:{}}},{{{}:{}}} {},{}", self.get_fov_start_x(), self.get_fov_start_y(), self.get_fov_start_x()  + (MOB_FOV * 2), self.get_fov_start_y() + (MOB_FOV * 2), self.x, self.y  );
                 // info!("{} {} {},{} - seen char_id {} from map view, at {},{}", self.name, self.id, self.x, self.y, map_item.id(), map_item.x(), map_item.y());
                 has_seen_char = true;
