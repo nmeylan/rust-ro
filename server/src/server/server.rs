@@ -36,7 +36,7 @@ lazy_static! {
 
 pub struct Server {
     pub configuration: Config,
-    pub sessions: Arc<RwLock<HashMap<u32, Arc<RwLock<Session>>>>>,
+    pub sessions: Arc<RwLock<HashMap<u32, Arc<Session>>>>,
     pub repository: Arc<Repository<MySql>>,
     pub maps: HashMap<String, Arc<Map>>,
     pub map_items: Arc<RwLock<HashMap<u32, Arc<dyn MapItem>>>>
@@ -83,7 +83,7 @@ impl Server {
     pub fn new(configuration: Config, repository: Arc<Repository<MySql>>, maps: HashMap<String, Arc<Map>>, map_items: Arc<RwLock<HashMap<u32, Arc<dyn MapItem>>>>) -> Server {
         let server = Server {
             configuration,
-            sessions: Arc::new(RwLock::new(HashMap::<u32, Arc<RwLock<Session>>>::new())),
+            sessions: Arc::new(RwLock::new(HashMap::<u32, Arc<Session>>::new())),
             repository,
             maps,
             map_items

@@ -130,7 +130,7 @@ impl Character {
         *current_map_guard = Some(current_map);
     }
 
-    pub fn load_units_in_fov(&self, session_guard: &RwLockReadGuard<Session>) {
+    pub fn load_units_in_fov(&self, session: &Arc<Session>) {
         let mut new_map_view = vec![None; PLAYER_FOV_SLICE_LEN];
         let current_map_guard = read_lock!(self.current_map);
         let map_ref = current_map_guard.as_ref().unwrap().clone();
@@ -166,8 +166,7 @@ impl Character {
                 packet_zc_notify_standentry.set_pos_dir(Position { x: map_item.x(), y: map_item.y(), dir: 3 }.to_pos());
                 packet_zc_notify_standentry.set_name(mob_name);
                 packet_zc_notify_standentry.fill_raw();
-                let tcp_stream = session_guard.map_server_socket.as_ref().unwrap();
-                socket_send!(tcp_stream, packet_zc_notify_standentry.raw());
+                session.send_to_map_socket(packet_zc_notify_standentry.raw());
             }
         }
 
@@ -177,8 +176,7 @@ impl Character {
                 let mut packet_zc_notify_vanish = PacketZcNotifyVanish::new();
                 packet_zc_notify_vanish.set_gid(id);
                 packet_zc_notify_vanish.fill_raw();
-                let tcp_stream = session_guard.map_server_socket.as_ref().unwrap();
-                socket_send!(tcp_stream, packet_zc_notify_vanish.raw());
+                session.send_to_map_socket(packet_zc_notify_vanish.raw());
             }
         }
     }

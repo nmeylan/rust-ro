@@ -18,18 +18,6 @@ macro_rules! mutex_lock {
 }
 
 #[macro_export]
-macro_rules! read_session {
-    ( $session_map:expr, $session_id:expr ) => {
-        crate::read_lock!($session_map.get(&$session_id).unwrap())
-  };
-}
-#[macro_export]
-macro_rules! write_session {
-    ( $session_map:expr, $session_id:expr ) => {
-        crate::write_lock!($session_map.get(&$session_id).unwrap())
-  };
-}
-#[macro_export]
 macro_rules! cast {
     ( $packet:expr, $type:ty ) => {
        $packet.as_any().downcast_ref::<$type>().unwrap()

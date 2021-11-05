@@ -10,8 +10,8 @@ use parking_lot::RwLock;
 pub fn handle_attack(server: Arc<Server>, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, session_id: u32) {
     let packet_cz_request_act2 = cast!(packet, PacketCzRequestAct2);
     let sessions_guard = read_lock!(server.sessions);
-    let session = read_session!(sessions_guard, &session_id);
-    let character = session.character.as_ref().unwrap();
+    let session = sessions_guard.get(&session_id).unwrap();
+    let character = session.get_character();
     let current_map_guard = read_lock!(character.current_map);
     let map_ref = current_map_guard.as_ref().unwrap().clone();
     let mobs_guard = read_lock!(map_ref.mobs);

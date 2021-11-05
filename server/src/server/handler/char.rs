@@ -23,11 +23,12 @@ use crate::server::server::{MOB_FOV_SLICE_LEN, Server};
 
 pub fn handle_char_enter(server: Arc<Server>, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>) {
     let packet_char_enter = cast!(packet, PacketChEnter);
-    let sessions_guard = read_lock!(server.sessions);
+    let mut sessions_guard = write_lock!(server.sessions);
 
     if sessions_guard.contains_key(&packet_char_enter.aid) {
-        let mut session = write_session!(sessions_guard, packet_char_enter.aid);
-        session.set_char_server_socket(tcp_stream.clone());
+        let session = sessions_guard.get(&packet_char_enter.aid).unwrap();
+        let session = Arc::new(session.recreate_with_char_socket(tcp_stream.clone()));
+        sessions_guard.insert(packet_char_enter.aid, session.clone());
         if session.auth_code == packet_char_enter.auth_code && session.user_level == packet_char_enter.user_level {
             let packet_hc_accept_enter_neo_union = runtime.block_on(async {
                 load_chars_info(session.account_id, &server.repository).await
@@ -41,11 +42,8 @@ pub fn handle_char_enter(server: Arc<Server>, packet: &mut dyn Packet, runtime: 
             let mut wtr = vec![];
             // A "account id packet" should be sent just before char info packet
             wtr.write_u32::<LittleEndian>(session.account_id);
-            let mut tcp_stream_guard = write_lock!(session.char_server_socket.as_ref().unwrap());
-            tcp_stream_guard.write(&wtr);
-            tcp_stream_guard.flush();
-            tcp_stream_guard.write(&final_response_packet);
-            tcp_stream_guard.flush();
+            socket_send!(tcp_stream, &wtr);
+            socket_send!(tcp_stream, &final_response_packet);
             return;
         }
         // should not happen, but in case of forged packet, remove session
@@ -132,8 +130,8 @@ pub fn handle_select_char(server: Arc<Server>, packet: &mut dyn Packet, runtime:
             .bind(packet_select_char.char_num)
             .fetch_one(&server.repository.pool).await.unwrap()
     });
-    let sessions_guard = read_lock!(server.sessions);
-    let mut session = write_lock!(sessions_guard.get(&session_id).unwrap());
+    let mut sessions_guard = write_lock!(server.sessions);
+    let mut session = sessions_guard.get(&session_id).unwrap();
     let char_id: u32 = char_model.char_id.clone();
     let last_x: u16 = char_model.last_x.clone();
     let last_y: u16 = char_model.last_y.clone();
@@ -161,7 +159,8 @@ pub fn handle_select_char(server: Arc<Server>, packet: &mut dyn Packet, runtime:
     {
         char_session_ref.set_self_ref(char_session_ref.clone());
     }
-    session.set_character(char_session_ref.clone());
+    let session = Arc::new(session.recreate_with_character(char_session_ref.clone()));
+    sessions_guard.insert(session_id, session);
     packet_ch_send_map_info.set_map_name(map_name);
     packet_ch_send_map_info.set_map_server_port(server.configuration.server.port as i16);
     packet_ch_send_map_info.set_map_server_ip(16777343); // 7F 00 00 01 -> to little endian -> 01 00 00 7F
@@ -172,19 +171,20 @@ pub fn handle_select_char(server: Arc<Server>, packet: &mut dyn Packet, runtime:
 
 pub fn handle_enter_game(server: Arc<Server>, packet: &mut dyn Packet, _runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>) {
     let packet_enter_game = cast!(packet, PacketCzEnter2);
-    let sessions_guard = read_lock!(server.sessions);
+    let mut sessions_guard = write_lock!(server.sessions);
     let session = sessions_guard.get(&packet_enter_game.aid);
     if session.is_none() {
         write_lock!(tcp_stream).shutdown(Both);
         return;
     }
-    let mut session = write_lock!(session.unwrap());
+    let session = session.unwrap();
     if packet_enter_game.auth_code != session.auth_code {
         write_lock!(tcp_stream).shutdown(Both);
         server.remove_session(packet_enter_game.aid);
         return;
     }
-    session.set_map_server_socket(tcp_stream.clone());
+    let session = Arc::new(session.recreate_with_map_socket(tcp_stream.clone()));
+    sessions_guard.insert(packet_enter_game.aid, session.clone());
     let mut packet_map_connection = PacketMapConnection::new();
     packet_map_connection.set_aid(session.account_id);
 
@@ -203,7 +203,7 @@ pub fn handle_enter_game(server: Arc<Server>, packet: &mut dyn Packet, _runtime:
     packet_accept_enter.set_y_size(5); // Commented as not used, set at 5 in Hercules
     packet_accept_enter.set_font(0);
     packet_accept_enter.fill_raw();
-    let character = session.character.as_ref().unwrap();
+    let character = session.get_character();
     let mut packet_npc_ack_map_move = PacketZcNpcackMapmove::new();
     let current_map_name_guard = read_lock!(character.current_map_name);
     packet_npc_ack_map_move.set_map_name(*current_map_name_guard.deref());
@@ -312,9 +312,10 @@ pub fn handle_enter_game(server: Arc<Server>, packet: &mut dyn Packet, _runtime:
 
 pub fn handle_restart(server: Arc<Server>, packet: &mut dyn Packet, _runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, session_id: u32) {
     let packet_restart = cast!(packet, PacketCzRestart);
-    let sessions_guard = read_lock!(server.sessions);
-    let mut session = write_session!(sessions_guard, session_id);
-    session.unset_character();
+    let mut sessions_guard = write_lock!(server.sessions);
+    let session = sessions_guard.get(&session_id).unwrap();
+    let session = Arc::new(session.recreate_without_character());
+    sessions_guard.insert(session_id, session);
 
     let mut restart_ack = PacketZcRestartAck::new();
     restart_ack.set_atype(packet_restart.atype);
@@ -333,16 +334,15 @@ pub fn handle_disconnect(server: Arc<Server>, _packet: &mut dyn Packet, _runtime
 pub fn handle_char_loaded_client_side(server: Arc<Server>, _packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, session_id: u32) {
     info!("Reload char");
     let sessions_guard = read_lock!(server.sessions);
-    let session = read_session!(sessions_guard, &session_id);
-    let mut character = session.character.as_ref().unwrap();
+    let session = sessions_guard.get(&session_id).unwrap();
+    let mut character = session.get_character();
     let map_name : String = Map::name_without_ext(character.get_current_map_name());
     let map_ref = server.maps.get(&map_name).unwrap();
-    {
-        let map = map_ref.clone();
-        let map_instance = map.player_join_map(character.deref(), server.clone());
-        character.change_map(map_instance);
-    }
-    server.insert_map_item(session_id, session.character.as_ref().unwrap().clone());
+
+    let map = map_ref.clone();
+    let map_instance = map.player_join_map(character.deref(), server.clone());
+    character.change_map(map_instance);
+    server.insert_map_item(session_id, character.clone());
     character.load_units_in_fov(&session);
 
     let mut packet_zc_msg_color = PacketZcMsgColor::new();
