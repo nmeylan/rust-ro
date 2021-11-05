@@ -5,6 +5,7 @@ use std::net::TcpStream;
 use std::time::{SystemTime, UNIX_EPOCH};
 use std::io::Write;
 use parking_lot::RwLock;
+use rand::{Rng, thread_rng};
 use crate::server::core::map::MapItem;
 use crate::server::core::movement;
 use crate::server::core::movement::Position;
@@ -24,9 +25,9 @@ pub fn handle_char_move(server: Arc<Server>, packet: &mut dyn Packet, runtime: &
     // * Control if cell is walkable
     // * Control player state (dead? stun?, frozen?)
     let now = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_secs();
-    let id = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_nanos();
+    let id= rand::thread_rng().gen::<u64>();
     character.set_movement_task_id(id);
-    movement::move_character_task(runtime, path.clone(), session.clone(), server.clone(), id.clone());
+    movement::move_character_task(runtime, path.clone(), session.clone(), server.clone(), id);
     let mut packet_zc_notify_playermove = PacketZcNotifyPlayermove::new();
     let current_position = Position {x: character.x(), y: character.y(), dir: 0};
     packet_zc_notify_playermove.set_move_data(current_position.to_move_data(destination.clone()));
