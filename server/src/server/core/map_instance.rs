@@ -169,10 +169,13 @@ impl MapInstance {
         let mut items = Vec::with_capacity((row_size * row_size) as usize);
         for j in 0..row_size {
             for i in 0..row_size {
+                let x = self.get_item_x_from_fov(x, range, i);
+                let y = self.get_item_y_from_fov(y, range, j);
+                if x > self.x_size || y > self.y_size || coordinate::get_cell_index_of(x, y, self.x_size) >= map_items_guard.len() {
+                    info!("{},{}", x ,y);
+                }
                 let item_option = map_items_guard[
-                    coordinate::get_cell_index_of(
-                        self.get_item_x_from_fov(x, range, i),
-                        self.get_item_y_from_fov(y, range, j), self.x_size)
+                    coordinate::get_cell_index_of(x, y, self.x_size)
                     ].as_ref();
                 if item_option.is_some() {
                     items.push(item_option.unwrap().clone());
@@ -252,8 +255,8 @@ impl MapInstance {
     #[inline]
     pub fn get_item_x_from_fov(&self, x: u16, range: u16, i: u16) -> u16 {
         let mut x = self.get_fov_start_x(x, range) + i;
-        if x > self.x_size {
-            x = self.x_size;
+        if x >= self.x_size {
+            return self.x_size - 1;
         }
         x
     }
@@ -261,8 +264,8 @@ impl MapInstance {
     #[inline]
     pub fn get_item_y_from_fov(&self, y: u16, range: u16, j: u16) -> u16 {
         let mut y = self.get_fov_start_y(y, range) + j;
-        if y > self.y_size {
-            y = self.y_size;
+        if y >= self.y_size {
+            return self.y_size - 1;
         }
         y
     }

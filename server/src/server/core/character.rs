@@ -10,15 +10,15 @@ use packets::packets::Packet;
 use crate::util::coordinate;
 use crate::util::string::StringUtil;
 use std::io::Write;
-use std::sync::atomic::{AtomicI16, AtomicU16};
-use std::sync::atomic::Ordering::{Acquire, Relaxed, Release};
+use std::sync::atomic::{AtomicPtr, AtomicU16, AtomicU64};
+use std::sync::atomic::Ordering::{Acquire, Relaxed};
 use parking_lot::{RwLock, RwLockReadGuard};
 use accessor::Setters;
 use crate::server::core::map_instance::MapInstance;
 use crate::server::core::status::Status;
 
 #[derive(Setters)]
-pub struct CharacterSession {
+pub struct Character {
     #[set]
     pub name: String,
     pub status: Status,
@@ -28,12 +28,12 @@ pub struct CharacterSession {
     pub current_map_name: RwLock<[char; 16]>,
     pub x: AtomicU16,
     pub y: AtomicU16,
-    pub movement_task_id: RwLock<Option<u128>>,
+    pub movement_task_id: AtomicPtr<Option<u128>>,
     pub map_view: RwLock<Vec<Option<Arc<dyn MapItem>>>>,
-    pub self_ref: RwLock<Option<Arc<CharacterSession>>>,
+    pub self_ref: RwLock<Option<Arc<Character>>>,
 }
 
-impl MapItem for CharacterSession {
+impl MapItem for Character {
     fn id(&self) -> u32 {
         self.char_id
     }
@@ -63,8 +63,8 @@ impl MapItem for CharacterSession {
     }
 }
 
-impl CharacterSession {
-    pub fn set_self_ref(&self, self_ref: Arc<CharacterSession>) {
+impl Character {
+    pub fn set_self_ref(&self, self_ref: Arc<Character>) {
         let mut self_ref_guard = write_lock!(self.self_ref);
         *self_ref_guard = Some(self_ref);
     }
@@ -123,8 +123,7 @@ impl CharacterSession {
         current_map_name_guard.iter().filter(|c| **c != '\0').collect()
     }
     pub fn set_movement_task_id(&self, id: u128) {
-        let mut movement_task_id_guard = write_lock!(self.movement_task_id);
-        *movement_task_id_guard = Some(id);
+        self.movement_task_id.store(&mut Some(id), Relaxed);
     }
     pub fn set_current_map(&self, current_map: Arc<MapInstance>) {
         let mut current_map_guard = write_lock!(self.current_map);

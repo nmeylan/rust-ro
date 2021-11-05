@@ -16,7 +16,7 @@ use rand::Rng;
 use tokio::sync::broadcast;
 use tokio::sync::broadcast::{Receiver, Sender};
 use accessor::Setters;
-use crate::server::core::character::CharacterSession;
+use crate::server::core::character::Character;
 use crate::server::core::map_instance::MapInstance;
 use crate::server::npc::mob_spawn::MobSpawn;
 use crate::server::npc::warps::Warp;
@@ -136,7 +136,7 @@ impl Map {
     // Char interact with instance instead of map directly.
     // Instances will make map lifecycle easier to maintain
     // Only 1 instance will be needed for most use case, but it make possible to wipe map instance after a while when no player are on it. to free memory
-    pub fn player_join_map(&self, char_session: &CharacterSession, server: Arc<Server>) -> Arc<MapInstance> {
+    pub fn player_join_map(&self, char_session: &Character, server: Arc<Server>) -> Arc<MapInstance> {
 
         let map_instance_id = 0_u32;
         let mut instance_exists = false; {
