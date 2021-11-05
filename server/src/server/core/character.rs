@@ -9,7 +9,7 @@ use crate::server::server::{PLAYER_FOV_SLICE_LEN, PLAYER_FOV};
 use packets::packets::Packet;
 use crate::util::coordinate;
 use crate::util::string::StringUtil;
-use std::sync::atomic::{AtomicPtr, AtomicU16};
+use std::sync::atomic::{AtomicU16, AtomicU64};
 use std::sync::atomic::Ordering::{Acquire, Relaxed};
 use parking_lot::{RwLock};
 use accessor::Setters;
@@ -27,7 +27,7 @@ pub struct Character {
     pub current_map_name: RwLock<[char; 16]>,
     pub x: AtomicU16,
     pub y: AtomicU16,
-    pub movement_task_id: AtomicPtr<Option<u128>>,
+    pub movement_task_id: AtomicU64,
     pub map_view: RwLock<Vec<Option<Arc<dyn MapItem>>>>,
     pub self_ref: RwLock<Option<Arc<Character>>>,
 }
@@ -121,8 +121,8 @@ impl Character {
         let current_map_name_guard = read_lock!(self.current_map_name);
         current_map_name_guard.iter().filter(|c| **c != '\0').collect()
     }
-    pub fn set_movement_task_id(&self, id: u128) {
-        self.movement_task_id.store(&mut Some(id), Relaxed);
+    pub fn set_movement_task_id(&self, id: u64) {
+        self.movement_task_id.store(id, Relaxed);
     }
     pub fn set_current_map(&self, current_map: Arc<MapInstance>) {
         let mut current_map_guard = write_lock!(self.current_map);

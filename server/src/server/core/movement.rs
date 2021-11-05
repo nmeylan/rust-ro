@@ -1,9 +1,11 @@
 use packets::packets::{PacketCzRequestMove2, Packet, PacketZcNpcackMapmove};
 use tokio::runtime::Runtime;
 use std::sync::{Arc};
+use std::sync::atomic::{AtomicPtr, AtomicU64};
 
-use std::sync::atomic::Ordering::{Acquire, Relaxed};
+use std::sync::atomic::Ordering::{Relaxed};
 use std::thread::sleep;
+use std::time::{SystemTime, UNIX_EPOCH};
 
 use tokio::time::Duration;
 use tokio::task::JoinHandle;
@@ -62,7 +64,10 @@ fn extra_delay(speed: u16) -> i16 {
     }
 }
 
-pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<Session>, server: Arc<Server>, task_id: u128) -> JoinHandle<()> {
+// If movement not smooth:
+// teleport in front -> server movement faster than client movement
+// teleport back -> server movement slower than client movement
+pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<Session>, server: Arc<Server>, task_id: u64) -> JoinHandle<()> {
     let server = server.clone();
     let handle = runtime.spawn(async move {
         let mut has_been_canceled = false;
@@ -71,20 +76,18 @@ pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<
                 let delay: u64;
                 {
                     let character = session.get_character();
-                    {
-                        let movement_task_id_guard = unsafe { character.movement_task_id.load(Acquire).as_ref().unwrap() };
-                        if movement_task_id_guard.is_some() && task_id != movement_task_id_guard.unwrap() {
-                            has_been_canceled = true;
-                            break;
-                        }
+                    let movement_task_id = character.movement_task_id.load(Relaxed);
+                    if movement_task_id != 0 && task_id != movement_task_id {
+                        has_been_canceled = true;
+                        break;
                     }
-                    {
-                        if character.x() != path_node.x && character.y() != path_node.y { // diagonal movement
-                            delay = (character.status.speed * (MOVE_DIAGONAL_COST / MOVE_COST) + 10) as u64;
-                        } else {
-                            delay = ((character.status.speed / 2) as i16 + extra_delay(character.status.speed)) as u64;
-                        }
+
+                    if character.x() != path_node.x && character.y() != path_node.y { // diagonal movement
+                        delay = (character.status.speed * (MOVE_DIAGONAL_COST / MOVE_COST) + 10) as u64;
+                    } else {
+                        delay = ((character.status.speed / 2) as i16 + extra_delay(character.status.speed)) as u64;
                     }
+
                     {
                         let current_map_guard = read_lock!(character.current_map);
                         let map_ref = current_map_guard.as_ref().unwrap().clone();
@@ -104,7 +107,7 @@ pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<
             {
                 let session_clone = session.clone();
                 let character = session_clone.get_character();
-                character.movement_task_id.store(&mut None, Relaxed);
+                character.set_movement_task_id(0);
             }
             save_character_position(server.clone(), session.clone()).await;
         }

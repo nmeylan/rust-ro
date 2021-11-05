@@ -10,7 +10,7 @@ use crate::repository::model::char_model::{CharacterInfoNeoUnionWrapped, CharIns
 use crate::util::string::StringUtil;
 use std::net::Shutdown::Both;
 use std::ops::Deref;
-use std::sync::atomic::{AtomicPtr, AtomicU16};
+use std::sync::atomic::{AtomicPtr, AtomicU16, AtomicU64};
 use crate::util::packet::chain_packets;
 use std::time::{SystemTime, UNIX_EPOCH};
 use parking_lot::RwLock;
@@ -150,7 +150,7 @@ pub fn handle_select_char(server: Arc<Server>, packet: &mut dyn Packet, runtime:
         current_map_name: RwLock::new(map_name.clone()),
         x: AtomicU16::new(last_x),
         y: AtomicU16::new(last_y),
-        movement_task_id: AtomicPtr::new(&mut None),
+        movement_task_id: AtomicU64::new(0),
         map_view: RwLock::new(vec![None; MOB_FOV_SLICE_LEN]),
         current_map: RwLock::new(None),
         self_ref: RwLock::new(None)
