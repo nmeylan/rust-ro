@@ -163,9 +163,10 @@ impl Map {
     }
 
     fn create_map_instance(&self, server: Arc<Server>, instance_id: u32) -> Arc<MapInstance> {
-        let cells = self.generate_cells(server.clone());
-        println!("x_size: {}, y_size {}, length: {}, cells len {}", self.x_size, self.y_size, self.length, cells.len());
-        let map_instance = MapInstance::from_map(&self, instance_id, cells);
+        println!("x_size: {}, y_size {}, length: {}", self.x_size, self.y_size, self.length);
+        let mut map_items = vec![None; (self.length) as usize];
+        let cells = self.generate_cells(server.clone(), &mut map_items);
+        let map_instance = MapInstance::from_map(&self, instance_id, cells, map_items);
         let map_instance_ref = Arc::new(map_instance);
         {
             let mut map_instance_guard = write_lock!(self.map_instances);
@@ -175,7 +176,7 @@ impl Map {
         map_instance_ref.clone()
     }
 
-    pub fn generate_cells(&self, server: Arc<Server>) -> Vec<u16> {
+    pub fn generate_cells(&self, server: Arc<Server>, map_items: &mut Vec<Option<Arc<dyn MapItem>>>) -> Vec<u16> {
         let file_path = Path::join(Path::new(MAP_DIR), format!("{}{}", self.name, MAPCACHE_EXT));
         let file = File::open(file_path).unwrap();
         let mut reader = BufReader::new(file);
@@ -196,13 +197,14 @@ impl Map {
             })
         }
 
-        self.set_warp_cells(&mut cells, server);
+        self.set_warp_cells(&mut cells, server, map_items);
         cells
     }
 
-    fn set_warp_cells(&self, cells: &mut Vec<u16>, server: Arc<Server>) {
+    fn set_warp_cells(&self, cells: &mut Vec<u16>, server: Arc<Server>, map_items: &mut Vec<Option<Arc<dyn MapItem>>>) {
         for warp in self.warps.iter() {
             server.insert_map_item(warp.id, warp.clone());
+            map_items[coordinate::get_cell_index_of(warp.x, warp.y, self.x_size)] = Some(warp.clone());
             let start_x = warp.x - warp.x_size;
             let to_x = warp.x + warp.x_size;
             let start_y = warp.y - warp.y_size;

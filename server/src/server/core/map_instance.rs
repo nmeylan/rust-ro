@@ -57,7 +57,7 @@ impl MobSpawnTrack {
 }
 
 impl MapInstance {
-    pub fn from_map(map: &Map, id: u32, cells: Vec<u16>) -> MapInstance {
+    pub fn from_map(map: &Map, id: u32, cells: Vec<u16>, map_items: Vec<Option<Arc<dyn MapItem>>>) -> MapInstance {
         let cells_len = cells.len();
         MapInstance {
             name: map.name.clone(),
@@ -69,7 +69,7 @@ impl MapInstance {
             mob_spawns: map.mob_spawns.clone(),
             mob_spawns_tracks: RwLock::new(map.mob_spawns.iter().map(|spawn| MobSpawnTrack::default(spawn.id.clone())).collect::<Vec<MobSpawnTrack>>()),
             mobs: Default::default(),
-            map_items: RwLock::new(vec![None; cells_len])
+            map_items: RwLock::new(map_items)
         }
     }
 
@@ -141,7 +141,7 @@ impl MapInstance {
             info!("Spawned {} {} (spawn id {})", spawned, mob_spawn.name, mob_spawn.id);
         }
         if spawned_something {
-            self.print_map_cells();
+            // self.print_map_cells();
         }
     }
 
@@ -188,25 +188,27 @@ impl MapInstance {
                 let index = coordinate::get_cell_index_of(j, i, self.x_size);
                 let cell = self.cells.get(index).unwrap();
                 let mut c = "0";
-                if cell & WARP_MASK == WARP_MASK{
+                if cell & WARP_MASK == WARP_MASK {
                     c = "w";
-                } else if cell & WALKABLE_MASK == WALKABLE_MASK{
+                } else if cell & WALKABLE_MASK == WALKABLE_MASK {
                     c = "1"
                 }
                 let option = self.get_map_item_at(j, i);
                 if option.is_some() {
                     let item = option.unwrap();
                     if item.object_type() == 5 {
-                        c = "m";
+                        c = "M";
                     } else if item.object_type() == 1 {
-                        c = "p";
+                        c = "P";
+                    } else if item.object_type() == 6 {
+                        c = "W";
                     } else {
                         c = "u"
                     }
                 }
                 print!("{}", c);
             }
-            println!("");
+            println!();
         }
     }
 
