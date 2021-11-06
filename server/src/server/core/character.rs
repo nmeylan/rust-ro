@@ -3,7 +3,7 @@ use std::any::Any;
 use std::sync::{Arc};
 use packets::packets::{PacketZcNotifyStandentry6, PacketZcNotifyVanish};
 use crate::server::core::map::{MapItem};
-use crate::server::core::movement::Position;
+use crate::server::core::character_movement::Position;
 use crate::server::core::session::Session;
 use crate::server::server::{PLAYER_FOV_SLICE_LEN, PLAYER_FOV};
 use packets::packets::Packet;
@@ -123,7 +123,7 @@ impl Character {
     }
 
     pub fn load_units_in_fov(&self, session: &Arc<Session>) {
-        let mut new_map_view = vec![None; PLAYER_FOV_SLICE_LEN];
+        let mut new_map_view = vec![None; PLAYER_FOV_SLICE_LEN]; // TODO not necesserary to init such a big vec
         let current_map_guard = read_lock!(self.current_map);
         let map_ref = current_map_guard.as_ref().unwrap().clone();
         let mut map_view_guard = write_lock!(self.map_view);

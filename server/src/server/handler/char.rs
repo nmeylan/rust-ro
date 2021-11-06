@@ -10,7 +10,7 @@ use crate::repository::model::char_model::{CharacterInfoNeoUnionWrapped, CharIns
 use crate::util::string::StringUtil;
 use std::net::Shutdown::Both;
 use std::ops::Deref;
-use std::sync::atomic::{AtomicPtr, AtomicU16, AtomicU64};
+use std::sync::atomic::{AtomicU16, AtomicU64};
 use crate::util::packet::chain_packets;
 use std::time::{SystemTime, UNIX_EPOCH};
 use parking_lot::RwLock;

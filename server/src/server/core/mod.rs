@@ -5,7 +5,7 @@
 pub mod session;
 pub mod character;
 pub mod map;
-pub mod movement;
+pub mod character_movement;
 pub mod path;
 pub mod status;
 pub mod map_instance;
