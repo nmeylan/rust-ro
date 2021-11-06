@@ -81,14 +81,7 @@ impl Character {
         coordinate::get_cell_index_of(self.x(), self.y(), current_map_guard.as_ref().unwrap().x_size)
     }
 
-    pub fn change_map(&self, map_instance: Arc<MapInstance>) {
-        let mut map_view_guard = write_lock!(self.map_view);
-        *map_view_guard = vec![None; PLAYER_FOV_SLICE_LEN]; // TODO reset map_view of MapItem present in this map view
-        self.remove_from_existing_map();
-        self.join_and_set_map(map_instance);
-    }
-
-    fn remove_from_existing_map(&self) {
+    pub fn remove_from_existing_map(&self) {
         let current_map_guard = read_lock!(self.current_map);
         if current_map_guard.is_some() {
             let map_instance_ref = current_map_guard.as_ref().unwrap();
@@ -97,7 +90,7 @@ impl Character {
         }
     }
 
-    fn join_and_set_map(&self, map_instance: Arc<MapInstance>) {
+    pub fn join_and_set_map(&self, map_instance: Arc<MapInstance>) {
         self.set_current_map(map_instance.clone());
         let pos_index = self.get_pos_index();
         let self_ref_guard = read_lock!(self.self_ref);
