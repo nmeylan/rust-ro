@@ -1,11 +1,8 @@
 use packets::packets::{PacketCzRequestMove2, Packet, PacketZcNpcackMapmove};
 use tokio::runtime::Runtime;
 use std::sync::{Arc};
-use std::sync::atomic::{AtomicPtr, AtomicU64};
-
 use std::sync::atomic::Ordering::{Relaxed};
 use std::thread::sleep;
-use std::time::{SystemTime, UNIX_EPOCH};
 
 use tokio::time::Duration;
 use tokio::task::JoinHandle;
@@ -130,11 +127,6 @@ fn change_map(map: Arc<MapInstance>, path_node: &PathNode, session: Arc<Session>
     packet_zc_npcack_mapmove.set_x_pos(character_session.x() as i16);
     packet_zc_npcack_mapmove.set_y_pos(character_session.y() as i16);
     packet_zc_npcack_mapmove.fill_raw();
-
-    // TODO should we call method below?
-    // let mut maps_guard = server.maps.write().unwrap();
-    // let map = maps_guard.get_mut(&map_name).unwrap();
-    // map.player_join_map(server.warps.get(&map_name));
 
     session.send_to_map_socket(packet_zc_npcack_mapmove.raw());
 }
