@@ -1,7 +1,5 @@
 use std::any::Any;
-
-use std::sync::{Arc};
-use parking_lot::RwLock;
+use std::sync::{Arc, RwLock};
 use crate::server::core::character::Character;
 use crate::server::server::{MOB_FOV_SLICE_LEN};
 use crate::server::core::map::MapItem;

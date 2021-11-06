@@ -1,6 +1,6 @@
 use std::any::Any;
 use packets::packets::{Packet, PacketUnknown, PacketCaLogin, PacketChEnter, PacketChMakeChar2, PacketChDeleteChar4Reserved, PacketCzEnter2, PacketChSelectChar, PacketCzRestart, PacketCzReqDisconnect2, PacketCzRequestMove2, PacketCzNotifyActorinit, PacketCzBlockingPlayCancel, PacketCzRequestAct2, PacketCzReqnameall2};
-use std::sync::{Arc};
+use std::sync::{Arc, RwLock, RwLockWriteGuard};
 use std::thread::{JoinHandle};
 use crate::repository::lib::Repository;
 use sqlx::{MySql};
@@ -20,7 +20,6 @@ use crate::server::handler::char::{handle_blocking_play_cancel, handle_char_ente
 use crate::server::handler::login::handle_login;
 use crate::server::handler::movement::handle_char_move;
 use lazy_static::lazy_static;
-use parking_lot::{RwLock, RwLockWriteGuard};
 use crate::server::handler::map::handle_map_item_name;
 
 // Todo make this configurable
@@ -74,7 +73,7 @@ impl MapItem for UnknownMapItem {
 
 impl Server {
     pub fn remove_session(&self, session_id: u32) {
-        let mut sessions = self.sessions.write();
+        let mut sessions = self.sessions.write().unwrap();
         sessions.remove(&session_id);
     }
 }

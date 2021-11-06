@@ -1,12 +1,11 @@
 use std::collections::HashMap;
-use std::sync::{Arc};
+use std::sync::{Arc, RwLock};
 use crate::server::core::map::{Map, MapItem, WALKABLE_MASK, WARP_MASK};
 use crate::server::core::mob::Mob;
 use crate::server::npc::mob_spawn::MobSpawn;
 use crate::server::npc::warps::Warp;
 use crate::server::server::Server;
 use crate::util::coordinate;
-use parking_lot::{RwLock};
 
 pub struct MapInstance {
     pub name: String,

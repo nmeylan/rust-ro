@@ -1,8 +1,7 @@
 use std::collections::HashMap;
 use std::net::TcpStream;
-use std::sync::{Arc};
+use std::sync::{Arc, RwLock};
 use crate::server::core::character::Character;
-use parking_lot::RwLock;
 use std::io::Write;
 
 pub struct Session {

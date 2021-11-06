@@ -1,10 +1,9 @@
 use packets::packets::{PacketCzRequestMove2, Packet, PacketZcNotifyPlayermove};
 use tokio::runtime::Runtime;
-use std::sync::{Arc};
+use std::sync::{Arc, RwLock};
 use std::net::TcpStream;
 use std::time::{SystemTime, UNIX_EPOCH};
 use std::io::Write;
-use parking_lot::RwLock;
 use rand::{Rng};
 use crate::server::core::map::MapItem;
 use crate::server::core::character_movement;

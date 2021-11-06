@@ -2,7 +2,7 @@ use packets::packets::{Packet, PacketChEnter, PacketHcRefuseEnter, CharacterInfo
 use crate::repository::lib::Repository;
 use sqlx::{MySql};
 use tokio::runtime::Runtime;
-use std::sync::{Arc};
+use std::sync::{Arc, RwLock};
 use std::net::TcpStream;
 use std::io::Write;
 use byteorder::{LittleEndian, WriteBytesExt};
@@ -13,7 +13,6 @@ use std::ops::Deref;
 use std::sync::atomic::{AtomicU16, AtomicU64};
 use crate::util::packet::chain_packets;
 use std::time::{SystemTime, UNIX_EPOCH};
-use parking_lot::RwLock;
 use crate::server::enums::status::StatusTypes;
 use crate::server::enums::client_messages::ClientMessages;
 use crate::server::core::character::{Character};
