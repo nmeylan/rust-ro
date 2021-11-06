@@ -341,7 +341,7 @@ pub fn handle_char_loaded_client_side(server: Arc<Server>, _packet: &mut dyn Pac
 
     let map = map_ref.clone();
     let map_instance = map.player_join_map(character.deref(), server.clone());
-    character.change_map(map_instance);
+    character.join_and_set_map(map_instance);
     server.insert_map_item(session_id, character.clone());
     character.load_units_in_fov(&session);
 

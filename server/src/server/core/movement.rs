@@ -121,6 +121,7 @@ fn change_map(map: Arc<MapInstance>, path_node: &PathNode, session: Arc<Session>
     let mut new_current_map: [char; 16] = [0 as char; 16];
     let map_name = format!("{}{}", warp.dest_map_name, MAP_EXT);
     map_name.fill_char_array(new_current_map.as_mut());
+    character_session.remove_from_existing_map();
     character_session.set_current_map_name(new_current_map.clone());
     character_session.update_x_y(warp.to_x, warp.to_y);
 
