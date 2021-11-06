@@ -963,7 +963,6 @@ dependencies = [
  "md5",
  "metrics",
  "packets",
- "parking_lot",
  "rand",
  "regex",
  "serde",

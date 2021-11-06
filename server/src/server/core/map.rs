@@ -8,10 +8,8 @@ use std::{fs, thread};
 use std::any::Any;
 use std::time::{Duration, Instant};
 use std::collections::HashMap;
-
-use std::sync::{Arc};
+use std::sync::{Arc, RwLock};
 use std::thread::sleep;
-use parking_lot::RwLock;
 use rand::Rng;
 use tokio::sync::broadcast;
 use tokio::sync::broadcast::{Receiver, Sender};

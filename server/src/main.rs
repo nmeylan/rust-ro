@@ -18,13 +18,11 @@ use std::collections::HashMap;
 use std::thread::{JoinHandle};
 use proxy::map::MapProxy;
 use crate::proxy::char::CharProxy;
-use std::sync::{Arc};
+use std::sync::{Arc, RwLock};
 use crate::repository::lib::Repository;
 use sqlx::MySql;
 use std::time::{Instant};
-
 use flexi_logger::Logger;
-use parking_lot::RwLock;
 use crate::server::core::map::{Map, MapItem};
 use crate::server::npc::warps::Warp;
 use crate::server::server::Server;
