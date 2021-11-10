@@ -1,5 +1,9 @@
 [workspace]
 members = [
     "server",
-    "tools",
+    "tools"
 ]
+
+[patch.crates-io]
+eframe = { git = 'https://github.com/nmeylan/egui' }
+egui_glow = { git = 'https://github.com/nmeylan/egui' }

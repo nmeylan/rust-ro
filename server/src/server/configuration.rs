@@ -12,7 +12,6 @@ pub struct Config {
     pub game: GameConfig,
     pub database: DatabaseConfig,
     pub proxy: ProxyConfig,
-
 }
 
 #[derive(Deserialize, Debug, Setters, Clone)]
@@ -21,6 +20,7 @@ pub struct ServerConfig {
     pub log_level: Option<String>,
     pub accounts: Vec<u32>,
     pub port: u16,
+    pub enable_visual_debugger: bool
 }
 #[derive(Deserialize, Debug, Setters, Clone)]
 pub struct GameConfig {
