@@ -5,6 +5,7 @@ log_level = "info"
 accounts = [
     2000000
 ]
+enable_visual_debugger = false
 
 [database]
 db = "ragnarok"

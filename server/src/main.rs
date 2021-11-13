@@ -3,6 +3,8 @@ mod proxy;
 mod util;
 mod server;
 mod repository;
+#[cfg(feature = "visual_debugger")]
+mod debugger;
 
 #[macro_use]
 extern crate log;
@@ -46,12 +48,25 @@ pub async fn main() {
     info!("load {} map-cache in {} secs", maps.len(), start.elapsed().as_millis() as f32 / 1000.0);
 
     let server = Server::new(config.clone(), Arc::new(repository), maps, Arc::new(map_item_ids));
+    let server_ref = Arc::new(server);
+    let server_ref_clone = server_ref.clone();
     let mut handles: Vec<JoinHandle<()>> = Vec::new();
-    let _ = &handles.push(server.start());
+    let _ = &handles.push(Server::start(server_ref_clone));
     let char_proxy = CharProxy::new(&config.proxy);
     let map_proxy = MapProxy::new(&config.proxy);
     let _ = &handles.push(char_proxy.proxy());
     let _ = &handles.push(map_proxy.proxy());
+
+    if config.server.enable_visual_debugger {
+        #[cfg(feature = "visual_debugger")]
+        {
+            crate::debugger::visual_debugger::VisualDebugger::run(server_ref.clone());
+        }
+        #[cfg(not(feature = "visual_debugger"))]
+        {
+            warn!("Visual debugger has been enable in configuration, but feature has not been compiled. Please consider enabling \"visual-debugger\" feature.");
+        }
+    }
 
     for handle in handles {
         handle.join().expect("Failed await server and proxy threads");

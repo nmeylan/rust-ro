@@ -32,7 +32,7 @@ lazy_static! {
     pub static ref UNKNOWN_MAP_ITEM: Arc<dyn MapItem> = Arc::new(UnknownMapItem {});
 }
 
-
+#[derive(Clone)]
 pub struct Server {
     pub configuration: Config,
     pub sessions: Arc<RwLock<HashMap<u32, Arc<Session>>>>,
@@ -112,16 +112,15 @@ impl Server {
         id
     }
 
-    pub fn start(self) -> JoinHandle<()> {
-        let port = self.configuration.server.port.clone();
-        self.listen(port)
+    pub fn start(server_ref: Arc<Server>) -> JoinHandle<()> {
+        let port = server_ref.configuration.server.port.clone();
+        Server::listen(server_ref, port)
     }
 
-    fn listen(self, port: u16) -> JoinHandle<()> {
+    fn listen(server_ref: Arc<Server>, port: u16) -> JoinHandle<()> {
         let listener = TcpListener::bind(format!("0.0.0.0:{}", port)).unwrap();
         info!("Server listen on 0.0.0.0:{}", port);
-        let server_shared_ref = Arc::new(self);
-        let server_shared_ref = server_shared_ref.clone();
+        let server_shared_ref = server_ref.clone();
         thread::Builder::new().name("server-incoming-connection".to_string()).spawn(move || {
             for tcp_stream in listener.incoming() {
                 // Receive new connection, starting new thread
