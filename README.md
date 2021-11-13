@@ -28,15 +28,21 @@ In proxy mode:
 - parse scripts (only warps and mobs at the moment)
 - warp (change map, reset states)
 - display scripts client side (only warps and mobs at the moment)
+- visual debugger
 
 # Wip
 - Map instances + mob spawn
 - mob move
 
+## Visual debugger
+![visual-debugger](img/visual_debugger.PNG)
+Debug server state with a UI
+
+
 ## warp
-![packets](img/warp_spawn.PNG)
+![warps](img/warp_spawn.PNG)
 ## mob
-![packets](img/mob_spawn.PNG)
+![mobs](img/mob_spawn.PNG)
 
 ## Proxied packets
 ![packets](img/packet_analyzer.PNG)
