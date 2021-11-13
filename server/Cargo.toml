@@ -17,6 +17,7 @@ log = "0.4"
 flexi_logger = "0.19"
 toml = "0.5"
 serde = { version = "1.0", features = ["derive"] }
+eframe = { version = "0.15", default-features = false, features = ["egui_glow", "default_fonts"] }
 
 accessor = { path = "../lib/accessor" }
 metrics = { path = "../lib/metrics" }
@@ -29,3 +30,6 @@ path = "../tools/packets/main.rs"
 [[bin]]
 name = "maps"
 path = "../tools/map-cache/main.rs"
+
+[features]
+visual_debugger = []
