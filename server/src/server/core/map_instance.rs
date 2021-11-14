@@ -2,6 +2,7 @@ use std::collections::HashMap;
 use std::sync::{Arc, RwLock};
 use crate::server::core::map::{Map, MapItem, WALKABLE_MASK, WARP_MASK};
 use crate::server::core::mob::Mob;
+use crate::server::enums::map_item::MapItemType;
 use crate::server::npc::mob_spawn::MobSpawn;
 use crate::server::npc::warps::Warp;
 use crate::server::server::Server;
@@ -192,11 +193,11 @@ impl MapInstance {
                 let option = self.get_map_item_at(j, i);
                 if option.is_some() {
                     let item = option.unwrap();
-                    if item.object_type() == 5 {
+                    if item.object_type() == MapItemType::Mob.value() {
                         c = "M";
-                    } else if item.object_type() == 1 {
+                    } else if item.object_type() == MapItemType::Character.value() {
                         c = "P";
-                    } else if item.object_type() == 6 {
+                    } else if item.object_type() == MapItemType::Warp.value() {
                         c = "W";
                     } else {
                         c = "u"

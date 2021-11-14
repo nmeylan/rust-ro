@@ -5,6 +5,7 @@ use crate::server::server::{MOB_FOV_SLICE_LEN};
 use crate::server::core::map::MapItem;
 use crate::server::core::map_instance::MapInstance;
 use crate::server::core::status::Status;
+use crate::server::enums::map_item::MapItemType;
 use crate::server::server::MOB_FOV;
 
 #[derive(Setters)]
@@ -32,7 +33,7 @@ impl MapItem for Mob {
     }
 
     fn object_type(&self) -> i16 {
-        5
+        MapItemType::Mob.value()
     }
 
     fn name(&self) -> String {

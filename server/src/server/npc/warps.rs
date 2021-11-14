@@ -5,6 +5,7 @@ use std::path::Path;
 use std::io::{BufReader, BufRead};
 use std::time::Instant;
 use crate::server::core::map::MapItem;
+use crate::server::enums::map_item::MapItemType;
 use crate::server::npc::npc::{Npc, NpcLoader};
 
 
@@ -44,7 +45,7 @@ impl MapItem for Warp {
         45
     }
     fn object_type(&self) -> i16 {
-        6
+        MapItemType::Warp.value()
     }
 
     fn name(&self) -> String {
