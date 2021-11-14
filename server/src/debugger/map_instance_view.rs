@@ -11,8 +11,13 @@ pub struct MapInstanceView {
     pub zoom_draw_rect: Rect,
 }
 
+struct PreviousCell {
+    pub color: Color32,
+    pub pos: Pos2,
+}
+
 impl MapInstanceView {
-    pub fn draw_map_instance_view(&mut self,  ui: &mut Ui, map_instance: &Arc<MapInstance>) {
+    pub fn draw_map_instance_view(&mut self, ui: &mut Ui, map_instance: &Arc<MapInstance>) {
         Frame::dark_canvas(ui.style()).show(ui, |ui| {
             let (_id, response) = ui.allocate_exact_size(ui.available_size_before_wrap(), Sense::click_and_drag());
             let absolute_draw_rect = response.rect;
@@ -40,7 +45,7 @@ impl MapInstanceView {
                 self.zoom_center = ui.input().pointer.hover_pos().unwrap();
                 self.zoom *= 1.5;
             } else if ui.input().zoom_delta() < 1.0 {
-                self.zoom_center = ui.input().pointer.hover_pos().unwrap();
+                // self.zoom_center = ui.input().pointer.hover_pos().unwrap();
                 self.zoom /= 1.5;
                 if self.zoom <= 1.0 {
                     has_zoom = false;
@@ -66,7 +71,7 @@ impl MapInstanceView {
             if end_j > map_instance.x_size {
                 end_j = map_instance.x_size
             }
-            let mut end_i = ((relative_draw_rect.max.y - self.zoom_draw_rect.min.y ) / shape_y_size) as u16;
+            let mut end_i = ((relative_draw_rect.max.y - self.zoom_draw_rect.min.y) / shape_y_size) as u16;
             let start_i = ((relative_draw_rect.max.y - self.zoom_draw_rect.max.y) / shape_y_size) as u16;
             if end_i > map_instance.y_size {
                 end_i = map_instance.y_size
@@ -75,18 +80,18 @@ impl MapInstanceView {
             shape_x_size = shape_x_size * self.zoom;
             shape_y_size = shape_y_size * self.zoom;
 
+            let mut previous_cell: Option<PreviousCell> = None;
 
             for i in start_i..end_i {
+                let mut cell_color = Default::default();
                 for j in start_j..end_j {
                     let index = coordinate::get_cell_index_of(j, i, map_instance.x_size);
                     let cell = map_instance.cells.get(index).unwrap();
-                    let mut cell_color = Color32::BLACK;
+                    cell_color = Color32::BLACK;
                     if cell & WARP_MASK == WARP_MASK {
                         cell_color = Color32::BLUE;
                     } else if cell & WALKABLE_MASK == WALKABLE_MASK {
                         cell_color = Color32::WHITE;
-                    } else {
-                        continue;
                     }
                     let option = map_instance.get_map_item_at(j, i);
                     if option.is_some() {
@@ -100,22 +105,61 @@ impl MapInstanceView {
                         }
                     }
 
+
+                    if previous_cell.is_none() {
+                        previous_cell = Some(PreviousCell {
+                            color: cell_color,
+                            pos: Pos2 {
+                                x: (j - start_j) as f32,
+                                y: (i - start_i) as f32
+                            }
+                        })
+                    } else if previous_cell.as_ref().unwrap().color != cell_color {
+                        if previous_cell.as_ref().unwrap().color != Color32::BLACK {
+                            shapes.push(epaint::Shape::Rect(RectShape {
+                                rect: emath::Rect {
+                                    min: Pos2 {
+                                        x: absolute_draw_rect.min.x + margin + (shape_x_size * previous_cell.as_ref().unwrap().pos.x as f32),
+                                        y: absolute_draw_rect.max.y - margin - (shape_y_size * (previous_cell.as_ref().unwrap().pos.y as f32 + 1.0)),
+                                    },
+                                    max: Pos2 {
+                                        x: absolute_draw_rect.min.x + margin + (shape_x_size * (j - start_j) as f32 + 1.0),
+                                        y: absolute_draw_rect.max.y - margin - (shape_y_size * ((i - start_i) as f32)),
+                                    }
+                                },
+                                corner_radius: 0.0,
+                                fill: previous_cell.as_ref().unwrap().color,
+                                stroke: Stroke::none()
+                            }));
+                        }
+
+                        previous_cell = Some(PreviousCell {
+                            color: cell_color,
+                            pos: Pos2 {
+                                x: (j - start_j) as f32,
+                                y: (i - start_i) as f32
+                            }
+                        })
+                    }
+                }
+                if previous_cell.as_ref().unwrap().color != Color32::BLACK {
                     shapes.push(epaint::Shape::Rect(RectShape {
                         rect: emath::Rect {
                             min: Pos2 {
-                                x: absolute_draw_rect.min.x + margin + (shape_x_size * (j - start_j) as f32),
-                                y: absolute_draw_rect.max.y - margin - (shape_y_size * ((i - start_i) as f32 + 1.0)),
+                                x: absolute_draw_rect.min.x + margin + (shape_x_size * previous_cell.as_ref().unwrap().pos.x as f32),
+                                y: absolute_draw_rect.max.y - margin - (shape_y_size * (previous_cell.as_ref().unwrap().pos.y as f32 + 1.0)),
                             },
                             max: Pos2 {
-                                x: absolute_draw_rect.min.x + margin + (shape_x_size * ((j - start_j) as f32 + 1.0)),
-                                y: absolute_draw_rect.max.y - margin - (shape_y_size * (i - start_i) as f32),
+                                x: absolute_draw_rect.min.x + margin + (shape_x_size * (end_j - start_j) as f32 + 1.0),
+                                y: absolute_draw_rect.max.y - margin - (shape_y_size * ((i - start_i) as f32)),
                             }
                         },
                         corner_radius: 0.0,
-                        fill: cell_color,
+                        fill: previous_cell.as_ref().unwrap().color,
                         stroke: Stroke::none()
                     }));
                 }
+                previous_cell = None;
             }
             ui.painter().extend(shapes);
             ui.ctx().request_repaint();
