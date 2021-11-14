@@ -1,6 +1,6 @@
 use std::sync::Arc;
 use std::thread::spawn;
-use eframe::egui::{ComboBox,  Pos2, Rect, Visuals};
+use eframe::egui::{ComboBox, Pos2, Rect, Vec2, Visuals};
 use eframe::epi;
 use epi::egui;
 use egui::{Ui};
@@ -8,15 +8,16 @@ use crate::server::server::Server;
 use lazy_static::lazy_static;
 use crate::debugger::frame_history;
 use crate::debugger::map_instance_view::MapInstanceView;
+use crate::server::core::map::MapItem;
 
 pub struct VisualDebugger {
-    pub name : String,
+    pub name: String,
     pub server: Arc<Server>,
     pub selected_map: Option<String>,
     pub selected_tab: String,
     pub init: bool,
     frame_history: frame_history::FrameHistory,
-    map_instance_view : MapInstanceView,
+    map_instance_view: MapInstanceView,
 }
 
 lazy_static! {
@@ -30,6 +31,10 @@ impl epi::App for VisualDebugger {
         frame.set_window_title(&*format!("{} {}", self.name, self.frame_history.info()));
         if !self.init {
             ctx.set_visuals(Visuals::light());
+            frame.set_window_size(Vec2 {
+                x: 1024.0,
+                y: 768.0
+            });
             self.init = true;
         }
         egui::TopBottomPanel::top("wrap_app_top_bar").show(ctx, |ui| {
@@ -43,8 +48,6 @@ impl epi::App for VisualDebugger {
             })
         });
         egui::CentralPanel::default().show(ctx, |ui| self.ui(ui));
-
-        frame.set_window_size(ctx.used_size());
     }
 
     fn name(&self) -> &str {
@@ -61,17 +64,18 @@ impl VisualDebugger {
             selected_tab: "Map".to_string(),
             frame_history: Default::default(),
             init: false,
-            map_instance_view: MapInstanceView{
+            map_instance_view: MapInstanceView {
                 zoom: 1.0,
                 zoom_center: Pos2 { x: 0.0, y: 0.0 },
-                zoom_draw_rect: Rect { min: Pos2 { x: 0.0, y: 0.0 }, max: Pos2 { x: 0.0, y: 0.0 } },}
+                zoom_draw_rect: Rect { min: Pos2 { x: 0.0, y: 0.0 }, max: Pos2 { x: 0.0, y: 0.0 } },
+            }
         };
         let native_options = eframe::NativeOptions::default();
         spawn(|| eframe::run_native(Box::new(app), native_options));
     }
     fn ui(&mut self, ui: &mut Ui) {
         self.maps_combobox(ui);
-        self.map_instance_cells(ui);
+        self.map_instance_view(ui);
     }
 
     fn maps_combobox(&mut self, ui: &mut Ui) {
@@ -95,15 +99,33 @@ impl VisualDebugger {
             });
     }
 
-    fn map_instance_cells(&mut self, ui: &mut Ui) {
+    fn map_instance_view(&mut self, ui: &mut Ui) {
         if self.selected_map.is_none() {
             return;
         }
-
         let map = self.server.maps.get(&*self.selected_map.as_ref().unwrap()).unwrap();
-        let map_instance = read_lock!(map.map_instances);
-        let map_instance = map_instance.get(0).unwrap();
+        let mut map_instance;
 
-        self.map_instance_view.draw_map_instance_view(ui, map_instance);
+        let map_instance_guard = read_lock!(map.map_instances);
+        map_instance = map_instance_guard.get(0).unwrap();
+
+
+        egui::SidePanel::left(format!("{} info", map.name))
+            .min_width(250.0)
+            .resizable(true)
+            .show(ui.ctx(), |ui| {
+                let map_items_guard = read_lock!(map_instance.map_items);
+                let map_items = map_items_guard.iter()
+                    .filter(|item| item.is_some())
+                    .map(|item| item.as_ref().unwrap()).collect::<Vec<&Arc<dyn MapItem>>>();
+                ui.vertical_centered(|ui| {
+                    ui.heading(format!("{}", map.name));
+                    ui.separator();
+                })
+            });
+        egui::CentralPanel::default()
+            .show(ui.ctx(), |ui| {
+                self.map_instance_view.draw_map_instance_view(ui, map_instance);
+            });
     }
 }
