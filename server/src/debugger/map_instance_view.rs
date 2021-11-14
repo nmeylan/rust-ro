@@ -1,7 +1,7 @@
 use std::sync::Arc;
 use eframe::egui::{Color32, emath, epaint, Frame, Pos2, Rect, Sense, Shape, Stroke, Ui};
 use eframe::egui::epaint::RectShape;
-use crate::server::core::map::{WALKABLE_MASK, WARP_MASK};
+use crate::server::core::map::{MapItem, WALKABLE_MASK, WARP_MASK};
 use crate::server::core::map_instance::MapInstance;
 use crate::util::coordinate;
 
