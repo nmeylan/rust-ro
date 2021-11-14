@@ -37,15 +37,15 @@ impl MapInstanceView {
             let mut shapes = vec![];
             let margin = 0.0;
 
+            let cursor_pos = ui.input().pointer.hover_pos();
+
             if ui.input().zoom_delta() > 1.0 {
-                let cursor_pos = ui.input().pointer.hover_pos().unwrap();
-                self.zoom_center = Pos2{
-                    x: cursor_pos.x - absolute_draw_rect.min.x,
-                    y: cursor_pos.y - absolute_draw_rect.min.y,
+                self.zoom_center = Pos2 {
+                    x: cursor_pos.as_ref().unwrap().x - absolute_draw_rect.min.x,
+                    y: cursor_pos.as_ref().unwrap().y - absolute_draw_rect.min.y,
                 };
                 self.zoom *= 1.5;
             } else if ui.input().zoom_delta() < 1.0 {
-                // self.zoom_center = ui.input().pointer.hover_pos().unwrap();
                 self.zoom /= 1.5;
                 if self.zoom <= 1.0 {
                     self.zoom = 1.0;
@@ -84,6 +84,16 @@ impl MapInstanceView {
                 for j in start_j..end_j {
                     let index = coordinate::get_cell_index_of(j, i, map_instance.x_size);
                     let cell = map_instance.cells.get(index).unwrap();
+                    let cell_pos = emath::Rect {
+                        min: Pos2 {
+                            x: absolute_draw_rect.min.x + margin + (shape_x_size * (j - start_j) as f32),
+                            y: absolute_draw_rect.max.y - margin - (shape_y_size * ((i - start_i) as f32 + 1.0))
+                        },
+                        max: Pos2 {
+                            x: absolute_draw_rect.min.x + margin + (shape_x_size * ((j - start_j) as f32 + 1.0)),
+                            y: absolute_draw_rect.max.y - margin - (shape_y_size * (i - start_i) as f32)
+                        }
+                    };
                     cell_color = Color32::BLACK;
                     if cell & WARP_MASK == WARP_MASK {
                         cell_color = Color32::BLUE;
@@ -99,6 +109,14 @@ impl MapInstanceView {
                             cell_color = Color32::GREEN;
                         } else if item.object_type() == 6 {
                             cell_color = Color32::BLUE;
+                        }
+                    }
+
+                    if cursor_pos.is_some() {
+                        let cursor_pos = cursor_pos.unwrap();
+                        if cell_pos.min.x < cursor_pos.x && cell_pos.max.x > cursor_pos.x
+                            && cell_pos.min.y < cursor_pos.y && cell_pos.max.y > cursor_pos.y {
+                            info!("hover {},{}", j, i);
                         }
                     }
 
