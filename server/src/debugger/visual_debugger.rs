@@ -1,22 +1,26 @@
 use std::sync::Arc;
 use std::thread::spawn;
 use eframe::egui::{Color32, ComboBox, emath, epaint, Frame, Pos2, Rect, Sense, Stroke, Visuals};
-use eframe::egui::epaint::{CircleShape, RectShape};
+use eframe::egui::epaint::{RectShape};
 use eframe::epi;
 use epi::egui;
 use egui::{Ui};
 use crate::server::server::Server;
 use lazy_static::lazy_static;
+use crate::debugger::frame_history;
 use crate::server::core::map::{WALKABLE_MASK, WARP_MASK};
 use crate::util::coordinate;
 
 pub struct VisualDebugger {
+    pub name : String,
     pub server: Arc<Server>,
     pub selected_map: Option<String>,
     pub selected_tab: String,
     pub zoom: f32,
     pub zoom_center: Pos2,
-    pub zoom_draw_rect: Rect
+    pub zoom_draw_rect: Rect,
+    pub init: bool,
+    frame_history: frame_history::FrameHistory,
 }
 
 lazy_static! {
@@ -25,7 +29,13 @@ lazy_static! {
 
 impl epi::App for VisualDebugger {
     fn update(&mut self, ctx: &egui::CtxRef, frame: &mut epi::Frame<'_>) {
-        ctx.set_visuals(Visuals::light());
+        self.frame_history
+            .on_new_frame(ctx.input().time, frame.info().cpu_usage);
+        frame.set_window_title(&*format!("{} {}", self.name, self.frame_history.info()));
+        if !self.init {
+            ctx.set_visuals(Visuals::light());
+            self.init = true;
+        }
         egui::TopBottomPanel::top("wrap_app_top_bar").show(ctx, |ui| {
             ui.horizontal_wrapped(|ui| {
                 for tab in tabs.iter() {
@@ -42,19 +52,22 @@ impl epi::App for VisualDebugger {
     }
 
     fn name(&self) -> &str {
-        "Debugger"
+        &*self.name
     }
 }
 
 impl VisualDebugger {
     pub fn run(server: Arc<Server>) {
         let app = VisualDebugger {
+            name: "Debugger".to_string(),
             server,
             selected_map: None,
             selected_tab: "Map".to_string(),
+            frame_history: Default::default(),
             zoom: 1.0,
             zoom_center: Pos2 { x: 0.0, y: 0.0 },
-            zoom_draw_rect: Rect { min: Pos2 { x: 0.0, y: 0.0 }, max: Pos2 { x: 0.0, y: 0.0 } }
+            zoom_draw_rect: Rect { min: Pos2 { x: 0.0, y: 0.0 }, max: Pos2 { x: 0.0, y: 0.0 } },
+            init: false,
         };
         let native_options = eframe::NativeOptions::default();
         spawn(|| eframe::run_native(Box::new(app), native_options));
@@ -90,7 +103,6 @@ impl VisualDebugger {
             return;
         }
         Frame::dark_canvas(ui.style()).show(ui, |ui| {
-            ui.ctx().request_repaint();
             let (_id, response) = ui.allocate_exact_size(ui.available_size_before_wrap(), Sense::click_and_drag());
             let absolute_draw_rect = response.rect;
             let relative_draw_rect = Rect {
@@ -103,6 +115,9 @@ impl VisualDebugger {
                     y: absolute_draw_rect.max.y - absolute_draw_rect.min.y,
                 }
             };
+            if self.zoom_draw_rect.max.x == 0.0 {
+                self.zoom_draw_rect = relative_draw_rect.clone();
+            }
             let mut shapes = vec![];
             let margin = 0.0;
             let mut has_zoom = false;
@@ -189,11 +204,12 @@ impl VisualDebugger {
                         },
                         corner_radius: 0.0,
                         fill: cell_color,
-                        stroke: Default::default()
+                        stroke: Stroke::none()
                     }));
                 }
             }
             ui.painter().extend(shapes);
+            ui.ctx().request_repaint();
         });
     }
 }
