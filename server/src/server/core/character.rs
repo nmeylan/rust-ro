@@ -14,6 +14,7 @@ use std::sync::atomic::Ordering::{Acquire, Relaxed};
 use accessor::Setters;
 use crate::server::core::map_instance::MapInstance;
 use crate::server::core::status::Status;
+use crate::server::enums::map_item::MapItemType;
 
 #[derive(Setters)]
 pub struct Character {
@@ -41,7 +42,7 @@ impl MapItem for Character {
     }
 
     fn object_type(&self) -> i16 {
-        1
+        MapItemType::Character.value()
     }
 
     fn name(&self) -> String {
@@ -138,7 +139,7 @@ impl Character {
 
         let map_items = map_ref.get_map_items(self.x(), self.y(), PLAYER_FOV);
         for map_item in map_items {
-            if map_item.object_type() == 1 {
+            if map_item.object_type() == MapItemType::Character.value() {
                 continue;
             }
             // info!("{{{}:{}}},{{{}:{}}} {},{}", self.get_fov_start_x(), self.get_fov_start_y(), self.get_fov_start_x()  + (PLAYER_FOV * 2), self.get_fov_start_y() + (PLAYER_FOV * 2), self.x(), self.y()  );

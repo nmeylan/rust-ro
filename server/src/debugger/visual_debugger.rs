@@ -1,6 +1,8 @@
+use std::any::Any;
 use std::sync::Arc;
+use std::sync::atomic::Ordering::Relaxed;
 use std::thread::spawn;
-use eframe::egui::{ComboBox, Pos2, Rect, Vec2, Visuals};
+use eframe::egui::{Align, ComboBox, Layout, Pos2, Rect, Vec2, Visuals};
 use eframe::epi;
 use epi::egui;
 use egui::{Ui};
@@ -8,7 +10,11 @@ use crate::server::server::Server;
 use lazy_static::lazy_static;
 use crate::debugger::frame_history;
 use crate::debugger::map_instance_view::MapInstanceView;
+use crate::server::core::character::Character;
 use crate::server::core::map::MapItem;
+use crate::server::core::mob::Mob;
+use crate::server::enums::map_item::MapItemType;
+use crate::util::coordinate;
 
 pub struct VisualDebugger {
     pub name: String,
@@ -65,6 +71,7 @@ impl VisualDebugger {
             frame_history: Default::default(),
             init: false,
             map_instance_view: MapInstanceView {
+                cursor_pos: Default::default(),
                 zoom: 1.0,
                 zoom_center: Pos2 { x: 0.0, y: 0.0 },
                 zoom_draw_rect: Rect { min: Pos2 { x: 0.0, y: 0.0 }, max: Pos2 { x: 0.0, y: 0.0 } },
@@ -109,23 +116,63 @@ impl VisualDebugger {
         let map_instance_guard = read_lock!(map.map_instances);
         map_instance = map_instance_guard.get(0).unwrap();
 
-
+        let map_items_guard = read_lock!(map_instance.map_items);
+        let map_items = map_items_guard.clone();
+        let players = map_items.iter()
+            .filter(|item| item.is_some() && item.as_ref().unwrap().object_type() == 1).map(|item| cast!(item.as_ref().unwrap(), Character))
+            .collect::<Vec<&Character>>();
         egui::SidePanel::left(format!("{} info", map.name))
             .min_width(250.0)
             .resizable(true)
             .show(ui.ctx(), |ui| {
-                let map_items_guard = read_lock!(map_instance.map_items);
-                let map_items = map_items_guard.iter()
-                    .filter(|item| item.is_some())
-                    .map(|item| item.as_ref().unwrap()).collect::<Vec<&Arc<dyn MapItem>>>();
                 ui.vertical_centered(|ui| {
-                    ui.heading(format!("{}", map.name));
-                    ui.separator();
+                    ui.with_layout(Layout::top_down(Align::Min), |ui| {
+                        ui.heading(format!("{}", map.name));
+                        ui.separator();
+                        ui.label("Characters:");
+                        players.iter().for_each(|player| {
+                            ui.label(format!("{} {},{}", player.name, player.x.load(Relaxed), player.y.load(Relaxed)));
+                        });
+                        if self.map_instance_view.cursor_pos.is_some() {
+                            ui.separator();
+                            let i = self.map_instance_view.cursor_pos.as_ref().unwrap().x as u16;
+                            let j = self.map_instance_view.cursor_pos.as_ref().unwrap().y as u16;
+                            ui.label(format!("Cursor: {}, {}", i, j));
+                            let map_item = map_items.get(coordinate::get_cell_index_of(i, j, map_instance.x_size)).unwrap();
+                            if map_item.is_some() {
+                                let map_item = map_item.as_ref().unwrap();
+                                ui.label(format!("{}: {}", MapItemType::from(map_item.object_type()), map_item.name()));
+
+                                if map_item.as_any().downcast_ref::<Mob>().is_some() {
+                                    let mob = cast!(map_item, Mob);
+                                    ui.label("Items in Field of view");
+                                    let mob_map_view = read_lock!(mob.map_view);
+                                    mob_map_view.iter()
+                                        .filter(|item| item.is_some())
+                                        .map(|item| item.as_ref().unwrap())
+                                        .for_each(|item| {
+                                        ui.label(format!("{}: {} {},{}", MapItemType::from(item.object_type()), item.name(), item.x(), item.y()));
+                                    });
+                                } else if map_item.as_any().downcast_ref::<Character>().is_some() {
+                                    let character = cast!(map_item, Character);
+                                    ui.label("Items in Field of view");
+                                    let character_map_view = read_lock!(character.map_view);
+                                    character_map_view.iter()
+                                        .filter(|item| item.is_some())
+                                        .map(|item| item.as_ref().unwrap())
+                                        .for_each(|item| {
+                                            ui.label(format!("{}: {} {},{}", MapItemType::from(item.object_type()), item.name(), item.x(), item.y()));
+                                        });
+                                }
+
+                            }
+                        }
+                    });
                 })
             });
         egui::CentralPanel::default()
             .show(ui.ctx(), |ui| {
-                self.map_instance_view.draw_map_instance_view(ui, map_instance);
+                self.map_instance_view.draw_map_instance_view(ui, map_instance, map_items);
             });
     }
 }
