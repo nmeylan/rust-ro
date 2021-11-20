@@ -32,7 +32,6 @@ use crate::server::configuration::Config;
 use crate::server::npc::mob_spawn::MobSpawn;
 use crate::util::log_filter::LogFilter;
 
-
 #[tokio::main]
 pub async fn main() {
     let config = Config::load().unwrap();
