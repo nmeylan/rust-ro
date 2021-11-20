@@ -122,7 +122,6 @@ impl MapInstance {
                 }
                 let mob_id = server.generate_map_item_id();
                 let mob = Mob::new(mob_id, cell.0, cell.1, mob_spawn.mob_id, mob_spawn.id, mob_spawn.name.clone(), self_ref.clone());
-                info!("Spawned {} at {},{} (index {})", mob_spawn.name, cell.0, cell.1, coordinate::get_cell_index_of(cell.0, cell.1, self.x_size));
                 let mob_ref = Arc::new(mob);
 
                 let mut mobs_guard = write_lock!(self.mobs);
@@ -134,10 +133,6 @@ impl MapInstance {
                 // END
                 mob_spawn_track.increment_spawn();
             }
-            info!("Spawned {} {} (spawn id {})", spawned, mob_spawn.name, mob_spawn.id);
-        }
-        if spawned_something {
-            // self.print_map_cells();
         }
     }
 
@@ -176,37 +171,6 @@ impl MapInstance {
             }
         }
         items
-    }
-
-    #[allow(dead_code)]
-    pub fn print_map_cells(&self) {
-        for i in (0..self.y_size).rev() {
-            for j in 0..self.x_size {
-                let index = coordinate::get_cell_index_of(j, i, self.x_size);
-                let cell = self.cells.get(index).unwrap();
-                let mut c = "0";
-                if cell & WARP_MASK == WARP_MASK {
-                    c = "w";
-                } else if cell & WALKABLE_MASK == WALKABLE_MASK {
-                    c = "1"
-                }
-                let option = self.get_map_item_at(j, i);
-                if option.is_some() {
-                    let item = option.unwrap();
-                    if item.object_type() == MapItemType::Mob.value() {
-                        c = "M";
-                    } else if item.object_type() == MapItemType::Character.value() {
-                        c = "P";
-                    } else if item.object_type() == MapItemType::Warp.value() {
-                        c = "W";
-                    } else {
-                        c = "u"
-                    }
-                }
-                print!("{}", c);
-            }
-            println!();
-        }
     }
 
     pub fn get_warp_at(&self, x: u16, y: u16) -> Option<Arc<Warp>> {
