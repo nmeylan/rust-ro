@@ -29,10 +29,18 @@ In proxy mode:
 - warp (change map, reset states)
 - display scripts client side (only warps and mobs at the moment)
 - visual debugger
+- map instances (map are lazily loaded, an instance is created when a player join an non initialized map)
+- mob spawn
 
 # Wip
-- Map instances + mob spawn
+in random order, features are implemented based on my current mood.
 - mob move
+- player attack mob
+- mob attack player
+- equipment
+- class
+- drop
+- exp
 
 ## Visual debugger
 ![visual-debugger](img/visual_debugger.PNG)
