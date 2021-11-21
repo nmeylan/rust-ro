@@ -16,6 +16,7 @@ use tokio::sync::broadcast::{Receiver, Sender};
 use accessor::Setters;
 use crate::server::core::character::Character;
 use crate::server::core::map_instance::MapInstance;
+use crate::server::core::path::{allowed_dirs, DIR_EAST, DIR_NORTH, DIR_SOUTH, DIR_WEST, is_direction};
 use crate::server::npc::mob_spawn::MobSpawn;
 use crate::server::npc::warps::Warp;
 use crate::server::server::Server;
@@ -137,7 +138,6 @@ impl Map {
     // Instances will make map lifecycle easier to maintain
     // Only 1 instance will be needed for most use case, but it make possible to wipe map instance after a while when no player are on it. to free memory
     pub fn player_join_map(&self, _char_session: &Character, server: Arc<Server>) -> Arc<MapInstance> {
-
         let map_instance_id = 0_u32;
         let instance_exists;
         {
@@ -159,6 +159,63 @@ impl Map {
             let index = rng.gen_range(0..cells.len());
             if cells.get(index).unwrap() & WALKABLE_MASK == 1 {
                 return coordinate::get_pos_of(index as u32, x_size)
+            }
+        }
+    }
+
+    pub fn find_random_walkable_cell_in_max_range(cells: &Vec<u16>, x_size: u16, y_size: u16, x: u16, y: u16, max_range: usize) -> (u16, u16) {
+        let mut rng = rand::thread_rng();
+        let allowed_dirs = allowed_dirs(x_size, y_size, x, y);
+        let mut directions = vec![DIR_NORTH, DIR_SOUTH, DIR_EAST, DIR_WEST, DIR_SOUTH | DIR_EAST, DIR_SOUTH | DIR_WEST, DIR_NORTH | DIR_EAST, DIR_NORTH | DIR_WEST];
+        let mut dest_x = x;
+        let mut dest_y = y;
+        // TODO maybe control infinite loop, max 5 iter
+        loop {
+            let random_index = rng.gen_range(0..directions.len());
+            let direction = *directions.get(random_index).unwrap();
+            if is_direction(allowed_dirs, direction) {
+                loop {
+                    let random_x = rng.gen_range(0..=max_range) as u16;
+                    let random_y = rng.gen_range(0..=max_range) as u16;
+                    if direction == DIR_NORTH {
+                        dest_y = y + random_y;
+                    } else if direction == DIR_SOUTH {
+                        dest_y = y - random_y;
+                    } else if direction == DIR_EAST {
+                        dest_x = x + random_x;
+                    }  else if direction == DIR_WEST {
+                        dest_x = x - random_x;
+                    } else if direction == DIR_SOUTH | DIR_EAST{
+                        dest_y = y - random_y;
+                        dest_x = x + random_x;
+                    } else if direction == DIR_SOUTH | DIR_WEST {
+                        dest_y = y - random_y;
+                        dest_x = x - random_x;
+                    } else if direction == DIR_NORTH | DIR_EAST {
+                        dest_y = y + random_y;
+                        dest_x = x + random_x;
+                    } else if direction == DIR_NORTH | DIR_WEST  {
+                        dest_y = y + random_y;
+                        dest_x = x - random_x;
+                    }
+                    if dest_x < 0 {
+                        dest_x = 0;
+                    }
+                    if dest_x >= x_size {
+                        dest_x = x_size - 1;
+                    }
+                    if dest_y < 0 {
+                        dest_y = 0;
+                    }
+                    if dest_y >= y_size {
+                        dest_y = y_size - 1;
+                    }
+                    if cells.get(coordinate::get_cell_index_of(dest_x, dest_y, x_size)).unwrap() & WALKABLE_MASK == 1 {
+                        return (dest_x, dest_y)
+                    }
+                }
+            } else {
+                directions.remove(random_index);
             }
         }
     }
@@ -243,16 +300,22 @@ impl Map {
         info!("Start thread for {}", map_instance_clone.name);
         thread::Builder::new().name(format!("{}-thread", map_instance_clone.name))
             .spawn(move || {
-                let now = Instant::now();
+                let mut now = Instant::now();
                 let mut cleanup_notified_at: Option<Instant> = None;
+                let mut last_mobs_action = now.clone();
                 while cleanup_notified_at.is_none() || now.clone().duration_since(cleanup_notified_at.unwrap()).as_secs() < 5 {
+                    now = Instant::now();
                     if rx.try_recv().is_ok() {
                         info!("received clean up sig");
                         cleanup_notified_at = Some(now.clone());
                     }
                     {
                         map_instance_clone_for_thread.spawn_mobs(server.clone(), now.clone().elapsed().as_millis(), map_instance.clone());
-                        map_instance_clone_for_thread.update_mob_fov();
+                        map_instance_clone_for_thread.update_mobs_fov();
+                        if last_mobs_action.elapsed().as_secs() > 2 {
+                            map_instance_clone_for_thread.mobs_action();
+                            last_mobs_action = now.clone();
+                        }
                     }
                     sleep(Duration::from_millis(50));
                 }

@@ -152,7 +152,8 @@ pub fn handle_select_char(server: Arc<Server>, packet: &mut dyn Packet, runtime:
         movement_task_id: AtomicU64::new(0),
         map_view: RwLock::new(vec![None; MOB_FOV_SLICE_LEN]),
         current_map: RwLock::new(None),
-        self_ref: RwLock::new(None)
+        self_ref: RwLock::new(None),
+        map_server_socket: Default::default()
     };
     let char_session_ref = Arc::new(character);
     {
@@ -183,6 +184,7 @@ pub fn handle_enter_game(server: Arc<Server>, packet: &mut dyn Packet, _runtime:
         return;
     }
     let session = Arc::new(session.recreate_with_map_socket(tcp_stream.clone()));
+    session.character.as_ref().unwrap().set_map_socket(tcp_stream.clone());
     sessions_guard.insert(packet_enter_game.aid, session.clone());
     let mut packet_map_connection = PacketMapConnection::new();
     packet_map_connection.set_aid(session.account_id);

@@ -121,8 +121,9 @@ impl MapInstance {
                     cell = Map::find_random_walkable_cell(self.cells.as_ref(), self.x_size);
                 }
                 let mob_id = server.generate_map_item_id();
-                let mob = Mob::new(mob_id, cell.0, cell.1, mob_spawn.mob_id, mob_spawn.id, mob_spawn.name.clone(), self_ref.clone());
+                let mut mob = Mob::new(mob_id, cell.0, cell.1, mob_spawn.mob_id, mob_spawn.id, mob_spawn.name.clone(), self_ref.clone());
                 let mob_ref = Arc::new(mob);
+                mob_ref.set_self_ref(mob_ref.clone());
 
                 let mut mobs_guard = write_lock!(self.mobs);
                 let mut map_items_guard = write_lock!(self.map_items);
@@ -136,10 +137,17 @@ impl MapInstance {
         }
     }
 
-    pub fn update_mob_fov(&self) {
+    pub fn update_mobs_fov(&self) {
         let mobs_guard = read_lock!(self.mobs);
         for mob in mobs_guard.values() {
             mob.load_units_in_fov(&self);
+        }
+    }
+
+    pub fn mobs_action(&self) {
+        let mobs_guard = read_lock!(self.mobs);
+        for mob in mobs_guard.values() {
+            mob.action_move()
         }
     }
 
@@ -183,15 +191,15 @@ impl MapInstance {
         None
     }
 
-    pub fn insert_item_at(&self, pos_index: usize, char_session: Arc<dyn MapItem>) {
+    pub fn insert_item_at(&self, pos_index: usize, map_item: Arc<dyn MapItem>) {
         let mut map_item_guard = write_lock!(self.map_items);
-        map_item_guard.insert(pos_index, Some(char_session));
+        map_item_guard[pos_index] = Some(map_item);
         // TODO notify mobs
     }
 
     pub fn remove_item_at(&self, pos_index: usize) {
         let mut map_item_guard = write_lock!(self.map_items);
-        map_item_guard.remove(pos_index);
+        map_item_guard[pos_index] = None;
     }
 
     #[inline]

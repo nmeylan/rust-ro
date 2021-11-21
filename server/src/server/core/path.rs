@@ -10,10 +10,10 @@ use crate::server::core::map_instance::MapInstance;
 pub static MOVE_COST: u16 = 10;
 pub static MOVE_DIAGONAL_COST: u16 = 14;
 
-static DIR_NORTH: u8 = 1;
-static DIR_WEST: u8 = 2;
-static DIR_SOUTH: u8 = 4;
-static DIR_EAST: u8 = 8;
+pub static DIR_NORTH: u8 = 1;
+pub static DIR_WEST: u8 = 2;
+pub static DIR_SOUTH: u8 = 4;
+pub static DIR_EAST: u8 = 8;
 
 #[derive(Copy, Clone, Debug, Setters)]
 pub struct PathNode {
@@ -37,7 +37,7 @@ fn client_side_heuristic(x0: u16, y0: u16, x1: u16, y1: u16) -> u16 {
 }
 
 #[inline]
-fn is_direction(allowed_dir: u8, direction: u8) -> bool {
+pub fn is_direction(allowed_dir: u8, direction: u8) -> bool {
     (allowed_dir & direction) == direction
 }
 
@@ -86,19 +86,7 @@ pub fn path_search_client_side_algorithm(map: Arc<MapInstance>, source_x: u16, s
         debug!("{:?}", open_set);
         current_node.set_is_open(false);
         i += 1;
-        let mut allowed_dirs: u8 = 0;
-        if current_node.y < max_y {
-            allowed_dirs |= DIR_NORTH;
-        }
-        if current_node.y > 0 {
-            allowed_dirs |= DIR_SOUTH;
-        }
-        if current_node.x < max_x {
-            allowed_dirs |= DIR_EAST;
-        }
-        if current_node.x > 0  {
-            allowed_dirs |= DIR_WEST;
-        }
+        let allowed_dirs = allowed_dirs(max_x, max_y, current_node.x ,current_node.y);
         /*
         For all allowed neighbor cells
         */
@@ -140,6 +128,23 @@ pub fn path_search_client_side_algorithm(map: Arc<MapInstance>, source_x: u16, s
     }
     final_path.reverse();
     final_path
+}
+
+pub fn allowed_dirs(max_x: u16, max_y: u16, x: u16, y: u16) -> u8 {
+    let mut allowed_dirs: u8 = 0;
+    if y < max_y {
+        allowed_dirs |= DIR_NORTH;
+    }
+    if y > 0 {
+        allowed_dirs |= DIR_SOUTH;
+    }
+    if x < max_x {
+        allowed_dirs |= DIR_EAST;
+    }
+    if x > 0 {
+        allowed_dirs |= DIR_WEST;
+    }
+    allowed_dirs
 }
 
 fn add_neighbor(x: u16, y: u16, destination_x: u16, destination_y: u16, max_x: u16, open_set: &mut Vec<PathNode>, discovered_nodes: &mut Vec<PathNode>, current_node: &PathNode, move_cost: u16) {
