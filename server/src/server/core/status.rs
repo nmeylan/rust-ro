@@ -1,7 +1,7 @@
 use crate::repository::model::char_model::CharSelectModel;
 use crate::server::configuration::GameConfig;
 
-#[derive(Setters, Debug)]
+#[derive(Setters, Debug, Clone)]
 pub struct Status {
     #[set]
     pub hp: u32,

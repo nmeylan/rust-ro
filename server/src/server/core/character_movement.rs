@@ -30,7 +30,7 @@ impl Position {
         Position { x, y, dir }
     }
 
-    pub fn to_move_data(&self, destination: Position) -> [u8; 6] {
+    pub fn to_move_data(&self, destination: &Position) -> [u8; 6] {
         let mut move_data: [u8; 6] = [0; 6];
         move_data[0] = (self.x >> 2) as u8;
         move_data[1] = ((self.x << 6) | ((self.y >> 4) & 0x3f)) as u8;

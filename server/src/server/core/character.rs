@@ -1,4 +1,5 @@
 use std::any::Any;
+use std::net::TcpStream;
 
 use std::sync::{Arc, RwLock};
 use packets::packets::{PacketZcNotifyStandentry6, PacketZcNotifyVanish};
@@ -30,6 +31,8 @@ pub struct Character {
     pub movement_task_id: AtomicU64,
     pub map_view: RwLock<Vec<Option<Arc<dyn MapItem>>>>,
     pub self_ref: RwLock<Option<Arc<Character>>>,
+    #[set]
+    pub map_server_socket: RwLock<Option<Arc<RwLock<TcpStream>>>>,
 }
 
 impl MapItem for Character {
@@ -63,10 +66,16 @@ impl MapItem for Character {
 }
 
 impl Character {
+    pub fn set_map_socket(&self, map_socket:  Arc<RwLock<TcpStream>>) {
+        let mut map_server_socket_guard = write_lock!(self.map_server_socket);
+        *map_server_socket_guard = Some(map_socket);
+    }
+
     pub fn set_self_ref(&self, self_ref: Arc<Character>) {
         let mut self_ref_guard = write_lock!(self.self_ref);
         *self_ref_guard = Some(self_ref);
     }
+
     pub fn update_x_y(&self, x: u16, y: u16) {
         self.x.store(x, Relaxed);
         self.y.store(y, Relaxed);

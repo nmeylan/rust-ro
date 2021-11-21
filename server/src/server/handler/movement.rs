@@ -29,7 +29,7 @@ pub fn handle_char_move(server: Arc<Server>, packet: &mut dyn Packet, runtime: &
     character_movement::move_character_task(runtime, path.clone(), session.clone(), server.clone(), id);
     let mut packet_zc_notify_playermove = PacketZcNotifyPlayermove::new();
     let current_position = Position {x: character.x(), y: character.y(), dir: 0};
-    packet_zc_notify_playermove.set_move_data(current_position.to_move_data(destination.clone()));
+    packet_zc_notify_playermove.set_move_data(current_position.to_move_data(&destination));
     packet_zc_notify_playermove.set_move_start_time(now as u32);
     packet_zc_notify_playermove.fill_raw();
     socket_send!(tcp_stream, &packet_zc_notify_playermove.raw());
