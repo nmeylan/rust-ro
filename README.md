@@ -17,7 +17,7 @@ In proxy mode:
 
 # What has been done?
 - proxy login, char and map request to hercules login, char and map servers
-- packet structure generator from [packet db](https://github.com/nmeylan/rust-ro-hercules/blob/master/server/tools/packets/packets_db)
+- packet structure generator from [packet db](https://github.com/nmeylan/rust-ro/blob/master/tools/packets/packets_db)
 - packet parser
 - packet debug
 - login
