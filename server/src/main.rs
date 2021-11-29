@@ -1,3 +1,5 @@
+#![feature(future_poll_fn)]
+
 mod proxy;
 #[macro_use]
 mod util;
@@ -15,6 +17,7 @@ extern crate accessor;
 extern crate metrics;
 
 use std::collections::HashMap;
+use std::fs::File;
 
 
 use std::thread::{JoinHandle};
@@ -25,6 +28,7 @@ use crate::repository::lib::Repository;
 use sqlx::MySql;
 use std::time::{Instant};
 use flexi_logger::Logger;
+use tokio::signal;
 use crate::server::core::map::{Map, MapItem};
 use crate::server::npc::warps::Warp;
 use crate::server::server::Server;
@@ -66,8 +70,9 @@ pub async fn main() {
             warn!("Visual debugger has been enable in configuration, but feature has not been compiled. Please consider enabling \"visual-debugger\" feature.");
         }
     }
-
-    for handle in handles {
-        handle.join().expect("Failed await server and proxy threads");
-    }
+    signal::ctrl_c().await;
+    // TODO, graceful stop server and proxy threads
+    // for handle in handles {
+    //     handle.join().expect("Failed await server and proxy threads");
+    // }
 }

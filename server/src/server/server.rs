@@ -5,6 +5,7 @@ use std::thread::{JoinHandle};
 use crate::repository::lib::Repository;
 use sqlx::{MySql};
 use std::collections::HashMap;
+use std::future::{poll_fn};
 use tokio::runtime::Runtime;
 use std::io::{Read};
 use std::net::{TcpStream, TcpListener, Shutdown};
@@ -66,7 +67,7 @@ impl MapItem for UnknownMapItem {
         String::from("unknown")
     }
 
-    fn as_any(&self) -> &dyn Any{
+    fn as_any(&self) -> &dyn Any {
         self
     }
 }
@@ -119,32 +120,44 @@ impl Server {
 
     fn listen(server_ref: Arc<Server>, port: u16) -> JoinHandle<()> {
         let listener = TcpListener::bind(format!("0.0.0.0:{}", port)).unwrap();
+        listener.set_nonblocking(true);
+        let listener = tokio::net::TcpListener::from_std(listener).unwrap();
         info!("Server listen on 0.0.0.0:{}", port);
         let server_shared_ref = server_ref.clone();
         thread::Builder::new().name("server-incoming-connection".to_string()).spawn(move || {
-            for tcp_stream in listener.incoming() {
-                // Receive new connection, starting new thread
-                let server_shared_ref = server_shared_ref.clone();
-                thread::Builder::new().name("server-handle-request".to_string()).spawn(move || {
-                    let runtime = Runtime::new().unwrap();
-                    let mut tcp_stream = tcp_stream.unwrap();
-                    let tcp_stream_arc = Arc::new(RwLock::new(tcp_stream.try_clone().unwrap())); // todo remove this clone
-                    let mut buffer = [0; 2048];
-                    loop {
-                        match tcp_stream.read(&mut buffer) {
-                            Ok(bytes_read) => {
-                                if bytes_read == 0 {
-                                    tcp_stream.shutdown(Shutdown::Both).expect("Unable to shutdown incoming socket. Shutdown was done because remote socket seems cloded.");
-                                    break;
-                                }
-                                let mut packet = parse(&mut buffer[..bytes_read]);
-                                server_shared_ref.dispatch(server_shared_ref.clone(), &runtime, tcp_stream_arc.clone(), packet.as_mut());
-                            }
-                            Err(err) => error!("{}", err)
-                        }
+            let runtime = Runtime::new().unwrap();
+            runtime.block_on(async {
+                loop {
+                    let poll_result = poll_fn(|cx| listener.poll_accept(cx)).await;
+                    if poll_result.is_err() {
+                        break;
                     }
-                }).expect("Failed to create sever-handle-request thread");
-            }
+                    let io_result = poll_result.unwrap();
+                    let stream = io_result.0;
+                    let mut tcp_stream = stream.into_std().unwrap();
+                    // Receive new connection, starting new thread
+                    let server_shared_ref = server_shared_ref.clone();
+                    thread::Builder::new().name("server-handle-request".to_string()).spawn(move || {
+                        let runtime = Runtime::new().unwrap();
+                        let tcp_stream_arc = Arc::new(RwLock::new(tcp_stream.try_clone().unwrap())); // todo remove this clone
+                        let mut buffer = [0; 2048];
+                        loop {
+                            match tcp_stream.read(&mut buffer) {
+                                Ok(bytes_read) => {
+                                    if bytes_read == 0 {
+                                        tcp_stream.shutdown(Shutdown::Both).expect("Unable to shutdown incoming socket. Shutdown was done because remote socket seems cloded.");
+                                        break;
+                                    }
+                                    let mut packet = parse(&mut buffer[..bytes_read]);
+                                    server_shared_ref.dispatch(server_shared_ref.clone(), &runtime, tcp_stream_arc.clone(), packet.as_mut());
+                                }
+                                Err(err) => ()
+                            }
+                        }
+                    }).expect("Failed to create sever-handle-request thread");
+                }
+            });
+            info!("Server shutdown");
         }).expect("Failed to create sever-incoming-connection thread")
     }
 
