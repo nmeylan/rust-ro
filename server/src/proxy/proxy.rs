@@ -45,9 +45,7 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
                 spawn(move || {
                     // Use Arc to be able to share reference across thread.
                     // Arc are immutable, use a mutex to be able to mutate arc value.
-                    if tcp_stream.is_ok() {
-                        server_ref.proxy_connection(tcp_stream.unwrap());
-                    }
+                    server_ref.proxy_connection(tcp_stream.unwrap());
                 });
             }
         })
