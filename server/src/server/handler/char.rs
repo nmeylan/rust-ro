@@ -317,6 +317,10 @@ pub fn handle_restart(server: Arc<Server>, packet: &mut dyn Packet, _runtime: &R
     let packet_restart = cast!(packet, PacketCzRestart);
     let mut sessions_guard = write_lock!(server.sessions);
     let session = sessions_guard.get(&session_id).unwrap();
+    let character = session.character.as_ref().unwrap();
+    character.remove_from_existing_map();
+
+    let session = sessions_guard.get(&session_id).unwrap();
     let session = Arc::new(session.recreate_without_character());
     sessions_guard.insert(session_id, session);
 
@@ -327,6 +331,12 @@ pub fn handle_restart(server: Arc<Server>, packet: &mut dyn Packet, _runtime: &R
 }
 
 pub fn handle_disconnect(server: Arc<Server>, _packet: &mut dyn Packet, _runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, session_id: u32) {
+    {
+        let mut sessions_guard = write_lock!(server.sessions);
+        let session = sessions_guard.get(&session_id).unwrap();
+        let character = session.character.as_ref().unwrap();
+        character.remove_from_existing_map();
+    }
     server.remove_session(session_id);
 
     let mut disconnect_ack = PacketZcReqDisconnectAck2::new();
