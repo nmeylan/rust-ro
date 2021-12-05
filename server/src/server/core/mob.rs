@@ -121,7 +121,6 @@ impl Mob {
             let current_x = self.x.load(Relaxed);
             let current_y = self.y.load(Relaxed);
             let (x, y) = Map::find_random_walkable_cell_in_max_range(&map_guard.cells, map_guard.x_size, map_guard.y_size, current_x, current_y, rand_distance);
-            info!("{} will move from {},{} to {},{}", self.name, current_x, current_y ,x ,y);
             // Todo: implement server side movement, to avoid desync between client and server
             self.x.store(x, Relaxed);
             self.y.store(y, Relaxed);
@@ -152,7 +151,6 @@ impl Mob {
                         let start_time = get_tick();
                         packet_zc_notify_move.set_move_start_time(start_time);
                         packet_zc_notify_move.fill_raw();
-                        packet_zc_notify_move.pretty_debug();
                         socket_send!(socket_guard, packet_zc_notify_move.raw())
                     })
             }
