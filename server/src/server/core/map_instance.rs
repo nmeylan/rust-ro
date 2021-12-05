@@ -1,7 +1,9 @@
 use std::collections::HashMap;
 use std::sync::{Arc, RwLock};
+use tokio::runtime::Runtime;
 use crate::server::core::map::{Map, MapItem, WALKABLE_MASK, WARP_MASK};
 use crate::server::core::mob::Mob;
+use crate::server::core::status::Status;
 use crate::server::enums::map_item::MapItemType;
 use crate::server::npc::mob_spawn::MobSpawn;
 use crate::server::npc::warps::Warp;
@@ -98,7 +100,7 @@ impl MapInstance {
         }
     }
 
-    pub fn spawn_mobs(&self, server: Arc<Server>, _now: u128, self_ref: Arc<MapInstance>) {
+    pub fn spawn_mobs(&self, server: Arc<Server>, _now: u128, self_ref: Arc<MapInstance>, x: &Runtime) {
         let mut spawned_something = false;
         for mob_spawn in self.mob_spawns.iter() {
             let mut mob_spawns_tracks_guard = write_lock!(self.mob_spawns_tracks);
@@ -121,7 +123,7 @@ impl MapInstance {
                     cell = Map::find_random_walkable_cell(self.cells.as_ref(), self.x_size);
                 }
                 let mob_id = server.generate_map_item_id();
-                let mut mob = Mob::new(mob_id, cell.0, cell.1, mob_spawn.mob_id, mob_spawn.id, mob_spawn.name.clone(), self_ref.clone());
+                let mut mob = Mob::new(mob_id, cell.0, cell.1, mob_spawn.mob_id, mob_spawn.id, mob_spawn.name.clone(), self_ref.clone(), Status::from_mob_model(&mob_spawn.info));
                 let mob_ref = Arc::new(mob);
                 mob_ref.set_self_ref(mob_ref.clone());
 

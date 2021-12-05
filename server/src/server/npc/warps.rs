@@ -12,27 +12,17 @@ use crate::server::npc::npc::{Npc, NpcLoader};
 static PARALLEL_EXECUTIONS: usize = 100; // TODO add a conf for this
 static WARP_CONF_PATH: &str = "./npc/scripts_warps.conf";
 
-#[derive(Setters, Clone, Debug)]
+#[derive(SettersAll, Clone, Debug)]
 pub struct Warp {
-    #[set]
     pub map_name: String,
-    #[set]
     pub name: String,
-    #[set]
     pub id: u32,
-    #[set]
     pub x: u16,
-    #[set]
     pub y: u16,
-    #[set]
     pub x_size: u16,
-    #[set]
     pub y_size: u16,
-    #[set]
     pub dest_map_name: String,
-    #[set]
     pub to_x: u16,
-    #[set]
     pub to_y: u16,
 }
 
