@@ -25,6 +25,7 @@ use crate::repository::lib::Repository;
 use sqlx::MySql;
 use std::time::{Instant};
 use flexi_logger::Logger;
+use tokio::runtime::Runtime;
 use crate::server::core::map::{Map, MapItem};
 use crate::server::npc::warps::Warp;
 use crate::server::server::Server;
@@ -38,15 +39,16 @@ pub async fn main() {
     let logger= Logger::try_with_str(config.server.log_level.as_ref().unwrap()).unwrap();
     logger.filter(Box::new(LogFilter::new())).start().unwrap();
     let repository : Repository<MySql> = Repository::<MySql>::new_mysql(&config.database).await;
+    let repository_arc = Arc::new(repository);
     let warps = Warp::load_warps().await;
-    let mob_spawns = MobSpawn::load_mob_spawns().await;
+    let mob_spawns = MobSpawn::load_mob_spawns(repository_arc.clone()).join().unwrap();
     let map_item_ids = RwLock::new(HashMap::<u32, Arc<dyn MapItem>>::new());
     let start = Instant::now();
     let maps = Map::load_maps(warps, mob_spawns, &map_item_ids);
     let maps = maps.into_iter().map(|(k, v)| (k.to_string(), Arc::new(v))).collect::<HashMap<String, Arc<Map>>>();
     info!("load {} map-cache in {} secs", maps.len(), start.elapsed().as_millis() as f32 / 1000.0);
 
-    let server = Server::new(config.clone(), Arc::new(repository), maps, Arc::new(map_item_ids));
+    let server = Server::new(config.clone(), repository_arc.clone(), maps, Arc::new(map_item_ids));
     let server_ref = Arc::new(server);
     let server_ref_clone = server_ref.clone();
     let mut handles: Vec<JoinHandle<()>> = Vec::new();

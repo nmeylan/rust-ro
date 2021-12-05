@@ -14,6 +14,7 @@ use std::sync::atomic::{AtomicU16, AtomicU64};
 use std::sync::atomic::Ordering::{Acquire, Relaxed};
 use accessor::Setters;
 use crate::server::core::map_instance::MapInstance;
+use crate::server::core::mob::Mob;
 use crate::server::core::status::Status;
 use crate::server::enums::map_item::MapItemType;
 
@@ -156,19 +157,25 @@ impl Character {
             new_map_view.push(Some(map_item.clone()));
             seen_items_ids.push(map_item.id());
             if !previous_item_ids.contains(&map_item.id()) {
-                let mut mob_name = [0 as char; 24];
-                map_item.name().fill_char_array(mob_name.as_mut());
-                let mut packet_zc_notify_standentry = PacketZcNotifyStandentry6::new();
-                packet_zc_notify_standentry.set_job(map_item.client_item_class());
-                packet_zc_notify_standentry.set_packet_length(108);
-                packet_zc_notify_standentry.set_objecttype(map_item.object_type() as u8);
-                packet_zc_notify_standentry.set_clevel(3);
-                packet_zc_notify_standentry.set_speed(200);
-                packet_zc_notify_standentry.set_aid(map_item.id());
-                packet_zc_notify_standentry.set_pos_dir(Position { x: map_item.x(), y: map_item.y(), dir: 3 }.to_pos());
-                packet_zc_notify_standentry.set_name(mob_name);
-                packet_zc_notify_standentry.fill_raw();
-                session.send_to_map_socket(packet_zc_notify_standentry.raw());
+                if map_item.object_type() == MapItemType::Mob.value() {
+                    let mob = cast!(map_item, Mob);
+                    let mut mob_name = [0 as char; 24];
+                    map_item.name().fill_char_array(mob_name.as_mut());
+                    let mut packet_zc_notify_standentry = PacketZcNotifyStandentry6::new();
+                    packet_zc_notify_standentry.set_job(map_item.client_item_class());
+                    packet_zc_notify_standentry.set_packet_length(108);
+                    packet_zc_notify_standentry.set_objecttype(map_item.object_type() as u8);
+                    packet_zc_notify_standentry.set_clevel(3);
+                    packet_zc_notify_standentry.set_speed(mob.status.speed as i16);
+                    packet_zc_notify_standentry.set_hp(mob.status.hp);
+                    packet_zc_notify_standentry.set_max_hp(mob.status.max_hp);
+                    packet_zc_notify_standentry.set_aid(map_item.id());
+                    packet_zc_notify_standentry.set_pos_dir(Position { x: map_item.x(), y: map_item.y(), dir: 3 }.to_pos());
+                    packet_zc_notify_standentry.set_name(mob_name);
+                    packet_zc_notify_standentry.fill_raw();
+                    session.send_to_map_socket(packet_zc_notify_standentry.raw());
+                }
+
             }
         }
 

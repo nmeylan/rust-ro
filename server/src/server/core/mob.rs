@@ -65,14 +65,14 @@ impl MapItem for Mob {
 }
 
 impl Mob {
-    pub fn new(id: u32, x: u16, y: u16, mob_id: i16, spawn_id: u32, name: String, current_map: Arc<MapInstance>) -> Mob {
+    pub fn new(id: u32, x: u16, y: u16, mob_id: i16, spawn_id: u32, name: String, current_map: Arc<MapInstance>, status: Status) -> Mob {
         Mob {
             id,
             x: AtomicU16::new(x),
             y: AtomicU16::new(y),
             mob_id,
             spawn_id,
-            status: Status::default(),
+            status,
             name,
             map_view: RwLock::new(vec![None; MOB_FOV_SLICE_LEN]),
             current_map: RwLock::new(current_map.clone()),

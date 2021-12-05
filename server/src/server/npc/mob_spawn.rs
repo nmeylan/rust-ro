@@ -2,40 +2,37 @@ use std::collections::HashMap;
 use std::fs::File;
 use std::io::{BufRead, BufReader};
 use std::path::Path;
+use std::sync::Arc;
+use std::thread;
+use std::thread::JoinHandle;
 use std::time::Instant;
+use sqlx::MySql;
+use tokio::runtime::Runtime;
+use tokio::task;
+use crate::repository::lib::Repository;
+use crate::repository::model::mob_model::MobModel;
 use crate::server::npc::npc::{Npc, NpcLoader};
 
-static PARALLEL_EXECUTIONS: usize = 1; // TODO add a conf for this
+static PARALLEL_EXECUTIONS: usize = 1;
+// TODO add a conf for this
 static MOB_CONF_PATH: &str = "./npc/scripts_monsters.conf";
 
-#[derive(Setters, Clone, Debug)]
+#[derive(SettersAll, Clone, Debug)]
 pub struct MobSpawn {
-    #[set]
     pub map_name: String,
-    #[set]
     pub name: String,
-    #[set]
     pub mob_id: i16,
-    #[set]
     pub to_spawn_amount: i16,
-    #[set]
     pub id: u32,
-    #[set]
     pub x: u16,
-    #[set]
     pub y: u16,
-    #[set]
     pub x_size: u16,
-    #[set]
     pub y_size: u16,
-    #[set]
     pub mob_type: MobType,
-    #[set]
     pub fixed_delay_in_ms: u32,
-    #[set]
     pub random_variance_delay_in_ms: u32,
-    #[set]
     pub level: u16,
+    pub info: MobModel,
 }
 
 #[derive(Clone, Debug)]
@@ -72,7 +69,8 @@ impl MobSpawn {
             y_size: 0,
             mob_type: MobType::Monster,
             fixed_delay_in_ms: 0,
-            random_variance_delay_in_ms: 0
+            random_variance_delay_in_ms: 0,
+            info: Default::default()
         }
     }
 
@@ -163,14 +161,32 @@ impl Npc for MobSpawn {
 }
 
 impl MobSpawn {
-    pub async fn load_mob_spawns() -> HashMap<String, Vec<MobSpawn>> {
-        let start = Instant::now();
-        let npc_loader = NpcLoader {
-            conf_file: File::open(Path::new(MOB_CONF_PATH)).unwrap(),
-            parallel_execution: PARALLEL_EXECUTIONS,
-        };
-        let mob_spawns = npc_loader.load_npc::<MobSpawn>().await;
-        info!("load {} mob spawns in {} secs", mob_spawns.iter().fold(0, |memo, curr| memo + curr.1.len()), start.elapsed().as_millis() as f32 / 1000.0);
-        mob_spawns
+    pub fn load_mob_spawns(repository: Arc<Repository<MySql>>) -> JoinHandle<HashMap<String, Vec<MobSpawn>>> {
+        thread::spawn(move ||{
+            let runtime = Runtime::new().unwrap();
+            let start = Instant::now();
+            let npc_loader = NpcLoader {
+                conf_file: File::open(Path::new(MOB_CONF_PATH)).unwrap(),
+                parallel_execution: PARALLEL_EXECUTIONS,
+            };
+            let mut mob_spawns = runtime.block_on(async { npc_loader.load_npc::<MobSpawn>().await });
+            let mob_info = runtime.block_on(async {
+                sqlx::query_as::<_, MobModel>("SELECT * from `mob_db`")
+                    .fetch_all(&repository.pool)
+                    .await.unwrap()
+            }).iter().fold(HashMap::<u32, MobModel>::new(), |mut memo, curr| {
+                memo.insert(curr.id as u32, curr.clone());
+                memo
+            });
+            mob_spawns.iter_mut().for_each(|(map_name, spawns)| {
+                spawns.iter_mut().for_each(|mob_spawn| {
+                    let mob_info = mob_info.get(&(mob_spawn.mob_id as u32)).unwrap();
+                    mob_spawn.set_info(mob_info.clone());
+                });
+            });
+
+            info!("load {} mob spawns in {} secs", mob_spawns.iter().fold(0, |memo, curr| memo + curr.1.len()), start.elapsed().as_millis() as f32 / 1000.0);
+            mob_spawns
+        })
     }
 }

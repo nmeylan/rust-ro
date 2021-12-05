@@ -1,53 +1,31 @@
 use crate::repository::model::char_model::CharSelectModel;
+use crate::repository::model::mob_model::MobModel;
 use crate::server::configuration::GameConfig;
 
-#[derive(Setters, Debug, Clone)]
+#[derive(SettersAll, Debug, Clone)]
 pub struct Status {
-    #[set]
     pub hp: u32,
-    #[set]
     pub sp: u32,
-    #[set]
     pub max_hp: u32,
-    #[set]
     pub max_sp: u32,
-    #[set]
     pub str: u16,
-    #[set]
     pub agi: u16,
-    #[set]
     pub vit: u16,
-    #[set]
     pub int: u16,
-    #[set]
     pub dex: u16,
-    #[set]
     pub luk: u16,
-    #[set]
     pub base_atk: u32,
-    #[set]
     pub matk_min: u32,
-    #[set]
     pub matk_max: u32,
-    #[set]
     pub speed: u16,
-    #[set]
     pub attack_motion: u32,
-    #[set]
     pub attack_delay: u32,
-    #[set]
     pub delay_motion: u32,
-    #[set]
     pub hit: u32,
-    #[set]
     pub flee: u32,
-    #[set]
     pub crit: u32,
-    #[set]
     pub def: u32,
-    #[set]
     pub mdef: u32,
-    #[set]
     pub aspd: u32
 }
 
@@ -103,6 +81,33 @@ impl Status {
             crit: 0,
             def: 0,
             mdef: 0,
+            aspd: 0
+        }
+    }
+    pub fn from_mob_model(mob_model: &MobModel) -> Status {
+        Status {
+            hp: mob_model.hp,
+            sp: mob_model.sp,
+            max_hp: mob_model.hp,
+            max_sp: mob_model.sp,
+            str: mob_model.str,
+            agi: mob_model.agi,
+            vit: mob_model.vit,
+            int: mob_model.int,
+            dex: mob_model.dex,
+            luk: mob_model.luk,
+            base_atk: mob_model.atk1,
+            matk_min: mob_model.atk1,
+            matk_max: mob_model.atk2,
+            speed: mob_model.speed,
+            attack_motion: mob_model.atk_motion,
+            attack_delay: mob_model.atk_delay,
+            delay_motion: mob_model.defense_motion,
+            hit: 0,
+            flee: 0,
+            crit: 0,
+            def: mob_model.def,
+            mdef: mob_model.mdef,
             aspd: 0
         }
     }

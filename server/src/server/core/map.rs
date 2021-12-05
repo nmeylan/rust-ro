@@ -11,6 +11,7 @@ use std::collections::HashMap;
 use std::sync::{Arc, RwLock};
 use std::thread::sleep;
 use rand::Rng;
+use tokio::runtime::Runtime;
 use tokio::sync::broadcast;
 use tokio::sync::broadcast::{Receiver, Sender};
 use accessor::Setters;
@@ -303,6 +304,7 @@ impl Map {
                 let mut now = Instant::now();
                 let mut cleanup_notified_at: Option<Instant> = None;
                 let mut last_mobs_action = now.clone();
+                let runtime = Runtime::new().unwrap();
                 while cleanup_notified_at.is_none() || now.clone().duration_since(cleanup_notified_at.unwrap()).as_secs() < 5 {
                     now = Instant::now();
                     if rx.try_recv().is_ok() {
@@ -310,7 +312,7 @@ impl Map {
                         cleanup_notified_at = Some(now.clone());
                     }
                     {
-                        map_instance_clone_for_thread.spawn_mobs(server.clone(), now.clone().elapsed().as_millis(), map_instance.clone());
+                        map_instance_clone_for_thread.spawn_mobs(server.clone(), now.clone().elapsed().as_millis(), map_instance.clone(), &runtime);
                         map_instance_clone_for_thread.update_mobs_fov();
                         if last_mobs_action.elapsed().as_secs() > 2 {
                             map_instance_clone_for_thread.mobs_action();
