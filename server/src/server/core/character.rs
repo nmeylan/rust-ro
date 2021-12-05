@@ -168,7 +168,6 @@ impl Character {
                 packet_zc_notify_standentry.set_pos_dir(Position { x: map_item.x(), y: map_item.y(), dir: 3 }.to_pos());
                 packet_zc_notify_standentry.set_name(mob_name);
                 packet_zc_notify_standentry.fill_raw();
-                packet_zc_notify_standentry.pretty_debug();
                 session.send_to_map_socket(packet_zc_notify_standentry.raw());
             }
         }
