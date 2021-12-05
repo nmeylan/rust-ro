@@ -199,14 +199,8 @@ impl Map {
                         dest_y = y + random_y;
                         dest_x = x - random_x;
                     }
-                    if dest_x < 0 {
-                        dest_x = 0;
-                    }
                     if dest_x >= x_size {
                         dest_x = x_size - 1;
-                    }
-                    if dest_y < 0 {
-                        dest_y = 0;
                     }
                     if dest_y >= y_size {
                         dest_y = y_size - 1;

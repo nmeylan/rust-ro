@@ -300,6 +300,8 @@ pub fn handle_enter_game(server: Arc<Server>, packet: &mut dyn Packet, _runtime:
     let mut packet_notify_chat = PacketZcNotifyChat::new();
     packet_notify_chat.set_gid(character.char_id);
     packet_notify_chat.set_msg("Hello from rust ragnarok".to_string());
+    packet_notify_chat.set_packet_length((packet_notify_chat.msg.len() + 8) as i16);
+    packet_notify_chat.fill_raw();
 
     let final_response_packet: Vec<u8> = chain_packets(vec![
         &packet_str, &packet_agi, &packet_dex, &packet_int, &packet_luk,
@@ -346,12 +348,8 @@ pub fn handle_char_loaded_client_side(server: Arc<Server>, _packet: &mut dyn Pac
     server.insert_map_item(session_id, character.clone());
     character.load_units_in_fov(&session);
 
-    let mut packet_zc_msg_color = PacketZcMsgColor::new();
     let mut packet_zc_notify_mapproperty2 = PacketZcNotifyMapproperty2::new();
     let mut packet_zc_hat_effect = PacketZcHatEffect::new();
-    packet_zc_msg_color.set_msg_id(ClientMessages::MsgAttendanceunavailable.value()); // Just a sample of message
-    packet_zc_msg_color.set_msg_color(255);
-    packet_zc_msg_color.fill_raw();
     packet_zc_notify_mapproperty2.set_atype(0x2); // TODO set this correctly see enum map_type in hercules
     let mut flags = MapPropertyFlags::new();
     flags.set_is_use_cart(true); // TODO add other flags correctly
@@ -361,7 +359,6 @@ pub fn handle_char_loaded_client_side(server: Arc<Server>, _packet: &mut dyn Pac
     packet_zc_hat_effect.set_status(1);
     packet_zc_hat_effect.set_len(9 + 0); // len is: 9 (packet len) + number of effects
     packet_zc_hat_effect.fill_raw();
-    socket_send!(tcp_stream, &packet_zc_msg_color.raw());
     let final_response_packet: Vec<u8> = chain_packets(vec![&packet_zc_hat_effect, &packet_zc_notify_mapproperty2]);
     socket_send!(tcp_stream, &final_response_packet);
 }
