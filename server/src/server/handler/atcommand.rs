@@ -2,12 +2,13 @@ use std::net::TcpStream;
 use std::sync::{Arc, RwLock};
 use lazy_static::lazy_static;
 use tokio::runtime::Runtime;
-use packets::packets::{PacketCzPlayerChat, PacketZcNotifyPlayerchat, PacketZcNpcackMapmove};
+use packets::packets::{PacketCzPlayerChat, PacketZcNotifyPlayerchat};
 use crate::Server;
 use crate::server::core::session::Session;
 use regex::Regex;
 use std::io::Write;
 use packets::packets::Packet;
+use crate::server::configuration::CityConfig;
 use crate::server::core::character_movement::change_map;
 
 lazy_static! {
@@ -34,9 +35,8 @@ pub fn handle_atcommand(server: Arc<Server>, packet: &PacketCzPlayerChat, _runti
     // let mut packets = vec![];
     match command {
         "go" => {
-            handle_go(args, session);
-            packet_zc_notify_playerchat.set_msg(format!("Warp"));
-
+            let result = handle_go(server, session, args);
+            packet_zc_notify_playerchat.set_msg(result);
         }
         _ => {
             packet_zc_notify_playerchat.set_msg(format!("{}{} is an Unknown Command.", symbol, command));
@@ -47,7 +47,61 @@ pub fn handle_atcommand(server: Arc<Server>, packet: &PacketCzPlayerChat, _runti
     socket_send!(tcp_stream, packet_zc_notify_playerchat.raw());
 }
 
-pub fn handle_go(args: &str, session: Arc<Session>) {
-    change_map("prontera".to_string(), 156, 191, session.clone(), session.get_character());
+pub fn handle_go(server: Arc<Server>, session: Arc<Session>, args: &str) -> String {
+    let cities_len = server.configuration.maps.cities.len();
+    let cleaned_arg = args.trim();
+    let mut maybe_city: Option<&CityConfig> = None;
+    match cleaned_arg.parse::<i8>() {
+        Ok(index) => {
+            if index < cities_len as i8 {
+                maybe_city = unsafe { Some(server.configuration.maps.cities.get_unchecked(index as usize)) } // it safe, bounds are checked
+            }
+        },
+        _ => ()
+    }
+    if maybe_city.is_none() {
+        // aliases
+        let name = match cleaned_arg {
+            "old_moc" => "morroc".to_string(),
+            "morocc" => "morroc".to_string(),
+            "lutie" => "xmas".to_string(),
+            "juno" => "yuno".to_string(),
+            "kunlun" => "gornyun".to_string(),
+            "luoyang" => "louyang".to_string(),
+            "new1-1" => "novice".to_string(),
+            "startpoint" => "novice".to_string(),
+            "beginning" => "novice".to_string(),
+            "prison" => "jail".to_string(),
+            "sec_pri" => "jail".to_string(),
+            "rael" => "rachel".to_string(),
+            _ => cleaned_arg.to_string()
+        };
+        maybe_city = server.configuration.maps.cities.iter().find(|city| {
+            city.name == name
 
+        });
+    }
+    if maybe_city.is_none() {
+        return format!("Can't find map by index or name with given argument: {}", cleaned_arg);
+    }
+    let mut city = maybe_city.unwrap().clone();
+
+    match city.name.as_str() {
+        // To match client side name
+        "morroc" => city.name = "old_moc".to_string(),
+        "lutie" => city.name = "xmas".to_string(),
+        "juno" => city.name = "yuno".to_string(),
+        "kunlun" => city.name = "gornyun".to_string(),
+        "luoyang" => city.name = "louyang".to_string(),
+        "novice" => city.name = "new1-1".to_string(),
+        "startpoint" => city.name = "new1-1".to_string(),
+        "beginning" => city.name = "new1-1".to_string(),
+        "prison" => city.name = "sec_pri".to_string(),
+        "jail" => city.name = "sec_pri".to_string(),
+        "rael" => city.name = "rachel".to_string(),
+        _ => ()
+    }
+
+    change_map(city.name.clone(), city.x, city.y, session.clone(), session.get_character());
+    format!("Warping at {} {},{}", city.name.clone(), city.x, city.y)
 }

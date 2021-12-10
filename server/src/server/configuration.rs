@@ -1,7 +1,9 @@
 use std::{env, fs};
+use std::collections::HashMap;
 use std::path::Path;
 use serde::Deserialize;
 use accessor::Setters;
+use crate::server::core::character_movement::Position;
 
 const DEFAULT_LOG_LEVEL: &str = "info";
 const LOG_LEVELS: [&str; 4] = ["debug", "info", "warn", "error"];
@@ -12,6 +14,7 @@ pub struct Config {
     pub game: GameConfig,
     pub database: DatabaseConfig,
     pub proxy: ProxyConfig,
+    pub maps: MapConfig,
 }
 
 #[derive(Deserialize, Debug, Setters, Clone)]
@@ -36,6 +39,18 @@ pub struct DatabaseConfig {
     pub username: String,
     #[set]
     pub password: Option<String>,
+}
+
+#[derive(Deserialize, Debug, Clone)]
+pub struct MapConfig {
+    pub cities: Vec<CityConfig>
+}
+
+#[derive(Deserialize, Debug, Clone)]
+pub struct CityConfig {
+    pub name: String,
+    pub x: u16,
+    pub y: u16,
 }
 
 #[derive(Deserialize, Debug, Clone)]
@@ -71,7 +86,6 @@ impl Config {
         } else {
             config.server.set_log_level(Some(DEFAULT_LOG_LEVEL.to_string()));
         }
-
         return Ok(config);
     }
 }
