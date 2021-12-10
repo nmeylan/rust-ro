@@ -1,10 +1,8 @@
 use std::collections::HashMap;
 use std::sync::{Arc, RwLock};
-use tokio::runtime::Runtime;
-use crate::server::core::map::{Map, MapItem, WALKABLE_MASK, WARP_MASK};
+use crate::server::core::map::{Map, MapItem, WARP_MASK};
 use crate::server::core::mob::Mob;
 use crate::server::core::status::Status;
-use crate::server::enums::map_item::MapItemType;
 use crate::server::npc::mob_spawn::MobSpawn;
 use crate::server::npc::warps::Warp;
 use crate::server::server::Server;
@@ -100,8 +98,7 @@ impl MapInstance {
         }
     }
 
-    pub fn spawn_mobs(&self, server: Arc<Server>, _now: u128, self_ref: Arc<MapInstance>, x: &Runtime) {
-        let mut spawned_something = false;
+    pub fn spawn_mobs(&self, server: Arc<Server>, _now: u128, self_ref: Arc<MapInstance>) {
         for mob_spawn in self.mob_spawns.iter() {
             let mut mob_spawns_tracks_guard = write_lock!(self.mob_spawns_tracks);
             let mob_spawn_track = mob_spawns_tracks_guard.iter_mut().find(|spawn_track| spawn_track.spawn_id == mob_spawn.id).unwrap();
@@ -112,7 +109,6 @@ impl MapInstance {
                 // TODO check when respawn is planned
             }
             let mut cell: (u16, u16);
-            spawned_something = true;
             let spawned = mob_spawn.to_spawn_amount - mob_spawn_track.spawned_amount;
             for _ in 0..spawned {
                 if mob_spawn.is_fixed_position() {
@@ -123,7 +119,7 @@ impl MapInstance {
                     cell = Map::find_random_walkable_cell(self.cells.as_ref(), self.x_size);
                 }
                 let mob_id = server.generate_map_item_id();
-                let mut mob = Mob::new(mob_id, cell.0, cell.1, mob_spawn.mob_id, mob_spawn.id, mob_spawn.name.clone(), self_ref.clone(), Status::from_mob_model(&mob_spawn.info));
+                let mob = Mob::new(mob_id, cell.0, cell.1, mob_spawn.mob_id, mob_spawn.id, mob_spawn.name.clone(), self_ref.clone(), Status::from_mob_model(&mob_spawn.info));
                 let mob_ref = Arc::new(mob);
                 mob_ref.set_self_ref(mob_ref.clone());
 

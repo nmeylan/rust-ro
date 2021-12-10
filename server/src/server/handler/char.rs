@@ -1,4 +1,4 @@
-use packets::packets::{Packet, PacketChEnter, PacketHcRefuseEnter, CharacterInfoNeoUnion, PacketHcAcceptEnterNeoUnionHeader, PacketHcAcceptEnterNeoUnion, PacketPincodeLoginstate, PacketChMakeChar2, PacketHcAcceptMakecharNeoUnion, PacketChDeleteChar4Reserved, PacketHcDeleteChar4Reserved, PacketChSelectChar, PacketChSendMapInfo, PacketCzEnter2, PacketMapConnection, PacketZcInventoryExpansionInfo, PacketZcOverweightPercent, PacketZcAcceptEnter2, PacketZcNpcackMapmove, PacketZcStatusValues, PacketZcParChange, PacketZcAttackRange, PacketZcNotifyChat, PacketCzRestart, PacketZcRestartAck, PacketZcReqDisconnectAck2, PacketZcMsgColor, PacketZcNotifyMapproperty2, PacketZcHatEffect, PacketZcLoadConfirm};
+use packets::packets::{Packet, PacketChEnter, PacketHcRefuseEnter, CharacterInfoNeoUnion, PacketHcAcceptEnterNeoUnionHeader, PacketHcAcceptEnterNeoUnion, PacketPincodeLoginstate, PacketChMakeChar2, PacketHcAcceptMakecharNeoUnion, PacketChDeleteChar4Reserved, PacketHcDeleteChar4Reserved, PacketChSelectChar, PacketChSendMapInfo, PacketCzEnter2, PacketMapConnection, PacketZcInventoryExpansionInfo, PacketZcOverweightPercent, PacketZcAcceptEnter2, PacketZcNpcackMapmove, PacketZcStatusValues, PacketZcParChange, PacketZcAttackRange, PacketZcNotifyChat, PacketCzRestart, PacketZcRestartAck, PacketZcReqDisconnectAck2, PacketZcNotifyMapproperty2, PacketZcHatEffect, PacketZcLoadConfirm};
 use crate::repository::lib::Repository;
 use sqlx::{MySql};
 use tokio::runtime::Runtime;
@@ -13,7 +13,6 @@ use std::ops::Deref;
 use std::sync::atomic::{AtomicU16, AtomicU64};
 use crate::util::packet::chain_packets;
 use crate::server::enums::status::StatusTypes;
-use crate::server::enums::client_messages::ClientMessages;
 use crate::server::core::character::{Character};
 use crate::server::core::map::{Map, MapItem, MapPropertyFlags};
 use crate::server::core::status::Status;
@@ -332,7 +331,7 @@ pub fn handle_restart(server: Arc<Server>, packet: &mut dyn Packet, _runtime: &R
 
 pub fn handle_disconnect(server: Arc<Server>, _packet: &mut dyn Packet, _runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, session_id: u32) {
     {
-        let mut sessions_guard = write_lock!(server.sessions);
+        let sessions_guard = read_lock!(server.sessions);
         let session = sessions_guard.get(&session_id).unwrap();
         let character = session.character.as_ref().unwrap();
         character.remove_from_existing_map();

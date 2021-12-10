@@ -23,13 +23,4 @@ impl MapItemType {
             MapItemType::Unknown => 0,
         }
     }
-
-    pub fn from(value: i16) -> MapItemType {
-        match value {
-            1 => MapItemType::Character,
-            5 => MapItemType::Mob,
-            6 => MapItemType::Warp,
-            _ => MapItemType::Unknown
-        }
-    }
 }
