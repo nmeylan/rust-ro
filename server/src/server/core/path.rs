@@ -1,5 +1,4 @@
 use std::sync::Arc;
-use std::time::Instant;
 use accessor::Setters;
 use log::{debug};
 
@@ -50,7 +49,6 @@ fn node_id(x: u16, y: u16, x_size: u16) -> u32 {
 * Client use a A* algorithm for path finding.
 */
 pub fn path_search_client_side_algorithm(map: Arc<MapInstance>, source_x: u16, source_y: u16, destination_x: u16, destination_y: u16) -> Vec<PathNode> {
-    let _start = Instant::now();
     let max_x = map.x_size - 1;
     let max_y = map.y_size - 1;
     let start_node = PathNode {
@@ -62,8 +60,10 @@ pub fn path_search_client_side_algorithm(map: Arc<MapInstance>, source_x: u16, s
         f_cost: client_side_heuristic(source_x, source_y, destination_x, destination_y),
         is_open: true,
     };
-    let mut open_set = vec![start_node];
-    let mut discovered_nodes = vec![start_node];
+    let mut open_set = Vec::with_capacity(14 * 14);
+    open_set.push(start_node);
+    let mut discovered_nodes = Vec::with_capacity(14 * 14);
+    discovered_nodes.push(start_node);
     let mut current_node = start_node;
     let mut i = 0;
     while !open_set.is_empty() {
@@ -82,7 +82,7 @@ pub fn path_search_client_side_algorithm(map: Arc<MapInstance>, source_x: u16, s
         }
         debug!("{:?}", open_set);
         debug!("iteration: {} -> current_node({}) {},{}", i, current_index, current_node.x, current_node.y);
-        open_set.remove(current_index);
+        open_set.swap_remove(current_index);
         debug!("{:?}", open_set);
         current_node.set_is_open(false);
         i += 1;
@@ -116,7 +116,7 @@ pub fn path_search_client_side_algorithm(map: Arc<MapInstance>, source_x: u16, s
         }
     }
 
-    let mut final_path : Vec<PathNode> = vec![];
+    let mut final_path : Vec<PathNode> = Vec::with_capacity(14 * 2);
     while current_node.id != current_node.parent_id {
         final_path.push(current_node);
         let current_node_option = discovered_nodes.iter().find(|node| node.id == current_node.parent_id);

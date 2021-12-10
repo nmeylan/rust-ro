@@ -20,6 +20,7 @@ use crate::server::handler::char::{handle_blocking_play_cancel, handle_char_ente
 use crate::server::handler::login::handle_login;
 use crate::server::handler::movement::handle_char_move;
 use lazy_static::lazy_static;
+use crate::server::enums::map_item::MapItemType;
 use crate::server::handler::map::handle_map_item_name;
 
 // Todo make this configurable
@@ -59,7 +60,7 @@ impl MapItem for UnknownMapItem {
     }
 
     fn object_type(&self) -> i16 {
-        0
+        MapItemType::Unknown.value()
     }
 
     fn name(&self) -> String {

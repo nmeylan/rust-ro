@@ -8,7 +8,6 @@ use std::thread::JoinHandle;
 use std::time::Instant;
 use sqlx::MySql;
 use tokio::runtime::Runtime;
-use tokio::task;
 use crate::repository::lib::Repository;
 use crate::repository::model::mob_model::MobModel;
 use crate::server::npc::npc::{Npc, NpcLoader};
@@ -178,7 +177,7 @@ impl MobSpawn {
                 memo.insert(curr.id as u32, curr.clone());
                 memo
             });
-            mob_spawns.iter_mut().for_each(|(map_name, spawns)| {
+            mob_spawns.iter_mut().for_each(|(_, spawns)| {
                 spawns.iter_mut().for_each(|mob_spawn| {
                     let mob_info = mob_info.get(&(mob_spawn.mob_id as u32)).unwrap();
                     mob_spawn.set_info(mob_info.clone());

@@ -30,33 +30,6 @@ pub struct Status {
 }
 
 impl Status {
-    pub fn default() -> Status {
-        Status {
-            hp: 100,
-            sp: 100,
-            max_hp: 100,
-            max_sp: 100,
-            str: 1,
-            agi: 1,
-            vit: 1,
-            int: 1,
-            dex: 1,
-            luk: 1,
-            base_atk: 1,
-            matk_min: 1,
-            matk_max: 1,
-            speed: 100,
-            attack_motion: 1,
-            attack_delay: 1,
-            delay_motion: 1,
-            hit: 1,
-            flee: 1,
-            crit: 1,
-            def: 1,
-            mdef: 1,
-            aspd: 1
-        }
-    }
     pub fn from_char_model(char_model: &CharSelectModel, configuration: &GameConfig) -> Status {
         Status {
             hp: char_model.max_hp, // in db current hp are stored in max_hp col, and max_hp in hp col
