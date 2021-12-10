@@ -226,9 +226,9 @@ impl Server {
 
         if packet.as_any().downcast_ref::<PacketCzPlayerChat>().is_some() {
             let packet_player_char = cast!(packet, PacketCzPlayerChat);
-            // if (packet_player_char.msg.starts_with("@")) { // TODO make this configurable
-            return handle_atcommand(self_ref.clone(), packet_player_char, runtime, tcp_stream, session);
-            // }
+            if (packet_player_char.msg.starts_with(format!("{} : @", session.character.as_ref().unwrap().name).as_str())) { // TODO make symbol configurable
+                return handle_atcommand(self_ref.clone(), packet_player_char, runtime, tcp_stream, session);
+            }
         }
 
         if packet.id() == "0x6003" // PacketCzRequestTime2
