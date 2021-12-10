@@ -1,12 +1,11 @@
 use std::net::TcpStream;
 use std::sync::{Arc, RwLock};
-use tokio::runtime::Runtime;
 use packets::packets::{Packet, PacketZcAckReqnameall2, PacketCzReqnameall2};
 use crate::server::server::Server;
 use crate::util::string::StringUtil;
 use std::io::Write;
 
-pub fn handle_map_item_name(server: Arc<Server>, packet: &mut dyn Packet, _runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, _session_id: u32) {
+pub fn handle_map_item_name(server: Arc<Server>, packet: &mut dyn Packet, tcp_stream: Arc<RwLock<TcpStream>>) {
     let packet_cz_req_allname2 = cast!(packet, PacketCzReqnameall2);
     let map_items_guard = read_lock!(server.map_items);
     let map_item_found = map_items_guard.get(&packet_cz_req_allname2.gid);

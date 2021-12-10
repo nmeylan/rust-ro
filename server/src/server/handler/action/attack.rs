@@ -3,13 +3,12 @@ use std::sync::{Arc, RwLock};
 use std::io::Write;
 use tokio::runtime::Runtime;
 use packets::packets::{Packet, PacketCzRequestAct2, PacketZcNotifyAct3};
+use crate::server::core::session::Session;
 use crate::server::enums::action::ActionType;
 use crate::server::server::Server;
 
-pub fn handle_attack(server: Arc<Server>, packet: &mut dyn Packet, _runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, session_id: u32) {
+pub fn handle_attack(packet: &mut dyn Packet, _runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, session: Arc<Session>) {
     let packet_cz_request_act2 = cast!(packet, PacketCzRequestAct2);
-    let sessions_guard = read_lock!(server.sessions);
-    let session = sessions_guard.get(&session_id).unwrap();
     let character = session.get_character();
     let current_map_guard = read_lock!(character.current_map);
     let map_ref = current_map_guard.as_ref().unwrap().clone();
@@ -21,7 +20,7 @@ pub fn handle_attack(server: Arc<Server>, packet: &mut dyn Packet, _runtime: &Ru
     let mut packet_zc_notify_act3 = PacketZcNotifyAct3::new();
     packet_zc_notify_act3.set_target_gid(packet_cz_request_act2.target_gid);
     packet_zc_notify_act3.set_action(ActionType::AttackMultiple.value());
-    packet_zc_notify_act3.set_gid(session_id);
+    packet_zc_notify_act3.set_gid(session.account_id);
     packet_zc_notify_act3.set_attack_mt(498);
     packet_zc_notify_act3.set_attacked_mt(1);
     packet_zc_notify_act3.set_damage(2);
