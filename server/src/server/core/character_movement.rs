@@ -87,9 +87,10 @@ pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<
 
                     {
                         let current_map_guard = read_lock!(character.current_map);
-                        let map_ref = current_map_guard.as_ref().unwrap().clone();
+                        let map_ref = current_map_guard.as_ref().unwrap();
                         if map_ref.is_warp_cell(path_node.x, path_node.y) {
-                            change_map(map_ref, &path_node, session.clone(), &character);
+                            let warp = map_ref.get_warp_at(path_node.x, path_node.y).unwrap();
+                            change_map(warp.dest_map_name.clone(), warp.to_x, warp.to_y, session.clone(), &character);
                             break;
                         }
                     }
@@ -113,14 +114,13 @@ pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<
 }
 
 
-fn change_map(map: Arc<MapInstance>, path_node: &PathNode, session: Arc<Session>, character_session: &Character) {
-    let warp = map.get_warp_at(path_node.x, path_node.y).unwrap();
+pub fn change_map(destination_map: String, x: u16, y: u16, session: Arc<Session>, character_session: &Character) {
     let mut new_current_map: [char; 16] = [0 as char; 16];
-    let map_name = format!("{}{}", warp.dest_map_name, MAP_EXT);
+    let map_name = format!("{}{}", destination_map, MAP_EXT);
     map_name.fill_char_array(new_current_map.as_mut());
     character_session.remove_from_existing_map();
     character_session.set_current_map_name(new_current_map.clone());
-    character_session.update_x_y(warp.to_x, warp.to_y);
+    character_session.update_x_y(x, y);
 
     let mut packet_zc_npcack_mapmove = PacketZcNpcackMapmove::new();
     packet_zc_npcack_mapmove.set_map_name(new_current_map);
@@ -132,7 +132,7 @@ fn change_map(map: Arc<MapInstance>, path_node: &PathNode, session: Arc<Session>
 }
 
 
-async fn save_character_position(server: Arc<Server>, session: Arc<Session>) {
+pub async fn save_character_position(server: Arc<Server>, session: Arc<Session>) {
     let character = session.get_character();
     let res = sqlx::query("UPDATE `char` SET last_map = ?, last_x = ?, last_y = ? WHERE account_id = ? AND char_id = ?") // TODO add bcrypt on user_pass column, but not supported by hercules
         .bind(Map::name_without_ext(character.get_current_map_name()))
