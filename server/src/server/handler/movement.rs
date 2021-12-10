@@ -8,13 +8,12 @@ use crate::server::core::map::MapItem;
 use crate::server::core::character_movement;
 use crate::server::core::character_movement::Position;
 use crate::server::core::path::path_search_client_side_algorithm;
+use crate::server::core::session::Session;
 use crate::server::server::Server;
 use crate::util::tick::get_tick;
 
-pub fn handle_char_move(server: Arc<Server>, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, session_id: u32) {
+pub fn handle_char_move(server: Arc<Server>, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, session: Arc<Session>) {
     let move_packet = cast!(packet, PacketCzRequestMove2);
-    let sessions_guard = read_lock!(server.sessions);
-    let session = sessions_guard.get(&session_id).unwrap();
     let destination = Position::from_move_packet(move_packet);
     let character = session.get_character();
     let current_map_guard = read_lock!(character.current_map);
