@@ -31,7 +31,7 @@ pub fn handle_map_item_name(server: Arc<Server>, packet: &mut dyn Packet, tcp_st
     socket_send!(tcp_stream, packet_zc_ack_reqnameall2.raw());
 }
 
-pub fn handle_char_loaded_client_side(server: Arc<Server>, tcp_stream: Arc<RwLock<TcpStream>>, session: Arc<Session>) {
+pub fn handle_char_loaded_client_side(_server: Arc<Server>, tcp_stream: Arc<RwLock<TcpStream>>, session: Arc<Session>) {
     info!("Reload char");
     let session_id = session.account_id;
 
