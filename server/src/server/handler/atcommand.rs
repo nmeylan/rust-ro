@@ -40,7 +40,7 @@ pub fn handle_atcommand(server: Arc<Server>, packet: &PacketCzPlayerChat, runtim
             let result = handle_go(server, session, args);
             packet_zc_notify_playerchat.set_msg(result);
         }
-        "warp"|"rura"|"warpto" => {
+        "warp" | "rura" | "warpto" => {
             let result = handle_warp(server, session, args);
             packet_zc_notify_playerchat.set_msg(result);
         }
@@ -84,7 +84,6 @@ pub fn handle_go(server: Arc<Server>, session: Arc<Session>, args: Vec::<&str>) 
         };
         maybe_city = server.configuration.maps.cities.iter().find(|city| {
             city.name == name
-
         });
     }
     if maybe_city.is_none() {
@@ -115,7 +114,17 @@ pub fn handle_go(server: Arc<Server>, session: Arc<Session>, args: Vec::<&str>) 
 pub fn handle_warp(server: Arc<Server>, session: Arc<Session>, args: Vec::<&str>) -> String {
     let map_name = args[0].to_string();
     if server.maps.contains_key(&map_name) {
-        change_map(map_name.clone(), RANDOM_CELL.0, RANDOM_CELL.1, session.clone(), server);
+        let mut x = RANDOM_CELL.0;
+        let mut y = RANDOM_CELL.1;
+        if args.len() > 2 {
+            let parse_x_res = args[1].parse::<u16>();
+            let parse_y_res = args[2].parse::<u16>();
+            if parse_x_res.is_ok() && parse_y_res.is_ok() {
+                x = parse_x_res.unwrap();
+                y = parse_y_res.unwrap();
+            }
+        }
+        change_map(map_name.clone(), x, y, session.clone(), server);
         let char_session = session.character.as_ref().unwrap();
         return format!("Warp to map {} at {},{}", map_name, char_session.get_x(), char_session.get_y());
     }
