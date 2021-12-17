@@ -7,7 +7,7 @@ use std::thread::sleep;
 use tokio::time::Duration;
 use tokio::task::JoinHandle;
 use crate::server::core::character::Character;
-use crate::server::core::map::{Map, MAP_EXT, MapItem};
+use crate::server::core::map::{Map, MAP_EXT, MapItem, RANDOM_CELL};
 use crate::server::core::map_instance::MapInstance;
 use crate::server::core::path::{MOVE_COST, MOVE_DIAGONAL_COST, PathNode};
 use crate::server::core::session::Session;
@@ -90,7 +90,8 @@ pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<
                         let map_ref = current_map_guard.as_ref().unwrap();
                         if map_ref.is_warp_cell(path_node.x, path_node.y) {
                             let warp = map_ref.get_warp_at(path_node.x, path_node.y).unwrap();
-                            change_map(warp.dest_map_name.clone(), warp.to_x, warp.to_y, session.clone(), &character);
+                            drop(current_map_guard);
+                            change_map(warp.dest_map_name.clone(), warp.to_x, warp.to_y, session.clone(), server.clone());
                             break;
                         }
                     }
@@ -113,26 +114,50 @@ pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<
     handle
 }
 
+pub fn change_map(destination_map: String, x: u16, y: u16, session: Arc<Session>, server: Arc<Server>) {
+    let packet_zc_npcack_mapmove = change_map_packet(destination_map, x, y, session.clone(), server.clone());
 
-pub fn change_map(destination_map: String, x: u16, y: u16, session: Arc<Session>, character_session: &Character) {
+    session.send_to_map_socket(packet_zc_npcack_mapmove.raw());
+    let runtime = Runtime::new().unwrap();
+    runtime.spawn(async move {
+        save_character_position(server, session.clone()).await
+    });
+}
+
+pub fn change_map_packet(destination_map: String, x: u16, y: u16, session: Arc<Session>, server: Arc<Server>) -> PacketZcNpcackMapmove {
+    let character_session = session.get_character();
+    character_session.remove_from_existing_map();
+
+    let map_name : String = Map::name_without_ext(destination_map.clone());
+    let map_ref = server.maps.get(&map_name).unwrap();
+    let map = map_ref.clone();
+    let map_instance = map.player_join_map(character_session, server.clone());
+    if x == RANDOM_CELL.0 && y == RANDOM_CELL.1 {
+        let walkable_cell = Map::find_random_walkable_cell(&map_instance.cells, map_instance.x_size);
+        character_session.update_x_y(walkable_cell.0, walkable_cell.1);
+    } else {
+        character_session.update_x_y(x, y);
+    }
+
+    character_session.join_and_set_map(map_instance);
+    server.insert_map_item(session.account_id, character_session.clone());
+    character_session.load_units_in_fov(&session);
+
+    let mut packet_zc_npcack_mapmove = PacketZcNpcackMapmove::new();
+
     let mut new_current_map: [char; 16] = [0 as char; 16];
     let map_name = format!("{}{}", destination_map, MAP_EXT);
     map_name.fill_char_array(new_current_map.as_mut());
-    character_session.remove_from_existing_map();
-    character_session.set_current_map_name(new_current_map.clone());
-    character_session.update_x_y(x, y);
-
-    let mut packet_zc_npcack_mapmove = PacketZcNpcackMapmove::new();
     packet_zc_npcack_mapmove.set_map_name(new_current_map);
     packet_zc_npcack_mapmove.set_x_pos(character_session.x() as i16);
     packet_zc_npcack_mapmove.set_y_pos(character_session.y() as i16);
     packet_zc_npcack_mapmove.fill_raw();
-
-    session.send_to_map_socket(packet_zc_npcack_mapmove.raw());
+    packet_zc_npcack_mapmove.display();
+    packet_zc_npcack_mapmove
 }
 
-
 pub async fn save_character_position(server: Arc<Server>, session: Arc<Session>) {
+    info!("save_character_position");
     let character = session.get_character();
     let res = sqlx::query("UPDATE `char` SET last_map = ?, last_x = ?, last_y = ? WHERE account_id = ? AND char_id = ?") // TODO add bcrypt on user_pass column, but not supported by hercules
         .bind(Map::name_without_ext(character.get_current_map_name()))
@@ -142,5 +167,5 @@ pub async fn save_character_position(server: Arc<Server>, session: Arc<Session>)
         .bind(character.char_id)
         .execute(&server.repository.pool);
     let res = res.await;
-    debug!("Update char last position {:?}", res);
+    info!("Update char last position {:?}", res);
 }

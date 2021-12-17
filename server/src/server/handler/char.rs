@@ -1,4 +1,4 @@
-use packets::packets::{Packet, PacketChEnter, PacketHcRefuseEnter, CharacterInfoNeoUnion, PacketHcAcceptEnterNeoUnionHeader, PacketHcAcceptEnterNeoUnion, PacketPincodeLoginstate, PacketChMakeChar2, PacketHcAcceptMakecharNeoUnion, PacketChDeleteChar4Reserved, PacketHcDeleteChar4Reserved, PacketChSelectChar, PacketChSendMapInfo, PacketCzEnter2, PacketMapConnection, PacketZcInventoryExpansionInfo, PacketZcOverweightPercent, PacketZcAcceptEnter2, PacketZcNpcackMapmove, PacketZcStatusValues, PacketZcParChange, PacketZcAttackRange, PacketZcNotifyChat, PacketCzRestart, PacketZcRestartAck, PacketZcReqDisconnectAck2, PacketZcNotifyMapproperty2, PacketZcHatEffect, PacketZcLoadConfirm};
+use packets::packets::{Packet, PacketChEnter, PacketHcRefuseEnter, CharacterInfoNeoUnion, PacketHcAcceptEnterNeoUnionHeader, PacketHcAcceptEnterNeoUnion, PacketPincodeLoginstate, PacketChMakeChar2, PacketHcAcceptMakecharNeoUnion, PacketChDeleteChar4Reserved, PacketHcDeleteChar4Reserved, PacketChSelectChar, PacketChSendMapInfo, PacketCzEnter2, PacketMapConnection, PacketZcInventoryExpansionInfo, PacketZcOverweightPercent, PacketZcAcceptEnter2, PacketZcNpcackMapmove, PacketZcStatusValues, PacketZcParChange, PacketZcAttackRange, PacketZcNotifyChat, PacketCzRestart, PacketZcRestartAck, PacketZcReqDisconnectAck2, PacketZcLoadConfirm};
 use crate::repository::lib::Repository;
 use sqlx::{MySql};
 use tokio::runtime::Runtime;
@@ -12,9 +12,11 @@ use std::net::Shutdown::Both;
 use std::ops::Deref;
 use std::sync::atomic::{AtomicU16, AtomicU64};
 use crate::util::packet::chain_packets;
+use crate::Map;
 use crate::server::enums::status::StatusTypes;
 use crate::server::core::character::{Character};
-use crate::server::core::map::{Map, MapItem, MapPropertyFlags};
+use crate::server::core::character_movement::{change_map, change_map_packet};
+use crate::server::core::map::{MapItem};
 use crate::server::core::session::Session;
 use crate::server::core::status::Status;
 use crate::server::server::{MOB_FOV_SLICE_LEN, Server};
@@ -206,13 +208,9 @@ pub fn handle_enter_game(server: Arc<Server>, packet: &mut dyn Packet, tcp_strea
     packet_accept_enter.set_font(0);
     packet_accept_enter.fill_raw();
     let character = session.get_character();
-    let mut packet_npc_ack_map_move = PacketZcNpcackMapmove::new();
-    let current_map_name_guard = read_lock!(character.current_map_name);
-    packet_npc_ack_map_move.set_map_name(*current_map_name_guard.deref());
-    packet_npc_ack_map_move.set_x_pos(character.x() as i16);
-    packet_npc_ack_map_move.set_y_pos(character.y() as i16);
-    packet_npc_ack_map_move.fill_raw();
-    let final_response_packet: Vec<u8> = chain_packets(vec![&packet_inventory_expansion_info, &packet_overweight_percent, &packet_accept_enter, &packet_npc_ack_map_move]);
+
+    let packet_zc_npcack_mapmove = change_map_packet(Map::name_without_ext(character.get_current_map_name()), character.get_x(), character.get_y(), session.clone(), server.clone());
+    let final_response_packet: Vec<u8> = chain_packets(vec![&packet_inventory_expansion_info, &packet_overweight_percent, &packet_accept_enter, &packet_zc_npcack_mapmove]);
     socket_send!(tcp_stream, &final_response_packet);
 
     let mut packet_str = PacketZcStatusValues::new();
@@ -342,33 +340,6 @@ pub fn handle_disconnect(server: Arc<Server>, tcp_stream: Arc<RwLock<TcpStream>>
     socket_send!(tcp_stream, &disconnect_ack.raw());
 }
 
-pub fn handle_char_loaded_client_side(server: Arc<Server>, tcp_stream: Arc<RwLock<TcpStream>>, session: Arc<Session>) {
-    info!("Reload char");
-    let session_id = session.account_id;
-    let character = session.get_character();
-    let map_name : String = Map::name_without_ext(character.get_current_map_name());
-    let map_ref = server.maps.get(&map_name).unwrap();
-
-    let map = map_ref.clone();
-    let map_instance = map.player_join_map(character.deref(), server.clone());
-    character.join_and_set_map(map_instance);
-    server.insert_map_item(session_id, character.clone());
-    character.load_units_in_fov(&session);
-
-    let mut packet_zc_notify_mapproperty2 = PacketZcNotifyMapproperty2::new();
-    let mut packet_zc_hat_effect = PacketZcHatEffect::new();
-    packet_zc_notify_mapproperty2.set_atype(0x2); // TODO set this correctly see enum map_type in hercules
-    let mut flags = MapPropertyFlags::new();
-    flags.set_is_use_cart(true); // TODO add other flags correctly
-    packet_zc_notify_mapproperty2.set_flags(flags.raw());
-    packet_zc_notify_mapproperty2.fill_raw();
-    packet_zc_hat_effect.set_aid(session_id);
-    packet_zc_hat_effect.set_status(1);
-    packet_zc_hat_effect.set_len(9 + 0); // len is: 9 (packet len) + number of effects
-    packet_zc_hat_effect.fill_raw();
-    let final_response_packet: Vec<u8> = chain_packets(vec![&packet_zc_hat_effect, &packet_zc_notify_mapproperty2]);
-    socket_send!(tcp_stream, &final_response_packet);
-}
 
 pub fn handle_blocking_play_cancel(tcp_stream: Arc<RwLock<TcpStream>>) {
     let mut packet_zc_load_confirm = PacketZcLoadConfirm::new();
