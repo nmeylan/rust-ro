@@ -31,6 +31,7 @@ In proxy mode:
 - visual debugger
 - map instances (map are lazily loaded, an instance is created when a player join an non initialized map)
 - mob spawn
+- atcommand: @go, @warp
 
 # Wip
 in random order, features are implemented based on my current mood.
@@ -49,6 +50,8 @@ Debug server state with a UI
 
 ## warp
 ![warps](img/warp_spawn.PNG)
+![warps](img/warp.PNG)
+
 ## mob
 ![mobs](img/mob_spawn.PNG)
 
