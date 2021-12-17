@@ -81,6 +81,14 @@ impl Character {
         self.x.store(x, Relaxed);
         self.y.store(y, Relaxed);
     }
+
+    pub fn get_x(&self)  -> u16 {
+        self.x.load(Relaxed)
+    }
+    pub fn get_y(&self)  -> u16 {
+        self.y.load(Relaxed)
+    }
+
     pub fn set_current_map_name(&self, new_name: [char; 16]) {
         let mut current_map_name_guard = write_lock!(self.current_map_name);
         *current_map_name_guard = new_name;

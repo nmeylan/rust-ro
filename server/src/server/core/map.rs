@@ -9,6 +9,8 @@ use std::any::Any;
 use std::time::{Duration, Instant};
 use std::collections::HashMap;
 use std::sync::{Arc, RwLock};
+use std::sync::atomic::AtomicI8;
+use std::sync::atomic::Ordering::Relaxed;
 use std::thread::sleep;
 use rand::Rng;
 use tokio::sync::broadcast;
@@ -27,6 +29,7 @@ static MAP_DIR: &str = "./maps/pre-re";
 pub static MAP_EXT: &str = ".gat";
 pub const WARP_MASK: u16 = 0b0000_0100_0000_0000;
 pub const WALKABLE_MASK: u16 = 0b0000000000000001;
+pub const RANDOM_CELL: (u16, u16) = (u16::MAX, u16::MAX);
 
 struct Header {
     #[allow(dead_code)]
@@ -46,7 +49,8 @@ pub struct Map {
     pub warps: Arc<Vec<Arc<Warp>>>,
     pub mob_spawns: Arc<Vec<Arc<MobSpawn>>>,
     pub map_thread_channel_sender: Sender<String>,
-    pub map_instances: RwLock<Vec<Arc<MapInstance>>>
+    pub map_instances: RwLock<Vec<Arc<MapInstance>>>,
+    pub map_instances_count: AtomicI8,
 }
 
 pub trait MapItem: Send + Sync {
@@ -215,10 +219,11 @@ impl Map {
     }
 
     fn create_map_instance(&self, server: Arc<Server>, instance_id: u32) -> Arc<MapInstance> {
-        println!("x_size: {}, y_size {}, length: {}", self.x_size, self.y_size, self.length);
+        info!("create map instance: {} x_size: {}, y_size {}, length: {}", self.name, self.x_size, self.y_size, self.length);
         let mut map_items = vec![None; (self.length) as usize];
         let cells = self.generate_cells(server.clone(), &mut map_items);
         let map_instance = MapInstance::from_map(&self, instance_id, cells, map_items);
+        self.map_instances_count.fetch_add(1, Relaxed);
         let map_instance_ref = Arc::new(map_instance);
         {
             let mut map_instance_guard = write_lock!(self.map_instances);
@@ -348,6 +353,7 @@ impl Map {
                 mob_spawns: Default::default(),
                 map_thread_channel_sender: tx,
                 map_instances: Default::default(),
+                map_instances_count: Default::default()
             };
             map.set_warps(warps.get(&map_name).unwrap_or(&vec![]), map_items);
             map.set_mob_spawns(mob_spawns.get(&map_name).unwrap_or(&vec![]));

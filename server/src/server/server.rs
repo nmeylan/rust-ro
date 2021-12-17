@@ -16,13 +16,13 @@ use crate::server::configuration::Config;
 use crate::server::core::map::{Map, MapItem};
 use crate::server::core::session::{Session, SessionsIter};
 use crate::server::handler::action::attack::handle_attack;
-use crate::server::handler::char::{handle_blocking_play_cancel, handle_char_enter, handle_char_loaded_client_side, handle_delete_reserved_char, handle_disconnect, handle_enter_game, handle_make_char, handle_restart, handle_select_char};
+use crate::server::handler::char::{handle_blocking_play_cancel, handle_char_enter, handle_delete_reserved_char, handle_disconnect, handle_enter_game, handle_make_char, handle_restart, handle_select_char};
 use crate::server::handler::login::handle_login;
 use crate::server::handler::movement::handle_char_move;
 use lazy_static::lazy_static;
 use crate::server::enums::map_item::MapItemType;
 use crate::server::handler::atcommand::handle_atcommand;
-use crate::server::handler::map::handle_map_item_name;
+use crate::server::handler::map::{handle_char_loaded_client_side, handle_map_item_name};
 
 // Todo make this configurable
 pub const PLAYER_FOV: u16 = 14;
