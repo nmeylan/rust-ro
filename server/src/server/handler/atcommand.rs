@@ -3,11 +3,10 @@ use std::sync::{Arc, RwLock};
 use lazy_static::lazy_static;
 use tokio::runtime::Runtime;
 use packets::packets::{PacketCzPlayerChat, PacketZcNotifyPlayerchat};
-use crate::{Map, Server};
+use crate::{Server};
 use crate::server::core::session::Session;
 use regex::Regex;
 use std::io::Write;
-use std::sync::atomic::Ordering::Relaxed;
 use packets::packets::Packet;
 use crate::server::configuration::CityConfig;
 use crate::server::core::character_movement::change_map;
@@ -16,7 +15,7 @@ use crate::server::core::map::RANDOM_CELL;
 lazy_static! {
     static ref COMMAND_REGEX: Regex = Regex::new(r"^([@#!])([^\s]*)\s?(.*)?").unwrap();
 }
-pub fn handle_atcommand(server: Arc<Server>, packet: &PacketCzPlayerChat, runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, session: Arc<Session>) {
+pub fn handle_atcommand(server: Arc<Server>, packet: &PacketCzPlayerChat, _runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, session: Arc<Session>) {
     let index_of_colon = packet.msg.find(":").unwrap();
     let command_txt = &packet.msg[index_of_colon + 1..].trim();
     let maybe_captures = COMMAND_REGEX.captures(command_txt);

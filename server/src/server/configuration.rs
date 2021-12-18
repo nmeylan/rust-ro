@@ -1,9 +1,7 @@
 use std::{env, fs};
-use std::collections::HashMap;
 use std::path::Path;
 use serde::Deserialize;
 use accessor::Setters;
-use crate::server::core::character_movement::Position;
 
 const DEFAULT_LOG_LEVEL: &str = "info";
 const LOG_LEVELS: [&str; 4] = ["debug", "info", "warn", "error"];

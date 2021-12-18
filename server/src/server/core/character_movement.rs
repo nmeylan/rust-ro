@@ -6,9 +6,7 @@ use std::thread::sleep;
 
 use tokio::time::Duration;
 use tokio::task::JoinHandle;
-use crate::server::core::character::Character;
 use crate::server::core::map::{Map, MAP_EXT, MapItem, RANDOM_CELL};
-use crate::server::core::map_instance::MapInstance;
 use crate::server::core::path::{MOVE_COST, MOVE_DIAGONAL_COST, PathNode};
 use crate::server::core::session::Session;
 use crate::server::server::Server;

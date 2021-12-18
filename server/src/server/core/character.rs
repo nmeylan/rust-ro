@@ -3,7 +3,7 @@ use std::net::TcpStream;
 
 use std::sync::{Arc, RwLock};
 use packets::packets::{PacketZcNotifyStandentry6, PacketZcNotifyVanish};
-use crate::server::core::map::{MapItem};
+use crate::server::core::map::{MAP_EXT, MapItem};
 use crate::server::core::character_movement::Position;
 use crate::server::core::session::Session;
 use crate::server::server::{PLAYER_FOV_SLICE_LEN, PLAYER_FOV};
@@ -136,6 +136,10 @@ impl Character {
         self.movement_task_id.store(id, Relaxed);
     }
     pub fn set_current_map(&self, current_map: Arc<MapInstance>) {
+        let mut new_current_map: [char; 16] = [0 as char; 16];
+        let map_name = format!("{}{}", current_map.name, MAP_EXT);
+        map_name.fill_char_array(new_current_map.as_mut());
+        self.set_current_map_name(new_current_map);
         let mut current_map_guard = write_lock!(self.current_map);
         *current_map_guard = Some(current_map);
     }

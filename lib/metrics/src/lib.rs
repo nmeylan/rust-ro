@@ -2,7 +2,6 @@ use proc_macro::TokenStream;
 use quote::{quote, ToTokens};
 use syn::{Block, ItemFn, parse_macro_input};
 use syn::AttributeArgs;
-use syn::spanned::Spanned;
 
 #[proc_macro_attribute]
 pub fn elapsed(_args: TokenStream, function_def: TokenStream) -> TokenStream {
@@ -43,7 +42,7 @@ pub fn elapsed_block(args: TokenStream, block_def: TokenStream) -> TokenStream {
     if attrs.len() > 0 {
         block_name = attrs.get(0).unwrap().to_token_stream().to_string();
     }
-    let mut item = syn::parse::<Block>(block_def).unwrap();
+    let item = syn::parse::<Block>(block_def).unwrap();
     let log_ns = format!("{} tooks {{}}ns", block_name);
     let log_us = format!("{} tooks {{}}µs", block_name);
     let log_ms = format!("{} tooks {{}}ms", block_name);

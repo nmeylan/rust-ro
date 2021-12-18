@@ -4,9 +4,7 @@ use packets::packets::{Packet, PacketZcAckReqnameall2, PacketCzReqnameall2, Pack
 use crate::server::server::Server;
 use crate::util::string::StringUtil;
 use std::io::Write;
-use std::ops::Deref;
-use crate::Map;
-use crate::server::core::map::{MapPropertyFlags, RANDOM_CELL};
+use crate::server::core::map::{MapPropertyFlags};
 use crate::server::core::session::Session;
 use crate::util::packet::chain_packets;
 
