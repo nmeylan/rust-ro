@@ -176,7 +176,7 @@ impl Server {
             return handle_enter_game(self_ref.clone(), packet, tcp_stream);
         }
 
-        /**
+        /*
          *  Having a session is required for any packets below
          */
         let session_id = self.ensure_session_exists(&tcp_stream);
@@ -226,7 +226,7 @@ impl Server {
 
         if packet.as_any().downcast_ref::<PacketCzPlayerChat>().is_some() {
             let packet_player_char = cast!(packet, PacketCzPlayerChat);
-            if (packet_player_char.msg.starts_with(format!("{} : @", session.character.as_ref().unwrap().name).as_str())) { // TODO make symbol configurable
+            if packet_player_char.msg.starts_with(format!("{} : @", session.character.as_ref().unwrap().name).as_str()) { // TODO make symbol configurable
                 return handle_atcommand(self_ref.clone(), packet_player_char, runtime, tcp_stream, session);
             }
         }

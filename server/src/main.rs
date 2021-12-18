@@ -16,7 +16,6 @@ extern crate metrics;
 
 use std::collections::HashMap;
 
-
 use std::thread::{JoinHandle};
 use proxy::map::MapProxy;
 use crate::proxy::char::CharProxy;

@@ -5,7 +5,6 @@ use tokio::runtime::Runtime;
 use packets::packets::{Packet, PacketCzRequestAct2, PacketZcNotifyAct3};
 use crate::server::core::session::Session;
 use crate::server::enums::action::ActionType;
-use crate::server::server::Server;
 
 pub fn handle_attack(packet: &mut dyn Packet, _runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, session: Arc<Session>) {
     let packet_cz_request_act2 = cast!(packet, PacketCzRequestAct2);
