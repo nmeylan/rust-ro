@@ -1,3 +1,4 @@
+use std::collections::HashSet;
 use std::sync::Arc;
 use eframe::egui::{Color32, emath, epaint, Frame, Pos2, Rect, Sense, Shape, Stroke, Ui, Vec2};
 use eframe::egui::epaint::RectShape;
@@ -20,7 +21,7 @@ struct PreviousCell {
 }
 
 impl MapInstanceView {
-    pub fn draw_map_instance_view(&mut self, ui: &mut Ui, map_instance: &Arc<MapInstance>, map_items: Vec<Option<Arc<dyn MapItem>>>) {
+    pub fn draw_map_instance_view(&mut self, ui: &mut Ui, map_instance: &Arc<MapInstance>, mut map_items: HashSet<Arc<dyn MapItem>>) {
         Frame::dark_canvas(ui.style()).show(ui, |ui| {
             let (_id, response) = ui.allocate_exact_size(ui.available_size_before_wrap(), Sense::click_and_drag());
             let absolute_draw_rect = response.rect;
@@ -103,17 +104,6 @@ impl MapInstanceView {
                     } else if cell & WALKABLE_MASK == WALKABLE_MASK {
                         cell_color = Color32::WHITE;
                     }
-                    let option = map_items.get(coordinate::get_cell_index_of(j, i, map_instance.x_size)).unwrap();
-                    if option.is_some() {
-                        let item = option.as_ref().unwrap();
-                        if item.object_type() == MapItemType::Mob.value() {
-                            cell_color = Color32::RED;
-                        } else if item.object_type() == MapItemType::Character.value() {
-                            cell_color = Color32::GREEN;
-                        } else if item.object_type() == MapItemType::Warp.value() {
-                            cell_color = Color32::BLUE;
-                        }
-                    }
 
                     if cursor_pos.is_some() {
                         let cursor_pos = cursor_pos.unwrap();
@@ -149,26 +139,37 @@ impl MapInstanceView {
                 MapInstanceView::draw_cell(&mut shapes, &mut previous_cell, &absolute_draw_rect, margin, shape_x_size, shape_y_size, start_i, i, start_j, end_j);
                 previous_cell = None;
             }
-            // if self.cursor_pos.is_some() {
-            //     let cursor_pos = self.cursor_pos.unwrap();
-            //     let rect = emath::Rect {
-            //         min: Pos2 {
-            //             x: absolute_draw_rect.min.x + margin + (shape_x_size * (cursor_pos.x - PLAYER_FOV as f32) as f32),
-            //             y: absolute_draw_rect.max.y - margin - (shape_y_size * ((cursor_pos.y + PLAYER_FOV as f32) as f32)),
-            //         },
-            //         max: Pos2 {
-            //             x: absolute_draw_rect.min.x + margin + (shape_x_size * (cursor_pos.x + PLAYER_FOV as f32) as f32 + 1.0),
-            //             y: absolute_draw_rect.max.y - margin - (shape_y_size * (cursor_pos.y - PLAYER_FOV as f32) as f32),
-            //         }
-            //     };
-            //     info!("draw fov {:?}", rect);
-            //     shapes.push(epaint::Shape::Rect(RectShape {
-            //         rect: rect,
-            //         corner_radius: 0.0,
-            //         fill: Color32::TRANSPARENT,
-            //         stroke: Stroke::new(1.0, Color32::GREEN)
-            //     }));
-            // }
+            for map_item in map_items.iter() {
+                if map_item.x() < start_j
+                    || map_item.y() < start_i {
+                    continue;
+                }
+                let mut cell_color = Default::default();
+                if map_item.object_type() == MapItemType::Mob.value() {
+                    cell_color = Color32::RED;
+                } else if map_item.object_type() == MapItemType::Character.value() {
+                    cell_color = Color32::GREEN;
+                } else if map_item.object_type() == MapItemType::Warp.value() {
+                    cell_color = Color32::BLUE;
+                }
+                shapes.push(epaint::Shape::Rect(RectShape {
+                    rect: emath::Rect {
+                        min: Pos2 {
+                            x: absolute_draw_rect.min.x + margin + (shape_x_size * (map_item.x() - start_j) as f32),
+                            y: absolute_draw_rect.max.y - margin - (shape_y_size * ((map_item.y() - start_i) as f32 + 1.0)),
+                        },
+                        max: Pos2 {
+                            x: absolute_draw_rect.min.x + margin + (shape_x_size * ((map_item.x() - start_j) as f32 + 1.0)),
+                            y: absolute_draw_rect.max.y - margin - (shape_y_size * ((map_item.y() - start_i) as f32)),
+                        }
+                    },
+                    corner_radius: 0.0,
+                    fill: cell_color,
+                    stroke: Stroke::none()
+                }));
+            }
+
+
             ui.painter().extend(shapes);
             ui.ctx().request_repaint();
         });

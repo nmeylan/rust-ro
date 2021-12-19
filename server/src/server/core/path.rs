@@ -32,7 +32,12 @@ pub struct PathNode {
 // Coming from herculesWS
 #[inline]
 fn client_side_heuristic(x0: u16, y0: u16, x1: u16, y1: u16) -> u16 {
-    MOVE_COST * (i16::abs(x1 as i16 - x0 as i16) as u16 + i16::abs(y1 as i16 - y0 as i16) as u16) // Manhattan distance
+    MOVE_COST * manhattan_distance(x0, y0, x1, y1)
+}
+
+#[inline]
+pub fn manhattan_distance(x0: u16, y0: u16, x1: u16, y1: u16) -> u16 {
+    i16::abs(x1 as i16 - x0 as i16) as u16 + i16::abs(y1 as i16 - y0 as i16) as u16
 }
 
 #[inline]

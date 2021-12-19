@@ -1,13 +1,15 @@
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 use std::sync::{Arc, RwLock};
+use serde::de::Unexpected::Char;
 use crate::server::core::character::Character;
 use crate::server::core::map::{Map, MapItem, WARP_MASK};
 use crate::server::core::mob::Mob;
+use crate::server::core::path::manhattan_distance;
 use crate::server::core::status::Status;
 use crate::server::enums::map_item::MapItemType;
 use crate::server::npc::mob_spawn::MobSpawn;
 use crate::server::npc::warps::Warp;
-use crate::server::server::Server;
+use crate::server::server::{MOB_FOV, Server};
 use crate::util::coordinate;
 
 pub struct MapInstance {
@@ -35,8 +37,8 @@ pub struct MapInstance {
     pub mob_spawns: Arc<Vec<Arc<MobSpawn>>>,
     pub mob_spawns_tracks: RwLock<Vec<MobSpawnTrack>>,
     pub mobs: RwLock<HashMap<u32, Arc<Mob>>>,
-    pub characters: RwLock<Vec<Arc<Character>>>,
-    pub map_items: RwLock<Vec<Option<Arc<dyn MapItem>>>>
+    pub characters: RwLock<HashSet<Arc<dyn MapItem>>>,
+    pub map_items: RwLock<HashSet<Arc<dyn MapItem>>>
 }
 
 pub struct MobSpawnTrack {
@@ -60,7 +62,7 @@ impl MobSpawnTrack {
 }
 
 impl MapInstance {
-    pub fn from_map(map: &Map, id: u32, cells: Vec<u16>, map_items: Vec<Option<Arc<dyn MapItem>>>) -> MapInstance {
+    pub fn from_map(map: &Map, id: u32, cells: Vec<u16>, map_items: HashSet<Arc<dyn MapItem>>) -> MapInstance {
         let _cells_len = cells.len();
         MapInstance {
             name: map.name.clone(),
@@ -72,7 +74,7 @@ impl MapInstance {
             mob_spawns: map.mob_spawns.clone(),
             mob_spawns_tracks: RwLock::new(map.mob_spawns.iter().map(|spawn| MobSpawnTrack::default(spawn.id.clone())).collect::<Vec<MobSpawnTrack>>()),
             mobs: Default::default(),
-            characters: RwLock::new(vec![]),
+            characters: RwLock::new(HashSet::with_capacity(50)),
             map_items: RwLock::new(map_items)
         }
     }
@@ -132,7 +134,7 @@ impl MapInstance {
                 // TODO: On mob dead clean up should be down also for items below
                 server.insert_map_item(mob_id, mob_ref.clone());
                 mobs_guard.insert(mob_id, mob_ref.clone());
-                map_items_guard[coordinate::get_cell_index_of(cell.0, cell.1, self.x_size)] = Some(mob_ref);
+                map_items_guard.insert(mob_ref);
                 // END
                 mob_spawn_track.increment_spawn();
             }
@@ -140,21 +142,23 @@ impl MapInstance {
     }
 
     pub fn update_mobs_fov(&self) {
-        let mobs_guard = read_lock!(self.mobs);
         let map_items_guard = read_lock!(self.map_items);
+        let characters_guard = read_lock!(self.characters);
         let map_items_clone = map_items_guard.clone();
+        let characters_clone = characters_guard.clone();
         drop(map_items_guard);
+        drop(characters_guard);
         for item in map_items_clone {
-            if item.is_none() {
-                continue;
-            }
-            let item = item.unwrap();
+            let mut viewed_chars: Vec<Arc<dyn MapItem>> = Vec::with_capacity(characters_clone.len());
             if item.object_type() == MapItemType::Mob.value() {
-
+                for character in characters_clone.iter() {
+                    if manhattan_distance(character.x(), character.y(), item.x(), item.y()) <= MOB_FOV {
+                        viewed_chars.push(character.clone());
+                    }
+                }
+                let mob = cast!(item, Mob);
+                mob.update_map_view(viewed_chars);
             }
-        }
-        for mob in mobs_guard.values() {
-            mob.load_units_in_fov(&self);
         }
     }
 
@@ -163,36 +167,6 @@ impl MapInstance {
         for mob in mobs_guard.values() {
             mob.action_move()
         }
-    }
-
-    #[allow(dead_code)]
-    pub fn get_map_item_at(&self, x: u16, y: u16) -> Option<Arc<dyn MapItem>> {
-        let map_items_guard = read_lock!(self.map_items);
-        let key = coordinate::get_cell_index_of(x, y, self.x_size);
-        let map_item_option = unsafe { map_items_guard.get_unchecked(key) };
-        return map_item_option.clone();
-    }
-
-    pub fn get_map_items(&self, x: u16, y: u16, range: u16) -> Vec<Arc<dyn MapItem>> {
-        let map_items_guard = read_lock!(self.map_items);
-        let row_size = range * 2;
-        let mut items = Vec::with_capacity((row_size * row_size) as usize);
-        for j in 0..row_size {
-            for i in 0..row_size {
-                let x = self.get_item_x_from_fov(x, range, i);
-                let y = self.get_item_y_from_fov(y, range, j);
-                if x > self.x_size || y > self.y_size || coordinate::get_cell_index_of(x, y, self.x_size) >= map_items_guard.len() {
-                    info!("{},{}", x ,y);
-                }
-                let item_option = map_items_guard[
-                    coordinate::get_cell_index_of(x, y, self.x_size)
-                    ].as_ref();
-                if item_option.is_some() {
-                    items.push(item_option.unwrap().clone());
-                }
-            }
-        }
-        items
     }
 
     pub fn get_warp_at(&self, x: u16, y: u16) -> Option<Arc<Warp>> {
@@ -205,25 +179,31 @@ impl MapInstance {
         None
     }
 
-    pub fn insert_item_at(&self, pos_index: usize, map_item: Arc<dyn MapItem>) {
+    pub fn insert_item(&self, map_item: Arc<dyn MapItem>) {
         let mut map_item_guard = write_lock!(self.map_items);
-        map_item_guard[pos_index] = Some(map_item);
+        map_item_guard.insert(map_item.clone());
+        if map_item.object_type() == MapItemType::Character.value() {
+            self.insert_character(map_item);
+        }
         // TODO notify mobs
     }
 
-    pub fn insert_character(&self, character: Arc<Character>) {
+    pub fn insert_character(&self, character: Arc<dyn MapItem>) {
         let mut characters_guard = write_lock!(self.characters);
-        characters_guard.push(character);
+        characters_guard.insert(character);
     }
 
-    pub fn remove_item_at(&self, pos_index: usize) {
+    pub fn remove_item(&self, map_item: Arc<dyn MapItem>) {
         let mut map_item_guard = write_lock!(self.map_items);
-        map_item_guard[pos_index] = None;
+        map_item_guard.remove(&*map_item.clone());
+        if map_item.object_type() == MapItemType::Character.value() {
+            self.remove_character(map_item);
+        }
     }
 
-    pub fn remove_character(&self, character: Arc<Character>) {
+    pub fn remove_character(&self, character: Arc<dyn MapItem>) {
         let mut characters_guard = write_lock!(self.characters);
-        characters_guard.retain(|char| char.char_id != character.char_id);
+        characters_guard.remove(&*character.clone());
     }
 
     #[inline]

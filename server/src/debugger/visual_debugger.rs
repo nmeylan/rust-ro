@@ -117,9 +117,10 @@ impl VisualDebugger {
         map_instance = map_instance_guard.get(0).unwrap();
 
         let map_items_guard = read_lock!(map_instance.map_items);
-        let map_items = map_items_guard.clone();
-        let players = map_items.iter()
-            .filter(|item| item.is_some() && item.as_ref().unwrap().object_type() == 1).map(|item| cast!(item.as_ref().unwrap(), Character))
+        let mut map_items_mut_clone = map_items_guard.clone();
+        let map_items_clone = map_items_guard.clone();
+        let players = map_items_clone.iter()
+            .filter(|item| item.object_type() == 1).map(|item| cast!(item, Character))
             .collect::<Vec<&Character>>();
         egui::SidePanel::left(format!("{} info", map.name))
             .min_width(250.0)
@@ -138,9 +139,10 @@ impl VisualDebugger {
                             let i = self.map_instance_view.cursor_pos.as_ref().unwrap().x as u16;
                             let j = self.map_instance_view.cursor_pos.as_ref().unwrap().y as u16;
                             ui.label(format!("Cursor: {}, {}", i, j));
-                            let map_item = map_items.get(coordinate::get_cell_index_of(i, j, map_instance.x_size)).unwrap();
+                            let map_item = map_items_mut_clone.iter().find(|item| item.x() == i && item.y() == j);
                             if map_item.is_some() {
-                                let map_item = map_item.as_ref().unwrap();
+                                let map_item = map_item.unwrap().clone();
+                                // map_items_mut_clone.remove(&*map_item.clone());
                                 ui.label(format!("{}: {}", MapItemType::from(map_item.object_type()), map_item.name()));
 
                                 if map_item.as_any().downcast_ref::<Mob>().is_some() {
@@ -148,8 +150,6 @@ impl VisualDebugger {
                                     ui.label("Items in Field of view");
                                     let mob_map_view = read_lock!(mob.map_view);
                                     mob_map_view.iter()
-                                        .filter(|item| item.is_some())
-                                        .map(|item| item.as_ref().unwrap())
                                         .for_each(|item| {
                                         ui.label(format!("{}: {} {},{}", MapItemType::from(item.object_type()), item.name(), item.x(), item.y()));
                                     });
@@ -158,8 +158,6 @@ impl VisualDebugger {
                                     ui.label("Items in Field of view");
                                     let character_map_view = read_lock!(character.map_view);
                                     character_map_view.iter()
-                                        .filter(|item| item.is_some())
-                                        .map(|item| item.as_ref().unwrap())
                                         .for_each(|item| {
                                             ui.label(format!("{}: {} {},{}", MapItemType::from(item.object_type()), item.name(), item.x(), item.y()));
                                         });
@@ -172,7 +170,7 @@ impl VisualDebugger {
             });
         egui::CentralPanel::default()
             .show(ui.ctx(), |ui| {
-                self.map_instance_view.draw_map_instance_view(ui, map_instance, map_items);
+                self.map_instance_view.draw_map_instance_view(ui, map_instance, map_items_guard.clone());
             });
     }
 }
