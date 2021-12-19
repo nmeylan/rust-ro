@@ -1,3 +1,4 @@
+use std::collections::HashSet;
 use packets::packets::{Packet, PacketChEnter, PacketHcRefuseEnter, CharacterInfoNeoUnion, PacketHcAcceptEnterNeoUnionHeader, PacketHcAcceptEnterNeoUnion, PacketPincodeLoginstate, PacketChMakeChar2, PacketHcAcceptMakecharNeoUnion, PacketChDeleteChar4Reserved, PacketHcDeleteChar4Reserved, PacketChSelectChar, PacketChSendMapInfo, PacketCzEnter2, PacketMapConnection, PacketZcInventoryExpansionInfo, PacketZcOverweightPercent, PacketZcAcceptEnter2, PacketZcStatusValues, PacketZcParChange, PacketZcAttackRange, PacketZcNotifyChat, PacketCzRestart, PacketZcRestartAck, PacketZcReqDisconnectAck2, PacketZcLoadConfirm};
 use crate::repository::lib::Repository;
 use sqlx::{MySql};
@@ -151,7 +152,7 @@ pub fn handle_select_char(server: Arc<Server>, packet: &mut dyn Packet, runtime:
         x: AtomicU16::new(last_x),
         y: AtomicU16::new(last_y),
         movement_task_id: AtomicU64::new(0),
-        map_view: RwLock::new(vec![None; MOB_FOV_SLICE_LEN]),
+        map_view: RwLock::new(HashSet::new()),
         current_map: RwLock::new(None),
         self_ref: RwLock::new(None),
         map_server_socket: Default::default()

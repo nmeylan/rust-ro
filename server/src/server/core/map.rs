@@ -7,7 +7,8 @@ use flate2::read::ZlibDecoder;
 use std::{fs, thread};
 use std::any::Any;
 use std::time::{Duration, Instant};
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
+use std::hash::{Hash, Hasher};
 use std::sync::{Arc, RwLock};
 use std::sync::atomic::AtomicI8;
 use std::sync::atomic::Ordering::Relaxed;
@@ -62,6 +63,20 @@ pub trait MapItem: Send + Sync {
     fn y(&self) -> u16;
     fn as_any(&self) -> &dyn Any;
 }
+
+impl Hash for dyn MapItem {
+    fn hash<H: Hasher>(&self, state: &mut H) {
+        self.id().hash(state);
+    }
+}
+
+impl PartialEq<Self> for dyn MapItem {
+    fn eq(&self, other: &Self) -> bool {
+        self.id() == other.id()
+    }
+}
+
+impl Eq for dyn MapItem{}
 
 #[derive(Setters)]
 pub struct MapPropertyFlags {
@@ -220,7 +235,7 @@ impl Map {
 
     fn create_map_instance(&self, server: Arc<Server>, instance_id: u32) -> Arc<MapInstance> {
         info!("create map instance: {} x_size: {}, y_size {}, length: {}", self.name, self.x_size, self.y_size, self.length);
-        let mut map_items = vec![None; (self.length) as usize];
+        let mut map_items: HashSet<Arc<dyn MapItem>> = HashSet::with_capacity(2048);
         let cells = self.generate_cells(server.clone(), &mut map_items);
         let map_instance = MapInstance::from_map(&self, instance_id, cells, map_items);
         self.map_instances_count.fetch_add(1, Relaxed);
@@ -233,7 +248,7 @@ impl Map {
         map_instance_ref.clone()
     }
 
-    pub fn generate_cells(&self, server: Arc<Server>, map_items: &mut Vec<Option<Arc<dyn MapItem>>>) -> Vec<u16> {
+    pub fn generate_cells(&self, server: Arc<Server>, map_items: &mut HashSet<Arc<dyn MapItem>>) -> Vec<u16> {
         let file_path = Path::join(Path::new(MAP_DIR), format!("{}{}", self.name, MAPCACHE_EXT));
         let file = File::open(file_path).unwrap();
         let mut reader = BufReader::new(file);
@@ -258,10 +273,10 @@ impl Map {
         cells
     }
 
-    fn set_warp_cells(&self, cells: &mut Vec<u16>, server: Arc<Server>, map_items: &mut Vec<Option<Arc<dyn MapItem>>>) {
+    fn set_warp_cells(&self, cells: &mut Vec<u16>, server: Arc<Server>, map_items: &mut HashSet<Arc<dyn MapItem>>) {
         for warp in self.warps.iter() {
             server.insert_map_item(warp.id, warp.clone());
-            map_items[coordinate::get_cell_index_of(warp.x, warp.y, self.x_size)] = Some(warp.clone());
+            map_items.insert(warp.clone());
             let start_x = warp.x - warp.x_size;
             let to_x = warp.x + warp.x_size;
             let start_y = warp.y - warp.y_size;

@@ -1,4 +1,6 @@
 use std::any::Any;
+use std::collections::HashSet;
+use std::hash::Hash;
 use std::net::TcpStream;
 
 use std::sync::{Arc, RwLock};
@@ -15,6 +17,7 @@ use std::sync::atomic::Ordering::{Acquire, Relaxed};
 use accessor::Setters;
 use crate::server::core::map_instance::MapInstance;
 use crate::server::core::mob::Mob;
+use crate::server::core::path::manhattan_distance;
 use crate::server::core::status::Status;
 use crate::server::enums::map_item::MapItemType;
 
@@ -30,7 +33,7 @@ pub struct Character {
     pub x: AtomicU16,
     pub y: AtomicU16,
     pub movement_task_id: AtomicU64,
-    pub map_view: RwLock<Vec<Option<Arc<dyn MapItem>>>>,
+    pub map_view: RwLock<HashSet<Arc<dyn MapItem>>>,
     pub self_ref: RwLock<Option<Arc<Character>>>,
     #[set]
     pub map_server_socket: RwLock<Option<Arc<RwLock<TcpStream>>>>,
@@ -67,7 +70,7 @@ impl MapItem for Character {
 }
 
 impl Character {
-    pub fn set_map_socket(&self, map_socket:  Arc<RwLock<TcpStream>>) {
+    pub fn set_map_socket(&self, map_socket: Arc<RwLock<TcpStream>>) {
         let mut map_server_socket_guard = write_lock!(self.map_server_socket);
         *map_server_socket_guard = Some(map_socket);
     }
@@ -82,10 +85,10 @@ impl Character {
         self.y.store(y, Relaxed);
     }
 
-    pub fn get_x(&self)  -> u16 {
+    pub fn get_x(&self) -> u16 {
         self.x.load(Relaxed)
     }
-    pub fn get_y(&self)  -> u16 {
+    pub fn get_y(&self) -> u16 {
         self.y.load(Relaxed)
     }
 
@@ -103,32 +106,19 @@ impl Character {
         let current_map_guard = read_lock!(self.current_map);
         if current_map_guard.is_some() {
             let map_instance_ref = current_map_guard.as_ref().unwrap();
-            let x_size = map_instance_ref.x_size;
-            map_instance_ref.remove_item_at(coordinate::get_cell_index_of(self.x(), self.y(), x_size));
             let self_ref_guard = read_lock!(self.self_ref);
-            map_instance_ref.remove_character(self_ref_guard.as_ref().unwrap().clone());
+            map_instance_ref.remove_item(self_ref_guard.as_ref().unwrap().clone());
         }
     }
 
     pub fn join_and_set_map(&self, map_instance: Arc<MapInstance>) {
         self.set_current_map(map_instance.clone());
-        let pos_index = self.get_pos_index();
         let self_ref_guard = read_lock!(self.self_ref);
-        map_instance.insert_item_at(pos_index, self_ref_guard.as_ref().unwrap().clone());
-        map_instance.insert_character(self_ref_guard.as_ref().unwrap().clone());
+        map_instance.insert_item(self_ref_guard.as_ref().unwrap().clone());
     }
 
     pub fn update_position(&self, x: u16, y: u16) {
-        let current_map_guard = read_lock!(self.current_map);
-        let map_ref = current_map_guard.as_ref().unwrap().clone();
-        {
-            let old_position_index = coordinate::get_cell_index_of(self.x(), self.y(), map_ref.x_size);
-            map_ref.remove_item_at(old_position_index);
-        }
         self.update_x_y(x, y);
-        let new_position_index = coordinate::get_cell_index_of(self.x(), self.y(), map_ref.x_size);
-        let self_ref_guard = read_lock!(self.self_ref);
-        map_ref.insert_item_at(new_position_index, self_ref_guard.as_ref().unwrap().clone());
     }
 
     pub fn get_current_map_name(&self) -> String {
@@ -147,31 +137,34 @@ impl Character {
         *current_map_guard = Some(current_map);
     }
 
+    pub fn clear_map_view(&self) {
+        let mut map_view_guard = write_lock!(self.map_view);
+        *map_view_guard = Default::default();
+    }
+
     pub fn load_units_in_fov(&self, session: &Arc<Session>) {
-        let mut new_map_view = vec![None; PLAYER_FOV_SLICE_LEN]; // TODO not necesserary to init such a big vec
+        let mut new_map_view: HashSet<Arc<dyn MapItem>> = HashSet::with_capacity(2048);
+        let mut map_view_guard = write_lock!(self.map_view);
         let current_map_guard = read_lock!(self.current_map);
         let map_ref = current_map_guard.as_ref().unwrap().clone();
-        let mut map_view_guard = write_lock!(self.map_view);
-        let mut previous_item_ids: Vec<u32> = vec![];
-        let mut seen_items_ids: Vec<u32> = vec![];
-
-        for item in map_view_guard.iter() {
-            if item.is_some() {
-                let item = item.as_ref().unwrap();
-                previous_item_ids.push(item.id());
+        let map_items_guard = read_lock!(map_ref.map_items);
+        let map_items_clone = map_items_guard.clone();
+        drop(map_items_guard);
+        for item in map_items_clone {
+            if item.id() != self.id() {
+                if manhattan_distance(self.x(), self.y(), item.x(), item.y()) <= PLAYER_FOV {
+                    // info!("seeing {}", item.object_type());
+                    new_map_view.insert(item.clone());
+                }
             }
         }
 
-        let map_items = map_ref.get_map_items(self.x(), self.y(), PLAYER_FOV);
-        for map_item in map_items {
+        for map_item in new_map_view.iter() {
             if map_item.object_type() == MapItemType::Character.value() {
                 continue;
             }
-            // info!("{{{}:{}}},{{{}:{}}} {},{}", self.get_fov_start_x(), self.get_fov_start_y(), self.get_fov_start_x()  + (PLAYER_FOV * 2), self.get_fov_start_y() + (PLAYER_FOV * 2), self.x(), self.y()  );
-            // info!("See map_item at {},{} index {}, id {} (inner {},{} - index {})", map_item.x(), map_item.y(),  coordinate::get_cell_index_of(map_item.x(), map_item.y(), 400), map_item.id(),  x, y, coordinate::get_cell_index_of(x, y, 400));
-            new_map_view.push(Some(map_item.clone()));
-            seen_items_ids.push(map_item.id());
-            if !previous_item_ids.contains(&map_item.id()) {
+            // info!("See map_item {} at {},{}", map_item.object_type(), map_item.x(), map_item.y());
+            if !map_view_guard.contains(&*map_item.clone()) {
                 let mut name = [0 as char; 24];
                 map_item.name().fill_char_array(name.as_mut());
                 let mut packet_zc_notify_standentry = PacketZcNotifyStandentry6::new();
@@ -193,14 +186,15 @@ impl Character {
             }
         }
 
-        *map_view_guard = new_map_view;
-        for id in previous_item_ids {
-            if !seen_items_ids.contains(&id) {
+        for map_item in map_view_guard.iter() {
+            if !new_map_view.contains(&*map_item.clone()) {
+                // info!("Vanish map_item {} at {},{}", map_item.object_type(), map_item.x(), map_item.y());
                 let mut packet_zc_notify_vanish = PacketZcNotifyVanish::new();
-                packet_zc_notify_vanish.set_gid(id);
+                packet_zc_notify_vanish.set_gid(map_item.id());
                 packet_zc_notify_vanish.fill_raw();
                 session.send_to_map_socket(packet_zc_notify_vanish.raw());
             }
         }
+        *map_view_guard = new_map_view;
     }
 }

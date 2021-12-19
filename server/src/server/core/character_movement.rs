@@ -114,12 +114,15 @@ pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<
 
 pub fn change_map(destination_map: String, x: u16, y: u16, session: Arc<Session>, server: Arc<Server>) {
     let packet_zc_npcack_mapmove = change_map_packet(destination_map, x, y, session.clone(), server.clone());
-
     session.send_to_map_socket(packet_zc_npcack_mapmove.raw());
-    let runtime = Runtime::new().unwrap();
-    runtime.spawn(async move {
-        save_character_position(server, session.clone()).await
-    });
+    let character_session = session.get_character();
+    character_session.clear_map_view();
+    character_session.load_units_in_fov(&session);
+    // TODO fix code below
+    // let runtime = Runtime::new().unwrap();
+    // runtime.spawn(async move {
+    //     save_character_position(server, session.clone()).await
+    // });
 }
 
 pub fn change_map_packet(destination_map: String, x: u16, y: u16, session: Arc<Session>, server: Arc<Server>) -> PacketZcNpcackMapmove {
@@ -139,7 +142,6 @@ pub fn change_map_packet(destination_map: String, x: u16, y: u16, session: Arc<S
 
     character_session.join_and_set_map(map_instance);
     server.insert_map_item(session.account_id, character_session.clone());
-    character_session.load_units_in_fov(&session);
 
     let mut packet_zc_npcack_mapmove = PacketZcNpcackMapmove::new();
 
