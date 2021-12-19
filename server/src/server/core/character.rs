@@ -105,6 +105,8 @@ impl Character {
             let map_instance_ref = current_map_guard.as_ref().unwrap();
             let x_size = map_instance_ref.x_size;
             map_instance_ref.remove_item_at(coordinate::get_cell_index_of(self.x(), self.y(), x_size));
+            let self_ref_guard = read_lock!(self.self_ref);
+            map_instance_ref.remove_character(self_ref_guard.as_ref().unwrap().clone());
         }
     }
 
@@ -113,6 +115,7 @@ impl Character {
         let pos_index = self.get_pos_index();
         let self_ref_guard = read_lock!(self.self_ref);
         map_instance.insert_item_at(pos_index, self_ref_guard.as_ref().unwrap().clone());
+        map_instance.insert_character(self_ref_guard.as_ref().unwrap().clone());
     }
 
     pub fn update_position(&self, x: u16, y: u16) {

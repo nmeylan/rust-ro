@@ -124,9 +124,10 @@ impl Mob {
             // Todo: implement server side movement, to avoid desync between client and server
             self.x.store(x, Relaxed);
             self.y.store(y, Relaxed);
-            map_guard.remove_item_at(coordinate::get_cell_index_of(current_x, current_y , map_guard.x_size));
+            map_guard.remove_item_at(coordinate::get_cell_index_of(current_x, current_y, map_guard.x_size));
             let self_ref_guard = read_lock!(self.self_ref);
-            map_guard.insert_item_at(coordinate::get_cell_index_of(x, y , map_guard.x_size), self_ref_guard.as_ref().unwrap().clone());
+            map_guard.insert_item_at(coordinate::get_cell_index_of(x, y, map_guard.x_size), self_ref_guard.as_ref().unwrap().clone());
+            drop(map_guard);
             if *is_view_char {
                 let map_view_guard = read_lock!(self.map_view);
                 let from = Position {
