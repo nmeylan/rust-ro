@@ -1,11 +1,10 @@
 use std::any::Any;
+use std::collections::HashMap;
 use std::sync::{Arc, RwLock};
 use std::sync::atomic::{AtomicU16, AtomicU64};
 use std::sync::atomic::Ordering::Relaxed;
 use rand::Rng;
 use packets::packets::PacketZcNotifyMove;
-use packets::packets::Packet;
-use crate::server::core::character::Character;
 use crate::server::core::character_movement::Position;
 use crate::server::core::map::{Map, MapItem};
 use crate::server::core::map_instance::MapInstance;
@@ -91,8 +90,9 @@ impl Mob {
         *map_view_guard = map_items;
     }
 
-    pub fn action_move(&self) {
+    pub fn action_move(&self) -> HashMap<Arc<dyn MapItem>, PacketZcNotifyMove>{
         let mut rng = rand::thread_rng();
+        let mut character_packets_map : HashMap<Arc<dyn MapItem>, PacketZcNotifyMove> = HashMap::new();
         let is_view_char = read_lock!(self.is_view_char);
         let rand = rng.gen_range(0..=100);
         let should_move = if *is_view_char {
@@ -126,18 +126,16 @@ impl Mob {
                 map_view_guard.iter()
                     .filter(|map_item| map_item.object_type() == MapItemType::Character.value())
                     .for_each(|map_item| {
-                        let character = cast!(map_item, Character);
-                        let map_socket_guard = write_lock!(character.map_server_socket);
-                        let socket_guard = map_socket_guard.as_ref().unwrap();
                         let mut packet_zc_notify_move = PacketZcNotifyMove::default();
                         packet_zc_notify_move.set_gid(self.id);
                         packet_zc_notify_move.move_data = from.to_move_data(&to);
                         let start_time = get_tick();
                         packet_zc_notify_move.set_move_start_time(start_time);
                         packet_zc_notify_move.fill_raw();
-                        socket_send!(socket_guard, packet_zc_notify_move.raw())
+                        character_packets_map.insert(map_item.clone(), packet_zc_notify_move);
                     })
             }
         }
+        return character_packets_map;
     }
 }
