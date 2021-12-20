@@ -1,6 +1,7 @@
 use std::collections::{HashMap, HashSet};
 use std::sync::{Arc, RwLock};
-use serde::de::Unexpected::Char;
+use futures::StreamExt;
+use packets::packets::PacketZcNotifyMove;
 use crate::server::core::character::Character;
 use crate::server::core::map::{Map, MapItem, WARP_MASK};
 use crate::server::core::mob::Mob;
@@ -11,6 +12,9 @@ use crate::server::npc::mob_spawn::MobSpawn;
 use crate::server::npc::warps::Warp;
 use crate::server::server::{MOB_FOV, Server};
 use crate::util::coordinate;
+use crate::util::packet::{chain_packets, chain_packets_raws};
+use packets::packets::Packet;
+use std::io::Write;
 
 pub struct MapInstance {
     pub name: String,
@@ -164,8 +168,22 @@ impl MapInstance {
 
     pub fn mobs_action(&self) {
         let mobs_guard = read_lock!(self.mobs);
+        let mut character_packets_map: HashMap<Arc<dyn MapItem>, Vec<PacketZcNotifyMove>> = HashMap::new();
         for mob in mobs_guard.values() {
-            mob.action_move()
+            let character_packets = mob.action_move();
+            character_packets.iter().for_each(|(character, packet)| {
+                if !character_packets_map.contains_key(&character.clone()) {
+                    character_packets_map.insert(character.clone(), Vec::with_capacity(500));
+                }
+                character_packets_map.get_mut(character).unwrap().push(packet.clone());
+            });
+        }
+        for (character, mut packets) in character_packets_map.iter() {
+            let character = cast!(character, Character);
+            let packets = chain_packets_raws(packets.into_iter().map(|packet| packet.raw()).collect::<Vec<&Vec<u8>>>());
+            let map_socket_guard = write_lock!(character.map_server_socket);
+            let character_socket = map_socket_guard.as_ref().unwrap();
+            socket_send!(character_socket, &packets);
         }
     }
 

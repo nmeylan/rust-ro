@@ -149,6 +149,7 @@ impl Character {
         let map_ref = current_map_guard.as_ref().unwrap().clone();
         let map_items_guard = read_lock!(map_ref.map_items);
         let map_items_clone = map_items_guard.clone();
+        drop(current_map_guard);
         drop(map_items_guard);
         for item in map_items_clone {
             if item.id() != self.id() {
