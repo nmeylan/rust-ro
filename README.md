@@ -16,9 +16,12 @@ In proxy mode:
 - login, char, map server to be running using default ports (6900, 6121, 6122)
 
 # What has been done?
-- proxy login, char and map request to hercules login, char and map servers
+## Tools
 - packet structure generator from [packet db](https://github.com/nmeylan/rust-ro/blob/master/tools/packets/packets_db)
-- packet parser
+- packet parser generator
+- map cache generator
+## Server
+- proxy login, char and map request to hercules login, char and map servers
 - packet debug
 - login
 - char server features(create char, delete char, join game)
@@ -32,10 +35,11 @@ In proxy mode:
 - map instances (map are lazily loaded, an instance is created when a player join an non initialized map)
 - mob spawn
 - atcommand: @go, @warp
+- mob move
 
 # Wip
 in random order, features are implemented based on my current mood.
-- mob move
+- script
 - player attack mob
 - mob attack player
 - equipment
