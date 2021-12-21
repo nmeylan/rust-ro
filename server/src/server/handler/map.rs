@@ -33,6 +33,8 @@ pub fn handle_char_loaded_client_side(_server: Arc<Server>, tcp_stream: Arc<RwLo
     info!("Reload char");
     let session_id = session.account_id;
 
+    let character_session = session.get_character();
+    character_session.load_units_in_fov(&session);
     let mut packet_zc_notify_mapproperty2 = PacketZcNotifyMapproperty2::new();
     let mut packet_zc_hat_effect = PacketZcHatEffect::new();
     packet_zc_notify_mapproperty2.set_atype(0x2); // TODO set this correctly see enum map_type in hercules

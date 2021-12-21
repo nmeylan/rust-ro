@@ -117,7 +117,6 @@ pub fn change_map(destination_map: String, x: u16, y: u16, session: Arc<Session>
     session.send_to_map_socket(packet_zc_npcack_mapmove.raw());
     let character_session = session.get_character();
     character_session.clear_map_view();
-    character_session.load_units_in_fov(&session);
     // TODO fix code below
     // let runtime = Runtime::new().unwrap();
     // runtime.spawn(async move {
