@@ -1,0 +1,4 @@
+function script F_TestNPCVars {
+  .x = 2;
+  return .x+1;
+}
