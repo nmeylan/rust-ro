@@ -66,8 +66,14 @@ impl Scanner {
             b'~' => self.add_token(TokenType::Tilde),
             b'?' => self.add_token(TokenType::QuestionMark),
             b'@' => self.add_token(TokenType::At),
-            b'$' => self.add_token(TokenType::Dollar),
             b'\'' => self.add_token(TokenType::Quote),
+            b'$' => {
+                if self.does_next_match(b'@') {
+                    self.add_token(TokenType::DollarAt)
+                } else {
+                    self.add_token(TokenType::Dollar)
+                }
+            },
             b'.' => {
                 if self.does_next_match(b'@') {
                     self.add_token(TokenType::DotAt)
@@ -77,14 +83,14 @@ impl Scanner {
             },
             b'-' => {
                 if self.does_next_match(b'-') {
-                    self.add_token(TokenType::DoubleMinus)
+                    self.add_token(TokenType::DecrementOp)
                 } else {
                     self.add_token(TokenType::Minus)
                 }
             },
             b'+' => {
                 if self.does_next_match(b'+') {
-                    self.add_token(TokenType::DoublePlus)
+                    self.add_token(TokenType::IncrementOp)
                 } else {
                     self.add_token(TokenType::Plus)
                 }
@@ -111,16 +117,16 @@ impl Scanner {
             },
             b'|' => {
                 if self.does_next_match(b'|') {
-                    self.add_token(TokenType::DoublePipe)
+                    self.add_token(TokenType::OrOp)
                 } else {
-                    self.add_token(TokenType::Pipe)
+                    self.add_token(TokenType::LogicalOr)
                 }
             },
             b'&' => {
                 if self.does_next_match(b'&') {
-                    self.add_token(TokenType::DoubleAmpersand)
+                    self.add_token(TokenType::AndOp)
                 } else {
-                    self.add_token(TokenType::Ampersand)
+                    self.add_token(TokenType::LogicalAnd)
                 }
             },
             b'#' => {

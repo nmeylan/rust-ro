@@ -1,0 +1,19 @@
+
+<root_expression> ::= <declaration>;
+<primary_expression> ::= "Identifier" | "Number" | "String" | "LeftParen" <any_expression> "RightParen" ;
+<postfix_expression> ::= <primary_expression> | <postfix_expression> "LeftBracket" <any_expression> "RightBracket" | <postfix_expression> "LeftParen" "RightParen" | <postfix_expression> "Dot" "Identifier" | <postfix_expression> "IncrementOp"| <postfix_expression> "DecrementOp";
+<assignment_expression> ::= <conditional_expression> | <unary_expression> <assignment_operator> <assignment_expression> ;
+<logical_or_expression> ::= <logical_and_expression> | <logical_or_expression> "OrOp" <logical_and_expression> ;
+<logical_and_expression> ::= "Equal" ;
+<conditional_expression> ::= <logical_or_expression> | <logical_or_expression> "QuestionMark" <any_expression> "Colon" <conditional_expression>;
+
+<assignment_operator> ::= "Equal" ;
+<unary_expression> ::= <postfix_expression> | "IncrementOp" <unary_expression> | "DecrementOp" <unary_expression>;
+
+<any_expression> ::= <assignment_expression> ;
+
+<declaration> ::= <declaration_specifiers> "SemiColon";
+<declaration_specifiers> ::= <variable> | <variable> "Equal" <assignment_expression>;
+<variable> ::= <scope_specifier> "Identifier" | <scope_specifier> "Identifier" "Dollar";
+<scope_specifier> ::=  "At" | "Dollar" | "DollarAt" | "Dot" | "DotAt" | "Quote" | "Sharp" | "DoubleSharp";
+<variable_name> ::= "Identifier" | "Identifier" "Dollar";
