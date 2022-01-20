@@ -28,9 +28,72 @@ impl TermType for Term {
 }
 
 pub fn generate() {
-    let output_path = Path::new("lib/script-interpreter/src/ast");
     let input = fs::read_to_string("lib/script-interpreter/src/grammar.bnf").unwrap();
     let grammar: Grammar = input.parse().unwrap();
+    ast_generate(&grammar);
+    parser_generate(&grammar);
+}
+
+/*
+* Parser generator
+ */
+pub fn parser_generate(grammar: &Grammar) {
+    let output_path = Path::new("lib/script-interpreter/src");
+    let mut parser_file = File::create(output_path.join("parser.rs")).unwrap();
+
+    write_file_header(&mut parser_file);
+    parser_file.write_all(b"use crate::token::Token;\n").unwrap();
+    parser_file.write_all(b"use crate::ast::expression::*;\n").unwrap();
+    parser_file.write_all(b"use crate::parser_state::ParserState;\n\n").unwrap();
+
+    parser_file.write_all(b"pub fn parse(tokens: &Vec<Token>) -> Box<dyn Expression> {\n").unwrap();
+    parser_file.write_all(b"    let mut parser_state = ParserState::new(tokens);\n").unwrap();
+    parser_file.write_all(b"}\n").unwrap();
+
+    parser_file.write_all(b"pub fn parse_token(parser_state: &mut ParserState, token_type: TokenType) -> bool {\n").unwrap();
+    parser_file.write_all(b"    parser_state.consume(token_type)\n").unwrap();
+    parser_file.write_all(b"}\n\n").unwrap();
+
+    for production in grammar.productions_iter() {
+        let expression_terms = expression_terms(production);
+        parser_generate_method_comment(&mut parser_file, production);
+        parser_file.write_all(format!("pub fn parse_{}(parser_state: &mut ParserState) -> bool {{\n", to_snake_case(&production.lhs.to_string())).as_bytes()).unwrap();
+        parser_file.write_all(b"    let mut result = false;\n").unwrap();
+        for (identifier, terms) in expression_terms.iter() {
+            parser_file.write_all(b"    if !result {\n").unwrap();
+            for (i, term) in terms.iter().enumerate() {
+                let mut prefix = "";
+                if i > 0 {
+                    prefix = "result && "
+                }
+                if term.1 == "Token" {
+                    parser_file.write_all(format!("        result = {}parse_token(parser_state, TokenType::{});\n", prefix, to_camel_case(&term.0)).as_bytes()).unwrap();
+                } else {
+                    parser_file.write_all(format!("        result = {}parse_{}(parser_state);\n", prefix, term.0).as_bytes()).unwrap();
+                }
+            }
+            parser_file.write_all(b"    }\n").unwrap();
+        }
+        parser_file.write_all(b"    result\n").unwrap();
+        parser_file.write_all(b"}\n").unwrap();
+    }
+
+}
+
+fn parser_generate_method_comment(parser_file: &mut File, production: &Production) {
+    parser_file.write_all(
+        format!("// {}\n",
+                production.rhs_iter().map(|expression|
+                    format!("{}", expression.terms_iter().map(|term| term.to_string()).collect::<Vec<String>>().join(" "))
+                ).collect::<Vec<String>>().join(" | "))
+            .as_bytes()).unwrap();
+}
+
+/*
+* AST generator
+*/
+pub fn ast_generate(grammar: &Grammar) {
+    let output_path = Path::new("lib/script-interpreter/src/ast");
 
     let mut mod_file = File::create(output_path.join("mod.rs")).unwrap();
     let mut visitor_file = File::create(output_path.join("visitor.rs")).unwrap();
@@ -41,18 +104,18 @@ pub fn generate() {
     mod_file.write_all(b"pub mod expression;\n").unwrap();
     mod_file.write_all(b"pub mod visitor;\n").unwrap();
     visitor_file.write_all(b"pub trait Visitor {\n").unwrap();
-    generate_expression_trait(output_path);
+    ast_generate_expression_trait(output_path);
 
     for production in grammar.productions_iter() {
         let name = production.lhs.to_string();
-        generate_expression(output_path, production);
+        ast_generate_expression(output_path, production);
         mod_file.write_all(format!("pub mod {};\n", to_snake_case(&name)).as_bytes());
         visitor_file.write_all(format!("  fn visit_{}(&self, expression: &dyn crate::ast::expression::Expression);\n", to_snake_case(&name)).as_bytes()).unwrap();
     }
     visitor_file.write_all(b"}\n");
 }
 
-fn generate_expression_trait(output_path: &Path) {
+fn ast_generate_expression_trait(output_path: &Path) {
     let mut file = File::create(output_path.join("expression.rs")).unwrap();
     write_file_header(&mut file);
     file.write_all(b"pub trait Expression {\n").unwrap();
@@ -60,19 +123,18 @@ fn generate_expression_trait(output_path: &Path) {
     file.write_all(b"}\n").unwrap();
 }
 
-
-fn generate_expression(output_path: &Path, production: &Production) {
+fn ast_generate_expression(output_path: &Path, production: &Production) {
     let name = production.lhs.to_string();
     let file_name = format!("{}.rs", to_snake_case(&name));
     let mut file = File::create(output_path.join(file_name)).unwrap();
     write_file_header(&mut file);
     let expression_terms = expression_terms(production);
-    generate_expression_enum_def(&mut file, production, &expression_terms);
-    generate_expression_enum_impl(&mut file, production, &expression_terms);
-    generate_expression_trait_impl(&mut file, production);
+    ast_generate_expression_enum_def(&mut file, production, &expression_terms);
+    ast_generate_expression_enum_impl(&mut file, production, &expression_terms);
+    ast_generate_expression_trait_impl(&mut file, production);
 }
 
-fn generate_expression_enum_def(file: &mut File, production: &Production, expression_terms: &Vec<(String, Vec<(String, String)>)>) {
+fn ast_generate_expression_enum_def(file: &mut File, production: &Production, expression_terms: &Vec<(String, Vec<(String, String)>)>) {
     let name = production.lhs.to_string();
     file.write_all(format!("pub enum {} {{\n", to_camel_case(&name)).as_bytes()).unwrap();
     for entry in expression_terms.iter() {
@@ -89,12 +151,11 @@ fn generate_expression_enum_def(file: &mut File, production: &Production, expres
             file.write_all(format!("    {}({}),\n", term_name, type_name(term_type)).as_bytes()).unwrap();
         }
     }
-    println!("{:?}", expression_terms);
     file.write_all(format!("    \n").as_bytes()).unwrap();
     file.write_all(b"}\n\n").unwrap();
 }
 
-fn generate_expression_enum_impl(file: &mut File, production: &Production, expression_terms: &Vec<(String, Vec<(String, String)>)>) {
+fn ast_generate_expression_enum_impl(file: &mut File, production: &Production, expression_terms: &Vec<(String, Vec<(String, String)>)>) {
     let name = production.lhs.to_string();
     file.write_all(format!("impl {} {{\n", to_camel_case(&name)).as_bytes()).unwrap();
     for entry in expression_terms.iter() {
@@ -115,7 +176,7 @@ fn generate_expression_enum_impl(file: &mut File, production: &Production, expre
     file.write_all(b"}\n\n").unwrap();
 }
 
-fn generate_expression_trait_impl(file: &mut File, production: &Production) {
+fn ast_generate_expression_trait_impl(file: &mut File, production: &Production) {
     let name = production.lhs.to_string();
     file.write_all(format!("impl crate::ast::expression::Expression for {} {{\n", to_camel_case(&name)).as_bytes()).unwrap();
     file.write_all(b"    fn accept(&self, visitor: Box<dyn crate::ast::visitor::Visitor>) {\n").unwrap();
@@ -123,6 +184,10 @@ fn generate_expression_trait_impl(file: &mut File, production: &Production) {
     file.write_all(b"    }\n\n").unwrap();
     file.write_all(b"}\n\n").unwrap();
 }
+
+/*
+* Common
+ */
 
 fn module_name(term_type: &String) -> String {
     let mut module: String;
@@ -171,7 +236,7 @@ fn expression_terms(production: &Production) -> Vec<(String, Vec<(String, String
 }
 
 fn write_file_header(file: &mut File) {
-    file.write_all(b"// Generated by lib/script-interpreter/ast_generator.rs\n").unwrap();
+    file.write_all(b"// Generated by lib/script-interpreter/generator\n").unwrap();
     file.write_all(b"// Auto generated file do not edit manually\n\n").unwrap();
 }
 
