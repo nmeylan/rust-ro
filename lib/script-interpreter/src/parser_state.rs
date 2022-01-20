@@ -1,26 +1,40 @@
+use std::cell::{Ref, RefCell};
+use std::ops::Deref;
+use std::sync::Arc;
+use crate::ast::expression::Expression;
+use crate::ast_node::AstNode;
 use crate::token::{Token, TokenType};
 
 pub struct ParserState {
     tokens: &'static Vec<Token>,
-    current: usize
+    root_node: Option<AstNode>,
+    current_node: Option<Arc<RefCell<AstNode>>>,
+    current: usize,
 }
 
 impl ParserState {
-    pub fn token_match(&mut self, token_types: Vec::<TokenType>) -> bool {
-        for token_type in token_types {
-            if self.check(token_type) {
-                self.advance();
-                return true;
-            }
+    pub fn new(tokens: &'static Vec<Token>) -> Self {
+        ParserState {
+            tokens,
+            root_node: None,
+            current_node: None,
+            current: 0
         }
-        return false;
     }
 
-    pub fn consume(&mut self, token_type: TokenType, message: String) -> Result<&Token, String> {
-        if self.check(token_type) {
-            return Ok(self.advance());
+    pub fn set_root_node(&mut self, expression: Box<dyn Expression>) {
+        self.root_node = Some(AstNode::new_expression(expression));
+    }
+
+    pub fn consume(&mut self, token_type: TokenType) -> bool {
+        let current_node_arc = self.current_node.as_ref().unwrap().clone();
+        if self.check(token_type.clone()) {
+            let mut current_node_mut_ref = current_node_arc.borrow_mut();
+            current_node_mut_ref.append_child(Box::new(RefCell::new(AstNode::new_token( self.advance().clone()))));
+            return true
         }
-        Err(message)
+        println!("Expected {:?} after {}", token_type, current_node_arc.borrow());
+        return false;
     }
 
     pub fn check(&self, token_type: TokenType) -> bool {
