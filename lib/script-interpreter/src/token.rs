@@ -53,7 +53,6 @@ pub enum TokenType {
     String(String),
     Number(i32),
     Label(String),
-    Toto{a: u32},
     // Keywords
     If,
     Else,
