@@ -1,43 +1,34 @@
+use std::any::Any;
 use std::cell::RefCell;
 use std::fmt::{Display, Formatter};
+use std::sync::Arc;
+use crate::ast::any_expression::AnyExpression;
 use crate::ast::expression::Expression;
-use crate::token::Token;
 
-pub struct AstNode {
-    expression: Option<Box<dyn Expression>>,
-    token: Option<Token>,
-    is_terminal: bool,
-    children: Vec<Box<RefCell<AstNode>>>
+pub struct AstNode<T: ?Sized + Expression> {
+    expression: Box<T>,
+    children: Vec<Arc<RefCell<AstNode<dyn Expression>>>>
 }
 
-impl AstNode {
-    pub fn new_expression(expression: Box<dyn Expression>) -> Self {
+impl <T: Expression> AstNode<T> {
+    pub fn new(expression: Box<T>) -> Self {
         AstNode {
-            expression: Some(expression),
-            token: None,
-            is_terminal: false,
+            expression,
             children: Vec::with_capacity(50)
         }
     }
-    pub fn new_token(token: Token) -> Self {
-        AstNode {
-            expression: None,
-            token: Some(token),
-            is_terminal: true,
-            children: vec![]
-        }
+
+    pub fn append_child(&mut self, child: AstNode<AnyExpression>) {
+        self.children.push(Arc::new(RefCell::new(child)));
     }
 
-    pub fn append_child(&mut self, child: Box<RefCell<AstNode>>) {
-        self.children.push(child);
+    pub fn expression(&self) -> Box<T> where T: Clone {
+        self.expression.clone()
     }
 }
 
-impl Display for AstNode {
+impl <T: Expression> Display for AstNode<T> {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        if self.is_terminal {
-            return write!(f, "{}", self.token.as_ref().unwrap());
-        }
         return write!(f, "")
     }
 }

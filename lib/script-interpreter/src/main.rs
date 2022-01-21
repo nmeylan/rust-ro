@@ -9,6 +9,7 @@ mod generator;
 mod ast;
 mod parser_state;
 pub mod ast_node;
+mod parser;
 
 fn main() {
     let code = r#"
