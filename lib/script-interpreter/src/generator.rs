@@ -42,39 +42,69 @@ pub fn parser_generate(grammar: &Grammar) {
     let mut parser_file = File::create(output_path.join("parser.rs")).unwrap();
 
     write_file_header(&mut parser_file);
-    parser_file.write_all(b"use crate::token::Token;\n").unwrap();
-    parser_file.write_all(b"use crate::ast::expression::*;\n").unwrap();
+    parser_file.write_all(b"use crate::token::*;\n").unwrap();
+    parser_file.write_all(b"use crate::ast_node::AstNode;\n").unwrap();
     parser_file.write_all(b"use crate::parser_state::ParserState;\n\n").unwrap();
+    parser_file.write_all(b"use crate::ast::expression::*;\n\n").unwrap();
+    for production in grammar.productions_iter() {
+        let name = production.lhs.to_string();
+        parser_file.write_all(format!("use crate::ast::{}::*;\n", to_snake_case(&name)).as_bytes());
+    }
+    parser_file.write_all(b"\n").unwrap();
 
-    parser_file.write_all(b"pub fn parse(tokens: &Vec<Token>) -> Box<dyn Expression> {\n").unwrap();
+    parser_file.write_all(b"pub fn parse(tokens: &'static Vec<Token>) {\n").unwrap();
     parser_file.write_all(b"    let mut parser_state = ParserState::new(tokens);\n").unwrap();
     parser_file.write_all(b"}\n").unwrap();
 
-    parser_file.write_all(b"pub fn parse_token(parser_state: &mut ParserState, token_type: TokenType) -> bool {\n").unwrap();
+    parser_file.write_all(b"pub fn parse_token(parser_state: &mut ParserState, token_type: TokenType) -> Result<Token, String> {\n").unwrap();
     parser_file.write_all(b"    parser_state.consume(token_type)\n").unwrap();
     parser_file.write_all(b"}\n\n").unwrap();
 
     for production in grammar.productions_iter() {
         let expression_terms = expression_terms(production);
         parser_generate_method_comment(&mut parser_file, production);
-        parser_file.write_all(format!("pub fn parse_{}(parser_state: &mut ParserState) -> bool {{\n", to_snake_case(&production.lhs.to_string())).as_bytes()).unwrap();
-        parser_file.write_all(b"    let mut result = false;\n").unwrap();
+        parser_file.write_all(format!("pub fn parse_{}(parser_state: &mut ParserState) -> Result<AstNode<{}>, String> {{\n", to_snake_case(&production.lhs.to_string()), to_camel_case(&production.lhs.to_string())).as_bytes()).unwrap();
+        parser_file.write_all(format!("    let mut result: Result<AstNode<{}>, String>;\n", to_camel_case(&production.lhs.to_string())).as_bytes()).unwrap();
+        parser_file.write_all(b"    result = Err(\"Haven't match (todo)\".to_string());\n");
         for (identifier, terms) in expression_terms.iter() {
-            parser_file.write_all(b"    if !result {\n").unwrap();
+            println!("{} {:?}", identifier, terms);
+            parser_file.write_all(b"    if result.is_err() {\n").unwrap();
+            parser_file.write_all(b"        result = (|| {\n").unwrap();
             for (i, term) in terms.iter().enumerate() {
-                let mut prefix = "";
-                if i > 0 {
-                    prefix = "result && "
-                }
                 if term.1 == "Token" {
-                    parser_file.write_all(format!("        result = {}parse_token(parser_state, TokenType::{});\n", prefix, to_camel_case(&term.0)).as_bytes()).unwrap();
+                    let mut token_enum_value = "";
+                    if match term.0.as_str() {
+                        "string" | "number" | "identifier" => true,
+                        _ => false
+                    } {
+                        token_enum_value = "(Default::default())";
+                    }
+                    parser_file.write_all(format!("        let token_parse_{}_result = parse_token(parser_state, TokenType::{}{});\n", i, to_camel_case(&term.0), token_enum_value).as_bytes()).unwrap();
+                    parser_file.write_all(format!("        let token_parse_{} = token_parse_{}_result?;\n", i, i).as_bytes()).unwrap();
                 } else {
-                    parser_file.write_all(format!("        result = {}parse_{}(parser_state);\n", prefix, term.0).as_bytes()).unwrap();
+                    parser_file.write_all(format!("        let children_node_{}_result = parse_{}(parser_state);\n", i, term.0).as_bytes()).unwrap();
+                    parser_file.write_all(format!("        let children_node_{} = children_node_{}_result?;\n", i, i).as_bytes()).unwrap();
                 }
+                parser_file.write_all(b"\n").unwrap();
             }
+            let expression_builder_args = terms.iter().enumerate().map(|(i, term)| {
+                if term.1 == "Token" {
+                    format!("token_parse_{}", i)
+                } else {
+                    format!("Box::new(*children_node_{}.expression().clone())", i)
+                }
+            }).collect::<Vec<String>>().join(", ");
+            parser_file.write_all(format!("        let expression = {}::build_from_{}({});\n", to_camel_case(&production.lhs.to_string()), to_rust_field_name(identifier), expression_builder_args).as_bytes()).unwrap();
+            parser_file.write_all(b"        let mut ast_node = AstNode::new(Box::new(expression));\n").unwrap();
+            terms.iter().enumerate().for_each(|(i, term)| {
+                if term.1 != "Token" {
+                    parser_file.write_all(format!("        ast_node.append_child(children_node_{})", i).as_bytes()).unwrap();
+                }
+            });
+            parser_file.write_all(b"        })();\n").unwrap();
             parser_file.write_all(b"    }\n").unwrap();
         }
-        parser_file.write_all(b"    result\n").unwrap();
+        parser_file.write_all(b"    Err(\"Haven't match (todo)\".to_string())\n").unwrap();
         parser_file.write_all(b"}\n").unwrap();
     }
 
@@ -136,6 +166,7 @@ fn ast_generate_expression(output_path: &Path, production: &Production) {
 
 fn ast_generate_expression_enum_def(file: &mut File, production: &Production, expression_terms: &Vec<(String, Vec<(String, String)>)>) {
     let name = production.lhs.to_string();
+    file.write_all(b"#[derive(Clone)]\n").unwrap();
     file.write_all(format!("pub enum {} {{\n", to_camel_case(&name)).as_bytes()).unwrap();
     for entry in expression_terms.iter() {
         let term_name = &entry.0;
