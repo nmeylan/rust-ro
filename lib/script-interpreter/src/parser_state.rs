@@ -1,27 +1,32 @@
-use std::cell::{RefCell};
 use std::sync::Arc;
 use crate::ast::expression::Expression;
 use crate::ast::root_expression::RootExpression;
-use crate::ast_node::AstNode;
+use crate::ast_node::{AstNode, Tree};
 use crate::token::{Token, TokenType};
 
 pub struct ParserState {
-    tokens: &'static Vec<Token>,
+    tokens: Arc<Vec<Token>>,
     root_node: Option<AstNode<RootExpression>>,
-    current: usize,
+    current_token: usize,
+    tree: Tree
 }
 
 impl ParserState {
-    pub fn new(tokens: &'static Vec<Token>) -> Self {
+    pub fn new(tokens: Arc<Vec<Token>>) -> Self {
         ParserState {
             tokens,
             root_node: None,
-            current: 0
+            current_token: 0,
+            tree: Tree::new(500)
         }
     }
 
-    pub fn set_root_node(&mut self, expression: Box<RootExpression>) {
-        self.root_node = Some(AstNode::new(expression));
+    pub fn add_node<T: 'static + Expression>(&mut self, expression: T, parent_id: usize) -> usize {
+        self.tree.new_node::<T>(expression, parent_id)
+    }
+
+    pub fn add_root_node(&mut self, expression: RootExpression) -> usize {
+        self.tree.new_root_node(expression)
     }
 
     pub fn consume(&mut self, token_type: TokenType) -> Result<Token, String> {
@@ -44,16 +49,16 @@ impl ParserState {
 
     pub fn advance(&mut self) -> &Token {
         if !self.is_at_end() {
-            self.current += 1
+            self.current_token += 1
         }
         self.previous()
     }
 
     pub fn peek(&self) -> &Token {
-        self.tokens.get(self.current).unwrap()
+        self.tokens.get(self.current_token).unwrap()
     }
 
     pub fn previous(&self) -> &Token {
-        self.tokens.get(self.current - 1).unwrap()
+        self.tokens.get(self.current_token - 1).unwrap()
     }
 }

@@ -3,17 +3,17 @@
 
 #[derive(Clone)]
 pub enum ConditionalExpression {
+    ConditionalExpression0{ logical_or_expression: Box<crate::ast::logical_or_expression::LogicalOrExpression>, question_mark: crate::token::Token, any_expression: Box<crate::ast::any_expression::AnyExpression>, colon: crate::token::Token, conditional_expression: Box<crate::ast::conditional_expression::ConditionalExpression> },
     LogicalOrExpression(Box<crate::ast::logical_or_expression::LogicalOrExpression>),
-    ConditionalExpression1{ logical_or_expression: Box<crate::ast::logical_or_expression::LogicalOrExpression>, question_mark: crate::token::Token, any_expression: Box<crate::ast::any_expression::AnyExpression>, colon: crate::token::Token, conditional_expression: Box<crate::ast::conditional_expression::ConditionalExpression> },
     
 }
 
 impl ConditionalExpression {
+    pub fn build_from_conditional_expression0(logical_or_expression: Box<crate::ast::logical_or_expression::LogicalOrExpression>, question_mark: crate::token::Token, any_expression: Box<crate::ast::any_expression::AnyExpression>, colon: crate::token::Token, conditional_expression: Box<crate::ast::conditional_expression::ConditionalExpression>) -> Self {
+        ConditionalExpression::ConditionalExpression0{ logical_or_expression, question_mark, any_expression, colon, conditional_expression }
+    }
     pub fn build_from_logical_or_expression(logical_or_expression: Box<crate::ast::logical_or_expression::LogicalOrExpression>) -> Self {
         ConditionalExpression::LogicalOrExpression(logical_or_expression)
-    }
-    pub fn build_from_conditional_expression1(logical_or_expression: Box<crate::ast::logical_or_expression::LogicalOrExpression>, question_mark: crate::token::Token, any_expression: Box<crate::ast::any_expression::AnyExpression>, colon: crate::token::Token, conditional_expression: Box<crate::ast::conditional_expression::ConditionalExpression>) -> Self {
-        ConditionalExpression::ConditionalExpression1{ logical_or_expression, question_mark, any_expression, colon, conditional_expression }
     }
 }
 
