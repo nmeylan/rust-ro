@@ -1,4 +1,5 @@
 use std::sync::Arc;
+
 use crate::ast::expression::Expression;
 use crate::ast::root_expression::RootExpression;
 use crate::ast_node::{AstNode, Tree};
@@ -7,7 +8,7 @@ use crate::token::{Token, TokenType};
 pub struct ParserState {
     tokens: Arc<Vec<Token>>,
     root_node: Option<AstNode<RootExpression>>,
-    current_token: usize,
+    pub current_token: usize,
     tree: Tree
 }
 
@@ -40,16 +41,21 @@ impl ParserState {
         if self.is_at_end() {
             return false;
         }
-        std::mem::discriminant(&self.peek().token_type) ==  std::mem::discriminant(&token_type)
+        std::mem::discriminant(&self.peek().token_type) == std::mem::discriminant(&token_type)
+    }
+
+    pub fn set_current_token(&mut self, offset: usize) {
+        self.current_token = offset;
     }
 
     pub fn is_at_end(&self) -> bool {
-        self.peek().token_type == TokenType::Eof
+        self.tokens.get(self.current_token).is_none()
+        || self.peek().token_type == TokenType::Eof
     }
 
     pub fn advance(&mut self) -> &Token {
         if !self.is_at_end() {
-            self.current_token += 1
+            self.current_token += 1;
         }
         self.previous()
     }

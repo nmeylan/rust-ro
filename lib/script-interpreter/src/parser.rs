@@ -11,6 +11,7 @@ use crate::ast::expression::*;
 use crate::ast::root_expression::*;
 use crate::ast::primary_expression::*;
 use crate::ast::postfix_expression::*;
+use crate::ast::assignment_expression_todo::*;
 use crate::ast::assignment_expression::*;
 use crate::ast::logical_or_expression::*;
 use crate::ast::logical_and_expression::*;
@@ -26,6 +27,9 @@ use crate::ast::variable_name::*;
 
 pub fn parse(tokens: Arc<Vec<Token>>) {
     let mut parser_state = ParserState::new(tokens);
+    while !parser_state.is_at_end(){
+        parse_root_expression(&mut parser_state);
+    }
 }
 pub fn parse_token(parser_state: &mut ParserState, token_type: TokenType) -> Result<Token, String> {
     parser_state.consume(token_type)
@@ -35,14 +39,20 @@ pub fn parse_token(parser_state: &mut ParserState, token_type: TokenType) -> Res
 pub fn parse_root_expression(parser_state: &mut ParserState) -> Result<RootExpression, String> {
     let mut result: Result<RootExpression, String>;
     result = Err("Haven't match (todo)".to_string());
+    let beginning_parser_token = parser_state.current_token;
     if result.is_err() {
+        parser_state.set_current_token(beginning_parser_token);
         result = (|| {
         let children_node_0_result = parse_declaration(parser_state);
         let children_node_0 = children_node_0_result?;
 
         let expression = RootExpression::build_from_declaration(Box::new(children_node_0.clone()));
+        println!("{:?}", expression);
         return Ok(expression)
         })();
+    }
+    if result.is_ok() {
+        return result;
     }
     Err("Haven't match (todo)".to_string())
 }
@@ -50,34 +60,42 @@ pub fn parse_root_expression(parser_state: &mut ParserState) -> Result<RootExpre
 pub fn parse_primary_expression(parser_state: &mut ParserState) -> Result<PrimaryExpression, String> {
     let mut result: Result<PrimaryExpression, String>;
     result = Err("Haven't match (todo)".to_string());
+    let beginning_parser_token = parser_state.current_token;
     if result.is_err() {
+        parser_state.set_current_token(beginning_parser_token);
         result = (|| {
         let token_parse_0_result = parse_token(parser_state, TokenType::Identifier(Default::default()));
         let token_parse_0 = token_parse_0_result?;
 
         let expression = PrimaryExpression::build_from_identifier(token_parse_0);
+        println!("{:?}", expression);
         return Ok(expression)
         })();
     }
     if result.is_err() {
+        parser_state.set_current_token(beginning_parser_token);
         result = (|| {
         let token_parse_0_result = parse_token(parser_state, TokenType::Number(Default::default()));
         let token_parse_0 = token_parse_0_result?;
 
         let expression = PrimaryExpression::build_from_number(token_parse_0);
+        println!("{:?}", expression);
         return Ok(expression)
         })();
     }
     if result.is_err() {
+        parser_state.set_current_token(beginning_parser_token);
         result = (|| {
         let token_parse_0_result = parse_token(parser_state, TokenType::String(Default::default()));
         let token_parse_0 = token_parse_0_result?;
 
         let expression = PrimaryExpression::build_from_string(token_parse_0);
+        println!("{:?}", expression);
         return Ok(expression)
         })();
     }
     if result.is_err() {
+        parser_state.set_current_token(beginning_parser_token);
         result = (|| {
         let token_parse_0_result = parse_token(parser_state, TokenType::LeftParen);
         let token_parse_0 = token_parse_0_result?;
@@ -89,8 +107,12 @@ pub fn parse_primary_expression(parser_state: &mut ParserState) -> Result<Primar
         let token_parse_2 = token_parse_2_result?;
 
         let expression = PrimaryExpression::build_from_primary_expression3(token_parse_0, Box::new(children_node_1.clone()), token_parse_2);
+        println!("{:?}", expression);
         return Ok(expression)
         })();
+    }
+    if result.is_ok() {
+        return result;
     }
     Err("Haven't match (todo)".to_string())
 }
@@ -98,16 +120,20 @@ pub fn parse_primary_expression(parser_state: &mut ParserState) -> Result<Primar
 pub fn parse_postfix_expression(parser_state: &mut ParserState) -> Result<PostfixExpression, String> {
     let mut result: Result<PostfixExpression, String>;
     result = Err("Haven't match (todo)".to_string());
+    let beginning_parser_token = parser_state.current_token;
     if result.is_err() {
+        parser_state.set_current_token(beginning_parser_token);
         result = (|| {
         let children_node_0_result = parse_primary_expression(parser_state);
         let children_node_0 = children_node_0_result?;
 
         let expression = PostfixExpression::build_from_primary_expression(Box::new(children_node_0.clone()));
+        println!("{:?}", expression);
         return Ok(expression)
         })();
     }
     if result.is_err() {
+        parser_state.set_current_token(beginning_parser_token);
         result = (|| {
         let children_node_0_result = parse_postfix_expression(parser_state);
         let children_node_0 = children_node_0_result?;
@@ -122,10 +148,12 @@ pub fn parse_postfix_expression(parser_state: &mut ParserState) -> Result<Postfi
         let token_parse_3 = token_parse_3_result?;
 
         let expression = PostfixExpression::build_from_postfix_expression1(Box::new(children_node_0.clone()), token_parse_1, Box::new(children_node_2.clone()), token_parse_3);
+        println!("{:?}", expression);
         return Ok(expression)
         })();
     }
     if result.is_err() {
+        parser_state.set_current_token(beginning_parser_token);
         result = (|| {
         let children_node_0_result = parse_postfix_expression(parser_state);
         let children_node_0 = children_node_0_result?;
@@ -137,10 +165,12 @@ pub fn parse_postfix_expression(parser_state: &mut ParserState) -> Result<Postfi
         let token_parse_2 = token_parse_2_result?;
 
         let expression = PostfixExpression::build_from_postfix_expression2(Box::new(children_node_0.clone()), token_parse_1, token_parse_2);
+        println!("{:?}", expression);
         return Ok(expression)
         })();
     }
     if result.is_err() {
+        parser_state.set_current_token(beginning_parser_token);
         result = (|| {
         let children_node_0_result = parse_postfix_expression(parser_state);
         let children_node_0 = children_node_0_result?;
@@ -152,10 +182,12 @@ pub fn parse_postfix_expression(parser_state: &mut ParserState) -> Result<Postfi
         let token_parse_2 = token_parse_2_result?;
 
         let expression = PostfixExpression::build_from_postfix_expression3(Box::new(children_node_0.clone()), token_parse_1, token_parse_2);
+        println!("{:?}", expression);
         return Ok(expression)
         })();
     }
     if result.is_err() {
+        parser_state.set_current_token(beginning_parser_token);
         result = (|| {
         let children_node_0_result = parse_postfix_expression(parser_state);
         let children_node_0 = children_node_0_result?;
@@ -164,10 +196,12 @@ pub fn parse_postfix_expression(parser_state: &mut ParserState) -> Result<Postfi
         let token_parse_1 = token_parse_1_result?;
 
         let expression = PostfixExpression::build_from_postfix_expression4(Box::new(children_node_0.clone()), token_parse_1);
+        println!("{:?}", expression);
         return Ok(expression)
         })();
     }
     if result.is_err() {
+        parser_state.set_current_token(beginning_parser_token);
         result = (|| {
         let children_node_0_result = parse_postfix_expression(parser_state);
         let children_node_0 = children_node_0_result?;
@@ -176,25 +210,33 @@ pub fn parse_postfix_expression(parser_state: &mut ParserState) -> Result<Postfi
         let token_parse_1 = token_parse_1_result?;
 
         let expression = PostfixExpression::build_from_postfix_expression5(Box::new(children_node_0.clone()), token_parse_1);
+        println!("{:?}", expression);
         return Ok(expression)
         })();
+    }
+    if result.is_ok() {
+        return result;
     }
     Err("Haven't match (todo)".to_string())
 }
 // <conditional_expression> | <unary_expression> <assignment_operator> <assignment_expression> | <unary_expression>
-pub fn parse_assignment_expression(parser_state: &mut ParserState) -> Result<AssignmentExpression, String> {
-    let mut result: Result<AssignmentExpression, String>;
+pub fn parse_assignment_expression_todo(parser_state: &mut ParserState) -> Result<AssignmentExpressionTodo, String> {
+    let mut result: Result<AssignmentExpressionTodo, String>;
     result = Err("Haven't match (todo)".to_string());
+    let beginning_parser_token = parser_state.current_token;
     if result.is_err() {
+        parser_state.set_current_token(beginning_parser_token);
         result = (|| {
         let children_node_0_result = parse_conditional_expression(parser_state);
         let children_node_0 = children_node_0_result?;
 
-        let expression = AssignmentExpression::build_from_conditional_expression(Box::new(children_node_0.clone()));
+        let expression = AssignmentExpressionTodo::build_from_conditional_expression(Box::new(children_node_0.clone()));
+        println!("{:?}", expression);
         return Ok(expression)
         })();
     }
     if result.is_err() {
+        parser_state.set_current_token(beginning_parser_token);
         result = (|| {
         let children_node_0_result = parse_unary_expression(parser_state);
         let children_node_0 = children_node_0_result?;
@@ -205,18 +247,62 @@ pub fn parse_assignment_expression(parser_state: &mut ParserState) -> Result<Ass
         let children_node_2_result = parse_assignment_expression(parser_state);
         let children_node_2 = children_node_2_result?;
 
-        let expression = AssignmentExpression::build_from_assignment_expression1(Box::new(children_node_0.clone()), Box::new(children_node_1.clone()), Box::new(children_node_2.clone()));
+        let expression = AssignmentExpressionTodo::build_from_assignment_expression_todo1(Box::new(children_node_0.clone()), Box::new(children_node_1.clone()), Box::new(children_node_2.clone()));
+        println!("{:?}", expression);
         return Ok(expression)
         })();
     }
     if result.is_err() {
+        parser_state.set_current_token(beginning_parser_token);
+        result = (|| {
+        let children_node_0_result = parse_unary_expression(parser_state);
+        let children_node_0 = children_node_0_result?;
+
+        let expression = AssignmentExpressionTodo::build_from_unary_expression(Box::new(children_node_0.clone()));
+        println!("{:?}", expression);
+        return Ok(expression)
+        })();
+    }
+    if result.is_ok() {
+        return result;
+    }
+    Err("Haven't match (todo)".to_string())
+}
+// <unary_expression> <assignment_operator> <assignment_expression> | <unary_expression>
+pub fn parse_assignment_expression(parser_state: &mut ParserState) -> Result<AssignmentExpression, String> {
+    let mut result: Result<AssignmentExpression, String>;
+    result = Err("Haven't match (todo)".to_string());
+    let beginning_parser_token = parser_state.current_token;
+    if result.is_err() {
+        parser_state.set_current_token(beginning_parser_token);
+        result = (|| {
+        let children_node_0_result = parse_unary_expression(parser_state);
+        let children_node_0 = children_node_0_result?;
+
+        let children_node_1_result = parse_assignment_operator(parser_state);
+        let children_node_1 = children_node_1_result?;
+
+        let children_node_2_result = parse_assignment_expression(parser_state);
+        let children_node_2 = children_node_2_result?;
+
+        let expression = AssignmentExpression::build_from_assignment_expression0(Box::new(children_node_0.clone()), Box::new(children_node_1.clone()), Box::new(children_node_2.clone()));
+        println!("{:?}", expression);
+        return Ok(expression)
+        })();
+    }
+    if result.is_err() {
+        parser_state.set_current_token(beginning_parser_token);
         result = (|| {
         let children_node_0_result = parse_unary_expression(parser_state);
         let children_node_0 = children_node_0_result?;
 
         let expression = AssignmentExpression::build_from_unary_expression(Box::new(children_node_0.clone()));
+        println!("{:?}", expression);
         return Ok(expression)
         })();
+    }
+    if result.is_ok() {
+        return result;
     }
     Err("Haven't match (todo)".to_string())
 }
@@ -224,16 +310,20 @@ pub fn parse_assignment_expression(parser_state: &mut ParserState) -> Result<Ass
 pub fn parse_logical_or_expression(parser_state: &mut ParserState) -> Result<LogicalOrExpression, String> {
     let mut result: Result<LogicalOrExpression, String>;
     result = Err("Haven't match (todo)".to_string());
+    let beginning_parser_token = parser_state.current_token;
     if result.is_err() {
+        parser_state.set_current_token(beginning_parser_token);
         result = (|| {
         let children_node_0_result = parse_logical_and_expression(parser_state);
         let children_node_0 = children_node_0_result?;
 
         let expression = LogicalOrExpression::build_from_logical_and_expression(Box::new(children_node_0.clone()));
+        println!("{:?}", expression);
         return Ok(expression)
         })();
     }
     if result.is_err() {
+        parser_state.set_current_token(beginning_parser_token);
         result = (|| {
         let children_node_0_result = parse_logical_or_expression(parser_state);
         let children_node_0 = children_node_0_result?;
@@ -245,8 +335,12 @@ pub fn parse_logical_or_expression(parser_state: &mut ParserState) -> Result<Log
         let children_node_2 = children_node_2_result?;
 
         let expression = LogicalOrExpression::build_from_logical_or_expression1(Box::new(children_node_0.clone()), token_parse_1, Box::new(children_node_2.clone()));
+        println!("{:?}", expression);
         return Ok(expression)
         })();
+    }
+    if result.is_ok() {
+        return result;
     }
     Err("Haven't match (todo)".to_string())
 }
@@ -254,14 +348,20 @@ pub fn parse_logical_or_expression(parser_state: &mut ParserState) -> Result<Log
 pub fn parse_logical_and_expression(parser_state: &mut ParserState) -> Result<LogicalAndExpression, String> {
     let mut result: Result<LogicalAndExpression, String>;
     result = Err("Haven't match (todo)".to_string());
+    let beginning_parser_token = parser_state.current_token;
     if result.is_err() {
+        parser_state.set_current_token(beginning_parser_token);
         result = (|| {
         let token_parse_0_result = parse_token(parser_state, TokenType::Equal);
         let token_parse_0 = token_parse_0_result?;
 
         let expression = LogicalAndExpression::build_from_equal(token_parse_0);
+        println!("{:?}", expression);
         return Ok(expression)
         })();
+    }
+    if result.is_ok() {
+        return result;
     }
     Err("Haven't match (todo)".to_string())
 }
@@ -269,7 +369,9 @@ pub fn parse_logical_and_expression(parser_state: &mut ParserState) -> Result<Lo
 pub fn parse_conditional_expression(parser_state: &mut ParserState) -> Result<ConditionalExpression, String> {
     let mut result: Result<ConditionalExpression, String>;
     result = Err("Haven't match (todo)".to_string());
+    let beginning_parser_token = parser_state.current_token;
     if result.is_err() {
+        parser_state.set_current_token(beginning_parser_token);
         result = (|| {
         let children_node_0_result = parse_logical_or_expression(parser_state);
         let children_node_0 = children_node_0_result?;
@@ -287,17 +389,23 @@ pub fn parse_conditional_expression(parser_state: &mut ParserState) -> Result<Co
         let children_node_4 = children_node_4_result?;
 
         let expression = ConditionalExpression::build_from_conditional_expression0(Box::new(children_node_0.clone()), token_parse_1, Box::new(children_node_2.clone()), token_parse_3, Box::new(children_node_4.clone()));
+        println!("{:?}", expression);
         return Ok(expression)
         })();
     }
     if result.is_err() {
+        parser_state.set_current_token(beginning_parser_token);
         result = (|| {
         let children_node_0_result = parse_logical_or_expression(parser_state);
         let children_node_0 = children_node_0_result?;
 
         let expression = ConditionalExpression::build_from_logical_or_expression(Box::new(children_node_0.clone()));
+        println!("{:?}", expression);
         return Ok(expression)
         })();
+    }
+    if result.is_ok() {
+        return result;
     }
     Err("Haven't match (todo)".to_string())
 }
@@ -305,14 +413,20 @@ pub fn parse_conditional_expression(parser_state: &mut ParserState) -> Result<Co
 pub fn parse_assignment_operator(parser_state: &mut ParserState) -> Result<AssignmentOperator, String> {
     let mut result: Result<AssignmentOperator, String>;
     result = Err("Haven't match (todo)".to_string());
+    let beginning_parser_token = parser_state.current_token;
     if result.is_err() {
+        parser_state.set_current_token(beginning_parser_token);
         result = (|| {
         let token_parse_0_result = parse_token(parser_state, TokenType::Equal);
         let token_parse_0 = token_parse_0_result?;
 
         let expression = AssignmentOperator::build_from_equal(token_parse_0);
+        println!("{:?}", expression);
         return Ok(expression)
         })();
+    }
+    if result.is_ok() {
+        return result;
     }
     Err("Haven't match (todo)".to_string())
 }
@@ -320,16 +434,20 @@ pub fn parse_assignment_operator(parser_state: &mut ParserState) -> Result<Assig
 pub fn parse_unary_expression(parser_state: &mut ParserState) -> Result<UnaryExpression, String> {
     let mut result: Result<UnaryExpression, String>;
     result = Err("Haven't match (todo)".to_string());
+    let beginning_parser_token = parser_state.current_token;
     if result.is_err() {
+        parser_state.set_current_token(beginning_parser_token);
         result = (|| {
         let children_node_0_result = parse_postfix_expression(parser_state);
         let children_node_0 = children_node_0_result?;
 
         let expression = UnaryExpression::build_from_postfix_expression(Box::new(children_node_0.clone()));
+        println!("{:?}", expression);
         return Ok(expression)
         })();
     }
     if result.is_err() {
+        parser_state.set_current_token(beginning_parser_token);
         result = (|| {
         let token_parse_0_result = parse_token(parser_state, TokenType::IncrementOp);
         let token_parse_0 = token_parse_0_result?;
@@ -338,10 +456,12 @@ pub fn parse_unary_expression(parser_state: &mut ParserState) -> Result<UnaryExp
         let children_node_1 = children_node_1_result?;
 
         let expression = UnaryExpression::build_from_unary_expression1(token_parse_0, Box::new(children_node_1.clone()));
+        println!("{:?}", expression);
         return Ok(expression)
         })();
     }
     if result.is_err() {
+        parser_state.set_current_token(beginning_parser_token);
         result = (|| {
         let token_parse_0_result = parse_token(parser_state, TokenType::DecrementOp);
         let token_parse_0 = token_parse_0_result?;
@@ -350,8 +470,12 @@ pub fn parse_unary_expression(parser_state: &mut ParserState) -> Result<UnaryExp
         let children_node_1 = children_node_1_result?;
 
         let expression = UnaryExpression::build_from_unary_expression2(token_parse_0, Box::new(children_node_1.clone()));
+        println!("{:?}", expression);
         return Ok(expression)
         })();
+    }
+    if result.is_ok() {
+        return result;
     }
     Err("Haven't match (todo)".to_string())
 }
@@ -359,14 +483,20 @@ pub fn parse_unary_expression(parser_state: &mut ParserState) -> Result<UnaryExp
 pub fn parse_any_expression(parser_state: &mut ParserState) -> Result<AnyExpression, String> {
     let mut result: Result<AnyExpression, String>;
     result = Err("Haven't match (todo)".to_string());
+    let beginning_parser_token = parser_state.current_token;
     if result.is_err() {
+        parser_state.set_current_token(beginning_parser_token);
         result = (|| {
         let children_node_0_result = parse_assignment_expression(parser_state);
         let children_node_0 = children_node_0_result?;
 
         let expression = AnyExpression::build_from_assignment_expression(Box::new(children_node_0.clone()));
+        println!("{:?}", expression);
         return Ok(expression)
         })();
+    }
+    if result.is_ok() {
+        return result;
     }
     Err("Haven't match (todo)".to_string())
 }
@@ -374,7 +504,9 @@ pub fn parse_any_expression(parser_state: &mut ParserState) -> Result<AnyExpress
 pub fn parse_declaration(parser_state: &mut ParserState) -> Result<Declaration, String> {
     let mut result: Result<Declaration, String>;
     result = Err("Haven't match (todo)".to_string());
+    let beginning_parser_token = parser_state.current_token;
     if result.is_err() {
+        parser_state.set_current_token(beginning_parser_token);
         result = (|| {
         let children_node_0_result = parse_declaration_specifiers(parser_state);
         let children_node_0 = children_node_0_result?;
@@ -383,25 +515,22 @@ pub fn parse_declaration(parser_state: &mut ParserState) -> Result<Declaration, 
         let token_parse_1 = token_parse_1_result?;
 
         let expression = Declaration::build_from_declaration0(Box::new(children_node_0.clone()), token_parse_1);
+        println!("{:?}", expression);
         return Ok(expression)
         })();
+    }
+    if result.is_ok() {
+        return result;
     }
     Err("Haven't match (todo)".to_string())
 }
-// <variable> | <variable> "Equal" <assignment_expression>
+// <variable> "Equal" <assignment_expression> | <variable>
 pub fn parse_declaration_specifiers(parser_state: &mut ParserState) -> Result<DeclarationSpecifiers, String> {
     let mut result: Result<DeclarationSpecifiers, String>;
     result = Err("Haven't match (todo)".to_string());
+    let beginning_parser_token = parser_state.current_token;
     if result.is_err() {
-        result = (|| {
-        let children_node_0_result = parse_variable(parser_state);
-        let children_node_0 = children_node_0_result?;
-
-        let expression = DeclarationSpecifiers::build_from_variable(Box::new(children_node_0.clone()));
-        return Ok(expression)
-        })();
-    }
-    if result.is_err() {
+        parser_state.set_current_token(beginning_parser_token);
         result = (|| {
         let children_node_0_result = parse_variable(parser_state);
         let children_node_0 = children_node_0_result?;
@@ -412,9 +541,24 @@ pub fn parse_declaration_specifiers(parser_state: &mut ParserState) -> Result<De
         let children_node_2_result = parse_assignment_expression(parser_state);
         let children_node_2 = children_node_2_result?;
 
-        let expression = DeclarationSpecifiers::build_from_declaration_specifiers1(Box::new(children_node_0.clone()), token_parse_1, Box::new(children_node_2.clone()));
+        let expression = DeclarationSpecifiers::build_from_declaration_specifiers0(Box::new(children_node_0.clone()), token_parse_1, Box::new(children_node_2.clone()));
+        println!("{:?}", expression);
         return Ok(expression)
         })();
+    }
+    if result.is_err() {
+        parser_state.set_current_token(beginning_parser_token);
+        result = (|| {
+        let children_node_0_result = parse_variable(parser_state);
+        let children_node_0 = children_node_0_result?;
+
+        let expression = DeclarationSpecifiers::build_from_variable(Box::new(children_node_0.clone()));
+        println!("{:?}", expression);
+        return Ok(expression)
+        })();
+    }
+    if result.is_ok() {
+        return result;
     }
     Err("Haven't match (todo)".to_string())
 }
@@ -422,7 +566,9 @@ pub fn parse_declaration_specifiers(parser_state: &mut ParserState) -> Result<De
 pub fn parse_variable(parser_state: &mut ParserState) -> Result<Variable, String> {
     let mut result: Result<Variable, String>;
     result = Err("Haven't match (todo)".to_string());
+    let beginning_parser_token = parser_state.current_token;
     if result.is_err() {
+        parser_state.set_current_token(beginning_parser_token);
         result = (|| {
         let children_node_0_result = parse_scope_specifier(parser_state);
         let children_node_0 = children_node_0_result?;
@@ -431,10 +577,12 @@ pub fn parse_variable(parser_state: &mut ParserState) -> Result<Variable, String
         let token_parse_1 = token_parse_1_result?;
 
         let expression = Variable::build_from_variable0(Box::new(children_node_0.clone()), token_parse_1);
+        println!("{:?}", expression);
         return Ok(expression)
         })();
     }
     if result.is_err() {
+        parser_state.set_current_token(beginning_parser_token);
         result = (|| {
         let children_node_0_result = parse_scope_specifier(parser_state);
         let children_node_0 = children_node_0_result?;
@@ -446,8 +594,12 @@ pub fn parse_variable(parser_state: &mut ParserState) -> Result<Variable, String
         let token_parse_2 = token_parse_2_result?;
 
         let expression = Variable::build_from_variable1(Box::new(children_node_0.clone()), token_parse_1, token_parse_2);
+        println!("{:?}", expression);
         return Ok(expression)
         })();
+    }
+    if result.is_ok() {
+        return result;
     }
     Err("Haven't match (todo)".to_string())
 }
@@ -455,77 +607,97 @@ pub fn parse_variable(parser_state: &mut ParserState) -> Result<Variable, String
 pub fn parse_scope_specifier(parser_state: &mut ParserState) -> Result<ScopeSpecifier, String> {
     let mut result: Result<ScopeSpecifier, String>;
     result = Err("Haven't match (todo)".to_string());
+    let beginning_parser_token = parser_state.current_token;
     if result.is_err() {
+        parser_state.set_current_token(beginning_parser_token);
         result = (|| {
         let token_parse_0_result = parse_token(parser_state, TokenType::At);
         let token_parse_0 = token_parse_0_result?;
 
         let expression = ScopeSpecifier::build_from_at(token_parse_0);
+        println!("{:?}", expression);
         return Ok(expression)
         })();
     }
     if result.is_err() {
+        parser_state.set_current_token(beginning_parser_token);
         result = (|| {
         let token_parse_0_result = parse_token(parser_state, TokenType::Dollar);
         let token_parse_0 = token_parse_0_result?;
 
         let expression = ScopeSpecifier::build_from_dollar(token_parse_0);
+        println!("{:?}", expression);
         return Ok(expression)
         })();
     }
     if result.is_err() {
+        parser_state.set_current_token(beginning_parser_token);
         result = (|| {
         let token_parse_0_result = parse_token(parser_state, TokenType::DollarAt);
         let token_parse_0 = token_parse_0_result?;
 
         let expression = ScopeSpecifier::build_from_dollar_at(token_parse_0);
+        println!("{:?}", expression);
         return Ok(expression)
         })();
     }
     if result.is_err() {
+        parser_state.set_current_token(beginning_parser_token);
         result = (|| {
         let token_parse_0_result = parse_token(parser_state, TokenType::Dot);
         let token_parse_0 = token_parse_0_result?;
 
         let expression = ScopeSpecifier::build_from_dot(token_parse_0);
+        println!("{:?}", expression);
         return Ok(expression)
         })();
     }
     if result.is_err() {
+        parser_state.set_current_token(beginning_parser_token);
         result = (|| {
         let token_parse_0_result = parse_token(parser_state, TokenType::DotAt);
         let token_parse_0 = token_parse_0_result?;
 
         let expression = ScopeSpecifier::build_from_dot_at(token_parse_0);
+        println!("{:?}", expression);
         return Ok(expression)
         })();
     }
     if result.is_err() {
+        parser_state.set_current_token(beginning_parser_token);
         result = (|| {
         let token_parse_0_result = parse_token(parser_state, TokenType::Quote);
         let token_parse_0 = token_parse_0_result?;
 
         let expression = ScopeSpecifier::build_from_quote(token_parse_0);
+        println!("{:?}", expression);
         return Ok(expression)
         })();
     }
     if result.is_err() {
+        parser_state.set_current_token(beginning_parser_token);
         result = (|| {
         let token_parse_0_result = parse_token(parser_state, TokenType::Sharp);
         let token_parse_0 = token_parse_0_result?;
 
         let expression = ScopeSpecifier::build_from_sharp(token_parse_0);
+        println!("{:?}", expression);
         return Ok(expression)
         })();
     }
     if result.is_err() {
+        parser_state.set_current_token(beginning_parser_token);
         result = (|| {
         let token_parse_0_result = parse_token(parser_state, TokenType::DoubleSharp);
         let token_parse_0 = token_parse_0_result?;
 
         let expression = ScopeSpecifier::build_from_double_sharp(token_parse_0);
+        println!("{:?}", expression);
         return Ok(expression)
         })();
+    }
+    if result.is_ok() {
+        return result;
     }
     Err("Haven't match (todo)".to_string())
 }
@@ -533,16 +705,20 @@ pub fn parse_scope_specifier(parser_state: &mut ParserState) -> Result<ScopeSpec
 pub fn parse_variable_name(parser_state: &mut ParserState) -> Result<VariableName, String> {
     let mut result: Result<VariableName, String>;
     result = Err("Haven't match (todo)".to_string());
+    let beginning_parser_token = parser_state.current_token;
     if result.is_err() {
+        parser_state.set_current_token(beginning_parser_token);
         result = (|| {
         let token_parse_0_result = parse_token(parser_state, TokenType::Identifier(Default::default()));
         let token_parse_0 = token_parse_0_result?;
 
         let expression = VariableName::build_from_identifier(token_parse_0);
+        println!("{:?}", expression);
         return Ok(expression)
         })();
     }
     if result.is_err() {
+        parser_state.set_current_token(beginning_parser_token);
         result = (|| {
         let token_parse_0_result = parse_token(parser_state, TokenType::Identifier(Default::default()));
         let token_parse_0 = token_parse_0_result?;
@@ -551,8 +727,12 @@ pub fn parse_variable_name(parser_state: &mut ParserState) -> Result<VariableNam
         let token_parse_1 = token_parse_1_result?;
 
         let expression = VariableName::build_from_variable_name1(token_parse_0, token_parse_1);
+        println!("{:?}", expression);
         return Ok(expression)
         })();
+    }
+    if result.is_ok() {
+        return result;
     }
     Err("Haven't match (todo)".to_string())
 }
