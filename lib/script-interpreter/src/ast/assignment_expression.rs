@@ -5,6 +5,7 @@
 pub enum AssignmentExpression {
     ConditionalExpression(Box<crate::ast::conditional_expression::ConditionalExpression>),
     AssignmentExpression1{ unary_expression: Box<crate::ast::unary_expression::UnaryExpression>, assignment_operator: Box<crate::ast::assignment_operator::AssignmentOperator>, assignment_expression: Box<crate::ast::assignment_expression::AssignmentExpression> },
+    UnaryExpression(Box<crate::ast::unary_expression::UnaryExpression>),
     
 }
 
@@ -14,6 +15,9 @@ impl AssignmentExpression {
     }
     pub fn build_from_assignment_expression1(unary_expression: Box<crate::ast::unary_expression::UnaryExpression>, assignment_operator: Box<crate::ast::assignment_operator::AssignmentOperator>, assignment_expression: Box<crate::ast::assignment_expression::AssignmentExpression>) -> Self {
         AssignmentExpression::AssignmentExpression1{ unary_expression, assignment_operator, assignment_expression }
+    }
+    pub fn build_from_unary_expression(unary_expression: Box<crate::ast::unary_expression::UnaryExpression>) -> Self {
+        AssignmentExpression::UnaryExpression(unary_expression)
     }
 }
 

@@ -43,6 +43,7 @@ pub fn parser_generate(grammar: &Grammar) {
 
     write_file_header(&mut parser_file);
     parser_file.write_all(b"use crate::token::*;\n").unwrap();
+    parser_file.write_all(b"use std::sync::Arc;\n").unwrap();
     parser_file.write_all(b"use crate::ast_node::AstNode;\n").unwrap();
     parser_file.write_all(b"use crate::parser_state::ParserState;\n\n").unwrap();
     parser_file.write_all(b"use crate::ast::expression::*;\n\n").unwrap();
@@ -52,7 +53,7 @@ pub fn parser_generate(grammar: &Grammar) {
     }
     parser_file.write_all(b"\n").unwrap();
 
-    parser_file.write_all(b"pub fn parse(tokens: &'static Vec<Token>) {\n").unwrap();
+    parser_file.write_all(b"pub fn parse(tokens: Arc<Vec<Token>>) {\n").unwrap();
     parser_file.write_all(b"    let mut parser_state = ParserState::new(tokens);\n").unwrap();
     parser_file.write_all(b"}\n").unwrap();
 
@@ -63,8 +64,8 @@ pub fn parser_generate(grammar: &Grammar) {
     for production in grammar.productions_iter() {
         let expression_terms = expression_terms(production);
         parser_generate_method_comment(&mut parser_file, production);
-        parser_file.write_all(format!("pub fn parse_{}(parser_state: &mut ParserState) -> Result<AstNode<{}>, String> {{\n", to_snake_case(&production.lhs.to_string()), to_camel_case(&production.lhs.to_string())).as_bytes()).unwrap();
-        parser_file.write_all(format!("    let mut result: Result<AstNode<{}>, String>;\n", to_camel_case(&production.lhs.to_string())).as_bytes()).unwrap();
+        parser_file.write_all(format!("pub fn parse_{}(parser_state: &mut ParserState) -> Result<{}, String> {{\n", to_snake_case(&production.lhs.to_string()), to_camel_case(&production.lhs.to_string())).as_bytes()).unwrap();
+        parser_file.write_all(format!("    let mut result: Result<{}, String>;\n", to_camel_case(&production.lhs.to_string())).as_bytes()).unwrap();
         parser_file.write_all(b"    result = Err(\"Haven't match (todo)\".to_string());\n");
         for (identifier, terms) in expression_terms.iter() {
             println!("{} {:?}", identifier, terms);
@@ -91,16 +92,16 @@ pub fn parser_generate(grammar: &Grammar) {
                 if term.1 == "Token" {
                     format!("token_parse_{}", i)
                 } else {
-                    format!("Box::new(*children_node_{}.expression().clone())", i)
+                    format!("Box::new(children_node_{}.clone())", i)
                 }
             }).collect::<Vec<String>>().join(", ");
             parser_file.write_all(format!("        let expression = {}::build_from_{}({});\n", to_camel_case(&production.lhs.to_string()), to_rust_field_name(identifier), expression_builder_args).as_bytes()).unwrap();
-            parser_file.write_all(b"        let mut ast_node = AstNode::new(Box::new(expression));\n").unwrap();
             terms.iter().enumerate().for_each(|(i, term)| {
                 if term.1 != "Token" {
-                    parser_file.write_all(format!("        ast_node.append_child(children_node_{})", i).as_bytes()).unwrap();
+
                 }
             });
+            parser_file.write_all(b"        return Ok(expression)\n").unwrap();
             parser_file.write_all(b"        })();\n").unwrap();
             parser_file.write_all(b"    }\n").unwrap();
         }

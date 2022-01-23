@@ -3,3 +3,5 @@
 *.iml
 .env
 config.toml
+.stignore
+.stfolder

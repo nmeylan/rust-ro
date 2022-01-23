@@ -1,6 +1,7 @@
 extern crate bnf;
 extern crate core;
 
+use std::sync::Arc;
 use crate::scanner::Scanner;
 
 mod token;
@@ -19,4 +20,5 @@ fn main() {
     let tokens = scanner.scan().unwrap();
     generator::generate();
 
+    parser::parse(Arc::new(tokens));
 }
