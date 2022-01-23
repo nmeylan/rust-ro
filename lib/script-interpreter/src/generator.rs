@@ -55,6 +55,9 @@ pub fn parser_generate(grammar: &Grammar) {
 
     parser_file.write_all(b"pub fn parse(tokens: Arc<Vec<Token>>) {\n").unwrap();
     parser_file.write_all(b"    let mut parser_state = ParserState::new(tokens);\n").unwrap();
+    parser_file.write_all(b"    while !parser_state.is_at_end(){\n").unwrap();
+    parser_file.write_all(b"        parse_root_expression(&mut parser_state);\n").unwrap();
+    parser_file.write_all(b"    }\n").unwrap();
     parser_file.write_all(b"}\n").unwrap();
 
     parser_file.write_all(b"pub fn parse_token(parser_state: &mut ParserState, token_type: TokenType) -> Result<Token, String> {\n").unwrap();
@@ -67,9 +70,11 @@ pub fn parser_generate(grammar: &Grammar) {
         parser_file.write_all(format!("pub fn parse_{}(parser_state: &mut ParserState) -> Result<{}, String> {{\n", to_snake_case(&production.lhs.to_string()), to_camel_case(&production.lhs.to_string())).as_bytes()).unwrap();
         parser_file.write_all(format!("    let mut result: Result<{}, String>;\n", to_camel_case(&production.lhs.to_string())).as_bytes()).unwrap();
         parser_file.write_all(b"    result = Err(\"Haven't match (todo)\".to_string());\n");
+        parser_file.write_all(b"    let beginning_parser_token = parser_state.current_token;\n");
         for (identifier, terms) in expression_terms.iter() {
             println!("{} {:?}", identifier, terms);
             parser_file.write_all(b"    if result.is_err() {\n").unwrap();
+            parser_file.write_all(b"        parser_state.set_current_token(beginning_parser_token);\n").unwrap();
             parser_file.write_all(b"        result = (|| {\n").unwrap();
             for (i, term) in terms.iter().enumerate() {
                 if term.1 == "Token" {
@@ -101,10 +106,14 @@ pub fn parser_generate(grammar: &Grammar) {
 
                 }
             });
+            parser_file.write_all(b"        println!(\"{:?}\", expression);\n");
             parser_file.write_all(b"        return Ok(expression)\n").unwrap();
             parser_file.write_all(b"        })();\n").unwrap();
             parser_file.write_all(b"    }\n").unwrap();
         }
+        parser_file.write_all(b"    if result.is_ok() {\n").unwrap();
+        parser_file.write_all(b"        return result;\n").unwrap();
+        parser_file.write_all(b"    }\n").unwrap();
         parser_file.write_all(b"    Err(\"Haven't match (todo)\".to_string())\n").unwrap();
         parser_file.write_all(b"}\n").unwrap();
     }
@@ -163,11 +172,12 @@ fn ast_generate_expression(output_path: &Path, production: &Production) {
     ast_generate_expression_enum_def(&mut file, production, &expression_terms);
     ast_generate_expression_enum_impl(&mut file, production, &expression_terms);
     ast_generate_expression_trait_impl(&mut file, production);
+    ast_generate_expression_display_trait_impl(&mut file, production);
 }
 
 fn ast_generate_expression_enum_def(file: &mut File, production: &Production, expression_terms: &Vec<(String, Vec<(String, String)>)>) {
     let name = production.lhs.to_string();
-    file.write_all(b"#[derive(Clone)]\n").unwrap();
+    file.write_all(b"#[derive(Clone, Debug)]\n").unwrap();
     file.write_all(format!("pub enum {} {{\n", to_camel_case(&name)).as_bytes()).unwrap();
     for entry in expression_terms.iter() {
         let term_name = &entry.0;
@@ -215,6 +225,11 @@ fn ast_generate_expression_trait_impl(file: &mut File, production: &Production) 
     file.write_all(format!("        visitor.visit_{}(self)\n", to_snake_case(&name)).as_bytes()).unwrap();
     file.write_all(b"    }\n\n").unwrap();
     file.write_all(b"}\n\n").unwrap();
+}
+
+fn ast_generate_expression_display_trait_impl(file: &mut File, production: &Production) {
+    let name = production.lhs.to_string();
+
 }
 
 /*

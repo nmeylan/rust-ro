@@ -14,7 +14,7 @@ mod parser;
 
 fn main() {
     let code = r#"
-        .@x = 2;
+        .@y = 2;
     "#;
     let mut scanner = Scanner::new(code.as_bytes().to_vec());
     let tokens = scanner.scan().unwrap();

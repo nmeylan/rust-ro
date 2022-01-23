@@ -5,6 +5,7 @@ pub trait Visitor {
   fn visit_root_expression(&self, expression: &dyn crate::ast::expression::Expression);
   fn visit_primary_expression(&self, expression: &dyn crate::ast::expression::Expression);
   fn visit_postfix_expression(&self, expression: &dyn crate::ast::expression::Expression);
+  fn visit_assignment_expression_todo(&self, expression: &dyn crate::ast::expression::Expression);
   fn visit_assignment_expression(&self, expression: &dyn crate::ast::expression::Expression);
   fn visit_logical_or_expression(&self, expression: &dyn crate::ast::expression::Expression);
   fn visit_logical_and_expression(&self, expression: &dyn crate::ast::expression::Expression);
