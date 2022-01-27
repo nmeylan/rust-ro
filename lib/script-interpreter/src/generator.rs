@@ -67,12 +67,12 @@ pub fn parser_generate(grammar: &Grammar) {
     for production in grammar.productions_iter() {
         let expression_terms = expression_terms(production);
         parser_generate_method_comment(&mut parser_file, production);
-        parser_file.write_all(format!("pub fn parse_{}(parser_state: &mut ParserState) -> Result<{}, String> {{\n", to_snake_case(&production.lhs.to_string()), to_camel_case(&production.lhs.to_string())).as_bytes()).unwrap();
+        let parser_name = to_snake_case(&production.lhs.to_string());
+        parser_file.write_all(format!("pub fn parse_{}(parser_state: &mut ParserState) -> Result<{}, String> {{\n", parser_name, to_camel_case(&production.lhs.to_string())).as_bytes()).unwrap();
         parser_file.write_all(format!("    let mut result: Result<{}, String>;\n", to_camel_case(&production.lhs.to_string())).as_bytes()).unwrap();
         parser_file.write_all(b"    result = Err(\"Haven't match (todo)\".to_string());\n");
         parser_file.write_all(b"    let beginning_parser_token = parser_state.current_token;\n");
         for (identifier, terms) in expression_terms.iter() {
-            println!("{} {:?}", identifier, terms);
             parser_file.write_all(b"    if result.is_err() {\n").unwrap();
             parser_file.write_all(b"        parser_state.set_current_token(beginning_parser_token);\n").unwrap();
             parser_file.write_all(b"        result = (|| {\n").unwrap();
