@@ -16,6 +16,9 @@ pub fn parse(buffer: &[u8]) -> Box<dyn Packet> {
     if buffer[0] == 0x67 && buffer[1] == 0x00 {
         return Box::new(PacketChMakeChar::from(buffer));
     }
+    if buffer[0] == 0x70 && buffer[1] == 0x09 {
+        return Box::new(PacketChMakeChar2::from(buffer));
+    }
     if buffer[0] == 0x68 && buffer[1] == 0x00 {
         return Box::new(PacketChDeleteChar::from(buffer));
     }
@@ -1918,6 +1921,9 @@ pub fn parse(buffer: &[u8]) -> Box<dyn Packet> {
     if buffer[0] == 0x36 && buffer[1] == 0x04 {
         return Box::new(PacketCzEnter2::from(buffer));
     }
+    if buffer[0] == 0x71 && buffer[1] == 0x08 {
+        return Box::new(PacketCzEnter3::from(buffer));
+    }
     if buffer[0] == 0x37 && buffer[1] == 0x04 {
         return Box::new(PacketCzRequestAct2::from(buffer));
     }
@@ -2303,7 +2309,7 @@ pub fn parse(buffer: &[u8]) -> Box<dyn Packet> {
         return Box::new(PacketPincodeLoginstate::from(buffer));
     }
     if buffer[0] == 0x39 && buffer[1] == 0x0a {
-        return Box::new(PacketChMakeChar2::from(buffer));
+        return Box::new(PacketChMakeChar3::from(buffer));
     }
     if buffer[0] == 0x27 && buffer[1] == 0x08 {
         return Box::new(PacketChDeleteChar4Reserved::from(buffer));

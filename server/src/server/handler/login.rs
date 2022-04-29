@@ -1,4 +1,4 @@
-use packets::packets::{PacketCaLogin, PacketAcAcceptLogin2, Packet, ServerAddr2, PacketAcRefuseLoginR3};
+use packets::packets::{PacketCaLogin, PacketAcAcceptLogin2, Packet, ServerAddr2, PacketAcRefuseLoginR3, PacketAcRefuseLoginR2};
 use crate::repository::lib::Repository;
 use sqlx::{MySql, Row};
 use rand::Rng;
@@ -26,7 +26,7 @@ pub(crate) fn handle_login(server: Arc<Server>, packet: &mut dyn Packet, runtime
         let mut sessions_guard = write_lock!(server.sessions);
         sessions_guard.insert(packet_response.aid.clone(), Arc::new(new_user_session));
         socket_send!(tcp_stream, res.raw());
-    } else if res.as_any().downcast_ref::<PacketAcRefuseLoginR3>().is_some() {
+    } else if res.as_any().downcast_ref::<PacketAcRefuseLoginR2>().is_some() {
         socket_send!(tcp_stream, res.raw());
     }
 }

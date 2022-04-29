@@ -127,8 +127,8 @@ pub fn change_map(destination_map: String, x: u16, y: u16, session: Arc<Session>
 pub fn change_map_packet(destination_map: String, x: u16, y: u16, session: Arc<Session>, server: Arc<Server>) -> PacketZcNpcackMapmove {
     let character_session = session.get_character();
     character_session.remove_from_existing_map();
-
     let map_name : String = Map::name_without_ext(destination_map.clone());
+    debug!("Char enter on map {}", map_name);
     let map_ref = server.maps.get(&map_name).unwrap();
     let map = map_ref.clone();
     let map_instance = map.player_join_map(character_session, server.clone());

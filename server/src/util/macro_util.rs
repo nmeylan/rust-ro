@@ -29,6 +29,7 @@ macro_rules! socket_send {
     ( $tcp_stream:expr, $data:expr ) => {
     {
        let mut tcp_stream_guard = $tcp_stream.write().unwrap();
+        debug!("{:02X?}", $data);
         tcp_stream_guard.write_all($data).unwrap();
         tcp_stream_guard.flush().unwrap();
     }
