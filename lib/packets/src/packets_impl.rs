@@ -660,6 +660,261 @@ impl Default for PacketChMakeChar {
     }
 }
 
+impl PacketChMakeChar2 {
+    pub fn from(buffer: &[u8]) -> PacketChMakeChar2 {
+        PacketChMakeChar2 {
+            raw: buffer.to_vec(),
+            packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[0..2]);
+                dst
+            },
+            name:  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[2..26].iter().enumerate() {
+                    dst[index] = *byte as char;
+                }
+                dst
+            },
+            name_raw: {
+                let mut dst: [u8; 24] = [0u8; 24];
+                dst.clone_from_slice(&buffer[2..26]);
+                dst
+            },
+            str: u8::from_le_bytes([buffer[26]]),
+            str_raw: {
+                let mut dst: [u8; 1] = [0u8; 1];
+                dst.clone_from_slice(&buffer[26..27]);
+                dst
+            },
+            agi: u8::from_le_bytes([buffer[27]]),
+            agi_raw: {
+                let mut dst: [u8; 1] = [0u8; 1];
+                dst.clone_from_slice(&buffer[27..28]);
+                dst
+            },
+            vit: u8::from_le_bytes([buffer[28]]),
+            vit_raw: {
+                let mut dst: [u8; 1] = [0u8; 1];
+                dst.clone_from_slice(&buffer[28..29]);
+                dst
+            },
+            int: u8::from_le_bytes([buffer[29]]),
+            int_raw: {
+                let mut dst: [u8; 1] = [0u8; 1];
+                dst.clone_from_slice(&buffer[29..30]);
+                dst
+            },
+            dex: u8::from_le_bytes([buffer[30]]),
+            dex_raw: {
+                let mut dst: [u8; 1] = [0u8; 1];
+                dst.clone_from_slice(&buffer[30..31]);
+                dst
+            },
+            luk: u8::from_le_bytes([buffer[31]]),
+            luk_raw: {
+                let mut dst: [u8; 1] = [0u8; 1];
+                dst.clone_from_slice(&buffer[31..32]);
+                dst
+            },
+            char_num: u8::from_le_bytes([buffer[32]]),
+            char_num_raw: {
+                let mut dst: [u8; 1] = [0u8; 1];
+                dst.clone_from_slice(&buffer[32..33]);
+                dst
+            },
+            head_pal: i16::from_le_bytes([buffer[33], buffer[34]]),
+            head_pal_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[33..35]);
+                dst
+            },
+            head: i16::from_le_bytes([buffer[35], buffer[36]]),
+            head_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[35..37]);
+                dst
+            },
+        }
+    }
+    pub fn fill_raw(&mut self) {
+    let mut wtr;
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.packet_id).unwrap();
+        self.packet_id_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        for item in self.name {
+            wtr.write_u8(item as u8 ).unwrap();
+        }
+        self.name_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u8(self.str).unwrap();
+        self.str_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u8(self.agi).unwrap();
+        self.agi_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u8(self.vit).unwrap();
+        self.vit_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u8(self.int).unwrap();
+        self.int_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u8(self.dex).unwrap();
+        self.dex_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u8(self.luk).unwrap();
+        self.luk_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u8(self.char_num).unwrap();
+        self.char_num_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.head_pal).unwrap();
+        self.head_pal_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.head).unwrap();
+        self.head_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.append(&mut self.packet_id_raw.to_vec());
+        wtr.append(&mut self.name_raw.to_vec());
+        wtr.append(&mut self.str_raw.to_vec());
+        wtr.append(&mut self.agi_raw.to_vec());
+        wtr.append(&mut self.vit_raw.to_vec());
+        wtr.append(&mut self.int_raw.to_vec());
+        wtr.append(&mut self.dex_raw.to_vec());
+        wtr.append(&mut self.luk_raw.to_vec());
+        wtr.append(&mut self.char_num_raw.to_vec());
+        wtr.append(&mut self.head_pal_raw.to_vec());
+        wtr.append(&mut self.head_raw.to_vec());
+        self.raw = wtr;
+    }
+    pub fn set_packet_id(&mut self, value: i16) {
+        self.packet_id = value;
+    }
+    pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
+        self.packet_id_raw = value;
+    }
+    pub fn set_name(&mut self, value: [char; 24]) {
+        self.name = value;
+    }
+    pub fn set_name_raw(&mut self, value: [u8; 24]) {
+        self.name_raw = value;
+    }
+    pub fn set_str(&mut self, value: u8) {
+        self.str = value;
+    }
+    pub fn set_str_raw(&mut self, value: [u8; 1]) {
+        self.str_raw = value;
+    }
+    pub fn set_agi(&mut self, value: u8) {
+        self.agi = value;
+    }
+    pub fn set_agi_raw(&mut self, value: [u8; 1]) {
+        self.agi_raw = value;
+    }
+    pub fn set_vit(&mut self, value: u8) {
+        self.vit = value;
+    }
+    pub fn set_vit_raw(&mut self, value: [u8; 1]) {
+        self.vit_raw = value;
+    }
+    pub fn set_int(&mut self, value: u8) {
+        self.int = value;
+    }
+    pub fn set_int_raw(&mut self, value: [u8; 1]) {
+        self.int_raw = value;
+    }
+    pub fn set_dex(&mut self, value: u8) {
+        self.dex = value;
+    }
+    pub fn set_dex_raw(&mut self, value: [u8; 1]) {
+        self.dex_raw = value;
+    }
+    pub fn set_luk(&mut self, value: u8) {
+        self.luk = value;
+    }
+    pub fn set_luk_raw(&mut self, value: [u8; 1]) {
+        self.luk_raw = value;
+    }
+    pub fn set_char_num(&mut self, value: u8) {
+        self.char_num = value;
+    }
+    pub fn set_char_num_raw(&mut self, value: [u8; 1]) {
+        self.char_num_raw = value;
+    }
+    pub fn set_head_pal(&mut self, value: i16) {
+        self.head_pal = value;
+    }
+    pub fn set_head_pal_raw(&mut self, value: [u8; 2]) {
+        self.head_pal_raw = value;
+    }
+    pub fn set_head(&mut self, value: i16) {
+        self.head = value;
+    }
+    pub fn set_head_raw(&mut self, value: [u8; 2]) {
+        self.head_raw = value;
+    }
+    pub fn new() -> PacketChMakeChar2 {
+        PacketChMakeChar2 {
+        raw: vec![],
+        packet_id: i16::from_le_bytes([0x70, 0x09]),
+        packet_id_raw: [0x70, 0x09],
+        name: [0 as char; 24],
+        name_raw: [0; 24],
+        str: 0,
+        str_raw: [0; 1],
+        agi: 0,
+        agi_raw: [0; 1],
+        vit: 0,
+        vit_raw: [0; 1],
+        int: 0,
+        int_raw: [0; 1],
+        dex: 0,
+        dex_raw: [0; 1],
+        luk: 0,
+        luk_raw: [0; 1],
+        char_num: 0,
+        char_num_raw: [0; 1],
+        head_pal: 0,
+        head_pal_raw: [0; 2],
+        head: 0,
+        head_raw: [0; 2],
+        }
+    }
+}
+
+impl Packet for PacketChMakeChar2 {
+    fn id(&self) -> &str {
+       "0x7009"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
+    }
+    fn display(&self) {
+            println!("{}", self)
+    }
+    fn pretty_debug(&self) {
+            println!("{:#?}", self)
+    }
+    fn raw(&self) -> &Vec<u8> {
+            &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut dyn Any{
+        self
+    }
+}
+
+impl Default for PacketChMakeChar2 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketChDeleteChar {
     pub fn from(buffer: &[u8]) -> PacketChDeleteChar {
         PacketChDeleteChar {
@@ -79211,6 +79466,163 @@ impl Default for PacketCzEnter2 {
     }
 }
 
+impl PacketCzEnter3 {
+    pub fn from(buffer: &[u8]) -> PacketCzEnter3 {
+        PacketCzEnter3 {
+            raw: buffer.to_vec(),
+            packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
+            packet_id_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[0..2]);
+                dst
+            },
+            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
+            aid_raw: {
+                let mut dst: [u8; 4] = [0u8; 4];
+                dst.clone_from_slice(&buffer[2..6]);
+                dst
+            },
+            gid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
+            gid_raw: {
+                let mut dst: [u8; 4] = [0u8; 4];
+                dst.clone_from_slice(&buffer[6..10]);
+                dst
+            },
+            auth_code: i32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
+            auth_code_raw: {
+                let mut dst: [u8; 4] = [0u8; 4];
+                dst.clone_from_slice(&buffer[10..14]);
+                dst
+            },
+            client_time: u32::from_le_bytes([buffer[14], buffer[15], buffer[16], buffer[17]]),
+            client_time_raw: {
+                let mut dst: [u8; 4] = [0u8; 4];
+                dst.clone_from_slice(&buffer[14..18]);
+                dst
+            },
+            sex: u8::from_le_bytes([buffer[18]]),
+            sex_raw: {
+                let mut dst: [u8; 1] = [0u8; 1];
+                dst.clone_from_slice(&buffer[18..19]);
+                dst
+            },
+        }
+    }
+    pub fn fill_raw(&mut self) {
+    let mut wtr;
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.packet_id).unwrap();
+        self.packet_id_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u32::<LittleEndian>(self.aid).unwrap();
+        self.aid_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u32::<LittleEndian>(self.gid).unwrap();
+        self.gid_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_i32::<LittleEndian>(self.auth_code).unwrap();
+        self.auth_code_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u32::<LittleEndian>(self.client_time).unwrap();
+        self.client_time_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u8(self.sex).unwrap();
+        self.sex_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.append(&mut self.packet_id_raw.to_vec());
+        wtr.append(&mut self.aid_raw.to_vec());
+        wtr.append(&mut self.gid_raw.to_vec());
+        wtr.append(&mut self.auth_code_raw.to_vec());
+        wtr.append(&mut self.client_time_raw.to_vec());
+        wtr.append(&mut self.sex_raw.to_vec());
+        self.raw = wtr;
+    }
+    pub fn set_packet_id(&mut self, value: i16) {
+        self.packet_id = value;
+    }
+    pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
+        self.packet_id_raw = value;
+    }
+    pub fn set_aid(&mut self, value: u32) {
+        self.aid = value;
+    }
+    pub fn set_aid_raw(&mut self, value: [u8; 4]) {
+        self.aid_raw = value;
+    }
+    pub fn set_gid(&mut self, value: u32) {
+        self.gid = value;
+    }
+    pub fn set_gid_raw(&mut self, value: [u8; 4]) {
+        self.gid_raw = value;
+    }
+    pub fn set_auth_code(&mut self, value: i32) {
+        self.auth_code = value;
+    }
+    pub fn set_auth_code_raw(&mut self, value: [u8; 4]) {
+        self.auth_code_raw = value;
+    }
+    pub fn set_client_time(&mut self, value: u32) {
+        self.client_time = value;
+    }
+    pub fn set_client_time_raw(&mut self, value: [u8; 4]) {
+        self.client_time_raw = value;
+    }
+    pub fn set_sex(&mut self, value: u8) {
+        self.sex = value;
+    }
+    pub fn set_sex_raw(&mut self, value: [u8; 1]) {
+        self.sex_raw = value;
+    }
+    pub fn new() -> PacketCzEnter3 {
+        PacketCzEnter3 {
+        raw: vec![],
+        packet_id: i16::from_le_bytes([0x71, 0x08]),
+        packet_id_raw: [0x71, 0x08],
+        aid: 0,
+        aid_raw: [0; 4],
+        gid: 0,
+        gid_raw: [0; 4],
+        auth_code: 0,
+        auth_code_raw: [0; 4],
+        client_time: 0,
+        client_time_raw: [0; 4],
+        sex: 0,
+        sex_raw: [0; 1],
+        }
+    }
+}
+
+impl Packet for PacketCzEnter3 {
+    fn id(&self) -> &str {
+       "0x7108"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
+    }
+    fn display(&self) {
+            println!("{}", self)
+    }
+    fn pretty_debug(&self) {
+            println!("{:#?}", self)
+    }
+    fn raw(&self) -> &Vec<u8> {
+            &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut dyn Any{
+        self
+    }
+}
+
+impl Default for PacketCzEnter3 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzRequestAct2 {
     pub fn from(buffer: &[u8]) -> PacketCzRequestAct2 {
         PacketCzRequestAct2 {
@@ -95179,9 +95591,9 @@ impl Default for PacketPincodeLoginstate {
     }
 }
 
-impl PacketChMakeChar2 {
-    pub fn from(buffer: &[u8]) -> PacketChMakeChar2 {
-        PacketChMakeChar2 {
+impl PacketChMakeChar3 {
+    pub fn from(buffer: &[u8]) -> PacketChMakeChar3 {
+        PacketChMakeChar3 {
             raw: buffer.to_vec(),
             packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
             packet_id_raw: {
@@ -95310,8 +95722,8 @@ impl PacketChMakeChar2 {
     pub fn set_sex_raw(&mut self, value: [u8; 1]) {
         self.sex_raw = value;
     }
-    pub fn new() -> PacketChMakeChar2 {
-        PacketChMakeChar2 {
+    pub fn new() -> PacketChMakeChar3 {
+        PacketChMakeChar3 {
         raw: vec![],
         packet_id: i16::from_le_bytes([0x39, 0x0a]),
         packet_id_raw: [0x39, 0x0a],
@@ -95331,7 +95743,7 @@ impl PacketChMakeChar2 {
     }
 }
 
-impl Packet for PacketChMakeChar2 {
+impl Packet for PacketChMakeChar3 {
     fn id(&self) -> &str {
        "0x390a"
     }
@@ -95355,7 +95767,7 @@ impl Packet for PacketChMakeChar2 {
     }
 }
 
-impl Default for PacketChMakeChar2 {
+impl Default for PacketChMakeChar3 {
     fn default() -> Self {
 
        Self::new()

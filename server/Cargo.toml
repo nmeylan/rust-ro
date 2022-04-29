@@ -17,7 +17,7 @@ log = "0.4"
 flexi_logger = "0.19"
 toml = "0.5"
 serde = { version = "1.0", features = ["derive"] }
-eframe = { version = "0.15", default-features = false, features = ["egui_glow", "default_fonts"] }
+eframe = { version = "0.15", default-features = false, features = ["egui_glow", "default_fonts"], optional = true }
 
 accessor = { path = "../lib/accessor" }
 metrics = { path = "../lib/metrics" }

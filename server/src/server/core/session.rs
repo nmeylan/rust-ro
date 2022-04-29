@@ -26,6 +26,10 @@ impl SessionsIter for HashMap<u32, Arc<Session>> {
                 return false
             }
             let char_server_socket = read_lock!(session.char_server_socket.as_ref().unwrap());
+            if char_server_socket.peer_addr().is_err() {
+                return false;
+            }
+            debug!("char_server_socket.peer_addr {:?}", char_server_socket.peer_addr());
             let is_char_stream = char_server_socket.peer_addr().unwrap() == tcp_stream.peer_addr().unwrap();
 
             let mut is_map_stream = false;

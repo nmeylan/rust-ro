@@ -34,6 +34,20 @@ struct PACKET_CH_MAKE_CHAR {
   short headPal
   short head
  }
+0x7009
+struct PACKET_CH_MAKE_CHAR2 {
+  short PacketId
+  unsigned char name[24]
+  unsigned char Str
+  unsigned char Agi
+  unsigned char Vit
+  unsigned char Int
+  unsigned char Dex
+  unsigned char Luk
+  unsigned char CharNum
+  short headPal
+  short head
+ }
 0x68
 struct PACKET_CH_DELETE_CHAR {
   short PacketId
@@ -5194,6 +5208,15 @@ struct PACKET_CZ_ENTER2 {
   unsigned long clientTime
   unsigned char Sex
  }
+0x7108
+struct PACKET_CZ_ENTER3 {
+  short PacketId
+  unsigned long AID
+  unsigned long GID
+  int AuthCode
+  unsigned long clientTime
+  unsigned char Sex
+ }
 0x3704
 struct PACKET_CZ_REQUEST_ACT2 {
   short PacketId
@@ -6203,7 +6226,7 @@ struct PACKET_PINCODE_LOGINSTATE {
 }
 
 0x390a
-struct PACKET_CH_MAKE_CHAR2 {
+struct PACKET_CH_MAKE_CHAR3 {
   short PacketId
   unsigned char name[24]
   unsigned char CharNum

@@ -1,5 +1,5 @@
 use std::collections::HashSet;
-use packets::packets::{Packet, PacketChEnter, PacketHcRefuseEnter, CharacterInfoNeoUnion, PacketHcAcceptEnterNeoUnionHeader, PacketHcAcceptEnterNeoUnion, PacketPincodeLoginstate, PacketChMakeChar2, PacketHcAcceptMakecharNeoUnion, PacketChDeleteChar4Reserved, PacketHcDeleteChar4Reserved, PacketChSelectChar, PacketChSendMapInfo, PacketCzEnter2, PacketMapConnection, PacketZcInventoryExpansionInfo, PacketZcOverweightPercent, PacketZcAcceptEnter2, PacketZcStatusValues, PacketZcParChange, PacketZcAttackRange, PacketZcNotifyChat, PacketCzRestart, PacketZcRestartAck, PacketZcReqDisconnectAck2, PacketZcLoadConfirm};
+use packets::packets::{Packet, PacketChEnter, PacketHcRefuseEnter, CharacterInfoNeoUnion, PacketHcAcceptEnterNeoUnionHeader, PacketHcAcceptEnterNeoUnion, PacketPincodeLoginstate, PacketChMakeChar2, PacketHcAcceptMakecharNeoUnion, PacketChDeleteChar4Reserved, PacketHcDeleteChar4Reserved, PacketChSelectChar, PacketChSendMapInfo, PacketCzEnter2, PacketMapConnection, PacketZcInventoryExpansionInfo, PacketZcOverweightPercent, PacketZcAcceptEnter2, PacketZcStatusValues, PacketZcParChange, PacketZcAttackRange, PacketZcNotifyChat, PacketCzRestart, PacketZcRestartAck, PacketZcReqDisconnectAck2, PacketZcLoadConfirm, PacketChMakeChar3, PacketChMakeChar, PacketCzEnter3};
 use crate::repository::lib::Repository;
 use sqlx::{MySql};
 use tokio::runtime::Runtime;
@@ -56,41 +56,84 @@ pub fn handle_char_enter(server: Arc<Server>, packet: &mut dyn Packet, runtime: 
 }
 
 pub fn handle_make_char(server: Arc<Server>, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, session: Arc<Session>) {
-    let packet_make_char = cast!(packet, PacketChMakeChar2);
-    let vit = 1;
-    let max_hp = 40 * (100 + vit as u32) / 100 ;
-    let int = 1;
-    let max_sp = 40 * (100 + int as u32) / 100;
-    let char_model = CharInsertModel {
-        account_id: session.account_id,
-        char_num: packet_make_char.char_num as i8,
-        name: packet_make_char.name.iter().collect(),
-        class: 0,
-        zeny: 10000, // make this configurable
-        status_point: 48,
-        str: 1,
-        agi: 1,
-        vit,
-        int,
-        dex: 1,
-        luk: 1,
-        max_hp,
-        hp: max_hp,
-        max_sp,
-        sp: max_sp,
-        hair: packet_make_char.head as u16,
-        hair_color: packet_make_char.head_pal as u32,
-        last_map: "new_1-1".to_string(), // make this configurable
-        last_x: 53,
-        last_y: 111,
-        save_map: "new_1-1".to_string(), // make this configurable
-        save_x: 53,
-        save_y: 111,
-        sex: if packet_make_char.sex == 1 { "M".to_string() } else { "F".to_string() },
-        inventory_size: 100
-    };
+
+    let mut char_model: Option<CharInsertModel> = None;
+    if packet.as_any().downcast_ref::<PacketChMakeChar3>().is_some() {
+        let vit = 1;
+        let max_hp = 40 * (100 + vit as u32) / 100 ;
+        let int = 1;
+        let max_sp = 40 * (100 + int as u32) / 100;
+        let packet_make_char = cast!(packet, PacketChMakeChar3);
+        char_model = Some(CharInsertModel {
+            account_id: session.account_id,
+            char_num: packet_make_char.char_num as i8,
+            name: packet_make_char.name.iter().collect(),
+            class: 0,
+            zeny: 10000, // make this configurable
+            status_point: 48,
+            str: 1,
+            agi: 1,
+            vit,
+            int,
+            dex: 1,
+            luk: 1,
+            max_hp,
+            hp: max_hp,
+            max_sp,
+            sp: max_sp,
+            hair: packet_make_char.head as u16,
+            hair_color: packet_make_char.head_pal as u32,
+            last_map: "new_1-1".to_string(), // make this configurable
+            last_x: 53,
+            last_y: 111,
+            save_map: "new_1-1".to_string(), // make this configurable
+            save_x: 53,
+            save_y: 111,
+            sex: if packet_make_char.sex == 1 { "M".to_string() } else { "F".to_string() },
+            inventory_size: 100
+        });
+    } else if packet.as_any().downcast_ref::<PacketChMakeChar>().is_some() {
+        let packet_make_char = cast!(packet, PacketChMakeChar);
+        let vit = packet_make_char.vit as u16;
+        let max_hp = 40 * (100 + vit as u32) / 100 ;
+        let int = 1;
+        let max_sp = 40 * (100 + int as u32) / 100;
+        char_model = Some(CharInsertModel {
+            account_id: session.account_id,
+            char_num: packet_make_char.char_num as i8,
+            name: packet_make_char.name.iter().collect(),
+            class: 0,
+            zeny: 10000, // make this configurable
+            status_point: 48,
+            str: packet_make_char.str as u16,
+            agi: packet_make_char.agi as u16,
+            vit,
+            int,
+            dex: packet_make_char.dex as u16,
+            luk: packet_make_char.luk as u16,
+            max_hp,
+            hp: max_hp,
+            max_sp,
+            sp: max_sp,
+            hair: packet_make_char.head as u16,
+            hair_color: packet_make_char.head_pal as u32,
+            last_map: "new_1-1".to_string(), // make this configurable
+            last_x: 53,
+            last_y: 111,
+            save_map: "new_1-1".to_string(), // make this configurable
+            save_x: 53,
+            save_y: 111,
+            sex: "M".to_string(),
+            inventory_size: 100
+        });
+    }
+    if char_model.is_none() {
+        error!("Char model is not initialized, probably packet was not recognized");
+        return;
+    }
 
     let created_char = runtime.block_on(async {
+        let char_model = char_model.unwrap();
         char_model.insert(&server.repository.pool, "char").await.unwrap();
         // TODO add default stuff
         let created_char: CharacterInfoNeoUnionWrapped = sqlx::query_as::<_, CharacterInfoNeoUnionWrapped>("SELECT * from `char` WHERE `name`= ? AND `account_id` = ?")
@@ -172,22 +215,36 @@ pub fn handle_select_char(server: Arc<Server>, packet: &mut dyn Packet, runtime:
 
 
 pub fn handle_enter_game(server: Arc<Server>, packet: &mut dyn Packet, tcp_stream: Arc<RwLock<TcpStream>>) {
-    let packet_enter_game = cast!(packet, PacketCzEnter2);
+
+    let mut aid;
+    let mut auth_code;
+    if packet.as_any().downcast_ref::<PacketCzEnter2>().is_some() {
+        let packet_enter_game = cast!(packet, PacketCzEnter2);
+        aid = packet_enter_game.aid;
+        auth_code = packet_enter_game.auth_code;
+    } else if packet.as_any().downcast_ref::<PacketCzEnter3>().is_some() {
+        let packet_enter_game = cast!(packet, PacketCzEnter3);
+        aid = packet_enter_game.aid;
+        auth_code = packet_enter_game.auth_code;
+    } else {
+        error!("Not recognized PacketCzEnterX");
+        return;
+    }
     let mut sessions_guard = write_lock!(server.sessions);
-    let session = sessions_guard.get(&packet_enter_game.aid);
+    let session = sessions_guard.get(&aid);
     if session.is_none() {
         write_lock!(tcp_stream).shutdown(Both).expect("Unable to shutdown incoming socket. Shutdown was done because session does not exists");
         return;
     }
     let session = session.unwrap();
-    if packet_enter_game.auth_code != session.auth_code {
+    if auth_code != session.auth_code {
         write_lock!(tcp_stream).shutdown(Both).expect("Unable to shutdown incoming socket. Shutdown was done because packet auth_code mismatching session auth_code");
-        server.remove_session(packet_enter_game.aid);
+        server.remove_session(aid);
         return;
     }
     let session = Arc::new(session.recreate_with_map_socket(tcp_stream.clone()));
     session.character.as_ref().unwrap().set_map_socket(tcp_stream.clone());
-    sessions_guard.insert(packet_enter_game.aid, session.clone());
+    sessions_guard.insert(aid, session.clone());
     let mut packet_map_connection = PacketMapConnection::new();
     packet_map_connection.set_aid(session.account_id);
 
@@ -209,7 +266,8 @@ pub fn handle_enter_game(server: Arc<Server>, packet: &mut dyn Packet, tcp_strea
     let character = session.get_character();
 
     let packet_zc_npcack_mapmove = change_map_packet(Map::name_without_ext(character.get_current_map_name()), character.get_x(), character.get_y(), session.clone(), server.clone());
-    let final_response_packet: Vec<u8> = chain_packets(vec![&packet_inventory_expansion_info, &packet_overweight_percent, &packet_accept_enter, &packet_zc_npcack_mapmove]);
+    let final_response_packet: Vec<u8> = chain_packets(vec![&packet_accept_enter, &packet_zc_npcack_mapmove]);
+    // let final_response_packet: Vec<u8> = chain_packets(vec![&packet_inventory_expansion_info, &packet_overweight_percent, &packet_accept_enter, &packet_zc_npcack_mapmove]);
     socket_send!(tcp_stream, &final_response_packet);
 
     let mut packet_str = PacketZcStatusValues::new();
