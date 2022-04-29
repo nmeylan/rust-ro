@@ -6,6 +6,7 @@ accounts = [
     2000000
 ]
 enable_visual_debugger = false
+packetver = 20120229
 
 [database]
 db = "ragnarok"

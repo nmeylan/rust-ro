@@ -81,6 +81,7 @@ fn write_packet_trait(file: &mut File) {
     file.write_all(b"    fn raw(&self) -> &Vec<u8>;\n").unwrap();
     file.write_all(b"    fn as_any(&self) -> &dyn Any;\n").unwrap();
     file.write_all(b"    fn as_any_mut(&mut self) -> &mut dyn Any;\n").unwrap();
+    file.write_all(b"    fn base_len(&self) -> usize;\n").unwrap();
     file.write_all(b"}\n\n").unwrap();
 }
 
@@ -107,6 +108,9 @@ fn write_packet_trait_impl(file: &mut File, packet: &PacketStructDefinition) {
     file.write_all(b"    }\n").unwrap();
     file.write_all(b"    fn as_any_mut(&mut self) -> &mut dyn Any{\n").unwrap();
     file.write_all(b"        self\n").unwrap();
+    file.write_all(b"    }\n").unwrap();
+    file.write_all(b"    fn base_len(&self) -> usize{\n").unwrap();
+    file.write_all(format!("        {}\n", packet.struct_def.fields.iter().map(|f| f.length).sum::<i16>()).as_bytes()).unwrap();
     file.write_all(b"    }\n").unwrap();
     file.write_all(b"}\n\n").unwrap();
 }
@@ -307,6 +311,9 @@ fn write_unknown_packet(file: &mut File) {
     file.write_all(b"    }\n").unwrap();
     file.write_all(b"    fn as_any_mut(&mut self) -> &mut dyn Any{\n").unwrap();
     file.write_all(b"        self\n").unwrap();
+    file.write_all(b"    }\n").unwrap();
+    file.write_all(b"    fn base_len(&self) -> usize{\n").unwrap();
+    file.write_all(b"        0\n").unwrap();
     file.write_all(b"    }\n").unwrap();
     file.write_all(b"}\n").unwrap();
     file.write_all(b"impl PacketUnknown {\n").unwrap();

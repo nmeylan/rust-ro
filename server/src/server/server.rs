@@ -83,6 +83,10 @@ impl Server {
         let session_ref = sessions.get(&session_id).unwrap();
         session_ref.clone()
     }
+
+    pub fn packetver(&self) -> u32 {
+        self.configuration.server.packetver
+    }
 }
 
 impl Server {

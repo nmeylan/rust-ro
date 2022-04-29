@@ -13,6 +13,7 @@ pub trait Packet {
     fn raw(&self) -> &Vec<u8>;
     fn as_any(&self) -> &dyn Any;
     fn as_any_mut(&mut self) -> &mut dyn Any;
+    fn base_len(&self) -> usize;
 }
 
 #[derive(Clone)]
@@ -11366,6 +11367,9 @@ impl Packet for PacketUnknown {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        0
     }
 }
 impl PacketUnknown {
