@@ -3,6 +3,10 @@
 
 pub trait Visitor {
   fn visit_root_expression(&self, expression: &dyn crate::ast::expression::Expression);
+  fn visit_statement_list(&self, expression: &dyn crate::ast::expression::Expression);
+  fn visit_statement(&self, expression: &dyn crate::ast::expression::Expression);
+  fn visit_compound_statement(&self, expression: &dyn crate::ast::expression::Expression);
+  fn visit_expression_statement(&self, expression: &dyn crate::ast::expression::Expression);
   fn visit_primary_expression(&self, expression: &dyn crate::ast::expression::Expression);
   fn visit_postfix_expression(&self, expression: &dyn crate::ast::expression::Expression);
   fn visit_assignment_expression_todo(&self, expression: &dyn crate::ast::expression::Expression);

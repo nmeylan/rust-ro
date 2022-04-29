@@ -3,13 +3,13 @@
 
 #[derive(Clone, Debug)]
 pub enum RootExpression {
-    Declaration(Box<crate::ast::declaration::Declaration>),
+    StatementList(Box<crate::ast::statement_list::StatementList>),
     
 }
 
 impl RootExpression {
-    pub fn build_from_declaration(declaration: Box<crate::ast::declaration::Declaration>) -> Self {
-        RootExpression::Declaration(declaration)
+    pub fn build_from_statement_list(statement_list: Box<crate::ast::statement_list::StatementList>) -> Self {
+        RootExpression::StatementList(statement_list)
     }
 }
 
