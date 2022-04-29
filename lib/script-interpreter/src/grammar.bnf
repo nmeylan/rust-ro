@@ -1,5 +1,9 @@
 
-<root_expression> ::= <declaration>;
+<root_expression> ::= <statement_list>;
+<statement_list> ::= <statement> | <statement_list> <statement> ;
+<statement> ::= <compound_statement> | <expression_statement>;
+<compound_statement> ::= "LeftBracket" <statement_list> "RightBracket";
+<expression_statement> ::= <any_expression> | "SemiColon";
 <primary_expression> ::= "Identifier" | "Number" | "String" | "LeftParen" <any_expression> "RightParen" ;
 <postfix_expression> ::= <primary_expression> | <postfix_expression> "LeftBracket" <any_expression> "RightBracket" | <postfix_expression> "LeftParen" "RightParen" | <postfix_expression> "Dot" "Identifier" | <postfix_expression> "IncrementOp"| <postfix_expression> "DecrementOp";
 <assignment_expression_todo> ::= <conditional_expression>| <unary_expression> <assignment_operator> <assignment_expression>  | <unary_expression> ;
