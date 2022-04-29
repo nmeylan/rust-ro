@@ -1,5 +1,5 @@
 # rust-ro
-An attempt to learn rust while toying with creation of a mmorpg server. Inspired by [herculesWS](https://github.com/HerculesWS/Hercules) and [rathena](https://github.com/rathena/rathena)
+Ragnarok mmo server reimplementation for fun. Inspired by [herculesWS](https://github.com/HerculesWS/Hercules) and [rathena](https://github.com/rathena/rathena)
 
 # Pre-requisite
 - mysql
