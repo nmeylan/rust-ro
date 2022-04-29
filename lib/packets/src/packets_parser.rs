@@ -2281,7 +2281,7 @@ pub fn parse(buffer: &[u8]) -> Box<dyn Packet> {
     if buffer[0] == 0x08 && buffer[1] == 0x3d {
         return Box::new(PacketZcSsilistItemClickAck::from(buffer));
     }
-    if buffer[0] == 0x08 && buffer[1] == 0x3e {
+    if buffer[0] == 0x3e && buffer[1] == 0x08 {
         return Box::new(PacketAcRefuseLoginR2::from(buffer));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x41 {
@@ -2348,7 +2348,7 @@ pub fn parse(buffer: &[u8]) -> Box<dyn Packet> {
         return Box::new(PacketZcHatEffect::from(buffer));
     }
     if buffer[0] == 0x47 && buffer[1] == 0x04 {
-        return Box::new(PacketCzBlockingPlayCancel::from(buffer));
+        return Box::new(PacketCzBlockingPlayCancel::from(buffer).unwrap());
     }
     if buffer[0] == 0x1B && buffer[1] == 0x0B {
         return Box::new(PacketZcLoadConfirm::from(buffer));

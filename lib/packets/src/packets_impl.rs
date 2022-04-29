@@ -7,6 +7,7 @@ use crate::packets::*;
 use byteorder::{LittleEndian,WriteBytesExt};
 use std::any::Any;
 use std::convert::TryInto;
+use std::panic;
 
 impl PacketCaLogin {
     pub fn from(buffer: &[u8]) -> PacketCaLogin {
@@ -153,6 +154,9 @@ impl Packet for PacketCaLogin {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        55
     }
 }
 
@@ -311,6 +315,9 @@ impl Packet for PacketChEnter {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        17
+    }
 }
 
 impl Default for PacketChEnter {
@@ -395,6 +402,9 @@ impl Packet for PacketChSelectChar {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        3
     }
 }
 
@@ -651,6 +661,9 @@ impl Packet for PacketChMakeChar {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        37
+    }
 }
 
 impl Default for PacketChMakeChar {
@@ -906,6 +919,9 @@ impl Packet for PacketChMakeChar2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        37
+    }
 }
 
 impl Default for PacketChMakeChar2 {
@@ -1016,6 +1032,9 @@ impl Packet for PacketChDeleteChar {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        46
     }
 }
 
@@ -1242,6 +1261,9 @@ impl Packet for PacketAcAcceptLogin {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        79
     }
 }
 
@@ -1513,6 +1535,9 @@ impl Packet for PacketAcAcceptLogin2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        224
+    }
 }
 
 impl Default for PacketAcAcceptLogin2 {
@@ -1623,6 +1648,9 @@ impl Packet for PacketAcRefuseLogin {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        23
     }
 }
 
@@ -1886,6 +1914,9 @@ impl Packet for PacketHcAcceptEnterNeoUnion {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        182
+    }
 }
 
 impl Default for PacketHcAcceptEnterNeoUnion {
@@ -1971,6 +2002,9 @@ impl Packet for PacketHcRefuseEnter {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        3
+    }
 }
 
 impl Default for PacketHcRefuseEnter {
@@ -2051,6 +2085,9 @@ impl Packet for PacketHcAcceptMakecharNeoUnion {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        1
     }
 }
 
@@ -2137,6 +2174,9 @@ impl Packet for PacketHcRefuseMakechar {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        3
+    }
 }
 
 impl Default for PacketHcRefuseMakechar {
@@ -2203,6 +2243,9 @@ impl Packet for PacketHcAcceptDeletechar {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        2
     }
 }
 
@@ -2288,6 +2331,9 @@ impl Packet for PacketHcRefuseDeletechar {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        3
     }
 }
 
@@ -2413,6 +2459,9 @@ impl Packet for PacketHcNotifyZonesvr {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        21
     }
 }
 
@@ -2571,6 +2620,9 @@ impl Packet for PacketCzEnter {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        19
+    }
 }
 
 impl Default for PacketCzEnter {
@@ -2718,6 +2770,9 @@ impl Packet for PacketZcAcceptEnter {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        11
+    }
 }
 
 impl Default for PacketZcAcceptEnter {
@@ -2802,6 +2857,9 @@ impl Packet for PacketZcRefuseEnter {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        3
     }
 }
 
@@ -2942,6 +3000,9 @@ impl Packet for PacketZcNotifyInitchar {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        11
+    }
 }
 
 impl Default for PacketZcNotifyInitchar {
@@ -3063,6 +3124,9 @@ impl Packet for PacketZcNotifyUpdatechar {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        9
+    }
 }
 
 impl Default for PacketZcNotifyUpdatechar {
@@ -3165,6 +3229,9 @@ impl Packet for PacketZcNotifyUpdateplayer {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        5
     }
 }
 
@@ -3727,6 +3794,9 @@ impl Packet for PacketZcNotifyStandentry {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        55
+    }
 }
 
 impl Default for PacketZcNotifyStandentry {
@@ -4251,6 +4321,9 @@ impl Packet for PacketZcNotifyNewentry {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        53
     }
 }
 
@@ -4813,6 +4886,9 @@ impl Packet for PacketZcNotifyActentry {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        58
+    }
 }
 
 impl Default for PacketZcNotifyActentry {
@@ -5356,6 +5432,9 @@ impl Packet for PacketZcNotifyMoveentry {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        60
+    }
 }
 
 impl Default for PacketZcNotifyMoveentry {
@@ -5809,6 +5888,9 @@ impl Packet for PacketZcNotifyStandentryNpc {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        42
+    }
 }
 
 impl Default for PacketZcNotifyStandentryNpc {
@@ -5875,6 +5957,9 @@ impl Packet for PacketCzNotifyActorinit {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        2
     }
 }
 
@@ -5961,6 +6046,9 @@ impl Packet for PacketCzRequestTime {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        6
+    }
 }
 
 impl Default for PacketCzRequestTime {
@@ -6045,6 +6133,9 @@ impl Packet for PacketZcNotifyTime {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -6149,6 +6240,9 @@ impl Packet for PacketZcNotifyVanish {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        7
+    }
 }
 
 impl Default for PacketZcNotifyVanish {
@@ -6234,6 +6328,9 @@ impl Packet for PacketScNotifyBan {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        3
+    }
 }
 
 impl Default for PacketScNotifyBan {
@@ -6300,6 +6397,9 @@ impl Packet for PacketCzRequestQuit {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        2
     }
 }
 
@@ -6368,6 +6468,9 @@ impl Packet for PacketZcAcceptQuit {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        2
+    }
 }
 
 impl Default for PacketZcAcceptQuit {
@@ -6434,6 +6537,9 @@ impl Packet for PacketZcRefuseQuit {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        2
     }
 }
 
@@ -6527,6 +6633,9 @@ impl Packet for PacketCzRequestMove {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        5
     }
 }
 
@@ -6657,6 +6766,9 @@ impl Packet for PacketZcNotifyMove {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        16
+    }
 }
 
 impl Default for PacketZcNotifyMove {
@@ -6767,6 +6879,9 @@ impl Packet for PacketZcNotifyPlayermove {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        12
     }
 }
 
@@ -6889,6 +7004,9 @@ impl Packet for PacketZcStopmove {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        10
+    }
 }
 
 impl Default for PacketZcStopmove {
@@ -6991,6 +7109,9 @@ impl Packet for PacketCzRequestAct {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        7
     }
 }
 
@@ -7221,6 +7342,9 @@ impl Packet for PacketZcNotifyAct {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        29
+    }
 }
 
 impl Default for PacketZcNotifyAct {
@@ -7432,6 +7556,9 @@ impl Packet for PacketZcNotifyActPosition {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        23
+    }
 }
 
 impl Default for PacketZcNotifyActPosition {
@@ -7528,6 +7655,9 @@ impl Packet for PacketCzRequestChat {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        3
     }
 }
 
@@ -7644,6 +7774,9 @@ impl Packet for PacketZcNotifyChat {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        7
+    }
 }
 
 impl Default for PacketZcNotifyChat {
@@ -7741,6 +7874,9 @@ impl Packet for PacketZcNotifyPlayerchat {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        3
+    }
 }
 
 impl Default for PacketZcNotifyPlayerchat {
@@ -7825,6 +7961,9 @@ impl Packet for PacketServerEntryAck {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -7928,6 +8067,9 @@ impl Packet for PacketCzContactnpc {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        7
     }
 }
 
@@ -8057,6 +8199,9 @@ impl Packet for PacketZcNpcackMapmove {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        22
     }
 }
 
@@ -8201,6 +8346,9 @@ impl Packet for PacketZcNpcackServermove {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        21
+    }
 }
 
 impl Default for PacketZcNpcackServermove {
@@ -8267,6 +8415,9 @@ impl Packet for PacketZcNpcackEnable {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        2
     }
 }
 
@@ -8352,6 +8503,9 @@ impl Packet for PacketCzReqname {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -8463,6 +8617,9 @@ impl Packet for PacketZcAckReqname {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        30
     }
 }
 
@@ -8587,6 +8744,9 @@ impl Packet for PacketCzWhisper {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        27
+    }
 }
 
 impl Default for PacketCzWhisper {
@@ -8710,6 +8870,9 @@ impl Packet for PacketZcWhisper {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        27
+    }
 }
 
 impl Default for PacketZcWhisper {
@@ -8794,6 +8957,9 @@ impl Packet for PacketZcAckWhisper {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        3
     }
 }
 
@@ -8892,6 +9058,9 @@ impl Packet for PacketCzBroadcast {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        3
+    }
 }
 
 impl Default for PacketCzBroadcast {
@@ -8988,6 +9157,9 @@ impl Packet for PacketZcBroadcast {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        3
     }
 }
 
@@ -9091,6 +9263,9 @@ impl Packet for PacketCzChangeDirection {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        5
     }
 }
 
@@ -9212,6 +9387,9 @@ impl Packet for PacketZcChangeDirection {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        9
     }
 }
 
@@ -9424,6 +9602,9 @@ impl Packet for PacketZcItemEntry {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        17
+    }
 }
 
 impl Default for PacketZcItemEntry {
@@ -9635,6 +9816,9 @@ impl Packet for PacketZcItemFallEntry {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        17
+    }
 }
 
 impl Default for PacketZcItemFallEntry {
@@ -9719,6 +9903,9 @@ impl Packet for PacketCzItemPickup {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -9967,6 +10154,9 @@ impl Packet for PacketZcItemPickupAck {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        23
+    }
 }
 
 impl Default for PacketZcItemPickupAck {
@@ -10051,6 +10241,9 @@ impl Packet for PacketZcItemDisappear {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -10154,6 +10347,9 @@ impl Packet for PacketCzItemThrow {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -10265,6 +10461,9 @@ impl Packet for PacketZcNormalItemlist {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        14
+    }
 }
 
 impl Default for PacketZcNormalItemlist {
@@ -10374,6 +10573,9 @@ impl Packet for PacketZcEquipmentItemlist {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        24
     }
 }
 
@@ -10485,6 +10687,9 @@ impl Packet for PacketZcStoreNormalItemlist {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        14
+    }
 }
 
 impl Default for PacketZcStoreNormalItemlist {
@@ -10595,6 +10800,9 @@ impl Packet for PacketZcStoreEquipmentItemlist {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        24
+    }
 }
 
 impl Default for PacketZcStoreEquipmentItemlist {
@@ -10697,6 +10905,9 @@ impl Packet for PacketCzUseItem {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        8
     }
 }
 
@@ -10819,6 +11030,9 @@ impl Packet for PacketZcUseItemAck {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        7
+    }
 }
 
 impl Default for PacketZcUseItemAck {
@@ -10921,6 +11135,9 @@ impl Packet for PacketCzReqWearEquip {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -11043,6 +11260,9 @@ impl Packet for PacketZcReqWearEquipAck {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        7
+    }
 }
 
 impl Default for PacketZcReqWearEquipAck {
@@ -11127,6 +11347,9 @@ impl Packet for PacketCzReqTakeoffEquip {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        4
     }
 }
 
@@ -11249,6 +11472,9 @@ impl Packet for PacketZcReqTakeoffEquipAck {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        7
+    }
 }
 
 impl Default for PacketZcReqTakeoffEquipAck {
@@ -11351,6 +11577,9 @@ impl Packet for PacketZcItemThrowAck {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -11455,6 +11684,9 @@ impl Packet for PacketZcParChange {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        8
+    }
 }
 
 impl Default for PacketZcParChange {
@@ -11558,6 +11790,9 @@ impl Packet for PacketZcLongparChange {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        8
+    }
 }
 
 impl Default for PacketZcLongparChange {
@@ -11643,6 +11878,9 @@ impl Packet for PacketCzRestart {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        3
+    }
 }
 
 impl Default for PacketCzRestart {
@@ -11727,6 +11965,9 @@ impl Packet for PacketZcRestartAck {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        3
     }
 }
 
@@ -11843,6 +12084,9 @@ impl Packet for PacketZcSayDialog {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        7
+    }
 }
 
 impl Default for PacketZcSayDialog {
@@ -11928,6 +12172,9 @@ impl Packet for PacketZcWaitDialog {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        6
+    }
 }
 
 impl Default for PacketZcWaitDialog {
@@ -12012,6 +12259,9 @@ impl Packet for PacketZcCloseDialog {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -12128,6 +12378,9 @@ impl Packet for PacketZcMenuList {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        7
+    }
 }
 
 impl Default for PacketZcMenuList {
@@ -12231,6 +12484,9 @@ impl Packet for PacketCzChooseMenu {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        7
+    }
 }
 
 impl Default for PacketCzChooseMenu {
@@ -12316,6 +12572,9 @@ impl Packet for PacketCzReqNextScript {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        6
+    }
 }
 
 impl Default for PacketCzReqNextScript {
@@ -12382,6 +12641,9 @@ impl Packet for PacketCzReqStatus {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        2
     }
 }
 
@@ -12485,6 +12747,9 @@ impl Packet for PacketCzStatusChange {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        5
     }
 }
 
@@ -12606,6 +12871,9 @@ impl Packet for PacketZcStatusChangeAck {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -13160,6 +13428,9 @@ impl Packet for PacketZcStatus {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        44
+    }
 }
 
 impl Default for PacketZcStatus {
@@ -13263,6 +13534,9 @@ impl Packet for PacketZcStatusChange {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        5
+    }
 }
 
 impl Default for PacketZcStatusChange {
@@ -13347,6 +13621,9 @@ impl Packet for PacketCzReqEmotion {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        3
     }
 }
 
@@ -13451,6 +13728,9 @@ impl Packet for PacketZcEmotion {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        7
+    }
 }
 
 impl Default for PacketZcEmotion {
@@ -13517,6 +13797,9 @@ impl Packet for PacketCzReqUserCount {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        2
     }
 }
 
@@ -13602,6 +13885,9 @@ impl Packet for PacketZcUserCount {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -13724,6 +14010,9 @@ impl Packet for PacketZcSpriteChange {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        8
+    }
 }
 
 impl Default for PacketZcSpriteChange {
@@ -13808,6 +14097,9 @@ impl Packet for PacketZcSelectDealtype {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -13911,6 +14203,9 @@ impl Packet for PacketCzAckSelectDealtype {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        7
     }
 }
 
@@ -14022,6 +14317,9 @@ impl Packet for PacketZcPcPurchaseItemlist {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        15
+    }
 }
 
 impl Default for PacketZcPcPurchaseItemlist {
@@ -14131,6 +14429,9 @@ impl Packet for PacketZcPcSellItemlist {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        14
     }
 }
 
@@ -14242,6 +14543,9 @@ impl Packet for PacketCzPcPurchaseItemlist {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        8
+    }
 }
 
 impl Default for PacketCzPcPurchaseItemlist {
@@ -14352,6 +14656,9 @@ impl Packet for PacketCzPcSellItemlist {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        8
+    }
 }
 
 impl Default for PacketCzPcSellItemlist {
@@ -14436,6 +14743,9 @@ impl Packet for PacketZcPcPurchaseResult {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        3
     }
 }
 
@@ -14522,6 +14832,9 @@ impl Packet for PacketZcPcSellResult {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        3
+    }
 }
 
 impl Default for PacketZcPcSellResult {
@@ -14606,6 +14919,9 @@ impl Packet for PacketCzDisconnectCharacter {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -14692,6 +15008,9 @@ impl Packet for PacketZcAckDisconnectCharacter {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        3
+    }
 }
 
 impl Default for PacketZcAckDisconnectCharacter {
@@ -14758,6 +15077,9 @@ impl Packet for PacketCzDisconnectAllCharacter {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        2
     }
 }
 
@@ -14870,6 +15192,9 @@ impl Packet for PacketCzSettingWhisperPc {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        27
+    }
 }
 
 impl Default for PacketCzSettingWhisperPc {
@@ -14954,6 +15279,9 @@ impl Packet for PacketCzSettingWhisperState {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        3
     }
 }
 
@@ -15058,6 +15386,9 @@ impl Packet for PacketZcSettingWhisperPc {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        4
+    }
 }
 
 impl Default for PacketZcSettingWhisperPc {
@@ -15161,6 +15492,9 @@ impl Packet for PacketZcSettingWhisperState {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        4
+    }
 }
 
 impl Default for PacketZcSettingWhisperState {
@@ -15227,6 +15561,9 @@ impl Packet for PacketCzReqWhisperList {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        2
     }
 }
 
@@ -15337,6 +15674,9 @@ impl Packet for PacketZcWhisperList {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        28
     }
 }
 
@@ -15497,6 +15837,9 @@ impl Packet for PacketCzCreateChatroom {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        14
+    }
 }
 
 impl Default for PacketCzCreateChatroom {
@@ -15581,6 +15924,9 @@ impl Packet for PacketZcAckCreateChatroom {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        3
     }
 }
 
@@ -15769,6 +16115,9 @@ impl Packet for PacketZcRoomNewentry {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        16
+    }
 }
 
 impl Default for PacketZcRoomNewentry {
@@ -15853,6 +16202,9 @@ impl Packet for PacketZcDestroyRoom {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -15965,6 +16317,9 @@ impl Packet for PacketCzReqEnterRoom {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        14
+    }
 }
 
 impl Default for PacketCzReqEnterRoom {
@@ -16049,6 +16404,9 @@ impl Packet for PacketZcRefuseEnterRoom {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        3
     }
 }
 
@@ -16178,6 +16536,9 @@ impl Packet for PacketZcEnterRoom {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        36
+    }
 }
 
 impl Default for PacketZcEnterRoom {
@@ -16288,6 +16649,9 @@ impl Packet for PacketZcMemberNewentry {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        28
     }
 }
 
@@ -16417,6 +16781,9 @@ impl Packet for PacketZcMemberExit {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        29
     }
 }
 
@@ -16576,6 +16943,9 @@ impl Packet for PacketCzChangeChatroom {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        14
     }
 }
 
@@ -16764,6 +17134,9 @@ impl Packet for PacketZcChangeChatroom {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        16
+    }
 }
 
 impl Default for PacketZcChangeChatroom {
@@ -16874,6 +17247,9 @@ impl Packet for PacketCzReqRoleChange {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        30
     }
 }
 
@@ -16986,6 +17362,9 @@ impl Packet for PacketZcRoleChange {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        30
+    }
 }
 
 impl Default for PacketZcRoleChange {
@@ -17079,6 +17458,9 @@ impl Packet for PacketCzReqExpelMember {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        26
+    }
 }
 
 impl Default for PacketCzReqExpelMember {
@@ -17145,6 +17527,9 @@ impl Packet for PacketCzExitRoom {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        2
     }
 }
 
@@ -17230,6 +17615,9 @@ impl Packet for PacketCzReqExchangeItem {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -17324,6 +17712,9 @@ impl Packet for PacketZcReqExchangeItem {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        26
+    }
 }
 
 impl Default for PacketZcReqExchangeItem {
@@ -17409,6 +17800,9 @@ impl Packet for PacketCzAckExchangeItem {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        3
+    }
 }
 
 impl Default for PacketCzAckExchangeItem {
@@ -17493,6 +17887,9 @@ impl Packet for PacketZcAckExchangeItem {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        3
     }
 }
 
@@ -17596,6 +17993,9 @@ impl Packet for PacketCzAddExchangeItem {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        8
     }
 }
 
@@ -17772,6 +18172,9 @@ impl Packet for PacketZcAddExchangeItem {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        19
+    }
 }
 
 impl Default for PacketZcAddExchangeItem {
@@ -17875,6 +18278,9 @@ impl Packet for PacketZcAckAddExchangeItem {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        5
+    }
 }
 
 impl Default for PacketZcAckAddExchangeItem {
@@ -17941,6 +18347,9 @@ impl Packet for PacketCzConcludeExchangeItem {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        2
     }
 }
 
@@ -18027,6 +18436,9 @@ impl Packet for PacketZcConcludeExchangeItem {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        3
+    }
 }
 
 impl Default for PacketZcConcludeExchangeItem {
@@ -18093,6 +18505,9 @@ impl Packet for PacketCzCancelExchangeItem {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        2
     }
 }
 
@@ -18161,6 +18576,9 @@ impl Packet for PacketZcCancelExchangeItem {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        2
+    }
 }
 
 impl Default for PacketZcCancelExchangeItem {
@@ -18227,6 +18645,9 @@ impl Packet for PacketCzExecExchangeItem {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        2
     }
 }
 
@@ -18313,6 +18734,9 @@ impl Packet for PacketZcExecExchangeItem {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        3
+    }
 }
 
 impl Default for PacketZcExecExchangeItem {
@@ -18379,6 +18803,9 @@ impl Packet for PacketZcExchangeitemUndo {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        2
     }
 }
 
@@ -18483,6 +18910,9 @@ impl Packet for PacketZcNotifyStoreitemCountinfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        6
+    }
 }
 
 impl Default for PacketZcNotifyStoreitemCountinfo {
@@ -18579,6 +19009,9 @@ impl Packet for PacketCzPlayerChat {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        3
     }
 }
 
@@ -18773,6 +19206,9 @@ impl Packet for PacketZcAddItemToStore {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        21
+    }
 }
 
 impl Default for PacketZcAddItemToStore {
@@ -18875,6 +19311,9 @@ impl Packet for PacketCzMoveItemFromStoreToBody {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        8
     }
 }
 
@@ -18979,6 +19418,9 @@ impl Packet for PacketZcDeleteItemFromStore {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        8
+    }
 }
 
 impl Default for PacketZcDeleteItemFromStore {
@@ -19046,6 +19488,9 @@ impl Packet for PacketCzCloseStore {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        2
+    }
 }
 
 impl Default for PacketCzCloseStore {
@@ -19112,6 +19557,9 @@ impl Packet for PacketZcCloseStore {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        2
     }
 }
 
@@ -19206,6 +19654,9 @@ impl Packet for PacketCzMakeGroup {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        26
+    }
 }
 
 impl Default for PacketCzMakeGroup {
@@ -19290,6 +19741,9 @@ impl Packet for PacketZcAckMakeGroup {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        3
     }
 }
 
@@ -19427,6 +19881,9 @@ impl Packet for PacketZcGroupList {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        74
+    }
 }
 
 impl Default for PacketZcGroupList {
@@ -19511,6 +19968,9 @@ impl Packet for PacketCzReqJoinGroup {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -19623,6 +20083,9 @@ impl Packet for PacketZcAckReqJoinGroup {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        27
+    }
 }
 
 impl Default for PacketZcAckReqJoinGroup {
@@ -19734,6 +20197,9 @@ impl Packet for PacketZcReqJoinGroup {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        30
+    }
 }
 
 impl Default for PacketZcReqJoinGroup {
@@ -19837,6 +20303,9 @@ impl Packet for PacketCzJoinGroup {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        10
+    }
 }
 
 impl Default for PacketCzJoinGroup {
@@ -19903,6 +20372,9 @@ impl Packet for PacketCzReqLeaveGroup {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        2
     }
 }
 
@@ -19989,6 +20461,9 @@ impl Packet for PacketZcGroupinfoChange {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        6
+    }
 }
 
 impl Default for PacketZcGroupinfoChange {
@@ -20073,6 +20548,9 @@ impl Packet for PacketCzChangeGroupexpoption {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -20184,6 +20662,9 @@ impl Packet for PacketCzReqExpelGroupMember {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        30
     }
 }
 
@@ -20420,6 +20901,9 @@ impl Packet for PacketZcAddMemberToGroup {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        79
+    }
 }
 
 impl Default for PacketZcAddMemberToGroup {
@@ -20549,6 +21033,9 @@ impl Packet for PacketZcDeleteMemberFromGroup {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        31
+    }
 }
 
 impl Default for PacketZcDeleteMemberFromGroup {
@@ -20669,6 +21156,9 @@ impl Packet for PacketZcNotifyHpToGroupm {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        10
     }
 }
 
@@ -20791,6 +21281,9 @@ impl Packet for PacketZcNotifyPositionToGroupm {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        10
+    }
 }
 
 impl Default for PacketZcNotifyPositionToGroupm {
@@ -20887,6 +21380,9 @@ impl Packet for PacketCzRequestChatParty {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        3
     }
 }
 
@@ -21003,6 +21499,9 @@ impl Packet for PacketZcNotifyChatParty {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        7
+    }
 }
 
 impl Default for PacketZcNotifyChatParty {
@@ -21087,6 +21586,9 @@ impl Packet for PacketZcMvpGettingItem {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        4
     }
 }
 
@@ -21173,6 +21675,9 @@ impl Packet for PacketZcMvpGettingSpecialExp {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        6
+    }
 }
 
 impl Default for PacketZcMvpGettingSpecialExp {
@@ -21258,6 +21763,9 @@ impl Packet for PacketZcMvp {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        6
+    }
 }
 
 impl Default for PacketZcMvp {
@@ -21324,6 +21832,9 @@ impl Packet for PacketZcThrowMvpitem {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        2
     }
 }
 
@@ -21482,6 +21993,9 @@ impl Packet for PacketZcSkillinfoUpdate {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        11
+    }
 }
 
 impl Default for PacketZcSkillinfoUpdate {
@@ -21591,6 +22105,9 @@ impl Packet for PacketZcSkillinfoList {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        41
     }
 }
 
@@ -21731,6 +22248,9 @@ impl Packet for PacketZcAckTouseskill {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        10
+    }
 }
 
 impl Default for PacketZcAckTouseskill {
@@ -21811,6 +22331,9 @@ impl Packet for PacketZcAddSkill {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        1
     }
 }
 
@@ -21896,6 +22419,9 @@ impl Packet for PacketCzUpgradeSkilllevel {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        4
     }
 }
 
@@ -22017,6 +22543,9 @@ impl Packet for PacketCzUseSkill {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        10
     }
 }
 
@@ -22264,6 +22793,9 @@ impl Packet for PacketZcNotifySkill {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        31
     }
 }
 
@@ -22548,6 +23080,9 @@ impl Packet for PacketZcNotifySkillPosition {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        35
+    }
 }
 
 impl Default for PacketZcNotifySkillPosition {
@@ -22686,6 +23221,9 @@ impl Packet for PacketCzUseSkillToground {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        10
     }
 }
 
@@ -22862,6 +23400,9 @@ impl Packet for PacketZcNotifyGroundskill {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        18
+    }
 }
 
 impl Default for PacketZcNotifyGroundskill {
@@ -22928,6 +23469,9 @@ impl Packet for PacketCzCancelLockon {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        2
     }
 }
 
@@ -23086,6 +23630,9 @@ impl Packet for PacketZcStateChange {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        13
+    }
 }
 
 impl Default for PacketZcStateChange {
@@ -23243,6 +23790,9 @@ impl Packet for PacketZcUseSkill {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        15
+    }
 }
 
 impl Default for PacketZcUseSkill {
@@ -23353,6 +23903,9 @@ impl Packet for PacketCzSelectWarppoint {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        20
     }
 }
 
@@ -23465,6 +24018,9 @@ impl Packet for PacketZcWarplist {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        8
+    }
 }
 
 impl Default for PacketZcWarplist {
@@ -23531,6 +24087,9 @@ impl Packet for PacketCzRememberWarppoint {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        2
     }
 }
 
@@ -23616,6 +24175,9 @@ impl Packet for PacketZcAckRememberWarppoint {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        3
     }
 }
 
@@ -23792,6 +24354,9 @@ impl Packet for PacketZcSkillEntry {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        16
+    }
 }
 
 impl Default for PacketZcSkillEntry {
@@ -23876,6 +24441,9 @@ impl Packet for PacketZcSkillDisappear {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -24016,6 +24584,9 @@ impl Packet for PacketZcNotifyCartitemCountinfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        14
+    }
 }
 
 impl Default for PacketZcNotifyCartitemCountinfo {
@@ -24126,6 +24697,9 @@ impl Packet for PacketZcCartEquipmentItemlist {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        24
+    }
 }
 
 impl Default for PacketZcCartEquipmentItemlist {
@@ -24235,6 +24809,9 @@ impl Packet for PacketZcCartNormalItemlist {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        14
     }
 }
 
@@ -24429,6 +25006,9 @@ impl Packet for PacketZcAddItemToCart {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        21
+    }
 }
 
 impl Default for PacketZcAddItemToCart {
@@ -24531,6 +25111,9 @@ impl Packet for PacketZcDeleteItemFromCart {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        8
     }
 }
 
@@ -24635,6 +25218,9 @@ impl Packet for PacketCzMoveItemFromBodyToCart {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        8
+    }
 }
 
 impl Default for PacketCzMoveItemFromBodyToCart {
@@ -24737,6 +25323,9 @@ impl Packet for PacketCzMoveItemFromCartToBody {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        8
     }
 }
 
@@ -24841,6 +25430,9 @@ impl Packet for PacketCzMoveItemFromStoreToCart {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        8
+    }
 }
 
 impl Default for PacketCzMoveItemFromStoreToCart {
@@ -24944,6 +25536,9 @@ impl Packet for PacketCzMoveItemFromCartToStore {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        8
+    }
 }
 
 impl Default for PacketCzMoveItemFromCartToStore {
@@ -25011,6 +25606,9 @@ impl Packet for PacketCzReqCartoff {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        2
+    }
 }
 
 impl Default for PacketCzReqCartoff {
@@ -25077,6 +25675,9 @@ impl Packet for PacketZcCartoff {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        2
     }
 }
 
@@ -25163,6 +25764,9 @@ impl Packet for PacketZcAckAdditemToCart {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        3
+    }
 }
 
 impl Default for PacketZcAckAdditemToCart {
@@ -25248,6 +25852,9 @@ impl Packet for PacketZcOpenstore {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        4
+    }
 }
 
 impl Default for PacketZcOpenstore {
@@ -25314,6 +25921,9 @@ impl Packet for PacketCzReqClosestore {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        2
     }
 }
 
@@ -25451,6 +26061,9 @@ impl Packet for PacketCzReqOpenstore {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        92
+    }
 }
 
 impl Default for PacketCzReqOpenstore {
@@ -25535,6 +26148,9 @@ impl Packet for PacketCzReqBuyFrommc {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -25647,6 +26263,9 @@ impl Packet for PacketZcStoreEntry {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        86
+    }
 }
 
 impl Default for PacketZcStoreEntry {
@@ -25731,6 +26350,9 @@ impl Packet for PacketZcDisappearEntry {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -25860,6 +26482,9 @@ impl Packet for PacketZcPcPurchaseItemlistFrommc {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        30
+    }
 }
 
 impl Default for PacketZcPcPurchaseItemlistFrommc {
@@ -25988,6 +26613,9 @@ impl Packet for PacketCzPcPurchaseItemlistFrommc {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        12
+    }
 }
 
 impl Default for PacketCzPcPurchaseItemlistFrommc {
@@ -26108,6 +26736,9 @@ impl Packet for PacketZcPcPurchaseResultFrommc {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        7
     }
 }
 
@@ -26237,6 +26868,9 @@ impl Packet for PacketZcPcPurchaseMyitemlist {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        30
+    }
 }
 
 impl Default for PacketZcPcPurchaseMyitemlist {
@@ -26340,6 +26974,9 @@ impl Packet for PacketZcDeleteitemFromMcstore {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        6
+    }
 }
 
 impl Default for PacketZcDeleteitemFromMcstore {
@@ -26424,6 +27061,9 @@ impl Packet for PacketCzPkmodeChange {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        3
     }
 }
 
@@ -26600,6 +27240,9 @@ impl Packet for PacketZcAttackFailureForDistance {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        16
+    }
 }
 
 impl Default for PacketZcAttackFailureForDistance {
@@ -26684,6 +27327,9 @@ impl Packet for PacketZcAttackRange {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        4
     }
 }
 
@@ -26770,6 +27416,9 @@ impl Packet for PacketZcActionFailure {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        4
+    }
 }
 
 impl Default for PacketZcActionFailure {
@@ -26854,6 +27503,9 @@ impl Packet for PacketZcEquipArrow {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        4
     }
 }
 
@@ -26957,6 +27609,9 @@ impl Packet for PacketZcRecovery {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -27151,6 +27806,9 @@ impl Packet for PacketZcUseskillAck {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        24
+    }
 }
 
 impl Default for PacketZcUseskillAck {
@@ -27243,6 +27901,9 @@ impl Packet for PacketCzItemCreate {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        26
     }
 }
 
@@ -27373,6 +28034,9 @@ impl Packet for PacketCzMovetoMap {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        22
+    }
 }
 
 impl Default for PacketCzMovetoMap {
@@ -27494,6 +28158,9 @@ impl Packet for PacketZcStatusValues {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        14
+    }
 }
 
 impl Default for PacketZcStatusValues {
@@ -27578,6 +28245,9 @@ impl Packet for PacketZcOpenEditdlg {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -27681,6 +28351,9 @@ impl Packet for PacketCzInputEditdlg {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        10
     }
 }
 
@@ -27857,6 +28530,9 @@ impl Packet for PacketZcCompass {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        23
+    }
 }
 
 impl Default for PacketZcCompass {
@@ -27968,6 +28644,9 @@ impl Packet for PacketZcShowImage {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        19
+    }
 }
 
 impl Default for PacketZcShowImage {
@@ -28053,6 +28732,9 @@ impl Packet for PacketCzCloseDialog {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        6
+    }
 }
 
 impl Default for PacketCzCloseDialog {
@@ -28133,6 +28815,9 @@ impl Packet for PacketZcAutorunSkill {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        1
     }
 }
 
@@ -28236,6 +28921,9 @@ impl Packet for PacketZcResurrection {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        8
     }
 }
 
@@ -28358,6 +29046,9 @@ impl Packet for PacketCzReqGiveMannerPoint {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        9
+    }
 }
 
 impl Default for PacketCzReqGiveMannerPoint {
@@ -28442,6 +29133,9 @@ impl Packet for PacketZcAckGiveMannerPoint {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -28554,6 +29248,9 @@ impl Packet for PacketZcNotifyMannerPointGiven {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        27
+    }
 }
 
 impl Default for PacketZcNotifyMannerPointGiven {
@@ -28664,6 +29361,9 @@ impl Packet for PacketZcMyguildBasicInfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        36
+    }
 }
 
 impl Default for PacketZcMyguildBasicInfo {
@@ -28730,6 +29430,9 @@ impl Packet for PacketCzReqGuildMenuinterface {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        2
     }
 }
 
@@ -28816,6 +29519,9 @@ impl Packet for PacketZcAckGuildMenuinterface {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        6
+    }
 }
 
 impl Default for PacketZcAckGuildMenuinterface {
@@ -28900,6 +29606,9 @@ impl Packet for PacketCzReqGuildMenu {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -29244,6 +29953,9 @@ impl Packet for PacketZcGuildInfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        110
+    }
 }
 
 impl Default for PacketZcGuildInfo {
@@ -29328,6 +30040,9 @@ impl Packet for PacketCzReqGuildEmblemImg {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -29462,6 +30177,9 @@ impl Packet for PacketZcGuildEmblemImg {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        11
+    }
 }
 
 impl Default for PacketZcGuildEmblemImg {
@@ -29558,6 +30276,9 @@ impl Packet for PacketCzRegisterGuildEmblemImg {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        3
     }
 }
 
@@ -29669,6 +30390,9 @@ impl Packet for PacketZcMembermgrInfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        108
+    }
 }
 
 impl Default for PacketZcMembermgrInfo {
@@ -29778,6 +30502,9 @@ impl Packet for PacketCzReqChangeMemberpos {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        16
     }
 }
 
@@ -29889,6 +30616,9 @@ impl Packet for PacketZcAckReqChangeMembers {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        16
+    }
 }
 
 impl Default for PacketZcAckReqChangeMembers {
@@ -29974,6 +30704,9 @@ impl Packet for PacketCzReqOpenMemberInfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        6
+    }
 }
 
 impl Default for PacketCzReqOpenMemberInfo {
@@ -30040,6 +30773,9 @@ impl Packet for PacketZcAckOpenMemberInfo {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        2
     }
 }
 
@@ -30188,6 +30924,9 @@ impl Packet for PacketCzReqLeaveGuild {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        54
+    }
 }
 
 impl Default for PacketCzReqLeaveGuild {
@@ -30306,6 +31045,9 @@ impl Packet for PacketZcAckLeaveGuild {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        66
     }
 }
 
@@ -30454,6 +31196,9 @@ impl Packet for PacketCzReqBanGuild {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        54
+    }
 }
 
 impl Default for PacketCzReqBanGuild {
@@ -30599,6 +31344,9 @@ impl Packet for PacketZcAckBanGuild {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        90
+    }
 }
 
 impl Default for PacketZcAckBanGuild {
@@ -30692,6 +31440,9 @@ impl Packet for PacketCzReqDisorganizeGuild {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        42
+    }
 }
 
 impl Default for PacketCzReqDisorganizeGuild {
@@ -30776,6 +31527,9 @@ impl Packet for PacketZcAckDisorganizeGuildResult {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -30869,6 +31623,9 @@ impl Packet for PacketZcAckDisorganizeGuild {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        42
     }
 }
 
@@ -30980,6 +31737,9 @@ impl Packet for PacketZcPositionInfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        20
+    }
 }
 
 impl Default for PacketZcPositionInfo {
@@ -31089,6 +31849,9 @@ impl Packet for PacketCzRegChangeGuildPositioninfo {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        44
     }
 }
 
@@ -31218,6 +31981,9 @@ impl Packet for PacketZcGuildSkillinfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        43
+    }
 }
 
 impl Default for PacketZcGuildSkillinfo {
@@ -31328,6 +32094,9 @@ impl Packet for PacketZcBanList {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        92
+    }
 }
 
 impl Default for PacketZcBanList {
@@ -31437,6 +32206,9 @@ impl Packet for PacketZcOtherGuildList {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        40
     }
 }
 
@@ -31549,6 +32321,9 @@ impl Packet for PacketCzReqMakeGuild {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        30
+    }
 }
 
 impl Default for PacketCzReqMakeGuild {
@@ -31659,6 +32434,9 @@ impl Packet for PacketZcPositionIdNameInfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        32
+    }
 }
 
 impl Default for PacketZcPositionIdNameInfo {
@@ -31743,6 +32521,9 @@ impl Packet for PacketZcResultMakeGuild {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        3
     }
 }
 
@@ -31865,6 +32646,9 @@ impl Packet for PacketCzReqJoinGuild {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        14
+    }
 }
 
 impl Default for PacketCzReqJoinGuild {
@@ -31949,6 +32733,9 @@ impl Packet for PacketZcAckReqJoinGuild {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        3
     }
 }
 
@@ -32061,6 +32848,9 @@ impl Packet for PacketZcReqJoinGuild {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        30
+    }
 }
 
 impl Default for PacketZcReqJoinGuild {
@@ -32163,6 +32953,9 @@ impl Packet for PacketCzJoinGuild {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        10
     }
 }
 
@@ -32347,6 +33140,9 @@ impl Packet for PacketZcUpdateGdid {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        43
+    }
 }
 
 impl Default for PacketZcUpdateGdid {
@@ -32467,6 +33263,9 @@ impl Packet for PacketZcUpdateCharstat {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        14
     }
 }
 
@@ -32605,6 +33404,9 @@ impl Packet for PacketCzGuildNotice {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        186
+    }
 }
 
 impl Default for PacketCzGuildNotice {
@@ -32723,6 +33525,9 @@ impl Packet for PacketZcGuildNotice {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        182
     }
 }
 
@@ -32845,6 +33650,9 @@ impl Packet for PacketCzReqAllyGuild {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        14
+    }
 }
 
 impl Default for PacketCzReqAllyGuild {
@@ -32956,6 +33764,9 @@ impl Packet for PacketZcReqAllyGuild {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        30
+    }
 }
 
 impl Default for PacketZcReqAllyGuild {
@@ -33059,6 +33870,9 @@ impl Packet for PacketCzAllyGuild {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        10
+    }
 }
 
 impl Default for PacketCzAllyGuild {
@@ -33143,6 +33957,9 @@ impl Packet for PacketZcAckReqAllyGuild {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        3
     }
 }
 
@@ -33254,6 +34071,9 @@ impl Packet for PacketZcAckChangeGuildPositioninfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        34
+    }
 }
 
 impl Default for PacketZcAckChangeGuildPositioninfo {
@@ -33339,6 +34159,9 @@ impl Packet for PacketCzReqGuildMemberInfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        6
+    }
 }
 
 impl Default for PacketCzReqGuildMemberInfo {
@@ -33419,6 +34242,9 @@ impl Packet for PacketZcAckGuildMemberInfo {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        1
     }
 }
 
@@ -33520,6 +34346,9 @@ impl Packet for PacketZcItemidentifyList {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        3
+    }
 }
 
 impl Default for PacketZcItemidentifyList {
@@ -33604,6 +34433,9 @@ impl Packet for PacketCzReqItemidentify {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        4
     }
 }
 
@@ -33708,6 +34540,9 @@ impl Packet for PacketZcAckItemidentify {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        5
+    }
 }
 
 impl Default for PacketZcAckItemidentify {
@@ -33792,6 +34627,9 @@ impl Packet for PacketCzReqItemcompositionList {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        4
     }
 }
 
@@ -33892,6 +34730,9 @@ impl Packet for PacketZcItemcompositionList {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        3
     }
 }
 
@@ -33995,6 +34836,9 @@ impl Packet for PacketCzReqItemcomposition {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -34117,6 +34961,9 @@ impl Packet for PacketZcAckItemcomposition {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        7
+    }
 }
 
 impl Default for PacketZcAckItemcomposition {
@@ -34213,6 +35060,9 @@ impl Packet for PacketCzGuildChat {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        3
     }
 }
 
@@ -34311,6 +35161,9 @@ impl Packet for PacketZcGuildChat {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        3
+    }
 }
 
 impl Default for PacketZcGuildChat {
@@ -34395,6 +35248,9 @@ impl Packet for PacketCzReqHostileGuild {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -34481,6 +35337,9 @@ impl Packet for PacketZcAckReqHostileGuild {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        3
+    }
 }
 
 impl Default for PacketZcAckReqHostileGuild {
@@ -34561,6 +35420,9 @@ impl Packet for PacketZcMemberAdd {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        1
     }
 }
 
@@ -34665,6 +35527,9 @@ impl Packet for PacketCzReqDeleteRelatedGuild {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        10
+    }
 }
 
 impl Default for PacketCzReqDeleteRelatedGuild {
@@ -34768,6 +35633,9 @@ impl Packet for PacketZcDeleteRelatedGuild {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        10
+    }
 }
 
 impl Default for PacketZcDeleteRelatedGuild {
@@ -34848,6 +35716,9 @@ impl Packet for PacketZcAddRelatedGuild {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        1
     }
 }
 
@@ -34934,6 +35805,9 @@ impl Packet for PacketCollectordead {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        6
+    }
 }
 
 impl Default for PacketCollectordead {
@@ -35018,6 +35892,9 @@ impl Packet for PacketPing {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -35140,6 +36017,9 @@ impl Packet for PacketZcAckItemrefining {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        8
+    }
 }
 
 impl Default for PacketZcAckItemrefining {
@@ -35224,6 +36104,9 @@ impl Packet for PacketZcNotifyMapinfo {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        4
     }
 }
 
@@ -35310,6 +36193,9 @@ impl Packet for PacketCzReqDisconnect {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        4
+    }
 }
 
 impl Default for PacketCzReqDisconnect {
@@ -35394,6 +36280,9 @@ impl Packet for PacketZcAckReqDisconnect {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        4
     }
 }
 
@@ -35620,6 +36509,9 @@ impl Packet for PacketZcMonsterInfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        19
+    }
 }
 
 impl Default for PacketZcMonsterInfo {
@@ -35719,6 +36611,9 @@ impl Packet for PacketZcMakableitemlist {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        3
+    }
 }
 
 impl Default for PacketZcMakableitemlist {
@@ -35799,6 +36694,9 @@ impl Packet for PacketCzReqmakingitem {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        1
     }
 }
 
@@ -35902,6 +36800,9 @@ impl Packet for PacketZcAckReqmakingitem {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -36068,6 +36969,9 @@ impl Packet for PacketCzUseSkillTogroundWithtalkbox {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        90
+    }
 }
 
 impl Default for PacketCzUseSkillTogroundWithtalkbox {
@@ -36178,6 +37082,9 @@ impl Packet for PacketZcTalkboxChatcontents {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        86
     }
 }
 
@@ -36326,6 +37233,9 @@ impl Packet for PacketZcUpdateMapinfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        24
+    }
 }
 
 impl Default for PacketZcUpdateMapinfo {
@@ -36410,6 +37320,9 @@ impl Packet for PacketCzReqnameBygid {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -36521,6 +37434,9 @@ impl Packet for PacketZcAckReqnameBygid {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        30
     }
 }
 
@@ -36711,6 +37627,9 @@ impl Packet for PacketZcAckReqnameall {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        102
+    }
 }
 
 impl Default for PacketZcAckReqnameall {
@@ -36832,6 +37751,9 @@ impl Packet for PacketZcMsgStateChange {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        9
+    }
 }
 
 impl Default for PacketZcMsgStateChange {
@@ -36916,6 +37838,9 @@ impl Packet for PacketCzReset {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        4
     }
 }
 
@@ -37038,6 +37963,9 @@ impl Packet for PacketCzChangeMaptype {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        8
+    }
 }
 
 impl Default for PacketCzChangeMaptype {
@@ -37122,6 +38050,9 @@ impl Packet for PacketZcNotifyMapproperty {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        4
     }
 }
 
@@ -37244,6 +38175,9 @@ impl Packet for PacketZcNotifyRanking {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        14
+    }
 }
 
 impl Default for PacketZcNotifyRanking {
@@ -37347,6 +38281,9 @@ impl Packet for PacketZcNotifyEffect {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        10
+    }
 }
 
 impl Default for PacketZcNotifyEffect {
@@ -37432,6 +38369,9 @@ impl Packet for PacketCzChangeEffectstate {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        6
+    }
 }
 
 impl Default for PacketCzChangeEffectstate {
@@ -37498,6 +38438,9 @@ impl Packet for PacketZcStartCapture {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        2
     }
 }
 
@@ -37584,6 +38527,9 @@ impl Packet for PacketCzTrycaptureMonster {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        6
+    }
 }
 
 impl Default for PacketCzTrycaptureMonster {
@@ -37669,6 +38615,9 @@ impl Packet for PacketZcTrycaptureMonster {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        3
+    }
 }
 
 impl Default for PacketZcTrycaptureMonster {
@@ -37753,6 +38702,9 @@ impl Packet for PacketCzCommandPet {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        3
     }
 }
 
@@ -37955,6 +38907,9 @@ impl Packet for PacketZcPropertyPet {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        37
+    }
 }
 
 impl Default for PacketZcPropertyPet {
@@ -38057,6 +39012,9 @@ impl Packet for PacketZcFeedPet {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        5
     }
 }
 
@@ -38179,6 +39137,9 @@ impl Packet for PacketZcChangestatePet {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        11
+    }
 }
 
 impl Default for PacketZcChangestatePet {
@@ -38271,6 +39232,9 @@ impl Packet for PacketCzRenamePet {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        26
     }
 }
 
@@ -38382,6 +39346,9 @@ impl Packet for PacketZcPeteggList {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        6
+    }
 }
 
 impl Default for PacketZcPeteggList {
@@ -38466,6 +39433,9 @@ impl Packet for PacketCzSelectPetegg {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        4
     }
 }
 
@@ -38552,6 +39522,9 @@ impl Packet for PacketCzPeteggInfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        4
+    }
 }
 
 impl Default for PacketCzPeteggInfo {
@@ -38636,6 +39609,9 @@ impl Packet for PacketCzPetAct {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -38739,6 +39715,9 @@ impl Packet for PacketZcPetAct {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        10
     }
 }
 
@@ -38861,6 +39840,9 @@ impl Packet for PacketZcParChangeUser {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        12
+    }
 }
 
 impl Default for PacketZcParChangeUser {
@@ -38945,6 +39927,9 @@ impl Packet for PacketZcSkillUpdate {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -39056,6 +40041,9 @@ impl Packet for PacketZcMakingarrowList {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        6
+    }
 }
 
 impl Default for PacketZcMakingarrowList {
@@ -39141,6 +40129,9 @@ impl Packet for PacketCzReqMakingarrow {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        4
+    }
 }
 
 impl Default for PacketCzReqMakingarrow {
@@ -39225,6 +40216,9 @@ impl Packet for PacketCzReqChangecart {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        4
     }
 }
 
@@ -39347,6 +40341,9 @@ impl Packet for PacketZcNpcspriteChange {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        11
+    }
 }
 
 impl Default for PacketZcNpcspriteChange {
@@ -39449,6 +40446,9 @@ impl Packet for PacketZcShowdigit {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        7
     }
 }
 
@@ -39604,6 +40604,9 @@ impl Packet for PacketCzReqOpenstore2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        93
+    }
 }
 
 impl Default for PacketCzReqOpenstore2 {
@@ -39714,6 +40717,9 @@ impl Packet for PacketZcShowImage2 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        67
     }
 }
 
@@ -39835,6 +40841,9 @@ impl Packet for PacketZcChangeGuild {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        12
     }
 }
 
@@ -39974,6 +40983,9 @@ impl Packet for PacketScBillingInfo {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        18
     }
 }
 
@@ -40336,6 +41348,9 @@ impl Packet for PacketZcGuildInfo2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        114
+    }
 }
 
 impl Default for PacketZcGuildInfo2 {
@@ -40420,6 +41435,9 @@ impl Packet for PacketCzGuildZeny {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -40506,6 +41524,9 @@ impl Packet for PacketZcGuildZenyAck {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        3
+    }
 }
 
 impl Default for PacketZcGuildZenyAck {
@@ -40590,6 +41611,9 @@ impl Packet for PacketZcDispel {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -40684,6 +41708,9 @@ impl Packet for PacketCzRemoveAid {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        26
+    }
 }
 
 impl Default for PacketCzRemoveAid {
@@ -40776,6 +41803,9 @@ impl Packet for PacketCzShift {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        26
     }
 }
 
@@ -40870,6 +41900,9 @@ impl Packet for PacketCzRecall {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        26
+    }
 }
 
 impl Default for PacketCzRecall {
@@ -40963,6 +41996,9 @@ impl Packet for PacketCzRecallGid {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        26
+    }
 }
 
 impl Default for PacketCzRecallGid {
@@ -41029,6 +42065,9 @@ impl Packet for PacketAcAskPngameroom {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        2
     }
 }
 
@@ -41115,6 +42154,9 @@ impl Packet for PacketCaReplyPngameroom {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        3
+    }
 }
 
 impl Default for PacketCaReplyPngameroom {
@@ -41181,6 +42223,9 @@ impl Packet for PacketCzReqRemaintime {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        2
     }
 }
 
@@ -41303,6 +42348,9 @@ impl Packet for PacketZcReplyRemaintime {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        14
+    }
 }
 
 impl Default for PacketZcReplyRemaintime {
@@ -41405,6 +42453,9 @@ impl Packet for PacketZcInfoRemaintime {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        10
     }
 }
 
@@ -41592,6 +42643,9 @@ impl Packet for PacketZcBroadcast2 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        15
     }
 }
 
@@ -41804,6 +42858,9 @@ impl Packet for PacketZcAddItemToStore2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        22
+    }
 }
 
 impl Default for PacketZcAddItemToStore2 {
@@ -42015,6 +43072,9 @@ impl Packet for PacketZcAddItemToCart2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        22
+    }
 }
 
 impl Default for PacketZcAddItemToCart2 {
@@ -42118,6 +43178,9 @@ impl Packet for PacketCsReqEncryption {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        4
+    }
 }
 
 impl Default for PacketCsReqEncryption {
@@ -42184,6 +43247,9 @@ impl Packet for PacketScAckEncryption {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        2
     }
 }
 
@@ -42341,6 +43407,9 @@ impl Packet for PacketZcUseItemAck2 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        13
     }
 }
 
@@ -42561,6 +43630,9 @@ impl Packet for PacketZcSkillEntry2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        97
+    }
 }
 
 impl Default for PacketZcSkillEntry2 {
@@ -42645,6 +43717,9 @@ impl Packet for PacketCzReqmakinghomun {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        3
     }
 }
 
@@ -42785,6 +43860,9 @@ impl Packet for PacketCzMonsterTalk {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        9
+    }
 }
 
 impl Default for PacketCzMonsterTalk {
@@ -42924,6 +44002,9 @@ impl Packet for PacketZcMonsterTalk {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        9
+    }
 }
 
 impl Default for PacketZcMonsterTalk {
@@ -43017,6 +44098,9 @@ impl Packet for PacketZcAutospelllist {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        9
+    }
 }
 
 impl Default for PacketZcAutospelllist {
@@ -43101,6 +44185,9 @@ impl Packet for PacketCzSelectautospell {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -43231,6 +44318,9 @@ impl Packet for PacketZcDevotionlist {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        13
+    }
 }
 
 impl Default for PacketZcDevotionlist {
@@ -43333,6 +44423,9 @@ impl Packet for PacketZcSpirits {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        8
     }
 }
 
@@ -43455,6 +44548,9 @@ impl Packet for PacketZcBladestop {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        14
+    }
 }
 
 impl Default for PacketZcBladestop {
@@ -43557,6 +44653,9 @@ impl Packet for PacketZcCombodelay {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        10
     }
 }
 
@@ -43705,6 +44804,9 @@ impl Packet for PacketZcSound {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        35
+    }
 }
 
 impl Default for PacketZcSound {
@@ -43789,6 +44891,9 @@ impl Packet for PacketZcOpenEditdlgstr {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -43905,6 +45010,9 @@ impl Packet for PacketCzInputEditdlgstr {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        7
+    }
 }
 
 impl Default for PacketCzInputEditdlgstr {
@@ -43989,6 +45097,9 @@ impl Packet for PacketZcNotifyMaptypeproperty2 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        4
     }
 }
 
@@ -44110,6 +45221,9 @@ impl Packet for PacketZcSpriteChange2 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        11
     }
 }
 
@@ -44636,6 +45750,9 @@ impl Packet for PacketZcNotifyStandentry2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        54
+    }
 }
 
 impl Default for PacketZcNotifyStandentry2 {
@@ -45142,6 +46259,9 @@ impl Packet for PacketZcNotifyNewentry2 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        53
     }
 }
 
@@ -45668,6 +46788,9 @@ impl Packet for PacketZcNotifyMoveentry2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        60
+    }
 }
 
 impl Default for PacketZcNotifyMoveentry2 {
@@ -45734,6 +46857,9 @@ impl Packet for PacketCaReqHash {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        2
     }
 }
 
@@ -45831,6 +46957,9 @@ impl Packet for PacketAcAckHash {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        3
     }
 }
 
@@ -45986,6 +47115,9 @@ impl Packet for PacketCaLogin2 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        47
     }
 }
 
@@ -46234,6 +47366,9 @@ impl Packet for PacketZcNotifySkill2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        33
+    }
 }
 
 impl Default for PacketZcNotifySkill2 {
@@ -46318,6 +47453,9 @@ impl Packet for PacketCzReqAccountname {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -46430,6 +47568,9 @@ impl Packet for PacketZcAckAccountname {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        30
+    }
 }
 
 impl Default for PacketZcAckAccountname {
@@ -46532,6 +47673,9 @@ impl Packet for PacketZcSpirits2 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        8
     }
 }
 
@@ -46662,6 +47806,9 @@ impl Packet for PacketZcReqCouple {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        34
+    }
 }
 
 impl Default for PacketZcReqCouple {
@@ -46783,6 +47930,9 @@ impl Packet for PacketCzJoinCouple {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        14
+    }
 }
 
 impl Default for PacketCzJoinCouple {
@@ -46849,6 +47999,9 @@ impl Packet for PacketZcStartCouple {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        2
     }
 }
 
@@ -46934,6 +48087,9 @@ impl Packet for PacketCzReqJoinCouple {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -47028,6 +48184,9 @@ impl Packet for PacketZcCouplename {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        26
+    }
 }
 
 impl Default for PacketZcCouplename {
@@ -47094,6 +48253,9 @@ impl Packet for PacketCzDoridori {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        2
     }
 }
 
@@ -47223,6 +48385,9 @@ impl Packet for PacketCzMakeGroup2 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        28
     }
 }
 
@@ -47495,6 +48660,9 @@ impl Packet for PacketZcAddMemberToGroup2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        81
+    }
 }
 
 impl Default for PacketZcAddMemberToGroup2 {
@@ -47579,6 +48747,9 @@ impl Packet for PacketZcCongratulation {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -47700,6 +48871,9 @@ impl Packet for PacketZcNotifyPositionToGuildm {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        10
     }
 }
 
@@ -47830,6 +49004,9 @@ impl Packet for PacketZcGuildMemberMapChange {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        26
+    }
 }
 
 impl Default for PacketZcGuildMemberMapChange {
@@ -47896,6 +49073,9 @@ impl Packet for PacketCzChopokgi {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        2
     }
 }
 
@@ -48007,6 +49187,9 @@ impl Packet for PacketZcNormalItemlist2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        22
+    }
 }
 
 impl Default for PacketZcNormalItemlist2 {
@@ -48116,6 +49299,9 @@ impl Packet for PacketZcCartNormalItemlist2 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        22
     }
 }
 
@@ -48227,6 +49413,9 @@ impl Packet for PacketZcStoreNormalItemlist2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        22
+    }
 }
 
 impl Default for PacketZcStoreNormalItemlist2 {
@@ -48323,6 +49512,9 @@ impl Packet for PacketAcNotifyError {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        3
     }
 }
 
@@ -48499,6 +49691,9 @@ impl Packet for PacketZcUpdateCharstat2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        20
+    }
 }
 
 impl Default for PacketZcUpdateCharstat2 {
@@ -48601,6 +49796,9 @@ impl Packet for PacketZcNotifyEffect2 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        10
     }
 }
 
@@ -48731,6 +49929,9 @@ impl Packet for PacketZcReqExchangeItem2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        32
+    }
 }
 
 impl Default for PacketZcReqExchangeItem2 {
@@ -48851,6 +50052,9 @@ impl Packet for PacketZcAckExchangeItem2 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        9
     }
 }
 
@@ -48981,6 +50185,9 @@ impl Packet for PacketZcReqBaby {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        34
+    }
 }
 
 impl Default for PacketZcReqBaby {
@@ -49102,6 +50309,9 @@ impl Packet for PacketCzJoinBaby {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        14
+    }
 }
 
 impl Default for PacketCzJoinBaby {
@@ -49168,6 +50378,9 @@ impl Packet for PacketZcStartBaby {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        2
     }
 }
 
@@ -49253,6 +50466,9 @@ impl Packet for PacketCzReqJoinBaby {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -49427,6 +50643,9 @@ impl Packet for PacketCaLogin3 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        48
+    }
 }
 
 impl Default for PacketCaLogin3 {
@@ -49538,6 +50757,9 @@ impl Packet for PacketChDeleteChar2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        56
+    }
 }
 
 impl Default for PacketChDeleteChar2 {
@@ -49648,6 +50870,9 @@ impl Packet for PacketZcRepairitemlist {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        17
+    }
 }
 
 impl Default for PacketZcRepairitemlist {
@@ -49728,6 +50953,9 @@ impl Packet for PacketCzReqItemrepair {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        1
     }
 }
 
@@ -49831,6 +51059,9 @@ impl Packet for PacketZcAckItemrepair {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        5
     }
 }
 
@@ -49953,6 +51184,9 @@ impl Packet for PacketZcHighjump {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        10
+    }
 }
 
 impl Default for PacketZcHighjump {
@@ -50045,6 +51279,9 @@ impl Packet for PacketCaConnectInfoChanged {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        26
     }
 }
 
@@ -50156,6 +51393,9 @@ impl Packet for PacketZcFriendsList {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        36
+    }
 }
 
 impl Default for PacketZcFriendsList {
@@ -50248,6 +51488,9 @@ impl Packet for PacketCzAddFriends {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        26
     }
 }
 
@@ -50352,6 +51595,9 @@ impl Packet for PacketCzDeleteFriends {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        10
+    }
 }
 
 impl Default for PacketCzDeleteFriends {
@@ -50445,6 +51691,9 @@ impl Packet for PacketCaExeHashcheck {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        18
+    }
 }
 
 impl Default for PacketCaExeHashcheck {
@@ -50537,6 +51786,9 @@ impl Packet for PacketZcDivorce {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        26
     }
 }
 
@@ -50658,6 +51910,9 @@ impl Packet for PacketZcFriendsState {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        11
     }
 }
 
@@ -50788,6 +52043,9 @@ impl Packet for PacketZcReqAddFriends {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        34
+    }
 }
 
 impl Default for PacketZcReqAddFriends {
@@ -50908,6 +52166,9 @@ impl Packet for PacketCzAckReqAddFriends {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        14
     }
 }
 
@@ -51056,6 +52317,9 @@ impl Packet for PacketZcAddFriendsList {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        36
+    }
 }
 
 impl Default for PacketZcAddFriendsList {
@@ -51158,6 +52422,9 @@ impl Packet for PacketZcDeleteFriends {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        10
     }
 }
 
@@ -51270,6 +52537,9 @@ impl Packet for PacketAcRefuseLoginR3 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        26
+    }
 }
 
 impl Default for PacketAcRefuseLoginR3 {
@@ -51381,6 +52651,9 @@ impl Packet for PacketCzExeHashcheck {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        19
+    }
 }
 
 impl Default for PacketCzExeHashcheck {
@@ -51490,6 +52763,9 @@ impl Packet for PacketHcBlockCharacter {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        28
     }
 }
 
@@ -51638,6 +52914,9 @@ impl Packet for PacketZcStarskill {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        32
+    }
 }
 
 impl Default for PacketZcStarskill {
@@ -51740,6 +53019,9 @@ impl Packet for PacketCzReqPvppoint {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        10
     }
 }
 
@@ -51858,6 +53140,9 @@ impl Packet for PacketZcAckPvppoint {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        9
+    }
 }
 
 impl Default for PacketZcAckPvppoint {
@@ -51942,6 +53227,9 @@ impl Packet for PacketZhMovePvpworld {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -52036,6 +53324,9 @@ impl Packet for PacketCzReqGiveMannerByname {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        26
+    }
 }
 
 impl Default for PacketCzReqGiveMannerByname {
@@ -52128,6 +53419,9 @@ impl Packet for PacketCzReqStatusGm {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        26
     }
 }
 
@@ -52664,6 +53958,9 @@ impl Packet for PacketZcAckStatusGm {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        42
+    }
 }
 
 impl Default for PacketZcAckStatusGm {
@@ -52748,6 +54045,9 @@ impl Packet for PacketZcSkillmsg {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -52834,6 +54134,9 @@ impl Packet for PacketZcBabymsg {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        6
+    }
 }
 
 impl Default for PacketZcBabymsg {
@@ -52901,6 +54204,9 @@ impl Packet for PacketCzBlacksmithRank {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        2
+    }
 }
 
 impl Default for PacketCzBlacksmithRank {
@@ -52967,6 +54273,9 @@ impl Packet for PacketCzAlchemistRank {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        2
     }
 }
 
@@ -53087,6 +54396,9 @@ impl Packet for PacketZcBlacksmithRank {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        22
+    }
 }
 
 impl Default for PacketZcBlacksmithRank {
@@ -53206,6 +54518,9 @@ impl Packet for PacketZcAlchemistRank {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        22
+    }
 }
 
 impl Default for PacketZcAlchemistRank {
@@ -53308,6 +54623,9 @@ impl Packet for PacketZcBlacksmithPoint {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        10
     }
 }
 
@@ -53412,6 +54730,9 @@ impl Packet for PacketZcAlchemistPoint {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        10
+    }
 }
 
 impl Default for PacketZcAlchemistPoint {
@@ -53497,6 +54818,9 @@ impl Packet for PacketCzLesseffect {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        6
+    }
 }
 
 impl Default for PacketCzLesseffect {
@@ -53581,6 +54905,9 @@ impl Packet for PacketZcLesseffect {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -53751,6 +55078,9 @@ impl Packet for PacketZcNotifyPkinfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        57
+    }
 }
 
 impl Default for PacketZcNotifyPkinfo {
@@ -53853,6 +55183,9 @@ impl Packet for PacketZcNotifyCrazykiller {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        10
     }
 }
 
@@ -53964,6 +55297,9 @@ impl Packet for PacketZcNotifyWeaponitemlist {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        17
+    }
 }
 
 impl Default for PacketZcNotifyWeaponitemlist {
@@ -54048,6 +55384,9 @@ impl Packet for PacketCzReqWeaponrefine {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -54152,6 +55491,9 @@ impl Packet for PacketZcAckWeaponrefine {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        8
+    }
 }
 
 impl Default for PacketZcAckWeaponrefine {
@@ -54255,6 +55597,9 @@ impl Packet for PacketZcTaekwonPoint {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        10
+    }
 }
 
 impl Default for PacketZcTaekwonPoint {
@@ -54321,6 +55666,9 @@ impl Packet for PacketCzTaekwonRank {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        2
     }
 }
 
@@ -54441,6 +55789,9 @@ impl Packet for PacketZcTaekwonRank {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        22
+    }
 }
 
 impl Default for PacketZcTaekwonRank {
@@ -54534,6 +55885,9 @@ impl Packet for PacketZcGameGuard {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        6
+    }
 }
 
 impl Default for PacketZcGameGuard {
@@ -54626,6 +55980,9 @@ impl Packet for PacketCzAckGameGuard {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -54783,6 +56140,9 @@ impl Packet for PacketZcStateChange3 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        15
     }
 }
 
@@ -55309,6 +56669,9 @@ impl Packet for PacketZcNotifyStandentry3 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        58
+    }
 }
 
 impl Default for PacketZcNotifyStandentry3 {
@@ -55815,6 +57178,9 @@ impl Packet for PacketZcNotifyNewentry3 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        57
     }
 }
 
@@ -56359,6 +57725,9 @@ impl Packet for PacketZcNotifyMoveentry3 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        65
+    }
 }
 
 impl Default for PacketZcNotifyMoveentry3 {
@@ -56461,6 +57830,9 @@ impl Packet for PacketCzCommandMer {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        5
     }
 }
 
@@ -56933,6 +58305,9 @@ impl Packet for PacketZcPropertyHomun {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        71
+    }
 }
 
 impl Default for PacketZcPropertyHomun {
@@ -57072,6 +58447,9 @@ impl Packet for PacketZcChangestateMer {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        12
+    }
 }
 
 impl Default for PacketZcChangestateMer {
@@ -57164,6 +58542,9 @@ impl Packet for PacketCzRenameMer {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        26
     }
 }
 
@@ -57275,6 +58656,9 @@ impl Packet for PacketCzRequestMovenpc {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        9
     }
 }
 
@@ -57397,6 +58781,9 @@ impl Packet for PacketCzRequestActnpc {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        11
+    }
 }
 
 impl Default for PacketCzRequestActnpc {
@@ -57482,6 +58869,9 @@ impl Packet for PacketCzRequestMovetoowner {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        6
+    }
 }
 
 impl Default for PacketCzRequestMovetoowner {
@@ -57566,6 +58956,9 @@ impl Packet for PacketZcReqStorePassword {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        4
     }
 }
 
@@ -57704,6 +59097,9 @@ impl Packet for PacketCzAckStorePassword {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        36
+    }
 }
 
 impl Default for PacketCzAckStorePassword {
@@ -57807,6 +59203,9 @@ impl Packet for PacketZcResultStorePassword {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        6
+    }
 }
 
 impl Default for PacketZcResultStorePassword {
@@ -57891,6 +59290,9 @@ impl Packet for PacketAcEventResult {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -57995,6 +59397,9 @@ impl Packet for PacketHcRequestCharacterPassword {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        8
+    }
 }
 
 impl Default for PacketHcRequestCharacterPassword {
@@ -58061,6 +59466,9 @@ impl Packet for PacketCzMailGetList {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        2
     }
 }
 
@@ -58190,6 +59598,9 @@ impl Packet for PacketZcMailReqGetList {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        81
+    }
 }
 
 impl Default for PacketZcMailReqGetList {
@@ -58274,6 +59685,9 @@ impl Packet for PacketCzMailOpen {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -58622,6 +60036,9 @@ impl Packet for PacketZcMailReqOpen {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        99
+    }
 }
 
 impl Default for PacketZcMailReqOpen {
@@ -58706,6 +60123,9 @@ impl Packet for PacketCzMailDelete {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -58792,6 +60212,9 @@ impl Packet for PacketCzMailGetItem {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        6
+    }
 }
 
 impl Default for PacketCzMailGetItem {
@@ -58877,6 +60300,9 @@ impl Packet for PacketZcMailReqGetItem {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        3
+    }
 }
 
 impl Default for PacketZcMailReqGetItem {
@@ -58961,6 +60387,9 @@ impl Packet for PacketCzMailResetItem {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        4
     }
 }
 
@@ -59064,6 +60493,9 @@ impl Packet for PacketCzMailAddItem {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        8
     }
 }
 
@@ -59232,6 +60664,9 @@ impl Packet for PacketCzMailSend {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        71
+    }
 }
 
 impl Default for PacketCzMailSend {
@@ -59316,6 +60751,9 @@ impl Packet for PacketZcMailReqSend {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        3
     }
 }
 
@@ -59454,6 +60892,9 @@ impl Packet for PacketZcMailReceive {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        70
+    }
 }
 
 impl Default for PacketZcMailReceive {
@@ -59538,6 +60979,9 @@ impl Packet for PacketCzAuctionCreate {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        4
     }
 }
 
@@ -59641,6 +61085,9 @@ impl Packet for PacketCzAuctionAddItem {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        8
     }
 }
 
@@ -59763,6 +61210,9 @@ impl Packet for PacketCzAuctionAdd {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        12
+    }
 }
 
 impl Default for PacketCzAuctionAdd {
@@ -59847,6 +61297,9 @@ impl Packet for PacketCzAuctionAddCancel {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -59951,6 +61404,9 @@ impl Packet for PacketCzAuctionBuy {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        10
+    }
 }
 
 impl Default for PacketCzAuctionBuy {
@@ -60035,6 +61491,9 @@ impl Packet for PacketZcAuctionResult {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        3
     }
 }
 
@@ -60183,6 +61642,9 @@ impl Packet for PacketCzAuctionItemSearch {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        34
+    }
 }
 
 impl Default for PacketCzAuctionItemSearch {
@@ -60329,6 +61791,9 @@ impl Packet for PacketZcAuctionItemReqSearch {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        95
+    }
 }
 
 impl Default for PacketZcAuctionItemReqSearch {
@@ -60414,6 +61879,9 @@ impl Packet for PacketZcStarplace {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        3
+    }
 }
 
 impl Default for PacketZcStarplace {
@@ -60498,6 +61966,9 @@ impl Packet for PacketCzAgreeStarplace {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        3
     }
 }
 
@@ -60602,6 +62073,9 @@ impl Packet for PacketZcAckMailAddItem {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        5
+    }
 }
 
 impl Default for PacketZcAckMailAddItem {
@@ -60704,6 +62178,9 @@ impl Packet for PacketZcAckAuctionAddItem {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        5
     }
 }
 
@@ -60808,6 +62285,9 @@ impl Packet for PacketZcAckMailDelete {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        8
+    }
 }
 
 impl Default for PacketZcAckMailDelete {
@@ -60874,6 +62354,9 @@ impl Packet for PacketCaReqGameGuardCheck {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        2
     }
 }
 
@@ -60959,6 +62442,9 @@ impl Packet for PacketAcAckGameGuard {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        3
     }
 }
 
@@ -61059,6 +62545,9 @@ impl Packet for PacketZcMakingitemList {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        3
     }
 }
 
@@ -61163,6 +62652,9 @@ impl Packet for PacketCzReqMakingitem {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        6
+    }
 }
 
 impl Default for PacketCzReqMakingitem {
@@ -61247,6 +62739,9 @@ impl Packet for PacketCzAuctionReqMyInfo {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        4
     }
 }
 
@@ -61333,6 +62828,9 @@ impl Packet for PacketCzAuctionReqMySellStop {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        6
+    }
 }
 
 impl Default for PacketCzAuctionReqMySellStop {
@@ -61417,6 +62915,9 @@ impl Packet for PacketZcAuctionAckMySellStop {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        4
     }
 }
 
@@ -61503,6 +63004,9 @@ impl Packet for PacketZcAuctionWindows {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        6
+    }
 }
 
 impl Default for PacketZcAuctionWindows {
@@ -61587,6 +63091,9 @@ impl Packet for PacketZcMailWindows {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -61681,6 +63188,9 @@ impl Packet for PacketAcReqLoginOldekey {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        11
+    }
 }
 
 impl Default for PacketAcReqLoginOldekey {
@@ -61774,6 +63284,9 @@ impl Packet for PacketAcReqLoginNewekey {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        11
+    }
 }
 
 impl Default for PacketAcReqLoginNewekey {
@@ -61866,6 +63379,9 @@ impl Packet for PacketAcReqLoginCardpass {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        11
     }
 }
 
@@ -61986,6 +63502,9 @@ impl Packet for PacketCaAckLoginOldekey {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        20
+    }
 }
 
 impl Default for PacketCaAckLoginOldekey {
@@ -62105,6 +63624,9 @@ impl Packet for PacketCaAckLoginNewekey {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        20
+    }
 }
 
 impl Default for PacketCaAckLoginNewekey {
@@ -62198,6 +63720,9 @@ impl Packet for PacketCaAckLoginCardpass {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        30
+    }
 }
 
 impl Default for PacketCaAckLoginCardpass {
@@ -62282,6 +63807,9 @@ impl Packet for PacketAcAckEkeyFailNotexist {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        4
     }
 }
 
@@ -62368,6 +63896,9 @@ impl Packet for PacketAcAckEkeyFailNotusesekey {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        4
+    }
 }
 
 impl Default for PacketAcAckEkeyFailNotusesekey {
@@ -62452,6 +63983,9 @@ impl Packet for PacketAcAckEkeyFailNotusedekey {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        4
     }
 }
 
@@ -62538,6 +64072,9 @@ impl Packet for PacketAcAckEkeyFailAuthrefuse {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        4
+    }
 }
 
 impl Default for PacketAcAckEkeyFailAuthrefuse {
@@ -62622,6 +64159,9 @@ impl Packet for PacketAcAckEkeyFailInputekey {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        4
     }
 }
 
@@ -62708,6 +64248,9 @@ impl Packet for PacketAcAckEkeyFailNotice {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        4
+    }
 }
 
 impl Default for PacketAcAckEkeyFailNotice {
@@ -62792,6 +64335,9 @@ impl Packet for PacketAcAckEkeyFailNeedcardpass {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        4
     }
 }
 
@@ -62878,6 +64424,9 @@ impl Packet for PacketAcAckAuthekeyFailNotmatchcardpass {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        4
+    }
 }
 
 impl Default for PacketAcAckAuthekeyFailNotmatchcardpass {
@@ -62945,6 +64494,9 @@ impl Packet for PacketAcAckFirstLogin {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        2
+    }
 }
 
 impl Default for PacketAcAckFirstLogin {
@@ -63011,6 +64563,9 @@ impl Packet for PacketAcReqLoginAccountInfo {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        2
     }
 }
 
@@ -63141,6 +64696,9 @@ impl Packet for PacketCaAckLoginAccountInfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        40
+    }
 }
 
 impl Default for PacketCaAckLoginAccountInfo {
@@ -63260,6 +64818,9 @@ impl Packet for PacketAcAckPtIdInfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        44
+    }
 }
 
 impl Default for PacketAcAckPtIdInfo {
@@ -63371,6 +64932,9 @@ impl Packet for PacketCzReqMailReturn {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        30
+    }
 }
 
 impl Default for PacketCzReqMailReturn {
@@ -63473,6 +65037,9 @@ impl Packet for PacketZcAckMailReturn {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        8
     }
 }
 
@@ -63674,6 +65241,9 @@ impl Packet for PacketChEnter2 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        37
     }
 }
 
@@ -63894,6 +65464,9 @@ impl Packet for PacketCaAcceptLogin2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        51
+    }
 }
 
 impl Default for PacketCaAcceptLogin2 {
@@ -64101,6 +65674,9 @@ impl Packet for PacketCaLoginPcbang {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        84
+    }
 }
 
 impl Default for PacketCaLoginPcbang {
@@ -64168,6 +65744,9 @@ impl Packet for PacketZcNotifyPcbang {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        2
+    }
 }
 
 impl Default for PacketZcNotifyPcbang {
@@ -64234,6 +65813,9 @@ impl Packet for PacketCzHuntinglist {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        2
     }
 }
 
@@ -64344,6 +65926,9 @@ impl Packet for PacketZcHuntinglist {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        16
     }
 }
 
@@ -64465,6 +66050,9 @@ impl Packet for PacketZcPcbangEffect {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        14
     }
 }
 
@@ -64646,6 +66234,9 @@ impl Packet for PacketCaLogin4 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        60
     }
 }
 
@@ -65046,6 +66637,9 @@ impl Packet for PacketZcPropertyMerce {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        62
+    }
 }
 
 impl Default for PacketZcPropertyMerce {
@@ -65161,6 +66755,9 @@ impl Packet for PacketZcShandaProtect {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        5
+    }
 }
 
 impl Default for PacketZcShandaProtect {
@@ -65263,6 +66860,9 @@ impl Packet for PacketCaClientType {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        8
     }
 }
 
@@ -65385,6 +66985,9 @@ impl Packet for PacketZcGangsiPoint {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        12
+    }
 }
 
 impl Default for PacketZcGangsiPoint {
@@ -65469,6 +67072,9 @@ impl Packet for PacketCzGangsiRank {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        4
     }
 }
 
@@ -65607,6 +67213,9 @@ impl Packet for PacketZcGangsiRank {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        24
+    }
 }
 
 impl Default for PacketZcGangsiRank {
@@ -65691,6 +67300,9 @@ impl Packet for PacketZcAid {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -65813,6 +67425,9 @@ impl Packet for PacketZcNotifyEffect3 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        14
+    }
 }
 
 impl Default for PacketZcNotifyEffect3 {
@@ -65916,6 +67531,9 @@ impl Packet for PacketZcDeathQuestion {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        6
+    }
 }
 
 impl Default for PacketZcDeathQuestion {
@@ -66000,6 +67618,9 @@ impl Packet for PacketCzDeathQuestion {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        4
     }
 }
 
@@ -66129,6 +67750,9 @@ impl Packet for PacketZcPcCashPointItemlist {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        19
+    }
 }
 
 impl Default for PacketZcPcCashPointItemlist {
@@ -66232,6 +67856,9 @@ impl Packet for PacketCzPcBuyCashPointItem {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        6
+    }
 }
 
 impl Default for PacketCzPcBuyCashPointItem {
@@ -66334,6 +67961,9 @@ impl Packet for PacketZcPcCashPointUpdate {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        8
     }
 }
 
@@ -66474,6 +68104,9 @@ impl Packet for PacketZcNpcShowefstUpdate {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        18
+    }
 }
 
 impl Default for PacketZcNpcShowefstUpdate {
@@ -66602,6 +68235,9 @@ impl Packet for PacketChSelectCharGoingtobeused {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        19
     }
 }
 
@@ -66732,6 +68368,9 @@ impl Packet for PacketChReqIsValidCharname {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        34
+    }
 }
 
 impl Default for PacketChReqIsValidCharname {
@@ -66816,6 +68455,9 @@ impl Packet for PacketHcAckIsValidCharname {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        4
     }
 }
 
@@ -66902,6 +68544,9 @@ impl Packet for PacketChReqChangeCharname {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        6
+    }
 }
 
 impl Default for PacketChReqChangeCharname {
@@ -66986,6 +68631,9 @@ impl Packet for PacketHcAckChangeCharname {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        4
     }
 }
 
@@ -67072,6 +68720,9 @@ impl Packet for PacketZcMsg {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        4
+    }
 }
 
 impl Default for PacketZcMsg {
@@ -67138,6 +68789,9 @@ impl Packet for PacketCzStandingResurrection {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        2
     }
 }
 
@@ -67358,6 +69012,9 @@ impl Packet for PacketZcBossInfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        70
+    }
 }
 
 impl Default for PacketZcBossInfo {
@@ -67460,6 +69117,9 @@ impl Packet for PacketZcReadBook {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        10
     }
 }
 
@@ -67571,6 +69231,9 @@ impl Packet for PacketZcEquipmentItemlist2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        28
+    }
 }
 
 impl Default for PacketZcEquipmentItemlist2 {
@@ -67680,6 +69343,9 @@ impl Packet for PacketZcStoreEquipmentItemlist2 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        28
     }
 }
 
@@ -67791,6 +69457,9 @@ impl Packet for PacketZcCartEquipmentItemlist2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        28
+    }
 }
 
 impl Default for PacketZcCartEquipmentItemlist2 {
@@ -67894,6 +69563,9 @@ impl Packet for PacketZcCashTimeCounter {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        8
+    }
 }
 
 impl Default for PacketZcCashTimeCounter {
@@ -67996,6 +69668,9 @@ impl Packet for PacketZcCashItemDelete {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -68261,6 +69936,9 @@ impl Packet for PacketZcItemPickupAck2 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        27
     }
 }
 
@@ -68697,6 +70375,9 @@ impl Packet for PacketZcMerInit {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        80
+    }
 }
 
 impl Default for PacketZcMerInit {
@@ -69096,6 +70777,9 @@ impl Packet for PacketZcMerProperty {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        66
+    }
 }
 
 impl Default for PacketZcMerProperty {
@@ -69205,6 +70889,9 @@ impl Packet for PacketZcMerSkillinfoList {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        41
     }
 }
 
@@ -69363,6 +71050,9 @@ impl Packet for PacketZcMerSkillinfoUpdate {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        11
+    }
 }
 
 impl Default for PacketZcMerSkillinfoUpdate {
@@ -69447,6 +71137,9 @@ impl Packet for PacketCzMerCommand {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        3
     }
 }
 
@@ -69569,6 +71262,9 @@ impl Packet for UnusedPacketCzMerUseSkill {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        10
+    }
 }
 
 impl Default for UnusedPacketCzMerUseSkill {
@@ -69653,6 +71349,9 @@ impl Packet for UnusedPacketCzMerUpgradeSkilllevel {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        4
     }
 }
 
@@ -69757,6 +71456,9 @@ impl Packet for PacketZcMerParChange {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        8
+    }
 }
 
 impl Default for PacketZcMerParChange {
@@ -69837,6 +71539,9 @@ impl Packet for PacketZcGameguardLingoKey {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        1
     }
 }
 
@@ -69941,6 +71646,9 @@ impl Packet for PacketCzKsyEvent {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        8
+    }
 }
 
 impl Default for PacketCzKsyEvent {
@@ -70025,6 +71733,9 @@ impl Packet for PacketZcReqCashPassword {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        4
     }
 }
 
@@ -70163,6 +71874,9 @@ impl Packet for PacketCzAckCashPassword {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        36
+    }
 }
 
 impl Default for PacketCzAckCashPassword {
@@ -70266,6 +71980,9 @@ impl Packet for PacketZcResultCashPassword {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        6
+    }
 }
 
 impl Default for PacketZcResultCashPassword {
@@ -70368,6 +72085,9 @@ impl Packet for PacketAcRequestSecondPassword {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        8
     }
 }
 
@@ -70594,6 +72314,9 @@ impl Packet for PacketCaLoginHan {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        85
+    }
 }
 
 impl Default for PacketCaLoginHan {
@@ -70722,6 +72445,9 @@ impl Packet for PacketZcAllQuestList {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        13
+    }
 }
 
 impl Default for PacketZcAllQuestList {
@@ -70849,6 +72575,9 @@ impl Packet for PacketZcAllQuestMission {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        112
     }
 }
 
@@ -71032,6 +72761,9 @@ impl Packet for PacketZcAddQuest {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        47
+    }
 }
 
 impl Default for PacketZcAddQuest {
@@ -71116,6 +72848,9 @@ impl Packet for PacketZcDelQuest {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -71245,6 +72980,9 @@ impl Packet for PacketZcUpdateMissionHunt {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        18
+    }
 }
 
 impl Default for PacketZcUpdateMissionHunt {
@@ -71348,6 +73086,9 @@ impl Packet for PacketCzActiveQuest {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        7
+    }
 }
 
 impl Default for PacketCzActiveQuest {
@@ -71450,6 +73191,9 @@ impl Packet for PacketZcActiveQuest {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        7
     }
 }
 
@@ -71662,6 +73406,9 @@ impl Packet for PacketZcItemPickupParty {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        22
+    }
 }
 
 impl Default for PacketZcItemPickupParty {
@@ -71753,6 +73500,9 @@ impl Packet for PacketZcShortcutKeyList {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        9
     }
 }
 
@@ -71852,6 +73602,9 @@ impl Packet for PacketCzShortcutKeyChange {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        3
     }
 }
 
@@ -71956,6 +73709,9 @@ impl Packet for PacketZcEquipitemDamaged {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        8
+    }
 }
 
 impl Default for PacketZcEquipitemDamaged {
@@ -72040,6 +73796,9 @@ impl Packet for PacketZcNotifyPcbangPlayingTime {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -72162,6 +73921,9 @@ impl Packet for PacketZcSrpacketr2Init {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        12
+    }
 }
 
 impl Default for PacketZcSrpacketr2Init {
@@ -72246,6 +74008,9 @@ impl Packet for PacketCzSrpacketr2Start {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        4
     }
 }
 
@@ -72380,6 +74145,9 @@ impl Packet for PacketZcNpcChat {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        11
+    }
 }
 
 impl Default for PacketZcNpcChat {
@@ -72495,6 +74263,9 @@ impl Packet for PacketZcFormatstringMsg {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        5
+    }
 }
 
 impl Default for PacketZcFormatstringMsg {
@@ -72587,6 +74358,9 @@ impl Packet for PacketCzPartyJoinReq {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        26
     }
 }
 
@@ -72699,6 +74473,9 @@ impl Packet for PacketZcPartyJoinReqAck {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        30
+    }
 }
 
 impl Default for PacketZcPartyJoinReqAck {
@@ -72810,6 +74587,9 @@ impl Packet for PacketZcPartyJoinReq {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        30
+    }
 }
 
 impl Default for PacketZcPartyJoinReq {
@@ -72913,6 +74693,9 @@ impl Packet for PacketCzPartyJoinReqAck {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        7
+    }
 }
 
 impl Default for PacketCzPartyJoinReqAck {
@@ -72997,6 +74780,9 @@ impl Packet for PacketCzPartyConfig {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        3
     }
 }
 
@@ -73083,6 +74869,9 @@ impl Packet for PacketZcPartyConfig {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        3
+    }
 }
 
 impl Default for PacketZcPartyConfig {
@@ -73167,6 +74956,9 @@ impl Packet for PacketHcRefuseSelectchar {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        3
     }
 }
 
@@ -73279,6 +75071,9 @@ impl Packet for PacketZcMemorialdungeonSubscriptionInfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        65
+    }
 }
 
 impl Default for PacketZcMemorialdungeonSubscriptionInfo {
@@ -73363,6 +75158,9 @@ impl Packet for PacketZcMemorialdungeonSubscriptionNotify {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        4
     }
 }
 
@@ -73493,6 +75291,9 @@ impl Packet for PacketZcMemorialdungeonInfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        71
+    }
 }
 
 impl Default for PacketZcMemorialdungeonInfo {
@@ -73596,6 +75397,9 @@ impl Packet for PacketZcMemorialdungeonNotify {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        10
+    }
 }
 
 impl Default for PacketZcMemorialdungeonNotify {
@@ -73680,6 +75484,9 @@ impl Packet for PacketCzMemorialdungeonCommand {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -73791,6 +75598,9 @@ impl Packet for PacketZcEquipmentItemlist3 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        32
+    }
 }
 
 impl Default for PacketZcEquipmentItemlist3 {
@@ -73900,6 +75710,9 @@ impl Packet for PacketZcStoreEquipmentItemlist3 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        32
     }
 }
 
@@ -74011,6 +75824,9 @@ impl Packet for PacketZcCartEquipmentItemlist3 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        32
+    }
 }
 
 impl Default for PacketZcCartEquipmentItemlist3 {
@@ -74095,6 +75911,9 @@ impl Packet for PacketZcNotifyBindOnEquip {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        4
     }
 }
 
@@ -74379,6 +76198,9 @@ impl Packet for PacketZcItemPickupAck3 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        29
+    }
 }
 
 impl Default for PacketZcItemPickupAck3 {
@@ -74445,6 +76267,9 @@ impl Packet for PacketZcIsvrDisconnect {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        2
     }
 }
 
@@ -74530,6 +76355,9 @@ impl Packet for PacketCzEquipwinMicroscope {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -74811,6 +76639,9 @@ impl Packet for PacketZcEquipwinMicroscope {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        71
+    }
 }
 
 impl Default for PacketZcEquipwinMicroscope {
@@ -74913,6 +76744,9 @@ impl Packet for PacketCzConfig {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        10
     }
 }
 
@@ -75017,6 +76851,9 @@ impl Packet for PacketZcConfig {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        10
+    }
 }
 
 impl Default for PacketZcConfig {
@@ -75101,6 +76938,9 @@ impl Packet for PacketZcConfigNotify {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        3
     }
 }
 
@@ -75198,6 +77038,9 @@ impl Packet for PacketCzBattlefieldChat {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        3
     }
 }
 
@@ -75340,6 +77183,9 @@ impl Packet for PacketZcBattlefieldChat {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        31
+    }
 }
 
 impl Default for PacketZcBattlefieldChat {
@@ -75469,6 +77315,9 @@ impl Packet for PacketZcBattlefieldNotifyCampinfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        32
+    }
 }
 
 impl Default for PacketZcBattlefieldNotifyCampinfo {
@@ -75571,6 +77420,9 @@ impl Packet for PacketZcBattlefieldNotifyPoint {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -75737,6 +77589,9 @@ impl Packet for PacketZcBattlefieldNotifyPosition {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        36
+    }
 }
 
 impl Default for PacketZcBattlefieldNotifyPosition {
@@ -75883,6 +77738,9 @@ impl Packet for PacketZcBattlefieldNotifyHp {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        34
     }
 }
 
@@ -76113,6 +77971,9 @@ impl Packet for PacketZcNotifyAct2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        33
+    }
 }
 
 impl Default for PacketZcNotifyAct2 {
@@ -76197,6 +78058,9 @@ impl Packet for PacketCzBotCheck {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -76316,6 +78180,9 @@ impl Packet for PacketZcMapproperty {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        5
+    }
 }
 
 impl Default for PacketZcMapproperty {
@@ -76425,6 +78292,9 @@ impl Packet for PacketZcNormalItemlist3 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        26
     }
 }
 
@@ -76536,6 +78406,9 @@ impl Packet for PacketZcCartNormalItemlist3 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        26
+    }
 }
 
 impl Default for PacketZcCartNormalItemlist3 {
@@ -76645,6 +78518,9 @@ impl Packet for PacketZcStoreNormalItemlist3 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        26
     }
 }
 
@@ -76810,6 +78686,9 @@ impl Packet for PacketZcAcceptEnter2 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        13
     }
 }
 
@@ -77372,6 +79251,9 @@ impl Packet for PacketZcNotifyMoveentry4 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        67
+    }
 }
 
 impl Default for PacketZcNotifyMoveentry4 {
@@ -77896,6 +79778,9 @@ impl Packet for PacketZcNotifyNewentry4 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        59
     }
 }
 
@@ -78440,6 +80325,9 @@ impl Packet for PacketZcNotifyStandentry4 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        60
+    }
 }
 
 impl Default for PacketZcNotifyStandentry4 {
@@ -78542,6 +80430,9 @@ impl Packet for PacketZcNotifyFont {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        8
     }
 }
 
@@ -78646,6 +80537,9 @@ impl Packet for PacketZcProgress {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        10
+    }
 }
 
 impl Default for PacketZcProgress {
@@ -78712,6 +80606,9 @@ impl Packet for PacketCzProgress {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        2
     }
 }
 
@@ -78780,6 +80677,9 @@ impl Packet for PacketZcProgressCancel {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        2
+    }
 }
 
 impl Default for PacketZcProgressCancel {
@@ -78846,6 +80746,9 @@ impl Packet for PacketCzOpenSimpleCashshopItemlist {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        2
     }
 }
 
@@ -79047,6 +80950,9 @@ impl Packet for PacketZcSimpleCashshopPointItemlist {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        27
+    }
 }
 
 impl Default for PacketZcSimpleCashshopPointItemlist {
@@ -79113,6 +81019,9 @@ impl Packet for PacketCzCloseWindow {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        2
     }
 }
 
@@ -79207,6 +81116,9 @@ impl Packet for PacketAhcGameGuard {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        6
+    }
 }
 
 impl Default for PacketAhcGameGuard {
@@ -79299,6 +81211,9 @@ impl Packet for PacketCahAckGameGuard {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -79457,6 +81372,9 @@ impl Packet for PacketCzEnter2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        19
+    }
 }
 
 impl Default for PacketCzEnter2 {
@@ -79614,6 +81532,9 @@ impl Packet for PacketCzEnter3 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        19
+    }
 }
 
 impl Default for PacketCzEnter3 {
@@ -79716,6 +81637,9 @@ impl Packet for PacketCzRequestAct2 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        7
     }
 }
 
@@ -79838,6 +81762,9 @@ impl Packet for PacketCzUseSkill2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        10
+    }
 }
 
 impl Default for PacketCzUseSkill2 {
@@ -79941,6 +81868,9 @@ impl Packet for PacketCzUseItem2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        8
+    }
 }
 
 impl Default for PacketCzUseItem2 {
@@ -80043,6 +81973,9 @@ impl Packet for PacketZcSkillPostdelay {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        8
     }
 }
 
@@ -80153,6 +82086,9 @@ impl Packet for PacketZcSkillPostdelayList {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        10
     }
 }
 
@@ -80319,6 +82255,9 @@ impl Packet for PacketZcMsgStateChange2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        16
+    }
 }
 
 impl Default for PacketZcMsgStateChange2 {
@@ -80440,6 +82379,9 @@ impl Packet for PacketZcMillenniumshield {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        10
+    }
 }
 
 impl Default for PacketZcMillenniumshield {
@@ -80524,6 +82466,9 @@ impl Packet for PacketZcSkillinfoDelete {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        4
     }
 }
 
@@ -80643,6 +82588,9 @@ impl Packet for PacketZcSkillSelectRequest {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        7
+    }
 }
 
 impl Default for PacketZcSkillSelectRequest {
@@ -80745,6 +82693,9 @@ impl Packet for PacketCzSkillSelectResponse {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        8
     }
 }
 
@@ -80874,6 +82825,9 @@ impl Packet for PacketZcSimpleCashPointItemlist {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        19
+    }
 }
 
 impl Default for PacketZcSimpleCashPointItemlist {
@@ -80976,6 +82930,9 @@ impl Packet for PacketCzSimpleBuyCashPointItem {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -81134,6 +83091,9 @@ impl Packet for PacketZcQuestNotifyEffect {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        14
+    }
 }
 
 impl Default for PacketZcQuestNotifyEffect {
@@ -81244,6 +83204,9 @@ impl Packet for PacketHcCharacterList {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        9
+    }
 }
 
 impl Default for PacketHcCharacterList {
@@ -81328,6 +83291,9 @@ impl Packet for PacketZcHackshErrorMsg {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        4
     }
 }
 
@@ -81414,6 +83380,9 @@ impl Packet for PacketCzClientVersion {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        6
+    }
 }
 
 impl Default for PacketCzClientVersion {
@@ -81480,6 +83449,9 @@ impl Packet for PacketCzCloseSimplecashShop {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        2
     }
 }
 
@@ -81584,6 +83556,9 @@ impl Packet for PacketZcEsResult {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        6
+    }
 }
 
 impl Default for PacketZcEsResult {
@@ -81650,6 +83625,9 @@ impl Packet for PacketCzEsGetList {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        2
     }
 }
 
@@ -81754,6 +83732,9 @@ impl Packet for PacketZcEsList {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        6
+    }
 }
 
 impl Default for PacketZcEsList {
@@ -81838,6 +83819,9 @@ impl Packet for PacketCzEsChoose {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        4
     }
 }
 
@@ -81924,6 +83908,9 @@ impl Packet for PacketCzEsCancel {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        4
+    }
 }
 
 impl Default for PacketCzEsCancel {
@@ -82009,6 +83996,9 @@ impl Packet for PacketZcEsReady {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        4
+    }
 }
 
 impl Default for PacketZcEsReady {
@@ -82093,6 +84083,9 @@ impl Packet for PacketZcEsGoto {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        4
     }
 }
 
@@ -82215,6 +84208,9 @@ impl Packet for PacketCzGroupinfoChangeV2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        8
+    }
 }
 
 impl Default for PacketCzGroupinfoChangeV2 {
@@ -82336,6 +84332,9 @@ impl Packet for PacketZcReqGroupinfoChangeV2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        8
+    }
 }
 
 impl Default for PacketZcReqGroupinfoChangeV2 {
@@ -82428,6 +84427,9 @@ impl Packet for PacketZcShortcutKeyListV2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        9
+    }
 }
 
 impl Default for PacketZcShortcutKeyListV2 {
@@ -82512,6 +84514,9 @@ impl Packet for PacketCzChangeGroupMaster {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -82616,6 +84621,9 @@ impl Packet for PacketZcHoParChange {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        8
+    }
 }
 
 impl Default for PacketZcHoParChange {
@@ -82700,6 +84708,9 @@ impl Packet for PacketCzSeekParty {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -82874,6 +84885,9 @@ impl Packet for PacketZcSeekParty {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        54
+    }
 }
 
 impl Default for PacketZcSeekParty {
@@ -83020,6 +85034,9 @@ impl Packet for PacketCzSeekPartyMember {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        30
     }
 }
 
@@ -83194,6 +85211,9 @@ impl Packet for PacketZcSeekPartyMember {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        54
+    }
 }
 
 impl Default for PacketZcSeekPartyMember {
@@ -83304,6 +85324,9 @@ impl Packet for PacketZcEsNotiMyinfo {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        58
     }
 }
 
@@ -83480,6 +85503,9 @@ impl Packet for PacketZcSkillinfoUpdate2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        15
+    }
 }
 
 impl Default for PacketZcSkillinfoUpdate2 {
@@ -83583,6 +85609,9 @@ impl Packet for PacketZcMsgValue {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        8
+    }
 }
 
 impl Default for PacketZcMsgValue {
@@ -83667,6 +85696,9 @@ impl Packet for PacketZcItemlistwinOpen {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -83807,6 +85839,9 @@ impl Packet for PacketCzItemlistwinRes {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        14
+    }
 }
 
 impl Default for PacketCzItemlistwinRes {
@@ -83922,6 +85957,9 @@ impl Packet for PacketChEnterCheckbot {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        7
+    }
 }
 
 impl Default for PacketChEnterCheckbot {
@@ -84024,6 +86062,9 @@ impl Packet for PacketZcMsgSkill {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        8
     }
 }
 
@@ -84154,6 +86195,9 @@ impl Packet for PacketChCheckbot {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        32
+    }
 }
 
 impl Default for PacketChCheckbot {
@@ -84250,6 +86294,9 @@ impl Packet for PacketHcCheckbot {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        3
     }
 }
 
@@ -84354,6 +86401,9 @@ impl Packet for PacketHcCheckbotResult {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        5
+    }
 }
 
 impl Default for PacketHcCheckbotResult {
@@ -84420,6 +86470,9 @@ impl Packet for PacketCzBattleFieldList {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        2
     }
 }
 
@@ -84567,6 +86620,9 @@ impl Packet for PacketZcBattleFieldList {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        70
+    }
 }
 
 impl Default for PacketZcBattleFieldList {
@@ -84669,6 +86725,9 @@ impl Packet for PacketCzJoinBattleField {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        8
     }
 }
 
@@ -84791,6 +86850,9 @@ impl Packet for PacketZcJoinBattleField {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        10
+    }
 }
 
 impl Default for PacketZcJoinBattleField {
@@ -84875,6 +86937,9 @@ impl Packet for PacketCzCancelBattleField {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -84979,6 +87044,9 @@ impl Packet for PacketZcCancelBattleField {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        8
+    }
 }
 
 impl Default for PacketZcCancelBattleField {
@@ -85081,6 +87149,9 @@ impl Packet for PacketCzReqBattleStateMonitor {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        8
     }
 }
 
@@ -85275,6 +87346,9 @@ impl Packet for PacketZcAckBattleStateMonitor {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        18
+    }
 }
 
 impl Default for PacketZcAckBattleStateMonitor {
@@ -85378,6 +87452,9 @@ impl Packet for PacketZcBattleNotiStartStep {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        8
+    }
 }
 
 impl Default for PacketZcBattleNotiStartStep {
@@ -85462,6 +87539,9 @@ impl Packet for PacketZcBattleJoinNotiDefer {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -85548,6 +87628,9 @@ impl Packet for PacketZcBattleJoinDisableState {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        3
+    }
 }
 
 impl Default for PacketZcBattleJoinDisableState {
@@ -85632,6 +87715,9 @@ impl Packet for PacketCzGmFullstrip {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -85771,6 +87857,9 @@ impl Packet for PacketZcNotifyExp {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        14
     }
 }
 
@@ -86377,6 +88466,9 @@ impl Packet for PacketZcNotifyMoveentry7 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        93
+    }
 }
 
 impl Default for PacketZcNotifyMoveentry7 {
@@ -86963,6 +89055,9 @@ impl Packet for PacketZcNotifyNewentry5 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        86
     }
 }
 
@@ -87569,6 +89664,9 @@ impl Packet for PacketZcNotifyStandentry5 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        87
+    }
 }
 
 impl Default for PacketZcNotifyStandentry5 {
@@ -87689,6 +89787,9 @@ impl Packet for PacketZcDeleteItemFromBody {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        8
     }
 }
 
@@ -87901,6 +90002,9 @@ impl Packet for PacketZcUseskillAck2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        25
+    }
 }
 
 impl Default for PacketZcUseskillAck2 {
@@ -88004,6 +90108,9 @@ impl Packet for PacketZcChangeGroupMaster {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        10
+    }
 }
 
 impl Default for PacketZcChangeGroupMaster {
@@ -88096,6 +90203,9 @@ impl Packet for PacketZcPlayNpcBgm {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        26
     }
 }
 
@@ -88199,6 +90309,9 @@ impl Packet for PacketZcDefineCheck {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        8
     }
 }
 
@@ -88346,6 +90459,9 @@ impl Packet for PacketZcPcPurchaseItemlistFrommc2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        34
+    }
 }
 
 impl Default for PacketZcPcPurchaseItemlistFrommc2 {
@@ -88492,6 +90608,9 @@ impl Packet for PacketCzPcPurchaseItemlistFrommc2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        16
+    }
 }
 
 impl Default for PacketCzPcPurchaseItemlistFrommc2 {
@@ -88572,6 +90691,9 @@ impl Packet for PacketCzPartyBookingReqRegister {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        1
     }
 }
 
@@ -88657,6 +90779,9 @@ impl Packet for PacketZcPartyBookingAckRegister {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        4
     }
 }
 
@@ -88815,6 +90940,9 @@ impl Packet for PacketCzPartyBookingReqSearch {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        14
+    }
 }
 
 impl Default for PacketCzPartyBookingReqSearch {
@@ -88943,6 +91071,9 @@ impl Packet for PacketZcPartyBookingAckSearch {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        53
+    }
 }
 
 impl Default for PacketZcPartyBookingAckSearch {
@@ -89009,6 +91140,9 @@ impl Packet for PacketCzPartyBookingReqDelete {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        2
     }
 }
 
@@ -89094,6 +91228,9 @@ impl Packet for PacketZcPartyBookingAckDelete {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        4
     }
 }
 
@@ -89188,6 +91325,9 @@ impl Packet for PacketCzPartyBookingReqUpdate {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        8
+    }
 }
 
 impl Default for PacketCzPartyBookingReqUpdate {
@@ -89268,6 +91408,9 @@ impl Packet for PacketZcPartyBookingNotifyInsert {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        1
     }
 }
 
@@ -89462,6 +91605,9 @@ impl Packet for PacketZcPartyBookingNotifyUpdate {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        18
+    }
 }
 
 impl Default for PacketZcPartyBookingNotifyUpdate {
@@ -89547,6 +91693,9 @@ impl Packet for PacketZcPartyBookingNotifyDelete {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        6
+    }
 }
 
 impl Default for PacketZcPartyBookingNotifyDelete {
@@ -89613,6 +91762,9 @@ impl Packet for PacketCzSimpleCashBtnshow {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        2
     }
 }
 
@@ -89698,6 +91850,9 @@ impl Packet for PacketZcSimpleCashBtnshow {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        3
     }
 }
 
@@ -89819,6 +91974,9 @@ impl Packet for PacketZcNotifyHpToGroupmR2 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        14
     }
 }
 
@@ -90013,6 +92171,9 @@ impl Packet for PacketZcAddExchangeItem2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        20
+    }
 }
 
 impl Default for PacketZcAddExchangeItem2 {
@@ -90097,6 +92258,9 @@ impl Packet for PacketZcOpenBuyingStore {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        3
     }
 }
 
@@ -90270,6 +92434,9 @@ impl Packet for PacketCzReqOpenBuyingStore {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        97
+    }
 }
 
 impl Default for PacketCzReqOpenBuyingStore {
@@ -90372,6 +92539,9 @@ impl Packet for PacketZcFailedOpenBuyingStoreToBuyer {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        8
     }
 }
 
@@ -90519,6 +92689,9 @@ impl Packet for PacketZcMyitemlistBuyingStore {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        21
+    }
 }
 
 impl Default for PacketZcMyitemlistBuyingStore {
@@ -90630,6 +92803,9 @@ impl Packet for PacketZcBuyingStoreEntry {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        86
+    }
 }
 
 impl Default for PacketZcBuyingStoreEntry {
@@ -90696,6 +92872,9 @@ impl Packet for PacketCzReqCloseBuyingStore {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        2
     }
 }
 
@@ -90782,6 +92961,9 @@ impl Packet for PacketZcDisappearBuyingStoreEntry {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        6
+    }
 }
 
 impl Default for PacketZcDisappearBuyingStoreEntry {
@@ -90866,6 +93048,9 @@ impl Packet for PacketCzReqClickToBuyingStore {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -91031,6 +93216,9 @@ impl Packet for PacketZcAckItemlistBuyingStore {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        25
+    }
 }
 
 impl Default for PacketZcAckItemlistBuyingStore {
@@ -91177,6 +93365,9 @@ impl Packet for PacketCzReqTradeBuyingStore {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        18
+    }
 }
 
 impl Default for PacketCzReqTradeBuyingStore {
@@ -91261,6 +93452,9 @@ impl Packet for PacketZcFailedTradeBuyingStoreToBuyer {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        4
     }
 }
 
@@ -91383,6 +93577,9 @@ impl Packet for PacketZcUpdateItemFromBuyingStore {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        10
+    }
 }
 
 impl Default for PacketZcUpdateItemFromBuyingStore {
@@ -91503,6 +93700,9 @@ impl Packet for PacketZcItemDeleteBuyingStore {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        10
     }
 }
 
@@ -91661,6 +93861,9 @@ impl Packet for PacketZcElInit {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        22
+    }
 }
 
 impl Default for PacketZcElInit {
@@ -91763,6 +93966,9 @@ impl Packet for PacketZcElParChange {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        8
     }
 }
 
@@ -91897,6 +94103,9 @@ impl Packet for PacketZcBroadcast4 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        8
+    }
 }
 
 impl Default for PacketZcBroadcast4 {
@@ -92018,6 +94227,9 @@ impl Packet for PacketZcCostumeSpriteChange {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        11
+    }
 }
 
 impl Default for PacketZcCostumeSpriteChange {
@@ -92084,6 +94296,9 @@ impl Packet for PacketAcOtpUser {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        2
     }
 }
 
@@ -92177,6 +94392,9 @@ impl Packet for PacketCaOtpAuthReq {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        9
     }
 }
 
@@ -92281,6 +94499,9 @@ impl Packet for PacketAcOtpAuthAck {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        6
+    }
 }
 
 impl Default for PacketAcOtpAuthAck {
@@ -92383,6 +94604,9 @@ impl Packet for PacketZcFailedTradeBuyingStoreToSeller {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -92594,6 +94818,9 @@ impl Packet for PacketCaSsoLoginReqa {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        64
     }
 }
 
@@ -92832,6 +95059,9 @@ impl Packet for PacketCaSsoLoginReq {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        91
+    }
 }
 
 impl Default for PacketCaSsoLoginReq {
@@ -92917,6 +95147,9 @@ impl Packet for PacketAcSsoLoginAck {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        4
+    }
 }
 
 impl Default for PacketAcSsoLoginAck {
@@ -93001,6 +95234,9 @@ impl Packet for PacketChDeleteChar3Reserved {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -93123,6 +95359,9 @@ impl Packet for PacketHcDeleteChar3Reserved {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        14
+    }
 }
 
 impl Default for PacketHcDeleteChar3Reserved {
@@ -93234,6 +95473,9 @@ impl Packet for PacketChDeleteChar3 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        12
+    }
 }
 
 impl Default for PacketChDeleteChar3 {
@@ -93337,6 +95579,9 @@ impl Packet for PacketHcDeleteChar3 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        10
+    }
 }
 
 impl Default for PacketHcDeleteChar3 {
@@ -93421,6 +95666,9 @@ impl Packet for PacketChDeleteChar3Cancel {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -93524,6 +95772,9 @@ impl Packet for PacketHcDeleteChar3Cancel {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        10
     }
 }
 
@@ -93700,6 +95951,9 @@ impl Packet for PacketCzSearchStoreInfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        15
+    }
 }
 
 impl Default for PacketCzSearchStoreInfo {
@@ -93864,6 +96118,9 @@ impl Packet for PacketZcSearchStoreInfoAck {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        113
+    }
 }
 
 impl Default for PacketZcSearchStoreInfoAck {
@@ -93949,6 +96206,9 @@ impl Packet for PacketZcSearchStoreInfoFailed {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        3
+    }
 }
 
 impl Default for PacketZcSearchStoreInfoFailed {
@@ -94015,6 +96275,9 @@ impl Packet for PacketCzSearchStoreInfoNextPage {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        2
     }
 }
 
@@ -94135,6 +96398,9 @@ impl Packet for PacketZcAckBanGuildSso {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        66
+    }
 }
 
 impl Default for PacketZcAckBanGuildSso {
@@ -94238,6 +96504,9 @@ impl Packet for PacketZcOpenSearchStoreInfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        5
+    }
 }
 
 impl Default for PacketZcOpenSearchStoreInfo {
@@ -94304,6 +96573,9 @@ impl Packet for PacketCzCloseSearchStoreInfo {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        2
     }
 }
 
@@ -94426,6 +96698,9 @@ impl Packet for PacketCzSsilistItemClick {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        12
+    }
 }
 
 impl Default for PacketCzSsilistItemClick {
@@ -94529,6 +96804,9 @@ impl Packet for PacketZcSsilistItemClickAck {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        6
+    }
 }
 
 impl Default for PacketZcSsilistItemClickAck {
@@ -94608,8 +96886,8 @@ impl PacketAcRefuseLoginR2 {
     pub fn new() -> PacketAcRefuseLoginR2 {
         PacketAcRefuseLoginR2 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x83, 0xe]),
-        packet_id_raw: [0x83, 0xe],
+        packet_id: i16::from_le_bytes([0x3e, 0x08]),
+        packet_id_raw: [0x3e, 0x08],
         error_code: 0,
         error_code_raw: [0; 4],
         block_date: [0 as char; 20],
@@ -94620,7 +96898,7 @@ impl PacketAcRefuseLoginR2 {
 
 impl Packet for PacketAcRefuseLoginR2 {
     fn id(&self) -> &str {
-       "0x083e"
+       "0x3e08"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -94639,6 +96917,9 @@ impl Packet for PacketAcRefuseLoginR2 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        26
     }
 }
 
@@ -94743,6 +97024,9 @@ impl Packet for PacketChSelectAccessibleMapname {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        4
+    }
 }
 
 impl Default for PacketChSelectAccessibleMapname {
@@ -94835,6 +97119,9 @@ impl Packet for PacketCzRequestMove2 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        5
     }
 }
 
@@ -95008,6 +97295,9 @@ impl Packet for PacketChSendMapInfo {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        156
     }
 }
 
@@ -95206,6 +97496,9 @@ impl Packet for PacketHcAcceptEnterNeoUnionHeader {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        28
+    }
 }
 
 impl Default for PacketHcAcceptEnterNeoUnionHeader {
@@ -95290,6 +97583,9 @@ impl Packet for PacketCzPing {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -95376,6 +97672,9 @@ impl Packet for PacketZcAid2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        6
+    }
 }
 
 impl Default for PacketZcAid2 {
@@ -95460,6 +97759,9 @@ impl Packet for PacketMapConnection {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -95581,6 +97883,9 @@ impl Packet for PacketPincodeLoginstate {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        12
     }
 }
 
@@ -95765,6 +98070,9 @@ impl Packet for PacketChMakeChar3 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        36
+    }
 }
 
 impl Default for PacketChMakeChar3 {
@@ -95849,6 +98157,9 @@ impl Packet for PacketChDeleteChar4Reserved {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -95971,6 +98282,9 @@ impl Packet for PacketHcDeleteChar4Reserved {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        14
+    }
 }
 
 impl Default for PacketHcDeleteChar4Reserved {
@@ -96055,6 +98369,9 @@ impl Packet for PacketZcInventoryExpansionInfo {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        4
     }
 }
 
@@ -96141,6 +98458,9 @@ impl Packet for PacketZcOverweightPercent {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        6
+    }
 }
 
 impl Default for PacketZcOverweightPercent {
@@ -96225,6 +98545,9 @@ impl Packet for PacketCzReqDisconnect2 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        4
     }
 }
 
@@ -96311,6 +98634,9 @@ impl Packet for PacketZcReqDisconnectAck2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        4
+    }
 }
 
 impl Default for PacketZcReqDisconnectAck2 {
@@ -96395,6 +98721,9 @@ impl Packet for PacketCzReqnameall2 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -96603,6 +98932,9 @@ impl Packet for PacketZcAckReqnameall2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        106
+    }
 }
 
 impl Default for PacketZcAckReqnameall2 {
@@ -96687,6 +99019,9 @@ impl Packet for PacketCzRequestTime2 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        6
     }
 }
 
@@ -96791,6 +99126,9 @@ impl Packet for PacketZcMsgColor {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        8
+    }
 }
 
 impl Default for PacketZcMsgColor {
@@ -96893,6 +99231,9 @@ impl Packet for PacketZcNotifyMapproperty2 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        8
     }
 }
 
@@ -97030,6 +99371,9 @@ impl Packet for PacketZcHatEffect {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        8
+    }
 }
 
 impl Default for PacketZcHatEffect {
@@ -97040,16 +99384,19 @@ impl Default for PacketZcHatEffect {
 }
 
 impl PacketCzBlockingPlayCancel {
-    pub fn from(buffer: &[u8]) -> PacketCzBlockingPlayCancel {
-        PacketCzBlockingPlayCancel {
-            raw: buffer.to_vec(),
-            packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
-            packet_id_raw: {
-                let mut dst: [u8; 2] = [0u8; 2];
-                dst.clone_from_slice(&buffer[0..2]);
-                dst
-            },
-        }
+    pub fn from(buffer: &[u8]) -> Result<PacketCzBlockingPlayCancel, &[u8]> {
+        panic::catch_unwind(|| {
+            PacketCzBlockingPlayCancel {
+                raw: buffer.to_vec(),
+                packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
+                packet_id_raw: {
+                    let mut dst: [u8; 2] = [0u8; 2];
+                    dst.clone_from_slice(&buffer[0..2]);
+                    dst
+                },
+            }
+        }).map_err(|_| buffer)
+
     }
     pub fn fill_raw(&mut self) {
     let mut wtr;
@@ -97096,6 +99443,9 @@ impl Packet for PacketCzBlockingPlayCancel {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        2
     }
 }
 
@@ -97163,6 +99513,9 @@ impl Packet for PacketZcLoadConfirm {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        2
     }
 }
 
@@ -97895,6 +100248,9 @@ impl Packet for PacketZcNotifyStandentry6 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        108
+    }
 }
 
 impl Default for PacketZcNotifyStandentry6 {
@@ -98626,6 +100982,9 @@ impl Packet for PacketZcNotifyMoveentry8 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self) -> usize{
+        111
+    }
 }
 
 impl Default for PacketZcNotifyMoveentry8 {
@@ -98872,6 +101231,9 @@ impl Packet for PacketZcNotifyAct3 {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self) -> usize{
+        34
     }
 }
 

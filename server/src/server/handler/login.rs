@@ -1,4 +1,4 @@
-use packets::packets::{PacketCaLogin, PacketAcAcceptLogin2, Packet, ServerAddr2, PacketAcRefuseLoginR3, PacketAcRefuseLoginR2};
+use packets::packets::{PacketCaLogin, PacketAcAcceptLogin2, Packet, ServerAddr2, PacketAcRefuseLoginR3, PacketAcRefuseLoginR2, PacketAcAcceptLogin, PacketAcRefuseLogin, ServerAddr};
 use crate::repository::lib::Repository;
 use sqlx::{MySql, Row};
 use rand::Rng;
@@ -26,7 +26,18 @@ pub(crate) fn handle_login(server: Arc<Server>, packet: &mut dyn Packet, runtime
         let mut sessions_guard = write_lock!(server.sessions);
         sessions_guard.insert(packet_response.aid.clone(), Arc::new(new_user_session));
         socket_send!(tcp_stream, res.raw());
-    } else if res.as_any().downcast_ref::<PacketAcRefuseLoginR2>().is_some() {
+    } else if res.as_any().downcast_ref::<PacketAcAcceptLogin>().is_some() {
+        let packet_response = res.as_any().downcast_ref::<PacketAcAcceptLogin>().unwrap();
+        // Currently only handle this account to be able to still use proxy in other accounts
+        if !server.configuration.server.accounts.contains(&packet_response.aid) {
+            proxy_login(server.clone(), packet, tcp_stream);
+            return;
+        }
+        let new_user_session = Session::create_empty(packet_response.aid,packet_response.auth_code,packet_response.user_level);
+        let mut sessions_guard = write_lock!(server.sessions);
+        sessions_guard.insert(packet_response.aid.clone(), Arc::new(new_user_session));
+        socket_send!(tcp_stream, res.raw());
+    } else {
         socket_send!(tcp_stream, res.raw());
     }
 }
@@ -48,26 +59,59 @@ pub async fn authenticate(server: Arc<Server>, packet: &PacketCaLogin, repositor
     if row_result.is_ok() {
         let row = row_result.unwrap();
         let account_id: u32 = row.get("account_id");
-        let mut ac_accept_login2 = PacketAcAcceptLogin2::new();
-        ac_accept_login2.set_packet_length(224);
-        ac_accept_login2.set_aid(account_id);
-        ac_accept_login2.set_auth_code(rng.gen::<i32>());
-        ac_accept_login2.set_user_level(rng.gen::<u32>());
-        ac_accept_login2.set_sex(1);
-        let mut server_addr = ServerAddr2::new();
-        server_addr.set_ip(16777343); // 7F 00 00 01 -> to little endian -> 01 00 00 7F
-        server_addr.set_port(server.configuration.server.port as i16);
-        let mut name_chars = [0 as char; 20];
-        "Rust ragnarok".chars().enumerate().for_each(|(i, c)| name_chars[i] = c);
-        server_addr.set_name(name_chars);
-        ac_accept_login2.set_server_list(vec![server_addr]);
-        ac_accept_login2.fill_raw();
-        return Box::new(ac_accept_login2)
+        if server.packetver() < 20170315 {
+            let mut ac_accept_login = PacketAcAcceptLogin::new();
+            ac_accept_login.set_packet_length(ac_accept_login.base_len() as i16);
+            ac_accept_login.set_aid(account_id);
+            ac_accept_login.set_auth_code(rng.gen::<i32>());
+            ac_accept_login.set_user_level(rng.gen::<u32>());
+            ac_accept_login.set_sex(1);
+            let mut server_addr = ServerAddr::new();
+            server_addr.set_ip(16777343); // 7F 00 00 01 -> to little endian -> 01 00 00 7F
+            server_addr.set_port(server.configuration.server.port as i16);
+            let mut name_chars = [0 as char; 20];
+            "Rust ragnarok".chars().enumerate().for_each(|(i, c)| name_chars[i] = c);
+            server_addr.set_name(name_chars);
+            ac_accept_login.set_server_list(vec![server_addr]);
+            ac_accept_login.fill_raw();
+            return Box::new(ac_accept_login)
+        } else {
+            let mut ac_accept_login2 = PacketAcAcceptLogin2::new();
+            ac_accept_login2.set_packet_length(ac_accept_login2.base_len() as i16);
+            ac_accept_login2.set_aid(account_id);
+            ac_accept_login2.set_auth_code(rng.gen::<i32>());
+            ac_accept_login2.set_user_level(rng.gen::<u32>());
+            ac_accept_login2.set_sex(1);
+            let mut server_addr = ServerAddr2::new();
+            server_addr.set_ip(16777343); // 7F 00 00 01 -> to little endian -> 01 00 00 7F
+            server_addr.set_port(server.configuration.server.port as i16);
+            let mut name_chars = [0 as char; 20];
+            "Rust ragnarok".chars().enumerate().for_each(|(i, c)| name_chars[i] = c);
+            server_addr.set_name(name_chars);
+            ac_accept_login2.set_server_list(vec![server_addr]);
+            ac_accept_login2.fill_raw();
+            return Box::new(ac_accept_login2)
+        }
+
     }
-    let mut r2 = PacketAcRefuseLoginR3::new();
-    r2.set_error_code(1);
-    r2.fill_raw();
-    return Box::new(r2)
+    let mut refuse_login_packet: Box<dyn Packet>;
+    if server.packetver() >= 20180627 {
+        let mut refuse_login_packet3 = PacketAcRefuseLoginR3::new();
+        refuse_login_packet3.set_error_code(1);
+        refuse_login_packet3.fill_raw();
+        refuse_login_packet = Box::new(refuse_login_packet3);
+    } else if server.packetver() > 20101123 {
+        let mut refuse_login_packet2 = PacketAcRefuseLoginR2::new();
+        refuse_login_packet2.set_error_code(1);
+        refuse_login_packet2.fill_raw();
+        refuse_login_packet = Box::new(refuse_login_packet2);
+    } else {
+        let mut refuse_login_packet1 = PacketAcRefuseLogin::new();
+        refuse_login_packet1.set_error_code(1);
+        refuse_login_packet1.fill_raw();
+        refuse_login_packet = Box::new(refuse_login_packet1);
+    }
+    refuse_login_packet
 }
 
 fn proxy_login(server: Arc<Server>, packet: &mut dyn Packet, tcp_stream: Arc<RwLock<TcpStream>>) {
@@ -91,6 +135,12 @@ fn proxy_login(server: Arc<Server>, packet: &mut dyn Packet, tcp_stream: Arc<RwL
                         server_char.set_port(server.configuration.proxy.local_char_server_port as i16);
                         packet_accept_login2.fill_raw();
                         socket_send!(tcp_stream, packet_accept_login2.raw());
+                    } else if packet.as_any().downcast_ref::<PacketAcAcceptLogin>().is_some() {
+                        let packet_accept_login = packet.as_any_mut().downcast_mut::<PacketAcAcceptLogin>().unwrap();
+                        let server_char = packet_accept_login.server_list.get_mut(0).unwrap();
+                        server_char.set_port(server.configuration.proxy.local_char_server_port as i16);
+                        packet_accept_login.fill_raw();
+                        socket_send!(tcp_stream, packet_accept_login.raw());
                     } else {
                         panic!("Received packet is not PacketAcAcceptLogin2");
                     }

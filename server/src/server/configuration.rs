@@ -21,7 +21,8 @@ pub struct ServerConfig {
     pub log_level: Option<String>,
     pub accounts: Vec<u32>,
     pub port: u16,
-    pub enable_visual_debugger: bool
+    pub enable_visual_debugger: bool,
+    pub packetver: u32
 }
 #[derive(Deserialize, Debug, Setters, Clone)]
 pub struct GameConfig {

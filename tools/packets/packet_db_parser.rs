@@ -61,7 +61,7 @@ pub fn parse(packet_db_path: &Path) -> (Vec<PacketStructDefinition>, Vec<StructD
             structs_for_packet.push(RefCell::new(StructDefinition {
                 name: name.as_str().to_string(),
                 current_field_position: 0,
-                fields: Vec::new(),
+                fields: Vec::new()
             }));
             current_structure_def += 1;
         } else if line_content.contains("struct") { // start of "main" struct. matching: struct PACKET_HC_ACCEPT_MAKECHAR_NEO_UNION {
@@ -69,7 +69,7 @@ pub fn parse(packet_db_path: &Path) -> (Vec<PacketStructDefinition>, Vec<StructD
             structs_for_packet.push(RefCell::new(StructDefinition {
                 name: name.as_str().to_string(),
                 current_field_position: 0,
-                fields: Vec::new(),
+                fields: Vec::new()
             }));
         } else if line_content.contains("}") { // end of a struct
             let struct_def_ref = structs_for_packet.get(current_structure_def).unwrap().borrow_mut();
@@ -101,7 +101,7 @@ fn copy_struct_definition<'a>(struct_def_ref: RefMut<StructDefinition<'a>>) -> S
     StructDefinition {
         name: struct_name(&struct_def_ref.name.clone()),
         current_field_position: struct_def_ref.current_field_position.clone(),
-        fields: struct_def_ref.fields.clone(),
+        fields: struct_def_ref.fields.clone()
     }
 }
 
