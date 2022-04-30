@@ -1,4 +1,4 @@
-use packets::packets::{PacketCzRequestMove2, Packet, PacketZcNotifyPlayermove};
+use packets::packets::{PacketCzRequestMove2, PacketCzRequestMove, Packet, PacketZcNotifyPlayermove};
 use tokio::runtime::Runtime;
 use std::sync::{Arc, RwLock};
 use std::net::TcpStream;
@@ -13,8 +13,13 @@ use crate::server::server::Server;
 use crate::util::tick::get_tick;
 
 pub fn handle_char_move(server: Arc<Server>, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, session: Arc<Session>) {
-    let move_packet = cast!(packet, PacketCzRequestMove2);
-    let destination = Position::from_move_packet(move_packet);
+    let destination = if packet.as_any().downcast_ref::<PacketCzRequestMove2>().is_some() {
+        let move_packet = cast!(packet, PacketCzRequestMove2);
+        Position::from_move2_packet(move_packet)
+    } else {
+        let move_packet = cast!(packet, PacketCzRequestMove);
+        Position::from_move_packet(move_packet)
+    };
     let character = session.get_character();
     let current_map_guard = read_lock!(character.current_map);
     let map = current_map_guard.as_ref().unwrap().clone();

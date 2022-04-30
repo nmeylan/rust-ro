@@ -1,7 +1,5 @@
 use std::collections::HashSet;
-use packets::packets::{Packet, PacketChEnter, PacketHcRefuseEnter, CharacterInfoNeoUnion, PacketHcAcceptEnterNeoUnionHeader, PacketHcAcceptEnterNeoUnion, PacketPincodeLoginstate, PacketChMakeChar2, PacketHcAcceptMakecharNeoUnion, PacketChDeleteChar4Reserved, PacketHcDeleteChar4Reserved, PacketChSelectChar, PacketChSendMapInfo, PacketCzEnter2, PacketMapConnection, PacketZcInventoryExpansionInfo, PacketZcOverweightPercent, PacketZcAcceptEnter2, PacketZcStatusValues, PacketZcParChange, PacketZcAttackRange, PacketZcNotifyChat, PacketCzRestart, PacketZcRestartAck, PacketZcReqDisconnectAck2, PacketZcLoadConfirm, PacketChMakeChar3, PacketChMakeChar, PacketCzEnter3};
-use crate::repository::lib::Repository;
-use sqlx::{MySql};
+use packets::packets::{Packet, PacketChEnter, PacketHcRefuseEnter, CharacterInfoNeoUnion, PacketHcAcceptEnterNeoUnionHeader, PacketHcAcceptEnterNeoUnion, PacketPincodeLoginstate, PacketChMakeChar2, PacketHcAcceptMakecharNeoUnion, PacketChDeleteChar4Reserved, PacketHcDeleteChar4Reserved, PacketChSelectChar, PacketChSendMapInfo, PacketCzEnter2, PacketMapConnection, PacketZcInventoryExpansionInfo, PacketZcOverweightPercent, PacketZcAcceptEnter2, PacketZcStatusValues, PacketZcParChange, PacketZcAttackRange, PacketZcNotifyChat, PacketCzRestart, PacketZcRestartAck, PacketZcReqDisconnectAck2, PacketZcLoadConfirm, PacketChMakeChar3, PacketChMakeChar, PacketHcNotifyZonesvr, ZserverAddr};
 use tokio::runtime::Runtime;
 use std::sync::{Arc, RwLock};
 use std::net::TcpStream;
@@ -31,7 +29,7 @@ pub fn handle_char_enter(server: Arc<Server>, packet: &mut dyn Packet, runtime: 
         sessions_guard.insert(packet_char_enter.aid, session.clone());
         if session.auth_code == packet_char_enter.auth_code && session.user_level == packet_char_enter.user_level {
             let packet_hc_accept_enter_neo_union = runtime.block_on(async {
-                load_chars_info(session.account_id, &server.repository).await
+                load_chars_info(session.account_id, server.clone()).await
             });
             let mut pincode_loginstate = PacketPincodeLoginstate::new();
             pincode_loginstate.set_aid(session.account_id);
@@ -180,8 +178,6 @@ pub fn handle_select_char(server: Arc<Server>, packet: &mut dyn Packet, runtime:
     let last_x: u16 = char_model.last_x.clone();
     let last_y: u16 = char_model.last_y.clone();
     let mut last_map: String = char_model.last_map.clone();
-    let mut packet_ch_send_map_info = PacketChSendMapInfo::new();
-    packet_ch_send_map_info.set_gid(char_id.clone());
     let mut map_name = [0 as char; 16];
     let mut char_name = [0 as char; 24];
     last_map = format!("{}.gat", last_map);
@@ -206,11 +202,25 @@ pub fn handle_select_char(server: Arc<Server>, packet: &mut dyn Packet, runtime:
     }
     let session = Arc::new(session.recreate_with_character(char_session_ref.clone()));
     sessions_guard.insert(session_id, session);
-    packet_ch_send_map_info.set_map_name(map_name);
-    packet_ch_send_map_info.set_map_server_port(server.configuration.server.port as i16);
-    packet_ch_send_map_info.set_map_server_ip(16777343); // 7F 00 00 01 -> to little endian -> 01 00 00 7F
-    packet_ch_send_map_info.fill_raw();
-    socket_send!(tcp_stream, &packet_ch_send_map_info.raw());
+    if server.packetver() < 20170329 {
+        let mut packet_ch_send_map_info = PacketHcNotifyZonesvr::new();
+        packet_ch_send_map_info.set_gid(char_id.clone());
+        packet_ch_send_map_info.set_map_name(map_name);
+        let mut zserver_addr = ZserverAddr::new();
+        zserver_addr.set_ip(16777343); // 7F 00 00 01 -> to little endian -> 01 00 00 7F
+        zserver_addr.set_port(server.configuration.server.port as i16);
+        packet_ch_send_map_info.set_addr(zserver_addr);
+        packet_ch_send_map_info.fill_raw();
+        socket_send!(tcp_stream, &packet_ch_send_map_info.raw());
+    } else {
+        let mut packet_ch_send_map_info = PacketChSendMapInfo::new();
+        packet_ch_send_map_info.set_gid(char_id.clone());
+        packet_ch_send_map_info.set_map_name(map_name);
+        packet_ch_send_map_info.set_map_server_port(server.configuration.server.port as i16);
+        packet_ch_send_map_info.set_map_server_ip(16777343); // 7F 00 00 01 -> to little endian -> 01 00 00 7F
+        packet_ch_send_map_info.fill_raw();
+        socket_send!(tcp_stream, &packet_ch_send_map_info.raw());
+    }
 }
 
 
@@ -220,10 +230,6 @@ pub fn handle_enter_game(server: Arc<Server>, packet: &mut dyn Packet, tcp_strea
     let mut auth_code;
     if packet.as_any().downcast_ref::<PacketCzEnter2>().is_some() {
         let packet_enter_game = cast!(packet, PacketCzEnter2);
-        aid = packet_enter_game.aid;
-        auth_code = packet_enter_game.auth_code;
-    } else if packet.as_any().downcast_ref::<PacketCzEnter3>().is_some() {
-        let packet_enter_game = cast!(packet, PacketCzEnter3);
         aid = packet_enter_game.aid;
         auth_code = packet_enter_game.auth_code;
     } else {
@@ -404,14 +410,17 @@ pub fn handle_blocking_play_cancel(tcp_stream: Arc<RwLock<TcpStream>>) {
     socket_send!(tcp_stream, &packet_zc_load_confirm.raw());
 }
 
-async fn load_chars_info(account_id: u32, repository: &Repository<MySql>) -> PacketHcAcceptEnterNeoUnionHeader {
+async fn load_chars_info(account_id: u32, server: Arc<Server>) -> PacketHcAcceptEnterNeoUnionHeader {
     let row_results = sqlx::query_as::<_, CharacterInfoNeoUnionWrapped>("SELECT * FROM `char` WHERE account_id = ?")
         .bind(account_id)
-        .fetch_all(&repository.pool).await.unwrap();
+        .fetch_all(&server.repository.pool).await.unwrap();
     let mut accept_enter_neo_union_header = PacketHcAcceptEnterNeoUnionHeader::new();
     let mut accept_enter_neo_union = PacketHcAcceptEnterNeoUnion::new();
-    accept_enter_neo_union.set_packet_length((27 + row_results.len() * 155) as i16);
-    accept_enter_neo_union.set_char_info(row_results.iter().map(|wrapped| wrapped.data.clone()).collect::<Vec<CharacterInfoNeoUnion>>());
+    accept_enter_neo_union.set_packet_length((27 + row_results.len() * CharacterInfoNeoUnion::base_len(server.packetver())) as i16);
+    accept_enter_neo_union.set_char_info(row_results.iter().map(|wrapped| {
+        debug!("{}", wrapped.data);
+        wrapped.data.clone()
+    }).collect::<Vec<CharacterInfoNeoUnion>>());
     accept_enter_neo_union.set_premium_start_slot(12);
     accept_enter_neo_union.set_premium_end_slot(12);
     accept_enter_neo_union.set_total_slot_num(12);
@@ -420,6 +429,6 @@ async fn load_chars_info(account_id: u32, repository: &Repository<MySql>) -> Pac
     accept_enter_neo_union_header.set_premium_slot_end(12);
     accept_enter_neo_union_header.set_premium_slot_start(12);
     accept_enter_neo_union_header.set_packet_len(29);
-    accept_enter_neo_union_header.fill_raw();
+    accept_enter_neo_union_header.fill_raw_with_packetver(Some(server.packetver()));
     accept_enter_neo_union_header
 }
