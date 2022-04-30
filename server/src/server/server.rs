@@ -1,5 +1,5 @@
 use std::any::Any;
-use packets::packets::{Packet, PacketUnknown, PacketCaLogin, PacketChEnter, PacketChMakeChar2, PacketChDeleteChar4Reserved, PacketCzEnter2, PacketChSelectChar, PacketCzRestart, PacketCzReqDisconnect2, PacketCzRequestMove2, PacketCzNotifyActorinit, PacketCzBlockingPlayCancel, PacketCzRequestAct2, PacketCzReqnameall2, PacketCzPlayerChat, PacketChMakeChar3, PacketChMakeChar, PacketCzRequestMove, PacketCzReqname};
+use packets::packets::{Packet, PacketUnknown, PacketCaLogin, PacketChEnter, PacketChMakeChar2, PacketChDeleteChar4Reserved, PacketCzEnter2, PacketChSelectChar, PacketCzRestart, PacketCzReqDisconnect2, PacketCzRequestMove2, PacketCzNotifyActorinit, PacketCzBlockingPlayCancel, PacketCzRequestAct2, PacketCzReqnameall2, PacketCzPlayerChat, PacketChMakeChar3, PacketChMakeChar, PacketCzRequestMove, PacketCzReqname, PacketCzRequestTime, PacketZcNotifyTime};
 use std::sync::{Arc, RwLock, RwLockWriteGuard};
 use std::thread::{JoinHandle};
 use crate::repository::lib::Repository;
@@ -24,6 +24,8 @@ use crate::server::enums::map_item::MapItemType;
 use std::cell::RefCell;
 use crate::server::handler::atcommand::handle_atcommand;
 use crate::server::handler::map::{handle_char_loaded_client_side, handle_map_item_name};
+use crate::util::tick::get_tick;
+use std::io::Write;
 
 // Todo make this configurable
 pub const PLAYER_FOV: u16 = 14;
@@ -264,9 +266,18 @@ impl Server {
         if packet.as_any().downcast_ref::<PacketCzPlayerChat>().is_some() {
             debug!("PacketCzPlayerChat");
             let packet_player_char = cast!(packet, PacketCzPlayerChat);
+            debug!("{}", packet_player_char.msg);
+            debug!("{} : @", session.character.as_ref().unwrap().name);
             if packet_player_char.msg.starts_with(format!("{} : @", session.character.as_ref().unwrap().name).as_str()) { // TODO make symbol configurable
                 return handle_atcommand(self_ref.clone(), packet_player_char, runtime, tcp_stream, session);
             }
+        }
+
+        if packet.as_any().downcast_ref::<PacketCzRequestTime>().is_some() {
+            let mut packet_zc_notify_time = PacketZcNotifyTime::new();
+            packet_zc_notify_time.set_time(get_tick());
+            packet_zc_notify_time.fill_raw();
+            socket_send!(tcp_stream, packet_zc_notify_time.raw());
         }
 
         if packet.id() == "0x6003" // PacketCzRequestTime2
