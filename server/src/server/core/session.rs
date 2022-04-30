@@ -12,7 +12,8 @@ pub struct Session {
     pub auth_code: i32,
     // random value, known as login_id2 in hercules
     pub user_level: u32,
-    pub character: Option<Arc<Character>>
+    pub character: Option<Arc<Character>>,
+    pub packetver: u32,
 }
 
 pub trait SessionsIter {
@@ -48,14 +49,15 @@ impl SessionsIter for HashMap<u32, Arc<Session>> {
 
 impl Session {
 
-    pub fn create_empty(account_id: u32, auth_code: i32, user_level: u32) -> Session {
+    pub fn create_empty(account_id: u32, auth_code: i32, user_level: u32, packetver: u32) -> Session {
         Session {
             char_server_socket: None,
             map_server_socket: None,
             account_id,
             auth_code,
             user_level,
-            character: None
+            character: None,
+            packetver
         }
     }
 
@@ -66,7 +68,8 @@ impl Session {
             account_id: self.account_id,
             auth_code: self.auth_code,
             user_level: self.user_level,
-            character: self.character.clone()
+            character: self.character.clone(),
+            packetver: self.packetver
         }
     }
 
@@ -77,7 +80,8 @@ impl Session {
             account_id: self.account_id,
             auth_code: self.auth_code,
             user_level: self.user_level,
-            character: self.character.clone()
+            character: self.character.clone(),
+            packetver: self.packetver
         }
     }
 
@@ -88,7 +92,8 @@ impl Session {
             account_id: self.account_id,
             auth_code: self.auth_code,
             user_level: self.user_level,
-            character: Some(character)
+            character: Some(character),
+            packetver: self.packetver
         }
     }
 
@@ -99,7 +104,8 @@ impl Session {
             account_id: self.account_id,
             auth_code: self.auth_code,
             user_level: self.user_level,
-            character: None
+            character: None,
+            packetver: self.packetver
         }
     }
 
@@ -109,6 +115,10 @@ impl Session {
         }
         let map_socket = self.map_server_socket.as_ref().unwrap();
         socket_send!(map_socket, data);
+    }
+
+    pub fn packetver(&self) -> u32 {
+        self.packetver
     }
 
     pub fn get_character(&self) -> &Arc<Character> {

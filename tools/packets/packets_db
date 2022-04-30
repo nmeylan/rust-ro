@@ -393,7 +393,7 @@ struct PACKET_ZC_NOTIFY_STANDENTRY_NPC {
 struct PACKET_CZ_NOTIFY_ACTORINIT {
   short PacketId
  }
-0x7e
+0x7e,0x1708
 struct PACKET_CZ_REQUEST_TIME {
   short PacketId
   unsigned long clientTime
@@ -534,7 +534,7 @@ struct PACKET_ZC_NPCACK_SERVERMOVE {
 struct PACKET_ZC_NPCACK_ENABLE {
   short PacketId
  }
-0x94
+0x94, 0x8A08
 struct PACKET_CZ_REQNAME {
   short PacketId
   unsigned long AID
@@ -6351,6 +6351,47 @@ struct PACKET_ZC_NOTIFY_STANDENTRY6 {
   bool isBoss
   short body
   unsigned char name[24]
+ }
+
+0x1509
+struct PACKET_ZC_NOTIFY_STANDENTRY_7 {
+  short PacketId
+#V GTE 20091103 short PacketLength
+#V GTE 20091103  unsigned char objecttype
+#V GTE 20131223  unsigned long AID
+  unsigned long GID
+  short speed
+  short bodyState
+  short healthState
+  int effectState
+  short job
+  short head
+  unsigned long weapon
+  unsigned short accessory
+#V GTE 20181121 unsigned long shield
+  unsigned short accessory2
+  unsigned short accessory3
+  unsigned short headpalette
+  unsigned short bodypalette
+  unsigned short headDir
+#V GTE 20101124 unsigned short robe
+  unsigned long GUID
+  short GEmblemVer
+  short honor
+  int virtue
+  bool isPKModeON
+  unsigned char sex
+  unsigned byte PosDir[3]
+  unsigned char xSize
+  unsigned char ySize
+  unsigned char state
+  short clevel
+#V GTE 20080102 short font
+#V GTE 20120221 unsigned long maxHP
+#V GTE 20120221 unsigned long hp
+  unsigned char name[24]
+#V GTE 20120221 bool isBoss
+#V GTE 20150513 short body
  }
 
 0xfd09

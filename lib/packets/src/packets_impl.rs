@@ -120350,6 +120350,1027 @@ impl Default for PacketZcNotifyStandentry6 {
     }
 }
 
+impl PacketZcNotifyStandentry7 {
+    pub fn packet_id() -> &'static str {
+        "0x1509"
+    }
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyStandentry7 {
+        let mut offset: usize = 0;
+        PacketZcNotifyStandentry7 {
+            raw: buffer.to_vec(),
+            packet_id: {
+                let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
+                field
+            },
+            packet_id_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[offset..offset + 2]);
+                offset += 2;
+                dst
+            },
+            packet_length: {
+                let field = if packetver >= 20091103 {
+                   i16::from_le_bytes([buffer[offset], buffer[offset + 1]])
+                } else {
+                   0 as i16
+                };
+                field
+            },
+            packet_length_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                if packetver >= 20091103 {
+                    dst.clone_from_slice(&buffer[offset..offset + 2]);
+                    offset += 2;
+                }
+                dst
+            },
+            objecttype: {
+                let field = if packetver >= 20091103 {
+                   u8::from_le_bytes([buffer[offset]])
+                } else {
+                   0 as u8
+                };
+                field
+            },
+            objecttype_raw: {
+                let mut dst: [u8; 1] = [0u8; 1];
+                if packetver >= 20091103 {
+                    dst.clone_from_slice(&buffer[offset..offset + 1]);
+                    offset += 1;
+                }
+                dst
+            },
+            aid: {
+                let field = if packetver >= 20131223 {
+                   u32::from_le_bytes([buffer[offset], buffer[offset + 1], buffer[offset + 2], buffer[offset + 3]])
+                } else {
+                   0 as u32
+                };
+                field
+            },
+            aid_raw: {
+                let mut dst: [u8; 4] = [0u8; 4];
+                if packetver >= 20131223 {
+                    dst.clone_from_slice(&buffer[offset..offset + 4]);
+                    offset += 4;
+                }
+                dst
+            },
+            gid: {
+                let field = u32::from_le_bytes([buffer[offset], buffer[offset + 1], buffer[offset + 2], buffer[offset + 3]]);
+                field
+            },
+            gid_raw: {
+                let mut dst: [u8; 4] = [0u8; 4];
+                dst.clone_from_slice(&buffer[offset..offset + 4]);
+                offset += 4;
+                dst
+            },
+            speed: {
+                let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
+                field
+            },
+            speed_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[offset..offset + 2]);
+                offset += 2;
+                dst
+            },
+            body_state: {
+                let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
+                field
+            },
+            body_state_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[offset..offset + 2]);
+                offset += 2;
+                dst
+            },
+            health_state: {
+                let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
+                field
+            },
+            health_state_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[offset..offset + 2]);
+                offset += 2;
+                dst
+            },
+            effect_state: {
+                let field = i32::from_le_bytes([buffer[offset], buffer[offset + 1], buffer[offset + 2], buffer[offset + 3]]);
+                field
+            },
+            effect_state_raw: {
+                let mut dst: [u8; 4] = [0u8; 4];
+                dst.clone_from_slice(&buffer[offset..offset + 4]);
+                offset += 4;
+                dst
+            },
+            job: {
+                let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
+                field
+            },
+            job_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[offset..offset + 2]);
+                offset += 2;
+                dst
+            },
+            head: {
+                let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
+                field
+            },
+            head_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[offset..offset + 2]);
+                offset += 2;
+                dst
+            },
+            weapon: {
+                let field = u32::from_le_bytes([buffer[offset], buffer[offset + 1], buffer[offset + 2], buffer[offset + 3]]);
+                field
+            },
+            weapon_raw: {
+                let mut dst: [u8; 4] = [0u8; 4];
+                dst.clone_from_slice(&buffer[offset..offset + 4]);
+                offset += 4;
+                dst
+            },
+            accessory: {
+                let field = u16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
+                field
+            },
+            accessory_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[offset..offset + 2]);
+                offset += 2;
+                dst
+            },
+            shield: {
+                let field = if packetver >= 20181121 {
+                   u32::from_le_bytes([buffer[offset], buffer[offset + 1], buffer[offset + 2], buffer[offset + 3]])
+                } else {
+                   0 as u32
+                };
+                field
+            },
+            shield_raw: {
+                let mut dst: [u8; 4] = [0u8; 4];
+                if packetver >= 20181121 {
+                    dst.clone_from_slice(&buffer[offset..offset + 4]);
+                    offset += 4;
+                }
+                dst
+            },
+            accessory2: {
+                let field = u16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
+                field
+            },
+            accessory2_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[offset..offset + 2]);
+                offset += 2;
+                dst
+            },
+            accessory3: {
+                let field = u16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
+                field
+            },
+            accessory3_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[offset..offset + 2]);
+                offset += 2;
+                dst
+            },
+            headpalette: {
+                let field = u16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
+                field
+            },
+            headpalette_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[offset..offset + 2]);
+                offset += 2;
+                dst
+            },
+            bodypalette: {
+                let field = u16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
+                field
+            },
+            bodypalette_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[offset..offset + 2]);
+                offset += 2;
+                dst
+            },
+            head_dir: {
+                let field = u16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
+                field
+            },
+            head_dir_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[offset..offset + 2]);
+                offset += 2;
+                dst
+            },
+            robe: {
+                let field = if packetver >= 20101124 {
+                   u16::from_le_bytes([buffer[offset], buffer[offset + 1]])
+                } else {
+                   0 as u16
+                };
+                field
+            },
+            robe_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                if packetver >= 20101124 {
+                    dst.clone_from_slice(&buffer[offset..offset + 2]);
+                    offset += 2;
+                }
+                dst
+            },
+            guid: {
+                let field = u32::from_le_bytes([buffer[offset], buffer[offset + 1], buffer[offset + 2], buffer[offset + 3]]);
+                field
+            },
+            guid_raw: {
+                let mut dst: [u8; 4] = [0u8; 4];
+                dst.clone_from_slice(&buffer[offset..offset + 4]);
+                offset += 4;
+                dst
+            },
+            gemblem_ver: {
+                let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
+                field
+            },
+            gemblem_ver_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[offset..offset + 2]);
+                offset += 2;
+                dst
+            },
+            honor: {
+                let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
+                field
+            },
+            honor_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[offset..offset + 2]);
+                offset += 2;
+                dst
+            },
+            virtue: {
+                let field = i32::from_le_bytes([buffer[offset], buffer[offset + 1], buffer[offset + 2], buffer[offset + 3]]);
+                field
+            },
+            virtue_raw: {
+                let mut dst: [u8; 4] = [0u8; 4];
+                dst.clone_from_slice(&buffer[offset..offset + 4]);
+                offset += 4;
+                dst
+            },
+            is_pkmode_on: {
+                let field = buffer[offset] == 1;
+                field
+            },
+            is_pkmode_on_raw: {
+                let mut dst: [u8; 1] = [0u8; 1];
+                dst.clone_from_slice(&buffer[offset..offset + 1]);
+                offset += 1;
+                dst
+            },
+            sex: {
+                let field = u8::from_le_bytes([buffer[offset]]);
+                field
+            },
+            sex_raw: {
+                let mut dst: [u8; 1] = [0u8; 1];
+                dst.clone_from_slice(&buffer[offset..offset + 1]);
+                offset += 1;
+                dst
+            },
+            pos_dir: {
+                let field =  {
+                let mut dst: [u8; 3] = [0_u8; 3];
+                for (index, byte) in buffer[offset..offset + 3].iter().enumerate() {
+                    dst[index] = *byte as u8;
+                }
+                dst
+            };
+                field
+            },
+            pos_dir_raw: {
+                let mut dst: [u8; 3] = [0u8; 3];
+                dst.clone_from_slice(&buffer[offset..offset + 3]);
+                offset += 3;
+                dst
+            },
+            x_size: {
+                let field = u8::from_le_bytes([buffer[offset]]);
+                field
+            },
+            x_size_raw: {
+                let mut dst: [u8; 1] = [0u8; 1];
+                dst.clone_from_slice(&buffer[offset..offset + 1]);
+                offset += 1;
+                dst
+            },
+            y_size: {
+                let field = u8::from_le_bytes([buffer[offset]]);
+                field
+            },
+            y_size_raw: {
+                let mut dst: [u8; 1] = [0u8; 1];
+                dst.clone_from_slice(&buffer[offset..offset + 1]);
+                offset += 1;
+                dst
+            },
+            state: {
+                let field = u8::from_le_bytes([buffer[offset]]);
+                field
+            },
+            state_raw: {
+                let mut dst: [u8; 1] = [0u8; 1];
+                dst.clone_from_slice(&buffer[offset..offset + 1]);
+                offset += 1;
+                dst
+            },
+            clevel: {
+                let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
+                field
+            },
+            clevel_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[offset..offset + 2]);
+                offset += 2;
+                dst
+            },
+            font: {
+                let field = if packetver >= 20080102 {
+                   i16::from_le_bytes([buffer[offset], buffer[offset + 1]])
+                } else {
+                   0 as i16
+                };
+                field
+            },
+            font_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                if packetver >= 20080102 {
+                    dst.clone_from_slice(&buffer[offset..offset + 2]);
+                    offset += 2;
+                }
+                dst
+            },
+            max_hp: {
+                let field = if packetver >= 20120221 {
+                   u32::from_le_bytes([buffer[offset], buffer[offset + 1], buffer[offset + 2], buffer[offset + 3]])
+                } else {
+                   0 as u32
+                };
+                field
+            },
+            max_hp_raw: {
+                let mut dst: [u8; 4] = [0u8; 4];
+                if packetver >= 20120221 {
+                    dst.clone_from_slice(&buffer[offset..offset + 4]);
+                    offset += 4;
+                }
+                dst
+            },
+            hp: {
+                let field = if packetver >= 20120221 {
+                   u32::from_le_bytes([buffer[offset], buffer[offset + 1], buffer[offset + 2], buffer[offset + 3]])
+                } else {
+                   0 as u32
+                };
+                field
+            },
+            hp_raw: {
+                let mut dst: [u8; 4] = [0u8; 4];
+                if packetver >= 20120221 {
+                    dst.clone_from_slice(&buffer[offset..offset + 4]);
+                    offset += 4;
+                }
+                dst
+            },
+            name: {
+                let field =  {
+                let mut dst: [char; 24] = [0 as char; 24];
+                for (index, byte) in buffer[offset..offset + 24].iter().enumerate() {
+                    dst[index] = *byte as char;
+                }
+                dst
+            };
+                field
+            },
+            name_raw: {
+                let mut dst: [u8; 24] = [0u8; 24];
+                dst.clone_from_slice(&buffer[offset..offset + 24]);
+                offset += 24;
+                dst
+            },
+            is_boss: {
+                let field = if packetver >= 20120221 {
+                   buffer[offset] == 1
+                } else {
+                   false
+                };
+                field
+            },
+            is_boss_raw: {
+                let mut dst: [u8; 1] = [0u8; 1];
+                if packetver >= 20120221 {
+                    dst.clone_from_slice(&buffer[offset..offset + 1]);
+                    offset += 1;
+                }
+                dst
+            },
+            body: {
+                let field = if packetver >= 20150513 {
+                   i16::from_le_bytes([buffer[offset], buffer[offset + 1]])
+                } else {
+                   0 as i16
+                };
+                field
+            },
+            body_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                if packetver >= 20150513 {
+                    dst.clone_from_slice(&buffer[offset..offset + 2]);
+                    offset += 2;
+                }
+                dst
+            },
+        }
+    }
+    pub fn fill_raw(&mut self) {
+      self.fill_raw_with_packetver(None)
+    }
+    pub fn fill_raw_with_packetver(&mut self, packetver: Option<u32>) {
+    let mut wtr;
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.packet_id).unwrap();
+        self.packet_id_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.packet_length).unwrap();
+        self.packet_length_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u8(self.objecttype).unwrap();
+        self.objecttype_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u32::<LittleEndian>(self.aid).unwrap();
+        self.aid_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u32::<LittleEndian>(self.gid).unwrap();
+        self.gid_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.speed).unwrap();
+        self.speed_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.body_state).unwrap();
+        self.body_state_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.health_state).unwrap();
+        self.health_state_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_i32::<LittleEndian>(self.effect_state).unwrap();
+        self.effect_state_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.job).unwrap();
+        self.job_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.head).unwrap();
+        self.head_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u32::<LittleEndian>(self.weapon).unwrap();
+        self.weapon_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u16::<LittleEndian>(self.accessory).unwrap();
+        self.accessory_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u32::<LittleEndian>(self.shield).unwrap();
+        self.shield_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u16::<LittleEndian>(self.accessory2).unwrap();
+        self.accessory2_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u16::<LittleEndian>(self.accessory3).unwrap();
+        self.accessory3_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u16::<LittleEndian>(self.headpalette).unwrap();
+        self.headpalette_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u16::<LittleEndian>(self.bodypalette).unwrap();
+        self.bodypalette_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u16::<LittleEndian>(self.head_dir).unwrap();
+        self.head_dir_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u16::<LittleEndian>(self.robe).unwrap();
+        self.robe_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u32::<LittleEndian>(self.guid).unwrap();
+        self.guid_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.gemblem_ver).unwrap();
+        self.gemblem_ver_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.honor).unwrap();
+        self.honor_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_i32::<LittleEndian>(self.virtue).unwrap();
+        self.virtue_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u8(self.is_pkmode_on as u8).unwrap();
+        self.is_pkmode_on_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u8(self.sex).unwrap();
+        self.sex_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        for item in self.pos_dir {
+            wtr.write_u8(item).unwrap();
+        }
+        self.pos_dir_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u8(self.x_size).unwrap();
+        self.x_size_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u8(self.y_size).unwrap();
+        self.y_size_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u8(self.state).unwrap();
+        self.state_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.clevel).unwrap();
+        self.clevel_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.font).unwrap();
+        self.font_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u32::<LittleEndian>(self.max_hp).unwrap();
+        self.max_hp_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u32::<LittleEndian>(self.hp).unwrap();
+        self.hp_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        for item in self.name {
+            wtr.write_u8(item as u8 ).unwrap();
+        }
+        self.name_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u8(self.is_boss as u8).unwrap();
+        self.is_boss_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.body).unwrap();
+        self.body_raw = wtr.try_into().unwrap();
+
+        wtr = vec![];
+        wtr.append(&mut self.packet_id_raw.to_vec());
+        if packetver.is_none() {
+          wtr.append(&mut self.packet_length_raw.to_vec());
+        } else if packetver.unwrap() >= 20091103 {
+            wtr.append(&mut self.packet_length_raw.to_vec());
+        }
+        if packetver.is_none() {
+          wtr.append(&mut self.objecttype_raw.to_vec());
+        } else if packetver.unwrap() >= 20091103 {
+            wtr.append(&mut self.objecttype_raw.to_vec());
+        }
+        if packetver.is_none() {
+          wtr.append(&mut self.aid_raw.to_vec());
+        } else if packetver.unwrap() >= 20131223 {
+            wtr.append(&mut self.aid_raw.to_vec());
+        }
+        wtr.append(&mut self.gid_raw.to_vec());
+        wtr.append(&mut self.speed_raw.to_vec());
+        wtr.append(&mut self.body_state_raw.to_vec());
+        wtr.append(&mut self.health_state_raw.to_vec());
+        wtr.append(&mut self.effect_state_raw.to_vec());
+        wtr.append(&mut self.job_raw.to_vec());
+        wtr.append(&mut self.head_raw.to_vec());
+        wtr.append(&mut self.weapon_raw.to_vec());
+        wtr.append(&mut self.accessory_raw.to_vec());
+        if packetver.is_none() {
+          wtr.append(&mut self.shield_raw.to_vec());
+        } else if packetver.unwrap() >= 20181121 {
+            wtr.append(&mut self.shield_raw.to_vec());
+        }
+        wtr.append(&mut self.accessory2_raw.to_vec());
+        wtr.append(&mut self.accessory3_raw.to_vec());
+        wtr.append(&mut self.headpalette_raw.to_vec());
+        wtr.append(&mut self.bodypalette_raw.to_vec());
+        wtr.append(&mut self.head_dir_raw.to_vec());
+        if packetver.is_none() {
+          wtr.append(&mut self.robe_raw.to_vec());
+        } else if packetver.unwrap() >= 20101124 {
+            wtr.append(&mut self.robe_raw.to_vec());
+        }
+        wtr.append(&mut self.guid_raw.to_vec());
+        wtr.append(&mut self.gemblem_ver_raw.to_vec());
+        wtr.append(&mut self.honor_raw.to_vec());
+        wtr.append(&mut self.virtue_raw.to_vec());
+        wtr.append(&mut self.is_pkmode_on_raw.to_vec());
+        wtr.append(&mut self.sex_raw.to_vec());
+        wtr.append(&mut self.pos_dir_raw.to_vec());
+        wtr.append(&mut self.x_size_raw.to_vec());
+        wtr.append(&mut self.y_size_raw.to_vec());
+        wtr.append(&mut self.state_raw.to_vec());
+        wtr.append(&mut self.clevel_raw.to_vec());
+        if packetver.is_none() {
+          wtr.append(&mut self.font_raw.to_vec());
+        } else if packetver.unwrap() >= 20080102 {
+            wtr.append(&mut self.font_raw.to_vec());
+        }
+        if packetver.is_none() {
+          wtr.append(&mut self.max_hp_raw.to_vec());
+        } else if packetver.unwrap() >= 20120221 {
+            wtr.append(&mut self.max_hp_raw.to_vec());
+        }
+        if packetver.is_none() {
+          wtr.append(&mut self.hp_raw.to_vec());
+        } else if packetver.unwrap() >= 20120221 {
+            wtr.append(&mut self.hp_raw.to_vec());
+        }
+        wtr.append(&mut self.name_raw.to_vec());
+        if packetver.is_none() {
+          wtr.append(&mut self.is_boss_raw.to_vec());
+        } else if packetver.unwrap() >= 20120221 {
+            wtr.append(&mut self.is_boss_raw.to_vec());
+        }
+        if packetver.is_none() {
+          wtr.append(&mut self.body_raw.to_vec());
+        } else if packetver.unwrap() >= 20150513 {
+            wtr.append(&mut self.body_raw.to_vec());
+        }
+        self.raw = wtr;
+    }
+    pub fn base_len(packetver: u32) -> usize {
+        let mut base_len: usize = 82;
+        if packetver >= 20091103 {
+            base_len += 2;
+        }
+        if packetver >= 20091103 {
+            base_len += 1;
+        }
+        if packetver >= 20131223 {
+            base_len += 4;
+        }
+        if packetver >= 20181121 {
+            base_len += 4;
+        }
+        if packetver >= 20101124 {
+            base_len += 2;
+        }
+        if packetver >= 20080102 {
+            base_len += 2;
+        }
+        if packetver >= 20120221 {
+            base_len += 4;
+        }
+        if packetver >= 20120221 {
+            base_len += 4;
+        }
+        if packetver >= 20120221 {
+            base_len += 1;
+        }
+        if packetver >= 20150513 {
+            base_len += 2;
+        }
+        base_len
+    }
+    pub fn set_packet_id(&mut self, value: i16) {
+        self.packet_id = value;
+    }
+    pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
+        self.packet_id_raw = value;
+    }
+    pub fn set_packet_length(&mut self, value: i16) {
+        self.packet_length = value;
+    }
+    pub fn set_packet_length_raw(&mut self, value: [u8; 2]) {
+        self.packet_length_raw = value;
+    }
+    pub fn set_objecttype(&mut self, value: u8) {
+        self.objecttype = value;
+    }
+    pub fn set_objecttype_raw(&mut self, value: [u8; 1]) {
+        self.objecttype_raw = value;
+    }
+    pub fn set_aid(&mut self, value: u32) {
+        self.aid = value;
+    }
+    pub fn set_aid_raw(&mut self, value: [u8; 4]) {
+        self.aid_raw = value;
+    }
+    pub fn set_gid(&mut self, value: u32) {
+        self.gid = value;
+    }
+    pub fn set_gid_raw(&mut self, value: [u8; 4]) {
+        self.gid_raw = value;
+    }
+    pub fn set_speed(&mut self, value: i16) {
+        self.speed = value;
+    }
+    pub fn set_speed_raw(&mut self, value: [u8; 2]) {
+        self.speed_raw = value;
+    }
+    pub fn set_body_state(&mut self, value: i16) {
+        self.body_state = value;
+    }
+    pub fn set_body_state_raw(&mut self, value: [u8; 2]) {
+        self.body_state_raw = value;
+    }
+    pub fn set_health_state(&mut self, value: i16) {
+        self.health_state = value;
+    }
+    pub fn set_health_state_raw(&mut self, value: [u8; 2]) {
+        self.health_state_raw = value;
+    }
+    pub fn set_effect_state(&mut self, value: i32) {
+        self.effect_state = value;
+    }
+    pub fn set_effect_state_raw(&mut self, value: [u8; 4]) {
+        self.effect_state_raw = value;
+    }
+    pub fn set_job(&mut self, value: i16) {
+        self.job = value;
+    }
+    pub fn set_job_raw(&mut self, value: [u8; 2]) {
+        self.job_raw = value;
+    }
+    pub fn set_head(&mut self, value: i16) {
+        self.head = value;
+    }
+    pub fn set_head_raw(&mut self, value: [u8; 2]) {
+        self.head_raw = value;
+    }
+    pub fn set_weapon(&mut self, value: u32) {
+        self.weapon = value;
+    }
+    pub fn set_weapon_raw(&mut self, value: [u8; 4]) {
+        self.weapon_raw = value;
+    }
+    pub fn set_accessory(&mut self, value: u16) {
+        self.accessory = value;
+    }
+    pub fn set_accessory_raw(&mut self, value: [u8; 2]) {
+        self.accessory_raw = value;
+    }
+    pub fn set_shield(&mut self, value: u32) {
+        self.shield = value;
+    }
+    pub fn set_shield_raw(&mut self, value: [u8; 4]) {
+        self.shield_raw = value;
+    }
+    pub fn set_accessory2(&mut self, value: u16) {
+        self.accessory2 = value;
+    }
+    pub fn set_accessory2_raw(&mut self, value: [u8; 2]) {
+        self.accessory2_raw = value;
+    }
+    pub fn set_accessory3(&mut self, value: u16) {
+        self.accessory3 = value;
+    }
+    pub fn set_accessory3_raw(&mut self, value: [u8; 2]) {
+        self.accessory3_raw = value;
+    }
+    pub fn set_headpalette(&mut self, value: u16) {
+        self.headpalette = value;
+    }
+    pub fn set_headpalette_raw(&mut self, value: [u8; 2]) {
+        self.headpalette_raw = value;
+    }
+    pub fn set_bodypalette(&mut self, value: u16) {
+        self.bodypalette = value;
+    }
+    pub fn set_bodypalette_raw(&mut self, value: [u8; 2]) {
+        self.bodypalette_raw = value;
+    }
+    pub fn set_head_dir(&mut self, value: u16) {
+        self.head_dir = value;
+    }
+    pub fn set_head_dir_raw(&mut self, value: [u8; 2]) {
+        self.head_dir_raw = value;
+    }
+    pub fn set_robe(&mut self, value: u16) {
+        self.robe = value;
+    }
+    pub fn set_robe_raw(&mut self, value: [u8; 2]) {
+        self.robe_raw = value;
+    }
+    pub fn set_guid(&mut self, value: u32) {
+        self.guid = value;
+    }
+    pub fn set_guid_raw(&mut self, value: [u8; 4]) {
+        self.guid_raw = value;
+    }
+    pub fn set_gemblem_ver(&mut self, value: i16) {
+        self.gemblem_ver = value;
+    }
+    pub fn set_gemblem_ver_raw(&mut self, value: [u8; 2]) {
+        self.gemblem_ver_raw = value;
+    }
+    pub fn set_honor(&mut self, value: i16) {
+        self.honor = value;
+    }
+    pub fn set_honor_raw(&mut self, value: [u8; 2]) {
+        self.honor_raw = value;
+    }
+    pub fn set_virtue(&mut self, value: i32) {
+        self.virtue = value;
+    }
+    pub fn set_virtue_raw(&mut self, value: [u8; 4]) {
+        self.virtue_raw = value;
+    }
+    pub fn set_is_pkmode_on(&mut self, value: bool) {
+        self.is_pkmode_on = value;
+    }
+    pub fn set_is_pkmode_on_raw(&mut self, value: [u8; 1]) {
+        self.is_pkmode_on_raw = value;
+    }
+    pub fn set_sex(&mut self, value: u8) {
+        self.sex = value;
+    }
+    pub fn set_sex_raw(&mut self, value: [u8; 1]) {
+        self.sex_raw = value;
+    }
+    pub fn set_pos_dir(&mut self, value: [u8; 3]) {
+        self.pos_dir = value;
+    }
+    pub fn set_pos_dir_raw(&mut self, value: [u8; 3]) {
+        self.pos_dir_raw = value;
+    }
+    pub fn set_x_size(&mut self, value: u8) {
+        self.x_size = value;
+    }
+    pub fn set_x_size_raw(&mut self, value: [u8; 1]) {
+        self.x_size_raw = value;
+    }
+    pub fn set_y_size(&mut self, value: u8) {
+        self.y_size = value;
+    }
+    pub fn set_y_size_raw(&mut self, value: [u8; 1]) {
+        self.y_size_raw = value;
+    }
+    pub fn set_state(&mut self, value: u8) {
+        self.state = value;
+    }
+    pub fn set_state_raw(&mut self, value: [u8; 1]) {
+        self.state_raw = value;
+    }
+    pub fn set_clevel(&mut self, value: i16) {
+        self.clevel = value;
+    }
+    pub fn set_clevel_raw(&mut self, value: [u8; 2]) {
+        self.clevel_raw = value;
+    }
+    pub fn set_font(&mut self, value: i16) {
+        self.font = value;
+    }
+    pub fn set_font_raw(&mut self, value: [u8; 2]) {
+        self.font_raw = value;
+    }
+    pub fn set_max_hp(&mut self, value: u32) {
+        self.max_hp = value;
+    }
+    pub fn set_max_hp_raw(&mut self, value: [u8; 4]) {
+        self.max_hp_raw = value;
+    }
+    pub fn set_hp(&mut self, value: u32) {
+        self.hp = value;
+    }
+    pub fn set_hp_raw(&mut self, value: [u8; 4]) {
+        self.hp_raw = value;
+    }
+    pub fn set_name(&mut self, value: [char; 24]) {
+        self.name = value;
+    }
+    pub fn set_name_raw(&mut self, value: [u8; 24]) {
+        self.name_raw = value;
+    }
+    pub fn set_is_boss(&mut self, value: bool) {
+        self.is_boss = value;
+    }
+    pub fn set_is_boss_raw(&mut self, value: [u8; 1]) {
+        self.is_boss_raw = value;
+    }
+    pub fn set_body(&mut self, value: i16) {
+        self.body = value;
+    }
+    pub fn set_body_raw(&mut self, value: [u8; 2]) {
+        self.body_raw = value;
+    }
+    pub fn new() -> PacketZcNotifyStandentry7 {
+        PacketZcNotifyStandentry7 {
+        raw: vec![],
+        packet_id: i16::from_le_bytes([0x15, 0x09]),
+        packet_id_raw: [0x15, 0x09],
+        packet_length: 0,
+        packet_length_raw: [0; 2],
+        objecttype: 0,
+        objecttype_raw: [0; 1],
+        aid: 0,
+        aid_raw: [0; 4],
+        gid: 0,
+        gid_raw: [0; 4],
+        speed: 0,
+        speed_raw: [0; 2],
+        body_state: 0,
+        body_state_raw: [0; 2],
+        health_state: 0,
+        health_state_raw: [0; 2],
+        effect_state: 0,
+        effect_state_raw: [0; 4],
+        job: 0,
+        job_raw: [0; 2],
+        head: 0,
+        head_raw: [0; 2],
+        weapon: 0,
+        weapon_raw: [0; 4],
+        accessory: 0,
+        accessory_raw: [0; 2],
+        shield: 0,
+        shield_raw: [0; 4],
+        accessory2: 0,
+        accessory2_raw: [0; 2],
+        accessory3: 0,
+        accessory3_raw: [0; 2],
+        headpalette: 0,
+        headpalette_raw: [0; 2],
+        bodypalette: 0,
+        bodypalette_raw: [0; 2],
+        head_dir: 0,
+        head_dir_raw: [0; 2],
+        robe: 0,
+        robe_raw: [0; 2],
+        guid: 0,
+        guid_raw: [0; 4],
+        gemblem_ver: 0,
+        gemblem_ver_raw: [0; 2],
+        honor: 0,
+        honor_raw: [0; 2],
+        virtue: 0,
+        virtue_raw: [0; 4],
+        is_pkmode_on: false,
+        is_pkmode_on_raw: [0; 1],
+        sex: 0,
+        sex_raw: [0; 1],
+        pos_dir: [0; 3],
+        pos_dir_raw: [0; 3],
+        x_size: 0,
+        x_size_raw: [0; 1],
+        y_size: 0,
+        y_size_raw: [0; 1],
+        state: 0,
+        state_raw: [0; 1],
+        clevel: 0,
+        clevel_raw: [0; 2],
+        font: 0,
+        font_raw: [0; 2],
+        max_hp: 0,
+        max_hp_raw: [0; 4],
+        hp: 0,
+        hp_raw: [0; 4],
+        name: [0 as char; 24],
+        name_raw: [0; 24],
+        is_boss: false,
+        is_boss_raw: [0; 1],
+        body: 0,
+        body_raw: [0; 2],
+        }
+    }
+}
+
+impl Packet for PacketZcNotifyStandentry7 {
+    fn id(&self) -> &str {
+       "0x1509"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
+    }
+    fn display(&self) {
+            println!("{}", self)
+    }
+    fn pretty_debug(&self) {
+            println!("{:#?}", self)
+    }
+    fn raw(&self) -> &Vec<u8> {
+            &self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut dyn Any{
+        self
+    }
+}
+
+impl Default for PacketZcNotifyStandentry7 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketZcNotifyMoveentry8 {
     pub fn packet_id() -> &'static str {
         "0xfd09"
