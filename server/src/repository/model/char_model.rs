@@ -12,8 +12,10 @@ impl <'r>FromRow<'r, MySqlRow> for CharacterInfoNeoUnionWrapped {
 
         character_info_neo_union.set_gid(row.get("char_id"));
         character_info_neo_union.set_exp(row.get("base_exp"));
+        character_info_neo_union.set_exp_64(row.get("base_exp"));
         character_info_neo_union.set_money(row.get("zeny"));
         character_info_neo_union.set_jobexp(row.get("job_exp"));
+        character_info_neo_union.set_jobexp_64(row.get("job_exp"));
         character_info_neo_union.set_joblevel(row.get("job_level"));
         character_info_neo_union.set_bodystate(0);
         character_info_neo_union.set_healthstate(0);
@@ -22,7 +24,9 @@ impl <'r>FromRow<'r, MySqlRow> for CharacterInfoNeoUnionWrapped {
         character_info_neo_union.set_honor(row.get("manner"));
         character_info_neo_union.set_status_point(row.get("status_point"));
         character_info_neo_union.set_hp(row.get("hp"));
+        character_info_neo_union.set_hp_16(row.get("hp"));
         character_info_neo_union.set_maxhp(row.get("max_hp"));
+        character_info_neo_union.set_maxhp_16(row.get("max_hp"));
         character_info_neo_union.set_sp(row.get("sp"));
         character_info_neo_union.set_maxsp(row.get("max_sp"));
         character_info_neo_union.set_speed(100); // TODO make this configurable SPEED

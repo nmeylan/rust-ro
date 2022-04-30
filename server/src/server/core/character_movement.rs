@@ -1,4 +1,4 @@
-use packets::packets::{PacketCzRequestMove2, Packet, PacketZcNpcackMapmove};
+use packets::packets::{PacketCzRequestMove2, Packet, PacketZcNpcackMapmove, PacketCzRequestMove};
 use tokio::runtime::Runtime;
 use std::sync::{Arc};
 use std::sync::atomic::Ordering::{Relaxed};
@@ -20,7 +20,14 @@ pub struct Position {
 }
 
 impl Position {
-    pub fn from_move_packet(packet: &PacketCzRequestMove2) -> Position {
+    pub fn from_move_packet(packet: &PacketCzRequestMove) -> Position {
+        // example: for a movement to 158, 158 cell we receive following bytes for packet.dest_raw: 27, 89, E0
+        let x = (((packet.dest_raw[0] & 0xff) as u16) << 2) | (packet.dest_raw[1] >> 6) as u16; // example: 158
+        let y = (((packet.dest_raw[1] & 0x3f) as u16) << 4) | (packet.dest_raw[2] >> 4) as u16; // example: 158
+        let dir: u16 = (packet.dest_raw[2] & 0x0f) as u16; // not use for the moment
+        Position { x, y, dir }
+    }
+    pub fn from_move2_packet(packet: &PacketCzRequestMove2) -> Position {
         // example: for a movement to 158, 158 cell we receive following bytes for packet.dest_raw: 27, 89, E0
         let x = (((packet.dest_raw[0] & 0xff) as u16) << 2) | (packet.dest_raw[1] >> 6) as u16; // example: 158
         let y = (((packet.dest_raw[1] & 0x3f) as u16) << 4) | (packet.dest_raw[2] >> 4) as u16; // example: 158

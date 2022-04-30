@@ -1,5 +1,5 @@
 use std::any::Any;
-use packets::packets::{Packet, PacketUnknown, PacketCaLogin, PacketChEnter, PacketChMakeChar2, PacketChDeleteChar4Reserved, PacketCzEnter2, PacketChSelectChar, PacketCzRestart, PacketCzReqDisconnect2, PacketCzRequestMove2, PacketCzNotifyActorinit, PacketCzBlockingPlayCancel, PacketCzRequestAct2, PacketCzReqnameall2, PacketCzPlayerChat, PacketChMakeChar3, PacketChMakeChar, PacketCzEnter3};
+use packets::packets::{Packet, PacketUnknown, PacketCaLogin, PacketChEnter, PacketChMakeChar2, PacketChDeleteChar4Reserved, PacketCzEnter2, PacketChSelectChar, PacketCzRestart, PacketCzReqDisconnect2, PacketCzRequestMove2, PacketCzNotifyActorinit, PacketCzBlockingPlayCancel, PacketCzRequestAct2, PacketCzReqnameall2, PacketCzPlayerChat, PacketChMakeChar3, PacketChMakeChar, PacketCzRequestMove};
 use std::sync::{Arc, RwLock, RwLockWriteGuard};
 use std::thread::{JoinHandle};
 use crate::repository::lib::Repository;
@@ -186,12 +186,6 @@ impl Server {
             // A char session exist, but not yet map session
             return handle_enter_game(self_ref.clone(), packet, tcp_stream);
         }
-        if packet.as_any().downcast_ref::<PacketCzEnter3>().is_some() {
-            debug!("PacketCzEnter3");
-            // A char session exist, but not yet map session
-            return handle_enter_game(self_ref.clone(), packet, tcp_stream);
-        }
-
         /*
          *  Having a session is required for any packets below
          */
@@ -236,6 +230,10 @@ impl Server {
         // Player click on map cell
         if packet.as_any().downcast_ref::<PacketCzRequestMove2>().is_some() {
             debug!("PacketCzRequestMove2");
+            return handle_char_move(self_ref.clone(), packet, runtime, tcp_stream, session);
+        }
+        if packet.as_any().downcast_ref::<PacketCzRequestMove>().is_some() {
+            debug!("PacketCzRequestMove");
             return handle_char_move(self_ref.clone(), packet, runtime, tcp_stream, session);
         }
         // Client notify player has been loaded
