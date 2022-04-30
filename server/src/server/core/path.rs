@@ -85,6 +85,10 @@ pub fn path_search_client_side_algorithm(map: Arc<MapInstance>, source_x: u16, s
             debug!("found destination");
             break;
         }
+        if i > 100 {
+            debug!("Path finding stuck in infinite loop. Abort");
+            return vec![]
+        }
         debug!("{:?}", open_set);
         debug!("iteration: {} -> current_node({}) {},{}", i, current_index, current_node.x, current_node.y);
         open_set.swap_remove(current_index);

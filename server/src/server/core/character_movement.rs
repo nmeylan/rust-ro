@@ -57,6 +57,7 @@ impl Position {
 
 // TODO find a formula
 fn extra_delay(speed: u16) -> i16 {
+    return 20;
     if speed < 100 {
         -10
     } else if speed > 100 {
@@ -85,11 +86,11 @@ pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<
                     }
 
                     if character.x() != path_node.x && character.y() != path_node.y { // diagonal movement
-                        delay = (character.status.speed * (MOVE_DIAGONAL_COST / MOVE_COST) + 10) as u64;
+                        delay = (character.status.speed as f64 / 0.6) as u64;
                     } else {
-                        delay = ((character.status.speed / 2) as i16 + extra_delay(character.status.speed)) as u64;
+                        delay = character.status.speed as u64;
                     }
-
+                    info!("walk delay {}", delay);
                     {
                         let current_map_guard = read_lock!(character.current_map);
                         let map_ref = current_map_guard.as_ref().unwrap();

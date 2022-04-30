@@ -30,12 +30,13 @@ pub fn handle_atcommand(server: Arc<Server>, packet: &PacketCzPlayerChat, _runti
     let command = captures.get(2).unwrap().as_str();
     let mut args = Vec::<&str>::new();
     if captures.len() > 2 {
-        args = captures.get(3).unwrap().as_str().split(" ").collect();
+        args = captures.get(3).unwrap().as_str().split(" ").map(|arg| arg.trim_matches(char::from(0))).collect();
     }
     let mut packet_zc_notify_playerchat = PacketZcNotifyPlayerchat::new();
     // let mut packets = vec![];
     match command {
         "go" => {
+            debug!("{:?}", args);
             let result = handle_go(server, session, args);
             packet_zc_notify_playerchat.set_msg(result);
         }
