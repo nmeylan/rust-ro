@@ -9152,7 +9152,7 @@ impl PacketCzRequestChat {
                 dst
             },
             msg: {
-                let field = String::from_utf8_lossy(&buffer[offset..offset + buffer.len()]).to_string();
+                let field = String::from_utf8_lossy(&buffer[offset..buffer.len()]).to_string();
                 field
             },
             msg_raw: {
@@ -9286,7 +9286,7 @@ impl PacketZcNotifyChat {
                 dst
             },
             msg: {
-                let field = String::from_utf8_lossy(&buffer[offset..offset + buffer.len()]).to_string();
+                let field = String::from_utf8_lossy(&buffer[offset..buffer.len()]).to_string();
                 field
             },
             msg_raw: {
@@ -9422,7 +9422,7 @@ impl PacketZcNotifyPlayerchat {
                 dst
             },
             msg: {
-                let field = String::from_utf8_lossy(&buffer[offset..offset + buffer.len()]).to_string();
+                let field = String::from_utf8_lossy(&buffer[offset..buffer.len()]).to_string();
                 field
             },
             msg_raw: {
@@ -10452,7 +10452,7 @@ impl PacketCzWhisper {
                 dst
             },
             msg: {
-                let field = String::from_utf8_lossy(&buffer[offset..offset + buffer.len()]).to_string();
+                let field = String::from_utf8_lossy(&buffer[offset..buffer.len()]).to_string();
                 field
             },
             msg_raw: {
@@ -10606,7 +10606,7 @@ impl PacketZcWhisper {
                 dst
             },
             msg: {
-                let field = String::from_utf8_lossy(&buffer[offset..offset + buffer.len()]).to_string();
+                let field = String::from_utf8_lossy(&buffer[offset..buffer.len()]).to_string();
                 field
             },
             msg_raw: {
@@ -10849,7 +10849,7 @@ impl PacketCzBroadcast {
                 dst
             },
             msg: {
-                let field = String::from_utf8_lossy(&buffer[offset..offset + buffer.len()]).to_string();
+                let field = String::from_utf8_lossy(&buffer[offset..buffer.len()]).to_string();
                 field
             },
             msg_raw: {
@@ -10973,7 +10973,7 @@ impl PacketZcBroadcast {
                 dst
             },
             msg: {
-                let field = String::from_utf8_lossy(&buffer[offset..offset + buffer.len()]).to_string();
+                let field = String::from_utf8_lossy(&buffer[offset..buffer.len()]).to_string();
                 field
             },
             msg_raw: {
@@ -14490,7 +14490,7 @@ impl PacketZcSayDialog {
                 dst
             },
             msg: {
-                let field = String::from_utf8_lossy(&buffer[offset..offset + buffer.len()]).to_string();
+                let field = String::from_utf8_lossy(&buffer[offset..buffer.len()]).to_string();
                 field
             },
             msg_raw: {
@@ -14846,7 +14846,7 @@ impl PacketZcMenuList {
                 dst
             },
             msg: {
-                let field = String::from_utf8_lossy(&buffer[offset..offset + buffer.len()]).to_string();
+                let field = String::from_utf8_lossy(&buffer[offset..buffer.len()]).to_string();
                 field
             },
             msg_raw: {
@@ -18984,7 +18984,7 @@ impl PacketCzCreateChatroom {
                 dst
             },
             title: {
-                let field = String::from_utf8_lossy(&buffer[offset..offset + buffer.len()]).to_string();
+                let field = String::from_utf8_lossy(&buffer[offset..buffer.len()]).to_string();
                 field
             },
             title_raw: {
@@ -19301,7 +19301,7 @@ impl PacketZcRoomNewentry {
                 dst
             },
             title: {
-                let field = String::from_utf8_lossy(&buffer[offset..offset + buffer.len()]).to_string();
+                let field = String::from_utf8_lossy(&buffer[offset..buffer.len()]).to_string();
                 field
             },
             title_raw: {
@@ -20318,7 +20318,7 @@ impl PacketCzChangeChatroom {
                 dst
             },
             title: {
-                let field = String::from_utf8_lossy(&buffer[offset..offset + buffer.len()]).to_string();
+                let field = String::from_utf8_lossy(&buffer[offset..buffer.len()]).to_string();
                 field
             },
             title_raw: {
@@ -20530,7 +20530,7 @@ impl PacketZcChangeChatroom {
                 dst
             },
             title: {
-                let field = String::from_utf8_lossy(&buffer[offset..offset + buffer.len()]).to_string();
+                let field = String::from_utf8_lossy(&buffer[offset..buffer.len()]).to_string();
                 field
             },
             title_raw: {
@@ -22829,7 +22829,7 @@ impl PacketCzPlayerChat {
                 dst
             },
             msg: {
-                let field = String::from_utf8_lossy(&buffer[offset..offset + buffer.len()]).to_string();
+                let field = String::from_utf8_lossy(&buffer[offset..buffer.len()]).to_string();
                 field
             },
             msg_raw: {
@@ -25664,7 +25664,7 @@ impl PacketCzRequestChatParty {
                 dst
             },
             msg: {
-                let field = String::from_utf8_lossy(&buffer[offset..offset + buffer.len()]).to_string();
+                let field = String::from_utf8_lossy(&buffer[offset..buffer.len()]).to_string();
                 field
             },
             msg_raw: {
@@ -25798,7 +25798,7 @@ impl PacketZcNotifyChatParty {
                 dst
             },
             msg: {
-                let field = String::from_utf8_lossy(&buffer[offset..offset + buffer.len()]).to_string();
+                let field = String::from_utf8_lossy(&buffer[offset..buffer.len()]).to_string();
                 field
             },
             msg_raw: {
@@ -36218,7 +36218,7 @@ impl PacketZcGuildEmblemImg {
                 dst
             },
             img: {
-                let field = String::from_utf8_lossy(&buffer[offset..offset + buffer.len()]).to_string();
+                let field = String::from_utf8_lossy(&buffer[offset..buffer.len()]).to_string();
                 field
             },
             img_raw: {
@@ -36366,7 +36366,7 @@ impl PacketCzRegisterGuildEmblemImg {
                 dst
             },
             img: {
-                let field = String::from_utf8_lossy(&buffer[offset..offset + buffer.len()]).to_string();
+                let field = String::from_utf8_lossy(&buffer[offset..buffer.len()]).to_string();
                 field
             },
             img_raw: {
@@ -42113,7 +42113,7 @@ impl PacketCzGuildChat {
                 dst
             },
             msg: {
-                let field = String::from_utf8_lossy(&buffer[offset..offset + buffer.len()]).to_string();
+                let field = String::from_utf8_lossy(&buffer[offset..buffer.len()]).to_string();
                 field
             },
             msg_raw: {
@@ -42237,7 +42237,7 @@ impl PacketZcGuildChat {
                 dst
             },
             msg: {
-                let field = String::from_utf8_lossy(&buffer[offset..offset + buffer.len()]).to_string();
+                let field = String::from_utf8_lossy(&buffer[offset..buffer.len()]).to_string();
                 field
             },
             msg_raw: {
@@ -51149,7 +51149,7 @@ impl PacketZcBroadcast2 {
                 dst
             },
             msg: {
-                let field = String::from_utf8_lossy(&buffer[offset..offset + buffer.len()]).to_string();
+                let field = String::from_utf8_lossy(&buffer[offset..buffer.len()]).to_string();
                 field
             },
             msg_raw: {
@@ -54040,7 +54040,7 @@ impl PacketCzInputEditdlgstr {
                 dst
             },
             msg: {
-                let field = String::from_utf8_lossy(&buffer[offset..offset + buffer.len()]).to_string();
+                let field = String::from_utf8_lossy(&buffer[offset..buffer.len()]).to_string();
                 field
             },
             msg_raw: {
@@ -56414,7 +56414,7 @@ impl PacketAcAckHash {
                 dst
             },
             secret: {
-                let field = String::from_utf8_lossy(&buffer[offset..offset + buffer.len()]).to_string();
+                let field = String::from_utf8_lossy(&buffer[offset..buffer.len()]).to_string();
                 field
             },
             secret_raw: {
@@ -59477,7 +59477,7 @@ impl PacketAcNotifyError {
                 dst
             },
             msg: {
-                let field = String::from_utf8_lossy(&buffer[offset..offset + buffer.len()]).to_string();
+                let field = String::from_utf8_lossy(&buffer[offset..buffer.len()]).to_string();
                 field
             },
             msg_raw: {
@@ -71951,7 +71951,7 @@ impl PacketZcMailReqOpen {
                 dst
             },
             msg: {
-                let field = String::from_utf8_lossy(&buffer[offset..offset + buffer.len()]).to_string();
+                let field = String::from_utf8_lossy(&buffer[offset..buffer.len()]).to_string();
                 field
             },
             msg_raw: {
@@ -72824,7 +72824,7 @@ impl PacketCzMailSend {
                 dst
             },
             msg: {
-                let field = String::from_utf8_lossy(&buffer[offset..offset + buffer.len()]).to_string();
+                let field = String::from_utf8_lossy(&buffer[offset..buffer.len()]).to_string();
                 field
             },
             msg_raw: {
@@ -80127,7 +80127,7 @@ impl PacketZcShandaProtect {
                 dst
             },
             code: {
-                let field = String::from_utf8_lossy(&buffer[offset..offset + buffer.len()]).to_string();
+                let field = String::from_utf8_lossy(&buffer[offset..buffer.len()]).to_string();
                 field
             },
             code_raw: {
@@ -89015,7 +89015,7 @@ impl PacketZcNpcChat {
                 dst
             },
             msg: {
-                let field = String::from_utf8_lossy(&buffer[offset..offset + buffer.len()]).to_string();
+                let field = String::from_utf8_lossy(&buffer[offset..buffer.len()]).to_string();
                 field
             },
             msg_raw: {
@@ -89173,7 +89173,7 @@ impl PacketZcFormatstringMsg {
                 dst
             },
             value: {
-                let field = String::from_utf8_lossy(&buffer[offset..offset + buffer.len()]).to_string();
+                let field = String::from_utf8_lossy(&buffer[offset..buffer.len()]).to_string();
                 field
             },
             value_raw: {
@@ -92520,7 +92520,7 @@ impl PacketCzBattlefieldChat {
                 dst
             },
             msg: {
-                let field = String::from_utf8_lossy(&buffer[offset..offset + buffer.len()]).to_string();
+                let field = String::from_utf8_lossy(&buffer[offset..buffer.len()]).to_string();
                 field
             },
             msg_raw: {
@@ -92670,7 +92670,7 @@ impl PacketZcBattlefieldChat {
                 dst
             },
             msg: {
-                let field = String::from_utf8_lossy(&buffer[offset..offset + buffer.len()]).to_string();
+                let field = String::from_utf8_lossy(&buffer[offset..buffer.len()]).to_string();
                 field
             },
             msg_raw: {
@@ -103054,7 +103054,7 @@ impl PacketChEnterCheckbot {
                 dst
             },
             sz_string_info: {
-                let field = String::from_utf8_lossy(&buffer[offset..offset + buffer.len()]).to_string();
+                let field = String::from_utf8_lossy(&buffer[offset..buffer.len()]).to_string();
                 field
             },
             sz_string_info_raw: {
@@ -103474,7 +103474,7 @@ impl PacketHcCheckbot {
                 dst
             },
             img: {
-                let field = String::from_utf8_lossy(&buffer[offset..offset + buffer.len()]).to_string();
+                let field = String::from_utf8_lossy(&buffer[offset..buffer.len()]).to_string();
                 field
             },
             img_raw: {
@@ -112869,7 +112869,7 @@ impl PacketZcBroadcast4 {
                 dst
             },
             msg: {
-                let field = String::from_utf8_lossy(&buffer[offset..offset + buffer.len()]).to_string();
+                let field = String::from_utf8_lossy(&buffer[offset..buffer.len()]).to_string();
                 field
             },
             msg_raw: {
@@ -113684,7 +113684,7 @@ impl PacketCaSsoLoginReqa {
                 dst
             },
             t1: {
-                let field = String::from_utf8_lossy(&buffer[offset..offset + buffer.len()]).to_string();
+                let field = String::from_utf8_lossy(&buffer[offset..buffer.len()]).to_string();
                 field
             },
             t1_raw: {
@@ -113958,7 +113958,7 @@ impl PacketCaSsoLoginReq {
                 dst
             },
             t1: {
-                let field = String::from_utf8_lossy(&buffer[offset..offset + buffer.len()]).to_string();
+                let field = String::from_utf8_lossy(&buffer[offset..buffer.len()]).to_string();
                 field
             },
             t1_raw: {
