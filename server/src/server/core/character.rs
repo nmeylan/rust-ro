@@ -4,7 +4,7 @@ use std::hash::Hash;
 use std::net::TcpStream;
 
 use std::sync::{Arc, RwLock};
-use packets::packets::{PacketZcNotifyStandentry6, PacketZcNotifyVanish};
+use packets::packets::{PacketZcNotifyStandentry6, PacketZcNotifyStandentry7, PacketZcNotifyVanish};
 use crate::server::core::map::{MAP_EXT, MapItem};
 use crate::server::core::character_movement::Position;
 use crate::server::core::session::Session;
@@ -168,13 +168,14 @@ impl Character {
             if !map_view_guard.contains(&*map_item.clone()) {
                 let mut name = [0 as char; 24];
                 map_item.name().fill_char_array(name.as_mut());
-                let mut packet_zc_notify_standentry = PacketZcNotifyStandentry6::new();
+                let mut packet_zc_notify_standentry = PacketZcNotifyStandentry7::new();
                 packet_zc_notify_standentry.set_job(map_item.client_item_class());
-                packet_zc_notify_standentry.set_packet_length(108);
+                packet_zc_notify_standentry.set_packet_length(PacketZcNotifyStandentry7::base_len(session.packetver()) as i16);
                 packet_zc_notify_standentry.set_name(name);
                 packet_zc_notify_standentry.set_pos_dir(Position { x: map_item.x(), y: map_item.y(), dir: 3 }.to_pos());
                 packet_zc_notify_standentry.set_objecttype(map_item.object_type() as u8);
                 packet_zc_notify_standentry.set_aid(map_item.id());
+                packet_zc_notify_standentry.set_gid(map_item.id());
                 if map_item.object_type() == MapItemType::Mob.value() {
                     let mob = cast!(map_item, Mob);
                     packet_zc_notify_standentry.set_clevel(3);
@@ -182,7 +183,7 @@ impl Character {
                     packet_zc_notify_standentry.set_hp(mob.status.hp);
                     packet_zc_notify_standentry.set_max_hp(mob.status.max_hp);
                 }
-                packet_zc_notify_standentry.fill_raw();
+                packet_zc_notify_standentry.fill_raw_with_packetver(Some(session.packetver()));
                 session.send_to_map_socket(packet_zc_notify_standentry.raw());
             }
         }

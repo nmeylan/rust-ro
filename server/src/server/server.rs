@@ -1,5 +1,5 @@
 use std::any::Any;
-use packets::packets::{Packet, PacketUnknown, PacketCaLogin, PacketChEnter, PacketChMakeChar2, PacketChDeleteChar4Reserved, PacketCzEnter2, PacketChSelectChar, PacketCzRestart, PacketCzReqDisconnect2, PacketCzRequestMove2, PacketCzNotifyActorinit, PacketCzBlockingPlayCancel, PacketCzRequestAct2, PacketCzReqnameall2, PacketCzPlayerChat, PacketChMakeChar3, PacketChMakeChar, PacketCzRequestMove};
+use packets::packets::{Packet, PacketUnknown, PacketCaLogin, PacketChEnter, PacketChMakeChar2, PacketChDeleteChar4Reserved, PacketCzEnter2, PacketChSelectChar, PacketCzRestart, PacketCzReqDisconnect2, PacketCzRequestMove2, PacketCzNotifyActorinit, PacketCzBlockingPlayCancel, PacketCzRequestAct2, PacketCzReqnameall2, PacketCzPlayerChat, PacketChMakeChar3, PacketChMakeChar, PacketCzRequestMove, PacketCzReqname};
 use std::sync::{Arc, RwLock, RwLockWriteGuard};
 use std::thread::{JoinHandle};
 use crate::repository::lib::Repository;
@@ -253,6 +253,11 @@ impl Server {
 
         if packet.as_any().downcast_ref::<PacketCzReqnameall2>().is_some() {
             debug!("PacketCzReqnameall2");
+            return handle_map_item_name(self_ref.clone(), packet, tcp_stream);
+        }
+
+        if packet.as_any().downcast_ref::<PacketCzReqname>().is_some() {
+            debug!("PacketCzReqname");
             return handle_map_item_name(self_ref.clone(), packet, tcp_stream);
         }
 

@@ -23,7 +23,7 @@ pub(crate) fn handle_login(server: Arc<Server>, packet: &mut dyn Packet, runtime
             proxy_login(server.clone(), packet, tcp_stream);
             return;
         }
-        let new_user_session = Session::create_empty(packet_response.aid,packet_response.auth_code,packet_response.user_level);
+        let new_user_session = Session::create_empty(packet_response.aid,packet_response.auth_code,packet_response.user_level, server.packetver()); // TODO: packetver find solution to allow client to set packetver
         let mut sessions_guard = write_lock!(server.sessions);
         sessions_guard.insert(packet_response.aid.clone(), Arc::new(new_user_session));
         socket_send!(tcp_stream, res.raw());
@@ -34,7 +34,7 @@ pub(crate) fn handle_login(server: Arc<Server>, packet: &mut dyn Packet, runtime
             proxy_login(server.clone(), packet, tcp_stream);
             return;
         }
-        let new_user_session = Session::create_empty(packet_response.aid,packet_response.auth_code,packet_response.user_level);
+        let new_user_session = Session::create_empty(packet_response.aid,packet_response.auth_code,packet_response.user_level, server.packetver()); // TODO: packetver find solution to allow client to set packetver
         let mut sessions_guard = write_lock!(server.sessions);
         sessions_guard.insert(packet_response.aid.clone(), Arc::new(new_user_session));
         socket_send!(tcp_stream, res.raw());

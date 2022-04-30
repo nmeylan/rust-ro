@@ -91,6 +91,9 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x7e && buffer[1] == 0x00 {
         return Box::new(PacketCzRequestTime::from(buffer, packetver));
     }
+    if buffer[0] == 0x17 && buffer[1] == 0x08 {
+        return Box::new(PacketCzRequestTime::from(buffer, packetver));
+    }
     if buffer[0] == 0x7f && buffer[1] == 0x00 {
         return Box::new(PacketZcNotifyTime::from(buffer, packetver));
     }
@@ -167,6 +170,9 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
         return Box::new(PacketZcNpcackEnable::from(buffer, packetver));
     }
     if buffer[0] == 0x94 && buffer[1] == 0x00 {
+        return Box::new(PacketCzReqname::from(buffer, packetver));
+    }
+    if buffer[0] == 0x8A && buffer[1] == 0x08 {
         return Box::new(PacketCzReqname::from(buffer, packetver));
     }
     if buffer[0] == 0x95 && buffer[1] == 0x00 {
@@ -2370,6 +2376,9 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     }
     if buffer[0] == 0xff && buffer[1] == 0x09 {
         return Box::new(PacketZcNotifyStandentry6::from(buffer, packetver));
+    }
+    if buffer[0] == 0x15 && buffer[1] == 0x09 {
+        return Box::new(PacketZcNotifyStandentry7::from(buffer, packetver));
     }
     if buffer[0] == 0xfd && buffer[1] == 0x09 {
         return Box::new(PacketZcNotifyMoveentry8::from(buffer, packetver));
