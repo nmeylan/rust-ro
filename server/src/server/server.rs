@@ -21,6 +21,7 @@ use crate::server::handler::login::handle_login;
 use crate::server::handler::movement::handle_char_move;
 use lazy_static::lazy_static;
 use crate::server::enums::map_item::MapItemType;
+use std::cell::RefCell;
 use crate::server::handler::atcommand::handle_atcommand;
 use crate::server::handler::map::{handle_char_loaded_client_side, handle_map_item_name};
 
@@ -33,6 +34,7 @@ pub const MOB_FOV_SLICE_LEN: usize = ((MOB_FOV * 2) * (MOB_FOV * 2)) as usize;
 lazy_static! {
     pub static ref UNKNOWN_MAP_ITEM: Arc<dyn MapItem> = Arc::new(UnknownMapItem {});
 }
+thread_local!(pub static PACKETVER: RefCell<u32> = RefCell::new(0));
 
 #[derive(Clone)]
 pub struct Server {
@@ -138,6 +140,7 @@ impl Server {
                 let server_shared_ref = server_shared_ref.clone();
                 debug!("Received new connection");
                 thread::Builder::new().name("server-handle-request".to_string()).spawn(move || {
+                    PACKETVER.with(|ver| *ver.borrow_mut() = server_shared_ref.packetver());
                     let runtime = Runtime::new().unwrap();
                     let mut tcp_stream = tcp_stream.unwrap();
                     let tcp_stream_arc = Arc::new(RwLock::new(tcp_stream.try_clone().unwrap())); // todo remove this clone
@@ -149,7 +152,7 @@ impl Server {
                                     tcp_stream.shutdown(Shutdown::Both).expect("Unable to shutdown incoming socket. Shutdown was done because remote socket seems cloded.");
                                     break;
                                 }
-                                let mut packet = parse(&mut buffer[..bytes_read]);
+                                let mut packet = parse(&mut buffer[..bytes_read], server_shared_ref.packetver());
                                 server_shared_ref.dispatch(server_shared_ref.clone(), &runtime, tcp_stream_arc.clone(), packet.as_mut());
                             }
                             Err(err) => error!("{}", err)

@@ -1,4 +1,4 @@
-use crate::{PacketStructDefinition, StructDefinition, StructField};
+use crate::{Condition, PacketStructDefinition, StructDefinition, StructField};
 use std::fs::File;
 use std::io::Write;
 use std::path::Path;
@@ -28,6 +28,7 @@ pub fn write_packets_struct(packets: Vec<PacketStructDefinition>, nested_structu
     file_packets_parser.write_all(b"use crate::packets::*;\n\n").unwrap();
 
     file_packets_impl.write_all(b"#![allow(dead_code)]\n\n").unwrap();
+    file_packets_impl.write_all(b"#![allow(unused_variables)]\n\n").unwrap();
     file_packets_impl.write_all(b"use crate::packets::*;\n").unwrap();
     file_packets_impl.write_all(b"use byteorder::{LittleEndian,WriteBytesExt};\n").unwrap();
     file_packets_impl.write_all(b"use std::any::Any;\n").unwrap();
@@ -60,12 +61,12 @@ fn write_file_header(file: &mut File) {
 }
 
 fn write_packet_parser(file: &mut File, packets: &Vec<PacketStructDefinition>) {
-    file.write_all(b"pub fn parse(buffer: &[u8]) -> Box<dyn Packet> {\n").unwrap();
+    file.write_all(b"pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {\n").unwrap();
     for packet in packets {
-        let packet_id = packet_id(packet).replace("0x", "");
+        let packet_id = packet_id(packet.id.clone()).replace("0x", "");
         let (first_byte, second_byte) = packet_id.split_at(2);
         file.write_all(format!("    if buffer[0] == 0x{} && buffer[1] == 0x{} {{\n", first_byte, second_byte).as_bytes()).unwrap();
-        file.write_all(format!("        return Box::new({}::from(buffer));\n", packet.struct_def.name).as_bytes()).unwrap();
+        file.write_all(format!("        return Box::new({}::from(buffer, packetver));\n", packet.struct_def.name).as_bytes()).unwrap();
         file.write_all(b"    }\n").unwrap();
     }
     file.write_all(b"    Box::new(PacketUnknown::from(buffer))\n").unwrap();
@@ -81,14 +82,13 @@ fn write_packet_trait(file: &mut File) {
     file.write_all(b"    fn raw(&self) -> &Vec<u8>;\n").unwrap();
     file.write_all(b"    fn as_any(&self) -> &dyn Any;\n").unwrap();
     file.write_all(b"    fn as_any_mut(&mut self) -> &mut dyn Any;\n").unwrap();
-    file.write_all(b"    fn base_len(&self) -> usize;\n").unwrap();
     file.write_all(b"}\n\n").unwrap();
 }
 
 fn write_packet_trait_impl(file: &mut File, packet: &PacketStructDefinition) {
     file.write_all(format!("impl Packet for {} {{\n", packet.struct_def.name).as_bytes()).unwrap();
     file.write_all(b"    fn id(&self) -> &str {\n").unwrap();
-    let id = packet_id(packet);
+    let id = packet_id(packet.id.clone());
     file.write_all(format!("       \"{}\"\n", id).as_bytes()).unwrap();
     file.write_all(b"    }\n").unwrap();
     file.write_all(b"    fn debug(&self) {\n").unwrap();
@@ -108,9 +108,6 @@ fn write_packet_trait_impl(file: &mut File, packet: &PacketStructDefinition) {
     file.write_all(b"    }\n").unwrap();
     file.write_all(b"    fn as_any_mut(&mut self) -> &mut dyn Any{\n").unwrap();
     file.write_all(b"        self\n").unwrap();
-    file.write_all(b"    }\n").unwrap();
-    file.write_all(b"    fn base_len(&self) -> usize{\n").unwrap();
-    file.write_all(format!("        {}\n", packet.struct_def.fields.iter().map(|f| f.length).sum::<i16>()).as_bytes()).unwrap();
     file.write_all(b"    }\n").unwrap();
     file.write_all(b"}\n\n").unwrap();
 }
@@ -133,9 +130,9 @@ fn write_debug_trait(file: &mut File, struct_definition: &StructDefinition, is_p
     }
     for field in &struct_definition.fields {
         file.write_all(format!("            .field(\"{}{}\", &format!(\"{{:02X?}}\", &self.{}_raw))\n",
-                           field.name,
-                           format!("[{}, {}]", field.position, if field.length > -1 { (field.position + field.length).to_string() } else { "?".to_string() }),
-                           field.name
+                               field.name,
+                               format!("[{}, {}]", field.position, if field.length > -1 { (field.position + field.length).to_string() } else { "?".to_string() }),
+                               field.name
         ).as_bytes()).unwrap();
     }
     file.write_all(b"        .finish()\n").unwrap();
@@ -157,10 +154,10 @@ fn write_display_trait(file: &mut File, struct_definition: &StructDefinition, _i
             value_to_print = format!("&self.{}", field.name);
         }
         file.write_all(format!("        fields.push(format!(\"{}{}{}: {{}}\", {}));\n",
-                           field.name,
-                           display_type(&field),
-                           format!("[{}, {}]", field.position, if field.length > -1 { (field.position + field.length).to_string() } else { "?".to_string() }),
-                           value_to_print
+                               field.name,
+                               display_type(&field),
+                               format!("[{}, {}]", field.position, if field.length > -1 { (field.position + field.length).to_string() } else { "?".to_string() }),
+                               value_to_print
         ).as_bytes()).unwrap();
     }
     file.write_all(format!("        write!(f, \"{}\\n {{}}\", fields.join(\",\\n \"))\n", struct_definition.name).as_bytes()).unwrap();
@@ -181,15 +178,20 @@ fn write_struct_definition(file: &mut File, struct_definition: &StructDefinition
 
 fn write_struct_impl(file: &mut File, struct_definition: &StructDefinition, packet_id: Option<String>) {
     file.write_all(format!("impl {} {{\n", struct_definition.name).as_bytes()).unwrap();
+    if packet_id.is_some() {
+        write_struct_packet_id_method(file, &packet_id);
+    }
     write_struct_from_method(file, struct_definition);
-    write_struct_fill_raw_method(file, struct_definition);
+    write_struct_fill_raw_method(file);
+    write_struct_fill_raw_with_packetver_method(file, struct_definition);
+    write_struct_base_len_method(file, struct_definition);
     write_struct_setter_methods(file, struct_definition);
-    write_struct_new_method(file, struct_definition, packet_id);
+    write_struct_new_method(file, struct_definition, &packet_id);
     file.write_all(b"}\n\n").unwrap();
 }
 
 fn write_struct_from_method(file: &mut File, struct_definition: &StructDefinition) {
-    file.write_all(format!("    pub fn from(buffer: &[u8]) -> {} {{\n", struct_definition.name).as_bytes()).unwrap();
+    file.write_all(format!("    pub fn from(buffer: &[u8], packetver: u32) -> {} {{\n", struct_definition.name).as_bytes()).unwrap();
     let field_with_vec = struct_definition.fields.iter().find(|field| field.data_type.name == "Vec");
     if field_with_vec.is_some() {
         write_vec_field(file, &field_with_vec.unwrap());
@@ -200,7 +202,7 @@ fn write_struct_from_method(file: &mut File, struct_definition: &StructDefinitio
         if field.data_type.name == "Vec" {
             file.write_all(format!("            {}: vec_field.clone(),\n", field.name).as_bytes()).unwrap();
         } else if field.data_type.name == "Struct" {
-            file.write_all(format!("            {}: {}::from(&buffer[{}..{}]),\n", field.name, field.complex_type.as_ref().unwrap(), field.position, field_length(field)).as_bytes()).unwrap();
+            file.write_all(format!("            {}: {}::from(&buffer[{}..{}], packetver),\n", field.name, field.complex_type.as_ref().unwrap(), field.position, field_length(field)).as_bytes()).unwrap();
         } else {
             file.write_all(format!("            {}: {},\n", field.name, struct_impl_field_value(field)).as_bytes()).unwrap();
         }
@@ -220,19 +222,34 @@ fn write_struct_from_method(file: &mut File, struct_definition: &StructDefinitio
     file.write_all(b"    }\n").unwrap();
 }
 
-fn write_struct_fill_raw_method(file: &mut File, struct_definition: &StructDefinition) {
+fn write_struct_fill_raw_method(file: &mut File) {
     file.write_all(b"    pub fn fill_raw(&mut self) {\n").unwrap();
+    file.write_all(b"      self.fill_raw_with_packetver(None)\n").unwrap();
+    file.write_all(b"    }\n").unwrap();
+}
+
+fn write_struct_fill_raw_with_packetver_method(file: &mut File, struct_definition: &StructDefinition) {
+    file.write_all(b"    pub fn fill_raw_with_packetver(&mut self, packetver: Option<u32>) {\n").unwrap();
     file.write_all(b"    let mut wtr;\n").unwrap();
     for field in &struct_definition.fields {
         file.write_all(field_serialization(field).as_bytes()).unwrap();
         file.write_all(b"\n").unwrap();
     }
+    file.write_all(b"\n").unwrap();
     file.write_all(b"        wtr = vec![];\n").unwrap();
     for field in &struct_definition.fields {
         if field.data_type.name == "Vec" && field.complex_type.is_some() {
             file.write_all(format!("        self.{}.iter_mut().for_each(|item| wtr.append(&mut item.raw));\n", field.name).as_bytes()).unwrap();
         } else {
-            file.write_all(format!("        wtr.append(&mut self.{}_raw.to_vec());\n", field.name).as_bytes()).unwrap();
+            if field.condition.is_none() {
+                file.write_all(format!("        wtr.append(&mut self.{}_raw.to_vec());\n", field.name).as_bytes()).unwrap();
+            } else {
+                file.write_all(b"        if packetver.is_none() {\n").unwrap();
+                file.write_all(format!("          wtr.append(&mut self.{}_raw.to_vec());\n", field.name).as_bytes()).unwrap();
+                file.write_all(format!("        }} else {}", packetver_if("packetver.unwrap()", field)).as_bytes()).unwrap();
+                file.write_all(format!("            wtr.append(&mut self.{}_raw.to_vec());\n", field.name).as_bytes()).unwrap();
+                file.write_all(b"        }\n").unwrap();
+            }
         }
     }
     file.write_all(b"        self.raw = wtr;\n").unwrap();
@@ -250,7 +267,26 @@ fn write_struct_setter_methods(file: &mut File, struct_definition: &StructDefini
     }
 }
 
-fn write_struct_new_method(file: &mut File, struct_definition: &StructDefinition, packet_id: Option<String>) {
+fn write_struct_base_len_method(file: &mut File, struct_definition: &StructDefinition) {
+    file.write_all(b"    pub fn base_len(packetver: u32) -> usize {\n").unwrap();
+    let base_len_is_mut = struct_definition.fields.iter().filter(|f| f.condition.is_some()).count() > 0;
+    file.write_all(format!("        let {} base_len: usize = {};\n", if base_len_is_mut {"mut"} else {""}, struct_definition.fields.iter().filter(|f| f.condition.is_none()).map(|f| f.length).sum::<i16>()).as_bytes()).unwrap();
+    for f in struct_definition.fields.iter().filter(|f| f.condition.is_some()) {
+        file.write_all( format!("        {}", packetver_if("packetver", f)).as_bytes()).unwrap();
+        file.write_all( format!("            base_len += {};\n", f.length).as_bytes()).unwrap();
+        file.write_all(b"        }\n").unwrap();
+    }
+    file.write_all(b"        base_len\n").unwrap();
+    file.write_all(b"    }\n").unwrap();
+}
+
+fn write_struct_packet_id_method(file: &mut File, id: &Option<String>) {
+    file.write_all(b"    pub fn packet_id() -> &'static str {\n").unwrap();
+    file.write_all(format!("        \"{}\"\n", packet_id(id.clone().unwrap())).as_bytes()).unwrap();
+    file.write_all(b"    }\n").unwrap();
+}
+
+fn write_struct_new_method(file: &mut File, struct_definition: &StructDefinition, packet_id: &Option<String>) {
     file.write_all(format!("    pub fn new() -> {} {{\n", struct_definition.name).as_bytes()).unwrap();
     file.write_all(format!("        {} {{\n", struct_definition.name).as_bytes()).unwrap();
     file.write_all(b"        raw: vec![],\n").unwrap();
@@ -273,13 +309,14 @@ fn write_struct_new_method(file: &mut File, struct_definition: &StructDefinition
 }
 
 fn write_vec_field(file: &mut File, field: &StructField) {
-    file.write_all(format!("        let iter_count = (&buffer.len() - {}) / {};\n", field.position, field.length).as_bytes()).unwrap();
+    file.write_all(format!("        let vec_type_len = {}::base_len(packetver);\n", field.complex_type.as_ref().unwrap()).as_bytes()).unwrap();
+    file.write_all(format!("        let iter_count = (&buffer.len() - {}) / vec_type_len;\n", field.position).as_bytes()).unwrap();
     file.write_all(format!("        let mut vec_field: Vec<{}> = Vec::new();\n", field.complex_type.as_ref().unwrap()).as_bytes()).unwrap();
     file.write_all(b"        let mut i = 1;\n").unwrap();
     file.write_all(b"        while i <= iter_count {\n").unwrap();
-    file.write_all(format!("            let start_pos = {} + ({} * (i - 1));\n", field.position, field.length).as_bytes()).unwrap();
-    file.write_all(format!("            let end_pos = {} + {} * i;\n", field.position, field.length).as_bytes()).unwrap();
-    file.write_all(format!("            vec_field.push({}::from(&buffer[start_pos..end_pos]));\n", field.complex_type.as_ref().unwrap()).as_bytes()).unwrap();
+    file.write_all(format!("            let start_pos = {} + (vec_type_len * (i - 1));\n", field.position).as_bytes()).unwrap();
+    file.write_all(format!("            let end_pos = {} + vec_type_len * i;\n", field.position).as_bytes()).unwrap();
+    file.write_all(format!("            vec_field.push({}::from(&buffer[start_pos..end_pos], packetver));\n", field.complex_type.as_ref().unwrap()).as_bytes()).unwrap();
     file.write_all(b"            i += 1;\n").unwrap();
     file.write_all(b"        }\n").unwrap();
 }
@@ -311,9 +348,6 @@ fn write_unknown_packet(file: &mut File) {
     file.write_all(b"    }\n").unwrap();
     file.write_all(b"    fn as_any_mut(&mut self) -> &mut dyn Any{\n").unwrap();
     file.write_all(b"        self\n").unwrap();
-    file.write_all(b"    }\n").unwrap();
-    file.write_all(b"    fn base_len(&self) -> usize{\n").unwrap();
-    file.write_all(b"        0\n").unwrap();
     file.write_all(b"    }\n").unwrap();
     file.write_all(b"}\n").unwrap();
     file.write_all(b"impl PacketUnknown {\n").unwrap();
@@ -444,7 +478,7 @@ fn field_serialization(field: &StructField) -> String {
         "Vec" => {
             if field.complex_type.is_some() {
                 res = format!("        self.{}_raw = {{\n", field.name);
-                res = format!("{}            self.{}.iter_mut().for_each(|item| item.fill_raw());\n", res, field.name);
+                res = format!("{}            self.{}.iter_mut().for_each(|item| item.fill_raw_with_packetver(packetver));\n", res, field.name);
                 res = format!("{}            self.{}.iter().map(|item| item.raw.clone()).collect()\n", res, field.name);
                 res = format!("{}      }};\n", res);
                 res
@@ -454,7 +488,7 @@ fn field_serialization(field: &StructField) -> String {
         }
         "Struct" => {
             if field.complex_type.is_some() {
-                res = format!("        self.{}.fill_raw();\n", field.name);
+                res = format!("        self.{}.fill_raw_with_packetver(packetver);\n", field.name);
                 if field.length > -1 {
                     res = format!("{}        self.{}_raw = self.{}.clone().raw.try_into().unwrap();\n", res, field.name, field.name);
                 } else {
@@ -475,12 +509,12 @@ fn field_length(field: &StructField) -> String {
     if field.length > -1 { (field.position + field.length as i16).to_string() } else { "buffer.len()".to_string() }
 }
 
-fn packet_id(packet: &PacketStructDefinition) -> String {
-    let mut id = packet.id.clone();
-    if packet.id.len() == 4 {
-        id = format!("{:0<6}", packet.id);
-    } else if packet.id.len() == 5 {
-        id = packet.id.replace("0x", "0x0");
+fn packet_id(packet_id: String) -> String {
+    let mut id = packet_id.clone();
+    if packet_id.len() == 4 {
+        id = format!("{:0<6}", packet_id);
+    } else if packet_id.len() == 5 {
+        id = packet_id.replace("0x", "0x0");
     }
     id
 }
@@ -576,4 +610,14 @@ fn field_default_value(field: &StructField) -> String {
             panic!("\"found unknown type {} for field {}. this won't compile!\"", field.data_type.name, field.name)
         }
     }
+}
+
+fn packetver_if(packetver_variable: &str, field: &StructField) -> String {
+    format!("if {} {} {{\n", packetver_variable,
+            match field.condition.as_ref().unwrap() {
+                Condition::GTE(ver) => format!(">= {}", ver),
+                Condition::GT(ver) => format!("> {}", ver),
+                Condition::LTE(ver) => format!("<= {}", ver),
+                Condition::LT(ver) => format!("< {}", ver),
+            })
 }

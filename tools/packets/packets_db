@@ -115,7 +115,8 @@ struct PACKET_HC_ACCEPT_ENTER_NEO_UNION {
   char dummy2_endbilling[7]
   struct CHARACTER_INFO_NEO_UNION charInfo[...] { // Size 155
   unsigned long GID
-  unsigned int64 exp
+#V GTE 20170830 unsigned int64 exp_64
+#V LT 20170830 unsigned int exp
   unsigned int money
   unsigned int64 jobexp
   unsigned int joblevel

@@ -13,7 +13,6 @@ pub trait Packet {
     fn raw(&self) -> &Vec<u8>;
     fn as_any(&self) -> &dyn Any;
     fn as_any_mut(&mut self) -> &mut dyn Any;
-    fn base_len(&self) -> usize;
 }
 
 #[derive(Clone)]
@@ -10453,8 +10452,10 @@ pub struct CharacterInfoNeoUnion {
     pub raw: Vec<u8>,
     pub gid: u32,
     pub gid_raw: [u8; 4],
-    pub exp: u64,
-    pub exp_raw: [u8; 8],
+    pub exp_64: u64,
+    pub exp_64_raw: [u8; 8],
+    pub exp: u32,
+    pub exp_raw: [u8; 4],
     pub money: u32,
     pub money_raw: [u8; 4],
     pub jobexp: u64,
@@ -11367,9 +11368,6 @@ impl Packet for PacketUnknown {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
-    }
-    fn base_len(&self) -> usize{
-        0
     }
 }
 impl PacketUnknown {

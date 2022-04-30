@@ -33,7 +33,7 @@ impl Display for ProxyDirection {
 }
 
 impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
-    pub fn proxy(&self) -> JoinHandle<()> {
+    pub fn proxy(&self, packetver: u32) -> JoinHandle<()> {
         let listener = TcpListener::bind(format!("0.0.0.0:{}", self.local_port)).unwrap();
         let immutable_self_ref = Arc::new(self.clone()); // make An Arc of self to be able to share it with other threads
         let server_ref = immutable_self_ref.clone(); // cloning the ref to use in thread below
@@ -45,13 +45,13 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
                 spawn(move || {
                     // Use Arc to be able to share reference across thread.
                     // Arc are immutable, use a mutex to be able to mutate arc value.
-                    server_ref.proxy_connection(tcp_stream.unwrap());
+                    server_ref.proxy_connection(tcp_stream.unwrap(), packetver);
                 });
             }
         })
     }
 
-    fn proxy_connection(&self, incoming_stream: TcpStream) {
+    fn proxy_connection(&self, incoming_stream: TcpStream, packetver: u32) {
         let mut forward_thread_incoming = incoming_stream.try_clone().unwrap();
         debug!("Client connected from: {:#?} to {:#?}", incoming_stream.peer_addr().unwrap(), incoming_stream.local_addr().unwrap());
 
@@ -66,12 +66,12 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
         let forward = thread::Builder::new().name(format!("{}-{}", self.name, "forward"))
             .spawn(move || {
                 let rt = Runtime::new().unwrap();
-                server_copy_forward_thread.pipe(&mut forward_thread_incoming, &mut forward_thread_outgoing, ProxyDirection::Forward, &rt)
+                server_copy_forward_thread.pipe(&mut forward_thread_incoming, &mut forward_thread_outgoing, ProxyDirection::Forward, &rt, packetver)
             }).unwrap();
         let backward = thread::Builder::new().name(format!("{}-{}", self.name, "backward"))
             .spawn(move || {
                 let rt = Runtime::new().unwrap();
-                server_copy_backward_thread.pipe(&mut backward_thread_outgoing_clone, &mut backward_thread_incoming_clone, ProxyDirection::Backward, &rt)
+                server_copy_backward_thread.pipe(&mut backward_thread_outgoing_clone, &mut backward_thread_incoming_clone, ProxyDirection::Backward, &rt, packetver)
             }).unwrap();
         let _ = forward.join().expect("Forward failed");
         let _ = backward.join().expect("Backward failed");
@@ -80,7 +80,7 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
 
     }
 
-    fn pipe(&mut self, incoming: &mut TcpStream, outgoing: &mut TcpStream, direction: ProxyDirection, _runtime: &Runtime) -> Result<(), String> {
+    fn pipe(&mut self, incoming: &mut TcpStream, outgoing: &mut TcpStream, direction: ProxyDirection, _runtime: &Runtime, packetver: u32) -> Result<(), String> {
         let mut buffer = [0; 2048];
         loop {
             // println!("loop direction {} incoming peer {} incoming local {} outgoing local {} outgoing peer {} ", direction,
@@ -97,7 +97,7 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
                         break;
                     }
                     let tcp_stream_ref = Arc::new(Mutex::new(incoming.try_clone().unwrap()));
-                    let packet = parse(&mut buffer[..bytes_read]);
+                    let packet = parse(&mut buffer[..bytes_read], packetver);
                     self.proxy_request(outgoing, &direction, tcp_stream_ref, packet)
                 }
                 Err(error) => return Err(format!("Could not read data: {}", error))

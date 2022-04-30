@@ -3,2364 +3,2364 @@
 
 use crate::packets::*;
 
-pub fn parse(buffer: &[u8]) -> Box<dyn Packet> {
+pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x64 && buffer[1] == 0x00 {
-        return Box::new(PacketCaLogin::from(buffer));
+        return Box::new(PacketCaLogin::from(buffer, packetver));
     }
     if buffer[0] == 0x65 && buffer[1] == 0x00 {
-        return Box::new(PacketChEnter::from(buffer));
+        return Box::new(PacketChEnter::from(buffer, packetver));
     }
     if buffer[0] == 0x66 && buffer[1] == 0x00 {
-        return Box::new(PacketChSelectChar::from(buffer));
+        return Box::new(PacketChSelectChar::from(buffer, packetver));
     }
     if buffer[0] == 0x67 && buffer[1] == 0x00 {
-        return Box::new(PacketChMakeChar::from(buffer));
+        return Box::new(PacketChMakeChar::from(buffer, packetver));
     }
     if buffer[0] == 0x70 && buffer[1] == 0x09 {
-        return Box::new(PacketChMakeChar2::from(buffer));
+        return Box::new(PacketChMakeChar2::from(buffer, packetver));
     }
     if buffer[0] == 0x68 && buffer[1] == 0x00 {
-        return Box::new(PacketChDeleteChar::from(buffer));
+        return Box::new(PacketChDeleteChar::from(buffer, packetver));
     }
     if buffer[0] == 0x69 && buffer[1] == 0x00 {
-        return Box::new(PacketAcAcceptLogin::from(buffer));
+        return Box::new(PacketAcAcceptLogin::from(buffer, packetver));
     }
     if buffer[0] == 0xc4 && buffer[1] == 0x0a {
-        return Box::new(PacketAcAcceptLogin2::from(buffer));
+        return Box::new(PacketAcAcceptLogin2::from(buffer, packetver));
     }
     if buffer[0] == 0x6a && buffer[1] == 0x00 {
-        return Box::new(PacketAcRefuseLogin::from(buffer));
+        return Box::new(PacketAcRefuseLogin::from(buffer, packetver));
     }
     if buffer[0] == 0x6b && buffer[1] == 0x00 {
-        return Box::new(PacketHcAcceptEnterNeoUnion::from(buffer));
+        return Box::new(PacketHcAcceptEnterNeoUnion::from(buffer, packetver));
     }
     if buffer[0] == 0x6c && buffer[1] == 0x00 {
-        return Box::new(PacketHcRefuseEnter::from(buffer));
+        return Box::new(PacketHcRefuseEnter::from(buffer, packetver));
     }
     if buffer[0] == 0x6d && buffer[1] == 0x00 {
-        return Box::new(PacketHcAcceptMakecharNeoUnion::from(buffer));
+        return Box::new(PacketHcAcceptMakecharNeoUnion::from(buffer, packetver));
     }
     if buffer[0] == 0x6e && buffer[1] == 0x00 {
-        return Box::new(PacketHcRefuseMakechar::from(buffer));
+        return Box::new(PacketHcRefuseMakechar::from(buffer, packetver));
     }
     if buffer[0] == 0x6f && buffer[1] == 0x00 {
-        return Box::new(PacketHcAcceptDeletechar::from(buffer));
+        return Box::new(PacketHcAcceptDeletechar::from(buffer, packetver));
     }
     if buffer[0] == 0x70 && buffer[1] == 0x00 {
-        return Box::new(PacketHcRefuseDeletechar::from(buffer));
+        return Box::new(PacketHcRefuseDeletechar::from(buffer, packetver));
     }
     if buffer[0] == 0x71 && buffer[1] == 0x00 {
-        return Box::new(PacketHcNotifyZonesvr::from(buffer));
+        return Box::new(PacketHcNotifyZonesvr::from(buffer, packetver));
     }
     if buffer[0] == 0x72 && buffer[1] == 0x00 {
-        return Box::new(PacketCzEnter::from(buffer));
+        return Box::new(PacketCzEnter::from(buffer, packetver));
     }
     if buffer[0] == 0x73 && buffer[1] == 0x00 {
-        return Box::new(PacketZcAcceptEnter::from(buffer));
+        return Box::new(PacketZcAcceptEnter::from(buffer, packetver));
     }
     if buffer[0] == 0x74 && buffer[1] == 0x00 {
-        return Box::new(PacketZcRefuseEnter::from(buffer));
+        return Box::new(PacketZcRefuseEnter::from(buffer, packetver));
     }
     if buffer[0] == 0x75 && buffer[1] == 0x00 {
-        return Box::new(PacketZcNotifyInitchar::from(buffer));
+        return Box::new(PacketZcNotifyInitchar::from(buffer, packetver));
     }
     if buffer[0] == 0x76 && buffer[1] == 0x00 {
-        return Box::new(PacketZcNotifyUpdatechar::from(buffer));
+        return Box::new(PacketZcNotifyUpdatechar::from(buffer, packetver));
     }
     if buffer[0] == 0x77 && buffer[1] == 0x00 {
-        return Box::new(PacketZcNotifyUpdateplayer::from(buffer));
+        return Box::new(PacketZcNotifyUpdateplayer::from(buffer, packetver));
     }
     if buffer[0] == 0x78 && buffer[1] == 0x00 {
-        return Box::new(PacketZcNotifyStandentry::from(buffer));
+        return Box::new(PacketZcNotifyStandentry::from(buffer, packetver));
     }
     if buffer[0] == 0x79 && buffer[1] == 0x00 {
-        return Box::new(PacketZcNotifyNewentry::from(buffer));
+        return Box::new(PacketZcNotifyNewentry::from(buffer, packetver));
     }
     if buffer[0] == 0x7a && buffer[1] == 0x00 {
-        return Box::new(PacketZcNotifyActentry::from(buffer));
+        return Box::new(PacketZcNotifyActentry::from(buffer, packetver));
     }
     if buffer[0] == 0x7b && buffer[1] == 0x00 {
-        return Box::new(PacketZcNotifyMoveentry::from(buffer));
+        return Box::new(PacketZcNotifyMoveentry::from(buffer, packetver));
     }
     if buffer[0] == 0x7c && buffer[1] == 0x00 {
-        return Box::new(PacketZcNotifyStandentryNpc::from(buffer));
+        return Box::new(PacketZcNotifyStandentryNpc::from(buffer, packetver));
     }
     if buffer[0] == 0x7d && buffer[1] == 0x00 {
-        return Box::new(PacketCzNotifyActorinit::from(buffer));
+        return Box::new(PacketCzNotifyActorinit::from(buffer, packetver));
     }
     if buffer[0] == 0x7e && buffer[1] == 0x00 {
-        return Box::new(PacketCzRequestTime::from(buffer));
+        return Box::new(PacketCzRequestTime::from(buffer, packetver));
     }
     if buffer[0] == 0x7f && buffer[1] == 0x00 {
-        return Box::new(PacketZcNotifyTime::from(buffer));
+        return Box::new(PacketZcNotifyTime::from(buffer, packetver));
     }
     if buffer[0] == 0x80 && buffer[1] == 0x00 {
-        return Box::new(PacketZcNotifyVanish::from(buffer));
+        return Box::new(PacketZcNotifyVanish::from(buffer, packetver));
     }
     if buffer[0] == 0x81 && buffer[1] == 0x00 {
-        return Box::new(PacketScNotifyBan::from(buffer));
+        return Box::new(PacketScNotifyBan::from(buffer, packetver));
     }
     if buffer[0] == 0x82 && buffer[1] == 0x00 {
-        return Box::new(PacketCzRequestQuit::from(buffer));
+        return Box::new(PacketCzRequestQuit::from(buffer, packetver));
     }
     if buffer[0] == 0x83 && buffer[1] == 0x00 {
-        return Box::new(PacketZcAcceptQuit::from(buffer));
+        return Box::new(PacketZcAcceptQuit::from(buffer, packetver));
     }
     if buffer[0] == 0x84 && buffer[1] == 0x00 {
-        return Box::new(PacketZcRefuseQuit::from(buffer));
+        return Box::new(PacketZcRefuseQuit::from(buffer, packetver));
     }
     if buffer[0] == 0x85 && buffer[1] == 0x00 {
-        return Box::new(PacketCzRequestMove::from(buffer));
+        return Box::new(PacketCzRequestMove::from(buffer, packetver));
     }
     if buffer[0] == 0x86 && buffer[1] == 0x00 {
-        return Box::new(PacketZcNotifyMove::from(buffer));
+        return Box::new(PacketZcNotifyMove::from(buffer, packetver));
     }
     if buffer[0] == 0x87 && buffer[1] == 0x00 {
-        return Box::new(PacketZcNotifyPlayermove::from(buffer));
+        return Box::new(PacketZcNotifyPlayermove::from(buffer, packetver));
     }
     if buffer[0] == 0x88 && buffer[1] == 0x00 {
-        return Box::new(PacketZcStopmove::from(buffer));
+        return Box::new(PacketZcStopmove::from(buffer, packetver));
     }
     if buffer[0] == 0x89 && buffer[1] == 0x00 {
-        return Box::new(PacketCzRequestAct::from(buffer));
+        return Box::new(PacketCzRequestAct::from(buffer, packetver));
     }
     if buffer[0] == 0x8a && buffer[1] == 0x00 {
-        return Box::new(PacketZcNotifyAct::from(buffer));
+        return Box::new(PacketZcNotifyAct::from(buffer, packetver));
     }
     if buffer[0] == 0x8b && buffer[1] == 0x00 {
-        return Box::new(PacketZcNotifyActPosition::from(buffer));
+        return Box::new(PacketZcNotifyActPosition::from(buffer, packetver));
     }
     if buffer[0] == 0x8c && buffer[1] == 0x00 {
-        return Box::new(PacketCzRequestChat::from(buffer));
+        return Box::new(PacketCzRequestChat::from(buffer, packetver));
     }
     if buffer[0] == 0x8d && buffer[1] == 0x00 {
-        return Box::new(PacketZcNotifyChat::from(buffer));
+        return Box::new(PacketZcNotifyChat::from(buffer, packetver));
     }
     if buffer[0] == 0x8e && buffer[1] == 0x00 {
-        return Box::new(PacketZcNotifyPlayerchat::from(buffer));
+        return Box::new(PacketZcNotifyPlayerchat::from(buffer, packetver));
     }
     if buffer[0] == 0x8f && buffer[1] == 0x00 {
-        return Box::new(PacketServerEntryAck::from(buffer));
+        return Box::new(PacketServerEntryAck::from(buffer, packetver));
     }
     if buffer[0] == 0x90 && buffer[1] == 0x00 {
-        return Box::new(PacketCzContactnpc::from(buffer));
+        return Box::new(PacketCzContactnpc::from(buffer, packetver));
     }
     if buffer[0] == 0x91 && buffer[1] == 0x00 {
-        return Box::new(PacketZcNpcackMapmove::from(buffer));
+        return Box::new(PacketZcNpcackMapmove::from(buffer, packetver));
     }
     if buffer[0] == 0x92 && buffer[1] == 0x00 {
-        return Box::new(PacketZcNpcackServermove::from(buffer));
+        return Box::new(PacketZcNpcackServermove::from(buffer, packetver));
     }
     if buffer[0] == 0x93 && buffer[1] == 0x00 {
-        return Box::new(PacketZcNpcackEnable::from(buffer));
+        return Box::new(PacketZcNpcackEnable::from(buffer, packetver));
     }
     if buffer[0] == 0x94 && buffer[1] == 0x00 {
-        return Box::new(PacketCzReqname::from(buffer));
+        return Box::new(PacketCzReqname::from(buffer, packetver));
     }
     if buffer[0] == 0x95 && buffer[1] == 0x00 {
-        return Box::new(PacketZcAckReqname::from(buffer));
+        return Box::new(PacketZcAckReqname::from(buffer, packetver));
     }
     if buffer[0] == 0x96 && buffer[1] == 0x00 {
-        return Box::new(PacketCzWhisper::from(buffer));
+        return Box::new(PacketCzWhisper::from(buffer, packetver));
     }
     if buffer[0] == 0x97 && buffer[1] == 0x00 {
-        return Box::new(PacketZcWhisper::from(buffer));
+        return Box::new(PacketZcWhisper::from(buffer, packetver));
     }
     if buffer[0] == 0x98 && buffer[1] == 0x00 {
-        return Box::new(PacketZcAckWhisper::from(buffer));
+        return Box::new(PacketZcAckWhisper::from(buffer, packetver));
     }
     if buffer[0] == 0x99 && buffer[1] == 0x00 {
-        return Box::new(PacketCzBroadcast::from(buffer));
+        return Box::new(PacketCzBroadcast::from(buffer, packetver));
     }
     if buffer[0] == 0x9a && buffer[1] == 0x00 {
-        return Box::new(PacketZcBroadcast::from(buffer));
+        return Box::new(PacketZcBroadcast::from(buffer, packetver));
     }
     if buffer[0] == 0x9b && buffer[1] == 0x00 {
-        return Box::new(PacketCzChangeDirection::from(buffer));
+        return Box::new(PacketCzChangeDirection::from(buffer, packetver));
     }
     if buffer[0] == 0x9c && buffer[1] == 0x00 {
-        return Box::new(PacketZcChangeDirection::from(buffer));
+        return Box::new(PacketZcChangeDirection::from(buffer, packetver));
     }
     if buffer[0] == 0x9d && buffer[1] == 0x00 {
-        return Box::new(PacketZcItemEntry::from(buffer));
+        return Box::new(PacketZcItemEntry::from(buffer, packetver));
     }
     if buffer[0] == 0x9e && buffer[1] == 0x00 {
-        return Box::new(PacketZcItemFallEntry::from(buffer));
+        return Box::new(PacketZcItemFallEntry::from(buffer, packetver));
     }
     if buffer[0] == 0x9f && buffer[1] == 0x00 {
-        return Box::new(PacketCzItemPickup::from(buffer));
+        return Box::new(PacketCzItemPickup::from(buffer, packetver));
     }
     if buffer[0] == 0xa0 && buffer[1] == 0x00 {
-        return Box::new(PacketZcItemPickupAck::from(buffer));
+        return Box::new(PacketZcItemPickupAck::from(buffer, packetver));
     }
     if buffer[0] == 0xa1 && buffer[1] == 0x00 {
-        return Box::new(PacketZcItemDisappear::from(buffer));
+        return Box::new(PacketZcItemDisappear::from(buffer, packetver));
     }
     if buffer[0] == 0xa2 && buffer[1] == 0x00 {
-        return Box::new(PacketCzItemThrow::from(buffer));
+        return Box::new(PacketCzItemThrow::from(buffer, packetver));
     }
     if buffer[0] == 0xa3 && buffer[1] == 0x00 {
-        return Box::new(PacketZcNormalItemlist::from(buffer));
+        return Box::new(PacketZcNormalItemlist::from(buffer, packetver));
     }
     if buffer[0] == 0xa4 && buffer[1] == 0x00 {
-        return Box::new(PacketZcEquipmentItemlist::from(buffer));
+        return Box::new(PacketZcEquipmentItemlist::from(buffer, packetver));
     }
     if buffer[0] == 0xa5 && buffer[1] == 0x00 {
-        return Box::new(PacketZcStoreNormalItemlist::from(buffer));
+        return Box::new(PacketZcStoreNormalItemlist::from(buffer, packetver));
     }
     if buffer[0] == 0xa6 && buffer[1] == 0x00 {
-        return Box::new(PacketZcStoreEquipmentItemlist::from(buffer));
+        return Box::new(PacketZcStoreEquipmentItemlist::from(buffer, packetver));
     }
     if buffer[0] == 0xa7 && buffer[1] == 0x00 {
-        return Box::new(PacketCzUseItem::from(buffer));
+        return Box::new(PacketCzUseItem::from(buffer, packetver));
     }
     if buffer[0] == 0xa8 && buffer[1] == 0x00 {
-        return Box::new(PacketZcUseItemAck::from(buffer));
+        return Box::new(PacketZcUseItemAck::from(buffer, packetver));
     }
     if buffer[0] == 0xa9 && buffer[1] == 0x00 {
-        return Box::new(PacketCzReqWearEquip::from(buffer));
+        return Box::new(PacketCzReqWearEquip::from(buffer, packetver));
     }
     if buffer[0] == 0xaa && buffer[1] == 0x00 {
-        return Box::new(PacketZcReqWearEquipAck::from(buffer));
+        return Box::new(PacketZcReqWearEquipAck::from(buffer, packetver));
     }
     if buffer[0] == 0xab && buffer[1] == 0x00 {
-        return Box::new(PacketCzReqTakeoffEquip::from(buffer));
+        return Box::new(PacketCzReqTakeoffEquip::from(buffer, packetver));
     }
     if buffer[0] == 0xac && buffer[1] == 0x00 {
-        return Box::new(PacketZcReqTakeoffEquipAck::from(buffer));
+        return Box::new(PacketZcReqTakeoffEquipAck::from(buffer, packetver));
     }
     if buffer[0] == 0xaf && buffer[1] == 0x00 {
-        return Box::new(PacketZcItemThrowAck::from(buffer));
+        return Box::new(PacketZcItemThrowAck::from(buffer, packetver));
     }
     if buffer[0] == 0xb0 && buffer[1] == 0x00 {
-        return Box::new(PacketZcParChange::from(buffer));
+        return Box::new(PacketZcParChange::from(buffer, packetver));
     }
     if buffer[0] == 0xb1 && buffer[1] == 0x00 {
-        return Box::new(PacketZcLongparChange::from(buffer));
+        return Box::new(PacketZcLongparChange::from(buffer, packetver));
     }
     if buffer[0] == 0xb2 && buffer[1] == 0x00 {
-        return Box::new(PacketCzRestart::from(buffer));
+        return Box::new(PacketCzRestart::from(buffer, packetver));
     }
     if buffer[0] == 0xb3 && buffer[1] == 0x00 {
-        return Box::new(PacketZcRestartAck::from(buffer));
+        return Box::new(PacketZcRestartAck::from(buffer, packetver));
     }
     if buffer[0] == 0xb4 && buffer[1] == 0x00 {
-        return Box::new(PacketZcSayDialog::from(buffer));
+        return Box::new(PacketZcSayDialog::from(buffer, packetver));
     }
     if buffer[0] == 0xb5 && buffer[1] == 0x00 {
-        return Box::new(PacketZcWaitDialog::from(buffer));
+        return Box::new(PacketZcWaitDialog::from(buffer, packetver));
     }
     if buffer[0] == 0xb6 && buffer[1] == 0x00 {
-        return Box::new(PacketZcCloseDialog::from(buffer));
+        return Box::new(PacketZcCloseDialog::from(buffer, packetver));
     }
     if buffer[0] == 0xb7 && buffer[1] == 0x00 {
-        return Box::new(PacketZcMenuList::from(buffer));
+        return Box::new(PacketZcMenuList::from(buffer, packetver));
     }
     if buffer[0] == 0xb8 && buffer[1] == 0x00 {
-        return Box::new(PacketCzChooseMenu::from(buffer));
+        return Box::new(PacketCzChooseMenu::from(buffer, packetver));
     }
     if buffer[0] == 0xb9 && buffer[1] == 0x00 {
-        return Box::new(PacketCzReqNextScript::from(buffer));
+        return Box::new(PacketCzReqNextScript::from(buffer, packetver));
     }
     if buffer[0] == 0xba && buffer[1] == 0x00 {
-        return Box::new(PacketCzReqStatus::from(buffer));
+        return Box::new(PacketCzReqStatus::from(buffer, packetver));
     }
     if buffer[0] == 0xbb && buffer[1] == 0x00 {
-        return Box::new(PacketCzStatusChange::from(buffer));
+        return Box::new(PacketCzStatusChange::from(buffer, packetver));
     }
     if buffer[0] == 0xbc && buffer[1] == 0x00 {
-        return Box::new(PacketZcStatusChangeAck::from(buffer));
+        return Box::new(PacketZcStatusChangeAck::from(buffer, packetver));
     }
     if buffer[0] == 0xbd && buffer[1] == 0x00 {
-        return Box::new(PacketZcStatus::from(buffer));
+        return Box::new(PacketZcStatus::from(buffer, packetver));
     }
     if buffer[0] == 0xbe && buffer[1] == 0x00 {
-        return Box::new(PacketZcStatusChange::from(buffer));
+        return Box::new(PacketZcStatusChange::from(buffer, packetver));
     }
     if buffer[0] == 0xbf && buffer[1] == 0x00 {
-        return Box::new(PacketCzReqEmotion::from(buffer));
+        return Box::new(PacketCzReqEmotion::from(buffer, packetver));
     }
     if buffer[0] == 0xc0 && buffer[1] == 0x00 {
-        return Box::new(PacketZcEmotion::from(buffer));
+        return Box::new(PacketZcEmotion::from(buffer, packetver));
     }
     if buffer[0] == 0xc1 && buffer[1] == 0x00 {
-        return Box::new(PacketCzReqUserCount::from(buffer));
+        return Box::new(PacketCzReqUserCount::from(buffer, packetver));
     }
     if buffer[0] == 0xc2 && buffer[1] == 0x00 {
-        return Box::new(PacketZcUserCount::from(buffer));
+        return Box::new(PacketZcUserCount::from(buffer, packetver));
     }
     if buffer[0] == 0xc3 && buffer[1] == 0x00 {
-        return Box::new(PacketZcSpriteChange::from(buffer));
+        return Box::new(PacketZcSpriteChange::from(buffer, packetver));
     }
     if buffer[0] == 0xc4 && buffer[1] == 0x00 {
-        return Box::new(PacketZcSelectDealtype::from(buffer));
+        return Box::new(PacketZcSelectDealtype::from(buffer, packetver));
     }
     if buffer[0] == 0xc5 && buffer[1] == 0x00 {
-        return Box::new(PacketCzAckSelectDealtype::from(buffer));
+        return Box::new(PacketCzAckSelectDealtype::from(buffer, packetver));
     }
     if buffer[0] == 0xc6 && buffer[1] == 0x00 {
-        return Box::new(PacketZcPcPurchaseItemlist::from(buffer));
+        return Box::new(PacketZcPcPurchaseItemlist::from(buffer, packetver));
     }
     if buffer[0] == 0xc7 && buffer[1] == 0x00 {
-        return Box::new(PacketZcPcSellItemlist::from(buffer));
+        return Box::new(PacketZcPcSellItemlist::from(buffer, packetver));
     }
     if buffer[0] == 0xc8 && buffer[1] == 0x00 {
-        return Box::new(PacketCzPcPurchaseItemlist::from(buffer));
+        return Box::new(PacketCzPcPurchaseItemlist::from(buffer, packetver));
     }
     if buffer[0] == 0xc9 && buffer[1] == 0x00 {
-        return Box::new(PacketCzPcSellItemlist::from(buffer));
+        return Box::new(PacketCzPcSellItemlist::from(buffer, packetver));
     }
     if buffer[0] == 0xca && buffer[1] == 0x00 {
-        return Box::new(PacketZcPcPurchaseResult::from(buffer));
+        return Box::new(PacketZcPcPurchaseResult::from(buffer, packetver));
     }
     if buffer[0] == 0xcb && buffer[1] == 0x00 {
-        return Box::new(PacketZcPcSellResult::from(buffer));
+        return Box::new(PacketZcPcSellResult::from(buffer, packetver));
     }
     if buffer[0] == 0xcc && buffer[1] == 0x00 {
-        return Box::new(PacketCzDisconnectCharacter::from(buffer));
+        return Box::new(PacketCzDisconnectCharacter::from(buffer, packetver));
     }
     if buffer[0] == 0xcd && buffer[1] == 0x00 {
-        return Box::new(PacketZcAckDisconnectCharacter::from(buffer));
+        return Box::new(PacketZcAckDisconnectCharacter::from(buffer, packetver));
     }
     if buffer[0] == 0xce && buffer[1] == 0x00 {
-        return Box::new(PacketCzDisconnectAllCharacter::from(buffer));
+        return Box::new(PacketCzDisconnectAllCharacter::from(buffer, packetver));
     }
     if buffer[0] == 0xcf && buffer[1] == 0x00 {
-        return Box::new(PacketCzSettingWhisperPc::from(buffer));
+        return Box::new(PacketCzSettingWhisperPc::from(buffer, packetver));
     }
     if buffer[0] == 0xd0 && buffer[1] == 0x00 {
-        return Box::new(PacketCzSettingWhisperState::from(buffer));
+        return Box::new(PacketCzSettingWhisperState::from(buffer, packetver));
     }
     if buffer[0] == 0xd1 && buffer[1] == 0x00 {
-        return Box::new(PacketZcSettingWhisperPc::from(buffer));
+        return Box::new(PacketZcSettingWhisperPc::from(buffer, packetver));
     }
     if buffer[0] == 0xd2 && buffer[1] == 0x00 {
-        return Box::new(PacketZcSettingWhisperState::from(buffer));
+        return Box::new(PacketZcSettingWhisperState::from(buffer, packetver));
     }
     if buffer[0] == 0xd3 && buffer[1] == 0x00 {
-        return Box::new(PacketCzReqWhisperList::from(buffer));
+        return Box::new(PacketCzReqWhisperList::from(buffer, packetver));
     }
     if buffer[0] == 0xd4 && buffer[1] == 0x00 {
-        return Box::new(PacketZcWhisperList::from(buffer));
+        return Box::new(PacketZcWhisperList::from(buffer, packetver));
     }
     if buffer[0] == 0xd5 && buffer[1] == 0x00 {
-        return Box::new(PacketCzCreateChatroom::from(buffer));
+        return Box::new(PacketCzCreateChatroom::from(buffer, packetver));
     }
     if buffer[0] == 0xd6 && buffer[1] == 0x00 {
-        return Box::new(PacketZcAckCreateChatroom::from(buffer));
+        return Box::new(PacketZcAckCreateChatroom::from(buffer, packetver));
     }
     if buffer[0] == 0xd7 && buffer[1] == 0x00 {
-        return Box::new(PacketZcRoomNewentry::from(buffer));
+        return Box::new(PacketZcRoomNewentry::from(buffer, packetver));
     }
     if buffer[0] == 0xd8 && buffer[1] == 0x00 {
-        return Box::new(PacketZcDestroyRoom::from(buffer));
+        return Box::new(PacketZcDestroyRoom::from(buffer, packetver));
     }
     if buffer[0] == 0xd9 && buffer[1] == 0x00 {
-        return Box::new(PacketCzReqEnterRoom::from(buffer));
+        return Box::new(PacketCzReqEnterRoom::from(buffer, packetver));
     }
     if buffer[0] == 0xda && buffer[1] == 0x00 {
-        return Box::new(PacketZcRefuseEnterRoom::from(buffer));
+        return Box::new(PacketZcRefuseEnterRoom::from(buffer, packetver));
     }
     if buffer[0] == 0xdb && buffer[1] == 0x00 {
-        return Box::new(PacketZcEnterRoom::from(buffer));
+        return Box::new(PacketZcEnterRoom::from(buffer, packetver));
     }
     if buffer[0] == 0xdc && buffer[1] == 0x00 {
-        return Box::new(PacketZcMemberNewentry::from(buffer));
+        return Box::new(PacketZcMemberNewentry::from(buffer, packetver));
     }
     if buffer[0] == 0xdd && buffer[1] == 0x00 {
-        return Box::new(PacketZcMemberExit::from(buffer));
+        return Box::new(PacketZcMemberExit::from(buffer, packetver));
     }
     if buffer[0] == 0xde && buffer[1] == 0x00 {
-        return Box::new(PacketCzChangeChatroom::from(buffer));
+        return Box::new(PacketCzChangeChatroom::from(buffer, packetver));
     }
     if buffer[0] == 0xdf && buffer[1] == 0x00 {
-        return Box::new(PacketZcChangeChatroom::from(buffer));
+        return Box::new(PacketZcChangeChatroom::from(buffer, packetver));
     }
     if buffer[0] == 0xe0 && buffer[1] == 0x00 {
-        return Box::new(PacketCzReqRoleChange::from(buffer));
+        return Box::new(PacketCzReqRoleChange::from(buffer, packetver));
     }
     if buffer[0] == 0xe1 && buffer[1] == 0x00 {
-        return Box::new(PacketZcRoleChange::from(buffer));
+        return Box::new(PacketZcRoleChange::from(buffer, packetver));
     }
     if buffer[0] == 0xe2 && buffer[1] == 0x00 {
-        return Box::new(PacketCzReqExpelMember::from(buffer));
+        return Box::new(PacketCzReqExpelMember::from(buffer, packetver));
     }
     if buffer[0] == 0xe3 && buffer[1] == 0x00 {
-        return Box::new(PacketCzExitRoom::from(buffer));
+        return Box::new(PacketCzExitRoom::from(buffer, packetver));
     }
     if buffer[0] == 0xe4 && buffer[1] == 0x00 {
-        return Box::new(PacketCzReqExchangeItem::from(buffer));
+        return Box::new(PacketCzReqExchangeItem::from(buffer, packetver));
     }
     if buffer[0] == 0xe5 && buffer[1] == 0x00 {
-        return Box::new(PacketZcReqExchangeItem::from(buffer));
+        return Box::new(PacketZcReqExchangeItem::from(buffer, packetver));
     }
     if buffer[0] == 0xe6 && buffer[1] == 0x00 {
-        return Box::new(PacketCzAckExchangeItem::from(buffer));
+        return Box::new(PacketCzAckExchangeItem::from(buffer, packetver));
     }
     if buffer[0] == 0xe7 && buffer[1] == 0x00 {
-        return Box::new(PacketZcAckExchangeItem::from(buffer));
+        return Box::new(PacketZcAckExchangeItem::from(buffer, packetver));
     }
     if buffer[0] == 0xe8 && buffer[1] == 0x00 {
-        return Box::new(PacketCzAddExchangeItem::from(buffer));
+        return Box::new(PacketCzAddExchangeItem::from(buffer, packetver));
     }
     if buffer[0] == 0xe9 && buffer[1] == 0x00 {
-        return Box::new(PacketZcAddExchangeItem::from(buffer));
+        return Box::new(PacketZcAddExchangeItem::from(buffer, packetver));
     }
     if buffer[0] == 0xea && buffer[1] == 0x00 {
-        return Box::new(PacketZcAckAddExchangeItem::from(buffer));
+        return Box::new(PacketZcAckAddExchangeItem::from(buffer, packetver));
     }
     if buffer[0] == 0xeb && buffer[1] == 0x00 {
-        return Box::new(PacketCzConcludeExchangeItem::from(buffer));
+        return Box::new(PacketCzConcludeExchangeItem::from(buffer, packetver));
     }
     if buffer[0] == 0xec && buffer[1] == 0x00 {
-        return Box::new(PacketZcConcludeExchangeItem::from(buffer));
+        return Box::new(PacketZcConcludeExchangeItem::from(buffer, packetver));
     }
     if buffer[0] == 0xed && buffer[1] == 0x00 {
-        return Box::new(PacketCzCancelExchangeItem::from(buffer));
+        return Box::new(PacketCzCancelExchangeItem::from(buffer, packetver));
     }
     if buffer[0] == 0xee && buffer[1] == 0x00 {
-        return Box::new(PacketZcCancelExchangeItem::from(buffer));
+        return Box::new(PacketZcCancelExchangeItem::from(buffer, packetver));
     }
     if buffer[0] == 0xef && buffer[1] == 0x00 {
-        return Box::new(PacketCzExecExchangeItem::from(buffer));
+        return Box::new(PacketCzExecExchangeItem::from(buffer, packetver));
     }
     if buffer[0] == 0xf0 && buffer[1] == 0x00 {
-        return Box::new(PacketZcExecExchangeItem::from(buffer));
+        return Box::new(PacketZcExecExchangeItem::from(buffer, packetver));
     }
     if buffer[0] == 0xf1 && buffer[1] == 0x00 {
-        return Box::new(PacketZcExchangeitemUndo::from(buffer));
+        return Box::new(PacketZcExchangeitemUndo::from(buffer, packetver));
     }
     if buffer[0] == 0xf2 && buffer[1] == 0x00 {
-        return Box::new(PacketZcNotifyStoreitemCountinfo::from(buffer));
+        return Box::new(PacketZcNotifyStoreitemCountinfo::from(buffer, packetver));
     }
     if buffer[0] == 0xf3 && buffer[1] == 0x00 {
-        return Box::new(PacketCzPlayerChat::from(buffer));
+        return Box::new(PacketCzPlayerChat::from(buffer, packetver));
     }
     if buffer[0] == 0xf4 && buffer[1] == 0x00 {
-        return Box::new(PacketZcAddItemToStore::from(buffer));
+        return Box::new(PacketZcAddItemToStore::from(buffer, packetver));
     }
     if buffer[0] == 0xf5 && buffer[1] == 0x00 {
-        return Box::new(PacketCzMoveItemFromStoreToBody::from(buffer));
+        return Box::new(PacketCzMoveItemFromStoreToBody::from(buffer, packetver));
     }
     if buffer[0] == 0xf6 && buffer[1] == 0x00 {
-        return Box::new(PacketZcDeleteItemFromStore::from(buffer));
+        return Box::new(PacketZcDeleteItemFromStore::from(buffer, packetver));
     }
     if buffer[0] == 0xf7 && buffer[1] == 0x00 {
-        return Box::new(PacketCzCloseStore::from(buffer));
+        return Box::new(PacketCzCloseStore::from(buffer, packetver));
     }
     if buffer[0] == 0xf8 && buffer[1] == 0x00 {
-        return Box::new(PacketZcCloseStore::from(buffer));
+        return Box::new(PacketZcCloseStore::from(buffer, packetver));
     }
     if buffer[0] == 0xf9 && buffer[1] == 0x00 {
-        return Box::new(PacketCzMakeGroup::from(buffer));
+        return Box::new(PacketCzMakeGroup::from(buffer, packetver));
     }
     if buffer[0] == 0xfa && buffer[1] == 0x00 {
-        return Box::new(PacketZcAckMakeGroup::from(buffer));
+        return Box::new(PacketZcAckMakeGroup::from(buffer, packetver));
     }
     if buffer[0] == 0xfb && buffer[1] == 0x00 {
-        return Box::new(PacketZcGroupList::from(buffer));
+        return Box::new(PacketZcGroupList::from(buffer, packetver));
     }
     if buffer[0] == 0xfc && buffer[1] == 0x00 {
-        return Box::new(PacketCzReqJoinGroup::from(buffer));
+        return Box::new(PacketCzReqJoinGroup::from(buffer, packetver));
     }
     if buffer[0] == 0xfd && buffer[1] == 0x00 {
-        return Box::new(PacketZcAckReqJoinGroup::from(buffer));
+        return Box::new(PacketZcAckReqJoinGroup::from(buffer, packetver));
     }
     if buffer[0] == 0xfe && buffer[1] == 0x00 {
-        return Box::new(PacketZcReqJoinGroup::from(buffer));
+        return Box::new(PacketZcReqJoinGroup::from(buffer, packetver));
     }
     if buffer[0] == 0xff && buffer[1] == 0x00 {
-        return Box::new(PacketCzJoinGroup::from(buffer));
+        return Box::new(PacketCzJoinGroup::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x00 {
-        return Box::new(PacketCzReqLeaveGroup::from(buffer));
+        return Box::new(PacketCzReqLeaveGroup::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x01 {
-        return Box::new(PacketZcGroupinfoChange::from(buffer));
+        return Box::new(PacketZcGroupinfoChange::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x02 {
-        return Box::new(PacketCzChangeGroupexpoption::from(buffer));
+        return Box::new(PacketCzChangeGroupexpoption::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x03 {
-        return Box::new(PacketCzReqExpelGroupMember::from(buffer));
+        return Box::new(PacketCzReqExpelGroupMember::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x04 {
-        return Box::new(PacketZcAddMemberToGroup::from(buffer));
+        return Box::new(PacketZcAddMemberToGroup::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x05 {
-        return Box::new(PacketZcDeleteMemberFromGroup::from(buffer));
+        return Box::new(PacketZcDeleteMemberFromGroup::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x06 {
-        return Box::new(PacketZcNotifyHpToGroupm::from(buffer));
+        return Box::new(PacketZcNotifyHpToGroupm::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x07 {
-        return Box::new(PacketZcNotifyPositionToGroupm::from(buffer));
+        return Box::new(PacketZcNotifyPositionToGroupm::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x08 {
-        return Box::new(PacketCzRequestChatParty::from(buffer));
+        return Box::new(PacketCzRequestChatParty::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x09 {
-        return Box::new(PacketZcNotifyChatParty::from(buffer));
+        return Box::new(PacketZcNotifyChatParty::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x0a {
-        return Box::new(PacketZcMvpGettingItem::from(buffer));
+        return Box::new(PacketZcMvpGettingItem::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x0b {
-        return Box::new(PacketZcMvpGettingSpecialExp::from(buffer));
+        return Box::new(PacketZcMvpGettingSpecialExp::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x0c {
-        return Box::new(PacketZcMvp::from(buffer));
+        return Box::new(PacketZcMvp::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x0d {
-        return Box::new(PacketZcThrowMvpitem::from(buffer));
+        return Box::new(PacketZcThrowMvpitem::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x0e {
-        return Box::new(PacketZcSkillinfoUpdate::from(buffer));
+        return Box::new(PacketZcSkillinfoUpdate::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x0f {
-        return Box::new(PacketZcSkillinfoList::from(buffer));
+        return Box::new(PacketZcSkillinfoList::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x10 {
-        return Box::new(PacketZcAckTouseskill::from(buffer));
+        return Box::new(PacketZcAckTouseskill::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x11 {
-        return Box::new(PacketZcAddSkill::from(buffer));
+        return Box::new(PacketZcAddSkill::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x12 {
-        return Box::new(PacketCzUpgradeSkilllevel::from(buffer));
+        return Box::new(PacketCzUpgradeSkilllevel::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x13 {
-        return Box::new(PacketCzUseSkill::from(buffer));
+        return Box::new(PacketCzUseSkill::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x14 {
-        return Box::new(PacketZcNotifySkill::from(buffer));
+        return Box::new(PacketZcNotifySkill::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x15 {
-        return Box::new(PacketZcNotifySkillPosition::from(buffer));
+        return Box::new(PacketZcNotifySkillPosition::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x16 {
-        return Box::new(PacketCzUseSkillToground::from(buffer));
+        return Box::new(PacketCzUseSkillToground::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x17 {
-        return Box::new(PacketZcNotifyGroundskill::from(buffer));
+        return Box::new(PacketZcNotifyGroundskill::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x18 {
-        return Box::new(PacketCzCancelLockon::from(buffer));
+        return Box::new(PacketCzCancelLockon::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x19 {
-        return Box::new(PacketZcStateChange::from(buffer));
+        return Box::new(PacketZcStateChange::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x1a {
-        return Box::new(PacketZcUseSkill::from(buffer));
+        return Box::new(PacketZcUseSkill::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x1b {
-        return Box::new(PacketCzSelectWarppoint::from(buffer));
+        return Box::new(PacketCzSelectWarppoint::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x1c {
-        return Box::new(PacketZcWarplist::from(buffer));
+        return Box::new(PacketZcWarplist::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x1d {
-        return Box::new(PacketCzRememberWarppoint::from(buffer));
+        return Box::new(PacketCzRememberWarppoint::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x1e {
-        return Box::new(PacketZcAckRememberWarppoint::from(buffer));
+        return Box::new(PacketZcAckRememberWarppoint::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x1f {
-        return Box::new(PacketZcSkillEntry::from(buffer));
+        return Box::new(PacketZcSkillEntry::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x20 {
-        return Box::new(PacketZcSkillDisappear::from(buffer));
+        return Box::new(PacketZcSkillDisappear::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x21 {
-        return Box::new(PacketZcNotifyCartitemCountinfo::from(buffer));
+        return Box::new(PacketZcNotifyCartitemCountinfo::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x22 {
-        return Box::new(PacketZcCartEquipmentItemlist::from(buffer));
+        return Box::new(PacketZcCartEquipmentItemlist::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x23 {
-        return Box::new(PacketZcCartNormalItemlist::from(buffer));
+        return Box::new(PacketZcCartNormalItemlist::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x24 {
-        return Box::new(PacketZcAddItemToCart::from(buffer));
+        return Box::new(PacketZcAddItemToCart::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x25 {
-        return Box::new(PacketZcDeleteItemFromCart::from(buffer));
+        return Box::new(PacketZcDeleteItemFromCart::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x26 {
-        return Box::new(PacketCzMoveItemFromBodyToCart::from(buffer));
+        return Box::new(PacketCzMoveItemFromBodyToCart::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x27 {
-        return Box::new(PacketCzMoveItemFromCartToBody::from(buffer));
+        return Box::new(PacketCzMoveItemFromCartToBody::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x28 {
-        return Box::new(PacketCzMoveItemFromStoreToCart::from(buffer));
+        return Box::new(PacketCzMoveItemFromStoreToCart::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x29 {
-        return Box::new(PacketCzMoveItemFromCartToStore::from(buffer));
+        return Box::new(PacketCzMoveItemFromCartToStore::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x2a {
-        return Box::new(PacketCzReqCartoff::from(buffer));
+        return Box::new(PacketCzReqCartoff::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x2b {
-        return Box::new(PacketZcCartoff::from(buffer));
+        return Box::new(PacketZcCartoff::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x2c {
-        return Box::new(PacketZcAckAdditemToCart::from(buffer));
+        return Box::new(PacketZcAckAdditemToCart::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x2d {
-        return Box::new(PacketZcOpenstore::from(buffer));
+        return Box::new(PacketZcOpenstore::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x2e {
-        return Box::new(PacketCzReqClosestore::from(buffer));
+        return Box::new(PacketCzReqClosestore::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x2f {
-        return Box::new(PacketCzReqOpenstore::from(buffer));
+        return Box::new(PacketCzReqOpenstore::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x30 {
-        return Box::new(PacketCzReqBuyFrommc::from(buffer));
+        return Box::new(PacketCzReqBuyFrommc::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x31 {
-        return Box::new(PacketZcStoreEntry::from(buffer));
+        return Box::new(PacketZcStoreEntry::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x32 {
-        return Box::new(PacketZcDisappearEntry::from(buffer));
+        return Box::new(PacketZcDisappearEntry::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x33 {
-        return Box::new(PacketZcPcPurchaseItemlistFrommc::from(buffer));
+        return Box::new(PacketZcPcPurchaseItemlistFrommc::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x34 {
-        return Box::new(PacketCzPcPurchaseItemlistFrommc::from(buffer));
+        return Box::new(PacketCzPcPurchaseItemlistFrommc::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x35 {
-        return Box::new(PacketZcPcPurchaseResultFrommc::from(buffer));
+        return Box::new(PacketZcPcPurchaseResultFrommc::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x36 {
-        return Box::new(PacketZcPcPurchaseMyitemlist::from(buffer));
+        return Box::new(PacketZcPcPurchaseMyitemlist::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x37 {
-        return Box::new(PacketZcDeleteitemFromMcstore::from(buffer));
+        return Box::new(PacketZcDeleteitemFromMcstore::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x38 {
-        return Box::new(PacketCzPkmodeChange::from(buffer));
+        return Box::new(PacketCzPkmodeChange::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x39 {
-        return Box::new(PacketZcAttackFailureForDistance::from(buffer));
+        return Box::new(PacketZcAttackFailureForDistance::from(buffer, packetver));
     }
     if buffer[0] == 0x3a && buffer[1] == 0x01 {
-        return Box::new(PacketZcAttackRange::from(buffer));
+        return Box::new(PacketZcAttackRange::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x3b {
-        return Box::new(PacketZcActionFailure::from(buffer));
+        return Box::new(PacketZcActionFailure::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x3c {
-        return Box::new(PacketZcEquipArrow::from(buffer));
+        return Box::new(PacketZcEquipArrow::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x3d {
-        return Box::new(PacketZcRecovery::from(buffer));
+        return Box::new(PacketZcRecovery::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x3e {
-        return Box::new(PacketZcUseskillAck::from(buffer));
+        return Box::new(PacketZcUseskillAck::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x3f {
-        return Box::new(PacketCzItemCreate::from(buffer));
+        return Box::new(PacketCzItemCreate::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x40 {
-        return Box::new(PacketCzMovetoMap::from(buffer));
+        return Box::new(PacketCzMovetoMap::from(buffer, packetver));
     }
     if buffer[0] == 0x41 && buffer[1] == 0x01 {
-        return Box::new(PacketZcStatusValues::from(buffer));
+        return Box::new(PacketZcStatusValues::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x42 {
-        return Box::new(PacketZcOpenEditdlg::from(buffer));
+        return Box::new(PacketZcOpenEditdlg::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x43 {
-        return Box::new(PacketCzInputEditdlg::from(buffer));
+        return Box::new(PacketCzInputEditdlg::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x44 {
-        return Box::new(PacketZcCompass::from(buffer));
+        return Box::new(PacketZcCompass::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x45 {
-        return Box::new(PacketZcShowImage::from(buffer));
+        return Box::new(PacketZcShowImage::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x46 {
-        return Box::new(PacketCzCloseDialog::from(buffer));
+        return Box::new(PacketCzCloseDialog::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x47 {
-        return Box::new(PacketZcAutorunSkill::from(buffer));
+        return Box::new(PacketZcAutorunSkill::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x48 {
-        return Box::new(PacketZcResurrection::from(buffer));
+        return Box::new(PacketZcResurrection::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x49 {
-        return Box::new(PacketCzReqGiveMannerPoint::from(buffer));
+        return Box::new(PacketCzReqGiveMannerPoint::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x4a {
-        return Box::new(PacketZcAckGiveMannerPoint::from(buffer));
+        return Box::new(PacketZcAckGiveMannerPoint::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x4b {
-        return Box::new(PacketZcNotifyMannerPointGiven::from(buffer));
+        return Box::new(PacketZcNotifyMannerPointGiven::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x4c {
-        return Box::new(PacketZcMyguildBasicInfo::from(buffer));
+        return Box::new(PacketZcMyguildBasicInfo::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x4d {
-        return Box::new(PacketCzReqGuildMenuinterface::from(buffer));
+        return Box::new(PacketCzReqGuildMenuinterface::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x4e {
-        return Box::new(PacketZcAckGuildMenuinterface::from(buffer));
+        return Box::new(PacketZcAckGuildMenuinterface::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x4f {
-        return Box::new(PacketCzReqGuildMenu::from(buffer));
+        return Box::new(PacketCzReqGuildMenu::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x50 {
-        return Box::new(PacketZcGuildInfo::from(buffer));
+        return Box::new(PacketZcGuildInfo::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x51 {
-        return Box::new(PacketCzReqGuildEmblemImg::from(buffer));
+        return Box::new(PacketCzReqGuildEmblemImg::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x52 {
-        return Box::new(PacketZcGuildEmblemImg::from(buffer));
+        return Box::new(PacketZcGuildEmblemImg::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x53 {
-        return Box::new(PacketCzRegisterGuildEmblemImg::from(buffer));
+        return Box::new(PacketCzRegisterGuildEmblemImg::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x54 {
-        return Box::new(PacketZcMembermgrInfo::from(buffer));
+        return Box::new(PacketZcMembermgrInfo::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x55 {
-        return Box::new(PacketCzReqChangeMemberpos::from(buffer));
+        return Box::new(PacketCzReqChangeMemberpos::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x56 {
-        return Box::new(PacketZcAckReqChangeMembers::from(buffer));
+        return Box::new(PacketZcAckReqChangeMembers::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x57 {
-        return Box::new(PacketCzReqOpenMemberInfo::from(buffer));
+        return Box::new(PacketCzReqOpenMemberInfo::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x58 {
-        return Box::new(PacketZcAckOpenMemberInfo::from(buffer));
+        return Box::new(PacketZcAckOpenMemberInfo::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x59 {
-        return Box::new(PacketCzReqLeaveGuild::from(buffer));
+        return Box::new(PacketCzReqLeaveGuild::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x5a {
-        return Box::new(PacketZcAckLeaveGuild::from(buffer));
+        return Box::new(PacketZcAckLeaveGuild::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x5b {
-        return Box::new(PacketCzReqBanGuild::from(buffer));
+        return Box::new(PacketCzReqBanGuild::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x5c {
-        return Box::new(PacketZcAckBanGuild::from(buffer));
+        return Box::new(PacketZcAckBanGuild::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x5d {
-        return Box::new(PacketCzReqDisorganizeGuild::from(buffer));
+        return Box::new(PacketCzReqDisorganizeGuild::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x5e {
-        return Box::new(PacketZcAckDisorganizeGuildResult::from(buffer));
+        return Box::new(PacketZcAckDisorganizeGuildResult::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x5f {
-        return Box::new(PacketZcAckDisorganizeGuild::from(buffer));
+        return Box::new(PacketZcAckDisorganizeGuild::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x60 {
-        return Box::new(PacketZcPositionInfo::from(buffer));
+        return Box::new(PacketZcPositionInfo::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x61 {
-        return Box::new(PacketCzRegChangeGuildPositioninfo::from(buffer));
+        return Box::new(PacketCzRegChangeGuildPositioninfo::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x62 {
-        return Box::new(PacketZcGuildSkillinfo::from(buffer));
+        return Box::new(PacketZcGuildSkillinfo::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x63 {
-        return Box::new(PacketZcBanList::from(buffer));
+        return Box::new(PacketZcBanList::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x64 {
-        return Box::new(PacketZcOtherGuildList::from(buffer));
+        return Box::new(PacketZcOtherGuildList::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x65 {
-        return Box::new(PacketCzReqMakeGuild::from(buffer));
+        return Box::new(PacketCzReqMakeGuild::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x66 {
-        return Box::new(PacketZcPositionIdNameInfo::from(buffer));
+        return Box::new(PacketZcPositionIdNameInfo::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x67 {
-        return Box::new(PacketZcResultMakeGuild::from(buffer));
+        return Box::new(PacketZcResultMakeGuild::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x68 {
-        return Box::new(PacketCzReqJoinGuild::from(buffer));
+        return Box::new(PacketCzReqJoinGuild::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x69 {
-        return Box::new(PacketZcAckReqJoinGuild::from(buffer));
+        return Box::new(PacketZcAckReqJoinGuild::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x6a {
-        return Box::new(PacketZcReqJoinGuild::from(buffer));
+        return Box::new(PacketZcReqJoinGuild::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x6b {
-        return Box::new(PacketCzJoinGuild::from(buffer));
+        return Box::new(PacketCzJoinGuild::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x6c {
-        return Box::new(PacketZcUpdateGdid::from(buffer));
+        return Box::new(PacketZcUpdateGdid::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x6d {
-        return Box::new(PacketZcUpdateCharstat::from(buffer));
+        return Box::new(PacketZcUpdateCharstat::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x6e {
-        return Box::new(PacketCzGuildNotice::from(buffer));
+        return Box::new(PacketCzGuildNotice::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x6f {
-        return Box::new(PacketZcGuildNotice::from(buffer));
+        return Box::new(PacketZcGuildNotice::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x70 {
-        return Box::new(PacketCzReqAllyGuild::from(buffer));
+        return Box::new(PacketCzReqAllyGuild::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x71 {
-        return Box::new(PacketZcReqAllyGuild::from(buffer));
+        return Box::new(PacketZcReqAllyGuild::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x72 {
-        return Box::new(PacketCzAllyGuild::from(buffer));
+        return Box::new(PacketCzAllyGuild::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x73 {
-        return Box::new(PacketZcAckReqAllyGuild::from(buffer));
+        return Box::new(PacketZcAckReqAllyGuild::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x74 {
-        return Box::new(PacketZcAckChangeGuildPositioninfo::from(buffer));
+        return Box::new(PacketZcAckChangeGuildPositioninfo::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x75 {
-        return Box::new(PacketCzReqGuildMemberInfo::from(buffer));
+        return Box::new(PacketCzReqGuildMemberInfo::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x76 {
-        return Box::new(PacketZcAckGuildMemberInfo::from(buffer));
+        return Box::new(PacketZcAckGuildMemberInfo::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x77 {
-        return Box::new(PacketZcItemidentifyList::from(buffer));
+        return Box::new(PacketZcItemidentifyList::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x78 {
-        return Box::new(PacketCzReqItemidentify::from(buffer));
+        return Box::new(PacketCzReqItemidentify::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x79 {
-        return Box::new(PacketZcAckItemidentify::from(buffer));
+        return Box::new(PacketZcAckItemidentify::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x7a {
-        return Box::new(PacketCzReqItemcompositionList::from(buffer));
+        return Box::new(PacketCzReqItemcompositionList::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x7b {
-        return Box::new(PacketZcItemcompositionList::from(buffer));
+        return Box::new(PacketZcItemcompositionList::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x7c {
-        return Box::new(PacketCzReqItemcomposition::from(buffer));
+        return Box::new(PacketCzReqItemcomposition::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x7d {
-        return Box::new(PacketZcAckItemcomposition::from(buffer));
+        return Box::new(PacketZcAckItemcomposition::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x7e {
-        return Box::new(PacketCzGuildChat::from(buffer));
+        return Box::new(PacketCzGuildChat::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x7f {
-        return Box::new(PacketZcGuildChat::from(buffer));
+        return Box::new(PacketZcGuildChat::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x80 {
-        return Box::new(PacketCzReqHostileGuild::from(buffer));
+        return Box::new(PacketCzReqHostileGuild::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x81 {
-        return Box::new(PacketZcAckReqHostileGuild::from(buffer));
+        return Box::new(PacketZcAckReqHostileGuild::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x82 {
-        return Box::new(PacketZcMemberAdd::from(buffer));
+        return Box::new(PacketZcMemberAdd::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x83 {
-        return Box::new(PacketCzReqDeleteRelatedGuild::from(buffer));
+        return Box::new(PacketCzReqDeleteRelatedGuild::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x84 {
-        return Box::new(PacketZcDeleteRelatedGuild::from(buffer));
+        return Box::new(PacketZcDeleteRelatedGuild::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x85 {
-        return Box::new(PacketZcAddRelatedGuild::from(buffer));
+        return Box::new(PacketZcAddRelatedGuild::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x86 {
-        return Box::new(PacketCollectordead::from(buffer));
+        return Box::new(PacketCollectordead::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x87 {
-        return Box::new(PacketPing::from(buffer));
+        return Box::new(PacketPing::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x88 {
-        return Box::new(PacketZcAckItemrefining::from(buffer));
+        return Box::new(PacketZcAckItemrefining::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x89 {
-        return Box::new(PacketZcNotifyMapinfo::from(buffer));
+        return Box::new(PacketZcNotifyMapinfo::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x8a {
-        return Box::new(PacketCzReqDisconnect::from(buffer));
+        return Box::new(PacketCzReqDisconnect::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x8b {
-        return Box::new(PacketZcAckReqDisconnect::from(buffer));
+        return Box::new(PacketZcAckReqDisconnect::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x8c {
-        return Box::new(PacketZcMonsterInfo::from(buffer));
+        return Box::new(PacketZcMonsterInfo::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x8d {
-        return Box::new(PacketZcMakableitemlist::from(buffer));
+        return Box::new(PacketZcMakableitemlist::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x8e {
-        return Box::new(PacketCzReqmakingitem::from(buffer));
+        return Box::new(PacketCzReqmakingitem::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x8f {
-        return Box::new(PacketZcAckReqmakingitem::from(buffer));
+        return Box::new(PacketZcAckReqmakingitem::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x90 {
-        return Box::new(PacketCzUseSkillTogroundWithtalkbox::from(buffer));
+        return Box::new(PacketCzUseSkillTogroundWithtalkbox::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x91 {
-        return Box::new(PacketZcTalkboxChatcontents::from(buffer));
+        return Box::new(PacketZcTalkboxChatcontents::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x92 {
-        return Box::new(PacketZcUpdateMapinfo::from(buffer));
+        return Box::new(PacketZcUpdateMapinfo::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x93 {
-        return Box::new(PacketCzReqnameBygid::from(buffer));
+        return Box::new(PacketCzReqnameBygid::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x94 {
-        return Box::new(PacketZcAckReqnameBygid::from(buffer));
+        return Box::new(PacketZcAckReqnameBygid::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x95 {
-        return Box::new(PacketZcAckReqnameall::from(buffer));
+        return Box::new(PacketZcAckReqnameall::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x96 {
-        return Box::new(PacketZcMsgStateChange::from(buffer));
+        return Box::new(PacketZcMsgStateChange::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x97 {
-        return Box::new(PacketCzReset::from(buffer));
+        return Box::new(PacketCzReset::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x98 {
-        return Box::new(PacketCzChangeMaptype::from(buffer));
+        return Box::new(PacketCzChangeMaptype::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x99 {
-        return Box::new(PacketZcNotifyMapproperty::from(buffer));
+        return Box::new(PacketZcNotifyMapproperty::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x9a {
-        return Box::new(PacketZcNotifyRanking::from(buffer));
+        return Box::new(PacketZcNotifyRanking::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x9b {
-        return Box::new(PacketZcNotifyEffect::from(buffer));
+        return Box::new(PacketZcNotifyEffect::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x9d {
-        return Box::new(PacketCzChangeEffectstate::from(buffer));
+        return Box::new(PacketCzChangeEffectstate::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x9e {
-        return Box::new(PacketZcStartCapture::from(buffer));
+        return Box::new(PacketZcStartCapture::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x9f {
-        return Box::new(PacketCzTrycaptureMonster::from(buffer));
+        return Box::new(PacketCzTrycaptureMonster::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xa0 {
-        return Box::new(PacketZcTrycaptureMonster::from(buffer));
+        return Box::new(PacketZcTrycaptureMonster::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xa1 {
-        return Box::new(PacketCzCommandPet::from(buffer));
+        return Box::new(PacketCzCommandPet::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xa2 {
-        return Box::new(PacketZcPropertyPet::from(buffer));
+        return Box::new(PacketZcPropertyPet::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xa3 {
-        return Box::new(PacketZcFeedPet::from(buffer));
+        return Box::new(PacketZcFeedPet::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xa4 {
-        return Box::new(PacketZcChangestatePet::from(buffer));
+        return Box::new(PacketZcChangestatePet::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xa5 {
-        return Box::new(PacketCzRenamePet::from(buffer));
+        return Box::new(PacketCzRenamePet::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xa6 {
-        return Box::new(PacketZcPeteggList::from(buffer));
+        return Box::new(PacketZcPeteggList::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xa7 {
-        return Box::new(PacketCzSelectPetegg::from(buffer));
+        return Box::new(PacketCzSelectPetegg::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xa8 {
-        return Box::new(PacketCzPeteggInfo::from(buffer));
+        return Box::new(PacketCzPeteggInfo::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xa9 {
-        return Box::new(PacketCzPetAct::from(buffer));
+        return Box::new(PacketCzPetAct::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xaa {
-        return Box::new(PacketZcPetAct::from(buffer));
+        return Box::new(PacketZcPetAct::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xab {
-        return Box::new(PacketZcParChangeUser::from(buffer));
+        return Box::new(PacketZcParChangeUser::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xac {
-        return Box::new(PacketZcSkillUpdate::from(buffer));
+        return Box::new(PacketZcSkillUpdate::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xad {
-        return Box::new(PacketZcMakingarrowList::from(buffer));
+        return Box::new(PacketZcMakingarrowList::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xae {
-        return Box::new(PacketCzReqMakingarrow::from(buffer));
+        return Box::new(PacketCzReqMakingarrow::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xaf {
-        return Box::new(PacketCzReqChangecart::from(buffer));
+        return Box::new(PacketCzReqChangecart::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xb0 {
-        return Box::new(PacketZcNpcspriteChange::from(buffer));
+        return Box::new(PacketZcNpcspriteChange::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xb1 {
-        return Box::new(PacketZcShowdigit::from(buffer));
+        return Box::new(PacketZcShowdigit::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xb2 {
-        return Box::new(PacketCzReqOpenstore2::from(buffer));
+        return Box::new(PacketCzReqOpenstore2::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xb3 {
-        return Box::new(PacketZcShowImage2::from(buffer));
+        return Box::new(PacketZcShowImage2::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xb4 {
-        return Box::new(PacketZcChangeGuild::from(buffer));
+        return Box::new(PacketZcChangeGuild::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xb5 {
-        return Box::new(PacketScBillingInfo::from(buffer));
+        return Box::new(PacketScBillingInfo::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xb6 {
-        return Box::new(PacketZcGuildInfo2::from(buffer));
+        return Box::new(PacketZcGuildInfo2::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xb7 {
-        return Box::new(PacketCzGuildZeny::from(buffer));
+        return Box::new(PacketCzGuildZeny::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xb8 {
-        return Box::new(PacketZcGuildZenyAck::from(buffer));
+        return Box::new(PacketZcGuildZenyAck::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xb9 {
-        return Box::new(PacketZcDispel::from(buffer));
+        return Box::new(PacketZcDispel::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xba {
-        return Box::new(PacketCzRemoveAid::from(buffer));
+        return Box::new(PacketCzRemoveAid::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xbb {
-        return Box::new(PacketCzShift::from(buffer));
+        return Box::new(PacketCzShift::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xbc {
-        return Box::new(PacketCzRecall::from(buffer));
+        return Box::new(PacketCzRecall::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xbd {
-        return Box::new(PacketCzRecallGid::from(buffer));
+        return Box::new(PacketCzRecallGid::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xbe {
-        return Box::new(PacketAcAskPngameroom::from(buffer));
+        return Box::new(PacketAcAskPngameroom::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xbf {
-        return Box::new(PacketCaReplyPngameroom::from(buffer));
+        return Box::new(PacketCaReplyPngameroom::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xc0 {
-        return Box::new(PacketCzReqRemaintime::from(buffer));
+        return Box::new(PacketCzReqRemaintime::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xc1 {
-        return Box::new(PacketZcReplyRemaintime::from(buffer));
+        return Box::new(PacketZcReplyRemaintime::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xc2 {
-        return Box::new(PacketZcInfoRemaintime::from(buffer));
+        return Box::new(PacketZcInfoRemaintime::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xc3 {
-        return Box::new(PacketZcBroadcast2::from(buffer));
+        return Box::new(PacketZcBroadcast2::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xc4 {
-        return Box::new(PacketZcAddItemToStore2::from(buffer));
+        return Box::new(PacketZcAddItemToStore2::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xc5 {
-        return Box::new(PacketZcAddItemToCart2::from(buffer));
+        return Box::new(PacketZcAddItemToCart2::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xc6 {
-        return Box::new(PacketCsReqEncryption::from(buffer));
+        return Box::new(PacketCsReqEncryption::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xc7 {
-        return Box::new(PacketScAckEncryption::from(buffer));
+        return Box::new(PacketScAckEncryption::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xc8 {
-        return Box::new(PacketZcUseItemAck2::from(buffer));
+        return Box::new(PacketZcUseItemAck2::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xc9 {
-        return Box::new(PacketZcSkillEntry2::from(buffer));
+        return Box::new(PacketZcSkillEntry2::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xca {
-        return Box::new(PacketCzReqmakinghomun::from(buffer));
+        return Box::new(PacketCzReqmakinghomun::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xcb {
-        return Box::new(PacketCzMonsterTalk::from(buffer));
+        return Box::new(PacketCzMonsterTalk::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xcc {
-        return Box::new(PacketZcMonsterTalk::from(buffer));
+        return Box::new(PacketZcMonsterTalk::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xcd {
-        return Box::new(PacketZcAutospelllist::from(buffer));
+        return Box::new(PacketZcAutospelllist::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xce {
-        return Box::new(PacketCzSelectautospell::from(buffer));
+        return Box::new(PacketCzSelectautospell::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xcf {
-        return Box::new(PacketZcDevotionlist::from(buffer));
+        return Box::new(PacketZcDevotionlist::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xd0 {
-        return Box::new(PacketZcSpirits::from(buffer));
+        return Box::new(PacketZcSpirits::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xd1 {
-        return Box::new(PacketZcBladestop::from(buffer));
+        return Box::new(PacketZcBladestop::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xd2 {
-        return Box::new(PacketZcCombodelay::from(buffer));
+        return Box::new(PacketZcCombodelay::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xd3 {
-        return Box::new(PacketZcSound::from(buffer));
+        return Box::new(PacketZcSound::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xd4 {
-        return Box::new(PacketZcOpenEditdlgstr::from(buffer));
+        return Box::new(PacketZcOpenEditdlgstr::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xd5 {
-        return Box::new(PacketCzInputEditdlgstr::from(buffer));
+        return Box::new(PacketCzInputEditdlgstr::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xd6 {
-        return Box::new(PacketZcNotifyMaptypeproperty2::from(buffer));
+        return Box::new(PacketZcNotifyMaptypeproperty2::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xd7 {
-        return Box::new(PacketZcSpriteChange2::from(buffer));
+        return Box::new(PacketZcSpriteChange2::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xd8 {
-        return Box::new(PacketZcNotifyStandentry2::from(buffer));
+        return Box::new(PacketZcNotifyStandentry2::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xd9 {
-        return Box::new(PacketZcNotifyNewentry2::from(buffer));
+        return Box::new(PacketZcNotifyNewentry2::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xda {
-        return Box::new(PacketZcNotifyMoveentry2::from(buffer));
+        return Box::new(PacketZcNotifyMoveentry2::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xdb {
-        return Box::new(PacketCaReqHash::from(buffer));
+        return Box::new(PacketCaReqHash::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xdc {
-        return Box::new(PacketAcAckHash::from(buffer));
+        return Box::new(PacketAcAckHash::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xdd {
-        return Box::new(PacketCaLogin2::from(buffer));
+        return Box::new(PacketCaLogin2::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xde {
-        return Box::new(PacketZcNotifySkill2::from(buffer));
+        return Box::new(PacketZcNotifySkill2::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xdf {
-        return Box::new(PacketCzReqAccountname::from(buffer));
+        return Box::new(PacketCzReqAccountname::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xe0 {
-        return Box::new(PacketZcAckAccountname::from(buffer));
+        return Box::new(PacketZcAckAccountname::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xe1 {
-        return Box::new(PacketZcSpirits2::from(buffer));
+        return Box::new(PacketZcSpirits2::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xe2 {
-        return Box::new(PacketZcReqCouple::from(buffer));
+        return Box::new(PacketZcReqCouple::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xe3 {
-        return Box::new(PacketCzJoinCouple::from(buffer));
+        return Box::new(PacketCzJoinCouple::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xe4 {
-        return Box::new(PacketZcStartCouple::from(buffer));
+        return Box::new(PacketZcStartCouple::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xe5 {
-        return Box::new(PacketCzReqJoinCouple::from(buffer));
+        return Box::new(PacketCzReqJoinCouple::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xe6 {
-        return Box::new(PacketZcCouplename::from(buffer));
+        return Box::new(PacketZcCouplename::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xe7 {
-        return Box::new(PacketCzDoridori::from(buffer));
+        return Box::new(PacketCzDoridori::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xe8 {
-        return Box::new(PacketCzMakeGroup2::from(buffer));
+        return Box::new(PacketCzMakeGroup2::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xe9 {
-        return Box::new(PacketZcAddMemberToGroup2::from(buffer));
+        return Box::new(PacketZcAddMemberToGroup2::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xea {
-        return Box::new(PacketZcCongratulation::from(buffer));
+        return Box::new(PacketZcCongratulation::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xeb {
-        return Box::new(PacketZcNotifyPositionToGuildm::from(buffer));
+        return Box::new(PacketZcNotifyPositionToGuildm::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xec {
-        return Box::new(PacketZcGuildMemberMapChange::from(buffer));
+        return Box::new(PacketZcGuildMemberMapChange::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xed {
-        return Box::new(PacketCzChopokgi::from(buffer));
+        return Box::new(PacketCzChopokgi::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xee {
-        return Box::new(PacketZcNormalItemlist2::from(buffer));
+        return Box::new(PacketZcNormalItemlist2::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xef {
-        return Box::new(PacketZcCartNormalItemlist2::from(buffer));
+        return Box::new(PacketZcCartNormalItemlist2::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xf0 {
-        return Box::new(PacketZcStoreNormalItemlist2::from(buffer));
+        return Box::new(PacketZcStoreNormalItemlist2::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xf1 {
-        return Box::new(PacketAcNotifyError::from(buffer));
+        return Box::new(PacketAcNotifyError::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xf2 {
-        return Box::new(PacketZcUpdateCharstat2::from(buffer));
+        return Box::new(PacketZcUpdateCharstat2::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xf3 {
-        return Box::new(PacketZcNotifyEffect2::from(buffer));
+        return Box::new(PacketZcNotifyEffect2::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xf4 {
-        return Box::new(PacketZcReqExchangeItem2::from(buffer));
+        return Box::new(PacketZcReqExchangeItem2::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xf5 {
-        return Box::new(PacketZcAckExchangeItem2::from(buffer));
+        return Box::new(PacketZcAckExchangeItem2::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xf6 {
-        return Box::new(PacketZcReqBaby::from(buffer));
+        return Box::new(PacketZcReqBaby::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xf7 {
-        return Box::new(PacketCzJoinBaby::from(buffer));
+        return Box::new(PacketCzJoinBaby::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xf8 {
-        return Box::new(PacketZcStartBaby::from(buffer));
+        return Box::new(PacketZcStartBaby::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xf9 {
-        return Box::new(PacketCzReqJoinBaby::from(buffer));
+        return Box::new(PacketCzReqJoinBaby::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xfa {
-        return Box::new(PacketCaLogin3::from(buffer));
+        return Box::new(PacketCaLogin3::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xfb {
-        return Box::new(PacketChDeleteChar2::from(buffer));
+        return Box::new(PacketChDeleteChar2::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xfc {
-        return Box::new(PacketZcRepairitemlist::from(buffer));
+        return Box::new(PacketZcRepairitemlist::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xfd {
-        return Box::new(PacketCzReqItemrepair::from(buffer));
+        return Box::new(PacketCzReqItemrepair::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xfe {
-        return Box::new(PacketZcAckItemrepair::from(buffer));
+        return Box::new(PacketZcAckItemrepair::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xff {
-        return Box::new(PacketZcHighjump::from(buffer));
+        return Box::new(PacketZcHighjump::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x00 {
-        return Box::new(PacketCaConnectInfoChanged::from(buffer));
+        return Box::new(PacketCaConnectInfoChanged::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x01 {
-        return Box::new(PacketZcFriendsList::from(buffer));
+        return Box::new(PacketZcFriendsList::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x02 {
-        return Box::new(PacketCzAddFriends::from(buffer));
+        return Box::new(PacketCzAddFriends::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x03 {
-        return Box::new(PacketCzDeleteFriends::from(buffer));
+        return Box::new(PacketCzDeleteFriends::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x04 {
-        return Box::new(PacketCaExeHashcheck::from(buffer));
+        return Box::new(PacketCaExeHashcheck::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x05 {
-        return Box::new(PacketZcDivorce::from(buffer));
+        return Box::new(PacketZcDivorce::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x06 {
-        return Box::new(PacketZcFriendsState::from(buffer));
+        return Box::new(PacketZcFriendsState::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x07 {
-        return Box::new(PacketZcReqAddFriends::from(buffer));
+        return Box::new(PacketZcReqAddFriends::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x08 {
-        return Box::new(PacketCzAckReqAddFriends::from(buffer));
+        return Box::new(PacketCzAckReqAddFriends::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x09 {
-        return Box::new(PacketZcAddFriendsList::from(buffer));
+        return Box::new(PacketZcAddFriendsList::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x0a {
-        return Box::new(PacketZcDeleteFriends::from(buffer));
+        return Box::new(PacketZcDeleteFriends::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x0b {
-        return Box::new(PacketAcRefuseLoginR3::from(buffer));
+        return Box::new(PacketAcRefuseLoginR3::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x0c {
-        return Box::new(PacketCzExeHashcheck::from(buffer));
+        return Box::new(PacketCzExeHashcheck::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x0d {
-        return Box::new(PacketHcBlockCharacter::from(buffer));
+        return Box::new(PacketHcBlockCharacter::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x0e {
-        return Box::new(PacketZcStarskill::from(buffer));
+        return Box::new(PacketZcStarskill::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x0f {
-        return Box::new(PacketCzReqPvppoint::from(buffer));
+        return Box::new(PacketCzReqPvppoint::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x10 {
-        return Box::new(PacketZcAckPvppoint::from(buffer));
+        return Box::new(PacketZcAckPvppoint::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x11 {
-        return Box::new(PacketZhMovePvpworld::from(buffer));
+        return Box::new(PacketZhMovePvpworld::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x12 {
-        return Box::new(PacketCzReqGiveMannerByname::from(buffer));
+        return Box::new(PacketCzReqGiveMannerByname::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x13 {
-        return Box::new(PacketCzReqStatusGm::from(buffer));
+        return Box::new(PacketCzReqStatusGm::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x14 {
-        return Box::new(PacketZcAckStatusGm::from(buffer));
+        return Box::new(PacketZcAckStatusGm::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x15 {
-        return Box::new(PacketZcSkillmsg::from(buffer));
+        return Box::new(PacketZcSkillmsg::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x16 {
-        return Box::new(PacketZcBabymsg::from(buffer));
+        return Box::new(PacketZcBabymsg::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x17 {
-        return Box::new(PacketCzBlacksmithRank::from(buffer));
+        return Box::new(PacketCzBlacksmithRank::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x18 {
-        return Box::new(PacketCzAlchemistRank::from(buffer));
+        return Box::new(PacketCzAlchemistRank::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x19 {
-        return Box::new(PacketZcBlacksmithRank::from(buffer));
+        return Box::new(PacketZcBlacksmithRank::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x1a {
-        return Box::new(PacketZcAlchemistRank::from(buffer));
+        return Box::new(PacketZcAlchemistRank::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x1b {
-        return Box::new(PacketZcBlacksmithPoint::from(buffer));
+        return Box::new(PacketZcBlacksmithPoint::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x1c {
-        return Box::new(PacketZcAlchemistPoint::from(buffer));
+        return Box::new(PacketZcAlchemistPoint::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x1d {
-        return Box::new(PacketCzLesseffect::from(buffer));
+        return Box::new(PacketCzLesseffect::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x1e {
-        return Box::new(PacketZcLesseffect::from(buffer));
+        return Box::new(PacketZcLesseffect::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x1f {
-        return Box::new(PacketZcNotifyPkinfo::from(buffer));
+        return Box::new(PacketZcNotifyPkinfo::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x20 {
-        return Box::new(PacketZcNotifyCrazykiller::from(buffer));
+        return Box::new(PacketZcNotifyCrazykiller::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x21 {
-        return Box::new(PacketZcNotifyWeaponitemlist::from(buffer));
+        return Box::new(PacketZcNotifyWeaponitemlist::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x22 {
-        return Box::new(PacketCzReqWeaponrefine::from(buffer));
+        return Box::new(PacketCzReqWeaponrefine::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x23 {
-        return Box::new(PacketZcAckWeaponrefine::from(buffer));
+        return Box::new(PacketZcAckWeaponrefine::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x24 {
-        return Box::new(PacketZcTaekwonPoint::from(buffer));
+        return Box::new(PacketZcTaekwonPoint::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x25 {
-        return Box::new(PacketCzTaekwonRank::from(buffer));
+        return Box::new(PacketCzTaekwonRank::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x26 {
-        return Box::new(PacketZcTaekwonRank::from(buffer));
+        return Box::new(PacketZcTaekwonRank::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x27 {
-        return Box::new(PacketZcGameGuard::from(buffer));
+        return Box::new(PacketZcGameGuard::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x28 {
-        return Box::new(PacketCzAckGameGuard::from(buffer));
+        return Box::new(PacketCzAckGameGuard::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x29 {
-        return Box::new(PacketZcStateChange3::from(buffer));
+        return Box::new(PacketZcStateChange3::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x2a {
-        return Box::new(PacketZcNotifyStandentry3::from(buffer));
+        return Box::new(PacketZcNotifyStandentry3::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x2b {
-        return Box::new(PacketZcNotifyNewentry3::from(buffer));
+        return Box::new(PacketZcNotifyNewentry3::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x2c {
-        return Box::new(PacketZcNotifyMoveentry3::from(buffer));
+        return Box::new(PacketZcNotifyMoveentry3::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x2d {
-        return Box::new(PacketCzCommandMer::from(buffer));
+        return Box::new(PacketCzCommandMer::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x2e {
-        return Box::new(PacketZcPropertyHomun::from(buffer));
+        return Box::new(PacketZcPropertyHomun::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x30 {
-        return Box::new(PacketZcChangestateMer::from(buffer));
+        return Box::new(PacketZcChangestateMer::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x31 {
-        return Box::new(PacketCzRenameMer::from(buffer));
+        return Box::new(PacketCzRenameMer::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x32 {
-        return Box::new(PacketCzRequestMovenpc::from(buffer));
+        return Box::new(PacketCzRequestMovenpc::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x33 {
-        return Box::new(PacketCzRequestActnpc::from(buffer));
+        return Box::new(PacketCzRequestActnpc::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x34 {
-        return Box::new(PacketCzRequestMovetoowner::from(buffer));
+        return Box::new(PacketCzRequestMovetoowner::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x3a {
-        return Box::new(PacketZcReqStorePassword::from(buffer));
+        return Box::new(PacketZcReqStorePassword::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x3b {
-        return Box::new(PacketCzAckStorePassword::from(buffer));
+        return Box::new(PacketCzAckStorePassword::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x3c {
-        return Box::new(PacketZcResultStorePassword::from(buffer));
+        return Box::new(PacketZcResultStorePassword::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x3d {
-        return Box::new(PacketAcEventResult::from(buffer));
+        return Box::new(PacketAcEventResult::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x3e {
-        return Box::new(PacketHcRequestCharacterPassword::from(buffer));
+        return Box::new(PacketHcRequestCharacterPassword::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x3f {
-        return Box::new(PacketCzMailGetList::from(buffer));
+        return Box::new(PacketCzMailGetList::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x40 {
-        return Box::new(PacketZcMailReqGetList::from(buffer));
+        return Box::new(PacketZcMailReqGetList::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x41 {
-        return Box::new(PacketCzMailOpen::from(buffer));
+        return Box::new(PacketCzMailOpen::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x42 {
-        return Box::new(PacketZcMailReqOpen::from(buffer));
+        return Box::new(PacketZcMailReqOpen::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x43 {
-        return Box::new(PacketCzMailDelete::from(buffer));
+        return Box::new(PacketCzMailDelete::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x44 {
-        return Box::new(PacketCzMailGetItem::from(buffer));
+        return Box::new(PacketCzMailGetItem::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x45 {
-        return Box::new(PacketZcMailReqGetItem::from(buffer));
+        return Box::new(PacketZcMailReqGetItem::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x46 {
-        return Box::new(PacketCzMailResetItem::from(buffer));
+        return Box::new(PacketCzMailResetItem::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x47 {
-        return Box::new(PacketCzMailAddItem::from(buffer));
+        return Box::new(PacketCzMailAddItem::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x48 {
-        return Box::new(PacketCzMailSend::from(buffer));
+        return Box::new(PacketCzMailSend::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x49 {
-        return Box::new(PacketZcMailReqSend::from(buffer));
+        return Box::new(PacketZcMailReqSend::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x4a {
-        return Box::new(PacketZcMailReceive::from(buffer));
+        return Box::new(PacketZcMailReceive::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x4b {
-        return Box::new(PacketCzAuctionCreate::from(buffer));
+        return Box::new(PacketCzAuctionCreate::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x4c {
-        return Box::new(PacketCzAuctionAddItem::from(buffer));
+        return Box::new(PacketCzAuctionAddItem::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x4d {
-        return Box::new(PacketCzAuctionAdd::from(buffer));
+        return Box::new(PacketCzAuctionAdd::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x4e {
-        return Box::new(PacketCzAuctionAddCancel::from(buffer));
+        return Box::new(PacketCzAuctionAddCancel::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x4f {
-        return Box::new(PacketCzAuctionBuy::from(buffer));
+        return Box::new(PacketCzAuctionBuy::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x50 {
-        return Box::new(PacketZcAuctionResult::from(buffer));
+        return Box::new(PacketZcAuctionResult::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x51 {
-        return Box::new(PacketCzAuctionItemSearch::from(buffer));
+        return Box::new(PacketCzAuctionItemSearch::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x52 {
-        return Box::new(PacketZcAuctionItemReqSearch::from(buffer));
+        return Box::new(PacketZcAuctionItemReqSearch::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x53 {
-        return Box::new(PacketZcStarplace::from(buffer));
+        return Box::new(PacketZcStarplace::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x54 {
-        return Box::new(PacketCzAgreeStarplace::from(buffer));
+        return Box::new(PacketCzAgreeStarplace::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x55 {
-        return Box::new(PacketZcAckMailAddItem::from(buffer));
+        return Box::new(PacketZcAckMailAddItem::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x56 {
-        return Box::new(PacketZcAckAuctionAddItem::from(buffer));
+        return Box::new(PacketZcAckAuctionAddItem::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x57 {
-        return Box::new(PacketZcAckMailDelete::from(buffer));
+        return Box::new(PacketZcAckMailDelete::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x58 {
-        return Box::new(PacketCaReqGameGuardCheck::from(buffer));
+        return Box::new(PacketCaReqGameGuardCheck::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x59 {
-        return Box::new(PacketAcAckGameGuard::from(buffer));
+        return Box::new(PacketAcAckGameGuard::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x5a {
-        return Box::new(PacketZcMakingitemList::from(buffer));
+        return Box::new(PacketZcMakingitemList::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x5b {
-        return Box::new(PacketCzReqMakingitem::from(buffer));
+        return Box::new(PacketCzReqMakingitem::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x5c {
-        return Box::new(PacketCzAuctionReqMyInfo::from(buffer));
+        return Box::new(PacketCzAuctionReqMyInfo::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x5d {
-        return Box::new(PacketCzAuctionReqMySellStop::from(buffer));
+        return Box::new(PacketCzAuctionReqMySellStop::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x5e {
-        return Box::new(PacketZcAuctionAckMySellStop::from(buffer));
+        return Box::new(PacketZcAuctionAckMySellStop::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x5f {
-        return Box::new(PacketZcAuctionWindows::from(buffer));
+        return Box::new(PacketZcAuctionWindows::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x60 {
-        return Box::new(PacketZcMailWindows::from(buffer));
+        return Box::new(PacketZcMailWindows::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x61 {
-        return Box::new(PacketAcReqLoginOldekey::from(buffer));
+        return Box::new(PacketAcReqLoginOldekey::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x62 {
-        return Box::new(PacketAcReqLoginNewekey::from(buffer));
+        return Box::new(PacketAcReqLoginNewekey::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x63 {
-        return Box::new(PacketAcReqLoginCardpass::from(buffer));
+        return Box::new(PacketAcReqLoginCardpass::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x64 {
-        return Box::new(PacketCaAckLoginOldekey::from(buffer));
+        return Box::new(PacketCaAckLoginOldekey::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x65 {
-        return Box::new(PacketCaAckLoginNewekey::from(buffer));
+        return Box::new(PacketCaAckLoginNewekey::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x66 {
-        return Box::new(PacketCaAckLoginCardpass::from(buffer));
+        return Box::new(PacketCaAckLoginCardpass::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x67 {
-        return Box::new(PacketAcAckEkeyFailNotexist::from(buffer));
+        return Box::new(PacketAcAckEkeyFailNotexist::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x68 {
-        return Box::new(PacketAcAckEkeyFailNotusesekey::from(buffer));
+        return Box::new(PacketAcAckEkeyFailNotusesekey::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x69 {
-        return Box::new(PacketAcAckEkeyFailNotusedekey::from(buffer));
+        return Box::new(PacketAcAckEkeyFailNotusedekey::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x6a {
-        return Box::new(PacketAcAckEkeyFailAuthrefuse::from(buffer));
+        return Box::new(PacketAcAckEkeyFailAuthrefuse::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x6b {
-        return Box::new(PacketAcAckEkeyFailInputekey::from(buffer));
+        return Box::new(PacketAcAckEkeyFailInputekey::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x6c {
-        return Box::new(PacketAcAckEkeyFailNotice::from(buffer));
+        return Box::new(PacketAcAckEkeyFailNotice::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x6d {
-        return Box::new(PacketAcAckEkeyFailNeedcardpass::from(buffer));
+        return Box::new(PacketAcAckEkeyFailNeedcardpass::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x6e {
-        return Box::new(PacketAcAckAuthekeyFailNotmatchcardpass::from(buffer));
+        return Box::new(PacketAcAckAuthekeyFailNotmatchcardpass::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x6f {
-        return Box::new(PacketAcAckFirstLogin::from(buffer));
+        return Box::new(PacketAcAckFirstLogin::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x70 {
-        return Box::new(PacketAcReqLoginAccountInfo::from(buffer));
+        return Box::new(PacketAcReqLoginAccountInfo::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x71 {
-        return Box::new(PacketCaAckLoginAccountInfo::from(buffer));
+        return Box::new(PacketCaAckLoginAccountInfo::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x72 {
-        return Box::new(PacketAcAckPtIdInfo::from(buffer));
+        return Box::new(PacketAcAckPtIdInfo::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x73 {
-        return Box::new(PacketCzReqMailReturn::from(buffer));
+        return Box::new(PacketCzReqMailReturn::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x74 {
-        return Box::new(PacketZcAckMailReturn::from(buffer));
+        return Box::new(PacketZcAckMailReturn::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x75 {
-        return Box::new(PacketChEnter2::from(buffer));
+        return Box::new(PacketChEnter2::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x76 {
-        return Box::new(PacketCaAcceptLogin2::from(buffer));
+        return Box::new(PacketCaAcceptLogin2::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x77 {
-        return Box::new(PacketCaLoginPcbang::from(buffer));
+        return Box::new(PacketCaLoginPcbang::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x78 {
-        return Box::new(PacketZcNotifyPcbang::from(buffer));
+        return Box::new(PacketZcNotifyPcbang::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x79 {
-        return Box::new(PacketCzHuntinglist::from(buffer));
+        return Box::new(PacketCzHuntinglist::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x7a {
-        return Box::new(PacketZcHuntinglist::from(buffer));
+        return Box::new(PacketZcHuntinglist::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x7b {
-        return Box::new(PacketZcPcbangEffect::from(buffer));
+        return Box::new(PacketZcPcbangEffect::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x7c {
-        return Box::new(PacketCaLogin4::from(buffer));
+        return Box::new(PacketCaLogin4::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x7d {
-        return Box::new(PacketZcPropertyMerce::from(buffer));
+        return Box::new(PacketZcPropertyMerce::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x7e {
-        return Box::new(PacketZcShandaProtect::from(buffer));
+        return Box::new(PacketZcShandaProtect::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x7f {
-        return Box::new(PacketCaClientType::from(buffer));
+        return Box::new(PacketCaClientType::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x80 {
-        return Box::new(PacketZcGangsiPoint::from(buffer));
+        return Box::new(PacketZcGangsiPoint::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x81 {
-        return Box::new(PacketCzGangsiRank::from(buffer));
+        return Box::new(PacketCzGangsiRank::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x82 {
-        return Box::new(PacketZcGangsiRank::from(buffer));
+        return Box::new(PacketZcGangsiRank::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x83 {
-        return Box::new(PacketZcAid::from(buffer));
+        return Box::new(PacketZcAid::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x84 {
-        return Box::new(PacketZcNotifyEffect3::from(buffer));
+        return Box::new(PacketZcNotifyEffect3::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x85 {
-        return Box::new(PacketZcDeathQuestion::from(buffer));
+        return Box::new(PacketZcDeathQuestion::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x86 {
-        return Box::new(PacketCzDeathQuestion::from(buffer));
+        return Box::new(PacketCzDeathQuestion::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x87 {
-        return Box::new(PacketZcPcCashPointItemlist::from(buffer));
+        return Box::new(PacketZcPcCashPointItemlist::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x88 {
-        return Box::new(PacketCzPcBuyCashPointItem::from(buffer));
+        return Box::new(PacketCzPcBuyCashPointItem::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x89 {
-        return Box::new(PacketZcPcCashPointUpdate::from(buffer));
+        return Box::new(PacketZcPcCashPointUpdate::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x8a {
-        return Box::new(PacketZcNpcShowefstUpdate::from(buffer));
+        return Box::new(PacketZcNpcShowefstUpdate::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x8c {
-        return Box::new(PacketChSelectCharGoingtobeused::from(buffer));
+        return Box::new(PacketChSelectCharGoingtobeused::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x8d {
-        return Box::new(PacketChReqIsValidCharname::from(buffer));
+        return Box::new(PacketChReqIsValidCharname::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x8e {
-        return Box::new(PacketHcAckIsValidCharname::from(buffer));
+        return Box::new(PacketHcAckIsValidCharname::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x8f {
-        return Box::new(PacketChReqChangeCharname::from(buffer));
+        return Box::new(PacketChReqChangeCharname::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x90 {
-        return Box::new(PacketHcAckChangeCharname::from(buffer));
+        return Box::new(PacketHcAckChangeCharname::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x91 {
-        return Box::new(PacketZcMsg::from(buffer));
+        return Box::new(PacketZcMsg::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x92 {
-        return Box::new(PacketCzStandingResurrection::from(buffer));
+        return Box::new(PacketCzStandingResurrection::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x93 {
-        return Box::new(PacketZcBossInfo::from(buffer));
+        return Box::new(PacketZcBossInfo::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x94 {
-        return Box::new(PacketZcReadBook::from(buffer));
+        return Box::new(PacketZcReadBook::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x95 {
-        return Box::new(PacketZcEquipmentItemlist2::from(buffer));
+        return Box::new(PacketZcEquipmentItemlist2::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x96 {
-        return Box::new(PacketZcStoreEquipmentItemlist2::from(buffer));
+        return Box::new(PacketZcStoreEquipmentItemlist2::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x97 {
-        return Box::new(PacketZcCartEquipmentItemlist2::from(buffer));
+        return Box::new(PacketZcCartEquipmentItemlist2::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x98 {
-        return Box::new(PacketZcCashTimeCounter::from(buffer));
+        return Box::new(PacketZcCashTimeCounter::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x99 {
-        return Box::new(PacketZcCashItemDelete::from(buffer));
+        return Box::new(PacketZcCashItemDelete::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x9a {
-        return Box::new(PacketZcItemPickupAck2::from(buffer));
+        return Box::new(PacketZcItemPickupAck2::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x9b {
-        return Box::new(PacketZcMerInit::from(buffer));
+        return Box::new(PacketZcMerInit::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x9c {
-        return Box::new(PacketZcMerProperty::from(buffer));
+        return Box::new(PacketZcMerProperty::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x9d {
-        return Box::new(PacketZcMerSkillinfoList::from(buffer));
+        return Box::new(PacketZcMerSkillinfoList::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x9e {
-        return Box::new(PacketZcMerSkillinfoUpdate::from(buffer));
+        return Box::new(PacketZcMerSkillinfoUpdate::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0x9f {
-        return Box::new(PacketCzMerCommand::from(buffer));
+        return Box::new(PacketCzMerCommand::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xa0 {
-        return Box::new(UnusedPacketCzMerUseSkill::from(buffer));
+        return Box::new(UnusedPacketCzMerUseSkill::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xa1 {
-        return Box::new(UnusedPacketCzMerUpgradeSkilllevel::from(buffer));
+        return Box::new(UnusedPacketCzMerUpgradeSkilllevel::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xa2 {
-        return Box::new(PacketZcMerParChange::from(buffer));
+        return Box::new(PacketZcMerParChange::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xa3 {
-        return Box::new(PacketZcGameguardLingoKey::from(buffer));
+        return Box::new(PacketZcGameguardLingoKey::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xa5 {
-        return Box::new(PacketCzKsyEvent::from(buffer));
+        return Box::new(PacketCzKsyEvent::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xaa {
-        return Box::new(PacketZcReqCashPassword::from(buffer));
+        return Box::new(PacketZcReqCashPassword::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xab {
-        return Box::new(PacketCzAckCashPassword::from(buffer));
+        return Box::new(PacketCzAckCashPassword::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xac {
-        return Box::new(PacketZcResultCashPassword::from(buffer));
+        return Box::new(PacketZcResultCashPassword::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xad {
-        return Box::new(PacketAcRequestSecondPassword::from(buffer));
+        return Box::new(PacketAcRequestSecondPassword::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xb0 {
-        return Box::new(PacketCaLoginHan::from(buffer));
+        return Box::new(PacketCaLoginHan::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xb1 {
-        return Box::new(PacketZcAllQuestList::from(buffer));
+        return Box::new(PacketZcAllQuestList::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xb2 {
-        return Box::new(PacketZcAllQuestMission::from(buffer));
+        return Box::new(PacketZcAllQuestMission::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xb3 {
-        return Box::new(PacketZcAddQuest::from(buffer));
+        return Box::new(PacketZcAddQuest::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xb4 {
-        return Box::new(PacketZcDelQuest::from(buffer));
+        return Box::new(PacketZcDelQuest::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xb5 {
-        return Box::new(PacketZcUpdateMissionHunt::from(buffer));
+        return Box::new(PacketZcUpdateMissionHunt::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xb6 {
-        return Box::new(PacketCzActiveQuest::from(buffer));
+        return Box::new(PacketCzActiveQuest::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xb7 {
-        return Box::new(PacketZcActiveQuest::from(buffer));
+        return Box::new(PacketZcActiveQuest::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xb8 {
-        return Box::new(PacketZcItemPickupParty::from(buffer));
+        return Box::new(PacketZcItemPickupParty::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xb9 {
-        return Box::new(PacketZcShortcutKeyList::from(buffer));
+        return Box::new(PacketZcShortcutKeyList::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xba {
-        return Box::new(PacketCzShortcutKeyChange::from(buffer));
+        return Box::new(PacketCzShortcutKeyChange::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xbb {
-        return Box::new(PacketZcEquipitemDamaged::from(buffer));
+        return Box::new(PacketZcEquipitemDamaged::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xbc {
-        return Box::new(PacketZcNotifyPcbangPlayingTime::from(buffer));
+        return Box::new(PacketZcNotifyPcbangPlayingTime::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xbf {
-        return Box::new(PacketZcSrpacketr2Init::from(buffer));
+        return Box::new(PacketZcSrpacketr2Init::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xc0 {
-        return Box::new(PacketCzSrpacketr2Start::from(buffer));
+        return Box::new(PacketCzSrpacketr2Start::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xc1 {
-        return Box::new(PacketZcNpcChat::from(buffer));
+        return Box::new(PacketZcNpcChat::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xc2 {
-        return Box::new(PacketZcFormatstringMsg::from(buffer));
+        return Box::new(PacketZcFormatstringMsg::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xc4 {
-        return Box::new(PacketCzPartyJoinReq::from(buffer));
+        return Box::new(PacketCzPartyJoinReq::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xc5 {
-        return Box::new(PacketZcPartyJoinReqAck::from(buffer));
+        return Box::new(PacketZcPartyJoinReqAck::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xc6 {
-        return Box::new(PacketZcPartyJoinReq::from(buffer));
+        return Box::new(PacketZcPartyJoinReq::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xc7 {
-        return Box::new(PacketCzPartyJoinReqAck::from(buffer));
+        return Box::new(PacketCzPartyJoinReqAck::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xc8 {
-        return Box::new(PacketCzPartyConfig::from(buffer));
+        return Box::new(PacketCzPartyConfig::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xc9 {
-        return Box::new(PacketZcPartyConfig::from(buffer));
+        return Box::new(PacketZcPartyConfig::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xca {
-        return Box::new(PacketHcRefuseSelectchar::from(buffer));
+        return Box::new(PacketHcRefuseSelectchar::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xcb {
-        return Box::new(PacketZcMemorialdungeonSubscriptionInfo::from(buffer));
+        return Box::new(PacketZcMemorialdungeonSubscriptionInfo::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xcc {
-        return Box::new(PacketZcMemorialdungeonSubscriptionNotify::from(buffer));
+        return Box::new(PacketZcMemorialdungeonSubscriptionNotify::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xcd {
-        return Box::new(PacketZcMemorialdungeonInfo::from(buffer));
+        return Box::new(PacketZcMemorialdungeonInfo::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xce {
-        return Box::new(PacketZcMemorialdungeonNotify::from(buffer));
+        return Box::new(PacketZcMemorialdungeonNotify::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xcf {
-        return Box::new(PacketCzMemorialdungeonCommand::from(buffer));
+        return Box::new(PacketCzMemorialdungeonCommand::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xd0 {
-        return Box::new(PacketZcEquipmentItemlist3::from(buffer));
+        return Box::new(PacketZcEquipmentItemlist3::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xd1 {
-        return Box::new(PacketZcStoreEquipmentItemlist3::from(buffer));
+        return Box::new(PacketZcStoreEquipmentItemlist3::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xd2 {
-        return Box::new(PacketZcCartEquipmentItemlist3::from(buffer));
+        return Box::new(PacketZcCartEquipmentItemlist3::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xd3 {
-        return Box::new(PacketZcNotifyBindOnEquip::from(buffer));
+        return Box::new(PacketZcNotifyBindOnEquip::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xd4 {
-        return Box::new(PacketZcItemPickupAck3::from(buffer));
+        return Box::new(PacketZcItemPickupAck3::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xd5 {
-        return Box::new(PacketZcIsvrDisconnect::from(buffer));
+        return Box::new(PacketZcIsvrDisconnect::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xd6 {
-        return Box::new(PacketCzEquipwinMicroscope::from(buffer));
+        return Box::new(PacketCzEquipwinMicroscope::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xd7 {
-        return Box::new(PacketZcEquipwinMicroscope::from(buffer));
+        return Box::new(PacketZcEquipwinMicroscope::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xd8 {
-        return Box::new(PacketCzConfig::from(buffer));
+        return Box::new(PacketCzConfig::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xd9 {
-        return Box::new(PacketZcConfig::from(buffer));
+        return Box::new(PacketZcConfig::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xda {
-        return Box::new(PacketZcConfigNotify::from(buffer));
+        return Box::new(PacketZcConfigNotify::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xdb {
-        return Box::new(PacketCzBattlefieldChat::from(buffer));
+        return Box::new(PacketCzBattlefieldChat::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xdc {
-        return Box::new(PacketZcBattlefieldChat::from(buffer));
+        return Box::new(PacketZcBattlefieldChat::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xdd {
-        return Box::new(PacketZcBattlefieldNotifyCampinfo::from(buffer));
+        return Box::new(PacketZcBattlefieldNotifyCampinfo::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xde {
-        return Box::new(PacketZcBattlefieldNotifyPoint::from(buffer));
+        return Box::new(PacketZcBattlefieldNotifyPoint::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xdf {
-        return Box::new(PacketZcBattlefieldNotifyPosition::from(buffer));
+        return Box::new(PacketZcBattlefieldNotifyPosition::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xe0 {
-        return Box::new(PacketZcBattlefieldNotifyHp::from(buffer));
+        return Box::new(PacketZcBattlefieldNotifyHp::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xe1 {
-        return Box::new(PacketZcNotifyAct2::from(buffer));
+        return Box::new(PacketZcNotifyAct2::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xe6 {
-        return Box::new(PacketCzBotCheck::from(buffer));
+        return Box::new(PacketCzBotCheck::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xe7 {
-        return Box::new(PacketZcMapproperty::from(buffer));
+        return Box::new(PacketZcMapproperty::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xe8 {
-        return Box::new(PacketZcNormalItemlist3::from(buffer));
+        return Box::new(PacketZcNormalItemlist3::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xe9 {
-        return Box::new(PacketZcCartNormalItemlist3::from(buffer));
+        return Box::new(PacketZcCartNormalItemlist3::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xea {
-        return Box::new(PacketZcStoreNormalItemlist3::from(buffer));
+        return Box::new(PacketZcStoreNormalItemlist3::from(buffer, packetver));
     }
     if buffer[0] == 0xeb && buffer[1] == 0x02 {
-        return Box::new(PacketZcAcceptEnter2::from(buffer));
+        return Box::new(PacketZcAcceptEnter2::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xec {
-        return Box::new(PacketZcNotifyMoveentry4::from(buffer));
+        return Box::new(PacketZcNotifyMoveentry4::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xed {
-        return Box::new(PacketZcNotifyNewentry4::from(buffer));
+        return Box::new(PacketZcNotifyNewentry4::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xee {
-        return Box::new(PacketZcNotifyStandentry4::from(buffer));
+        return Box::new(PacketZcNotifyStandentry4::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xef {
-        return Box::new(PacketZcNotifyFont::from(buffer));
+        return Box::new(PacketZcNotifyFont::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xf0 {
-        return Box::new(PacketZcProgress::from(buffer));
+        return Box::new(PacketZcProgress::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xf1 {
-        return Box::new(PacketCzProgress::from(buffer));
+        return Box::new(PacketCzProgress::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xf2 {
-        return Box::new(PacketZcProgressCancel::from(buffer));
+        return Box::new(PacketZcProgressCancel::from(buffer, packetver));
     }
     if buffer[0] == 0x03 && buffer[1] == 0x5c {
-        return Box::new(PacketCzOpenSimpleCashshopItemlist::from(buffer));
+        return Box::new(PacketCzOpenSimpleCashshopItemlist::from(buffer, packetver));
     }
     if buffer[0] == 0x03 && buffer[1] == 0x5d {
-        return Box::new(PacketZcSimpleCashshopPointItemlist::from(buffer));
+        return Box::new(PacketZcSimpleCashshopPointItemlist::from(buffer, packetver));
     }
     if buffer[0] == 0x03 && buffer[1] == 0x5e {
-        return Box::new(PacketCzCloseWindow::from(buffer));
+        return Box::new(PacketCzCloseWindow::from(buffer, packetver));
     }
     if buffer[0] == 0x03 && buffer[1] == 0xdd {
-        return Box::new(PacketAhcGameGuard::from(buffer));
+        return Box::new(PacketAhcGameGuard::from(buffer, packetver));
     }
     if buffer[0] == 0x03 && buffer[1] == 0xde {
-        return Box::new(PacketCahAckGameGuard::from(buffer));
+        return Box::new(PacketCahAckGameGuard::from(buffer, packetver));
     }
     if buffer[0] == 0x36 && buffer[1] == 0x04 {
-        return Box::new(PacketCzEnter2::from(buffer));
+        return Box::new(PacketCzEnter2::from(buffer, packetver));
     }
     if buffer[0] == 0x71 && buffer[1] == 0x08 {
-        return Box::new(PacketCzEnter3::from(buffer));
+        return Box::new(PacketCzEnter3::from(buffer, packetver));
     }
     if buffer[0] == 0x37 && buffer[1] == 0x04 {
-        return Box::new(PacketCzRequestAct2::from(buffer));
+        return Box::new(PacketCzRequestAct2::from(buffer, packetver));
     }
     if buffer[0] == 0x04 && buffer[1] == 0x38 {
-        return Box::new(PacketCzUseSkill2::from(buffer));
+        return Box::new(PacketCzUseSkill2::from(buffer, packetver));
     }
     if buffer[0] == 0x04 && buffer[1] == 0x39 {
-        return Box::new(PacketCzUseItem2::from(buffer));
+        return Box::new(PacketCzUseItem2::from(buffer, packetver));
     }
     if buffer[0] == 0x04 && buffer[1] == 0x3d {
-        return Box::new(PacketZcSkillPostdelay::from(buffer));
+        return Box::new(PacketZcSkillPostdelay::from(buffer, packetver));
     }
     if buffer[0] == 0x04 && buffer[1] == 0x3e {
-        return Box::new(PacketZcSkillPostdelayList::from(buffer));
+        return Box::new(PacketZcSkillPostdelayList::from(buffer, packetver));
     }
     if buffer[0] == 0x04 && buffer[1] == 0x3f {
-        return Box::new(PacketZcMsgStateChange2::from(buffer));
+        return Box::new(PacketZcMsgStateChange2::from(buffer, packetver));
     }
     if buffer[0] == 0x04 && buffer[1] == 0x40 {
-        return Box::new(PacketZcMillenniumshield::from(buffer));
+        return Box::new(PacketZcMillenniumshield::from(buffer, packetver));
     }
     if buffer[0] == 0x04 && buffer[1] == 0x41 {
-        return Box::new(PacketZcSkillinfoDelete::from(buffer));
+        return Box::new(PacketZcSkillinfoDelete::from(buffer, packetver));
     }
     if buffer[0] == 0x04 && buffer[1] == 0x42 {
-        return Box::new(PacketZcSkillSelectRequest::from(buffer));
+        return Box::new(PacketZcSkillSelectRequest::from(buffer, packetver));
     }
     if buffer[0] == 0x04 && buffer[1] == 0x43 {
-        return Box::new(PacketCzSkillSelectResponse::from(buffer));
+        return Box::new(PacketCzSkillSelectResponse::from(buffer, packetver));
     }
     if buffer[0] == 0x04 && buffer[1] == 0x44 {
-        return Box::new(PacketZcSimpleCashPointItemlist::from(buffer));
+        return Box::new(PacketZcSimpleCashPointItemlist::from(buffer, packetver));
     }
     if buffer[0] == 0x04 && buffer[1] == 0x45 {
-        return Box::new(PacketCzSimpleBuyCashPointItem::from(buffer));
+        return Box::new(PacketCzSimpleBuyCashPointItem::from(buffer, packetver));
     }
     if buffer[0] == 0x04 && buffer[1] == 0x46 {
-        return Box::new(PacketZcQuestNotifyEffect::from(buffer));
+        return Box::new(PacketZcQuestNotifyEffect::from(buffer, packetver));
     }
     if buffer[0] == 0x04 && buffer[1] == 0x48 {
-        return Box::new(PacketHcCharacterList::from(buffer));
+        return Box::new(PacketHcCharacterList::from(buffer, packetver));
     }
     if buffer[0] == 0x04 && buffer[1] == 0x49 {
-        return Box::new(PacketZcHackshErrorMsg::from(buffer));
+        return Box::new(PacketZcHackshErrorMsg::from(buffer, packetver));
     }
     if buffer[0] == 0x04 && buffer[1] == 0x4a {
-        return Box::new(PacketCzClientVersion::from(buffer));
+        return Box::new(PacketCzClientVersion::from(buffer, packetver));
     }
     if buffer[0] == 0x04 && buffer[1] == 0x4b {
-        return Box::new(PacketCzCloseSimplecashShop::from(buffer));
+        return Box::new(PacketCzCloseSimplecashShop::from(buffer, packetver));
     }
     if buffer[0] == 0x07 && buffer[1] == 0xd0 {
-        return Box::new(PacketZcEsResult::from(buffer));
+        return Box::new(PacketZcEsResult::from(buffer, packetver));
     }
     if buffer[0] == 0x07 && buffer[1] == 0xd1 {
-        return Box::new(PacketCzEsGetList::from(buffer));
+        return Box::new(PacketCzEsGetList::from(buffer, packetver));
     }
     if buffer[0] == 0x07 && buffer[1] == 0xd2 {
-        return Box::new(PacketZcEsList::from(buffer));
+        return Box::new(PacketZcEsList::from(buffer, packetver));
     }
     if buffer[0] == 0x07 && buffer[1] == 0xd3 {
-        return Box::new(PacketCzEsChoose::from(buffer));
+        return Box::new(PacketCzEsChoose::from(buffer, packetver));
     }
     if buffer[0] == 0x07 && buffer[1] == 0xd4 {
-        return Box::new(PacketCzEsCancel::from(buffer));
+        return Box::new(PacketCzEsCancel::from(buffer, packetver));
     }
     if buffer[0] == 0x07 && buffer[1] == 0xd5 {
-        return Box::new(PacketZcEsReady::from(buffer));
+        return Box::new(PacketZcEsReady::from(buffer, packetver));
     }
     if buffer[0] == 0x07 && buffer[1] == 0xd6 {
-        return Box::new(PacketZcEsGoto::from(buffer));
+        return Box::new(PacketZcEsGoto::from(buffer, packetver));
     }
     if buffer[0] == 0x07 && buffer[1] == 0xd7 {
-        return Box::new(PacketCzGroupinfoChangeV2::from(buffer));
+        return Box::new(PacketCzGroupinfoChangeV2::from(buffer, packetver));
     }
     if buffer[0] == 0x07 && buffer[1] == 0xd8 {
-        return Box::new(PacketZcReqGroupinfoChangeV2::from(buffer));
+        return Box::new(PacketZcReqGroupinfoChangeV2::from(buffer, packetver));
     }
     if buffer[0] == 0x07 && buffer[1] == 0xd9 {
-        return Box::new(PacketZcShortcutKeyListV2::from(buffer));
+        return Box::new(PacketZcShortcutKeyListV2::from(buffer, packetver));
     }
     if buffer[0] == 0x07 && buffer[1] == 0xda {
-        return Box::new(PacketCzChangeGroupMaster::from(buffer));
+        return Box::new(PacketCzChangeGroupMaster::from(buffer, packetver));
     }
     if buffer[0] == 0x07 && buffer[1] == 0xdb {
-        return Box::new(PacketZcHoParChange::from(buffer));
+        return Box::new(PacketZcHoParChange::from(buffer, packetver));
     }
     if buffer[0] == 0x07 && buffer[1] == 0xdc {
-        return Box::new(PacketCzSeekParty::from(buffer));
+        return Box::new(PacketCzSeekParty::from(buffer, packetver));
     }
     if buffer[0] == 0x07 && buffer[1] == 0xdd {
-        return Box::new(PacketZcSeekParty::from(buffer));
+        return Box::new(PacketZcSeekParty::from(buffer, packetver));
     }
     if buffer[0] == 0x07 && buffer[1] == 0xde {
-        return Box::new(PacketCzSeekPartyMember::from(buffer));
+        return Box::new(PacketCzSeekPartyMember::from(buffer, packetver));
     }
     if buffer[0] == 0x07 && buffer[1] == 0xdf {
-        return Box::new(PacketZcSeekPartyMember::from(buffer));
+        return Box::new(PacketZcSeekPartyMember::from(buffer, packetver));
     }
     if buffer[0] == 0x07 && buffer[1] == 0xe0 {
-        return Box::new(PacketZcEsNotiMyinfo::from(buffer));
+        return Box::new(PacketZcEsNotiMyinfo::from(buffer, packetver));
     }
     if buffer[0] == 0x07 && buffer[1] == 0xe1 {
-        return Box::new(PacketZcSkillinfoUpdate2::from(buffer));
+        return Box::new(PacketZcSkillinfoUpdate2::from(buffer, packetver));
     }
     if buffer[0] == 0x07 && buffer[1] == 0xe2 {
-        return Box::new(PacketZcMsgValue::from(buffer));
+        return Box::new(PacketZcMsgValue::from(buffer, packetver));
     }
     if buffer[0] == 0x07 && buffer[1] == 0xe3 {
-        return Box::new(PacketZcItemlistwinOpen::from(buffer));
+        return Box::new(PacketZcItemlistwinOpen::from(buffer, packetver));
     }
     if buffer[0] == 0x07 && buffer[1] == 0xe4 {
-        return Box::new(PacketCzItemlistwinRes::from(buffer));
+        return Box::new(PacketCzItemlistwinRes::from(buffer, packetver));
     }
     if buffer[0] == 0x07 && buffer[1] == 0xe5 {
-        return Box::new(PacketChEnterCheckbot::from(buffer));
+        return Box::new(PacketChEnterCheckbot::from(buffer, packetver));
     }
     if buffer[0] == 0x07 && buffer[1] == 0xe6 {
-        return Box::new(PacketZcMsgSkill::from(buffer));
+        return Box::new(PacketZcMsgSkill::from(buffer, packetver));
     }
     if buffer[0] == 0x07 && buffer[1] == 0xe7 {
-        return Box::new(PacketChCheckbot::from(buffer));
+        return Box::new(PacketChCheckbot::from(buffer, packetver));
     }
     if buffer[0] == 0x07 && buffer[1] == 0xe8 {
-        return Box::new(PacketHcCheckbot::from(buffer));
+        return Box::new(PacketHcCheckbot::from(buffer, packetver));
     }
     if buffer[0] == 0x07 && buffer[1] == 0xe9 {
-        return Box::new(PacketHcCheckbotResult::from(buffer));
+        return Box::new(PacketHcCheckbotResult::from(buffer, packetver));
     }
     if buffer[0] == 0x07 && buffer[1] == 0xea {
-        return Box::new(PacketCzBattleFieldList::from(buffer));
+        return Box::new(PacketCzBattleFieldList::from(buffer, packetver));
     }
     if buffer[0] == 0x07 && buffer[1] == 0xeb {
-        return Box::new(PacketZcBattleFieldList::from(buffer));
+        return Box::new(PacketZcBattleFieldList::from(buffer, packetver));
     }
     if buffer[0] == 0x07 && buffer[1] == 0xec {
-        return Box::new(PacketCzJoinBattleField::from(buffer));
+        return Box::new(PacketCzJoinBattleField::from(buffer, packetver));
     }
     if buffer[0] == 0x07 && buffer[1] == 0xed {
-        return Box::new(PacketZcJoinBattleField::from(buffer));
+        return Box::new(PacketZcJoinBattleField::from(buffer, packetver));
     }
     if buffer[0] == 0x07 && buffer[1] == 0xee {
-        return Box::new(PacketCzCancelBattleField::from(buffer));
+        return Box::new(PacketCzCancelBattleField::from(buffer, packetver));
     }
     if buffer[0] == 0x07 && buffer[1] == 0xef {
-        return Box::new(PacketZcCancelBattleField::from(buffer));
+        return Box::new(PacketZcCancelBattleField::from(buffer, packetver));
     }
     if buffer[0] == 0x07 && buffer[1] == 0xf0 {
-        return Box::new(PacketCzReqBattleStateMonitor::from(buffer));
+        return Box::new(PacketCzReqBattleStateMonitor::from(buffer, packetver));
     }
     if buffer[0] == 0x07 && buffer[1] == 0xf1 {
-        return Box::new(PacketZcAckBattleStateMonitor::from(buffer));
+        return Box::new(PacketZcAckBattleStateMonitor::from(buffer, packetver));
     }
     if buffer[0] == 0x07 && buffer[1] == 0xf2 {
-        return Box::new(PacketZcBattleNotiStartStep::from(buffer));
+        return Box::new(PacketZcBattleNotiStartStep::from(buffer, packetver));
     }
     if buffer[0] == 0x07 && buffer[1] == 0xf3 {
-        return Box::new(PacketZcBattleJoinNotiDefer::from(buffer));
+        return Box::new(PacketZcBattleJoinNotiDefer::from(buffer, packetver));
     }
     if buffer[0] == 0x07 && buffer[1] == 0xf4 {
-        return Box::new(PacketZcBattleJoinDisableState::from(buffer));
+        return Box::new(PacketZcBattleJoinDisableState::from(buffer, packetver));
     }
     if buffer[0] == 0x07 && buffer[1] == 0xf5 {
-        return Box::new(PacketCzGmFullstrip::from(buffer));
+        return Box::new(PacketCzGmFullstrip::from(buffer, packetver));
     }
     if buffer[0] == 0x07 && buffer[1] == 0xf6 {
-        return Box::new(PacketZcNotifyExp::from(buffer));
+        return Box::new(PacketZcNotifyExp::from(buffer, packetver));
     }
     if buffer[0] == 0x07 && buffer[1] == 0xf7 {
-        return Box::new(PacketZcNotifyMoveentry7::from(buffer));
+        return Box::new(PacketZcNotifyMoveentry7::from(buffer, packetver));
     }
     if buffer[0] == 0x07 && buffer[1] == 0xf8 {
-        return Box::new(PacketZcNotifyNewentry5::from(buffer));
+        return Box::new(PacketZcNotifyNewentry5::from(buffer, packetver));
     }
     if buffer[0] == 0x07 && buffer[1] == 0xf9 {
-        return Box::new(PacketZcNotifyStandentry5::from(buffer));
+        return Box::new(PacketZcNotifyStandentry5::from(buffer, packetver));
     }
     if buffer[0] == 0x07 && buffer[1] == 0xfa {
-        return Box::new(PacketZcDeleteItemFromBody::from(buffer));
+        return Box::new(PacketZcDeleteItemFromBody::from(buffer, packetver));
     }
     if buffer[0] == 0x07 && buffer[1] == 0xfb {
-        return Box::new(PacketZcUseskillAck2::from(buffer));
+        return Box::new(PacketZcUseskillAck2::from(buffer, packetver));
     }
     if buffer[0] == 0x07 && buffer[1] == 0xfc {
-        return Box::new(PacketZcChangeGroupMaster::from(buffer));
+        return Box::new(PacketZcChangeGroupMaster::from(buffer, packetver));
     }
     if buffer[0] == 0x07 && buffer[1] == 0xfe {
-        return Box::new(PacketZcPlayNpcBgm::from(buffer));
+        return Box::new(PacketZcPlayNpcBgm::from(buffer, packetver));
     }
     if buffer[0] == 0x07 && buffer[1] == 0xff {
-        return Box::new(PacketZcDefineCheck::from(buffer));
+        return Box::new(PacketZcDefineCheck::from(buffer, packetver));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x00 {
-        return Box::new(PacketZcPcPurchaseItemlistFrommc2::from(buffer));
+        return Box::new(PacketZcPcPurchaseItemlistFrommc2::from(buffer, packetver));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x01 {
-        return Box::new(PacketCzPcPurchaseItemlistFrommc2::from(buffer));
+        return Box::new(PacketCzPcPurchaseItemlistFrommc2::from(buffer, packetver));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x02 {
-        return Box::new(PacketCzPartyBookingReqRegister::from(buffer));
+        return Box::new(PacketCzPartyBookingReqRegister::from(buffer, packetver));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x03 {
-        return Box::new(PacketZcPartyBookingAckRegister::from(buffer));
+        return Box::new(PacketZcPartyBookingAckRegister::from(buffer, packetver));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x04 {
-        return Box::new(PacketCzPartyBookingReqSearch::from(buffer));
+        return Box::new(PacketCzPartyBookingReqSearch::from(buffer, packetver));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x05 {
-        return Box::new(PacketZcPartyBookingAckSearch::from(buffer));
+        return Box::new(PacketZcPartyBookingAckSearch::from(buffer, packetver));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x06 {
-        return Box::new(PacketCzPartyBookingReqDelete::from(buffer));
+        return Box::new(PacketCzPartyBookingReqDelete::from(buffer, packetver));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x07 {
-        return Box::new(PacketZcPartyBookingAckDelete::from(buffer));
+        return Box::new(PacketZcPartyBookingAckDelete::from(buffer, packetver));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x08 {
-        return Box::new(PacketCzPartyBookingReqUpdate::from(buffer));
+        return Box::new(PacketCzPartyBookingReqUpdate::from(buffer, packetver));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x09 {
-        return Box::new(PacketZcPartyBookingNotifyInsert::from(buffer));
+        return Box::new(PacketZcPartyBookingNotifyInsert::from(buffer, packetver));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x0a {
-        return Box::new(PacketZcPartyBookingNotifyUpdate::from(buffer));
+        return Box::new(PacketZcPartyBookingNotifyUpdate::from(buffer, packetver));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x0b {
-        return Box::new(PacketZcPartyBookingNotifyDelete::from(buffer));
+        return Box::new(PacketZcPartyBookingNotifyDelete::from(buffer, packetver));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x0c {
-        return Box::new(PacketCzSimpleCashBtnshow::from(buffer));
+        return Box::new(PacketCzSimpleCashBtnshow::from(buffer, packetver));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x0d {
-        return Box::new(PacketZcSimpleCashBtnshow::from(buffer));
+        return Box::new(PacketZcSimpleCashBtnshow::from(buffer, packetver));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x0e {
-        return Box::new(PacketZcNotifyHpToGroupmR2::from(buffer));
+        return Box::new(PacketZcNotifyHpToGroupmR2::from(buffer, packetver));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x0f {
-        return Box::new(PacketZcAddExchangeItem2::from(buffer));
+        return Box::new(PacketZcAddExchangeItem2::from(buffer, packetver));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x10 {
-        return Box::new(PacketZcOpenBuyingStore::from(buffer));
+        return Box::new(PacketZcOpenBuyingStore::from(buffer, packetver));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x11 {
-        return Box::new(PacketCzReqOpenBuyingStore::from(buffer));
+        return Box::new(PacketCzReqOpenBuyingStore::from(buffer, packetver));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x12 {
-        return Box::new(PacketZcFailedOpenBuyingStoreToBuyer::from(buffer));
+        return Box::new(PacketZcFailedOpenBuyingStoreToBuyer::from(buffer, packetver));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x13 {
-        return Box::new(PacketZcMyitemlistBuyingStore::from(buffer));
+        return Box::new(PacketZcMyitemlistBuyingStore::from(buffer, packetver));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x14 {
-        return Box::new(PacketZcBuyingStoreEntry::from(buffer));
+        return Box::new(PacketZcBuyingStoreEntry::from(buffer, packetver));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x15 {
-        return Box::new(PacketCzReqCloseBuyingStore::from(buffer));
+        return Box::new(PacketCzReqCloseBuyingStore::from(buffer, packetver));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x16 {
-        return Box::new(PacketZcDisappearBuyingStoreEntry::from(buffer));
+        return Box::new(PacketZcDisappearBuyingStoreEntry::from(buffer, packetver));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x17 {
-        return Box::new(PacketCzReqClickToBuyingStore::from(buffer));
+        return Box::new(PacketCzReqClickToBuyingStore::from(buffer, packetver));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x18 {
-        return Box::new(PacketZcAckItemlistBuyingStore::from(buffer));
+        return Box::new(PacketZcAckItemlistBuyingStore::from(buffer, packetver));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x19 {
-        return Box::new(PacketCzReqTradeBuyingStore::from(buffer));
+        return Box::new(PacketCzReqTradeBuyingStore::from(buffer, packetver));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x1a {
-        return Box::new(PacketZcFailedTradeBuyingStoreToBuyer::from(buffer));
+        return Box::new(PacketZcFailedTradeBuyingStoreToBuyer::from(buffer, packetver));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x1b {
-        return Box::new(PacketZcUpdateItemFromBuyingStore::from(buffer));
+        return Box::new(PacketZcUpdateItemFromBuyingStore::from(buffer, packetver));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x1c {
-        return Box::new(PacketZcItemDeleteBuyingStore::from(buffer));
+        return Box::new(PacketZcItemDeleteBuyingStore::from(buffer, packetver));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x1d {
-        return Box::new(PacketZcElInit::from(buffer));
+        return Box::new(PacketZcElInit::from(buffer, packetver));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x1e {
-        return Box::new(PacketZcElParChange::from(buffer));
+        return Box::new(PacketZcElParChange::from(buffer, packetver));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x1f {
-        return Box::new(PacketZcBroadcast4::from(buffer));
+        return Box::new(PacketZcBroadcast4::from(buffer, packetver));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x20 {
-        return Box::new(PacketZcCostumeSpriteChange::from(buffer));
+        return Box::new(PacketZcCostumeSpriteChange::from(buffer, packetver));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x21 {
-        return Box::new(PacketAcOtpUser::from(buffer));
+        return Box::new(PacketAcOtpUser::from(buffer, packetver));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x22 {
-        return Box::new(PacketCaOtpAuthReq::from(buffer));
+        return Box::new(PacketCaOtpAuthReq::from(buffer, packetver));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x23 {
-        return Box::new(PacketAcOtpAuthAck::from(buffer));
+        return Box::new(PacketAcOtpAuthAck::from(buffer, packetver));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x24 {
-        return Box::new(PacketZcFailedTradeBuyingStoreToSeller::from(buffer));
+        return Box::new(PacketZcFailedTradeBuyingStoreToSeller::from(buffer, packetver));
     }
     if buffer[0] == 0x82 && buffer[1] == 0x5a {
-        return Box::new(PacketCaSsoLoginReqa::from(buffer));
+        return Box::new(PacketCaSsoLoginReqa::from(buffer, packetver));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x25 {
-        return Box::new(PacketCaSsoLoginReq::from(buffer));
+        return Box::new(PacketCaSsoLoginReq::from(buffer, packetver));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x26 {
-        return Box::new(PacketAcSsoLoginAck::from(buffer));
+        return Box::new(PacketAcSsoLoginAck::from(buffer, packetver));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x27 {
-        return Box::new(PacketChDeleteChar3Reserved::from(buffer));
+        return Box::new(PacketChDeleteChar3Reserved::from(buffer, packetver));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x28 {
-        return Box::new(PacketHcDeleteChar3Reserved::from(buffer));
+        return Box::new(PacketHcDeleteChar3Reserved::from(buffer, packetver));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x29 {
-        return Box::new(PacketChDeleteChar3::from(buffer));
+        return Box::new(PacketChDeleteChar3::from(buffer, packetver));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x2a {
-        return Box::new(PacketHcDeleteChar3::from(buffer));
+        return Box::new(PacketHcDeleteChar3::from(buffer, packetver));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x2b {
-        return Box::new(PacketChDeleteChar3Cancel::from(buffer));
+        return Box::new(PacketChDeleteChar3Cancel::from(buffer, packetver));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x2c {
-        return Box::new(PacketHcDeleteChar3Cancel::from(buffer));
+        return Box::new(PacketHcDeleteChar3Cancel::from(buffer, packetver));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x35 {
-        return Box::new(PacketCzSearchStoreInfo::from(buffer));
+        return Box::new(PacketCzSearchStoreInfo::from(buffer, packetver));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x36 {
-        return Box::new(PacketZcSearchStoreInfoAck::from(buffer));
+        return Box::new(PacketZcSearchStoreInfoAck::from(buffer, packetver));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x37 {
-        return Box::new(PacketZcSearchStoreInfoFailed::from(buffer));
+        return Box::new(PacketZcSearchStoreInfoFailed::from(buffer, packetver));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x38 {
-        return Box::new(PacketCzSearchStoreInfoNextPage::from(buffer));
+        return Box::new(PacketCzSearchStoreInfoNextPage::from(buffer, packetver));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x39 {
-        return Box::new(PacketZcAckBanGuildSso::from(buffer));
+        return Box::new(PacketZcAckBanGuildSso::from(buffer, packetver));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x3a {
-        return Box::new(PacketZcOpenSearchStoreInfo::from(buffer));
+        return Box::new(PacketZcOpenSearchStoreInfo::from(buffer, packetver));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x3b {
-        return Box::new(PacketCzCloseSearchStoreInfo::from(buffer));
+        return Box::new(PacketCzCloseSearchStoreInfo::from(buffer, packetver));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x3c {
-        return Box::new(PacketCzSsilistItemClick::from(buffer));
+        return Box::new(PacketCzSsilistItemClick::from(buffer, packetver));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x3d {
-        return Box::new(PacketZcSsilistItemClickAck::from(buffer));
+        return Box::new(PacketZcSsilistItemClickAck::from(buffer, packetver));
     }
     if buffer[0] == 0x3e && buffer[1] == 0x08 {
-        return Box::new(PacketAcRefuseLoginR2::from(buffer));
+        return Box::new(PacketAcRefuseLoginR2::from(buffer, packetver));
     }
     if buffer[0] == 0x08 && buffer[1] == 0x41 {
-        return Box::new(PacketChSelectAccessibleMapname::from(buffer));
+        return Box::new(PacketChSelectAccessibleMapname::from(buffer, packetver));
     }
     if buffer[0] == 0x5f && buffer[1] == 0x03 {
-        return Box::new(PacketCzRequestMove2::from(buffer));
+        return Box::new(PacketCzRequestMove2::from(buffer, packetver));
     }
     if buffer[0] == 0xc5 && buffer[1] == 0x0a {
-        return Box::new(PacketChSendMapInfo::from(buffer));
+        return Box::new(PacketChSendMapInfo::from(buffer, packetver));
     }
     if buffer[0] == 0x2d && buffer[1] == 0x08 {
-        return Box::new(PacketHcAcceptEnterNeoUnionHeader::from(buffer));
+        return Box::new(PacketHcAcceptEnterNeoUnionHeader::from(buffer, packetver));
     }
     if buffer[0] == 0x87 && buffer[1] == 0x01 {
-        return Box::new(PacketCzPing::from(buffer));
+        return Box::new(PacketCzPing::from(buffer, packetver));
     }
     if buffer[0] == 0x87 && buffer[1] == 0x01 {
-        return Box::new(PacketZcAid2::from(buffer));
+        return Box::new(PacketZcAid2::from(buffer, packetver));
     }
     if buffer[0] == 0x83 && buffer[1] == 0x02 {
-        return Box::new(PacketMapConnection::from(buffer));
+        return Box::new(PacketMapConnection::from(buffer, packetver));
     }
     if buffer[0] == 0xb9 && buffer[1] == 0x08 {
-        return Box::new(PacketPincodeLoginstate::from(buffer));
+        return Box::new(PacketPincodeLoginstate::from(buffer, packetver));
     }
     if buffer[0] == 0x39 && buffer[1] == 0x0a {
-        return Box::new(PacketChMakeChar3::from(buffer));
+        return Box::new(PacketChMakeChar3::from(buffer, packetver));
     }
     if buffer[0] == 0x27 && buffer[1] == 0x08 {
-        return Box::new(PacketChDeleteChar4Reserved::from(buffer));
+        return Box::new(PacketChDeleteChar4Reserved::from(buffer, packetver));
     }
     if buffer[0] == 0x28 && buffer[1] == 0x08 {
-        return Box::new(PacketHcDeleteChar4Reserved::from(buffer));
+        return Box::new(PacketHcDeleteChar4Reserved::from(buffer, packetver));
     }
     if buffer[0] == 0x18 && buffer[1] == 0x0b {
-        return Box::new(PacketZcInventoryExpansionInfo::from(buffer));
+        return Box::new(PacketZcInventoryExpansionInfo::from(buffer, packetver));
     }
     if buffer[0] == 0xde && buffer[1] == 0x0a {
-        return Box::new(PacketZcOverweightPercent::from(buffer));
+        return Box::new(PacketZcOverweightPercent::from(buffer, packetver));
     }
     if buffer[0] == 0x8a && buffer[1] == 0x01 {
-        return Box::new(PacketCzReqDisconnect2::from(buffer));
+        return Box::new(PacketCzReqDisconnect2::from(buffer, packetver));
     }
     if buffer[0] == 0x8b && buffer[1] == 0x01 {
-        return Box::new(PacketZcReqDisconnectAck2::from(buffer));
+        return Box::new(PacketZcReqDisconnectAck2::from(buffer, packetver));
     }
     if buffer[0] == 0x68 && buffer[1] == 0x03 {
-        return Box::new(PacketCzReqnameall2::from(buffer));
+        return Box::new(PacketCzReqnameall2::from(buffer, packetver));
     }
     if buffer[0] == 0x30 && buffer[1] == 0x0a {
-        return Box::new(PacketZcAckReqnameall2::from(buffer));
+        return Box::new(PacketZcAckReqnameall2::from(buffer, packetver));
     }
     if buffer[0] == 0x60 && buffer[1] == 0x03 {
-        return Box::new(PacketCzRequestTime2::from(buffer));
+        return Box::new(PacketCzRequestTime2::from(buffer, packetver));
     }
     if buffer[0] == 0xcd && buffer[1] == 0x09 {
-        return Box::new(PacketZcMsgColor::from(buffer));
+        return Box::new(PacketZcMsgColor::from(buffer, packetver));
     }
     if buffer[0] == 0x9b && buffer[1] == 0x09 {
-        return Box::new(PacketZcNotifyMapproperty2::from(buffer));
+        return Box::new(PacketZcNotifyMapproperty2::from(buffer, packetver));
     }
     if buffer[0] == 0x3b && buffer[1] == 0x0a {
-        return Box::new(PacketZcHatEffect::from(buffer));
+        return Box::new(PacketZcHatEffect::from(buffer, packetver));
     }
     if buffer[0] == 0x47 && buffer[1] == 0x04 {
-        return Box::new(PacketCzBlockingPlayCancel::from(buffer).unwrap());
+        return Box::new(PacketCzBlockingPlayCancel::from(buffer, packetver));
     }
     if buffer[0] == 0x1B && buffer[1] == 0x0B {
-        return Box::new(PacketZcLoadConfirm::from(buffer));
+        return Box::new(PacketZcLoadConfirm::from(buffer, packetver));
     }
     if buffer[0] == 0xff && buffer[1] == 0x09 {
-        return Box::new(PacketZcNotifyStandentry6::from(buffer));
+        return Box::new(PacketZcNotifyStandentry6::from(buffer, packetver));
     }
     if buffer[0] == 0xfd && buffer[1] == 0x09 {
-        return Box::new(PacketZcNotifyMoveentry8::from(buffer));
+        return Box::new(PacketZcNotifyMoveentry8::from(buffer, packetver));
     }
     if buffer[0] == 0xc8 && buffer[1] == 0x08 {
-        return Box::new(PacketZcNotifyAct3::from(buffer));
+        return Box::new(PacketZcNotifyAct3::from(buffer, packetver));
     }
     Box::new(PacketUnknown::from(buffer))
 }

@@ -32,6 +32,14 @@ pub struct StructField<'a> {
     pub data_type: &'a Type,
     pub complex_type: Option<String>,
     pub sub_type: Option<&'a Type>,
+    pub condition: Option<Condition>,
+}
+#[derive(Debug, Clone)]
+pub enum Condition {
+    GTE(u32),
+    GT(u32),
+    LTE(u32),
+    LT(u32),
 }
 
 #[derive(Debug)]
