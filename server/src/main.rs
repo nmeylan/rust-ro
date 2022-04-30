@@ -55,8 +55,8 @@ pub async fn main() {
     let _ = &handles.push(Server::start(server_ref_clone));
     let char_proxy = CharProxy::new(&config.proxy);
     let map_proxy = MapProxy::new(&config.proxy);
-    let _ = &handles.push(char_proxy.proxy());
-    let _ = &handles.push(map_proxy.proxy());
+    let _ = &handles.push(char_proxy.proxy(config.server.packetver));
+    let _ = &handles.push(map_proxy.proxy(config.server.packetver));
 
     if config.server.enable_visual_debugger {
         #[cfg(feature = "visual_debugger")]

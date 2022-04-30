@@ -6,7 +6,7 @@ use std::cell::{RefCell, RefMut};
 use lazy_static::lazy_static;
 use regex::{Regex, Captures};
 
-use crate::{PacketStructDefinition, StructDefinition, StructField, Type};
+use crate::{Condition, PacketStructDefinition, StructDefinition, StructField, Type};
 use std::path::Path;
 
 lazy_static! {
@@ -37,6 +37,7 @@ lazy_static! {
     static ref FIRST_CHAR_REGEX: Regex = Regex::new(r"^(\w)").unwrap();
     static ref ARRAY_REGEX: Regex = Regex::new(r"\s([A-Za-z_0-9]*)\[(\d+)\]").unwrap();
     static ref ARRAY_OF_UNKNOWN_LENGTH_REGEX: Regex = Regex::new(r"\s([A-Za-z_0-9]*)\[...\]").unwrap();
+    static ref CONDITION_REGEX: Regex = Regex::new(r"#V\s([A-Z]{2,3})\s(\d{8})").unwrap();
 }
 
 pub fn parse(packet_db_path: &Path) -> (Vec<PacketStructDefinition>, Vec<StructDefinition>) {
@@ -131,10 +132,17 @@ fn get_field_for_nested_struct<'a>(line: String, position: i16) -> StructField<'
         length,
         complex_type: Some(struct_name(&complex_type_name)),
         sub_type: None,
+        condition: None
     }
 }
 
 fn get_field<'a>(field_line: String, position: i16) -> StructField<'a> {
+    let mut condition = None;
+    let mut field_line = field_line;
+    if field_line.starts_with("#V") {
+        condition = Some(get_condition(&field_line));
+        field_line = CONDITION_REGEX.replace(&field_line, |_caps: &Captures| "".to_string()).trim().to_string();
+    }
     let mut field_type = get_type(&field_line, false);
     let name = get_field_name(&field_line);
     let mut length: i16 = -1;
@@ -166,7 +174,8 @@ fn get_field<'a>(field_line: String, position: i16) -> StructField<'a> {
         data_type: field_type,
         length,
         complex_type: None,
-        sub_type
+        sub_type,
+        condition
     }
 }
 
@@ -225,4 +234,19 @@ fn get_type(line: &String, should_ignore_array: bool) -> &'static Type {
         panic!("type {} not found in   TYPES_MAP", type_to_retrieve);
     }
     return found_type.unwrap();
+}
+
+fn get_condition(line: &String) -> Condition {
+    let condition_matches = CONDITION_REGEX.captures(line.as_str());
+    if condition_matches.is_some() {
+        match condition_matches.as_ref().unwrap().get(1).unwrap().as_str() {
+            "GT" => Condition::GT(condition_matches.unwrap().get(2).unwrap().as_str().parse::<u32>().unwrap()),
+            "GTE" => Condition::GTE(condition_matches.unwrap().get(2).unwrap().as_str().parse::<u32>().unwrap()),
+            "LT" => Condition::LT(condition_matches.unwrap().get(2).unwrap().as_str().parse::<u32>().unwrap()),
+            "LTE" => Condition::LTE(condition_matches.unwrap().get(2).unwrap().as_str().parse::<u32>().unwrap()),
+            _ => panic!("Packet version condition should match regex")
+        }
+    } else {
+        panic!("Packet version condition should match regex");
+    }
 }

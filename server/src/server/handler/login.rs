@@ -9,12 +9,13 @@ use std::io::{Write, Read};
 use std::thread::spawn;
 use packets::packets_parser::parse;
 use crate::server::core::session::Session;
-use crate::server::server::Server;
+use crate::server::server::{Server};
 
 pub(crate) fn handle_login(server: Arc<Server>, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>) {
     let res = runtime.block_on(async {
         authenticate(server.clone(), cast!(packet, PacketCaLogin), &server.repository).await
     });
+    crate::server::server::PACKETVER.with(|p| info!("packetver {}", p.borrow()));
     if res.as_any().downcast_ref::<PacketAcAcceptLogin2>().is_some() {
         let packet_response = res.as_any().downcast_ref::<PacketAcAcceptLogin2>().unwrap();
         // Currently only handle this account to be able to still use proxy in other accounts
@@ -61,7 +62,7 @@ pub async fn authenticate(server: Arc<Server>, packet: &PacketCaLogin, repositor
         let account_id: u32 = row.get("account_id");
         if server.packetver() < 20170315 {
             let mut ac_accept_login = PacketAcAcceptLogin::new();
-            ac_accept_login.set_packet_length(ac_accept_login.base_len() as i16);
+            ac_accept_login.set_packet_length(PacketAcAcceptLogin::base_len(server.packetver()) as i16);
             ac_accept_login.set_aid(account_id);
             ac_accept_login.set_auth_code(rng.gen::<i32>());
             ac_accept_login.set_user_level(rng.gen::<u32>());
@@ -77,7 +78,7 @@ pub async fn authenticate(server: Arc<Server>, packet: &PacketCaLogin, repositor
             return Box::new(ac_accept_login)
         } else {
             let mut ac_accept_login2 = PacketAcAcceptLogin2::new();
-            ac_accept_login2.set_packet_length(ac_accept_login2.base_len() as i16);
+            ac_accept_login2.set_packet_length(PacketAcAcceptLogin2::base_len(server.packetver()) as i16);
             ac_accept_login2.set_aid(account_id);
             ac_accept_login2.set_auth_code(rng.gen::<i32>());
             ac_accept_login2.set_user_level(rng.gen::<u32>());
@@ -128,7 +129,7 @@ fn proxy_login(server: Arc<Server>, packet: &mut dyn Packet, tcp_stream: Arc<RwL
                         remote_login_server_clone.shutdown(Shutdown::Both).expect("Unable to shutdown remote login server socket");
                         break;
                     }
-                    let mut packet = parse(&mut buffer[..bytes_read]);
+                    let mut packet = parse(&mut buffer[..bytes_read], server.packetver());
                     if packet.as_any().downcast_ref::<PacketAcAcceptLogin2>().is_some() {
                         let packet_accept_login2 = packet.as_any_mut().downcast_mut::<PacketAcAcceptLogin2>().unwrap();
                         let server_char = packet_accept_login2.server_list.get_mut(0).unwrap();
