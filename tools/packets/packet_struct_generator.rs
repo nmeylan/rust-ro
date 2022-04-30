@@ -63,11 +63,13 @@ fn write_file_header(file: &mut File) {
 fn write_packet_parser(file: &mut File, packets: &Vec<PacketStructDefinition>) {
     file.write_all(b"pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {\n").unwrap();
     for packet in packets {
-        let packet_id = packet_id(packet.id.clone()).replace("0x", "");
-        let (first_byte, second_byte) = packet_id.split_at(2);
-        file.write_all(format!("    if buffer[0] == 0x{} && buffer[1] == 0x{} {{\n", first_byte, second_byte).as_bytes()).unwrap();
-        file.write_all(format!("        return Box::new({}::from(buffer, packetver));\n", packet.struct_def.name).as_bytes()).unwrap();
-        file.write_all(b"    }\n").unwrap();
+        for id in packet.ids.iter() {
+            let packet_id = packet_id(id.clone()).replace("0x", "");
+            let (first_byte, second_byte) = packet_id.split_at(2);
+            file.write_all(format!("    if buffer[0] == 0x{} && buffer[1] == 0x{} {{\n", first_byte, second_byte).as_bytes()).unwrap();
+            file.write_all(format!("        return Box::new({}::from(buffer, packetver));\n", packet.struct_def.name).as_bytes()).unwrap();
+            file.write_all(b"    }\n").unwrap();
+        }
     }
     file.write_all(b"    Box::new(PacketUnknown::from(buffer))\n").unwrap();
     file.write_all(b"}\n\n").unwrap();

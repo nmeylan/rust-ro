@@ -46,12 +46,14 @@ pub fn parse(packet_db_path: &Path) -> (Vec<PacketStructDefinition>, Vec<StructD
     let mut packets: Vec<PacketStructDefinition> = Vec::new();
     let mut nested_structures: Vec<StructDefinition> = Vec::new();
     let mut id: String = "null".to_string();
+    let mut ids: Vec<String> = Vec::new();
     let mut structs_for_packet: Vec<RefCell<StructDefinition>> = Vec::new(); // packets_db can contain nested structures
     let mut current_structure_def = 0;
     for line in reader.lines() {
         let line_content = line.unwrap().trim().to_string();
         if line_content.starts_with("0x") { // new packet definition
-            id = line_content.clone();
+            ids = line_content.clone().split(",").map(|chunk| chunk.trim().to_string()).collect::<Vec<String>>();
+            id = ids[0].clone();
             current_structure_def = 0;
             structs_for_packet = Vec::new();
         } else if line_content.contains("struct") && structs_for_packet.len() > 0 { // start of nested struct
@@ -84,6 +86,7 @@ pub fn parse(packet_db_path: &Path) -> (Vec<PacketStructDefinition>, Vec<StructD
             } else {
                 packets.push(PacketStructDefinition {
                     id: id.clone(),
+                    ids: ids.clone(),
                     struct_def: copy_struct_definition(struct_def_ref),
                 })
             }

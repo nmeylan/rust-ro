@@ -8363,23 +8363,6 @@ pub struct PacketCzEnter2 {
 }
 
 #[derive(Clone)]
-pub struct PacketCzEnter3 {
-    pub raw: Vec<u8>,
-    pub packet_id: i16,
-    pub packet_id_raw: [u8; 2],
-    pub aid: u32,
-    pub aid_raw: [u8; 4],
-    pub gid: u32,
-    pub gid_raw: [u8; 4],
-    pub auth_code: i32,
-    pub auth_code_raw: [u8; 4],
-    pub client_time: u32,
-    pub client_time_raw: [u8; 4],
-    pub sex: u8,
-    pub sex_raw: [u8; 1],
-}
-
-#[derive(Clone)]
 pub struct PacketCzRequestAct2 {
     pub raw: Vec<u8>,
     pub packet_id: i16,
@@ -10458,8 +10441,10 @@ pub struct CharacterInfoNeoUnion {
     pub exp_raw: [u8; 4],
     pub money: u32,
     pub money_raw: [u8; 4],
-    pub jobexp: u64,
-    pub jobexp_raw: [u8; 8],
+    pub jobexp_64: u64,
+    pub jobexp_64_raw: [u8; 8],
+    pub jobexp: u32,
+    pub jobexp_raw: [u8; 4],
     pub joblevel: u32,
     pub joblevel_raw: [u8; 4],
     pub bodystate: u32,
@@ -10476,8 +10461,12 @@ pub struct CharacterInfoNeoUnion {
     pub status_point_raw: [u8; 2],
     pub hp: u32,
     pub hp_raw: [u8; 4],
+    pub hp_16: u16,
+    pub hp_16_raw: [u8; 2],
     pub maxhp: u32,
     pub maxhp_raw: [u8; 4],
+    pub maxhp_16: u16,
+    pub maxhp_16_raw: [u8; 2],
     pub sp: u16,
     pub sp_raw: [u8; 2],
     pub maxsp: u16,
