@@ -118,7 +118,8 @@ struct PACKET_HC_ACCEPT_ENTER_NEO_UNION {
 #V GTE 20170830 unsigned int64 exp_64
 #V LT 20170830 unsigned int exp
   unsigned int money
-  unsigned int64 jobexp
+#V GTE 20170830 unsigned int64 jobexp_64
+#V LT 20170830 unsigned int jobexp
   unsigned int joblevel
   unsigned int bodystate
   unsigned int healthstate
@@ -126,14 +127,16 @@ struct PACKET_HC_ACCEPT_ENTER_NEO_UNION {
   int virtue
   int honor
   unsigned short statusPoint
-  unsigned int hp
-  unsigned int maxhp
+#V GT 20081217 unsigned int hp
+#V LTE 20081217 unsigned short hp_16
+#V GT 20081217 unsigned int maxhp
+#V LTE 20081217 unsigned short maxhp_16
   unsigned short sp
   unsigned short maxsp
   unsigned short speed
   unsigned short class
   unsigned short head
-  unsigned short body
+#V GTE 20141022 unsigned short body
   unsigned short weapon
   unsigned short level
   unsigned short skillPoint
@@ -153,12 +156,12 @@ struct PACKET_HC_ACCEPT_ENTER_NEO_UNION {
   char CharNum
   unsigned char haircolor
   unsigned short bIsChangedCharName
-  unsigned char lastMap[16]
-  unsigned int DeleteDate
-  unsigned int Robe
-  unsigned int SlotAddon
-  unsigned int RenameAddon
-  unsigned char sex
+#V GTE 20100720  unsigned char lastMap[16]
+#V GTE 20100803 unsigned int DeleteDate
+#V GTE 20110111 unsigned int Robe
+#V GTE 20110928 unsigned int SlotAddon
+#V GTE 20111025 unsigned int RenameAddon
+#V GTE 20141016 unsigned char sex
   }
  }
 0x6c
@@ -423,7 +426,7 @@ struct PACKET_ZC_ACCEPT_QUIT {
 struct PACKET_ZC_REFUSE_QUIT {
   short PacketId
  }
-0x85
+0x85, 0x5f03, 0x6403, 0x3704, 0x5309
 struct PACKET_CZ_REQUEST_MOVE {
   short PacketId
   unsigned byte dest[3]
@@ -5200,17 +5203,8 @@ struct PACKET_CAH_ACK_GAME_GUARD {
   short PacketId
   unsigned long AuthData[4]
  }
-0x3604
+0x3604, 0x7108, 0x3C08
 struct PACKET_CZ_ENTER2 {
-  short PacketId
-  unsigned long AID
-  unsigned long GID
-  int AuthCode
-  unsigned long clientTime
-  unsigned char Sex
- }
-0x7108
-struct PACKET_CZ_ENTER3 {
   short PacketId
   unsigned long AID
   unsigned long GID

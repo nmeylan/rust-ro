@@ -86560,174 +86560,6 @@ impl Default for PacketCzEnter2 {
     }
 }
 
-impl PacketCzEnter3 {
-    pub fn packet_id() -> &'static str {
-        "0x7108"
-    }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzEnter3 {
-        PacketCzEnter3 {
-            raw: buffer.to_vec(),
-            packet_id: i16::from_le_bytes([buffer[0], buffer[1]]),
-            packet_id_raw: {
-                let mut dst: [u8; 2] = [0u8; 2];
-                dst.clone_from_slice(&buffer[0..2]);
-                dst
-            },
-            aid: u32::from_le_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]),
-            aid_raw: {
-                let mut dst: [u8; 4] = [0u8; 4];
-                dst.clone_from_slice(&buffer[2..6]);
-                dst
-            },
-            gid: u32::from_le_bytes([buffer[6], buffer[7], buffer[8], buffer[9]]),
-            gid_raw: {
-                let mut dst: [u8; 4] = [0u8; 4];
-                dst.clone_from_slice(&buffer[6..10]);
-                dst
-            },
-            auth_code: i32::from_le_bytes([buffer[10], buffer[11], buffer[12], buffer[13]]),
-            auth_code_raw: {
-                let mut dst: [u8; 4] = [0u8; 4];
-                dst.clone_from_slice(&buffer[10..14]);
-                dst
-            },
-            client_time: u32::from_le_bytes([buffer[14], buffer[15], buffer[16], buffer[17]]),
-            client_time_raw: {
-                let mut dst: [u8; 4] = [0u8; 4];
-                dst.clone_from_slice(&buffer[14..18]);
-                dst
-            },
-            sex: u8::from_le_bytes([buffer[18]]),
-            sex_raw: {
-                let mut dst: [u8; 1] = [0u8; 1];
-                dst.clone_from_slice(&buffer[18..19]);
-                dst
-            },
-        }
-    }
-    pub fn fill_raw(&mut self) {
-      self.fill_raw_with_packetver(None)
-    }
-    pub fn fill_raw_with_packetver(&mut self, packetver: Option<u32>) {
-    let mut wtr;
-        wtr = vec![];
-        wtr.write_i16::<LittleEndian>(self.packet_id).unwrap();
-        self.packet_id_raw = wtr.try_into().unwrap();
-        wtr = vec![];
-        wtr.write_u32::<LittleEndian>(self.aid).unwrap();
-        self.aid_raw = wtr.try_into().unwrap();
-        wtr = vec![];
-        wtr.write_u32::<LittleEndian>(self.gid).unwrap();
-        self.gid_raw = wtr.try_into().unwrap();
-        wtr = vec![];
-        wtr.write_i32::<LittleEndian>(self.auth_code).unwrap();
-        self.auth_code_raw = wtr.try_into().unwrap();
-        wtr = vec![];
-        wtr.write_u32::<LittleEndian>(self.client_time).unwrap();
-        self.client_time_raw = wtr.try_into().unwrap();
-        wtr = vec![];
-        wtr.write_u8(self.sex).unwrap();
-        self.sex_raw = wtr.try_into().unwrap();
-
-        wtr = vec![];
-        wtr.append(&mut self.packet_id_raw.to_vec());
-        wtr.append(&mut self.aid_raw.to_vec());
-        wtr.append(&mut self.gid_raw.to_vec());
-        wtr.append(&mut self.auth_code_raw.to_vec());
-        wtr.append(&mut self.client_time_raw.to_vec());
-        wtr.append(&mut self.sex_raw.to_vec());
-        self.raw = wtr;
-    }
-    pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 19;
-        base_len
-    }
-    pub fn set_packet_id(&mut self, value: i16) {
-        self.packet_id = value;
-    }
-    pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
-        self.packet_id_raw = value;
-    }
-    pub fn set_aid(&mut self, value: u32) {
-        self.aid = value;
-    }
-    pub fn set_aid_raw(&mut self, value: [u8; 4]) {
-        self.aid_raw = value;
-    }
-    pub fn set_gid(&mut self, value: u32) {
-        self.gid = value;
-    }
-    pub fn set_gid_raw(&mut self, value: [u8; 4]) {
-        self.gid_raw = value;
-    }
-    pub fn set_auth_code(&mut self, value: i32) {
-        self.auth_code = value;
-    }
-    pub fn set_auth_code_raw(&mut self, value: [u8; 4]) {
-        self.auth_code_raw = value;
-    }
-    pub fn set_client_time(&mut self, value: u32) {
-        self.client_time = value;
-    }
-    pub fn set_client_time_raw(&mut self, value: [u8; 4]) {
-        self.client_time_raw = value;
-    }
-    pub fn set_sex(&mut self, value: u8) {
-        self.sex = value;
-    }
-    pub fn set_sex_raw(&mut self, value: [u8; 1]) {
-        self.sex_raw = value;
-    }
-    pub fn new() -> PacketCzEnter3 {
-        PacketCzEnter3 {
-        raw: vec![],
-        packet_id: i16::from_le_bytes([0x71, 0x08]),
-        packet_id_raw: [0x71, 0x08],
-        aid: 0,
-        aid_raw: [0; 4],
-        gid: 0,
-        gid_raw: [0; 4],
-        auth_code: 0,
-        auth_code_raw: [0; 4],
-        client_time: 0,
-        client_time_raw: [0; 4],
-        sex: 0,
-        sex_raw: [0; 1],
-        }
-    }
-}
-
-impl Packet for PacketCzEnter3 {
-    fn id(&self) -> &str {
-       "0x7108"
-    }
-    fn debug(&self) {
-            println!("{:?}", self)
-    }
-    fn display(&self) {
-            println!("{}", self)
-    }
-    fn pretty_debug(&self) {
-            println!("{:#?}", self)
-    }
-    fn raw(&self) -> &Vec<u8> {
-            &self.raw
-    }
-    fn as_any(&self) -> &dyn Any{
-        self
-    }
-    fn as_any_mut(&mut self) -> &mut dyn Any{
-        self
-    }
-}
-
-impl Default for PacketCzEnter3 {
-    fn default() -> Self {
-
-       Self::new()
-    }
-}
-
 impl PacketCzRequestAct2 {
     pub fn packet_id() -> &'static str {
         "0x3704"
@@ -107965,262 +107797,280 @@ impl CharacterInfoNeoUnion {
                 dst.clone_from_slice(&buffer[16..20]);
                 dst
             },
-            jobexp: u64::from_le_bytes([buffer[20], buffer[21], buffer[22], buffer[23], buffer[24], buffer[25], buffer[26], buffer[27]]),
-            jobexp_raw: {
+            jobexp_64: u64::from_le_bytes([buffer[20], buffer[21], buffer[22], buffer[23], buffer[24], buffer[25], buffer[26], buffer[27]]),
+            jobexp_64_raw: {
                 let mut dst: [u8; 8] = [0u8; 8];
                 dst.clone_from_slice(&buffer[20..28]);
                 dst
             },
-            joblevel: u32::from_le_bytes([buffer[28], buffer[29], buffer[30], buffer[31]]),
-            joblevel_raw: {
+            jobexp: u32::from_le_bytes([buffer[28], buffer[29], buffer[30], buffer[31]]),
+            jobexp_raw: {
                 let mut dst: [u8; 4] = [0u8; 4];
                 dst.clone_from_slice(&buffer[28..32]);
                 dst
             },
-            bodystate: u32::from_le_bytes([buffer[32], buffer[33], buffer[34], buffer[35]]),
-            bodystate_raw: {
+            joblevel: u32::from_le_bytes([buffer[32], buffer[33], buffer[34], buffer[35]]),
+            joblevel_raw: {
                 let mut dst: [u8; 4] = [0u8; 4];
                 dst.clone_from_slice(&buffer[32..36]);
                 dst
             },
-            healthstate: u32::from_le_bytes([buffer[36], buffer[37], buffer[38], buffer[39]]),
-            healthstate_raw: {
+            bodystate: u32::from_le_bytes([buffer[36], buffer[37], buffer[38], buffer[39]]),
+            bodystate_raw: {
                 let mut dst: [u8; 4] = [0u8; 4];
                 dst.clone_from_slice(&buffer[36..40]);
                 dst
             },
-            effectstate: i32::from_le_bytes([buffer[40], buffer[41], buffer[42], buffer[43]]),
-            effectstate_raw: {
+            healthstate: u32::from_le_bytes([buffer[40], buffer[41], buffer[42], buffer[43]]),
+            healthstate_raw: {
                 let mut dst: [u8; 4] = [0u8; 4];
                 dst.clone_from_slice(&buffer[40..44]);
                 dst
             },
-            virtue: i32::from_le_bytes([buffer[44], buffer[45], buffer[46], buffer[47]]),
-            virtue_raw: {
+            effectstate: i32::from_le_bytes([buffer[44], buffer[45], buffer[46], buffer[47]]),
+            effectstate_raw: {
                 let mut dst: [u8; 4] = [0u8; 4];
                 dst.clone_from_slice(&buffer[44..48]);
                 dst
             },
-            honor: i32::from_le_bytes([buffer[48], buffer[49], buffer[50], buffer[51]]),
-            honor_raw: {
+            virtue: i32::from_le_bytes([buffer[48], buffer[49], buffer[50], buffer[51]]),
+            virtue_raw: {
                 let mut dst: [u8; 4] = [0u8; 4];
                 dst.clone_from_slice(&buffer[48..52]);
                 dst
             },
-            status_point: u16::from_le_bytes([buffer[52], buffer[53]]),
+            honor: i32::from_le_bytes([buffer[52], buffer[53], buffer[54], buffer[55]]),
+            honor_raw: {
+                let mut dst: [u8; 4] = [0u8; 4];
+                dst.clone_from_slice(&buffer[52..56]);
+                dst
+            },
+            status_point: u16::from_le_bytes([buffer[56], buffer[57]]),
             status_point_raw: {
                 let mut dst: [u8; 2] = [0u8; 2];
-                dst.clone_from_slice(&buffer[52..54]);
+                dst.clone_from_slice(&buffer[56..58]);
                 dst
             },
-            hp: u32::from_le_bytes([buffer[54], buffer[55], buffer[56], buffer[57]]),
+            hp: u32::from_le_bytes([buffer[58], buffer[59], buffer[60], buffer[61]]),
             hp_raw: {
-                let mut dst: [u8; 4] = [0u8; 4];
-                dst.clone_from_slice(&buffer[54..58]);
-                dst
-            },
-            maxhp: u32::from_le_bytes([buffer[58], buffer[59], buffer[60], buffer[61]]),
-            maxhp_raw: {
                 let mut dst: [u8; 4] = [0u8; 4];
                 dst.clone_from_slice(&buffer[58..62]);
                 dst
             },
-            sp: u16::from_le_bytes([buffer[62], buffer[63]]),
-            sp_raw: {
+            hp_16: u16::from_le_bytes([buffer[62], buffer[63]]),
+            hp_16_raw: {
                 let mut dst: [u8; 2] = [0u8; 2];
                 dst.clone_from_slice(&buffer[62..64]);
                 dst
             },
-            maxsp: u16::from_le_bytes([buffer[64], buffer[65]]),
-            maxsp_raw: {
-                let mut dst: [u8; 2] = [0u8; 2];
-                dst.clone_from_slice(&buffer[64..66]);
+            maxhp: u32::from_le_bytes([buffer[64], buffer[65], buffer[66], buffer[67]]),
+            maxhp_raw: {
+                let mut dst: [u8; 4] = [0u8; 4];
+                dst.clone_from_slice(&buffer[64..68]);
                 dst
             },
-            speed: u16::from_le_bytes([buffer[66], buffer[67]]),
-            speed_raw: {
-                let mut dst: [u8; 2] = [0u8; 2];
-                dst.clone_from_slice(&buffer[66..68]);
-                dst
-            },
-            class: u16::from_le_bytes([buffer[68], buffer[69]]),
-            class_raw: {
+            maxhp_16: u16::from_le_bytes([buffer[68], buffer[69]]),
+            maxhp_16_raw: {
                 let mut dst: [u8; 2] = [0u8; 2];
                 dst.clone_from_slice(&buffer[68..70]);
                 dst
             },
-            head: u16::from_le_bytes([buffer[70], buffer[71]]),
-            head_raw: {
+            sp: u16::from_le_bytes([buffer[70], buffer[71]]),
+            sp_raw: {
                 let mut dst: [u8; 2] = [0u8; 2];
                 dst.clone_from_slice(&buffer[70..72]);
                 dst
             },
-            body: u16::from_le_bytes([buffer[72], buffer[73]]),
-            body_raw: {
+            maxsp: u16::from_le_bytes([buffer[72], buffer[73]]),
+            maxsp_raw: {
                 let mut dst: [u8; 2] = [0u8; 2];
                 dst.clone_from_slice(&buffer[72..74]);
                 dst
             },
-            weapon: u16::from_le_bytes([buffer[74], buffer[75]]),
-            weapon_raw: {
+            speed: u16::from_le_bytes([buffer[74], buffer[75]]),
+            speed_raw: {
                 let mut dst: [u8; 2] = [0u8; 2];
                 dst.clone_from_slice(&buffer[74..76]);
                 dst
             },
-            level: u16::from_le_bytes([buffer[76], buffer[77]]),
-            level_raw: {
+            class: u16::from_le_bytes([buffer[76], buffer[77]]),
+            class_raw: {
                 let mut dst: [u8; 2] = [0u8; 2];
                 dst.clone_from_slice(&buffer[76..78]);
                 dst
             },
-            skill_point: u16::from_le_bytes([buffer[78], buffer[79]]),
-            skill_point_raw: {
+            head: u16::from_le_bytes([buffer[78], buffer[79]]),
+            head_raw: {
                 let mut dst: [u8; 2] = [0u8; 2];
                 dst.clone_from_slice(&buffer[78..80]);
                 dst
             },
-            head_bottom: u16::from_le_bytes([buffer[80], buffer[81]]),
-            head_bottom_raw: {
+            body: u16::from_le_bytes([buffer[80], buffer[81]]),
+            body_raw: {
                 let mut dst: [u8; 2] = [0u8; 2];
                 dst.clone_from_slice(&buffer[80..82]);
                 dst
             },
-            shield: u16::from_le_bytes([buffer[82], buffer[83]]),
-            shield_raw: {
+            weapon: u16::from_le_bytes([buffer[82], buffer[83]]),
+            weapon_raw: {
                 let mut dst: [u8; 2] = [0u8; 2];
                 dst.clone_from_slice(&buffer[82..84]);
                 dst
             },
-            head_top: u16::from_le_bytes([buffer[84], buffer[85]]),
-            head_top_raw: {
+            level: u16::from_le_bytes([buffer[84], buffer[85]]),
+            level_raw: {
                 let mut dst: [u8; 2] = [0u8; 2];
                 dst.clone_from_slice(&buffer[84..86]);
                 dst
             },
-            head_mid: u16::from_le_bytes([buffer[86], buffer[87]]),
-            head_mid_raw: {
+            skill_point: u16::from_le_bytes([buffer[86], buffer[87]]),
+            skill_point_raw: {
                 let mut dst: [u8; 2] = [0u8; 2];
                 dst.clone_from_slice(&buffer[86..88]);
                 dst
             },
-            hair_color: u16::from_le_bytes([buffer[88], buffer[89]]),
-            hair_color_raw: {
+            head_bottom: u16::from_le_bytes([buffer[88], buffer[89]]),
+            head_bottom_raw: {
                 let mut dst: [u8; 2] = [0u8; 2];
                 dst.clone_from_slice(&buffer[88..90]);
                 dst
             },
-            body_color: u16::from_le_bytes([buffer[90], buffer[91]]),
-            body_color_raw: {
+            shield: u16::from_le_bytes([buffer[90], buffer[91]]),
+            shield_raw: {
                 let mut dst: [u8; 2] = [0u8; 2];
                 dst.clone_from_slice(&buffer[90..92]);
                 dst
             },
+            head_top: u16::from_le_bytes([buffer[92], buffer[93]]),
+            head_top_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[92..94]);
+                dst
+            },
+            head_mid: u16::from_le_bytes([buffer[94], buffer[95]]),
+            head_mid_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[94..96]);
+                dst
+            },
+            hair_color: u16::from_le_bytes([buffer[96], buffer[97]]),
+            hair_color_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[96..98]);
+                dst
+            },
+            body_color: u16::from_le_bytes([buffer[98], buffer[99]]),
+            body_color_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[98..100]);
+                dst
+            },
             name:  {
                 let mut dst: [char; 24] = [0 as char; 24];
-                for (index, byte) in buffer[92..116].iter().enumerate() {
+                for (index, byte) in buffer[100..124].iter().enumerate() {
                     dst[index] = *byte as char;
                 }
                 dst
             },
             name_raw: {
                 let mut dst: [u8; 24] = [0u8; 24];
-                dst.clone_from_slice(&buffer[92..116]);
+                dst.clone_from_slice(&buffer[100..124]);
                 dst
             },
-            str: u8::from_le_bytes([buffer[116]]),
+            str: u8::from_le_bytes([buffer[124]]),
             str_raw: {
                 let mut dst: [u8; 1] = [0u8; 1];
-                dst.clone_from_slice(&buffer[116..117]);
+                dst.clone_from_slice(&buffer[124..125]);
                 dst
             },
-            agi: u8::from_le_bytes([buffer[117]]),
+            agi: u8::from_le_bytes([buffer[125]]),
             agi_raw: {
                 let mut dst: [u8; 1] = [0u8; 1];
-                dst.clone_from_slice(&buffer[117..118]);
+                dst.clone_from_slice(&buffer[125..126]);
                 dst
             },
-            vit: u8::from_le_bytes([buffer[118]]),
+            vit: u8::from_le_bytes([buffer[126]]),
             vit_raw: {
                 let mut dst: [u8; 1] = [0u8; 1];
-                dst.clone_from_slice(&buffer[118..119]);
+                dst.clone_from_slice(&buffer[126..127]);
                 dst
             },
-            int: u8::from_le_bytes([buffer[119]]),
+            int: u8::from_le_bytes([buffer[127]]),
             int_raw: {
                 let mut dst: [u8; 1] = [0u8; 1];
-                dst.clone_from_slice(&buffer[119..120]);
+                dst.clone_from_slice(&buffer[127..128]);
                 dst
             },
-            dex: u8::from_le_bytes([buffer[120]]),
+            dex: u8::from_le_bytes([buffer[128]]),
             dex_raw: {
                 let mut dst: [u8; 1] = [0u8; 1];
-                dst.clone_from_slice(&buffer[120..121]);
+                dst.clone_from_slice(&buffer[128..129]);
                 dst
             },
-            luk: u8::from_le_bytes([buffer[121]]),
+            luk: u8::from_le_bytes([buffer[129]]),
             luk_raw: {
                 let mut dst: [u8; 1] = [0u8; 1];
-                dst.clone_from_slice(&buffer[121..122]);
+                dst.clone_from_slice(&buffer[129..130]);
                 dst
             },
-            char_num: i8::from_le_bytes([buffer[122]]),
+            char_num: i8::from_le_bytes([buffer[130]]),
             char_num_raw: {
                 let mut dst: [u8; 1] = [0u8; 1];
-                dst.clone_from_slice(&buffer[122..123]);
+                dst.clone_from_slice(&buffer[130..131]);
                 dst
             },
-            haircolor: u8::from_le_bytes([buffer[123]]),
+            haircolor: u8::from_le_bytes([buffer[131]]),
             haircolor_raw: {
                 let mut dst: [u8; 1] = [0u8; 1];
-                dst.clone_from_slice(&buffer[123..124]);
+                dst.clone_from_slice(&buffer[131..132]);
                 dst
             },
-            b_is_changed_char_name: u16::from_le_bytes([buffer[124], buffer[125]]),
+            b_is_changed_char_name: u16::from_le_bytes([buffer[132], buffer[133]]),
             b_is_changed_char_name_raw: {
                 let mut dst: [u8; 2] = [0u8; 2];
-                dst.clone_from_slice(&buffer[124..126]);
+                dst.clone_from_slice(&buffer[132..134]);
                 dst
             },
             last_map:  {
                 let mut dst: [char; 16] = [0 as char; 16];
-                for (index, byte) in buffer[126..142].iter().enumerate() {
+                for (index, byte) in buffer[134..150].iter().enumerate() {
                     dst[index] = *byte as char;
                 }
                 dst
             },
             last_map_raw: {
                 let mut dst: [u8; 16] = [0u8; 16];
-                dst.clone_from_slice(&buffer[126..142]);
+                dst.clone_from_slice(&buffer[134..150]);
                 dst
             },
-            delete_date: u32::from_le_bytes([buffer[142], buffer[143], buffer[144], buffer[145]]),
+            delete_date: u32::from_le_bytes([buffer[150], buffer[151], buffer[152], buffer[153]]),
             delete_date_raw: {
-                let mut dst: [u8; 4] = [0u8; 4];
-                dst.clone_from_slice(&buffer[142..146]);
-                dst
-            },
-            robe: u32::from_le_bytes([buffer[146], buffer[147], buffer[148], buffer[149]]),
-            robe_raw: {
-                let mut dst: [u8; 4] = [0u8; 4];
-                dst.clone_from_slice(&buffer[146..150]);
-                dst
-            },
-            slot_addon: u32::from_le_bytes([buffer[150], buffer[151], buffer[152], buffer[153]]),
-            slot_addon_raw: {
                 let mut dst: [u8; 4] = [0u8; 4];
                 dst.clone_from_slice(&buffer[150..154]);
                 dst
             },
-            rename_addon: u32::from_le_bytes([buffer[154], buffer[155], buffer[156], buffer[157]]),
-            rename_addon_raw: {
+            robe: u32::from_le_bytes([buffer[154], buffer[155], buffer[156], buffer[157]]),
+            robe_raw: {
                 let mut dst: [u8; 4] = [0u8; 4];
                 dst.clone_from_slice(&buffer[154..158]);
                 dst
             },
-            sex: u8::from_le_bytes([buffer[158]]),
+            slot_addon: u32::from_le_bytes([buffer[158], buffer[159], buffer[160], buffer[161]]),
+            slot_addon_raw: {
+                let mut dst: [u8; 4] = [0u8; 4];
+                dst.clone_from_slice(&buffer[158..162]);
+                dst
+            },
+            rename_addon: u32::from_le_bytes([buffer[162], buffer[163], buffer[164], buffer[165]]),
+            rename_addon_raw: {
+                let mut dst: [u8; 4] = [0u8; 4];
+                dst.clone_from_slice(&buffer[162..166]);
+                dst
+            },
+            sex: u8::from_le_bytes([buffer[166]]),
             sex_raw: {
                 let mut dst: [u8; 1] = [0u8; 1];
-                dst.clone_from_slice(&buffer[158..159]);
+                dst.clone_from_slice(&buffer[166..167]);
                 dst
             },
         }
@@ -108243,7 +108093,10 @@ impl CharacterInfoNeoUnion {
         wtr.write_u32::<LittleEndian>(self.money).unwrap();
         self.money_raw = wtr.try_into().unwrap();
         wtr = vec![];
-        wtr.write_u64::<LittleEndian>(self.jobexp).unwrap();
+        wtr.write_u64::<LittleEndian>(self.jobexp_64).unwrap();
+        self.jobexp_64_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u32::<LittleEndian>(self.jobexp).unwrap();
         self.jobexp_raw = wtr.try_into().unwrap();
         wtr = vec![];
         wtr.write_u32::<LittleEndian>(self.joblevel).unwrap();
@@ -108270,8 +108123,14 @@ impl CharacterInfoNeoUnion {
         wtr.write_u32::<LittleEndian>(self.hp).unwrap();
         self.hp_raw = wtr.try_into().unwrap();
         wtr = vec![];
+        wtr.write_u16::<LittleEndian>(self.hp_16).unwrap();
+        self.hp_16_raw = wtr.try_into().unwrap();
+        wtr = vec![];
         wtr.write_u32::<LittleEndian>(self.maxhp).unwrap();
         self.maxhp_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u16::<LittleEndian>(self.maxhp_16).unwrap();
+        self.maxhp_16_raw = wtr.try_into().unwrap();
         wtr = vec![];
         wtr.write_u16::<LittleEndian>(self.sp).unwrap();
         self.sp_raw = wtr.try_into().unwrap();
@@ -108383,7 +108242,16 @@ impl CharacterInfoNeoUnion {
             wtr.append(&mut self.exp_raw.to_vec());
         }
         wtr.append(&mut self.money_raw.to_vec());
-        wtr.append(&mut self.jobexp_raw.to_vec());
+        if packetver.is_none() {
+          wtr.append(&mut self.jobexp_64_raw.to_vec());
+        } else if packetver.unwrap() >= 20170830 {
+            wtr.append(&mut self.jobexp_64_raw.to_vec());
+        }
+        if packetver.is_none() {
+          wtr.append(&mut self.jobexp_raw.to_vec());
+        } else if packetver.unwrap() < 20170830 {
+            wtr.append(&mut self.jobexp_raw.to_vec());
+        }
         wtr.append(&mut self.joblevel_raw.to_vec());
         wtr.append(&mut self.bodystate_raw.to_vec());
         wtr.append(&mut self.healthstate_raw.to_vec());
@@ -108391,14 +108259,36 @@ impl CharacterInfoNeoUnion {
         wtr.append(&mut self.virtue_raw.to_vec());
         wtr.append(&mut self.honor_raw.to_vec());
         wtr.append(&mut self.status_point_raw.to_vec());
-        wtr.append(&mut self.hp_raw.to_vec());
-        wtr.append(&mut self.maxhp_raw.to_vec());
+        if packetver.is_none() {
+          wtr.append(&mut self.hp_raw.to_vec());
+        } else if packetver.unwrap() > 20081217 {
+            wtr.append(&mut self.hp_raw.to_vec());
+        }
+        if packetver.is_none() {
+          wtr.append(&mut self.hp_16_raw.to_vec());
+        } else if packetver.unwrap() <= 20081217 {
+            wtr.append(&mut self.hp_16_raw.to_vec());
+        }
+        if packetver.is_none() {
+          wtr.append(&mut self.maxhp_raw.to_vec());
+        } else if packetver.unwrap() > 20081217 {
+            wtr.append(&mut self.maxhp_raw.to_vec());
+        }
+        if packetver.is_none() {
+          wtr.append(&mut self.maxhp_16_raw.to_vec());
+        } else if packetver.unwrap() <= 20081217 {
+            wtr.append(&mut self.maxhp_16_raw.to_vec());
+        }
         wtr.append(&mut self.sp_raw.to_vec());
         wtr.append(&mut self.maxsp_raw.to_vec());
         wtr.append(&mut self.speed_raw.to_vec());
         wtr.append(&mut self.class_raw.to_vec());
         wtr.append(&mut self.head_raw.to_vec());
-        wtr.append(&mut self.body_raw.to_vec());
+        if packetver.is_none() {
+          wtr.append(&mut self.body_raw.to_vec());
+        } else if packetver.unwrap() >= 20141022 {
+            wtr.append(&mut self.body_raw.to_vec());
+        }
         wtr.append(&mut self.weapon_raw.to_vec());
         wtr.append(&mut self.level_raw.to_vec());
         wtr.append(&mut self.skill_point_raw.to_vec());
@@ -108418,21 +108308,84 @@ impl CharacterInfoNeoUnion {
         wtr.append(&mut self.char_num_raw.to_vec());
         wtr.append(&mut self.haircolor_raw.to_vec());
         wtr.append(&mut self.b_is_changed_char_name_raw.to_vec());
-        wtr.append(&mut self.last_map_raw.to_vec());
-        wtr.append(&mut self.delete_date_raw.to_vec());
-        wtr.append(&mut self.robe_raw.to_vec());
-        wtr.append(&mut self.slot_addon_raw.to_vec());
-        wtr.append(&mut self.rename_addon_raw.to_vec());
-        wtr.append(&mut self.sex_raw.to_vec());
+        if packetver.is_none() {
+          wtr.append(&mut self.last_map_raw.to_vec());
+        } else if packetver.unwrap() >= 20100720 {
+            wtr.append(&mut self.last_map_raw.to_vec());
+        }
+        if packetver.is_none() {
+          wtr.append(&mut self.delete_date_raw.to_vec());
+        } else if packetver.unwrap() >= 20100803 {
+            wtr.append(&mut self.delete_date_raw.to_vec());
+        }
+        if packetver.is_none() {
+          wtr.append(&mut self.robe_raw.to_vec());
+        } else if packetver.unwrap() >= 20110111 {
+            wtr.append(&mut self.robe_raw.to_vec());
+        }
+        if packetver.is_none() {
+          wtr.append(&mut self.slot_addon_raw.to_vec());
+        } else if packetver.unwrap() >= 20110928 {
+            wtr.append(&mut self.slot_addon_raw.to_vec());
+        }
+        if packetver.is_none() {
+          wtr.append(&mut self.rename_addon_raw.to_vec());
+        } else if packetver.unwrap() >= 20111025 {
+            wtr.append(&mut self.rename_addon_raw.to_vec());
+        }
+        if packetver.is_none() {
+          wtr.append(&mut self.sex_raw.to_vec());
+        } else if packetver.unwrap() >= 20141016 {
+            wtr.append(&mut self.sex_raw.to_vec());
+        }
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let mut base_len: usize = 147;
+        let mut base_len: usize = 96;
         if packetver >= 20170830 {
             base_len += 8;
         }
         if packetver < 20170830 {
             base_len += 4;
+        }
+        if packetver >= 20170830 {
+            base_len += 8;
+        }
+        if packetver < 20170830 {
+            base_len += 4;
+        }
+        if packetver > 20081217 {
+            base_len += 4;
+        }
+        if packetver <= 20081217 {
+            base_len += 2;
+        }
+        if packetver > 20081217 {
+            base_len += 4;
+        }
+        if packetver <= 20081217 {
+            base_len += 2;
+        }
+        if packetver >= 20141022 {
+            base_len += 2;
+        }
+        if packetver >= 20100720 {
+            base_len += 16;
+        }
+        if packetver >= 20100803 {
+            base_len += 4;
+        }
+        if packetver >= 20110111 {
+            base_len += 4;
+        }
+        if packetver >= 20110928 {
+            base_len += 4;
+        }
+        if packetver >= 20111025 {
+            base_len += 4;
+        }
+        if packetver >= 20141016 {
+            base_len += 1;
         }
         base_len
     }
@@ -108460,10 +108413,16 @@ impl CharacterInfoNeoUnion {
     pub fn set_money_raw(&mut self, value: [u8; 4]) {
         self.money_raw = value;
     }
-    pub fn set_jobexp(&mut self, value: u64) {
+    pub fn set_jobexp_64(&mut self, value: u64) {
+        self.jobexp_64 = value;
+    }
+    pub fn set_jobexp_64_raw(&mut self, value: [u8; 8]) {
+        self.jobexp_64_raw = value;
+    }
+    pub fn set_jobexp(&mut self, value: u32) {
         self.jobexp = value;
     }
-    pub fn set_jobexp_raw(&mut self, value: [u8; 8]) {
+    pub fn set_jobexp_raw(&mut self, value: [u8; 4]) {
         self.jobexp_raw = value;
     }
     pub fn set_joblevel(&mut self, value: u32) {
@@ -108514,11 +108473,23 @@ impl CharacterInfoNeoUnion {
     pub fn set_hp_raw(&mut self, value: [u8; 4]) {
         self.hp_raw = value;
     }
+    pub fn set_hp_16(&mut self, value: u16) {
+        self.hp_16 = value;
+    }
+    pub fn set_hp_16_raw(&mut self, value: [u8; 2]) {
+        self.hp_16_raw = value;
+    }
     pub fn set_maxhp(&mut self, value: u32) {
         self.maxhp = value;
     }
     pub fn set_maxhp_raw(&mut self, value: [u8; 4]) {
         self.maxhp_raw = value;
+    }
+    pub fn set_maxhp_16(&mut self, value: u16) {
+        self.maxhp_16 = value;
+    }
+    pub fn set_maxhp_16_raw(&mut self, value: [u8; 2]) {
+        self.maxhp_16_raw = value;
     }
     pub fn set_sp(&mut self, value: u16) {
         self.sp = value;
@@ -108717,8 +108688,10 @@ impl CharacterInfoNeoUnion {
         exp_raw: [0; 4],
         money: 0,
         money_raw: [0; 4],
+        jobexp_64: 0,
+        jobexp_64_raw: [0; 8],
         jobexp: 0,
-        jobexp_raw: [0; 8],
+        jobexp_raw: [0; 4],
         joblevel: 0,
         joblevel_raw: [0; 4],
         bodystate: 0,
@@ -108735,8 +108708,12 @@ impl CharacterInfoNeoUnion {
         status_point_raw: [0; 2],
         hp: 0,
         hp_raw: [0; 4],
+        hp_16: 0,
+        hp_16_raw: [0; 2],
         maxhp: 0,
         maxhp_raw: [0; 4],
+        maxhp_16: 0,
+        maxhp_16_raw: [0; 2],
         sp: 0,
         sp_raw: [0; 2],
         maxsp: 0,
