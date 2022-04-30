@@ -107,7 +107,7 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
     }
 
     fn proxy_request(&self, outgoing: &mut TcpStream, direction: &ProxyDirection, tcp_stream_ref: Arc<Mutex<TcpStream>>, mut packet: Box<dyn Packet>) {
-        if packet.id() != "0x6003" && packet.id() != "0x7f00" {
+        if packet.id() != "0x6003" && packet.id() != "0x7f00" { // PACKET_CZ_REQUEST_TIME2
             info!("{} {} {} ", self.name, if *direction == ProxyDirection::Backward { "<" } else { ">" }, outgoing.peer_addr().unwrap());
             self.specific_proxy.handle_packet(tcp_stream_ref, packet.as_mut());
             packet.display();
