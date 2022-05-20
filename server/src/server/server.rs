@@ -296,6 +296,7 @@ impl Server {
         if session_option.is_none() {
             // TODO uncomment below. keep it comment while we need to proxy data to hercules, so until forever
             // stream_guard.shutdown(Both);
+            debug!("Session does not exist! for socket {:?}", stream_guard);
             return None
         }
         Some(session_option.unwrap())
