@@ -23,6 +23,13 @@ pub trait SessionsIter {
 impl SessionsIter for HashMap<u32, Arc<Session>> {
     fn find_by_stream(&self, tcp_stream: &TcpStream) -> Option<u32> {
         let map_entry_option = self.iter().find(|(_, session)| {
+            if session.map_server_socket.is_some() {
+                let map_server_socket = read_lock!(session.map_server_socket.as_ref().unwrap());
+                let is_map_stream = map_server_socket.peer_addr().unwrap() == tcp_stream.peer_addr().unwrap();
+                if is_map_stream {
+                    return true;
+                }
+            }
             if session.char_server_socket.is_none() {
                 return false
             }
@@ -33,12 +40,7 @@ impl SessionsIter for HashMap<u32, Arc<Session>> {
             debug!("char_server_socket.peer_addr {:?}", char_server_socket.peer_addr());
             let is_char_stream = char_server_socket.peer_addr().unwrap() == tcp_stream.peer_addr().unwrap();
 
-            let mut is_map_stream = false;
-            if session.map_server_socket.is_some() {
-                let map_server_socket = read_lock!(session.map_server_socket.as_ref().unwrap());
-                is_map_stream = map_server_socket.peer_addr().unwrap() == tcp_stream.peer_addr().unwrap();
-            }
-            is_char_stream || is_map_stream
+            is_char_stream
         });
         if map_entry_option.is_none() {
             return None;
