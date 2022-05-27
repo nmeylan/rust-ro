@@ -15,7 +15,7 @@ Ragnarok mmo server reimplementation for fun. Inspired by [herculesWS](https://g
 In proxy mode:
 - login, char, map server to be running using default ports (6900, 6121, 6122)
 
-# What has been done?
+# What has been done? ✔️
 ## Tools
 - packet structure generator from [packet db](https://github.com/nmeylan/rust-ro/blob/master/tools/packets/packets_db)
 - packet parser generator
@@ -37,10 +37,10 @@ In proxy mode:
 - atcommand: @go, @warp
 - mob move
 
-## NPC/Script
+# NPC/Script (wip) 👷
 - This server implementation will support rathena script language to reuse existing script made for rathena or hercules
 
-# Currently working on
+# Currently working on 👷
 - Npc script https://github.com/nmeylan/rathena-script-lang-interpreter
 # TODO
 in random order, features are implemented based on my current mood.
