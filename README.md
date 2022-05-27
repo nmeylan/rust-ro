@@ -37,7 +37,12 @@ In proxy mode:
 - atcommand: @go, @warp
 - mob move
 
-# Wip
+## NPC/Script
+- This server implementation will support rathena script language to reuse existing script made for rathena or hercules
+
+# Currently working on
+- Npc script https://github.com/nmeylan/rathena-script-lang-interpreter
+# TODO
 in random order, features are implemented based on my current mood.
 - script
 - player attack mob
