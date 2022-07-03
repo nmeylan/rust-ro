@@ -266,8 +266,6 @@ impl Server {
         if packet.as_any().downcast_ref::<PacketCzPlayerChat>().is_some() {
             debug!("PacketCzPlayerChat");
             let packet_player_char = cast!(packet, PacketCzPlayerChat);
-            debug!("{}", packet_player_char.msg);
-            debug!("{} : @", session.character.as_ref().unwrap().name);
             if packet_player_char.msg.starts_with(format!("{} : @", session.character.as_ref().unwrap().name).as_str()) { // TODO make symbol configurable
                 return handle_atcommand(self_ref.clone(), packet_player_char, runtime, tcp_stream, session);
             }

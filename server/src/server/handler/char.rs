@@ -179,10 +179,8 @@ pub fn handle_select_char(server: Arc<Server>, packet: &mut dyn Packet, runtime:
     let last_y: u16 = char_model.last_y.clone();
     let mut last_map: String = char_model.last_map.clone();
     let mut map_name = [0 as char; 16];
-    let mut char_name = [0 as char; 24];
     last_map = format!("{}.gat", last_map);
     last_map.fill_char_array(map_name.as_mut());
-    char_model.name.clone().fill_char_array(char_name.as_mut());
     let character = Character {
         name: char_model.name.clone(),
         char_id,

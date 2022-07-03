@@ -12,10 +12,11 @@ use crate::server::core::session::Session;
 use crate::server::server::{Server};
 
 pub(crate) fn handle_login(server: Arc<Server>, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>) {
+    let packet_ca_login = cast!(packet, PacketCaLogin);
     let res = runtime.block_on(async {
-        authenticate(server.clone(), cast!(packet, PacketCaLogin), &server.repository).await
+        authenticate(server.clone(), &packet_ca_login, &server.repository).await
     });
-    crate::server::server::PACKETVER.with(|p| info!("packetver {}", p.borrow()));
+    info!("packetver {}", packet_ca_login.version);
     if res.as_any().downcast_ref::<PacketAcAcceptLogin2>().is_some() {
         let packet_response = res.as_any().downcast_ref::<PacketAcAcceptLogin2>().unwrap();
         // Currently only handle this account to be able to still use proxy in other accounts
@@ -23,7 +24,7 @@ pub(crate) fn handle_login(server: Arc<Server>, packet: &mut dyn Packet, runtime
             proxy_login(server.clone(), packet, tcp_stream);
             return;
         }
-        let new_user_session = Session::create_empty(packet_response.aid,packet_response.auth_code,packet_response.user_level, server.packetver()); // TODO: packetver find solution to allow client to set packetver
+        let new_user_session = Session::create_empty(packet_response.aid,packet_response.auth_code,packet_response.user_level, packet_ca_login.version); // TODO: packetver find solution to allow client to set packetver
         let mut sessions_guard = write_lock!(server.sessions);
         sessions_guard.insert(packet_response.aid.clone(), Arc::new(new_user_session));
         socket_send!(tcp_stream, res.raw());
@@ -34,7 +35,7 @@ pub(crate) fn handle_login(server: Arc<Server>, packet: &mut dyn Packet, runtime
             proxy_login(server.clone(), packet, tcp_stream);
             return;
         }
-        let new_user_session = Session::create_empty(packet_response.aid,packet_response.auth_code,packet_response.user_level, server.packetver()); // TODO: packetver find solution to allow client to set packetver
+        let new_user_session = Session::create_empty(packet_response.aid,packet_response.auth_code,packet_response.user_level, packet_ca_login.version); // TODO: packetver find solution to allow client to set packetver
         let mut sessions_guard = write_lock!(server.sessions);
         sessions_guard.insert(packet_response.aid.clone(), Arc::new(new_user_session));
         socket_send!(tcp_stream, res.raw());
