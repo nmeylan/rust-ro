@@ -5,7 +5,8 @@ pub enum MapItemType {
     Character,
     Mob,
     Warp,
-    Unknown
+    Unknown,
+    NPC
 }
 
 impl Display for MapItemType {
@@ -20,6 +21,7 @@ impl MapItemType {
             MapItemType::Character => 1,
             MapItemType::Mob => 5,
             MapItemType::Warp => 6,
+            MapItemType::NPC => 6,
             MapItemType::Unknown => 0,
         }
     }

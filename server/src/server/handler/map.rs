@@ -30,6 +30,7 @@ pub fn handle_map_item_name(server: Arc<Server>, packet: &mut dyn Packet, tcp_st
     let mut name: [char; 24] = [0 as char; 24];
     // let aaaaa = format!("{} {}", map_item.x(), map_item.y());
     // aaaaa.fill_char_array(name.as_mut());
+    info!("{:?}", map_item.name());
     map_item.name().fill_char_array(name.as_mut());
     packet_zc_ack_reqnameall2.set_name(name);
     // TODO handle guild name, guild title

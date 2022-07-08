@@ -17,6 +17,7 @@ use rand::Rng;
 use tokio::sync::broadcast;
 use tokio::sync::broadcast::{Receiver, Sender};
 use accessor::Setters;
+use crate::Script;
 use crate::server::core::character::Character;
 use crate::server::core::map_instance::MapInstance;
 use crate::server::core::path::{allowed_dirs, DIR_EAST, DIR_NORTH, DIR_SOUTH, DIR_WEST, is_direction};
@@ -49,6 +50,7 @@ pub struct Map {
     pub name: String,
     pub warps: Arc<Vec<Arc<Warp>>>,
     pub mob_spawns: Arc<Vec<Arc<MobSpawn>>>,
+    pub scripts: Arc<Vec<Arc<Script>>>,
     pub map_thread_channel_sender: Sender<String>,
     pub map_instances: RwLock<Vec<Arc<MapInstance>>>,
     pub map_instances_count: AtomicI8,
@@ -237,7 +239,7 @@ impl Map {
         info!("create map instance: {} x_size: {}, y_size {}, length: {}", self.name, self.x_size, self.y_size, self.length);
         let mut map_items: HashSet<Arc<dyn MapItem>> = HashSet::with_capacity(2048);
         let cells = self.generate_cells(server.clone(), &mut map_items);
-        let map_instance = MapInstance::from_map(&self, instance_id, cells, map_items);
+        let map_instance = MapInstance::from_map(&self, server.clone(), instance_id, cells, map_items);
         self.map_instances_count.fetch_add(1, Relaxed);
         let map_instance_ref = Arc::new(map_instance);
         {
@@ -308,6 +310,17 @@ impl Map {
         );
     }
 
+    fn set_scripts(&mut self, scripts: &Vec<Script>, map_item_ids: &RwLock<HashMap<u32, Arc<dyn MapItem>>>) {
+        let mut ids_write_guard = write_lock!(map_item_ids);
+        self.scripts = Arc::new(
+            scripts.iter().map(|script| {
+                let mut script = script.clone();
+                script.set_id(Server::generate_id(&mut ids_write_guard));
+                Arc::new(script)
+            }).collect::<Vec<Arc<Script>>>()
+        );
+    }
+
     fn start_thread(map_instance: Arc<MapInstance>, mut rx: Receiver<String>, server: Arc<Server>) {
         let map_instance_clone = map_instance.clone();
         let map_instance_clone_for_thread = map_instance.clone();
@@ -337,7 +350,7 @@ impl Map {
             }).unwrap();
     }
 
-    pub fn load_maps(warps: HashMap<String, Vec<Warp>>, mob_spawns: HashMap<String, Vec<MobSpawn>>, map_items: &RwLock<HashMap<u32, Arc<dyn MapItem>>>) -> HashMap<String, Map> {
+    pub fn load_maps(warps: HashMap<String, Vec<Warp>>, mob_spawns: HashMap<String, Vec<MobSpawn>>, scripts: HashMap<String, Vec<Script>>, map_items: &RwLock<HashMap<u32, Arc<dyn MapItem>>>) -> HashMap<String, Map> {
         let mut maps = HashMap::<String, Map>::new();
         let paths = fs::read_dir(MAP_DIR).unwrap();
         for path in paths {
@@ -366,12 +379,14 @@ impl Map {
                 name: map_name.to_string(),
                 warps: Default::default(),
                 mob_spawns: Default::default(),
+                scripts: Default::default(),
                 map_thread_channel_sender: tx,
                 map_instances: Default::default(),
                 map_instances_count: Default::default()
             };
             map.set_warps(warps.get(&map_name).unwrap_or(&vec![]), map_items);
             map.set_mob_spawns(mob_spawns.get(&map_name).unwrap_or(&vec![]));
+            map.set_scripts(scripts.get(&map_name).unwrap_or(&vec![]), map_items);
             maps.insert(map.name.clone(), map);
         }
         maps
