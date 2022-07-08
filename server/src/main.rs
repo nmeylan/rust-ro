@@ -43,7 +43,7 @@ pub async fn main() {
     let repository_arc = Arc::new(repository);
     let warps = Warp::load_warps().await;
     let mob_spawns = MobSpawn::load_mob_spawns(repository_arc.clone()).join().unwrap();
-    let scripts = Script::load_script().await;
+    let (scripts, class_files) = Script::load_scripts().unwrap();
     let map_item_ids = RwLock::new(HashMap::<u32, Arc<dyn MapItem>>::new());
     let start = Instant::now();
     let maps = Map::load_maps(warps, mob_spawns, scripts, &map_item_ids);
