@@ -26,6 +26,7 @@ use crate::server::handler::atcommand::handle_atcommand;
 use crate::server::handler::map::{handle_char_loaded_client_side, handle_map_item_name};
 use crate::util::tick::get_tick;
 use std::io::Write;
+use rathena_script_lang_interpreter::lang::vm::Vm;
 
 // Todo make this configurable
 pub const PLAYER_FOV: u16 = 14;
@@ -44,7 +45,7 @@ pub struct Server {
     pub sessions: Arc<RwLock<HashMap<u32, Arc<Session>>>>,
     pub repository: Arc<Repository<MySql>>,
     pub maps: HashMap<String, Arc<Map>>,
-    pub map_items: Arc<RwLock<HashMap<u32, Arc<dyn MapItem>>>>
+    pub map_items: Arc<RwLock<HashMap<u32, Arc<dyn MapItem>>>>,
 }
 
 pub struct UnknownMapItem;
@@ -100,7 +101,7 @@ impl Server {
             sessions: Arc::new(RwLock::new(HashMap::<u32, Arc<Session>>::new())),
             repository,
             maps,
-            map_items
+            map_items,
         };
         server
     }
