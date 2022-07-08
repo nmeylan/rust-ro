@@ -66,8 +66,12 @@ impl MobSpawnTrack {
 }
 
 impl MapInstance {
-    pub fn from_map(map: &Map, id: u32, cells: Vec<u16>, map_items: HashSet<Arc<dyn MapItem>>) -> MapInstance {
+    pub fn from_map(map: &Map, server: Arc<Server>, id: u32, cells: Vec<u16>, mut map_items: HashSet<Arc<dyn MapItem>>) -> MapInstance {
         let _cells_len = cells.len();
+        map.scripts.iter().for_each(|script| {
+            server.insert_map_item(script.id(), script.clone());
+            map_items.insert(script.clone());
+        });
         MapInstance {
             name: map.name.clone(),
             id,

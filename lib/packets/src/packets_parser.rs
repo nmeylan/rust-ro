@@ -175,6 +175,9 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x8A && buffer[1] == 0x08 {
         return Box::new(PacketCzReqname::from(buffer, packetver));
     }
+    if buffer[0] == 0x6A && buffer[1] == 0x09 {
+        return Box::new(PacketCzReqname::from(buffer, packetver));
+    }
     if buffer[0] == 0x95 && buffer[1] == 0x00 {
         return Box::new(PacketZcAckReqname::from(buffer, packetver));
     }
@@ -1943,6 +1946,9 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
         return Box::new(PacketCzEnter2::from(buffer, packetver));
     }
     if buffer[0] == 0x3C && buffer[1] == 0x08 {
+        return Box::new(PacketCzEnter2::from(buffer, packetver));
+    }
+    if buffer[0] == 0x6A && buffer[1] == 0x08 {
         return Box::new(PacketCzEnter2::from(buffer, packetver));
     }
     if buffer[0] == 0x37 && buffer[1] == 0x04 {

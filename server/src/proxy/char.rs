@@ -3,7 +3,7 @@ use std::net::{SocketAddr, TcpStream};
 use std::net::IpAddr;
 use std::str::FromStr;
 use std::sync::{Arc, Mutex};
-use packets::packets::{Packet, PacketChSendMapInfo};
+use packets::packets::{Packet, PacketChSendMapInfo, PacketHcNotifyZonesvr, ZserverAddr};
 use crate::server::configuration::ProxyConfig;
 
 #[derive(Clone)]
@@ -27,6 +27,14 @@ impl PacketHandler for CharProxy {
         if packet.as_any().downcast_ref::<PacketChSendMapInfo>().is_some() {
             let packet_send_map_info = packet.as_any_mut().downcast_mut::<PacketChSendMapInfo>().unwrap();
             packet_send_map_info.set_map_server_port(6124);
+            packet_send_map_info.fill_raw();
+        }
+        if packet.as_any().downcast_ref::<PacketHcNotifyZonesvr>().is_some() {
+            let packet_send_map_info = packet.as_any_mut().downcast_mut::<PacketHcNotifyZonesvr>().unwrap();
+            let  mut addr = ZserverAddr::new();
+            addr.set_ip(16777343);
+            addr.set_port(6124);
+            packet_send_map_info.set_addr(addr);
             packet_send_map_info.fill_raw();
         }
     }

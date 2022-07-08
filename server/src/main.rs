@@ -31,6 +31,7 @@ use crate::server::npc::warps::Warp;
 use crate::server::server::Server;
 use crate::server::configuration::Config;
 use crate::server::npc::mob_spawn::MobSpawn;
+use crate::server::npc::script::Script;
 use crate::util::log_filter::LogFilter;
 
 #[tokio::main]
@@ -42,9 +43,10 @@ pub async fn main() {
     let repository_arc = Arc::new(repository);
     let warps = Warp::load_warps().await;
     let mob_spawns = MobSpawn::load_mob_spawns(repository_arc.clone()).join().unwrap();
+    let scripts = Script::load_script().await;
     let map_item_ids = RwLock::new(HashMap::<u32, Arc<dyn MapItem>>::new());
     let start = Instant::now();
-    let maps = Map::load_maps(warps, mob_spawns, &map_item_ids);
+    let maps = Map::load_maps(warps, mob_spawns, scripts, &map_item_ids);
     let maps = maps.into_iter().map(|(k, v)| (k.to_string(), Arc::new(v))).collect::<HashMap<String, Arc<Map>>>();
     info!("load {} map-cache in {} secs", maps.len(), start.elapsed().as_millis() as f32 / 1000.0);
 

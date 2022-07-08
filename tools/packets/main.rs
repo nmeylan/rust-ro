@@ -1,5 +1,3 @@
-#![feature(in_band_lifetimes)]
-
 mod packet_struct_generator;
 mod packet_db_parser;
 
@@ -50,7 +48,7 @@ pub struct Type {
     pub length: Option<i16>,
 }
 
-impl StructDefinition<'a> {
+impl <'a> StructDefinition<'a> {
     pub fn increment_current_field_position(&mut self, last_field_length: i16) {
         self.current_field_position += last_field_length;
     }

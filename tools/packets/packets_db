@@ -534,7 +534,7 @@ struct PACKET_ZC_NPCACK_SERVERMOVE {
 struct PACKET_ZC_NPCACK_ENABLE {
   short PacketId
  }
-0x94, 0x8A08
+0x94, 0x8A08,0x6A09
 struct PACKET_CZ_REQNAME {
   short PacketId
   unsigned long AID
@@ -5203,7 +5203,7 @@ struct PACKET_CAH_ACK_GAME_GUARD {
   short PacketId
   unsigned long AuthData[4]
  }
-0x3604, 0x7108, 0x3C08
+0x3604, 0x7108, 0x3C08,0x6A08
 struct PACKET_CZ_ENTER2 {
   short PacketId
   unsigned long AID

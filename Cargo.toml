@@ -7,3 +7,7 @@ members = [
 [patch.crates-io]
 eframe = { git = 'https://github.com/nmeylan/egui' }
 egui_glow = { git = 'https://github.com/nmeylan/egui' }
+
+
+[patch."https://github.com/nmeylan/rathena-script-lang-interpreter"]
+rathena_script_lang_interpreter = {path = "/home/nmeylan/dev/ragnarok/ragnarok-script-interpreter"}

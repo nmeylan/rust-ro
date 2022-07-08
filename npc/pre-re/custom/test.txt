@@ -1,0 +1,4 @@
+
+prontera,154,178,4	script	Simple Dialog	124,{
+
+}
