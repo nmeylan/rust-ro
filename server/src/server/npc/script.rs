@@ -27,8 +27,9 @@ pub struct Script {
     dir: u16,
     x_size: u16,
     y_size: u16,
-    class_reference: u64,
-    instance_reference: u64,
+    pub class_reference: u64,
+    #[set]
+    pub instance_reference: u64,
 }
 
 impl MapItem for Script {

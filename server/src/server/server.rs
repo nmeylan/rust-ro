@@ -1,5 +1,5 @@
 use std::any::Any;
-use packets::packets::{Packet, PacketUnknown, PacketCaLogin, PacketChEnter, PacketChMakeChar2, PacketChDeleteChar4Reserved, PacketCzEnter2, PacketChSelectChar, PacketCzRestart, PacketCzReqDisconnect2, PacketCzRequestMove2, PacketCzNotifyActorinit, PacketCzBlockingPlayCancel, PacketCzRequestAct2, PacketCzReqnameall2, PacketCzPlayerChat, PacketChMakeChar3, PacketChMakeChar, PacketCzRequestMove, PacketCzReqname, PacketCzRequestTime, PacketZcNotifyTime};
+use packets::packets::{Packet, PacketUnknown, PacketCaLogin, PacketChEnter, PacketChMakeChar2, PacketChDeleteChar4Reserved, PacketCzEnter2, PacketChSelectChar, PacketCzRestart, PacketCzReqDisconnect2, PacketCzRequestMove2, PacketCzNotifyActorinit, PacketCzBlockingPlayCancel, PacketCzRequestAct2, PacketCzReqnameall2, PacketCzPlayerChat, PacketChMakeChar3, PacketChMakeChar, PacketCzRequestMove, PacketCzReqname, PacketCzRequestTime, PacketZcNotifyTime, PacketCzContactnpc};
 use std::sync::{Arc, RwLock, RwLockWriteGuard};
 use std::thread::{JoinHandle};
 use crate::repository::lib::Repository;
@@ -27,6 +27,7 @@ use crate::server::handler::map::{handle_char_loaded_client_side, handle_map_ite
 use crate::util::tick::get_tick;
 use std::io::Write;
 use rathena_script_lang_interpreter::lang::vm::Vm;
+use crate::server::handler::action::npc::handle_contact_npc;
 
 // Todo make this configurable
 pub const PLAYER_FOV: u16 = 14;
@@ -46,6 +47,7 @@ pub struct Server {
     pub repository: Arc<Repository<MySql>>,
     pub maps: HashMap<String, Arc<Map>>,
     pub map_items: Arc<RwLock<HashMap<u32, Arc<dyn MapItem>>>>,
+    pub vm: Arc<Vm>,
 }
 
 pub struct UnknownMapItem;
@@ -95,13 +97,14 @@ impl Server {
 }
 
 impl Server {
-    pub fn new(configuration: Config, repository: Arc<Repository<MySql>>, maps: HashMap<String, Arc<Map>>, map_items: Arc<RwLock<HashMap<u32, Arc<dyn MapItem>>>>) -> Server {
+    pub fn new(configuration: Config, repository: Arc<Repository<MySql>>, maps: HashMap<String, Arc<Map>>, map_items: Arc<RwLock<HashMap<u32, Arc<dyn MapItem>>>>, vm: Arc<Vm>) -> Server {
         let server = Server {
             configuration,
             sessions: Arc::new(RwLock::new(HashMap::<u32, Arc<Session>>::new())),
             repository,
             maps,
             map_items,
+            vm
         };
         server
     }
@@ -277,6 +280,10 @@ impl Server {
             packet_zc_notify_time.set_time(get_tick());
             packet_zc_notify_time.fill_raw();
             socket_send!(tcp_stream, packet_zc_notify_time.raw());
+        }
+
+        if packet.as_any().downcast_ref::<PacketCzContactnpc>().is_some() {
+            return handle_contact_npc(self_ref.clone(), packet, tcp_stream);
         }
 
         if packet.id() == "0x6003" // PacketCzRequestTime2
