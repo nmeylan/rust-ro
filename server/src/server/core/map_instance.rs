@@ -15,6 +15,7 @@ use crate::util::coordinate;
 use crate::util::packet::{chain_packets, chain_packets_raws};
 use packets::packets::Packet;
 use std::io::Write;
+use rathena_script_lang_interpreter::lang::vm::Vm;
 
 pub struct MapInstance {
     pub name: String,
@@ -69,8 +70,12 @@ impl MapInstance {
     pub fn from_map(map: &Map, server: Arc<Server>, id: u32, cells: Vec<u16>, mut map_items: HashSet<Arc<dyn MapItem>>) -> MapInstance {
         let _cells_len = cells.len();
         map.scripts.iter().for_each(|script| {
-            server.insert_map_item(script.id(), script.clone());
-            map_items.insert(script.clone());
+            let (class_reference, instance_reference) = Vm::create_instance(server.vm.clone(), script.name()).unwrap();
+            let mut script = script.clone();
+            script.set_instance_reference(instance_reference);
+            let script_arc = Arc::new(script);
+            server.insert_map_item(script_arc.id(), script_arc.clone());
+            map_items.insert(script_arc.clone());
         });
         MapInstance {
             name: map.name.clone(),

@@ -50,7 +50,7 @@ pub struct Map {
     pub name: String,
     pub warps: Arc<Vec<Arc<Warp>>>,
     pub mob_spawns: Arc<Vec<Arc<MobSpawn>>>,
-    pub scripts: Arc<Vec<Arc<Script>>>,
+    pub scripts: Arc<Vec<Script>>,
     pub map_thread_channel_sender: Sender<String>,
     pub map_instances: RwLock<Vec<Arc<MapInstance>>>,
     pub map_instances_count: AtomicI8,
@@ -316,8 +316,8 @@ impl Map {
             scripts.iter().map(|script| {
                 let mut script = script.clone();
                 script.set_id(Server::generate_id(&mut ids_write_guard));
-                Arc::new(script)
-            }).collect::<Vec<Arc<Script>>>()
+                script
+            }).collect::<Vec<Script>>()
         );
     }
 
