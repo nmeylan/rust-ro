@@ -40,6 +40,8 @@ In proxy mode:
 # NPC/Script (wip) 👷
 - VM is implemented here https://github.com/nmeylan/rathena-script-lang-interpreter
 
+https://raw.githubusercontent.com/nmeylan/rust-ro/master/img/script.mp4
+
 Integration of the VM
 
 # Currently working on 👷
