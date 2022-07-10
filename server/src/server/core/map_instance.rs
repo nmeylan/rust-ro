@@ -12,10 +12,11 @@ use crate::server::npc::mob_spawn::MobSpawn;
 use crate::server::npc::warps::Warp;
 use crate::server::server::{MOB_FOV, Server};
 use crate::util::coordinate;
-use crate::util::packet::{chain_packets, chain_packets_raws};
+use crate::util::packet::{chain_packets_raws};
 use packets::packets::Packet;
 use std::io::Write;
 use rathena_script_lang_interpreter::lang::vm::Vm;
+use crate::ScriptHandler;
 
 pub struct MapInstance {
     pub name: String,
@@ -70,7 +71,7 @@ impl MapInstance {
     pub fn from_map(map: &Map, server: Arc<Server>, id: u32, cells: Vec<u16>, mut map_items: HashSet<Arc<dyn MapItem>>) -> MapInstance {
         let _cells_len = cells.len();
         map.scripts.iter().for_each(|script| {
-            let (class_reference, instance_reference) = Vm::create_instance(server.vm.clone(), script.name()).unwrap();
+            let (class_reference, instance_reference) = Vm::create_instance(server.vm.clone(), script.name(), Box::new(&ScriptHandler)).unwrap();
             let mut script = script.clone();
             script.set_instance_reference(instance_reference);
             let script_arc = Arc::new(script);

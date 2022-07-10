@@ -1,4 +1,13 @@
 
 prontera,154,178,4	script	Simple Dialog	124,{
-    print("hello");
+    .counter = .counter + 1;
+    print(.counter);
+    mes "static counter: " + .counter + ".";
+    next;
+    close;
+    print("Script should end!");
+
+    OnInit:
+        print("init script");
+        .counter = 0;
 }

@@ -1,5 +1,5 @@
 use std::any::Any;
-use packets::packets::{Packet, PacketUnknown, PacketCaLogin, PacketChEnter, PacketChMakeChar2, PacketChDeleteChar4Reserved, PacketCzEnter2, PacketChSelectChar, PacketCzRestart, PacketCzReqDisconnect2, PacketCzRequestMove2, PacketCzNotifyActorinit, PacketCzBlockingPlayCancel, PacketCzRequestAct2, PacketCzReqnameall2, PacketCzPlayerChat, PacketChMakeChar3, PacketChMakeChar, PacketCzRequestMove, PacketCzReqname, PacketCzRequestTime, PacketZcNotifyTime, PacketCzContactnpc};
+use packets::packets::{Packet, PacketUnknown, PacketCaLogin, PacketChEnter, PacketChMakeChar2, PacketChDeleteChar4Reserved, PacketCzEnter2, PacketChSelectChar, PacketCzRestart, PacketCzReqDisconnect2, PacketCzRequestMove2, PacketCzNotifyActorinit, PacketCzBlockingPlayCancel, PacketCzRequestAct2, PacketCzReqnameall2, PacketCzPlayerChat, PacketChMakeChar3, PacketChMakeChar, PacketCzRequestMove, PacketCzReqname, PacketCzRequestTime, PacketZcNotifyTime, PacketCzContactnpc, PacketCzReqNextScript};
 use std::sync::{Arc, RwLock, RwLockWriteGuard};
 use std::thread::{JoinHandle};
 use crate::repository::lib::Repository;
@@ -27,7 +27,7 @@ use crate::server::handler::map::{handle_char_loaded_client_side, handle_map_ite
 use crate::util::tick::get_tick;
 use std::io::Write;
 use rathena_script_lang_interpreter::lang::vm::Vm;
-use crate::server::handler::action::npc::handle_contact_npc;
+use crate::server::handler::action::npc::{handle_contact_npc, handle_player_next};
 
 // Todo make this configurable
 pub const PLAYER_FOV: u16 = 14;
@@ -282,8 +282,15 @@ impl Server {
             socket_send!(tcp_stream, packet_zc_notify_time.raw());
         }
 
+        // NPC interactions
         if packet.as_any().downcast_ref::<PacketCzContactnpc>().is_some() {
-            return handle_contact_npc(self_ref.clone(), packet, tcp_stream);
+            debug!("PacketCzContactnpc");
+            return handle_contact_npc(self_ref.clone(), packet, tcp_stream, session);
+        }
+
+        if packet.as_any().downcast_ref::<PacketCzReqNextScript>().is_some() {
+            debug!("PacketCzReqNextScript");
+            return handle_player_next(self_ref.clone(), packet, tcp_stream, session);
         }
 
         if packet.id() == "0x6003" // PacketCzRequestTime2
