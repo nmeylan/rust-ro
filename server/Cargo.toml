@@ -7,7 +7,7 @@ edition = "2021"
 byteorder = "1.4.3"
 lazy_static  = "1.4.0"
 regex = "1.5"
-tokio = { version = "1.15", features = ["full", "tracing"] }
+tokio = { version = "1.19.2", features = ["full", "tracing"] }
 futures = "0.3"
 sqlx = { version = "0.5", features = [ "runtime-tokio-rustls", "mysql" ] }
 rand = "0.8"

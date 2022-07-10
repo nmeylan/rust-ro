@@ -51,8 +51,8 @@ pub async fn main() {
     let maps = Map::load_maps(warps, mob_spawns, scripts, &map_item_ids);
     let maps = maps.into_iter().map(|(k, v)| (k.to_string(), Arc::new(v))).collect::<HashMap<String, Arc<Map>>>();
     info!("load {} map-cache in {} secs", maps.len(), start.elapsed().as_millis() as f32 / 1000.0);
-    let vm = Arc::new(Vm::new("native_functions_list.txt",Box::new(ScriptHandler {}), DebugFlag::None.value()));
-    Vm::bootstrap(vm.clone(), class_files);
+    let vm = Arc::new(Vm::new("native_functions_list.txt", DebugFlag::None.value()));
+    Vm::bootstrap(vm.clone(), class_files, Box::new(&ScriptHandler{}));
     let server = Server::new(config.clone(), repository_arc.clone(), maps, Arc::new(map_item_ids), vm);
     let server_ref = Arc::new(server);
     let server_ref_clone = server_ref.clone();

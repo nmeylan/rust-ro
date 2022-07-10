@@ -1,8 +1,10 @@
 use std::collections::HashMap;
 use std::net::TcpStream;
-use std::sync::{Arc, RwLock};
+use std::sync::{Arc, Mutex, RwLock};
 use crate::server::core::character::Character;
 use std::io::Write;
+use tokio::sync::mpsc::Sender;
+use crate::server::core::script::PlayerScriptHandler;
 
 pub struct Session {
     pub char_server_socket: Option<Arc<RwLock<TcpStream>>>,
@@ -14,6 +16,7 @@ pub struct Session {
     pub user_level: u32,
     pub character: Option<Arc<Character>>,
     pub packetver: u32,
+    pub script_handler_channel_sender: Mutex<Option<Sender<Vec<u8>>>>
 }
 
 pub trait SessionsIter {
@@ -59,7 +62,8 @@ impl Session {
             auth_code,
             user_level,
             character: None,
-            packetver
+            packetver,
+            script_handler_channel_sender: Mutex::new(None)
         }
     }
 
@@ -71,7 +75,8 @@ impl Session {
             auth_code: self.auth_code,
             user_level: self.user_level,
             character: self.character.clone(),
-            packetver: self.packetver
+            packetver: self.packetver,
+            script_handler_channel_sender: Mutex::new(None)
         }
     }
 
@@ -83,7 +88,8 @@ impl Session {
             auth_code: self.auth_code,
             user_level: self.user_level,
             character: self.character.clone(),
-            packetver: self.packetver
+            packetver: self.packetver,
+            script_handler_channel_sender: Mutex::new(None)
         }
     }
 
@@ -95,7 +101,8 @@ impl Session {
             auth_code: self.auth_code,
             user_level: self.user_level,
             character: Some(character),
-            packetver: self.packetver
+            packetver: self.packetver,
+            script_handler_channel_sender: Mutex::new(None)
         }
     }
 
@@ -107,7 +114,8 @@ impl Session {
             auth_code: self.auth_code,
             user_level: self.user_level,
             character: None,
-            packetver: self.packetver
+            packetver: self.packetver,
+            script_handler_channel_sender: Mutex::new(None)
         }
     }
 
@@ -117,6 +125,10 @@ impl Session {
         }
         let map_socket = self.map_server_socket.as_ref().unwrap();
         socket_send!(map_socket, data);
+    }
+
+    pub fn set_script_handler_channel_sender(&self, script_handler_channel_sender: Sender<Vec<u8>>) {
+        *self.script_handler_channel_sender.lock().unwrap() = Some(script_handler_channel_sender);
     }
 
     pub fn packetver(&self) -> u32 {
