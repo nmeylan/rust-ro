@@ -62,7 +62,7 @@ impl NativeMethodHandler for PlayerScriptHandler {
             return;
         } else if native.name.eq("mes") {
             let mut packet_dialog = PacketZcSayDialog::new();
-            packet_dialog.msg = params[0].string_value().unwrap().clone();
+            packet_dialog.msg = params.iter().map(|text| text.string_value().unwrap().clone()).collect::<Vec<String>>().join("\n");
             packet_dialog.naid = self.npc_id;
             packet_dialog.packet_length = (PacketZcSayDialog::base_len(self.server.packetver()) as i16 + packet_dialog.msg.len() as i16) + 1 as i16;
             packet_dialog.fill_raw();

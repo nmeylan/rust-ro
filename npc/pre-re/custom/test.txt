@@ -1,13 +1,15 @@
 
-prontera,154,178,4	script	Simple Dialog	124,{
-    .counter = .counter + 1;
-    print(.counter);
-    mes "static counter: " + .counter + ".";
-    next;
-    close;
-    print("Script should end!");
+-	script	Test	-1,{
+.counter += 1;
+'counter += 1;
+mes "Npc counter variable: " + .counter, "NPC instance counter variable: " + 'counter;
+close;
 
-    OnInit:
-        print("init script");
-        .counter = 0;
+OnInit:
+    .counter = 0;
+OnInstanceInit:
+    'counter = 0;
 }
+
+prontera,154,178,4	duplicate(Test)	Test Npc Instance1	100
+prontera,159,178,4	duplicate(Test)	Test Npc Instance2	100
