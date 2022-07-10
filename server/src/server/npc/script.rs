@@ -6,6 +6,7 @@ use std::time::Instant;
 use rathena_script_lang_interpreter::lang::chunk::ClassFile;
 use rathena_script_lang_interpreter::lang::error::CompilationError;
 use rathena_script_lang_interpreter::lang::scripts_compiler;
+use packets::packets_parser::parse;
 use crate::MapItem;
 use crate::server::enums::map_item::MapItemType;
 use crate::server::npc::npc::{Npc, NpcLoader};
@@ -27,6 +28,7 @@ pub struct Script {
     dir: u16,
     x_size: u16,
     y_size: u16,
+    pub class_name: String,
     pub class_reference: u64,
     #[set]
     pub instance_reference: u64,
@@ -81,18 +83,26 @@ impl Script {
         }
         let compilation_result = scripts_compiler::compile(paths, "native_functions_list.txt");
         if let Ok((scripts, class_files)) = compilation_result {
-            let scripts = scripts.iter().map(|s| Script {
-                id: 0,
-                map_name: s.map.clone(),
-                name: s.name.clone(),
-                sprite: s.sprite as u16,
-                x: s.x_pos as u16,
-                y: s.y_pos as u16,
-                dir: s.dir as u16,
-                x_size: s.x_size as u16,
-                y_size: s.y_size as u16,
-                class_reference: s.class_reference,
-                instance_reference: 0
+            let scripts = scripts.iter().map(|s| {
+                let sprite = if let Ok(sprite_id) = s.sprite.parse::<u16>() {
+                    sprite_id
+                } else {
+                    100 // TODO load from constants
+                };
+                Script {
+                    id: 0,
+                    map_name: s.map.clone(),
+                    name: s.name.clone(),
+                    sprite,
+                    x: s.x_pos as u16,
+                    y: s.y_pos as u16,
+                    dir: s.dir as u16,
+                    x_size: s.x_size as u16,
+                    y_size: s.y_size as u16,
+                    class_name: s.class_name.clone(),
+                    class_reference: s.class_reference,
+                    instance_reference: 0
+                }
             }).collect::<Vec<Self>>();
             for script in scripts {
                 let map_name = script.map_name.clone();

@@ -38,7 +38,9 @@ In proxy mode:
 - mob move
 
 # NPC/Script (wip) 👷
-- This server implementation will support rathena script language to reuse existing script made for rathena or hercules
+- VM is implemented here https://github.com/nmeylan/rathena-script-lang-interpreter
+
+Integration of the VM
 
 # Currently working on 👷
 - Npc script https://github.com/nmeylan/rathena-script-lang-interpreter

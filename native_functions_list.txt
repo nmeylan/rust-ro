@@ -3,6 +3,6 @@
 print, 1, 1
 vm_dump_var, 2, 2
 vm_dump_locals, 0, 0
-mes,1,1
+mes,1,255
 close,0,0
 next,0,0
