@@ -3,12 +3,16 @@
 .counter += 1;
 'counter += 1;
 mes "Npc counter variable: " + .counter, "NPC instance counter variable: " + 'counter;
+next;
+mes "Close";
 close;
 
 OnInit:
     .counter = 0;
+    end;
 OnInstanceInit:
     'counter = 0;
+    end;
 }
 
 prontera,154,178,4	duplicate(Test)	Test Npc Instance1	100

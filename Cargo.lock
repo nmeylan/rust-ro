@@ -84,15 +84,15 @@ dependencies = [
 [[package]]
 name = "antlr-rust"
 version = "0.2.2"
-source = "git+https://github.com/nmeylan/antlr4rust?rev=cc084c0#cc084c04453cc9491218821cf015489f61e15a62"
+source = "git+https://github.com/nmeylan/antlr4rust?rev=9649564#96495644048d4ff6d759ec85998e5356090944b2"
 dependencies = [
  "better_any",
  "bit-set",
  "byteorder",
  "lazy_static",
- "murmur3",
  "once_cell",
  "parking_lot 0.11.2",
+ "rustc-hash",
  "typed-arena",
  "uuid",
 ]
@@ -1302,15 +1302,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "murmur3"
-version = "0.4.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a198f9589efc03f544388dfc4a19fe8af4323662b62f598b8dcfdac62c14771c"
-dependencies = [
- "byteorder",
-]
-
-[[package]]
 name = "ndk"
 version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1879,6 +1870,12 @@ dependencies = [
  "subtle",
  "zeroize",
 ]
+
+[[package]]
+name = "rustc-hash"
+version = "1.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "08d43f7aa6b08d49f382cde6a7982047c3426db949b1424bc4b7ec9ae12c6ce2"
 
 [[package]]
 name = "rustls"

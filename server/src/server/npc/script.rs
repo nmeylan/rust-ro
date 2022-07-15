@@ -2,15 +2,14 @@ use std::collections::HashMap;
 use std::fs::File;
 use std::io::{BufRead, BufReader};
 use std::path::Path;
-use std::time::Instant;
+
 use rathena_script_lang_interpreter::lang::chunk::ClassFile;
+use rathena_script_lang_interpreter::lang::compiler::DebugFlag;
 use rathena_script_lang_interpreter::lang::error::CompilationError;
 use rathena_script_lang_interpreter::lang::scripts_compiler;
-use packets::packets_parser::parse;
+
 use crate::MapItem;
 use crate::server::enums::map_item::MapItemType;
-use crate::server::npc::npc::{Npc, NpcLoader};
-
 
 static PARALLEL_EXECUTIONS: usize = 1;
 // TODO add a conf for this
@@ -64,7 +63,7 @@ impl MapItem for Script {
 }
 
 impl Script {
-    pub fn load_scripts() -> Result<(HashMap::<String, Vec<Script>>, Vec<ClassFile>), Vec<CompilationError>> {
+    pub fn load_scripts() -> (HashMap::<String, Vec<Script>>, Vec<ClassFile>, HashMap::<String, Vec<CompilationError>>) {
         let mut npcs_by_map = HashMap::<String, Vec<Script>>::new();
         let conf_file = File::open(Path::new(SCRIPT_CONF_PATH)).unwrap();
         let reader = BufReader::new(&conf_file);
@@ -81,40 +80,38 @@ impl Script {
             let npc_script_path = line.trim().to_string();
             paths.push(npc_script_path);
         }
-        let compilation_result = scripts_compiler::compile(paths, "native_functions_list.txt");
-        if let Ok((scripts, class_files)) = compilation_result {
-            let scripts = scripts.iter().map(|s| {
-                let sprite = if let Ok(sprite_id) = s.sprite.parse::<u16>() {
-                    sprite_id
-                } else {
-                    100 // TODO load from constants
-                };
-                Script {
-                    id: 0,
-                    map_name: s.map.clone(),
-                    name: s.name.clone(),
-                    sprite,
-                    x: s.x_pos as u16,
-                    y: s.y_pos as u16,
-                    dir: s.dir as u16,
-                    x_size: s.x_size as u16,
-                    y_size: s.y_size as u16,
-                    class_name: s.class_name.clone(),
-                    class_reference: s.class_reference,
-                    instance_reference: 0
-                }
-            }).collect::<Vec<Self>>();
-            for script in scripts {
-                let map_name = script.map_name.clone();
-                if npcs_by_map.contains_key(&map_name) {
-                    npcs_by_map.get_mut(&map_name).unwrap().push(script);
-                } else {
-                    npcs_by_map.insert(map_name, vec![script]);
-                }
+        let compilation_result = scripts_compiler::compile(paths, "native_functions_list.txt", DebugFlag::None.value());
+        let (scripts, class_files, errors) = compilation_result;
+        let scripts = scripts.iter().map(|s| {
+            let sprite = if let Ok(sprite_id) = s.sprite.parse::<u16>() {
+                sprite_id
+            } else {
+                warn!("FIXME: Sprite {} is not recognized as constant, set default sprite id", s.sprite);
+                100 // TODO load from constants
+            };
+            Script {
+                id: 0,
+                map_name: s.map.clone(),
+                name: s.name.clone(),
+                sprite,
+                x: s.x_pos as u16,
+                y: s.y_pos as u16,
+                dir: s.dir as u16,
+                x_size: s.x_size as u16,
+                y_size: s.y_size as u16,
+                class_name: s.class_name.clone(),
+                class_reference: s.class_reference,
+                instance_reference: 0,
             }
-            Ok((npcs_by_map, class_files))
-        } else {
-            Err(compilation_result.err().unwrap())
+        }).collect::<Vec<Self>>();
+        for script in scripts {
+            let map_name = script.map_name.clone();
+            if npcs_by_map.contains_key(&map_name) {
+                npcs_by_map.get_mut(&map_name).unwrap().push(script);
+            } else {
+                npcs_by_map.insert(map_name, vec![script]);
+            }
         }
+        (npcs_by_map, class_files, errors)
     }
 }
