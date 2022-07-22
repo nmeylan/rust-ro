@@ -90,7 +90,8 @@ pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<
                     } else {
                         delay = character.status.speed as u64;
                     }
-                    info!("walk delay {}", delay);
+                    // info!("walk delay {}", delay);
+                    character.update_position(path_node.x, path_node.y);
                     {
                         let current_map_guard = read_lock!(character.current_map);
                         let map_ref = current_map_guard.as_ref().unwrap();
@@ -101,7 +102,6 @@ pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<
                             break;
                         }
                     }
-                    character.update_position(path_node.x, path_node.y);
 
                     character.load_units_in_fov(&session);
                 }
@@ -142,9 +142,9 @@ pub fn change_map_packet(destination_map: String, x: u16, y: u16, session: Arc<S
     let map_instance = map.player_join_map(character_session, server.clone());
     if x == RANDOM_CELL.0 && y == RANDOM_CELL.1 {
         let walkable_cell = Map::find_random_walkable_cell(&map_instance.cells, map_instance.x_size);
-        character_session.update_x_y(walkable_cell.0, walkable_cell.1);
+        character_session.update_position(walkable_cell.0, walkable_cell.1);
     } else {
-        character_session.update_x_y(x, y);
+        character_session.update_position(x, y);
     }
 
     character_session.join_and_set_map(map_instance);

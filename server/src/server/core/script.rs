@@ -47,6 +47,7 @@ impl NativeMethodHandler for ScriptHandler {
 
 impl PlayerScriptHandler {
     fn block_recv(&self) -> Option<Vec<u8>> {
+        // TODO handle timeout!
         self.player_action_receiver.write().unwrap().blocking_recv()
     }
 
@@ -126,9 +127,7 @@ impl NativeMethodHandler for PlayerScriptHandler {
             packet_dialog.naid = self.npc_id;
             packet_dialog.fill_raw();
             socket_send!(self.tcp_stream, packet_dialog.raw());
-            info!("Wait player next");
             self.block_recv();
-            info!("Receive player next");
         } else if native.name.eq("setglobalvariable") {
             self.handle_setglobalvariable(&params);
         } else if native.name.eq("getglobalvariable") {
