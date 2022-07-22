@@ -15,5 +15,13 @@ OnInstanceInit:
     end;
 }
 
+prontera,154,188,4	script	Global Variable Test	98, {
+     mes "Previous char variable value " + counter_rust;
+     next;
+    counter_rust += 1;
+     mes "New char variable value " + counter_rust;
+    close;
+}
+
 prontera,154,178,4	duplicate(Test)	Test Npc Instance1	100
 prontera,159,178,4	duplicate(Test)	Test Npc Instance2	100

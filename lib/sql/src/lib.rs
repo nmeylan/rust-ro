@@ -4,7 +4,8 @@ use self::proc_macro::TokenStream;
 
 use quote::quote;
 
-use syn::{parse_macro_input, Data, DataStruct, DeriveInput, Fields};
+use syn::{parse_macro_input, Data, DataStruct, DeriveInput, Fields, Ident};
+use syn::__private::Span;
 
 fn question_marks(max: usize) -> String {
     let itr = 1..max + 1;
@@ -15,7 +16,15 @@ fn question_marks(max: usize) -> String {
 }
 
 #[proc_macro_derive(SqlInsert)]
-pub fn derive_from_struct_sqlite(input: TokenStream) -> TokenStream {
+pub fn mysql_insert(input: TokenStream) -> TokenStream {
+    mysql_derive_insert(input, "insert".to_string(), "insert".to_string())
+}
+#[proc_macro_derive(SqlUpsert)]
+pub fn mysql_replace(input: TokenStream) -> TokenStream {
+    mysql_derive_insert(input, "replace".to_string(), "upsert".to_string())
+}
+
+fn mysql_derive_insert(input: TokenStream, insert_keyword: String, function_name: String) -> TokenStream {
     let input = parse_macro_input!(input as DeriveInput);
 
     let fields = match &input.data {
@@ -31,6 +40,7 @@ pub fn derive_from_struct_sqlite(input: TokenStream) -> TokenStream {
     let field_name2 = fields.iter().map(|field| &field.ident);
 
     let struct_name = &input.ident;
+    let function_name = Ident::new(function_name.as_str(), Span::call_site());
 
     let field_length = field_name.len();
 
@@ -46,10 +56,10 @@ pub fn derive_from_struct_sqlite(input: TokenStream) -> TokenStream {
 
         impl #struct_name {
             fn insert_query(&self, table: &str) -> String {
-                format!("insert into `{}` ( `{}` ) values ({})", table, #columns, #values)
+                format!("{} into `{}` ( `{}` ) values ({})", #insert_keyword, table, #columns, #values)
             }
 
-            pub async fn insert(&self, executor: &sqlx::MySqlPool, table: &str) -> Result<sqlx::mysql::MySqlQueryResult, sqlx::Error> {
+            pub async fn #function_name(&self, executor: &sqlx::MySqlPool, table: &str) -> Result<sqlx::mysql::MySqlQueryResult, sqlx::Error> {
                 let sql = self.insert_query(table);
                 sqlx::query(&sql)
                 #(

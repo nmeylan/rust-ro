@@ -31,7 +31,7 @@ pub fn handle_contact_npc(server: Arc<Server>, packet: &mut dyn Packet, tcp_stre
     thread::Builder::new().name(format!("script-player-{}-thread", session.account_id)).spawn(move || {
         let script: &Script = cast!(map_item, Script);
         Vm::run_main_function(server_clone.vm.clone(), script.class_reference, script.instance_reference,
-                              Box::new(&PlayerScriptHandler { tcp_stream: tcp_stream.clone(), npc_id, server: server_clone.clone(), player_action_receiver: RwLock::new(rx), runtime })).unwrap()
+                              Box::new(&PlayerScriptHandler { tcp_stream: tcp_stream.clone(), npc_id, server: server_clone.clone(), player_action_receiver: RwLock::new(rx), runtime, session: session.clone() })).unwrap()
     }).unwrap();
 }
 
