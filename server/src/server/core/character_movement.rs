@@ -1,13 +1,18 @@
-use packets::packets::{PacketCzRequestMove2, Packet, PacketZcNpcackMapmove, PacketCzRequestMove};
-use tokio::runtime::Runtime;
-use std::sync::{Arc};
-use std::sync::atomic::Ordering::{Relaxed};
+use std::fmt::{Display, Formatter};
+use std::mem;
+use std::sync::Arc;
+use std::sync::atomic::Ordering::Relaxed;
 use std::thread::sleep;
 
-use tokio::time::Duration;
+use tokio::runtime::Runtime;
 use tokio::task::JoinHandle;
+use tokio::time::Duration;
+
+use packets::packets::{Packet, PacketCzRequestMove, PacketCzRequestMove2, PacketZcNpcackMapmove};
+use crate::server::core::character::MovementTask;
+
 use crate::server::core::map::{Map, MAP_EXT, MapItem, RANDOM_CELL};
-use crate::server::core::path::{MOVE_COST, MOVE_DIAGONAL_COST, PathNode};
+use crate::server::core::path::PathNode;
 use crate::server::core::session::Session;
 use crate::server::server::Server;
 use crate::util::string::StringUtil;
@@ -16,7 +21,13 @@ use crate::util::string::StringUtil;
 pub struct Position {
     pub x: u16,
     pub y: u16,
-    pub(crate) dir: u16
+    pub(crate) dir: u16,
+}
+
+impl std::fmt::Display for Position {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{},{},{}", self.x, self.y, self.dir)
+    }
 }
 
 impl Position {
@@ -70,7 +81,7 @@ fn extra_delay(speed: u16) -> i16 {
 // If movement not smooth:
 // teleport in front -> server movement faster than client movement
 // teleport back -> server movement slower than client movement
-pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<Session>, server: Arc<Server>, task_id: u64) -> JoinHandle<()> {
+pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<Session>, server: Arc<Server>, current_movement_task_id: MovementTask) -> JoinHandle<()> {
     let server = server.clone();
     let handle = runtime.spawn(async move {
         let mut has_been_canceled = false;
@@ -79,8 +90,8 @@ pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<
                 let delay: u64;
                 {
                     let character = session.get_character();
-                    let movement_task_id = character.movement_task_id.load(Relaxed);
-                    if movement_task_id != 0 && task_id != movement_task_id {
+                    let mut movement_tasks_guard = character.movement_tasks.lock().unwrap();
+                    if !movement_tasks_guard.contains(&current_movement_task_id) {
                         has_been_canceled = true;
                         break;
                     }
@@ -91,6 +102,7 @@ pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<
                         delay = character.status.speed as u64;
                     }
                     // info!("walk delay {}", delay);
+                    info!("[{:?} - {}] [{} paralell tasks] movement update_position", std::thread::current().id(), current_movement_task_id, movement_tasks_guard.len()) ;
                     character.update_position(path_node.x, path_node.y);
                     {
                         let current_map_guard = read_lock!(character.current_map);
@@ -99,6 +111,8 @@ pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<
                             let warp = map_ref.get_warp_at(path_node.x, path_node.y).unwrap();
                             drop(current_map_guard);
                             change_map(warp.dest_map_name.clone(), warp.to_x, warp.to_y, session.clone(), server.clone());
+                            info!("[{:?} - {}] Warp break", std::thread::current().id(), current_movement_task_id);
+                            movement_tasks_guard.clear();
                             break;
                         }
                     }
@@ -112,7 +126,7 @@ pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<
             {
                 let session_clone = session.clone();
                 let character = session_clone.get_character();
-                character.set_movement_task_id(0);
+                character.remove_movement_task_id(current_movement_task_id);
             }
             save_character_position(server.clone(), session.clone()).await;
         }
@@ -135,7 +149,7 @@ pub fn change_map(destination_map: String, x: u16, y: u16, session: Arc<Session>
 pub fn change_map_packet(destination_map: String, x: u16, y: u16, session: Arc<Session>, server: Arc<Server>) -> PacketZcNpcackMapmove {
     let character_session = session.get_character();
     character_session.remove_from_existing_map();
-    let map_name : String = Map::name_without_ext(destination_map.clone());
+    let map_name: String = Map::name_without_ext(destination_map.clone());
     debug!("Char enter on map {}", map_name);
     let map_ref = server.maps.get(&map_name).unwrap();
     let map = map_ref.clone();

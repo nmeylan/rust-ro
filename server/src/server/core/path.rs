@@ -82,17 +82,17 @@ pub fn path_search_client_side_algorithm(map: Arc<MapInstance>, source_x: u16, s
         current_node = current.1.clone();
         let current_index = current.0;
         if current_node.x == destination_x && current_node.y == destination_y {
-            debug!("found destination");
+            // debug!("found destination");
             break;
         }
         if i > 100 {
-            debug!("Path finding stuck in infinite loop. Abort");
+            // debug!("Path finding stuck in infinite loop. Abort");
             return vec![]
         }
-        debug!("{:?}", open_set);
-        debug!("iteration: {} -> current_node({}) {},{}", i, current_index, current_node.x, current_node.y);
+        // debug!("{:?}", open_set);
+        // debug!("iteration: {} -> current_node({}) {},{}", i, current_index, current_node.x, current_node.y);
         open_set.swap_remove(current_index);
-        debug!("{:?}", open_set);
+        // debug!("{:?}", open_set);
         current_node.set_is_open(false);
         i += 1;
         let allowed_dirs = allowed_dirs(max_x, max_y, current_node.x ,current_node.y);
@@ -173,7 +173,7 @@ fn add_neighbor(x: u16, y: u16, destination_x: u16, destination_y: u16, max_x: u
             neighbor.set_is_open(true);
         }
     } else {
-        debug!("neighbor: {},{}", x, y);
+        // debug!("neighbor: {},{}", x, y);
         neighbor = PathNode {
             id: node_id(x, y, max_x),
             parent_id: current_node.id,

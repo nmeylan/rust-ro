@@ -292,6 +292,9 @@ impl Server {
             debug!("PacketCzReqNextScript");
             return handle_player_next(self_ref.clone(), packet, tcp_stream, session);
         }
+        if packet.as_any().downcast_ref::<PacketCzRequestTime>().is_some() {
+            return;
+        }
 
         if packet.id() == "0x6003" // PacketCzRequestTime2
         {
