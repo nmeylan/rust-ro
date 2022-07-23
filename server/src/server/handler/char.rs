@@ -1,7 +1,7 @@
 use std::collections::HashSet;
 use packets::packets::{Packet, PacketChEnter, PacketHcRefuseEnter, CharacterInfoNeoUnion, PacketHcAcceptEnterNeoUnionHeader, PacketHcAcceptEnterNeoUnion, PacketPincodeLoginstate, PacketChMakeChar2, PacketHcAcceptMakecharNeoUnion, PacketChDeleteChar4Reserved, PacketHcDeleteChar4Reserved, PacketChSelectChar, PacketChSendMapInfo, PacketCzEnter2, PacketMapConnection, PacketZcInventoryExpansionInfo, PacketZcOverweightPercent, PacketZcAcceptEnter2, PacketZcStatusValues, PacketZcParChange, PacketZcAttackRange, PacketZcNotifyChat, PacketCzRestart, PacketZcRestartAck, PacketZcReqDisconnectAck2, PacketZcLoadConfirm, PacketChMakeChar3, PacketChMakeChar, PacketHcNotifyZonesvr, ZserverAddr};
 use tokio::runtime::Runtime;
-use std::sync::{Arc, RwLock};
+use std::sync::{Arc, Mutex, RwLock};
 use std::net::TcpStream;
 use std::io::Write;
 use byteorder::{LittleEndian, WriteBytesExt};
@@ -167,7 +167,7 @@ pub fn handle_select_char(server: Arc<Server>, packet: &mut dyn Packet, runtime:
     let packet_select_char = cast!(packet, PacketChSelectChar);
     let session_id = session.account_id;
     let char_model: CharSelectModel = runtime.block_on(async {
-       sqlx::query_as::<_, CharSelectModel>("SELECT * FROM `char` WHERE account_id = ? AND char_num = ?")
+        sqlx::query_as::<_, CharSelectModel>("SELECT * FROM `char` WHERE account_id = ? AND char_num = ?")
             .bind(session_id)
             .bind(packet_select_char.char_num)
             .fetch_one(&server.repository.pool).await.unwrap()
@@ -188,7 +188,7 @@ pub fn handle_select_char(server: Arc<Server>, packet: &mut dyn Packet, runtime:
         current_map_name: RwLock::new(map_name.clone()),
         x: AtomicU16::new(last_x),
         y: AtomicU16::new(last_y),
-        movement_task_id: AtomicU64::new(0),
+        movement_tasks: Mutex::new(vec![]),
         map_view: RwLock::new(HashSet::new()),
         current_map: RwLock::new(None),
         self_ref: RwLock::new(None),

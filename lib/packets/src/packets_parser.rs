@@ -94,6 +94,9 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x17 && buffer[1] == 0x08 {
         return Box::new(PacketCzRequestTime::from(buffer, packetver));
     }
+    if buffer[0] == 0x87 && buffer[1] == 0x08 {
+        return Box::new(PacketCzRequestTime::from(buffer, packetver));
+    }
     if buffer[0] == 0x7f && buffer[1] == 0x00 {
         return Box::new(PacketZcNotifyTime::from(buffer, packetver));
     }

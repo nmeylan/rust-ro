@@ -3,7 +3,7 @@ use std::collections::HashSet;
 use std::hash::Hash;
 use std::net::TcpStream;
 
-use std::sync::{Arc, RwLock};
+use std::sync::{Arc, Mutex, RwLock};
 use packets::packets::{PacketZcNotifyStandentry6, PacketZcNotifyStandentry7, PacketZcNotifyVanish};
 use crate::server::core::map::{MAP_EXT, MapItem};
 use crate::server::core::character_movement::Position;
@@ -21,6 +21,7 @@ use crate::server::core::path::manhattan_distance;
 use crate::server::core::status::Status;
 use crate::server::enums::map_item::MapItemType;
 
+pub type MovementTask = u64;
 #[derive(Setters)]
 pub struct Character {
     #[set]
@@ -32,7 +33,7 @@ pub struct Character {
     pub current_map_name: RwLock<[char; 16]>,
     pub x: AtomicU16,
     pub y: AtomicU16,
-    pub movement_task_id: AtomicU64,
+    pub movement_tasks: Mutex<Vec<MovementTask>>,
     pub map_view: RwLock<HashSet<Arc<dyn MapItem>>>,
     pub self_ref: RwLock<Option<Arc<Character>>>,
     #[set]
@@ -80,7 +81,7 @@ impl Character {
         *self_ref_guard = Some(self_ref);
     }
 
-    pub fn update_x_y(&self, x: u16, y: u16) {
+    fn update_x_y(&self, x: u16, y: u16) {
         self.x.store(x, Relaxed);
         self.y.store(y, Relaxed);
     }
@@ -118,6 +119,7 @@ impl Character {
     }
 
     pub fn update_position(&self, x: u16, y: u16) {
+        info!("[{:?}] update_position {},{}", std::thread::current().id(), x, y);
         self.update_x_y(x, y);
     }
 
@@ -125,8 +127,20 @@ impl Character {
         let current_map_name_guard = read_lock!(self.current_map_name);
         current_map_name_guard.iter().filter(|c| **c != '\0').collect()
     }
-    pub fn set_movement_task_id(&self, id: u64) {
-        self.movement_task_id.store(id, Relaxed);
+    pub fn add_movement_task_id(&self, task: MovementTask) {
+        if let Ok(mut movement_tasks_guard) = self.movement_tasks.try_lock() {
+            movement_tasks_guard.clear();
+            movement_tasks_guard.push(task);
+        } else {
+            info!("Can't add task movement, drop request")
+        }
+    }
+    pub fn remove_movement_task_id(&self, task: MovementTask) {
+        let mut movement_tasks_guard = self.movement_tasks.lock().unwrap();
+        let maybe_task = movement_tasks_guard.iter().enumerate().find(|(index, movement_task)| **movement_task == task);
+        if let Some((index, _)) = maybe_task {
+            movement_tasks_guard.remove(index);
+        }
     }
     pub fn set_current_map(&self, current_map: Arc<MapInstance>) {
         let mut new_current_map: [char; 16] = [0 as char; 16];

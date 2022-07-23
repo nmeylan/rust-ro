@@ -393,7 +393,7 @@ struct PACKET_ZC_NOTIFY_STANDENTRY_NPC {
 struct PACKET_CZ_NOTIFY_ACTORINIT {
   short PacketId
  }
-0x7e,0x1708
+0x7e,0x1708,0x8708
 struct PACKET_CZ_REQUEST_TIME {
   short PacketId
   unsigned long clientTime
