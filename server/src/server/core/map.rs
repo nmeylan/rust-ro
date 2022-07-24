@@ -184,7 +184,7 @@ impl Map {
         }
     }
 
-    pub fn find_random_walkable_cell_in_max_range(cells: &Vec<u16>, x_size: u16, y_size: u16, x: u16, y: u16, max_range: usize) -> (u16, u16) {
+    pub fn find_random_walkable_cell_in_max_range(cells: &[u16], x_size: u16, y_size: u16, x: u16, y: u16, max_range: usize) -> (u16, u16) {
         let mut rng = rand::thread_rng();
         let allowed_dirs = allowed_dirs(x_size, y_size, x, y);
         let mut directions = vec![DIR_NORTH, DIR_SOUTH, DIR_EAST, DIR_WEST, DIR_SOUTH | DIR_EAST, DIR_SOUTH | DIR_WEST, DIR_NORTH | DIR_EAST, DIR_NORTH | DIR_WEST];
@@ -256,9 +256,9 @@ impl Map {
         let mut reader = BufReader::new(file);
         let mut map_cache_zip_content_buf = Vec::new();
         let mut map_cache_content_buf = Vec::new();
-        reader.read_to_end(&mut map_cache_zip_content_buf).expect(format!("Fail to read map-cache zip content for map: {}", self.name).as_str());
+        reader.read_to_end(&mut map_cache_zip_content_buf).unwrap_or_else(|_| panic!("Fail to read map-cache zip content for map: {}", self.name));
         let mut decoder = ZlibDecoder::new(&map_cache_zip_content_buf[26..]); // skip header
-        decoder.read_to_end(&mut map_cache_content_buf).expect(format!("Fail to read map-cache unzipped content for map: {}", self.name).as_str());
+        decoder.read_to_end(&mut map_cache_content_buf).unwrap_or_else(|_| panic!("Fail to read map-cache unzipped content for map: {}", self.name));
 
         let mut cells: Vec<u16> = Vec::with_capacity(self.length as usize);
         for cell in map_cache_content_buf {
@@ -275,7 +275,7 @@ impl Map {
         cells
     }
 
-    fn set_warp_cells(&self, cells: &mut Vec<u16>, server: Arc<Server>, map_items: &mut HashSet<Arc<dyn MapItem>>) {
+    fn set_warp_cells(&self, cells: &mut [u16], server: Arc<Server>, map_items: &mut HashSet<Arc<dyn MapItem>>) {
         for warp in self.warps.iter() {
             server.insert_map_item(warp.id, warp.clone());
             map_items.insert(warp.clone());
@@ -293,24 +293,23 @@ impl Map {
         }
     }
 
-    fn set_warps(&mut self, warps: &Vec<Warp>, map_item_ids: &RwLock<HashMap<u32, Arc<dyn MapItem>>>) {
+    fn set_warps(&mut self, warps: &[Warp], map_item_ids: &RwLock<HashMap<u32, Arc<dyn MapItem>>>) {
         let mut ids_write_guard = write_lock!(map_item_ids);
         let warps = warps.iter().map(|warp| {
             let mut warp = warp.clone();
             warp.set_id(Server::generate_id(&mut ids_write_guard));
-            let warp_ref = Arc::new(warp);
-            warp_ref
+            Arc::new(warp)
         }).collect::<Vec<Arc<Warp>>>();
         self.warps = Arc::new(warps);
     }
 
-    fn set_mob_spawns(&mut self, mob_spawns: &Vec<MobSpawn>) {
+    fn set_mob_spawns(&mut self, mob_spawns: &[MobSpawn]) {
         self.mob_spawns = Arc::new(
             mob_spawns.iter().map(|mob_spawn| Arc::new(mob_spawn.clone())).collect::<Vec<Arc<MobSpawn>>>()
         );
     }
 
-    fn set_scripts(&mut self, scripts: &Vec<Script>, map_item_ids: &RwLock<HashMap<u32, Arc<dyn MapItem>>>) {
+    fn set_scripts(&mut self, scripts: &[Script], map_item_ids: &RwLock<HashMap<u32, Arc<dyn MapItem>>>) {
         let mut ids_write_guard = write_lock!(map_item_ids);
         self.scripts = Arc::new(
             scripts.iter().map(|script| {
@@ -329,19 +328,19 @@ impl Map {
             .spawn(move || {
                 let mut now = Instant::now();
                 let mut cleanup_notified_at: Option<Instant> = None;
-                let mut last_mobs_action = now.clone();
-                while cleanup_notified_at.is_none() || now.clone().duration_since(cleanup_notified_at.unwrap()).as_secs() < 5 {
+                let mut last_mobs_action = now;
+                while cleanup_notified_at.is_none() || now.duration_since(cleanup_notified_at.unwrap()).as_secs() < 5 {
                     now = Instant::now();
                     if rx.try_recv().is_ok() {
                         info!("received clean up sig");
-                        cleanup_notified_at = Some(now.clone());
+                        cleanup_notified_at = Some(now);
                     }
                     {
-                        map_instance_clone_for_thread.spawn_mobs(server.clone(), now.clone().elapsed().as_millis(), map_instance.clone());
+                        map_instance_clone_for_thread.spawn_mobs(server.clone(), now.elapsed().as_millis(), map_instance.clone());
                         map_instance_clone_for_thread.update_mobs_fov();
                         if last_mobs_action.elapsed().as_secs() > 2 {
                             map_instance_clone_for_thread.mobs_action();
-                            last_mobs_action = now.clone();
+                            last_mobs_action = now;
                         }
                     }
                     sleep(Duration::from_millis(50));
@@ -357,10 +356,10 @@ impl Map {
             let _start = Instant::now();
             let path = path.as_ref().unwrap();
             let map_name = path.file_name().to_str().unwrap().replace(MAPCACHE_EXT, "");
-            let file = File::open(path.path()).expect(format!("Can't open file for map: {}", map_name).as_str());
+            let file = File::open(path.path()).unwrap_or_else(|_| panic!("Can't open file for map: {}", map_name));
             let mut reader = BufReader::new(file);
             let mut buf = [0_u8; 26];
-            reader.read_exact(&mut buf).expect(format!("Can't read file for map: {}", map_name).as_str());
+            reader.read_exact(&mut buf).unwrap_or_else(|_| panic!("Can't read file for map: {}", map_name));
             let header = Header {
                 version: Cursor::new(buf[0..2].to_vec()).read_i16::<LittleEndian>().unwrap(),
                 checksum: buf[2..18].try_into().unwrap(),

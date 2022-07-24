@@ -162,8 +162,8 @@ fn add_neighbor(x: u16, y: u16, destination_x: u16, destination_y: u16, max_x: u
     let tentative_gcost = current_node.g_cost + move_cost;
     let h_cost = client_side_heuristic(x, y, destination_x, destination_y);
     let mut neighbor: PathNode;
-    if neighbor_option.is_some() {
-        neighbor = *neighbor_option.unwrap();
+    if let Some(neighbor) = neighbor_option {
+        let mut neighbor = *neighbor;
         if tentative_gcost < neighbor.g_cost {
             neighbor.set_parent_id(current_node.id);
             neighbor.set_g_cost(tentative_gcost);

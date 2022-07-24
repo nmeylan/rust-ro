@@ -284,7 +284,7 @@ impl Server {
         // NPC interactions
         if packet.as_any().downcast_ref::<PacketCzContactnpc>().is_some() {
             debug!("PacketCzContactnpc");
-            return handle_contact_npc(self_ref.clone(), packet, tcp_stream, session);
+            return handle_contact_npc(self_ref, packet, tcp_stream, session);
         }
 
         if packet.as_any().downcast_ref::<PacketCzReqNextScript>().is_some() {
