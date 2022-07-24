@@ -1,8 +1,6 @@
 use std::net::TcpStream;
-use std::sync::{Arc, Mutex, RwLock};
+use std::sync::{Arc, RwLock};
 use std::thread;
-use std::thread::spawn;
-use futures::task::SpawnExt;
 
 use rathena_script_lang_interpreter::lang::vm::Vm;
 use tokio::runtime::Runtime;
@@ -35,7 +33,6 @@ pub fn handle_contact_npc(server: Arc<Server>, packet: &mut dyn Packet, tcp_stre
     }).unwrap();
 }
 
-pub fn handle_player_next(server: Arc<Server>, packet: &mut dyn Packet, tcp_stream: Arc<RwLock<TcpStream>>, session: Arc<Session>) {
-    let packet_cz_req_next = cast!(packet, PacketCzReqNextScript);
-    session.script_handler_channel_sender.lock().unwrap().as_ref().unwrap().blocking_send(vec![0, 0, 0]);
+pub fn handle_player_next(session: Arc<Session>) {
+    session.script_handler_channel_sender.lock().unwrap().as_ref().unwrap().blocking_send(vec![0]).unwrap();
 }

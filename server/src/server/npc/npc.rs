@@ -24,7 +24,7 @@ impl NpcLoader {
         let npcs_by_map = Arc::new(Mutex::new(HashMap::<String, Vec<T>>::new()));
         let mut futures : Vec<JoinHandle<()>> = Vec::new();
         for line in reader.lines() {
-            if !line.is_ok() {
+            if line.is_err() {
                 break;
             }
             let mut line = line.unwrap();

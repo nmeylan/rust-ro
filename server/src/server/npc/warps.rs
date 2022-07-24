@@ -61,7 +61,7 @@ impl Npc for Warp {
         let mut warps = Vec::<Warp>::new();
         for line in reader.lines() {
             let mut warp = Warp::new();
-            if !line.is_ok() {
+            if line.is_err() {
                 break;
             }
             let line = line.unwrap();
@@ -70,12 +70,12 @@ impl Npc for Warp {
             }
             // A warp "npc" definition is as below
             // anthell01,253,32,0	warp	ant01	2,1,anthell02,34,263
-            let line_fragment = line.split("\t").collect::<Vec<&str>>();
+            let line_fragment = line.split('\t').collect::<Vec<&str>>();
             let source_information = line_fragment[0];
             let name = line_fragment[2];
             let warp_and_destination_information = line_fragment[3];
-            let source_information_split = source_information.split(",").collect::<Vec<&str>>();
-            let warp_and_destination_information_split = warp_and_destination_information.split(",").collect::<Vec<&str>>();
+            let source_information_split = source_information.split(',').collect::<Vec<&str>>();
+            let warp_and_destination_information_split = warp_and_destination_information.split(',').collect::<Vec<&str>>();
             warp.set_name(name.to_string());
             warp.set_map_name(source_information_split[0].to_string());
             warp.set_x(source_information_split[1].parse::<u16>().unwrap());

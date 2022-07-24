@@ -140,7 +140,7 @@ async fn main() {
             let digest = md5::compute(compressed_cells.clone());
             let mut wtr = vec![];
             wtr.write_i16::<LittleEndian>(0x1);
-            let mut checksum_buf = [0 as u8; 16];
+            let mut checksum_buf = [0_u8; 16];
             let checksum = decode_hex(format!("{:x}", digest).as_str()).unwrap();
             checksum.iter().enumerate().for_each(|(i, value)| checksum_buf[i] = *value);
             wtr.write_all(&checksum_buf);

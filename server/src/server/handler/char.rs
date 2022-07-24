@@ -1,5 +1,5 @@
 use std::collections::HashSet;
-use packets::packets::{Packet, PacketChEnter, PacketHcRefuseEnter, CharacterInfoNeoUnion, PacketHcAcceptEnterNeoUnionHeader, PacketHcAcceptEnterNeoUnion, PacketPincodeLoginstate, PacketChMakeChar2, PacketHcAcceptMakecharNeoUnion, PacketChDeleteChar4Reserved, PacketHcDeleteChar4Reserved, PacketChSelectChar, PacketChSendMapInfo, PacketCzEnter2, PacketMapConnection, PacketZcInventoryExpansionInfo, PacketZcOverweightPercent, PacketZcAcceptEnter2, PacketZcStatusValues, PacketZcParChange, PacketZcAttackRange, PacketZcNotifyChat, PacketCzRestart, PacketZcRestartAck, PacketZcReqDisconnectAck2, PacketZcLoadConfirm, PacketChMakeChar3, PacketChMakeChar, PacketHcNotifyZonesvr, ZserverAddr};
+use packets::packets::{Packet, PacketChEnter, PacketHcRefuseEnter, CharacterInfoNeoUnion, PacketHcAcceptEnterNeoUnionHeader, PacketHcAcceptEnterNeoUnion, PacketPincodeLoginstate, PacketHcAcceptMakecharNeoUnion, PacketChDeleteChar4Reserved, PacketHcDeleteChar4Reserved, PacketChSelectChar, PacketChSendMapInfo, PacketCzEnter2, PacketMapConnection, PacketZcInventoryExpansionInfo, PacketZcOverweightPercent, PacketZcAcceptEnter2, PacketZcStatusValues, PacketZcParChange, PacketZcAttackRange, PacketZcNotifyChat, PacketCzRestart, PacketZcRestartAck, PacketZcReqDisconnectAck2, PacketZcLoadConfirm, PacketChMakeChar3, PacketChMakeChar, PacketHcNotifyZonesvr, ZserverAddr};
 use tokio::runtime::Runtime;
 use std::sync::{Arc, Mutex, RwLock};
 use std::net::TcpStream;
@@ -8,7 +8,7 @@ use byteorder::{LittleEndian, WriteBytesExt};
 use crate::repository::model::char_model::{CharacterInfoNeoUnionWrapped, CharInsertModel, CharSelectModel};
 use crate::util::string::StringUtil;
 use std::net::Shutdown::Both;
-use std::sync::atomic::{AtomicU16, AtomicU64};
+use std::sync::atomic::{AtomicU16};
 use crate::util::packet::chain_packets;
 use crate::Map;
 use crate::server::enums::status::StatusTypes;
@@ -16,7 +16,7 @@ use crate::server::core::character::{Character};
 use crate::server::core::character_movement::{change_map_packet};
 use crate::server::core::session::Session;
 use crate::server::core::status::Status;
-use crate::server::server::{MOB_FOV_SLICE_LEN, Server};
+use crate::server::server::{Server};
 use crate::util::tick::get_tick;
 
 pub fn handle_char_enter(server: Arc<Server>, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>) {
@@ -144,7 +144,7 @@ pub fn handle_make_char(server: Arc<Server>, packet: &mut dyn Packet, runtime: &
     let mut packet_hc_accept_makechar_neo_union = PacketHcAcceptMakecharNeoUnion::new();
     packet_hc_accept_makechar_neo_union.set_charinfo(created_char);
     packet_hc_accept_makechar_neo_union.fill_raw();
-    socket_send!(tcp_stream, &packet_hc_accept_makechar_neo_union.raw());
+    socket_send!(tcp_stream, packet_hc_accept_makechar_neo_union.raw());
 }
 
 pub fn handle_delete_reserved_char(server: Arc<Server>, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, session: Arc<Session>) {
@@ -160,7 +160,7 @@ pub fn handle_delete_reserved_char(server: Arc<Server>, packet: &mut dyn Packet,
     packet_hc_delete_char4reserved.set_delete_reserved_date(24 * 60 * 60);
     packet_hc_delete_char4reserved.set_result(1);
     packet_hc_delete_char4reserved.fill_raw();
-    socket_send!(tcp_stream, &packet_hc_delete_char4reserved.raw());
+    socket_send!(tcp_stream, packet_hc_delete_char4reserved.raw());
 }
 
 pub fn handle_select_char(server: Arc<Server>, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, session: Arc<Session>) {
@@ -174,9 +174,9 @@ pub fn handle_select_char(server: Arc<Server>, packet: &mut dyn Packet, runtime:
     });
     let mut sessions_guard = write_lock!(server.sessions);
     let session = sessions_guard.get(&session_id).unwrap();
-    let char_id: u32 = char_model.char_id.clone();
-    let last_x: u16 = char_model.last_x.clone();
-    let last_y: u16 = char_model.last_y.clone();
+    let char_id: u32 = char_model.char_id;
+    let last_x: u16 = char_model.last_x;
+    let last_y: u16 = char_model.last_y;
     let mut last_map: String = char_model.last_map.clone();
     let mut map_name = [0 as char; 16];
     last_map = format!("{}.gat", last_map);
@@ -185,7 +185,7 @@ pub fn handle_select_char(server: Arc<Server>, packet: &mut dyn Packet, runtime:
         name: char_model.name.clone(),
         char_id,
         status: Status::from_char_model(&char_model, &server.configuration.game),
-        current_map_name: RwLock::new(map_name.clone()),
+        current_map_name: RwLock::new(map_name),
         x: AtomicU16::new(last_x),
         y: AtomicU16::new(last_y),
         movement_tasks: Mutex::new(vec![]),
@@ -198,34 +198,34 @@ pub fn handle_select_char(server: Arc<Server>, packet: &mut dyn Packet, runtime:
     {
         char_session_ref.set_self_ref(char_session_ref.clone());
     }
-    let session = Arc::new(session.recreate_with_character(char_session_ref.clone()));
+    let session = Arc::new(session.recreate_with_character(char_session_ref));
     sessions_guard.insert(session_id, session);
     if server.packetver() < 20170329 {
         let mut packet_ch_send_map_info = PacketHcNotifyZonesvr::new();
-        packet_ch_send_map_info.set_gid(char_id.clone());
+        packet_ch_send_map_info.set_gid(char_id);
         packet_ch_send_map_info.set_map_name(map_name);
         let mut zserver_addr = ZserverAddr::new();
         zserver_addr.set_ip(16777343); // 7F 00 00 01 -> to little endian -> 01 00 00 7F
         zserver_addr.set_port(server.configuration.server.port as i16);
         packet_ch_send_map_info.set_addr(zserver_addr);
         packet_ch_send_map_info.fill_raw();
-        socket_send!(tcp_stream, &packet_ch_send_map_info.raw());
+        socket_send!(tcp_stream, packet_ch_send_map_info.raw());
     } else {
         let mut packet_ch_send_map_info = PacketChSendMapInfo::new();
-        packet_ch_send_map_info.set_gid(char_id.clone());
+        packet_ch_send_map_info.set_gid(char_id);
         packet_ch_send_map_info.set_map_name(map_name);
         packet_ch_send_map_info.set_map_server_port(server.configuration.server.port as i16);
         packet_ch_send_map_info.set_map_server_ip(16777343); // 7F 00 00 01 -> to little endian -> 01 00 00 7F
         packet_ch_send_map_info.fill_raw();
-        socket_send!(tcp_stream, &packet_ch_send_map_info.raw());
+        socket_send!(tcp_stream, packet_ch_send_map_info.raw());
     }
 }
 
 
 pub fn handle_enter_game(server: Arc<Server>, packet: &mut dyn Packet, tcp_stream: Arc<RwLock<TcpStream>>) {
 
-    let mut aid;
-    let mut auth_code;
+    let aid;
+    let auth_code;
     if packet.as_any().downcast_ref::<PacketCzEnter2>().is_some() {
         let packet_enter_game = cast!(packet, PacketCzEnter2);
         aid = packet_enter_game.aid;
@@ -252,7 +252,7 @@ pub fn handle_enter_game(server: Arc<Server>, packet: &mut dyn Packet, tcp_strea
     let mut packet_map_connection = PacketMapConnection::new();
     packet_map_connection.set_aid(session.account_id);
 
-    socket_send!(tcp_stream, &packet_map_connection.raw());
+    socket_send!(tcp_stream, packet_map_connection.raw());
 
     /*
     Client expect multiple packets in response to packet PacketCzEnter2
@@ -388,7 +388,7 @@ pub fn handle_restart(server: Arc<Server>, packet: &mut dyn Packet, tcp_stream: 
     let mut restart_ack = PacketZcRestartAck::new();
     restart_ack.set_atype(packet_restart.atype);
     restart_ack.fill_raw();
-    socket_send!(tcp_stream, &restart_ack.raw());
+    socket_send!(tcp_stream, restart_ack.raw());
 }
 
 pub fn handle_disconnect(server: Arc<Server>, tcp_stream: Arc<RwLock<TcpStream>>, session: Arc<Session>) {
@@ -398,14 +398,14 @@ pub fn handle_disconnect(server: Arc<Server>, tcp_stream: Arc<RwLock<TcpStream>>
 
     let mut disconnect_ack = PacketZcReqDisconnectAck2::new();
     disconnect_ack.fill_raw();
-    socket_send!(tcp_stream, &disconnect_ack.raw());
+    socket_send!(tcp_stream, disconnect_ack.raw());
 }
 
 
 pub fn handle_blocking_play_cancel(tcp_stream: Arc<RwLock<TcpStream>>) {
     let mut packet_zc_load_confirm = PacketZcLoadConfirm::new();
     packet_zc_load_confirm.fill_raw();
-    socket_send!(tcp_stream, &packet_zc_load_confirm.raw());
+    socket_send!(tcp_stream, packet_zc_load_confirm.raw());
 }
 
 async fn load_chars_info(account_id: u32, server: Arc<Server>) -> PacketHcAcceptEnterNeoUnionHeader {

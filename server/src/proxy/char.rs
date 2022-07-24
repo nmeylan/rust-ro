@@ -18,7 +18,7 @@ impl CharProxy {
             target: SocketAddr::new(IpAddr::from_str(&config.remote_char_server_ip).unwrap(), config.remote_char_server_port),
             specific_proxy: CharProxy {}
         };
-        return server;
+        server
     }
 }
 impl PacketHandler for CharProxy {

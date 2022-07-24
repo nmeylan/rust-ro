@@ -79,7 +79,7 @@ pub fn path_search_client_side_algorithm(map: Arc<MapInstance>, source_x: u16, s
             }
             (min_node_index, min_node)
         }).unwrap(); // current node is the node with minimum f_cost
-        current_node = current.1.clone();
+        current_node = *current.1;
         let current_index = current.0;
         if current_node.x == destination_x && current_node.y == destination_y {
             // debug!("found destination");
@@ -156,6 +156,7 @@ pub fn allowed_dirs(max_x: u16, max_y: u16, x: u16, y: u16) -> u8 {
     allowed_dirs
 }
 
+#[allow(clippy::too_many_arguments)]
 fn add_neighbor(x: u16, y: u16, destination_x: u16, destination_y: u16, max_x: u16, open_set: &mut Vec<PathNode>, discovered_nodes: &mut Vec<PathNode>, current_node: &PathNode, move_cost: u16) {
     let neighbor_option = discovered_nodes.iter().find(|node| node.x == x && node.y == y);
     let tentative_gcost = current_node.g_cost + move_cost;

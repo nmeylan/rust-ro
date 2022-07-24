@@ -1,7 +1,5 @@
-use std::fmt::{Display, Formatter};
-use std::mem;
+use std::fmt::{Formatter};
 use std::sync::Arc;
-use std::sync::atomic::Ordering::Relaxed;
 use std::thread::sleep;
 
 use tokio::runtime::Runtime;
@@ -82,7 +80,6 @@ fn extra_delay(speed: u16) -> i16 {
 // teleport in front -> server movement faster than client movement
 // teleport back -> server movement slower than client movement
 pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<Session>, server: Arc<Server>, current_movement_task_id: MovementTask) -> JoinHandle<()> {
-    let server = server.clone();
     let handle = runtime.spawn(async move {
         let mut has_been_canceled = false;
         {

@@ -138,7 +138,7 @@ impl MapPropertyFlags {
     }
 
     pub fn raw(&self) -> u32 {
-        ((self.is_party as u32) << 0)
+        (self.is_party as u32)
             | ((self.is_guild as u32) << 1)
             | ((self.is_siege as u32) << 2)
             | ((self.use_simple_effect as u32) << 3)
@@ -239,7 +239,7 @@ impl Map {
         info!("create map instance: {} x_size: {}, y_size {}, length: {}", self.name, self.x_size, self.y_size, self.length);
         let mut map_items: HashSet<Arc<dyn MapItem>> = HashSet::with_capacity(2048);
         let cells = self.generate_cells(server.clone(), &mut map_items);
-        let map_instance = MapInstance::from_map(&self, server.clone(), instance_id, cells, map_items);
+        let map_instance = MapInstance::from_map(self, server.clone(), instance_id, cells, map_items);
         self.map_instances_count.fetch_add(1, Relaxed);
         let map_instance_ref = Arc::new(map_instance);
         {
@@ -247,7 +247,7 @@ impl Map {
             map_instance_guard.push(map_instance_ref.clone());
         }
         Map::start_thread(map_instance_ref.clone(), self.map_thread_channel_sender.subscribe(), server);
-        map_instance_ref.clone()
+        map_instance_ref
     }
 
     pub fn generate_cells(&self, server: Arc<Server>, map_items: &mut HashSet<Arc<dyn MapItem>>) -> Vec<u16> {
@@ -256,9 +256,9 @@ impl Map {
         let mut reader = BufReader::new(file);
         let mut map_cache_zip_content_buf = Vec::new();
         let mut map_cache_content_buf = Vec::new();
-        reader.read_to_end(&mut map_cache_zip_content_buf).expect(&*format!("Fail to read map-cache zip content for map: {}", self.name));
+        reader.read_to_end(&mut map_cache_zip_content_buf).expect(format!("Fail to read map-cache zip content for map: {}", self.name).as_str());
         let mut decoder = ZlibDecoder::new(&map_cache_zip_content_buf[26..]); // skip header
-        decoder.read_to_end(&mut map_cache_content_buf).expect(&*format!("Fail to read map-cache unzipped content for map: {}", self.name));
+        decoder.read_to_end(&mut map_cache_content_buf).expect(format!("Fail to read map-cache unzipped content for map: {}", self.name).as_str());
 
         let mut cells: Vec<u16> = Vec::with_capacity(self.length as usize);
         for cell in map_cache_content_buf {
@@ -357,10 +357,10 @@ impl Map {
             let _start = Instant::now();
             let path = path.as_ref().unwrap();
             let map_name = path.file_name().to_str().unwrap().replace(MAPCACHE_EXT, "");
-            let file = File::open(path.path()).expect(&*format!("Can't open file for map: {}", map_name));
+            let file = File::open(path.path()).expect(format!("Can't open file for map: {}", map_name).as_str());
             let mut reader = BufReader::new(file);
-            let mut buf = [0 as u8; 26];
-            reader.read_exact(&mut buf).expect(&*format!("Can't read file for map: {}", map_name));
+            let mut buf = [0_u8; 26];
+            reader.read_exact(&mut buf).expect(format!("Can't read file for map: {}", map_name).as_str());
             let header = Header {
                 version: Cursor::new(buf[0..2].to_vec()).read_i16::<LittleEndian>().unwrap(),
                 checksum: buf[2..18].try_into().unwrap(),

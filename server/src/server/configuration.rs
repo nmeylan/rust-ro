@@ -85,6 +85,6 @@ impl Config {
         } else {
             config.server.set_log_level(Some(DEFAULT_LOG_LEVEL.to_string()));
         }
-        return Ok(config);
+        Ok(config)
     }
 }

@@ -4,7 +4,6 @@ use std::sync::{Arc, Mutex, RwLock};
 use crate::server::core::character::Character;
 use std::io::Write;
 use tokio::sync::mpsc::Sender;
-use crate::server::core::script::PlayerScriptHandler;
 
 pub struct Session {
     pub char_server_socket: Option<Arc<RwLock<TcpStream>>>,

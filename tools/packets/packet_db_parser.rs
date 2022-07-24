@@ -52,15 +52,15 @@ pub fn parse(packet_db_path: &Path) -> (Vec<PacketStructDefinition>, Vec<StructD
     for line in reader.lines() {
         let line_content = line.unwrap().trim().to_string();
         if line_content.starts_with("0x") { // new packet definition
-            ids = line_content.clone().split(",").map(|chunk| chunk.trim().to_string()).collect::<Vec<String>>();
+            ids = line_content.clone().split(',').map(|chunk| chunk.trim().to_string()).collect::<Vec<String>>();
             id = ids[0].clone();
             current_structure_def = 0;
             structs_for_packet = Vec::new();
-        } else if line_content.contains("struct") && structs_for_packet.len() > 0 { // start of nested struct
+        } else if line_content.contains("struct") && !structs_for_packet.is_empty() { // start of nested struct
             let name = STRUCT_REGEX.captures(line_content.as_str()).unwrap().get(1).unwrap();
             let current_packet = structs_for_packet.get_mut(current_structure_def).unwrap().get_mut();
             current_packet.fields.push( // register this nested struct a field of current struct
-                              get_field_for_nested_struct(line_content.clone(), current_packet.current_field_position.clone()));
+                              get_field_for_nested_struct(line_content.clone(), current_packet.current_field_position));
             structs_for_packet.push(RefCell::new(StructDefinition {
                 name: name.as_str().to_string(),
                 current_field_position: 0,
@@ -74,12 +74,12 @@ pub fn parse(packet_db_path: &Path) -> (Vec<PacketStructDefinition>, Vec<StructD
                 current_field_position: 0,
                 fields: Vec::new()
             }));
-        } else if line_content.contains("}") { // end of a struct
+        } else if line_content.contains('}') { // end of a struct
             let struct_def_ref = structs_for_packet.get(current_structure_def).unwrap().borrow_mut();
             if current_structure_def > 0 { // meaning we are in a nested field
                 let struct_def_copy = copy_struct_definition(struct_def_ref);
-                if nested_structures.iter().find(|st| st.name.clone().as_str() == struct_def_copy.name.as_str()).is_none() &&
-                    packets.iter().find(|st| st.struct_def.name.clone().as_str() == struct_def_copy.name.as_str()).is_none(){ // if struct not already present as it might be defined multiple times in packets_db
+                if !nested_structures.iter().any(|st| st.name.clone().as_str() == struct_def_copy.name.as_str()) &&
+                    !packets.iter().any(|st| st.struct_def.name.clone().as_str() == struct_def_copy.name.as_str()){ // if struct not already present as it might be defined multiple times in packets_db
                     nested_structures.push(struct_def_copy);
                 }
                 current_structure_def -= 1;
@@ -93,8 +93,8 @@ pub fn parse(packet_db_path: &Path) -> (Vec<PacketStructDefinition>, Vec<StructD
         } else if !line_content.contains("struct") && !line_content.is_empty() { // any fields. matching: unsigned long GID
             // line are as following: unsigned long GID
             let current_packet = structs_for_packet.get_mut(current_structure_def).unwrap().get_mut();
-            let packet_field = get_field(line_content, current_packet.current_field_position.clone());
-            current_packet.increment_current_field_position(packet_field.length.clone());
+            let packet_field = get_field(line_content, current_packet.current_field_position);
+            current_packet.increment_current_field_position(packet_field.length);
             current_packet.fields.push(packet_field);
         }
     }
@@ -104,13 +104,13 @@ pub fn parse(packet_db_path: &Path) -> (Vec<PacketStructDefinition>, Vec<StructD
 fn copy_struct_definition<'a>(struct_def_ref: RefMut<StructDefinition<'a>>) -> StructDefinition<'a> {
     StructDefinition {
         name: struct_name(&struct_def_ref.name.clone()),
-        current_field_position: struct_def_ref.current_field_position.clone(),
+        current_field_position: struct_def_ref.current_field_position,
         fields: struct_def_ref.fields.clone()
     }
 }
 
 fn struct_name(name: &String) -> String {
-    if !name.contains("_") {
+    if !name.contains('_') {
         return name.clone();
     }
     let mut new_name = name.to_lowercase();
@@ -131,7 +131,7 @@ fn get_field_for_nested_struct<'a>(line: String, position: i16) -> StructField<'
     StructField {
         name: get_field_name(&name),
         position,
-        data_type: if line.contains("[") {   TYPES_MAP.get("array of struct").unwrap() } else {   TYPES_MAP.get("struct").unwrap() },
+        data_type: if line.contains('[') {   TYPES_MAP.get("array of struct").unwrap() } else {   TYPES_MAP.get("struct").unwrap() },
         length,
         complex_type: Some(struct_name(&complex_type_name)),
         sub_type: None,
@@ -183,7 +183,7 @@ fn get_field<'a>(field_line: String, position: i16) -> StructField<'a> {
 }
 
 fn get_string_field_length(line: &String) -> i16 {
-    let frag: Vec<&str> = line.split(" ").collect();
+    let frag: Vec<&str> = line.split(' ').collect();
     let name = frag[frag.len() - 1].to_string();
     let string_len = STRING_LEN_REGEX.captures(name.as_str());
     if string_len.is_some() {
@@ -194,10 +194,10 @@ fn get_string_field_length(line: &String) -> i16 {
 }
 
 fn get_field_name(line: &String) -> String {
-    let frag: Vec<&str> = line.split(" ").collect();
+    let frag: Vec<&str> = line.split(' ').collect();
     let mut name = frag[frag.len() - 1].to_string();
-    if name.find("[").is_some() {
-        name = name.chars().take(name.find("[").unwrap()).collect();
+    if name.find('[').is_some() {
+        name = name.chars().take(name.find('[').unwrap()).collect();
     }
     let mut index = 0;
     let mut previous_was_uppercase = false;
@@ -210,7 +210,7 @@ fn get_field_name(line: &String) -> String {
             cleaned_char = c.to_ascii_lowercase()
         }
         previous_was_uppercase = current_is_uppercase;
-        index = index + 1;
+        index += 1;
         cleaned_char
     }).collect();
     if name == "type" {
@@ -224,10 +224,10 @@ fn get_field_name(line: &String) -> String {
 fn get_type(line: &String, should_ignore_array: bool) -> &'static Type {
     let is_unsigned = line.contains("unsigned");
     let type_str = line.replace("unsigned ", "");
-    if type_str.contains("[") && !should_ignore_array {
+    if type_str.contains('[') && !should_ignore_array {
         return   TYPES_MAP.get("array").unwrap();
     }
-    let frag: Vec<&str> = type_str.split(" ").collect();
+    let frag: Vec<&str> = type_str.split(' ').collect();
     let mut type_to_retrieve = frag[0].trim().to_string();
     if is_unsigned {
         type_to_retrieve = format!("unsigned {}", type_to_retrieve);
@@ -236,7 +236,7 @@ fn get_type(line: &String, should_ignore_array: bool) -> &'static Type {
     if found_type.is_none() {
         panic!("type {} not found in   TYPES_MAP", type_to_retrieve);
     }
-    return found_type.unwrap();
+    found_type.unwrap()
 }
 
 fn get_condition(line: &String) -> Condition {
