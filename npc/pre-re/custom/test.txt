@@ -17,9 +17,15 @@ OnInstanceInit:
 
 prontera,154,188,4	script	Global Variable Test	98, {
      mes "Previous char variable value " + counter_rust;
+     mes "Previous account variable value " + ##counter_rust;
+     mes "Previous server variable value " + $counter_rust;
      next;
     counter_rust += 1;
+    ##counter_rust += 1;
+    $counter_rust += 1;
      mes "New char variable value " + counter_rust;
+     mes "New account variable value " + ##counter_rust;
+     mes "New server variable value " + $counter_rust;
     close;
 }
 

@@ -9,7 +9,7 @@ use tokio::sync::mpsc;
 use packets::packets::{Packet, PacketCzContactnpc, PacketCzReqNextScript};
 
 use crate::{Script, Server};
-use crate::server::core::script::PlayerScriptHandler;
+use crate::server::script::script::PlayerScriptHandler;
 use crate::server::core::session::Session;
 
 pub fn handle_contact_npc(server: Arc<Server>, packet: &mut dyn Packet, tcp_stream: Arc<RwLock<TcpStream>>, session: Arc<Session>) {
