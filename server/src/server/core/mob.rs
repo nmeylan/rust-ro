@@ -10,7 +10,6 @@ use crate::server::core::map::{Map, MapItem};
 use crate::server::core::map_instance::MapInstance;
 use crate::server::core::status::Status;
 use crate::server::enums::map_item::MapItemType;
-use std::io::Write;
 use crate::util::tick::get_tick;
 
 #[derive(Setters)]
@@ -71,7 +70,7 @@ impl Mob {
             status,
             name,
             map_view: RwLock::new(vec![]),
-            current_map: RwLock::new(current_map.clone()),
+            current_map: RwLock::new(current_map),
             is_view_char: RwLock::new(false),
             movement_task_id: Default::default(),
             self_ref: Default::default(),
@@ -136,6 +135,6 @@ impl Mob {
                     })
             }
         }
-        return character_packets_map;
+        character_packets_map
     }
 }

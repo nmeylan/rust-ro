@@ -10,5 +10,5 @@ pub fn debug_in_game_chat(session: &Session, text: String) {
     zc_notify_chat.set_packet_length((text.len() + 8) as i16);
     zc_notify_chat.set_msg(text);
     zc_notify_chat.fill_raw();
-    session.send_to_map_socket(&zc_notify_chat.raw());
+    session.send_to_map_socket(zc_notify_chat.raw());
 }

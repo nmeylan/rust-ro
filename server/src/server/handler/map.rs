@@ -53,7 +53,7 @@ pub fn handle_char_loaded_client_side(_server: Arc<Server>, tcp_stream: Arc<RwLo
     packet_zc_notify_mapproperty2.fill_raw();
     packet_zc_hat_effect.set_aid(session_id);
     packet_zc_hat_effect.set_status(1);
-    packet_zc_hat_effect.set_len(9 + 0); // len is: 9 (packet len) + number of effects
+    packet_zc_hat_effect.set_len(9); // len is: 9 (packet len) + number of effects
     packet_zc_hat_effect.fill_raw();
     let final_response_packet: Vec<u8> = chain_packets(vec![&packet_zc_hat_effect, &packet_zc_notify_mapproperty2]);
     socket_send!(tcp_stream, &final_response_packet);

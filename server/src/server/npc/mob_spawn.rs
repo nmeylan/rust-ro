@@ -38,13 +38,13 @@ pub struct MobSpawn {
 pub enum MobType {
     Monster,
     Miniboss,
-    MVP
+    Mvp
 }
 
 impl MobType {
     pub fn from(string: &str) -> MobType {
         if string == "boss_monster" {
-            MobType::MVP
+            MobType::Mvp
         } else if string == "miniboss_monster" {
             MobType::Miniboss
         } else {
@@ -98,7 +98,7 @@ impl Npc for MobSpawn {
         let mut i = 0_u32;
         for line in reader.lines() {
             let mut mob_spawn = MobSpawn::default();
-            if !line.is_ok() {
+            if line.is_err() {
                 break;
             }
             let line = line.unwrap();
@@ -112,11 +112,11 @@ impl Npc for MobSpawn {
             // A mob "npc" definition is as below
             //
             // <map name>,<x>,<y>,{<xs>,<ys>}	monster	<mob name>{,<mob level>}	<mob id>,<amount>,{<delay1>,<delay2>,<event>,<mob size>,<mob ai>}
-            let line_fragment = line.split("\t").collect::<Vec<&str>>();
+            let line_fragment = line.split('\t').collect::<Vec<&str>>();
             if line_fragment.len() < 4 {
                 continue;
             }
-            let spawn_location_info = line_fragment[0].split(",").collect::<Vec<&str>>();
+            let spawn_location_info = line_fragment[0].split(',').collect::<Vec<&str>>();
             if spawn_location_info.len() < 3 {
                 return Err(format!("{}: {:?}: spawn_location_info.len() < 3", line, spawn_location_info));
             }
@@ -129,12 +129,12 @@ impl Npc for MobSpawn {
                 mob_spawn.set_y_size(spawn_location_info[4].to_string().parse::<u16>().unwrap());
             }
             mob_spawn.set_mob_type(MobType::from(line_fragment[1].trim()));
-            let mob_info = line_fragment[2].split(",").collect::<Vec<&str>>();
+            let mob_info = line_fragment[2].split(',').collect::<Vec<&str>>();
             mob_spawn.set_name(mob_info[0].to_string());
             if mob_info.len() >= 2 {
                 mob_spawn.set_level(mob_info[1].parse::<u16>().unwrap());
             }
-            let spawn_info = line_fragment[3].split(",").collect::<Vec<&str>>();
+            let spawn_info = line_fragment[3].split(',').collect::<Vec<&str>>();
             let result = spawn_info[0].parse::<i16>();
             if result.is_err() {
                 return Err(format!("{}: {} {}", line, spawn_info[0], result.err().unwrap()));

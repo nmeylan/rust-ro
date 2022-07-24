@@ -35,13 +35,13 @@ pub fn handle_char_move(server: Arc<Server>, packet: &mut dyn Packet, runtime: &
     // * Control player state (dead? stun?, frozen?)
     let id = rand::thread_rng().gen::<u64>();
     character.add_movement_task_id(id);
-    character_movement::move_character_task(runtime, path.clone(), session.clone(), server.clone(), id);
+    character_movement::move_character_task(runtime, path, session.clone(), server, id);
     let mut packet_zc_notify_playermove = PacketZcNotifyPlayermove::new();
     let current_position = Position { x: character.x(), y: character.y(), dir: 0 };
     packet_zc_notify_playermove.set_move_data(current_position.to_move_data(&destination));
     packet_zc_notify_playermove.set_move_start_time(get_tick());
     packet_zc_notify_playermove.fill_raw();
-    socket_send!(tcp_stream, &packet_zc_notify_playermove.raw());
+    socket_send!(tcp_stream, packet_zc_notify_playermove.raw());
     // debug_in_game_chat(&session, format!("path: {:?}", path.iter().map(|node| (node.x, node.y)).collect::<Vec<(u16, u16)>>()));
     // debug_in_game_chat(&session, format!("current_position: {:?}, destination {:?}", current_position, destination));
 }

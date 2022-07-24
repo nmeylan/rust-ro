@@ -16,7 +16,7 @@ lazy_static! {
     static ref COMMAND_REGEX: Regex = Regex::new(r"^([@#!])([^\s]*)\s?(.*)?").unwrap();
 }
 pub fn handle_atcommand(server: Arc<Server>, packet: &PacketCzPlayerChat, _runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, session: Arc<Session>) {
-    let index_of_colon = packet.msg.find(":").unwrap();
+    let index_of_colon = packet.msg.find(':').unwrap();
     let command_txt = &packet.msg[index_of_colon + 1..].trim();
     let maybe_captures = COMMAND_REGEX.captures(command_txt);
     if maybe_captures.is_none() {
@@ -30,7 +30,7 @@ pub fn handle_atcommand(server: Arc<Server>, packet: &PacketCzPlayerChat, _runti
     let command = captures.get(2).unwrap().as_str();
     let mut args = Vec::<&str>::new();
     if captures.len() > 2 {
-        args = captures.get(3).unwrap().as_str().split(" ").map(|arg| arg.trim_matches(char::from(0))).collect();
+        args = captures.get(3).unwrap().as_str().split(' ').map(|arg| arg.trim_matches(char::from(0))).collect();
     }
     let mut packet_zc_notify_playerchat = PacketZcNotifyPlayerchat::new();
     // let mut packets = vec![];
@@ -57,13 +57,10 @@ pub fn handle_go(server: Arc<Server>, session: Arc<Session>, args: Vec::<&str>) 
     let cities_len = server.configuration.maps.cities.len();
     let cleaned_arg = args[0].trim();
     let mut maybe_city: Option<&CityConfig> = None;
-    match cleaned_arg.parse::<i8>() {
-        Ok(index) => {
-            if index < cities_len as i8 {
-                maybe_city = unsafe { Some(server.configuration.maps.cities.get_unchecked(index as usize)) } // it safe, bounds are checked
-            }
-        },
-        _ => ()
+    if let Ok(index) = cleaned_arg.parse::<i8>() {
+        if index < cities_len as i8 {
+            maybe_city = unsafe { Some(server.configuration.maps.cities.get_unchecked(index as usize)) } // it safe, bounds are checked
+        }
     }
     if maybe_city.is_none() {
         // aliases
@@ -107,7 +104,7 @@ pub fn handle_go(server: Arc<Server>, session: Arc<Session>, args: Vec::<&str>) 
         _ => ()
     }
 
-    change_map(city.name.clone(), city.x, city.y, session.clone(), server);
+    change_map(city.name.clone(), city.x, city.y, session, server);
     format!("Warping at {} {},{}", city.name.clone(), city.x, city.y)
 }
 
@@ -128,5 +125,5 @@ pub fn handle_warp(server: Arc<Server>, session: Arc<Session>, args: Vec::<&str>
         let char_session = session.character.as_ref().unwrap();
         return format!("Warp to map {} at {},{}", map_name, char_session.get_x(), char_session.get_y());
     }
-    return format!("Map not found: {}", map_name);
+    format!("Map not found: {}", map_name)
 }

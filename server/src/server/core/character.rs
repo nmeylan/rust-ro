@@ -1,27 +1,28 @@
 use std::any::Any;
 use std::collections::HashSet;
-use std::hash::Hash;
 use std::net::TcpStream;
-
 use std::sync::{Arc, Mutex, RwLock};
-use packets::packets::{PacketZcNotifyStandentry6, PacketZcNotifyStandentry7, PacketZcNotifyVanish};
-use crate::server::core::map::{MAP_EXT, MapItem};
-use crate::server::core::character_movement::Position;
-use crate::server::core::session::Session;
-use crate::server::server::{PLAYER_FOV_SLICE_LEN, PLAYER_FOV};
-use packets::packets::Packet;
-use crate::util::coordinate;
-use crate::util::string::StringUtil;
-use std::sync::atomic::{AtomicU16, AtomicU64};
+use std::sync::atomic::AtomicU16;
 use std::sync::atomic::Ordering::{Acquire, Relaxed};
+
 use accessor::Setters;
+use packets::packets::{PacketZcNotifyStandentry7, PacketZcNotifyVanish};
+use packets::packets::Packet;
+
+use crate::server::core::character_movement::Position;
+use crate::server::core::map::{MAP_EXT, MapItem};
 use crate::server::core::map_instance::MapInstance;
 use crate::server::core::mob::Mob;
 use crate::server::core::path::manhattan_distance;
+use crate::server::core::session::Session;
 use crate::server::core::status::Status;
 use crate::server::enums::map_item::MapItemType;
+use crate::server::server::PLAYER_FOV;
+use crate::util::coordinate;
+use crate::util::string::StringUtil;
 
 pub type MovementTask = u64;
+
 #[derive(Setters)]
 pub struct Character {
     #[set]
@@ -137,7 +138,7 @@ impl Character {
     }
     pub fn remove_movement_task_id(&self, task: MovementTask) {
         let mut movement_tasks_guard = self.movement_tasks.lock().unwrap();
-        let maybe_task = movement_tasks_guard.iter().enumerate().find(|(index, movement_task)| **movement_task == task);
+        let maybe_task = movement_tasks_guard.iter().enumerate().find(|(_, movement_task)| **movement_task == task);
         if let Some((index, _)) = maybe_task {
             movement_tasks_guard.remove(index);
         }
@@ -166,11 +167,9 @@ impl Character {
         drop(current_map_guard);
         drop(map_items_guard);
         for item in map_items_clone {
-            if item.id() != self.id() {
-                if manhattan_distance(self.x(), self.y(), item.x(), item.y()) <= PLAYER_FOV {
-                    // info!("seeing {}", item.object_type());
-                    new_map_view.insert(item.clone());
-                }
+            if item.id() != self.id() && manhattan_distance(self.x(), self.y(), item.x(), item.y()) <= PLAYER_FOV {
+                // info!("seeing {}", item.object_type());
+                new_map_view.insert(item.clone());
             }
         }
 

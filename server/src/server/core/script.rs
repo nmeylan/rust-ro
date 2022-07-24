@@ -29,7 +29,7 @@ pub struct PlayerScriptHandler {
 }
 
 impl NativeMethodHandler for ScriptHandler {
-    fn handle(&self, native: &Native, params: Vec<Value>, execution_thread: &Thread, call_frame: &CallFrame) {
+    fn handle(&self, native: &Native, params: Vec<Value>, _execution_thread: &Thread, _call_frame: &CallFrame) {
         if native.name.eq("print") {
             println!("{}", params.iter().map(|p| {
                 match p {
@@ -78,7 +78,7 @@ impl PlayerScriptHandler {
                         .bind(variable_name)
                         .fetch_one(&self.server.repository.pool).await
                 });
-                if (char_reg_str.is_err()) {
+                if char_reg_str.is_err() {
                     error!("{:?}", char_reg_str.as_ref().err().unwrap());
                 }
                 execution_thread.push_constant_on_stack(Value::String(Some(char_reg_str.as_ref().map_or(String::from(""), |r| r.value.clone()))));
@@ -89,7 +89,7 @@ impl PlayerScriptHandler {
                         .bind(variable_name)
                         .fetch_one(&self.server.repository.pool).await
                 });
-                if (char_reg_num.is_err()) {
+                if char_reg_num.is_err() {
                     error!("{:?}", char_reg_num.as_ref().err().unwrap());
                 }
                 execution_thread.push_constant_on_stack(Value::Number(Some(char_reg_num.as_ref().map_or(0, |r| r.value))));
@@ -109,12 +109,11 @@ impl NativeMethodHandler for PlayerScriptHandler {
                     Value::ArrayEntry(_v) => { "array entry: TODO".to_string() }
                 }
             }).collect::<Vec<String>>().join(" "));
-            return;
         } else if native.name.eq("mes") {
             let mut packet_dialog = PacketZcSayDialog::new();
             packet_dialog.msg = params.iter().map(|text| text.string_value().unwrap().clone()).collect::<Vec<String>>().join("\n");
             packet_dialog.naid = self.npc_id;
-            packet_dialog.packet_length = (PacketZcSayDialog::base_len(self.server.packetver()) as i16 + packet_dialog.msg.len() as i16) + 1 as i16;
+            packet_dialog.packet_length = (PacketZcSayDialog::base_len(self.server.packetver()) as i16 + packet_dialog.msg.len() as i16) + 1_i16;
             packet_dialog.fill_raw();
             socket_send!(self.tcp_stream, packet_dialog.raw());
         } else if native.name.eq("close") {

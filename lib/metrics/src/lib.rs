@@ -39,7 +39,7 @@ pub fn elapsed(_args: TokenStream, function_def: TokenStream) -> TokenStream {
 pub fn elapsed_block(args: TokenStream, block_def: TokenStream) -> TokenStream {
     let mut block_name = "unnamed block".to_string();
     let attrs = parse_macro_input!(args as AttributeArgs);
-    if attrs.len() > 0 {
+    if !attrs.is_empty() {
         block_name = attrs.get(0).unwrap().to_token_stream().to_string();
     }
     let item = syn::parse::<Block>(block_def).unwrap();

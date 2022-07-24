@@ -1,14 +1,15 @@
-use crate::proxy::proxy::{PacketHandler, Proxy};
-use std::sync::{Arc, Mutex};
+use std::net::{SocketAddr, TcpStream};
 use std::net::IpAddr;
-use std::net::{TcpStream, SocketAddr};
 use std::str::FromStr;
-use packets::packets::{Packet};
+use std::sync::{Arc, Mutex};
+
+use packets::packets::Packet;
+
+use crate::proxy::proxy::{PacketHandler, Proxy};
 use crate::server::configuration::ProxyConfig;
 
 #[derive(Clone)]
-pub struct MapProxy {
-}
+pub struct MapProxy {}
 
 impl MapProxy {
     pub(crate) fn new(config: &ProxyConfig) -> Proxy<MapProxy> {
@@ -18,7 +19,7 @@ impl MapProxy {
             target: SocketAddr::new(IpAddr::from_str(&config.remote_map_server_ip).unwrap(), config.remote_map_server_port),
             specific_proxy: MapProxy {},
         };
-        return server;
+        server
     }
 }
 

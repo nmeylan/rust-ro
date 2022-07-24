@@ -11,7 +11,6 @@ use rathena_script_lang_interpreter::lang::scripts_compiler;
 use crate::MapItem;
 use crate::server::enums::map_item::MapItemType;
 
-static PARALLEL_EXECUTIONS: usize = 1;
 // TODO add a conf for this
 static SCRIPT_CONF_PATH: &str = "./npc/scripts_custom.conf";
 
@@ -42,7 +41,7 @@ impl MapItem for Script {
         self.sprite as i16
     }
     fn object_type(&self) -> i16 {
-        MapItemType::NPC.value()
+        MapItemType::Npc.value()
     }
 
     fn name(&self) -> String {
@@ -69,7 +68,7 @@ impl Script {
         let reader = BufReader::new(&conf_file);
         let mut paths = Vec::<String>::new();
         for line in reader.lines() {
-            if !line.is_ok() {
+            if line.is_err() {
                 break;
             }
             let mut line = line.unwrap();

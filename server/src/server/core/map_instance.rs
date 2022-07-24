@@ -1,6 +1,5 @@
 use std::collections::{HashMap, HashSet};
 use std::sync::{Arc, RwLock};
-use futures::StreamExt;
 use packets::packets::PacketZcNotifyMove;
 use crate::server::core::character::Character;
 use crate::server::core::map::{Map, MapItem, WARP_MASK};
@@ -71,22 +70,22 @@ impl MapInstance {
     pub fn from_map(map: &Map, server: Arc<Server>, id: u32, cells: Vec<u16>, mut map_items: HashSet<Arc<dyn MapItem>>) -> MapInstance {
         let _cells_len = cells.len();
         map.scripts.iter().for_each(|script| {
-            let (class_reference, instance_reference) = Vm::create_instance(server.vm.clone(), script.class_name.clone(), Box::new(&ScriptHandler)).unwrap();
+            let (_, instance_reference) = Vm::create_instance(server.vm.clone(), script.class_name.clone(), Box::new(&ScriptHandler)).unwrap();
             let mut script = script.clone();
             script.set_instance_reference(instance_reference);
             let script_arc = Arc::new(script);
             server.insert_map_item(script_arc.id(), script_arc.clone());
-            map_items.insert(script_arc.clone());
+            map_items.insert(script_arc);
         });
         MapInstance {
             name: map.name.clone(),
             id,
-            x_size: map.x_size.clone(),
-            y_size: map.y_size.clone(),
+            x_size: map.x_size,
+            y_size: map.y_size,
             cells,
             warps: map.warps.clone(),
             mob_spawns: map.mob_spawns.clone(),
-            mob_spawns_tracks: RwLock::new(map.mob_spawns.iter().map(|spawn| MobSpawnTrack::default(spawn.id.clone())).collect::<Vec<MobSpawnTrack>>()),
+            mob_spawns_tracks: RwLock::new(map.mob_spawns.iter().map(|spawn| MobSpawnTrack::default(spawn.id)).collect::<Vec<MobSpawnTrack>>()),
             mobs: Default::default(),
             characters: RwLock::new(HashSet::with_capacity(50)),
             map_items: RwLock::new(map_items)
@@ -188,9 +187,9 @@ impl MapInstance {
                 character_packets_map.get_mut(character).unwrap().push(packet.clone());
             });
         }
-        for (character, mut packets) in character_packets_map.iter() {
+        for (character, packets) in character_packets_map.iter() {
             let character = cast!(character, Character);
-            let packets = chain_packets_raws(packets.into_iter().map(|packet| packet.raw()).collect::<Vec<&Vec<u8>>>());
+            let packets = chain_packets_raws(packets.iter().map(|packet| packet.raw()).collect::<Vec<&Vec<u8>>>());
             let map_socket_guard = write_lock!(character.map_server_socket);
             let character_socket = map_socket_guard.as_ref().unwrap();
             socket_send!(character_socket, &packets);

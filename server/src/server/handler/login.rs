@@ -14,7 +14,7 @@ use crate::server::server::{Server};
 pub(crate) fn handle_login(server: Arc<Server>, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>) {
     let packet_ca_login = cast!(packet, PacketCaLogin);
     let res = runtime.block_on(async {
-        authenticate(server.clone(), &packet_ca_login, &server.repository).await
+        authenticate(server.clone(), packet_ca_login, &server.repository).await
     });
     info!("packetver {}", packet_ca_login.version);
     if res.as_any().downcast_ref::<PacketAcAcceptLogin2>().is_some() {
@@ -26,7 +26,7 @@ pub(crate) fn handle_login(server: Arc<Server>, packet: &mut dyn Packet, runtime
         }
         let new_user_session = Session::create_empty(packet_response.aid,packet_response.auth_code,packet_response.user_level, packet_ca_login.version); // TODO: packetver find solution to allow client to set packetver
         let mut sessions_guard = write_lock!(server.sessions);
-        sessions_guard.insert(packet_response.aid.clone(), Arc::new(new_user_session));
+        sessions_guard.insert(packet_response.aid, Arc::new(new_user_session));
         socket_send!(tcp_stream, res.raw());
     } else if res.as_any().downcast_ref::<PacketAcAcceptLogin>().is_some() {
         let packet_response = res.as_any().downcast_ref::<PacketAcAcceptLogin>().unwrap();
@@ -37,7 +37,7 @@ pub(crate) fn handle_login(server: Arc<Server>, packet: &mut dyn Packet, runtime
         }
         let new_user_session = Session::create_empty(packet_response.aid,packet_response.auth_code,packet_response.user_level, packet_ca_login.version); // TODO: packetver find solution to allow client to set packetver
         let mut sessions_guard = write_lock!(server.sessions);
-        sessions_guard.insert(packet_response.aid.clone(), Arc::new(new_user_session));
+        sessions_guard.insert(packet_response.aid, Arc::new(new_user_session));
         socket_send!(tcp_stream, res.raw());
     } else {
         socket_send!(tcp_stream, res.raw());
@@ -96,7 +96,7 @@ pub async fn authenticate(server: Arc<Server>, packet: &PacketCaLogin, repositor
         }
 
     }
-    let mut refuse_login_packet: Box<dyn Packet>;
+    let refuse_login_packet: Box<dyn Packet>;
     if server.packetver() >= 20180627 {
         let mut refuse_login_packet3 = PacketAcRefuseLoginR3::new();
         refuse_login_packet3.set_error_code(1);
@@ -130,7 +130,7 @@ fn proxy_login(server: Arc<Server>, packet: &mut dyn Packet, tcp_stream: Arc<RwL
                         remote_login_server_clone.shutdown(Shutdown::Both).expect("Unable to shutdown remote login server socket");
                         break;
                     }
-                    let mut packet = parse(&mut buffer[..bytes_read], server.packetver());
+                    let mut packet = parse(&buffer[..bytes_read], server.packetver());
                     if packet.as_any().downcast_ref::<PacketAcAcceptLogin2>().is_some() {
                         let packet_accept_login2 = packet.as_any_mut().downcast_mut::<PacketAcAcceptLogin2>().unwrap();
                         let server_char = packet_accept_login2.server_list.get_mut(0).unwrap();
