@@ -197,8 +197,8 @@ fn write_struct_from_method(file: &mut File, struct_definition: &StructDefinitio
     file.write_all(format!("    pub fn from(buffer: &[u8], packetver: u32) -> {} {{\n", struct_definition.name).as_bytes()).unwrap();
     file.write_all("        let mut offset: usize = 0;\n".to_string().as_bytes()).unwrap();
     let field_with_vec = struct_definition.fields.iter().find(|field| field.data_type.name == "Vec");
-    if field_with_vec.is_some() {
-        write_vec_field(file, field_with_vec.unwrap());
+    if let Some(field_with_vec) = field_with_vec {
+        write_vec_field(file, field_with_vec);
     }
     file.write_all(format!("        {} {{\n", struct_definition.name).as_bytes()).unwrap();
     file.write_all("            raw: buffer.to_vec(),\n".to_string().as_bytes()).unwrap();

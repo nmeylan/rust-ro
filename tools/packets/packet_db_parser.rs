@@ -109,9 +109,9 @@ fn copy_struct_definition<'a>(struct_def_ref: RefMut<StructDefinition<'a>>) -> S
     }
 }
 
-fn struct_name(name: &String) -> String {
+fn struct_name(name: &str) -> String {
     if !name.contains('_') {
-        return name.clone();
+        return name.to_string();
     }
     let mut new_name = name.to_lowercase();
     new_name = AFTER_UNDERSCORE_CHAR_REGEX.replace_all(&new_name, |caps: &Captures| { caps.get(1).unwrap().as_str().to_uppercase() }).to_string();
@@ -125,8 +125,8 @@ fn get_field_for_nested_struct<'a>(line: String, position: i16) -> StructField<'
     let name = nested_struct_matches.get(2).unwrap().as_str().to_string();
     let mut length: i16 = -1;
     let length_match = nested_struct_matches.get(3);
-    if length_match.is_some() {
-        length = length_match.unwrap().as_str().parse::<i16>().unwrap();
+    if let Some(length_match) = length_match {
+        length = length_match.as_str().parse::<i16>().unwrap();
     }
     StructField {
         name: get_field_name(&name),
@@ -158,8 +158,7 @@ fn get_field<'a>(field_line: String, position: i16) -> StructField<'a> {
 
     if field_type.name ==  "Array" {
         let captures_option = ARRAY_REGEX.captures(field_line.as_str());
-        if captures_option.is_some() { // match xxx[12]
-            let options = captures_option.unwrap();
+        if let Some(options) = captures_option { // match xxx[12]
             if field_line.contains("char") {
                 sub_type = Some(  TYPES_MAP.get("rust char").unwrap());
             } else {
@@ -186,8 +185,8 @@ fn get_string_field_length(line: &String) -> i16 {
     let frag: Vec<&str> = line.split(' ').collect();
     let name = frag[frag.len() - 1].to_string();
     let string_len = STRING_LEN_REGEX.captures(name.as_str());
-    if string_len.is_some() {
-        string_len.unwrap().get(1).unwrap().as_str().parse::<i16>().unwrap()
+    if let Some(string_len) = string_len {
+        string_len.get(1).unwrap().as_str().parse::<i16>().unwrap()
     } else {
         -1
     }
