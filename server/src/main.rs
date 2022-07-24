@@ -31,7 +31,7 @@ use crate::server::core::map::{Map, MapItem};
 use crate::server::npc::warps::Warp;
 use crate::server::server::Server;
 use crate::server::configuration::Config;
-use crate::server::core::script::ScriptHandler;
+use self::server::script::script::ScriptHandler;
 use crate::server::npc::mob_spawn::MobSpawn;
 use crate::server::npc::script::Script;
 use crate::util::log_filter::LogFilter;

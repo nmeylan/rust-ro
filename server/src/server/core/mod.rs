@@ -10,4 +10,3 @@ pub mod path;
 pub mod status;
 pub mod map_instance;
 pub mod mob;
-pub mod script;

@@ -50,52 +50,6 @@ impl PlayerScriptHandler {
         // TODO handle timeout!
         self.player_action_receiver.write().unwrap().blocking_recv()
     }
-
-    fn handle_setglobalvariable(&self, params: &Vec<Value>) {
-        let variable_name = params[0].string_value().unwrap();
-        let variable_scope = params[1].string_value().unwrap();
-        let value = params[2].clone();
-        println!("{} - {}", variable_name, variable_scope);
-        if variable_scope == "char_permanent" {
-            if value.is_number() {
-                let char_reg_num = CharRegNum { char_id: self.session.character.as_ref().unwrap().char_id, key: variable_name.to_string(), index: 0, value: value.number_value().unwrap() };
-                self.runtime.block_on(async { char_reg_num.upsert(&self.server.repository.pool, "char_reg_num_db").await.unwrap() });
-            } else {
-                let char_reg_str = CharRegStr { char_id: self.session.character.as_ref().unwrap().char_id, key: variable_name.to_string(), index: 0, value: value.string_value().unwrap().clone() };
-                self.runtime.block_on(async { char_reg_str.upsert(&self.server.repository.pool, "char_reg_str_db").await.unwrap() });
-            }
-        } else if variable_scope == "account_permanent" {} else if variable_scope == "server_permanent" {}
-    }
-
-    fn handle_getglobalvariable(&self, params: Vec<Value>, execution_thread: &Thread) {
-        let variable_name = params[0].string_value().unwrap();
-        let variable_scope = params[1].string_value().unwrap();
-        if variable_scope == "account_permanent" {} else if variable_scope == "char_permanent" {
-            if variable_name.ends_with("\\$") {
-                let char_reg_str: Result<CharRegStr, Error> = self.runtime.block_on(async {
-                    sqlx::query_as::<_, CharRegStr>("SELECT * FROM `char_reg_str_db` WHERE `char_id` = ? AND `key` = ? AND `index` = 0")
-                        .bind(self.session.character.as_ref().unwrap().char_id)
-                        .bind(variable_name)
-                        .fetch_one(&self.server.repository.pool).await
-                });
-                if char_reg_str.is_err() {
-                    error!("{:?}", char_reg_str.as_ref().err().unwrap());
-                }
-                execution_thread.push_constant_on_stack(Value::String(Some(char_reg_str.as_ref().map_or(String::from(""), |r| r.value.clone()))));
-            } else {
-                let char_reg_num: Result<CharRegNum, Error> = self.runtime.block_on(async {
-                    sqlx::query_as::<_, CharRegNum>("SELECT * FROM `char_reg_num_db` WHERE `char_id` = ? AND `key` = ? AND `index` = 0")
-                        .bind(self.session.character.as_ref().unwrap().char_id)
-                        .bind(variable_name)
-                        .fetch_one(&self.server.repository.pool).await
-                });
-                if char_reg_num.is_err() {
-                    error!("{:?}", char_reg_num.as_ref().err().unwrap());
-                }
-                execution_thread.push_constant_on_stack(Value::Number(Some(char_reg_num.as_ref().map_or(0, |r| r.value))));
-            }
-        } else if variable_scope == "server" {}
-    }
 }
 
 impl NativeMethodHandler for PlayerScriptHandler {
