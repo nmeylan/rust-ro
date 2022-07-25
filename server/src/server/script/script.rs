@@ -6,14 +6,12 @@ use rathena_script_lang_interpreter::lang::call_frame::CallFrame;
 use rathena_script_lang_interpreter::lang::thread::Thread;
 use rathena_script_lang_interpreter::lang::value::{Native, Value};
 use rathena_script_lang_interpreter::lang::vm::NativeMethodHandler;
-use sqlx::Error;
 use tokio::runtime::Runtime;
 use tokio::sync::mpsc::Receiver;
 
-use packets::packets::{PacketZcCloseDialog, PacketZcSayDialog, PacketZcWaitDialog};
+use packets::packets::{PacketZcCloseDialog, PacketZcMenuList, PacketZcSayDialog, PacketZcWaitDialog};
 
 use crate::packets::packets::Packet;
-use crate::repository::model::global_variable_registry_model::{CharRegNum, CharRegStr};
 use crate::Server;
 use crate::server::core::session::Session;
 
@@ -106,6 +104,7 @@ impl NativeMethodHandler for PlayerScriptHandler {
             //     index += 2;
             // }
         } else if native.name.eq("getglobalarray") {
+        } else if native.name.eq("getglobalarray") {
             // let variable_name = params[0].string_value().unwrap();
             // let variable_scope = params[1].string_value().unwrap();
             // let array_entries = self.find_global_array_entries(variable_name, variable_scope);
@@ -114,6 +113,33 @@ impl NativeMethodHandler for PlayerScriptHandler {
             //     execution_thread.push_constant_on_stack(Value::Number(Some(entry.index.unwrap() as i32)));
             // }
             // execution_thread.push_constant_on_stack(Value::Number(Some((array_entries.len() * 2) as i32)));
+        } else if native.name.eq("select") {
+            let menu_str = params.iter().map(|p| {
+                if p.is_number() {
+                    format!("{}", p.number_value().unwrap())
+                } else if p.is_string() {
+                    p.string_value().unwrap().clone()
+                } else {
+                    String::new()
+                }
+            }).collect::<Vec<String>>().join(":");
+            let mut packet_zc_menu_list = PacketZcMenuList::new();
+            packet_zc_menu_list.naid = self.npc_id;
+            packet_zc_menu_list.msg = menu_str;
+            packet_zc_menu_list.packet_length = (PacketZcMenuList::base_len(self.server.packetver()) as i16 + packet_zc_menu_list.msg.len() as i16) + 1_i16;
+            packet_zc_menu_list.fill_raw();
+            socket_send!(self.tcp_stream, packet_zc_menu_list.raw());
+            let selected_option = self.block_recv();
+            if let Some(selected_option) = selected_option {
+                let selected_option = u8::from_le_bytes([selected_option[0]]);
+                if selected_option == 255 {
+                    execution_thread.abort();
+                    return;
+                }
+                execution_thread.push_constant_on_stack(Value::Number(Some(selected_option as i32)));
+            } else {
+                execution_thread.abort();
+            }
         } else {
             error!("Native function \"{}\" not handled yet!", native.name);
         }

@@ -31,3 +31,19 @@ prontera,154,188,4	script	Global Variable Test	98, {
 
 prontera,154,178,4	duplicate(Test)	Test Npc Instance1	100
 prontera,159,178,4	duplicate(Test)	Test Npc Instance2	100
+
+prontera,170,180,1	script	Stylist	122,{
+    mes "You select " + select("a", "b", "c");
+
+    setarray .@a[0], 1, 2, 3;
+    next;
+    select(" ~ Cloth color: ~ Hairstyle: ~ Hair color");
+    if (select("Yes:No" ) == 1)
+    		mes "You said yes, I know.";
+    else
+    		mes "You said NO, I know.";
+    next;
+
+    select(.@a);
+    close;
+}
