@@ -6,7 +6,7 @@ use rathena_script_lang_interpreter::lang::vm::Vm;
 use tokio::runtime::Runtime;
 use tokio::sync::mpsc;
 
-use packets::packets::{Packet, PacketCzContactnpc, PacketCzReqNextScript};
+use packets::packets::{Packet, PacketCzContactnpc, PacketCzChooseMenu};
 
 use crate::{Script, Server};
 use crate::server::script::script::PlayerScriptHandler;
@@ -35,4 +35,9 @@ pub fn handle_contact_npc(server: Arc<Server>, packet: &mut dyn Packet, tcp_stre
 
 pub fn handle_player_next(session: Arc<Session>) {
     session.script_handler_channel_sender.lock().unwrap().as_ref().unwrap().blocking_send(vec![0]).unwrap();
+}
+
+pub fn handle_player_choose_menu(packet: &mut dyn Packet, session: Arc<Session>) {
+    let packet_cz_choose_menu= cast!(packet, PacketCzChooseMenu);
+    session.script_handler_channel_sender.lock().unwrap().as_ref().unwrap().blocking_send(Vec::from(packet_cz_choose_menu.num_raw)).unwrap();
 }
