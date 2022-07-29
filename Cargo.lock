@@ -691,6 +691,14 @@ version = "0.15.0"
 source = "git+https://github.com/nmeylan/egui#7318c1aee30c51b99b658e1c8358dbbc68650d52"
 
 [[package]]
+name = "enum"
+version = "0.1.0"
+dependencies = [
+ "quote",
+ "syn",
+]
+
+[[package]]
 name = "epaint"
 version = "0.15.0"
 source = "git+https://github.com/nmeylan/egui#7318c1aee30c51b99b658e1c8358dbbc68650d52"
@@ -1964,6 +1972,7 @@ dependencies = [
  "accessor",
  "byteorder",
  "eframe",
+ "enum",
  "flate2",
  "flexi_logger",
  "futures",

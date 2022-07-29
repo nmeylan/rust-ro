@@ -15,6 +15,7 @@ extern crate accessor;
 extern crate metrics;
 extern crate packets;
 extern crate sqlx;
+extern crate core;
 
 use std::collections::HashMap;
 
