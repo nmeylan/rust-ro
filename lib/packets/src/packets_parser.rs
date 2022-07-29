@@ -1138,7 +1138,7 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x01 && buffer[1] == 0xd6 {
         return Box::new(PacketZcNotifyMaptypeproperty2::from(buffer, packetver));
     }
-    if buffer[0] == 0x01 && buffer[1] == 0xd7 {
+    if buffer[0] == 0xd7 && buffer[1] == 0x01 {
         return Box::new(PacketZcSpriteChange2::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xd8 {

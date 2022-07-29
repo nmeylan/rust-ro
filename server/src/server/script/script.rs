@@ -9,13 +9,13 @@ use rathena_script_lang_interpreter::lang::vm::NativeMethodHandler;
 use tokio::runtime::Runtime;
 use tokio::sync::mpsc::Receiver;
 
-use packets::packets::{PacketZcCloseDialog, PacketZcMenuList, PacketZcSayDialog, PacketZcWaitDialog};
+use packets::packets::{PacketZcCloseDialog, PacketZcMenuList, PacketZcNotifyPlayerchat, PacketZcSayDialog, PacketZcSpriteChange2, PacketZcWaitDialog};
 
 use crate::packets::packets::Packet;
 use crate::Server;
 use crate::server::core::session::Session;
 use crate::server::core::status::LookType;
-use crate::server::script::constant::load_constant;
+use crate::server::script::constant::{get_battle_flag, load_constant};
 
 pub struct ScriptHandler;
 
@@ -165,6 +165,40 @@ impl NativeMethodHandler for PlayerScriptHandler {
                 self.session.character.as_ref().unwrap()
             };
             char.change_look(LookType::from_value(look_type as usize), look_value as u32, &self.runtime, self.server.clone());
+            let mut packet_zc_sprite_change = PacketZcSpriteChange2::new();
+            packet_zc_sprite_change.set_gid(self.session.character.as_ref().unwrap().char_id);
+            packet_zc_sprite_change.set_atype(look_type as u8);
+            packet_zc_sprite_change.set_value(look_value);
+            packet_zc_sprite_change.fill_raw();
+            // TODO: [multiplayer] send to all other char
+            socket_send!(self.tcp_stream, packet_zc_sprite_change.raw());
+        } else if native.name.eq("strcharinfo") {
+            let info_type = params[0].number_value().unwrap() as usize;
+            let char = if params.len() == 2 {
+                // TODO
+                panic!("setlook with char_id not yet supported")
+            } else {
+                self.session.character.as_ref().unwrap()
+            };
+            let char_info = match info_type  {
+                0 => Value::new_string(char.name.clone()),
+                1 => Value::new_string("TODO PARTY NAME".to_string()),
+                2 => Value::new_string("TODO GUILD NAME".to_string()),
+                3 => Value::new_string(read_lock!(char.current_map).as_ref().unwrap().name.clone()),
+                _ => Value::new_string(format!("Unknown char info type {}", info_type))
+            };
+            execution_thread.push_constant_on_stack(char_info);
+        } else if native.name.eq("message") {
+            let message = params[0].string_value().unwrap();
+            let mut packet_zc_notify_playerchat = PacketZcNotifyPlayerchat::new();
+            packet_zc_notify_playerchat.set_msg(message.to_string());
+            packet_zc_notify_playerchat.set_packet_length((PacketZcNotifyPlayerchat::base_len(self.server.packetver()) + message.len() + 1) as i16);
+            packet_zc_notify_playerchat.fill_raw();
+            socket_send!(self.tcp_stream, packet_zc_notify_playerchat.raw());
+        } else if native.name.eq("getbattleflag") {
+            let constant_name = params[0].string_value().unwrap();
+            let value = get_battle_flag(constant_name);
+            execution_thread.push_constant_on_stack(value);
         } else {
             error!("Native function \"{}\" not handled yet!", native.name);
         }
