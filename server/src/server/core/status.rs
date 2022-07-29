@@ -64,7 +64,7 @@ impl Clone for Look {
     }
 }
 
-#[derive(r#enum::WithNumberValue)]
+#[derive(r#enum::WithNumberValue, Debug)]
 pub enum LookType {
     Hair,
     HairColor,

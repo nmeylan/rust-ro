@@ -4,13 +4,14 @@ use std::net::TcpStream;
 use std::sync::{Arc, Mutex, RwLock};
 use std::sync::atomic::AtomicU16;
 use std::sync::atomic::Ordering::{Acquire, Relaxed};
+
 use tokio::runtime::Runtime;
 
 use accessor::Setters;
 use packets::packets::{PacketZcNotifyStandentry7, PacketZcNotifyVanish};
 use packets::packets::Packet;
-use crate::Server;
 
+use crate::Server;
 use crate::server::core::character_movement::Position;
 use crate::server::core::map::{MAP_EXT, MapItem};
 use crate::server::core::map_instance::MapInstance;
@@ -215,40 +216,76 @@ impl Character {
         *map_view_guard = new_map_view;
     }
 
-    pub fn change_look(&self, look: LookType, value: u32, runtime: &Runtime, server: Arc<Server> ) {
+    pub fn get_look(&self, look_type: LookType) -> u32 {
         if self.status.look.is_none() {
             error!("Character has no look");
-            return
+            return 0;
         }
-        match look {
+        let look = self.status.look.as_ref().unwrap();
+        match look_type {
+            LookType::Hair => look.hair.load(Relaxed) as u32,
+            LookType::HairColor => look.hair_color.load(Relaxed),
+            LookType::ClothesColor => look.clothes_color.load(Relaxed),
+            LookType::Body => look.body.load(Relaxed),
+            LookType::Weapon => look.weapon.load(Relaxed),
+            LookType::Shield => look.shield.load(Relaxed),
+            LookType::HeadBottom => look.head_bottom.load(Relaxed),
+            LookType::HeadTop => look.head_top.load(Relaxed),
+            LookType::HeadMid => look.head_middle.load(Relaxed),
+            LookType::Robe => look.robe.load(Relaxed),
+        }
+    }
+
+    pub fn change_look(&self, look: LookType, value: u32, runtime: &Runtime, server: Arc<Server>) {
+        if self.status.look.is_none() {
+            error!("Character has no look");
+            return;
+        }
+        let db_column = match look {
             LookType::Hair => {
-                self.status.look.as_ref().unwrap().hair.store(value as u16, Relaxed)
-            },
+                self.status.look.as_ref().unwrap().hair.store(value as u16, Relaxed);
+                "hair"
+            }
             LookType::HairColor => {
-                self.status.look.as_ref().unwrap().hair_color.store(value as u32, Relaxed)
-            },
+                self.status.look.as_ref().unwrap().hair_color.store(value as u32, Relaxed);
+                "hair_color"
+            }
             LookType::ClothesColor => {
-                self.status.look.as_ref().unwrap().clothes_color.store(value as u32, Relaxed)
+                self.status.look.as_ref().unwrap().clothes_color.store(value as u32, Relaxed);
+                "clothes_color"
             }
             LookType::Body => {
-                self.status.look.as_ref().unwrap().body.store(value as u32, Relaxed)
+                self.status.look.as_ref().unwrap().body.store(value as u32, Relaxed);
+                "body"
             }
             LookType::Weapon => {
-                self.status.look.as_ref().unwrap().weapon.store(value as u32, Relaxed)
+                self.status.look.as_ref().unwrap().weapon.store(value as u32, Relaxed);
+                "weapon"
             }
             LookType::Shield => {
-                self.status.look.as_ref().unwrap().shield.store(value as u32, Relaxed)
+                self.status.look.as_ref().unwrap().shield.store(value as u32, Relaxed);
+                "shield"
             }
             LookType::HeadBottom => {
-                self.status.look.as_ref().unwrap().head_bottom.store(value as u32, Relaxed)
+                self.status.look.as_ref().unwrap().head_bottom.store(value as u32, Relaxed);
+                "head_bottom"
             }
             LookType::HeadTop => {
-                self.status.look.as_ref().unwrap().head_top.store(value as u32, Relaxed)
+                self.status.look.as_ref().unwrap().head_top.store(value as u32, Relaxed);
+                "head_top"
             }
             LookType::HeadMid => {
-                self.status.look.as_ref().unwrap().head_middle.store(value as u32, Relaxed)}
+                self.status.look.as_ref().unwrap().head_middle.store(value as u32, Relaxed);
+                "head_mid"
+            }
             LookType::Robe => {
-                self.status.look.as_ref().unwrap().robe.store(value as u32, Relaxed)}
-        }
+                self.status.look.as_ref().unwrap().robe.store(value as u32, Relaxed);
+                "robe"
+            }
+        };
+        runtime.block_on(async {
+            let sql = format!("UPDATE `char` SET `{}` = ? WHERE `char_id` = ?", db_column);
+            sqlx::query(&sql).bind(value).bind(self.char_id).execute(&server.repository.pool).await.unwrap();
+        });
     }
 }

@@ -14,6 +14,7 @@ use packets::packets::{PacketZcCloseDialog, PacketZcMenuList, PacketZcSayDialog,
 use crate::packets::packets::Packet;
 use crate::Server;
 use crate::server::core::session::Session;
+use crate::server::core::status::LookType;
 use crate::server::script::constant::load_constant;
 
 pub struct ScriptHandler;
@@ -104,8 +105,7 @@ impl NativeMethodHandler for PlayerScriptHandler {
             //     );
             //     index += 2;
             // }
-        } else if native.name.eq("getglobalarray") {
-        } else if native.name.eq("getglobalarray") {
+        } else if native.name.eq("getglobalarray") {} else if native.name.eq("getglobalarray") {
             // let variable_name = params[0].string_value().unwrap();
             // let variable_scope = params[1].string_value().unwrap();
             // let array_entries = self.find_global_array_entries(variable_name, variable_scope);
@@ -145,6 +145,26 @@ impl NativeMethodHandler for PlayerScriptHandler {
             let constant_name = params[0].string_value().unwrap();
             let value = load_constant(constant_name);
             execution_thread.push_constant_on_stack(value);
+        } else if native.name.eq("getlook") {
+            let look_type = params[0].number_value().unwrap();
+            let char = if params.len() == 2 {
+                // TODO
+                panic!("getlook with char_id not yet supported")
+            } else {
+                self.session.character.as_ref().unwrap()
+            };
+            let look_value = char.get_look(LookType::from_value(look_type as usize));
+            execution_thread.push_constant_on_stack(Value::new_number(look_value as i32));
+        } else if native.name.eq("setlook") {
+            let look_type = params[0].number_value().unwrap();
+            let look_value = params[1].number_value().unwrap();
+            let char = if params.len() == 3 {
+                // TODO
+                panic!("setlook with char_id not yet supported")
+            } else {
+                self.session.character.as_ref().unwrap()
+            };
+            char.change_look(LookType::from_value(look_type as usize), look_value as u32, &self.runtime, self.server.clone());
         } else {
             error!("Native function \"{}\" not handled yet!", native.name);
         }
