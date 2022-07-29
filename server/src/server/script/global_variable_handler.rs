@@ -1,8 +1,16 @@
+use lazy_static::lazy_static;
 use rathena_script_lang_interpreter::lang::thread::Thread;
 use rathena_script_lang_interpreter::lang::value::Value;
 use sqlx::Error;
+use regex::Regex;
+
 use crate::repository::model::global_variable_registry_model::{AccountRegNum, AccountRegStr, CharRegNum, CharRegStr, ServerRegNum, ServerRegStr};
+use crate::server::script::constant::load_constant;
 use crate::server::script::script::PlayerScriptHandler;
+
+lazy_static! {
+        static ref CONSTANT_REGEX: Regex = Regex::new("[A-Z_]*").unwrap();
+    }
 
 impl PlayerScriptHandler {
     pub fn handle_setglobalvariable(&self, params: &Vec<Value>) {
@@ -46,7 +54,7 @@ impl PlayerScriptHandler {
                         .bind(self.session.account_id).bind(variable_name).fetch_one(&self.server.repository.pool).await
                 });
                 if account_reg_str.is_err() {
-                    error!("{:?}", account_reg_str.as_ref().err().unwrap());
+                    error!("account_permanent {:?}", account_reg_str.as_ref().err().unwrap());
                 }
                 execution_thread.push_constant_on_stack(Value::String(Some(account_reg_str.as_ref().map_or(String::from(""), |r| r.value.clone()))));
             } else {
@@ -55,18 +63,23 @@ impl PlayerScriptHandler {
                         .bind(self.session.account_id).bind(variable_name).fetch_one(&self.server.repository.pool).await
                 });
                 if account_reg_num.is_err() {
-                    error!("{:?}", account_reg_num.as_ref().err().unwrap());
+                    error!("account_permanent {:?}", account_reg_num.as_ref().err().unwrap());
                 }
                 execution_thread.push_constant_on_stack(Value::Number(Some(account_reg_num.as_ref().map_or(0, |r| r.value))));
             }
         } else if variable_scope == "char_permanent" {
+            if CONSTANT_REGEX.is_match(variable_name) {
+                let value = load_constant(variable_name);
+                execution_thread.push_constant_on_stack(value);
+                return;
+            }
             if variable_name.ends_with("\\$") {
                 let char_reg_str: Result<CharRegStr, Error> = self.runtime.block_on(async {
                     sqlx::query_as::<_, CharRegStr>("SELECT * FROM `char_reg_str_db` WHERE `char_id` = ? AND `key` = ? AND `index` = 0")
                         .bind(self.session.character.as_ref().unwrap().char_id).bind(variable_name).fetch_one(&self.server.repository.pool).await
                 });
                 if char_reg_str.is_err() {
-                    error!("{:?}", char_reg_str.as_ref().err().unwrap());
+                    error!("char_permanent {:?}", char_reg_str.as_ref().err().unwrap());
                 }
                 execution_thread.push_constant_on_stack(Value::String(Some(char_reg_str.as_ref().map_or(String::from(""), |r| r.value.clone()))));
             } else {
@@ -75,7 +88,7 @@ impl PlayerScriptHandler {
                         .bind(self.session.character.as_ref().unwrap().char_id).bind(variable_name).fetch_one(&self.server.repository.pool).await
                 });
                 if char_reg_num.is_err() {
-                    error!("{:?}", char_reg_num.as_ref().err().unwrap());
+                    error!("char_permanent {:?}", char_reg_num.as_ref().err().unwrap());
                 }
                 execution_thread.push_constant_on_stack(Value::Number(Some(char_reg_num.as_ref().map_or(0, |r| r.value))));
             }
@@ -86,7 +99,7 @@ impl PlayerScriptHandler {
                         .bind(variable_name).fetch_one(&self.server.repository.pool).await
                 });
                 if server_reg_str.is_err() {
-                    error!("{:?}", server_reg_str.as_ref().err().unwrap());
+                    error!("server_permanent {:?}", server_reg_str.as_ref().err().unwrap());
                 }
                 execution_thread.push_constant_on_stack(Value::String(Some(server_reg_str.as_ref().map_or(String::from(""), |r| r.value.clone()))));
             } else {
@@ -95,7 +108,7 @@ impl PlayerScriptHandler {
                         .bind(variable_name).fetch_one(&self.server.repository.pool).await
                 });
                 if server_reg_num.is_err() {
-                    error!("{:?}", server_reg_num.as_ref().err().unwrap());
+                    error!("server_permanent {:?}", server_reg_num.as_ref().err().unwrap());
                 }
                 execution_thread.push_constant_on_stack(Value::Number(Some(server_reg_num.as_ref().map_or(0, |r| r.value))));
             }

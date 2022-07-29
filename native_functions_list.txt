@@ -8,3 +8,5 @@ mes,1,255
 close,0,0
 next,0,0
 select,1,255,Number
+getlook,1,2,Number
+setlook,2,3
