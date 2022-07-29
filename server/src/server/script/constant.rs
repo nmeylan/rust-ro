@@ -1,0 +1,19 @@
+use rathena_script_lang_interpreter::lang::value::Value;
+use crate::server::core::status::{LookType};
+
+pub fn load_constant(constant_name: &String) -> Value {
+    match constant_name.as_ref() {
+        // LOOK
+        "LOOK_HAIR" => Value::new_number(LookType::Hair.value() as i32),
+        "LOOK_WEAPON" => Value::new_number(LookType::Weapon.value() as i32),
+        "LOOK_HEAD_BOTTOM" => Value::new_number(LookType::HeadBottom.value() as i32),
+        "LOOK_HEAD_TOP" => Value::new_number(LookType::HeadTop.value() as i32),
+        "LOOK_HEAD_MID" => Value::new_number(LookType::HeadMid.value() as i32),
+        "LOOK_HAIR_COLOR" => Value::new_number(LookType::HairColor.value() as i32),
+        "LOOK_CLOTHES_COLOR" => Value::new_number(LookType::ClothesColor.value() as i32),
+        "LOOK_SHIELD" => Value::new_number(LookType::Shield.value() as i32),
+        "LOOK_ROBE" => Value::new_number(LookType::Robe.value() as i32),
+        "LOOK_BODY2" => Value::new_number(LookType::Body.value() as i32),
+        &_ => panic!("")
+    }
+}

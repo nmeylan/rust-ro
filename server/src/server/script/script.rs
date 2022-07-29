@@ -14,6 +14,7 @@ use packets::packets::{PacketZcCloseDialog, PacketZcMenuList, PacketZcSayDialog,
 use crate::packets::packets::Packet;
 use crate::Server;
 use crate::server::core::session::Session;
+use crate::server::script::constant::load_constant;
 
 pub struct ScriptHandler;
 
@@ -140,6 +141,10 @@ impl NativeMethodHandler for PlayerScriptHandler {
             } else {
                 execution_thread.abort();
             }
+        } else if native.name.eq("loadconstant") {
+            let constant_name = params[0].string_value().unwrap();
+            let value = load_constant(constant_name);
+            execution_thread.push_constant_on_stack(value);
         } else {
             error!("Native function \"{}\" not handled yet!", native.name);
         }

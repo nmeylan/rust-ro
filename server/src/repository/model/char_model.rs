@@ -133,4 +133,12 @@ pub struct CharSelectModel {
     pub save_y: u16,
     pub sex: String,
     pub inventory_size: u32,
+    pub clothes_color: u32,
+    pub body: u32,
+    pub weapon: u32,
+    pub shield: u32,
+    pub head_top: u32,
+    pub head_mid: u32,
+    pub head_bottom: u32,
+    pub robe: u32,
 }

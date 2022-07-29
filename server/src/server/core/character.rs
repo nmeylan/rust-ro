@@ -4,10 +4,12 @@ use std::net::TcpStream;
 use std::sync::{Arc, Mutex, RwLock};
 use std::sync::atomic::AtomicU16;
 use std::sync::atomic::Ordering::{Acquire, Relaxed};
+use tokio::runtime::Runtime;
 
 use accessor::Setters;
 use packets::packets::{PacketZcNotifyStandentry7, PacketZcNotifyVanish};
 use packets::packets::Packet;
+use crate::Server;
 
 use crate::server::core::character_movement::Position;
 use crate::server::core::map::{MAP_EXT, MapItem};
@@ -15,7 +17,7 @@ use crate::server::core::map_instance::MapInstance;
 use crate::server::core::mob::Mob;
 use crate::server::core::path::manhattan_distance;
 use crate::server::core::session::Session;
-use crate::server::core::status::Status;
+use crate::server::core::status::{LookType, Status};
 use crate::server::enums::map_item::MapItemType;
 use crate::server::server::PLAYER_FOV;
 use crate::util::coordinate;
@@ -211,5 +213,42 @@ impl Character {
             }
         }
         *map_view_guard = new_map_view;
+    }
+
+    pub fn change_look(&self, look: LookType, value: u32, runtime: &Runtime, server: Arc<Server> ) {
+        if self.status.look.is_none() {
+            error!("Character has no look");
+            return
+        }
+        match look {
+            LookType::Hair => {
+                self.status.look.as_ref().unwrap().hair.store(value as u16, Relaxed)
+            },
+            LookType::HairColor => {
+                self.status.look.as_ref().unwrap().hair_color.store(value as u32, Relaxed)
+            },
+            LookType::ClothesColor => {
+                self.status.look.as_ref().unwrap().clothes_color.store(value as u32, Relaxed)
+            }
+            LookType::Body => {
+                self.status.look.as_ref().unwrap().body.store(value as u32, Relaxed)
+            }
+            LookType::Weapon => {
+                self.status.look.as_ref().unwrap().weapon.store(value as u32, Relaxed)
+            }
+            LookType::Shield => {
+                self.status.look.as_ref().unwrap().shield.store(value as u32, Relaxed)
+            }
+            LookType::HeadBottom => {
+                self.status.look.as_ref().unwrap().head_bottom.store(value as u32, Relaxed)
+            }
+            LookType::HeadTop => {
+                self.status.look.as_ref().unwrap().head_top.store(value as u32, Relaxed)
+            }
+            LookType::HeadMid => {
+                self.status.look.as_ref().unwrap().head_middle.store(value as u32, Relaxed)}
+            LookType::Robe => {
+                self.status.look.as_ref().unwrap().robe.store(value as u32, Relaxed)}
+        }
     }
 }

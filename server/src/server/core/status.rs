@@ -1,3 +1,6 @@
+use std::sync::atomic::{AtomicU16, AtomicU32};
+use std::sync::atomic::Ordering::Relaxed;
+
 use crate::repository::model::char_model::CharSelectModel;
 use crate::repository::model::mob_model::MobModel;
 use crate::server::configuration::GameConfig;
@@ -26,7 +29,53 @@ pub struct Status {
     pub crit: u32,
     pub def: u32,
     pub mdef: u32,
-    pub aspd: u32
+    pub aspd: u32,
+    pub look: Option<Look>,
+}
+
+#[derive(SettersAll, Debug)]
+pub struct Look {
+    pub hair: AtomicU16,
+    pub hair_color: AtomicU32,
+    pub clothes_color: AtomicU32,
+    pub body: AtomicU32,
+    pub weapon: AtomicU32,
+    pub shield: AtomicU32,
+    pub head_top: AtomicU32,
+    pub head_middle: AtomicU32,
+    pub head_bottom: AtomicU32,
+    pub robe: AtomicU32,
+}
+
+impl Clone for Look {
+    fn clone(&self) -> Self {
+        Self {
+            hair: AtomicU16::new(self.hair.load(Relaxed)),
+            hair_color: AtomicU32::new(self.hair_color.load(Relaxed)),
+            clothes_color: AtomicU32::new(self.clothes_color.load(Relaxed)),
+            body: AtomicU32::new(self.body.load(Relaxed)),
+            weapon: AtomicU32::new(self.weapon.load(Relaxed)),
+            shield: AtomicU32::new(self.shield.load(Relaxed)),
+            head_top: AtomicU32::new(self.head_top.load(Relaxed)),
+            head_middle: AtomicU32::new(self.head_middle.load(Relaxed)),
+            head_bottom: AtomicU32::new(self.head_bottom.load(Relaxed)),
+            robe: AtomicU32::new(self.robe.load(Relaxed)),
+        }
+    }
+}
+
+#[derive(r#enum::WithNumberValue)]
+pub enum LookType {
+    Hair,
+    HairColor,
+    ClothesColor,
+    Body,
+    Weapon,
+    Shield,
+    HeadBottom,
+    HeadTop,
+    HeadMid,
+    Robe,
 }
 
 impl Status {
@@ -54,7 +103,19 @@ impl Status {
             crit: 0,
             def: 0,
             mdef: 0,
-            aspd: 0
+            aspd: 0,
+            look: Some(Look {
+                hair: AtomicU16::new(char_model.hair),
+                hair_color: AtomicU32::new(char_model.hair_color),
+                clothes_color: AtomicU32::new(char_model.clothes_color),
+                body: AtomicU32::new(char_model.body),
+                weapon: AtomicU32::new(char_model.weapon),
+                shield: AtomicU32::new(char_model.shield),
+                head_top: AtomicU32::new(char_model.head_top),
+                head_middle: AtomicU32::new(char_model.head_mid),
+                head_bottom: AtomicU32::new(char_model.head_bottom),
+                robe: AtomicU32::new(char_model.robe),
+            }),
         }
     }
     pub fn from_mob_model(mob_model: &MobModel) -> Status {
@@ -81,7 +142,8 @@ impl Status {
             crit: 0,
             def: mob_model.def,
             mdef: mob_model.mdef,
-            aspd: 0
+            aspd: 0,
+            look: None,
         }
     }
 }

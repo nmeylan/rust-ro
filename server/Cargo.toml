@@ -25,6 +25,7 @@ accessor = { path = "../lib/accessor" }
 metrics = { path = "../lib/metrics" }
 packets = { path = "../lib/packets" }
 sql = { path = "../lib/sql" }
+enum = { path = "../lib/enum" }
 
 [[bin]]
 name = "packets"
