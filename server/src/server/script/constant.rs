@@ -1,5 +1,6 @@
 use rathena_script_lang_interpreter::lang::value::Value;
-use crate::server::core::status::{LookType};
+
+use crate::server::core::status::LookType;
 
 pub fn load_constant(constant_name: &String) -> Value {
     match constant_name.as_ref() {
@@ -14,6 +15,18 @@ pub fn load_constant(constant_name: &String) -> Value {
         "LOOK_SHIELD" => Value::new_number(LookType::Shield.value() as i32),
         "LOOK_ROBE" => Value::new_number(LookType::Robe.value() as i32),
         "LOOK_BODY2" => Value::new_number(LookType::Body.value() as i32),
-        &_ => panic!("")
+        &_ => panic!("unknown constant {}", constant_name)
+    }
+}
+
+pub fn get_battle_flag(flag_name: &String) -> Value {
+    match flag_name.as_ref() {
+        "min_hair_style" => Value::new_number(0),
+        "max_hair_style" => Value::new_number(29),
+        "min_hair_color" => Value::new_number(0),
+        "max_hair_color" => Value::new_number(8),
+        "min_cloth_color" => Value::new_number(0),
+        "max_cloth_color" => Value::new_number(4),
+        &_ => panic!("unknown battle flag {}", flag_name)
     }
 }

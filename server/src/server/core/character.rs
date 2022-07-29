@@ -287,5 +287,6 @@ impl Character {
             let sql = format!("UPDATE `char` SET `{}` = ? WHERE `char_id` = ?", db_column);
             sqlx::query(&sql).bind(value).bind(self.char_id).execute(&server.repository.pool).await.unwrap();
         });
+
     }
 }

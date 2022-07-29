@@ -10,3 +10,6 @@ next,0,0
 select,1,255,Number
 getlook,1,2,Number
 setlook,2,3
+getbattleflag,1,1,Number
+message,1,1
+strcharinfo,1,1,String

@@ -2870,7 +2870,7 @@ struct PACKET_ZC_NOTIFY_MAPTYPEPROPERTY2 {
   short PacketId
   short type
  }
-0x1d7
+0xd701
 struct PACKET_ZC_SPRITE_CHANGE2 {
   short PacketId
   unsigned long GID

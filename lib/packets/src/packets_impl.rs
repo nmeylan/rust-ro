@@ -54254,7 +54254,7 @@ impl Default for PacketZcNotifyMaptypeproperty2 {
 
 impl PacketZcSpriteChange2 {
     pub fn packet_id() -> &'static str {
-        "0x01d7"
+        "0xd701"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSpriteChange2 {
         let mut offset: usize = 0;
@@ -54358,8 +54358,8 @@ impl PacketZcSpriteChange2 {
     pub fn new() -> PacketZcSpriteChange2 {
         PacketZcSpriteChange2 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1d, 0x7]),
-        packet_id_raw: [0x1d, 0x7],
+        packet_id: i16::from_le_bytes([0xd7, 0x01]),
+        packet_id_raw: [0xd7, 0x01],
         gid: 0,
         gid_raw: [0; 4],
         atype: 0,
@@ -54372,7 +54372,7 @@ impl PacketZcSpriteChange2 {
 
 impl Packet for PacketZcSpriteChange2 {
     fn id(&self) -> &str {
-       "0x01d7"
+       "0xd701"
     }
     fn debug(&self) {
             println!("{:?}", self)
