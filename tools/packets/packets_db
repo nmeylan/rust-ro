@@ -1800,12 +1800,12 @@ struct PACKET_ZC_STATUS_VALUES {
   int defaultStatus
   int plusStatus
  }
-0x0142
+0x4201
 struct PACKET_ZC_OPEN_EDITDLG {
   short PacketId
   unsigned long NAID
  }
-0x0143
+0x4301,0x4101,0x6701
 struct PACKET_CZ_INPUT_EDITDLG {
   short PacketId
   unsigned long NAID
@@ -2853,12 +2853,12 @@ struct PACKET_ZC_SOUND {
   unsigned long term
   unsigned long NAID
  }
-0x1d4
+0xd401
 struct PACKET_ZC_OPEN_EDITDLGSTR {
   short PacketId
   unsigned long NAID
  }
-0x1d5
+0xd501
 struct PACKET_CZ_INPUT_EDITDLGSTR {
   short PacketId
   short PacketLength

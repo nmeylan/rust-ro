@@ -694,10 +694,16 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x41 && buffer[1] == 0x01 {
         return Box::new(PacketZcStatusValues::from(buffer, packetver));
     }
-    if buffer[0] == 0x01 && buffer[1] == 0x42 {
+    if buffer[0] == 0x42 && buffer[1] == 0x01 {
         return Box::new(PacketZcOpenEditdlg::from(buffer, packetver));
     }
-    if buffer[0] == 0x01 && buffer[1] == 0x43 {
+    if buffer[0] == 0x43 && buffer[1] == 0x01 {
+        return Box::new(PacketCzInputEditdlg::from(buffer, packetver));
+    }
+    if buffer[0] == 0x41 && buffer[1] == 0x01 {
+        return Box::new(PacketCzInputEditdlg::from(buffer, packetver));
+    }
+    if buffer[0] == 0x67 && buffer[1] == 0x01 {
         return Box::new(PacketCzInputEditdlg::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0x44 {
@@ -1129,10 +1135,10 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x01 && buffer[1] == 0xd3 {
         return Box::new(PacketZcSound::from(buffer, packetver));
     }
-    if buffer[0] == 0x01 && buffer[1] == 0xd4 {
+    if buffer[0] == 0xd4 && buffer[1] == 0x01 {
         return Box::new(PacketZcOpenEditdlgstr::from(buffer, packetver));
     }
-    if buffer[0] == 0x01 && buffer[1] == 0xd5 {
+    if buffer[0] == 0xd5 && buffer[1] == 0x01 {
         return Box::new(PacketCzInputEditdlgstr::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xd6 {

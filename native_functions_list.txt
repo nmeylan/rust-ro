@@ -13,3 +13,4 @@ setlook,2,3
 getbattleflag,1,1,Number
 message,1,1
 strcharinfo,1,1,String
+input,1,1

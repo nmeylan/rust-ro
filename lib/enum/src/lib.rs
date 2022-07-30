@@ -42,6 +42,5 @@ pub fn with_value(input: TokenStream) -> TokenStream {
     } else {
         quote! {}
     };
-    println!("{}", res);
     TokenStream::from(res)
 }

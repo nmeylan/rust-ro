@@ -9,7 +9,7 @@ use rathena_script_lang_interpreter::lang::vm::NativeMethodHandler;
 use tokio::runtime::Runtime;
 use tokio::sync::mpsc::Receiver;
 
-use packets::packets::{PacketZcCloseDialog, PacketZcMenuList, PacketZcNotifyPlayerchat, PacketZcSayDialog, PacketZcSpriteChange2, PacketZcWaitDialog};
+use packets::packets::{PacketZcCloseDialog, PacketZcMenuList, PacketZcNotifyPlayerchat, PacketZcOpenEditdlg, PacketZcOpenEditdlgstr, PacketZcSayDialog, PacketZcSpriteChange2, PacketZcWaitDialog};
 
 use crate::packets::packets::Packet;
 use crate::Server;
@@ -81,6 +81,32 @@ impl NativeMethodHandler for PlayerScriptHandler {
             packet_dialog.fill_raw();
             socket_send!(self.tcp_stream, packet_dialog.raw());
             self.block_recv();
+        } else if native.name.eq("input") {
+            let variable_name = params[0].string_value().unwrap();
+            if variable_name.ends_with('$') {
+                let mut packet_zc_open_editdlgstr = PacketZcOpenEditdlgstr::new();
+                packet_zc_open_editdlgstr.naid = self.npc_id;
+                packet_zc_open_editdlgstr.fill_raw();
+                socket_send!(self.tcp_stream, packet_zc_open_editdlgstr.raw());
+            } else {
+                let mut packet_zc_open_editdlg = PacketZcOpenEditdlg::new();
+                packet_zc_open_editdlg.naid = self.npc_id;
+                packet_zc_open_editdlg.fill_raw();
+                socket_send!(self.tcp_stream, packet_zc_open_editdlg.raw());
+            }
+            let input_value = self.block_recv();
+            if let Some(input_value) = input_value {
+                if variable_name.ends_with('$') {
+                    if let Ok(message) = String::from_utf8(input_value) {
+                        execution_thread.push_constant_on_stack(Value::new_string(message));
+                    }
+                } else {
+                    let input_value = i32::from_le_bytes([input_value[0], input_value[1], input_value[2], input_value[3]]);
+                    execution_thread.push_constant_on_stack(Value::new_number(input_value));
+                }
+            } else {
+                execution_thread.abort();
+            }
         } else if native.name.eq("setglobalvariable") {
             self.handle_setglobalvariable(&params);
         } else if native.name.eq("getglobalvariable") {
@@ -180,7 +206,7 @@ impl NativeMethodHandler for PlayerScriptHandler {
             } else {
                 self.session.character.as_ref().unwrap()
             };
-            let char_info = match info_type  {
+            let char_info = match info_type {
                 0 => Value::new_string(char.name.clone()),
                 1 => Value::new_string("TODO PARTY NAME".to_string()),
                 2 => Value::new_string("TODO GUILD NAME".to_string()),
