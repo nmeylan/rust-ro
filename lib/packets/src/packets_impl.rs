@@ -33913,7 +33913,7 @@ impl Default for PacketZcStatusValues {
 
 impl PacketZcOpenEditdlg {
     pub fn packet_id() -> &'static str {
-        "0x0142"
+        "0x4201"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcOpenEditdlg {
         let mut offset: usize = 0;
@@ -33977,8 +33977,8 @@ impl PacketZcOpenEditdlg {
     pub fn new() -> PacketZcOpenEditdlg {
         PacketZcOpenEditdlg {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x01, 0x42]),
-        packet_id_raw: [0x01, 0x42],
+        packet_id: i16::from_le_bytes([0x42, 0x01]),
+        packet_id_raw: [0x42, 0x01],
         naid: 0,
         naid_raw: [0; 4],
         }
@@ -33987,7 +33987,7 @@ impl PacketZcOpenEditdlg {
 
 impl Packet for PacketZcOpenEditdlg {
     fn id(&self) -> &str {
-       "0x0142"
+       "0x4201"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -34018,7 +34018,7 @@ impl Default for PacketZcOpenEditdlg {
 
 impl PacketCzInputEditdlg {
     pub fn packet_id() -> &'static str {
-        "0x0143"
+        "0x4301"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzInputEditdlg {
         let mut offset: usize = 0;
@@ -34102,8 +34102,8 @@ impl PacketCzInputEditdlg {
     pub fn new() -> PacketCzInputEditdlg {
         PacketCzInputEditdlg {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x01, 0x43]),
-        packet_id_raw: [0x01, 0x43],
+        packet_id: i16::from_le_bytes([0x43, 0x01]),
+        packet_id_raw: [0x43, 0x01],
         naid: 0,
         naid_raw: [0; 4],
         value: 0,
@@ -34114,7 +34114,7 @@ impl PacketCzInputEditdlg {
 
 impl Packet for PacketCzInputEditdlg {
     fn id(&self) -> &str {
-       "0x0143"
+       "0x4301"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -53898,7 +53898,7 @@ impl Default for PacketZcSound {
 
 impl PacketZcOpenEditdlgstr {
     pub fn packet_id() -> &'static str {
-        "0x01d4"
+        "0xd401"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcOpenEditdlgstr {
         let mut offset: usize = 0;
@@ -53962,8 +53962,8 @@ impl PacketZcOpenEditdlgstr {
     pub fn new() -> PacketZcOpenEditdlgstr {
         PacketZcOpenEditdlgstr {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1d, 0x4]),
-        packet_id_raw: [0x1d, 0x4],
+        packet_id: i16::from_le_bytes([0xd4, 0x01]),
+        packet_id_raw: [0xd4, 0x01],
         naid: 0,
         naid_raw: [0; 4],
         }
@@ -53972,7 +53972,7 @@ impl PacketZcOpenEditdlgstr {
 
 impl Packet for PacketZcOpenEditdlgstr {
     fn id(&self) -> &str {
-       "0x01d4"
+       "0xd401"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -54003,7 +54003,7 @@ impl Default for PacketZcOpenEditdlgstr {
 
 impl PacketCzInputEditdlgstr {
     pub fn packet_id() -> &'static str {
-        "0x01d5"
+        "0xd501"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzInputEditdlgstr {
         let mut offset: usize = 0;
@@ -54104,8 +54104,8 @@ impl PacketCzInputEditdlgstr {
     pub fn new() -> PacketCzInputEditdlgstr {
         PacketCzInputEditdlgstr {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1d, 0x5]),
-        packet_id_raw: [0x1d, 0x5],
+        packet_id: i16::from_le_bytes([0xd5, 0x01]),
+        packet_id_raw: [0xd5, 0x01],
         packet_length: 0,
         packet_length_raw: [0; 2],
         naid: 0,
@@ -54118,7 +54118,7 @@ impl PacketCzInputEditdlgstr {
 
 impl Packet for PacketCzInputEditdlgstr {
     fn id(&self) -> &str {
-       "0x01d5"
+       "0xd501"
     }
     fn debug(&self) {
             println!("{:?}", self)
