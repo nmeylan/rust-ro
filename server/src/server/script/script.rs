@@ -169,8 +169,9 @@ impl NativeMethodHandler for PlayerScriptHandler {
             }
         } else if native.name.eq("loadconstant") {
             let constant_name = params[0].string_value().unwrap();
-            let value = load_constant(constant_name);
-            execution_thread.push_constant_on_stack(value);
+            if let Some(value) = load_constant(constant_name) {
+                execution_thread.push_constant_on_stack(value);
+            }
         } else if native.name.eq("getlook") {
             let look_type = params[0].number_value().unwrap();
             let char = if params.len() == 2 {
@@ -215,12 +216,16 @@ impl NativeMethodHandler for PlayerScriptHandler {
             };
             execution_thread.push_constant_on_stack(char_info);
         } else if native.name.eq("message") {
-            let message = params[0].string_value().unwrap();
-            let mut packet_zc_notify_playerchat = PacketZcNotifyPlayerchat::new();
-            packet_zc_notify_playerchat.set_msg(message.to_string());
-            packet_zc_notify_playerchat.set_packet_length((PacketZcNotifyPlayerchat::base_len(self.server.packetver()) + message.len() + 1) as i16);
-            packet_zc_notify_playerchat.fill_raw();
-            socket_send!(self.tcp_stream, packet_zc_notify_playerchat.raw());
+            let char_name = params[0].string_value().unwrap();
+            let message = params[1].string_value().unwrap();
+            let maybe_socket = self.server.get_map_socket_for_char_with_name(char_name);
+            if let Some(socket) = maybe_socket {
+                let mut packet_zc_notify_playerchat = PacketZcNotifyPlayerchat::new();
+                packet_zc_notify_playerchat.set_msg(message.to_string());
+                packet_zc_notify_playerchat.set_packet_length((PacketZcNotifyPlayerchat::base_len(self.server.packetver()) + message.len() + 1) as i16);
+                packet_zc_notify_playerchat.fill_raw();
+                socket_send!(socket, packet_zc_notify_playerchat.raw());
+            }
         } else if native.name.eq("getbattleflag") {
             let constant_name = params[0].string_value().unwrap();
             let value = get_battle_flag(constant_name);

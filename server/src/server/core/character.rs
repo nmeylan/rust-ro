@@ -233,6 +233,7 @@ impl Character {
             LookType::HeadTop => look.head_top.load(Relaxed),
             LookType::HeadMid => look.head_middle.load(Relaxed),
             LookType::Robe => look.robe.load(Relaxed),
+            _ => look.robe.load(Relaxed), // TODO
         }
     }
 
@@ -282,6 +283,7 @@ impl Character {
                 self.status.look.as_ref().unwrap().robe.store(value as u32, Relaxed);
                 "robe"
             }
+            _ => {"shoes"}
         };
         runtime.block_on(async {
             let sql = format!("UPDATE `char` SET `{}` = ? WHERE `char_id` = ?", db_column);

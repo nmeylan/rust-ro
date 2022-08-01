@@ -91,6 +91,38 @@ impl Server {
         session_ref.clone()
     }
 
+    pub fn get_map_socket_for_char_id(&self, char_id: u32) -> Option<Arc<RwLock<TcpStream>>> {
+        let sessions = self.sessions.read().unwrap();
+        let maybe_session = sessions.iter().find(|(_, session)| {
+            return if let Some(char) = session.character.as_ref() {
+                char.char_id == char_id
+            } else {
+                false
+            };
+        });
+        if let Some((_, session)) = maybe_session {
+            session.map_server_socket.clone()
+        } else {
+            None
+        }
+    }
+
+    pub fn get_map_socket_for_char_with_name(&self, name: &String) -> Option<Arc<RwLock<TcpStream>>> {
+        let sessions = self.sessions.read().unwrap();
+        let maybe_session = sessions.iter().find(|(_, session)| {
+            return if let Some(char) = session.character.as_ref() {
+                char.name.eq(name)
+            } else {
+                false
+            };
+        });
+        if let Some((_, session)) = maybe_session {
+            session.map_server_socket.clone()
+        } else {
+            None
+        }
+    }
+
     pub fn packetver(&self) -> u32 {
         self.configuration.server.packetver
     }
