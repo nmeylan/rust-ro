@@ -12,13 +12,15 @@ pub fn with_value(input: TokenStream) -> TokenStream {
 
     let res = if let Enum(enum_data) = &input.data {
         let from_value_match_arms = enum_data.variants.iter().enumerate().map(|(i, variant)| {
+            let j = i + 1;
             quote! {
-                #i => #enum_name::#variant,
+                #j => #enum_name::#variant,
             }
         });
         let value_match_arms = enum_data.variants.iter().enumerate().map(|(i, variant)| {
+            let j = i + 1;
             quote! {
-                #enum_name::#variant => #i,
+                #enum_name::#variant => #j,
             }
         });
         quote! {

@@ -69,9 +69,10 @@ impl PlayerScriptHandler {
             }
         } else if variable_scope == "char_permanent" {
             if CONSTANT_REGEX.is_match(variable_name) {
-                let value = load_constant(variable_name);
-                execution_thread.push_constant_on_stack(value);
-                return;
+                if let Some(value) = load_constant(variable_name) {
+                    execution_thread.push_constant_on_stack(value);
+                    return;
+                }
             }
             if variable_name.ends_with("\\$") {
                 let char_reg_str: Result<CharRegStr, Error> = self.runtime.block_on(async {

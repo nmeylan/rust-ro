@@ -67,15 +67,16 @@ impl Clone for Look {
 #[derive(r#enum::WithNumberValue, Debug)]
 pub enum LookType {
     Hair,
-    HairColor,
-    ClothesColor,
-    Body,
     Weapon,
-    Shield,
     HeadBottom,
     HeadTop,
     HeadMid,
+    HairColor,
+    ClothesColor,
+    Shield,
+    Shoes,
     Robe,
+    Body,
 }
 
 impl Status {

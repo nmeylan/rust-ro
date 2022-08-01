@@ -11,6 +11,6 @@ select,1,255,Number
 getlook,1,2,Number
 setlook,2,3
 getbattleflag,1,1,Number
-message,1,1
+message,2,2
 strcharinfo,1,1,String
-input,1,1
+input,1,3
