@@ -18,8 +18,9 @@ flexi_logger = "0.19"
 toml = "0.5"
 serde = { version = "1.0", features = ["derive"] }
 eframe = { version = "0.15", default-features = false, features = ["egui_glow", "default_fonts"], optional = true }
+sprintf = "0.1.2"
 
-rathena_script_lang_interpreter = { git = "https://github.com/nmeylan/rathena-script-lang-interpreter", rev = "fbef0bb76f0a27e71f150a38af9335d8d2fbfe97"}
+rathena_script_lang_interpreter = { git = "https://github.com/nmeylan/rathena-script-lang-interpreter", rev = "6f6380b81bace6a5550b7a1fee264409b3492a06"}
 
 accessor = { path = "../lib/accessor" }
 metrics = { path = "../lib/metrics" }

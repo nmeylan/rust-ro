@@ -31,11 +31,3 @@ prontera,154,188,4	script	Global Variable Test	98, {
 
 prontera,154,178,4	duplicate(Test)	Test Npc Instance1	100
 prontera,159,178,4	duplicate(Test)	Test Npc Instance2	100
-
-prontera,173,182,1	script	Stylist	122,{
-message strcharinfo(0), "Bonjour " + strcharinfo(0);
-
-input .@text$;
-mes "Valeur: " + .@text$;
-    close;
-}

@@ -14,3 +14,4 @@ getbattleflag,1,1,Number
 message,2,2
 strcharinfo,1,1,String
 input,1,3
+sprintf,1,255
