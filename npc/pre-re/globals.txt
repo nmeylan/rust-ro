@@ -1,0 +1,7 @@
+//== Function F_MesColor ===================================
+// Function to colorize npc dialog without having to memorize the color code
+// Examples:
+//    mesf("%sThis message is now in BLUE.", F_MesColor(C_BLUE));
+function	script	F_MesColor	{
+	return sprintf("^%06X", min(getarg(0), 0xFFFFFF));
+}

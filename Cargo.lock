@@ -1985,6 +1985,7 @@ dependencies = [
  "rathena_script_lang_interpreter",
  "regex",
  "serde",
+ "sprintf",
  "sql",
  "sqlx",
  "tokio",
@@ -2131,6 +2132,12 @@ name = "spin"
 version = "0.5.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "6e63cff320ae2c57904679ba7cb63280a3dc4613885beafb148ee7bf9aa9042d"
+
+[[package]]
+name = "sprintf"
+version = "0.1.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "082cb9266c8691c70a98442f8f893ba3549f02f64e128cb096dac92e1c428340"
 
 [[package]]
 name = "sql"

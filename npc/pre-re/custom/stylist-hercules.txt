@@ -1,0 +1,75 @@
+//===== Hercules Script ======================================
+//= Stylist
+//===== By: ==================================================
+//= Euphy
+//===== Current Version: =====================================
+//= 1.2
+//===== Description: =========================================
+//= Changes your hair style, hair color, and cloth color.
+//===== Additional Comments: =================================
+//= 1.1 Switched to 'getbattleflag', credits to Saithis. [Euphy]
+//= 1.2 Fix style start at min_style, add Job_Summoner [AnnieRuru]
+//============================================================
+
+prontera,173,182,1	script	StylistHercules	2_M_DYEINGER,{
+
+.@choose = select("Hair style", "Hair color", "Cloth color") - 1;
+.@part = .look[.@choose];
+if (BaseClass != Job_Summoner)
+		callsub(L_styles, .@part, .minstyle[.@part], .maxstyle[.@part]);
+	else
+		callsub(L_styles, .@part, .summoner_minstyle[.@part], .summoner_maxstyle[.@part]);
+L_styles:
+	.@lookpart = getarg(0);
+	.@minstyle = getarg(1);
+	.@maxstyle = getarg(2);
+	.@i = .@revert = getlook(.@lookpart);
+while (1) {
+setlook(.@lookpart, .@i);
+		message(strcharinfo(PC_NAME), sprintf(_("This is style #%d."), .@i));
+		if (.@i == .@maxstyle)
+			.@next = .@minstyle;
+		else
+			.@next = .@i + 1;
+		if (.@i == .@minstyle)
+			.@previous = .@maxstyle;
+		else
+			.@previous = .@i - 1;
+        switch(select(
+            sprintf(_(" ~ Next (%s%d%s)"), F_MesColor(C_BLUE), .@next, F_MesColor(C_BLACK)),
+			sprintf(_(" ~ Previous (%s%d%s)"), F_MesColor(C_BLUE), .@previous, F_MesColor(C_BLACK)),
+			" ~ Jump to...",
+			sprintf(_(" ~ Revert to original (%s%d%s)"), F_MesColor(C_BLUE), .@revert, F_MesColor(C_BLACK)))) {
+		case 1:
+			.@i = .@next;
+			break;
+		case 2:
+			.@i = .@previous;
+			break;
+		case 3:
+			message(strcharinfo(PC_NAME), sprintf(_("Choose a style between %d - %d."), .@minstyle, .@maxstyle));
+			input(.@i, .@minstyle, .@maxstyle);
+			break;
+		case 4:
+			.@i = .@revert;
+		}
+	}
+	end;
+OnInit:
+	setarray .look[0], LOOK_HAIR, LOOK_HAIR_COLOR, LOOK_CLOTHES_COLOR;
+
+	.minstyle[LOOK_HAIR] = getbattleflag("min_hair_style");
+	.maxstyle[LOOK_HAIR] = getbattleflag("max_hair_style");
+	.minstyle[LOOK_HAIR_COLOR] = getbattleflag("min_hair_color");
+	.maxstyle[LOOK_HAIR_COLOR] = getbattleflag("max_hair_color");
+	.minstyle[LOOK_CLOTHES_COLOR] = getbattleflag("min_cloth_color");
+	.maxstyle[LOOK_CLOTHES_COLOR] = getbattleflag("max_cloth_color");
+
+	.summoner_minstyle[LOOK_HAIR] = getbattleflag("min_hair_style");
+	.summoner_maxstyle[LOOK_HAIR] = getbattleflag("max_hair_style");
+	.summoner_minstyle[LOOK_HAIR_COLOR] = getbattleflag("min_hair_color");
+	.summoner_maxstyle[LOOK_HAIR_COLOR] = getbattleflag("max_hair_color");
+	.summoner_minstyle[LOOK_CLOTHES_COLOR] = getbattleflag("min_cloth_color");
+	.summoner_maxstyle[LOOK_CLOTHES_COLOR] = getbattleflag("max_cloth_color");
+	end;
+}

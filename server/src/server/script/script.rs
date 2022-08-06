@@ -1,3 +1,4 @@
+use std::env::var;
 use std::io::Write;
 use std::net::TcpStream;
 use std::sync::{Arc, RwLock};
@@ -6,6 +7,7 @@ use rathena_script_lang_interpreter::lang::call_frame::CallFrame;
 use rathena_script_lang_interpreter::lang::thread::Thread;
 use rathena_script_lang_interpreter::lang::value::{Native, Value};
 use rathena_script_lang_interpreter::lang::vm::NativeMethodHandler;
+use sprintf::{ConversionSpecifier, Printf, vsprintf};
 use tokio::runtime::Runtime;
 use tokio::sync::mpsc::Receiver;
 
@@ -29,7 +31,7 @@ pub struct PlayerScriptHandler {
 }
 
 impl NativeMethodHandler for ScriptHandler {
-    fn handle(&self, native: &Native, params: Vec<Value>, _execution_thread: &Thread, _call_frame: &CallFrame) {
+    fn handle(&self, native: &Native, params: Vec<Value>, execution_thread: &Thread, _call_frame: &CallFrame) {
         if native.name.eq("print") {
             println!("{}", params.iter().map(|p| {
                 match p {
@@ -40,8 +42,21 @@ impl NativeMethodHandler for ScriptHandler {
                 }
             }).collect::<Vec<String>>().join(" "));
             return;
+        } else if native.name.eq("getglobalvariable") {
+            let constant_name = params[0].string_value().unwrap();
+            if let Some(value) = load_constant(constant_name) {
+                execution_thread.push_constant_on_stack(value);
+                return;
+            } else {
+                panic!("ScriptHandler - getglobalvariable no constant found with name {}", constant_name);
+            }
+        } else if native.name.eq("getbattleflag") {
+            let constant_name = params[0].string_value().unwrap();
+            let value = get_battle_flag(constant_name);
+            execution_thread.push_constant_on_stack(value);
+        } else {
+            error!("ScriptHandler - Native function \"{}\" not handled yet!", native.name);
         }
-        error!("Native function \"{}\" not handled yet!", native.name);
     }
 }
 
@@ -230,6 +245,26 @@ impl NativeMethodHandler for PlayerScriptHandler {
             let constant_name = params[0].string_value().unwrap();
             let value = get_battle_flag(constant_name);
             execution_thread.push_constant_on_stack(value);
+        } else if native.name.eq("_") {
+            execution_thread.push_constant_on_stack(params[0].clone());
+        } else if native.name.eq("sprintf") {
+            let template = params[0].string_value().unwrap();
+            let mut sprintf_args: Vec<&dyn Printf> = vec![];
+            let nums = params[1..params.len()].iter().map(|p| if p.is_number() { Some(p.number_value().unwrap()) } else { None }).collect::<Vec<Option<i32>>>();
+            params[1..params.len()].iter().enumerate().for_each(|(i, p)| {
+                if p.is_number() {
+                    sprintf_args.push(nums[i].as_ref().unwrap() as &dyn Printf);
+                } else {
+                    sprintf_args.push(p.string_value().unwrap() as &dyn Printf);
+                }
+            });
+            let result = vsprintf(template, sprintf_args.as_slice());
+            if let Ok(result) = result {
+                execution_thread.push_constant_on_stack(Value::new_string(result));
+            } else {
+                error!("Unable to parse sprintf due to: {:?}", result.err().unwrap());
+                execution_thread.push_constant_on_stack(Value::new_string(String::from("Unable to parse sprintf")));
+            }
         } else {
             error!("Native function \"{}\" not handled yet!", native.name);
         }
