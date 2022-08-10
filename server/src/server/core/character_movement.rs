@@ -107,7 +107,7 @@ pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<
                         if map_ref.is_warp_cell(path_node.x, path_node.y) {
                             let warp = map_ref.get_warp_at(path_node.x, path_node.y).unwrap();
                             drop(current_map_guard);
-                            change_map(warp.dest_map_name.clone(), warp.to_x, warp.to_y, session.clone(), server.clone());
+                            change_map(&warp.dest_map_name, warp.to_x, warp.to_y, session.clone(), server.clone());
                             info!("[{:?} - {}] Warp break", std::thread::current().id(), current_movement_task_id);
                             movement_tasks_guard.clear();
                             break;
@@ -131,7 +131,7 @@ pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<
     handle
 }
 
-pub fn change_map(destination_map: String, x: u16, y: u16, session: Arc<Session>, server: Arc<Server>) {
+pub fn change_map(destination_map: &String, x: u16, y: u16, session: Arc<Session>, server: Arc<Server>) {
     let packet_zc_npcack_mapmove = change_map_packet(destination_map, x, y, session.clone(), server.clone());
     session.send_to_map_socket(packet_zc_npcack_mapmove.raw());
     let character_session = session.get_character();
@@ -143,10 +143,10 @@ pub fn change_map(destination_map: String, x: u16, y: u16, session: Arc<Session>
     // });
 }
 
-pub fn change_map_packet(destination_map: String, x: u16, y: u16, session: Arc<Session>, server: Arc<Server>) -> PacketZcNpcackMapmove {
+pub fn change_map_packet(destination_map: &String, x: u16, y: u16, session: Arc<Session>, server: Arc<Server>) -> PacketZcNpcackMapmove {
     let character_session = session.get_character();
     character_session.remove_from_existing_map();
-    let map_name: String = Map::name_without_ext(destination_map.clone());
+    let map_name: String = Map::name_without_ext(destination_map.to_string());
     debug!("Char enter on map {}", map_name);
     let map_ref = server.maps.get(&map_name).unwrap();
     let map = map_ref.clone();

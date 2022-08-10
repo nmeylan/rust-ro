@@ -104,7 +104,7 @@ pub fn handle_go(server: Arc<Server>, session: Arc<Session>, args: Vec::<&str>) 
         _ => ()
     }
 
-    change_map(city.name.clone(), city.x, city.y, session, server);
+    change_map(&city.name, city.x, city.y, session, server);
     format!("Warping at {} {},{}", city.name.clone(), city.x, city.y)
 }
 
@@ -121,7 +121,7 @@ pub fn handle_warp(server: Arc<Server>, session: Arc<Session>, args: Vec::<&str>
                 y = parse_y_res.unwrap();
             }
         }
-        change_map(map_name.clone(), x, y, session.clone(), server);
+        change_map(&map_name, x, y, session.clone(), server);
         let char_session = session.character.as_ref().unwrap();
         return format!("Warp to map {} at {},{}", map_name, char_session.get_x(), char_session.get_y());
     }
