@@ -16,6 +16,7 @@ use crate::server::core::character::{Character};
 use crate::server::core::character_movement::{change_map_packet};
 use crate::server::core::session::Session;
 use crate::server::core::status::Status;
+use crate::server::script::ScriptGlobalVariableStore;
 use crate::server::server::{Server};
 use crate::util::tick::get_tick;
 
@@ -192,7 +193,8 @@ pub fn handle_select_char(server: Arc<Server>, packet: &mut dyn Packet, runtime:
         map_view: RwLock::new(HashSet::new()),
         current_map: RwLock::new(None),
         self_ref: RwLock::new(None),
-        map_server_socket: Default::default()
+        map_server_socket: Default::default(),
+        script_variable_store: Mutex::new(ScriptGlobalVariableStore::default())
     };
     let char_session_ref = Arc::new(character);
     {

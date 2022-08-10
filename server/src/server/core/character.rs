@@ -20,6 +20,7 @@ use crate::server::core::path::manhattan_distance;
 use crate::server::core::session::Session;
 use crate::server::core::status::{LookType, Status};
 use crate::server::enums::map_item::MapItemType;
+use crate::server::script::{GlobalVariableEntry, ScriptGlobalVariableStore};
 use crate::server::server::PLAYER_FOV;
 use crate::util::coordinate;
 use crate::util::string::StringUtil;
@@ -42,6 +43,7 @@ pub struct Character {
     pub self_ref: RwLock<Option<Arc<Character>>>,
     #[set]
     pub map_server_socket: RwLock<Option<Arc<RwLock<TcpStream>>>>,
+    pub script_variable_store: Mutex<ScriptGlobalVariableStore>,
 }
 
 impl MapItem for Character {

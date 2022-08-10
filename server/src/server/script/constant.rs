@@ -47,6 +47,8 @@ pub fn load_constant(constant_name: &String) -> Option<Value> {
         "PC_GUILD" => Value::new_number(2 as i32),
         "PC_MAP" => Value::new_number(3 as i32),
         "PC_CLAN" => Value::new_number(4 as i32),
+        // RENEWAL
+        "RENEWAL" => Value::new_number(0 as i32),
         &_ => Value::Reference(None)
     };
     if constant_value.is_reference() {
