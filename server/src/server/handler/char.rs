@@ -269,7 +269,7 @@ pub fn handle_enter_game(server: Arc<Server>, packet: &mut dyn Packet, tcp_strea
     packet_accept_enter.fill_raw();
     let character = session.get_character();
 
-    let packet_zc_npcack_mapmove = change_map_packet(Map::name_without_ext(character.get_current_map_name()), character.get_x(), character.get_y(), session.clone(), server.clone());
+    let packet_zc_npcack_mapmove = change_map_packet(&Map::name_without_ext(character.get_current_map_name()), character.get_x(), character.get_y(), session.clone(), server.clone());
     let final_response_packet: Vec<u8> = chain_packets(vec![&packet_accept_enter, &packet_zc_npcack_mapmove]);
     // let final_response_packet: Vec<u8> = chain_packets(vec![&packet_inventory_expansion_info, &packet_overweight_percent, &packet_accept_enter, &packet_zc_npcack_mapmove]);
     socket_send!(tcp_stream, &final_response_packet);

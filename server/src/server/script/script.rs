@@ -15,6 +15,7 @@ use packets::packets::{PacketZcCloseDialog, PacketZcMenuList, PacketZcNotifyPlay
 
 use crate::packets::packets::Packet;
 use crate::Server;
+use crate::server::core::character_movement::change_map;
 use crate::server::core::session::Session;
 use crate::server::core::status::LookType;
 use crate::server::script::constant::{get_battle_flag, load_constant};
@@ -64,6 +65,37 @@ impl PlayerScriptHandler {
     fn block_recv(&self) -> Option<Vec<u8>> {
         // TODO handle timeout!
         self.player_action_receiver.write().unwrap().blocking_recv()
+    }
+
+    fn handle_menu(&self, execution_thread: &Thread, params: Vec<Value>) -> Option<usize> {
+        let menu_str = params.iter().map(|p| {
+            if p.is_number() {
+                format!("{}", p.number_value().unwrap())
+            } else if p.is_string() {
+                p.string_value().unwrap().clone()
+            } else {
+                String::new()
+            }
+        }).collect::<Vec<String>>().join(":");
+        let mut packet_zc_menu_list = PacketZcMenuList::new();
+        packet_zc_menu_list.naid = self.npc_id;
+        packet_zc_menu_list.msg = menu_str;
+        packet_zc_menu_list.packet_length = (PacketZcMenuList::base_len(self.server.packetver()) as i16 + packet_zc_menu_list.msg.len() as i16) + 1_i16;
+        packet_zc_menu_list.fill_raw();
+        socket_send!(self.tcp_stream, packet_zc_menu_list.raw());
+        let selected_option = self.block_recv();
+        if let Some(selected_option) = selected_option {
+            let selected_option = u8::from_le_bytes([selected_option[0]]);
+            if selected_option == 255 {
+                execution_thread.abort();
+                return None;
+            }
+            execution_thread.push_constant_on_stack(Value::Number(Some(selected_option as i32)));
+            return Some(selected_option as usize);
+        } else {
+            execution_thread.abort();
+            return None;
+        }
     }
 }
 
@@ -156,31 +188,10 @@ impl NativeMethodHandler for PlayerScriptHandler {
             // }
             // execution_thread.push_constant_on_stack(Value::Number(Some((array_entries.len() * 2) as i32)));
         } else if native.name.eq("select") {
-            let menu_str = params.iter().map(|p| {
-                if p.is_number() {
-                    format!("{}", p.number_value().unwrap())
-                } else if p.is_string() {
-                    p.string_value().unwrap().clone()
-                } else {
-                    String::new()
-                }
-            }).collect::<Vec<String>>().join(":");
-            let mut packet_zc_menu_list = PacketZcMenuList::new();
-            packet_zc_menu_list.naid = self.npc_id;
-            packet_zc_menu_list.msg = menu_str;
-            packet_zc_menu_list.packet_length = (PacketZcMenuList::base_len(self.server.packetver()) as i16 + packet_zc_menu_list.msg.len() as i16) + 1_i16;
-            packet_zc_menu_list.fill_raw();
-            socket_send!(self.tcp_stream, packet_zc_menu_list.raw());
-            let selected_option = self.block_recv();
-            if let Some(selected_option) = selected_option {
-                let selected_option = u8::from_le_bytes([selected_option[0]]);
-                if selected_option == 255 {
-                    execution_thread.abort();
-                    return;
-                }
-                execution_thread.push_constant_on_stack(Value::Number(Some(selected_option as i32)));
-            } else {
-                execution_thread.abort();
+            self.handle_menu(execution_thread, params);
+        }  else if native.name.eq("menu") {
+            if let Some(option) = self.handle_menu(execution_thread, params) {
+
             }
         } else if native.name.eq("loadconstant") {
             let constant_name = params[0].string_value().unwrap();
@@ -245,8 +256,17 @@ impl NativeMethodHandler for PlayerScriptHandler {
             let constant_name = params[0].string_value().unwrap();
             let value = get_battle_flag(constant_name);
             execution_thread.push_constant_on_stack(value);
-        } else if native.name.eq("_") {
-            execution_thread.push_constant_on_stack(params[0].clone());
+        } else if native.name.eq("warp") {
+            let map_name = params[0].string_value().unwrap();
+            let x = params[1].number_value().unwrap();
+            let y = params[2].number_value().unwrap();
+            let session = if params.len() == 4 {
+                // TODO
+                panic!("setlook with char_id not yet supported")
+            } else {
+                self.session.clone()
+            };
+            change_map(map_name, x as u16, y as u16, session, self.server.clone());
         } else if native.name.eq("sprintf") {
             let template = params[0].string_value().unwrap();
             let mut sprintf_args: Vec<&dyn Printf> = vec![];
@@ -265,7 +285,7 @@ impl NativeMethodHandler for PlayerScriptHandler {
                 error!("Unable to parse sprintf due to: {:?}", result.err().unwrap());
                 execution_thread.push_constant_on_stack(Value::new_string(String::from("Unable to parse sprintf")));
             }
-        } else {
+        }else {
             error!("Native function \"{}\" not handled yet!", native.name);
         }
     }
