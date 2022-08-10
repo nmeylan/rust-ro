@@ -159,34 +159,9 @@ impl NativeMethodHandler for PlayerScriptHandler {
         } else if native.name.eq("getglobalvariable") {
             self.handle_getglobalvariable(params, execution_thread);
         } else if native.name.eq("setglobalarray") {
-            // let variable_name = params[0].string_value().unwrap();
-            // let variable_scope = params[1].string_value().unwrap();
-            // let mut index = 2;
-            // loop {
-            //     if index >= params.len() {
-            //         break;
-            //     }
-            //     let array_index = params[index].number_value().unwrap();
-            //     let value = params[index + 1].clone();
-            //     self.global_variable_store.lock().unwrap().push(
-            //         GlobalVariableEntry {
-            //             name: variable_name.clone(),
-            //             value,
-            //             scope: variable_scope.clone(),
-            //             index: Some(array_index as usize)
-            //         }
-            //     );
-            //     index += 2;
-            // }
-        } else if native.name.eq("getglobalarray") {} else if native.name.eq("getglobalarray") {
-            // let variable_name = params[0].string_value().unwrap();
-            // let variable_scope = params[1].string_value().unwrap();
-            // let array_entries = self.find_global_array_entries(variable_name, variable_scope);
-            // for entry in array_entries.iter() {
-            //     execution_thread.push_constant_on_stack(entry.value.clone());
-            //     execution_thread.push_constant_on_stack(Value::Number(Some(entry.index.unwrap() as i32)));
-            // }
-            // execution_thread.push_constant_on_stack(Value::Number(Some((array_entries.len() * 2) as i32)));
+            self.handle_setglobalarray(&params);
+        } else if native.name.eq("getglobalarray") {
+            self.handle_getglobalarray(&params, execution_thread);
         } else if native.name.eq("select") {
             self.handle_menu(execution_thread, params);
         }  else if native.name.eq("menu") {

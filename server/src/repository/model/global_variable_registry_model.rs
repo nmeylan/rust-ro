@@ -1,3 +1,6 @@
+use sqlx::{Error, FromRow};
+use sqlx::mysql::MySqlRow;
+
 #[derive(sqlx::FromRow, sql::SqlUpsert)]
 pub struct CharRegStr {
     pub char_id: u32,
