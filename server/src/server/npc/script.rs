@@ -10,6 +10,7 @@ use rathena_script_lang_interpreter::lang::scripts_compiler;
 
 use crate::MapItem;
 use crate::server::enums::map_item::MapItemType;
+use crate::server::script::constant::load_constant;
 
 // TODO add a conf for this
 static SCRIPT_CONF_PATH: &str = "./npc/scripts_custom.conf";
@@ -85,8 +86,13 @@ impl Script {
             let sprite = if let Ok(sprite_id) = s.sprite.parse::<u16>() {
                 sprite_id
             } else {
-                warn!("FIXME: Sprite {} is not recognized as constant, set default sprite id", s.sprite);
-                100 // TODO load from constants
+                let mut sprite_id = 100;
+                if let Some(constant) = load_constant(&s.sprite) {
+                    if constant.is_number() {
+                        sprite_id = constant.number_value().unwrap() as u16;
+                    }
+                }
+                sprite_id
             };
             Script {
                 id: 0,
