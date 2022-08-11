@@ -71,7 +71,7 @@ impl PlayerScriptHandler {
                     execution_thread.push_constant_on_stack(value);
                     return;
                 }
-                if variable_name.ends_with("\\$") {
+                if variable_name.ends_with("$") {
                     let char_reg_str: Result<CharRegStr, Error> = self.runtime.block_on(async {
                         sqlx::query_as::<_, CharRegStr>("SELECT * FROM `char_reg_str_db` WHERE `char_id` = ? AND `key` = ? AND `index` = 0")
                             .bind(self.session.character.as_ref().unwrap().char_id).bind(variable_name).fetch_one(&self.server.repository.pool).await
@@ -92,7 +92,7 @@ impl PlayerScriptHandler {
                 }
             },
             "account_permanent" => {
-                if variable_name.ends_with("\\$") {
+                if variable_name.ends_with("$") {
                     let account_reg_str: Result<AccountRegStr, Error> = self.runtime.block_on(async {
                         sqlx::query_as::<_, AccountRegStr>("SELECT * FROM `global_acc_reg_str_db` WHERE `account_id` = ? AND `key` = ? AND `index` = 0")
                             .bind(self.session.account_id).bind(variable_name).fetch_one(&self.server.repository.pool).await
@@ -113,7 +113,7 @@ impl PlayerScriptHandler {
                 }
             },
             "server_permanent" => {
-                if variable_name.ends_with("\\$") {
+                if variable_name.ends_with("$") {
                     let server_reg_str: Result<ServerRegStr, Error> = self.runtime.block_on(async {
                         sqlx::query_as::<_, ServerRegStr>("SELECT * FROM `map_reg_str_db` WHERE `key` = ? AND `index` = 0")
                             .bind(variable_name).fetch_one(&self.server.repository.pool).await
@@ -144,12 +144,11 @@ impl PlayerScriptHandler {
                     };
                     execution_thread.push_constant_on_stack(value);
                 } else {
-                    if variable_name.ends_with("\\$") {
+                    if variable_name.ends_with("$") {
                         execution_thread.push_constant_on_stack(Value::String(Some(String::new())));
                     } else {
                         execution_thread.push_constant_on_stack(Value::Number(Some(0)));
                     }
-                    panic!("char temporary variable: can't find variable {} with scope {}", variable_name, variable_scope);
                 }
             }
             &_ => error!("Variable scope {} is not supported yet!", variable_scope)
@@ -229,7 +228,7 @@ impl PlayerScriptHandler {
 
         match variable_scope.as_str() {
             "char_permanent" => {
-                if variable_name.ends_with("\\$") {
+                if variable_name.ends_with("$") {
                     let char_reg_str: Result<Vec<CharRegStr>, Error> = self.runtime.block_on(async {
                         sqlx::query_as::<_, CharRegStr>("SELECT * FROM `char_reg_str_db` WHERE `char_id` = ? AND `key` = ?")
                             .bind(self.session.character.as_ref().unwrap().char_id).bind(variable_name).fetch_all(&self.server.repository.pool).await
@@ -264,7 +263,7 @@ impl PlayerScriptHandler {
                 }
             }
             "account_permanent" => {
-                if variable_name.ends_with("\\$") {
+                if variable_name.ends_with("$") {
                     let account_reg_str: Result<Vec<AccountRegStr>, Error> = self.runtime.block_on(async {
                         sqlx::query_as::<_, AccountRegStr>("SELECT * FROM `global_acc_reg_str_db` WHERE `account_id` = ? AND `key` = ?")
                             .bind(self.session.account_id).bind(variable_name).fetch_all(&self.server.repository.pool).await
@@ -299,7 +298,7 @@ impl PlayerScriptHandler {
                 }
             }
             "server_permanent" => {
-                if variable_name.ends_with("\\$") {
+                if variable_name.ends_with("$") {
                     let server_reg_str: Result<Vec<ServerRegStr>, Error> = self.runtime.block_on(async {
                         sqlx::query_as::<_, ServerRegStr>("SELECT * FROM `map_reg_str_db` WHERE `key` = ?")
                             .bind(variable_name).fetch_all(&self.server.repository.pool).await
