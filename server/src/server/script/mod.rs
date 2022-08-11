@@ -1,9 +1,8 @@
-use std::env::var;
 use std::mem;
 
 pub mod script;
 mod global_variable_handler;
-mod constant;
+pub mod constant;
 
 #[derive(Clone, Eq, Hash, PartialEq, Debug)]
 pub struct GlobalVariableEntry {
