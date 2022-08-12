@@ -36,6 +36,7 @@ In proxy mode:
 - mob spawn
 - atcommand: @go, @warp
 - mob move
+- NPC scripts (partially: see https://github.com/nmeylan/rust-ro/issues/3)
 
 # NPC/Script (wip) 👷
 - VM is implemented here https://github.com/nmeylan/rathena-script-lang-interpreter
@@ -43,15 +44,12 @@ In proxy mode:
 
 https://user-images.githubusercontent.com/1909074/178155321-d3eeb4b8-32ed-4901-bbfe-b101b1a5a56d.mp4
 
-
-
 Integration of the VM
 
-# Currently working on 👷
-- Npc script https://github.com/nmeylan/rathena-script-lang-interpreter
 # TODO
 in random order, features are implemented based on my current mood.
-- script
+- inventory
+- health/sp
 - player attack mob
 - mob attack player
 - equipment
