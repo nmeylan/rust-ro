@@ -11,7 +11,7 @@ use sprintf::{ConversionSpecifier, Printf, vsprintf};
 use tokio::runtime::Runtime;
 use tokio::sync::mpsc::Receiver;
 
-use packets::packets::{PacketZcCloseDialog, PacketZcMenuList, PacketZcNotifyPlayerchat, PacketZcOpenEditdlg, PacketZcOpenEditdlgstr, PacketZcSayDialog, PacketZcSpriteChange2, PacketZcWaitDialog};
+use packets::packets::{PacketZcCloseDialog, PacketZcMenuList, PacketZcNotifyPlayerchat, PacketZcOpenEditdlg, PacketZcOpenEditdlgstr, PacketZcSayDialog, PacketZcShowImage2, PacketZcSpriteChange2, PacketZcWaitDialog};
 
 use crate::packets::packets::Packet;
 use crate::Server;
@@ -19,6 +19,7 @@ use crate::server::core::character_movement::change_map;
 use crate::server::core::session::Session;
 use crate::server::core::status::LookType;
 use crate::server::script::constant::{get_battle_flag, load_constant};
+use crate::util::string::StringUtil;
 
 pub struct ScriptHandler;
 
@@ -164,10 +165,8 @@ impl NativeMethodHandler for PlayerScriptHandler {
             self.handle_getglobalarray(&params, execution_thread);
         } else if native.name.eq("select") {
             self.handle_menu(execution_thread, params);
-        }  else if native.name.eq("menu") {
-            if let Some(option) = self.handle_menu(execution_thread, params) {
-
-            }
+        } else if native.name.eq("menu") {
+            if let Some(option) = self.handle_menu(execution_thread, params) {}
         } else if native.name.eq("loadconstant") {
             let constant_name = params[0].string_value().unwrap();
             if let Some(value) = load_constant(constant_name) {
@@ -260,7 +259,18 @@ impl NativeMethodHandler for PlayerScriptHandler {
                 error!("Unable to parse sprintf due to: {:?}", result.err().unwrap());
                 execution_thread.push_constant_on_stack(Value::new_string(String::from("Unable to parse sprintf")));
             }
-        }else {
+        } else if native.name.eq("cutin") {
+            let file_name = params[0].string_value().unwrap();
+            let position = params[1].number_value().unwrap();
+            let mut file_name_array: [char; 64] = [0 as char; 64];
+            file_name.fill_char_array(file_name_array.as_mut());
+            let mut packet_zc_show_image2 = PacketZcShowImage2::new();
+            packet_zc_show_image2.set_image_name(file_name_array);
+            packet_zc_show_image2.set_atype(position as u8);
+            packet_zc_show_image2.fill_raw();
+            socket_send!(self.tcp_stream, packet_zc_show_image2.raw());
+
+        } else {
             error!("Native function \"{}\" not handled yet!", native.name);
         }
     }

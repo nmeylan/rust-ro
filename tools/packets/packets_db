@@ -2611,7 +2611,7 @@ struct PACKET_CZ_REQ_OPENSTORE2 {
   int Price
   }
  }
-0x1b3
+0xb301
 struct PACKET_ZC_SHOW_IMAGE2 {
   short PacketId
   char imageName[64]
@@ -6389,7 +6389,6 @@ struct PACKET_ZC_NOTIFY_STANDENTRY_7 {
 #V GTE 20080102 short font
 #V GTE 20120221 unsigned long maxHP
 #V GTE 20120221 unsigned long hp
-  unsigned char name[24]
 #V GTE 20120221 bool isBoss
 #V GTE 20150513 short body
  }

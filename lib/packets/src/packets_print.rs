@@ -18224,9 +18224,8 @@ impl Debug for PacketZcNotifyStandentry7 {
             .field("font[71, 73]", &format!("{:02X?}", &self.font_raw))
             .field("max_hp[73, 77]", &format!("{:02X?}", &self.max_hp_raw))
             .field("hp[77, 81]", &format!("{:02X?}", &self.hp_raw))
-            .field("name[81, 105]", &format!("{:02X?}", &self.name_raw))
-            .field("is_boss[105, 106]", &format!("{:02X?}", &self.is_boss_raw))
-            .field("body[106, 108]", &format!("{:02X?}", &self.body_raw))
+            .field("is_boss[81, 82]", &format!("{:02X?}", &self.is_boss_raw))
+            .field("body[82, 84]", &format!("{:02X?}", &self.body_raw))
         .finish()
     }
 }
@@ -18268,9 +18267,8 @@ impl Display for PacketZcNotifyStandentry7 {
         fields.push(format!("font(short as i16)[71, 73]: {}", &self.font));
         fields.push(format!("max_hp(unsigned long as u32)[73, 77]: {}", &self.max_hp));
         fields.push(format!("hp(unsigned long as u32)[77, 81]: {}", &self.hp));
-        fields.push(format!("name(char[] as char[])[81, 105]: {}", &self.name.pretty_output()));
-        fields.push(format!("is_boss(bool as bool)[105, 106]: {}", &self.is_boss));
-        fields.push(format!("body(short as i16)[106, 108]: {}", &self.body));
+        fields.push(format!("is_boss(bool as bool)[81, 82]: {}", &self.is_boss));
+        fields.push(format!("body(short as i16)[82, 84]: {}", &self.body));
         write!(f, "PacketZcNotifyStandentry7\n {}", fields.join(",\n "))
     }
 }

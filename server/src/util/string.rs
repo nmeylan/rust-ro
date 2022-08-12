@@ -5,6 +5,9 @@ pub trait StringUtil {
 impl StringUtil for String {
     fn fill_char_array(&self, char_array: &mut [char]) {
         for (i, c) in self.chars().enumerate() {
+            if i >= char_array.len() {
+                return;
+            }
             char_array[i] = c;
         }
     }
