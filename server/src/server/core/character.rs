@@ -189,7 +189,7 @@ impl Character {
                 let mut packet_zc_notify_standentry = PacketZcNotifyStandentry7::new();
                 packet_zc_notify_standentry.set_job(map_item.client_item_class());
                 packet_zc_notify_standentry.set_packet_length(PacketZcNotifyStandentry7::base_len(session.packetver()) as i16);
-                packet_zc_notify_standentry.set_name(name);
+                // packet_zc_notify_standentry.set_name(name);
                 packet_zc_notify_standentry.set_pos_dir(Position { x: map_item.x(), y: map_item.y(), dir: 3 }.to_pos());
                 packet_zc_notify_standentry.set_objecttype(map_item.object_type() as u8);
                 packet_zc_notify_standentry.set_aid(map_item.id());

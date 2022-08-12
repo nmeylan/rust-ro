@@ -1036,7 +1036,7 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x01 && buffer[1] == 0xb2 {
         return Box::new(PacketCzReqOpenstore2::from(buffer, packetver));
     }
-    if buffer[0] == 0x01 && buffer[1] == 0xb3 {
+    if buffer[0] == 0xb3 && buffer[1] == 0x01 {
         return Box::new(PacketZcShowImage2::from(buffer, packetver));
     }
     if buffer[0] == 0x01 && buffer[1] == 0xb4 {

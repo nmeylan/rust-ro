@@ -82,10 +82,10 @@ pub enum LookType {
 impl Status {
     pub fn from_char_model(char_model: &CharSelectModel, configuration: &GameConfig) -> Status {
         Status {
-            hp: char_model.max_hp, // in db current hp are stored in max_hp col, and max_hp in hp col
-            sp: char_model.max_sp, // in db current sp are stored in max_sp col, and max_sp in sp col
-            max_hp: char_model.hp,
-            max_sp: char_model.sp,
+            hp: char_model.hp,
+            sp: char_model.sp,
+            max_hp: char_model.max_hp,
+            max_sp: char_model.max_sp,
             str: char_model.str,
             agi: char_model.agi,
             vit: char_model.vit,

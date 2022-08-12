@@ -48866,7 +48866,7 @@ impl Default for PacketCzReqOpenstore2 {
 
 impl PacketZcShowImage2 {
     pub fn packet_id() -> &'static str {
-        "0x01b3"
+        "0xb301"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcShowImage2 {
         let mut offset: usize = 0;
@@ -48958,8 +48958,8 @@ impl PacketZcShowImage2 {
     pub fn new() -> PacketZcShowImage2 {
         PacketZcShowImage2 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1b, 0x3]),
-        packet_id_raw: [0x1b, 0x3],
+        packet_id: i16::from_le_bytes([0xb3, 0x01]),
+        packet_id_raw: [0xb3, 0x01],
         image_name: [0 as char; 64],
         image_name_raw: [0; 64],
         atype: 0,
@@ -48970,7 +48970,7 @@ impl PacketZcShowImage2 {
 
 impl Packet for PacketZcShowImage2 {
     fn id(&self) -> &str {
-       "0x01b3"
+       "0xb301"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -120752,22 +120752,6 @@ impl PacketZcNotifyStandentry7 {
                 }
                 dst
             },
-            name: {
-                let field =  {
-                let mut dst: [char; 24] = [0 as char; 24];
-                for (index, byte) in buffer[offset..offset + 24].iter().enumerate() {
-                    dst[index] = *byte as char;
-                }
-                dst
-            };
-                field
-            },
-            name_raw: {
-                let mut dst: [u8; 24] = [0u8; 24];
-                dst.clone_from_slice(&buffer[offset..offset + 24]);
-                offset += 24;
-                dst
-            },
             is_boss: {
                 let field = if packetver >= 20120221 {
                    buffer[offset] == 1
@@ -120912,11 +120896,6 @@ impl PacketZcNotifyStandentry7 {
         wtr.write_u32::<LittleEndian>(self.hp).unwrap();
         self.hp_raw = wtr.try_into().unwrap();
         wtr = vec![];
-        for item in self.name {
-            wtr.write_u8(item as u8 ).unwrap();
-        }
-        self.name_raw = wtr.try_into().unwrap();
-        wtr = vec![];
         wtr.write_u8(self.is_boss as u8).unwrap();
         self.is_boss_raw = wtr.try_into().unwrap();
         wtr = vec![];
@@ -120990,7 +120969,6 @@ impl PacketZcNotifyStandentry7 {
         } else if packetver.unwrap() >= 20120221 {
             wtr.append(&mut self.hp_raw.to_vec());
         }
-        wtr.append(&mut self.name_raw.to_vec());
         if packetver.is_none() {
           wtr.append(&mut self.is_boss_raw.to_vec());
         } else if packetver.unwrap() >= 20120221 {
@@ -121004,7 +120982,7 @@ impl PacketZcNotifyStandentry7 {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let mut base_len: usize = 82;
+        let mut base_len: usize = 58;
         if packetver >= 20091103 {
             base_len += 2;
         }
@@ -121241,12 +121219,6 @@ impl PacketZcNotifyStandentry7 {
     pub fn set_hp_raw(&mut self, value: [u8; 4]) {
         self.hp_raw = value;
     }
-    pub fn set_name(&mut self, value: [char; 24]) {
-        self.name = value;
-    }
-    pub fn set_name_raw(&mut self, value: [u8; 24]) {
-        self.name_raw = value;
-    }
     pub fn set_is_boss(&mut self, value: bool) {
         self.is_boss = value;
     }
@@ -121330,8 +121302,6 @@ impl PacketZcNotifyStandentry7 {
         max_hp_raw: [0; 4],
         hp: 0,
         hp_raw: [0; 4],
-        name: [0 as char; 24],
-        name_raw: [0; 24],
         is_boss: false,
         is_boss_raw: [0; 1],
         body: 0,

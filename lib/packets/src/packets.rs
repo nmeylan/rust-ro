@@ -10359,8 +10359,6 @@ pub struct PacketZcNotifyStandentry7 {
     pub max_hp_raw: [u8; 4],
     pub hp: u32,
     pub hp_raw: [u8; 4],
-    pub name: [char; 24],
-    pub name_raw: [u8; 24],
     pub is_boss: bool,
     pub is_boss_raw: [u8; 1],
     pub body: i16,
