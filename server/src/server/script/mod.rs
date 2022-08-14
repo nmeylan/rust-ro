@@ -3,6 +3,7 @@ use std::mem;
 pub mod script;
 mod global_variable_handler;
 pub mod constant;
+mod shop;
 
 #[derive(Clone, Eq, Hash, PartialEq, Debug)]
 pub struct GlobalVariableEntry {
