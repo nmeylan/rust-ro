@@ -70,7 +70,7 @@ impl MapInstance {
     pub fn from_map(map: &Map, server: Arc<Server>, id: u32, cells: Vec<u16>, mut map_items: HashSet<Arc<dyn MapItem>>) -> MapInstance {
         let _cells_len = cells.len();
         map.scripts.iter().for_each(|script| {
-            let (_, instance_reference) = Vm::create_instance(server.vm.clone(), script.class_name.clone(), Box::new(&ScriptHandler)).unwrap();
+            let (_, instance_reference) = Vm::create_instance(server.vm.clone(), script.class_name.clone(), Box::new(&ScriptHandler), script.constructor_args.clone()).unwrap();
             let mut script = script.clone();
             script.set_instance_reference(instance_reference);
             let script_arc = Arc::new(script);

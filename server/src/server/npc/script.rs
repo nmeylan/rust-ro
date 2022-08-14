@@ -6,7 +6,8 @@ use std::path::Path;
 use rathena_script_lang_interpreter::lang::chunk::ClassFile;
 use rathena_script_lang_interpreter::lang::compiler::DebugFlag;
 use rathena_script_lang_interpreter::lang::error::CompilationError;
-use rathena_script_lang_interpreter::lang::scripts_compiler;
+use rathena_script_lang_interpreter::lang::value::Value;
+use rathena_script_lang_interpreter::util::scripts_compiler;
 
 use crate::MapItem;
 use crate::server::enums::map_item::MapItemType;
@@ -29,6 +30,7 @@ pub struct Script {
     y_size: u16,
     pub class_name: String,
     pub class_reference: u64,
+    pub constructor_args: Vec<Value>,
     #[set]
     pub instance_reference: u64,
 }
@@ -106,6 +108,7 @@ impl Script {
                 y_size: s.y_size as u16,
                 class_name: s.class_name.clone(),
                 class_reference: s.class_reference,
+                constructor_args: s.constructor_args.clone(),
                 instance_reference: 0,
             }
         }).collect::<Vec<Self>>();

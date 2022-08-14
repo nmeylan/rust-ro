@@ -24,7 +24,7 @@ pub fn handle_char_move(server: Arc<Server>, packet: &mut dyn Packet, runtime: &
         let move_packet = cast!(packet, PacketCzRequestMove);
         Position::from_move_packet(move_packet)
     };
-    info!("Request move to {}", destination);
+    debug!("Request move to {}", destination);
     let character = session.get_character();
     let current_map_guard = read_lock!(character.current_map);
     let map = current_map_guard.as_ref().unwrap().clone();
