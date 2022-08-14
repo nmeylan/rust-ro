@@ -44,7 +44,7 @@ pub(crate) fn handle_login(server: Arc<Server>, packet: &mut dyn Packet, runtime
     }
 }
 
-pub async fn authenticate(server: Arc<Server>, packet: &PacketCaLogin, repository: &Repository<MySql>) -> Box<dyn Packet> {
+pub async fn authenticate(server: Arc<Server>, packet: &PacketCaLogin, repository: &Repository) -> Box<dyn Packet> {
     let mut rng = rand::thread_rng();
     let mut username = String::new();
     let mut password = String::new();

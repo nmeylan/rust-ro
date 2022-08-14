@@ -160,7 +160,7 @@ impl Npc for MobSpawn {
 }
 
 impl MobSpawn {
-    pub fn load_mob_spawns(repository: Arc<Repository<MySql>>) -> JoinHandle<HashMap<String, Vec<MobSpawn>>> {
+    pub fn load_mob_spawns(repository: Arc<Repository>) -> JoinHandle<HashMap<String, Vec<MobSpawn>>> {
         thread::spawn(move ||{
             let runtime = Runtime::new().unwrap();
             let start = Instant::now();

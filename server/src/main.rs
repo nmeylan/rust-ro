@@ -28,6 +28,7 @@ use sqlx::MySql;
 use std::time::{Instant};
 use flexi_logger::Logger;
 use rathena_script_lang_interpreter::lang::vm::{DebugFlag, Vm};
+use tokio::runtime::Runtime;
 use crate::server::core::map::{Map, MapItem};
 use crate::server::npc::warps::Warp;
 use crate::server::server::Server;
@@ -42,7 +43,7 @@ pub async fn main() {
     let config = Config::load().unwrap();
     let logger= Logger::try_with_str(config.server.log_level.as_ref().unwrap()).unwrap();
     logger.filter(Box::new(LogFilter::new())).start().unwrap();
-    let repository : Repository<MySql> = Repository::<MySql>::new_mysql(&config.database).await;
+    let repository : Repository = Repository::new_mysql(&config.database, Runtime::new().unwrap()).await;
     let repository_arc = Arc::new(repository);
     let warps = Warp::load_warps().await;
     let mob_spawns = MobSpawn::load_mob_spawns(repository_arc.clone()).join().unwrap();

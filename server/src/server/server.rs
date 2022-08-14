@@ -44,7 +44,7 @@ thread_local!(pub static PACKETVER: RefCell<u32> = RefCell::new(0));
 pub struct Server {
     pub configuration: Config,
     pub sessions: Arc<RwLock<HashMap<u32, Arc<Session>>>>,
-    pub repository: Arc<Repository<MySql>>,
+    pub repository: Arc<Repository>,
     pub maps: HashMap<String, Arc<Map>>,
     pub map_items: Arc<RwLock<HashMap<u32, Arc<dyn MapItem>>>>,
     pub vm: Arc<Vm>,
@@ -129,7 +129,7 @@ impl Server {
 }
 
 impl Server {
-    pub fn new(configuration: Config, repository: Arc<Repository<MySql>>, maps: HashMap<String, Arc<Map>>, map_items: Arc<RwLock<HashMap<u32, Arc<dyn MapItem>>>>, vm: Arc<Vm>) -> Server {
+    pub fn new(configuration: Config, repository: Arc<Repository>, maps: HashMap<String, Arc<Map>>, map_items: Arc<RwLock<HashMap<u32, Arc<dyn MapItem>>>>, vm: Arc<Vm>) -> Server {
         Server {
             configuration,
             sessions: Arc::new(RwLock::new(HashMap::<u32, Arc<Session>>::new())),

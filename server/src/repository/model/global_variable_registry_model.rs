@@ -36,14 +36,8 @@ pub struct AccountRegNum {
 
 #[derive(sqlx::FromRow, sql::SqlUpsert)]
 pub struct ServerRegStr {
-    pub key: String,
+    pub varname: String,
     pub index: u32,
     pub value: String,
 }
 
-#[derive(sqlx::FromRow, sql::SqlUpsert)]
-pub struct ServerRegNum {
-    pub key: String,
-    pub index: u32,
-    pub value: i32,
-}
