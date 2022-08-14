@@ -3,7 +3,7 @@ Ragnarok mmo server reimplementation for fun. Inspired by [herculesWS](https://g
 
 # Pre-requisite
 - mysql
-- RO db (loaded via hercules or rathena scripts)
+- RO db (loaded via rathena scripts)
 
 # Usage
 - All packets for account 2000000 are handle by this project.
@@ -14,6 +14,9 @@ Ragnarok mmo server reimplementation for fun. Inspired by [herculesWS](https://g
 
 In proxy mode:
 - login, char, map server to be running using default ports (6900, 6121, 6122)
+
+Database:
+- This implementation use `rathena` database structure (used to be `hercules` compatible but switched to `rathena`)
 
 # What has been done? ✔️
 ## Tools
