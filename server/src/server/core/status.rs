@@ -137,7 +137,7 @@ impl Status {
             speed: mob_model.speed,
             attack_motion: mob_model.atk_motion,
             attack_delay: mob_model.atk_delay,
-            delay_motion: mob_model.defense_motion,
+            delay_motion: mob_model.damage_motion,
             hit: 0,
             flee: 0,
             crit: 0,

@@ -179,6 +179,9 @@ pub fn handle_select_char(server: Arc<Server>, packet: &mut dyn Packet, runtime:
     let last_x: u16 = char_model.last_x;
     let last_y: u16 = char_model.last_y;
     let mut last_map: String = char_model.last_map.clone();
+    if last_map.is_empty() {
+        last_map = "prontera".to_string();
+    }
     let mut map_name = [0 as char; 16];
     last_map = format!("{}.gat", last_map);
     last_map.fill_char_array(map_name.as_mut());
