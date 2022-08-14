@@ -28,7 +28,7 @@ pub struct MobModel {
     pub speed: u16,
     pub atk_delay: u32,
     pub atk_motion: u32,
-    pub defense_motion: u32,
+    pub damage_motion: u32,
     pub exp: u32,
     pub jexp: u32,
     pub mvp1id: u16,
@@ -87,7 +87,7 @@ impl Default for MobModel {
             speed: 0,
             atk_delay: 0,
             atk_motion: 0,
-            defense_motion: 0,
+            damage_motion: 0,
             exp: 0,
             jexp: 0,
             mvp1id: 0,
@@ -123,59 +123,59 @@ impl Default for MobModel {
 impl <'r>FromRow<'r, MySqlRow> for MobModel {
     fn from_row(row: &'r MySqlRow) -> Result<Self, Error> {
         let mut model = MobModel::default();
-        model.set_id(row.get("ID"));
-        model.set_name(row.get("iName"));
-        model.set_level(row.get("LV"));
-        model.set_hp(row.get("HP"));
-        model.set_sp(row.get("SP"));
-        model.set_exp(row.get("EXP"));
-        model.set_range1(row.get("Range1"));
-        model.set_range2(row.get("Range2"));
-        model.set_range3(row.get("Range3"));
-        model.set_atk1(row.get("ATK1"));
-        model.set_atk2(row.get("ATK2"));
-        model.set_def(row.get("DEF"));
-        model.set_mdef(row.get("MDEF"));
-        model.set_str(row.get("STR"));
-        model.set_agi(row.get("AGI"));
-        model.set_vit(row.get("VIT"));
-        model.set_int(row.get("INT"));
-        model.set_dex(row.get("DEX"));
-        model.set_luk(row.get("LUK"));
-        model.set_scale(row.get("Scale"));
-        model.set_race(row.get("Race"));
-        model.set_element(row.get("Element"));
-        model.set_mode(row.get("Mode"));
-        model.set_speed(row.get("Speed"));
-        model.set_atk_delay(row.get("aDelay"));
-        model.set_atk_motion(row.get("aMotion"));
-        model.set_defense_motion(row.get("dMotion"));
-        model.set_mvp1id(row.get("MVP1id"));
-        model.set_mvp1per(row.get("MVP1per"));
-        model.set_mvp2id(row.get("MVP2id"));
-        model.set_mvp2per(row.get("MVP2per"));
-        model.set_mvp3id(row.get("MVP3id"));
-        model.set_mvp3per(row.get("MVP3per"));
-        model.set_drop1id(row.get("Drop1id"));
-        model.set_drop1per(row.get("Drop1per"));
-        model.set_drop2id(row.get("Drop2id"));
-        model.set_drop2per(row.get("Drop2per"));
-        model.set_drop3id(row.get("Drop3id"));
-        model.set_drop3per(row.get("Drop3per"));
-        model.set_drop4id(row.get("Drop4id"));
-        model.set_drop4per(row.get("Drop4per"));
-        model.set_drop5id(row.get("Drop5id"));
-        model.set_drop5per(row.get("Drop5per"));
-        model.set_drop6id(row.get("Drop6id"));
-        model.set_drop6per(row.get("Drop6per"));
-        model.set_drop7id(row.get("Drop7id"));
-        model.set_drop7per(row.get("Drop7per"));
-        model.set_drop8id(row.get("Drop8id"));
-        model.set_drop8per(row.get("Drop8per"));
-        model.set_drop9id(row.get("Drop9id"));
-        model.set_drop9per(row.get("Drop9per"));
-        model.set_dropcardid(row.get("DropCardid"));
-        model.set_dropcardper(row.get("DropCardper"));
+        model.set_id(row.get("id"));
+        model.set_name(row.get("name_english"));
+        model.set_level(row.try_get("level").unwrap_or(0));
+        model.set_hp(row.try_get("hp").unwrap_or(0));
+        model.set_sp(row.try_get("sp").unwrap_or(0));
+        model.set_exp(row.try_get("base_exp").unwrap_or(0));
+        model.set_range1(row.try_get("attack_range").unwrap_or(0));
+        model.set_range2(row.try_get("skill_range").unwrap_or(0));
+        model.set_range3(row.try_get("chase_range").unwrap_or(0));
+        model.set_atk1(row.try_get("attack").unwrap_or(0));
+        model.set_atk2(row.try_get("attack2").unwrap_or(0));
+        model.set_def(row.try_get("defense").unwrap_or(0));
+        model.set_mdef(row.try_get("magic_defense").unwrap_or(0));
+        model.set_str(row.try_get("str").unwrap_or(0));
+        model.set_agi(row.try_get("agi").unwrap_or(0));
+        model.set_vit(row.try_get("vit").unwrap_or(0));
+        model.set_int(row.try_get("int").unwrap_or(0));
+        model.set_dex(row.try_get("dex").unwrap_or(0));
+        model.set_luk(row.try_get("luk").unwrap_or(0));
+        model.set_scale(row.try_get("size").unwrap_or(0));
+        model.set_race(row.try_get("race").unwrap_or(0));
+        model.set_element(row.try_get("element").unwrap_or(0));
+        // model.set_mode(row.get("element_level")); TODO: collect all modes
+        model.set_speed(row.try_get("walk_speed").unwrap_or(0));
+        model.set_atk_delay(row.try_get("attack_delay").unwrap_or(0));
+        model.set_atk_motion(row.try_get("attack_motion").unwrap_or(0));
+        model.set_damage_motion(row.try_get("damage_motion").unwrap_or(0));
+        model.set_mvp1id(row.try_get("mvpdrop1_item").unwrap_or(0));
+        model.set_mvp1per(row.try_get("mvpdrop1_rate").unwrap_or(0));
+        model.set_mvp2id(row.try_get("mvpdrop2_item").unwrap_or(0));
+        model.set_mvp2per(row.try_get("mvpdrop2_rate").unwrap_or(0));
+        model.set_mvp3id(row.try_get("mvpdrop3_item").unwrap_or(0));
+        model.set_mvp3per(row.try_get("mvpdrop3_rate").unwrap_or(0));
+        model.set_drop1id(row.try_get("drop1_item").unwrap_or(0));
+        model.set_drop1per(row.try_get("drop1_rate").unwrap_or(0));
+        model.set_drop2id(row.try_get("drop2_item").unwrap_or(0));
+        model.set_drop2per(row.try_get("drop2_rate").unwrap_or(0));
+        model.set_drop3id(row.try_get("drop3_item").unwrap_or(0));
+        model.set_drop3per(row.try_get("drop3_rate").unwrap_or(0));
+        model.set_drop4id(row.try_get("drop4_item").unwrap_or(0));
+        model.set_drop4per(row.try_get("drop4_rate").unwrap_or(0));
+        model.set_drop5id(row.try_get("drop5_item").unwrap_or(0));
+        model.set_drop5per(row.try_get("drop5_rate").unwrap_or(0));
+        model.set_drop6id(row.try_get("drop6_item").unwrap_or(0));
+        model.set_drop6per(row.try_get("drop6_rate").unwrap_or(0));
+        model.set_drop7id(row.try_get("drop7_item").unwrap_or(0));
+        model.set_drop7per(row.try_get("drop7_rate").unwrap_or(0));
+        model.set_drop8id(row.try_get("drop8_item").unwrap_or(0));
+        model.set_drop8per(row.try_get("drop8_rate").unwrap_or(0));
+        model.set_drop9id(row.try_get("drop9_item").unwrap_or(0));
+        model.set_drop9per(row.try_get("drop9_rate").unwrap_or(0));
+        model.set_dropcardid(row.try_get("drop10_item").unwrap_or(0));
+        model.set_dropcardper(row.try_get("drop10_rate").unwrap_or(0));
         Ok(model)
     }
 }

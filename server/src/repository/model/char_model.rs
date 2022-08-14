@@ -57,6 +57,9 @@ impl <'r>FromRow<'r, MySqlRow> for CharacterInfoNeoUnionWrapped {
         character_info_neo_union.set_char_num(row.get("char_num"));
         character_info_neo_union.set_b_is_changed_char_name(row.get("rename"));
         let mut last_map: String = row.get("last_map");
+        if last_map.is_empty() {
+            last_map = "prontera".to_string();
+        }
         last_map += ".gat";
         let mut last_map_as_array = [0 as char; 16];
         for (i, c) in last_map.chars().enumerate() {
@@ -65,7 +68,7 @@ impl <'r>FromRow<'r, MySqlRow> for CharacterInfoNeoUnionWrapped {
         character_info_neo_union.set_last_map(last_map_as_array);
         character_info_neo_union.set_delete_date(row.get("delete_date"));
         character_info_neo_union.set_robe(row.get("robe"));
-        character_info_neo_union.set_slot_addon(row.get("slotchange"));
+        character_info_neo_union.set_slot_addon(0);
         character_info_neo_union.set_rename_addon(0);
         character_info_neo_union.set_sex(if row.get::<&str, _>("sex") == "M" { 1 } else { 0 });
         character_info_neo_union.fill_raw();
@@ -132,7 +135,7 @@ pub struct CharSelectModel {
     pub save_x: u16,
     pub save_y: u16,
     pub sex: String,
-    pub inventory_size: u32,
+    pub inventory_slots: i16,
     pub clothes_color: u32,
     pub body: u32,
     pub weapon: u32,
