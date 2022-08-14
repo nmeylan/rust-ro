@@ -1,6 +1,8 @@
 use std::fmt::{Formatter};
 use std::sync::Arc;
 use std::thread::sleep;
+use futures::future::BoxFuture;
+use sqlx::Error;
 
 use tokio::runtime::Runtime;
 use tokio::task::JoinHandle;
@@ -107,7 +109,7 @@ pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<
                         if map_ref.is_warp_cell(path_node.x, path_node.y) {
                             let warp = map_ref.get_warp_at(path_node.x, path_node.y).unwrap();
                             drop(current_map_guard);
-                            change_map(&warp.dest_map_name, warp.to_x, warp.to_y, session.clone(), server.clone());
+                            change_map(&warp.dest_map_name, warp.to_x, warp.to_y, session.clone(), server.clone(), None);
                             debug!("[{:?} - {}] Warp break", std::thread::current().id(), current_movement_task_id);
                             movement_tasks_guard.clear();
                             break;
@@ -131,16 +133,16 @@ pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<
     handle
 }
 
-pub fn change_map(destination_map: &String, x: u16, y: u16, session: Arc<Session>, server: Arc<Server>) {
+pub fn change_map(destination_map: &String, x: u16, y: u16, session: Arc<Session>, server: Arc<Server>, runtime: Option<&Runtime>) {
     let packet_zc_npcack_mapmove = change_map_packet(destination_map, x, y, session.clone(), server.clone());
     session.send_to_map_socket(packet_zc_npcack_mapmove.raw());
     let character_session = session.get_character();
     character_session.clear_map_view();
-    // TODO fix code below
-    // let runtime = Runtime::new().unwrap();
-    // runtime.spawn(async move {
-    //     save_character_position(server, session.clone()).await
-    // });
+    if let Some(runtime) = runtime {
+        runtime.spawn(async move {
+            save_character_position(server, session.clone()).await
+        });
+    }
 }
 
 pub fn change_map_packet(destination_map: &String, x: u16, y: u16, session: Arc<Session>, server: Arc<Server>) -> PacketZcNpcackMapmove {
@@ -174,16 +176,7 @@ pub fn change_map_packet(destination_map: &String, x: u16, y: u16, session: Arc<
     packet_zc_npcack_mapmove
 }
 
-pub async fn save_character_position(server: Arc<Server>, session: Arc<Session>) {
-    debug!("save_character_position");
+pub async fn save_character_position(server: Arc<Server>, session: Arc<Session>) -> Result<(), Error> {
     let character = session.get_character();
-    let res = sqlx::query("UPDATE `char` SET last_map = ?, last_x = ?, last_y = ? WHERE account_id = ? AND char_id = ?") // TODO add bcrypt on user_pass column, but not supported by hercules
-        .bind(Map::name_without_ext(character.get_current_map_name()))
-        .bind(character.x())
-        .bind(character.y())
-        .bind(session.account_id)
-        .bind(character.char_id)
-        .execute(&server.repository.pool);
-    let res = res.await;
-    debug!("Updated char last position {:?}", res);
+    server.repository.character_save_position(session.account_id, character.char_id, Map::name_without_ext(character.get_current_map_name()), character.x(), character.y()).await
 }

@@ -125,7 +125,7 @@ impl Character {
     }
 
     pub fn update_position(&self, x: u16, y: u16) {
-        info!("[{:?}] update_position {},{}", std::thread::current().id(), x, y);
+        debug!("[{:?}] update_position {},{}", std::thread::current().id(), x, y);
         self.update_x_y(x, y);
     }
 
@@ -288,8 +288,7 @@ impl Character {
             _ => {"shoes"}
         };
         runtime.block_on(async {
-            let sql = format!("UPDATE `char` SET `{}` = ? WHERE `char_id` = ?", db_column);
-            sqlx::query(&sql).bind(value).bind(self.char_id).execute(&server.repository.pool).await.unwrap();
+            server.repository.character_update_status(self.char_id, db_column.to_string(), value).await.unwrap();
         });
 
     }

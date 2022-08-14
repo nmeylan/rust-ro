@@ -154,7 +154,6 @@ impl MapPropertyFlags {
 }
 
 impl Map {
-    // TODO: implement map instance. This method should return map instance id (or ref) for char session.
     // Char interact with instance instead of map directly.
     // Instances will make map lifecycle easier to maintain
     // Only 1 instance will be needed for most use case, but it make possible to wipe map instance after a while when no player are on it. to free memory

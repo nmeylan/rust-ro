@@ -236,11 +236,11 @@ impl NativeMethodHandler for PlayerScriptHandler {
             let y = params[2].number_value().unwrap();
             let session = if params.len() == 4 {
                 // TODO
-                panic!("setlook with char_id not yet supported")
+                panic!("warp with char_id not yet supported")
             } else {
                 self.session.clone()
             };
-            change_map(map_name, x as u16, y as u16, session, self.server.clone());
+            change_map(map_name, x as u16, y as u16, session, self.server.clone(), Some(&self.runtime));
         } else if native.name.eq("sprintf") {
             let template = params[0].string_value().unwrap();
             let mut sprintf_args: Vec<&dyn Printf> = vec![];

@@ -1,13 +1,15 @@
-use sqlx::{MySqlPool, MySql, Pool, Database};
+use sqlx::{MySqlPool, Pool, Database, MySql};
+use tokio::runtime::Runtime;
 use crate::server::configuration::DatabaseConfig;
 
 
-pub struct Repository<T: Database> {
-    pub pool: Pool<T>,
+pub struct Repository {
+    pub pool: Pool<MySql>,
+    pub runtime: Runtime
 }
 
-impl <T: Database> Repository<T> {
-    pub async fn new_mysql(configuration: &DatabaseConfig) -> Repository<MySql> {
+impl Repository {
+    pub async fn new_mysql(configuration: &DatabaseConfig, runtime: Runtime) -> Repository {
         let connection_url = format!("mysql://{}:{}@{}:{}/{}",
                              configuration.username, configuration.password.as_ref().unwrap(),
                              configuration.host, configuration.port,
@@ -15,6 +17,7 @@ impl <T: Database> Repository<T> {
         let pool = MySqlPool::connect(
             &connection_url).await.unwrap();
         Repository {
+            runtime,
             pool
         }
     }
