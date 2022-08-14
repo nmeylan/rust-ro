@@ -6,7 +6,7 @@ use rathena_script_lang_interpreter::lang::vm::Vm;
 use tokio::runtime::Runtime;
 use tokio::sync::mpsc;
 
-use packets::packets::{Packet, PacketCzContactnpc, PacketCzChooseMenu, PacketCzInputEditdlg, PacketCzInputEditdlgstr};
+use packets::packets::{Packet, PacketCzContactnpc, PacketCzChooseMenu, PacketCzInputEditdlg, PacketCzInputEditdlgstr, PacketCzAckSelectDealtype};
 
 use crate::{Script, Server};
 use crate::server::script::script::PlayerScriptHandler;
@@ -42,10 +42,15 @@ pub fn handle_player_choose_menu(packet: &mut dyn Packet, session: Arc<Session>)
     session.script_handler_channel_sender.lock().unwrap().as_ref().unwrap().blocking_send(Vec::from(packet_cz_choose_menu.num_raw)).unwrap();
 }
 pub fn handle_player_input_number(packet: &mut dyn Packet, session: Arc<Session>) {
-    let packezt_cz_input_editlg= cast!(packet, PacketCzInputEditdlg);
-    session.script_handler_channel_sender.lock().unwrap().as_ref().unwrap().blocking_send(Vec::from(packezt_cz_input_editlg.value_raw)).unwrap();
+    let packet_cz_input_editlg= cast!(packet, PacketCzInputEditdlg);
+    session.script_handler_channel_sender.lock().unwrap().as_ref().unwrap().blocking_send(Vec::from(packet_cz_input_editlg.value_raw)).unwrap();
 }
 pub fn handle_player_input_string(packet: &mut dyn Packet, session: Arc<Session>) {
-    let packezt_cz_input_editlgstr= cast!(packet, PacketCzInputEditdlgstr);
-    session.script_handler_channel_sender.lock().unwrap().as_ref().unwrap().blocking_send(packezt_cz_input_editlgstr.msg_raw.clone()).unwrap();
+    let packet_cz_input_editlgstr= cast!(packet, PacketCzInputEditdlgstr);
+    session.script_handler_channel_sender.lock().unwrap().as_ref().unwrap().blocking_send(packet_cz_input_editlgstr.msg_raw.clone()).unwrap();
+}
+
+pub fn handle_player_select_deal_type(packet: &mut dyn Packet, session: Arc<Session>) {
+    let packet_cz_ack_select_deal_type= cast!(packet, PacketCzAckSelectDealtype);
+    session.script_handler_channel_sender.lock().unwrap().as_ref().unwrap().blocking_send(vec![packet_cz_ack_select_deal_type.atype]).unwrap();
 }

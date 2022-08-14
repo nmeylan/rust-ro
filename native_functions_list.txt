@@ -18,3 +18,9 @@ sprintf,1,255
 warp,3,4
 menu,1,1
 cutin,2,2
+
+// Custom: not part of rathena script lang spec
+callshop,0,1,Number
+senditemlist,2,256
+sendcharinvetory,0,0
+warn,1,255

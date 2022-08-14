@@ -99,7 +99,7 @@ pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<
                         delay = character.status.speed as u64;
                     }
                     // info!("walk delay {}", delay);
-                    info!("[{:?} - {}] [{} paralell tasks] movement update_position", std::thread::current().id(), current_movement_task_id, movement_tasks_guard.len()) ;
+                    debug!("[{:?} - {}] [{} paralell tasks] movement update_position", std::thread::current().id(), current_movement_task_id, movement_tasks_guard.len()) ;
                     character.update_position(path_node.x, path_node.y);
                     {
                         let current_map_guard = read_lock!(character.current_map);
@@ -108,7 +108,7 @@ pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<
                             let warp = map_ref.get_warp_at(path_node.x, path_node.y).unwrap();
                             drop(current_map_guard);
                             change_map(&warp.dest_map_name, warp.to_x, warp.to_y, session.clone(), server.clone());
-                            info!("[{:?} - {}] Warp break", std::thread::current().id(), current_movement_task_id);
+                            debug!("[{:?} - {}] Warp break", std::thread::current().id(), current_movement_task_id);
                             movement_tasks_guard.clear();
                             break;
                         }
@@ -175,7 +175,7 @@ pub fn change_map_packet(destination_map: &String, x: u16, y: u16, session: Arc<
 }
 
 pub async fn save_character_position(server: Arc<Server>, session: Arc<Session>) {
-    info!("save_character_position");
+    debug!("save_character_position");
     let character = session.get_character();
     let res = sqlx::query("UPDATE `char` SET last_map = ?, last_x = ?, last_y = ? WHERE account_id = ? AND char_id = ?") // TODO add bcrypt on user_pass column, but not supported by hercules
         .bind(Map::name_without_ext(character.get_current_map_name()))
@@ -185,5 +185,5 @@ pub async fn save_character_position(server: Arc<Server>, session: Arc<Session>)
         .bind(character.char_id)
         .execute(&server.repository.pool);
     let res = res.await;
-    info!("Update char last position {:?}", res);
+    debug!("Updated char last position {:?}", res);
 }
