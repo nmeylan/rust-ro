@@ -1,5 +1,5 @@
 use std::any::Any;
-use packets::packets::{Packet, PacketUnknown, PacketCaLogin, PacketChEnter, PacketChMakeChar2, PacketChDeleteChar4Reserved, PacketCzEnter2, PacketChSelectChar, PacketCzRestart, PacketCzReqDisconnect2, PacketCzRequestMove2, PacketCzNotifyActorinit, PacketCzBlockingPlayCancel, PacketCzRequestAct2, PacketCzReqnameall2, PacketCzPlayerChat, PacketChMakeChar3, PacketChMakeChar, PacketCzRequestMove, PacketCzReqname, PacketCzRequestTime, PacketZcNotifyTime, PacketCzContactnpc, PacketCzReqNextScript, PacketCzChooseMenu, PacketCzInputEditdlg, PacketCzInputEditdlgstr, PacketCzAckSelectDealtype};
+use packets::packets::{Packet, PacketUnknown, PacketCaLogin, PacketChEnter, PacketChMakeChar2, PacketChDeleteChar4Reserved, PacketCzEnter2, PacketChSelectChar, PacketCzRestart, PacketCzReqDisconnect2, PacketCzRequestMove2, PacketCzNotifyActorinit, PacketCzBlockingPlayCancel, PacketCzRequestAct2, PacketCzReqnameall2, PacketCzPlayerChat, PacketChMakeChar3, PacketChMakeChar, PacketCzRequestMove, PacketCzReqname, PacketCzRequestTime, PacketZcNotifyTime, PacketCzContactnpc, PacketCzReqNextScript, PacketCzChooseMenu, PacketCzInputEditdlg, PacketCzInputEditdlgstr, PacketCzAckSelectDealtype, PacketCzPcPurchaseItemlist};
 use std::sync::{Arc, RwLock, RwLockWriteGuard};
 use std::thread::{JoinHandle};
 use crate::repository::lib::Repository;
@@ -27,7 +27,7 @@ use crate::server::handler::map::{handle_char_loaded_client_side, handle_map_ite
 use crate::util::tick::get_tick;
 use std::io::Write;
 use rathena_script_lang_interpreter::lang::vm::Vm;
-use crate::server::handler::action::npc::{handle_contact_npc, handle_player_choose_menu, handle_player_input_number, handle_player_input_string, handle_player_next, handle_player_select_deal_type};
+use crate::server::handler::action::npc::{handle_contact_npc, handle_player_choose_menu, handle_player_input_number, handle_player_input_string, handle_player_next, handle_player_purchase_items, handle_player_select_deal_type};
 
 // Todo make this configurable
 pub const PLAYER_FOV: u16 = 14;
@@ -338,6 +338,10 @@ impl Server {
         if packet.as_any().downcast_ref::<PacketCzAckSelectDealtype>().is_some() {
             debug!("PacketCzAckSelectDealtype");
             return handle_player_select_deal_type(packet, session);
+        }
+        if packet.as_any().downcast_ref::<PacketCzPcPurchaseItemlist>().is_some() {
+            debug!("PacketCzPcPurchaseItemlist");
+            return handle_player_purchase_items(packet, session);
         }
         // End NPC interaction
         if packet.as_any().downcast_ref::<PacketCzRequestTime>().is_some() {

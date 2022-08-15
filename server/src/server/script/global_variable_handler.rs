@@ -1,12 +1,12 @@
+use std::sync::Arc;
 use lazy_static::lazy_static;
 use rathena_script_lang_interpreter::lang::thread::Thread;
 use rathena_script_lang_interpreter::lang::value::Value;
-use sqlx::Error;
 use regex::Regex;
+use crate::server::core::character::Character;
 
-use crate::repository::model::global_variable_registry_model::{AccountRegNum, AccountRegStr, CharRegNum, CharRegStr, ServerRegStr};
 use crate::server::script::constant::load_constant;
-use crate::server::script::GlobalVariableEntry;
+use crate::server::script::{GlobalVariableEntry, GlobalVariableScope};
 use crate::server::script::script::PlayerScriptHandler;
 
 lazy_static! {
@@ -20,10 +20,14 @@ impl PlayerScriptHandler {
         let value = params[2].clone();
         match variable_scope.as_str() {
             "char_permanent" => {
+                let char = self.session.character.as_ref().unwrap();
+                if self.store_special_char_variable(char, variable_name, &value) {
+                    return;
+                }
                 if value.is_number() {
-                    self.server.repository.script_variable_char_num_save(self.session.character.as_ref().unwrap().char_id, variable_name.to_string(), 0, value.number_value().unwrap());
+                    self.server.repository.script_variable_char_num_save(char.char_id, variable_name.to_string(), 0, value.number_value().unwrap());
                 } else {
-                    self.server.repository.script_variable_char_str_save(self.session.character.as_ref().unwrap().char_id, variable_name.to_string(), 0, value.string_value().unwrap().clone());
+                    self.server.repository.script_variable_char_str_save(char.char_id, variable_name.to_string(), 0, value.string_value().unwrap().clone());
                 }
             }
             "account_permanent" => {
@@ -49,7 +53,7 @@ impl PlayerScriptHandler {
                     _ => { panic!("Can't store any variable other than Number or String") }
                 };
                 script_variable_store.push(
-                    GlobalVariableEntry { name: variable_name.clone(), value, scope: variable_scope.clone(), index: None }
+                    GlobalVariableEntry { name: variable_name.clone(), value, scope: GlobalVariableScope::CharTemporary, index: None }
                 );
             }
             &_ => error!("Variable scope {} is not supported yet!", variable_scope)
@@ -65,7 +69,12 @@ impl PlayerScriptHandler {
                     execution_thread.push_constant_on_stack(value);
                     return;
                 }
-                let char_id = self.session.character.as_ref().unwrap().char_id;
+                let char = self.session.character.as_ref().unwrap();
+                if let Some(value) = Self::load_special_char_variable(char, variable_name) {
+                    execution_thread.push_constant_on_stack(value);
+                    return;
+                }
+                let char_id = char.char_id;
                 if variable_name.ends_with("$") {
                     execution_thread.push_constant_on_stack(Value::new_string(self.server.repository.script_variable_char_str_fetch_one(char_id, variable_name.clone(), 0)));
                 } else {
@@ -90,7 +99,7 @@ impl PlayerScriptHandler {
             "char_temporary" => {
                 let char = self.session.character.as_ref().unwrap();
                 let script_variable_store = char.script_variable_store.lock().unwrap();
-                let entry = script_variable_store.find_global_by_name_and_scope(variable_name, variable_scope);
+                let entry = script_variable_store.find_global_by_name_and_scope(variable_name, &GlobalVariableScope::CharTemporary);
                 if let Some(entry) = entry {
                     let value = match entry.value {
                         crate::server::script::Value::String(v) => Value::String(Some(v)),
@@ -155,7 +164,7 @@ impl PlayerScriptHandler {
                         _ => { panic!("Can't store any variable other than Number or String") }
                     };
                     script_variable_store.push(
-                        GlobalVariableEntry { name: variable_name.clone(), value, scope: variable_scope.clone(), index: Some(array_index as usize) }
+                        GlobalVariableEntry { name: variable_name.clone(), value, scope: GlobalVariableScope::CharTemporary, index: Some(array_index as usize) }
                     );
                 }
                 &_ => error!("Variable scope {} is not supported yet!", variable_scope)
@@ -207,7 +216,7 @@ impl PlayerScriptHandler {
             }
             "char_temporary" => {
                 let script_variable_store = char_temporary_mutex.as_mut().unwrap();
-                let array_entries = script_variable_store.find_global_array_entries(variable_name, variable_scope);
+                let array_entries = script_variable_store.find_global_array_entries(variable_name, GlobalVariableScope::CharTemporary);
                 for entry in array_entries.iter() {
                     let value = match entry.value.clone() {
                         crate::server::script::Value::String(v) => Value::String(Some(v)),
@@ -238,5 +247,21 @@ impl PlayerScriptHandler {
             execution_thread.push_constant_on_stack(Value::new_number(index as i32));
         }
         execution_thread.push_constant_on_stack(Value::Number(Some((count * 2) as i32)));
+    }
+
+    fn load_special_char_variable(char: &Arc<Character>, special_variable_name: &String) -> Option<Value> {
+        match special_variable_name.as_str() {
+            "Zeny" => Some(Value::new_number(char.get_zeny() as i32)),
+            &_ => None
+        }
+    }
+    fn store_special_char_variable(&self, char: &Arc<Character>, special_variable_name: &String, value: &Value) -> bool {
+        match special_variable_name.as_str() {
+            "Zeny" => {
+                char.change_zeny(value.number_value().unwrap().clone() as u32, self.server.clone());
+                true
+            },
+            &_ => false
+        }
     }
 }

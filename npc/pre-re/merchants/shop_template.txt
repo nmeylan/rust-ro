@@ -3,10 +3,21 @@
     .@selection = callshop();
     if (.@selection == 0) {                 // Buy
         senditemlist('items, 'prices);
+        goto OnBuyItem;
     } else if (.@selection == 1) {          // Sell
         sendcharinvetory();
     }
 
+end;
+OnBuyItem:
+    mes "You have " + Zeny + " zeny";
+    set Zeny, Zeny - 1 ;
+    mes "You have " + Zeny + " zeny";
+    for (.@i = 0; .@i < getarraysize(@bought_nameid); .@i++) {
+        mes "You bought:",  @bought_quantity[.@i] + ". " +  @bought_nameid[.@i] + " at " + @bought_price[.@i] + " zeny";
+    }
+    next;
+    close;
 end;
 OnInstanceInit:
     if (getargcount() < 3 || getargcount() % 2 == 0) {

@@ -2,26 +2,40 @@ extern crate proc_macro;
 
 use proc_macro::{TokenStream};
 use quote::quote;
-use syn::{parse_macro_input, DeriveInput, DataEnum};
+use syn::{parse_macro_input, DeriveInput, Variant};
 use syn::Data::Enum;
 
-#[proc_macro_derive(WithNumberValue)]
+#[proc_macro_derive(WithNumberValue, attributes(value))]
 pub fn with_value(input: TokenStream) -> TokenStream {
     let input = parse_macro_input!(input as DeriveInput);
     let enum_name = &input.ident;
 
     let res = if let Enum(enum_data) = &input.data {
+        let mut j: usize = 1;
         let from_value_match_arms = enum_data.variants.iter().enumerate().map(|(i, variant)| {
-            let j = i + 1;
-            quote! {
-                #j => #enum_name::#variant,
+            let variant_name = variant.ident.clone();
+            let maybe_value = get_value(variant);
+            if let Some(value) = maybe_value {
+                j = value;
             }
+            let res = quote! {
+                #j => #enum_name::#variant_name,
+            };
+            j += 1;
+            res
         });
+        let mut j: usize = 1;
         let value_match_arms = enum_data.variants.iter().enumerate().map(|(i, variant)| {
-            let j = i + 1;
-            quote! {
-                #enum_name::#variant => #j,
+            let variant_name = variant.ident.clone();
+            let maybe_value = get_value(variant);
+            if let Some(value) = maybe_value {
+                j = value;
             }
+            let res = quote! {
+                #enum_name::#variant_name => #j,
+            };
+            j += 1;
+            res
         });
         quote! {
             impl #enum_name {
@@ -45,4 +59,16 @@ pub fn with_value(input: TokenStream) -> TokenStream {
         quote! {}
     };
     TokenStream::from(res)
+}
+
+fn get_value(variant: &Variant) -> Option<usize> {
+    let maybe_value = variant.attrs.iter().find(|attr| attr.path.is_ident("value")).map(|attr| match attr.parse_meta().unwrap() {
+        syn::Meta::NameValue(syn::MetaNameValue {
+                                 path,
+                                 lit: syn::Lit::Int(s),
+                                 ..
+                             }) => s.to_string().parse::<usize>().unwrap(),
+        _ => panic!("malformed attribute syntax"),
+    });
+    maybe_value
 }

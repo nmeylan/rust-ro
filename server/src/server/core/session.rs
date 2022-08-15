@@ -15,7 +15,7 @@ pub struct Session {
     pub user_level: u32,
     pub character: Option<Arc<Character>>,
     pub packetver: u32,
-    pub script_handler_channel_sender: Mutex<Option<Sender<Vec<u8>>>>
+    pub script_handler_channel_sender: Mutex<Option<Sender<Vec<u8>>>> // TODO keep track on creation. Abort script thread after X minutes + abort on new script interaction
 }
 
 pub trait SessionsIter {

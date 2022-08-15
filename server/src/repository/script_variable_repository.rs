@@ -1,6 +1,6 @@
 use sqlx::Error;
 use crate::Repository;
-use crate::repository::model::global_variable_registry_model::{AccountRegNum, AccountRegStr, CharRegNum, CharRegStr, ServerRegStr};
+use crate::repository::model::script_variable_registry_model::{AccountRegNum, AccountRegStr, CharRegNum, CharRegStr, ServerRegStr};
 
 impl Repository {
     pub fn script_variable_char_num_save(&self, char_id: u32, key: String, index: u32, value: i32) {
@@ -129,7 +129,6 @@ impl Repository {
         if account_reg_str.is_err() {
             error!("account_permanent fetch_all string {} {:?}", variable_name, account_reg_str.as_ref().err().unwrap());
         }
-        let empty_rows = Vec::<CharRegStr>::new();
         account_reg_str.as_ref().map_or(vec![], |rows| rows.iter().map(|r| (r.index, r.value.clone())).collect())
     }
 
