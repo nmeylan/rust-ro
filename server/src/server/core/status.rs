@@ -5,7 +5,7 @@ use crate::repository::model::char_model::CharSelectModel;
 use crate::repository::model::mob_model::MobModel;
 use crate::server::configuration::GameConfig;
 
-#[derive(SettersAll, Debug, Clone)]
+#[derive(SettersAll, Debug)]
 pub struct Status {
     pub hp: u32,
     pub sp: u32,
@@ -31,6 +31,39 @@ pub struct Status {
     pub mdef: u32,
     pub aspd: u32,
     pub look: Option<Look>,
+    pub zeny: AtomicU32,
+}
+
+impl Clone for Status {
+    fn clone(&self) -> Self {
+        Self {
+            hp: self.hp.clone(),
+            sp: self.sp.clone(),
+            max_hp: self.max_hp.clone(),
+            max_sp: self.max_sp.clone(),
+            str: self.str.clone(),
+            agi: self.agi.clone(),
+            vit: self.vit.clone(),
+            int: self.int.clone(),
+            dex: self.dex.clone(),
+            luk: self.luk.clone(),
+            base_atk: self.base_atk.clone(),
+            matk_min: self.matk_min.clone(),
+            matk_max: self.matk_max.clone(),
+            speed: self.speed.clone(),
+            attack_motion: self.attack_motion.clone(),
+            attack_delay: self.attack_delay.clone(),
+            delay_motion: self.delay_motion.clone(),
+            hit: self.hit.clone(),
+            flee: self.flee.clone(),
+            crit: self.crit.clone(),
+            def: self.def.clone(),
+            mdef: self.mdef.clone(),
+            aspd: self.aspd.clone(),
+            look: self.look.clone(),
+            zeny: AtomicU32::new(self.zeny.load(Relaxed)),
+        }
+    }
 }
 
 #[derive(SettersAll, Debug)]
@@ -117,6 +150,7 @@ impl Status {
                 head_bottom: AtomicU32::new(char_model.head_bottom),
                 robe: AtomicU32::new(char_model.robe),
             }),
+            zeny: AtomicU32::new(char_model.zeny),
         }
     }
     pub fn from_mob_model(mob_model: &MobModel) -> Status {
@@ -145,6 +179,7 @@ impl Status {
             mdef: mob_model.mdef,
             aspd: 0,
             look: None,
+            zeny: AtomicU32::new(0),
         }
     }
 }

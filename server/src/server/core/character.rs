@@ -290,6 +290,16 @@ impl Character {
         runtime.block_on(async {
             server.repository.character_update_status(self.char_id, db_column.to_string(), value).await.unwrap();
         });
+    }
 
+    pub fn get_zeny(&self) -> u32 {
+        self.status.zeny.load(Relaxed)
+    }
+
+    pub fn change_zeny(&self, value: u32, server: Arc<Server>) {
+        self.status.zeny.store(value, Relaxed);
+        server.repository.runtime.block_on(async {
+            server.repository.character_update_status(self.char_id, "zeny".to_string(), value).await.unwrap();
+        });
     }
 }

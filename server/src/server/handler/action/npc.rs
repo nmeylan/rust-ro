@@ -1,12 +1,12 @@
 use std::net::TcpStream;
 use std::sync::{Arc, RwLock};
-use std::thread;
+use std::{mem, thread};
 
 use rathena_script_lang_interpreter::lang::vm::Vm;
 use tokio::runtime::Runtime;
 use tokio::sync::mpsc;
 
-use packets::packets::{Packet, PacketCzContactnpc, PacketCzChooseMenu, PacketCzInputEditdlg, PacketCzInputEditdlgstr, PacketCzAckSelectDealtype};
+use packets::packets::{Packet, PacketCzContactnpc, PacketCzChooseMenu, PacketCzInputEditdlg, PacketCzInputEditdlgstr, PacketCzAckSelectDealtype, PacketCzPcPurchaseItemlist};
 
 use crate::{Script, Server};
 use crate::server::script::script::PlayerScriptHandler;
@@ -53,4 +53,14 @@ pub fn handle_player_input_string(packet: &mut dyn Packet, session: Arc<Session>
 pub fn handle_player_select_deal_type(packet: &mut dyn Packet, session: Arc<Session>) {
     let packet_cz_ack_select_deal_type= cast!(packet, PacketCzAckSelectDealtype);
     session.script_handler_channel_sender.lock().unwrap().as_ref().unwrap().blocking_send(vec![packet_cz_ack_select_deal_type.atype]).unwrap();
+}
+
+pub fn handle_player_purchase_items(packet: &mut dyn Packet, session: Arc<Session>) {
+    let packet_cz_pc_purchase_item_list = cast!(packet, PacketCzPcPurchaseItemlist);
+    let mut bytes = Vec::<u8>::new();
+    bytes.push(packet_cz_pc_purchase_item_list.item_list.len() as u8);
+    for item_raw in packet_cz_pc_purchase_item_list.item_list_raw.iter() {
+        bytes.extend(item_raw.clone());
+    }
+    session.script_handler_channel_sender.lock().unwrap().as_ref().unwrap().blocking_send(bytes).unwrap();
 }
