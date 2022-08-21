@@ -5,15 +5,16 @@ use crate::server::server::Server;
 use crate::util::string::StringUtil;
 use std::io::Write;
 use crate::server::core::map::{MapPropertyFlags};
+use crate::server::core::request::RequestContext;
 use crate::server::core::session::Session;
 use crate::util::packet::chain_packets;
 
-pub fn handle_map_item_name(server: Arc<Server>, packet: &mut dyn Packet, tcp_stream: Arc<RwLock<TcpStream>>) {
-    let gid = if packet.as_any().downcast_ref::<PacketCzReqnameall2>().is_some() {
-        let packet_cz_req_allname2 = cast!(packet, PacketCzReqnameall2);
+pub fn handle_map_item_name(server: Arc<Server>, context: RequestContext) {
+    let gid = if context.packet().as_any().downcast_ref::<PacketCzReqnameall2>().is_some() {
+        let packet_cz_req_allname2 = cast!(context.packet(), PacketCzReqnameall2);
         packet_cz_req_allname2.gid
-    } else if packet.as_any().downcast_ref::<PacketCzReqname>().is_some() {
-        let packet_cz_req_name = cast!(packet, PacketCzReqname);
+    } else if context.packet().as_any().downcast_ref::<PacketCzReqname>().is_some() {
+        let packet_cz_req_name = cast!(context.packet(), PacketCzReqname);
         packet_cz_req_name.aid
     } else {
         0
@@ -35,14 +36,15 @@ pub fn handle_map_item_name(server: Arc<Server>, packet: &mut dyn Packet, tcp_st
     packet_zc_ack_reqnameall2.set_name(name);
     // TODO handle guild name, guild title
     packet_zc_ack_reqnameall2.fill_raw();
-    socket_send!(tcp_stream, packet_zc_ack_reqnameall2.raw());
+    socket_send!(context.socket(), packet_zc_ack_reqnameall2.raw());
 }
 
-pub fn handle_char_loaded_client_side(_server: Arc<Server>, tcp_stream: Arc<RwLock<TcpStream>>, session: Arc<Session>) {
+pub fn handle_char_loaded_client_side(_server: Arc<Server>, context: RequestContext) {
     info!("Reload char");
+    let session = context.session();
     let session_id = session.account_id;
 
-    let character_session = session.get_character();
+    let character_session = session.character();
     character_session.load_units_in_fov(&session);
     let mut packet_zc_notify_mapproperty2 = PacketZcNotifyMapproperty2::new();
     let mut packet_zc_hat_effect = PacketZcHatEffect::new();
@@ -56,5 +58,5 @@ pub fn handle_char_loaded_client_side(_server: Arc<Server>, tcp_stream: Arc<RwLo
     packet_zc_hat_effect.set_len(9); // len is: 9 (packet len) + number of effects
     packet_zc_hat_effect.fill_raw();
     let final_response_packet: Vec<u8> = chain_packets(vec![&packet_zc_hat_effect, &packet_zc_notify_mapproperty2]);
-    socket_send!(tcp_stream, &final_response_packet);
+    socket_send!(context.socket(), &final_response_packet);
 }

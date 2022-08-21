@@ -28,10 +28,21 @@ macro_rules! cast {
 macro_rules! socket_send {
     ( $tcp_stream:expr, $data:expr ) => {
     {
-       let mut tcp_stream_guard = $tcp_stream.write().unwrap();
+        let tcp_stream = &$tcp_stream;
+        let mut tcp_stream_guard = tcp_stream.write().unwrap();
         debug!("Respond with: {:02X?}", $data);
         tcp_stream_guard.write_all($data).unwrap();
         tcp_stream_guard.flush().unwrap();
+    }
+  }
+}
+#[macro_export]
+macro_rules! socket_send_2 {
+    ( $tcp_stream:expr, $data:expr ) => {
+    {
+        debug!("Respond with: {:02X?}", $data);
+        $tcp_stream.write_all($data).unwrap();
+        $tcp_stream.flush().unwrap();
     }
   }
 }

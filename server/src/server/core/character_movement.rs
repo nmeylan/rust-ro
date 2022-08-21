@@ -8,7 +8,7 @@ use tokio::task::JoinHandle;
 use tokio::time::Duration;
 
 use packets::packets::{Packet, PacketCzRequestMove, PacketCzRequestMove2, PacketZcNpcackMapmove};
-use crate::server::core::character::MovementTask;
+use crate::server::core::character::{Character, MovementTask};
 
 use crate::server::core::map::{Map, MAP_EXT, MapItem, RANDOM_CELL};
 use crate::server::core::path::PathNode;
@@ -87,7 +87,7 @@ pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<
             for path_node in path {
                 let delay: u64;
                 {
-                    let character = session.get_character();
+                    let character = session.character();
                     let mut movement_tasks_guard = character.movement_tasks.lock().unwrap();
                     if !movement_tasks_guard.contains(&current_movement_task_id) {
                         has_been_canceled = true;
@@ -123,7 +123,7 @@ pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<
         if !has_been_canceled {
             {
                 let session_clone = session.clone();
-                let character = session_clone.get_character();
+                let character = session_clone.character();
                 character.remove_movement_task_id(current_movement_task_id);
             }
             save_character_position(server.clone(), session.clone()).await;
@@ -135,7 +135,7 @@ pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<
 pub fn change_map(destination_map: &String, x: u16, y: u16, session: Arc<Session>, server: Arc<Server>, runtime: Option<&Runtime>) {
     let packet_zc_npcack_mapmove = change_map_packet(destination_map, x, y, session.clone(), server.clone());
     session.send_to_map_socket(packet_zc_npcack_mapmove.raw());
-    let character_session = session.get_character();
+    let character_session = session.character();
     character_session.clear_map_view();
     if let Some(runtime) = runtime {
         runtime.spawn(async move {
@@ -145,13 +145,13 @@ pub fn change_map(destination_map: &String, x: u16, y: u16, session: Arc<Session
 }
 
 pub fn change_map_packet(destination_map: &String, x: u16, y: u16, session: Arc<Session>, server: Arc<Server>) -> PacketZcNpcackMapmove {
-    let character_session = session.get_character();
+    let character_session = session.character();
     character_session.remove_from_existing_map();
     let map_name: String = Map::name_without_ext(destination_map.to_string());
     debug!("Char enter on map {}", map_name);
     let map_ref = server.maps.get(&map_name).unwrap();
     let map = map_ref.clone();
-    let map_instance = map.player_join_map(character_session, server.clone());
+    let map_instance = map.player_join_map(character_session.clone(), server.clone());
     if x == RANDOM_CELL.0 && y == RANDOM_CELL.1 {
         let walkable_cell = Map::find_random_walkable_cell(&map_instance.cells, map_instance.x_size);
         character_session.update_position(walkable_cell.0, walkable_cell.1);
@@ -176,6 +176,6 @@ pub fn change_map_packet(destination_map: &String, x: u16, y: u16, session: Arc<
 }
 
 pub async fn save_character_position(server: Arc<Server>, session: Arc<Session>) -> Result<(), Error> {
-    let character = session.get_character();
+    let character = session.character();
     server.repository.character_save_position(session.account_id, character.char_id, Map::name_without_ext(character.get_current_map_name()), character.x(), character.y()).await
 }

@@ -25,8 +25,11 @@ use crate::server::handler::atcommand::handle_atcommand;
 use crate::server::handler::map::{handle_char_loaded_client_side, handle_map_item_name};
 use crate::util::tick::get_tick;
 use std::io::Write;
+use std::sync::mpsc::channel;
 use rathena_script_lang_interpreter::lang::vm::Vm;
+use crate::server::core::request::RequestContext;
 use crate::server::handler::action::npc::{handle_contact_npc, handle_player_choose_menu, handle_player_input_number, handle_player_input_string, handle_player_next, handle_player_purchase_items, handle_player_select_deal_type};
+use crate::server::handler::chat::handle_chat;
 
 // Todo make this configurable
 pub const PLAYER_FOV: u16 = 14;
@@ -84,10 +87,26 @@ impl Server {
         let mut sessions = self.sessions.write().unwrap();
         sessions.remove(&session_id);
     }
-    pub fn get_session(&self, session_id: u32) -> Arc<Session> {
+    fn get_session(&self, session_id: u32) -> Arc<Session> {
         let sessions = self.sessions.read().unwrap();
         let session_ref = sessions.get(&session_id).unwrap();
         session_ref.clone()
+    }
+
+    pub fn get_map_socket_for_char_id(&self, char_id: u32) -> Option<Arc<RwLock<TcpStream>>> {
+        let sessions = self.sessions.read().unwrap();
+        let maybe_session = sessions.iter().find(|(_, session)| {
+            return if let Some(char) = session.character.as_ref() {
+                char.char_id == char_id
+            } else {
+                false
+            };
+        });
+        if let Some((_, session)) = maybe_session {
+            session.map_server_socket.clone()
+        } else {
+            None
+        }
     }
 
     pub fn get_map_socket_for_char_with_name(&self, name: &String) -> Option<Arc<RwLock<TcpStream>>> {
@@ -147,10 +166,24 @@ impl Server {
 
     pub fn start(server_ref: Arc<Server>) -> JoinHandle<()> {
         let port = server_ref.configuration.server.port;
-        Server::listen(server_ref, port)
+
+        // let (server_sender, server_receiver) = channel();
+        Server::request_thread(server_ref, port)
     }
 
-    fn listen(server_ref: Arc<Server>, port: u16) -> JoinHandle<()> {
+    fn server_thread(server_receiver: Arc<Server>) {
+        // thread::scope(|s| {
+        //     thread::Builder::new().name("server-main-thread".to_string()).spawn(move || {
+        //         loop {
+        //             let msg = tokio::select! {
+        //
+        //             }
+        //         }
+        //     })
+        // });
+    }
+
+    fn request_thread(server_ref: Arc<Server>, port: u16) -> JoinHandle<()> {
         let listener = TcpListener::bind(format!("0.0.0.0:{}", port)).unwrap();
         info!("Server listen on 0.0.0.0:{}", port);
         let server_shared_ref = server_ref;
@@ -159,7 +192,7 @@ impl Server {
                 // Receive new connection, starting new thread
                 let server_shared_ref = server_shared_ref.clone();
                 debug!("Received new connection");
-                thread::Builder::new().name("server-handle-request".to_string()).spawn(move || {
+                thread::Builder::new().name("request-thread".to_string()).spawn(move || {
                     PACKETVER.with(|ver| *ver.borrow_mut() = server_shared_ref.packetver());
                     let runtime = Runtime::new().unwrap();
                     let mut tcp_stream = tcp_stream.unwrap();
@@ -173,7 +206,8 @@ impl Server {
                                     break;
                                 }
                                 let mut packet = parse(&mut buffer[..bytes_read], server_shared_ref.packetver());
-                                server_shared_ref.dispatch(server_shared_ref.clone(), &runtime, tcp_stream_arc.clone(), packet.as_mut());
+                                let context = RequestContext::new(&runtime, None, server_shared_ref.packetver(), tcp_stream_arc.clone(), packet.as_ref());
+                                server_shared_ref.handle(server_shared_ref.clone(), context);
                             }
                             Err(err) => error!("{}", err)
                         }
@@ -184,160 +218,159 @@ impl Server {
     }
 
 
-    pub fn dispatch(&self, server: Arc<Server>, runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, packet: &mut dyn Packet) {
+    pub fn handle(&self, server: Arc<Server>, mut context: RequestContext) {
         let self_ref = server;
-        if packet.as_any().downcast_ref::<PacketUnknown>().is_some() {
-            error!("Unknown packet {} of length {}: {:02X?}", packet.id(), packet.raw().len(), packet.raw());
+        if context.packet().as_any().downcast_ref::<PacketUnknown>().is_some() {
+            error!("Unknown packet {} of length {}: {:02X?}", context.packet().id(), context.packet().raw().len(), context.packet().raw());
+            return;
         }
         // Login
-        if packet.as_any().downcast_ref::<PacketCaLogin>().is_some() {
+        if context.packet().as_any().downcast_ref::<PacketCaLogin>().is_some() {
             debug!("PacketCaLogin");
-            return handle_login(self_ref, packet, runtime, tcp_stream);
+            return handle_login(self_ref, context);
         }
         // Char selection
-        if packet.as_any().downcast_ref::<PacketChEnter>().is_some() {
+        if context.packet().as_any().downcast_ref::<PacketChEnter>().is_some() {
             debug!("PacketChEnter");
-            return handle_char_enter(self_ref, packet, runtime, tcp_stream);
+            return handle_char_enter(self_ref, context);
         }
 
         // Enter game
-        if packet.as_any().downcast_ref::<PacketCzEnter2>().is_some() {
+        if context.packet().as_any().downcast_ref::<PacketCzEnter2>().is_some() {
             debug!("PacketCzEnter2");
             // A char session exist, but not yet map session
-            return handle_enter_game(self_ref, packet, tcp_stream);
+            return handle_enter_game(self_ref, context);
         }
         /*
          *  Having a session is required for any packets below
          */
-        let session_id = self.ensure_session_exists(&tcp_stream);
+        let session_id = self.ensure_session_exists(&context.socket());
         if session_id.is_none() {
             return;
         }
         let session = self_ref.get_session(session_id.unwrap());
+        context.set_session(session);
         // Char creation
-        if packet.as_any().downcast_ref::<PacketChMakeChar>().is_some() {
+        if context.packet().as_any().downcast_ref::<PacketChMakeChar>().is_some() {
             debug!("PacketChMakeChar");
-            return handle_make_char(self_ref, packet, runtime, tcp_stream, session);
+            return handle_make_char(self_ref, context);
         }
-        if packet.as_any().downcast_ref::<PacketChMakeChar2>().is_some() {
+        if context.packet().as_any().downcast_ref::<PacketChMakeChar2>().is_some() {
             debug!("PacketChMakeChar2");
-            return handle_make_char(self_ref, packet, runtime, tcp_stream, session);
+            return handle_make_char(self_ref, context);
         }
-        if packet.as_any().downcast_ref::<PacketChMakeChar3>().is_some() {
+        if context.packet().as_any().downcast_ref::<PacketChMakeChar3>().is_some() {
             debug!("PacketChMakeChar3");
-            return handle_make_char(self_ref, packet, runtime, tcp_stream, session);
+            return handle_make_char(self_ref, context);
         }
         // Delete char reservation
-        if packet.as_any().downcast_ref::<PacketChDeleteChar4Reserved>().is_some() {
+        if context.packet().as_any().downcast_ref::<PacketChDeleteChar4Reserved>().is_some() {
             debug!("PacketChDeleteChar4Reserved");
-            return handle_delete_reserved_char(self_ref, packet, runtime, tcp_stream, session);
+            return handle_delete_reserved_char(self_ref, context);
         }
         // Select char
-        if packet.as_any().downcast_ref::<PacketChSelectChar>().is_some() {
+        if context.packet().as_any().downcast_ref::<PacketChSelectChar>().is_some() {
             debug!("PacketChSelectChar");
-            return handle_select_char(self_ref, packet, runtime, tcp_stream, session);
+            return handle_select_char(self_ref, context);
         }
         // Game menu "Character select"
-        if packet.as_any().downcast_ref::<PacketCzRestart>().is_some() {
+        if context.packet().as_any().downcast_ref::<PacketCzRestart>().is_some() {
             debug!("PacketCzRestart");
-            return handle_restart(self_ref, packet, tcp_stream, session);
+            return handle_restart(self_ref, context);
         }
         // Game menu "Exit to windows"
-        if packet.as_any().downcast_ref::<PacketCzReqDisconnect2>().is_some() {
+        if context.packet().as_any().downcast_ref::<PacketCzReqDisconnect2>().is_some() {
             debug!("PacketCzReqDisconnect2");
-            return handle_disconnect(self_ref, tcp_stream, session);
+            return handle_disconnect(self_ref, context);
         }
         // Player click on map cell
-        if packet.as_any().downcast_ref::<PacketCzRequestMove2>().is_some() {
+        if context.packet().as_any().downcast_ref::<PacketCzRequestMove2>().is_some() {
             debug!("PacketCzRequestMove2");
-            return handle_char_move(self_ref, packet, runtime, tcp_stream, session);
+            return handle_char_move(self_ref, context);
         }
-        if packet.as_any().downcast_ref::<PacketCzRequestMove>().is_some() {
+        if context.packet().as_any().downcast_ref::<PacketCzRequestMove>().is_some() {
             debug!("PacketCzRequestMove");
-            return handle_char_move(self_ref, packet, runtime, tcp_stream, session);
+            return handle_char_move(self_ref, context);
         }
         // Client notify player has been loaded
-        if packet.as_any().downcast_ref::<PacketCzNotifyActorinit>().is_some() {
+        if context.packet().as_any().downcast_ref::<PacketCzNotifyActorinit>().is_some() {
             debug!("PacketCzNotifyActorinit");
-            return handle_char_loaded_client_side(self_ref, tcp_stream, session);
+            return handle_char_loaded_client_side(self_ref, context);
         }
         // Client send PACKET_CZ_BLOCKING_PLAY_CANCEL after char has loaded
-        if packet.as_any().downcast_ref::<PacketCzBlockingPlayCancel>().is_some() {
+        if context.packet().as_any().downcast_ref::<PacketCzBlockingPlayCancel>().is_some() {
             debug!("PacketCzBlockingPlayCancel");
-            return handle_blocking_play_cancel(tcp_stream);
+            return handle_blocking_play_cancel(context);
         }
-        if packet.as_any().downcast_ref::<PacketCzRequestAct2>().is_some() {
+        if context.packet().as_any().downcast_ref::<PacketCzRequestAct2>().is_some() {
             debug!("PacketCzRequestAct2");
-            return handle_attack(packet, runtime, tcp_stream, session);
+            return handle_attack(context);
         }
 
-        if packet.as_any().downcast_ref::<PacketCzReqnameall2>().is_some() {
+        if context.packet().as_any().downcast_ref::<PacketCzReqnameall2>().is_some() {
             debug!("PacketCzReqnameall2");
-            return handle_map_item_name(self_ref, packet, tcp_stream);
+            return handle_map_item_name(self_ref, context);
         }
 
-        if packet.as_any().downcast_ref::<PacketCzReqname>().is_some() {
+        if context.packet().as_any().downcast_ref::<PacketCzReqname>().is_some() {
             debug!("PacketCzReqname");
-            return handle_map_item_name(self_ref, packet, tcp_stream);
+            return handle_map_item_name(self_ref, context);
         }
 
-        if packet.as_any().downcast_ref::<PacketCzPlayerChat>().is_some() {
+        if context.packet().as_any().downcast_ref::<PacketCzPlayerChat>().is_some() {
             debug!("PacketCzPlayerChat");
-            let packet_player_char = cast!(packet, PacketCzPlayerChat);
-            if packet_player_char.msg.starts_with(format!("{} : @", session.character.as_ref().unwrap().name).as_str()) { // TODO make symbol configurable
-                return handle_atcommand(self_ref, packet_player_char, runtime, tcp_stream, session);
-            }
+            return handle_chat(self_ref, context);
         }
 
-        if packet.as_any().downcast_ref::<PacketCzRequestTime>().is_some() {
+        if context.packet().as_any().downcast_ref::<PacketCzRequestTime>().is_some() {
             let mut packet_zc_notify_time = PacketZcNotifyTime::new();
             packet_zc_notify_time.set_time(get_tick());
             packet_zc_notify_time.fill_raw();
-            socket_send!(tcp_stream, packet_zc_notify_time.raw());
+            socket_send!(context.socket(), packet_zc_notify_time.raw());
         }
 
         // NPC interactions
-        if packet.as_any().downcast_ref::<PacketCzContactnpc>().is_some() {
+        if context.packet().as_any().downcast_ref::<PacketCzContactnpc>().is_some() {
             debug!("PacketCzContactnpc");
-            return handle_contact_npc(self_ref, packet, tcp_stream, session);
+            return handle_contact_npc(self_ref, context);
         }
 
-        if packet.as_any().downcast_ref::<PacketCzReqNextScript>().is_some() {
+        if context.packet().as_any().downcast_ref::<PacketCzReqNextScript>().is_some() {
             debug!("PacketCzReqNextScript");
-            return handle_player_next(session);
+            return handle_player_next(context);
         }
-        if packet.as_any().downcast_ref::<PacketCzChooseMenu>().is_some() {
+        if context.packet().as_any().downcast_ref::<PacketCzChooseMenu>().is_some() {
             debug!("PacketCzChooseMenu");
-            return handle_player_choose_menu(packet, session);
+            return handle_player_choose_menu(context);
         }
-        if packet.as_any().downcast_ref::<PacketCzInputEditdlg>().is_some() {
+        if context.packet().as_any().downcast_ref::<PacketCzInputEditdlg>().is_some() {
             debug!("PacketCzInputEditdlg");
-            return handle_player_input_number(packet, session);
+            return handle_player_input_number(context);
         }
-        if packet.as_any().downcast_ref::<PacketCzInputEditdlgstr>().is_some() {
+        if context.packet().as_any().downcast_ref::<PacketCzInputEditdlgstr>().is_some() {
             debug!("PacketCzInputEditdlgstr");
-            return handle_player_input_string(packet, session);
+            return handle_player_input_string(context);
         }
-        if packet.as_any().downcast_ref::<PacketCzAckSelectDealtype>().is_some() {
+        if context.packet().as_any().downcast_ref::<PacketCzAckSelectDealtype>().is_some() {
             debug!("PacketCzAckSelectDealtype");
-            return handle_player_select_deal_type(packet, session);
+            return handle_player_select_deal_type(context);
         }
-        if packet.as_any().downcast_ref::<PacketCzPcPurchaseItemlist>().is_some() {
+        if context.packet().as_any().downcast_ref::<PacketCzPcPurchaseItemlist>().is_some() {
             debug!("PacketCzPcPurchaseItemlist");
-            return handle_player_purchase_items(packet, session);
+            return handle_player_purchase_items(context);
         }
         // End NPC interaction
-        if packet.as_any().downcast_ref::<PacketCzRequestTime>().is_some() {
+        if context.packet().as_any().downcast_ref::<PacketCzRequestTime>().is_some() {
             return;
         }
 
-        if packet.id() == "0x6003" // PacketCzRequestTime2
+        if context.packet().id() == "0x6003" // PacketCzRequestTime2
         {
             // TODO handle those packets
             return;
         }
-        packet.display();
-        packet.pretty_debug();
+        context.packet().display();
+        context.packet().pretty_debug();
     }
 
     pub fn ensure_session_exists(&self, tcp_stream: &Arc<RwLock<TcpStream>>) -> Option<u32> {
