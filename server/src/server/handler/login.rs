@@ -1,5 +1,5 @@
 use packets::packets::{PacketCaLogin, PacketAcAcceptLogin2, Packet, ServerAddr2, PacketAcRefuseLoginR3, PacketAcRefuseLoginR2, PacketAcAcceptLogin, PacketAcRefuseLogin, ServerAddr};
-use crate::repository::lib::Repository;
+use crate::repository::Repository;
 use sqlx::{MySql, Row};
 use rand::Rng;
 use tokio::runtime::Runtime;

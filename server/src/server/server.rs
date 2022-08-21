@@ -2,8 +2,7 @@ use std::any::Any;
 use packets::packets::{Packet, PacketUnknown, PacketCaLogin, PacketChEnter, PacketChMakeChar2, PacketChDeleteChar4Reserved, PacketCzEnter2, PacketChSelectChar, PacketCzRestart, PacketCzReqDisconnect2, PacketCzRequestMove2, PacketCzNotifyActorinit, PacketCzBlockingPlayCancel, PacketCzRequestAct2, PacketCzReqnameall2, PacketCzPlayerChat, PacketChMakeChar3, PacketChMakeChar, PacketCzRequestMove, PacketCzReqname, PacketCzRequestTime, PacketZcNotifyTime, PacketCzContactnpc, PacketCzReqNextScript, PacketCzChooseMenu, PacketCzInputEditdlg, PacketCzInputEditdlgstr, PacketCzAckSelectDealtype, PacketCzPcPurchaseItemlist};
 use std::sync::{Arc, RwLock, RwLockWriteGuard};
 use std::thread::{JoinHandle};
-use crate::repository::lib::Repository;
-use sqlx::{MySql};
+use crate::repository::Repository;
 use std::collections::HashMap;
 use tokio::runtime::Runtime;
 use std::io::{Read};
@@ -89,22 +88,6 @@ impl Server {
         let sessions = self.sessions.read().unwrap();
         let session_ref = sessions.get(&session_id).unwrap();
         session_ref.clone()
-    }
-
-    pub fn get_map_socket_for_char_id(&self, char_id: u32) -> Option<Arc<RwLock<TcpStream>>> {
-        let sessions = self.sessions.read().unwrap();
-        let maybe_session = sessions.iter().find(|(_, session)| {
-            return if let Some(char) = session.character.as_ref() {
-                char.char_id == char_id
-            } else {
-                false
-            };
-        });
-        if let Some((_, session)) = maybe_session {
-            session.map_server_socket.clone()
-        } else {
-            None
-        }
     }
 
     pub fn get_map_socket_for_char_with_name(&self, name: &String) -> Option<Arc<RwLock<TcpStream>>> {

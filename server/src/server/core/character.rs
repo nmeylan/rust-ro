@@ -34,6 +34,7 @@ pub struct Character {
     pub status: Status,
     #[set]
     pub char_id: u32,
+    pub session_id: u32,
     pub current_map: RwLock<Option<Arc<MapInstance>>>,
     pub current_map_name: RwLock<[char; 16]>,
     pub x: AtomicU16,
