@@ -197,7 +197,8 @@ pub fn handle_select_char(server: Arc<Server>, packet: &mut dyn Packet, runtime:
         current_map: RwLock::new(None),
         self_ref: RwLock::new(None),
         map_server_socket: Default::default(),
-        script_variable_store: Mutex::new(ScriptGlobalVariableStore::default())
+        script_variable_store: Mutex::new(ScriptGlobalVariableStore::default()),
+        session_id
     };
     let char_session_ref = Arc::new(character);
     {
