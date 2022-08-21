@@ -11,11 +11,12 @@ use packets::packets::Packet;
 use crate::server::configuration::CityConfig;
 use crate::server::core::character_movement::change_map;
 use crate::server::core::map::RANDOM_CELL;
+use crate::server::core::request::RequestContext;
 
 lazy_static! {
     static ref COMMAND_REGEX: Regex = Regex::new(r"^([@#!])([^\s]*)\s?(.*)?").unwrap();
 }
-pub fn handle_atcommand(server: Arc<Server>, packet: &PacketCzPlayerChat, runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, session: Arc<Session>) {
+pub fn handle_atcommand(server: Arc<Server>, context: RequestContext, packet: &PacketCzPlayerChat) {
     let index_of_colon = packet.msg.find(':').unwrap();
     let command_txt = &packet.msg[index_of_colon + 1..].trim();
     let maybe_captures = COMMAND_REGEX.captures(command_txt);
@@ -37,11 +38,11 @@ pub fn handle_atcommand(server: Arc<Server>, packet: &PacketCzPlayerChat, runtim
     match command {
         "go" => {
             debug!("{:?}", args);
-            let result = handle_go(server, session, runtime, args);
+            let result = handle_go(server, context.session(), context.runtime(), args);
             packet_zc_notify_playerchat.set_msg(result);
         }
         "warp" | "rura" | "warpto" => {
-            let result = handle_warp(server, session, runtime, args);
+            let result = handle_warp(server, context.session(), context.runtime(), args);
             packet_zc_notify_playerchat.set_msg(result);
         }
         _ => {
@@ -50,7 +51,7 @@ pub fn handle_atcommand(server: Arc<Server>, packet: &PacketCzPlayerChat, runtim
     }
     packet_zc_notify_playerchat.set_packet_length((4 + packet_zc_notify_playerchat.msg.len()) as i16);
     packet_zc_notify_playerchat.fill_raw();
-    socket_send!(tcp_stream, packet_zc_notify_playerchat.raw());
+    socket_send!(context.socket(), packet_zc_notify_playerchat.raw());
 }
 
 pub fn handle_go(server: Arc<Server>, session: Arc<Session>, runtime: &Runtime, args: Vec::<&str>) -> String {

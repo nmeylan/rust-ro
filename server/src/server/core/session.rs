@@ -134,7 +134,7 @@ impl Session {
         self.packetver
     }
 
-    pub fn get_character(&self) -> &Arc<Character> {
-        self.character.as_ref().unwrap()
+    pub fn character(&self) -> Arc<Character> {
+        self.character.as_ref().unwrap().clone()
     }
 }
