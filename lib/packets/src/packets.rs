@@ -11,6 +11,7 @@ pub trait Packet {
     fn debug(&self);
     fn pretty_debug(&self);
     fn raw(&self) -> &Vec<u8>;
+    fn raw_mut(&mut self) -> &mut Vec<u8>;
     fn as_any(&self) -> &dyn Any;
     fn as_any_mut(&mut self) -> &mut dyn Any;
 }
@@ -11428,6 +11429,9 @@ impl Packet for PacketUnknown {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self

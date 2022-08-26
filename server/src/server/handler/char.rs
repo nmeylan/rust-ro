@@ -14,14 +14,14 @@ use crate::Map;
 use crate::server::enums::status::StatusTypes;
 use crate::server::core::character::{Character};
 use crate::server::core::character_movement::{change_map_packet};
-use crate::server::core::request::RequestContext;
+use crate::server::core::request::Request;
 use crate::server::core::session::Session;
 use crate::server::core::status::Status;
 use crate::server::script::ScriptGlobalVariableStore;
 use crate::server::server::{Server};
 use crate::util::tick::get_tick;
 
-pub fn handle_char_enter(server: Arc<Server>, context: RequestContext) {
+pub fn handle_char_enter(server: Arc<Server>, context: Request) {
     let packet_char_enter = cast!(context.packet(), PacketChEnter);
     let mut sessions_guard = write_lock!(server.sessions);
 
@@ -42,8 +42,8 @@ pub fn handle_char_enter(server: Arc<Server>, context: RequestContext) {
             let mut wtr = vec![];
             // A "account id packet" should be sent just before char info packet
             wtr.write_u32::<LittleEndian>(session.account_id).expect("Unable to write Little endian u32 from session account id");
-            socket_send!(context.socket(), &wtr);
-            socket_send!(context.socket(), &final_response_packet);
+            socket_send_raw!(context, wtr);
+            socket_send_raw!(context, final_response_packet);
             return;
         }
         // should not happen, but in case of forged packet, remove session
@@ -52,10 +52,10 @@ pub fn handle_char_enter(server: Arc<Server>, context: RequestContext) {
     let mut res = PacketHcRefuseEnter::new();
     res.set_error_code(0);
     res.fill_raw();
-    socket_send!(context.socket(), res.raw());
+    socket_send!(context, res);
 }
 
-pub fn handle_make_char(server: Arc<Server>, context: RequestContext) {
+pub fn handle_make_char(server: Arc<Server>, context: Request) {
 
     let mut char_model: Option<CharInsertModel> = None;
     if context.packet().as_any().downcast_ref::<PacketChMakeChar3>().is_some() {
@@ -146,10 +146,10 @@ pub fn handle_make_char(server: Arc<Server>, context: RequestContext) {
     let mut packet_hc_accept_makechar_neo_union = PacketHcAcceptMakecharNeoUnion::new();
     packet_hc_accept_makechar_neo_union.set_charinfo(created_char);
     packet_hc_accept_makechar_neo_union.fill_raw();
-    socket_send!(context.socket(), packet_hc_accept_makechar_neo_union.raw());
+    socket_send!(context, packet_hc_accept_makechar_neo_union);
 }
 
-pub fn handle_delete_reserved_char(server: Arc<Server>, context: RequestContext) {
+pub fn handle_delete_reserved_char(server: Arc<Server>, context: Request) {
     let packet_delete_reserved_char = cast!(context.packet(), PacketChDeleteChar4Reserved);
     context.runtime().block_on(async {
         sqlx::query("UPDATE `char` SET delete_date = UNIX_TIMESTAMP(now() + INTERVAL 1 DAY) WHERE account_id = ? AND char_id = ?")
@@ -162,10 +162,10 @@ pub fn handle_delete_reserved_char(server: Arc<Server>, context: RequestContext)
     packet_hc_delete_char4reserved.set_delete_reserved_date(24 * 60 * 60);
     packet_hc_delete_char4reserved.set_result(1);
     packet_hc_delete_char4reserved.fill_raw();
-    socket_send!(context.socket(), packet_hc_delete_char4reserved.raw());
+    socket_send!(context, packet_hc_delete_char4reserved);
 }
 
-pub fn handle_select_char(server: Arc<Server>, context: RequestContext) {
+pub fn handle_select_char(server: Arc<Server>, context: Request) {
     let packet_select_char = cast!(context.packet(), PacketChSelectChar);
     let session_id = context.session().account_id;
     let char_model: CharSelectModel = context.runtime().block_on(async {
@@ -216,7 +216,7 @@ pub fn handle_select_char(server: Arc<Server>, context: RequestContext) {
         zserver_addr.set_port(server.configuration.server.port as i16);
         packet_ch_send_map_info.set_addr(zserver_addr);
         packet_ch_send_map_info.fill_raw();
-        socket_send!(context.socket(), packet_ch_send_map_info.raw());
+        socket_send!(context, packet_ch_send_map_info);
     } else {
         let mut packet_ch_send_map_info = PacketChSendMapInfo::new();
         packet_ch_send_map_info.set_gid(char_id);
@@ -224,12 +224,12 @@ pub fn handle_select_char(server: Arc<Server>, context: RequestContext) {
         packet_ch_send_map_info.set_map_server_port(server.configuration.server.port as i16);
         packet_ch_send_map_info.set_map_server_ip(16777343); // 7F 00 00 01 -> to little endian -> 01 00 00 7F
         packet_ch_send_map_info.fill_raw();
-        socket_send!(context.socket(), packet_ch_send_map_info.raw());
+        socket_send!(context, packet_ch_send_map_info);
     }
 }
 
 
-pub fn handle_enter_game(server: Arc<Server>, context: RequestContext) {
+pub fn handle_enter_game(server: Arc<Server>, context: Request) {
 
     let aid;
     let auth_code;
@@ -259,7 +259,7 @@ pub fn handle_enter_game(server: Arc<Server>, context: RequestContext) {
     let mut packet_map_connection = PacketMapConnection::new();
     packet_map_connection.set_aid(session.account_id);
 
-    socket_send!(context.socket(), packet_map_connection.raw());
+    socket_send!(context, packet_map_connection);
 
     /*
     Client expect multiple packets in response to packet PacketCzEnter2
@@ -279,7 +279,7 @@ pub fn handle_enter_game(server: Arc<Server>, context: RequestContext) {
     let packet_zc_npcack_mapmove = change_map_packet(&Map::name_without_ext(character.get_current_map_name()), character.get_x(), character.get_y(), session.clone(), server.clone());
     let final_response_packet: Vec<u8> = chain_packets(vec![&packet_accept_enter, &packet_zc_npcack_mapmove]);
     // let final_response_packet: Vec<u8> = chain_packets(vec![&packet_inventory_expansion_info, &packet_overweight_percent, &packet_accept_enter, &packet_zc_npcack_mapmove]);
-    socket_send!(context.socket(), &final_response_packet);
+    socket_send_raw!(context, final_response_packet);
 
     let mut packet_str = PacketZcStatusValues::new();
     packet_str.set_status_type(StatusTypes::Str.value());
@@ -377,10 +377,10 @@ pub fn handle_enter_game(server: Arc<Server>, context: RequestContext) {
         &packet_mdef2, &packet_attack_range, &packet_maxhp, &packet_maxsp, &packet_hp,
         &packet_sp, &packet_speed, &packet_notify_chat
     ]);
-    socket_send!(context.socket(), &final_response_packet);
+    socket_send_raw!(context, final_response_packet);
 }
 
-pub fn handle_restart(server: Arc<Server>, context: RequestContext) {
+pub fn handle_restart(server: Arc<Server>, context: Request) {
     let packet_restart = cast!(context.packet(), PacketCzRestart);
     let session_id = context.session().account_id;
     let mut sessions_guard = write_lock!(server.sessions);
@@ -395,10 +395,10 @@ pub fn handle_restart(server: Arc<Server>, context: RequestContext) {
     let mut restart_ack = PacketZcRestartAck::new();
     restart_ack.set_atype(packet_restart.atype);
     restart_ack.fill_raw();
-    socket_send!(context.socket(), restart_ack.raw());
+    socket_send!(context, restart_ack);
 }
 
-pub fn handle_disconnect(server: Arc<Server>, context:RequestContext) {
+pub fn handle_disconnect(server: Arc<Server>, context: Request) {
     let session = context.session();
     let character = session.character.as_ref().unwrap();
     character.remove_from_existing_map();
@@ -406,14 +406,14 @@ pub fn handle_disconnect(server: Arc<Server>, context:RequestContext) {
 
     let mut disconnect_ack = PacketZcReqDisconnectAck2::new();
     disconnect_ack.fill_raw();
-    socket_send!(context.socket(), disconnect_ack.raw());
+    socket_send!(context, disconnect_ack);
 }
 
 
-pub fn handle_blocking_play_cancel(context: RequestContext) {
+pub fn handle_blocking_play_cancel(context: Request) {
     let mut packet_zc_load_confirm = PacketZcLoadConfirm::new();
     packet_zc_load_confirm.fill_raw();
-    socket_send!(context.socket(), packet_zc_load_confirm.raw());
+    socket_send!(context, packet_zc_load_confirm);
 }
 
 async fn load_chars_info(account_id: u32, server: Arc<Server>) -> PacketHcAcceptEnterNeoUnionHeader {

@@ -11,12 +11,12 @@ use crate::server::core::character_movement;
 use crate::server::core::character_movement::Position;
 use crate::server::core::map::MapItem;
 use crate::server::core::path::path_search_client_side_algorithm;
-use crate::server::core::request::RequestContext;
+use crate::server::core::request::Request;
 use crate::server::server::Server;
 use crate::util::tick::get_tick;
 
 
-pub fn handle_char_move(server: Arc<Server>, context: RequestContext) {
+pub fn handle_char_move(server: Arc<Server>, context: Request) {
     let destination = if context.packet().as_any().downcast_ref::<PacketCzRequestMove2>().is_some() {
         let move_packet = cast!(context.packet(), PacketCzRequestMove2);
         Position::from_move2_packet(move_packet)
@@ -41,7 +41,7 @@ pub fn handle_char_move(server: Arc<Server>, context: RequestContext) {
     packet_zc_notify_playermove.set_move_data(current_position.to_move_data(&destination));
     packet_zc_notify_playermove.set_move_start_time(get_tick());
     packet_zc_notify_playermove.fill_raw();
-    socket_send!(context.socket(), packet_zc_notify_playermove.raw());
+    socket_send!(context, packet_zc_notify_playermove);
     // debug_in_game_chat(&session, format!("path: {:?}", path.iter().map(|node| (node.x, node.y)).collect::<Vec<(u16, u16)>>()));
     // debug_in_game_chat(&session, format!("current_position: {:?}, destination {:?}", current_position, destination));
 }
