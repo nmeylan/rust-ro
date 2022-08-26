@@ -1,4 +1,5 @@
 use std::io::{Read, Write};
+use std::mem;
 use std::net::{Shutdown, TcpStream};
 use std::sync::{Arc, RwLock};
 use std::thread::spawn;
@@ -10,13 +11,14 @@ use packets::packets::{Packet, PacketAcAcceptLogin, PacketAcAcceptLogin2, Packet
 use packets::packets_parser::parse;
 
 use crate::repository::Repository;
-use crate::server::core::request::RequestContext;
+use crate::server::core::request::Request;
+use crate::server::core::response::Response;
 use crate::server::core::session::Session;
 use crate::server::server::Server;
 
-pub(crate) fn handle_login(server: Arc<Server>, context: RequestContext) {
+pub(crate) fn handle_login(server: Arc<Server>, context: Request) {
     let packet_ca_login = cast!(context.packet(), PacketCaLogin);
-    let res = context.runtime().block_on(async {
+    let mut res = context.runtime().block_on(async {
         authenticate(server.clone(), packet_ca_login, &server.repository).await
     });
     info!("packetver {}", packet_ca_login.version);
@@ -30,7 +32,7 @@ pub(crate) fn handle_login(server: Arc<Server>, context: RequestContext) {
         let new_user_session = Session::create_empty(packet_response.aid,packet_response.auth_code,packet_response.user_level, packet_ca_login.version); // TODO: packetver find solution to allow client to set packetver
         let mut sessions_guard = write_lock!(server.sessions);
         sessions_guard.insert(packet_response.aid, Arc::new(new_user_session));
-        socket_send!(context.socket(), res.raw());
+        socket_send!(context, res);
     } else if res.as_any().downcast_ref::<PacketAcAcceptLogin>().is_some() {
         let packet_response = res.as_any().downcast_ref::<PacketAcAcceptLogin>().unwrap();
         // Currently only handle this account to be able to still use proxy in other accounts
@@ -41,9 +43,9 @@ pub(crate) fn handle_login(server: Arc<Server>, context: RequestContext) {
         let new_user_session = Session::create_empty(packet_response.aid,packet_response.auth_code,packet_response.user_level, packet_ca_login.version); // TODO: packetver find solution to allow client to set packetver
         let mut sessions_guard = write_lock!(server.sessions);
         sessions_guard.insert(packet_response.aid, Arc::new(new_user_session));
-        socket_send!(context.socket(), res.raw());
+        socket_send!(context, res);
     } else {
-        socket_send!(context.socket(), res.raw());
+        socket_send!(context, res);
     }
 }
 
@@ -139,13 +141,19 @@ fn proxy_login(server: Arc<Server>, packet: &dyn Packet, tcp_stream: Arc<RwLock<
                         let server_char = packet_accept_login2.server_list.get_mut(0).unwrap();
                         server_char.set_port(server.configuration.proxy.local_char_server_port as i16);
                         packet_accept_login2.fill_raw();
-                        socket_send!(tcp_stream, packet_accept_login2.raw());
+                        let mut tcp_stream_guard = tcp_stream.write().unwrap();
+                        debug!("Respond with: {:02X?}", packet_accept_login2.raw());
+                        tcp_stream_guard.write_all(packet_accept_login2.raw()).unwrap();
+                        tcp_stream_guard.flush().unwrap();
                     } else if packet.as_any().downcast_ref::<PacketAcAcceptLogin>().is_some() {
                         let packet_accept_login = packet.as_any_mut().downcast_mut::<PacketAcAcceptLogin>().unwrap();
                         let server_char = packet_accept_login.server_list.get_mut(0).unwrap();
                         server_char.set_port(server.configuration.proxy.local_char_server_port as i16);
                         packet_accept_login.fill_raw();
-                        socket_send!(tcp_stream, packet_accept_login.raw());
+                        let mut tcp_stream_guard = tcp_stream.write().unwrap();
+                        debug!("Respond with: {:02X?}", packet_accept_login.raw());
+                        tcp_stream_guard.write_all(packet_accept_login.raw()).unwrap();
+                        tcp_stream_guard.flush().unwrap();
                     } else {
                         panic!("Received packet is not PacketAcAcceptLogin2");
                     }

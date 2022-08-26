@@ -11,3 +11,4 @@ pub mod status;
 pub mod map_instance;
 pub mod mob;
 pub mod request;
+pub mod response;

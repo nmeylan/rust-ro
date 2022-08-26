@@ -123,7 +123,7 @@ impl Session {
             return;
         }
         let map_socket = self.map_server_socket.as_ref().unwrap();
-        socket_send!(map_socket, data);
+        socket_send_deprecated!(map_socket, data);
     }
 
     pub fn set_script_handler_channel_sender(&self, script_handler_channel_sender: Sender<Vec<u8>>) {

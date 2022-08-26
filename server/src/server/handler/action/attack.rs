@@ -3,11 +3,11 @@ use std::sync::{Arc, RwLock};
 use std::io::Write;
 use tokio::runtime::Runtime;
 use packets::packets::{Packet, PacketCzRequestAct2, PacketZcNotifyAct3};
-use crate::server::core::request::RequestContext;
+use crate::server::core::request::Request;
 use crate::server::core::session::Session;
 use crate::server::enums::action::ActionType;
 
-pub fn handle_attack(context: RequestContext) {
+pub fn handle_attack(context: Request) {
     let packet_cz_request_act2 = cast!(context.packet(), PacketCzRequestAct2);
     let session = context.session();
     let character = session.character();
@@ -27,5 +27,5 @@ pub fn handle_attack(context: RequestContext) {
     packet_zc_notify_act3.set_damage(2);
     packet_zc_notify_act3.set_count(1);
     packet_zc_notify_act3.fill_raw();
-    socket_send!(context.socket(), packet_zc_notify_act3.raw());
+    socket_send!(context, packet_zc_notify_act3);
 }

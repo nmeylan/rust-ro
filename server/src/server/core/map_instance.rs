@@ -192,7 +192,7 @@ impl MapInstance {
             let packets = chain_packets_raws(packets.iter().map(|packet| packet.raw()).collect::<Vec<&Vec<u8>>>());
             let map_socket_guard = write_lock!(character.map_server_socket);
             let character_socket = map_socket_guard.as_ref().unwrap();
-            socket_send!(character_socket, &packets);
+            socket_send_deprecated!(character_socket, &packets);
         }
     }
 

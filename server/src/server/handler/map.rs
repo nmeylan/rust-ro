@@ -5,11 +5,11 @@ use crate::server::server::Server;
 use crate::util::string::StringUtil;
 use std::io::Write;
 use crate::server::core::map::{MapPropertyFlags};
-use crate::server::core::request::RequestContext;
+use crate::server::core::request::Request;
 use crate::server::core::session::Session;
 use crate::util::packet::chain_packets;
 
-pub fn handle_map_item_name(server: Arc<Server>, context: RequestContext) {
+pub fn handle_map_item_name(server: Arc<Server>, context: Request) {
     let gid = if context.packet().as_any().downcast_ref::<PacketCzReqnameall2>().is_some() {
         let packet_cz_req_allname2 = cast!(context.packet(), PacketCzReqnameall2);
         packet_cz_req_allname2.gid
@@ -36,10 +36,10 @@ pub fn handle_map_item_name(server: Arc<Server>, context: RequestContext) {
     packet_zc_ack_reqnameall2.set_name(name);
     // TODO handle guild name, guild title
     packet_zc_ack_reqnameall2.fill_raw();
-    socket_send!(context.socket(), packet_zc_ack_reqnameall2.raw());
+    socket_send!(context, packet_zc_ack_reqnameall2);
 }
 
-pub fn handle_char_loaded_client_side(_server: Arc<Server>, context: RequestContext) {
+pub fn handle_char_loaded_client_side(_server: Arc<Server>, context: Request) {
     info!("Reload char");
     let session = context.session();
     let session_id = session.account_id;
@@ -58,5 +58,5 @@ pub fn handle_char_loaded_client_side(_server: Arc<Server>, context: RequestCont
     packet_zc_hat_effect.set_len(9); // len is: 9 (packet len) + number of effects
     packet_zc_hat_effect.fill_raw();
     let final_response_packet: Vec<u8> = chain_packets(vec![&packet_zc_hat_effect, &packet_zc_notify_mapproperty2]);
-    socket_send!(context.socket(), &final_response_packet);
+    socket_send_raw!(context, final_response_packet);
 }

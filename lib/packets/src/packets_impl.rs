@@ -184,6 +184,9 @@ impl Packet for PacketCaLogin {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -377,6 +380,9 @@ impl Packet for PacketChEnter {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -481,6 +487,9 @@ impl Packet for PacketChSelectChar {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -793,6 +802,9 @@ impl Packet for PacketChMakeChar {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -1104,6 +1116,9 @@ impl Packet for PacketChMakeChar2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -1238,6 +1253,9 @@ impl Packet for PacketChDeleteChar {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -1516,6 +1534,9 @@ impl Packet for PacketAcAcceptLogin {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -1847,6 +1868,9 @@ impl Packet for PacketAcAcceptLogin2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -1981,6 +2005,9 @@ impl Packet for PacketAcRefuseLogin {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -2304,6 +2331,9 @@ impl Packet for PacketHcAcceptEnterNeoUnion {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -2409,6 +2439,9 @@ impl Packet for PacketHcRefuseEnter {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -2512,6 +2545,9 @@ impl Packet for PacketHcAcceptMakecharNeoUnion {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -2618,6 +2654,9 @@ impl Packet for PacketHcRefuseMakechar {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -2700,6 +2739,9 @@ impl Packet for PacketHcAcceptDeletechar {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -2805,6 +2847,9 @@ impl Packet for PacketHcRefuseDeletechar {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -2961,6 +3006,9 @@ impl Packet for PacketHcNotifyZonesvr {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -3155,6 +3203,9 @@ impl Packet for PacketCzEnter {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -3334,6 +3385,9 @@ impl Packet for PacketZcAcceptEnter {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -3438,6 +3492,9 @@ impl Packet for PacketZcRefuseEnter {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -3610,6 +3667,9 @@ impl Packet for PacketZcNotifyInitchar {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -3759,6 +3819,9 @@ impl Packet for PacketZcNotifyUpdatechar {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -3885,6 +3948,9 @@ impl Packet for PacketZcNotifyUpdateplayer {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -4571,6 +4637,9 @@ impl Packet for PacketZcNotifyStandentry {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -5211,6 +5280,9 @@ impl Packet for PacketZcNotifyNewentry {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -5897,6 +5969,9 @@ impl Packet for PacketZcNotifyActentry {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -6560,6 +6635,9 @@ impl Packet for PacketZcNotifyMoveentry {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -7113,6 +7191,9 @@ impl Packet for PacketZcNotifyStandentryNpc {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -7195,6 +7276,9 @@ impl Packet for PacketCzNotifyActorinit {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -7301,6 +7385,9 @@ impl Packet for PacketCzRequestTime {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -7405,6 +7492,9 @@ impl Packet for PacketZcNotifyTime {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -7533,6 +7623,9 @@ impl Packet for PacketZcNotifyVanish {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -7638,6 +7731,9 @@ impl Packet for PacketScNotifyBan {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -7720,6 +7816,9 @@ impl Packet for PacketCzRequestQuit {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -7804,6 +7903,9 @@ impl Packet for PacketZcAcceptQuit {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -7886,6 +7988,9 @@ impl Packet for PacketZcRefuseQuit {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -7999,6 +8104,9 @@ impl Packet for PacketCzRequestMove {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -8157,6 +8265,9 @@ impl Packet for PacketZcNotifyMove {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -8291,6 +8402,9 @@ impl Packet for PacketZcNotifyPlayermove {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -8441,6 +8555,9 @@ impl Packet for PacketZcStopmove {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -8567,6 +8684,9 @@ impl Packet for PacketCzRequestAct {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -8849,6 +8969,9 @@ impl Packet for PacketZcNotifyAct {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -9108,6 +9231,9 @@ impl Packet for PacketZcNotifyActPosition {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -9231,6 +9357,9 @@ impl Packet for PacketCzRequestChat {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -9378,6 +9507,9 @@ impl Packet for PacketZcNotifyChat {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -9502,6 +9634,9 @@ impl Packet for PacketZcNotifyPlayerchat {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -9606,6 +9741,9 @@ impl Packet for PacketServerEntryAck {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -9733,6 +9871,9 @@ impl Packet for PacketCzContactnpc {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -9890,6 +10031,9 @@ impl Packet for PacketZcNpcackMapmove {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -10069,6 +10213,9 @@ impl Packet for PacketZcNpcackServermove {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -10151,6 +10298,9 @@ impl Packet for PacketZcNpcackEnable {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -10256,6 +10406,9 @@ impl Packet for PacketCzReqname {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -10391,6 +10544,9 @@ impl Packet for PacketZcAckReqname {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -10546,6 +10702,9 @@ impl Packet for PacketCzWhisper {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -10700,6 +10859,9 @@ impl Packet for PacketZcWhisper {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -10804,6 +10966,9 @@ impl Packet for PacketZcAckWhisper {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -10929,6 +11094,9 @@ impl Packet for PacketCzBroadcast {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -11052,6 +11220,9 @@ impl Packet for PacketZcBroadcast {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -11179,6 +11350,9 @@ impl Packet for PacketCzChangeDirection {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -11328,6 +11502,9 @@ impl Packet for PacketZcChangeDirection {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -11588,6 +11765,9 @@ impl Packet for PacketZcItemEntry {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -11847,6 +12027,9 @@ impl Packet for PacketZcItemFallEntry {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -11951,6 +12134,9 @@ impl Packet for PacketCzItemPickup {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -12255,6 +12441,9 @@ impl Packet for PacketZcItemPickupAck {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -12359,6 +12548,9 @@ impl Packet for PacketZcItemDisappear {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -12486,6 +12678,9 @@ impl Packet for PacketCzItemThrow {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -12625,6 +12820,9 @@ impl Packet for PacketZcNormalItemlist {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -12762,6 +12960,9 @@ impl Packet for PacketZcEquipmentItemlist {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -12901,6 +13102,9 @@ impl Packet for PacketZcStoreNormalItemlist {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -13039,6 +13243,9 @@ impl Packet for PacketZcStoreEquipmentItemlist {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -13165,6 +13372,9 @@ impl Packet for PacketCzUseItem {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -13315,6 +13525,9 @@ impl Packet for PacketZcUseItemAck {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -13441,6 +13654,9 @@ impl Packet for PacketCzReqWearEquip {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -13591,6 +13807,9 @@ impl Packet for PacketZcReqWearEquipAck {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -13695,6 +13914,9 @@ impl Packet for PacketCzReqTakeoffEquip {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -13845,6 +14067,9 @@ impl Packet for PacketZcReqTakeoffEquipAck {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -13971,6 +14196,9 @@ impl Packet for PacketZcItemThrowAck {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -14099,6 +14327,9 @@ impl Packet for PacketZcParChange {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -14226,6 +14457,9 @@ impl Packet for PacketZcLongparChange {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -14331,6 +14565,9 @@ impl Packet for PacketCzRestart {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -14435,6 +14672,9 @@ impl Packet for PacketZcRestartAck {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -14582,6 +14822,9 @@ impl Packet for PacketZcSayDialog {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -14687,6 +14930,9 @@ impl Packet for PacketZcWaitDialog {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -14791,6 +15037,9 @@ impl Packet for PacketZcCloseDialog {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -14938,6 +15187,9 @@ impl Packet for PacketZcMenuList {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -15065,6 +15317,9 @@ impl Packet for PacketCzChooseMenu {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -15170,6 +15425,9 @@ impl Packet for PacketCzReqNextScript {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -15252,6 +15510,9 @@ impl Packet for PacketCzReqStatus {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -15379,6 +15640,9 @@ impl Packet for PacketCzStatusChange {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -15528,6 +15792,9 @@ impl Packet for PacketZcStatusChangeAck {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -16206,6 +16473,9 @@ impl Packet for PacketZcStatus {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -16333,6 +16603,9 @@ impl Packet for PacketZcStatusChange {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -16437,6 +16710,9 @@ impl Packet for PacketCzReqEmotion {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -16565,6 +16841,9 @@ impl Packet for PacketZcEmotion {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -16647,6 +16926,9 @@ impl Packet for PacketCzReqUserCount {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -16752,6 +17034,9 @@ impl Packet for PacketZcUserCount {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -16902,6 +17187,9 @@ impl Packet for PacketZcSpriteChange {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -17006,6 +17294,9 @@ impl Packet for PacketZcSelectDealtype {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -17133,6 +17424,9 @@ impl Packet for PacketCzAckSelectDealtype {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -17272,6 +17566,9 @@ impl Packet for PacketZcPcPurchaseItemlist {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -17409,6 +17706,9 @@ impl Packet for PacketZcPcSellItemlist {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -17548,6 +17848,9 @@ impl Packet for PacketCzPcPurchaseItemlist {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -17686,6 +17989,9 @@ impl Packet for PacketCzPcSellItemlist {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -17790,6 +18096,9 @@ impl Packet for PacketZcPcPurchaseResult {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -17896,6 +18205,9 @@ impl Packet for PacketZcPcSellResult {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -18000,6 +18312,9 @@ impl Packet for PacketCzDisconnectCharacter {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -18106,6 +18421,9 @@ impl Packet for PacketZcAckDisconnectCharacter {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -18188,6 +18506,9 @@ impl Packet for PacketCzDisconnectAllCharacter {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -18324,6 +18645,9 @@ impl Packet for PacketCzSettingWhisperPc {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -18428,6 +18752,9 @@ impl Packet for PacketCzSettingWhisperState {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -18556,6 +18883,9 @@ impl Packet for PacketZcSettingWhisperPc {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -18683,6 +19013,9 @@ impl Packet for PacketZcSettingWhisperState {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -18765,6 +19098,9 @@ impl Packet for PacketCzReqWhisperList {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -18903,6 +19239,9 @@ impl Packet for PacketZcWhisperList {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -19102,6 +19441,9 @@ impl Packet for PacketCzCreateChatroom {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -19206,6 +19548,9 @@ impl Packet for PacketZcAckCreateChatroom {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -19441,6 +19786,9 @@ impl Packet for PacketZcRoomNewentry {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -19545,6 +19893,9 @@ impl Packet for PacketZcDestroyRoom {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -19681,6 +20032,9 @@ impl Packet for PacketCzReqEnterRoom {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -19785,6 +20139,9 @@ impl Packet for PacketZcRefuseEnterRoom {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -19946,6 +20303,9 @@ impl Packet for PacketZcEnterRoom {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -20080,6 +20440,9 @@ impl Packet for PacketZcMemberNewentry {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -20237,6 +20600,9 @@ impl Packet for PacketZcMemberExit {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -20435,6 +20801,9 @@ impl Packet for PacketCzChangeChatroom {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -20670,6 +21039,9 @@ impl Packet for PacketZcChangeChatroom {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -20804,6 +21176,9 @@ impl Packet for PacketCzReqRoleChange {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -20940,6 +21315,9 @@ impl Packet for PacketZcRoleChange {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -21053,6 +21431,9 @@ impl Packet for PacketCzReqExpelMember {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -21135,6 +21516,9 @@ impl Packet for PacketCzExitRoom {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -21240,6 +21624,9 @@ impl Packet for PacketCzReqExchangeItem {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -21354,6 +21741,9 @@ impl Packet for PacketZcReqExchangeItem {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -21459,6 +21849,9 @@ impl Packet for PacketCzAckExchangeItem {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -21563,6 +21956,9 @@ impl Packet for PacketZcAckExchangeItem {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -21690,6 +22086,9 @@ impl Packet for PacketCzAddExchangeItem {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -21906,6 +22305,9 @@ impl Packet for PacketZcAddExchangeItem {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -22033,6 +22435,9 @@ impl Packet for PacketZcAckAddExchangeItem {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -22115,6 +22520,9 @@ impl Packet for PacketCzConcludeExchangeItem {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -22221,6 +22629,9 @@ impl Packet for PacketZcConcludeExchangeItem {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -22303,6 +22714,9 @@ impl Packet for PacketCzCancelExchangeItem {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -22387,6 +22801,9 @@ impl Packet for PacketZcCancelExchangeItem {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -22469,6 +22886,9 @@ impl Packet for PacketCzExecExchangeItem {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -22575,6 +22995,9 @@ impl Packet for PacketZcExecExchangeItem {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -22657,6 +23080,9 @@ impl Packet for PacketZcExchangeitemUndo {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -22785,6 +23211,9 @@ impl Packet for PacketZcNotifyStoreitemCountinfo {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -22908,6 +23337,9 @@ impl Packet for PacketCzPlayerChat {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -23146,6 +23578,9 @@ impl Packet for PacketZcAddItemToStore {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -23272,6 +23707,9 @@ impl Packet for PacketCzMoveItemFromStoreToBody {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -23400,6 +23838,9 @@ impl Packet for PacketZcDeleteItemFromStore {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -23483,6 +23924,9 @@ impl Packet for PacketCzCloseStore {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -23565,6 +24009,9 @@ impl Packet for PacketZcCloseStore {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -23679,6 +24126,9 @@ impl Packet for PacketCzMakeGroup {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -23783,6 +24233,9 @@ impl Packet for PacketZcAckMakeGroup {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -23952,6 +24405,9 @@ impl Packet for PacketZcGroupList {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -24056,6 +24512,9 @@ impl Packet for PacketCzReqJoinGroup {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -24192,6 +24651,9 @@ impl Packet for PacketZcAckReqJoinGroup {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -24327,6 +24789,9 @@ impl Packet for PacketZcReqJoinGroup {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -24454,6 +24919,9 @@ impl Packet for PacketCzJoinGroup {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -24536,6 +25004,9 @@ impl Packet for PacketCzReqLeaveGroup {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -24642,6 +25113,9 @@ impl Packet for PacketZcGroupinfoChange {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -24746,6 +25220,9 @@ impl Packet for PacketCzChangeGroupexpoption {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -24881,6 +25358,9 @@ impl Packet for PacketCzReqExpelGroupMember {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -25165,6 +25645,9 @@ impl Packet for PacketZcAddMemberToGroup {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -25322,6 +25805,9 @@ impl Packet for PacketZcDeleteMemberFromGroup {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -25470,6 +25956,9 @@ impl Packet for PacketZcNotifyHpToGroupm {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -25620,6 +26109,9 @@ impl Packet for PacketZcNotifyPositionToGroupm {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -25743,6 +26235,9 @@ impl Packet for PacketCzRequestChatParty {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -25890,6 +26385,9 @@ impl Packet for PacketZcNotifyChatParty {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -25994,6 +26492,9 @@ impl Packet for PacketZcMvpGettingItem {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -26100,6 +26601,9 @@ impl Packet for PacketZcMvpGettingSpecialExp {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -26205,6 +26709,9 @@ impl Packet for PacketZcMvp {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -26287,6 +26794,9 @@ impl Packet for PacketZcThrowMvpitem {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -26481,6 +26991,9 @@ impl Packet for PacketZcSkillinfoUpdate {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -26618,6 +27131,9 @@ impl Packet for PacketZcSkillinfoList {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -26790,6 +27306,9 @@ impl Packet for PacketZcAckTouseskill {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -26893,6 +27412,9 @@ impl Packet for PacketZcAddSkill {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -26998,6 +27520,9 @@ impl Packet for PacketCzUpgradeSkilllevel {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -27147,6 +27672,9 @@ impl Packet for PacketCzUseSkill {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -27450,6 +27978,9 @@ impl Packet for PacketZcNotifySkill {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -27798,6 +28329,9 @@ impl Packet for PacketZcNotifySkillPosition {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -27968,6 +28502,9 @@ impl Packet for PacketCzUseSkillToground {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -28184,6 +28721,9 @@ impl Packet for PacketZcNotifyGroundskill {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -28266,6 +28806,9 @@ impl Packet for PacketCzCancelLockon {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -28460,6 +29003,9 @@ impl Packet for PacketZcStateChange {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -28653,6 +29199,9 @@ impl Packet for PacketZcUseSkill {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -28787,6 +29336,9 @@ impl Packet for PacketCzSelectWarppoint {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -28923,6 +29475,9 @@ impl Packet for PacketZcWarplist {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -29005,6 +29560,9 @@ impl Packet for PacketCzRememberWarppoint {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -29110,6 +29668,9 @@ impl Packet for PacketZcAckRememberWarppoint {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -29326,6 +29887,9 @@ impl Packet for PacketZcSkillEntry {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -29430,6 +29994,9 @@ impl Packet for PacketZcSkillDisappear {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -29602,6 +30169,9 @@ impl Packet for PacketZcNotifyCartitemCountinfo {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -29740,6 +30310,9 @@ impl Packet for PacketZcCartEquipmentItemlist {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -29877,6 +30450,9 @@ impl Packet for PacketZcCartNormalItemlist {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -30115,6 +30691,9 @@ impl Packet for PacketZcAddItemToCart {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -30241,6 +30820,9 @@ impl Packet for PacketZcDeleteItemFromCart {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -30369,6 +30951,9 @@ impl Packet for PacketCzMoveItemFromBodyToCart {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -30495,6 +31080,9 @@ impl Packet for PacketCzMoveItemFromCartToBody {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -30623,6 +31211,9 @@ impl Packet for PacketCzMoveItemFromStoreToCart {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -30750,6 +31341,9 @@ impl Packet for PacketCzMoveItemFromCartToStore {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -30833,6 +31427,9 @@ impl Packet for PacketCzReqCartoff {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -30915,6 +31512,9 @@ impl Packet for PacketZcCartoff {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -31021,6 +31621,9 @@ impl Packet for PacketZcAckAdditemToCart {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -31126,6 +31729,9 @@ impl Packet for PacketZcOpenstore {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -31208,6 +31814,9 @@ impl Packet for PacketCzReqClosestore {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -31377,6 +31986,9 @@ impl Packet for PacketCzReqOpenstore {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -31481,6 +32093,9 @@ impl Packet for PacketCzReqBuyFrommc {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -31617,6 +32232,9 @@ impl Packet for PacketZcStoreEntry {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -31721,6 +32339,9 @@ impl Packet for PacketZcDisappearEntry {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -31882,6 +32503,9 @@ impl Packet for PacketZcPcPurchaseItemlistFrommc {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -32042,6 +32666,9 @@ impl Packet for PacketCzPcPurchaseItemlistFrommc {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -32190,6 +32817,9 @@ impl Packet for PacketZcPcPurchaseResultFrommc {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -32351,6 +32981,9 @@ impl Packet for PacketZcPcPurchaseMyitemlist {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -32478,6 +33111,9 @@ impl Packet for PacketZcDeleteitemFromMcstore {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -32582,6 +33218,9 @@ impl Packet for PacketCzPkmodeChange {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -32798,6 +33437,9 @@ impl Packet for PacketZcAttackFailureForDistance {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -32902,6 +33544,9 @@ impl Packet for PacketZcAttackRange {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -33008,6 +33653,9 @@ impl Packet for PacketZcActionFailure {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -33112,6 +33760,9 @@ impl Packet for PacketZcEquipArrow {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -33239,6 +33890,9 @@ impl Packet for PacketZcRecovery {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -33477,6 +34131,9 @@ impl Packet for PacketZcUseskillAck {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -33589,6 +34246,9 @@ impl Packet for PacketCzItemCreate {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -33747,6 +34407,9 @@ impl Packet for PacketCzMovetoMap {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -33896,6 +34559,9 @@ impl Packet for PacketZcStatusValues {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -34000,6 +34666,9 @@ impl Packet for PacketZcOpenEditdlg {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -34127,6 +34796,9 @@ impl Packet for PacketCzInputEditdlg {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -34343,6 +35015,9 @@ impl Packet for PacketZcCompass {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -34478,6 +35153,9 @@ impl Packet for PacketZcShowImage {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -34583,6 +35261,9 @@ impl Packet for PacketCzCloseDialog {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -34686,6 +35367,9 @@ impl Packet for PacketZcAutorunSkill {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -34813,6 +35497,9 @@ impl Packet for PacketZcResurrection {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -34963,6 +35650,9 @@ impl Packet for PacketCzReqGiveMannerPoint {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -35067,6 +35757,9 @@ impl Packet for PacketZcAckGiveMannerPoint {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -35202,6 +35895,9 @@ impl Packet for PacketZcNotifyMannerPointGiven {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -35341,6 +36037,9 @@ impl Packet for PacketZcMyguildBasicInfo {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -35423,6 +36122,9 @@ impl Packet for PacketCzReqGuildMenuinterface {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -35529,6 +36231,9 @@ impl Packet for PacketZcAckGuildMenuinterface {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -35633,6 +36338,9 @@ impl Packet for PacketCzReqGuildMenu {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -36049,6 +36757,9 @@ impl Packet for PacketZcGuildInfo {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -36153,6 +36864,9 @@ impl Packet for PacketCzReqGuildEmblemImg {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -36322,6 +37036,9 @@ impl Packet for PacketZcGuildEmblemImg {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -36445,6 +37162,9 @@ impl Packet for PacketCzRegisterGuildEmblemImg {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -36584,6 +37304,9 @@ impl Packet for PacketZcMembermgrInfo {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -36721,6 +37444,9 @@ impl Packet for PacketCzReqChangeMemberpos {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -36860,6 +37586,9 @@ impl Packet for PacketZcAckReqChangeMembers {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -36965,6 +37694,9 @@ impl Packet for PacketCzReqOpenMemberInfo {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -37047,6 +37779,9 @@ impl Packet for PacketZcAckOpenMemberInfo {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -37227,6 +37962,9 @@ impl Packet for PacketCzReqLeaveGuild {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -37369,6 +38107,9 @@ impl Packet for PacketZcAckLeaveGuild {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -37549,6 +38290,9 @@ impl Packet for PacketCzReqBanGuild {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -37722,6 +38466,9 @@ impl Packet for PacketZcAckBanGuild {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -37835,6 +38582,9 @@ impl Packet for PacketCzReqDisorganizeGuild {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -37939,6 +38689,9 @@ impl Packet for PacketZcAckDisorganizeGuildResult {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -38052,6 +38805,9 @@ impl Packet for PacketZcAckDisorganizeGuild {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -38191,6 +38947,9 @@ impl Packet for PacketZcPositionInfo {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -38328,6 +39087,9 @@ impl Packet for PacketCzRegChangeGuildPositioninfo {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -38489,6 +39251,9 @@ impl Packet for PacketZcGuildSkillinfo {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -38626,6 +39391,9 @@ impl Packet for PacketZcBanList {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -38765,6 +39533,9 @@ impl Packet for PacketZcOtherGuildList {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -38899,6 +39670,9 @@ impl Packet for PacketCzReqMakeGuild {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -39038,6 +39812,9 @@ impl Packet for PacketZcPositionIdNameInfo {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -39142,6 +39919,9 @@ impl Packet for PacketZcResultMakeGuild {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -39292,6 +40072,9 @@ impl Packet for PacketCzReqJoinGuild {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -39396,6 +40179,9 @@ impl Packet for PacketZcAckReqJoinGuild {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -39532,6 +40318,9 @@ impl Packet for PacketZcReqJoinGuild {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -39658,6 +40447,9 @@ impl Packet for PacketCzJoinGuild {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -39882,6 +40674,9 @@ impl Packet for PacketZcUpdateGdid {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -40030,6 +40825,9 @@ impl Packet for PacketZcUpdateCharstat {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -40196,6 +40994,9 @@ impl Packet for PacketCzGuildNotice {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -40338,6 +41139,9 @@ impl Packet for PacketZcGuildNotice {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -40488,6 +41292,9 @@ impl Packet for PacketCzReqAllyGuild {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -40623,6 +41430,9 @@ impl Packet for PacketZcReqAllyGuild {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -40750,6 +41560,9 @@ impl Packet for PacketCzAllyGuild {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -40854,6 +41667,9 @@ impl Packet for PacketZcAckReqAllyGuild {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -40993,6 +41809,9 @@ impl Packet for PacketZcAckChangeGuildPositioninfo {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -41098,6 +41917,9 @@ impl Packet for PacketCzReqGuildMemberInfo {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -41201,6 +42023,9 @@ impl Packet for PacketZcAckGuildMemberInfo {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -41329,6 +42154,9 @@ impl Packet for PacketZcItemidentifyList {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -41433,6 +42261,9 @@ impl Packet for PacketCzReqItemidentify {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -41561,6 +42392,9 @@ impl Packet for PacketZcAckItemidentify {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -41665,6 +42499,9 @@ impl Packet for PacketCzReqItemcompositionList {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -41793,6 +42630,9 @@ impl Packet for PacketZcItemcompositionList {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -41919,6 +42759,9 @@ impl Packet for PacketCzReqItemcomposition {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -42069,6 +42912,9 @@ impl Packet for PacketZcAckItemcomposition {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -42192,6 +43038,9 @@ impl Packet for PacketCzGuildChat {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -42317,6 +43166,9 @@ impl Packet for PacketZcGuildChat {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -42421,6 +43273,9 @@ impl Packet for PacketCzReqHostileGuild {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -42527,6 +43382,9 @@ impl Packet for PacketZcAckReqHostileGuild {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -42630,6 +43488,9 @@ impl Packet for PacketZcMemberAdd {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -42758,6 +43619,9 @@ impl Packet for PacketCzReqDeleteRelatedGuild {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -42885,6 +43749,9 @@ impl Packet for PacketZcDeleteRelatedGuild {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -42988,6 +43855,9 @@ impl Packet for PacketZcAddRelatedGuild {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -43094,6 +43964,9 @@ impl Packet for PacketCollectordead {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -43198,6 +44071,9 @@ impl Packet for PacketPing {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -43348,6 +44224,9 @@ impl Packet for PacketZcAckItemrefining {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -43452,6 +44331,9 @@ impl Packet for PacketZcNotifyMapinfo {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -43558,6 +44440,9 @@ impl Packet for PacketCzReqDisconnect {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -43662,6 +44547,9 @@ impl Packet for PacketZcAckReqDisconnect {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -43943,6 +44831,9 @@ impl Packet for PacketZcMonsterInfo {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -44069,6 +44960,9 @@ impl Packet for PacketZcMakableitemlist {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -44172,6 +45066,9 @@ impl Packet for PacketCzReqmakingitem {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -44299,6 +45196,9 @@ impl Packet for PacketZcAckReqmakingitem {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -44501,6 +45401,9 @@ impl Packet for PacketCzUseSkillTogroundWithtalkbox {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -44635,6 +45538,9 @@ impl Packet for PacketZcTalkboxChatcontents {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -44815,6 +45721,9 @@ impl Packet for PacketZcUpdateMapinfo {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -44919,6 +45828,9 @@ impl Packet for PacketCzReqnameBygid {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -45054,6 +45966,9 @@ impl Packet for PacketZcAckReqnameBygid {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -45280,6 +46195,9 @@ impl Packet for PacketZcAckReqnameall {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -45429,6 +46347,9 @@ impl Packet for PacketZcMsgStateChange {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -45533,6 +46454,9 @@ impl Packet for PacketCzReset {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -45683,6 +46607,9 @@ impl Packet for PacketCzChangeMaptype {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -45787,6 +46714,9 @@ impl Packet for PacketZcNotifyMapproperty {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -45937,6 +46867,9 @@ impl Packet for PacketZcNotifyRanking {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -46064,6 +46997,9 @@ impl Packet for PacketZcNotifyEffect {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -46169,6 +47105,9 @@ impl Packet for PacketCzChangeEffectstate {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -46251,6 +47190,9 @@ impl Packet for PacketZcStartCapture {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -46357,6 +47299,9 @@ impl Packet for PacketCzTrycaptureMonster {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -46462,6 +47407,9 @@ impl Packet for PacketZcTrycaptureMonster {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -46566,6 +47514,9 @@ impl Packet for PacketCzCommandPet {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -46812,6 +47763,9 @@ impl Packet for PacketZcPropertyPet {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -46938,6 +47892,9 @@ impl Packet for PacketZcFeedPet {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -47088,6 +48045,9 @@ impl Packet for PacketZcChangestatePet {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -47200,6 +48160,9 @@ impl Packet for PacketCzRenamePet {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -47339,6 +48302,9 @@ impl Packet for PacketZcPeteggList {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -47443,6 +48409,9 @@ impl Packet for PacketCzSelectPetegg {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -47549,6 +48518,9 @@ impl Packet for PacketCzPeteggInfo {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -47653,6 +48625,9 @@ impl Packet for PacketCzPetAct {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -47780,6 +48755,9 @@ impl Packet for PacketZcPetAct {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -47930,6 +48908,9 @@ impl Packet for PacketZcParChangeUser {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -48034,6 +49015,9 @@ impl Packet for PacketZcSkillUpdate {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -48173,6 +49157,9 @@ impl Packet for PacketZcMakingarrowList {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -48278,6 +49265,9 @@ impl Packet for PacketCzReqMakingarrow {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -48382,6 +49372,9 @@ impl Packet for PacketCzReqChangecart {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -48532,6 +49525,9 @@ impl Packet for PacketZcNpcspriteChange {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -48658,6 +49654,9 @@ impl Packet for PacketZcShowdigit {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -48849,6 +49848,9 @@ impl Packet for PacketCzReqOpenstore2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -48983,6 +49985,9 @@ impl Packet for PacketZcShowImage2 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -49132,6 +50137,9 @@ impl Packet for PacketZcChangeGuild {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -49303,6 +50311,9 @@ impl Packet for PacketScBillingInfo {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -49741,6 +50752,9 @@ impl Packet for PacketZcGuildInfo2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -49845,6 +50859,9 @@ impl Packet for PacketCzGuildZeny {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -49951,6 +50968,9 @@ impl Packet for PacketZcGuildZenyAck {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -50055,6 +51075,9 @@ impl Packet for PacketZcDispel {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -50169,6 +51192,9 @@ impl Packet for PacketCzRemoveAid {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -50281,6 +51307,9 @@ impl Packet for PacketCzShift {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -50395,6 +51424,9 @@ impl Packet for PacketCzRecall {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -50508,6 +51540,9 @@ impl Packet for PacketCzRecallGid {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -50590,6 +51625,9 @@ impl Packet for PacketAcAskPngameroom {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -50696,6 +51734,9 @@ impl Packet for PacketCaReplyPngameroom {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -50778,6 +51819,9 @@ impl Packet for PacketCzReqRemaintime {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -50928,6 +51972,9 @@ impl Packet for PacketZcReplyRemaintime {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -51054,6 +52101,9 @@ impl Packet for PacketZcInfoRemaintime {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -51288,6 +52338,9 @@ impl Packet for PacketZcBroadcast2 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -51548,6 +52601,9 @@ impl Packet for PacketZcAddItemToStore2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -51807,6 +52863,9 @@ impl Packet for PacketZcAddItemToCart2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -51934,6 +52993,9 @@ impl Packet for PacketCsReqEncryption {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -52016,6 +53078,9 @@ impl Packet for PacketScAckEncryption {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -52209,6 +53274,9 @@ impl Packet for PacketZcUseItemAck2 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -52477,6 +53545,9 @@ impl Packet for PacketZcSkillEntry2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -52581,6 +53652,9 @@ impl Packet for PacketCzReqmakinghomun {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -52753,6 +53827,9 @@ impl Packet for PacketCzMonsterTalk {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -52924,6 +54001,9 @@ impl Packet for PacketZcMonsterTalk {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -53037,6 +54117,9 @@ impl Packet for PacketZcAutospelllist {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -53141,6 +54224,9 @@ impl Packet for PacketCzSelectautospell {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -53299,6 +54385,9 @@ impl Packet for PacketZcDevotionlist {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -53425,6 +54514,9 @@ impl Packet for PacketZcSpirits {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -53575,6 +54667,9 @@ impl Packet for PacketZcBladestop {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -53701,6 +54796,9 @@ impl Packet for PacketZcCombodelay {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -53881,6 +54979,9 @@ impl Packet for PacketZcSound {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -53985,6 +55086,9 @@ impl Packet for PacketZcOpenEditdlgstr {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -54132,6 +55236,9 @@ impl Packet for PacketCzInputEditdlgstr {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -54236,6 +55343,9 @@ impl Packet for PacketZcNotifyMaptypeproperty2 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -54385,6 +55495,9 @@ impl Packet for PacketZcSpriteChange2 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -55027,6 +56140,9 @@ impl Packet for PacketZcNotifyStandentry2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -55645,6 +56761,9 @@ impl Packet for PacketZcNotifyNewentry2 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -56287,6 +57406,9 @@ impl Packet for PacketZcNotifyMoveentry2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -56369,6 +57491,9 @@ impl Packet for PacketCaReqHash {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -56493,6 +57618,9 @@ impl Packet for PacketAcAckHash {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -56680,6 +57808,9 @@ impl Packet for PacketCaLogin2 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -56984,6 +58115,9 @@ impl Packet for PacketZcNotifySkill2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -57088,6 +58222,9 @@ impl Packet for PacketCzReqAccountname {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -57224,6 +58361,9 @@ impl Packet for PacketZcAckAccountname {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -57350,6 +58490,9 @@ impl Packet for PacketZcSpirits2 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -57508,6 +58651,9 @@ impl Packet for PacketZcReqCouple {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -57657,6 +58803,9 @@ impl Packet for PacketCzJoinCouple {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -57739,6 +58888,9 @@ impl Packet for PacketZcStartCouple {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -57844,6 +58996,9 @@ impl Packet for PacketCzReqJoinCouple {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -57958,6 +59113,9 @@ impl Packet for PacketZcCouplename {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -58040,6 +59198,9 @@ impl Packet for PacketCzDoridori {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -58197,6 +59358,9 @@ impl Packet for PacketCzMakeGroup2 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -58525,6 +59689,9 @@ impl Packet for PacketZcAddMemberToGroup2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -58629,6 +59796,9 @@ impl Packet for PacketZcCongratulation {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -58778,6 +59948,9 @@ impl Packet for PacketZcNotifyPositionToGuildm {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -58936,6 +60109,9 @@ impl Packet for PacketZcGuildMemberMapChange {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -59018,6 +60194,9 @@ impl Packet for PacketCzChopokgi {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -59157,6 +60336,9 @@ impl Packet for PacketZcNormalItemlist2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -59294,6 +60476,9 @@ impl Packet for PacketZcCartNormalItemlist2 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -59433,6 +60618,9 @@ impl Packet for PacketZcStoreNormalItemlist2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -59556,6 +60744,9 @@ impl Packet for PacketAcNotifyError {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -59772,6 +60963,9 @@ impl Packet for PacketZcUpdateCharstat2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -59898,6 +61092,9 @@ impl Packet for PacketZcNotifyEffect2 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -60056,6 +61253,9 @@ impl Packet for PacketZcReqExchangeItem2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -60204,6 +61404,9 @@ impl Packet for PacketZcAckExchangeItem2 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -60362,6 +61565,9 @@ impl Packet for PacketZcReqBaby {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -60511,6 +61717,9 @@ impl Packet for PacketCzJoinBaby {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -60593,6 +61802,9 @@ impl Packet for PacketZcStartBaby {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -60698,6 +61910,9 @@ impl Packet for PacketCzReqJoinBaby {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -60908,6 +62123,9 @@ impl Packet for PacketCaLogin3 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -61042,6 +62260,9 @@ impl Packet for PacketChDeleteChar2 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -61181,6 +62402,9 @@ impl Packet for PacketZcRepairitemlist {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -61284,6 +62508,9 @@ impl Packet for PacketCzReqItemrepair {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -61411,6 +62638,9 @@ impl Packet for PacketZcAckItemrepair {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -61561,6 +62791,9 @@ impl Packet for PacketZcHighjump {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -61673,6 +62906,9 @@ impl Packet for PacketCaConnectInfoChanged {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -61812,6 +63048,9 @@ impl Packet for PacketZcFriendsList {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -61924,6 +63163,9 @@ impl Packet for PacketCzAddFriends {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -62052,6 +63294,9 @@ impl Packet for PacketCzDeleteFriends {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -62165,6 +63410,9 @@ impl Packet for PacketCaExeHashcheck {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -62277,6 +63525,9 @@ impl Packet for PacketZcDivorce {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -62426,6 +63677,9 @@ impl Packet for PacketZcFriendsState {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -62584,6 +63838,9 @@ impl Packet for PacketZcReqAddFriends {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -62732,6 +63989,9 @@ impl Packet for PacketCzAckReqAddFriends {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -62912,6 +64172,9 @@ impl Packet for PacketZcAddFriendsList {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -63038,6 +64301,9 @@ impl Packet for PacketZcDeleteFriends {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -63174,6 +64440,9 @@ impl Packet for PacketAcRefuseLoginR3 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -63308,6 +64577,9 @@ impl Packet for PacketCzExeHashcheck {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -63446,6 +64718,9 @@ impl Packet for PacketHcBlockCharacter {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -63626,6 +64901,9 @@ impl Packet for PacketZcStarskill {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -63752,6 +65030,9 @@ impl Packet for PacketCzReqPvppoint {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -63901,6 +65182,9 @@ impl Packet for PacketZcAckPvppoint {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -64005,6 +65289,9 @@ impl Packet for PacketZhMovePvpworld {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -64119,6 +65406,9 @@ impl Packet for PacketCzReqGiveMannerByname {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -64231,6 +65521,9 @@ impl Packet for PacketCzReqStatusGm {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -64887,6 +66180,9 @@ impl Packet for PacketZcAckStatusGm {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -64991,6 +66287,9 @@ impl Packet for PacketZcSkillmsg {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -65097,6 +66396,9 @@ impl Packet for PacketZcBabymsg {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -65180,6 +66482,9 @@ impl Packet for PacketCzBlacksmithRank {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -65262,6 +66567,9 @@ impl Packet for PacketCzAlchemistRank {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -65406,6 +66714,9 @@ impl Packet for PacketZcBlacksmithRank {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -65549,6 +66860,9 @@ impl Packet for PacketZcAlchemistRank {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -65675,6 +66989,9 @@ impl Packet for PacketZcBlacksmithPoint {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -65803,6 +67120,9 @@ impl Packet for PacketZcAlchemistPoint {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -65908,6 +67228,9 @@ impl Packet for PacketCzLesseffect {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -66012,6 +67335,9 @@ impl Packet for PacketZcLesseffect {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -66221,6 +67547,9 @@ impl Packet for PacketZcNotifyPkinfo {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -66347,6 +67676,9 @@ impl Packet for PacketZcNotifyCrazykiller {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -66486,6 +67818,9 @@ impl Packet for PacketZcNotifyWeaponitemlist {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -66590,6 +67925,9 @@ impl Packet for PacketCzReqWeaponrefine {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -66718,6 +68056,9 @@ impl Packet for PacketZcAckWeaponrefine {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -66845,6 +68186,9 @@ impl Packet for PacketZcTaekwonPoint {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -66927,6 +68271,9 @@ impl Packet for PacketCzTaekwonRank {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -67071,6 +68418,9 @@ impl Packet for PacketZcTaekwonRank {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -67184,6 +68534,9 @@ impl Packet for PacketZcGameGuard {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -67296,6 +68649,9 @@ impl Packet for PacketCzAckGameGuard {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -67489,6 +68845,9 @@ impl Packet for PacketZcStateChange3 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -68131,6 +69490,9 @@ impl Packet for PacketZcNotifyStandentry3 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -68749,6 +70111,9 @@ impl Packet for PacketZcNotifyNewentry3 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -69413,6 +70778,9 @@ impl Packet for PacketZcNotifyMoveentry3 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -69539,6 +70907,9 @@ impl Packet for PacketCzCommandMer {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -70115,6 +71486,9 @@ impl Packet for PacketZcPropertyHomun {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -70286,6 +71660,9 @@ impl Packet for PacketZcChangestateMer {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -70398,6 +71775,9 @@ impl Packet for PacketCzRenameMer {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -70533,6 +71913,9 @@ impl Packet for PacketCzRequestMovenpc {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -70683,6 +72066,9 @@ impl Packet for PacketCzRequestActnpc {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -70788,6 +72174,9 @@ impl Packet for PacketCzRequestMovetoowner {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -70892,6 +72281,9 @@ impl Packet for PacketZcReqStorePassword {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -71058,6 +72450,9 @@ impl Packet for PacketCzAckStorePassword {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -71185,6 +72580,9 @@ impl Packet for PacketZcResultStorePassword {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -71289,6 +72687,9 @@ impl Packet for PacketAcEventResult {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -71417,6 +72818,9 @@ impl Packet for PacketHcRequestCharacterPassword {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -71499,6 +72903,9 @@ impl Packet for PacketCzMailGetList {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -71660,6 +73067,9 @@ impl Packet for PacketZcMailReqGetList {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -71764,6 +73174,9 @@ impl Packet for PacketCzMailOpen {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -72191,6 +73604,9 @@ impl Packet for PacketZcMailReqOpen {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -72295,6 +73711,9 @@ impl Packet for PacketCzMailDelete {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -72401,6 +73820,9 @@ impl Packet for PacketCzMailGetItem {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -72506,6 +73928,9 @@ impl Packet for PacketZcMailReqGetItem {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -72610,6 +74035,9 @@ impl Packet for PacketCzMailResetItem {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -72737,6 +74165,9 @@ impl Packet for PacketCzMailAddItem {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -72944,6 +74375,9 @@ impl Packet for PacketCzMailSend {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -73048,6 +74482,9 @@ impl Packet for PacketZcMailReqSend {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -73214,6 +74651,9 @@ impl Packet for PacketZcMailReceive {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -73318,6 +74758,9 @@ impl Packet for PacketCzAuctionCreate {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -73445,6 +74888,9 @@ impl Packet for PacketCzAuctionAddItem {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -73595,6 +75041,9 @@ impl Packet for PacketCzAuctionAdd {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -73699,6 +75148,9 @@ impl Packet for PacketCzAuctionAddCancel {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -73827,6 +75279,9 @@ impl Packet for PacketCzAuctionBuy {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -73931,6 +75386,9 @@ impl Packet for PacketZcAuctionResult {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -74110,6 +75568,9 @@ impl Packet for PacketCzAuctionItemSearch {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -74293,6 +75754,9 @@ impl Packet for PacketZcAuctionItemReqSearch {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -74398,6 +75862,9 @@ impl Packet for PacketZcStarplace {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -74502,6 +75969,9 @@ impl Packet for PacketCzAgreeStarplace {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -74630,6 +76100,9 @@ impl Packet for PacketZcAckMailAddItem {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -74756,6 +76229,9 @@ impl Packet for PacketZcAckAuctionAddItem {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -74884,6 +76360,9 @@ impl Packet for PacketZcAckMailDelete {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -74966,6 +76445,9 @@ impl Packet for PacketCaReqGameGuardCheck {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -75071,6 +76553,9 @@ impl Packet for PacketAcAckGameGuard {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -75199,6 +76684,9 @@ impl Packet for PacketZcMakingitemList {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -75326,6 +76814,9 @@ impl Packet for PacketCzReqMakingitem {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -75430,6 +76921,9 @@ impl Packet for PacketCzAuctionReqMyInfo {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -75536,6 +77030,9 @@ impl Packet for PacketCzAuctionReqMySellStop {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -75640,6 +77137,9 @@ impl Packet for PacketZcAuctionAckMySellStop {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -75746,6 +77246,9 @@ impl Packet for PacketZcAuctionWindows {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -75850,6 +77353,9 @@ impl Packet for PacketZcMailWindows {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -75964,6 +77470,9 @@ impl Packet for PacketAcReqLoginOldekey {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -76077,6 +77586,9 @@ impl Packet for PacketAcReqLoginNewekey {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -76189,6 +77701,9 @@ impl Packet for PacketAcReqLoginCardpass {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -76333,6 +77848,9 @@ impl Packet for PacketCaAckLoginOldekey {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -76476,6 +77994,9 @@ impl Packet for PacketCaAckLoginNewekey {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -76589,6 +78110,9 @@ impl Packet for PacketCaAckLoginCardpass {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -76693,6 +78217,9 @@ impl Packet for PacketAcAckEkeyFailNotexist {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -76799,6 +78326,9 @@ impl Packet for PacketAcAckEkeyFailNotusesekey {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -76903,6 +78433,9 @@ impl Packet for PacketAcAckEkeyFailNotusedekey {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -77009,6 +78542,9 @@ impl Packet for PacketAcAckEkeyFailAuthrefuse {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -77113,6 +78649,9 @@ impl Packet for PacketAcAckEkeyFailInputekey {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -77219,6 +78758,9 @@ impl Packet for PacketAcAckEkeyFailNotice {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -77323,6 +78865,9 @@ impl Packet for PacketAcAckEkeyFailNeedcardpass {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -77429,6 +78974,9 @@ impl Packet for PacketAcAckAuthekeyFailNotmatchcardpass {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -77512,6 +79060,9 @@ impl Packet for PacketAcAckFirstLogin {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -77594,6 +79145,9 @@ impl Packet for PacketAcReqLoginAccountInfo {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -77752,6 +79306,9 @@ impl Packet for PacketCaAckLoginAccountInfo {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -77895,6 +79452,9 @@ impl Packet for PacketAcAckPtIdInfo {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -78030,6 +79590,9 @@ impl Packet for PacketCzReqMailReturn {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -78156,6 +79719,9 @@ impl Packet for PacketZcAckMailReturn {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -78401,6 +79967,9 @@ impl Packet for PacketChEnter2 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -78669,6 +80238,9 @@ impl Packet for PacketCaAcceptLogin2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -78916,6 +80488,9 @@ impl Packet for PacketCaLoginPcbang {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -78999,6 +80574,9 @@ impl Packet for PacketZcNotifyPcbang {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -79081,6 +80659,9 @@ impl Packet for PacketCzHuntinglist {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -79219,6 +80800,9 @@ impl Packet for PacketZcHuntinglist {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -79368,6 +80952,9 @@ impl Packet for PacketZcPcbangEffect {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -79585,6 +81172,9 @@ impl Packet for PacketCaLogin4 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -80073,6 +81663,9 @@ impl Packet for PacketZcPropertyMerce {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -80219,6 +81812,9 @@ impl Packet for PacketZcShandaProtect {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -80345,6 +81941,9 @@ impl Packet for PacketCaClientType {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -80495,6 +82094,9 @@ impl Packet for PacketZcGangsiPoint {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -80599,6 +82201,9 @@ impl Packet for PacketCzGangsiRank {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -80765,6 +82370,9 @@ impl Packet for PacketZcGangsiRank {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -80869,6 +82477,9 @@ impl Packet for PacketZcAid {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -81019,6 +82630,9 @@ impl Packet for PacketZcNotifyEffect3 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -81146,6 +82760,9 @@ impl Packet for PacketZcDeathQuestion {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -81250,6 +82867,9 @@ impl Packet for PacketCzDeathQuestion {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -81411,6 +83031,9 @@ impl Packet for PacketZcPcCashPointItemlist {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -81538,6 +83161,9 @@ impl Packet for PacketCzPcBuyCashPointItem {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -81664,6 +83290,9 @@ impl Packet for PacketZcPcCashPointUpdate {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -81836,6 +83465,9 @@ impl Packet for PacketZcNpcShowefstUpdate {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -81992,6 +83624,9 @@ impl Packet for PacketChSelectCharGoingtobeused {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -82150,6 +83785,9 @@ impl Packet for PacketChReqIsValidCharname {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -82254,6 +83892,9 @@ impl Packet for PacketHcAckIsValidCharname {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -82360,6 +84001,9 @@ impl Packet for PacketChReqChangeCharname {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -82464,6 +84108,9 @@ impl Packet for PacketHcAckChangeCharname {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -82570,6 +84217,9 @@ impl Packet for PacketZcMsg {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -82652,6 +84302,9 @@ impl Packet for PacketCzStandingResurrection {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -82920,6 +84573,9 @@ impl Packet for PacketZcBossInfo {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -83046,6 +84702,9 @@ impl Packet for PacketZcReadBook {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -83185,6 +84844,9 @@ impl Packet for PacketZcEquipmentItemlist2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -83322,6 +84984,9 @@ impl Packet for PacketZcStoreEquipmentItemlist2 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -83461,6 +85126,9 @@ impl Packet for PacketZcCartEquipmentItemlist2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -83588,6 +85256,9 @@ impl Packet for PacketZcCashTimeCounter {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -83714,6 +85385,9 @@ impl Packet for PacketZcCashItemDelete {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -84039,6 +85713,9 @@ impl Packet for PacketZcItemPickupAck2 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -84571,6 +86248,9 @@ impl Packet for PacketZcMerInit {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -85058,6 +86738,9 @@ impl Packet for PacketZcMerProperty {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -85195,6 +86878,9 @@ impl Packet for PacketZcMerSkillinfoList {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -85389,6 +87075,9 @@ impl Packet for PacketZcMerSkillinfoUpdate {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -85493,6 +87182,9 @@ impl Packet for PacketCzMerCommand {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -85643,6 +87335,9 @@ impl Packet for UnusedPacketCzMerUseSkill {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -85747,6 +87442,9 @@ impl Packet for UnusedPacketCzMerUpgradeSkilllevel {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -85875,6 +87573,9 @@ impl Packet for PacketZcMerParChange {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -85978,6 +87679,9 @@ impl Packet for PacketZcGameguardLingoKey {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -86106,6 +87810,9 @@ impl Packet for PacketCzKsyEvent {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -86210,6 +87917,9 @@ impl Packet for PacketZcReqCashPassword {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -86376,6 +88086,9 @@ impl Packet for PacketCzAckCashPassword {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -86503,6 +88216,9 @@ impl Packet for PacketZcResultCashPassword {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -86629,6 +88345,9 @@ impl Packet for PacketAcRequestSecondPassword {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -86899,6 +88618,9 @@ impl Packet for PacketCaLoginHan {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -87059,6 +88781,9 @@ impl Packet for PacketZcAllQuestList {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -87218,6 +88943,9 @@ impl Packet for PacketZcAllQuestMission {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -87445,6 +89173,9 @@ impl Packet for PacketZcAddQuest {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -87549,6 +89280,9 @@ impl Packet for PacketZcDelQuest {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -87710,6 +89444,9 @@ impl Packet for PacketZcUpdateMissionHunt {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -87837,6 +89574,9 @@ impl Packet for PacketCzActiveQuest {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -87963,6 +89703,9 @@ impl Packet for PacketZcActiveQuest {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -88223,6 +89966,9 @@ impl Packet for PacketZcItemPickupParty {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -88338,6 +90084,9 @@ impl Packet for PacketZcShortcutKeyList {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -88464,6 +90213,9 @@ impl Packet for PacketCzShortcutKeyChange {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -88592,6 +90344,9 @@ impl Packet for PacketZcEquipitemDamaged {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -88696,6 +90451,9 @@ impl Packet for PacketZcNotifyPcbangPlayingTime {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -88846,6 +90604,9 @@ impl Packet for PacketZcSrpacketr2Init {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -88950,6 +90711,9 @@ impl Packet for PacketCzSrpacketr2Start {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -89119,6 +90883,9 @@ impl Packet for PacketZcNpcChat {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -89265,6 +91032,9 @@ impl Packet for PacketZcFormatstringMsg {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -89377,6 +91147,9 @@ impl Packet for PacketCzPartyJoinReq {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -89513,6 +91286,9 @@ impl Packet for PacketZcPartyJoinReqAck {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -89648,6 +91424,9 @@ impl Packet for PacketZcPartyJoinReq {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -89775,6 +91554,9 @@ impl Packet for PacketCzPartyJoinReqAck {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -89879,6 +91661,9 @@ impl Packet for PacketCzPartyConfig {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -89985,6 +91770,9 @@ impl Packet for PacketZcPartyConfig {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -90089,6 +91877,9 @@ impl Packet for PacketHcRefuseSelectchar {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -90225,6 +92016,9 @@ impl Packet for PacketZcMemorialdungeonSubscriptionInfo {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -90329,6 +92123,9 @@ impl Packet for PacketZcMemorialdungeonSubscriptionNotify {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -90487,6 +92284,9 @@ impl Packet for PacketZcMemorialdungeonInfo {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -90614,6 +92414,9 @@ impl Packet for PacketZcMemorialdungeonNotify {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -90718,6 +92521,9 @@ impl Packet for PacketCzMemorialdungeonCommand {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -90857,6 +92663,9 @@ impl Packet for PacketZcEquipmentItemlist3 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -90994,6 +92803,9 @@ impl Packet for PacketZcStoreEquipmentItemlist3 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -91133,6 +92945,9 @@ impl Packet for PacketZcCartEquipmentItemlist3 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -91237,6 +93052,9 @@ impl Packet for PacketZcNotifyBindOnEquip {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -91585,6 +93403,9 @@ impl Packet for PacketZcItemPickupAck3 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -91667,6 +93488,9 @@ impl Packet for PacketZcIsvrDisconnect {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -91772,6 +93596,9 @@ impl Packet for PacketCzEquipwinMicroscope {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -92117,6 +93944,9 @@ impl Packet for PacketZcEquipwinMicroscope {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -92243,6 +94073,9 @@ impl Packet for PacketCzConfig {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -92371,6 +94204,9 @@ impl Packet for PacketZcConfig {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -92475,6 +94311,9 @@ impl Packet for PacketZcConfigNotify {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -92599,6 +94438,9 @@ impl Packet for PacketCzBattlefieldChat {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -92776,6 +94618,9 @@ impl Packet for PacketZcBattlefieldChat {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -92933,6 +94778,9 @@ impl Packet for PacketZcBattlefieldNotifyCampinfo {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -93059,6 +94907,9 @@ impl Packet for PacketZcBattlefieldNotifyPoint {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -93261,6 +95112,9 @@ impl Packet for PacketZcBattlefieldNotifyPosition {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -93439,6 +95293,9 @@ impl Packet for PacketZcBattlefieldNotifyHp {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -93721,6 +95578,9 @@ impl Packet for PacketZcNotifyAct2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -93825,6 +95685,9 @@ impl Packet for PacketCzBotCheck {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -93975,6 +95838,9 @@ impl Packet for PacketZcMapproperty {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -94112,6 +95978,9 @@ impl Packet for PacketZcNormalItemlist3 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -94251,6 +96120,9 @@ impl Packet for PacketZcCartNormalItemlist3 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -94388,6 +96260,9 @@ impl Packet for PacketZcStoreNormalItemlist3 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -94589,6 +96464,9 @@ impl Packet for PacketZcAcceptEnter2 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -95275,6 +97153,9 @@ impl Packet for PacketZcNotifyMoveentry4 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -95915,6 +97796,9 @@ impl Packet for PacketZcNotifyNewentry4 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -96579,6 +98463,9 @@ impl Packet for PacketZcNotifyStandentry4 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -96705,6 +98592,9 @@ impl Packet for PacketZcNotifyFont {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -96833,6 +98723,9 @@ impl Packet for PacketZcProgress {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -96915,6 +98808,9 @@ impl Packet for PacketCzProgress {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -96999,6 +98895,9 @@ impl Packet for PacketZcProgressCancel {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -97081,6 +98980,9 @@ impl Packet for PacketCzOpenSimpleCashshopItemlist {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -97330,6 +99232,9 @@ impl Packet for PacketZcSimpleCashshopPointItemlist {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -97412,6 +99317,9 @@ impl Packet for PacketCzCloseWindow {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -97526,6 +99434,9 @@ impl Packet for PacketAhcGameGuard {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -97638,6 +99549,9 @@ impl Packet for PacketCahAckGameGuard {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -97832,6 +99746,9 @@ impl Packet for PacketCzEnter2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -97958,6 +99875,9 @@ impl Packet for PacketCzRequestAct2 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -98108,6 +100028,9 @@ impl Packet for PacketCzUseSkill2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -98235,6 +100158,9 @@ impl Packet for PacketCzUseItem2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -98361,6 +100287,9 @@ impl Packet for PacketZcSkillPostdelay {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -98499,6 +100428,9 @@ impl Packet for PacketZcSkillPostdelayList {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -98701,6 +100633,9 @@ impl Packet for PacketZcMsgStateChange2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -98850,6 +100785,9 @@ impl Packet for PacketZcMillenniumshield {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -98954,6 +100892,9 @@ impl Packet for PacketZcSkillinfoDelete {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -99104,6 +101045,9 @@ impl Packet for PacketZcSkillSelectRequest {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -99230,6 +101174,9 @@ impl Packet for PacketCzSkillSelectResponse {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -99391,6 +101338,9 @@ impl Packet for PacketZcSimpleCashPointItemlist {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -99517,6 +101467,9 @@ impl Packet for PacketCzSimpleBuyCashPointItem {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -99711,6 +101664,9 @@ impl Packet for PacketZcQuestNotifyEffect {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -99849,6 +101805,9 @@ impl Packet for PacketHcCharacterList {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -99953,6 +101912,9 @@ impl Packet for PacketZcHackshErrorMsg {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -100059,6 +102021,9 @@ impl Packet for PacketCzClientVersion {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -100141,6 +102106,9 @@ impl Packet for PacketCzCloseSimplecashShop {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -100269,6 +102237,9 @@ impl Packet for PacketZcEsResult {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -100351,6 +102322,9 @@ impl Packet for PacketCzEsGetList {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -100479,6 +102453,9 @@ impl Packet for PacketZcEsList {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -100583,6 +102560,9 @@ impl Packet for PacketCzEsChoose {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -100689,6 +102669,9 @@ impl Packet for PacketCzEsCancel {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -100794,6 +102777,9 @@ impl Packet for PacketZcEsReady {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -100898,6 +102884,9 @@ impl Packet for PacketZcEsGoto {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -101048,6 +103037,9 @@ impl Packet for PacketCzGroupinfoChangeV2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -101197,6 +103189,9 @@ impl Packet for PacketZcReqGroupinfoChangeV2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -101313,6 +103308,9 @@ impl Packet for PacketZcShortcutKeyListV2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -101417,6 +103415,9 @@ impl Packet for PacketCzChangeGroupMaster {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -101545,6 +103546,9 @@ impl Packet for PacketZcHoParChange {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -101649,6 +103653,9 @@ impl Packet for PacketCzSeekParty {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -101859,6 +103866,9 @@ impl Packet for PacketZcSeekParty {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -102037,6 +104047,9 @@ impl Packet for PacketCzSeekPartyMember {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -102247,6 +104260,9 @@ impl Packet for PacketZcSeekPartyMember {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -102381,6 +104397,9 @@ impl Packet for PacketZcEsNotiMyinfo {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -102597,6 +104616,9 @@ impl Packet for PacketZcSkillinfoUpdate2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -102724,6 +104746,9 @@ impl Packet for PacketZcMsgValue {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -102828,6 +104853,9 @@ impl Packet for PacketZcItemlistwinOpen {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -103000,6 +105028,9 @@ impl Packet for PacketCzItemlistwinRes {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -103146,6 +105177,9 @@ impl Packet for PacketChEnterCheckbot {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -103272,6 +105306,9 @@ impl Packet for PacketZcMsgSkill {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -103430,6 +105467,9 @@ impl Packet for PacketChCheckbot {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -103553,6 +105593,9 @@ impl Packet for PacketHcCheckbot {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -103681,6 +105724,9 @@ impl Packet for PacketHcCheckbotResult {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -103763,6 +105809,9 @@ impl Packet for PacketCzBattleFieldList {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -103946,6 +105995,9 @@ impl Packet for PacketZcBattleFieldList {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -104072,6 +106124,9 @@ impl Packet for PacketCzJoinBattleField {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -104222,6 +106277,9 @@ impl Packet for PacketZcJoinBattleField {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -104326,6 +106384,9 @@ impl Packet for PacketCzCancelBattleField {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -104454,6 +106515,9 @@ impl Packet for PacketZcCancelBattleField {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -104580,6 +106644,9 @@ impl Packet for PacketCzReqBattleStateMonitor {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -104818,6 +106885,9 @@ impl Packet for PacketZcAckBattleStateMonitor {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -104945,6 +107015,9 @@ impl Packet for PacketZcBattleNotiStartStep {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -105049,6 +107122,9 @@ impl Packet for PacketZcBattleJoinNotiDefer {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -105155,6 +107231,9 @@ impl Packet for PacketZcBattleJoinDisableState {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -105259,6 +107338,9 @@ impl Packet for PacketCzGmFullstrip {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -105430,6 +107512,9 @@ impl Packet for PacketZcNotifyExp {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -106168,6 +108253,9 @@ impl Packet for PacketZcNotifyMoveentry7 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -106882,6 +108970,9 @@ impl Packet for PacketZcNotifyNewentry5 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -107620,6 +109711,9 @@ impl Packet for PacketZcNotifyStandentry5 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -107768,6 +109862,9 @@ impl Packet for PacketZcDeleteItemFromBody {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -108028,6 +110125,9 @@ impl Packet for PacketZcUseskillAck2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -108155,6 +110255,9 @@ impl Packet for PacketZcChangeGroupMaster {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -108267,6 +110370,9 @@ impl Packet for PacketZcPlayNpcBgm {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -108394,6 +110500,9 @@ impl Packet for PacketZcDefineCheck {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -108577,6 +110686,9 @@ impl Packet for PacketZcPcPurchaseItemlistFrommc2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -108759,6 +110871,9 @@ impl Packet for PacketCzPcPurchaseItemlistFrommc2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -108862,6 +110977,9 @@ impl Packet for PacketCzPartyBookingReqRegister {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -108967,6 +111085,9 @@ impl Packet for PacketZcPartyBookingAckRegister {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -109161,6 +111282,9 @@ impl Packet for PacketCzPartyBookingReqSearch {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -109321,6 +111445,9 @@ impl Packet for PacketZcPartyBookingAckSearch {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -109403,6 +111530,9 @@ impl Packet for PacketCzPartyBookingReqDelete {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -109508,6 +111638,9 @@ impl Packet for PacketZcPartyBookingAckDelete {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -109622,6 +111755,9 @@ impl Packet for PacketCzPartyBookingReqUpdate {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -109725,6 +111861,9 @@ impl Packet for PacketZcPartyBookingNotifyInsert {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -109963,6 +112102,9 @@ impl Packet for PacketZcPartyBookingNotifyUpdate {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -110068,6 +112210,9 @@ impl Packet for PacketZcPartyBookingNotifyDelete {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -110150,6 +112295,9 @@ impl Packet for PacketCzSimpleCashBtnshow {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -110255,6 +112403,9 @@ impl Packet for PacketZcSimpleCashBtnshow {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -110404,6 +112555,9 @@ impl Packet for PacketZcNotifyHpToGroupmR2 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -110642,6 +112796,9 @@ impl Packet for PacketZcAddExchangeItem2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -110746,6 +112903,9 @@ impl Packet for PacketZcOpenBuyingStore {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -110959,6 +113119,9 @@ impl Packet for PacketCzReqOpenBuyingStore {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -111085,6 +113248,9 @@ impl Packet for PacketZcFailedOpenBuyingStoreToBuyer {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -111268,6 +113434,9 @@ impl Packet for PacketZcMyitemlistBuyingStore {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -111403,6 +113572,9 @@ impl Packet for PacketZcBuyingStoreEntry {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -111485,6 +113657,9 @@ impl Packet for PacketCzReqCloseBuyingStore {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -111591,6 +113766,9 @@ impl Packet for PacketZcDisappearBuyingStoreEntry {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -111695,6 +113873,9 @@ impl Packet for PacketCzReqClickToBuyingStore {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -111900,6 +114081,9 @@ impl Packet for PacketZcAckItemlistBuyingStore {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -112082,6 +114266,9 @@ impl Packet for PacketCzReqTradeBuyingStore {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -112186,6 +114373,9 @@ impl Packet for PacketZcFailedTradeBuyingStoreToBuyer {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -112336,6 +114526,9 @@ impl Packet for PacketZcUpdateItemFromBuyingStore {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -112484,6 +114677,9 @@ impl Packet for PacketZcItemDeleteBuyingStore {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -112678,6 +114874,9 @@ impl Packet for PacketZcElInit {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -112804,6 +115003,9 @@ impl Packet for PacketZcElParChange {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -112973,6 +115175,9 @@ impl Packet for PacketZcBroadcast4 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -113122,6 +115327,9 @@ impl Packet for PacketZcCostumeSpriteChange {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -113204,6 +115412,9 @@ impl Packet for PacketAcOtpUser {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -113317,6 +115528,9 @@ impl Packet for PacketCaOtpAuthReq {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -113445,6 +115659,9 @@ impl Packet for PacketAcOtpAuthAck {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -113571,6 +115788,9 @@ impl Packet for PacketZcFailedTradeBuyingStoreToSeller {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -113829,6 +116049,9 @@ impl Packet for PacketCaSsoLoginReqa {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -114118,6 +116341,9 @@ impl Packet for PacketCaSsoLoginReq {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -114223,6 +116449,9 @@ impl Packet for PacketAcSsoLoginAck {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -114327,6 +116556,9 @@ impl Packet for PacketChDeleteChar3Reserved {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -114477,6 +116709,9 @@ impl Packet for PacketHcDeleteChar3Reserved {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -114612,6 +116847,9 @@ impl Packet for PacketChDeleteChar3 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -114739,6 +116977,9 @@ impl Packet for PacketHcDeleteChar3 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -114843,6 +117084,9 @@ impl Packet for PacketChDeleteChar3Cancel {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -114970,6 +117214,9 @@ impl Packet for PacketHcDeleteChar3Cancel {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -115186,6 +117433,9 @@ impl Packet for PacketCzSearchStoreInfo {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -115390,6 +117640,9 @@ impl Packet for PacketZcSearchStoreInfoAck {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -115495,6 +117748,9 @@ impl Packet for PacketZcSearchStoreInfoFailed {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -115577,6 +117833,9 @@ impl Packet for PacketCzSearchStoreInfoNextPage {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -115721,6 +117980,9 @@ impl Packet for PacketZcAckBanGuildSso {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -115848,6 +118110,9 @@ impl Packet for PacketZcOpenSearchStoreInfo {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -115930,6 +118195,9 @@ impl Packet for PacketCzCloseSearchStoreInfo {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -116080,6 +118348,9 @@ impl Packet for PacketCzSsilistItemClick {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -116206,6 +118477,9 @@ impl Packet for PacketZcSsilistItemClickAck {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -116342,6 +118616,9 @@ impl Packet for PacketAcRefuseLoginR2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -116469,6 +118746,9 @@ impl Packet for PacketChSelectAccessibleMapname {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -116581,6 +118861,9 @@ impl Packet for PacketCzRequestMove2 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -116790,6 +119073,9 @@ impl Packet for PacketChSendMapInfo {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -117035,6 +119321,9 @@ impl Packet for PacketHcAcceptEnterNeoUnionHeader {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -117139,6 +119428,9 @@ impl Packet for PacketCzPing {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -117245,6 +119537,9 @@ impl Packet for PacketZcAid2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -117349,6 +119644,9 @@ impl Packet for PacketMapConnection {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -117498,6 +119796,9 @@ impl Packet for PacketPincodeLoginstate {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -117722,6 +120023,9 @@ impl Packet for PacketChMakeChar3 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -117826,6 +120130,9 @@ impl Packet for PacketChDeleteChar4Reserved {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -117976,6 +120283,9 @@ impl Packet for PacketHcDeleteChar4Reserved {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -118080,6 +120390,9 @@ impl Packet for PacketZcInventoryExpansionInfo {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -118186,6 +120499,9 @@ impl Packet for PacketZcOverweightPercent {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -118290,6 +120606,9 @@ impl Packet for PacketCzReqDisconnect2 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -118396,6 +120715,9 @@ impl Packet for PacketZcReqDisconnectAck2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -118500,6 +120822,9 @@ impl Packet for PacketCzReqnameall2 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -118748,6 +121073,9 @@ impl Packet for PacketZcAckReqnameall2 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -118852,6 +121180,9 @@ impl Packet for PacketCzRequestTime2 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -118980,6 +121311,9 @@ impl Packet for PacketZcMsgColor {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -119106,6 +121440,9 @@ impl Packet for PacketZcNotifyMapproperty2 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -119278,6 +121615,9 @@ impl Packet for PacketZcHatEffect {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -119361,6 +121701,9 @@ impl Packet for PacketCzBlockingPlayCancel {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -119443,6 +121786,9 @@ impl Packet for PacketZcLoadConfirm {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -120334,6 +122680,9 @@ impl Packet for PacketZcNotifyStandentry6 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self
@@ -121326,6 +123675,9 @@ impl Packet for PacketZcNotifyStandentry7 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -122217,6 +124569,9 @@ impl Packet for PacketZcNotifyMoveentry8 {
     fn raw(&self) -> &Vec<u8> {
             &self.raw
     }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
     fn as_any(&self) -> &dyn Any{
         self
     }
@@ -122519,6 +124874,9 @@ impl Packet for PacketZcNotifyAct3 {
     }
     fn raw(&self) -> &Vec<u8> {
             &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
     }
     fn as_any(&self) -> &dyn Any{
         self

@@ -25,9 +25,9 @@ use crate::server::handler::atcommand::handle_atcommand;
 use crate::server::handler::map::{handle_char_loaded_client_side, handle_map_item_name};
 use crate::util::tick::get_tick;
 use std::io::Write;
-use std::sync::mpsc::channel;
 use rathena_script_lang_interpreter::lang::vm::Vm;
-use crate::server::core::request::RequestContext;
+use crate::server::core::request::Request;
+use crate::server::core::response::Response;
 use crate::server::handler::action::npc::{handle_contact_npc, handle_player_choose_menu, handle_player_input_number, handle_player_input_string, handle_player_next, handle_player_purchase_items, handle_player_select_deal_type};
 use crate::server::handler::chat::handle_chat;
 
@@ -168,7 +168,9 @@ impl Server {
         let port = server_ref.configuration.server.port;
 
         // let (server_sender, server_receiver) = channel();
-        Server::request_thread(server_ref, port)
+        let (response_sender, single_response_receiver) = std::sync::mpsc::sync_channel::<Response>(0);
+        crate::server::request_thread::build(server_ref, port, response_sender);
+        crate::server::response_thread::build(single_response_receiver)
     }
 
     fn server_thread(server_receiver: Arc<Server>) {
@@ -183,42 +185,8 @@ impl Server {
         // });
     }
 
-    fn request_thread(server_ref: Arc<Server>, port: u16) -> JoinHandle<()> {
-        let listener = TcpListener::bind(format!("0.0.0.0:{}", port)).unwrap();
-        info!("Server listen on 0.0.0.0:{}", port);
-        let server_shared_ref = server_ref;
-        thread::Builder::new().name("server-incoming-connection".to_string()).spawn(move || {
-            for tcp_stream in listener.incoming() {
-                // Receive new connection, starting new thread
-                let server_shared_ref = server_shared_ref.clone();
-                debug!("Received new connection");
-                thread::Builder::new().name("request-thread".to_string()).spawn(move || {
-                    PACKETVER.with(|ver| *ver.borrow_mut() = server_shared_ref.packetver());
-                    let runtime = Runtime::new().unwrap();
-                    let mut tcp_stream = tcp_stream.unwrap();
-                    let tcp_stream_arc = Arc::new(RwLock::new(tcp_stream.try_clone().unwrap())); // todo remove this clone
-                    let mut buffer = [0; 2048];
-                    loop {
-                        match tcp_stream.read(&mut buffer) {
-                            Ok(bytes_read) => {
-                                if bytes_read == 0 {
-                                    tcp_stream.shutdown(Shutdown::Both).expect("Unable to shutdown incoming socket. Shutdown was done because remote socket seems cloded.");
-                                    break;
-                                }
-                                let mut packet = parse(&mut buffer[..bytes_read], server_shared_ref.packetver());
-                                let context = RequestContext::new(&runtime, None, server_shared_ref.packetver(), tcp_stream_arc.clone(), packet.as_ref());
-                                server_shared_ref.handle(server_shared_ref.clone(), context);
-                            }
-                            Err(err) => error!("{}", err)
-                        }
-                    }
-                }).expect("Failed to create sever-handle-request thread");
-            }
-        }).expect("Failed to create sever-incoming-connection thread")
-    }
 
-
-    pub fn handle(&self, server: Arc<Server>, mut context: RequestContext) {
+    pub fn handle(&self, server: Arc<Server>, mut context: Request) {
         let self_ref = server;
         if context.packet().as_any().downcast_ref::<PacketUnknown>().is_some() {
             error!("Unknown packet {} of length {}: {:02X?}", context.packet().id(), context.packet().raw().len(), context.packet().raw());
@@ -326,7 +294,7 @@ impl Server {
             let mut packet_zc_notify_time = PacketZcNotifyTime::new();
             packet_zc_notify_time.set_time(get_tick());
             packet_zc_notify_time.fill_raw();
-            socket_send!(context.socket(), packet_zc_notify_time.raw());
+            socket_send!(context, packet_zc_notify_time);
         }
 
         // NPC interactions
