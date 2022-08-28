@@ -5,6 +5,7 @@ use std::sync::mpsc::{SyncSender};
 use tokio::runtime::Runtime;
 
 use packets::packets::Packet;
+use crate::server::core::notification::Notification;
 use crate::server::core::response::Response;
 use crate::server::core::session::Session;
 
@@ -15,11 +16,12 @@ pub struct Request<'server: 'request, 'request> {
     packet: &'request dyn Packet,
     socket: Arc<RwLock<TcpStream>>,
     session: Option<Arc<Session>>,
-    response_channel: SyncSender<Response>
+    response_channel: SyncSender<Response>,
+    client_notification_channel: SyncSender<Notification>,
 }
 
 impl<'server: 'request, 'request> Request<'server, 'request> {
-    pub fn new(runtime: &'server Runtime, session_id: Option<u32>, packet_ver: u32, socket: Arc<RwLock<TcpStream>>, packet: &'request dyn Packet, response_sender: SyncSender<Response>) -> Self {
+    pub fn new(runtime: &'server Runtime, session_id: Option<u32>, packet_ver: u32, socket: Arc<RwLock<TcpStream>>, packet: &'request dyn Packet, response_sender: SyncSender<Response>, client_notification_channel: SyncSender<Notification>) -> Self {
         Self {
             runtime,
             session_id,
@@ -27,7 +29,8 @@ impl<'server: 'request, 'request> Request<'server, 'request> {
             packet,
             socket,
             session: None,
-            response_channel: response_sender
+            response_channel: response_sender,
+            client_notification_channel,
         }
     }
 
@@ -57,5 +60,9 @@ impl<'server: 'request, 'request> Request<'server, 'request> {
 
     pub fn response_sender(&self) -> SyncSender<Response> {
         self.response_channel.clone()
+    }
+
+    pub fn client_notification_channel(&self) -> SyncSender<Notification> {
+        self.client_notification_channel.clone()
     }
 }

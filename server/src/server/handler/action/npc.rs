@@ -1,4 +1,3 @@
-use std::net::TcpStream;
 use std::sync::{Arc, RwLock};
 use std::{mem, thread};
 
@@ -28,11 +27,11 @@ pub fn handle_contact_npc(server: Arc<Server>, context: Request) {
     let session = context.session();
     let socket = context.socket();
     session.set_script_handler_channel_sender(tx);
-    let response_channel = context.response_sender().clone();
+    let client_notification_channel = context.client_notification_channel().clone();
     thread::Builder::new().name(format!("script-player-{}-thread", session.account_id)).spawn(move || {
         let script: &Script = cast!(map_item, Script);
         Vm::run_main_function(server_clone.vm.clone(), script.class_reference, script.instance_reference,
-                              Box::new(&PlayerScriptHandler { tcp_stream: socket, response_channel: response_channel, npc_id, server: server_clone.clone(), player_action_receiver: RwLock::new(rx), runtime, session: session.clone() })).unwrap()
+                              Box::new(&PlayerScriptHandler { client_notification_channel, npc_id, server: server_clone.clone(), player_action_receiver: RwLock::new(rx), runtime, session: session.clone() })).unwrap()
     }).unwrap();
 }
 

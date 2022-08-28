@@ -12,3 +12,4 @@ pub mod map_instance;
 pub mod mob;
 pub mod request;
 pub mod response;
+pub mod notification;

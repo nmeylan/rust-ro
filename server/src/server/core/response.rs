@@ -1,5 +1,6 @@
 use std::net::TcpStream;
 use std::sync::{Arc, RwLock};
+
 pub struct Response {
     socket: Arc<RwLock<TcpStream>>,
     packet: Vec<u8>,
