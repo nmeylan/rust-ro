@@ -26,6 +26,7 @@ use crate::server::handler::map::{handle_char_loaded_client_side, handle_map_ite
 use crate::util::tick::get_tick;
 use std::io::Write;
 use rathena_script_lang_interpreter::lang::vm::Vm;
+use crate::server::core::notification::Notification;
 use crate::server::core::request::Request;
 use crate::server::core::response::Response;
 use crate::server::handler::action::npc::{handle_contact_npc, handle_player_choose_menu, handle_player_input_number, handle_player_input_string, handle_player_next, handle_player_purchase_items, handle_player_select_deal_type};
@@ -93,6 +94,16 @@ impl Server {
         session_ref.clone()
     }
 
+    pub fn get_map_socket_for_account_id(&self, account_id: u32) -> Option<Arc<RwLock<TcpStream>>> {
+        let sessions = self.sessions.read().unwrap();
+        let maybe_session = sessions.get(&account_id);
+        if let Some(session) = maybe_session {
+            session.map_server_socket.clone()
+        } else {
+            None
+        }
+    }
+
     pub fn get_map_socket_for_char_id(&self, char_id: u32) -> Option<Arc<RwLock<TcpStream>>> {
         let sessions = self.sessions.read().unwrap();
         let maybe_session = sessions.iter().find(|(_, session)| {
@@ -128,9 +139,7 @@ impl Server {
     pub fn packetver(&self) -> u32 {
         self.configuration.server.packetver
     }
-}
 
-impl Server {
     pub fn new(configuration: Config, repository: Arc<Repository>, maps: HashMap<String, Arc<Map>>, map_items: Arc<RwLock<HashMap<u32, Arc<dyn MapItem>>>>, vm: Arc<Vm>) -> Server {
         Server {
             configuration,
@@ -169,20 +178,10 @@ impl Server {
 
         // let (server_sender, server_receiver) = channel();
         let (response_sender, single_response_receiver) = std::sync::mpsc::sync_channel::<Response>(0);
-        crate::server::request_thread::build(server_ref, port, response_sender);
-        crate::server::response_thread::build(single_response_receiver)
-    }
-
-    fn server_thread(server_receiver: Arc<Server>) {
-        // thread::scope(|s| {
-        //     thread::Builder::new().name("server-main-thread".to_string()).spawn(move || {
-        //         loop {
-        //             let msg = tokio::select! {
-        //
-        //             }
-        //         }
-        //     })
-        // });
+        let (client_notification_sender, single_client_notification_receiver) = std::sync::mpsc::sync_channel::<Notification>(0);
+        crate::server::request_thread::build(server_ref.clone(), port, response_sender, client_notification_sender);
+        crate::server::response_thread::build(single_response_receiver);
+        Self::build(server_ref.clone(), single_client_notification_receiver)
     }
 
 

@@ -150,8 +150,7 @@ pub fn change_map_packet(destination_map: &String, x: u16, y: u16, session: Arc<
     let map_name: String = Map::name_without_ext(destination_map.to_string());
     debug!("Char enter on map {}", map_name);
     let map_ref = server.maps.get(&map_name).unwrap();
-    let map = map_ref.clone();
-    let map_instance = map.player_join_map(character_session.clone(), server.clone());
+    let map_instance = map_ref.player_join_map(character_session.clone(), server.clone());
     if x == RANDOM_CELL.0 && y == RANDOM_CELL.1 {
         let walkable_cell = Map::find_random_walkable_cell(&map_instance.cells, map_instance.x_size);
         character_session.update_position(walkable_cell.0, walkable_cell.1);

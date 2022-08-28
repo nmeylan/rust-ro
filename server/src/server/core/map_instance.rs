@@ -14,8 +14,10 @@ use crate::util::coordinate;
 use crate::util::packet::{chain_packets_raws};
 use packets::packets::Packet;
 use std::io::Write;
+use std::sync::mpsc::SyncSender;
 use rathena_script_lang_interpreter::lang::vm::Vm;
 use crate::ScriptHandler;
+use crate::server::core::notification::{CharNotification, Notification};
 
 pub struct MapInstance {
     pub name: String,
@@ -43,7 +45,8 @@ pub struct MapInstance {
     pub mob_spawns_tracks: RwLock<Vec<MobSpawnTrack>>,
     pub mobs: RwLock<HashMap<u32, Arc<Mob>>>,
     pub characters: RwLock<HashSet<Arc<dyn MapItem>>>,
-    pub map_items: RwLock<HashSet<Arc<dyn MapItem>>>
+    pub map_items: RwLock<HashSet<Arc<dyn MapItem>>>,
+    // pub client_notification_channel: SyncSender<Notification>,
 }
 
 pub struct MobSpawnTrack {
@@ -193,6 +196,8 @@ impl MapInstance {
             let map_socket_guard = write_lock!(character.map_server_socket);
             let character_socket = map_socket_guard.as_ref().unwrap();
             socket_send_deprecated!(character_socket, &packets);
+            // self.client_notification_channel.send(Notification::Char(
+            //     CharNotification::new(character.account_id, packets)));
         }
     }
 

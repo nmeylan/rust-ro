@@ -7,3 +7,4 @@ pub mod configuration;
 pub mod script;
 pub mod request_thread;
 pub mod response_thread;
+pub mod client_notification_thread;

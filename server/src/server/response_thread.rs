@@ -1,3 +1,4 @@
+/// This thread handle response to clients requests
 use std::sync::mpsc::Receiver;
 use std::thread;
 use std::thread::JoinHandle;
