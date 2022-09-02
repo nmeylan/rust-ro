@@ -64,7 +64,7 @@ pub async fn main() {
     let server_ref = Arc::new(server);
     let server_ref_clone = server_ref.clone();
     let mut handles: Vec<JoinHandle<()>> = Vec::new();
-    let _ = &handles.push(Server::start(server_ref_clone));
+    Server::start(server_ref_clone);
     let char_proxy = CharProxy::new(&config.proxy);
     let map_proxy = MapProxy::new(&config.proxy);
     let _ = &handles.push(char_proxy.proxy(config.server.packetver));

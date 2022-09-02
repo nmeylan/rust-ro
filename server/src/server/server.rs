@@ -1,36 +1,39 @@
 use std::any::Any;
-use packets::packets::{Packet, PacketUnknown, PacketCaLogin, PacketChEnter, PacketChMakeChar2, PacketChDeleteChar4Reserved, PacketCzEnter2, PacketChSelectChar, PacketCzRestart, PacketCzReqDisconnect2, PacketCzRequestMove2, PacketCzNotifyActorinit, PacketCzBlockingPlayCancel, PacketCzRequestAct2, PacketCzReqnameall2, PacketCzPlayerChat, PacketChMakeChar3, PacketChMakeChar, PacketCzRequestMove, PacketCzReqname, PacketCzRequestTime, PacketZcNotifyTime, PacketCzContactnpc, PacketCzReqNextScript, PacketCzChooseMenu, PacketCzInputEditdlg, PacketCzInputEditdlgstr, PacketCzAckSelectDealtype, PacketCzPcPurchaseItemlist};
-use std::sync::{Arc, RwLock, RwLockWriteGuard};
-use std::thread::{JoinHandle};
-use crate::repository::Repository;
+use std::cell::RefCell;
 use std::collections::HashMap;
-use tokio::runtime::Runtime;
-use std::io::{Read};
-use std::net::{TcpStream, TcpListener, Shutdown};
+use std::io::Read;
+use std::io::Write;
+use std::net::{Shutdown, TcpListener, TcpStream};
+use std::sync::{Arc, RwLock, RwLockWriteGuard};
+use std::sync::mpsc::{Receiver, SyncSender};
+use std::thread::Scope;
 use std::thread;
-use log::{error};
-use rand::{Rng};
+
+use lazy_static::lazy_static;
+use log::error;
+use rand::Rng;
+use rathena_script_lang_interpreter::lang::vm::Vm;
+use tokio::runtime::Runtime;
+
+use packets::packets::{Packet, PacketCaLogin, PacketChDeleteChar4Reserved, PacketChEnter, PacketChMakeChar, PacketChMakeChar2, PacketChMakeChar3, PacketChSelectChar, PacketCzAckSelectDealtype, PacketCzBlockingPlayCancel, PacketCzChooseMenu, PacketCzContactnpc, PacketCzEnter2, PacketCzInputEditdlg, PacketCzInputEditdlgstr, PacketCzNotifyActorinit, PacketCzPcPurchaseItemlist, PacketCzPlayerChat, PacketCzReqDisconnect2, PacketCzReqname, PacketCzReqnameall2, PacketCzReqNextScript, PacketCzRequestAct2, PacketCzRequestMove, PacketCzRequestMove2, PacketCzRequestTime, PacketCzRestart, PacketUnknown, PacketZcNotifyTime};
 use packets::packets_parser::parse;
+
+use crate::repository::Repository;
 use crate::server::configuration::Config;
 use crate::server::core::map::{Map, MapItem};
-use crate::server::core::session::{Session, SessionsIter};
-use crate::server::handler::action::attack::handle_attack;
-use crate::server::handler::char::{handle_blocking_play_cancel, handle_char_enter, handle_delete_reserved_char, handle_disconnect, handle_enter_game, handle_make_char, handle_restart, handle_select_char};
-use crate::server::handler::login::handle_login;
-use crate::server::handler::movement::handle_char_move;
-use lazy_static::lazy_static;
-use crate::server::enums::map_item::MapItemType;
-use std::cell::RefCell;
-use crate::server::handler::atcommand::handle_atcommand;
-use crate::server::handler::map::{handle_char_loaded_client_side, handle_map_item_name};
-use crate::util::tick::get_tick;
-use std::io::Write;
-use rathena_script_lang_interpreter::lang::vm::Vm;
 use crate::server::core::notification::Notification;
 use crate::server::core::request::Request;
 use crate::server::core::response::Response;
+use crate::server::core::session::{Session, SessionsIter};
+use crate::server::enums::map_item::MapItemType;
+use crate::server::handler::action::attack::handle_attack;
 use crate::server::handler::action::npc::{handle_contact_npc, handle_player_choose_menu, handle_player_input_number, handle_player_input_string, handle_player_next, handle_player_purchase_items, handle_player_select_deal_type};
+use crate::server::handler::char::{handle_blocking_play_cancel, handle_char_enter, handle_delete_reserved_char, handle_disconnect, handle_enter_game, handle_make_char, handle_restart, handle_select_char};
 use crate::server::handler::chat::handle_chat;
+use crate::server::handler::login::handle_login;
+use crate::server::handler::map::{handle_char_loaded_client_side, handle_map_item_name};
+use crate::server::handler::movement::handle_char_move;
+use crate::util::tick::get_tick;
 
 // Todo make this configurable
 pub const PLAYER_FOV: u16 = 14;
@@ -147,7 +150,7 @@ impl Server {
             repository,
             maps,
             map_items,
-            vm
+            vm,
         }
     }
 
@@ -173,17 +176,72 @@ impl Server {
         id
     }
 
-    pub fn start(server_ref: Arc<Server>) -> JoinHandle<()> {
+    pub fn start<'server>(server_ref: Arc<Server>) {
         let port = server_ref.configuration.server.port;
 
-        // let (server_sender, server_receiver) = channel();
         let (response_sender, single_response_receiver) = std::sync::mpsc::sync_channel::<Response>(0);
         let (client_notification_sender, single_client_notification_receiver) = std::sync::mpsc::sync_channel::<Notification>(0);
-        crate::server::request_thread::build(server_ref.clone(), port, response_sender, client_notification_sender);
-        crate::server::response_thread::build(single_response_receiver);
-        Self::build(server_ref.clone(), single_client_notification_receiver)
+        thread::scope(|server_thread_scope: &Scope| {
+            let listener = TcpListener::bind(format!("0.0.0.0:{}", port)).unwrap();
+            info!("Server listen on 0.0.0.0:{}", port);
+            let server_shared_ref = server_ref.clone();
+            server_thread_scope.spawn(move || {
+                for tcp_stream in listener.incoming() {
+                    // Receive new connection, starting new thread
+                    let server_shared_ref = server_shared_ref.clone();
+                    debug!("Received new connection");
+                    let response_sender_clone = response_sender.clone();
+                    let client_notification_sender_clone = client_notification_sender.clone();
+                    server_thread_scope.spawn(move || {
+                        PACKETVER.with(|ver| *ver.borrow_mut() = server_shared_ref.packetver());
+                        let runtime = Runtime::new().unwrap();
+                        let mut tcp_stream = tcp_stream.unwrap();
+                        let tcp_stream_arc = Arc::new(RwLock::new(tcp_stream.try_clone().unwrap())); // todo remove this clone
+                        let mut buffer = [0; 2048];
+                        loop {
+                            match tcp_stream.read(&mut buffer) {
+                                Ok(bytes_read) => {
+                                    if bytes_read == 0 {
+                                        tcp_stream.shutdown(Shutdown::Both).expect("Unable to shutdown incoming socket. Shutdown was done because remote socket seems cloded.");
+                                        break;
+                                    }
+                                    let mut packet = parse(&mut buffer[..bytes_read], server_shared_ref.packetver());
+                                    let context = Request::new(&runtime, None, server_shared_ref.packetver(), tcp_stream_arc.clone(), packet.as_ref(), response_sender_clone.clone(), client_notification_sender_clone.clone());
+                                    server_shared_ref.handle(server_shared_ref.clone(), context);
+                                }
+                                Err(err) => error!("{}", err)
+                            }
+                        }
+                    });
+                }
+            });
+            server_thread_scope.spawn(move || {
+                for response in single_response_receiver.iter() {
+                    let tcp_stream = &response.socket();
+                    let data = response.serialized_packet();
+                    let mut tcp_stream_guard = tcp_stream.write().unwrap();
+                    debug!("Respond with: {:02X?}", data);
+                    tcp_stream_guard.write_all(data).unwrap();
+                    tcp_stream_guard.flush().unwrap();
+                }
+            });
+            server_thread_scope.spawn(move || {
+                for response in single_client_notification_receiver.iter() {
+                    match response {
+                        Notification::Char(char_notification) => {
+                            let tcp_stream = server_ref.get_map_socket_for_account_id(char_notification.account_id()).expect("Expect to found a socket for account");
+                            let data = char_notification.serialized_packet();
+                            let mut tcp_stream_guard = tcp_stream.write().unwrap();
+                            debug!("Respond with: {:02X?}", data);
+                            tcp_stream_guard.write_all(data).unwrap();
+                            tcp_stream_guard.flush().unwrap();
+                        }
+                        Notification::Area(_) => {}
+                    }
+                }
+            });
+        });
     }
-
 
     pub fn handle(&self, server: Arc<Server>, mut context: Request) {
         let self_ref = server;
@@ -348,7 +406,7 @@ impl Server {
             // TODO uncomment below. keep it comment while we need to proxy data to hercules, so until forever
             // stream_guard.shutdown(Both);
             debug!("Session does not exist! for socket {:?}", stream_guard);
-            return None
+            return None;
         }
         Some(session_option.unwrap())
     }
