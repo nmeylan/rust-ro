@@ -41,8 +41,8 @@ Database:
 - mob move
 - NPC scripts (partially: see https://github.com/nmeylan/rust-ro/issues/3)
 
-# NPC/Script (wip) 👷
-- VM is implemented here https://github.com/nmeylan/rathena-script-lang-interpreter
+# Currently working on 👷
+- Refactoring server architecture
 
 
 https://user-images.githubusercontent.com/1909074/178155321-d3eeb4b8-32ed-4901-bbfe-b101b1a5a56d.mp4
