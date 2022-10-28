@@ -1,6 +1,9 @@
 # rust-ro
 Ragnarok mmo server reimplementation for fun. Inspired by [herculesWS](https://github.com/HerculesWS/Hercules) and [rathena](https://github.com/rathena/rathena)
 
+# Status
+**slowly** refactoring server architecture
+
 # Pre-requisite
 - mysql
 - RO db (loaded via rathena scripts)
@@ -17,9 +20,6 @@ In proxy mode:
 
 Database:
 - This implementation use `rathena` database structure (used to be `hercules` compatible but switched to `rathena`)
-
-# Currently working on 👷
-- Refactoring server architecture
 
 # What has been done? ✔️
 ## Tools
