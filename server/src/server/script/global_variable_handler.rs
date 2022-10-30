@@ -22,7 +22,7 @@ impl PlayerScriptHandler {
             "char_permanent" => {
                 let char_id = self.session.char_id();
                 let character= self.server.get_character_unsafe(char_id);
-                if self.store_special_char_variable(character, variable_name, &value) {
+                if self.store_special_char_variable(character.as_ref(), variable_name, &value) {
                     return;
                 }
                 if value.is_number() {
@@ -73,7 +73,7 @@ impl PlayerScriptHandler {
                 }
                 let char_id = self.session.char_id();
                 let character = self.server.get_character_unsafe(char_id);
-                if let Some(value) = Self::load_special_char_variable(character, variable_name) {
+                if let Some(value) = Self::load_special_char_variable(character.as_ref(), variable_name) {
                     execution_thread.push_constant_on_stack(value);
                     return;
                 }
@@ -124,9 +124,9 @@ impl PlayerScriptHandler {
     pub fn handle_setglobalarray(&self, params: &Vec<Value>) {
         let variable_name = params[0].string_value().unwrap();
         let variable_scope = params[1].string_value().unwrap();
+        let char_id = self.session.char_id();
+        let character = self.server.get_character_unsafe(char_id);
         let mut char_temporary_mutex = if variable_scope == "char_temporary" {
-            let char_id = self.session.char_id();
-            let character = self.server.get_character_unsafe(char_id);
             Some(character.script_variable_store.lock().unwrap())
         } else {
             None
@@ -180,9 +180,9 @@ impl PlayerScriptHandler {
         let variable_name = params[0].string_value().unwrap();
         let variable_scope = params[1].string_value().unwrap();
 
+        let char_id = self.session.char_id();
+        let character = self.server.get_character_unsafe(char_id);
         let mut char_temporary_mutex = if variable_scope == "char_temporary" {
-            let char_id = self.session.char_id();
-            let character = self.server.get_character_unsafe(char_id);
             Some(character.script_variable_store.lock().unwrap())
         } else {
             None

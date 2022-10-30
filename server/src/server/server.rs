@@ -1,9 +1,11 @@
 use std::any::Any;
-use std::cell::{RefCell, RefMut};
+use std::borrow::Borrow;
+use std::cell::{Ref, RefCell, RefMut};
 use std::collections::HashMap;
 use std::io::Read;
 use std::io::Write;
 use std::net::{Shutdown, TcpListener, TcpStream};
+use std::ops::Deref;
 use std::sync::{Arc, RwLock, RwLockWriteGuard};
 use std::sync::mpsc::{Receiver, SyncSender};
 use std::thread::Scope;
@@ -52,7 +54,7 @@ pub struct Server {
     pub repository: Arc<Repository>,
     pub maps: HashMap<String, Arc<Map>>,
     map_items: RefCell<HashMap<u32, MapItem>>,
-    pub characters: HashMap<u32, Character>,
+    pub characters: RefCell<HashMap<u32, Arc<Character>>>,
     pub vm: Arc<Vm>,
 }
 
@@ -70,12 +72,13 @@ impl Server {
         session_ref.clone()
     }
 
-    pub fn get_character_unsafe(&self, char_id: u32) -> &Character {
-        self.characters.get(&char_id).as_ref().expect(format!("Expected to find a character for char_id {}", char_id).as_str())
+    pub fn get_character_unsafe(&self, char_id: u32) -> Arc<Character>{
+        self.characters.borrow().get(&char_id).expect(format!("Expected to find a character for char_id {}", char_id).as_str()).clone()
+        // Ref::map(self.characters.borrow(), |characters| characters.get(&char_id).expect(format!("Expected to find a character for char_id {}", char_id).as_str()).clone())
     }
 
-    pub fn get_character(&self, char_id: u32) -> Option<&Character> {
-        self.characters.get(&char_id)
+    pub fn insert_character(&self, character: Character) {
+        self.characters.borrow_mut().insert(character.char_id, Arc::new(character));
     }
 
     pub fn get_map_socket_for_account_id(&self, account_id: u32) -> Option<Arc<RwLock<TcpStream>>> {

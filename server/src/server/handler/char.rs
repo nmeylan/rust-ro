@@ -1,3 +1,4 @@
+use std::borrow::BorrowMut;
 use std::collections::HashSet;
 use packets::packets::{Packet, PacketChEnter, PacketHcRefuseEnter, CharacterInfoNeoUnion, PacketHcAcceptEnterNeoUnionHeader, PacketHcAcceptEnterNeoUnion, PacketPincodeLoginstate, PacketHcAcceptMakecharNeoUnion, PacketChDeleteChar4Reserved, PacketHcDeleteChar4Reserved, PacketChSelectChar, PacketChSendMapInfo, PacketCzEnter2, PacketMapConnection, PacketZcInventoryExpansionInfo, PacketZcOverweightPercent, PacketZcAcceptEnter2, PacketZcStatusValues, PacketZcParChange, PacketZcAttackRange, PacketZcNotifyChat, PacketCzRestart, PacketZcRestartAck, PacketZcReqDisconnectAck2, PacketZcLoadConfirm, PacketChMakeChar3, PacketChMakeChar, PacketHcNotifyZonesvr, ZserverAddr};
 use tokio::runtime::Runtime;
@@ -200,11 +201,13 @@ pub fn handle_select_char(server: Arc<Server>, context: Request) {
         script_variable_store: Mutex::new(ScriptGlobalVariableStore::default()),
         account_id: session_id
     };
-    let session = Arc::new(context.session().recreate_with_character(character.char_id));
+    let char_id = character.char_id;
+    let session = Arc::new(context.session().recreate_with_character(char_id));
+    server.insert_character(character);
     sessions_guard.insert(session_id, session);
     if server.packetver() < 20170329 {
         let mut packet_ch_send_map_info = PacketHcNotifyZonesvr::new();
-        packet_ch_send_map_info.set_gid(character.char_id);
+        packet_ch_send_map_info.set_gid(char_id);
         packet_ch_send_map_info.set_map_name(map_name);
         let mut zserver_addr = ZserverAddr::new();
         zserver_addr.set_ip(16777343); // 7F 00 00 01 -> to little endian -> 01 00 00 7F
