@@ -197,19 +197,14 @@ pub fn handle_select_char(server: Arc<Server>, context: Request) {
         map_view: RwLock::new(HashSet::new()),
         current_map: RwLock::new(None),
         self_ref: RwLock::new(None),
-        map_server_socket: Default::default(),
         script_variable_store: Mutex::new(ScriptGlobalVariableStore::default()),
         account_id: session_id
     };
-    let char_session_ref = Arc::new(character);
-    {
-        char_session_ref.set_self_ref(char_session_ref.clone());
-    }
-    let session = Arc::new(context.session().recreate_with_character(char_session_ref));
+    let session = Arc::new(context.session().recreate_with_character(character.char_id));
     sessions_guard.insert(session_id, session);
     if server.packetver() < 20170329 {
         let mut packet_ch_send_map_info = PacketHcNotifyZonesvr::new();
-        packet_ch_send_map_info.set_gid(char_id);
+        packet_ch_send_map_info.set_gid(character.char_id);
         packet_ch_send_map_info.set_map_name(map_name);
         let mut zserver_addr = ZserverAddr::new();
         zserver_addr.set_ip(16777343); // 7F 00 00 01 -> to little endian -> 01 00 00 7F
@@ -254,7 +249,6 @@ pub fn handle_enter_game(server: Arc<Server>, context: Request) {
         return;
     }
     let session = Arc::new(session.recreate_with_map_socket(context.socket().clone()));
-    session.character.as_ref().unwrap().set_map_socket(context.socket().clone());
     sessions_guard.insert(aid, session.clone());
     let mut packet_map_connection = PacketMapConnection::new();
     packet_map_connection.set_aid(session.account_id);
@@ -274,9 +268,10 @@ pub fn handle_enter_game(server: Arc<Server>, context: Request) {
     packet_accept_enter.set_y_size(5); // Commented as not used, set at 5 in Hercules
     packet_accept_enter.set_font(0);
     packet_accept_enter.fill_raw();
-    let character = session.character();
+    let char_id = session.char_id();
+    let character = server.get_character_unsafe(char_id);
 
-    let packet_zc_npcack_mapmove = change_map_packet(&Map::name_without_ext(character.get_current_map_name()), character.get_x(), character.get_y(), session.clone(), server.clone());
+    let packet_zc_npcack_mapmove = change_map_packet(&Map::name_without_ext(character.get_current_map_name()), character.x(), character.y(), session.clone(), server.clone());
     let final_response_packet: Vec<u8> = chain_packets(vec![&packet_accept_enter, &packet_zc_npcack_mapmove]);
     // let final_response_packet: Vec<u8> = chain_packets(vec![&packet_inventory_expansion_info, &packet_overweight_percent, &packet_accept_enter, &packet_zc_npcack_mapmove]);
     socket_send_raw!(context, final_response_packet);
@@ -385,7 +380,8 @@ pub fn handle_restart(server: Arc<Server>, context: Request) {
     let session_id = context.session().account_id;
     let mut sessions_guard = write_lock!(server.sessions);
     let session = sessions_guard.get(&session_id).unwrap();
-    let character = session.character.as_ref().unwrap();
+    let char_id = session.char_id();
+    let character = server.get_character_unsafe(char_id);
     character.remove_from_existing_map();
 
     let session = sessions_guard.get(&session_id).unwrap();
@@ -400,7 +396,8 @@ pub fn handle_restart(server: Arc<Server>, context: Request) {
 
 pub fn handle_disconnect(server: Arc<Server>, context: Request) {
     let session = context.session();
-    let character = session.character.as_ref().unwrap();
+    let char_id = session.char_id();
+    let character = server.get_character_unsafe(char_id);
     character.remove_from_existing_map();
     server.remove_session(session.account_id);
 

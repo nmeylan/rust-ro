@@ -1,5 +1,5 @@
 use std::any::Any;
-use std::cell::RefCell;
+use std::cell::{RefCell, RefMut};
 use std::collections::HashMap;
 use std::io::Read;
 use std::io::Write;
@@ -20,6 +20,8 @@ use packets::packets_parser::parse;
 
 use crate::repository::Repository;
 use crate::server::configuration::Config;
+use crate::server::core::character::Character;
+use crate::server::core::game_update::GameUpdate;
 use crate::server::core::map::{Map, MapItem};
 use crate::server::core::notification::Notification;
 use crate::server::core::request::Request;
@@ -40,51 +42,22 @@ pub const PLAYER_FOV: u16 = 14;
 pub const PLAYER_FOV_SLICE_LEN: usize = ((PLAYER_FOV * 2) * (PLAYER_FOV * 2)) as usize;
 pub const MOB_FOV: u16 = 14;
 pub const MOB_FOV_SLICE_LEN: usize = ((MOB_FOV * 2) * (MOB_FOV * 2)) as usize;
+pub const UNKNOWN_MAP_ITEM: MapItem = MapItem::unknown();
 
-lazy_static! {
-    pub static ref UNKNOWN_MAP_ITEM: Arc<dyn MapItem> = Arc::new(UnknownMapItem {});
-}
 thread_local!(pub static PACKETVER: RefCell<u32> = RefCell::new(0));
 
-#[derive(Clone)]
 pub struct Server {
     pub configuration: Config,
     pub sessions: Arc<RwLock<HashMap<u32, Arc<Session>>>>,
     pub repository: Arc<Repository>,
     pub maps: HashMap<String, Arc<Map>>,
-    pub map_items: Arc<RwLock<HashMap<u32, Arc<dyn MapItem>>>>,
+    map_items: RefCell<HashMap<u32, MapItem>>,
+    pub characters: HashMap<u32, Character>,
     pub vm: Arc<Vm>,
 }
 
-pub struct UnknownMapItem;
-
-impl MapItem for UnknownMapItem {
-    fn id(&self) -> u32 {
-        0
-    }
-    fn x(&self) -> u16 {
-        0
-    }
-    fn y(&self) -> u16 {
-        0
-    }
-
-    fn client_item_class(&self) -> i16 {
-        0
-    }
-
-    fn object_type(&self) -> i16 {
-        MapItemType::Unknown.value()
-    }
-
-    fn name(&self) -> String {
-        String::from("unknown")
-    }
-
-    fn as_any(&self) -> &dyn Any {
-        self
-    }
-}
+unsafe impl Sync for Server{}
+unsafe impl Send for Server{}
 
 impl Server {
     pub fn remove_session(&self, session_id: u32) {
@@ -95,6 +68,14 @@ impl Server {
         let sessions = self.sessions.read().unwrap();
         let session_ref = sessions.get(&session_id).unwrap();
         session_ref.clone()
+    }
+
+    pub fn get_character_unsafe(&self, char_id: u32) -> &Character {
+        self.characters.get(&char_id).as_ref().expect(format!("Expected to find a character for char_id {}", char_id).as_str())
+    }
+
+    pub fn get_character(&self, char_id: u32) -> Option<&Character> {
+        self.characters.get(&char_id)
     }
 
     pub fn get_map_socket_for_account_id(&self, account_id: u32) -> Option<Arc<RwLock<TcpStream>>> {
@@ -110,24 +91,8 @@ impl Server {
     pub fn get_map_socket_for_char_id(&self, char_id: u32) -> Option<Arc<RwLock<TcpStream>>> {
         let sessions = self.sessions.read().unwrap();
         let maybe_session = sessions.iter().find(|(_, session)| {
-            return if let Some(char) = session.character.as_ref() {
-                char.char_id == char_id
-            } else {
-                false
-            };
-        });
-        if let Some((_, session)) = maybe_session {
-            session.map_server_socket.clone()
-        } else {
-            None
-        }
-    }
-
-    pub fn get_map_socket_for_char_with_name(&self, name: &String) -> Option<Arc<RwLock<TcpStream>>> {
-        let sessions = self.sessions.read().unwrap();
-        let maybe_session = sessions.iter().find(|(_, session)| {
-            return if let Some(char) = session.character.as_ref() {
-                char.name.eq(name)
+            return if let Some(char) = session.char_id.as_ref() {
+                *char == char_id
             } else {
                 false
             };
@@ -143,33 +108,32 @@ impl Server {
         self.configuration.server.packetver
     }
 
-    pub fn new(configuration: Config, repository: Arc<Repository>, maps: HashMap<String, Arc<Map>>, map_items: Arc<RwLock<HashMap<u32, Arc<dyn MapItem>>>>, vm: Arc<Vm>) -> Server {
+    pub fn new(configuration: Config, repository: Arc<Repository>, maps: HashMap<String, Arc<Map>>, map_items: RefCell<HashMap<u32, MapItem>>, vm: Arc<Vm>) -> Server {
         Server {
             configuration,
             sessions: Arc::new(RwLock::new(HashMap::<u32, Arc<Session>>::new())),
             repository,
             maps,
             map_items,
+            characters: Default::default(),
             vm,
         }
     }
 
     pub fn generate_map_item_id(&self) -> u32 {
-        let mut map_items = write_lock!(self.map_items);
-        Server::generate_id(&mut map_items)
+        Server::generate_id(&mut self.map_items.borrow_mut())
     }
 
-    pub fn insert_map_item(&self, id: u32, map_item: Arc<dyn MapItem>) {
-        let mut map_items = write_lock!(self.map_items);
-        map_items.insert(id, map_item);
+    pub fn insert_map_item(&self, id: u32, map_item: MapItem) {
+        self.map_items.borrow_mut().insert(id, map_item);
     }
 
-    pub fn generate_id(map_items: &mut RwLockWriteGuard<HashMap<u32, Arc<dyn MapItem>>>) -> u32 {
+    pub fn generate_id(map_items: &mut RefMut<HashMap<u32, MapItem>>) -> u32 {
         let mut id: u32;
         loop {
             id = rand::thread_rng().gen::<u32>();
             if !map_items.contains_key(&id) {
-                map_items.insert(id, UNKNOWN_MAP_ITEM.clone());
+                map_items.insert(id, UNKNOWN_MAP_ITEM);
                 break;
             }
         }
@@ -180,6 +144,7 @@ impl Server {
         let port = server_ref.configuration.server.port;
 
         let (response_sender, single_response_receiver) = std::sync::mpsc::sync_channel::<Response>(0);
+        let (game_update_sender, single_game_update_receiver) = std::sync::mpsc::sync_channel::<GameUpdate>(0);
         let (client_notification_sender, single_client_notification_receiver) = std::sync::mpsc::sync_channel::<Notification>(0);
         thread::scope(|server_thread_scope: &Scope| {
             let listener = TcpListener::bind(format!("0.0.0.0:{}", port)).unwrap();
@@ -215,6 +180,7 @@ impl Server {
                     });
                 }
             });
+            /// Start a thread sending response packet to client request
             server_thread_scope.spawn(move || {
                 for response in single_response_receiver.iter() {
                     let tcp_stream = &response.socket();
@@ -225,6 +191,7 @@ impl Server {
                     tcp_stream_guard.flush().unwrap();
                 }
             });
+            /// Start a thread sending packet to notify client from game update
             server_thread_scope.spawn(move || {
                 for response in single_client_notification_receiver.iter() {
                     match response {
@@ -239,6 +206,12 @@ impl Server {
                         Notification::Area(_) => {}
                     }
                 }
+            });
+
+            server_thread_scope.spawn(move || {
+                // loop {
+                //
+                // }
             });
         });
     }
@@ -329,7 +302,7 @@ impl Server {
         }
         if context.packet().as_any().downcast_ref::<PacketCzRequestAct2>().is_some() {
             debug!("PacketCzRequestAct2");
-            return handle_attack(context);
+            return handle_attack(self_ref, context);
         }
 
         if context.packet().as_any().downcast_ref::<PacketCzReqnameall2>().is_some() {
