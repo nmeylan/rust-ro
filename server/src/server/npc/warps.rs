@@ -26,35 +26,6 @@ pub struct Warp {
     pub to_y: u16,
 }
 
-impl MapItem for Warp {
-    fn id(&self) -> u32 {
-        self.id
-    }
-
-    fn client_item_class(&self) -> i16 {
-        45
-    }
-    fn object_type(&self) -> i16 {
-        MapItemType::Warp.value()
-    }
-
-    fn name(&self) -> String {
-        String::from("warp")
-    }
-
-    fn x(&self) -> u16 {
-        self.x
-    }
-
-    fn y(&self) -> u16 {
-        self.y
-    }
-
-    fn as_any(&self) -> &dyn Any{
-        self
-    }
-}
-
 impl Npc for Warp {
     fn parse_npc(file: &File) -> Result<Vec<Warp>, String> {
         let reader = BufReader::new(file);
@@ -109,6 +80,10 @@ impl Warp {
             to_x: 0,
             to_y: 0
         }
+    }
+
+    pub fn to_map_item(&self) -> MapItem {
+        MapItem::new(self.id, 45, MapItemType::Warp)
     }
 
     pub async fn load_warps() -> HashMap<String, Vec<Warp>> {

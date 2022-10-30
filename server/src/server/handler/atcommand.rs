@@ -122,9 +122,10 @@ pub fn handle_warp(server: Arc<Server>, session: Arc<Session>, runtime: &Runtime
                 y = parse_y_res.unwrap();
             }
         }
-        change_map(&map_name, x, y, session.clone(), server, Some(runtime));
-        let char_session = session.character.as_ref().unwrap();
-        return format!("Warp to map {} at {},{}", map_name, char_session.get_x(), char_session.get_y());
+        change_map(&map_name, x, y, session.clone(), server.clone(), Some(runtime));
+        let char_id = session.char_id();
+        let character = server.get_character_unsafe(char_id);
+        return format!("Warp to map {} at {},{}", map_name, character.x(), character.y());
     }
     format!("Map not found: {}", map_name)
 }

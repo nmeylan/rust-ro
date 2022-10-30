@@ -87,7 +87,8 @@ pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<
             for path_node in path {
                 let delay: u64;
                 {
-                    let character = session.character();
+                    let char_id = session.char_id();
+                    let character = server.get_character_unsafe(char_id);
                     let mut movement_tasks_guard = character.movement_tasks.lock().unwrap();
                     if !movement_tasks_guard.contains(&current_movement_task_id) {
                         has_been_canceled = true;
@@ -123,7 +124,7 @@ pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<
         if !has_been_canceled {
             {
                 let session_clone = session.clone();
-                let character = session_clone.character();
+                let character = server.get_character_unsafe(session.char_id());
                 character.remove_movement_task_id(current_movement_task_id);
             }
             save_character_position(server.clone(), session.clone()).await;
@@ -135,7 +136,7 @@ pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<
 pub fn change_map(destination_map: &String, x: u16, y: u16, session: Arc<Session>, server: Arc<Server>, runtime: Option<&Runtime>) {
     let packet_zc_npcack_mapmove = change_map_packet(destination_map, x, y, session.clone(), server.clone());
     session.send_to_map_socket(packet_zc_npcack_mapmove.raw());
-    let character_session = session.character();
+    let character_session = server.get_character_unsafe(session.char_id());
     character_session.clear_map_view();
     if let Some(runtime) = runtime {
         runtime.spawn(async move {
@@ -145,21 +146,22 @@ pub fn change_map(destination_map: &String, x: u16, y: u16, session: Arc<Session
 }
 
 pub fn change_map_packet(destination_map: &String, x: u16, y: u16, session: Arc<Session>, server: Arc<Server>) -> PacketZcNpcackMapmove {
-    let character_session = session.character();
-    character_session.remove_from_existing_map();
+    let char_id = session.char_id();
+    let character = server.get_character_unsafe(char_id);
+    character.remove_from_existing_map();
     let map_name: String = Map::name_without_ext(destination_map.to_string());
     debug!("Char enter on map {}", map_name);
     let map_ref = server.maps.get(&map_name).unwrap();
-    let map_instance = map_ref.player_join_map(character_session.clone(), server.clone());
+    let map_instance = map_ref.player_join_map(server.clone());
     if x == RANDOM_CELL.0 && y == RANDOM_CELL.1 {
         let walkable_cell = Map::find_random_walkable_cell(&map_instance.cells, map_instance.x_size);
-        character_session.update_position(walkable_cell.0, walkable_cell.1);
+        character.update_position(walkable_cell.0, walkable_cell.1);
     } else {
-        character_session.update_position(x, y);
+        character.update_position(x, y);
     }
 
-    character_session.join_and_set_map(map_instance);
-    server.insert_map_item(session.account_id, character_session.clone());
+    character.join_and_set_map(map_instance);
+    server.insert_map_item(session.account_id, character.to_map_item());
 
     let mut packet_zc_npcack_mapmove = PacketZcNpcackMapmove::new();
 
@@ -167,14 +169,15 @@ pub fn change_map_packet(destination_map: &String, x: u16, y: u16, session: Arc<
     let map_name = format!("{}{}", destination_map, MAP_EXT);
     map_name.fill_char_array(new_current_map.as_mut());
     packet_zc_npcack_mapmove.set_map_name(new_current_map);
-    packet_zc_npcack_mapmove.set_x_pos(character_session.x() as i16);
-    packet_zc_npcack_mapmove.set_y_pos(character_session.y() as i16);
+    packet_zc_npcack_mapmove.set_x_pos(character.x() as i16);
+    packet_zc_npcack_mapmove.set_y_pos(character.y() as i16);
     packet_zc_npcack_mapmove.fill_raw();
     packet_zc_npcack_mapmove.display();
     packet_zc_npcack_mapmove
 }
 
 pub async fn save_character_position(server: Arc<Server>, session: Arc<Session>) -> Result<(), Error> {
-    let character = session.character();
-    server.repository.character_save_position(session.account_id, character.char_id, Map::name_without_ext(character.get_current_map_name()), character.x(), character.y()).await
+    let char_id = session.char_id();
+    let character = server.get_character_unsafe(char_id);
+    server.repository.character_save_position(session.account_id, char_id, Map::name_without_ext(character.get_current_map_name()), character.x(), character.y()).await
 }

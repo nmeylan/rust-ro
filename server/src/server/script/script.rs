@@ -185,7 +185,7 @@ impl NativeMethodHandler for PlayerScriptHandler {
                 // TODO
                 panic!("getlook with char_id not yet supported")
             } else {
-                self.session.character.as_ref().unwrap()
+                self.server.get_character_unsafe(self.session.char_id())
             };
             let look_value = char.get_look(LookType::from_value(look_type as usize));
             execution_thread.push_constant_on_stack(Value::new_number(look_value as i32));
@@ -196,11 +196,11 @@ impl NativeMethodHandler for PlayerScriptHandler {
                 // TODO
                 panic!("setlook with char_id not yet supported")
             } else {
-                self.session.character.as_ref().unwrap()
+                self.server.get_character_unsafe(self.session.char_id())
             };
             char.change_look(LookType::from_value(look_type as usize), look_value as u32, &self.runtime, self.server.clone());
             let mut packet_zc_sprite_change = PacketZcSpriteChange2::new();
-            packet_zc_sprite_change.set_gid(self.session.character.as_ref().unwrap().char_id);
+            packet_zc_sprite_change.set_gid(self.session.char_id());
             packet_zc_sprite_change.set_atype(look_type as u8);
             packet_zc_sprite_change.set_value(look_value);
             packet_zc_sprite_change.fill_raw();
@@ -212,7 +212,7 @@ impl NativeMethodHandler for PlayerScriptHandler {
                 // TODO
                 panic!("setlook with char_id not yet supported")
             } else {
-                self.session.character.as_ref().unwrap()
+                self.server.get_character_unsafe(self.session.char_id())
             };
             let char_info = match info_type {
                 0 => Value::new_string(char.name.clone()),

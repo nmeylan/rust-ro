@@ -6,6 +6,7 @@ use byteorder::{ReadBytesExt, LittleEndian};
 use flate2::read::ZlibDecoder;
 use std::{fs, thread};
 use std::any::Any;
+use std::cell::RefCell;
 use std::time::{Duration, Instant};
 use std::collections::{HashMap, HashSet};
 use std::hash::{Hash, Hasher};
@@ -21,6 +22,7 @@ use crate::Script;
 use crate::server::core::character::Character;
 use crate::server::core::map_instance::MapInstance;
 use crate::server::core::path::{allowed_dirs, DIR_EAST, DIR_NORTH, DIR_SOUTH, DIR_WEST, is_direction};
+use crate::server::enums::map_item::MapItemType;
 use crate::server::npc::mob_spawn::MobSpawn;
 use crate::server::npc::warps::Warp;
 use crate::server::server::Server;
@@ -56,29 +58,55 @@ pub struct Map {
     pub map_instances_count: AtomicI8,
 }
 
-pub trait MapItem: Send + Sync {
-    fn id(&self) -> u32;
-    fn client_item_class(&self) -> i16;
-    fn object_type(&self) -> i16;
-    fn name(&self) -> String;
-    fn x(&self) -> u16;
-    fn y(&self) -> u16;
-    fn as_any(&self) -> &dyn Any;
+#[derive(Debug, Copy, Clone)]
+pub struct MapItem {
+    id: u32,
+    client_item_class: i16,
+    object_type: MapItemType,
 }
 
-impl Hash for dyn MapItem {
+impl MapItem {
+    pub const fn unknown() -> Self {
+        Self {
+            id: 0,
+            client_item_class: 0,
+            object_type: MapItemType::Unknown,
+        }
+    }
+    pub fn new(id: u32, client_item_class: i16, object_type: MapItemType) -> Self {
+        Self {
+            id,
+            client_item_class,
+            object_type,
+        }
+    }
+    pub fn id(&self) -> u32 {
+        self.id
+    }
+    pub fn client_item_class(&self) -> i16 {
+        self.client_item_class
+    }
+    pub fn object_type(&self) -> &MapItemType {
+        &self.object_type
+    }
+    pub fn object_type_value(&self) -> i16 {
+        self.object_type.value()
+    }
+}
+
+impl Hash for MapItem {
     fn hash<H: Hasher>(&self, state: &mut H) {
         self.id().hash(state);
     }
 }
 
-impl PartialEq<Self> for dyn MapItem {
+impl PartialEq<Self> for MapItem {
     fn eq(&self, other: &Self) -> bool {
         self.id() == other.id()
     }
 }
 
-impl Eq for dyn MapItem{}
+impl Eq for MapItem{}
 
 #[derive(Setters)]
 pub struct MapPropertyFlags {
@@ -157,7 +185,7 @@ impl Map {
     // Char interact with instance instead of map directly.
     // Instances will make map lifecycle easier to maintain
     // Only 1 instance will be needed for most use case, but it make possible to wipe map instance after a while when no player are on it. to free memory
-    pub fn player_join_map(&self, _char_session: Arc<Character>, server: Arc<Server>) -> Arc<MapInstance> {
+    pub fn player_join_map(&self, server: Arc<Server>) -> Arc<MapInstance> {
         let map_instance_id = 0_u32;
         let instance_exists;
         {
@@ -236,7 +264,7 @@ impl Map {
 
     fn create_map_instance(&self, server: Arc<Server>, instance_id: u32) -> Arc<MapInstance> {
         info!("create map instance: {} x_size: {}, y_size {}, length: {}", self.name, self.x_size, self.y_size, self.length);
-        let mut map_items: HashSet<Arc<dyn MapItem>> = HashSet::with_capacity(2048);
+        let mut map_items: HashSet<MapItem> = HashSet::with_capacity(2048);
         let cells = self.generate_cells(server.clone(), &mut map_items);
         let map_instance = MapInstance::from_map(self, server.clone(), instance_id, cells, map_items);
         self.map_instances_count.fetch_add(1, Relaxed);
@@ -249,7 +277,7 @@ impl Map {
         map_instance_ref
     }
 
-    pub fn generate_cells(&self, server: Arc<Server>, map_items: &mut HashSet<Arc<dyn MapItem>>) -> Vec<u16> {
+    pub fn generate_cells(&self, server: Arc<Server>, map_items: &mut HashSet<MapItem>) -> Vec<u16> {
         let file_path = Path::join(Path::new(MAP_DIR), format!("{}{}", self.name, MAPCACHE_EXT));
         let file = File::open(file_path).unwrap();
         let mut reader = BufReader::new(file);
@@ -274,10 +302,10 @@ impl Map {
         cells
     }
 
-    fn set_warp_cells(&self, cells: &mut [u16], server: Arc<Server>, map_items: &mut HashSet<Arc<dyn MapItem>>) {
+    fn set_warp_cells(&self, cells: &mut [u16], server: Arc<Server>, map_items: &mut HashSet<MapItem>) {
         for warp in self.warps.iter() {
-            server.insert_map_item(warp.id, warp.clone());
-            map_items.insert(warp.clone());
+            server.insert_map_item(warp.id, warp.to_map_item());
+            map_items.insert(warp.to_map_item());
             let start_x = warp.x - warp.x_size;
             let to_x = warp.x + warp.x_size;
             let start_y = warp.y - warp.y_size;
@@ -292,11 +320,10 @@ impl Map {
         }
     }
 
-    fn set_warps(&mut self, warps: &[Warp], map_item_ids: &RwLock<HashMap<u32, Arc<dyn MapItem>>>) {
-        let mut ids_write_guard = write_lock!(map_item_ids);
+    fn set_warps(&mut self, warps: &[Warp], map_item_ids: RefCell<HashMap<u32, MapItem>>) {
         let warps = warps.iter().map(|warp| {
             let mut warp = warp.clone();
-            warp.set_id(Server::generate_id(&mut ids_write_guard));
+            warp.set_id(Server::generate_id(&mut map_item_ids.borrow_mut()));
             Arc::new(warp)
         }).collect::<Vec<Arc<Warp>>>();
         self.warps = Arc::new(warps);
@@ -308,12 +335,11 @@ impl Map {
         );
     }
 
-    fn set_scripts(&mut self, scripts: &[Script], map_item_ids: &RwLock<HashMap<u32, Arc<dyn MapItem>>>) {
-        let mut ids_write_guard = write_lock!(map_item_ids);
+    fn set_scripts(&mut self, scripts: &[Script], map_item_ids: RefCell<HashMap<u32, MapItem>>) {
         self.scripts = Arc::new(
             scripts.iter().map(|script| {
                 let mut script = script.clone();
-                script.set_id(Server::generate_id(&mut ids_write_guard));
+                script.set_id(Server::generate_id(&mut map_item_ids.borrow_mut()));
                 script
             }).collect::<Vec<Script>>()
         );
@@ -348,7 +374,7 @@ impl Map {
             }).unwrap();
     }
 
-    pub fn load_maps(warps: HashMap<String, Vec<Warp>>, mob_spawns: HashMap<String, Vec<MobSpawn>>, scripts: HashMap<String, Vec<Script>>, map_items: &RwLock<HashMap<u32, Arc<dyn MapItem>>>) -> HashMap<String, Map> {
+    pub fn load_maps(warps: HashMap<String, Vec<Warp>>, mob_spawns: HashMap<String, Vec<MobSpawn>>, scripts: HashMap<String, Vec<Script>>, map_items: RefCell<HashMap<u32, MapItem>>) -> HashMap<String, Map> {
         let mut maps = HashMap::<String, Map>::new();
         let paths = fs::read_dir(MAP_DIR).unwrap();
         for path in paths {
@@ -382,9 +408,9 @@ impl Map {
                 map_instances: Default::default(),
                 map_instances_count: Default::default()
             };
-            map.set_warps(warps.get(&map_name).unwrap_or(&vec![]), map_items);
+            map.set_warps(warps.get(&map_name).unwrap_or(&vec![]), map_items.clone());
             map.set_mob_spawns(mob_spawns.get(&map_name).unwrap_or(&vec![]));
-            map.set_scripts(scripts.get(&map_name).unwrap_or(&vec![]), map_items);
+            map.set_scripts(scripts.get(&map_name).unwrap_or(&vec![]), map_items.clone());
             maps.insert(map.name.clone(), map);
         }
         maps

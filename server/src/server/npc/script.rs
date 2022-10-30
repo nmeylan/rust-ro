@@ -34,35 +34,35 @@ pub struct Script {
     #[set]
     pub instance_reference: u64,
 }
-
-impl MapItem for Script {
-    fn id(&self) -> u32 {
-        self.id
-    }
-
-    fn client_item_class(&self) -> i16 {
-        self.sprite as i16
-    }
-    fn object_type(&self) -> i16 {
-        MapItemType::Npc.value()
-    }
-
-    fn name(&self) -> String {
-        self.name.clone()
-    }
-
-    fn x(&self) -> u16 {
-        self.x
-    }
-
-    fn y(&self) -> u16 {
-        self.y
-    }
-
-    fn as_any(&self) -> &dyn std::any::Any {
-        self
-    }
-}
+//
+// impl MapItem for Script {
+//     fn id(&self) -> u32 {
+//         self.id
+//     }
+//
+//     fn client_item_class(&self) -> i16 {
+//         self.sprite as i16
+//     }
+//     fn object_type(&self) -> i16 {
+//         MapItemType::Npc.value()
+//     }
+//
+//     fn name(&self) -> String {
+//         self.name.clone()
+//     }
+//
+//     fn x(&self) -> u16 {
+//         self.x
+//     }
+//
+//     fn y(&self) -> u16 {
+//         self.y
+//     }
+//
+//     fn as_any(&self) -> &dyn std::any::Any {
+//         self
+//     }
+// }
 
 impl Script {
     pub fn load_scripts() -> (HashMap::<String, Vec<Script>>, Vec<ClassFile>, HashMap::<String, Vec<CompilationError>>) {

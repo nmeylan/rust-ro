@@ -44,8 +44,8 @@ pub struct MapInstance {
     pub mob_spawns: Arc<Vec<Arc<MobSpawn>>>,
     pub mob_spawns_tracks: RwLock<Vec<MobSpawnTrack>>,
     pub mobs: RwLock<HashMap<u32, Arc<Mob>>>,
-    pub characters: RwLock<HashSet<Arc<dyn MapItem>>>,
-    pub map_items: RwLock<HashSet<Arc<dyn MapItem>>>,
+    pub characters: RwLock<HashSet<MapItem>>,
+    pub map_items: RwLock<HashSet<MapItem>>,
     // pub client_notification_channel: SyncSender<Notification>,
 }
 
@@ -70,15 +70,15 @@ impl MobSpawnTrack {
 }
 
 impl MapInstance {
-    pub fn from_map(map: &Map, server: Arc<Server>, id: u32, cells: Vec<u16>, mut map_items: HashSet<Arc<dyn MapItem>>) -> MapInstance {
+    pub fn from_map(map: &Map, server: Arc<Server>, id: u32, cells: Vec<u16>, mut map_items: HashSet<MapItem>) -> MapInstance {
         let _cells_len = cells.len();
         map.scripts.iter().for_each(|script| {
             let (_, instance_reference) = Vm::create_instance(server.vm.clone(), script.class_name.clone(), Box::new(&ScriptHandler), script.constructor_args.clone()).unwrap();
             let mut script = script.clone();
             script.set_instance_reference(instance_reference);
-            let script_arc = Arc::new(script);
-            server.insert_map_item(script_arc.id(), script_arc.clone());
-            map_items.insert(script_arc);
+            // let script_arc = Arc::new(script);
+            // server.insert_map_item(script_arc.id(), script_arc.clone());
+            // map_items.insert(script_arc);
         });
         MapInstance {
             name: map.name.clone(),
@@ -121,84 +121,87 @@ impl MapInstance {
     }
 
     pub fn spawn_mobs(&self, server: Arc<Server>, _now: u128, self_ref: Arc<MapInstance>) {
-        for mob_spawn in self.mob_spawns.iter() {
-            let mut mob_spawns_tracks_guard = write_lock!(self.mob_spawns_tracks);
-            let mob_spawn_track = mob_spawns_tracks_guard.iter_mut().find(|spawn_track| spawn_track.spawn_id == mob_spawn.id).unwrap();
-            if mob_spawn_track.spawned_amount >= mob_spawn.to_spawn_amount {
-                continue;
-            }
-            if mob_spawn.has_delay() {
-                // TODO check when respawn is planned
-            }
-            let mut cell: (u16, u16);
-            let spawned = mob_spawn.to_spawn_amount - mob_spawn_track.spawned_amount;
-            for _ in 0..spawned {
-                if mob_spawn.is_fixed_position() {
-                    cell = (mob_spawn.x, mob_spawn.y);
-                } else {
-                    // if mob_spawn.is_zone_constraint() {
-                    // TODO implement constraint zone
-                    cell = Map::find_random_walkable_cell(self.cells.as_ref(), self.x_size);
-                }
-                let mob_id = server.generate_map_item_id();
-                let mob = Mob::new(mob_id, cell.0, cell.1, mob_spawn.mob_id, mob_spawn.id, mob_spawn.name.clone(), self_ref.clone(), Status::from_mob_model(&mob_spawn.info));
-                let mob_ref = Arc::new(mob);
-                mob_ref.set_self_ref(mob_ref.clone());
-
-                let mut mobs_guard = write_lock!(self.mobs);
-                let mut map_items_guard = write_lock!(self.map_items);
-                // TODO: On mob dead clean up should be down also for items below
-                server.insert_map_item(mob_id, mob_ref.clone());
-                mobs_guard.insert(mob_id, mob_ref.clone());
-                map_items_guard.insert(mob_ref);
-                // END
-                mob_spawn_track.increment_spawn();
-            }
-        }
+        todo!("spawn_mobs")
+        // for mob_spawn in self.mob_spawns.iter() {
+        //     let mut mob_spawns_tracks_guard = write_lock!(self.mob_spawns_tracks);
+        //     let mob_spawn_track = mob_spawns_tracks_guard.iter_mut().find(|spawn_track| spawn_track.spawn_id == mob_spawn.id).unwrap();
+        //     if mob_spawn_track.spawned_amount >= mob_spawn.to_spawn_amount {
+        //         continue;
+        //     }
+        //     if mob_spawn.has_delay() {
+        //         // TODO check when respawn is planned
+        //     }
+        //     let mut cell: (u16, u16);
+        //     let spawned = mob_spawn.to_spawn_amount - mob_spawn_track.spawned_amount;
+        //     for _ in 0..spawned {
+        //         if mob_spawn.is_fixed_position() {
+        //             cell = (mob_spawn.x, mob_spawn.y);
+        //         } else {
+        //             // if mob_spawn.is_zone_constraint() {
+        //             // TODO implement constraint zone
+        //             cell = Map::find_random_walkable_cell(self.cells.as_ref(), self.x_size);
+        //         }
+        //         let mob_id = server.generate_map_item_id();
+        //         let mob = Mob::new(mob_id, cell.0, cell.1, mob_spawn.mob_id, mob_spawn.id, mob_spawn.name.clone(), self_ref.clone(), Status::from_mob_model(&mob_spawn.info));
+        //         let mob_ref = Arc::new(mob);
+        //         mob_ref.set_self_ref(mob_ref.clone());
+        //
+        //         let mut mobs_guard = write_lock!(self.mobs);
+        //         let mut map_items_guard = write_lock!(self.map_items);
+        //         // TODO: On mob dead clean up should be down also for items below
+        //         server.insert_map_item(mob_id, mob_ref.clone());
+        //         mobs_guard.insert(mob_id, mob_ref.clone());
+        //         map_items_guard.insert(mob_ref);
+        //         // END
+        //         mob_spawn_track.increment_spawn();
+        //     }
+        // }
     }
 
     pub fn update_mobs_fov(&self) {
-        let map_items_guard = read_lock!(self.map_items);
-        let characters_guard = read_lock!(self.characters);
-        let map_items_clone = map_items_guard.clone();
-        let characters_clone = characters_guard.clone();
-        drop(map_items_guard);
-        drop(characters_guard);
-        for item in map_items_clone {
-            let mut viewed_chars: Vec<Arc<dyn MapItem>> = Vec::with_capacity(characters_clone.len());
-            if item.object_type() == MapItemType::Mob.value() {
-                for character in characters_clone.iter() {
-                    if manhattan_distance(character.x(), character.y(), item.x(), item.y()) <= MOB_FOV {
-                        viewed_chars.push(character.clone());
-                    }
-                }
-                let mob = cast!(item, Mob);
-                mob.update_map_view(viewed_chars);
-            }
-        }
+        todo!("update_mobs_fov")
+        // let map_items_guard = read_lock!(self.map_items);
+        // let characters_guard = read_lock!(self.characters);
+        // let map_items_clone = map_items_guard.clone();
+        // let characters_clone = characters_guard.clone();
+        // drop(map_items_guard);
+        // drop(characters_guard);
+        // for item in map_items_clone {
+        //     let mut viewed_chars: Vec<MapItem> = Vec::with_capacity(characters_clone.len());
+        //     if item.object_type_value() == MapItemType::Mob.value() {
+        //         for character in characters_clone.iter() {
+        //             if manhattan_distance(character.x(), character.y(), item.x(), item.y()) <= MOB_FOV {
+        //                 viewed_chars.push(character.clone());
+        //             }
+        //         }
+        //         let mob = cast!(item, Mob);
+        //         mob.update_map_view(viewed_chars);
+        //     }
+        // }
     }
 
     pub fn mobs_action(&self) {
-        let mobs_guard = read_lock!(self.mobs);
-        let mut character_packets_map: HashMap<Arc<dyn MapItem>, Vec<PacketZcNotifyMove>> = HashMap::new();
-        for mob in mobs_guard.values() {
-            let character_packets = mob.action_move();
-            character_packets.iter().for_each(|(character, packet)| {
-                if !character_packets_map.contains_key(&character.clone()) {
-                    character_packets_map.insert(character.clone(), Vec::with_capacity(500));
-                }
-                character_packets_map.get_mut(character).unwrap().push(packet.clone());
-            });
-        }
-        for (character, packets) in character_packets_map.iter() {
-            let character = cast!(character, Character);
-            let packets = chain_packets_raws(packets.iter().map(|packet| packet.raw()).collect::<Vec<&Vec<u8>>>());
-            let map_socket_guard = write_lock!(character.map_server_socket);
-            let character_socket = map_socket_guard.as_ref().unwrap();
-            socket_send_deprecated!(character_socket, &packets);
-            // self.client_notification_channel.send(Notification::Char(
-            //     CharNotification::new(character.account_id, packets)));
-        }
+        todo!("mobs_action")
+        // let mobs_guard = read_lock!(self.mobs);
+        // let mut character_packets_map: HashMap<MapItem, Vec<PacketZcNotifyMove>> = HashMap::new();
+        // for mob in mobs_guard.values() {
+        //     let character_packets = mob.action_move();
+        //     character_packets.iter().for_each(|(character, packet)| {
+        //         if !character_packets_map.contains_key(&character) {
+        //             character_packets_map.insert(character, Vec::with_capacity(500));
+        //         }
+        //         character_packets_map.get_mut(character).unwrap().push(packet.clone());
+        //     });
+        // }
+        // for (character, packets) in character_packets_map.iter() {
+        //     let character = cast!(character, Character);
+        //     let packets = chain_packets_raws(packets.iter().map(|packet| packet.raw()).collect::<Vec<&Vec<u8>>>());
+        //     let map_socket_guard = write_lock!(character.map_server_socket);
+        //     let character_socket = map_socket_guard.as_ref().unwrap();
+        //     socket_send_deprecated!(character_socket, &packets);
+        //     // self.client_notification_channel.send(Notification::Char(
+        //     //     CharNotification::new(character.account_id, packets)));
+        // }
     }
 
     pub fn get_warp_at(&self, x: u16, y: u16) -> Option<Arc<Warp>> {
@@ -211,31 +214,31 @@ impl MapInstance {
         None
     }
 
-    pub fn insert_item(&self, map_item: Arc<dyn MapItem>) {
+    pub fn insert_item(&self, map_item: MapItem) {
         let mut map_item_guard = write_lock!(self.map_items);
-        map_item_guard.insert(map_item.clone());
-        if map_item.object_type() == MapItemType::Character.value() {
+        map_item_guard.insert(map_item);
+        if map_item.object_type_value() == MapItemType::Character.value() {
             self.insert_character(map_item);
         }
         // TODO notify mobs
     }
 
-    pub fn insert_character(&self, character: Arc<dyn MapItem>) {
+    pub fn insert_character(&self, character: MapItem) {
         let mut characters_guard = write_lock!(self.characters);
         characters_guard.insert(character);
     }
 
-    pub fn remove_item(&self, map_item: Arc<dyn MapItem>) {
+    pub fn remove_item(&self, map_item: MapItem) {
         let mut map_item_guard = write_lock!(self.map_items);
-        map_item_guard.remove(&*map_item.clone());
-        if map_item.object_type() == MapItemType::Character.value() {
+        map_item_guard.remove(&map_item);
+        if map_item.object_type_value() == MapItemType::Character.value() {
             self.remove_character(map_item);
         }
     }
 
-    pub fn remove_character(&self, character: Arc<dyn MapItem>) {
+    pub fn remove_character(&self, character: MapItem) {
         let mut characters_guard = write_lock!(self.characters);
-        characters_guard.remove(&*character.clone());
+        characters_guard.remove(&character);
     }
 
     #[inline]

@@ -24,40 +24,40 @@ pub struct Mob {
     #[set]
     pub y: AtomicU16,
     pub current_map: RwLock<Arc<MapInstance>>,
-    pub map_view: RwLock<Vec<Arc<dyn MapItem>>>,
+    pub map_view: RwLock<Vec<MapItem>>,
     pub is_view_char: RwLock<bool>,
     pub movement_task_id: AtomicU64,
     pub self_ref: RwLock<Option<Arc<Mob>>>,
 }
 
-impl MapItem for Mob {
-    fn id(&self) -> u32 {
-        self.id
-    }
-    fn client_item_class(&self) -> i16 {
-        self.mob_id
-    }
-
-    fn object_type(&self) -> i16 {
-        MapItemType::Mob.value()
-    }
-
-    fn name(&self) -> String {
-        self.name.clone()
-    }
-
-    fn x(&self) -> u16 {
-        self.x.load(Relaxed)
-    }
-
-    fn y(&self) -> u16 {
-        self.y.load(Relaxed)
-    }
-
-    fn as_any(&self) -> &dyn Any {
-        self
-    }
-}
+// impl MapItem for Mob {
+//     fn id(&self) -> u32 {
+//         self.id
+//     }
+//     fn client_item_class(&self) -> i16 {
+//         self.mob_id
+//     }
+//
+//     fn object_type(&self) -> i16 {
+//         MapItemType::Mob.value()
+//     }
+//
+//     fn name(&self) -> String {
+//         self.name.clone()
+//     }
+//
+//     fn x(&self) -> u16 {
+//         self.x.load(Relaxed)
+//     }
+//
+//     fn y(&self) -> u16 {
+//         self.y.load(Relaxed)
+//     }
+//
+//     fn as_any(&self) -> &dyn Any {
+//         self
+//     }
+// }
 
 impl Mob {
     pub fn new(id: u32, x: u16, y: u16, mob_id: i16, spawn_id: u32, name: String, current_map: Arc<MapInstance>, status: Status) -> Mob {
@@ -82,16 +82,16 @@ impl Mob {
         *self_ref_guard = Some(self_ref);
     }
 
-    pub fn update_map_view(&self, map_items: Vec<Arc<dyn MapItem>>) {
+    pub fn update_map_view(&self, map_items: Vec<MapItem>) {
         let mut map_view_guard = write_lock!(self.map_view);
         let mut is_view_char_guard = write_lock!(self.is_view_char);
         *is_view_char_guard = !map_items.is_empty();
         *map_view_guard = map_items;
     }
 
-    pub fn action_move(&self) -> HashMap<Arc<dyn MapItem>, PacketZcNotifyMove>{
+    pub fn action_move(&self) -> HashMap<MapItem, PacketZcNotifyMove>{
         let mut rng = rand::thread_rng();
-        let mut character_packets_map : HashMap<Arc<dyn MapItem>, PacketZcNotifyMove> = HashMap::new();
+        let mut character_packets_map : HashMap<MapItem, PacketZcNotifyMove> = HashMap::new();
         let is_view_char = read_lock!(self.is_view_char);
         let rand = rng.gen_range(0..=100);
         let should_move = if *is_view_char {
@@ -123,7 +123,7 @@ impl Mob {
                     dir: 0
                 };
                 map_view_guard.iter()
-                    .filter(|map_item| map_item.object_type() == MapItemType::Character.value())
+                    .filter(|map_item| map_item.object_type_value() == MapItemType::Character.value())
                     .for_each(|map_item| {
                         let mut packet_zc_notify_move = PacketZcNotifyMove::default();
                         packet_zc_notify_move.set_gid(self.id);
