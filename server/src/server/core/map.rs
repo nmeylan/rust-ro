@@ -186,7 +186,7 @@ impl Map {
     // Instances will make map lifecycle easier to maintain
     // Only 1 instance will be needed for most use case, but it make possible to wipe map instance after a while when no player are on it. to free memory
     pub fn player_join_map(&self, server: Arc<Server>) -> Arc<MapInstance> {
-        let map_instance_id = 0_u32;
+        let map_instance_id = 0_u8;
         let instance_exists;
         {
             let map_instances_guard = read_lock!(self.map_instances);
@@ -198,6 +198,11 @@ impl Map {
         let map_instances_guard = read_lock!(self.map_instances);
         let map_instance = map_instances_guard.get(map_instance_id as usize).unwrap();
         map_instance.clone()
+    }
+
+    pub fn get_instance(&self, id: u8) -> Arc<MapInstance>{
+        let map_instances_guard = read_lock!(self.map_instances);
+        map_instances_guard[id as usize].clone()
     }
 
     pub fn find_random_walkable_cell(cells: &Vec<u16>, x_size: u16) -> (u16, u16) {
@@ -262,7 +267,7 @@ impl Map {
         }
     }
 
-    fn create_map_instance(&self, server: Arc<Server>, instance_id: u32) -> Arc<MapInstance> {
+    fn create_map_instance(&self, server: Arc<Server>, instance_id: u8) -> Arc<MapInstance> {
         info!("create map instance: {} x_size: {}, y_size {}, length: {}", self.name, self.x_size, self.y_size, self.length);
         let mut map_items: HashSet<MapItem> = HashSet::with_capacity(2048);
         let cells = self.generate_cells(server.clone(), &mut map_items);

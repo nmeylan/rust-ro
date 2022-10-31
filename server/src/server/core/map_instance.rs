@@ -21,7 +21,7 @@ use crate::server::core::notification::{CharNotification, Notification};
 
 pub struct MapInstance {
     pub name: String,
-    pub id: u32,
+    pub id: u8,
     pub x_size: u16,
     pub y_size: u16,
     // index in this array will give x and y position of the cell.
@@ -70,7 +70,7 @@ impl MobSpawnTrack {
 }
 
 impl MapInstance {
-    pub fn from_map(map: &Map, server: Arc<Server>, id: u32, cells: Vec<u16>, mut map_items: HashSet<MapItem>) -> MapInstance {
+    pub fn from_map(map: &Map, server: Arc<Server>, id: u8, cells: Vec<u16>, mut map_items: HashSet<MapItem>) -> MapInstance {
         let _cells_len = cells.len();
         map.scripts.iter().for_each(|script| {
             let (_, instance_reference) = Vm::create_instance(server.vm.clone(), script.class_name.clone(), Box::new(&ScriptHandler), script.constructor_args.clone()).unwrap();

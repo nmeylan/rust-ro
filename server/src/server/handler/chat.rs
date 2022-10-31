@@ -9,6 +9,7 @@ pub fn handle_chat(server: Arc<Server>, context: Request) {
     let char_id = context.session().char_id();
     let character = server.get_character_unsafe(char_id);
     if packet_player_char.msg.starts_with(format!("{} : @", character.name).as_str()) { // TODO make symbol configurable
+        drop(character);
         handle_atcommand(server, context, &packet_player_char);
     }
 }

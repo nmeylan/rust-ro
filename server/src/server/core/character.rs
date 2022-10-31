@@ -35,8 +35,8 @@ pub struct Character {
     #[set]
     pub char_id: u32,
     pub account_id: u32,
-    pub current_map: RwLock<Option<Arc<MapInstance>>>,
-    pub current_map_name: RwLock<[char; 16]>,
+    pub current_map: Option<Arc<MapInstance>>,
+    pub current_map_name: [char; 16],
     pub x: AtomicU16,
     pub y: AtomicU16,
     pub movement_tasks: Mutex<Vec<MovementTask>>,
@@ -98,27 +98,23 @@ impl Character {
         self.y.load(Relaxed)
     }
 
-    pub fn set_current_map_name(&self, new_name: [char; 16]) {
-        let mut current_map_name_guard = write_lock!(self.current_map_name);
-        *current_map_name_guard = new_name;
+    fn set_current_map_name(&mut self, new_name: [char; 16]) {
+        self.current_map_name = new_name;
     }
 
     pub fn get_pos_index(&self) -> usize {
-        let current_map_guard = read_lock!(self.current_map);
-        coordinate::get_cell_index_of(self.x(), self.y(), current_map_guard.as_ref().unwrap().x_size)
+        coordinate::get_cell_index_of(self.x(), self.y(), self.current_map.as_ref().unwrap().x_size)
     }
 
     pub fn remove_from_existing_map(&self) {
-        let current_map_guard = read_lock!(self.current_map);
-        if current_map_guard.is_some() {
-            let map_instance_ref = current_map_guard.as_ref().unwrap();
+        if self.current_map.is_some() {
+            let map_instance_ref = self.current_map.as_ref().unwrap();
             map_instance_ref.remove_item(self.to_map_item());
         }
     }
 
-    pub fn join_and_set_map(&self, map_instance: Arc<MapInstance>) {
+    pub fn join_and_set_map(&mut self, map_instance: Arc<MapInstance>) {
         self.set_current_map(map_instance.clone());
-        let self_ref_guard = read_lock!(self.self_ref);
         map_instance.insert_item(self.to_map_item());
     }
 
@@ -128,8 +124,7 @@ impl Character {
     }
 
     pub fn get_current_map_name(&self) -> String {
-        let current_map_name_guard = read_lock!(self.current_map_name);
-        current_map_name_guard.iter().filter(|c| **c != '\0').collect()
+        self.current_map_name.iter().filter(|c|**c != '\0').collect()
     }
     pub fn add_movement_task_id(&self, task: MovementTask) {
         if let Ok(mut movement_tasks_guard) = self.movement_tasks.try_lock() {
@@ -146,13 +141,12 @@ impl Character {
             movement_tasks_guard.remove(index);
         }
     }
-    pub fn set_current_map(&self, current_map: Arc<MapInstance>) {
+    pub fn set_current_map(&mut self, current_map: Arc<MapInstance>) {
         let mut new_current_map: [char; 16] = [0 as char; 16];
         let map_name = format!("{}{}", current_map.name, MAP_EXT);
         map_name.fill_char_array(new_current_map.as_mut());
         self.set_current_map_name(new_current_map);
-        let mut current_map_guard = write_lock!(self.current_map);
-        *current_map_guard = Some(current_map);
+        self.current_map = Some(current_map);
     }
 
     pub fn clear_map_view(&self) {

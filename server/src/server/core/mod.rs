@@ -13,4 +13,5 @@ pub mod mob;
 pub mod request;
 pub mod response;
 pub mod notification;
-pub mod game_update;
+pub mod event;
+pub mod tasks_queue;
