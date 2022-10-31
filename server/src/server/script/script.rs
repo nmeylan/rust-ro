@@ -218,7 +218,7 @@ impl NativeMethodHandler for PlayerScriptHandler {
                 0 => Value::new_string(char.name.clone()),
                 1 => Value::new_string("TODO PARTY NAME".to_string()),
                 2 => Value::new_string("TODO GUILD NAME".to_string()),
-                3 => Value::new_string(read_lock!(char.current_map).as_ref().unwrap().name.clone()),
+                3 => Value::new_string(char.current_map.as_ref().unwrap().name.clone()),
                 _ => Value::new_string(format!("Unknown char info type {}", info_type))
             };
             execution_thread.push_constant_on_stack(char_info);

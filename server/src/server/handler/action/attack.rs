@@ -13,8 +13,7 @@ pub fn handle_attack(server: Arc<Server>, context: Request) {
     let session = context.session();
     let char_id = session.char_id();
     let character = server.get_character_unsafe(char_id);
-    let current_map_guard = read_lock!(character.current_map);
-    let map_ref = current_map_guard.as_ref().unwrap().clone();
+    let map_ref = character.current_map.as_ref().unwrap().clone();
     let mobs_guard = read_lock!(map_ref.mobs);
     let mob_found = mobs_guard.get(&packet_cz_request_act2.target_gid);
     if mob_found.is_some() {

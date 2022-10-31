@@ -1,20 +1,22 @@
 use std::any::Any;
 use std::borrow::Borrow;
 use std::cell::{Ref, RefCell, RefMut};
-use std::collections::HashMap;
-use std::io::Read;
+use std::collections::{HashMap, VecDeque};
+use std::io::{Read, Take};
 use std::io::Write;
 use std::net::{Shutdown, TcpListener, TcpStream};
 use std::ops::Deref;
 use std::sync::{Arc, RwLock, RwLockWriteGuard};
 use std::sync::mpsc::{Receiver, SyncSender};
-use std::thread::Scope;
+use std::thread::{Scope, sleep};
 use std::thread;
+use std::time::{Duration, Instant};
 
 use lazy_static::lazy_static;
 use log::error;
 use rand::Rng;
 use rathena_script_lang_interpreter::lang::vm::Vm;
+use regex::internal::Char;
 use tokio::runtime::Runtime;
 
 use packets::packets::{Packet, PacketCaLogin, PacketChDeleteChar4Reserved, PacketChEnter, PacketChMakeChar, PacketChMakeChar2, PacketChMakeChar3, PacketChSelectChar, PacketCzAckSelectDealtype, PacketCzBlockingPlayCancel, PacketCzChooseMenu, PacketCzContactnpc, PacketCzEnter2, PacketCzInputEditdlg, PacketCzInputEditdlgstr, PacketCzNotifyActorinit, PacketCzPcPurchaseItemlist, PacketCzPlayerChat, PacketCzReqDisconnect2, PacketCzReqname, PacketCzReqnameall2, PacketCzReqNextScript, PacketCzRequestAct2, PacketCzRequestMove, PacketCzRequestMove2, PacketCzRequestTime, PacketCzRestart, PacketUnknown, PacketZcNotifyTime};
@@ -23,12 +25,13 @@ use packets::packets_parser::parse;
 use crate::repository::Repository;
 use crate::server::configuration::Config;
 use crate::server::core::character::Character;
-use crate::server::core::game_update::GameUpdate;
+use crate::server::core::event::Event;
 use crate::server::core::map::{Map, MapItem};
 use crate::server::core::notification::Notification;
 use crate::server::core::request::Request;
 use crate::server::core::response::Response;
 use crate::server::core::session::{Session, SessionsIter};
+use crate::server::core::tasks_queue::TasksQueue;
 use crate::server::enums::map_item::MapItemType;
 use crate::server::handler::action::attack::handle_attack;
 use crate::server::handler::action::npc::{handle_contact_npc, handle_player_choose_menu, handle_player_input_number, handle_player_input_string, handle_player_next, handle_player_purchase_items, handle_player_select_deal_type};
@@ -54,12 +57,14 @@ pub struct Server {
     pub repository: Arc<Repository>,
     pub maps: HashMap<String, Arc<Map>>,
     map_items: RefCell<HashMap<u32, MapItem>>,
-    pub characters: RefCell<HashMap<u32, Arc<Character>>>,
+    pub characters: RefCell<HashMap<u32, Character>>,
+    tasks_queue: TasksQueue<Event>,
     pub vm: Arc<Vm>,
 }
 
-unsafe impl Sync for Server{}
-unsafe impl Send for Server{}
+unsafe impl Sync for Server {}
+
+unsafe impl Send for Server {}
 
 impl Server {
     pub fn remove_session(&self, session_id: u32) {
@@ -72,13 +77,17 @@ impl Server {
         session_ref.clone()
     }
 
-    pub fn get_character_unsafe(&self, char_id: u32) -> Arc<Character>{
-        self.characters.borrow().get(&char_id).expect(format!("Expected to find a character for char_id {}", char_id).as_str()).clone()
-        // Ref::map(self.characters.borrow(), |characters| characters.get(&char_id).expect(format!("Expected to find a character for char_id {}", char_id).as_str()).clone())
+    fn pop_task(&self) -> Option<Vec<Event>> {
+        self.tasks_queue.pop()
+    }
+
+    pub fn get_character_unsafe<'b , 'a: 'b >(&'b self, char_id: u32) -> Ref<Character> {
+        // self.characters.borrow().get(&char_id).expect(format!("Expected to find a character for char_id {}", char_id).as_str())
+       Ref::map(self.characters.borrow(), |characters| characters.get(&char_id).unwrap())
     }
 
     pub fn insert_character(&self, character: Character) {
-        self.characters.borrow_mut().insert(character.char_id, Arc::new(character));
+        self.characters.borrow_mut().insert(character.char_id, character);
     }
 
     pub fn get_map_socket_for_account_id(&self, account_id: u32) -> Option<Arc<RwLock<TcpStream>>> {
@@ -119,8 +128,13 @@ impl Server {
             maps,
             map_items,
             characters: Default::default(),
+            tasks_queue: TasksQueue::new(),
             vm,
         }
+    }
+
+    pub fn add_to_next_tick(&self, event: Event) {
+        self.tasks_queue.add_to_first_index(event)
     }
 
     pub fn generate_map_item_id(&self) -> u32 {
@@ -147,7 +161,6 @@ impl Server {
         let port = server_ref.configuration.server.port;
 
         let (response_sender, single_response_receiver) = std::sync::mpsc::sync_channel::<Response>(0);
-        let (game_update_sender, single_game_update_receiver) = std::sync::mpsc::sync_channel::<GameUpdate>(0);
         let (client_notification_sender, single_client_notification_receiver) = std::sync::mpsc::sync_channel::<Notification>(0);
         thread::scope(|server_thread_scope: &Scope| {
             let listener = TcpListener::bind(format!("0.0.0.0:{}", port)).unwrap();
@@ -195,7 +208,9 @@ impl Server {
                 }
             });
             /// Start a thread sending packet to notify client from game update
+            let server_ref_clone = server_ref.clone();
             server_thread_scope.spawn(move || {
+                let server_ref = server_ref_clone;
                 for response in single_client_notification_receiver.iter() {
                     match response {
                         Notification::Char(char_notification) => {
@@ -210,11 +225,27 @@ impl Server {
                     }
                 }
             });
-
+            let server_ref_clone = server_ref.clone();
             server_thread_scope.spawn(move || {
-                // loop {
-                //
-                // }
+                let server_ref = server_ref_clone;
+                loop {
+                    let start = Instant::now();
+                    if let Some(tasks) = server_ref.pop_task() {
+                        for task in tasks {
+                            match task {
+                                Event::CharacterChangeMap(characterChangeMap) => {
+                                    let mut characters = server_ref.characters.borrow_mut();
+                                    let character = characters.get_mut(&characterChangeMap.char_id).unwrap();
+                                    if let Some(map) = server_ref.maps.get(characterChangeMap.new_map_name.as_str()) {
+                                        info!("join_and_set_map");
+                                        character.join_and_set_map(map.get_instance(characterChangeMap.new_instance_id));
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    sleep(Duration::from_millis(17));
+                }
             });
         });
     }
