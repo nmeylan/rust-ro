@@ -8,7 +8,7 @@ use tokio::runtime::Runtime;
 use packets::packets::{Packet, PacketCzRequestMove, PacketCzRequestMove2, PacketZcNotifyPlayermove};
 
 use crate::server::core::character_movement;
-use crate::server::core::character_movement::Position;
+use crate::server::core::position::Position;
 use crate::server::core::map::MapItem;
 use crate::server::core::path::path_search_client_side_algorithm;
 use crate::server::core::request::Request;

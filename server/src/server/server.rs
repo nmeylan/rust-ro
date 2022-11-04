@@ -1,11 +1,12 @@
 use std::any::Any;
 use std::borrow::Borrow;
-use std::cell::{Ref, RefCell, RefMut};
+use std::cell::{Ref, RefCell, RefMut, UnsafeCell};
 use std::collections::{HashMap, VecDeque};
 use std::io::{Read, Take};
 use std::io::Write;
 use std::net::{Shutdown, TcpListener, TcpStream};
 use std::ops::Deref;
+use std::rc::Rc;
 use std::sync::{Arc, RwLock, RwLockWriteGuard};
 use std::sync::mpsc::{Receiver, SyncSender};
 use std::thread::{Scope, sleep};
@@ -82,13 +83,14 @@ impl Server {
         self.tasks_queue.pop()
     }
 
-    pub fn get_character_unsafe<'b , 'a: 'b >(&'b self, char_id: u32) -> Ref<Character> {
+    pub fn get_character_unsafe<'b, 'a: 'b>(&'b self, char_id: u32) -> Ref<Character> {
         // self.characters.borrow().get(&char_id).expect(format!("Expected to find a character for char_id {}", char_id).as_str())
-       Ref::map(self.characters.borrow(), |characters| characters.get(&char_id).unwrap())
+        // let x = self.characters.deref().get(&char_id).unwrap();
+        Ref::map(self.characters.borrow(), |characters| characters.get(&char_id).unwrap())
     }
 
     pub fn insert_character(&self, character: Character) {
-        self.characters.borrow_mut().insert(character.char_id, character);
+        self.tasks_queue.add_to_first_index(Event::CharacterInsert(character));
     }
 
     pub fn get_map_socket_for_account_id(&self, account_id: u32) -> Option<Arc<RwLock<TcpStream>>> {
@@ -212,6 +214,7 @@ impl Server {
             /// Start a thread sending packet to notify client from game update
             let server_ref_clone = server_ref.clone();
             server_thread_scope.spawn(move || {
+                PACKETVER.with(|ver| *ver.borrow_mut() = server_ref_clone.packetver());
                 let server_ref = server_ref_clone;
                 for response in single_client_notification_receiver.iter() {
                     match response {

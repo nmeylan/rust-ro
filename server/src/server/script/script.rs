@@ -16,7 +16,7 @@ use packets::packets::{PacketZcCloseDialog, PacketZcMenuList, PacketZcNotifyPlay
 
 use crate::packets::packets::Packet;
 use crate::Server;
-use crate::server::core::character_movement::change_map;
+use crate::server::core::character_movement::{change_map_packet};
 use crate::server::core::notification::{CharNotification, Notification};
 use crate::server::core::session::Session;
 use crate::server::core::status::LookType;
@@ -218,7 +218,7 @@ impl NativeMethodHandler for PlayerScriptHandler {
                 0 => Value::new_string(char.name.clone()),
                 1 => Value::new_string("TODO PARTY NAME".to_string()),
                 2 => Value::new_string("TODO GUILD NAME".to_string()),
-                3 => Value::new_string(char.current_map.as_ref().unwrap().name.clone()),
+                3 => Value::new_string(char.current_map_name().clone()),
                 _ => Value::new_string(format!("Unknown char info type {}", info_type))
             };
             execution_thread.push_constant_on_stack(char_info);
@@ -244,7 +244,7 @@ impl NativeMethodHandler for PlayerScriptHandler {
             } else {
                 self.session.clone()
             };
-            change_map(map_name, x as u16, y as u16, session, self.server.clone(), Some(&self.runtime));
+            change_map_packet(map_name, x as u16, y as u16, session, self.server.clone());
         } else if native.name.eq("sprintf") {
             let template = params[0].string_value().unwrap();
             let mut sprintf_args: Vec<&dyn Printf> = vec![];

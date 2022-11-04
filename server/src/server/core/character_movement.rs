@@ -1,4 +1,4 @@
-use std::fmt::{Formatter};
+use std::fmt::Formatter;
 use std::sync::Arc;
 use std::thread::sleep;
 use sqlx::Error;
@@ -13,58 +13,10 @@ use crate::server::core::event::{CharacterChangeMap, CharacterUpdatePosition, Ev
 
 use crate::server::core::map::{Map, MAP_EXT, MapItem, RANDOM_CELL};
 use crate::server::core::path::PathNode;
+use crate::server::core::position::Position;
 use crate::server::core::session::Session;
 use crate::server::server::Server;
 use crate::util::string::StringUtil;
-
-#[derive(Debug, Clone)]
-pub struct Position {
-    pub x: u16,
-    pub y: u16,
-    pub(crate) dir: u16,
-}
-
-impl std::fmt::Display for Position {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{},{},{}", self.x, self.y, self.dir)
-    }
-}
-
-impl Position {
-    pub fn from_move_packet(packet: &PacketCzRequestMove) -> Position {
-        // example: for a movement to 158, 158 cell we receive following bytes for packet.dest_raw: 27, 89, E0
-        let x = (((packet.dest_raw[0] & 0xff) as u16) << 2) | (packet.dest_raw[1] >> 6) as u16; // example: 158
-        let y = (((packet.dest_raw[1] & 0x3f) as u16) << 4) | (packet.dest_raw[2] >> 4) as u16; // example: 158
-        let dir: u16 = (packet.dest_raw[2] & 0x0f) as u16; // not use for the moment
-        Position { x, y, dir }
-    }
-    pub fn from_move2_packet(packet: &PacketCzRequestMove2) -> Position {
-        // example: for a movement to 158, 158 cell we receive following bytes for packet.dest_raw: 27, 89, E0
-        let x = (((packet.dest_raw[0] & 0xff) as u16) << 2) | (packet.dest_raw[1] >> 6) as u16; // example: 158
-        let y = (((packet.dest_raw[1] & 0x3f) as u16) << 4) | (packet.dest_raw[2] >> 4) as u16; // example: 158
-        let dir: u16 = (packet.dest_raw[2] & 0x0f) as u16; // not use for the moment
-        Position { x, y, dir }
-    }
-
-    pub fn to_move_data(&self, destination: &Position) -> [u8; 6] {
-        let mut move_data: [u8; 6] = [0; 6];
-        move_data[0] = (self.x >> 2) as u8;
-        move_data[1] = ((self.x << 6) | ((self.y >> 4) & 0x3f)) as u8;
-        move_data[2] = ((self.y << 4) | ((destination.x >> 6) & 0x0f)) as u8;
-        move_data[3] = ((destination.x << 2) | (destination.y >> 8) & 0x03) as u8;
-        move_data[4] = destination.y as u8;
-        move_data[5] = 136; // hardcoded value in hercules (8 << 4) | (8 & 0x0f)
-        move_data
-    }
-
-    pub fn to_pos(&self) -> [u8; 3] {
-        let mut move_data: [u8; 3] = [0; 3];
-        move_data[0] = (self.x >> 2) as u8;
-        move_data[1] = ((self.x << 6) | ((self.y >> 4) & 0x3f)) as u8;
-        move_data[2] = ((self.y << 4) | (self.dir & 0xf)) as u8;
-        move_data
-    }
-}
 
 // TODO find a formula
 fn extra_delay(speed: u16) -> i16 {
@@ -135,23 +87,12 @@ pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<
     // handle
 }
 
-pub fn change_map(destination_map: &String, x: u16, y: u16, session: Arc<Session>, server: Arc<Server>, runtime: Option<&Runtime>) {
-    change_map_packet(destination_map, x, y, session.clone(), server.clone());
-    let packet_zc_npcack_mapmove = PacketZcNpcackMapmove::new();
-    session.send_to_map_socket(packet_zc_npcack_mapmove.raw());
-    let character_session = server.get_character_unsafe(session.char_id());
-    character_session.clear_map_view();
-    // if let Some(runtime) = runtime {
-    //     runtime.spawn(async move {
-    //         save_character_position(server, session.clone()).await
-    //     });
-    // }
-}
-
 pub fn change_map_packet(destination_map: &String, x: u16, y: u16, session: Arc<Session>, server: Arc<Server>) {
     let char_id = session.char_id();
     let character = server.get_character_unsafe(char_id);
+    server.add_to_next_tick(Event::CharacterClearFov(char_id));
     server.add_to_next_tick(Event::CharacterRemoveFromMap(char_id));
+
     let map_name: String = Map::name_without_ext(destination_map.to_string());
     debug!("Char enter on map {}", map_name);
     let map_ref = server.maps.get(&map_name).unwrap();
@@ -179,10 +120,16 @@ pub fn change_map_packet(destination_map: &String, x: u16, y: u16, session: Arc<
     }));
 
     server.insert_map_item(session.account_id, character.to_map_item());
-}
 
-pub async fn save_character_position(server: Arc<Server>, session: Arc<Session>) -> Result<(), Error> {
-    let char_id = session.char_id();
-    let character = server.get_character_unsafe(char_id);
-    server.repository.character_save_position(session.account_id, char_id, Map::name_without_ext(character.get_current_map_name()), character.x(), character.y()).await
+    // if let Some(runtime) = runtime {
+    //     runtime.spawn(async move {
+    //         save_character_position(server, session.clone()).await
+    //     });
+    // }
 }
+//
+// pub async fn save_character_position(server: Arc<Server>, session: Arc<Session>) -> Result<(), Error> {
+//     let char_id = session.char_id();
+//     let character = server.get_character_unsafe(char_id);
+//     server.repository.character_save_position(session.account_id, char_id, Map::name_without_ext(character.get_current_map_name()), character.x(), character.y()).await
+// }
