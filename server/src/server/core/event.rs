@@ -2,7 +2,6 @@ use crate::server::core::character::Character;
 use crate::server::core::position::Position;
 
 pub enum Event {
-    CharacterInsert(Character),
     CharacterRemove(u32),
     CharacterRemoveFromMap(u32),
     CharacterClearFov(u32),

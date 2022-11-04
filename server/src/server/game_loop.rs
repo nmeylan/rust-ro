@@ -38,8 +38,9 @@ impl Server {
                         }
                         Event::CharacterRemoveFromMap(char_id) => {
                             let character = characters.get_mut(&char_id).unwrap();
-                            let map = server_ref.maps.get(character.current_map_name()).unwrap();
-                            map.get_instance(character.current_map_instance()).remove_character(character.to_map_item());
+                            if let Some(map) = server_ref.maps.get(character.current_map_name()) {
+                                map.get_instance(character.current_map_instance()).remove_character(character.to_map_item());
+                            }
                         }
                         Event::CharacterUpdatePosition(event) => {
                             let character = characters.get_mut(&event.char_id).unwrap();
@@ -48,10 +49,6 @@ impl Server {
                         Event::CharacterClearFov(char_id) => {
                             let character = characters.get_mut(&char_id).unwrap();
                             character.clear_map_view();
-                        }
-                        Event::CharacterInsert(character) => {
-                            characters.insert(character.char_id, character);
-                            info!("inserted char");
                         }
                         Event::CharacterRemove(char_id) => {
                             characters.remove(&char_id);

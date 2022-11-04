@@ -6,3 +6,4 @@ pub mod coordinate;
 pub mod macro_util;
 pub mod log_filter;
 pub mod tick;
+pub mod cell;
