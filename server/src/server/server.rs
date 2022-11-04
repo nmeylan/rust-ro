@@ -60,6 +60,7 @@ pub struct Server {
     pub repository: Arc<Repository>,
     pub maps: HashMap<String, Arc<Map>>,
     map_items: RefCell<HashMap<u32, MapItem>>,
+
     pub characters: MyUnsafeCell<HashMap<u32, Character>>,
     tasks_queue: TasksQueue<Event>,
     pub vm: Arc<Vm>,

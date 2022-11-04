@@ -45,7 +45,6 @@ pub fn handle_char_loaded_client_side(server: Arc<Server>, context: Request) {
     let session = context.session();
     let session_id = session.account_id;
 
-    let character = server.get_character_unsafe(session.char_id());
     let mut packet_zc_notify_mapproperty2 = PacketZcNotifyMapproperty2::new();
     let mut packet_zc_hat_effect = PacketZcHatEffect::new();
     packet_zc_notify_mapproperty2.set_atype(0x2); // TODO set this correctly see enum map_type in hercules
