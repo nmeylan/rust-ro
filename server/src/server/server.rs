@@ -19,15 +19,15 @@ use rathena_script_lang_interpreter::lang::vm::Vm;
 use regex::internal::Char;
 use tokio::runtime::Runtime;
 
-use packets::packets::{Packet, PacketCaLogin, PacketChDeleteChar4Reserved, PacketChEnter, PacketChMakeChar, PacketChMakeChar2, PacketChMakeChar3, PacketChSelectChar, PacketCzAckSelectDealtype, PacketCzBlockingPlayCancel, PacketCzChooseMenu, PacketCzContactnpc, PacketCzEnter2, PacketCzInputEditdlg, PacketCzInputEditdlgstr, PacketCzNotifyActorinit, PacketCzPcPurchaseItemlist, PacketCzPlayerChat, PacketCzReqDisconnect2, PacketCzReqname, PacketCzReqnameall2, PacketCzReqNextScript, PacketCzRequestAct2, PacketCzRequestMove, PacketCzRequestMove2, PacketCzRequestTime, PacketCzRestart, PacketUnknown, PacketZcNotifyTime};
+use packets::packets::{Packet, PacketCaLogin, PacketChDeleteChar4Reserved, PacketChEnter, PacketChMakeChar, PacketChMakeChar2, PacketChMakeChar3, PacketChSelectChar, PacketCzAckSelectDealtype, PacketCzBlockingPlayCancel, PacketCzChooseMenu, PacketCzContactnpc, PacketCzEnter2, PacketCzInputEditdlg, PacketCzInputEditdlgstr, PacketCzNotifyActorinit, PacketCzPcPurchaseItemlist, PacketCzPlayerChat, PacketCzReqDisconnect2, PacketCzReqname, PacketCzReqnameall2, PacketCzReqNextScript, PacketCzRequestAct2, PacketCzRequestMove, PacketCzRequestMove2, PacketCzRequestTime, PacketCzRestart, PacketUnknown, PacketZcNotifyTime, PacketZcNpcackMapmove};
 use packets::packets_parser::parse;
 
 use crate::repository::Repository;
 use crate::server::configuration::Config;
 use crate::server::core::character::Character;
 use crate::server::core::event::Event;
-use crate::server::core::map::{Map, MapItem};
-use crate::server::core::notification::Notification;
+use crate::server::core::map::{Map, MAP_EXT, MapItem};
+use crate::server::core::notification::{CharNotification, Notification};
 use crate::server::core::request::Request;
 use crate::server::core::response::Response;
 use crate::server::core::session::{Session, SessionsIter};
@@ -40,6 +40,7 @@ use crate::server::handler::chat::handle_chat;
 use crate::server::handler::login::handle_login;
 use crate::server::handler::map::{handle_char_loaded_client_side, handle_map_item_name};
 use crate::server::handler::movement::handle_char_move;
+use crate::util::string::StringUtil;
 use crate::util::tick::get_tick;
 
 // Todo make this configurable
@@ -162,6 +163,7 @@ impl Server {
 
         let (response_sender, single_response_receiver) = std::sync::mpsc::sync_channel::<Response>(0);
         let (client_notification_sender, single_client_notification_receiver) = std::sync::mpsc::sync_channel::<Notification>(0);
+        let client_notification_sender_clone = client_notification_sender.clone();
         thread::scope(|server_thread_scope: &Scope| {
             let listener = TcpListener::bind(format!("0.0.0.0:{}", port)).unwrap();
             info!("Server listen on 0.0.0.0:{}", port);
@@ -172,7 +174,7 @@ impl Server {
                     let server_shared_ref = server_shared_ref.clone();
                     debug!("Received new connection");
                     let response_sender_clone = response_sender.clone();
-                    let client_notification_sender_clone = client_notification_sender.clone();
+                    let client_notification_sender_clone = client_notification_sender_clone.clone();
                     server_thread_scope.spawn(move || {
                         PACKETVER.with(|ver| *ver.borrow_mut() = server_shared_ref.packetver());
                         let runtime = Runtime::new().unwrap();
@@ -226,6 +228,7 @@ impl Server {
                 }
             });
             let server_ref_clone = server_ref.clone();
+            let client_notification_sender_clone = client_notification_sender.clone();
             server_thread_scope.spawn(move || {
                 let server_ref = server_ref_clone;
                 loop {
@@ -233,13 +236,33 @@ impl Server {
                     if let Some(tasks) = server_ref.pop_task() {
                         for task in tasks {
                             match task {
-                                Event::CharacterChangeMap(characterChangeMap) => {
+                                Event::CharacterChangeMap(event) => {
                                     let mut characters = server_ref.characters.borrow_mut();
-                                    let character = characters.get_mut(&characterChangeMap.char_id).unwrap();
-                                    if let Some(map) = server_ref.maps.get(characterChangeMap.new_map_name.as_str()) {
+                                    let character = characters.get_mut(&event.char_id).unwrap();
+                                    if let Some(map) = server_ref.maps.get(event.new_map_name.as_str()) {
                                         info!("join_and_set_map");
-                                        character.join_and_set_map(map.get_instance(characterChangeMap.new_instance_id));
+                                        character.join_and_set_map(map.get_instance(event.new_instance_id));
+                                        let mut packet_zc_npcack_mapmove = PacketZcNpcackMapmove::new();
+
+                                        let mut new_current_map: [char; 16] = [0 as char; 16];
+                                        let map_name = format!("{}{}", event.new_map_name, MAP_EXT);
+                                        map_name.fill_char_array(new_current_map.as_mut());
+                                        packet_zc_npcack_mapmove.set_map_name(new_current_map);
+                                        packet_zc_npcack_mapmove.set_x_pos(character.x() as i16);
+                                        packet_zc_npcack_mapmove.set_y_pos(character.y() as i16);
+                                        packet_zc_npcack_mapmove.fill_raw();
+                                        client_notification_sender_clone.send(Notification::Char(CharNotification::new(character.account_id, std::mem::take(packet_zc_npcack_mapmove.raw_mut()))));
                                     }
+                                }
+                                Event::CharacterRemoveFromMap(char_id) => {
+                                    let mut characters = server_ref.characters.borrow_mut();
+                                    let character = characters.get_mut(&char_id).unwrap();
+                                    character.remove_from_existing_map();
+                                }
+                                Event::CharacterUpdatePosition(event) => {
+                                    let mut characters = server_ref.characters.borrow_mut();
+                                    let character = characters.get_mut(&event.char_id).unwrap();
+                                    character.update_position(event.x, event.y);
                                 }
                             }
                         }
