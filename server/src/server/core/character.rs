@@ -37,8 +37,8 @@ pub struct Character {
     pub account_id: u32,
     pub current_map: Option<Arc<MapInstance>>,
     pub current_map_name: [char; 16],
-    pub x: AtomicU16,
-    pub y: AtomicU16,
+    pub x: u16,
+    pub y: u16,
     pub movement_tasks: Mutex<Vec<MovementTask>>,
     pub map_view: RwLock<HashSet<MapItem>>,
     pub self_ref: RwLock<Option<Arc<Character>>>,
@@ -86,16 +86,11 @@ impl Character {
         *self_ref_guard = Some(self_ref);
     }
 
-    fn update_x_y(&mut self, x: u16, y: u16) {
-        self.x.store(x, Relaxed);
-        self.y.store(y, Relaxed);
-    }
-
     pub fn x(&self) -> u16 {
-        self.x.load(Relaxed)
+        self.x
     }
     pub fn y(&self) -> u16 {
-        self.y.load(Relaxed)
+        self.y
     }
 
     fn set_current_map_name(&mut self, new_name: [char; 16]) {
@@ -120,7 +115,8 @@ impl Character {
 
     pub fn update_position(&mut self, x: u16, y: u16) {
         debug!("[{:?}] update_position {},{}", std::thread::current().id(), x, y);
-        self.update_x_y(x, y);
+        self.x = x;
+        self.y = y;
     }
 
     pub fn get_current_map_name(&self) -> String {
