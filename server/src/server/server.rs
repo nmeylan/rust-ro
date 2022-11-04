@@ -41,6 +41,7 @@ use crate::server::handler::chat::handle_chat;
 use crate::server::handler::login::handle_login;
 use crate::server::handler::map::{handle_char_loaded_client_side, handle_map_item_name};
 use crate::server::handler::movement::handle_char_move;
+use crate::util::cell::{MyRef, MyUnsafeCell};
 use crate::util::string::StringUtil;
 use crate::util::tick::get_tick;
 
@@ -59,7 +60,7 @@ pub struct Server {
     pub repository: Arc<Repository>,
     pub maps: HashMap<String, Arc<Map>>,
     map_items: RefCell<HashMap<u32, MapItem>>,
-    pub characters: RefCell<HashMap<u32, Character>>,
+    pub characters: MyUnsafeCell<HashMap<u32, Character>>,
     tasks_queue: TasksQueue<Event>,
     pub vm: Arc<Vm>,
 }
@@ -83,14 +84,12 @@ impl Server {
         self.tasks_queue.pop()
     }
 
-    pub fn get_character_unsafe<'b, 'a: 'b>(&'b self, char_id: u32) -> Ref<Character> {
-        // self.characters.borrow().get(&char_id).expect(format!("Expected to find a character for char_id {}", char_id).as_str())
-        // let x = self.characters.deref().get(&char_id).unwrap();
-        Ref::map(self.characters.borrow(), |characters| characters.get(&char_id).unwrap())
+    pub fn get_character_unsafe<'b, 'a: 'b>(&'b self, char_id: u32) -> MyRef<Character> {
+        MyRef::map(self.characters.borrow(), |characters| characters.get(&char_id).unwrap())
     }
 
     pub fn insert_character(&self, character: Character) {
-        self.tasks_queue.add_to_first_index(Event::CharacterInsert(character));
+        self.characters.borrow_mut().insert(character.char_id, character);
     }
 
     pub fn get_map_socket_for_account_id(&self, account_id: u32) -> Option<Arc<RwLock<TcpStream>>> {
