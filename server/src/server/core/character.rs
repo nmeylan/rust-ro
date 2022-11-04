@@ -86,7 +86,7 @@ impl Character {
         *self_ref_guard = Some(self_ref);
     }
 
-    fn update_x_y(&self, x: u16, y: u16) {
+    fn update_x_y(&mut self, x: u16, y: u16) {
         self.x.store(x, Relaxed);
         self.y.store(y, Relaxed);
     }
@@ -106,7 +106,7 @@ impl Character {
         coordinate::get_cell_index_of(self.x(), self.y(), self.current_map.as_ref().unwrap().x_size)
     }
 
-    pub fn remove_from_existing_map(&self) {
+    pub fn remove_from_existing_map(&mut self) {
         if self.current_map.is_some() {
             let map_instance_ref = self.current_map.as_ref().unwrap();
             map_instance_ref.remove_item(self.to_map_item());
@@ -118,7 +118,7 @@ impl Character {
         map_instance.insert_item(self.to_map_item());
     }
 
-    pub fn update_position(&self, x: u16, y: u16) {
+    pub fn update_position(&mut self, x: u16, y: u16) {
         debug!("[{:?}] update_position {},{}", std::thread::current().id(), x, y);
         self.update_x_y(x, y);
     }

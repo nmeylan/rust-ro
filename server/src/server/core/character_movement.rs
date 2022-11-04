@@ -9,7 +9,7 @@ use tokio::time::Duration;
 
 use packets::packets::{Packet, PacketCzRequestMove, PacketCzRequestMove2, PacketZcNpcackMapmove};
 use crate::server::core::character::{Character, MovementTask};
-use crate::server::core::event::{CharacterChangeMap, Event};
+use crate::server::core::event::{CharacterChangeMap, CharacterUpdatePosition, Event};
 
 use crate::server::core::map::{Map, MAP_EXT, MapItem, RANDOM_CELL};
 use crate::server::core::path::PathNode;
@@ -136,7 +136,8 @@ pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<
 }
 
 pub fn change_map(destination_map: &String, x: u16, y: u16, session: Arc<Session>, server: Arc<Server>, runtime: Option<&Runtime>) {
-    let packet_zc_npcack_mapmove = change_map_packet(destination_map, x, y, session.clone(), server.clone());
+    change_map_packet(destination_map, x, y, session.clone(), server.clone());
+    let packet_zc_npcack_mapmove = PacketZcNpcackMapmove::new();
     session.send_to_map_socket(packet_zc_npcack_mapmove.raw());
     let character_session = server.get_character_unsafe(session.char_id());
     character_session.clear_map_view();
@@ -147,19 +148,25 @@ pub fn change_map(destination_map: &String, x: u16, y: u16, session: Arc<Session
     // }
 }
 
-pub fn change_map_packet(destination_map: &String, x: u16, y: u16, session: Arc<Session>, server: Arc<Server>) -> PacketZcNpcackMapmove {
+pub fn change_map_packet(destination_map: &String, x: u16, y: u16, session: Arc<Session>, server: Arc<Server>) {
     let char_id = session.char_id();
     let character = server.get_character_unsafe(char_id);
-    character.remove_from_existing_map();
+    server.add_to_next_tick(Event::CharacterRemoveFromMap(char_id));
     let map_name: String = Map::name_without_ext(destination_map.to_string());
     debug!("Char enter on map {}", map_name);
     let map_ref = server.maps.get(&map_name).unwrap();
     let map_instance = map_ref.player_join_map(server.clone());
     if x == RANDOM_CELL.0 && y == RANDOM_CELL.1 {
         let walkable_cell = Map::find_random_walkable_cell(&map_instance.cells, map_instance.x_size);
-        character.update_position(walkable_cell.0, walkable_cell.1);
+        server.add_to_next_tick(Event::CharacterUpdatePosition(CharacterUpdatePosition{
+            char_id: session.char_id.unwrap(),
+            x: walkable_cell.0,
+            y: walkable_cell.1,
+        }));
     } else {
-        character.update_position(x, y);
+        server.add_to_next_tick(Event::CharacterUpdatePosition(CharacterUpdatePosition{
+            char_id: session.char_id.unwrap(), x, y,
+        }));
     }
 
     server.add_to_next_tick(Event::CharacterChangeMap(CharacterChangeMap{
@@ -172,18 +179,6 @@ pub fn change_map_packet(destination_map: &String, x: u16, y: u16, session: Arc<
     }));
 
     server.insert_map_item(session.account_id, character.to_map_item());
-
-    let mut packet_zc_npcack_mapmove = PacketZcNpcackMapmove::new();
-
-    let mut new_current_map: [char; 16] = [0 as char; 16];
-    let map_name = format!("{}{}", destination_map, MAP_EXT);
-    map_name.fill_char_array(new_current_map.as_mut());
-    packet_zc_npcack_mapmove.set_map_name(new_current_map);
-    packet_zc_npcack_mapmove.set_x_pos(character.x() as i16);
-    packet_zc_npcack_mapmove.set_y_pos(character.y() as i16);
-    packet_zc_npcack_mapmove.fill_raw();
-    packet_zc_npcack_mapmove.display();
-    packet_zc_npcack_mapmove
 }
 
 pub async fn save_character_position(server: Arc<Server>, session: Arc<Session>) -> Result<(), Error> {

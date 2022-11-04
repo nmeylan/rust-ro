@@ -15,6 +15,7 @@ use crate::Map;
 use crate::server::enums::status::StatusTypes;
 use crate::server::core::character::{Character};
 use crate::server::core::character_movement::{change_map_packet};
+use crate::server::core::event::Event;
 use crate::server::core::request::Request;
 use crate::server::core::session::Session;
 use crate::server::core::status::Status;
@@ -274,10 +275,9 @@ pub fn handle_enter_game(server: Arc<Server>, context: Request) {
     let char_id = session.char_id();
     let character = server.get_character_unsafe(char_id);
 
-    let packet_zc_npcack_mapmove = change_map_packet(&Map::name_without_ext(character.get_current_map_name()), character.x(), character.y(), session.clone(), server.clone());
-    let final_response_packet: Vec<u8> = chain_packets(vec![&packet_accept_enter, &packet_zc_npcack_mapmove]);
+    change_map_packet(&Map::name_without_ext(character.get_current_map_name()), character.x(), character.y(), session.clone(), server.clone());
     // let final_response_packet: Vec<u8> = chain_packets(vec![&packet_inventory_expansion_info, &packet_overweight_percent, &packet_accept_enter, &packet_zc_npcack_mapmove]);
-    socket_send_raw!(context, final_response_packet);
+    socket_send!(context, packet_accept_enter);
 
     let mut packet_str = PacketZcStatusValues::new();
     packet_str.set_status_type(StatusTypes::Str.value());
@@ -384,8 +384,7 @@ pub fn handle_restart(server: Arc<Server>, context: Request) {
     let mut sessions_guard = write_lock!(server.sessions);
     let session = sessions_guard.get(&session_id).unwrap();
     let char_id = session.char_id();
-    let character = server.get_character_unsafe(char_id);
-    character.remove_from_existing_map();
+    server.add_to_next_tick(Event::CharacterRemoveFromMap(char_id));
 
     let session = sessions_guard.get(&session_id).unwrap();
     let session = Arc::new(session.recreate_without_character());
@@ -400,8 +399,7 @@ pub fn handle_restart(server: Arc<Server>, context: Request) {
 pub fn handle_disconnect(server: Arc<Server>, context: Request) {
     let session = context.session();
     let char_id = session.char_id();
-    let character = server.get_character_unsafe(char_id);
-    character.remove_from_existing_map();
+    server.add_to_next_tick(Event::CharacterRemoveFromMap(char_id));
     server.remove_session(session.account_id);
 
     let mut disconnect_ack = PacketZcReqDisconnectAck2::new();
