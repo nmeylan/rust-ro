@@ -1,9 +1,12 @@
 use std::any::Any;
+use std::borrow::Borrow;
 use std::collections::HashSet;
+use std::mem;
 use std::net::TcpStream;
 use std::sync::{Arc, Mutex, RwLock};
 use std::sync::atomic::AtomicU16;
 use std::sync::atomic::Ordering::{Acquire, Relaxed};
+use std::sync::mpsc::SyncSender;
 
 use tokio::runtime::Runtime;
 
@@ -12,16 +15,17 @@ use packets::packets::{PacketZcNotifyStandentry7, PacketZcNotifyVanish};
 use packets::packets::Packet;
 
 use crate::Server;
-use crate::server::core::character_movement::Position;
+use crate::server::core::position::Position;
 use crate::server::core::map::{MAP_EXT, MapItem};
 use crate::server::core::map_instance::MapInstance;
 use crate::server::core::mob::Mob;
+use crate::server::core::notification::{CharNotification, Notification};
 use crate::server::core::path::manhattan_distance;
 use crate::server::core::session::Session;
 use crate::server::core::status::{LookType, Status};
 use crate::server::enums::map_item::MapItemType;
 use crate::server::script::{GlobalVariableEntry, ScriptGlobalVariableStore};
-use crate::server::server::PLAYER_FOV;
+use crate::server::server::{PACKETVER, PLAYER_FOV};
 use crate::util::coordinate;
 use crate::util::string::StringUtil;
 
@@ -35,13 +39,13 @@ pub struct Character {
     #[set]
     pub char_id: u32,
     pub account_id: u32,
-    pub current_map: Option<Arc<MapInstance>>,
+    pub current_map_instance: u8,
     pub current_map_name: [char; 16],
+    pub current_map_name_string: String,
     pub x: u16,
     pub y: u16,
     pub movement_tasks: Mutex<Vec<MovementTask>>,
-    pub map_view: RwLock<HashSet<MapItem>>,
-    pub self_ref: RwLock<Option<Arc<Character>>>,
+    pub map_view: HashSet<MapItem>,
     pub script_variable_store: Mutex<ScriptGlobalVariableStore>,
 }
 
@@ -81,11 +85,6 @@ impl Character {
         MapItem::new(self.char_id, client_item_class, MapItemType::Character)
     }
 
-    pub fn set_self_ref(&self, self_ref: Arc<Character>) {
-        let mut self_ref_guard = write_lock!(self.self_ref);
-        *self_ref_guard = Some(self_ref);
-    }
-
     pub fn x(&self) -> u16 {
         self.x
     }
@@ -96,16 +95,8 @@ impl Character {
     fn set_current_map_name(&mut self, new_name: [char; 16]) {
         self.current_map_name = new_name;
     }
-
-    pub fn get_pos_index(&self) -> usize {
-        coordinate::get_cell_index_of(self.x(), self.y(), self.current_map.as_ref().unwrap().x_size)
-    }
-
-    pub fn remove_from_existing_map(&mut self) {
-        if self.current_map.is_some() {
-            let map_instance_ref = self.current_map.as_ref().unwrap();
-            map_instance_ref.remove_item(self.to_map_item());
-        }
+    fn set_current_map_name_string(&mut self, new_name: String) {
+        self.current_map_name_string = new_name;
     }
 
     pub fn join_and_set_map(&mut self, map_instance: Arc<MapInstance>) {
@@ -119,8 +110,15 @@ impl Character {
         self.y = y;
     }
 
-    pub fn get_current_map_name(&self) -> String {
-        self.current_map_name.iter().filter(|c|**c != '\0').collect()
+    pub fn current_map_name(&self) -> &String {
+        &self.current_map_name_string
+    }
+
+    pub fn current_map_name_char(&self) -> [char; 16] {
+        self.current_map_name
+    }
+    pub fn current_map_instance(&self) -> u8 {
+        self.current_map_instance
     }
     pub fn add_movement_task_id(&self, task: MovementTask) {
         if let Ok(mut movement_tasks_guard) = self.movement_tasks.try_lock() {
@@ -142,23 +140,20 @@ impl Character {
         let map_name = format!("{}{}", current_map.name, MAP_EXT);
         map_name.fill_char_array(new_current_map.as_mut());
         self.set_current_map_name(new_current_map);
-        self.current_map = Some(current_map);
+        self.set_current_map_name_string(map_name);
+        self.current_map_instance = current_map.id;
     }
 
-    pub fn clear_map_view(&self) {
-        let mut map_view_guard = write_lock!(self.map_view);
-        *map_view_guard = Default::default();
+    pub fn clear_map_view(&mut self) {
+        self.map_view = Default::default();
     }
 
-    pub fn load_units_in_fov(&self, session: &Arc<Session>) {
+    pub fn load_units_in_fov(&mut self, client_notification_sender_clone: SyncSender<Notification>) {
         todo!("load_units_in_fov");
         // let mut new_map_view: HashSet<MapItem> = HashSet::with_capacity(2048);
-        // let mut map_view_guard = write_lock!(self.map_view);
-        // let current_map_guard = read_lock!(self.current_map);
-        // let map_ref = current_map_guard.as_ref().unwrap().clone();
+        // let map_ref = self.current_map.as_ref().unwrap().clone();
         // let map_items_guard = read_lock!(map_ref.map_items);
         // let map_items_clone = map_items_guard.clone();
-        // drop(current_map_guard);
         // drop(map_items_guard);
         // for item in map_items_clone {
         //     if item.id() != self.char_id && manhattan_distance(self.x(), self.y(), item.x(), item.y()) <= PLAYER_FOV {
@@ -172,12 +167,12 @@ impl Character {
         //         continue;
         //     }
         //     // info!("See map_item {} at {},{}", map_item.object_type(), map_item.x(), map_item.y());
-        //     if !map_view_guard.contains(map_item) {
+        //     if !self.map_view.contains(map_item) {
         //         let mut name = [0 as char; 24];
         //         map_item.name().fill_char_array(name.as_mut());
         //         let mut packet_zc_notify_standentry = PacketZcNotifyStandentry7::new();
         //         packet_zc_notify_standentry.set_job(map_item.client_item_class());
-        //         packet_zc_notify_standentry.set_packet_length(PacketZcNotifyStandentry7::base_len(session.packetver()) as i16);
+        //         PACKETVER.with(|packetver| packet_zc_notify_standentry.set_packet_length(PacketZcNotifyStandentry7::base_len(*packetver.borrow()) as i16));
         //         // packet_zc_notify_standentry.set_name(name);
         //         packet_zc_notify_standentry.set_pos_dir(Position { x: map_item.x(), y: map_item.y(), dir: 3 }.to_pos());
         //         packet_zc_notify_standentry.set_objecttype(map_item.object_type() as u8);
@@ -190,21 +185,21 @@ impl Character {
         //             packet_zc_notify_standentry.set_hp(mob.status.hp);
         //             packet_zc_notify_standentry.set_max_hp(mob.status.max_hp);
         //         }
-        //         packet_zc_notify_standentry.fill_raw_with_packetver(Some(session.packetver()));
-        //         session.send_to_map_socket(packet_zc_notify_standentry.raw());
+        //         PACKETVER.with(|packetver| packet_zc_notify_standentry.fill_raw_with_packetver(Some(*packetver.borrow())));
+        //         client_notification_sender_clone.send(Notification::Char(CharNotification::new(self.account_id, mem::take(packet_zc_notify_standentry.raw_mut()))))
         //     }
         // }
         //
-        // for map_item in map_view_guard.iter() {
+        // for map_item in self.map_view.iter() {
         //     if !new_map_view.contains(map_item) {
         //         // info!("Vanish map_item {} at {},{}", map_item.object_type(), map_item.x(), map_item.y());
         //         let mut packet_zc_notify_vanish = PacketZcNotifyVanish::new();
         //         packet_zc_notify_vanish.set_gid(map_item.id());
         //         packet_zc_notify_vanish.fill_raw();
-        //         session.send_to_map_socket(packet_zc_notify_vanish.raw());
+        //         client_notification_sender_clone.send(Notification::Char(CharNotification::new(self.account_id, mem::take(packet_zc_notify_vanish.raw_mut()))));
         //     }
         // }
-        // *map_view_guard = new_map_view;
+        // self.map_view = new_map_view;
     }
 
     pub fn get_look(&self, look_type: LookType) -> u32 {

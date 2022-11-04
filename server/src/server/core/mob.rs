@@ -5,7 +5,7 @@ use std::sync::atomic::{AtomicU16, AtomicU64};
 use std::sync::atomic::Ordering::Relaxed;
 use rand::Rng;
 use packets::packets::PacketZcNotifyMove;
-use crate::server::core::character_movement::Position;
+use crate::server::core::position::Position;
 use crate::server::core::map::{Map, MapItem};
 use crate::server::core::map_instance::MapInstance;
 use crate::server::core::status::Status;

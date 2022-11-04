@@ -9,7 +9,7 @@ use regex::Regex;
 use std::io::Write;
 use packets::packets::Packet;
 use crate::server::configuration::CityConfig;
-use crate::server::core::character_movement::change_map;
+use crate::server::core::character_movement::{change_map_packet};
 use crate::server::core::map::RANDOM_CELL;
 use crate::server::core::request::Request;
 
@@ -105,7 +105,7 @@ pub fn handle_go(server: Arc<Server>, session: Arc<Session>, runtime: &Runtime, 
         _ => ()
     }
 
-    change_map(&city.name, city.x, city.y, session, server, Some(runtime));
+    change_map_packet(&city.name, city.x, city.y, session, server);
     format!("Warping at {} {},{}", city.name.clone(), city.x, city.y)
 }
 
@@ -122,7 +122,7 @@ pub fn handle_warp(server: Arc<Server>, session: Arc<Session>, runtime: &Runtime
                 y = parse_y_res.unwrap();
             }
         }
-        change_map(&map_name, x, y, session.clone(), server.clone(), Some(runtime));
+        change_map_packet(&map_name, x, y, session.clone(), server.clone());
         let char_id = session.char_id();
         let character = server.get_character_unsafe(char_id);
         return format!("Warp to map {} at {},{}", map_name, character.x(), character.y());

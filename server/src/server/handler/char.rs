@@ -193,12 +193,12 @@ pub fn handle_select_char(server: Arc<Server>, context: Request) {
         char_id,
         status: Status::from_char_model(&char_model, &server.configuration.game),
         current_map_name: map_name,
+        current_map_name_string: last_map,
         x: last_x,
         y: last_y,
         movement_tasks: Mutex::new(vec![]),
-        map_view: RwLock::new(HashSet::new()),
-        current_map: None,
-        self_ref: RwLock::new(None),
+        map_view: HashSet::new(),
+        current_map_instance: 0,
         script_variable_store: Mutex::new(ScriptGlobalVariableStore::default()),
         account_id: session_id
     };
@@ -275,7 +275,7 @@ pub fn handle_enter_game(server: Arc<Server>, context: Request) {
     let char_id = session.char_id();
     let character = server.get_character_unsafe(char_id);
 
-    change_map_packet(&Map::name_without_ext(character.get_current_map_name()), character.x(), character.y(), session.clone(), server.clone());
+    change_map_packet(&Map::name_without_ext(character.current_map_name().clone()), character.x(), character.y(), session.clone(), server.clone());
     // let final_response_packet: Vec<u8> = chain_packets(vec![&packet_inventory_expansion_info, &packet_overweight_percent, &packet_accept_enter, &packet_zc_npcack_mapmove]);
     socket_send!(context, packet_accept_enter);
 
