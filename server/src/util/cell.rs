@@ -3,6 +3,8 @@ use std::marker::PhantomData;
 use std::ops::{Deref, DerefMut};
 use std::ptr::NonNull;
 
+/// Works like RefCell but can be borrow and borrow_mut at the same time.
+/// Should be used with caution
 pub struct MyUnsafeCell<T: ?Sized> {
     borrow: Cell<isize>,
     value: UnsafeCell<T>
