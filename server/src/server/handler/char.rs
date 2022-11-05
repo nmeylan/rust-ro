@@ -194,6 +194,7 @@ pub fn handle_select_char(server: Arc<Server>, context: Request) {
         status: Status::from_char_model(&char_model, &server.configuration.game),
         current_map_name: map_name,
         current_map_name_string: last_map,
+        loaded_from_client_side: false,
         x: last_x,
         y: last_y,
         movement_tasks: Mutex::new(vec![]),

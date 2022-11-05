@@ -4,40 +4,41 @@ use packets::packets::{Packet, PacketZcAckReqnameall2, PacketCzReqnameall2, Pack
 use crate::server::server::Server;
 use crate::util::string::StringUtil;
 use std::io::Write;
+use crate::server::core::event::Event;
 use crate::server::core::map::{MapPropertyFlags};
 use crate::server::core::request::Request;
 use crate::server::core::session::Session;
 use crate::util::packet::chain_packets;
 
 pub fn handle_map_item_name(server: Arc<Server>, context: Request) {
-    todo!("handle_map_item_name");
-    // let gid = if context.packet().as_any().downcast_ref::<PacketCzReqnameall2>().is_some() {
-    //     let packet_cz_req_allname2 = cast!(context.packet(), PacketCzReqnameall2);
-    //     packet_cz_req_allname2.gid
-    // } else if context.packet().as_any().downcast_ref::<PacketCzReqname>().is_some() {
-    //     let packet_cz_req_name = cast!(context.packet(), PacketCzReqname);
-    //     packet_cz_req_name.aid
-    // } else {
-    //     0
-    // };
-    // let map_items_guard = read_lock!(server.map_items);
-    // let map_item_found = map_items_guard.get(&gid);
-    // if map_item_found.is_none() {
-    //     error!("Can't find map item with id: {}", gid);
-    //     return;
-    // }
-    // let map_item = map_item_found.unwrap();
-    // let mut packet_zc_ack_reqnameall2 = PacketZcAckReqnameall2::new();
-    // packet_zc_ack_reqnameall2.set_gid(gid);
-    // let mut name: [char; 24] = [0 as char; 24];
-    // // let aaaaa = format!("{} {}", map_item.x(), map_item.y());
-    // // aaaaa.fill_char_array(name.as_mut());
-    // info!("{:?}", map_item.name());
-    // map_item.name().fill_char_array(name.as_mut());
-    // packet_zc_ack_reqnameall2.set_name(name);
-    // // TODO handle guild name, guild title
-    // packet_zc_ack_reqnameall2.fill_raw();
-    // socket_send!(context, packet_zc_ack_reqnameall2);
+    let gid = if context.packet().as_any().downcast_ref::<PacketCzReqnameall2>().is_some() {
+        let packet_cz_req_allname2 = cast!(context.packet(), PacketCzReqnameall2);
+        packet_cz_req_allname2.gid
+    } else if context.packet().as_any().downcast_ref::<PacketCzReqname>().is_some() {
+        let packet_cz_req_name = cast!(context.packet(), PacketCzReqname);
+        packet_cz_req_name.aid
+    } else {
+        0
+    };
+    let maybe_map_item = server.get_map_item(gid);
+    if maybe_map_item.is_none() {
+        error!("Can't find map item with id: {}", gid);
+        return;
+    }
+    let map_item = maybe_map_item.unwrap();
+    let character = server.get_character_from_context_unsafe(&context);
+    let map_item_name = server.map_item_name(&map_item, character.current_map_name(), character.current_map_instance()).unwrap_or("unknown".to_string());
+    let mut packet_zc_ack_reqnameall2 = PacketZcAckReqnameall2::new();
+    packet_zc_ack_reqnameall2.set_gid(gid);
+    let mut name: [char; 24] = [0 as char; 24];
+    // let aaaaa = format!("{} {}", map_item.x(), map_item.y());
+    // aaaaa.fill_char_array(name.as_mut());
+    info!("{:?}", map_item_name);
+    map_item_name.fill_char_array(name.as_mut());
+    packet_zc_ack_reqnameall2.set_name(name);
+    // TODO handle guild name, guild title
+    packet_zc_ack_reqnameall2.fill_raw();
+    socket_send!(context, packet_zc_ack_reqnameall2);
 }
 
 pub fn handle_char_loaded_client_side(server: Arc<Server>, context: Request) {
@@ -58,4 +59,5 @@ pub fn handle_char_loaded_client_side(server: Arc<Server>, context: Request) {
     packet_zc_hat_effect.fill_raw();
     let final_response_packet: Vec<u8> = chain_packets(vec![&packet_zc_hat_effect, &packet_zc_notify_mapproperty2]);
     socket_send_raw!(context, final_response_packet);
+    server.add_to_tick(Event::CharacterLoadedFromClientSide(session.char_id.unwrap()), 2);
 }

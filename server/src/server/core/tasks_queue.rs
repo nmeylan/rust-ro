@@ -19,6 +19,13 @@ impl <T> TasksQueue<T> {
         }
         tasks_guard[0].push(task);
     }
+    pub fn add_to_index(&self, task: T, index: usize) {
+        let mut tasks_guard = self.tasks.lock().expect("Fail to acquire lock on tasks");
+        while tasks_guard.len() <= index {
+            tasks_guard.push_back(vec![])
+        }
+        tasks_guard[index].push(task);
+    }
 
     pub fn pop(&self) -> Option<Vec<T>> {
         let mut tasks_guard = self.tasks.lock().expect("Fail to acquire lock on tasks");

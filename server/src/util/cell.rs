@@ -60,6 +60,11 @@ impl<T: ?Sized> MyUnsafeCell<T> {
         MyRefMut { value, borrow: MyBorrowRefMut::new(&self.borrow), marker: PhantomData }
     }
 }
+impl<T: Clone> Clone for MyUnsafeCell<T> {
+    fn clone(&self) -> MyUnsafeCell<T> {
+        MyUnsafeCell::new(self.borrow().clone())
+    }
+}
 
 impl<T: ?Sized> Deref for MyRef<'_, T> {
     type Target = T;

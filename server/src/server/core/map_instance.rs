@@ -2,7 +2,7 @@ use std::collections::{HashMap, HashSet};
 use std::sync::{Arc, RwLock};
 use packets::packets::PacketZcNotifyMove;
 use crate::server::core::character::Character;
-use crate::server::core::map::{Map, MapItem, WARP_MASK};
+use crate::server::core::map::{Map, MapItem, ToMapItem, WARP_MASK};
 use crate::server::core::mob::Mob;
 use crate::server::core::path::manhattan_distance;
 use crate::server::core::status::Status;
@@ -18,6 +18,7 @@ use std::sync::mpsc::SyncSender;
 use rathena_script_lang_interpreter::lang::vm::Vm;
 use crate::ScriptHandler;
 use crate::server::core::notification::{CharNotification, Notification};
+use crate::server::npc::script::Script;
 
 pub struct MapInstance {
     pub name: String,
@@ -45,6 +46,7 @@ pub struct MapInstance {
     pub mob_spawns_tracks: RwLock<Vec<MobSpawnTrack>>,
     pub mobs: RwLock<HashMap<u32, Arc<Mob>>>,
     pub characters: RwLock<HashSet<MapItem>>,
+    pub scripts: Vec<Arc<Script>>,
     pub map_items: RwLock<HashSet<MapItem>>,
     // pub client_notification_channel: SyncSender<Notification>,
 }
@@ -72,13 +74,15 @@ impl MobSpawnTrack {
 impl MapInstance {
     pub fn from_map(map: &Map, server: Arc<Server>, id: u8, cells: Vec<u16>, mut map_items: HashSet<MapItem>) -> MapInstance {
         let _cells_len = cells.len();
+        let mut scripts = vec![];
         map.scripts.iter().for_each(|script| {
             let (_, instance_reference) = Vm::create_instance(server.vm.clone(), script.class_name.clone(), Box::new(&ScriptHandler), script.constructor_args.clone()).unwrap();
             let mut script = script.clone();
             script.set_instance_reference(instance_reference);
-            // let script_arc = Arc::new(script);
-            // server.insert_map_item(script_arc.id(), script_arc.clone());
-            // map_items.insert(script_arc);
+            let script_arc = Arc::new(script);
+            server.insert_map_item(script_arc.id(), script_arc.to_map_item());
+            map_items.insert(script_arc.to_map_item());
+            scripts.push(script_arc);
         });
         MapInstance {
             name: map.name.clone(),
@@ -91,13 +95,18 @@ impl MapInstance {
             mob_spawns_tracks: RwLock::new(map.mob_spawns.iter().map(|spawn| MobSpawnTrack::default(spawn.id)).collect::<Vec<MobSpawnTrack>>()),
             mobs: Default::default(),
             characters: RwLock::new(HashSet::with_capacity(50)),
-            map_items: RwLock::new(map_items)
+            map_items: RwLock::new(map_items),
+            scripts
         }
     }
 
     #[inline]
     pub fn get_cell_index_of(&self, x: u16, y: u16) -> usize {
         coordinate::get_cell_index_of(x, y, self.x_size)
+    }
+
+    pub fn id(&self) -> u8{
+        self.id
     }
 
     pub fn is_cell_walkable(&self, x: u16, y: u16) -> bool {
@@ -239,6 +248,29 @@ impl MapInstance {
     pub fn remove_character(&self, character: MapItem) {
         let mut characters_guard = write_lock!(self.characters);
         characters_guard.remove(&character);
+    }
+
+    pub fn get_mob(&self, mob_id: u32) -> Option<Arc<Mob>> {
+        let guard = self.mobs.read().unwrap();
+        guard.get(&mob_id).cloned()
+    }
+
+    pub fn get_warp(&self, warp_id: u32) -> Option<Arc<Warp>> {
+        for warp in self.warps.iter() {
+            if warp.id == warp_id {
+                return Some(warp.clone())
+            }
+        }
+        None
+    }
+
+    pub fn get_script(&self, script_id: u32) -> Option<Arc<Script>> {
+        for script in self.scripts.iter() {
+            if script.id() == script_id {
+                return Some(script.clone())
+            }
+        }
+        None
     }
 
     #[inline]

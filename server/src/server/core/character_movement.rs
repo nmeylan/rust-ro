@@ -11,7 +11,7 @@ use packets::packets::{Packet, PacketCzRequestMove, PacketCzRequestMove2, Packet
 use crate::server::core::character::{Character, MovementTask};
 use crate::server::core::event::{CharacterChangeMap, CharacterUpdatePosition, Event};
 
-use crate::server::core::map::{Map, MAP_EXT, MapItem, RANDOM_CELL};
+use crate::server::core::map::{Map, MAP_EXT, MapItem, RANDOM_CELL, ToMapItem};
 use crate::server::core::path::PathNode;
 use crate::server::core::position::Position;
 use crate::server::core::session::Session;
