@@ -1,6 +1,8 @@
+use std::sync::Arc;
 use crate::server::core::map::MapItem;
 use crate::server::core::position::Position;
 use crate::server::enums::map_item::MapItemType;
+use crate::server::npc::script::Script;
 use crate::server::server::Server;
 
 impl Server {
@@ -81,6 +83,20 @@ impl Server {
                 }
                 None
             }
+        }
+    }
+
+    pub fn map_item_script(&self, map_item: &MapItem, map_name: &String, map_instance_id: u8) -> Option<Arc<Script>> {
+        match map_item.object_type() {
+            MapItemType::Npc => {
+                if let Some(map_instance) = self.get_map_instance(&map_name, map_instance_id) {
+                    if let Some(script) = map_instance.get_script(map_item.id()) {
+                        return Some(script.clone());
+                    }
+                }
+                None
+            }
+            _ => None
         }
     }
 }
