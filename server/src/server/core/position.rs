@@ -15,6 +15,12 @@ impl std::fmt::Display for Position {
 }
 
 impl Position {
+    pub fn x(&self) -> u16 {
+        self.x
+    }
+    pub fn y(&self) -> u16 {
+        self.y
+    }
     pub fn from_move_packet(packet: &PacketCzRequestMove) -> Position {
         // example: for a movement to 158, 158 cell we receive following bytes for packet.dest_raw: 27, 89, E0
         let x = (((packet.dest_raw[0] & 0xff) as u16) << 2) | (packet.dest_raw[1] >> 6) as u16; // example: 158

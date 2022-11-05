@@ -36,6 +36,7 @@ use crate::server::configuration::Config;
 use self::server::script::script::ScriptHandler;
 use crate::server::npc::mob_spawn::MobSpawn;
 use crate::server::npc::script::Script;
+use crate::util::cell::MyUnsafeCell;
 use crate::util::log_filter::LogFilter;
 
 #[tokio::main]
@@ -54,7 +55,7 @@ pub async fn main() {
             error!("{}", compilation_error);
         }
     }
-    let map_item_ids = RefCell::new(HashMap::<u32, MapItem>::new());
+    let map_item_ids = MyUnsafeCell::new(HashMap::<u32, MapItem>::new());
     let start = Instant::now();
     let maps = Map::load_maps(warps, mob_spawns, scripts, map_item_ids.clone());
     let maps = maps.into_iter().map(|(k, v)| (k.to_string(), Arc::new(v))).collect::<HashMap<String, Arc<Map>>>();

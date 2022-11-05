@@ -10,7 +10,9 @@ use rathena_script_lang_interpreter::lang::value::Value;
 use rathena_script_lang_interpreter::util::scripts_compiler;
 
 use crate::MapItem;
+use crate::server::core::map::ToMapItem;
 use crate::server::enums::map_item::MapItemType;
+use crate::server::npc::warps::Warp;
 use crate::server::script::constant::load_constant;
 
 // TODO add a conf for this
@@ -65,6 +67,21 @@ pub struct Script {
 // }
 
 impl Script {
+    pub fn id(&self) -> u32 {
+        self.id
+    }
+    pub fn x(&self) -> u16 {
+        self.x
+    }
+    pub fn y(&self) -> u16 {
+        self.y
+    }
+    pub fn dir(&self) -> u16 {
+        self.dir
+    }
+    pub fn name(&self) -> &String {
+        &self.name
+    }
     pub fn load_scripts() -> (HashMap::<String, Vec<Script>>, Vec<ClassFile>, HashMap::<String, Vec<CompilationError>>) {
         let mut npcs_by_map = HashMap::<String, Vec<Script>>::new();
         let conf_file = File::open(Path::new(SCRIPT_CONF_PATH)).unwrap();
@@ -121,5 +138,11 @@ impl Script {
             }
         }
         (npcs_by_map, class_files, errors)
+    }
+}
+
+impl ToMapItem for Script {
+    fn to_map_item(&self) -> MapItem {
+        MapItem::new(self.id, self.sprite as i16, MapItemType::Npc)
     }
 }

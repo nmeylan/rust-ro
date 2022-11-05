@@ -26,6 +26,7 @@ use crate::server::enums::map_item::MapItemType;
 use crate::server::npc::mob_spawn::MobSpawn;
 use crate::server::npc::warps::Warp;
 use crate::server::server::Server;
+use crate::util::cell::MyUnsafeCell;
 use crate::util::coordinate;
 
 static MAPCACHE_EXT: &str = ".mcache";
@@ -92,6 +93,10 @@ impl MapItem {
     pub fn object_type_value(&self) -> i16 {
         self.object_type.value()
     }
+}
+
+pub trait ToMapItem {
+    fn to_map_item(&self) -> MapItem;
 }
 
 impl Hash for MapItem {
@@ -200,9 +205,14 @@ impl Map {
         map_instance.clone()
     }
 
-    pub fn get_instance(&self, id: u8) -> Arc<MapInstance>{
+    pub fn get_instance(&self, id: u8) -> Option<Arc<MapInstance>>{
         let map_instances_guard = read_lock!(self.map_instances);
-        map_instances_guard[id as usize].clone()
+        for map_instance in  map_instances_guard.iter() {
+            if map_instance.id == id {
+                return Some(map_instance.clone())
+            }
+        }
+        None
     }
 
     pub fn find_random_walkable_cell(cells: &Vec<u16>, x_size: u16) -> (u16, u16) {
@@ -325,7 +335,7 @@ impl Map {
         }
     }
 
-    fn set_warps(&mut self, warps: &[Warp], map_item_ids: RefCell<HashMap<u32, MapItem>>) {
+    fn set_warps(&mut self, warps: &[Warp], map_item_ids: MyUnsafeCell<HashMap<u32, MapItem>>) {
         let warps = warps.iter().map(|warp| {
             let mut warp = warp.clone();
             warp.set_id(Server::generate_id(&mut map_item_ids.borrow_mut()));
@@ -340,7 +350,7 @@ impl Map {
         );
     }
 
-    fn set_scripts(&mut self, scripts: &[Script], map_item_ids: RefCell<HashMap<u32, MapItem>>) {
+    fn set_scripts(&mut self, scripts: &[Script], map_item_ids: MyUnsafeCell<HashMap<u32, MapItem>>) {
         self.scripts = Arc::new(
             scripts.iter().map(|script| {
                 let mut script = script.clone();
@@ -366,10 +376,10 @@ impl Map {
                         cleanup_notified_at = Some(now);
                     }
                     {
-                        map_instance_clone_for_thread.spawn_mobs(server.clone(), now.elapsed().as_millis(), map_instance.clone());
-                        map_instance_clone_for_thread.update_mobs_fov();
+                        // map_instance_clone_for_thread.spawn_mobs(server.clone(), now.elapsed().as_millis(), map_instance.clone());
+                        // map_instance_clone_for_thread.update_mobs_fov();
                         if last_mobs_action.elapsed().as_secs() > 2 {
-                            map_instance_clone_for_thread.mobs_action();
+                            // map_instance_clone_for_thread.mobs_action();
                             last_mobs_action = now;
                         }
                     }
@@ -379,7 +389,7 @@ impl Map {
             }).unwrap();
     }
 
-    pub fn load_maps(warps: HashMap<String, Vec<Warp>>, mob_spawns: HashMap<String, Vec<MobSpawn>>, scripts: HashMap<String, Vec<Script>>, map_items: RefCell<HashMap<u32, MapItem>>) -> HashMap<String, Map> {
+    pub fn load_maps(warps: HashMap<String, Vec<Warp>>, mob_spawns: HashMap<String, Vec<MobSpawn>>, scripts: HashMap<String, Vec<Script>>, map_items: MyUnsafeCell<HashMap<u32, MapItem>>) -> HashMap<String, Map> {
         let mut maps = HashMap::<String, Map>::new();
         let paths = fs::read_dir(MAP_DIR).unwrap();
         for path in paths {

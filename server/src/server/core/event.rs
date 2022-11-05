@@ -3,6 +3,7 @@ use crate::server::core::position::Position;
 
 pub enum Event {
     CharacterRemove(u32),
+    CharacterLoadedFromClientSide(u32),
     CharacterRemoveFromMap(u32),
     CharacterClearFov(u32),
     CharacterUpdatePosition(CharacterUpdatePosition),

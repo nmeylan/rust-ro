@@ -28,6 +28,7 @@ use crate::server::configuration::Config;
 use crate::server::core::character::Character;
 use crate::server::core::event::Event;
 use crate::server::core::map::{Map, MAP_EXT, MapItem};
+use crate::server::core::map_instance::MapInstance;
 use crate::server::core::notification::{CharNotification, Notification};
 use crate::server::core::request::Request;
 use crate::server::core::response::Response;
@@ -41,7 +42,7 @@ use crate::server::handler::chat::handle_chat;
 use crate::server::handler::login::handle_login;
 use crate::server::handler::map::{handle_char_loaded_client_side, handle_map_item_name};
 use crate::server::handler::movement::handle_char_move;
-use crate::util::cell::{MyRef, MyUnsafeCell};
+use crate::util::cell::{MyRef, MyRefMut, MyUnsafeCell};
 use crate::util::string::StringUtil;
 use crate::util::tick::get_tick;
 
@@ -59,7 +60,7 @@ pub struct Server {
     pub sessions: Arc<RwLock<HashMap<u32, Arc<Session>>>>,
     pub repository: Arc<Repository>,
     pub maps: HashMap<String, Arc<Map>>,
-    map_items: RefCell<HashMap<u32, MapItem>>,
+    map_items: MyUnsafeCell<HashMap<u32, MapItem>>,
 
     pub characters: MyUnsafeCell<HashMap<u32, Character>>,
     tasks_queue: TasksQueue<Event>,
@@ -85,8 +86,33 @@ impl Server {
         self.tasks_queue.pop()
     }
 
-    pub fn get_character_unsafe<'b, 'a: 'b>(&'b self, char_id: u32) -> MyRef<Character> {
+    pub fn get_character_unsafe(&self, char_id: u32) -> MyRef<Character> {
         MyRef::map(self.characters.borrow(), |characters| characters.get(&char_id).unwrap())
+    }
+
+    pub fn get_character_from_context_unsafe(&self, context: &Request) -> MyRef<Character> {
+        let char_id = context.session().char_id.unwrap();
+        MyRef::map(self.characters.borrow(), |characters| characters.get(&char_id).unwrap())
+    }
+
+    pub fn get_map_instance(&self, map_name: &String, map_instance_id: u8) -> Option<Arc<MapInstance>> {
+        let map_name = if map_name.ends_with(".gat") {
+            &map_name[..(map_name.len() - 4)]
+        } else {
+            map_name.as_str()
+        };
+
+        if let Some(map) = self.maps.get(map_name) {
+            return map.get_instance(map_instance_id)
+        }
+        None
+    }
+
+    pub fn get_map_item(&self, map_item_id: u32) -> Option<MapItem> {
+        if let Some(map_item) = self.map_items.borrow().get(&map_item_id) {
+            return Some(*map_item);
+        }
+        None
     }
 
     pub fn insert_character(&self, character: Character) {
@@ -123,7 +149,7 @@ impl Server {
         self.configuration.server.packetver
     }
 
-    pub fn new(configuration: Config, repository: Arc<Repository>, maps: HashMap<String, Arc<Map>>, map_items: RefCell<HashMap<u32, MapItem>>, vm: Arc<Vm>) -> Server {
+    pub fn new(configuration: Config, repository: Arc<Repository>, maps: HashMap<String, Arc<Map>>, map_items: MyUnsafeCell<HashMap<u32, MapItem>>, vm: Arc<Vm>) -> Server {
         Server {
             configuration,
             sessions: Arc::new(RwLock::new(HashMap::<u32, Arc<Session>>::new())),
@@ -140,6 +166,10 @@ impl Server {
         self.tasks_queue.add_to_first_index(event)
     }
 
+    pub fn add_to_tick(&self, event: Event, index: usize) {
+        self.tasks_queue.add_to_first_index(event)
+    }
+
     pub fn generate_map_item_id(&self) -> u32 {
         Server::generate_id(&mut self.map_items.borrow_mut())
     }
@@ -148,7 +178,7 @@ impl Server {
         self.map_items.borrow_mut().insert(id, map_item);
     }
 
-    pub fn generate_id(map_items: &mut RefMut<HashMap<u32, MapItem>>) -> u32 {
+    pub fn generate_id(map_items: &mut MyRefMut<HashMap<u32, MapItem>>) -> u32 {
         let mut id: u32;
         loop {
             id = rand::thread_rng().gen::<u32>();
@@ -206,7 +236,7 @@ impl Server {
                     let tcp_stream = &response.socket();
                     let data = response.serialized_packet();
                     let mut tcp_stream_guard = tcp_stream.write().unwrap();
-                    debug!("Respond with: {:02X?}", data);
+                    debug!("Respond to {:?} with: {:02X?}", tcp_stream_guard.peer_addr(), data);
                     tcp_stream_guard.write_all(data).unwrap();
                     tcp_stream_guard.flush().unwrap();
                 }
@@ -222,7 +252,7 @@ impl Server {
                             let tcp_stream = server_ref.get_map_socket_for_account_id(char_notification.account_id()).expect("Expect to found a socket for account");
                             let data = char_notification.serialized_packet();
                             let mut tcp_stream_guard = tcp_stream.write().unwrap();
-                            debug!("Respond with: {:02X?}", data);
+                            debug!("Respond to {:?} with: {:02X?}", tcp_stream_guard.peer_addr(), data);
                             tcp_stream_guard.write_all(data).unwrap();
                             tcp_stream_guard.flush().unwrap();
                         }

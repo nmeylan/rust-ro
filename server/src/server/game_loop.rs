@@ -5,7 +5,7 @@ use std::time::{Duration, Instant};
 use packets::packets::{Packet, PacketZcNpcackMapmove};
 use crate::server::core::position::Position;
 use crate::server::core::event::Event;
-use crate::server::core::map::{MAP_EXT, MapItem};
+use crate::server::core::map::{MAP_EXT, MapItem, ToMapItem};
 use crate::server::core::notification::{CharNotification, Notification};
 use crate::server::enums::map_item::MapItemType;
 use crate::server::server::Server;
@@ -21,8 +21,8 @@ impl Server {
                     match task {
                         Event::CharacterChangeMap(event) => {
                             let character = characters.get_mut(&event.char_id).unwrap();
-                            if let Some(map) = server_ref.maps.get(event.new_map_name.as_str()) {
-                                character.join_and_set_map(map.get_instance(event.new_instance_id));
+                            if let Some(map_instance) = server_ref.get_map_instance(&event.new_map_name, event.new_instance_id) {
+                                character.join_and_set_map(map_instance);
                                 let mut packet_zc_npcack_mapmove = PacketZcNpcackMapmove::new();
 
                                 let mut new_current_map: [char; 16] = [0 as char; 16];
@@ -38,8 +38,8 @@ impl Server {
                         }
                         Event::CharacterRemoveFromMap(char_id) => {
                             let character = characters.get_mut(&char_id).unwrap();
-                            if let Some(map) = server_ref.maps.get(character.current_map_name()) {
-                                map.get_instance(character.current_map_instance()).remove_character(character.to_map_item());
+                            if let Some(map_instance) = server_ref.get_map_instance(character.current_map_name(), character.current_map_instance()) {
+                                map_instance.remove_character(character.to_map_item());
                             }
                         }
                         Event::CharacterUpdatePosition(event) => {
@@ -53,37 +53,19 @@ impl Server {
                         Event::CharacterRemove(char_id) => {
                             characters.remove(&char_id);
                         }
+                        Event::CharacterLoadedFromClientSide(char_id) => {
+                            let character = characters.get_mut(&char_id).unwrap();
+                            character.loaded_from_client_side = true;
+                        }
                     }
                 }
             }
-            for (_, character) in characters.iter_mut() {
-                // character.load_units_in_fov(server_ref, client_notification_sender_clone.clone())
+            for (_, character) in characters.iter_mut().filter(|(_, character)| character.loaded_from_client_side) {
+                character.load_units_in_fov(server_ref.clone(), client_notification_sender_clone.clone())
             }
             sleep(Duration::from_millis(17));
         }
     }
 
-    // pub fn map_item_x_y(&self, map_item: MapItem) -> Option<Position> {
-    //     match map_item.object_type() {
-    //         MapItemType::Character => {
-    //             let characters = self.characters.borrow();
-    //             if let Some(character) = characters.get(&map_item.id()) {
-    //                return Some(Position{ x: character.x(), y: character.y(), dir: 3 }); // TODO add dir to character
-    //             }
-    //             None
-    //         }
-    //         MapItemType::Mob => {
-    //
-    //         }
-    //         MapItemType::Warp => {
-    //
-    //         }
-    //         MapItemType::Unknown => {
-    //
-    //         }
-    //         MapItemType::Npc => {
-    //
-    //         }
-    //     }
-    // }
+
 }
