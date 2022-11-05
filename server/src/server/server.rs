@@ -64,6 +64,7 @@ pub struct Server {
 
     pub characters: MyUnsafeCell<HashMap<u32, Character>>,
     tasks_queue: TasksQueue<Event>,
+    movement_tasks_queue: TasksQueue<Event>,
     pub vm: Arc<Vm>,
 }
 
@@ -86,6 +87,10 @@ impl Server {
         self.tasks_queue.pop()
     }
 
+    pub(crate) fn pop_movement_task(&self) -> Option<Vec<Event>> {
+        self.movement_tasks_queue.pop()
+    }
+
     pub fn get_character_unsafe(&self, char_id: u32) -> MyRef<Character> {
         MyRef::map(self.characters.borrow(), |characters| characters.get(&char_id).unwrap())
     }
@@ -95,6 +100,9 @@ impl Server {
         MyRef::map(self.characters.borrow(), |characters| characters.get(&char_id).unwrap())
     }
 
+    pub fn get_map_instance_from_character(&self, character: &Character) -> Option<Arc<MapInstance>> {
+        self.get_map_instance(character.current_map_name(), character.current_map_instance())
+    }
     pub fn get_map_instance(&self, map_name: &String, map_instance_id: u8) -> Option<Arc<MapInstance>> {
         let map_name = if map_name.ends_with(".gat") {
             &map_name[..(map_name.len() - 4)]
@@ -158,6 +166,7 @@ impl Server {
             map_items,
             characters: Default::default(),
             tasks_queue: TasksQueue::new(),
+            movement_tasks_queue: TasksQueue::new(),
             vm,
         }
     }
@@ -168,6 +177,10 @@ impl Server {
 
     pub fn add_to_tick(&self, event: Event, index: usize) {
         self.tasks_queue.add_to_first_index(event)
+    }
+
+    pub fn add_to_next_movement_tick(&self, event: Event) {
+        self.movement_tasks_queue.add_to_first_index(event)
     }
 
     pub fn generate_map_item_id(&self) -> u32 {
@@ -264,6 +277,11 @@ impl Server {
             let client_notification_sender_clone = client_notification_sender.clone();
             server_thread_scope.spawn(move || {
                 Self::game_loop(server_ref_clone, client_notification_sender_clone);
+            });
+            let server_ref_clone = server_ref.clone();
+            let client_notification_sender_clone = client_notification_sender.clone();
+            server_thread_scope.spawn(move || {
+                Self::character_movement_loop(server_ref_clone, client_notification_sender_clone);
             });
         });
     }

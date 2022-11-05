@@ -1,8 +1,8 @@
 use std::sync::Arc;
 use std::sync::mpsc::SyncSender;
 use std::thread::{Scope, sleep};
-use std::time::{Duration, Instant};
-use packets::packets::{Packet, PacketZcNpcackMapmove};
+use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
+use packets::packets::{Packet, PacketZcNotifyPlayermove, PacketZcNpcackMapmove};
 use crate::server::core::position::Position;
 use crate::server::core::event::Event;
 use crate::server::core::map::{MAP_EXT, MapItem, ToMapItem};
@@ -10,6 +10,7 @@ use crate::server::core::notification::{CharNotification, Notification};
 use crate::server::enums::map_item::MapItemType;
 use crate::server::server::Server;
 use crate::util::string::StringUtil;
+use crate::util::tick::get_tick;
 
 impl Server {
     pub(crate) fn game_loop(server_ref: Arc<Server>, client_notification_sender_clone: SyncSender<Notification>) {
@@ -57,6 +58,9 @@ impl Server {
                             let character = characters.get_mut(&char_id).unwrap();
                             character.loaded_from_client_side = true;
                         }
+                        Event::CharacterMove(_) => {
+                            // handled by dedicated thread
+                        }
                     }
                 }
             }
@@ -67,5 +71,37 @@ impl Server {
         }
     }
 
-
+    pub(crate) fn character_movement_loop(server_ref: Arc<Server>, client_notification_sender_clone: SyncSender<Notification>) {
+        loop {
+            let mut characters = server_ref.characters.borrow_mut();
+            if let Some(tasks) = server_ref.pop_movement_task() {
+                for task in tasks {
+                    match task {
+                        Event::CharacterMove(character_movement) => {
+                            let character = characters.get_mut(&character_movement.char_id).unwrap();
+                            character.movements = character_movement.path;
+                            let mut packet_zc_notify_playermove = PacketZcNotifyPlayermove::new();
+                            packet_zc_notify_playermove.set_move_data(character_movement.current_position.to_move_data(&character_movement.destination));
+                            packet_zc_notify_playermove.set_move_start_time(character_movement.start_at as u32); // todo: time conversion check on client side ???
+                            packet_zc_notify_playermove.fill_raw();
+                            client_notification_sender_clone.send(Notification::Char(CharNotification::new(character.account_id, std::mem::take(packet_zc_notify_playermove.raw_mut()))))
+                                .expect("Failed to send notification event with PacketZcNotifyPlayermove");
+                        },
+                        _ => {
+                            // handled by game loop thread
+                        }
+                    }
+                }
+            }
+            for (_, character) in characters.iter_mut().filter(|(_, character)| character.is_moving()) {
+                if let Some(movement) = character.peek_movement() {
+                    if SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis() >= movement.move_at() {
+                        let movement = character.pop_movement().unwrap();
+                        character.update_position(movement.position().x, movement.position().y);
+                    }
+                }
+            }
+            sleep(Duration::from_millis(10));
+        }
+    }
 }
