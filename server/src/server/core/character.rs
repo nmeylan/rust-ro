@@ -15,6 +15,7 @@ use packets::packets::{PacketZcNotifyStandentry7, PacketZcNotifyVanish};
 use packets::packets::Packet;
 
 use crate::Server;
+use crate::server::core::character_movement::Movement;
 use crate::server::core::position::Position;
 use crate::server::core::map::{MAP_EXT, MapItem, ToMapItem};
 use crate::server::core::map_instance::MapInstance;
@@ -45,40 +46,11 @@ pub struct Character {
     pub loaded_from_client_side: bool,
     pub x: u16,
     pub y: u16,
-    pub movement_tasks: Mutex<Vec<MovementTask>>,
+    pub dir: u16,
+    pub movements: Vec<Movement>,
     pub map_view: HashSet<MapItem>,
     pub script_variable_store: Mutex<ScriptGlobalVariableStore>,
 }
-
-// impl MapItem for Character {
-//     fn id(&self) -> u32 {
-//         self.char_id
-//     }
-//
-//     fn client_item_class(&self) -> i16 {
-//         todo!() // TODO return job id
-//     }
-//
-//     fn object_type(&self) -> i16 {
-//         MapItemType::Character.value()
-//     }
-//
-//     fn name(&self) -> String {
-//         self.name.clone()
-//     }
-//
-//     fn x(&self) -> u16 {
-//         self.x.load(Acquire)
-//     }
-//
-//     fn y(&self) -> u16 {
-//         self.y.load(Acquire)
-//     }
-//
-//     fn as_any(&self) -> &dyn Any {
-//         self
-//     }
-// }
 
 impl Character {
     pub fn name(&self) -> &String {
@@ -89,6 +61,24 @@ impl Character {
     }
     pub fn y(&self) -> u16 {
         self.y
+    }
+    pub fn dir(&self) -> u16 {
+        self.dir
+    }
+
+    pub fn is_moving(&self) -> bool {
+        self.movements.len() > 0
+    }
+
+    pub fn pop_movement(&mut self) -> Option<Movement> {
+        self.movements.pop()
+    }
+    pub fn peek_movement(&mut self) -> Option<&Movement> {
+        self.movements.last()
+    }
+
+    pub fn set_movement(&mut self, movements: Vec<Movement>) {
+        self.movements = movements;
     }
 
     fn set_current_map_name(&mut self, new_name: [char; 16]) {
@@ -119,21 +109,7 @@ impl Character {
     pub fn current_map_instance(&self) -> u8 {
         self.current_map_instance
     }
-    pub fn add_movement_task_id(&self, task: MovementTask) {
-        if let Ok(mut movement_tasks_guard) = self.movement_tasks.try_lock() {
-            movement_tasks_guard.clear();
-            movement_tasks_guard.push(task);
-        } else {
-            info!("Can't add task movement, drop request")
-        }
-    }
-    pub fn remove_movement_task_id(&self, task: MovementTask) {
-        let mut movement_tasks_guard = self.movement_tasks.lock().unwrap();
-        let maybe_task = movement_tasks_guard.iter().enumerate().find(|(_, movement_task)| **movement_task == task);
-        if let Some((index, _)) = maybe_task {
-            movement_tasks_guard.remove(index);
-        }
-    }
+
     pub fn set_current_map(&mut self, current_map: Arc<MapInstance>) {
         let mut new_current_map: [char; 16] = [0 as char; 16];
         let map_name = format!("{}{}", current_map.name, MAP_EXT);

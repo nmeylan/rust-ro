@@ -1,4 +1,5 @@
 use crate::server::core::character::Character;
+use crate::server::core::character_movement::Movement;
 use crate::server::core::position::Position;
 
 pub enum Event {
@@ -6,6 +7,7 @@ pub enum Event {
     CharacterLoadedFromClientSide(u32),
     CharacterRemoveFromMap(u32),
     CharacterClearFov(u32),
+    CharacterMove(CharacterMovement),
     CharacterUpdatePosition(CharacterUpdatePosition),
     CharacterChangeMap(CharacterChangeMap),
 }
@@ -23,4 +25,12 @@ pub struct CharacterUpdatePosition {
     pub char_id: u32,
     pub x: u16,
     pub y: u16,
+}
+
+pub struct CharacterMovement {
+    pub char_id: u32,
+    pub start_at: u128,
+    pub destination: Position,
+    pub current_position: Position,
+    pub path: Vec<Movement>
 }

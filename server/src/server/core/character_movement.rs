@@ -1,11 +1,12 @@
 use std::fmt::Formatter;
 use std::sync::Arc;
 use std::thread::sleep;
+use std::time::{SystemTime, UNIX_EPOCH};
 use sqlx::Error;
 
 use tokio::runtime::Runtime;
 use tokio::task::JoinHandle;
-use tokio::time::Duration;
+use tokio::time::{Duration, Instant};
 
 use packets::packets::{Packet, PacketCzRequestMove, PacketCzRequestMove2, PacketZcNpcackMapmove};
 use crate::server::core::character::{Character, MovementTask};
@@ -17,6 +18,40 @@ use crate::server::core::position::Position;
 use crate::server::core::session::Session;
 use crate::server::server::Server;
 use crate::util::string::StringUtil;
+
+
+pub struct Movement {
+    position: Position,
+    move_at: u128,
+}
+
+impl Movement {
+    pub fn move_at(&self) -> u128 {
+        self.move_at
+    }
+    pub fn position(&self) -> &Position {
+        &self.position
+    }
+    pub fn from_path(path: Vec<PathNode>, start_at: u128, start_position: &Position, speed: u32) -> Vec<Movement> {
+        let mut movements = vec![];
+        let mut current_position = start_position;
+        let mut start_at = start_at;
+        for path_node in path.iter() {
+            let delay = if current_position.x() != path_node.x && current_position.y() != path_node.y { // diagonal movement
+                (speed as f64 / 0.6) as u128
+            } else {
+                 speed as u128
+            };
+            start_at += delay;
+            movements.push( Movement {
+                position: Position { x: path_node.x, y: path_node.y, dir: 0},
+                move_at: start_at
+            })
+        }
+        movements.reverse();
+        movements
+    }
+}
 
 // TODO find a formula
 fn extra_delay(speed: u16) -> i16 {
