@@ -12,7 +12,7 @@ use packets::packets::{Packet, PacketCzRequestMove, PacketCzRequestMove2, Packet
 use crate::server::core::character_movement;
 use crate::server::core::character_movement::Movement;
 use crate::server::core::event::CharacterMovement;
-use crate::server::core::event::Event::CharacterMove;
+use crate::server::core::event::Event::{CharacterClearMove, CharacterMove};
 use crate::server::core::position::Position;
 use crate::server::core::map::MapItem;
 use crate::server::core::path::path_search_client_side_algorithm;
@@ -32,14 +32,24 @@ pub fn handle_char_move(server: Arc<Server>, context: Request) {
     debug!("Request move to {}", destination);
     let character = server.get_character_from_context_unsafe(&context);
     let map_instance = server.get_map_instance_from_character(character.deref()).unwrap();
-
-    let path = path_search_client_side_algorithm(map_instance, character.x(), character.y(), destination.x, destination.y);
+    // let current_position = if character.is_moving() {
+    //     character.peek_movement().map(|movement| *movement.position()).unwrap_or(Position { x: character.x(), y: character.y(), dir: 0 })
+    // } else {
+    //     Position { x: character.x(), y: character.y(), dir: 0 }
+    // };
+    // let maybe_previous_movement = character.peek_movement().cloned();
     let current_position = Position { x: character.x(), y: character.y(), dir: 0 };
-    let start_at = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis() + 5;
+
+    let path = path_search_client_side_algorithm(map_instance, current_position.x(), current_position.y(), destination.x, destination.y);
+    let start_at = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis();
+    let mut path = Movement::from_path(path, start_at, &current_position);
+    // if let Some(previous_movement) = maybe_previous_movement {
+    //     path.push(previous_movement);
+    // }
     server.add_to_next_movement_tick(CharacterMove(CharacterMovement {
         char_id: character.char_id,
         destination,
-        path: Movement::from_path(path, start_at, &current_position, character.status.speed as u32),
+        path,
         start_at,
         current_position,
     }));
