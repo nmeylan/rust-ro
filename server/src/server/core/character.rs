@@ -73,12 +73,21 @@ impl Character {
     pub fn pop_movement(&mut self) -> Option<Movement> {
         self.movements.pop()
     }
-    pub fn peek_movement(&mut self) -> Option<&Movement> {
+    pub fn peek_movement(&self) -> Option<&Movement> {
         self.movements.last()
+    }
+    pub fn peek_mut_movement(&mut self) -> Option<&mut Movement> {
+        self.movements.last_mut()
+    }
+    pub fn movements(&mut self) -> &Vec<Movement> {
+        &self.movements
     }
 
     pub fn set_movement(&mut self, movements: Vec<Movement>) {
         self.movements = movements;
+    }
+    pub fn clear_movement(&mut self) {
+        self.movements = vec![];
     }
 
     fn set_current_map_name(&mut self, new_name: [char; 16]) {
@@ -91,10 +100,10 @@ impl Character {
     pub fn join_and_set_map(&mut self, map_instance: Arc<MapInstance>) {
         self.set_current_map(map_instance.clone());
         map_instance.insert_item(self.to_map_item());
+        self.movements = vec![];
     }
 
     pub fn update_position(&mut self, x: u16, y: u16) {
-        debug!("[{:?}] update_position {},{}", std::thread::current().id(), x, y);
         self.x = x;
         self.y = y;
     }

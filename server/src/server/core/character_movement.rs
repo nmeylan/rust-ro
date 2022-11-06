@@ -19,9 +19,10 @@ use crate::server::core::session::Session;
 use crate::server::server::Server;
 use crate::util::string::StringUtil;
 
-
+#[derive(Clone, Copy)]
 pub struct Movement {
     position: Position,
+    is_diagonal: bool,
     move_at: u128,
 }
 
@@ -29,45 +30,41 @@ impl Movement {
     pub fn move_at(&self) -> u128 {
         self.move_at
     }
+    pub fn set_move_at(&mut self, tick: u128) {
+        self.move_at = tick
+    }
+    pub fn is_diagonal(&self) -> bool {
+        self.is_diagonal
+    }
     pub fn position(&self) -> &Position {
         &self.position
     }
-    pub fn from_path(path: Vec<PathNode>, start_at: u128, start_position: &Position, speed: u32) -> Vec<Movement> {
+    pub fn from_path(path: Vec<PathNode>, start_at: u128, start_position: &Position) -> Vec<Movement> {
         let mut movements = vec![];
-        let mut current_position = start_position;
-        let mut start_at = start_at;
+        let mut current_position = start_position.clone();
         for path_node in path.iter() {
-            let delay = if current_position.x() != path_node.x && current_position.y() != path_node.y { // diagonal movement
-                (speed as f64 / 0.6) as u128
-            } else {
-                 speed as u128
-            };
-            start_at += delay;
-            movements.push( Movement {
-                position: Position { x: path_node.x, y: path_node.y, dir: 0},
-                move_at: start_at
-            })
+            let position = Position { x: path_node.x, y: path_node.y, dir: 0 };
+            movements.push(Movement {
+                position,
+                is_diagonal: path_node.is_diagonal,
+                move_at: start_at, // Will be re-set in game loop to take current player speed
+            });
+            current_position = position;
         }
         movements.reverse();
         movements
     }
-}
 
-// TODO find a formula
-fn extra_delay(speed: u16) -> i16 {
-    return 20;
-    if speed < 100 {
-        -10
-    } else if speed > 100 {
-        60
-    } else {
-        20
+    pub fn delay(speed: u16, is_diagonal: bool) -> u128 {
+        if is_diagonal {
+            (speed as f64 / 0.6) as u128
+        } else {
+            speed as u128
+        }
     }
 }
 
-// If movement not smooth:
-// teleport in front -> server movement faster than client movement
-// teleport back -> server movement slower than client movement
+
 pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<Session>, server: Arc<Server>, current_movement_task_id: MovementTask) -> JoinHandle<()> {
     todo!("move_character_task");
     // let handle = runtime.spawn(async move {
@@ -134,24 +131,26 @@ pub fn change_map_packet(destination_map: &String, x: u16, y: u16, session: Arc<
     let map_instance = map_ref.player_join_map(server.clone());
     if x == RANDOM_CELL.0 && y == RANDOM_CELL.1 {
         let walkable_cell = Map::find_random_walkable_cell(&map_instance.cells, map_instance.x_size);
-        server.add_to_next_tick(Event::CharacterUpdatePosition(CharacterUpdatePosition{
+        server.add_to_next_tick(Event::CharacterUpdatePosition(CharacterUpdatePosition {
             char_id: session.char_id.unwrap(),
             x: walkable_cell.0,
             y: walkable_cell.1,
         }));
     } else {
-        server.add_to_next_tick(Event::CharacterUpdatePosition(CharacterUpdatePosition{
-            char_id: session.char_id.unwrap(), x, y,
+        server.add_to_next_tick(Event::CharacterUpdatePosition(CharacterUpdatePosition {
+            char_id: session.char_id.unwrap(),
+            x,
+            y,
         }));
     }
 
-    server.add_to_next_tick(Event::CharacterChangeMap(CharacterChangeMap{
+    server.add_to_next_tick(Event::CharacterChangeMap(CharacterChangeMap {
         char_id: session.char_id.unwrap(),
         new_map_name: destination_map.clone(),
         new_instance_id: map_instance.id,
-        new_position: Some(Position {x, y, dir: 3}),
+        new_position: Some(Position { x, y, dir: 3 }),
         old_map_name: None,
-        old_position: None
+        old_position: None,
     }));
 
     server.insert_map_item(session.account_id, character.to_map_item());

@@ -8,6 +8,7 @@ pub enum Event {
     CharacterRemoveFromMap(u32),
     CharacterClearFov(u32),
     CharacterMove(CharacterMovement),
+    CharacterClearMove(u32),
     CharacterUpdatePosition(CharacterUpdatePosition),
     CharacterChangeMap(CharacterChangeMap),
 }
