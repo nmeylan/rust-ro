@@ -13,7 +13,7 @@ use crate::server::server::Server;
 use crate::util::string::StringUtil;
 use crate::util::tick::get_tick;
 
-const MOVEMENT_TICK_RATE: u128 = 20;
+const MOVEMENT_TICK_RATE: u128 = 20; // jouer avec ça pour voir si ça change quelque chose
 impl Server {
     pub(crate) fn game_loop(server_ref: Arc<Server>, client_notification_sender_clone: SyncSender<Notification>) {
         loop {
@@ -93,12 +93,19 @@ impl Server {
                             let speed = character.status.speed;
                             let maybe_previous_movement = character.pop_movement();
                             character.movements = character_movement.path;
-                            if let Some(movement) = character.peek_mut_movement() {
-                                movement.set_move_at(tick + Movement::delay(speed, movement.is_diagonal()));
-                            }
                             let mut packet_zc_notify_playermove = PacketZcNotifyPlayermove::new();
+                            if let Some(movement) = character.peek_mut_movement() {
+                                if let Some(previous_movement) = maybe_previous_movement {
+                                    debug!("change path! was {} will {}, move at {}",previous_movement.position(), movement.position(), previous_movement.move_at() + Movement::delay(speed, movement.is_diagonal()));
+                                    movement.set_move_at(previous_movement.move_at() + Movement::delay(speed, movement.is_diagonal()));
+                                } else {
+                                    movement.set_move_at(tick + Movement::delay(speed, movement.is_diagonal()));
+                                    debug!("will move at {}", movement.move_at());
+                                }
+                                packet_zc_notify_playermove.set_move_start_time(movement.move_at() as u32); // todo: time conversion check on client side ???
+                            }
+
                             packet_zc_notify_playermove.set_move_data(character_movement.current_position.to_move_data(&character_movement.destination));
-                            packet_zc_notify_playermove.set_move_start_time(character_movement.start_at as u32); // todo: time conversion check on client side ???
                             packet_zc_notify_playermove.fill_raw();
                             client_notification_sender_clone.send(Notification::Char(CharNotification::new(character.account_id, std::mem::take(packet_zc_notify_playermove.raw_mut()))))
                                 .expect("Failed to send notification event with PacketZcNotifyPlayermove");
@@ -118,7 +125,7 @@ impl Server {
                 let speed = character.status.speed;
                 if let Some(movement) = character.peek_movement() {
                     if tick >= movement.move_at() {
-                        info!("move {} at {}", movement.position(), movement.move_at());
+                        debug!("move {} at {}", movement.position(), movement.move_at());
                         let movement = character.pop_movement().unwrap();
                         character.update_position(movement.position().x, movement.position().y);
                         if let Some(next_movement) = character.peek_mut_movement() {

@@ -18,7 +18,7 @@ use crate::server::core::map::MapItem;
 use crate::server::core::path::path_search_client_side_algorithm;
 use crate::server::core::request::Request;
 use crate::server::server::Server;
-use crate::util::tick::get_tick;
+use crate::util::tick::{get_current_time, get_tick};
 
 
 pub fn handle_char_move(server: Arc<Server>, context: Request) {
@@ -32,13 +32,16 @@ pub fn handle_char_move(server: Arc<Server>, context: Request) {
     debug!("Request move to {}", destination);
     let character = server.get_character_from_context_unsafe(&context);
     let map_instance = server.get_map_instance_from_character(character.deref()).unwrap();
-    // let current_position = if character.is_moving() {
-    //     character.peek_movement().map(|movement| *movement.position()).unwrap_or(Position { x: character.x(), y: character.y(), dir: 0 })
-    // } else {
-    //     Position { x: character.x(), y: character.y(), dir: 0 }
-    // };
+    // server.add_to_next_movement_tick(CharacterClearMove(character.char_id));
+    let mut current_position = Position { x: character.x(), y: character.y(), dir: 0 };
+    if character.is_moving() {
+        if let Some(previous_movement) = character.peek_movement() {
+            // if get_current_time() > previous_movement.move_at() && ((get_current_time() - previous_movement.move_at()) < (character.status.speed/2) as u128) {
+                current_position = *previous_movement.position()
+            // }
+        }
+    }
     // let maybe_previous_movement = character.peek_movement().cloned();
-    let current_position = Position { x: character.x(), y: character.y(), dir: 0 };
 
     let path = path_search_client_side_algorithm(map_instance, current_position.x(), current_position.y(), destination.x, destination.y);
     let start_at = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis();
