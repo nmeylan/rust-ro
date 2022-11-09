@@ -44,7 +44,7 @@ use crate::server::handler::map::{handle_char_loaded_client_side, handle_map_ite
 use crate::server::handler::movement::handle_char_move;
 use crate::util::cell::{MyRef, MyRefMut, MyUnsafeCell};
 use crate::util::string::StringUtil;
-use crate::util::tick::get_tick;
+use crate::util::tick::{get_tick, get_tick_client};
 
 // Todo make this configurable
 pub const PLAYER_FOV: u16 = 14;
@@ -392,7 +392,7 @@ impl Server {
 
         if context.packet().as_any().downcast_ref::<PacketCzRequestTime>().is_some() {
             let mut packet_zc_notify_time = PacketZcNotifyTime::new();
-            packet_zc_notify_time.set_time(get_tick());
+            packet_zc_notify_time.set_time(get_tick_client());
             packet_zc_notify_time.fill_raw();
             socket_send!(context, packet_zc_notify_time);
         }

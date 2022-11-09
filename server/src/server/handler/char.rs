@@ -21,7 +21,7 @@ use crate::server::core::session::Session;
 use crate::server::core::status::Status;
 use crate::server::script::ScriptGlobalVariableStore;
 use crate::server::server::{Server};
-use crate::util::tick::get_tick;
+use crate::util::tick::{get_tick, get_tick_client};
 
 pub fn handle_char_enter(server: Arc<Server>, context: Request) {
     let packet_char_enter = cast!(context.packet(), PacketChEnter);
@@ -269,7 +269,7 @@ pub fn handle_enter_game(server: Arc<Server>, context: Request) {
     let mut packet_overweight_percent = PacketZcOverweightPercent::new();
     packet_overweight_percent.fill_raw();
     let mut packet_accept_enter = PacketZcAcceptEnter2::new();
-    packet_accept_enter.set_start_time(get_tick());
+    packet_accept_enter.set_start_time(get_tick_client());
     packet_accept_enter.set_x_size(5); // Commented as not used, set at 5 in Hercules
     packet_accept_enter.set_y_size(5); // Commented as not used, set at 5 in Hercules
     packet_accept_enter.set_font(0);
