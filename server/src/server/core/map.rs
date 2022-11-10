@@ -190,7 +190,7 @@ impl Map {
     // Char interact with instance instead of map directly.
     // Instances will make map lifecycle easier to maintain
     // Only 1 instance will be needed for most use case, but it make possible to wipe map instance after a while when no player are on it. to free memory
-    pub fn player_join_map(&self, server: Arc<Server>) -> Arc<MapInstance> {
+    pub fn player_join_map(&self, server: &Server) -> Arc<MapInstance> {
         let map_instance_id = 0_u8;
         let instance_exists;
         {
@@ -205,14 +205,15 @@ impl Map {
         map_instance.clone()
     }
 
-    pub fn get_instance(&self, id: u8) -> Option<Arc<MapInstance>>{
+    pub fn get_instance(&self, id: u8, server: &Server) -> Option<Arc<MapInstance>>{
         let map_instances_guard = read_lock!(self.map_instances);
         for map_instance in  map_instances_guard.iter() {
             if map_instance.id == id {
                 return Some(map_instance.clone())
             }
         }
-        None
+        drop(map_instances_guard);
+        Some(self.create_map_instance(server, id))
     }
 
     pub fn find_random_walkable_cell(cells: &Vec<u16>, x_size: u16) -> (u16, u16) {
@@ -277,11 +278,11 @@ impl Map {
         }
     }
 
-    fn create_map_instance(&self, server: Arc<Server>, instance_id: u8) -> Arc<MapInstance> {
+    fn create_map_instance(&self, server: &Server, instance_id: u8) -> Arc<MapInstance> {
         info!("create map instance: {} x_size: {}, y_size {}, length: {}", self.name, self.x_size, self.y_size, self.length);
         let mut map_items: HashSet<MapItem> = HashSet::with_capacity(2048);
         let cells = self.generate_cells(server.clone(), &mut map_items);
-        let map_instance = MapInstance::from_map(self, server.clone(), instance_id, cells, map_items);
+        let map_instance = MapInstance::from_map(self, server, instance_id, cells, map_items);
         self.map_instances_count.fetch_add(1, Relaxed);
         let map_instance_ref = Arc::new(map_instance);
         {
@@ -292,7 +293,7 @@ impl Map {
         map_instance_ref
     }
 
-    pub fn generate_cells(&self, server: Arc<Server>, map_items: &mut HashSet<MapItem>) -> Vec<u16> {
+    pub fn generate_cells(&self, server: &Server, map_items: &mut HashSet<MapItem>) -> Vec<u16> {
         let file_path = Path::join(Path::new(MAP_DIR), format!("{}{}", self.name, MAPCACHE_EXT));
         let file = File::open(file_path).unwrap();
         let mut reader = BufReader::new(file);
@@ -317,7 +318,7 @@ impl Map {
         cells
     }
 
-    fn set_warp_cells(&self, cells: &mut [u16], server: Arc<Server>, map_items: &mut HashSet<MapItem>) {
+    fn set_warp_cells(&self, cells: &mut [u16], server: &Server, map_items: &mut HashSet<MapItem>) {
         for warp in self.warps.iter() {
             server.insert_map_item(warp.id, warp.to_map_item());
             map_items.insert(warp.to_map_item());
@@ -360,7 +361,7 @@ impl Map {
         );
     }
 
-    fn start_thread(map_instance: Arc<MapInstance>, mut rx: Receiver<String>, server: Arc<Server>) {
+    fn start_thread(map_instance: Arc<MapInstance>, mut rx: Receiver<String>, server: &Server) {
         let map_instance_clone = map_instance.clone();
         let map_instance_clone_for_thread = map_instance.clone();
         info!("Start thread for {}", map_instance_clone.name);
