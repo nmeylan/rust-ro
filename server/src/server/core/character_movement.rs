@@ -121,14 +121,13 @@ pub fn move_character_task(runtime: &Runtime, path: Vec<PathNode>, session: Arc<
 
 pub fn change_map_packet(destination_map: &String, x: u16, y: u16, session: Arc<Session>, server: Arc<Server>) {
     let char_id = session.char_id();
-    let character = server.get_character_unsafe(char_id);
     server.add_to_next_tick(Event::CharacterClearFov(char_id));
     server.add_to_next_tick(Event::CharacterRemoveFromMap(char_id));
 
     let map_name: String = Map::name_without_ext(destination_map.to_string());
     debug!("Char enter on map {}", map_name);
     let map_ref = server.maps.get(&map_name).unwrap();
-    let map_instance = map_ref.player_join_map(server.clone());
+    let map_instance = map_ref.player_join_map(server.as_ref());
     if x == RANDOM_CELL.0 && y == RANDOM_CELL.1 {
         let walkable_cell = Map::find_random_walkable_cell(&map_instance.cells, map_instance.x_size);
         server.add_to_next_tick(Event::CharacterUpdatePosition(CharacterUpdatePosition {
@@ -144,16 +143,15 @@ pub fn change_map_packet(destination_map: &String, x: u16, y: u16, session: Arc<
         }));
     }
 
-    server.add_to_next_tick(Event::CharacterChangeMap(CharacterChangeMap {
+    server.add_to_tick(Event::CharacterChangeMap(CharacterChangeMap {
         char_id: session.char_id.unwrap(),
         new_map_name: destination_map.clone(),
         new_instance_id: map_instance.id,
         new_position: Some(Position { x, y, dir: 3 }),
         old_map_name: None,
         old_position: None,
-    }));
+    }), 2);
 
-    server.insert_map_item(session.account_id, character.to_map_item());
 
     // if let Some(runtime) = runtime {
     //     runtime.spawn(async move {

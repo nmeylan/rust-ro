@@ -111,7 +111,7 @@ impl Server {
         };
 
         if let Some(map) = self.maps.get(map_name) {
-            return map.get_instance(map_instance_id)
+            return map.get_instance(map_instance_id, &self)
         }
         None
     }
@@ -176,7 +176,7 @@ impl Server {
     }
 
     pub fn add_to_tick(&self, event: Event, index: usize) {
-        self.tasks_queue.add_to_first_index(event)
+        self.tasks_queue.add_to_index(event, index)
     }
 
     pub fn add_to_next_movement_tick(&self, event: Event) {

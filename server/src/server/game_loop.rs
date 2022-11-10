@@ -5,7 +5,7 @@ use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
 use packets::packets::{Packet, PacketZcNotifyPlayermove, PacketZcNpcackMapmove};
 use crate::server::core::character_movement::Movement;
 use crate::server::core::position::Position;
-use crate::server::core::event::Event;
+use crate::server::core::event::{CharacterChangeMap, Event};
 use crate::server::core::map::{MAP_EXT, MapItem, ToMapItem};
 use crate::server::core::notification::{CharNotification, Notification};
 use crate::server::enums::map_item::MapItemType;
@@ -13,11 +13,14 @@ use crate::server::server::Server;
 use crate::util::string::StringUtil;
 use crate::util::tick::get_tick;
 
-const MOVEMENT_TICK_RATE: u128 = 20; // jouer avec ça pour voir si ça change quelque chose
+const MOVEMENT_TICK_RATE: u128 = 20;
+const GAME_TICK_RATE: u128 = 40;
+
+// jouer avec ça pour voir si ça change quelque chose
 impl Server {
     pub(crate) fn game_loop(server_ref: Arc<Server>, client_notification_sender_clone: SyncSender<Notification>) {
         loop {
-            let start = Instant::now();
+            let tick = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis();
             let mut characters = server_ref.characters.borrow_mut();
             if let Some(tasks) = server_ref.pop_task() {
                 for task in tasks {
@@ -32,11 +35,19 @@ impl Server {
                                 let map_name = format!("{}{}", event.new_map_name, MAP_EXT);
                                 map_name.fill_char_array(new_current_map.as_mut());
                                 packet_zc_npcack_mapmove.set_map_name(new_current_map);
-                                packet_zc_npcack_mapmove.set_x_pos(character.x() as i16);
-                                packet_zc_npcack_mapmove.set_y_pos(character.y() as i16);
+                                let new_position = event.new_position.unwrap();
+                                packet_zc_npcack_mapmove.set_x_pos(new_position.x as i16);
+                                packet_zc_npcack_mapmove.set_y_pos(new_position.y as i16);
                                 packet_zc_npcack_mapmove.fill_raw();
                                 client_notification_sender_clone.send(Notification::Char(CharNotification::new(character.account_id, std::mem::take(packet_zc_npcack_mapmove.raw_mut()))))
                                     .expect("Failed to send notification event with PacketZcNpcackMapmove");
+
+                                server_ref.insert_map_item(character.account_id, character.to_map_item());
+                                character.update_position(new_position.x, new_position.y);
+                                character.clear_map_view();
+                                character.loaded_from_client_side = false;
+                            } else {
+                                error!("Can't change map to {} {}", event.new_map_name, event.new_instance_id);
                             }
                         }
                         Event::CharacterRemoveFromMap(char_id) => {
@@ -60,6 +71,7 @@ impl Server {
                         Event::CharacterLoadedFromClientSide(char_id) => {
                             let character = characters.get_mut(&char_id).unwrap();
                             character.loaded_from_client_side = true;
+                            character.clear_map_view();
                         }
                         Event::CharacterMove(_) => {
                             // handled by dedicated thread
@@ -73,7 +85,7 @@ impl Server {
             for (_, character) in characters.iter_mut().filter(|(_, character)| character.loaded_from_client_side) {
                 character.load_units_in_fov(server_ref.clone(), client_notification_sender_clone.clone())
             }
-            sleep(Duration::from_millis(17));
+            sleep(Duration::from_millis((GAME_TICK_RATE - (SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis() - tick).min( 0).max(GAME_TICK_RATE)) as u64));
         }
     }
 
@@ -129,10 +141,25 @@ impl Server {
                         debug!("move {} at {}", movement.position(), movement.move_at());
                         let movement = character.pop_movement().unwrap();
                         character.update_position(movement.position().x, movement.position().y);
+                        let map_ref = server_ref.get_map_instance_from_character(&character);
+                        if let Some(map_ref) = map_ref {
+                            if map_ref.is_warp_cell(movement.position().x, movement.position().y) {
+                                let warp = map_ref.get_warp_at(movement.position().x, movement.position().y).unwrap();
+                                server_ref.add_to_next_tick(Event::CharacterChangeMap(CharacterChangeMap {
+                                    char_id: character.char_id,
+                                    new_map_name: warp.dest_map_name.clone(),
+                                    new_instance_id: 0,
+                                    new_position: Some(Position { x: warp.to_x, y: warp.to_y, dir: movement.position().dir }),
+                                    old_map_name: None,
+                                    old_position: None,
+                                }));
+                                character.clear_movement();
+                                continue;
+                            }
+                        }
                         if let Some(next_movement) = character.peek_mut_movement() {
                             next_movement.set_move_at(tick + Movement::delay(speed, next_movement.is_diagonal()))
                         }
-                        // TODO handle warp
                     }
                 }
             }
@@ -140,3 +167,4 @@ impl Server {
         }
     }
 }
+
