@@ -265,9 +265,13 @@ impl Server {
                             let tcp_stream = server_ref.get_map_socket_for_account_id(char_notification.account_id()).expect("Expect to found a socket for account");
                             let data = char_notification.serialized_packet();
                             let mut tcp_stream_guard = tcp_stream.write().unwrap();
-                            debug!("Respond to {:?} with: {:02X?}", tcp_stream_guard.peer_addr(), data);
-                            tcp_stream_guard.write_all(data).unwrap();
-                            tcp_stream_guard.flush().unwrap();
+                            if tcp_stream_guard.peer_addr().is_ok() {
+                                debug!("Respond to {:?} with: {:02X?}", tcp_stream_guard.peer_addr(), data);
+                                tcp_stream_guard.write_all(data).unwrap();
+                                tcp_stream_guard.flush().unwrap();
+                            } else {
+                                error!("{:?} socket has been closed", tcp_stream_guard.peer_addr().err());
+                            }
                         }
                         Notification::Area(_) => {}
                     }
