@@ -19,7 +19,7 @@ use crate::server::server::Server;
 pub(crate) fn handle_login(server: Arc<Server>, context: Request) {
     let packet_ca_login = cast!(context.packet(), PacketCaLogin);
     let mut res = context.runtime().block_on(async {
-        authenticate(server.clone(), packet_ca_login, &server.repository).await
+        authenticate(server.as_ref(), packet_ca_login, &server.repository).await
     });
     info!("packetver {}", packet_ca_login.version);
     if res.as_any().downcast_ref::<PacketAcAcceptLogin2>().is_some() {
@@ -49,7 +49,7 @@ pub(crate) fn handle_login(server: Arc<Server>, context: Request) {
     }
 }
 
-pub async fn authenticate(server: Arc<Server>, packet: &PacketCaLogin, repository: &Repository) -> Box<dyn Packet> {
+pub async fn authenticate(server: &Server, packet: &PacketCaLogin, repository: &Repository) -> Box<dyn Packet> {
     let mut rng = rand::thread_rng();
     let mut username = String::new();
     let mut password = String::new();

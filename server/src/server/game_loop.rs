@@ -2,12 +2,18 @@ use std::sync::Arc;
 use std::sync::mpsc::SyncSender;
 use std::thread::{Scope, sleep};
 use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
+
+use tokio::runtime::Runtime;
+
 use packets::packets::{Packet, PacketZcNotifyPlayermove, PacketZcNpcackMapmove};
+
+use crate::Map;
+use crate::server::core::character::Character;
 use crate::server::core::character_movement::Movement;
-use crate::server::core::position::Position;
 use crate::server::core::event::{CharacterChangeMap, Event};
 use crate::server::core::map::{MAP_EXT, MapItem, ToMapItem};
 use crate::server::core::notification::{CharNotification, Notification};
+use crate::server::core::position::Position;
 use crate::server::enums::map_item::MapItemType;
 use crate::server::server::Server;
 use crate::util::string::StringUtil;
@@ -18,7 +24,7 @@ const GAME_TICK_RATE: u128 = 40;
 
 // jouer avec ça pour voir si ça change quelque chose
 impl Server {
-    pub(crate) fn game_loop(server_ref: Arc<Server>, client_notification_sender_clone: SyncSender<Notification>) {
+    pub(crate) fn game_loop(server_ref: Arc<Server>, client_notification_sender_clone: SyncSender<Notification>, runtime: Runtime) {
         loop {
             let tick = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis();
             let mut characters = server_ref.characters.borrow_mut();
@@ -46,6 +52,7 @@ impl Server {
                                 character.update_position(new_position.x, new_position.y);
                                 character.clear_map_view();
                                 character.loaded_from_client_side = false;
+                                Self::save_char_position(&server_ref, &runtime, character);
                             } else {
                                 error!("Can't change map to {} {}", event.new_map_name, event.new_instance_id);
                             }
@@ -83,13 +90,25 @@ impl Server {
                 }
             }
             for (_, character) in characters.iter_mut().filter(|(_, character)| character.loaded_from_client_side) {
-                character.load_units_in_fov(server_ref.clone(), client_notification_sender_clone.clone())
+                character.load_units_in_fov(server_ref.as_ref(), client_notification_sender_clone.clone())
             }
-            sleep(Duration::from_millis((GAME_TICK_RATE - (SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis() - tick).min( 0).max(GAME_TICK_RATE)) as u64));
+            sleep(Duration::from_millis((GAME_TICK_RATE - (SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis() - tick).min(0).max(GAME_TICK_RATE)) as u64));
         }
     }
 
-    pub(crate) fn character_movement_loop(server_ref: Arc<Server>, client_notification_sender_clone: SyncSender<Notification>) {
+    fn save_char_position(server_ref: &Arc<Server>, runtime: &Runtime, character: &mut Character) {
+        let repository = server_ref.repository.clone();
+        let account_id = character.account_id;
+        let char_id = character.char_id;
+        let mapname = character.current_map_name().clone();
+        let x = character.x();
+        let y = character.y();
+        runtime.spawn(async move {
+            repository.character_save_position(account_id, char_id, Map::name_without_ext(&mapname), x, y).await
+        });
+    }
+
+    pub(crate) fn character_movement_loop(server_ref: Arc<Server>, client_notification_sender_clone: SyncSender<Notification>, runtime: Runtime) {
         loop {
             let tick = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis();
             let mut characters = server_ref.characters.borrow_mut();
@@ -134,6 +153,7 @@ impl Server {
 // teleport in front -> server movement faster than client movement
 // teleport back -> server movement slower than client movement
 
+            let mut character_finished_to_move = vec![];
             for (_, character) in characters.iter_mut().filter(|(_, character)| character.is_moving()) {
                 let speed = character.status.speed;
                 if let Some(movement) = character.peek_movement() {
@@ -159,11 +179,16 @@ impl Server {
                         }
                         if let Some(next_movement) = character.peek_mut_movement() {
                             next_movement.set_move_at(tick + Movement::delay(speed, next_movement.is_diagonal()))
+                        } else {
+                            character_finished_to_move.push(character);
                         }
                     }
                 }
             }
-            sleep(Duration::from_millis((MOVEMENT_TICK_RATE - (SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis() - tick).min( 0).max(MOVEMENT_TICK_RATE)) as u64));
+            for character in character_finished_to_move {
+                Self::save_char_position(&server_ref, &runtime, character);
+            }
+            sleep(Duration::from_millis((MOVEMENT_TICK_RATE - (SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis() - tick).min(0).max(MOVEMENT_TICK_RATE)) as u64));
         }
     }
 }

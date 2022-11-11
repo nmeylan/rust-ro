@@ -16,7 +16,7 @@ use crate::server::core::request::Request;
 lazy_static! {
     static ref COMMAND_REGEX: Regex = Regex::new(r"^([@#!])([^\s]*)\s?(.*)?").unwrap();
 }
-pub fn handle_atcommand(server: Arc<Server>, context: Request, packet: &PacketCzPlayerChat) {
+pub fn handle_atcommand(server: &Server, context: Request, packet: &PacketCzPlayerChat) {
     let index_of_colon = packet.msg.find(':').unwrap();
     let command_txt = &packet.msg[index_of_colon + 1..].trim();
     let maybe_captures = COMMAND_REGEX.captures(command_txt);
@@ -54,7 +54,7 @@ pub fn handle_atcommand(server: Arc<Server>, context: Request, packet: &PacketCz
     socket_send!(context, packet_zc_notify_playerchat);
 }
 
-pub fn handle_go(server: Arc<Server>, session: Arc<Session>, runtime: &Runtime, args: Vec::<&str>) -> String {
+pub fn handle_go(server: &Server, session: Arc<Session>, runtime: &Runtime, args: Vec::<&str>) -> String {
     let cities_len = server.configuration.maps.cities.len();
     let cleaned_arg = args[0].trim();
     let mut maybe_city: Option<&CityConfig> = None;
@@ -109,7 +109,7 @@ pub fn handle_go(server: Arc<Server>, session: Arc<Session>, runtime: &Runtime, 
     format!("Warping at {} {},{}", city.name.clone(), city.x, city.y)
 }
 
-pub fn handle_warp(server: Arc<Server>, session: Arc<Session>, runtime: &Runtime, args: Vec::<&str>) -> String {
+pub fn handle_warp(server: &Server, session: Arc<Session>, runtime: &Runtime, args: Vec::<&str>) -> String {
     let map_name = args[0].to_string();
     if server.maps.contains_key(&map_name) {
         let mut x = RANDOM_CELL.0;

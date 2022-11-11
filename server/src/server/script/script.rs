@@ -198,7 +198,7 @@ impl NativeMethodHandler for PlayerScriptHandler {
             } else {
                 self.server.get_character_unsafe(self.session.char_id())
             };
-            char.change_look(LookType::from_value(look_type as usize), look_value as u32, &self.runtime, self.server.clone());
+            char.change_look(LookType::from_value(look_type as usize), look_value as u32, &self.runtime, self.server.as_ref());
             let mut packet_zc_sprite_change = PacketZcSpriteChange2::new();
             packet_zc_sprite_change.set_gid(self.session.char_id());
             packet_zc_sprite_change.set_atype(look_type as u8);
@@ -244,7 +244,7 @@ impl NativeMethodHandler for PlayerScriptHandler {
             } else {
                 self.session.clone()
             };
-            change_map_packet(map_name, x as u16, y as u16, session, self.server.clone());
+            change_map_packet(map_name, x as u16, y as u16, session, self.server.as_ref());
         } else if native.name.eq("sprintf") {
             let template = params[0].string_value().unwrap();
             let mut sprintf_args: Vec<&dyn Printf> = vec![];

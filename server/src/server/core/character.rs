@@ -132,7 +132,7 @@ impl Character {
         self.map_view = Default::default();
     }
 
-    pub fn load_units_in_fov(&mut self, server: Arc<Server>, client_notification_sender_clone: SyncSender<Notification>) {
+    pub fn load_units_in_fov(&mut self, server: &Server, client_notification_sender_clone: SyncSender<Notification>) {
         let map_instance = server.get_map_instance(self.current_map_name(), self.current_map_instance);
         if map_instance.is_none() {
             return;
@@ -220,7 +220,7 @@ impl Character {
         }
     }
 
-    pub fn change_look(&self, look: LookType, value: u32, runtime: &Runtime, server: Arc<Server>) {
+    pub fn change_look(&self, look: LookType, value: u32, runtime: &Runtime, server: &Server) {
         if self.status.look.is_none() {
             error!("Character has no look");
             return;
@@ -277,7 +277,7 @@ impl Character {
         self.status.zeny.load(Relaxed)
     }
 
-    pub fn change_zeny(&self, value: u32, server: Arc<Server>) {
+    pub fn change_zeny(&self, value: u32, server: &Server) {
         self.status.zeny.store(value, Relaxed);
         server.repository.runtime.block_on(async {
             server.repository.character_update_status(self.char_id, "zeny".to_string(), value).await.unwrap();

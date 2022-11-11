@@ -129,7 +129,7 @@ impl MapInstance {
         }
     }
 
-    pub fn spawn_mobs(&self, server: Arc<Server>, _now: u128, self_ref: Arc<MapInstance>) {
+    pub fn spawn_mobs(&self, server: &Server, _now: u128, self_ref: Arc<MapInstance>) {
         todo!("spawn_mobs")
         // for mob_spawn in self.mob_spawns.iter() {
         //     let mut mob_spawns_tracks_guard = write_lock!(self.mob_spawns_tracks);

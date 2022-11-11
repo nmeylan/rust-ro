@@ -21,7 +21,7 @@ use crate::server::server::Server;
 use crate::util::tick::{get_current_time, get_tick};
 
 
-pub fn handle_char_move(server: Arc<Server>, context: Request) {
+pub fn handle_char_move(server: &Server, context: Request) {
     let destination = if context.packet().as_any().downcast_ref::<PacketCzRequestMove2>().is_some() {
         let move_packet = cast!(context.packet(), PacketCzRequestMove2);
         Position::from_move2_packet(move_packet)

@@ -20,7 +20,7 @@ serde = { version = "1.0", features = ["derive"] }
 eframe = { version = "0.15", default-features = false, features = ["egui_glow", "default_fonts"], optional = true }
 sprintf = "0.1.2"
 
-rathena_script_lang_interpreter = { git = "https://github.com/nmeylan/rathena-script-lang-interpreter", rev = "6f6380b81bace6a5550b7a1fee264409b3492a06"}
+rathena_script_lang_interpreter = { git = "https://github.com/nmeylan/rathena-script-lang-interpreter", rev = "60905fb95934d11e51d76f00bb407c7dc49d3e74"}
 
 accessor = { path = "../lib/accessor" }
 metrics = { path = "../lib/metrics" }

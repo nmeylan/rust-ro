@@ -4,7 +4,7 @@ use crate::server::core::request::Request;
 use crate::server::handler::atcommand::handle_atcommand;
 use packets::packets::PacketCzPlayerChat;
 
-pub fn handle_chat(server: Arc<Server>, context: Request) {
+pub fn handle_chat(server: &Server, context: Request) {
     let packet_player_char = cast!(context.packet(), PacketCzPlayerChat);
     let char_id = context.session().char_id();
     let character = server.get_character_unsafe(char_id);

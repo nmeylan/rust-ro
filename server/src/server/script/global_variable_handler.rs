@@ -263,7 +263,7 @@ impl PlayerScriptHandler {
     fn store_special_char_variable(&self, char: &Character, special_variable_name: &String, value: &Value) -> bool {
         match special_variable_name.as_str() {
             "Zeny" => {
-                char.change_zeny(value.number_value().unwrap().clone() as u32, self.server.clone());
+                char.change_zeny(value.number_value().unwrap().clone() as u32, self.server.as_ref());
                 true
             },
             &_ => false
