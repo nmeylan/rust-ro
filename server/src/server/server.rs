@@ -276,12 +276,14 @@ impl Server {
             let server_ref_clone = server_ref.clone();
             let client_notification_sender_clone = client_notification_sender.clone();
             server_thread_scope.spawn(move || {
-                Self::game_loop(server_ref_clone, client_notification_sender_clone);
+                let runtime = Runtime::new().unwrap();
+                Self::game_loop(server_ref_clone, client_notification_sender_clone, runtime);
             });
             let server_ref_clone = server_ref.clone();
             let client_notification_sender_clone = client_notification_sender.clone();
             server_thread_scope.spawn(move || {
-                Self::character_movement_loop(server_ref_clone, client_notification_sender_clone);
+                let runtime = Runtime::new().unwrap();
+                Self::character_movement_loop(server_ref_clone, client_notification_sender_clone, runtime);
             });
         });
     }
@@ -300,14 +302,14 @@ impl Server {
         // Char selection
         if context.packet().as_any().downcast_ref::<PacketChEnter>().is_some() {
             debug!("PacketChEnter");
-            return handle_char_enter(self_ref, context);
+            return handle_char_enter(self_ref.as_ref(), context);
         }
 
         // Enter game
         if context.packet().as_any().downcast_ref::<PacketCzEnter2>().is_some() {
             debug!("PacketCzEnter2");
             // A char session exist, but not yet map session
-            return handle_enter_game(self_ref, context);
+            return handle_enter_game(self_ref.as_ref(), context);
         }
         /*
          *  Having a session is required for any packets below
@@ -321,49 +323,49 @@ impl Server {
         // Char creation
         if context.packet().as_any().downcast_ref::<PacketChMakeChar>().is_some() {
             debug!("PacketChMakeChar");
-            return handle_make_char(self_ref, context);
+            return handle_make_char(self_ref.as_ref(), context);
         }
         if context.packet().as_any().downcast_ref::<PacketChMakeChar2>().is_some() {
             debug!("PacketChMakeChar2");
-            return handle_make_char(self_ref, context);
+            return handle_make_char(self_ref.as_ref(), context);
         }
         if context.packet().as_any().downcast_ref::<PacketChMakeChar3>().is_some() {
             debug!("PacketChMakeChar3");
-            return handle_make_char(self_ref, context);
+            return handle_make_char(self_ref.as_ref(), context);
         }
         // Delete char reservation
         if context.packet().as_any().downcast_ref::<PacketChDeleteChar4Reserved>().is_some() {
             debug!("PacketChDeleteChar4Reserved");
-            return handle_delete_reserved_char(self_ref, context);
+            return handle_delete_reserved_char(self_ref.as_ref(), context);
         }
         // Select char
         if context.packet().as_any().downcast_ref::<PacketChSelectChar>().is_some() {
             debug!("PacketChSelectChar");
-            return handle_select_char(self_ref, context);
+            return handle_select_char(self_ref.as_ref(), context);
         }
         // Game menu "Character select"
         if context.packet().as_any().downcast_ref::<PacketCzRestart>().is_some() {
             debug!("PacketCzRestart");
-            return handle_restart(self_ref, context);
+            return handle_restart(self_ref.as_ref(), context);
         }
         // Game menu "Exit to windows"
         if context.packet().as_any().downcast_ref::<PacketCzReqDisconnect2>().is_some() {
             debug!("PacketCzReqDisconnect2");
-            return handle_disconnect(self_ref, context);
+            return handle_disconnect(self_ref.as_ref(), context);
         }
         // Player click on map cell
         if context.packet().as_any().downcast_ref::<PacketCzRequestMove2>().is_some() {
             debug!("PacketCzRequestMove2");
-            return handle_char_move(self_ref, context);
+            return handle_char_move(self_ref.as_ref(), context);
         }
         if context.packet().as_any().downcast_ref::<PacketCzRequestMove>().is_some() {
             debug!("PacketCzRequestMove");
-            return handle_char_move(self_ref, context);
+            return handle_char_move(self_ref.as_ref(), context);
         }
         // Client notify player has been loaded
         if context.packet().as_any().downcast_ref::<PacketCzNotifyActorinit>().is_some() {
             debug!("PacketCzNotifyActorinit");
-            return handle_char_loaded_client_side(self_ref, context);
+            return handle_char_loaded_client_side(self_ref.as_ref(), context);
         }
         // Client send PACKET_CZ_BLOCKING_PLAY_CANCEL after char has loaded
         if context.packet().as_any().downcast_ref::<PacketCzBlockingPlayCancel>().is_some() {
@@ -372,22 +374,22 @@ impl Server {
         }
         if context.packet().as_any().downcast_ref::<PacketCzRequestAct2>().is_some() {
             debug!("PacketCzRequestAct2");
-            return handle_attack(self_ref, context);
+            return handle_attack(self_ref.as_ref(), context);
         }
 
         if context.packet().as_any().downcast_ref::<PacketCzReqnameall2>().is_some() {
             debug!("PacketCzReqnameall2");
-            return handle_map_item_name(self_ref, context);
+            return handle_map_item_name(self_ref.as_ref(), context);
         }
 
         if context.packet().as_any().downcast_ref::<PacketCzReqname>().is_some() {
             debug!("PacketCzReqname");
-            return handle_map_item_name(self_ref, context);
+            return handle_map_item_name(self_ref.as_ref(), context);
         }
 
         if context.packet().as_any().downcast_ref::<PacketCzPlayerChat>().is_some() {
             debug!("PacketCzPlayerChat");
-            return handle_chat(self_ref, context);
+            return handle_chat(self_ref.as_ref(), context);
         }
 
         if context.packet().as_any().downcast_ref::<PacketCzRequestTime>().is_some() {

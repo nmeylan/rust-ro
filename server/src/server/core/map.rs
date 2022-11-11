@@ -432,7 +432,7 @@ impl Map {
         maps
     }
 
-    pub fn name_without_ext(map_name: String) -> String {
+    pub fn name_without_ext(map_name: &String) -> String {
         map_name.replace(MAP_EXT, "")
     }
 }

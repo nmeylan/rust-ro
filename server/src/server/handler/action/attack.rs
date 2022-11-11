@@ -8,7 +8,7 @@ use crate::server::core::request::Request;
 use crate::server::core::session::Session;
 use crate::server::enums::action::ActionType;
 
-pub fn handle_attack(server: Arc<Server>, context: Request) {
+pub fn handle_attack(server: &Server, context: Request) {
     let packet_cz_request_act2 = cast!(context.packet(), PacketCzRequestAct2);
     let session = context.session();
     let char_id = session.char_id();

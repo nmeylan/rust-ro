@@ -23,7 +23,7 @@ use crate::server::script::ScriptGlobalVariableStore;
 use crate::server::server::{Server};
 use crate::util::tick::{get_tick, get_tick_client};
 
-pub fn handle_char_enter(server: Arc<Server>, context: Request) {
+pub fn handle_char_enter(server: &Server, context: Request) {
     let packet_char_enter = cast!(context.packet(), PacketChEnter);
     let mut sessions_guard = write_lock!(server.sessions);
 
@@ -57,7 +57,7 @@ pub fn handle_char_enter(server: Arc<Server>, context: Request) {
     socket_send!(context, res);
 }
 
-pub fn handle_make_char(server: Arc<Server>, context: Request) {
+pub fn handle_make_char(server: &Server, context: Request) {
 
     let mut char_model: Option<CharInsertModel> = None;
     if context.packet().as_any().downcast_ref::<PacketChMakeChar3>().is_some() {
@@ -151,7 +151,7 @@ pub fn handle_make_char(server: Arc<Server>, context: Request) {
     socket_send!(context, packet_hc_accept_makechar_neo_union);
 }
 
-pub fn handle_delete_reserved_char(server: Arc<Server>, context: Request) {
+pub fn handle_delete_reserved_char(server: &Server, context: Request) {
     let packet_delete_reserved_char = cast!(context.packet(), PacketChDeleteChar4Reserved);
     context.runtime().block_on(async {
         sqlx::query("UPDATE `char` SET delete_date = UNIX_TIMESTAMP(now() + INTERVAL 1 DAY) WHERE account_id = ? AND char_id = ?")
@@ -167,7 +167,7 @@ pub fn handle_delete_reserved_char(server: Arc<Server>, context: Request) {
     socket_send!(context, packet_hc_delete_char4reserved);
 }
 
-pub fn handle_select_char(server: Arc<Server>, context: Request) {
+pub fn handle_select_char(server: &Server, context: Request) {
     let packet_select_char = cast!(context.packet(), PacketChSelectChar);
     let session_id = context.session().account_id;
     let char_model: CharSelectModel = context.runtime().block_on(async {
@@ -230,7 +230,7 @@ pub fn handle_select_char(server: Arc<Server>, context: Request) {
 }
 
 
-pub fn handle_enter_game(server: Arc<Server>, context: Request) {
+pub fn handle_enter_game(server: &Server, context: Request) {
 
     let aid;
     let auth_code;
@@ -277,7 +277,7 @@ pub fn handle_enter_game(server: Arc<Server>, context: Request) {
     let char_id = session.char_id();
     let character = server.get_character_unsafe(char_id);
 
-    change_map_packet(&Map::name_without_ext(character.current_map_name().clone()), character.x(), character.y(), session.clone(), server.clone());
+    change_map_packet(&Map::name_without_ext(character.current_map_name()), character.x(), character.y(), session.clone(), server.clone());
     // let final_response_packet: Vec<u8> = chain_packets(vec![&packet_inventory_expansion_info, &packet_overweight_percent, &packet_accept_enter, &packet_zc_npcack_mapmove]);
     socket_send!(context, packet_accept_enter);
 
@@ -380,7 +380,7 @@ pub fn handle_enter_game(server: Arc<Server>, context: Request) {
     socket_send_raw!(context, final_response_packet);
 }
 
-pub fn handle_restart(server: Arc<Server>, context: Request) {
+pub fn handle_restart(server: &Server, context: Request) {
     let packet_restart = cast!(context.packet(), PacketCzRestart);
     let session_id = context.session().account_id;
     let mut sessions_guard = write_lock!(server.sessions);
@@ -398,7 +398,7 @@ pub fn handle_restart(server: Arc<Server>, context: Request) {
     socket_send!(context, restart_ack);
 }
 
-pub fn handle_disconnect(server: Arc<Server>, context: Request) {
+pub fn handle_disconnect(server: &Server, context: Request) {
     let session = context.session();
     let char_id = session.char_id();
     server.add_to_next_tick(Event::CharacterRemoveFromMap(char_id));
@@ -416,7 +416,7 @@ pub fn handle_blocking_play_cancel(context: Request) {
     socket_send!(context, packet_zc_load_confirm);
 }
 
-async fn load_chars_info(account_id: u32, server: Arc<Server>) -> PacketHcAcceptEnterNeoUnionHeader {
+async fn load_chars_info(account_id: u32, server: &Server) -> PacketHcAcceptEnterNeoUnionHeader {
     let row_results = sqlx::query_as::<_, CharacterInfoNeoUnionWrapped>("SELECT * FROM `char` WHERE account_id = ?")
         .bind(account_id)
         .fetch_all(&server.repository.pool).await.unwrap();

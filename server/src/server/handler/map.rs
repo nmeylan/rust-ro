@@ -10,7 +10,7 @@ use crate::server::core::request::Request;
 use crate::server::core::session::Session;
 use crate::util::packet::chain_packets;
 
-pub fn handle_map_item_name(server: Arc<Server>, context: Request) {
+pub fn handle_map_item_name(server: &Server, context: Request) {
     let gid = if context.packet().as_any().downcast_ref::<PacketCzReqnameall2>().is_some() {
         let packet_cz_req_allname2 = cast!(context.packet(), PacketCzReqnameall2);
         packet_cz_req_allname2.gid
@@ -41,7 +41,7 @@ pub fn handle_map_item_name(server: Arc<Server>, context: Request) {
     socket_send!(context, packet_zc_ack_reqnameall2);
 }
 
-pub fn handle_char_loaded_client_side(server: Arc<Server>, context: Request) {
+pub fn handle_char_loaded_client_side(server: &Server, context: Request) {
     info!("Reload char");
     let session = context.session();
     let session_id = session.account_id;
