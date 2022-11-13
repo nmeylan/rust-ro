@@ -18,6 +18,8 @@ use crate::packets::packets::Packet;
 use crate::Server;
 use crate::server::core::character_movement::{change_map_packet};
 use crate::server::core::events::client_notification::{CharNotification, Notification};
+use crate::server::core::events::game_event::CharacterLook;
+use crate::server::core::events::game_event::GameEvent::CharacterUpdateLook;
 use crate::server::core::session::Session;
 use crate::server::core::status::LookType;
 use crate::server::script::constant::{get_battle_flag, load_constant};
@@ -192,20 +194,13 @@ impl NativeMethodHandler for PlayerScriptHandler {
         } else if native.name.eq("setlook") {
             let look_type = params[0].number_value().unwrap();
             let look_value = params[1].number_value().unwrap();
-            let char = if params.len() == 3 {
+            let char_id = if params.len() == 3 {
                 // TODO
                 panic!("setlook with char_id not yet supported")
             } else {
-                self.server.get_character_unsafe(self.session.char_id())
+                self.session.char_id()
             };
-            char.change_look(LookType::from_value(look_type as usize), look_value as u32, &self.runtime, self.server.as_ref());
-            let mut packet_zc_sprite_change = PacketZcSpriteChange2::new();
-            packet_zc_sprite_change.set_gid(self.session.char_id());
-            packet_zc_sprite_change.set_atype(look_type as u8);
-            packet_zc_sprite_change.set_value(look_value);
-            packet_zc_sprite_change.fill_raw();
-            // TODO: [multiplayer] send to all other char
-            self.send_packet_to_char(self.session.char_id(), &mut packet_zc_sprite_change);
+            self.server.add_to_next_tick(CharacterUpdateLook(CharacterLook{look_type: LookType::from_value(look_type as usize), look_value: look_value as u32, char_id}));
         } else if native.name.eq("strcharinfo") {
             let info_type = params[0].number_value().unwrap() as usize;
             let char = if params.len() == 2 {

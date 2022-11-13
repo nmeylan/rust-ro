@@ -159,19 +159,19 @@ impl Server {
     }
 
     #[inline]
-    pub fn map_item(&self, map_item: u32, map_name: &String, map_instance_id: u8) -> Option<MapItem> {
+    pub fn map_item(&self, map_item_id: u32, map_name: &String, map_instance_id: u8) -> Option<MapItem> {
         let characters = self.characters.borrow();
-        if let Some(character) = characters.get(&map_item) {
-            return Some(character.to_map_item()); // TODO add dir to character
+        if let Some(character) = characters.get(&map_item_id) {
+            return Some(character.to_map_item());
         }
         if let Some(map_instance) = self.get_map_instance(&map_name, map_instance_id) {
-            if let Some(mob) = map_instance.get_mob(map_item) {
-                return Some(mob.to_map_item()); // TODO add dir to character
+            if let Some(mob) = map_instance.get_mob(map_item_id) {
+                return Some(mob.to_map_item());
             }
-            if let Some(warp) = map_instance.get_warp(map_item) {
+            if let Some(warp) = map_instance.get_warp(map_item_id) {
                 return Some(warp.to_map_item());
             }
-            if let Some(script) = map_instance.get_script(map_item) {
+            if let Some(script) = map_instance.get_script(map_item_id) {
                 return Some(script.to_map_item());
             }
         }

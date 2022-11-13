@@ -14,6 +14,9 @@ impl Server {
                                                            Map::name_without_ext(&save_character_position.map_name),
                                                            save_character_position.x, save_character_position.y).await.unwrap();
                     }
+                    PersistenceEvent::UpdateCharacterStatusU32(status_update) => {
+                        repository.character_update_status(status_update.char_id, status_update.db_column, status_update.value).await.unwrap();
+                    }
                 }
             })
         }

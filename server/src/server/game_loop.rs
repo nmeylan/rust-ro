@@ -6,7 +6,7 @@ use regex::internal::Inst;
 
 use tokio::runtime::Runtime;
 
-use packets::packets::{Packet, PacketZcNotifyPlayermove, PacketZcNpcackMapmove};
+use packets::packets::{Packet, PacketZcNotifyPlayermove, PacketZcNpcackMapmove, PacketZcSpriteChange2};
 use crate::PersistenceEvent;
 use crate::PersistenceEvent::SaveCharacterPosition;
 
@@ -15,8 +15,8 @@ use crate::server::core::character_movement::Movement;
 use crate::server::core::events::game_event::{CharacterChangeMap, GameEvent};
 use crate::server::core::map::{Map, MAP_EXT};
 use crate::server::core::events::map_event::MapEvent::{*};
-use crate::server::core::events::client_notification::{CharNotification, Notification};
-use crate::server::core::events::persistence_event::SavePositionUpdate;
+use crate::server::core::events::client_notification::{AreaNotification, AreaNotificationRangeType, CharNotification, Notification};
+use crate::server::core::events::persistence_event::{SavePositionUpdate, StatusUpdate};
 use crate::server::core::position::Position;
 use crate::server::enums::map_item::MapItemType;
 use crate::server::map_item::{ToMapItem, ToMapItemSnapshot};
@@ -83,6 +83,37 @@ impl Server {
                         }
                         GameEvent::CharacterClearMove(_) => {
                             // handled by dedicated thread
+                        }
+                        GameEvent::CharacterUpdateLook(character_look) => {
+                            let character = characters.get_mut(&character_look.char_id).unwrap();
+                            let db_column = character.change_look(character_look.look_type, character_look.look_value);
+                            if let Some(db_column) = db_column {
+                                let mut packet_zc_sprite_change = PacketZcSpriteChange2::new();
+                                packet_zc_sprite_change.set_gid(character_look.char_id);
+                                packet_zc_sprite_change.set_atype(character_look.look_type.value() as u8);
+                                packet_zc_sprite_change.set_value(character_look.look_value as i32);
+                                packet_zc_sprite_change.fill_raw();
+                                server_ref.client_notification_sender().send(Notification::Area(AreaNotification{
+                                    map_name: character.current_map_name().clone(),
+                                    map_instance_id: character.current_map_instance(),
+                                    range_type: AreaNotificationRangeType::Fov {x: character.x(), y: character.y()},
+                                    packet: std::mem::take(packet_zc_sprite_change.raw_mut())
+                                }));
+                                persistence_event_sender.send(PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate{
+                                    char_id: character_look.char_id,
+                                    db_column,
+                                    value: character_look.look_value
+                                }));
+                            }
+                        }
+                        GameEvent::CharacterUpdateZeny(zeny_update) => {
+                            let character = characters.get_mut(&zeny_update.char_id).unwrap();
+                            character.change_zeny(zeny_update.zeny);
+                            persistence_event_sender.send(PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate {
+                                char_id: zeny_update.char_id,
+                                value: zeny_update.zeny,
+                                db_column: "zeny".to_string(),
+                            }));
                         }
                     }
                 }

@@ -14,7 +14,8 @@ use crate::server::script::script::PlayerScriptHandler;
 pub fn handle_contact_npc(server: Arc<Server>, context: Request) {
     let packet_cz_contact_npc = cast!(context.packet(), PacketCzContactnpc);
     let npc_id = packet_cz_contact_npc.naid;
-    let maybe_map_item = server.get_map_item(npc_id);
+    let character = server.get_character_from_context_unsafe(&context);
+    let maybe_map_item = server.map_item(npc_id, character.current_map_name(), character.current_map_instance());
     if maybe_map_item.is_none() {
         error!("Can't find map item with id: {}", npc_id);
         return;
