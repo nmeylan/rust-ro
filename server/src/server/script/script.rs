@@ -17,7 +17,7 @@ use packets::packets::{PacketZcCloseDialog, PacketZcMenuList, PacketZcNotifyPlay
 use crate::packets::packets::Packet;
 use crate::Server;
 use crate::server::core::character_movement::{change_map_packet};
-use crate::server::core::notification::{CharNotification, Notification};
+use crate::server::core::events::client_notification::{CharNotification, Notification};
 use crate::server::core::session::Session;
 use crate::server::core::status::LookType;
 use crate::server::script::constant::{get_battle_flag, load_constant};

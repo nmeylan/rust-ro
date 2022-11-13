@@ -11,7 +11,7 @@ use tokio::time::{Duration, Instant};
 use packets::packets::{Packet, PacketCzRequestMove, PacketCzRequestMove2, PacketZcNpcackMapmove};
 
 use crate::server::core::character::{Character, MovementTask};
-use crate::server::core::event::{CharacterChangeMap, Event};
+use crate::server::core::events::game_event::{CharacterChangeMap, GameEvent};
 use crate::server::core::map::{Map, MAP_EXT, RANDOM_CELL};
 use crate::server::core::path::PathNode;
 use crate::server::core::position::Position;
@@ -67,8 +67,8 @@ impl Movement {
 
 pub fn change_map_packet(destination_map: &String, x: u16, y: u16, session: Arc<Session>, server: &Server) {
     let char_id = session.char_id();
-    server.add_to_next_tick(Event::CharacterClearFov(char_id));
-    server.add_to_next_tick(Event::CharacterRemoveFromMap(char_id));
+    server.add_to_next_tick(GameEvent::CharacterClearFov(char_id));
+    server.add_to_next_tick(GameEvent::CharacterRemoveFromMap(char_id));
 
     let map_name: String = Map::name_without_ext(destination_map);
     debug!("Char enter on map {}", map_name);
@@ -81,7 +81,7 @@ pub fn change_map_packet(destination_map: &String, x: u16, y: u16, session: Arc<
         (x, y)
     };
 
-    server.add_to_tick(Event::CharacterChangeMap(CharacterChangeMap {
+    server.add_to_tick(GameEvent::CharacterChangeMap(CharacterChangeMap {
         char_id: session.char_id.unwrap(),
         new_map_name: destination_map.clone(),
         new_instance_id: map_instance.id,

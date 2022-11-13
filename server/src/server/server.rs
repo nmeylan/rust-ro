@@ -26,10 +26,10 @@ use packets::packets_parser::parse;
 use crate::repository::Repository;
 use crate::server::configuration::Config;
 use crate::server::core::character::Character;
-use crate::server::core::event::Event;
+use crate::server::core::events::game_event::GameEvent;
 use crate::server::core::map::{Map, MAP_EXT};
 use crate::server::core::map_instance::{MapInstance, MapInstanceKey};
-use crate::server::core::notification::{CharNotification, Notification};
+use crate::server::core::events::client_notification::{CharNotification, Notification};
 use crate::server::core::request::Request;
 use crate::server::core::response::Response;
 use crate::server::core::session::{Session, SessionsIter};
@@ -64,8 +64,8 @@ pub struct Server {
     map_items: MyUnsafeCell<HashMap<u32, MapItem>>,
 
     pub characters: MyUnsafeCell<HashMap<u32, Character>>,
-    tasks_queue: TasksQueue<Event>,
-    movement_tasks_queue: TasksQueue<Event>,
+    tasks_queue: TasksQueue<GameEvent>,
+    movement_tasks_queue: TasksQueue<GameEvent>,
     pub vm: Arc<Vm>,
     client_notification_sender: SyncSender<Notification>
 }
@@ -85,11 +85,11 @@ impl Server {
         session_ref.clone()
     }
 
-    pub(crate) fn pop_task(&self) -> Option<Vec<Event>> {
+    pub(crate) fn pop_task(&self) -> Option<Vec<GameEvent>> {
         self.tasks_queue.pop()
     }
 
-    pub(crate) fn pop_movement_task(&self) -> Option<Vec<Event>> {
+    pub(crate) fn pop_movement_task(&self) -> Option<Vec<GameEvent>> {
         self.movement_tasks_queue.pop()
     }
 
@@ -160,15 +160,15 @@ impl Server {
         }
     }
 
-    pub fn add_to_next_tick(&self, event: Event) {
+    pub fn add_to_next_tick(&self, event: GameEvent) {
         self.tasks_queue.add_to_first_index(event)
     }
 
-    pub fn add_to_tick(&self, event: Event, index: usize) {
+    pub fn add_to_tick(&self, event: GameEvent, index: usize) {
         self.tasks_queue.add_to_index(event, index)
     }
 
-    pub fn add_to_next_movement_tick(&self, event: Event) {
+    pub fn add_to_next_movement_tick(&self, event: GameEvent) {
         self.movement_tasks_queue.add_to_first_index(event)
     }
 
@@ -270,6 +270,9 @@ impl Server {
             thread::Builder::new().name("movement_loop_thread".to_string()).spawn_scoped(server_thread_scope,move || {
                 let runtime = Runtime::new().unwrap();
                 Self::character_movement_loop(server_ref_clone, client_notification_sender_clone, runtime);
+            }).unwrap();
+            thread::Builder::new().name("persistence_thread".to_string()).spawn_scoped(server_thread_scope,move || {
+                let runtime = Runtime::new().unwrap();
             }).unwrap();
         });
     }

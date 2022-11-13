@@ -20,7 +20,7 @@ use rand::Rng;
 use accessor::Setters;
 use crate::Script;
 use crate::server::core::character::Character;
-use crate::server::core::map_event::MapEvent;
+use crate::server::core::events::map_event::MapEvent;
 use crate::server::core::map_instance::MapInstance;
 use crate::server::core::path::{allowed_dirs, DIR_EAST, DIR_NORTH, DIR_SOUTH, DIR_WEST, is_direction};
 use crate::server::enums::map_item::MapItemType;
