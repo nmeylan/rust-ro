@@ -204,7 +204,7 @@ impl MapInstance {
     }
 
     pub fn update_mobs_fov(&self, characters: Vec<MapItemSnapshot>) {
-        for (_, mob) in self.mobs.borrow_mut().iter() {
+        for (_, mob) in self.mobs.borrow_mut().iter_mut() {
             let mut viewed_chars: Vec<MapItem> = Vec::with_capacity(characters.len());
             for character in characters.iter() {
                 if manhattan_distance(character.x(), character.y(), mob.x(), mob.y()) <= MOB_FOV {
@@ -228,9 +228,6 @@ impl MapInstance {
         }
         for (character, packets) in character_packets_map.iter() {
             let packets = chain_packets_raws(packets.iter().map(|packet| packet.raw()).collect::<Vec<&Vec<u8>>>());
-            // let map_socket_guard = write_lock!(character.map_server_socket);
-            // let character_socket = map_socket_guard.as_ref().unwrap();
-            // socket_send_deprecated!(character_socket, &packets);
             self.client_notification_channel.send(Notification::Char(
                 CharNotification::new(character.id(), packets)));
         }
