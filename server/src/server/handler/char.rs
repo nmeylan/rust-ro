@@ -16,6 +16,7 @@ use crate::server::enums::status::StatusTypes;
 use crate::server::core::character::{Character};
 use crate::server::core::character_movement::{change_map_packet};
 use crate::server::core::event::Event;
+use crate::server::core::map_instance::MapInstanceKey;
 use crate::server::core::request::Request;
 use crate::server::core::session::Session;
 use crate::server::core::status::Status;
@@ -192,17 +193,15 @@ pub fn handle_select_char(server: &Server, context: Request) {
         name: char_model.name.clone(),
         char_id,
         status: Status::from_char_model(&char_model, &server.configuration.game),
-        current_map_name: map_name,
-        current_map_name_string: last_map,
         loaded_from_client_side: false,
         x: last_x,
         y: last_y,
         dir: 0,
         movements: vec![],
         map_view: HashSet::new(),
-        current_map_instance: 0,
         script_variable_store: Mutex::new(ScriptGlobalVariableStore::default()),
-        account_id: session_id
+        account_id: session_id,
+        map_instance_key: MapInstanceKey::new(last_map, 0)
     };
     let char_id = character.char_id;
     let session = Arc::new(context.session().recreate_with_character(char_id));

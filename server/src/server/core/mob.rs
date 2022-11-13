@@ -8,7 +8,7 @@ use packets::packets::PacketZcNotifyMove;
 use crate::server::core::character::Character;
 use crate::server::core::position::Position;
 use crate::server::core::map::{Map, MapItem, ToMapItem};
-use crate::server::core::map_instance::MapInstance;
+use crate::server::core::map_instance::{MapInstance, MapInstanceKey};
 use crate::server::core::status::Status;
 use crate::server::enums::map_item::MapItemType;
 use crate::util::tick::get_tick;
@@ -24,7 +24,7 @@ pub struct Mob {
     pub x: u16,
     #[set]
     pub y: u16,
-    pub current_map: RwLock<Arc<MapInstance>>,
+    pub current_map: MapInstanceKey,
     pub map_view: RwLock<Vec<MapItem>>,
     pub is_view_char: RwLock<bool>,
     pub movement_task_id: AtomicU64,
@@ -60,7 +60,7 @@ pub struct Mob {
 // }
 
 impl Mob {
-    pub fn new(id: u32, x: u16, y: u16, mob_id: i16, spawn_id: u32, name: String, current_map: Arc<MapInstance>, status: Status) -> Mob {
+    pub fn new(id: u32, x: u16, y: u16, mob_id: i16, spawn_id: u32, name: String, current_map: MapInstanceKey, status: Status) -> Mob {
         Mob {
             id,
             x,
@@ -70,7 +70,7 @@ impl Mob {
             status,
             name,
             map_view: RwLock::new(vec![]),
-            current_map: RwLock::new(current_map),
+            current_map,
             is_view_char: RwLock::new(false),
             movement_task_id: Default::default(),
         }

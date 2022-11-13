@@ -10,16 +10,17 @@ use std::cell::RefCell;
 use std::time::{Duration, Instant};
 use std::collections::{HashMap, HashSet};
 use std::hash::{Hash, Hasher};
+use std::slice::Iter;
 use std::sync::{Arc, RwLock};
 use std::sync::atomic::AtomicI8;
 use std::sync::atomic::Ordering::Relaxed;
+use std::sync::mpsc::Receiver;
 use std::thread::sleep;
 use rand::Rng;
-use tokio::sync::broadcast;
-use tokio::sync::broadcast::{Receiver, Sender};
 use accessor::Setters;
 use crate::Script;
 use crate::server::core::character::Character;
+use crate::server::core::map_event::MapEvent;
 use crate::server::core::map_instance::MapInstance;
 use crate::server::core::path::{allowed_dirs, DIR_EAST, DIR_NORTH, DIR_SOUTH, DIR_WEST, is_direction};
 use crate::server::enums::map_item::MapItemType;
@@ -54,8 +55,7 @@ pub struct Map {
     pub warps: Arc<Vec<Arc<Warp>>>,
     pub mob_spawns: Arc<Vec<Arc<MobSpawn>>>,
     pub scripts: Arc<Vec<Script>>,
-    pub map_thread_channel_sender: Sender<String>,
-    pub map_instances: RwLock<Vec<Arc<MapInstance>>>,
+    pub map_instances: MyUnsafeCell<Vec<Arc<MapInstance>>>,
     pub map_instances_count: AtomicI8,
 }
 
@@ -194,26 +194,27 @@ impl Map {
         let map_instance_id = 0_u8;
         let instance_exists;
         {
-            let map_instances_guard = read_lock!(self.map_instances);
+            let map_instances_guard = self.map_instances.borrow();
             instance_exists = map_instances_guard.get(map_instance_id as usize).is_some();
         }
         if !instance_exists {
             self.create_map_instance(server, map_instance_id);
         }
-        let map_instances_guard = read_lock!(self.map_instances);
+        let map_instances_guard =self.map_instances.borrow();
         let map_instance = map_instances_guard.get(map_instance_id as usize).unwrap();
         map_instance.clone()
     }
 
     pub fn get_instance(&self, id: u8, server: &Server) -> Option<Arc<MapInstance>>{
-        let map_instances_guard = read_lock!(self.map_instances);
-        for map_instance in  map_instances_guard.iter() {
+        for map_instance in  self.map_instances.borrow().iter() {
             if map_instance.id == id {
                 return Some(map_instance.clone())
             }
         }
-        drop(map_instances_guard);
         Some(self.create_map_instance(server, id))
+    }
+    pub fn instances(&self) -> Vec<Arc<MapInstance>> {
+        self.map_instances.borrow().iter().map(|instance| instance.clone()).collect()
     }
 
     pub fn find_random_walkable_cell(cells: &Vec<u16>, x_size: u16) -> (u16, u16) {
@@ -280,20 +281,22 @@ impl Map {
 
     fn create_map_instance(&self, server: &Server, instance_id: u8) -> Arc<MapInstance> {
         info!("create map instance: {} x_size: {}, y_size {}, length: {}", self.name, self.x_size, self.y_size, self.length);
-        let mut map_items: HashSet<MapItem> = HashSet::with_capacity(2048);
+        let mut map_items: HashMap<u32, MapItem> = HashMap::with_capacity(2048);
         let cells = self.generate_cells(server.clone(), &mut map_items);
-        let map_instance = MapInstance::from_map(self, server, instance_id, cells, map_items);
+
+        let (map_event_notification_sender, single_map_event_notification_receiver) = std::sync::mpsc::sync_channel::<MapEvent>(0);
+        let map_instance = MapInstance::from_map(self, server, instance_id, cells, map_items, map_event_notification_sender, server.client_notification_sender());
         self.map_instances_count.fetch_add(1, Relaxed);
         let map_instance_ref = Arc::new(map_instance);
         {
-            let mut map_instance_guard = write_lock!(self.map_instances);
+            let mut map_instance_guard = self.map_instances.borrow_mut();
             map_instance_guard.push(map_instance_ref.clone());
         }
-        Map::start_thread(map_instance_ref.clone(), self.map_thread_channel_sender.subscribe(), server);
+        Map::start_thread(map_instance_ref.clone(), server, single_map_event_notification_receiver);
         map_instance_ref
     }
 
-    pub fn generate_cells(&self, server: &Server, map_items: &mut HashSet<MapItem>) -> Vec<u16> {
+    pub fn generate_cells(&self, server: &Server, map_items: &mut HashMap<u32, MapItem>) -> Vec<u16> {
         let file_path = Path::join(Path::new(MAP_DIR), format!("{}{}", self.name, MAPCACHE_EXT));
         let file = File::open(file_path).unwrap();
         let mut reader = BufReader::new(file);
@@ -314,14 +317,13 @@ impl Map {
             })
         }
 
-        self.set_warp_cells(&mut cells, server, map_items);
+        self.set_warp_cells(&mut cells, map_items);
         cells
     }
 
-    fn set_warp_cells(&self, cells: &mut [u16], server: &Server, map_items: &mut HashSet<MapItem>) {
+    fn set_warp_cells(&self, cells: &mut [u16], map_items: &mut HashMap<u32, MapItem>) {
         for warp in self.warps.iter() {
-            server.insert_map_item(warp.id, warp.to_map_item());
-            map_items.insert(warp.to_map_item());
+            map_items.insert(warp.id, warp.to_map_item());
             let start_x = warp.x - warp.x_size;
             let to_x = warp.x + warp.x_size;
             let start_y = warp.y - warp.y_size;
@@ -361,31 +363,41 @@ impl Map {
         );
     }
 
-    fn start_thread(map_instance: Arc<MapInstance>, mut rx: Receiver<String>, server: &Server) {
+    fn start_thread(map_instance: Arc<MapInstance>, server: &Server, single_map_event_notification_receiver: Receiver<MapEvent>) {
         let map_instance_clone = map_instance.clone();
         let map_instance_clone_for_thread = map_instance.clone();
         info!("Start thread for {}", map_instance_clone.name);
-        thread::Builder::new().name(format!("{}-thread", map_instance_clone.name))
+        thread::Builder::new().name(format!("map_instance_{}_thread", map_instance_clone.name))
             .spawn(move || {
-                let mut now = Instant::now();
-                let mut cleanup_notified_at: Option<Instant> = None;
-                let mut last_mobs_action = now;
-                while cleanup_notified_at.is_none() || now.duration_since(cleanup_notified_at.unwrap()).as_secs() < 5 {
-                    now = Instant::now();
-                    if rx.try_recv().is_ok() {
-                        info!("received clean up sig");
-                        cleanup_notified_at = Some(now);
-                    }
-                    {
-                        // map_instance_clone_for_thread.spawn_mobs(server.clone(), now.elapsed().as_millis(), map_instance.clone());
-                        // map_instance_clone_for_thread.update_mobs_fov();
-                        if last_mobs_action.elapsed().as_secs() > 2 {
-                            // map_instance_clone_for_thread.mobs_action();
-                            last_mobs_action = now;
+                loop {
+                    for event in single_map_event_notification_receiver.iter() {
+                        match event {
+                            MapEvent::SpawnMob => {
+                                map_instance_clone_for_thread.spawn_mobs();
+                            }
+                            MapEvent::UpdateMobFov => {}
                         }
                     }
-                    sleep(Duration::from_millis(50));
                 }
+                // let mut now = Instant::now();
+                // let mut cleanup_notified_at: Option<Instant> = None;
+                // let mut last_mobs_action = now;
+                // while cleanup_notified_at.is_none() || now.duration_since(cleanup_notified_at.unwrap()).as_secs() < 5 {
+                //     now = Instant::now();
+                //     if rx.try_recv().is_ok() {
+                //         info!("received clean up sig");
+                //         cleanup_notified_at = Some(now);
+                //     }
+                //     {
+                //         // map_instance_clone_for_thread.spawn_mobs(server.clone(), now.elapsed().as_millis(), map_instance.clone());
+                //         // map_instance_clone_for_thread.update_mobs_fov();
+                //         if last_mobs_action.elapsed().as_secs() > 2 {
+                //             // map_instance_clone_for_thread.mobs_action();
+                //             last_mobs_action = now;
+                //         }
+                //     }
+                //     sleep(Duration::from_millis(50));
+                // }
                 info!("Clean up {} map", map_instance_clone.name);
             }).unwrap();
     }
@@ -411,7 +423,6 @@ impl Map {
             // TODO validate checksum
             // TODO validate size + length
 
-            let (tx, _) = broadcast::channel::<String>(32);
             let mut map = Map {
                 x_size: header.x_size as u16,
                 y_size: header.y_size as u16,
@@ -420,7 +431,6 @@ impl Map {
                 warps: Default::default(),
                 mob_spawns: Default::default(),
                 scripts: Default::default(),
-                map_thread_channel_sender: tx,
                 map_instances: Default::default(),
                 map_instances_count: Default::default()
             };

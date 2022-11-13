@@ -20,13 +20,13 @@ pub fn handle_map_item_name(server: &Server, context: Request) {
     } else {
         0
     };
-    let maybe_map_item = server.get_map_item(gid);
+    let character = server.get_character_from_context_unsafe(&context);
+    let maybe_map_item = server.map_item(gid, character.current_map_name(), character.current_map_instance());
     if maybe_map_item.is_none() {
         error!("Can't find map item with id: {}", gid);
         return;
     }
     let map_item = maybe_map_item.unwrap();
-    let character = server.get_character_from_context_unsafe(&context);
     let map_item_name = server.map_item_name(&map_item, character.current_map_name(), character.current_map_instance()).unwrap_or("unknown".to_string());
     let mut packet_zc_ack_reqnameall2 = PacketZcAckReqnameall2::new();
     packet_zc_ack_reqnameall2.set_gid(gid);

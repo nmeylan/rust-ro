@@ -1,9 +1,12 @@
+use std::collections::HashMap;
 use std::sync::Arc;
-use crate::server::core::map::MapItem;
+use rand::Rng;
+use crate::server::core::map::{MapItem, ToMapItem};
 use crate::server::core::position::Position;
 use crate::server::enums::map_item::MapItemType;
 use crate::server::npc::script::Script;
-use crate::server::server::Server;
+use crate::server::server::{Server, UNKNOWN_MAP_ITEM};
+use crate::util::cell::MyRefMut;
 
 impl Server {
     #[inline]
@@ -86,6 +89,26 @@ impl Server {
         }
     }
 
+    #[inline]
+    pub fn map_item(&self, map_item: u32, map_name: &String, map_instance_id: u8) -> Option<MapItem> {
+        let characters = self.characters.borrow();
+        if let Some(character) = characters.get(&map_item) {
+            return Some(character.to_map_item()); // TODO add dir to character
+        }
+        if let Some(map_instance) = self.get_map_instance(&map_name, map_instance_id) {
+            if let Some(mob) = map_instance.get_mob(map_item) {
+                return Some(mob.to_map_item()); // TODO add dir to character
+            }
+            if let Some(warp) = map_instance.get_warp(map_item) {
+                return Some(warp.to_map_item());
+            }
+            if let Some(script) = map_instance.get_script(map_item) {
+                return Some(script.to_map_item());
+            }
+        }
+        None
+    }
+
     pub fn map_item_script(&self, map_item: &MapItem, map_name: &String, map_instance_id: u8) -> Option<Arc<Script>> {
         match map_item.object_type() {
             MapItemType::Npc => {
@@ -98,5 +121,18 @@ impl Server {
             }
             _ => None
         }
+    }
+
+
+    pub fn generate_id(map_items: &mut MyRefMut<HashMap<u32, MapItem>>) -> u32 {
+        let mut id: u32;
+        loop {
+            id = rand::thread_rng().gen::<u32>();
+            if !map_items.contains_key(&id) {
+                map_items.insert(id, UNKNOWN_MAP_ITEM);
+                break;
+            }
+        }
+        id
     }
 }
