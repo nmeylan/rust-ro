@@ -27,9 +27,8 @@ pub struct Mob {
     #[set]
     pub y: u16,
     pub current_map: MapInstanceKey,
-    pub map_view: MyUnsafeCell<Vec<MapItem>>,
-    pub is_view_char: MyUnsafeCell<bool>,
-    pub movement_task_id: AtomicU64,
+    pub map_view: Vec<MapItem>,
+    pub is_view_char: bool,
 }
 
 impl Mob {
@@ -42,10 +41,9 @@ impl Mob {
             spawn_id,
             status,
             name,
-            map_view: MyUnsafeCell::new(vec![]),
+            map_view: vec![],
             current_map,
-            is_view_char: MyUnsafeCell::new(false),
-            movement_task_id: Default::default(),
+            is_view_char: false
         }
     }
 
@@ -59,17 +57,16 @@ impl Mob {
     pub fn name(&self) -> &String {
         &self.name
     }
-    pub fn update_map_view(&self, map_items: Vec<MapItem>) {
-        *self.is_view_char.borrow_mut() = !map_items.is_empty();
-        *self.map_view.borrow_mut() = map_items;
+    pub fn update_map_view(&mut self, map_items: Vec<MapItem>) {
+        self.is_view_char = !map_items.is_empty();
+        self.map_view = map_items;
     }
 
     pub fn action_move(&mut self, cells: &Vec<u16>, x_size: u16, y_size: u16) -> HashMap<MapItem, PacketZcNotifyMove> {
         let mut rng = rand::thread_rng();
         let mut character_packets_map: HashMap<MapItem, PacketZcNotifyMove> = HashMap::new();
-        let is_view_char = *self.is_view_char.borrow();
         let rand = rng.gen_range(0..=100);
-        let should_move = if is_view_char {
+        let should_move = if self.is_view_char {
             rand <= 80
         } else {
             rand <= 10
@@ -83,8 +80,7 @@ impl Mob {
             // Todo: implement server side movement, to avoid desync between client and server
             self.x = x;
             self.y = y;
-            if is_view_char {
-                let map_view = self.map_view.borrow();
+            if self.is_view_char {
                 let from = Position {
                     x: current_x,
                     y: current_y,
@@ -95,7 +91,7 @@ impl Mob {
                     y,
                     dir: 0
                 };
-                map_view.iter()
+                self.map_view.iter()
                     .filter(|map_item| map_item.object_type_value() == MapItemType::Character.value())
                     .for_each(|map_item| {
                         let mut packet_zc_notify_move = PacketZcNotifyMove::default();

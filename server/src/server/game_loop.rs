@@ -24,7 +24,6 @@ use crate::util::tick::get_tick;
 const MOVEMENT_TICK_RATE: u128 = 20;
 const GAME_TICK_RATE: u128 = 40;
 
-// jouer avec ça pour voir si ça change quelque chose
 impl Server {
     pub(crate) fn game_loop(server_ref: Arc<Server>, client_notification_sender_clone: SyncSender<Notification>, runtime: Runtime) {
         let mut last_mobs_action = Instant::now();
@@ -63,9 +62,6 @@ impl Server {
                         Event::CharacterRemoveFromMap(char_id) => {
                             let character = characters.get_mut(&char_id).unwrap();
                             character.movements = vec![];
-                            // if let Some(map_instance) = server_ref.get_map_instance(character.current_map_name(), character.current_map_instance()) {
-                            //     map_instance.remove_character(character.to_map_item());
-                            // }
                         }
                         Event::CharacterClearFov(char_id) => {
                             let character = characters.get_mut(&char_id).unwrap();
