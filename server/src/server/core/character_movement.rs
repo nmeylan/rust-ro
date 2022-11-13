@@ -2,16 +2,16 @@ use std::fmt::Formatter;
 use std::sync::Arc;
 use std::thread::sleep;
 use std::time::{SystemTime, UNIX_EPOCH};
-use sqlx::Error;
 
+use sqlx::Error;
 use tokio::runtime::Runtime;
 use tokio::task::JoinHandle;
 use tokio::time::{Duration, Instant};
 
 use packets::packets::{Packet, PacketCzRequestMove, PacketCzRequestMove2, PacketZcNpcackMapmove};
-use crate::server::core::character::{Character, MovementTask};
-use crate::server::core::event::{CharacterChangeMap, CharacterUpdatePosition, Event};
 
+use crate::server::core::character::{Character, MovementTask};
+use crate::server::core::event::{CharacterChangeMap, Event};
 use crate::server::core::map::{Map, MAP_EXT, MapItem, RANDOM_CELL, ToMapItem};
 use crate::server::core::path::PathNode;
 use crate::server::core::position::Position;
@@ -74,20 +74,12 @@ pub fn change_map_packet(destination_map: &String, x: u16, y: u16, session: Arc<
     debug!("Char enter on map {}", map_name);
     let map_ref = server.maps.get(&map_name).unwrap();
     let map_instance = map_ref.player_join_map(server);
-    if x == RANDOM_CELL.0 && y == RANDOM_CELL.1 {
+    let (x, y) = if x == RANDOM_CELL.0 && y == RANDOM_CELL.1 {
         let walkable_cell = Map::find_random_walkable_cell(&map_instance.cells, map_instance.x_size);
-        server.add_to_next_tick(Event::CharacterUpdatePosition(CharacterUpdatePosition {
-            char_id: session.char_id.unwrap(),
-            x: walkable_cell.0,
-            y: walkable_cell.1,
-        }));
+        (walkable_cell.0, walkable_cell.1)
     } else {
-        server.add_to_next_tick(Event::CharacterUpdatePosition(CharacterUpdatePosition {
-            char_id: session.char_id.unwrap(),
-            x,
-            y,
-        }));
-    }
+        (x, y)
+    };
 
     server.add_to_tick(Event::CharacterChangeMap(CharacterChangeMap {
         char_id: session.char_id.unwrap(),

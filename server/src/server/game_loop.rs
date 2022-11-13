@@ -65,10 +65,6 @@ impl Server {
                             //     map_instance.remove_character(character.to_map_item());
                             // }
                         }
-                        Event::CharacterUpdatePosition(event) => {
-                            let character = characters.get_mut(&event.char_id).unwrap();
-                            character.update_position(event.x, event.y);
-                        }
                         Event::CharacterClearFov(char_id) => {
                             let character = characters.get_mut(&char_id).unwrap();
                             character.clear_map_view();
