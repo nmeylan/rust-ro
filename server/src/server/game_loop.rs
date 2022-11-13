@@ -12,6 +12,7 @@ use crate::server::core::character::Character;
 use crate::server::core::character_movement::Movement;
 use crate::server::core::event::{CharacterChangeMap, Event};
 use crate::server::core::map::{MAP_EXT, MapItem, ToMapItem};
+use crate::server::core::map_event::MapEvent::SpawnMob;
 use crate::server::core::notification::{CharNotification, Notification};
 use crate::server::core::position::Position;
 use crate::server::enums::map_item::MapItemType;
@@ -60,9 +61,9 @@ impl Server {
                         Event::CharacterRemoveFromMap(char_id) => {
                             let character = characters.get_mut(&char_id).unwrap();
                             character.movements = vec![];
-                            if let Some(map_instance) = server_ref.get_map_instance(character.current_map_name(), character.current_map_instance()) {
-                                map_instance.remove_character(character.to_map_item());
-                            }
+                            // if let Some(map_instance) = server_ref.get_map_instance(character.current_map_name(), character.current_map_instance()) {
+                            //     map_instance.remove_character(character.to_map_item());
+                            // }
                         }
                         Event::CharacterUpdatePosition(event) => {
                             let character = characters.get_mut(&event.char_id).unwrap();
@@ -92,11 +93,16 @@ impl Server {
             for (_, character) in characters.iter_mut().filter(|(_, character)| character.loaded_from_client_side) {
                 character.load_units_in_fov(server_ref.as_ref(), client_notification_sender_clone.clone())
             }
+            for (_, map) in server_ref.maps.iter() {
+                for instance in map.instances() {
+                    instance.notify_event(SpawnMob);
+                }
+            }
             sleep(Duration::from_millis((GAME_TICK_RATE - (SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis() - tick).min(0).max(GAME_TICK_RATE)) as u64));
         }
     }
 
-    fn save_char_position(server_ref: &Arc<Server>, runtime: &Runtime, character: &mut Character) {
+    fn save_char_position(server_ref: &Server, runtime: &Runtime, character: &mut Character) {
         let repository = server_ref.repository.clone();
         let account_id = character.account_id;
         let char_id = character.char_id;

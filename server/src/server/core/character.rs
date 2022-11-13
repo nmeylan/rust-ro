@@ -18,7 +18,7 @@ use crate::Server;
 use crate::server::core::character_movement::Movement;
 use crate::server::core::position::Position;
 use crate::server::core::map::{MAP_EXT, MapItem, ToMapItem};
-use crate::server::core::map_instance::MapInstance;
+use crate::server::core::map_instance::{MapInstance, MapInstanceKey};
 use crate::server::core::mob::Mob;
 use crate::server::core::notification::{CharNotification, Notification};
 use crate::server::core::path::manhattan_distance;
@@ -40,9 +40,7 @@ pub struct Character {
     #[set]
     pub char_id: u32,
     pub account_id: u32,
-    pub current_map_instance: u8,
-    pub current_map_name: [char; 16],
-    pub current_map_name_string: String,
+    pub map_instance_key: MapInstanceKey,
     pub loaded_from_client_side: bool,
     pub x: u16,
     pub y: u16,
@@ -90,13 +88,6 @@ impl Character {
         self.movements = vec![];
     }
 
-    fn set_current_map_name(&mut self, new_name: [char; 16]) {
-        self.current_map_name = new_name;
-    }
-    fn set_current_map_name_string(&mut self, new_name: String) {
-        self.current_map_name_string = new_name;
-    }
-
     pub fn join_and_set_map(&mut self, map_instance: Arc<MapInstance>) {
         self.set_current_map(map_instance.clone());
         map_instance.insert_item(self.to_map_item());
@@ -108,24 +99,19 @@ impl Character {
         self.y = y;
     }
 
+    pub fn set_current_map(&mut self, current_map: Arc<MapInstance>) {
+        self.map_instance_key = MapInstanceKey::new(current_map.name.clone(), current_map.id);
+    }
+
     pub fn current_map_name(&self) -> &String {
-        &self.current_map_name_string
+        &self.map_instance_key.map_name()
     }
 
     pub fn current_map_name_char(&self) -> [char; 16] {
-        self.current_map_name
+        self.map_instance_key.map_name_char()
     }
     pub fn current_map_instance(&self) -> u8 {
-        self.current_map_instance
-    }
-
-    pub fn set_current_map(&mut self, current_map: Arc<MapInstance>) {
-        let mut new_current_map: [char; 16] = [0 as char; 16];
-        let map_name = format!("{}{}", current_map.name, MAP_EXT);
-        map_name.fill_char_array(new_current_map.as_mut());
-        self.set_current_map_name(new_current_map);
-        self.set_current_map_name_string(map_name);
-        self.current_map_instance = current_map.id;
+        self.map_instance_key.map_instance()
     }
 
     pub fn clear_map_view(&mut self) {
@@ -133,17 +119,14 @@ impl Character {
     }
 
     pub fn load_units_in_fov(&mut self, server: &Server, client_notification_sender_clone: SyncSender<Notification>) {
-        let map_instance = server.get_map_instance(self.current_map_name(), self.current_map_instance);
+        let map_instance = server.get_map_instance(self.current_map_name(), self.current_map_instance());
         if map_instance.is_none() {
             return;
         }
         let map_instance = map_instance.unwrap();
         let mut new_map_view: HashSet<MapItem> = HashSet::with_capacity(2048);
-        let map_items_guard = read_lock!(map_instance.map_items);
-        let map_items_clone = map_items_guard.clone();
-        drop(map_items_guard);
-        for item in map_items_clone {
-            if let Some(position) = server.map_item_x_y(&item, &self.current_map_name_string, self.current_map_instance) {
+        for (_, item) in map_instance.map_items.borrow().iter() {
+            if let Some(position) = server.map_item_x_y(&item, &self.current_map_name(), self.current_map_instance()) {
                 if item.id() != self.char_id && manhattan_distance(self.x(), self.y(), position.x, position.y) <= PLAYER_FOV {
                     // info!("seeing {}", item.object_type());
                     new_map_view.insert(item.clone());
@@ -154,8 +137,8 @@ impl Character {
         for map_item in new_map_view.iter() {
             if !self.map_view.contains(map_item) {
                 let default_name = "unknown".to_string();
-                let map_item_name = server.map_item_name(map_item, &self.current_map_name_string, self.current_map_instance).unwrap_or(default_name);
-                let position = server.map_item_x_y(&map_item, &self.current_map_name_string, self.current_map_instance).unwrap();
+                let map_item_name = server.map_item_name(map_item, &self.current_map_name(), self.current_map_instance()).unwrap_or(default_name);
+                let position = server.map_item_x_y(&map_item, &self.current_map_name(), self.current_map_instance()).unwrap();
                 info!("See map_item {} at {},{}", map_item.object_type(), position.x(), position.y());
                 let mut name = [0 as char; 24];
                 map_item_name.fill_char_array(name.as_mut());
@@ -188,7 +171,7 @@ impl Character {
 
         for map_item in self.map_view.iter() {
             if !new_map_view.contains(map_item) {
-                let position = server.map_item_x_y(&map_item, &self.current_map_name_string, self.current_map_instance).unwrap();
+                let position = server.map_item_x_y(&map_item, &self.current_map_name(), self.current_map_instance()).unwrap();
                 info!("Vanish map_item {} at {},{}", map_item.object_type(), position.x(), position.y());
                 let mut packet_zc_notify_vanish = PacketZcNotifyVanish::new();
                 packet_zc_notify_vanish.set_gid(map_item.id());

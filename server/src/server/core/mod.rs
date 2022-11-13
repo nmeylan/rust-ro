@@ -19,3 +19,4 @@ pub mod notification;
 pub mod event;
 pub mod tasks_queue;
 pub mod position;
+pub mod map_event;

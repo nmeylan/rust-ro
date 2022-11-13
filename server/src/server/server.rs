@@ -27,8 +27,8 @@ use crate::repository::Repository;
 use crate::server::configuration::Config;
 use crate::server::core::character::Character;
 use crate::server::core::event::Event;
-use crate::server::core::map::{Map, MAP_EXT, MapItem};
-use crate::server::core::map_instance::MapInstance;
+use crate::server::core::map::{Map, MAP_EXT, MapItem, ToMapItem};
+use crate::server::core::map_instance::{MapInstance, MapInstanceKey};
 use crate::server::core::notification::{CharNotification, Notification};
 use crate::server::core::request::Request;
 use crate::server::core::response::Response;
@@ -66,6 +66,7 @@ pub struct Server {
     tasks_queue: TasksQueue<Event>,
     movement_tasks_queue: TasksQueue<Event>,
     pub vm: Arc<Vm>,
+    client_notification_sender: SyncSender<Notification>
 }
 
 unsafe impl Sync for Server {}
@@ -116,7 +117,7 @@ impl Server {
         None
     }
 
-    pub fn get_map_item(&self, map_item_id: u32) -> Option<MapItem> {
+    pub(crate) fn get_map_item(&self, map_item_id: u32) -> Option<MapItem> {
         if let Some(map_item) = self.map_items.borrow().get(&map_item_id) {
             return Some(*map_item);
         }
@@ -124,6 +125,7 @@ impl Server {
     }
 
     pub fn insert_character(&self, character: Character) {
+        self.map_items.borrow_mut().insert(character.char_id, character.to_map_item());
         self.characters.borrow_mut().insert(character.char_id, character);
     }
 
@@ -157,7 +159,7 @@ impl Server {
         self.configuration.server.packetver
     }
 
-    pub fn new(configuration: Config, repository: Arc<Repository>, maps: HashMap<String, Arc<Map>>, map_items: MyUnsafeCell<HashMap<u32, MapItem>>, vm: Arc<Vm>) -> Server {
+    pub fn new(configuration: Config, repository: Arc<Repository>, maps: HashMap<String, Arc<Map>>, map_items: MyUnsafeCell<HashMap<u32, MapItem>>, vm: Arc<Vm>, client_notification_sender: SyncSender<Notification>) -> Server {
         Server {
             configuration,
             sessions: Arc::new(RwLock::new(HashMap::<u32, Arc<Session>>::new())),
@@ -168,6 +170,7 @@ impl Server {
             tasks_queue: TasksQueue::new(),
             movement_tasks_queue: TasksQueue::new(),
             vm,
+            client_notification_sender
         }
     }
 
@@ -191,29 +194,21 @@ impl Server {
         self.map_items.borrow_mut().insert(id, map_item);
     }
 
-    pub fn generate_id(map_items: &mut MyRefMut<HashMap<u32, MapItem>>) -> u32 {
-        let mut id: u32;
-        loop {
-            id = rand::thread_rng().gen::<u32>();
-            if !map_items.contains_key(&id) {
-                map_items.insert(id, UNKNOWN_MAP_ITEM);
-                break;
-            }
-        }
-        id
+    pub fn client_notification_sender(&self) -> SyncSender<Notification> {
+        self.client_notification_sender.clone()
     }
 
-    pub fn start<'server>(server_ref: Arc<Server>) {
+    pub fn start<'server>(server_ref: Arc<Server>, single_client_notification_receiver: Receiver<Notification>) {
         let port = server_ref.configuration.server.port;
 
         let (response_sender, single_response_receiver) = std::sync::mpsc::sync_channel::<Response>(0);
-        let (client_notification_sender, single_client_notification_receiver) = std::sync::mpsc::sync_channel::<Notification>(0);
-        let client_notification_sender_clone = client_notification_sender.clone();
+        let client_notification_sender_clone = server_ref.client_notification_sender();
         thread::scope(|server_thread_scope: &Scope| {
             let listener = TcpListener::bind(format!("0.0.0.0:{}", port)).unwrap();
             info!("Server listen on 0.0.0.0:{}", port);
             let server_shared_ref = server_ref.clone();
-            server_thread_scope.spawn(move || {
+
+            thread::Builder::new().name("client_connection_thread".to_string()).spawn_scoped(server_thread_scope,move || {
                 for tcp_stream in listener.incoming() {
                     // Receive new connection, starting new thread
                     let server_shared_ref = server_shared_ref.clone();
@@ -242,9 +237,10 @@ impl Server {
                         }
                     });
                 }
-            });
+            }).unwrap();
             /// Start a thread sending response packet to client request
-            server_thread_scope.spawn(move || {
+
+            thread::Builder::new().name("client_response_thread".to_string()).spawn_scoped(server_thread_scope,move || {
                 for response in single_response_receiver.iter() {
                     let tcp_stream = &response.socket();
                     let data = response.serialized_packet();
@@ -253,10 +249,10 @@ impl Server {
                     tcp_stream_guard.write_all(data).unwrap();
                     tcp_stream_guard.flush().unwrap();
                 }
-            });
+            }).unwrap();
             /// Start a thread sending packet to notify client from game update
             let server_ref_clone = server_ref.clone();
-            server_thread_scope.spawn(move || {
+            thread::Builder::new().name("client_notification_thread".to_string()).spawn_scoped(server_thread_scope,move || {
                 PACKETVER.with(|ver| *ver.borrow_mut() = server_ref_clone.packetver());
                 let server_ref = server_ref_clone;
                 for response in single_client_notification_receiver.iter() {
@@ -276,19 +272,19 @@ impl Server {
                         Notification::Area(_) => {}
                     }
                 }
-            });
+            }).unwrap();
             let server_ref_clone = server_ref.clone();
-            let client_notification_sender_clone = client_notification_sender.clone();
-            server_thread_scope.spawn(move || {
+            let client_notification_sender_clone = server_ref.client_notification_sender();
+            thread::Builder::new().name("game_loop_thread".to_string()).spawn_scoped(server_thread_scope,move || {
                 let runtime = Runtime::new().unwrap();
                 Self::game_loop(server_ref_clone, client_notification_sender_clone, runtime);
-            });
+            }).unwrap();
             let server_ref_clone = server_ref.clone();
-            let client_notification_sender_clone = client_notification_sender.clone();
-            server_thread_scope.spawn(move || {
+            let client_notification_sender_clone = server_ref.client_notification_sender();
+            thread::Builder::new().name("movement_loop_thread".to_string()).spawn_scoped(server_thread_scope,move || {
                 let runtime = Runtime::new().unwrap();
                 Self::character_movement_loop(server_ref_clone, client_notification_sender_clone, runtime);
-            });
+            }).unwrap();
         });
     }
 
