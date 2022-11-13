@@ -4,8 +4,8 @@ use std::fs::File;
 use std::path::Path;
 use std::io::{BufReader, BufRead};
 use std::time::Instant;
-use crate::server::core::map::{MapItem, ToMapItem};
 use crate::server::enums::map_item::MapItemType;
+use crate::server::map_item::{MapItem, ToMapItem};
 use crate::server::npc::npc::{Npc, NpcLoader};
 
 

@@ -2,20 +2,21 @@ use std::sync::Arc;
 use std::sync::mpsc::SyncSender;
 use std::thread::{Scope, sleep};
 use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
+use regex::internal::Inst;
 
 use tokio::runtime::Runtime;
 
 use packets::packets::{Packet, PacketZcNotifyPlayermove, PacketZcNpcackMapmove};
 
-use crate::Map;
 use crate::server::core::character::Character;
 use crate::server::core::character_movement::Movement;
 use crate::server::core::event::{CharacterChangeMap, Event};
-use crate::server::core::map::{MAP_EXT, MapItem, ToMapItem};
-use crate::server::core::map_event::MapEvent::SpawnMob;
+use crate::server::core::map::{Map, MAP_EXT};
+use crate::server::core::map_event::MapEvent::{*};
 use crate::server::core::notification::{CharNotification, Notification};
 use crate::server::core::position::Position;
 use crate::server::enums::map_item::MapItemType;
+use crate::server::map_item::{ToMapItem, ToMapItemSnapshot};
 use crate::server::server::Server;
 use crate::util::string::StringUtil;
 use crate::util::tick::get_tick;
@@ -26,6 +27,7 @@ const GAME_TICK_RATE: u128 = 40;
 // jouer avec ça pour voir si ça change quelque chose
 impl Server {
     pub(crate) fn game_loop(server_ref: Arc<Server>, client_notification_sender_clone: SyncSender<Notification>, runtime: Runtime) {
+        let mut last_mobs_action = Instant::now();
         loop {
             let tick = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis();
             let mut characters = server_ref.characters.borrow_mut();
@@ -46,7 +48,7 @@ impl Server {
                                 packet_zc_npcack_mapmove.set_x_pos(new_position.x as i16);
                                 packet_zc_npcack_mapmove.set_y_pos(new_position.y as i16);
                                 packet_zc_npcack_mapmove.fill_raw();
-                                client_notification_sender_clone.send(Notification::Char(CharNotification::new(character.account_id, std::mem::take(packet_zc_npcack_mapmove.raw_mut()))))
+                                client_notification_sender_clone.send(Notification::Char(CharNotification::new(character.char_id, std::mem::take(packet_zc_npcack_mapmove.raw_mut()))))
                                     .expect("Failed to send notification event with PacketZcNpcackMapmove");
 
                                 server_ref.insert_map_item(character.account_id, character.to_map_item());
@@ -91,23 +93,16 @@ impl Server {
             }
             for (_, map) in server_ref.maps.iter() {
                 for instance in map.instances() {
-                    instance.notify_event(SpawnMob);
+                    instance.notify_event(SpawnMobs);
+                    instance.notify_event(UpdateMobsFov(characters.iter().map(|(_, character)| character.to_map_item_snapshot()).collect()));
+                    if last_mobs_action.elapsed().as_secs() > 2 {
+                        instance.notify_event(MobsActions);
+                        last_mobs_action = Instant::now();
+                    }
                 }
             }
             sleep(Duration::from_millis((GAME_TICK_RATE - (SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis() - tick).min(0).max(GAME_TICK_RATE)) as u64));
         }
-    }
-
-    fn save_char_position(server_ref: &Server, runtime: &Runtime, character: &mut Character) {
-        let repository = server_ref.repository.clone();
-        let account_id = character.account_id;
-        let char_id = character.char_id;
-        let mapname = character.current_map_name().clone();
-        let x = character.x();
-        let y = character.y();
-        runtime.spawn(async move {
-            repository.character_save_position(account_id, char_id, Map::name_without_ext(&mapname), x, y).await
-        });
     }
 
     pub(crate) fn character_movement_loop(server_ref: Arc<Server>, client_notification_sender_clone: SyncSender<Notification>, runtime: Runtime) {
@@ -141,7 +136,7 @@ impl Server {
 
                             packet_zc_notify_playermove.set_move_data(character_movement.current_position.to_move_data(&character_movement.destination));
                             packet_zc_notify_playermove.fill_raw();
-                            client_notification_sender_clone.send(Notification::Char(CharNotification::new(character.account_id, std::mem::take(packet_zc_notify_playermove.raw_mut()))))
+                            client_notification_sender_clone.send(Notification::Char(CharNotification::new(character.char_id, std::mem::take(packet_zc_notify_playermove.raw_mut()))))
                                 .expect("Failed to send notification event with PacketZcNotifyPlayermove");
                         }
                         _ => {
@@ -192,6 +187,20 @@ impl Server {
             }
             sleep(Duration::from_millis((MOVEMENT_TICK_RATE - (SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis() - tick).min(0).max(MOVEMENT_TICK_RATE)) as u64));
         }
+    }
+
+
+
+    fn save_char_position(server_ref: &Server, runtime: &Runtime, character: &mut Character) {
+        let repository = server_ref.repository.clone();
+        let account_id = character.account_id;
+        let char_id = character.char_id;
+        let mapname = character.current_map_name().clone();
+        let x = character.x();
+        let y = character.y();
+        runtime.spawn(async move {
+            repository.character_save_position(account_id, char_id, Map::name_without_ext(&mapname), x, y).await
+        });
     }
 }
 

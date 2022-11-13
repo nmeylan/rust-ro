@@ -16,15 +16,16 @@ use packets::packets::Packet;
 
 use crate::Server;
 use crate::server::core::character_movement::Movement;
-use crate::server::core::position::Position;
-use crate::server::core::map::{MAP_EXT, MapItem, ToMapItem};
+use crate::server::core::map::MAP_EXT;
 use crate::server::core::map_instance::{MapInstance, MapInstanceKey};
 use crate::server::core::mob::Mob;
 use crate::server::core::notification::{CharNotification, Notification};
 use crate::server::core::path::manhattan_distance;
+use crate::server::core::position::Position;
 use crate::server::core::session::Session;
 use crate::server::core::status::{LookType, Status};
 use crate::server::enums::map_item::MapItemType;
+use crate::server::map_item::{MapItem, MapItemSnapshot, ToMapItem, ToMapItemSnapshot};
 use crate::server::script::{GlobalVariableEntry, ScriptGlobalVariableStore};
 use crate::server::server::{PACKETVER, PLAYER_FOV};
 use crate::util::coordinate;
@@ -165,7 +166,7 @@ impl Character {
                     MapItemType::Npc => {}
                 }
                 packet_zc_notify_standentry.fill_raw_with_packetver(Some(server.packetver()));
-                client_notification_sender_clone.send(Notification::Char(CharNotification::new(self.account_id, mem::take(packet_zc_notify_standentry.raw_mut()))));
+                client_notification_sender_clone.send(Notification::Char(CharNotification::new(self.char_id, mem::take(packet_zc_notify_standentry.raw_mut()))));
             }
         }
 
@@ -176,7 +177,7 @@ impl Character {
                 let mut packet_zc_notify_vanish = PacketZcNotifyVanish::new();
                 packet_zc_notify_vanish.set_gid(map_item.id());
                 packet_zc_notify_vanish.fill_raw();
-                client_notification_sender_clone.send(Notification::Char(CharNotification::new(self.account_id, mem::take(packet_zc_notify_vanish.raw_mut()))));
+                client_notification_sender_clone.send(Notification::Char(CharNotification::new(self.char_id, mem::take(packet_zc_notify_vanish.raw_mut()))));
             }
         }
         self.map_view = new_map_view;
@@ -272,5 +273,15 @@ impl ToMapItem for Character {
     fn to_map_item(&self) -> MapItem {
         let client_item_class = 0;  // TODO return job id
         MapItem::new(self.char_id, client_item_class, MapItemType::Character)
+    }
+}
+
+impl ToMapItemSnapshot for Character {
+    fn to_map_item_snapshot(&self) -> MapItemSnapshot {
+        let client_item_class = 0;  // TODO return job id
+        MapItemSnapshot::new(
+            MapItem::new(self.char_id, client_item_class, MapItemType::Character),
+            Position { x: self.x, y: self.y, dir: self.dir },
+        )
     }
 }

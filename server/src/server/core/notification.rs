@@ -4,19 +4,19 @@ pub enum Notification {
 }
 
 pub struct CharNotification {
-    account_id: u32,
+    char_id: u32,
     packet: Vec<u8>,
 }
 
 impl CharNotification {
-    pub fn new(account_id: u32, packet: Vec<u8>) -> Self {
+    pub fn new(char_id: u32, packet: Vec<u8>) -> Self {
         Self {
-            account_id,
+            char_id,
             packet
         }
     }
-    pub fn account_id(&self) -> u32 {
-        self.account_id
+    pub fn char_id(&self) -> u32 {
+        self.char_id
     }
 
     pub fn serialized_packet(&self) -> &Vec<u8> {

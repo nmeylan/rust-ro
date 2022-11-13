@@ -90,7 +90,7 @@ impl PlayerScriptHandler {
         packet_zc_menu_list.msg = menu_str;
         packet_zc_menu_list.packet_length = (PacketZcMenuList::base_len(self.server.packetver()) as i16 + packet_zc_menu_list.msg.len() as i16) + 1_i16;
         packet_zc_menu_list.fill_raw();
-        self.send_packet_to_char(self.session.account_id, &mut packet_zc_menu_list);
+        self.send_packet_to_char(self.session.char_id(), &mut packet_zc_menu_list);
         let selected_option = self.block_recv();
         if let Some(selected_option) = selected_option {
             let selected_option = u8::from_le_bytes([selected_option[0]]);
@@ -124,17 +124,17 @@ impl NativeMethodHandler for PlayerScriptHandler {
             packet_dialog.naid = self.npc_id;
             packet_dialog.packet_length = (PacketZcSayDialog::base_len(self.server.packetver()) as i16 + packet_dialog.msg.len() as i16) + 1_i16;
             packet_dialog.fill_raw();
-            self.send_packet_to_char(self.session.account_id, &mut packet_dialog);
+            self.send_packet_to_char(self.session.char_id(), &mut packet_dialog);
         } else if native.name.eq("close") {
             let mut packet_dialog = PacketZcCloseDialog::new();
             packet_dialog.naid = self.npc_id;
             packet_dialog.fill_raw();
-            self.send_packet_to_char(self.session.account_id, &mut packet_dialog);
+            self.send_packet_to_char(self.session.char_id(), &mut packet_dialog);
         } else if native.name.eq("next") {
             let mut packet_dialog = PacketZcWaitDialog::new();
             packet_dialog.naid = self.npc_id;
             packet_dialog.fill_raw();
-            self.send_packet_to_char(self.session.account_id, &mut packet_dialog);
+            self.send_packet_to_char(self.session.char_id(), &mut packet_dialog);
             self.block_recv();
         } else if native.name.eq("input") {
             let variable_name = params[0].string_value().unwrap();
@@ -142,12 +142,12 @@ impl NativeMethodHandler for PlayerScriptHandler {
                 let mut packet_zc_open_editdlgstr = PacketZcOpenEditdlgstr::new();
                 packet_zc_open_editdlgstr.naid = self.npc_id;
                 packet_zc_open_editdlgstr.fill_raw();
-                self.send_packet_to_char(self.session.account_id, &mut packet_zc_open_editdlgstr);
+                self.send_packet_to_char(self.session.char_id(), &mut packet_zc_open_editdlgstr);
             } else {
                 let mut packet_zc_open_editdlg = PacketZcOpenEditdlg::new();
                 packet_zc_open_editdlg.naid = self.npc_id;
                 packet_zc_open_editdlg.fill_raw();
-                self.send_packet_to_char(self.session.account_id, &mut packet_zc_open_editdlg);
+                self.send_packet_to_char(self.session.char_id(), &mut packet_zc_open_editdlg);
             }
             let input_value = self.block_recv();
             if let Some(input_value) = input_value {
@@ -205,7 +205,7 @@ impl NativeMethodHandler for PlayerScriptHandler {
             packet_zc_sprite_change.set_value(look_value);
             packet_zc_sprite_change.fill_raw();
             // TODO: [multiplayer] send to all other char
-            self.send_packet_to_char(self.session.account_id, &mut packet_zc_sprite_change);
+            self.send_packet_to_char(self.session.char_id(), &mut packet_zc_sprite_change);
         } else if native.name.eq("strcharinfo") {
             let info_type = params[0].number_value().unwrap() as usize;
             let char = if params.len() == 2 {
@@ -229,7 +229,7 @@ impl NativeMethodHandler for PlayerScriptHandler {
             packet_zc_notify_playerchat.set_msg(message.to_string());
             packet_zc_notify_playerchat.set_packet_length((PacketZcNotifyPlayerchat::base_len(self.server.packetver()) + message.len() + 1) as i16);
             packet_zc_notify_playerchat.fill_raw();
-            self.send_packet_to_char(self.session.account_id, &mut packet_zc_notify_playerchat);
+            self.send_packet_to_char(self.session.char_id(), &mut packet_zc_notify_playerchat);
         } else if native.name.eq("getbattleflag") {
             let constant_name = params[0].string_value().unwrap();
             let value = get_battle_flag(constant_name);
@@ -272,7 +272,7 @@ impl NativeMethodHandler for PlayerScriptHandler {
             packet_zc_show_image2.set_image_name(file_name_array);
             packet_zc_show_image2.set_atype(position as u8);
             packet_zc_show_image2.fill_raw();
-            self.send_packet_to_char(self.session.account_id, &mut packet_zc_show_image2);
+            self.send_packet_to_char(self.session.char_id(), &mut packet_zc_show_image2);
 
         } else {
             if self.handle_shop(native, params, execution_thread, call_frame) {
