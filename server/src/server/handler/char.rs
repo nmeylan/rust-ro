@@ -14,7 +14,7 @@ use crate::util::packet::chain_packets;
 use crate::server::enums::status::StatusTypes;
 use crate::server::core::character::{Character};
 use crate::server::core::character_movement::{change_map_packet};
-use crate::server::core::event::Event;
+use crate::server::core::events::game_event::GameEvent;
 use crate::server::core::map::Map;
 use crate::server::core::map_instance::MapInstanceKey;
 use crate::server::core::request::Request;
@@ -385,7 +385,7 @@ pub fn handle_restart(server: &Server, context: Request) {
     let mut sessions_guard = write_lock!(server.sessions);
     let session = sessions_guard.get(&session_id).unwrap();
     let char_id = session.char_id();
-    server.add_to_next_tick(Event::CharacterRemoveFromMap(char_id));
+    server.add_to_next_tick(GameEvent::CharacterRemoveFromMap(char_id));
 
     let session = sessions_guard.get(&session_id).unwrap();
     let session = Arc::new(session.recreate_without_character());
@@ -400,7 +400,7 @@ pub fn handle_restart(server: &Server, context: Request) {
 pub fn handle_disconnect(server: &Server, context: Request) {
     let session = context.session();
     let char_id = session.char_id();
-    server.add_to_next_tick(Event::CharacterRemoveFromMap(char_id));
+    server.add_to_next_tick(GameEvent::CharacterRemoveFromMap(char_id));
     server.remove_session(session.account_id);
 
     let mut disconnect_ack = PacketZcReqDisconnectAck2::new();

@@ -19,7 +19,7 @@ use crate::server::core::character_movement::Movement;
 use crate::server::core::map::MAP_EXT;
 use crate::server::core::map_instance::{MapInstance, MapInstanceKey};
 use crate::server::core::mob::Mob;
-use crate::server::core::notification::{CharNotification, Notification};
+use crate::server::core::events::client_notification::{CharNotification, Notification};
 use crate::server::core::path::manhattan_distance;
 use crate::server::core::position::Position;
 use crate::server::core::session::Session;

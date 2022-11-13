@@ -10,10 +10,10 @@ use packets::packets::{Packet, PacketZcNotifyPlayermove, PacketZcNpcackMapmove};
 
 use crate::server::core::character::Character;
 use crate::server::core::character_movement::Movement;
-use crate::server::core::event::{CharacterChangeMap, Event};
+use crate::server::core::events::game_event::{CharacterChangeMap, GameEvent};
 use crate::server::core::map::{Map, MAP_EXT};
-use crate::server::core::map_event::MapEvent::{*};
-use crate::server::core::notification::{CharNotification, Notification};
+use crate::server::core::events::map_event::MapEvent::{*};
+use crate::server::core::events::client_notification::{CharNotification, Notification};
 use crate::server::core::position::Position;
 use crate::server::enums::map_item::MapItemType;
 use crate::server::map_item::{ToMapItem, ToMapItemSnapshot};
@@ -33,7 +33,7 @@ impl Server {
             if let Some(tasks) = server_ref.pop_task() {
                 for task in tasks {
                     match task {
-                        Event::CharacterChangeMap(event) => {
+                        GameEvent::CharacterChangeMap(event) => {
                             let character = characters.get_mut(&event.char_id).unwrap();
                             if let Some(map_instance) = server_ref.get_map_instance(&event.new_map_name, event.new_instance_id) {
                                 character.join_and_set_map(map_instance);
@@ -59,26 +59,26 @@ impl Server {
                                 error!("Can't change map to {} {}", event.new_map_name, event.new_instance_id);
                             }
                         }
-                        Event::CharacterRemoveFromMap(char_id) => {
+                        GameEvent::CharacterRemoveFromMap(char_id) => {
                             let character = characters.get_mut(&char_id).unwrap();
                             character.movements = vec![];
                         }
-                        Event::CharacterClearFov(char_id) => {
+                        GameEvent::CharacterClearFov(char_id) => {
                             let character = characters.get_mut(&char_id).unwrap();
                             character.clear_map_view();
                         }
-                        Event::CharacterRemove(char_id) => {
+                        GameEvent::CharacterRemove(char_id) => {
                             characters.remove(&char_id);
                         }
-                        Event::CharacterLoadedFromClientSide(char_id) => {
+                        GameEvent::CharacterLoadedFromClientSide(char_id) => {
                             let character = characters.get_mut(&char_id).unwrap();
                             character.loaded_from_client_side = true;
                             character.clear_map_view();
                         }
-                        Event::CharacterMove(_) => {
+                        GameEvent::CharacterMove(_) => {
                             // handled by dedicated thread
                         }
-                        Event::CharacterClearMove(_) => {
+                        GameEvent::CharacterClearMove(_) => {
                             // handled by dedicated thread
                         }
                     }
@@ -108,11 +108,11 @@ impl Server {
             if let Some(tasks) = server_ref.pop_movement_task() {
                 for task in tasks {
                     match task {
-                        Event::CharacterClearMove(char_id) => {
+                        GameEvent::CharacterClearMove(char_id) => {
                             let character = characters.get_mut(&char_id).unwrap();
                             character.clear_movement();
                         }
-                        Event::CharacterMove(character_movement) => {
+                        GameEvent::CharacterMove(character_movement) => {
                             let character = characters.get_mut(&character_movement.char_id).unwrap();
                             let speed = character.status.speed;
                             let maybe_previous_movement = character.pop_movement();
@@ -158,7 +158,7 @@ impl Server {
                         if let Some(map_ref) = map_ref {
                             if map_ref.is_warp_cell(movement.position().x, movement.position().y) {
                                 let warp = map_ref.get_warp_at(movement.position().x, movement.position().y).unwrap();
-                                server_ref.add_to_next_tick(Event::CharacterChangeMap(CharacterChangeMap {
+                                server_ref.add_to_next_tick(GameEvent::CharacterChangeMap(CharacterChangeMap {
                                     char_id: character.char_id,
                                     new_map_name: warp.dest_map_name.clone(),
                                     new_instance_id: 0,
@@ -184,8 +184,6 @@ impl Server {
             sleep(Duration::from_millis((MOVEMENT_TICK_RATE - (SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis() - tick).min(0).max(MOVEMENT_TICK_RATE)) as u64));
         }
     }
-
-
 
     fn save_char_position(server_ref: &Server, runtime: &Runtime, character: &mut Character) {
         let repository = server_ref.repository.clone();

@@ -2,7 +2,7 @@ use crate::server::core::character::Character;
 use crate::server::core::character_movement::Movement;
 use crate::server::core::position::Position;
 
-pub enum Event {
+pub enum GameEvent {
     CharacterRemove(u32),
     CharacterLoadedFromClientSide(u32),
     CharacterRemoveFromMap(u32),
