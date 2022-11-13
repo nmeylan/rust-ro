@@ -9,7 +9,6 @@ pub enum Event {
     CharacterClearFov(u32),
     CharacterMove(CharacterMovement),
     CharacterClearMove(u32),
-    CharacterUpdatePosition(CharacterUpdatePosition),
     CharacterChangeMap(CharacterChangeMap),
 }
 
@@ -22,11 +21,6 @@ pub struct CharacterChangeMap {
     pub old_position: Option<Position>,
 }
 
-pub struct CharacterUpdatePosition {
-    pub char_id: u32,
-    pub x: u16,
-    pub y: u16,
-}
 
 pub struct CharacterMovement {
     pub char_id: u32,

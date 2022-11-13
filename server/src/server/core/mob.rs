@@ -30,35 +30,6 @@ pub struct Mob {
     pub movement_task_id: AtomicU64,
 }
 
-// impl MapItem for Mob {
-//     fn id(&self) -> u32 {
-//         self.id
-//     }
-//     fn client_item_class(&self) -> i16 {
-//         self.mob_id
-//     }
-//
-//     fn object_type(&self) -> i16 {
-//         MapItemType::Mob.value()
-//     }
-//
-//     fn name(&self) -> String {
-//         self.name.clone()
-//     }
-//
-//     fn x(&self) -> u16 {
-//         self.x.load(Relaxed)
-//     }
-//
-//     fn y(&self) -> u16 {
-//         self.y.load(Relaxed)
-//     }
-//
-//     fn as_any(&self) -> &dyn Any {
-//         self
-//     }
-// }
-
 impl Mob {
     pub fn new(id: u32, x: u16, y: u16, mob_id: i16, spawn_id: u32, name: String, current_map: MapInstanceKey, status: Status) -> Mob {
         Mob {
@@ -145,7 +116,6 @@ impl Mob {
 
 impl ToMapItem for Mob {
     fn to_map_item(&self) -> MapItem {
-        let client_item_class = 0;  // TODO return job id
-        MapItem::new(self.id, client_item_class, MapItemType::Mob)
+        MapItem::new(self.id, self.mob_id, MapItemType::Mob)
     }
 }
