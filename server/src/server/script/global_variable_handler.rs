@@ -4,6 +4,8 @@ use rathena_script_lang_interpreter::lang::thread::Thread;
 use rathena_script_lang_interpreter::lang::value::Value;
 use regex::Regex;
 use crate::server::core::character::Character;
+use crate::server::core::events::game_event::CharacterZeny;
+use crate::server::core::events::game_event::GameEvent::CharacterUpdateZeny;
 
 use crate::server::script::constant::load_constant;
 use crate::server::script::{GlobalVariableEntry, GlobalVariableScope};
@@ -263,7 +265,7 @@ impl PlayerScriptHandler {
     fn store_special_char_variable(&self, char: &Character, special_variable_name: &String, value: &Value) -> bool {
         match special_variable_name.as_str() {
             "Zeny" => {
-                char.change_zeny(value.number_value().unwrap().clone() as u32, self.server.as_ref());
+                self.server.add_to_next_tick(CharacterUpdateZeny(CharacterZeny{char_id: char.char_id, zeny: value.number_value().unwrap().clone() as u32}));
                 true
             },
             &_ => false

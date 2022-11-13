@@ -31,7 +31,7 @@ pub struct Status {
     pub mdef: u32,
     pub aspd: u32,
     pub look: Option<Look>,
-    pub zeny: AtomicU32,
+    pub zeny: u32,
 }
 
 impl Clone for Status {
@@ -61,43 +61,43 @@ impl Clone for Status {
             mdef: self.mdef.clone(),
             aspd: self.aspd.clone(),
             look: self.look.clone(),
-            zeny: AtomicU32::new(self.zeny.load(Relaxed)),
+            zeny: self.zeny,
         }
     }
 }
 
 #[derive(SettersAll, Debug)]
 pub struct Look {
-    pub hair: AtomicU16,
-    pub hair_color: AtomicU32,
-    pub clothes_color: AtomicU32,
-    pub body: AtomicU32,
-    pub weapon: AtomicU32,
-    pub shield: AtomicU32,
-    pub head_top: AtomicU32,
-    pub head_middle: AtomicU32,
-    pub head_bottom: AtomicU32,
-    pub robe: AtomicU32,
+    pub hair: u16,
+    pub hair_color: u32,
+    pub clothes_color: u32,
+    pub body: u32,
+    pub weapon: u32,
+    pub shield: u32,
+    pub head_top: u32,
+    pub head_middle: u32,
+    pub head_bottom: u32,
+    pub robe: u32,
 }
 
 impl Clone for Look {
     fn clone(&self) -> Self {
         Self {
-            hair: AtomicU16::new(self.hair.load(Relaxed)),
-            hair_color: AtomicU32::new(self.hair_color.load(Relaxed)),
-            clothes_color: AtomicU32::new(self.clothes_color.load(Relaxed)),
-            body: AtomicU32::new(self.body.load(Relaxed)),
-            weapon: AtomicU32::new(self.weapon.load(Relaxed)),
-            shield: AtomicU32::new(self.shield.load(Relaxed)),
-            head_top: AtomicU32::new(self.head_top.load(Relaxed)),
-            head_middle: AtomicU32::new(self.head_middle.load(Relaxed)),
-            head_bottom: AtomicU32::new(self.head_bottom.load(Relaxed)),
-            robe: AtomicU32::new(self.robe.load(Relaxed)),
+            hair: self.hair,
+            hair_color: self.hair_color,
+            clothes_color: self.clothes_color,
+            body: self.body,
+            weapon: self.weapon,
+            shield: self.shield,
+            head_top: self.head_top,
+            head_middle: self.head_middle,
+            head_bottom: self.head_bottom,
+            robe: self.robe,
         }
     }
 }
 
-#[derive(r#enum::WithNumberValue, Debug)]
+#[derive(r#enum::WithNumberValue, Debug, Copy, Clone)]
 pub enum LookType {
     Hair,
     Weapon,
@@ -139,18 +139,18 @@ impl Status {
             mdef: 0,
             aspd: 0,
             look: Some(Look {
-                hair: AtomicU16::new(char_model.hair),
-                hair_color: AtomicU32::new(char_model.hair_color),
-                clothes_color: AtomicU32::new(char_model.clothes_color),
-                body: AtomicU32::new(char_model.body),
-                weapon: AtomicU32::new(char_model.weapon),
-                shield: AtomicU32::new(char_model.shield),
-                head_top: AtomicU32::new(char_model.head_top),
-                head_middle: AtomicU32::new(char_model.head_mid),
-                head_bottom: AtomicU32::new(char_model.head_bottom),
-                robe: AtomicU32::new(char_model.robe),
+                hair: char_model.hair,
+                hair_color: char_model.hair_color,
+                clothes_color: char_model.clothes_color,
+                body: char_model.body,
+                weapon: char_model.weapon,
+                shield: char_model.shield,
+                head_top: char_model.head_top,
+                head_middle: char_model.head_mid,
+                head_bottom: char_model.head_bottom,
+                robe: char_model.robe,
             }),
-            zeny: AtomicU32::new(char_model.zeny),
+            zeny: char_model.zeny,
         }
     }
     pub fn from_mob_model(mob_model: &MobModel) -> Status {
@@ -179,7 +179,7 @@ impl Status {
             mdef: mob_model.mdef,
             aspd: 0,
             look: None,
-            zeny: AtomicU32::new(0),
+            zeny: 0,
         }
     }
 }

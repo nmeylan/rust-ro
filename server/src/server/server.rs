@@ -30,7 +30,8 @@ use crate::server::core::character::Character;
 use crate::server::core::events::game_event::GameEvent;
 use crate::server::core::map::{Map, MAP_EXT};
 use crate::server::core::map_instance::{MapInstance, MapInstanceKey};
-use crate::server::core::events::client_notification::{CharNotification, Notification};
+use crate::server::core::events::client_notification::{AreaNotificationRangeType, CharNotification, Notification};
+use crate::server::core::path::manhattan_distance;
 use crate::server::core::request::Request;
 use crate::server::core::response::Response;
 use crate::server::core::session::{Session, SessionsIter};
@@ -115,13 +116,6 @@ impl Server {
 
         if let Some(map) = self.maps.get(map_name) {
             return map.get_instance(map_instance_id, &self)
-        }
-        None
-    }
-
-    pub(crate) fn get_map_item(&self, map_item_id: u32) -> Option<MapItem> {
-        if let Some(map_item) = self.map_items.borrow().get(&map_item_id) {
-            return Some(*map_item);
         }
         None
     }
@@ -257,7 +251,30 @@ impl Server {
                                 error!("{:?} socket has been closed", tcp_stream_guard.peer_addr().err());
                             }
                         }
-                        Notification::Area(_) => {}
+                        Notification::Area(area_notification) => {
+                            match area_notification.range_type {
+                                AreaNotificationRangeType::Map => {}
+                                AreaNotificationRangeType::Fov { x, y } => {
+                                    server_ref.characters.borrow().iter()
+                                        .filter(|(_, character)| character.current_map_name() == &area_notification.map_name
+                                            && character.current_map_instance() == area_notification.map_instance_id
+                                            && manhattan_distance(character.x(), character.y(), x,  y) <= PLAYER_FOV)
+                                        .for_each(|(_, character)| {
+                                            let tcp_stream = server_ref.get_map_socket_for_char_id(character.char_id).expect("Expect to found a socket for account");
+                                            let data = area_notification.serialized_packet();
+                                            let mut tcp_stream_guard = tcp_stream.write().unwrap();
+                                            if tcp_stream_guard.peer_addr().is_ok() {
+                                                debug!("Area - Respond to {:?} with: {:02X?}", tcp_stream_guard.peer_addr(), data);
+                                                tcp_stream_guard.write_all(data).unwrap();
+                                                tcp_stream_guard.flush().unwrap();
+                                            } else {
+                                                error!("{:?} socket has been closed", tcp_stream_guard.peer_addr().err());
+                                            }
+                                        })
+                                }
+                            }
+
+                        }
                     }
                 }
             }).unwrap();

@@ -1,6 +1,7 @@
 use crate::server::core::character::Character;
 use crate::server::core::character_movement::Movement;
 use crate::server::core::position::Position;
+use crate::server::core::status::LookType;
 
 pub enum GameEvent {
     CharacterRemove(u32),
@@ -10,6 +11,8 @@ pub enum GameEvent {
     CharacterMove(CharacterMovement),
     CharacterClearMove(u32),
     CharacterChangeMap(CharacterChangeMap),
+    CharacterUpdateLook(CharacterLook),
+    CharacterUpdateZeny(CharacterZeny)
 }
 
 pub struct CharacterChangeMap {
@@ -28,4 +31,15 @@ pub struct CharacterMovement {
     pub destination: Position,
     pub current_position: Position,
     pub path: Vec<Movement>
+}
+
+pub struct CharacterLook {
+    pub char_id: u32,
+    pub look_type: LookType,
+    pub look_value: u32,
+}
+
+pub struct CharacterZeny {
+    pub char_id: u32,
+    pub zeny: u32,
 }

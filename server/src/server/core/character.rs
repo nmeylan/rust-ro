@@ -190,82 +190,77 @@ impl Character {
         }
         let look = self.status.look.as_ref().unwrap();
         match look_type {
-            LookType::Hair => look.hair.load(Relaxed) as u32,
-            LookType::HairColor => look.hair_color.load(Relaxed),
-            LookType::ClothesColor => look.clothes_color.load(Relaxed),
-            LookType::Body => look.body.load(Relaxed),
-            LookType::Weapon => look.weapon.load(Relaxed),
-            LookType::Shield => look.shield.load(Relaxed),
-            LookType::HeadBottom => look.head_bottom.load(Relaxed),
-            LookType::HeadTop => look.head_top.load(Relaxed),
-            LookType::HeadMid => look.head_middle.load(Relaxed),
-            LookType::Robe => look.robe.load(Relaxed),
-            _ => look.robe.load(Relaxed), // TODO
+            LookType::Hair => look.hair as u32,
+            LookType::HairColor => look.hair_color,
+            LookType::ClothesColor => look.clothes_color,
+            LookType::Body => look.body,
+            LookType::Weapon => look.weapon,
+            LookType::Shield => look.shield,
+            LookType::HeadBottom => look.head_bottom,
+            LookType::HeadTop => look.head_top,
+            LookType::HeadMid => look.head_middle,
+            LookType::Robe => look.robe,
+            _ => look.robe, // TODO
         }
     }
 
-    pub fn change_look(&self, look: LookType, value: u32, runtime: &Runtime, server: &Server) {
+    pub fn change_look(&mut self, look: LookType, value: u32) -> Option<String> {
         if self.status.look.is_none() {
             error!("Character has no look");
-            return;
+            return None;
         }
         let db_column = match look {
             LookType::Hair => {
-                self.status.look.as_ref().unwrap().hair.store(value as u16, Relaxed);
+                self.status.look.as_mut().unwrap().hair = value as u16;
                 "hair"
             }
             LookType::HairColor => {
-                self.status.look.as_ref().unwrap().hair_color.store(value as u32, Relaxed);
+                self.status.look.as_mut().unwrap().hair_color = value as u32;
                 "hair_color"
             }
             LookType::ClothesColor => {
-                self.status.look.as_ref().unwrap().clothes_color.store(value as u32, Relaxed);
+                self.status.look.as_mut().unwrap().clothes_color = value as u32;
                 "clothes_color"
             }
             LookType::Body => {
-                self.status.look.as_ref().unwrap().body.store(value as u32, Relaxed);
+                self.status.look.as_mut().unwrap().body = value as u32;
                 "body"
             }
             LookType::Weapon => {
-                self.status.look.as_ref().unwrap().weapon.store(value as u32, Relaxed);
+                self.status.look.as_mut().unwrap().weapon = value as u32;
                 "weapon"
             }
             LookType::Shield => {
-                self.status.look.as_ref().unwrap().shield.store(value as u32, Relaxed);
+                self.status.look.as_mut().unwrap().shield = value as u32;
                 "shield"
             }
             LookType::HeadBottom => {
-                self.status.look.as_ref().unwrap().head_bottom.store(value as u32, Relaxed);
+                self.status.look.as_mut().unwrap().head_bottom = value as u32;
                 "head_bottom"
             }
             LookType::HeadTop => {
-                self.status.look.as_ref().unwrap().head_top.store(value as u32, Relaxed);
+                self.status.look.as_mut().unwrap().head_top = value as u32;
                 "head_top"
             }
             LookType::HeadMid => {
-                self.status.look.as_ref().unwrap().head_middle.store(value as u32, Relaxed);
+                self.status.look.as_mut().unwrap().head_middle = value as u32;
                 "head_mid"
             }
             LookType::Robe => {
-                self.status.look.as_ref().unwrap().robe.store(value as u32, Relaxed);
+                self.status.look.as_mut().unwrap().robe = value as u32;
                 "robe"
             }
             _ => { "shoes" }
         };
-        runtime.block_on(async {
-            server.repository.character_update_status(self.char_id, db_column.to_string(), value).await.unwrap();
-        });
+        return Some(db_column.to_string());
     }
 
     pub fn get_zeny(&self) -> u32 {
-        self.status.zeny.load(Relaxed)
+        self.status.zeny
     }
 
-    pub fn change_zeny(&self, value: u32, server: &Server) {
-        self.status.zeny.store(value, Relaxed);
-        server.repository.runtime.block_on(async {
-            server.repository.character_update_status(self.char_id, "zeny".to_string(), value).await.unwrap();
-        });
+    pub fn change_zeny(&mut self, value: u32) {
+        self.status.zeny = value;
     }
 }
 

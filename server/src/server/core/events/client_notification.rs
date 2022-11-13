@@ -25,13 +25,20 @@ impl CharNotification {
 }
 
 pub struct AreaNotification {
-    map_name: String,
-    map_instance_id: usize,
-    range_type: AreaNotificationRangeType,
-    packet: Vec<u8>,
+    pub(crate) map_name: String,
+    pub(crate) map_instance_id: u8,
+    pub(crate) range_type: AreaNotificationRangeType,
+    pub(crate) packet: Vec<u8>,
 }
 
 pub enum AreaNotificationRangeType {
     Map, // Notify all players of the map,
     Fov {x: u16, y: u16} // Notify all players in the FoV of the point.
+}
+
+impl AreaNotification {
+
+    pub fn serialized_packet(&self) -> &Vec<u8> {
+        &self.packet
+    }
 }
