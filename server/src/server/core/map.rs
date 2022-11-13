@@ -6,24 +6,29 @@ use byteorder::{ReadBytesExt, LittleEndian};
 use flate2::read::ZlibDecoder;
 use std::{fs, thread};
 use std::any::Any;
+use std::cell::RefCell;
 use std::time::{Duration, Instant};
 use std::collections::{HashMap, HashSet};
 use std::hash::{Hash, Hasher};
+use std::slice::Iter;
 use std::sync::{Arc, RwLock};
 use std::sync::atomic::AtomicI8;
 use std::sync::atomic::Ordering::Relaxed;
+use std::sync::mpsc::Receiver;
 use std::thread::sleep;
 use rand::Rng;
-use tokio::sync::broadcast;
-use tokio::sync::broadcast::{Receiver, Sender};
 use accessor::Setters;
 use crate::Script;
 use crate::server::core::character::Character;
+use crate::server::core::events::map_event::MapEvent;
 use crate::server::core::map_instance::MapInstance;
 use crate::server::core::path::{allowed_dirs, DIR_EAST, DIR_NORTH, DIR_SOUTH, DIR_WEST, is_direction};
+use crate::server::enums::map_item::MapItemType;
+use crate::server::map_item::{MapItem, ToMapItem};
 use crate::server::npc::mob_spawn::MobSpawn;
 use crate::server::npc::warps::Warp;
 use crate::server::server::Server;
+use crate::util::cell::MyUnsafeCell;
 use crate::util::coordinate;
 
 static MAPCACHE_EXT: &str = ".mcache";
@@ -51,34 +56,10 @@ pub struct Map {
     pub warps: Arc<Vec<Arc<Warp>>>,
     pub mob_spawns: Arc<Vec<Arc<MobSpawn>>>,
     pub scripts: Arc<Vec<Script>>,
-    pub map_thread_channel_sender: Sender<String>,
-    pub map_instances: RwLock<Vec<Arc<MapInstance>>>,
+    pub map_instances: MyUnsafeCell<Vec<Arc<MapInstance>>>,
     pub map_instances_count: AtomicI8,
 }
 
-pub trait MapItem: Send + Sync {
-    fn id(&self) -> u32;
-    fn client_item_class(&self) -> i16;
-    fn object_type(&self) -> i16;
-    fn name(&self) -> String;
-    fn x(&self) -> u16;
-    fn y(&self) -> u16;
-    fn as_any(&self) -> &dyn Any;
-}
-
-impl Hash for dyn MapItem {
-    fn hash<H: Hasher>(&self, state: &mut H) {
-        self.id().hash(state);
-    }
-}
-
-impl PartialEq<Self> for dyn MapItem {
-    fn eq(&self, other: &Self) -> bool {
-        self.id() == other.id()
-    }
-}
-
-impl Eq for dyn MapItem{}
 
 #[derive(Setters)]
 pub struct MapPropertyFlags {
@@ -157,19 +138,31 @@ impl Map {
     // Char interact with instance instead of map directly.
     // Instances will make map lifecycle easier to maintain
     // Only 1 instance will be needed for most use case, but it make possible to wipe map instance after a while when no player are on it. to free memory
-    pub fn player_join_map(&self, _char_session: &Character, server: Arc<Server>) -> Arc<MapInstance> {
-        let map_instance_id = 0_u32;
+    pub fn player_join_map(&self, server: &Server) -> Arc<MapInstance> {
+        let map_instance_id = 0_u8;
         let instance_exists;
         {
-            let map_instances_guard = read_lock!(self.map_instances);
+            let map_instances_guard = self.map_instances.borrow();
             instance_exists = map_instances_guard.get(map_instance_id as usize).is_some();
         }
         if !instance_exists {
             self.create_map_instance(server, map_instance_id);
         }
-        let map_instances_guard = read_lock!(self.map_instances);
+        let map_instances_guard =self.map_instances.borrow();
         let map_instance = map_instances_guard.get(map_instance_id as usize).unwrap();
         map_instance.clone()
+    }
+
+    pub fn get_instance(&self, id: u8, server: &Server) -> Option<Arc<MapInstance>>{
+        for map_instance in  self.map_instances.borrow().iter() {
+            if map_instance.id == id {
+                return Some(map_instance.clone())
+            }
+        }
+        Some(self.create_map_instance(server, id))
+    }
+    pub fn instances(&self) -> Vec<Arc<MapInstance>> {
+        self.map_instances.borrow().iter().map(|instance| instance.clone()).collect()
     }
 
     pub fn find_random_walkable_cell(cells: &Vec<u16>, x_size: u16) -> (u16, u16) {
@@ -234,22 +227,24 @@ impl Map {
         }
     }
 
-    fn create_map_instance(&self, server: Arc<Server>, instance_id: u32) -> Arc<MapInstance> {
+    fn create_map_instance(&self, server: &Server, instance_id: u8) -> Arc<MapInstance> {
         info!("create map instance: {} x_size: {}, y_size {}, length: {}", self.name, self.x_size, self.y_size, self.length);
-        let mut map_items: HashSet<Arc<dyn MapItem>> = HashSet::with_capacity(2048);
+        let mut map_items: HashMap<u32, MapItem> = HashMap::with_capacity(2048);
         let cells = self.generate_cells(server.clone(), &mut map_items);
-        let map_instance = MapInstance::from_map(self, server.clone(), instance_id, cells, map_items);
+
+        let (map_event_notification_sender, single_map_event_notification_receiver) = std::sync::mpsc::sync_channel::<MapEvent>(0);
+        let map_instance = MapInstance::from_map(self, server, instance_id, cells, map_items, map_event_notification_sender, server.client_notification_sender());
         self.map_instances_count.fetch_add(1, Relaxed);
         let map_instance_ref = Arc::new(map_instance);
         {
-            let mut map_instance_guard = write_lock!(self.map_instances);
+            let mut map_instance_guard = self.map_instances.borrow_mut();
             map_instance_guard.push(map_instance_ref.clone());
         }
-        Map::start_thread(map_instance_ref.clone(), self.map_thread_channel_sender.subscribe(), server);
+        Map::start_thread(map_instance_ref.clone(), server, single_map_event_notification_receiver);
         map_instance_ref
     }
 
-    pub fn generate_cells(&self, server: Arc<Server>, map_items: &mut HashSet<Arc<dyn MapItem>>) -> Vec<u16> {
+    pub fn generate_cells(&self, server: &Server, map_items: &mut HashMap<u32, MapItem>) -> Vec<u16> {
         let file_path = Path::join(Path::new(MAP_DIR), format!("{}{}", self.name, MAPCACHE_EXT));
         let file = File::open(file_path).unwrap();
         let mut reader = BufReader::new(file);
@@ -270,14 +265,13 @@ impl Map {
             })
         }
 
-        self.set_warp_cells(&mut cells, server, map_items);
+        self.set_warp_cells(&mut cells, map_items);
         cells
     }
 
-    fn set_warp_cells(&self, cells: &mut [u16], server: Arc<Server>, map_items: &mut HashSet<Arc<dyn MapItem>>) {
+    fn set_warp_cells(&self, cells: &mut [u16], map_items: &mut HashMap<u32, MapItem>) {
         for warp in self.warps.iter() {
-            server.insert_map_item(warp.id, warp.clone());
-            map_items.insert(warp.clone());
+            map_items.insert(warp.id, warp.to_map_item());
             let start_x = warp.x - warp.x_size;
             let to_x = warp.x + warp.x_size;
             let start_y = warp.y - warp.y_size;
@@ -292,11 +286,10 @@ impl Map {
         }
     }
 
-    fn set_warps(&mut self, warps: &[Warp], map_item_ids: &RwLock<HashMap<u32, Arc<dyn MapItem>>>) {
-        let mut ids_write_guard = write_lock!(map_item_ids);
+    fn set_warps(&mut self, warps: &[Warp], map_item_ids: MyUnsafeCell<HashMap<u32, MapItem>>) {
         let warps = warps.iter().map(|warp| {
             let mut warp = warp.clone();
-            warp.set_id(Server::generate_id(&mut ids_write_guard));
+            warp.set_id(Server::generate_id(&mut map_item_ids.borrow_mut()));
             Arc::new(warp)
         }).collect::<Vec<Arc<Warp>>>();
         self.warps = Arc::new(warps);
@@ -308,47 +301,61 @@ impl Map {
         );
     }
 
-    fn set_scripts(&mut self, scripts: &[Script], map_item_ids: &RwLock<HashMap<u32, Arc<dyn MapItem>>>) {
-        let mut ids_write_guard = write_lock!(map_item_ids);
+    fn set_scripts(&mut self, scripts: &[Script], map_item_ids: MyUnsafeCell<HashMap<u32, MapItem>>) {
         self.scripts = Arc::new(
             scripts.iter().map(|script| {
                 let mut script = script.clone();
-                script.set_id(Server::generate_id(&mut ids_write_guard));
+                script.set_id(Server::generate_id(&mut map_item_ids.borrow_mut()));
                 script
             }).collect::<Vec<Script>>()
         );
     }
 
-    fn start_thread(map_instance: Arc<MapInstance>, mut rx: Receiver<String>, server: Arc<Server>) {
+    fn start_thread(map_instance: Arc<MapInstance>, server: &Server, single_map_event_notification_receiver: Receiver<MapEvent>) {
         let map_instance_clone = map_instance.clone();
         let map_instance_clone_for_thread = map_instance.clone();
         info!("Start thread for {}", map_instance_clone.name);
-        thread::Builder::new().name(format!("{}-thread", map_instance_clone.name))
+        thread::Builder::new().name(format!("map_instance_{}_thread", map_instance_clone.name))
             .spawn(move || {
-                let mut now = Instant::now();
-                let mut cleanup_notified_at: Option<Instant> = None;
-                let mut last_mobs_action = now;
-                while cleanup_notified_at.is_none() || now.duration_since(cleanup_notified_at.unwrap()).as_secs() < 5 {
-                    now = Instant::now();
-                    if rx.try_recv().is_ok() {
-                        info!("received clean up sig");
-                        cleanup_notified_at = Some(now);
-                    }
-                    {
-                        map_instance_clone_for_thread.spawn_mobs(server.clone(), now.elapsed().as_millis(), map_instance.clone());
-                        map_instance_clone_for_thread.update_mobs_fov();
-                        if last_mobs_action.elapsed().as_secs() > 2 {
-                            map_instance_clone_for_thread.mobs_action();
-                            last_mobs_action = now;
+                loop {
+                    for event in single_map_event_notification_receiver.iter() {
+                        match event {
+                            MapEvent::SpawnMobs => {
+                                map_instance_clone_for_thread.spawn_mobs();
+                            }
+                            MapEvent::UpdateMobsFov(characters) => {
+                                map_instance_clone_for_thread.update_mobs_fov(characters)
+                            }
+                            MapEvent::MobsActions => {
+                                map_instance_clone_for_thread.mobs_action()
+                            }
                         }
                     }
-                    sleep(Duration::from_millis(50));
                 }
+                // let mut now = Instant::now();
+                // let mut cleanup_notified_at: Option<Instant> = None;
+                // let mut last_mobs_action = now;
+                // while cleanup_notified_at.is_none() || now.duration_since(cleanup_notified_at.unwrap()).as_secs() < 5 {
+                //     now = Instant::now();
+                //     if rx.try_recv().is_ok() {
+                //         info!("received clean up sig");
+                //         cleanup_notified_at = Some(now);
+                //     }
+                //     {
+                //         // map_instance_clone_for_thread.spawn_mobs(server.clone(), now.elapsed().as_millis(), map_instance.clone());
+                //         // map_instance_clone_for_thread.update_mobs_fov();
+                //         if last_mobs_action.elapsed().as_secs() > 2 {
+                //             // map_instance_clone_for_thread.mobs_action();
+                //             last_mobs_action = now;
+                //         }
+                //     }
+                //     sleep(Duration::from_millis(50));
+                // }
                 info!("Clean up {} map", map_instance_clone.name);
             }).unwrap();
     }
 
-    pub fn load_maps(warps: HashMap<String, Vec<Warp>>, mob_spawns: HashMap<String, Vec<MobSpawn>>, scripts: HashMap<String, Vec<Script>>, map_items: &RwLock<HashMap<u32, Arc<dyn MapItem>>>) -> HashMap<String, Map> {
+    pub fn load_maps(warps: HashMap<String, Vec<Warp>>, mob_spawns: HashMap<String, Vec<MobSpawn>>, scripts: HashMap<String, Vec<Script>>, map_items: MyUnsafeCell<HashMap<u32, MapItem>>) -> HashMap<String, Map> {
         let mut maps = HashMap::<String, Map>::new();
         let paths = fs::read_dir(MAP_DIR).unwrap();
         for path in paths {
@@ -369,7 +376,6 @@ impl Map {
             // TODO validate checksum
             // TODO validate size + length
 
-            let (tx, _) = broadcast::channel::<String>(32);
             let mut map = Map {
                 x_size: header.x_size as u16,
                 y_size: header.y_size as u16,
@@ -378,19 +384,18 @@ impl Map {
                 warps: Default::default(),
                 mob_spawns: Default::default(),
                 scripts: Default::default(),
-                map_thread_channel_sender: tx,
                 map_instances: Default::default(),
                 map_instances_count: Default::default()
             };
-            map.set_warps(warps.get(&map_name).unwrap_or(&vec![]), map_items);
+            map.set_warps(warps.get(&map_name).unwrap_or(&vec![]), map_items.clone());
             map.set_mob_spawns(mob_spawns.get(&map_name).unwrap_or(&vec![]));
-            map.set_scripts(scripts.get(&map_name).unwrap_or(&vec![]), map_items);
+            map.set_scripts(scripts.get(&map_name).unwrap_or(&vec![]), map_items.clone());
             maps.insert(map.name.clone(), map);
         }
         maps
     }
 
-    pub fn name_without_ext(map_name: String) -> String {
+    pub fn name_without_ext(map_name: &String) -> String {
         map_name.replace(MAP_EXT, "")
     }
 }

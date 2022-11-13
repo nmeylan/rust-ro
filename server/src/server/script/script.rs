@@ -2,6 +2,7 @@ use std::env::var;
 use std::io::Write;
 use std::net::TcpStream;
 use std::sync::{Arc, RwLock};
+use std::sync::mpsc::{SyncSender};
 
 use rathena_script_lang_interpreter::lang::call_frame::CallFrame;
 use rathena_script_lang_interpreter::lang::thread::Thread;
@@ -9,13 +10,16 @@ use rathena_script_lang_interpreter::lang::value::{Native, Value};
 use rathena_script_lang_interpreter::lang::vm::NativeMethodHandler;
 use sprintf::{ConversionSpecifier, Printf, vsprintf};
 use tokio::runtime::Runtime;
-use tokio::sync::mpsc::Receiver;
+use tokio::sync::mpsc::{Receiver};
 
 use packets::packets::{PacketZcCloseDialog, PacketZcMenuList, PacketZcNotifyPlayerchat, PacketZcOpenEditdlg, PacketZcOpenEditdlgstr, PacketZcPcPurchaseItemlist, PacketZcSayDialog, PacketZcSelectDealtype, PacketZcShowImage2, PacketZcSpriteChange2, PacketZcWaitDialog, PurchaseItem};
 
 use crate::packets::packets::Packet;
 use crate::Server;
-use crate::server::core::character_movement::change_map;
+use crate::server::core::character_movement::{change_map_packet};
+use crate::server::core::events::client_notification::{CharNotification, Notification};
+use crate::server::core::events::game_event::CharacterLook;
+use crate::server::core::events::game_event::GameEvent::CharacterUpdateLook;
 use crate::server::core::session::Session;
 use crate::server::core::status::LookType;
 use crate::server::script::constant::{get_battle_flag, load_constant};
@@ -24,7 +28,7 @@ use crate::util::string::StringUtil;
 pub struct ScriptHandler;
 
 pub struct PlayerScriptHandler {
-    pub tcp_stream: Arc<RwLock<TcpStream>>,
+    pub client_notification_channel: SyncSender<Notification>,
     pub npc_id: u32,
     pub server: Arc<Server>,
     pub player_action_receiver: RwLock<Receiver<Vec<u8>>>,
@@ -68,6 +72,11 @@ impl PlayerScriptHandler {
         self.player_action_receiver.write().unwrap().blocking_recv()
     }
 
+    pub(crate) fn send_packet_to_char(&self, account_id: u32, packet: &mut dyn Packet) {
+        self.client_notification_channel.send(Notification::Char(
+            CharNotification::new(account_id, std::mem::take(packet.raw_mut()))));
+    }
+
     fn handle_menu(&self, execution_thread: &Thread, params: Vec<Value>) -> Option<usize> {
         let menu_str = params.iter().map(|p| {
             if p.is_number() {
@@ -83,7 +92,7 @@ impl PlayerScriptHandler {
         packet_zc_menu_list.msg = menu_str;
         packet_zc_menu_list.packet_length = (PacketZcMenuList::base_len(self.server.packetver()) as i16 + packet_zc_menu_list.msg.len() as i16) + 1_i16;
         packet_zc_menu_list.fill_raw();
-        socket_send!(self.tcp_stream, packet_zc_menu_list.raw());
+        self.send_packet_to_char(self.session.char_id(), &mut packet_zc_menu_list);
         let selected_option = self.block_recv();
         if let Some(selected_option) = selected_option {
             let selected_option = u8::from_le_bytes([selected_option[0]]);
@@ -117,17 +126,17 @@ impl NativeMethodHandler for PlayerScriptHandler {
             packet_dialog.naid = self.npc_id;
             packet_dialog.packet_length = (PacketZcSayDialog::base_len(self.server.packetver()) as i16 + packet_dialog.msg.len() as i16) + 1_i16;
             packet_dialog.fill_raw();
-            socket_send!(self.tcp_stream, packet_dialog.raw());
+            self.send_packet_to_char(self.session.char_id(), &mut packet_dialog);
         } else if native.name.eq("close") {
             let mut packet_dialog = PacketZcCloseDialog::new();
             packet_dialog.naid = self.npc_id;
             packet_dialog.fill_raw();
-            socket_send!(self.tcp_stream, packet_dialog.raw());
+            self.send_packet_to_char(self.session.char_id(), &mut packet_dialog);
         } else if native.name.eq("next") {
             let mut packet_dialog = PacketZcWaitDialog::new();
             packet_dialog.naid = self.npc_id;
             packet_dialog.fill_raw();
-            socket_send!(self.tcp_stream, packet_dialog.raw());
+            self.send_packet_to_char(self.session.char_id(), &mut packet_dialog);
             self.block_recv();
         } else if native.name.eq("input") {
             let variable_name = params[0].string_value().unwrap();
@@ -135,12 +144,12 @@ impl NativeMethodHandler for PlayerScriptHandler {
                 let mut packet_zc_open_editdlgstr = PacketZcOpenEditdlgstr::new();
                 packet_zc_open_editdlgstr.naid = self.npc_id;
                 packet_zc_open_editdlgstr.fill_raw();
-                socket_send!(self.tcp_stream, packet_zc_open_editdlgstr.raw());
+                self.send_packet_to_char(self.session.char_id(), &mut packet_zc_open_editdlgstr);
             } else {
                 let mut packet_zc_open_editdlg = PacketZcOpenEditdlg::new();
                 packet_zc_open_editdlg.naid = self.npc_id;
                 packet_zc_open_editdlg.fill_raw();
-                socket_send!(self.tcp_stream, packet_zc_open_editdlg.raw());
+                self.send_packet_to_char(self.session.char_id(), &mut packet_zc_open_editdlg);
             }
             let input_value = self.block_recv();
             if let Some(input_value) = input_value {
@@ -178,54 +187,44 @@ impl NativeMethodHandler for PlayerScriptHandler {
                 // TODO
                 panic!("getlook with char_id not yet supported")
             } else {
-                self.session.character.as_ref().unwrap()
+                self.server.get_character_unsafe(self.session.char_id())
             };
             let look_value = char.get_look(LookType::from_value(look_type as usize));
             execution_thread.push_constant_on_stack(Value::new_number(look_value as i32));
         } else if native.name.eq("setlook") {
             let look_type = params[0].number_value().unwrap();
             let look_value = params[1].number_value().unwrap();
-            let char = if params.len() == 3 {
+            let char_id = if params.len() == 3 {
                 // TODO
                 panic!("setlook with char_id not yet supported")
             } else {
-                self.session.character.as_ref().unwrap()
+                self.session.char_id()
             };
-            char.change_look(LookType::from_value(look_type as usize), look_value as u32, &self.runtime, self.server.clone());
-            let mut packet_zc_sprite_change = PacketZcSpriteChange2::new();
-            packet_zc_sprite_change.set_gid(self.session.character.as_ref().unwrap().char_id);
-            packet_zc_sprite_change.set_atype(look_type as u8);
-            packet_zc_sprite_change.set_value(look_value);
-            packet_zc_sprite_change.fill_raw();
-            // TODO: [multiplayer] send to all other char
-            socket_send!(self.tcp_stream, packet_zc_sprite_change.raw());
+            self.server.add_to_next_tick(CharacterUpdateLook(CharacterLook{look_type: LookType::from_value(look_type as usize), look_value: look_value as u32, char_id}));
         } else if native.name.eq("strcharinfo") {
             let info_type = params[0].number_value().unwrap() as usize;
             let char = if params.len() == 2 {
                 // TODO
                 panic!("setlook with char_id not yet supported")
             } else {
-                self.session.character.as_ref().unwrap()
+                self.server.get_character_unsafe(self.session.char_id())
             };
             let char_info = match info_type {
                 0 => Value::new_string(char.name.clone()),
                 1 => Value::new_string("TODO PARTY NAME".to_string()),
                 2 => Value::new_string("TODO GUILD NAME".to_string()),
-                3 => Value::new_string(read_lock!(char.current_map).as_ref().unwrap().name.clone()),
+                3 => Value::new_string(char.current_map_name().clone()),
                 _ => Value::new_string(format!("Unknown char info type {}", info_type))
             };
             execution_thread.push_constant_on_stack(char_info);
         } else if native.name.eq("message") {
             let char_name = params[0].string_value().unwrap();
             let message = params[1].string_value().unwrap();
-            let maybe_socket = self.server.get_map_socket_for_char_with_name(char_name);
-            if let Some(socket) = maybe_socket {
-                let mut packet_zc_notify_playerchat = PacketZcNotifyPlayerchat::new();
-                packet_zc_notify_playerchat.set_msg(message.to_string());
-                packet_zc_notify_playerchat.set_packet_length((PacketZcNotifyPlayerchat::base_len(self.server.packetver()) + message.len() + 1) as i16);
-                packet_zc_notify_playerchat.fill_raw();
-                socket_send!(socket, packet_zc_notify_playerchat.raw());
-            }
+            let mut packet_zc_notify_playerchat = PacketZcNotifyPlayerchat::new();
+            packet_zc_notify_playerchat.set_msg(message.to_string());
+            packet_zc_notify_playerchat.set_packet_length((PacketZcNotifyPlayerchat::base_len(self.server.packetver()) + message.len() + 1) as i16);
+            packet_zc_notify_playerchat.fill_raw();
+            self.send_packet_to_char(self.session.char_id(), &mut packet_zc_notify_playerchat);
         } else if native.name.eq("getbattleflag") {
             let constant_name = params[0].string_value().unwrap();
             let value = get_battle_flag(constant_name);
@@ -240,7 +239,7 @@ impl NativeMethodHandler for PlayerScriptHandler {
             } else {
                 self.session.clone()
             };
-            change_map(map_name, x as u16, y as u16, session, self.server.clone(), Some(&self.runtime));
+            change_map_packet(map_name, x as u16, y as u16, session, self.server.as_ref());
         } else if native.name.eq("sprintf") {
             let template = params[0].string_value().unwrap();
             let mut sprintf_args: Vec<&dyn Printf> = vec![];
@@ -268,7 +267,7 @@ impl NativeMethodHandler for PlayerScriptHandler {
             packet_zc_show_image2.set_image_name(file_name_array);
             packet_zc_show_image2.set_atype(position as u8);
             packet_zc_show_image2.fill_raw();
-            socket_send!(self.tcp_stream, packet_zc_show_image2.raw());
+            self.send_packet_to_char(self.session.char_id(), &mut packet_zc_show_image2);
 
         } else {
             if self.handle_shop(native, params, execution_thread, call_frame) {
@@ -277,4 +276,5 @@ impl NativeMethodHandler for PlayerScriptHandler {
             error!("Native function \"{}\" not handled yet!", native.name);
         }
     }
+
 }

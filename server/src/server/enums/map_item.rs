@@ -1,6 +1,6 @@
 use std::fmt::{Display, Formatter};
 
-#[derive(Debug)]
+#[derive(Debug, Copy, Clone)]
 pub enum MapItemType {
     Character,
     Mob,

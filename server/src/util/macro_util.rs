@@ -25,14 +25,26 @@ macro_rules! cast {
 }
 
 #[macro_export]
-macro_rules! socket_send {
-    ( $tcp_stream:expr, $data:expr ) => {
+macro_rules! socket_send_deprecated {
+   ( $tcp_stream:expr, $data:expr ) => {
     {
        let mut tcp_stream_guard = $tcp_stream.write().unwrap();
-        debug!("Respond with: {:02X?}", $data);
+        warn!("socket_deprecated: to rewrite");
         tcp_stream_guard.write_all($data).unwrap();
         tcp_stream_guard.flush().unwrap();
     }
+  }
+}
+#[macro_export]
+macro_rules! socket_send {
+    ( $context:expr, $packet:expr ) => {
+    $context.response_sender().send(crate::server::core::response::Response::new($context.socket(), std::mem::take($packet.raw_mut())));
+  }
+}
+#[macro_export]
+macro_rules! socket_send_raw {
+    ( $context:expr, $data:expr ) => {
+    $context.response_sender().send(crate::server::core::response::Response::new($context.socket(), $data));
   }
 }
 

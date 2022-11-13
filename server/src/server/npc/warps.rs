@@ -4,8 +4,8 @@ use std::fs::File;
 use std::path::Path;
 use std::io::{BufReader, BufRead};
 use std::time::Instant;
-use crate::server::core::map::MapItem;
 use crate::server::enums::map_item::MapItemType;
+use crate::server::map_item::{MapItem, ToMapItem};
 use crate::server::npc::npc::{Npc, NpcLoader};
 
 
@@ -24,35 +24,6 @@ pub struct Warp {
     pub dest_map_name: String,
     pub to_x: u16,
     pub to_y: u16,
-}
-
-impl MapItem for Warp {
-    fn id(&self) -> u32 {
-        self.id
-    }
-
-    fn client_item_class(&self) -> i16 {
-        45
-    }
-    fn object_type(&self) -> i16 {
-        MapItemType::Warp.value()
-    }
-
-    fn name(&self) -> String {
-        String::from("warp")
-    }
-
-    fn x(&self) -> u16 {
-        self.x
-    }
-
-    fn y(&self) -> u16 {
-        self.y
-    }
-
-    fn as_any(&self) -> &dyn Any{
-        self
-    }
 }
 
 impl Npc for Warp {
@@ -110,6 +81,16 @@ impl Warp {
             to_y: 0
         }
     }
+    pub fn name(&self) -> &String {
+        &self.name
+    }
+    pub fn x(&self) -> u16 {
+        self.x
+    }
+    pub fn y(&self) -> u16 {
+        self.y
+    }
+
 
     pub async fn load_warps() -> HashMap<String, Vec<Warp>> {
         let start = Instant::now();
@@ -120,5 +101,11 @@ impl Warp {
         let warps = npc_loader.load_npc::<Warp>().await;
         info!("load {} warps in {} secs", warps.iter().fold(0, |memo, curr| memo + curr.1.len()), start.elapsed().as_millis() as f32 / 1000.0);
         warps
+    }
+}
+
+impl ToMapItem for Warp {
+    fn to_map_item(&self) -> MapItem {
+        MapItem::new(self.id, 45, MapItemType::Warp)
     }
 }
