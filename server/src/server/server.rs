@@ -22,6 +22,7 @@ use tokio::runtime::Runtime;
 
 use packets::packets::{Packet, PacketCaLogin, PacketChDeleteChar4Reserved, PacketChEnter, PacketChMakeChar, PacketChMakeChar2, PacketChMakeChar3, PacketChSelectChar, PacketCzAckSelectDealtype, PacketCzBlockingPlayCancel, PacketCzChooseMenu, PacketCzContactnpc, PacketCzEnter2, PacketCzInputEditdlg, PacketCzInputEditdlgstr, PacketCzNotifyActorinit, PacketCzPcPurchaseItemlist, PacketCzPlayerChat, PacketCzReqDisconnect2, PacketCzReqname, PacketCzReqnameall2, PacketCzReqNextScript, PacketCzRequestAct2, PacketCzRequestMove, PacketCzRequestMove2, PacketCzRequestTime, PacketCzRestart, PacketUnknown, PacketZcNotifyTime, PacketZcNpcackMapmove};
 use packets::packets_parser::parse;
+use crate::PersistenceEvent;
 
 use crate::repository::Repository;
 use crate::server::configuration::Config;
@@ -187,6 +188,7 @@ impl Server {
     pub fn start<'server>(server_ref: Arc<Server>, single_client_notification_receiver: Receiver<Notification>) {
         let port = server_ref.configuration.server.port;
 
+        let (persistence_event_sender, persistence_event_receiver) = std::sync::mpsc::sync_channel::<PersistenceEvent>(0);
         let (response_sender, single_response_receiver) = std::sync::mpsc::sync_channel::<Response>(0);
         let client_notification_sender_clone = server_ref.client_notification_sender();
         thread::scope(|server_thread_scope: &Scope| {
@@ -261,18 +263,20 @@ impl Server {
             }).unwrap();
             let server_ref_clone = server_ref.clone();
             let client_notification_sender_clone = server_ref.client_notification_sender();
+            let persistence_event_sender_clone = persistence_event_sender.clone();
             thread::Builder::new().name("game_loop_thread".to_string()).spawn_scoped(server_thread_scope,move || {
-                let runtime = Runtime::new().unwrap();
-                Self::game_loop(server_ref_clone, client_notification_sender_clone, runtime);
+                Self::game_loop(server_ref_clone, client_notification_sender_clone, persistence_event_sender_clone);
             }).unwrap();
             let server_ref_clone = server_ref.clone();
             let client_notification_sender_clone = server_ref.client_notification_sender();
+            let persistence_event_sender_clone = persistence_event_sender.clone();
             thread::Builder::new().name("movement_loop_thread".to_string()).spawn_scoped(server_thread_scope,move || {
-                let runtime = Runtime::new().unwrap();
-                Self::character_movement_loop(server_ref_clone, client_notification_sender_clone, runtime);
+                Self::character_movement_loop(server_ref_clone, client_notification_sender_clone, persistence_event_sender_clone);
             }).unwrap();
-            thread::Builder::new().name("persistence_thread".to_string()).spawn_scoped(server_thread_scope,move || {
+            let server_ref_clone = server_ref.clone();
+            thread::Builder::new().name("persistence_thread".to_string()).spawn_scoped(server_thread_scope, move  || {
                 let runtime = Runtime::new().unwrap();
+                Self::persistence_thread(persistence_event_receiver, runtime, server_ref_clone.repository.clone());
             }).unwrap();
         });
     }

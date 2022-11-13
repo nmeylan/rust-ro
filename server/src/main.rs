@@ -67,7 +67,6 @@ pub async fn main() {
     Vm::bootstrap(vm.clone(), class_files, Box::new(&ScriptHandler{}));
 
     let (client_notification_sender, single_client_notification_receiver) = std::sync::mpsc::sync_channel::<Notification>(0);
-    let (persistence_event_sender, persistence_event_receiver) = std::sync::mpsc::sync_channel::<PersistenceEvent>(0);
     let server = Server::new(config.clone(), repository_arc.clone(), maps, map_item_ids, vm, client_notification_sender);
     let server_ref = Arc::new(server);
     let server_ref_clone = server_ref.clone();

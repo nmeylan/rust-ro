@@ -7,6 +7,8 @@ use regex::internal::Inst;
 use tokio::runtime::Runtime;
 
 use packets::packets::{Packet, PacketZcNotifyPlayermove, PacketZcNpcackMapmove};
+use crate::PersistenceEvent;
+use crate::PersistenceEvent::SaveCharacterPosition;
 
 use crate::server::core::character::Character;
 use crate::server::core::character_movement::Movement;
@@ -14,6 +16,7 @@ use crate::server::core::events::game_event::{CharacterChangeMap, GameEvent};
 use crate::server::core::map::{Map, MAP_EXT};
 use crate::server::core::events::map_event::MapEvent::{*};
 use crate::server::core::events::client_notification::{CharNotification, Notification};
+use crate::server::core::events::persistence_event::SavePositionUpdate;
 use crate::server::core::position::Position;
 use crate::server::enums::map_item::MapItemType;
 use crate::server::map_item::{ToMapItem, ToMapItemSnapshot};
@@ -25,7 +28,7 @@ const MOVEMENT_TICK_RATE: u128 = 20;
 const GAME_TICK_RATE: u128 = 40;
 
 impl Server {
-    pub(crate) fn game_loop(server_ref: Arc<Server>, client_notification_sender_clone: SyncSender<Notification>, runtime: Runtime) {
+    pub(crate) fn game_loop(server_ref: Arc<Server>, client_notification_sender_clone: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>) {
         let mut last_mobs_action = Instant::now();
         loop {
             let tick = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis();
@@ -54,7 +57,7 @@ impl Server {
                                 character.update_position(new_position.x, new_position.y);
                                 character.clear_map_view();
                                 character.loaded_from_client_side = false;
-                                Self::save_char_position(&server_ref, &runtime, character);
+                                persistence_event_sender.send(SaveCharacterPosition(SavePositionUpdate {account_id: character.account_id, char_id: character.char_id, map_name: character.current_map_name().clone(), x: character.x(), y: character.y()}));
                             } else {
                                 error!("Can't change map to {} {}", event.new_map_name, event.new_instance_id);
                             }
@@ -101,7 +104,7 @@ impl Server {
         }
     }
 
-    pub(crate) fn character_movement_loop(server_ref: Arc<Server>, client_notification_sender_clone: SyncSender<Notification>, runtime: Runtime) {
+    pub(crate) fn character_movement_loop(server_ref: Arc<Server>, client_notification_sender_clone: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>) {
         loop {
             let tick = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis();
             let mut characters = server_ref.characters.borrow_mut();
@@ -179,22 +182,10 @@ impl Server {
                 }
             }
             for character in character_finished_to_move {
-                Self::save_char_position(&server_ref, &runtime, character);
+                persistence_event_sender.send(SaveCharacterPosition(SavePositionUpdate {account_id: character.account_id, char_id: character.char_id, map_name: character.current_map_name().clone(), x: character.x(), y: character.y()}));
             }
             sleep(Duration::from_millis((MOVEMENT_TICK_RATE - (SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis() - tick).min(0).max(MOVEMENT_TICK_RATE)) as u64));
         }
-    }
-
-    fn save_char_position(server_ref: &Server, runtime: &Runtime, character: &mut Character) {
-        let repository = server_ref.repository.clone();
-        let account_id = character.account_id;
-        let char_id = character.char_id;
-        let mapname = character.current_map_name().clone();
-        let x = character.x();
-        let y = character.y();
-        runtime.spawn(async move {
-            repository.character_save_position(account_id, char_id, Map::name_without_ext(&mapname), x, y).await
-        });
     }
 }
 
