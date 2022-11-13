@@ -5,13 +5,15 @@ use std::sync::atomic::{AtomicU16, AtomicU64};
 use std::sync::atomic::Ordering::Relaxed;
 use rand::Rng;
 use packets::packets::PacketZcNotifyMove;
+use crate::MyUnsafeCell;
 use crate::server::core::character::Character;
 use crate::server::core::position::Position;
-use crate::server::core::map::{Map, MapItem, ToMapItem};
+use crate::server::core::map::{Map};
 use crate::server::core::map_instance::{MapInstance, MapInstanceKey};
 use crate::server::core::status::Status;
 use crate::server::enums::map_item::MapItemType;
-use crate::util::tick::get_tick;
+use crate::server::map_item::{MapItem, ToMapItem};
+use crate::util::tick::{get_tick, get_tick_client};
 
 #[derive(Setters)]
 pub struct Mob {
@@ -25,8 +27,8 @@ pub struct Mob {
     #[set]
     pub y: u16,
     pub current_map: MapInstanceKey,
-    pub map_view: RwLock<Vec<MapItem>>,
-    pub is_view_char: RwLock<bool>,
+    pub map_view: MyUnsafeCell<Vec<MapItem>>,
+    pub is_view_char: MyUnsafeCell<bool>,
     pub movement_task_id: AtomicU64,
 }
 
@@ -40,9 +42,9 @@ impl Mob {
             spawn_id,
             status,
             name,
-            map_view: RwLock::new(vec![]),
+            map_view: MyUnsafeCell::new(vec![]),
             current_map,
-            is_view_char: RwLock::new(false),
+            is_view_char: MyUnsafeCell::new(false),
             movement_task_id: Default::default(),
         }
     }
@@ -58,58 +60,54 @@ impl Mob {
         &self.name
     }
     pub fn update_map_view(&self, map_items: Vec<MapItem>) {
-        let mut map_view_guard = write_lock!(self.map_view);
-        let mut is_view_char_guard = write_lock!(self.is_view_char);
-        *is_view_char_guard = !map_items.is_empty();
-        *map_view_guard = map_items;
+        *self.is_view_char.borrow_mut() = !map_items.is_empty();
+        *self.map_view.borrow_mut() = map_items;
     }
 
-    pub fn action_move(&self) -> HashMap<MapItem, PacketZcNotifyMove> {
+    pub fn action_move(&mut self, cells: &Vec<u16>, x_size: u16, y_size: u16) -> HashMap<MapItem, PacketZcNotifyMove> {
         let mut rng = rand::thread_rng();
         let mut character_packets_map: HashMap<MapItem, PacketZcNotifyMove> = HashMap::new();
-        // let is_view_char = read_lock!(self.is_view_char);
-        // let rand = rng.gen_range(0..=100);
-        // let should_move = if *is_view_char {
-        //     rand <= 80
-        // } else {
-        //     rand <= 10
-        // };
-        //
-        // if should_move {
-        //     let map_guard = write_lock!(self.current_map);
-        //     let rand_distance = rng.gen_range(2..=8);
-        //     let current_x = self.x;
-        //     let current_y = self.y;
-        //     let (x, y) = Map::find_random_walkable_cell_in_max_range(&map_guard.cells, map_guard.x_size, map_guard.y_size, current_x, current_y, rand_distance);
-        //     // Todo: implement server side movement, to avoid desync between client and server
-        //     self.x.store(x, Relaxed);
-        //     self.y.store(y, Relaxed);
-        //     drop(map_guard);
-        //     if *is_view_char {
-        //         let map_view_guard = read_lock!(self.map_view);
-        //         let from = Position {
-        //             x: current_x,
-        //             y: current_y,
-        //             dir: 0
-        //         };
-        //         let to = Position {
-        //             x,
-        //             y,
-        //             dir: 0
-        //         };
-        //         map_view_guard.iter()
-        //             .filter(|map_item| map_item.object_type_value() == MapItemType::Character.value())
-        //             .for_each(|map_item| {
-        //                 let mut packet_zc_notify_move = PacketZcNotifyMove::default();
-        //                 packet_zc_notify_move.set_gid(self.id);
-        //                 packet_zc_notify_move.move_data = from.to_move_data(&to);
-        //                 let start_time = get_tick();
-        //                 packet_zc_notify_move.set_move_start_time(start_time);
-        //                 packet_zc_notify_move.fill_raw();
-        //                 character_packets_map.insert(map_item.clone(), packet_zc_notify_move);
-        //             })
-        //     }
-        // }
+        let is_view_char = *self.is_view_char.borrow();
+        let rand = rng.gen_range(0..=100);
+        let should_move = if is_view_char {
+            rand <= 80
+        } else {
+            rand <= 10
+        };
+
+        if should_move {
+            let rand_distance = rng.gen_range(2..=8);
+            let current_x = self.x;
+            let current_y = self.y;
+            let (x, y) = Map::find_random_walkable_cell_in_max_range(cells, x_size, y_size, current_x, current_y, rand_distance);
+            // Todo: implement server side movement, to avoid desync between client and server
+            self.x = x;
+            self.y = y;
+            if is_view_char {
+                let map_view = self.map_view.borrow();
+                let from = Position {
+                    x: current_x,
+                    y: current_y,
+                    dir: 0
+                };
+                let to = Position {
+                    x,
+                    y,
+                    dir: 0
+                };
+                map_view.iter()
+                    .filter(|map_item| map_item.object_type_value() == MapItemType::Character.value())
+                    .for_each(|map_item| {
+                        let mut packet_zc_notify_move = PacketZcNotifyMove::default();
+                        packet_zc_notify_move.set_gid(self.id);
+                        packet_zc_notify_move.move_data = from.to_move_data(&to);
+                        let start_time = get_tick_client();
+                        packet_zc_notify_move.set_move_start_time(start_time);
+                        packet_zc_notify_move.fill_raw();
+                        character_packets_map.insert(map_item.clone(), packet_zc_notify_move);
+                    })
+            }
+        }
         character_packets_map
     }
 }

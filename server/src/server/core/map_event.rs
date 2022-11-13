@@ -1,5 +1,7 @@
+use crate::server::map_item::{MapItemSnapshot};
 
 pub enum MapEvent {
-    SpawnMob,
-    UpdateMobFov
+    SpawnMobs,
+    UpdateMobsFov(Vec<MapItemSnapshot>),
+    MobsActions
 }

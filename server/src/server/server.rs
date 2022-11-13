@@ -27,7 +27,7 @@ use crate::repository::Repository;
 use crate::server::configuration::Config;
 use crate::server::core::character::Character;
 use crate::server::core::event::Event;
-use crate::server::core::map::{Map, MAP_EXT, MapItem, ToMapItem};
+use crate::server::core::map::{Map, MAP_EXT};
 use crate::server::core::map_instance::{MapInstance, MapInstanceKey};
 use crate::server::core::notification::{CharNotification, Notification};
 use crate::server::core::request::Request;
@@ -42,6 +42,7 @@ use crate::server::handler::chat::handle_chat;
 use crate::server::handler::login::handle_login;
 use crate::server::handler::map::{handle_char_loaded_client_side, handle_map_item_name};
 use crate::server::handler::movement::handle_char_move;
+use crate::server::map_item::{MapItem, ToMapItem};
 use crate::util::cell::{MyRef, MyRefMut, MyUnsafeCell};
 use crate::util::string::StringUtil;
 use crate::util::tick::{get_tick, get_tick_client};
@@ -129,26 +130,11 @@ impl Server {
         self.characters.borrow_mut().insert(character.char_id, character);
     }
 
-    pub fn get_map_socket_for_account_id(&self, account_id: u32) -> Option<Arc<RwLock<TcpStream>>> {
+    pub fn get_map_socket_for_char_id(&self, char_id: u32) -> Option<Arc<RwLock<TcpStream>>> {
+        let account_id = self.get_character_unsafe(char_id).account_id;
         let sessions = self.sessions.read().unwrap();
         let maybe_session = sessions.get(&account_id);
         if let Some(session) = maybe_session {
-            session.map_server_socket.clone()
-        } else {
-            None
-        }
-    }
-
-    pub fn get_map_socket_for_char_id(&self, char_id: u32) -> Option<Arc<RwLock<TcpStream>>> {
-        let sessions = self.sessions.read().unwrap();
-        let maybe_session = sessions.iter().find(|(_, session)| {
-            return if let Some(char) = session.char_id.as_ref() {
-                *char == char_id
-            } else {
-                false
-            };
-        });
-        if let Some((_, session)) = maybe_session {
             session.map_server_socket.clone()
         } else {
             None
@@ -258,7 +244,7 @@ impl Server {
                 for response in single_client_notification_receiver.iter() {
                     match response {
                         Notification::Char(char_notification) => {
-                            let tcp_stream = server_ref.get_map_socket_for_account_id(char_notification.account_id()).expect("Expect to found a socket for account");
+                            let tcp_stream = server_ref.get_map_socket_for_char_id(char_notification.char_id()).expect("Expect to found a socket for account");
                             let data = char_notification.serialized_packet();
                             let mut tcp_stream_guard = tcp_stream.write().unwrap();
                             if tcp_stream_guard.peer_addr().is_ok() {
