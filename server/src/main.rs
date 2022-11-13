@@ -17,25 +17,29 @@ extern crate packets;
 extern crate sqlx;
 extern crate core;
 
+use std::cell::RefCell;
 use std::collections::HashMap;
 
 use std::thread::{JoinHandle};
 use proxy::map::MapProxy;
 use crate::proxy::char::CharProxy;
 use std::sync::{Arc, RwLock};
-use crate::repository::lib::Repository;
-use sqlx::MySql;
+use crate::repository::Repository;
 use std::time::{Instant};
 use flexi_logger::Logger;
 use rathena_script_lang_interpreter::lang::vm::{DebugFlag, Vm};
 use tokio::runtime::Runtime;
-use crate::server::core::map::{Map, MapItem};
 use crate::server::npc::warps::Warp;
 use crate::server::server::Server;
 use crate::server::configuration::Config;
+use crate::server::core::map::Map;
+use crate::server::core::events::client_notification::Notification;
+use crate::server::core::events::persistence_event::PersistenceEvent;
+use crate::server::map_item::MapItem;
 use self::server::script::script::ScriptHandler;
 use crate::server::npc::mob_spawn::MobSpawn;
 use crate::server::npc::script::Script;
+use crate::util::cell::MyUnsafeCell;
 use crate::util::log_filter::LogFilter;
 
 #[tokio::main]
@@ -54,18 +58,20 @@ pub async fn main() {
             error!("{}", compilation_error);
         }
     }
-    let map_item_ids = RwLock::new(HashMap::<u32, Arc<dyn MapItem>>::new());
+    let map_item_ids = MyUnsafeCell::new(HashMap::<u32, MapItem>::new());
     let start = Instant::now();
-    let maps = Map::load_maps(warps, mob_spawns, scripts, &map_item_ids);
+    let maps = Map::load_maps(warps, mob_spawns, scripts, map_item_ids.clone());
     let maps = maps.into_iter().map(|(k, v)| (k.to_string(), Arc::new(v))).collect::<HashMap<String, Arc<Map>>>();
     info!("load {} map-cache in {} secs", maps.len(), start.elapsed().as_millis() as f32 / 1000.0);
     let vm = Arc::new(Vm::new("native_functions_list.txt", DebugFlag::None.value()));
     Vm::bootstrap(vm.clone(), class_files, Box::new(&ScriptHandler{}));
-    let server = Server::new(config.clone(), repository_arc.clone(), maps, Arc::new(map_item_ids), vm);
+
+    let (client_notification_sender, single_client_notification_receiver) = std::sync::mpsc::sync_channel::<Notification>(0);
+    let server = Server::new(config.clone(), repository_arc.clone(), maps, map_item_ids, vm, client_notification_sender);
     let server_ref = Arc::new(server);
     let server_ref_clone = server_ref.clone();
     let mut handles: Vec<JoinHandle<()>> = Vec::new();
-    let _ = &handles.push(Server::start(server_ref_clone));
+    Server::start(server_ref_clone, single_client_notification_receiver);
     let char_proxy = CharProxy::new(&config.proxy);
     let map_proxy = MapProxy::new(&config.proxy);
     let _ = &handles.push(char_proxy.proxy(config.server.packetver));

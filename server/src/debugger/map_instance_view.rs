@@ -21,7 +21,7 @@ struct PreviousCell {
 }
 
 impl MapInstanceView {
-    pub fn draw_map_instance_view(&mut self, ui: &mut Ui, map_instance: &Arc<MapInstance>, mut map_items: HashSet<Arc<dyn MapItem>>) {
+    pub fn draw_map_instance_view(&mut self, ui: &mut Ui, map_instance: &Arc<MapInstance>, mut map_items: HashSet<MapItem>) {
         Frame::dark_canvas(ui.style()).show(ui, |ui| {
             let (_id, response) = ui.allocate_exact_size(ui.available_size_before_wrap(), Sense::click_and_drag());
             let absolute_draw_rect = response.rect;

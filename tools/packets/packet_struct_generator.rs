@@ -83,6 +83,7 @@ fn write_packet_trait(file: &mut File) {
     file.write_all("    fn debug(&self);\n".to_string().as_bytes()).unwrap();
     file.write_all("    fn pretty_debug(&self);\n".to_string().as_bytes()).unwrap();
     file.write_all("    fn raw(&self) -> &Vec<u8>;\n".to_string().as_bytes()).unwrap();
+    file.write_all("    fn raw_mut(&mut self) -> &mut Vec<u8>;\n".to_string().as_bytes()).unwrap();
     file.write_all("    fn as_any(&self) -> &dyn Any;\n".to_string().as_bytes()).unwrap();
     file.write_all("    fn as_any_mut(&mut self) -> &mut dyn Any;\n".to_string().as_bytes()).unwrap();
     file.write_all("}\n\n".to_string().as_bytes()).unwrap();
@@ -105,6 +106,9 @@ fn write_packet_trait_impl(file: &mut File, packet: &PacketStructDefinition) {
     file.write_all("    }\n".to_string().as_bytes()).unwrap();
     file.write_all("    fn raw(&self) -> &Vec<u8> {\n".to_string().as_bytes()).unwrap();
     file.write_all("            &self.raw\n".to_string().as_bytes()).unwrap();
+    file.write_all("    }\n".to_string().as_bytes()).unwrap();
+    file.write_all("    fn raw_mut(&mut self) -> &mut Vec<u8> {\n".to_string().as_bytes()).unwrap();
+    file.write_all("            &mut self.raw\n".to_string().as_bytes()).unwrap();
     file.write_all("    }\n".to_string().as_bytes()).unwrap();
     file.write_all("    fn as_any(&self) -> &dyn Any{\n".to_string().as_bytes()).unwrap();
     file.write_all("        self\n".to_string().as_bytes()).unwrap();
@@ -377,6 +381,9 @@ fn write_unknown_packet(file: &mut File) {
     file.write_all("    }\n".to_string().as_bytes()).unwrap();
     file.write_all("    fn raw(&self) -> &Vec<u8> {\n".to_string().as_bytes()).unwrap();
     file.write_all("            &self.raw\n".to_string().as_bytes()).unwrap();
+    file.write_all("    }\n".to_string().as_bytes()).unwrap();
+    file.write_all("    fn raw_mut(&mut self) -> &mut Vec<u8> {\n".to_string().as_bytes()).unwrap();
+    file.write_all("            &mut self.raw\n".to_string().as_bytes()).unwrap();
     file.write_all("    }\n".to_string().as_bytes()).unwrap();
     file.write_all("    fn as_any(&self) -> &dyn Any{\n".to_string().as_bytes()).unwrap();
     file.write_all("        self\n".to_string().as_bytes()).unwrap();

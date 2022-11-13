@@ -9,13 +9,14 @@ use regex::Regex;
 use std::io::Write;
 use packets::packets::Packet;
 use crate::server::configuration::CityConfig;
-use crate::server::core::character_movement::change_map;
+use crate::server::core::character_movement::{change_map_packet};
 use crate::server::core::map::RANDOM_CELL;
+use crate::server::core::request::Request;
 
 lazy_static! {
     static ref COMMAND_REGEX: Regex = Regex::new(r"^([@#!])([^\s]*)\s?(.*)?").unwrap();
 }
-pub fn handle_atcommand(server: Arc<Server>, packet: &PacketCzPlayerChat, runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>, session: Arc<Session>) {
+pub fn handle_atcommand(server: &Server, context: Request, packet: &PacketCzPlayerChat) {
     let index_of_colon = packet.msg.find(':').unwrap();
     let command_txt = &packet.msg[index_of_colon + 1..].trim();
     let maybe_captures = COMMAND_REGEX.captures(command_txt);
@@ -37,11 +38,11 @@ pub fn handle_atcommand(server: Arc<Server>, packet: &PacketCzPlayerChat, runtim
     match command {
         "go" => {
             debug!("{:?}", args);
-            let result = handle_go(server, session, runtime, args);
+            let result = handle_go(server, context.session(), context.runtime(), args);
             packet_zc_notify_playerchat.set_msg(result);
         }
         "warp" | "rura" | "warpto" => {
-            let result = handle_warp(server, session, runtime, args);
+            let result = handle_warp(server, context.session(), context.runtime(), args);
             packet_zc_notify_playerchat.set_msg(result);
         }
         _ => {
@@ -50,10 +51,10 @@ pub fn handle_atcommand(server: Arc<Server>, packet: &PacketCzPlayerChat, runtim
     }
     packet_zc_notify_playerchat.set_packet_length((4 + packet_zc_notify_playerchat.msg.len()) as i16);
     packet_zc_notify_playerchat.fill_raw();
-    socket_send!(tcp_stream, packet_zc_notify_playerchat.raw());
+    socket_send!(context, packet_zc_notify_playerchat);
 }
 
-pub fn handle_go(server: Arc<Server>, session: Arc<Session>, runtime: &Runtime, args: Vec::<&str>) -> String {
+pub fn handle_go(server: &Server, session: Arc<Session>, runtime: &Runtime, args: Vec::<&str>) -> String {
     let cities_len = server.configuration.maps.cities.len();
     let cleaned_arg = args[0].trim();
     let mut maybe_city: Option<&CityConfig> = None;
@@ -104,11 +105,11 @@ pub fn handle_go(server: Arc<Server>, session: Arc<Session>, runtime: &Runtime, 
         _ => ()
     }
 
-    change_map(&city.name, city.x, city.y, session, server, Some(runtime));
+    change_map_packet(&city.name, city.x, city.y, session, server);
     format!("Warping at {} {},{}", city.name.clone(), city.x, city.y)
 }
 
-pub fn handle_warp(server: Arc<Server>, session: Arc<Session>, runtime: &Runtime, args: Vec::<&str>) -> String {
+pub fn handle_warp(server: &Server, session: Arc<Session>, runtime: &Runtime, args: Vec::<&str>) -> String {
     let map_name = args[0].to_string();
     if server.maps.contains_key(&map_name) {
         let mut x = RANDOM_CELL.0;
@@ -121,9 +122,10 @@ pub fn handle_warp(server: Arc<Server>, session: Arc<Session>, runtime: &Runtime
                 y = parse_y_res.unwrap();
             }
         }
-        change_map(&map_name, x, y, session.clone(), server, Some(runtime));
-        let char_session = session.character.as_ref().unwrap();
-        return format!("Warp to map {} at {},{}", map_name, char_session.get_x(), char_session.get_y());
+        change_map_packet(&map_name, x, y, session.clone(), server.clone());
+        let char_id = session.char_id();
+        let character = server.get_character_unsafe(char_id);
+        return format!("Warp to map {} at {},{}", map_name, character.x(), character.y());
     }
     format!("Map not found: {}", map_name)
 }

@@ -7,3 +7,4 @@ pub mod movement;
 pub mod action;
 pub mod map;
 pub mod atcommand;
+pub mod chat;

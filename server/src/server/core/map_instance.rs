@@ -1,8 +1,9 @@
+use std::cell::RefCell;
 use std::collections::{HashMap, HashSet};
 use std::sync::{Arc, RwLock};
 use packets::packets::PacketZcNotifyMove;
 use crate::server::core::character::Character;
-use crate::server::core::map::{Map, MapItem, WARP_MASK};
+use crate::server::core::map::{Map, MAP_EXT, WARP_MASK};
 use crate::server::core::mob::Mob;
 use crate::server::core::path::manhattan_distance;
 use crate::server::core::status::Status;
@@ -14,12 +15,50 @@ use crate::util::coordinate;
 use crate::util::packet::{chain_packets_raws};
 use packets::packets::Packet;
 use std::io::Write;
+use std::ops::DerefMut;
+use std::sync::mpsc::{SendError, SyncSender};
 use rathena_script_lang_interpreter::lang::vm::Vm;
-use crate::ScriptHandler;
+use crate::{MyUnsafeCell, ScriptHandler};
+use crate::server::core::events::map_event::MapEvent;
+use crate::server::core::events::client_notification::{CharNotification, Notification};
+use crate::server::map_item::{MapItem, MapItemSnapshot, ToMapItem};
+use crate::server::npc::script::Script;
+use crate::util::cell::{MyRef, MyRefMut};
+use crate::util::string::StringUtil;
+
+pub struct MapInstanceKey {
+    instance_id: u8,
+    map_name: [char; 16],
+    map_name_string: String,
+}
+
+impl MapInstanceKey {
+    pub fn map_name(&self) -> &String {
+        &self.map_name_string
+    }
+
+    pub fn map_name_char(&self) -> [char; 16] {
+        self.map_name
+    }
+    pub fn map_instance(&self) -> u8 {
+        self.instance_id
+    }
+
+    pub fn new(map_name: String, id: u8) -> Self {
+        let mut new_current_map: [char; 16] = [0 as char; 16];
+        let map_name = format!("{}{}", map_name, MAP_EXT);
+        map_name.fill_char_array(new_current_map.as_mut());
+        Self {
+            map_name: new_current_map,
+            map_name_string: map_name,
+            instance_id: id
+        }
+    }
+}
 
 pub struct MapInstance {
     pub name: String,
-    pub id: u32,
+    pub id: u8,
     pub x_size: u16,
     pub y_size: u16,
     // index in this array will give x and y position of the cell.
@@ -40,11 +79,16 @@ pub struct MapInstance {
     pub cells: Vec<u16>,
     pub warps: Arc<Vec<Arc<Warp>>>,
     pub mob_spawns: Arc<Vec<Arc<MobSpawn>>>,
-    pub mob_spawns_tracks: RwLock<Vec<MobSpawnTrack>>,
-    pub mobs: RwLock<HashMap<u32, Arc<Mob>>>,
-    pub characters: RwLock<HashSet<Arc<dyn MapItem>>>,
-    pub map_items: RwLock<HashSet<Arc<dyn MapItem>>>
+    pub mob_spawns_tracks: RefCell<Vec<MobSpawnTrack>>,
+    pub mobs: MyUnsafeCell<HashMap<u32, Mob>>,
+    pub scripts: Vec<Arc<Script>>,
+    pub map_items: MyUnsafeCell<HashMap<u32, MapItem>>,
+    pub client_notification_channel: SyncSender<Notification>,
+    pub map_event_notification_sender: SyncSender<MapEvent>,
 }
+
+unsafe impl Sync for MapInstance {}
+unsafe impl Send for MapInstance {}
 
 pub struct MobSpawnTrack {
     pub spawn_id: u32,
@@ -67,15 +111,17 @@ impl MobSpawnTrack {
 }
 
 impl MapInstance {
-    pub fn from_map(map: &Map, server: Arc<Server>, id: u32, cells: Vec<u16>, mut map_items: HashSet<Arc<dyn MapItem>>) -> MapInstance {
+    pub fn from_map(map: &Map, server: &Server, id: u8, cells: Vec<u16>, mut map_items: HashMap<u32, MapItem>,
+                    map_event_notification_sender: SyncSender<MapEvent>, client_notification_channel: SyncSender<Notification>) -> MapInstance {
         let _cells_len = cells.len();
+        let mut scripts = vec![];
         map.scripts.iter().for_each(|script| {
             let (_, instance_reference) = Vm::create_instance(server.vm.clone(), script.class_name.clone(), Box::new(&ScriptHandler), script.constructor_args.clone()).unwrap();
             let mut script = script.clone();
             script.set_instance_reference(instance_reference);
             let script_arc = Arc::new(script);
-            server.insert_map_item(script_arc.id(), script_arc.clone());
-            map_items.insert(script_arc);
+            map_items.insert(script_arc.id(), script_arc.to_map_item());
+            scripts.push(script_arc);
         });
         MapInstance {
             name: map.name.clone(),
@@ -85,16 +131,22 @@ impl MapInstance {
             cells,
             warps: map.warps.clone(),
             mob_spawns: map.mob_spawns.clone(),
-            mob_spawns_tracks: RwLock::new(map.mob_spawns.iter().map(|spawn| MobSpawnTrack::default(spawn.id)).collect::<Vec<MobSpawnTrack>>()),
+            mob_spawns_tracks: RefCell::new(map.mob_spawns.iter().map(|spawn| MobSpawnTrack::default(spawn.id)).collect::<Vec<MobSpawnTrack>>()),
             mobs: Default::default(),
-            characters: RwLock::new(HashSet::with_capacity(50)),
-            map_items: RwLock::new(map_items)
+            map_items: MyUnsafeCell::new(map_items),
+            scripts,
+            map_event_notification_sender,
+            client_notification_channel
         }
     }
 
     #[inline]
     pub fn get_cell_index_of(&self, x: u16, y: u16) -> usize {
         coordinate::get_cell_index_of(x, y, self.x_size)
+    }
+
+    pub fn id(&self) -> u8{
+        self.id
     }
 
     pub fn is_cell_walkable(&self, x: u16, y: u16) -> bool {
@@ -117,10 +169,10 @@ impl MapInstance {
         }
     }
 
-    pub fn spawn_mobs(&self, server: Arc<Server>, _now: u128, self_ref: Arc<MapInstance>) {
+    pub fn spawn_mobs(&self) {
         for mob_spawn in self.mob_spawns.iter() {
-            let mut mob_spawns_tracks_guard = write_lock!(self.mob_spawns_tracks);
-            let mob_spawn_track = mob_spawns_tracks_guard.iter_mut().find(|spawn_track| spawn_track.spawn_id == mob_spawn.id).unwrap();
+            let mut mob_spawns_mut = self.mob_spawns_tracks.borrow_mut();
+            let mob_spawn_track = mob_spawns_mut.iter_mut().find(|spawn_track| spawn_track.spawn_id == mob_spawn.id).unwrap();
             if mob_spawn_track.spawned_amount >= mob_spawn.to_spawn_amount {
                 continue;
             }
@@ -137,62 +189,47 @@ impl MapInstance {
                     // TODO implement constraint zone
                     cell = Map::find_random_walkable_cell(self.cells.as_ref(), self.x_size);
                 }
-                let mob_id = server.generate_map_item_id();
-                let mob = Mob::new(mob_id, cell.0, cell.1, mob_spawn.mob_id, mob_spawn.id, mob_spawn.name.clone(), self_ref.clone(), Status::from_mob_model(&mob_spawn.info));
-                let mob_ref = Arc::new(mob);
-                mob_ref.set_self_ref(mob_ref.clone());
+                let mob_id = Server::generate_id(&mut self.map_items.borrow_mut());
+                let mob = Mob::new(mob_id, cell.0, cell.1, mob_spawn.mob_id, mob_spawn.id, mob_spawn.name.clone(),
+                                   MapInstanceKey::new(self.name.clone(), self.id),
+                                   Status::from_mob_model(&mob_spawn.info));
 
-                let mut mobs_guard = write_lock!(self.mobs);
-                let mut map_items_guard = write_lock!(self.map_items);
                 // TODO: On mob dead clean up should be down also for items below
-                server.insert_map_item(mob_id, mob_ref.clone());
-                mobs_guard.insert(mob_id, mob_ref.clone());
-                map_items_guard.insert(mob_ref);
+                self.insert_item(mob.to_map_item());
+                self.mobs.borrow_mut().insert(mob_id, mob);
                 // END
                 mob_spawn_track.increment_spawn();
             }
         }
     }
 
-    pub fn update_mobs_fov(&self) {
-        let map_items_guard = read_lock!(self.map_items);
-        let characters_guard = read_lock!(self.characters);
-        let map_items_clone = map_items_guard.clone();
-        let characters_clone = characters_guard.clone();
-        drop(map_items_guard);
-        drop(characters_guard);
-        for item in map_items_clone {
-            let mut viewed_chars: Vec<Arc<dyn MapItem>> = Vec::with_capacity(characters_clone.len());
-            if item.object_type() == MapItemType::Mob.value() {
-                for character in characters_clone.iter() {
-                    if manhattan_distance(character.x(), character.y(), item.x(), item.y()) <= MOB_FOV {
-                        viewed_chars.push(character.clone());
-                    }
+    pub fn update_mobs_fov(&self, characters: Vec<MapItemSnapshot>) {
+        for (_, mob) in self.mobs.borrow_mut().iter_mut() {
+            let mut viewed_chars: Vec<MapItem> = Vec::with_capacity(characters.len());
+            for character in characters.iter() {
+                if manhattan_distance(character.x(), character.y(), mob.x(), mob.y()) <= MOB_FOV {
+                    viewed_chars.push(character.map_item());
                 }
-                let mob = cast!(item, Mob);
-                mob.update_map_view(viewed_chars);
             }
+            mob.update_map_view(viewed_chars);
         }
     }
 
     pub fn mobs_action(&self) {
-        let mobs_guard = read_lock!(self.mobs);
-        let mut character_packets_map: HashMap<Arc<dyn MapItem>, Vec<PacketZcNotifyMove>> = HashMap::new();
-        for mob in mobs_guard.values() {
-            let character_packets = mob.action_move();
+        let mut character_packets_map: HashMap<MapItem, Vec<PacketZcNotifyMove>> = HashMap::new();
+        for mob in self.mobs.borrow_mut().values_mut() {
+            let character_packets = mob.action_move(&self.cells, self.x_size, self.y_size);
             character_packets.iter().for_each(|(character, packet)| {
-                if !character_packets_map.contains_key(&character.clone()) {
-                    character_packets_map.insert(character.clone(), Vec::with_capacity(500));
+                if !character_packets_map.contains_key(&character) {
+                    character_packets_map.insert(*character, Vec::with_capacity(500));
                 }
                 character_packets_map.get_mut(character).unwrap().push(packet.clone());
             });
         }
         for (character, packets) in character_packets_map.iter() {
-            let character = cast!(character, Character);
             let packets = chain_packets_raws(packets.iter().map(|packet| packet.raw()).collect::<Vec<&Vec<u8>>>());
-            let map_socket_guard = write_lock!(character.map_server_socket);
-            let character_socket = map_socket_guard.as_ref().unwrap();
-            socket_send!(character_socket, &packets);
+            self.client_notification_channel.send(Notification::Char(
+                CharNotification::new(character.id(), packets)));
         }
     }
 
@@ -206,31 +243,42 @@ impl MapInstance {
         None
     }
 
-    pub fn insert_item(&self, map_item: Arc<dyn MapItem>) {
-        let mut map_item_guard = write_lock!(self.map_items);
-        map_item_guard.insert(map_item.clone());
-        if map_item.object_type() == MapItemType::Character.value() {
-            self.insert_character(map_item);
-        }
-        // TODO notify mobs
+    pub fn insert_item(&self, map_item: MapItem) {
+        self.map_items.borrow_mut().insert(map_item.id(), map_item);
     }
 
-    pub fn insert_character(&self, character: Arc<dyn MapItem>) {
-        let mut characters_guard = write_lock!(self.characters);
-        characters_guard.insert(character);
+    pub fn remove_item(&self, map_item: MapItem) {
+        self.map_items.borrow_mut().remove(&map_item.id());
     }
 
-    pub fn remove_item(&self, map_item: Arc<dyn MapItem>) {
-        let mut map_item_guard = write_lock!(self.map_items);
-        map_item_guard.remove(&*map_item.clone());
-        if map_item.object_type() == MapItemType::Character.value() {
-            self.remove_character(map_item);
+    pub fn notify_event(&self, map_event: MapEvent) -> Result<(), SendError<MapEvent>> {
+        self.map_event_notification_sender.send(map_event)
+    }
+
+    pub fn get_mob(&self, mob_id: u32) -> Option<MyRef<Mob>> {
+        if self.mobs.borrow().get(&mob_id).is_some() {
+            Some(MyRef::map(self.mobs.borrow(), |mobs| mobs.get(&mob_id).unwrap()))
+        } else {
+            None
         }
     }
 
-    pub fn remove_character(&self, character: Arc<dyn MapItem>) {
-        let mut characters_guard = write_lock!(self.characters);
-        characters_guard.remove(&*character.clone());
+    pub fn get_warp(&self, warp_id: u32) -> Option<Arc<Warp>> {
+        for warp in self.warps.iter() {
+            if warp.id == warp_id {
+                return Some(warp.clone())
+            }
+        }
+        None
+    }
+
+    pub fn get_script(&self, script_id: u32) -> Option<Arc<Script>> {
+        for script in self.scripts.iter() {
+            if script.id() == script_id {
+                return Some(script.clone())
+            }
+        }
+        None
     }
 
     #[inline]

@@ -12,7 +12,7 @@ pub fn with_value(input: TokenStream) -> TokenStream {
 
     let res = if let Enum(enum_data) = &input.data {
         let mut j: usize = 1;
-        let from_value_match_arms = enum_data.variants.iter().enumerate().map(|(i, variant)| {
+        let from_value_match_arms = enum_data.variants.iter().enumerate().map(|(_, variant)| {
             let variant_name = variant.ident.clone();
             let maybe_value = get_value(variant);
             if let Some(value) = maybe_value {
@@ -25,7 +25,7 @@ pub fn with_value(input: TokenStream) -> TokenStream {
             res
         });
         let mut j: usize = 1;
-        let value_match_arms = enum_data.variants.iter().enumerate().map(|(i, variant)| {
+        let value_match_arms = enum_data.variants.iter().enumerate().map(|(_, variant)| {
             let variant_name = variant.ident.clone();
             let maybe_value = get_value(variant);
             if let Some(value) = maybe_value {
@@ -64,7 +64,6 @@ pub fn with_value(input: TokenStream) -> TokenStream {
 fn get_value(variant: &Variant) -> Option<usize> {
     let maybe_value = variant.attrs.iter().find(|attr| attr.path.is_ident("value")).map(|attr| match attr.parse_meta().unwrap() {
         syn::Meta::NameValue(syn::MetaNameValue {
-                                 path,
                                  lit: syn::Lit::Int(s),
                                  ..
                              }) => s.to_string().parse::<usize>().unwrap(),

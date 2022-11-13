@@ -1,50 +1,55 @@
-use packets::packets::{PacketCaLogin, PacketAcAcceptLogin2, Packet, ServerAddr2, PacketAcRefuseLoginR3, PacketAcRefuseLoginR2, PacketAcAcceptLogin, PacketAcRefuseLogin, ServerAddr};
-use crate::repository::lib::Repository;
-use sqlx::{MySql, Row};
-use rand::Rng;
-use tokio::runtime::Runtime;
-use std::net::{TcpStream, Shutdown};
+use std::io::{Read, Write};
+use std::mem;
+use std::net::{Shutdown, TcpStream};
 use std::sync::{Arc, RwLock};
-use std::io::{Write, Read};
 use std::thread::spawn;
-use packets::packets_parser::parse;
-use crate::server::core::session::Session;
-use crate::server::server::{Server};
 
-pub(crate) fn handle_login(server: Arc<Server>, packet: &mut dyn Packet, runtime: &Runtime, tcp_stream: Arc<RwLock<TcpStream>>) {
-    let packet_ca_login = cast!(packet, PacketCaLogin);
-    let res = runtime.block_on(async {
-        authenticate(server.clone(), packet_ca_login, &server.repository).await
+use rand::Rng;
+use sqlx::Row;
+
+use packets::packets::{Packet, PacketAcAcceptLogin, PacketAcAcceptLogin2, PacketAcRefuseLogin, PacketAcRefuseLoginR2, PacketAcRefuseLoginR3, PacketCaLogin, ServerAddr, ServerAddr2};
+use packets::packets_parser::parse;
+
+use crate::repository::Repository;
+use crate::server::core::request::Request;
+use crate::server::core::response::Response;
+use crate::server::core::session::Session;
+use crate::server::server::Server;
+
+pub(crate) fn handle_login(server: Arc<Server>, context: Request) {
+    let packet_ca_login = cast!(context.packet(), PacketCaLogin);
+    let mut res = context.runtime().block_on(async {
+        authenticate(server.as_ref(), packet_ca_login, &server.repository).await
     });
     info!("packetver {}", packet_ca_login.version);
     if res.as_any().downcast_ref::<PacketAcAcceptLogin2>().is_some() {
         let packet_response = res.as_any().downcast_ref::<PacketAcAcceptLogin2>().unwrap();
         // Currently only handle this account to be able to still use proxy in other accounts
         if !server.configuration.server.accounts.contains(&packet_response.aid) {
-            proxy_login(server.clone(), packet, tcp_stream);
+            proxy_login(server.clone(), context.packet(), context.socket());
             return;
         }
         let new_user_session = Session::create_empty(packet_response.aid,packet_response.auth_code,packet_response.user_level, packet_ca_login.version); // TODO: packetver find solution to allow client to set packetver
         let mut sessions_guard = write_lock!(server.sessions);
         sessions_guard.insert(packet_response.aid, Arc::new(new_user_session));
-        socket_send!(tcp_stream, res.raw());
+        socket_send!(context, res);
     } else if res.as_any().downcast_ref::<PacketAcAcceptLogin>().is_some() {
         let packet_response = res.as_any().downcast_ref::<PacketAcAcceptLogin>().unwrap();
         // Currently only handle this account to be able to still use proxy in other accounts
         if !server.configuration.server.accounts.contains(&packet_response.aid) {
-            proxy_login(server.clone(), packet, tcp_stream);
+            proxy_login(server.clone(), context.packet(), context.socket());
             return;
         }
         let new_user_session = Session::create_empty(packet_response.aid,packet_response.auth_code,packet_response.user_level, packet_ca_login.version); // TODO: packetver find solution to allow client to set packetver
         let mut sessions_guard = write_lock!(server.sessions);
         sessions_guard.insert(packet_response.aid, Arc::new(new_user_session));
-        socket_send!(tcp_stream, res.raw());
+        socket_send!(context, res);
     } else {
-        socket_send!(tcp_stream, res.raw());
+        socket_send!(context, res);
     }
 }
 
-pub async fn authenticate(server: Arc<Server>, packet: &PacketCaLogin, repository: &Repository) -> Box<dyn Packet> {
+pub async fn authenticate(server: &Server, packet: &PacketCaLogin, repository: &Repository) -> Box<dyn Packet> {
     let mut rng = rand::thread_rng();
     let mut username = String::new();
     let mut password = String::new();
@@ -116,7 +121,7 @@ pub async fn authenticate(server: Arc<Server>, packet: &PacketCaLogin, repositor
     refuse_login_packet
 }
 
-fn proxy_login(server: Arc<Server>, packet: &mut dyn Packet, tcp_stream: Arc<RwLock<TcpStream>>) {
+fn proxy_login(server: Arc<Server>, packet: &dyn Packet, tcp_stream: Arc<RwLock<TcpStream>>) {
     let target = format!("{}:{}", server.configuration.proxy.remote_login_server_ip, server.configuration.proxy.remote_login_server_port);
     let mut remote_login_server = TcpStream::connect(target.clone()).map_err(|error| format!("Could not establish connection to {}: {}", target, error)).unwrap();
     let mut remote_login_server_clone = remote_login_server.try_clone().unwrap();
@@ -136,13 +141,19 @@ fn proxy_login(server: Arc<Server>, packet: &mut dyn Packet, tcp_stream: Arc<RwL
                         let server_char = packet_accept_login2.server_list.get_mut(0).unwrap();
                         server_char.set_port(server.configuration.proxy.local_char_server_port as i16);
                         packet_accept_login2.fill_raw();
-                        socket_send!(tcp_stream, packet_accept_login2.raw());
+                        let mut tcp_stream_guard = tcp_stream.write().unwrap();
+                        debug!("Respond with: {:02X?}", packet_accept_login2.raw());
+                        tcp_stream_guard.write_all(packet_accept_login2.raw()).unwrap();
+                        tcp_stream_guard.flush().unwrap();
                     } else if packet.as_any().downcast_ref::<PacketAcAcceptLogin>().is_some() {
                         let packet_accept_login = packet.as_any_mut().downcast_mut::<PacketAcAcceptLogin>().unwrap();
                         let server_char = packet_accept_login.server_list.get_mut(0).unwrap();
                         server_char.set_port(server.configuration.proxy.local_char_server_port as i16);
                         packet_accept_login.fill_raw();
-                        socket_send!(tcp_stream, packet_accept_login.raw());
+                        let mut tcp_stream_guard = tcp_stream.write().unwrap();
+                        debug!("Respond with: {:02X?}", packet_accept_login.raw());
+                        tcp_stream_guard.write_all(packet_accept_login.raw()).unwrap();
+                        tcp_stream_guard.flush().unwrap();
                     } else {
                         panic!("Received packet is not PacketAcAcceptLogin2");
                     }

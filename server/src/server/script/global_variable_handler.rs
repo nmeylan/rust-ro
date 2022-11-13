@@ -4,6 +4,8 @@ use rathena_script_lang_interpreter::lang::thread::Thread;
 use rathena_script_lang_interpreter::lang::value::Value;
 use regex::Regex;
 use crate::server::core::character::Character;
+use crate::server::core::events::game_event::CharacterZeny;
+use crate::server::core::events::game_event::GameEvent::CharacterUpdateZeny;
 
 use crate::server::script::constant::load_constant;
 use crate::server::script::{GlobalVariableEntry, GlobalVariableScope};
@@ -20,14 +22,15 @@ impl PlayerScriptHandler {
         let value = params[2].clone();
         match variable_scope.as_str() {
             "char_permanent" => {
-                let char = self.session.character.as_ref().unwrap();
-                if self.store_special_char_variable(char, variable_name, &value) {
+                let char_id = self.session.char_id();
+                let character= self.server.get_character_unsafe(char_id);
+                if self.store_special_char_variable(&character, variable_name, &value) {
                     return;
                 }
                 if value.is_number() {
-                    self.server.repository.script_variable_char_num_save(char.char_id, variable_name.to_string(), 0, value.number_value().unwrap());
+                    self.server.repository.script_variable_char_num_save(char_id, variable_name.to_string(), 0, value.number_value().unwrap());
                 } else {
-                    self.server.repository.script_variable_char_str_save(char.char_id, variable_name.to_string(), 0, value.string_value().unwrap().clone());
+                    self.server.repository.script_variable_char_str_save(char_id, variable_name.to_string(), 0, value.string_value().unwrap().clone());
                 }
             }
             "account_permanent" => {
@@ -45,8 +48,9 @@ impl PlayerScriptHandler {
                 }
             }
             "char_temporary" => {
-                let char = self.session.character.as_ref().unwrap();
-                let mut script_variable_store = char.script_variable_store.lock().unwrap();
+                let char_id = self.session.char_id();
+                let character = self.server.get_character_unsafe(char_id);
+                let mut script_variable_store = character.script_variable_store.lock().unwrap();
                 let value = match value {
                     Value::String(v) => crate::server::script::Value::String(v.unwrap()),
                     Value::Number(v) => crate::server::script::Value::Number(v.unwrap()),
@@ -69,12 +73,12 @@ impl PlayerScriptHandler {
                     execution_thread.push_constant_on_stack(value);
                     return;
                 }
-                let char = self.session.character.as_ref().unwrap();
-                if let Some(value) = Self::load_special_char_variable(char, variable_name) {
+                let char_id = self.session.char_id();
+                let character = self.server.get_character_unsafe(char_id);
+                if let Some(value) = Self::load_special_char_variable(&character, variable_name) {
                     execution_thread.push_constant_on_stack(value);
                     return;
                 }
-                let char_id = char.char_id;
                 if variable_name.ends_with("$") {
                     execution_thread.push_constant_on_stack(Value::new_string(self.server.repository.script_variable_char_str_fetch_one(char_id, variable_name.clone(), 0)));
                 } else {
@@ -97,8 +101,9 @@ impl PlayerScriptHandler {
                 }
             }
             "char_temporary" => {
-                let char = self.session.character.as_ref().unwrap();
-                let script_variable_store = char.script_variable_store.lock().unwrap();
+                let char_id = self.session.char_id();
+                let character = self.server.get_character_unsafe(char_id);
+                let script_variable_store = character.script_variable_store.lock().unwrap();
                 let entry = script_variable_store.find_global_by_name_and_scope(variable_name, &GlobalVariableScope::CharTemporary);
                 if let Some(entry) = entry {
                     let value = match entry.value {
@@ -121,9 +126,10 @@ impl PlayerScriptHandler {
     pub fn handle_setglobalarray(&self, params: &Vec<Value>) {
         let variable_name = params[0].string_value().unwrap();
         let variable_scope = params[1].string_value().unwrap();
+        let char_id = self.session.char_id();
+        let character = self.server.get_character_unsafe(char_id);
         let mut char_temporary_mutex = if variable_scope == "char_temporary" {
-            let char = self.session.character.as_ref().unwrap();
-            Some(char.script_variable_store.lock().unwrap())
+            Some(character.script_variable_store.lock().unwrap())
         } else {
             None
         };
@@ -137,9 +143,9 @@ impl PlayerScriptHandler {
             match variable_scope.as_str() {
                 "char_permanent" => {
                     if value.is_number() {
-                        self.server.repository.script_variable_char_num_save(self.session.character.as_ref().unwrap().char_id, variable_name.to_string(), array_index as u32, value.number_value().unwrap());
+                        self.server.repository.script_variable_char_num_save(self.session.char_id(), variable_name.to_string(), array_index as u32, value.number_value().unwrap());
                     } else {
-                        self.server.repository.script_variable_char_str_save(self.session.character.as_ref().unwrap().char_id, variable_name.to_string(), array_index as u32, value.string_value().unwrap().clone());
+                        self.server.repository.script_variable_char_str_save(self.session.char_id(), variable_name.to_string(), array_index as u32, value.string_value().unwrap().clone());
                     }
                 }
                 "account_permanent" => {
@@ -176,16 +182,17 @@ impl PlayerScriptHandler {
         let variable_name = params[0].string_value().unwrap();
         let variable_scope = params[1].string_value().unwrap();
 
+        let char_id = self.session.char_id();
+        let character = self.server.get_character_unsafe(char_id);
         let mut char_temporary_mutex = if variable_scope == "char_temporary" {
-            let char = self.session.character.as_ref().unwrap();
-            Some(char.script_variable_store.lock().unwrap())
+            Some(character.script_variable_store.lock().unwrap())
         } else {
             None
         };
 
         match variable_scope.as_str() {
             "char_permanent" => {
-                let char_id = self.session.character.as_ref().unwrap().char_id;
+                let char_id = self.session.char_id();
                 if variable_name.ends_with("$") {
                     let rows = self.server.repository.script_variable_char_str_fetch_all(char_id, variable_name.clone());
                     Self::push_array_str_elements_on_stack(execution_thread, rows);
@@ -249,16 +256,16 @@ impl PlayerScriptHandler {
         execution_thread.push_constant_on_stack(Value::Number(Some((count * 2) as i32)));
     }
 
-    fn load_special_char_variable(char: &Arc<Character>, special_variable_name: &String) -> Option<Value> {
+    fn load_special_char_variable(char: &Character, special_variable_name: &String) -> Option<Value> {
         match special_variable_name.as_str() {
             "Zeny" => Some(Value::new_number(char.get_zeny() as i32)),
             &_ => None
         }
     }
-    fn store_special_char_variable(&self, char: &Arc<Character>, special_variable_name: &String, value: &Value) -> bool {
+    fn store_special_char_variable(&self, char: &Character, special_variable_name: &String, value: &Value) -> bool {
         match special_variable_name.as_str() {
             "Zeny" => {
-                char.change_zeny(value.number_value().unwrap().clone() as u32, self.server.clone());
+                self.server.add_to_next_tick(CharacterUpdateZeny(CharacterZeny{char_id: char.char_id, zeny: value.number_value().unwrap().clone() as u32}));
                 true
             },
             &_ => false

@@ -6,9 +6,8 @@ use std::sync::Arc;
 use std::thread;
 use std::thread::JoinHandle;
 use std::time::Instant;
-use sqlx::MySql;
 use tokio::runtime::Runtime;
-use crate::repository::lib::Repository;
+use crate::repository::Repository;
 use crate::repository::model::mob_model::MobModel;
 use crate::server::npc::npc::{Npc, NpcLoader};
 

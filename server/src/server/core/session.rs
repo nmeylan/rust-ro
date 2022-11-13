@@ -13,7 +13,7 @@ pub struct Session {
     pub auth_code: i32,
     // random value, known as login_id2 in hercules
     pub user_level: u32,
-    pub character: Option<Arc<Character>>,
+    pub char_id: Option<u32>,
     pub packetver: u32,
     pub script_handler_channel_sender: Mutex<Option<Sender<Vec<u8>>>> // TODO keep track on creation. Abort script thread after X minutes + abort on new script interaction
 }
@@ -60,7 +60,7 @@ impl Session {
             account_id,
             auth_code,
             user_level,
-            character: None,
+            char_id: None,
             packetver,
             script_handler_channel_sender: Mutex::new(None)
         }
@@ -73,7 +73,7 @@ impl Session {
             account_id: self.account_id,
             auth_code: self.auth_code,
             user_level: self.user_level,
-            character: self.character.clone(),
+            char_id: self.char_id.clone(),
             packetver: self.packetver,
             script_handler_channel_sender: Mutex::new(None)
         }
@@ -86,20 +86,20 @@ impl Session {
             account_id: self.account_id,
             auth_code: self.auth_code,
             user_level: self.user_level,
-            character: self.character.clone(),
+            char_id: self.char_id.clone(),
             packetver: self.packetver,
             script_handler_channel_sender: Mutex::new(None)
         }
     }
 
-    pub fn recreate_with_character(&self, character: Arc<Character>) -> Session {
+    pub fn recreate_with_character(&self, char_id: u32) -> Session {
         Session {
             char_server_socket: self.char_server_socket.clone(),
             map_server_socket: self.map_server_socket.clone(),
             account_id: self.account_id,
             auth_code: self.auth_code,
             user_level: self.user_level,
-            character: Some(character),
+            char_id: Some(char_id),
             packetver: self.packetver,
             script_handler_channel_sender: Mutex::new(None)
         }
@@ -112,7 +112,7 @@ impl Session {
             account_id: self.account_id,
             auth_code: self.auth_code,
             user_level: self.user_level,
-            character: None,
+            char_id: None,
             packetver: self.packetver,
             script_handler_channel_sender: Mutex::new(None)
         }
@@ -123,7 +123,7 @@ impl Session {
             return;
         }
         let map_socket = self.map_server_socket.as_ref().unwrap();
-        socket_send!(map_socket, data);
+        socket_send_deprecated!(map_socket, data);
     }
 
     pub fn set_script_handler_channel_sender(&self, script_handler_channel_sender: Sender<Vec<u8>>) {
@@ -134,7 +134,7 @@ impl Session {
         self.packetver
     }
 
-    pub fn get_character(&self) -> &Arc<Character> {
-        self.character.as_ref().unwrap()
+    pub fn char_id(&self) -> u32 {
+        self.char_id.expect("Expect char_id to be set in the session, but was not")
     }
 }
