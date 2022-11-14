@@ -2,7 +2,11 @@
 Ragnarok mmo server reimplementation for fun. Inspired by [herculesWS](https://github.com/HerculesWS/Hercules) and [rathena](https://github.com/rathena/rathena)
 
 # Status
-**slowly** refactoring server architecture
+Refactoring server architecture
+
+# Implementation details
+
+Checkout [architectures notes](doc/Architecture.md)
 
 # Pre-requisite
 - mysql
