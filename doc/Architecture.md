@@ -8,3 +8,15 @@ Client expect to interact with 3 different server:
 This split seems not really relevant, scaling can be achieved in a different way.
 
 This server implement all 3 servers above in one. This will simplify implementation: no inter server communication.
+
+# Diagram
+
+Diagram below shows how:
+- Read requests are handled
+- Command requests are handled
+- States are accessed
+- States are mutated
+- States are read from database
+- States are persisted in database
+
+![](./rust-ro-architecture.png)
