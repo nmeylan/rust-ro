@@ -1,7 +1,7 @@
-use crate::server::core::character::Character;
-use crate::server::core::character_movement::Movement;
+use crate::server::state::character::Character;
+use crate::server::core::movement::Movement;
 use crate::server::core::position::Position;
-use crate::server::core::status::LookType;
+use crate::server::state::status::LookType;
 
 pub enum GameEvent {
     CharacterRemove(u32),

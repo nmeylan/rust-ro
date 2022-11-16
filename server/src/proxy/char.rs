@@ -4,7 +4,7 @@ use std::net::IpAddr;
 use std::str::FromStr;
 use std::sync::{Arc, Mutex};
 use packets::packets::{Packet, PacketChSendMapInfo, PacketHcNotifyZonesvr, ZserverAddr};
-use crate::server::configuration::ProxyConfig;
+use crate::server::core::configuration::ProxyConfig;
 
 #[derive(Clone)]
 pub struct CharProxy {

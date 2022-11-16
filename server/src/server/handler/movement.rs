@@ -9,10 +9,10 @@ use tokio::runtime::Runtime;
 
 use packets::packets::{Packet, PacketCzRequestMove, PacketCzRequestMove2, PacketZcNotifyPlayermove};
 
-use crate::server::core::character_movement;
-use crate::server::core::character_movement::Movement;
-use crate::server::core::events::game_event::CharacterMovement;
-use crate::server::core::events::game_event::GameEvent::{CharacterClearMove, CharacterMove};
+use crate::server::service::character_movement;
+use crate::server::core::movement::Movement;
+use crate::server::events::game_event::CharacterMovement;
+use crate::server::events::game_event::GameEvent::{CharacterClearMove, CharacterMove};
 use crate::server::core::position::Position;
 use crate::server::core::path::path_search_client_side_algorithm;
 use crate::server::core::request::Request;

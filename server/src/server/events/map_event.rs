@@ -1,4 +1,4 @@
-use crate::server::map_item::{MapItemSnapshot};
+use crate::server::core::map_item::MapItemSnapshot;
 
 pub enum MapEvent {
     SpawnMobs,

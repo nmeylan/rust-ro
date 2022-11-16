@@ -10,10 +10,10 @@ use crate::server::server::Server;
 use lazy_static::lazy_static;
 use crate::debugger::frame_history;
 use crate::debugger::map_instance_view::MapInstanceView;
-use crate::server::core::character::Character;
-use crate::server::core::map::MapItem;
-use crate::server::core::mob::Mob;
-use crate::server::enums::map_item::MapItemType;
+use crate::server::state::character::Character;
+use crate::server::core::map_item::MapItem;
+use crate::server::state::mob::Mob;
+use crate::server::core::map_item::MapItemType;
 use crate::util::coordinate;
 
 pub struct VisualDebugger {

@@ -2,9 +2,9 @@ use std::collections::HashSet;
 use std::sync::Arc;
 use eframe::egui::{Color32, emath, epaint, Frame, Pos2, Rect, Sense, Shape, Stroke, Ui, Vec2};
 use eframe::egui::epaint::RectShape;
-use crate::server::core::map::{MapItem, WALKABLE_MASK, WARP_MASK};
+use crate::server::core::map::{WALKABLE_MASK, WARP_MASK};
 use crate::server::core::map_instance::MapInstance;
-use crate::server::enums::map_item::MapItemType;
+use crate::server::core::map_item::{MapItem, MapItemType};
 use crate::server::server::PLAYER_FOV;
 use crate::util::coordinate;
 

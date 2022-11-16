@@ -3,78 +3,10 @@ use std::hash::{Hash, Hasher};
 use std::sync::Arc;
 use rand::Rng;
 use crate::server::core::position::Position;
-use crate::server::enums::map_item::MapItemType;
+use crate::server::core::map_item::{MapItem, MapItemSnapshot, MapItemType};
 use crate::server::npc::script::Script;
 use crate::server::server::{Server, UNKNOWN_MAP_ITEM};
 use crate::util::cell::MyRefMut;
-
-
-#[derive(Debug, Copy, Clone)]
-pub struct MapItem {
-    id: u32,
-    client_item_class: i16,
-    object_type: MapItemType,
-}
-
-#[derive(Debug, Copy, Clone)]
-pub struct MapItemSnapshot {
-    map_item: MapItem,
-    position: Position,
-}
-
-impl MapItem {
-    pub const fn unknown() -> Self {
-        Self {
-            id: 0,
-            client_item_class: 0,
-            object_type: MapItemType::Unknown,
-        }
-    }
-    pub fn new(id: u32, client_item_class: i16, object_type: MapItemType) -> Self {
-        Self {
-            id,
-            client_item_class,
-            object_type,
-        }
-    }
-    pub fn id(&self) -> u32 {
-        self.id
-    }
-    pub fn client_item_class(&self) -> i16 {
-        self.client_item_class
-    }
-    pub fn object_type(&self) -> &MapItemType {
-        &self.object_type
-    }
-    pub fn object_type_value(&self) -> i16 {
-        self.object_type.value()
-    }
-}
-
-impl MapItemSnapshot {
-    pub fn new(map_item: MapItem, position: Position) -> Self {
-        Self {
-            map_item,
-            position
-        }
-    }
-
-    pub fn x(&self) -> u16 {
-        self.position.x
-    }
-
-    pub fn y(&self) -> u16 {
-        self.position.y
-    }
-
-    pub fn position(&self) -> Position {
-        self.position
-    }
-
-    pub fn map_item(&self) -> MapItem {
-        self.map_item
-    }
-}
 
 
 impl Server {
@@ -213,17 +145,3 @@ pub trait ToMapItem {
 pub trait ToMapItemSnapshot {
     fn to_map_item_snapshot(&self) -> MapItemSnapshot;
 }
-
-impl Hash for MapItem {
-    fn hash<H: Hasher>(&self, state: &mut H) {
-        self.id().hash(state);
-    }
-}
-
-impl PartialEq<Self> for MapItem {
-    fn eq(&self, other: &Self) -> bool {
-        self.id() == other.id()
-    }
-}
-
-impl Eq for MapItem{}

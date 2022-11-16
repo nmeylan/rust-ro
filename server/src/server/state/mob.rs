@@ -6,13 +6,13 @@ use std::sync::atomic::Ordering::Relaxed;
 use rand::Rng;
 use packets::packets::PacketZcNotifyMove;
 use crate::MyUnsafeCell;
-use crate::server::core::character::Character;
+use crate::server::state::character::Character;
 use crate::server::core::position::Position;
-use crate::server::core::map::{Map};
+use crate::server::core::map::Map;
 use crate::server::core::map_instance::{MapInstance, MapInstanceKey};
-use crate::server::core::status::Status;
-use crate::server::enums::map_item::MapItemType;
-use crate::server::map_item::{MapItem, ToMapItem};
+use crate::server::state::status::Status;
+use crate::server::core::map_item::{MapItem, MapItemType};
+use crate::server::map_item::ToMapItem;
 use crate::util::tick::{get_tick, get_tick_client};
 
 #[derive(Setters)]

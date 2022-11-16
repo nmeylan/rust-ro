@@ -3,9 +3,9 @@ use lazy_static::lazy_static;
 use rathena_script_lang_interpreter::lang::thread::Thread;
 use rathena_script_lang_interpreter::lang::value::Value;
 use regex::Regex;
-use crate::server::core::character::Character;
-use crate::server::core::events::game_event::CharacterZeny;
-use crate::server::core::events::game_event::GameEvent::CharacterUpdateZeny;
+use crate::server::state::character::Character;
+use crate::server::events::game_event::CharacterZeny;
+use crate::server::events::game_event::GameEvent::CharacterUpdateZeny;
 
 use crate::server::script::constant::load_constant;
 use crate::server::script::{GlobalVariableEntry, GlobalVariableScope};
