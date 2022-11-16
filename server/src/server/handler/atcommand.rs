@@ -1,12 +1,12 @@
-use std::net::TcpStream;
-use std::sync::{Arc, RwLock};
+
+use std::sync::{Arc};
 use lazy_static::lazy_static;
 use tokio::runtime::Runtime;
 use packets::packets::{PacketCzPlayerChat, PacketZcNotifyPlayerchat};
 use crate::{Server};
 use crate::server::core::session::Session;
 use regex::Regex;
-use std::io::Write;
+
 use packets::packets::Packet;
 use crate::server::core::configuration::CityConfig;
 use crate::server::service::character_movement::{change_map_packet};
@@ -54,7 +54,7 @@ pub fn handle_atcommand(server: &Server, context: Request, packet: &PacketCzPlay
     socket_send!(context, packet_zc_notify_playerchat);
 }
 
-pub fn handle_go(server: &Server, session: Arc<Session>, runtime: &Runtime, args: Vec::<&str>) -> String {
+pub fn handle_go(server: &Server, session: Arc<Session>, _runtime: &Runtime, args: Vec::<&str>) -> String {
     let cities_len = server.configuration.maps.cities.len();
     let cleaned_arg = args[0].trim();
     let mut maybe_city: Option<&CityConfig> = None;
@@ -109,7 +109,7 @@ pub fn handle_go(server: &Server, session: Arc<Session>, runtime: &Runtime, args
     format!("Warping at {} {},{}", city.name.clone(), city.x, city.y)
 }
 
-pub fn handle_warp(server: &Server, session: Arc<Session>, runtime: &Runtime, args: Vec::<&str>) -> String {
+pub fn handle_warp(server: &Server, session: Arc<Session>, _runtime: &Runtime, args: Vec::<&str>) -> String {
     let map_name = args[0].to_string();
     if server.maps.contains_key(&map_name) {
         let mut x = RANDOM_CELL.0;
@@ -122,7 +122,7 @@ pub fn handle_warp(server: &Server, session: Arc<Session>, runtime: &Runtime, ar
                 y = parse_y_res.unwrap();
             }
         }
-        change_map_packet(&map_name, x, y, session.clone(), server.clone());
+        change_map_packet(&map_name, x, y, session.clone(), server);
         let char_id = session.char_id();
         let character = server.get_character_unsafe(char_id);
         return format!("Warp to map {} at {},{}", map_name, character.x(), character.y());

@@ -56,7 +56,7 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
         debug!("Client connected from: {:#?} to {:#?}", incoming_stream.peer_addr().unwrap(), incoming_stream.local_addr().unwrap());
 
         let mut forward_thread_outgoing = TcpStream::connect(self.target)
-            .expect(format!("Could not establish connection to {}", self.target).as_str());
+            .unwrap_or_else(|_| panic!("Could not establish connection to {}", self.target));
 
         let mut backward_thread_incoming_clone = incoming_stream.try_clone().expect("Unable to clone incoming tcp stream for proxy");
         let mut backward_thread_outgoing_clone = forward_thread_outgoing.try_clone().expect("Unable to clone outgoing tcp stream for proxy");

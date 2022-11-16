@@ -64,7 +64,7 @@ async fn main() {
     let mut futures = Vec::new();
     let mut map_iter = map_names.into_iter();
     for (_i, file_name) in file_paths.into_iter().enumerate() {
-        semaphore.acquire().await.unwrap();
+        let _ = semaphore.acquire().await.unwrap();
         let map_name = map_iter.next().unwrap();
         let counter_clone = counter.clone();
         futures.push(tokio::task::spawn_blocking(move || {
@@ -84,7 +84,7 @@ async fn main() {
                 let rsw_file = File::open(rsw_path).unwrap();
                 let mut rsw_content_buf = Vec::new();
                 let mut reader = BufReader::new(rsw_file);
-                reader.read_to_end(&mut rsw_content_buf);
+                reader.read_to_end(&mut rsw_content_buf).unwrap();
 
                 if str::from_utf8(&rsw_content_buf[0..4]).unwrap() != "GRSW" {
                     error!("{}: is not rsw file", rsw_path.to_str().unwrap());
@@ -111,7 +111,7 @@ async fn main() {
             let gat_file = File::open(gat_path).unwrap();
             let mut gat_content_buf = Vec::new();
             let mut reader = BufReader::new(gat_file);
-            reader.read_to_end(&mut gat_content_buf);
+            reader.read_to_end(&mut gat_content_buf).unwrap();
 
             let x_size = Cursor::new(gat_content_buf[6..8].to_vec()).read_i16::<LittleEndian>().unwrap() as u32;
             let y_size = Cursor::new(gat_content_buf[10..12].to_vec()).read_i16::<LittleEndian>().unwrap() as u32;
@@ -139,16 +139,16 @@ async fn main() {
             let compressed_cells = zip_encoder.finish().unwrap();
             let digest = md5::compute(compressed_cells.clone());
             let mut wtr = vec![];
-            wtr.write_i16::<LittleEndian>(0x1);
+            wtr.write_i16::<LittleEndian>(0x1).unwrap();
             let mut checksum_buf = [0_u8; 16];
             let checksum = decode_hex(format!("{:x}", digest).as_str()).unwrap();
             checksum.iter().enumerate().for_each(|(i, value)| checksum_buf[i] = *value);
-            wtr.write_all(&checksum_buf);
-            wtr.write_i16::<LittleEndian>(x_size as i16);
-            wtr.write_i16::<LittleEndian>(y_size as i16);
-            wtr.write_i32::<LittleEndian>(cells.len() as i32);
-            wtr.write_all(&compressed_cells[..]);
-            map_cache_file.write_all(&wtr[..]);
+            wtr.write_all(&checksum_buf).unwrap();
+            wtr.write_i16::<LittleEndian>(x_size as i16).unwrap();
+            wtr.write_i16::<LittleEndian>(y_size as i16).unwrap();
+            wtr.write_i32::<LittleEndian>(cells.len() as i32).unwrap();
+            wtr.write_all(&compressed_cells[..]).unwrap();
+            map_cache_file.write_all(&wtr[..]).unwrap();
 
             {
                 let mut counter = counter_clone.lock().unwrap();

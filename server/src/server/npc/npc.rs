@@ -41,7 +41,7 @@ impl NpcLoader {
                     warn!("Not able to load npc script: {}, due to {}", npc_script_path, npc_script_file_res.err().unwrap());
                     return;
                 }
-                
+
                 let npcs_result = T::parse_npc(&npc_script_file_res.unwrap());
                 if npcs_result.is_err() {
                     error!("{}", npcs_result.err().unwrap());

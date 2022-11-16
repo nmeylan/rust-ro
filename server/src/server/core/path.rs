@@ -163,7 +163,7 @@ fn add_neighbor(x: u16, y: u16, destination_x: u16, destination_y: u16, max_x: u
     let neighbor_option = discovered_nodes.iter().find(|node| node.x == x && node.y == y);
     let tentative_gcost = current_node.g_cost + move_cost;
     let h_cost = client_side_heuristic(x, y, destination_x, destination_y);
-    let mut neighbor: PathNode;
+    let neighbor: PathNode;
     if let Some(neighbor) = neighbor_option {
         let mut neighbor = *neighbor;
         if tentative_gcost < neighbor.g_cost {

@@ -1,4 +1,4 @@
-use std::io::Write;
+
 use futures::TryFutureExt;
 
 use rathena_script_lang_interpreter::lang::call_frame::CallFrame;
@@ -11,7 +11,7 @@ use crate::server::enums::item::ItemType;
 use crate::server::script::{GlobalVariableEntry, GlobalVariableScope};
 
 impl PlayerScriptHandler {
-    pub fn handle_shop(&self, native: &Native, params: Vec<Value>, execution_thread: &Thread, call_frame: &CallFrame) -> bool {
+    pub fn handle_shop(&self, native: &Native, params: Vec<Value>, execution_thread: &Thread, _call_frame: &CallFrame) -> bool {
         if native.name.eq("callshop") {
             let mut packet_zc_select_deal_type = PacketZcSelectDealtype::new();
             packet_zc_select_deal_type.naid = self.npc_id;

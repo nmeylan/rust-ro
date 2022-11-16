@@ -1,28 +1,28 @@
 use std::sync::Arc;
 use std::sync::mpsc::SyncSender;
-use std::thread::{Scope, sleep};
+use std::thread::{sleep};
 use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
-use regex::internal::Inst;
 
-use tokio::runtime::Runtime;
+
+
 
 use packets::packets::{Packet, PacketZcNotifyPlayermove, PacketZcNpcackMapmove, PacketZcSpriteChange2};
 use crate::PersistenceEvent;
 use crate::PersistenceEvent::SaveCharacterPosition;
 
-use crate::server::state::character::Character;
+
 use crate::server::core::movement::Movement;
 use crate::server::events::game_event::{CharacterChangeMap, GameEvent};
-use crate::server::core::map::{Map, MAP_EXT};
+use crate::server::core::map::{MAP_EXT};
 use crate::server::events::map_event::MapEvent::{*};
 use crate::server::events::client_notification::{AreaNotification, AreaNotificationRangeType, CharNotification, Notification};
 use crate::server::events::persistence_event::{SavePositionUpdate, StatusUpdate};
 use crate::server::core::position::Position;
-use crate::server::core::map_item::MapItemType;
+
 use crate::server::map_item::{ToMapItem, ToMapItemSnapshot};
 use crate::server::server::Server;
 use crate::util::string::StringUtil;
-use crate::util::tick::get_tick;
+
 
 const MOVEMENT_TICK_RATE: u128 = 20;
 const GAME_TICK_RATE: u128 = 40;
@@ -57,7 +57,8 @@ impl Server {
                                 character.update_position(new_position.x, new_position.y);
                                 character.clear_map_view();
                                 character.loaded_from_client_side = false;
-                                persistence_event_sender.send(SaveCharacterPosition(SavePositionUpdate {account_id: character.account_id, char_id: character.char_id, map_name: character.current_map_name().clone(), x: character.x(), y: character.y()}));
+                                persistence_event_sender.send(SaveCharacterPosition(SavePositionUpdate {account_id: character.account_id, char_id: character.char_id, map_name: character.current_map_name().clone(), x: character.x(), y: character.y()}))
+                                    .expect("Fail to send persistence notification");
                             } else {
                                 error!("Can't change map to {} {}", event.new_map_name, event.new_instance_id);
                             }
@@ -98,12 +99,12 @@ impl Server {
                                     map_instance_id: character.current_map_instance(),
                                     range_type: AreaNotificationRangeType::Fov {x: character.x(), y: character.y()},
                                     packet: std::mem::take(packet_zc_sprite_change.raw_mut())
-                                }));
+                                })).expect("Fail to send client notification");
                                 persistence_event_sender.send(PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate{
                                     char_id: character_look.char_id,
                                     db_column,
                                     value: character_look.look_value
-                                }));
+                                })).expect("Fail to send persistence notification");
                             }
                         }
                         GameEvent::CharacterUpdateZeny(zeny_update) => {
@@ -113,7 +114,7 @@ impl Server {
                                 char_id: zeny_update.char_id,
                                 value: zeny_update.zeny,
                                 db_column: "zeny".to_string(),
-                            }));
+                            })).expect("Fail to send persistence notification");
                         }
                     }
                 }
@@ -188,7 +189,7 @@ impl Server {
                         debug!("move {} at {}", movement.position(), movement.move_at());
                         let movement = character.pop_movement().unwrap();
                         character.update_position(movement.position().x, movement.position().y);
-                        let map_ref = server_ref.get_map_instance_from_character(&character);
+                        let map_ref = server_ref.get_map_instance_from_character(character);
                         if let Some(map_ref) = map_ref {
                             if map_ref.is_warp_cell(movement.position().x, movement.position().y) {
                                 let warp = map_ref.get_warp_at(movement.position().x, movement.position().y).unwrap();
@@ -213,7 +214,7 @@ impl Server {
                 }
             }
             for character in character_finished_to_move {
-                persistence_event_sender.send(SaveCharacterPosition(SavePositionUpdate {account_id: character.account_id, char_id: character.char_id, map_name: character.current_map_name().clone(), x: character.x(), y: character.y()}));
+                persistence_event_sender.send(SaveCharacterPosition(SavePositionUpdate {account_id: character.account_id, char_id: character.char_id, map_name: character.current_map_name().clone(), x: character.x(), y: character.y()})).expect("Fail to send persistence notification");
             }
             sleep(Duration::from_millis((MOVEMENT_TICK_RATE - (SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis() - tick).min(0).max(MOVEMENT_TICK_RATE)) as u64));
         }

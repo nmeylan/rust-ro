@@ -1,15 +1,14 @@
-use std::borrow::BorrowMut;
+
 use std::collections::HashSet;
 use packets::packets::{Packet, PacketChEnter, PacketHcRefuseEnter, CharacterInfoNeoUnion, PacketHcAcceptEnterNeoUnionHeader, PacketHcAcceptEnterNeoUnion, PacketPincodeLoginstate, PacketHcAcceptMakecharNeoUnion, PacketChDeleteChar4Reserved, PacketHcDeleteChar4Reserved, PacketChSelectChar, PacketChSendMapInfo, PacketCzEnter2, PacketMapConnection, PacketZcInventoryExpansionInfo, PacketZcOverweightPercent, PacketZcAcceptEnter2, PacketZcStatusValues, PacketZcParChange, PacketZcAttackRange, PacketZcNotifyChat, PacketCzRestart, PacketZcRestartAck, PacketZcReqDisconnectAck2, PacketZcLoadConfirm, PacketChMakeChar3, PacketChMakeChar, PacketHcNotifyZonesvr, ZserverAddr};
-use tokio::runtime::Runtime;
-use std::sync::{Arc, Mutex, RwLock};
-use std::net::TcpStream;
-use std::io::Write;
+
+use std::sync::{Arc, Mutex};
+
 use byteorder::{LittleEndian, WriteBytesExt};
 use crate::repository::model::char_model::{CharacterInfoNeoUnionWrapped, CharInsertModel, CharSelectModel};
 use crate::util::string::StringUtil;
 use std::net::Shutdown::Both;
-use std::sync::atomic::{AtomicU16};
+
 use crate::util::packet::chain_packets;
 use crate::server::enums::status::StatusTypes;
 use crate::server::state::character::{Character};
@@ -18,11 +17,11 @@ use crate::server::events::game_event::GameEvent;
 use crate::server::core::map::Map;
 use crate::server::core::map_instance::MapInstanceKey;
 use crate::server::core::request::Request;
-use crate::server::core::session::Session;
+
 use crate::server::state::status::Status;
 use crate::server::script::ScriptGlobalVariableStore;
 use crate::server::server::{Server};
-use crate::util::tick::{get_tick, get_tick_client};
+use crate::util::tick::{get_tick_client};
 
 pub fn handle_char_enter(server: &Server, context: Request) {
     let packet_char_enter = cast!(context.packet(), PacketChEnter);
@@ -34,7 +33,7 @@ pub fn handle_char_enter(server: &Server, context: Request) {
         sessions_guard.insert(packet_char_enter.aid, session.clone());
         if session.auth_code == packet_char_enter.auth_code && session.user_level == packet_char_enter.user_level {
             let packet_hc_accept_enter_neo_union = context.runtime().block_on(async {
-                load_chars_info(session.account_id, server.clone()).await
+                load_chars_info(session.account_id, server).await
             });
             let mut pincode_loginstate = PacketPincodeLoginstate::new();
             pincode_loginstate.set_aid(session.account_id);
@@ -178,7 +177,7 @@ pub fn handle_select_char(server: &Server, context: Request) {
             .fetch_one(&server.repository.pool).await.unwrap()
     });
     let mut sessions_guard = write_lock!(server.sessions);
-    let session = sessions_guard.get(&session_id).unwrap();
+    let _session = sessions_guard.get(&session_id).unwrap();
     let char_id: u32 = char_model.char_id;
     let last_x: u16 = char_model.last_x;
     let last_y: u16 = char_model.last_y;
@@ -276,8 +275,7 @@ pub fn handle_enter_game(server: &Server, context: Request) {
     let char_id = session.char_id();
     let character = server.get_character_unsafe(char_id);
 
-    change_map_packet(&Map::name_without_ext(character.current_map_name()), character.x(), character.y(), session.clone(), server.clone());
-    // let final_response_packet: Vec<u8> = chain_packets(vec![&packet_inventory_expansion_info, &packet_overweight_percent, &packet_accept_enter, &packet_zc_npcack_mapmove]);
+    change_map_packet(&Map::name_without_ext(character.current_map_name()), character.x(), character.y(), session.clone(), server);
     socket_send!(context, packet_accept_enter);
 
     let mut packet_str = PacketZcStatusValues::new();

@@ -136,9 +136,9 @@ fn write_debug_trait(file: &mut File, struct_definition: &StructDefinition, is_p
         file.write_all("            .field(\"id\", &self.id())\n".to_string().as_bytes()).unwrap();
     }
     for field in &struct_definition.fields {
-        file.write_all(format!("            .field(\"{}{}\", &format!(\"{{:02X?}}\", &self.{}_raw))\n",
+        file.write_all(format!("            .field(\"{}[{}, {}]\", &format!(\"{{:02X?}}\", &self.{}_raw))\n",
                                field.name,
-                               format!("[{}, {}]", field.position, if field.length > -1 { (field.position + field.length).to_string() } else { "?".to_string() }),
+                               field.position, if field.length > -1 { (field.position + field.length).to_string() } else { "?".to_string() },
                                field.name
         ).as_bytes()).unwrap();
     }
@@ -160,10 +160,10 @@ fn write_display_trait(file: &mut File, struct_definition: &StructDefinition, _i
         } else {
             value_to_print = format!("&self.{}", field.name);
         }
-        file.write_all(format!("        fields.push(format!(\"{}{}{}: {{}}\", {}));\n",
+        file.write_all(format!("        fields.push(format!(\"{}{}[{}, {}]: {{}}\", {}));\n",
                                field.name,
                                display_type(field),
-                               format!("[{}, {}]", field.position, if field.length > -1 { (field.position + field.length).to_string() } else { "?".to_string() }),
+                               field.position, if field.length > -1 { (field.position + field.length).to_string() } else { "?".to_string() },
                                value_to_print
         ).as_bytes()).unwrap();
     }

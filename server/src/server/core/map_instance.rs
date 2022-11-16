@@ -1,29 +1,31 @@
+#![allow(dead_code)]
+
 use std::cell::RefCell;
-use std::collections::{HashMap, HashSet};
-use std::sync::{Arc, RwLock};
+use std::collections::{HashMap};
+use std::sync::{Arc};
 use packets::packets::PacketZcNotifyMove;
-use crate::server::state::character::Character;
+
 use crate::server::core::map::{Map, MAP_EXT, WARP_MASK};
 use crate::server::state::mob::Mob;
 use crate::server::core::path::manhattan_distance;
 use crate::server::state::status::Status;
-use crate::server::core::map_item::{MapItem, MapItemSnapshot, MapItemType};
+use crate::server::core::map_item::{MapItem, MapItemSnapshot};
 use crate::server::npc::mob_spawn::MobSpawn;
 use crate::server::npc::warps::Warp;
 use crate::server::server::{MOB_FOV, Server};
 use crate::util::coordinate;
 use crate::util::packet::chain_packets_raws;
 use packets::packets::Packet;
-use std::io::Write;
-use std::ops::DerefMut;
-use std::sync::mpsc::{SendError, SyncSender};
+
+
+use std::sync::mpsc::{SyncSender};
 use rathena_script_lang_interpreter::lang::vm::Vm;
 use crate::{MyUnsafeCell, ScriptHandler};
 use crate::server::events::map_event::MapEvent;
 use crate::server::events::client_notification::{CharNotification, Notification};
 use crate::server::map_item::ToMapItem;
 use crate::server::npc::script::Script;
-use crate::util::cell::{MyRef, MyRefMut};
+use crate::util::cell::{MyRef};
 use crate::util::string::StringUtil;
 
 pub struct MapInstanceKey {
@@ -220,7 +222,7 @@ impl MapInstance {
         for mob in self.mobs.borrow_mut().values_mut() {
             let character_packets = mob.action_move(&self.cells, self.x_size, self.y_size);
             character_packets.iter().for_each(|(character, packet)| {
-                if !character_packets_map.contains_key(&character) {
+                if !character_packets_map.contains_key(character) {
                     character_packets_map.insert(*character, Vec::with_capacity(500));
                 }
                 character_packets_map.get_mut(character).unwrap().push(packet.clone());
@@ -229,7 +231,7 @@ impl MapInstance {
         for (character, packets) in character_packets_map.iter() {
             let packets = chain_packets_raws(packets.iter().map(|packet| packet.raw()).collect::<Vec<&Vec<u8>>>());
             self.client_notification_channel.send(Notification::Char(
-                CharNotification::new(character.id(), packets)));
+                CharNotification::new(character.id(), packets))).expect("Fail to send client notification");
         }
     }
 
@@ -251,8 +253,8 @@ impl MapInstance {
         self.map_items.borrow_mut().remove(&map_item.id());
     }
 
-    pub fn notify_event(&self, map_event: MapEvent) -> Result<(), SendError<MapEvent>> {
-        self.map_event_notification_sender.send(map_event)
+    pub fn notify_event(&self, map_event: MapEvent) {
+        self.map_event_notification_sender.send(map_event).unwrap()
     }
 
     pub fn get_mob(&self, mob_id: u32) -> Option<MyRef<Mob>> {

@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 use std::net::TcpStream;
 use std::sync::{Arc, Mutex, RwLock};
-use crate::server::state::character::Character;
+
 use std::io::Write;
 use tokio::sync::mpsc::Sender;
 

@@ -1,37 +1,22 @@
-use std::any::Any;
-use std::borrow::Borrow;
 use std::collections::HashSet;
 use std::mem;
-use std::net::TcpStream;
-use std::sync::{Arc, Mutex, RwLock};
-use std::sync::atomic::AtomicU16;
-use std::sync::atomic::Ordering::{Acquire, Relaxed};
+use std::sync::{Arc, Mutex};
 use std::sync::mpsc::SyncSender;
-
-use tokio::runtime::Runtime;
-
 use accessor::Setters;
 use packets::packets::{PacketZcNotifyStandentry7, PacketZcNotifyVanish};
 use packets::packets::Packet;
-
 use crate::Server;
 use crate::server::core::movement::Movement;
-use crate::server::core::map::MAP_EXT;
 use crate::server::core::map_instance::{MapInstance, MapInstanceKey};
-use crate::server::state::mob::Mob;
 use crate::server::events::client_notification::{CharNotification, Notification};
 use crate::server::core::path::manhattan_distance;
 use crate::server::core::position::Position;
-use crate::server::core::session::Session;
 use crate::server::state::status::{LookType, Status};
 use crate::server::core::map_item::{MapItem, MapItemSnapshot, MapItemType};
 use crate::server::map_item::{ToMapItem, ToMapItemSnapshot};
-use crate::server::script::{GlobalVariableEntry, ScriptGlobalVariableStore};
-use crate::server::server::{PACKETVER, PLAYER_FOV};
-use crate::util::coordinate;
+use crate::server::script::{ScriptGlobalVariableStore};
+use crate::server::server::{PLAYER_FOV};
 use crate::util::string::StringUtil;
-
-pub type MovementTask = u64;
 
 #[derive(Setters)]
 pub struct Character {
@@ -52,9 +37,6 @@ pub struct Character {
 }
 
 impl Character {
-    pub fn name(&self) -> &String {
-        &self.name
-    }
     pub fn x(&self) -> u16 {
         self.x
     }
@@ -105,7 +87,7 @@ impl Character {
     }
 
     pub fn current_map_name(&self) -> &String {
-        &self.map_instance_key.map_name()
+        self.map_instance_key.map_name()
     }
 
     pub fn current_map_name_char(&self) -> [char; 16] {
