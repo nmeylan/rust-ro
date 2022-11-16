@@ -8,8 +8,8 @@ use rathena_script_lang_interpreter::lang::compiler::DebugFlag;
 use rathena_script_lang_interpreter::lang::error::CompilationError;
 use rathena_script_lang_interpreter::lang::value::Value;
 use rathena_script_lang_interpreter::util::scripts_compiler;
-use crate::server::enums::map_item::MapItemType;
-use crate::server::map_item::{MapItem, ToMapItem};
+use crate::server::core::map_item::{MapItem, MapItemType};
+use crate::server::map_item::ToMapItem;
 
 use crate::server::npc::warps::Warp;
 use crate::server::script::constant::load_constant;

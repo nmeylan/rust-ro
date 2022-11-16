@@ -1,6 +1,6 @@
 use rathena_script_lang_interpreter::lang::value::Value;
 
-use crate::server::core::status::LookType;
+use crate::server::state::status::LookType;
 
 /*
 ([A-Z_]*): (.*)

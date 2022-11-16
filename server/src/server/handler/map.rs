@@ -4,7 +4,7 @@ use packets::packets::{Packet, PacketZcAckReqnameall2, PacketCzReqnameall2, Pack
 use crate::server::server::Server;
 use crate::util::string::StringUtil;
 use std::io::Write;
-use crate::server::core::events::game_event::GameEvent;
+use crate::server::events::game_event::GameEvent;
 use crate::server::core::map::{MapPropertyFlags};
 use crate::server::core::request::Request;
 use crate::server::core::session::Session;

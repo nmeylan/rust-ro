@@ -5,7 +5,7 @@ pub mod item_repository;
 
 use sqlx::{MySqlPool, Pool, MySql};
 use tokio::runtime::Runtime;
-use crate::server::configuration::DatabaseConfig;
+use crate::server::core::configuration::DatabaseConfig;
 
 pub struct Repository {
     pub pool: Pool<MySql>,

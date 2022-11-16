@@ -3,7 +3,7 @@ use std::sync::atomic::Ordering::Relaxed;
 
 use crate::repository::model::char_model::CharSelectModel;
 use crate::repository::model::mob_model::MobModel;
-use crate::server::configuration::GameConfig;
+use crate::server::core::configuration::GameConfig;
 
 #[derive(SettersAll, Debug)]
 pub struct Status {

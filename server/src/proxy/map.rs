@@ -6,7 +6,7 @@ use std::sync::{Arc, Mutex};
 use packets::packets::Packet;
 
 use crate::proxy::proxy::{PacketHandler, Proxy};
-use crate::server::configuration::ProxyConfig;
+use crate::server::core::configuration::ProxyConfig;
 
 #[derive(Clone)]
 pub struct MapProxy {}

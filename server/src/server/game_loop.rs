@@ -10,15 +10,15 @@ use packets::packets::{Packet, PacketZcNotifyPlayermove, PacketZcNpcackMapmove, 
 use crate::PersistenceEvent;
 use crate::PersistenceEvent::SaveCharacterPosition;
 
-use crate::server::core::character::Character;
-use crate::server::core::character_movement::Movement;
-use crate::server::core::events::game_event::{CharacterChangeMap, GameEvent};
+use crate::server::state::character::Character;
+use crate::server::core::movement::Movement;
+use crate::server::events::game_event::{CharacterChangeMap, GameEvent};
 use crate::server::core::map::{Map, MAP_EXT};
-use crate::server::core::events::map_event::MapEvent::{*};
-use crate::server::core::events::client_notification::{AreaNotification, AreaNotificationRangeType, CharNotification, Notification};
-use crate::server::core::events::persistence_event::{SavePositionUpdate, StatusUpdate};
+use crate::server::events::map_event::MapEvent::{*};
+use crate::server::events::client_notification::{AreaNotification, AreaNotificationRangeType, CharNotification, Notification};
+use crate::server::events::persistence_event::{SavePositionUpdate, StatusUpdate};
 use crate::server::core::position::Position;
-use crate::server::enums::map_item::MapItemType;
+use crate::server::core::map_item::MapItemType;
 use crate::server::map_item::{ToMapItem, ToMapItemSnapshot};
 use crate::server::server::Server;
 use crate::util::string::StringUtil;
