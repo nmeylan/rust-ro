@@ -12,13 +12,12 @@ pub struct CharProxy {
 
 impl CharProxy {
     pub(crate) fn new(config: &ProxyConfig) -> Proxy<CharProxy> {
-        let server = Proxy {
+        Proxy {
             name: "Char".to_string(),
             local_port: config.local_char_server_port,
             target: SocketAddr::new(IpAddr::from_str(&config.remote_char_server_ip).unwrap(), config.remote_char_server_port),
             specific_proxy: CharProxy {}
-        };
-        server
+        }
     }
 }
 impl PacketHandler for CharProxy {

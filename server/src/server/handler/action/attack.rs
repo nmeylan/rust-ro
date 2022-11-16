@@ -1,17 +1,17 @@
-use std::net::TcpStream;
-use std::sync::{Arc, RwLock};
-use std::io::Write;
-use tokio::runtime::Runtime;
+
+
+
+
 use packets::packets::{Packet, PacketCzRequestAct2, PacketZcNotifyAct3};
 use crate::Server;
 use crate::server::core::request::Request;
-use crate::server::core::session::Session;
+
 use crate::server::enums::action::ActionType;
 
-pub fn handle_attack(server: &Server, context: Request) {
+pub fn handle_attack(_server: &Server, context: Request) {
     let packet_cz_request_act2 = cast!(context.packet(), PacketCzRequestAct2);
     let session = context.session();
-    let char_id = session.char_id();
+    let _char_id = session.char_id();
     // let character = server.get_character_unsafe(char_id);
     // let map_ref = character.current_map.as_ref().unwrap().clone();
     // let mobs_guard = read_lock!(map_ref.mobs);

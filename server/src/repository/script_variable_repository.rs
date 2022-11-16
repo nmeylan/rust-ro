@@ -24,8 +24,8 @@ impl Repository {
     }
 
     pub fn script_variable_server_num_save(&self, varname: String, index: u32, value: i32) {
-        let serverRegStr = ServerRegStr { varname, index, value: value.to_string() };
-        self.runtime.block_on(async { serverRegStr.upsert(&self.pool, "mapreg").await.unwrap() });
+        let server_reg_str = ServerRegStr { varname, index, value: value.to_string() };
+        self.runtime.block_on(async { server_reg_str.upsert(&self.pool, "mapreg").await.unwrap() });
     }
 
     pub fn script_variable_server_str_save(&self, varname: String, index: u32, value: String) {
@@ -41,7 +41,7 @@ impl Repository {
         if char_reg_str.is_err() {
             error!("char_permanent fetch_one string {} {:?}", variable_name, char_reg_str.as_ref().err().unwrap());
         }
-        char_reg_str.map_or(String::from(""), |res| res.value.clone())
+        char_reg_str.map_or(String::from(""), |res| res.value)
     }
 
     pub fn script_variable_char_num_fetch_one(&self, char_id: u32, variable_name: String, index: u32) -> i32 {
@@ -52,7 +52,7 @@ impl Repository {
         if char_reg_num.is_err() {
             error!("char_permanent fetch_one number {} {:?}", variable_name, char_reg_num.as_ref().err().unwrap());
         }
-        char_reg_num.map_or(0, |res| res.value.clone())
+        char_reg_num.map_or(0, |res| res.value)
     }
 
     pub fn script_variable_account_str_fetch_one(&self, account_id: u32, variable_name: String, index: u32) -> String {
@@ -63,7 +63,7 @@ impl Repository {
         if account_reg_str.is_err() {
             error!("account_permanent fetch_one string {} {:?}", variable_name, account_reg_str.as_ref().err().unwrap());
         }
-        account_reg_str.map_or(String::from(""), |res| res.value.clone())
+        account_reg_str.map_or(String::from(""), |res| res.value)
     }
 
     pub fn script_variable_account_num_fetch_one(&self, account_id: u32, variable_name: String, index: u32) -> i32 {
@@ -74,7 +74,7 @@ impl Repository {
         if account_reg_num.is_err() {
             error!("account_permanent fetch_one number {} {:?}", variable_name, account_reg_num.as_ref().err().unwrap());
         }
-        account_reg_num.map_or(0, |res| res.value.clone())
+        account_reg_num.map_or(0, |res| res.value)
     }
 
     pub fn script_variable_server_str_fetch_one(&self, variable_name: String, index: u32) -> String {
@@ -85,7 +85,7 @@ impl Repository {
         if server_reg.is_err() {
             error!("server_permanent fetch_one string {} {:?}", variable_name, server_reg.as_ref().err().unwrap());
         }
-        server_reg.map_or(String::from(""), |res| res.value.clone())
+        server_reg.map_or(String::from(""), |res| res.value)
     }
 
     pub fn script_variable_server_num_fetch_one(&self, variable_name: String, index: u32) -> i32 {
@@ -96,7 +96,7 @@ impl Repository {
         if server_reg.is_err() {
             error!("server_permanent fetch_one number {} {:?}", variable_name, server_reg.as_ref().err().unwrap());
         }
-        server_reg.map_or(0, |res| res.value.clone().parse::<i32>().unwrap())
+        server_reg.map_or(0, |res| res.value.parse::<i32>().unwrap())
     }
 
     pub fn script_variable_char_str_fetch_all(&self, char_id: u32, variable_name: String) -> Vec<(u32, String)> {
@@ -118,7 +118,7 @@ impl Repository {
         if char_reg_num.is_err() {
             error!("char_permanent fetch_all number {} {:?}", variable_name, char_reg_num.as_ref().err().unwrap());
         }
-        char_reg_num.as_ref().map_or(vec![], |rows| rows.iter().map(|r| (r.index, r.value.clone())).collect())
+        char_reg_num.as_ref().map_or(vec![], |rows| rows.iter().map(|r| (r.index, r.value)).collect())
     }
 
     pub fn script_variable_account_str_fetch_all(&self, account_id: u32, variable_name: String) ->  Vec<(u32, String)> {
@@ -140,7 +140,7 @@ impl Repository {
         if account_reg_num.is_err() {
             error!("account_permanent fetch_all number {} {:?}", variable_name, account_reg_num.as_ref().err().unwrap());
         }
-        account_reg_num.as_ref().map_or(vec![], |rows| rows.iter().map(|r| (r.index, r.value.clone())).collect())
+        account_reg_num.as_ref().map_or(vec![], |rows| rows.iter().map(|r| (r.index, r.value)).collect())
     }
 
     pub fn script_variable_server_str_fetch_all(&self, variable_name: String) ->  Vec<(u32, String)> {

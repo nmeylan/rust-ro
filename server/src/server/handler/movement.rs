@@ -1,23 +1,23 @@
-use std::io::Write;
-use std::net::TcpStream;
+
+
 use std::ops::Deref;
-use std::sync::{Arc, RwLock};
+
 use std::time::{SystemTime, UNIX_EPOCH};
 
-use rand::Rng;
-use tokio::runtime::Runtime;
 
-use packets::packets::{Packet, PacketCzRequestMove, PacketCzRequestMove2, PacketZcNotifyPlayermove};
 
-use crate::server::service::character_movement;
+
+use packets::packets::{PacketCzRequestMove, PacketCzRequestMove2};
+
+
 use crate::server::core::movement::Movement;
 use crate::server::events::game_event::CharacterMovement;
-use crate::server::events::game_event::GameEvent::{CharacterClearMove, CharacterMove};
+use crate::server::events::game_event::GameEvent::{CharacterMove};
 use crate::server::core::position::Position;
 use crate::server::core::path::path_search_client_side_algorithm;
 use crate::server::core::request::Request;
 use crate::server::server::Server;
-use crate::util::tick::{get_current_time, get_tick};
+
 
 
 pub fn handle_char_move(server: &Server, context: Request) {
@@ -44,7 +44,7 @@ pub fn handle_char_move(server: &Server, context: Request) {
 
     let path = path_search_client_side_algorithm(map_instance, current_position.x(), current_position.y(), destination.x, destination.y);
     let start_at = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis();
-    let mut path = Movement::from_path(path, start_at, &current_position);
+    let path = Movement::from_path(path, start_at, &current_position);
     // if let Some(previous_movement) = maybe_previous_movement {
     //     path.push(previous_movement);
     // }

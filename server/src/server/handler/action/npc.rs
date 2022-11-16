@@ -1,13 +1,13 @@
 use std::sync::{Arc, RwLock};
-use std::{mem, thread};
+use std::{thread};
 
 use rathena_script_lang_interpreter::lang::vm::Vm;
 use tokio::runtime::Runtime;
 use tokio::sync::mpsc;
 
-use packets::packets::{Packet, PacketCzContactnpc, PacketCzChooseMenu, PacketCzInputEditdlg, PacketCzInputEditdlgstr, PacketCzAckSelectDealtype, PacketCzPcPurchaseItemlist};
+use packets::packets::{PacketCzContactnpc, PacketCzChooseMenu, PacketCzInputEditdlg, PacketCzInputEditdlgstr, PacketCzAckSelectDealtype, PacketCzPcPurchaseItemlist};
 
-use crate::{Script, Server};
+use crate::{Server};
 use crate::server::core::request::Request;
 use crate::server::script::script::PlayerScriptHandler;
 
@@ -26,7 +26,7 @@ pub fn handle_contact_npc(server: Arc<Server>, context: Request) {
     let (tx, rx) = mpsc::channel(1);
     let session = context.session();
     session.set_script_handler_channel_sender(tx);
-    let client_notification_channel = context.client_notification_channel().clone();
+    let client_notification_channel = context.client_notification_channel();
     let character = server.get_character_from_context_unsafe(&context);
     let map_name = character.current_map_name().clone();
     let map_instance = character.current_map_instance();

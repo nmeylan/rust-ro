@@ -1,4 +1,3 @@
-use std::sync::Arc;
 use lazy_static::lazy_static;
 use rathena_script_lang_interpreter::lang::thread::Thread;
 use rathena_script_lang_interpreter::lang::value::Value;
@@ -23,7 +22,7 @@ impl PlayerScriptHandler {
         match variable_scope.as_str() {
             "char_permanent" => {
                 let char_id = self.session.char_id();
-                let character= self.server.get_character_unsafe(char_id);
+                let character = self.server.get_character_unsafe(char_id);
                 if self.store_special_char_variable(&character, variable_name, &value) {
                     return;
                 }
@@ -79,7 +78,7 @@ impl PlayerScriptHandler {
                     execution_thread.push_constant_on_stack(value);
                     return;
                 }
-                if variable_name.ends_with("$") {
+                if variable_name.ends_with('$') {
                     execution_thread.push_constant_on_stack(Value::new_string(self.server.repository.script_variable_char_str_fetch_one(char_id, variable_name.clone(), 0)));
                 } else {
                     execution_thread.push_constant_on_stack(Value::new_number(self.server.repository.script_variable_char_num_fetch_one(char_id, variable_name.clone(), 0)));
@@ -87,14 +86,14 @@ impl PlayerScriptHandler {
             }
             "account_permanent" => {
                 let account_id = self.session.account_id;
-                if variable_name.ends_with("$") {
+                if variable_name.ends_with('$') {
                     execution_thread.push_constant_on_stack(Value::new_string(self.server.repository.script_variable_account_str_fetch_one(account_id, variable_name.clone(), 0)));
                 } else {
                     execution_thread.push_constant_on_stack(Value::new_number(self.server.repository.script_variable_account_num_fetch_one(account_id, variable_name.clone(), 0)));
                 }
             }
             "server_permanent" => {
-                if variable_name.ends_with("$") {
+                if variable_name.ends_with('$') {
                     execution_thread.push_constant_on_stack(Value::new_string(self.server.repository.script_variable_server_str_fetch_one(variable_name.clone(), 0)));
                 } else {
                     execution_thread.push_constant_on_stack(Value::new_number(self.server.repository.script_variable_server_num_fetch_one(variable_name.clone(), 0)));
@@ -111,12 +110,10 @@ impl PlayerScriptHandler {
                         crate::server::script::Value::Number(v) => Value::Number(Some(v))
                     };
                     execution_thread.push_constant_on_stack(value);
+                } else if variable_name.ends_with('$') {
+                    execution_thread.push_constant_on_stack(Value::String(Some(String::new())));
                 } else {
-                    if variable_name.ends_with("$") {
-                        execution_thread.push_constant_on_stack(Value::String(Some(String::new())));
-                    } else {
-                        execution_thread.push_constant_on_stack(Value::Number(Some(0)));
-                    }
+                    execution_thread.push_constant_on_stack(Value::Number(Some(0)));
                 }
             }
             &_ => error!("Variable scope {} is not supported yet!", variable_scope)
@@ -163,7 +160,7 @@ impl PlayerScriptHandler {
                     }
                 }
                 "char_temporary" => {
-                    let mut script_variable_store = char_temporary_mutex.as_mut().unwrap();
+                    let script_variable_store = char_temporary_mutex.as_mut().unwrap();
                     let value = match value {
                         Value::String(v) => crate::server::script::Value::String(v.unwrap()),
                         Value::Number(v) => crate::server::script::Value::Number(v.unwrap()),
@@ -193,7 +190,7 @@ impl PlayerScriptHandler {
         match variable_scope.as_str() {
             "char_permanent" => {
                 let char_id = self.session.char_id();
-                if variable_name.ends_with("$") {
+                if variable_name.ends_with('$') {
                     let rows = self.server.repository.script_variable_char_str_fetch_all(char_id, variable_name.clone());
                     Self::push_array_str_elements_on_stack(execution_thread, rows);
                 } else {
@@ -203,7 +200,7 @@ impl PlayerScriptHandler {
             }
             "account_permanent" => {
                 let account_id = self.session.account_id;
-                if variable_name.ends_with("$") {
+                if variable_name.ends_with('$') {
                     let rows = self.server.repository.script_variable_account_str_fetch_all(account_id, variable_name.clone());
                     Self::push_array_str_elements_on_stack(execution_thread, rows);
                 } else {
@@ -212,11 +209,10 @@ impl PlayerScriptHandler {
                 }
             }
             "server_permanent" => {
-                if variable_name.ends_with("$") {
+                if variable_name.ends_with('$') {
                     let rows = self.server.repository.script_variable_server_str_fetch_all(variable_name.clone());
                     Self::push_array_str_elements_on_stack(execution_thread, rows);
                 } else {
-
                     let rows = self.server.repository.script_variable_server_num_fetch_all(variable_name.clone());
                     Self::push_array_num_elements_on_stack(execution_thread, rows);
                 }
@@ -265,9 +261,9 @@ impl PlayerScriptHandler {
     fn store_special_char_variable(&self, char: &Character, special_variable_name: &String, value: &Value) -> bool {
         match special_variable_name.as_str() {
             "Zeny" => {
-                self.server.add_to_next_tick(CharacterUpdateZeny(CharacterZeny{char_id: char.char_id, zeny: value.number_value().unwrap().clone() as u32}));
+                self.server.add_to_next_tick(CharacterUpdateZeny(CharacterZeny { char_id: char.char_id, zeny: value.number_value().unwrap().clone() as u32 }));
                 true
-            },
+            }
             &_ => false
         }
     }

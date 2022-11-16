@@ -1,26 +1,22 @@
-use std::any::Any;
-use std::borrow::Borrow;
-use std::cell::{Ref, RefCell, RefMut, UnsafeCell};
-use std::collections::{HashMap, VecDeque};
-use std::io::{Read, Take};
+use std::cell::{RefCell};
+use std::collections::{HashMap};
+use std::io::{Read};
 use std::io::Write;
 use std::net::{Shutdown, TcpListener, TcpStream};
-use std::ops::Deref;
-use std::rc::Rc;
-use std::sync::{Arc, RwLock, RwLockWriteGuard};
+use std::sync::{Arc, RwLock};
 use std::sync::mpsc::{Receiver, SyncSender};
-use std::thread::{Scope, sleep};
+use std::thread::{Scope};
 use std::thread;
-use std::time::{Duration, Instant};
 
-use lazy_static::lazy_static;
+
+
 use log::error;
-use rand::Rng;
+
 use rathena_script_lang_interpreter::lang::vm::Vm;
-use regex::internal::Char;
+
 use tokio::runtime::Runtime;
 
-use packets::packets::{Packet, PacketCaLogin, PacketChDeleteChar4Reserved, PacketChEnter, PacketChMakeChar, PacketChMakeChar2, PacketChMakeChar3, PacketChSelectChar, PacketCzAckSelectDealtype, PacketCzBlockingPlayCancel, PacketCzChooseMenu, PacketCzContactnpc, PacketCzEnter2, PacketCzInputEditdlg, PacketCzInputEditdlgstr, PacketCzNotifyActorinit, PacketCzPcPurchaseItemlist, PacketCzPlayerChat, PacketCzReqDisconnect2, PacketCzReqname, PacketCzReqnameall2, PacketCzReqNextScript, PacketCzRequestAct2, PacketCzRequestMove, PacketCzRequestMove2, PacketCzRequestTime, PacketCzRestart, PacketUnknown, PacketZcNotifyTime, PacketZcNpcackMapmove};
+use packets::packets::{Packet, PacketCaLogin, PacketChDeleteChar4Reserved, PacketChEnter, PacketChMakeChar, PacketChMakeChar2, PacketChMakeChar3, PacketChSelectChar, PacketCzAckSelectDealtype, PacketCzBlockingPlayCancel, PacketCzChooseMenu, PacketCzContactnpc, PacketCzEnter2, PacketCzInputEditdlg, PacketCzInputEditdlgstr, PacketCzNotifyActorinit, PacketCzPcPurchaseItemlist, PacketCzPlayerChat, PacketCzReqDisconnect2, PacketCzReqname, PacketCzReqnameall2, PacketCzReqNextScript, PacketCzRequestAct2, PacketCzRequestMove, PacketCzRequestMove2, PacketCzRequestTime, PacketCzRestart, PacketUnknown, PacketZcNotifyTime};
 use packets::packets_parser::parse;
 use crate::PersistenceEvent;
 
@@ -28,15 +24,15 @@ use crate::repository::Repository;
 use crate::server::core::configuration::Config;
 use crate::server::state::character::Character;
 use crate::server::events::game_event::GameEvent;
-use crate::server::core::map::{Map, MAP_EXT};
-use crate::server::core::map_instance::{MapInstance, MapInstanceKey};
-use crate::server::events::client_notification::{AreaNotificationRangeType, CharNotification, Notification};
+use crate::server::core::map::{Map};
+use crate::server::core::map_instance::{MapInstance};
+use crate::server::events::client_notification::{AreaNotificationRangeType, Notification};
 use crate::server::core::path::manhattan_distance;
 use crate::server::core::request::Request;
 use crate::server::core::response::Response;
 use crate::server::core::session::{Session, SessionsIter};
 use crate::server::core::tasks_queue::TasksQueue;
-use crate::server::core::map_item::{MapItem, MapItemType};
+use crate::server::core::map_item::{MapItem};
 use crate::server::handler::action::attack::handle_attack;
 use crate::server::handler::action::npc::{handle_contact_npc, handle_player_choose_menu, handle_player_input_number, handle_player_input_string, handle_player_next, handle_player_purchase_items, handle_player_select_deal_type};
 use crate::server::handler::char::{handle_blocking_play_cancel, handle_char_enter, handle_delete_reserved_char, handle_disconnect, handle_enter_game, handle_make_char, handle_restart, handle_select_char};
@@ -45,9 +41,9 @@ use crate::server::handler::login::handle_login;
 use crate::server::handler::map::{handle_char_loaded_client_side, handle_map_item_name};
 use crate::server::handler::movement::handle_char_move;
 use crate::server::map_item::ToMapItem;
-use crate::util::cell::{MyRef, MyRefMut, MyUnsafeCell};
-use crate::util::string::StringUtil;
-use crate::util::tick::{get_tick, get_tick_client};
+use crate::util::cell::{MyRef, MyUnsafeCell};
+
+use crate::util::tick::{get_tick_client};
 
 // Todo make this configurable
 pub const PLAYER_FOV: u16 = 14;
@@ -115,7 +111,7 @@ impl Server {
         };
 
         if let Some(map) = self.maps.get(map_name) {
-            return map.get_instance(map_instance_id, &self)
+            return map.get_instance(map_instance_id, self)
         }
         None
     }
@@ -167,10 +163,6 @@ impl Server {
         self.movement_tasks_queue.add_to_first_index(event)
     }
 
-    pub fn generate_map_item_id(&self) -> u32 {
-        Server::generate_id(&mut self.map_items.borrow_mut())
-    }
-
     pub fn insert_map_item(&self, id: u32, map_item: MapItem) {
         self.map_items.borrow_mut().insert(id, map_item);
     }
@@ -210,7 +202,7 @@ impl Server {
                                         tcp_stream.shutdown(Shutdown::Both).expect("Unable to shutdown incoming socket. Shutdown was done because remote socket seems cloded.");
                                         break;
                                     }
-                                    let mut packet = parse(&mut buffer[..bytes_read], server_shared_ref.packetver());
+                                    let packet = parse(&buffer[..bytes_read], server_shared_ref.packetver());
                                     let context = Request::new(&runtime, None, server_shared_ref.packetver(), tcp_stream_arc.clone(), packet.as_ref(), response_sender_clone.clone(), client_notification_sender_clone.clone());
                                     server_shared_ref.handle(server_shared_ref.clone(), context);
                                 }
@@ -220,7 +212,7 @@ impl Server {
                     });
                 }
             }).unwrap();
-            /// Start a thread sending response packet to client request
+            // Start a thread sending response packet to client request
 
             thread::Builder::new().name("client_response_thread".to_string()).spawn_scoped(server_thread_scope,move || {
                 for response in single_response_receiver.iter() {
@@ -232,7 +224,7 @@ impl Server {
                     tcp_stream_guard.flush().unwrap();
                 }
             }).unwrap();
-            /// Start a thread sending packet to notify client from game update
+            // Start a thread sending packet to notify client from game update
             let server_ref_clone = server_ref.clone();
             thread::Builder::new().name("client_notification_thread".to_string()).spawn_scoped(server_thread_scope,move || {
                 PACKETVER.with(|ver| *ver.borrow_mut() = server_ref_clone.packetver());

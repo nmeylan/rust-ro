@@ -1,5 +1,5 @@
-use std::sync::atomic::{AtomicU16, AtomicU32};
-use std::sync::atomic::Ordering::Relaxed;
+
+
 
 use crate::repository::model::char_model::CharSelectModel;
 use crate::repository::model::mob_model::MobModel;
@@ -37,29 +37,29 @@ pub struct Status {
 impl Clone for Status {
     fn clone(&self) -> Self {
         Self {
-            hp: self.hp.clone(),
-            sp: self.sp.clone(),
-            max_hp: self.max_hp.clone(),
-            max_sp: self.max_sp.clone(),
-            str: self.str.clone(),
-            agi: self.agi.clone(),
-            vit: self.vit.clone(),
-            int: self.int.clone(),
-            dex: self.dex.clone(),
-            luk: self.luk.clone(),
-            base_atk: self.base_atk.clone(),
-            matk_min: self.matk_min.clone(),
-            matk_max: self.matk_max.clone(),
-            speed: self.speed.clone(),
-            attack_motion: self.attack_motion.clone(),
-            attack_delay: self.attack_delay.clone(),
-            delay_motion: self.delay_motion.clone(),
-            hit: self.hit.clone(),
-            flee: self.flee.clone(),
-            crit: self.crit.clone(),
-            def: self.def.clone(),
-            mdef: self.mdef.clone(),
-            aspd: self.aspd.clone(),
+            hp: self.hp,
+            sp: self.sp,
+            max_hp: self.max_hp,
+            max_sp: self.max_sp,
+            str: self.str,
+            agi: self.agi,
+            vit: self.vit,
+            int: self.int,
+            dex: self.dex,
+            luk: self.luk,
+            base_atk: self.base_atk,
+            matk_min: self.matk_min,
+            matk_max: self.matk_max,
+            speed: self.speed,
+            attack_motion: self.attack_motion,
+            attack_delay: self.attack_delay,
+            delay_motion: self.delay_motion,
+            hit: self.hit,
+            flee: self.flee,
+            crit: self.crit,
+            def: self.def,
+            mdef: self.mdef,
+            aspd: self.aspd,
             look: self.look.clone(),
             zeny: self.zeny,
         }

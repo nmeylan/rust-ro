@@ -17,13 +17,13 @@ extern crate packets;
 extern crate sqlx;
 extern crate core;
 
-use std::cell::RefCell;
+
 use std::collections::HashMap;
 
 use std::thread::{JoinHandle};
 use proxy::map::MapProxy;
 use crate::proxy::char::CharProxy;
-use std::sync::{Arc, RwLock};
+use std::sync::{Arc};
 use crate::repository::Repository;
 use std::time::{Instant};
 use flexi_logger::Logger;
@@ -61,7 +61,7 @@ pub async fn main() {
     let map_item_ids = MyUnsafeCell::new(HashMap::<u32, MapItem>::new());
     let start = Instant::now();
     let maps = Map::load_maps(warps, mob_spawns, scripts, map_item_ids.clone());
-    let maps = maps.into_iter().map(|(k, v)| (k.to_string(), Arc::new(v))).collect::<HashMap<String, Arc<Map>>>();
+    let maps = maps.into_iter().map(|(k, v)| (k, Arc::new(v))).collect::<HashMap<String, Arc<Map>>>();
     info!("load {} map-cache in {} secs", maps.len(), start.elapsed().as_millis() as f32 / 1000.0);
     let vm = Arc::new(Vm::new("native_functions_list.txt", DebugFlag::None.value()));
     Vm::bootstrap(vm.clone(), class_files, Box::new(&ScriptHandler{}));
@@ -69,7 +69,7 @@ pub async fn main() {
     let (client_notification_sender, single_client_notification_receiver) = std::sync::mpsc::sync_channel::<Notification>(0);
     let server = Server::new(config.clone(), repository_arc.clone(), maps, map_item_ids, vm, client_notification_sender);
     let server_ref = Arc::new(server);
-    let server_ref_clone = server_ref.clone();
+    let server_ref_clone = server_ref;
     let mut handles: Vec<JoinHandle<()>> = Vec::new();
     Server::start(server_ref_clone, single_client_notification_receiver);
     let char_proxy = CharProxy::new(&config.proxy);

@@ -1,5 +1,5 @@
 use std::io::{Read, Write};
-use std::mem;
+
 use std::net::{Shutdown, TcpStream};
 use std::sync::{Arc, RwLock};
 use std::thread::spawn;
@@ -12,7 +12,7 @@ use packets::packets_parser::parse;
 
 use crate::repository::Repository;
 use crate::server::core::request::Request;
-use crate::server::core::response::Response;
+
 use crate::server::core::session::Session;
 use crate::server::server::Server;
 

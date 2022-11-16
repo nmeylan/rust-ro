@@ -1,18 +1,13 @@
-use std::env::var;
-use std::io::Write;
-use std::net::TcpStream;
 use std::sync::{Arc, RwLock};
 use std::sync::mpsc::{SyncSender};
-
 use rathena_script_lang_interpreter::lang::call_frame::CallFrame;
 use rathena_script_lang_interpreter::lang::thread::Thread;
 use rathena_script_lang_interpreter::lang::value::{Native, Value};
 use rathena_script_lang_interpreter::lang::vm::NativeMethodHandler;
-use sprintf::{ConversionSpecifier, Printf, vsprintf};
+use sprintf::{Printf, vsprintf};
 use tokio::runtime::Runtime;
 use tokio::sync::mpsc::{Receiver};
-
-use packets::packets::{PacketZcCloseDialog, PacketZcMenuList, PacketZcNotifyPlayerchat, PacketZcOpenEditdlg, PacketZcOpenEditdlgstr, PacketZcPcPurchaseItemlist, PacketZcSayDialog, PacketZcSelectDealtype, PacketZcShowImage2, PacketZcSpriteChange2, PacketZcWaitDialog, PurchaseItem};
+use packets::packets::{PacketZcCloseDialog, PacketZcMenuList, PacketZcNotifyPlayerchat, PacketZcOpenEditdlg, PacketZcOpenEditdlgstr, PacketZcSayDialog, PacketZcShowImage2, PacketZcWaitDialog};
 
 use crate::packets::packets::Packet;
 use crate::Server;
@@ -175,7 +170,7 @@ impl NativeMethodHandler for PlayerScriptHandler {
         } else if native.name.eq("select") {
             self.handle_menu(execution_thread, params);
         } else if native.name.eq("menu") {
-            if let Some(option) = self.handle_menu(execution_thread, params) {}
+            if let Some(_option) = self.handle_menu(execution_thread, params) {}
         } else if native.name.eq("loadconstant") {
             let constant_name = params[0].string_value().unwrap();
             if let Some(value) = load_constant(constant_name) {
@@ -218,7 +213,7 @@ impl NativeMethodHandler for PlayerScriptHandler {
             };
             execution_thread.push_constant_on_stack(char_info);
         } else if native.name.eq("message") {
-            let char_name = params[0].string_value().unwrap();
+            let _char_name = params[0].string_value().unwrap();
             let message = params[1].string_value().unwrap();
             let mut packet_zc_notify_playerchat = PacketZcNotifyPlayerchat::new();
             packet_zc_notify_playerchat.set_msg(message.to_string());

@@ -1,4 +1,4 @@
-use crate::server::state::character::Character;
+
 use crate::server::core::movement::Movement;
 use crate::server::core::position::Position;
 use crate::server::state::status::LookType;
