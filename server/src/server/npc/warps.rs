@@ -6,8 +6,7 @@ use std::io::{BufRead, BufReader};
 use std::time::Instant;
 use crate::server::core::map_item::{MapItem, MapItemType};
 use crate::server::map_item::ToMapItem;
-use crate::server::npc::npc::{Npc, NpcLoader};
-
+use crate::server::npc::{Npc, NpcLoader};
 
 static PARALLEL_EXECUTIONS: usize = 100; // TODO add a conf for this
 static WARP_CONF_PATH: &str = "./npc/scripts_warps.conf";
@@ -81,9 +80,7 @@ impl Warp {
             to_y: 0
         }
     }
-    pub fn name(&self) -> &String {
-        &self.name
-    }
+
     pub fn x(&self) -> u16 {
         self.x
     }

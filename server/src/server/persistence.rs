@@ -2,7 +2,8 @@ use std::sync::Arc;
 use std::sync::mpsc::Receiver;
 use tokio::runtime::Runtime;
 
-use crate::{Map, PersistenceEvent, Repository, Server};
+use crate::{Map, PersistenceEvent, Repository};
+use crate::server::Server;
 
 impl Server {
     pub(crate) fn persistence_thread(persistence_event_receiver: Receiver<PersistenceEvent>, runtime: Runtime, repository: Arc<Repository>) {

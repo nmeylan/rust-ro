@@ -8,14 +8,14 @@ use crate::server::events::game_event::GameEvent::CharacterUpdateZeny;
 
 use crate::server::script::constant::load_constant;
 use crate::server::script::{GlobalVariableEntry, GlobalVariableScope};
-use crate::server::script::script::PlayerScriptHandler;
+use crate::server::script::PlayerScriptHandler;
 
 lazy_static! {
         static ref CONSTANT_REGEX: Regex = Regex::new("[A-Z_]*").unwrap();
     }
 
 impl PlayerScriptHandler {
-    pub fn handle_setglobalvariable(&self, params: &Vec<Value>) {
+    pub fn handle_setglobalvariable(&self, params: &[Value]) {
         let variable_name = params[0].string_value().unwrap();
         let variable_scope = params[1].string_value().unwrap();
         let value = params[2].clone();
@@ -175,7 +175,7 @@ impl PlayerScriptHandler {
             index += 2;
         }
     }
-    pub fn handle_getglobalarray(&self, params: &Vec<Value>, execution_thread: &Thread) {
+    pub fn handle_getglobalarray(&self, params: &[Value], execution_thread: &Thread) {
         let variable_name = params[0].string_value().unwrap();
         let variable_scope = params[1].string_value().unwrap();
 
@@ -252,16 +252,16 @@ impl PlayerScriptHandler {
         execution_thread.push_constant_on_stack(Value::Number(Some((count * 2) as i32)));
     }
 
-    fn load_special_char_variable(char: &Character, special_variable_name: &String) -> Option<Value> {
-        match special_variable_name.as_str() {
+    fn load_special_char_variable(char: &Character, special_variable_name: &str) -> Option<Value> {
+        match special_variable_name {
             "Zeny" => Some(Value::new_number(char.get_zeny() as i32)),
             &_ => None
         }
     }
-    fn store_special_char_variable(&self, char: &Character, special_variable_name: &String, value: &Value) -> bool {
-        match special_variable_name.as_str() {
+    fn store_special_char_variable(&self, char: &Character, special_variable_name: &str, value: &Value) -> bool {
+        match special_variable_name {
             "Zeny" => {
-                self.server.add_to_next_tick(CharacterUpdateZeny(CharacterZeny { char_id: char.char_id, zeny: value.number_value().unwrap().clone() as u32 }));
+                self.server.add_to_next_tick(CharacterUpdateZeny(CharacterZeny { char_id: char.char_id, zeny: value.number_value().unwrap() as u32 }));
                 true
             }
             &_ => false

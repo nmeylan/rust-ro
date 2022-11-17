@@ -26,7 +26,7 @@ impl Repository {
         }
     }
 
-    pub fn in_clause<T>(elements: &Vec<T>) -> String {
+    pub fn in_clause<T>(elements: &[T]) -> String {
         format!("IN ({})", elements.iter().map(|_| "?".to_string()).collect::<Vec<String>>().join(","))
     }
 }

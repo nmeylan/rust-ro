@@ -5,7 +5,7 @@ use eframe::egui::epaint::RectShape;
 use crate::server::core::map::{WALKABLE_MASK, WARP_MASK};
 use crate::server::core::map_instance::MapInstance;
 use crate::server::core::map_item::{MapItem, MapItemType};
-use crate::server::server::PLAYER_FOV;
+use crate::server::PLAYER_FOV;
 use crate::util::coordinate;
 
 pub struct MapInstanceView {

@@ -14,7 +14,7 @@ use crate::repository::Repository;
 use crate::server::core::request::Request;
 
 use crate::server::core::session::Session;
-use crate::server::server::Server;
+use crate::server::Server;
 
 pub(crate) fn handle_login(server: Arc<Server>, context: Request) {
     let packet_ca_login = cast!(context.packet(), PacketCaLogin);
@@ -29,7 +29,7 @@ pub(crate) fn handle_login(server: Arc<Server>, context: Request) {
             proxy_login(server.clone(), context.packet(), context.socket());
             return;
         }
-        let new_user_session = Session::create_empty(packet_response.aid,packet_response.auth_code,packet_response.user_level, packet_ca_login.version); // TODO: packetver find solution to allow client to set packetver
+        let new_user_session = Session::create_empty(packet_response.aid, packet_response.auth_code, packet_response.user_level, packet_ca_login.version); // TODO: packetver find solution to allow client to set packetver
         let mut sessions_guard = write_lock!(server.sessions);
         sessions_guard.insert(packet_response.aid, Arc::new(new_user_session));
         socket_send!(context, res);
@@ -40,7 +40,7 @@ pub(crate) fn handle_login(server: Arc<Server>, context: Request) {
             proxy_login(server.clone(), context.packet(), context.socket());
             return;
         }
-        let new_user_session = Session::create_empty(packet_response.aid,packet_response.auth_code,packet_response.user_level, packet_ca_login.version); // TODO: packetver find solution to allow client to set packetver
+        let new_user_session = Session::create_empty(packet_response.aid, packet_response.auth_code, packet_response.user_level, packet_ca_login.version); // TODO: packetver find solution to allow client to set packetver
         let mut sessions_guard = write_lock!(server.sessions);
         sessions_guard.insert(packet_response.aid, Arc::new(new_user_session));
         socket_send!(context, res);
@@ -81,7 +81,7 @@ pub async fn authenticate(server: &Server, packet: &PacketCaLogin, repository: &
             server_addr.set_name(name_chars);
             ac_accept_login.set_server_list(vec![server_addr]);
             ac_accept_login.fill_raw();
-            return Box::new(ac_accept_login)
+            return Box::new(ac_accept_login);
         } else {
             let mut ac_accept_login2 = PacketAcAcceptLogin2::new();
             ac_accept_login2.set_packet_length(PacketAcAcceptLogin2::base_len(server.packetver()) as i16);
@@ -97,9 +97,8 @@ pub async fn authenticate(server: &Server, packet: &PacketCaLogin, repository: &
             server_addr.set_name(name_chars);
             ac_accept_login2.set_server_list(vec![server_addr]);
             ac_accept_login2.fill_raw();
-            return Box::new(ac_accept_login2)
+            return Box::new(ac_accept_login2);
         }
-
     }
     let refuse_login_packet: Box<dyn Packet>;
     if server.packetver() >= 20180627 {
@@ -128,37 +127,34 @@ fn proxy_login(server: Arc<Server>, packet: &dyn Packet, tcp_stream: Arc<RwLock<
     let handle = spawn(move || {
         let mut buffer = [0; 2048];
         loop {
-            match remote_login_server_clone.read(&mut buffer) {
-                Ok(bytes_read) => {
-                    // no more data
-                    if bytes_read == 0 {
-                        remote_login_server_clone.shutdown(Shutdown::Both).expect("Unable to shutdown remote login server socket");
-                        break;
-                    }
-                    let mut packet = parse(&buffer[..bytes_read], server.packetver());
-                    if packet.as_any().downcast_ref::<PacketAcAcceptLogin2>().is_some() {
-                        let packet_accept_login2 = packet.as_any_mut().downcast_mut::<PacketAcAcceptLogin2>().unwrap();
-                        let server_char = packet_accept_login2.server_list.get_mut(0).unwrap();
-                        server_char.set_port(server.configuration.proxy.local_char_server_port as i16);
-                        packet_accept_login2.fill_raw();
-                        let mut tcp_stream_guard = tcp_stream.write().unwrap();
-                        debug!("Respond with: {:02X?}", packet_accept_login2.raw());
-                        tcp_stream_guard.write_all(packet_accept_login2.raw()).unwrap();
-                        tcp_stream_guard.flush().unwrap();
-                    } else if packet.as_any().downcast_ref::<PacketAcAcceptLogin>().is_some() {
-                        let packet_accept_login = packet.as_any_mut().downcast_mut::<PacketAcAcceptLogin>().unwrap();
-                        let server_char = packet_accept_login.server_list.get_mut(0).unwrap();
-                        server_char.set_port(server.configuration.proxy.local_char_server_port as i16);
-                        packet_accept_login.fill_raw();
-                        let mut tcp_stream_guard = tcp_stream.write().unwrap();
-                        debug!("Respond with: {:02X?}", packet_accept_login.raw());
-                        tcp_stream_guard.write_all(packet_accept_login.raw()).unwrap();
-                        tcp_stream_guard.flush().unwrap();
-                    } else {
-                        panic!("Received packet is not PacketAcAcceptLogin2");
-                    }
+            if let Ok(bytes_read) = remote_login_server_clone.read(&mut buffer) {
+                // no more data
+                if bytes_read == 0 {
+                    remote_login_server_clone.shutdown(Shutdown::Both).expect("Unable to shutdown remote login server socket");
+                    break;
                 }
-                _ => {}
+                let mut packet = parse(&buffer[..bytes_read], server.packetver());
+                if packet.as_any().downcast_ref::<PacketAcAcceptLogin2>().is_some() {
+                    let packet_accept_login2 = packet.as_any_mut().downcast_mut::<PacketAcAcceptLogin2>().unwrap();
+                    let server_char = packet_accept_login2.server_list.get_mut(0).unwrap();
+                    server_char.set_port(server.configuration.proxy.local_char_server_port as i16);
+                    packet_accept_login2.fill_raw();
+                    let mut tcp_stream_guard = tcp_stream.write().unwrap();
+                    debug!("Respond with: {:02X?}", packet_accept_login2.raw());
+                    tcp_stream_guard.write_all(packet_accept_login2.raw()).unwrap();
+                    tcp_stream_guard.flush().unwrap();
+                } else if packet.as_any().downcast_ref::<PacketAcAcceptLogin>().is_some() {
+                    let packet_accept_login = packet.as_any_mut().downcast_mut::<PacketAcAcceptLogin>().unwrap();
+                    let server_char = packet_accept_login.server_list.get_mut(0).unwrap();
+                    server_char.set_port(server.configuration.proxy.local_char_server_port as i16);
+                    packet_accept_login.fill_raw();
+                    let mut tcp_stream_guard = tcp_stream.write().unwrap();
+                    debug!("Respond with: {:02X?}", packet_accept_login.raw());
+                    tcp_stream_guard.write_all(packet_accept_login.raw()).unwrap();
+                    tcp_stream_guard.flush().unwrap();
+                } else {
+                    panic!("Received packet is not PacketAcAcceptLogin2");
+                }
             }
         }
     });

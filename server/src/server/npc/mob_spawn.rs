@@ -9,7 +9,7 @@ use std::time::Instant;
 use tokio::runtime::Runtime;
 use crate::repository::Repository;
 use crate::repository::model::mob_model::MobModel;
-use crate::server::npc::npc::{Npc, NpcLoader};
+use crate::server::npc::{Npc, NpcLoader};
 
 static PARALLEL_EXECUTIONS: usize = 1;
 // TODO add a conf for this

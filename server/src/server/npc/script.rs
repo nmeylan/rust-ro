@@ -27,7 +27,9 @@ pub struct Script {
     x: u16,
     y: u16,
     dir: u16,
+    #[allow(dead_code)]
     x_size: u16,
+    #[allow(dead_code)]
     y_size: u16,
     pub class_name: String,
     pub class_reference: u64,

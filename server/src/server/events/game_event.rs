@@ -4,12 +4,10 @@ use crate::server::core::position::Position;
 use crate::server::state::status::LookType;
 
 pub enum GameEvent {
-    CharacterRemove(u32),
     CharacterLoadedFromClientSide(u32),
     CharacterRemoveFromMap(u32),
     CharacterClearFov(u32),
     CharacterMove(CharacterMovement),
-    CharacterClearMove(u32),
     CharacterChangeMap(CharacterChangeMap),
     CharacterUpdateLook(CharacterLook),
     CharacterUpdateZeny(CharacterZeny)

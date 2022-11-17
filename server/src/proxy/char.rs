@@ -1,9 +1,9 @@
-use crate::proxy::proxy::{PacketHandler, Proxy};
 use std::net::{SocketAddr, TcpStream};
 use std::net::IpAddr;
 use std::str::FromStr;
 use std::sync::{Arc, Mutex};
 use packets::packets::{Packet, PacketChSendMapInfo, PacketHcNotifyZonesvr, ZserverAddr};
+use crate::proxy::{PacketHandler, Proxy};
 use crate::server::core::configuration::ProxyConfig;
 
 #[derive(Clone)]

@@ -1,7 +1,7 @@
 
 
 use packets::packets::{Packet, PacketZcAckReqnameall2, PacketCzReqnameall2, PacketZcNotifyMapproperty2, PacketZcHatEffect, PacketCzReqname};
-use crate::server::server::Server;
+use crate::server::Server;
 use crate::util::string::StringUtil;
 
 use crate::server::events::game_event::GameEvent;
@@ -27,7 +27,7 @@ pub fn handle_map_item_name(server: &Server, context: Request) {
         return;
     }
     let map_item = maybe_map_item.unwrap();
-    let map_item_name = server.map_item_name(&map_item, character.current_map_name(), character.current_map_instance()).unwrap_or("unknown".to_string());
+    let map_item_name = server.map_item_name(&map_item, character.current_map_name(), character.current_map_instance()).unwrap_or_else(|| "unknown".to_string());
     let mut packet_zc_ack_reqnameall2 = PacketZcAckReqnameall2::new();
     packet_zc_ack_reqnameall2.set_gid(gid);
     let mut name: [char; 24] = [0 as char; 24];

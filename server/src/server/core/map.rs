@@ -27,7 +27,7 @@ use crate::server::core::map_item::{MapItem};
 use crate::server::map_item::ToMapItem;
 use crate::server::npc::mob_spawn::MobSpawn;
 use crate::server::npc::warps::Warp;
-use crate::server::server::Server;
+use crate::server::Server;
 use crate::util::cell::MyUnsafeCell;
 use crate::util::coordinate;
 
@@ -312,10 +312,9 @@ impl Map {
     }
 
     fn start_thread(map_instance: Arc<MapInstance>, _server: &Server, single_map_event_notification_receiver: Receiver<MapEvent>) {
-        let map_instance_clone = map_instance.clone();
         let map_instance_clone_for_thread = map_instance.clone();
-        info!("Start thread for {}", map_instance_clone.name);
-        thread::Builder::new().name(format!("map_instance_{}_thread", map_instance_clone.name))
+        info!("Start thread for {}", map_instance.name);
+        thread::Builder::new().name(format!("map_instance_{}_thread", map_instance.name))
             .spawn(move || {
                 loop {
                     for event in single_map_event_notification_receiver.iter() {

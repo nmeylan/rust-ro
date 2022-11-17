@@ -40,14 +40,12 @@ impl SessionsIter for HashMap<u32, Arc<Session>> {
                 return false;
             }
             debug!("char_server_socket.peer_addr {:?}", char_server_socket.peer_addr());
-            let is_char_stream = char_server_socket.peer_addr().unwrap() == tcp_stream.peer_addr().unwrap();
-
-            is_char_stream
+            char_server_socket.peer_addr().unwrap() == tcp_stream.peer_addr().unwrap()
         });
         if map_entry_option.is_none() {
             return None;
         }
-        Some(map_entry_option.unwrap().0.clone())
+        Some(*map_entry_option.unwrap().0)
     }
 }
 
@@ -73,7 +71,7 @@ impl Session {
             account_id: self.account_id,
             auth_code: self.auth_code,
             user_level: self.user_level,
-            char_id: self.char_id.clone(),
+            char_id: self.char_id,
             packetver: self.packetver,
             script_handler_channel_sender: Mutex::new(None)
         }
@@ -86,7 +84,7 @@ impl Session {
             account_id: self.account_id,
             auth_code: self.auth_code,
             user_level: self.user_level,
-            char_id: self.char_id.clone(),
+            char_id: self.char_id,
             packetver: self.packetver,
             script_handler_channel_sender: Mutex::new(None)
         }
@@ -128,10 +126,6 @@ impl Session {
 
     pub fn set_script_handler_channel_sender(&self, script_handler_channel_sender: Sender<Vec<u8>>) {
         *self.script_handler_channel_sender.lock().unwrap() = Some(script_handler_channel_sender);
-    }
-
-    pub fn packetver(&self) -> u32 {
-        self.packetver
     }
 
     pub fn char_id(&self) -> u32 {
