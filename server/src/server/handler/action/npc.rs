@@ -1,15 +1,15 @@
 use std::sync::{Arc, RwLock};
-use std::{thread};
+use std::thread;
 
 use rathena_script_lang_interpreter::lang::vm::Vm;
 use tokio::runtime::Runtime;
 use tokio::sync::mpsc;
 
-use packets::packets::{PacketCzContactnpc, PacketCzChooseMenu, PacketCzInputEditdlg, PacketCzInputEditdlgstr, PacketCzAckSelectDealtype, PacketCzPcPurchaseItemlist};
+use packets::packets::{PacketCzAckSelectDealtype, PacketCzChooseMenu, PacketCzContactnpc, PacketCzInputEditdlg, PacketCzInputEditdlgstr, PacketCzPcPurchaseItemlist};
 
-use crate::{Server};
 use crate::server::core::request::Request;
-use crate::server::script::script::PlayerScriptHandler;
+use crate::server::script::PlayerScriptHandler;
+use crate::server::Server;
 
 pub fn handle_contact_npc(server: Arc<Server>, context: Request) {
     let packet_cz_contact_npc = cast!(context.packet(), PacketCzContactnpc);

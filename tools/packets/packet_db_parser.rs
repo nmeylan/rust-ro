@@ -181,7 +181,7 @@ fn get_field<'a>(field_line: String, position: i16) -> StructField<'a> {
     }
 }
 
-fn get_string_field_length(line: &String) -> i16 {
+fn get_string_field_length(line: &str) -> i16 {
     let frag: Vec<&str> = line.split(' ').collect();
     let name = frag[frag.len() - 1].to_string();
     let string_len = STRING_LEN_REGEX.captures(name.as_str());
@@ -192,7 +192,7 @@ fn get_string_field_length(line: &String) -> i16 {
     }
 }
 
-fn get_field_name(line: &String) -> String {
+fn get_field_name(line: &str) -> String {
     let frag: Vec<&str> = line.split(' ').collect();
     let mut name = frag[frag.len() - 1].to_string();
     if name.find('[').is_some() {
@@ -220,7 +220,7 @@ fn get_field_name(line: &String) -> String {
     name
 }
 
-fn get_type(line: &String, should_ignore_array: bool) -> &'static Type {
+fn get_type(line: &str, should_ignore_array: bool) -> &'static Type {
     let is_unsigned = line.contains("unsigned");
     let type_str = line.replace("unsigned ", "");
     if type_str.contains('[') && !should_ignore_array {
@@ -238,14 +238,14 @@ fn get_type(line: &String, should_ignore_array: bool) -> &'static Type {
     found_type.unwrap()
 }
 
-fn get_condition(line: &String) -> Condition {
-    let condition_matches = CONDITION_REGEX.captures(line.as_str());
-    if condition_matches.is_some() {
-        match condition_matches.as_ref().unwrap().get(1).unwrap().as_str() {
-            "GT" => Condition::GT(condition_matches.unwrap().get(2).unwrap().as_str().parse::<u32>().unwrap()),
-            "GTE" => Condition::GTE(condition_matches.unwrap().get(2).unwrap().as_str().parse::<u32>().unwrap()),
-            "LT" => Condition::LT(condition_matches.unwrap().get(2).unwrap().as_str().parse::<u32>().unwrap()),
-            "LTE" => Condition::LTE(condition_matches.unwrap().get(2).unwrap().as_str().parse::<u32>().unwrap()),
+fn get_condition(line: &str) -> Condition {
+    let condition_matches = CONDITION_REGEX.captures(line);
+    if let Some(condition_matches) = condition_matches {
+        match condition_matches.get(1).unwrap().as_str() {
+            "GT" => Condition::GT(condition_matches.get(2).unwrap().as_str().parse::<u32>().unwrap()),
+            "GTE" => Condition::GTE(condition_matches.get(2).unwrap().as_str().parse::<u32>().unwrap()),
+            "LT" => Condition::LT(condition_matches.get(2).unwrap().as_str().parse::<u32>().unwrap()),
+            "LTE" => Condition::LTE(condition_matches.get(2).unwrap().as_str().parse::<u32>().unwrap()),
             _ => panic!("Packet version condition should match regex")
         }
     } else {

@@ -11,8 +11,6 @@ extern crate log;
 #[macro_use]
 extern crate accessor;
 
-#[macro_use]
-extern crate metrics;
 extern crate packets;
 extern crate sqlx;
 extern crate core;
@@ -30,13 +28,13 @@ use flexi_logger::Logger;
 use rathena_script_lang_interpreter::lang::vm::{DebugFlag, Vm};
 use tokio::runtime::Runtime;
 use crate::server::npc::warps::Warp;
-use crate::server::server::Server;
+use server::Server;
 use crate::server::core::configuration::Config;
 use crate::server::core::map::Map;
 use server::events::client_notification::Notification;
 use server::events::persistence_event::PersistenceEvent;
 use self::server::core::map_item::MapItem;
-use self::server::script::script::ScriptHandler;
+use self::server::script::ScriptHandler;
 use crate::server::npc::mob_spawn::MobSpawn;
 use crate::server::npc::script::Script;
 use crate::util::cell::MyUnsafeCell;

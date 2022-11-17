@@ -1,8 +1,8 @@
 #![allow(dead_code)]
 
 use std::cell::RefCell;
-use std::collections::{HashMap};
-use std::sync::{Arc};
+use std::collections::HashMap;
+use std::sync::Arc;
 use packets::packets::PacketZcNotifyMove;
 
 use crate::server::core::map::{Map, MAP_EXT, WARP_MASK};
@@ -12,20 +12,21 @@ use crate::server::state::status::Status;
 use crate::server::core::map_item::{MapItem, MapItemSnapshot};
 use crate::server::npc::mob_spawn::MobSpawn;
 use crate::server::npc::warps::Warp;
-use crate::server::server::{MOB_FOV, Server};
 use crate::util::coordinate;
 use crate::util::packet::chain_packets_raws;
 use packets::packets::Packet;
 
 
-use std::sync::mpsc::{SyncSender};
+use std::sync::mpsc::SyncSender;
 use rathena_script_lang_interpreter::lang::vm::Vm;
-use crate::{MyUnsafeCell, ScriptHandler};
+use crate::MyUnsafeCell;
 use crate::server::events::map_event::MapEvent;
 use crate::server::events::client_notification::{CharNotification, Notification};
 use crate::server::map_item::ToMapItem;
+use crate::server::{MOB_FOV, Server};
 use crate::server::npc::script::Script;
-use crate::util::cell::{MyRef};
+use crate::server::script::ScriptHandler;
+use crate::util::cell::MyRef;
 use crate::util::string::StringUtil;
 
 pub struct MapInstanceKey {

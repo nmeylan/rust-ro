@@ -54,15 +54,12 @@ impl Mob {
     pub fn y(&self) -> u16 {
         self.y
     }
-    pub fn name(&self) -> &String {
-        &self.name
-    }
     pub fn update_map_view(&mut self, map_items: Vec<MapItem>) {
         self.is_view_char = !map_items.is_empty();
         self.map_view = map_items;
     }
 
-    pub fn action_move(&mut self, cells: &Vec<u16>, x_size: u16, y_size: u16) -> HashMap<MapItem, PacketZcNotifyMove> {
+    pub fn action_move(&mut self, cells: &[u16], x_size: u16, y_size: u16) -> HashMap<MapItem, PacketZcNotifyMove> {
         let mut rng = rand::thread_rng();
         let mut character_packets_map: HashMap<MapItem, PacketZcNotifyMove> = HashMap::new();
         let rand = rng.gen_range(0..=100);
@@ -100,7 +97,7 @@ impl Mob {
                         let start_time = get_tick_client();
                         packet_zc_notify_move.set_move_start_time(start_time);
                         packet_zc_notify_move.fill_raw();
-                        character_packets_map.insert(map_item.clone(), packet_zc_notify_move);
+                        character_packets_map.insert(*map_item, packet_zc_notify_move);
                     })
             }
         }

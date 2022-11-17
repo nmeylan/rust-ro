@@ -1,12 +1,8 @@
-
-use futures::TryFutureExt;
-
 use rathena_script_lang_interpreter::lang::call_frame::CallFrame;
 use rathena_script_lang_interpreter::lang::thread::Thread;
 use rathena_script_lang_interpreter::lang::value::{Native, Value};
 use packets::packets::{CzPurchaseItem, PacketZcPcPurchaseItemlist, PacketZcSelectDealtype, PurchaseItem};
-use crate::server::script::script::PlayerScriptHandler;
-use crate::packets::packets::Packet;
+use crate::server::script::PlayerScriptHandler;
 use crate::server::enums::item::ItemType;
 use crate::server::script::{GlobalVariableEntry, GlobalVariableScope};
 
@@ -45,7 +41,7 @@ impl PlayerScriptHandler {
             // Build array of PurchaseItem, retrieving some information from db (prices)
             let items = self.runtime.block_on( async{self.server.repository.item_buy_sell_fetch_all_where_ids(item_ids).await }).unwrap();
             let mut items_list: Vec<PurchaseItem> = vec![];
-            for i in 0..array_items.len() {
+            for (i, _) in price_overrides.iter().enumerate().take(array_items.len()) {
                 let mut purchase_item = PurchaseItem::new();
                 let item = items.get(i).unwrap();
                 purchase_item.set_itid(item.id.unwrap() as u16);

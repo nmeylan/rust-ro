@@ -5,7 +5,7 @@ use rand::Rng;
 use crate::server::core::position::Position;
 use crate::server::core::map_item::{MapItem, MapItemSnapshot, MapItemType};
 use crate::server::npc::script::Script;
-use crate::server::server::{Server, UNKNOWN_MAP_ITEM};
+use crate::server::{Server, UNKNOWN_MAP_ITEM};
 use crate::util::cell::MyRefMut;
 
 

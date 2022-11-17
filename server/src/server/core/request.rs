@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 use std::net::TcpStream;
 use std::sync::{Arc, RwLock};
 use std::sync::mpsc::{SyncSender};

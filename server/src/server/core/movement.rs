@@ -21,9 +21,8 @@ impl Movement {
     pub fn position(&self) -> &Position {
         &self.position
     }
-    pub fn from_path(path: Vec<PathNode>, start_at: u128, start_position: &Position) -> Vec<Movement> {
+    pub fn from_path(path: Vec<PathNode>, start_at: u128) -> Vec<Movement> {
         let mut movements = vec![];
-        let mut current_position = start_position.clone();
         for path_node in path.iter() {
             let position = Position { x: path_node.x, y: path_node.y, dir: 0 };
             movements.push(Movement {
@@ -31,7 +30,6 @@ impl Movement {
                 is_diagonal: path_node.is_diagonal,
                 move_at: start_at, // Will be re-set in game loop to take current player speed
             });
-            current_position = position;
         }
         movements.reverse();
         movements

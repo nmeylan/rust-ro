@@ -1,6 +1,6 @@
 
 use std::collections::HashSet;
-use packets::packets::{Packet, PacketChEnter, PacketHcRefuseEnter, CharacterInfoNeoUnion, PacketHcAcceptEnterNeoUnionHeader, PacketHcAcceptEnterNeoUnion, PacketPincodeLoginstate, PacketHcAcceptMakecharNeoUnion, PacketChDeleteChar4Reserved, PacketHcDeleteChar4Reserved, PacketChSelectChar, PacketChSendMapInfo, PacketCzEnter2, PacketMapConnection, PacketZcInventoryExpansionInfo, PacketZcOverweightPercent, PacketZcAcceptEnter2, PacketZcStatusValues, PacketZcParChange, PacketZcAttackRange, PacketZcNotifyChat, PacketCzRestart, PacketZcRestartAck, PacketZcReqDisconnectAck2, PacketZcLoadConfirm, PacketChMakeChar3, PacketChMakeChar, PacketHcNotifyZonesvr, ZserverAddr};
+use packets::packets::{CharacterInfoNeoUnion, Packet, PacketChDeleteChar4Reserved, PacketChEnter, PacketChMakeChar, PacketChMakeChar3, PacketChSelectChar, PacketChSendMapInfo, PacketCzEnter2, PacketCzRestart, PacketHcAcceptEnterNeoUnion, PacketHcAcceptEnterNeoUnionHeader, PacketHcAcceptMakecharNeoUnion, PacketHcDeleteChar4Reserved, PacketHcNotifyZonesvr, PacketHcRefuseEnter, PacketMapConnection, PacketPincodeLoginstate, PacketZcAcceptEnter2, PacketZcAttackRange, PacketZcInventoryExpansionInfo, PacketZcLoadConfirm, PacketZcNotifyChat, PacketZcOverweightPercent, PacketZcParChange, PacketZcReqDisconnectAck2, PacketZcRestartAck, PacketZcStatusValues, ZserverAddr};
 
 use std::sync::{Arc, Mutex};
 
@@ -11,8 +11,8 @@ use std::net::Shutdown::Both;
 
 use crate::util::packet::chain_packets;
 use crate::server::enums::status::StatusTypes;
-use crate::server::state::character::{Character};
-use crate::server::service::character_movement::{change_map_packet};
+use crate::server::state::character::Character;
+use crate::server::service::character_movement::change_map_packet;
 use crate::server::events::game_event::GameEvent;
 use crate::server::core::map::Map;
 use crate::server::core::map_instance::MapInstanceKey;
@@ -20,8 +20,8 @@ use crate::server::core::request::Request;
 
 use crate::server::state::status::Status;
 use crate::server::script::ScriptGlobalVariableStore;
-use crate::server::server::{Server};
-use crate::util::tick::{get_tick_client};
+use crate::server::Server;
+use crate::util::tick::get_tick_client;
 
 pub fn handle_char_enter(server: &Server, context: Request) {
     let packet_char_enter = cast!(context.packet(), PacketChEnter);
@@ -29,7 +29,7 @@ pub fn handle_char_enter(server: &Server, context: Request) {
 
     if sessions_guard.contains_key(&packet_char_enter.aid) {
         let session = sessions_guard.get(&packet_char_enter.aid).unwrap();
-        let session = Arc::new(session.recreate_with_char_socket(context.socket().clone()));
+        let session = Arc::new(session.recreate_with_char_socket(context.socket()));
         sessions_guard.insert(packet_char_enter.aid, session.clone());
         if session.auth_code == packet_char_enter.auth_code && session.user_level == packet_char_enter.user_level {
             let packet_hc_accept_enter_neo_union = context.runtime().block_on(async {
@@ -252,7 +252,7 @@ pub fn handle_enter_game(server: &Server, context: Request) {
         server.remove_session(aid);
         return;
     }
-    let session = Arc::new(session.recreate_with_map_socket(context.socket().clone()));
+    let session = Arc::new(session.recreate_with_map_socket(context.socket()));
     sessions_guard.insert(aid, session.clone());
     let mut packet_map_connection = PacketMapConnection::new();
     packet_map_connection.set_aid(session.account_id);
@@ -275,7 +275,7 @@ pub fn handle_enter_game(server: &Server, context: Request) {
     let char_id = session.char_id();
     let character = server.get_character_unsafe(char_id);
 
-    change_map_packet(&Map::name_without_ext(character.current_map_name()), character.x(), character.y(), session.clone(), server);
+    change_map_packet(&Map::name_without_ext(character.current_map_name()), character.x(), character.y(), session, server);
     socket_send!(context, packet_accept_enter);
 
     let mut packet_str = PacketZcStatusValues::new();

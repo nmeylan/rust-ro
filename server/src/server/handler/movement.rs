@@ -16,7 +16,7 @@ use crate::server::events::game_event::GameEvent::{CharacterMove};
 use crate::server::core::position::Position;
 use crate::server::core::path::path_search_client_side_algorithm;
 use crate::server::core::request::Request;
-use crate::server::server::Server;
+use crate::server::Server;
 
 
 
@@ -44,7 +44,7 @@ pub fn handle_char_move(server: &Server, context: Request) {
 
     let path = path_search_client_side_algorithm(map_instance, current_position.x(), current_position.y(), destination.x, destination.y);
     let start_at = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis();
-    let path = Movement::from_path(path, start_at, &current_position);
+    let path = Movement::from_path(path, start_at);
     // if let Some(previous_movement) = maybe_previous_movement {
     //     path.push(previous_movement);
     // }

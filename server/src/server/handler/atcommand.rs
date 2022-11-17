@@ -1,17 +1,17 @@
 
-use std::sync::{Arc};
+use std::sync::Arc;
 use lazy_static::lazy_static;
 use tokio::runtime::Runtime;
 use packets::packets::{PacketCzPlayerChat, PacketZcNotifyPlayerchat};
-use crate::{Server};
 use crate::server::core::session::Session;
 use regex::Regex;
 
 use packets::packets::Packet;
 use crate::server::core::configuration::CityConfig;
-use crate::server::service::character_movement::{change_map_packet};
+use crate::server::service::character_movement::change_map_packet;
 use crate::server::core::map::RANDOM_CELL;
 use crate::server::core::request::Request;
+use crate::server::Server;
 
 lazy_static! {
     static ref COMMAND_REGEX: Regex = Regex::new(r"^([@#!])([^\s]*)\s?(.*)?").unwrap();
@@ -117,9 +117,11 @@ pub fn handle_warp(server: &Server, session: Arc<Session>, _runtime: &Runtime, a
         if args.len() > 2 {
             let parse_x_res = args[1].parse::<u16>();
             let parse_y_res = args[2].parse::<u16>();
-            if parse_x_res.is_ok() && parse_y_res.is_ok() {
-                x = parse_x_res.unwrap();
-                y = parse_y_res.unwrap();
+            if let Ok(parse_x_res) = parse_x_res {
+                x = parse_x_res;
+            }
+            if let  Ok(parse_y_res) = parse_y_res {
+                y = parse_y_res;
             }
         }
         change_map_packet(&map_name, x, y, session.clone(), server);

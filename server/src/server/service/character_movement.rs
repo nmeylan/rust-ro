@@ -3,7 +3,7 @@ use crate::server::events::game_event::{CharacterChangeMap, GameEvent};
 use crate::server::core::map::{Map, RANDOM_CELL};
 use crate::server::core::position::Position;
 use crate::server::core::session::Session;
-use crate::server::server::Server;
+use crate::server::Server;
 
 
 pub fn change_map_packet(destination_map: &str, x: u16, y: u16, session: Arc<Session>, server: &Server) {

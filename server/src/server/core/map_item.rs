@@ -27,14 +27,7 @@ impl MapItemType {
             MapItemType::Unknown => 0,
         }
     }
-    pub fn from(item_type: i16) -> MapItemType {
-        match item_type {
-            1 => MapItemType::Character,
-            5 => MapItemType::Mob,
-            6 => MapItemType::Warp,
-            _ => MapItemType::Unknown
-        }
-    }
+
 }
 
 
@@ -95,7 +88,7 @@ impl MapItemSnapshot {
     pub fn y(&self) -> u16 {
         self.position.y
     }
-
+    #[allow(dead_code)]
     pub fn position(&self) -> Position {
         self.position
     }

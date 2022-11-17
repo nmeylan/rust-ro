@@ -6,7 +6,7 @@ use eframe::egui::{Align, ComboBox, Layout, Pos2, Rect, Vec2, Visuals};
 use eframe::epi;
 use epi::egui;
 use egui::{Ui};
-use crate::server::server::Server;
+use crate::server::Server;
 use lazy_static::lazy_static;
 use crate::debugger::frame_history;
 use crate::debugger::map_instance_view::MapInstanceView;

@@ -4,8 +4,6 @@ use std::thread::{sleep};
 use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
 
 
-
-
 use packets::packets::{Packet, PacketZcNotifyPlayermove, PacketZcNpcackMapmove, PacketZcSpriteChange2};
 use crate::PersistenceEvent;
 use crate::PersistenceEvent::SaveCharacterPosition;
@@ -20,7 +18,7 @@ use crate::server::events::persistence_event::{SavePositionUpdate, StatusUpdate}
 use crate::server::core::position::Position;
 
 use crate::server::map_item::{ToMapItem, ToMapItemSnapshot};
-use crate::server::server::Server;
+use crate::server::Server;
 use crate::util::string::StringUtil;
 
 
@@ -57,7 +55,7 @@ impl Server {
                                 character.update_position(new_position.x, new_position.y);
                                 character.clear_map_view();
                                 character.loaded_from_client_side = false;
-                                persistence_event_sender.send(SaveCharacterPosition(SavePositionUpdate {account_id: character.account_id, char_id: character.char_id, map_name: character.current_map_name().clone(), x: character.x(), y: character.y()}))
+                                persistence_event_sender.send(SaveCharacterPosition(SavePositionUpdate { account_id: character.account_id, char_id: character.char_id, map_name: character.current_map_name().clone(), x: character.x(), y: character.y() }))
                                     .expect("Fail to send persistence notification");
                             } else {
                                 error!("Can't change map to {} {}", event.new_map_name, event.new_instance_id);
@@ -71,18 +69,12 @@ impl Server {
                             let character = characters.get_mut(&char_id).unwrap();
                             character.clear_map_view();
                         }
-                        GameEvent::CharacterRemove(char_id) => {
-                            characters.remove(&char_id);
-                        }
                         GameEvent::CharacterLoadedFromClientSide(char_id) => {
                             let character = characters.get_mut(&char_id).unwrap();
                             character.loaded_from_client_side = true;
                             character.clear_map_view();
                         }
                         GameEvent::CharacterMove(_) => {
-                            // handled by dedicated thread
-                        }
-                        GameEvent::CharacterClearMove(_) => {
                             // handled by dedicated thread
                         }
                         GameEvent::CharacterUpdateLook(character_look) => {
@@ -94,16 +86,16 @@ impl Server {
                                 packet_zc_sprite_change.set_atype(character_look.look_type.value() as u8);
                                 packet_zc_sprite_change.set_value(character_look.look_value as i32);
                                 packet_zc_sprite_change.fill_raw();
-                                server_ref.client_notification_sender().send(Notification::Area(AreaNotification{
+                                server_ref.client_notification_sender().send(Notification::Area(AreaNotification {
                                     map_name: character.current_map_name().clone(),
                                     map_instance_id: character.current_map_instance(),
-                                    range_type: AreaNotificationRangeType::Fov {x: character.x(), y: character.y()},
-                                    packet: std::mem::take(packet_zc_sprite_change.raw_mut())
+                                    range_type: AreaNotificationRangeType::Fov { x: character.x(), y: character.y() },
+                                    packet: std::mem::take(packet_zc_sprite_change.raw_mut()),
                                 })).expect("Fail to send client notification");
-                                persistence_event_sender.send(PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate{
+                                persistence_event_sender.send(PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate {
                                     char_id: character_look.char_id,
                                     db_column,
-                                    value: character_look.look_value
+                                    value: character_look.look_value,
                                 })).expect("Fail to send persistence notification");
                             }
                         }
@@ -142,37 +134,28 @@ impl Server {
             let mut characters = server_ref.characters.borrow_mut();
             if let Some(tasks) = server_ref.pop_movement_task() {
                 for task in tasks {
-                    match task {
-                        GameEvent::CharacterClearMove(char_id) => {
-                            let character = characters.get_mut(&char_id).unwrap();
-                            character.clear_movement();
-                        }
-                        GameEvent::CharacterMove(character_movement) => {
-                            let character = characters.get_mut(&character_movement.char_id).unwrap();
-                            let speed = character.status.speed;
-                            let maybe_previous_movement = character.pop_movement();
-                            character.movements = character_movement.path;
-                            let mut packet_zc_notify_playermove = PacketZcNotifyPlayermove::new();
-                            if let Some(movement) = character.peek_mut_movement() {
-                                if let Some(previous_movement) = maybe_previous_movement {
-                                    debug!("change path! was {} will {}, move at {}",previous_movement.position(), movement.position(), previous_movement.move_at() + Movement::delay(speed, movement.is_diagonal()));
-                                    // movement.set_move_at(previous_movement.move_at() + Movement::delay(speed, movement.is_diagonal()));
-                                    movement.set_move_at(tick + Movement::delay(speed, movement.is_diagonal()) + MOVEMENT_TICK_RATE);
-                                } else {
-                                    movement.set_move_at(tick + Movement::delay(speed, movement.is_diagonal()));
-                                    debug!("will move at {}", movement.move_at());
-                                }
-                                packet_zc_notify_playermove.set_move_start_time(movement.move_at() as u32); // todo: time conversion check on client side ???
+                    if let GameEvent::CharacterMove(character_movement) = task {
+                        let character = characters.get_mut(&character_movement.char_id).unwrap();
+                        let speed = character.status.speed;
+                        let maybe_previous_movement = character.pop_movement();
+                        character.set_movement(character_movement.path);
+                        let mut packet_zc_notify_playermove = PacketZcNotifyPlayermove::new();
+                        if let Some(movement) = character.peek_mut_movement() {
+                            if let Some(previous_movement) = maybe_previous_movement {
+                                debug!("change path! was {} will {}, move at {}",previous_movement.position(), movement.position(), previous_movement.move_at() + Movement::delay(speed, movement.is_diagonal()));
+                                // movement.set_move_at(previous_movement.move_at() + Movement::delay(speed, movement.is_diagonal()));
+                                movement.set_move_at(tick + Movement::delay(speed, movement.is_diagonal()) + MOVEMENT_TICK_RATE);
+                            } else {
+                                movement.set_move_at(tick + Movement::delay(speed, movement.is_diagonal()));
+                                debug!("will move at {}", movement.move_at());
                             }
+                            packet_zc_notify_playermove.set_move_start_time(movement.move_at() as u32); // todo: time conversion check on client side ???
+                        }
 
-                            packet_zc_notify_playermove.set_move_data(character_movement.current_position.to_move_data(&character_movement.destination));
-                            packet_zc_notify_playermove.fill_raw();
-                            client_notification_sender_clone.send(Notification::Char(CharNotification::new(character.char_id, std::mem::take(packet_zc_notify_playermove.raw_mut()))))
-                                .expect("Failed to send notification event with PacketZcNotifyPlayermove");
-                        }
-                        _ => {
-                            // handled by game loop thread
-                        }
+                        packet_zc_notify_playermove.set_move_data(character_movement.current_position.to_move_data(&character_movement.destination));
+                        packet_zc_notify_playermove.fill_raw();
+                        client_notification_sender_clone.send(Notification::Char(CharNotification::new(character.char_id, std::mem::take(packet_zc_notify_playermove.raw_mut()))))
+                            .expect("Failed to send notification event with PacketZcNotifyPlayermove");
                     }
                 }
             }
@@ -214,7 +197,7 @@ impl Server {
                 }
             }
             for character in character_finished_to_move {
-                persistence_event_sender.send(SaveCharacterPosition(SavePositionUpdate {account_id: character.account_id, char_id: character.char_id, map_name: character.current_map_name().clone(), x: character.x(), y: character.y()})).expect("Fail to send persistence notification");
+                persistence_event_sender.send(SaveCharacterPosition(SavePositionUpdate { account_id: character.account_id, char_id: character.char_id, map_name: character.current_map_name().clone(), x: character.x(), y: character.y() })).expect("Fail to send persistence notification");
             }
             sleep(Duration::from_millis((MOVEMENT_TICK_RATE - (SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis() - tick).min(0).max(MOVEMENT_TICK_RATE)) as u64));
         }
