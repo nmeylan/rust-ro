@@ -140,18 +140,20 @@ fn proxy_login(server: Arc<Server>, packet: &dyn Packet, tcp_stream: Arc<RwLock<
                     server_char.set_port(server.configuration.proxy.local_char_server_port as i16);
                     packet_accept_login2.fill_raw();
                     let mut tcp_stream_guard = tcp_stream.write().unwrap();
-                    debug!("Respond with: {:02X?}", packet_accept_login2.raw());
+                    debug!("Login Respond with: {:02X?}", packet_accept_login2.raw());
                     tcp_stream_guard.write_all(packet_accept_login2.raw()).unwrap();
                     tcp_stream_guard.flush().unwrap();
+                    break;
                 } else if packet.as_any().downcast_ref::<PacketAcAcceptLogin>().is_some() {
                     let packet_accept_login = packet.as_any_mut().downcast_mut::<PacketAcAcceptLogin>().unwrap();
                     let server_char = packet_accept_login.server_list.get_mut(0).unwrap();
                     server_char.set_port(server.configuration.proxy.local_char_server_port as i16);
                     packet_accept_login.fill_raw();
                     let mut tcp_stream_guard = tcp_stream.write().unwrap();
-                    debug!("Respond with: {:02X?}", packet_accept_login.raw());
+                    debug!("Login Respond with: {:02X?}", packet_accept_login.raw());
                     tcp_stream_guard.write_all(packet_accept_login.raw()).unwrap();
                     tcp_stream_guard.flush().unwrap();
+                    break;
                 } else {
                     panic!("Received packet is not PacketAcAcceptLogin2");
                 }

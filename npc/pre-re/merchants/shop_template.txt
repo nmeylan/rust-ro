@@ -10,13 +10,19 @@
 
 end;
 OnBuyItem:
-    mes "You have " + Zeny + " zeny";
-    set Zeny, Zeny - 1 ;
-    mes "You have " + Zeny + " zeny";
+    .@cost = 0;
+    message  strcharinfo(0), "on buy item";
     for (.@i = 0; .@i < getarraysize(@bought_nameid); .@i++) {
-        mes "You bought:",  @bought_quantity[.@i] + ". " +  @bought_nameid[.@i] + " at " + @bought_price[.@i] + " zeny";
+        .@cost += @bought_quantity[.@i] * @bought_price[.@i];
     }
-    next;
+    if .@cost > Zeny {
+        message strcharinfo(0), "^FF0000You do not have enough zeny.^FF0000";
+    } else {
+        set Zeny, Zeny - .@cost;
+        for (.@i = 0; .@i < getarraysize(@bought_nameid); .@i++) {
+            getitem @bought_nameid[.@i], @bought_quantity[.@i];
+        }
+    }
     close;
 end;
 OnInstanceInit:
