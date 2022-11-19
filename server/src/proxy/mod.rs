@@ -1,12 +1,13 @@
 use std::sync::{Arc, Mutex};
 use std::net::{Shutdown, SocketAddr, TcpListener, TcpStream};
-use packets::packets::Packet;
+use packets::packets::{Packet, PacketCzPcPurchaseItemlist};
 use std::fmt::{Display, Formatter};
 use std::thread::{JoinHandle, spawn};
 use std::thread;
 use tokio::runtime::Runtime;
 use packets::packets_parser::parse;
 use std::io::{Read, Write};
+use crate::cast;
 
 pub mod map;
 pub mod char;
@@ -100,8 +101,17 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
                         break;
                     }
                     let tcp_stream_ref = Arc::new(Mutex::new(incoming.try_clone().unwrap()));
-                    let packet = parse(&buffer[..bytes_read], packetver);
-                    self.proxy_request(outgoing, &direction, tcp_stream_ref, packet)
+                    let mut packet = parse(&buffer[..bytes_read], packetver);
+                    if packet.raw().len() < bytes_read {
+                        let mut offset = 0;
+                        while offset < bytes_read {
+                            packet = parse(&buffer[offset..bytes_read], packetver);
+                            offset += packet.raw().len();
+                            self.proxy_request(outgoing, &direction, tcp_stream_ref.clone(), packet);
+                        }
+                    } else {
+                        self.proxy_request(outgoing, &direction, tcp_stream_ref, packet);
+                    }
                 }
                 Err(error) => return Err(format!("Could not read data: {}", error))
             }
@@ -112,10 +122,11 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
     fn proxy_request(&self, outgoing: &mut TcpStream, direction: &ProxyDirection, tcp_stream_ref: Arc<Mutex<TcpStream>>, mut packet: Box<dyn Packet>) {
         if packet.id() != "0x6003" && packet.id() != "0x7f00" && packet.id() != "0x7e00" { // PACKET_CZ_REQUEST_TIME2
             info!("{} {} {} ", self.name, if *direction == ProxyDirection::Backward { "<" } else { ">" }, outgoing.peer_addr().unwrap());
-            self.specific_proxy.handle_packet(tcp_stream_ref, packet.as_mut());
+            self.specific_proxy.handle_packet(tcp_stream_ref.clone(), packet.as_mut());
             packet.display();
             packet.pretty_debug();
             info!("{:02X?}", packet.raw());
+
         }
         if outgoing.write(packet.raw()).is_ok() {
             outgoing.flush().expect("Failed to flush packet for outgoing socket to proxied server");
