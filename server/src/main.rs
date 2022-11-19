@@ -69,12 +69,12 @@ pub async fn main() {
     let server_ref = Arc::new(server);
     let server_ref_clone = server_ref;
     let mut handles: Vec<JoinHandle<()>> = Vec::new();
-    Server::start(server_ref_clone, single_client_notification_receiver);
     let char_proxy = CharProxy::new(&config.proxy);
     let map_proxy = MapProxy::new(&config.proxy);
     let _ = &handles.push(char_proxy.proxy(config.server.packetver));
     let _ = &handles.push(map_proxy.proxy(config.server.packetver));
 
+    Server::start(server_ref_clone, single_client_notification_receiver);
     if config.server.enable_visual_debugger {
         #[cfg(feature = "visual_debugger")]
         {

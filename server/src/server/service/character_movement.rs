@@ -27,7 +27,5 @@ pub fn change_map_packet(destination_map: &str, x: u16, y: u16, session: Arc<Ses
         new_map_name: destination_map.to_owned(),
         new_instance_id: map_instance.id,
         new_position: Some(Position { x, y, dir: 3 }),
-        old_map_name: None,
-        old_position: None,
     }), 2);
 }

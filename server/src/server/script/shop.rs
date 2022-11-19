@@ -13,7 +13,7 @@ impl PlayerScriptHandler {
             packet_zc_select_deal_type.naid = self.npc_id;
             packet_zc_select_deal_type.fill_raw();
             self.send_packet_to_char(self.session.char_id(), &mut packet_zc_select_deal_type);
-            let input_value = self.block_recv().unwrap();
+            let input_value = self.block_recv().unwrap(); // Selection: buy or sell
             let input_value = input_value[0] as i32;
             execution_thread.push_constant_on_stack(Value::new_number(input_value));
             return true;
@@ -59,6 +59,7 @@ impl PlayerScriptHandler {
             packet_zc_pc_purchase_itemlist.set_packet_length((PacketZcPcPurchaseItemlist::base_len(self.server.packetver()) - PurchaseItem::base_len(self.server.packetver()) + PurchaseItem::base_len(self.server.packetver()) * array_items.len()) as i16);
             packet_zc_pc_purchase_itemlist.fill_raw();
             self.send_packet_to_char(self.session.char_id(), &mut packet_zc_pc_purchase_itemlist);
+            // Wait for player click on "buy"
             let mut items = self.block_recv().unwrap();
             // Once we receive player purchased item
             let items_count = items.remove(0);

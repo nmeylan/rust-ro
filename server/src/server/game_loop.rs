@@ -160,10 +160,9 @@ impl Server {
                 }
             }
 
-// If movement not smooth:
-// teleport in front -> server movement faster than client movement
-// teleport back -> server movement slower than client movement
-
+            // If movement not smooth:
+            // teleport in front -> server movement faster than client movement
+            // teleport back -> server movement slower than client movement
             let mut character_finished_to_move = vec![];
             for (_, character) in characters.iter_mut().filter(|(_, character)| character.is_moving()) {
                 let speed = character.status.speed;
@@ -181,8 +180,6 @@ impl Server {
                                     new_map_name: warp.dest_map_name.clone(),
                                     new_instance_id: 0,
                                     new_position: Some(Position { x: warp.to_x, y: warp.to_y, dir: movement.position().dir }),
-                                    old_map_name: None,
-                                    old_position: None,
                                 }));
                                 character.clear_movement();
                                 continue;
