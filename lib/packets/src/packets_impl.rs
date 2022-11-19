@@ -19,7 +19,6 @@ impl PacketCaLogin {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCaLogin {
         let mut offset: usize = 0;
         PacketCaLogin {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -82,6 +81,7 @@ impl PacketCaLogin {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -193,6 +193,9 @@ impl Packet for PacketCaLogin {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCaLogin {
@@ -209,7 +212,6 @@ impl PacketChEnter {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketChEnter {
         let mut offset: usize = 0;
         PacketChEnter {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -270,6 +272,7 @@ impl PacketChEnter {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -389,6 +392,9 @@ impl Packet for PacketChEnter {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketChEnter {
@@ -405,7 +411,6 @@ impl PacketChSelectChar {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketChSelectChar {
         let mut offset: usize = 0;
         PacketChSelectChar {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -426,6 +431,7 @@ impl PacketChSelectChar {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -497,6 +503,9 @@ impl Packet for PacketChSelectChar {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketChSelectChar {
@@ -513,7 +522,6 @@ impl PacketChMakeChar {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketChMakeChar {
         let mut offset: usize = 0;
         PacketChMakeChar {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -630,6 +638,7 @@ impl PacketChMakeChar {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -811,6 +820,9 @@ impl Packet for PacketChMakeChar {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketChMakeChar {
@@ -827,7 +839,6 @@ impl PacketChMakeChar2 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketChMakeChar2 {
         let mut offset: usize = 0;
         PacketChMakeChar2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -944,6 +955,7 @@ impl PacketChMakeChar2 {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -1125,6 +1137,9 @@ impl Packet for PacketChMakeChar2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketChMakeChar2 {
@@ -1141,7 +1156,6 @@ impl PacketChDeleteChar {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketChDeleteChar {
         let mut offset: usize = 0;
         PacketChDeleteChar {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -1178,6 +1192,7 @@ impl PacketChDeleteChar {
                 offset += 40;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -1263,6 +1278,9 @@ impl Packet for PacketChDeleteChar {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketChDeleteChar {
@@ -1289,7 +1307,6 @@ impl PacketAcAcceptLogin {
             i += 1;
         }
         PacketAcAcceptLogin {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -1381,10 +1398,12 @@ impl PacketAcAcceptLogin {
                 field
             },
             server_list_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -1544,6 +1563,9 @@ impl Packet for PacketAcAcceptLogin {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketAcAcceptLogin {
@@ -1570,7 +1592,6 @@ impl PacketAcAcceptLogin2 {
             i += 1;
         }
         PacketAcAcceptLogin2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -1688,10 +1709,12 @@ impl PacketAcAcceptLogin2 {
                 field
             },
             server_list_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -1877,6 +1900,9 @@ impl Packet for PacketAcAcceptLogin2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketAcAcceptLogin2 {
@@ -1893,7 +1919,6 @@ impl PacketAcRefuseLogin {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketAcRefuseLogin {
         let mut offset: usize = 0;
         PacketAcRefuseLogin {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -1930,6 +1955,7 @@ impl PacketAcRefuseLogin {
                 offset += 20;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -2015,6 +2041,9 @@ impl Packet for PacketAcRefuseLogin {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketAcRefuseLogin {
@@ -2041,7 +2070,6 @@ impl PacketHcAcceptEnterNeoUnion {
             i += 1;
         }
         PacketHcAcceptEnterNeoUnion {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -2153,10 +2181,12 @@ impl PacketHcAcceptEnterNeoUnion {
                 field
             },
             char_info_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -2340,6 +2370,9 @@ impl Packet for PacketHcAcceptEnterNeoUnion {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketHcAcceptEnterNeoUnion {
@@ -2356,7 +2389,6 @@ impl PacketHcRefuseEnter {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketHcRefuseEnter {
         let mut offset: usize = 0;
         PacketHcRefuseEnter {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -2377,6 +2409,7 @@ impl PacketHcRefuseEnter {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -2448,6 +2481,9 @@ impl Packet for PacketHcRefuseEnter {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketHcRefuseEnter {
@@ -2464,7 +2500,6 @@ impl PacketHcAcceptMakecharNeoUnion {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketHcAcceptMakecharNeoUnion {
         let mut offset: usize = 0;
         PacketHcAcceptMakecharNeoUnion {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -2484,6 +2519,7 @@ impl PacketHcAcceptMakecharNeoUnion {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -2555,6 +2591,9 @@ impl Packet for PacketHcAcceptMakecharNeoUnion {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketHcAcceptMakecharNeoUnion {
@@ -2571,7 +2610,6 @@ impl PacketHcRefuseMakechar {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketHcRefuseMakechar {
         let mut offset: usize = 0;
         PacketHcRefuseMakechar {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -2592,6 +2630,7 @@ impl PacketHcRefuseMakechar {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -2663,6 +2702,9 @@ impl Packet for PacketHcRefuseMakechar {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketHcRefuseMakechar {
@@ -2679,7 +2721,6 @@ impl PacketHcAcceptDeletechar {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketHcAcceptDeletechar {
         let mut offset: usize = 0;
         PacketHcAcceptDeletechar {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -2690,6 +2731,7 @@ impl PacketHcAcceptDeletechar {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -2749,6 +2791,9 @@ impl Packet for PacketHcAcceptDeletechar {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketHcAcceptDeletechar {
@@ -2765,7 +2810,6 @@ impl PacketHcRefuseDeletechar {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketHcRefuseDeletechar {
         let mut offset: usize = 0;
         PacketHcRefuseDeletechar {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -2786,6 +2830,7 @@ impl PacketHcRefuseDeletechar {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -2857,6 +2902,9 @@ impl Packet for PacketHcRefuseDeletechar {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketHcRefuseDeletechar {
@@ -2873,7 +2921,6 @@ impl PacketHcNotifyZonesvr {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketHcNotifyZonesvr {
         let mut offset: usize = 0;
         PacketHcNotifyZonesvr {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -2919,6 +2966,7 @@ impl PacketHcNotifyZonesvr {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -3016,6 +3064,9 @@ impl Packet for PacketHcNotifyZonesvr {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketHcNotifyZonesvr {
@@ -3032,7 +3083,6 @@ impl PacketCzEnter {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzEnter {
         let mut offset: usize = 0;
         PacketCzEnter {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -3093,6 +3143,7 @@ impl PacketCzEnter {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -3212,6 +3263,9 @@ impl Packet for PacketCzEnter {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzEnter {
@@ -3228,7 +3282,6 @@ impl PacketZcAcceptEnter {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAcceptEnter {
         let mut offset: usize = 0;
         PacketZcAcceptEnter {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -3285,6 +3338,7 @@ impl PacketZcAcceptEnter {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -3394,6 +3448,9 @@ impl Packet for PacketZcAcceptEnter {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAcceptEnter {
@@ -3410,7 +3467,6 @@ impl PacketZcRefuseEnter {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcRefuseEnter {
         let mut offset: usize = 0;
         PacketZcRefuseEnter {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -3431,6 +3487,7 @@ impl PacketZcRefuseEnter {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -3502,6 +3559,9 @@ impl Packet for PacketZcRefuseEnter {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcRefuseEnter {
@@ -3518,7 +3578,6 @@ impl PacketZcNotifyInitchar {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyInitchar {
         let mut offset: usize = 0;
         PacketZcNotifyInitchar {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -3569,6 +3628,7 @@ impl PacketZcNotifyInitchar {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -3676,6 +3736,9 @@ impl Packet for PacketZcNotifyInitchar {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyInitchar {
@@ -3692,7 +3755,6 @@ impl PacketZcNotifyUpdatechar {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyUpdatechar {
         let mut offset: usize = 0;
         PacketZcNotifyUpdatechar {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -3733,6 +3795,7 @@ impl PacketZcNotifyUpdatechar {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -3828,6 +3891,9 @@ impl Packet for PacketZcNotifyUpdatechar {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyUpdatechar {
@@ -3844,7 +3910,6 @@ impl PacketZcNotifyUpdateplayer {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyUpdateplayer {
         let mut offset: usize = 0;
         PacketZcNotifyUpdateplayer {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -3875,6 +3940,7 @@ impl PacketZcNotifyUpdateplayer {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -3958,6 +4024,9 @@ impl Packet for PacketZcNotifyUpdateplayer {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyUpdateplayer {
@@ -3974,7 +4043,6 @@ impl PacketZcNotifyStandentry {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyStandentry {
         let mut offset: usize = 0;
         PacketZcNotifyStandentry {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -4261,6 +4329,7 @@ impl PacketZcNotifyStandentry {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -4646,6 +4715,9 @@ impl Packet for PacketZcNotifyStandentry {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyStandentry {
@@ -4662,7 +4734,6 @@ impl PacketZcNotifyNewentry {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyNewentry {
         let mut offset: usize = 0;
         PacketZcNotifyNewentry {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -4929,6 +5000,7 @@ impl PacketZcNotifyNewentry {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -5290,6 +5362,9 @@ impl Packet for PacketZcNotifyNewentry {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyNewentry {
@@ -5306,7 +5381,6 @@ impl PacketZcNotifyActentry {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyActentry {
         let mut offset: usize = 0;
         PacketZcNotifyActentry {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -5593,6 +5667,7 @@ impl PacketZcNotifyActentry {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -5978,6 +6053,9 @@ impl Packet for PacketZcNotifyActentry {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyActentry {
@@ -5994,7 +6072,6 @@ impl PacketZcNotifyMoveentry {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyMoveentry {
         let mut offset: usize = 0;
         PacketZcNotifyMoveentry {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -6271,6 +6348,7 @@ impl PacketZcNotifyMoveentry {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -6644,6 +6722,9 @@ impl Packet for PacketZcNotifyMoveentry {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyMoveentry {
@@ -6660,7 +6741,6 @@ impl PacketZcNotifyStandentryNpc {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyStandentryNpc {
         let mut offset: usize = 0;
         PacketZcNotifyStandentryNpc {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -6887,6 +6967,7 @@ impl PacketZcNotifyStandentryNpc {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -7200,6 +7281,9 @@ impl Packet for PacketZcNotifyStandentryNpc {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyStandentryNpc {
@@ -7216,7 +7300,6 @@ impl PacketCzNotifyActorinit {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzNotifyActorinit {
         let mut offset: usize = 0;
         PacketCzNotifyActorinit {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -7227,6 +7310,7 @@ impl PacketCzNotifyActorinit {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -7286,6 +7370,9 @@ impl Packet for PacketCzNotifyActorinit {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzNotifyActorinit {
@@ -7302,7 +7389,6 @@ impl PacketCzRequestTime {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzRequestTime {
         let mut offset: usize = 0;
         PacketCzRequestTime {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -7323,6 +7409,7 @@ impl PacketCzRequestTime {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -7394,6 +7481,9 @@ impl Packet for PacketCzRequestTime {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzRequestTime {
@@ -7410,7 +7500,6 @@ impl PacketZcNotifyTime {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyTime {
         let mut offset: usize = 0;
         PacketZcNotifyTime {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -7431,6 +7520,7 @@ impl PacketZcNotifyTime {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -7502,6 +7592,9 @@ impl Packet for PacketZcNotifyTime {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyTime {
@@ -7518,7 +7611,6 @@ impl PacketZcNotifyVanish {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyVanish {
         let mut offset: usize = 0;
         PacketZcNotifyVanish {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -7549,6 +7641,7 @@ impl PacketZcNotifyVanish {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -7632,6 +7725,9 @@ impl Packet for PacketZcNotifyVanish {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyVanish {
@@ -7648,7 +7744,6 @@ impl PacketScNotifyBan {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketScNotifyBan {
         let mut offset: usize = 0;
         PacketScNotifyBan {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -7669,6 +7764,7 @@ impl PacketScNotifyBan {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -7740,6 +7836,9 @@ impl Packet for PacketScNotifyBan {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketScNotifyBan {
@@ -7756,7 +7855,6 @@ impl PacketCzRequestQuit {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzRequestQuit {
         let mut offset: usize = 0;
         PacketCzRequestQuit {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -7767,6 +7865,7 @@ impl PacketCzRequestQuit {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -7826,6 +7925,9 @@ impl Packet for PacketCzRequestQuit {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzRequestQuit {
@@ -7842,7 +7944,6 @@ impl PacketZcAcceptQuit {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAcceptQuit {
         let mut offset: usize = 0;
         PacketZcAcceptQuit {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -7853,6 +7954,7 @@ impl PacketZcAcceptQuit {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -7912,6 +8014,9 @@ impl Packet for PacketZcAcceptQuit {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAcceptQuit {
@@ -7928,7 +8033,6 @@ impl PacketZcRefuseQuit {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcRefuseQuit {
         let mut offset: usize = 0;
         PacketZcRefuseQuit {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -7939,6 +8043,7 @@ impl PacketZcRefuseQuit {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -7998,6 +8103,9 @@ impl Packet for PacketZcRefuseQuit {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcRefuseQuit {
@@ -8014,7 +8122,6 @@ impl PacketCzRequestMove {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzRequestMove {
         let mut offset: usize = 0;
         PacketCzRequestMove {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -8041,6 +8148,7 @@ impl PacketCzRequestMove {
                 offset += 3;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -8114,6 +8222,9 @@ impl Packet for PacketCzRequestMove {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzRequestMove {
@@ -8130,7 +8241,6 @@ impl PacketZcNotifyMove {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyMove {
         let mut offset: usize = 0;
         PacketZcNotifyMove {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -8177,6 +8287,7 @@ impl PacketZcNotifyMove {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -8274,6 +8385,9 @@ impl Packet for PacketZcNotifyMove {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyMove {
@@ -8290,7 +8404,6 @@ impl PacketZcNotifyPlayermove {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyPlayermove {
         let mut offset: usize = 0;
         PacketZcNotifyPlayermove {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -8327,6 +8440,7 @@ impl PacketZcNotifyPlayermove {
                 offset += 6;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -8412,6 +8526,9 @@ impl Packet for PacketZcNotifyPlayermove {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyPlayermove {
@@ -8428,7 +8545,6 @@ impl PacketZcStopmove {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcStopmove {
         let mut offset: usize = 0;
         PacketZcStopmove {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -8469,6 +8585,7 @@ impl PacketZcStopmove {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -8564,6 +8681,9 @@ impl Packet for PacketZcStopmove {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcStopmove {
@@ -8580,7 +8700,6 @@ impl PacketCzRequestAct {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzRequestAct {
         let mut offset: usize = 0;
         PacketCzRequestAct {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -8611,6 +8730,7 @@ impl PacketCzRequestAct {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -8694,6 +8814,9 @@ impl Packet for PacketCzRequestAct {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzRequestAct {
@@ -8710,7 +8833,6 @@ impl PacketZcNotifyAct {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyAct {
         let mut offset: usize = 0;
         PacketZcNotifyAct {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -8811,6 +8933,7 @@ impl PacketZcNotifyAct {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -8978,6 +9101,9 @@ impl Packet for PacketZcNotifyAct {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyAct {
@@ -8994,7 +9120,6 @@ impl PacketZcNotifyActPosition {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyActPosition {
         let mut offset: usize = 0;
         PacketZcNotifyActPosition {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -9085,6 +9210,7 @@ impl PacketZcNotifyActPosition {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -9240,6 +9366,9 @@ impl Packet for PacketZcNotifyActPosition {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyActPosition {
@@ -9256,7 +9385,6 @@ impl PacketCzRequestChat {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzRequestChat {
         let mut offset: usize = 0;
         PacketCzRequestChat {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -9286,6 +9414,7 @@ impl PacketCzRequestChat {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -9367,6 +9496,9 @@ impl Packet for PacketCzRequestChat {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzRequestChat {
@@ -9383,7 +9515,6 @@ impl PacketZcNotifyChat {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyChat {
         let mut offset: usize = 0;
         PacketZcNotifyChat {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -9423,6 +9554,7 @@ impl PacketZcNotifyChat {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -9516,6 +9648,9 @@ impl Packet for PacketZcNotifyChat {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyChat {
@@ -9532,7 +9667,6 @@ impl PacketZcNotifyPlayerchat {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyPlayerchat {
         let mut offset: usize = 0;
         PacketZcNotifyPlayerchat {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -9562,6 +9696,7 @@ impl PacketZcNotifyPlayerchat {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -9643,6 +9778,9 @@ impl Packet for PacketZcNotifyPlayerchat {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyPlayerchat {
@@ -9659,7 +9797,6 @@ impl PacketServerEntryAck {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketServerEntryAck {
         let mut offset: usize = 0;
         PacketServerEntryAck {
-            raw: buffer.to_vec(),
             header: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -9680,6 +9817,7 @@ impl PacketServerEntryAck {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -9751,6 +9889,9 @@ impl Packet for PacketServerEntryAck {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketServerEntryAck {
@@ -9767,7 +9908,6 @@ impl PacketCzContactnpc {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzContactnpc {
         let mut offset: usize = 0;
         PacketCzContactnpc {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -9798,6 +9938,7 @@ impl PacketCzContactnpc {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -9881,6 +10022,9 @@ impl Packet for PacketCzContactnpc {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzContactnpc {
@@ -9897,7 +10041,6 @@ impl PacketZcNpcackMapmove {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNpcackMapmove {
         let mut offset: usize = 0;
         PacketZcNpcackMapmove {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -9944,6 +10087,7 @@ impl PacketZcNpcackMapmove {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -10041,6 +10185,9 @@ impl Packet for PacketZcNpcackMapmove {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNpcackMapmove {
@@ -10057,7 +10204,6 @@ impl PacketZcNpcackServermove {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNpcackServermove {
         let mut offset: usize = 0;
         PacketZcNpcackServermove {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -10113,6 +10259,7 @@ impl PacketZcNpcackServermove {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -10222,6 +10369,9 @@ impl Packet for PacketZcNpcackServermove {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNpcackServermove {
@@ -10238,7 +10388,6 @@ impl PacketZcNpcackEnable {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNpcackEnable {
         let mut offset: usize = 0;
         PacketZcNpcackEnable {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -10249,6 +10398,7 @@ impl PacketZcNpcackEnable {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -10308,6 +10458,9 @@ impl Packet for PacketZcNpcackEnable {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNpcackEnable {
@@ -10324,7 +10477,6 @@ impl PacketCzReqname {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqname {
         let mut offset: usize = 0;
         PacketCzReqname {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -10345,6 +10497,7 @@ impl PacketCzReqname {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -10416,6 +10569,9 @@ impl Packet for PacketCzReqname {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqname {
@@ -10432,7 +10588,6 @@ impl PacketZcAckReqname {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckReqname {
         let mut offset: usize = 0;
         PacketZcAckReqname {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -10469,6 +10624,7 @@ impl PacketZcAckReqname {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -10554,6 +10710,9 @@ impl Packet for PacketZcAckReqname {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAckReqname {
@@ -10570,7 +10729,6 @@ impl PacketCzWhisper {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzWhisper {
         let mut offset: usize = 0;
         PacketCzWhisper {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -10616,6 +10774,7 @@ impl PacketCzWhisper {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -10711,6 +10870,9 @@ impl Packet for PacketCzWhisper {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzWhisper {
@@ -10727,7 +10889,6 @@ impl PacketZcWhisper {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcWhisper {
         let mut offset: usize = 0;
         PacketZcWhisper {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -10773,6 +10934,7 @@ impl PacketZcWhisper {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -10868,6 +11030,9 @@ impl Packet for PacketZcWhisper {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcWhisper {
@@ -10884,7 +11049,6 @@ impl PacketZcAckWhisper {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckWhisper {
         let mut offset: usize = 0;
         PacketZcAckWhisper {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -10905,6 +11069,7 @@ impl PacketZcAckWhisper {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -10976,6 +11141,9 @@ impl Packet for PacketZcAckWhisper {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAckWhisper {
@@ -10992,7 +11160,6 @@ impl PacketCzBroadcast {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzBroadcast {
         let mut offset: usize = 0;
         PacketCzBroadcast {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -11022,6 +11189,7 @@ impl PacketCzBroadcast {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -11103,6 +11271,9 @@ impl Packet for PacketCzBroadcast {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzBroadcast {
@@ -11119,7 +11290,6 @@ impl PacketZcBroadcast {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcBroadcast {
         let mut offset: usize = 0;
         PacketZcBroadcast {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -11149,6 +11319,7 @@ impl PacketZcBroadcast {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -11230,6 +11401,9 @@ impl Packet for PacketZcBroadcast {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcBroadcast {
@@ -11246,7 +11420,6 @@ impl PacketCzChangeDirection {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzChangeDirection {
         let mut offset: usize = 0;
         PacketCzChangeDirection {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -11277,6 +11450,7 @@ impl PacketCzChangeDirection {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -11360,6 +11534,9 @@ impl Packet for PacketCzChangeDirection {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzChangeDirection {
@@ -11376,7 +11553,6 @@ impl PacketZcChangeDirection {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcChangeDirection {
         let mut offset: usize = 0;
         PacketZcChangeDirection {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -11417,6 +11593,7 @@ impl PacketZcChangeDirection {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -11512,6 +11689,9 @@ impl Packet for PacketZcChangeDirection {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcChangeDirection {
@@ -11528,7 +11708,6 @@ impl PacketZcItemEntry {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcItemEntry {
         let mut offset: usize = 0;
         PacketZcItemEntry {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -11619,6 +11798,7 @@ impl PacketZcItemEntry {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -11774,6 +11954,9 @@ impl Packet for PacketZcItemEntry {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcItemEntry {
@@ -11790,7 +11973,6 @@ impl PacketZcItemFallEntry {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcItemFallEntry {
         let mut offset: usize = 0;
         PacketZcItemFallEntry {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -11881,6 +12063,7 @@ impl PacketZcItemFallEntry {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -12036,6 +12219,9 @@ impl Packet for PacketZcItemFallEntry {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcItemFallEntry {
@@ -12052,7 +12238,6 @@ impl PacketCzItemPickup {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzItemPickup {
         let mut offset: usize = 0;
         PacketCzItemPickup {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -12073,6 +12258,7 @@ impl PacketCzItemPickup {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -12144,6 +12330,9 @@ impl Packet for PacketCzItemPickup {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzItemPickup {
@@ -12160,7 +12349,6 @@ impl PacketZcItemPickupAck {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcItemPickupAck {
         let mut offset: usize = 0;
         PacketZcItemPickupAck {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -12271,6 +12459,7 @@ impl PacketZcItemPickupAck {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -12450,6 +12639,9 @@ impl Packet for PacketZcItemPickupAck {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcItemPickupAck {
@@ -12466,7 +12658,6 @@ impl PacketZcItemDisappear {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcItemDisappear {
         let mut offset: usize = 0;
         PacketZcItemDisappear {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -12487,6 +12678,7 @@ impl PacketZcItemDisappear {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -12558,6 +12750,9 @@ impl Packet for PacketZcItemDisappear {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcItemDisappear {
@@ -12574,7 +12769,6 @@ impl PacketCzItemThrow {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzItemThrow {
         let mut offset: usize = 0;
         PacketCzItemThrow {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -12605,6 +12799,7 @@ impl PacketCzItemThrow {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -12688,6 +12883,9 @@ impl Packet for PacketCzItemThrow {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzItemThrow {
@@ -12714,7 +12912,6 @@ impl PacketZcNormalItemlist {
             i += 1;
         }
         PacketZcNormalItemlist {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -12740,10 +12937,12 @@ impl PacketZcNormalItemlist {
                 field
             },
             item_info_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -12829,6 +13028,9 @@ impl Packet for PacketZcNormalItemlist {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNormalItemlist {
@@ -12855,7 +13057,6 @@ impl PacketZcEquipmentItemlist {
             i += 1;
         }
         PacketZcEquipmentItemlist {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -12881,10 +13082,12 @@ impl PacketZcEquipmentItemlist {
                 field
             },
             item_info_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -12970,6 +13173,9 @@ impl Packet for PacketZcEquipmentItemlist {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcEquipmentItemlist {
@@ -12996,7 +13202,6 @@ impl PacketZcStoreNormalItemlist {
             i += 1;
         }
         PacketZcStoreNormalItemlist {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -13022,10 +13227,12 @@ impl PacketZcStoreNormalItemlist {
                 field
             },
             item_info_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -13111,6 +13318,9 @@ impl Packet for PacketZcStoreNormalItemlist {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcStoreNormalItemlist {
@@ -13137,7 +13347,6 @@ impl PacketZcStoreEquipmentItemlist {
             i += 1;
         }
         PacketZcStoreEquipmentItemlist {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -13163,10 +13372,12 @@ impl PacketZcStoreEquipmentItemlist {
                 field
             },
             item_info_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -13252,6 +13463,9 @@ impl Packet for PacketZcStoreEquipmentItemlist {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcStoreEquipmentItemlist {
@@ -13268,7 +13482,6 @@ impl PacketCzUseItem {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzUseItem {
         let mut offset: usize = 0;
         PacketCzUseItem {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -13299,6 +13512,7 @@ impl PacketCzUseItem {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -13382,6 +13596,9 @@ impl Packet for PacketCzUseItem {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzUseItem {
@@ -13398,7 +13615,6 @@ impl PacketZcUseItemAck {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcUseItemAck {
         let mut offset: usize = 0;
         PacketZcUseItemAck {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -13439,6 +13655,7 @@ impl PacketZcUseItemAck {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -13534,6 +13751,9 @@ impl Packet for PacketZcUseItemAck {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcUseItemAck {
@@ -13550,7 +13770,6 @@ impl PacketCzReqWearEquip {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqWearEquip {
         let mut offset: usize = 0;
         PacketCzReqWearEquip {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -13581,6 +13800,7 @@ impl PacketCzReqWearEquip {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -13664,6 +13884,9 @@ impl Packet for PacketCzReqWearEquip {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqWearEquip {
@@ -13680,7 +13903,6 @@ impl PacketZcReqWearEquipAck {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcReqWearEquipAck {
         let mut offset: usize = 0;
         PacketZcReqWearEquipAck {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -13721,6 +13943,7 @@ impl PacketZcReqWearEquipAck {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -13816,6 +14039,9 @@ impl Packet for PacketZcReqWearEquipAck {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcReqWearEquipAck {
@@ -13832,7 +14058,6 @@ impl PacketCzReqTakeoffEquip {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqTakeoffEquip {
         let mut offset: usize = 0;
         PacketCzReqTakeoffEquip {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -13853,6 +14078,7 @@ impl PacketCzReqTakeoffEquip {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -13924,6 +14150,9 @@ impl Packet for PacketCzReqTakeoffEquip {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqTakeoffEquip {
@@ -13940,7 +14169,6 @@ impl PacketZcReqTakeoffEquipAck {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcReqTakeoffEquipAck {
         let mut offset: usize = 0;
         PacketZcReqTakeoffEquipAck {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -13981,6 +14209,7 @@ impl PacketZcReqTakeoffEquipAck {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -14076,6 +14305,9 @@ impl Packet for PacketZcReqTakeoffEquipAck {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcReqTakeoffEquipAck {
@@ -14092,7 +14324,6 @@ impl PacketZcItemThrowAck {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcItemThrowAck {
         let mut offset: usize = 0;
         PacketZcItemThrowAck {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -14123,6 +14354,7 @@ impl PacketZcItemThrowAck {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -14206,6 +14438,9 @@ impl Packet for PacketZcItemThrowAck {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcItemThrowAck {
@@ -14222,7 +14457,6 @@ impl PacketZcParChange {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcParChange {
         let mut offset: usize = 0;
         PacketZcParChange {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -14253,6 +14487,7 @@ impl PacketZcParChange {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -14336,6 +14571,9 @@ impl Packet for PacketZcParChange {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcParChange {
@@ -14352,7 +14590,6 @@ impl PacketZcLongparChange {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcLongparChange {
         let mut offset: usize = 0;
         PacketZcLongparChange {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -14383,6 +14620,7 @@ impl PacketZcLongparChange {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -14466,6 +14704,9 @@ impl Packet for PacketZcLongparChange {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcLongparChange {
@@ -14482,7 +14723,6 @@ impl PacketCzRestart {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzRestart {
         let mut offset: usize = 0;
         PacketCzRestart {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -14503,6 +14743,7 @@ impl PacketCzRestart {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -14574,6 +14815,9 @@ impl Packet for PacketCzRestart {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzRestart {
@@ -14590,7 +14834,6 @@ impl PacketZcRestartAck {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcRestartAck {
         let mut offset: usize = 0;
         PacketZcRestartAck {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -14611,6 +14854,7 @@ impl PacketZcRestartAck {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -14682,6 +14926,9 @@ impl Packet for PacketZcRestartAck {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcRestartAck {
@@ -14698,7 +14945,6 @@ impl PacketZcSayDialog {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSayDialog {
         let mut offset: usize = 0;
         PacketZcSayDialog {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -14738,6 +14984,7 @@ impl PacketZcSayDialog {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -14831,6 +15078,9 @@ impl Packet for PacketZcSayDialog {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcSayDialog {
@@ -14847,7 +15097,6 @@ impl PacketZcWaitDialog {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcWaitDialog {
         let mut offset: usize = 0;
         PacketZcWaitDialog {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -14868,6 +15117,7 @@ impl PacketZcWaitDialog {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -14939,6 +15189,9 @@ impl Packet for PacketZcWaitDialog {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcWaitDialog {
@@ -14955,7 +15208,6 @@ impl PacketZcCloseDialog {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcCloseDialog {
         let mut offset: usize = 0;
         PacketZcCloseDialog {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -14976,6 +15228,7 @@ impl PacketZcCloseDialog {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -15047,6 +15300,9 @@ impl Packet for PacketZcCloseDialog {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcCloseDialog {
@@ -15063,7 +15319,6 @@ impl PacketZcMenuList {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMenuList {
         let mut offset: usize = 0;
         PacketZcMenuList {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -15103,6 +15358,7 @@ impl PacketZcMenuList {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -15196,6 +15452,9 @@ impl Packet for PacketZcMenuList {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcMenuList {
@@ -15212,7 +15471,6 @@ impl PacketCzChooseMenu {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzChooseMenu {
         let mut offset: usize = 0;
         PacketCzChooseMenu {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -15243,6 +15501,7 @@ impl PacketCzChooseMenu {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -15326,6 +15585,9 @@ impl Packet for PacketCzChooseMenu {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzChooseMenu {
@@ -15342,7 +15604,6 @@ impl PacketCzReqNextScript {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqNextScript {
         let mut offset: usize = 0;
         PacketCzReqNextScript {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -15363,6 +15624,7 @@ impl PacketCzReqNextScript {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -15434,6 +15696,9 @@ impl Packet for PacketCzReqNextScript {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqNextScript {
@@ -15450,7 +15715,6 @@ impl PacketCzReqStatus {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqStatus {
         let mut offset: usize = 0;
         PacketCzReqStatus {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -15461,6 +15725,7 @@ impl PacketCzReqStatus {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -15520,6 +15785,9 @@ impl Packet for PacketCzReqStatus {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqStatus {
@@ -15536,7 +15804,6 @@ impl PacketCzStatusChange {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzStatusChange {
         let mut offset: usize = 0;
         PacketCzStatusChange {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -15567,6 +15834,7 @@ impl PacketCzStatusChange {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -15650,6 +15918,9 @@ impl Packet for PacketCzStatusChange {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzStatusChange {
@@ -15666,7 +15937,6 @@ impl PacketZcStatusChangeAck {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcStatusChangeAck {
         let mut offset: usize = 0;
         PacketZcStatusChangeAck {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -15707,6 +15977,7 @@ impl PacketZcStatusChangeAck {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -15802,6 +16073,9 @@ impl Packet for PacketZcStatusChangeAck {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcStatusChangeAck {
@@ -15818,7 +16092,6 @@ impl PacketZcStatus {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcStatus {
         let mut offset: usize = 0;
         PacketZcStatus {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -16099,6 +16372,7 @@ impl PacketZcStatus {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -16482,6 +16756,9 @@ impl Packet for PacketZcStatus {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcStatus {
@@ -16498,7 +16775,6 @@ impl PacketZcStatusChange {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcStatusChange {
         let mut offset: usize = 0;
         PacketZcStatusChange {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -16529,6 +16805,7 @@ impl PacketZcStatusChange {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -16612,6 +16889,9 @@ impl Packet for PacketZcStatusChange {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcStatusChange {
@@ -16628,7 +16908,6 @@ impl PacketCzReqEmotion {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqEmotion {
         let mut offset: usize = 0;
         PacketCzReqEmotion {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -16649,6 +16928,7 @@ impl PacketCzReqEmotion {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -16720,6 +17000,9 @@ impl Packet for PacketCzReqEmotion {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqEmotion {
@@ -16736,7 +17019,6 @@ impl PacketZcEmotion {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcEmotion {
         let mut offset: usize = 0;
         PacketZcEmotion {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -16767,6 +17049,7 @@ impl PacketZcEmotion {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -16850,6 +17133,9 @@ impl Packet for PacketZcEmotion {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcEmotion {
@@ -16866,7 +17152,6 @@ impl PacketCzReqUserCount {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqUserCount {
         let mut offset: usize = 0;
         PacketCzReqUserCount {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -16877,6 +17162,7 @@ impl PacketCzReqUserCount {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -16936,6 +17222,9 @@ impl Packet for PacketCzReqUserCount {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqUserCount {
@@ -16952,7 +17241,6 @@ impl PacketZcUserCount {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcUserCount {
         let mut offset: usize = 0;
         PacketZcUserCount {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -16973,6 +17261,7 @@ impl PacketZcUserCount {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -17044,6 +17333,9 @@ impl Packet for PacketZcUserCount {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcUserCount {
@@ -17060,7 +17352,6 @@ impl PacketZcSpriteChange {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSpriteChange {
         let mut offset: usize = 0;
         PacketZcSpriteChange {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -17101,6 +17392,7 @@ impl PacketZcSpriteChange {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -17196,6 +17488,9 @@ impl Packet for PacketZcSpriteChange {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcSpriteChange {
@@ -17212,7 +17507,6 @@ impl PacketZcSelectDealtype {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSelectDealtype {
         let mut offset: usize = 0;
         PacketZcSelectDealtype {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -17233,6 +17527,7 @@ impl PacketZcSelectDealtype {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -17304,6 +17599,9 @@ impl Packet for PacketZcSelectDealtype {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcSelectDealtype {
@@ -17320,7 +17618,6 @@ impl PacketCzAckSelectDealtype {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzAckSelectDealtype {
         let mut offset: usize = 0;
         PacketCzAckSelectDealtype {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -17351,6 +17648,7 @@ impl PacketCzAckSelectDealtype {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -17434,6 +17732,9 @@ impl Packet for PacketCzAckSelectDealtype {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzAckSelectDealtype {
@@ -17460,7 +17761,6 @@ impl PacketZcPcPurchaseItemlist {
             i += 1;
         }
         PacketZcPcPurchaseItemlist {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -17486,10 +17786,12 @@ impl PacketZcPcPurchaseItemlist {
                 field
             },
             item_list_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -17575,6 +17877,9 @@ impl Packet for PacketZcPcPurchaseItemlist {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcPcPurchaseItemlist {
@@ -17601,7 +17906,6 @@ impl PacketZcPcSellItemlist {
             i += 1;
         }
         PacketZcPcSellItemlist {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -17627,10 +17931,12 @@ impl PacketZcPcSellItemlist {
                 field
             },
             item_list_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -17716,6 +18022,9 @@ impl Packet for PacketZcPcSellItemlist {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcPcSellItemlist {
@@ -17742,7 +18051,6 @@ impl PacketCzPcPurchaseItemlist {
             i += 1;
         }
         PacketCzPcPurchaseItemlist {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -17768,10 +18076,12 @@ impl PacketCzPcPurchaseItemlist {
                 field
             },
             item_list_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -17857,6 +18167,9 @@ impl Packet for PacketCzPcPurchaseItemlist {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzPcPurchaseItemlist {
@@ -17883,7 +18196,6 @@ impl PacketCzPcSellItemlist {
             i += 1;
         }
         PacketCzPcSellItemlist {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -17909,10 +18221,12 @@ impl PacketCzPcSellItemlist {
                 field
             },
             item_list_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -17998,6 +18312,9 @@ impl Packet for PacketCzPcSellItemlist {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzPcSellItemlist {
@@ -18014,7 +18331,6 @@ impl PacketZcPcPurchaseResult {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPcPurchaseResult {
         let mut offset: usize = 0;
         PacketZcPcPurchaseResult {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -18035,6 +18351,7 @@ impl PacketZcPcPurchaseResult {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -18106,6 +18423,9 @@ impl Packet for PacketZcPcPurchaseResult {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcPcPurchaseResult {
@@ -18122,7 +18442,6 @@ impl PacketZcPcSellResult {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPcSellResult {
         let mut offset: usize = 0;
         PacketZcPcSellResult {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -18143,6 +18462,7 @@ impl PacketZcPcSellResult {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -18214,6 +18534,9 @@ impl Packet for PacketZcPcSellResult {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcPcSellResult {
@@ -18230,7 +18553,6 @@ impl PacketCzDisconnectCharacter {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzDisconnectCharacter {
         let mut offset: usize = 0;
         PacketCzDisconnectCharacter {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -18251,6 +18573,7 @@ impl PacketCzDisconnectCharacter {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -18322,6 +18645,9 @@ impl Packet for PacketCzDisconnectCharacter {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzDisconnectCharacter {
@@ -18338,7 +18664,6 @@ impl PacketZcAckDisconnectCharacter {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckDisconnectCharacter {
         let mut offset: usize = 0;
         PacketZcAckDisconnectCharacter {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -18359,6 +18684,7 @@ impl PacketZcAckDisconnectCharacter {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -18430,6 +18756,9 @@ impl Packet for PacketZcAckDisconnectCharacter {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAckDisconnectCharacter {
@@ -18446,7 +18775,6 @@ impl PacketCzDisconnectAllCharacter {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzDisconnectAllCharacter {
         let mut offset: usize = 0;
         PacketCzDisconnectAllCharacter {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -18457,6 +18785,7 @@ impl PacketCzDisconnectAllCharacter {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -18516,6 +18845,9 @@ impl Packet for PacketCzDisconnectAllCharacter {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzDisconnectAllCharacter {
@@ -18532,7 +18864,6 @@ impl PacketCzSettingWhisperPc {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzSettingWhisperPc {
         let mut offset: usize = 0;
         PacketCzSettingWhisperPc {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -18569,6 +18900,7 @@ impl PacketCzSettingWhisperPc {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -18654,6 +18986,9 @@ impl Packet for PacketCzSettingWhisperPc {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzSettingWhisperPc {
@@ -18670,7 +19005,6 @@ impl PacketCzSettingWhisperState {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzSettingWhisperState {
         let mut offset: usize = 0;
         PacketCzSettingWhisperState {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -18691,6 +19025,7 @@ impl PacketCzSettingWhisperState {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -18762,6 +19097,9 @@ impl Packet for PacketCzSettingWhisperState {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzSettingWhisperState {
@@ -18778,7 +19116,6 @@ impl PacketZcSettingWhisperPc {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSettingWhisperPc {
         let mut offset: usize = 0;
         PacketZcSettingWhisperPc {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -18809,6 +19146,7 @@ impl PacketZcSettingWhisperPc {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -18892,6 +19230,9 @@ impl Packet for PacketZcSettingWhisperPc {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcSettingWhisperPc {
@@ -18908,7 +19249,6 @@ impl PacketZcSettingWhisperState {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSettingWhisperState {
         let mut offset: usize = 0;
         PacketZcSettingWhisperState {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -18939,6 +19279,7 @@ impl PacketZcSettingWhisperState {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -19022,6 +19363,9 @@ impl Packet for PacketZcSettingWhisperState {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcSettingWhisperState {
@@ -19038,7 +19382,6 @@ impl PacketCzReqWhisperList {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqWhisperList {
         let mut offset: usize = 0;
         PacketCzReqWhisperList {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -19049,6 +19392,7 @@ impl PacketCzReqWhisperList {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -19108,6 +19452,9 @@ impl Packet for PacketCzReqWhisperList {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqWhisperList {
@@ -19134,7 +19481,6 @@ impl PacketZcWhisperList {
             i += 1;
         }
         PacketZcWhisperList {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -19160,10 +19506,12 @@ impl PacketZcWhisperList {
                 field
             },
             wisper_list_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -19249,6 +19597,9 @@ impl Packet for PacketZcWhisperList {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcWhisperList {
@@ -19265,7 +19616,6 @@ impl PacketCzCreateChatroom {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzCreateChatroom {
         let mut offset: usize = 0;
         PacketCzCreateChatroom {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -19331,6 +19681,7 @@ impl PacketCzCreateChatroom {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -19450,6 +19801,9 @@ impl Packet for PacketCzCreateChatroom {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzCreateChatroom {
@@ -19466,7 +19820,6 @@ impl PacketZcAckCreateChatroom {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckCreateChatroom {
         let mut offset: usize = 0;
         PacketZcAckCreateChatroom {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -19487,6 +19840,7 @@ impl PacketZcAckCreateChatroom {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -19558,6 +19912,9 @@ impl Packet for PacketZcAckCreateChatroom {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAckCreateChatroom {
@@ -19574,7 +19931,6 @@ impl PacketZcRoomNewentry {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcRoomNewentry {
         let mut offset: usize = 0;
         PacketZcRoomNewentry {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -19654,6 +20010,7 @@ impl PacketZcRoomNewentry {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -19795,6 +20152,9 @@ impl Packet for PacketZcRoomNewentry {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcRoomNewentry {
@@ -19811,7 +20171,6 @@ impl PacketZcDestroyRoom {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcDestroyRoom {
         let mut offset: usize = 0;
         PacketZcDestroyRoom {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -19832,6 +20191,7 @@ impl PacketZcDestroyRoom {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -19903,6 +20263,9 @@ impl Packet for PacketZcDestroyRoom {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcDestroyRoom {
@@ -19919,7 +20282,6 @@ impl PacketCzReqEnterRoom {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqEnterRoom {
         let mut offset: usize = 0;
         PacketCzReqEnterRoom {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -19956,6 +20318,7 @@ impl PacketCzReqEnterRoom {
                 offset += 8;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -20041,6 +20404,9 @@ impl Packet for PacketCzReqEnterRoom {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqEnterRoom {
@@ -20057,7 +20423,6 @@ impl PacketZcRefuseEnterRoom {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcRefuseEnterRoom {
         let mut offset: usize = 0;
         PacketZcRefuseEnterRoom {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -20078,6 +20443,7 @@ impl PacketZcRefuseEnterRoom {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -20149,6 +20515,9 @@ impl Packet for PacketZcRefuseEnterRoom {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcRefuseEnterRoom {
@@ -20175,7 +20544,6 @@ impl PacketZcEnterRoom {
             i += 1;
         }
         PacketZcEnterRoom {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -20211,10 +20579,12 @@ impl PacketZcEnterRoom {
                 field
             },
             member_list_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -20312,6 +20682,9 @@ impl Packet for PacketZcEnterRoom {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcEnterRoom {
@@ -20328,7 +20701,6 @@ impl PacketZcMemberNewentry {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMemberNewentry {
         let mut offset: usize = 0;
         PacketZcMemberNewentry {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -20365,6 +20737,7 @@ impl PacketZcMemberNewentry {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -20450,6 +20823,9 @@ impl Packet for PacketZcMemberNewentry {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcMemberNewentry {
@@ -20466,7 +20842,6 @@ impl PacketZcMemberExit {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMemberExit {
         let mut offset: usize = 0;
         PacketZcMemberExit {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -20513,6 +20888,7 @@ impl PacketZcMemberExit {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -20610,6 +20986,9 @@ impl Packet for PacketZcMemberExit {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcMemberExit {
@@ -20626,7 +21005,6 @@ impl PacketCzChangeChatroom {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzChangeChatroom {
         let mut offset: usize = 0;
         PacketCzChangeChatroom {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -20692,6 +21070,7 @@ impl PacketCzChangeChatroom {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -20811,6 +21190,9 @@ impl Packet for PacketCzChangeChatroom {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzChangeChatroom {
@@ -20827,7 +21209,6 @@ impl PacketZcChangeChatroom {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcChangeChatroom {
         let mut offset: usize = 0;
         PacketZcChangeChatroom {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -20907,6 +21288,7 @@ impl PacketZcChangeChatroom {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -21048,6 +21430,9 @@ impl Packet for PacketZcChangeChatroom {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcChangeChatroom {
@@ -21064,7 +21449,6 @@ impl PacketCzReqRoleChange {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqRoleChange {
         let mut offset: usize = 0;
         PacketCzReqRoleChange {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -21101,6 +21485,7 @@ impl PacketCzReqRoleChange {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -21186,6 +21571,9 @@ impl Packet for PacketCzReqRoleChange {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqRoleChange {
@@ -21202,7 +21590,6 @@ impl PacketZcRoleChange {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcRoleChange {
         let mut offset: usize = 0;
         PacketZcRoleChange {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -21239,6 +21626,7 @@ impl PacketZcRoleChange {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -21324,6 +21712,9 @@ impl Packet for PacketZcRoleChange {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcRoleChange {
@@ -21340,7 +21731,6 @@ impl PacketCzReqExpelMember {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqExpelMember {
         let mut offset: usize = 0;
         PacketCzReqExpelMember {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -21367,6 +21757,7 @@ impl PacketCzReqExpelMember {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -21440,6 +21831,9 @@ impl Packet for PacketCzReqExpelMember {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqExpelMember {
@@ -21456,7 +21850,6 @@ impl PacketCzExitRoom {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzExitRoom {
         let mut offset: usize = 0;
         PacketCzExitRoom {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -21467,6 +21860,7 @@ impl PacketCzExitRoom {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -21526,6 +21920,9 @@ impl Packet for PacketCzExitRoom {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzExitRoom {
@@ -21542,7 +21939,6 @@ impl PacketCzReqExchangeItem {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqExchangeItem {
         let mut offset: usize = 0;
         PacketCzReqExchangeItem {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -21563,6 +21959,7 @@ impl PacketCzReqExchangeItem {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -21634,6 +22031,9 @@ impl Packet for PacketCzReqExchangeItem {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqExchangeItem {
@@ -21650,7 +22050,6 @@ impl PacketZcReqExchangeItem {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcReqExchangeItem {
         let mut offset: usize = 0;
         PacketZcReqExchangeItem {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -21677,6 +22076,7 @@ impl PacketZcReqExchangeItem {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -21750,6 +22150,9 @@ impl Packet for PacketZcReqExchangeItem {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcReqExchangeItem {
@@ -21766,7 +22169,6 @@ impl PacketCzAckExchangeItem {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzAckExchangeItem {
         let mut offset: usize = 0;
         PacketCzAckExchangeItem {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -21787,6 +22189,7 @@ impl PacketCzAckExchangeItem {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -21858,6 +22261,9 @@ impl Packet for PacketCzAckExchangeItem {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzAckExchangeItem {
@@ -21874,7 +22280,6 @@ impl PacketZcAckExchangeItem {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckExchangeItem {
         let mut offset: usize = 0;
         PacketZcAckExchangeItem {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -21895,6 +22300,7 @@ impl PacketZcAckExchangeItem {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -21966,6 +22372,9 @@ impl Packet for PacketZcAckExchangeItem {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAckExchangeItem {
@@ -21982,7 +22391,6 @@ impl PacketCzAddExchangeItem {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzAddExchangeItem {
         let mut offset: usize = 0;
         PacketCzAddExchangeItem {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -22013,6 +22421,7 @@ impl PacketCzAddExchangeItem {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -22096,6 +22505,9 @@ impl Packet for PacketCzAddExchangeItem {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzAddExchangeItem {
@@ -22112,7 +22524,6 @@ impl PacketZcAddExchangeItem {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAddExchangeItem {
         let mut offset: usize = 0;
         PacketZcAddExchangeItem {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -22183,6 +22594,7 @@ impl PacketZcAddExchangeItem {
                 offset += 8;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -22314,6 +22726,9 @@ impl Packet for PacketZcAddExchangeItem {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAddExchangeItem {
@@ -22330,7 +22745,6 @@ impl PacketZcAckAddExchangeItem {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckAddExchangeItem {
         let mut offset: usize = 0;
         PacketZcAckAddExchangeItem {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -22361,6 +22775,7 @@ impl PacketZcAckAddExchangeItem {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -22444,6 +22859,9 @@ impl Packet for PacketZcAckAddExchangeItem {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAckAddExchangeItem {
@@ -22460,7 +22878,6 @@ impl PacketCzConcludeExchangeItem {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzConcludeExchangeItem {
         let mut offset: usize = 0;
         PacketCzConcludeExchangeItem {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -22471,6 +22888,7 @@ impl PacketCzConcludeExchangeItem {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -22530,6 +22948,9 @@ impl Packet for PacketCzConcludeExchangeItem {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzConcludeExchangeItem {
@@ -22546,7 +22967,6 @@ impl PacketZcConcludeExchangeItem {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcConcludeExchangeItem {
         let mut offset: usize = 0;
         PacketZcConcludeExchangeItem {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -22567,6 +22987,7 @@ impl PacketZcConcludeExchangeItem {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -22638,6 +23059,9 @@ impl Packet for PacketZcConcludeExchangeItem {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcConcludeExchangeItem {
@@ -22654,7 +23078,6 @@ impl PacketCzCancelExchangeItem {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzCancelExchangeItem {
         let mut offset: usize = 0;
         PacketCzCancelExchangeItem {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -22665,6 +23088,7 @@ impl PacketCzCancelExchangeItem {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -22724,6 +23148,9 @@ impl Packet for PacketCzCancelExchangeItem {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzCancelExchangeItem {
@@ -22740,7 +23167,6 @@ impl PacketZcCancelExchangeItem {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcCancelExchangeItem {
         let mut offset: usize = 0;
         PacketZcCancelExchangeItem {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -22751,6 +23177,7 @@ impl PacketZcCancelExchangeItem {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -22810,6 +23237,9 @@ impl Packet for PacketZcCancelExchangeItem {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcCancelExchangeItem {
@@ -22826,7 +23256,6 @@ impl PacketCzExecExchangeItem {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzExecExchangeItem {
         let mut offset: usize = 0;
         PacketCzExecExchangeItem {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -22837,6 +23266,7 @@ impl PacketCzExecExchangeItem {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -22896,6 +23326,9 @@ impl Packet for PacketCzExecExchangeItem {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzExecExchangeItem {
@@ -22912,7 +23345,6 @@ impl PacketZcExecExchangeItem {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcExecExchangeItem {
         let mut offset: usize = 0;
         PacketZcExecExchangeItem {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -22933,6 +23365,7 @@ impl PacketZcExecExchangeItem {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -23004,6 +23437,9 @@ impl Packet for PacketZcExecExchangeItem {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcExecExchangeItem {
@@ -23020,7 +23456,6 @@ impl PacketZcExchangeitemUndo {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcExchangeitemUndo {
         let mut offset: usize = 0;
         PacketZcExchangeitemUndo {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -23031,6 +23466,7 @@ impl PacketZcExchangeitemUndo {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -23090,6 +23526,9 @@ impl Packet for PacketZcExchangeitemUndo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcExchangeitemUndo {
@@ -23106,7 +23545,6 @@ impl PacketZcNotifyStoreitemCountinfo {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyStoreitemCountinfo {
         let mut offset: usize = 0;
         PacketZcNotifyStoreitemCountinfo {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -23137,6 +23575,7 @@ impl PacketZcNotifyStoreitemCountinfo {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -23220,6 +23659,9 @@ impl Packet for PacketZcNotifyStoreitemCountinfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyStoreitemCountinfo {
@@ -23236,7 +23678,6 @@ impl PacketCzPlayerChat {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzPlayerChat {
         let mut offset: usize = 0;
         PacketCzPlayerChat {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -23266,6 +23707,7 @@ impl PacketCzPlayerChat {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -23347,6 +23789,9 @@ impl Packet for PacketCzPlayerChat {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzPlayerChat {
@@ -23363,7 +23808,6 @@ impl PacketZcAddItemToStore {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAddItemToStore {
         let mut offset: usize = 0;
         PacketZcAddItemToStore {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -23444,6 +23888,7 @@ impl PacketZcAddItemToStore {
                 offset += 8;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -23587,6 +24032,9 @@ impl Packet for PacketZcAddItemToStore {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAddItemToStore {
@@ -23603,7 +24051,6 @@ impl PacketCzMoveItemFromStoreToBody {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzMoveItemFromStoreToBody {
         let mut offset: usize = 0;
         PacketCzMoveItemFromStoreToBody {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -23634,6 +24081,7 @@ impl PacketCzMoveItemFromStoreToBody {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -23717,6 +24165,9 @@ impl Packet for PacketCzMoveItemFromStoreToBody {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzMoveItemFromStoreToBody {
@@ -23733,7 +24184,6 @@ impl PacketZcDeleteItemFromStore {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcDeleteItemFromStore {
         let mut offset: usize = 0;
         PacketZcDeleteItemFromStore {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -23764,6 +24214,7 @@ impl PacketZcDeleteItemFromStore {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -23847,6 +24298,9 @@ impl Packet for PacketZcDeleteItemFromStore {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcDeleteItemFromStore {
@@ -23863,7 +24317,6 @@ impl PacketCzCloseStore {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzCloseStore {
         let mut offset: usize = 0;
         PacketCzCloseStore {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -23874,6 +24327,7 @@ impl PacketCzCloseStore {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -23933,6 +24387,9 @@ impl Packet for PacketCzCloseStore {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzCloseStore {
@@ -23949,7 +24406,6 @@ impl PacketZcCloseStore {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcCloseStore {
         let mut offset: usize = 0;
         PacketZcCloseStore {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -23960,6 +24416,7 @@ impl PacketZcCloseStore {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -24019,6 +24476,9 @@ impl Packet for PacketZcCloseStore {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcCloseStore {
@@ -24035,7 +24495,6 @@ impl PacketCzMakeGroup {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzMakeGroup {
         let mut offset: usize = 0;
         PacketCzMakeGroup {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -24062,6 +24521,7 @@ impl PacketCzMakeGroup {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -24135,6 +24595,9 @@ impl Packet for PacketCzMakeGroup {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzMakeGroup {
@@ -24151,7 +24614,6 @@ impl PacketZcAckMakeGroup {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckMakeGroup {
         let mut offset: usize = 0;
         PacketZcAckMakeGroup {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -24172,6 +24634,7 @@ impl PacketZcAckMakeGroup {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -24243,6 +24706,9 @@ impl Packet for PacketZcAckMakeGroup {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAckMakeGroup {
@@ -24269,7 +24735,6 @@ impl PacketZcGroupList {
             i += 1;
         }
         PacketZcGroupList {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -24311,10 +24776,12 @@ impl PacketZcGroupList {
                 field
             },
             group_info_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -24414,6 +24881,9 @@ impl Packet for PacketZcGroupList {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcGroupList {
@@ -24430,7 +24900,6 @@ impl PacketCzReqJoinGroup {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqJoinGroup {
         let mut offset: usize = 0;
         PacketCzReqJoinGroup {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -24451,6 +24920,7 @@ impl PacketCzReqJoinGroup {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -24522,6 +24992,9 @@ impl Packet for PacketCzReqJoinGroup {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqJoinGroup {
@@ -24538,7 +25011,6 @@ impl PacketZcAckReqJoinGroup {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckReqJoinGroup {
         let mut offset: usize = 0;
         PacketZcAckReqJoinGroup {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -24575,6 +25047,7 @@ impl PacketZcAckReqJoinGroup {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -24660,6 +25133,9 @@ impl Packet for PacketZcAckReqJoinGroup {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAckReqJoinGroup {
@@ -24676,7 +25152,6 @@ impl PacketZcReqJoinGroup {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcReqJoinGroup {
         let mut offset: usize = 0;
         PacketZcReqJoinGroup {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -24713,6 +25188,7 @@ impl PacketZcReqJoinGroup {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -24798,6 +25274,9 @@ impl Packet for PacketZcReqJoinGroup {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcReqJoinGroup {
@@ -24814,7 +25293,6 @@ impl PacketCzJoinGroup {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzJoinGroup {
         let mut offset: usize = 0;
         PacketCzJoinGroup {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -24845,6 +25323,7 @@ impl PacketCzJoinGroup {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -24928,6 +25407,9 @@ impl Packet for PacketCzJoinGroup {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzJoinGroup {
@@ -24944,7 +25426,6 @@ impl PacketCzReqLeaveGroup {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqLeaveGroup {
         let mut offset: usize = 0;
         PacketCzReqLeaveGroup {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -24955,6 +25436,7 @@ impl PacketCzReqLeaveGroup {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -25014,6 +25496,9 @@ impl Packet for PacketCzReqLeaveGroup {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqLeaveGroup {
@@ -25030,7 +25515,6 @@ impl PacketZcGroupinfoChange {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcGroupinfoChange {
         let mut offset: usize = 0;
         PacketZcGroupinfoChange {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -25051,6 +25535,7 @@ impl PacketZcGroupinfoChange {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -25122,6 +25607,9 @@ impl Packet for PacketZcGroupinfoChange {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcGroupinfoChange {
@@ -25138,7 +25626,6 @@ impl PacketCzChangeGroupexpoption {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzChangeGroupexpoption {
         let mut offset: usize = 0;
         PacketCzChangeGroupexpoption {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -25159,6 +25646,7 @@ impl PacketCzChangeGroupexpoption {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -25230,6 +25718,9 @@ impl Packet for PacketCzChangeGroupexpoption {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzChangeGroupexpoption {
@@ -25246,7 +25737,6 @@ impl PacketCzReqExpelGroupMember {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqExpelGroupMember {
         let mut offset: usize = 0;
         PacketCzReqExpelGroupMember {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -25283,6 +25773,7 @@ impl PacketCzReqExpelGroupMember {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -25368,6 +25859,9 @@ impl Packet for PacketCzReqExpelGroupMember {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqExpelGroupMember {
@@ -25384,7 +25878,6 @@ impl PacketZcAddMemberToGroup {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAddMemberToGroup {
         let mut offset: usize = 0;
         PacketZcAddMemberToGroup {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -25493,6 +25986,7 @@ impl PacketZcAddMemberToGroup {
                 offset += 16;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -25654,6 +26148,9 @@ impl Packet for PacketZcAddMemberToGroup {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAddMemberToGroup {
@@ -25670,7 +26167,6 @@ impl PacketZcDeleteMemberFromGroup {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcDeleteMemberFromGroup {
         let mut offset: usize = 0;
         PacketZcDeleteMemberFromGroup {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -25717,6 +26213,7 @@ impl PacketZcDeleteMemberFromGroup {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -25814,6 +26311,9 @@ impl Packet for PacketZcDeleteMemberFromGroup {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcDeleteMemberFromGroup {
@@ -25830,7 +26330,6 @@ impl PacketZcNotifyHpToGroupm {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyHpToGroupm {
         let mut offset: usize = 0;
         PacketZcNotifyHpToGroupm {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -25871,6 +26370,7 @@ impl PacketZcNotifyHpToGroupm {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -25966,6 +26466,9 @@ impl Packet for PacketZcNotifyHpToGroupm {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyHpToGroupm {
@@ -25982,7 +26485,6 @@ impl PacketZcNotifyPositionToGroupm {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyPositionToGroupm {
         let mut offset: usize = 0;
         PacketZcNotifyPositionToGroupm {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -26023,6 +26525,7 @@ impl PacketZcNotifyPositionToGroupm {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -26118,6 +26621,9 @@ impl Packet for PacketZcNotifyPositionToGroupm {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyPositionToGroupm {
@@ -26134,7 +26640,6 @@ impl PacketCzRequestChatParty {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzRequestChatParty {
         let mut offset: usize = 0;
         PacketCzRequestChatParty {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -26164,6 +26669,7 @@ impl PacketCzRequestChatParty {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -26245,6 +26751,9 @@ impl Packet for PacketCzRequestChatParty {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzRequestChatParty {
@@ -26261,7 +26770,6 @@ impl PacketZcNotifyChatParty {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyChatParty {
         let mut offset: usize = 0;
         PacketZcNotifyChatParty {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -26301,6 +26809,7 @@ impl PacketZcNotifyChatParty {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -26394,6 +26903,9 @@ impl Packet for PacketZcNotifyChatParty {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyChatParty {
@@ -26410,7 +26922,6 @@ impl PacketZcMvpGettingItem {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMvpGettingItem {
         let mut offset: usize = 0;
         PacketZcMvpGettingItem {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -26431,6 +26942,7 @@ impl PacketZcMvpGettingItem {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -26502,6 +27014,9 @@ impl Packet for PacketZcMvpGettingItem {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcMvpGettingItem {
@@ -26518,7 +27033,6 @@ impl PacketZcMvpGettingSpecialExp {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMvpGettingSpecialExp {
         let mut offset: usize = 0;
         PacketZcMvpGettingSpecialExp {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -26539,6 +27053,7 @@ impl PacketZcMvpGettingSpecialExp {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -26610,6 +27125,9 @@ impl Packet for PacketZcMvpGettingSpecialExp {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcMvpGettingSpecialExp {
@@ -26626,7 +27144,6 @@ impl PacketZcMvp {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMvp {
         let mut offset: usize = 0;
         PacketZcMvp {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -26647,6 +27164,7 @@ impl PacketZcMvp {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -26718,6 +27236,9 @@ impl Packet for PacketZcMvp {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcMvp {
@@ -26734,7 +27255,6 @@ impl PacketZcThrowMvpitem {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcThrowMvpitem {
         let mut offset: usize = 0;
         PacketZcThrowMvpitem {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -26745,6 +27265,7 @@ impl PacketZcThrowMvpitem {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -26804,6 +27325,9 @@ impl Packet for PacketZcThrowMvpitem {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcThrowMvpitem {
@@ -26820,7 +27344,6 @@ impl PacketZcSkillinfoUpdate {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSkillinfoUpdate {
         let mut offset: usize = 0;
         PacketZcSkillinfoUpdate {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -26881,6 +27404,7 @@ impl PacketZcSkillinfoUpdate {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -27000,6 +27524,9 @@ impl Packet for PacketZcSkillinfoUpdate {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcSkillinfoUpdate {
@@ -27026,7 +27553,6 @@ impl PacketZcSkillinfoList {
             i += 1;
         }
         PacketZcSkillinfoList {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -27052,10 +27578,12 @@ impl PacketZcSkillinfoList {
                 field
             },
             skill_list_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -27141,6 +27669,9 @@ impl Packet for PacketZcSkillinfoList {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcSkillinfoList {
@@ -27157,7 +27688,6 @@ impl PacketZcAckTouseskill {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckTouseskill {
         let mut offset: usize = 0;
         PacketZcAckTouseskill {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -27208,6 +27738,7 @@ impl PacketZcAckTouseskill {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -27315,6 +27846,9 @@ impl Packet for PacketZcAckTouseskill {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAckTouseskill {
@@ -27331,7 +27865,6 @@ impl PacketZcAddSkill {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAddSkill {
         let mut offset: usize = 0;
         PacketZcAddSkill {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -27351,6 +27884,7 @@ impl PacketZcAddSkill {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -27422,6 +27956,9 @@ impl Packet for PacketZcAddSkill {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAddSkill {
@@ -27438,7 +27975,6 @@ impl PacketCzUpgradeSkilllevel {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzUpgradeSkilllevel {
         let mut offset: usize = 0;
         PacketCzUpgradeSkilllevel {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -27459,6 +27995,7 @@ impl PacketCzUpgradeSkilllevel {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -27530,6 +28067,9 @@ impl Packet for PacketCzUpgradeSkilllevel {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzUpgradeSkilllevel {
@@ -27546,7 +28086,6 @@ impl PacketCzUseSkill {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzUseSkill {
         let mut offset: usize = 0;
         PacketCzUseSkill {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -27587,6 +28126,7 @@ impl PacketCzUseSkill {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -27682,6 +28222,9 @@ impl Packet for PacketCzUseSkill {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzUseSkill {
@@ -27698,7 +28241,6 @@ impl PacketZcNotifySkill {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifySkill {
         let mut offset: usize = 0;
         PacketZcNotifySkill {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -27809,6 +28351,7 @@ impl PacketZcNotifySkill {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -27988,6 +28531,9 @@ impl Packet for PacketZcNotifySkill {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifySkill {
@@ -28004,7 +28550,6 @@ impl PacketZcNotifySkillPosition {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifySkillPosition {
         let mut offset: usize = 0;
         PacketZcNotifySkillPosition {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -28135,6 +28680,7 @@ impl PacketZcNotifySkillPosition {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -28338,6 +28884,9 @@ impl Packet for PacketZcNotifySkillPosition {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifySkillPosition {
@@ -28354,7 +28903,6 @@ impl PacketCzUseSkillToground {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzUseSkillToground {
         let mut offset: usize = 0;
         PacketCzUseSkillToground {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -28405,6 +28953,7 @@ impl PacketCzUseSkillToground {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -28512,6 +29061,9 @@ impl Packet for PacketCzUseSkillToground {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzUseSkillToground {
@@ -28528,7 +29080,6 @@ impl PacketZcNotifyGroundskill {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyGroundskill {
         let mut offset: usize = 0;
         PacketZcNotifyGroundskill {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -28599,6 +29150,7 @@ impl PacketZcNotifyGroundskill {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -28730,6 +29282,9 @@ impl Packet for PacketZcNotifyGroundskill {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyGroundskill {
@@ -28746,7 +29301,6 @@ impl PacketCzCancelLockon {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzCancelLockon {
         let mut offset: usize = 0;
         PacketCzCancelLockon {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -28757,6 +29311,7 @@ impl PacketCzCancelLockon {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -28816,6 +29371,9 @@ impl Packet for PacketCzCancelLockon {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzCancelLockon {
@@ -28832,7 +29390,6 @@ impl PacketZcStateChange {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcStateChange {
         let mut offset: usize = 0;
         PacketZcStateChange {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -28893,6 +29450,7 @@ impl PacketZcStateChange {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -29012,6 +29570,9 @@ impl Packet for PacketZcStateChange {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcStateChange {
@@ -29028,7 +29589,6 @@ impl PacketZcUseSkill {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcUseSkill {
         let mut offset: usize = 0;
         PacketZcUseSkill {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -29089,6 +29649,7 @@ impl PacketZcUseSkill {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -29208,6 +29769,9 @@ impl Packet for PacketZcUseSkill {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcUseSkill {
@@ -29224,7 +29788,6 @@ impl PacketCzSelectWarppoint {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzSelectWarppoint {
         let mut offset: usize = 0;
         PacketCzSelectWarppoint {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -29261,6 +29824,7 @@ impl PacketCzSelectWarppoint {
                 offset += 16;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -29346,6 +29910,9 @@ impl Packet for PacketCzSelectWarppoint {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzSelectWarppoint {
@@ -29362,7 +29929,6 @@ impl PacketZcWarplist {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcWarplist {
         let mut offset: usize = 0;
         PacketZcWarplist {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -29399,6 +29965,7 @@ impl PacketZcWarplist {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -29484,6 +30051,9 @@ impl Packet for PacketZcWarplist {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcWarplist {
@@ -29500,7 +30070,6 @@ impl PacketCzRememberWarppoint {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzRememberWarppoint {
         let mut offset: usize = 0;
         PacketCzRememberWarppoint {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -29511,6 +30080,7 @@ impl PacketCzRememberWarppoint {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -29570,6 +30140,9 @@ impl Packet for PacketCzRememberWarppoint {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzRememberWarppoint {
@@ -29586,7 +30159,6 @@ impl PacketZcAckRememberWarppoint {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckRememberWarppoint {
         let mut offset: usize = 0;
         PacketZcAckRememberWarppoint {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -29607,6 +30179,7 @@ impl PacketZcAckRememberWarppoint {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -29678,6 +30251,9 @@ impl Packet for PacketZcAckRememberWarppoint {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAckRememberWarppoint {
@@ -29694,7 +30270,6 @@ impl PacketZcSkillEntry {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSkillEntry {
         let mut offset: usize = 0;
         PacketZcSkillEntry {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -29765,6 +30340,7 @@ impl PacketZcSkillEntry {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -29896,6 +30472,9 @@ impl Packet for PacketZcSkillEntry {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcSkillEntry {
@@ -29912,7 +30491,6 @@ impl PacketZcSkillDisappear {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSkillDisappear {
         let mut offset: usize = 0;
         PacketZcSkillDisappear {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -29933,6 +30511,7 @@ impl PacketZcSkillDisappear {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -30004,6 +30583,9 @@ impl Packet for PacketZcSkillDisappear {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcSkillDisappear {
@@ -30020,7 +30602,6 @@ impl PacketZcNotifyCartitemCountinfo {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyCartitemCountinfo {
         let mut offset: usize = 0;
         PacketZcNotifyCartitemCountinfo {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -30071,6 +30652,7 @@ impl PacketZcNotifyCartitemCountinfo {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -30178,6 +30760,9 @@ impl Packet for PacketZcNotifyCartitemCountinfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyCartitemCountinfo {
@@ -30204,7 +30789,6 @@ impl PacketZcCartEquipmentItemlist {
             i += 1;
         }
         PacketZcCartEquipmentItemlist {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -30230,10 +30814,12 @@ impl PacketZcCartEquipmentItemlist {
                 field
             },
             item_info_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -30319,6 +30905,9 @@ impl Packet for PacketZcCartEquipmentItemlist {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcCartEquipmentItemlist {
@@ -30345,7 +30934,6 @@ impl PacketZcCartNormalItemlist {
             i += 1;
         }
         PacketZcCartNormalItemlist {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -30371,10 +30959,12 @@ impl PacketZcCartNormalItemlist {
                 field
             },
             item_info_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -30460,6 +31050,9 @@ impl Packet for PacketZcCartNormalItemlist {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcCartNormalItemlist {
@@ -30476,7 +31069,6 @@ impl PacketZcAddItemToCart {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAddItemToCart {
         let mut offset: usize = 0;
         PacketZcAddItemToCart {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -30557,6 +31149,7 @@ impl PacketZcAddItemToCart {
                 offset += 8;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -30700,6 +31293,9 @@ impl Packet for PacketZcAddItemToCart {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAddItemToCart {
@@ -30716,7 +31312,6 @@ impl PacketZcDeleteItemFromCart {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcDeleteItemFromCart {
         let mut offset: usize = 0;
         PacketZcDeleteItemFromCart {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -30747,6 +31342,7 @@ impl PacketZcDeleteItemFromCart {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -30830,6 +31426,9 @@ impl Packet for PacketZcDeleteItemFromCart {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcDeleteItemFromCart {
@@ -30846,7 +31445,6 @@ impl PacketCzMoveItemFromBodyToCart {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzMoveItemFromBodyToCart {
         let mut offset: usize = 0;
         PacketCzMoveItemFromBodyToCart {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -30877,6 +31475,7 @@ impl PacketCzMoveItemFromBodyToCart {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -30960,6 +31559,9 @@ impl Packet for PacketCzMoveItemFromBodyToCart {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzMoveItemFromBodyToCart {
@@ -30976,7 +31578,6 @@ impl PacketCzMoveItemFromCartToBody {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzMoveItemFromCartToBody {
         let mut offset: usize = 0;
         PacketCzMoveItemFromCartToBody {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -31007,6 +31608,7 @@ impl PacketCzMoveItemFromCartToBody {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -31090,6 +31692,9 @@ impl Packet for PacketCzMoveItemFromCartToBody {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzMoveItemFromCartToBody {
@@ -31106,7 +31711,6 @@ impl PacketCzMoveItemFromStoreToCart {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzMoveItemFromStoreToCart {
         let mut offset: usize = 0;
         PacketCzMoveItemFromStoreToCart {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -31137,6 +31741,7 @@ impl PacketCzMoveItemFromStoreToCart {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -31220,6 +31825,9 @@ impl Packet for PacketCzMoveItemFromStoreToCart {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzMoveItemFromStoreToCart {
@@ -31236,7 +31844,6 @@ impl PacketCzMoveItemFromCartToStore {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzMoveItemFromCartToStore {
         let mut offset: usize = 0;
         PacketCzMoveItemFromCartToStore {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -31267,6 +31874,7 @@ impl PacketCzMoveItemFromCartToStore {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -31350,6 +31958,9 @@ impl Packet for PacketCzMoveItemFromCartToStore {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzMoveItemFromCartToStore {
@@ -31366,7 +31977,6 @@ impl PacketCzReqCartoff {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqCartoff {
         let mut offset: usize = 0;
         PacketCzReqCartoff {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -31377,6 +31987,7 @@ impl PacketCzReqCartoff {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -31436,6 +32047,9 @@ impl Packet for PacketCzReqCartoff {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqCartoff {
@@ -31452,7 +32066,6 @@ impl PacketZcCartoff {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcCartoff {
         let mut offset: usize = 0;
         PacketZcCartoff {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -31463,6 +32076,7 @@ impl PacketZcCartoff {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -31522,6 +32136,9 @@ impl Packet for PacketZcCartoff {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcCartoff {
@@ -31538,7 +32155,6 @@ impl PacketZcAckAdditemToCart {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckAdditemToCart {
         let mut offset: usize = 0;
         PacketZcAckAdditemToCart {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -31559,6 +32175,7 @@ impl PacketZcAckAdditemToCart {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -31630,6 +32247,9 @@ impl Packet for PacketZcAckAdditemToCart {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAckAdditemToCart {
@@ -31646,7 +32266,6 @@ impl PacketZcOpenstore {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcOpenstore {
         let mut offset: usize = 0;
         PacketZcOpenstore {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -31667,6 +32286,7 @@ impl PacketZcOpenstore {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -31738,6 +32358,9 @@ impl Packet for PacketZcOpenstore {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcOpenstore {
@@ -31754,7 +32377,6 @@ impl PacketCzReqClosestore {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqClosestore {
         let mut offset: usize = 0;
         PacketCzReqClosestore {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -31765,6 +32387,7 @@ impl PacketCzReqClosestore {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -31824,6 +32447,9 @@ impl Packet for PacketCzReqClosestore {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqClosestore {
@@ -31850,7 +32476,6 @@ impl PacketCzReqOpenstore {
             i += 1;
         }
         PacketCzReqOpenstore {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -31892,10 +32517,12 @@ impl PacketCzReqOpenstore {
                 field
             },
             store_list_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -31995,6 +32622,9 @@ impl Packet for PacketCzReqOpenstore {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqOpenstore {
@@ -32011,7 +32641,6 @@ impl PacketCzReqBuyFrommc {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqBuyFrommc {
         let mut offset: usize = 0;
         PacketCzReqBuyFrommc {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -32032,6 +32661,7 @@ impl PacketCzReqBuyFrommc {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -32103,6 +32733,9 @@ impl Packet for PacketCzReqBuyFrommc {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqBuyFrommc {
@@ -32119,7 +32752,6 @@ impl PacketZcStoreEntry {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcStoreEntry {
         let mut offset: usize = 0;
         PacketZcStoreEntry {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -32156,6 +32788,7 @@ impl PacketZcStoreEntry {
                 offset += 80;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -32241,6 +32874,9 @@ impl Packet for PacketZcStoreEntry {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcStoreEntry {
@@ -32257,7 +32893,6 @@ impl PacketZcDisappearEntry {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcDisappearEntry {
         let mut offset: usize = 0;
         PacketZcDisappearEntry {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -32278,6 +32913,7 @@ impl PacketZcDisappearEntry {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -32349,6 +32985,9 @@ impl Packet for PacketZcDisappearEntry {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcDisappearEntry {
@@ -32375,7 +33014,6 @@ impl PacketZcPcPurchaseItemlistFrommc {
             i += 1;
         }
         PacketZcPcPurchaseItemlistFrommc {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -32411,10 +33049,12 @@ impl PacketZcPcPurchaseItemlistFrommc {
                 field
             },
             item_list_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -32512,6 +33152,9 @@ impl Packet for PacketZcPcPurchaseItemlistFrommc {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcPcPurchaseItemlistFrommc {
@@ -32538,7 +33181,6 @@ impl PacketCzPcPurchaseItemlistFrommc {
             i += 1;
         }
         PacketCzPcPurchaseItemlistFrommc {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -32574,10 +33216,12 @@ impl PacketCzPcPurchaseItemlistFrommc {
                 field
             },
             item_list_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -32675,6 +33319,9 @@ impl Packet for PacketCzPcPurchaseItemlistFrommc {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzPcPurchaseItemlistFrommc {
@@ -32691,7 +33338,6 @@ impl PacketZcPcPurchaseResultFrommc {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPcPurchaseResultFrommc {
         let mut offset: usize = 0;
         PacketZcPcPurchaseResultFrommc {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -32732,6 +33378,7 @@ impl PacketZcPcPurchaseResultFrommc {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -32827,6 +33474,9 @@ impl Packet for PacketZcPcPurchaseResultFrommc {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcPcPurchaseResultFrommc {
@@ -32853,7 +33503,6 @@ impl PacketZcPcPurchaseMyitemlist {
             i += 1;
         }
         PacketZcPcPurchaseMyitemlist {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -32889,10 +33538,12 @@ impl PacketZcPcPurchaseMyitemlist {
                 field
             },
             item_list_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -32990,6 +33641,9 @@ impl Packet for PacketZcPcPurchaseMyitemlist {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcPcPurchaseMyitemlist {
@@ -33006,7 +33660,6 @@ impl PacketZcDeleteitemFromMcstore {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcDeleteitemFromMcstore {
         let mut offset: usize = 0;
         PacketZcDeleteitemFromMcstore {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -33037,6 +33690,7 @@ impl PacketZcDeleteitemFromMcstore {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -33120,6 +33774,9 @@ impl Packet for PacketZcDeleteitemFromMcstore {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcDeleteitemFromMcstore {
@@ -33136,7 +33793,6 @@ impl PacketCzPkmodeChange {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzPkmodeChange {
         let mut offset: usize = 0;
         PacketCzPkmodeChange {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -33157,6 +33813,7 @@ impl PacketCzPkmodeChange {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -33228,6 +33885,9 @@ impl Packet for PacketCzPkmodeChange {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzPkmodeChange {
@@ -33244,7 +33904,6 @@ impl PacketZcAttackFailureForDistance {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAttackFailureForDistance {
         let mut offset: usize = 0;
         PacketZcAttackFailureForDistance {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -33315,6 +33974,7 @@ impl PacketZcAttackFailureForDistance {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -33446,6 +34106,9 @@ impl Packet for PacketZcAttackFailureForDistance {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAttackFailureForDistance {
@@ -33462,7 +34125,6 @@ impl PacketZcAttackRange {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAttackRange {
         let mut offset: usize = 0;
         PacketZcAttackRange {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -33483,6 +34145,7 @@ impl PacketZcAttackRange {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -33554,6 +34217,9 @@ impl Packet for PacketZcAttackRange {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAttackRange {
@@ -33570,7 +34236,6 @@ impl PacketZcActionFailure {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcActionFailure {
         let mut offset: usize = 0;
         PacketZcActionFailure {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -33591,6 +34256,7 @@ impl PacketZcActionFailure {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -33662,6 +34328,9 @@ impl Packet for PacketZcActionFailure {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcActionFailure {
@@ -33678,7 +34347,6 @@ impl PacketZcEquipArrow {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcEquipArrow {
         let mut offset: usize = 0;
         PacketZcEquipArrow {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -33699,6 +34367,7 @@ impl PacketZcEquipArrow {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -33770,6 +34439,9 @@ impl Packet for PacketZcEquipArrow {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcEquipArrow {
@@ -33786,7 +34458,6 @@ impl PacketZcRecovery {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcRecovery {
         let mut offset: usize = 0;
         PacketZcRecovery {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -33817,6 +34488,7 @@ impl PacketZcRecovery {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -33900,6 +34572,9 @@ impl Packet for PacketZcRecovery {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcRecovery {
@@ -33916,7 +34591,6 @@ impl PacketZcUseskillAck {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcUseskillAck {
         let mut offset: usize = 0;
         PacketZcUseskillAck {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -33997,6 +34671,7 @@ impl PacketZcUseskillAck {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -34140,6 +34815,9 @@ impl Packet for PacketZcUseskillAck {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcUseskillAck {
@@ -34156,7 +34834,6 @@ impl PacketCzItemCreate {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzItemCreate {
         let mut offset: usize = 0;
         PacketCzItemCreate {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -34183,6 +34860,7 @@ impl PacketCzItemCreate {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -34256,6 +34934,9 @@ impl Packet for PacketCzItemCreate {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzItemCreate {
@@ -34272,7 +34953,6 @@ impl PacketCzMovetoMap {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzMovetoMap {
         let mut offset: usize = 0;
         PacketCzMovetoMap {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -34319,6 +34999,7 @@ impl PacketCzMovetoMap {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -34416,6 +35097,9 @@ impl Packet for PacketCzMovetoMap {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzMovetoMap {
@@ -34432,7 +35116,6 @@ impl PacketZcStatusValues {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcStatusValues {
         let mut offset: usize = 0;
         PacketZcStatusValues {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -34473,6 +35156,7 @@ impl PacketZcStatusValues {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -34568,6 +35252,9 @@ impl Packet for PacketZcStatusValues {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcStatusValues {
@@ -34584,7 +35271,6 @@ impl PacketZcOpenEditdlg {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcOpenEditdlg {
         let mut offset: usize = 0;
         PacketZcOpenEditdlg {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -34605,6 +35291,7 @@ impl PacketZcOpenEditdlg {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -34676,6 +35363,9 @@ impl Packet for PacketZcOpenEditdlg {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcOpenEditdlg {
@@ -34692,7 +35382,6 @@ impl PacketCzInputEditdlg {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzInputEditdlg {
         let mut offset: usize = 0;
         PacketCzInputEditdlg {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -34723,6 +35412,7 @@ impl PacketCzInputEditdlg {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -34806,6 +35496,9 @@ impl Packet for PacketCzInputEditdlg {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzInputEditdlg {
@@ -34822,7 +35515,6 @@ impl PacketZcCompass {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcCompass {
         let mut offset: usize = 0;
         PacketZcCompass {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -34893,6 +35585,7 @@ impl PacketZcCompass {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -35024,6 +35717,9 @@ impl Packet for PacketZcCompass {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcCompass {
@@ -35040,7 +35736,6 @@ impl PacketZcShowImage {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcShowImage {
         let mut offset: usize = 0;
         PacketZcShowImage {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -35077,6 +35772,7 @@ impl PacketZcShowImage {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -35162,6 +35858,9 @@ impl Packet for PacketZcShowImage {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcShowImage {
@@ -35178,7 +35877,6 @@ impl PacketCzCloseDialog {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzCloseDialog {
         let mut offset: usize = 0;
         PacketCzCloseDialog {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -35199,6 +35897,7 @@ impl PacketCzCloseDialog {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -35270,6 +35969,9 @@ impl Packet for PacketCzCloseDialog {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzCloseDialog {
@@ -35286,7 +35988,6 @@ impl PacketZcAutorunSkill {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAutorunSkill {
         let mut offset: usize = 0;
         PacketZcAutorunSkill {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -35306,6 +36007,7 @@ impl PacketZcAutorunSkill {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -35377,6 +36079,9 @@ impl Packet for PacketZcAutorunSkill {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAutorunSkill {
@@ -35393,7 +36098,6 @@ impl PacketZcResurrection {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcResurrection {
         let mut offset: usize = 0;
         PacketZcResurrection {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -35424,6 +36128,7 @@ impl PacketZcResurrection {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -35507,6 +36212,9 @@ impl Packet for PacketZcResurrection {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcResurrection {
@@ -35523,7 +36231,6 @@ impl PacketCzReqGiveMannerPoint {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqGiveMannerPoint {
         let mut offset: usize = 0;
         PacketCzReqGiveMannerPoint {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -35564,6 +36271,7 @@ impl PacketCzReqGiveMannerPoint {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -35659,6 +36367,9 @@ impl Packet for PacketCzReqGiveMannerPoint {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqGiveMannerPoint {
@@ -35675,7 +36386,6 @@ impl PacketZcAckGiveMannerPoint {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckGiveMannerPoint {
         let mut offset: usize = 0;
         PacketZcAckGiveMannerPoint {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -35696,6 +36406,7 @@ impl PacketZcAckGiveMannerPoint {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -35767,6 +36478,9 @@ impl Packet for PacketZcAckGiveMannerPoint {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAckGiveMannerPoint {
@@ -35783,7 +36497,6 @@ impl PacketZcNotifyMannerPointGiven {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyMannerPointGiven {
         let mut offset: usize = 0;
         PacketZcNotifyMannerPointGiven {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -35820,6 +36533,7 @@ impl PacketZcNotifyMannerPointGiven {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -35905,6 +36619,9 @@ impl Packet for PacketZcNotifyMannerPointGiven {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyMannerPointGiven {
@@ -35931,7 +36648,6 @@ impl PacketZcMyguildBasicInfo {
             i += 1;
         }
         PacketZcMyguildBasicInfo {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -35957,10 +36673,12 @@ impl PacketZcMyguildBasicInfo {
                 field
             },
             related_guild_list_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -36046,6 +36764,9 @@ impl Packet for PacketZcMyguildBasicInfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcMyguildBasicInfo {
@@ -36062,7 +36783,6 @@ impl PacketCzReqGuildMenuinterface {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqGuildMenuinterface {
         let mut offset: usize = 0;
         PacketCzReqGuildMenuinterface {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -36073,6 +36793,7 @@ impl PacketCzReqGuildMenuinterface {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -36132,6 +36853,9 @@ impl Packet for PacketCzReqGuildMenuinterface {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqGuildMenuinterface {
@@ -36148,7 +36872,6 @@ impl PacketZcAckGuildMenuinterface {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckGuildMenuinterface {
         let mut offset: usize = 0;
         PacketZcAckGuildMenuinterface {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -36169,6 +36892,7 @@ impl PacketZcAckGuildMenuinterface {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -36240,6 +36964,9 @@ impl Packet for PacketZcAckGuildMenuinterface {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAckGuildMenuinterface {
@@ -36256,7 +36983,6 @@ impl PacketCzReqGuildMenu {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqGuildMenu {
         let mut offset: usize = 0;
         PacketCzReqGuildMenu {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -36277,6 +37003,7 @@ impl PacketCzReqGuildMenu {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -36348,6 +37075,9 @@ impl Packet for PacketCzReqGuildMenu {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqGuildMenu {
@@ -36364,7 +37094,6 @@ impl PacketZcGuildInfo {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcGuildInfo {
         let mut offset: usize = 0;
         PacketZcGuildInfo {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -36533,6 +37262,7 @@ impl PacketZcGuildInfo {
                 offset += 16;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -36766,6 +37496,9 @@ impl Packet for PacketZcGuildInfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcGuildInfo {
@@ -36782,7 +37515,6 @@ impl PacketCzReqGuildEmblemImg {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqGuildEmblemImg {
         let mut offset: usize = 0;
         PacketCzReqGuildEmblemImg {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -36803,6 +37535,7 @@ impl PacketCzReqGuildEmblemImg {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -36874,6 +37607,9 @@ impl Packet for PacketCzReqGuildEmblemImg {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqGuildEmblemImg {
@@ -36890,7 +37626,6 @@ impl PacketZcGuildEmblemImg {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcGuildEmblemImg {
         let mut offset: usize = 0;
         PacketZcGuildEmblemImg {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -36940,6 +37675,7 @@ impl PacketZcGuildEmblemImg {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -37045,6 +37781,9 @@ impl Packet for PacketZcGuildEmblemImg {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcGuildEmblemImg {
@@ -37061,7 +37800,6 @@ impl PacketCzRegisterGuildEmblemImg {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzRegisterGuildEmblemImg {
         let mut offset: usize = 0;
         PacketCzRegisterGuildEmblemImg {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -37091,6 +37829,7 @@ impl PacketCzRegisterGuildEmblemImg {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -37172,6 +37911,9 @@ impl Packet for PacketCzRegisterGuildEmblemImg {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzRegisterGuildEmblemImg {
@@ -37198,7 +37940,6 @@ impl PacketZcMembermgrInfo {
             i += 1;
         }
         PacketZcMembermgrInfo {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -37224,10 +37965,12 @@ impl PacketZcMembermgrInfo {
                 field
             },
             member_info_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -37313,6 +38056,9 @@ impl Packet for PacketZcMembermgrInfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcMembermgrInfo {
@@ -37339,7 +38085,6 @@ impl PacketCzReqChangeMemberpos {
             i += 1;
         }
         PacketCzReqChangeMemberpos {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -37365,10 +38110,12 @@ impl PacketCzReqChangeMemberpos {
                 field
             },
             member_info_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -37454,6 +38201,9 @@ impl Packet for PacketCzReqChangeMemberpos {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqChangeMemberpos {
@@ -37480,7 +38230,6 @@ impl PacketZcAckReqChangeMembers {
             i += 1;
         }
         PacketZcAckReqChangeMembers {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -37506,10 +38255,12 @@ impl PacketZcAckReqChangeMembers {
                 field
             },
             member_info_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -37595,6 +38346,9 @@ impl Packet for PacketZcAckReqChangeMembers {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAckReqChangeMembers {
@@ -37611,7 +38365,6 @@ impl PacketCzReqOpenMemberInfo {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqOpenMemberInfo {
         let mut offset: usize = 0;
         PacketCzReqOpenMemberInfo {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -37632,6 +38385,7 @@ impl PacketCzReqOpenMemberInfo {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -37703,6 +38457,9 @@ impl Packet for PacketCzReqOpenMemberInfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqOpenMemberInfo {
@@ -37719,7 +38476,6 @@ impl PacketZcAckOpenMemberInfo {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckOpenMemberInfo {
         let mut offset: usize = 0;
         PacketZcAckOpenMemberInfo {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -37730,6 +38486,7 @@ impl PacketZcAckOpenMemberInfo {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -37789,6 +38546,9 @@ impl Packet for PacketZcAckOpenMemberInfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAckOpenMemberInfo {
@@ -37805,7 +38565,6 @@ impl PacketCzReqLeaveGuild {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqLeaveGuild {
         let mut offset: usize = 0;
         PacketCzReqLeaveGuild {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -37862,6 +38621,7 @@ impl PacketCzReqLeaveGuild {
                 offset += 40;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -37971,6 +38731,9 @@ impl Packet for PacketCzReqLeaveGuild {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqLeaveGuild {
@@ -37987,7 +38750,6 @@ impl PacketZcAckLeaveGuild {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckLeaveGuild {
         let mut offset: usize = 0;
         PacketZcAckLeaveGuild {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -38030,6 +38792,7 @@ impl PacketZcAckLeaveGuild {
                 offset += 40;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -38117,6 +38880,9 @@ impl Packet for PacketZcAckLeaveGuild {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAckLeaveGuild {
@@ -38133,7 +38899,6 @@ impl PacketCzReqBanGuild {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqBanGuild {
         let mut offset: usize = 0;
         PacketCzReqBanGuild {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -38190,6 +38955,7 @@ impl PacketCzReqBanGuild {
                 offset += 40;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -38299,6 +39065,9 @@ impl Packet for PacketCzReqBanGuild {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqBanGuild {
@@ -38315,7 +39084,6 @@ impl PacketZcAckBanGuild {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckBanGuild {
         let mut offset: usize = 0;
         PacketZcAckBanGuild {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -38374,6 +39142,7 @@ impl PacketZcAckBanGuild {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -38475,6 +39244,9 @@ impl Packet for PacketZcAckBanGuild {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAckBanGuild {
@@ -38491,7 +39263,6 @@ impl PacketCzReqDisorganizeGuild {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqDisorganizeGuild {
         let mut offset: usize = 0;
         PacketCzReqDisorganizeGuild {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -38518,6 +39289,7 @@ impl PacketCzReqDisorganizeGuild {
                 offset += 40;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -38591,6 +39363,9 @@ impl Packet for PacketCzReqDisorganizeGuild {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqDisorganizeGuild {
@@ -38607,7 +39382,6 @@ impl PacketZcAckDisorganizeGuildResult {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckDisorganizeGuildResult {
         let mut offset: usize = 0;
         PacketZcAckDisorganizeGuildResult {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -38628,6 +39402,7 @@ impl PacketZcAckDisorganizeGuildResult {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -38699,6 +39474,9 @@ impl Packet for PacketZcAckDisorganizeGuildResult {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAckDisorganizeGuildResult {
@@ -38715,7 +39493,6 @@ impl PacketZcAckDisorganizeGuild {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckDisorganizeGuild {
         let mut offset: usize = 0;
         PacketZcAckDisorganizeGuild {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -38742,6 +39519,7 @@ impl PacketZcAckDisorganizeGuild {
                 offset += 40;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -38815,6 +39593,9 @@ impl Packet for PacketZcAckDisorganizeGuild {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAckDisorganizeGuild {
@@ -38841,7 +39622,6 @@ impl PacketZcPositionInfo {
             i += 1;
         }
         PacketZcPositionInfo {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -38867,10 +39647,12 @@ impl PacketZcPositionInfo {
                 field
             },
             member_info_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -38956,6 +39738,9 @@ impl Packet for PacketZcPositionInfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcPositionInfo {
@@ -38982,7 +39767,6 @@ impl PacketCzRegChangeGuildPositioninfo {
             i += 1;
         }
         PacketCzRegChangeGuildPositioninfo {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -39008,10 +39792,12 @@ impl PacketCzRegChangeGuildPositioninfo {
                 field
             },
             member_list_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -39097,6 +39883,9 @@ impl Packet for PacketCzRegChangeGuildPositioninfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzRegChangeGuildPositioninfo {
@@ -39123,7 +39912,6 @@ impl PacketZcGuildSkillinfo {
             i += 1;
         }
         PacketZcGuildSkillinfo {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -39159,10 +39947,12 @@ impl PacketZcGuildSkillinfo {
                 field
             },
             skill_list_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -39260,6 +40050,9 @@ impl Packet for PacketZcGuildSkillinfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcGuildSkillinfo {
@@ -39286,7 +40079,6 @@ impl PacketZcBanList {
             i += 1;
         }
         PacketZcBanList {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -39312,10 +40104,12 @@ impl PacketZcBanList {
                 field
             },
             ban_list_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -39401,6 +40195,9 @@ impl Packet for PacketZcBanList {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcBanList {
@@ -39427,7 +40224,6 @@ impl PacketZcOtherGuildList {
             i += 1;
         }
         PacketZcOtherGuildList {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -39453,10 +40249,12 @@ impl PacketZcOtherGuildList {
                 field
             },
             guild_list_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -39542,6 +40340,9 @@ impl Packet for PacketZcOtherGuildList {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcOtherGuildList {
@@ -39558,7 +40359,6 @@ impl PacketCzReqMakeGuild {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqMakeGuild {
         let mut offset: usize = 0;
         PacketCzReqMakeGuild {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -39595,6 +40395,7 @@ impl PacketCzReqMakeGuild {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -39680,6 +40481,9 @@ impl Packet for PacketCzReqMakeGuild {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqMakeGuild {
@@ -39706,7 +40510,6 @@ impl PacketZcPositionIdNameInfo {
             i += 1;
         }
         PacketZcPositionIdNameInfo {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -39732,10 +40535,12 @@ impl PacketZcPositionIdNameInfo {
                 field
             },
             member_list_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -39821,6 +40626,9 @@ impl Packet for PacketZcPositionIdNameInfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcPositionIdNameInfo {
@@ -39837,7 +40645,6 @@ impl PacketZcResultMakeGuild {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcResultMakeGuild {
         let mut offset: usize = 0;
         PacketZcResultMakeGuild {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -39858,6 +40665,7 @@ impl PacketZcResultMakeGuild {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -39929,6 +40737,9 @@ impl Packet for PacketZcResultMakeGuild {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcResultMakeGuild {
@@ -39945,7 +40756,6 @@ impl PacketCzReqJoinGuild {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqJoinGuild {
         let mut offset: usize = 0;
         PacketCzReqJoinGuild {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -39986,6 +40796,7 @@ impl PacketCzReqJoinGuild {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -40081,6 +40892,9 @@ impl Packet for PacketCzReqJoinGuild {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqJoinGuild {
@@ -40097,7 +40911,6 @@ impl PacketZcAckReqJoinGuild {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckReqJoinGuild {
         let mut offset: usize = 0;
         PacketZcAckReqJoinGuild {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -40118,6 +40931,7 @@ impl PacketZcAckReqJoinGuild {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -40189,6 +41003,9 @@ impl Packet for PacketZcAckReqJoinGuild {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAckReqJoinGuild {
@@ -40205,7 +41022,6 @@ impl PacketZcReqJoinGuild {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcReqJoinGuild {
         let mut offset: usize = 0;
         PacketZcReqJoinGuild {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -40242,6 +41058,7 @@ impl PacketZcReqJoinGuild {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -40327,6 +41144,9 @@ impl Packet for PacketZcReqJoinGuild {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcReqJoinGuild {
@@ -40343,7 +41163,6 @@ impl PacketCzJoinGuild {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzJoinGuild {
         let mut offset: usize = 0;
         PacketCzJoinGuild {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -40374,6 +41193,7 @@ impl PacketCzJoinGuild {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -40457,6 +41277,9 @@ impl Packet for PacketCzJoinGuild {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzJoinGuild {
@@ -40473,7 +41296,6 @@ impl PacketZcUpdateGdid {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcUpdateGdid {
         let mut offset: usize = 0;
         PacketZcUpdateGdid {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -40550,6 +41372,7 @@ impl PacketZcUpdateGdid {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -40683,6 +41506,9 @@ impl Packet for PacketZcUpdateGdid {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcUpdateGdid {
@@ -40699,7 +41525,6 @@ impl PacketZcUpdateCharstat {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcUpdateCharstat {
         let mut offset: usize = 0;
         PacketZcUpdateCharstat {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -40740,6 +41565,7 @@ impl PacketZcUpdateCharstat {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -40835,6 +41661,9 @@ impl Packet for PacketZcUpdateCharstat {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcUpdateCharstat {
@@ -40851,7 +41680,6 @@ impl PacketCzGuildNotice {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzGuildNotice {
         let mut offset: usize = 0;
         PacketCzGuildNotice {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -40904,6 +41732,7 @@ impl PacketCzGuildNotice {
                 offset += 120;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -41003,6 +41832,9 @@ impl Packet for PacketCzGuildNotice {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzGuildNotice {
@@ -41019,7 +41851,6 @@ impl PacketZcGuildNotice {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcGuildNotice {
         let mut offset: usize = 0;
         PacketZcGuildNotice {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -41062,6 +41893,7 @@ impl PacketZcGuildNotice {
                 offset += 120;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -41149,6 +41981,9 @@ impl Packet for PacketZcGuildNotice {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcGuildNotice {
@@ -41165,7 +42000,6 @@ impl PacketCzReqAllyGuild {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqAllyGuild {
         let mut offset: usize = 0;
         PacketCzReqAllyGuild {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -41206,6 +42040,7 @@ impl PacketCzReqAllyGuild {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -41301,6 +42136,9 @@ impl Packet for PacketCzReqAllyGuild {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqAllyGuild {
@@ -41317,7 +42155,6 @@ impl PacketZcReqAllyGuild {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcReqAllyGuild {
         let mut offset: usize = 0;
         PacketZcReqAllyGuild {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -41354,6 +42191,7 @@ impl PacketZcReqAllyGuild {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -41439,6 +42277,9 @@ impl Packet for PacketZcReqAllyGuild {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcReqAllyGuild {
@@ -41455,7 +42296,6 @@ impl PacketCzAllyGuild {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzAllyGuild {
         let mut offset: usize = 0;
         PacketCzAllyGuild {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -41486,6 +42326,7 @@ impl PacketCzAllyGuild {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -41569,6 +42410,9 @@ impl Packet for PacketCzAllyGuild {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzAllyGuild {
@@ -41585,7 +42429,6 @@ impl PacketZcAckReqAllyGuild {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckReqAllyGuild {
         let mut offset: usize = 0;
         PacketZcAckReqAllyGuild {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -41606,6 +42449,7 @@ impl PacketZcAckReqAllyGuild {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -41677,6 +42521,9 @@ impl Packet for PacketZcAckReqAllyGuild {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAckReqAllyGuild {
@@ -41703,7 +42550,6 @@ impl PacketZcAckChangeGuildPositioninfo {
             i += 1;
         }
         PacketZcAckChangeGuildPositioninfo {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -41729,10 +42575,12 @@ impl PacketZcAckChangeGuildPositioninfo {
                 field
             },
             member_list_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -41818,6 +42666,9 @@ impl Packet for PacketZcAckChangeGuildPositioninfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAckChangeGuildPositioninfo {
@@ -41834,7 +42685,6 @@ impl PacketCzReqGuildMemberInfo {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqGuildMemberInfo {
         let mut offset: usize = 0;
         PacketCzReqGuildMemberInfo {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -41855,6 +42705,7 @@ impl PacketCzReqGuildMemberInfo {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -41926,6 +42777,9 @@ impl Packet for PacketCzReqGuildMemberInfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqGuildMemberInfo {
@@ -41942,7 +42796,6 @@ impl PacketZcAckGuildMemberInfo {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckGuildMemberInfo {
         let mut offset: usize = 0;
         PacketZcAckGuildMemberInfo {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -41962,6 +42815,7 @@ impl PacketZcAckGuildMemberInfo {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -42033,6 +42887,9 @@ impl Packet for PacketZcAckGuildMemberInfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAckGuildMemberInfo {
@@ -42049,7 +42906,6 @@ impl PacketZcItemidentifyList {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcItemidentifyList {
         let mut offset: usize = 0;
         PacketZcItemidentifyList {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -42082,6 +42938,7 @@ impl PacketZcItemidentifyList {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -42163,6 +43020,9 @@ impl Packet for PacketZcItemidentifyList {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcItemidentifyList {
@@ -42179,7 +43039,6 @@ impl PacketCzReqItemidentify {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqItemidentify {
         let mut offset: usize = 0;
         PacketCzReqItemidentify {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -42200,6 +43059,7 @@ impl PacketCzReqItemidentify {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -42271,6 +43131,9 @@ impl Packet for PacketCzReqItemidentify {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqItemidentify {
@@ -42287,7 +43150,6 @@ impl PacketZcAckItemidentify {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckItemidentify {
         let mut offset: usize = 0;
         PacketZcAckItemidentify {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -42318,6 +43180,7 @@ impl PacketZcAckItemidentify {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -42401,6 +43264,9 @@ impl Packet for PacketZcAckItemidentify {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAckItemidentify {
@@ -42417,7 +43283,6 @@ impl PacketCzReqItemcompositionList {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqItemcompositionList {
         let mut offset: usize = 0;
         PacketCzReqItemcompositionList {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -42438,6 +43303,7 @@ impl PacketCzReqItemcompositionList {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -42509,6 +43375,9 @@ impl Packet for PacketCzReqItemcompositionList {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqItemcompositionList {
@@ -42525,7 +43394,6 @@ impl PacketZcItemcompositionList {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcItemcompositionList {
         let mut offset: usize = 0;
         PacketZcItemcompositionList {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -42558,6 +43426,7 @@ impl PacketZcItemcompositionList {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -42639,6 +43508,9 @@ impl Packet for PacketZcItemcompositionList {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcItemcompositionList {
@@ -42655,7 +43527,6 @@ impl PacketCzReqItemcomposition {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqItemcomposition {
         let mut offset: usize = 0;
         PacketCzReqItemcomposition {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -42686,6 +43557,7 @@ impl PacketCzReqItemcomposition {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -42769,6 +43641,9 @@ impl Packet for PacketCzReqItemcomposition {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqItemcomposition {
@@ -42785,7 +43660,6 @@ impl PacketZcAckItemcomposition {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckItemcomposition {
         let mut offset: usize = 0;
         PacketZcAckItemcomposition {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -42826,6 +43700,7 @@ impl PacketZcAckItemcomposition {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -42921,6 +43796,9 @@ impl Packet for PacketZcAckItemcomposition {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAckItemcomposition {
@@ -42937,7 +43815,6 @@ impl PacketCzGuildChat {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzGuildChat {
         let mut offset: usize = 0;
         PacketCzGuildChat {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -42967,6 +43844,7 @@ impl PacketCzGuildChat {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -43048,6 +43926,9 @@ impl Packet for PacketCzGuildChat {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzGuildChat {
@@ -43064,7 +43945,6 @@ impl PacketZcGuildChat {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcGuildChat {
         let mut offset: usize = 0;
         PacketZcGuildChat {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -43094,6 +43974,7 @@ impl PacketZcGuildChat {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -43175,6 +44056,9 @@ impl Packet for PacketZcGuildChat {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcGuildChat {
@@ -43191,7 +44075,6 @@ impl PacketCzReqHostileGuild {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqHostileGuild {
         let mut offset: usize = 0;
         PacketCzReqHostileGuild {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -43212,6 +44095,7 @@ impl PacketCzReqHostileGuild {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -43283,6 +44167,9 @@ impl Packet for PacketCzReqHostileGuild {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqHostileGuild {
@@ -43299,7 +44186,6 @@ impl PacketZcAckReqHostileGuild {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckReqHostileGuild {
         let mut offset: usize = 0;
         PacketZcAckReqHostileGuild {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -43320,6 +44206,7 @@ impl PacketZcAckReqHostileGuild {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -43391,6 +44278,9 @@ impl Packet for PacketZcAckReqHostileGuild {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAckReqHostileGuild {
@@ -43407,7 +44297,6 @@ impl PacketZcMemberAdd {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMemberAdd {
         let mut offset: usize = 0;
         PacketZcMemberAdd {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -43427,6 +44316,7 @@ impl PacketZcMemberAdd {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -43498,6 +44388,9 @@ impl Packet for PacketZcMemberAdd {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcMemberAdd {
@@ -43514,7 +44407,6 @@ impl PacketCzReqDeleteRelatedGuild {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqDeleteRelatedGuild {
         let mut offset: usize = 0;
         PacketCzReqDeleteRelatedGuild {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -43545,6 +44437,7 @@ impl PacketCzReqDeleteRelatedGuild {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -43628,6 +44521,9 @@ impl Packet for PacketCzReqDeleteRelatedGuild {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqDeleteRelatedGuild {
@@ -43644,7 +44540,6 @@ impl PacketZcDeleteRelatedGuild {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcDeleteRelatedGuild {
         let mut offset: usize = 0;
         PacketZcDeleteRelatedGuild {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -43675,6 +44570,7 @@ impl PacketZcDeleteRelatedGuild {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -43758,6 +44654,9 @@ impl Packet for PacketZcDeleteRelatedGuild {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcDeleteRelatedGuild {
@@ -43774,7 +44673,6 @@ impl PacketZcAddRelatedGuild {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAddRelatedGuild {
         let mut offset: usize = 0;
         PacketZcAddRelatedGuild {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -43794,6 +44692,7 @@ impl PacketZcAddRelatedGuild {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -43865,6 +44764,9 @@ impl Packet for PacketZcAddRelatedGuild {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAddRelatedGuild {
@@ -43881,7 +44783,6 @@ impl PacketCollectordead {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCollectordead {
         let mut offset: usize = 0;
         PacketCollectordead {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -43902,6 +44803,7 @@ impl PacketCollectordead {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -43973,6 +44875,9 @@ impl Packet for PacketCollectordead {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCollectordead {
@@ -43989,7 +44894,6 @@ impl PacketPing {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketPing {
         let mut offset: usize = 0;
         PacketPing {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -44010,6 +44914,7 @@ impl PacketPing {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -44081,6 +44986,9 @@ impl Packet for PacketPing {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketPing {
@@ -44097,7 +45005,6 @@ impl PacketZcAckItemrefining {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckItemrefining {
         let mut offset: usize = 0;
         PacketZcAckItemrefining {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -44138,6 +45045,7 @@ impl PacketZcAckItemrefining {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -44233,6 +45141,9 @@ impl Packet for PacketZcAckItemrefining {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAckItemrefining {
@@ -44249,7 +45160,6 @@ impl PacketZcNotifyMapinfo {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyMapinfo {
         let mut offset: usize = 0;
         PacketZcNotifyMapinfo {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -44270,6 +45180,7 @@ impl PacketZcNotifyMapinfo {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -44341,6 +45252,9 @@ impl Packet for PacketZcNotifyMapinfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyMapinfo {
@@ -44357,7 +45271,6 @@ impl PacketCzReqDisconnect {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqDisconnect {
         let mut offset: usize = 0;
         PacketCzReqDisconnect {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -44378,6 +45291,7 @@ impl PacketCzReqDisconnect {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -44449,6 +45363,9 @@ impl Packet for PacketCzReqDisconnect {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqDisconnect {
@@ -44465,7 +45382,6 @@ impl PacketZcAckReqDisconnect {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckReqDisconnect {
         let mut offset: usize = 0;
         PacketZcAckReqDisconnect {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -44486,6 +45402,7 @@ impl PacketZcAckReqDisconnect {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -44557,6 +45474,9 @@ impl Packet for PacketZcAckReqDisconnect {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAckReqDisconnect {
@@ -44573,7 +45493,6 @@ impl PacketZcMonsterInfo {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMonsterInfo {
         let mut offset: usize = 0;
         PacketZcMonsterInfo {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -44673,6 +45592,7 @@ impl PacketZcMonsterInfo {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -44840,6 +45760,9 @@ impl Packet for PacketZcMonsterInfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcMonsterInfo {
@@ -44856,7 +45779,6 @@ impl PacketZcMakableitemlist {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMakableitemlist {
         let mut offset: usize = 0;
         PacketZcMakableitemlist {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -44886,6 +45808,7 @@ impl PacketZcMakableitemlist {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -44969,6 +45892,9 @@ impl Packet for PacketZcMakableitemlist {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcMakableitemlist {
@@ -44985,7 +45911,6 @@ impl PacketCzReqmakingitem {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqmakingitem {
         let mut offset: usize = 0;
         PacketCzReqmakingitem {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -45005,6 +45930,7 @@ impl PacketCzReqmakingitem {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -45076,6 +46002,9 @@ impl Packet for PacketCzReqmakingitem {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqmakingitem {
@@ -45092,7 +46021,6 @@ impl PacketZcAckReqmakingitem {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckReqmakingitem {
         let mut offset: usize = 0;
         PacketZcAckReqmakingitem {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -45123,6 +46051,7 @@ impl PacketZcAckReqmakingitem {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -45206,6 +46135,9 @@ impl Packet for PacketZcAckReqmakingitem {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAckReqmakingitem {
@@ -45222,7 +46154,6 @@ impl PacketCzUseSkillTogroundWithtalkbox {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzUseSkillTogroundWithtalkbox {
         let mut offset: usize = 0;
         PacketCzUseSkillTogroundWithtalkbox {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -45289,6 +46220,7 @@ impl PacketCzUseSkillTogroundWithtalkbox {
                 offset += 80;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -45410,6 +46342,9 @@ impl Packet for PacketCzUseSkillTogroundWithtalkbox {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzUseSkillTogroundWithtalkbox {
@@ -45426,7 +46361,6 @@ impl PacketZcTalkboxChatcontents {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcTalkboxChatcontents {
         let mut offset: usize = 0;
         PacketZcTalkboxChatcontents {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -45463,6 +46397,7 @@ impl PacketZcTalkboxChatcontents {
                 offset += 80;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -45548,6 +46483,9 @@ impl Packet for PacketZcTalkboxChatcontents {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcTalkboxChatcontents {
@@ -45564,7 +46502,6 @@ impl PacketZcUpdateMapinfo {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcUpdateMapinfo {
         let mut offset: usize = 0;
         PacketZcUpdateMapinfo {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -45621,6 +46558,7 @@ impl PacketZcUpdateMapinfo {
                 offset += 16;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -45730,6 +46668,9 @@ impl Packet for PacketZcUpdateMapinfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcUpdateMapinfo {
@@ -45746,7 +46687,6 @@ impl PacketCzReqnameBygid {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqnameBygid {
         let mut offset: usize = 0;
         PacketCzReqnameBygid {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -45767,6 +46707,7 @@ impl PacketCzReqnameBygid {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -45838,6 +46779,9 @@ impl Packet for PacketCzReqnameBygid {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqnameBygid {
@@ -45854,7 +46798,6 @@ impl PacketZcAckReqnameBygid {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckReqnameBygid {
         let mut offset: usize = 0;
         PacketZcAckReqnameBygid {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -45891,6 +46834,7 @@ impl PacketZcAckReqnameBygid {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -45976,6 +46920,9 @@ impl Packet for PacketZcAckReqnameBygid {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAckReqnameBygid {
@@ -45992,7 +46939,6 @@ impl PacketZcAckReqnameall {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckReqnameall {
         let mut offset: usize = 0;
         PacketZcAckReqnameall {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -46077,6 +47023,7 @@ impl PacketZcAckReqnameall {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -46204,6 +47151,9 @@ impl Packet for PacketZcAckReqnameall {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAckReqnameall {
@@ -46220,7 +47170,6 @@ impl PacketZcMsgStateChange {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMsgStateChange {
         let mut offset: usize = 0;
         PacketZcMsgStateChange {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -46261,6 +47210,7 @@ impl PacketZcMsgStateChange {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -46356,6 +47306,9 @@ impl Packet for PacketZcMsgStateChange {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcMsgStateChange {
@@ -46372,7 +47325,6 @@ impl PacketCzReset {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReset {
         let mut offset: usize = 0;
         PacketCzReset {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -46393,6 +47345,7 @@ impl PacketCzReset {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -46464,6 +47417,9 @@ impl Packet for PacketCzReset {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReset {
@@ -46480,7 +47436,6 @@ impl PacketCzChangeMaptype {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzChangeMaptype {
         let mut offset: usize = 0;
         PacketCzChangeMaptype {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -46521,6 +47476,7 @@ impl PacketCzChangeMaptype {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -46616,6 +47572,9 @@ impl Packet for PacketCzChangeMaptype {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzChangeMaptype {
@@ -46632,7 +47591,6 @@ impl PacketZcNotifyMapproperty {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyMapproperty {
         let mut offset: usize = 0;
         PacketZcNotifyMapproperty {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -46653,6 +47611,7 @@ impl PacketZcNotifyMapproperty {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -46724,6 +47683,9 @@ impl Packet for PacketZcNotifyMapproperty {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyMapproperty {
@@ -46740,7 +47702,6 @@ impl PacketZcNotifyRanking {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyRanking {
         let mut offset: usize = 0;
         PacketZcNotifyRanking {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -46781,6 +47742,7 @@ impl PacketZcNotifyRanking {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -46876,6 +47838,9 @@ impl Packet for PacketZcNotifyRanking {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyRanking {
@@ -46892,7 +47857,6 @@ impl PacketZcNotifyEffect {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyEffect {
         let mut offset: usize = 0;
         PacketZcNotifyEffect {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -46923,6 +47887,7 @@ impl PacketZcNotifyEffect {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -47006,6 +47971,9 @@ impl Packet for PacketZcNotifyEffect {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyEffect {
@@ -47022,7 +47990,6 @@ impl PacketCzChangeEffectstate {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzChangeEffectstate {
         let mut offset: usize = 0;
         PacketCzChangeEffectstate {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -47043,6 +48010,7 @@ impl PacketCzChangeEffectstate {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -47114,6 +48082,9 @@ impl Packet for PacketCzChangeEffectstate {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzChangeEffectstate {
@@ -47130,7 +48101,6 @@ impl PacketZcStartCapture {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcStartCapture {
         let mut offset: usize = 0;
         PacketZcStartCapture {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -47141,6 +48111,7 @@ impl PacketZcStartCapture {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -47200,6 +48171,9 @@ impl Packet for PacketZcStartCapture {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcStartCapture {
@@ -47216,7 +48190,6 @@ impl PacketCzTrycaptureMonster {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzTrycaptureMonster {
         let mut offset: usize = 0;
         PacketCzTrycaptureMonster {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -47237,6 +48210,7 @@ impl PacketCzTrycaptureMonster {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -47308,6 +48282,9 @@ impl Packet for PacketCzTrycaptureMonster {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzTrycaptureMonster {
@@ -47324,7 +48301,6 @@ impl PacketZcTrycaptureMonster {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcTrycaptureMonster {
         let mut offset: usize = 0;
         PacketZcTrycaptureMonster {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -47345,6 +48321,7 @@ impl PacketZcTrycaptureMonster {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -47416,6 +48393,9 @@ impl Packet for PacketZcTrycaptureMonster {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcTrycaptureMonster {
@@ -47432,7 +48412,6 @@ impl PacketCzCommandPet {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzCommandPet {
         let mut offset: usize = 0;
         PacketCzCommandPet {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -47453,6 +48432,7 @@ impl PacketCzCommandPet {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -47524,6 +48504,9 @@ impl Packet for PacketCzCommandPet {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzCommandPet {
@@ -47540,7 +48523,6 @@ impl PacketZcPropertyPet {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPropertyPet {
         let mut offset: usize = 0;
         PacketZcPropertyPet {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -47627,6 +48609,7 @@ impl PacketZcPropertyPet {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -47772,6 +48755,9 @@ impl Packet for PacketZcPropertyPet {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcPropertyPet {
@@ -47788,7 +48774,6 @@ impl PacketZcFeedPet {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcFeedPet {
         let mut offset: usize = 0;
         PacketZcFeedPet {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -47819,6 +48804,7 @@ impl PacketZcFeedPet {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -47902,6 +48888,9 @@ impl Packet for PacketZcFeedPet {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcFeedPet {
@@ -47918,7 +48907,6 @@ impl PacketZcChangestatePet {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcChangestatePet {
         let mut offset: usize = 0;
         PacketZcChangestatePet {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -47959,6 +48947,7 @@ impl PacketZcChangestatePet {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -48054,6 +49043,9 @@ impl Packet for PacketZcChangestatePet {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcChangestatePet {
@@ -48070,7 +49062,6 @@ impl PacketCzRenamePet {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzRenamePet {
         let mut offset: usize = 0;
         PacketCzRenamePet {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -48097,6 +49088,7 @@ impl PacketCzRenamePet {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -48170,6 +49162,9 @@ impl Packet for PacketCzRenamePet {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzRenamePet {
@@ -48196,7 +49191,6 @@ impl PacketZcPeteggList {
             i += 1;
         }
         PacketZcPeteggList {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -48222,10 +49216,12 @@ impl PacketZcPeteggList {
                 field
             },
             egg_list_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -48311,6 +49307,9 @@ impl Packet for PacketZcPeteggList {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcPeteggList {
@@ -48327,7 +49326,6 @@ impl PacketCzSelectPetegg {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzSelectPetegg {
         let mut offset: usize = 0;
         PacketCzSelectPetegg {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -48348,6 +49346,7 @@ impl PacketCzSelectPetegg {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -48419,6 +49418,9 @@ impl Packet for PacketCzSelectPetegg {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzSelectPetegg {
@@ -48435,7 +49437,6 @@ impl PacketCzPeteggInfo {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzPeteggInfo {
         let mut offset: usize = 0;
         PacketCzPeteggInfo {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -48456,6 +49457,7 @@ impl PacketCzPeteggInfo {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -48527,6 +49529,9 @@ impl Packet for PacketCzPeteggInfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzPeteggInfo {
@@ -48543,7 +49548,6 @@ impl PacketCzPetAct {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzPetAct {
         let mut offset: usize = 0;
         PacketCzPetAct {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -48564,6 +49568,7 @@ impl PacketCzPetAct {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -48635,6 +49640,9 @@ impl Packet for PacketCzPetAct {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzPetAct {
@@ -48651,7 +49659,6 @@ impl PacketZcPetAct {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPetAct {
         let mut offset: usize = 0;
         PacketZcPetAct {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -48682,6 +49689,7 @@ impl PacketZcPetAct {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -48765,6 +49773,9 @@ impl Packet for PacketZcPetAct {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcPetAct {
@@ -48781,7 +49792,6 @@ impl PacketZcParChangeUser {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcParChangeUser {
         let mut offset: usize = 0;
         PacketZcParChangeUser {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -48822,6 +49832,7 @@ impl PacketZcParChangeUser {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -48917,6 +49928,9 @@ impl Packet for PacketZcParChangeUser {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcParChangeUser {
@@ -48933,7 +49947,6 @@ impl PacketZcSkillUpdate {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSkillUpdate {
         let mut offset: usize = 0;
         PacketZcSkillUpdate {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -48954,6 +49967,7 @@ impl PacketZcSkillUpdate {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -49025,6 +50039,9 @@ impl Packet for PacketZcSkillUpdate {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcSkillUpdate {
@@ -49051,7 +50068,6 @@ impl PacketZcMakingarrowList {
             i += 1;
         }
         PacketZcMakingarrowList {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -49077,10 +50093,12 @@ impl PacketZcMakingarrowList {
                 field
             },
             arrow_list_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -49166,6 +50184,9 @@ impl Packet for PacketZcMakingarrowList {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcMakingarrowList {
@@ -49182,7 +50203,6 @@ impl PacketCzReqMakingarrow {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqMakingarrow {
         let mut offset: usize = 0;
         PacketCzReqMakingarrow {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -49203,6 +50223,7 @@ impl PacketCzReqMakingarrow {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -49274,6 +50295,9 @@ impl Packet for PacketCzReqMakingarrow {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqMakingarrow {
@@ -49290,7 +50314,6 @@ impl PacketCzReqChangecart {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqChangecart {
         let mut offset: usize = 0;
         PacketCzReqChangecart {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -49311,6 +50334,7 @@ impl PacketCzReqChangecart {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -49382,6 +50406,9 @@ impl Packet for PacketCzReqChangecart {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqChangecart {
@@ -49398,7 +50425,6 @@ impl PacketZcNpcspriteChange {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNpcspriteChange {
         let mut offset: usize = 0;
         PacketZcNpcspriteChange {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -49439,6 +50465,7 @@ impl PacketZcNpcspriteChange {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -49534,6 +50561,9 @@ impl Packet for PacketZcNpcspriteChange {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNpcspriteChange {
@@ -49550,7 +50580,6 @@ impl PacketZcShowdigit {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcShowdigit {
         let mut offset: usize = 0;
         PacketZcShowdigit {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -49581,6 +50610,7 @@ impl PacketZcShowdigit {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -49664,6 +50694,9 @@ impl Packet for PacketZcShowdigit {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcShowdigit {
@@ -49690,7 +50723,6 @@ impl PacketCzReqOpenstore2 {
             i += 1;
         }
         PacketCzReqOpenstore2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -49742,10 +50774,12 @@ impl PacketCzReqOpenstore2 {
                 field
             },
             store_list_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -49857,6 +50891,9 @@ impl Packet for PacketCzReqOpenstore2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqOpenstore2 {
@@ -49873,7 +50910,6 @@ impl PacketZcShowImage2 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcShowImage2 {
         let mut offset: usize = 0;
         PacketZcShowImage2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -49910,6 +50946,7 @@ impl PacketZcShowImage2 {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -49995,6 +51032,9 @@ impl Packet for PacketZcShowImage2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcShowImage2 {
@@ -50011,7 +51051,6 @@ impl PacketZcChangeGuild {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcChangeGuild {
         let mut offset: usize = 0;
         PacketZcChangeGuild {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -50052,6 +51091,7 @@ impl PacketZcChangeGuild {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -50147,6 +51187,9 @@ impl Packet for PacketZcChangeGuild {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcChangeGuild {
@@ -50163,7 +51206,6 @@ impl PacketScBillingInfo {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketScBillingInfo {
         let mut offset: usize = 0;
         PacketScBillingInfo {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -50214,6 +51256,7 @@ impl PacketScBillingInfo {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -50321,6 +51364,9 @@ impl Packet for PacketScBillingInfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketScBillingInfo {
@@ -50337,7 +51383,6 @@ impl PacketZcGuildInfo2 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcGuildInfo2 {
         let mut offset: usize = 0;
         PacketZcGuildInfo2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -50516,6 +51561,7 @@ impl PacketZcGuildInfo2 {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -50761,6 +51807,9 @@ impl Packet for PacketZcGuildInfo2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcGuildInfo2 {
@@ -50777,7 +51826,6 @@ impl PacketCzGuildZeny {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzGuildZeny {
         let mut offset: usize = 0;
         PacketCzGuildZeny {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -50798,6 +51846,7 @@ impl PacketCzGuildZeny {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -50869,6 +51918,9 @@ impl Packet for PacketCzGuildZeny {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzGuildZeny {
@@ -50885,7 +51937,6 @@ impl PacketZcGuildZenyAck {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcGuildZenyAck {
         let mut offset: usize = 0;
         PacketZcGuildZenyAck {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -50906,6 +51957,7 @@ impl PacketZcGuildZenyAck {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -50977,6 +52029,9 @@ impl Packet for PacketZcGuildZenyAck {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcGuildZenyAck {
@@ -50993,7 +52048,6 @@ impl PacketZcDispel {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcDispel {
         let mut offset: usize = 0;
         PacketZcDispel {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -51014,6 +52068,7 @@ impl PacketZcDispel {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -51085,6 +52140,9 @@ impl Packet for PacketZcDispel {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcDispel {
@@ -51101,7 +52159,6 @@ impl PacketCzRemoveAid {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzRemoveAid {
         let mut offset: usize = 0;
         PacketCzRemoveAid {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -51128,6 +52185,7 @@ impl PacketCzRemoveAid {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -51201,6 +52259,9 @@ impl Packet for PacketCzRemoveAid {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzRemoveAid {
@@ -51217,7 +52278,6 @@ impl PacketCzShift {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzShift {
         let mut offset: usize = 0;
         PacketCzShift {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -51244,6 +52304,7 @@ impl PacketCzShift {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -51317,6 +52378,9 @@ impl Packet for PacketCzShift {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzShift {
@@ -51333,7 +52397,6 @@ impl PacketCzRecall {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzRecall {
         let mut offset: usize = 0;
         PacketCzRecall {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -51360,6 +52423,7 @@ impl PacketCzRecall {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -51433,6 +52497,9 @@ impl Packet for PacketCzRecall {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzRecall {
@@ -51449,7 +52516,6 @@ impl PacketCzRecallGid {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzRecallGid {
         let mut offset: usize = 0;
         PacketCzRecallGid {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -51476,6 +52542,7 @@ impl PacketCzRecallGid {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -51549,6 +52616,9 @@ impl Packet for PacketCzRecallGid {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzRecallGid {
@@ -51565,7 +52635,6 @@ impl PacketAcAskPngameroom {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketAcAskPngameroom {
         let mut offset: usize = 0;
         PacketAcAskPngameroom {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -51576,6 +52645,7 @@ impl PacketAcAskPngameroom {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -51635,6 +52705,9 @@ impl Packet for PacketAcAskPngameroom {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketAcAskPngameroom {
@@ -51651,7 +52724,6 @@ impl PacketCaReplyPngameroom {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCaReplyPngameroom {
         let mut offset: usize = 0;
         PacketCaReplyPngameroom {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -51672,6 +52744,7 @@ impl PacketCaReplyPngameroom {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -51743,6 +52816,9 @@ impl Packet for PacketCaReplyPngameroom {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCaReplyPngameroom {
@@ -51759,7 +52835,6 @@ impl PacketCzReqRemaintime {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqRemaintime {
         let mut offset: usize = 0;
         PacketCzReqRemaintime {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -51770,6 +52845,7 @@ impl PacketCzReqRemaintime {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -51829,6 +52905,9 @@ impl Packet for PacketCzReqRemaintime {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqRemaintime {
@@ -51845,7 +52924,6 @@ impl PacketZcReplyRemaintime {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcReplyRemaintime {
         let mut offset: usize = 0;
         PacketZcReplyRemaintime {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -51886,6 +52964,7 @@ impl PacketZcReplyRemaintime {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -51981,6 +53060,9 @@ impl Packet for PacketZcReplyRemaintime {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcReplyRemaintime {
@@ -51997,7 +53079,6 @@ impl PacketZcInfoRemaintime {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcInfoRemaintime {
         let mut offset: usize = 0;
         PacketZcInfoRemaintime {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -52028,6 +53109,7 @@ impl PacketZcInfoRemaintime {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -52111,6 +53193,9 @@ impl Packet for PacketZcInfoRemaintime {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcInfoRemaintime {
@@ -52127,7 +53212,6 @@ impl PacketZcBroadcast2 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcBroadcast2 {
         let mut offset: usize = 0;
         PacketZcBroadcast2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -52207,6 +53291,7 @@ impl PacketZcBroadcast2 {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -52348,6 +53433,9 @@ impl Packet for PacketZcBroadcast2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcBroadcast2 {
@@ -52364,7 +53452,6 @@ impl PacketZcAddItemToStore2 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAddItemToStore2 {
         let mut offset: usize = 0;
         PacketZcAddItemToStore2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -52455,6 +53542,7 @@ impl PacketZcAddItemToStore2 {
                 offset += 8;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -52610,6 +53698,9 @@ impl Packet for PacketZcAddItemToStore2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAddItemToStore2 {
@@ -52626,7 +53717,6 @@ impl PacketZcAddItemToCart2 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAddItemToCart2 {
         let mut offset: usize = 0;
         PacketZcAddItemToCart2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -52717,6 +53807,7 @@ impl PacketZcAddItemToCart2 {
                 offset += 8;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -52872,6 +53963,9 @@ impl Packet for PacketZcAddItemToCart2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAddItemToCart2 {
@@ -52888,7 +53982,6 @@ impl PacketCsReqEncryption {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCsReqEncryption {
         let mut offset: usize = 0;
         PacketCsReqEncryption {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -52919,6 +54012,7 @@ impl PacketCsReqEncryption {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -53002,6 +54096,9 @@ impl Packet for PacketCsReqEncryption {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCsReqEncryption {
@@ -53018,7 +54115,6 @@ impl PacketScAckEncryption {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketScAckEncryption {
         let mut offset: usize = 0;
         PacketScAckEncryption {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -53029,6 +54125,7 @@ impl PacketScAckEncryption {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -53088,6 +54185,9 @@ impl Packet for PacketScAckEncryption {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketScAckEncryption {
@@ -53104,7 +54204,6 @@ impl PacketZcUseItemAck2 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcUseItemAck2 {
         let mut offset: usize = 0;
         PacketZcUseItemAck2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -53165,6 +54264,7 @@ impl PacketZcUseItemAck2 {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -53284,6 +54384,9 @@ impl Packet for PacketZcUseItemAck2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcUseItemAck2 {
@@ -53300,7 +54403,6 @@ impl PacketZcSkillEntry2 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSkillEntry2 {
         let mut offset: usize = 0;
         PacketZcSkillEntry2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -53397,6 +54499,7 @@ impl PacketZcSkillEntry2 {
                 offset += 80;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -53554,6 +54657,9 @@ impl Packet for PacketZcSkillEntry2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcSkillEntry2 {
@@ -53570,7 +54676,6 @@ impl PacketCzReqmakinghomun {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqmakinghomun {
         let mut offset: usize = 0;
         PacketCzReqmakinghomun {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -53591,6 +54696,7 @@ impl PacketCzReqmakinghomun {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -53662,6 +54768,9 @@ impl Packet for PacketCzReqmakinghomun {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqmakinghomun {
@@ -53678,7 +54787,6 @@ impl PacketCzMonsterTalk {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzMonsterTalk {
         let mut offset: usize = 0;
         PacketCzMonsterTalk {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -53729,6 +54837,7 @@ impl PacketCzMonsterTalk {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -53836,6 +54945,9 @@ impl Packet for PacketCzMonsterTalk {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzMonsterTalk {
@@ -53852,7 +54964,6 @@ impl PacketZcMonsterTalk {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMonsterTalk {
         let mut offset: usize = 0;
         PacketZcMonsterTalk {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -53903,6 +55014,7 @@ impl PacketZcMonsterTalk {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -54010,6 +55122,9 @@ impl Packet for PacketZcMonsterTalk {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcMonsterTalk {
@@ -54026,7 +55141,6 @@ impl PacketZcAutospelllist {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAutospelllist {
         let mut offset: usize = 0;
         PacketZcAutospelllist {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -54053,6 +55167,7 @@ impl PacketZcAutospelllist {
                 offset += 7;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -54126,6 +55241,9 @@ impl Packet for PacketZcAutospelllist {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAutospelllist {
@@ -54142,7 +55260,6 @@ impl PacketCzSelectautospell {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzSelectautospell {
         let mut offset: usize = 0;
         PacketCzSelectautospell {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -54163,6 +55280,7 @@ impl PacketCzSelectautospell {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -54234,6 +55352,9 @@ impl Packet for PacketCzSelectautospell {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzSelectautospell {
@@ -54250,7 +55371,6 @@ impl PacketZcDevotionlist {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcDevotionlist {
         let mut offset: usize = 0;
         PacketZcDevotionlist {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -54297,6 +55417,7 @@ impl PacketZcDevotionlist {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -54394,6 +55515,9 @@ impl Packet for PacketZcDevotionlist {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcDevotionlist {
@@ -54410,7 +55534,6 @@ impl PacketZcSpirits {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSpirits {
         let mut offset: usize = 0;
         PacketZcSpirits {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -54441,6 +55564,7 @@ impl PacketZcSpirits {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -54524,6 +55648,9 @@ impl Packet for PacketZcSpirits {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcSpirits {
@@ -54540,7 +55667,6 @@ impl PacketZcBladestop {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcBladestop {
         let mut offset: usize = 0;
         PacketZcBladestop {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -54581,6 +55707,7 @@ impl PacketZcBladestop {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -54676,6 +55803,9 @@ impl Packet for PacketZcBladestop {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcBladestop {
@@ -54692,7 +55822,6 @@ impl PacketZcCombodelay {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcCombodelay {
         let mut offset: usize = 0;
         PacketZcCombodelay {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -54723,6 +55852,7 @@ impl PacketZcCombodelay {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -54806,6 +55936,9 @@ impl Packet for PacketZcCombodelay {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcCombodelay {
@@ -54822,7 +55955,6 @@ impl PacketZcSound {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSound {
         let mut offset: usize = 0;
         PacketZcSound {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -54879,6 +56011,7 @@ impl PacketZcSound {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -54988,6 +56121,9 @@ impl Packet for PacketZcSound {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcSound {
@@ -55004,7 +56140,6 @@ impl PacketZcOpenEditdlgstr {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcOpenEditdlgstr {
         let mut offset: usize = 0;
         PacketZcOpenEditdlgstr {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -55025,6 +56160,7 @@ impl PacketZcOpenEditdlgstr {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -55096,6 +56232,9 @@ impl Packet for PacketZcOpenEditdlgstr {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcOpenEditdlgstr {
@@ -55112,7 +56251,6 @@ impl PacketCzInputEditdlgstr {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzInputEditdlgstr {
         let mut offset: usize = 0;
         PacketCzInputEditdlgstr {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -55152,6 +56290,7 @@ impl PacketCzInputEditdlgstr {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -55245,6 +56384,9 @@ impl Packet for PacketCzInputEditdlgstr {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzInputEditdlgstr {
@@ -55261,7 +56403,6 @@ impl PacketZcNotifyMaptypeproperty2 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyMaptypeproperty2 {
         let mut offset: usize = 0;
         PacketZcNotifyMaptypeproperty2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -55282,6 +56423,7 @@ impl PacketZcNotifyMaptypeproperty2 {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -55353,6 +56495,9 @@ impl Packet for PacketZcNotifyMaptypeproperty2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyMaptypeproperty2 {
@@ -55369,7 +56514,6 @@ impl PacketZcSpriteChange2 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSpriteChange2 {
         let mut offset: usize = 0;
         PacketZcSpriteChange2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -55410,6 +56554,7 @@ impl PacketZcSpriteChange2 {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -55505,6 +56650,9 @@ impl Packet for PacketZcSpriteChange2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcSpriteChange2 {
@@ -55521,7 +56669,6 @@ impl PacketZcNotifyStandentry2 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyStandentry2 {
         let mut offset: usize = 0;
         PacketZcNotifyStandentry2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -55788,6 +56935,7 @@ impl PacketZcNotifyStandentry2 {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -56149,6 +57297,9 @@ impl Packet for PacketZcNotifyStandentry2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyStandentry2 {
@@ -56165,7 +57316,6 @@ impl PacketZcNotifyNewentry2 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyNewentry2 {
         let mut offset: usize = 0;
         PacketZcNotifyNewentry2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -56422,6 +57572,7 @@ impl PacketZcNotifyNewentry2 {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -56771,6 +57922,9 @@ impl Packet for PacketZcNotifyNewentry2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyNewentry2 {
@@ -56787,7 +57941,6 @@ impl PacketZcNotifyMoveentry2 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyMoveentry2 {
         let mut offset: usize = 0;
         PacketZcNotifyMoveentry2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -57054,6 +58207,7 @@ impl PacketZcNotifyMoveentry2 {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -57415,6 +58569,9 @@ impl Packet for PacketZcNotifyMoveentry2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyMoveentry2 {
@@ -57431,7 +58588,6 @@ impl PacketCaReqHash {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCaReqHash {
         let mut offset: usize = 0;
         PacketCaReqHash {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -57442,6 +58598,7 @@ impl PacketCaReqHash {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -57501,6 +58658,9 @@ impl Packet for PacketCaReqHash {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCaReqHash {
@@ -57517,7 +58677,6 @@ impl PacketAcAckHash {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketAcAckHash {
         let mut offset: usize = 0;
         PacketAcAckHash {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -57547,6 +58706,7 @@ impl PacketAcAckHash {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -57628,6 +58788,9 @@ impl Packet for PacketAcAckHash {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketAcAckHash {
@@ -57644,7 +58807,6 @@ impl PacketCaLogin2 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCaLogin2 {
         let mut offset: usize = 0;
         PacketCaLogin2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -57707,6 +58869,7 @@ impl PacketCaLogin2 {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -57818,6 +58981,9 @@ impl Packet for PacketCaLogin2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCaLogin2 {
@@ -57834,7 +59000,6 @@ impl PacketZcNotifySkill2 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifySkill2 {
         let mut offset: usize = 0;
         PacketZcNotifySkill2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -57945,6 +59110,7 @@ impl PacketZcNotifySkill2 {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -58124,6 +59290,9 @@ impl Packet for PacketZcNotifySkill2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifySkill2 {
@@ -58140,7 +59309,6 @@ impl PacketCzReqAccountname {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqAccountname {
         let mut offset: usize = 0;
         PacketCzReqAccountname {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -58161,6 +59329,7 @@ impl PacketCzReqAccountname {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -58232,6 +59401,9 @@ impl Packet for PacketCzReqAccountname {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqAccountname {
@@ -58248,7 +59420,6 @@ impl PacketZcAckAccountname {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckAccountname {
         let mut offset: usize = 0;
         PacketZcAckAccountname {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -58285,6 +59456,7 @@ impl PacketZcAckAccountname {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -58370,6 +59542,9 @@ impl Packet for PacketZcAckAccountname {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAckAccountname {
@@ -58386,7 +59561,6 @@ impl PacketZcSpirits2 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSpirits2 {
         let mut offset: usize = 0;
         PacketZcSpirits2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -58417,6 +59591,7 @@ impl PacketZcSpirits2 {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -58500,6 +59675,9 @@ impl Packet for PacketZcSpirits2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcSpirits2 {
@@ -58516,7 +59694,6 @@ impl PacketZcReqCouple {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcReqCouple {
         let mut offset: usize = 0;
         PacketZcReqCouple {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -58563,6 +59740,7 @@ impl PacketZcReqCouple {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -58660,6 +59838,9 @@ impl Packet for PacketZcReqCouple {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcReqCouple {
@@ -58676,7 +59857,6 @@ impl PacketCzJoinCouple {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzJoinCouple {
         let mut offset: usize = 0;
         PacketCzJoinCouple {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -58717,6 +59897,7 @@ impl PacketCzJoinCouple {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -58812,6 +59993,9 @@ impl Packet for PacketCzJoinCouple {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzJoinCouple {
@@ -58828,7 +60012,6 @@ impl PacketZcStartCouple {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcStartCouple {
         let mut offset: usize = 0;
         PacketZcStartCouple {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -58839,6 +60022,7 @@ impl PacketZcStartCouple {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -58898,6 +60082,9 @@ impl Packet for PacketZcStartCouple {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcStartCouple {
@@ -58914,7 +60101,6 @@ impl PacketCzReqJoinCouple {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqJoinCouple {
         let mut offset: usize = 0;
         PacketCzReqJoinCouple {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -58935,6 +60121,7 @@ impl PacketCzReqJoinCouple {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -59006,6 +60193,9 @@ impl Packet for PacketCzReqJoinCouple {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqJoinCouple {
@@ -59022,7 +60212,6 @@ impl PacketZcCouplename {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcCouplename {
         let mut offset: usize = 0;
         PacketZcCouplename {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -59049,6 +60238,7 @@ impl PacketZcCouplename {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -59122,6 +60312,9 @@ impl Packet for PacketZcCouplename {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcCouplename {
@@ -59138,7 +60331,6 @@ impl PacketCzDoridori {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzDoridori {
         let mut offset: usize = 0;
         PacketCzDoridori {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -59149,6 +60341,7 @@ impl PacketCzDoridori {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -59208,6 +60401,9 @@ impl Packet for PacketCzDoridori {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzDoridori {
@@ -59224,7 +60420,6 @@ impl PacketCzMakeGroup2 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzMakeGroup2 {
         let mut offset: usize = 0;
         PacketCzMakeGroup2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -59271,6 +60466,7 @@ impl PacketCzMakeGroup2 {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -59368,6 +60564,9 @@ impl Packet for PacketCzMakeGroup2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzMakeGroup2 {
@@ -59384,7 +60583,6 @@ impl PacketZcAddMemberToGroup2 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAddMemberToGroup2 {
         let mut offset: usize = 0;
         PacketZcAddMemberToGroup2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -59513,6 +60711,7 @@ impl PacketZcAddMemberToGroup2 {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -59698,6 +60897,9 @@ impl Packet for PacketZcAddMemberToGroup2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAddMemberToGroup2 {
@@ -59714,7 +60916,6 @@ impl PacketZcCongratulation {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcCongratulation {
         let mut offset: usize = 0;
         PacketZcCongratulation {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -59735,6 +60936,7 @@ impl PacketZcCongratulation {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -59806,6 +61008,9 @@ impl Packet for PacketZcCongratulation {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcCongratulation {
@@ -59822,7 +61027,6 @@ impl PacketZcNotifyPositionToGuildm {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyPositionToGuildm {
         let mut offset: usize = 0;
         PacketZcNotifyPositionToGuildm {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -59863,6 +61067,7 @@ impl PacketZcNotifyPositionToGuildm {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -59958,6 +61163,9 @@ impl Packet for PacketZcNotifyPositionToGuildm {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyPositionToGuildm {
@@ -59974,7 +61182,6 @@ impl PacketZcGuildMemberMapChange {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcGuildMemberMapChange {
         let mut offset: usize = 0;
         PacketZcGuildMemberMapChange {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -60021,6 +61228,7 @@ impl PacketZcGuildMemberMapChange {
                 offset += 16;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -60118,6 +61326,9 @@ impl Packet for PacketZcGuildMemberMapChange {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcGuildMemberMapChange {
@@ -60134,7 +61345,6 @@ impl PacketCzChopokgi {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzChopokgi {
         let mut offset: usize = 0;
         PacketCzChopokgi {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -60145,6 +61355,7 @@ impl PacketCzChopokgi {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -60204,6 +61415,9 @@ impl Packet for PacketCzChopokgi {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzChopokgi {
@@ -60230,7 +61444,6 @@ impl PacketZcNormalItemlist2 {
             i += 1;
         }
         PacketZcNormalItemlist2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -60256,10 +61469,12 @@ impl PacketZcNormalItemlist2 {
                 field
             },
             item_info_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -60345,6 +61560,9 @@ impl Packet for PacketZcNormalItemlist2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNormalItemlist2 {
@@ -60371,7 +61589,6 @@ impl PacketZcCartNormalItemlist2 {
             i += 1;
         }
         PacketZcCartNormalItemlist2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -60397,10 +61614,12 @@ impl PacketZcCartNormalItemlist2 {
                 field
             },
             item_info_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -60486,6 +61705,9 @@ impl Packet for PacketZcCartNormalItemlist2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcCartNormalItemlist2 {
@@ -60512,7 +61734,6 @@ impl PacketZcStoreNormalItemlist2 {
             i += 1;
         }
         PacketZcStoreNormalItemlist2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -60538,10 +61759,12 @@ impl PacketZcStoreNormalItemlist2 {
                 field
             },
             item_info_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -60627,6 +61850,9 @@ impl Packet for PacketZcStoreNormalItemlist2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcStoreNormalItemlist2 {
@@ -60643,7 +61869,6 @@ impl PacketAcNotifyError {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketAcNotifyError {
         let mut offset: usize = 0;
         PacketAcNotifyError {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -60673,6 +61898,7 @@ impl PacketAcNotifyError {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -60754,6 +61980,9 @@ impl Packet for PacketAcNotifyError {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketAcNotifyError {
@@ -60770,7 +61999,6 @@ impl PacketZcUpdateCharstat2 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcUpdateCharstat2 {
         let mut offset: usize = 0;
         PacketZcUpdateCharstat2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -60841,6 +62069,7 @@ impl PacketZcUpdateCharstat2 {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -60972,6 +62201,9 @@ impl Packet for PacketZcUpdateCharstat2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcUpdateCharstat2 {
@@ -60988,7 +62220,6 @@ impl PacketZcNotifyEffect2 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyEffect2 {
         let mut offset: usize = 0;
         PacketZcNotifyEffect2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -61019,6 +62250,7 @@ impl PacketZcNotifyEffect2 {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -61102,6 +62334,9 @@ impl Packet for PacketZcNotifyEffect2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyEffect2 {
@@ -61118,7 +62353,6 @@ impl PacketZcReqExchangeItem2 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcReqExchangeItem2 {
         let mut offset: usize = 0;
         PacketZcReqExchangeItem2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -61165,6 +62399,7 @@ impl PacketZcReqExchangeItem2 {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -61262,6 +62497,9 @@ impl Packet for PacketZcReqExchangeItem2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcReqExchangeItem2 {
@@ -61278,7 +62516,6 @@ impl PacketZcAckExchangeItem2 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckExchangeItem2 {
         let mut offset: usize = 0;
         PacketZcAckExchangeItem2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -61319,6 +62556,7 @@ impl PacketZcAckExchangeItem2 {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -61414,6 +62652,9 @@ impl Packet for PacketZcAckExchangeItem2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAckExchangeItem2 {
@@ -61430,7 +62671,6 @@ impl PacketZcReqBaby {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcReqBaby {
         let mut offset: usize = 0;
         PacketZcReqBaby {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -61477,6 +62717,7 @@ impl PacketZcReqBaby {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -61574,6 +62815,9 @@ impl Packet for PacketZcReqBaby {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcReqBaby {
@@ -61590,7 +62834,6 @@ impl PacketCzJoinBaby {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzJoinBaby {
         let mut offset: usize = 0;
         PacketCzJoinBaby {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -61631,6 +62874,7 @@ impl PacketCzJoinBaby {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -61726,6 +62970,9 @@ impl Packet for PacketCzJoinBaby {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzJoinBaby {
@@ -61742,7 +62989,6 @@ impl PacketZcStartBaby {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcStartBaby {
         let mut offset: usize = 0;
         PacketZcStartBaby {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -61753,6 +62999,7 @@ impl PacketZcStartBaby {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -61812,6 +63059,9 @@ impl Packet for PacketZcStartBaby {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcStartBaby {
@@ -61828,7 +63078,6 @@ impl PacketCzReqJoinBaby {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqJoinBaby {
         let mut offset: usize = 0;
         PacketCzReqJoinBaby {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -61849,6 +63098,7 @@ impl PacketCzReqJoinBaby {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -61920,6 +63170,9 @@ impl Packet for PacketCzReqJoinBaby {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqJoinBaby {
@@ -61936,7 +63189,6 @@ impl PacketCaLogin3 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCaLogin3 {
         let mut offset: usize = 0;
         PacketCaLogin3 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -62009,6 +63261,7 @@ impl PacketCaLogin3 {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -62132,6 +63385,9 @@ impl Packet for PacketCaLogin3 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCaLogin3 {
@@ -62148,7 +63404,6 @@ impl PacketChDeleteChar2 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketChDeleteChar2 {
         let mut offset: usize = 0;
         PacketChDeleteChar2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -62185,6 +63440,7 @@ impl PacketChDeleteChar2 {
                 offset += 50;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -62270,6 +63526,9 @@ impl Packet for PacketChDeleteChar2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketChDeleteChar2 {
@@ -62296,7 +63555,6 @@ impl PacketZcRepairitemlist {
             i += 1;
         }
         PacketZcRepairitemlist {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -62322,10 +63580,12 @@ impl PacketZcRepairitemlist {
                 field
             },
             item_list_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -62411,6 +63671,9 @@ impl Packet for PacketZcRepairitemlist {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcRepairitemlist {
@@ -62427,7 +63690,6 @@ impl PacketCzReqItemrepair {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqItemrepair {
         let mut offset: usize = 0;
         PacketCzReqItemrepair {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -62447,6 +63709,7 @@ impl PacketCzReqItemrepair {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -62518,6 +63781,9 @@ impl Packet for PacketCzReqItemrepair {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqItemrepair {
@@ -62534,7 +63800,6 @@ impl PacketZcAckItemrepair {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckItemrepair {
         let mut offset: usize = 0;
         PacketZcAckItemrepair {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -62565,6 +63830,7 @@ impl PacketZcAckItemrepair {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -62648,6 +63914,9 @@ impl Packet for PacketZcAckItemrepair {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAckItemrepair {
@@ -62664,7 +63933,6 @@ impl PacketZcHighjump {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcHighjump {
         let mut offset: usize = 0;
         PacketZcHighjump {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -62705,6 +63973,7 @@ impl PacketZcHighjump {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -62800,6 +64069,9 @@ impl Packet for PacketZcHighjump {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcHighjump {
@@ -62816,7 +64088,6 @@ impl PacketCaConnectInfoChanged {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCaConnectInfoChanged {
         let mut offset: usize = 0;
         PacketCaConnectInfoChanged {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -62843,6 +64114,7 @@ impl PacketCaConnectInfoChanged {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -62916,6 +64188,9 @@ impl Packet for PacketCaConnectInfoChanged {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCaConnectInfoChanged {
@@ -62942,7 +64217,6 @@ impl PacketZcFriendsList {
             i += 1;
         }
         PacketZcFriendsList {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -62968,10 +64242,12 @@ impl PacketZcFriendsList {
                 field
             },
             friend_list_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -63057,6 +64333,9 @@ impl Packet for PacketZcFriendsList {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcFriendsList {
@@ -63073,7 +64352,6 @@ impl PacketCzAddFriends {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzAddFriends {
         let mut offset: usize = 0;
         PacketCzAddFriends {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -63100,6 +64378,7 @@ impl PacketCzAddFriends {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -63173,6 +64452,9 @@ impl Packet for PacketCzAddFriends {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzAddFriends {
@@ -63189,7 +64471,6 @@ impl PacketCzDeleteFriends {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzDeleteFriends {
         let mut offset: usize = 0;
         PacketCzDeleteFriends {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -63220,6 +64501,7 @@ impl PacketCzDeleteFriends {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -63303,6 +64585,9 @@ impl Packet for PacketCzDeleteFriends {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzDeleteFriends {
@@ -63319,7 +64604,6 @@ impl PacketCaExeHashcheck {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCaExeHashcheck {
         let mut offset: usize = 0;
         PacketCaExeHashcheck {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -63346,6 +64630,7 @@ impl PacketCaExeHashcheck {
                 offset += 16;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -63419,6 +64704,9 @@ impl Packet for PacketCaExeHashcheck {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCaExeHashcheck {
@@ -63435,7 +64723,6 @@ impl PacketZcDivorce {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcDivorce {
         let mut offset: usize = 0;
         PacketZcDivorce {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -63462,6 +64749,7 @@ impl PacketZcDivorce {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -63535,6 +64823,9 @@ impl Packet for PacketZcDivorce {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcDivorce {
@@ -63551,7 +64842,6 @@ impl PacketZcFriendsState {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcFriendsState {
         let mut offset: usize = 0;
         PacketZcFriendsState {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -63592,6 +64882,7 @@ impl PacketZcFriendsState {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -63687,6 +64978,9 @@ impl Packet for PacketZcFriendsState {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcFriendsState {
@@ -63703,7 +64997,6 @@ impl PacketZcReqAddFriends {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcReqAddFriends {
         let mut offset: usize = 0;
         PacketZcReqAddFriends {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -63750,6 +65043,7 @@ impl PacketZcReqAddFriends {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -63847,6 +65141,9 @@ impl Packet for PacketZcReqAddFriends {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcReqAddFriends {
@@ -63863,7 +65160,6 @@ impl PacketCzAckReqAddFriends {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzAckReqAddFriends {
         let mut offset: usize = 0;
         PacketCzAckReqAddFriends {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -63904,6 +65200,7 @@ impl PacketCzAckReqAddFriends {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -63999,6 +65296,9 @@ impl Packet for PacketCzAckReqAddFriends {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzAckReqAddFriends {
@@ -64015,7 +65315,6 @@ impl PacketZcAddFriendsList {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAddFriendsList {
         let mut offset: usize = 0;
         PacketZcAddFriendsList {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -64072,6 +65371,7 @@ impl PacketZcAddFriendsList {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -64181,6 +65481,9 @@ impl Packet for PacketZcAddFriendsList {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAddFriendsList {
@@ -64197,7 +65500,6 @@ impl PacketZcDeleteFriends {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcDeleteFriends {
         let mut offset: usize = 0;
         PacketZcDeleteFriends {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -64228,6 +65530,7 @@ impl PacketZcDeleteFriends {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -64311,6 +65614,9 @@ impl Packet for PacketZcDeleteFriends {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcDeleteFriends {
@@ -64327,7 +65633,6 @@ impl PacketAcRefuseLoginR3 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketAcRefuseLoginR3 {
         let mut offset: usize = 0;
         PacketAcRefuseLoginR3 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -64364,6 +65669,7 @@ impl PacketAcRefuseLoginR3 {
                 offset += 20;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -64449,6 +65755,9 @@ impl Packet for PacketAcRefuseLoginR3 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketAcRefuseLoginR3 {
@@ -64465,7 +65774,6 @@ impl PacketCzExeHashcheck {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzExeHashcheck {
         let mut offset: usize = 0;
         PacketCzExeHashcheck {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -64502,6 +65810,7 @@ impl PacketCzExeHashcheck {
                 offset += 16;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -64587,6 +65896,9 @@ impl Packet for PacketCzExeHashcheck {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzExeHashcheck {
@@ -64613,7 +65925,6 @@ impl PacketHcBlockCharacter {
             i += 1;
         }
         PacketHcBlockCharacter {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -64639,10 +65950,12 @@ impl PacketHcBlockCharacter {
                 field
             },
             character_list_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -64728,6 +66041,9 @@ impl Packet for PacketHcBlockCharacter {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketHcBlockCharacter {
@@ -64744,7 +66060,6 @@ impl PacketZcStarskill {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcStarskill {
         let mut offset: usize = 0;
         PacketZcStarskill {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -64801,6 +66116,7 @@ impl PacketZcStarskill {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -64910,6 +66226,9 @@ impl Packet for PacketZcStarskill {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcStarskill {
@@ -64926,7 +66245,6 @@ impl PacketCzReqPvppoint {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqPvppoint {
         let mut offset: usize = 0;
         PacketCzReqPvppoint {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -64957,6 +66275,7 @@ impl PacketCzReqPvppoint {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -65040,6 +66359,9 @@ impl Packet for PacketCzReqPvppoint {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqPvppoint {
@@ -65056,7 +66378,6 @@ impl PacketZcAckPvppoint {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckPvppoint {
         let mut offset: usize = 0;
         PacketZcAckPvppoint {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -65096,6 +66417,7 @@ impl PacketZcAckPvppoint {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -65191,6 +66513,9 @@ impl Packet for PacketZcAckPvppoint {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAckPvppoint {
@@ -65207,7 +66532,6 @@ impl PacketZhMovePvpworld {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZhMovePvpworld {
         let mut offset: usize = 0;
         PacketZhMovePvpworld {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -65228,6 +66552,7 @@ impl PacketZhMovePvpworld {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -65299,6 +66624,9 @@ impl Packet for PacketZhMovePvpworld {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZhMovePvpworld {
@@ -65315,7 +66643,6 @@ impl PacketCzReqGiveMannerByname {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqGiveMannerByname {
         let mut offset: usize = 0;
         PacketCzReqGiveMannerByname {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -65342,6 +66669,7 @@ impl PacketCzReqGiveMannerByname {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -65415,6 +66743,9 @@ impl Packet for PacketCzReqGiveMannerByname {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqGiveMannerByname {
@@ -65431,7 +66762,6 @@ impl PacketCzReqStatusGm {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqStatusGm {
         let mut offset: usize = 0;
         PacketCzReqStatusGm {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -65458,6 +66788,7 @@ impl PacketCzReqStatusGm {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -65531,6 +66862,9 @@ impl Packet for PacketCzReqStatusGm {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqStatusGm {
@@ -65547,7 +66881,6 @@ impl PacketZcAckStatusGm {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckStatusGm {
         let mut offset: usize = 0;
         PacketZcAckStatusGm {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -65818,6 +67151,7 @@ impl PacketZcAckStatusGm {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -66189,6 +67523,9 @@ impl Packet for PacketZcAckStatusGm {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAckStatusGm {
@@ -66205,7 +67542,6 @@ impl PacketZcSkillmsg {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSkillmsg {
         let mut offset: usize = 0;
         PacketZcSkillmsg {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -66226,6 +67562,7 @@ impl PacketZcSkillmsg {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -66297,6 +67634,9 @@ impl Packet for PacketZcSkillmsg {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcSkillmsg {
@@ -66313,7 +67653,6 @@ impl PacketZcBabymsg {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcBabymsg {
         let mut offset: usize = 0;
         PacketZcBabymsg {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -66334,6 +67673,7 @@ impl PacketZcBabymsg {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -66405,6 +67745,9 @@ impl Packet for PacketZcBabymsg {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcBabymsg {
@@ -66421,7 +67764,6 @@ impl PacketCzBlacksmithRank {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzBlacksmithRank {
         let mut offset: usize = 0;
         PacketCzBlacksmithRank {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -66432,6 +67774,7 @@ impl PacketCzBlacksmithRank {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -66491,6 +67834,9 @@ impl Packet for PacketCzBlacksmithRank {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzBlacksmithRank {
@@ -66507,7 +67853,6 @@ impl PacketCzAlchemistRank {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzAlchemistRank {
         let mut offset: usize = 0;
         PacketCzAlchemistRank {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -66518,6 +67863,7 @@ impl PacketCzAlchemistRank {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -66577,6 +67923,9 @@ impl Packet for PacketCzAlchemistRank {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzAlchemistRank {
@@ -66593,7 +67942,6 @@ impl PacketZcBlacksmithRank {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcBlacksmithRank {
         let mut offset: usize = 0;
         PacketZcBlacksmithRank {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -66636,6 +67984,7 @@ impl PacketZcBlacksmithRank {
                 offset += 10;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -66723,6 +68072,9 @@ impl Packet for PacketZcBlacksmithRank {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcBlacksmithRank {
@@ -66739,7 +68091,6 @@ impl PacketZcAlchemistRank {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAlchemistRank {
         let mut offset: usize = 0;
         PacketZcAlchemistRank {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -66782,6 +68133,7 @@ impl PacketZcAlchemistRank {
                 offset += 10;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -66869,6 +68221,9 @@ impl Packet for PacketZcAlchemistRank {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAlchemistRank {
@@ -66885,7 +68240,6 @@ impl PacketZcBlacksmithPoint {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcBlacksmithPoint {
         let mut offset: usize = 0;
         PacketZcBlacksmithPoint {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -66916,6 +68270,7 @@ impl PacketZcBlacksmithPoint {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -66999,6 +68354,9 @@ impl Packet for PacketZcBlacksmithPoint {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcBlacksmithPoint {
@@ -67015,7 +68373,6 @@ impl PacketZcAlchemistPoint {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAlchemistPoint {
         let mut offset: usize = 0;
         PacketZcAlchemistPoint {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -67046,6 +68403,7 @@ impl PacketZcAlchemistPoint {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -67129,6 +68487,9 @@ impl Packet for PacketZcAlchemistPoint {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAlchemistPoint {
@@ -67145,7 +68506,6 @@ impl PacketCzLesseffect {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzLesseffect {
         let mut offset: usize = 0;
         PacketCzLesseffect {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -67166,6 +68526,7 @@ impl PacketCzLesseffect {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -67237,6 +68598,9 @@ impl Packet for PacketCzLesseffect {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzLesseffect {
@@ -67253,7 +68617,6 @@ impl PacketZcLesseffect {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcLesseffect {
         let mut offset: usize = 0;
         PacketZcLesseffect {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -67274,6 +68637,7 @@ impl PacketZcLesseffect {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -67345,6 +68709,9 @@ impl Packet for PacketZcLesseffect {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcLesseffect {
@@ -67361,7 +68728,6 @@ impl PacketZcNotifyPkinfo {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyPkinfo {
         let mut offset: usize = 0;
         PacketZcNotifyPkinfo {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -67433,6 +68799,7 @@ impl PacketZcNotifyPkinfo {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -67556,6 +68923,9 @@ impl Packet for PacketZcNotifyPkinfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyPkinfo {
@@ -67572,7 +68942,6 @@ impl PacketZcNotifyCrazykiller {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyCrazykiller {
         let mut offset: usize = 0;
         PacketZcNotifyCrazykiller {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -67603,6 +68972,7 @@ impl PacketZcNotifyCrazykiller {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -67686,6 +69056,9 @@ impl Packet for PacketZcNotifyCrazykiller {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyCrazykiller {
@@ -67712,7 +69085,6 @@ impl PacketZcNotifyWeaponitemlist {
             i += 1;
         }
         PacketZcNotifyWeaponitemlist {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -67738,10 +69110,12 @@ impl PacketZcNotifyWeaponitemlist {
                 field
             },
             item_list_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -67827,6 +69201,9 @@ impl Packet for PacketZcNotifyWeaponitemlist {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyWeaponitemlist {
@@ -67843,7 +69220,6 @@ impl PacketCzReqWeaponrefine {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqWeaponrefine {
         let mut offset: usize = 0;
         PacketCzReqWeaponrefine {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -67864,6 +69240,7 @@ impl PacketCzReqWeaponrefine {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -67935,6 +69312,9 @@ impl Packet for PacketCzReqWeaponrefine {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqWeaponrefine {
@@ -67951,7 +69331,6 @@ impl PacketZcAckWeaponrefine {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckWeaponrefine {
         let mut offset: usize = 0;
         PacketZcAckWeaponrefine {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -67982,6 +69361,7 @@ impl PacketZcAckWeaponrefine {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -68065,6 +69445,9 @@ impl Packet for PacketZcAckWeaponrefine {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAckWeaponrefine {
@@ -68081,7 +69464,6 @@ impl PacketZcTaekwonPoint {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcTaekwonPoint {
         let mut offset: usize = 0;
         PacketZcTaekwonPoint {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -68112,6 +69494,7 @@ impl PacketZcTaekwonPoint {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -68195,6 +69578,9 @@ impl Packet for PacketZcTaekwonPoint {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcTaekwonPoint {
@@ -68211,7 +69597,6 @@ impl PacketCzTaekwonRank {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzTaekwonRank {
         let mut offset: usize = 0;
         PacketCzTaekwonRank {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -68222,6 +69607,7 @@ impl PacketCzTaekwonRank {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -68281,6 +69667,9 @@ impl Packet for PacketCzTaekwonRank {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzTaekwonRank {
@@ -68297,7 +69686,6 @@ impl PacketZcTaekwonRank {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcTaekwonRank {
         let mut offset: usize = 0;
         PacketZcTaekwonRank {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -68340,6 +69728,7 @@ impl PacketZcTaekwonRank {
                 offset += 10;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -68427,6 +69816,9 @@ impl Packet for PacketZcTaekwonRank {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcTaekwonRank {
@@ -68443,7 +69835,6 @@ impl PacketZcGameGuard {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcGameGuard {
         let mut offset: usize = 0;
         PacketZcGameGuard {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -68470,6 +69861,7 @@ impl PacketZcGameGuard {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -68543,6 +69935,9 @@ impl Packet for PacketZcGameGuard {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcGameGuard {
@@ -68559,7 +69954,6 @@ impl PacketCzAckGameGuard {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzAckGameGuard {
         let mut offset: usize = 0;
         PacketCzAckGameGuard {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -68586,6 +69980,7 @@ impl PacketCzAckGameGuard {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -68659,6 +70054,9 @@ impl Packet for PacketCzAckGameGuard {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzAckGameGuard {
@@ -68675,7 +70073,6 @@ impl PacketZcStateChange3 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcStateChange3 {
         let mut offset: usize = 0;
         PacketZcStateChange3 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -68736,6 +70133,7 @@ impl PacketZcStateChange3 {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -68855,6 +70253,9 @@ impl Packet for PacketZcStateChange3 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcStateChange3 {
@@ -68871,7 +70272,6 @@ impl PacketZcNotifyStandentry3 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyStandentry3 {
         let mut offset: usize = 0;
         PacketZcNotifyStandentry3 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -69138,6 +70538,7 @@ impl PacketZcNotifyStandentry3 {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -69499,6 +70900,9 @@ impl Packet for PacketZcNotifyStandentry3 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyStandentry3 {
@@ -69515,7 +70919,6 @@ impl PacketZcNotifyNewentry3 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyNewentry3 {
         let mut offset: usize = 0;
         PacketZcNotifyNewentry3 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -69772,6 +71175,7 @@ impl PacketZcNotifyNewentry3 {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -70121,6 +71525,9 @@ impl Packet for PacketZcNotifyNewentry3 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyNewentry3 {
@@ -70137,7 +71544,6 @@ impl PacketZcNotifyMoveentry3 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyMoveentry3 {
         let mut offset: usize = 0;
         PacketZcNotifyMoveentry3 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -70414,6 +71820,7 @@ impl PacketZcNotifyMoveentry3 {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -70787,6 +72194,9 @@ impl Packet for PacketZcNotifyMoveentry3 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyMoveentry3 {
@@ -70803,7 +72213,6 @@ impl PacketCzCommandMer {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzCommandMer {
         let mut offset: usize = 0;
         PacketCzCommandMer {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -70834,6 +72243,7 @@ impl PacketCzCommandMer {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -70917,6 +72327,9 @@ impl Packet for PacketCzCommandMer {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzCommandMer {
@@ -70933,7 +72346,6 @@ impl PacketZcPropertyHomun {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPropertyHomun {
         let mut offset: usize = 0;
         PacketZcPropertyHomun {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -71170,6 +72582,7 @@ impl PacketZcPropertyHomun {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -71495,6 +72908,9 @@ impl Packet for PacketZcPropertyHomun {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcPropertyHomun {
@@ -71511,7 +72927,6 @@ impl PacketZcChangestateMer {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcChangestateMer {
         let mut offset: usize = 0;
         PacketZcChangestateMer {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -71562,6 +72977,7 @@ impl PacketZcChangestateMer {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -71669,6 +73085,9 @@ impl Packet for PacketZcChangestateMer {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcChangestateMer {
@@ -71685,7 +73104,6 @@ impl PacketCzRenameMer {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzRenameMer {
         let mut offset: usize = 0;
         PacketCzRenameMer {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -71712,6 +73130,7 @@ impl PacketCzRenameMer {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -71785,6 +73204,9 @@ impl Packet for PacketCzRenameMer {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzRenameMer {
@@ -71801,7 +73223,6 @@ impl PacketCzRequestMovenpc {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzRequestMovenpc {
         let mut offset: usize = 0;
         PacketCzRequestMovenpc {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -71838,6 +73259,7 @@ impl PacketCzRequestMovenpc {
                 offset += 3;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -71923,6 +73345,9 @@ impl Packet for PacketCzRequestMovenpc {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzRequestMovenpc {
@@ -71939,7 +73364,6 @@ impl PacketCzRequestActnpc {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzRequestActnpc {
         let mut offset: usize = 0;
         PacketCzRequestActnpc {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -71980,6 +73404,7 @@ impl PacketCzRequestActnpc {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -72075,6 +73500,9 @@ impl Packet for PacketCzRequestActnpc {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzRequestActnpc {
@@ -72091,7 +73519,6 @@ impl PacketCzRequestMovetoowner {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzRequestMovetoowner {
         let mut offset: usize = 0;
         PacketCzRequestMovetoowner {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -72112,6 +73539,7 @@ impl PacketCzRequestMovetoowner {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -72183,6 +73611,9 @@ impl Packet for PacketCzRequestMovetoowner {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzRequestMovetoowner {
@@ -72199,7 +73630,6 @@ impl PacketZcReqStorePassword {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcReqStorePassword {
         let mut offset: usize = 0;
         PacketZcReqStorePassword {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -72220,6 +73650,7 @@ impl PacketZcReqStorePassword {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -72291,6 +73722,9 @@ impl Packet for PacketZcReqStorePassword {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcReqStorePassword {
@@ -72307,7 +73741,6 @@ impl PacketCzAckStorePassword {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzAckStorePassword {
         let mut offset: usize = 0;
         PacketCzAckStorePassword {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -72360,6 +73793,7 @@ impl PacketCzAckStorePassword {
                 offset += 16;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -72459,6 +73893,9 @@ impl Packet for PacketCzAckStorePassword {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzAckStorePassword {
@@ -72475,7 +73912,6 @@ impl PacketZcResultStorePassword {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcResultStorePassword {
         let mut offset: usize = 0;
         PacketZcResultStorePassword {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -72506,6 +73942,7 @@ impl PacketZcResultStorePassword {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -72589,6 +74026,9 @@ impl Packet for PacketZcResultStorePassword {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcResultStorePassword {
@@ -72605,7 +74045,6 @@ impl PacketAcEventResult {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketAcEventResult {
         let mut offset: usize = 0;
         PacketAcEventResult {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -72626,6 +74065,7 @@ impl PacketAcEventResult {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -72697,6 +74137,9 @@ impl Packet for PacketAcEventResult {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketAcEventResult {
@@ -72713,7 +74156,6 @@ impl PacketHcRequestCharacterPassword {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketHcRequestCharacterPassword {
         let mut offset: usize = 0;
         PacketHcRequestCharacterPassword {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -72744,6 +74186,7 @@ impl PacketHcRequestCharacterPassword {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -72827,6 +74270,9 @@ impl Packet for PacketHcRequestCharacterPassword {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketHcRequestCharacterPassword {
@@ -72843,7 +74289,6 @@ impl PacketCzMailGetList {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzMailGetList {
         let mut offset: usize = 0;
         PacketCzMailGetList {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -72854,6 +74299,7 @@ impl PacketCzMailGetList {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -72913,6 +74359,9 @@ impl Packet for PacketCzMailGetList {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzMailGetList {
@@ -72939,7 +74388,6 @@ impl PacketZcMailReqGetList {
             i += 1;
         }
         PacketZcMailReqGetList {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -72975,10 +74423,12 @@ impl PacketZcMailReqGetList {
                 field
             },
             mail_list_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -73076,6 +74526,9 @@ impl Packet for PacketZcMailReqGetList {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcMailReqGetList {
@@ -73092,7 +74545,6 @@ impl PacketCzMailOpen {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzMailOpen {
         let mut offset: usize = 0;
         PacketCzMailOpen {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -73113,6 +74565,7 @@ impl PacketCzMailOpen {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -73184,6 +74637,9 @@ impl Packet for PacketCzMailOpen {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzMailOpen {
@@ -73200,7 +74656,6 @@ impl PacketZcMailReqOpen {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMailReqOpen {
         let mut offset: usize = 0;
         PacketZcMailReqOpen {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -73372,6 +74827,7 @@ impl PacketZcMailReqOpen {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -73613,6 +75069,9 @@ impl Packet for PacketZcMailReqOpen {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcMailReqOpen {
@@ -73629,7 +75088,6 @@ impl PacketCzMailDelete {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzMailDelete {
         let mut offset: usize = 0;
         PacketCzMailDelete {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -73650,6 +75108,7 @@ impl PacketCzMailDelete {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -73721,6 +75180,9 @@ impl Packet for PacketCzMailDelete {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzMailDelete {
@@ -73737,7 +75199,6 @@ impl PacketCzMailGetItem {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzMailGetItem {
         let mut offset: usize = 0;
         PacketCzMailGetItem {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -73758,6 +75219,7 @@ impl PacketCzMailGetItem {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -73829,6 +75291,9 @@ impl Packet for PacketCzMailGetItem {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzMailGetItem {
@@ -73845,7 +75310,6 @@ impl PacketZcMailReqGetItem {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMailReqGetItem {
         let mut offset: usize = 0;
         PacketZcMailReqGetItem {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -73866,6 +75330,7 @@ impl PacketZcMailReqGetItem {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -73937,6 +75402,9 @@ impl Packet for PacketZcMailReqGetItem {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcMailReqGetItem {
@@ -73953,7 +75421,6 @@ impl PacketCzMailResetItem {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzMailResetItem {
         let mut offset: usize = 0;
         PacketCzMailResetItem {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -73974,6 +75441,7 @@ impl PacketCzMailResetItem {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -74045,6 +75513,9 @@ impl Packet for PacketCzMailResetItem {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzMailResetItem {
@@ -74061,7 +75532,6 @@ impl PacketCzMailAddItem {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzMailAddItem {
         let mut offset: usize = 0;
         PacketCzMailAddItem {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -74092,6 +75562,7 @@ impl PacketCzMailAddItem {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -74175,6 +75646,9 @@ impl Packet for PacketCzMailAddItem {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzMailAddItem {
@@ -74191,7 +75665,6 @@ impl PacketCzMailSend {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzMailSend {
         let mut offset: usize = 0;
         PacketCzMailSend {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -74263,6 +75736,7 @@ impl PacketCzMailSend {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -74384,6 +75858,9 @@ impl Packet for PacketCzMailSend {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzMailSend {
@@ -74400,7 +75877,6 @@ impl PacketZcMailReqSend {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMailReqSend {
         let mut offset: usize = 0;
         PacketZcMailReqSend {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -74421,6 +75897,7 @@ impl PacketZcMailReqSend {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -74492,6 +75969,9 @@ impl Packet for PacketZcMailReqSend {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcMailReqSend {
@@ -74508,7 +75988,6 @@ impl PacketZcMailReceive {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMailReceive {
         let mut offset: usize = 0;
         PacketZcMailReceive {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -74561,6 +76040,7 @@ impl PacketZcMailReceive {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -74660,6 +76140,9 @@ impl Packet for PacketZcMailReceive {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcMailReceive {
@@ -74676,7 +76159,6 @@ impl PacketCzAuctionCreate {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzAuctionCreate {
         let mut offset: usize = 0;
         PacketCzAuctionCreate {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -74697,6 +76179,7 @@ impl PacketCzAuctionCreate {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -74768,6 +76251,9 @@ impl Packet for PacketCzAuctionCreate {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzAuctionCreate {
@@ -74784,7 +76270,6 @@ impl PacketCzAuctionAddItem {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzAuctionAddItem {
         let mut offset: usize = 0;
         PacketCzAuctionAddItem {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -74815,6 +76300,7 @@ impl PacketCzAuctionAddItem {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -74898,6 +76384,9 @@ impl Packet for PacketCzAuctionAddItem {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzAuctionAddItem {
@@ -74914,7 +76403,6 @@ impl PacketCzAuctionAdd {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzAuctionAdd {
         let mut offset: usize = 0;
         PacketCzAuctionAdd {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -74955,6 +76443,7 @@ impl PacketCzAuctionAdd {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -75050,6 +76539,9 @@ impl Packet for PacketCzAuctionAdd {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzAuctionAdd {
@@ -75066,7 +76558,6 @@ impl PacketCzAuctionAddCancel {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzAuctionAddCancel {
         let mut offset: usize = 0;
         PacketCzAuctionAddCancel {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -75087,6 +76578,7 @@ impl PacketCzAuctionAddCancel {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -75158,6 +76650,9 @@ impl Packet for PacketCzAuctionAddCancel {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzAuctionAddCancel {
@@ -75174,7 +76669,6 @@ impl PacketCzAuctionBuy {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzAuctionBuy {
         let mut offset: usize = 0;
         PacketCzAuctionBuy {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -75205,6 +76699,7 @@ impl PacketCzAuctionBuy {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -75288,6 +76783,9 @@ impl Packet for PacketCzAuctionBuy {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzAuctionBuy {
@@ -75304,7 +76802,6 @@ impl PacketZcAuctionResult {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAuctionResult {
         let mut offset: usize = 0;
         PacketZcAuctionResult {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -75325,6 +76822,7 @@ impl PacketZcAuctionResult {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -75396,6 +76894,9 @@ impl Packet for PacketZcAuctionResult {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAuctionResult {
@@ -75412,7 +76913,6 @@ impl PacketCzAuctionItemSearch {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzAuctionItemSearch {
         let mut offset: usize = 0;
         PacketCzAuctionItemSearch {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -75469,6 +76969,7 @@ impl PacketCzAuctionItemSearch {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -75578,6 +77079,9 @@ impl Packet for PacketCzAuctionItemSearch {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzAuctionItemSearch {
@@ -75604,7 +77108,6 @@ impl PacketZcAuctionItemReqSearch {
             i += 1;
         }
         PacketZcAuctionItemReqSearch {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -75650,10 +77153,12 @@ impl PacketZcAuctionItemReqSearch {
                 field
             },
             auction_item_list_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -75763,6 +77268,9 @@ impl Packet for PacketZcAuctionItemReqSearch {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAuctionItemReqSearch {
@@ -75779,7 +77287,6 @@ impl PacketZcStarplace {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcStarplace {
         let mut offset: usize = 0;
         PacketZcStarplace {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -75800,6 +77307,7 @@ impl PacketZcStarplace {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -75871,6 +77379,9 @@ impl Packet for PacketZcStarplace {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcStarplace {
@@ -75887,7 +77398,6 @@ impl PacketCzAgreeStarplace {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzAgreeStarplace {
         let mut offset: usize = 0;
         PacketCzAgreeStarplace {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -75908,6 +77418,7 @@ impl PacketCzAgreeStarplace {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -75979,6 +77490,9 @@ impl Packet for PacketCzAgreeStarplace {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzAgreeStarplace {
@@ -75995,7 +77509,6 @@ impl PacketZcAckMailAddItem {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckMailAddItem {
         let mut offset: usize = 0;
         PacketZcAckMailAddItem {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -76026,6 +77539,7 @@ impl PacketZcAckMailAddItem {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -76109,6 +77623,9 @@ impl Packet for PacketZcAckMailAddItem {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAckMailAddItem {
@@ -76125,7 +77642,6 @@ impl PacketZcAckAuctionAddItem {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckAuctionAddItem {
         let mut offset: usize = 0;
         PacketZcAckAuctionAddItem {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -76156,6 +77672,7 @@ impl PacketZcAckAuctionAddItem {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -76239,6 +77756,9 @@ impl Packet for PacketZcAckAuctionAddItem {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAckAuctionAddItem {
@@ -76255,7 +77775,6 @@ impl PacketZcAckMailDelete {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckMailDelete {
         let mut offset: usize = 0;
         PacketZcAckMailDelete {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -76286,6 +77805,7 @@ impl PacketZcAckMailDelete {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -76369,6 +77889,9 @@ impl Packet for PacketZcAckMailDelete {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAckMailDelete {
@@ -76385,7 +77908,6 @@ impl PacketCaReqGameGuardCheck {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCaReqGameGuardCheck {
         let mut offset: usize = 0;
         PacketCaReqGameGuardCheck {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -76396,6 +77918,7 @@ impl PacketCaReqGameGuardCheck {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -76455,6 +77978,9 @@ impl Packet for PacketCaReqGameGuardCheck {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCaReqGameGuardCheck {
@@ -76471,7 +77997,6 @@ impl PacketAcAckGameGuard {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketAcAckGameGuard {
         let mut offset: usize = 0;
         PacketAcAckGameGuard {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -76492,6 +78017,7 @@ impl PacketAcAckGameGuard {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -76563,6 +78089,9 @@ impl Packet for PacketAcAckGameGuard {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketAcAckGameGuard {
@@ -76579,7 +78108,6 @@ impl PacketZcMakingitemList {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMakingitemList {
         let mut offset: usize = 0;
         PacketZcMakingitemList {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -76612,6 +78140,7 @@ impl PacketZcMakingitemList {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -76693,6 +78222,9 @@ impl Packet for PacketZcMakingitemList {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcMakingitemList {
@@ -76709,7 +78241,6 @@ impl PacketCzReqMakingitem {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqMakingitem {
         let mut offset: usize = 0;
         PacketCzReqMakingitem {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -76740,6 +78271,7 @@ impl PacketCzReqMakingitem {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -76823,6 +78355,9 @@ impl Packet for PacketCzReqMakingitem {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqMakingitem {
@@ -76839,7 +78374,6 @@ impl PacketCzAuctionReqMyInfo {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzAuctionReqMyInfo {
         let mut offset: usize = 0;
         PacketCzAuctionReqMyInfo {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -76860,6 +78394,7 @@ impl PacketCzAuctionReqMyInfo {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -76931,6 +78466,9 @@ impl Packet for PacketCzAuctionReqMyInfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzAuctionReqMyInfo {
@@ -76947,7 +78485,6 @@ impl PacketCzAuctionReqMySellStop {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzAuctionReqMySellStop {
         let mut offset: usize = 0;
         PacketCzAuctionReqMySellStop {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -76968,6 +78505,7 @@ impl PacketCzAuctionReqMySellStop {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -77039,6 +78577,9 @@ impl Packet for PacketCzAuctionReqMySellStop {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzAuctionReqMySellStop {
@@ -77055,7 +78596,6 @@ impl PacketZcAuctionAckMySellStop {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAuctionAckMySellStop {
         let mut offset: usize = 0;
         PacketZcAuctionAckMySellStop {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -77076,6 +78616,7 @@ impl PacketZcAuctionAckMySellStop {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -77147,6 +78688,9 @@ impl Packet for PacketZcAuctionAckMySellStop {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAuctionAckMySellStop {
@@ -77163,7 +78707,6 @@ impl PacketZcAuctionWindows {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAuctionWindows {
         let mut offset: usize = 0;
         PacketZcAuctionWindows {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -77184,6 +78727,7 @@ impl PacketZcAuctionWindows {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -77255,6 +78799,9 @@ impl Packet for PacketZcAuctionWindows {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAuctionWindows {
@@ -77271,7 +78818,6 @@ impl PacketZcMailWindows {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMailWindows {
         let mut offset: usize = 0;
         PacketZcMailWindows {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -77292,6 +78838,7 @@ impl PacketZcMailWindows {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -77363,6 +78910,9 @@ impl Packet for PacketZcMailWindows {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcMailWindows {
@@ -77379,7 +78929,6 @@ impl PacketAcReqLoginOldekey {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketAcReqLoginOldekey {
         let mut offset: usize = 0;
         PacketAcReqLoginOldekey {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -77406,6 +78955,7 @@ impl PacketAcReqLoginOldekey {
                 offset += 9;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -77479,6 +79029,9 @@ impl Packet for PacketAcReqLoginOldekey {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketAcReqLoginOldekey {
@@ -77495,7 +79048,6 @@ impl PacketAcReqLoginNewekey {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketAcReqLoginNewekey {
         let mut offset: usize = 0;
         PacketAcReqLoginNewekey {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -77522,6 +79074,7 @@ impl PacketAcReqLoginNewekey {
                 offset += 9;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -77595,6 +79148,9 @@ impl Packet for PacketAcReqLoginNewekey {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketAcReqLoginNewekey {
@@ -77611,7 +79167,6 @@ impl PacketAcReqLoginCardpass {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketAcReqLoginCardpass {
         let mut offset: usize = 0;
         PacketAcReqLoginCardpass {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -77638,6 +79193,7 @@ impl PacketAcReqLoginCardpass {
                 offset += 9;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -77711,6 +79267,9 @@ impl Packet for PacketAcReqLoginCardpass {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketAcReqLoginCardpass {
@@ -77727,7 +79286,6 @@ impl PacketCaAckLoginOldekey {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCaAckLoginOldekey {
         let mut offset: usize = 0;
         PacketCaAckLoginOldekey {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -77770,6 +79328,7 @@ impl PacketCaAckLoginOldekey {
                 offset += 9;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -77857,6 +79416,9 @@ impl Packet for PacketCaAckLoginOldekey {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCaAckLoginOldekey {
@@ -77873,7 +79435,6 @@ impl PacketCaAckLoginNewekey {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCaAckLoginNewekey {
         let mut offset: usize = 0;
         PacketCaAckLoginNewekey {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -77916,6 +79477,7 @@ impl PacketCaAckLoginNewekey {
                 offset += 9;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -78003,6 +79565,9 @@ impl Packet for PacketCaAckLoginNewekey {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCaAckLoginNewekey {
@@ -78019,7 +79584,6 @@ impl PacketCaAckLoginCardpass {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCaAckLoginCardpass {
         let mut offset: usize = 0;
         PacketCaAckLoginCardpass {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -78046,6 +79610,7 @@ impl PacketCaAckLoginCardpass {
                 offset += 28;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -78119,6 +79684,9 @@ impl Packet for PacketCaAckLoginCardpass {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCaAckLoginCardpass {
@@ -78135,7 +79703,6 @@ impl PacketAcAckEkeyFailNotexist {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketAcAckEkeyFailNotexist {
         let mut offset: usize = 0;
         PacketAcAckEkeyFailNotexist {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -78156,6 +79723,7 @@ impl PacketAcAckEkeyFailNotexist {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -78227,6 +79795,9 @@ impl Packet for PacketAcAckEkeyFailNotexist {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketAcAckEkeyFailNotexist {
@@ -78243,7 +79814,6 @@ impl PacketAcAckEkeyFailNotusesekey {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketAcAckEkeyFailNotusesekey {
         let mut offset: usize = 0;
         PacketAcAckEkeyFailNotusesekey {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -78264,6 +79834,7 @@ impl PacketAcAckEkeyFailNotusesekey {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -78335,6 +79906,9 @@ impl Packet for PacketAcAckEkeyFailNotusesekey {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketAcAckEkeyFailNotusesekey {
@@ -78351,7 +79925,6 @@ impl PacketAcAckEkeyFailNotusedekey {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketAcAckEkeyFailNotusedekey {
         let mut offset: usize = 0;
         PacketAcAckEkeyFailNotusedekey {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -78372,6 +79945,7 @@ impl PacketAcAckEkeyFailNotusedekey {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -78443,6 +80017,9 @@ impl Packet for PacketAcAckEkeyFailNotusedekey {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketAcAckEkeyFailNotusedekey {
@@ -78459,7 +80036,6 @@ impl PacketAcAckEkeyFailAuthrefuse {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketAcAckEkeyFailAuthrefuse {
         let mut offset: usize = 0;
         PacketAcAckEkeyFailAuthrefuse {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -78480,6 +80056,7 @@ impl PacketAcAckEkeyFailAuthrefuse {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -78551,6 +80128,9 @@ impl Packet for PacketAcAckEkeyFailAuthrefuse {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketAcAckEkeyFailAuthrefuse {
@@ -78567,7 +80147,6 @@ impl PacketAcAckEkeyFailInputekey {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketAcAckEkeyFailInputekey {
         let mut offset: usize = 0;
         PacketAcAckEkeyFailInputekey {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -78588,6 +80167,7 @@ impl PacketAcAckEkeyFailInputekey {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -78659,6 +80239,9 @@ impl Packet for PacketAcAckEkeyFailInputekey {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketAcAckEkeyFailInputekey {
@@ -78675,7 +80258,6 @@ impl PacketAcAckEkeyFailNotice {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketAcAckEkeyFailNotice {
         let mut offset: usize = 0;
         PacketAcAckEkeyFailNotice {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -78696,6 +80278,7 @@ impl PacketAcAckEkeyFailNotice {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -78767,6 +80350,9 @@ impl Packet for PacketAcAckEkeyFailNotice {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketAcAckEkeyFailNotice {
@@ -78783,7 +80369,6 @@ impl PacketAcAckEkeyFailNeedcardpass {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketAcAckEkeyFailNeedcardpass {
         let mut offset: usize = 0;
         PacketAcAckEkeyFailNeedcardpass {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -78804,6 +80389,7 @@ impl PacketAcAckEkeyFailNeedcardpass {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -78875,6 +80461,9 @@ impl Packet for PacketAcAckEkeyFailNeedcardpass {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketAcAckEkeyFailNeedcardpass {
@@ -78891,7 +80480,6 @@ impl PacketAcAckAuthekeyFailNotmatchcardpass {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketAcAckAuthekeyFailNotmatchcardpass {
         let mut offset: usize = 0;
         PacketAcAckAuthekeyFailNotmatchcardpass {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -78912,6 +80500,7 @@ impl PacketAcAckAuthekeyFailNotmatchcardpass {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -78983,6 +80572,9 @@ impl Packet for PacketAcAckAuthekeyFailNotmatchcardpass {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketAcAckAuthekeyFailNotmatchcardpass {
@@ -78999,7 +80591,6 @@ impl PacketAcAckFirstLogin {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketAcAckFirstLogin {
         let mut offset: usize = 0;
         PacketAcAckFirstLogin {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -79010,6 +80601,7 @@ impl PacketAcAckFirstLogin {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -79069,6 +80661,9 @@ impl Packet for PacketAcAckFirstLogin {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketAcAckFirstLogin {
@@ -79085,7 +80680,6 @@ impl PacketAcReqLoginAccountInfo {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketAcReqLoginAccountInfo {
         let mut offset: usize = 0;
         PacketAcReqLoginAccountInfo {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -79096,6 +80690,7 @@ impl PacketAcReqLoginAccountInfo {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -79155,6 +80750,9 @@ impl Packet for PacketAcReqLoginAccountInfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketAcReqLoginAccountInfo {
@@ -79171,7 +80769,6 @@ impl PacketCaAckLoginAccountInfo {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCaAckLoginAccountInfo {
         let mut offset: usize = 0;
         PacketCaAckLoginAccountInfo {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -79218,6 +80815,7 @@ impl PacketCaAckLoginAccountInfo {
                 offset += 34;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -79315,6 +80913,9 @@ impl Packet for PacketCaAckLoginAccountInfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCaAckLoginAccountInfo {
@@ -79331,7 +80932,6 @@ impl PacketAcAckPtIdInfo {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketAcAckPtIdInfo {
         let mut offset: usize = 0;
         PacketAcAckPtIdInfo {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -79374,6 +80974,7 @@ impl PacketAcAckPtIdInfo {
                 offset += 21;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -79461,6 +81062,9 @@ impl Packet for PacketAcAckPtIdInfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketAcAckPtIdInfo {
@@ -79477,7 +81081,6 @@ impl PacketCzReqMailReturn {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqMailReturn {
         let mut offset: usize = 0;
         PacketCzReqMailReturn {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -79514,6 +81117,7 @@ impl PacketCzReqMailReturn {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -79599,6 +81203,9 @@ impl Packet for PacketCzReqMailReturn {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqMailReturn {
@@ -79615,7 +81222,6 @@ impl PacketZcAckMailReturn {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckMailReturn {
         let mut offset: usize = 0;
         PacketZcAckMailReturn {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -79646,6 +81252,7 @@ impl PacketZcAckMailReturn {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -79729,6 +81336,9 @@ impl Packet for PacketZcAckMailReturn {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAckMailReturn {
@@ -79745,7 +81355,6 @@ impl PacketChEnter2 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketChEnter2 {
         let mut offset: usize = 0;
         PacketChEnter2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -79832,6 +81441,7 @@ impl PacketChEnter2 {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -79977,6 +81587,9 @@ impl Packet for PacketChEnter2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketChEnter2 {
@@ -79993,7 +81606,6 @@ impl PacketCaAcceptLogin2 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCaAcceptLogin2 {
         let mut offset: usize = 0;
         PacketCaAcceptLogin2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -80090,6 +81702,7 @@ impl PacketCaAcceptLogin2 {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -80247,6 +81860,9 @@ impl Packet for PacketCaAcceptLogin2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCaAcceptLogin2 {
@@ -80263,7 +81879,6 @@ impl PacketCaLoginPcbang {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCaLoginPcbang {
         let mut offset: usize = 0;
         PacketCaLoginPcbang {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -80358,6 +81973,7 @@ impl PacketCaLoginPcbang {
                 offset += 13;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -80497,6 +82113,9 @@ impl Packet for PacketCaLoginPcbang {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCaLoginPcbang {
@@ -80513,7 +82132,6 @@ impl PacketZcNotifyPcbang {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyPcbang {
         let mut offset: usize = 0;
         PacketZcNotifyPcbang {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -80524,6 +82142,7 @@ impl PacketZcNotifyPcbang {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -80583,6 +82202,9 @@ impl Packet for PacketZcNotifyPcbang {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyPcbang {
@@ -80599,7 +82221,6 @@ impl PacketCzHuntinglist {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzHuntinglist {
         let mut offset: usize = 0;
         PacketCzHuntinglist {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -80610,6 +82231,7 @@ impl PacketCzHuntinglist {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -80669,6 +82291,9 @@ impl Packet for PacketCzHuntinglist {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzHuntinglist {
@@ -80695,7 +82320,6 @@ impl PacketZcHuntinglist {
             i += 1;
         }
         PacketZcHuntinglist {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -80721,10 +82345,12 @@ impl PacketZcHuntinglist {
                 field
             },
             hunting_list_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -80810,6 +82436,9 @@ impl Packet for PacketZcHuntinglist {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcHuntinglist {
@@ -80826,7 +82455,6 @@ impl PacketZcPcbangEffect {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPcbangEffect {
         let mut offset: usize = 0;
         PacketZcPcbangEffect {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -80867,6 +82495,7 @@ impl PacketZcPcbangEffect {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -80962,6 +82591,9 @@ impl Packet for PacketZcPcbangEffect {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcPcbangEffect {
@@ -80978,7 +82610,6 @@ impl PacketCaLogin4 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCaLogin4 {
         let mut offset: usize = 0;
         PacketCaLogin4 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -81057,6 +82688,7 @@ impl PacketCaLogin4 {
                 offset += 13;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -81182,6 +82814,9 @@ impl Packet for PacketCaLogin4 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCaLogin4 {
@@ -81198,7 +82833,6 @@ impl PacketZcPropertyMerce {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPropertyMerce {
         let mut offset: usize = 0;
         PacketZcPropertyMerce {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -81395,6 +83029,7 @@ impl PacketZcPropertyMerce {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -81672,6 +83307,9 @@ impl Packet for PacketZcPropertyMerce {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcPropertyMerce {
@@ -81688,7 +83326,6 @@ impl PacketZcShandaProtect {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcShandaProtect {
         let mut offset: usize = 0;
         PacketZcShandaProtect {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -81728,6 +83365,7 @@ impl PacketZcShandaProtect {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -81821,6 +83459,9 @@ impl Packet for PacketZcShandaProtect {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcShandaProtect {
@@ -81837,7 +83478,6 @@ impl PacketCaClientType {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCaClientType {
         let mut offset: usize = 0;
         PacketCaClientType {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -81868,6 +83508,7 @@ impl PacketCaClientType {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -81951,6 +83592,9 @@ impl Packet for PacketCaClientType {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCaClientType {
@@ -81967,7 +83611,6 @@ impl PacketZcGangsiPoint {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcGangsiPoint {
         let mut offset: usize = 0;
         PacketZcGangsiPoint {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -82008,6 +83651,7 @@ impl PacketZcGangsiPoint {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -82103,6 +83747,9 @@ impl Packet for PacketZcGangsiPoint {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcGangsiPoint {
@@ -82119,7 +83766,6 @@ impl PacketCzGangsiRank {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzGangsiRank {
         let mut offset: usize = 0;
         PacketCzGangsiRank {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -82140,6 +83786,7 @@ impl PacketCzGangsiRank {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -82211,6 +83858,9 @@ impl Packet for PacketCzGangsiRank {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzGangsiRank {
@@ -82227,7 +83877,6 @@ impl PacketZcGangsiRank {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcGangsiRank {
         let mut offset: usize = 0;
         PacketZcGangsiRank {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -82280,6 +83929,7 @@ impl PacketZcGangsiRank {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -82379,6 +84029,9 @@ impl Packet for PacketZcGangsiRank {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcGangsiRank {
@@ -82395,7 +84048,6 @@ impl PacketZcAid {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAid {
         let mut offset: usize = 0;
         PacketZcAid {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -82416,6 +84068,7 @@ impl PacketZcAid {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -82487,6 +84140,9 @@ impl Packet for PacketZcAid {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAid {
@@ -82503,7 +84159,6 @@ impl PacketZcNotifyEffect3 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyEffect3 {
         let mut offset: usize = 0;
         PacketZcNotifyEffect3 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -82544,6 +84199,7 @@ impl PacketZcNotifyEffect3 {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -82639,6 +84295,9 @@ impl Packet for PacketZcNotifyEffect3 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyEffect3 {
@@ -82655,7 +84314,6 @@ impl PacketZcDeathQuestion {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcDeathQuestion {
         let mut offset: usize = 0;
         PacketZcDeathQuestion {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -82686,6 +84344,7 @@ impl PacketZcDeathQuestion {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -82769,6 +84428,9 @@ impl Packet for PacketZcDeathQuestion {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcDeathQuestion {
@@ -82785,7 +84447,6 @@ impl PacketCzDeathQuestion {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzDeathQuestion {
         let mut offset: usize = 0;
         PacketCzDeathQuestion {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -82806,6 +84467,7 @@ impl PacketCzDeathQuestion {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -82877,6 +84539,9 @@ impl Packet for PacketCzDeathQuestion {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzDeathQuestion {
@@ -82903,7 +84568,6 @@ impl PacketZcPcCashPointItemlist {
             i += 1;
         }
         PacketZcPcCashPointItemlist {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -82939,10 +84603,12 @@ impl PacketZcPcCashPointItemlist {
                 field
             },
             item_list_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -83040,6 +84706,9 @@ impl Packet for PacketZcPcCashPointItemlist {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcPcCashPointItemlist {
@@ -83056,7 +84725,6 @@ impl PacketCzPcBuyCashPointItem {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzPcBuyCashPointItem {
         let mut offset: usize = 0;
         PacketCzPcBuyCashPointItem {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -83087,6 +84755,7 @@ impl PacketCzPcBuyCashPointItem {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -83170,6 +84839,9 @@ impl Packet for PacketCzPcBuyCashPointItem {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzPcBuyCashPointItem {
@@ -83186,7 +84858,6 @@ impl PacketZcPcCashPointUpdate {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPcCashPointUpdate {
         let mut offset: usize = 0;
         PacketZcPcCashPointUpdate {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -83217,6 +84888,7 @@ impl PacketZcPcCashPointUpdate {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -83300,6 +84972,9 @@ impl Packet for PacketZcPcCashPointUpdate {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcPcCashPointUpdate {
@@ -83316,7 +84991,6 @@ impl PacketZcNpcShowefstUpdate {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNpcShowefstUpdate {
         let mut offset: usize = 0;
         PacketZcNpcShowefstUpdate {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -83367,6 +85041,7 @@ impl PacketZcNpcShowefstUpdate {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -83474,6 +85149,9 @@ impl Packet for PacketZcNpcShowefstUpdate {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNpcShowefstUpdate {
@@ -83490,7 +85168,6 @@ impl PacketChSelectCharGoingtobeused {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketChSelectCharGoingtobeused {
         let mut offset: usize = 0;
         PacketChSelectCharGoingtobeused {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -83537,6 +85214,7 @@ impl PacketChSelectCharGoingtobeused {
                 offset += 9;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -83634,6 +85312,9 @@ impl Packet for PacketChSelectCharGoingtobeused {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketChSelectCharGoingtobeused {
@@ -83650,7 +85331,6 @@ impl PacketChReqIsValidCharname {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketChReqIsValidCharname {
         let mut offset: usize = 0;
         PacketChReqIsValidCharname {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -83697,6 +85377,7 @@ impl PacketChReqIsValidCharname {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -83794,6 +85475,9 @@ impl Packet for PacketChReqIsValidCharname {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketChReqIsValidCharname {
@@ -83810,7 +85494,6 @@ impl PacketHcAckIsValidCharname {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketHcAckIsValidCharname {
         let mut offset: usize = 0;
         PacketHcAckIsValidCharname {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -83831,6 +85514,7 @@ impl PacketHcAckIsValidCharname {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -83902,6 +85586,9 @@ impl Packet for PacketHcAckIsValidCharname {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketHcAckIsValidCharname {
@@ -83918,7 +85605,6 @@ impl PacketChReqChangeCharname {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketChReqChangeCharname {
         let mut offset: usize = 0;
         PacketChReqChangeCharname {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -83939,6 +85625,7 @@ impl PacketChReqChangeCharname {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -84010,6 +85697,9 @@ impl Packet for PacketChReqChangeCharname {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketChReqChangeCharname {
@@ -84026,7 +85716,6 @@ impl PacketHcAckChangeCharname {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketHcAckChangeCharname {
         let mut offset: usize = 0;
         PacketHcAckChangeCharname {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -84047,6 +85736,7 @@ impl PacketHcAckChangeCharname {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -84118,6 +85808,9 @@ impl Packet for PacketHcAckChangeCharname {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketHcAckChangeCharname {
@@ -84134,7 +85827,6 @@ impl PacketZcMsg {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMsg {
         let mut offset: usize = 0;
         PacketZcMsg {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -84155,6 +85847,7 @@ impl PacketZcMsg {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -84226,6 +85919,9 @@ impl Packet for PacketZcMsg {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcMsg {
@@ -84242,7 +85938,6 @@ impl PacketCzStandingResurrection {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzStandingResurrection {
         let mut offset: usize = 0;
         PacketCzStandingResurrection {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -84253,6 +85948,7 @@ impl PacketCzStandingResurrection {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -84312,6 +86008,9 @@ impl Packet for PacketCzStandingResurrection {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzStandingResurrection {
@@ -84328,7 +86027,6 @@ impl PacketZcBossInfo {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcBossInfo {
         let mut offset: usize = 0;
         PacketZcBossInfo {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -84425,6 +86123,7 @@ impl PacketZcBossInfo {
                 offset += 51;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -84582,6 +86281,9 @@ impl Packet for PacketZcBossInfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcBossInfo {
@@ -84598,7 +86300,6 @@ impl PacketZcReadBook {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcReadBook {
         let mut offset: usize = 0;
         PacketZcReadBook {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -84629,6 +86330,7 @@ impl PacketZcReadBook {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -84712,6 +86414,9 @@ impl Packet for PacketZcReadBook {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcReadBook {
@@ -84738,7 +86443,6 @@ impl PacketZcEquipmentItemlist2 {
             i += 1;
         }
         PacketZcEquipmentItemlist2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -84764,10 +86468,12 @@ impl PacketZcEquipmentItemlist2 {
                 field
             },
             item_info_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -84853,6 +86559,9 @@ impl Packet for PacketZcEquipmentItemlist2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcEquipmentItemlist2 {
@@ -84879,7 +86588,6 @@ impl PacketZcStoreEquipmentItemlist2 {
             i += 1;
         }
         PacketZcStoreEquipmentItemlist2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -84905,10 +86613,12 @@ impl PacketZcStoreEquipmentItemlist2 {
                 field
             },
             item_info_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -84994,6 +86704,9 @@ impl Packet for PacketZcStoreEquipmentItemlist2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcStoreEquipmentItemlist2 {
@@ -85020,7 +86733,6 @@ impl PacketZcCartEquipmentItemlist2 {
             i += 1;
         }
         PacketZcCartEquipmentItemlist2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -85046,10 +86758,12 @@ impl PacketZcCartEquipmentItemlist2 {
                 field
             },
             item_info_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -85135,6 +86849,9 @@ impl Packet for PacketZcCartEquipmentItemlist2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcCartEquipmentItemlist2 {
@@ -85151,7 +86868,6 @@ impl PacketZcCashTimeCounter {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcCashTimeCounter {
         let mut offset: usize = 0;
         PacketZcCashTimeCounter {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -85182,6 +86898,7 @@ impl PacketZcCashTimeCounter {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -85265,6 +86982,9 @@ impl Packet for PacketZcCashTimeCounter {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcCashTimeCounter {
@@ -85281,7 +87001,6 @@ impl PacketZcCashItemDelete {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcCashItemDelete {
         let mut offset: usize = 0;
         PacketZcCashItemDelete {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -85312,6 +87031,7 @@ impl PacketZcCashItemDelete {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -85395,6 +87115,9 @@ impl Packet for PacketZcCashItemDelete {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcCashItemDelete {
@@ -85411,7 +87134,6 @@ impl PacketZcItemPickupAck2 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcItemPickupAck2 {
         let mut offset: usize = 0;
         PacketZcItemPickupAck2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -85532,6 +87254,7 @@ impl PacketZcItemPickupAck2 {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -85723,6 +87446,9 @@ impl Packet for PacketZcItemPickupAck2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcItemPickupAck2 {
@@ -85739,7 +87465,6 @@ impl PacketZcMerInit {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMerInit {
         let mut offset: usize = 0;
         PacketZcMerInit {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -85956,6 +87681,7 @@ impl PacketZcMerInit {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -86257,6 +87983,9 @@ impl Packet for PacketZcMerInit {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcMerInit {
@@ -86273,7 +88002,6 @@ impl PacketZcMerProperty {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMerProperty {
         let mut offset: usize = 0;
         PacketZcMerProperty {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -86470,6 +88198,7 @@ impl PacketZcMerProperty {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -86747,6 +88476,9 @@ impl Packet for PacketZcMerProperty {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcMerProperty {
@@ -86773,7 +88505,6 @@ impl PacketZcMerSkillinfoList {
             i += 1;
         }
         PacketZcMerSkillinfoList {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -86799,10 +88530,12 @@ impl PacketZcMerSkillinfoList {
                 field
             },
             skill_list_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -86888,6 +88621,9 @@ impl Packet for PacketZcMerSkillinfoList {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcMerSkillinfoList {
@@ -86904,7 +88640,6 @@ impl PacketZcMerSkillinfoUpdate {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMerSkillinfoUpdate {
         let mut offset: usize = 0;
         PacketZcMerSkillinfoUpdate {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -86965,6 +88700,7 @@ impl PacketZcMerSkillinfoUpdate {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -87084,6 +88820,9 @@ impl Packet for PacketZcMerSkillinfoUpdate {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcMerSkillinfoUpdate {
@@ -87100,7 +88839,6 @@ impl PacketCzMerCommand {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzMerCommand {
         let mut offset: usize = 0;
         PacketCzMerCommand {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -87121,6 +88859,7 @@ impl PacketCzMerCommand {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -87192,6 +88931,9 @@ impl Packet for PacketCzMerCommand {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzMerCommand {
@@ -87208,7 +88950,6 @@ impl UnusedPacketCzMerUseSkill {
     pub fn from(buffer: &[u8], packetver: u32) -> UnusedPacketCzMerUseSkill {
         let mut offset: usize = 0;
         UnusedPacketCzMerUseSkill {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -87249,6 +88990,7 @@ impl UnusedPacketCzMerUseSkill {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -87344,6 +89086,9 @@ impl Packet for UnusedPacketCzMerUseSkill {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for UnusedPacketCzMerUseSkill {
@@ -87360,7 +89105,6 @@ impl UnusedPacketCzMerUpgradeSkilllevel {
     pub fn from(buffer: &[u8], packetver: u32) -> UnusedPacketCzMerUpgradeSkilllevel {
         let mut offset: usize = 0;
         UnusedPacketCzMerUpgradeSkilllevel {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -87381,6 +89125,7 @@ impl UnusedPacketCzMerUpgradeSkilllevel {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -87452,6 +89197,9 @@ impl Packet for UnusedPacketCzMerUpgradeSkilllevel {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for UnusedPacketCzMerUpgradeSkilllevel {
@@ -87468,7 +89216,6 @@ impl PacketZcMerParChange {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMerParChange {
         let mut offset: usize = 0;
         PacketZcMerParChange {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -87499,6 +89246,7 @@ impl PacketZcMerParChange {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -87582,6 +89330,9 @@ impl Packet for PacketZcMerParChange {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcMerParChange {
@@ -87598,7 +89349,6 @@ impl PacketZcGameguardLingoKey {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcGameguardLingoKey {
         let mut offset: usize = 0;
         PacketZcGameguardLingoKey {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -87618,6 +89368,7 @@ impl PacketZcGameguardLingoKey {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -87689,6 +89440,9 @@ impl Packet for PacketZcGameguardLingoKey {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcGameguardLingoKey {
@@ -87705,7 +89459,6 @@ impl PacketCzKsyEvent {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzKsyEvent {
         let mut offset: usize = 0;
         PacketCzKsyEvent {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -87736,6 +89489,7 @@ impl PacketCzKsyEvent {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -87819,6 +89573,9 @@ impl Packet for PacketCzKsyEvent {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzKsyEvent {
@@ -87835,7 +89592,6 @@ impl PacketZcReqCashPassword {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcReqCashPassword {
         let mut offset: usize = 0;
         PacketZcReqCashPassword {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -87856,6 +89612,7 @@ impl PacketZcReqCashPassword {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -87927,6 +89684,9 @@ impl Packet for PacketZcReqCashPassword {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcReqCashPassword {
@@ -87943,7 +89703,6 @@ impl PacketCzAckCashPassword {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzAckCashPassword {
         let mut offset: usize = 0;
         PacketCzAckCashPassword {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -87996,6 +89755,7 @@ impl PacketCzAckCashPassword {
                 offset += 16;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -88095,6 +89855,9 @@ impl Packet for PacketCzAckCashPassword {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzAckCashPassword {
@@ -88111,7 +89874,6 @@ impl PacketZcResultCashPassword {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcResultCashPassword {
         let mut offset: usize = 0;
         PacketZcResultCashPassword {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -88142,6 +89904,7 @@ impl PacketZcResultCashPassword {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -88225,6 +89988,9 @@ impl Packet for PacketZcResultCashPassword {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcResultCashPassword {
@@ -88241,7 +90007,6 @@ impl PacketAcRequestSecondPassword {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketAcRequestSecondPassword {
         let mut offset: usize = 0;
         PacketAcRequestSecondPassword {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -88272,6 +90037,7 @@ impl PacketAcRequestSecondPassword {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -88355,6 +90121,9 @@ impl Packet for PacketAcRequestSecondPassword {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketAcRequestSecondPassword {
@@ -88371,7 +90140,6 @@ impl PacketCaLoginHan {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCaLoginHan {
         let mut offset: usize = 0;
         PacketCaLoginHan {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -88476,6 +90244,7 @@ impl PacketCaLoginHan {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -88627,6 +90396,9 @@ impl Packet for PacketCaLoginHan {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCaLoginHan {
@@ -88653,7 +90425,6 @@ impl PacketZcAllQuestList {
             i += 1;
         }
         PacketZcAllQuestList {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -88689,10 +90460,12 @@ impl PacketZcAllQuestList {
                 field
             },
             quest_list_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -88790,6 +90563,9 @@ impl Packet for PacketZcAllQuestList {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAllQuestList {
@@ -88816,7 +90592,6 @@ impl PacketZcAllQuestMission {
             i += 1;
         }
         PacketZcAllQuestMission {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -88852,10 +90627,12 @@ impl PacketZcAllQuestMission {
                 field
             },
             quest_mission_list_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -88953,6 +90730,9 @@ impl Packet for PacketZcAllQuestMission {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAllQuestMission {
@@ -88979,7 +90759,6 @@ impl PacketZcAddQuest {
             i += 1;
         }
         PacketZcAddQuest {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -89045,10 +90824,12 @@ impl PacketZcAddQuest {
                 field
             },
             hunt_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -89182,6 +90963,9 @@ impl Packet for PacketZcAddQuest {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAddQuest {
@@ -89198,7 +90982,6 @@ impl PacketZcDelQuest {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcDelQuest {
         let mut offset: usize = 0;
         PacketZcDelQuest {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -89219,6 +91002,7 @@ impl PacketZcDelQuest {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -89290,6 +91074,9 @@ impl Packet for PacketZcDelQuest {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcDelQuest {
@@ -89316,7 +91103,6 @@ impl PacketZcUpdateMissionHunt {
             i += 1;
         }
         PacketZcUpdateMissionHunt {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -89352,10 +91138,12 @@ impl PacketZcUpdateMissionHunt {
                 field
             },
             mob_hunt_list_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -89453,6 +91241,9 @@ impl Packet for PacketZcUpdateMissionHunt {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcUpdateMissionHunt {
@@ -89469,7 +91260,6 @@ impl PacketCzActiveQuest {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzActiveQuest {
         let mut offset: usize = 0;
         PacketCzActiveQuest {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -89500,6 +91290,7 @@ impl PacketCzActiveQuest {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -89583,6 +91374,9 @@ impl Packet for PacketCzActiveQuest {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzActiveQuest {
@@ -89599,7 +91393,6 @@ impl PacketZcActiveQuest {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcActiveQuest {
         let mut offset: usize = 0;
         PacketZcActiveQuest {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -89630,6 +91423,7 @@ impl PacketZcActiveQuest {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -89713,6 +91507,9 @@ impl Packet for PacketZcActiveQuest {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcActiveQuest {
@@ -89729,7 +91526,6 @@ impl PacketZcItemPickupParty {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcItemPickupParty {
         let mut offset: usize = 0;
         PacketZcItemPickupParty {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -89820,6 +91616,7 @@ impl PacketZcItemPickupParty {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -89975,6 +91772,9 @@ impl Packet for PacketZcItemPickupParty {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcItemPickupParty {
@@ -90001,7 +91801,6 @@ impl PacketZcShortcutKeyList {
             i += 1;
         }
         PacketZcShortcutKeyList {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -90017,10 +91816,12 @@ impl PacketZcShortcutKeyList {
                 field
             },
             short_cut_key_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -90094,6 +91895,9 @@ impl Packet for PacketZcShortcutKeyList {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcShortcutKeyList {
@@ -90110,7 +91914,6 @@ impl PacketCzShortcutKeyChange {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzShortcutKeyChange {
         let mut offset: usize = 0;
         PacketCzShortcutKeyChange {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -90140,6 +91943,7 @@ impl PacketCzShortcutKeyChange {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -90223,6 +92027,9 @@ impl Packet for PacketCzShortcutKeyChange {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzShortcutKeyChange {
@@ -90239,7 +92046,6 @@ impl PacketZcEquipitemDamaged {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcEquipitemDamaged {
         let mut offset: usize = 0;
         PacketZcEquipitemDamaged {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -90270,6 +92076,7 @@ impl PacketZcEquipitemDamaged {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -90353,6 +92160,9 @@ impl Packet for PacketZcEquipitemDamaged {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcEquipitemDamaged {
@@ -90369,7 +92179,6 @@ impl PacketZcNotifyPcbangPlayingTime {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyPcbangPlayingTime {
         let mut offset: usize = 0;
         PacketZcNotifyPcbangPlayingTime {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -90390,6 +92199,7 @@ impl PacketZcNotifyPcbangPlayingTime {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -90461,6 +92271,9 @@ impl Packet for PacketZcNotifyPcbangPlayingTime {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyPcbangPlayingTime {
@@ -90477,7 +92290,6 @@ impl PacketZcSrpacketr2Init {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSrpacketr2Init {
         let mut offset: usize = 0;
         PacketZcSrpacketr2Init {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -90518,6 +92330,7 @@ impl PacketZcSrpacketr2Init {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -90613,6 +92426,9 @@ impl Packet for PacketZcSrpacketr2Init {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcSrpacketr2Init {
@@ -90629,7 +92445,6 @@ impl PacketCzSrpacketr2Start {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzSrpacketr2Start {
         let mut offset: usize = 0;
         PacketCzSrpacketr2Start {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -90650,6 +92465,7 @@ impl PacketCzSrpacketr2Start {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -90721,6 +92537,9 @@ impl Packet for PacketCzSrpacketr2Start {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzSrpacketr2Start {
@@ -90737,7 +92556,6 @@ impl PacketZcNpcChat {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNpcChat {
         let mut offset: usize = 0;
         PacketZcNpcChat {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -90787,6 +92605,7 @@ impl PacketZcNpcChat {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -90892,6 +92711,9 @@ impl Packet for PacketZcNpcChat {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNpcChat {
@@ -90908,7 +92730,6 @@ impl PacketZcFormatstringMsg {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcFormatstringMsg {
         let mut offset: usize = 0;
         PacketZcFormatstringMsg {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -90948,6 +92769,7 @@ impl PacketZcFormatstringMsg {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -91041,6 +92863,9 @@ impl Packet for PacketZcFormatstringMsg {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcFormatstringMsg {
@@ -91057,7 +92882,6 @@ impl PacketCzPartyJoinReq {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzPartyJoinReq {
         let mut offset: usize = 0;
         PacketCzPartyJoinReq {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -91084,6 +92908,7 @@ impl PacketCzPartyJoinReq {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -91157,6 +92982,9 @@ impl Packet for PacketCzPartyJoinReq {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzPartyJoinReq {
@@ -91173,7 +93001,6 @@ impl PacketZcPartyJoinReqAck {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPartyJoinReqAck {
         let mut offset: usize = 0;
         PacketZcPartyJoinReqAck {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -91210,6 +93037,7 @@ impl PacketZcPartyJoinReqAck {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -91295,6 +93123,9 @@ impl Packet for PacketZcPartyJoinReqAck {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcPartyJoinReqAck {
@@ -91311,7 +93142,6 @@ impl PacketZcPartyJoinReq {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPartyJoinReq {
         let mut offset: usize = 0;
         PacketZcPartyJoinReq {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -91348,6 +93178,7 @@ impl PacketZcPartyJoinReq {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -91433,6 +93264,9 @@ impl Packet for PacketZcPartyJoinReq {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcPartyJoinReq {
@@ -91449,7 +93283,6 @@ impl PacketCzPartyJoinReqAck {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzPartyJoinReqAck {
         let mut offset: usize = 0;
         PacketCzPartyJoinReqAck {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -91480,6 +93313,7 @@ impl PacketCzPartyJoinReqAck {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -91563,6 +93397,9 @@ impl Packet for PacketCzPartyJoinReqAck {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzPartyJoinReqAck {
@@ -91579,7 +93416,6 @@ impl PacketCzPartyConfig {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzPartyConfig {
         let mut offset: usize = 0;
         PacketCzPartyConfig {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -91600,6 +93436,7 @@ impl PacketCzPartyConfig {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -91671,6 +93508,9 @@ impl Packet for PacketCzPartyConfig {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzPartyConfig {
@@ -91687,7 +93527,6 @@ impl PacketZcPartyConfig {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPartyConfig {
         let mut offset: usize = 0;
         PacketZcPartyConfig {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -91708,6 +93547,7 @@ impl PacketZcPartyConfig {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -91779,6 +93619,9 @@ impl Packet for PacketZcPartyConfig {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcPartyConfig {
@@ -91795,7 +93638,6 @@ impl PacketHcRefuseSelectchar {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketHcRefuseSelectchar {
         let mut offset: usize = 0;
         PacketHcRefuseSelectchar {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -91816,6 +93658,7 @@ impl PacketHcRefuseSelectchar {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -91887,6 +93730,9 @@ impl Packet for PacketHcRefuseSelectchar {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketHcRefuseSelectchar {
@@ -91903,7 +93749,6 @@ impl PacketZcMemorialdungeonSubscriptionInfo {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMemorialdungeonSubscriptionInfo {
         let mut offset: usize = 0;
         PacketZcMemorialdungeonSubscriptionInfo {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -91940,6 +93785,7 @@ impl PacketZcMemorialdungeonSubscriptionInfo {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -92025,6 +93871,9 @@ impl Packet for PacketZcMemorialdungeonSubscriptionInfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcMemorialdungeonSubscriptionInfo {
@@ -92041,7 +93890,6 @@ impl PacketZcMemorialdungeonSubscriptionNotify {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMemorialdungeonSubscriptionNotify {
         let mut offset: usize = 0;
         PacketZcMemorialdungeonSubscriptionNotify {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -92062,6 +93910,7 @@ impl PacketZcMemorialdungeonSubscriptionNotify {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -92133,6 +93982,9 @@ impl Packet for PacketZcMemorialdungeonSubscriptionNotify {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcMemorialdungeonSubscriptionNotify {
@@ -92149,7 +94001,6 @@ impl PacketZcMemorialdungeonInfo {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMemorialdungeonInfo {
         let mut offset: usize = 0;
         PacketZcMemorialdungeonInfo {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -92196,6 +94047,7 @@ impl PacketZcMemorialdungeonInfo {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -92293,6 +94145,9 @@ impl Packet for PacketZcMemorialdungeonInfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcMemorialdungeonInfo {
@@ -92309,7 +94164,6 @@ impl PacketZcMemorialdungeonNotify {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMemorialdungeonNotify {
         let mut offset: usize = 0;
         PacketZcMemorialdungeonNotify {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -92340,6 +94194,7 @@ impl PacketZcMemorialdungeonNotify {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -92423,6 +94278,9 @@ impl Packet for PacketZcMemorialdungeonNotify {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcMemorialdungeonNotify {
@@ -92439,7 +94297,6 @@ impl PacketCzMemorialdungeonCommand {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzMemorialdungeonCommand {
         let mut offset: usize = 0;
         PacketCzMemorialdungeonCommand {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -92460,6 +94317,7 @@ impl PacketCzMemorialdungeonCommand {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -92531,6 +94389,9 @@ impl Packet for PacketCzMemorialdungeonCommand {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzMemorialdungeonCommand {
@@ -92557,7 +94418,6 @@ impl PacketZcEquipmentItemlist3 {
             i += 1;
         }
         PacketZcEquipmentItemlist3 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -92583,10 +94443,12 @@ impl PacketZcEquipmentItemlist3 {
                 field
             },
             item_info_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -92672,6 +94534,9 @@ impl Packet for PacketZcEquipmentItemlist3 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcEquipmentItemlist3 {
@@ -92698,7 +94563,6 @@ impl PacketZcStoreEquipmentItemlist3 {
             i += 1;
         }
         PacketZcStoreEquipmentItemlist3 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -92724,10 +94588,12 @@ impl PacketZcStoreEquipmentItemlist3 {
                 field
             },
             item_info_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -92813,6 +94679,9 @@ impl Packet for PacketZcStoreEquipmentItemlist3 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcStoreEquipmentItemlist3 {
@@ -92839,7 +94708,6 @@ impl PacketZcCartEquipmentItemlist3 {
             i += 1;
         }
         PacketZcCartEquipmentItemlist3 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -92865,10 +94733,12 @@ impl PacketZcCartEquipmentItemlist3 {
                 field
             },
             item_info_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -92954,6 +94824,9 @@ impl Packet for PacketZcCartEquipmentItemlist3 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcCartEquipmentItemlist3 {
@@ -92970,7 +94843,6 @@ impl PacketZcNotifyBindOnEquip {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyBindOnEquip {
         let mut offset: usize = 0;
         PacketZcNotifyBindOnEquip {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -92991,6 +94863,7 @@ impl PacketZcNotifyBindOnEquip {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -93062,6 +94935,9 @@ impl Packet for PacketZcNotifyBindOnEquip {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyBindOnEquip {
@@ -93078,7 +94954,6 @@ impl PacketZcItemPickupAck3 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcItemPickupAck3 {
         let mut offset: usize = 0;
         PacketZcItemPickupAck3 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -93209,6 +95084,7 @@ impl PacketZcItemPickupAck3 {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -93412,6 +95288,9 @@ impl Packet for PacketZcItemPickupAck3 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcItemPickupAck3 {
@@ -93428,7 +95307,6 @@ impl PacketZcIsvrDisconnect {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcIsvrDisconnect {
         let mut offset: usize = 0;
         PacketZcIsvrDisconnect {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -93439,6 +95317,7 @@ impl PacketZcIsvrDisconnect {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -93498,6 +95377,9 @@ impl Packet for PacketZcIsvrDisconnect {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcIsvrDisconnect {
@@ -93514,7 +95396,6 @@ impl PacketCzEquipwinMicroscope {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzEquipwinMicroscope {
         let mut offset: usize = 0;
         PacketCzEquipwinMicroscope {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -93535,6 +95416,7 @@ impl PacketCzEquipwinMicroscope {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -93606,6 +95488,9 @@ impl Packet for PacketCzEquipwinMicroscope {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzEquipwinMicroscope {
@@ -93632,7 +95517,6 @@ impl PacketZcEquipwinMicroscope {
             i += 1;
         }
         PacketZcEquipwinMicroscope {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -93754,10 +95638,12 @@ impl PacketZcEquipwinMicroscope {
                 field
             },
             item_info_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -93953,6 +95839,9 @@ impl Packet for PacketZcEquipwinMicroscope {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcEquipwinMicroscope {
@@ -93969,7 +95858,6 @@ impl PacketCzConfig {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzConfig {
         let mut offset: usize = 0;
         PacketCzConfig {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -94000,6 +95888,7 @@ impl PacketCzConfig {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -94083,6 +95972,9 @@ impl Packet for PacketCzConfig {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzConfig {
@@ -94099,7 +95991,6 @@ impl PacketZcConfig {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcConfig {
         let mut offset: usize = 0;
         PacketZcConfig {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -94130,6 +96021,7 @@ impl PacketZcConfig {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -94213,6 +96105,9 @@ impl Packet for PacketZcConfig {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcConfig {
@@ -94229,7 +96124,6 @@ impl PacketZcConfigNotify {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcConfigNotify {
         let mut offset: usize = 0;
         PacketZcConfigNotify {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -94250,6 +96144,7 @@ impl PacketZcConfigNotify {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -94321,6 +96216,9 @@ impl Packet for PacketZcConfigNotify {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcConfigNotify {
@@ -94337,7 +96235,6 @@ impl PacketCzBattlefieldChat {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzBattlefieldChat {
         let mut offset: usize = 0;
         PacketCzBattlefieldChat {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -94367,6 +96264,7 @@ impl PacketCzBattlefieldChat {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -94448,6 +96346,9 @@ impl Packet for PacketCzBattlefieldChat {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzBattlefieldChat {
@@ -94464,7 +96365,6 @@ impl PacketZcBattlefieldChat {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcBattlefieldChat {
         let mut offset: usize = 0;
         PacketZcBattlefieldChat {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -94520,6 +96420,7 @@ impl PacketZcBattlefieldChat {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -94627,6 +96528,9 @@ impl Packet for PacketZcBattlefieldChat {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcBattlefieldChat {
@@ -94643,7 +96547,6 @@ impl PacketZcBattlefieldNotifyCampinfo {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcBattlefieldNotifyCampinfo {
         let mut offset: usize = 0;
         PacketZcBattlefieldNotifyCampinfo {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -94690,6 +96593,7 @@ impl PacketZcBattlefieldNotifyCampinfo {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -94787,6 +96691,9 @@ impl Packet for PacketZcBattlefieldNotifyCampinfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcBattlefieldNotifyCampinfo {
@@ -94803,7 +96710,6 @@ impl PacketZcBattlefieldNotifyPoint {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcBattlefieldNotifyPoint {
         let mut offset: usize = 0;
         PacketZcBattlefieldNotifyPoint {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -94834,6 +96740,7 @@ impl PacketZcBattlefieldNotifyPoint {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -94917,6 +96824,9 @@ impl Packet for PacketZcBattlefieldNotifyPoint {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcBattlefieldNotifyPoint {
@@ -94933,7 +96843,6 @@ impl PacketZcBattlefieldNotifyPosition {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcBattlefieldNotifyPosition {
         let mut offset: usize = 0;
         PacketZcBattlefieldNotifyPosition {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -95000,6 +96909,7 @@ impl PacketZcBattlefieldNotifyPosition {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -95121,6 +97031,9 @@ impl Packet for PacketZcBattlefieldNotifyPosition {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcBattlefieldNotifyPosition {
@@ -95137,7 +97050,6 @@ impl PacketZcBattlefieldNotifyHp {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcBattlefieldNotifyHp {
         let mut offset: usize = 0;
         PacketZcBattlefieldNotifyHp {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -95194,6 +97106,7 @@ impl PacketZcBattlefieldNotifyHp {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -95303,6 +97216,9 @@ impl Packet for PacketZcBattlefieldNotifyHp {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcBattlefieldNotifyHp {
@@ -95319,7 +97235,6 @@ impl PacketZcNotifyAct2 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyAct2 {
         let mut offset: usize = 0;
         PacketZcNotifyAct2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -95420,6 +97335,7 @@ impl PacketZcNotifyAct2 {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -95587,6 +97503,9 @@ impl Packet for PacketZcNotifyAct2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyAct2 {
@@ -95603,7 +97522,6 @@ impl PacketCzBotCheck {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzBotCheck {
         let mut offset: usize = 0;
         PacketCzBotCheck {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -95624,6 +97542,7 @@ impl PacketCzBotCheck {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -95695,6 +97614,9 @@ impl Packet for PacketCzBotCheck {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzBotCheck {
@@ -95711,7 +97633,6 @@ impl PacketZcMapproperty {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMapproperty {
         let mut offset: usize = 0;
         PacketZcMapproperty {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -95754,6 +97675,7 @@ impl PacketZcMapproperty {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -95847,6 +97769,9 @@ impl Packet for PacketZcMapproperty {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcMapproperty {
@@ -95873,7 +97798,6 @@ impl PacketZcNormalItemlist3 {
             i += 1;
         }
         PacketZcNormalItemlist3 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -95899,10 +97823,12 @@ impl PacketZcNormalItemlist3 {
                 field
             },
             item_info_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -95988,6 +97914,9 @@ impl Packet for PacketZcNormalItemlist3 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNormalItemlist3 {
@@ -96014,7 +97943,6 @@ impl PacketZcCartNormalItemlist3 {
             i += 1;
         }
         PacketZcCartNormalItemlist3 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -96040,10 +97968,12 @@ impl PacketZcCartNormalItemlist3 {
                 field
             },
             item_info_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -96129,6 +98059,9 @@ impl Packet for PacketZcCartNormalItemlist3 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcCartNormalItemlist3 {
@@ -96155,7 +98088,6 @@ impl PacketZcStoreNormalItemlist3 {
             i += 1;
         }
         PacketZcStoreNormalItemlist3 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -96181,10 +98113,12 @@ impl PacketZcStoreNormalItemlist3 {
                 field
             },
             item_info_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -96270,6 +98204,9 @@ impl Packet for PacketZcStoreNormalItemlist3 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcStoreNormalItemlist3 {
@@ -96286,7 +98223,6 @@ impl PacketZcAcceptEnter2 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAcceptEnter2 {
         let mut offset: usize = 0;
         PacketZcAcceptEnter2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -96353,6 +98289,7 @@ impl PacketZcAcceptEnter2 {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -96474,6 +98411,9 @@ impl Packet for PacketZcAcceptEnter2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAcceptEnter2 {
@@ -96490,7 +98430,6 @@ impl PacketZcNotifyMoveentry4 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyMoveentry4 {
         let mut offset: usize = 0;
         PacketZcNotifyMoveentry4 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -96777,6 +98716,7 @@ impl PacketZcNotifyMoveentry4 {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -97162,6 +99102,9 @@ impl Packet for PacketZcNotifyMoveentry4 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyMoveentry4 {
@@ -97178,7 +99121,6 @@ impl PacketZcNotifyNewentry4 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyNewentry4 {
         let mut offset: usize = 0;
         PacketZcNotifyNewentry4 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -97445,6 +99387,7 @@ impl PacketZcNotifyNewentry4 {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -97806,6 +99749,9 @@ impl Packet for PacketZcNotifyNewentry4 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyNewentry4 {
@@ -97822,7 +99768,6 @@ impl PacketZcNotifyStandentry4 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyStandentry4 {
         let mut offset: usize = 0;
         PacketZcNotifyStandentry4 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -98099,6 +100044,7 @@ impl PacketZcNotifyStandentry4 {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -98472,6 +100418,9 @@ impl Packet for PacketZcNotifyStandentry4 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyStandentry4 {
@@ -98488,7 +100437,6 @@ impl PacketZcNotifyFont {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyFont {
         let mut offset: usize = 0;
         PacketZcNotifyFont {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -98519,6 +100467,7 @@ impl PacketZcNotifyFont {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -98602,6 +100551,9 @@ impl Packet for PacketZcNotifyFont {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyFont {
@@ -98618,7 +100570,6 @@ impl PacketZcProgress {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcProgress {
         let mut offset: usize = 0;
         PacketZcProgress {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -98649,6 +100600,7 @@ impl PacketZcProgress {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -98732,6 +100684,9 @@ impl Packet for PacketZcProgress {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcProgress {
@@ -98748,7 +100703,6 @@ impl PacketCzProgress {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzProgress {
         let mut offset: usize = 0;
         PacketCzProgress {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -98759,6 +100713,7 @@ impl PacketCzProgress {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -98818,6 +100773,9 @@ impl Packet for PacketCzProgress {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzProgress {
@@ -98834,7 +100792,6 @@ impl PacketZcProgressCancel {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcProgressCancel {
         let mut offset: usize = 0;
         PacketZcProgressCancel {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -98845,6 +100802,7 @@ impl PacketZcProgressCancel {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -98904,6 +100862,9 @@ impl Packet for PacketZcProgressCancel {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcProgressCancel {
@@ -98920,7 +100881,6 @@ impl PacketCzOpenSimpleCashshopItemlist {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzOpenSimpleCashshopItemlist {
         let mut offset: usize = 0;
         PacketCzOpenSimpleCashshopItemlist {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -98931,6 +100891,7 @@ impl PacketCzOpenSimpleCashshopItemlist {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -98990,6 +100951,9 @@ impl Packet for PacketCzOpenSimpleCashshopItemlist {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzOpenSimpleCashshopItemlist {
@@ -99016,7 +100980,6 @@ impl PacketZcSimpleCashshopPointItemlist {
             i += 1;
         }
         PacketZcSimpleCashshopPointItemlist {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -99092,10 +101055,12 @@ impl PacketZcSimpleCashshopPointItemlist {
                 field
             },
             item_list_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -99241,6 +101206,9 @@ impl Packet for PacketZcSimpleCashshopPointItemlist {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcSimpleCashshopPointItemlist {
@@ -99257,7 +101225,6 @@ impl PacketCzCloseWindow {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzCloseWindow {
         let mut offset: usize = 0;
         PacketCzCloseWindow {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -99268,6 +101235,7 @@ impl PacketCzCloseWindow {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -99327,6 +101295,9 @@ impl Packet for PacketCzCloseWindow {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzCloseWindow {
@@ -99343,7 +101314,6 @@ impl PacketAhcGameGuard {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketAhcGameGuard {
         let mut offset: usize = 0;
         PacketAhcGameGuard {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -99370,6 +101340,7 @@ impl PacketAhcGameGuard {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -99443,6 +101414,9 @@ impl Packet for PacketAhcGameGuard {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketAhcGameGuard {
@@ -99459,7 +101433,6 @@ impl PacketCahAckGameGuard {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCahAckGameGuard {
         let mut offset: usize = 0;
         PacketCahAckGameGuard {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -99486,6 +101459,7 @@ impl PacketCahAckGameGuard {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -99559,6 +101533,9 @@ impl Packet for PacketCahAckGameGuard {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCahAckGameGuard {
@@ -99575,7 +101552,6 @@ impl PacketCzEnter2 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzEnter2 {
         let mut offset: usize = 0;
         PacketCzEnter2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -99636,6 +101612,7 @@ impl PacketCzEnter2 {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -99755,6 +101732,9 @@ impl Packet for PacketCzEnter2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzEnter2 {
@@ -99771,7 +101751,6 @@ impl PacketCzRequestAct2 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzRequestAct2 {
         let mut offset: usize = 0;
         PacketCzRequestAct2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -99802,6 +101781,7 @@ impl PacketCzRequestAct2 {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -99885,6 +101865,9 @@ impl Packet for PacketCzRequestAct2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzRequestAct2 {
@@ -99901,7 +101884,6 @@ impl PacketCzUseSkill2 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzUseSkill2 {
         let mut offset: usize = 0;
         PacketCzUseSkill2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -99942,6 +101924,7 @@ impl PacketCzUseSkill2 {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -100037,6 +102020,9 @@ impl Packet for PacketCzUseSkill2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzUseSkill2 {
@@ -100053,7 +102039,6 @@ impl PacketCzUseItem2 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzUseItem2 {
         let mut offset: usize = 0;
         PacketCzUseItem2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -100084,6 +102069,7 @@ impl PacketCzUseItem2 {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -100167,6 +102153,9 @@ impl Packet for PacketCzUseItem2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzUseItem2 {
@@ -100183,7 +102172,6 @@ impl PacketZcSkillPostdelay {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSkillPostdelay {
         let mut offset: usize = 0;
         PacketZcSkillPostdelay {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -100214,6 +102202,7 @@ impl PacketZcSkillPostdelay {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -100297,6 +102286,9 @@ impl Packet for PacketZcSkillPostdelay {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcSkillPostdelay {
@@ -100323,7 +102315,6 @@ impl PacketZcSkillPostdelayList {
             i += 1;
         }
         PacketZcSkillPostdelayList {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -100349,10 +102340,12 @@ impl PacketZcSkillPostdelayList {
                 field
             },
             delay_list_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -100438,6 +102431,9 @@ impl Packet for PacketZcSkillPostdelayList {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcSkillPostdelayList {
@@ -100454,7 +102450,6 @@ impl PacketZcMsgStateChange2 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMsgStateChange2 {
         let mut offset: usize = 0;
         PacketZcMsgStateChange2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -100521,6 +102516,7 @@ impl PacketZcMsgStateChange2 {
                 offset += 3;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -100642,6 +102638,9 @@ impl Packet for PacketZcMsgStateChange2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcMsgStateChange2 {
@@ -100658,7 +102657,6 @@ impl PacketZcMillenniumshield {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMillenniumshield {
         let mut offset: usize = 0;
         PacketZcMillenniumshield {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -100699,6 +102697,7 @@ impl PacketZcMillenniumshield {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -100794,6 +102793,9 @@ impl Packet for PacketZcMillenniumshield {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcMillenniumshield {
@@ -100810,7 +102812,6 @@ impl PacketZcSkillinfoDelete {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSkillinfoDelete {
         let mut offset: usize = 0;
         PacketZcSkillinfoDelete {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -100831,6 +102832,7 @@ impl PacketZcSkillinfoDelete {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -100902,6 +102904,9 @@ impl Packet for PacketZcSkillinfoDelete {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcSkillinfoDelete {
@@ -100918,7 +102923,6 @@ impl PacketZcSkillSelectRequest {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSkillSelectRequest {
         let mut offset: usize = 0;
         PacketZcSkillSelectRequest {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -100961,6 +102965,7 @@ impl PacketZcSkillSelectRequest {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -101054,6 +103059,9 @@ impl Packet for PacketZcSkillSelectRequest {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcSkillSelectRequest {
@@ -101070,7 +103078,6 @@ impl PacketCzSkillSelectResponse {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzSkillSelectResponse {
         let mut offset: usize = 0;
         PacketCzSkillSelectResponse {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -101101,6 +103108,7 @@ impl PacketCzSkillSelectResponse {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -101184,6 +103192,9 @@ impl Packet for PacketCzSkillSelectResponse {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzSkillSelectResponse {
@@ -101210,7 +103221,6 @@ impl PacketZcSimpleCashPointItemlist {
             i += 1;
         }
         PacketZcSimpleCashPointItemlist {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -101246,10 +103256,12 @@ impl PacketZcSimpleCashPointItemlist {
                 field
             },
             item_list_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -101347,6 +103359,9 @@ impl Packet for PacketZcSimpleCashPointItemlist {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcSimpleCashPointItemlist {
@@ -101363,7 +103378,6 @@ impl PacketCzSimpleBuyCashPointItem {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzSimpleBuyCashPointItem {
         let mut offset: usize = 0;
         PacketCzSimpleBuyCashPointItem {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -101394,6 +103408,7 @@ impl PacketCzSimpleBuyCashPointItem {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -101477,6 +103492,9 @@ impl Packet for PacketCzSimpleBuyCashPointItem {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzSimpleBuyCashPointItem {
@@ -101493,7 +103511,6 @@ impl PacketZcQuestNotifyEffect {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcQuestNotifyEffect {
         let mut offset: usize = 0;
         PacketZcQuestNotifyEffect {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -101554,6 +103571,7 @@ impl PacketZcQuestNotifyEffect {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -101673,6 +103691,9 @@ impl Packet for PacketZcQuestNotifyEffect {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcQuestNotifyEffect {
@@ -101699,7 +103720,6 @@ impl PacketHcCharacterList {
             i += 1;
         }
         PacketHcCharacterList {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -101725,10 +103745,12 @@ impl PacketHcCharacterList {
                 field
             },
             character_list_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -101814,6 +103836,9 @@ impl Packet for PacketHcCharacterList {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketHcCharacterList {
@@ -101830,7 +103855,6 @@ impl PacketZcHackshErrorMsg {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcHackshErrorMsg {
         let mut offset: usize = 0;
         PacketZcHackshErrorMsg {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -101851,6 +103875,7 @@ impl PacketZcHackshErrorMsg {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -101922,6 +103947,9 @@ impl Packet for PacketZcHackshErrorMsg {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcHackshErrorMsg {
@@ -101938,7 +103966,6 @@ impl PacketCzClientVersion {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzClientVersion {
         let mut offset: usize = 0;
         PacketCzClientVersion {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -101959,6 +103986,7 @@ impl PacketCzClientVersion {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -102030,6 +104058,9 @@ impl Packet for PacketCzClientVersion {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzClientVersion {
@@ -102046,7 +104077,6 @@ impl PacketCzCloseSimplecashShop {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzCloseSimplecashShop {
         let mut offset: usize = 0;
         PacketCzCloseSimplecashShop {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -102057,6 +104087,7 @@ impl PacketCzCloseSimplecashShop {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -102116,6 +104147,9 @@ impl Packet for PacketCzCloseSimplecashShop {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzCloseSimplecashShop {
@@ -102132,7 +104166,6 @@ impl PacketZcEsResult {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcEsResult {
         let mut offset: usize = 0;
         PacketZcEsResult {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -102163,6 +104196,7 @@ impl PacketZcEsResult {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -102246,6 +104280,9 @@ impl Packet for PacketZcEsResult {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcEsResult {
@@ -102262,7 +104299,6 @@ impl PacketCzEsGetList {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzEsGetList {
         let mut offset: usize = 0;
         PacketCzEsGetList {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -102273,6 +104309,7 @@ impl PacketCzEsGetList {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -102332,6 +104369,9 @@ impl Packet for PacketCzEsGetList {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzEsGetList {
@@ -102348,7 +104388,6 @@ impl PacketZcEsList {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcEsList {
         let mut offset: usize = 0;
         PacketZcEsList {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -102379,6 +104418,7 @@ impl PacketZcEsList {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -102462,6 +104502,9 @@ impl Packet for PacketZcEsList {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcEsList {
@@ -102478,7 +104521,6 @@ impl PacketCzEsChoose {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzEsChoose {
         let mut offset: usize = 0;
         PacketCzEsChoose {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -102499,6 +104541,7 @@ impl PacketCzEsChoose {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -102570,6 +104613,9 @@ impl Packet for PacketCzEsChoose {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzEsChoose {
@@ -102586,7 +104632,6 @@ impl PacketCzEsCancel {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzEsCancel {
         let mut offset: usize = 0;
         PacketCzEsCancel {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -102607,6 +104652,7 @@ impl PacketCzEsCancel {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -102678,6 +104724,9 @@ impl Packet for PacketCzEsCancel {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzEsCancel {
@@ -102694,7 +104743,6 @@ impl PacketZcEsReady {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcEsReady {
         let mut offset: usize = 0;
         PacketZcEsReady {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -102715,6 +104763,7 @@ impl PacketZcEsReady {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -102786,6 +104835,9 @@ impl Packet for PacketZcEsReady {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcEsReady {
@@ -102802,7 +104854,6 @@ impl PacketZcEsGoto {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcEsGoto {
         let mut offset: usize = 0;
         PacketZcEsGoto {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -102823,6 +104874,7 @@ impl PacketZcEsGoto {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -102894,6 +104946,9 @@ impl Packet for PacketZcEsGoto {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcEsGoto {
@@ -102910,7 +104965,6 @@ impl PacketCzGroupinfoChangeV2 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzGroupinfoChangeV2 {
         let mut offset: usize = 0;
         PacketCzGroupinfoChangeV2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -102951,6 +105005,7 @@ impl PacketCzGroupinfoChangeV2 {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -103046,6 +105101,9 @@ impl Packet for PacketCzGroupinfoChangeV2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzGroupinfoChangeV2 {
@@ -103062,7 +105120,6 @@ impl PacketZcReqGroupinfoChangeV2 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcReqGroupinfoChangeV2 {
         let mut offset: usize = 0;
         PacketZcReqGroupinfoChangeV2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -103103,6 +105160,7 @@ impl PacketZcReqGroupinfoChangeV2 {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -103198,6 +105256,9 @@ impl Packet for PacketZcReqGroupinfoChangeV2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcReqGroupinfoChangeV2 {
@@ -103224,7 +105285,6 @@ impl PacketZcShortcutKeyListV2 {
             i += 1;
         }
         PacketZcShortcutKeyListV2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -103240,10 +105300,12 @@ impl PacketZcShortcutKeyListV2 {
                 field
             },
             short_cut_key_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -103317,6 +105379,9 @@ impl Packet for PacketZcShortcutKeyListV2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcShortcutKeyListV2 {
@@ -103333,7 +105398,6 @@ impl PacketCzChangeGroupMaster {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzChangeGroupMaster {
         let mut offset: usize = 0;
         PacketCzChangeGroupMaster {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -103354,6 +105418,7 @@ impl PacketCzChangeGroupMaster {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -103425,6 +105490,9 @@ impl Packet for PacketCzChangeGroupMaster {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzChangeGroupMaster {
@@ -103441,7 +105509,6 @@ impl PacketZcHoParChange {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcHoParChange {
         let mut offset: usize = 0;
         PacketZcHoParChange {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -103472,6 +105539,7 @@ impl PacketZcHoParChange {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -103555,6 +105623,9 @@ impl Packet for PacketZcHoParChange {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcHoParChange {
@@ -103571,7 +105642,6 @@ impl PacketCzSeekParty {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzSeekParty {
         let mut offset: usize = 0;
         PacketCzSeekParty {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -103592,6 +105662,7 @@ impl PacketCzSeekParty {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -103663,6 +105734,9 @@ impl Packet for PacketCzSeekParty {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzSeekParty {
@@ -103679,7 +105753,6 @@ impl PacketZcSeekParty {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSeekParty {
         let mut offset: usize = 0;
         PacketZcSeekParty {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -103752,6 +105825,7 @@ impl PacketZcSeekParty {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -103875,6 +105949,9 @@ impl Packet for PacketZcSeekParty {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcSeekParty {
@@ -103891,7 +105968,6 @@ impl PacketCzSeekPartyMember {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzSeekPartyMember {
         let mut offset: usize = 0;
         PacketCzSeekPartyMember {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -103948,6 +106024,7 @@ impl PacketCzSeekPartyMember {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -104057,6 +106134,9 @@ impl Packet for PacketCzSeekPartyMember {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzSeekPartyMember {
@@ -104073,7 +106153,6 @@ impl PacketZcSeekPartyMember {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSeekPartyMember {
         let mut offset: usize = 0;
         PacketZcSeekPartyMember {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -104146,6 +106225,7 @@ impl PacketZcSeekPartyMember {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -104269,6 +106349,9 @@ impl Packet for PacketZcSeekPartyMember {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcSeekPartyMember {
@@ -104285,7 +106368,6 @@ impl PacketZcEsNotiMyinfo {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcEsNotiMyinfo {
         let mut offset: usize = 0;
         PacketZcEsNotiMyinfo {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -104322,6 +106404,7 @@ impl PacketZcEsNotiMyinfo {
                 offset += 54;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -104407,6 +106490,9 @@ impl Packet for PacketZcEsNotiMyinfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcEsNotiMyinfo {
@@ -104423,7 +106509,6 @@ impl PacketZcSkillinfoUpdate2 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSkillinfoUpdate2 {
         let mut offset: usize = 0;
         PacketZcSkillinfoUpdate2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -104494,6 +106579,7 @@ impl PacketZcSkillinfoUpdate2 {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -104625,6 +106711,9 @@ impl Packet for PacketZcSkillinfoUpdate2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcSkillinfoUpdate2 {
@@ -104641,7 +106730,6 @@ impl PacketZcMsgValue {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMsgValue {
         let mut offset: usize = 0;
         PacketZcMsgValue {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -104672,6 +106760,7 @@ impl PacketZcMsgValue {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -104755,6 +106844,9 @@ impl Packet for PacketZcMsgValue {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcMsgValue {
@@ -104771,7 +106863,6 @@ impl PacketZcItemlistwinOpen {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcItemlistwinOpen {
         let mut offset: usize = 0;
         PacketZcItemlistwinOpen {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -104792,6 +106883,7 @@ impl PacketZcItemlistwinOpen {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -104863,6 +106955,9 @@ impl Packet for PacketZcItemlistwinOpen {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcItemlistwinOpen {
@@ -104879,7 +106974,6 @@ impl PacketCzItemlistwinRes {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzItemlistwinRes {
         let mut offset: usize = 0;
         PacketCzItemlistwinRes {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -104930,6 +107024,7 @@ impl PacketCzItemlistwinRes {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -105037,6 +107132,9 @@ impl Packet for PacketCzItemlistwinRes {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzItemlistwinRes {
@@ -105053,7 +107151,6 @@ impl PacketChEnterCheckbot {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketChEnterCheckbot {
         let mut offset: usize = 0;
         PacketChEnterCheckbot {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -105093,6 +107190,7 @@ impl PacketChEnterCheckbot {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -105186,6 +107284,9 @@ impl Packet for PacketChEnterCheckbot {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketChEnterCheckbot {
@@ -105202,7 +107303,6 @@ impl PacketZcMsgSkill {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMsgSkill {
         let mut offset: usize = 0;
         PacketZcMsgSkill {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -105233,6 +107333,7 @@ impl PacketZcMsgSkill {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -105316,6 +107417,9 @@ impl Packet for PacketZcMsgSkill {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcMsgSkill {
@@ -105332,7 +107436,6 @@ impl PacketChCheckbot {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketChCheckbot {
         let mut offset: usize = 0;
         PacketChCheckbot {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -105379,6 +107482,7 @@ impl PacketChCheckbot {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -105476,6 +107580,9 @@ impl Packet for PacketChCheckbot {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketChCheckbot {
@@ -105492,7 +107599,6 @@ impl PacketHcCheckbot {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketHcCheckbot {
         let mut offset: usize = 0;
         PacketHcCheckbot {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -105522,6 +107628,7 @@ impl PacketHcCheckbot {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -105603,6 +107710,9 @@ impl Packet for PacketHcCheckbot {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketHcCheckbot {
@@ -105619,7 +107729,6 @@ impl PacketHcCheckbotResult {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketHcCheckbotResult {
         let mut offset: usize = 0;
         PacketHcCheckbotResult {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -105650,6 +107759,7 @@ impl PacketHcCheckbotResult {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -105733,6 +107843,9 @@ impl Packet for PacketHcCheckbotResult {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketHcCheckbotResult {
@@ -105749,7 +107862,6 @@ impl PacketCzBattleFieldList {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzBattleFieldList {
         let mut offset: usize = 0;
         PacketCzBattleFieldList {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -105760,6 +107872,7 @@ impl PacketCzBattleFieldList {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -105819,6 +107932,9 @@ impl Packet for PacketCzBattleFieldList {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzBattleFieldList {
@@ -105845,7 +107961,6 @@ impl PacketZcBattleFieldList {
             i += 1;
         }
         PacketZcBattleFieldList {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -105891,10 +108006,12 @@ impl PacketZcBattleFieldList {
                 field
             },
             info_list_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -106004,6 +108121,9 @@ impl Packet for PacketZcBattleFieldList {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcBattleFieldList {
@@ -106020,7 +108140,6 @@ impl PacketCzJoinBattleField {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzJoinBattleField {
         let mut offset: usize = 0;
         PacketCzJoinBattleField {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -106051,6 +108170,7 @@ impl PacketCzJoinBattleField {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -106134,6 +108254,9 @@ impl Packet for PacketCzJoinBattleField {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzJoinBattleField {
@@ -106150,7 +108273,6 @@ impl PacketZcJoinBattleField {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcJoinBattleField {
         let mut offset: usize = 0;
         PacketZcJoinBattleField {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -106191,6 +108313,7 @@ impl PacketZcJoinBattleField {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -106286,6 +108409,9 @@ impl Packet for PacketZcJoinBattleField {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcJoinBattleField {
@@ -106302,7 +108428,6 @@ impl PacketCzCancelBattleField {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzCancelBattleField {
         let mut offset: usize = 0;
         PacketCzCancelBattleField {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -106323,6 +108448,7 @@ impl PacketCzCancelBattleField {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -106394,6 +108520,9 @@ impl Packet for PacketCzCancelBattleField {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzCancelBattleField {
@@ -106410,7 +108539,6 @@ impl PacketZcCancelBattleField {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcCancelBattleField {
         let mut offset: usize = 0;
         PacketZcCancelBattleField {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -106441,6 +108569,7 @@ impl PacketZcCancelBattleField {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -106524,6 +108653,9 @@ impl Packet for PacketZcCancelBattleField {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcCancelBattleField {
@@ -106540,7 +108672,6 @@ impl PacketCzReqBattleStateMonitor {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqBattleStateMonitor {
         let mut offset: usize = 0;
         PacketCzReqBattleStateMonitor {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -106571,6 +108702,7 @@ impl PacketCzReqBattleStateMonitor {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -106654,6 +108786,9 @@ impl Packet for PacketCzReqBattleStateMonitor {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqBattleStateMonitor {
@@ -106670,7 +108805,6 @@ impl PacketZcAckBattleStateMonitor {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckBattleStateMonitor {
         let mut offset: usize = 0;
         PacketZcAckBattleStateMonitor {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -106751,6 +108885,7 @@ impl PacketZcAckBattleStateMonitor {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -106894,6 +109029,9 @@ impl Packet for PacketZcAckBattleStateMonitor {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAckBattleStateMonitor {
@@ -106910,7 +109048,6 @@ impl PacketZcBattleNotiStartStep {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcBattleNotiStartStep {
         let mut offset: usize = 0;
         PacketZcBattleNotiStartStep {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -106941,6 +109078,7 @@ impl PacketZcBattleNotiStartStep {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -107024,6 +109162,9 @@ impl Packet for PacketZcBattleNotiStartStep {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcBattleNotiStartStep {
@@ -107040,7 +109181,6 @@ impl PacketZcBattleJoinNotiDefer {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcBattleJoinNotiDefer {
         let mut offset: usize = 0;
         PacketZcBattleJoinNotiDefer {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -107061,6 +109201,7 @@ impl PacketZcBattleJoinNotiDefer {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -107132,6 +109273,9 @@ impl Packet for PacketZcBattleJoinNotiDefer {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcBattleJoinNotiDefer {
@@ -107148,7 +109292,6 @@ impl PacketZcBattleJoinDisableState {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcBattleJoinDisableState {
         let mut offset: usize = 0;
         PacketZcBattleJoinDisableState {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -107169,6 +109312,7 @@ impl PacketZcBattleJoinDisableState {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -107240,6 +109384,9 @@ impl Packet for PacketZcBattleJoinDisableState {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcBattleJoinDisableState {
@@ -107256,7 +109403,6 @@ impl PacketCzGmFullstrip {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzGmFullstrip {
         let mut offset: usize = 0;
         PacketCzGmFullstrip {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -107277,6 +109423,7 @@ impl PacketCzGmFullstrip {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -107348,6 +109495,9 @@ impl Packet for PacketCzGmFullstrip {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzGmFullstrip {
@@ -107364,7 +109514,6 @@ impl PacketZcNotifyExp {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyExp {
         let mut offset: usize = 0;
         PacketZcNotifyExp {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -107415,6 +109564,7 @@ impl PacketZcNotifyExp {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -107522,6 +109672,9 @@ impl Packet for PacketZcNotifyExp {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyExp {
@@ -107538,7 +109691,6 @@ impl PacketZcNotifyMoveentry7 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyMoveentry7 {
         let mut offset: usize = 0;
         PacketZcNotifyMoveentry7 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -107851,6 +110003,7 @@ impl PacketZcNotifyMoveentry7 {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -108262,6 +110415,9 @@ impl Packet for PacketZcNotifyMoveentry7 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyMoveentry7 {
@@ -108278,7 +110434,6 @@ impl PacketZcNotifyNewentry5 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyNewentry5 {
         let mut offset: usize = 0;
         PacketZcNotifyNewentry5 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -108581,6 +110736,7 @@ impl PacketZcNotifyNewentry5 {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -108980,6 +111136,9 @@ impl Packet for PacketZcNotifyNewentry5 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyNewentry5 {
@@ -108996,7 +111155,6 @@ impl PacketZcNotifyStandentry5 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyStandentry5 {
         let mut offset: usize = 0;
         PacketZcNotifyStandentry5 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -109309,6 +111467,7 @@ impl PacketZcNotifyStandentry5 {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -109720,6 +111879,9 @@ impl Packet for PacketZcNotifyStandentry5 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyStandentry5 {
@@ -109736,7 +111898,6 @@ impl PacketZcDeleteItemFromBody {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcDeleteItemFromBody {
         let mut offset: usize = 0;
         PacketZcDeleteItemFromBody {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -109777,6 +111938,7 @@ impl PacketZcDeleteItemFromBody {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -109872,6 +112034,9 @@ impl Packet for PacketZcDeleteItemFromBody {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcDeleteItemFromBody {
@@ -109888,7 +112053,6 @@ impl PacketZcUseskillAck2 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcUseskillAck2 {
         let mut offset: usize = 0;
         PacketZcUseskillAck2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -109979,6 +112143,7 @@ impl PacketZcUseskillAck2 {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -110134,6 +112299,9 @@ impl Packet for PacketZcUseskillAck2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcUseskillAck2 {
@@ -110150,7 +112318,6 @@ impl PacketZcChangeGroupMaster {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcChangeGroupMaster {
         let mut offset: usize = 0;
         PacketZcChangeGroupMaster {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -110181,6 +112348,7 @@ impl PacketZcChangeGroupMaster {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -110264,6 +112432,9 @@ impl Packet for PacketZcChangeGroupMaster {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcChangeGroupMaster {
@@ -110280,7 +112451,6 @@ impl PacketZcPlayNpcBgm {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPlayNpcBgm {
         let mut offset: usize = 0;
         PacketZcPlayNpcBgm {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -110307,6 +112477,7 @@ impl PacketZcPlayNpcBgm {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -110380,6 +112551,9 @@ impl Packet for PacketZcPlayNpcBgm {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcPlayNpcBgm {
@@ -110396,7 +112570,6 @@ impl PacketZcDefineCheck {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcDefineCheck {
         let mut offset: usize = 0;
         PacketZcDefineCheck {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -110427,6 +112600,7 @@ impl PacketZcDefineCheck {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -110510,6 +112684,9 @@ impl Packet for PacketZcDefineCheck {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcDefineCheck {
@@ -110536,7 +112713,6 @@ impl PacketZcPcPurchaseItemlistFrommc2 {
             i += 1;
         }
         PacketZcPcPurchaseItemlistFrommc2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -110582,10 +112758,12 @@ impl PacketZcPcPurchaseItemlistFrommc2 {
                 field
             },
             item_list_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -110695,6 +112873,9 @@ impl Packet for PacketZcPcPurchaseItemlistFrommc2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcPcPurchaseItemlistFrommc2 {
@@ -110721,7 +112902,6 @@ impl PacketCzPcPurchaseItemlistFrommc2 {
             i += 1;
         }
         PacketCzPcPurchaseItemlistFrommc2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -110767,10 +112947,12 @@ impl PacketCzPcPurchaseItemlistFrommc2 {
                 field
             },
             item_list_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -110880,6 +113062,9 @@ impl Packet for PacketCzPcPurchaseItemlistFrommc2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzPcPurchaseItemlistFrommc2 {
@@ -110896,7 +113081,6 @@ impl PacketCzPartyBookingReqRegister {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzPartyBookingReqRegister {
         let mut offset: usize = 0;
         PacketCzPartyBookingReqRegister {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -110916,6 +113100,7 @@ impl PacketCzPartyBookingReqRegister {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -110987,6 +113172,9 @@ impl Packet for PacketCzPartyBookingReqRegister {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzPartyBookingReqRegister {
@@ -111003,7 +113191,6 @@ impl PacketZcPartyBookingAckRegister {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPartyBookingAckRegister {
         let mut offset: usize = 0;
         PacketZcPartyBookingAckRegister {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -111024,6 +113211,7 @@ impl PacketZcPartyBookingAckRegister {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -111095,6 +113283,9 @@ impl Packet for PacketZcPartyBookingAckRegister {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcPartyBookingAckRegister {
@@ -111111,7 +113302,6 @@ impl PacketCzPartyBookingReqSearch {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzPartyBookingReqSearch {
         let mut offset: usize = 0;
         PacketCzPartyBookingReqSearch {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -111172,6 +113362,7 @@ impl PacketCzPartyBookingReqSearch {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -111291,6 +113482,9 @@ impl Packet for PacketCzPartyBookingReqSearch {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzPartyBookingReqSearch {
@@ -111317,7 +113511,6 @@ impl PacketZcPartyBookingAckSearch {
             i += 1;
         }
         PacketZcPartyBookingAckSearch {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -111353,10 +113546,12 @@ impl PacketZcPartyBookingAckSearch {
                 field
             },
             info_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -111454,6 +113649,9 @@ impl Packet for PacketZcPartyBookingAckSearch {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcPartyBookingAckSearch {
@@ -111470,7 +113668,6 @@ impl PacketCzPartyBookingReqDelete {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzPartyBookingReqDelete {
         let mut offset: usize = 0;
         PacketCzPartyBookingReqDelete {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -111481,6 +113678,7 @@ impl PacketCzPartyBookingReqDelete {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -111540,6 +113738,9 @@ impl Packet for PacketCzPartyBookingReqDelete {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzPartyBookingReqDelete {
@@ -111556,7 +113757,6 @@ impl PacketZcPartyBookingAckDelete {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPartyBookingAckDelete {
         let mut offset: usize = 0;
         PacketZcPartyBookingAckDelete {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -111577,6 +113777,7 @@ impl PacketZcPartyBookingAckDelete {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -111648,6 +113849,9 @@ impl Packet for PacketZcPartyBookingAckDelete {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcPartyBookingAckDelete {
@@ -111664,7 +113868,6 @@ impl PacketCzPartyBookingReqUpdate {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzPartyBookingReqUpdate {
         let mut offset: usize = 0;
         PacketCzPartyBookingReqUpdate {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -111691,6 +113894,7 @@ impl PacketCzPartyBookingReqUpdate {
                 offset += 6;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -111764,6 +113968,9 @@ impl Packet for PacketCzPartyBookingReqUpdate {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzPartyBookingReqUpdate {
@@ -111780,7 +113987,6 @@ impl PacketZcPartyBookingNotifyInsert {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPartyBookingNotifyInsert {
         let mut offset: usize = 0;
         PacketZcPartyBookingNotifyInsert {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -111800,6 +114006,7 @@ impl PacketZcPartyBookingNotifyInsert {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -111871,6 +114078,9 @@ impl Packet for PacketZcPartyBookingNotifyInsert {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcPartyBookingNotifyInsert {
@@ -111887,7 +114097,6 @@ impl PacketZcPartyBookingNotifyUpdate {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPartyBookingNotifyUpdate {
         let mut offset: usize = 0;
         PacketZcPartyBookingNotifyUpdate {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -111968,6 +114177,7 @@ impl PacketZcPartyBookingNotifyUpdate {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -112111,6 +114321,9 @@ impl Packet for PacketZcPartyBookingNotifyUpdate {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcPartyBookingNotifyUpdate {
@@ -112127,7 +114340,6 @@ impl PacketZcPartyBookingNotifyDelete {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPartyBookingNotifyDelete {
         let mut offset: usize = 0;
         PacketZcPartyBookingNotifyDelete {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -112148,6 +114360,7 @@ impl PacketZcPartyBookingNotifyDelete {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -112219,6 +114432,9 @@ impl Packet for PacketZcPartyBookingNotifyDelete {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcPartyBookingNotifyDelete {
@@ -112235,7 +114451,6 @@ impl PacketCzSimpleCashBtnshow {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzSimpleCashBtnshow {
         let mut offset: usize = 0;
         PacketCzSimpleCashBtnshow {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -112246,6 +114461,7 @@ impl PacketCzSimpleCashBtnshow {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -112305,6 +114521,9 @@ impl Packet for PacketCzSimpleCashBtnshow {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzSimpleCashBtnshow {
@@ -112321,7 +114540,6 @@ impl PacketZcSimpleCashBtnshow {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSimpleCashBtnshow {
         let mut offset: usize = 0;
         PacketZcSimpleCashBtnshow {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -112342,6 +114560,7 @@ impl PacketZcSimpleCashBtnshow {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -112413,6 +114632,9 @@ impl Packet for PacketZcSimpleCashBtnshow {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcSimpleCashBtnshow {
@@ -112429,7 +114651,6 @@ impl PacketZcNotifyHpToGroupmR2 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyHpToGroupmR2 {
         let mut offset: usize = 0;
         PacketZcNotifyHpToGroupmR2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -112470,6 +114691,7 @@ impl PacketZcNotifyHpToGroupmR2 {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -112565,6 +114787,9 @@ impl Packet for PacketZcNotifyHpToGroupmR2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyHpToGroupmR2 {
@@ -112581,7 +114806,6 @@ impl PacketZcAddExchangeItem2 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAddExchangeItem2 {
         let mut offset: usize = 0;
         PacketZcAddExchangeItem2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -112662,6 +114886,7 @@ impl PacketZcAddExchangeItem2 {
                 offset += 8;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -112805,6 +115030,9 @@ impl Packet for PacketZcAddExchangeItem2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAddExchangeItem2 {
@@ -112821,7 +115049,6 @@ impl PacketZcOpenBuyingStore {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcOpenBuyingStore {
         let mut offset: usize = 0;
         PacketZcOpenBuyingStore {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -112842,6 +115069,7 @@ impl PacketZcOpenBuyingStore {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -112913,6 +115141,9 @@ impl Packet for PacketZcOpenBuyingStore {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcOpenBuyingStore {
@@ -112939,7 +115170,6 @@ impl PacketCzReqOpenBuyingStore {
             i += 1;
         }
         PacketCzReqOpenBuyingStore {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -113001,10 +115231,12 @@ impl PacketCzReqOpenBuyingStore {
                 field
             },
             item_list_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -113128,6 +115360,9 @@ impl Packet for PacketCzReqOpenBuyingStore {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqOpenBuyingStore {
@@ -113144,7 +115379,6 @@ impl PacketZcFailedOpenBuyingStoreToBuyer {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcFailedOpenBuyingStoreToBuyer {
         let mut offset: usize = 0;
         PacketZcFailedOpenBuyingStoreToBuyer {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -113175,6 +115409,7 @@ impl PacketZcFailedOpenBuyingStoreToBuyer {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -113258,6 +115493,9 @@ impl Packet for PacketZcFailedOpenBuyingStoreToBuyer {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcFailedOpenBuyingStoreToBuyer {
@@ -113284,7 +115522,6 @@ impl PacketZcMyitemlistBuyingStore {
             i += 1;
         }
         PacketZcMyitemlistBuyingStore {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -113330,10 +115567,12 @@ impl PacketZcMyitemlistBuyingStore {
                 field
             },
             item_list_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -113443,6 +115682,9 @@ impl Packet for PacketZcMyitemlistBuyingStore {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcMyitemlistBuyingStore {
@@ -113459,7 +115701,6 @@ impl PacketZcBuyingStoreEntry {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcBuyingStoreEntry {
         let mut offset: usize = 0;
         PacketZcBuyingStoreEntry {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -113496,6 +115737,7 @@ impl PacketZcBuyingStoreEntry {
                 offset += 80;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -113581,6 +115823,9 @@ impl Packet for PacketZcBuyingStoreEntry {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcBuyingStoreEntry {
@@ -113597,7 +115842,6 @@ impl PacketCzReqCloseBuyingStore {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqCloseBuyingStore {
         let mut offset: usize = 0;
         PacketCzReqCloseBuyingStore {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -113608,6 +115852,7 @@ impl PacketCzReqCloseBuyingStore {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -113667,6 +115912,9 @@ impl Packet for PacketCzReqCloseBuyingStore {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqCloseBuyingStore {
@@ -113683,7 +115931,6 @@ impl PacketZcDisappearBuyingStoreEntry {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcDisappearBuyingStoreEntry {
         let mut offset: usize = 0;
         PacketZcDisappearBuyingStoreEntry {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -113704,6 +115951,7 @@ impl PacketZcDisappearBuyingStoreEntry {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -113775,6 +116023,9 @@ impl Packet for PacketZcDisappearBuyingStoreEntry {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcDisappearBuyingStoreEntry {
@@ -113791,7 +116042,6 @@ impl PacketCzReqClickToBuyingStore {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqClickToBuyingStore {
         let mut offset: usize = 0;
         PacketCzReqClickToBuyingStore {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -113812,6 +116062,7 @@ impl PacketCzReqClickToBuyingStore {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -113883,6 +116134,9 @@ impl Packet for PacketCzReqClickToBuyingStore {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqClickToBuyingStore {
@@ -113909,7 +116163,6 @@ impl PacketZcAckItemlistBuyingStore {
             i += 1;
         }
         PacketZcAckItemlistBuyingStore {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -113965,10 +116218,12 @@ impl PacketZcAckItemlistBuyingStore {
                 field
             },
             item_list_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -114090,6 +116345,9 @@ impl Packet for PacketZcAckItemlistBuyingStore {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAckItemlistBuyingStore {
@@ -114116,7 +116374,6 @@ impl PacketCzReqTradeBuyingStore {
             i += 1;
         }
         PacketCzReqTradeBuyingStore {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -114162,10 +116419,12 @@ impl PacketCzReqTradeBuyingStore {
                 field
             },
             item_list_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -114275,6 +116534,9 @@ impl Packet for PacketCzReqTradeBuyingStore {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqTradeBuyingStore {
@@ -114291,7 +116553,6 @@ impl PacketZcFailedTradeBuyingStoreToBuyer {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcFailedTradeBuyingStoreToBuyer {
         let mut offset: usize = 0;
         PacketZcFailedTradeBuyingStoreToBuyer {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -114312,6 +116573,7 @@ impl PacketZcFailedTradeBuyingStoreToBuyer {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -114383,6 +116645,9 @@ impl Packet for PacketZcFailedTradeBuyingStoreToBuyer {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcFailedTradeBuyingStoreToBuyer {
@@ -114399,7 +116664,6 @@ impl PacketZcUpdateItemFromBuyingStore {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcUpdateItemFromBuyingStore {
         let mut offset: usize = 0;
         PacketZcUpdateItemFromBuyingStore {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -114440,6 +116704,7 @@ impl PacketZcUpdateItemFromBuyingStore {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -114535,6 +116800,9 @@ impl Packet for PacketZcUpdateItemFromBuyingStore {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcUpdateItemFromBuyingStore {
@@ -114551,7 +116819,6 @@ impl PacketZcItemDeleteBuyingStore {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcItemDeleteBuyingStore {
         let mut offset: usize = 0;
         PacketZcItemDeleteBuyingStore {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -114592,6 +116859,7 @@ impl PacketZcItemDeleteBuyingStore {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -114687,6 +116955,9 @@ impl Packet for PacketZcItemDeleteBuyingStore {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcItemDeleteBuyingStore {
@@ -114703,7 +116974,6 @@ impl PacketZcElInit {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcElInit {
         let mut offset: usize = 0;
         PacketZcElInit {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -114764,6 +117034,7 @@ impl PacketZcElInit {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -114883,6 +117154,9 @@ impl Packet for PacketZcElInit {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcElInit {
@@ -114899,7 +117173,6 @@ impl PacketZcElParChange {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcElParChange {
         let mut offset: usize = 0;
         PacketZcElParChange {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -114930,6 +117203,7 @@ impl PacketZcElParChange {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -115013,6 +117287,9 @@ impl Packet for PacketZcElParChange {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcElParChange {
@@ -115029,7 +117306,6 @@ impl PacketZcBroadcast4 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcBroadcast4 {
         let mut offset: usize = 0;
         PacketZcBroadcast4 {
-            raw: buffer.to_vec(),
             pakcet_type: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -115079,6 +117355,7 @@ impl PacketZcBroadcast4 {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -115184,6 +117461,9 @@ impl Packet for PacketZcBroadcast4 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcBroadcast4 {
@@ -115200,7 +117480,6 @@ impl PacketZcCostumeSpriteChange {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcCostumeSpriteChange {
         let mut offset: usize = 0;
         PacketZcCostumeSpriteChange {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -115241,6 +117520,7 @@ impl PacketZcCostumeSpriteChange {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -115336,6 +117616,9 @@ impl Packet for PacketZcCostumeSpriteChange {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcCostumeSpriteChange {
@@ -115352,7 +117635,6 @@ impl PacketAcOtpUser {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketAcOtpUser {
         let mut offset: usize = 0;
         PacketAcOtpUser {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -115363,6 +117645,7 @@ impl PacketAcOtpUser {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -115422,6 +117705,9 @@ impl Packet for PacketAcOtpUser {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketAcOtpUser {
@@ -115438,7 +117724,6 @@ impl PacketCaOtpAuthReq {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCaOtpAuthReq {
         let mut offset: usize = 0;
         PacketCaOtpAuthReq {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -115465,6 +117750,7 @@ impl PacketCaOtpAuthReq {
                 offset += 7;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -115538,6 +117824,9 @@ impl Packet for PacketCaOtpAuthReq {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCaOtpAuthReq {
@@ -115554,7 +117843,6 @@ impl PacketAcOtpAuthAck {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketAcOtpAuthAck {
         let mut offset: usize = 0;
         PacketAcOtpAuthAck {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -115585,6 +117873,7 @@ impl PacketAcOtpAuthAck {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -115668,6 +117957,9 @@ impl Packet for PacketAcOtpAuthAck {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketAcOtpAuthAck {
@@ -115684,7 +117976,6 @@ impl PacketZcFailedTradeBuyingStoreToSeller {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcFailedTradeBuyingStoreToSeller {
         let mut offset: usize = 0;
         PacketZcFailedTradeBuyingStoreToSeller {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -115715,6 +118006,7 @@ impl PacketZcFailedTradeBuyingStoreToSeller {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -115798,6 +118090,9 @@ impl Packet for PacketZcFailedTradeBuyingStoreToSeller {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcFailedTradeBuyingStoreToSeller {
@@ -115814,7 +118109,6 @@ impl PacketCaSsoLoginReqa {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCaSsoLoginReqa {
         let mut offset: usize = 0;
         PacketCaSsoLoginReqa {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -115912,6 +118206,7 @@ impl PacketCaSsoLoginReqa {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -116059,6 +118354,9 @@ impl Packet for PacketCaSsoLoginReqa {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCaSsoLoginReqa {
@@ -116075,7 +118373,6 @@ impl PacketCaSsoLoginReq {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCaSsoLoginReq {
         let mut offset: usize = 0;
         PacketCaSsoLoginReq {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -116189,6 +118486,7 @@ impl PacketCaSsoLoginReq {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -116350,6 +118648,9 @@ impl Packet for PacketCaSsoLoginReq {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCaSsoLoginReq {
@@ -116366,7 +118667,6 @@ impl PacketAcSsoLoginAck {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketAcSsoLoginAck {
         let mut offset: usize = 0;
         PacketAcSsoLoginAck {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -116387,6 +118687,7 @@ impl PacketAcSsoLoginAck {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -116458,6 +118759,9 @@ impl Packet for PacketAcSsoLoginAck {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketAcSsoLoginAck {
@@ -116474,7 +118778,6 @@ impl PacketChDeleteChar3Reserved {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketChDeleteChar3Reserved {
         let mut offset: usize = 0;
         PacketChDeleteChar3Reserved {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -116495,6 +118798,7 @@ impl PacketChDeleteChar3Reserved {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -116566,6 +118870,9 @@ impl Packet for PacketChDeleteChar3Reserved {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketChDeleteChar3Reserved {
@@ -116582,7 +118889,6 @@ impl PacketHcDeleteChar3Reserved {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketHcDeleteChar3Reserved {
         let mut offset: usize = 0;
         PacketHcDeleteChar3Reserved {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -116623,6 +118929,7 @@ impl PacketHcDeleteChar3Reserved {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -116718,6 +119025,9 @@ impl Packet for PacketHcDeleteChar3Reserved {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketHcDeleteChar3Reserved {
@@ -116734,7 +119044,6 @@ impl PacketChDeleteChar3 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketChDeleteChar3 {
         let mut offset: usize = 0;
         PacketChDeleteChar3 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -116771,6 +119080,7 @@ impl PacketChDeleteChar3 {
                 offset += 6;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -116856,6 +119166,9 @@ impl Packet for PacketChDeleteChar3 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketChDeleteChar3 {
@@ -116872,7 +119185,6 @@ impl PacketHcDeleteChar3 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketHcDeleteChar3 {
         let mut offset: usize = 0;
         PacketHcDeleteChar3 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -116903,6 +119215,7 @@ impl PacketHcDeleteChar3 {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -116986,6 +119299,9 @@ impl Packet for PacketHcDeleteChar3 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketHcDeleteChar3 {
@@ -117002,7 +119318,6 @@ impl PacketChDeleteChar3Cancel {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketChDeleteChar3Cancel {
         let mut offset: usize = 0;
         PacketChDeleteChar3Cancel {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -117023,6 +119338,7 @@ impl PacketChDeleteChar3Cancel {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -117094,6 +119410,9 @@ impl Packet for PacketChDeleteChar3Cancel {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketChDeleteChar3Cancel {
@@ -117110,7 +119429,6 @@ impl PacketHcDeleteChar3Cancel {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketHcDeleteChar3Cancel {
         let mut offset: usize = 0;
         PacketHcDeleteChar3Cancel {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -117141,6 +119459,7 @@ impl PacketHcDeleteChar3Cancel {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -117224,6 +119543,9 @@ impl Packet for PacketHcDeleteChar3Cancel {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketHcDeleteChar3Cancel {
@@ -117240,7 +119562,6 @@ impl PacketCzSearchStoreInfo {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzSearchStoreInfo {
         let mut offset: usize = 0;
         PacketCzSearchStoreInfo {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -117311,6 +119632,7 @@ impl PacketCzSearchStoreInfo {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -117442,6 +119764,9 @@ impl Packet for PacketCzSearchStoreInfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzSearchStoreInfo {
@@ -117468,7 +119793,6 @@ impl PacketZcSearchStoreInfoAck {
             i += 1;
         }
         PacketZcSearchStoreInfoAck {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -117524,10 +119848,12 @@ impl PacketZcSearchStoreInfoAck {
                 field
             },
             ssilist_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -117649,6 +119975,9 @@ impl Packet for PacketZcSearchStoreInfoAck {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcSearchStoreInfoAck {
@@ -117665,7 +119994,6 @@ impl PacketZcSearchStoreInfoFailed {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSearchStoreInfoFailed {
         let mut offset: usize = 0;
         PacketZcSearchStoreInfoFailed {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -117686,6 +120014,7 @@ impl PacketZcSearchStoreInfoFailed {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -117757,6 +120086,9 @@ impl Packet for PacketZcSearchStoreInfoFailed {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcSearchStoreInfoFailed {
@@ -117773,7 +120105,6 @@ impl PacketCzSearchStoreInfoNextPage {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzSearchStoreInfoNextPage {
         let mut offset: usize = 0;
         PacketCzSearchStoreInfoNextPage {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -117784,6 +120115,7 @@ impl PacketCzSearchStoreInfoNextPage {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -117843,6 +120175,9 @@ impl Packet for PacketCzSearchStoreInfoNextPage {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzSearchStoreInfoNextPage {
@@ -117859,7 +120194,6 @@ impl PacketZcAckBanGuildSso {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckBanGuildSso {
         let mut offset: usize = 0;
         PacketZcAckBanGuildSso {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -117902,6 +120236,7 @@ impl PacketZcAckBanGuildSso {
                 offset += 40;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -117989,6 +120324,9 @@ impl Packet for PacketZcAckBanGuildSso {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAckBanGuildSso {
@@ -118005,7 +120343,6 @@ impl PacketZcOpenSearchStoreInfo {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcOpenSearchStoreInfo {
         let mut offset: usize = 0;
         PacketZcOpenSearchStoreInfo {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -118036,6 +120373,7 @@ impl PacketZcOpenSearchStoreInfo {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -118119,6 +120457,9 @@ impl Packet for PacketZcOpenSearchStoreInfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcOpenSearchStoreInfo {
@@ -118135,7 +120476,6 @@ impl PacketCzCloseSearchStoreInfo {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzCloseSearchStoreInfo {
         let mut offset: usize = 0;
         PacketCzCloseSearchStoreInfo {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -118146,6 +120486,7 @@ impl PacketCzCloseSearchStoreInfo {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -118205,6 +120546,9 @@ impl Packet for PacketCzCloseSearchStoreInfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzCloseSearchStoreInfo {
@@ -118221,7 +120565,6 @@ impl PacketCzSsilistItemClick {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzSsilistItemClick {
         let mut offset: usize = 0;
         PacketCzSsilistItemClick {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -118262,6 +120605,7 @@ impl PacketCzSsilistItemClick {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -118357,6 +120701,9 @@ impl Packet for PacketCzSsilistItemClick {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzSsilistItemClick {
@@ -118373,7 +120720,6 @@ impl PacketZcSsilistItemClickAck {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSsilistItemClickAck {
         let mut offset: usize = 0;
         PacketZcSsilistItemClickAck {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -118404,6 +120750,7 @@ impl PacketZcSsilistItemClickAck {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -118487,6 +120834,9 @@ impl Packet for PacketZcSsilistItemClickAck {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcSsilistItemClickAck {
@@ -118503,7 +120853,6 @@ impl PacketAcRefuseLoginR2 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketAcRefuseLoginR2 {
         let mut offset: usize = 0;
         PacketAcRefuseLoginR2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -118540,6 +120889,7 @@ impl PacketAcRefuseLoginR2 {
                 offset += 20;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -118625,6 +120975,9 @@ impl Packet for PacketAcRefuseLoginR2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketAcRefuseLoginR2 {
@@ -118641,7 +120994,6 @@ impl PacketChSelectAccessibleMapname {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketChSelectAccessibleMapname {
         let mut offset: usize = 0;
         PacketChSelectAccessibleMapname {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -118672,6 +121024,7 @@ impl PacketChSelectAccessibleMapname {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -118755,6 +121108,9 @@ impl Packet for PacketChSelectAccessibleMapname {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketChSelectAccessibleMapname {
@@ -118771,7 +121127,6 @@ impl PacketCzRequestMove2 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzRequestMove2 {
         let mut offset: usize = 0;
         PacketCzRequestMove2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -118798,6 +121153,7 @@ impl PacketCzRequestMove2 {
                 offset += 3;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -118871,6 +121227,9 @@ impl Packet for PacketCzRequestMove2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzRequestMove2 {
@@ -118887,7 +121246,6 @@ impl PacketChSendMapInfo {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketChSendMapInfo {
         let mut offset: usize = 0;
         PacketChSendMapInfo {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -118960,6 +121318,7 @@ impl PacketChSendMapInfo {
                 offset += 128;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -119083,6 +121442,9 @@ impl Packet for PacketChSendMapInfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketChSendMapInfo {
@@ -119099,7 +121461,6 @@ impl PacketHcAcceptEnterNeoUnionHeader {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketHcAcceptEnterNeoUnionHeader {
         let mut offset: usize = 0;
         PacketHcAcceptEnterNeoUnionHeader {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -119185,6 +121546,7 @@ impl PacketHcAcceptEnterNeoUnionHeader {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -119330,6 +121692,9 @@ impl Packet for PacketHcAcceptEnterNeoUnionHeader {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketHcAcceptEnterNeoUnionHeader {
@@ -119346,7 +121711,6 @@ impl PacketCzPing {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzPing {
         let mut offset: usize = 0;
         PacketCzPing {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -119367,6 +121731,7 @@ impl PacketCzPing {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -119438,6 +121803,9 @@ impl Packet for PacketCzPing {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzPing {
@@ -119454,7 +121822,6 @@ impl PacketZcAid2 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAid2 {
         let mut offset: usize = 0;
         PacketZcAid2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -119475,6 +121842,7 @@ impl PacketZcAid2 {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -119546,6 +121914,9 @@ impl Packet for PacketZcAid2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAid2 {
@@ -119562,7 +121933,6 @@ impl PacketMapConnection {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketMapConnection {
         let mut offset: usize = 0;
         PacketMapConnection {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -119583,6 +121953,7 @@ impl PacketMapConnection {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -119654,6 +122025,9 @@ impl Packet for PacketMapConnection {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketMapConnection {
@@ -119670,7 +122044,6 @@ impl PacketPincodeLoginstate {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketPincodeLoginstate {
         let mut offset: usize = 0;
         PacketPincodeLoginstate {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -119711,6 +122084,7 @@ impl PacketPincodeLoginstate {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -119806,6 +122180,9 @@ impl Packet for PacketPincodeLoginstate {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketPincodeLoginstate {
@@ -119822,7 +122199,6 @@ impl PacketChMakeChar3 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketChMakeChar3 {
         let mut offset: usize = 0;
         PacketChMakeChar3 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -119899,6 +122275,7 @@ impl PacketChMakeChar3 {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -120032,6 +122409,9 @@ impl Packet for PacketChMakeChar3 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketChMakeChar3 {
@@ -120048,7 +122428,6 @@ impl PacketChDeleteChar4Reserved {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketChDeleteChar4Reserved {
         let mut offset: usize = 0;
         PacketChDeleteChar4Reserved {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -120069,6 +122448,7 @@ impl PacketChDeleteChar4Reserved {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -120140,6 +122520,9 @@ impl Packet for PacketChDeleteChar4Reserved {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketChDeleteChar4Reserved {
@@ -120156,7 +122539,6 @@ impl PacketHcDeleteChar4Reserved {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketHcDeleteChar4Reserved {
         let mut offset: usize = 0;
         PacketHcDeleteChar4Reserved {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -120197,6 +122579,7 @@ impl PacketHcDeleteChar4Reserved {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -120292,6 +122675,9 @@ impl Packet for PacketHcDeleteChar4Reserved {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketHcDeleteChar4Reserved {
@@ -120308,7 +122694,6 @@ impl PacketZcInventoryExpansionInfo {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcInventoryExpansionInfo {
         let mut offset: usize = 0;
         PacketZcInventoryExpansionInfo {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -120329,6 +122714,7 @@ impl PacketZcInventoryExpansionInfo {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -120400,6 +122786,9 @@ impl Packet for PacketZcInventoryExpansionInfo {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcInventoryExpansionInfo {
@@ -120416,7 +122805,6 @@ impl PacketZcOverweightPercent {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcOverweightPercent {
         let mut offset: usize = 0;
         PacketZcOverweightPercent {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -120437,6 +122825,7 @@ impl PacketZcOverweightPercent {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -120508,6 +122897,9 @@ impl Packet for PacketZcOverweightPercent {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcOverweightPercent {
@@ -120524,7 +122916,6 @@ impl PacketCzReqDisconnect2 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqDisconnect2 {
         let mut offset: usize = 0;
         PacketCzReqDisconnect2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -120545,6 +122936,7 @@ impl PacketCzReqDisconnect2 {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -120616,6 +123008,9 @@ impl Packet for PacketCzReqDisconnect2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqDisconnect2 {
@@ -120632,7 +123027,6 @@ impl PacketZcReqDisconnectAck2 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcReqDisconnectAck2 {
         let mut offset: usize = 0;
         PacketZcReqDisconnectAck2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -120653,6 +123047,7 @@ impl PacketZcReqDisconnectAck2 {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -120724,6 +123119,9 @@ impl Packet for PacketZcReqDisconnectAck2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcReqDisconnectAck2 {
@@ -120740,7 +123138,6 @@ impl PacketCzReqnameall2 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqnameall2 {
         let mut offset: usize = 0;
         PacketCzReqnameall2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -120761,6 +123158,7 @@ impl PacketCzReqnameall2 {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -120832,6 +123230,9 @@ impl Packet for PacketCzReqnameall2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzReqnameall2 {
@@ -120848,7 +123249,6 @@ impl PacketZcAckReqnameall2 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckReqnameall2 {
         let mut offset: usize = 0;
         PacketZcAckReqnameall2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -120943,6 +123343,7 @@ impl PacketZcAckReqnameall2 {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -121082,6 +123483,9 @@ impl Packet for PacketZcAckReqnameall2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcAckReqnameall2 {
@@ -121098,7 +123502,6 @@ impl PacketCzRequestTime2 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzRequestTime2 {
         let mut offset: usize = 0;
         PacketCzRequestTime2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -121119,6 +123522,7 @@ impl PacketCzRequestTime2 {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -121190,6 +123594,9 @@ impl Packet for PacketCzRequestTime2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzRequestTime2 {
@@ -121206,7 +123613,6 @@ impl PacketZcMsgColor {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMsgColor {
         let mut offset: usize = 0;
         PacketZcMsgColor {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -121237,6 +123643,7 @@ impl PacketZcMsgColor {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -121320,6 +123727,9 @@ impl Packet for PacketZcMsgColor {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcMsgColor {
@@ -121336,7 +123746,6 @@ impl PacketZcNotifyMapproperty2 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyMapproperty2 {
         let mut offset: usize = 0;
         PacketZcNotifyMapproperty2 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -121367,6 +123776,7 @@ impl PacketZcNotifyMapproperty2 {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -121450,6 +123860,9 @@ impl Packet for PacketZcNotifyMapproperty2 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyMapproperty2 {
@@ -121466,7 +123879,6 @@ impl PacketZcHatEffect {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcHatEffect {
         let mut offset: usize = 0;
         PacketZcHatEffect {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -121519,6 +123931,7 @@ impl PacketZcHatEffect {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -121624,6 +124037,9 @@ impl Packet for PacketZcHatEffect {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcHatEffect {
@@ -121640,7 +124056,6 @@ impl PacketCzBlockingPlayCancel {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzBlockingPlayCancel {
         let mut offset: usize = 0;
         PacketCzBlockingPlayCancel {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -121651,6 +124066,7 @@ impl PacketCzBlockingPlayCancel {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -121710,6 +124126,9 @@ impl Packet for PacketCzBlockingPlayCancel {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketCzBlockingPlayCancel {
@@ -121726,7 +124145,6 @@ impl PacketZcLoadConfirm {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcLoadConfirm {
         let mut offset: usize = 0;
         PacketZcLoadConfirm {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -121737,6 +124155,7 @@ impl PacketZcLoadConfirm {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -121796,6 +124215,9 @@ impl Packet for PacketZcLoadConfirm {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcLoadConfirm {
@@ -121812,7 +124234,6 @@ impl PacketZcNotifyStandentry6 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyStandentry6 {
         let mut offset: usize = 0;
         PacketZcNotifyStandentry6 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -122195,6 +124616,7 @@ impl PacketZcNotifyStandentry6 {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -122690,6 +125112,9 @@ impl Packet for PacketZcNotifyStandentry6 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyStandentry6 {
@@ -122706,7 +125131,6 @@ impl PacketZcNotifyStandentry7 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyStandentry7 {
         let mut offset: usize = 0;
         PacketZcNotifyStandentry7 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -123133,6 +125557,7 @@ impl PacketZcNotifyStandentry7 {
                 }
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -123684,6 +126109,9 @@ impl Packet for PacketZcNotifyStandentry7 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyStandentry7 {
@@ -123700,7 +126128,6 @@ impl PacketZcNotifyMoveentry8 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyMoveentry8 {
         let mut offset: usize = 0;
         PacketZcNotifyMoveentry8 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -124083,6 +126510,7 @@ impl PacketZcNotifyMoveentry8 {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -124578,6 +127006,9 @@ impl Packet for PacketZcNotifyMoveentry8 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyMoveentry8 {
@@ -124594,7 +127025,6 @@ impl PacketZcNotifyAct3 {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyAct3 {
         let mut offset: usize = 0;
         PacketZcNotifyAct3 {
-            raw: buffer.to_vec(),
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -124705,6 +127135,7 @@ impl PacketZcNotifyAct3 {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -124884,6 +127315,9 @@ impl Packet for PacketZcNotifyAct3 {
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
     }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
 }
 
 impl Default for PacketZcNotifyAct3 {
@@ -124904,7 +127338,6 @@ impl ServerAddr {
     pub fn from(buffer: &[u8], packetver: u32) -> ServerAddr {
         let mut offset: usize = 0;
         ServerAddr {
-            raw: buffer.to_vec(),
             ip: {
                 let field = u32::from_le_bytes([buffer[offset], buffer[offset + 1], buffer[offset + 2], buffer[offset + 3]]);
                 field
@@ -124971,6 +127404,7 @@ impl ServerAddr {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -125078,7 +127512,6 @@ impl ServerAddr2 {
     pub fn from(buffer: &[u8], packetver: u32) -> ServerAddr2 {
         let mut offset: usize = 0;
         ServerAddr2 {
-            raw: buffer.to_vec(),
             ip: {
                 let field = u32::from_le_bytes([buffer[offset], buffer[offset + 1], buffer[offset + 2], buffer[offset + 3]]);
                 field
@@ -125161,6 +127594,7 @@ impl ServerAddr2 {
                 offset += 128;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -125282,7 +127716,6 @@ impl CharacterInfoNeoUnion {
     pub fn from(buffer: &[u8], packetver: u32) -> CharacterInfoNeoUnion {
         let mut offset: usize = 0;
         CharacterInfoNeoUnion {
-            raw: buffer.to_vec(),
             gid: {
                 let field = u32::from_le_bytes([buffer[offset], buffer[offset + 1], buffer[offset + 2], buffer[offset + 3]]);
                 field
@@ -125865,6 +128298,7 @@ impl CharacterInfoNeoUnion {
                 }
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -126583,7 +129017,6 @@ impl ZserverAddr {
     pub fn from(buffer: &[u8], packetver: u32) -> ZserverAddr {
         let mut offset: usize = 0;
         ZserverAddr {
-            raw: buffer.to_vec(),
             ip: {
                 let field = u32::from_le_bytes([buffer[offset], buffer[offset + 1], buffer[offset + 2], buffer[offset + 3]]);
                 field
@@ -126604,6 +129037,7 @@ impl ZserverAddr {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -126661,7 +129095,6 @@ impl EQUIPSLOTINFO {
     pub fn from(buffer: &[u8], packetver: u32) -> EQUIPSLOTINFO {
         let mut offset: usize = 0;
         EQUIPSLOTINFO {
-            raw: buffer.to_vec(),
             card1: {
                 let field = u16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -126702,6 +129135,7 @@ impl EQUIPSLOTINFO {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -126783,7 +129217,6 @@ impl NormalitemExtrainfo {
     pub fn from(buffer: &[u8], packetver: u32) -> NormalitemExtrainfo {
         let mut offset: usize = 0;
         NormalitemExtrainfo {
-            raw: buffer.to_vec(),
             index: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -126844,6 +129277,7 @@ impl NormalitemExtrainfo {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -126949,7 +129383,6 @@ impl EquipmentitemExtrainfo {
     pub fn from(buffer: &[u8], packetver: u32) -> EquipmentitemExtrainfo {
         let mut offset: usize = 0;
         EquipmentitemExtrainfo {
-            raw: buffer.to_vec(),
             index: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -127040,6 +129473,7 @@ impl EquipmentitemExtrainfo {
                 offset += 8;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -127181,7 +129615,6 @@ impl PurchaseItem {
     pub fn from(buffer: &[u8], packetver: u32) -> PurchaseItem {
         let mut offset: usize = 0;
         PurchaseItem {
-            raw: buffer.to_vec(),
             price: {
                 let field = i32::from_le_bytes([buffer[offset], buffer[offset + 1], buffer[offset + 2], buffer[offset + 3]]);
                 field
@@ -127222,6 +129655,7 @@ impl PurchaseItem {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -127303,7 +129737,6 @@ impl SellItem {
     pub fn from(buffer: &[u8], packetver: u32) -> SellItem {
         let mut offset: usize = 0;
         SellItem {
-            raw: buffer.to_vec(),
             index: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -127334,6 +129767,7 @@ impl SellItem {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -127403,7 +129837,6 @@ impl CzPurchaseItem {
     pub fn from(buffer: &[u8], packetver: u32) -> CzPurchaseItem {
         let mut offset: usize = 0;
         CzPurchaseItem {
-            raw: buffer.to_vec(),
             count: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -127424,6 +129857,7 @@ impl CzPurchaseItem {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -127481,7 +129915,6 @@ impl CzSellItem {
     pub fn from(buffer: &[u8], packetver: u32) -> CzSellItem {
         let mut offset: usize = 0;
         CzSellItem {
-            raw: buffer.to_vec(),
             index: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -127502,6 +129935,7 @@ impl CzSellItem {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -127559,7 +129993,6 @@ impl WhisperItem {
     pub fn from(buffer: &[u8], packetver: u32) -> WhisperItem {
         let mut offset: usize = 0;
         WhisperItem {
-            raw: buffer.to_vec(),
             name: {
                 let field =  {
                 let mut dst: [char; 24] = [0 as char; 24];
@@ -127576,6 +130009,7 @@ impl WhisperItem {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -127623,7 +130057,6 @@ impl RoomMember {
     pub fn from(buffer: &[u8], packetver: u32) -> RoomMember {
         let mut offset: usize = 0;
         RoomMember {
-            raw: buffer.to_vec(),
             role: {
                 let field = u32::from_le_bytes([buffer[offset], buffer[offset + 1], buffer[offset + 2], buffer[offset + 3]]);
                 field
@@ -127650,6 +130083,7 @@ impl RoomMember {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -127709,7 +130143,6 @@ impl GroupmemberInfo {
     pub fn from(buffer: &[u8], packetver: u32) -> GroupmemberInfo {
         let mut offset: usize = 0;
         GroupmemberInfo {
-            raw: buffer.to_vec(),
             aid: {
                 let field = u32::from_le_bytes([buffer[offset], buffer[offset + 1], buffer[offset + 2], buffer[offset + 3]]);
                 field
@@ -127772,6 +130205,7 @@ impl GroupmemberInfo {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -127869,7 +130303,6 @@ impl SKILLINFO {
     pub fn from(buffer: &[u8], packetver: u32) -> SKILLINFO {
         let mut offset: usize = 0;
         SKILLINFO {
-            raw: buffer.to_vec(),
             skid: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -127946,6 +130379,7 @@ impl SKILLINFO {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -128065,7 +130499,6 @@ impl StoreItem {
     pub fn from(buffer: &[u8], packetver: u32) -> StoreItem {
         let mut offset: usize = 0;
         StoreItem {
-            raw: buffer.to_vec(),
             index: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -128096,6 +130529,7 @@ impl StoreItem {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -128165,7 +130599,6 @@ impl PurchaseItemFrommc {
     pub fn from(buffer: &[u8], packetver: u32) -> PurchaseItemFrommc {
         let mut offset: usize = 0;
         PurchaseItemFrommc {
-            raw: buffer.to_vec(),
             price: {
                 let field = i32::from_le_bytes([buffer[offset], buffer[offset + 1], buffer[offset + 2], buffer[offset + 3]]);
                 field
@@ -128256,6 +130689,7 @@ impl PurchaseItemFrommc {
                 offset += 8;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -128397,7 +130831,6 @@ impl CzPurchaseItemFrommc {
     pub fn from(buffer: &[u8], packetver: u32) -> CzPurchaseItemFrommc {
         let mut offset: usize = 0;
         CzPurchaseItemFrommc {
-            raw: buffer.to_vec(),
             count: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -128418,6 +130851,7 @@ impl CzPurchaseItemFrommc {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -128475,7 +130909,6 @@ impl PurchaseMyitem {
     pub fn from(buffer: &[u8], packetver: u32) -> PurchaseMyitem {
         let mut offset: usize = 0;
         PurchaseMyitem {
-            raw: buffer.to_vec(),
             price: {
                 let field = i32::from_le_bytes([buffer[offset], buffer[offset + 1], buffer[offset + 2], buffer[offset + 3]]);
                 field
@@ -128566,6 +130999,7 @@ impl PurchaseMyitem {
                 offset += 8;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -128707,7 +131141,6 @@ impl RelatedGuild {
     pub fn from(buffer: &[u8], packetver: u32) -> RelatedGuild {
         let mut offset: usize = 0;
         RelatedGuild {
-            raw: buffer.to_vec(),
             gdid: {
                 let field = i32::from_le_bytes([buffer[offset], buffer[offset + 1], buffer[offset + 2], buffer[offset + 3]]);
                 field
@@ -128744,6 +131177,7 @@ impl RelatedGuild {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -128815,7 +131249,6 @@ impl GuildMembermgrInfo {
     pub fn from(buffer: &[u8], packetver: u32) -> GuildMembermgrInfo {
         let mut offset: usize = 0;
         GuildMembermgrInfo {
-            raw: buffer.to_vec(),
             aid: {
                 let field = u32::from_le_bytes([buffer[offset], buffer[offset + 1], buffer[offset + 2], buffer[offset + 3]]);
                 field
@@ -128948,6 +131381,7 @@ impl GuildMembermgrInfo {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -129129,7 +131563,6 @@ impl MemberPositionInfo {
     pub fn from(buffer: &[u8], packetver: u32) -> MemberPositionInfo {
         let mut offset: usize = 0;
         MemberPositionInfo {
-            raw: buffer.to_vec(),
             aid: {
                 let field = i32::from_le_bytes([buffer[offset], buffer[offset + 1], buffer[offset + 2], buffer[offset + 3]]);
                 field
@@ -129160,6 +131593,7 @@ impl MemberPositionInfo {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -129229,7 +131663,6 @@ impl GuildMemberPositionInfo {
     pub fn from(buffer: &[u8], packetver: u32) -> GuildMemberPositionInfo {
         let mut offset: usize = 0;
         GuildMemberPositionInfo {
-            raw: buffer.to_vec(),
             position_id: {
                 let field = i32::from_le_bytes([buffer[offset], buffer[offset + 1], buffer[offset + 2], buffer[offset + 3]]);
                 field
@@ -129270,6 +131703,7 @@ impl GuildMemberPositionInfo {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -129351,7 +131785,6 @@ impl GuildRegPositionInfo {
     pub fn from(buffer: &[u8], packetver: u32) -> GuildRegPositionInfo {
         let mut offset: usize = 0;
         GuildRegPositionInfo {
-            raw: buffer.to_vec(),
             position_id: {
                 let field = i32::from_le_bytes([buffer[offset], buffer[offset + 1], buffer[offset + 2], buffer[offset + 3]]);
                 field
@@ -129408,6 +131841,7 @@ impl GuildRegPositionInfo {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -129503,7 +131937,6 @@ impl GuildBanInfo {
     pub fn from(buffer: &[u8], packetver: u32) -> GuildBanInfo {
         let mut offset: usize = 0;
         GuildBanInfo {
-            raw: buffer.to_vec(),
             charname: {
                 let field =  {
                 let mut dst: [char; 24] = [0 as char; 24];
@@ -129552,6 +131985,7 @@ impl GuildBanInfo {
                 offset += 40;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -129627,7 +132061,6 @@ impl OtherGuildInfo {
     pub fn from(buffer: &[u8], packetver: u32) -> OtherGuildInfo {
         let mut offset: usize = 0;
         OtherGuildInfo {
-            raw: buffer.to_vec(),
             guildname: {
                 let field =  {
                 let mut dst: [char; 24] = [0 as char; 24];
@@ -129674,6 +132107,7 @@ impl OtherGuildInfo {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -129757,7 +132191,6 @@ impl MemberPositionIdNameInfo {
     pub fn from(buffer: &[u8], packetver: u32) -> MemberPositionIdNameInfo {
         let mut offset: usize = 0;
         MemberPositionIdNameInfo {
-            raw: buffer.to_vec(),
             position_id: {
                 let field = i32::from_le_bytes([buffer[offset], buffer[offset + 1], buffer[offset + 2], buffer[offset + 3]]);
                 field
@@ -129784,6 +132217,7 @@ impl MemberPositionIdNameInfo {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -129843,7 +132277,6 @@ impl GuildMemberInfo {
     pub fn from(buffer: &[u8], packetver: u32) -> GuildMemberInfo {
         let mut offset: usize = 0;
         GuildMemberInfo {
-            raw: buffer.to_vec(),
             aid: {
                 let field = i32::from_le_bytes([buffer[offset], buffer[offset + 1], buffer[offset + 2], buffer[offset + 3]]);
                 field
@@ -129976,6 +132409,7 @@ impl GuildMemberInfo {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -130157,7 +132591,6 @@ impl RelatedGuildInfo {
     pub fn from(buffer: &[u8], packetver: u32) -> RelatedGuildInfo {
         let mut offset: usize = 0;
         RelatedGuildInfo {
-            raw: buffer.to_vec(),
             relation: {
                 let field = i32::from_le_bytes([buffer[offset], buffer[offset + 1], buffer[offset + 2], buffer[offset + 3]]);
                 field
@@ -130194,6 +132627,7 @@ impl RelatedGuildInfo {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -130265,7 +132699,6 @@ impl MonsterInfoElement {
     pub fn from(buffer: &[u8], packetver: u32) -> MonsterInfoElement {
         let mut offset: usize = 0;
         MonsterInfoElement {
-            raw: buffer.to_vec(),
             water: {
                 let field = u8::from_le_bytes([buffer[offset]]);
                 field
@@ -130356,6 +132789,7 @@ impl MonsterInfoElement {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -130497,7 +132931,6 @@ impl MakableitemInfo {
     pub fn from(buffer: &[u8], packetver: u32) -> MakableitemInfo {
         let mut offset: usize = 0;
         MakableitemInfo {
-            raw: buffer.to_vec(),
             itid: {
                 let field = u16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -130524,6 +132957,7 @@ impl MakableitemInfo {
                 offset += 3;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -130583,7 +133017,6 @@ impl PeteggitemInfo {
     pub fn from(buffer: &[u8], packetver: u32) -> PeteggitemInfo {
         let mut offset: usize = 0;
         PeteggitemInfo {
-            raw: buffer.to_vec(),
             index: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -130594,6 +133027,7 @@ impl PeteggitemInfo {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -130639,7 +133073,6 @@ impl ArrowitemInfo {
     pub fn from(buffer: &[u8], packetver: u32) -> ArrowitemInfo {
         let mut offset: usize = 0;
         ArrowitemInfo {
-            raw: buffer.to_vec(),
             index: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -130650,6 +133083,7 @@ impl ArrowitemInfo {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -130695,7 +133129,6 @@ impl NormalitemExtrainfo2 {
     pub fn from(buffer: &[u8], packetver: u32) -> NormalitemExtrainfo2 {
         let mut offset: usize = 0;
         NormalitemExtrainfo2 {
-            raw: buffer.to_vec(),
             index: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -130766,6 +133199,7 @@ impl NormalitemExtrainfo2 {
                 offset += 8;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -130883,7 +133317,6 @@ impl RepairitemInfo {
     pub fn from(buffer: &[u8], packetver: u32) -> RepairitemInfo {
         let mut offset: usize = 0;
         RepairitemInfo {
-            raw: buffer.to_vec(),
             index: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -130924,6 +133357,7 @@ impl RepairitemInfo {
                 offset += 8;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -131005,7 +133439,6 @@ impl FRIEND {
     pub fn from(buffer: &[u8], packetver: u32) -> FRIEND {
         let mut offset: usize = 0;
         FRIEND {
-            raw: buffer.to_vec(),
             aid: {
                 let field = u32::from_le_bytes([buffer[offset], buffer[offset + 1], buffer[offset + 2], buffer[offset + 3]]);
                 field
@@ -131042,6 +133475,7 @@ impl FRIEND {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -131113,7 +133547,6 @@ impl TagCharacterBlockInfo {
     pub fn from(buffer: &[u8], packetver: u32) -> TagCharacterBlockInfo {
         let mut offset: usize = 0;
         TagCharacterBlockInfo {
-            raw: buffer.to_vec(),
             gid: {
                 let field = u32::from_le_bytes([buffer[offset], buffer[offset + 1], buffer[offset + 2], buffer[offset + 3]]);
                 field
@@ -131140,6 +133573,7 @@ impl TagCharacterBlockInfo {
                 offset += 20;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -131199,7 +133633,6 @@ impl PVPINFO {
     pub fn from(buffer: &[u8], packetver: u32) -> PVPINFO {
         let mut offset: usize = 0;
         PVPINFO {
-            raw: buffer.to_vec(),
             win_point: {
                 let field = i32::from_le_bytes([buffer[offset], buffer[offset + 1], buffer[offset + 2], buffer[offset + 3]]);
                 field
@@ -131230,6 +133663,7 @@ impl PVPINFO {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -131299,7 +133733,6 @@ impl Filetime {
     pub fn from(buffer: &[u8], packetver: u32) -> Filetime {
         let mut offset: usize = 0;
         Filetime {
-            raw: buffer.to_vec(),
             dw_low_date_time: {
                 let field = u32::from_le_bytes([buffer[offset], buffer[offset + 1], buffer[offset + 2], buffer[offset + 3]]);
                 field
@@ -131320,6 +133753,7 @@ impl Filetime {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -131377,7 +133811,6 @@ impl MailList {
     pub fn from(buffer: &[u8], packetver: u32) -> MailList {
         let mut offset: usize = 0;
         MailList {
-            raw: buffer.to_vec(),
             mail_id: {
                 let field = u32::from_le_bytes([buffer[offset], buffer[offset + 1], buffer[offset + 2], buffer[offset + 3]]);
                 field
@@ -131440,6 +133873,7 @@ impl MailList {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -131537,7 +133971,6 @@ impl AuctionItemSearchInfo {
     pub fn from(buffer: &[u8], packetver: u32) -> AuctionItemSearchInfo {
         let mut offset: usize = 0;
         AuctionItemSearchInfo {
-            raw: buffer.to_vec(),
             auction_id: {
                 let field = u32::from_le_bytes([buffer[offset], buffer[offset + 1], buffer[offset + 2], buffer[offset + 3]]);
                 field
@@ -131680,6 +134113,7 @@ impl AuctionItemSearchInfo {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -131873,7 +134307,6 @@ impl PacketMobHunting {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketMobHunting {
         let mut offset: usize = 0;
         PacketMobHunting {
-            raw: buffer.to_vec(),
             quest_id: {
                 let field = u32::from_le_bytes([buffer[offset], buffer[offset + 1], buffer[offset + 2], buffer[offset + 3]]);
                 field
@@ -131914,6 +134347,7 @@ impl PacketMobHunting {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -131995,7 +134429,6 @@ impl EquipmentitemExtrainfo2 {
     pub fn from(buffer: &[u8], packetver: u32) -> EquipmentitemExtrainfo2 {
         let mut offset: usize = 0;
         EquipmentitemExtrainfo2 {
-            raw: buffer.to_vec(),
             index: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -132096,6 +134529,7 @@ impl EquipmentitemExtrainfo2 {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -132249,7 +134683,6 @@ impl PggLingoKeyTemp {
     pub fn from(buffer: &[u8], packetver: u32) -> PggLingoKeyTemp {
         let mut offset: usize = 0;
         PggLingoKeyTemp {
-            raw: buffer.to_vec(),
             dw_alg_num: {
                 let field = u32::from_le_bytes([buffer[offset], buffer[offset + 1], buffer[offset + 2], buffer[offset + 3]]);
                 field
@@ -132290,6 +134723,7 @@ impl PggLingoKeyTemp {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -132371,7 +134805,6 @@ impl PacketZcQuestInfo {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcQuestInfo {
         let mut offset: usize = 0;
         PacketZcQuestInfo {
-            raw: buffer.to_vec(),
             quest_id: {
                 let field = u32::from_le_bytes([buffer[offset], buffer[offset + 1], buffer[offset + 2], buffer[offset + 3]]);
                 field
@@ -132392,6 +134825,7 @@ impl PacketZcQuestInfo {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -132449,7 +134883,6 @@ impl PacketZcMissionHunt {
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMissionHunt {
         let mut offset: usize = 0;
         PacketZcMissionHunt {
-            raw: buffer.to_vec(),
             mob_gid: {
                 let field = u32::from_le_bytes([buffer[offset], buffer[offset + 1], buffer[offset + 2], buffer[offset + 3]]);
                 field
@@ -132486,6 +134919,7 @@ impl PacketZcMissionHunt {
                 offset += 24;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -132567,7 +135001,6 @@ impl PacketZcQuestMissionInfo {
             i += 1;
         }
         PacketZcQuestMissionInfo {
-            raw: buffer.to_vec(),
             quest_id: {
                 let field = u32::from_le_bytes([buffer[offset], buffer[offset + 1], buffer[offset + 2], buffer[offset + 3]]);
                 field
@@ -132613,10 +135046,12 @@ impl PacketZcQuestMissionInfo {
                 field
             },
             hunt_raw: {
-                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();
-                offset += raw.len();
-                raw
+                vec_field.iter().map(|item| {
+                  offset += item.raw.len();
+                  item.raw.clone()
+                }).collect::<Vec<Vec<u8>>>()
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -132712,7 +135147,6 @@ impl ShortCutKey {
     pub fn from(buffer: &[u8], packetver: u32) -> ShortCutKey {
         let mut offset: usize = 0;
         ShortCutKey {
-            raw: buffer.to_vec(),
             is_skill: {
                 let field = i8::from_le_bytes([buffer[offset]]);
                 field
@@ -132743,6 +135177,7 @@ impl ShortCutKey {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -132812,7 +135247,6 @@ impl EquipmentitemExtrainfo301 {
     pub fn from(buffer: &[u8], packetver: u32) -> EquipmentitemExtrainfo301 {
         let mut offset: usize = 0;
         EquipmentitemExtrainfo301 {
-            raw: buffer.to_vec(),
             index: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -132933,6 +135367,7 @@ impl EquipmentitemExtrainfo301 {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -133110,7 +135545,6 @@ impl NormalitemExtrainfo3 {
     pub fn from(buffer: &[u8], packetver: u32) -> NormalitemExtrainfo3 {
         let mut offset: usize = 0;
         NormalitemExtrainfo3 {
-            raw: buffer.to_vec(),
             index: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -133191,6 +135625,7 @@ impl NormalitemExtrainfo3 {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -133320,7 +135755,6 @@ impl SkillPostdelay {
     pub fn from(buffer: &[u8], packetver: u32) -> SkillPostdelay {
         let mut offset: usize = 0;
         SkillPostdelay {
-            raw: buffer.to_vec(),
             skid: {
                 let field = u16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -133341,6 +135775,7 @@ impl SkillPostdelay {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -133398,7 +135833,6 @@ impl CharacterList {
     pub fn from(buffer: &[u8], packetver: u32) -> CharacterList {
         let mut offset: usize = 0;
         CharacterList {
-            raw: buffer.to_vec(),
             dw_gid: {
                 let field = u32::from_le_bytes([buffer[offset], buffer[offset + 1], buffer[offset + 2], buffer[offset + 3]]);
                 field
@@ -133419,6 +135853,7 @@ impl CharacterList {
                 offset += 1;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -133476,7 +135911,6 @@ impl BattleFieldInfo {
     pub fn from(buffer: &[u8], packetver: u32) -> BattleFieldInfo {
         let mut offset: usize = 0;
         BattleFieldInfo {
-            raw: buffer.to_vec(),
             bfno: {
                 let field = u32::from_le_bytes([buffer[offset], buffer[offset + 1], buffer[offset + 2], buffer[offset + 3]]);
                 field
@@ -133513,6 +135947,7 @@ impl BattleFieldInfo {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -133584,7 +136019,6 @@ impl PartyBookingDetail {
     pub fn from(buffer: &[u8], packetver: u32) -> PartyBookingDetail {
         let mut offset: usize = 0;
         PartyBookingDetail {
-            raw: buffer.to_vec(),
             level: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -133621,6 +136055,7 @@ impl PartyBookingDetail {
                 offset += 6;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -133692,7 +136127,6 @@ impl PartyBookingAdInfo {
     pub fn from(buffer: &[u8], packetver: u32) -> PartyBookingAdInfo {
         let mut offset: usize = 0;
         PartyBookingAdInfo {
-            raw: buffer.to_vec(),
             index: {
                 let field = u32::from_le_bytes([buffer[offset], buffer[offset + 1], buffer[offset + 2], buffer[offset + 3]]);
                 field
@@ -133738,6 +136172,7 @@ impl PartyBookingAdInfo {
                 offset += raw.len();
                 raw
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -133821,7 +136256,6 @@ impl ProductinfoInBuyingStore {
     pub fn from(buffer: &[u8], packetver: u32) -> ProductinfoInBuyingStore {
         let mut offset: usize = 0;
         ProductinfoInBuyingStore {
-            raw: buffer.to_vec(),
             itid: {
                 let field = u16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -133852,6 +136286,7 @@ impl ProductinfoInBuyingStore {
                 offset += 4;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -133921,7 +136356,6 @@ impl BuyingStoreItemlist {
     pub fn from(buffer: &[u8], packetver: u32) -> BuyingStoreItemlist {
         let mut offset: usize = 0;
         BuyingStoreItemlist {
-            raw: buffer.to_vec(),
             price: {
                 let field = i32::from_le_bytes([buffer[offset], buffer[offset + 1], buffer[offset + 2], buffer[offset + 3]]);
                 field
@@ -133962,6 +136396,7 @@ impl BuyingStoreItemlist {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -134043,7 +136478,6 @@ impl TradeItemBuyingStore {
     pub fn from(buffer: &[u8], packetver: u32) -> TradeItemBuyingStore {
         let mut offset: usize = 0;
         TradeItemBuyingStore {
-            raw: buffer.to_vec(),
             index: {
                 let field = u16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -134074,6 +136508,7 @@ impl TradeItemBuyingStore {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {
@@ -134143,7 +136578,6 @@ impl ResultItemInfo {
     pub fn from(buffer: &[u8], packetver: u32) -> ResultItemInfo {
         let mut offset: usize = 0;
         ResultItemInfo {
-            raw: buffer.to_vec(),
             ssiid: {
                 let field = u32::from_le_bytes([buffer[offset], buffer[offset + 1], buffer[offset + 2], buffer[offset + 3]]);
                 field
@@ -134270,6 +136704,7 @@ impl ResultItemInfo {
                 offset += 2;
                 dst
             },
+            raw: (&buffer[..offset]).to_vec(),
         }
     }
     pub fn fill_raw(&mut self) {

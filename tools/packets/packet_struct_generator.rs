@@ -79,6 +79,7 @@ fn write_packet_parser(file: &mut File, packets: &Vec<PacketStructDefinition>) {
 fn write_packet_trait(file: &mut File) {
     file.write_all("pub trait Packet {\n".to_string().as_bytes()).unwrap();
     file.write_all("    fn id(&self) -> &str;\n".to_string().as_bytes()).unwrap();
+    file.write_all("    fn base_len(&self, packetver: u32) -> usize;\n".to_string().as_bytes()).unwrap();
     file.write_all("    fn display(&self);\n".to_string().as_bytes()).unwrap();
     file.write_all("    fn debug(&self);\n".to_string().as_bytes()).unwrap();
     file.write_all("    fn pretty_debug(&self);\n".to_string().as_bytes()).unwrap();
@@ -115,6 +116,9 @@ fn write_packet_trait_impl(file: &mut File, packet: &PacketStructDefinition) {
     file.write_all("    }\n".to_string().as_bytes()).unwrap();
     file.write_all("    fn as_any_mut(&mut self) -> &mut dyn Any{\n".to_string().as_bytes()).unwrap();
     file.write_all("        self\n".to_string().as_bytes()).unwrap();
+    file.write_all("    }\n".to_string().as_bytes()).unwrap();
+    file.write_all("    fn base_len(&self, packetver: u32) -> usize {\n".to_string().as_bytes()).unwrap();
+    file.write_all("        Self::base_len(packetver)\n".to_string().as_bytes()).unwrap();
     file.write_all("    }\n".to_string().as_bytes()).unwrap();
     file.write_all("}\n\n".to_string().as_bytes()).unwrap();
 }
@@ -205,7 +209,6 @@ fn write_struct_from_method(file: &mut File, struct_definition: &StructDefinitio
         write_vec_field(file, field_with_vec);
     }
     file.write_all(format!("        {} {{\n", struct_definition.name).as_bytes()).unwrap();
-    file.write_all("            raw: buffer.to_vec(),\n".to_string().as_bytes()).unwrap();
     for field in &struct_definition.fields {
         if field.data_type.name == "Vec" {
             file.write_all(format!("            {}: {{\n", field.name).as_bytes()).unwrap();
@@ -233,9 +236,7 @@ fn write_struct_from_method(file: &mut File, struct_definition: &StructDefinitio
         }
         if &field.data_type.name == "Vec" {
             file.write_all(format!("            {}_raw: {{\n", field.name).as_bytes()).unwrap();
-            file.write_all("                let raw = vec_field.iter().map(|item| item.raw.clone()).collect::<Vec<Vec<u8>>>();\n".to_string().as_bytes()).unwrap();
-            file.write_all("                offset += raw.len();\n".to_string().as_bytes()).unwrap();
-            file.write_all("                raw\n".to_string().as_bytes()).unwrap();
+            file.write_all("                vec_field.iter().map(|item| {\n                  offset += item.raw.len();\n                  item.raw.clone()\n                }).collect::<Vec<Vec<u8>>>()\n".to_string().as_bytes()).unwrap();
             file.write_all("            },\n".to_string().as_bytes()).unwrap();
         } else if field.length > -1 {
             file.write_all(format!("            {}_raw: {{\n", field.name).as_bytes()).unwrap();
@@ -259,6 +260,7 @@ fn write_struct_from_method(file: &mut File, struct_definition: &StructDefinitio
             file.write_all("            },\n".to_string().as_bytes()).unwrap();
         }
     }
+    file.write_all("            raw: (&buffer[..offset]).to_vec(),\n".to_string().as_bytes()).unwrap();
     file.write_all("        }\n".to_string().as_bytes()).unwrap();
     file.write_all("    }\n".to_string().as_bytes()).unwrap();
 }
@@ -390,6 +392,9 @@ fn write_unknown_packet(file: &mut File) {
     file.write_all("    }\n".to_string().as_bytes()).unwrap();
     file.write_all("    fn as_any_mut(&mut self) -> &mut dyn Any{\n".to_string().as_bytes()).unwrap();
     file.write_all("        self\n".to_string().as_bytes()).unwrap();
+    file.write_all("    }\n".to_string().as_bytes()).unwrap();
+    file.write_all("    fn base_len(&self, _packetver: u32) -> usize {\n".to_string().as_bytes()).unwrap();
+    file.write_all("        0\n".to_string().as_bytes()).unwrap();
     file.write_all("    }\n".to_string().as_bytes()).unwrap();
     file.write_all("}\n".to_string().as_bytes()).unwrap();
     file.write_all("impl PacketUnknown {\n".to_string().as_bytes()).unwrap();

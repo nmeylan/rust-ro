@@ -7,6 +7,7 @@ use std::any::Any;
 
 pub trait Packet {
     fn id(&self) -> &str;
+    fn base_len(&self, packetver: u32) -> usize;
     fn display(&self);
     fn debug(&self);
     fn pretty_debug(&self);
@@ -11438,6 +11439,9 @@ impl Packet for PacketUnknown {
     }
     fn as_any_mut(&mut self) -> &mut dyn Any{
         self
+    }
+    fn base_len(&self, _packetver: u32) -> usize {
+        0
     }
 }
 impl PacketUnknown {
