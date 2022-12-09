@@ -1785,7 +1785,6 @@ dependencies = [
 [[package]]
 name = "rathena_script_lang_interpreter"
 version = "0.1.0"
-source = "git+https://github.com/nmeylan/rathena-script-lang-interpreter?rev=60905fb95934d11e51d76f00bb407c7dc49d3e74#60905fb95934d11e51d76f00bb407c7dc49d3e74"
 dependencies = [
  "antlr-rust",
 ]

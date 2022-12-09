@@ -1,6 +1,8 @@
+use crate::repository::model::item_model::InventoryItemUpdate;
+
 pub enum PersistenceEvent {
     SaveCharacterPosition(SavePositionUpdate),
-    UpdateCharacterStatusU32(StatusUpdate<u32>),
+    UpdateCharacterStatusU32(StatusUpdate<u32>)
 }
 
 pub struct SavePositionUpdate {

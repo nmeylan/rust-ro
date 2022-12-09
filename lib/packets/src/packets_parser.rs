@@ -1849,10 +1849,10 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x02 && buffer[1] == 0xd2 {
         return Box::new(PacketZcCartEquipmentItemlist3::from(buffer, packetver));
     }
-    if buffer[0] == 0x02 && buffer[1] == 0xd3 {
+    if buffer[0] == 0xd3 && buffer[1] == 0x02 {
         return Box::new(PacketZcNotifyBindOnEquip::from(buffer, packetver));
     }
-    if buffer[0] == 0x02 && buffer[1] == 0xd4 {
+    if buffer[0] == 0xd4 && buffer[1] == 0x02 {
         return Box::new(PacketZcItemPickupAck3::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xd5 {

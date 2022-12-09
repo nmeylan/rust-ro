@@ -16,3 +16,4 @@ pub mod position;
 pub mod movement;
 pub mod configuration;
 pub mod map_item;
+pub mod inventory_item;

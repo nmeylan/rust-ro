@@ -213,4 +213,15 @@ pub struct ItemBuySellModel {
     pub price_buy: Option<u32>,
     #[sqlx(default)]
     pub price_sell: Option<u32>,
+    #[sqlx(default)]
+    pub stack_amount: Option<u16>,
+    #[sqlx(default)]
+    pub weight: Option<u16>,
+    #[sqlx(default)]
+    pub name_english: Option<String>,
+}
+
+pub struct InventoryItemUpdate {
+    pub item_id: u32,
+    pub amount: u16,
 }

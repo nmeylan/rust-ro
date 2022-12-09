@@ -4,7 +4,7 @@ use std::thread::{sleep};
 use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
 
 
-use packets::packets::{Packet, PacketZcNotifyPlayermove, PacketZcNpcackMapmove, PacketZcSpriteChange2};
+use packets::packets::{Packet, PacketZcLongparChange, PacketZcNotifyPlayermove, PacketZcNpcackMapmove, PacketZcSpriteChange2};
 use crate::PersistenceEvent;
 use crate::PersistenceEvent::SaveCharacterPosition;
 
@@ -16,6 +16,7 @@ use crate::server::events::map_event::MapEvent::{*};
 use crate::server::events::client_notification::{AreaNotification, AreaNotificationRangeType, CharNotification, Notification};
 use crate::server::events::persistence_event::{SavePositionUpdate, StatusUpdate};
 use crate::server::core::position::Position;
+use crate::server::enums::status::StatusTypes;
 
 use crate::server::map_item::{ToMapItem, ToMapItemSnapshot};
 use crate::server::Server;
@@ -107,6 +108,16 @@ impl Server {
                                 value: zeny_update.zeny,
                                 db_column: "zeny".to_string(),
                             })).expect("Fail to send persistence notification");
+                            let mut packet_zc_longpar_change = PacketZcLongparChange::new();
+                            packet_zc_longpar_change.set_amount(character.get_zeny() as i32);
+                            packet_zc_longpar_change.set_var_id(StatusTypes::Zeny.value() as u16);
+                            packet_zc_longpar_change.fill_raw();
+                            server_ref.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, std::mem::take(packet_zc_longpar_change.raw_mut())))).expect("Fail to send client notification");;
+                        }
+                        GameEvent::CharacterAddItems(add_items) => {
+                            let character = characters.get_mut(&add_items.char_id).unwrap();
+                            let inventory_item_updates = character.add_items(add_items.items);
+                            server_ref.repository.character_inventory_update(character.char_id, &inventory_item_updates);
                         }
                     }
                 }

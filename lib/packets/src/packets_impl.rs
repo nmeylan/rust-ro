@@ -94838,7 +94838,7 @@ impl Default for PacketZcCartEquipmentItemlist3 {
 
 impl PacketZcNotifyBindOnEquip {
     pub fn packet_id() -> &'static str {
-        "0x02d3"
+        "0xd302"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyBindOnEquip {
         let mut offset: usize = 0;
@@ -94902,8 +94902,8 @@ impl PacketZcNotifyBindOnEquip {
     pub fn new() -> PacketZcNotifyBindOnEquip {
         PacketZcNotifyBindOnEquip {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2d, 0x3]),
-        packet_id_raw: [0x2d, 0x3],
+        packet_id: i16::from_le_bytes([0xd3, 0x02]),
+        packet_id_raw: [0xd3, 0x02],
         index: 0,
         index_raw: [0; 2],
         }
@@ -94912,7 +94912,7 @@ impl PacketZcNotifyBindOnEquip {
 
 impl Packet for PacketZcNotifyBindOnEquip {
     fn id(&self) -> &str {
-       "0x02d3"
+       "0xd302"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -94949,7 +94949,7 @@ impl Default for PacketZcNotifyBindOnEquip {
 
 impl PacketZcItemPickupAck3 {
     pub fn packet_id() -> &'static str {
-        "0x02d4"
+        "0xd402"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcItemPickupAck3 {
         let mut offset: usize = 0;
@@ -95233,8 +95233,8 @@ impl PacketZcItemPickupAck3 {
     pub fn new() -> PacketZcItemPickupAck3 {
         PacketZcItemPickupAck3 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2d, 0x4]),
-        packet_id_raw: [0x2d, 0x4],
+        packet_id: i16::from_le_bytes([0xd4, 0x02]),
+        packet_id_raw: [0xd4, 0x02],
         index: 0,
         index_raw: [0; 2],
         count: 0,
@@ -95265,7 +95265,7 @@ impl PacketZcItemPickupAck3 {
 
 impl Packet for PacketZcItemPickupAck3 {
     fn id(&self) -> &str {
-       "0x02d4"
+       "0xd402"
     }
     fn debug(&self) {
             println!("{:?}", self)

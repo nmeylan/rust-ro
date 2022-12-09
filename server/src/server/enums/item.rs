@@ -16,7 +16,7 @@ pub enum ItemType {
     ShadowGear,
     #[value = 18]
     Cash,
-    Max
+    Max,
 }
 
 impl ItemType {
@@ -38,6 +38,17 @@ impl ItemType {
             "Cash" => Self::Cash,
             "Max" => Self::Max,
             &_ => Self::Unknown
+        }
+    }
+
+    pub fn is_stackable(&self) -> bool {
+        return match self {
+            ItemType::Healing | ItemType::Usable | ItemType::Etc | ItemType::Card | ItemType::Ammo | ItemType::DelayConsume => {
+                true
+            }
+            ItemType::Unknown | ItemType::Armor | ItemType::Weapon | ItemType::PetEgg | ItemType::PetArmor | ItemType::Unknown2 | ItemType::ShadowGear | ItemType::Cash | ItemType::Max => {
+                false
+            }
         }
     }
 }
