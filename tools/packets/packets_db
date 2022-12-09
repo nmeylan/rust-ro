@@ -4836,12 +4836,12 @@ struct PACKET_ZC_CART_EQUIPMENT_ITEMLIST3 {
   unsigned short wItemSpriteNumber
   }
  }
-0x2d3
+0xd302
 struct PACKET_ZC_NOTIFY_BIND_ON_EQUIP {
   short PacketId
   unsigned short index
  }
-0x2d4
+0xd402
 struct PACKET_ZC_ITEM_PICKUP_ACK3 {
   short PacketId
   unsigned short Index

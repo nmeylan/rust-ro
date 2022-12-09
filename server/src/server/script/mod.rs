@@ -316,6 +316,33 @@ impl NativeMethodHandler for PlayerScriptHandler {
             packet_zc_show_image2.fill_raw();
             self.send_packet_to_char(self.session.char_id(), &mut packet_zc_show_image2);
 
+        } else if native.name.eq("getitems2") {
+            let (owner_reference, reference) = params[0].reference_value().map_err(|err|
+                execution_thread.new_runtime_from_temporary(err, "getitems2 first argument should be array name")).unwrap();
+            let items_ids_array = execution_thread.vm.array_from_heap_reference(owner_reference, reference).unwrap();
+            let (owner_reference, reference) = params[1].reference_value().map_err(|err|
+                execution_thread.new_runtime_from_temporary(err, "getitems2 second argument should be array name")).unwrap();
+            let items_amount_array = execution_thread.vm.array_from_heap_reference(owner_reference, reference).unwrap();
+            let mut items_ids = vec![];
+            execution_thread.array_constants(items_ids_array.clone()).iter().for_each(|constant| {
+                if constant.value().is_number() { // TODO handle string
+                    items_ids.push(constant.value().number_value().unwrap() as u32)
+                }
+            });
+            let items_amounts: Vec<u32> = execution_thread.array_constants(items_amount_array).iter().map(|constant| *constant.value().number_value().as_ref().unwrap() as u32).collect::<Vec<u32>>();
+            let mut items = vec![];
+            if !items_ids.is_empty() {
+                items = self.runtime.block_on( async{self.server.repository.item_buy_sell_fetch_all_where_ids(items_ids).await }).unwrap();
+            }
+            for (i, item) in items.iter().enumerate() {
+                info!("item id {}, name {}, amount {}", item.id.unwrap(), item.name_english.as_ref().unwrap(), items_amounts[i]);
+            }
+            // let item = if params[0].is_number() {
+            //     params[0].number_value().unwrap();
+            //     self.server.repository
+            // } else {
+            //
+            // }
         } else {
             if self.handle_shop(native, params, execution_thread, call_frame) {
                 return;

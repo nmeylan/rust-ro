@@ -5,7 +5,9 @@ use std::sync::mpsc::SyncSender;
 use accessor::Setters;
 use packets::packets::{PacketZcNotifyStandentry7, PacketZcNotifyVanish};
 use packets::packets::Packet;
+use crate::repository::model::item_model::InventoryItemUpdate;
 use crate::server::{PLAYER_FOV, Server};
+use crate::server::core::inventory_item::InventoryItem;
 use crate::server::core::movement::Movement;
 use crate::server::core::map_instance::{MapInstance, MapInstanceKey};
 use crate::server::events::client_notification::{CharNotification, Notification};
@@ -13,6 +15,7 @@ use crate::server::core::path::manhattan_distance;
 use crate::server::core::position::Position;
 use crate::server::state::status::{LookType, Status};
 use crate::server::core::map_item::{MapItem, MapItemSnapshot, MapItemType};
+use crate::server::enums::item::ItemType;
 use crate::server::map_item::{ToMapItem, ToMapItemSnapshot};
 use crate::server::script::ScriptGlobalVariableStore;
 use crate::util::string::StringUtil;
@@ -31,6 +34,7 @@ pub struct Character {
     pub y: u16,
     pub dir: u16,
     pub movements: Vec<Movement>,
+    pub inventory: Vec<InventoryItem>,
     pub map_view: HashSet<MapItem>,
     pub script_variable_store: Mutex<ScriptGlobalVariableStore>,
 }
@@ -237,6 +241,25 @@ impl Character {
 
     pub fn change_zeny(&mut self, value: u32) {
         self.status.zeny = value;
+    }
+
+    pub fn add_items(&mut self, items: Vec<InventoryItem>) -> Vec<InventoryItemUpdate> {
+        let mut updated_items = vec![];
+        for item in items {
+            if item.item_type.is_stackable() {
+               if let Some(item_in_inventory) = self.inventory.iter_mut().find(|i| i.item_id == item.item_id) {
+                   item_in_inventory.amount += item.amount;
+                   updated_items.push(InventoryItemUpdate{item_id: item.item_id, amount: item.amount });
+               } else {
+                   updated_items.push(InventoryItemUpdate{ item_id: item.item_id, amount: item.amount });
+                   self.inventory.push(item);
+               }
+            } else {
+                updated_items.push(InventoryItemUpdate{ item_id: item.item_id, amount: item.amount });
+                self.inventory.push(item);
+            }
+        }
+        return updated_items;
     }
 }
 

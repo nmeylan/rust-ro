@@ -1,0 +1,21 @@
+* getitems2 items_id_array, items_amount_array
+* getitems2 items_name_array, items_amount_array
+
+This command will give an amount of each specified items to the invoking character.
+It is used for shop to avoid too many calls to `getitem`
+
+Examples:
+    .@items_ids[0]=502,617;
+    .@items_amount[0]=10,1;
+
+	getitems2 .@items_ids, .@items_amount; // The person will receive 10 apples and 1 Old Violet Box
+
+This transaction is logged if the log script generated transactions option is
+enabled.
+
+You may also create an item by its name in the 'english name' field in the
+item database:
+
+    .@items_names$[0]="RED_POTION";
+    .@items_amount[0]=10;
+	getitems2 .@items_names$, .@items_amount;

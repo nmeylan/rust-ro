@@ -18,9 +18,12 @@ sprintf,1,255
 warp,3,4
 menu,1,1
 cutin,2,2
-
-// Custom: not part of rathena script lang spec
 callshop,0,1,Number
 senditemlist,2,256
 sendcharinvetory,0,0
+
+// Custom: not part of rathena script lang spec
 warn,1,255
+getitems2,2,2
+getglobalarray,2,2
+setglobalarray,2,2
