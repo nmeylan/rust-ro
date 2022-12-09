@@ -326,10 +326,10 @@ impl NativeMethodHandler for PlayerScriptHandler {
             let mut items_ids = vec![];
             execution_thread.array_constants(items_ids_array.clone()).iter().for_each(|constant| {
                 if constant.value().is_number() { // TODO handle string
-                    items_ids.push(constant.value().number_value().unwrap() as u32)
+                    items_ids.push(constant.value().number_value().unwrap())
                 }
             });
-            let items_amounts: Vec<u32> = execution_thread.array_constants(items_amount_array).iter().map(|constant| *constant.value().number_value().as_ref().unwrap() as u32).collect::<Vec<u32>>();
+            let items_amounts: Vec<i32> = execution_thread.array_constants(items_amount_array).iter().map(|constant| *constant.value().number_value().as_ref().unwrap() as i32).collect::<Vec<i32>>();
             let mut items = vec![];
             if !items_ids.is_empty() {
                 items = self.runtime.block_on( async{self.server.repository.item_buy_sell_fetch_all_where_ids(items_ids).await }).unwrap();

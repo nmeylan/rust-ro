@@ -9,8 +9,8 @@ Refactoring server architecture
 Checkout [architectures notes](doc/Architecture.md)
 
 # Pre-requisite
-- mysql
-- RO db (loaded via rathena scripts)
+- postgresql (rathena db can be converted using pgloader)
+- RO db db/pg.sql
 
 # Usage
 - All packets for account 2000000 are handle by this project.

@@ -1,7 +1,7 @@
 #[derive(sqlx::FromRow, Debug)]
 pub struct ItemModel {
     #[sqlx(default)]
-    pub id: Option<u32>,
+    pub id: Option<i32>,
     #[sqlx(default)]
     pub name_aegis: Option<String>,
     #[sqlx(default)]
@@ -12,19 +12,19 @@ pub struct ItemModel {
     #[sqlx(default)]
     pub subtype: Option<String>,
     #[sqlx(default)]
-    pub price_buy: Option<u32>,
+    pub price_buy: Option<i32>,
     #[sqlx(default)]
-    pub price_sell: Option<u32>,
+    pub price_sell: Option<i32>,
     #[sqlx(default)]
-    pub weight: Option<u16>,
+    pub weight: Option<i16>,
     #[sqlx(default)]
-    pub attack: Option<u16>,
+    pub attack: Option<i16>,
     #[sqlx(default)]
-    pub defense: Option<u16>,
+    pub defense: Option<i16>,
     #[sqlx(default)]
-    pub range: Option<u8>,
+    pub range: Option<i16>,
     #[sqlx(default)]
-    pub slots: Option<u8>,
+    pub slots: Option<i16>,
     #[sqlx(default)]
     pub job_all: Option<bool>,
     #[sqlx(default)]
@@ -130,17 +130,17 @@ pub struct ItemModel {
     #[sqlx(default)]
     pub location_shadow_left_accessory: Option<bool>,
     #[sqlx(default)]
-    pub weapon_level: Option<u8>,
+    pub weapon_level: Option<i16>,
     #[sqlx(default)]
-    pub armor_level: Option<u8>,
+    pub armor_level: Option<i16>,
     #[sqlx(default)]
-    pub equip_level_min: Option<u8>,
+    pub equip_level_min: Option<i16>,
     #[sqlx(default)]
-    pub equip_level_max: Option<u8>,
+    pub equip_level_max: Option<i16>,
     #[sqlx(default)]
-    pub refineable: Option<u8>,
+    pub refineable: Option<i16>,
     #[sqlx(default)]
-    pub view: Option<u16>,
+    pub view: Option<i16>,
     #[sqlx(default)]
     pub alias_name: Option<String>,
     #[sqlx(default)]
@@ -206,22 +206,22 @@ pub struct ItemModel {
 }
 #[derive(sqlx::FromRow, Debug)]
 pub struct ItemBuySellModel {
-    pub id: Option<u32>,
+    pub id: Option<i32>,
     #[sqlx(rename = "type")]
     pub item_type: String,
     #[sqlx(default)]
-    pub price_buy: Option<u32>,
+    pub price_buy: Option<i32>,
     #[sqlx(default)]
-    pub price_sell: Option<u32>,
+    pub price_sell: Option<i32>,
     #[sqlx(default)]
-    pub stack_amount: Option<u16>,
+    pub stack_amount: Option<i16>,
     #[sqlx(default)]
-    pub weight: Option<u16>,
+    pub weight: Option<i16>,
     #[sqlx(default)]
     pub name_english: Option<String>,
 }
 
 pub struct InventoryItemUpdate {
-    pub item_id: u32,
-    pub amount: u16,
+    pub item_id: i32,
+    pub amount: i16,
 }

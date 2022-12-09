@@ -8,6 +8,7 @@ use byteorder::{LittleEndian, WriteBytesExt};
 use crate::repository::model::char_model::{CharacterInfoNeoUnionWrapped, CharInsertModel, CharSelectModel};
 use crate::util::string::StringUtil;
 use std::net::Shutdown::Both;
+use sqlx::Postgres;
 
 use crate::util::packet::chain_packets;
 use crate::server::enums::status::StatusTypes;
@@ -16,6 +17,7 @@ use crate::server::service::character_movement::change_map_packet;
 use crate::server::events::game_event::GameEvent;
 use crate::server::core::map::Map;
 use crate::server::core::map_instance::MapInstanceKey;
+use crate::server::core::position::Position;
 use crate::server::core::request::Request;
 
 use crate::server::state::status::Status;
@@ -62,12 +64,12 @@ pub fn handle_make_char(server: &Server, context: Request) {
     let mut char_model: Option<CharInsertModel> = None;
     if context.packet().as_any().downcast_ref::<PacketChMakeChar3>().is_some() {
         let vit = 1;
-        let max_hp = 40 * (100 + vit as u32) / 100 ;
+        let max_hp = 40 * (100 + vit as i32) / 100 ;
         let int = 1;
-        let max_sp = 40 * (100 + int as u32) / 100;
+        let max_sp = 40 * (100 + int as i32) / 100;
         let packet_make_char = cast!(context.packet(), PacketChMakeChar3);
         char_model = Some(CharInsertModel {
-            account_id: context.session().account_id,
+            account_id: context.session().account_id as i32,
             char_num: packet_make_char.char_num as i8,
             name: packet_make_char.name.iter().collect(),
             class: 0,
@@ -83,8 +85,8 @@ pub fn handle_make_char(server: &Server, context: Request) {
             hp: max_hp,
             max_sp,
             sp: max_sp,
-            hair: packet_make_char.head as u16,
-            hair_color: packet_make_char.head_pal as u32,
+            hair: packet_make_char.head,
+            hair_color: packet_make_char.head_pal as i32,
             last_map: "new_1-1".to_string(), // make this configurable
             last_x: 53,
             last_y: 111,
@@ -96,29 +98,29 @@ pub fn handle_make_char(server: &Server, context: Request) {
         });
     } else if context.packet().as_any().downcast_ref::<PacketChMakeChar>().is_some() {
         let packet_make_char = cast!(context.packet(), PacketChMakeChar);
-        let vit = packet_make_char.vit as u16;
-        let max_hp = 40 * (100 + vit as u32) / 100 ;
+        let vit = packet_make_char.vit as i16;
+        let max_hp = 40 * (100 + vit as i32) / 100 ;
         let int = 1;
-        let max_sp = 40 * (100 + int as u32) / 100;
+        let max_sp = 40 * (100 + int as i32) / 100;
         char_model = Some(CharInsertModel {
-            account_id: context.session().account_id,
+            account_id: context.session().account_id as i32,
             char_num: packet_make_char.char_num as i8,
             name: packet_make_char.name.iter().collect(),
             class: 0,
             zeny: 10000, // make this configurable
             status_point: 48,
-            str: packet_make_char.str as u16,
-            agi: packet_make_char.agi as u16,
+            str: packet_make_char.str as i16,
+            agi: packet_make_char.agi as i16,
             vit,
             int,
-            dex: packet_make_char.dex as u16,
-            luk: packet_make_char.luk as u16,
+            dex: packet_make_char.dex as i16,
+            luk: packet_make_char.luk as i16,
             max_hp,
             hp: max_hp,
             max_sp,
             sp: max_sp,
-            hair: packet_make_char.head as u16,
-            hair_color: packet_make_char.head_pal as u32,
+            hair: packet_make_char.head as i16,
+            hair_color: packet_make_char.head_pal as i32,
             last_map: "new_1-1".to_string(), // make this configurable
             last_x: 53,
             last_y: 111,
@@ -140,7 +142,7 @@ pub fn handle_make_char(server: &Server, context: Request) {
         // TODO add default stuff
         let created_char: CharacterInfoNeoUnionWrapped = sqlx::query_as::<_, CharacterInfoNeoUnionWrapped>("SELECT * from `char` WHERE `name`= ? AND `account_id` = ?")
             .bind(char_model.name)
-            .bind(char_model.account_id)
+            .bind(char_model.account_id as i32)
             .fetch_one(&server.repository.pool)
             .await.unwrap();
         created_char.data
@@ -155,8 +157,8 @@ pub fn handle_delete_reserved_char(server: &Server, context: Request) {
     let packet_delete_reserved_char = cast!(context.packet(), PacketChDeleteChar4Reserved);
     context.runtime().block_on(async {
         sqlx::query("UPDATE `char` SET delete_date = UNIX_TIMESTAMP(now() + INTERVAL 1 DAY) WHERE account_id = ? AND char_id = ?")
-            .bind(context.session().account_id)
-            .bind(packet_delete_reserved_char.gid)
+            .bind(context.session().account_id as i32)
+            .bind(packet_delete_reserved_char.gid as i32)
             .execute(&server.repository.pool).await.unwrap();
     });
     let mut packet_hc_delete_char4reserved = PacketHcDeleteChar4Reserved::new();
@@ -171,16 +173,16 @@ pub fn handle_select_char(server: &Server, context: Request) {
     let packet_select_char = cast!(context.packet(), PacketChSelectChar);
     let session_id = context.session().account_id;
     let char_model: CharSelectModel = context.runtime().block_on(async {
-        sqlx::query_as::<_, CharSelectModel>("SELECT * FROM `char` WHERE account_id = ? AND char_num = ?")
-            .bind(session_id)
-            .bind(packet_select_char.char_num)
+        sqlx::query_as::<_, CharSelectModel>("SELECT * FROM char WHERE account_id = $1 AND char_num = $2")
+            .bind(session_id as i32)
+            .bind(packet_select_char.char_num as i16)
             .fetch_one(&server.repository.pool).await.unwrap()
     });
     let mut sessions_guard = write_lock!(server.sessions);
     let _session = sessions_guard.get(&session_id).unwrap();
-    let char_id: u32 = char_model.char_id;
-    let last_x: u16 = char_model.last_x;
-    let last_y: u16 = char_model.last_y;
+    let char_id: u32 = char_model.char_id as u32;
+    let last_x: u16 = char_model.last_x as u16;
+    let last_y: u16 = char_model.last_y as u16;
     let mut last_map: String = char_model.last_map.clone();
     if last_map.is_empty() {
         last_map = "prontera".to_string();
@@ -267,14 +269,15 @@ pub fn handle_enter_game(server: &Server, context: Request) {
     packet_inventory_expansion_info.fill_raw();
     let mut packet_overweight_percent = PacketZcOverweightPercent::new();
     packet_overweight_percent.fill_raw();
+    let char_id = session.char_id();
+    let character = server.get_character_unsafe(char_id);
     let mut packet_accept_enter = PacketZcAcceptEnter2::new();
     packet_accept_enter.set_start_time(get_tick_client());
     packet_accept_enter.set_x_size(5); // Commented as not used, set at 5 in Hercules
     packet_accept_enter.set_y_size(5); // Commented as not used, set at 5 in Hercules
     packet_accept_enter.set_font(0);
+    packet_accept_enter.set_pos_dir(Position {x: character.x(), y: character.y(), dir: character.dir() }.to_pos());
     packet_accept_enter.fill_raw();
-    let char_id = session.char_id();
-    let character = server.get_character_unsafe(char_id);
 
     change_map_packet(&Map::name_without_ext(character.current_map_name()), character.x(), character.y(), session, server);
     socket_send!(context, packet_accept_enter);
@@ -415,8 +418,8 @@ pub fn handle_blocking_play_cancel(context: Request) {
 }
 
 async fn load_chars_info(account_id: u32, server: &Server) -> PacketHcAcceptEnterNeoUnionHeader {
-    let row_results = sqlx::query_as::<_, CharacterInfoNeoUnionWrapped>("SELECT * FROM `char` WHERE account_id = ?")
-        .bind(account_id)
+    let row_results = sqlx::query_as::<Postgres, CharacterInfoNeoUnionWrapped>("SELECT * FROM char WHERE account_id = $1")
+        .bind(account_id as i32)
         .fetch_all(&server.repository.pool).await.unwrap();
     let mut accept_enter_neo_union_header = PacketHcAcceptEnterNeoUnionHeader::new();
     let mut accept_enter_neo_union = PacketHcAcceptEnterNeoUnion::new();

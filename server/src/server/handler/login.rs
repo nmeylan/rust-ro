@@ -59,13 +59,13 @@ pub async fn authenticate(server: &Server, packet: &PacketCaLogin, repository: &
     for c in packet.passwd {
         if c == 0 as char { break; } else { password.push(c) }
     }
-    let row_result = sqlx::query("SELECT * FROM login WHERE userid = ? AND user_pass = ?") // TODO add bcrypt on user_pass column, but not supported by hercules
+    let row_result = sqlx::query("SELECT * FROM login WHERE userid = $1 AND user_pass = $2") // TODO add bcrypt on user_pass column, but not supported by hercules
         .bind(username)
         .bind(password)
         .fetch_one(&repository.pool).await;
     if row_result.is_ok() {
         let row = row_result.unwrap();
-        let account_id: u32 = row.get("account_id");
+        let account_id= row.get::<i32, _>("account_id") as u32;
         if server.packetver() < 20170315 {
             let mut ac_accept_login = PacketAcAcceptLogin::new();
             ac_accept_login.set_packet_length(PacketAcAcceptLogin::base_len(server.packetver()) as i16);
@@ -100,6 +100,9 @@ pub async fn authenticate(server: &Server, packet: &PacketCaLogin, repository: &
             return Box::new(ac_accept_login2);
         }
     }
+    let option = row_result.err().unwrap();
+
+    error!("{:?}", option.as_database_error().unwrap());
     let refuse_login_packet: Box<dyn Packet>;
     if server.packetver() >= 20180627 {
         let mut refuse_login_packet3 = PacketAcRefuseLoginR3::new();
