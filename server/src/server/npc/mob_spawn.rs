@@ -169,7 +169,7 @@ impl MobSpawn {
             };
             let mut mob_spawns = runtime.block_on(async { npc_loader.load_npc::<MobSpawn>().await });
             let mob_info = runtime.block_on(async {
-                sqlx::query_as::<_, MobModel>("SELECT * from `mob_db`")
+                sqlx::query_as::<_, MobModel>("SELECT * from mob_db")
                     .fetch_all(&repository.pool)
                     .await.unwrap()
             }).iter().fold(HashMap::<u32, MobModel>::new(), |mut memo, curr| {

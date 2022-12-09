@@ -45,10 +45,11 @@ pub async fn main() {
     let config = Config::load().unwrap();
     let logger= Logger::try_with_str(config.server.log_level.as_ref().unwrap()).unwrap();
     logger.filter(Box::new(LogFilter::new())).start().unwrap();
-    let repository : Repository = Repository::new_mysql(&config.database, Runtime::new().unwrap()).await;
+    let repository : Repository = Repository::new_pg(&config.database, Runtime::new().unwrap()).await;
     let repository_arc = Arc::new(repository);
     let warps = Warp::load_warps().await;
     let mob_spawns = MobSpawn::load_mob_spawns(repository_arc.clone()).join().unwrap();
+    // let mob_spawns = Default::default();
     let (scripts, class_files, compilation_errors) = Script::load_scripts();
     for class_errors in compilation_errors {
         error!("Error while compiling {}", class_errors.0);
@@ -56,6 +57,8 @@ pub async fn main() {
             error!("{}", compilation_error);
         }
     }
+    // let scripts = Default::default();
+    // let class_files = Default::default();
     let map_item_ids = MyUnsafeCell::new(HashMap::<u32, MapItem>::new());
     let start = Instant::now();
     let maps = Map::load_maps(warps, mob_spawns, scripts, map_item_ids.clone());
