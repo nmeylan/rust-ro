@@ -25,7 +25,7 @@ pub struct MobModel {
     pub race: i16,
     pub element: i8,
     pub mode: i16,
-    pub speed: i16,
+    pub speed: i32,
     pub atk_delay: i32,
     pub atk_motion: i32,
     pub damage_motion: i32,
@@ -146,7 +146,7 @@ impl <'r>FromRow<'r, PgRow> for MobModel {
         model.set_race(row.try_get::<i16,_>("race").unwrap_or(0));
         model.set_element(row.try_get::<i8,_>("element").unwrap_or(0));
         // model.set_mode(row.get::<i32,_>("element_level")); TODO: collect all modes
-        model.set_speed(row.try_get::<i16,_>("walk_speed").unwrap_or(0));
+        model.set_speed(row.try_get::<i32,_>("walk_speed").unwrap_or(0));
         model.set_atk_delay(row.try_get::<i32,_>("attack_delay").unwrap_or(0));
         model.set_atk_motion(row.try_get::<i32,_>("attack_motion").unwrap_or(0));
         model.set_damage_motion(row.try_get::<i32,_>("damage_motion").unwrap_or(0));
