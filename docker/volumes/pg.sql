@@ -20,6 +20,7 @@ SET row_security = off;
 -- Name: ragnarok; Type: SCHEMA; Schema: -; Owner: ragnarok
 --
 
+drop schema if exists ragnarok cascade;
 CREATE SCHEMA ragnarok;
 
 
@@ -1289,10 +1290,10 @@ ALTER TABLE ragnarok.interlog OWNER TO ragnarok;
 CREATE TABLE ragnarok.inventory (
     id INTEGER NOT NULL,
     char_id INTEGER DEFAULT '0'::INTEGER NOT NULL,
-    nameid INTEGER DEFAULT '0'::INTEGER NOT NULL,
-    amount INTEGER DEFAULT '0'::INTEGER NOT NULL,
+    nameid smallint DEFAULT '0'::INTEGER NOT NULL,
+    amount smallint DEFAULT '0'::INTEGER NOT NULL,
     equip INTEGER DEFAULT '0'::INTEGER NOT NULL,
-    identify smallint DEFAULT '0'::smallint NOT NULL,
+    identify bool DEFAULT false NOT NULL,
     refine smallint DEFAULT '0'::smallint NOT NULL,
     attribute smallint DEFAULT '0'::smallint NOT NULL,
     card0 INTEGER DEFAULT '0'::INTEGER NOT NULL,

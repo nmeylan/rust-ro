@@ -2,10 +2,11 @@ use std::collections::HashSet;
 use std::mem;
 use std::sync::{Arc, Mutex};
 use std::sync::mpsc::SyncSender;
+use rand::RngCore;
 use accessor::Setters;
 use packets::packets::{PacketZcNotifyStandentry7, PacketZcNotifyVanish};
 use packets::packets::Packet;
-use crate::repository::model::item_model::InventoryItemUpdate;
+use crate::server::events::persistence_event::InventoryItemUpdate;
 use crate::server::{PLAYER_FOV, Server};
 use crate::server::core::inventory_item::InventoryItem;
 use crate::server::core::movement::Movement;
@@ -244,18 +245,18 @@ impl Character {
     }
 
     pub fn add_items(&mut self, items: Vec<InventoryItem>) -> Vec<InventoryItemUpdate> {
+        let mut rng = rand::thread_rng();
         let mut updated_items = vec![];
         for item in items {
             if item.item_type.is_stackable() {
+                updated_items.push(InventoryItemUpdate{ char_id: self.char_id as i32, item_id: item.item_id as i16, amount: item.amount as i16, stackable: true, identified: true, unique_id: 0 });
                if let Some(item_in_inventory) = self.inventory.iter_mut().find(|i| i.item_id == item.item_id) {
                    item_in_inventory.amount += item.amount;
-                   updated_items.push(InventoryItemUpdate{item_id: item.item_id as i32, amount: item.amount as i16 });
                } else {
-                   updated_items.push(InventoryItemUpdate{ item_id: item.item_id as i32, amount: item.amount as i16 });
                    self.inventory.push(item);
                }
             } else {
-                updated_items.push(InventoryItemUpdate{ item_id: item.item_id as i32, amount: item.amount as i16 });
+                updated_items.push(InventoryItemUpdate{ char_id: self.char_id as i32, item_id: item.item_id as i16, amount: item.amount as i16, stackable: false, identified: true, unique_id: rng.next_u32() as i64 });
                 self.inventory.push(item);
             }
         }

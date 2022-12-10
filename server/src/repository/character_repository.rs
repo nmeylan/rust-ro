@@ -1,6 +1,9 @@
+use std::future::join;
+use futures::try_join;
 use sqlx::{Error};
+use sqlx::postgres::PgQueryResult;
 use crate::Repository;
-use crate::repository::model::item_model::InventoryItemUpdate;
+use crate::server::events::persistence_event::InventoryItemUpdate;
 
 impl Repository {
     pub async fn character_save_position(&self, account_id: u32, char_id: u32, map_name: String, x: u16, y: u16) -> Result<(), Error> {
@@ -29,12 +32,27 @@ impl Repository {
             .map(|_| ())
     }
 
-    pub async fn character_inventory_update(&self, char_id: u32, inventory_update_items: &Vec<InventoryItemUpdate>) -> Result<Vec<(u32, u32)>, Error> {
-        // let mut sql = "INSERT INTO table_name (id, char_id, nameid, amount, identify) VALUES".to_string();
-        // inventory_update_items.iter().for_each(|item| sql = format!("{} ({}, {},{},{},{}),", sql, item.id.map(|id| id.to_string()).or_else(|| Some("null".to_string())).unwrap(), char_id, item.item_id, item.amount, 1));
-        // sql = format!("{} ON DUPLICATE KEY UPDATE", sql);
-        // inventory_update_items.iter().for_each(|item| sql = format!("{} amount += {},", sql, item.amount));
-        // println!("{}", sql);
-        Ok(vec![])
+    pub async fn character_inventory_update(&self, inventory_update_items: &Vec<InventoryItemUpdate>) -> Result<(PgQueryResult, PgQueryResult), Error> {
+        let stackable_items = inventory_update_items.iter().filter(|item| item.stackable).collect::<Vec<&InventoryItemUpdate>>();
+        let not_stackable_items = inventory_update_items.iter().filter(|item| !item.stackable).collect::<Vec<&InventoryItemUpdate>>();
+
+        let upsert_stackable_items = sqlx::query("INSERT INTO inventory (char_id, nameid, amount, identify) \
+        (SELECT * FROM UNNEST($1::int4[], $2::int2[], $3::int2[], $4::bool[])) \
+        ON CONFLICT (char_id, nameid, unique_id)\
+         DO UPDATE set amount = inventory.amount + (SELECT * FROM UNNEST($3::int2[]))")
+            .bind(stackable_items.iter().map(|i| i.char_id).collect::<Vec<i32>>())
+            .bind(stackable_items.iter().map(|i| i.item_id).collect::<Vec<i16>>())
+            .bind(stackable_items.iter().map(|i| i.amount).collect::<Vec<i16>>())
+            .bind(stackable_items.iter().map(|i| i.identified).collect::<Vec<bool>>())
+            .execute(&self.pool);
+        let insert_non_stackable_items = sqlx::query("INSERT INTO inventory (char_id, nameid, amount, identify, unique_id) \
+        (SELECT * FROM UNNEST($1::int4[], $2::int2[], $3::int2[], $4::bool[], $5::int8[])) ")
+            .bind(not_stackable_items.iter().map(|i| i.char_id).collect::<Vec<i32>>())
+            .bind(not_stackable_items.iter().map(|i| i.item_id).collect::<Vec<i16>>())
+            .bind(not_stackable_items.iter().map(|i| i.amount).collect::<Vec<i16>>())
+            .bind(not_stackable_items.iter().map(|i| i.identified).collect::<Vec<bool>>())
+            .bind(not_stackable_items.iter().map(|i| i.unique_id).collect::<Vec<i64>>())
+            .execute(&self.pool);
+        try_join!(upsert_stackable_items, insert_non_stackable_items)
     }
 }

@@ -22,6 +22,7 @@ use crate::util::string::StringUtil;
 mod global_variable_handler;
 pub mod constant;
 mod shop;
+pub mod item;
 
 #[derive(Clone, Eq, Hash, PartialEq, Debug)]
 pub struct GlobalVariableEntry {

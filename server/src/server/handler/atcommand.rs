@@ -15,6 +15,7 @@ use crate::server::core::request::Request;
 use crate::server::enums::item::ItemType;
 use crate::server::events::game_event::GameEvent;
 use crate::server::events::game_event::CharacterAddItems;
+use crate::server::script::item::get_items;
 use crate::server::Server;
 
 lazy_static! {
@@ -50,7 +51,8 @@ pub fn handle_atcommand(server: &Server, context: Request, packet: &PacketCzPlay
             packet_zc_notify_playerchat.set_msg(result);
         }
         "item" => {
-
+            let result = handle_item(server, context.session(), context.runtime(), args);
+            packet_zc_notify_playerchat.set_msg(result);
         }
         _ => {
             packet_zc_notify_playerchat.set_msg(format!("{}{} is an Unknown Command.", symbol, command));
@@ -139,16 +141,8 @@ pub fn handle_warp(server: &Server, session: Arc<Session>, _runtime: &Runtime, a
     format!("Map not found: {}", map_name)
 }
 
-pub fn handle_item(server: &Server, session: Arc<Session>, _runtime: &Runtime, args: Vec::<&str>) {
-    server.add_to_next_tick(GameEvent::CharacterAddItems(CharacterAddItems{
-        char_id: session.char_id(),
-        should_perform_check: true,
-        items: vec![InventoryItem{
-            item_id: 501,
-            item_type: ItemType::Healing,
-            amount: 0,
-            weight: 0,
-            name_english: "".to_string()
-        }]
-    }));
+pub fn handle_item(server: &Server, session: Arc<Session>, runtime: &Runtime, args: Vec::<&str>) -> String {
+    get_items(session.char_id(), server, runtime, vec![501, 2313], vec![10, 1]);
+
+    format!("")
 }

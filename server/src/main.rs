@@ -1,3 +1,5 @@
+#![feature(future_join)]
+
 mod proxy;
 #[macro_use]
 mod util;
