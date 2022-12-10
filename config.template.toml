@@ -11,8 +11,8 @@ packetver = 20120229
 [database]
 db = "ragnarok"
 host = "localhost"
-port = 3306
-username = "root"
+port = 5433
+username = "ragnarok"
 # password to be set in env, DATABASE_PASSWORD
 
 [proxy]

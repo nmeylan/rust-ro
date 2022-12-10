@@ -1,43 +1,43 @@
 
 
 
-#[derive(sqlx::FromRow, sql::SqlUpsert)]
+#[derive(sqlx::FromRow)]
 pub struct CharRegStr {
-    pub char_id: u32,
+    pub char_id: i32,
     pub key: String,
-    pub index: u32,
+    pub index: i32,
     pub value: String,
 }
 
-#[derive(sqlx::FromRow, sql::SqlUpsert)]
+#[derive(sqlx::FromRow)]
 pub struct CharRegNum {
-    pub char_id: u32,
+    pub char_id: i32,
     pub key: String,
-    pub index: u32,
+    pub index: i32,
     pub value: i32,
 }
 
-#[derive(sqlx::FromRow, sql::SqlUpsert)]
+#[derive(sqlx::FromRow)]
 pub struct AccountRegStr {
-    pub account_id: u32,
+    pub account_id: i32,
     pub key: String,
-    pub index: u32,
+    pub index: i32,
     pub value: String,
 }
 
-#[derive(sqlx::FromRow, sql::SqlUpsert)]
+#[derive(sqlx::FromRow)]
 pub struct AccountRegNum {
-    pub account_id: u32,
+    pub account_id: i32,
     pub key: String,
-    pub index: u32,
+    pub index: i32,
     pub value: i32,
 }
 
 
-#[derive(sqlx::FromRow, sql::SqlUpsert)]
+#[derive(sqlx::FromRow)]
 pub struct ServerRegStr {
     pub varname: String,
-    pub index: u32,
+    pub index: i32,
     pub value: String,
 }
 

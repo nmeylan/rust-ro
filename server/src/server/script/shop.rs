@@ -26,7 +26,7 @@ impl PlayerScriptHandler {
             let array_prices = execution_thread.vm.array_from_heap_reference(owner_reference, reference).unwrap();
             let mut packet_zc_pc_purchase_itemlist = PacketZcPcPurchaseItemlist::new();
             // Retrieve items id and price from VM array
-            let mut item_ids: Vec<u32> = vec![];
+            let mut item_ids: Vec<i32> = vec![];
             let mut price_overrides: Vec<i32> = vec![];
             for i in 0..array_items.len() {
                 let item_constant_ref = array_items.get(i).unwrap().unwrap();
@@ -35,7 +35,7 @@ impl PlayerScriptHandler {
                 let array_element_price = execution_thread.vm.get_from_constant_pool(price_constant_ref).unwrap().value();
                 let item_id = array_element_item.number_value().unwrap();
                 let price = array_element_price.number_value().unwrap();
-                item_ids.push(item_id as u32);
+                item_ids.push(item_id as i32);
                 price_overrides.push(price);
             }
             // Build array of PurchaseItem, retrieving some information from db (prices)

@@ -5,3 +5,4 @@
 config.toml
 .stignore
 .stfolder
+/docker/volumes/pgdata/
