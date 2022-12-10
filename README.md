@@ -9,8 +9,9 @@ Refactoring server architecture
 Checkout [architectures notes](doc/Architecture.md)
 
 # Pre-requisite
-- postgresql (rathena db can be converted using pgloader)
-- RO db db/pg.sql
+- postgresql (rathena db was converted using pgloader and then adapted)
+- RO db `db/pg.sql`
+
 
 # Usage
 - All packets for account 2000000 are handle by this project.
@@ -23,7 +24,8 @@ In proxy mode:
 - login, char, map server to be running using default ports (6900, 6121, 6122)
 
 Database:
-- This implementation use `rathena` database structure (used to be `hercules` compatible but switched to `rathena`)
+- This project use postgresql instead of mysql to leverage some feature not fully provided by mysql (`ON CONFLICT (column) .. DO UPDATE`, `UNNEST(array)`, ...).
+- Structure was copied from rathena database, some modification where done (like adding constraints)
 
 # What has been done? ✔️
 ## Tools
@@ -31,7 +33,7 @@ Database:
 - packet parser generator
 - map cache generator
 ## Server
-- proxy login, char and map request to hercules login, char and map servers
+- proxy login, char and map request to hercules/rathena login, char and map servers
 - packet debug
 - login
 - char server features(create char, delete char, join game)
@@ -48,11 +50,9 @@ Database:
 - mob move
 - NPC scripts (partially: see https://github.com/nmeylan/rust-ro/issues/3) via [rathena script lang interpreter](https://github.com/nmeylan/rathena-script-lang-interpreter)
 
-
-
+Integration of the VM
 https://user-images.githubusercontent.com/1909074/178155321-d3eeb4b8-32ed-4901-bbfe-b101b1a5a56d.mp4
 
-Integration of the VM
 
 # TODO
 in random order, features are implemented based on my current mood.
