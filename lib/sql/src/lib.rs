@@ -10,21 +10,17 @@ use syn::__private::Span;
 fn question_marks(max: usize) -> String {
     let itr = 1..max + 1;
     itr.into_iter()
-        .map(|_| "?".to_string())
+        .map(|i| format!("${}", i))
         .collect::<Vec<String>>()
         .join(",")
 }
 
 #[proc_macro_derive(SqlInsert)]
-pub fn mysql_insert(input: TokenStream) -> TokenStream {
-    mysql_derive_insert(input, "insert".to_string(), "insert".to_string())
-}
-#[proc_macro_derive(SqlUpsert)]
-pub fn mysql_replace(input: TokenStream) -> TokenStream {
-    mysql_derive_insert(input, "replace".to_string(), "upsert".to_string())
+pub fn pg_insert(input: TokenStream) -> TokenStream {
+    pg_derive_insert(input, "insert".to_string(), "insert into {} ( {} ) values ({})".to_string())
 }
 
-fn mysql_derive_insert(input: TokenStream, insert_keyword: String, function_name: String) -> TokenStream {
+fn pg_derive_insert(input: TokenStream, function_name: String, query: String) -> TokenStream {
     let input = parse_macro_input!(input as DeriveInput);
 
     let fields = match &input.data {
@@ -49,18 +45,13 @@ fn mysql_derive_insert(input: TokenStream, insert_keyword: String, function_name
     let fields_list = quote! {
         #(#field_name),*
     };
-    let columns = format!("{}", fields_list)
-        .replace(", ", "`,`")
-        .replace(",\n", "`,`");
+    let columns = format!("{}", fields_list).replace(", ", ",").replace(",\n", ",");
     TokenStream::from(quote! {
 
         impl #struct_name {
-            fn insert_query(&self, table: &str) -> String {
-                format!("{} into `{}` ( `{}` ) values ({})", #insert_keyword, table, #columns, #values)
-            }
 
-            pub async fn #function_name(&self, executor: &sqlx::MySqlPool, table: &str) -> Result<sqlx::mysql::MySqlQueryResult, sqlx::Error> {
-                let sql = self.insert_query(table);
+            pub async fn #function_name(&self, executor: &sqlx::PgPool, table: &str) -> Result<sqlx::postgres::PgQueryResult, sqlx::Error> {
+                let sql = format!(#query, table, #columns, #values);
                 sqlx::query(&sql)
                 #(
                     .bind(&self.#field_name2)

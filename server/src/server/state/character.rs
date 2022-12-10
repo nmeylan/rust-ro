@@ -249,13 +249,13 @@ impl Character {
             if item.item_type.is_stackable() {
                if let Some(item_in_inventory) = self.inventory.iter_mut().find(|i| i.item_id == item.item_id) {
                    item_in_inventory.amount += item.amount;
-                   updated_items.push(InventoryItemUpdate{item_id: item.item_id, amount: item.amount });
+                   updated_items.push(InventoryItemUpdate{item_id: item.item_id as i32, amount: item.amount as i16 });
                } else {
-                   updated_items.push(InventoryItemUpdate{ item_id: item.item_id, amount: item.amount });
+                   updated_items.push(InventoryItemUpdate{ item_id: item.item_id as i32, amount: item.amount as i16 });
                    self.inventory.push(item);
                }
             } else {
-                updated_items.push(InventoryItemUpdate{ item_id: item.item_id, amount: item.amount });
+                updated_items.push(InventoryItemUpdate{ item_id: item.item_id as i32, amount: item.amount as i16 });
                 self.inventory.push(item);
             }
         }

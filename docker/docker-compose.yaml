@@ -1,0 +1,17 @@
+version: '3.5'
+
+services:
+  postgres:
+    container_name: postgres_container
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      PGDATA: /data/postgres
+    volumes:
+      - ./volumes/init.sql:/docker-entrypoint-initdb.d/db.sql
+      - ./volumes/pgdata:/data/postgres
+      - ./volumes/pg.sql:/pg.sql
+    ports:
+      - "5433:5432"
+    restart: unless-stopped

@@ -9,7 +9,7 @@ lazy_static  = "1.4.0"
 regex = "1.5"
 tokio = { version = "1.19.2", features = ["full", "tracing"] }
 futures = "0.3"
-sqlx = { version = "0.5", features = [ "runtime-tokio-rustls", "mysql" ] }
+sqlx = { version = "0.6", features = [ "runtime-tokio-rustls", "postgres" ] }
 rand = "0.8"
 flate2 = "1.0"
 md5 = "0.7.0"
@@ -20,7 +20,7 @@ serde = { version = "1.0", features = ["derive"] }
 eframe = { version = "0.15", default-features = false, features = ["egui_glow", "default_fonts"], optional = true }
 sprintf = "0.1.2"
 
-rathena_script_lang_interpreter = { git = "https://github.com/nmeylan/rathena-script-lang-interpreter", rev = "c47485cda1bbf724fc262a03f57356dec149422e"}
+rathena_script_lang_interpreter = { git = "https://github.com/nmeylan/rathena-script-lang-interpreter", rev = "d406e9dc9f98a97c0832b759d11dd23fcdd6c414"}
 
 accessor = { path = "../lib/accessor" }
 metrics = { path = "../lib/metrics" }
