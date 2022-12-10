@@ -221,7 +221,14 @@ pub struct ItemBuySellModel {
     pub name_english: Option<String>,
 }
 
-pub struct InventoryItemUpdate {
-    pub item_id: i32,
+#[derive(sqlx::FromRow, Debug)]
+pub struct GetItemModel {
+    pub id: i32,
+    #[sqlx(rename = "type")]
+    pub item_type: String,
+    #[sqlx(default)]
     pub amount: i16,
+    pub weight: i16,
+    #[sqlx(default)]
+    pub name_english: String,
 }

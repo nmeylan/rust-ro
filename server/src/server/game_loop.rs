@@ -117,7 +117,8 @@ impl Server {
                         GameEvent::CharacterAddItems(add_items) => {
                             let character = characters.get_mut(&add_items.char_id).unwrap();
                             let inventory_item_updates = character.add_items(add_items.items);
-                            server_ref.repository.character_inventory_update(character.char_id, &inventory_item_updates);
+                            persistence_event_sender.send(PersistenceEvent::UpdateCharacterInventory(inventory_item_updates));
+
                         }
                     }
                 }
