@@ -142,7 +142,7 @@ pub fn handle_warp(server: &Server, session: Arc<Session>, _runtime: &Runtime, a
 }
 
 pub fn handle_item(server: &Server, session: Arc<Session>, runtime: &Runtime, args: Vec::<&str>) -> String {
-    get_items(session.char_id(), server, runtime, vec![501, 2313], vec![10, 1]);
+    get_items(session.char_id(), server, runtime, vec![(501, 10), (2313, 1)]);
 
     format!("")
 }

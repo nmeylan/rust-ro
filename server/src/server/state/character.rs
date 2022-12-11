@@ -35,7 +35,7 @@ pub struct Character {
     pub y: u16,
     pub dir: u16,
     pub movements: Vec<Movement>,
-    pub inventory: Vec<InventoryItem>,
+    pub inventory: Vec<Option<InventoryItem>>,
     pub map_view: HashSet<MapItem>,
     pub script_variable_store: Mutex<ScriptGlobalVariableStore>,
 }
@@ -244,23 +244,29 @@ impl Character {
         self.status.zeny = value;
     }
 
-    pub fn add_items(&mut self, items: Vec<InventoryItem>) -> Vec<InventoryItemUpdate> {
-        let mut rng = rand::thread_rng();
-        let mut updated_items = vec![];
+    pub fn add_items(&mut self, items: Vec<InventoryItem>) -> Vec<(usize, InventoryItem)> {
+        let mut added_items = vec![];
         for item in items {
             if item.item_type.is_stackable() {
-                updated_items.push(InventoryItemUpdate{ char_id: self.char_id as i32, item_id: item.item_id as i16, amount: item.amount as i16, stackable: true, identified: true, unique_id: 0 });
-               if let Some(item_in_inventory) = self.inventory.iter_mut().find(|i| i.item_id == item.item_id) {
+               if let Some((index, item_in_inventory)) = self.inventory.iter_mut().enumerate().filter(|(_, i)| i.is_some()).map(|(index, i)|(index,  i.as_mut().unwrap())).find(|(index, i)| i.item_id == item.item_id) {
                    item_in_inventory.amount += item.amount;
-               } else {
-                   self.inventory.push(item);
+                   added_items.push((index, item.clone()));
+                   continue;
                }
-            } else {
-                updated_items.push(InventoryItemUpdate{ char_id: self.char_id as i32, item_id: item.item_id as i16, amount: item.amount as i16, stackable: false, identified: true, unique_id: rng.next_u32() as i64 });
-                self.inventory.push(item);
             }
+            added_items.push((self.add_in_inventory(item.clone()), item));
         }
-        return updated_items;
+        added_items
+    }
+
+    fn add_in_inventory(&mut self, item: InventoryItem) -> usize {
+        if let Some(position) = self.inventory.iter().position(|e| e.is_none()) {
+            let _ = std::mem::replace(&mut self.inventory[position], Some(item));
+            position
+        } else {
+            self.inventory.push(Some(item));
+            self.inventory.len() - 1
+        }
     }
 }
 

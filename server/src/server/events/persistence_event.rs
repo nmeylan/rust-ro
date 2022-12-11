@@ -1,3 +1,5 @@
+use crate::server::enums::item::ItemType;
+
 pub enum PersistenceEvent {
     SaveCharacterPosition(SavePositionUpdate),
     UpdateCharacterStatusU32(StatusUpdate<u32>),
