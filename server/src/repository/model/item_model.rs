@@ -1,3 +1,9 @@
+use sqlx::{Decode, Postgres, Type, TypeInfo};
+use sqlx::database::HasValueRef;
+use sqlx::error::BoxDynError;
+use sqlx::postgres::PgTypeInfo;
+use crate::server::enums::item::ItemType;
+
 #[derive(sqlx::FromRow, Debug)]
 pub struct ItemModel {
     #[sqlx(default)]
@@ -204,6 +210,7 @@ pub struct ItemModel {
     #[sqlx(default)]
     pub unequip_script: Option<String>,
 }
+
 #[derive(sqlx::FromRow, Debug)]
 pub struct ItemBuySellModel {
     pub id: Option<i32>,
@@ -231,4 +238,48 @@ pub struct GetItemModel {
     pub weight: i16,
     #[sqlx(default)]
     pub name_english: String,
+}
+
+#[derive(sqlx::FromRow, Debug, Clone)]
+pub struct InventoryItemModel {
+    // Come from inventory table
+    pub id: i32,
+    pub unique_id: i64,
+    #[sqlx(rename = "nameid")]
+    pub item_id: i16,
+    #[sqlx(rename = "type")]
+    pub item_type: ItemType,
+    pub amount: i16,
+    pub equip: i16,
+    #[sqlx(rename = "identified")]
+    pub is_identified: bool,
+    pub refine: i16,
+    #[sqlx(rename = "damaged")]
+    pub is_damaged: bool,
+    pub card0: i16,
+    pub card1: i16,
+    pub card2: i16,
+    pub card3: i16,
+    // Come from itemdb table
+    #[sqlx(default)]
+    pub name_english: String,
+    pub weight: i16,
+}
+
+impl<'r> Decode<'r, Postgres> for ItemType {
+    fn decode(value: <Postgres as HasValueRef<'r>>::ValueRef) -> Result<Self, BoxDynError> {
+        let value = <&str as Decode<Postgres>>::decode(value)?;
+        Ok(ItemType::from_string(value))
+    }
+}
+
+impl sqlx::Type<Postgres> for ItemType {
+    fn type_info() -> <sqlx::Postgres as sqlx::Database>::TypeInfo {
+        <&str as sqlx::Type<sqlx::Postgres>>::type_info()
+    }
+
+
+    fn compatible(ty: &<sqlx::Postgres as sqlx::Database>::TypeInfo) -> bool {
+        ty.name() == "VARCHAR"
+    }
 }

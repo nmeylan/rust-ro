@@ -1456,7 +1456,7 @@ impl PacketAcAcceptLogin {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 79;
+        let  base_len: usize = 47;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -1777,7 +1777,7 @@ impl PacketAcAcceptLogin2 {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 224;
+        let  base_len: usize = 64;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -2247,7 +2247,7 @@ impl PacketHcAcceptEnterNeoUnion {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 182;
+        let  base_len: usize = 27;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -12969,7 +12969,7 @@ impl PacketZcNormalItemlist {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 14;
+        let  base_len: usize = 4;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -13114,7 +13114,7 @@ impl PacketZcEquipmentItemlist {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 24;
+        let  base_len: usize = 4;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -13259,7 +13259,7 @@ impl PacketZcStoreNormalItemlist {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 14;
+        let  base_len: usize = 4;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -13404,7 +13404,7 @@ impl PacketZcStoreEquipmentItemlist {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 24;
+        let  base_len: usize = 4;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -17818,7 +17818,7 @@ impl PacketZcPcPurchaseItemlist {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 15;
+        let  base_len: usize = 4;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -17963,7 +17963,7 @@ impl PacketZcPcSellItemlist {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 14;
+        let  base_len: usize = 4;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -18108,7 +18108,7 @@ impl PacketCzPcPurchaseItemlist {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 8;
+        let  base_len: usize = 4;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -18253,7 +18253,7 @@ impl PacketCzPcSellItemlist {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 8;
+        let  base_len: usize = 4;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -19538,7 +19538,7 @@ impl PacketZcWhisperList {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 28;
+        let  base_len: usize = 4;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -20615,7 +20615,7 @@ impl PacketZcEnterRoom {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 36;
+        let  base_len: usize = 8;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -24814,7 +24814,7 @@ impl PacketZcGroupList {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 74;
+        let  base_len: usize = 28;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -27610,7 +27610,7 @@ impl PacketZcSkillinfoList {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 41;
+        let  base_len: usize = 4;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -30846,7 +30846,7 @@ impl PacketZcCartEquipmentItemlist {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 24;
+        let  base_len: usize = 4;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -30991,7 +30991,7 @@ impl PacketZcCartNormalItemlist {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 14;
+        let  base_len: usize = 4;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -32555,7 +32555,7 @@ impl PacketCzReqOpenstore {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 92;
+        let  base_len: usize = 84;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -33085,7 +33085,7 @@ impl PacketZcPcPurchaseItemlistFrommc {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 30;
+        let  base_len: usize = 8;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -33252,7 +33252,7 @@ impl PacketCzPcPurchaseItemlistFrommc {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 12;
+        let  base_len: usize = 8;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -33574,7 +33574,7 @@ impl PacketZcPcPurchaseMyitemlist {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 30;
+        let  base_len: usize = 8;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -36705,7 +36705,7 @@ impl PacketZcMyguildBasicInfo {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 36;
+        let  base_len: usize = 4;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -37997,7 +37997,7 @@ impl PacketZcMembermgrInfo {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 108;
+        let  base_len: usize = 4;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -38142,7 +38142,7 @@ impl PacketCzReqChangeMemberpos {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 16;
+        let  base_len: usize = 4;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -38287,7 +38287,7 @@ impl PacketZcAckReqChangeMembers {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 16;
+        let  base_len: usize = 4;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -39679,7 +39679,7 @@ impl PacketZcPositionInfo {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 20;
+        let  base_len: usize = 4;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -39824,7 +39824,7 @@ impl PacketCzRegChangeGuildPositioninfo {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 44;
+        let  base_len: usize = 4;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -39983,7 +39983,7 @@ impl PacketZcGuildSkillinfo {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 43;
+        let  base_len: usize = 6;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -40136,7 +40136,7 @@ impl PacketZcBanList {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 92;
+        let  base_len: usize = 4;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -40281,7 +40281,7 @@ impl PacketZcOtherGuildList {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 40;
+        let  base_len: usize = 4;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -40567,7 +40567,7 @@ impl PacketZcPositionIdNameInfo {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 32;
+        let  base_len: usize = 4;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -42607,7 +42607,7 @@ impl PacketZcAckChangeGuildPositioninfo {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 34;
+        let  base_len: usize = 4;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -49248,7 +49248,7 @@ impl PacketZcPeteggList {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 6;
+        let  base_len: usize = 4;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -50125,7 +50125,7 @@ impl PacketZcMakingarrowList {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 6;
+        let  base_len: usize = 4;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -50816,7 +50816,7 @@ impl PacketCzReqOpenstore2 {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 93;
+        let  base_len: usize = 85;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -61501,7 +61501,7 @@ impl PacketZcNormalItemlist2 {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 22;
+        let  base_len: usize = 4;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -61646,7 +61646,7 @@ impl PacketZcCartNormalItemlist2 {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 22;
+        let  base_len: usize = 4;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -61791,7 +61791,7 @@ impl PacketZcStoreNormalItemlist2 {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 22;
+        let  base_len: usize = 4;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -63612,7 +63612,7 @@ impl PacketZcRepairitemlist {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 17;
+        let  base_len: usize = 4;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -64274,7 +64274,7 @@ impl PacketZcFriendsList {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 36;
+        let  base_len: usize = 4;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -65982,7 +65982,7 @@ impl PacketHcBlockCharacter {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 28;
+        let  base_len: usize = 4;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -69142,7 +69142,7 @@ impl PacketZcNotifyWeaponitemlist {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 17;
+        let  base_len: usize = 4;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -74459,7 +74459,7 @@ impl PacketZcMailReqGetList {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 81;
+        let  base_len: usize = 8;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -77193,7 +77193,7 @@ impl PacketZcAuctionItemReqSearch {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 95;
+        let  base_len: usize = 12;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -82377,7 +82377,7 @@ impl PacketZcHuntinglist {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 16;
+        let  base_len: usize = 4;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -84639,7 +84639,7 @@ impl PacketZcPcCashPointItemlist {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 19;
+        let  base_len: usize = 8;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -86500,7 +86500,7 @@ impl PacketZcEquipmentItemlist2 {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 28;
+        let  base_len: usize = 4;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -86645,7 +86645,7 @@ impl PacketZcStoreEquipmentItemlist2 {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 28;
+        let  base_len: usize = 4;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -86790,7 +86790,7 @@ impl PacketZcCartEquipmentItemlist2 {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 28;
+        let  base_len: usize = 4;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -88562,7 +88562,7 @@ impl PacketZcMerSkillinfoList {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 41;
+        let  base_len: usize = 4;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -90496,7 +90496,7 @@ impl PacketZcAllQuestList {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 13;
+        let  base_len: usize = 8;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -90663,7 +90663,7 @@ impl PacketZcAllQuestMission {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 112;
+        let  base_len: usize = 8;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -90872,7 +90872,7 @@ impl PacketZcAddQuest {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 47;
+        let  base_len: usize = 17;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -91174,7 +91174,7 @@ impl PacketZcUpdateMissionHunt {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 18;
+        let  base_len: usize = 6;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -91844,7 +91844,7 @@ impl PacketZcShortcutKeyList {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 9;
+        let  base_len: usize = 2;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -94475,7 +94475,7 @@ impl PacketZcEquipmentItemlist3 {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 32;
+        let  base_len: usize = 4;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -94620,7 +94620,7 @@ impl PacketZcStoreEquipmentItemlist3 {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 32;
+        let  base_len: usize = 4;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -94765,7 +94765,7 @@ impl PacketZcCartEquipmentItemlist3 {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 32;
+        let  base_len: usize = 4;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -95708,7 +95708,7 @@ impl PacketZcEquipwinMicroscope {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 71;
+        let  base_len: usize = 43;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -97855,7 +97855,7 @@ impl PacketZcNormalItemlist3 {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 26;
+        let  base_len: usize = 4;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -98000,7 +98000,7 @@ impl PacketZcCartNormalItemlist3 {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 26;
+        let  base_len: usize = 4;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -98145,7 +98145,7 @@ impl PacketZcStoreNormalItemlist3 {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 26;
+        let  base_len: usize = 4;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -101107,7 +101107,7 @@ impl PacketZcSimpleCashshopPointItemlist {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 27;
+        let  base_len: usize = 16;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -102372,7 +102372,7 @@ impl PacketZcSkillPostdelayList {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 10;
+        let  base_len: usize = 4;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -103292,7 +103292,7 @@ impl PacketZcSimpleCashPointItemlist {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 19;
+        let  base_len: usize = 8;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -103777,7 +103777,7 @@ impl PacketHcCharacterList {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 9;
+        let  base_len: usize = 4;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -105328,7 +105328,7 @@ impl PacketZcShortcutKeyListV2 {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 9;
+        let  base_len: usize = 2;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -108046,7 +108046,7 @@ impl PacketZcBattleFieldList {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 70;
+        let  base_len: usize = 8;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -112798,7 +112798,7 @@ impl PacketZcPcPurchaseItemlistFrommc2 {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 34;
+        let  base_len: usize = 12;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -112987,7 +112987,7 @@ impl PacketCzPcPurchaseItemlistFrommc2 {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 16;
+        let  base_len: usize = 12;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -113582,7 +113582,7 @@ impl PacketZcPartyBookingAckSearch {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 53;
+        let  base_len: usize = 5;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -115277,7 +115277,7 @@ impl PacketCzReqOpenBuyingStore {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 97;
+        let  base_len: usize = 89;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -115607,7 +115607,7 @@ impl PacketZcMyitemlistBuyingStore {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 21;
+        let  base_len: usize = 12;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -116262,7 +116262,7 @@ impl PacketZcAckItemlistBuyingStore {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 25;
+        let  base_len: usize = 16;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -116459,7 +116459,7 @@ impl PacketCzReqTradeBuyingStore {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 18;
+        let  base_len: usize = 12;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -119892,7 +119892,7 @@ impl PacketZcSearchStoreInfoAck {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 113;
+        let  base_len: usize = 7;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -135086,7 +135086,7 @@ impl PacketZcQuestMissionInfo {
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 44;
+        let  base_len: usize = 14;
         base_len
     }
     pub fn set_quest_id(&mut self, value: u32) {

@@ -32,27 +32,4 @@ impl Repository {
             .map(|_| ())
     }
 
-    pub async fn character_inventory_update(&self, inventory_update_items: &Vec<InventoryItemUpdate>) -> Result<(), Error> {
-        let stackable_items = inventory_update_items.iter().filter(|item| item.stackable).collect::<Vec<&InventoryItemUpdate>>();
-        let not_stackable_items = inventory_update_items.iter().filter(|item| !item.stackable).collect::<Vec<&InventoryItemUpdate>>();
-
-        let mut tx = self.pool.begin().await.unwrap();
-        tx.execute(sqlx::query("INSERT INTO inventory (char_id, nameid, amount, identify) \
-        (SELECT * FROM UNNEST($1::int4[], $2::int2[], $3::int2[], $4::bool[])) \
-        ON CONFLICT (char_id, nameid, unique_id)\
-         DO UPDATE set amount = inventory.amount + (SELECT * FROM UNNEST($3::int2[]))")
-            .bind(stackable_items.iter().map(|i| i.char_id).collect::<Vec<i32>>())
-            .bind(stackable_items.iter().map(|i| i.item_id).collect::<Vec<i16>>())
-            .bind(stackable_items.iter().map(|i| i.amount).collect::<Vec<i16>>())
-            .bind(stackable_items.iter().map(|i| i.identified).collect::<Vec<bool>>())).await?;
-         tx.execute(sqlx::query("INSERT INTO inventory (char_id, nameid, amount, identify, unique_id) \
-        (SELECT * FROM UNNEST($1::int4[], $2::int2[], $3::int2[], $4::bool[], $5::int8[])) ")
-            .bind(not_stackable_items.iter().map(|i| i.char_id).collect::<Vec<i32>>())
-            .bind(not_stackable_items.iter().map(|i| i.item_id).collect::<Vec<i16>>())
-            .bind(not_stackable_items.iter().map(|i| i.amount).collect::<Vec<i16>>())
-            .bind(not_stackable_items.iter().map(|i| i.identified).collect::<Vec<bool>>())
-            .bind(not_stackable_items.iter().map(|i| i.unique_id).collect::<Vec<i64>>())
-        ).await?;
-        tx.commit().await
-    }
 }

@@ -6,7 +6,7 @@ use rand::RngCore;
 use tokio::runtime::Runtime;
 
 
-use packets::packets::{Packet, PacketZcItemPickupAck3, PacketZcLongparChange, PacketZcNotifyPlayermove, PacketZcNpcackMapmove, PacketZcSpriteChange2};
+use packets::packets::{EquipmentitemExtrainfo301, EQUIPSLOTINFO, NormalitemExtrainfo3, Packet, PacketZcEquipmentItemlist3, PacketZcItemPickupAck3, PacketZcLongparChange, PacketZcNormalItemlist3, PacketZcNotifyPlayermove, PacketZcNpcackMapmove, PacketZcSpriteChange2};
 use crate::PersistenceEvent;
 use crate::PersistenceEvent::SaveCharacterPosition;
 
@@ -147,8 +147,68 @@ impl Server {
                                     server_ref.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id,
                                                                                                                         chain_packets_raws_by_value(packets.iter().map(|packet| packet.raw.clone()).collect()))))
                                         .expect("Fail to send client notification");
+                                } else {
+                                    error!("{:?}", result.err());
                                 }
                             });
+                        }
+                        GameEvent::CharacterInitInventory(char_id) => {
+                            let character = characters.get_mut(&char_id).unwrap();
+                            runtime.block_on(async {
+                                let items = server_ref.repository.character_inventory_fetch(char_id as i32).await.unwrap();
+                                character.add_items(items);
+                            });
+                            //PacketZcNormalItemlist3
+                            let mut packet_zc_equipment_itemlist3 = PacketZcEquipmentItemlist3::new();
+                            let mut equipments = vec![];
+                            character.inventory_equip().iter().for_each(|(index, item)| {
+                                let mut equipmentitem_extrainfo301 = EquipmentitemExtrainfo301::new();
+                                equipmentitem_extrainfo301.set_itid(item.item_id as u16);
+                                equipmentitem_extrainfo301.set_atype(item.item_type.value() as u8);
+                                equipmentitem_extrainfo301.set_index(*index as i16);
+                                equipmentitem_extrainfo301.set_is_damaged(item.is_damaged);
+                                equipmentitem_extrainfo301.set_is_identified(item.is_identified);
+                                equipmentitem_extrainfo301.set_location(item.equip as u16);
+                                equipmentitem_extrainfo301.set_wear_state(item.equip as u16);
+                                equipmentitem_extrainfo301.set_refining_level(item.refine as u8);
+                                let mut equipslotinfo = EQUIPSLOTINFO::new();
+                                equipslotinfo.set_card1(item.card0 as u16);
+                                equipslotinfo.set_card2(item.card1 as u16);
+                                equipslotinfo.set_card3(item.card2 as u16);
+                                equipslotinfo.set_card4(item.card3 as u16);
+                                equipmentitem_extrainfo301.set_slot(equipslotinfo);
+                                equipmentitem_extrainfo301.fill_raw();
+                                equipments.push(equipmentitem_extrainfo301);
+                            });
+                            packet_zc_equipment_itemlist3.set_packet_length((PacketZcEquipmentItemlist3::base_len(server_ref.packetver()) + equipments.len() * EquipmentitemExtrainfo301::base_len(server_ref.packetver())) as i16);
+                            packet_zc_equipment_itemlist3.set_item_info(equipments);
+                            packet_zc_equipment_itemlist3.fill_raw();
+                            let mut packet_zc_normal_itemlist3 = PacketZcNormalItemlist3::new();
+                            let mut normal_items = vec![];
+                            character.inventory_normal().iter().for_each(|(index, item)| {
+                                let mut extrainfo3 = NormalitemExtrainfo3::new();
+                                extrainfo3.set_itid(item.item_id as u16);
+                                extrainfo3.set_atype(item.item_type.value() as u8);
+                                extrainfo3.set_index(*index as i16);
+                                extrainfo3.set_count(item.amount);
+                                extrainfo3.set_is_identified(item.is_identified);
+                                extrainfo3.set_wear_state(item.equip as u16);
+                                let mut equipslotinfo = EQUIPSLOTINFO::new();
+                                equipslotinfo.set_card1(item.card0 as u16);
+                                equipslotinfo.set_card2(item.card1 as u16);
+                                equipslotinfo.set_card3(item.card2 as u16);
+                                equipslotinfo.set_card4(item.card3 as u16);
+                                extrainfo3.set_slot(equipslotinfo);
+                                extrainfo3.fill_raw();
+                                normal_items.push(extrainfo3);
+                            });
+                            packet_zc_normal_itemlist3.set_packet_length((PacketZcNormalItemlist3::base_len(server_ref.packetver()) + normal_items.len() * NormalitemExtrainfo3::base_len(server_ref.packetver())) as i16);
+                            packet_zc_normal_itemlist3.set_item_info(normal_items);
+                            packet_zc_normal_itemlist3.fill_raw();
+                            // TODO weight
+                            server_ref.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id,
+                                                                                                                chain_packets(vec![&packet_zc_equipment_itemlist3, &packet_zc_normal_itemlist3]))))
+                                .expect("Fail to send client notification");
                         }
                     }
                 }

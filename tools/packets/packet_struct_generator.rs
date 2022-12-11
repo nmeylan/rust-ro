@@ -311,7 +311,7 @@ fn write_struct_setter_methods(file: &mut File, struct_definition: &StructDefini
 fn write_struct_base_len_method(file: &mut File, struct_definition: &StructDefinition) {
     file.write_all("    pub fn base_len(packetver: u32) -> usize {\n".to_string().as_bytes()).unwrap();
     let base_len_is_mut = struct_definition.fields.iter().filter(|f| f.condition.is_some()).count() > 0;
-    file.write_all(format!("        let {} base_len: usize = {};\n", if base_len_is_mut { "mut" } else { "" }, struct_definition.fields.iter().filter(|f| f.condition.is_none()).map(|f| f.length).sum::<i16>()).as_bytes()).unwrap();
+    file.write_all(format!("        let {} base_len: usize = {};\n", if base_len_is_mut { "mut" } else { "" }, struct_definition.fields.iter().filter(|f| f.condition.is_none() && f.data_type.name != "Vec").map(|f| f.length).sum::<i16>()).as_bytes()).unwrap();
     for f in struct_definition.fields.iter().filter(|f| f.condition.is_some()) {
         file.write_all(format!("        {}", packetver_if("packetver", f)).as_bytes()).unwrap();
         file.write_all(format!("            base_len += {};\n", f.length).as_bytes()).unwrap();

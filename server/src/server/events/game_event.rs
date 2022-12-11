@@ -1,4 +1,4 @@
-use crate::server::core::inventory_item::InventoryItem;
+use crate::repository::model::item_model::InventoryItemModel;
 use crate::server::core::movement::Movement;
 use crate::server::core::position::Position;
 use crate::server::state::status::LookType;
@@ -11,7 +11,8 @@ pub enum GameEvent {
     CharacterChangeMap(CharacterChangeMap),
     CharacterUpdateLook(CharacterLook),
     CharacterUpdateZeny(CharacterZeny),
-    CharacterAddItems(CharacterAddItems)
+    CharacterAddItems(CharacterAddItems),
+    CharacterInitInventory(u32),
 }
 
 pub struct CharacterChangeMap {
@@ -44,5 +45,5 @@ pub struct CharacterZeny {
 pub struct CharacterAddItems {
     pub char_id: u32,
     pub should_perform_check: bool, // indicate if we should perform checks before adding items to user
-    pub items: Vec<InventoryItem>
+    pub items: Vec<InventoryItemModel>
 }

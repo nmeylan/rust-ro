@@ -1,6 +1,6 @@
 
 use std::collections::HashSet;
-use packets::packets::{CharacterInfoNeoUnion, Packet, PacketChDeleteChar4Reserved, PacketChEnter, PacketChMakeChar, PacketChMakeChar3, PacketChSelectChar, PacketChSendMapInfo, PacketCzEnter2, PacketCzRestart, PacketHcAcceptEnterNeoUnion, PacketHcAcceptEnterNeoUnionHeader, PacketHcAcceptMakecharNeoUnion, PacketHcDeleteChar4Reserved, PacketHcNotifyZonesvr, PacketHcRefuseEnter, PacketMapConnection, PacketPincodeLoginstate, PacketZcAcceptEnter2, PacketZcAttackRange, PacketZcInventoryExpansionInfo, PacketZcLoadConfirm, PacketZcNotifyChat, PacketZcOverweightPercent, PacketZcParChange, PacketZcReqDisconnectAck2, PacketZcRestartAck, PacketZcStatusValues, ZserverAddr};
+use packets::packets::{CharacterInfoNeoUnion, Packet, PacketChDeleteChar4Reserved, PacketChEnter, PacketChMakeChar, PacketChMakeChar3, PacketChSelectChar, PacketChSendMapInfo, PacketCzEnter2, PacketCzRestart, PacketHcAcceptEnterNeoUnion, PacketHcAcceptEnterNeoUnionHeader, PacketHcAcceptMakecharNeoUnion, PacketHcDeleteChar4Reserved, PacketHcNotifyZonesvr, PacketHcRefuseEnter, PacketMapConnection, PacketPincodeLoginstate, PacketZcAcceptEnter2, PacketZcAttackRange,PacketZcInventoryExpansionInfo, PacketZcLoadConfirm, PacketZcNotifyChat, PacketZcOverweightPercent, PacketZcParChange, PacketZcReqDisconnectAck2, PacketZcRestartAck, PacketZcStatusValues, ZserverAddr};
 
 use std::sync::{Arc, Mutex};
 
@@ -19,6 +19,7 @@ use crate::server::core::map::Map;
 use crate::server::core::map_instance::MapInstanceKey;
 use crate::server::core::position::Position;
 use crate::server::core::request::Request;
+use crate::server::events::game_event::GameEvent::CharacterInitInventory;
 
 use crate::server::state::status::Status;
 use crate::server::script::ScriptGlobalVariableStore;
@@ -379,6 +380,11 @@ pub fn handle_enter_game(server: &Server, context: Request) {
         &packet_sp, &packet_speed, &packet_notify_chat
     ]);
     socket_send_raw!(context, final_response_packet);
+
+    /*
+    * Inventory
+    */
+    server.add_to_next_tick(CharacterInitInventory(char_id));
 }
 
 pub fn handle_restart(server: &Server, context: Request) {

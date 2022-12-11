@@ -1,15 +1,17 @@
 use std::collections::HashSet;
 use std::{io, mem};
 use std::io::Write;
+use std::iter::{Enumerate, Filter, Map};
+use std::slice::Iter;
 use std::sync::{Arc, Mutex};
 use std::sync::mpsc::SyncSender;
 use rand::RngCore;
 use accessor::Setters;
 use packets::packets::{PacketZcNotifyStandentry7, PacketZcNotifyVanish};
 use packets::packets::Packet;
+use crate::repository::model::item_model::InventoryItemModel;
 use crate::server::events::persistence_event::InventoryItemUpdate;
 use crate::server::{PLAYER_FOV, Server};
-use crate::server::core::inventory_item::InventoryItem;
 use crate::server::core::movement::Movement;
 use crate::server::core::map_instance::{MapInstance, MapInstanceKey};
 use crate::server::events::client_notification::{CharNotification, Notification};
@@ -36,7 +38,7 @@ pub struct Character {
     pub y: u16,
     pub dir: u16,
     pub movements: Vec<Movement>,
-    pub inventory: Vec<Option<InventoryItem>>,
+    pub inventory: Vec<Option<InventoryItemModel>>,
     pub map_view: HashSet<MapItem>,
     pub script_variable_store: Mutex<ScriptGlobalVariableStore>,
 }
@@ -245,7 +247,7 @@ impl Character {
         self.status.zeny = value;
     }
 
-    pub fn add_items(&mut self, items: Vec<InventoryItem>) -> Vec<(usize, InventoryItem)> {
+    pub fn add_items(&mut self, items: Vec<InventoryItemModel>) -> Vec<(usize, InventoryItemModel)> {
         let mut added_items = vec![];
         for item in items {
             if item.item_type.is_stackable() {
@@ -260,7 +262,7 @@ impl Character {
         added_items
     }
 
-    fn add_in_inventory(&mut self, item: InventoryItem) -> usize {
+    fn add_in_inventory(&mut self, item: InventoryItemModel) -> usize {
         if let Some(position) = self.inventory.iter().position(|e| e.is_none()) {
             let _ = std::mem::replace(&mut self.inventory[position], Some(item));
             position
@@ -270,7 +272,7 @@ impl Character {
         }
     }
 
-    pub fn weight(&self) -> u16 {
+    pub fn weight(&self) -> i16 {
         self.inventory.iter()
             .filter(|item| item.is_some())
             .map(|item| {
@@ -296,10 +298,8 @@ impl Character {
         writeln!(stdout, "  zeny: {}", self.status.zeny).unwrap();
         writeln!(stdout, "  weight: {}", self.weight()).unwrap();
         writeln!(stdout, "Inventory:").unwrap();
-        let mut inventory_print = |predicate: Box<dyn Fn(&(usize, &InventoryItem)) -> bool>| {
-            self.inventory.iter().enumerate()
-                .filter(|(_, item)| item.is_some())
-                .map(|(index, item)| (index, item.as_ref().unwrap()))
+        let mut inventory_print = |predicate: Box<dyn Fn(&(usize, &InventoryItemModel)) -> bool>| {
+            self.inventory_iter()
                 .filter(predicate)
                 .for_each(|(index, item)| writeln!(stdout, " [{}] {} - {} ({})", index, item.name_english, item.item_id, item.amount).unwrap());
         };
@@ -307,6 +307,24 @@ impl Character {
         inventory_print(Box::new(|(_, item)| item.item_type.is_equipment()));
         inventory_print(Box::new(|(_, item)| item.item_type.is_etc()));
         stdout.flush().unwrap();
+    }
+
+    pub fn inventory_equip(&self) -> Vec<(usize, &InventoryItemModel)> {
+        self.inventory_iter()
+            .filter(|(_, item)| item.item_type.is_equipment())
+            .collect()
+    }
+
+    pub fn inventory_normal(&self) -> Vec<(usize, &InventoryItemModel)> {
+        self.inventory_iter()
+            .filter(|(_, item)| !item.item_type.is_equipment())
+            .collect()
+    }
+
+    fn inventory_iter(&self) -> Box<dyn Iterator<Item=(usize, &InventoryItemModel)> + '_> {
+        Box::new(self.inventory.iter().enumerate()
+            .filter(|(_, item)| item.is_some())
+            .map(|(index, item)| (index, item.as_ref().unwrap())))
     }
 }
 

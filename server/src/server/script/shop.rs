@@ -56,7 +56,7 @@ impl PlayerScriptHandler {
                 items_list.push(purchase_item);
             }
             packet_zc_pc_purchase_itemlist.set_item_list(items_list.clone());
-            packet_zc_pc_purchase_itemlist.set_packet_length((PacketZcPcPurchaseItemlist::base_len(self.server.packetver()) - PurchaseItem::base_len(self.server.packetver()) + PurchaseItem::base_len(self.server.packetver()) * array_items.len()) as i16);
+            packet_zc_pc_purchase_itemlist.set_packet_length((PacketZcPcPurchaseItemlist::base_len(self.server.packetver()) + PurchaseItem::base_len(self.server.packetver()) * array_items.len()) as i16);
             packet_zc_pc_purchase_itemlist.fill_raw();
             self.send_packet_to_char(self.session.char_id(), &mut packet_zc_pc_purchase_itemlist);
             // Wait for player click on "buy"
