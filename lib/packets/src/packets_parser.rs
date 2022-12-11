@@ -1840,13 +1840,13 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x02 && buffer[1] == 0xcf {
         return Box::new(PacketCzMemorialdungeonCommand::from(buffer, packetver));
     }
-    if buffer[0] == 0x02 && buffer[1] == 0xd0 {
+    if buffer[0] == 0xd0 && buffer[1] == 0x02 {
         return Box::new(PacketZcEquipmentItemlist3::from(buffer, packetver));
     }
-    if buffer[0] == 0x02 && buffer[1] == 0xd1 {
+    if buffer[0] == 0xd1 && buffer[1] == 0x02 {
         return Box::new(PacketZcStoreEquipmentItemlist3::from(buffer, packetver));
     }
-    if buffer[0] == 0x02 && buffer[1] == 0xd2 {
+    if buffer[0] == 0xd2 && buffer[1] == 0x02 {
         return Box::new(PacketZcCartEquipmentItemlist3::from(buffer, packetver));
     }
     if buffer[0] == 0xd3 && buffer[1] == 0x02 {
@@ -1900,13 +1900,13 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x02 && buffer[1] == 0xe7 {
         return Box::new(PacketZcMapproperty::from(buffer, packetver));
     }
-    if buffer[0] == 0x02 && buffer[1] == 0xe8 {
+    if buffer[0] == 0xe8 && buffer[1] == 0x02 {
         return Box::new(PacketZcNormalItemlist3::from(buffer, packetver));
     }
-    if buffer[0] == 0x02 && buffer[1] == 0xe9 {
+    if buffer[0] == 0xe9 && buffer[1] == 0x02 {
         return Box::new(PacketZcCartNormalItemlist3::from(buffer, packetver));
     }
-    if buffer[0] == 0x02 && buffer[1] == 0xea {
+    if buffer[0] == 0xea && buffer[1] == 0x02 {
         return Box::new(PacketZcStoreNormalItemlist3::from(buffer, packetver));
     }
     if buffer[0] == 0xeb && buffer[1] == 0x02 {
