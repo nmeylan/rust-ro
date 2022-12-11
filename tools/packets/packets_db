@@ -4764,7 +4764,7 @@ struct PACKET_CZ_MEMORIALDUNGEON_COMMAND {
   short PacketId
   long Command
  }
-0x2d0
+0xd002
 struct PACKET_ZC_EQUIPMENT_ITEMLIST3 {
   short PacketId
   short PacketLength
@@ -4788,7 +4788,7 @@ struct PACKET_ZC_EQUIPMENT_ITEMLIST3 {
   unsigned short wItemSpriteNumber
   }
  }
-0x2d1
+0xd102
 struct PACKET_ZC_STORE_EQUIPMENT_ITEMLIST3 {
   short PacketId
   short PacketLength
@@ -4812,7 +4812,7 @@ struct PACKET_ZC_STORE_EQUIPMENT_ITEMLIST3 {
   unsigned short wItemSpriteNumber
   }
  }
-0x2d2
+0xd202
 struct PACKET_ZC_CART_EQUIPMENT_ITEMLIST3 {
   short PacketId
   short PacketLength
@@ -4990,7 +4990,7 @@ struct PACKET_ZC_MAPPROPERTY {
   short type
   int mapInfoTable[...]
  }
-0x2e8
+0xe802
 struct PACKET_ZC_NORMAL_ITEMLIST3 {
   short PacketId
   short PacketLength
@@ -5010,7 +5010,7 @@ struct PACKET_ZC_NORMAL_ITEMLIST3 {
   long HireExpireDate
   }
  }
-0x2e9
+0xe902
 struct PACKET_ZC_CART_NORMAL_ITEMLIST3 {
   short PacketId
   short PacketLength
@@ -5030,7 +5030,7 @@ struct PACKET_ZC_CART_NORMAL_ITEMLIST3 {
   long HireExpireDate
   }
  }
-0x2ea
+0xea02
 struct PACKET_ZC_STORE_NORMAL_ITEMLIST3 {
   short PacketId
   short PacketLength

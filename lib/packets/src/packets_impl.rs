@@ -94403,7 +94403,7 @@ impl Default for PacketCzMemorialdungeonCommand {
 
 impl PacketZcEquipmentItemlist3 {
     pub fn packet_id() -> &'static str {
-        "0x02d0"
+        "0xd002"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcEquipmentItemlist3 {
         let mut offset: usize = 0;
@@ -94499,8 +94499,8 @@ impl PacketZcEquipmentItemlist3 {
     pub fn new() -> PacketZcEquipmentItemlist3 {
         PacketZcEquipmentItemlist3 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2d, 0x0]),
-        packet_id_raw: [0x2d, 0x0],
+        packet_id: i16::from_le_bytes([0xd0, 0x02]),
+        packet_id_raw: [0xd0, 0x02],
         packet_length: 0,
         packet_length_raw: [0; 2],
         item_info: vec![],
@@ -94511,7 +94511,7 @@ impl PacketZcEquipmentItemlist3 {
 
 impl Packet for PacketZcEquipmentItemlist3 {
     fn id(&self) -> &str {
-       "0x02d0"
+       "0xd002"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -94548,7 +94548,7 @@ impl Default for PacketZcEquipmentItemlist3 {
 
 impl PacketZcStoreEquipmentItemlist3 {
     pub fn packet_id() -> &'static str {
-        "0x02d1"
+        "0xd102"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcStoreEquipmentItemlist3 {
         let mut offset: usize = 0;
@@ -94644,8 +94644,8 @@ impl PacketZcStoreEquipmentItemlist3 {
     pub fn new() -> PacketZcStoreEquipmentItemlist3 {
         PacketZcStoreEquipmentItemlist3 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2d, 0x1]),
-        packet_id_raw: [0x2d, 0x1],
+        packet_id: i16::from_le_bytes([0xd1, 0x02]),
+        packet_id_raw: [0xd1, 0x02],
         packet_length: 0,
         packet_length_raw: [0; 2],
         item_info: vec![],
@@ -94656,7 +94656,7 @@ impl PacketZcStoreEquipmentItemlist3 {
 
 impl Packet for PacketZcStoreEquipmentItemlist3 {
     fn id(&self) -> &str {
-       "0x02d1"
+       "0xd102"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -94693,7 +94693,7 @@ impl Default for PacketZcStoreEquipmentItemlist3 {
 
 impl PacketZcCartEquipmentItemlist3 {
     pub fn packet_id() -> &'static str {
-        "0x02d2"
+        "0xd202"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcCartEquipmentItemlist3 {
         let mut offset: usize = 0;
@@ -94789,8 +94789,8 @@ impl PacketZcCartEquipmentItemlist3 {
     pub fn new() -> PacketZcCartEquipmentItemlist3 {
         PacketZcCartEquipmentItemlist3 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2d, 0x2]),
-        packet_id_raw: [0x2d, 0x2],
+        packet_id: i16::from_le_bytes([0xd2, 0x02]),
+        packet_id_raw: [0xd2, 0x02],
         packet_length: 0,
         packet_length_raw: [0; 2],
         item_info: vec![],
@@ -94801,7 +94801,7 @@ impl PacketZcCartEquipmentItemlist3 {
 
 impl Packet for PacketZcCartEquipmentItemlist3 {
     fn id(&self) -> &str {
-       "0x02d2"
+       "0xd202"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -97783,7 +97783,7 @@ impl Default for PacketZcMapproperty {
 
 impl PacketZcNormalItemlist3 {
     pub fn packet_id() -> &'static str {
-        "0x02e8"
+        "0xe802"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNormalItemlist3 {
         let mut offset: usize = 0;
@@ -97879,8 +97879,8 @@ impl PacketZcNormalItemlist3 {
     pub fn new() -> PacketZcNormalItemlist3 {
         PacketZcNormalItemlist3 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2e, 0x8]),
-        packet_id_raw: [0x2e, 0x8],
+        packet_id: i16::from_le_bytes([0xe8, 0x02]),
+        packet_id_raw: [0xe8, 0x02],
         packet_length: 0,
         packet_length_raw: [0; 2],
         item_info: vec![],
@@ -97891,7 +97891,7 @@ impl PacketZcNormalItemlist3 {
 
 impl Packet for PacketZcNormalItemlist3 {
     fn id(&self) -> &str {
-       "0x02e8"
+       "0xe802"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -97928,7 +97928,7 @@ impl Default for PacketZcNormalItemlist3 {
 
 impl PacketZcCartNormalItemlist3 {
     pub fn packet_id() -> &'static str {
-        "0x02e9"
+        "0xe902"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcCartNormalItemlist3 {
         let mut offset: usize = 0;
@@ -98024,8 +98024,8 @@ impl PacketZcCartNormalItemlist3 {
     pub fn new() -> PacketZcCartNormalItemlist3 {
         PacketZcCartNormalItemlist3 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2e, 0x9]),
-        packet_id_raw: [0x2e, 0x9],
+        packet_id: i16::from_le_bytes([0xe9, 0x02]),
+        packet_id_raw: [0xe9, 0x02],
         packet_length: 0,
         packet_length_raw: [0; 2],
         item_info: vec![],
@@ -98036,7 +98036,7 @@ impl PacketZcCartNormalItemlist3 {
 
 impl Packet for PacketZcCartNormalItemlist3 {
     fn id(&self) -> &str {
-       "0x02e9"
+       "0xe902"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -98073,7 +98073,7 @@ impl Default for PacketZcCartNormalItemlist3 {
 
 impl PacketZcStoreNormalItemlist3 {
     pub fn packet_id() -> &'static str {
-        "0x02ea"
+        "0xea02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcStoreNormalItemlist3 {
         let mut offset: usize = 0;
@@ -98169,8 +98169,8 @@ impl PacketZcStoreNormalItemlist3 {
     pub fn new() -> PacketZcStoreNormalItemlist3 {
         PacketZcStoreNormalItemlist3 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2e, 0xa]),
-        packet_id_raw: [0x2e, 0xa],
+        packet_id: i16::from_le_bytes([0xea, 0x02]),
+        packet_id_raw: [0xea, 0x02],
         packet_length: 0,
         packet_length_raw: [0; 2],
         item_info: vec![],
@@ -98181,7 +98181,7 @@ impl PacketZcStoreNormalItemlist3 {
 
 impl Packet for PacketZcStoreNormalItemlist3 {
     fn id(&self) -> &str {
-       "0x02ea"
+       "0xea02"
     }
     fn debug(&self) {
             println!("{:?}", self)
