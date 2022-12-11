@@ -49,6 +49,25 @@ impl ItemType {
             ItemType::Unknown | ItemType::Armor | ItemType::Weapon | ItemType::PetEgg | ItemType::PetArmor | ItemType::Unknown2 | ItemType::ShadowGear | ItemType::Cash | ItemType::Max => {
                 false
             }
+        };
+    }
+
+    pub fn is_consumable(&self) -> bool {
+        match self {
+            ItemType::Healing | ItemType::Usable | ItemType::PetEgg | ItemType::DelayConsume | ItemType::Cash => { true }
+            _ => false
+        }
+    }
+    pub fn is_equipment(&self) -> bool {
+        match self {
+            ItemType::Armor | ItemType::Weapon | ItemType::PetArmor | ItemType::ShadowGear => { true }
+            _ => false
+        }
+    }
+    pub fn is_etc(&self) -> bool {
+        match self {
+            ItemType::Etc | ItemType::Card | ItemType::Unknown2 | ItemType::Ammo | ItemType::Max => { true }
+            _ => false
         }
     }
 }

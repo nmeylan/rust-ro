@@ -54,6 +54,10 @@ pub fn handle_atcommand(server: &Server, context: Request, packet: &PacketCzPlay
             let result = handle_item(server, context.session(), context.runtime(), args);
             packet_zc_notify_playerchat.set_msg(result);
         }
+        "inspect" | "i" => {
+            let result = handle_inspect(server, context.session(), context.runtime(), args);
+            packet_zc_notify_playerchat.set_msg(result);
+        }
         _ => {
             packet_zc_notify_playerchat.set_msg(format!("{}{} is an Unknown Command.", symbol, command));
         }
@@ -142,7 +146,16 @@ pub fn handle_warp(server: &Server, session: Arc<Session>, _runtime: &Runtime, a
 }
 
 pub fn handle_item(server: &Server, session: Arc<Session>, runtime: &Runtime, args: Vec::<&str>) -> String {
-    get_items(session.char_id(), server, runtime, vec![(501, 10), (2313, 1)]);
+    if args.len() != 2 {
+        return format!("@item command accept 2 parameters but received {}", args.len());
+    }
+    get_items(session.char_id(), server, runtime, vec![(args[0].parse::<i32>().unwrap(), args[1].parse::<i16>().unwrap())]);
 
+    format!("")
+}
+pub fn handle_inspect(server: &Server, session: Arc<Session>, runtime: &Runtime, args: Vec::<&str>) -> String {
+    let char_id = session.char_id();
+    let character = server.get_character_unsafe(char_id);
+    character.print();
     format!("")
 }
