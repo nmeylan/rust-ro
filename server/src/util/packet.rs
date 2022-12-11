@@ -14,3 +14,11 @@ pub fn chain_packets_raws(packets_raw: Vec<&Vec<u8>>) -> Vec<u8> {
     }
     res
 }
+
+pub fn chain_packets_raws_by_value(packets_raw: Vec<Vec<u8>>) -> Vec<u8> {
+    let mut res: Vec<u8> = Vec::new();
+    for raw in packets_raw {
+        res = res.iter().cloned().chain(raw).collect();
+    }
+    res
+}

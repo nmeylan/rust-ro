@@ -2,9 +2,11 @@ use std::sync::Arc;
 use std::sync::mpsc::SyncSender;
 use std::thread::{sleep};
 use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
+use rand::RngCore;
+use tokio::runtime::Runtime;
 
 
-use packets::packets::{Packet, PacketZcLongparChange, PacketZcNotifyPlayermove, PacketZcNpcackMapmove, PacketZcSpriteChange2};
+use packets::packets::{Packet, PacketZcItemPickupAck3, PacketZcLongparChange, PacketZcNotifyPlayermove, PacketZcNpcackMapmove, PacketZcSpriteChange2};
 use crate::PersistenceEvent;
 use crate::PersistenceEvent::SaveCharacterPosition;
 
@@ -14,12 +16,13 @@ use crate::server::events::game_event::{CharacterChangeMap, GameEvent};
 use crate::server::core::map::{MAP_EXT};
 use crate::server::events::map_event::MapEvent::{*};
 use crate::server::events::client_notification::{AreaNotification, AreaNotificationRangeType, CharNotification, Notification};
-use crate::server::events::persistence_event::{SavePositionUpdate, StatusUpdate};
+use crate::server::events::persistence_event::{InventoryItemUpdate, SavePositionUpdate, StatusUpdate};
 use crate::server::core::position::Position;
 use crate::server::enums::status::StatusTypes;
 
 use crate::server::map_item::{ToMapItem, ToMapItemSnapshot};
 use crate::server::Server;
+use crate::util::packet::{chain_packets, chain_packets_raws, chain_packets_raws_by_value};
 use crate::util::string::StringUtil;
 
 
@@ -27,7 +30,7 @@ const MOVEMENT_TICK_RATE: u128 = 20;
 const GAME_TICK_RATE: u128 = 40;
 
 impl Server {
-    pub(crate) fn game_loop(server_ref: Arc<Server>, client_notification_sender_clone: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>) {
+    pub(crate) fn game_loop(server_ref: Arc<Server>, client_notification_sender_clone: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, runtime: Runtime) {
         let mut last_mobs_action = Instant::now();
         loop {
             let tick = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis();
@@ -112,13 +115,40 @@ impl Server {
                             packet_zc_longpar_change.set_amount(character.get_zeny() as i32);
                             packet_zc_longpar_change.set_var_id(StatusTypes::Zeny.value() as u16);
                             packet_zc_longpar_change.fill_raw();
-                            server_ref.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, std::mem::take(packet_zc_longpar_change.raw_mut())))).expect("Fail to send client notification");;
+                            server_ref.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, std::mem::take(packet_zc_longpar_change.raw_mut())))).expect("Fail to send client notification");
+
                         }
                         GameEvent::CharacterAddItems(add_items) => {
                             let character = characters.get_mut(&add_items.char_id).unwrap();
-                            let inventory_item_updates = character.add_items(add_items.items);
-                            persistence_event_sender.send(PersistenceEvent::UpdateCharacterInventory(inventory_item_updates));
-
+                            runtime.block_on(async {
+                                let mut rng = rand::thread_rng();
+                                let inventory_item_updates = add_items.items.iter().map(|item| {
+                                    if item.item_type.is_stackable() {
+                                        InventoryItemUpdate { char_id: add_items.char_id as i32, item_id: item.item_id as i16, amount: item.amount as i16, stackable: true, identified: item.is_identified, unique_id: 0}
+                                    } else {
+                                        InventoryItemUpdate { char_id: add_items.char_id as i32, item_id: item.item_id as i16, amount: item.amount as i16, stackable: false, identified: item.is_identified, unique_id: rng.next_u32() as i64}
+                                    }
+                                }).collect();
+                                let result = server_ref.repository.character_inventory_update(&inventory_item_updates).await;
+                                if result.is_ok() {
+                                    let mut packets = vec![];
+                                    character.add_items(add_items.items).iter().for_each(|(index, item)| {
+                                        let mut packet_zc_item_pickup_ack3 = PacketZcItemPickupAck3::new();
+                                        packet_zc_item_pickup_ack3.set_itid(item.item_id as u16);
+                                        packet_zc_item_pickup_ack3.set_count(item.amount as u16);
+                                        packet_zc_item_pickup_ack3.set_index(*index as u16);
+                                        packet_zc_item_pickup_ack3.set_is_identified(item.is_identified);
+                                        packet_zc_item_pickup_ack3.set_atype(item.item_type.value() as u8);
+                                        packet_zc_item_pickup_ack3.fill_raw();
+                                        packet_zc_item_pickup_ack3.pretty_debug();
+                                        packets.push(packet_zc_item_pickup_ack3)
+                                    });
+                                    // TODO weight to update on client. character.weight
+                                    server_ref.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id,
+                                                                                                                        chain_packets_raws_by_value(packets.iter().map(|packet| packet.raw.clone()).collect()))))
+                                        .expect("Fail to send client notification");
+                                }
+                            });
                         }
                     }
                 }

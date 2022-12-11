@@ -272,8 +272,10 @@ impl Server {
             let server_ref_clone = server_ref.clone();
             let client_notification_sender_clone = server_ref.client_notification_sender();
             let persistence_event_sender_clone = persistence_event_sender.clone();
-            thread::Builder::new().name("game_loop_thread".to_string()).spawn_scoped(server_thread_scope,move || {
-                Self::game_loop(server_ref_clone, client_notification_sender_clone, persistence_event_sender_clone);
+            thread::Builder::new().name("game_loop_thread".to_string()).spawn_scoped(server_thread_scope, move || {
+                let runtime = Runtime::new().unwrap();
+                Self::game_loop(server_ref_clone, client_notification_sender_clone, persistence_event_sender_clone, runtime)
+               ;
             }).unwrap();
             let server_ref_clone = server_ref.clone();
             let client_notification_sender_clone = server_ref.client_notification_sender();

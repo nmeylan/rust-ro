@@ -1,4 +1,4 @@
-#[derive(r#enum::WithNumberValue, Debug)]
+#[derive(r#enum::WithNumberValue, Debug, Copy, Clone)]
 pub enum ItemType {
     #[value = 0]
     Healing,
