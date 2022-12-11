@@ -1,5 +1,6 @@
 use std::collections::HashSet;
-use std::mem;
+use std::{io, mem};
+use std::io::Write;
 use std::sync::{Arc, Mutex};
 use std::sync::mpsc::SyncSender;
 use rand::RngCore;
@@ -248,11 +249,11 @@ impl Character {
         let mut added_items = vec![];
         for item in items {
             if item.item_type.is_stackable() {
-               if let Some((index, item_in_inventory)) = self.inventory.iter_mut().enumerate().filter(|(_, i)| i.is_some()).map(|(index, i)|(index,  i.as_mut().unwrap())).find(|(index, i)| i.item_id == item.item_id) {
-                   item_in_inventory.amount += item.amount;
-                   added_items.push((index, item.clone()));
-                   continue;
-               }
+                if let Some((index, item_in_inventory)) = self.inventory.iter_mut().enumerate().filter(|(_, i)| i.is_some()).map(|(index, i)| (index, i.as_mut().unwrap())).find(|(index, i)| i.item_id == item.item_id) {
+                    item_in_inventory.amount += item.amount;
+                    added_items.push((index, item.clone()));
+                    continue;
+                }
             }
             added_items.push((self.add_in_inventory(item.clone()), item));
         }
@@ -267,6 +268,45 @@ impl Character {
             self.inventory.push(Some(item));
             self.inventory.len() - 1
         }
+    }
+
+    pub fn weight(&self) -> u16 {
+        self.inventory.iter()
+            .filter(|item| item.is_some())
+            .map(|item| {
+                let item = item.as_ref().unwrap();
+                item.weight * item.amount
+            })
+            .sum()
+    }
+
+    pub fn print(&self) {
+        let mut stdout = io::stdout();
+        writeln!(stdout, "************** {} - {} ****************", self.name, self.char_id).unwrap();
+        writeln!(stdout, "Status:").unwrap();
+        writeln!(stdout, "  str: {}", self.status.str).unwrap();
+        writeln!(stdout, "  agi: {}", self.status.agi).unwrap();
+        writeln!(stdout, "  vit: {}", self.status.vit).unwrap();
+        writeln!(stdout, "  int: {}", self.status.int).unwrap();
+        writeln!(stdout, "  dex: {}", self.status.dex).unwrap();
+        writeln!(stdout, "  luk: {}", self.status.luk).unwrap();
+        writeln!(stdout, "  speed: {}", self.status.speed).unwrap();
+        writeln!(stdout, "  hp: {}/{}", self.status.hp, self.status.max_hp).unwrap();
+        writeln!(stdout, "  sp: {}/{}", self.status.sp, self.status.max_sp).unwrap();
+        writeln!(stdout, "  zeny: {}", self.status.zeny).unwrap();
+        writeln!(stdout, "  weight: {}", self.weight()).unwrap();
+        writeln!(stdout, "Inventory:").unwrap();
+        let mut inventory_print = |predicate: Box<dyn Fn(&(usize, &InventoryItem)) -> bool>| {
+            self.inventory.iter().enumerate()
+                .filter(|(_, item)| item.is_some())
+                .map(|(index, item)| (index, item.as_ref().unwrap()))
+                .filter(predicate)
+                .for_each(|(index, item)| writeln!(stdout, " [{}] {} - {} ({})", index, item.name_english, item.item_id, item.amount).unwrap());
+        };
+        inventory_print(Box::new(|(_, item)| item.item_type.is_consumable()));
+        inventory_print(Box::new(|(_, item)| item.item_type.is_equipment()));
+        inventory_print(Box::new(|(_, item)| item.item_type.is_etc()));
+        stdout.flush().unwrap();
     }
 }
 
