@@ -1,5 +1,5 @@
 use tokio::runtime::Runtime;
-use crate::server::core::inventory_item::InventoryItem;
+use crate::repository::model::item_model::InventoryItemModel;
 use crate::server::enums::item::ItemType;
 use crate::server::events::game_event::{CharacterAddItems, GameEvent};
 use crate::server::Server;
@@ -10,13 +10,22 @@ pub fn get_items(char_id: u32, server: &Server, runtime: &Runtime, item_ids_amou
     server.add_to_next_tick(GameEvent::CharacterAddItems(CharacterAddItems{
         char_id,
         should_perform_check: true,
-        items: items.iter().map(|item| InventoryItem{
-            item_id: item.id as u16,
+        items: items.iter().map(|item| InventoryItemModel {
+            id: 0,
+            unique_id: 0,
+            item_id: item.id as i16,
             item_type: ItemType::from_string(item.item_type.as_str()),
-            amount: item.amount as u16,
-            weight: item.weight as u16,
+            amount: item.amount,
+            weight: item.weight,
             name_english: item.name_english.clone(),
-            is_identified:  true
+            is_identified:  true,
+            refine: 0,
+            is_damaged: false,
+            card0: 0,
+            card1: 0,
+            card2: 0,
+            equip: 0,
+            card3: 0
         }).collect()
     }));
 }

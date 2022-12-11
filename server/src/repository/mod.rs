@@ -2,6 +2,7 @@ pub mod model;
 pub mod character_repository;
 pub mod script_variable_repository;
 pub mod item_repository;
+pub mod inventory_repository;
 
 use std::fmt::format;
 use sqlx::{PgPool, Pool, Type, Encode, Database, Row, FromRow, Postgres, Decode, ValueRef, Error};

@@ -8,7 +8,6 @@ use regex::Regex;
 
 use packets::packets::Packet;
 use crate::server::core::configuration::CityConfig;
-use crate::server::core::inventory_item::InventoryItem;
 use crate::server::service::character_movement::change_map_packet;
 use crate::server::core::map::RANDOM_CELL;
 use crate::server::core::request::Request;
