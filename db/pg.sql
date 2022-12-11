@@ -333,7 +333,7 @@ CREATE TABLE ragnarok.auction (
     item_name character varying(50) DEFAULT ''::character varying NOT NULL,
     type smallint DEFAULT '0'::smallint NOT NULL,
     refine smallint DEFAULT '0'::smallint NOT NULL,
-    attribute smallint DEFAULT '0'::smallint NOT NULL,
+    damaged BOOLEAN DEFAULT false NOT NULL,
     card0 INTEGER DEFAULT '0'::INTEGER NOT NULL,
     card1 INTEGER DEFAULT '0'::INTEGER NOT NULL,
     card2 INTEGER DEFAULT '0'::INTEGER NOT NULL,
@@ -496,9 +496,9 @@ CREATE TABLE ragnarok.cart_inventory (
     nameid INTEGER DEFAULT '0'::INTEGER NOT NULL,
     amount integer DEFAULT 0 NOT NULL,
     equip INTEGER DEFAULT '0'::INTEGER NOT NULL,
-    identify smallint DEFAULT '0'::smallint NOT NULL,
+    identified BOOLEAN DEFAULT false NOT NULL,
     refine smallint DEFAULT '0'::smallint NOT NULL,
-    attribute smallint DEFAULT '0'::smallint NOT NULL,
+    damaged BOOLEAN DEFAULT false NOT NULL,
     card0 INTEGER DEFAULT '0'::INTEGER NOT NULL,
     card1 INTEGER DEFAULT '0'::INTEGER NOT NULL,
     card2 INTEGER DEFAULT '0'::INTEGER NOT NULL,
@@ -1126,9 +1126,9 @@ CREATE TABLE ragnarok.guild_storage (
     nameid INTEGER DEFAULT '0'::INTEGER NOT NULL,
     amount INTEGER DEFAULT '0'::INTEGER NOT NULL,
     equip INTEGER DEFAULT '0'::INTEGER NOT NULL,
-    identify integer DEFAULT 0 NOT NULL,
+    identified integer DEFAULT 0 NOT NULL,
     refine smallint DEFAULT '0'::smallint NOT NULL,
-    attribute smallint DEFAULT '0'::smallint NOT NULL,
+    damaged BOOLEAN DEFAULT false NOT NULL,
     card0 INTEGER DEFAULT '0'::INTEGER NOT NULL,
     card1 INTEGER DEFAULT '0'::INTEGER NOT NULL,
     card2 INTEGER DEFAULT '0'::INTEGER NOT NULL,
@@ -1190,9 +1190,9 @@ CREATE TABLE ragnarok.guild_storage_log (
     name character varying(24) DEFAULT ''::character varying NOT NULL,
     nameid INTEGER DEFAULT '0'::INTEGER NOT NULL,
     amount integer DEFAULT 1 NOT NULL,
-    identify smallint DEFAULT '0'::smallint NOT NULL,
+    identified BOOLEAN DEFAULT false NOT NULL,
     refine smallint DEFAULT '0'::smallint NOT NULL,
-    attribute smallint DEFAULT '0'::smallint NOT NULL,
+    damaged BOOLEAN DEFAULT false NOT NULL,
     card0 INTEGER DEFAULT '0'::INTEGER NOT NULL,
     card1 INTEGER DEFAULT '0'::INTEGER NOT NULL,
     card2 INTEGER DEFAULT '0'::INTEGER NOT NULL,
@@ -1293,9 +1293,9 @@ CREATE TABLE ragnarok.inventory (
     nameid smallint DEFAULT '0'::INTEGER NOT NULL,
     amount smallint DEFAULT '0'::INTEGER NOT NULL,
     equip INTEGER DEFAULT '0'::INTEGER NOT NULL,
-    identify bool DEFAULT false NOT NULL,
+    identified bool DEFAULT false NOT NULL,
     refine smallint DEFAULT '0'::smallint NOT NULL,
-    attribute smallint DEFAULT '0'::smallint NOT NULL,
+    damaged bool DEFAULT false NOT NULL,
     card0 INTEGER DEFAULT '0'::INTEGER NOT NULL,
     card1 INTEGER DEFAULT '0'::INTEGER NOT NULL,
     card2 INTEGER DEFAULT '0'::INTEGER NOT NULL,
@@ -1326,7 +1326,7 @@ CREATE TABLE ragnarok.inventory (
 
 ALTER TABLE ragnarok.inventory OWNER TO ragnarok;
 create unique index charid_nameid
-    on inventory (char_id, nameid, unique_id);
+    on ragnarok.inventory (char_id, nameid, unique_id);
 
 --
 -- Name: inventory_id_seq; Type: SEQUENCE; Schema: ragnarok; Owner: ragnarok
@@ -1571,8 +1571,8 @@ CREATE TABLE ragnarok.mail_attachments (
     nameid INTEGER DEFAULT '0'::INTEGER NOT NULL,
     amount INTEGER DEFAULT '0'::INTEGER NOT NULL,
     refine smallint DEFAULT '0'::smallint NOT NULL,
-    attribute smallint DEFAULT '0'::smallint NOT NULL,
-    identify smallint DEFAULT '0'::smallint NOT NULL,
+    damaged BOOLEAN DEFAULT false NOT NULL,
+    identified BOOLEAN DEFAULT false NOT NULL,
     card0 INTEGER DEFAULT '0'::INTEGER NOT NULL,
     card1 INTEGER DEFAULT '0'::INTEGER NOT NULL,
     card2 INTEGER DEFAULT '0'::INTEGER NOT NULL,
@@ -2265,9 +2265,9 @@ CREATE TABLE ragnarok.storage (
     nameid INTEGER DEFAULT '0'::INTEGER NOT NULL,
     amount integer DEFAULT 0 NOT NULL,
     equip INTEGER DEFAULT '0'::INTEGER NOT NULL,
-    identify integer DEFAULT 0 NOT NULL,
+    identified integer DEFAULT 0 NOT NULL,
     refine smallint DEFAULT '0'::smallint NOT NULL,
-    attribute smallint DEFAULT '0'::smallint NOT NULL,
+    damaged BOOLEAN DEFAULT false NOT NULL,
     card0 INTEGER DEFAULT '0'::INTEGER NOT NULL,
     card1 INTEGER DEFAULT '0'::INTEGER NOT NULL,
     card2 INTEGER DEFAULT '0'::INTEGER NOT NULL,
@@ -2578,7 +2578,7 @@ COPY ragnarok.atcommandlog (atcommand_id, atcommand_date, account_id, char_id, c
 -- Data for Name: auction; Type: TABLE DATA; Schema: ragnarok; Owner: ragnarok
 --
 
-COPY ragnarok.auction (auction_id, seller_id, seller_name, buyer_id, buyer_name, price, buynow, hours, "timestamp", nameid, item_name, type, refine, attribute, card0, card1, card2, card3, option_id0, option_val0, option_parm0, option_id1, option_val1, option_parm1, option_id2, option_val2, option_parm2, option_id3, option_val3, option_parm3, option_id4, option_val4, option_parm4, unique_id, enchantgrade) FROM stdin;
+COPY ragnarok.auction (auction_id, seller_id, seller_name, buyer_id, buyer_name, price, buynow, hours, "timestamp", nameid, item_name, type, refine, damaged, card0, card1, card2, card3, option_id0, option_val0, option_parm0, option_id1, option_val1, option_parm1, option_id2, option_val2, option_parm2, option_id3, option_val3, option_parm3, option_id4, option_val4, option_parm4, unique_id, enchantgrade) FROM stdin;
 \.
 
 
@@ -2626,7 +2626,7 @@ COPY ragnarok.buyingstores (id, account_id, char_id, sex, map, x, y, title, "lim
 -- Data for Name: cart_inventory; Type: TABLE DATA; Schema: ragnarok; Owner: ragnarok
 --
 
-COPY ragnarok.cart_inventory (id, char_id, nameid, amount, equip, identify, refine, attribute, card0, card1, card2, card3, option_id0, option_val0, option_parm0, option_id1, option_val1, option_parm1, option_id2, option_val2, option_parm2, option_id3, option_val3, option_parm3, option_id4, option_val4, option_parm4, expire_time, bound, unique_id, enchantgrade) FROM stdin;
+COPY ragnarok.cart_inventory (id, char_id, nameid, amount, equip, identified, refine, damaged, card0, card1, card2, card3, option_id0, option_val0, option_parm0, option_id1, option_val1, option_parm1, option_id2, option_val2, option_parm2, option_id3, option_val3, option_parm3, option_id4, option_val4, option_parm4, expire_time, bound, unique_id, enchantgrade) FROM stdin;
 \.
 
 
@@ -2885,7 +2885,7 @@ COPY ragnarok.guild_skill (guild_id, id, lv) FROM stdin;
 -- Data for Name: guild_storage; Type: TABLE DATA; Schema: ragnarok; Owner: ragnarok
 --
 
-COPY ragnarok.guild_storage (id, guild_id, nameid, amount, equip, identify, refine, attribute, card0, card1, card2, card3, option_id0, option_val0, option_parm0, option_id1, option_val1, option_parm1, option_id2, option_val2, option_parm2, option_id3, option_val3, option_parm3, option_id4, option_val4, option_parm4, expire_time, bound, unique_id, enchantgrade) FROM stdin;
+COPY ragnarok.guild_storage (id, guild_id, nameid, amount, equip, identified, refine, damaged, card0, card1, card2, card3, option_id0, option_val0, option_parm0, option_id1, option_val1, option_parm1, option_id2, option_val2, option_parm2, option_id3, option_val3, option_parm3, option_id4, option_val4, option_parm4, expire_time, bound, unique_id, enchantgrade) FROM stdin;
 \.
 
 
@@ -2893,7 +2893,7 @@ COPY ragnarok.guild_storage (id, guild_id, nameid, amount, equip, identify, refi
 -- Data for Name: guild_storage_log; Type: TABLE DATA; Schema: ragnarok; Owner: ragnarok
 --
 
-COPY ragnarok.guild_storage_log (id, guild_id, "time", char_id, name, nameid, amount, identify, refine, attribute, card0, card1, card2, card3, option_id0, option_val0, option_parm0, option_id1, option_val1, option_parm1, option_id2, option_val2, option_parm2, option_id3, option_val3, option_parm3, option_id4, option_val4, option_parm4, expire_time, unique_id, bound, enchantgrade) FROM stdin;
+COPY ragnarok.guild_storage_log (id, guild_id, "time", char_id, name, nameid, amount, identified, refine, damaged, card0, card1, card2, card3, option_id0, option_val0, option_parm0, option_id1, option_val1, option_parm1, option_id2, option_val2, option_parm2, option_id3, option_val3, option_parm3, option_id4, option_val4, option_parm4, expire_time, unique_id, bound, enchantgrade) FROM stdin;
 \.
 
 
@@ -2925,7 +2925,7 @@ COPY ragnarok.interlog (id, "time", log) FROM stdin;
 -- Data for Name: inventory; Type: TABLE DATA; Schema: ragnarok; Owner: ragnarok
 --
 
-COPY ragnarok.inventory (id, char_id, nameid, amount, equip, identify, refine, attribute, card0, card1, card2, card3, option_id0, option_val0, option_parm0, option_id1, option_val1, option_parm1, option_id2, option_val2, option_parm2, option_id3, option_val3, option_parm3, option_id4, option_val4, option_parm4, expire_time, favorite, bound, unique_id, equip_switch, enchantgrade) FROM stdin;
+COPY ragnarok.inventory (id, char_id, nameid, amount, equip, identified, refine, damaged, card0, card1, card2, card3, option_id0, option_val0, option_parm0, option_id1, option_val1, option_parm1, option_id2, option_val2, option_parm2, option_id3, option_val3, option_parm3, option_id4, option_val4, option_parm4, expire_time, favorite, bound, unique_id, equip_switch, enchantgrade) FROM stdin;
 1	150001	506	21	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
 2	150000	506	22	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
 3	150001	2604	21	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	644249389367296	0	0
@@ -9378,7 +9378,7 @@ COPY ragnarok.mail (id, send_name, send_id, dest_name, dest_id, title, message, 
 -- Data for Name: mail_attachments; Type: TABLE DATA; Schema: ragnarok; Owner: ragnarok
 --
 
-COPY ragnarok.mail_attachments (id, index, nameid, amount, refine, attribute, identify, card0, card1, card2, card3, option_id0, option_val0, option_parm0, option_id1, option_val1, option_parm1, option_id2, option_val2, option_parm2, option_id3, option_val3, option_parm3, option_id4, option_val4, option_parm4, unique_id, bound, enchantgrade) FROM stdin;
+COPY ragnarok.mail_attachments (id, index, nameid, amount, refine, damaged, identified, card0, card1, card2, card3, option_id0, option_val0, option_parm0, option_id1, option_val1, option_parm1, option_id2, option_val2, option_parm2, option_id3, option_val3, option_parm3, option_id4, option_val4, option_parm4, unique_id, bound, enchantgrade) FROM stdin;
 \.
 
 
@@ -16458,7 +16458,7 @@ COPY ragnarok.skillcooldown (account_id, char_id, skill, tick) FROM stdin;
 -- Data for Name: storage; Type: TABLE DATA; Schema: ragnarok; Owner: ragnarok
 --
 
-COPY ragnarok.storage (id, account_id, nameid, amount, equip, identify, refine, attribute, card0, card1, card2, card3, option_id0, option_val0, option_parm0, option_id1, option_val1, option_parm1, option_id2, option_val2, option_parm2, option_id3, option_val3, option_parm3, option_id4, option_val4, option_parm4, expire_time, bound, unique_id, enchantgrade) FROM stdin;
+COPY ragnarok.storage (id, account_id, nameid, amount, equip, identified, refine, damaged, card0, card1, card2, card3, option_id0, option_val0, option_parm0, option_id1, option_val1, option_parm1, option_id2, option_val2, option_parm2, option_id3, option_val3, option_parm3, option_id4, option_val4, option_parm4, expire_time, bound, unique_id, enchantgrade) FROM stdin;
 \.
 
 
