@@ -50,7 +50,7 @@ Database:
 - mob move
 - NPC scripts (partially: see https://github.com/nmeylan/rust-ro/issues/3) via [rathena script lang interpreter](https://github.com/nmeylan/rathena-script-lang-interpreter)
 
-Integration of the VM
+Integration of the VM (showing instance and class(npc) variable)
 
 https://user-images.githubusercontent.com/1909074/178155321-d3eeb4b8-32ed-4901-bbfe-b101b1a5a56d.mp4
 
