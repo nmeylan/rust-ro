@@ -148,7 +148,7 @@ pub fn handle_item(server: &Server, session: Arc<Session>, runtime: &Runtime, ar
     if args.len() != 2 {
         return format!("@item command accept 2 parameters but received {}", args.len());
     }
-    get_items(session.char_id(), server, runtime, vec![(args[0].parse::<i32>().unwrap(), args[1].parse::<i16>().unwrap())]);
+    get_items(session.char_id(), server, runtime, vec![(args[0].parse::<i32>().unwrap(), args[1].parse::<i16>().unwrap())], false);
 
     format!("")
 }

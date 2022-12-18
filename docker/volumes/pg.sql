@@ -1290,7 +1290,7 @@ ALTER TABLE ragnarok.interlog OWNER TO ragnarok;
 CREATE TABLE ragnarok.inventory (
     id INTEGER NOT NULL,
     char_id INTEGER DEFAULT '0'::INTEGER NOT NULL,
-    nameid smallint DEFAULT '0'::INTEGER NOT NULL,
+    nameid INTEGER DEFAULT '0'::INTEGER NOT NULL,
     amount smallint DEFAULT '0'::INTEGER NOT NULL,
     equip smallint DEFAULT '0'::INTEGER NOT NULL,
     identified bool DEFAULT false NOT NULL,

@@ -1,31 +1,54 @@
-use sqlx::{Error, Executor};
+use sqlx::{Error, Executor, Row};
 use crate::repository::model::item_model::{GetItemModel, InventoryItemModel};
 use crate::repository::Repository;
 use crate::server::events::persistence_event::InventoryItemUpdate;
 
 impl Repository {
-    pub async fn character_inventory_update(&self, inventory_update_items: &Vec<InventoryItemUpdate>) -> Result<(), Error> {
+    pub async fn character_inventory_update(&self, inventory_update_items: &Vec<InventoryItemUpdate>, buy: bool) -> Result<(), Error> {
         let stackable_items = inventory_update_items.iter().filter(|item| item.stackable).collect::<Vec<&InventoryItemUpdate>>();
         let not_stackable_items = inventory_update_items.iter().filter(|item| !item.stackable).collect::<Vec<&InventoryItemUpdate>>();
-
         let mut tx = self.pool.begin().await.unwrap();
+        let mut updated_item_ids_amounts: Vec<(i32, i16)> = inventory_update_items.iter().map(|item| (item.item_id, item.amount)).collect();
         tx.execute(sqlx::query("INSERT INTO inventory (char_id, nameid, amount, identified) \
-        (SELECT * FROM UNNEST($1::int4[], $2::int2[], $3::int2[], $4::bool[])) \
+        (SELECT * FROM UNNEST($1::int4[], $2::int4[], $3::int2[], $4::bool[])) \
         ON CONFLICT (char_id, nameid, unique_id)\
-         DO UPDATE set amount = inventory.amount + (SELECT * FROM UNNEST($3::int2[]))")
+         DO UPDATE set amount = inventory.amount + EXCLUDED.amount")
             .bind(stackable_items.iter().map(|i| i.char_id).collect::<Vec<i32>>())
-            .bind(stackable_items.iter().map(|i| i.item_id).collect::<Vec<i16>>())
+            .bind(stackable_items.iter().map(|i| i.item_id).collect::<Vec<i32>>())
             .bind(stackable_items.iter().map(|i| i.amount).collect::<Vec<i16>>())
             .bind(stackable_items.iter().map(|i| i.identified).collect::<Vec<bool>>())).await?;
         tx.execute(sqlx::query("INSERT INTO inventory (char_id, nameid, amount, identified, unique_id) \
-        (SELECT * FROM UNNEST($1::int4[], $2::int2[], $3::int2[], $4::bool[], $5::int8[])) ")
+        (SELECT * FROM UNNEST($1::int4[], $2::int4[], $3::int2[], $4::bool[], $5::int8[]))")
             .bind(not_stackable_items.iter().map(|i| i.char_id).collect::<Vec<i32>>())
-            .bind(not_stackable_items.iter().map(|i| i.item_id).collect::<Vec<i16>>())
+            .bind(not_stackable_items.iter().map(|i| i.item_id).collect::<Vec<i32>>())
             .bind(not_stackable_items.iter().map(|i| i.amount).collect::<Vec<i16>>())
             .bind(not_stackable_items.iter().map(|i| i.identified).collect::<Vec<bool>>())
             .bind(not_stackable_items.iter().map(|i| i.unique_id).collect::<Vec<i64>>())
         ).await?;
-        tx.commit().await
+        if buy {
+            let item_ids_prices = tx.fetch_all(sqlx::query("SELECT DISTINCT id, price_buy FROM item_db WHERE id IN (SELECT * FROM UNNEST($1::int4[]))")
+                .bind(updated_item_ids_amounts.iter().map(|(id, amount)| *id).collect::<Vec<i32>>())).await?;
+            let cost = updated_item_ids_amounts.iter().fold(0, |mut acc, (id, amount)| {
+                let price = item_ids_prices.iter().find(|item_price| item_price.get::<i32, _>(0) == *id).map_or(0, |item_price| item_price.get::<i32, _>(1));
+                info!("{} cost {} zeny: {}", id, price, amount);
+                acc += (*amount as i32) * price;
+                acc
+            });
+            let updated_zeny = tx.fetch_all(sqlx::query("UPDATE char set zeny = zeny - $1 WHERE char_id = $2 RETURNING zeny;")
+                .bind(cost)
+                .bind(stackable_items[0].char_id)
+            ).await?;
+            let zeny: i32 = updated_zeny[0].get(0);
+            info!("Remaining zeny {}", zeny);
+            if zeny >= 0 {
+                tx.commit().await
+            } else {
+                tx.rollback().await
+            }
+        } else {
+            tx.commit().await
+        }
+
     }
 
     pub async fn character_inventory_fetch(&self, char_id: i32) -> Result<Vec<InventoryItemModel>, Error> {

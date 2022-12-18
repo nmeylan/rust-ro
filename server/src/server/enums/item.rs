@@ -33,8 +33,8 @@ impl ItemType {
             "PetArmor" => Self::PetArmor,
             "Unknown2" => Self::Unknown2,
             "Ammo" => Self::Ammo,
-            "DelayConsume" => Self::DelayConsume,
-            "ShadowGear" => Self::ShadowGear,
+            "Delayconsume" => Self::DelayConsume,
+            "Shadowgear" => Self::ShadowGear,
             "Cash" => Self::Cash,
             "Max" => Self::Max,
             &_ => Self::Unknown

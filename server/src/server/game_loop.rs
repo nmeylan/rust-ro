@@ -59,6 +59,7 @@ impl Server {
                                 character.update_position(new_position.x, new_position.y);
                                 character.clear_map_view();
                                 character.loaded_from_client_side = false;
+                                server_ref.add_to_next_tick(GameEvent::CharacterInitInventory(character.char_id));
                                 persistence_event_sender.send(SaveCharacterPosition(SavePositionUpdate { account_id: character.account_id, char_id: character.char_id, map_name: character.current_map_name().clone(), x: character.x(), y: character.y() }))
                                     .expect("Fail to send persistence notification");
                             } else {
@@ -124,12 +125,12 @@ impl Server {
                                 let mut rng = rand::thread_rng();
                                 let inventory_item_updates = add_items.items.iter().map(|item| {
                                     if item.item_type.is_stackable() {
-                                        InventoryItemUpdate { char_id: add_items.char_id as i32, item_id: item.item_id as i16, amount: item.amount as i16, stackable: true, identified: item.is_identified, unique_id: 0}
+                                        InventoryItemUpdate { char_id: add_items.char_id as i32, item_id: item.item_id as i32, amount: item.amount as i16, stackable: true, identified: item.is_identified, unique_id: 0}
                                     } else {
-                                        InventoryItemUpdate { char_id: add_items.char_id as i32, item_id: item.item_id as i16, amount: item.amount as i16, stackable: false, identified: item.is_identified, unique_id: rng.next_u32() as i64}
+                                        InventoryItemUpdate { char_id: add_items.char_id as i32, item_id: item.item_id as i32, amount: item.amount as i16, stackable: false, identified: item.is_identified, unique_id: rng.next_u32() as i64}
                                     }
                                 }).collect();
-                                let result = server_ref.repository.character_inventory_update(&inventory_item_updates).await;
+                                let result = server_ref.repository.character_inventory_update(&inventory_item_updates, add_items.buy).await;
                                 if result.is_ok() {
                                     let mut packets = vec![];
                                     character.add_items(add_items.items).iter().for_each(|(index, item)| {
@@ -154,6 +155,7 @@ impl Server {
                         }
                         GameEvent::CharacterInitInventory(char_id) => {
                             let character = characters.get_mut(&char_id).unwrap();
+                            character.inventory = vec![];
                             runtime.block_on(async {
                                 let items = server_ref.repository.character_inventory_fetch(char_id as i32).await.unwrap();
                                 character.add_items(items);

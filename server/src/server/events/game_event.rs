@@ -45,5 +45,6 @@ pub struct CharacterZeny {
 pub struct CharacterAddItems {
     pub char_id: u32,
     pub should_perform_check: bool, // indicate if we should perform checks before adding items to user
+    pub buy: bool, // indicate zeny should be used to buy item (zeny will be updated)
     pub items: Vec<InventoryItemModel>
 }
