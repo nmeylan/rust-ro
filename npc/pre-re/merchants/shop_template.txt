@@ -1,7 +1,15 @@
 -	script	ShopTemplate	FAKE_NPC,{
     // Callshop
+    print("Before delete");
+     for (.@i = 0; .@i < getarraysize(@bought_nameid); .@i++) {
+            print("BUY " + @bought_nameid[.@i] + " @bought_quantity["+.@i+"]: " +  @bought_quantity[.@i] + " at @bought_price["+.@i+"]: " +  @bought_price[.@i]);
+    }
     deletearray @bought_nameid[0], getarraysize(@bought_nameid);
     deletearray @bought_quantity[0], getarraysize(@bought_quantity);
+    print("After delete");
+     for (.@i = 0; .@i < getarraysize(@bought_nameid); .@i++) {
+            print("BUY " + @bought_nameid[.@i] + " @bought_quantity["+.@i+"]: " +  @bought_quantity[.@i] + " at @bought_price["+.@i+"]: " +  @bought_price[.@i]);
+    }
     .@selection = callshop();
     if (.@selection == 0) {                 // Buy
         senditemlist('items, 'prices);
@@ -13,15 +21,15 @@
 end;
 OnBuyItem:
     .@cost = 0;
-    message  strcharinfo(0), "on buy item";
     for (.@i = 0; .@i < getarraysize(@bought_nameid); .@i++) {
+        print("BUY " + @bought_nameid[.@i] + " @bought_quantity["+.@i+"]: " +  @bought_quantity[.@i] + " at @bought_price["+.@i+"]: " +  @bought_price[.@i]);
         .@cost += @bought_quantity[.@i] * @bought_price[.@i];
     }
     if .@cost > Zeny {
         message strcharinfo(0), "^FF0000You do not have enough zeny.^FF0000";
     } else {
         // todo: checkweigth
-        getitems2 getglobalarrayref(@bought_nameid), getglobalarrayref(@bought_quantity);
+        purchaseitems getglobalarrayref(@bought_nameid), getglobalarrayref(@bought_quantity);
        // for (.@i = 0; .@i < getarraysize(@bought_nameid); .@i++) {
        //     getitems @bought_nameid[.@i], @bought_quantity[.@i];
        // }

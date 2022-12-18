@@ -1,6 +1,7 @@
 use sqlx::{Error, Executor, Row};
 use crate::repository::model::item_model::{GetItemModel, InventoryItemModel};
-use crate::repository::Repository;
+use crate::repository::{Repository};
+use crate::repository::persistence_error::PersistenceError;
 use crate::server::events::persistence_event::InventoryItemUpdate;
 
 impl Repository {
@@ -43,7 +44,8 @@ impl Repository {
             if zeny >= 0 {
                 tx.commit().await
             } else {
-                tx.rollback().await
+                tx.rollback().await?;
+                Err(PersistenceError::new("Rollbacking buy: not enough zeny".to_string()).into())
             }
         } else {
             tx.commit().await

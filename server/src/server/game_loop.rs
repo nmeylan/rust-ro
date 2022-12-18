@@ -6,7 +6,7 @@ use rand::RngCore;
 use tokio::runtime::Runtime;
 
 
-use packets::packets::{EquipmentitemExtrainfo301, EQUIPSLOTINFO, NormalitemExtrainfo3, Packet, PacketZcEquipmentItemlist3, PacketZcItemPickupAck3, PacketZcLongparChange, PacketZcNormalItemlist3, PacketZcNotifyPlayermove, PacketZcNpcackMapmove, PacketZcSpriteChange2};
+use packets::packets::{EquipmentitemExtrainfo301, EQUIPSLOTINFO, NormalitemExtrainfo3, Packet, PacketZcEquipmentItemlist3, PacketZcItemPickupAck3, PacketZcLongparChange, PacketZcNormalItemlist3, PacketZcNotifyPlayermove, PacketZcNpcackMapmove, PacketZcPcPurchaseResult, PacketZcSpriteChange2};
 use crate::PersistenceEvent;
 use crate::PersistenceEvent::SaveCharacterPosition;
 
@@ -117,7 +117,6 @@ impl Server {
                             packet_zc_longpar_change.set_var_id(StatusTypes::Zeny.value() as u16);
                             packet_zc_longpar_change.fill_raw();
                             server_ref.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, std::mem::take(packet_zc_longpar_change.raw_mut())))).expect("Fail to send client notification");
-
                         }
                         GameEvent::CharacterAddItems(add_items) => {
                             let character = characters.get_mut(&add_items.char_id).unwrap();
@@ -125,9 +124,9 @@ impl Server {
                                 let mut rng = rand::thread_rng();
                                 let inventory_item_updates = add_items.items.iter().map(|item| {
                                     if item.item_type.is_stackable() {
-                                        InventoryItemUpdate { char_id: add_items.char_id as i32, item_id: item.item_id as i32, amount: item.amount as i16, stackable: true, identified: item.is_identified, unique_id: 0}
+                                        InventoryItemUpdate { char_id: add_items.char_id as i32, item_id: item.item_id as i32, amount: item.amount as i16, stackable: true, identified: item.is_identified, unique_id: 0 }
                                     } else {
-                                        InventoryItemUpdate { char_id: add_items.char_id as i32, item_id: item.item_id as i32, amount: item.amount as i16, stackable: false, identified: item.is_identified, unique_id: rng.next_u32() as i64}
+                                        InventoryItemUpdate { char_id: add_items.char_id as i32, item_id: item.item_id as i32, amount: item.amount as i16, stackable: false, identified: item.is_identified, unique_id: rng.next_u32() as i64 }
                                     }
                                 }).collect();
                                 let result = server_ref.repository.character_inventory_update(&inventory_item_updates, add_items.buy).await;
@@ -144,11 +143,18 @@ impl Server {
                                         packet_zc_item_pickup_ack3.pretty_debug();
                                         packets.push(packet_zc_item_pickup_ack3)
                                     });
-                                    // TODO weight to update on client. character.weight
-                                    server_ref.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id,
-                                                                                                                        chain_packets_raws_by_value(packets.iter().map(|packet| packet.raw.clone()).collect()))))
-                                        .expect("Fail to send client notification");
+                                    let mut packet_zc_pc_purchase_result = PacketZcPcPurchaseResult::new();
+                                    packet_zc_pc_purchase_result.set_result(0);
+                                    packet_zc_pc_purchase_result.fill_raw();
+                                    // TODO weight, zeny to update on client. character.weight
+                                    let mut packets_raws_by_value = chain_packets_raws_by_value(packets.iter().map(|packet| packet.raw.clone()).collect());
+                                    packets_raws_by_value.extend(packet_zc_pc_purchase_result.raw);
+                                    server_ref.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packets_raws_by_value))).expect("Fail to send client notification");
                                 } else {
+                                    let mut packet_zc_pc_purchase_result = PacketZcPcPurchaseResult::new();
+                                    packet_zc_pc_purchase_result.set_result(1);
+                                    packet_zc_pc_purchase_result.fill_raw();
+                                    server_ref.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packet_zc_pc_purchase_result.raw))).expect("Fail to send client notification");
                                     error!("{:?}", result.err());
                                 }
                             });

@@ -47,18 +47,25 @@ pub struct ScriptGlobalVariableStore {
 
 impl ScriptGlobalVariableStore {
     pub fn push(&mut self, variable: GlobalVariableEntry) {
-        self.remove_global_by_name_and_scope(&variable.name, &variable.scope);
+        self.remove_global_by_name_and_scope(&variable.name, &variable.scope, &variable.index);
         self.variables.push(variable);
     }
 
     pub fn find_global_by_name_and_scope(&self, name: &String, scope: &GlobalVariableScope) -> Option<GlobalVariableEntry> {
-        self.variables.iter().find(|entry| &entry.name == name && &entry.scope == scope
+        self.variables.iter().find(|entry| entry.name == *name && entry.scope == *scope
             && mem::discriminant(&entry.index) == mem::discriminant(&None)).cloned()
     }
 
-    pub fn remove_global_by_name_and_scope(&mut self, name: &String, scope: &GlobalVariableScope) {
-        let position = self.variables.iter().position(|entry| &entry.name == name && &entry.scope == scope
-            && mem::discriminant(&entry.index) == mem::discriminant(&None));
+    pub fn remove_global_by_name_and_scope(&mut self, name: &String, scope: &GlobalVariableScope, index: &Option<usize>) {
+        let position = self.variables.iter().position(|entry| entry.name == *name && entry.scope == *scope
+            && ((index.is_some() && entry.index.is_some() && index.unwrap() == entry.index.unwrap()) || index.is_none() && entry.index.is_none()));
+        if let Some(position) = position {
+            self.variables.remove(position);
+        }
+    }
+    pub fn remove_global_by_name_and_scope_and_index(&mut self, name: &String, scope: &GlobalVariableScope, index: usize) {
+        let position = self.variables.iter().position(|entry| entry.name == *name && entry.scope == *scope
+            && entry.index.is_some() && *entry.index.as_ref().unwrap() == index);
         if let Some(position) = position {
             self.variables.remove(position);
         }
@@ -221,6 +228,8 @@ impl NativeMethodHandler for PlayerScriptHandler {
             self.handle_setglobalarray(&params);
         } else if native.name.eq("getglobalarray") {
             self.handle_getglobalarray(&params, execution_thread);
+        } else if native.name.eq("removeitemsglobalarray"){
+            self.handle_remove_item_from_globalarray(&params);
         } else if native.name.eq("select") {
             self.handle_menu(execution_thread, params);
         } else if native.name.eq("menu") {
@@ -318,12 +327,12 @@ impl NativeMethodHandler for PlayerScriptHandler {
             packet_zc_show_image2.fill_raw();
             self.send_packet_to_char(self.session.char_id(), &mut packet_zc_show_image2);
 
-        } else if native.name.eq("getitems2") {
+        } else if native.name.eq("purchaseitems") {
             let (owner_reference, reference) = params[0].reference_value().map_err(|err|
-                execution_thread.new_runtime_from_temporary(err, "getitems2 first argument should be array name")).unwrap();
+                execution_thread.new_runtime_from_temporary(err, "purchaseitems first argument should be array name")).unwrap();
             let items_ids_array = execution_thread.vm.array_from_heap_reference(owner_reference, reference).unwrap();
             let (owner_reference, reference) = params[1].reference_value().map_err(|err|
-                execution_thread.new_runtime_from_temporary(err, "getitems2 second argument should be array name")).unwrap();
+                execution_thread.new_runtime_from_temporary(err, "purchaseitems second argument should be array name")).unwrap();
             let items_amount_array = execution_thread.vm.array_from_heap_reference(owner_reference, reference).unwrap();
             let items_amounts: Vec<i16> = execution_thread.array_constants(items_amount_array).iter().map(|constant| *constant.value().number_value().as_ref().unwrap() as i16).collect::<Vec<i16>>();
             let mut items_ids_amount: Vec<(i32, i16)> = vec![];

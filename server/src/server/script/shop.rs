@@ -60,29 +60,33 @@ impl PlayerScriptHandler {
             packet_zc_pc_purchase_itemlist.fill_raw();
             self.send_packet_to_char(self.session.char_id(), &mut packet_zc_pc_purchase_itemlist);
             // Wait for player click on "buy"
-            let mut items = self.block_recv().unwrap();
-            // Once we receive player purchased item
-            let items_count = items.remove(0);
-            let char_id = self.session.char_id();
-            let character = self.server.get_character_unsafe(char_id);
-            let mut script_variable_store = character.script_variable_store.lock().unwrap();
-            for i in 0..items_count {
-                let purchase_item_bytes = items.drain(0..CzPurchaseItem::base_len(self.server.packetver()));
-                let purchased_item = CzPurchaseItem::from(purchase_item_bytes.as_slice(), self.server.packetver());
-                let item_price = items_list.iter().find(|item| item.itid == purchased_item.itid).unwrap().discountprice;
-
-                script_variable_store.push(
-                    GlobalVariableEntry { name: "bought_nameid".to_string(), value: crate::server::script::Value::Number(purchased_item.itid as i32), scope: GlobalVariableScope::CharTemporary, index: Some(i as usize) }
-                );
-                script_variable_store.push(
-                    GlobalVariableEntry { name: "bought_quantity".to_string(), value: crate::server::script::Value::Number(purchased_item.count as i32), scope: GlobalVariableScope::CharTemporary, index: Some(i as usize) }
-                );
-                script_variable_store.push(
-                    GlobalVariableEntry { name: "bought_price".to_string(), value: crate::server::script::Value::Number(item_price), scope: GlobalVariableScope::CharTemporary, index: Some(i as usize) }
-                );
-            }
+            self.await_player_click_on_buy(&mut items_list);
             return true;
         }
         false
+    }
+
+    fn await_player_click_on_buy(&self, items_list: &mut Vec<PurchaseItem>) {
+        let mut items = self.block_recv().unwrap();
+        // Once we receive player purchased item
+        let items_count = items.remove(0);
+        let char_id = self.session.char_id();
+        let character = self.server.get_character_unsafe(char_id);
+        let mut script_variable_store = character.script_variable_store.lock().unwrap();
+        for i in 0..items_count {
+            let purchase_item_bytes = items.drain(0..CzPurchaseItem::base_len(self.server.packetver()));
+            let purchased_item = CzPurchaseItem::from(purchase_item_bytes.as_slice(), self.server.packetver());
+            let item_price = items_list.iter().find(|item| item.itid == purchased_item.itid).unwrap().discountprice;
+
+            script_variable_store.push(
+                GlobalVariableEntry { name: "bought_nameid".to_string(), value: crate::server::script::Value::Number(purchased_item.itid as i32), scope: GlobalVariableScope::CharTemporary, index: Some(i as usize) }
+            );
+            script_variable_store.push(
+                GlobalVariableEntry { name: "bought_quantity".to_string(), value: crate::server::script::Value::Number(purchased_item.count as i32), scope: GlobalVariableScope::CharTemporary, index: Some(i as usize) }
+            );
+            script_variable_store.push(
+                GlobalVariableEntry { name: "bought_price".to_string(), value: crate::server::script::Value::Number(item_price), scope: GlobalVariableScope::CharTemporary, index: Some(i as usize) }
+            );
+        }
     }
 }
