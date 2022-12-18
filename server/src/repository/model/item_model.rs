@@ -246,7 +246,7 @@ pub struct InventoryItemModel {
     pub id: i32,
     pub unique_id: i64,
     #[sqlx(rename = "nameid")]
-    pub item_id: i16,
+    pub item_id: i32,
     #[sqlx(rename = "type")]
     pub item_type: ItemType,
     pub amount: i16,

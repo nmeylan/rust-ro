@@ -3,7 +3,6 @@ use crate::server::enums::item::ItemType;
 pub enum PersistenceEvent {
     SaveCharacterPosition(SavePositionUpdate),
     UpdateCharacterStatusU32(StatusUpdate<u32>),
-    UpdateCharacterInventory(Vec<InventoryItemUpdate>)
 }
 
 pub struct SavePositionUpdate {
@@ -20,8 +19,9 @@ pub struct StatusUpdate<T: Sized> {
     pub(crate) value: T,
 }
 
+#[derive(Debug)]
 pub struct InventoryItemUpdate {
-    pub item_id: i16,
+    pub item_id: i32,
     pub char_id: i32,
     pub unique_id: i64,
     pub amount: i16,

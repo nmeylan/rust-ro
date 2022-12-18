@@ -1,5 +1,7 @@
 -	script	ShopTemplate	FAKE_NPC,{
     // Callshop
+    deletearray @bought_nameid[0], getarraysize(@bought_nameid);
+    deletearray @bought_quantity[0], getarraysize(@bought_quantity);
     .@selection = callshop();
     if (.@selection == 0) {                 // Buy
         senditemlist('items, 'prices);
@@ -18,7 +20,6 @@ OnBuyItem:
     if .@cost > Zeny {
         message strcharinfo(0), "^FF0000You do not have enough zeny.^FF0000";
     } else {
-        set Zeny, Zeny - .@cost;
         // todo: checkweigth
         getitems2 getglobalarrayref(@bought_nameid), getglobalarrayref(@bought_quantity);
        // for (.@i = 0; .@i < getarraysize(@bought_nameid); .@i++) {

@@ -15,6 +15,7 @@ use crate::server::events::client_notification::{CharNotification, Notification}
 use crate::server::events::game_event::CharacterLook;
 use crate::server::events::game_event::GameEvent::CharacterUpdateLook;
 use crate::server::script::constant::{get_battle_flag, load_constant};
+use crate::server::script::item::get_items;
 use crate::server::Server;
 use crate::server::service::character_movement::change_map_packet;
 use crate::server::state::status::LookType;
@@ -324,20 +325,16 @@ impl NativeMethodHandler for PlayerScriptHandler {
             let (owner_reference, reference) = params[1].reference_value().map_err(|err|
                 execution_thread.new_runtime_from_temporary(err, "getitems2 second argument should be array name")).unwrap();
             let items_amount_array = execution_thread.vm.array_from_heap_reference(owner_reference, reference).unwrap();
-            let mut items_ids = vec![];
-            execution_thread.array_constants(items_ids_array.clone()).iter().for_each(|constant| {
+            let items_amounts: Vec<i16> = execution_thread.array_constants(items_amount_array).iter().map(|constant| *constant.value().number_value().as_ref().unwrap() as i16).collect::<Vec<i16>>();
+            let mut items_ids_amount: Vec<(i32, i16)> = vec![];
+            execution_thread.array_constants(items_ids_array.clone()).iter().enumerate().for_each(|(i, constant)| {
                 if constant.value().is_number() { // TODO handle string
-                    items_ids.push(constant.value().number_value().unwrap())
+                    items_ids_amount.push((constant.value().number_value().unwrap(), items_amounts[i]))
                 }
             });
-            let items_amounts: Vec<i32> = execution_thread.array_constants(items_amount_array).iter().map(|constant| *constant.value().number_value().as_ref().unwrap() as i32).collect::<Vec<i32>>();
-            let mut items = vec![];
-            if !items_ids.is_empty() {
-                items = self.runtime.block_on( async{self.server.repository.item_buy_sell_fetch_all_where_ids(items_ids).await }).unwrap();
-            }
-            for (i, item) in items.iter().enumerate() {
-                info!("item id {}, name {}, amount {}", item.id.unwrap(), item.name_english.as_ref().unwrap(), items_amounts[i]);
-            }
+
+            get_items(self.session.char_id(), self.server.as_ref(), &self.runtime, items_ids_amount, true);
+
             // let item = if params[0].is_number() {
             //     params[0].number_value().unwrap();
             //     self.server.repository
