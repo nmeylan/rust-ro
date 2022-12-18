@@ -6,19 +6,20 @@ use rand::RngCore;
 use tokio::runtime::Runtime;
 
 
-use packets::packets::{EquipmentitemExtrainfo301, EQUIPSLOTINFO, NormalitemExtrainfo3, Packet, PacketZcEquipmentItemlist3, PacketZcItemPickupAck3, PacketZcLongparChange, PacketZcNormalItemlist3, PacketZcNotifyPlayermove, PacketZcNpcackMapmove, PacketZcPcPurchaseResult, PacketZcSpriteChange2};
+use packets::packets::{EquipmentitemExtrainfo301, EQUIPSLOTINFO, NormalitemExtrainfo3, Packet, PacketZcEquipmentItemlist3, PacketZcItemPickupAck3, PacketZcLongparChange, PacketZcNormalItemlist3, PacketZcNotifyPlayermove, PacketZcNpcackMapmove, PacketZcParChange, PacketZcPcPurchaseResult, PacketZcSpriteChange2};
 use crate::PersistenceEvent;
 use crate::PersistenceEvent::SaveCharacterPosition;
 
 
 use crate::server::core::movement::Movement;
-use crate::server::events::game_event::{CharacterChangeMap, GameEvent};
+use crate::server::events::game_event::{CharacterChangeMap, CharacterZeny, GameEvent};
 use crate::server::core::map::{MAP_EXT};
 use crate::server::events::map_event::MapEvent::{*};
 use crate::server::events::client_notification::{AreaNotification, AreaNotificationRangeType, CharNotification, Notification};
 use crate::server::events::persistence_event::{InventoryItemUpdate, SavePositionUpdate, StatusUpdate};
 use crate::server::core::position::Position;
 use crate::server::enums::status::StatusTypes;
+use crate::server::events::game_event::GameEvent::{CharacterUpdateWeight, CharacterUpdateZeny};
 
 use crate::server::map_item::{ToMapItem, ToMapItemSnapshot};
 use crate::server::Server;
@@ -97,21 +98,21 @@ impl Server {
                                     range_type: AreaNotificationRangeType::Fov { x: character.x(), y: character.y() },
                                     packet: std::mem::take(packet_zc_sprite_change.raw_mut()),
                                 })).expect("Fail to send client notification");
-                                persistence_event_sender.send(PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate {
-                                    char_id: character_look.char_id,
-                                    db_column,
-                                    value: character_look.look_value,
-                                })).expect("Fail to send persistence notification");
+                                persistence_event_sender.send(PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character_look.char_id, db_column, value: character_look.look_value })).expect("Fail to send persistence notification");
                             }
                         }
                         GameEvent::CharacterUpdateZeny(zeny_update) => {
                             let character = characters.get_mut(&zeny_update.char_id).unwrap();
-                            character.change_zeny(zeny_update.zeny);
-                            persistence_event_sender.send(PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate {
-                                char_id: zeny_update.char_id,
-                                value: zeny_update.zeny,
-                                db_column: "zeny".to_string(),
-                            })).expect("Fail to send persistence notification");
+                            let zeny = if let Some(zeny) = zeny_update.zeny {
+                                persistence_event_sender.send(PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: zeny_update.char_id, value: zeny, db_column: "zeny".to_string() })).expect("Fail to send persistence notification");
+                                zeny
+                            } else {
+                                runtime.block_on(async {
+                                    server_ref.repository.character_zeny_fetch(zeny_update.char_id).await.expect("failed to fetch zeny") as u32
+                                })
+                            };
+                            character.change_zeny(zeny);
+
                             let mut packet_zc_longpar_change = PacketZcLongparChange::new();
                             packet_zc_longpar_change.set_amount(character.get_zeny() as i32);
                             packet_zc_longpar_change.set_var_id(StatusTypes::Zeny.value() as u16);
@@ -143,18 +144,23 @@ impl Server {
                                         packet_zc_item_pickup_ack3.pretty_debug();
                                         packets.push(packet_zc_item_pickup_ack3)
                                     });
-                                    let mut packet_zc_pc_purchase_result = PacketZcPcPurchaseResult::new();
-                                    packet_zc_pc_purchase_result.set_result(0);
-                                    packet_zc_pc_purchase_result.fill_raw();
-                                    // TODO weight, zeny to update on client. character.weight
                                     let mut packets_raws_by_value = chain_packets_raws_by_value(packets.iter().map(|packet| packet.raw.clone()).collect());
-                                    packets_raws_by_value.extend(packet_zc_pc_purchase_result.raw);
+                                    if add_items.buy {
+                                        let mut packet_zc_pc_purchase_result = PacketZcPcPurchaseResult::new();
+                                        packet_zc_pc_purchase_result.set_result(0);
+                                        packet_zc_pc_purchase_result.fill_raw();
+                                        packets_raws_by_value.extend(packet_zc_pc_purchase_result.raw);
+                                        server_ref.add_to_next_tick(CharacterUpdateZeny(CharacterZeny { char_id: character.char_id, zeny: None }));
+                                    }
+                                    server_ref.add_to_next_tick(CharacterUpdateWeight(character.char_id));
                                     server_ref.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packets_raws_by_value))).expect("Fail to send client notification");
                                 } else {
-                                    let mut packet_zc_pc_purchase_result = PacketZcPcPurchaseResult::new();
-                                    packet_zc_pc_purchase_result.set_result(1);
-                                    packet_zc_pc_purchase_result.fill_raw();
-                                    server_ref.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packet_zc_pc_purchase_result.raw))).expect("Fail to send client notification");
+                                    if add_items.buy {
+                                        let mut packet_zc_pc_purchase_result = PacketZcPcPurchaseResult::new();
+                                        packet_zc_pc_purchase_result.set_result(1);
+                                        packet_zc_pc_purchase_result.fill_raw();
+                                        server_ref.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packet_zc_pc_purchase_result.raw))).expect("Fail to send client notification");
+                                    }
                                     error!("{:?}", result.err());
                                 }
                             });
@@ -213,10 +219,18 @@ impl Server {
                             packet_zc_normal_itemlist3.set_packet_length((PacketZcNormalItemlist3::base_len(server_ref.packetver()) + normal_items.len() * NormalitemExtrainfo3::base_len(server_ref.packetver())) as i16);
                             packet_zc_normal_itemlist3.set_item_info(normal_items);
                             packet_zc_normal_itemlist3.fill_raw();
-                            // TODO weight
+                            server_ref.add_to_next_tick(CharacterUpdateWeight(character.char_id));
                             server_ref.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id,
                                                                                                                 chain_packets(vec![&packet_zc_equipment_itemlist3, &packet_zc_normal_itemlist3]))))
                                 .expect("Fail to send client notification");
+                        }
+                        GameEvent::CharacterUpdateWeight(char_id) => {
+                            let character = characters.get_mut(&char_id).unwrap();
+                            let mut packet_weight = PacketZcParChange::new();
+                            packet_weight.set_var_id(StatusTypes::Weight.value() as u16);
+                            packet_weight.set_count(character.weight() as i32);
+                            packet_weight.fill_raw();
+                            server_ref.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packet_weight.raw))).expect("Fail to send client notification");
                         }
                     }
                 }

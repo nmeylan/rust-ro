@@ -277,7 +277,7 @@ impl PlayerScriptHandler {
     fn store_special_char_variable(&self, char: &Character, special_variable_name: &str, value: &Value) -> bool {
         match special_variable_name {
             "Zeny" => {
-                self.server.add_to_next_tick(CharacterUpdateZeny(CharacterZeny { char_id: char.char_id, zeny: value.number_value().unwrap() as u32 }));
+                self.server.add_to_next_tick(CharacterUpdateZeny(CharacterZeny { char_id: char.char_id, zeny: Some(value.number_value().unwrap() as u32) }));
                 true
             }
             &_ => false
