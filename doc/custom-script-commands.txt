@@ -1,14 +1,15 @@
-* getitems2 items_id_array, items_amount_array
-* getitems2 items_name_array, items_amount_array
+* purchaseitems items_id_array, items_amount_array
+* purchaseitems items_name_array, items_amount_array
 
-This command will give an amount of each specified items to the invoking character.
-It is used for shop to avoid too many calls to `getitem`
+This command is used by shop to add purchased item to character inventory and process to zeny update in the same transaction.
+If character has not enough zeny (in database side) then the transaction is rollbacked.
+Also if an error occurs during the purchase we are sure zeny are not updated so that player does not loose any money.
 
 Examples:
     .@items_ids[0]=502,617;
     .@items_amount[0]=10,1;
 
-	getitems2 .@items_ids, .@items_amount; // The person will receive 10 apples and 1 Old Violet Box
+	purchaseitems .@items_ids, .@items_amount; // The person will receive 10 apples and 1 Old Violet Box
 
 This transaction is logged if the log script generated transactions option is
 enabled.
@@ -18,4 +19,4 @@ item database:
 
     .@items_names$[0]="RED_POTION";
     .@items_amount[0]=10;
-	getitems2 .@items_names$, .@items_amount;
+	purchaseitems .@items_names$, .@items_amount;

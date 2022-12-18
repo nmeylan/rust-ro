@@ -3,10 +3,12 @@ pub mod character_repository;
 pub mod script_variable_repository;
 pub mod item_repository;
 pub mod inventory_repository;
+pub mod persistence_error;
 
-use std::fmt::format;
+use std::fmt::{Display, format, Formatter};
 use sqlx::{PgPool, Pool, Type, Encode, Database, Row, FromRow, Postgres, Decode, ValueRef, Error};
 use sqlx::database::HasValueRef;
+use sqlx::error::DatabaseError;
 use sqlx::postgres::{PgPoolOptions, PgRow, PgValueRef};
 use tokio::runtime::Runtime;
 use crate::repository::model::item_model::ItemBuySellModel;

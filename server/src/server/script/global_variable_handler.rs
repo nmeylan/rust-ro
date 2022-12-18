@@ -175,6 +175,22 @@ impl PlayerScriptHandler {
             index += 2;
         }
     }
+    pub fn handle_remove_item_from_globalarray(&self, params: &Vec<Value>) {
+        let variable_name = params[0].string_value().unwrap();
+        let variable_scope = params[1].string_value().unwrap();
+        let start_index = params[2].number_value().unwrap();
+        let end_index = params[3].number_value().unwrap();
+        if variable_scope == "char_temporary" {
+            let char_id = self.session.char_id();
+            let character = self.server.get_character_unsafe(char_id);
+            let mut script_variable_store = character.script_variable_store.lock().unwrap();
+            for i in start_index..end_index {
+                script_variable_store.remove_global_by_name_and_scope_and_index(variable_name, &GlobalVariableScope::CharTemporary, i as usize);
+            }
+        } else {
+            error!("handle_remove_item_from_globalarray not supported yet for scope {}", variable_scope);
+        };
+    }
     pub fn handle_getglobalarray(&self, params: &[Value], execution_thread: &Thread) {
         let variable_name = params[0].string_value().unwrap();
         let variable_scope = params[1].string_value().unwrap();
