@@ -11,6 +11,7 @@ pub enum GameEvent {
     CharacterChangeMap(CharacterChangeMap),
     CharacterUpdateLook(CharacterLook),
     CharacterUpdateZeny(CharacterZeny),
+    CharacterUpdateWeight(u32),
     CharacterAddItems(CharacterAddItems),
     CharacterInitInventory(u32),
 }
@@ -39,7 +40,7 @@ pub struct CharacterLook {
 
 pub struct CharacterZeny {
     pub char_id: u32,
-    pub zeny: u32,
+    pub zeny: Option<u32>,
 }
 
 pub struct CharacterAddItems {

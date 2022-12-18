@@ -59,4 +59,10 @@ impl Repository {
             .bind(char_id)
             .fetch_all(&self.pool).await
     }
+
+    pub async fn character_zeny_fetch(&self, char_id: u32) -> Result<i32, Error> {
+        sqlx::query("SELECT zeny FROM char where char_id = $1")
+            .bind(char_id as i32)
+            .fetch_one(&self.pool).await.map(|row| Ok(row.get::<i32, _>(0)))?
+    }
 }
