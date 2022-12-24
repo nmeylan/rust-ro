@@ -23,7 +23,7 @@ use std::collections::HashMap;
 use std::thread::{JoinHandle};
 use proxy::map::MapProxy;
 use crate::proxy::char::CharProxy;
-use std::sync::{Arc};
+use std::sync::{Arc, Once};
 use crate::repository::Repository;
 use std::time::{Instant};
 use flexi_logger::Logger;
@@ -31,7 +31,7 @@ use rathena_script_lang_interpreter::lang::vm::{DebugFlag, Vm};
 use tokio::runtime::Runtime;
 use crate::server::npc::warps::Warp;
 use server::Server;
-use crate::server::core::configuration::Config;
+use crate::server::core::configuration::{Config, JobConfig};
 use crate::server::core::map::Map;
 use server::events::client_notification::Notification;
 use server::events::persistence_event::PersistenceEvent;
@@ -42,9 +42,13 @@ use crate::server::npc::script::Script;
 use crate::util::cell::MyUnsafeCell;
 use crate::util::log_filter::LogFilter;
 
+pub static mut JOB_CONFIGS: Vec<JobConfig> = Vec::new();
+pub static JOB_CONFIGS_INIT: Once = Once::new();
+
 #[tokio::main]
 pub async fn main() {
     let config = Config::load().unwrap();
+
     let logger= Logger::try_with_str(config.server.log_level.as_ref().unwrap()).unwrap();
     logger.filter(Box::new(LogFilter::new())).start().unwrap();
     let repository : Repository = Repository::new_pg(&config.database, Runtime::new().unwrap()).await;
@@ -94,4 +98,15 @@ pub async fn main() {
     for handle in handles {
         handle.join().expect("Failed await server and proxy threads");
     }
+}
+
+fn job_configs() -> &'static Vec<JobConfig> {
+    JOB_CONFIGS_INIT.call_once(|| unsafe {
+        JOB_CONFIGS = Config::load_jobs_config().unwrap();
+    });
+    unsafe { &JOB_CONFIGS }
+}
+
+pub fn get_job_config(id: u32) -> &'static JobConfig {
+    job_configs().iter().find(|config| *config.id() == id).expect(format!("Expected to find job config for id {} but found none", id).as_str())
 }

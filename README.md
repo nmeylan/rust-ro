@@ -67,19 +67,19 @@ in random order, features are implemented based on my current mood.
 - exp
 
 ## Visual debugger
-![visual-debugger](img/visual_debugger.PNG)
+![visual-debugger](doc/img/visual_debugger.PNG)
 Debug server state with a UI
 
 
 ## warp
-![warps](img/warp_spawn.PNG)
-![warps](img/warp.PNG)
+![warps](doc/img/warp_spawn.PNG)
+![warps](doc/img/warp.PNG)
 
 ## mob
-![mobs](img/mob_spawn.PNG)
+![mobs](doc/img/mob_spawn.PNG)
 
 ## Proxied packets
-![packets](img/packet_analyzer.PNG)
+![packets](doc/img/packet_analyzer.PNG)
 
 ## In game debug
-![packets](img/in_game_debug.PNG)
+![packets](doc/img/in_game_debug.PNG)

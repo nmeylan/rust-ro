@@ -230,7 +230,11 @@ impl Server {
                             packet_weight.set_var_id(StatusTypes::Weight.value() as u16);
                             packet_weight.set_count(character.weight() as i32);
                             packet_weight.fill_raw();
-                            server_ref.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packet_weight.raw))).expect("Fail to send client notification");
+                            let mut packet_max_weight = PacketZcParChange::new();
+                            packet_max_weight.set_var_id(StatusTypes::Maxweight.value() as u16);
+                            packet_max_weight.set_count(character.max_weight() as i32);
+                            packet_max_weight.fill_raw();
+                            server_ref.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, chain_packets(vec![&packet_weight, &packet_max_weight])))).expect("Fail to send client notification");
                         }
                     }
                 }
