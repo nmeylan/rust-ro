@@ -288,12 +288,12 @@ impl NativeMethodHandler for PlayerScriptHandler {
             packet_zc_notify_playerchat.fill_raw();
             self.send_packet_to_char(self.session.char_id(), &mut packet_zc_notify_playerchat);
         } else if native.name.eq("dispbottom") {
-            let _char_name: &String = params[2].string_value().or::<String>(Ok(&"".to_string())).unwrap();
+            let _char_name: &String = params[2].string_value().unwrap_or(&"".to_string());
             let message = params[0].string_value().unwrap();
             let green = "0x00FF00".to_string();
-            let color = params[1].string_value().or::<String>(Ok(&green)).unwrap();
+            let color = params[1].string_value().unwrap_or(&green);
             let color_rgb = if color.starts_with("0x") {
-                u32::from_str_radix(format!("{}{}{}", &color[6..8], &color[4..6], &color[2..4]).as_str(), 16).or::<u32>(Ok(65280)).unwrap()
+                u32::from_str_radix(format!("{}{}{}", &color[6..8], &color[4..6], &color[2..4]).as_str(), 16).unwrap_or(65280)
             } else {
                 65280
             };
@@ -357,7 +357,7 @@ impl NativeMethodHandler for PlayerScriptHandler {
             let items_amount_array = execution_thread.vm.array_from_heap_reference(owner_reference, reference).unwrap();
             let items_amounts: Vec<i16> = execution_thread.array_constants(items_amount_array).iter().map(|constant| *constant.value().number_value().as_ref().unwrap() as i16).collect::<Vec<i16>>();
             let mut items_ids_amount: Vec<(i32, i16)> = vec![];
-            execution_thread.array_constants(items_ids_array.clone()).iter().enumerate().for_each(|(i, constant)| {
+            execution_thread.array_constants(items_ids_array).iter().enumerate().for_each(|(i, constant)| {
                 if constant.value().is_number() { // TODO handle string
                     items_ids_amount.push((constant.value().number_value().unwrap(), items_amounts[i]))
                 }
@@ -382,7 +382,7 @@ impl NativeMethodHandler for PlayerScriptHandler {
                 });
                 let mut items_total_weight = 0;
                 self.server.repository.get_weight(items_ids).await.unwrap().iter().for_each(|(id, weight)| {
-                    items_total_weight += weight * (items_ids_amount.iter().find(|(iid, amount)| *iid == *id).or(Some(&(*id, 0_i16))).unwrap().1 as i32)
+                    items_total_weight += weight * (items_ids_amount.iter().find(|(iid, _amount)| *iid == *id).unwrap_or(&(*id, 0_i16)).1 as i32)
                 });
                 let character_ref = self.server.get_character_unsafe(self.session.char_id());
                 execution_thread.push_constant_on_stack(value::Value::new_number(if character_ref.check_weight(items_total_weight as u32) { 1 } else { 0 }));

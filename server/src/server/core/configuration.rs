@@ -129,24 +129,24 @@ impl Config {
         if !path.exists() {
             return Err(format!("config/job.toml file does not exists at {}", path.to_str().unwrap()));
         }
-        let mut internal_configs: InternalJobsConfig = toml::from_str(&fs::read_to_string(path).unwrap()).unwrap();
+        let internal_configs: InternalJobsConfig = toml::from_str(&fs::read_to_string(path).unwrap()).unwrap();
         let mut job_configs: Vec<JobConfig> = vec![];
         let default_values = internal_configs.jobs.get("default").expect("Expect jobs.default config");
         for (name, config) in internal_configs.jobs.iter() {
             if name == "default" {
                 continue;
             }
-            let mut base_aspd = Self::resolve_inherited_config(name, config, &internal_configs, "base_aspd", |conf| None, |conf| conf.base_aspd.clone()).or(Some(Default::default())).unwrap();
+            let mut base_aspd = Self::resolve_inherited_config(name, config, &internal_configs, "base_aspd", |_conf| None, |conf| conf.base_aspd.clone()).unwrap_or_default();
             default_values.base_aspd.as_ref().expect("Expect jobs.default to have base_aspd").iter().for_each(|(weapon, value)| { base_aspd.entry(weapon.to_string()).or_insert(*value); });
             job_configs.push(JobConfig {
-                id: config.id.expect(format!("Expect job {} to have id but found none", name).as_str()),
+                id: config.id.unwrap_or_else(|| panic!("Expect job {} to have id but found none", name)),
                 name: name.clone(),
                 base_exp_group: config.base_exp_group.as_ref().unwrap().clone(),
                 job_exp_group: config.job_exp_group.as_ref().unwrap().clone(),
-                base_weight: Self::resolve_inherited_config(name, config, &internal_configs, "base_weight", |conf| None, |conf| conf.base_weight.clone())
+                base_weight: Self::resolve_inherited_config(name, config, &internal_configs, "base_weight", |_conf| None, |conf| conf.base_weight)
                     .or_else(|| Some(default_values.base_weight.expect("Expect jobs.default to have base_weight"))).unwrap(),
-                base_hp: Self::resolve_inherited_config(name, config, &internal_configs, "inherit_hp", |conf| conf.inherit_hp.as_ref(), |conf| conf.base_hp.clone()).expect(format!("job config for class {}: expected to find property base_hp", name).as_str()),
-                base_sp: Self::resolve_inherited_config(name, config, &internal_configs, "inherit_sp", |conf| conf.inherit_sp.as_ref(), |conf| conf.base_sp.clone()).expect(format!("job config for class {}: expected to find property base_sp", name).as_str()),
+                base_hp: Self::resolve_inherited_config(name, config, &internal_configs, "inherit_hp", |conf| conf.inherit_hp.as_ref(), |conf| conf.base_hp.clone()).unwrap_or_else(|| panic!("job config for class {}: expected to find property base_hp", name)),
+                base_sp: Self::resolve_inherited_config(name, config, &internal_configs, "inherit_sp", |conf| conf.inherit_sp.as_ref(), |conf| conf.base_sp.clone()).unwrap_or_else(|| panic!("job config for class {}: expected to find property base_sp", name)),
                 base_aspd,
             });
         }
@@ -159,10 +159,10 @@ impl Config {
         F2: Fn(&InternalJobConfig) -> Option<T>
     {
         return if let Some(inherit) = current_config.inherit.as_ref() {
-            let inherited_config = configs.jobs.get(inherit).expect(format!("job config for class {}: inherit \"{}\" was not found", name, inherit).as_str());
+            let inherited_config = configs.jobs.get(inherit).unwrap_or_else(|| panic!("job config for class {}: inherit \"{}\" was not found", name, inherit));
             Self::resolve_inherited_config(name, inherited_config, configs, inherit_name, inherited_property_fn, defined_property_fn)
         } else if let Some(inherit) = inherited_property_fn(current_config) {
-            let inherited_config = configs.jobs.get(inherit).expect(format!("job config for class {}: {} \"{}\" was not found", name, inherit_name, inherit).as_str());
+            let inherited_config = configs.jobs.get(inherit).unwrap_or_else(|| panic!("job config for class {}: {} \"{}\" was not found", name, inherit_name, inherit));
             Self::resolve_inherited_config(name, inherited_config, configs, inherit_name, inherited_property_fn, defined_property_fn)
         } else {
             defined_property_fn(current_config)

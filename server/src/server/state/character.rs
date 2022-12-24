@@ -1,17 +1,13 @@
 use std::collections::HashSet;
 use std::{io, mem};
 use std::io::Write;
-use std::iter::{Enumerate, Filter, Map};
-use std::slice::Iter;
 use std::sync::{Arc, Mutex};
 use std::sync::mpsc::SyncSender;
-use rand::RngCore;
 use accessor::Setters;
 use packets::packets::{PacketZcNotifyStandentry7, PacketZcNotifyVanish};
 use packets::packets::Packet;
-use crate::{get_job_config, job_configs};
+use crate::{get_job_config};
 use crate::repository::model::item_model::InventoryItemModel;
-use crate::server::events::persistence_event::InventoryItemUpdate;
 use crate::server::{PLAYER_FOV, Server};
 use crate::server::core::movement::Movement;
 use crate::server::core::map_instance::{MapInstance, MapInstanceKey};
@@ -20,7 +16,6 @@ use crate::server::core::path::manhattan_distance;
 use crate::server::core::position::Position;
 use crate::server::state::status::{LookType, Status};
 use crate::server::core::map_item::{MapItem, MapItemSnapshot, MapItemType};
-use crate::server::enums::item::ItemType;
 use crate::server::map_item::{ToMapItem, ToMapItemSnapshot};
 use crate::server::script::ScriptGlobalVariableStore;
 use crate::util::string::StringUtil;
@@ -252,7 +247,7 @@ impl Character {
         let mut added_items = vec![];
         for item in items {
             if item.item_type.is_stackable() {
-                if let Some((index, item_in_inventory)) = self.inventory.iter_mut().enumerate().filter(|(_, i)| i.is_some()).map(|(index, i)| (index, i.as_mut().unwrap())).find(|(index, i)| i.item_id == item.item_id) {
+                if let Some((index, item_in_inventory)) = self.inventory.iter_mut().enumerate().filter(|(_, i)| i.is_some()).map(|(index, i)| (index, i.as_mut().unwrap())).find(|(_index, i)| i.item_id == item.item_id) {
                     item_in_inventory.amount += item.amount;
                     added_items.push((index, item.clone()));
                     continue;

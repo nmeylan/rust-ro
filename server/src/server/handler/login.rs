@@ -68,7 +68,7 @@ pub async fn authenticate(server: &Server, packet: &PacketCaLogin, repository: &
         let account_id= row.get::<i32, _>("account_id") as u32;
         if server.packetver() < 20170315 {
             let mut ac_accept_login = PacketAcAcceptLogin::new();
-            ac_accept_login.set_packet_length((PacketAcAcceptLogin::base_len(server.packetver()) + ServerAddr::base_len(server.packetver()) * 1) as i16);
+            ac_accept_login.set_packet_length((PacketAcAcceptLogin::base_len(server.packetver()) + ServerAddr::base_len(server.packetver())) as i16);
             ac_accept_login.set_aid(account_id);
             ac_accept_login.set_auth_code(rng.gen::<i32>());
             ac_accept_login.set_user_level(rng.gen::<u32>());
@@ -84,7 +84,7 @@ pub async fn authenticate(server: &Server, packet: &PacketCaLogin, repository: &
             return Box::new(ac_accept_login);
         } else {
             let mut ac_accept_login2 = PacketAcAcceptLogin2::new();
-            ac_accept_login2.set_packet_length((PacketAcAcceptLogin2::base_len(server.packetver()) + ServerAddr2::base_len(server.packetver()) * 1) as i16);
+            ac_accept_login2.set_packet_length((PacketAcAcceptLogin2::base_len(server.packetver()) + ServerAddr2::base_len(server.packetver())) as i16);
             ac_accept_login2.set_aid(account_id);
             ac_accept_login2.set_auth_code(rng.gen::<i32>());
             ac_accept_login2.set_user_level(rng.gen::<u32>());

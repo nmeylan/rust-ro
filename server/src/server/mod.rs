@@ -10,7 +10,7 @@ use packets::packets::{Packet, PacketCaLogin, PacketChDeleteChar4Reserved, Packe
 use packets::packets_parser::parse;
 use std::io::{Read, Write};
 use crate::repository::Repository;
-use crate::server::core::configuration::{Config, JobConfig};
+use crate::server::core::configuration::{Config};
 use crate::server::core::map::Map;
 use crate::server::core::map_instance::MapInstance;
 use crate::server::core::map_item::MapItem;

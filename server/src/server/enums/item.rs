@@ -42,14 +42,14 @@ impl ItemType {
     }
 
     pub fn is_stackable(&self) -> bool {
-        return match self {
+        match self {
             ItemType::Healing | ItemType::Usable | ItemType::Etc | ItemType::Card | ItemType::Ammo | ItemType::DelayConsume => {
                 true
             }
             ItemType::Unknown | ItemType::Armor | ItemType::Weapon | ItemType::PetEgg | ItemType::PetArmor | ItemType::Unknown2 | ItemType::ShadowGear | ItemType::Cash | ItemType::Max => {
                 false
             }
-        };
+        }
     }
 
     pub fn is_consumable(&self) -> bool {

@@ -1,9 +1,5 @@
-use std::future::join;
-use futures::try_join;
-use sqlx::{Error, Executor};
-use sqlx::postgres::PgQueryResult;
+use sqlx::{Error};
 use crate::Repository;
-use crate::server::events::persistence_event::InventoryItemUpdate;
 
 impl Repository {
     pub async fn character_save_position(&self, account_id: u32, char_id: u32, map_name: String, x: u16, y: u16) -> Result<(), Error> {

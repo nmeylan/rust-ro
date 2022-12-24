@@ -1,15 +1,15 @@
 use sqlx::{Error, Executor, Row};
-use crate::repository::model::item_model::{GetItemModel, InventoryItemModel};
+use crate::repository::model::item_model::{InventoryItemModel};
 use crate::repository::{Repository};
 use crate::repository::persistence_error::PersistenceError;
 use crate::server::events::persistence_event::InventoryItemUpdate;
 
 impl Repository {
-    pub async fn character_inventory_update(&self, inventory_update_items: &Vec<InventoryItemUpdate>, buy: bool) -> Result<(), Error> {
+    pub async fn character_inventory_update(&self, inventory_update_items: &[InventoryItemUpdate], buy: bool) -> Result<(), Error> {
         let stackable_items = inventory_update_items.iter().filter(|item| item.stackable).collect::<Vec<&InventoryItemUpdate>>();
         let not_stackable_items = inventory_update_items.iter().filter(|item| !item.stackable).collect::<Vec<&InventoryItemUpdate>>();
         let mut tx = self.pool.begin().await.unwrap();
-        let mut updated_item_ids_amounts: Vec<(i32, i16)> = inventory_update_items.iter().map(|item| (item.item_id, item.amount)).collect();
+        let updated_item_ids_amounts: Vec<(i32, i16)> = inventory_update_items.iter().map(|item| (item.item_id, item.amount)).collect();
         tx.execute(sqlx::query("INSERT INTO inventory (char_id, nameid, amount, identified) \
         (SELECT * FROM UNNEST($1::int4[], $2::int4[], $3::int2[], $4::bool[])) \
         ON CONFLICT (char_id, nameid, unique_id)\
@@ -28,7 +28,7 @@ impl Repository {
         ).await?;
         if buy {
             let item_ids_prices = tx.fetch_all(sqlx::query("SELECT DISTINCT id, price_buy FROM item_db WHERE id IN (SELECT * FROM UNNEST($1::int4[]))")
-                .bind(updated_item_ids_amounts.iter().map(|(id, amount)| *id).collect::<Vec<i32>>())).await?;
+                .bind(updated_item_ids_amounts.iter().map(|(id, _amount)| *id).collect::<Vec<i32>>())).await?;
             let cost = updated_item_ids_amounts.iter().fold(0, |mut acc, (id, amount)| {
                 let price = item_ids_prices.iter().find(|item_price| item_price.get::<i32, _>(0) == *id).map_or(0, |item_price| item_price.get::<i32, _>(1));
                 info!("{} cost {} zeny: {}", id, price, amount);
