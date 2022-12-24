@@ -175,7 +175,7 @@ impl PlayerScriptHandler {
             index += 2;
         }
     }
-    pub fn handle_remove_item_from_globalarray(&self, params: &Vec<Value>) {
+    pub fn handle_remove_item_from_globalarray(&self, params: &[Value]) {
         let variable_name = params[0].string_value().unwrap();
         let variable_scope = params[1].string_value().unwrap();
         let start_index = params[2].number_value().unwrap();

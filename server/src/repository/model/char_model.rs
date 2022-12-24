@@ -1,7 +1,6 @@
-use sqlx::{FromRow, Error, Row, Decode, Postgres};
-use sqlx::error::BoxDynError;
+use sqlx::{FromRow, Error, Row};
 use packets::packets::CharacterInfoNeoUnion;
-use sqlx::postgres::{PgRow, PgValueRef};
+use sqlx::postgres::{PgRow};
 
 pub struct CharacterInfoNeoUnionWrapped {
     pub data: CharacterInfoNeoUnion,
@@ -18,8 +17,8 @@ impl<'r> FromRow<'r, PgRow> for CharacterInfoNeoUnionWrapped {
         character_info_neo_union.set_jobexp(row.get::<i32, _>("job_exp") as u32);
         character_info_neo_union.set_jobexp_64(row.get::<i32, _>("job_exp") as u64);
         character_info_neo_union.set_joblevel(row.get::<i32, _>("job_level") as u32);
-        character_info_neo_union.set_bodystate(0 as u32);
-        character_info_neo_union.set_healthstate(0 as u32);
+        character_info_neo_union.set_bodystate(0_u32);
+        character_info_neo_union.set_healthstate(0_u32);
         character_info_neo_union.set_effectstate(row.get::<i32, _>("option"));
         character_info_neo_union.set_virtue(row.get::<i32, _>("karma") as i32);
         character_info_neo_union.set_honor(row.get::<i32, _>("manner") as i32);
@@ -30,7 +29,7 @@ impl<'r> FromRow<'r, PgRow> for CharacterInfoNeoUnionWrapped {
         character_info_neo_union.set_maxhp_16(row.get::<i32, _>("max_hp") as u16);
         character_info_neo_union.set_sp(row.get::<i32, _>("sp") as u16);
         character_info_neo_union.set_maxsp(row.get::<i32, _>("max_sp") as u16);
-        character_info_neo_union.set_speed(100 as u16); // TODO make this configurable SPEED
+        character_info_neo_union.set_speed(100_u16); // TODO make this configurable SPEED
         character_info_neo_union.set_class(row.get::<i16, _>("class") as u16);
         character_info_neo_union.set_head(row.get::<i16, _>("hair") as u16);
         character_info_neo_union.set_body(row.get::<i16, _>("body") as u16);

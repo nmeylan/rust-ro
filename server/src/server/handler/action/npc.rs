@@ -66,5 +66,5 @@ pub fn handle_player_purchase_items(context: Request) {
     for item_raw in packet_cz_pc_purchase_item_list.item_list_raw.iter() {
         bytes.extend(item_raw.clone());
     }
-    context.session().script_handler_channel_sender.lock().unwrap().as_ref().unwrap().blocking_send(bytes);
+    context.session().script_handler_channel_sender.lock().unwrap().as_ref().unwrap().blocking_send(bytes).unwrap();
 }

@@ -1,7 +1,6 @@
-use sqlx::{Decode, Postgres, Type, TypeInfo};
+use sqlx::{Decode, Postgres, TypeInfo};
 use sqlx::database::HasValueRef;
 use sqlx::error::BoxDynError;
-use sqlx::postgres::PgTypeInfo;
 use crate::server::enums::item::ItemType;
 
 #[derive(sqlx::FromRow, Debug)]

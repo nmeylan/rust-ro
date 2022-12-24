@@ -42,9 +42,7 @@ impl SessionsIter for HashMap<u32, Arc<Session>> {
             debug!("char_server_socket.peer_addr {:?}", char_server_socket.peer_addr());
             char_server_socket.peer_addr().unwrap() == tcp_stream.peer_addr().unwrap()
         });
-        if map_entry_option.is_none() {
-            return None;
-        }
+        map_entry_option?;
         Some(*map_entry_option.unwrap().0)
     }
 }

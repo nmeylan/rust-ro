@@ -108,5 +108,5 @@ fn job_configs() -> &'static Vec<JobConfig> {
 }
 
 pub fn get_job_config(id: u32) -> &'static JobConfig {
-    job_configs().iter().find(|config| *config.id() == id).expect(format!("Expected to find job config for id {} but found none", id).as_str())
+    job_configs().iter().find(|config| *config.id() == id).unwrap_or_else(|| panic!("Expected to find job config for id {} but found none", id))
 }

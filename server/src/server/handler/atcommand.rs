@@ -11,9 +11,6 @@ use crate::server::core::configuration::CityConfig;
 use crate::server::service::character_movement::change_map_packet;
 use crate::server::core::map::RANDOM_CELL;
 use crate::server::core::request::Request;
-use crate::server::enums::item::ItemType;
-use crate::server::events::game_event::GameEvent;
-use crate::server::events::game_event::CharacterAddItems;
 use crate::server::script::item::get_items;
 use crate::server::Server;
 
@@ -150,11 +147,11 @@ pub fn handle_item(server: &Server, session: Arc<Session>, runtime: &Runtime, ar
     }
     get_items(session.char_id(), server, runtime, vec![(args[0].parse::<i32>().unwrap(), args[1].parse::<i16>().unwrap())], false);
 
-    format!("")
+    String::new()
 }
-pub fn handle_inspect(server: &Server, session: Arc<Session>, runtime: &Runtime, args: Vec::<&str>) -> String {
+pub fn handle_inspect(server: &Server, session: Arc<Session>, _runtime: &Runtime, _args: Vec::<&str>) -> String {
     let char_id = session.char_id();
     let character = server.get_character_unsafe(char_id);
     character.print();
-    format!("")
+    String::new()
 }

@@ -63,8 +63,8 @@ impl PlayerScriptHandler {
             self.await_player_click_on_buy(&mut items_list);
             return true;
         } else if native.name.eq("closeshop") {
-            let result = if params.len() > 0 {
-                params[0].number_value().or::<i32>(Ok(0)).unwrap()
+            let result = if !params.is_empty() {
+                params[0].number_value().unwrap_or(0)
             } else {
                 0
             };
@@ -77,7 +77,7 @@ impl PlayerScriptHandler {
         false
     }
 
-    fn await_player_click_on_buy(&self, items_list: &mut Vec<PurchaseItem>) {
+    fn await_player_click_on_buy(&self, items_list: &mut [PurchaseItem]) {
         let mut items = self.block_recv().unwrap();
         // Once we receive player purchased item
         let items_count = items.remove(0);

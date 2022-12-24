@@ -23,7 +23,7 @@ use crate::server::events::game_event::GameEvent::{CharacterUpdateWeight, Charac
 
 use crate::server::map_item::{ToMapItem, ToMapItemSnapshot};
 use crate::server::Server;
-use crate::util::packet::{chain_packets, chain_packets_raws, chain_packets_raws_by_value};
+use crate::util::packet::{chain_packets, chain_packets_raws_by_value};
 use crate::util::string::StringUtil;
 
 
@@ -123,7 +123,7 @@ impl Server {
                             let character = characters.get_mut(&add_items.char_id).unwrap();
                             runtime.block_on(async {
                                 let mut rng = rand::thread_rng();
-                                let inventory_item_updates = add_items.items.iter().map(|item| {
+                                let inventory_item_updates: Vec<InventoryItemUpdate> = add_items.items.iter().map(|item| {
                                     if item.item_type.is_stackable() {
                                         InventoryItemUpdate { char_id: add_items.char_id as i32, item_id: item.item_id as i32, amount: item.amount as i16, stackable: true, identified: item.is_identified, unique_id: 0 }
                                     } else {
