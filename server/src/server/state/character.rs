@@ -9,6 +9,7 @@ use rand::RngCore;
 use accessor::Setters;
 use packets::packets::{PacketZcNotifyStandentry7, PacketZcNotifyVanish};
 use packets::packets::Packet;
+use crate::{get_job_config, job_configs};
 use crate::repository::model::item_model::InventoryItemModel;
 use crate::server::events::persistence_event::InventoryItemUpdate;
 use crate::server::{PLAYER_FOV, Server};
@@ -272,14 +273,18 @@ impl Character {
         }
     }
 
-    pub fn weight(&self) -> i16 {
+    pub fn weight(&self) -> u32 {
         self.inventory.iter()
             .filter(|item| item.is_some())
             .map(|item| {
                 let item = item.as_ref().unwrap();
-                item.weight * item.amount
+                item.weight as u32 * item.amount as u32
             })
             .sum()
+    }
+    pub fn max_weight(&self) -> u32 {
+        let base_weight = get_job_config(self.status.class).base_weight();
+        base_weight + (self.status.str * 300) as u32
     }
 
     pub fn print(&self) {
@@ -296,7 +301,7 @@ impl Character {
         writeln!(stdout, "  hp: {}/{}", self.status.hp, self.status.max_hp).unwrap();
         writeln!(stdout, "  sp: {}/{}", self.status.sp, self.status.max_sp).unwrap();
         writeln!(stdout, "  zeny: {}", self.status.zeny).unwrap();
-        writeln!(stdout, "  weight: {}", self.weight()).unwrap();
+        writeln!(stdout, "  weight: {}/{}", self.weight(), self.max_weight()).unwrap();
         writeln!(stdout, "Inventory:").unwrap();
         let mut inventory_print = |predicate: Box<dyn Fn(&(usize, &InventoryItemModel)) -> bool>| {
             self.inventory_iter()

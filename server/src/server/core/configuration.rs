@@ -1,6 +1,9 @@
 use std::{env, fs};
+use std::collections::HashMap;
 use std::path::Path;
+
 use serde::Deserialize;
+
 use accessor::Setters;
 
 const DEFAULT_LOG_LEVEL: &str = "info";
@@ -22,8 +25,9 @@ pub struct ServerConfig {
     pub accounts: Vec<u32>,
     pub port: u16,
     pub enable_visual_debugger: bool,
-    pub packetver: u32
+    pub packetver: u32,
 }
+
 #[derive(Deserialize, Debug, Setters, Clone)]
 pub struct GameConfig {
     #[set]
@@ -42,7 +46,7 @@ pub struct DatabaseConfig {
 
 #[derive(Deserialize, Debug, Clone)]
 pub struct MapConfig {
-    pub cities: Vec<CityConfig>
+    pub cities: Vec<CityConfig>,
 }
 
 #[derive(Deserialize, Debug, Clone)]
@@ -64,6 +68,38 @@ pub struct ProxyConfig {
     pub local_map_server_port: u16,
 }
 
+#[derive(Deserialize, Debug, Clone)]
+struct InternalJobsConfig {
+    jobs: HashMap<String, InternalJobConfig>,
+}
+
+#[derive(Deserialize, Debug, Clone)]
+struct InternalJobConfig {
+    base_weight: Option<u32>,
+    id: Option<u32>,
+    base_exp_group: Option<String>,
+    job_exp_group: Option<String>,
+    inherit: Option<String>,
+    inherit_sp: Option<String>,
+    inherit_hp: Option<String>,
+    base_hp: Option<Vec<u32>>,
+    base_sp: Option<Vec<u32>>,
+    base_aspd: Option<HashMap<String, u32>>,
+}
+
+#[derive(Deserialize, Debug, Clone, GettersAll)]
+pub struct JobConfig {
+    name: String,
+    id: u32,
+    base_weight: u32,
+    base_exp_group: String,
+    job_exp_group: String,
+    base_hp: Vec<u32>,
+    base_sp: Vec<u32>,
+    base_aspd: HashMap<String, u32>,
+}
+
+
 impl Config {
     pub fn load() -> Result<Config, String> {
         let path = Path::new("config.toml");
@@ -71,7 +107,7 @@ impl Config {
             return Err(format!("config.toml file does not exists at {}", path.to_str().unwrap()));
         }
         let mut config: Config = toml::from_str(&fs::read_to_string(path).unwrap()).unwrap();
-        match env::var("DATABASE_PASSWORD"){
+        match env::var("DATABASE_PASSWORD") {
             Ok(password) => config.database.set_password(Some(password)),
             Err(_) => return Err("DATABASE_PASSWORD env is missing. please provide this env".to_string())
         }
@@ -86,5 +122,50 @@ impl Config {
             config.server.set_log_level(Some(DEFAULT_LOG_LEVEL.to_string()));
         }
         Ok(config)
+    }
+
+    pub fn load_jobs_config() -> Result<Vec<JobConfig>, String> {
+        let path = Path::new("config/job.toml");
+        if !path.exists() {
+            return Err(format!("config/job.toml file does not exists at {}", path.to_str().unwrap()));
+        }
+        let mut internal_configs: InternalJobsConfig = toml::from_str(&fs::read_to_string(path).unwrap()).unwrap();
+        let mut job_configs: Vec<JobConfig> = vec![];
+        let default_values = internal_configs.jobs.get("default").expect("Expect jobs.default config");
+        for (name, config) in internal_configs.jobs.iter() {
+            if name == "default" {
+                continue;
+            }
+            let mut base_aspd = Self::resolve_inherited_config(name, config, &internal_configs, "base_aspd", |conf| None, |conf| conf.base_aspd.clone()).or(Some(Default::default())).unwrap();
+            default_values.base_aspd.as_ref().expect("Expect jobs.default to have base_aspd").iter().for_each(|(weapon, value)| { base_aspd.entry(weapon.to_string()).or_insert(*value); });
+            job_configs.push(JobConfig {
+                id: config.id.expect(format!("Expect job {} to have id but found none", name).as_str()),
+                name: name.clone(),
+                base_exp_group: config.base_exp_group.as_ref().unwrap().clone(),
+                job_exp_group: config.job_exp_group.as_ref().unwrap().clone(),
+                base_weight: Self::resolve_inherited_config(name, config, &internal_configs, "base_weight", |conf| None, |conf| conf.base_weight.clone())
+                    .or_else(|| Some(default_values.base_weight.expect("Expect jobs.default to have base_weight"))).unwrap(),
+                base_hp: Self::resolve_inherited_config(name, config, &internal_configs, "inherit_hp", |conf| conf.inherit_hp.as_ref(), |conf| conf.base_hp.clone()).expect(format!("job config for class {}: expected to find property base_hp", name).as_str()),
+                base_sp: Self::resolve_inherited_config(name, config, &internal_configs, "inherit_sp", |conf| conf.inherit_sp.as_ref(), |conf| conf.base_sp.clone()).expect(format!("job config for class {}: expected to find property base_sp", name).as_str()),
+                base_aspd,
+            });
+        }
+        Ok(job_configs)
+    }
+
+    fn resolve_inherited_config<T, F1, F2>(name: &String, current_config: &InternalJobConfig, configs: &InternalJobsConfig, inherit_name: &str, inherited_property_fn: F1, defined_property_fn: F2) -> Option<T>
+    where
+        F1: Fn(&InternalJobConfig) -> Option<&String>,
+        F2: Fn(&InternalJobConfig) -> Option<T>
+    {
+        return if let Some(inherit) = current_config.inherit.as_ref() {
+            let inherited_config = configs.jobs.get(inherit).expect(format!("job config for class {}: inherit \"{}\" was not found", name, inherit).as_str());
+            Self::resolve_inherited_config(name, inherited_config, configs, inherit_name, inherited_property_fn, defined_property_fn)
+        } else if let Some(inherit) = inherited_property_fn(current_config) {
+            let inherited_config = configs.jobs.get(inherit).expect(format!("job config for class {}: {} \"{}\" was not found", name, inherit_name, inherit).as_str());
+            Self::resolve_inherited_config(name, inherited_config, configs, inherit_name, inherited_property_fn, defined_property_fn)
+        } else {
+            defined_property_fn(current_config)
+        }
     }
 }

@@ -1375,7 +1375,7 @@ CREATE TABLE ragnarok.item_db (
     subtype character varying(20),
     price_buy integer,
     price_sell integer,
-    weight smallint,
+    weight integer,
     attack smallint,
     defense smallint,
     range smallint,

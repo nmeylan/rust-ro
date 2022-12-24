@@ -235,7 +235,7 @@ pub struct GetItemModel {
     pub item_type: String,
     #[sqlx(default)]
     pub amount: i16,
-    pub weight: i16,
+    pub weight: i32,
     #[sqlx(default)]
     pub name_english: String,
 }
@@ -263,7 +263,7 @@ pub struct InventoryItemModel {
     // Come from itemdb table
     #[sqlx(default)]
     pub name_english: String,
-    pub weight: i16,
+    pub weight: i32,
 }
 
 impl<'r> Decode<'r, Postgres> for ItemType {

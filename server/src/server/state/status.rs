@@ -7,6 +7,7 @@ use crate::server::core::configuration::GameConfig;
 
 #[derive(SettersAll, Debug)]
 pub struct Status {
+    pub class: u32,
     pub hp: u32,
     pub sp: u32,
     pub max_hp: u32,
@@ -37,6 +38,7 @@ pub struct Status {
 impl Clone for Status {
     fn clone(&self) -> Self {
         Self {
+            class: self.class,
             hp: self.hp,
             sp: self.sp,
             max_hp: self.max_hp,
@@ -115,6 +117,7 @@ pub enum LookType {
 impl Status {
     pub fn from_char_model(char_model: &CharSelectModel, configuration: &GameConfig) -> Status {
         Status {
+            class: char_model.class as u32,
             hp: char_model.hp as u32,
             sp: char_model.sp as u32,
             max_hp: char_model.max_hp as u32,
@@ -155,6 +158,7 @@ impl Status {
     }
     pub fn from_mob_model(mob_model: &MobModel) -> Status {
         Status {
+            class: mob_model.id as u32,
             hp: mob_model.hp as u32,
             sp: mob_model.sp as u32,
             max_hp: mob_model.hp as u32,
