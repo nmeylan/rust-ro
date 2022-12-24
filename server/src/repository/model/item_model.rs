@@ -22,7 +22,7 @@ pub struct ItemModel {
     #[sqlx(default)]
     pub price_sell: Option<i32>,
     #[sqlx(default)]
-    pub weight: Option<i16>,
+    pub weight: Option<i32>,
     #[sqlx(default)]
     pub attack: Option<i16>,
     #[sqlx(default)]
@@ -223,7 +223,7 @@ pub struct ItemBuySellModel {
     #[sqlx(default)]
     pub stack_amount: Option<i16>,
     #[sqlx(default)]
-    pub weight: Option<i16>,
+    pub weight: Option<i32>,
     #[sqlx(default)]
     pub name_english: Option<String>,
 }

@@ -14,4 +14,10 @@ impl Repository {
             .bind(ids)
             .fetch_all(&self.pool).await
     }
+
+    pub async fn get_weight(&self, ids: Vec<i32>) -> Result<Vec<(i32, i32)>, Error>{
+        sqlx::query_as("SELECT id, weight FROM item_db WHERE id IN (SELECT * FROM UNNEST($1::int4[]))")
+            .bind(ids)
+            .fetch_all(&self.pool).await
+    }
 }

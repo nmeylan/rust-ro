@@ -287,6 +287,10 @@ impl Character {
         base_weight + (self.status.str * 300) as u32
     }
 
+    pub fn check_weight(&self, additional_weight: u32) -> bool {
+        (self.max_weight() as f32 * 0.9) as u32 > (self.weight() + additional_weight)
+    }
+
     pub fn print(&self) {
         let mut stdout = io::stdout();
         writeln!(stdout, "************** {} - {} ****************", self.name, self.char_id).unwrap();

@@ -1798,7 +1798,7 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x02 && buffer[1] == 0xc0 {
         return Box::new(PacketCzSrpacketr2Start::from(buffer, packetver));
     }
-    if buffer[0] == 0x02 && buffer[1] == 0xc1 {
+    if buffer[0] == 0xc1 && buffer[1] == 0x02 {
         return Box::new(PacketZcNpcChat::from(buffer, packetver));
     }
     if buffer[0] == 0x02 && buffer[1] == 0xc2 {
