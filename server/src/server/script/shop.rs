@@ -1,7 +1,7 @@
 use rathena_script_lang_interpreter::lang::call_frame::CallFrame;
 use rathena_script_lang_interpreter::lang::thread::Thread;
 use rathena_script_lang_interpreter::lang::value::{Native, Value};
-use packets::packets::{CzPurchaseItem, PacketZcPcPurchaseItemlist, PacketZcSelectDealtype, PurchaseItem};
+use packets::packets::{CzPurchaseItem, PacketZcPcPurchaseItemlist, PacketZcPcPurchaseResult, PacketZcSelectDealtype, PurchaseItem};
 use crate::server::script::PlayerScriptHandler;
 use crate::server::enums::item::ItemType;
 use crate::server::script::{GlobalVariableEntry, GlobalVariableScope};
@@ -61,6 +61,17 @@ impl PlayerScriptHandler {
             self.send_packet_to_char(self.session.char_id(), &mut packet_zc_pc_purchase_itemlist);
             // Wait for player click on "buy"
             self.await_player_click_on_buy(&mut items_list);
+            return true;
+        } else if native.name.eq("closeshop") {
+            let result = if params.len() > 0 {
+                params[0].number_value().or::<i32>(Ok(0)).unwrap()
+            } else {
+                0
+            };
+            let mut packet_zc_pc_purchase_result = PacketZcPcPurchaseResult::new();
+            packet_zc_pc_purchase_result.set_result(result as u8);
+            packet_zc_pc_purchase_result.fill_raw();
+            self.send_packet_to_char(self.session.char_id(), &mut packet_zc_pc_purchase_result);
             return true;
         }
         false

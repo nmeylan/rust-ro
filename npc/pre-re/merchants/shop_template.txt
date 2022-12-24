@@ -18,11 +18,14 @@ end;
 OnBuyItem:
     .@cost = 0;
     for (.@i = 0; .@i < getarraysize(@bought_nameid); .@i++) {
-        print("BUY " + @bought_nameid[.@i] + " @bought_quantity["+.@i+"]: " +  @bought_quantity[.@i] + " at @bought_price["+.@i+"]: " +  @bought_price[.@i]);
         .@cost += @bought_quantity[.@i] * @bought_price[.@i];
     }
-    if .@cost > Zeny {
-        message strcharinfo(0), "^FF0000You do not have enough zeny.^FF0000";
+    if (!checkweight2(getglobalarrayref(@bought_nameid),getglobalarrayref(@bought_quantity))) {
+    		dispbottom "You cannot hold this amount of items!", "0xFF0000", strcharinfo(0);
+            closeshop 2;
+    } else if .@cost > Zeny {
+        dispbottom "You do not have enough zeny!", "0xFF0000", strcharinfo(0);
+        closeshop 1;
     } else {
         purchaseitems getglobalarrayref(@bought_nameid), getglobalarrayref(@bought_quantity);
     }

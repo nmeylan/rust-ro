@@ -1,15 +1,18 @@
 use std::mem;
-use packets::packets::{Packet, PacketZcCloseDialog, PacketZcMenuList, PacketZcNotifyPlayerchat, PacketZcOpenEditdlg, PacketZcOpenEditdlgstr, PacketZcSayDialog, PacketZcShowImage2, PacketZcWaitDialog};
+use std::sync::{Arc, RwLock};
+use std::sync::mpsc::SyncSender;
+
+use rathena_script_lang_interpreter::lang::call_frame::CallFrame;
 use rathena_script_lang_interpreter::lang::thread::Thread;
 use rathena_script_lang_interpreter::lang::value;
-use std::sync::mpsc::SyncSender;
-use std::sync::{Arc, RwLock};
-use tokio::sync::mpsc::Receiver;
-use tokio::runtime::Runtime;
-use rathena_script_lang_interpreter::lang::vm::NativeMethodHandler;
 use rathena_script_lang_interpreter::lang::value::Native;
-use rathena_script_lang_interpreter::lang::call_frame::CallFrame;
+use rathena_script_lang_interpreter::lang::vm::NativeMethodHandler;
 use sprintf::{Printf, vsprintf};
+use tokio::runtime::Runtime;
+use tokio::sync::mpsc::Receiver;
+
+use packets::packets::{Packet, PacketZcCloseDialog, PacketZcMenuList, PacketZcNotifyPlayerchat, PacketZcNpcChat, PacketZcOpenEditdlg, PacketZcOpenEditdlgstr, PacketZcSayDialog, PacketZcShowImage2, PacketZcWaitDialog};
+
 use crate::server::core::session::Session;
 use crate::server::events::client_notification::{CharNotification, Notification};
 use crate::server::events::game_event::CharacterLook;
@@ -20,6 +23,7 @@ use crate::server::Server;
 use crate::server::service::character_movement::change_map_packet;
 use crate::server::state::status::LookType;
 use crate::util::string::StringUtil;
+
 mod global_variable_handler;
 pub mod constant;
 mod shop;
@@ -42,7 +46,7 @@ pub enum GlobalVariableScope {
 
 #[derive(Default)]
 pub struct ScriptGlobalVariableStore {
-    pub variables: Vec<GlobalVariableEntry>
+    pub variables: Vec<GlobalVariableEntry>,
 }
 
 impl ScriptGlobalVariableStore {
@@ -220,7 +224,7 @@ impl NativeMethodHandler for PlayerScriptHandler {
             } else {
                 execution_thread.abort();
             }
-        } else  if native.name.eq("setglobalvariable") {
+        } else if native.name.eq("setglobalvariable") {
             self.handle_setglobalvariable(&params);
         } else if native.name.eq("getglobalvariable") {
             self.handle_getglobalvariable(params, execution_thread);
@@ -228,7 +232,7 @@ impl NativeMethodHandler for PlayerScriptHandler {
             self.handle_setglobalarray(&params);
         } else if native.name.eq("getglobalarray") {
             self.handle_getglobalarray(&params, execution_thread);
-        } else if native.name.eq("removeitemsglobalarray"){
+        } else if native.name.eq("removeitemsglobalarray") {
             self.handle_remove_item_from_globalarray(&params);
         } else if native.name.eq("select") {
             self.handle_menu(execution_thread, params);
@@ -258,7 +262,7 @@ impl NativeMethodHandler for PlayerScriptHandler {
             } else {
                 self.session.char_id()
             };
-            self.server.add_to_next_tick(CharacterUpdateLook(CharacterLook{look_type: LookType::from_value(look_type as usize), look_value: look_value as u32, char_id}));
+            self.server.add_to_next_tick(CharacterUpdateLook(CharacterLook { look_type: LookType::from_value(look_type as usize), look_value: look_value as u32, char_id }));
         } else if native.name.eq("strcharinfo") {
             let info_type = params[0].number_value().unwrap() as usize;
             let char = if params.len() == 2 {
@@ -283,6 +287,24 @@ impl NativeMethodHandler for PlayerScriptHandler {
             packet_zc_notify_playerchat.set_packet_length((PacketZcNotifyPlayerchat::base_len(self.server.packetver()) + message.len() + 1) as i16);
             packet_zc_notify_playerchat.fill_raw();
             self.send_packet_to_char(self.session.char_id(), &mut packet_zc_notify_playerchat);
+        } else if native.name.eq("dispbottom") {
+            let _char_name: &String = params[2].string_value().or::<String>(Ok(&"".to_string())).unwrap();
+            let message = params[0].string_value().unwrap();
+            let green = "0x00FF00".to_string();
+            let color = params[1].string_value().or::<String>(Ok(&green)).unwrap();
+            let color_rgb = if color.starts_with("0x") {
+                u32::from_str_radix(format!("{}{}{}", &color[6..8], &color[4..6], &color[2..4]).as_str(), 16).or::<u32>(Ok(65280)).unwrap()
+            } else {
+                65280
+            };
+            let mut packet_zc_npc_chat = PacketZcNpcChat::new();
+            packet_zc_npc_chat.set_msg(message.to_string());
+            packet_zc_npc_chat.set_color(color_rgb);
+            packet_zc_npc_chat.set_account_id(self.session.char_id());
+            packet_zc_npc_chat.set_packet_length((PacketZcNpcChat::base_len(self.server.packetver()) + message.len() + 1) as i16);
+            packet_zc_npc_chat.fill_raw();
+            packet_zc_npc_chat.pretty_debug();
+            self.send_packet_to_char(self.session.char_id(), &mut packet_zc_npc_chat);
         } else if native.name.eq("getbattleflag") {
             let constant_name = params[0].string_value().unwrap();
             let value = get_battle_flag(constant_name);
@@ -326,13 +348,12 @@ impl NativeMethodHandler for PlayerScriptHandler {
             packet_zc_show_image2.set_atype(position as u8);
             packet_zc_show_image2.fill_raw();
             self.send_packet_to_char(self.session.char_id(), &mut packet_zc_show_image2);
-
         } else if native.name.eq("purchaseitems") {
             let (owner_reference, reference) = params[0].reference_value().map_err(|err|
-                execution_thread.new_runtime_from_temporary(err, "purchaseitems first argument should be array name")).unwrap();
+                execution_thread.new_runtime_from_temporary(err, "purchaseitems first argument should be array reference")).unwrap();
             let items_ids_array = execution_thread.vm.array_from_heap_reference(owner_reference, reference).unwrap();
             let (owner_reference, reference) = params[1].reference_value().map_err(|err|
-                execution_thread.new_runtime_from_temporary(err, "purchaseitems second argument should be array name")).unwrap();
+                execution_thread.new_runtime_from_temporary(err, "purchaseitems second argument should be array reference")).unwrap();
             let items_amount_array = execution_thread.vm.array_from_heap_reference(owner_reference, reference).unwrap();
             let items_amounts: Vec<i16> = execution_thread.array_constants(items_amount_array).iter().map(|constant| *constant.value().number_value().as_ref().unwrap() as i16).collect::<Vec<i16>>();
             let mut items_ids_amount: Vec<(i32, i16)> = vec![];
@@ -343,13 +364,29 @@ impl NativeMethodHandler for PlayerScriptHandler {
             });
 
             get_items(self.session.char_id(), self.server.as_ref(), &self.runtime, items_ids_amount, true);
-
-            // let item = if params[0].is_number() {
-            //     params[0].number_value().unwrap();
-            //     self.server.repository
-            // } else {
-            //
-            // }
+        } else if native.name.eq("checkweight2") {
+            let (owner_reference, reference) = params[0].reference_value().map_err(|err|
+                execution_thread.new_runtime_from_temporary(err, "purchaseitems first argument should be array reference")).unwrap();
+            let items_ids_array = execution_thread.vm.array_from_heap_reference(owner_reference, reference).unwrap();
+            let (owner_reference, reference) = params[1].reference_value().map_err(|err|
+                execution_thread.new_runtime_from_temporary(err, "purchaseitems second argument should be array reference")).unwrap();
+            let items_amount_array = execution_thread.vm.array_from_heap_reference(owner_reference, reference).unwrap();
+            self.runtime.block_on(async {
+                let items_ids: Vec<i32> = execution_thread.array_constants(items_ids_array.clone()).iter().map(|constant| *constant.value().number_value().as_ref().unwrap() as i32).collect::<Vec<i32>>();
+                let items_amounts: Vec<i16> = execution_thread.array_constants(items_amount_array).iter().map(|constant| *constant.value().number_value().as_ref().unwrap() as i16).collect::<Vec<i16>>();
+                let mut items_ids_amount: Vec<(i32, i16)> = vec![];
+                execution_thread.array_constants(items_ids_array).iter().enumerate().for_each(|(i, constant)| {
+                    if constant.value().is_number() { // TODO handle string
+                        items_ids_amount.push((constant.value().number_value().unwrap(), items_amounts[i]))
+                    }
+                });
+                let mut items_total_weight = 0;
+                self.server.repository.get_weight(items_ids).await.unwrap().iter().for_each(|(id, weight)| {
+                    items_total_weight += weight * (items_ids_amount.iter().find(|(iid, amount)| *iid == *id).or(Some(&(*id, 0_i16))).unwrap().1 as i32)
+                });
+                let character_ref = self.server.get_character_unsafe(self.session.char_id());
+                execution_thread.push_constant_on_stack(value::Value::new_number(if character_ref.check_weight(items_total_weight as u32) { 1 } else { 0 }));
+            });
         } else {
             if self.handle_shop(native, params, execution_thread, call_frame) {
                 return;
@@ -357,5 +394,4 @@ impl NativeMethodHandler for PlayerScriptHandler {
             error!("Native function \"{}\" not handled yet!", native.name);
         }
     }
-
 }

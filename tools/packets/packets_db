@@ -4682,7 +4682,7 @@ struct PACKET_CZ_SRPACKETR2_START {
   short PacketId
   unsigned short ProtectFactor
  }
-0x2c1
+0xc102
 struct PACKET_ZC_NPC_CHAT {
   short PacketId
   short PacketLength
