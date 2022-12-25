@@ -49,7 +49,11 @@ impl MapInstanceKey {
 
     pub fn new(map_name: String, id: u8) -> Self {
         let mut new_current_map: [char; 16] = [0 as char; 16];
-        let map_name = format!("{}{}", map_name, MAP_EXT);
+        let map_name = if !map_name.ends_with(MAP_EXT) {
+            format!("{}{}", map_name, MAP_EXT)
+        } else {
+            map_name
+        };
         map_name.fill_char_array(new_current_map.as_mut());
         Self {
             map_name: new_current_map,

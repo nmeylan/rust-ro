@@ -1,29 +1,27 @@
-
 use std::collections::HashSet;
-use packets::packets::{CharacterInfoNeoUnion, Packet, PacketChDeleteChar4Reserved, PacketChEnter, PacketChMakeChar, PacketChMakeChar3, PacketChSelectChar, PacketChSendMapInfo, PacketCzEnter2, PacketCzRestart, PacketHcAcceptEnterNeoUnion, PacketHcAcceptEnterNeoUnionHeader, PacketHcAcceptMakecharNeoUnion, PacketHcDeleteChar4Reserved, PacketHcNotifyZonesvr, PacketHcRefuseEnter, PacketMapConnection, PacketPincodeLoginstate, PacketZcAcceptEnter2, PacketZcAttackRange,PacketZcInventoryExpansionInfo, PacketZcLoadConfirm, PacketZcNotifyChat, PacketZcOverweightPercent, PacketZcParChange, PacketZcReqDisconnectAck2, PacketZcRestartAck, PacketZcStatusValues, ZserverAddr};
-
+use std::net::Shutdown::Both;
 use std::sync::{Arc, Mutex};
 
 use byteorder::{LittleEndian, WriteBytesExt};
-use crate::repository::model::char_model::{CharacterInfoNeoUnionWrapped, CharInsertModel, CharSelectModel};
-use crate::util::string::StringUtil;
-use std::net::Shutdown::Both;
 use sqlx::Postgres;
 
-use crate::util::packet::chain_packets;
-use crate::server::enums::status::StatusTypes;
-use crate::server::state::character::Character;
-use crate::server::service::character_movement::change_map_packet;
-use crate::server::events::game_event::GameEvent;
+use packets::packets::{CharacterInfoNeoUnion, Packet, PacketChDeleteChar4Reserved, PacketChEnter, PacketChMakeChar, PacketChMakeChar3, PacketChSelectChar, PacketChSendMapInfo, PacketCzEnter2, PacketCzRestart, PacketHcAcceptEnterNeoUnion, PacketHcAcceptEnterNeoUnionHeader, PacketHcAcceptMakecharNeoUnion, PacketHcDeleteChar4Reserved, PacketHcNotifyZonesvr, PacketHcRefuseEnter, PacketMapConnection, PacketPincodeLoginstate, PacketZcAcceptEnter2, PacketZcAttackRange, PacketZcInventoryExpansionInfo, PacketZcLoadConfirm, PacketZcNotifyChat, PacketZcOverweightPercent, PacketZcParChange, PacketZcReqDisconnectAck2, PacketZcRestartAck, PacketZcStatusValues, ZserverAddr};
+
+use crate::repository::model::char_model::{CharacterInfoNeoUnionWrapped, CharInsertModel, CharSelectModel};
 use crate::server::core::map::Map;
 use crate::server::core::map_instance::MapInstanceKey;
 use crate::server::core::position::Position;
 use crate::server::core::request::Request;
+use crate::server::enums::status::StatusTypes;
+use crate::server::events::game_event::GameEvent;
 use crate::server::events::game_event::GameEvent::CharacterInitInventory;
-
-use crate::server::state::status::Status;
 use crate::server::script::ScriptGlobalVariableStore;
 use crate::server::Server;
+use crate::server::service::character_movement::change_map_packet;
+use crate::server::state::character::Character;
+use crate::server::state::status::Status;
+use crate::util::packet::chain_packets;
+use crate::util::string::StringUtil;
 use crate::util::tick::get_tick_client;
 
 pub fn handle_char_enter(server: &Server, context: Request) {
@@ -61,11 +59,10 @@ pub fn handle_char_enter(server: &Server, context: Request) {
 }
 
 pub fn handle_make_char(server: &Server, context: Request) {
-
     let mut char_model: Option<CharInsertModel> = None;
     if context.packet().as_any().downcast_ref::<PacketChMakeChar3>().is_some() {
         let vit = 1;
-        let max_hp = 40 * (100 + vit as i32) / 100 ;
+        let max_hp = 40 * (100 + vit as i32) / 100;
         let int = 1;
         let max_sp = 40 * (100 + int as i32) / 100;
         let packet_make_char = cast!(context.packet(), PacketChMakeChar3);
@@ -95,12 +92,12 @@ pub fn handle_make_char(server: &Server, context: Request) {
             save_x: 53,
             save_y: 111,
             sex: if packet_make_char.sex == 1 { "M".to_string() } else { "F".to_string() },
-            inventory_size: 100
+            inventory_size: 100,
         });
     } else if context.packet().as_any().downcast_ref::<PacketChMakeChar>().is_some() {
         let packet_make_char = cast!(context.packet(), PacketChMakeChar);
         let vit = packet_make_char.vit as i16;
-        let max_hp = 40 * (100 + vit as i32) / 100 ;
+        let max_hp = 40 * (100 + vit as i32) / 100;
         let int = 1;
         let max_sp = 40 * (100 + int as i32) / 100;
         char_model = Some(CharInsertModel {
@@ -129,7 +126,7 @@ pub fn handle_make_char(server: &Server, context: Request) {
             save_x: 53,
             save_y: 111,
             sex: "M".to_string(),
-            inventory_size: 100
+            inventory_size: 100,
         });
     }
     if char_model.is_none() {
@@ -188,9 +185,7 @@ pub fn handle_select_char(server: &Server, context: Request) {
     if last_map.is_empty() {
         last_map = "prontera".to_string();
     }
-    let mut map_name = [0 as char; 16];
-    last_map = format!("{}.gat", last_map);
-    last_map.fill_char_array(map_name.as_mut());
+
     let character = Character {
         name: char_model.name.clone(),
         char_id,
@@ -204,10 +199,12 @@ pub fn handle_select_char(server: &Server, context: Request) {
         map_view: HashSet::new(),
         script_variable_store: Mutex::new(ScriptGlobalVariableStore::default()),
         account_id: session_id,
-        map_instance_key: MapInstanceKey::new(last_map, 0)
+        map_instance_key: MapInstanceKey::new(last_map, 0),
     };
     let char_id = character.char_id;
     let session = Arc::new(context.session().recreate_with_character(char_id));
+    let mut map_name = [0 as char; 16];
+    character.current_map_name().fill_char_array(map_name.as_mut());
     server.insert_character(character);
     sessions_guard.insert(session_id, session);
     if server.packetver() < 20170329 {
@@ -233,7 +230,6 @@ pub fn handle_select_char(server: &Server, context: Request) {
 
 
 pub fn handle_enter_game(server: &Server, context: Request) {
-
     let aid;
     let auth_code;
     if context.packet().as_any().downcast_ref::<PacketCzEnter2>().is_some() {
@@ -277,7 +273,7 @@ pub fn handle_enter_game(server: &Server, context: Request) {
     packet_accept_enter.set_x_size(5); // Commented as not used, set at 5 in Hercules
     packet_accept_enter.set_y_size(5); // Commented as not used, set at 5 in Hercules
     packet_accept_enter.set_font(0);
-    packet_accept_enter.set_pos_dir(Position {x: character.x(), y: character.y(), dir: character.dir() }.to_pos());
+    packet_accept_enter.set_pos_dir(Position { x: character.x(), y: character.y(), dir: character.dir() }.to_pos());
     packet_accept_enter.fill_raw();
 
     change_map_packet(&Map::name_without_ext(character.current_map_name()), character.x(), character.y(), session, server);
@@ -377,7 +373,7 @@ pub fn handle_enter_game(server: &Server, context: Request) {
         &packet_hit, &packet_flee, &packet_aspd, &packet_atk, &packet_def,
         &packet_flee2, &packet_crit, &packet_matk, &packet_matk2,
         &packet_mdef2, &packet_attack_range, &packet_maxhp, &packet_maxsp, &packet_hp,
-        &packet_sp, &packet_speed, &packet_notify_chat
+        &packet_sp, &packet_speed, &packet_notify_chat,
     ]);
     socket_send_raw!(context, final_response_packet);
 

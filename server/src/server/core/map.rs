@@ -232,7 +232,7 @@ impl Map {
         let mut map_items: HashMap<u32, MapItem> = HashMap::with_capacity(2048);
         let cells = self.generate_cells(server, &mut map_items);
 
-        let (map_event_notification_sender, single_map_event_notification_receiver) = std::sync::mpsc::sync_channel::<MapEvent>(0);
+        let (map_event_notification_sender, single_map_event_notification_receiver) = std::sync::mpsc::sync_channel::<MapEvent>(2048);
         let map_instance = MapInstance::from_map(self, server, instance_id, cells, map_items, map_event_notification_sender, server.client_notification_sender());
         self.map_instances_count.fetch_add(1, Relaxed);
         let map_instance_ref = Arc::new(map_instance);

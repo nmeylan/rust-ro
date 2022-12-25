@@ -11,7 +11,7 @@ use packets::packets_parser::parse;
 use std::io::{Read, Write};
 use crate::repository::Repository;
 use crate::server::core::configuration::{Config};
-use crate::server::core::map::Map;
+use crate::server::core::map::{Map, MAP_EXT};
 use crate::server::core::map_instance::MapInstance;
 use crate::server::core::map_item::MapItem;
 use crate::server::core::path::manhattan_distance;
@@ -99,11 +99,13 @@ impl Server {
         MyRef::map(self.characters.borrow(), |characters| characters.get(&char_id).unwrap())
     }
 
+    #[inline]
     pub fn get_map_instance_from_character(&self, character: &Character) -> Option<Arc<MapInstance>> {
         self.get_map_instance(character.current_map_name(), character.current_map_instance())
     }
+    #[inline]
     pub fn get_map_instance(&self, map_name: &String, map_instance_id: u8) -> Option<Arc<MapInstance>> {
-        let map_name = if map_name.ends_with(".gat") {
+        let map_name = if map_name.ends_with(MAP_EXT) {
             &map_name[..(map_name.len() - 4)]
         } else {
             map_name.as_str()
@@ -112,6 +114,7 @@ impl Server {
         if let Some(map) = self.maps.get(map_name) {
             return map.get_instance(map_instance_id, self)
         }
+        error!("Can't find map instance {}:{}",map_name, map_instance_id);
         None
     }
 

@@ -30,7 +30,7 @@ pub fn handle_char_move(server: &Server, context: Request) {
     };
     debug!("Request move to {}", destination);
     let character = server.get_character_from_context_unsafe(&context);
-    let map_instance = server.get_map_instance_from_character(character.deref()).unwrap();
+    let map_instance = server.get_map_instance_from_character(character.deref()).unwrap_or_else(|| panic!("Expected to find map instance for character but didn't succeed"));
     // server.add_to_next_movement_tick(CharacterClearMove(character.char_id));
     let mut current_position = Position { x: character.x(), y: character.y(), dir: 0 };
     if character.is_moving() {
