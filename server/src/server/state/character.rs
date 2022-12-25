@@ -119,8 +119,8 @@ impl Character {
             if !self.map_view.contains(map_item) {
                 let default_name = "unknown".to_string();
                 let map_item_name = server.map_item_name(map_item, self.current_map_name(), self.current_map_instance()).unwrap_or(default_name);
-                let position = server.map_item_x_y(map_item, self.current_map_name(), self.current_map_instance()).unwrap();
-                info!("See map_item {} at {},{}", map_item.object_type(), position.x(), position.y());
+                let position = server.map_item_x_y(map_item, self.current_map_name(), self.current_map_instance()). unwrap();
+                debug!("See map_item {} at {},{}", map_item.object_type(), position.x(), position.y());
                 let mut name = [0 as char; 24];
                 map_item_name.fill_char_array(name.as_mut());
                 let mut packet_zc_notify_standentry = PacketZcNotifyStandentry7::new();
@@ -153,7 +153,7 @@ impl Character {
         for map_item in self.map_view.iter() {
             if !new_map_view.contains(map_item) {
                 let position = server.map_item_x_y(map_item, self.current_map_name(), self.current_map_instance()).unwrap();
-                info!("Vanish map_item {} at {},{}", map_item.object_type(), position.x(), position.y());
+                debug!("Vanish map_item {} at {},{}", map_item.object_type(), position.x(), position.y());
                 let mut packet_zc_notify_vanish = PacketZcNotifyVanish::new();
                 packet_zc_notify_vanish.set_gid(map_item.id());
                 packet_zc_notify_vanish.fill_raw();
@@ -334,14 +334,14 @@ impl Character {
 
 impl ToMapItem for Character {
     fn to_map_item(&self) -> MapItem {
-        let client_item_class = 0;  // TODO return job id
+        let client_item_class = self.status.class as i16;
         MapItem::new(self.char_id, client_item_class, MapItemType::Character)
     }
 }
 
 impl ToMapItemSnapshot for Character {
     fn to_map_item_snapshot(&self) -> MapItemSnapshot {
-        let client_item_class = 0;  // TODO return job id
+        let client_item_class = self.status.class as i16;
         MapItemSnapshot::new(
             MapItem::new(self.char_id, client_item_class, MapItemType::Character),
             Position { x: self.x, y: self.y, dir: self.dir },

@@ -252,7 +252,11 @@ impl Server {
                     }
                 }
             }
-            sleep(Duration::from_millis((GAME_TICK_RATE - (SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis() - tick).min(0).max(GAME_TICK_RATE)) as u64));
+            let sleep_duration = (GAME_TICK_RATE - (SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis() - tick).min(0).max(GAME_TICK_RATE)) as u64;
+            if  GAME_TICK_RATE - (sleep_duration as u128) < 5 {
+                warn!("Less than 5 seconds of sleep, game loop is too slow");
+            }
+            sleep(Duration::from_millis(sleep_duration));
         }
     }
 
@@ -324,7 +328,12 @@ impl Server {
             for character in character_finished_to_move {
                 persistence_event_sender.send(SaveCharacterPosition(SavePositionUpdate { account_id: character.account_id, char_id: character.char_id, map_name: character.current_map_name().clone(), x: character.x(), y: character.y() })).expect("Fail to send persistence notification");
             }
-            sleep(Duration::from_millis((MOVEMENT_TICK_RATE - (SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis() - tick).min(0).max(MOVEMENT_TICK_RATE)) as u64));
+
+            let sleep_duration = (MOVEMENT_TICK_RATE - (SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis() - tick).min(0).max(MOVEMENT_TICK_RATE)) as u64;
+            if  MOVEMENT_TICK_RATE - (sleep_duration as u128) < 5 {
+                warn!("Less than 5 seconds of sleep, movement loop is too slow");
+            }
+            sleep(Duration::from_millis(sleep_duration));
         }
     }
 }
