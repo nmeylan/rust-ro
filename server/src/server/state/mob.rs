@@ -1,19 +1,14 @@
-
 use std::collections::HashMap;
 
-
-
-use rand::Rng;
 use packets::packets::PacketZcNotifyMove;
 
-
-use crate::server::core::position::Position;
 use crate::server::core::map::Map;
-use crate::server::core::map_instance::{MapInstanceKey};
-use crate::server::state::status::Status;
+use crate::server::core::map_instance::MapInstanceKey;
 use crate::server::core::map_item::{MapItem, MapItemType};
+use crate::server::core::position::Position;
 use crate::server::map_item::ToMapItem;
-use crate::util::tick::{get_tick_client};
+use crate::server::state::status::Status;
+use crate::util::tick::get_tick_client;
 
 #[derive(Setters)]
 pub struct Mob {
@@ -43,7 +38,7 @@ impl Mob {
             name,
             map_view: vec![],
             current_map,
-            is_view_char: false
+            is_view_char: false,
         }
     }
 
@@ -60,9 +55,9 @@ impl Mob {
     }
 
     pub fn action_move(&mut self, cells: &[u16], x_size: u16, y_size: u16) -> HashMap<MapItem, PacketZcNotifyMove> {
-        let mut rng = rand::thread_rng();
+        let rng = fastrand::Rng::new();
         let mut character_packets_map: HashMap<MapItem, PacketZcNotifyMove> = HashMap::new();
-        let rand = rng.gen_range(0..=100);
+        let rand = rng.i32(0..=100);
         let should_move = if self.is_view_char {
             rand <= 80
         } else {
@@ -70,36 +65,37 @@ impl Mob {
         };
 
         if should_move {
-            let rand_distance = rng.gen_range(2..=8);
+            let rand_distance = rng.usize(2..=8);
             let current_x = self.x;
             let current_y = self.y;
-            let (x, y) = Map::find_random_walkable_cell_in_max_range(cells, x_size, y_size, current_x, current_y, rand_distance);
-            // Todo: implement server side movement, to avoid desync between client and server
-            self.x = x;
-            self.y = y;
-            if self.is_view_char {
-                let from = Position {
-                    x: current_x,
-                    y: current_y,
-                    dir: 0
-                };
-                let to = Position {
-                    x,
-                    y,
-                    dir: 0
-                };
-                self.map_view.iter()
-                    .filter(|map_item| map_item.object_type_value() == MapItemType::Character.value())
-                    .for_each(|map_item| {
-                        let mut packet_zc_notify_move = PacketZcNotifyMove::default();
-                        debug!("{} is moving from {},{} to {},{}, notifying {}", self.name, from.x, from.y, to.x, to.y, map_item.id());
-                        packet_zc_notify_move.set_gid(self.id);
-                        packet_zc_notify_move.move_data = from.to_move_data(&to);
-                        let start_time = get_tick_client();
-                        packet_zc_notify_move.set_move_start_time(start_time);
-                        packet_zc_notify_move.fill_raw();
-                        character_packets_map.insert(*map_item, packet_zc_notify_move);
-                    })
+            if let Some((x, y)) = Map::find_random_walkable_cell_in_max_range(cells, x_size, y_size, current_x, current_y, rand_distance) {
+                // Todo: implement server side movement, to avoid desync between client and server
+                self.x = x;
+                self.y = y;
+                if self.is_view_char {
+                    let from = Position {
+                        x: current_x,
+                        y: current_y,
+                        dir: 0,
+                    };
+                    let to = Position {
+                        x,
+                        y,
+                        dir: 0,
+                    };
+                    self.map_view.iter()
+                        .filter(|map_item| map_item.object_type_value() == MapItemType::Character.value())
+                        .for_each(|map_item| {
+                            let mut packet_zc_notify_move = PacketZcNotifyMove::default();
+                            debug!("{} is moving from {},{} to {},{}, notifying {}", self.name, from.x, from.y, to.x, to.y, map_item.id());
+                            packet_zc_notify_move.set_gid(self.id);
+                            packet_zc_notify_move.move_data = from.to_move_data(&to);
+                            let start_time = get_tick_client();
+                            packet_zc_notify_move.set_move_start_time(start_time);
+                            packet_zc_notify_move.fill_raw();
+                            character_packets_map.insert(*map_item, packet_zc_notify_move);
+                        })
+                }
             }
         }
         character_packets_map

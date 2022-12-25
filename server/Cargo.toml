@@ -11,6 +11,7 @@ tokio = { version = "1.19.2", features = ["full", "tracing"] }
 futures = "0.3"
 sqlx = { version = "0.6", features = [ "runtime-tokio-rustls", "postgres" ] }
 rand = "0.8"
+fastrand = "1.8.0"
 flate2 = "1.0"
 md5 = "0.7.0"
 log = "0.4"
