@@ -14,7 +14,7 @@ rand = "0.8"
 flate2 = "1.0"
 md5 = "0.7.0"
 log = "0.4"
-flexi_logger = "0.19"
+flexi_logger = "0.24"
 toml = "0.5"
 serde = { version = "1.0", features = ["derive"] }
 eframe = { version = "0.15", default-features = false, features = ["egui_glow", "default_fonts"], optional = true }

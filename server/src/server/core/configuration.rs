@@ -22,6 +22,8 @@ pub struct Config {
 pub struct ServerConfig {
     #[set]
     pub log_level: Option<String>,
+    #[set]
+    pub log_exclude_pattern: Option<String>,
     pub accounts: Vec<u32>,
     pub port: u16,
     pub enable_visual_debugger: bool,
@@ -120,6 +122,9 @@ impl Config {
             }
         } else {
             config.server.set_log_level(Some(DEFAULT_LOG_LEVEL.to_string()));
+        }
+        if config.server.log_exclude_pattern.is_none() {
+            config.server.set_log_exclude_pattern(Some("none".to_string()));
         }
         Ok(config)
     }

@@ -1,6 +1,7 @@
 [server]
 port = 6901
 log_level = "info"
+log_exclude_pattern = "slqlx"
 # Packets sent by user accounts listed below are handled by this server, otherwise they will be proxied to hercules or rathena.
 accounts = [
     2000000
