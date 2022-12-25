@@ -15,8 +15,6 @@ use std::sync::{Arc};
 use std::sync::atomic::AtomicI8;
 use std::sync::atomic::Ordering::Relaxed;
 use std::sync::mpsc::Receiver;
-
-use rand::Rng;
 use accessor::Setters;
 use crate::Script;
 
@@ -166,30 +164,35 @@ impl Map {
     }
 
     pub fn find_random_walkable_cell(cells: &Vec<u16>, x_size: u16) -> (u16, u16) {
-        let mut rng = rand::thread_rng();
+        let rng = fastrand::Rng::new();
 
         loop {
-            let index = rng.gen_range(0..cells.len());
+            let index = rng.usize(0..cells.len());
             if cells.get(index).unwrap() & WALKABLE_MASK == 1 {
                 return coordinate::get_pos_of(index as u32, x_size)
             }
         }
     }
 
-    pub fn find_random_walkable_cell_in_max_range(cells: &[u16], x_size: u16, y_size: u16, x: u16, y: u16, max_range: usize) -> (u16, u16) {
-        let mut rng = rand::thread_rng();
+    pub fn find_random_walkable_cell_in_max_range(cells: &[u16], x_size: u16, y_size: u16, x: u16, y: u16, max_range: usize) -> Option<(u16, u16)> {
+        let rng = fastrand::Rng::new();
+        let max_range = max_range as u16;
         let allowed_dirs = allowed_dirs(x_size, y_size, x, y);
         let mut directions = vec![DIR_NORTH, DIR_SOUTH, DIR_EAST, DIR_WEST, DIR_SOUTH | DIR_EAST, DIR_SOUTH | DIR_WEST, DIR_NORTH | DIR_EAST, DIR_NORTH | DIR_WEST];
         let mut dest_x = x;
         let mut dest_y = y;
-        // TODO maybe control infinite loop, max 5 iter
+        let max_iter = 3;
+        let mut i = 0;
         loop {
-            let random_index = rng.gen_range(0..directions.len());
+            let random_index = rng.usize(0..directions.len());
             let direction = *directions.get(random_index).unwrap();
             if is_direction(allowed_dirs, direction) {
                 loop {
-                    let random_x = rng.gen_range(0..=max_range) as u16;
-                    let random_y = rng.gen_range(0..=max_range) as u16;
+                    if i > max_iter {
+                        return None;
+                    }
+                    let random_x = rng.u16(0..=max_range);
+                    let random_y = rng.u16(0..=max_range);
                     if direction == DIR_NORTH {
                         dest_y = y + random_y;
                     } else if direction == DIR_SOUTH {
@@ -218,8 +221,9 @@ impl Map {
                         dest_y = y_size - 1;
                     }
                     if cells.get(coordinate::get_cell_index_of(dest_x, dest_y, x_size)).unwrap() & WALKABLE_MASK == 1 {
-                        return (dest_x, dest_y)
+                        return Some((dest_x, dest_y))
                     }
+                    i += 1;
                 }
             } else {
                 directions.swap_remove(random_index);
