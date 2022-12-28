@@ -87,7 +87,7 @@ impl Mob {
                         .filter(|map_item| map_item.object_type_value() == MapItemType::Character.value())
                         .for_each(|map_item| {
                             let mut packet_zc_notify_move = PacketZcNotifyMove::default();
-                            debug!("{} is moving from {},{} to {},{}, notifying {}", self.name, from.x, from.y, to.x, to.y, map_item.id());
+                            debug!("{}-{} is moving from {},{} to {},{}, notifying {}", self.name, self.current_map.map_name(), from.x, from.y, to.x, to.y, map_item.id());
                             packet_zc_notify_move.set_gid(self.id);
                             packet_zc_notify_move.move_data = from.to_move_data(&to);
                             let start_time = get_tick_client();

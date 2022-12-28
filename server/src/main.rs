@@ -83,17 +83,17 @@ pub async fn main() {
     let _ = &handles.push(char_proxy.proxy(config.server.packetver));
     let _ = &handles.push(map_proxy.proxy(config.server.packetver));
 
-    Server::start(server_ref_clone, single_client_notification_receiver);
     if config.server.enable_visual_debugger {
         #[cfg(feature = "visual_debugger")]
         {
-            crate::debugger::visual_debugger::VisualDebugger::run(server_ref.clone());
+            crate::debugger::visual_debugger::VisualDebugger::run(server_ref_clone.clone());
         }
         #[cfg(not(feature = "visual_debugger"))]
         {
             warn!("Visual debugger has been enable in configuration, but feature has not been compiled. Please consider enabling \"visual-debugger\" feature.");
         }
     }
+    Server::start(server_ref_clone.clone(), single_client_notification_receiver);
 
     for handle in handles {
         handle.join().expect("Failed await server and proxy threads");
