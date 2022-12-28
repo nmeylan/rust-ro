@@ -1,11 +1,12 @@
-use std::collections::HashSet;
+use std::collections::{HashMap, HashSet};
 use std::sync::Arc;
 use eframe::egui::{Color32, emath, epaint, Frame, Pos2, Rect, Sense, Shape, Stroke, Ui, Vec2};
 use eframe::egui::epaint::RectShape;
 use crate::server::core::map::{WALKABLE_MASK, WARP_MASK};
 use crate::server::core::map_instance::MapInstance;
 use crate::server::core::map_item::{MapItem, MapItemType};
-use crate::server::PLAYER_FOV;
+use crate::server::{PLAYER_FOV, Server};
+use crate::util::cell::MyUnsafeCell;
 use crate::util::coordinate;
 
 pub struct MapInstanceView {
@@ -13,6 +14,7 @@ pub struct MapInstanceView {
     pub zoom: f32,
     pub zoom_center: Pos2,
     pub zoom_draw_rect: Rect,
+    pub server: Arc<Server>
 }
 
 struct PreviousCell {
@@ -21,7 +23,7 @@ struct PreviousCell {
 }
 
 impl MapInstanceView {
-    pub fn draw_map_instance_view(&mut self, ui: &mut Ui, map_instance: &Arc<MapInstance>, mut map_items: HashSet<MapItem>) {
+    pub fn draw_map_instance_view(&mut self, ui: &mut Ui, map_instance: &Arc<MapInstance>, mut map_items: MyUnsafeCell<HashMap<u32, MapItem>>) {
         Frame::dark_canvas(ui.style()).show(ui, |ui| {
             let (_id, response) = ui.allocate_exact_size(ui.available_size_before_wrap(), Sense::click_and_drag());
             let absolute_draw_rect = response.rect;
@@ -139,28 +141,31 @@ impl MapInstanceView {
                 MapInstanceView::draw_cell(&mut shapes, &mut previous_cell, &absolute_draw_rect, margin, shape_x_size, shape_y_size, start_i, i, start_j, end_j);
                 previous_cell = None;
             }
-            for map_item in map_items.iter() {
-                if map_item.x() < start_j
-                    || map_item.y() < start_i {
+            for (_, map_item) in map_items.borrow().iter() {
+                let map_name = map_instance.name.clone();
+                let map_instance_id = map_instance.id;
+                let position = self.server.map_item_x_y(map_item, &map_name, map_instance_id).unwrap();
+                if position.x() < start_j
+                    || position.y() < start_i {
                     continue;
                 }
                 let mut cell_color = Default::default();
-                if map_item.object_type() == MapItemType::Mob.value() {
+                if *map_item.object_type() == MapItemType::Mob {
                     cell_color = Color32::RED;
-                } else if map_item.object_type() == MapItemType::Character.value() {
+                } else if *map_item.object_type() == MapItemType::Character {
                     cell_color = Color32::GREEN;
-                } else if map_item.object_type() == MapItemType::Warp.value() {
+                } else if *map_item.object_type() == MapItemType::Warp {
                     cell_color = Color32::BLUE;
                 }
                 shapes.push(epaint::Shape::Rect(RectShape {
                     rect: emath::Rect {
                         min: Pos2 {
-                            x: absolute_draw_rect.min.x + margin + (shape_x_size * (map_item.x() - start_j) as f32),
-                            y: absolute_draw_rect.max.y - margin - (shape_y_size * ((map_item.y() - start_i) as f32 + 1.0)),
+                            x: absolute_draw_rect.min.x + margin + (shape_x_size * (position.x() - start_j) as f32),
+                            y: absolute_draw_rect.max.y - margin - (shape_y_size * ((position.y() - start_i) as f32 + 1.0)),
                         },
                         max: Pos2 {
-                            x: absolute_draw_rect.min.x + margin + (shape_x_size * ((map_item.x() - start_j) as f32 + 1.0)),
-                            y: absolute_draw_rect.max.y - margin - (shape_y_size * ((map_item.y() - start_i) as f32)),
+                            x: absolute_draw_rect.min.x + margin + (shape_x_size * ((position.x() - start_j) as f32 + 1.0)),
+                            y: absolute_draw_rect.max.y - margin - (shape_y_size * ((position.y() - start_i) as f32)),
                         }
                     },
                     corner_radius: 0.0,

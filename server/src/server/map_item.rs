@@ -6,7 +6,9 @@ use crate::server::core::position::Position;
 use crate::server::core::map_item::{MapItem, MapItemSnapshot, MapItemType};
 use crate::server::npc::script::Script;
 use crate::server::{Server, UNKNOWN_MAP_ITEM};
-use crate::util::cell::MyRefMut;
+use crate::server::state::character::Character;
+use crate::server::state::mob::Mob;
+use crate::util::cell::{MyRef, MyRefMut};
 
 
 impl Server {
@@ -119,6 +121,15 @@ impl Server {
                     }
                 }
                 None
+            }
+            _ => None
+        }
+    }
+
+    pub fn map_item_character(&self, map_item: &MapItem) -> Option<MyRef<Character>> {
+        match map_item.object_type() {
+            MapItemType::Character => {
+                return Some(self.get_character_unsafe(map_item.id()))
             }
             _ => None
         }
