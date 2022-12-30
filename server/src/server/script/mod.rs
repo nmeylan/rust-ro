@@ -18,7 +18,7 @@ use crate::server::events::client_notification::{CharNotification, Notification}
 use crate::server::events::game_event::CharacterLook;
 use crate::server::events::game_event::GameEvent::CharacterUpdateLook;
 use crate::server::script::constant::{get_battle_flag, load_constant};
-use crate::server::script::item::get_items;
+use crate::server::service::item::get_items;
 use crate::server::Server;
 use crate::server::service::character_movement::change_map_packet;
 use crate::server::state::status::LookType;
@@ -27,7 +27,6 @@ use crate::util::string::StringUtil;
 mod global_variable_handler;
 pub mod constant;
 mod shop;
-pub mod item;
 
 #[derive(Clone, Eq, Hash, PartialEq, Debug)]
 pub struct GlobalVariableEntry {

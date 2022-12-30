@@ -1,11 +1,11 @@
-use std::collections::{HashMap, HashSet};
+use std::collections::{HashMap};
 use std::sync::Arc;
-use eframe::egui::{Color32, emath, epaint, Frame, Pos2, Rect, Sense, Shape, Stroke, Ui, Vec2};
+use eframe::egui::{Color32, emath, epaint, Frame, Pos2, Rect, Sense, Shape, Stroke, Ui};
 use eframe::egui::epaint::RectShape;
 use crate::server::core::map::{WALKABLE_MASK, WARP_MASK};
 use crate::server::core::map_instance::MapInstance;
 use crate::server::core::map_item::{MapItem, MapItemType};
-use crate::server::{PLAYER_FOV, Server};
+use crate::server::{Server};
 use crate::util::cell::MyUnsafeCell;
 use crate::util::coordinate;
 
@@ -23,7 +23,7 @@ struct PreviousCell {
 }
 
 impl MapInstanceView {
-    pub fn draw_map_instance_view(&mut self, ui: &mut Ui, map_instance: &Arc<MapInstance>, mut map_items: MyUnsafeCell<HashMap<u32, MapItem>>) {
+    pub fn draw_map_instance_view(&mut self, ui: &mut Ui, map_instance: &Arc<MapInstance>, map_items: MyUnsafeCell<HashMap<u32, MapItem>>) {
         Frame::dark_canvas(ui.style()).show(ui, |ui| {
             let (_id, response) = ui.allocate_exact_size(ui.available_size_before_wrap(), Sense::click_and_drag());
             let absolute_draw_rect = response.rect;
@@ -86,7 +86,7 @@ impl MapInstanceView {
             let mut previous_cell: Option<PreviousCell> = None;
 
             for i in start_i..end_i {
-                let mut cell_color = Default::default();
+                let mut cell_color;
                 for j in start_j..end_j {
                     let index = coordinate::get_cell_index_of(j, i, map_instance.x_size);
                     let cell = map_instance.cells.get(index).unwrap();
@@ -169,7 +169,7 @@ impl MapInstanceView {
                         }
                     },
                     fill: cell_color,
-                    stroke: Stroke::none(),
+                    stroke: Stroke::NONE,
                     rounding: Default::default(),
                 }));
             }
@@ -196,7 +196,7 @@ impl MapInstanceView {
                 },
                 rounding: Default::default(),
                 fill: previous_cell.as_ref().unwrap().color,
-                stroke: Stroke::none()
+                stroke: Stroke::NONE
             }));
         }
     }

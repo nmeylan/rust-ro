@@ -1,8 +1,6 @@
-use std::sync::Arc;
 use crate::server::events::game_event::{CharacterChangeMap, CharacterRemoveFromMap, GameEvent};
 use crate::server::core::map::{Map, RANDOM_CELL};
 use crate::server::core::position::Position;
-use crate::server::core::session::Session;
 use crate::server::Server;
 
 
