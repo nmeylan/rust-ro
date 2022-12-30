@@ -238,6 +238,9 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0xa7 && buffer[1] == 0x00 {
         return Box::new(PacketCzUseItem::from(buffer, packetver));
     }
+    if buffer[0] == 0x39 && buffer[1] == 0x04 {
+        return Box::new(PacketCzUseItem::from(buffer, packetver));
+    }
     if buffer[0] == 0xa8 && buffer[1] == 0x00 {
         return Box::new(PacketZcUseItemAck::from(buffer, packetver));
     }

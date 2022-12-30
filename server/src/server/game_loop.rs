@@ -3,7 +3,9 @@ use std::sync::mpsc::SyncSender;
 use std::thread::{sleep};
 use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
 use rand::RngCore;
+use rathena_script_lang_interpreter::lang::vm::Vm;
 use tokio::runtime::Runtime;
+use crate::ScriptHandler;
 
 
 use packets::packets::{EquipmentitemExtrainfo301, EQUIPSLOTINFO, NormalitemExtrainfo3, Packet, PacketZcEquipmentItemlist3, PacketZcItemPickupAck3, PacketZcLongparChange, PacketZcNormalItemlist3, PacketZcNotifyPlayermove, PacketZcNpcackMapmove, PacketZcParChange, PacketZcPcPurchaseResult, PacketZcSpriteChange2};
@@ -23,6 +25,7 @@ use crate::server::events::game_event::GameEvent::{CharacterUpdateWeight, Charac
 use crate::server::map_item::{ToMapItem, ToMapItemSnapshot};
 use crate::server::Server;
 use crate::server::service::character_movement::change_map_packet;
+use crate::server::service::item::{ItemService};
 use crate::util::packet::{chain_packets, chain_packets_raws_by_value};
 use crate::util::string::StringUtil;
 
@@ -238,6 +241,24 @@ impl Server {
                             packet_max_weight.set_count(character.max_weight() as i32);
                             packet_max_weight.fill_raw();
                             server_ref.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, chain_packets(vec![&packet_weight, &packet_max_weight])))).expect("Fail to send client notification");
+                        }
+                        GameEvent::CharacterUseItem(character_user_item) => {
+                            let mut character = characters.get_mut(&character_user_item.char_id).unwrap();
+                            if let Some(item) = character.get_item_from_inventory(character_user_item.index) {
+                                if item.item_type.is_consumable() {
+                                    let maybe_script_ref = ItemService::instance().get_item_script(item.item_id, server_ref.as_ref(), &runtime);
+                                    if maybe_script_ref.is_some() {
+                                        let script = maybe_script_ref.as_ref().unwrap();
+                                        let script_result = Vm::repl(server_ref.vm.clone(), script, Box::new(&ScriptHandler {}));
+                                    }
+                                    // TODO handle target not self: scroll
+                                    // TODO check map permission
+                                    // TODO check if char can use (class restriction, level restriction)
+                                }
+                            }
+                            // check if can use
+                            // check if potion has been created by famous (ranked) alch/creator, bonus + 50%
+
                         }
                     }
                 }

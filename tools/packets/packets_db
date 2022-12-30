@@ -716,7 +716,7 @@ struct PACKET_ZC_STORE_EQUIPMENT_ITEMLIST {
    }
   }
  }
-0xa7
+0xa7,0x3904
 struct PACKET_CZ_USE_ITEM {
   short PacketId
   unsigned short index

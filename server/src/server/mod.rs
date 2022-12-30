@@ -6,7 +6,7 @@ use std::sync::mpsc::{Receiver, SyncSender};
 use std::thread;
 use std::thread::Scope;
 use tokio::runtime::Runtime;
-use packets::packets::{Packet, PacketCaLogin, PacketChDeleteChar4Reserved, PacketChEnter, PacketChMakeChar, PacketChMakeChar2, PacketChMakeChar3, PacketChSelectChar, PacketCzAckSelectDealtype, PacketCzBlockingPlayCancel, PacketCzChooseMenu, PacketCzContactnpc, PacketCzEnter2, PacketCzInputEditdlg, PacketCzInputEditdlgstr, PacketCzNotifyActorinit, PacketCzPcPurchaseItemlist, PacketCzPlayerChat, PacketCzReqDisconnect2, PacketCzReqname, PacketCzReqnameall2, PacketCzReqNextScript, PacketCzRequestAct2, PacketCzRequestMove, PacketCzRequestMove2, PacketCzRequestTime, PacketCzRestart, PacketUnknown, PacketZcNotifyTime};
+use packets::packets::{Packet, PacketCaLogin, PacketChDeleteChar4Reserved, PacketChEnter, PacketChMakeChar, PacketChMakeChar2, PacketChMakeChar3, PacketChSelectChar, PacketCzAckSelectDealtype, PacketCzBlockingPlayCancel, PacketCzChooseMenu, PacketCzContactnpc, PacketCzEnter2, PacketCzInputEditdlg, PacketCzInputEditdlgstr, PacketCzNotifyActorinit, PacketCzPcPurchaseItemlist, PacketCzPlayerChat, PacketCzReqDisconnect2, PacketCzReqname, PacketCzReqnameall2, PacketCzReqNextScript, PacketCzRequestAct2, PacketCzRequestMove, PacketCzRequestMove2, PacketCzRequestTime, PacketCzRestart, PacketCzUseItem, PacketUnknown, PacketZcNotifyTime};
 use packets::packets_parser::parse;
 use std::io::{Read, Write};
 use crate::repository::Repository;
@@ -34,6 +34,7 @@ use crate::server::state::character::Character;
 use crate::util::cell::{MyRef, MyUnsafeCell};
 use crate::util::tick::get_tick_client;
 use std::cell::RefCell;
+use crate::server::handler::action::item::handle_player_use_item;
 
 pub mod enums;
 pub mod npc;
@@ -205,7 +206,7 @@ impl Server {
                                         break;
                                     }
                                     let packet = parse(&buffer[..bytes_read], server_shared_ref.packetver());
-                                    let context = Request::new(&runtime, None, server_shared_ref.packetver(), tcp_stream_arc.clone(), packet.as_ref(), response_sender_clone.clone(), client_notification_sender_clone.clone());
+                                    let context = Request::new(&runtime, &server_shared_ref.configuration, None, server_shared_ref.packetver(), tcp_stream_arc.clone(), packet.as_ref(), response_sender_clone.clone(), client_notification_sender_clone.clone());
                                     server_shared_ref.handle(server_shared_ref.clone(), context);
                                 }
                                 Err(err) => error!("{}", err)
@@ -398,13 +399,6 @@ impl Server {
             return handle_chat(self_ref.as_ref(), context);
         }
 
-        if context.packet().as_any().downcast_ref::<PacketCzRequestTime>().is_some() {
-            let mut packet_zc_notify_time = PacketZcNotifyTime::new();
-            packet_zc_notify_time.set_time(get_tick_client());
-            packet_zc_notify_time.fill_raw();
-            socket_send!(context, packet_zc_notify_time);
-        }
-
         // NPC interactions
         if context.packet().as_any().downcast_ref::<PacketCzContactnpc>().is_some() {
             debug!("PacketCzContactnpc");
@@ -436,11 +430,23 @@ impl Server {
             return handle_player_purchase_items(context);
         }
         // End NPC interaction
+
+        // Item interaction
+        if context.packet().as_any().downcast_ref::<PacketCzUseItem>().is_some() {
+            debug!("PacketCzUseItem");
+            return handle_player_use_item(self_ref.as_ref(), context);
+        }
+        // End Item interaction
+
         if context.packet().as_any().downcast_ref::<PacketCzRequestTime>().is_some() {
-            return;
+            let mut packet_zc_notify_time = PacketZcNotifyTime::new();
+            packet_zc_notify_time.set_time(get_tick_client());
+            packet_zc_notify_time.fill_raw();
+            socket_send!(context, packet_zc_notify_time);
         }
 
         if context.packet().id() == "0x6003" // PacketCzRequestTime2
+            || context.packet().id() == "0x187" // PacketPing
         {
             // TODO handle those packets
             return;

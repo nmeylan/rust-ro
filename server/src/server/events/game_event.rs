@@ -14,6 +14,7 @@ pub enum GameEvent {
     CharacterUpdateWeight(u32),
     CharacterAddItems(CharacterAddItems),
     CharacterInitInventory(u32),
+    CharacterUseItem(CharacterUseItem)
 }
 
 pub struct CharacterChangeMap {
@@ -53,4 +54,10 @@ pub struct CharacterAddItems {
     pub should_perform_check: bool, // indicate if we should perform checks before adding items to user
     pub buy: bool, // indicate zeny should be used to buy item (zeny will be updated)
     pub items: Vec<InventoryItemModel>
+}
+
+pub struct CharacterUseItem {
+    pub char_id: u32,
+    pub target_char_id: u32,
+    pub index: usize
 }

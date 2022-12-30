@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 use crate::server::enums::item::ItemType::{DelayConsume, Usable};
 
 #[derive(r#enum::WithNumberValue, Debug, Copy, Clone, PartialEq)]

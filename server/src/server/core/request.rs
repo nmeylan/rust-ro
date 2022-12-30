@@ -7,6 +7,7 @@ use std::sync::mpsc::{SyncSender};
 use tokio::runtime::Runtime;
 
 use packets::packets::Packet;
+use crate::server::core::configuration::Config;
 use crate::server::events::client_notification::Notification;
 use crate::server::core::response::Response;
 use crate::server::core::session::Session;
@@ -15,6 +16,7 @@ pub struct Request<'server: 'request, 'request> {
     runtime: &'server Runtime,
     session_id: Option<u32>,
     packet_ver: u32,
+    configuration: &'server Config,
     packet: &'request dyn Packet,
     socket: Arc<RwLock<TcpStream>>,
     session: Option<Arc<Session>>,
@@ -23,11 +25,12 @@ pub struct Request<'server: 'request, 'request> {
 }
 
 impl<'server: 'request, 'request> Request<'server, 'request> {
-    pub fn new(runtime: &'server Runtime, session_id: Option<u32>, packet_ver: u32, socket: Arc<RwLock<TcpStream>>, packet: &'request dyn Packet, response_sender: SyncSender<Response>, client_notification_channel: SyncSender<Notification>) -> Self {
+    pub fn new(runtime: &'server Runtime, configuration: &'server Config, session_id: Option<u32>, packet_ver: u32, socket: Arc<RwLock<TcpStream>>, packet: &'request dyn Packet, response_sender: SyncSender<Response>, client_notification_channel: SyncSender<Notification>) -> Self {
         Self {
             runtime,
             session_id,
             packet_ver,
+            configuration,
             packet,
             socket,
             session: None,
@@ -66,5 +69,9 @@ impl<'server: 'request, 'request> Request<'server, 'request> {
 
     pub fn client_notification_channel(&self) -> SyncSender<Notification> {
         self.client_notification_channel.clone()
+    }
+
+    pub fn configuration(&self) -> &'server Config {
+        self.configuration
     }
 }

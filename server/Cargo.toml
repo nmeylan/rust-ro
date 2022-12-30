@@ -21,7 +21,7 @@ serde = { version = "1.0", features = ["derive"] }
 eframe = { version = "0.20.1", default-features = false, features = ["glow", "default_fonts"], optional = true }
 sprintf = "0.1.2"
 
-rathena_script_lang_interpreter = { git = "https://github.com/nmeylan/rathena-script-lang-interpreter", rev = "373266af15f07993107db123204bb70d54845384"}
+rathena_script_lang_interpreter = { git = "https://github.com/nmeylan/rathena-script-lang-interpreter", rev = "14297c26a865dc61fca0d9db2b70959f2f3deea9"}
 
 accessor = { path = "../lib/accessor" }
 metrics = { path = "../lib/metrics" }
