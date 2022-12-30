@@ -104,7 +104,7 @@ impl Session {
     pub fn recreate_without_character(&self) -> Session {
         Session {
             char_server_socket: self.char_server_socket.clone(),
-            map_server_socket: self.map_server_socket.clone(),
+            map_server_socket: None,
             account_id: self.account_id,
             auth_code: self.auth_code,
             user_level: self.user_level,

@@ -1,15 +1,16 @@
 use std::sync::Arc;
-use crate::server::events::game_event::{CharacterChangeMap, GameEvent};
+use crate::server::events::game_event::{CharacterChangeMap, CharacterRemoveFromMap, GameEvent};
 use crate::server::core::map::{Map, RANDOM_CELL};
 use crate::server::core::position::Position;
 use crate::server::core::session::Session;
 use crate::server::Server;
 
 
-pub fn change_map_packet(destination_map: &str, x: u16, y: u16, session: Arc<Session>, server: &Server) {
-    let char_id = session.char_id();
+pub fn change_map_packet(destination_map: &str, x: u16, y: u16, char_id: u32, server: &Server) {
     server.add_to_next_tick(GameEvent::CharacterClearFov(char_id));
-    server.add_to_next_tick(GameEvent::CharacterRemoveFromMap(char_id));
+    let character_ref = server.get_character_unsafe(char_id);
+    server.add_to_tick(GameEvent::CharacterRemoveFromMap(CharacterRemoveFromMap{char_id, map_name: character_ref.current_map_name().clone(), instance_id: character_ref.current_map_instance()}), 0);
+    drop(character_ref);
 
     let map_name: String = Map::name_without_ext(destination_map);
     debug!("Char enter on map {}", map_name);
@@ -23,7 +24,7 @@ pub fn change_map_packet(destination_map: &str, x: u16, y: u16, session: Arc<Ses
     };
 
     server.add_to_tick(GameEvent::CharacterChangeMap(CharacterChangeMap {
-        char_id: session.char_id.unwrap(),
+        char_id,
         new_map_name: destination_map.to_owned(),
         new_instance_id: map_instance.id,
         new_position: Some(Position { x, y, dir: 3 }),

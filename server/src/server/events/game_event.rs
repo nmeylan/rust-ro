@@ -5,7 +5,7 @@ use crate::server::state::status::LookType;
 
 pub enum GameEvent {
     CharacterLoadedFromClientSide(u32),
-    CharacterRemoveFromMap(u32),
+    CharacterRemoveFromMap(CharacterRemoveFromMap),
     CharacterClearFov(u32),
     CharacterMove(CharacterMovement),
     CharacterChangeMap(CharacterChangeMap),
@@ -23,6 +23,11 @@ pub struct CharacterChangeMap {
     pub new_position: Option<Position>,
 }
 
+pub struct CharacterRemoveFromMap {
+    pub char_id: u32,
+    pub map_name: String,
+    pub instance_id: u8,
+}
 
 pub struct CharacterMovement {
     pub char_id: u32,

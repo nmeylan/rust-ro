@@ -112,7 +112,7 @@ impl Server {
         };
 
         if let Some(map) = self.maps.get(map_name) {
-            return map.get_instance(map_instance_id, self)
+            return map.get_instance(map_instance_id, self);
         }
         error!("Can't find map instance {}:{}",map_name, map_instance_id);
         None
@@ -184,7 +184,7 @@ impl Server {
             info!("Server listen on 0.0.0.0:{}", port);
             let server_shared_ref = server_ref.clone();
 
-            thread::Builder::new().name("client_connection_thread".to_string()).spawn_scoped(server_thread_scope,move || {
+            thread::Builder::new().name("client_connection_thread".to_string()).spawn_scoped(server_thread_scope, move || {
                 for tcp_stream in listener.incoming() {
                     // Receive new connection, starting new thread
                     let server_shared_ref = server_shared_ref.clone();
@@ -216,7 +216,7 @@ impl Server {
             }).unwrap();
             // Start a thread sending response packet to client request
 
-            thread::Builder::new().name("client_response_thread".to_string()).spawn_scoped(server_thread_scope,move || {
+            thread::Builder::new().name("client_response_thread".to_string()).spawn_scoped(server_thread_scope, move || {
                 for response in single_response_receiver.iter() {
                     let tcp_stream = &response.socket();
                     let data = response.serialized_packet();
@@ -228,21 +228,22 @@ impl Server {
             }).unwrap();
             // Start a thread sending packet to notify client from game update
             let server_ref_clone = server_ref.clone();
-            thread::Builder::new().name("client_notification_thread".to_string()).spawn_scoped(server_thread_scope,move || {
+            thread::Builder::new().name("client_notification_thread".to_string()).spawn_scoped(server_thread_scope, move || {
                 PACKETVER.with(|ver| *ver.borrow_mut() = server_ref_clone.packetver());
                 let server_ref = server_ref_clone;
                 for response in single_client_notification_receiver.iter() {
                     match response {
                         Notification::Char(char_notification) => {
-                            let tcp_stream = server_ref.get_map_socket_for_char_id(char_notification.char_id()).expect("Expect to found a socket for account");
-                            let data = char_notification.serialized_packet();
-                            let mut tcp_stream_guard = tcp_stream.write().unwrap();
-                            if tcp_stream_guard.peer_addr().is_ok() {
-                                debug!("Respond to {:?} with: {:02X?}", tcp_stream_guard.peer_addr(), data);
-                                tcp_stream_guard.write_all(data).unwrap();
-                                tcp_stream_guard.flush().unwrap();
-                            } else {
-                                error!("{:?} socket has been closed", tcp_stream_guard.peer_addr().err());
+                            if let Some(tcp_stream) = server_ref.get_map_socket_for_char_id(char_notification.char_id()) {
+                                let data = char_notification.serialized_packet();
+                                let mut tcp_stream_guard = tcp_stream.write().unwrap();
+                                if tcp_stream_guard.peer_addr().is_ok() {
+                                    debug!("Respond to {:?} with: {:02X?}", tcp_stream_guard.peer_addr(), data);
+                                    tcp_stream_guard.write_all(data).unwrap();
+                                    tcp_stream_guard.flush().unwrap();
+                                } else {
+                                    error!("{:?} socket has been closed", tcp_stream_guard.peer_addr().err());
+                                }
                             }
                         }
                         Notification::Area(area_notification) => {
@@ -252,7 +253,7 @@ impl Server {
                                     server_ref.characters.borrow().iter()
                                         .filter(|(_, character)| character.current_map_name() == &area_notification.map_name
                                             && character.current_map_instance() == area_notification.map_instance_id
-                                            && manhattan_distance(character.x(), character.y(), x,  y) <= PLAYER_FOV)
+                                            && manhattan_distance(character.x(), character.y(), x, y) <= PLAYER_FOV)
                                         .for_each(|(_, character)| {
                                             let tcp_stream = server_ref.get_map_socket_for_char_id(character.char_id).expect("Expect to found a socket for account");
                                             let data = area_notification.serialized_packet();
@@ -267,7 +268,6 @@ impl Server {
                                         })
                                 }
                             }
-
                         }
                     }
                 }
@@ -278,16 +278,16 @@ impl Server {
             thread::Builder::new().name("game_loop_thread".to_string()).spawn_scoped(server_thread_scope, move || {
                 let runtime = Runtime::new().unwrap();
                 Self::game_loop(server_ref_clone, client_notification_sender_clone, persistence_event_sender_clone, runtime)
-               ;
+                ;
             }).unwrap();
             let server_ref_clone = server_ref.clone();
             let client_notification_sender_clone = server_ref.client_notification_sender();
             let persistence_event_sender_clone = persistence_event_sender.clone();
-            thread::Builder::new().name("movement_loop_thread".to_string()).spawn_scoped(server_thread_scope,move || {
+            thread::Builder::new().name("movement_loop_thread".to_string()).spawn_scoped(server_thread_scope, move || {
                 Self::character_movement_loop(server_ref_clone, client_notification_sender_clone, persistence_event_sender_clone);
             }).unwrap();
             let server_ref_clone = server_ref.clone();
-            thread::Builder::new().name("persistence_thread".to_string()).spawn_scoped(server_thread_scope, move  || {
+            thread::Builder::new().name("persistence_thread".to_string()).spawn_scoped(server_thread_scope, move || {
                 let runtime = Runtime::new().unwrap();
                 Self::persistence_thread(persistence_event_receiver, runtime, server_ref_clone.repository.clone());
             }).unwrap();

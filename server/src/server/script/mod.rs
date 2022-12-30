@@ -319,7 +319,7 @@ impl NativeMethodHandler for PlayerScriptHandler {
             } else {
                 self.session.clone()
             };
-            change_map_packet(map_name, x as u16, y as u16, session, self.server.as_ref());
+            change_map_packet(map_name, x as u16, y as u16, session.char_id(), self.server.as_ref());
         } else if native.name.eq("sprintf") {
             let template = params[0].string_value().unwrap();
             let mut sprintf_args: Vec<&dyn Printf> = vec![];
