@@ -11,7 +11,7 @@ use crate::server::core::configuration::CityConfig;
 use crate::server::service::character_movement::change_map_packet;
 use crate::server::core::map::RANDOM_CELL;
 use crate::server::core::request::Request;
-use crate::server::script::item::get_items;
+use crate::server::service::item::get_items;
 use crate::server::Server;
 
 lazy_static! {

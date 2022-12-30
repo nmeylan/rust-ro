@@ -1,11 +1,7 @@
-use std::any::Any;
 use std::borrow::Borrow;
-use std::cell::RefCell;
 use std::sync::Arc;
-use std::sync::atomic::Ordering::Relaxed;
 use std::thread;
-use std::thread::spawn;
-use eframe::{CreationContext, egui, HardwareAcceleration, Theme, UserEvent};
+use eframe::{CreationContext, egui, HardwareAcceleration, Theme};
 use egui::{Align, ComboBox, Layout, Pos2, Rect, Ui, Vec2, Visuals};
 use crate::server::Server;
 use lazy_static::lazy_static;
@@ -13,9 +9,7 @@ use crate::debugger::frame_history;
 use crate::debugger::map_instance_view::MapInstanceView;
 use crate::server::state::character::Character;
 use crate::server::core::map_item::MapItem;
-use crate::server::state::mob::Mob;
 use crate::server::core::map_item::MapItemType;
-use crate::util::coordinate;
 
 pub struct VisualDebugger {
     pub name: String,
@@ -28,7 +22,7 @@ pub struct VisualDebugger {
 }
 
 lazy_static! {
-    pub static ref tabs: Vec<&'static str> = vec!["Map"];
+    pub static ref TABS: Vec<&'static str> = vec!["Map"];
 }
 
 impl eframe::App for VisualDebugger {
@@ -46,7 +40,7 @@ impl eframe::App for VisualDebugger {
         }
         egui::TopBottomPanel::top("wrap_app_top_bar").show(ctx, |ui| {
             ui.horizontal_wrapped(|ui| {
-                for tab in tabs.iter() {
+                for tab in TABS.iter() {
                     if ui
                         .selectable_label(self.selected_tab == *tab, *tab)
                         .clicked()
@@ -104,7 +98,7 @@ impl VisualDebugger {
                 shader_version: None,
                 centered: false,
             };
-            eframe::run_native("Debugger", native_options, Box::new(|cc: &CreationContext| Box::new(app)));
+            eframe::run_native("Debugger", native_options, Box::new(|_cc: &CreationContext| Box::new(app))).unwrap();
         });
     }
     fn ui(&mut self, ui: &mut Ui) {
@@ -122,11 +116,11 @@ impl VisualDebugger {
             .show_ui(ui, |ui| {
                 self.server.maps
                     .iter()
-                    .filter(|(map_name, map)| {
+                    .filter(|(_map_name, map)| {
                         let instances = map.map_instances.borrow();
                         instances.len() > 0
                     })
-                    .map(|(map_name, map)| map_name)
+                    .map(|(map_name, _map)| map_name)
                     .for_each(|map_name| {
                         ui.selectable_value(&mut self.selected_map, Some(map_name.clone()), map_name);
                     })
@@ -139,7 +133,7 @@ impl VisualDebugger {
         }
         let map = self.server.maps.get(&*self.selected_map.as_ref().unwrap()).unwrap();
         let map_instances = map.map_instances.borrow();
-        let mut map_instance = map_instances.get(0).unwrap();
+        let map_instance = map_instances.get(0).unwrap();
         let map_name = map_instance.name.clone();
         let map_instance_id = map_instance.id;
         let map_items_clone = map_instance.map_items.clone();

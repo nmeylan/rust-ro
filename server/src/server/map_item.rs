@@ -7,7 +7,6 @@ use crate::server::core::map_item::{MapItem, MapItemSnapshot, MapItemType};
 use crate::server::npc::script::Script;
 use crate::server::{Server, UNKNOWN_MAP_ITEM};
 use crate::server::state::character::Character;
-use crate::server::state::mob::Mob;
 use crate::util::cell::{MyRef, MyRefMut};
 
 
