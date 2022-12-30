@@ -34,6 +34,8 @@ pub struct ServerConfig {
 pub struct GameConfig {
     #[set]
     pub default_char_speed: u16,
+    #[set]
+    pub max_inventory: u16,
 }
 
 #[derive(Deserialize, Debug, Setters, Clone)]

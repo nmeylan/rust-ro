@@ -268,6 +268,15 @@ impl Character {
         }
     }
 
+    pub fn get_item_from_inventory(&self, index: usize) -> Option<&InventoryItemModel> {
+        if let Some(inventory_slot) = self.inventory.get(index) {
+            if inventory_slot.is_some() {
+                return Some(inventory_slot.as_ref().unwrap())
+            }
+        }
+        None
+    }
+
     pub fn weight(&self) -> u32 {
         self.inventory.iter()
             .filter(|item| item.is_some())

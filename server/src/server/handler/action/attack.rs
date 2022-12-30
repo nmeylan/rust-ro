@@ -1,7 +1,3 @@
-
-
-
-
 use packets::packets::{Packet, PacketCzRequestAct2, PacketZcNotifyAct3};
 use crate::server::Server;
 use crate::server::core::request::Request;

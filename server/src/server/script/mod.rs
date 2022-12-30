@@ -18,9 +18,9 @@ use crate::server::events::client_notification::{CharNotification, Notification}
 use crate::server::events::game_event::CharacterLook;
 use crate::server::events::game_event::GameEvent::CharacterUpdateLook;
 use crate::server::script::constant::{get_battle_flag, load_constant};
-use crate::server::service::item::get_items;
 use crate::server::Server;
 use crate::server::service::character_movement::change_map_packet;
+use crate::server::service::item::{ItemService};
 use crate::server::state::status::LookType;
 use crate::util::string::StringUtil;
 
@@ -362,7 +362,7 @@ impl NativeMethodHandler for PlayerScriptHandler {
                 }
             });
 
-            get_items(self.session.char_id(), self.server.as_ref(), &self.runtime, items_ids_amount, true);
+            ItemService::instance().get_items(self.session.char_id(), self.server.as_ref(), &self.runtime, items_ids_amount, true);
         } else if native.name.eq("checkweight2") {
             let (owner_reference, reference) = params[0].reference_value().map_err(|err|
                 execution_thread.new_runtime_from_temporary(err, "purchaseitems first argument should be array reference")).unwrap();

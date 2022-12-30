@@ -1,4 +1,4 @@
-use sqlx::Error;
+use sqlx::{Error, Row};
 use crate::Repository;
 use crate::repository::model::item_model::{GetItemModel, ItemBuySellModel};
 
@@ -15,7 +15,14 @@ impl Repository {
             .fetch_all(&self.pool).await
     }
 
-    pub async fn get_weight(&self, ids: Vec<i32>) -> Result<Vec<(i32, i32)>, Error>{
+    pub async fn get_item_script(&self, id: i32) -> Result<String, Error> {
+        sqlx::query("SELECT script FROM item_db WHERE id = $1 AND script is not null")
+            .bind(id)
+            .fetch_one(&self.pool).await
+            .map(|row| row.get::<String, _>(0))
+    }
+
+    pub async fn get_weight(&self, ids: Vec<i32>) -> Result<Vec<(i32, i32)>, Error> {
         sqlx::query_as("SELECT id, weight FROM item_db WHERE id IN (SELECT * FROM UNNEST($1::int4[]))")
             .bind(ids)
             .fetch_all(&self.pool).await

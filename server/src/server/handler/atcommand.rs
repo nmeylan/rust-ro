@@ -11,8 +11,8 @@ use crate::server::core::configuration::CityConfig;
 use crate::server::service::character_movement::change_map_packet;
 use crate::server::core::map::RANDOM_CELL;
 use crate::server::core::request::Request;
-use crate::server::service::item::get_items;
 use crate::server::Server;
+use crate::server::service::item::{ItemService};
 
 lazy_static! {
     static ref COMMAND_REGEX: Regex = Regex::new(r"^([@#!])([^\s]*)\s?(.*)?").unwrap();
@@ -145,7 +145,7 @@ pub fn handle_item(server: &Server, session: Arc<Session>, runtime: &Runtime, ar
     if args.len() != 2 {
         return format!("@item command accept 2 parameters but received {}", args.len());
     }
-    get_items(session.char_id(), server, runtime, vec![(args[0].parse::<i32>().unwrap(), args[1].parse::<i16>().unwrap())], false);
+    ItemService::instance().get_items(session.char_id(), server, runtime, vec![(args[0].parse::<i32>().unwrap(), args[1].parse::<i16>().unwrap())], false);
 
     String::new()
 }
