@@ -1,12 +1,12 @@
 use std::any::Any;
 use std::borrow::Borrow;
+use std::cell::RefCell;
 use std::sync::Arc;
 use std::sync::atomic::Ordering::Relaxed;
+use std::thread;
 use std::thread::spawn;
-use eframe::egui::{Align, ComboBox, Layout, Pos2, Rect, Vec2, Visuals};
-use eframe::epi;
-use epi::egui;
-use egui::{Ui};
+use eframe::{CreationContext, egui, HardwareAcceleration, Theme, UserEvent};
+use egui::{Align, ComboBox, Layout, Pos2, Rect, Ui, Vec2, Visuals};
 use crate::server::Server;
 use lazy_static::lazy_static;
 use crate::debugger::frame_history;
@@ -31,8 +31,8 @@ lazy_static! {
     pub static ref tabs: Vec<&'static str> = vec!["Map"];
 }
 
-impl epi::App for VisualDebugger {
-    fn update(&mut self, ctx: &egui::CtxRef, frame: &mut epi::Frame<'_>) {
+impl eframe::App for VisualDebugger {
+    fn update(&mut self, ctx: &egui::Context, frame: &mut eframe::Frame) {
         self.frame_history
             .on_new_frame(ctx.input().time, frame.info().cpu_usage);
         frame.set_window_title(&*format!("{} {}", self.name, self.frame_history.info()));
@@ -40,7 +40,7 @@ impl epi::App for VisualDebugger {
             ctx.set_visuals(Visuals::light());
             frame.set_window_size(Vec2 {
                 x: 1024.0,
-                y: 768.0
+                y: 768.0,
             });
             self.init = true;
         }
@@ -55,10 +55,6 @@ impl epi::App for VisualDebugger {
             })
         });
         egui::CentralPanel::default().show(ctx, |ui| self.ui(ui));
-    }
-
-    fn name(&self) -> &str {
-        &*self.name
     }
 }
 
@@ -77,10 +73,39 @@ impl VisualDebugger {
                 zoom_center: Pos2 { x: 0.0, y: 0.0 },
                 zoom_draw_rect: Rect { min: Pos2 { x: 0.0, y: 0.0 }, max: Pos2 { x: 0.0, y: 0.0 } },
                 server: server.clone(),
-            }
+            },
         };
-        let native_options = eframe::NativeOptions::default();
-        spawn(|| eframe::run_native(Box::new(app), native_options));
+
+        thread::spawn(|| {
+            let native_options = eframe::NativeOptions {
+                always_on_top: false,
+                maximized: false,
+                decorated: true,
+                fullscreen: false,
+                drag_and_drop_support: true,
+                icon_data: None,
+                initial_window_pos: None,
+                initial_window_size: None,
+                min_window_size: None,
+                max_window_size: None,
+                resizable: true,
+                transparent: false,
+                mouse_passthrough: false,
+                vsync: true,
+                multisampling: 0,
+                depth_buffer: 0,
+                stencil_buffer: 0,
+                hardware_acceleration: HardwareAcceleration::Preferred,
+                renderer: Default::default(),
+                follow_system_theme: cfg!(target_os = "macos") || cfg!(target_os = "windows"),
+                default_theme: Theme::Dark,
+                run_and_return: true,
+                event_loop_builder: None,
+                shader_version: None,
+                centered: false,
+            };
+            eframe::run_native("Debugger", native_options, Box::new(|cc: &CreationContext| Box::new(app)));
+        });
     }
     fn ui(&mut self, ui: &mut Ui) {
         self.maps_combobox(ui);
@@ -114,7 +139,7 @@ impl VisualDebugger {
         }
         let map = self.server.maps.get(&*self.selected_map.as_ref().unwrap()).unwrap();
         let map_instances = map.map_instances.borrow();
-        let mut  map_instance = map_instances.get(0).unwrap();
+        let mut map_instance = map_instances.get(0).unwrap();
         let map_name = map_instance.name.clone();
         let map_instance_id = map_instance.id;
         let map_items_clone = map_instance.map_items.clone();
@@ -151,15 +176,15 @@ impl VisualDebugger {
                                 let item_name = self.server.map_item_name(map_item, &map_name, map_instance_id).unwrap();
                                 ui.label(format!("{}: {}", map_item.object_type(), item_name));
                                 if *map_item.object_type() == MapItemType::Mob {
-                                    let mob_ref =  map_instance.get_mob(map_item.id()).unwrap();
+                                    let mob_ref = map_instance.get_mob(map_item.id()).unwrap();
                                     let mob = mob_ref.borrow();
                                     ui.label("Items in Field of view");
                                     mob.map_view.iter()
                                         .for_each(|item| {
                                             let item_name = self.server.map_item_name(item, &map_name, map_instance_id).unwrap();
                                             let position = self.server.map_item_x_y(item, &map_name, map_instance_id).unwrap();
-                                        ui.label(format!("{}: {} {},{}", item.object_type(), item_name, position.x(), position.y()));
-                                    });
+                                            ui.label(format!("{}: {} {},{}", item.object_type(), item_name, position.x(), position.y()));
+                                        });
                                 } else if *map_item.object_type() == MapItemType::Character {
                                     let character = self.server.map_item_character(map_item).unwrap();
                                     ui.label("Items in Field of view");
@@ -169,10 +194,9 @@ impl VisualDebugger {
                                         .for_each(|item| {
                                             let item_name = self.server.map_item_name(item, &map_name, map_instance_id).unwrap();
                                             let position = self.server.map_item_x_y(item, &map_name, map_instance_id).unwrap();
-                                            ui.label(format!("{}: {} {},{}",item.object_type(), item_name, position.x(), position.y()));
+                                            ui.label(format!("{}: {} {},{}", item.object_type(), item_name, position.x(), position.y()));
                                         });
                                 }
-
                             }
                         }
                     });
