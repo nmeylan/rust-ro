@@ -114,7 +114,7 @@ pub fn handle_go(server: &Server, session: Arc<Session>, _runtime: &Runtime, arg
         _ => ()
     }
 
-    change_map_packet(&city.name, city.x, city.y, session, server);
+    change_map_packet(&city.name, city.x, city.y, session.char_id(), server);
     format!("Warping at {} {},{}", city.name.clone(), city.x, city.y)
 }
 
@@ -133,7 +133,7 @@ pub fn handle_warp(server: &Server, session: Arc<Session>, _runtime: &Runtime, a
                 y = parse_y_res;
             }
         }
-        change_map_packet(&map_name, x, y, session.clone(), server);
+        change_map_packet(&map_name, x, y, session.char_id(), server);
         let char_id = session.char_id();
         let character = server.get_character_unsafe(char_id);
         return format!("Warp to map {} at {},{}", map_name, character.x(), character.y());

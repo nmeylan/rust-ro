@@ -1,4 +1,6 @@
-#[derive(r#enum::WithNumberValue, Debug, Copy, Clone)]
+use crate::server::enums::item::ItemType::{DelayConsume, Usable};
+
+#[derive(r#enum::WithNumberValue, Debug, Copy, Clone, PartialEq)]
 pub enum ItemType {
     #[value = 0]
     Healing,
@@ -39,6 +41,13 @@ impl ItemType {
             "Max" => Self::Max,
             &_ => Self::Unknown
         }
+    }
+
+    pub fn to_client_type(&self) -> usize {
+        if *self == DelayConsume {
+            return Usable.value()
+        }
+        self.value()
     }
 
     pub fn is_stackable(&self) -> bool {

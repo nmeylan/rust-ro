@@ -255,7 +255,11 @@ impl MapInstance {
     }
 
     pub fn remove_item(&self, map_item: MapItem) {
-        self.map_items.borrow_mut().remove(&map_item.id());
+        self.remove_item_with_id(map_item.id());
+    }
+
+    pub fn remove_item_with_id(&self, id: u32) {
+        self.map_items.borrow_mut().remove(&id);
     }
 
     pub fn notify_event(&self, map_event: MapEvent) {

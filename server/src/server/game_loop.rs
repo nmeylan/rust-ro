@@ -12,7 +12,7 @@ use crate::PersistenceEvent::SaveCharacterPosition;
 
 
 use crate::server::core::movement::Movement;
-use crate::server::events::game_event::{CharacterChangeMap, CharacterZeny, GameEvent};
+use crate::server::events::game_event::{CharacterZeny, GameEvent};
 use crate::server::core::map::{MAP_EXT};
 use crate::server::events::map_event::MapEvent::{*};
 use crate::server::events::client_notification::{AreaNotification, AreaNotificationRangeType, CharNotification, Notification};
@@ -23,6 +23,7 @@ use crate::server::events::game_event::GameEvent::{CharacterUpdateWeight, Charac
 
 use crate::server::map_item::{ToMapItem, ToMapItemSnapshot};
 use crate::server::Server;
+use crate::server::service::character_movement::change_map_packet;
 use crate::util::packet::{chain_packets, chain_packets_raws_by_value};
 use crate::util::string::StringUtil;
 
@@ -67,9 +68,12 @@ impl Server {
                                 error!("Can't change map to {} {}", event.new_map_name, event.new_instance_id);
                             }
                         }
-                        GameEvent::CharacterRemoveFromMap(char_id) => {
-                            let character = characters.get_mut(&char_id).unwrap();
+                        GameEvent::CharacterRemoveFromMap(character_remove_from_map) => {
+                            let character = characters.get_mut(&character_remove_from_map.char_id).unwrap();
                             character.movements = vec![];
+                            if let Some(instance) = server_ref.get_map_instance(&character_remove_from_map.map_name, character_remove_from_map.instance_id) {
+                                instance.remove_item_with_id(character_remove_from_map.char_id);
+                            }
                         }
                         GameEvent::CharacterClearFov(char_id) => {
                             let character = characters.get_mut(&char_id).unwrap();
@@ -202,7 +206,7 @@ impl Server {
                             character.inventory_normal().iter().for_each(|(index, item)| {
                                 let mut extrainfo3 = NormalitemExtrainfo3::new();
                                 extrainfo3.set_itid(item.item_id as u16);
-                                extrainfo3.set_atype(item.item_type.value() as u8);
+                                extrainfo3.set_atype(item.item_type.to_client_type() as u8);
                                 extrainfo3.set_index(*index as i16);
                                 extrainfo3.set_count(item.amount);
                                 extrainfo3.set_is_identified(item.is_identified);
@@ -253,7 +257,7 @@ impl Server {
                 }
             }
             let sleep_duration = (GAME_TICK_RATE - (SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis() - tick).min(0).max(GAME_TICK_RATE)) as u64;
-            if  GAME_TICK_RATE - (sleep_duration as u128) < 5 {
+            if GAME_TICK_RATE - (sleep_duration as u128) < 5 {
                 warn!("Less than 5 seconds of sleep, game loop is too slow");
             }
             sleep(Duration::from_millis(sleep_duration));
@@ -307,12 +311,7 @@ impl Server {
                         if let Some(map_ref) = map_ref {
                             if map_ref.is_warp_cell(movement.position().x, movement.position().y) {
                                 let warp = map_ref.get_warp_at(movement.position().x, movement.position().y).unwrap();
-                                server_ref.add_to_next_tick(GameEvent::CharacterChangeMap(CharacterChangeMap {
-                                    char_id: character.char_id,
-                                    new_map_name: warp.dest_map_name.clone(),
-                                    new_instance_id: 0,
-                                    new_position: Some(Position { x: warp.to_x, y: warp.to_y, dir: movement.position().dir }),
-                                }));
+                                change_map_packet(warp.dest_map_name.as_str(), warp.to_x, warp.to_y, character.char_id, server_ref.as_ref());
                                 character.clear_movement();
                                 continue;
                             }
@@ -330,7 +329,7 @@ impl Server {
             }
 
             let sleep_duration = (MOVEMENT_TICK_RATE - (SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis() - tick).min(0).max(MOVEMENT_TICK_RATE)) as u64;
-            if  MOVEMENT_TICK_RATE - (sleep_duration as u128) < 5 {
+            if MOVEMENT_TICK_RATE - (sleep_duration as u128) < 5 {
                 warn!("Less than 5 seconds of sleep, movement loop is too slow");
             }
             sleep(Duration::from_millis(sleep_duration));
