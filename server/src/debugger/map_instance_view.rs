@@ -168,9 +168,9 @@ impl MapInstanceView {
                             y: absolute_draw_rect.max.y - margin - (shape_y_size * ((position.y() - start_i) as f32)),
                         }
                     },
-                    corner_radius: 0.0,
                     fill: cell_color,
-                    stroke: Stroke::none()
+                    stroke: Stroke::none(),
+                    rounding: Default::default(),
                 }));
             }
 
@@ -194,7 +194,7 @@ impl MapInstanceView {
                         y: absolute_draw_rect.max.y - margin - (shape_y_size * ((i - start_i) as f32)),
                     }
                 },
-                corner_radius: 0.0,
+                rounding: Default::default(),
                 fill: previous_cell.as_ref().unwrap().color,
                 stroke: Stroke::none()
             }));

@@ -18,7 +18,7 @@ log = "0.4"
 flexi_logger = "0.24"
 toml = "0.5"
 serde = { version = "1.0", features = ["derive"] }
-eframe = { version = "0.15", default-features = false, features = ["egui_glow", "default_fonts"], optional = true }
+eframe = { version = "0.20.1", default-features = false, features = ["glow", "default_fonts"], optional = true }
 sprintf = "0.1.2"
 
 rathena_script_lang_interpreter = { git = "https://github.com/nmeylan/rathena-script-lang-interpreter", rev = "373266af15f07993107db123204bb70d54845384"}
@@ -37,4 +37,4 @@ name = "maps"
 path = "../tools/map-cache/main.rs"
 
 [features]
-visual_debugger = []
+visual_debugger = ["eframe"]
