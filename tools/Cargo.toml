@@ -8,6 +8,9 @@ byteorder = "1.4.3"
 lazy_static  = "1.4.0"
 regex = "1.5"
 tokio = { version = "1.12", features = ["full"] }
+toml = "0.5"
+serde = { version = "1.0", features = ["derive"] }
+convert_case = "0.6.0"
 futures = "0.3"
 flate2 = "1.0"
 md5 = "0.7.0"
@@ -20,3 +23,6 @@ path = "packets/main.rs"
 [[bin]]
 name = "maps"
 path = "map-cache/main.rs"
+[[bin]]
+name = "skills-enum-generator"
+path = "skills/main.rs"
