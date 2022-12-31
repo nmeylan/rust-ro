@@ -47,7 +47,7 @@ pub fn handle_char_loaded_client_side(server: &Server, context: Request) {
 
     let mut packet_zc_notify_mapproperty2 = PacketZcNotifyMapproperty2::new();
     let mut packet_zc_hat_effect = PacketZcHatEffect::new();
-    packet_zc_notify_mapproperty2.set_atype(0x2); // TODO set this correctly see enum map_type in hercules
+    packet_zc_notify_mapproperty2.set_atype(0x2); // TODO set this correctly see enum_macro map_type in hercules
     let mut flags = MapPropertyFlags::new();
     flags.set_is_use_cart(true); // TODO add other flags correctly
     packet_zc_notify_mapproperty2.set_flags(flags.raw());

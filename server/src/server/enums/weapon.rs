@@ -1,16 +1,24 @@
 #![allow(dead_code)]
+use r#enum::*;
 
-#[derive(r#enum::WithNumberValue, Debug, Copy, Clone, PartialEq)]
+#[derive(WithNumberValue, WithMaskValue, WithStringValue, Debug, Copy, Clone, PartialEq)]
 pub enum WeaponType {
     Fist,
     Dagger,
+    #[value_string = "1hSword"]
     Sword1H,
+    #[value_string = "2hSword"]
     Sword2H,
+    #[value_string = "1hSpear"]
     Spear1H,
+    #[value_string = "2hSpear"]
     Spear2H,
+    #[value_string = "1hAxe"]
     Axe1H,
+    #[value_string = "2hAxe"]
     Axe2H,
     Mace,
+    #[value_string = "2hMace"]
     Mace2H,
     Staff,
     Bow,
@@ -25,6 +33,7 @@ pub enum WeaponType {
     Shotgun,
     Grenade,
     Huuma,
+    #[value_string = "2hStaff"]
     Staff2H,
     MaxWeaponType,
     // Double dagger
@@ -42,7 +51,7 @@ pub enum WeaponType {
     MaxWeaponTypeAll,
 }
 
-#[derive(r#enum::WithNumberValue, Debug, Copy, Clone, PartialEq)]
+#[derive(WithNumberValue, WithMaskValue, WithStringValue, Debug, Copy, Clone, PartialEq)]
 pub enum AmmoType {
     None,
     Arrow,

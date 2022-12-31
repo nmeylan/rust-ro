@@ -45,10 +45,12 @@ use crate::util::log_filter::LogFilter;
 pub static mut JOB_CONFIGS: Vec<JobConfig> = Vec::new();
 pub static JOB_CONFIGS_INIT: Once = Once::new();
 
+
 #[tokio::main]
 pub async fn main() {
     let config = Config::load().unwrap();
-
+    let skills = Config::load_skills_config().unwrap();
+    println!("{:?}", skills);
     let logger= Logger::try_with_str(config.server.log_level.as_ref().unwrap()).unwrap();
     logger.filter(Box::new(LogFilter::new(config.server.log_exclude_pattern.as_ref().unwrap().clone()))).start().unwrap();
     let repository : Repository = Repository::new_pg(&config.database, Runtime::new().unwrap()).await;

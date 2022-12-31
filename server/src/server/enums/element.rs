@@ -1,6 +1,7 @@
 #![allow(dead_code)]
 
-#[derive(r#enum::WithNumberValue, Debug, Copy, Clone, PartialEq)]
+use r#enum::*;
+#[derive(WithNumberValue, WithStringValue, Debug, Copy, Clone, PartialEq)]
 pub enum  Element {
     #[value = 0]
     Neutral,
