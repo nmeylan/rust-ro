@@ -1,5 +1,5 @@
 #![allow(dead_code)]
-use r#enum::*;
+use crate::*;
 
 #[derive(WithMaskValue, WithStringValue, Debug, Copy, Clone, PartialEq)]
 pub enum UnitTargetType {

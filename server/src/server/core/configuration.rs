@@ -3,11 +3,11 @@ use std::collections::HashMap;
 use std::path::Path;
 use serde::{Deserialize, Deserializer};
 use accessor::Setters;
-use r#enum::{EnumWithMaskValue, EnumWithStringValue};
-use crate::server::enums::element::Element;
-use crate::server::enums::skill::{SkillCastTimeDelayType, SkillCopyType, SkillDamageFlags, SkillDamageType, SkillFlags, SkillRequirement, SkillTargetType, SkillType, SkillUnitType};
-use crate::server::enums::unit::UnitTargetType;
-use crate::server::enums::weapon::{AmmoType, WeaponType};
+use enums::{EnumWithMaskValue, EnumWithStringValue};
+use enums::element::Element;
+use enums::skill::{SkillCastTimeDelayType, SkillCopyType, SkillDamageFlags, SkillDamageType, SkillFlags, SkillRequirement, SkillTargetType, SkillType, SkillUnitType};
+use enums::unit::UnitTargetType;
+use enums::weapon::{AmmoType, WeaponType};
 
 const DEFAULT_LOG_LEVEL: &str = "info";
 const LOG_LEVELS: [&str; 4] = ["debug", "info", "warn", "error"];
@@ -274,7 +274,7 @@ fn deserialize_tuples<'de, D>(deserializer: D) -> Result<Option<Vec<(u32, i32)>>
     where D: Deserializer<'de> {
     let s: Vec<HashMap<String, i32>> = Deserialize::deserialize(deserializer)?;
     let res = s.iter().map(|x| {
-        let (_, value) = x.iter().find(|(k, v)| k.as_str() != "level").unwrap();
+        let (_, value) = x.iter().find(|(k, _)| k.as_str() != "level").unwrap();
         (*x.get("level").unwrap() as u32, *value as i32)
     }).collect::<Vec<(u32, i32)>>();
     Ok(Some(res))
@@ -308,10 +308,6 @@ fn deserialize_weapon_flags<'de, D>(deserializer: D) -> Result<Option<u64>, D::E
 
 fn deserialize_ammo_flags<'de, D>(deserializer: D) -> Result<Option<u64>, D::Error> where D: Deserializer<'de> {
     deserialize_flags::<_, AmmoType>(deserializer)
-}
-
-fn deserialize_target_flags<'de, D>(deserializer: D) -> Result<Option<u64>, D::Error> where D: Deserializer<'de> {
-    deserialize_flags::<_, UnitTargetType>(deserializer)
 }
 
 fn deserialize_skill_cast_time_delay_flags<'de, D>(deserializer: D) -> Result<Option<u64>, D::Error> where D: Deserializer<'de> {

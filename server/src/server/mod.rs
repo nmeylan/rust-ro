@@ -36,7 +36,6 @@ use crate::util::tick::get_tick_client;
 use std::cell::RefCell;
 use crate::server::handler::action::item::handle_player_use_item;
 
-pub mod enums;
 pub mod npc;
 pub mod handler;
 pub mod core;

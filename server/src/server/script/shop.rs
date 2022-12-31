@@ -3,7 +3,7 @@ use rathena_script_lang_interpreter::lang::thread::Thread;
 use rathena_script_lang_interpreter::lang::value::{Native, Value};
 use packets::packets::{CzPurchaseItem, PacketZcPcPurchaseItemlist, PacketZcPcPurchaseResult, PacketZcSelectDealtype, PurchaseItem};
 use crate::server::script::PlayerScriptHandler;
-use crate::server::enums::item::ItemType;
+use enums::item::ItemType;
 use crate::server::script::{GlobalVariableEntry, GlobalVariableScope};
 
 impl PlayerScriptHandler {

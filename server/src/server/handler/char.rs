@@ -12,7 +12,7 @@ use crate::server::core::map::Map;
 use crate::server::core::map_instance::MapInstanceKey;
 use crate::server::core::position::Position;
 use crate::server::core::request::Request;
-use crate::server::enums::status::StatusTypes;
+use enums::status::StatusTypes;
 use crate::server::events::game_event::{CharacterRemoveFromMap, GameEvent};
 use crate::server::events::game_event::GameEvent::CharacterInitInventory;
 use crate::server::script::ScriptGlobalVariableStore;

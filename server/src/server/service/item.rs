@@ -4,7 +4,7 @@ use rathena_script_lang_interpreter::lang::chunk::ClassFile;
 use rathena_script_lang_interpreter::lang::compiler::{Compiler, DebugFlag};
 use tokio::runtime::Runtime;
 use crate::repository::model::item_model::InventoryItemModel;
-use crate::server::enums::item::ItemType;
+use enums::item::ItemType;
 use crate::server::events::game_event::{CharacterAddItems, GameEvent};
 use crate::server::Server;
 use crate::util::cell::{MyRef, MyUnsafeCell};

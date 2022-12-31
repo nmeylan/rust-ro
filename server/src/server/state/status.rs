@@ -1,9 +1,7 @@
-
-
-
 use crate::repository::model::char_model::CharSelectModel;
 use crate::repository::model::mob_model::MobModel;
 use crate::server::core::configuration::GameConfig;
+use enums::WithNumberValue;
 
 #[derive(SettersAll, Debug)]
 pub struct Status {
@@ -99,7 +97,7 @@ impl Clone for Look {
     }
 }
 
-#[derive(r#enum::WithNumberValue, Debug, Copy, Clone)]
+#[derive(WithNumberValue, Debug, Copy, Clone)]
 pub enum LookType {
     Hair,
     Weapon,

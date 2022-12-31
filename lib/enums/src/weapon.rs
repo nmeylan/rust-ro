@@ -1,5 +1,5 @@
 #![allow(dead_code)]
-use r#enum::*;
+use crate::*;
 
 #[derive(WithNumberValue, WithMaskValue, WithStringValue, Debug, Copy, Clone, PartialEq)]
 pub enum WeaponType {
