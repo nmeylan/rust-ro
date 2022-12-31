@@ -17,7 +17,6 @@ extern crate packets;
 extern crate sqlx;
 extern crate core;
 
-
 use std::collections::HashMap;
 
 use std::thread::{JoinHandle};
@@ -31,7 +30,7 @@ use rathena_script_lang_interpreter::lang::vm::{DebugFlag, Vm};
 use tokio::runtime::Runtime;
 use crate::server::npc::warps::Warp;
 use server::Server;
-use crate::server::core::configuration::{Config, JobConfig};
+use crate::server::core::configuration::{Config, JobConfig, SkillConfig};
 use crate::server::core::map::Map;
 use server::events::client_notification::Notification;
 use server::events::persistence_event::PersistenceEvent;
@@ -44,13 +43,14 @@ use crate::util::log_filter::LogFilter;
 
 pub static mut JOB_CONFIGS: Vec<JobConfig> = Vec::new();
 pub static JOB_CONFIGS_INIT: Once = Once::new();
+pub static mut SKILL_CONFIGS: Option<HashMap<String, SkillConfig>> = None;
+pub static SKILL_CONFIGS_INIT: Once = Once::new();
 
 
 #[tokio::main]
 pub async fn main() {
     let config = Config::load().unwrap();
     let skills = Config::load_skills_config().unwrap();
-    println!("{:?}", skills);
     let logger= Logger::try_with_str(config.server.log_level.as_ref().unwrap()).unwrap();
     logger.filter(Box::new(LogFilter::new(config.server.log_exclude_pattern.as_ref().unwrap().clone()))).start().unwrap();
     let repository : Repository = Repository::new_pg(&config.database, Runtime::new().unwrap()).await;
@@ -108,7 +108,17 @@ fn job_configs() -> &'static Vec<JobConfig> {
     });
     unsafe { &JOB_CONFIGS }
 }
+fn skill_configs() -> &'static HashMap<String, SkillConfig> {
+    SKILL_CONFIGS_INIT.call_once(|| unsafe {
+        SKILL_CONFIGS = Some(Config::load_skills_config().unwrap());
+    });
+    unsafe { SKILL_CONFIGS.as_ref().unwrap() }
+}
 
 pub fn get_job_config(id: u32) -> &'static JobConfig {
     job_configs().iter().find(|config| *config.id() == id).unwrap_or_else(|| panic!("Expected to find job config for id {} but found none", id))
+}
+
+pub fn get_skill_config(name: &str) -> &'static SkillConfig {
+    skill_configs().get(name).unwrap_or_else(|| panic!("Expected to find skill config for name {} but found none", name))
 }

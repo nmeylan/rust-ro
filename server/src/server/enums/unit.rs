@@ -6,7 +6,7 @@ pub enum UnitTargetType {
     #[mask_value = 0]
     NoOne,
     #[mask_value = 4096]
-    // Self
+    #[value_string = "Self"]
     MySelf,
     #[mask_value = 131072]
     Enemy,
@@ -20,7 +20,7 @@ pub enum UnitTargetType {
 
     #[mask_value = 2097152]
     // Guildmates, No Guild Allies
-    Sameguild,
+    SameGuild,
 
     #[mask_value = 4128768]
     All,

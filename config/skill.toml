@@ -33206,8 +33206,6 @@ noDamage = true
 [skill.flags]
 disableNearNpc = true
 
-[skill.nonearnpc.type]
-warpPortal = true
 
 [[skill.duration1PerLevel]]
 level = 1
@@ -33286,8 +33284,6 @@ noDamage = true
 [skill.flags]
 disableNearNpc = true
 
-[skill.nonearnpc.type]
-warpPortal = true
 
 [[skill.duration1PerLevel]]
 level = 1
