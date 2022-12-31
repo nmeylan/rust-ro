@@ -1,4 +1,13 @@
 pub use enum_macro::*;
+pub mod action;
+pub mod class;
+pub mod client_messages;
+pub mod element;
+pub mod item;
+pub mod skill;
+pub mod status;
+pub mod unit;
+pub mod weapon;
 
 pub trait EnumWithStringValue {
     fn from_string(value: &str) -> Self;

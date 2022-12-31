@@ -768,18 +768,19 @@ dependencies = [
 ]
 
 [[package]]
-name = "enum"
-version = "0.1.0"
-dependencies = [
- "enum_macro",
-]
-
-[[package]]
 name = "enum_macro"
 version = "0.1.0"
 dependencies = [
  "quote",
  "syn",
+]
+
+[[package]]
+name = "enums"
+version = "0.1.0"
+dependencies = [
+ "enum_macro",
+ "sqlx",
 ]
 
 [[package]]
@@ -2073,7 +2074,7 @@ dependencies = [
  "accessor",
  "byteorder",
  "eframe",
- "enum",
+ "enums",
  "fastrand",
  "flate2",
  "flexi_logger 0.24.2",

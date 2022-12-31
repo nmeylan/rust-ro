@@ -1,8 +1,7 @@
 #![allow(dead_code)]
-
-use r#enum::*;
+use crate::*;
 #[derive(WithNumberValue, WithStringValue, Debug, Copy, Clone, PartialEq)]
-pub enum  Element {
+pub enum Element {
     #[value = 0]
     Neutral,
     Water,

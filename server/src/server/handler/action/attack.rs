@@ -2,7 +2,7 @@ use packets::packets::{Packet, PacketCzRequestAct2, PacketZcNotifyAct3};
 use crate::server::Server;
 use crate::server::core::request::Request;
 
-use crate::server::enums::action::ActionType;
+use enums::action::ActionType;
 
 pub fn handle_attack(_server: &Server, context: Request) {
     let packet_cz_request_act2 = cast!(context.packet(), PacketCzRequestAct2);

@@ -1,7 +1,4 @@
-use sqlx::{Decode, Postgres, TypeInfo};
-use sqlx::database::HasValueRef;
-use sqlx::error::BoxDynError;
-use crate::server::enums::item::ItemType;
+use enums::item::ItemType;
 
 #[derive(sqlx::FromRow, Debug)]
 pub struct ItemModel {
@@ -263,22 +260,4 @@ pub struct InventoryItemModel {
     #[sqlx(default)]
     pub name_english: String,
     pub weight: i32,
-}
-
-impl<'r> Decode<'r, Postgres> for ItemType {
-    fn decode(value: <Postgres as HasValueRef<'r>>::ValueRef) -> Result<Self, BoxDynError> {
-        let value = <&str as Decode<Postgres>>::decode(value)?;
-        Ok(ItemType::from_string(value))
-    }
-}
-
-impl sqlx::Type<Postgres> for ItemType {
-    fn type_info() -> <sqlx::Postgres as sqlx::Database>::TypeInfo {
-        <&str as sqlx::Type<sqlx::Postgres>>::type_info()
-    }
-
-
-    fn compatible(ty: &<sqlx::Postgres as sqlx::Database>::TypeInfo) -> bool {
-        ty.name() == "VARCHAR"
-    }
 }

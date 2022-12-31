@@ -19,7 +19,7 @@ use crate::server::core::map::{MAP_EXT};
 use crate::server::events::map_event::MapEvent::{*};
 use crate::server::events::client_notification::{AreaNotification, AreaNotificationRangeType, CharNotification, Notification};
 use crate::server::events::persistence_event::{InventoryItemUpdate, SavePositionUpdate, StatusUpdate};
-use crate::server::enums::status::StatusTypes;
+use enums::status::StatusTypes;
 use crate::server::events::game_event::GameEvent::{CharacterUpdateWeight, CharacterUpdateZeny};
 
 use crate::server::map_item::{ToMapItem, ToMapItemSnapshot};
