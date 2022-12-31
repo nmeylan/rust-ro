@@ -1,9 +1,7 @@
 use std::{env, fs};
 use std::collections::HashMap;
 use std::path::Path;
-
 use serde::{Deserialize, Deserializer};
-
 use accessor::Setters;
 use r#enum::{EnumWithMaskValue, EnumWithStringValue};
 use crate::server::enums::element::Element;
@@ -109,13 +107,14 @@ pub struct JobConfig {
 }
 
 #[derive(Deserialize, Debug, Clone)]
-struct InternalSkillsConfig {
-    #[serde(rename = "skill")]
-    skills: Vec<InternalSkillConfig>,
+struct SkillsConfig {
+    #[serde(rename = "skill", deserialize_with = "deserialize_skills")]
+    skills: HashMap<String, SkillConfig>,
 }
 
 #[derive(Deserialize, Debug, Clone)]
-pub struct InternalSkillConfig {
+#[allow(dead_code)]
+pub struct SkillConfig {
     id: u32,
     name: String,
     description: String,
@@ -131,71 +130,131 @@ pub struct InternalSkillConfig {
     flags: Option<u64>,
     #[serde(default)]
     range: Option<i32>,
-    #[serde(rename = "rangePerLevel", default)]
-    range_per_level: Option<Vec<InternalSkillRange>>,
+    #[serde(rename = "rangePerLevel", deserialize_with =  "deserialize_tuples", default)]
+    range_per_level: Option<Vec<(u32, i32)>>,
     #[serde(deserialize_with = "deserialize_optional_enum", default)]
     hit: Option<SkillDamageType>,
     #[serde(rename = "hitCount", default)]
     hit_count: Option<i32>,
-    #[serde(rename = "hitCountPerLevel", default)]
-    hit_count_per_level: Option<Vec<InternalSkillHitCount>>,
+    #[serde(rename = "hitCountPerLevel", deserialize_with =  "deserialize_tuples", default)]
+    hit_count_per_level: Option<Vec<(u32, i32)>>,
     #[serde(deserialize_with = "deserialize_optional_enum", default)]
     element: Option<Element>,
     element_per_level: Option<Vec<InternalSkillElement>>,
     #[serde(rename = "splashArea", default)]
     splash_area: Option<i32>,
-    #[serde(rename = "splashAreaPerLevel", default)]
-    splash_area_per_level: Option<Vec<InternalSkillSplashArea>>,
+    #[serde(rename = "splashAreaPerLevel", deserialize_with =  "deserialize_tuples", default)]
+    splash_area_per_level: Option<Vec<(u32, i32)>>,
     #[serde(rename = "activeInstance", default)]
     active_instance: Option<u32>,
-    #[serde(rename = "activeInstancePerLevel", default)]
-    active_instance_per_level: Option<Vec<InternalSkillActiveInstance>>,
+    #[serde(rename = "activeInstancePerLevel", deserialize_with =  "deserialize_tuples", default)]
+    active_instance_per_level: Option<Vec<(u32, i32)>>,
     #[serde(rename = "knockback", default)]
     knockback: Option<u32>,
-    #[serde(rename = "knockbackPerLevel", default)]
-    knockback_per_level: Option<Vec<InternalSkillKnockback>>,
+    #[serde(rename = "knockbackPerLevel", deserialize_with =  "deserialize_tuples", default)]
+    knockback_per_level: Option<Vec<(u32, i32)>>,
     #[serde(rename = "copyflags", deserialize_with = "deserialize_copy_flags", default)]
     copy_flags: Option<u64>,
-    no_near_npc: Option<InternalSkillNoNearNPC>,
     #[serde(rename = "castCancel", default)]
     cast_cancel: bool,
     #[serde(rename = "castDefenseReduction", default)]
     cast_defense_reduction: u32,
     #[serde(rename = "castTime", default)]
     cast_time: Option<u32>,
-    #[serde(rename = "castTimePerLevel", default)]
-    cast_time_per_level: Option<Vec<InternalSkillCastTime>>,
+    #[serde(rename = "castTimePerLevel", deserialize_with =  "deserialize_tuples", default)]
+    cast_time_per_level: Option<Vec<(u32, i32)>>,
     #[serde(rename = "afterCastActDelay", default)]
     after_cast_act_delay: Option<u32>,
-    #[serde(rename = "afterCastActDelayPerLevel", default)]
-    after_cast_act_delay_per_level: Option<Vec<InternalSkillAfterCastActDelay>>,
+    #[serde(rename = "afterCastActDelayPerLevel", deserialize_with =  "deserialize_tuples", default)]
+    after_cast_act_delay_per_level: Option<Vec<(u32, i32)>>,
     #[serde(rename = "afterCastActDelay", default)]
     after_cast_walk_delay: Option<u32>,
-    #[serde(rename = "afterCastActDelayPerLevel", default)]
-    after_cast_walk_delay_per_level: Option<Vec<InternalSkillAfterCastWalkDelay>>,
+    #[serde(rename = "afterCastActDelayPerLevel", deserialize_with =  "deserialize_tuples", default)]
+    after_cast_walk_delay_per_level: Option<Vec<(u32, i32)>>,
     #[serde(rename = "duration1", default)]
     duration1: Option<u32>,
-    #[serde(rename = "duration1PerLevel", default)]
-    duration1_per_level: Option<Vec<InternalSkillDuration1>>,
+    #[serde(rename = "duration1PerLevel", deserialize_with =  "deserialize_tuples", default)]
+    duration1_per_level: Option<Vec<(u32, i32)>>,
     #[serde(rename = "duration2", default)]
     duration2: Option<u32>,
-    #[serde(rename = "duration2PerLevel", default)]
-    duration2_per_level: Option<Vec<InternalSkillDuration2>>,
+    #[serde(rename = "duration2PerLevel", deserialize_with =  "deserialize_tuples", default)]
+    duration2_per_level: Option<Vec<(u32, i32)>>,
     #[serde(rename = "cooldown", default)]
     cooldown: Option<u32>,
-    #[serde(rename = "cooldownPerLevel", default)]
-    cooldown_per_level: Option<Vec<InternalSkillCooldown>>,
+    #[serde(rename = "cooldownPerLevel", deserialize_with =  "deserialize_tuples", default)]
+    cooldown_per_level: Option<Vec<(u32, i32)>>,
     #[serde(rename = "fixedCastTime", default)]
     fixed_cast_time: Option<u32>,
-    #[serde(rename = "fixedCastTimePerLevel", default)]
-    fixed_cast_time_per_level: Option<Vec<InternalSkillFixedCastTime>>,
+    #[serde(rename = "fixedCastTimePerLevel", deserialize_with =  "deserialize_tuples", default)]
+    fixed_cast_time_per_level: Option<Vec<(u32, i32)>>,
     #[serde(rename = "casttimeflags", deserialize_with = "deserialize_skill_cast_time_delay_flags", default)]
     cast_time_flags: Option<u64>,
     #[serde(rename = "castdelayflags", deserialize_with = "deserialize_skill_cast_time_delay_flags", default)]
     cast_delay_flags: Option<u64>,
-    requires: Option<InternalSkillRequires>,
-    unit: Option<InternalSkillUnit>,
+    requires: Option<SkillRequirements>,
+    unit: Option<SkillUnit>,
 }
+
+#[derive(Deserialize, Debug, Clone)]
+#[allow(dead_code)]
+struct SkillRequirements {
+    #[serde(rename = "hpcost", default)]
+    hp_cost: Option<u32>,
+    #[serde(rename = "hpcostPerLevel", deserialize_with = "deserialize_tuples", default)]
+    hp_cost_per_level: Option<Vec<(u32, i32)>>,
+    #[serde(rename = "spcost", default)]
+    sp_cost: Option<u32>,
+    #[serde(rename = "spcostPerLevel", deserialize_with = "deserialize_tuples", default)]
+    sp_cost_per_level: Option<Vec<(u32, i32)>>,
+    #[serde(rename = "hpratecost", default)]
+    hp_rate_cost: Option<u32>,
+    #[serde(rename = "hpratecostPerLevel", deserialize_with = "deserialize_tuples", default)]
+    hp_rate_cost_per_level: Option<Vec<(u32, i32)>>,
+    #[serde(rename = "spratecost", default)]
+    sp_rate_cost: Option<u32>,
+    #[serde(rename = "spratecostPerLevel", deserialize_with = "deserialize_tuples", default)]
+    sp_rate_cost_per_level: Option<Vec<(u32, i32)>>,
+    #[serde(rename = "zenycost", default)]
+    zeny_cost: Option<u32>,
+    #[serde(rename = "zenycostPerLevel", deserialize_with = "deserialize_tuples", default)]
+    zeny_cost_per_level: Option<Vec<(u32, i32)>>,
+    #[serde(rename = "weaponFlags", deserialize_with = "deserialize_weapon_flags", default)]
+    weapon_flags: Option<u64>,
+    #[serde(rename = "ammoFlags", deserialize_with = "deserialize_ammo_flags", default)]
+    ammo_flags: Option<u64>,
+    #[serde(rename = "ammoFlags", default)]
+    ammo_amount: Option<u32>,
+    #[serde(deserialize_with = "deserialize_optional_enum", default)]
+    state: Option<SkillRequirement>,
+    #[serde(rename = "spiritSphereCost", default)]
+    sphere_cost: Option<u32>,
+    #[serde(rename = "spiritSphereCostPerLevel", deserialize_with = "deserialize_tuples", default)]
+    sphere_cost_per_level: Option<Vec<(u32, i32)>>,
+    #[serde(rename = "itemcost", default)]
+    item_cost: Vec<InternalSkillItemCost>,
+}
+
+#[derive(Deserialize, Debug, Clone)]
+#[allow(dead_code)]
+struct SkillUnit {
+    id: String,
+    #[serde(rename = "alternateId", default)]
+    alternate_id: Option<String>,
+    #[serde(default)]
+    layout: Option<i32>,
+    #[serde(rename = "layoutPerLevel", deserialize_with = "deserialize_tuples", default)]
+    layout_per_level: Option<Vec<(u32, i32)>>,
+    #[serde(default)]
+    range: Option<i32>,
+    #[serde(rename = "rangePerLevel", deserialize_with = "deserialize_tuples", default)]
+    range_per_level: Option<Vec<(u32, i32)>>,
+    interval: i32,
+    #[serde(deserialize_with = "deserialize_optional_enum", default)]
+    target: Option<UnitTargetType>,
+    #[serde(deserialize_with = "deserialize_skill_unit_flags", default)]
+    flag: Option<u64>,
+}
+
 
 fn deserialize_optional_enum<'de, D, T>(deserializer: D) -> Result<Option<T>, D::Error>
     where D: Deserializer<'de>,
@@ -209,6 +268,26 @@ fn deserialize_enum<'de, D, T>(deserializer: D) -> Result<T, D::Error>
           T: EnumWithStringValue {
     let s: &str = Deserialize::deserialize(deserializer)?;
     Ok(T::from_string(s))
+}
+
+fn deserialize_tuples<'de, D>(deserializer: D) -> Result<Option<Vec<(u32, i32)>>, D::Error>
+    where D: Deserializer<'de> {
+    let s: Vec<HashMap<String, i32>> = Deserialize::deserialize(deserializer)?;
+    let res = s.iter().map(|x| {
+        let (_, value) = x.iter().find(|(k, v)| k.as_str() != "level").unwrap();
+        (*x.get("level").unwrap() as u32, *value as i32)
+    }).collect::<Vec<(u32, i32)>>();
+    Ok(Some(res))
+}
+fn deserialize_skills<'de, D>(deserializer: D) -> Result<HashMap<String, SkillConfig>, D::Error>
+    where D: Deserializer<'de> {
+    let skills: Vec<SkillConfig> = Deserialize::deserialize(deserializer)?;
+    let mut skills_map: HashMap<String, SkillConfig> = Default::default();
+    skills.iter().for_each(|skill| {
+        skills_map.insert(skill.name.clone(), skill.clone());
+    });
+
+    Ok(skills_map)
 }
 
 fn deserialize_damage_flags<'de, D>(deserializer: D) -> Result<Option<u64>, D::Error> where D: Deserializer<'de> {
@@ -239,6 +318,11 @@ fn deserialize_skill_cast_time_delay_flags<'de, D>(deserializer: D) -> Result<Op
     deserialize_flags::<_, SkillCastTimeDelayType>(deserializer)
 }
 
+fn deserialize_skill_unit_flags<'de, D>(deserializer: D) -> Result<Option<u64>, D::Error> where D: Deserializer<'de>,
+{
+    deserialize_flags::<_, SkillUnitType>(deserializer)
+}
+
 fn deserialize_flags<'de, D, MaskEnum>(deserializer: D) -> Result<Option<u64>, D::Error>
     where D: Deserializer<'de>,
           MaskEnum: EnumWithMaskValue + EnumWithStringValue,
@@ -255,25 +339,8 @@ fn deserialize_flags<'de, D, MaskEnum>(deserializer: D) -> Result<Option<u64>, D
     Ok(Some(flags))
 }
 
-fn deserialize_skill_unit_flags<'de, D>(deserializer: D) -> Result<Option<u64>, D::Error> where D: Deserializer<'de>,
-{
-    deserialize_flags::<_, SkillUnitType>(deserializer)
-}
-
 #[derive(Deserialize, Debug, Clone)]
-struct InternalSkillRange {
-    level: u32,
-    #[serde(rename = "size")]
-    range: i32,
-}
-
-#[derive(Deserialize, Debug, Clone)]
-struct InternalSkillHitCount {
-    level: u32,
-    count: i32,
-}
-
-#[derive(Deserialize, Debug, Clone)]
+#[allow(dead_code)]
 struct InternalSkillElement {
     level: u32,
     #[serde(deserialize_with = "deserialize_optional_enum")]
@@ -281,201 +348,11 @@ struct InternalSkillElement {
 }
 
 #[derive(Deserialize, Debug, Clone)]
-struct InternalSkillSplashArea {
-    level: u32,
-    area: i32,
-}
-
-#[derive(Deserialize, Debug, Clone)]
-struct InternalSkillActiveInstance {
-    level: u32,
-    #[serde(rename = "max")]
-    amount: u32,
-}
-
-#[derive(Deserialize, Debug, Clone)]
-struct InternalSkillKnockback {
-    level: u32,
-    #[serde(rename = "amount")]
-    knockback: u32,
-}
-
-#[derive(Deserialize, Debug, Clone)]
-struct InternalSkillNoNearNPC {
-    level: u32,
-    distance: u32,
-}
-
-#[derive(Deserialize, Debug, Clone)]
-struct InternalSkillCastTime {
-    level: u32,
-    time: u32,
-}
-
-#[derive(Deserialize, Debug, Clone)]
-struct InternalSkillAfterCastActDelay {
-    level: u32,
-    time: u32,
-}
-
-#[derive(Deserialize, Debug, Clone)]
-struct InternalSkillAfterCastWalkDelay {
-    level: u32,
-    time: u32,
-}
-
-#[derive(Deserialize, Debug, Clone)]
-struct InternalSkillDuration1 {
-    level: u32,
-    time: u32,
-}
-
-#[derive(Deserialize, Debug, Clone)]
-struct InternalSkillDuration2 {
-    level: u32,
-    time: u32,
-}
-
-#[derive(Deserialize, Debug, Clone)]
-struct InternalSkillCooldown {
-    level: u32,
-    time: u32,
-}
-
-#[derive(Deserialize, Debug, Clone)]
-struct InternalSkillFixedCastTime {
-    level: u32,
-    time: u32,
-}
-
-#[derive(Deserialize, Debug, Clone)]
-struct InternalSkillRequires {
-    #[serde(rename = "hpcost", default)]
-    hp_cost: Option<u32>,
-    #[serde(rename = "hpcostPerLevel", default)]
-    hp_cost_per_level: Option<Vec<InternalSkillHpCost>>,
-    #[serde(rename = "spcost", default)]
-    sp_cost: Option<u32>,
-    #[serde(rename = "spcostPerLevel", default)]
-    sp_cost_per_level: Option<Vec<InternalSkillSpCost>>,
-    #[serde(rename = "hpratecost", default)]
-    hp_rate_cost: Option<u32>,
-    #[serde(rename = "hpratecostPerLevel", default)]
-    hp_rate_cost_per_level: Option<Vec<InternalSkillHpRateCost>>,
-    #[serde(rename = "spratecost", default)]
-    sp_rate_cost: Option<u32>,
-    #[serde(rename = "spratecostPerLevel", default)]
-    sp_rate_cost_per_level: Option<Vec<InternalSkillSpRateCost>>,
-    #[serde(rename = "zenycost", default)]
-    zeny_cost: Option<u32>,
-    #[serde(rename = "zenycostPerLevel", default)]
-    zeny_cost_per_level: Option<Vec<InternalSkillZenyCost>>,
-    #[serde(rename = "weaponFlags", deserialize_with = "deserialize_weapon_flags", default)]
-    weapon_flags: Option<u64>,
-    #[serde(rename = "ammoFlags", deserialize_with = "deserialize_ammo_flags", default)]
-    ammo_flags: Option<u64>,
-    ammo_amount: Option<u32>,
-    #[serde(deserialize_with = "deserialize_optional_enum", default)]
-    state: Option<SkillRequirement>,
-    #[serde(rename = "spiritSphereCost", default)]
-    sphere_cost: Option<u32>,
-    #[serde(rename = "spiritSphereCostPerLevel", default)]
-    sphere_cost_per_level: Option<Vec<InternalSkillSphereCost>>,
-    #[serde(rename = "itemcost", default)]
-    item_cost: Vec<InternalSkillItemCost>,
-}
-
-#[derive(Deserialize, Debug, Clone)]
-struct InternalSkillHpCost {
-    level: u32,
-    amount: u32,
-}
-
-#[derive(Deserialize, Debug, Clone)]
-struct InternalSkillSpCost {
-    level: u32,
-    amount: u32,
-}
-
-#[derive(Deserialize, Debug, Clone)]
-struct InternalSkillHpRateCost {
-    level: u32,
-    amount: u32,
-}
-
-#[derive(Deserialize, Debug, Clone)]
-struct InternalSkillSpRateCost {
-    level: u32,
-    amount: u32,
-}
-
-#[derive(Deserialize, Debug, Clone)]
-struct InternalSkillMaxHpTrigger {
-    level: u32,
-    amount: u32,
-}
-
-#[derive(Deserialize, Debug, Clone)]
-struct InternalSkillZenyCost {
-    level: u32,
-    amount: u32,
-}
-
-#[derive(Deserialize, Debug, Clone)]
-struct InternalSkillAmmoAmount {
-    level: u32,
-    amount: u32,
-}
-
-#[derive(Deserialize, Debug, Clone)]
-struct InternalSkillState {
-    #[serde(deserialize_with = "deserialize_optional_enum")]
-    state: Option<SkillRequirement>,
-}
-
-#[derive(Deserialize, Debug, Clone)]
-struct InternalSkillSphereCost {
-    level: u32,
-    amount: u32,
-}
-
-#[derive(Deserialize, Debug, Clone)]
+#[allow(dead_code)]
 struct InternalSkillItemCost {
     item: String,
     amount: u32,
     level: Option<u32>,
-}
-
-#[derive(Deserialize, Debug, Clone)]
-struct InternalSkillUnit {
-    id: String,
-    #[serde(rename = "alternateId", default)]
-    alternate_id: Option<String>,
-    #[serde(default)]
-    layout: Option<i32>,
-    #[serde(rename = "layoutPerLevel", default)]
-    layout_per_level: Option<Vec<InternalSkillUnitLayout>>,
-    #[serde(default)]
-    range: Option<i32>,
-    #[serde(rename = "rangePerLevel", default)]
-    range_per_level: Vec<InternalSkillUnitRange>,
-    interval: i32,
-    #[serde(deserialize_with = "deserialize_optional_enum", default)]
-    target: Option<UnitTargetType>,
-    #[serde(deserialize_with = "deserialize_skill_unit_flags", default)]
-    flag: Option<u64>,
-}
-
-#[derive(Deserialize, Debug, Clone)]
-struct InternalSkillUnitLayout {
-    level: u32,
-    size: i32,
-}
-
-#[derive(Deserialize, Debug, Clone)]
-struct InternalSkillUnitRange {
-    level: u32,
-    size: i32,
 }
 
 impl Config {
@@ -534,12 +411,12 @@ impl Config {
         Ok(job_configs)
     }
 
-    pub fn load_skills_config() -> Result<Vec<InternalSkillConfig>, String> {
+    pub fn load_skills_config() -> Result<HashMap<String, SkillConfig>, String> {
         let path = Path::new("config/skill.toml");
         if !path.exists() {
             return Err(format!("config/skill.toml file does not exists at {}", path.to_str().unwrap()));
         }
-        let internal_configs: InternalSkillsConfig = toml::from_str(&fs::read_to_string(path).unwrap()).unwrap();
+        let internal_configs: SkillsConfig = toml::from_str(&fs::read_to_string(path).unwrap()).unwrap();
         Ok(internal_configs.skills)
     }
 

@@ -60,7 +60,7 @@ impl ItemService {
     pub fn get_item_script(&self, item_id: i32, server: &Server, runtime: &Runtime) -> Option<MyRef<ClassFile>> {
         if !self.item_script_cache.borrow().contains_key(&(item_id as u32)) {
             if let Some(script) = runtime.block_on(async { server.repository.get_item_script(item_id).await }).ok() {
-                let mut compilation_result = Compiler::compile_script(format!("item_script_{}", item_id), script.as_str(), "native_functions_list.txt", DebugFlag::None.value());
+                let compilation_result = Compiler::compile_script(format!("item_script_{}", item_id), script.as_str(), "native_functions_list.txt", DebugFlag::None.value());
                 if compilation_result.is_err() {
                     error!("Failed to compile item script for item id: {}, due to", item_id);
                     compilation_result.err().unwrap().iter().for_each(|e| {
