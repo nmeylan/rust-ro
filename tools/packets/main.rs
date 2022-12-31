@@ -1,10 +1,7 @@
 mod packet_struct_generator;
 mod packet_db_parser;
 
-
 use std::fmt::{Debug};
-
-
 use crate::packet_struct_generator::write_packets_struct;
 use crate::packet_db_parser::parse;
 use std::path::Path;

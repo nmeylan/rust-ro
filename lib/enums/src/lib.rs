@@ -8,6 +8,7 @@ pub mod skill;
 pub mod status;
 pub mod unit;
 pub mod weapon;
+pub mod skills;
 
 pub trait EnumWithStringValue {
     fn from_string(value: &str) -> Self;
