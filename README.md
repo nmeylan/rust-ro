@@ -30,7 +30,11 @@ Database:
 # What has been done? ✔️
 ## Tools
 - packet structure generator from [packet db](https://github.com/nmeylan/rust-ro/blob/master/tools/packets/packets_db)
-- packet parser generator
+- packet parser
+
+https://user-images.githubusercontent.com/1909074/210180126-b557d792-5379-400d-b208-87d75f9df329.mp4
+
+ generator
 - map cache generator
 ## Server
 - proxy login, char and map request to hercules/rathena login, char and map servers
@@ -50,7 +54,12 @@ Database:
 - mob move
 - NPC scripts (partially: see https://github.com/nmeylan/rust-ro/issues/3) via [rathena script lang interpreter](https://github.com/nmeylan/rathena-script-lang-interpreter)
 
-Integration of the VM (showing instance and class(npc) variable)
+## Progress
+
+https://user-images.githubusercontent.com/1909074/210180140-0bb7e034-4209-4fb9-8601-a29cbb90cea5.mp4
+
+
+## Integration of the VM (showing instance and class(npc) variable)
 
 https://user-images.githubusercontent.com/1909074/178155321-d3eeb4b8-32ed-4901-bbfe-b101b1a5a56d.mp4
 
