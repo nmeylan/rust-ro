@@ -25,7 +25,7 @@ impl ItemService {
         unsafe { ITEM_SERVICE_INSTANCE.as_ref().unwrap() }
     }
 
-    pub fn new() -> Self {
+    fn new() -> Self {
         ItemService {
             item_script_cache: Default::default(),
         }
@@ -71,7 +71,7 @@ impl ItemService {
                 self.item_script_cache.borrow_mut().insert(item_id as u32, compilation_result.unwrap().pop().unwrap());
             }
         }
-        if !self.item_script_cache.borrow().contains_key(&(item_id as u32)) {
+        if self.item_script_cache.borrow().contains_key(&(item_id as u32)) {
             return Some(MyRef::map(self.item_script_cache.borrow(), |scripts| scripts.get(&(item_id as u32)).unwrap()));
         }
         None

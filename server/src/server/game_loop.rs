@@ -8,7 +8,7 @@ use tokio::runtime::Runtime;
 use crate::ScriptHandler;
 
 
-use packets::packets::{EquipmentitemExtrainfo301, EQUIPSLOTINFO, NormalitemExtrainfo3, Packet, PacketZcEquipmentItemlist3, PacketZcItemPickupAck3, PacketZcLongparChange, PacketZcNormalItemlist3, PacketZcNotifyPlayermove, PacketZcNpcackMapmove, PacketZcParChange, PacketZcPcPurchaseResult, PacketZcSpriteChange2};
+use packets::packets::{EquipmentitemExtrainfo301, EQUIPSLOTINFO, NormalitemExtrainfo3, Packet, PacketZcEquipmentItemlist3, PacketZcItemPickupAck3, PacketZcLongparChange, PacketZcNormalItemlist3, PacketZcNotifyPlayermove, PacketZcNpcackMapmove, PacketZcParChange, PacketZcPcPurchaseResult, PacketZcSpriteChange2, PacketZcUseItemAck, PacketZcUseItemAck2};
 use crate::PersistenceEvent;
 use crate::PersistenceEvent::SaveCharacterPosition;
 
@@ -246,14 +246,31 @@ impl Server {
                             let mut character = characters.get_mut(&character_user_item.char_id).unwrap();
                             if let Some(item) = character.get_item_from_inventory(character_user_item.index) {
                                 if item.item_type.is_consumable() {
+                                    // TODO check if char can use (class restriction, level restriction)
                                     let maybe_script_ref = ItemService::instance().get_item_script(item.item_id, server_ref.as_ref(), &runtime);
                                     if maybe_script_ref.is_some() {
                                         let script = maybe_script_ref.as_ref().unwrap();
                                         let script_result = Vm::repl(server_ref.vm.clone(), script, Box::new(&ScriptHandler {}));
+                                        let mut packet_zc_use_item_ack = PacketZcUseItemAck2::new();
+                                        packet_zc_use_item_ack.set_aid(character_user_item.char_id);
+                                        packet_zc_use_item_ack.set_index(character_user_item.index as u16);
+                                        if script_result.is_ok() {
+                                            let item_inventory_id = item.id;
+                                            let item_unique_id = item.unique_id;
+                                            drop(item);
+                                            let remaining_item = character.del_item_from_inventory(character_user_item.index, 1);
+                                            runtime.block_on(async {
+                                                server_ref.repository.character_inventory_delete(character.char_id as i32, item_inventory_id, item_unique_id, remaining_item as i16).await.unwrap();
+                                            });
+                                            packet_zc_use_item_ack.set_count(remaining_item as i16);
+                                            packet_zc_use_item_ack.set_result(true);
+                                        } else {
+                                            error!("Fail to execute script for item: {} reason: {}", item.item_id, script_result.err().unwrap());
+                                            packet_zc_use_item_ack.set_result(false);
+                                        }
+                                        packet_zc_use_item_ack.fill_raw();
+                                        server_ref.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packet_zc_use_item_ack.raw))).expect("Fail to send client notification");
                                     }
-                                    // TODO handle target not self: scroll
-                                    // TODO check map permission
-                                    // TODO check if char can use (class restriction, level restriction)
                                 }
                             }
                             // check if can use
@@ -278,7 +295,7 @@ impl Server {
             }
             let sleep_duration = (GAME_TICK_RATE - (SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis() - tick).min(0).max(GAME_TICK_RATE)) as u64;
             if GAME_TICK_RATE - (sleep_duration as u128) < 5 {
-                warn!("Less than 5 seconds of sleep, game loop is too slow");
+                warn!("Less than 5 milliseconds of sleep, game loop is too slow");
             }
             sleep(Duration::from_millis(sleep_duration));
         }
@@ -350,7 +367,7 @@ impl Server {
 
             let sleep_duration = (MOVEMENT_TICK_RATE - (SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis() - tick).min(0).max(MOVEMENT_TICK_RATE)) as u64;
             if MOVEMENT_TICK_RATE - (sleep_duration as u128) < 5 {
-                warn!("Less than 5 seconds of sleep, movement loop is too slow");
+                warn!("Less than 5 milliseconds of sleep, movement loop is too slow");
             }
             sleep(Duration::from_millis(sleep_duration));
         }

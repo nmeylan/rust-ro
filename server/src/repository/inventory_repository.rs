@@ -53,6 +53,24 @@ impl Repository {
 
     }
 
+    pub async fn character_inventory_delete(&self, char_id: i32, item_inventory_id: i32, unique_id: i64, amount: i16) -> Result<(), Error> {
+        let mut tx = self.pool.begin().await.unwrap();
+        if amount > 0 && unique_id == 0 {
+            tx.execute(sqlx::query("UPDATE inventory SET amount = $1 WHERE char_id = $2 AND id = $3 ")
+                .bind(amount)
+                .bind(char_id)
+                .bind(item_inventory_id)
+            ).await?;
+        } else {
+            tx.execute(sqlx::query("DELETE FROM inventory WHERE char_id = $1 AND id = $2")
+                .bind(char_id)
+                .bind(item_inventory_id)
+                .bind(unique_id)
+            ).await?;
+        }
+        tx.commit().await
+    }
+
     pub async fn character_inventory_fetch(&self, char_id: i32) -> Result<Vec<InventoryItemModel>, Error> {
         sqlx::query_as("SELECT inv.id, inv.unique_id, inv.nameid, inv.amount, inv.damaged, inv.refine, inv.identified, inv.equip, item.name_english, item.type, item.weight, inv.card0, inv.card1, inv.card2, inv.card3
                             FROM inventory inv JOIN item_db item ON inv.nameid = item.id where inv.char_id = $1")
