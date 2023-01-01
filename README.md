@@ -49,8 +49,13 @@ Database:
 - atcommand: @go, @warp
 - mob move
 - NPC scripts (partially: see https://github.com/nmeylan/rust-ro/issues/3) via [rathena script lang interpreter](https://github.com/nmeylan/rathena-script-lang-interpreter)
+- basis for inventory management
+- basis for skills
+- basis for consumable item usage
+
 
 ## Progress
+A compilation of progress made so far
 
 https://user-images.githubusercontent.com/1909074/210180140-0bb7e034-4209-4fb9-8601-a29cbb90cea5.mp4
 
