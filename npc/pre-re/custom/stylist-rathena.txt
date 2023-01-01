@@ -24,8 +24,8 @@ prontera,170,180,1	script	Stylist#custom_stylist	122,{
 			break;
 		case 3:
 			message strcharinfo(0),"Choose a style between 1 - "+.@Styles[.@s]+".";
-			input .@Style,0,.@Styles[.@s];
-			if (!.@Style)
+			input .@Style;
+			if (.@Style < 0 || .@Style > .@Styles[.@s])
 				set .@Style, rand(1,.@Styles[.@s]);
 			break;
 		case 4:
