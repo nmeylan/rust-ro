@@ -1,6 +1,10 @@
 use std::sync::Once;
 use enums::skills::Skill;
+use crate::server::core::configuration::SkillConfig;
+use crate::server::core::map::{Map, RANDOM_CELL};
 use crate::server::core::map_item::MapItem;
+use crate::server::Server;
+use crate::server::service::character_movement::change_map_packet;
 
 
 static mut SERVICE_INSTANCE: Option<SkillService> = None;
@@ -20,7 +24,10 @@ impl SkillService {
         SkillService {
         }
     }
-    pub fn handle_skill(skill: Skill, level: u32, source_char_id: u32) {
+    pub fn handle_skill(&self, server: &Server, skill: &SkillConfig, level: u32, check_requirement: bool, source_char_id: u32) {
+        let skill = Skill::from_name(skill.name.as_str());
+        let character_ref = server.get_character_unsafe(source_char_id);
+        debug!("Handle skill {}, level {}", skill.to_name(), level);
         match skill {
             Skill::NvBasic => {}
             Skill::SmSword => {}
@@ -49,7 +56,7 @@ impl SkillService {
             Skill::AlPneuma => {}
             Skill::AlTeleport => {
                 if level == 1 {
-
+                    change_map_packet(Map::name_without_ext(character_ref.current_map_name().as_str()).as_str(), RANDOM_CELL.0, RANDOM_CELL.1, source_char_id, server);
                 }
             }
             Skill::AlWarp => {}

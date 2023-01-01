@@ -12,6 +12,7 @@ use tokio::runtime::Runtime;
 use tokio::sync::mpsc::Receiver;
 
 use packets::packets::{Packet, PacketZcCloseDialog, PacketZcMenuList, PacketZcNotifyPlayerchat, PacketZcNpcChat, PacketZcOpenEditdlg, PacketZcOpenEditdlgstr, PacketZcSayDialog, PacketZcShowImage2, PacketZcWaitDialog};
+use crate::{get_skill_config, get_skill_config_by_id};
 
 use crate::server::core::session::Session;
 use crate::server::events::client_notification::{CharNotification, Notification};
@@ -21,6 +22,7 @@ use crate::server::script::constant::{get_battle_flag, load_constant};
 use crate::server::Server;
 use crate::server::service::character_movement::change_map_packet;
 use crate::server::service::item::{ItemService};
+use crate::server::service::skill::SkillService;
 use crate::server::state::status::LookType;
 use crate::util::string::StringUtil;
 
@@ -386,6 +388,17 @@ impl NativeMethodHandler for PlayerScriptHandler {
                 let character_ref = self.server.get_character_unsafe(self.session.char_id());
                 execution_thread.push_constant_on_stack(value::Value::new_number(if character_ref.check_weight(items_total_weight as u32) { 1 } else { 0 }));
             });
+        } else if native.name.eq("itemskill") {
+            let skill_id = params[0].number_value().map_or(None, |id| Some(id as i32));
+            let skill = if let Some(skill_id) = skill_id {
+                get_skill_config_by_id(skill_id as u32)
+            } else {
+                let skill_name = params[0].string_value().unwrap();
+                get_skill_config(skill_name.as_str())
+            };
+            let skill_level = params[1].number_value().unwrap();
+            let check_requirements = params.get(2).unwrap_or(&value::Value::new_number(0)).number_value().unwrap_or(0) == 1;
+            SkillService::instance().handle_skill(self.server.clone().as_ref(), skill, skill_level as u32, check_requirements, self.session.char_id());
         } else {
             if self.handle_shop(native, params, execution_thread, call_frame) {
                 return;

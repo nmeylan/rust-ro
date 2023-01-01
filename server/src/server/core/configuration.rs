@@ -115,8 +115,8 @@ struct SkillsConfig {
 #[derive(Deserialize, Debug, Clone)]
 #[allow(dead_code)]
 pub struct SkillConfig {
-    id: u32,
-    name: String,
+    pub(crate) id: u32,
+    pub(crate) name: String,
     description: String,
     #[serde(rename = "maxLevel")]
     max_level: u32,

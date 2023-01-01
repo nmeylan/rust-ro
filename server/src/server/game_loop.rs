@@ -1,10 +1,11 @@
-use std::sync::Arc;
+use std::sync::{Arc, RwLock};
 use std::sync::mpsc::SyncSender;
 use std::thread::{sleep};
 use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
 use rand::RngCore;
-use rathena_script_lang_interpreter::lang::vm::Vm;
+use rathena_script_lang_interpreter::lang::vm::{NativeMethodHandler, Vm};
 use tokio::runtime::Runtime;
+use tokio::sync::mpsc;
 use crate::ScriptHandler;
 
 
@@ -23,6 +24,7 @@ use enums::status::StatusTypes;
 use crate::server::events::game_event::GameEvent::{CharacterUpdateWeight, CharacterUpdateZeny};
 
 use crate::server::map_item::{ToMapItem, ToMapItemSnapshot};
+use crate::server::script::PlayerScriptHandler;
 use crate::server::Server;
 use crate::server::service::character_movement::change_map_packet;
 use crate::server::service::item::{ItemService};
@@ -250,14 +252,20 @@ impl Server {
                                     let maybe_script_ref = ItemService::instance().get_item_script(item.item_id, server_ref.as_ref(), &runtime);
                                     if maybe_script_ref.is_some() {
                                         let script = maybe_script_ref.as_ref().unwrap();
-                                        let script_result = Vm::repl(server_ref.vm.clone(), script, Box::new(&ScriptHandler {}));
+                                        let (tx, rx) = mpsc::channel(1);
+                                        let session = server_ref.get_session(character.account_id);
+                                        session.set_script_handler_channel_sender(tx);
+                                        let script_result = Vm::repl(server_ref.vm.clone(), script,
+                                                                     Box::new(&PlayerScriptHandler {
+                                                                         client_notification_channel: server_ref.client_notification_sender.clone(), npc_id: 0, server: server_ref.clone(),
+                                                                         player_action_receiver: RwLock::new(rx), runtime: Runtime::new().unwrap(), session: session.clone() }));
                                         let mut packet_zc_use_item_ack = PacketZcUseItemAck2::new();
                                         packet_zc_use_item_ack.set_aid(character_user_item.char_id);
                                         packet_zc_use_item_ack.set_index(character_user_item.index as u16);
                                         if script_result.is_ok() {
                                             let item_inventory_id = item.id;
                                             let item_unique_id = item.unique_id;
-                                            drop(item);
+                                            drop(item); // Drop here is to indicate to compiler we don't use item anymore so we can borrow character mutably to perform del_item_from_inventory
                                             let remaining_item = character.del_item_from_inventory(character_user_item.index, 1);
                                             runtime.block_on(async {
                                                 server_ref.repository.character_inventory_delete(character.char_id as i32, item_inventory_id, item_unique_id, remaining_item as i16).await.unwrap();
