@@ -277,6 +277,22 @@ impl Character {
         None
     }
 
+    pub fn del_item_from_inventory(&mut self, index: usize, amount: i16) -> u16 {
+        if let Some(inventory_slot) = self.inventory.get_mut(index) {
+            if inventory_slot.is_some() {
+                let item = inventory_slot.as_mut().unwrap();
+                if item.amount - amount >= 0 {
+                    item.amount -= amount;
+                    return item.amount as u16;
+                } else {
+                    let _ = std::mem::replace(&mut self.inventory[index], None);
+                    return 0;
+                }
+            }
+        }
+        0
+    }
+
     pub fn weight(&self) -> u32 {
         self.inventory.iter()
             .filter(|item| item.is_some())
