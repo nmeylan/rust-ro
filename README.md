@@ -30,11 +30,7 @@ Database:
 # What has been done? ✔️
 ## Tools
 - packet structure generator from [packet db](https://github.com/nmeylan/rust-ro/blob/master/tools/packets/packets_db)
-- packet parser
-
-https://user-images.githubusercontent.com/1909074/210180126-b557d792-5379-400d-b208-87d75f9df329.mp4
-
- generator
+- packet parser generator
 - map cache generator
 ## Server
 - proxy login, char and map request to hercules/rathena login, char and map servers
