@@ -113,6 +113,16 @@ pub fn main() {
     file.write_all("    _ => panic!(\"unknown skill with name {}\", name)\n".to_string().as_bytes()).unwrap();
     file.write_all("    }\n".to_string().as_bytes()).unwrap();
     file.write_all("  }\n".to_string().as_bytes()).unwrap();
+
+    file.write_all("  pub fn to_name(&self) -> &str {\n".to_string().as_bytes()).unwrap();
+    file.write_all("    match self {\n".to_string().as_bytes()).unwrap();
+    for skill in skills.skills.iter() {
+        let enum_name = skill.name.to_case(Case::Title).replace(" ", "");
+        file.write_all(format!("      Self::{} => \"{}\",\n", enum_name, skill.name).as_bytes()).unwrap();
+    }
+    file.write_all("    }\n".to_string().as_bytes()).unwrap();
+    file.write_all("  }\n".to_string().as_bytes()).unwrap();
+
     file.write_all("}\n".to_string().as_bytes()).unwrap();
     println!("Skills enum generated at {}", file_path.to_str().unwrap());
 }

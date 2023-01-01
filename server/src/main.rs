@@ -44,7 +44,9 @@ use crate::util::log_filter::LogFilter;
 pub static mut JOB_CONFIGS: Vec<JobConfig> = Vec::new();
 pub static JOB_CONFIGS_INIT: Once = Once::new();
 pub static mut SKILL_CONFIGS: Option<HashMap<String, SkillConfig>> = None;
+pub static mut SKILL_CONFIGS_ID_NAME: Option<HashMap<u32, String>> = None;
 pub static SKILL_CONFIGS_INIT: Once = Once::new();
+pub static SKILL_CONFIGS_ID_NAME_INIT: Once = Once::new();
 
 
 #[tokio::main]
@@ -114,11 +116,25 @@ fn skill_configs() -> &'static HashMap<String, SkillConfig> {
     });
     unsafe { SKILL_CONFIGS.as_ref().unwrap() }
 }
+fn skill_id_name() -> &'static HashMap<u32, String> {
+    SKILL_CONFIGS_ID_NAME_INIT.call_once(|| unsafe {
+        SKILL_CONFIGS_ID_NAME = Default::default();
+        skill_configs().values().for_each(|skill_config| {
+            SKILL_CONFIGS_ID_NAME.as_mut().unwrap().insert(skill_config.id, skill_config.name.clone());
+        });
+    });
+    unsafe { SKILL_CONFIGS_ID_NAME.as_ref().unwrap() }
+}
 
 pub fn get_job_config(id: u32) -> &'static JobConfig {
     job_configs().iter().find(|config| *config.id() == id).unwrap_or_else(|| panic!("Expected to find job config for id {} but found none", id))
 }
 
 pub fn get_skill_config(name: &str) -> &'static SkillConfig {
+    skill_configs().get(name).unwrap_or_else(|| panic!("Expected to find skill config for name {} but found none", name))
+}
+
+pub fn get_skill_config_by_id(id: u32) -> &'static SkillConfig {
+    let name = skill_id_name().get(&id).unwrap_or_else(|| panic!("Expected to find skill config for id {} but found none", id));
     skill_configs().get(name).unwrap_or_else(|| panic!("Expected to find skill config for name {} but found none", name))
 }
