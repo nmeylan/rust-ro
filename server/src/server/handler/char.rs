@@ -17,7 +17,7 @@ use crate::server::events::game_event::{CharacterRemoveFromMap, GameEvent};
 use crate::server::events::game_event::GameEvent::CharacterInitInventory;
 use crate::server::script::ScriptGlobalVariableStore;
 use crate::server::Server;
-use crate::server::service::character_movement::change_map_packet;
+use crate::server::service::character::character::CharacterService;
 use crate::server::state::character::Character;
 use crate::server::state::status::Status;
 use crate::util::packet::chain_packets;
@@ -277,7 +277,7 @@ pub fn handle_enter_game(server: &Server, context: Request) {
     packet_accept_enter.set_pos_dir(Position { x: character.x(), y: character.y(), dir: character.dir() }.to_pos());
     packet_accept_enter.fill_raw();
 
-    change_map_packet(&Map::name_without_ext(character.current_map_name()), character.x(), character.y(), session.char_id(), server);
+    CharacterService::instance().schedule_warp_to_walkable_cell(&Map::name_without_ext(character.current_map_name()), character.x(), character.y(), session.char_id(), server);
     socket_send!(context, packet_accept_enter);
 
     let mut packet_str = PacketZcStatusValues::new();
