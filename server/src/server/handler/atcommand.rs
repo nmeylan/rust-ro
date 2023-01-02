@@ -8,11 +8,11 @@ use regex::Regex;
 
 use packets::packets::Packet;
 use crate::server::core::configuration::CityConfig;
-use crate::server::service::character_movement::change_map_packet;
 use crate::server::core::map::RANDOM_CELL;
 use crate::server::core::request::Request;
 use crate::server::Server;
-use crate::server::service::item::{ItemService};
+use crate::server::service::character::character::CharacterService;
+use crate::server::service::character::item::{ItemService};
 
 lazy_static! {
     static ref COMMAND_REGEX: Regex = Regex::new(r"^([@#!])([^\s]*)\s?(.*)?").unwrap();
@@ -114,7 +114,7 @@ pub fn handle_go(server: &Server, session: Arc<Session>, _runtime: &Runtime, arg
         _ => ()
     }
 
-    change_map_packet(&city.name, city.x, city.y, session.char_id(), server);
+    CharacterService::instance().schedule_warp_to_walkable_cell(&city.name, city.x, city.y, session.char_id(), server);
     format!("Warping at {} {},{}", city.name.clone(), city.x, city.y)
 }
 
@@ -133,7 +133,7 @@ pub fn handle_warp(server: &Server, session: Arc<Session>, _runtime: &Runtime, a
                 y = parse_y_res;
             }
         }
-        change_map_packet(&map_name, x, y, session.char_id(), server);
+        CharacterService::instance().schedule_warp_to_walkable_cell(&map_name, x, y, session.char_id(), server);
         let char_id = session.char_id();
         let character = server.get_character_unsafe(char_id);
         return format!("Warp to map {} at {},{}", map_name, character.x(), character.y());
@@ -145,7 +145,7 @@ pub fn handle_item(server: &Server, session: Arc<Session>, runtime: &Runtime, ar
     if args.len() != 2 {
         return format!("@item command accept 2 parameters but received {}", args.len());
     }
-    ItemService::instance().get_items(session.char_id(), server, runtime, vec![(args[0].parse::<i32>().unwrap(), args[1].parse::<i16>().unwrap())], false);
+    ItemService::instance().schedule_get_items(session.char_id(), server, runtime, vec![(args[0].parse::<i32>().unwrap(), args[1].parse::<i16>().unwrap())], false);
 
     String::new()
 }

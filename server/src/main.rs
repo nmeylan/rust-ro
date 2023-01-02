@@ -52,7 +52,6 @@ pub static SKILL_CONFIGS_ID_NAME_INIT: Once = Once::new();
 #[tokio::main]
 pub async fn main() {
     let config = Config::load().unwrap();
-    let skills = Config::load_skills_config().unwrap();
     let logger= Logger::try_with_str(config.server.log_level.as_ref().unwrap()).unwrap();
     logger.filter(Box::new(LogFilter::new(config.server.log_exclude_pattern.as_ref().unwrap().clone()))).start().unwrap();
     let repository : Repository = Repository::new_pg(&config.database, Runtime::new().unwrap()).await;

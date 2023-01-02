@@ -2,9 +2,8 @@ use std::sync::Once;
 use enums::skills::Skill;
 use crate::server::core::configuration::SkillConfig;
 use crate::server::core::map::{Map, RANDOM_CELL};
-use crate::server::core::map_item::MapItem;
 use crate::server::Server;
-use crate::server::service::character_movement::change_map_packet;
+use crate::server::service::character::character::CharacterService;
 
 
 static mut SERVICE_INSTANCE: Option<SkillService> = None;
@@ -56,7 +55,7 @@ impl SkillService {
             Skill::AlPneuma => {}
             Skill::AlTeleport => {
                 if level == 1 {
-                    change_map_packet(Map::name_without_ext(character_ref.current_map_name().as_str()).as_str(), RANDOM_CELL.0, RANDOM_CELL.1, source_char_id, server);
+                    CharacterService::instance().schedule_warp_to_walkable_cell(Map::name_without_ext(character_ref.current_map_name().as_str()).as_str(), RANDOM_CELL.0, RANDOM_CELL.1, source_char_id, server);
                 }
             }
             Skill::AlWarp => {}

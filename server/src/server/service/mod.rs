@@ -1,3 +1,2 @@
-pub mod character_movement;
-pub mod item;
 pub mod skill;
+pub mod character;
