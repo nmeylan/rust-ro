@@ -1,7 +1,7 @@
 #![allow(dead_code)]
 use crate::*;
 
-#[derive(WithNumberValue, WithMaskValue, WithStringValue, Debug, Copy, Clone, PartialEq)]
+#[derive(WithNumberValue, WithMaskValue, WithStringValue, Debug, Copy, Clone, PartialEq, Eq)]
 pub enum WeaponType {
     Fist,
     Dagger,
@@ -51,7 +51,7 @@ pub enum WeaponType {
     MaxWeaponTypeAll,
 }
 
-#[derive(WithNumberValue, WithMaskValue, WithStringValue, Debug, Copy, Clone, PartialEq)]
+#[derive(WithNumberValue, WithMaskValue, WithStringValue, Debug, Copy, Clone, PartialEq, Eq)]
 pub enum AmmoType {
     None,
     Arrow,

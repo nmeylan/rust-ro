@@ -65,7 +65,7 @@ impl ItemService {
 
     pub fn get_item_script(&self, item_id: i32, server: &Server, runtime: &Runtime) -> Option<MyRef<ClassFile>> {
         if !self.item_script_cache.borrow().contains_key(&(item_id as u32)) {
-            if let Some(script) = runtime.block_on(async { server.repository.get_item_script(item_id).await }).ok() {
+            if let Ok(script) = runtime.block_on(async { server.repository.get_item_script(item_id).await }) {
                 let compilation_result = Compiler::compile_script(format!("item_script_{}", item_id), script.as_str(), "native_functions_list.txt", DebugFlag::None.value());
                 if compilation_result.is_err() {
                     error!("Failed to compile item script for item id: {}, due to", item_id);
@@ -87,7 +87,7 @@ impl ItemService {
         if let Some(item) = character.get_item_from_inventory(character_user_item.index) {
             if item.item_type.is_consumable() {
                 // TODO check if char can use (class restriction, level restriction)
-                let maybe_script_ref = ItemService::instance().get_item_script(item.item_id, server_ref.as_ref(), &runtime);
+                let maybe_script_ref = ItemService::instance().get_item_script(item.item_id, server_ref.as_ref(), runtime);
                 if maybe_script_ref.is_some() {
                     let script = maybe_script_ref.as_ref().unwrap();
                     let (tx, rx) = mpsc::channel(1);
@@ -100,7 +100,7 @@ impl ItemService {
                                                      server: server_ref.clone(),
                                                      player_action_receiver: RwLock::new(rx),
                                                      runtime: Runtime::new().unwrap(),
-                                                     session: session.clone(),
+                                                     session,
                                                  }));
                     let mut packet_zc_use_item_ack = PacketZcUseItemAck2::new();
                     packet_zc_use_item_ack.set_aid(character_user_item.char_id);

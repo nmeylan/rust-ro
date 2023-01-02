@@ -11,7 +11,7 @@ use crate::server::core::configuration::CityConfig;
 use crate::server::core::map::RANDOM_CELL;
 use crate::server::core::request::Request;
 use crate::server::Server;
-use crate::server::service::character::character::CharacterService;
+use crate::server::service::character::character_state::CharacterService;
 use crate::server::service::character::item::{ItemService};
 
 lazy_static! {

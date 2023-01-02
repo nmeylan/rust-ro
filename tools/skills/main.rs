@@ -75,7 +75,7 @@ pub fn main() {
     file.write_all("#![allow(dead_code)]\n\n".to_string().as_bytes()).unwrap();
     file.write_all("pub enum Skill {\n".to_string().as_bytes()).unwrap();
     for skill in skills.skills.iter() {
-        let enum_name = skill.name.to_case(Case::Title).replace(" ", "");
+        let enum_name = skill.name.to_case(Case::Title).replace(' ', "");
         let class_name = SHORT_CLASS_NAME.iter().find(|(k, _)| enum_name.to_lowercase().starts_with(*k)).map(|(_, v)| v);
         if let Some(class_name) = class_name {
             file.write_all(format!("  // {} {}\n", class_name, skill.description).as_bytes()).unwrap();
@@ -89,7 +89,7 @@ pub fn main() {
     file.write_all("  pub fn id(&self) -> u32{\n".to_string().as_bytes()).unwrap();
     file.write_all("    match self {\n".to_string().as_bytes()).unwrap();
     for skill in skills.skills.iter() {
-        let enum_name = skill.name.to_case(Case::Title).replace(" ", "");
+        let enum_name = skill.name.to_case(Case::Title).replace(' ', "");
         file.write_all(format!("      Self::{} => {},\n", enum_name, skill.id).as_bytes()).unwrap();
     }
     file.write_all("    }\n".to_string().as_bytes()).unwrap();
@@ -97,7 +97,7 @@ pub fn main() {
     file.write_all("  pub fn from_id(id: u32) -> Self {\n".to_string().as_bytes()).unwrap();
     file.write_all("    match id {\n".to_string().as_bytes()).unwrap();
     for skill in skills.skills.iter() {
-        let enum_name = skill.name.to_case(Case::Title).replace(" ", "");
+        let enum_name = skill.name.to_case(Case::Title).replace(' ', "");
         file.write_all(format!("      {} => Self::{},\n", skill.id, enum_name).as_bytes()).unwrap();
     }
     file.write_all("    _ => panic!(\"unknown skill with id {}\", id)\n".to_string().as_bytes()).unwrap();
@@ -107,7 +107,7 @@ pub fn main() {
     file.write_all("  pub fn from_name(name: &str) -> Self {\n".to_string().as_bytes()).unwrap();
     file.write_all("    match name {\n".to_string().as_bytes()).unwrap();
     for skill in skills.skills.iter() {
-        let enum_name = skill.name.to_case(Case::Title).replace(" ", "");
+        let enum_name = skill.name.to_case(Case::Title).replace(' ', "");
         file.write_all(format!("      \"{}\" => Self::{},\n", skill.name, enum_name).as_bytes()).unwrap();
     }
     file.write_all("    _ => panic!(\"unknown skill with name {}\", name)\n".to_string().as_bytes()).unwrap();
@@ -117,7 +117,7 @@ pub fn main() {
     file.write_all("  pub fn to_name(&self) -> &str {\n".to_string().as_bytes()).unwrap();
     file.write_all("    match self {\n".to_string().as_bytes()).unwrap();
     for skill in skills.skills.iter() {
-        let enum_name = skill.name.to_case(Case::Title).replace(" ", "");
+        let enum_name = skill.name.to_case(Case::Title).replace(' ', "");
         file.write_all(format!("      Self::{} => \"{}\",\n", enum_name, skill.name).as_bytes()).unwrap();
     }
     file.write_all("    }\n".to_string().as_bytes()).unwrap();

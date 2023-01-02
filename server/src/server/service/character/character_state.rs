@@ -11,7 +11,7 @@ use crate::server::events::persistence_event::{PersistenceEvent, SavePositionUpd
 use crate::server::events::persistence_event::PersistenceEvent::SaveCharacterPosition;
 use crate::server::map_item::ToMapItem;
 use crate::server::Server;
-use crate::server::service::character::inventory::InventoryService;
+
 use crate::server::state::character::Character;
 use crate::util::packet::chain_packets;
 use crate::util::string::StringUtil;

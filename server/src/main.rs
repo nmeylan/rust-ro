@@ -96,7 +96,7 @@ pub async fn main() {
             warn!("Visual debugger has been enable in configuration, but feature has not been compiled. Please consider enabling \"visual-debugger\" feature.");
         }
     }
-    Server::start(server_ref_clone.clone(), single_client_notification_receiver);
+    Server::start(server_ref_clone, single_client_notification_receiver);
 
     for handle in handles {
         handle.join().expect("Failed await server and proxy threads");
