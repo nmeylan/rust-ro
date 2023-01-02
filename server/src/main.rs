@@ -1,4 +1,6 @@
 #![feature(future_join)]
+#![feature(stmt_expr_attributes)]
+#![feature(proc_macro_hygiene)]
 
 mod proxy;
 #[macro_use]

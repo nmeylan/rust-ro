@@ -84,8 +84,9 @@ impl Server {
                         }
                         GameEvent::CharacterUseItem(character_user_item) => {
                             let character = characters.get_mut(&character_user_item.char_id).unwrap();
-                            ItemService::instance().use_item(server_ref.clone(), &runtime, character_user_item, character);
+                            ItemService::instance().use_item(server_ref.clone(), &runtime, &persistence_event_sender, character_user_item, character);
                         }
+                        GameEvent::CharacterAttack(_) => {}
                     }
                 }
             }
@@ -102,9 +103,10 @@ impl Server {
                     }
                 }
             }
-            let sleep_duration = (GAME_TICK_RATE - (SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis() - tick).min(0).max(GAME_TICK_RATE)) as u64;
-            if GAME_TICK_RATE - (sleep_duration as u128) < 5 {
-                warn!("Less than 5 milliseconds of sleep, game loop is too slow");
+            let time_spent = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis() - tick;
+            let sleep_duration = (GAME_TICK_RATE as i128 - time_spent as i128).max(0) as u64;
+            if sleep_duration < 5 {
+                warn!("Less than 5 milliseconds of sleep, game loop is too slow - {}ms because game loop took {}ms", sleep_duration, time_spent);
             }
             sleep(Duration::from_millis(sleep_duration));
         }
@@ -175,9 +177,10 @@ impl Server {
                 persistence_event_sender.send(SaveCharacterPosition(SavePositionUpdate { account_id: character.account_id, char_id: character.char_id, map_name: character.current_map_name().clone(), x: character.x(), y: character.y() })).expect("Fail to send persistence notification");
             }
 
-            let sleep_duration = (MOVEMENT_TICK_RATE - (SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis() - tick).min(0).max(MOVEMENT_TICK_RATE)) as u64;
-            if MOVEMENT_TICK_RATE - (sleep_duration as u128) < 5 {
-                warn!("Less than 5 milliseconds of sleep, movement loop is too slow");
+            let time_spent = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis() - tick;
+            let sleep_duration = (MOVEMENT_TICK_RATE as i128 - time_spent as i128).max(0) as u64;
+            if sleep_duration < 5 {
+                warn!("Movement loop: less than 5 milliseconds of sleep, movement loop is too slow - {}ms because movement loop took {}ms", sleep_duration, time_spent);
             }
             sleep(Duration::from_millis(sleep_duration));
         }

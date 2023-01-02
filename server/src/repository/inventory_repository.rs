@@ -1,8 +1,9 @@
 use sqlx::{Error, Executor, Row};
+use sqlx::postgres::PgQueryResult;
 use crate::repository::model::item_model::{InventoryItemModel};
 use crate::repository::{Repository};
 use crate::repository::persistence_error::PersistenceError;
-use crate::server::events::persistence_event::InventoryItemUpdate;
+use crate::server::events::persistence_event::{DeleteItems, InventoryItemUpdate};
 
 impl Repository {
     pub async fn character_inventory_update(&self, inventory_update_items: &[InventoryItemUpdate], buy: bool) -> Result<(), Error> {
@@ -53,22 +54,21 @@ impl Repository {
 
     }
 
-    pub async fn character_inventory_delete(&self, char_id: i32, item_inventory_id: i32, unique_id: i64, amount: i16) -> Result<(), Error> {
-        let mut tx = self.pool.begin().await.unwrap();
-        if amount > 0 && unique_id == 0 {
-            tx.execute(sqlx::query("UPDATE inventory SET amount = $1 WHERE char_id = $2 AND id = $3 ")
-                .bind(amount)
-                .bind(char_id)
-                .bind(item_inventory_id)
-            ).await?;
+
+    pub async fn character_inventory_delete(&self, delete_items: DeleteItems) -> Result<PgQueryResult, Error> {
+        if delete_items.amount > 0 && delete_items.unique_id == 0 {
+            sqlx::query("UPDATE inventory SET amount = $1 WHERE char_id = $2 AND id = $3 ")
+                .bind(delete_items.amount)
+                .bind(delete_items.char_id)
+                .bind(delete_items.item_inventory_id)
+            .execute(&self.pool).await
         } else {
-            tx.execute(sqlx::query("DELETE FROM inventory WHERE char_id = $1 AND id = $2")
-                .bind(char_id)
-                .bind(item_inventory_id)
-                .bind(unique_id)
-            ).await?;
+            sqlx::query("DELETE FROM inventory WHERE char_id = $1 AND id = $2")
+                .bind(delete_items.char_id)
+                .bind(delete_items.item_inventory_id)
+                .bind(delete_items.unique_id)
+               .execute(&self.pool).await
         }
-        tx.commit().await
     }
 
     pub async fn character_inventory_fetch(&self, char_id: i32) -> Result<Vec<InventoryItemModel>, Error> {

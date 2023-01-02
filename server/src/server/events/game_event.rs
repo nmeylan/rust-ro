@@ -14,7 +14,8 @@ pub enum GameEvent {
     CharacterUpdateWeight(u32),
     CharacterAddItems(CharacterAddItems),
     CharacterInitInventory(u32),
-    CharacterUseItem(CharacterUseItem)
+    CharacterUseItem(CharacterUseItem),
+    CharacterAttack(CharacterAttack),
 }
 
 pub struct CharacterChangeMap {
@@ -60,4 +61,10 @@ pub struct CharacterUseItem {
     pub char_id: u32,
     pub target_char_id: u32,
     pub index: usize
+}
+
+pub struct CharacterAttack {
+    pub char_id: u32,
+    pub target_id: u32,
+    pub repeat: bool,
 }

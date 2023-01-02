@@ -1,6 +1,7 @@
 pub enum PersistenceEvent {
     SaveCharacterPosition(SavePositionUpdate),
     UpdateCharacterStatusU32(StatusUpdate<u32>),
+    DeleteItemsFromInventory(DeleteItems),
 }
 
 pub struct SavePositionUpdate {
@@ -25,4 +26,12 @@ pub struct InventoryItemUpdate {
     pub amount: i16,
     pub identified: bool,
     pub stackable: bool
+}
+
+
+pub struct DeleteItems {
+    pub char_id: i32,
+    pub item_inventory_id: i32,
+    pub unique_id: i64,
+    pub amount: i16
 }

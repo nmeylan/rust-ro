@@ -5,7 +5,7 @@ use std::sync::{Arc, Mutex};
 use byteorder::{LittleEndian, WriteBytesExt};
 use sqlx::Postgres;
 
-use packets::packets::{CharacterInfoNeoUnion, Packet, PacketChDeleteChar4Reserved, PacketChEnter, PacketChMakeChar, PacketChMakeChar3, PacketChSelectChar, PacketChSendMapInfo, PacketCzEnter2, PacketCzRestart, PacketHcAcceptEnterNeoUnion, PacketHcAcceptEnterNeoUnionHeader, PacketHcAcceptMakecharNeoUnion, PacketHcDeleteChar4Reserved, PacketHcNotifyZonesvr, PacketHcRefuseEnter, PacketMapConnection, PacketPincodeLoginstate, PacketZcAcceptEnter2, PacketZcAttackRange, PacketZcInventoryExpansionInfo, PacketZcLoadConfirm, PacketZcNotifyChat, PacketZcOverweightPercent, PacketZcParChange, PacketZcReqDisconnectAck2, PacketZcRestartAck, PacketZcStatusValues, ZserverAddr};
+use packets::packets::{CharacterInfoNeoUnion, Packet, PacketChDeleteChar4Reserved, PacketChEnter, PacketChMakeChar, PacketChMakeChar2, PacketChMakeChar3, PacketChSelectChar, PacketChSendMapInfo, PacketCzEnter2, PacketCzRestart, PacketHcAcceptEnterNeoUnion, PacketHcAcceptEnterNeoUnionHeader, PacketHcAcceptMakecharNeoUnion, PacketHcDeleteChar4Reserved, PacketHcNotifyZonesvr, PacketHcRefuseEnter, PacketMapConnection, PacketPincodeLoginstate, PacketZcAcceptEnter2, PacketZcAttackRange, PacketZcInventoryExpansionInfo, PacketZcLoadConfirm, PacketZcNotifyChat, PacketZcOverweightPercent, PacketZcParChange, PacketZcReqDisconnectAck2, PacketZcRestartAck, PacketZcStatusValues, ZserverAddr};
 
 use crate::repository::model::char_model::{CharacterInfoNeoUnionWrapped, CharInsertModel, CharSelectModel};
 use crate::server::core::map::Map;
@@ -66,10 +66,11 @@ pub fn handle_make_char(server: &Server, context: Request) {
         let int = 1;
         let max_sp = 40 * (100 + int as i32) / 100;
         let packet_make_char = cast!(context.packet(), PacketChMakeChar3);
+        let name = packet_make_char.name.iter().filter(|c| **c != '\0').collect();
         char_model = Some(CharInsertModel {
             account_id: context.session().account_id as i32,
-            char_num: packet_make_char.char_num as i8,
-            name: packet_make_char.name.iter().collect(),
+            char_num: packet_make_char.char_num as i16,
+            name,
             class: 0,
             zeny: 10000, // make this configurable
             status_point: 48,
@@ -92,18 +93,54 @@ pub fn handle_make_char(server: &Server, context: Request) {
             save_x: 53,
             save_y: 111,
             sex: if packet_make_char.sex == 1 { "M".to_string() } else { "F".to_string() },
-            inventory_size: 100,
+            inventory_slots: context.configuration().game.max_inventory as i32,
+        });
+    } else if context.packet().as_any().downcast_ref::<PacketChMakeChar2>().is_some() {
+        let packet_make_char = cast!(context.packet(), PacketChMakeChar2);
+        let vit = 5 as i16;
+        let max_hp = 40 * (100 + vit as i32) / 100;
+        let int = 5;
+        let max_sp = 40 * (100 + int as i32) / 100;
+        let name = packet_make_char.name.iter().filter(|c| **c != '\0').collect();
+        char_model = Some(CharInsertModel {
+            account_id: context.session().account_id as i32,
+            char_num: packet_make_char.char_num as i16,
+            name,
+            class: 0,
+            zeny: 10000, // make this configurable
+            status_point: 48,
+            str: 5 as i16,
+            agi: 5 as i16,
+            vit,
+            int,
+            dex: 5 as i16,
+            luk: 5 as i16,
+            max_hp,
+            hp: max_hp,
+            max_sp,
+            sp: max_sp,
+            hair: packet_make_char.head as i16,
+            hair_color: packet_make_char.head_pal as i32,
+            last_map: "new_1-1".to_string(), // make this configurable
+            last_x: 53,
+            last_y: 111,
+            save_map: "new_1-1".to_string(), // make this configurable
+            save_x: 53,
+            save_y: 111,
+            sex: "M".to_string(), // TODO use account sex
+            inventory_slots: context.configuration().game.max_inventory as i32,
         });
     } else if context.packet().as_any().downcast_ref::<PacketChMakeChar>().is_some() {
         let packet_make_char = cast!(context.packet(), PacketChMakeChar);
         let vit = packet_make_char.vit as i16;
         let max_hp = 40 * (100 + vit as i32) / 100;
-        let int = 1;
+        let int = packet_make_char.int as i16;
         let max_sp = 40 * (100 + int as i32) / 100;
+        let name = packet_make_char.name.iter().filter(|c| **c != '\0').collect();
         char_model = Some(CharInsertModel {
             account_id: context.session().account_id as i32,
-            char_num: packet_make_char.char_num as i8,
-            name: packet_make_char.name.iter().collect(),
+            char_num: packet_make_char.char_num as i16,
+            name,
             class: 0,
             zeny: 10000, // make this configurable
             status_point: 48,
@@ -125,8 +162,8 @@ pub fn handle_make_char(server: &Server, context: Request) {
             save_map: "new_1-1".to_string(), // make this configurable
             save_x: 53,
             save_y: 111,
-            sex: "M".to_string(),
-            inventory_size: 100,
+            sex: "M".to_string(), // TODO use account sex
+            inventory_slots: context.configuration().game.max_inventory as i32,
         });
     }
     if char_model.is_none() {
@@ -138,7 +175,7 @@ pub fn handle_make_char(server: &Server, context: Request) {
         let char_model = char_model.unwrap();
         char_model.insert(&server.repository.pool, "char").await.unwrap();
         // TODO add default stuff
-        let created_char: CharacterInfoNeoUnionWrapped = sqlx::query_as::<_, CharacterInfoNeoUnionWrapped>("SELECT * from `char` WHERE `name`= ? AND `account_id` = ?")
+        let created_char: CharacterInfoNeoUnionWrapped = sqlx::query_as::<_, CharacterInfoNeoUnionWrapped>("SELECT * from char WHERE name = $1 AND account_id = $2")
             .bind(char_model.name)
             .bind(char_model.account_id as i32)
             .fetch_one(&server.repository.pool)
@@ -154,7 +191,7 @@ pub fn handle_make_char(server: &Server, context: Request) {
 pub fn handle_delete_reserved_char(server: &Server, context: Request) {
     let packet_delete_reserved_char = cast!(context.packet(), PacketChDeleteChar4Reserved);
     context.runtime().block_on(async {
-        sqlx::query("UPDATE `char` SET delete_date = UNIX_TIMESTAMP(now() + INTERVAL 1 DAY) WHERE account_id = ? AND char_id = ?")
+        sqlx::query("UPDATE `char` SET delete_date = UNIX_TIMESTAMP(now() + INTERVAL 1 DAY) WHERE account_id = $1 AND char_id = $2")
             .bind(context.session().account_id as i32)
             .bind(packet_delete_reserved_char.gid as i32)
             .execute(&server.repository.pool).await.unwrap();
