@@ -1,6 +1,6 @@
 #![allow(dead_code)]
 use crate::*;
-#[derive(WithNumberValue, WithStringValue, Debug, Copy, Clone, PartialEq)]
+#[derive(WithNumberValue, WithStringValue, Debug, Copy, Clone, PartialEq, Eq)]
 pub enum SkillRequirement {
     #[value = 0]
     None,
@@ -32,14 +32,14 @@ pub enum SkillRequirement {
     RollingCutter
 }
 
-#[derive(WithNumberValue, WithStringValue, Debug, Copy, Clone, PartialEq)]
+#[derive(WithNumberValue, WithStringValue, Debug, Copy, Clone, PartialEq, Eq)]
 pub enum SkillType {
     Magic,
     Weapon,
     Misc
 }
 
-#[derive(WithNumberValue, WithStringValue, Debug, Copy, Clone, PartialEq)]
+#[derive(WithNumberValue, WithStringValue, Debug, Copy, Clone, PartialEq, Eq)]
 pub enum SkillTargetType {
     #[value = 0]
     Passive,
@@ -60,7 +60,7 @@ impl Default for SkillTargetType {
 }
 
 
-#[derive(WithMaskValue, WithStringValue, Debug, Copy, Clone, PartialEq)]
+#[derive(WithMaskValue, WithStringValue, Debug, Copy, Clone, PartialEq, Eq)]
 pub enum SkillDamageFlags {
     #[mask_value = 0]
     Nodamage,
@@ -76,7 +76,7 @@ pub enum SkillDamageFlags {
     Max,
 }
 
-#[derive(WithMaskValue, WithStringValue, Debug, Copy, Clone, PartialEq)]
+#[derive(WithMaskValue, WithStringValue, Debug, Copy, Clone, PartialEq, Eq)]
 pub enum SkillFlags {
     //NPC skills are those that players can't have in their skill tree.
     Isnpc,
@@ -134,7 +134,7 @@ pub enum SkillFlags {
     TargetManHole
 }
 
-#[derive(WithNumberValue, WithStringValue, Debug, Copy, Clone, PartialEq)]
+#[derive(WithNumberValue, WithStringValue, Debug, Copy, Clone, PartialEq, Eq)]
 pub enum SkillDamageType {
     // damage [ damage: total damage, div: amount of hits, damage2: assassin dual-wield damage ]
     Normal,
@@ -159,20 +159,20 @@ pub enum SkillDamageType {
     MultiHitCritical,
 }
 
-#[derive(WithMaskValue, WithStringValue, Debug, Copy, Clone, PartialEq)]
+#[derive(WithMaskValue, WithStringValue, Debug, Copy, Clone, PartialEq, Eq)]
 pub enum SkillCopyType {
     Plagiarism,
     Reproduce,
 }
 
-#[derive(WithMaskValue, WithStringValue, Debug, Copy, Clone, PartialEq)]
+#[derive(WithMaskValue, WithStringValue, Debug, Copy, Clone, PartialEq, Eq)]
 pub enum SkillCastTimeDelayType {
     IgnoreDex,
     IgnoreStatus,
     IgnoreItemBonus,
 }
 
-#[derive(WithMaskValue, WithStringValue, Debug, Copy, Clone, PartialEq)]
+#[derive(WithMaskValue, WithStringValue, Debug, Copy, Clone, PartialEq, Eq)]
 pub enum SkillUnitType {
     None,
     // If 'defunit_not_enemy' is set, the target is changed to 'friend'

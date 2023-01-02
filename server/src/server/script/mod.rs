@@ -20,7 +20,7 @@ use crate::server::events::game_event::CharacterLook;
 use crate::server::events::game_event::GameEvent::CharacterUpdateLook;
 use crate::server::script::constant::{get_battle_flag, load_constant};
 use crate::server::Server;
-use crate::server::service::character::character::CharacterService;
+use crate::server::service::character::character_state::CharacterService;
 use crate::server::service::character::item::{ItemService};
 use crate::server::service::skill::SkillService;
 use crate::server::state::status::LookType;

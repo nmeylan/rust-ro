@@ -3,7 +3,7 @@ use enums::skills::Skill;
 use crate::server::core::configuration::SkillConfig;
 use crate::server::core::map::{Map, RANDOM_CELL};
 use crate::server::Server;
-use crate::server::service::character::character::CharacterService;
+use crate::server::service::character::character_state::CharacterService;
 
 
 static mut SERVICE_INSTANCE: Option<SkillService> = None;
@@ -23,7 +23,7 @@ impl SkillService {
         SkillService {
         }
     }
-    pub fn handle_skill(&self, server: &Server, skill: &SkillConfig, level: u32, check_requirement: bool, source_char_id: u32) {
+    pub fn handle_skill(&self, server: &Server, skill: &SkillConfig, level: u32, _check_requirement: bool, source_char_id: u32) {
         let skill = Skill::from_name(skill.name.as_str());
         let character_ref = server.get_character_unsafe(source_char_id);
         debug!("Handle skill {}, level {}", skill.to_name(), level);

@@ -7,7 +7,7 @@ use sqlx::TypeInfo;
 use crate::*;
 use crate::item::ItemType::{DelayConsume, Usable};
 
-#[derive(WithNumberValue, Debug, Copy, Clone, PartialEq)]
+#[derive(WithNumberValue, Debug, Copy, Clone, PartialEq, Eq)]
 pub enum ItemType {
     #[value = 0]
     Healing,
@@ -69,22 +69,13 @@ impl ItemType {
     }
 
     pub fn is_consumable(&self) -> bool {
-        match self {
-            ItemType::Healing | ItemType::Usable | ItemType::PetEgg | ItemType::DelayConsume | ItemType::Cash => { true }
-            _ => false
-        }
+        matches!(self, ItemType::Healing | ItemType::Usable | ItemType::PetEgg | ItemType::DelayConsume | ItemType::Cash)
     }
     pub fn is_equipment(&self) -> bool {
-        match self {
-            ItemType::Armor | ItemType::Weapon | ItemType::PetArmor | ItemType::ShadowGear => { true }
-            _ => false
-        }
+        matches!(self, ItemType::Armor | ItemType::Weapon | ItemType::PetArmor | ItemType::ShadowGear)
     }
     pub fn is_etc(&self) -> bool {
-        match self {
-            ItemType::Etc | ItemType::Card | ItemType::Unknown2 | ItemType::Ammo | ItemType::Max => { true }
-            _ => false
-        }
+        matches!(self, ItemType::Etc | ItemType::Card | ItemType::Unknown2 | ItemType::Ammo | ItemType::Max)
     }
 }
 

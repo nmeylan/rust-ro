@@ -1,6 +1,6 @@
 #![allow(dead_code)]
 use crate::*;
-#[derive(WithNumberValue, WithStringValue, Debug, Copy, Clone, PartialEq)]
+#[derive(WithNumberValue, WithStringValue, Debug, Copy, Clone, PartialEq, Eq)]
 pub enum Element {
     #[value = 0]
     Neutral,

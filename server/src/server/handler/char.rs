@@ -17,7 +17,7 @@ use crate::server::events::game_event::{CharacterRemoveFromMap, GameEvent};
 use crate::server::events::game_event::GameEvent::CharacterInitInventory;
 use crate::server::script::ScriptGlobalVariableStore;
 use crate::server::Server;
-use crate::server::service::character::character::CharacterService;
+use crate::server::service::character::character_state::CharacterService;
 use crate::server::state::character::Character;
 use crate::server::state::status::Status;
 use crate::util::packet::chain_packets;
