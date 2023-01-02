@@ -18,6 +18,9 @@ impl Server {
                     PersistenceEvent::UpdateCharacterStatusU32(status_update) => {
                         repository.character_update_status(status_update.char_id, status_update.db_column, status_update.value).await.unwrap();
                     }
+                    PersistenceEvent::DeleteItemsFromInventory(delete_items) => {
+                        repository.character_inventory_delete(delete_items).await.unwrap();
+                    }
                 }
             })
         }

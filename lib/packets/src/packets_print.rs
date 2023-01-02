@@ -121,15 +121,9 @@ impl Debug for PacketChMakeChar2 {
             .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("name[2, 26]", &format!("{:02X?}", &self.name_raw))
-            .field("str[26, 27]", &format!("{:02X?}", &self.str_raw))
-            .field("agi[27, 28]", &format!("{:02X?}", &self.agi_raw))
-            .field("vit[28, 29]", &format!("{:02X?}", &self.vit_raw))
-            .field("int[29, 30]", &format!("{:02X?}", &self.int_raw))
-            .field("dex[30, 31]", &format!("{:02X?}", &self.dex_raw))
-            .field("luk[31, 32]", &format!("{:02X?}", &self.luk_raw))
-            .field("char_num[32, 33]", &format!("{:02X?}", &self.char_num_raw))
-            .field("head_pal[33, 35]", &format!("{:02X?}", &self.head_pal_raw))
-            .field("head[35, 37]", &format!("{:02X?}", &self.head_raw))
+            .field("char_num[26, 27]", &format!("{:02X?}", &self.char_num_raw))
+            .field("head_pal[27, 29]", &format!("{:02X?}", &self.head_pal_raw))
+            .field("head[29, 31]", &format!("{:02X?}", &self.head_raw))
         .finish()
     }
 }
@@ -139,15 +133,9 @@ impl Display for PacketChMakeChar2 {
         let mut fields = Vec::new();
         fields.push(format!("packet_id(short as i16)[0, 2]: {}", &self.packet_id));
         fields.push(format!("name(char[] as char[])[2, 26]: {}", &self.name.pretty_output()));
-        fields.push(format!("str(unsigned char as u8)[26, 27]: {}", &self.str));
-        fields.push(format!("agi(unsigned char as u8)[27, 28]: {}", &self.agi));
-        fields.push(format!("vit(unsigned char as u8)[28, 29]: {}", &self.vit));
-        fields.push(format!("int(unsigned char as u8)[29, 30]: {}", &self.int));
-        fields.push(format!("dex(unsigned char as u8)[30, 31]: {}", &self.dex));
-        fields.push(format!("luk(unsigned char as u8)[31, 32]: {}", &self.luk));
-        fields.push(format!("char_num(unsigned char as u8)[32, 33]: {}", &self.char_num));
-        fields.push(format!("head_pal(short as i16)[33, 35]: {}", &self.head_pal));
-        fields.push(format!("head(short as i16)[35, 37]: {}", &self.head));
+        fields.push(format!("char_num(unsigned char as u8)[26, 27]: {}", &self.char_num));
+        fields.push(format!("head_pal(short as i16)[27, 29]: {}", &self.head_pal));
+        fields.push(format!("head(short as i16)[29, 31]: {}", &self.head));
         write!(f, "PacketChMakeChar2\n {}", fields.join(",\n "))
     }
 }
@@ -14804,27 +14792,6 @@ impl Display for PacketCzEnter2 {
         fields.push(format!("client_time(unsigned long as u32)[14, 18]: {}", &self.client_time));
         fields.push(format!("sex(unsigned char as u8)[18, 19]: {}", &self.sex));
         write!(f, "PacketCzEnter2\n {}", fields.join(",\n "))
-    }
-}
-
-impl Debug for PacketCzRequestAct2 {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        f.debug_struct("PacketCzRequestAct2")
-            .field("id", &self.id())
-            .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
-            .field("target_gid[2, 6]", &format!("{:02X?}", &self.target_gid_raw))
-            .field("action[6, 7]", &format!("{:02X?}", &self.action_raw))
-        .finish()
-    }
-}
-
-impl Display for PacketCzRequestAct2 {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        let mut fields = Vec::new();
-        fields.push(format!("packet_id(short as i16)[0, 2]: {}", &self.packet_id));
-        fields.push(format!("target_gid(unsigned long as u32)[2, 6]: {}", &self.target_gid));
-        fields.push(format!("action(unsigned char as u8)[6, 7]: {}", &self.action));
-        write!(f, "PacketCzRequestAct2\n {}", fields.join(",\n "))
     }
 }
 

@@ -77,10 +77,10 @@ impl<'r> FromRow<'r, PgRow> for CharacterInfoNeoUnionWrapped {
     }
 }
 
-#[derive(sql::SqlInsert)]
+#[derive(sql::SqlInsert, Debug)]
 pub struct CharInsertModel {
     pub account_id: i32,
-    pub char_num: i8,
+    pub char_num: i16,
     pub name: String,
     pub class: i16,
     pub zeny: i32,
@@ -104,7 +104,7 @@ pub struct CharInsertModel {
     pub save_x: i16,
     pub save_y: i16,
     pub sex: String,
-    pub inventory_size: i32,
+    pub inventory_slots: i32,
 }
 
 #[derive(sqlx::FromRow)]

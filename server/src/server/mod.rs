@@ -6,7 +6,8 @@ use std::sync::mpsc::{Receiver, SyncSender};
 use std::thread;
 use std::thread::Scope;
 use tokio::runtime::Runtime;
-use packets::packets::{Packet, PacketCaLogin, PacketChDeleteChar4Reserved, PacketChEnter, PacketChMakeChar, PacketChMakeChar2, PacketChMakeChar3, PacketChSelectChar, PacketCzAckSelectDealtype, PacketCzBlockingPlayCancel, PacketCzChooseMenu, PacketCzContactnpc, PacketCzEnter2, PacketCzInputEditdlg, PacketCzInputEditdlgstr, PacketCzNotifyActorinit, PacketCzPcPurchaseItemlist, PacketCzPlayerChat, PacketCzReqDisconnect2, PacketCzReqname, PacketCzReqnameall2, PacketCzReqNextScript, PacketCzRequestAct2, PacketCzRequestMove, PacketCzRequestMove2, PacketCzRequestTime, PacketCzRestart, PacketCzUseItem, PacketUnknown, PacketZcNotifyTime};
+use packets::packets::{Packet, PacketCaLogin, PacketChDeleteChar4Reserved, PacketChEnter, PacketChMakeChar, PacketChMakeChar2, PacketChMakeChar3, PacketChSelectChar, PacketCzAckSelectDealtype, PacketCzBlockingPlayCancel, PacketCzChooseMenu, PacketCzContactnpc, PacketCzEnter2, PacketCzInputEditdlg, PacketCzInputEditdlgstr, PacketCzNotifyActorinit, PacketCzPcPurchaseItemlist, PacketCzPlayerChat, PacketCzReqDisconnect2, PacketCzReqname, PacketCzReqnameall2, PacketCzReqNextScript, PacketCzRequestAct
+                       , PacketCzRequestMove, PacketCzRequestMove2, PacketCzRequestTime, PacketCzRestart, PacketCzUseItem, PacketUnknown, PacketZcNotifyTime};
 use packets::packets_parser::parse;
 use std::io::{Read, Write};
 use crate::repository::Repository;
@@ -22,7 +23,7 @@ use crate::server::core::tasks_queue::TasksQueue;
 use crate::server::events::client_notification::{AreaNotificationRangeType, Notification};
 use crate::server::events::game_event::GameEvent;
 use crate::server::events::persistence_event::PersistenceEvent;
-use crate::server::handler::action::attack::handle_attack;
+use crate::server::handler::action::action::handle_action;
 use crate::server::handler::action::npc::{handle_contact_npc, handle_player_choose_menu, handle_player_input_number, handle_player_input_string, handle_player_next, handle_player_purchase_items, handle_player_select_deal_type};
 use crate::server::handler::char::{handle_blocking_play_cancel, handle_char_enter, handle_delete_reserved_char, handle_disconnect, handle_enter_game, handle_make_char, handle_restart, handle_select_char};
 use crate::server::handler::chat::handle_chat;
@@ -378,9 +379,9 @@ impl Server {
             debug!("PacketCzBlockingPlayCancel");
             return handle_blocking_play_cancel(context);
         }
-        if context.packet().as_any().downcast_ref::<PacketCzRequestAct2>().is_some() {
-            debug!("PacketCzRequestAct2");
-            return handle_attack(self_ref.as_ref(), context);
+        if context.packet().as_any().downcast_ref::<PacketCzRequestAct>().is_some() {
+            debug!("PacketCzRequestAct");
+            return handle_action(self_ref.as_ref(), context);
         }
 
         if context.packet().as_any().downcast_ref::<PacketCzReqnameall2>().is_some() {

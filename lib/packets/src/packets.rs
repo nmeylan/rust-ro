@@ -92,18 +92,6 @@ pub struct PacketChMakeChar2 {
     pub packet_id_raw: [u8; 2],
     pub name: [char; 24],
     pub name_raw: [u8; 24],
-    pub str: u8,
-    pub str_raw: [u8; 1],
-    pub agi: u8,
-    pub agi_raw: [u8; 1],
-    pub vit: u8,
-    pub vit_raw: [u8; 1],
-    pub int: u8,
-    pub int_raw: [u8; 1],
-    pub dex: u8,
-    pub dex_raw: [u8; 1],
-    pub luk: u8,
-    pub luk_raw: [u8; 1],
     pub char_num: u8,
     pub char_num_raw: [u8; 1],
     pub head_pal: i16,
@@ -8362,17 +8350,6 @@ pub struct PacketCzEnter2 {
     pub client_time_raw: [u8; 4],
     pub sex: u8,
     pub sex_raw: [u8; 1],
-}
-
-#[derive(Clone)]
-pub struct PacketCzRequestAct2 {
-    pub raw: Vec<u8>,
-    pub packet_id: i16,
-    pub packet_id_raw: [u8; 2],
-    pub target_gid: u32,
-    pub target_gid_raw: [u8; 4],
-    pub action: u8,
-    pub action_raw: [u8; 1],
 }
 
 #[derive(Clone)]

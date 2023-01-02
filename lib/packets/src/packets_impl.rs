@@ -865,66 +865,6 @@ impl PacketChMakeChar2 {
                 offset += 24;
                 dst
             },
-            str: {
-                let field = u8::from_le_bytes([buffer[offset]]);
-                field
-            },
-            str_raw: {
-                let mut dst: [u8; 1] = [0u8; 1];
-                dst.clone_from_slice(&buffer[offset..offset + 1]);
-                offset += 1;
-                dst
-            },
-            agi: {
-                let field = u8::from_le_bytes([buffer[offset]]);
-                field
-            },
-            agi_raw: {
-                let mut dst: [u8; 1] = [0u8; 1];
-                dst.clone_from_slice(&buffer[offset..offset + 1]);
-                offset += 1;
-                dst
-            },
-            vit: {
-                let field = u8::from_le_bytes([buffer[offset]]);
-                field
-            },
-            vit_raw: {
-                let mut dst: [u8; 1] = [0u8; 1];
-                dst.clone_from_slice(&buffer[offset..offset + 1]);
-                offset += 1;
-                dst
-            },
-            int: {
-                let field = u8::from_le_bytes([buffer[offset]]);
-                field
-            },
-            int_raw: {
-                let mut dst: [u8; 1] = [0u8; 1];
-                dst.clone_from_slice(&buffer[offset..offset + 1]);
-                offset += 1;
-                dst
-            },
-            dex: {
-                let field = u8::from_le_bytes([buffer[offset]]);
-                field
-            },
-            dex_raw: {
-                let mut dst: [u8; 1] = [0u8; 1];
-                dst.clone_from_slice(&buffer[offset..offset + 1]);
-                offset += 1;
-                dst
-            },
-            luk: {
-                let field = u8::from_le_bytes([buffer[offset]]);
-                field
-            },
-            luk_raw: {
-                let mut dst: [u8; 1] = [0u8; 1];
-                dst.clone_from_slice(&buffer[offset..offset + 1]);
-                offset += 1;
-                dst
-            },
             char_num: {
                 let field = u8::from_le_bytes([buffer[offset]]);
                 field
@@ -972,24 +912,6 @@ impl PacketChMakeChar2 {
         }
         self.name_raw = wtr.try_into().unwrap();
         wtr = vec![];
-        wtr.write_u8(self.str).unwrap();
-        self.str_raw = wtr.try_into().unwrap();
-        wtr = vec![];
-        wtr.write_u8(self.agi).unwrap();
-        self.agi_raw = wtr.try_into().unwrap();
-        wtr = vec![];
-        wtr.write_u8(self.vit).unwrap();
-        self.vit_raw = wtr.try_into().unwrap();
-        wtr = vec![];
-        wtr.write_u8(self.int).unwrap();
-        self.int_raw = wtr.try_into().unwrap();
-        wtr = vec![];
-        wtr.write_u8(self.dex).unwrap();
-        self.dex_raw = wtr.try_into().unwrap();
-        wtr = vec![];
-        wtr.write_u8(self.luk).unwrap();
-        self.luk_raw = wtr.try_into().unwrap();
-        wtr = vec![];
         wtr.write_u8(self.char_num).unwrap();
         self.char_num_raw = wtr.try_into().unwrap();
         wtr = vec![];
@@ -1002,19 +924,13 @@ impl PacketChMakeChar2 {
         wtr = vec![];
         wtr.append(&mut self.packet_id_raw.to_vec());
         wtr.append(&mut self.name_raw.to_vec());
-        wtr.append(&mut self.str_raw.to_vec());
-        wtr.append(&mut self.agi_raw.to_vec());
-        wtr.append(&mut self.vit_raw.to_vec());
-        wtr.append(&mut self.int_raw.to_vec());
-        wtr.append(&mut self.dex_raw.to_vec());
-        wtr.append(&mut self.luk_raw.to_vec());
         wtr.append(&mut self.char_num_raw.to_vec());
         wtr.append(&mut self.head_pal_raw.to_vec());
         wtr.append(&mut self.head_raw.to_vec());
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 37;
+        let  base_len: usize = 31;
         base_len
     }
     pub fn set_packet_id(&mut self, value: i16) {
@@ -1028,42 +944,6 @@ impl PacketChMakeChar2 {
     }
     pub fn set_name_raw(&mut self, value: [u8; 24]) {
         self.name_raw = value;
-    }
-    pub fn set_str(&mut self, value: u8) {
-        self.str = value;
-    }
-    pub fn set_str_raw(&mut self, value: [u8; 1]) {
-        self.str_raw = value;
-    }
-    pub fn set_agi(&mut self, value: u8) {
-        self.agi = value;
-    }
-    pub fn set_agi_raw(&mut self, value: [u8; 1]) {
-        self.agi_raw = value;
-    }
-    pub fn set_vit(&mut self, value: u8) {
-        self.vit = value;
-    }
-    pub fn set_vit_raw(&mut self, value: [u8; 1]) {
-        self.vit_raw = value;
-    }
-    pub fn set_int(&mut self, value: u8) {
-        self.int = value;
-    }
-    pub fn set_int_raw(&mut self, value: [u8; 1]) {
-        self.int_raw = value;
-    }
-    pub fn set_dex(&mut self, value: u8) {
-        self.dex = value;
-    }
-    pub fn set_dex_raw(&mut self, value: [u8; 1]) {
-        self.dex_raw = value;
-    }
-    pub fn set_luk(&mut self, value: u8) {
-        self.luk = value;
-    }
-    pub fn set_luk_raw(&mut self, value: [u8; 1]) {
-        self.luk_raw = value;
     }
     pub fn set_char_num(&mut self, value: u8) {
         self.char_num = value;
@@ -1090,18 +970,6 @@ impl PacketChMakeChar2 {
         packet_id_raw: [0x70, 0x09],
         name: [0 as char; 24],
         name_raw: [0; 24],
-        str: 0,
-        str_raw: [0; 1],
-        agi: 0,
-        agi_raw: [0; 1],
-        vit: 0,
-        vit_raw: [0; 1],
-        int: 0,
-        int_raw: [0; 1],
-        dex: 0,
-        dex_raw: [0; 1],
-        luk: 0,
-        luk_raw: [0; 1],
         char_num: 0,
         char_num_raw: [0; 1],
         head_pal: 0,
@@ -101738,139 +101606,6 @@ impl Packet for PacketCzEnter2 {
 }
 
 impl Default for PacketCzEnter2 {
-    fn default() -> Self {
-
-       Self::new()
-    }
-}
-
-impl PacketCzRequestAct2 {
-    pub fn packet_id() -> &'static str {
-        "0x3704"
-    }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzRequestAct2 {
-        let mut offset: usize = 0;
-        PacketCzRequestAct2 {
-            packet_id: {
-                let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
-                field
-            },
-            packet_id_raw: {
-                let mut dst: [u8; 2] = [0u8; 2];
-                dst.clone_from_slice(&buffer[offset..offset + 2]);
-                offset += 2;
-                dst
-            },
-            target_gid: {
-                let field = u32::from_le_bytes([buffer[offset], buffer[offset + 1], buffer[offset + 2], buffer[offset + 3]]);
-                field
-            },
-            target_gid_raw: {
-                let mut dst: [u8; 4] = [0u8; 4];
-                dst.clone_from_slice(&buffer[offset..offset + 4]);
-                offset += 4;
-                dst
-            },
-            action: {
-                let field = u8::from_le_bytes([buffer[offset]]);
-                field
-            },
-            action_raw: {
-                let mut dst: [u8; 1] = [0u8; 1];
-                dst.clone_from_slice(&buffer[offset..offset + 1]);
-                offset += 1;
-                dst
-            },
-            raw: (&buffer[..offset]).to_vec(),
-        }
-    }
-    pub fn fill_raw(&mut self) {
-      self.fill_raw_with_packetver(None)
-    }
-    pub fn fill_raw_with_packetver(&mut self, packetver: Option<u32>) {
-    let mut wtr;
-        wtr = vec![];
-        wtr.write_i16::<LittleEndian>(self.packet_id).unwrap();
-        self.packet_id_raw = wtr.try_into().unwrap();
-        wtr = vec![];
-        wtr.write_u32::<LittleEndian>(self.target_gid).unwrap();
-        self.target_gid_raw = wtr.try_into().unwrap();
-        wtr = vec![];
-        wtr.write_u8(self.action).unwrap();
-        self.action_raw = wtr.try_into().unwrap();
-
-        wtr = vec![];
-        wtr.append(&mut self.packet_id_raw.to_vec());
-        wtr.append(&mut self.target_gid_raw.to_vec());
-        wtr.append(&mut self.action_raw.to_vec());
-        self.raw = wtr;
-    }
-    pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 7;
-        base_len
-    }
-    pub fn set_packet_id(&mut self, value: i16) {
-        self.packet_id = value;
-    }
-    pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
-        self.packet_id_raw = value;
-    }
-    pub fn set_target_gid(&mut self, value: u32) {
-        self.target_gid = value;
-    }
-    pub fn set_target_gid_raw(&mut self, value: [u8; 4]) {
-        self.target_gid_raw = value;
-    }
-    pub fn set_action(&mut self, value: u8) {
-        self.action = value;
-    }
-    pub fn set_action_raw(&mut self, value: [u8; 1]) {
-        self.action_raw = value;
-    }
-    pub fn new() -> PacketCzRequestAct2 {
-        PacketCzRequestAct2 {
-        raw: vec![],
-        packet_id: i16::from_le_bytes([0x37, 0x04]),
-        packet_id_raw: [0x37, 0x04],
-        target_gid: 0,
-        target_gid_raw: [0; 4],
-        action: 0,
-        action_raw: [0; 1],
-        }
-    }
-}
-
-impl Packet for PacketCzRequestAct2 {
-    fn id(&self) -> &str {
-       "0x3704"
-    }
-    fn debug(&self) {
-            println!("{:?}", self)
-    }
-    fn display(&self) {
-            println!("{}", self)
-    }
-    fn pretty_debug(&self) {
-            println!("{:#?}", self)
-    }
-    fn raw(&self) -> &Vec<u8> {
-            &self.raw
-    }
-    fn raw_mut(&mut self) -> &mut Vec<u8> {
-            &mut self.raw
-    }
-    fn as_any(&self) -> &dyn Any{
-        self
-    }
-    fn as_any_mut(&mut self) -> &mut dyn Any{
-        self
-    }
-    fn base_len(&self, packetver: u32) -> usize {
-        Self::base_len(packetver)
-    }
-}
-
-impl Default for PacketCzRequestAct2 {
     fn default() -> Self {
 
        Self::new()

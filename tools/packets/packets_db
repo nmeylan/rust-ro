@@ -38,12 +38,6 @@ struct PACKET_CH_MAKE_CHAR {
 struct PACKET_CH_MAKE_CHAR2 {
   short PacketId
   unsigned char name[24]
-  unsigned char Str
-  unsigned char Agi
-  unsigned char Vit
-  unsigned char Int
-  unsigned char Dex
-  unsigned char Luk
   unsigned char CharNum
   short headPal
   short head
@@ -451,7 +445,7 @@ struct PACKET_ZC_STOPMOVE {
   short xPos
   short yPos
  }
-0x89
+0x89,0x8508,0x3704
 struct PACKET_CZ_REQUEST_ACT {
   short PacketId
   unsigned long targetGID
@@ -5211,12 +5205,6 @@ struct PACKET_CZ_ENTER2 {
   int AuthCode
   unsigned long clientTime
   unsigned char Sex
- }
-0x3704
-struct PACKET_CZ_REQUEST_ACT2 {
-  short PacketId
-  unsigned long targetGID
-  unsigned char action
  }
 0x438
 struct PACKET_CZ_USE_SKILL2 {

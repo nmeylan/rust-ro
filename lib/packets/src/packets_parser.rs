@@ -142,6 +142,12 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x89 && buffer[1] == 0x00 {
         return Box::new(PacketCzRequestAct::from(buffer, packetver));
     }
+    if buffer[0] == 0x85 && buffer[1] == 0x08 {
+        return Box::new(PacketCzRequestAct::from(buffer, packetver));
+    }
+    if buffer[0] == 0x37 && buffer[1] == 0x04 {
+        return Box::new(PacketCzRequestAct::from(buffer, packetver));
+    }
     if buffer[0] == 0x8a && buffer[1] == 0x00 {
         return Box::new(PacketZcNotifyAct::from(buffer, packetver));
     }
@@ -1962,9 +1968,6 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     }
     if buffer[0] == 0x6A && buffer[1] == 0x08 {
         return Box::new(PacketCzEnter2::from(buffer, packetver));
-    }
-    if buffer[0] == 0x37 && buffer[1] == 0x04 {
-        return Box::new(PacketCzRequestAct2::from(buffer, packetver));
     }
     if buffer[0] == 0x04 && buffer[1] == 0x38 {
         return Box::new(PacketCzUseSkill2::from(buffer, packetver));
