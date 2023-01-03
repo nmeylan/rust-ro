@@ -88,7 +88,9 @@ impl Server {
                         }
                         GameEvent::CharacterAttack(character_attack  ) => {
                             let character = characters.get_mut(&character_attack.char_id).unwrap();
-                            character.set_attack(character_attack.target_id, character_attack.repeat, 0);
+                            if !character.is_attacking() {
+                                character.set_attack(character_attack.target_id, character_attack.repeat, 0);
+                            }
                         }
                     }
                 }

@@ -5,7 +5,7 @@ use std::sync::{Arc, Mutex};
 use byteorder::{LittleEndian, WriteBytesExt};
 use sqlx::Postgres;
 
-use packets::packets::{CharacterInfoNeoUnion, Packet, PacketChDeleteChar4Reserved, PacketChEnter, PacketChMakeChar, PacketChMakeChar2, PacketChMakeChar3, PacketChSelectChar, PacketChSendMapInfo, PacketCzEnter2, PacketCzRestart, PacketHcAcceptEnterNeoUnion, PacketHcAcceptEnterNeoUnionHeader, PacketHcAcceptMakecharNeoUnion, PacketHcDeleteChar4Reserved, PacketHcNotifyZonesvr, PacketHcRefuseEnter, PacketMapConnection, PacketPincodeLoginstate, PacketZcAcceptEnter2, PacketZcAttackRange, PacketZcInventoryExpansionInfo, PacketZcLoadConfirm, PacketZcNotifyChat, PacketZcOverweightPercent, PacketZcParChange, PacketZcReqDisconnectAck2, PacketZcRestartAck, PacketZcStatusValues, ZserverAddr};
+use packets::packets::{CharacterInfoNeoUnion, Packet, PacketChDeleteChar4Reserved, PacketChEnter, PacketChMakeChar, PacketChMakeChar2, PacketChMakeChar3, PacketChSelectChar, PacketChSendMapInfo, PacketCzEnter2, PacketCzRestart, PacketHcAcceptEnterNeoUnion, PacketHcAcceptEnterNeoUnionHeader, PacketHcAcceptMakecharNeoUnion, PacketHcDeleteChar4Reserved, PacketHcNotifyZonesvr, PacketHcRefuseEnter, PacketMapConnection, PacketPincodeLoginstate, PacketZcAcceptEnter2, PacketZcAttackRange, PacketZcInventoryExpansionInfo, PacketZcLoadConfirm, PacketZcNotifyChat, PacketZcOverweightPercent, PacketZcParChange, PacketZcReqDisconnectAck2, PacketZcRestartAck, PacketZcStatus, PacketZcStatusValues, ZserverAddr};
 
 use crate::repository::model::char_model::{CharacterInfoNeoUnionWrapped, CharInsertModel, CharSelectModel};
 use crate::server::core::map::Map;
@@ -17,6 +17,7 @@ use crate::server::events::game_event::{CharacterRemoveFromMap, GameEvent};
 use crate::server::events::game_event::GameEvent::CharacterInitInventory;
 use crate::server::script::ScriptGlobalVariableStore;
 use crate::server::Server;
+use crate::server::service::battle::BattleService;
 use crate::server::service::character::character_state::CharacterService;
 use crate::server::state::character::Character;
 use crate::server::state::status::Status;
@@ -348,7 +349,9 @@ pub fn handle_enter_game(server: &Server, context: Request) {
     packet_flee.fill_raw();
     let mut packet_aspd = PacketZcParChange::new();
     packet_aspd.set_var_id(StatusTypes::Aspd.value() as u16);
-    packet_aspd.set_count(character.status.aspd as i32);
+    let base_aspd = BattleService::instance().aspd(character.as_ref()).floor() as i32;
+    info!("base aspd {}", base_aspd);
+    packet_aspd.set_count(base_aspd);
     packet_aspd.fill_raw();
     let mut packet_atk = PacketZcParChange::new();
     packet_atk.set_var_id(StatusTypes::Atk1.value() as u16);
@@ -406,7 +409,6 @@ pub fn handle_enter_game(server: &Server, context: Request) {
     packet_notify_chat.set_msg("Hello from rust ragnarok".to_string());
     packet_notify_chat.set_packet_length((packet_notify_chat.msg.len() + 8) as i16);
     packet_notify_chat.fill_raw();
-
     let final_response_packet: Vec<u8> = chain_packets(vec![
         &packet_str, &packet_agi, &packet_dex, &packet_int, &packet_luk,
         &packet_hit, &packet_flee, &packet_aspd, &packet_atk, &packet_def,

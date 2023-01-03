@@ -58,6 +58,9 @@ impl Mob {
         let rng = fastrand::Rng::new();
         let mut character_packets_map: HashMap<MapItem, PacketZcNotifyMove> = HashMap::new();
         let rand = rng.i32(0..=100);
+        if self.status.speed == 1000 {
+            return character_packets_map;
+        }
         let should_move = if self.is_view_char {
             rand <= 80
         } else {

@@ -213,9 +213,10 @@ impl CharacterService {
         if !attack.repeat { // one shot attack
             character.clear_attack();
         }
-        let aspd = 150.0; // TODO add formula for aspd
-        let next_attack = (1000.0 / BattleService::instance().attack_per_seconds(aspd)).floor() as u128;
-        if tick < attack.last_attack_tick + next_attack {
+        let aspd = BattleService::instance().aspd(character); // TODO add formula for aspd
+        info!("aspd {}", aspd);
+        let next_attack = (1000.0 / BattleService::instance().attack_per_seconds(aspd)).floor() as u32;
+        if tick < attack.last_attack_tick + next_attack  as u128 {
             return;
         }
         let map_item = server.map_item(attack.target, character.current_map_name(), character.current_map_instance());
@@ -227,8 +228,8 @@ impl CharacterService {
             packet_zc_notify_act3.set_target_gid(attack.target);
             packet_zc_notify_act3.set_action(ActionType::Attack.value() as u8);
             packet_zc_notify_act3.set_gid(character.char_id);
-            packet_zc_notify_act3.set_attack_mt(498);
-            packet_zc_notify_act3.set_attacked_mt(1);
+            packet_zc_notify_act3.set_attack_mt(next_attack as i32);
+            packet_zc_notify_act3.set_attacked_mt(next_attack as i32);
             packet_zc_notify_act3.set_damage(2);
             packet_zc_notify_act3.set_count(1);
             packet_zc_notify_act3.fill_raw();

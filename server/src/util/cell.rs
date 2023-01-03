@@ -140,4 +140,8 @@ impl<'b, T: ?Sized> MyRef<'b, T> {
     {
         MyRef { value: NonNull::from(f(&*orig)), borrow: orig.borrow }
     }
+    pub fn as_ref(&self) -> &'b T {
+        // SAFETY: the value is accessible as long as we hold our borrow.
+        unsafe { self.value.as_ref() }
+    }
 }
