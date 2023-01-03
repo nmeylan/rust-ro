@@ -399,7 +399,11 @@ fn write_unknown_packet(file: &mut File) {
     file.write_all("}\n".to_string().as_bytes()).unwrap();
     file.write_all("impl PacketUnknown {\n".to_string().as_bytes()).unwrap();
     file.write_all("    pub fn from(buffer: &[u8]) -> PacketUnknown {\n".to_string().as_bytes()).unwrap();
-    file.write_all("        PacketUnknown { raw: buffer.to_vec(), packet_id: format!(\"0x{:02X?}{:02X?}\", buffer[0], buffer[1])}\n".to_string().as_bytes()).unwrap();
+    file.write_all("        if buffer.len() >= 2 {\n".to_string().as_bytes()).unwrap();
+    file.write_all("          PacketUnknown { raw: buffer.to_vec(), packet_id: format!(\"0x{:02X?}{:02X?}\", buffer[0], buffer[1])}\n".to_string().as_bytes()).unwrap();
+    file.write_all("        } else { \n".to_string().as_bytes()).unwrap();
+    file.write_all("          PacketUnknown { raw: buffer.to_vec(), packet_id: \"0x??\".to_string()}\n".to_string().as_bytes()).unwrap();
+    file.write_all("        }\n".to_string().as_bytes()).unwrap();
     file.write_all("    }\n".to_string().as_bytes()).unwrap();
     file.write_all("}\n".to_string().as_bytes()).unwrap();
 }

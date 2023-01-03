@@ -11423,6 +11423,10 @@ impl Packet for PacketUnknown {
 }
 impl PacketUnknown {
     pub fn from(buffer: &[u8]) -> PacketUnknown {
-        PacketUnknown { raw: buffer.to_vec(), packet_id: format!("0x{:02X?}{:02X?}", buffer[0], buffer[1])}
+        if buffer.len() >= 2 {
+          PacketUnknown { raw: buffer.to_vec(), packet_id: format!("0x{:02X?}{:02X?}", buffer[0], buffer[1])}
+        } else { 
+          PacketUnknown { raw: buffer.to_vec(), packet_id: "0x??".to_string()}
+        }
     }
 }
