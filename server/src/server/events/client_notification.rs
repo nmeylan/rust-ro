@@ -38,7 +38,14 @@ pub enum AreaNotificationRangeType {
 }
 
 impl AreaNotification {
-
+    pub fn new(map_name: String, map_instance_id: u8, range_type: AreaNotificationRangeType, packet: Vec<u8>) -> Self {
+        Self {
+            map_name,
+            map_instance_id,
+            packet,
+            range_type,
+        }
+    }
     pub fn serialized_packet(&self) -> &Vec<u8> {
         &self.packet
     }

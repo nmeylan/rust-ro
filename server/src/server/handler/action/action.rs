@@ -1,13 +1,14 @@
-use packets::packets::{Packet, PacketZcNotifyAct3, PacketCzRequestAct, PacketZcNotifyAct};
+use packets::packets::{Packet, PacketCzRequestAct, PacketZcNotifyAct};
 use crate::server::Server;
 use crate::server::core::request::Request;
 
 use enums::action::ActionType;
+use crate::server::events::game_event::{CharacterAttack, GameEvent};
 
-pub fn handle_action(_server: &Server, context: Request) {
+pub fn handle_action(server: &Server, context: Request) {
     let packet_cz_request_act = cast!(context.packet(), PacketCzRequestAct);
     let session = context.session();
-    let _char_id = session.char_id();
+    let char_id = session.char_id();
     // let character = server.get_character_unsafe(char_id);
     // let map_ref = character.current_map.as_ref().unwrap().clone();
     // let mobs_guard = read_lock!(map_ref.mobs);
@@ -25,7 +26,11 @@ pub fn handle_action(_server: &Server, context: Request) {
         ActionType::Splash => {}
         ActionType::Skill => {}
         ActionType::AttackRepeat => {
-
+            server.add_to_next_tick(GameEvent::CharacterAttack(CharacterAttack{
+                char_id,
+                target_id: packet_cz_request_act.target_gid,
+                repeat: true,
+            }))
         }
         ActionType::AttackMultiple => {}
         ActionType::AttackMultipleNomotion => {}
@@ -34,14 +39,4 @@ pub fn handle_action(_server: &Server, context: Request) {
         ActionType::Touchskill => {}
         ActionType::AttackMultipleCritical => {}
     }
-    let mut packet_zc_notify_act3 = PacketZcNotifyAct::new();
-    packet_zc_notify_act3.set_target_gid(packet_cz_request_act.target_gid);
-    packet_zc_notify_act3.set_action(0);
-    packet_zc_notify_act3.set_gid(session.char_id());
-    packet_zc_notify_act3.set_attack_mt(498);
-    packet_zc_notify_act3.set_attacked_mt(1);
-    packet_zc_notify_act3.set_damage(2);
-    packet_zc_notify_act3.set_count(1);
-    packet_zc_notify_act3.fill_raw();
-    socket_send!(context, packet_zc_notify_act3);
 }
