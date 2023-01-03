@@ -127,4 +127,4 @@ prt_fild11,0,0	monster	Goblin Steamrider	1280,30
 prt_fild11,0,0	monster	Red Mushroom	1085,10,180000,90000
 
 
-prontera,256,67	monster	Red Mushroom	1085,10,180000,90000
+prontera,256,67	monster	Red Mushroom	1085,1

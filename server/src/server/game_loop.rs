@@ -160,7 +160,7 @@ impl Server {
                 let speed = character.status.speed;
                 if let Some(movement) = character.peek_movement() {
                     if tick >= movement.move_at() {
-                        debug!("move {} at {}", movement.position(), movement.move_at());
+                        info!("move {} at {}", movement.position(), movement.move_at());
                         let movement = character.pop_movement().unwrap();
                         character.update_position(movement.position().x, movement.position().y);
                         let map_ref = server_ref.get_map_instance_from_character(character);

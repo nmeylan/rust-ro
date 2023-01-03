@@ -2,5 +2,6 @@
 pub struct Attack {
     pub target: u32,
     pub repeat: bool,
-    pub last_attack_tick: u128
+    pub last_attack_tick: u128,
+    pub last_attack_motion: u32
 }

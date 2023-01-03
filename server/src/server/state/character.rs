@@ -74,6 +74,7 @@ impl Character {
             target: target_id,
             repeat,
             last_attack_tick: tick,
+            last_attack_motion: 0,
         });
     }
     pub fn attack(&self) -> Attack {
@@ -81,6 +82,9 @@ impl Character {
     }
     pub fn update_last_attack_tick(&mut self, tick: u128) {
         self.attack.as_mut().unwrap().last_attack_tick = tick;
+    }
+    pub fn update_last_attack_motion(&mut self, attack_motion: u32) {
+        self.attack.as_mut().unwrap().last_attack_motion = attack_motion;
     }
     pub fn clear_attack(&mut self) {
         self.attack = None;

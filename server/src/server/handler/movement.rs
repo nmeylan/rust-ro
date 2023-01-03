@@ -1,8 +1,9 @@
 
 
 use std::ops::Deref;
+use std::thread::sleep;
 
-use std::time::{SystemTime, UNIX_EPOCH};
+use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
 
 
@@ -43,6 +44,15 @@ pub fn handle_char_move(server: &Server, context: Request) {
     // let maybe_previous_movement = character.peek_movement().cloned();
 
     let path = path_search_client_side_algorithm(map_instance, current_position.x(), current_position.y(), destination.x, destination.y);
+    let mut start_at = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis();
+    if character.is_attacking() {
+        let attack = character.attack();
+        if attack.last_attack_tick + attack.last_attack_motion as u128 - 40 > start_at {
+            let delay = ((attack.last_attack_tick + attack.last_attack_motion as u128) - 40 - start_at) as u64;
+            info!("Character is attacking, move will be delayed by {}ms", delay);
+            sleep(Duration::from_millis(delay));
+        }
+    }
     let start_at = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis();
     let path = Movement::from_path(path, start_at);
     // if let Some(previous_movement) = maybe_previous_movement {
