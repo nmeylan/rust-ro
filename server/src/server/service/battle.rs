@@ -16,4 +16,8 @@ impl BattleService {
     fn new() -> Self {
         BattleService {}
     }
+
+    pub fn attack_per_seconds(&self, aspd: f32) -> f32 {
+        50_f32 / (200_f32 - aspd.min(199.0))
+    }
 }

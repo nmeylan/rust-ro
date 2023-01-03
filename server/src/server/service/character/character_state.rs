@@ -1,16 +1,23 @@
+use std::collections::HashSet;
+use std::mem;
 use std::sync::mpsc::SyncSender;
 use std::sync::Once;
 use tokio::runtime::Runtime;
+use enums::action::ActionType;
 use enums::status::StatusTypes;
-use packets::packets::{Packet, PacketZcLongparChange, PacketZcNpcackMapmove, PacketZcParChange, PacketZcSpriteChange2};
+use packets::packets::{Packet, PacketZcLongparChange, PacketZcNotifyAct, PacketZcNotifyStandentry7, PacketZcNotifyVanish, PacketZcNpcackMapmove, PacketZcParChange, PacketZcSpriteChange2};
 use crate::server::events::game_event::{CharacterChangeMap, CharacterLook, CharacterRemoveFromMap, CharacterZeny, GameEvent};
 use crate::server::core::map::{Map, MAP_EXT, RANDOM_CELL};
+use crate::server::core::map_item::{MapItem, MapItemType};
+use crate::server::core::path::manhattan_distance;
 use crate::server::core::position::Position;
 use crate::server::events::client_notification::{AreaNotification, AreaNotificationRangeType, CharNotification, Notification};
 use crate::server::events::persistence_event::{PersistenceEvent, SavePositionUpdate, StatusUpdate};
 use crate::server::events::persistence_event::PersistenceEvent::SaveCharacterPosition;
 use crate::server::map_item::ToMapItem;
-use crate::server::Server;
+use crate::server::{PLAYER_FOV, Server};
+use crate::server::core::action::Attack;
+use crate::server::service::battle::BattleService;
 
 use crate::server::state::character::Character;
 use crate::util::packet::chain_packets;
@@ -132,5 +139,102 @@ impl CharacterService {
         packet_max_weight.set_count(character.max_weight() as i32);
         packet_max_weight.fill_raw();
         server_ref.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, chain_packets(vec![&packet_weight, &packet_max_weight])))).expect("Fail to send client notification");
+    }
+
+    pub fn load_units_in_fov(&self, server: &Server, client_notification_sender_clone: SyncSender<Notification>, character: &mut Character) {
+        let map_instance = server.get_map_instance(character.current_map_name(), character.current_map_instance());
+        if map_instance.is_none() {
+            return;
+        }
+        let map_instance = map_instance.unwrap();
+        let mut new_map_view: HashSet<MapItem> = HashSet::with_capacity(2048);
+        for (_, item) in map_instance.map_items.borrow().iter() {
+            if let Some(position) = server.map_item_x_y(item, character.current_map_name(), character.current_map_instance()) {
+                if item.id() != character.char_id && manhattan_distance(character.x(), character.y(), position.x, position.y) <= PLAYER_FOV {
+                    // info!("seeing {}", item.object_type());
+                    new_map_view.insert(*item);
+                }
+            }
+        }
+
+        for map_item in new_map_view.iter() {
+            if !character.map_view.contains(map_item) {
+                let default_name = "unknown".to_string();
+                let map_item_name = server.map_item_name(map_item, character.current_map_name(), character.current_map_instance()).unwrap_or(default_name);
+                let position = server.map_item_x_y(map_item, character.current_map_name(), character.current_map_instance()). unwrap();
+                debug!("See map_item {} at {},{}", map_item.object_type(), position.x(), position.y());
+                let mut name = [0 as char; 24];
+                map_item_name.fill_char_array(name.as_mut());
+                let mut packet_zc_notify_standentry = PacketZcNotifyStandentry7::new();
+                packet_zc_notify_standentry.set_job(map_item.client_item_class());
+                packet_zc_notify_standentry.set_packet_length(PacketZcNotifyStandentry7::base_len(server.packetver()) as i16);
+                // packet_zc_notify_standentry.set_name(name);
+                packet_zc_notify_standentry.set_pos_dir(position.to_pos());
+                packet_zc_notify_standentry.set_objecttype(map_item.object_type_value() as u8);
+                packet_zc_notify_standentry.set_aid(map_item.id());
+                packet_zc_notify_standentry.set_gid(map_item.id());
+                match *map_item.object_type() {
+                    MapItemType::Character => {}
+                    MapItemType::Mob => {
+                        if let Some(mob) = map_instance.get_mob(map_item.id()) {
+                            packet_zc_notify_standentry.set_clevel(3);
+                            packet_zc_notify_standentry.set_speed(mob.status.speed as i16);
+                            packet_zc_notify_standentry.set_hp(mob.status.hp);
+                            packet_zc_notify_standentry.set_max_hp(mob.status.max_hp);
+                        }
+                    }
+                    MapItemType::Warp => {}
+                    MapItemType::Unknown => {}
+                    MapItemType::Npc => {}
+                }
+                packet_zc_notify_standentry.fill_raw_with_packetver(Some(server.packetver()));
+                client_notification_sender_clone.send(Notification::Char(CharNotification::new(character.char_id, mem::take(packet_zc_notify_standentry.raw_mut())))).expect("Failed to send notification to client");
+            }
+        }
+
+        for map_item in character.map_view.iter() {
+            if !new_map_view.contains(map_item) {
+                let position = server.map_item_x_y(map_item, character.current_map_name(), character.current_map_instance()).unwrap();
+                debug!("Vanish map_item {} at {},{}", map_item.object_type(), position.x(), position.y());
+                let mut packet_zc_notify_vanish = PacketZcNotifyVanish::new();
+                packet_zc_notify_vanish.set_gid(map_item.id());
+                packet_zc_notify_vanish.fill_raw();
+                client_notification_sender_clone.send(Notification::Char(CharNotification::new(character.char_id, mem::take(packet_zc_notify_vanish.raw_mut())))).expect("Failed to send notification to client");
+            }
+        }
+        character.map_view = new_map_view;
+    }
+
+    pub fn attack(&self, server: &Server, client_notification_sender_clone: SyncSender<Notification>, character: &mut Character, tick: u128) {
+        if !character.is_attacking() {
+            return;
+        }
+        let attack = character.attack();
+        if !attack.repeat { // one shot attack
+            character.clear_attack();
+        }
+        let aspd = 150.0; // TODO add formula for aspd
+        let next_attack = (1000.0 / BattleService::instance().attack_per_seconds(aspd)).floor() as u128;
+        if tick < attack.last_attack_tick + next_attack {
+            return;
+        }
+        let map_item = server.map_item(attack.target, character.current_map_name(), character.current_map_instance());
+        if let Some(map_item) = map_item {
+            let position = server.map_item_x_y(&map_item, character.current_map_name(), character.current_map_instance()).unwrap();
+            // TODO: Check distance based on weapon range, handle too far target
+            character.update_last_attack_tick(tick);
+            let mut packet_zc_notify_act3 = PacketZcNotifyAct::new();
+            packet_zc_notify_act3.set_target_gid(attack.target);
+            packet_zc_notify_act3.set_action(ActionType::Attack.value() as u8);
+            packet_zc_notify_act3.set_gid(character.char_id);
+            packet_zc_notify_act3.set_attack_mt(498);
+            packet_zc_notify_act3.set_attacked_mt(1);
+            packet_zc_notify_act3.set_damage(2);
+            packet_zc_notify_act3.set_count(1);
+            packet_zc_notify_act3.fill_raw();
+            client_notification_sender_clone.send(Notification::Area(AreaNotification::new(character.current_map_name().clone(), character.current_map_instance(), AreaNotificationRangeType::Fov {x: character.x, y: character.y}, mem::take(packet_zc_notify_act3.raw_mut())))).expect("Failed to send notification to client");
+        } else {
+            error!("Attack target {} not found", attack.target);
+        }
     }
 }

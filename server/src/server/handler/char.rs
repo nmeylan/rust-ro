@@ -232,6 +232,7 @@ pub fn handle_select_char(server: &Server, context: Request) {
         y: last_y,
         dir: 0,
         movements: vec![],
+        attack: None,
         inventory: vec![], // todo load from db
         map_view: HashSet::new(),
         script_variable_store: Mutex::new(ScriptGlobalVariableStore::default()),

@@ -4,6 +4,7 @@ use enum_macro::WithNumberValue;
 
 #[derive(Debug, Clone, Copy, PartialEq, WithNumberValue)]
 pub enum ActionType {
+    #[value = 0]
     Attack,
     Itempickup,
     Sit,

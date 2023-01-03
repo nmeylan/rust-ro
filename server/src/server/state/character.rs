@@ -1,24 +1,18 @@
 use std::collections::HashSet;
-use std::{io, mem};
+use std::{io};
 use std::io::Write;
 use std::sync::{Arc, Mutex};
-use std::sync::mpsc::SyncSender;
 use accessor::Setters;
-use packets::packets::{PacketZcNotifyStandentry7, PacketZcNotifyVanish};
-use packets::packets::Packet;
 use crate::{get_job_config};
 use crate::repository::model::item_model::InventoryItemModel;
-use crate::server::{PLAYER_FOV, Server};
+use crate::server::core::action::Attack;
 use crate::server::core::movement::Movement;
 use crate::server::core::map_instance::{MapInstance, MapInstanceKey};
-use crate::server::events::client_notification::{CharNotification, Notification};
-use crate::server::core::path::manhattan_distance;
 use crate::server::core::position::Position;
 use crate::server::state::status::{LookType, Status};
 use crate::server::core::map_item::{MapItem, MapItemSnapshot, MapItemType};
 use crate::server::map_item::{ToMapItem, ToMapItemSnapshot};
 use crate::server::script::ScriptGlobalVariableStore;
-use crate::util::string::StringUtil;
 
 #[derive(Setters)]
 pub struct Character {
@@ -34,6 +28,7 @@ pub struct Character {
     pub y: u16,
     pub dir: u16,
     pub movements: Vec<Movement>,
+    pub attack: Option<Attack>,
     pub inventory: Vec<Option<InventoryItemModel>>,
     pub map_view: HashSet<MapItem>,
     pub script_variable_store: Mutex<ScriptGlobalVariableStore>,
@@ -54,6 +49,9 @@ impl Character {
     pub fn is_moving(&self) -> bool {
         !self.movements.is_empty()
     }
+    pub fn is_attacking(&self) -> bool {
+        self.attack.is_some()
+    }
 
     pub fn pop_movement(&mut self) -> Option<Movement> {
         self.movements.pop()
@@ -70,6 +68,22 @@ impl Character {
     }
     pub fn clear_movement(&mut self) {
         self.movements = vec![];
+    }
+    pub fn set_attack(&mut self, target_id: u32, repeat: bool, tick: u128) {
+        self.attack = Some(Attack {
+            target: target_id,
+            repeat,
+            last_attack_tick: tick,
+        });
+    }
+    pub fn attack(&self) -> Attack {
+        self.attack.unwrap()
+    }
+    pub fn update_last_attack_tick(&mut self, tick: u128) {
+        self.attack.as_mut().unwrap().last_attack_tick = tick;
+    }
+    pub fn clear_attack(&mut self) {
+        self.attack = None;
     }
 
     pub fn join_and_set_map(&mut self, map_instance: Arc<MapInstance>) {
@@ -99,69 +113,7 @@ impl Character {
         self.map_view = Default::default();
     }
 
-    pub fn load_units_in_fov(&mut self, server: &Server, client_notification_sender_clone: SyncSender<Notification>) {
-        let map_instance = server.get_map_instance(self.current_map_name(), self.current_map_instance());
-        if map_instance.is_none() {
-            return;
-        }
-        let map_instance = map_instance.unwrap();
-        let mut new_map_view: HashSet<MapItem> = HashSet::with_capacity(2048);
-        for (_, item) in map_instance.map_items.borrow().iter() {
-            if let Some(position) = server.map_item_x_y(item, self.current_map_name(), self.current_map_instance()) {
-                if item.id() != self.char_id && manhattan_distance(self.x(), self.y(), position.x, position.y) <= PLAYER_FOV {
-                    // info!("seeing {}", item.object_type());
-                    new_map_view.insert(*item);
-                }
-            }
-        }
 
-        for map_item in new_map_view.iter() {
-            if !self.map_view.contains(map_item) {
-                let default_name = "unknown".to_string();
-                let map_item_name = server.map_item_name(map_item, self.current_map_name(), self.current_map_instance()).unwrap_or(default_name);
-                let position = server.map_item_x_y(map_item, self.current_map_name(), self.current_map_instance()). unwrap();
-                debug!("See map_item {} at {},{}", map_item.object_type(), position.x(), position.y());
-                let mut name = [0 as char; 24];
-                map_item_name.fill_char_array(name.as_mut());
-                let mut packet_zc_notify_standentry = PacketZcNotifyStandentry7::new();
-                packet_zc_notify_standentry.set_job(map_item.client_item_class());
-                packet_zc_notify_standentry.set_packet_length(PacketZcNotifyStandentry7::base_len(server.packetver()) as i16);
-                // packet_zc_notify_standentry.set_name(name);
-                packet_zc_notify_standentry.set_pos_dir(position.to_pos());
-                packet_zc_notify_standentry.set_objecttype(map_item.object_type_value() as u8);
-                packet_zc_notify_standentry.set_aid(map_item.id());
-                packet_zc_notify_standentry.set_gid(map_item.id());
-                match *map_item.object_type() {
-                    MapItemType::Character => {}
-                    MapItemType::Mob => {
-                        if let Some(mob) = map_instance.get_mob(map_item.id()) {
-                            packet_zc_notify_standentry.set_clevel(3);
-                            packet_zc_notify_standentry.set_speed(mob.status.speed as i16);
-                            packet_zc_notify_standentry.set_hp(mob.status.hp);
-                            packet_zc_notify_standentry.set_max_hp(mob.status.max_hp);
-                        }
-                    }
-                    MapItemType::Warp => {}
-                    MapItemType::Unknown => {}
-                    MapItemType::Npc => {}
-                }
-                packet_zc_notify_standentry.fill_raw_with_packetver(Some(server.packetver()));
-                client_notification_sender_clone.send(Notification::Char(CharNotification::new(self.char_id, mem::take(packet_zc_notify_standentry.raw_mut())))).expect("Failed to send notification to client");
-            }
-        }
-
-        for map_item in self.map_view.iter() {
-            if !new_map_view.contains(map_item) {
-                let position = server.map_item_x_y(map_item, self.current_map_name(), self.current_map_instance()).unwrap();
-                debug!("Vanish map_item {} at {},{}", map_item.object_type(), position.x(), position.y());
-                let mut packet_zc_notify_vanish = PacketZcNotifyVanish::new();
-                packet_zc_notify_vanish.set_gid(map_item.id());
-                packet_zc_notify_vanish.fill_raw();
-                client_notification_sender_clone.send(Notification::Char(CharNotification::new(self.char_id, mem::take(packet_zc_notify_vanish.raw_mut())))).expect("Failed to send notification to client");
-            }
-        }
-        self.map_view = new_map_view;
-    }
 
     pub fn get_look(&self, look_type: LookType) -> u32 {
         if self.status.look.is_none() {

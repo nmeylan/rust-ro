@@ -86,12 +86,16 @@ impl Server {
                             let character = characters.get_mut(&character_user_item.char_id).unwrap();
                             ItemService::instance().use_item(server_ref.clone(), &runtime, &persistence_event_sender, character_user_item, character);
                         }
-                        GameEvent::CharacterAttack(_) => {}
+                        GameEvent::CharacterAttack(character_attack  ) => {
+                            let character = characters.get_mut(&character_attack.char_id).unwrap();
+                            character.set_attack(character_attack.target_id, character_attack.repeat, 0);
+                        }
                     }
                 }
             }
             for (_, character) in characters.iter_mut().filter(|(_, character)| character.loaded_from_client_side) {
-                character.load_units_in_fov(server_ref.as_ref(), client_notification_sender_clone.clone())
+                CharacterService::instance().load_units_in_fov(server_ref.as_ref(), client_notification_sender_clone.clone(), character);
+                CharacterService::instance().attack(server_ref.as_ref(), client_notification_sender_clone.clone(), character, tick);
             }
             for (_, map) in server_ref.maps.iter() {
                 for instance in map.instances() {
@@ -121,6 +125,7 @@ impl Server {
                 for task in tasks {
                     if let GameEvent::CharacterMove(character_movement) = task {
                         let character = characters.get_mut(&character_movement.char_id).unwrap();
+                        character.clear_attack();
                         let speed = character.status.speed;
                         let maybe_previous_movement = character.pop_movement();
                         character.set_movement(character_movement.path);
