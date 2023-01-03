@@ -125,3 +125,6 @@ prt_fild11,0,0	monster	Goblin Archer	1258,10
 prt_fild11,0,0	monster	Panzer Goblin	1308,1,1800000,1200000
 prt_fild11,0,0	monster	Goblin Steamrider	1280,30
 prt_fild11,0,0	monster	Red Mushroom	1085,10,180000,90000
+
+
+prontera,256,67	monster	Red Mushroom	1085,10,180000,90000

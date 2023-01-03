@@ -263,6 +263,11 @@ impl Character {
         (self.max_weight() as f32 * 0.9) as u32 > (self.weight() + additional_weight)
     }
 
+    pub fn weapon_delay(&self) -> u32 {
+        let weapon = "fist"; // TODO use equipped weapon
+        *get_job_config(self.status.class).base_aspd().get(weapon).unwrap_or(&2000)
+    }
+
     pub fn print(&self) {
         let mut stdout = io::stdout();
         writeln!(stdout, "************** {} - {} ****************", self.name, self.char_id).unwrap();
