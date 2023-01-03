@@ -27,7 +27,7 @@ remote_map_server_port = 5121
 local_map_server_port = 6124
 
 [game]
-default_char_speed = 100
+default_char_speed = 150
 max_inventory = 100
 
 [maps]

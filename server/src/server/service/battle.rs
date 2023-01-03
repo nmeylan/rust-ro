@@ -22,6 +22,10 @@ impl BattleService {
         50_f32 / (200_f32 - aspd.min(199.0))
     }
 
+    pub fn client_aspd(&self, aspd: f32) -> i32 {
+        ((200_f32 - aspd.min(199.0)) * 10.0).round() as i32
+    }
+
     pub fn aspd(&self, character: &Character) -> f32 {
         //  PRE-RE formula: 200-(WD-([WD*AGI/25]+[WD*DEX/100])/10)*(1-SM)  https://irowiki.org/classic/ASPD
         let weapon_delay = character.weapon_delay() as f32 / 10.0;

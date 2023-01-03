@@ -349,9 +349,8 @@ pub fn handle_enter_game(server: &Server, context: Request) {
     packet_flee.fill_raw();
     let mut packet_aspd = PacketZcParChange::new();
     packet_aspd.set_var_id(StatusTypes::Aspd.value() as u16);
-    let base_aspd = BattleService::instance().aspd(character.as_ref()).floor() as i32;
-    info!("base aspd {}", base_aspd);
-    packet_aspd.set_count(base_aspd);
+    let aspd = BattleService::instance().aspd(character.as_ref());
+    packet_aspd.set_count(BattleService::instance().client_aspd(aspd));
     packet_aspd.fill_raw();
     let mut packet_atk = PacketZcParChange::new();
     packet_atk.set_var_id(StatusTypes::Atk1.value() as u16);
