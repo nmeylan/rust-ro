@@ -357,10 +357,12 @@ impl NativeMethodHandler for PlayerScriptHandler {
                 execution_thread.new_runtime_from_temporary(err, "purchaseitems second argument should be array reference")).unwrap();
             let items_amount_array = execution_thread.vm.array_from_heap_reference(owner_reference, reference).unwrap();
             let items_amounts: Vec<i16> = execution_thread.array_constants(items_amount_array).iter().map(|constant| *constant.value().number_value().as_ref().unwrap() as i16).collect::<Vec<i16>>();
-            let mut items_ids_amount: Vec<(i32, i16)> = vec![];
+            let mut items_ids_amount: Vec<(Value, i16)> = vec![];
             execution_thread.array_constants(items_ids_array).iter().enumerate().for_each(|(i, constant)| {
                 if constant.value().is_number() { // TODO handle string
-                    items_ids_amount.push((constant.value().number_value().unwrap(), items_amounts[i]))
+                    items_ids_amount.push((Value::Number(constant.value().number_value().unwrap()), items_amounts[i]))
+                } else {
+                    items_ids_amount.push((Value::String(constant.value().string_value().unwrap().clone()), items_amounts[i]))
                 }
             });
 

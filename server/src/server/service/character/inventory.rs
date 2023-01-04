@@ -1,9 +1,10 @@
-use std::sync::Once;
+use std::sync::{Arc, Once};
 use rand::RngCore;
 use tokio::runtime::Runtime;
-use packets::packets::{EquipmentitemExtrainfo301, EQUIPSLOTINFO, NormalitemExtrainfo3, Packet, PacketZcEquipmentItemlist3, PacketZcItemPickupAck3, PacketZcNormalItemlist3, PacketZcPcPurchaseResult};
+use packets::packets::{EquipmentitemExtrainfo301, EQUIPSLOTINFO, NormalitemExtrainfo3, Packet, PacketZcEquipmentItemlist3, PacketZcItemPickupAck3, PacketZcNormalItemlist3, PacketZcPcPurchaseResult, PacketZcReqTakeoffEquipAck2, PacketZcReqWearEquipAck, PacketZcReqWearEquipAck2};
+use crate::repository::model::item_model::InventoryItemModel;
 use crate::server::events::client_notification::{CharNotification, Notification};
-use crate::server::events::game_event::{CharacterAddItems, CharacterZeny};
+use crate::server::events::game_event::{CharacterAddItems, CharacterEquipItem, CharacterZeny};
 use crate::server::events::game_event::GameEvent::{CharacterUpdateWeight, CharacterUpdateZeny};
 use crate::server::events::persistence_event::InventoryItemUpdate;
 use crate::server::Server;
@@ -131,5 +132,39 @@ impl InventoryService {
         server_ref.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id,
                                                                                             chain_packets(vec![&packet_zc_equipment_itemlist3, &packet_zc_normal_itemlist3]))))
             .expect("Fail to send client notification");
+    }
+
+    pub fn equip_item(&self, server_ref: &Server, character: &mut Character, character_equip_item: CharacterEquipItem) {
+        let mut packet_zc_req_wear_equip_ack = PacketZcReqWearEquipAck2::new();
+        packet_zc_req_wear_equip_ack.set_index(character_equip_item.index as u16);
+        packet_zc_req_wear_equip_ack.set_result(1);
+        packet_zc_req_wear_equip_ack.set_view_id(0);
+
+        let mut packets_raws_by_value = vec![];
+        if let Some(equipped_take_off_items) = character.equip_item(character_equip_item.index) {
+            packet_zc_req_wear_equip_ack.set_result(0);
+            packet_zc_req_wear_equip_ack.set_wear_location(equipped_take_off_items[0].1 as u16);
+            packet_zc_req_wear_equip_ack.fill_raw();
+            let mut take_off_items_packets = vec![];
+            if equipped_take_off_items.len() > 0 {
+                for i in 1..equipped_take_off_items.len() {
+                    let mut packet_zc_req_takeoff_equip_ack2 = PacketZcReqTakeoffEquipAck2::new();
+                    packet_zc_req_takeoff_equip_ack2.set_index(equipped_take_off_items[i].0 as u16);
+                    packet_zc_req_takeoff_equip_ack2.set_wear_location(equipped_take_off_items[i].1 as u16);
+                    packet_zc_req_takeoff_equip_ack2.set_result(0);
+                    packet_zc_req_takeoff_equip_ack2.fill_raw();
+                    packet_zc_req_takeoff_equip_ack2.pretty_debug();
+                    take_off_items_packets.push(packet_zc_req_takeoff_equip_ack2);
+                }
+            }
+            packets_raws_by_value = chain_packets_raws_by_value(take_off_items_packets.iter().map(|packet| packet.raw.clone()).collect());
+        }
+        packets_raws_by_value.extend(packet_zc_req_wear_equip_ack.raw);
+        server_ref.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packets_raws_by_value)))
+            .expect("Fail to send client notification");
+        // check if item is equipable
+        // check class requirement
+        // check level requirement
+        // replace old item equiped
     }
 }

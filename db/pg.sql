@@ -1292,7 +1292,7 @@ CREATE TABLE ragnarok.inventory (
     char_id INTEGER DEFAULT '0'::INTEGER NOT NULL,
     nameid INTEGER DEFAULT '0'::INTEGER NOT NULL,
     amount smallint DEFAULT '0'::INTEGER NOT NULL,
-    equip smallint DEFAULT '0'::INTEGER NOT NULL,
+    equip INTEGER DEFAULT '0'::INTEGER NOT NULL,
     identified bool DEFAULT false NOT NULL,
     refine smallint DEFAULT '0'::smallint NOT NULL,
     damaged bool DEFAULT false NOT NULL,

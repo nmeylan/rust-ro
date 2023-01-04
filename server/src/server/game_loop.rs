@@ -5,7 +5,7 @@ use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
 
 use tokio::runtime::Runtime;
 
-use packets::packets::{Packet, PacketZcNotifyPlayermove};
+use packets::packets::{Packet, PacketZcNotifyPlayermove, PacketZcReqWearEquipAck};
 use crate::PersistenceEvent;
 use crate::PersistenceEvent::SaveCharacterPosition;
 use crate::server::core::movement::Movement;
@@ -91,6 +91,10 @@ impl Server {
                             if !character.is_attacking() {
                                 character.set_attack(character_attack.target_id, character_attack.repeat, 0);
                             }
+                        }
+                        GameEvent::CharacterEquipItem(character_equip_item) => {
+                            let character = characters.get_mut(&character_equip_item.char_id).unwrap();
+                            InventoryService::instance().equip_item(&server_ref, character, character_equip_item);
                         }
                     }
                 }

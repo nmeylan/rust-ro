@@ -249,10 +249,10 @@ pub struct InventoryItemModel {
     #[sqlx(rename = "type")]
     pub item_type: ItemType,
     pub amount: i16,
-    pub equip: i16,
+    pub refine: i16,
     #[sqlx(rename = "identified")]
     pub is_identified: bool,
-    pub refine: i16,
+    pub equip: i32,
     #[sqlx(rename = "damaged")]
     pub is_damaged: bool,
     pub card0: i16,

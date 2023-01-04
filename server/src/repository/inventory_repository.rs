@@ -73,7 +73,7 @@ impl Repository {
 
     pub async fn character_inventory_fetch(&self, char_id: i32) -> Result<Vec<InventoryItemModel>, Error> {
         sqlx::query_as(format!("SELECT inv.id, inv.unique_id, inv.nameid, inv.amount, inv.damaged, inv.refine, inv.identified, inv.equip, item.name_english, item.type, item.weight, inv.card0, inv.card1, inv.card2, inv.card3, {}
-                            FROM inventory inv JOIN item_db item ON inv.nameid = item.id where inv.char_id = $1", Repository::location_fields("item")).as_str())
+                            FROM inventory inv JOIN item_db item ON inv.nameid = item.id where inv.char_id = $1", Repository::item_location_fields("item")).as_str())
             .bind(char_id)
             .fetch_all(&self.pool).await
     }

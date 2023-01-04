@@ -3,6 +3,7 @@ use std::{io};
 use std::io::Write;
 use std::sync::{Arc, Mutex};
 use accessor::Setters;
+use enums::item::ItemType;
 use crate::{get_job_config};
 use crate::repository::model::item_model::InventoryItemModel;
 use crate::server::core::action::Attack;
@@ -118,7 +119,6 @@ impl Character {
     }
 
 
-
     pub fn get_look(&self, look_type: LookType) -> u32 {
         if self.status.look.is_none() {
             error!("Character has no look");
@@ -227,7 +227,39 @@ impl Character {
     pub fn get_item_from_inventory(&self, index: usize) -> Option<&InventoryItemModel> {
         if let Some(inventory_slot) = self.inventory.get(index) {
             if inventory_slot.is_some() {
-                return Some(inventory_slot.as_ref().unwrap())
+                return Some(inventory_slot.as_ref().unwrap());
+            }
+        }
+        None
+    }
+
+    fn get_item_from_inventory_mut(&mut self, index: usize) -> Option<&mut InventoryItemModel> {
+        if let Some(inventory_slot) = self.inventory.get_mut(index) {
+            if inventory_slot.is_some() {
+                return Some(inventory_slot.as_mut().unwrap());
+            }
+        }
+        None
+    }
+
+    pub fn equip_item(&mut self, index: usize) -> Option<Vec<(usize, i32)>> {
+        if let Some(item) = self.get_item_from_inventory(index) {
+            let location = item.location;
+            let id = item.id;
+            let mut equipped_take_off_items = vec![];
+            if item.item_type.is_equipment() {
+                equipped_take_off_items.push(((index, location)));
+                self.inventory.iter_mut().enumerate()
+                    // Get only the items that are equipment and already equipped to same location
+                    // TODO handle accessories should not use 2 slots
+                    .filter(|(_, i)|  if let Some(j) = i { j.item_type.is_equipment() && (j.equip & location != 0) } else { false })
+                    .for_each(|(item_index, item)| {
+                        let item = item.as_mut().unwrap();
+                        item.equip = 0;
+                        equipped_take_off_items.push((item_index, item.location));
+                    });
+                self.get_item_from_inventory_mut(index).unwrap().equip = location;
+                return Some(equipped_take_off_items);
             }
         }
         None
@@ -302,6 +334,12 @@ impl Character {
     pub fn inventory_equip(&self) -> Vec<(usize, &InventoryItemModel)> {
         self.inventory_iter()
             .filter(|(_, item)| item.item_type.is_equipment())
+            .collect()
+    }
+
+    pub fn inventory_equipped(&self) -> Vec<(usize, &InventoryItemModel)> {
+        self.inventory_iter()
+            .filter(|(_, item)| item.item_type.is_equipment() && item.equip != 0)
             .collect()
     }
 

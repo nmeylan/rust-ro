@@ -354,8 +354,12 @@ pub fn handle_enter_game(server: &Server, context: Request) {
     packet_aspd.fill_raw();
     let mut packet_atk = PacketZcParChange::new();
     packet_atk.set_var_id(StatusTypes::Atk1.value() as u16);
-    packet_atk.set_count(character.status.base_atk as i32);
+    packet_atk.set_count(BattleService::instance().base_atk(character.as_ref()) as i32);
     packet_atk.fill_raw();
+    let mut packet_atk2 = PacketZcParChange::new();
+    packet_atk2.set_var_id(StatusTypes::Atk2.value() as u16);
+    packet_atk2.set_count(BattleService::instance().atk2(character.as_ref()) as i32);
+    packet_atk2.fill_raw();
     let mut packet_def = PacketZcParChange::new();
     packet_def.set_var_id(StatusTypes::Def1.value() as u16);
     packet_def.set_count(character.status.def as i32);
@@ -410,7 +414,7 @@ pub fn handle_enter_game(server: &Server, context: Request) {
     packet_notify_chat.fill_raw();
     let final_response_packet: Vec<u8> = chain_packets(vec![
         &packet_str, &packet_agi, &packet_dex, &packet_int, &packet_luk,
-        &packet_hit, &packet_flee, &packet_aspd, &packet_atk, &packet_def,
+        &packet_hit, &packet_flee, &packet_aspd, &packet_atk, &packet_atk2, &packet_def,
         &packet_flee2, &packet_crit, &packet_matk, &packet_matk2,
         &packet_mdef2, &packet_attack_range, &packet_maxhp, &packet_maxsp, &packet_hp,
         &packet_sp, &packet_speed, &packet_notify_chat,
