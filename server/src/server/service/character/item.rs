@@ -12,7 +12,7 @@ use packets::packets::PacketZcUseItemAck2;
 use crate::server::events::client_notification::{CharNotification, Notification};
 use crate::server::events::game_event::{CharacterAddItems, CharacterUseItem, GameEvent};
 use crate::server::events::persistence_event::{DeleteItems, PersistenceEvent};
-use crate::server::script::PlayerScriptHandler;
+use crate::server::script::{PlayerScriptHandler, Value};
 use crate::server::Server;
 use crate::server::state::character::Character;
 use crate::util::cell::{MyRef, MyUnsafeCell};
@@ -38,9 +38,14 @@ impl ItemService {
             item_script_cache: Default::default(),
         }
     }
-    pub fn schedule_get_items(&self, char_id: u32, server: &Server, runtime: &Runtime, item_ids_amounts: Vec<(i32, i16)>, buy: bool) {
-        let mut items = runtime.block_on(async { server.repository.get_items(item_ids_amounts.iter().map(|(id, _)| *id as i32).collect()).await }).unwrap();
-        items.iter_mut().for_each(|item| item.amount = item_ids_amounts.iter().find(|(id, _amount)| item.id == *id).unwrap().1);
+    pub fn schedule_get_items(&self, char_id: u32, server: &Server, runtime: &Runtime, item_ids_amounts: Vec<(Value, i16)>, buy: bool) {
+        let mut items = runtime.block_on(async { server.repository.get_items(item_ids_amounts.iter().map(|(v, _)| v.clone()).collect()).await }).unwrap();
+        items.iter_mut().for_each(|item| item.amount = item_ids_amounts.iter().find(|(id, _amount)|
+            match id {
+                Value::Number(v) => *v == item.id,
+                Value::String(v) => v.to_lowercase() == item.name_aegis.to_lowercase(),
+            }
+        ).unwrap().1);
         server.add_to_next_tick(GameEvent::CharacterAddItems(CharacterAddItems {
             char_id,
             should_perform_check: true,
@@ -61,6 +66,7 @@ impl ItemService {
                 card2: 0,
                 equip: 0,
                 card3: 0,
+                location: item.location,
             }).collect(),
         }));
     }

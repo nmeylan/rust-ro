@@ -28,6 +28,55 @@ pub enum ItemType {
     Max,
 }
 
+#[derive(WithMaskValue, Debug, Copy, Clone, PartialEq, Eq)]
+pub enum EquipmentLocation {
+    #[mask_value = 1]
+    HeadLow,
+    #[mask_value = 512]
+    HeadMid,
+    #[mask_value = 256]
+    HeadTop,
+    #[mask_value = 2]
+    HandRight,
+    #[mask_value = 32]
+    HandLeft,
+    #[mask_value = 16]
+    Armor,
+    #[mask_value = 64]
+    Shoes,
+    #[mask_value = 4]
+    Garment,
+    #[mask_value = 8]
+    AccessoryRight,
+    #[mask_value = 128]
+    AccessoryLeft,
+    #[mask_value = 1024]
+    CostumeHeadTop,
+    #[mask_value = 2048]
+    CostumeHeadMid,
+    #[mask_value = 4096]
+    CostumeHeadLow,
+    #[mask_value = 8192]
+    CostumeGarment,
+    #[mask_value = 32768]
+    Ammo,
+    #[mask_value = 65536]
+    ShadowArmor,
+    #[mask_value = 131072]
+    ShadowWeapon,
+    #[mask_value = 262144]
+    ShadowShield,
+    #[mask_value = 524288]
+    ShadowShoes,
+    #[mask_value = 1048576]
+    ShadowAccR,
+    #[mask_value = 2097152]
+    ShadowAccL,
+    // Acc_R|Acc_L
+    #[mask_value = 136]
+    Accessory,
+}
+
 impl ItemType {
     pub fn from_string(value: &str) -> Self {
         match value {
@@ -52,7 +101,7 @@ impl ItemType {
 
     pub fn to_client_type(&self) -> usize {
         if *self == DelayConsume {
-            return Usable.value()
+            return Usable.value();
         }
         self.value()
     }
@@ -94,5 +143,13 @@ impl sqlx::Type<Postgres> for ItemType {
 
     fn compatible(ty: &<sqlx::Postgres as sqlx::Database>::TypeInfo) -> bool {
         ty.name() == "VARCHAR"
+    }
+}
+
+
+impl<'r> Decode<'r, Postgres> for EquipmentLocation {
+    fn decode(value: <Postgres as HasValueRef<'r>>::ValueRef) -> Result<Self, BoxDynError> {
+        let value = <&str as Decode<Postgres>>::decode(value)?;
+        Err("Not implemented".into())
     }
 }
