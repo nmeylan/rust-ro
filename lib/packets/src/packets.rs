@@ -1179,6 +1179,21 @@ pub struct PacketZcReqWearEquipAck {
 }
 
 #[derive(Clone)]
+pub struct PacketZcReqWearEquipAck2 {
+    pub raw: Vec<u8>,
+    pub packet_id: i16,
+    pub packet_id_raw: [u8; 2],
+    pub index: u16,
+    pub index_raw: [u8; 2],
+    pub wear_location: u16,
+    pub wear_location_raw: [u8; 2],
+    pub view_id: u16,
+    pub view_id_raw: [u8; 2],
+    pub result: u8,
+    pub result_raw: [u8; 1],
+}
+
+#[derive(Clone)]
 pub struct PacketCzReqTakeoffEquip {
     pub raw: Vec<u8>,
     pub packet_id: i16,
@@ -1197,6 +1212,19 @@ pub struct PacketZcReqTakeoffEquipAck {
     pub wear_location: u16,
     pub wear_location_raw: [u8; 2],
     pub result: bool,
+    pub result_raw: [u8; 1],
+}
+
+#[derive(Clone)]
+pub struct PacketZcReqTakeoffEquipAck2 {
+    pub raw: Vec<u8>,
+    pub packet_id: i16,
+    pub packet_id_raw: [u8; 2],
+    pub index: u16,
+    pub index_raw: [u8; 2],
+    pub wear_location: u16,
+    pub wear_location_raw: [u8; 2],
+    pub result: u8,
     pub result_raw: [u8; 1],
 }
 

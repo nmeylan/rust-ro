@@ -1,7 +1,10 @@
+use crate::repository::model::item_model::InventoryItemModel;
+
 pub enum PersistenceEvent {
     SaveCharacterPosition(SavePositionUpdate),
     UpdateCharacterStatusU32(StatusUpdate<u32>),
     DeleteItemsFromInventory(DeleteItems),
+    UpdateEquippedItems(Vec<InventoryItemModel>)
 }
 
 pub struct SavePositionUpdate {

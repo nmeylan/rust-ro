@@ -13919,6 +13919,183 @@ impl Default for PacketZcReqWearEquipAck {
     }
 }
 
+impl PacketZcReqWearEquipAck2 {
+    pub fn packet_id() -> &'static str {
+        "0xd008"
+    }
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcReqWearEquipAck2 {
+        let mut offset: usize = 0;
+        PacketZcReqWearEquipAck2 {
+            packet_id: {
+                let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
+                field
+            },
+            packet_id_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[offset..offset + 2]);
+                offset += 2;
+                dst
+            },
+            index: {
+                let field = u16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
+                field
+            },
+            index_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[offset..offset + 2]);
+                offset += 2;
+                dst
+            },
+            wear_location: {
+                let field = u16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
+                field
+            },
+            wear_location_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[offset..offset + 2]);
+                offset += 2;
+                dst
+            },
+            view_id: {
+                let field = u16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
+                field
+            },
+            view_id_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[offset..offset + 2]);
+                offset += 2;
+                dst
+            },
+            result: {
+                let field = u8::from_le_bytes([buffer[offset]]);
+                field
+            },
+            result_raw: {
+                let mut dst: [u8; 1] = [0u8; 1];
+                dst.clone_from_slice(&buffer[offset..offset + 1]);
+                offset += 1;
+                dst
+            },
+            raw: (&buffer[..offset]).to_vec(),
+        }
+    }
+    pub fn fill_raw(&mut self) {
+      self.fill_raw_with_packetver(None)
+    }
+    pub fn fill_raw_with_packetver(&mut self, packetver: Option<u32>) {
+    let mut wtr;
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.packet_id).unwrap();
+        self.packet_id_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u16::<LittleEndian>(self.index).unwrap();
+        self.index_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u16::<LittleEndian>(self.wear_location).unwrap();
+        self.wear_location_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u16::<LittleEndian>(self.view_id).unwrap();
+        self.view_id_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u8(self.result).unwrap();
+        self.result_raw = wtr.try_into().unwrap();
+
+        wtr = vec![];
+        wtr.append(&mut self.packet_id_raw.to_vec());
+        wtr.append(&mut self.index_raw.to_vec());
+        wtr.append(&mut self.wear_location_raw.to_vec());
+        wtr.append(&mut self.view_id_raw.to_vec());
+        wtr.append(&mut self.result_raw.to_vec());
+        self.raw = wtr;
+    }
+    pub fn base_len(packetver: u32) -> usize {
+        let  base_len: usize = 9;
+        base_len
+    }
+    pub fn set_packet_id(&mut self, value: i16) {
+        self.packet_id = value;
+    }
+    pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
+        self.packet_id_raw = value;
+    }
+    pub fn set_index(&mut self, value: u16) {
+        self.index = value;
+    }
+    pub fn set_index_raw(&mut self, value: [u8; 2]) {
+        self.index_raw = value;
+    }
+    pub fn set_wear_location(&mut self, value: u16) {
+        self.wear_location = value;
+    }
+    pub fn set_wear_location_raw(&mut self, value: [u8; 2]) {
+        self.wear_location_raw = value;
+    }
+    pub fn set_view_id(&mut self, value: u16) {
+        self.view_id = value;
+    }
+    pub fn set_view_id_raw(&mut self, value: [u8; 2]) {
+        self.view_id_raw = value;
+    }
+    pub fn set_result(&mut self, value: u8) {
+        self.result = value;
+    }
+    pub fn set_result_raw(&mut self, value: [u8; 1]) {
+        self.result_raw = value;
+    }
+    pub fn new() -> PacketZcReqWearEquipAck2 {
+        PacketZcReqWearEquipAck2 {
+        raw: vec![],
+        packet_id: i16::from_le_bytes([0xd0, 0x08]),
+        packet_id_raw: [0xd0, 0x08],
+        index: 0,
+        index_raw: [0; 2],
+        wear_location: 0,
+        wear_location_raw: [0; 2],
+        view_id: 0,
+        view_id_raw: [0; 2],
+        result: 0,
+        result_raw: [0; 1],
+        }
+    }
+}
+
+impl Packet for PacketZcReqWearEquipAck2 {
+    fn id(&self) -> &str {
+       "0xd008"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
+    }
+    fn display(&self) {
+            println!("{}", self)
+    }
+    fn pretty_debug(&self) {
+            println!("{:#?}", self)
+    }
+    fn raw(&self) -> &Vec<u8> {
+            &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut dyn Any{
+        self
+    }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
+}
+
+impl Default for PacketZcReqWearEquipAck2 {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
 impl PacketCzReqTakeoffEquip {
     pub fn packet_id() -> &'static str {
         "0xab00"
@@ -14179,6 +14356,161 @@ impl Packet for PacketZcReqTakeoffEquipAck {
 }
 
 impl Default for PacketZcReqTakeoffEquipAck {
+    fn default() -> Self {
+
+       Self::new()
+    }
+}
+
+impl PacketZcReqTakeoffEquipAck2 {
+    pub fn packet_id() -> &'static str {
+        "0xd108"
+    }
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcReqTakeoffEquipAck2 {
+        let mut offset: usize = 0;
+        PacketZcReqTakeoffEquipAck2 {
+            packet_id: {
+                let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
+                field
+            },
+            packet_id_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[offset..offset + 2]);
+                offset += 2;
+                dst
+            },
+            index: {
+                let field = u16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
+                field
+            },
+            index_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[offset..offset + 2]);
+                offset += 2;
+                dst
+            },
+            wear_location: {
+                let field = u16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
+                field
+            },
+            wear_location_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[offset..offset + 2]);
+                offset += 2;
+                dst
+            },
+            result: {
+                let field = u8::from_le_bytes([buffer[offset]]);
+                field
+            },
+            result_raw: {
+                let mut dst: [u8; 1] = [0u8; 1];
+                dst.clone_from_slice(&buffer[offset..offset + 1]);
+                offset += 1;
+                dst
+            },
+            raw: (&buffer[..offset]).to_vec(),
+        }
+    }
+    pub fn fill_raw(&mut self) {
+      self.fill_raw_with_packetver(None)
+    }
+    pub fn fill_raw_with_packetver(&mut self, packetver: Option<u32>) {
+    let mut wtr;
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.packet_id).unwrap();
+        self.packet_id_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u16::<LittleEndian>(self.index).unwrap();
+        self.index_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u16::<LittleEndian>(self.wear_location).unwrap();
+        self.wear_location_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u8(self.result).unwrap();
+        self.result_raw = wtr.try_into().unwrap();
+
+        wtr = vec![];
+        wtr.append(&mut self.packet_id_raw.to_vec());
+        wtr.append(&mut self.index_raw.to_vec());
+        wtr.append(&mut self.wear_location_raw.to_vec());
+        wtr.append(&mut self.result_raw.to_vec());
+        self.raw = wtr;
+    }
+    pub fn base_len(packetver: u32) -> usize {
+        let  base_len: usize = 7;
+        base_len
+    }
+    pub fn set_packet_id(&mut self, value: i16) {
+        self.packet_id = value;
+    }
+    pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
+        self.packet_id_raw = value;
+    }
+    pub fn set_index(&mut self, value: u16) {
+        self.index = value;
+    }
+    pub fn set_index_raw(&mut self, value: [u8; 2]) {
+        self.index_raw = value;
+    }
+    pub fn set_wear_location(&mut self, value: u16) {
+        self.wear_location = value;
+    }
+    pub fn set_wear_location_raw(&mut self, value: [u8; 2]) {
+        self.wear_location_raw = value;
+    }
+    pub fn set_result(&mut self, value: u8) {
+        self.result = value;
+    }
+    pub fn set_result_raw(&mut self, value: [u8; 1]) {
+        self.result_raw = value;
+    }
+    pub fn new() -> PacketZcReqTakeoffEquipAck2 {
+        PacketZcReqTakeoffEquipAck2 {
+        raw: vec![],
+        packet_id: i16::from_le_bytes([0xd1, 0x08]),
+        packet_id_raw: [0xd1, 0x08],
+        index: 0,
+        index_raw: [0; 2],
+        wear_location: 0,
+        wear_location_raw: [0; 2],
+        result: 0,
+        result_raw: [0; 1],
+        }
+    }
+}
+
+impl Packet for PacketZcReqTakeoffEquipAck2 {
+    fn id(&self) -> &str {
+       "0xd108"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
+    }
+    fn display(&self) {
+            println!("{}", self)
+    }
+    fn pretty_debug(&self) {
+            println!("{:#?}", self)
+    }
+    fn raw(&self) -> &Vec<u8> {
+            &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut dyn Any{
+        self
+    }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
+}
+
+impl Default for PacketZcReqTakeoffEquipAck2 {
     fn default() -> Self {
 
        Self::new()

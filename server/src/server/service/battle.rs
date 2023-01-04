@@ -26,10 +26,43 @@ impl BattleService {
         ((200_f32 - aspd.min(199.0)) * 10.0).round() as i32
     }
 
+    ///  PRE-RE formula: 200-(WD-([WD*AGI/25]+[WD*DEX/100])/10)*(1-SM)  https://irowiki.org/classic/ASPD
+    /// [] - Square brackets hold the same priority as normal brackets, but indicate that the value of the contents should be rounded down to the nearest whole number (integer) once calculated.
     pub fn aspd(&self, character: &Character) -> f32 {
-        //  PRE-RE formula: 200-(WD-([WD*AGI/25]+[WD*DEX/100])/10)*(1-SM)  https://irowiki.org/classic/ASPD
         let weapon_delay = character.weapon_delay() as f32 / 10.0;
         let speed_modifier = 0_f32;
-        200.0 - (weapon_delay - ((((weapon_delay * (character.status.agi as f32)) / 25.0) + ((weapon_delay * (character.status.dex as f32)) / 100.0)) / 10.0) * (1.0 - speed_modifier))
+        200.0 - (weapon_delay - ((((weapon_delay * (character.status.agi as f32)) / 25.0).floor() + ((weapon_delay * (character.status.dex as f32)) / 100.0).floor()) / 10.0) * (1.0 - speed_modifier))
+    }
+
+    /// PRE-RE https://irowiki.org/classic/Attacks
+    /// UI left side atk in status info panel
+    pub fn atk1(&self, character: &Character) -> i32 {
+        120
+    }
+
+    /// UI right side atk in status info panel
+    pub fn atk2(&self, character: &Character) -> i32 {
+        90
+    }
+
+    pub fn base_atk(&self, character: &Character) -> i32 {
+        let mut str;
+        let mut dex;
+        let is_ranged_weapon = false;
+        if is_ranged_weapon {
+            str = character.status.dex;
+            dex = character.status.str;
+        } else {
+            str = character.status.str;
+            dex = character.status.dex;
+        }
+        // For homunculus
+        // dstr = str / 10;
+        // str += dstr*dstr;
+        let dstr = str / 10;
+        str += dstr*dstr;
+        str += dex / 5 + character.status.luk / 5;
+
+        0
     }
 }

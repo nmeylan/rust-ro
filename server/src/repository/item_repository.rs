@@ -6,7 +6,7 @@ use crate::repository::model::item_model::{GetItemModel, ItemBuySellModel};
 use crate::server::script::Value;
 
 impl Repository {
-    pub fn location_fields(table_prefix: &str) -> String {
+    pub fn item_location_fields(table_prefix: &str) -> String {
         format!("(
                    (coalesce({0}.location_head_low, 0) << 0)
                    | (coalesce({0}.location_right_hand, 0) << 1)
@@ -32,7 +32,7 @@ impl Repository {
            ) as location", table_prefix)
     }
     pub async fn item_buy_sell_fetch_all_where_ids(&self, ids: Vec<i32>) -> Result<Vec<ItemBuySellModel>, Error> {
-        sqlx::query_as(format!("SELECT id, type, price_buy, price_sell, stack_amount, weight, name_english, {} FROM item_db item WHERE id IN (SELECT * FROM UNNEST($1::int4[])) ORDER BY id", Self::location_fields("item")).as_str())
+        sqlx::query_as(format!("SELECT id, type, price_buy, price_sell, stack_amount, weight, name_english, {} FROM item_db item WHERE id IN (SELECT * FROM UNNEST($1::int4[])) ORDER BY id", Self::item_location_fields("item")).as_str())
             .bind(ids)
             .fetch_all(&self.pool).await
     }
@@ -46,7 +46,7 @@ impl Repository {
                 Value::Number(v) => {ids.push(*v)}
             }
         });
-        sqlx::query_as::<_, GetItemModel>(format!("SELECT id, type, 0::int2 as amount, weight, name_english, name_aegis, {} FROM item_db item WHERE id IN (SELECT * FROM UNNEST($1::int4[])) OR name_aegis ILIKE ANY($2::text[])", Self::location_fields("item")).as_str())
+        sqlx::query_as::<_, GetItemModel>(format!("SELECT id, type, 0::int2 as amount, weight, name_english, name_aegis, {} FROM item_db item WHERE id IN (SELECT * FROM UNNEST($1::int4[])) OR name_aegis ILIKE ANY($2::text[])", Self::item_location_fields("item")).as_str())
             .bind(ids)
             .bind(names)
             .fetch_all(&self.pool).await

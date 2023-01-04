@@ -1292,7 +1292,7 @@ CREATE TABLE ragnarok.inventory (
     char_id INTEGER DEFAULT '0'::INTEGER NOT NULL,
     nameid INTEGER DEFAULT '0'::INTEGER NOT NULL,
     amount smallint DEFAULT '0'::INTEGER NOT NULL,
-    equip smallint DEFAULT '0'::INTEGER NOT NULL,
+    equip INTEGER DEFAULT '0'::INTEGER NOT NULL,
     identified bool DEFAULT false NOT NULL,
     refine smallint DEFAULT '0'::smallint NOT NULL,
     damaged bool DEFAULT false NOT NULL,
@@ -2643,7 +2643,7 @@ COPY ragnarok.cashlog (id, "time", char_id, type, cash_type, amount, map) FROM s
 --
 
 COPY ragnarok."char" (char_id, account_id, char_num, name, class, base_level, job_level, base_exp, job_exp, zeny, str, agi, vit, "int", dex, luk, pow, sta, wis, spl, con, crt, max_hp, hp, max_sp, sp, max_ap, ap, status_point, skill_point, trait_point, option, karma, manner, party_id, guild_id, pet_id, homun_id, elemental_id, hair, hair_color, clothes_color, body, weapon, shield, head_top, head_mid, head_bottom, robe, last_map, last_x, last_y, save_map, save_x, save_y, partner_id, online, father, mother, child, fame, rename, delete_date, moves, unban_time, font, uniqueitem_counter, sex, hotkey_rowshift, hotkey_rowshift2, clan_id, last_login, title_id, show_equip, inventory_slots, body_direction, disable_call) FROM stdin;
-150000	2000000	0	walkiry	4020	99	70	0	0	28075	99	99	99	99	99	99	0	0	0	0	0	0	10190	10190	1540	1540	0	0	0	0	0	0	0	0	0	0	0	0	0	21	21	2	0	0	0	0	0	0	0	prt_in	127	71	prontera	156	191	0	0	0	0	0	0	0	0	0	0	0	0	M	0	0	0	2022-11-09 19:35:15+00	0	0	100	4	0
+150000	2000000	0	walkiry	4020	99	70	0	0	11128075	0	99	99	99	99	99	0	0	0	0	0	0	10190	10190	1540	1540	0	0	0	0	0	0	0	0	0	0	0	0	0	21	21	2	0	0	0	0	0	0	0	prt_in	127	71	prontera	156	191	0	0	0	0	0	0	0	0	0	0	0	0	M	0	0	0	2022-11-09 19:35:15+00	0	0	100	4	0
 150001	2000001	0	walkiry2	0	99	70	0	0	99520	99	99	99	99	99	99	0	0	0	0	0	0	1054	1054	216	216	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	prt_in	129	71	prontera	156	191	0	1	0	0	0	0	0	0	0	0	0	99	M	0	0	0	2022-12-03 13:06:20+00	0	0	100	2	0
 \.
 

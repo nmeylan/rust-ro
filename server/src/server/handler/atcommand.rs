@@ -10,6 +10,7 @@ use packets::packets::Packet;
 use crate::server::core::configuration::CityConfig;
 use crate::server::core::map::RANDOM_CELL;
 use crate::server::core::request::Request;
+use crate::server::script::Value;
 use crate::server::Server;
 use crate::server::service::character::character_state::CharacterService;
 use crate::server::service::character::item::{ItemService};
@@ -142,10 +143,12 @@ pub fn handle_warp(server: &Server, session: Arc<Session>, _runtime: &Runtime, a
 }
 
 pub fn handle_item(server: &Server, session: Arc<Session>, runtime: &Runtime, args: Vec::<&str>) -> String {
-    if args.len() != 2 {
-        return format!("@item command accept 2 parameters but received {}", args.len());
+    if args.len() < 1 {
+        return format!("@item command accept from 1 to 2 parameters but received {}", args.len());
     }
-    ItemService::instance().schedule_get_items(session.char_id(), server, runtime, vec![(args[0].parse::<i32>().unwrap(), args[1].parse::<i16>().unwrap())], false);
+    ItemService::instance().schedule_get_items(session.char_id(), server, runtime, vec![
+        (args[0].parse::<i32>().map(|number| Value::Number(number)).unwrap_or(Value::String(args[0].to_string())),
+         args.get(1).unwrap_or(&"1").parse::<i16>().unwrap_or(1))], false);
 
     String::new()
 }

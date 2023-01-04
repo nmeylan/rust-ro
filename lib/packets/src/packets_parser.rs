@@ -256,11 +256,17 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0xaa && buffer[1] == 0x00 {
         return Box::new(PacketZcReqWearEquipAck::from(buffer, packetver));
     }
+    if buffer[0] == 0xd0 && buffer[1] == 0x08 {
+        return Box::new(PacketZcReqWearEquipAck2::from(buffer, packetver));
+    }
     if buffer[0] == 0xab && buffer[1] == 0x00 {
         return Box::new(PacketCzReqTakeoffEquip::from(buffer, packetver));
     }
     if buffer[0] == 0xac && buffer[1] == 0x00 {
         return Box::new(PacketZcReqTakeoffEquipAck::from(buffer, packetver));
+    }
+    if buffer[0] == 0xd1 && buffer[1] == 0x08 {
+        return Box::new(PacketZcReqTakeoffEquipAck2::from(buffer, packetver));
     }
     if buffer[0] == 0xaf && buffer[1] == 0x00 {
         return Box::new(PacketZcItemThrowAck::from(buffer, packetver));

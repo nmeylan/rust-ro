@@ -15,6 +15,7 @@ pub enum GameEvent {
     CharacterAddItems(CharacterAddItems),
     CharacterInitInventory(u32),
     CharacterUseItem(CharacterUseItem),
+    CharacterEquipItem(CharacterEquipItem),
     CharacterAttack(CharacterAttack),
 }
 
@@ -61,6 +62,11 @@ pub struct CharacterUseItem {
     pub char_id: u32,
     pub target_char_id: u32,
     pub index: usize
+}
+pub struct CharacterEquipItem {
+    pub char_id: u32,
+    pub index: usize,
+    pub location: u32
 }
 
 pub struct CharacterAttack {

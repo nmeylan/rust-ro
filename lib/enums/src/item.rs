@@ -145,11 +145,3 @@ impl sqlx::Type<Postgres> for ItemType {
         ty.name() == "VARCHAR"
     }
 }
-
-
-impl<'r> Decode<'r, Postgres> for EquipmentLocation {
-    fn decode(value: <Postgres as HasValueRef<'r>>::ValueRef) -> Result<Self, BoxDynError> {
-        let value = <&str as Decode<Postgres>>::decode(value)?;
-        Err("Not implemented".into())
-    }
-}
