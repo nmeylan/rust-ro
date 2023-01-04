@@ -1,4 +1,4 @@
-use enums::item::ItemType;
+use enums::item::{EquipmentLocation, ItemType};
 
 #[derive(sqlx::FromRow, Debug)]
 pub struct ItemModel {
@@ -234,6 +234,9 @@ pub struct GetItemModel {
     pub weight: i32,
     #[sqlx(default)]
     pub name_english: String,
+    #[sqlx(default)]
+    pub name_aegis: String,
+    pub location: i32
 }
 
 #[derive(sqlx::FromRow, Debug, Clone)]
@@ -260,4 +263,5 @@ pub struct InventoryItemModel {
     #[sqlx(default)]
     pub name_english: String,
     pub weight: i32,
+    pub location: i32
 }

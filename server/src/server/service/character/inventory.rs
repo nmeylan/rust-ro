@@ -47,6 +47,7 @@ impl InventoryService {
                     packet_zc_item_pickup_ack3.set_index(*index as u16);
                     packet_zc_item_pickup_ack3.set_is_identified(item.is_identified);
                     packet_zc_item_pickup_ack3.set_atype(item.item_type.value() as u8);
+                    packet_zc_item_pickup_ack3.set_location(item.location as u16);
                     packet_zc_item_pickup_ack3.fill_raw();
                     packet_zc_item_pickup_ack3.pretty_debug();
                     packets.push(packet_zc_item_pickup_ack3)
@@ -89,7 +90,7 @@ impl InventoryService {
             equipmentitem_extrainfo301.set_index(*index as i16);
             equipmentitem_extrainfo301.set_is_damaged(item.is_damaged);
             equipmentitem_extrainfo301.set_is_identified(item.is_identified);
-            equipmentitem_extrainfo301.set_location(item.equip as u16);
+            equipmentitem_extrainfo301.set_location(item.location as u16);
             equipmentitem_extrainfo301.set_wear_state(item.equip as u16);
             equipmentitem_extrainfo301.set_refining_level(item.refine as u8);
             let mut equipslotinfo = EQUIPSLOTINFO::new();
