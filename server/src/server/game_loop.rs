@@ -94,11 +94,11 @@ impl Server {
                         }
                         GameEvent::CharacterEquipItem(character_equip_item) => {
                             let character = characters.get_mut(&character_equip_item.char_id).unwrap();
-                            InventoryService::instance().equip_item(&server_ref, character, character_equip_item);
+                            InventoryService::instance().equip_item(&server_ref, character, &persistence_event_sender, character_equip_item);
                         }
                         GameEvent::CharacterTakeoffEquipItem(character_takeoff_equip_item) => {
                             let character = characters.get_mut(&character_takeoff_equip_item.char_id).unwrap();
-                            InventoryService::instance().takeoff_equip_item(&server_ref, character, character_takeoff_equip_item.index);
+                            InventoryService::instance().takeoff_equip_item(&server_ref, character, &persistence_event_sender, character_takeoff_equip_item.index);
                         }
                     }
                 }

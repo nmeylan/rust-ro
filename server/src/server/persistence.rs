@@ -21,7 +21,9 @@ impl Server {
                     PersistenceEvent::DeleteItemsFromInventory(delete_items) => {
                         repository.character_inventory_delete(delete_items).await.unwrap();
                     }
-                    PersistenceEvent::UpdateEquippedItems(_) => {}
+                    PersistenceEvent::UpdateEquippedItems(items) => {
+                        repository.character_inventory_wearable_item_update(items).await.unwrap();
+                    }
                 }
             })
         }
