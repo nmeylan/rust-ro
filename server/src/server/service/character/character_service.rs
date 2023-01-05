@@ -17,7 +17,7 @@ use crate::server::events::persistence_event::PersistenceEvent::SaveCharacterPos
 use crate::server::map_item::ToMapItem;
 use crate::server::{PLAYER_FOV, Server};
 use crate::server::core::action::Attack;
-use crate::server::service::battle::BattleService;
+use crate::server::service::battle_service::BattleService;
 
 use crate::server::state::character::Character;
 use crate::util::packet::chain_packets;

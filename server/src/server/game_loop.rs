@@ -19,9 +19,9 @@ use crate::server::events::persistence_event::{SavePositionUpdate};
 use crate::server::map_item::{ToMapItemSnapshot};
 
 use crate::server::Server;
-use crate::server::service::character::character_state::{CharacterService};
-use crate::server::service::character::inventory::InventoryService;
-use crate::server::service::character::item::{ItemService};
+use crate::server::service::character::character_service::{CharacterService};
+use crate::server::service::character::inventory_service::InventoryService;
+use crate::server::service::character::item_service::{ItemService};
 
 
 

@@ -1,3 +1,3 @@
-pub mod character_state;
-pub mod item;
-pub mod inventory;
+pub mod character_service;
+pub mod item_service;
+pub mod inventory_service;
