@@ -1211,7 +1211,7 @@ pub struct PacketZcReqTakeoffEquipAck {
     pub index_raw: [u8; 2],
     pub wear_location: u16,
     pub wear_location_raw: [u8; 2],
-    pub result: bool,
+    pub result: u8,
     pub result_raw: [u8; 1],
 }
 

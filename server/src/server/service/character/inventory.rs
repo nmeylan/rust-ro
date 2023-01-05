@@ -1,7 +1,7 @@
 use std::sync::{Arc, Once};
 use rand::RngCore;
 use tokio::runtime::Runtime;
-use packets::packets::{EquipmentitemExtrainfo301, EQUIPSLOTINFO, NormalitemExtrainfo3, Packet, PacketZcEquipmentItemlist3, PacketZcItemPickupAck3, PacketZcNormalItemlist3, PacketZcPcPurchaseResult, PacketZcReqTakeoffEquipAck2, PacketZcReqWearEquipAck, PacketZcReqWearEquipAck2};
+use packets::packets::{EquipmentitemExtrainfo301, EQUIPSLOTINFO, NormalitemExtrainfo3, Packet, PacketZcEquipmentItemlist3, PacketZcItemPickupAck3, PacketZcNormalItemlist3, PacketZcPcPurchaseResult, PacketZcReqTakeoffEquipAck, PacketZcReqTakeoffEquipAck2, PacketZcReqWearEquipAck, PacketZcReqWearEquipAck2};
 use crate::repository::model::item_model::InventoryItemModel;
 use crate::server::events::client_notification::{CharNotification, Notification};
 use crate::server::events::game_event::{CharacterAddItems, CharacterEquipItem, CharacterZeny};
@@ -153,7 +153,6 @@ impl InventoryService {
                     packet_zc_req_takeoff_equip_ack2.set_wear_location(equipped_take_off_items[i].1 as u16);
                     packet_zc_req_takeoff_equip_ack2.set_result(0);
                     packet_zc_req_takeoff_equip_ack2.fill_raw();
-                    packet_zc_req_takeoff_equip_ack2.pretty_debug();
                     take_off_items_packets.push(packet_zc_req_takeoff_equip_ack2);
                 }
             }
@@ -165,6 +164,21 @@ impl InventoryService {
         // check if item is equipable
         // check class requirement
         // check level requirement
-        // replace old item equiped
+        // persist in db
+    }
+
+    pub fn takeoff_equip_item(&self, server_ref: &Server, character: &mut Character, index: usize) {
+        let mut packet_zc_req_takeoff_equip_ack2 = PacketZcReqTakeoffEquipAck2::new();
+        packet_zc_req_takeoff_equip_ack2.set_index(index as u16);
+        if let Some(location) = character.takeoff_equip_item(index) {
+            packet_zc_req_takeoff_equip_ack2.set_wear_location(location as u16);
+            packet_zc_req_takeoff_equip_ack2.set_result(0);
+        } else {
+            packet_zc_req_takeoff_equip_ack2.set_result(1);
+        }
+        packet_zc_req_takeoff_equip_ack2.fill_raw();
+        server_ref.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packet_zc_req_takeoff_equip_ack2.raw)))
+            .expect("Fail to send client notification");
+        // persist in db
     }
 }

@@ -6,7 +6,7 @@ use std::sync::mpsc::{Receiver, SyncSender};
 use std::thread;
 use std::thread::Scope;
 use tokio::runtime::Runtime;
-use packets::packets::{Packet, PacketCaLogin, PacketChDeleteChar4Reserved, PacketChEnter, PacketChMakeChar, PacketChMakeChar2, PacketChMakeChar3, PacketChSelectChar, PacketCzAckSelectDealtype, PacketCzBlockingPlayCancel, PacketCzChooseMenu, PacketCzContactnpc, PacketCzEnter2, PacketCzInputEditdlg, PacketCzInputEditdlgstr, PacketCzNotifyActorinit, PacketCzPcPurchaseItemlist, PacketCzPlayerChat, PacketCzReqDisconnect2, PacketCzReqname, PacketCzReqnameall2, PacketCzReqNextScript, PacketCzRequestAct, PacketCzRequestMove, PacketCzRequestMove2, PacketCzRequestTime, PacketCzReqWearEquip, PacketCzRestart, PacketCzUseItem, PacketUnknown, PacketZcNotifyTime};
+use packets::packets::{Packet, PacketCaLogin, PacketChDeleteChar4Reserved, PacketChEnter, PacketChMakeChar, PacketChMakeChar2, PacketChMakeChar3, PacketChSelectChar, PacketCzAckSelectDealtype, PacketCzBlockingPlayCancel, PacketCzChooseMenu, PacketCzContactnpc, PacketCzEnter2, PacketCzInputEditdlg, PacketCzInputEditdlgstr, PacketCzNotifyActorinit, PacketCzPcPurchaseItemlist, PacketCzPlayerChat, PacketCzReqDisconnect2, PacketCzReqname, PacketCzReqnameall2, PacketCzReqNextScript, PacketCzReqTakeoffEquip, PacketCzRequestAct, PacketCzRequestMove, PacketCzRequestMove2, PacketCzRequestTime, PacketCzReqWearEquip, PacketCzRestart, PacketCzUseItem, PacketUnknown, PacketZcNotifyTime};
 use packets::packets_parser::parse;
 use std::io::{Read, Write};
 use crate::repository::Repository;
@@ -34,7 +34,7 @@ use crate::server::state::character::Character;
 use crate::util::cell::{MyRef, MyUnsafeCell};
 use crate::util::tick::get_tick_client;
 use std::cell::RefCell;
-use crate::server::handler::action::item::{handle_player_equip_item, handle_player_use_item};
+use crate::server::handler::action::item::{handle_player_equip_item, handle_player_takeoff_equip_item, handle_player_use_item};
 
 pub mod npc;
 pub mod handler;
@@ -438,6 +438,10 @@ impl Server {
         if context.packet().as_any().downcast_ref::<PacketCzReqWearEquip>().is_some() {
             debug!("PacketCzReqWearEquip");
             return handle_player_equip_item(self_ref.as_ref(), context);
+        }
+        if context.packet().as_any().downcast_ref::<PacketCzReqTakeoffEquip>().is_some() {
+            debug!("PacketCzReqTakeoffEquip");
+            return handle_player_takeoff_equip_item(self_ref.as_ref(), context);
         }
         // End Item interaction
 
