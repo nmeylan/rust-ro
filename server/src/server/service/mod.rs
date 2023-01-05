@@ -1,3 +1,3 @@
-pub mod skill;
+pub mod skill_service;
 pub mod character;
-pub mod battle;
+pub mod battle_service;

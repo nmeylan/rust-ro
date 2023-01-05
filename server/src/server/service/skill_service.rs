@@ -3,7 +3,7 @@ use enums::skills::Skill;
 use crate::server::core::configuration::SkillConfig;
 use crate::server::core::map::{Map, RANDOM_CELL};
 use crate::server::Server;
-use crate::server::service::character::character_state::CharacterService;
+use crate::server::service::character::character_service::CharacterService;
 
 
 static mut SERVICE_INSTANCE: Option<SkillService> = None;
