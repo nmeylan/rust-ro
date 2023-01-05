@@ -1,4 +1,5 @@
 use std::sync::{Arc, Once};
+use std::sync::mpsc::SyncSender;
 use rand::RngCore;
 use tokio::runtime::Runtime;
 use packets::packets::{EquipmentitemExtrainfo301, EQUIPSLOTINFO, NormalitemExtrainfo3, Packet, PacketZcEquipmentItemlist3, PacketZcItemPickupAck3, PacketZcNormalItemlist3, PacketZcPcPurchaseResult, PacketZcReqTakeoffEquipAck, PacketZcReqTakeoffEquipAck2, PacketZcReqWearEquipAck, PacketZcReqWearEquipAck2};
@@ -6,7 +7,7 @@ use crate::repository::model::item_model::InventoryItemModel;
 use crate::server::events::client_notification::{CharNotification, Notification};
 use crate::server::events::game_event::{CharacterAddItems, CharacterEquipItem, CharacterZeny};
 use crate::server::events::game_event::GameEvent::{CharacterUpdateWeight, CharacterUpdateZeny};
-use crate::server::events::persistence_event::InventoryItemUpdate;
+use crate::server::events::persistence_event::{InventoryItemUpdate, PersistenceEvent};
 use crate::server::Server;
 use crate::server::state::character::Character;
 use crate::util::packet::{chain_packets, chain_packets_raws_by_value};
@@ -134,7 +135,7 @@ impl InventoryService {
             .expect("Fail to send client notification");
     }
 
-    pub fn equip_item(&self, server_ref: &Server, character: &mut Character, character_equip_item: CharacterEquipItem) {
+    pub fn equip_item<'a>(&self, server_ref: &Server, character: &'a mut Character, persistence_event_sender: &SyncSender<PersistenceEvent>, character_equip_item: CharacterEquipItem) {
         let mut packet_zc_req_wear_equip_ack = PacketZcReqWearEquipAck2::new();
         packet_zc_req_wear_equip_ack.set_index(character_equip_item.index as u16);
         packet_zc_req_wear_equip_ack.set_result(1);
@@ -161,13 +162,14 @@ impl InventoryService {
         packets_raws_by_value.extend(packet_zc_req_wear_equip_ack.raw);
         server_ref.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packets_raws_by_value)))
             .expect("Fail to send client notification");
+        persistence_event_sender.send(PersistenceEvent::UpdateEquippedItems(character.inventory_wearable().iter().cloned().map(|(_m, item)| item.clone()).collect::<Vec<InventoryItemModel>>()))
+            .expect("Fail to send persistence event");
         // check if item is equipable
         // check class requirement
         // check level requirement
-        // persist in db
     }
 
-    pub fn takeoff_equip_item(&self, server_ref: &Server, character: &mut Character, index: usize) {
+    pub fn takeoff_equip_item(&self, server_ref: &Server, character: &mut Character, persistence_event_sender: &SyncSender<PersistenceEvent>, index: usize) {
         let mut packet_zc_req_takeoff_equip_ack2 = PacketZcReqTakeoffEquipAck2::new();
         packet_zc_req_takeoff_equip_ack2.set_index(index as u16);
         if let Some(location) = character.takeoff_equip_item(index) {
@@ -179,6 +181,7 @@ impl InventoryService {
         packet_zc_req_takeoff_equip_ack2.fill_raw();
         server_ref.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packet_zc_req_takeoff_equip_ack2.raw)))
             .expect("Fail to send client notification");
-        // persist in db
+        persistence_event_sender.send(PersistenceEvent::UpdateEquippedItems(character.inventory_wearable().iter().cloned().map(|(_m, item)| item.clone()).collect::<Vec<InventoryItemModel>>()))
+            .expect("Fail to send persistence event");
     }
 }

@@ -123,6 +123,9 @@ impl ItemType {
     pub fn is_equipment(&self) -> bool {
         matches!(self, ItemType::Armor | ItemType::Weapon | ItemType::PetArmor | ItemType::ShadowGear)
     }
+    pub fn is_wearable(&self) -> bool {
+        matches!(self, ItemType::Armor | ItemType::Weapon | ItemType::Ammo | ItemType::ShadowGear)
+    }
     pub fn is_etc(&self) -> bool {
         matches!(self, ItemType::Etc | ItemType::Card | ItemType::Unknown2 | ItemType::Ammo | ItemType::Max)
     }

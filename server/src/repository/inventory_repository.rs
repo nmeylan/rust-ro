@@ -83,4 +83,11 @@ impl Repository {
             .bind(char_id as i32)
             .fetch_one(&self.pool).await.map(|row| Ok(row.get::<i32, _>(0)))?
     }
+
+    pub async fn character_inventory_wearable_item_update(&self, items: Vec<InventoryItemModel>) -> Result<PgQueryResult, Error> {
+        sqlx::query("UPDATE inventory as inv SET equip = new.equip FROM (select unnest($1::int4[]) as id,unnest($2::int4[]) as equip) as new WHERE inv.id = new.id")
+            .bind(items.iter().map(|i| i.id).collect::<Vec<i32>>())
+            .bind(items.iter().map(|i| i.equip).collect::<Vec<i32>>())
+            .execute(&self.pool).await
+    }
 }
