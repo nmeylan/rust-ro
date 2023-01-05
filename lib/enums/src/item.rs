@@ -47,9 +47,9 @@ pub enum EquipmentLocation {
     #[mask_value = 4]
     Garment,
     #[mask_value = 8]
-    AccessoryRight,
-    #[mask_value = 128]
     AccessoryLeft,
+    #[mask_value = 128]
+    AccessoryRight,
     #[mask_value = 1024]
     CostumeHeadTop,
     #[mask_value = 2048]
