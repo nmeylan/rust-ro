@@ -1,7 +1,7 @@
 use crate::server::core::request::Request;
-use packets::packets::{PacketCzUseItem, PacketZcUseItemAck2, PacketCzReqWearEquip};
+use packets::packets::{PacketCzUseItem, PacketZcUseItemAck2, PacketCzReqWearEquip, PacketCzReqTakeoffEquip};
 use crate::packets::packets::Packet;
-use crate::server::events::game_event::{CharacterEquipItem, CharacterUseItem, GameEvent};
+use crate::server::events::game_event::{CharacterEquipItem, CharacterTakeoffEquipItem, CharacterUseItem, GameEvent};
 use crate::server::Server;
 
 pub fn handle_player_use_item(server: &Server, context: Request) {
@@ -29,5 +29,13 @@ pub fn handle_player_equip_item(server: &Server, context: Request) {
         char_id: context.session().char_id(),
         index: packet_cz_wear_equip.index as usize,
         location: packet_cz_wear_equip.wear_location as u32
+    }));
+}
+
+pub fn handle_player_takeoff_equip_item(server: &Server, context: Request) {
+    let packet_cz_req_takeoff_equip = cast!(context.packet(), PacketCzReqTakeoffEquip);
+    server.add_to_next_tick(GameEvent::CharacterTakeoffEquipItem(CharacterTakeoffEquipItem {
+        char_id: context.session().char_id(),
+        index: packet_cz_req_takeoff_equip.index as usize,
     }));
 }

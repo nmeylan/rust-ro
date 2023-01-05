@@ -754,7 +754,7 @@ struct PACKET_ZC_REQ_TAKEOFF_EQUIP_ACK {
   short PacketId
   unsigned short index
   unsigned short wearLocation
-  bool result
+  unsigned char result
  }
 0xd108
 struct PACKET_ZC_REQ_TAKEOFF_EQUIP_ACK2 {

@@ -96,6 +96,10 @@ impl Server {
                             let character = characters.get_mut(&character_equip_item.char_id).unwrap();
                             InventoryService::instance().equip_item(&server_ref, character, character_equip_item);
                         }
+                        GameEvent::CharacterTakeoffEquipItem(character_takeoff_equip_item) => {
+                            let character = characters.get_mut(&character_takeoff_equip_item.char_id).unwrap();
+                            InventoryService::instance().takeoff_equip_item(&server_ref, character, character_takeoff_equip_item.index);
+                        }
                     }
                 }
             }

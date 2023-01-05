@@ -1967,7 +1967,7 @@ impl Display for PacketZcReqTakeoffEquipAck {
         fields.push(format!("packet_id(short as i16)[0, 2]: {}", &self.packet_id));
         fields.push(format!("index(unsigned short as u16)[2, 4]: {}", &self.index));
         fields.push(format!("wear_location(unsigned short as u16)[4, 6]: {}", &self.wear_location));
-        fields.push(format!("result(bool as bool)[6, 7]: {}", &self.result));
+        fields.push(format!("result(unsigned char as u8)[6, 7]: {}", &self.result));
         write!(f, "PacketZcReqTakeoffEquipAck\n {}", fields.join(",\n "))
     }
 }

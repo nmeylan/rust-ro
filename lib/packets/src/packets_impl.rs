@@ -14245,7 +14245,7 @@ impl PacketZcReqTakeoffEquipAck {
                 dst
             },
             result: {
-                let field = buffer[offset] == 1;
+                let field = u8::from_le_bytes([buffer[offset]]);
                 field
             },
             result_raw: {
@@ -14272,7 +14272,7 @@ impl PacketZcReqTakeoffEquipAck {
         wtr.write_u16::<LittleEndian>(self.wear_location).unwrap();
         self.wear_location_raw = wtr.try_into().unwrap();
         wtr = vec![];
-        wtr.write_u8(self.result as u8).unwrap();
+        wtr.write_u8(self.result).unwrap();
         self.result_raw = wtr.try_into().unwrap();
 
         wtr = vec![];
@@ -14304,7 +14304,7 @@ impl PacketZcReqTakeoffEquipAck {
     pub fn set_wear_location_raw(&mut self, value: [u8; 2]) {
         self.wear_location_raw = value;
     }
-    pub fn set_result(&mut self, value: bool) {
+    pub fn set_result(&mut self, value: u8) {
         self.result = value;
     }
     pub fn set_result_raw(&mut self, value: [u8; 1]) {
@@ -14319,7 +14319,7 @@ impl PacketZcReqTakeoffEquipAck {
         index_raw: [0; 2],
         wear_location: 0,
         wear_location_raw: [0; 2],
-        result: false,
+        result: 0,
         result_raw: [0; 1],
         }
     }

@@ -296,6 +296,15 @@ impl Character {
         None
     }
 
+    pub fn takeoff_equip_item(&mut self, index: usize) -> Option<i32> {
+        if let Some(item) = self.get_item_from_inventory_mut(index) {
+            let old_equip = item.equip;
+            item.equip = 0;
+            return Some(old_equip);
+        }
+        None
+    }
+
     pub fn del_item_from_inventory(&mut self, index: usize, amount: i16) -> u16 {
         if let Some(inventory_slot) = self.inventory.get_mut(index) {
             if inventory_slot.is_some() {
