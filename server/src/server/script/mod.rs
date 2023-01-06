@@ -263,7 +263,7 @@ impl NativeMethodHandler for PlayerScriptHandler {
             } else {
                 self.session.char_id()
             };
-            self.server.add_to_next_tick(CharacterUpdateLook(CharacterLook { look_type: LookType::from_value(look_type as usize), look_value: look_value as u32, char_id }));
+            self.server.add_to_next_tick(CharacterUpdateLook(CharacterLook { look_type: LookType::from_value(look_type as usize), look_value: look_value as u16, char_id }));
         } else if native.name.eq("strcharinfo") {
             let info_type = params[0].number_value().unwrap() as usize;
             let char = if params.len() == 2 {

@@ -22,9 +22,7 @@ use crate::server::Server;
 use crate::server::service::character::character_service::{CharacterService};
 use crate::server::service::character::inventory_service::InventoryService;
 use crate::server::service::character::item_service::{ItemService};
-
-
-
+use crate::server::service::status_service::StatusService;
 
 
 const MOVEMENT_TICK_RATE: u128 = 20;
@@ -77,6 +75,8 @@ impl Server {
                         GameEvent::CharacterInitInventory(char_id) => {
                             let character = characters.get_mut(&char_id).unwrap();
                             InventoryService::instance().reload_inventory(&server_ref, &runtime, char_id, character);
+                            InventoryService::instance().reload_equipped_item_sprites(&server_ref, character);
+                            StatusService::instance().calculate_status(&server_ref, character);
                         }
                         GameEvent::CharacterUpdateWeight(char_id) => {
                             let character = characters.get_mut(&char_id).unwrap();
@@ -86,7 +86,7 @@ impl Server {
                             let character = characters.get_mut(&character_user_item.char_id).unwrap();
                             ItemService::instance().use_item(server_ref.clone(), &runtime, &persistence_event_sender, character_user_item, character);
                         }
-                        GameEvent::CharacterAttack(character_attack  ) => {
+                        GameEvent::CharacterAttack(character_attack) => {
                             let character = characters.get_mut(&character_attack.char_id).unwrap();
                             if !character.is_attacking() {
                                 character.set_attack(character_attack.target_id, character_attack.repeat, 0);
@@ -94,11 +94,25 @@ impl Server {
                         }
                         GameEvent::CharacterEquipItem(character_equip_item) => {
                             let character = characters.get_mut(&character_equip_item.char_id).unwrap();
+                            let index = character_equip_item.index;
                             InventoryService::instance().equip_item(&server_ref, character, &persistence_event_sender, character_equip_item);
+                            character.get_item_from_inventory(index)
+                                .map(|item| InventoryService::instance().sprite_change_packet_for_item(character, item)
+                                    .map(|packet| CharacterService::instance().send_area_notification_around_characters(&server_ref, character, packet)));
+                            StatusService::instance().calculate_status(&server_ref, character);
                         }
                         GameEvent::CharacterTakeoffEquipItem(character_takeoff_equip_item) => {
                             let character = characters.get_mut(&character_takeoff_equip_item.char_id).unwrap();
-                            InventoryService::instance().takeoff_equip_item(&server_ref, character, &persistence_event_sender, character_takeoff_equip_item.index);
+                            let index = character_takeoff_equip_item.index;
+                            InventoryService::instance().takeoff_equip_item(&server_ref, character, &persistence_event_sender, index);
+                            character.get_item_from_inventory(index)
+                                .map(|item| InventoryService::instance().sprite_change_packet_for_item(character, item)
+                                    .map(|packet| CharacterService::instance().send_area_notification_around_characters(&server_ref, character, packet)));
+                            StatusService::instance().calculate_status(&server_ref, character);
+                        }
+                        GameEvent::CharacterCalculateStats(char_id) => {
+                            let character = characters.get_mut(&char_id).unwrap();
+                            StatusService::instance().calculate_status(&server_ref, character);
                         }
                     }
                 }

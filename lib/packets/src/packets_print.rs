@@ -8417,7 +8417,8 @@ impl Debug for PacketZcSpriteChange2 {
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("atype[6, 7]", &format!("{:02X?}", &self.atype_raw))
-            .field("value[7, 11]", &format!("{:02X?}", &self.value_raw))
+            .field("value[7, 9]", &format!("{:02X?}", &self.value_raw))
+            .field("value2[9, 11]", &format!("{:02X?}", &self.value2_raw))
         .finish()
     }
 }
@@ -8428,7 +8429,8 @@ impl Display for PacketZcSpriteChange2 {
         fields.push(format!("packet_id(short as i16)[0, 2]: {}", &self.packet_id));
         fields.push(format!("gid(unsigned long as u32)[2, 6]: {}", &self.gid));
         fields.push(format!("atype(unsigned char as u8)[6, 7]: {}", &self.atype));
-        fields.push(format!("value(int as i32)[7, 11]: {}", &self.value));
+        fields.push(format!("value(unsigned short as u16)[7, 9]: {}", &self.value));
+        fields.push(format!("value2(unsigned short as u16)[9, 11]: {}", &self.value2));
         write!(f, "PacketZcSpriteChange2\n {}", fields.join(",\n "))
     }
 }

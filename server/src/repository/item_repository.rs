@@ -1,8 +1,9 @@
 use std::mem;
-use sqlx::{Error, Row};
+use sqlx::{Decode, Error, Row};
+use sqlx::postgres::PgRow;
 use tokio::join;
 use crate::Repository;
-use crate::repository::model::item_model::{GetItemModel, ItemBuySellModel};
+use crate::repository::model::item_model::{GetItemModel, ItemBuySellModel, ItemModel};
 use crate::server::script::Value;
 
 impl Repository {
@@ -61,6 +62,18 @@ impl Repository {
 
     pub async fn get_weight(&self, ids: Vec<i32>) -> Result<Vec<(i32, i32)>, Error> {
         sqlx::query_as("SELECT id, weight FROM item_db WHERE id IN (SELECT * FROM UNNEST($1::int4[]))")
+            .bind(ids)
+            .fetch_all(&self.pool).await
+    }
+
+    pub async fn get_item_full(&self, id: i32) -> Result<ItemModel, Error> {
+        sqlx::query_as("SELECT * FROM item_db WHERE id = $1")
+            .bind(id)
+            .fetch_one(&self.pool).await
+    }
+
+    pub async fn get_items_full(&self, ids: Vec<i32>) -> Result<Vec<ItemModel>, Error> {
+        sqlx::query_as("SELECT * FROM item_db WHERE id IN (SELECT * FROM UNNEST($1::int4[]))")
             .bind(ids)
             .fetch_all(&self.pool).await
     }

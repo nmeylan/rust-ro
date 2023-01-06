@@ -1,3 +1,7 @@
+use crate::*;
+
+use enum_macro::WithMaskValue;
+
 pub enum Class {
     Novice = 0,
     Swordman = 1,
@@ -63,4 +67,44 @@ pub enum Class {
     Taekwon = 4046,
     StarGladiator = 4047,
     SoulLinker = 4049,
+}
+
+#[derive(WithMaskValue)]
+pub enum EquipClassFlag {
+    #[mask_value = 1]
+    Novice,
+    Acolyte,
+    Priest,
+    Monk,
+    Mage,
+    Wizard,
+    Sage,
+
+    Thief,
+    Assassin,
+    Rogue,
+
+    Archer,
+    Hunter,
+    Barddancer,
+    Swordman,
+    Crusader,
+    Knight,
+
+    Merchant,
+    Alchemist,
+    Blacksmith,
+
+    Gunslinger,
+
+    Ninja,
+
+    Soullinker,
+
+    Stargladiator,
+
+    Supernovice,
+
+    Taekwon,
+    All,
 }

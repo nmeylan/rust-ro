@@ -1,4 +1,9 @@
+use sqlx::{Decode, Postgres};
+use sqlx::database::HasValueRef;
+use sqlx::error::BoxDynError;
+use sqlx::TypeInfo;
 use enums::item::{EquipmentLocation, ItemType};
+use enums::weapon::WeaponType;
 
 #[derive(sqlx::FromRow, Debug)]
 pub struct ItemModel {
@@ -28,109 +33,109 @@ pub struct ItemModel {
     #[sqlx(default)]
     pub slots: Option<i16>,
     #[sqlx(default)]
-    pub job_all: Option<bool>,
+    pub job_all: Option<i16>,
     #[sqlx(default)]
-    pub job_acolyte: Option<bool>,
+    pub job_acolyte: Option<i16>,
     #[sqlx(default)]
-    pub job_alchemist: Option<bool>,
+    pub job_alchemist: Option<i16>,
     #[sqlx(default)]
-    pub job_archer: Option<bool>,
+    pub job_archer: Option<i16>,
     #[sqlx(default)]
-    pub job_assassin: Option<bool>,
+    pub job_assassin: Option<i16>,
     #[sqlx(default)]
-    pub job_barddancer: Option<bool>,
+    pub job_barddancer: Option<i16>,
     #[sqlx(default)]
-    pub job_blacksmith: Option<bool>,
+    pub job_blacksmith: Option<i16>,
     #[sqlx(default)]
-    pub job_crusader: Option<bool>,
+    pub job_crusader: Option<i16>,
     #[sqlx(default)]
-    pub job_gunslinger: Option<bool>,
+    pub job_gunslinger: Option<i16>,
     #[sqlx(default)]
-    pub job_hunter: Option<bool>,
+    pub job_hunter: Option<i16>,
     #[sqlx(default)]
-    pub job_knight: Option<bool>,
+    pub job_knight: Option<i16>,
     #[sqlx(default)]
-    pub job_mage: Option<bool>,
+    pub job_mage: Option<i16>,
     #[sqlx(default)]
-    pub job_merchant: Option<bool>,
+    pub job_merchant: Option<i16>,
     #[sqlx(default)]
-    pub job_monk: Option<bool>,
+    pub job_monk: Option<i16>,
     #[sqlx(default)]
-    pub job_ninja: Option<bool>,
+    pub job_ninja: Option<i16>,
     #[sqlx(default)]
-    pub job_novice: Option<bool>,
+    pub job_novice: Option<i16>,
     #[sqlx(default)]
-    pub job_priest: Option<bool>,
+    pub job_priest: Option<i16>,
     #[sqlx(default)]
-    pub job_rogue: Option<bool>,
+    pub job_rogue: Option<i16>,
     #[sqlx(default)]
-    pub job_sage: Option<bool>,
+    pub job_sage: Option<i16>,
     #[sqlx(default)]
-    pub job_soullinker: Option<bool>,
+    pub job_soullinker: Option<i16>,
     #[sqlx(default)]
-    pub job_stargladiator: Option<bool>,
+    pub job_stargladiator: Option<i16>,
     #[sqlx(default)]
-    pub job_supernovice: Option<bool>,
+    pub job_supernovice: Option<i16>,
     #[sqlx(default)]
-    pub job_swordman: Option<bool>,
+    pub job_swordman: Option<i16>,
     #[sqlx(default)]
-    pub job_taekwon: Option<bool>,
+    pub job_taekwon: Option<i16>,
     #[sqlx(default)]
-    pub job_thief: Option<bool>,
+    pub job_thief: Option<i16>,
     #[sqlx(default)]
-    pub job_wizard: Option<bool>,
+    pub job_wizard: Option<i16>,
     #[sqlx(default)]
-    pub class_all: Option<bool>,
+    pub class_all: Option<i16>,
     #[sqlx(default)]
-    pub class_normal: Option<bool>,
+    pub class_normal: Option<i16>,
     #[sqlx(default)]
-    pub class_upper: Option<bool>,
+    pub class_upper: Option<i16>,
     #[sqlx(default)]
-    pub class_baby: Option<bool>,
+    pub class_baby: Option<i16>,
     #[sqlx(default)]
     pub gender: Option<String>,
     #[sqlx(default)]
-    pub location_head_top: Option<bool>,
+    pub location_head_top: Option<i16>,
     #[sqlx(default)]
-    pub location_head_mid: Option<bool>,
+    pub location_head_mid: Option<i16>,
     #[sqlx(default)]
-    pub location_head_low: Option<bool>,
+    pub location_head_low: Option<i16>,
     #[sqlx(default)]
-    pub location_armor: Option<bool>,
+    pub location_armor: Option<i16>,
     #[sqlx(default)]
-    pub location_right_hand: Option<bool>,
+    pub location_right_hand: Option<i16>,
     #[sqlx(default)]
-    pub location_left_hand: Option<bool>,
+    pub location_left_hand: Option<i16>,
     #[sqlx(default)]
-    pub location_garment: Option<bool>,
+    pub location_garment: Option<i16>,
     #[sqlx(default)]
-    pub location_shoes: Option<bool>,
+    pub location_shoes: Option<i16>,
     #[sqlx(default)]
-    pub location_right_accessory: Option<bool>,
+    pub location_right_accessory: Option<i16>,
     #[sqlx(default)]
-    pub location_left_accessory: Option<bool>,
+    pub location_left_accessory: Option<i16>,
     #[sqlx(default)]
-    pub location_costume_head_top: Option<bool>,
+    pub location_costume_head_top: Option<i16>,
     #[sqlx(default)]
-    pub location_costume_head_mid: Option<bool>,
+    pub location_costume_head_mid: Option<i16>,
     #[sqlx(default)]
-    pub location_costume_head_low: Option<bool>,
+    pub location_costume_head_low: Option<i16>,
     #[sqlx(default)]
-    pub location_costume_garment: Option<bool>,
+    pub location_costume_garment: Option<i16>,
     #[sqlx(default)]
-    pub location_ammo: Option<bool>,
+    pub location_ammo: Option<i16>,
     #[sqlx(default)]
-    pub location_shadow_armor: Option<bool>,
+    pub location_shadow_armor: Option<i16>,
     #[sqlx(default)]
-    pub location_shadow_weapon: Option<bool>,
+    pub location_shadow_weapon: Option<i16>,
     #[sqlx(default)]
-    pub location_shadow_shield: Option<bool>,
+    pub location_shadow_shield: Option<i16>,
     #[sqlx(default)]
-    pub location_shadow_shoes: Option<bool>,
+    pub location_shadow_shoes: Option<i16>,
     #[sqlx(default)]
-    pub location_shadow_right_accessory: Option<bool>,
+    pub location_shadow_right_accessory: Option<i16>,
     #[sqlx(default)]
-    pub location_shadow_left_accessory: Option<bool>,
+    pub location_shadow_left_accessory: Option<i16>,
     #[sqlx(default)]
     pub weapon_level: Option<i16>,
     #[sqlx(default)]
@@ -142,69 +147,63 @@ pub struct ItemModel {
     #[sqlx(default)]
     pub refineable: Option<i16>,
     #[sqlx(default)]
-    pub view: Option<i16>,
+    pub view: Option<i32>,
     #[sqlx(default)]
     pub alias_name: Option<String>,
     #[sqlx(default)]
-    pub flag_buyingstore: Option<bool>,
+    pub flag_buyingstore: Option<i16>,
     #[sqlx(default)]
-    pub flag_deadbranch: Option<bool>,
+    pub flag_deadbranch: Option<i16>,
     #[sqlx(default)]
-    pub flag_container: Option<bool>,
+    pub flag_container: Option<i16>,
     #[sqlx(default)]
-    pub flag_uniqueid: Option<bool>,
+    pub flag_uniqueid: Option<i16>,
     #[sqlx(default)]
-    pub flag_bindonequip: Option<bool>,
+    pub flag_bindonequip: Option<i16>,
     #[sqlx(default)]
-    pub flag_dropannounce: Option<bool>,
+    pub flag_dropannounce: Option<i16>,
     #[sqlx(default)]
-    pub flag_noconsume: Option<bool>,
+    pub flag_noconsume: Option<i16>,
     #[sqlx(default)]
     pub flag_dropeffect: Option<String>,
     #[sqlx(default)]
-    pub delay_duration: Option<u64>,
+    pub delay_duration: Option<i64>,
     #[sqlx(default)]
     pub delay_status: Option<String>,
     #[sqlx(default)]
-    pub stack_amount: Option<u16>,
+    pub stack_amount: Option<i16>,
     #[sqlx(default)]
-    pub stack_inventory: Option<bool>,
+    pub stack_inventory: Option<i16>,
     #[sqlx(default)]
-    pub stack_cart: Option<bool>,
+    pub stack_cart: Option<i16>,
     #[sqlx(default)]
-    pub stack_storage: Option<bool>,
+    pub stack_storage: Option<i16>,
     #[sqlx(default)]
-    pub stack_guildstorage: Option<bool>,
+    pub stack_guildstorage: Option<i16>,
     #[sqlx(default)]
-    pub nouse_override: Option<u16>,
+    pub nouse_override: Option<i16>,
     #[sqlx(default)]
-    pub nouse_sitting: Option<bool>,
+    pub nouse_sitting: Option<i16>,
     #[sqlx(default)]
-    pub trade_override: Option<u16>,
+    pub trade_override: Option<i32>,
     #[sqlx(default)]
-    pub trade_nodrop: Option<bool>,
+    pub trade_nodrop: Option<i16>,
     #[sqlx(default)]
-    pub trade_notrade: Option<bool>,
+    pub trade_notrade: Option<i16>,
     #[sqlx(default)]
-    pub trade_tradepartner: Option<bool>,
+    pub trade_tradepartner: Option<i16>,
     #[sqlx(default)]
-    pub trade_nosell: Option<bool>,
+    pub trade_nosell: Option<i16>,
     #[sqlx(default)]
-    pub trade_nocart: Option<bool>,
+    pub trade_nocart: Option<i16>,
     #[sqlx(default)]
-    pub trade_nostorage: Option<bool>,
+    pub trade_nostorage: Option<i16>,
     #[sqlx(default)]
-    pub trade_noguildstorage: Option<bool>,
+    pub trade_noguildstorage: Option<i16>,
     #[sqlx(default)]
-    pub trade_nomail: Option<bool>,
+    pub trade_nomail: Option<i16>,
     #[sqlx(default)]
-    pub trade_noauction: Option<bool>,
-    #[sqlx(default)]
-    pub script: Option<String>,
-    #[sqlx(default)]
-    pub equip_script: Option<String>,
-    #[sqlx(default)]
-    pub unequip_script: Option<String>,
+    pub trade_noauction: Option<i16>,
 }
 
 #[derive(sqlx::FromRow, Debug)]
@@ -236,16 +235,18 @@ pub struct GetItemModel {
     pub name_english: String,
     #[sqlx(default)]
     pub name_aegis: String,
-    pub location: i32
+    pub location: i32,
 }
 
+
+pub type ItemId = i32;
 #[derive(sqlx::FromRow, Debug, Clone)]
 pub struct InventoryItemModel {
     // Come from inventory table
     pub id: i32,
     pub unique_id: i64,
     #[sqlx(rename = "nameid")]
-    pub item_id: i32,
+    pub item_id: ItemId,
     #[sqlx(rename = "type")]
     pub item_type: ItemType,
     pub amount: i16,
@@ -263,5 +264,11 @@ pub struct InventoryItemModel {
     #[sqlx(default)]
     pub name_english: String,
     pub weight: i32,
-    pub location: i32
+    pub location: i32,
+}
+
+pub struct EquippedItem {
+    pub item_id: i32,
+    pub location: i32,
+    pub index: usize,
 }

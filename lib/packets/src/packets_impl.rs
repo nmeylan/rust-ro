@@ -56745,13 +56745,23 @@ impl PacketZcSpriteChange2 {
                 dst
             },
             value: {
-                let field = i32::from_le_bytes([buffer[offset], buffer[offset + 1], buffer[offset + 2], buffer[offset + 3]]);
+                let field = u16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
             },
             value_raw: {
-                let mut dst: [u8; 4] = [0u8; 4];
-                dst.clone_from_slice(&buffer[offset..offset + 4]);
-                offset += 4;
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[offset..offset + 2]);
+                offset += 2;
+                dst
+            },
+            value2: {
+                let field = u16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
+                field
+            },
+            value2_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[offset..offset + 2]);
+                offset += 2;
                 dst
             },
             raw: (&buffer[..offset]).to_vec(),
@@ -56772,14 +56782,18 @@ impl PacketZcSpriteChange2 {
         wtr.write_u8(self.atype).unwrap();
         self.atype_raw = wtr.try_into().unwrap();
         wtr = vec![];
-        wtr.write_i32::<LittleEndian>(self.value).unwrap();
+        wtr.write_u16::<LittleEndian>(self.value).unwrap();
         self.value_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u16::<LittleEndian>(self.value2).unwrap();
+        self.value2_raw = wtr.try_into().unwrap();
 
         wtr = vec![];
         wtr.append(&mut self.packet_id_raw.to_vec());
         wtr.append(&mut self.gid_raw.to_vec());
         wtr.append(&mut self.atype_raw.to_vec());
         wtr.append(&mut self.value_raw.to_vec());
+        wtr.append(&mut self.value2_raw.to_vec());
         self.raw = wtr;
     }
     pub fn base_len(packetver: u32) -> usize {
@@ -56804,11 +56818,17 @@ impl PacketZcSpriteChange2 {
     pub fn set_atype_raw(&mut self, value: [u8; 1]) {
         self.atype_raw = value;
     }
-    pub fn set_value(&mut self, value: i32) {
+    pub fn set_value(&mut self, value: u16) {
         self.value = value;
     }
-    pub fn set_value_raw(&mut self, value: [u8; 4]) {
+    pub fn set_value_raw(&mut self, value: [u8; 2]) {
         self.value_raw = value;
+    }
+    pub fn set_value2(&mut self, value: u16) {
+        self.value2 = value;
+    }
+    pub fn set_value2_raw(&mut self, value: [u8; 2]) {
+        self.value2_raw = value;
     }
     pub fn new() -> PacketZcSpriteChange2 {
         PacketZcSpriteChange2 {
@@ -56820,7 +56840,9 @@ impl PacketZcSpriteChange2 {
         atype: 0,
         atype_raw: [0; 1],
         value: 0,
-        value_raw: [0; 4],
+        value_raw: [0; 2],
+        value2: 0,
+        value2_raw: [0; 2],
         }
     }
 }
