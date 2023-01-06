@@ -1,5 +1,10 @@
 use std::sync::Once;
+use enums::{EnumWithMaskValue, EnumWithStringValue};
+use enums::item::{EquipmentLocation, ItemType};
+use enums::weapon::WeaponType;
+use crate::server::service::character::item_service::ItemService;
 use crate::server::state::character::Character;
+use crate::server::state::status::LookType::Weapon;
 
 static mut SERVICE_INSTANCE: Option<BattleService> = None;
 static SERVICE_INSTANCE_INIT: Once = Once::new();
@@ -48,7 +53,17 @@ impl BattleService {
     pub fn base_atk(&self, character: &Character) -> i32 {
         let mut str;
         let mut dex;
-        let is_ranged_weapon = false;
+        let mut is_ranged_weapon = false;
+        let mut right_hand_weapon_atk: u16 = 0;
+        if let Some((_, weapon)) = character.inventory_equipped().iter().find(|(_, item)| { item.item_type == ItemType::Weapon && (item.equip & EquipmentLocation::HandRight.as_flag() as i32) != 0 }) {
+            let item = ItemService::instance().get_item_from_cache(weapon.item_id).expect(format!("Expected item {} to be in cache", weapon.item_id).as_str());
+            is_ranged_weapon = if let Some(subtype) = item.subtype.as_ref() {
+                WeaponType::from_string_ignore_case(subtype.clone().as_str()).is_ranged()
+            } else {
+                false
+            };
+            right_hand_weapon_atk = item.attack.unwrap_or(0) as u16;
+        }
         if is_ranged_weapon {
             str = character.status.dex;
             dex = character.status.str;
@@ -63,6 +78,6 @@ impl BattleService {
         str += dstr*dstr;
         str += dex / 5 + character.status.luk / 5;
 
-        0
+        (str + right_hand_weapon_atk) as i32
     }
 }

@@ -18,6 +18,7 @@ pub enum GameEvent {
     CharacterEquipItem(CharacterEquipItem),
     CharacterTakeoffEquipItem(CharacterTakeoffEquipItem),
     CharacterAttack(CharacterAttack),
+    CharacterCalculateStats(u32),
 }
 
 pub struct CharacterChangeMap {
@@ -44,7 +45,7 @@ pub struct CharacterMovement {
 pub struct CharacterLook {
     pub char_id: u32,
     pub look_type: LookType,
-    pub look_value: u32,
+    pub look_value: u16,
 }
 
 pub struct CharacterZeny {

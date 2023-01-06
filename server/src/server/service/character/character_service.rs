@@ -20,6 +20,7 @@ use crate::server::core::action::Attack;
 use crate::server::service::battle_service::BattleService;
 
 use crate::server::state::character::Character;
+use crate::server::state::status::LookType;
 use crate::util::packet::chain_packets;
 use crate::util::string::StringUtil;
 
@@ -96,19 +97,28 @@ impl CharacterService {
     pub fn change_look(&self, server_ref: &Server, persistence_event_sender: &SyncSender<PersistenceEvent>, character_look: CharacterLook, character: &mut Character) {
         let db_column = character.change_look(character_look.look_type, character_look.look_value);
         if let Some(db_column) = db_column {
-            let mut packet_zc_sprite_change = PacketZcSpriteChange2::new();
-            packet_zc_sprite_change.set_gid(character_look.char_id);
-            packet_zc_sprite_change.set_atype(character_look.look_type.value() as u8);
-            packet_zc_sprite_change.set_value(character_look.look_value as i32);
-            packet_zc_sprite_change.fill_raw();
-            server_ref.client_notification_sender().send(Notification::Area(AreaNotification {
-                map_name: character.current_map_name().clone(),
-                map_instance_id: character.current_map_instance(),
-                range_type: AreaNotificationRangeType::Fov { x: character.x(), y: character.y() },
-                packet: std::mem::take(packet_zc_sprite_change.raw_mut()),
-            })).expect("Fail to send client notification");
-            persistence_event_sender.send(PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character_look.char_id, db_column, value: character_look.look_value })).expect("Fail to send persistence notification");
+            self.change_sprite(server_ref, character, character_look.look_type, character_look.look_value, 0);
+            persistence_event_sender.send(PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character_look.char_id, db_column, value: character_look.look_value as u32})).expect("Fail to send persistence notification");
         }
+    }
+
+    pub fn change_sprite(&self, server_ref: &Server, character: &Character, look_type: LookType, look_value: u16, look_value2: u16) {
+        let mut packet_zc_sprite_change = PacketZcSpriteChange2::new();
+        packet_zc_sprite_change.set_gid(character.char_id);
+        packet_zc_sprite_change.set_atype(look_type.value() as u8);
+        packet_zc_sprite_change.set_value(look_value);
+        packet_zc_sprite_change.set_value2(look_value2);
+        packet_zc_sprite_change.fill_raw();
+        self.send_area_notification_around_characters(server_ref, character, packet_zc_sprite_change.raw);
+    }
+
+    pub fn send_area_notification_around_characters(&self, server_ref: &Server, character: &Character, packets: Vec<u8>) {
+        server_ref.client_notification_sender().send(Notification::Area(AreaNotification {
+            map_name: character.current_map_name().clone(),
+            map_instance_id: character.current_map_instance(),
+            range_type: AreaNotificationRangeType::Fov { x: character.x(), y: character.y() },
+            packet: packets
+        })).expect("Fail to send client notification");
     }
 
     pub fn update_zeny(&self, server_ref: &Server, persistence_event_sender: &SyncSender<PersistenceEvent>, runtime: &Runtime, zeny_update: CharacterZeny, character: &mut Character) {

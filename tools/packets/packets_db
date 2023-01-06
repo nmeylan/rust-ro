@@ -2884,7 +2884,8 @@ struct PACKET_ZC_SPRITE_CHANGE2 {
   short PacketId
   unsigned long GID
   unsigned char type
-  int value
+  unsigned short value
+  unsigned short value2
  }
 0x1d8
 struct PACKET_ZC_NOTIFY_STANDENTRY2 {

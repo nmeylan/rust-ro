@@ -4674,8 +4674,10 @@ pub struct PacketZcSpriteChange2 {
     pub gid_raw: [u8; 4],
     pub atype: u8,
     pub atype_raw: [u8; 1],
-    pub value: i32,
-    pub value_raw: [u8; 4],
+    pub value: u16,
+    pub value_raw: [u8; 2],
+    pub value2: u16,
+    pub value2_raw: [u8; 2],
 }
 
 #[derive(Clone)]

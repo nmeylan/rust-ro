@@ -2,14 +2,20 @@ use std::sync::{Arc, Once};
 use std::sync::mpsc::SyncSender;
 use rand::RngCore;
 use tokio::runtime::Runtime;
-use packets::packets::{EquipmentitemExtrainfo301, EQUIPSLOTINFO, NormalitemExtrainfo3, Packet, PacketZcEquipmentItemlist3, PacketZcItemPickupAck3, PacketZcNormalItemlist3, PacketZcPcPurchaseResult, PacketZcReqTakeoffEquipAck, PacketZcReqTakeoffEquipAck2, PacketZcReqWearEquipAck, PacketZcReqWearEquipAck2};
+use enums::EnumWithMaskValue;
+use enums::item::{EquipmentLocation, ItemType};
+use packets::packets::{EquipmentitemExtrainfo301, EQUIPSLOTINFO, NormalitemExtrainfo3, Packet, PacketZcEquipmentItemlist3, PacketZcItemPickupAck3, PacketZcNormalItemlist3, PacketZcPcPurchaseResult, PacketZcReqTakeoffEquipAck, PacketZcReqTakeoffEquipAck2, PacketZcReqWearEquipAck, PacketZcReqWearEquipAck2, PacketZcSpriteChange2};
 use crate::repository::model::item_model::InventoryItemModel;
 use crate::server::events::client_notification::{CharNotification, Notification};
 use crate::server::events::game_event::{CharacterAddItems, CharacterEquipItem, CharacterZeny};
 use crate::server::events::game_event::GameEvent::{CharacterUpdateWeight, CharacterUpdateZeny};
 use crate::server::events::persistence_event::{InventoryItemUpdate, PersistenceEvent};
 use crate::server::Server;
+use crate::server::service::character::character_service::CharacterService;
+use crate::server::service::character::item_service::ItemService;
+use crate::server::service::status_service::StatusService;
 use crate::server::state::character::Character;
+use crate::server::state::status::LookType;
 use crate::util::packet::{chain_packets, chain_packets_raws_by_value};
 
 static mut SERVICE_INSTANCE: Option<InventoryService> = None;
@@ -30,58 +36,61 @@ impl InventoryService {
     }
 
     pub fn add_items_in_inventory(&self, server_ref: &Server, runtime: &Runtime, add_items: CharacterAddItems, character: &mut Character) {
-        runtime.block_on(async {
-            let mut rng = rand::thread_rng();
-            let inventory_item_updates: Vec<InventoryItemUpdate> = add_items.items.iter().map(|item| {
-                if item.item_type.is_stackable() {
-                    InventoryItemUpdate { char_id: add_items.char_id as i32, item_id: item.item_id as i32, amount: item.amount as i16, stackable: true, identified: item.is_identified, unique_id: 0 }
-                } else {
-                    InventoryItemUpdate { char_id: add_items.char_id as i32, item_id: item.item_id as i32, amount: item.amount as i16, stackable: false, identified: item.is_identified, unique_id: rng.next_u32() as i64 }
-                }
-            }).collect();
-            let result = server_ref.repository.character_inventory_update(&inventory_item_updates, add_items.buy).await;
-            if result.is_ok() {
-                let mut packets = vec![];
-                character.add_items(add_items.items).iter().for_each(|(index, item)| {
-                    let mut packet_zc_item_pickup_ack3 = PacketZcItemPickupAck3::new();
-                    packet_zc_item_pickup_ack3.set_itid(item.item_id as u16);
-                    packet_zc_item_pickup_ack3.set_count(item.amount as u16);
-                    packet_zc_item_pickup_ack3.set_index(*index as u16);
-                    packet_zc_item_pickup_ack3.set_is_identified(item.is_identified);
-                    packet_zc_item_pickup_ack3.set_atype(item.item_type.value() as u8);
-                    packet_zc_item_pickup_ack3.set_location(item.location as u16);
-                    packet_zc_item_pickup_ack3.fill_raw();
-                    packet_zc_item_pickup_ack3.pretty_debug();
-                    packets.push(packet_zc_item_pickup_ack3)
-                });
-                let mut packets_raws_by_value = chain_packets_raws_by_value(packets.iter().map(|packet| packet.raw.clone()).collect());
-                if add_items.buy {
-                    let mut packet_zc_pc_purchase_result = PacketZcPcPurchaseResult::new();
-                    packet_zc_pc_purchase_result.set_result(0);
-                    packet_zc_pc_purchase_result.fill_raw();
-                    packets_raws_by_value.extend(packet_zc_pc_purchase_result.raw);
-                    server_ref.add_to_next_tick(CharacterUpdateZeny(CharacterZeny { char_id: character.char_id, zeny: None }));
-                }
-                server_ref.add_to_next_tick(CharacterUpdateWeight(character.char_id));
-                server_ref.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packets_raws_by_value))).expect("Fail to send client notification");
+        let mut rng = rand::thread_rng();
+        let inventory_item_updates: Vec<InventoryItemUpdate> = add_items.items.iter().map(|item| {
+            if item.item_type.is_stackable() {
+                InventoryItemUpdate { char_id: add_items.char_id as i32, item_id: item.item_id as i32, amount: item.amount as i16, stackable: true, identified: item.is_identified, unique_id: 0 }
             } else {
-                if add_items.buy {
-                    let mut packet_zc_pc_purchase_result = PacketZcPcPurchaseResult::new();
-                    packet_zc_pc_purchase_result.set_result(1);
-                    packet_zc_pc_purchase_result.fill_raw();
-                    server_ref.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packet_zc_pc_purchase_result.raw))).expect("Fail to send client notification");
-                }
-                error!("{:?}", result.err());
+                InventoryItemUpdate { char_id: add_items.char_id as i32, item_id: item.item_id as i32, amount: item.amount as i16, stackable: false, identified: item.is_identified, unique_id: rng.next_u32() as i64 }
             }
+        }).collect();
+
+        ItemService::instance().add_items_to_cache(add_items.items.iter().map(|item| item.item_id).collect(), server_ref, runtime);
+        let result = runtime.block_on(async {
+            server_ref.repository.character_inventory_update(&inventory_item_updates, add_items.buy).await
         });
+        if result.is_ok() {
+            let mut packets = vec![];
+            character.add_items(add_items.items).iter().for_each(|(index, item)| {
+                let mut packet_zc_item_pickup_ack3 = PacketZcItemPickupAck3::new();
+                packet_zc_item_pickup_ack3.set_itid(item.item_id as u16);
+                packet_zc_item_pickup_ack3.set_count(item.amount as u16);
+                packet_zc_item_pickup_ack3.set_index(*index as u16);
+                packet_zc_item_pickup_ack3.set_is_identified(item.is_identified);
+                packet_zc_item_pickup_ack3.set_atype(item.item_type.value() as u8);
+                packet_zc_item_pickup_ack3.set_location(item.location as u16);
+                packet_zc_item_pickup_ack3.fill_raw();
+                packet_zc_item_pickup_ack3.pretty_debug();
+                packets.push(packet_zc_item_pickup_ack3)
+            });
+            let mut packets_raws_by_value = chain_packets_raws_by_value(packets.iter().map(|packet| packet.raw.clone()).collect());
+            if add_items.buy {
+                let mut packet_zc_pc_purchase_result = PacketZcPcPurchaseResult::new();
+                packet_zc_pc_purchase_result.set_result(0);
+                packet_zc_pc_purchase_result.fill_raw();
+                packets_raws_by_value.extend(packet_zc_pc_purchase_result.raw);
+                server_ref.add_to_next_tick(CharacterUpdateZeny(CharacterZeny { char_id: character.char_id, zeny: None }));
+            }
+            server_ref.add_to_next_tick(CharacterUpdateWeight(character.char_id));
+            server_ref.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packets_raws_by_value))).expect("Fail to send client notification");
+        } else {
+            if add_items.buy {
+                let mut packet_zc_pc_purchase_result = PacketZcPcPurchaseResult::new();
+                packet_zc_pc_purchase_result.set_result(1);
+                packet_zc_pc_purchase_result.fill_raw();
+                server_ref.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packet_zc_pc_purchase_result.raw))).expect("Fail to send client notification");
+            }
+            error!("{:?}", result.err());
+        }
     }
 
     pub fn reload_inventory(&self, server_ref: &Server, runtime: &Runtime, char_id: u32, character: &mut Character) {
         character.inventory = vec![];
-        runtime.block_on(async {
+        let items = runtime.block_on(async {
             let items = server_ref.repository.character_inventory_fetch(char_id as i32).await.unwrap();
-            character.add_items(items);
+            character.add_items(items)
         });
+        ItemService::instance().add_items_to_cache(items.iter().map(|(_, item)| item.item_id).collect(), server_ref, runtime);
         //PacketZcNormalItemlist3
         let mut packet_zc_equipment_itemlist3 = PacketZcEquipmentItemlist3::new();
         let mut equipments = vec![];
@@ -135,6 +144,47 @@ impl InventoryService {
             .expect("Fail to send client notification");
     }
 
+    pub fn reload_equipped_item_sprites(&self, server_ref: &Server, character: &Character) {
+        let mut packets: Vec<u8> = vec![];
+        character.inventory_equipped().iter().for_each(|(_, item)|  {
+            if let Some(packet) = self.sprite_change_packet_for_item(character, item) {
+                packets.extend(packet);
+            }
+        });
+        CharacterService::instance().send_area_notification_around_characters(server_ref, character, packets);
+    }
+
+    pub fn sprite_change_packet_for_item(&self, character: &Character, item: &InventoryItemModel) -> Option<Vec<u8>> {
+        let mut packet_zc_sprite_change = PacketZcSpriteChange2::new();
+        packet_zc_sprite_change.set_gid(character.char_id);
+        let item_info = ItemService::instance().get_item_from_cache(item.item_id).expect("Fail to get item from cache");
+        if item.equip & EquipmentLocation::HandRight.as_flag() as i32 != 0 {
+            packet_zc_sprite_change.set_atype(LookType::Weapon.value() as u8);
+            packet_zc_sprite_change.set_value(item_info.view.unwrap_or(item.item_id) as u16);
+        }
+        if item.equip & EquipmentLocation::HandLeft.as_flag() as i32 != 0 {
+            packet_zc_sprite_change.set_atype(LookType::Shield.value() as u8);
+            packet_zc_sprite_change.set_value2(item_info.view.unwrap_or(item.item_id) as u16);
+        }
+        if item.equip & EquipmentLocation::HeadTop.as_flag() as i32 != 0 {
+            packet_zc_sprite_change.set_atype(LookType::HeadTop.value() as u8);
+            packet_zc_sprite_change.set_value(item_info.view.unwrap_or(item.item_id) as u16);
+        }
+        if item.equip & EquipmentLocation::HeadMid.as_flag() as i32 != 0 {
+            packet_zc_sprite_change.set_atype(LookType::HeadMid.value() as u8);
+            packet_zc_sprite_change.set_value(item_info.view.unwrap_or(item.item_id) as u16);
+        }
+        if item.equip & EquipmentLocation::HeadLow.as_flag() as i32 != 0 {
+            packet_zc_sprite_change.set_atype(LookType::HeadBottom.value() as u8);
+            packet_zc_sprite_change.set_value(item_info.view.unwrap_or(item.item_id) as u16);
+        }
+        if packet_zc_sprite_change.atype != 0 {
+            packet_zc_sprite_change.fill_raw();
+            return Some(packet_zc_sprite_change.raw);
+        }
+        None
+    }
+
     pub fn equip_item<'a>(&self, server_ref: &Server, character: &'a mut Character, persistence_event_sender: &SyncSender<PersistenceEvent>, character_equip_item: CharacterEquipItem) {
         let mut packet_zc_req_wear_equip_ack = PacketZcReqWearEquipAck2::new();
         packet_zc_req_wear_equip_ack.set_index(character_equip_item.index as u16);
@@ -143,15 +193,17 @@ impl InventoryService {
 
         let mut packets_raws_by_value = vec![];
         if let Some(equipped_take_off_items) = character.equip_item(character_equip_item.index) {
+            let item_view = ItemService::instance().get_item_from_cache(equipped_take_off_items[0].item_id).expect("Fail to get item from cache").view.unwrap_or(0);
+            packet_zc_req_wear_equip_ack.set_view_id(item_view as u16);
             packet_zc_req_wear_equip_ack.set_result(0);
-            packet_zc_req_wear_equip_ack.set_wear_location(equipped_take_off_items[0].1 as u16);
+            packet_zc_req_wear_equip_ack.set_wear_location(equipped_take_off_items[0].location as u16);
             packet_zc_req_wear_equip_ack.fill_raw();
             let mut take_off_items_packets = vec![];
             if equipped_take_off_items.len() > 0 {
                 for i in 1..equipped_take_off_items.len() {
                     let mut packet_zc_req_takeoff_equip_ack2 = PacketZcReqTakeoffEquipAck2::new();
-                    packet_zc_req_takeoff_equip_ack2.set_index(equipped_take_off_items[i].0 as u16);
-                    packet_zc_req_takeoff_equip_ack2.set_wear_location(equipped_take_off_items[i].1 as u16);
+                    packet_zc_req_takeoff_equip_ack2.set_index(equipped_take_off_items[i].index as u16);
+                    packet_zc_req_takeoff_equip_ack2.set_wear_location(equipped_take_off_items[i].location as u16);
                     packet_zc_req_takeoff_equip_ack2.set_result(0);
                     packet_zc_req_takeoff_equip_ack2.fill_raw();
                     take_off_items_packets.push(packet_zc_req_takeoff_equip_ack2);
@@ -164,6 +216,7 @@ impl InventoryService {
             .expect("Fail to send client notification");
         persistence_event_sender.send(PersistenceEvent::UpdateEquippedItems(character.inventory_wearable().iter().cloned().map(|(_m, item)| item.clone()).collect::<Vec<InventoryItemModel>>()))
             .expect("Fail to send persistence event");
+
         // check if item is equipable
         // check class requirement
         // check level requirement

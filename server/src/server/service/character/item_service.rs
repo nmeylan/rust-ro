@@ -6,7 +6,7 @@ use rathena_script_lang_interpreter::lang::compiler::{Compiler, DebugFlag};
 use rathena_script_lang_interpreter::lang::vm::Vm;
 use tokio::runtime::Runtime;
 use tokio::sync::mpsc;
-use crate::repository::model::item_model::InventoryItemModel;
+use crate::repository::model::item_model::{InventoryItemModel, ItemModel};
 use enums::item::ItemType;
 use packets::packets::PacketZcUseItemAck2;
 use crate::server::events::client_notification::{CharNotification, Notification};
@@ -23,6 +23,7 @@ static SERVICE_INSTANCE_INIT: Once = Once::new();
 
 pub struct ItemService {
     item_script_cache: MyUnsafeCell<HashMap<u32, ClassFile>>,
+    item_cache: MyUnsafeCell<HashMap<u32, ItemModel>>,
 }
 
 impl ItemService {
@@ -36,6 +37,7 @@ impl ItemService {
     fn new() -> Self {
         Self {
             item_script_cache: Default::default(),
+            item_cache: Default::default(),
         }
     }
     pub fn schedule_get_items(&self, char_id: u32, server: &Server, runtime: &Runtime, item_ids_amounts: Vec<(Value, i16)>, buy: bool) {
@@ -87,6 +89,40 @@ impl ItemService {
         }
         if self.item_script_cache.borrow().contains_key(&(item_id as u32)) {
             return Some(MyRef::map(self.item_script_cache.borrow(), |scripts| scripts.get(&(item_id as u32)).unwrap()));
+        }
+        None
+    }
+
+    pub fn add_items_to_cache(&self, item_ids: Vec<i32>, server: &Server, runtime: &Runtime) {
+        let item_ids: Vec<i32> = item_ids.iter().filter(|item_id| !self.item_cache.borrow().contains_key(&(**item_id as u32))).map(|item_id| *item_id as i32).collect();
+        if item_ids.is_empty() {
+            return;
+        }
+        let result = runtime.block_on(async { server.repository.get_items_full(item_ids).await });
+        if let Ok(items) = result {
+            for item in items {
+                self.item_cache.borrow_mut().insert(item.id.unwrap() as u32, item);
+            }
+        } else {
+            error!("{}", result.err().unwrap());
+        }
+    }
+
+    pub fn get_item(&self, item_id: i32, server: &Server, runtime: &Runtime) -> Option<MyRef<ItemModel>> {
+        if !self.item_cache.borrow().contains_key(&(item_id as u32)) {
+            if let Ok(item) = runtime.block_on(async { server.repository.get_item_full(item_id).await }) {
+                self.item_cache.borrow_mut().insert(item_id as u32, item);
+            }
+        }
+        if self.item_cache.borrow().contains_key(&(item_id as u32)) {
+            return Some(MyRef::map(self.item_cache.borrow(), |cache| cache.get(&(item_id as u32)).unwrap()));
+        }
+        None
+    }
+
+    pub fn get_item_from_cache(&self, item_id: i32) -> Option<MyRef<ItemModel>> {
+        if self.item_cache.borrow().contains_key(&(item_id as u32)) {
+            return Some(MyRef::map(self.item_cache.borrow(), |cache| cache.get(&(item_id as u32)).unwrap()));
         }
         None
     }
