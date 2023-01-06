@@ -6,7 +6,7 @@ use accessor::Setters;
 use enums::EnumWithMaskValue;
 use enums::item::{EquipmentLocation, ItemType};
 use crate::{get_job_config};
-use crate::repository::model::item_model::{EquippedItem, InventoryItemModel, ItemId};
+use crate::repository::model::item_model::{EquippedItem, InventoryItemModel, ItemId, ItemModel};
 use crate::server::core::action::Attack;
 use crate::server::core::movement::Movement;
 use crate::server::core::map_instance::{MapInstance, MapInstanceKey};
@@ -234,64 +234,11 @@ impl Character {
         None
     }
 
-    fn get_item_from_inventory_mut(&mut self, index: usize) -> Option<&mut InventoryItemModel> {
+    pub(crate) fn get_item_from_inventory_mut(&mut self, index: usize) -> Option<&mut InventoryItemModel> {
         if let Some(inventory_slot) = self.inventory.get_mut(index) {
             if inventory_slot.is_some() {
                 return Some(inventory_slot.as_mut().unwrap());
             }
-        }
-        None
-    }
-
-    pub fn equip_item(&mut self, index: usize) -> Option<Vec<EquippedItem>> {
-        if let Some(item) = self.get_item_from_inventory(index) {
-            let location = item.location;
-            let item_id = item.item_id;
-            let mut equipped_take_off_items: Vec<EquippedItem> = vec![];
-            if !item.item_type.is_equipment() {
-                return None;
-            }
-            if location & EquipmentLocation::AccessoryLeft.as_flag() as i32 != 0 || location & EquipmentLocation::AccessoryRight.as_flag() as i32 != 0 {
-                // Remove equipped accessory if both(right and left) slots are occupied, otherwise just equip the item in the free slot (right or left)
-                let accessories: Vec<(usize, &InventoryItemModel)> = self.inventory.iter().enumerate()
-                    .filter(|(_, i)| if let Some(j) = i { j.item_type.is_equipment() && (j.equip & location != 0) } else { false })
-                    .map(|(index, item)| (index, item.as_ref().unwrap()))
-                    .collect();
-                if accessories.len() == 2 {
-                    equipped_take_off_items.push(EquippedItem { item_id, location: EquipmentLocation::AccessoryLeft.as_flag() as i32, index, });
-                    // When the 2 accessories slot are occupied, remove left accessory and equip new one in the left slot
-                    let (item_to_remove_index, _) = accessories.iter().find(|(index, item)| item.equip & EquipmentLocation::AccessoryLeft.as_flag() as i32 != 0).unwrap();
-                    let item_to_remove_index = *item_to_remove_index;
-                    drop(accessories);
-                    let mut item = self.get_item_from_inventory_mut(item_to_remove_index).unwrap();
-                    equipped_take_off_items.push(EquippedItem { item_id: item.item_id, location: item.equip, index: item_to_remove_index, });
-                    item.equip = 0;
-                    self.get_item_from_inventory_mut(index).unwrap().equip = EquipmentLocation::AccessoryLeft.as_flag() as i32;
-                } else if accessories.len() == 1 {
-                    // When only 1 accessory slot is occupied, equip the new item in the free slot
-                    vec![EquipmentLocation::AccessoryRight.as_flag() as i32, EquipmentLocation::AccessoryLeft.as_flag() as i32].iter()
-                        .find(|item_mask| accessories[0].1.equip & **item_mask == 0)
-                        .map(|item_mask| {
-                            equipped_take_off_items.push(EquippedItem { item_id, location: *item_mask as i32, index, });
-                            self.get_item_from_inventory_mut(index).unwrap().equip = *item_mask as i32;
-                        });
-                } else {
-                    equipped_take_off_items.push(EquippedItem { item_id, location: EquipmentLocation::AccessoryLeft.as_flag() as i32, index, });
-                    self.get_item_from_inventory_mut(index).unwrap().equip = EquipmentLocation::AccessoryLeft.as_flag() as i32;
-                }
-            } else {
-                equipped_take_off_items.push(EquippedItem { item_id, location, index, });
-                // Remove equipped items in same location. E.g: when goggle item is equipped it remove top and mid head items, when a 2h weapon is equipped it remove shield and weapon items...
-                self.inventory.iter_mut().enumerate()
-                    .filter(|(_, i)| if let Some(j) = i { j.item_type.is_equipment() && (j.equip & location != 0) } else { false })
-                    .for_each(|(item_index, item)| {
-                        let item = item.as_mut().unwrap();
-                        item.equip = 0;
-                        equipped_take_off_items.push(EquippedItem { item_id: item.id, location: item.location, index: item_index, });
-                    });
-                self.get_item_from_inventory_mut(index).unwrap().equip = location;
-            }
-            return Some(equipped_take_off_items);
         }
         None
     }

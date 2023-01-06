@@ -62,62 +62,62 @@ impl<'r> FromRow<'r, PgRow> for ItemModel {
         let range: Option<i16> = row.try_get("range").or_else(Self::map_error())?;
         let slots: Option<i16> = row.try_get("slots").or_else(Self::map_error())?;
         let mut job_flags = vec![];
-        row.try_get::<'r, Option<i16>, _>("job_all").map(|v| job_flags.push(EquipClassFlag::All)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("job_acolyte").map(|v| job_flags.push(EquipClassFlag::Acolyte)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("job_alchemist").map(|v| job_flags.push(EquipClassFlag::Alchemist)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("job_archer").map(|v| job_flags.push(EquipClassFlag::Archer)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("job_assassin").map(|v| job_flags.push(EquipClassFlag::Assassin)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("job_barddancer").map(|v| job_flags.push(EquipClassFlag::Barddancer)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("job_blacksmith").map(|v| job_flags.push(EquipClassFlag::Blacksmith)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("job_crusader").map(|v| job_flags.push(EquipClassFlag::Crusader)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("job_hunter").map(|v| job_flags.push(EquipClassFlag::Hunter)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("job_gunslinger").map(|v| job_flags.push(EquipClassFlag::Gunslinger)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("job_knight").map(|v| job_flags.push(EquipClassFlag::Knight)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("job_mage").map(|v| job_flags.push(EquipClassFlag::Mage)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("job_merchant").map(|v| job_flags.push(EquipClassFlag::Merchant)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("job_monk").map(|v| job_flags.push(EquipClassFlag::Monk)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("job_ninja").map(|v| job_flags.push(EquipClassFlag::Ninja)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("job_novice").map(|v| job_flags.push(EquipClassFlag::Novice)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("job_priest").map(|v| job_flags.push(EquipClassFlag::Priest)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("job_rogue").map(|v| job_flags.push(EquipClassFlag::Rogue)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("job_sage").map(|v| job_flags.push(EquipClassFlag::Sage)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("job_soullinker").map(|v| job_flags.push(EquipClassFlag::Soullinker)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("job_stargladiator").map(|v| job_flags.push(EquipClassFlag::Stargladiator)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("job_supernovice").map(|v| job_flags.push(EquipClassFlag::Supernovice)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("job_swordman").map(|v| job_flags.push(EquipClassFlag::Swordman)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("job_taekwon").map(|v| job_flags.push(EquipClassFlag::Taekwon)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("job_thief").map(|v| job_flags.push(EquipClassFlag::Thief)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("job_wizard").map(|v| job_flags.push(EquipClassFlag::Wizard)).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("job_all").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::All) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("job_acolyte").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::Acolyte) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("job_alchemist").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::Alchemist) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("job_archer").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::Archer) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("job_assassin").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::Assassin) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("job_barddancer").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::Barddancer) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("job_blacksmith").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::Blacksmith) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("job_crusader").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::Crusader) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("job_hunter").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::Hunter) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("job_gunslinger").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::Gunslinger) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("job_knight").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::Knight) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("job_mage").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::Mage) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("job_merchant").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::Merchant) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("job_monk").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::Monk) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("job_ninja").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::Ninja) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("job_novice").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::Novice) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("job_priest").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::Priest) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("job_rogue").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::Rogue) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("job_sage").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::Sage) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("job_soullinker").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::Soullinker) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("job_stargladiator").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::Stargladiator) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("job_supernovice").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::Supernovice) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("job_swordman").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::Swordman) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("job_taekwon").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::Taekwon) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("job_thief").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::Thief) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("job_wizard").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::Wizard) }).or_else(Self::map_error())?;
         let job_flags = Self::enum_flags_into_u64(&job_flags);
         let mut class_flags = vec![];
-        row.try_get::<'r, Option<i16>, _>("class_all").map(|v| class_flags.push(ItemClass::All)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("class_normal").map(|v| class_flags.push(ItemClass::Normal)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("class_upper").map(|v| class_flags.push(ItemClass::Upper)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("class_baby").map(|v| class_flags.push(ItemClass::Baby)).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("class_all").map(|v| if v.is_some() && v.unwrap() != 0 { class_flags.push(ItemClass::All) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("class_normal").map(|v| if v.is_some() && v.unwrap() != 0 { class_flags.push(ItemClass::Normal) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("class_upper").map(|v| if v.is_some() && v.unwrap() != 0 { class_flags.push(ItemClass::Upper) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("class_baby").map(|v| if v.is_some() && v.unwrap() != 0 { class_flags.push(ItemClass::Baby) }).or_else(Self::map_error())?;
         let class_flags = Self::enum_flags_into_u64(&class_flags);
         let gender: Option<String> = row.try_get("gender").or_else(Self::map_error())?;
 
         let mut location_flags = vec![];
-        row.try_get::<'r, Option<i16>, _>("location_head_top").map(|v| location_flags.push(EquipmentLocation::HeadTop)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("location_head_mid").map(|v| location_flags.push(EquipmentLocation::HeadMid)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("location_head_low").map(|v| location_flags.push(EquipmentLocation::HeadLow)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("location_armor").map(|v| location_flags.push(EquipmentLocation::Armor)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("location_right_hand").map(|v| location_flags.push(EquipmentLocation::HandRight)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("location_left_hand").map(|v| location_flags.push(EquipmentLocation::HandLeft)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("location_garment").map(|v| location_flags.push(EquipmentLocation::Garment)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("location_shoes").map(|v| location_flags.push(EquipmentLocation::Shoes)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("location_right_accessory").map(|v| location_flags.push(EquipmentLocation::AccessoryRight)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("location_left_accessory").map(|v| location_flags.push(EquipmentLocation::AccessoryLeft)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("location_costume_head_top").map(|v| location_flags.push(EquipmentLocation::CostumeHeadTop)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("location_costume_head_mid").map(|v| location_flags.push(EquipmentLocation::CostumeHeadMid)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("location_costume_head_low").map(|v| location_flags.push(EquipmentLocation::CostumeHeadLow)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("location_costume_garment").map(|v| location_flags.push(EquipmentLocation::CostumeGarment)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("location_ammo").map(|v| location_flags.push(EquipmentLocation::Ammo)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("location_shadow_weapon").map(|v| location_flags.push(EquipmentLocation::ShadowWeapon)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("location_shadow_shield").map(|v| location_flags.push(EquipmentLocation::ShadowShield)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("location_shadow_shoes").map(|v| location_flags.push(EquipmentLocation::ShadowShoes)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("location_shadow_right_accessory").map(|v| location_flags.push(EquipmentLocation::ShadowAccR)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("location_shadow_left_accessory").map(|v| location_flags.push(EquipmentLocation::ShadowAccL)).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("location_head_top").map(|v| if v.is_some() && v.unwrap() != 0 { location_flags.push(EquipmentLocation::HeadTop) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("location_head_mid").map(|v| if v.is_some() && v.unwrap() != 0 { location_flags.push(EquipmentLocation::HeadMid) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("location_head_low").map(|v| if v.is_some() && v.unwrap() != 0 { location_flags.push(EquipmentLocation::HeadLow) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("location_armor").map(|v| if v.is_some() && v.unwrap() != 0 { location_flags.push(EquipmentLocation::Armor) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("location_right_hand").map(|v| if v.is_some() && v.unwrap() != 0 { location_flags.push(EquipmentLocation::HandRight) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("location_left_hand").map(|v| if v.is_some() && v.unwrap() != 0 { location_flags.push(EquipmentLocation::HandLeft) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("location_garment").map(|v| if v.is_some() && v.unwrap() != 0 { location_flags.push(EquipmentLocation::Garment) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("location_shoes").map(|v| if v.is_some() && v.unwrap() != 0 { location_flags.push(EquipmentLocation::Shoes) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("location_right_accessory").map(|v| if v.is_some() && v.unwrap() != 0 { location_flags.push(EquipmentLocation::AccessoryRight) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("location_left_accessory").map(|v| if v.is_some() && v.unwrap() != 0 { location_flags.push(EquipmentLocation::AccessoryLeft) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("location_costume_head_top").map(|v| if v.is_some() && v.unwrap() != 0 { location_flags.push(EquipmentLocation::CostumeHeadTop) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("location_costume_head_mid").map(|v| if v.is_some() && v.unwrap() != 0 { location_flags.push(EquipmentLocation::CostumeHeadMid) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("location_costume_head_low").map(|v| if v.is_some() && v.unwrap() != 0 { location_flags.push(EquipmentLocation::CostumeHeadLow) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("location_costume_garment").map(|v| if v.is_some() && v.unwrap() != 0 { location_flags.push(EquipmentLocation::CostumeGarment) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("location_ammo").map(|v| if v.is_some() && v.unwrap() != 0 { location_flags.push(EquipmentLocation::Ammo) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("location_shadow_weapon").map(|v| if v.is_some() && v.unwrap() != 0 { location_flags.push(EquipmentLocation::ShadowWeapon) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("location_shadow_shield").map(|v| if v.is_some() && v.unwrap() != 0 { location_flags.push(EquipmentLocation::ShadowShield) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("location_shadow_shoes").map(|v| if v.is_some() && v.unwrap() != 0 { location_flags.push(EquipmentLocation::ShadowShoes) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("location_shadow_right_accessory").map(|v| if v.is_some() && v.unwrap() != 0 { location_flags.push(EquipmentLocation::ShadowAccR) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("location_shadow_left_accessory").map(|v| if v.is_some() && v.unwrap() != 0 { location_flags.push(EquipmentLocation::ShadowAccL) }).or_else(Self::map_error())?;
         let location_flags = Self::enum_flags_into_u64(&location_flags);
 
         let weapon_level: Option<i16> = row.try_get("weapon_level").or_else(Self::map_error())?;
@@ -129,14 +129,14 @@ impl<'r> FromRow<'r, PgRow> for ItemModel {
         let alias_name: Option<String> = row.try_get("alias_name").or_else(Self::map_error())?;
 
         let mut flags = vec![];
-        row.try_get::<'r, Option<i16>, _>("flag_buyingstore").map(|v| flags.push(ItemFlag::BuyingStore)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("flag_deadbranch").map(|v| flags.push(ItemFlag::DeadBranch)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("flag_container").map(|v| flags.push(ItemFlag::Container)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("flag_uniqueid").map(|v| flags.push(ItemFlag::UniqueId)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("flag_bindonequip").map(|v| flags.push(ItemFlag::BindOnEquip)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("flag_dropannounce").map(|v| flags.push(ItemFlag::DropAnnounce)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("flag_noconsume").map(|v| flags.push(ItemFlag::NoConsume)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("flag_dropeffect").map(|v| flags.push(ItemFlag::DropEffect)).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("flag_buyingstore").map(|v| if v.is_some() && v.unwrap() != 0 { flags.push(ItemFlag::BuyingStore) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("flag_deadbranch").map(|v| if v.is_some() && v.unwrap() != 0 { flags.push(ItemFlag::DeadBranch) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("flag_container").map(|v| if v.is_some() && v.unwrap() != 0 { flags.push(ItemFlag::Container) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("flag_uniqueid").map(|v| if v.is_some() && v.unwrap() != 0 { flags.push(ItemFlag::UniqueId) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("flag_bindonequip").map(|v| if v.is_some() && v.unwrap() != 0 { flags.push(ItemFlag::BindOnEquip) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("flag_dropannounce").map(|v| if v.is_some() && v.unwrap() != 0 { flags.push(ItemFlag::DropAnnounce) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("flag_noconsume").map(|v| if v.is_some() && v.unwrap() != 0 { flags.push(ItemFlag::NoConsume) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("flag_dropeffect").map(|v| if v.is_some() && v.unwrap() != 0 { flags.push(ItemFlag::DropEffect) }).or_else(Self::map_error())?;
         let flags = Self::enum_flags_into_u64(&flags);
 
         let delay_duration: Option<i64> = row.try_get("delay_duration").or_else(Self::map_error())?;
@@ -151,15 +151,15 @@ impl<'r> FromRow<'r, PgRow> for ItemModel {
         let trade_override: Option<i32> = row.try_get("trade_override").or_else(Self::map_error())?;
 
         let mut trade_flags = vec![];
-        row.try_get::<'r, Option<i16>, _>("trade_nodrop").map(|v| trade_flags.push(ItemTradeFlag::NoDrop)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("trade_notrade").map(|v| trade_flags.push(ItemTradeFlag::NoTrade)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("trade_tradepartner").map(|v| trade_flags.push(ItemTradeFlag::TradePartner)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("trade_nosell").map(|v| trade_flags.push(ItemTradeFlag::NoSell)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("trade_nocart").map(|v| trade_flags.push(ItemTradeFlag::NoCart)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("trade_nostorage").map(|v| trade_flags.push(ItemTradeFlag::NoStorage)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("trade_noguildstorage").map(|v| trade_flags.push(ItemTradeFlag::NoGuildStorage)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("trade_noauction").map(|v| trade_flags.push(ItemTradeFlag::NoAuction)).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("trade_nomail").map(|v| trade_flags.push(ItemTradeFlag::NoMail)).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("trade_nodrop").map(|v| if v.is_some() && v.unwrap() != 0 { trade_flags.push(ItemTradeFlag::NoDrop) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("trade_notrade").map(|v| if v.is_some() && v.unwrap() != 0 { trade_flags.push(ItemTradeFlag::NoTrade) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("trade_tradepartner").map(|v| if v.is_some() && v.unwrap() != 0 { trade_flags.push(ItemTradeFlag::TradePartner) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("trade_nosell").map(|v| if v.is_some() && v.unwrap() != 0 { trade_flags.push(ItemTradeFlag::NoSell) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("trade_nocart").map(|v| if v.is_some() && v.unwrap() != 0 { trade_flags.push(ItemTradeFlag::NoCart) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("trade_nostorage").map(|v| if v.is_some() && v.unwrap() != 0 { trade_flags.push(ItemTradeFlag::NoStorage) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("trade_noguildstorage").map(|v| if v.is_some() && v.unwrap() != 0 { trade_flags.push(ItemTradeFlag::NoGuildStorage) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("trade_noauction").map(|v| if v.is_some() && v.unwrap() != 0 { trade_flags.push(ItemTradeFlag::NoAuction) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("trade_nomail").map(|v| if v.is_some() && v.unwrap() != 0 { trade_flags.push(ItemTradeFlag::NoMail) }).or_else(Self::map_error())?;
         let trade_flags = Self::enum_flags_into_u64(&trade_flags);
 
         Ok(ItemModel {
@@ -210,8 +210,8 @@ impl ItemModel {
         }
     }
 
-    fn enum_flags_into_u64<T: EnumWithMaskValue>(job_flags: &Vec<T>) -> u64 {
-        job_flags.iter().fold(0, |acc, enum_flag| {
+    fn enum_flags_into_u64<T: EnumWithMaskValue>(flags: &Vec<T>) -> u64 {
+        flags.iter().fold(0, |acc, enum_flag| {
             acc | enum_flag.as_flag() as u64
         })
     }
@@ -246,7 +246,6 @@ pub struct GetItemModel {
     pub name_english: String,
     #[sqlx(default)]
     pub name_aegis: String,
-    pub location: i32,
 }
 
 
@@ -276,11 +275,10 @@ pub struct InventoryItemModel {
     #[sqlx(default)]
     pub name_english: String,
     pub weight: i32,
-    pub location: i32,
 }
 
 pub struct EquippedItem {
     pub item_id: i32,
-    pub location: i32,
+    pub removed_equip_location: i32,
     pub index: usize,
 }
