@@ -45,7 +45,6 @@ impl InventoryService {
             }
         }).collect();
 
-        ItemService::instance().add_items_to_cache(add_items.items.iter().map(|item| item.item_id).collect(), server_ref, runtime);
         let result = runtime.block_on(async {
             server_ref.repository.character_inventory_update(&inventory_item_updates, add_items.buy).await
         });
@@ -91,7 +90,6 @@ impl InventoryService {
             let items = server_ref.repository.character_inventory_fetch(char_id as i32).await.unwrap();
             character.add_items(items)
         });
-        ItemService::instance().add_items_to_cache(items.iter().map(|(_, item)| item.item_id).collect(), server_ref, runtime);
         //PacketZcNormalItemlist3
         let mut packet_zc_equipment_itemlist3 = PacketZcEquipmentItemlist3::new();
         let mut equipments = vec![];

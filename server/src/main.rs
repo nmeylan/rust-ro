@@ -40,6 +40,7 @@ use self::server::core::map_item::MapItem;
 use self::server::script::ScriptHandler;
 use crate::server::npc::mob_spawn::MobSpawn;
 use crate::server::npc::script::Script;
+use crate::server::service::character::item_service::ItemService;
 use crate::util::cell::MyUnsafeCell;
 use crate::util::log_filter::LogFilter;
 
@@ -88,6 +89,8 @@ pub async fn main() {
     let _ = &handles.push(char_proxy.proxy(config.server.packetver));
     let _ = &handles.push(map_proxy.proxy(config.server.packetver));
 
+    let items =  repository_arc.get_all_items().await.unwrap();
+    ItemService::instance().init_cache(items);
     if config.server.enable_visual_debugger {
         #[cfg(feature = "visual_debugger")]
         {
