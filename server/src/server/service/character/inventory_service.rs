@@ -5,7 +5,7 @@ use tokio::runtime::Runtime;
 use enums::EnumWithMaskValue;
 use enums::item::{EquipmentLocation, ItemType};
 use packets::packets::{EquipmentitemExtrainfo301, EQUIPSLOTINFO, NormalitemExtrainfo3, Packet, PacketZcEquipmentItemlist3, PacketZcItemPickupAck3, PacketZcNormalItemlist3, PacketZcPcPurchaseResult, PacketZcReqTakeoffEquipAck, PacketZcReqTakeoffEquipAck2, PacketZcReqWearEquipAck, PacketZcReqWearEquipAck2, PacketZcSpriteChange2};
-use crate::repository::model::item_model::InventoryItemModel;
+use crate::repository::model::item_model::{EquippedItem, InventoryItemModel};
 use crate::server::events::client_notification::{CharNotification, Notification};
 use crate::server::events::game_event::{CharacterAddItems, CharacterEquipItem, CharacterZeny};
 use crate::server::events::game_event::GameEvent::{CharacterUpdateWeight, CharacterUpdateZeny};
@@ -52,13 +52,14 @@ impl InventoryService {
         if result.is_ok() {
             let mut packets = vec![];
             character.add_items(add_items.items).iter().for_each(|(index, item)| {
+                let item_info = ItemService::instance().get_item_from_cache(item.item_id).unwrap();
                 let mut packet_zc_item_pickup_ack3 = PacketZcItemPickupAck3::new();
                 packet_zc_item_pickup_ack3.set_itid(item.item_id as u16);
                 packet_zc_item_pickup_ack3.set_count(item.amount as u16);
                 packet_zc_item_pickup_ack3.set_index(*index as u16);
                 packet_zc_item_pickup_ack3.set_is_identified(item.is_identified);
                 packet_zc_item_pickup_ack3.set_atype(item.item_type.value() as u8);
-                packet_zc_item_pickup_ack3.set_location(item.location as u16);
+                packet_zc_item_pickup_ack3.set_location(item_info.location as u16);
                 packet_zc_item_pickup_ack3.fill_raw();
                 packet_zc_item_pickup_ack3.pretty_debug();
                 packets.push(packet_zc_item_pickup_ack3)
@@ -95,13 +96,14 @@ impl InventoryService {
         let mut packet_zc_equipment_itemlist3 = PacketZcEquipmentItemlist3::new();
         let mut equipments = vec![];
         character.inventory_equip().iter().for_each(|(index, item)| {
+            let item_info = ItemService::instance().get_item_from_cache(item.item_id).unwrap();
             let mut equipmentitem_extrainfo301 = EquipmentitemExtrainfo301::new();
             equipmentitem_extrainfo301.set_itid(item.item_id as u16);
             equipmentitem_extrainfo301.set_atype(item.item_type.value() as u8);
             equipmentitem_extrainfo301.set_index(*index as i16);
             equipmentitem_extrainfo301.set_is_damaged(item.is_damaged);
             equipmentitem_extrainfo301.set_is_identified(item.is_identified);
-            equipmentitem_extrainfo301.set_location(item.location as u16);
+            equipmentitem_extrainfo301.set_location(item_info.location as u16);
             equipmentitem_extrainfo301.set_wear_state(item.equip as u16);
             equipmentitem_extrainfo301.set_refining_level(item.refine as u8);
             let mut equipslotinfo = EQUIPSLOTINFO::new();
@@ -146,7 +148,7 @@ impl InventoryService {
 
     pub fn reload_equipped_item_sprites(&self, server_ref: &Server, character: &Character) {
         let mut packets: Vec<u8> = vec![];
-        character.inventory_equipped().iter().for_each(|(_, item)|  {
+        character.inventory_equipped().iter().for_each(|(_, item)| {
             if let Some(packet) = self.sprite_change_packet_for_item(character, item) {
                 packets.extend(packet);
             }
@@ -187,23 +189,72 @@ impl InventoryService {
 
     pub fn equip_item<'a>(&self, server_ref: &Server, character: &'a mut Character, persistence_event_sender: &SyncSender<PersistenceEvent>, character_equip_item: CharacterEquipItem) {
         let mut packet_zc_req_wear_equip_ack = PacketZcReqWearEquipAck2::new();
-        packet_zc_req_wear_equip_ack.set_index(character_equip_item.index as u16);
+        let index = character_equip_item.index;
+        packet_zc_req_wear_equip_ack.set_index(index as u16);
         packet_zc_req_wear_equip_ack.set_result(1);
         packet_zc_req_wear_equip_ack.set_view_id(0);
 
         let mut packets_raws_by_value = vec![];
-        if let Some(equipped_take_off_items) = character.equip_item(character_equip_item.index) {
-            let item_view = ItemService::instance().get_item_from_cache(equipped_take_off_items[0].item_id).expect("Fail to get item from cache").view.unwrap_or(0);
+
+        if let Some(inventory_item) = character.get_item_from_inventory(index) {
+            let equip_item = ItemService::instance().get_item_from_cache(inventory_item.item_id).expect("Fail to get item from cache");
+            let location = equip_item.location as i32; // it won't work for shadow gear
+            let item_id = equip_item.id;
+            let mut equipped_take_off_items: Vec<EquippedItem> = vec![];
+            if !equip_item.item_type.is_equipment() {
+                return;
+            }
+            if location & EquipmentLocation::AccessoryLeft.as_flag() as i32 != 0 || location & EquipmentLocation::AccessoryRight.as_flag() as i32 != 0 {
+                // Remove equipped accessory if both(right and left) slots are occupied, otherwise just equip the item in the free slot (right or left)
+                let accessories: Vec<(usize, &InventoryItemModel)> = character.inventory.iter().enumerate()
+                    .filter(|(_, i)| if let Some(j) = i { j.item_type.is_equipment() && (j.equip & location != 0) } else { false })
+                    .map(|(index, item)| (index, item.as_ref().unwrap()))
+                    .collect();
+                if accessories.len() == 2 {
+                    equipped_take_off_items.push(EquippedItem { item_id, removed_equip_location: EquipmentLocation::AccessoryLeft.as_flag() as i32, index });
+                    // When the 2 accessories slot are occupied, remove left accessory and equip new one in the left slot
+                    let (item_to_remove_index, _) = accessories.iter().find(|(index, item)| item.equip & EquipmentLocation::AccessoryLeft.as_flag() as i32 != 0).unwrap();
+                    let item_to_remove_index = *item_to_remove_index;
+                    drop(accessories);
+                    let mut item = character.get_item_from_inventory_mut(item_to_remove_index).unwrap();
+                    equipped_take_off_items.push(EquippedItem { item_id: item.item_id, removed_equip_location: item.equip, index: item_to_remove_index });
+                    item.equip = 0;
+                    character.get_item_from_inventory_mut(index).unwrap().equip = EquipmentLocation::AccessoryLeft.as_flag() as i32;
+                } else if accessories.len() == 1 {
+                    // When only 1 accessory slot is occupied, equip the new item in the free slot
+                    vec![EquipmentLocation::AccessoryRight.as_flag() as i32, EquipmentLocation::AccessoryLeft.as_flag() as i32].iter()
+                        .find(|item_mask| accessories[0].1.equip & **item_mask == 0)
+                        .map(|item_mask| {
+                            equipped_take_off_items.push(EquippedItem { item_id, removed_equip_location: *item_mask as i32, index });
+                            character.get_item_from_inventory_mut(index).unwrap().equip = *item_mask as i32;
+                        });
+                } else {
+                    equipped_take_off_items.push(EquippedItem { item_id, removed_equip_location: EquipmentLocation::AccessoryLeft.as_flag() as i32, index });
+                    character.get_item_from_inventory_mut(index).unwrap().equip = EquipmentLocation::AccessoryLeft.as_flag() as i32;
+                }
+            } else {
+                equipped_take_off_items.push(EquippedItem { item_id, removed_equip_location: location, index });
+                // Remove equipped items in same location. E.g: when goggle item is equipped it remove top and mid head items, when a 2h weapon is equipped it remove shield and weapon items...
+                character.inventory.iter_mut().enumerate()
+                    .filter(|(_, i)| if let Some(j) = i { j.item_type.is_equipment() && (j.equip & location != 0) } else { false })
+                    .for_each(|(item_index, inventory_item)| {
+                        let inventory_item = inventory_item.as_mut().unwrap();
+                        equipped_take_off_items.push(EquippedItem { item_id: inventory_item.id, removed_equip_location: inventory_item.equip, index: item_index });
+                        inventory_item.equip = 0;
+                    });
+                character.get_item_from_inventory_mut(index).unwrap().equip = location;
+            }
+            let item_view = equip_item.view.unwrap_or(0);
             packet_zc_req_wear_equip_ack.set_view_id(item_view as u16);
             packet_zc_req_wear_equip_ack.set_result(0);
-            packet_zc_req_wear_equip_ack.set_wear_location(equipped_take_off_items[0].location as u16);
+            packet_zc_req_wear_equip_ack.set_wear_location(equipped_take_off_items[0].removed_equip_location as u16);
             packet_zc_req_wear_equip_ack.fill_raw();
             let mut take_off_items_packets = vec![];
             if equipped_take_off_items.len() > 0 {
                 for i in 1..equipped_take_off_items.len() {
                     let mut packet_zc_req_takeoff_equip_ack2 = PacketZcReqTakeoffEquipAck2::new();
                     packet_zc_req_takeoff_equip_ack2.set_index(equipped_take_off_items[i].index as u16);
-                    packet_zc_req_takeoff_equip_ack2.set_wear_location(equipped_take_off_items[i].location as u16);
+                    packet_zc_req_takeoff_equip_ack2.set_wear_location(equipped_take_off_items[i].removed_equip_location as u16);
                     packet_zc_req_takeoff_equip_ack2.set_result(0);
                     packet_zc_req_takeoff_equip_ack2.fill_raw();
                     take_off_items_packets.push(packet_zc_req_takeoff_equip_ack2);

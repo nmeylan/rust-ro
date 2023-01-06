@@ -68,7 +68,6 @@ impl ItemService {
                 card2: 0,
                 equip: 0,
                 card3: 0,
-                location: item.location,
             }).collect(),
         }));
     }
