@@ -52,4 +52,9 @@ impl Repository {
             .bind(ids)
             .fetch_all(&self.pool).await
     }
+
+    pub async fn get_all_items(&self) -> Result<Vec<ItemModel>, Error> {
+        sqlx::query_as("SELECT * FROM item_db")
+            .fetch_all(&self.pool).await
+    }
 }

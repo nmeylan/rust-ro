@@ -34,14 +34,14 @@ pub struct ItemModel {
     pub view: Option<i32>,
     pub alias_name: Option<String>,
     pub flags: u64,
-    pub delay_duration: Option<i64>,
+    pub delay_duration: Option<i32>,
     pub delay_status: Option<String>,
-    pub stack_amount: Option<i16>,
+    pub stack_amount: Option<i32>,
     pub stack_inventory: Option<i16>,
     pub stack_cart: Option<i16>,
     pub stack_storage: Option<i16>,
     pub stack_guildstorage: Option<i16>,
-    pub nouse_override: Option<i16>,
+    pub nouse_override: Option<i32>,
     pub nouse_sitting: Option<i16>,
     pub trade_override: Option<i32>,
     pub trade_flags: u64,
@@ -56,7 +56,7 @@ impl<'r> FromRow<'r, PgRow> for ItemModel {
         let subtype: Option<String> = row.try_get("subtype").or_else(Self::map_error())?;
         let price_buy: Option<i32> = row.try_get("price_buy").or_else(Self::map_error())?;
         let price_sell: Option<i32> = row.try_get("price_sell").or_else(Self::map_error())?;
-        let weight: i32 = row.get("weight");
+        let weight: i32 = row.try_get::<Option<i32>, _>("weight").map(|v: Option<i32>| v.unwrap_or(0)).or_else(Self::map_error())?;
         let attack: Option<i16> = row.try_get("attack").or_else(Self::map_error())?;
         let defense: Option<i16> = row.try_get("defense").or_else(Self::map_error())?;
         let range: Option<i16> = row.try_get("range").or_else(Self::map_error())?;
@@ -139,14 +139,14 @@ impl<'r> FromRow<'r, PgRow> for ItemModel {
         row.try_get::<'r, Option<i16>, _>("flag_dropeffect").map(|v| if v.is_some() && v.unwrap() != 0 { flags.push(ItemFlag::DropEffect) }).or_else(Self::map_error())?;
         let flags = Self::enum_flags_into_u64(&flags);
 
-        let delay_duration: Option<i64> = row.try_get("delay_duration").or_else(Self::map_error())?;
+        let delay_duration: Option<i32> = row.try_get("delay_duration").or_else(Self::map_error())?;
         let delay_status: Option<String> = row.try_get("delay_status").or_else(Self::map_error())?;
-        let stack_amount: Option<i16> = row.try_get("stack_amount").or_else(Self::map_error())?;
+        let stack_amount: Option<i32> = row.try_get("stack_amount").or_else(Self::map_error())?;
         let stack_inventory: Option<i16> = row.try_get("stack_inventory").or_else(Self::map_error())?;
         let stack_cart: Option<i16> = row.try_get("stack_cart").or_else(Self::map_error())?;
         let stack_storage: Option<i16> = row.try_get("stack_storage").or_else(Self::map_error())?;
         let stack_guildstorage: Option<i16> = row.try_get("stack_guildstorage").or_else(Self::map_error())?;
-        let nouse_override: Option<i16> = row.try_get("nouse_override").or_else(Self::map_error())?;
+        let nouse_override: Option<i32> = row.try_get("nouse_override").or_else(Self::map_error())?;
         let nouse_sitting: Option<i16> = row.try_get("nouse_sitting").or_else(Self::map_error())?;
         let trade_override: Option<i32> = row.try_get("trade_override").or_else(Self::map_error())?;
 

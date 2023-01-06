@@ -91,32 +91,8 @@ impl ItemService {
         }
         None
     }
-
-    pub fn add_items_to_cache(&self, item_ids: Vec<i32>, server: &Server, runtime: &Runtime) {
-        let item_ids: Vec<i32> = item_ids.iter().filter(|item_id| !self.item_cache.borrow().contains_key(&(**item_id as u32))).map(|item_id| *item_id as i32).collect();
-        if item_ids.is_empty() {
-            return;
-        }
-        let result = runtime.block_on(async { server.repository.get_items_full(item_ids).await });
-        if let Ok(items) = result {
-            for item in items {
-                self.item_cache.borrow_mut().insert(item.id as u32, item);
-            }
-        } else {
-            error!("{}", result.err().unwrap());
-        }
-    }
-
-    pub fn get_item(&self, item_id: i32, server: &Server, runtime: &Runtime) -> Option<MyRef<ItemModel>> {
-        if !self.item_cache.borrow().contains_key(&(item_id as u32)) {
-            if let Ok(item) = runtime.block_on(async { server.repository.get_item_full(item_id).await }) {
-                self.item_cache.borrow_mut().insert(item_id as u32, item);
-            }
-        }
-        if self.item_cache.borrow().contains_key(&(item_id as u32)) {
-            return Some(MyRef::map(self.item_cache.borrow(), |cache| cache.get(&(item_id as u32)).unwrap()));
-        }
-        None
+    pub fn init_cache(&self, items: Vec<ItemModel>) {
+        self.item_cache.borrow_mut().extend(items.into_iter().map(|item| (item.id as u32, item)));
     }
 
     pub fn get_item_from_cache(&self, item_id: i32) -> Option<MyRef<ItemModel>> {
