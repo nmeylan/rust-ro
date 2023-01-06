@@ -77,6 +77,42 @@ pub enum EquipmentLocation {
     Accessory,
 }
 
+#[derive(WithMaskValue)]
+pub enum ItemClass {
+    #[mask_value = 1]
+    Normal,
+    Upper,
+    Baby,
+    #[mask_all]
+    All,
+}
+
+#[derive(WithMaskValue)]
+pub enum ItemFlag {
+    #[mask_value = 1]
+    BuyingStore,
+    DeadBranch,
+    Container,
+    UniqueId,
+    BindOnEquip,
+    DropAnnounce,
+    NoConsume,
+    DropEffect,
+}
+#[derive(WithMaskValue)]
+pub enum ItemTradeFlag {
+    #[mask_value = 1]
+    NoDrop,
+    NoTrade,
+    TradePartner,
+    NoSell,
+    NoCart,
+    NoStorage,
+    NoGuildStorage,
+    NoMail,
+    NoAuction,
+}
+
 impl ItemType {
     pub fn from_string(value: &str) -> Self {
         match value {

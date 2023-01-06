@@ -60,7 +60,7 @@ pub fn with_number_value(input: TokenStream) -> TokenStream {
     TokenStream::from(res)
 }
 
-#[proc_macro_derive(WithMaskValue, attributes(mask_value))]
+#[proc_macro_derive(WithMaskValue, attributes(mask_value, mask_all))]
 pub fn with_mask_value(input: TokenStream) -> TokenStream {
     let input = parse_macro_input!(input as DeriveInput);
     let enum_name = &input.ident;
@@ -70,12 +70,16 @@ pub fn with_mask_value(input: TokenStream) -> TokenStream {
         let from_value_match_arms = enum_data.variants.iter().enumerate().map(|(_, variant)| {
             let variant_name = variant.ident.clone();
             let maybe_value = get_number_value::<u64>(variant, "mask_value");
+            let is_all_value = is_all_value(variant, "mask_all");
             let j = if let Some(value) = maybe_value {
                 i = count_number_of_1_bits(value);
                 value
+            } else if is_all_value {
+                u64::MAX
             } else {
                 1 << i
             };
+
             let res = quote! {
                 #j => #enum_name::#variant_name,
             };
@@ -86,9 +90,12 @@ pub fn with_mask_value(input: TokenStream) -> TokenStream {
         let value_match_arms = enum_data.variants.iter().enumerate().map(|(_, variant)| {
             let variant_name = variant.ident.clone();
             let maybe_value = get_number_value::<u64>(variant, "mask_value");
+            let is_all_value = is_all_value(variant, "mask_all");
             let j = if let Some(value) = maybe_value {
                 i = count_number_of_1_bits(value);
                 value
+            } else if is_all_value {
+                u64::MAX
             } else {
                 1 << i
             };
@@ -146,6 +153,9 @@ fn get_number_value<T>(variant: &Variant, ident: &str) -> Option<T>
         _ => panic!("malformed attribute syntax"),
     });
     maybe_value
+}
+fn is_all_value(variant: &Variant, ident: &str) -> bool {
+    variant.attrs.iter().find(|attr| attr.path.is_ident(ident)).is_some()
 }
 
 

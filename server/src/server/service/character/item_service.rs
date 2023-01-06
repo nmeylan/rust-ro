@@ -101,7 +101,7 @@ impl ItemService {
         let result = runtime.block_on(async { server.repository.get_items_full(item_ids).await });
         if let Ok(items) = result {
             for item in items {
-                self.item_cache.borrow_mut().insert(item.id.unwrap() as u32, item);
+                self.item_cache.borrow_mut().insert(item.id as u32, item);
             }
         } else {
             error!("{}", result.err().unwrap());
