@@ -57,7 +57,7 @@ impl InventoryService {
                 packet_zc_item_pickup_ack3.set_count(item.amount as u16);
                 packet_zc_item_pickup_ack3.set_index(*index as u16);
                 packet_zc_item_pickup_ack3.set_is_identified(item.is_identified);
-                packet_zc_item_pickup_ack3.set_atype(item.item_type.value() as u8);
+                packet_zc_item_pickup_ack3.set_atype(item.item_type.to_client_type() as u8);
                 packet_zc_item_pickup_ack3.set_location(item_info.location as u16);
                 packet_zc_item_pickup_ack3.fill_raw();
                 packet_zc_item_pickup_ack3.pretty_debug();
