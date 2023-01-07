@@ -78,7 +78,6 @@ pub async fn main() {
     info!("load {} map-cache in {} secs", maps.len(), start.elapsed().as_millis() as f32 / 1000.0);
     let vm = Arc::new(Vm::new("native_functions_list.txt", DebugFlag::None.value()));
     Vm::bootstrap(vm.clone(), class_files, Box::new(&ScriptHandler{}));
-
     let (client_notification_sender, single_client_notification_receiver) = std::sync::mpsc::sync_channel::<Notification>(0);
     let server = Server::new(config.clone(), repository_arc.clone(), maps, map_item_ids, vm, client_notification_sender);
     let server_ref = Arc::new(server);
@@ -91,6 +90,9 @@ pub async fn main() {
 
     let items =  repository_arc.get_all_items().await.unwrap();
     ItemService::instance().init_cache(items);
+    skill_configs();
+    job_configs();
+
     if config.server.enable_visual_debugger {
         #[cfg(feature = "visual_debugger")]
         {
