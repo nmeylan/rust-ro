@@ -5,30 +5,30 @@
 # base_hp=[1, .... 150]            (int array) // Reference table for base HP per level
 # base_sp=[1, .... 150]            (int array) // Reference table for base SP per level
 #   Note: If table index size is smaller than the max level the server will automatically generate the missing index based on the average increase per level.
-# base_aspd = {fist= 0~2000             (int, defaults to 2000)
-#		dagger= 0~2000           (int, defaults to 2000)
-#		sword= 0~2000            (int, defaults to 2000)
-#		twoHandSword= 0~2000     (int, defaults to 2000)
-#		spear= 0~2000            (int, defaults to 2000)
-#		twoHandSpear= 0~2000     (int, defaults to 2000)
-#		axe= 0~2000              (int, defaults to 2000)
-#		twoHandAxe= 0~2000       (int, defaults to 2000)
-#		mace= 0~2000             (int, defaults to 2000)
-#		twoHandMace= 0~2000      (int, defaults to 2000)
-#		rod= 0~2000              (int, defaults to 2000)
-#		bow= 0~2000              (int, defaults to 2000)
-#		knuckle= 0~2000          (int, defaults to 2000)
-#		instrumen= 0~2000        (int, defaults to 2000)
-#		whip= 0~2000             (int, defaults to 2000)
-#		book= 0~2000             (int, defaults to 2000)
+# base_aspd = {Fist= 0~2000             (int, defaults to 2000)
+#		Dagger= 0~2000           (int, defaults to 2000)
+#		1hSword= 0~2000            (int, defaults to 2000)
+#		2hSword= 0~2000     (int, defaults to 2000)
+#		1hSpear= 0~2000            (int, defaults to 2000)
+#		2hSpear= 0~2000     (int, defaults to 2000)
+#		1hAxe= 0~2000              (int, defaults to 2000)
+#		2hAxe= 0~2000       (int, defaults to 2000)
+#		Mace= 0~2000             (int, defaults to 2000)
+#		2hMace= 0~2000      (int, defaults to 2000)
+#		Staff= 0~2000              (int, defaults to 2000)
+#		Bow= 0~2000              (int, defaults to 2000)
+#		Knuckle= 0~2000          (int, defaults to 2000)
+#		Musical= 0~2000        (int, defaults to 2000)
+#		Whip= 0~2000             (int, defaults to 2000)
+#		Book= 0~2000             (int, defaults to 2000)
 #		katar= 0~2000            (int, defaults to 2000)
-#		revolver= 0~2000         (int, defaults to 2000)
-#		rifle= 0~2000            (int, defaults to 2000)
-#		gatlingGun= 0~2000       (int, defaults to 2000)
-#		shotgun= 0~2000          (int, defaults to 2000)
-#		grenadeLauncher= 0~2000  (int, defaults to 2000)
-#		fuumaShuriken= 0~2000    (int, defaults to 2000)
-#		twoHandRod= 0~2000 (int, defaults to 2000)
+#		Revolver= 0~2000         (int, defaults to 2000)
+#		Rifle= 0~2000            (int, defaults to 2000)
+#		Gatling= 0~2000       (int, defaults to 2000)
+#		Shotgun= 0~2000          (int, defaults to 2000)
+#		Grenade= 0~2000  (int, defaults to 2000)
+#		Shuriken= 0~2000    (int, defaults to 2000)
+#		2hStaff= 0~2000 (int, defaults to 2000)
 # }
 #   bonus_stats Legend for 'JobLvN' fields:
 #   0 = No stat bonus at this job level
@@ -41,7 +41,7 @@
 # bonus_stats = [2,0,1,0,0,5,0,0,0,0,0]
 [jobs.default]
 base_weight = 20000
-base_aspd = { dagger = 2000, sword = 2000, twoHandSword = 2000, spear = 2000, twoHandSpear = 2000, axe = 2000, twoHandAxe = 2000, mace = 2000, twoHandMace = 2000, rod = 2000, bow = 2000, knuckle = 2000, instrumen = 2000, whip = 2000, book = 2000, katar = 2000, revolver = 2000, rifle = 2000, gatlingGun = 2000, shotgun = 2000, grenadeLauncher = 2000, fuumaShuriken = 2000, twoHandRod = 2000 }
+base_aspd = { Dagger = 2000, 1hSword = 2000, 2hSword = 2000, 1hSpear = 2000, 2hSpear = 2000, 1hAxe = 2000, 2hAxe = 2000, Mace = 2000, 2hMace = 2000, Staff = 2000, Bow = 2000, Knuckle = 2000, Musical = 2000, Whip = 2000, Book = 2000, katar = 2000, Revolver = 2000, Rifle = 2000, Gatling = 2000, Shotgun = 2000, Grenade = 2000, Shuriken = 2000, 2hStaff = 2000 }
 [jobs.novice]
 id = 0
 base_weight = 20000 # unit in weight / 10
@@ -77,15 +77,15 @@ base_sp = [11, 12, 13, 14, 15, 16, 17, 18, 19, 20, # 1 - 10
     131, 132, 133, 134, 135, 136, 137, 138, 139, 140, # 121 - 130
     141, 142, 143, 144, 145, 146, 147, 148, 149, 150, # 131 - 140
     151, 152, 153, 154, 155, 156, 157, 158, 159, 160]    # 141 - 150
-base_aspd = { fist = 500, dagger = 650, sword = 700, axe = 800, mace = 700, twoHandMace = 700, rod = 650, twoHandRod = 650 }
+base_aspd = { Fist = 500, Dagger = 650, 1hSword = 700, 1hAxe = 800, Mace = 700, 2hMace = 700, Staff = 650, 2hStaff = 650 }
 bonus_stats = [0,0,0,0,0,0,0,0,0,0,0]
 
-[jobs.swordsman]
+[jobs.1hSwordsman]
 id = 1
 base_exp_group = "FirstClass"
 job_exp_group = "FirstClass"
 base_weight = 28000
-base_aspd = { fist = 400, dagger = 500, sword = 550, twoHandSword = 600, spear = 650, twoHandSpear = 700, axe = 700, twoHandAxe = 750, mace = 650, twoHandMace = 700 }
+base_aspd = { Fist = 400, Dagger = 500, 1hSword = 550, 2hSword = 600, 1hSpear = 650, 2hSpear = 700, 1hAxe = 700, 2hAxe = 750, Mace = 650, 2hMace = 700 }
 base_hp = [40, 46, 53, 61, 70, 79, 89, 100, 111, 123, # 1 - 10
     136, 149, 163, 178, 194, 210, 227, 245, 263, 282, # 11 - 20
     302, 322, 343, 365, 388, 411, 435, 460, 485, 511, # 21 - 30
@@ -122,7 +122,7 @@ id = 2
 base_exp_group = "FirstClass"
 job_exp_group = "FirstClass"
 base_weight = 22000
-base_aspd = { fist = 500, dagger = 600, rod = 700, twoHandRod = 700 }
+base_aspd = { Fist = 500, Dagger = 600, Staff = 700, 2hStaff = 700 }
 base_hp = [40, 46, 52, 58, 65, 72, 79, 86, 94, 102, # 1 - 10
     110, 119, 128, 137, 147, 157, 167, 177, 188, 199, # 11 - 20
     210, 222, 234, 246, 259, 272, 285, 298, 312, 326, # 21 - 30
@@ -159,8 +159,8 @@ id = 3
 base_exp_group = "FirstClass"
 job_exp_group = "FirstClass"
 base_weight = 26000
-base_aspd = { fist = 400, dagger = 600, bow = 700 }
-inherit_sp = "swordsman"
+base_aspd = { Fist = 400, Dagger = 600, Bow = 700 }
+inherit_sp = "1hSwordsman"
 base_hp = [40, 46, 53, 60, 68, 76, 85, 94, 104, 114, # 1 - 10
     125, 136, 148, 160, 173, 186, 200, 214, 229, 244, # 11 - 20
     260, 276, 293, 310, 328, 346, 365, 384, 404, 424, # 21 - 30
@@ -182,7 +182,7 @@ id = 4
 base_exp_group = "FirstClass"
 job_exp_group = "FirstClass"
 base_weight = 24000
-base_aspd = { fist = 400, mace = 600, twoHandMace = 600, rod = 600, twoHandRod = 600 }
+base_aspd = { Fist = 400, Mace = 600, 2hMace = 600, Staff = 600, 2hStaff = 600 }
 base_hp = [40, 46, 52, 59, 66, 73, 81, 89, 98, 107, # 1 - 10
     116, 126, 136, 147, 158, 169, 181, 193, 206, 219, # 11 - 20
     232, 246, 260, 275, 290, 305, 321, 337, 354, 371, # 21 - 30
@@ -219,7 +219,7 @@ id = 5
 base_exp_group = "FirstClass"
 job_exp_group = "FirstClass"
 base_weight = 28000
-base_aspd = { fist = 400, dagger = 600, sword = 700, axe = 700, twoHandAxe = 750, mace = 700, twoHandMace = 650 }
+base_aspd = { Fist = 400, Dagger = 600, 1hSword = 700, 1hAxe = 700, 2hAxe = 750, Mace = 700, 2hMace = 650 }
 inherit_hp = "acolyte"
 base_sp = [13, 16, 19, 22, 25, 28, 31, 34, 37, 40, # 1 - 10
     43, 46, 49, 52, 55, 58, 61, 64, 67, 70, # 11 - 20
@@ -242,16 +242,16 @@ id = 6
 base_exp_group = "FirstClass"
 job_exp_group = "FirstClass"
 base_weight = 24000
-base_aspd = { fist = 400, dagger = 500, sword = 650, axe = 800, bow = 800 }
+base_aspd = { Fist = 400, Dagger = 500, 1hSword = 650, 1hAxe = 800, Bow = 800 }
 inherit_hp = "archer"
-inherit_sp = "swordsman"
+inherit_sp = "1hSwordsman"
 
 [jobs.knight]
 id = 7
 base_exp_group = "FirstClass"
 job_exp_group = "SecondClass"
 base_weight = 28000
-base_aspd = { fist = 400, dagger = 500, sword = 500, twoHandSword = 550, spear = 600, twoHandSpear = 600, axe = 700, twoHandAxe = 700, mace = 650, twoHandMace = 700 }
+base_aspd = { Fist = 400, Dagger = 500, 1hSword = 500, 2hSword = 550, 1hSpear = 600, 2hSpear = 600, 1hAxe = 700, 2hAxe = 700, Mace = 650, 2hMace = 700 }
 inherit_sp = "merchant"
 base_hp = [40, 48, 58, 69, 82, 96, 112, 129, 148, 168, # 1 - 10
     190, 213, 238, 264, 292, 321, 352, 384, 418, 453, # 11 - 20
@@ -274,7 +274,7 @@ id = 8
 base_exp_group = "FirstClass"
 job_exp_group = "SecondClass"
 base_weight = 26000
-base_aspd = { fist = 400, mace = 600, twoHandMace = 600, rod = 600, knuckle = 500 }
+base_aspd = { Fist = 400, Mace = 600, 2hMace = 600, Staff = 600, Knuckle = 500 }
 base_hp = [40, 47, 54, 62, 71, 81, 91, 102, 114, 127, # 1 - 10
     140, 154, 169, 185, 201, 218, 236, 255, 274, 294, # 11 - 20
     315, 337, 359, 382, 406, 431, 456, 482, 509, 537, # 21 - 30
@@ -311,7 +311,7 @@ id = 9
 base_exp_group = "FirstClass"
 job_exp_group = "SecondClass"
 base_weight = 24000
-base_aspd = { fist = 500, dagger = 575, rod = 625, twoHandRod = 625 }
+base_aspd = { Fist = 500, Dagger = 575, Staff = 625, 2hStaff = 625 }
 base_hp = [40, 46, 53, 60, 68, 76, 85, 94, 104, 115, # 1 - 10
     126, 138, 150, 163, 176, 190, 204, 219, 234, 250, # 11 - 20
     267, 284, 302, 320, 339, 358, 378, 398, 419, 441, # 21 - 30
@@ -348,7 +348,7 @@ id = 10
 base_exp_group = "FirstClass"
 job_exp_group = "SecondClass"
 base_weight = 30000
-base_aspd = { fist = 400, dagger = 600, sword = 650, axe = 650, twoHandAxe = 650, mace = 675, twoHandMace = 675 }
+base_aspd = { Fist = 400, Dagger = 600, 1hSword = 650, 1hAxe = 650, 2hAxe = 650, Mace = 675, 2hMace = 675 }
 base_hp = [40, 47, 55, 64, 74, 84, 95, 107, 120, 134, # 1 - 10
     149, 165, 182, 200, 219, 238, 258, 279, 301, 324, # 11 - 20
     348, 373, 399, 426, 454, 482, 511, 541, 572, 604, # 21 - 30
@@ -385,7 +385,7 @@ id = 11
 base_exp_group = "FirstClass"
 job_exp_group = "SecondClass"
 base_weight = 27000
-base_aspd = { fist = 400, dagger = 600, bow = 600 }
+base_aspd = { Fist = 400, Dagger = 600, Bow = 600 }
 inherit_sp = "blacksmith"
 base_hp = [40, 47, 55, 63, 72, 82, 93, 105, 118, 132, # 1 - 10
     146, 161, 177, 194, 212, 231, 250, 270, 291, 313, # 11 - 20
@@ -408,7 +408,7 @@ id = 12
 base_exp_group = "FirstClass"
 job_exp_group = "SecondClass"
 base_weight = 24000
-base_aspd = { fist = 400, dagger = 500, sword = 650, axe = 800, katar = 500, revolver = 750, rifle = 975, gatlingGun = 1200, shotgun = 880, grenadeLauncher = 975, fuumaShuriken = 1085 }
+base_aspd = { Fist = 400, Dagger = 500, 1hSword = 650, 1hAxe = 800, katar = 500, Revolver = 750, Rifle = 975, Gatling = 1200, Shotgun = 880, Grenade = 975, Shuriken = 1085 }
 inherit_sp = "blacksmith"
 base_hp = [40, 47, 55, 64, 75, 87, 100, 114, 129, 145, # 1 - 10
     162, 180, 199, 219, 241, 264, 288, 313, 339, 366, # 11 - 20
@@ -431,7 +431,7 @@ id = 14
 base_exp_group = "FirstClass"
 job_exp_group = "SecondClass"
 base_weight = 28000
-base_aspd = { fist = 400, dagger = 500, sword = 500, twoHandSword = 550, spear = 600, twoHandSpear = 600, axe = 700, twoHandAxe = 700, mace = 650, twoHandMace = 650 }
+base_aspd = { Fist = 400, Dagger = 500, 1hSword = 500, 2hSword = 550, 1hSpear = 600, 2hSpear = 600, 1hAxe = 700, 2hAxe = 700, Mace = 650, 2hMace = 650 }
 base_hp = [40, 47, 56, 62, 81, 94, 108, 128, 147, 165, # 1 - 10
     184, 204, 225, 247, 271, 296, 322, 349, 377, 406, # 11 - 20
     436, 467, 499, 532, 567, 603, 640, 678, 717, 757, # 21 - 30
@@ -468,7 +468,7 @@ id = 17
 base_exp_group = "FirstClass"
 job_exp_group = "SecondClass"
 base_weight = 24000
-base_aspd = { fist = 400, dagger = 500, sword = 550, bow = 650 }
+base_aspd = { Fist = 400, Dagger = 500, 1hSword = 550, Bow = 650 }
 inherit_hp = "hunter"
 inherit_sp = "acolyte"
 
@@ -477,7 +477,7 @@ id = 16
 base_exp_group = "FirstClass"
 job_exp_group = "SecondClass"
 base_weight = 24000
-base_aspd = { fist = 450, dagger = 525, sword = 575, rod = 625, book = 550, twoHandRod = 625 }
+base_aspd = { Fist = 450, Dagger = 525, 1hSword = 575, Staff = 625, Book = 550, 2hStaff = 625 }
 inherit_hp = "priest"
 base_sp = [17, 24, 31, 38, 45, 52, 59, 66, 73, 80, # 1 - 10
     87, 94, 101, 108, 115, 122, 129, 136, 143, 150, # 11 - 20
@@ -499,7 +499,7 @@ base_sp = [17, 24, 31, 38, 45, 52, 59, 66, 73, 80, # 1 - 10
 id = 18
 base_exp_group = "FirstClass"
 job_exp_group = "SecondClass"
-base_aspd = { fist = 400, dagger = 550, sword = 575, axe = 675, twoHandAxe = 700, mace = 650, twoHandMace = 650 }
+base_aspd = { Fist = 400, Dagger = 550, 1hSword = 575, 1hAxe = 675, 2hAxe = 700, Mace = 650, 2hMace = 650 }
 inherit = "blacksmith"
 
 [jobs.monk]
@@ -507,7 +507,7 @@ id = 15
 base_exp_group = "FirstClass"
 job_exp_group = "SecondClass"
 base_weight = 26000
-base_aspd = { fist = 400, mace = 575, twoHandMace = 575, rod = 575, knuckle = 475, twoHandRod = 575 }
+base_aspd = { Fist = 400, Mace = 575, 2hMace = 575, Staff = 575, Knuckle = 475, 2hStaff = 575 }
 inherit_sp = "crusader"
 base_hp = [40, 47, 55, 64, 74, 84, 95, 107, 120, 134, # 1 - 10
     149, 165, 182, 200, 219, 238, 258, 306, 329, 354, # 11 - 20
@@ -530,7 +530,7 @@ id = 19
 base_exp_group = "FirstClass"
 job_exp_group = "SecondClass"
 base_weight = 27000
-base_aspd = { fist = 400, dagger = 550, bow = 650, Instrument = 575 }
+base_aspd = { Fist = 400, Dagger = 550, Bow = 650, Musical = 575 }
 inherit_sp = "magician"
 base_hp = [40, 47, 54, 62, 71, 81, 91, 102, 114, 127, # 1 - 10
     140, 154, 169, 180, 196, 212, 224, 242, 260, 278, # 11 - 20
@@ -552,7 +552,7 @@ base_hp = [40, 47, 54, 62, 71, 81, 91, 102, 114, 127, # 1 - 10
 id = 20
 base_exp_group = "FirstClass"
 job_exp_group = "SecondClass"
-base_aspd = { whip = 575, Instrument = 2000 }
+base_aspd = { Whip = 575, Musical = 2000 }
 inherit = "bard"
 
 [jobs.taekwon]
@@ -560,7 +560,7 @@ id = 4046
 base_exp_group = "FirstClass"
 job_exp_group = "FirstClass"
 base_weight = 28000
-base_aspd = { fist = 400, dagger = 500, sword = 500, twoHandSword = 500, spear = 500, twoHandSpear = 500, axe = 500, twoHandAxe = 500, mace = 500, twoHandMace = 500, rod = 500, bow = 500, knuckle = 500, Instrument = 500, whip = 500, book = 500, katar = 500, revolver = 500, rifle = 500, gatlingGun = 500, shotgun = 500, grenadeLauncher = 500, fuumaShuriken = 500, twoHandRod = 500 }
+base_aspd = { Fist = 400, Dagger = 500, 1hSword = 500, 2hSword = 500, 1hSpear = 500, 2hSpear = 500, 1hAxe = 500, 2hAxe = 500, Mace = 500, 2hMace = 500, Staff = 500, Bow = 500, Knuckle = 500, Musical = 500, Whip = 500, Book = 500, katar = 500, Revolver = 500, Rifle = 500, Gatling = 500, Shotgun = 500, Grenade = 500, Shuriken = 500, 2hStaff = 500 }
 base_hp = [40, 46, 53, 61, 70, 79, 89, 100, 111, 123, # 1 - 10
     136, 149, 163, 178, 194, 210, 227, 245, 263, 282, # 11 - 20
     302, 322, 343, 365, 388, 411, 435, 460, 485, 511, # 21 - 30
@@ -633,7 +633,7 @@ id = 4049
 base_exp_group = "FirstClass"
 job_exp_group = "SecondClass"
 base_weight = 24000
-base_aspd = { fist = 500, dagger = 575, rod = 625, twoHandRod = 625 }
+base_aspd = { Fist = 500, Dagger = 575, Staff = 625, 2hStaff = 625 }
 base_hp = [40, 47, 54, 62, 71, 81, 91, 102, 114, 127, # 1 - 10
     140, 154, 169, 185, 201, 218, 236, 255, 274, 294, # 11 - 20
     315, 337, 359, 382, 406, 431, 456, 482, 509, 537, # 21 - 30
@@ -670,7 +670,7 @@ id = 24
 base_exp_group = "FirstClass"
 job_exp_group = "NinjaAndGunslinger"
 base_weight = 28000
-base_aspd = { fist = 500, revolver = 700, rifle = 750, gatlingGun = 700, shotgun = 1500, grenadeLauncher = 1500 }
+base_aspd = { Fist = 500, Revolver = 700, Rifle = 750, Gatling = 700, Shotgun = 1500, Grenade = 1500 }
 inherit_hp = "star_gladiator"
 base_sp = [12, 15, 18, 21, 24, 27, 30, 33, 36, 39, # 1 - 10
     42, 45, 48, 51, 54, 57, 61, 64, 67, 70, # 11 - 20
@@ -693,7 +693,7 @@ id = 25
 base_exp_group = "FirstClass"
 job_exp_group = "NinjaAndGunslinger"
 base_weight = 26000
-base_aspd = { fist = 400, dagger = 500, fuumaShuriken = 750 }
+base_aspd = { Fist = 400, Dagger = 500, Shuriken = 750 }
 inherit_hp = "soul_Linker"
 base_sp = [14, 17, 20, 23, 26, 29, 32, 35, 38, 41, # 1 - 10
     44, 47, 50, 53, 56, 59, 62, 65, 68, 71, # 11 - 20
@@ -717,11 +717,11 @@ base_exp_group = "TranscendedClasses"
 job_exp_group = "HighNovice"
 inherit = "novice"
 
-[jobs.swordsman_high]
+[jobs.1hSwordsman_high]
 id = 4002
 base_exp_group = "TranscendedClasses"
 job_exp_group = "TranscendedFirstClass"
-inherit = "swordsman"
+inherit = "1hSwordsman"
 
 [jobs.magician_high]
 id = 4003
@@ -837,11 +837,11 @@ base_exp_group = "FirstClass"
 job_exp_group = "Novice"
 inherit = "novice"
 
-[jobs.baby_swordsman]
+[jobs.baby_1hSwordsman]
 id = 4024
 base_exp_group = "FirstClass"
 job_exp_group = "FirstClass"
-inherit = "swordsman"
+inherit = "1hSwordsman"
 
 [jobs.baby_magician]
 id = 4025

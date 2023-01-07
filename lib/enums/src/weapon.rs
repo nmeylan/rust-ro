@@ -38,6 +38,7 @@ pub enum WeaponType {
     Shotgun,
     Grenade,
     Huuma,
+    Shuriken,
     #[value_string = "2hStaff"]
     Staff2H,
     MaxWeaponType,

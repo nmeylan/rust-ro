@@ -4,9 +4,9 @@ use sqlx::error::BoxDynError;
 use sqlx::postgres::PgRow;
 use sqlx::TypeInfo;
 use enums::class::EquipClassFlag;
-use enums::EnumWithMaskValue;
+use enums::{EnumWithMaskValue, EnumWithStringValue};
 use enums::item::{EquipmentLocation, ItemClass, ItemFlag, ItemTradeFlag, ItemType};
-use enums::weapon::WeaponType;
+use enums::weapon::{AmmoType, WeaponType};
 
 #[derive(Debug)]
 pub struct ItemModel {
@@ -14,7 +14,8 @@ pub struct ItemModel {
     pub name_aegis: String,
     pub name_english: String,
     pub item_type: ItemType,
-    pub subtype: Option<String>,
+    pub weapon_type: Option<WeaponType>,
+    pub ammo_type: Option<AmmoType>,
     pub price_buy: Option<i32>,
     pub price_sell: Option<i32>,
     pub weight: i32,
@@ -53,7 +54,16 @@ impl<'r> FromRow<'r, PgRow> for ItemModel {
         let name_aegis: String = row.get("name_aegis");
         let name_english: String = row.get("name_english");
         let item_type = ItemType::from_string(row.get("type"));
-        let subtype: Option<String> = row.try_get("subtype").or_else(Self::map_error())?;
+        let mut weapon_type: Option<WeaponType> = None;
+        if item_type == ItemType::Weapon {
+            weapon_type = row.try_get("subtype").or_else(Self::map_error::<Option<String>>())?.map(|s| WeaponType::from_string_ignore_case(s.as_str()));
+        }
+
+        let mut ammo_type: Option<AmmoType> = None;
+        if item_type == ItemType::Ammo {
+            ammo_type = row.try_get("subtype").or_else(Self::map_error::<Option<String>>())?.map(|s| AmmoType::from_string_ignore_case(s.as_str()));
+        }
+
         let price_buy: Option<i32> = row.try_get("price_buy").or_else(Self::map_error())?;
         let price_sell: Option<i32> = row.try_get("price_sell").or_else(Self::map_error())?;
         let weight: i32 = row.try_get::<Option<i32>, _>("weight").map(|v: Option<i32>| v.unwrap_or(0)).or_else(Self::map_error())?;
@@ -167,7 +177,8 @@ impl<'r> FromRow<'r, PgRow> for ItemModel {
             name_aegis,
             name_english,
             item_type,
-            subtype,
+            weapon_type,
+            ammo_type,
             price_buy,
             price_sell,
             weight,
@@ -248,16 +259,13 @@ pub struct GetItemModel {
     pub name_aegis: String,
 }
 
-
-pub type ItemId = i32;
-
 #[derive(sqlx::FromRow, Debug, Clone)]
 pub struct InventoryItemModel {
     // Come from inventory table
     pub id: i32,
     pub unique_id: i64,
     #[sqlx(rename = "nameid")]
-    pub item_id: ItemId,
+    pub item_id: i32,
     #[sqlx(rename = "type")]
     pub item_type: ItemType,
     pub amount: i16,
