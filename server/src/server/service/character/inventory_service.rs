@@ -5,6 +5,7 @@ use tokio::runtime::Runtime;
 use enums::EnumWithMaskValue;
 use enums::item::{EquipmentLocation, ItemType};
 use packets::packets::{EquipmentitemExtrainfo301, EQUIPSLOTINFO, NormalitemExtrainfo3, Packet, PacketZcEquipmentItemlist3, PacketZcItemPickupAck3, PacketZcNormalItemlist3, PacketZcPcPurchaseResult, PacketZcReqTakeoffEquipAck, PacketZcReqTakeoffEquipAck2, PacketZcReqWearEquipAck, PacketZcReqWearEquipAck2, PacketZcSpriteChange2};
+use crate::get_item;
 use crate::repository::model::item_model::{EquippedItem, InventoryItemModel};
 use crate::server::events::client_notification::{CharNotification, Notification};
 use crate::server::events::game_event::{CharacterAddItems, CharacterEquipItem, CharacterZeny};
@@ -51,7 +52,7 @@ impl InventoryService {
         if result.is_ok() {
             let mut packets = vec![];
             character.add_items(add_items.items).iter().for_each(|(index, item)| {
-                let item_info = ItemService::instance().get_item_from_cache(item.item_id).unwrap();
+                let item_info = get_item(item.item_id);
                 let mut packet_zc_item_pickup_ack3 = PacketZcItemPickupAck3::new();
                 packet_zc_item_pickup_ack3.set_itid(item.item_id as u16);
                 packet_zc_item_pickup_ack3.set_count(item.amount as u16);
@@ -94,7 +95,7 @@ impl InventoryService {
         let mut packet_zc_equipment_itemlist3 = PacketZcEquipmentItemlist3::new();
         let mut equipments = vec![];
         character.inventory_equip().iter().for_each(|(index, item)| {
-            let item_info = ItemService::instance().get_item_from_cache(item.item_id).unwrap();
+            let item_info = get_item(item.item_id);
             let mut equipmentitem_extrainfo301 = EquipmentitemExtrainfo301::new();
             equipmentitem_extrainfo301.set_itid(item.item_id as u16);
             equipmentitem_extrainfo301.set_atype(item.item_type.value() as u8);
@@ -146,7 +147,7 @@ impl InventoryService {
 
     pub fn reload_equipped_item_sprites(&self, server_ref: &Server, character: &Character) {
         let mut packets: Vec<u8> = vec![];
-        character.inventory_equipped().iter().for_each(|(_, item)| {
+        character.inventory_equipped().for_each(|(_, item)| {
             if let Some(packet) = self.sprite_change_packet_for_item(character, item) {
                 packets.extend(packet);
             }
@@ -157,7 +158,7 @@ impl InventoryService {
     pub fn sprite_change_packet_for_item(&self, character: &Character, item: &InventoryItemModel) -> Option<Vec<u8>> {
         let mut packet_zc_sprite_change = PacketZcSpriteChange2::new();
         packet_zc_sprite_change.set_gid(character.char_id);
-        let item_info = ItemService::instance().get_item_from_cache(item.item_id).expect("Fail to get item from cache");
+        let item_info = get_item(item.item_id);
         if item.equip & EquipmentLocation::HandRight.as_flag() as i32 != 0 {
             packet_zc_sprite_change.set_atype(LookType::Weapon.value() as u8);
             packet_zc_sprite_change.set_value(item_info.view.unwrap_or(item.item_id) as u16);
@@ -195,7 +196,7 @@ impl InventoryService {
         let mut packets_raws_by_value = vec![];
 
         if let Some(inventory_item) = character.get_item_from_inventory(index) {
-            let equip_item = ItemService::instance().get_item_from_cache(inventory_item.item_id).expect("Fail to get item from cache");
+            let equip_item = get_item(inventory_item.item_id);
             let location = equip_item.location as i32; // it won't work for shadow gear
             let item_id = equip_item.id;
             let mut equipped_take_off_items: Vec<EquippedItem> = vec![];

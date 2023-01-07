@@ -36,11 +36,11 @@ use crate::server::core::configuration::{Config, JobConfig, SkillConfig};
 use crate::server::core::map::Map;
 use server::events::client_notification::Notification;
 use server::events::persistence_event::PersistenceEvent;
+use crate::repository::model::item_model::ItemModel;
 use self::server::core::map_item::MapItem;
 use self::server::script::ScriptHandler;
 use crate::server::npc::mob_spawn::MobSpawn;
 use crate::server::npc::script::Script;
-use crate::server::service::character::item_service::ItemService;
 use crate::util::cell::MyUnsafeCell;
 use crate::util::log_filter::LogFilter;
 
@@ -50,6 +50,8 @@ pub static mut SKILL_CONFIGS: Option<HashMap<String, SkillConfig>> = None;
 pub static mut SKILL_CONFIGS_ID_NAME: Option<HashMap<u32, String>> = None;
 pub static SKILL_CONFIGS_INIT: Once = Once::new();
 pub static SKILL_CONFIGS_ID_NAME_INIT: Once = Once::new();
+pub static mut ITEMS_CACHE: Option<HashMap<u32, ItemModel>> = None;
+pub static ITEMS_CACHE_INIT: Once = Once::new();
 
 
 #[tokio::main]
@@ -89,7 +91,7 @@ pub async fn main() {
     let _ = &handles.push(map_proxy.proxy(config.server.packetver));
 
     let items =  repository_arc.get_all_items().await.unwrap();
-    ItemService::instance().init_cache(items);
+    init_items_cache(items);
     skill_configs();
     job_configs();
 
@@ -116,12 +118,20 @@ fn job_configs() -> &'static Vec<JobConfig> {
     });
     unsafe { &JOB_CONFIGS }
 }
+
+fn init_items_cache(items: Vec<ItemModel>) {
+    ITEMS_CACHE_INIT.call_once(|| unsafe {
+        ITEMS_CACHE = Some(items.into_iter().map(|item| (item.id as u32, item)).collect());
+    });
+}
+
 fn skill_configs() -> &'static HashMap<String, SkillConfig> {
     SKILL_CONFIGS_INIT.call_once(|| unsafe {
         SKILL_CONFIGS = Some(Config::load_skills_config().unwrap());
     });
     unsafe { SKILL_CONFIGS.as_ref().unwrap() }
 }
+
 fn skill_id_name() -> &'static HashMap<u32, String> {
     SKILL_CONFIGS_ID_NAME_INIT.call_once(|| unsafe {
         SKILL_CONFIGS_ID_NAME = Default::default();
@@ -143,4 +153,8 @@ pub fn get_skill_config(name: &str) -> &'static SkillConfig {
 pub fn get_skill_config_by_id(id: u32) -> &'static SkillConfig {
     let name = skill_id_name().get(&id).unwrap_or_else(|| panic!("Expected to find skill config for id {} but found none", id));
     skill_configs().get(name).unwrap_or_else(|| panic!("Expected to find skill config for name {} but found none", name))
+}
+
+pub fn get_item(id: i32) -> &'static ItemModel {
+    unsafe { ITEMS_CACHE.as_ref().unwrap().get(&(id as u32)).unwrap_or_else(|| panic!("Expected to find item for id {} but found none", id)) }
 }

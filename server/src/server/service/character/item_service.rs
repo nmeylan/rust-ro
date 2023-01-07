@@ -23,7 +23,6 @@ static SERVICE_INSTANCE_INIT: Once = Once::new();
 
 pub struct ItemService {
     item_script_cache: MyUnsafeCell<HashMap<u32, ClassFile>>,
-    item_cache: MyUnsafeCell<HashMap<u32, ItemModel>>,
 }
 
 impl ItemService {
@@ -37,7 +36,6 @@ impl ItemService {
     fn new() -> Self {
         Self {
             item_script_cache: Default::default(),
-            item_cache: Default::default(),
         }
     }
     pub fn schedule_get_items(&self, char_id: u32, server: &Server, runtime: &Runtime, item_ids_amounts: Vec<(Value, i16)>, buy: bool) {
@@ -88,16 +86,6 @@ impl ItemService {
         }
         if self.item_script_cache.borrow().contains_key(&(item_id as u32)) {
             return Some(MyRef::map(self.item_script_cache.borrow(), |scripts| scripts.get(&(item_id as u32)).unwrap()));
-        }
-        None
-    }
-    pub fn init_cache(&self, items: Vec<ItemModel>) {
-        self.item_cache.borrow_mut().extend(items.into_iter().map(|item| (item.id as u32, item)));
-    }
-
-    pub fn get_item_from_cache(&self, item_id: i32) -> Option<MyRef<ItemModel>> {
-        if self.item_cache.borrow().contains_key(&(item_id as u32)) {
-            return Some(MyRef::map(self.item_cache.borrow(), |cache| cache.get(&(item_id as u32)).unwrap()));
         }
         None
     }

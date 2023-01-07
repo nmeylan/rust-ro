@@ -1,12 +1,14 @@
 use std::collections::HashSet;
 use std::{io};
 use std::io::Write;
+use std::iter::Filter;
 use std::sync::{Arc, Mutex};
 use accessor::Setters;
-use enums::EnumWithMaskValue;
+use enums::{EnumWithMaskValue, EnumWithStringValue};
 use enums::item::{EquipmentLocation, ItemType};
-use crate::{get_job_config};
-use crate::repository::model::item_model::{EquippedItem, InventoryItemModel, ItemId, ItemModel};
+use enums::weapon::WeaponType;
+use crate::{get_item, get_job_config};
+use crate::repository::model::item_model::{EquippedItem, InventoryItemModel, ItemModel};
 use crate::server::core::action::Attack;
 use crate::server::core::movement::Movement;
 use crate::server::core::map_instance::{MapInstance, MapInstanceKey};
@@ -287,8 +289,18 @@ impl Character {
     }
 
     pub fn weapon_delay(&self) -> u32 {
-        let weapon = "fist"; // TODO use equipped weapon
-        *get_job_config(self.status.class).base_aspd().get(weapon).unwrap_or(&2000)
+        let weapon = self.right_hand_weapon_type();
+        *get_job_config(self.status.class).base_aspd().get(weapon.as_str()).unwrap_or(&2000)
+    }
+
+    pub fn right_hand_weapon_type(&self) -> WeaponType {
+        self.right_hand_weapon()
+            .map(|(_, weapon)| get_item(weapon.item_id).weapon_type.expect("Expected weapon to have subtype"))
+            .unwrap_or(WeaponType::Fist)
+    }
+
+    pub fn right_hand_weapon(&self) -> Option<(usize, &InventoryItemModel)> {
+        self.inventory_equipped().find(|(_, item)| item.equip & EquipmentLocation::HandRight.as_flag() as i32 != 0)
     }
 
     pub fn print(&self) {
@@ -316,7 +328,7 @@ impl Character {
         inventory_print(Box::new(|(_, item)| item.item_type.is_equipment()));
         inventory_print(Box::new(|(_, item)| item.item_type.is_etc()));
         writeln!(stdout, "Equipped items:").unwrap();
-        self.inventory_equipped().iter().for_each(|(index, item)| writeln!(stdout, " [{}] {} - {} ({:?}) at {:?}", index,
+        self.inventory_equipped().for_each(|(index, item)| writeln!(stdout, " [{}] {} - {} ({:?}) at {:?}", index,
                                                                            item.name_english, item.item_id, item.item_type, EquipmentLocation::from_flag(item.equip as u64)).unwrap());
         stdout.flush().unwrap();
     }
@@ -327,10 +339,9 @@ impl Character {
             .collect()
     }
 
-    pub fn inventory_equipped(&self) -> Vec<(usize, &InventoryItemModel)> {
+    pub fn inventory_equipped(&self) -> Filter<Box<dyn Iterator<Item=(usize, &InventoryItemModel)> + '_>, fn(&(usize, &InventoryItemModel)) -> bool> {
         self.inventory_iter()
             .filter(|(_, item)| item.item_type.is_equipment() && item.equip != 0)
-            .collect()
     }
 
     pub fn inventory_wearable(&self) -> Vec<(usize, &InventoryItemModel)> {
