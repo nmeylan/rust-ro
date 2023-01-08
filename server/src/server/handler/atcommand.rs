@@ -10,7 +10,7 @@ use packets::packets::Packet;
 use crate::server::core::configuration::CityConfig;
 use crate::server::core::map::RANDOM_CELL;
 use crate::server::core::request::Request;
-use crate::server::events::game_event::{CharacterChangeLevel, GameEvent};
+use crate::server::events::game_event::{CharacterChangeJobLevel, CharacterChangeLevel, GameEvent};
 use crate::server::script::Value;
 use crate::server::Server;
 use crate::server::service::character::character_service::CharacterService;
@@ -62,6 +62,14 @@ pub fn handle_atcommand(server: &Server, context: Request, packet: &PacketCzPlay
         }
         "setblvl" | "setblevel" | "setbaselvl" | "setbaselevel"  => {
             let result = handle_set_base_level(server, context.session(), context.runtime(), args);
+            packet_zc_notify_playerchat.set_msg(result);
+        }
+        "jlvl" | "jlvup" | "jlevel" | "joblvl" | "joblvup" | "joblevel" | "joblvlup" => {
+            let result = handle_job_level(server, context.session(), context.runtime(), args);
+            packet_zc_notify_playerchat.set_msg(result);
+        }
+        "setjlvl" | "setjlevel" | "setjoblvl" | "setjoblevel"  => {
+            let result = handle_set_job_level(server, context.session(), context.runtime(), args);
             packet_zc_notify_playerchat.set_msg(result);
         }
         _ => {
@@ -170,16 +178,32 @@ pub fn handle_inspect(server: &Server, session: Arc<Session>, _runtime: &Runtime
 
 pub fn handle_base_level(server: &Server, session: Arc<Session>, runtime: &Runtime, args: Vec::<&str>) -> String {
     if args.len() < 1 {
-        return "@base_level command accept 1 parameters but received none".to_string();
+        return "@baselevel command accept 1 parameters but received none".to_string();
     }
     server.add_to_next_tick(GameEvent::CharacterChangeLevel(CharacterChangeLevel{ char_id: session.char_id(), set_level: None, add_level: Some(args.get(0).unwrap().parse::<i32>().unwrap_or(0)) }));
     String::new()
 }
 pub fn handle_set_base_level(server: &Server, session: Arc<Session>, runtime: &Runtime, args: Vec::<&str>) -> String {
     if args.len() < 1 {
-        return "@base_level command accept 1 parameters but received none".to_string();
+        return "@set_baselevel command accept 1 parameters but received none".to_string();
     }
-    server.add_to_next_tick(GameEvent::CharacterChangeLevel(CharacterChangeLevel{ char_id: session.char_id(),
+    server.add_to_next_tick(GameEvent::CharacterChangeJobLevel(CharacterChangeJobLevel{ char_id: session.char_id(),
+        set_level: args.get(0).unwrap().parse::<u32>().map_or_else(|_| None, |lvl| Some(lvl)),
+        add_level: None }));
+    String::new()
+}
+pub fn handle_job_level(server: &Server, session: Arc<Session>, runtime: &Runtime, args: Vec::<&str>) -> String {
+    if args.len() < 1 {
+        return "@joblevel command accept 1 parameters but received none".to_string();
+    }
+    server.add_to_next_tick(GameEvent::CharacterChangeJobLevel(CharacterChangeJobLevel{ char_id: session.char_id(), set_level: None, add_level: Some(args.get(0).unwrap().parse::<i32>().unwrap_or(0)) }));
+    String::new()
+}
+pub fn handle_set_job_level(server: &Server, session: Arc<Session>, runtime: &Runtime, args: Vec::<&str>) -> String {
+    if args.len() < 1 {
+        return "@set_joblevel command accept 1 parameters but received none".to_string();
+    }
+    server.add_to_next_tick(GameEvent::CharacterChangeJobLevel(CharacterChangeJobLevel{ char_id: session.char_id(),
         set_level: args.get(0).unwrap().parse::<u32>().map_or_else(|_| None, |lvl| Some(lvl)),
         add_level: None }));
     String::new()

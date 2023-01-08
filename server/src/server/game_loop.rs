@@ -116,19 +116,17 @@ impl Server {
                         }
                         GameEvent::CharacterChangeLevel(character_change_level) => {
                             let character = characters.get_mut(&character_change_level.char_id).unwrap();
-                            let old_base_level = character.status.base_level;
-                            let new_base_level = if let Some(new_base_level) = character_change_level.set_level {
-                                new_base_level.min(server_ref.configuration.game.max_base_level).max(1) as u32
-                            } else if let Some(add_level) = character_change_level.add_level {
-                                ((old_base_level as i32 + add_level).min(server_ref.configuration.game.max_base_level as i32).max(1)) as u32
-                            } else {
-                                old_base_level
-                            };
-                            if new_base_level < old_base_level {
+                            let delta = CharacterService::instance().update_base_level(&server_ref, &persistence_event_sender, character, character_change_level.set_level, character_change_level.add_level);
+                            if delta < 0 {
                                 // TODO ensure equip required min level
                             }
-                            info!("New base level {}", new_base_level);
-                            CharacterService::instance().update_base_level(&server_ref, &persistence_event_sender, character, new_base_level);
+                        }
+                        GameEvent::CharacterChangeJobLevel(character_change_level) => {
+                            let character = characters.get_mut(&character_change_level.char_id).unwrap();
+                            let delta = CharacterService::instance().update_job_level(&server_ref, &persistence_event_sender, character, character_change_level.set_level, character_change_level.add_level);
+                            if delta < 0 {
+                                // TODO ensure equip required min level
+                            }
                         }
                     }
                 }

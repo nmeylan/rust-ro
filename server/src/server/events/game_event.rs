@@ -20,6 +20,7 @@ pub enum GameEvent {
     CharacterAttack(CharacterAttack),
     CharacterCalculateStats(u32),
     CharacterChangeLevel(CharacterChangeLevel),
+    CharacterChangeJobLevel(CharacterChangeJobLevel),
 }
 
 pub struct CharacterChangeMap {
@@ -83,6 +84,12 @@ pub struct CharacterAttack {
 }
 
 pub struct CharacterChangeLevel {
+    pub char_id: u32,
+    pub set_level: Option<u32>,
+    pub add_level: Option<i32>,
+}
+
+pub struct CharacterChangeJobLevel {
     pub char_id: u32,
     pub set_level: Option<u32>,
     pub add_level: Option<i32>,

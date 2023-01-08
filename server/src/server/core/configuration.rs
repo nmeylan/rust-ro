@@ -41,6 +41,8 @@ pub struct GameConfig {
     pub max_inventory: u16,
     #[set]
     pub max_base_level: u32,
+    #[set]
+    pub max_job_level: u32,
 }
 
 #[derive(Deserialize, Debug, Setters, Clone)]

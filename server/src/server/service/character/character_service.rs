@@ -151,14 +151,44 @@ impl CharacterService {
         server_ref.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, chain_packets(vec![&packet_weight, &packet_max_weight])))).expect("Fail to send client notification");
     }
 
-    pub fn update_base_level(&self, server_ref: &Arc<Server>, persistence_event_sender: &SyncSender<PersistenceEvent>, character: &mut Character, base_level: u32) {
-        character.status.base_level = base_level;
-        persistence_event_sender.send(PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "base_level".to_string(), value: base_level})).expect("Fail to send persistence notification");
+    pub fn update_base_level(&self, server_ref: &Arc<Server>, persistence_event_sender: &SyncSender<PersistenceEvent>, character: &mut Character, maybe_new_base_level: Option<u32>, maybe_level_delta: Option<i32>) -> i32 {
+        let old_base_level = character.status.base_level;
+        let new_base_level = if let Some(new_base_level) = maybe_new_base_level {
+            new_base_level.min(server_ref.configuration.game.max_base_level).max(1) as u32
+        } else if let Some(add_level) = maybe_level_delta {
+            ((old_base_level as i32 + add_level).min(server_ref.configuration.game.max_base_level as i32).max(1)) as u32
+        } else {
+            old_base_level
+        };
+        info!("New base level {}", new_base_level);
+        character.status.base_level = new_base_level;
+        persistence_event_sender.send(PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "base_level".to_string(), value: new_base_level})).expect("Fail to send persistence notification");
         let mut packet_base_level = PacketZcParChange::new();
         packet_base_level.set_var_id(StatusTypes::Baselevel.value() as u16);
-        packet_base_level.set_count(base_level as i32);
+        packet_base_level.set_count(new_base_level as i32);
         packet_base_level.fill_raw();
         server_ref.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packet_base_level.raw))).expect("Fail to send client notification");
+        (old_base_level as i32 - new_base_level as i32) as i32
+    }
+
+    pub fn update_job_level(&self, server_ref: &Arc<Server>, persistence_event_sender: &SyncSender<PersistenceEvent>, character: &mut Character, maybe_new_base_level: Option<u32>, maybe_level_delta: Option<i32>) -> i32 {
+        let old_job_level = character.status.job_level;
+        let new_job_level = if let Some(new_job_level) = maybe_new_base_level {
+            new_job_level.min(server_ref.configuration.game.max_job_level).max(1) as u32
+        } else if let Some(add_level) = maybe_level_delta {
+            ((old_job_level as i32 + add_level).min(server_ref.configuration.game.max_job_level as i32).max(1)) as u32
+        } else {
+            old_job_level
+        };
+        info!("New job level {}", new_job_level);
+        character.status.job_level = new_job_level;
+        persistence_event_sender.send(PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "job_level".to_string(), value: new_job_level})).expect("Fail to send persistence notification");
+        let mut packet_job_level = PacketZcParChange::new();
+        packet_job_level.set_var_id(StatusTypes::Joblevel.value() as u16);
+        packet_job_level.set_count(new_job_level as i32);
+        packet_job_level.fill_raw();
+        server_ref.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packet_job_level.raw))).expect("Fail to send client notification");
+        (old_job_level as i32 - new_job_level as i32) as i32
     }
 
     pub fn load_units_in_fov(&self, server: &Server, client_notification_sender_clone: SyncSender<Notification>, character: &mut Character) {
