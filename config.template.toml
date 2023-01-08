@@ -30,6 +30,7 @@ local_map_server_port = 6124
 default_char_speed = 150
 max_inventory = 100
 max_base_level = 99
+max_job_level = 70
 
 [maps]
 cities = [

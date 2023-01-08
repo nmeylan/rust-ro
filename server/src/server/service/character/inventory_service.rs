@@ -6,7 +6,7 @@ use enums::EnumWithMaskValue;
 use enums::item::{EquipmentLocation, ItemType};
 use packets::packets::{EquipmentitemExtrainfo301, EQUIPSLOTINFO, NormalitemExtrainfo3, Packet, PacketZcEquipmentItemlist3, PacketZcItemPickupAck3, PacketZcNormalItemlist3, PacketZcPcPurchaseResult, PacketZcReqTakeoffEquipAck, PacketZcReqTakeoffEquipAck2, PacketZcReqWearEquipAck, PacketZcReqWearEquipAck2, PacketZcSpriteChange2};
 use crate::get_item;
-use crate::repository::model::item_model::{EquippedItem, InventoryItemModel};
+use crate::repository::model::item_model::{EquippedItem, InventoryItemModel, ItemModel};
 use crate::server::events::client_notification::{CharNotification, Notification};
 use crate::server::events::game_event::{CharacterAddItems, CharacterEquipItem, CharacterZeny};
 use crate::server::events::game_event::GameEvent::{CharacterUpdateWeight, CharacterUpdateZeny};
@@ -204,7 +204,7 @@ impl InventoryService {
             if !equip_item.item_type.is_equipment() {
                 return;
             }
-            if character.status.base_level >= (equip_item.equip_level_min.unwrap_or(0) as u32) {
+            if self.check_weapon_requirements(character, equip_item) {
                 if location & EquipmentLocation::AccessoryLeft.as_flag() as i32 != 0 || location & EquipmentLocation::AccessoryRight.as_flag() as i32 != 0 {
                     // Remove equipped accessory if both(right and left) slots are occupied, otherwise just equip the item in the free slot (right or left)
                     let accessories: Vec<(usize, &InventoryItemModel)> = character.inventory.iter().enumerate()
@@ -273,6 +273,10 @@ impl InventoryService {
         // check if item is equipable
         // check class requirement
         // check level requirement
+    }
+
+    pub fn check_weapon_requirements(&self, character: &mut Character, equip_item: &ItemModel) -> bool {
+        character.status.base_level >= (equip_item.equip_level_min.unwrap_or(0) as u32)
     }
 
     pub fn takeoff_equip_item(&self, server_ref: &Server, character: &mut Character, persistence_event_sender: &SyncSender<PersistenceEvent>, index: usize) {
