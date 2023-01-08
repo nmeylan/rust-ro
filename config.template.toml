@@ -29,6 +29,7 @@ local_map_server_port = 6124
 [game]
 default_char_speed = 150
 max_inventory = 100
+max_base_level = 99
 
 [maps]
 cities = [

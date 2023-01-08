@@ -1,7 +1,7 @@
 use std::collections::HashSet;
 use std::mem;
 use std::sync::mpsc::SyncSender;
-use std::sync::Once;
+use std::sync::{Arc, Once};
 use tokio::runtime::Runtime;
 use enums::action::ActionType;
 use enums::status::StatusTypes;
@@ -149,6 +149,16 @@ impl CharacterService {
         packet_max_weight.set_count(character.max_weight() as i32);
         packet_max_weight.fill_raw();
         server_ref.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, chain_packets(vec![&packet_weight, &packet_max_weight])))).expect("Fail to send client notification");
+    }
+
+    pub fn update_base_level(&self, server_ref: &Arc<Server>, persistence_event_sender: &SyncSender<PersistenceEvent>, character: &mut Character, base_level: u32) {
+        character.status.base_level = base_level;
+        persistence_event_sender.send(PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "base_level".to_string(), value: base_level})).expect("Fail to send persistence notification");
+        let mut packet_base_level = PacketZcParChange::new();
+        packet_base_level.set_var_id(StatusTypes::Baselevel.value() as u16);
+        packet_base_level.set_count(base_level as i32);
+        packet_base_level.fill_raw();
+        server_ref.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packet_base_level.raw))).expect("Fail to send client notification");
     }
 
     pub fn load_units_in_fov(&self, server: &Server, client_notification_sender_clone: SyncSender<Notification>, character: &mut Character) {
