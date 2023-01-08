@@ -1,4 +1,4 @@
-use packets::packets::{Packet, PacketCzRequestAct, PacketZcNotifyAct};
+use packets::packets::{PacketCzRequestAct};
 use crate::server::Server;
 use crate::server::core::request::Request;
 use enums::EnumWithNumberValue;

@@ -1,13 +1,13 @@
-use std::sync::mpsc::SyncSender;
-use std::sync::{Arc, Once};
-use regex::internal::Char;
-use tokio::runtime::Runtime;
+
+use std::sync::{Once};
+
+
 use enums::status::StatusTypes;
 use packets::packets::{PacketZcAttackRange, PacketZcParChange, PacketZcStatusValues};
 use crate::server::events::client_notification::{CharNotification, Notification};
-use crate::server::events::persistence_event::PersistenceEvent;
+
 use crate::server::Server;
-use crate::server::service::battle_service;
+
 use crate::server::state::character::Character;
 use crate::util::packet::chain_packets;
 
@@ -152,20 +152,20 @@ impl StatusService {
 
     /// PRE-RE https://irowiki.org/classic/Attacks
     /// UI left side atk in status info panel
-    pub fn atk1(&self, character: &Character) -> i32 {
+    pub fn atk1(&self, _character: &Character) -> i32 {
         120
     }
 
     /// UI right side atk in status info panel
-    pub fn atk2(&self, character: &Character) -> i32 {
+    pub fn atk2(&self, _character: &Character) -> i32 {
         90
     }
 
     pub fn base_atk(&self, character: &Character) -> i32 {
         let mut str;
-        let mut dex;
+        let dex;
         let mut is_ranged_weapon = false;
-        let mut right_hand_weapon_atk: u16 = 0;
+        let right_hand_weapon_atk: u16 = 0;
         let weapon_type = character.right_hand_weapon_type();
         is_ranged_weapon = weapon_type.is_ranged();
         if is_ranged_weapon {

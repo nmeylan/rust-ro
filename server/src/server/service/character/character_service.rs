@@ -8,7 +8,7 @@ use enums::class::JobName;
 use enums::look::LookType;
 use enums::status::StatusTypes;
 use crate::enums::EnumWithNumberValue;
-use packets::packets::{Packet, PacketZcLongparChange, PacketZcNotifyAct, PacketZcNotifyStandentry7, PacketZcNotifyVanish, PacketZcNpcackMapmove, PacketZcParChange, PacketZcSpriteChange2, PacketZcStatus};
+use packets::packets::{Packet, PacketZcLongparChange, PacketZcNotifyAct, PacketZcNotifyStandentry7, PacketZcNotifyVanish, PacketZcNpcackMapmove, PacketZcParChange, PacketZcSpriteChange2};
 use crate::server::events::game_event::{CharacterChangeMap, CharacterLook, CharacterRemoveFromMap, CharacterZeny, GameEvent};
 use crate::server::core::map::{Map, MAP_EXT, RANDOM_CELL};
 use crate::server::core::map_item::{MapItem, MapItemType};
@@ -19,7 +19,7 @@ use crate::server::events::persistence_event::{PersistenceEvent, SavePositionUpd
 use crate::server::events::persistence_event::PersistenceEvent::SaveCharacterPosition;
 use crate::server::map_item::ToMapItem;
 use crate::server::{PLAYER_FOV, Server};
-use crate::server::core::action::Attack;
+
 use crate::server::service::status_service::StatusService;
 
 use crate::server::state::character::Character;
@@ -278,7 +278,7 @@ impl CharacterService {
         }
         let map_item = server.map_item(attack.target, character.current_map_name(), character.current_map_instance());
         if let Some(map_item) = map_item {
-            let position = server.map_item_x_y(&map_item, character.current_map_name(), character.current_map_instance()).unwrap();
+            let _position = server.map_item_x_y(&map_item, character.current_map_name(), character.current_map_instance()).unwrap();
             // TODO: Check distance based on weapon range, handle too far target
             character.update_last_attack_tick(tick);
             character.update_last_attack_motion(attack_motion);

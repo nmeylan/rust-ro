@@ -166,11 +166,11 @@ pub fn handle_warp(server: &Server, session: Arc<Session>, _runtime: &Runtime, a
 }
 
 pub fn handle_item(server: &Server, session: Arc<Session>, runtime: &Runtime, args: Vec::<&str>) -> String {
-    if args.len() < 1 {
+    if args.is_empty() {
         return format!("@item command accept from 1 to 2 parameters but received {}", args.len());
     }
     ItemService::instance().schedule_get_items(session.char_id(), server, runtime, vec![
-        (args[0].parse::<i32>().map(|number| Value::Number(number)).unwrap_or(Value::String(args[0].to_string())),
+        (args[0].parse::<i32>().map(Value::Number).unwrap_or(Value::String(args[0].to_string())),
          args.get(1).unwrap_or(&"1").parse::<i16>().unwrap_or(1))], false);
 
     String::new()
@@ -183,58 +183,58 @@ pub fn handle_inspect(server: &Server, session: Arc<Session>, _runtime: &Runtime
     String::new()
 }
 
-pub fn handle_base_level(server: &Server, session: Arc<Session>, runtime: &Runtime, args: Vec::<&str>) -> String {
-    if args.len() < 1 {
+pub fn handle_base_level(server: &Server, session: Arc<Session>, _runtime: &Runtime, args: Vec::<&str>) -> String {
+    if args.is_empty() {
         return "@baselevel command accept 1 parameters but received none".to_string();
     }
-    server.add_to_next_tick(GameEvent::CharacterChangeLevel(CharacterChangeLevel { char_id: session.char_id(), set_level: None, add_level: Some(args.get(0).unwrap().parse::<i32>().unwrap_or(0)) }));
+    server.add_to_next_tick(GameEvent::CharacterChangeLevel(CharacterChangeLevel { char_id: session.char_id(), set_level: None, add_level: Some(args.first().unwrap().parse::<i32>().unwrap_or(0)) }));
     String::new()
 }
 
-pub fn handle_set_base_level(server: &Server, session: Arc<Session>, runtime: &Runtime, args: Vec::<&str>) -> String {
-    if args.len() < 1 {
+pub fn handle_set_base_level(server: &Server, session: Arc<Session>, _runtime: &Runtime, args: Vec::<&str>) -> String {
+    if args.is_empty() {
         return "@set_baselevel command accept 1 parameters but received none".to_string();
     }
     server.add_to_next_tick(GameEvent::CharacterChangeJobLevel(CharacterChangeJobLevel {
         char_id: session.char_id(),
-        set_level: args.get(0).unwrap().parse::<u32>().map_or_else(|_| None, |lvl| Some(lvl)),
+        set_level: args.first().unwrap().parse::<u32>().map_or_else(|_| None, Some),
         add_level: None,
     }));
     String::new()
 }
 
-pub fn handle_job_level(server: &Server, session: Arc<Session>, runtime: &Runtime, args: Vec::<&str>) -> String {
-    if args.len() < 1 {
+pub fn handle_job_level(server: &Server, session: Arc<Session>, _runtime: &Runtime, args: Vec::<&str>) -> String {
+    if args.is_empty() {
         return "@joblevel command accept 1 parameters but received none".to_string();
     }
-    server.add_to_next_tick(GameEvent::CharacterChangeJobLevel(CharacterChangeJobLevel { char_id: session.char_id(), set_level: None, add_level: Some(args.get(0).unwrap().parse::<i32>().unwrap_or(0)) }));
+    server.add_to_next_tick(GameEvent::CharacterChangeJobLevel(CharacterChangeJobLevel { char_id: session.char_id(), set_level: None, add_level: Some(args.first().unwrap().parse::<i32>().unwrap_or(0)) }));
     String::new()
 }
 
-pub fn handle_set_job_level(server: &Server, session: Arc<Session>, runtime: &Runtime, args: Vec::<&str>) -> String {
-    if args.len() < 1 {
+pub fn handle_set_job_level(server: &Server, session: Arc<Session>, _runtime: &Runtime, args: Vec::<&str>) -> String {
+    if args.is_empty() {
         return "@set_joblevel command accept 1 parameters but received none".to_string();
     }
     server.add_to_next_tick(GameEvent::CharacterChangeJobLevel(CharacterChangeJobLevel {
         char_id: session.char_id(),
-        set_level: args.get(0).unwrap().parse::<u32>().map_or_else(|_| None, |lvl| Some(lvl)),
+        set_level: args.first().unwrap().parse::<u32>().map_or_else(|_| None, Some),
         add_level: None,
     }));
     String::new()
 }
 
-pub fn handle_set_job(server: &Server, session: Arc<Session>, runtime: &Runtime, args: Vec::<&str>) -> String {
-    if args.len() < 1 {
+pub fn handle_set_job(server: &Server, session: Arc<Session>, _runtime: &Runtime, args: Vec::<&str>) -> String {
+    if args.is_empty() {
         return "@job command accept 1 parameters but received none".to_string();
     }
-    let maybe_job = if let Ok(job_id) = args.get(0).unwrap().parse::<u32>() {
+    let maybe_job = if let Ok(job_id) = args.first().unwrap().parse::<u32>() {
         JobName::try_from_value(job_id as usize)
     } else {
-        JobName::try_from_string(args.get(0).unwrap())
+        JobName::try_from_string(args.first().unwrap())
     };
     if let Ok(job) = maybe_job {
         server.add_to_next_tick(GameEvent::CharacterChangeJob(CharacterChangeJob { char_id: session.char_id(), job }));
         return "Your job has been changed.".to_string();
     }
-    format!("Job {} not found", args.get(0).unwrap())
+    format!("Job {} not found", args.first().unwrap())
 }

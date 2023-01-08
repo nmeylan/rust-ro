@@ -5,14 +5,14 @@ use std::sync::{Arc, Mutex};
 use byteorder::{LittleEndian, WriteBytesExt};
 use sqlx::Postgres;
 
-use packets::packets::{CharacterInfoNeoUnion, Packet, PacketChDeleteChar4Reserved, PacketChEnter, PacketChMakeChar, PacketChMakeChar2, PacketChMakeChar3, PacketChSelectChar, PacketChSendMapInfo, PacketCzEnter2, PacketCzRestart, PacketHcAcceptEnterNeoUnion, PacketHcAcceptEnterNeoUnionHeader, PacketHcAcceptMakecharNeoUnion, PacketHcDeleteChar4Reserved, PacketHcNotifyZonesvr, PacketHcRefuseEnter, PacketMapConnection, PacketPincodeLoginstate, PacketZcAcceptEnter2, PacketZcAttackRange, PacketZcInventoryExpansionInfo, PacketZcLoadConfirm, PacketZcNotifyChat, PacketZcOverweightPercent, PacketZcParChange, PacketZcReqDisconnectAck2, PacketZcRestartAck, PacketZcStatus, PacketZcStatusValues, ZserverAddr};
+use packets::packets::{CharacterInfoNeoUnion, Packet, PacketChDeleteChar4Reserved, PacketChEnter, PacketChMakeChar, PacketChMakeChar2, PacketChMakeChar3, PacketChSelectChar, PacketChSendMapInfo, PacketCzEnter2, PacketCzRestart, PacketHcAcceptEnterNeoUnion, PacketHcAcceptEnterNeoUnionHeader, PacketHcAcceptMakecharNeoUnion, PacketHcDeleteChar4Reserved, PacketHcNotifyZonesvr, PacketHcRefuseEnter, PacketMapConnection, PacketPincodeLoginstate, PacketZcAcceptEnter2, PacketZcInventoryExpansionInfo, PacketZcLoadConfirm, PacketZcNotifyChat, PacketZcOverweightPercent, PacketZcReqDisconnectAck2, PacketZcRestartAck, ZserverAddr};
 
 use crate::repository::model::char_model::{CharacterInfoNeoUnionWrapped, CharInsertModel, CharSelectModel};
 use crate::server::core::map::Map;
 use crate::server::core::map_instance::MapInstanceKey;
 use crate::server::core::position::Position;
 use crate::server::core::request::Request;
-use enums::status::StatusTypes;
+
 use crate::server::events::game_event::{CharacterRemoveFromMap, GameEvent};
 use crate::server::events::game_event::GameEvent::CharacterInitInventory;
 use crate::server::script::ScriptGlobalVariableStore;
@@ -97,7 +97,7 @@ pub fn handle_make_char(server: &Server, context: Request) {
         });
     } else if context.packet().as_any().downcast_ref::<PacketChMakeChar2>().is_some() {
         let packet_make_char = cast!(context.packet(), PacketChMakeChar2);
-        let vit = 5 as i16;
+        let vit = 5_i16;
         let max_hp = 40 * (100 + vit as i32) / 100;
         let int = 5;
         let max_sp = 40 * (100 + int as i32) / 100;
@@ -109,12 +109,12 @@ pub fn handle_make_char(server: &Server, context: Request) {
             class: 0,
             zeny: 10000, // make this configurable
             status_point: 48,
-            str: 5 as i16,
-            agi: 5 as i16,
+            str: 5_i16,
+            agi: 5_i16,
             vit,
             int,
-            dex: 5 as i16,
-            luk: 5 as i16,
+            dex: 5_i16,
+            luk: 5_i16,
             max_hp,
             hp: max_hp,
             max_sp,
