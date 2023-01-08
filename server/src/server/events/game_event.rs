@@ -19,6 +19,7 @@ pub enum GameEvent {
     CharacterTakeoffEquipItem(CharacterTakeoffEquipItem),
     CharacterAttack(CharacterAttack),
     CharacterCalculateStats(u32),
+    CharacterChangeLevel(CharacterChangeLevel),
 }
 
 pub struct CharacterChangeMap {
@@ -79,4 +80,10 @@ pub struct CharacterAttack {
     pub char_id: u32,
     pub target_id: u32,
     pub repeat: bool,
+}
+
+pub struct CharacterChangeLevel {
+    pub char_id: u32,
+    pub set_level: Option<u32>,
+    pub add_level: Option<i32>,
 }
