@@ -31,6 +31,8 @@ pub struct Status {
     pub aspd: u32,
     pub look: Option<Look>,
     pub zeny: u32,
+    pub base_level: u32,
+    pub job_level: u32,
 }
 
 impl Clone for Status {
@@ -62,6 +64,8 @@ impl Clone for Status {
             aspd: self.aspd,
             look: self.look.clone(),
             zeny: self.zeny,
+            base_level: self.base_level,
+            job_level: self.job_level,
         }
     }
 }
@@ -152,6 +156,8 @@ impl Status {
                 robe: char_model.robe as u32,
             }),
             zeny: char_model.zeny as u32,
+            base_level: char_model.base_level as u32,
+            job_level: char_model.job_level as u32,
         }
     }
     pub fn from_mob_model(mob_model: &MobModel) -> Status {
@@ -182,6 +188,8 @@ impl Status {
             aspd: 0,
             look: None,
             zeny: 0,
+            base_level: 0,
+            job_level: 0,
         }
     }
 }

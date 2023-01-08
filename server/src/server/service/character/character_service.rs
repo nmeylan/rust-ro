@@ -17,7 +17,7 @@ use crate::server::events::persistence_event::PersistenceEvent::SaveCharacterPos
 use crate::server::map_item::ToMapItem;
 use crate::server::{PLAYER_FOV, Server};
 use crate::server::core::action::Attack;
-use crate::server::service::battle_service::BattleService;
+use crate::server::service::status_service::StatusService;
 
 use crate::server::state::character::Character;
 use crate::server::state::status::LookType;
@@ -223,8 +223,8 @@ impl CharacterService {
         if !attack.repeat { // one shot attack
             character.clear_attack();
         }
-        let aspd = BattleService::instance().aspd(character);
-        let attack_motion = (1000.0 / BattleService::instance().attack_per_seconds(aspd)).round() as u32;
+        let attack_motion = StatusService::instance().attack_motion(character);
+
         if tick < attack.last_attack_tick + attack_motion as u128 {
             return;
         }

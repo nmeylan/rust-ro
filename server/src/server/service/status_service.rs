@@ -4,7 +4,7 @@ use enums::status::StatusTypes;
 use packets::packets::{PacketZcAttackRange, PacketZcParChange, PacketZcStatusValues};
 use crate::server::events::client_notification::{CharNotification, Notification};
 use crate::server::Server;
-use crate::server::service::battle_service::BattleService;
+use crate::server::service::battle_service;
 use crate::server::state::character::Character;
 use crate::util::packet::chain_packets;
 
@@ -56,16 +56,16 @@ impl StatusService {
         packet_flee.fill_raw();
         let mut packet_aspd = PacketZcParChange::new();
         packet_aspd.set_var_id(StatusTypes::Aspd.value() as u16);
-        let aspd = BattleService::instance().aspd(character);
-        packet_aspd.set_count(BattleService::instance().client_aspd(aspd));
+        let aspd = StatusService::instance().aspd(character);
+        packet_aspd.set_count(StatusService::instance().client_aspd(aspd));
         packet_aspd.fill_raw();
         let mut packet_atk = PacketZcParChange::new();
         packet_atk.set_var_id(StatusTypes::Atk1.value() as u16);
-        packet_atk.set_count(BattleService::instance().base_atk(character) as i32);
+        packet_atk.set_count(StatusService::instance().base_atk(character) as i32);
         packet_atk.fill_raw();
         let mut packet_atk2 = PacketZcParChange::new();
         packet_atk2.set_var_id(StatusTypes::Atk2.value() as u16);
-        packet_atk2.set_count(BattleService::instance().atk2(character) as i32);
+        packet_atk2.set_count(StatusService::instance().atk2(character) as i32);
         packet_atk2.fill_raw();
         let mut packet_def = PacketZcParChange::new();
         packet_def.set_var_id(StatusTypes::Def1.value() as u16);
@@ -124,5 +124,61 @@ impl StatusService {
         ]);
         server_ref.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, final_response_packet)))
             .expect("Fail to send client notification");
+    }
+
+    fn attack_per_seconds(&self, aspd: f32) -> f32 {
+        50_f32 / (200_f32 - aspd.min(199.0))
+    }
+
+    pub fn attack_motion(&self, character: &Character) -> u32 {
+        let aspd = StatusService::instance().aspd(character);
+        (1000.0 / StatusService::instance().attack_per_seconds(aspd)).round() as u32
+    }
+
+    pub fn client_aspd(&self, aspd: f32) -> i32 {
+        ((200_f32 - aspd.min(199.0)) * 10.0).round() as i32
+    }
+
+    ///  PRE-RE formula: 200-(WD-([WD*AGI/25]+[WD*DEX/100])/10)*(1-SM)  https://irowiki.org/classic/ASPD
+    /// [] - Square brackets hold the same priority as normal brackets, but indicate that the value of the contents should be rounded down to the nearest whole number (integer) once calculated.
+    pub fn aspd(&self, character: &Character) -> f32 {
+        let weapon_delay = character.weapon_delay() as f32 / 10.0;
+        let speed_modifier = 0_f32;
+        200.0 - (weapon_delay - ((((weapon_delay * (character.status.agi as f32)) / 25.0).floor() + ((weapon_delay * (character.status.dex as f32)) / 100.0).floor()) / 10.0) * (1.0 - speed_modifier))
+    }
+
+    /// PRE-RE https://irowiki.org/classic/Attacks
+    /// UI left side atk in status info panel
+    pub fn atk1(&self, character: &Character) -> i32 {
+        120
+    }
+
+    /// UI right side atk in status info panel
+    pub fn atk2(&self, character: &Character) -> i32 {
+        90
+    }
+
+    pub fn base_atk(&self, character: &Character) -> i32 {
+        let mut str;
+        let mut dex;
+        let mut is_ranged_weapon = false;
+        let mut right_hand_weapon_atk: u16 = 0;
+        let weapon_type = character.right_hand_weapon_type();
+        is_ranged_weapon = weapon_type.is_ranged();
+        if is_ranged_weapon {
+            str = character.status.dex;
+            dex = character.status.str;
+        } else {
+            str = character.status.str;
+            dex = character.status.dex;
+        }
+        // For homunculus
+        // dstr = str / 10;
+        // str += dstr*dstr;
+        let dstr = str / 10;
+        str += dstr*dstr;
+        str += dex / 5 + character.status.luk / 5;
+
+        (str + right_hand_weapon_atk) as i32
     }
 }

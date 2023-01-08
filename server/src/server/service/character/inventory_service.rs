@@ -192,6 +192,7 @@ impl InventoryService {
         packet_zc_req_wear_equip_ack.set_index(index as u16);
         packet_zc_req_wear_equip_ack.set_result(1);
         packet_zc_req_wear_equip_ack.set_view_id(0);
+        packet_zc_req_wear_equip_ack.set_wear_location(0);
 
         let mut packets_raws_by_value = vec![];
 
@@ -203,64 +204,66 @@ impl InventoryService {
             if !equip_item.item_type.is_equipment() {
                 return;
             }
-            if location & EquipmentLocation::AccessoryLeft.as_flag() as i32 != 0 || location & EquipmentLocation::AccessoryRight.as_flag() as i32 != 0 {
-                // Remove equipped accessory if both(right and left) slots are occupied, otherwise just equip the item in the free slot (right or left)
-                let accessories: Vec<(usize, &InventoryItemModel)> = character.inventory.iter().enumerate()
-                    .filter(|(_, i)| if let Some(j) = i { j.item_type.is_equipment() && (j.equip & location != 0) } else { false })
-                    .map(|(index, item)| (index, item.as_ref().unwrap()))
-                    .collect();
-                if accessories.len() == 2 {
-                    equipped_take_off_items.push(EquippedItem { item_id, removed_equip_location: EquipmentLocation::AccessoryLeft.as_flag() as i32, index });
-                    // When the 2 accessories slot are occupied, remove left accessory and equip new one in the left slot
-                    let (item_to_remove_index, _) = accessories.iter().find(|(index, item)| item.equip & EquipmentLocation::AccessoryLeft.as_flag() as i32 != 0).unwrap();
-                    let item_to_remove_index = *item_to_remove_index;
-                    drop(accessories);
-                    let mut item = character.get_item_from_inventory_mut(item_to_remove_index).unwrap();
-                    equipped_take_off_items.push(EquippedItem { item_id: item.item_id, removed_equip_location: item.equip, index: item_to_remove_index });
-                    item.equip = 0;
-                    character.get_item_from_inventory_mut(index).unwrap().equip = EquipmentLocation::AccessoryLeft.as_flag() as i32;
-                } else if accessories.len() == 1 {
-                    // When only 1 accessory slot is occupied, equip the new item in the free slot
-                    vec![EquipmentLocation::AccessoryRight.as_flag() as i32, EquipmentLocation::AccessoryLeft.as_flag() as i32].iter()
-                        .find(|item_mask| accessories[0].1.equip & **item_mask == 0)
-                        .map(|item_mask| {
-                            equipped_take_off_items.push(EquippedItem { item_id, removed_equip_location: *item_mask as i32, index });
-                            character.get_item_from_inventory_mut(index).unwrap().equip = *item_mask as i32;
-                        });
+            if character.status.base_level >= (equip_item.equip_level_min.unwrap_or(0) as u32) {
+                if location & EquipmentLocation::AccessoryLeft.as_flag() as i32 != 0 || location & EquipmentLocation::AccessoryRight.as_flag() as i32 != 0 {
+                    // Remove equipped accessory if both(right and left) slots are occupied, otherwise just equip the item in the free slot (right or left)
+                    let accessories: Vec<(usize, &InventoryItemModel)> = character.inventory.iter().enumerate()
+                        .filter(|(_, i)| if let Some(j) = i { j.item_type.is_equipment() && (j.equip & location != 0) } else { false })
+                        .map(|(index, item)| (index, item.as_ref().unwrap()))
+                        .collect();
+                    if accessories.len() == 2 {
+                        equipped_take_off_items.push(EquippedItem { item_id, removed_equip_location: EquipmentLocation::AccessoryLeft.as_flag() as i32, index });
+                        // When the 2 accessories slot are occupied, remove left accessory and equip new one in the left slot
+                        let (item_to_remove_index, _) = accessories.iter().find(|(index, item)| item.equip & EquipmentLocation::AccessoryLeft.as_flag() as i32 != 0).unwrap();
+                        let item_to_remove_index = *item_to_remove_index;
+                        drop(accessories);
+                        let mut item = character.get_item_from_inventory_mut(item_to_remove_index).unwrap();
+                        equipped_take_off_items.push(EquippedItem { item_id: item.item_id, removed_equip_location: item.equip, index: item_to_remove_index });
+                        item.equip = 0;
+                        character.get_item_from_inventory_mut(index).unwrap().equip = EquipmentLocation::AccessoryLeft.as_flag() as i32;
+                    } else if accessories.len() == 1 {
+                        // When only 1 accessory slot is occupied, equip the new item in the free slot
+                        vec![EquipmentLocation::AccessoryRight.as_flag() as i32, EquipmentLocation::AccessoryLeft.as_flag() as i32].iter()
+                            .find(|item_mask| accessories[0].1.equip & **item_mask == 0)
+                            .map(|item_mask| {
+                                equipped_take_off_items.push(EquippedItem { item_id, removed_equip_location: *item_mask as i32, index });
+                                character.get_item_from_inventory_mut(index).unwrap().equip = *item_mask as i32;
+                            });
+                    } else {
+                        equipped_take_off_items.push(EquippedItem { item_id, removed_equip_location: EquipmentLocation::AccessoryLeft.as_flag() as i32, index });
+                        character.get_item_from_inventory_mut(index).unwrap().equip = EquipmentLocation::AccessoryLeft.as_flag() as i32;
+                    }
                 } else {
-                    equipped_take_off_items.push(EquippedItem { item_id, removed_equip_location: EquipmentLocation::AccessoryLeft.as_flag() as i32, index });
-                    character.get_item_from_inventory_mut(index).unwrap().equip = EquipmentLocation::AccessoryLeft.as_flag() as i32;
+                    equipped_take_off_items.push(EquippedItem { item_id, removed_equip_location: location, index });
+                    // Remove equipped items in same location. E.g: when goggle item is equipped it remove top and mid head items, when a 2h weapon is equipped it remove shield and weapon items...
+                    character.inventory.iter_mut().enumerate()
+                        .filter(|(_, i)| if let Some(j) = i { j.item_type.is_equipment() && (j.equip & location != 0) } else { false })
+                        .for_each(|(item_index, inventory_item)| {
+                            let inventory_item = inventory_item.as_mut().unwrap();
+                            equipped_take_off_items.push(EquippedItem { item_id: inventory_item.id, removed_equip_location: inventory_item.equip, index: item_index });
+                            inventory_item.equip = 0;
+                        });
+                    character.get_item_from_inventory_mut(index).unwrap().equip = location;
                 }
-            } else {
-                equipped_take_off_items.push(EquippedItem { item_id, removed_equip_location: location, index });
-                // Remove equipped items in same location. E.g: when goggle item is equipped it remove top and mid head items, when a 2h weapon is equipped it remove shield and weapon items...
-                character.inventory.iter_mut().enumerate()
-                    .filter(|(_, i)| if let Some(j) = i { j.item_type.is_equipment() && (j.equip & location != 0) } else { false })
-                    .for_each(|(item_index, inventory_item)| {
-                        let inventory_item = inventory_item.as_mut().unwrap();
-                        equipped_take_off_items.push(EquippedItem { item_id: inventory_item.id, removed_equip_location: inventory_item.equip, index: item_index });
-                        inventory_item.equip = 0;
-                    });
-                character.get_item_from_inventory_mut(index).unwrap().equip = location;
-            }
-            let item_view = equip_item.view.unwrap_or(0);
-            packet_zc_req_wear_equip_ack.set_view_id(item_view as u16);
-            packet_zc_req_wear_equip_ack.set_result(0);
-            packet_zc_req_wear_equip_ack.set_wear_location(equipped_take_off_items[0].removed_equip_location as u16);
-            packet_zc_req_wear_equip_ack.fill_raw();
-            let mut take_off_items_packets = vec![];
-            if equipped_take_off_items.len() > 0 {
-                for i in 1..equipped_take_off_items.len() {
-                    let mut packet_zc_req_takeoff_equip_ack2 = PacketZcReqTakeoffEquipAck2::new();
-                    packet_zc_req_takeoff_equip_ack2.set_index(equipped_take_off_items[i].index as u16);
-                    packet_zc_req_takeoff_equip_ack2.set_wear_location(equipped_take_off_items[i].removed_equip_location as u16);
-                    packet_zc_req_takeoff_equip_ack2.set_result(0);
-                    packet_zc_req_takeoff_equip_ack2.fill_raw();
-                    take_off_items_packets.push(packet_zc_req_takeoff_equip_ack2);
+                let item_view = equip_item.view.unwrap_or(0);
+                packet_zc_req_wear_equip_ack.set_view_id(item_view as u16);
+                packet_zc_req_wear_equip_ack.set_result(0);
+                packet_zc_req_wear_equip_ack.set_wear_location(equipped_take_off_items[0].removed_equip_location as u16);
+                let mut take_off_items_packets = vec![];
+                if equipped_take_off_items.len() > 0 {
+                    for i in 1..equipped_take_off_items.len() {
+                        let mut packet_zc_req_takeoff_equip_ack2 = PacketZcReqTakeoffEquipAck2::new();
+                        packet_zc_req_takeoff_equip_ack2.set_index(equipped_take_off_items[i].index as u16);
+                        packet_zc_req_takeoff_equip_ack2.set_wear_location(equipped_take_off_items[i].removed_equip_location as u16);
+                        packet_zc_req_takeoff_equip_ack2.set_result(0);
+                        packet_zc_req_takeoff_equip_ack2.fill_raw();
+                        take_off_items_packets.push(packet_zc_req_takeoff_equip_ack2);
+                    }
                 }
+                packets_raws_by_value = chain_packets_raws_by_value(take_off_items_packets.iter().map(|packet| packet.raw.clone()).collect());
             }
-            packets_raws_by_value = chain_packets_raws_by_value(take_off_items_packets.iter().map(|packet| packet.raw.clone()).collect());
         }
+        packet_zc_req_wear_equip_ack.fill_raw();
         packets_raws_by_value.extend(packet_zc_req_wear_equip_ack.raw);
         server_ref.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packets_raws_by_value)))
             .expect("Fail to send client notification");

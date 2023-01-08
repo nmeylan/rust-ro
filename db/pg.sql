@@ -554,7 +554,7 @@ CREATE TABLE ragnarok."char" (
     char_num smallint DEFAULT 0 NOT NULL,
     name character varying(30) DEFAULT ''::character varying NOT NULL,
     class smallint DEFAULT 0 NOT NULL,
-    base_level smallint DEFAULT 1 NOT NULL,
+    base_level INTEGER DEFAULT 1 NOT NULL,
     job_level INTEGER DEFAULT 1 NOT NULL,
     base_exp INTEGER DEFAULT '0'::INTEGER NOT NULL,
     job_exp INTEGER DEFAULT '0'::INTEGER NOT NULL,

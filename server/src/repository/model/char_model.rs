@@ -34,7 +34,7 @@ impl<'r> FromRow<'r, PgRow> for CharacterInfoNeoUnionWrapped {
         character_info_neo_union.set_head(row.get::<i16, _>("hair") as u16);
         character_info_neo_union.set_body(row.get::<i16, _>("body") as u16);
         character_info_neo_union.set_weapon(row.get::<i16, _>("weapon") as u16);
-        character_info_neo_union.set_level(row.get::<i16, _>("base_level") as u16);
+        character_info_neo_union.set_level(row.get::<i32, _>("base_level") as u16);
         character_info_neo_union.set_skill_point(row.get::<i16, _>("skill_point") as u16);
         character_info_neo_union.set_head_bottom(row.get::<i16, _>("head_bottom") as u16);
         character_info_neo_union.set_shield(row.get::<i16, _>("shield") as u16);
@@ -144,4 +144,6 @@ pub struct CharSelectModel {
     pub head_mid: i16,
     pub head_bottom: i16,
     pub robe: i32,
+    pub base_level: i32,
+    pub job_level: i32,
 }
