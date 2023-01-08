@@ -4,8 +4,11 @@ use std::sync::mpsc::SyncSender;
 use std::sync::{Arc, Once};
 use tokio::runtime::Runtime;
 use enums::action::ActionType;
+use enums::class::JobName;
+use enums::look::LookType;
 use enums::status::StatusTypes;
-use packets::packets::{Packet, PacketZcLongparChange, PacketZcNotifyAct, PacketZcNotifyStandentry7, PacketZcNotifyVanish, PacketZcNpcackMapmove, PacketZcParChange, PacketZcSpriteChange2};
+use crate::enums::EnumWithNumberValue;
+use packets::packets::{Packet, PacketZcLongparChange, PacketZcNotifyAct, PacketZcNotifyStandentry7, PacketZcNotifyVanish, PacketZcNpcackMapmove, PacketZcParChange, PacketZcSpriteChange2, PacketZcStatus};
 use crate::server::events::game_event::{CharacterChangeMap, CharacterLook, CharacterRemoveFromMap, CharacterZeny, GameEvent};
 use crate::server::core::map::{Map, MAP_EXT, RANDOM_CELL};
 use crate::server::core::map_item::{MapItem, MapItemType};
@@ -20,7 +23,6 @@ use crate::server::core::action::Attack;
 use crate::server::service::status_service::StatusService;
 
 use crate::server::state::character::Character;
-use crate::server::state::status::LookType;
 use crate::util::packet::chain_packets;
 use crate::util::string::StringUtil;
 
@@ -189,6 +191,12 @@ impl CharacterService {
         packet_job_level.fill_raw();
         server_ref.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packet_job_level.raw))).expect("Fail to send client notification");
         (old_job_level as i32 - new_job_level as i32) as i32
+    }
+
+    pub fn change_job(&self, server_ref: &Arc<Server>, persistence_event_sender: &SyncSender<PersistenceEvent>, character: &mut Character, job: JobName) {
+        character.status.job = job.value() as u32;
+        persistence_event_sender.send(PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "class".to_string(), value: character.status.job})).expect("Fail to send persistence notification");
+        self.change_sprite(server_ref, character, LookType::Job, character.status.job as u16, 0);
     }
 
     pub fn load_units_in_fov(&self, server: &Server, client_notification_sender_clone: SyncSender<Notification>, character: &mut Character) {

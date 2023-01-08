@@ -1,16 +1,18 @@
-
 use std::sync::Arc;
 use lazy_static::lazy_static;
 use tokio::runtime::Runtime;
 use packets::packets::{PacketCzPlayerChat, PacketZcNotifyPlayerchat};
 use crate::server::core::session::Session;
 use regex::Regex;
+use enums::class::JobName;
+use enums::EnumWithStringValue;
+use crate::enums::EnumWithNumberValue;
 
 use packets::packets::Packet;
 use crate::server::core::configuration::CityConfig;
 use crate::server::core::map::RANDOM_CELL;
 use crate::server::core::request::Request;
-use crate::server::events::game_event::{CharacterChangeJobLevel, CharacterChangeLevel, GameEvent};
+use crate::server::events::game_event::{CharacterChangeJob, CharacterChangeJobLevel, CharacterChangeLevel, GameEvent};
 use crate::server::script::Value;
 use crate::server::Server;
 use crate::server::service::character::character_service::CharacterService;
@@ -60,7 +62,7 @@ pub fn handle_atcommand(server: &Server, context: Request, packet: &PacketCzPlay
             let result = handle_base_level(server, context.session(), context.runtime(), args);
             packet_zc_notify_playerchat.set_msg(result);
         }
-        "setblvl" | "setblevel" | "setbaselvl" | "setbaselevel"  => {
+        "setblvl" | "setblevel" | "setbaselvl" | "setbaselevel" => {
             let result = handle_set_base_level(server, context.session(), context.runtime(), args);
             packet_zc_notify_playerchat.set_msg(result);
         }
@@ -68,8 +70,12 @@ pub fn handle_atcommand(server: &Server, context: Request, packet: &PacketCzPlay
             let result = handle_job_level(server, context.session(), context.runtime(), args);
             packet_zc_notify_playerchat.set_msg(result);
         }
-        "setjlvl" | "setjlevel" | "setjoblvl" | "setjoblevel"  => {
+        "setjlvl" | "setjlevel" | "setjoblvl" | "setjoblevel" => {
             let result = handle_set_job_level(server, context.session(), context.runtime(), args);
+            packet_zc_notify_playerchat.set_msg(result);
+        }
+        "job" | "jobchange" => {
+            let result = handle_set_job(server, context.session(), context.runtime(), args);
             packet_zc_notify_playerchat.set_msg(result);
         }
         _ => {
@@ -147,7 +153,7 @@ pub fn handle_warp(server: &Server, session: Arc<Session>, _runtime: &Runtime, a
             if let Ok(parse_x_res) = parse_x_res {
                 x = parse_x_res;
             }
-            if let  Ok(parse_y_res) = parse_y_res {
+            if let Ok(parse_y_res) = parse_y_res {
                 y = parse_y_res;
             }
         }
@@ -169,6 +175,7 @@ pub fn handle_item(server: &Server, session: Arc<Session>, runtime: &Runtime, ar
 
     String::new()
 }
+
 pub fn handle_inspect(server: &Server, session: Arc<Session>, _runtime: &Runtime, _args: Vec::<&str>) -> String {
     let char_id = session.char_id();
     let character = server.get_character_unsafe(char_id);
@@ -180,31 +187,54 @@ pub fn handle_base_level(server: &Server, session: Arc<Session>, runtime: &Runti
     if args.len() < 1 {
         return "@baselevel command accept 1 parameters but received none".to_string();
     }
-    server.add_to_next_tick(GameEvent::CharacterChangeLevel(CharacterChangeLevel{ char_id: session.char_id(), set_level: None, add_level: Some(args.get(0).unwrap().parse::<i32>().unwrap_or(0)) }));
+    server.add_to_next_tick(GameEvent::CharacterChangeLevel(CharacterChangeLevel { char_id: session.char_id(), set_level: None, add_level: Some(args.get(0).unwrap().parse::<i32>().unwrap_or(0)) }));
     String::new()
 }
+
 pub fn handle_set_base_level(server: &Server, session: Arc<Session>, runtime: &Runtime, args: Vec::<&str>) -> String {
     if args.len() < 1 {
         return "@set_baselevel command accept 1 parameters but received none".to_string();
     }
-    server.add_to_next_tick(GameEvent::CharacterChangeJobLevel(CharacterChangeJobLevel{ char_id: session.char_id(),
+    server.add_to_next_tick(GameEvent::CharacterChangeJobLevel(CharacterChangeJobLevel {
+        char_id: session.char_id(),
         set_level: args.get(0).unwrap().parse::<u32>().map_or_else(|_| None, |lvl| Some(lvl)),
-        add_level: None }));
+        add_level: None,
+    }));
     String::new()
 }
+
 pub fn handle_job_level(server: &Server, session: Arc<Session>, runtime: &Runtime, args: Vec::<&str>) -> String {
     if args.len() < 1 {
         return "@joblevel command accept 1 parameters but received none".to_string();
     }
-    server.add_to_next_tick(GameEvent::CharacterChangeJobLevel(CharacterChangeJobLevel{ char_id: session.char_id(), set_level: None, add_level: Some(args.get(0).unwrap().parse::<i32>().unwrap_or(0)) }));
+    server.add_to_next_tick(GameEvent::CharacterChangeJobLevel(CharacterChangeJobLevel { char_id: session.char_id(), set_level: None, add_level: Some(args.get(0).unwrap().parse::<i32>().unwrap_or(0)) }));
     String::new()
 }
+
 pub fn handle_set_job_level(server: &Server, session: Arc<Session>, runtime: &Runtime, args: Vec::<&str>) -> String {
     if args.len() < 1 {
         return "@set_joblevel command accept 1 parameters but received none".to_string();
     }
-    server.add_to_next_tick(GameEvent::CharacterChangeJobLevel(CharacterChangeJobLevel{ char_id: session.char_id(),
+    server.add_to_next_tick(GameEvent::CharacterChangeJobLevel(CharacterChangeJobLevel {
+        char_id: session.char_id(),
         set_level: args.get(0).unwrap().parse::<u32>().map_or_else(|_| None, |lvl| Some(lvl)),
-        add_level: None }));
+        add_level: None,
+    }));
     String::new()
+}
+
+pub fn handle_set_job(server: &Server, session: Arc<Session>, runtime: &Runtime, args: Vec::<&str>) -> String {
+    if args.len() < 1 {
+        return "@job command accept 1 parameters but received none".to_string();
+    }
+    let maybe_job = if let Ok(job_id) = args.get(0).unwrap().parse::<u32>() {
+        JobName::try_from_value(job_id as usize)
+    } else {
+        JobName::try_from_string(args.get(0).unwrap())
+    };
+    if let Ok(job) = maybe_job {
+        server.add_to_next_tick(GameEvent::CharacterChangeJob(CharacterChangeJob { char_id: session.char_id(), job }));
+        return "Your job has been changed.".to_string();
+    }
+    format!("Job {} not found", args.get(0).unwrap())
 }

@@ -1,6 +1,6 @@
 use rathena_script_lang_interpreter::lang::value::Value;
-
-use crate::server::state::status::LookType;
+use enums::look::LookType;
+use crate::enums::EnumWithNumberValue;
 
 /*
 ([A-Z_]*): (.*)

@@ -1,6 +1,5 @@
 #![allow(dead_code)]
-
-use enum_macro::WithNumberValue;
+use crate::*;
 
 #[derive(Debug, Clone, Copy, PartialEq, WithNumberValue)]
 pub enum ActionType {

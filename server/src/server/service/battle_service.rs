@@ -5,7 +5,6 @@ use enums::weapon::WeaponType;
 use crate::get_item;
 use crate::server::service::character::item_service::ItemService;
 use crate::server::state::character::Character;
-use crate::server::state::status::LookType::Weapon;
 
 static mut SERVICE_INSTANCE: Option<BattleService> = None;
 static SERVICE_INSTANCE_INIT: Once = Once::new();

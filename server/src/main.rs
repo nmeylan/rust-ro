@@ -15,6 +15,9 @@ extern crate log;
 #[macro_use]
 extern crate accessor;
 
+extern crate enums;
+extern crate metrics;
+
 extern crate packets;
 extern crate sqlx;
 extern crate core;
