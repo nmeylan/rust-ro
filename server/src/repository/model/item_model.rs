@@ -1,8 +1,8 @@
-use sqlx::{Decode, Error, FromRow, Postgres, Row};
-use sqlx::database::HasValueRef;
-use sqlx::error::BoxDynError;
+use sqlx::{Error, FromRow, Row};
+
+
 use sqlx::postgres::PgRow;
-use sqlx::TypeInfo;
+
 use enums::class::EquipClassFlag;
 use enums::{EnumWithMaskValue, EnumWithStringValue};
 use enums::item::{EquipmentLocation, ItemClass, ItemFlag, ItemTradeFlag, ItemType};

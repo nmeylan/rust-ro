@@ -6,7 +6,7 @@ use rathena_script_lang_interpreter::lang::compiler::{Compiler, DebugFlag};
 use rathena_script_lang_interpreter::lang::vm::Vm;
 use tokio::runtime::Runtime;
 use tokio::sync::mpsc;
-use crate::repository::model::item_model::{InventoryItemModel, ItemModel};
+use crate::repository::model::item_model::{InventoryItemModel};
 use enums::item::ItemType;
 use packets::packets::PacketZcUseItemAck2;
 use crate::server::events::client_notification::{CharNotification, Notification};

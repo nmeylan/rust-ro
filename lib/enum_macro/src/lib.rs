@@ -174,7 +174,7 @@ fn get_number_value<T>(variant: &Variant, ident: &str) -> Option<T>
     maybe_value
 }
 fn is_all_value(variant: &Variant, ident: &str) -> bool {
-    variant.attrs.iter().find(|attr| attr.path.is_ident(ident)).is_some()
+    variant.attrs.iter().any(|attr| attr.path.is_ident(ident))
 }
 
 

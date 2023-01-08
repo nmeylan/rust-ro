@@ -1,12 +1,12 @@
-use std::sync::{Arc, Once};
+use std::sync::{Once};
 use std::sync::mpsc::SyncSender;
 use rand::RngCore;
 use tokio::runtime::Runtime;
 use enums::EnumWithMaskValue;
-use enums::item::{EquipmentLocation, ItemType};
+use enums::item::{EquipmentLocation};
 use enums::look::LookType;
 use crate::enums::EnumWithNumberValue;
-use packets::packets::{EquipmentitemExtrainfo301, EQUIPSLOTINFO, NormalitemExtrainfo3, Packet, PacketZcEquipmentItemlist3, PacketZcItemPickupAck3, PacketZcNormalItemlist3, PacketZcPcPurchaseResult, PacketZcReqTakeoffEquipAck, PacketZcReqTakeoffEquipAck2, PacketZcReqWearEquipAck, PacketZcReqWearEquipAck2, PacketZcSpriteChange2};
+use packets::packets::{EquipmentitemExtrainfo301, EQUIPSLOTINFO, NormalitemExtrainfo3, Packet, PacketZcEquipmentItemlist3, PacketZcItemPickupAck3, PacketZcNormalItemlist3, PacketZcPcPurchaseResult, PacketZcReqTakeoffEquipAck2, PacketZcReqWearEquipAck2, PacketZcSpriteChange2};
 use crate::get_item;
 use crate::repository::model::item_model::{EquippedItem, InventoryItemModel, ItemModel};
 use crate::server::events::client_notification::{CharNotification, Notification};
@@ -15,8 +15,8 @@ use crate::server::events::game_event::GameEvent::{CharacterUpdateWeight, Charac
 use crate::server::events::persistence_event::{InventoryItemUpdate, PersistenceEvent};
 use crate::server::Server;
 use crate::server::service::character::character_service::CharacterService;
-use crate::server::service::character::item_service::ItemService;
-use crate::server::service::status_service::StatusService;
+
+
 use crate::server::state::character::Character;
 use crate::util::packet::{chain_packets, chain_packets_raws_by_value};
 
@@ -88,7 +88,7 @@ impl InventoryService {
 
     pub fn reload_inventory(&self, server_ref: &Server, runtime: &Runtime, char_id: u32, character: &mut Character) {
         character.inventory = vec![];
-        let items = runtime.block_on(async {
+        let _items = runtime.block_on(async {
             let items = server_ref.repository.character_inventory_fetch(char_id as i32).await.unwrap();
             character.add_items(items)
         });
@@ -215,7 +215,7 @@ impl InventoryService {
                     if accessories.len() == 2 {
                         equipped_take_off_items.push(EquippedItem { item_id, removed_equip_location: EquipmentLocation::AccessoryLeft.as_flag() as i32, index });
                         // When the 2 accessories slot are occupied, remove left accessory and equip new one in the left slot
-                        let (item_to_remove_index, _) = accessories.iter().find(|(index, item)| item.equip & EquipmentLocation::AccessoryLeft.as_flag() as i32 != 0).unwrap();
+                        let (item_to_remove_index, _) = accessories.iter().find(|(_index, item)| item.equip & EquipmentLocation::AccessoryLeft.as_flag() as i32 != 0).unwrap();
                         let item_to_remove_index = *item_to_remove_index;
                         drop(accessories);
                         let mut item = character.get_item_from_inventory_mut(item_to_remove_index).unwrap();
@@ -251,7 +251,7 @@ impl InventoryService {
                 packet_zc_req_wear_equip_ack.set_result(0);
                 packet_zc_req_wear_equip_ack.set_wear_location(equipped_take_off_items[0].removed_equip_location as u16);
                 let mut take_off_items_packets = vec![];
-                if equipped_take_off_items.len() > 0 {
+                if !equipped_take_off_items.is_empty() {
                     for i in 1..equipped_take_off_items.len() {
                         let mut packet_zc_req_takeoff_equip_ack2 = PacketZcReqTakeoffEquipAck2::new();
                         packet_zc_req_takeoff_equip_ack2.set_index(equipped_take_off_items[i].index as u16);

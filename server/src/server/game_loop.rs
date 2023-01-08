@@ -5,7 +5,7 @@ use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
 
 use tokio::runtime::Runtime;
 
-use packets::packets::{Packet, PacketZcNotifyPlayermove, PacketZcReqWearEquipAck};
+use packets::packets::{Packet, PacketZcNotifyPlayermove};
 use crate::PersistenceEvent;
 use crate::PersistenceEvent::SaveCharacterPosition;
 use crate::server::core::movement::Movement;
