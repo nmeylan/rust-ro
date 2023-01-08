@@ -1,7 +1,8 @@
+use enums::class::JobName;
+use enums::look::LookType;
 use crate::repository::model::item_model::InventoryItemModel;
 use crate::server::core::movement::Movement;
 use crate::server::core::position::Position;
-use crate::server::state::status::LookType;
 
 pub enum GameEvent {
     CharacterLoadedFromClientSide(u32),
@@ -21,6 +22,7 @@ pub enum GameEvent {
     CharacterCalculateStats(u32),
     CharacterChangeLevel(CharacterChangeLevel),
     CharacterChangeJobLevel(CharacterChangeJobLevel),
+    CharacterChangeJob(CharacterChangeJob),
 }
 
 pub struct CharacterChangeMap {
@@ -93,4 +95,9 @@ pub struct CharacterChangeJobLevel {
     pub char_id: u32,
     pub set_level: Option<u32>,
     pub add_level: Option<i32>,
+}
+
+pub struct CharacterChangeJob {
+    pub char_id: u32,
+    pub job: JobName,
 }

@@ -128,6 +128,11 @@ impl Server {
                                 // TODO ensure equip required min level
                             }
                         }
+                        GameEvent::CharacterChangeJob(character_change_job) => {
+                            let character = characters.get_mut(&character_change_job.char_id).unwrap();
+                            CharacterService::instance().change_job(&server_ref, &persistence_event_sender, character, character_change_job.job);
+                            // TODO ensure equip required class
+                        }
                     }
                 }
             }

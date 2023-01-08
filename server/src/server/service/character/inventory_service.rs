@@ -4,6 +4,8 @@ use rand::RngCore;
 use tokio::runtime::Runtime;
 use enums::EnumWithMaskValue;
 use enums::item::{EquipmentLocation, ItemType};
+use enums::look::LookType;
+use crate::enums::EnumWithNumberValue;
 use packets::packets::{EquipmentitemExtrainfo301, EQUIPSLOTINFO, NormalitemExtrainfo3, Packet, PacketZcEquipmentItemlist3, PacketZcItemPickupAck3, PacketZcNormalItemlist3, PacketZcPcPurchaseResult, PacketZcReqTakeoffEquipAck, PacketZcReqTakeoffEquipAck2, PacketZcReqWearEquipAck, PacketZcReqWearEquipAck2, PacketZcSpriteChange2};
 use crate::get_item;
 use crate::repository::model::item_model::{EquippedItem, InventoryItemModel, ItemModel};
@@ -16,7 +18,6 @@ use crate::server::service::character::character_service::CharacterService;
 use crate::server::service::character::item_service::ItemService;
 use crate::server::service::status_service::StatusService;
 use crate::server::state::character::Character;
-use crate::server::state::status::LookType;
 use crate::util::packet::{chain_packets, chain_packets_raws_by_value};
 
 static mut SERVICE_INSTANCE: Option<InventoryService> = None;

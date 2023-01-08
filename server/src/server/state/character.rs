@@ -6,6 +6,7 @@ use std::sync::{Arc, Mutex};
 use accessor::Setters;
 use enums::{EnumWithMaskValue, EnumWithStringValue};
 use enums::item::{EquipmentLocation, ItemType};
+use enums::look::LookType;
 use enums::weapon::WeaponType;
 use crate::{get_item, get_job_config};
 use crate::repository::model::item_model::{EquippedItem, InventoryItemModel, ItemModel};
@@ -13,7 +14,7 @@ use crate::server::core::action::Attack;
 use crate::server::core::movement::Movement;
 use crate::server::core::map_instance::{MapInstance, MapInstanceKey};
 use crate::server::core::position::Position;
-use crate::server::state::status::{LookType, Status};
+use crate::server::state::status::{Status};
 use crate::server::core::map_item::{MapItem, MapItemSnapshot, MapItemType};
 use crate::server::map_item::{ToMapItem, ToMapItemSnapshot};
 use crate::server::script::ScriptGlobalVariableStore;
@@ -280,7 +281,7 @@ impl Character {
             .sum()
     }
     pub fn max_weight(&self) -> u32 {
-        let base_weight = get_job_config(self.status.class).base_weight();
+        let base_weight = get_job_config(self.status.job).base_weight();
         base_weight + (self.status.str * 300) as u32
     }
 
@@ -290,7 +291,7 @@ impl Character {
 
     pub fn weapon_delay(&self) -> u32 {
         let weapon = self.right_hand_weapon_type();
-        *get_job_config(self.status.class).base_aspd().get(weapon.as_str()).unwrap_or(&2000)
+        *get_job_config(self.status.job).base_aspd().get(weapon.as_str()).unwrap_or(&2000)
     }
 
     pub fn right_hand_weapon_type(&self) -> WeaponType {
@@ -365,14 +366,14 @@ impl Character {
 
 impl ToMapItem for Character {
     fn to_map_item(&self) -> MapItem {
-        let client_item_class = self.status.class as i16;
+        let client_item_class = self.status.job as i16;
         MapItem::new(self.char_id, client_item_class, MapItemType::Character)
     }
 }
 
 impl ToMapItemSnapshot for Character {
     fn to_map_item_snapshot(&self) -> MapItemSnapshot {
-        let client_item_class = self.status.class as i16;
+        let client_item_class = self.status.job as i16;
         MapItemSnapshot::new(
             MapItem::new(self.char_id, client_item_class, MapItemType::Character),
             Position { x: self.x, y: self.y, dir: self.dir },

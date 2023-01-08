@@ -25,6 +25,19 @@ pub fn with_number_value(input: TokenStream) -> TokenStream {
             res
         });
         let mut j: usize = 1;
+        let try_from_value_match_arms = enum_data.variants.iter().enumerate().map(|(_, variant)| {
+            let variant_name = variant.ident.clone();
+            let maybe_value = get_number_value::<usize>(variant, "value");
+            if let Some(value) = maybe_value {
+                j = value;
+            }
+            let res = quote! {
+                #j => Ok(#enum_name::#variant_name),
+            };
+            j += 1;
+            res
+        });
+        let mut j: usize = 1;
         let value_match_arms = enum_data.variants.iter().enumerate().map(|(_, variant)| {
             let variant_name = variant.ident.clone();
             let maybe_value = get_number_value::<usize>(variant, "value");
@@ -38,15 +51,21 @@ pub fn with_number_value(input: TokenStream) -> TokenStream {
             res
         });
         quote! {
-            impl #enum_name {
-                pub fn from_value(value: usize) -> Self {
+            impl EnumWithNumberValue for #enum_name {
+                fn from_value(value: usize) -> Self {
                     match value {
                         #(#from_value_match_arms)*
                         _ => panic!("Can't create enum_macro #enum_name for value {}", value)
                     }
                 }
+                fn try_from_value(value: usize) -> Result<Self, String> {
+                    match value {
+                        #(#try_from_value_match_arms)*
+                        _ => panic!("Can't create enum_macro #enum_name for value {}", value)
+                    }
+                }
 
-                pub fn value(&self) -> usize {
+                fn value(&self) -> usize {
                     match self {
                         #(#value_match_arms)*
                         _ => panic!("Value can't be found for enum_macro #enum_name")
@@ -191,6 +210,23 @@ pub fn with_string_value(input: TokenStream) -> TokenStream {
             };
             res
         });
+        let try_from_value_match_arms = enum_data.variants.iter().enumerate().map(|(_, variant)| {
+            let variant_name = variant.ident.clone();
+            let maybe_value = get_string_value(variant);
+            let string_value = if let Some(value) = maybe_value {
+                value
+            } else if uppercase {
+                format!("{}", variant_name).to_uppercase()
+            } else if lowercase {
+                format!("{}", variant_name).to_lowercase()
+            } else {
+                format!("{}", variant_name)
+            };
+            let res = quote! {
+                #string_value => Ok(#enum_name::#variant_name),
+            };
+            res
+        });
         let from_value_ignore_case_match_arms = enum_data.variants.iter().enumerate().map(|(_, variant)| {
             let variant_name = variant.ident.clone();
             let maybe_value = get_string_value(variant);
@@ -227,6 +263,12 @@ pub fn with_string_value(input: TokenStream) -> TokenStream {
                     match value {
                         #(#from_value_match_arms)*
                         _ => panic!("Can't create enum_macro #enum_name for value {}", value)
+                    }
+                }
+                fn try_from_string(value: &str) -> Result<Self, String> {
+                    match value {
+                        #(#try_from_value_match_arms)*
+                        _ => Err(format!("Can't create enum_macro #enum_name for value {}", value))
                     }
                 }
                 fn from_string_ignore_case(value: &str) -> Self {

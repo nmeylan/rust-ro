@@ -10,6 +10,8 @@ use rathena_script_lang_interpreter::lang::vm::NativeMethodHandler;
 use sprintf::{Printf, vsprintf};
 use tokio::runtime::Runtime;
 use tokio::sync::mpsc::Receiver;
+use enums::look::LookType;
+use crate::enums::EnumWithNumberValue;
 
 use packets::packets::{Packet, PacketZcCloseDialog, PacketZcMenuList, PacketZcNotifyPlayerchat, PacketZcNpcChat, PacketZcOpenEditdlg, PacketZcOpenEditdlgstr, PacketZcSayDialog, PacketZcShowImage2, PacketZcWaitDialog};
 use crate::{get_skill_config, get_skill_config_by_id};
@@ -23,7 +25,6 @@ use crate::server::Server;
 use crate::server::service::character::character_service::CharacterService;
 use crate::server::service::character::item_service::{ItemService};
 use crate::server::service::skill_service::SkillService;
-use crate::server::state::status::LookType;
 use crate::util::string::StringUtil;
 
 mod global_variable_handler;
