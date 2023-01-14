@@ -1,0 +1,22 @@
+@startuml
+
+interface "Mutable state" as mut
+[service] as service
+note right of service: A service can:\n- Mutate received state. \n- Notify client with state change\n- Persist state update in database
+
+[Client notification] as response
+[Persistence notification] as persistence
+[Repository] as repository
+database Postgresql as database
+mut -> service
+service ..> response
+service ..> persistence
+service --> repository
+
+persistence --> database
+repository --> database
+
+interface TCP
+response --> TCP
+TCP --> :Client:
+@enduml
