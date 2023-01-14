@@ -1,0 +1,81 @@
+@startuml
+
+interface "TCP Socket" as tcp
+
+:Client: <-down-> tcp
+
+
+[Request Handler] as request_thread
+[Response Handler] as response_thread
+node PersistenceThread as persistence {
+interface "mpsc" as persistence_queue
+[Persistence loop] as persistence_loop
+persistence_loop <- persistence_queue
+persistence_loop -down-> repositories
+}
+
+node "Server" as server {
+interface "Event queue" as queue
+  [Game loop] as gl
+
+  tcp -down-> request_thread
+  tcp <-- response_thread
+  request_thread ..> queue
+  request_thread -right-> services
+  gl -down-> services
+  gl <-up- queue
+'    services <-up-> gl
+}
+
+node "Script VM" as vm {
+  [Script instance] as script
+  script -down-> services
+}
+
+request_thread -down-> vm
+
+
+node "Services layer" as services {
+    [CharacterService]
+    [InventoryService]
+    [SkillService]
+    [StatusService]
+    [ItemService]
+    [...]
+}
+
+node "Map instance" as map {
+interface "mpsc" as map_queue
+    [Map update loop] as map_update_loop
+    map_update_loop -down-> services
+    map_update_loop<--map_queue
+}
+
+states <-- server  : Own
+states <-- map  : Own
+
+services -up-> states : mutate\n/ read
+
+map_queue <. gl
+
+'services .down.> response_thread
+services --> response_thread
+persistence_queue <.. services : deferred update
+services -down-> repositories : immediate call\n (fetch or transaction)
+node "States" as states {
+    [CharacterState]
+    [Mob]
+}
+
+node "Repository layer" as repositories {
+    [CharacterRepository]
+    [ItemRepository]
+    [InventoryService]
+}
+'
+repositories --> "Postgresql"
+database "Postgresql" {
+
+}
+
+@enduml

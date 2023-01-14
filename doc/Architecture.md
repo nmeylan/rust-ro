@@ -38,6 +38,7 @@ This implementation relies heavily on message passing.
 This allow us to keep mutability ownership in a single place and avoid to use lock (and end with deadlock or complicated code)
 
 ## Components
+![](./diagram/components.png)
 ### Game loop thread
 Server implement a game loop. The game loop refresh server states at a fixed rate (ie: 40ms). 
 
@@ -59,3 +60,6 @@ This thread is responsible to perform **write** query in database
 
 ### Client notification thread
 This thread is responsible to send state change packet to clients
+
+## Service layer
+![](./diagram/service_layer.png)
