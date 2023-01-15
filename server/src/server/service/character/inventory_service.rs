@@ -7,7 +7,6 @@ use enums::item::{EquipmentLocation};
 use enums::look::LookType;
 use crate::enums::EnumWithNumberValue;
 use packets::packets::{EquipmentitemExtrainfo301, EQUIPSLOTINFO, NormalitemExtrainfo3, Packet, PacketZcEquipmentItemlist3, PacketZcItemPickupAck3, PacketZcNormalItemlist3, PacketZcPcPurchaseResult, PacketZcReqTakeoffEquipAck2, PacketZcReqWearEquipAck2, PacketZcSpriteChange2};
-use crate::get_item;
 use crate::repository::model::item_model::{EquippedItem, InventoryItemModel, ItemModel};
 use crate::repository::Repository;
 use crate::server::core::configuration::Config;
@@ -17,6 +16,7 @@ use crate::server::events::game_event::{CharacterAddItems, CharacterEquipItem, C
 use crate::server::events::game_event::GameEvent::{CharacterUpdateWeight, CharacterUpdateZeny};
 use crate::server::events::persistence_event::{InventoryItemUpdate, PersistenceEvent};
 use crate::server::service::character::character_service::CharacterService;
+use crate::server::service::global_config_service::GlobalConfigService;
 
 
 use crate::server::state::character::Character;
@@ -29,7 +29,7 @@ pub struct InventoryService{
     client_notification_sender: SyncSender<Notification>,
     persistence_event_sender: SyncSender<PersistenceEvent>,
     repository: Arc<Repository>,
-    configuration: &'static Config,
+    configuration_service: &'static GlobalConfigService,
     server_task_queue: Arc<TasksQueue<GameEvent>>
 }
 
@@ -38,9 +38,9 @@ impl InventoryService{
         unsafe { SERVICE_INSTANCE.as_ref().unwrap() }
     }
 
-    pub fn init(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, repository: Arc<Repository>, configuration: &'static Config, task_queue: Arc<TasksQueue<GameEvent>>) {
+    pub fn init(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, repository: Arc<Repository>, configuration_service: &'static GlobalConfigService, task_queue: Arc<TasksQueue<GameEvent>>) {
         SERVICE_INSTANCE_INIT.call_once(|| unsafe {
-            SERVICE_INSTANCE = Some(InventoryService{ client_notification_sender, persistence_event_sender, repository, configuration, server_task_queue: task_queue });
+            SERVICE_INSTANCE = Some(InventoryService{ client_notification_sender, persistence_event_sender, repository, configuration_service, server_task_queue: task_queue });
         });
     }
 
@@ -60,7 +60,7 @@ impl InventoryService{
         if result.is_ok() {
             let mut packets = vec![];
             character.add_items(add_items.items).iter().for_each(|(index, item)| {
-                let item_info = get_item(item.item_id);
+                let item_info = self.configuration_service.get_item(item.item_id);
                 let mut packet_zc_item_pickup_ack3 = PacketZcItemPickupAck3::new();
                 packet_zc_item_pickup_ack3.set_itid(item.item_id as u16);
                 packet_zc_item_pickup_ack3.set_count(item.amount as u16);
@@ -104,7 +104,7 @@ impl InventoryService{
         let mut packet_zc_equipment_itemlist3 = PacketZcEquipmentItemlist3::new();
         let mut equipments = vec![];
         character.inventory_equip().iter().for_each(|(index, item)| {
-            let item_info = get_item(item.item_id);
+            let item_info = self.configuration_service.get_item(item.item_id);
             let mut equipmentitem_extrainfo301 = EquipmentitemExtrainfo301::new();
             equipmentitem_extrainfo301.set_itid(item.item_id as u16);
             equipmentitem_extrainfo301.set_atype(item.item_type.value() as u8);
@@ -123,7 +123,7 @@ impl InventoryService{
             equipmentitem_extrainfo301.fill_raw();
             equipments.push(equipmentitem_extrainfo301);
         });
-        packet_zc_equipment_itemlist3.set_packet_length((PacketZcEquipmentItemlist3::base_len(self.configuration.packetver()) + equipments.len() * EquipmentitemExtrainfo301::base_len(self.configuration.packetver())) as i16);
+        packet_zc_equipment_itemlist3.set_packet_length((PacketZcEquipmentItemlist3::base_len(self.configuration_service.packetver()) + equipments.len() * EquipmentitemExtrainfo301::base_len(self.configuration_service.packetver())) as i16);
         packet_zc_equipment_itemlist3.set_item_info(equipments);
         packet_zc_equipment_itemlist3.fill_raw();
         let mut packet_zc_normal_itemlist3 = PacketZcNormalItemlist3::new();
@@ -145,7 +145,7 @@ impl InventoryService{
             extrainfo3.fill_raw();
             normal_items.push(extrainfo3);
         });
-        packet_zc_normal_itemlist3.set_packet_length((PacketZcNormalItemlist3::base_len(self.configuration.packetver()) + normal_items.len() * NormalitemExtrainfo3::base_len(self.configuration.packetver())) as i16);
+        packet_zc_normal_itemlist3.set_packet_length((PacketZcNormalItemlist3::base_len(self.configuration_service.packetver()) + normal_items.len() * NormalitemExtrainfo3::base_len(self.configuration_service.packetver())) as i16);
         packet_zc_normal_itemlist3.set_item_info(normal_items);
         packet_zc_normal_itemlist3.fill_raw();
         self.server_task_queue.add_to_first_index(CharacterUpdateWeight(character.char_id));
@@ -167,7 +167,7 @@ impl InventoryService{
     pub fn sprite_change_packet_for_item(&self, character: &Character, item: &InventoryItemModel) -> Option<Vec<u8>> {
         let mut packet_zc_sprite_change = PacketZcSpriteChange2::new();
         packet_zc_sprite_change.set_gid(character.char_id);
-        let item_info = get_item(item.item_id);
+        let item_info = self.configuration_service.get_item(item.item_id);
         if item.equip & EquipmentLocation::HandRight.as_flag() as i32 != 0 {
             packet_zc_sprite_change.set_atype(LookType::Weapon.value() as u8);
             packet_zc_sprite_change.set_value(item_info.view.unwrap_or(item.item_id) as u16);
@@ -206,7 +206,7 @@ impl InventoryService{
         let mut packets_raws_by_value = vec![];
 
         if let Some(inventory_item) = character.get_item_from_inventory(index) {
-            let equip_item = get_item(inventory_item.item_id);
+            let equip_item = self.configuration_service.get_item(inventory_item.item_id);
             let location = equip_item.location as i32; // it won't work for shadow gear
             let item_id = equip_item.id;
             let mut equipped_take_off_items: Vec<EquippedItem> = vec![];

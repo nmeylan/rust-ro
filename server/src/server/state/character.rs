@@ -8,7 +8,6 @@ use enums::{EnumWithMaskValue, EnumWithStringValue};
 use enums::item::{EquipmentLocation};
 use enums::look::LookType;
 use enums::weapon::WeaponType;
-use crate::{get_item, get_job_config};
 use crate::repository::model::item_model::{InventoryItemModel};
 use crate::server::core::action::Attack;
 use crate::server::core::movement::Movement;
@@ -282,59 +281,9 @@ impl Character {
             })
             .sum()
     }
-    pub fn max_weight(&self) -> u32 {
-        let base_weight = get_job_config(self.status.job).base_weight();
-        base_weight + (self.status.str * 300) as u32
-    }
-
-    pub fn check_weight(&self, additional_weight: u32) -> bool {
-        (self.max_weight() as f32 * 0.9) as u32 > (self.weight() + additional_weight)
-    }
-
-    pub fn weapon_delay(&self) -> u32 {
-        let weapon = self.right_hand_weapon_type();
-        *get_job_config(self.status.job).base_aspd().get(weapon.as_str()).unwrap_or(&2000)
-    }
-
-    pub fn right_hand_weapon_type(&self) -> WeaponType {
-        self.right_hand_weapon()
-            .map(|(_, weapon)| get_item(weapon.item_id).weapon_type.expect("Expected weapon to have subtype"))
-            .unwrap_or(WeaponType::Fist)
-    }
 
     pub fn right_hand_weapon(&self) -> Option<(usize, &InventoryItemModel)> {
         self.inventory_equipped().find(|(_, item)| item.equip & EquipmentLocation::HandRight.as_flag() as i32 != 0)
-    }
-
-    pub fn print(&self) {
-        let mut stdout = io::stdout();
-        writeln!(stdout, "************** {} - {} ****************", self.name, self.char_id).unwrap();
-        writeln!(stdout, "Status:").unwrap();
-        writeln!(stdout, "  str: {}", self.status.str).unwrap();
-        writeln!(stdout, "  agi: {}", self.status.agi).unwrap();
-        writeln!(stdout, "  vit: {}", self.status.vit).unwrap();
-        writeln!(stdout, "  int: {}", self.status.int).unwrap();
-        writeln!(stdout, "  dex: {}", self.status.dex).unwrap();
-        writeln!(stdout, "  luk: {}", self.status.luk).unwrap();
-        writeln!(stdout, "  speed: {}", self.status.speed).unwrap();
-        writeln!(stdout, "  hp: {}/{}", self.status.hp, self.status.max_hp).unwrap();
-        writeln!(stdout, "  sp: {}/{}", self.status.sp, self.status.max_sp).unwrap();
-        writeln!(stdout, "  zeny: {}", self.status.zeny).unwrap();
-        writeln!(stdout, "  weight: {}/{}", self.weight(), self.max_weight()).unwrap();
-        writeln!(stdout, "Inventory:").unwrap();
-        type PredicateClosure =  Box<dyn Fn(&(usize, &InventoryItemModel)) -> bool>;
-        let mut inventory_print = |predicate: PredicateClosure| {
-            self.inventory_iter()
-                .filter(predicate)
-                .for_each(|(index, item)| writeln!(stdout, " [{}] {} - {} ({})", index, item.name_english, item.item_id, item.amount).unwrap());
-        };
-        inventory_print(Box::new(|(_, item)| item.item_type.is_consumable()));
-        inventory_print(Box::new(|(_, item)| item.item_type.is_equipment()));
-        inventory_print(Box::new(|(_, item)| item.item_type.is_etc()));
-        writeln!(stdout, "Equipped items:").unwrap();
-        self.inventory_equipped().for_each(|(index, item)| writeln!(stdout, " [{}] {} - {} ({:?}) at {:?}", index,
-                                                                           item.name_english, item.item_id, item.item_type, EquipmentLocation::from_flag(item.equip as u64)).unwrap());
-        stdout.flush().unwrap();
     }
 
     pub fn inventory_equip(&self) -> Vec<(usize, &InventoryItemModel)> {
@@ -359,7 +308,7 @@ impl Character {
             .collect()
     }
 
-    fn inventory_iter(&self) -> InventoryIter {
+    pub(crate) fn inventory_iter(&self) -> InventoryIter {
         Box::new(self.inventory.iter().enumerate()
             .filter(|(_, item)| item.is_some())
             .map(|(index, item)| (index, item.as_ref().unwrap())))

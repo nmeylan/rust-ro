@@ -16,6 +16,7 @@ use crate::server::events::game_event::{CharacterUseItem};
 use crate::server::events::persistence_event::{DeleteItems, PersistenceEvent};
 use crate::server::script::{PlayerScriptHandler};
 use crate::server::Server;
+use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::state::character::Character;
 use crate::util::cell::{MyRef, MyUnsafeCell};
 
@@ -28,7 +29,7 @@ pub struct ItemService {
     client_notification_sender: SyncSender<Notification>,
     persistence_event_sender: SyncSender<PersistenceEvent>,
     repository: Arc<Repository>,
-    configuration: &'static Config,
+    configuration_service: &'static GlobalConfigService,
     item_script_cache: MyUnsafeCell<HashMap<u32, ClassFile>>,
 }
 
@@ -36,9 +37,9 @@ impl ItemService {
     pub fn instance() -> &'static ItemService {
         unsafe { SERVICE_INSTANCE.as_ref().unwrap() }
     }
-    pub fn init(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, repository: Arc<Repository>, configuration: &'static Config) {
+    pub fn init(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, repository: Arc<Repository>, configuration_service: &'static GlobalConfigService) {
         SERVICE_INSTANCE_INIT.call_once(|| unsafe {
-            SERVICE_INSTANCE = Some(ItemService{ client_notification_sender, persistence_event_sender, repository, configuration, item_script_cache: Default::default() });
+            SERVICE_INSTANCE = Some(ItemService{ client_notification_sender, persistence_event_sender, repository, configuration_service, item_script_cache: Default::default() });
         });
     }
 
@@ -81,6 +82,7 @@ impl ItemService {
                                                      player_action_receiver: RwLock::new(rx),
                                                      runtime: Runtime::new().unwrap(),
                                                      session,
+                                                     configuration_service: self.configuration_service
                                                  }));
                     let mut packet_zc_use_item_ack = PacketZcUseItemAck2::new();
                     packet_zc_use_item_ack.set_aid(character_user_item.char_id);

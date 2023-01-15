@@ -1,14 +1,20 @@
 use std::collections::HashSet;
-use std::mem;
+use std::{io, mem};
+use std::io::Write;
 use std::sync::mpsc::SyncSender;
 use std::sync::{Arc, Once};
 use tokio::runtime::Runtime;
 use enums::action::ActionType;
 use enums::class::JobName;
+use enums::item::EquipmentLocation;
 use enums::look::LookType;
 use enums::status::StatusTypes;
+use enums::weapon::WeaponType;
 use crate::enums::EnumWithNumberValue;
+use crate::enums::EnumWithMaskValue;
+use crate::enums::EnumWithStringValue;
 use packets::packets::{Packet, PacketZcLongparChange, PacketZcNotifyAct, PacketZcNotifyStandentry7, PacketZcNotifyVanish, PacketZcNpcackMapmove, PacketZcParChange, PacketZcSpriteChange2};
+use crate::repository::model::item_model::InventoryItemModel;
 use crate::repository::Repository;
 use crate::server::events::game_event::{CharacterChangeMap, CharacterLook, CharacterZeny};
 use crate::server::core::map::{MAP_EXT};
@@ -19,8 +25,8 @@ use crate::server::events::client_notification::{AreaNotification, AreaNotificat
 use crate::server::events::persistence_event::{PersistenceEvent, SavePositionUpdate, StatusUpdate};
 use crate::server::events::persistence_event::PersistenceEvent::SaveCharacterPosition;
 use crate::server::{PLAYER_FOV, Server};
-use crate::server::core::configuration::Config;
 use crate::server::core::map_instance::MapInstance;
+use crate::server::service::global_config_service::GlobalConfigService;
 
 use crate::server::service::status_service::StatusService;
 
@@ -35,7 +41,7 @@ pub struct CharacterService {
     client_notification_sender: SyncSender<Notification>,
     persistence_event_sender: SyncSender<PersistenceEvent>,
     repository: Arc<Repository>,
-    configuration: &'static Config
+    configuration_service: &'static GlobalConfigService
 }
 
 impl CharacterService {
@@ -43,10 +49,50 @@ impl CharacterService {
         unsafe { SERVICE_INSTANCE.as_ref().unwrap() }
     }
 
-    pub fn init(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, repository: Arc<Repository>, configuration: &'static Config) {
+    pub fn init(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, repository: Arc<Repository>, configuration_service: &'static GlobalConfigService) {
         SERVICE_INSTANCE_INIT.call_once(|| unsafe {
-            SERVICE_INSTANCE = Some(CharacterService{ client_notification_sender, persistence_event_sender, repository, configuration });
+            SERVICE_INSTANCE = Some(CharacterService{ client_notification_sender, persistence_event_sender, repository, configuration_service });
         });
+    }
+
+    pub fn max_weight(&self, character: &Character) -> u32 {
+        let base_weight = self.configuration_service.get_job_config(character.status.job).base_weight();
+        base_weight + (character.status.str * 300) as u32
+    }
+
+    pub fn check_weight(&self, character: &Character, additional_weight: u32) -> bool {
+        (self.max_weight(character) as f32 * 0.9) as u32 > (character.weight() + additional_weight)
+    }
+
+    pub fn print(&self, character: &Character) {
+        let mut stdout = io::stdout();
+        writeln!(stdout, "************** {} - {} ****************", character.name, character.char_id).unwrap();
+        writeln!(stdout, "Status:").unwrap();
+        writeln!(stdout, "  str: {}", character.status.str).unwrap();
+        writeln!(stdout, "  agi: {}", character.status.agi).unwrap();
+        writeln!(stdout, "  vit: {}", character.status.vit).unwrap();
+        writeln!(stdout, "  int: {}", character.status.int).unwrap();
+        writeln!(stdout, "  dex: {}", character.status.dex).unwrap();
+        writeln!(stdout, "  luk: {}", character.status.luk).unwrap();
+        writeln!(stdout, "  speed: {}", character.status.speed).unwrap();
+        writeln!(stdout, "  hp: {}/{}", character.status.hp, character.status.max_hp).unwrap();
+        writeln!(stdout, "  sp: {}/{}", character.status.sp, character.status.max_sp).unwrap();
+        writeln!(stdout, "  zeny: {}", character.status.zeny).unwrap();
+        writeln!(stdout, "  weight: {}/{}", character.weight(), self.max_weight(character)).unwrap();
+        writeln!(stdout, "Inventory:").unwrap();
+        type PredicateClosure =  Box<dyn Fn(&(usize, &InventoryItemModel)) -> bool>;
+        let mut inventory_print = |predicate: PredicateClosure| {
+            character.inventory_iter()
+                .filter(predicate)
+                .for_each(|(index, item)| writeln!(stdout, " [{}] {} - {} ({})", index, item.name_english, item.item_id, item.amount).unwrap());
+        };
+        inventory_print(Box::new(|(_, item)| item.item_type.is_consumable()));
+        inventory_print(Box::new(|(_, item)| item.item_type.is_equipment()));
+        inventory_print(Box::new(|(_, item)| item.item_type.is_etc()));
+        writeln!(stdout, "Equipped items:").unwrap();
+        character.inventory_equipped().for_each(|(index, item)| writeln!(stdout, " [{}] {} - {} ({:?}) at {:?}", index,
+                                                                    item.name_english, item.item_id, item.item_type, EquipmentLocation::from_flag(item.equip as u64)).unwrap());
+        stdout.flush().unwrap();
     }
 
     pub fn change_map(&self, map_instance: Arc<MapInstance>, event: &CharacterChangeMap, character: &mut Character) {
@@ -125,7 +171,7 @@ impl CharacterService {
         packet_weight.fill_raw();
         let mut packet_max_weight = PacketZcParChange::new();
         packet_max_weight.set_var_id(StatusTypes::Maxweight.value() as u16);
-        packet_max_weight.set_count(character.max_weight() as i32);
+        packet_max_weight.set_count(self.max_weight(character) as i32);
         packet_max_weight.fill_raw();
         self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, chain_packets(vec![&packet_weight, &packet_max_weight])))).expect("Fail to send client notification");
     }
@@ -133,9 +179,9 @@ impl CharacterService {
     pub fn update_base_level(&self, character: &mut Character, maybe_new_base_level: Option<u32>, maybe_level_delta: Option<i32>) -> i32 {
         let old_base_level = character.status.base_level;
         let new_base_level = if let Some(new_base_level) = maybe_new_base_level {
-            new_base_level.min(self.configuration.game.max_base_level).max(1) as u32
+            new_base_level.min(self.configuration_service.config().game.max_base_level).max(1) as u32
         } else if let Some(add_level) = maybe_level_delta {
-            ((old_base_level as i32 + add_level).min(self.configuration.game.max_base_level as i32).max(1)) as u32
+            ((old_base_level as i32 + add_level).min(self.configuration_service.config().game.max_base_level as i32).max(1)) as u32
         } else {
             old_base_level
         };
@@ -152,9 +198,9 @@ impl CharacterService {
     pub fn update_job_level(&self, character: &mut Character, maybe_new_base_level: Option<u32>, maybe_level_delta: Option<i32>) -> i32 {
         let old_job_level = character.status.job_level;
         let new_job_level = if let Some(new_job_level) = maybe_new_base_level {
-            new_job_level.min(self.configuration.game.max_job_level).max(1) as u32
+            new_job_level.min(self.configuration_service.config().game.max_job_level).max(1) as u32
         } else if let Some(add_level) = maybe_level_delta {
-            ((old_job_level as i32 + add_level).min(self.configuration.game.max_job_level as i32).max(1)) as u32
+            ((old_job_level as i32 + add_level).min(self.configuration_service.config().game.max_job_level as i32).max(1)) as u32
         } else {
             old_job_level
         };

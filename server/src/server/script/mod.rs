@@ -14,7 +14,6 @@ use enums::look::LookType;
 use crate::enums::EnumWithNumberValue;
 
 use packets::packets::{Packet, PacketZcCloseDialog, PacketZcMenuList, PacketZcNotifyPlayerchat, PacketZcNpcChat, PacketZcOpenEditdlg, PacketZcOpenEditdlgstr, PacketZcSayDialog, PacketZcShowImage2, PacketZcWaitDialog};
-use crate::{get_skill_config, get_skill_config_by_id};
 
 use crate::server::core::session::Session;
 use crate::server::events::client_notification::{CharNotification, Notification};
@@ -25,6 +24,8 @@ use crate::server::Server;
 
 
 use skill::SkillService;
+use crate::server::service::character::character_service::CharacterService;
+use crate::server::service::global_config_service::GlobalConfigService;
 use crate::util::string::StringUtil;
 
 mod global_variable_handler;
@@ -99,6 +100,7 @@ pub struct PlayerScriptHandler {
     pub player_action_receiver: RwLock<Receiver<Vec<u8>>>,
     pub runtime: Runtime,
     pub session: Arc<Session>,
+    pub configuration_service: &'static GlobalConfigService,
 }
 
 impl NativeMethodHandler for ScriptHandler {
@@ -390,15 +392,15 @@ impl NativeMethodHandler for PlayerScriptHandler {
                     items_total_weight += weight * (items_ids_amount.iter().find(|(iid, _amount)| *iid == *id).unwrap_or(&(*id, 0_i16)).1 as i32)
                 });
                 let character_ref = self.server.get_character_unsafe(self.session.char_id());
-                execution_thread.push_constant_on_stack(value::Value::new_number(if character_ref.check_weight(items_total_weight as u32) { 1 } else { 0 }));
+                execution_thread.push_constant_on_stack(value::Value::new_number(if CharacterService::instance().check_weight(character_ref.as_ref(), items_total_weight as u32) { 1 } else { 0 }));
             });
         } else if native.name.eq("itemskill") {
             let skill_id = params[0].number_value().map_or(None, |id| Some(id as i32));
             let skill = if let Some(skill_id) = skill_id {
-                get_skill_config_by_id(skill_id as u32)
+                self.configuration_service.get_skill_config_by_id(skill_id as u32)
             } else {
                 let skill_name = params[0].string_value().unwrap();
-                get_skill_config(skill_name.as_str())
+                self.configuration_service.get_skill_config(skill_name.as_str())
             };
             let skill_level = params[1].number_value().unwrap();
             let check_requirements = params.get(2).unwrap_or(&value::Value::new_number(0)).number_value().unwrap_or(0) == 1;

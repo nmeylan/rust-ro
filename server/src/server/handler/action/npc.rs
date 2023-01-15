@@ -10,6 +10,7 @@ use packets::packets::{PacketCzAckSelectDealtype, PacketCzChooseMenu, PacketCzCo
 use crate::server::core::request::Request;
 use crate::server::script::PlayerScriptHandler;
 use crate::server::Server;
+use crate::server::service::global_config_service::GlobalConfigService;
 
 pub fn handle_contact_npc(server: Arc<Server>, context: Request) {
     let packet_cz_contact_npc = cast!(context.packet(), PacketCzContactnpc);
@@ -33,7 +34,7 @@ pub fn handle_contact_npc(server: Arc<Server>, context: Request) {
     thread::Builder::new().name(format!("script-player-{}-thread", session.account_id)).spawn(move || {
         let script = server_clone.map_item_script(&map_item, &map_name, map_instance).expect("Expect to retrieve script from map instance");
         Vm::run_main_function(server_clone.vm.clone(), script.class_reference, script.instance_reference,
-                              Box::new(&PlayerScriptHandler { client_notification_channel, npc_id, server: server_clone.clone(), player_action_receiver: RwLock::new(rx), runtime, session: session.clone() })).unwrap()
+                              Box::new(&PlayerScriptHandler { client_notification_channel, npc_id, server: server_clone.clone(), player_action_receiver: RwLock::new(rx), runtime, session: session.clone(), configuration_service: GlobalConfigService::instance() })).unwrap()
     }).unwrap();
 }
 

@@ -31,6 +31,7 @@ use std::sync::{Arc, Once};
 use crate::repository::Repository;
 use std::time::{Instant};
 use flexi_logger::Logger;
+use futures::TryFutureExt;
 use rathena_script_lang_interpreter::lang::vm::{DebugFlag, Vm};
 use tokio::runtime::Runtime;
 use crate::server::npc::warps::Warp;
@@ -44,27 +45,36 @@ use self::server::core::map_item::MapItem;
 use self::server::script::ScriptHandler;
 use crate::server::npc::mob_spawn::MobSpawn;
 use crate::server::npc::script::Script;
+use crate::server::service::global_config_service::GlobalConfigService;
 use crate::util::cell::MyUnsafeCell;
 use crate::util::log_filter::LogFilter;
 
 pub static mut CONFIGS: Option<Config> = None;
-pub static mut JOB_CONFIGS: Vec<JobConfig> = Vec::new();
-pub static JOB_CONFIGS_INIT: Once = Once::new();
-pub static mut SKILL_CONFIGS: Option<HashMap<String, SkillConfig>> = None;
-pub static mut SKILL_CONFIGS_ID_NAME: Option<HashMap<u32, String>> = None;
-pub static SKILL_CONFIGS_INIT: Once = Once::new();
-pub static SKILL_CONFIGS_ID_NAME_INIT: Once = Once::new();
-pub static mut ITEMS_CACHE: Option<HashMap<u32, ItemModel>> = None;
-pub static ITEMS_CACHE_INIT: Once = Once::new();
-
-
 #[tokio::main]
 pub async fn main() {
-    unsafe { CONFIGS = Some(Config::load().unwrap()) }
+    unsafe {
+        CONFIGS = Some(Config::load().unwrap());
+    }
+
     let logger= Logger::try_with_str(configs().server.log_level.as_ref().unwrap()).unwrap();
     logger.filter(Box::new(LogFilter::new(configs().server.log_exclude_pattern.as_ref().unwrap().clone()))).start().unwrap();
     let repository : Repository = Repository::new_pg(&configs().database, Runtime::new().unwrap()).await;
     let repository_arc = Arc::new(repository);
+    let items =  repository_arc.get_all_items().await.unwrap();
+    let skills_config = Config::load_skills_config().unwrap();
+    let mut skill_configs_id_name: HashMap<u32, String> = Default::default();
+    skills_config.values().for_each(|skill_config| {
+        skill_configs_id_name.insert(skill_config.id, skill_config.name.clone());
+    });
+    let job_configs = Config::load_jobs_config().unwrap();
+    unsafe {
+        GlobalConfigService::init(CONFIGS.as_ref().unwrap(),
+                                  items.into_iter().map(|item| (item.id as u32, item)).collect(),
+                                  job_configs,
+                                  skills_config,
+                                  skill_configs_id_name);
+    }
+
     let warps = Warp::load_warps().await;
     let mob_spawns = MobSpawn::load_mob_spawns(repository_arc.clone()).join().unwrap();
     // let mob_spawns = Default::default();
@@ -95,11 +105,6 @@ pub async fn main() {
     let _ = &handles.push(char_proxy.proxy(configs().server.packetver));
     let _ = &handles.push(map_proxy.proxy(configs().server.packetver));
 
-    let items =  repository_arc.get_all_items().await.unwrap();
-    init_items_cache(items);
-    skill_configs();
-    job_configs();
-
     if configs().server.enable_visual_debugger {
         #[cfg(feature = "visual_debugger")]
         {
@@ -117,53 +122,6 @@ pub async fn main() {
     }
 }
 
-fn job_configs() -> &'static Vec<JobConfig> {
-    JOB_CONFIGS_INIT.call_once(|| unsafe {
-        JOB_CONFIGS = Config::load_jobs_config().unwrap();
-    });
-    unsafe { &JOB_CONFIGS }
-}
-
-fn init_items_cache(items: Vec<ItemModel>) {
-    ITEMS_CACHE_INIT.call_once(|| unsafe {
-        ITEMS_CACHE = Some(items.into_iter().map(|item| (item.id as u32, item)).collect());
-    });
-}
-
-fn skill_configs() -> &'static HashMap<String, SkillConfig> {
-    SKILL_CONFIGS_INIT.call_once(|| unsafe {
-        SKILL_CONFIGS = Some(Config::load_skills_config().unwrap());
-    });
-    unsafe { SKILL_CONFIGS.as_ref().unwrap() }
-}
-
-fn skill_id_name() -> &'static HashMap<u32, String> {
-    SKILL_CONFIGS_ID_NAME_INIT.call_once(|| unsafe {
-        SKILL_CONFIGS_ID_NAME = Default::default();
-        skill_configs().values().for_each(|skill_config| {
-            SKILL_CONFIGS_ID_NAME.as_mut().unwrap().insert(skill_config.id, skill_config.name.clone());
-        });
-    });
-    unsafe { SKILL_CONFIGS_ID_NAME.as_ref().unwrap() }
-}
-
 fn configs() -> &'static Config {
     unsafe { CONFIGS.as_ref().unwrap() }
-}
-
-pub fn get_job_config(id: u32) -> &'static JobConfig {
-    job_configs().iter().find(|config| *config.id() == id).unwrap_or_else(|| panic!("Expected to find job config for id {} but found none", id))
-}
-
-pub fn get_skill_config(name: &str) -> &'static SkillConfig {
-    skill_configs().get(name).unwrap_or_else(|| panic!("Expected to find skill config for name {} but found none", name))
-}
-
-pub fn get_skill_config_by_id(id: u32) -> &'static SkillConfig {
-    let name = skill_id_name().get(&id).unwrap_or_else(|| panic!("Expected to find skill config for id {} but found none", id));
-    skill_configs().get(name).unwrap_or_else(|| panic!("Expected to find skill config for name {} but found none", name))
-}
-
-pub fn get_item(id: i32) -> &'static ItemModel {
-    unsafe { ITEMS_CACHE.as_ref().unwrap().get(&(id as u32)).unwrap_or_else(|| panic!("Expected to find item for id {} but found none", id)) }
 }
