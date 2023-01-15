@@ -103,11 +103,8 @@ impl Script {
         }).collect::<Vec<Self>>();
         for script in scripts {
             let map_name = script.map_name.clone();
-            if npcs_by_map.contains_key(&map_name) {
-                npcs_by_map.get_mut(&map_name).unwrap().push(script);
-            } else {
-                npcs_by_map.insert(map_name, vec![script]);
-            }
+            let entry = npcs_by_map.entry(map_name).or_insert(Default::default());
+            entry.push(script);
         }
         (npcs_by_map, class_files, errors)
     }

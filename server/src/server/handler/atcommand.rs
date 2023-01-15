@@ -15,8 +15,8 @@ use crate::server::core::request::Request;
 use crate::server::events::game_event::{CharacterChangeJob, CharacterChangeJobLevel, CharacterChangeLevel, GameEvent};
 use crate::server::script::Value;
 use crate::server::Server;
-use crate::server::service::character::character_service::CharacterService;
-use crate::server::service::character::item_service::{ItemService};
+
+
 
 lazy_static! {
     static ref COMMAND_REGEX: Regex = Regex::new(r"^([@#!])([^\s]*)\s?(.*)?").unwrap();
