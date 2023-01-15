@@ -41,18 +41,6 @@ impl Repository {
             .fetch_all(&self.pool).await
     }
 
-    pub async fn get_item_full(&self, id: i32) -> Result<ItemModel, Error> {
-        sqlx::query_as("SELECT * FROM item_db WHERE id = $1")
-            .bind(id)
-            .fetch_one(&self.pool).await
-    }
-
-    pub async fn get_items_full(&self, ids: Vec<i32>) -> Result<Vec<ItemModel>, Error> {
-        sqlx::query_as("SELECT * FROM item_db WHERE id IN (SELECT * FROM UNNEST($1::int4[]))")
-            .bind(ids)
-            .fetch_all(&self.pool).await
-    }
-
     pub async fn get_all_items(&self) -> Result<Vec<ItemModel>, Error> {
         sqlx::query_as("SELECT * FROM item_db")
             .fetch_all(&self.pool).await

@@ -39,6 +39,8 @@ pub struct Character {
     pub script_variable_store: Mutex<ScriptGlobalVariableStore>,
 }
 
+type InventoryIter<'a> = Box<dyn Iterator<Item=(usize, &'a InventoryItemModel)> + 'a>;
+
 impl Character {
     pub fn x(&self) -> u16 {
         self.x
@@ -320,7 +322,8 @@ impl Character {
         writeln!(stdout, "  zeny: {}", self.status.zeny).unwrap();
         writeln!(stdout, "  weight: {}/{}", self.weight(), self.max_weight()).unwrap();
         writeln!(stdout, "Inventory:").unwrap();
-        let mut inventory_print = |predicate: Box<dyn Fn(&(usize, &InventoryItemModel)) -> bool>| {
+        type PredicateClosure =  Box<dyn Fn(&(usize, &InventoryItemModel)) -> bool>;
+        let mut inventory_print = |predicate: PredicateClosure| {
             self.inventory_iter()
                 .filter(predicate)
                 .for_each(|(index, item)| writeln!(stdout, " [{}] {} - {} ({})", index, item.name_english, item.item_id, item.amount).unwrap());
@@ -339,8 +342,7 @@ impl Character {
             .filter(|(_, item)| item.item_type.is_equipment())
             .collect()
     }
-
-    pub fn inventory_equipped(&self) -> Filter<Box<dyn Iterator<Item=(usize, &InventoryItemModel)> + '_>, fn(&(usize, &InventoryItemModel)) -> bool> {
+    pub fn inventory_equipped(&self) -> Filter<InventoryIter, fn(&(usize, &InventoryItemModel)) -> bool> {
         self.inventory_iter()
             .filter(|(_, item)| item.item_type.is_equipment() && item.equip != 0)
     }
@@ -357,7 +359,7 @@ impl Character {
             .collect()
     }
 
-    fn inventory_iter(&self) -> Box<dyn Iterator<Item=(usize, &InventoryItemModel)> + '_> {
+    fn inventory_iter(&self) -> InventoryIter {
         Box::new(self.inventory.iter().enumerate()
             .filter(|(_, item)| item.is_some())
             .map(|(index, item)| (index, item.as_ref().unwrap())))

@@ -10,11 +10,11 @@ use enums::status::StatusTypes;
 use crate::enums::EnumWithNumberValue;
 use packets::packets::{Packet, PacketZcLongparChange, PacketZcNotifyAct, PacketZcNotifyStandentry7, PacketZcNotifyVanish, PacketZcNpcackMapmove, PacketZcParChange, PacketZcSpriteChange2};
 use crate::repository::Repository;
-use crate::server::events::game_event::{CharacterChangeMap, CharacterLook, CharacterRemoveFromMap, CharacterZeny, GameEvent};
-use crate::server::core::map::{Map, MAP_EXT, RANDOM_CELL};
+use crate::server::events::game_event::{CharacterChangeMap, CharacterLook, CharacterZeny};
+use crate::server::core::map::{MAP_EXT};
 use crate::server::core::map_item::{MapItem, MapItemType};
 use crate::server::core::path::manhattan_distance;
-use crate::server::core::position::Position;
+
 use crate::server::events::client_notification::{AreaNotification, AreaNotificationRangeType, CharNotification, Notification};
 use crate::server::events::persistence_event::{PersistenceEvent, SavePositionUpdate, StatusUpdate};
 use crate::server::events::persistence_event::PersistenceEvent::SaveCharacterPosition;
@@ -99,7 +99,7 @@ impl CharacterService {
         })).expect("Fail to send client notification");
     }
 
-    pub async fn update_zeny(&self, runtime: &Runtime, zeny_update: CharacterZeny, character: &mut Character) {
+    pub fn update_zeny(&self, runtime: &Runtime, zeny_update: CharacterZeny, character: &mut Character) {
         let zeny = if let Some(zeny) = zeny_update.zeny {
             self.persistence_event_sender.send(PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: zeny_update.char_id, value: zeny, db_column: "zeny".to_string() }))
                 .expect("Fail to send persistence notification");

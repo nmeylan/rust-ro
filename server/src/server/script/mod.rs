@@ -22,8 +22,8 @@ use crate::server::events::game_event::CharacterLook;
 use crate::server::events::game_event::GameEvent::CharacterUpdateLook;
 use crate::server::script::constant::{get_battle_flag, load_constant};
 use crate::server::Server;
-use crate::server::service::character::character_service::CharacterService;
-use crate::server::service::character::item_service::ItemService;
+
+
 use skill::SkillService;
 use crate::util::string::StringUtil;
 

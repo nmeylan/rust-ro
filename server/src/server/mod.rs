@@ -6,7 +6,6 @@ use std::sync::mpsc::{Receiver, SyncSender};
 use std::thread;
 use std::thread::Scope;
 use tokio::runtime::Runtime;
-use packets::packets::{Packet, PacketCaLogin, PacketChDeleteChar4Reserved, PacketChEnter, PacketChMakeChar, PacketChMakeChar2, PacketChMakeChar3, PacketChSelectChar, PacketCzAckSelectDealtype, PacketCzBlockingPlayCancel, PacketCzChooseMenu, PacketCzContactnpc, PacketCzEnter2, PacketCzInputEditdlg, PacketCzInputEditdlgstr, PacketCzNotifyActorinit, PacketCzPcPurchaseItemlist, PacketCzPlayerChat, PacketCzReqDisconnect2, PacketCzReqname, PacketCzReqnameall2, PacketCzReqNextScript, PacketCzReqTakeoffEquip, PacketCzRequestAct, PacketCzRequestMove, PacketCzRequestMove2, PacketCzRequestTime, PacketCzReqWearEquip, PacketCzRestart, PacketCzUseItem, PacketUnknown, PacketZcNotifyTime};
 use packets::packets_parser::parse;
 use std::io::{Read, Write};
 use crate::repository::Repository;
@@ -22,21 +21,21 @@ use crate::server::core::tasks_queue::TasksQueue;
 use crate::server::events::client_notification::{AreaNotificationRangeType, Notification};
 use crate::server::events::game_event::{CharacterAddItems, CharacterChangeMap, CharacterRemoveFromMap, GameEvent};
 use crate::server::events::persistence_event::PersistenceEvent;
-use crate::server::handler::action::action::handle_action;
-use crate::server::handler::action::npc::{handle_contact_npc, handle_player_choose_menu, handle_player_input_number, handle_player_input_string, handle_player_next, handle_player_purchase_items, handle_player_select_deal_type};
-use crate::server::handler::char::{handle_blocking_play_cancel, handle_char_enter, handle_delete_reserved_char, handle_disconnect, handle_enter_game, handle_make_char, handle_restart, handle_select_char};
-use crate::server::handler::chat::handle_chat;
-use crate::server::handler::login::handle_login;
-use crate::server::handler::map::{handle_char_loaded_client_side, handle_map_item_name};
-use crate::server::handler::movement::handle_char_move;
+
+
+
+
+
+
+
 use crate::server::map_item::ToMapItem;
 use crate::server::state::character::Character;
 use crate::util::cell::{MyRef, MyUnsafeCell};
-use crate::util::tick::get_tick_client;
+
 use std::cell::RefCell;
 use enums::item::ItemType;
 use crate::server::core::position::Position;
-use crate::server::handler::action::item::{handle_player_equip_item, handle_player_takeoff_equip_item, handle_player_use_item};
+
 use crate::server::service::character::character_service::CharacterService;
 use crate::server::service::character::inventory_service::InventoryService;
 use crate::server::service::character::item_service::ItemService;
@@ -153,7 +152,7 @@ impl Server {
         InventoryService::init(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), configuration, tasks_queue.clone());
         ItemService::init(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), configuration);
         SkillService::init(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), configuration);
-        StatusService::init(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), configuration);
+        StatusService::init(client_notification_sender.clone(), persistence_event_sender, repository.clone(), configuration);
 
         Server {
             configuration,
@@ -162,7 +161,7 @@ impl Server {
             maps,
             map_items,
             characters: Default::default(),
-            tasks_queue: tasks_queue.clone(),
+            tasks_queue,
             movement_tasks_queue: TasksQueue::new(),
             vm,
             client_notification_sender,
@@ -220,7 +219,7 @@ impl Server {
                                         break;
                                     }
                                     let packet = parse(&buffer[..bytes_read], server_shared_ref.packetver());
-                                    let context = Request::new(&runtime, &server_shared_ref.configuration, None, server_shared_ref.packetver(), tcp_stream_arc.clone(), packet.as_ref(), response_sender_clone.clone(), client_notification_sender_clone.clone());
+                                    let context = Request::new(&runtime, server_shared_ref.configuration, None, server_shared_ref.packetver(), tcp_stream_arc.clone(), packet.as_ref(), response_sender_clone.clone(), client_notification_sender_clone.clone());
                                     handler::handle(server_shared_ref.clone(), context);
                                 }
                                 Err(err) => error!("{}", err)

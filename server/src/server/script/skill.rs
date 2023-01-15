@@ -7,12 +7,13 @@ use crate::server::core::map::{Map, RANDOM_CELL};
 use crate::server::events::client_notification::Notification;
 use crate::server::events::persistence_event::PersistenceEvent;
 use crate::server::Server;
-use crate::server::service::character::character_service::CharacterService;
+
 
 
 static mut SERVICE_INSTANCE: Option<SkillService> = None;
 static SERVICE_INSTANCE_INIT: Once = Once::new();
 
+#[allow(dead_code)]
 pub struct SkillService {
     client_notification_sender: SyncSender<Notification>,
     persistence_event_sender: SyncSender<PersistenceEvent>,

@@ -6,15 +6,15 @@ use rathena_script_lang_interpreter::lang::compiler::{Compiler, DebugFlag};
 use rathena_script_lang_interpreter::lang::vm::Vm;
 use tokio::runtime::Runtime;
 use tokio::sync::mpsc;
-use crate::repository::model::item_model::{InventoryItemModel};
-use enums::item::ItemType;
+
+
 use packets::packets::PacketZcUseItemAck2;
 use crate::repository::Repository;
 use crate::server::core::configuration::Config;
 use crate::server::events::client_notification::{CharNotification, Notification};
-use crate::server::events::game_event::{CharacterAddItems, CharacterUseItem, GameEvent};
+use crate::server::events::game_event::{CharacterUseItem};
 use crate::server::events::persistence_event::{DeleteItems, PersistenceEvent};
-use crate::server::script::{PlayerScriptHandler, Value};
+use crate::server::script::{PlayerScriptHandler};
 use crate::server::Server;
 use crate::server::state::character::Character;
 use crate::util::cell::{MyRef, MyUnsafeCell};
@@ -23,6 +23,7 @@ use crate::util::cell::{MyRef, MyUnsafeCell};
 static mut SERVICE_INSTANCE: Option<ItemService> = None;
 static SERVICE_INSTANCE_INIT: Once = Once::new();
 
+#[allow(dead_code)]
 pub struct ItemService {
     client_notification_sender: SyncSender<Notification>,
     persistence_event_sender: SyncSender<PersistenceEvent>,
@@ -84,10 +85,9 @@ impl ItemService {
                     let mut packet_zc_use_item_ack = PacketZcUseItemAck2::new();
                     packet_zc_use_item_ack.set_aid(character_user_item.char_id);
                     packet_zc_use_item_ack.set_index(character_user_item.index as u16);
+                    let item_inventory_id = item.id;
+                    let item_unique_id = item.unique_id;
                     if script_result.is_ok() {
-                        let item_inventory_id = item.id;
-                        let item_unique_id = item.unique_id;
-                        drop(item); // Drop here is to indicate to compiler we don't use item anymore so we can borrow character mutably to perform del_item_from_inventory
                         let remaining_item = character.del_item_from_inventory(character_user_item.index, 1);
                         self.persistence_event_sender.send(PersistenceEvent::DeleteItemsFromInventory(DeleteItems {
                             char_id: character.char_id as i32,
