@@ -5,7 +5,7 @@ pub mod item_repository;
 pub mod inventory_repository;
 pub mod persistence_error;
 
-use sqlx::{PgPool};
+use sqlx::{Error, PgPool};
 use sqlx::postgres::{PgPoolOptions};
 use tokio::runtime::Runtime;
 use crate::server::core::configuration::DatabaseConfig;
@@ -29,4 +29,9 @@ impl Repository {
             pool
         }
     }
+}
+
+pub trait CharacterRepository {
+    fn character_save_position(&self, account_id: u32, char_id: u32, map_name: String, x: u16, y: u16) -> Result<(), Error>;
+    fn character_update_status(&self, char_id: u32, db_column: String, value: u32) -> Result<(), Error>;
 }

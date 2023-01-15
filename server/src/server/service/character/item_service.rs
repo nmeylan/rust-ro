@@ -9,6 +9,8 @@ use tokio::sync::mpsc;
 use crate::repository::model::item_model::{InventoryItemModel};
 use enums::item::ItemType;
 use packets::packets::PacketZcUseItemAck2;
+use crate::repository::Repository;
+use crate::server::core::configuration::Config;
 use crate::server::events::client_notification::{CharNotification, Notification};
 use crate::server::events::game_event::{CharacterAddItems, CharacterUseItem, GameEvent};
 use crate::server::events::persistence_event::{DeleteItems, PersistenceEvent};
@@ -22,22 +24,23 @@ static mut SERVICE_INSTANCE: Option<ItemService> = None;
 static SERVICE_INSTANCE_INIT: Once = Once::new();
 
 pub struct ItemService {
+    client_notification_sender: SyncSender<Notification>,
+    persistence_event_sender: SyncSender<PersistenceEvent>,
+    repository: Arc<Repository>,
+    configuration: &'static Config,
     item_script_cache: MyUnsafeCell<HashMap<u32, ClassFile>>,
 }
 
 impl ItemService {
     pub fn instance() -> &'static ItemService {
-        SERVICE_INSTANCE_INIT.call_once(|| unsafe {
-            SERVICE_INSTANCE = Some(ItemService::new());
-        });
         unsafe { SERVICE_INSTANCE.as_ref().unwrap() }
     }
-
-    fn new() -> Self {
-        Self {
-            item_script_cache: Default::default(),
-        }
+    pub fn init(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, repository: Arc<Repository>, configuration: &'static Config) {
+        SERVICE_INSTANCE_INIT.call_once(|| unsafe {
+            SERVICE_INSTANCE = Some(ItemService{ client_notification_sender, persistence_event_sender, repository, configuration, item_script_cache: Default::default() });
+        });
     }
+
     pub fn schedule_get_items(&self, char_id: u32, server: &Server, runtime: &Runtime, item_ids_amounts: Vec<(Value, i16)>, buy: bool) {
         let mut items = runtime.block_on(async { server.repository.get_items(item_ids_amounts.iter().map(|(v, _)| v.clone()).collect()).await }).unwrap();
         items.iter_mut().for_each(|item| item.amount = item_ids_amounts.iter().find(|(id, _amount)|
@@ -70,9 +73,9 @@ impl ItemService {
         }));
     }
 
-    pub fn get_item_script(&self, item_id: i32, server: &Server, runtime: &Runtime) -> Option<MyRef<ClassFile>> {
+    pub fn get_item_script(&self, item_id: i32,runtime: &Runtime) -> Option<MyRef<ClassFile>> {
         if !self.item_script_cache.borrow().contains_key(&(item_id as u32)) {
-            if let Ok(script) = runtime.block_on(async { server.repository.get_item_script(item_id).await }) {
+            if let Ok(script) = runtime.block_on(async { self.repository.get_item_script(item_id).await }) {
                 let compilation_result = Compiler::compile_script(format!("item_script_{}", item_id), script.as_str(), "native_functions_list.txt", DebugFlag::None.value());
                 if compilation_result.is_err() {
                     error!("Failed to compile item script for item id: {}, due to", item_id);
@@ -91,11 +94,11 @@ impl ItemService {
     }
 
     #[metrics::elapsed]
-    pub fn use_item(&self, server_ref: Arc<Server>, runtime: &Runtime, persistence_event_sender: &SyncSender<PersistenceEvent>, character_user_item: CharacterUseItem, character: &mut Character) {
+    pub fn use_item(&self, server_ref: Arc<Server>, runtime: &Runtime, character_user_item: CharacterUseItem, character: &mut Character) {
         if let Some(item) = character.get_item_from_inventory(character_user_item.index) {
             if item.item_type.is_consumable() {
                 // TODO check if char can use (class restriction, level restriction)
-                let maybe_script_ref = ItemService::instance().get_item_script(item.item_id, server_ref.as_ref(), runtime);
+                let maybe_script_ref = ItemService::instance().get_item_script(item.item_id, runtime);
                 if maybe_script_ref.is_some() {
                     let script = maybe_script_ref.as_ref().unwrap();
                     let (tx, rx) = mpsc::channel(1);
@@ -103,7 +106,7 @@ impl ItemService {
                     session.set_script_handler_channel_sender(tx);
                     let script_result = Vm::repl(server_ref.vm.clone(), script,
                                                  Box::new(&PlayerScriptHandler {
-                                                     client_notification_channel: server_ref.client_notification_sender.clone(),
+                                                     client_notification_channel: self.client_notification_sender.clone(),
                                                      npc_id: 0,
                                                      server: server_ref.clone(),
                                                      player_action_receiver: RwLock::new(rx),
@@ -118,7 +121,7 @@ impl ItemService {
                         let item_unique_id = item.unique_id;
                         drop(item); // Drop here is to indicate to compiler we don't use item anymore so we can borrow character mutably to perform del_item_from_inventory
                         let remaining_item = character.del_item_from_inventory(character_user_item.index, 1);
-                        persistence_event_sender.send(PersistenceEvent::DeleteItemsFromInventory(DeleteItems {
+                        self.persistence_event_sender.send(PersistenceEvent::DeleteItemsFromInventory(DeleteItems {
                             char_id: character.char_id as i32,
                             item_inventory_id,
                             unique_id: item_unique_id,
@@ -131,7 +134,7 @@ impl ItemService {
                         packet_zc_use_item_ack.set_result(false);
                     }
                     packet_zc_use_item_ack.fill_raw();
-                    server_ref.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packet_zc_use_item_ack.raw))).expect("Fail to send client notification");
+                    self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packet_zc_use_item_ack.raw))).expect("Fail to send client notification");
                 }
             }
         }

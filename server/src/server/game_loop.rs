@@ -16,7 +16,7 @@ use crate::server::events::client_notification::{CharNotification, Notification}
 use crate::server::events::persistence_event::{SavePositionUpdate};
 
 
-use crate::server::map_item::{ToMapItemSnapshot};
+use crate::server::map_item::{ToMapItem, ToMapItemSnapshot};
 
 use crate::server::Server;
 use crate::server::service::character::character_service::{CharacterService};
@@ -29,7 +29,7 @@ const MOVEMENT_TICK_RATE: u128 = 20;
 const GAME_TICK_RATE: u128 = 40;
 
 impl Server {
-    pub(crate) fn game_loop(server_ref: Arc<Server>, client_notification_sender_clone: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, runtime: Runtime) {
+    pub(crate) fn game_loop(server_ref: Arc<Server>, runtime: Runtime) {
         let mut last_mobs_action = Instant::now();
         loop {
             let tick = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis();
@@ -39,7 +39,13 @@ impl Server {
                     match task {
                         GameEvent::CharacterChangeMap(event) => {
                             let character = characters.get_mut(&event.char_id).unwrap();
-                            CharacterService::instance().change_map(&server_ref, &client_notification_sender_clone, &persistence_event_sender, &event, character)
+                            if let Some(map_instance) = server_ref.get_map_instance(&event.new_map_name, event.new_instance_id) {
+                                CharacterService::instance().change_map(map_instance, &event, character);
+                                server_ref.insert_map_item(character.account_id, character.to_map_item());
+                                server_ref.add_to_next_tick(GameEvent::CharacterInitInventory(character.char_id));
+                            } else {
+                                error!("Can't change map to {} {}", event.new_map_name, event.new_instance_id);
+                            }
                         }
                         GameEvent::CharacterRemoveFromMap(character_remove_from_map) => {
                             let character = characters.get_mut(&character_remove_from_map.char_id).unwrap();
@@ -62,29 +68,29 @@ impl Server {
                         }
                         GameEvent::CharacterUpdateLook(character_look) => {
                             let character = characters.get_mut(&character_look.char_id).unwrap();
-                            CharacterService::instance().change_look(&server_ref, &persistence_event_sender, character_look, character)
+                            CharacterService::instance().change_look(character_look, character)
                         }
                         GameEvent::CharacterUpdateZeny(zeny_update) => {
                             let character = characters.get_mut(&zeny_update.char_id).unwrap();
-                            CharacterService::instance().update_zeny(&server_ref, &persistence_event_sender, &runtime, zeny_update, character);
+                            CharacterService::instance().update_zeny(&runtime, zeny_update, character);
                         }
                         GameEvent::CharacterAddItems(add_items) => {
                             let character = characters.get_mut(&add_items.char_id).unwrap();
-                            InventoryService::instance().add_items_in_inventory(&server_ref, &runtime, add_items, character);
+                            InventoryService::instance().add_items_in_inventory(&runtime, add_items, character);
                         }
                         GameEvent::CharacterInitInventory(char_id) => {
                             let character = characters.get_mut(&char_id).unwrap();
-                            InventoryService::instance().reload_inventory(&server_ref, &runtime, char_id, character);
-                            InventoryService::instance().reload_equipped_item_sprites(&server_ref, character);
+                            InventoryService::instance().reload_inventory( &runtime, char_id, character);
+                            InventoryService::instance().reload_equipped_item_sprites(character);
                             StatusService::instance().calculate_status(&server_ref, character);
                         }
                         GameEvent::CharacterUpdateWeight(char_id) => {
                             let character = characters.get_mut(&char_id).unwrap();
-                            CharacterService::instance().update_weight(&server_ref, character);
+                            CharacterService::instance().update_weight(character);
                         }
                         GameEvent::CharacterUseItem(character_user_item) => {
                             let character = characters.get_mut(&character_user_item.char_id).unwrap();
-                            ItemService::instance().use_item(server_ref.clone(), &runtime, &persistence_event_sender, character_user_item, character);
+                            ItemService::instance().use_item(server_ref.clone(), &runtime, character_user_item, character);
                         }
                         GameEvent::CharacterAttack(character_attack) => {
                             let character = characters.get_mut(&character_attack.char_id).unwrap();
@@ -95,19 +101,19 @@ impl Server {
                         GameEvent::CharacterEquipItem(character_equip_item) => {
                             let character = characters.get_mut(&character_equip_item.char_id).unwrap();
                             let index = character_equip_item.index;
-                            InventoryService::instance().equip_item(&server_ref, character, &persistence_event_sender, character_equip_item);
+                            InventoryService::instance().equip_item( character, character_equip_item);
                             character.get_item_from_inventory(index)
                                 .map(|item| InventoryService::instance().sprite_change_packet_for_item(character, item)
-                                    .map(|packet| CharacterService::instance().send_area_notification_around_characters(&server_ref, character, packet)));
+                                    .map(|packet| CharacterService::instance().send_area_notification_around_characters(character, packet)));
                             StatusService::instance().calculate_status(&server_ref, character);
                         }
                         GameEvent::CharacterTakeoffEquipItem(character_takeoff_equip_item) => {
                             let character = characters.get_mut(&character_takeoff_equip_item.char_id).unwrap();
                             let index = character_takeoff_equip_item.index;
-                            InventoryService::instance().takeoff_equip_item(&server_ref, character, &persistence_event_sender, index);
+                            InventoryService::instance().takeoff_equip_item(character, index);
                             character.get_item_from_inventory(index)
                                 .map(|item| InventoryService::instance().sprite_change_packet_for_item(character, item)
-                                    .map(|packet| CharacterService::instance().send_area_notification_around_characters(&server_ref, character, packet)));
+                                    .map(|packet| CharacterService::instance().send_area_notification_around_characters(character, packet)));
                             StatusService::instance().calculate_status(&server_ref, character);
                         }
                         GameEvent::CharacterCalculateStats(char_id) => {
@@ -116,29 +122,29 @@ impl Server {
                         }
                         GameEvent::CharacterChangeLevel(character_change_level) => {
                             let character = characters.get_mut(&character_change_level.char_id).unwrap();
-                            let delta = CharacterService::instance().update_base_level(&server_ref, &persistence_event_sender, character, character_change_level.set_level, character_change_level.add_level);
+                            let delta = CharacterService::instance().update_base_level(character, character_change_level.set_level, character_change_level.add_level);
                             if delta < 0 {
                                 // TODO ensure equip required min level
                             }
                         }
                         GameEvent::CharacterChangeJobLevel(character_change_level) => {
                             let character = characters.get_mut(&character_change_level.char_id).unwrap();
-                            let delta = CharacterService::instance().update_job_level(&server_ref, &persistence_event_sender, character, character_change_level.set_level, character_change_level.add_level);
+                            let delta = CharacterService::instance().update_job_level(character, character_change_level.set_level, character_change_level.add_level);
                             if delta < 0 {
                                 // TODO ensure equip required min level
                             }
                         }
                         GameEvent::CharacterChangeJob(character_change_job) => {
                             let character = characters.get_mut(&character_change_job.char_id).unwrap();
-                            CharacterService::instance().change_job(&server_ref, &persistence_event_sender, character, character_change_job.job);
+                            CharacterService::instance().change_job(character, character_change_job.job);
                             // TODO ensure equip required class
                         }
                     }
                 }
             }
             for (_, character) in characters.iter_mut().filter(|(_, character)| character.loaded_from_client_side) {
-                CharacterService::instance().load_units_in_fov(server_ref.as_ref(), client_notification_sender_clone.clone(), character);
-                CharacterService::instance().attack(server_ref.as_ref(), client_notification_sender_clone.clone(), character, tick);
+                CharacterService::instance().load_units_in_fov(server_ref.as_ref(), character);
+                CharacterService::instance().attack(server_ref.as_ref(), character, tick);
             }
             for (_, map) in server_ref.maps.iter() {
                 for instance in map.instances() {

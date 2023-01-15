@@ -1,7 +1,11 @@
-use std::sync::Once;
+use std::sync::mpsc::SyncSender;
+use std::sync::{Arc, Once};
 use enums::skills::Skill;
-use crate::server::core::configuration::SkillConfig;
+use crate::repository::Repository;
+use crate::server::core::configuration::{Config, SkillConfig};
 use crate::server::core::map::{Map, RANDOM_CELL};
+use crate::server::events::client_notification::Notification;
+use crate::server::events::persistence_event::PersistenceEvent;
 use crate::server::Server;
 use crate::server::service::character::character_service::CharacterService;
 
@@ -9,20 +13,24 @@ use crate::server::service::character::character_service::CharacterService;
 static mut SERVICE_INSTANCE: Option<SkillService> = None;
 static SERVICE_INSTANCE_INIT: Once = Once::new();
 
-pub struct SkillService {}
+pub struct SkillService {
+    client_notification_sender: SyncSender<Notification>,
+    persistence_event_sender: SyncSender<PersistenceEvent>,
+    repository: Arc<Repository>,
+    configuration: &'static Config,
+}
 
 impl SkillService {
     pub fn instance() -> &'static SkillService {
-        SERVICE_INSTANCE_INIT.call_once(|| unsafe {
-            SERVICE_INSTANCE = Some(SkillService::new());
-        });
         unsafe { SERVICE_INSTANCE.as_ref().unwrap() }
     }
 
-    fn new() -> Self {
-        SkillService {
-        }
+    pub fn init(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, repository: Arc<Repository>, configuration: &'static Config) {
+        SERVICE_INSTANCE_INIT.call_once(|| unsafe {
+            SERVICE_INSTANCE = Some(SkillService { client_notification_sender, persistence_event_sender, repository, configuration });
+        });
     }
+
     pub fn handle_skill(&self, server: &Server, skill: &SkillConfig, level: u32, _check_requirement: bool, source_char_id: u32) {
         let skill = Skill::from_name(skill.name.as_str());
         let character_ref = server.get_character_unsafe(source_char_id);

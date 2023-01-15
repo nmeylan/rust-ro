@@ -435,4 +435,9 @@ impl Config {
             defined_property_fn(current_config)
         };
     }
+
+    pub fn packetver(&self) -> u32 {
+        self.server.packetver
+    }
+
 }

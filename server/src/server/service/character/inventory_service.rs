@@ -1,4 +1,4 @@
-use std::sync::{Once};
+use std::sync::{Arc, Once};
 use std::sync::mpsc::SyncSender;
 use rand::RngCore;
 use tokio::runtime::Runtime;
@@ -9,11 +9,13 @@ use crate::enums::EnumWithNumberValue;
 use packets::packets::{EquipmentitemExtrainfo301, EQUIPSLOTINFO, NormalitemExtrainfo3, Packet, PacketZcEquipmentItemlist3, PacketZcItemPickupAck3, PacketZcNormalItemlist3, PacketZcPcPurchaseResult, PacketZcReqTakeoffEquipAck2, PacketZcReqWearEquipAck2, PacketZcSpriteChange2};
 use crate::get_item;
 use crate::repository::model::item_model::{EquippedItem, InventoryItemModel, ItemModel};
+use crate::repository::Repository;
+use crate::server::core::configuration::Config;
+use crate::server::core::tasks_queue::TasksQueue;
 use crate::server::events::client_notification::{CharNotification, Notification};
-use crate::server::events::game_event::{CharacterAddItems, CharacterEquipItem, CharacterZeny};
+use crate::server::events::game_event::{CharacterAddItems, CharacterEquipItem, CharacterZeny, GameEvent};
 use crate::server::events::game_event::GameEvent::{CharacterUpdateWeight, CharacterUpdateZeny};
 use crate::server::events::persistence_event::{InventoryItemUpdate, PersistenceEvent};
-use crate::server::Server;
 use crate::server::service::character::character_service::CharacterService;
 
 
@@ -23,21 +25,26 @@ use crate::util::packet::{chain_packets, chain_packets_raws_by_value};
 static mut SERVICE_INSTANCE: Option<InventoryService> = None;
 static SERVICE_INSTANCE_INIT: Once = Once::new();
 
-pub struct InventoryService {}
+pub struct InventoryService{
+    client_notification_sender: SyncSender<Notification>,
+    persistence_event_sender: SyncSender<PersistenceEvent>,
+    repository: Arc<Repository>,
+    configuration: &'static Config,
+    server_task_queue: Arc<TasksQueue<GameEvent>>
+}
 
-impl InventoryService {
+impl InventoryService{
     pub fn instance() -> &'static InventoryService {
-        SERVICE_INSTANCE_INIT.call_once(|| unsafe {
-            SERVICE_INSTANCE = Some(InventoryService::new());
-        });
         unsafe { SERVICE_INSTANCE.as_ref().unwrap() }
     }
 
-    fn new() -> Self {
-        Self {}
+    pub fn init(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, repository: Arc<Repository>, configuration: &'static Config, task_queue: Arc<TasksQueue<GameEvent>>) {
+        SERVICE_INSTANCE_INIT.call_once(|| unsafe {
+            SERVICE_INSTANCE = Some(InventoryService{ client_notification_sender, persistence_event_sender, repository, configuration, server_task_queue: task_queue });
+        });
     }
 
-    pub fn add_items_in_inventory(&self, server_ref: &Server, runtime: &Runtime, add_items: CharacterAddItems, character: &mut Character) {
+    pub fn add_items_in_inventory(&self, runtime: &Runtime, add_items: CharacterAddItems, character: &mut Character) {
         let mut rng = rand::thread_rng();
         let inventory_item_updates: Vec<InventoryItemUpdate> = add_items.items.iter().map(|item| {
             if item.item_type.is_stackable() {
@@ -48,7 +55,7 @@ impl InventoryService {
         }).collect();
 
         let result = runtime.block_on(async {
-            server_ref.repository.character_inventory_update(&inventory_item_updates, add_items.buy).await
+            self.repository.character_inventory_update(&inventory_item_updates, add_items.buy).await
         });
         if result.is_ok() {
             let mut packets = vec![];
@@ -71,25 +78,26 @@ impl InventoryService {
                 packet_zc_pc_purchase_result.set_result(0);
                 packet_zc_pc_purchase_result.fill_raw();
                 packets_raws_by_value.extend(packet_zc_pc_purchase_result.raw);
-                server_ref.add_to_next_tick(CharacterUpdateZeny(CharacterZeny { char_id: character.char_id, zeny: None }));
+                // Zeny amount have been updated in database in a single transaction with inventory update, so we need to fetch db value, then update in memory and send notification to client
+                self.server_task_queue.add_to_first_index(CharacterUpdateZeny(CharacterZeny { char_id: character.char_id, zeny: None }));
             }
-            server_ref.add_to_next_tick(CharacterUpdateWeight(character.char_id));
-            server_ref.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packets_raws_by_value))).expect("Fail to send client notification");
+            self.server_task_queue.add_to_first_index(CharacterUpdateWeight(character.char_id));
+            self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packets_raws_by_value))).expect("Fail to send client notification");
         } else {
             if add_items.buy {
                 let mut packet_zc_pc_purchase_result = PacketZcPcPurchaseResult::new();
                 packet_zc_pc_purchase_result.set_result(1);
                 packet_zc_pc_purchase_result.fill_raw();
-                server_ref.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packet_zc_pc_purchase_result.raw))).expect("Fail to send client notification");
+                self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packet_zc_pc_purchase_result.raw))).expect("Fail to send client notification");
             }
             error!("{:?}", result.err());
         }
     }
 
-    pub fn reload_inventory(&self, server_ref: &Server, runtime: &Runtime, char_id: u32, character: &mut Character) {
+    pub fn reload_inventory(&self, runtime: &Runtime, char_id: u32, character: &mut Character) {
         character.inventory = vec![];
         let _items = runtime.block_on(async {
-            let items = server_ref.repository.character_inventory_fetch(char_id as i32).await.unwrap();
+            let items = self.repository.character_inventory_fetch(char_id as i32).await.unwrap();
             character.add_items(items)
         });
         //PacketZcNormalItemlist3
@@ -115,7 +123,7 @@ impl InventoryService {
             equipmentitem_extrainfo301.fill_raw();
             equipments.push(equipmentitem_extrainfo301);
         });
-        packet_zc_equipment_itemlist3.set_packet_length((PacketZcEquipmentItemlist3::base_len(server_ref.packetver()) + equipments.len() * EquipmentitemExtrainfo301::base_len(server_ref.packetver())) as i16);
+        packet_zc_equipment_itemlist3.set_packet_length((PacketZcEquipmentItemlist3::base_len(self.configuration.packetver()) + equipments.len() * EquipmentitemExtrainfo301::base_len(self.configuration.packetver())) as i16);
         packet_zc_equipment_itemlist3.set_item_info(equipments);
         packet_zc_equipment_itemlist3.fill_raw();
         let mut packet_zc_normal_itemlist3 = PacketZcNormalItemlist3::new();
@@ -137,23 +145,23 @@ impl InventoryService {
             extrainfo3.fill_raw();
             normal_items.push(extrainfo3);
         });
-        packet_zc_normal_itemlist3.set_packet_length((PacketZcNormalItemlist3::base_len(server_ref.packetver()) + normal_items.len() * NormalitemExtrainfo3::base_len(server_ref.packetver())) as i16);
+        packet_zc_normal_itemlist3.set_packet_length((PacketZcNormalItemlist3::base_len(self.configuration.packetver()) + normal_items.len() * NormalitemExtrainfo3::base_len(self.configuration.packetver())) as i16);
         packet_zc_normal_itemlist3.set_item_info(normal_items);
         packet_zc_normal_itemlist3.fill_raw();
-        server_ref.add_to_next_tick(CharacterUpdateWeight(character.char_id));
-        server_ref.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id,
+        self.server_task_queue.add_to_first_index(CharacterUpdateWeight(character.char_id));
+        self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id,
                                                                                             chain_packets(vec![&packet_zc_equipment_itemlist3, &packet_zc_normal_itemlist3]))))
             .expect("Fail to send client notification");
     }
 
-    pub fn reload_equipped_item_sprites(&self, server_ref: &Server, character: &Character) {
+    pub fn reload_equipped_item_sprites(&self, character: &Character) {
         let mut packets: Vec<u8> = vec![];
         character.inventory_equipped().for_each(|(_, item)| {
             if let Some(packet) = self.sprite_change_packet_for_item(character, item) {
                 packets.extend(packet);
             }
         });
-        CharacterService::instance().send_area_notification_around_characters(server_ref, character, packets);
+        CharacterService::instance().send_area_notification_around_characters(character, packets);
     }
 
     pub fn sprite_change_packet_for_item(&self, character: &Character, item: &InventoryItemModel) -> Option<Vec<u8>> {
@@ -187,7 +195,7 @@ impl InventoryService {
         None
     }
 
-    pub fn equip_item<'a>(&self, server_ref: &Server, character: &'a mut Character, persistence_event_sender: &SyncSender<PersistenceEvent>, character_equip_item: CharacterEquipItem) {
+    pub fn equip_item<'a>(&self, character: &'a mut Character, character_equip_item: CharacterEquipItem) {
         let mut packet_zc_req_wear_equip_ack = PacketZcReqWearEquipAck2::new();
         let index = character_equip_item.index;
         packet_zc_req_wear_equip_ack.set_index(index as u16);
@@ -266,9 +274,9 @@ impl InventoryService {
         }
         packet_zc_req_wear_equip_ack.fill_raw();
         packets_raws_by_value.extend(packet_zc_req_wear_equip_ack.raw);
-        server_ref.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packets_raws_by_value)))
+        self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packets_raws_by_value)))
             .expect("Fail to send client notification");
-        persistence_event_sender.send(PersistenceEvent::UpdateEquippedItems(character.inventory_wearable().iter().cloned().map(|(_m, item)| item.clone()).collect::<Vec<InventoryItemModel>>()))
+        self.persistence_event_sender.send(PersistenceEvent::UpdateEquippedItems(character.inventory_wearable().iter().cloned().map(|(_m, item)| item.clone()).collect::<Vec<InventoryItemModel>>()))
             .expect("Fail to send persistence event");
 
         // check if item is equipable
@@ -280,7 +288,7 @@ impl InventoryService {
         character.status.base_level >= (equip_item.equip_level_min.unwrap_or(0) as u32)
     }
 
-    pub fn takeoff_equip_item(&self, server_ref: &Server, character: &mut Character, persistence_event_sender: &SyncSender<PersistenceEvent>, index: usize) {
+    pub fn takeoff_equip_item(&self, character: &mut Character, index: usize) {
         let mut packet_zc_req_takeoff_equip_ack2 = PacketZcReqTakeoffEquipAck2::new();
         packet_zc_req_takeoff_equip_ack2.set_index(index as u16);
         if let Some(location) = character.takeoff_equip_item(index) {
@@ -290,9 +298,9 @@ impl InventoryService {
             packet_zc_req_takeoff_equip_ack2.set_result(1);
         }
         packet_zc_req_takeoff_equip_ack2.fill_raw();
-        server_ref.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packet_zc_req_takeoff_equip_ack2.raw)))
+        self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packet_zc_req_takeoff_equip_ack2.raw)))
             .expect("Fail to send client notification");
-        persistence_event_sender.send(PersistenceEvent::UpdateEquippedItems(character.inventory_wearable().iter().cloned().map(|(_m, item)| item.clone()).collect::<Vec<InventoryItemModel>>()))
+        self.persistence_event_sender.send(PersistenceEvent::UpdateEquippedItems(character.inventory_wearable().iter().cloned().map(|(_m, item)| item.clone()).collect::<Vec<InventoryItemModel>>()))
             .expect("Fail to send persistence event");
     }
 }

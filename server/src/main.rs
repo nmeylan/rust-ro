@@ -47,6 +47,7 @@ use crate::server::npc::script::Script;
 use crate::util::cell::MyUnsafeCell;
 use crate::util::log_filter::LogFilter;
 
+pub static mut CONFIGS: Option<Config> = None;
 pub static mut JOB_CONFIGS: Vec<JobConfig> = Vec::new();
 pub static JOB_CONFIGS_INIT: Once = Once::new();
 pub static mut SKILL_CONFIGS: Option<HashMap<String, SkillConfig>> = None;
@@ -59,10 +60,10 @@ pub static ITEMS_CACHE_INIT: Once = Once::new();
 
 #[tokio::main]
 pub async fn main() {
-    let config = Config::load().unwrap();
-    let logger= Logger::try_with_str(config.server.log_level.as_ref().unwrap()).unwrap();
-    logger.filter(Box::new(LogFilter::new(config.server.log_exclude_pattern.as_ref().unwrap().clone()))).start().unwrap();
-    let repository : Repository = Repository::new_pg(&config.database, Runtime::new().unwrap()).await;
+    unsafe { CONFIGS = Some(Config::load().unwrap()) }
+    let logger= Logger::try_with_str(configs().server.log_level.as_ref().unwrap()).unwrap();
+    logger.filter(Box::new(LogFilter::new(configs().server.log_exclude_pattern.as_ref().unwrap().clone()))).start().unwrap();
+    let repository : Repository = Repository::new_pg(&configs().database, Runtime::new().unwrap()).await;
     let repository_arc = Arc::new(repository);
     let warps = Warp::load_warps().await;
     let mob_spawns = MobSpawn::load_mob_spawns(repository_arc.clone()).join().unwrap();
@@ -84,21 +85,22 @@ pub async fn main() {
     let vm = Arc::new(Vm::new("native_functions_list.txt", DebugFlag::None.value()));
     Vm::bootstrap(vm.clone(), class_files, Box::new(&ScriptHandler{}));
     let (client_notification_sender, single_client_notification_receiver) = std::sync::mpsc::sync_channel::<Notification>(0);
-    let server = Server::new(config.clone(), repository_arc.clone(), maps, map_item_ids, vm, client_notification_sender);
+    let (persistence_event_sender, persistence_event_receiver) = std::sync::mpsc::sync_channel::<PersistenceEvent>(0);
+    let server = Server::new(configs(), repository_arc.clone(), maps, map_item_ids, vm, client_notification_sender, persistence_event_sender.clone());
     let server_ref = Arc::new(server);
     let server_ref_clone = server_ref;
     let mut handles: Vec<JoinHandle<()>> = Vec::new();
-    let char_proxy = CharProxy::new(&config.proxy);
-    let map_proxy = MapProxy::new(&config.proxy);
-    let _ = &handles.push(char_proxy.proxy(config.server.packetver));
-    let _ = &handles.push(map_proxy.proxy(config.server.packetver));
+    let char_proxy = CharProxy::new(&configs().proxy);
+    let map_proxy = MapProxy::new(&configs().proxy);
+    let _ = &handles.push(char_proxy.proxy(configs().server.packetver));
+    let _ = &handles.push(map_proxy.proxy(configs().server.packetver));
 
     let items =  repository_arc.get_all_items().await.unwrap();
     init_items_cache(items);
     skill_configs();
     job_configs();
 
-    if config.server.enable_visual_debugger {
+    if configs().server.enable_visual_debugger {
         #[cfg(feature = "visual_debugger")]
         {
             crate::debugger::visual_debugger::VisualDebugger::run(server_ref_clone.clone());
@@ -108,7 +110,7 @@ pub async fn main() {
             warn!("Visual debugger has been enable in configuration, but feature has not been compiled. Please consider enabling \"visual-debugger\" feature.");
         }
     }
-    Server::start(server_ref_clone, single_client_notification_receiver);
+    Server::start(server_ref_clone, single_client_notification_receiver, persistence_event_receiver, persistence_event_sender);
 
     for handle in handles {
         handle.join().expect("Failed await server and proxy threads");
@@ -143,6 +145,10 @@ fn skill_id_name() -> &'static HashMap<u32, String> {
         });
     });
     unsafe { SKILL_CONFIGS_ID_NAME.as_ref().unwrap() }
+}
+
+fn configs() -> &'static Config {
+    unsafe { CONFIGS.as_ref().unwrap() }
 }
 
 pub fn get_job_config(id: u32) -> &'static JobConfig {
