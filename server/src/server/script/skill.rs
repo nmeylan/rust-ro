@@ -63,7 +63,7 @@ impl SkillService {
             Skill::AlPneuma => {}
             Skill::AlTeleport => {
                 if level == 1 {
-                    CharacterService::instance().schedule_warp_to_walkable_cell(Map::name_without_ext(character_ref.current_map_name().as_str()).as_str(), RANDOM_CELL.0, RANDOM_CELL.1, source_char_id, server);
+                    server.schedule_warp_to_walkable_cell(Map::name_without_ext(character_ref.current_map_name().as_str()).as_str(), RANDOM_CELL.0, RANDOM_CELL.1, source_char_id);
                 }
             }
             Skill::AlWarp => {}

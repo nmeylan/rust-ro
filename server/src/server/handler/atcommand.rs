@@ -138,7 +138,7 @@ pub fn handle_go(server: &Server, session: Arc<Session>, _runtime: &Runtime, arg
         _ => ()
     }
 
-    CharacterService::instance().schedule_warp_to_walkable_cell(&city.name, city.x, city.y, session.char_id(), server);
+    server.schedule_warp_to_walkable_cell(&city.name, city.x, city.y, session.char_id());
     format!("Warping at {} {},{}", city.name.clone(), city.x, city.y)
 }
 
@@ -157,7 +157,7 @@ pub fn handle_warp(server: &Server, session: Arc<Session>, _runtime: &Runtime, a
                 y = parse_y_res;
             }
         }
-        CharacterService::instance().schedule_warp_to_walkable_cell(&map_name, x, y, session.char_id(), server);
+        server.schedule_warp_to_walkable_cell(&map_name, x, y, session.char_id());
         let char_id = session.char_id();
         let character = server.get_character_unsafe(char_id);
         return format!("Warp to map {} at {},{}", map_name, character.x(), character.y());
@@ -169,7 +169,7 @@ pub fn handle_item(server: &Server, session: Arc<Session>, runtime: &Runtime, ar
     if args.is_empty() {
         return format!("@item command accept from 1 to 2 parameters but received {}", args.len());
     }
-    ItemService::instance().schedule_get_items(session.char_id(), server, runtime, vec![
+    server.schedule_get_items(session.char_id(), runtime, vec![
         (args[0].parse::<i32>().map(Value::Number).unwrap_or(Value::String(args[0].to_string())),
          args.get(1).unwrap_or(&"1").parse::<i16>().unwrap_or(1))], false);
 

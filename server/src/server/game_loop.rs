@@ -214,7 +214,7 @@ impl Server {
                         if let Some(map_ref) = map_ref {
                             if map_ref.is_warp_cell(movement.position().x, movement.position().y) {
                                 let warp = map_ref.get_warp_at(movement.position().x, movement.position().y).unwrap();
-                                CharacterService::instance().schedule_warp_to_walkable_cell(warp.dest_map_name.as_str(), warp.to_x, warp.to_y, character.char_id, server_ref.as_ref());
+                                server_ref.schedule_warp_to_walkable_cell(warp.dest_map_name.as_str(), warp.to_x, warp.to_y, character.char_id);
                                 character.clear_movement();
                                 continue;
                             }

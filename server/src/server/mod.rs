@@ -11,7 +11,7 @@ use packets::packets_parser::parse;
 use std::io::{Read, Write};
 use crate::repository::Repository;
 use crate::server::core::configuration::{Config};
-use crate::server::core::map::{Map, MAP_EXT};
+use crate::server::core::map::{Map, MAP_EXT, RANDOM_CELL};
 use crate::server::core::map_instance::MapInstance;
 use crate::server::core::map_item::MapItem;
 use crate::server::core::path::manhattan_distance;
@@ -20,7 +20,7 @@ use crate::server::core::response::Response;
 use crate::server::core::session::{Session, SessionsIter};
 use crate::server::core::tasks_queue::TasksQueue;
 use crate::server::events::client_notification::{AreaNotificationRangeType, Notification};
-use crate::server::events::game_event::GameEvent;
+use crate::server::events::game_event::{CharacterAddItems, CharacterChangeMap, CharacterRemoveFromMap, GameEvent};
 use crate::server::events::persistence_event::PersistenceEvent;
 use crate::server::handler::action::action::handle_action;
 use crate::server::handler::action::npc::{handle_contact_npc, handle_player_choose_menu, handle_player_input_number, handle_player_input_string, handle_player_next, handle_player_purchase_items, handle_player_select_deal_type};
@@ -34,11 +34,15 @@ use crate::server::state::character::Character;
 use crate::util::cell::{MyRef, MyUnsafeCell};
 use crate::util::tick::get_tick_client;
 use std::cell::RefCell;
+use enums::item::ItemType;
+use crate::server::core::position::Position;
 use crate::server::handler::action::item::{handle_player_equip_item, handle_player_takeoff_equip_item, handle_player_use_item};
 use crate::server::service::character::character_service::CharacterService;
 use crate::server::service::character::inventory_service::InventoryService;
 use crate::server::service::character::item_service::ItemService;
-use crate::server::service::skill_service::SkillService;
+use script::skill::SkillService;
+use crate::repository::model::item_model::InventoryItemModel;
+use crate::server::script::Value;
 use crate::server::service::status_service::StatusService;
 
 pub mod npc;
@@ -217,7 +221,7 @@ impl Server {
                                     }
                                     let packet = parse(&buffer[..bytes_read], server_shared_ref.packetver());
                                     let context = Request::new(&runtime, &server_shared_ref.configuration, None, server_shared_ref.packetver(), tcp_stream_arc.clone(), packet.as_ref(), response_sender_clone.clone(), client_notification_sender_clone.clone());
-                                    server_shared_ref.handle(server_shared_ref.clone(), context);
+                                    handler::handle(server_shared_ref.clone(), context);
                                 }
                                 Err(err) => error!("{}", err)
                             }
@@ -284,12 +288,9 @@ impl Server {
                 }
             }).unwrap();
             let server_ref_clone = server_ref.clone();
-            let client_notification_sender_clone = server_ref.client_notification_sender();
-            let persistence_event_sender_clone = persistence_event_sender.clone();
             thread::Builder::new().name("game_loop_thread".to_string()).spawn_scoped(server_thread_scope, move || {
                 let runtime = Runtime::new().unwrap();
-                Self::game_loop(server_ref_clone, client_notification_sender_clone, persistence_event_sender_clone, runtime)
-                ;
+                Self::game_loop(server_ref_clone, runtime);
             }).unwrap();
             let server_ref_clone = server_ref.clone();
             let client_notification_sender_clone = server_ref.client_notification_sender();
@@ -305,174 +306,6 @@ impl Server {
         })
     }
 
-    pub fn handle(&self, server: Arc<Server>, mut context: Request) {
-        let self_ref = server;
-        if context.packet().as_any().downcast_ref::<PacketUnknown>().is_some() {
-            error!("Unknown packet {} of length {}: {:02X?}", context.packet().id(), context.packet().raw().len(), context.packet().raw());
-            return;
-        }
-        // Login
-        if context.packet().as_any().downcast_ref::<PacketCaLogin>().is_some() {
-            debug!("PacketCaLogin");
-            return handle_login(self_ref, context);
-        }
-        // Char selection
-        if context.packet().as_any().downcast_ref::<PacketChEnter>().is_some() {
-            debug!("PacketChEnter");
-            return handle_char_enter(self_ref.as_ref(), context);
-        }
-
-        // Enter game
-        if context.packet().as_any().downcast_ref::<PacketCzEnter2>().is_some() {
-            debug!("PacketCzEnter2");
-            // A char session exist, but not yet map session
-            return handle_enter_game(self_ref.as_ref(), context);
-        }
-        /*
-         *  Having a session is required for any packets below
-         */
-        let session_id = self.ensure_session_exists(&context.socket());
-        if session_id.is_none() {
-            return;
-        }
-        let session = self_ref.get_session(session_id.unwrap());
-        context.set_session(session);
-        // Char creation
-        if context.packet().as_any().downcast_ref::<PacketChMakeChar>().is_some() {
-            debug!("PacketChMakeChar");
-            return handle_make_char(self_ref.as_ref(), context);
-        }
-        if context.packet().as_any().downcast_ref::<PacketChMakeChar2>().is_some() {
-            debug!("PacketChMakeChar2");
-            return handle_make_char(self_ref.as_ref(), context);
-        }
-        if context.packet().as_any().downcast_ref::<PacketChMakeChar3>().is_some() {
-            debug!("PacketChMakeChar3");
-            return handle_make_char(self_ref.as_ref(), context);
-        }
-        // Delete char reservation
-        if context.packet().as_any().downcast_ref::<PacketChDeleteChar4Reserved>().is_some() {
-            debug!("PacketChDeleteChar4Reserved");
-            return handle_delete_reserved_char(self_ref.as_ref(), context);
-        }
-        // Select char
-        if context.packet().as_any().downcast_ref::<PacketChSelectChar>().is_some() {
-            debug!("PacketChSelectChar");
-            return handle_select_char(self_ref.as_ref(), context);
-        }
-        // Game menu "Character select"
-        if context.packet().as_any().downcast_ref::<PacketCzRestart>().is_some() {
-            debug!("PacketCzRestart");
-            return handle_restart(self_ref.as_ref(), context);
-        }
-        // Game menu "Exit to windows"
-        if context.packet().as_any().downcast_ref::<PacketCzReqDisconnect2>().is_some() {
-            debug!("PacketCzReqDisconnect2");
-            return handle_disconnect(self_ref.as_ref(), context);
-        }
-        // Player click on map cell
-        if context.packet().as_any().downcast_ref::<PacketCzRequestMove2>().is_some() {
-            debug!("PacketCzRequestMove2");
-            return handle_char_move(self_ref.as_ref(), context);
-        }
-        if context.packet().as_any().downcast_ref::<PacketCzRequestMove>().is_some() {
-            debug!("PacketCzRequestMove");
-            return handle_char_move(self_ref.as_ref(), context);
-        }
-        // Client notify player has been loaded
-        if context.packet().as_any().downcast_ref::<PacketCzNotifyActorinit>().is_some() {
-            debug!("PacketCzNotifyActorinit");
-            return handle_char_loaded_client_side(self_ref.as_ref(), context);
-        }
-        // Client send PACKET_CZ_BLOCKING_PLAY_CANCEL after char has loaded
-        if context.packet().as_any().downcast_ref::<PacketCzBlockingPlayCancel>().is_some() {
-            debug!("PacketCzBlockingPlayCancel");
-            return handle_blocking_play_cancel(context);
-        }
-        if context.packet().as_any().downcast_ref::<PacketCzRequestAct>().is_some() {
-            debug!("PacketCzRequestAct");
-            return handle_action(self_ref.as_ref(), context);
-        }
-
-        if context.packet().as_any().downcast_ref::<PacketCzReqnameall2>().is_some() {
-            debug!("PacketCzReqnameall2");
-            return handle_map_item_name(self_ref.as_ref(), context);
-        }
-
-        if context.packet().as_any().downcast_ref::<PacketCzReqname>().is_some() {
-            debug!("PacketCzReqname");
-            return handle_map_item_name(self_ref.as_ref(), context);
-        }
-
-        if context.packet().as_any().downcast_ref::<PacketCzPlayerChat>().is_some() {
-            debug!("PacketCzPlayerChat");
-            return handle_chat(self_ref.as_ref(), context);
-        }
-
-        // NPC interactions
-        if context.packet().as_any().downcast_ref::<PacketCzContactnpc>().is_some() {
-            debug!("PacketCzContactnpc");
-            return handle_contact_npc(self_ref, context);
-        }
-
-        if context.packet().as_any().downcast_ref::<PacketCzReqNextScript>().is_some() {
-            debug!("PacketCzReqNextScript");
-            return handle_player_next(context);
-        }
-        if context.packet().as_any().downcast_ref::<PacketCzChooseMenu>().is_some() {
-            debug!("PacketCzChooseMenu");
-            return handle_player_choose_menu(context);
-        }
-        if context.packet().as_any().downcast_ref::<PacketCzInputEditdlg>().is_some() {
-            debug!("PacketCzInputEditdlg");
-            return handle_player_input_number(context);
-        }
-        if context.packet().as_any().downcast_ref::<PacketCzInputEditdlgstr>().is_some() {
-            debug!("PacketCzInputEditdlgstr");
-            return handle_player_input_string(context);
-        }
-        if context.packet().as_any().downcast_ref::<PacketCzAckSelectDealtype>().is_some() {
-            debug!("PacketCzAckSelectDealtype");
-            return handle_player_select_deal_type(context);
-        }
-        if context.packet().as_any().downcast_ref::<PacketCzPcPurchaseItemlist>().is_some() {
-            debug!("PacketCzPcPurchaseItemlist");
-            return handle_player_purchase_items(context);
-        }
-        // End NPC interaction
-
-        // Item interaction
-        if context.packet().as_any().downcast_ref::<PacketCzUseItem>().is_some() {
-            debug!("PacketCzUseItem");
-            return handle_player_use_item(self_ref.as_ref(), context);
-        }
-        if context.packet().as_any().downcast_ref::<PacketCzReqWearEquip>().is_some() {
-            debug!("PacketCzReqWearEquip");
-            return handle_player_equip_item(self_ref.as_ref(), context);
-        }
-        if context.packet().as_any().downcast_ref::<PacketCzReqTakeoffEquip>().is_some() {
-            debug!("PacketCzReqTakeoffEquip");
-            return handle_player_takeoff_equip_item(self_ref.as_ref(), context);
-        }
-        // End Item interaction
-
-        if context.packet().as_any().downcast_ref::<PacketCzRequestTime>().is_some() {
-            let mut packet_zc_notify_time = PacketZcNotifyTime::new();
-            packet_zc_notify_time.set_time(get_tick_client());
-            packet_zc_notify_time.fill_raw();
-            socket_send!(context, packet_zc_notify_time);
-        }
-
-        if context.packet().id() == "0x6003" // PacketCzRequestTime2
-            || context.packet().id() == "0x187" // PacketPing
-        {
-            // TODO handle those packets
-            return;
-        }
-        context.packet().display();
-        context.packet().pretty_debug();
-    }
-
     pub fn ensure_session_exists(&self, tcp_stream: &Arc<RwLock<TcpStream>>) -> Option<u32> {
         let session_guard = read_lock!(self.sessions);
         let stream_guard = read_lock!(tcp_stream);
@@ -484,5 +317,62 @@ impl Server {
             return None;
         }
         Some(session_option.unwrap())
+    }
+
+    pub fn schedule_warp_to_walkable_cell(&self, destination_map: &str, x: u16, y: u16, char_id: u32) {
+        self.add_to_next_tick(GameEvent::CharacterClearFov(char_id));
+        let character_ref = self.get_character_unsafe(char_id);
+        self.add_to_tick(GameEvent::CharacterRemoveFromMap(CharacterRemoveFromMap { char_id, map_name: character_ref.current_map_name().clone(), instance_id: character_ref.current_map_instance() }), 0);
+        drop(character_ref);
+
+        let map_name: String = Map::name_without_ext(destination_map);
+        debug!("Char enter on map {}", map_name);
+        let map_ref = self.maps.get(&map_name).unwrap();
+        let map_instance = map_ref.player_join_map(self);
+        let (x, y) = if x == RANDOM_CELL.0 && y == RANDOM_CELL.1 {
+            let walkable_cell = Map::find_random_walkable_cell(&map_instance.cells, map_instance.x_size);
+            (walkable_cell.0, walkable_cell.1)
+        } else {
+            (x, y)
+        };
+
+        self.add_to_tick(GameEvent::CharacterChangeMap(CharacterChangeMap {
+            char_id,
+            new_map_name: destination_map.to_owned(),
+            new_instance_id: map_instance.id,
+            new_position: Some(Position { x, y, dir: 3 }),
+        }), 2);
+    }
+
+    pub fn schedule_get_items(&self, char_id: u32, runtime: &Runtime, item_ids_amounts: Vec<(Value, i16)>, buy: bool) {
+        let mut items = runtime.block_on(async { self.repository.get_items(item_ids_amounts.iter().map(|(v, _)| v.clone()).collect()).await }).unwrap();
+        items.iter_mut().for_each(|item| item.amount = item_ids_amounts.iter().find(|(id, _amount)|
+            match id {
+                Value::Number(v) => *v == item.id,
+                Value::String(v) => v.to_lowercase() == item.name_aegis.to_lowercase(),
+            }
+        ).unwrap().1);
+        self.add_to_next_tick(GameEvent::CharacterAddItems(CharacterAddItems {
+            char_id,
+            should_perform_check: true,
+            buy,
+            items: items.iter().map(|item| InventoryItemModel {
+                id: 0,
+                unique_id: 0,
+                item_id: item.id,
+                item_type: ItemType::from_string(item.item_type.as_str()),
+                amount: item.amount,
+                weight: item.weight,
+                name_english: item.name_english.clone(),
+                is_identified: true,
+                refine: 0,
+                is_damaged: false,
+                card0: 0,
+                card1: 0,
+                card2: 0,
+                equip: 0,
+                card3: 0,
+            }).collect(),
+        }));
     }
 }

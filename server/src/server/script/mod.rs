@@ -23,13 +23,14 @@ use crate::server::events::game_event::GameEvent::CharacterUpdateLook;
 use crate::server::script::constant::{get_battle_flag, load_constant};
 use crate::server::Server;
 use crate::server::service::character::character_service::CharacterService;
-use crate::server::service::character::item_service::{ItemService};
-use crate::server::service::skill_service::SkillService;
+use crate::server::service::character::item_service::ItemService;
+use skill::SkillService;
 use crate::util::string::StringUtil;
 
 mod global_variable_handler;
 pub mod constant;
 mod shop;
+pub mod skill;
 
 #[derive(Clone, Eq, Hash, PartialEq, Debug)]
 pub struct GlobalVariableEntry {
@@ -321,7 +322,7 @@ impl NativeMethodHandler for PlayerScriptHandler {
             } else {
                 self.session.clone()
             };
-            CharacterService::instance().schedule_warp_to_walkable_cell(map_name, x as u16, y as u16, session.char_id(), self.server.as_ref());
+            self.server.schedule_warp_to_walkable_cell(map_name, x as u16, y as u16, session.char_id());
         } else if native.name.eq("sprintf") {
             let template = params[0].string_value().unwrap();
             let mut sprintf_args: Vec<&dyn Printf> = vec![];
@@ -367,7 +368,7 @@ impl NativeMethodHandler for PlayerScriptHandler {
                 }
             });
 
-            ItemService::instance().schedule_get_items(self.session.char_id(), self.server.as_ref(), &self.runtime, items_ids_amount, true);
+            self.server.schedule_get_items(self.session.char_id(), &self.runtime, items_ids_amount, true);
         } else if native.name.eq("checkweight2") {
             let (owner_reference, reference) = params[0].reference_value().map_err(|err|
                 execution_thread.new_runtime_from_temporary(err, "purchaseitems first argument should be array reference")).unwrap();

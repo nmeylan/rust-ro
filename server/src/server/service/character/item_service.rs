@@ -41,38 +41,6 @@ impl ItemService {
         });
     }
 
-    pub fn schedule_get_items(&self, char_id: u32, server: &Server, runtime: &Runtime, item_ids_amounts: Vec<(Value, i16)>, buy: bool) {
-        let mut items = runtime.block_on(async { server.repository.get_items(item_ids_amounts.iter().map(|(v, _)| v.clone()).collect()).await }).unwrap();
-        items.iter_mut().for_each(|item| item.amount = item_ids_amounts.iter().find(|(id, _amount)|
-            match id {
-                Value::Number(v) => *v == item.id,
-                Value::String(v) => v.to_lowercase() == item.name_aegis.to_lowercase(),
-            }
-        ).unwrap().1);
-        server.add_to_next_tick(GameEvent::CharacterAddItems(CharacterAddItems {
-            char_id,
-            should_perform_check: true,
-            buy,
-            items: items.iter().map(|item| InventoryItemModel {
-                id: 0,
-                unique_id: 0,
-                item_id: item.id,
-                item_type: ItemType::from_string(item.item_type.as_str()),
-                amount: item.amount,
-                weight: item.weight,
-                name_english: item.name_english.clone(),
-                is_identified: true,
-                refine: 0,
-                is_damaged: false,
-                card0: 0,
-                card1: 0,
-                card2: 0,
-                equip: 0,
-                card3: 0,
-            }).collect(),
-        }));
-    }
-
     pub fn get_item_script(&self, item_id: i32,runtime: &Runtime) -> Option<MyRef<ClassFile>> {
         if !self.item_script_cache.borrow().contains_key(&(item_id as u32)) {
             if let Ok(script) = runtime.block_on(async { self.repository.get_item_script(item_id).await }) {

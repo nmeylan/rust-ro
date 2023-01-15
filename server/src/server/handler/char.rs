@@ -315,7 +315,7 @@ pub fn handle_enter_game(server: &Server, context: Request) {
     packet_accept_enter.set_pos_dir(Position { x: character.x(), y: character.y(), dir: character.dir() }.to_pos());
     packet_accept_enter.fill_raw();
 
-    CharacterService::instance().schedule_warp_to_walkable_cell(&Map::name_without_ext(character.current_map_name()), character.x(), character.y(), session.char_id(), server);
+    server.schedule_warp_to_walkable_cell(&Map::name_without_ext(character.current_map_name()), character.x(), character.y(), session.char_id());
     socket_send!(context, packet_accept_enter);
 
 
