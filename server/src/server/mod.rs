@@ -42,6 +42,7 @@ use crate::server::service::character::item_service::ItemService;
 use script::skill::SkillService;
 use crate::repository::model::item_model::InventoryItemModel;
 use crate::server::script::Value;
+use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::service::status_service::StatusService;
 
 pub mod npc;
@@ -148,11 +149,11 @@ impl Server {
 
     pub fn new(configuration: &'static Config, repository: Arc<Repository>, maps: HashMap<String, Arc<Map>>, map_items: MyUnsafeCell<HashMap<u32, MapItem>>, vm: Arc<Vm>, client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>) -> Server {
         let tasks_queue = Arc::new(TasksQueue::new());
-        CharacterService::init(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), configuration);
-        InventoryService::init(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), configuration, tasks_queue.clone());
-        ItemService::init(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), configuration);
+        CharacterService::init(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), GlobalConfigService::instance());
+        InventoryService::init(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), GlobalConfigService::instance(), tasks_queue.clone());
+        ItemService::init(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), GlobalConfigService::instance());
         SkillService::init(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), configuration);
-        StatusService::init(client_notification_sender.clone(), persistence_event_sender, repository.clone(), configuration);
+        StatusService::init(client_notification_sender.clone(), persistence_event_sender, repository.clone(), GlobalConfigService::instance());
 
         Server {
             configuration,

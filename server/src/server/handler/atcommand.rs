@@ -15,6 +15,7 @@ use crate::server::core::request::Request;
 use crate::server::events::game_event::{CharacterChangeJob, CharacterChangeJobLevel, CharacterChangeLevel, GameEvent};
 use crate::server::script::Value;
 use crate::server::Server;
+use crate::server::service::character::character_service::CharacterService;
 
 
 
@@ -179,7 +180,7 @@ pub fn handle_item(server: &Server, session: Arc<Session>, runtime: &Runtime, ar
 pub fn handle_inspect(server: &Server, session: Arc<Session>, _runtime: &Runtime, _args: Vec::<&str>) -> String {
     let char_id = session.char_id();
     let character = server.get_character_unsafe(char_id);
-    character.print();
+    CharacterService::instance().print(character.as_ref());
     String::new()
 }
 

@@ -4,6 +4,8 @@ use std::sync::mpsc::SyncSender;
 
 
 use enums::status::StatusTypes;
+use enums::weapon::WeaponType;
+use crate::enums::EnumWithStringValue;
 use packets::packets::{PacketZcAttackRange, PacketZcParChange, PacketZcStatusValues};
 use crate::repository::Repository;
 use crate::server::core::configuration::Config;
@@ -11,6 +13,7 @@ use crate::server::events::client_notification::{CharNotification, Notification}
 use crate::server::events::persistence_event::PersistenceEvent;
 
 use crate::server::Server;
+use crate::server::service::global_config_service::GlobalConfigService;
 
 use crate::server::state::character::Character;
 use crate::util::packet::chain_packets;
@@ -22,7 +25,7 @@ pub struct StatusService {
     client_notification_sender: SyncSender<Notification>,
     persistence_event_sender: SyncSender<PersistenceEvent>,
     repository: Arc<Repository>,
-    configuration: &'static Config,
+    configuration_service: &'static GlobalConfigService,
 }
 
 impl StatusService {
@@ -30,9 +33,9 @@ impl StatusService {
         unsafe { SERVICE_INSTANCE.as_ref().unwrap() }
     }
 
-    pub fn init(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, repository: Arc<Repository>, configuration: &'static Config) {
+    pub fn init(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, repository: Arc<Repository>, configuration_service: &'static GlobalConfigService) {
         SERVICE_INSTANCE_INIT.call_once(|| unsafe {
-            SERVICE_INSTANCE = Some(StatusService { client_notification_sender, persistence_event_sender, repository, configuration });
+            SERVICE_INSTANCE = Some(StatusService { client_notification_sender, persistence_event_sender, repository, configuration_service });
         });
     }
 
@@ -153,9 +156,20 @@ impl StatusService {
     ///  PRE-RE formula: 200-(WD-([WD*AGI/25]+[WD*DEX/100])/10)*(1-SM)  https://irowiki.org/classic/ASPD
     /// [] - Square brackets hold the same priority as normal brackets, but indicate that the value of the contents should be rounded down to the nearest whole number (integer) once calculated.
     pub fn aspd(&self, character: &Character) -> f32 {
-        let weapon_delay = character.weapon_delay() as f32 / 10.0;
+        let weapon_delay = self.weapon_delay(character) as f32 / 10.0;
         let speed_modifier = 0_f32;
         200.0 - (weapon_delay - ((((weapon_delay * (character.status.agi as f32)) / 25.0).floor() + ((weapon_delay * (character.status.dex as f32)) / 100.0).floor()) / 10.0) * (1.0 - speed_modifier))
+    }
+
+    pub fn weapon_delay(&self, character: &Character) -> u32 {
+        let weapon = self.right_hand_weapon_type(character);
+        *self.configuration_service.get_job_config(character.status.job).base_aspd().get(weapon.as_str()).unwrap_or(&2000)
+    }
+
+    pub fn right_hand_weapon_type(&self, character: &Character) -> WeaponType {
+        character.right_hand_weapon()
+            .map(|(_, weapon)| self.configuration_service.get_item(weapon.item_id).weapon_type.expect("Expected weapon to have subtype"))
+            .unwrap_or(WeaponType::Fist)
     }
 
     /// PRE-RE https://irowiki.org/classic/Attacks
@@ -174,7 +188,7 @@ impl StatusService {
         let dex;
         let mut is_ranged_weapon = false;
         let right_hand_weapon_atk: u16 = 0;
-        let weapon_type = character.right_hand_weapon_type();
+        let weapon_type = self.right_hand_weapon_type(character);
         is_ranged_weapon = weapon_type.is_ranged();
         if is_ranged_weapon {
             str = character.status.dex;
