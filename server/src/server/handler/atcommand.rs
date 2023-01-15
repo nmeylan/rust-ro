@@ -195,7 +195,7 @@ pub fn handle_set_base_level(server: &Server, session: Arc<Session>, _runtime: &
     if args.is_empty() {
         return "@set_baselevel command accept 1 parameters but received none".to_string();
     }
-    server.add_to_next_tick(GameEvent::CharacterChangeJobLevel(CharacterChangeJobLevel {
+    server.add_to_next_tick(GameEvent::CharacterChangeLevel(CharacterChangeLevel {
         char_id: session.char_id(),
         set_level: args.first().unwrap().parse::<u32>().map_or_else(|_| None, Some),
         add_level: None,

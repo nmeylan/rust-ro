@@ -35,6 +35,11 @@ use crate::util::cell::{MyRef, MyUnsafeCell};
 use crate::util::tick::get_tick_client;
 use std::cell::RefCell;
 use crate::server::handler::action::item::{handle_player_equip_item, handle_player_takeoff_equip_item, handle_player_use_item};
+use crate::server::service::character::character_service::CharacterService;
+use crate::server::service::character::inventory_service::InventoryService;
+use crate::server::service::character::item_service::ItemService;
+use crate::server::service::skill_service::SkillService;
+use crate::server::service::status_service::StatusService;
 
 pub mod npc;
 pub mod handler;
@@ -54,14 +59,14 @@ pub const MOB_FOV: u16 = 14;
 pub const UNKNOWN_MAP_ITEM: MapItem = MapItem::unknown();
 
 pub struct Server {
-    pub configuration: Config,
+    pub configuration: &'static Config,
     pub sessions: Arc<RwLock<HashMap<u32, Arc<Session>>>>,
     pub repository: Arc<Repository>,
     pub maps: HashMap<String, Arc<Map>>,
     map_items: MyUnsafeCell<HashMap<u32, MapItem>>,
 
     pub characters: MyUnsafeCell<HashMap<u32, Character>>,
-    tasks_queue: TasksQueue<GameEvent>,
+    tasks_queue: Arc<TasksQueue<GameEvent>>,
     movement_tasks_queue: TasksQueue<GameEvent>,
     pub vm: Arc<Vm>,
     client_notification_sender: SyncSender<Notification>,
@@ -138,7 +143,14 @@ impl Server {
         self.configuration.server.packetver
     }
 
-    pub fn new(configuration: Config, repository: Arc<Repository>, maps: HashMap<String, Arc<Map>>, map_items: MyUnsafeCell<HashMap<u32, MapItem>>, vm: Arc<Vm>, client_notification_sender: SyncSender<Notification>) -> Server {
+    pub fn new(configuration: &'static Config, repository: Arc<Repository>, maps: HashMap<String, Arc<Map>>, map_items: MyUnsafeCell<HashMap<u32, MapItem>>, vm: Arc<Vm>, client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>) -> Server {
+        let tasks_queue = Arc::new(TasksQueue::new());
+        CharacterService::init(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), configuration);
+        InventoryService::init(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), configuration, tasks_queue.clone());
+        ItemService::init(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), configuration);
+        SkillService::init(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), configuration);
+        StatusService::init(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), configuration);
+
         Server {
             configuration,
             sessions: Arc::new(RwLock::new(HashMap::<u32, Arc<Session>>::new())),
@@ -146,7 +158,7 @@ impl Server {
             maps,
             map_items,
             characters: Default::default(),
-            tasks_queue: TasksQueue::new(),
+            tasks_queue: tasks_queue.clone(),
             movement_tasks_queue: TasksQueue::new(),
             vm,
             client_notification_sender,
@@ -173,10 +185,9 @@ impl Server {
         self.client_notification_sender.clone()
     }
     #[allow(unused_lifetimes)]
-    pub fn start<'server>(server_ref: Arc<Server>, single_client_notification_receiver: Receiver<Notification>) {
+    pub fn start<'server>(server_ref: Arc<Server>, single_client_notification_receiver: Receiver<Notification>, persistence_event_receiver: Receiver<PersistenceEvent>, persistence_event_sender: SyncSender<PersistenceEvent>) {
         let port = server_ref.configuration.server.port;
 
-        let (persistence_event_sender, persistence_event_receiver) = std::sync::mpsc::sync_channel::<PersistenceEvent>(0);
         let (response_sender, single_response_receiver) = std::sync::mpsc::sync_channel::<Response>(0);
         let client_notification_sender_clone = server_ref.client_notification_sender();
         thread::scope(|server_thread_scope: &Scope| {
@@ -291,7 +302,7 @@ impl Server {
                 let runtime = Runtime::new().unwrap();
                 Self::persistence_thread(persistence_event_receiver, runtime, server_ref_clone.repository.clone());
             }).unwrap();
-        });
+        })
     }
 
     pub fn handle(&self, server: Arc<Server>, mut context: Request) {

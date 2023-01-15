@@ -1,10 +1,14 @@
 
-use std::sync::{Once};
+use std::sync::{Arc, Once};
+use std::sync::mpsc::SyncSender;
 
 
 use enums::status::StatusTypes;
 use packets::packets::{PacketZcAttackRange, PacketZcParChange, PacketZcStatusValues};
+use crate::repository::Repository;
+use crate::server::core::configuration::Config;
 use crate::server::events::client_notification::{CharNotification, Notification};
+use crate::server::events::persistence_event::PersistenceEvent;
 
 use crate::server::Server;
 
@@ -14,18 +18,22 @@ use crate::util::packet::chain_packets;
 static mut SERVICE_INSTANCE: Option<StatusService> = None;
 static SERVICE_INSTANCE_INIT: Once = Once::new();
 
-pub struct StatusService {}
+pub struct StatusService {
+    client_notification_sender: SyncSender<Notification>,
+    persistence_event_sender: SyncSender<PersistenceEvent>,
+    repository: Arc<Repository>,
+    configuration: &'static Config,
+}
 
 impl StatusService {
     pub fn instance() -> &'static StatusService {
-        SERVICE_INSTANCE_INIT.call_once(|| unsafe {
-            SERVICE_INSTANCE = Some(StatusService::new());
-        });
         unsafe { SERVICE_INSTANCE.as_ref().unwrap() }
     }
 
-    fn new() -> Self {
-        StatusService {}
+    pub fn init(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, repository: Arc<Repository>, configuration: &'static Config) {
+        SERVICE_INSTANCE_INIT.call_once(|| unsafe {
+            SERVICE_INSTANCE = Some(StatusService { client_notification_sender, persistence_event_sender, repository, configuration });
+        });
     }
 
     pub fn calculate_status(&self, server_ref: &Server, character: &Character) {

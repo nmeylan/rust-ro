@@ -1,16 +1,19 @@
 @startuml
 
-interface "Mutable state" as mut
+interface "State" as mutin
+interface "Server Tasks queue" as task_queue
 [service] as service
-note right of service: A service can:\n- Mutate received state. \n- Notify client with state change\n- Persist state update in database
+note top of service: A service can:\n- Mutate received state. \n- Notify client with state change\n- Persist state update in database\n- Defer server task
 
 [Client notification] as response
 [Persistence notification] as persistence
 [Repository] as repository
 database Postgresql as database
-mut -> service
+mutin <- service
+mutin -> service
 service ..> response
 service ..> persistence
+service ..> task_queue
 service --> repository
 
 persistence --> database

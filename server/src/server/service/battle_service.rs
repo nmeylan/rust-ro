@@ -1,11 +1,5 @@
 use std::sync::Once;
 
-
-
-
-
-
-
 static mut SERVICE_INSTANCE: Option<BattleService> = None;
 static SERVICE_INSTANCE_INIT: Once = Once::new();
 
