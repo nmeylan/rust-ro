@@ -1,8 +1,5 @@
 # rust-ro
-Ragnarok mmo server reimplementation for fun. Inspired by [herculesWS](https://github.com/HerculesWS/Hercules) and [rathena](https://github.com/rathena/rathena)
-
-# Status
-Refactoring server architecture
+Ragnarok mmo server implementation for fun. Inspired by [herculesWS](https://github.com/HerculesWS/Hercules) and [rathena](https://github.com/rathena/rathena)
 
 # Implementation details
 
