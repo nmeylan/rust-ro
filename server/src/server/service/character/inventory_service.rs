@@ -8,7 +8,7 @@ use enums::look::LookType;
 use crate::enums::EnumWithNumberValue;
 use packets::packets::{EquipmentitemExtrainfo301, EQUIPSLOTINFO, NormalitemExtrainfo3, Packet, PacketZcEquipmentItemlist3, PacketZcItemPickupAck3, PacketZcNormalItemlist3, PacketZcPcPurchaseResult, PacketZcReqTakeoffEquipAck2, PacketZcReqWearEquipAck2, PacketZcSpriteChange2};
 use crate::repository::model::item_model::{EquippedItem, InventoryItemModel, ItemModel};
-use crate::repository::Repository;
+use crate::repository::{InventoryRepository, Repository};
 use crate::server::core::configuration::Config;
 use crate::server::core::tasks_queue::TasksQueue;
 use crate::server::events::client_notification::{CharNotification, Notification};
@@ -28,7 +28,7 @@ static SERVICE_INSTANCE_INIT: Once = Once::new();
 pub struct InventoryService{
     client_notification_sender: SyncSender<Notification>,
     persistence_event_sender: SyncSender<PersistenceEvent>,
-    repository: Arc<Repository>,
+    repository: Arc<dyn InventoryRepository>,
     configuration_service: &'static GlobalConfigService,
     server_task_queue: Arc<TasksQueue<GameEvent>>
 }

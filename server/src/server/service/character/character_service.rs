@@ -15,7 +15,7 @@ use crate::enums::EnumWithMaskValue;
 use crate::enums::EnumWithStringValue;
 use packets::packets::{Packet, PacketZcLongparChange, PacketZcNotifyAct, PacketZcNotifyStandentry7, PacketZcNotifyVanish, PacketZcNpcackMapmove, PacketZcParChange, PacketZcSpriteChange2};
 use crate::repository::model::item_model::InventoryItemModel;
-use crate::repository::Repository;
+use crate::repository::{CharacterRepository, Repository};
 use crate::server::events::game_event::{CharacterChangeMap, CharacterLook, CharacterZeny};
 use crate::server::core::map::{MAP_EXT};
 use crate::server::core::map_item::{MapItem, MapItemType};
@@ -40,7 +40,7 @@ static SERVICE_INSTANCE_INIT: Once = Once::new();
 pub struct CharacterService {
     client_notification_sender: SyncSender<Notification>,
     persistence_event_sender: SyncSender<PersistenceEvent>,
-    repository: Arc<Repository>,
+    repository: Arc<dyn CharacterRepository>,
     configuration_service: &'static GlobalConfigService
 }
 

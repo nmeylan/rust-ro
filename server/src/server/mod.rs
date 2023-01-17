@@ -8,7 +8,7 @@ use std::thread::Scope;
 use tokio::runtime::Runtime;
 use packets::packets_parser::parse;
 use std::io::{Read, Write};
-use crate::repository::Repository;
+use crate::repository::{ItemRepository, Repository};
 use crate::server::core::configuration::{Config};
 use crate::server::core::map::{Map, MAP_EXT, RANDOM_CELL};
 use crate::server::core::map_instance::MapInstance;

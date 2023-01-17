@@ -9,7 +9,7 @@ use tokio::sync::mpsc;
 
 
 use packets::packets::PacketZcUseItemAck2;
-use crate::repository::Repository;
+use crate::repository::{ItemRepository, Repository};
 use crate::server::core::configuration::Config;
 use crate::server::events::client_notification::{CharNotification, Notification};
 use crate::server::events::game_event::{CharacterUseItem};
@@ -28,7 +28,7 @@ static SERVICE_INSTANCE_INIT: Once = Once::new();
 pub struct ItemService {
     client_notification_sender: SyncSender<Notification>,
     persistence_event_sender: SyncSender<PersistenceEvent>,
-    repository: Arc<Repository>,
+    repository: Arc<dyn ItemRepository>,
     configuration_service: &'static GlobalConfigService,
     item_script_cache: MyUnsafeCell<HashMap<u32, ClassFile>>,
 }

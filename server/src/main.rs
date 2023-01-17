@@ -28,7 +28,7 @@ use std::thread::{JoinHandle};
 use proxy::map::MapProxy;
 use crate::proxy::char::CharProxy;
 use std::sync::{Arc, Once};
-use crate::repository::Repository;
+use crate::repository::{ItemRepository, Repository};
 use std::time::{Instant};
 use flexi_logger::Logger;
 use futures::TryFutureExt;
