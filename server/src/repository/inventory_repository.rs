@@ -1,12 +1,15 @@
 use sqlx::{Error, Executor, Row};
 use sqlx::postgres::PgQueryResult;
 use crate::repository::model::item_model::{InventoryItemModel};
-use crate::repository::{Repository};
+use crate::repository::{InventoryRepository, Repository};
 use crate::repository::persistence_error::PersistenceError;
 use crate::server::events::persistence_event::{DeleteItems, InventoryItemUpdate};
 
-impl Repository {
-    pub async fn character_inventory_update(&self, inventory_update_items: &[InventoryItemUpdate], buy: bool) -> Result<(), Error> {
+use async_trait::async_trait;
+
+#[async_trait]
+impl InventoryRepository for Repository {
+    async fn character_inventory_update(&self, inventory_update_items: &[InventoryItemUpdate], buy: bool) -> Result<(), Error> {
         let stackable_items = inventory_update_items.iter().filter(|item| item.stackable).collect::<Vec<&InventoryItemUpdate>>();
         let not_stackable_items = inventory_update_items.iter().filter(|item| !item.stackable).collect::<Vec<&InventoryItemUpdate>>();
         let mut tx = self.pool.begin().await.unwrap();
@@ -55,7 +58,7 @@ impl Repository {
     }
 
 
-    pub async fn character_inventory_delete(&self, delete_items: DeleteItems) -> Result<PgQueryResult, Error> {
+    async fn character_inventory_delete(&self, delete_items: DeleteItems) -> Result<PgQueryResult, Error> {
         if delete_items.amount > 0 && delete_items.unique_id == 0 {
             sqlx::query("UPDATE inventory SET amount = $1 WHERE char_id = $2 AND id = $3 ")
                 .bind(delete_items.amount)
@@ -71,20 +74,14 @@ impl Repository {
         }
     }
 
-    pub async fn character_inventory_fetch(&self, char_id: i32) -> Result<Vec<InventoryItemModel>, Error> {
+    async fn character_inventory_fetch(&self, char_id: i32) -> Result<Vec<InventoryItemModel>, Error> {
         sqlx::query_as("SELECT inv.id, inv.unique_id, inv.nameid, inv.amount, inv.damaged, inv.refine, inv.identified, inv.equip, item.name_english, item.type, item.weight, inv.card0, inv.card1, inv.card2, inv.card3
                             FROM inventory inv JOIN item_db item ON inv.nameid = item.id where inv.char_id = $1")
             .bind(char_id)
             .fetch_all(&self.pool).await
     }
 
-    pub async fn character_zeny_fetch(&self, char_id: u32) -> Result<i32, Error> {
-        sqlx::query("SELECT zeny FROM char where char_id = $1")
-            .bind(char_id as i32)
-            .fetch_one(&self.pool).await.map(|row| Ok(row.get::<i32, _>(0)))?
-    }
-
-    pub async fn character_inventory_wearable_item_update(&self, items: Vec<InventoryItemModel>) -> Result<PgQueryResult, Error> {
+    async fn character_inventory_wearable_item_update(&self, items: Vec<InventoryItemModel>) -> Result<PgQueryResult, Error> {
         sqlx::query("UPDATE inventory as inv SET equip = new.equip FROM (select unnest($1::int4[]) as id,unnest($2::int4[]) as equip) as new WHERE inv.id = new.id")
             .bind(items.iter().map(|i| i.id).collect::<Vec<i32>>())
             .bind(items.iter().map(|i| i.equip).collect::<Vec<i32>>())

@@ -1,19 +1,21 @@
-
+use async_trait::async_trait;
 use sqlx::{Error, Row};
-
 
 use crate::Repository;
 use crate::repository::model::item_model::{GetItemModel, ItemBuySellModel, ItemModel};
 use crate::server::script::Value;
+use crate::repository::ItemRepository;
 
-impl Repository {
-    pub async fn item_buy_sell_fetch_all_where_ids(&self, ids: Vec<i32>) -> Result<Vec<ItemBuySellModel>, Error> {
+
+#[async_trait]
+impl ItemRepository for Repository {
+    async fn item_buy_sell_fetch_all_where_ids(&self, ids: Vec<i32>) -> Result<Vec<ItemBuySellModel>, Error> {
         sqlx::query_as("SELECT id, type, price_buy, price_sell, stack_amount, weight, name_english FROM item_db item WHERE id IN (SELECT * FROM UNNEST($1::int4[])) ORDER BY id")
             .bind(ids)
             .fetch_all(&self.pool).await
     }
 
-    pub async fn get_items(&self, ids_or_names: Vec<Value>) -> Result<Vec<GetItemModel>, Error> {
+    async fn get_items(&self, ids_or_names: Vec<Value>) -> Result<Vec<GetItemModel>, Error> {
         let mut names = vec![];
         let mut ids = vec![];
         ids_or_names.iter().for_each(|id| {
@@ -28,20 +30,20 @@ impl Repository {
             .fetch_all(&self.pool).await
     }
 
-    pub async fn get_item_script(&self, id: i32) -> Result<String, Error> {
+    async fn get_item_script(&self, id: i32) -> Result<String, Error> {
         sqlx::query("SELECT script FROM item_db WHERE id = $1 AND script is not null")
             .bind(id)
             .fetch_one(&self.pool).await
             .map(|row| row.get::<String, _>(0))
     }
 
-    pub async fn get_weight(&self, ids: Vec<i32>) -> Result<Vec<(i32, i32)>, Error> {
+    async fn get_weight(&self, ids: Vec<i32>) -> Result<Vec<(i32, i32)>, Error> {
         sqlx::query_as("SELECT id, weight FROM item_db WHERE id IN (SELECT * FROM UNNEST($1::int4[]))")
             .bind(ids)
             .fetch_all(&self.pool).await
     }
 
-    pub async fn get_all_items(&self) -> Result<Vec<ItemModel>, Error> {
+    async fn get_all_items(&self) -> Result<Vec<ItemModel>, Error> {
         sqlx::query_as("SELECT * FROM item_db")
             .fetch_all(&self.pool).await
     }

@@ -24,6 +24,7 @@ use crate::server::Server;
 
 
 use skill::SkillService;
+use crate::repository::ItemRepository;
 use crate::server::service::character::character_service::CharacterService;
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::util::string::StringUtil;
