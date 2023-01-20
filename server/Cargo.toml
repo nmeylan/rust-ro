@@ -30,6 +30,7 @@ packets = { path = "../lib/packets" }
 sql = { path = "../lib/sql" }
 enums = { path = "../lib/enums" }
 
+
 [[bin]]
 name = "packets"
 path = "../tools/packets/main.rs"

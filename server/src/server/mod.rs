@@ -153,7 +153,7 @@ impl Server {
         InventoryService::init(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), GlobalConfigService::instance(), tasks_queue.clone());
         ItemService::init(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), GlobalConfigService::instance());
         SkillService::init(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), configuration);
-        StatusService::init(client_notification_sender.clone(), persistence_event_sender, repository.clone(), GlobalConfigService::instance());
+        StatusService::init(client_notification_sender.clone(), persistence_event_sender, GlobalConfigService::instance());
 
         Server {
             configuration,

@@ -398,10 +398,10 @@ impl NativeMethodHandler for PlayerScriptHandler {
         } else if native.name.eq("itemskill") {
             let skill_id = params[0].number_value().map_or(None, |id| Some(id as i32));
             let skill = if let Some(skill_id) = skill_id {
-                self.configuration_service.get_skill_config_by_id(skill_id as u32)
+                self.configuration_service.get_skill_config(skill_id as u32)
             } else {
                 let skill_name = params[0].string_value().unwrap();
-                self.configuration_service.get_skill_config(skill_name.as_str())
+                self.configuration_service.get_skill_config_by_name(skill_name.as_str())
             };
             let skill_level = params[1].number_value().unwrap();
             let check_requirements = params.get(2).unwrap_or(&value::Value::new_number(0)).number_value().unwrap_or(0) == 1;

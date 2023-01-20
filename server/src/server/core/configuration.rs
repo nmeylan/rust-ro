@@ -113,7 +113,7 @@ pub struct JobConfig {
 #[derive(Deserialize, Debug, Clone)]
 struct SkillsConfig {
     #[serde(rename = "skill", deserialize_with = "deserialize_skills")]
-    skills: HashMap<String, SkillConfig>,
+    skills: HashMap<u32, SkillConfig>,
 }
 
 #[derive(Deserialize, Debug, Clone)]
@@ -283,12 +283,12 @@ fn deserialize_tuples<'de, D>(deserializer: D) -> Result<Option<Vec<(u32, i32)>>
     }).collect::<Vec<(u32, i32)>>();
     Ok(Some(res))
 }
-fn deserialize_skills<'de, D>(deserializer: D) -> Result<HashMap<String, SkillConfig>, D::Error>
+fn deserialize_skills<'de, D>(deserializer: D) -> Result<HashMap<u32, SkillConfig>, D::Error>
     where D: Deserializer<'de> {
     let skills: Vec<SkillConfig> = Deserialize::deserialize(deserializer)?;
-    let mut skills_map: HashMap<String, SkillConfig> = Default::default();
+    let mut skills_map: HashMap<u32, SkillConfig> = Default::default();
     skills.iter().for_each(|skill| {
-        skills_map.insert(skill.name.clone(), skill.clone());
+        skills_map.insert(skill.id, skill.clone());
     });
 
     Ok(skills_map)
@@ -359,7 +359,7 @@ impl Config {
     pub fn load() -> Result<Config, String> {
         let path = Path::new("config.toml");
         if !path.exists() {
-            return Err(format!("config.toml file does not exists at {}", path.to_str().unwrap()));
+            return Err(format!("config.toml file does not exists at {}", env::current_dir().unwrap().join(path).to_str().unwrap()));
         }
         let mut config: Config = toml::from_str(&fs::read_to_string(path).unwrap()).unwrap();
         match env::var("DATABASE_PASSWORD") {
@@ -382,10 +382,10 @@ impl Config {
         Ok(config)
     }
 
-    pub fn load_jobs_config() -> Result<Vec<JobConfig>, String> {
-        let path = Path::new("config/job.toml");
+    pub fn load_jobs_config(root: &str) -> Result<Vec<JobConfig>, String> {
+        let path = Path::new(root).join("config/job.toml");
         if !path.exists() {
-            return Err(format!("config/job.toml file does not exists at {}", path.to_str().unwrap()));
+            return Err(format!("config/job.toml file does not exists at {}", env::current_dir().unwrap().join(path).to_str().unwrap()));
         }
         let internal_configs: InternalJobsConfig = toml::from_str(&fs::read_to_string(path).unwrap()).unwrap();
         let mut job_configs: Vec<JobConfig> = vec![];
@@ -411,10 +411,10 @@ impl Config {
         Ok(job_configs)
     }
 
-    pub fn load_skills_config() -> Result<HashMap<String, SkillConfig>, String> {
-        let path = Path::new("config/skill.toml");
+    pub fn load_skills_config(root: &str) -> Result<HashMap<u32, SkillConfig>, String> {
+        let path = Path::new(root).join("config/skill.toml");
         if !path.exists() {
-            return Err(format!("config/skill.toml file does not exists at {}", path.to_str().unwrap()));
+            return Err(format!("config/skill.toml file does not exists at {}", env::current_dir().unwrap().join(path).to_str().unwrap()));
         }
         let internal_configs: SkillsConfig = toml::from_str(&fs::read_to_string(path).unwrap()).unwrap();
         Ok(internal_configs.skills)

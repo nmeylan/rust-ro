@@ -219,7 +219,7 @@ impl Character {
         added_items
     }
 
-    fn add_in_inventory(&mut self, item: InventoryItemModel) -> usize {
+    pub fn add_in_inventory(&mut self, item: InventoryItemModel) -> usize {
         if let Some(position) = self.inventory.iter().position(|e| e.is_none()) {
             let _ = std::mem::replace(&mut self.inventory[position], Some(item));
             position
