@@ -5,10 +5,11 @@
 mod proxy;
 #[macro_use]
 mod util;
-mod server;
+pub mod server;
 mod repository;
 #[cfg(feature = "visual_debugger")]
 mod debugger;
+mod tests;
 
 #[macro_use]
 extern crate log;
@@ -61,15 +62,21 @@ pub async fn main() {
     let repository : Repository = Repository::new_pg(&configs().database, Runtime::new().unwrap()).await;
     let repository_arc = Arc::new(repository);
     let items =  repository_arc.get_all_items().await.unwrap();
-    let skills_config = Config::load_skills_config().unwrap();
-    let mut skill_configs_id_name: HashMap<u32, String> = Default::default();
+    let skills_config = Config::load_skills_config(".").unwrap();
+    let mut skill_configs_id_name: HashMap<String, u32> = Default::default();
     skills_config.values().for_each(|skill_config| {
-        skill_configs_id_name.insert(skill_config.id, skill_config.name.clone());
+        skill_configs_id_name.insert(skill_config.name.clone(), skill_config.id);
     });
-    let job_configs = Config::load_jobs_config().unwrap();
+    let job_configs = Config::load_jobs_config(".").unwrap();
+
+    let mut items_id_name: HashMap<String, u32> = Default::default();
+    items.iter().for_each(|item| {
+        items_id_name.insert(item.name_aegis.clone(), item.id as u32);
+    });
     unsafe {
         GlobalConfigService::init(CONFIGS.as_ref().unwrap(),
                                   items.into_iter().map(|item| (item.id as u32, item)).collect(),
+                                  items_id_name,
                                   job_configs,
                                   skills_config,
                                   skill_configs_id_name);
