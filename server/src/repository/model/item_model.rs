@@ -1,4 +1,7 @@
+use std::collections::HashMap;
+use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use sqlx::{Error, FromRow, Row};
+use crate::util::serde_helper::{*};
 
 
 use sqlx::postgres::PgRow;
@@ -8,13 +11,33 @@ use enums::{EnumWithMaskValue, EnumWithStringValue};
 use enums::item::{EquipmentLocation, ItemClass, ItemFlag, ItemTradeFlag, ItemType};
 use enums::weapon::{AmmoType, WeaponType};
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
+pub struct ItemModels {
+    items: Vec<ItemModel>
+}
+impl From<Vec<ItemModel>> for ItemModels {
+    fn from(items: Vec<ItemModel>) -> Self {
+        ItemModels {
+            items
+        }
+    }
+}
+impl From<ItemModels> for Vec<ItemModel> {
+    fn from(item_models: ItemModels) -> Self {
+        item_models.items
+    }
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct ItemModel {
     pub id: i32,
     pub name_aegis: String,
     pub name_english: String,
+    #[serde(serialize_with = "serialize_string_enum", deserialize_with = "deserialize_string_enum")]
     pub item_type: ItemType,
+    #[serde(serialize_with = "serialize_optional_string_enum", deserialize_with = "deserialize_optional_string_enum", default)]
     pub weapon_type: Option<WeaponType>,
+    #[serde(serialize_with = "serialize_optional_string_enum", deserialize_with = "deserialize_optional_string_enum", default)]
     pub ammo_type: Option<AmmoType>,
     pub price_buy: Option<i32>,
     pub price_sell: Option<i32>,
@@ -23,8 +46,11 @@ pub struct ItemModel {
     pub defense: Option<i16>,
     pub range: Option<i16>,
     pub slots: Option<i16>,
+    #[serde(serialize_with = "serialize_u64", deserialize_with = "deserialize_u64")]
     pub job_flags: u64,
+    #[serde(serialize_with = "serialize_u64", deserialize_with = "deserialize_u64")]
     pub class_flags: u64,
+    #[serde(serialize_with = "serialize_u64", deserialize_with = "deserialize_u64")]
     pub location: u64,
     pub gender: Option<String>,
     pub weapon_level: Option<i16>,
@@ -34,6 +60,7 @@ pub struct ItemModel {
     pub refineable: Option<i16>,
     pub view: Option<i32>,
     pub alias_name: Option<String>,
+    #[serde(serialize_with = "serialize_u64", deserialize_with = "deserialize_u64")]
     pub flags: u64,
     pub delay_duration: Option<i32>,
     pub delay_status: Option<String>,
@@ -45,6 +72,7 @@ pub struct ItemModel {
     pub nouse_override: Option<i32>,
     pub nouse_sitting: Option<i16>,
     pub trade_override: Option<i32>,
+    #[serde(serialize_with = "serialize_u64", deserialize_with = "deserialize_u64")]
     pub trade_flags: u64,
 }
 

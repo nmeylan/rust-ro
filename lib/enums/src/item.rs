@@ -7,7 +7,7 @@ use sqlx::TypeInfo;
 use crate::*;
 use crate::item::ItemType::{DelayConsume, Usable};
 
-#[derive(WithNumberValue, Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(WithNumberValue, WithStringValue, Debug, Copy, Clone, PartialEq, Eq)]
 pub enum ItemType {
     #[value = 0]
     Healing,

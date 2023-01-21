@@ -8,6 +8,7 @@ use enums::element::Element;
 use enums::skill::{SkillCastTimeDelayType, SkillCopyType, SkillDamageFlags, SkillDamageType, SkillFlags, SkillRequirement, SkillTargetType, SkillType, SkillUnitType};
 use enums::unit::UnitTargetType;
 use enums::weapon::{AmmoType, WeaponType};
+use crate::util::serde_helper::*;
 
 const DEFAULT_LOG_LEVEL: &str = "info";
 const LOG_LEVELS: [&str; 4] = ["debug", "info", "warn", "error"];
@@ -124,9 +125,9 @@ pub struct SkillConfig {
     description: String,
     #[serde(rename = "maxLevel")]
     max_level: u32,
-    #[serde(rename = "type", deserialize_with = "deserialize_optional_enum", default)]
+    #[serde(rename = "type", deserialize_with = "deserialize_optional_string_enum", default)]
     skill_type: Option<SkillType>,
-    #[serde(rename = "targetType", deserialize_with = "deserialize_enum", default = "SkillTargetType::default")]
+    #[serde(rename = "targetType", deserialize_with = "deserialize_string_enum", default = "SkillTargetType::default")]
     target_type: SkillTargetType,
     #[serde(rename = "damageflags", deserialize_with = "deserialize_damage_flags", default)]
     damage_flags: Option<u64>,
@@ -136,13 +137,13 @@ pub struct SkillConfig {
     range: Option<i32>,
     #[serde(rename = "rangePerLevel", deserialize_with =  "deserialize_tuples", default)]
     range_per_level: Option<Vec<(u32, i32)>>,
-    #[serde(deserialize_with = "deserialize_optional_enum", default)]
+    #[serde(deserialize_with = "deserialize_optional_string_enum", default)]
     hit: Option<SkillDamageType>,
     #[serde(rename = "hitCount", default)]
     hit_count: Option<i32>,
     #[serde(rename = "hitCountPerLevel", deserialize_with =  "deserialize_tuples", default)]
     hit_count_per_level: Option<Vec<(u32, i32)>>,
-    #[serde(deserialize_with = "deserialize_optional_enum", default)]
+    #[serde(deserialize_with = "deserialize_optional_string_enum", default)]
     element: Option<Element>,
     element_per_level: Option<Vec<InternalSkillElement>>,
     #[serde(rename = "splashArea", default)]
@@ -228,7 +229,7 @@ struct SkillRequirements {
     ammo_flags: Option<u64>,
     #[serde(rename = "ammoFlags", default)]
     ammo_amount: Option<u32>,
-    #[serde(deserialize_with = "deserialize_optional_enum", default)]
+    #[serde(deserialize_with = "deserialize_optional_string_enum", default)]
     state: Option<SkillRequirement>,
     #[serde(rename = "spiritSphereCost", default)]
     sphere_cost: Option<u32>,
@@ -253,25 +254,10 @@ struct SkillUnit {
     #[serde(rename = "rangePerLevel", deserialize_with = "deserialize_tuples", default)]
     range_per_level: Option<Vec<(u32, i32)>>,
     interval: i32,
-    #[serde(deserialize_with = "deserialize_optional_enum", default)]
+    #[serde(deserialize_with = "deserialize_optional_string_enum", default)]
     target: Option<UnitTargetType>,
     #[serde(deserialize_with = "deserialize_skill_unit_flags", default)]
     flag: Option<u64>,
-}
-
-
-fn deserialize_optional_enum<'de, D, T>(deserializer: D) -> Result<Option<T>, D::Error>
-    where D: Deserializer<'de>,
-          T: EnumWithStringValue {
-    let s: &str = Deserialize::deserialize(deserializer)?;
-    Ok(Some(T::from_string_ignore_case(s)))
-}
-
-fn deserialize_enum<'de, D, T>(deserializer: D) -> Result<T, D::Error>
-    where D: Deserializer<'de>,
-          T: EnumWithStringValue {
-    let s: &str = Deserialize::deserialize(deserializer)?;
-    Ok(T::from_string(s))
 }
 
 fn deserialize_tuples<'de, D>(deserializer: D) -> Result<Option<Vec<(u32, i32)>>, D::Error>
@@ -343,7 +329,7 @@ fn deserialize_flags<'de, D, MaskEnum>(deserializer: D) -> Result<Option<u64>, D
 #[allow(dead_code)]
 struct InternalSkillElement {
     level: u32,
-    #[serde(deserialize_with = "deserialize_optional_enum")]
+    #[serde(deserialize_with = "deserialize_optional_string_enum")]
     element: Option<Element>,
 }
 

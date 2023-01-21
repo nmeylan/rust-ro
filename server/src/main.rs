@@ -24,6 +24,10 @@ extern crate sqlx;
 extern crate core;
 
 use std::collections::HashMap;
+use std::fs;
+use std::fs::File;
+use std::io::Write;
+use std::path::Path;
 
 use std::thread::{JoinHandle};
 use proxy::map::MapProxy;
@@ -32,7 +36,7 @@ use std::sync::{Arc, Once};
 use crate::repository::{ItemRepository, Repository};
 use std::time::{Instant};
 use flexi_logger::Logger;
-use futures::TryFutureExt;
+use futures::{SinkExt, TryFutureExt};
 use rathena_script_lang_interpreter::lang::vm::{DebugFlag, Vm};
 use tokio::runtime::Runtime;
 use crate::server::npc::warps::Warp;
@@ -41,7 +45,7 @@ use crate::server::core::configuration::{Config, JobConfig, SkillConfig};
 use crate::server::core::map::Map;
 use server::events::client_notification::Notification;
 use server::events::persistence_event::PersistenceEvent;
-use crate::repository::model::item_model::ItemModel;
+use crate::repository::model::item_model::{ItemModel, ItemModels};
 use self::server::core::map_item::MapItem;
 use self::server::script::ScriptHandler;
 use crate::server::npc::mob_spawn::MobSpawn;
@@ -62,6 +66,15 @@ pub async fn main() {
     let repository : Repository = Repository::new_pg(&configs().database, Runtime::new().unwrap()).await;
     let repository_arc = Arc::new(repository);
     let items =  repository_arc.get_all_items().await.unwrap();
+    #[cfg(feature = "items_db_update")]
+    {
+        // items.toml is used in tests
+        let item_db: ItemModels = items.clone().into();
+        let toml = toml::to_string(&item_db).unwrap();
+        let output_path = Path::new("config");
+        let mut file = File::create(output_path.join("items.toml")).unwrap();
+        file.write_all(toml.as_bytes()).unwrap();
+    }
     let skills_config = Config::load_skills_config(".").unwrap();
     let mut skill_configs_id_name: HashMap<String, u32> = Default::default();
     skills_config.values().for_each(|skill_config| {

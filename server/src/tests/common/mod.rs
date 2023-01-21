@@ -5,7 +5,7 @@ use std::fs;
 use std::sync::mpsc::SyncSender;
 use std::sync::mpsc::Receiver;
 use std::sync::{Mutex, Once};
-use crate::repository::model::item_model::ItemModel;
+use crate::repository::model::item_model::{ItemModel, ItemModels};
 use crate::server::core::configuration::Config;
 use crate::server::core::map_instance::MapInstanceKey;
 use crate::server::events::client_notification::Notification;
@@ -53,7 +53,8 @@ pub fn before_all() {
             skill_configs_id_name.insert(skill_config.name.clone(), skill_config.id);
         });
         let mut items_id_name: HashMap<String, u32> = Default::default();
-        let items: Vec<ItemModel> = vec![];
+        let item_models = toml::from_str::<ItemModels>(&fs::read_to_string("../config/items.toml").unwrap());
+        let items: Vec<ItemModel> = item_models.unwrap().into();
         items.iter().for_each(|item| {
             items_id_name.insert(item.name_aegis.clone(), item.id as u32);
         });
