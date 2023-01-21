@@ -147,8 +147,8 @@ impl StatusService {
     }
 
     pub fn attack_motion(&self, character: &Character) -> u32 {
-        let aspd = StatusService::instance().aspd(character);
-        (1000.0 / StatusService::instance().attack_per_seconds(aspd)).round() as u32
+        let aspd = self.aspd(character);
+        (1000.0 / self.attack_per_seconds(aspd)).round() as u32
     }
 
     pub fn client_aspd(&self, aspd: f32) -> i32 {
@@ -157,6 +157,7 @@ impl StatusService {
 
     ///  PRE-RE formula: 200-(WD-([WD*AGI/25]+[WD*DEX/100])/10)*(1-SM)  https://irowiki.org/classic/ASPD
     /// [] - Square brackets hold the same priority as normal brackets, but indicate that the value of the contents should be rounded down to the nearest whole number (integer) once calculated.
+    /// http://calc.free-ro.com/
     pub fn aspd(&self, character: &Character) -> f32 {
         let weapon_delay = self.weapon_delay(character) as f32 / 10.0;
         let speed_modifier = 0_f32;

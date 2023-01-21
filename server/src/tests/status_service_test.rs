@@ -6,6 +6,7 @@ use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::service::status_service::StatusService;
 use crate::tests::common;
 use crate::tests::common::{create_mpsc, TEST_CONTEXT, TestContext};
+use crate::enums::{*};
 
 struct StatusServiceTestContext {
     test_context: TestContext,
@@ -25,6 +26,7 @@ fn before_each() -> StatusServiceTestContext {
 #[cfg(test)]
 mod tests {
     use std::sync::Mutex;
+    use enums::class::JobName;
     use enums::weapon::WeaponType;
     use crate::server::core::map_instance::MapInstanceKey;
     use crate::server::state::character::Character;
@@ -42,5 +44,61 @@ mod tests {
         let weapon_type = context.status_service.right_hand_weapon_type(&character);
         // Then
         assert_eq!(weapon_type, WeaponType::Dagger);
+    }
+
+    #[test]
+    fn test_aspd() {
+        // Given
+        let context = before_each();
+        #[derive(Debug)]
+        struct Stats<'a> { weapon: &'a str, agi: u16, dex: u16, job: &'a str, expected_aspd: u16 };
+        let stats = vec![
+            Stats { weapon: "", agi: 1, dex: 1, job: "Novice", expected_aspd: 150 },
+            Stats { weapon: "Knife", agi: 1, dex: 1, job: "Novice", expected_aspd: 135 },
+            Stats { weapon: "Knife", agi: 1, dex: 1, job: "Swordman", expected_aspd: 150 },
+            Stats { weapon: "Sword", agi: 1, dex: 1, job: "Swordman", expected_aspd: 145 },
+            Stats { weapon: "Bow", agi: 1, dex: 1, job: "Archer", expected_aspd: 130 },
+            Stats { weapon: "Bow", agi: 1, dex: 1, job: "Archer", expected_aspd: 130 },
+            Stats { weapon: "Axe", agi: 1, dex: 1, job: "Archer", expected_aspd: 1 },
+            Stats { weapon: "", agi: 1, dex: 1, job: "Merchant", expected_aspd: 160 },
+        ];
+        for stat in stats {
+            let mut character = create_character();
+            character.status.agi = stat.agi;
+            character.status.dex = stat.dex;
+            character.status.job = JobName::from_string(stat.job).value() as u32;
+            if stat.weapon != "" {
+                equip_item(&mut character, stat.weapon);
+            }
+            // When
+            let aspd = context.status_service.aspd(&character).round() as u16;
+            // Then
+            assert_eq!(aspd, stat.expected_aspd, "Expected aspd to be {} but was {} with stats {:?}", stat.expected_aspd, aspd, stat);
+        }
+    }
+
+    #[test]
+    fn test_client_side_aspd() {
+        // Given
+        let context = before_each();
+        let mut character = create_character();
+        let _inventory_index = equip_item(&mut character, "Knife");
+        // When
+        let aspd = context.status_service.aspd(&character);
+        let client_side_aspd = context.status_service.client_aspd(aspd);
+        // Then
+        assert_eq!(client_side_aspd, 498);
+    }
+
+    #[test]
+    fn test_attack_motion_delay() {
+        // Given
+        let context = before_each();
+        let mut character = create_character();
+        let _inventory_index = equip_item(&mut character, "Knife");
+        // When
+        let attack_motion = context.status_service.attack_motion(&character);
+        // Then
+        assert_eq!(attack_motion, 996);
     }
 }
