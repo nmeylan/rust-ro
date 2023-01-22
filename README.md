@@ -1,3 +1,4 @@
+![build](https://github.com/nmeylan/rust-ro/actions/workflows/rust.yml/badge.svg)
 # rust-ro
 Ragnarok mmo server implementation for fun. Inspired by [herculesWS](https://github.com/HerculesWS/Hercules) and [rathena](https://github.com/rathena/rathena)
 
