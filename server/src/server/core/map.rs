@@ -191,8 +191,14 @@ impl Map {
                     if i > max_iter {
                         return None;
                     }
-                    let random_x = rng.u16(0..=max_range);
-                    let random_y = rng.u16(0..=max_range);
+                    let mut random_x = rng.u16(0..=max_range);
+                    if x < random_x {
+                        random_x = rng.u16(0..=x);
+                    }
+                    let mut random_y = rng.u16(0..=max_range);
+                    if y < random_y {
+                        random_y = rng.u16(0..=y);
+                    }
                     if direction == DIR_NORTH {
                         dest_y = y + random_y;
                     } else if direction == DIR_SOUTH {

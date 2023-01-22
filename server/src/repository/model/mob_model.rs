@@ -1,7 +1,26 @@
+use serde::{Deserialize, Serialize};
 use sqlx::{Error, FromRow, Row};
 use sqlx::postgres::PgRow;
+use crate::repository::model::item_model::ItemModel;
 
-#[derive(SettersAll, Clone, Debug)]
+#[derive(Debug, Serialize, Deserialize)]
+pub struct MobModels {
+    mobs: Vec<MobModel>
+}
+impl From<Vec<MobModel>> for MobModels {
+    fn from(mobs: Vec<MobModel>) -> Self {
+        MobModels {
+            mobs
+        }
+    }
+}
+impl From<MobModels> for Vec<MobModel> {
+    fn from(mob_models: MobModels) -> Self {
+        mob_models.mobs
+    }
+}
+
+#[derive(SettersAll, Clone, Debug, Serialize, Deserialize)]
 pub struct MobModel {
     pub id: i32,
     pub name: String,

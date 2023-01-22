@@ -1,12 +1,13 @@
-
 use std::sync::{Arc, Once};
 use std::sync::mpsc::SyncSender;
+use regex::internal::Char;
 
 
 use enums::status::StatusTypes;
 use enums::weapon::WeaponType;
 use crate::enums::EnumWithStringValue;
 use packets::packets::{PacketZcAttackRange, PacketZcParChange, PacketZcStatusValues};
+use crate::repository::model::item_model::ItemModel;
 use crate::repository::Repository;
 use crate::server::core::configuration::Config;
 use crate::server::events::client_notification::{CharNotification, Notification};
@@ -77,11 +78,11 @@ impl StatusService {
         packet_aspd.fill_raw();
         let mut packet_atk = PacketZcParChange::new();
         packet_atk.set_var_id(StatusTypes::Atk1.value() as u16);
-        packet_atk.set_count(StatusService::instance().base_atk(character) as i32);
+        packet_atk.set_count(StatusService::instance().status_atk(character) as i32);
         packet_atk.fill_raw();
         let mut packet_atk2 = PacketZcParChange::new();
         packet_atk2.set_var_id(StatusTypes::Atk2.value() as u16);
-        packet_atk2.set_count(StatusService::instance().atk2(character) as i32);
+        packet_atk2.set_count(StatusService::instance().status_atk_bonus(character) as i32);
         packet_atk2.fill_raw();
         let mut packet_def = PacketZcParChange::new();
         packet_def.set_var_id(StatusTypes::Def1.value() as u16);
@@ -177,20 +178,11 @@ impl StatusService {
 
     /// PRE-RE https://irowiki.org/classic/Attacks
     /// UI left side atk in status info panel
-    pub fn atk1(&self, _character: &Character) -> i32 {
-        120
-    }
-
-    /// UI right side atk in status info panel
-    pub fn atk2(&self, _character: &Character) -> i32 {
-        90
-    }
-
-    pub fn base_atk(&self, character: &Character) -> i32 {
+    pub fn status_atk(&self, character: &Character) -> i32 {
         let mut str;
         let dex;
         let mut is_ranged_weapon = false;
-        let right_hand_weapon_atk: u16 = 0;
+
         let weapon_type = self.right_hand_weapon_type(character);
         is_ranged_weapon = weapon_type.is_ranged();
         if is_ranged_weapon {
@@ -204,9 +196,33 @@ impl StatusService {
         // dstr = str / 10;
         // str += dstr*dstr;
         let dstr = str / 10;
-        str += dstr*dstr;
+        str += dstr * dstr;
         str += dex / 5 + character.status.luk / 5;
 
-        (str + right_hand_weapon_atk) as i32
+        (str + self.weapon_atk(character)) as i32
+    }
+
+    pub fn weapon_atk(&self, character: &Character) -> u16 {
+        let right_hand_weapon_atk: u16 = if let Some((_, right_hand_weapon)) = character.right_hand_weapon() {
+            self.configuration_service.get_item(right_hand_weapon.item_id).attack.unwrap_or(0) as u16
+        } else {
+            0
+        };
+        // TODO add: atk bonus from card, add imposition magnus
+        right_hand_weapon_atk
+    }
+
+    /// UI right side atk in status info panel
+    pub fn status_atk_bonus(&self, character: &Character) -> i32 {
+        // refinement
+        //    Weapon Lv. 1 - Every +1 upgrade gives +2 ATK (+3 ATK for every overupgrade).
+        //     Weapon Lv. 2 - Every +1 upgrade gives +3 ATK (+5 ATK for every overupgrade).
+        //     Weapon Lv. 3 - Every +1 upgrade gives +5 ATK (+7 ATK for every overupgrade).
+        //     Weapon Lv. 4 - Every +1 upgrade gives +7 ATK (+13(?) ATK for every overupgrade).
+        //    Weapon Lv. 1 - Safety Level +7
+        //     Weapon Lv. 2 - Safety Level +6
+        //     Weapon Lv. 3 - Safety Level +5
+        //     Weapon Lv. 4 - Safety Level +4
+        0
     }
 }

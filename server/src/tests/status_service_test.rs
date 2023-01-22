@@ -58,7 +58,6 @@ mod tests {
             Stats { weapon: "Knife", agi: 1, dex: 1, job: "Swordman", expected_aspd: 150 },
             Stats { weapon: "Sword", agi: 1, dex: 1, job: "Swordman", expected_aspd: 145 },
             Stats { weapon: "Bow", agi: 1, dex: 1, job: "Archer", expected_aspd: 130 },
-            Stats { weapon: "Bow", agi: 1, dex: 1, job: "Archer", expected_aspd: 130 },
             Stats { weapon: "Axe", agi: 1, dex: 1, job: "Archer", expected_aspd: 1 },
             Stats { weapon: "", agi: 1, dex: 1, job: "Merchant", expected_aspd: 160 },
         ];
@@ -100,5 +99,47 @@ mod tests {
         let attack_motion = context.status_service.attack_motion(&character);
         // Then
         assert_eq!(attack_motion, 996);
+    }
+
+    #[test]
+    fn test_status_atk() {
+        // Given
+        let context = before_each();
+        #[derive(Debug)]
+        struct Stats<'a> { weapon: &'a str, str: u16, dex: u16, luk: u16, expected_status_atk: i32 };
+        let stats = vec![
+            Stats { weapon: "Knife", str: 1, dex: 1, luk: 1, expected_status_atk: 18 },
+            Stats { weapon: "Knife", str: 5, dex: 1, luk: 1, expected_status_atk: 22 },
+            Stats { weapon: "Knife", str: 5, dex: 1, luk: 5, expected_status_atk: 23 },
+            Stats { weapon: "Knife", str: 5, dex: 10, luk: 5, expected_status_atk: 25 },
+            Stats { weapon: "Bow", str: 1, dex: 1, luk: 1, expected_status_atk: 16 },
+            Stats { weapon: "Bow", str: 1, dex: 5, luk: 1, expected_status_atk: 20 },
+            Stats { weapon: "Bow", str: 1, dex: 5, luk: 5, expected_status_atk: 21 },
+            Stats { weapon: "Bow", str: 10, dex: 5, luk: 5, expected_status_atk: 23 },
+        ];
+        for stat in stats {
+            let mut character = create_character();
+            character.status.str = stat.str;
+            character.status.dex = stat.dex;
+            character.status.luk = stat.luk;
+            if stat.weapon != "" {
+                equip_item(&mut character, stat.weapon);
+            }
+            // When
+            let status_atk = context.status_service.status_atk(&character);
+            // Then
+            assert_eq!(status_atk, stat.expected_status_atk, "Expected status atk1 to be {} but was {} with stats {:?}", stat.expected_status_atk, status_atk, stat);
+        }
+    }
+
+    #[test]
+    fn test_real_damage() {
+        // Given
+        let context = before_each();
+
+        // When
+
+        // Then
+
     }
 }

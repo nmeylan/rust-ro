@@ -32,6 +32,8 @@ max_inventory = 100
 max_base_level = 99
 max_job_level = 70
 
+mob_density = 1.0
+
 [maps]
 cities = [
     { name = "prontera", x = 156, y = 191 },
