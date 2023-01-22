@@ -78,11 +78,11 @@ impl StatusService {
         packet_aspd.fill_raw();
         let mut packet_atk = PacketZcParChange::new();
         packet_atk.set_var_id(StatusTypes::Atk1.value() as u16);
-        packet_atk.set_count(StatusService::instance().status_atk(character) as i32);
+        packet_atk.set_count(StatusService::instance().status_atk_left_side(character) as i32);
         packet_atk.fill_raw();
         let mut packet_atk2 = PacketZcParChange::new();
         packet_atk2.set_var_id(StatusTypes::Atk2.value() as u16);
-        packet_atk2.set_count(StatusService::instance().status_atk_bonus(character) as i32);
+        packet_atk2.set_count(StatusService::instance().status_atk_right_side(character) as i32);
         packet_atk2.fill_raw();
         let mut packet_def = PacketZcParChange::new();
         packet_def.set_var_id(StatusTypes::Def1.value() as u16);
@@ -178,7 +178,23 @@ impl StatusService {
 
     /// PRE-RE https://irowiki.org/classic/Attacks
     /// UI left side atk in status info panel
-    pub fn status_atk(&self, character: &Character) -> i32 {
+    /// https://web.archive.org/web/20060717223009/http://rodatazone.simgaming.net/mechanics/substats.php
+    ///
+    /// Atk stands for Attack and gives an indication of how much damage you will do when you hit something.
+    ///The visible components of the Atk score are your Strength plus the Atk of the weapon you are using on the left and the damage bonus from any pluses the weapon might have on the right.
+    ///The real value on the left of your Atk score includes hidden bonuses from Strength, Dexterity and Luck.
+    ///For fists, the true value is equal to: STR + [STR/10]^2 + [DEX/5] + [LUK/5] where [] indicates you round the value inside down before continuing and ^2 indicates squaring.
+    ///For weapons, the true value is equal to: STR + [STR/10]^2 + [DEX/5] + [LUK/5] + WeaponAtk + AtkBonusCards where [] indicates you round the value inside down before continuing and ^2 indicates squaring.
+    ///For missile weapons, the true value is equal to: DEX + [DEX/10]^2 + [STR/5] + [LUK/5] + WeaponAtk + AtkBonusCards where [] indicates you round the value inside down before continuing and ^2 indicates squaring.
+    ///Not counting the value of WeaponAtk and AtkBonusCards, this true value is often referred to as the base damage. This base damage is basically the your Atk with bare fists.
+    pub fn status_atk_left_side(&self, character: &Character) -> i32 {
+        let imposito_magnus = 0;
+        let upgrade_damage = 0;
+        let atk_cards = 0;
+        (self.fist_atk(character) + self.weapon_atk(character) + imposito_magnus + self.weapon_upgrade_damage(character) + self.atk_cards(character)) as i32
+    }
+
+    pub fn fist_atk(&self, character: &Character) -> u32 {
         let mut str;
         let dex;
         let mut is_ranged_weapon = false;
@@ -198,31 +214,58 @@ impl StatusService {
         let dstr = str / 10;
         str += dstr * dstr;
         str += dex / 5 + character.status.luk / 5;
-
-        (str + self.weapon_atk(character)) as i32
+        str as u32
     }
 
-    pub fn weapon_atk(&self, character: &Character) -> u16 {
-        let right_hand_weapon_atk: u16 = if let Some((_, right_hand_weapon)) = character.right_hand_weapon() {
-            self.configuration_service.get_item(right_hand_weapon.item_id).attack.unwrap_or(0) as u16
+    pub fn atk_cards(&self, _character: &Character) -> u32 {
+        0
+    }
+
+    pub fn weapon_upgrade_damage(&self, _character: &Character) -> u32 {
+        0
+    }
+
+    pub fn weapon_atk(&self, character: &Character) -> u32 {
+        let right_hand_weapon_atk: u32 = if let Some((_, right_hand_weapon)) = character.right_hand_weapon() {
+            self.configuration_service.get_item(right_hand_weapon.item_id).attack.unwrap_or(0) as u32
         } else {
             0
         };
-        // TODO add: atk bonus from card, add imposition magnus
         right_hand_weapon_atk
     }
 
+    pub fn weapon_lvl(&self, character: &Character) -> Option<i16> {
+        if let Some((_, right_hand_weapon)) = character.right_hand_weapon() {
+            self.configuration_service.get_item(right_hand_weapon.item_id).weapon_level
+        } else {
+            None
+        }
+    }
+
     /// UI right side atk in status info panel
-    pub fn status_atk_bonus(&self, character: &Character) -> i32 {
+    /// https://web.archive.org/web/20060717223009/http://rodatazone.simgaming.net/mechanics/substats.php
+    /// https://web.archive.org/web/20060717222819/http://rodatazone.simgaming.net/items/upgrading.php
+    pub fn status_atk_right_side(&self, character: &Character) -> i32 {
+        // TODO: it is refinement damage. do not mix with refinement bonus which refers to random additional atk for over upgrade
         // refinement
-        //    Weapon Lv. 1 - Every +1 upgrade gives +2 ATK (+3 ATK for every overupgrade).
-        //     Weapon Lv. 2 - Every +1 upgrade gives +3 ATK (+5 ATK for every overupgrade).
-        //     Weapon Lv. 3 - Every +1 upgrade gives +5 ATK (+7 ATK for every overupgrade).
-        //     Weapon Lv. 4 - Every +1 upgrade gives +7 ATK (+13(?) ATK for every overupgrade).
+        //    Weapon Lv. 1 - Every +1 upgrade gives +2 ATK (+1~3 ATK for every overupgrade).
+        //     Weapon Lv. 2 - Every +1 upgrade gives +3 ATK (+1~5 ATK for every overupgrade).
+        //     Weapon Lv. 3 - Every +1 upgrade gives +5 ATK (+1~7 ATK for every overupgrade).
+        //     Weapon Lv. 4 - Every +1 upgrade gives +7 ATK (+1~13(?) ATK for every overupgrade).
         //    Weapon Lv. 1 - Safety Level +7
         //     Weapon Lv. 2 - Safety Level +6
         //     Weapon Lv. 3 - Safety Level +5
         //     Weapon Lv. 4 - Safety Level +4
+        0
+    }
+
+    /// VIT + rnd(0,[VIT/20]^2-1).
+    pub fn mob_vit_def(&self, vit: u32) -> u32 {
+        let rng = fastrand::Rng::new();
+        vit + rng.u32(0..(((vit as f32 / 20.0).floor() as u32) ^ 2) as u32 - 1)
+    }
+    /// [VIT*0.5] + rnd([VIT*0.3], max([VIT*0.3],[VIT^2/150]-1)).
+    pub fn character_vit_def(&self, vit: u32) -> u32 {
         0
     }
 }

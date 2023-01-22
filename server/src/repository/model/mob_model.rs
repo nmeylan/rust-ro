@@ -24,19 +24,19 @@ impl From<MobModels> for Vec<MobModel> {
 pub struct MobModel {
     pub id: i32,
     pub name: String,
-    pub level: i16,
+    pub level: i32,
     pub hp: i32,
     pub sp: i32,
     pub atk1: i32,
     pub atk2: i32,
     pub def: i32,
     pub mdef: i32,
-    pub str: i16,
-    pub agi: i16,
-    pub vit: i16,
-    pub int: i16,
-    pub dex: i16,
-    pub luk: i16,
+    pub str: i32,
+    pub agi: i32,
+    pub vit: i32,
+    pub int: i32,
+    pub dex: i32,
+    pub luk: i32,
     pub range1: i16,
     pub range2: i16,
     pub range3: i16,
@@ -144,7 +144,7 @@ impl <'r>FromRow<'r, PgRow> for MobModel {
         let mut model = MobModel::default();
         model.set_id(row.get::<i32,_>("id") );
         model.set_name(row.get("name_english"));
-        model.set_level(row.try_get::<i16,_>("level").unwrap_or(0));
+        model.set_level(row.try_get::<i32,_>("level").unwrap_or(0));
         model.set_hp(row.try_get::<i32,_>("hp").unwrap_or(0));
         model.set_sp(row.try_get::<i32,_>("sp").unwrap_or(0));
         model.set_exp(row.try_get::<i32,_>("base_exp").unwrap_or(0));
@@ -155,12 +155,12 @@ impl <'r>FromRow<'r, PgRow> for MobModel {
         model.set_atk2(row.try_get::<i32,_>("attack2").unwrap_or(0));
         model.set_def(row.try_get::<i32,_>("defense").unwrap_or(0));
         model.set_mdef(row.try_get::<i32,_>("magic_defense").unwrap_or(0));
-        model.set_str(row.try_get::<i16,_>("str").unwrap_or(0));
-        model.set_agi(row.try_get::<i16,_>("agi").unwrap_or(0));
-        model.set_vit(row.try_get::<i16,_>("vit").unwrap_or(0));
-        model.set_int(row.try_get::<i16,_>("int").unwrap_or(0));
-        model.set_dex(row.try_get::<i16,_>("dex").unwrap_or(0));
-        model.set_luk(row.try_get::<i16,_>("luk").unwrap_or(0));
+        model.set_str(row.try_get::<i32,_>("str").unwrap_or(0));
+        model.set_agi(row.try_get::<i32,_>("agi").unwrap_or(0));
+        model.set_vit(row.try_get::<i32,_>("vit").unwrap_or(0));
+        model.set_int(row.try_get::<i32,_>("int").unwrap_or(0));
+        model.set_dex(row.try_get::<i32,_>("dex").unwrap_or(0));
+        model.set_luk(row.try_get::<i32,_>("luk").unwrap_or(0));
         model.set_scale(row.try_get::<i16,_>("size").unwrap_or(0));
         model.set_race(row.try_get::<i16,_>("race").unwrap_or(0));
         model.set_element(row.try_get::<i8,_>("element").unwrap_or(0));

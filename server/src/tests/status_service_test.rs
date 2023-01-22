@@ -126,20 +126,9 @@ mod tests {
                 equip_item(&mut character, stat.weapon);
             }
             // When
-            let status_atk = context.status_service.status_atk(&character);
+            let status_atk = context.status_service.status_atk_left_side(&character);
             // Then
             assert_eq!(status_atk, stat.expected_status_atk, "Expected status atk1 to be {} but was {} with stats {:?}", stat.expected_status_atk, status_atk, stat);
         }
-    }
-
-    #[test]
-    fn test_real_damage() {
-        // Given
-        let context = before_each();
-
-        // When
-
-        // Then
-
     }
 }
