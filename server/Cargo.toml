@@ -40,4 +40,4 @@ path = "../tools/map-cache/main.rs"
 
 [features]
 visual_debugger = ["eframe"]
-items_db_update = []
+static_db_update = []

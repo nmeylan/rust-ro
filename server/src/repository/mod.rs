@@ -4,6 +4,7 @@ pub mod script_variable_repository;
 pub mod item_repository;
 pub mod inventory_repository;
 pub mod persistence_error;
+pub mod mob_repository;
 
 use async_trait::async_trait;
 

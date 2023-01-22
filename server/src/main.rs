@@ -46,6 +46,7 @@ use crate::server::core::map::Map;
 use server::events::client_notification::Notification;
 use server::events::persistence_event::PersistenceEvent;
 use crate::repository::model::item_model::{ItemModel, ItemModels};
+use crate::repository::model::mob_model::MobModels;
 use self::server::core::map_item::MapItem;
 use self::server::script::ScriptHandler;
 use crate::server::npc::mob_spawn::MobSpawn;
@@ -66,13 +67,20 @@ pub async fn main() {
     let repository : Repository = Repository::new_pg(&configs().database, Runtime::new().unwrap()).await;
     let repository_arc = Arc::new(repository);
     let items =  repository_arc.get_all_items().await.unwrap();
-    #[cfg(feature = "items_db_update")]
+    let mobs =  repository_arc.get_all_mobs().await.unwrap();
+    #[cfg(feature = "static_db_update")]
     {
         // items.toml is used in tests
         let item_db: ItemModels = items.clone().into();
         let toml = toml::to_string(&item_db).unwrap();
         let output_path = Path::new("config");
         let mut file = File::create(output_path.join("items.toml")).unwrap();
+        file.write_all(toml.as_bytes()).unwrap();
+        // mobs.toml is used in tests
+        let mob_db: MobModels = mobs.clone().into();
+        let toml = toml::to_string(&mob_db).unwrap();
+        let output_path = Path::new("config");
+        let mut file = File::create(output_path.join("mobs.toml")).unwrap();
         file.write_all(toml.as_bytes()).unwrap();
     }
     let skills_config = Config::load_skills_config(".").unwrap();
@@ -86,17 +94,23 @@ pub async fn main() {
     items.iter().for_each(|item| {
         items_id_name.insert(item.name_aegis.clone(), item.id as u32);
     });
+    let mut mobs_id_name: HashMap<String, u32> = Default::default();
+    mobs.iter().for_each(|mob| {
+        mobs_id_name.insert(mob.name.clone(), mob.id as u32);
+    });
     unsafe {
         GlobalConfigService::init(CONFIGS.as_ref().unwrap(),
                                   items.into_iter().map(|item| (item.id as u32, item)).collect(),
                                   items_id_name,
+                                  mobs.into_iter().map(|mob| (mob.id as u32, mob)).collect(),
+                                  mobs_id_name,
                                   job_configs,
                                   skills_config,
                                   skill_configs_id_name);
     }
 
     let warps = Warp::load_warps().await;
-    let mob_spawns = MobSpawn::load_mob_spawns(repository_arc.clone()).join().unwrap();
+    let mob_spawns = MobSpawn::load_mob_spawns().join().unwrap();
     // let mob_spawns = Default::default();
     let (scripts, class_files, compilation_errors) = Script::load_scripts();
     for class_errors in compilation_errors {

@@ -44,6 +44,8 @@ pub struct GameConfig {
     pub max_base_level: u32,
     #[set]
     pub max_job_level: u32,
+    #[set]
+    pub mob_density: f32,
 }
 
 #[derive(Deserialize, Debug, Setters, Clone)]

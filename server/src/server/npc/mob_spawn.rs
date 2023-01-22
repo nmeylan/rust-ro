@@ -10,6 +10,7 @@ use tokio::runtime::Runtime;
 use crate::repository::Repository;
 use crate::repository::model::mob_model::MobModel;
 use crate::server::npc::{Npc, NpcLoader};
+use crate::server::service::global_config_service::GlobalConfigService;
 
 static PARALLEL_EXECUTIONS: usize = 1;
 // TODO add a conf for this
@@ -139,7 +140,7 @@ impl Npc for MobSpawn {
                 return Err(format!("{}: {} {}", line, spawn_info[0], result.err().unwrap()));
             }
             mob_spawn.set_mob_id(result.unwrap());
-            mob_spawn.set_to_spawn_amount(spawn_info[1].parse::<i16>().unwrap());
+            mob_spawn.set_to_spawn_amount((spawn_info[1].parse::<i16>().unwrap() as f32 * GlobalConfigService::instance().config().game.mob_density) as i16);
             if mob_info.len() >= 3 {
                 mob_spawn.set_fixed_delay_in_ms(spawn_info[2].parse::<u32>().unwrap());
             }
@@ -159,7 +160,7 @@ impl Npc for MobSpawn {
 }
 
 impl MobSpawn {
-    pub fn load_mob_spawns(repository: Arc<Repository>) -> JoinHandle<HashMap<String, Vec<MobSpawn>>> {
+    pub fn load_mob_spawns() -> JoinHandle<HashMap<String, Vec<MobSpawn>>> {
         thread::spawn(move ||{
             let runtime = Runtime::new().unwrap();
             let start = Instant::now();
@@ -168,17 +169,9 @@ impl MobSpawn {
                 parallel_execution: PARALLEL_EXECUTIONS,
             };
             let mut mob_spawns = runtime.block_on(async { npc_loader.load_npc::<MobSpawn>().await });
-            let mob_info = runtime.block_on(async {
-                sqlx::query_as::<_, MobModel>("SELECT * from mob_db")
-                    .fetch_all(&repository.pool)
-                    .await.unwrap()
-            }).iter().fold(HashMap::<u32, MobModel>::new(), |mut memo, curr| {
-                memo.insert(curr.id as u32, curr.clone());
-                memo
-            });
             mob_spawns.iter_mut().for_each(|(_, spawns)| {
                 spawns.iter_mut().for_each(|mob_spawn| {
-                    let mob_info = mob_info.get(&(mob_spawn.mob_id as u32)).unwrap();
+                    let mob_info = GlobalConfigService::instance().get_mob(mob_spawn.mob_id as i32);
                     mob_spawn.set_info(mob_info.clone());
                 });
             });

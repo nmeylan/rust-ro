@@ -6,6 +6,7 @@ use std::sync::mpsc::SyncSender;
 use std::sync::mpsc::Receiver;
 use std::sync::{Mutex, Once};
 use crate::repository::model::item_model::{ItemModel, ItemModels};
+use crate::repository::model::mob_model::{MobModel, MobModels};
 use crate::server::core::configuration::Config;
 use crate::server::core::map_instance::MapInstanceKey;
 use crate::server::events::client_notification::Notification;
@@ -58,11 +59,21 @@ pub fn before_all() {
         items.iter().for_each(|item| {
             items_id_name.insert(item.name_aegis.clone(), item.id as u32);
         });
+
+        let mut mobs_id_name: HashMap<String, u32> = Default::default();
+        let mob_models = toml::from_str::<MobModels>(&fs::read_to_string("../config/mobs.toml").unwrap());
+        let mobs: Vec<MobModel> = mob_models.unwrap().into();
+        mobs.iter().for_each(|mob| {
+            mobs_id_name.insert(mob.name.clone(), mob.id as u32);
+        });
+
         let job_configs = Config::load_jobs_config("..").unwrap();
         let configs = unsafe { CONFIGS.as_ref().unwrap() };
         crate::GlobalConfigService::init(&configs,
                                          items.into_iter().map(|item| (item.id as u32, item)).collect(),
                                          items_id_name,
+                                         mobs.into_iter().map(|mob| (mob.id as u32, mob)).collect(),
+                                         mobs_id_name,
                                          job_configs,
                                          skills_config,
                                          skill_configs_id_name);
