@@ -63,9 +63,7 @@ https://user-images.githubusercontent.com/1909074/210180140-0bb7e034-4209-4fb9-8
 https://user-images.githubusercontent.com/1909074/178155321-d3eeb4b8-32ed-4901-bbfe-b101b1a5a56d.mp4
 
 # In progress
-- inventory
-- consumable
-- shop npc
+- Basic game mechanics
 
 # TODO
 in random order, features are implemented based on my current mood.
