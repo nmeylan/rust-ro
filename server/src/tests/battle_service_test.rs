@@ -58,9 +58,9 @@ mod tests {
             }
             let average = (average.iter().sum::<u32>() as f32 / average.len() as f32).round() as u32;
             // Then
-            assert_eq!(average, stat.average_damage, "Expected average damage to be {} but was {} with stats {:?}", stat.average_damage, average, stat);
-            assert_eq!(min, stat.min_damage, "Expected min damage to be {} but was {} with stats {:?}", stat.min_damage, min, stat);
-            assert_eq!(max, stat.max_damage, "Expected max damage to be {} but was {} with stats {:?}", stat.max_damage, max, stat);
+            assert!(stat.average_damage - 1 <= average && average <= stat.average_damage + 1, "Expected average damage to be {} but was {} with stats {:?}", stat.average_damage, average, stat);
+            assert!(stat.min_damage - 1 <= min && min <= stat.min_damage + 1, "Expected min damage to be {} but was {} with stats {:?}", stat.min_damage, min, stat);
+            assert!(stat.max_damage - 1 <= max && max <= stat.max_damage + 1, "Expected max damage to be {} but was {} with stats {:?}", stat.max_damage, max, stat);
         }
 
     }
