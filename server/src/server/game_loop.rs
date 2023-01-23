@@ -19,6 +19,7 @@ use crate::server::events::persistence_event::{SavePositionUpdate};
 use crate::server::map_item::{ToMapItem, ToMapItemSnapshot};
 
 use crate::server::Server;
+use crate::server::service::battle_service::BattleService;
 use crate::server::service::character::character_service::{CharacterService};
 use crate::server::service::character::inventory_service::InventoryService;
 use crate::server::service::character::item_service::{ItemService};
@@ -144,7 +145,13 @@ impl Server {
             }
             for (_, character) in characters.iter_mut().filter(|(_, character)| character.loaded_from_client_side) {
                 CharacterService::instance().load_units_in_fov(server_ref.as_ref(), character);
-                CharacterService::instance().attack(server_ref.as_ref(), character, tick);
+                if !character.is_attacking() {
+                    continue;
+                }
+                let map_item = server_ref.map_item(character.attack().target, character.current_map_name(), character.current_map_instance());
+                if let Some(map_item) = map_item {
+                    BattleService::instance().attack(character, map_item, tick);
+                }
             }
             for (_, map) in server_ref.maps.iter() {
                 for instance in map.instances() {

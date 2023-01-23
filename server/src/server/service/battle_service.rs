@@ -1,17 +1,25 @@
+use std::mem;
 use std::sync::mpsc::SyncSender;
 use std::sync::Once;
+use enums::action::ActionType;
+use packets::packets::PacketZcNotifyAct;
 use crate::repository::model::item_model::ItemModel;
 use crate::repository::model::mob_model::MobModel;
-use crate::server::events::client_notification::Notification;
+use crate::server::core::map_item::{MapItem, MapItemType};
+use crate::server::events::client_notification::{AreaNotification, AreaNotificationRangeType, Notification};
 use crate::server::events::persistence_event::PersistenceEvent;
+use crate::server::Server;
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::service::status_service::StatusService;
 use crate::server::state::character::Character;
+use crate::enums::EnumWithNumberValue;
+use crate::packets::packets::Packet;
 
 static mut SERVICE_INSTANCE: Option<BattleService> = None;
 static SERVICE_INSTANCE_INIT: Once = Once::new();
 
 pub struct BattleService {
+    client_notification_sender: SyncSender<Notification>,
     status_service: StatusService,
     configuration_service: &'static GlobalConfigService,
 }
@@ -21,13 +29,13 @@ impl BattleService {
         unsafe { SERVICE_INSTANCE.as_ref().unwrap() }
     }
 
-    pub(crate) fn new(status_service: StatusService, configuration_service: &'static GlobalConfigService) -> Self {
-        BattleService { status_service, configuration_service }
+    pub(crate) fn new(client_notification_sender: SyncSender<Notification>, status_service: StatusService, configuration_service: &'static GlobalConfigService) -> Self {
+        BattleService { client_notification_sender, status_service, configuration_service }
     }
 
-    pub fn init(status_service: StatusService, configuration_service: &'static GlobalConfigService) {
+    pub fn init(client_notification_sender: SyncSender<Notification>, status_service: StatusService, configuration_service: &'static GlobalConfigService) {
         SERVICE_INSTANCE_INIT.call_once(|| unsafe {
-            SERVICE_INSTANCE = Some(BattleService::new(status_service, configuration_service));
+            SERVICE_INSTANCE = Some(BattleService::new(client_notification_sender, status_service, configuration_service));
         });
     }
 
@@ -102,6 +110,38 @@ impl BattleService {
             };
         };
 
-        rng.u32(((source.status.dex as f32 * (0.8 + 0.2 * weapon_level as f32)).round() as u32).min(weapon_attack)..weapon_attack)
+        rng.u32(((source.status.dex as f32 * (0.8 + 0.2 * weapon_level as f32)).round() as u32).min(weapon_attack)..=weapon_attack)
+    }
+
+    pub fn attack(&self, character: &mut Character, target: MapItem, tick: u128) {
+        let attack = character.attack();
+        if !attack.repeat { // one shot attack
+            character.clear_attack();
+        }
+        let attack_motion = StatusService::instance().attack_motion(character);
+
+        if tick < attack.last_attack_tick + attack_motion as u128 {
+            return;
+        }
+
+        // TODO: Check distance based on weapon range, handle too far target
+        character.update_last_attack_tick(tick);
+        character.update_last_attack_motion(attack_motion);
+        let mut packet_zc_notify_act3 = PacketZcNotifyAct::new();
+        packet_zc_notify_act3.set_target_gid(attack.target);
+        packet_zc_notify_act3.set_action(ActionType::Attack.value() as u8);
+        packet_zc_notify_act3.set_gid(character.char_id);
+        packet_zc_notify_act3.set_attack_mt(attack_motion as i32);
+        packet_zc_notify_act3.set_attacked_mt(attack_motion as i32);
+        let damage = if matches!(target.object_type(), MapItemType::Mob) {
+            let mob = self.configuration_service.get_mob(target.client_item_class() as i32);
+            self.damage_character_attack_monster_melee(character, mob)
+        } else {
+            0
+        };
+        packet_zc_notify_act3.set_damage(damage as i16);
+        packet_zc_notify_act3.set_count(1);
+        packet_zc_notify_act3.fill_raw();
+        self.client_notification_sender.send(Notification::Area(AreaNotification::new(character.current_map_name().clone(), character.current_map_instance(), AreaNotificationRangeType::Fov { x: character.x, y: character.y }, mem::take(packet_zc_notify_act3.raw_mut())))).expect("Failed to send notification to client");
     }
 }
