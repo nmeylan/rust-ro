@@ -22,12 +22,6 @@ use crate::server::events::client_notification::{AreaNotificationRangeType, Noti
 use crate::server::events::game_event::{CharacterAddItems, CharacterChangeMap, CharacterRemoveFromMap, GameEvent};
 use crate::server::events::persistence_event::PersistenceEvent;
 
-
-
-
-
-
-
 use crate::server::map_item::ToMapItem;
 use crate::server::state::character::Character;
 use crate::util::cell::{MyRef, MyUnsafeCell};
@@ -42,6 +36,7 @@ use crate::server::service::character::item_service::ItemService;
 use script::skill::SkillService;
 use crate::repository::model::item_model::InventoryItemModel;
 use crate::server::script::Value;
+use crate::server::service::battle_service::BattleService;
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::service::status_service::StatusService;
 
@@ -153,7 +148,8 @@ impl Server {
         InventoryService::init(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), GlobalConfigService::instance(), tasks_queue.clone());
         ItemService::init(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), GlobalConfigService::instance());
         SkillService::init(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), configuration);
-        StatusService::init(client_notification_sender.clone(), persistence_event_sender, GlobalConfigService::instance());
+        StatusService::init(client_notification_sender.clone(), persistence_event_sender.clone(), GlobalConfigService::instance());
+        BattleService::init(client_notification_sender.clone(), StatusService::new(client_notification_sender.clone(), persistence_event_sender.clone(), GlobalConfigService::instance()), GlobalConfigService::instance());
 
         Server {
             configuration,

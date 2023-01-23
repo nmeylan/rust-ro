@@ -18,7 +18,7 @@ fn before_each() -> BattleServiceTestContext {
     let status_service =  StatusService::new(client_notification_sender.clone(), persistence_event_sender.clone(), GlobalConfigService::instance());
     BattleServiceTestContext {
         test_context: TestContext { client_notification_sender: client_notification_sender.clone(), persistence_event_sender: persistence_event_sender.clone(), client_notification_receiver, persistence_event_receiver },
-        battle_service: BattleService::new(status_service, GlobalConfigService::instance()),
+        battle_service: BattleService::new(client_notification_sender.clone(), status_service, GlobalConfigService::instance()),
     }
 }
 
