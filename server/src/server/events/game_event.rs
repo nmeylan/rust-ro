@@ -43,7 +43,8 @@ pub struct CharacterMovement {
     pub start_at: u128,
     pub destination: Position,
     pub current_position: Position,
-    pub path: Vec<Movement>
+    pub path: Vec<Movement>,
+    pub cancel_attack: bool
 }
 
 pub struct CharacterLook {
