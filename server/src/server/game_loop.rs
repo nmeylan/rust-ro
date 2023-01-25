@@ -9,7 +9,9 @@ use packets::packets::{Packet, PacketZcNotifyPlayermove};
 use crate::PersistenceEvent;
 use crate::PersistenceEvent::SaveCharacterPosition;
 use crate::server::core::movement::Movement;
-use crate::server::events::game_event::{GameEvent};
+use crate::server::core::path::{manhattan_distance, path_search_client_side_algorithm};
+use crate::server::core::position::Position;
+use crate::server::events::game_event::{CharacterMovement, GameEvent};
 
 use crate::server::events::map_event::MapEvent::{*};
 use crate::server::events::client_notification::{CharNotification, Notification};
@@ -23,7 +25,9 @@ use crate::server::service::battle_service::BattleService;
 use crate::server::service::character::character_service::{CharacterService};
 use crate::server::service::character::inventory_service::InventoryService;
 use crate::server::service::character::item_service::{ItemService};
+use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::service::status_service::StatusService;
+use crate::server::state::character::Character;
 
 
 const MOVEMENT_TICK_RATE: u128 = 20;
@@ -81,7 +85,7 @@ impl Server {
                         }
                         GameEvent::CharacterInitInventory(char_id) => {
                             let character = characters.get_mut(&char_id).unwrap();
-                            InventoryService::instance().reload_inventory( &runtime, char_id, character);
+                            InventoryService::instance().reload_inventory(&runtime, char_id, character);
                             InventoryService::instance().reload_equipped_item_sprites(character);
                             StatusService::instance().calculate_status(&server_ref, character);
                         }
@@ -102,7 +106,7 @@ impl Server {
                         GameEvent::CharacterEquipItem(character_equip_item) => {
                             let character = characters.get_mut(&character_equip_item.char_id).unwrap();
                             let index = character_equip_item.index;
-                            InventoryService::instance().equip_item( character, character_equip_item);
+                            InventoryService::instance().equip_item(character, character_equip_item);
                             character.get_item_from_inventory(index)
                                 .map(|item| InventoryService::instance().sprite_change_packet_for_item(character, item)
                                     .map(|packet| CharacterService::instance().send_area_notification_around_characters(character, packet)));
@@ -145,13 +149,7 @@ impl Server {
             }
             for (_, character) in characters.iter_mut().filter(|(_, character)| character.loaded_from_client_side) {
                 CharacterService::instance().load_units_in_fov(server_ref.as_ref(), character);
-                if !character.is_attacking() {
-                    continue;
-                }
-                let map_item = server_ref.map_item(character.attack().target, character.current_map_name(), character.current_map_instance());
-                if let Some(map_item) = map_item {
-                    BattleService::instance().attack(character, map_item, tick);
-                }
+                Self::handle_character_attack(&server_ref, tick, character)
             }
             for (_, map) in server_ref.maps.iter() {
                 for instance in map.instances() {
@@ -172,6 +170,42 @@ impl Server {
         }
     }
 
+    fn handle_character_attack(server_ref: &Arc<Server>, tick: u128, character: &mut Character) {
+        if !character.is_attacking() {
+            return;
+        }
+
+        let map_item = server_ref.map_item(character.attack().target, character.current_map_name(), character.current_map_instance());
+        if let Some(map_item) = map_item {
+            let range = if let Some((_, weapon)) = character.right_hand_weapon() {
+                GlobalConfigService::instance().get_item(weapon.item_id).range.unwrap_or(1) as u16
+            } else {
+                1
+            };
+            let target_position = server_ref.map_item_x_y(&map_item, character.current_map_name(), character.current_map_instance()).unwrap();
+            let is_in_range = range >= manhattan_distance(character.x, character.y, target_position.x, target_position.y);
+            if !is_in_range && !character.is_moving() {
+                let path = path_search_client_side_algorithm(server_ref.get_map_instance(character.current_map_name(), character.current_map_instance()).clone().unwrap(), character.x, character.y, target_position.x, target_position.y);
+                let path = Movement::from_path(path, tick);
+                let current_position = Position { x: character.x, y: character.y, dir: 0 };
+                debug!("Too far from target, moving from {} toward it: {}", current_position, target_position);
+                server_ref.add_to_next_movement_tick(GameEvent::CharacterMove(CharacterMovement {
+                    char_id: character.char_id,
+                    start_at: tick,
+                    destination: target_position,
+                    current_position,
+                    path,
+                    cancel_attack: false,
+                }));
+            } else if is_in_range {
+                character.clear_movement();
+                BattleService::instance().attack(character, map_item, tick);
+            }
+        } else {
+            character.clear_attack();
+        }
+    }
+
 
     pub(crate) fn character_movement_loop(server_ref: Arc<Server>, client_notification_sender_clone: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>) {
         loop {
@@ -181,7 +215,9 @@ impl Server {
                 for task in tasks {
                     if let GameEvent::CharacterMove(character_movement) = task {
                         let character = characters.get_mut(&character_movement.char_id).unwrap();
-                        character.clear_attack();
+                        if character_movement.cancel_attack {
+                            character.clear_attack();
+                        }
                         let speed = character.status.speed;
                         let maybe_previous_movement = character.pop_movement();
                         character.set_movement(character_movement.path);

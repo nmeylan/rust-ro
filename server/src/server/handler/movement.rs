@@ -47,7 +47,7 @@ pub fn handle_char_move(server: &Server, context: Request) {
     let start_at = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis();
     if character.is_attacking() {
         let attack = character.attack();
-        if attack.last_attack_tick + attack.last_attack_motion as u128 - 40 > start_at {
+        if attack.last_attack_tick as i128 + attack.last_attack_motion as i128 - 40 > start_at as i128 {
             let delay = ((attack.last_attack_tick + attack.last_attack_motion as u128) - 40 - start_at) as u64;
             info!("Character is attacking, move will be delayed by {}ms", delay);
             sleep(Duration::from_millis(delay));
@@ -64,6 +64,7 @@ pub fn handle_char_move(server: &Server, context: Request) {
         path,
         start_at,
         current_position,
+        cancel_attack: true
     }));
     // debug_in_game_chat(&session, format!("path: {:?}", path.iter().map(|node| (node.x, node.y)).collect::<Vec<(u16, u16)>>()));
     // debug_in_game_chat(&session, format!("current_position: {:?}, destination {:?}", current_position, destination));

@@ -124,7 +124,6 @@ impl BattleService {
             return;
         }
 
-        // TODO: Check distance based on weapon range, handle too far target
         character.update_last_attack_tick(tick);
         character.update_last_attack_motion(attack_motion);
         let mut packet_zc_notify_act3 = PacketZcNotifyAct::new();
