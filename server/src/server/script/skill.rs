@@ -1,10 +1,13 @@
 use std::sync::mpsc::SyncSender;
 use std::sync::{Arc, Once};
 use enums::skills::Skill;
+use enums::vanish::VanishType;
+use crate::enums::EnumWithNumberValue;
+use packets::packets::PacketZcNotifyVanish;
 use crate::repository::Repository;
 use crate::server::core::configuration::{Config, SkillConfig};
 use crate::server::core::map::{Map, RANDOM_CELL};
-use crate::server::events::client_notification::Notification;
+use crate::server::events::client_notification::{AreaNotification, AreaNotificationRangeType, Notification};
 use crate::server::events::persistence_event::PersistenceEvent;
 use crate::server::Server;
 
@@ -65,6 +68,14 @@ impl SkillService {
             Skill::AlTeleport => {
                 if level == 1 {
                     server.schedule_warp_to_walkable_cell(Map::name_without_ext(character_ref.current_map_name().as_str()).as_str(), RANDOM_CELL.0, RANDOM_CELL.1, source_char_id);
+                    let mut packet_zc_notify_vanish = PacketZcNotifyVanish::new();
+                    packet_zc_notify_vanish.set_gid(character_ref.char_id);
+                    packet_zc_notify_vanish.set_atype(VanishType::Teleport.value() as u8);
+                    packet_zc_notify_vanish.fill_raw();
+                    server.client_notification_sender.send(Notification::Area(
+                        AreaNotification::new(character_ref.current_map_name().clone(), character_ref.current_map_instance(),
+                                              AreaNotificationRangeType::Fov { x: character_ref.x, y: character_ref.y, exclude_id: Some(character_ref.char_id) },
+                                              packet_zc_notify_vanish.raw))).expect("Fail to send client notification");
                 }
             }
             Skill::AlWarp => {}

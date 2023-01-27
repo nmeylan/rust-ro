@@ -4,7 +4,7 @@ use std::io::{BufReader, Cursor, Read};
 use std::convert::TryInto;
 use byteorder::{LittleEndian, ReadBytesExt};
 use flate2::read::ZlibDecoder;
-use std::{fs, thread};
+use std::{fs, mem, thread};
 
 
 use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
@@ -349,6 +349,11 @@ impl Map {
                                 let mut mob = mobs.get_mut(&mob_damage.mob_id).unwrap();
                                 mob.add_attack(mob_damage.attacker_id, mob_damage.damage);
                                 mob.last_attacked_at = now;
+                                if mob.should_die() {
+                                    let id = mob.id;
+                                    mem::drop(mobs);
+                                    map_instance.mob_die(id);
+                                }
                             }
                         }
                     }

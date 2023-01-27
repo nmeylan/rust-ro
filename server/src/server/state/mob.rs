@@ -1,5 +1,6 @@
 use std::collections::HashMap;
 use std::sync::Arc;
+use fastrand::u32;
 
 use packets::packets::PacketZcNotifyMove;
 
@@ -124,6 +125,11 @@ impl Mob {
         }
         let entry = self.damages.entry(attacker_id).or_insert(0);
         *entry += damage;
+    }
+
+    pub fn should_die(&self) -> bool {
+        let total_damage: u32 = self.damages.values().sum();
+        self.status.max_hp <= total_damage
     }
 }
 

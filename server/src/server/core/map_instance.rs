@@ -3,7 +3,7 @@
 use std::cell::RefCell;
 use std::collections::HashMap;
 use std::sync::Arc;
-use packets::packets::PacketZcNotifyMove;
+use packets::packets::{PacketZcNotifyAct3, PacketZcNotifyMove};
 
 use crate::server::core::map::{Map, MAP_EXT, WARP_MASK};
 use crate::server::state::mob::{Mob, MobMovement};
@@ -20,6 +20,7 @@ use packets::packets::Packet;
 use std::sync::mpsc::SyncSender;
 use std::time::{SystemTime, UNIX_EPOCH};
 use rathena_script_lang_interpreter::lang::vm::Vm;
+use enums::action::ActionType;
 use crate::MyUnsafeCell;
 use crate::server::events::map_event::MapEvent;
 use crate::server::events::client_notification::{AreaNotification, AreaNotificationRangeType, CharNotification, Notification};
@@ -245,10 +246,14 @@ impl MapInstance {
             debug!("Mob moving from {} to {}. Notify area around {},{}", mob_movement.from, mob_movement.to, mob_movement.from.x, mob_movement.from.y);
             self.client_notification_channel.send(Notification::Area(
                     AreaNotification::new(self.name_with_ext.clone(), self.id(),
-                                          AreaNotificationRangeType::Fov { x: mob_movement.from.x, y: mob_movement.from.y },
+                                          AreaNotificationRangeType::Fov { x: mob_movement.from.x, y: mob_movement.from.y, exclude_id: None },
                                           packet_zc_notify_move.raw))).expect("Fail to send client notification");
         }
+    }
 
+    pub fn mob_die(&self, id: u32) {
+        let mut packet_zc_notify_act3 = PacketZcNotifyAct3::default();
+        packet_zc_notify_act3.set_gid(id);
     }
 
     pub fn get_warp_at(&self, x: u16, y: u16) -> Option<Arc<Warp>> {
