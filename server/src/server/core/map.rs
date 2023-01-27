@@ -7,7 +7,7 @@ use flate2::read::ZlibDecoder;
 use std::{fs, thread};
 
 
-use std::time::{Instant};
+use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
 use std::collections::{HashMap};
 
 
@@ -15,6 +15,7 @@ use std::sync::{Arc};
 use std::sync::atomic::AtomicI8;
 use std::sync::atomic::Ordering::Relaxed;
 use std::sync::mpsc::Receiver;
+use std::thread::sleep;
 use accessor::Setters;
 use crate::Script;
 
@@ -22,6 +23,7 @@ use crate::server::events::map_event::MapEvent;
 use crate::server::core::map_instance::MapInstance;
 use crate::server::core::path::{allowed_dirs, DIR_EAST, DIR_NORTH, DIR_SOUTH, DIR_WEST, is_direction};
 use crate::server::core::map_item::{MapItem};
+use crate::server::core::movement::{Movable, Movement};
 use crate::server::map_item::ToMapItem;
 use crate::server::npc::mob_spawn::MobSpawn;
 use crate::server::npc::warps::Warp;
@@ -35,6 +37,7 @@ pub static MAP_EXT: &str = ".gat";
 pub const WARP_MASK: u16 = 0b0000_0100_0000_0000;
 pub const WALKABLE_MASK: u16 = 0b0000000000000001;
 pub const RANDOM_CELL: (u16, u16) = (u16::MAX, u16::MAX);
+const MOVEMENT_TICK_RATE: u128 = 20;
 
 struct Header {
     #[allow(dead_code)]
@@ -112,7 +115,7 @@ impl MapPropertyFlags {
             is_no_costum: false,
             is_use_cart: false,
             is_summonstar_miracle: false,
-            unused: false
+            unused: false,
         }
     }
 
@@ -146,15 +149,15 @@ impl Map {
         if !instance_exists {
             self.create_map_instance(server, map_instance_id);
         }
-        let map_instances_guard =self.map_instances.borrow();
+        let map_instances_guard = self.map_instances.borrow();
         let map_instance = map_instances_guard.get(map_instance_id as usize).unwrap();
         map_instance.clone()
     }
 
-    pub fn get_instance(&self, id: u8, server: &Server) -> Option<Arc<MapInstance>>{
-        for map_instance in  self.map_instances.borrow().iter() {
+    pub fn get_instance(&self, id: u8, server: &Server) -> Option<Arc<MapInstance>> {
+        for map_instance in self.map_instances.borrow().iter() {
             if map_instance.id == id {
-                return Some(map_instance.clone())
+                return Some(map_instance.clone());
             }
         }
         Some(self.create_map_instance(server, id))
@@ -169,7 +172,7 @@ impl Map {
         loop {
             let index = rng.usize(0..cells.len());
             if cells.get(index).unwrap() & WALKABLE_MASK == 1 {
-                return coordinate::get_pos_of(index as u32, x_size)
+                return coordinate::get_pos_of(index as u32, x_size);
             }
         }
     }
@@ -205,9 +208,9 @@ impl Map {
                         dest_y = y - random_y;
                     } else if direction == DIR_EAST {
                         dest_x = x + random_x;
-                    }  else if direction == DIR_WEST {
+                    } else if direction == DIR_WEST {
                         dest_x = x - random_x;
-                    } else if direction == DIR_SOUTH | DIR_EAST{
+                    } else if direction == DIR_SOUTH | DIR_EAST {
                         dest_y = y - random_y;
                         dest_x = x + random_x;
                     } else if direction == DIR_SOUTH | DIR_WEST {
@@ -216,7 +219,7 @@ impl Map {
                     } else if direction == DIR_NORTH | DIR_EAST {
                         dest_y = y + random_y;
                         dest_x = x + random_x;
-                    } else if direction == DIR_NORTH | DIR_WEST  {
+                    } else if direction == DIR_NORTH | DIR_WEST {
                         dest_y = y + random_y;
                         dest_x = x - random_x;
                     }
@@ -227,7 +230,7 @@ impl Map {
                         dest_y = y_size - 1;
                     }
                     if cells.get(coordinate::get_cell_index_of(dest_x, dest_y, x_size)).unwrap() & WALKABLE_MASK == 1 {
-                        return Some((dest_x, dest_y))
+                        return Some((dest_x, dest_y));
                     }
                     i += 1;
                 }
@@ -344,7 +347,29 @@ impl Map {
             }).unwrap();
         thread::Builder::new().name(format!("map_instance_{}_mob_movement_thread", map_instance.name))
             .spawn(move || {
-
+                loop {
+                    let tick = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis();
+                    let mut mobs = map_instance.mobs.borrow_mut();
+                    for mob in mobs.values_mut().filter(|mob| mob.is_moving()) {
+                        let speed = mob.status.speed;
+                        if let Some(movement) = mob.peek_movement() {
+                            if tick >= movement.move_at() {
+                                let movement = mob.pop_movement().unwrap();
+                                debug!("mob move {} at {}", movement.position(), movement.move_at());
+                                mob.update_position(movement.position().x, movement.position().y);
+                                if let Some(next_movement) = mob.peek_mut_movement() {
+                                    next_movement.set_move_at(tick + Movement::delay(speed, next_movement.is_diagonal()))
+                                }
+                            }
+                        }
+                    }
+                    let time_spent = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis() - tick;
+                    let sleep_duration = (MOVEMENT_TICK_RATE as i128 - time_spent as i128).max(0) as u64;
+                    if sleep_duration < 5 {
+                        warn!("Mob Movement loop: less than 5 milliseconds of sleep, movement loop is too slow - {}ms because movement loop took {}ms", sleep_duration, time_spent);
+                    }
+                    sleep(Duration::from_millis(sleep_duration));
+                }
             }).unwrap();
     }
 
@@ -364,7 +389,7 @@ impl Map {
                 checksum: buf[2..18].try_into().unwrap(),
                 x_size: Cursor::new(buf[18..20].to_vec()).read_i16::<LittleEndian>().unwrap(),
                 y_size: Cursor::new(buf[20..22].to_vec()).read_i16::<LittleEndian>().unwrap(),
-                length: Cursor::new(buf[22..26].to_vec()).read_i32::<LittleEndian>().unwrap()
+                length: Cursor::new(buf[22..26].to_vec()).read_i32::<LittleEndian>().unwrap(),
             };
             // TODO validate checksum
             // TODO validate size + length
@@ -378,7 +403,7 @@ impl Map {
                 mob_spawns: Default::default(),
                 scripts: Default::default(),
                 map_instances: Default::default(),
-                map_instances_count: Default::default()
+                map_instances_count: Default::default(),
             };
             map.set_warps(warps.get(&map_name).unwrap_or(&vec![]), map_items.clone());
             map.set_mob_spawns(mob_spawns.get(&map_name).unwrap_or(&vec![]));

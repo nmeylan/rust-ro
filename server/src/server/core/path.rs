@@ -54,7 +54,7 @@ fn node_id(x: u16, y: u16, x_size: u16) -> u32 {
 /**
 * Client use a A* algorithm for path finding.
 */
-pub fn path_search_client_side_algorithm(map: Arc<MapInstance>, source_x: u16, source_y: u16, destination_x: u16, destination_y: u16) -> Vec<PathNode> {
+pub fn path_search_client_side_algorithm(map: &MapInstance, source_x: u16, source_y: u16, destination_x: u16, destination_y: u16) -> Vec<PathNode> {
     let max_x = map.x_size - 1;
     let max_y = map.y_size - 1;
     let start_node = PathNode {
