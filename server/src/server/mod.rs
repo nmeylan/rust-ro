@@ -264,7 +264,8 @@ impl Server {
                                     server_ref.characters.borrow().iter()
                                         .filter(|(_, character)| character.current_map_name() == &area_notification.map_name
                                             && character.current_map_instance() == area_notification.map_instance_id
-                                            && manhattan_distance(character.x(), character.y(), x, y) <= PLAYER_FOV)
+                                            && manhattan_distance(character.x(), character.y(), x, y) <= PLAYER_FOV
+                                        )
                                         .for_each(|(_, character)| {
                                             let tcp_stream = server_ref.get_map_socket_for_char_id(character.char_id).expect("Expect to found a socket for account");
                                             let data = area_notification.serialized_packet();
@@ -276,7 +277,7 @@ impl Server {
                                             } else {
                                                 error!("{:?} socket has been closed", tcp_stream_guard.peer_addr().err());
                                             }
-                                        })
+                                        });
                                 }
                             }
                         }

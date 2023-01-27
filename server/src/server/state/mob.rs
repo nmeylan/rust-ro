@@ -5,6 +5,7 @@ use packets::packets::PacketZcNotifyMove;
 use crate::server::core::map::Map;
 use crate::server::core::map_instance::MapInstanceKey;
 use crate::server::core::map_item::{MapItem, MapItemType};
+use crate::server::core::movement::{Movable, Movement};
 use crate::server::core::position::Position;
 use crate::server::map_item::ToMapItem;
 use crate::server::state::status::Status;
@@ -24,6 +25,25 @@ pub struct Mob {
     pub current_map: MapInstanceKey,
     pub map_view: Vec<MapItem>,
     pub is_view_char: bool,
+    pub movements: Vec<Movement>,
+}
+
+pub struct MobMovement {
+    pub id: u32,
+    pub from: Position,
+    pub to: Position,
+}
+
+impl Movable for Mob {
+    fn movements_mut(&mut self) -> &mut Vec<Movement> {
+        &mut self.movements
+    }
+    fn movements(&self) -> &Vec<Movement> {
+        &self.movements
+    }
+    fn set_movement(&mut self, movements: Vec<Movement>) {
+        self.movements = movements;
+    }
 }
 
 impl Mob {
@@ -39,6 +59,7 @@ impl Mob {
             map_view: vec![],
             current_map,
             is_view_char: false,
+            movements: vec![]
         }
     }
 
@@ -54,12 +75,15 @@ impl Mob {
         self.map_view = map_items;
     }
 
-    pub fn action_move(&mut self, cells: &[u16], x_size: u16, y_size: u16) -> HashMap<MapItem, PacketZcNotifyMove> {
+    pub fn action_move(&mut self, cells: &[u16], x_size: u16, y_size: u16) -> Option<MobMovement> {
+        if self.is_moving() {
+            return None;
+        }
         let rng = fastrand::Rng::new();
-        let mut character_packets_map: HashMap<MapItem, PacketZcNotifyMove> = HashMap::new();
+        let mut movement: Option<MobMovement> = None;
         let rand = rng.i32(0..=100);
         if self.status.speed == 1000 {
-            return character_packets_map;
+            return movement;
         }
         let should_move = if self.is_view_char {
             rand <= 80
@@ -75,33 +99,12 @@ impl Mob {
                 // Todo: implement server side movement, to avoid desync between client and server
                 self.x = x;
                 self.y = y;
-                if self.is_view_char {
-                    let from = Position {
-                        x: current_x,
-                        y: current_y,
-                        dir: 0,
-                    };
-                    let to = Position {
-                        x,
-                        y,
-                        dir: 0,
-                    };
-                    self.map_view.iter()
-                        .filter(|map_item| map_item.object_type_value() == MapItemType::Character.value())
-                        .for_each(|map_item| {
-                            let mut packet_zc_notify_move = PacketZcNotifyMove::default();
-                            debug!("{}-{} is moving from {},{} to {},{}, notifying {}", self.name, self.current_map.map_name(), from.x, from.y, to.x, to.y, map_item.id());
-                            packet_zc_notify_move.set_gid(self.id);
-                            packet_zc_notify_move.move_data = from.to_move_data(&to);
-                            let start_time = get_tick_client();
-                            packet_zc_notify_move.set_move_start_time(start_time);
-                            packet_zc_notify_move.fill_raw();
-                            character_packets_map.insert(*map_item, packet_zc_notify_move);
-                        })
-                }
+                let from = Position { x: current_x, y: current_y, dir: 0 };
+                let to = Position { x, y, dir: 0 };
+                movement = Some(MobMovement { id: self.id, from, to });
             }
         }
-        character_packets_map
+        movement
     }
 }
 

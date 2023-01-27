@@ -324,7 +324,7 @@ impl Map {
     fn start_thread(map_instance: Arc<MapInstance>, _server: &Server, single_map_event_notification_receiver: Receiver<MapEvent>) {
         let map_instance_clone_for_thread = map_instance.clone();
         info!("Start thread for {}", map_instance.name);
-        thread::Builder::new().name(format!("map_instance_{}_thread", map_instance.name))
+        thread::Builder::new().name(format!("map_instance_{}_event_thread", map_instance.name))
             .spawn(move || {
                 loop {
                     for event in single_map_event_notification_receiver.iter() {
@@ -341,6 +341,10 @@ impl Map {
                         }
                     }
                 }
+            }).unwrap();
+        thread::Builder::new().name(format!("map_instance_{}_mob_movement_thread", map_instance.name))
+            .spawn(move || {
+
             }).unwrap();
     }
 
@@ -386,5 +390,13 @@ impl Map {
 
     pub fn name_without_ext(map_name: &str) -> String {
         map_name.replace(MAP_EXT, "")
+    }
+
+    pub fn name_with_ext(map_name: &str) -> String {
+        if !map_name.ends_with(MAP_EXT) {
+            format!("{}{}", map_name, MAP_EXT)
+        } else {
+            map_name.to_string()
+        }
     }
 }

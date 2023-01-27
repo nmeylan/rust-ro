@@ -11,7 +11,7 @@ use std::time::{Duration, SystemTime, UNIX_EPOCH};
 use packets::packets::{PacketCzRequestMove, PacketCzRequestMove2};
 
 
-use crate::server::core::movement::Movement;
+use crate::server::core::movement::{Movable, Movement};
 use crate::server::events::game_event::CharacterMovement;
 use crate::server::events::game_event::GameEvent::{CharacterMove};
 use crate::server::core::position::Position;

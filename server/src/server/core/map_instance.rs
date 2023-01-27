@@ -6,7 +6,7 @@ use std::sync::Arc;
 use packets::packets::PacketZcNotifyMove;
 
 use crate::server::core::map::{Map, MAP_EXT, WARP_MASK};
-use crate::server::state::mob::Mob;
+use crate::server::state::mob::{Mob, MobMovement};
 use crate::server::core::path::manhattan_distance;
 use crate::server::state::status::Status;
 use crate::server::core::map_item::{MapItem, MapItemSnapshot};
@@ -21,13 +21,14 @@ use std::sync::mpsc::SyncSender;
 use rathena_script_lang_interpreter::lang::vm::Vm;
 use crate::MyUnsafeCell;
 use crate::server::events::map_event::MapEvent;
-use crate::server::events::client_notification::{CharNotification, Notification};
+use crate::server::events::client_notification::{AreaNotification, AreaNotificationRangeType, CharNotification, Notification};
 use crate::server::map_item::ToMapItem;
 use crate::server::{MOB_FOV, Server};
 use crate::server::npc::script::Script;
 use crate::server::script::ScriptHandler;
 use crate::util::cell::MyRef;
 use crate::util::string::StringUtil;
+use crate::util::tick::get_tick_client;
 
 pub struct MapInstanceKey {
     instance_id: u8,
@@ -65,6 +66,7 @@ impl MapInstanceKey {
 
 pub struct MapInstance {
     pub name: String,
+    pub name_with_ext: String,
     pub id: u8,
     pub x_size: u16,
     pub y_size: u16,
@@ -132,6 +134,7 @@ impl MapInstance {
         });
         MapInstance {
             name: map.name.clone(),
+            name_with_ext: Map::name_with_ext(map.name.as_str()),
             id,
             x_size: map.x_size,
             y_size: map.y_size,
@@ -155,6 +158,7 @@ impl MapInstance {
     pub fn id(&self) -> u8{
         self.id
     }
+
 
     pub fn is_cell_walkable(&self, x: u16, y: u16) -> bool {
         if self.cells.is_empty() {
@@ -223,21 +227,26 @@ impl MapInstance {
     }
 
     pub fn mobs_action(&self) {
-        let mut character_packets_map: HashMap<MapItem, Vec<PacketZcNotifyMove>> = HashMap::new();
+        let mut mob_movements: Vec<MobMovement> = Vec::with_capacity(self.mobs.borrow().len() / 2);
         for mob in self.mobs.borrow_mut().values_mut() {
-            let character_packets = mob.action_move(&self.cells, self.x_size, self.y_size);
-            character_packets.iter().for_each(|(character, packet)| {
-                if !character_packets_map.contains_key(character) {
-                    character_packets_map.insert(*character, Vec::with_capacity(500));
-                }
-                character_packets_map.get_mut(character).unwrap().push(packet.clone());
-            });
+            if let Some(mob_movement) = mob.action_move(&self.cells, self.x_size, self.y_size) {
+                mob_movements.push(mob_movement);
+            }
         }
-        for (character, packets) in character_packets_map.iter() {
-            let packets = chain_packets_raws(packets.iter().map(|packet| packet.raw()).collect::<Vec<&Vec<u8>>>());
-            self.client_notification_channel.send(Notification::Char(
-                CharNotification::new(character.id(), packets))).expect("Fail to send client notification");
+        let start_time = get_tick_client();
+        for mob_movement in mob_movements {
+            let mut packet_zc_notify_move = PacketZcNotifyMove::default();
+            packet_zc_notify_move.set_gid(mob_movement.id);
+            packet_zc_notify_move.move_data = mob_movement.from.to_move_data(&mob_movement.to);
+            packet_zc_notify_move.set_move_start_time(start_time);
+            packet_zc_notify_move.fill_raw();
+            debug!("Mob moving from {} to {}. Notify area around {},{}", mob_movement.from, mob_movement.to, mob_movement.from.x, mob_movement.from.y);
+            self.client_notification_channel.send(Notification::Area(
+                    AreaNotification::new(self.name_with_ext.clone(), self.id(),
+                                          AreaNotificationRangeType::Fov { x: mob_movement.from.x, y: mob_movement.from.y },
+                                          packet_zc_notify_move.raw))).expect("Fail to send client notification");
         }
+
     }
 
     pub fn get_warp_at(&self, x: u16, y: u16) -> Option<Arc<Warp>> {
