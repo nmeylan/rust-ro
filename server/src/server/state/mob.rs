@@ -28,6 +28,8 @@ pub struct Mob {
     pub map_view: Vec<MapItem>,
     pub is_view_char: bool,
     pub movements: Vec<Movement>,
+    pub damages: HashMap<u32, u32>,
+    pub last_attacked_at: u128
 }
 
 pub struct MobMovement {
@@ -61,7 +63,9 @@ impl Mob {
             map_view: vec![],
             current_map,
             is_view_char: false,
-            movements: vec![]
+            movements: vec![],
+            damages: Default::default(),
+            last_attacked_at: 0
         }
     }
 
@@ -112,6 +116,14 @@ impl Mob {
     pub fn update_position(&mut self, x: u16, y: u16) {
         self.x = x;
         self.y = y;
+    }
+
+    pub fn add_attack(&mut self, attacker_id: u32, damage: u32) {
+        if damage == 0 {
+            return;
+        }
+        let entry = self.damages.entry(attacker_id).or_insert(0);
+        *entry += damage;
     }
 }
 

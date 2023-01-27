@@ -13,12 +13,12 @@ use crate::server::core::path::{manhattan_distance, path_search_client_side_algo
 use crate::server::core::position::Position;
 use crate::server::events::game_event::{CharacterMovement, GameEvent};
 
-use crate::server::events::map_event::MapEvent::{*};
 use crate::server::events::client_notification::{CharNotification, Notification};
+use crate::server::events::map_event::{MapEvent, MobDamage};
 use crate::server::events::persistence_event::{SavePositionUpdate};
 
-
 use crate::server::map_item::{ToMapItem, ToMapItemSnapshot};
+use crate::server::core::map_item::{MapItemType};
 
 use crate::server::Server;
 use crate::server::service::battle_service::BattleService;
@@ -153,10 +153,10 @@ impl Server {
             }
             for (_, map) in server_ref.maps.iter() {
                 for instance in map.instances() {
-                    instance.notify_event(SpawnMobs);
-                    instance.notify_event(UpdateMobsFov(characters.iter().map(|(_, character)| character.to_map_item_snapshot()).collect()));
+                    instance.notify_event(MapEvent::SpawnMobs);
+                    instance.notify_event(MapEvent::UpdateMobsFov(characters.iter().map(|(_, character)| character.to_map_item_snapshot()).collect()));
                     if last_mobs_action.elapsed().as_secs() > 2 {
-                        instance.notify_event(MobsActions);
+                        instance.notify_event(MapEvent::MobsActions);
                         last_mobs_action = Instant::now();
                     }
                 }
@@ -184,8 +184,10 @@ impl Server {
             };
             let target_position = server_ref.map_item_x_y(&map_item, character.current_map_name(), character.current_map_instance()).unwrap();
             let is_in_range = range >= manhattan_distance(character.x, character.y, target_position.x, target_position.y);
+            let maybe_map_instance = server_ref.get_map_instance(character.current_map_name(), character.current_map_instance());
+            let map_instance = maybe_map_instance.as_ref().unwrap();
             if !is_in_range && !character.is_moving() {
-                let path = path_search_client_side_algorithm(server_ref.get_map_instance(character.current_map_name(), character.current_map_instance()).as_ref().unwrap(), character.x, character.y, target_position.x, target_position.y);
+                let path = path_search_client_side_algorithm(map_instance, character.x, character.y, target_position.x, target_position.y);
                 let path = Movement::from_path(path, tick);
                 let current_position = Position { x: character.x, y: character.y, dir: 0 };
                 debug!("Too far from target, moving from {} toward it: {}", current_position, target_position);
@@ -199,7 +201,12 @@ impl Server {
                 }));
             } else if is_in_range {
                 character.clear_movement();
-                BattleService::instance().attack(character, map_item, tick);
+                let maybe_damage = BattleService::instance().attack(character, map_item, tick);
+                if let Some(damage) = maybe_damage {
+                    if matches!(*map_item.object_type(), MapItemType::Mob) {
+                        map_instance.notify_event(MapEvent::MobDamage(MobDamage { mob_id: map_item.id(), damage, attacked_at: tick, attacker_id: character.char_id }))
+                    }
+                }
             }
         } else {
             character.clear_attack();
