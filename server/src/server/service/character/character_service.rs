@@ -140,7 +140,7 @@ impl CharacterService {
         self.client_notification_sender.send(Notification::Area(AreaNotification {
             map_name: character.current_map_name().clone(),
             map_instance_id: character.current_map_instance(),
-            range_type: AreaNotificationRangeType::Fov { x: character.x(), y: character.y() },
+            range_type: AreaNotificationRangeType::Fov { x: character.x(), y: character.y(), exclude_id: None },
             packet: packets
         })).expect("Fail to send client notification");
     }

@@ -34,7 +34,7 @@ pub struct AreaNotification {
 pub enum AreaNotificationRangeType {
     #[allow(dead_code)]
     Map, // Notify all players of the map,
-    Fov {x: u16, y: u16} // Notify all players in the FoV of the point.
+    Fov {x: u16, y: u16, exclude_id: Option<u32>} // Notify all players in the FoV of the point.
 }
 
 impl AreaNotification {

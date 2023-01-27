@@ -260,11 +260,12 @@ impl Server {
                         Notification::Area(area_notification) => {
                             match area_notification.range_type {
                                 AreaNotificationRangeType::Map => {}
-                                AreaNotificationRangeType::Fov { x, y } => {
+                                AreaNotificationRangeType::Fov { x, y, exclude_id } => {
                                     server_ref.characters.borrow().iter()
                                         .filter(|(_, character)| character.current_map_name() == &area_notification.map_name
                                             && character.current_map_instance() == area_notification.map_instance_id
                                             && manhattan_distance(character.x(), character.y(), x, y) <= PLAYER_FOV
+                                            && (exclude_id.is_none() || exclude_id.unwrap() != character.char_id)
                                         )
                                         .for_each(|(_, character)| {
                                             let tcp_stream = server_ref.get_map_socket_for_char_id(character.char_id).expect("Expect to found a socket for account");
