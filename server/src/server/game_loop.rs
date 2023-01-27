@@ -8,7 +8,7 @@ use tokio::runtime::Runtime;
 use packets::packets::{Packet, PacketZcNotifyPlayermove};
 use crate::PersistenceEvent;
 use crate::PersistenceEvent::SaveCharacterPosition;
-use crate::server::core::movement::Movement;
+use crate::server::core::movement::{Movable, Movement};
 use crate::server::core::path::{manhattan_distance, path_search_client_side_algorithm};
 use crate::server::core::position::Position;
 use crate::server::events::game_event::{CharacterMovement, GameEvent};

@@ -10,7 +10,7 @@ use enums::look::LookType;
 use enums::weapon::WeaponType;
 use crate::repository::model::item_model::{InventoryItemModel};
 use crate::server::core::action::Attack;
-use crate::server::core::movement::Movement;
+use crate::server::core::movement::{Movable, Movement};
 use crate::server::core::map_instance::{MapInstance, MapInstanceKey};
 use crate::server::core::position::Position;
 use crate::server::state::status::{Status};
@@ -40,6 +40,17 @@ pub struct Character {
 
 type InventoryIter<'a> = Box<dyn Iterator<Item=(usize, &'a InventoryItemModel)> + 'a>;
 
+impl Movable for Character {
+    fn movements_mut(&mut self) -> &mut Vec<Movement> {
+        &mut self.movements
+    }
+    fn movements(&self) -> &Vec<Movement> {
+        &self.movements
+    }
+    fn set_movement(&mut self, movements: Vec<Movement>) {
+        self.movements = movements;
+    }
+}
 impl Character {
     pub fn x(&self) -> u16 {
         self.x
@@ -52,29 +63,10 @@ impl Character {
         self.dir
     }
 
-    pub fn is_moving(&self) -> bool {
-        !self.movements.is_empty()
-    }
     pub fn is_attacking(&self) -> bool {
         self.attack.is_some()
     }
 
-    pub fn pop_movement(&mut self) -> Option<Movement> {
-        self.movements.pop()
-    }
-    pub fn peek_movement(&self) -> Option<&Movement> {
-        self.movements.last()
-    }
-    pub fn peek_mut_movement(&mut self) -> Option<&mut Movement> {
-        self.movements.last_mut()
-    }
-
-    pub fn set_movement(&mut self, movements: Vec<Movement>) {
-        self.movements = movements;
-    }
-    pub fn clear_movement(&mut self) {
-        self.movements = vec![];
-    }
     pub fn set_attack(&mut self, target_id: u32, repeat: bool, tick: u128) {
         self.attack = Some(Attack {
             target: target_id,

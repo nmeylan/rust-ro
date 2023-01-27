@@ -43,3 +43,25 @@ impl Movement {
         }
     }
 }
+
+pub trait Movable {
+    fn is_moving(&self) -> bool {
+        !self.movements().is_empty()
+    }
+    fn pop_movement(&mut self) -> Option<Movement> {
+        self.movements_mut().pop()
+    }
+    fn movements_mut(&mut self) -> &mut Vec<Movement>;
+    fn movements(&self) -> &Vec<Movement>;
+    fn peek_movement(&self) -> Option<&Movement> {
+        self.movements().last()
+    }
+    fn peek_mut_movement(&mut self) -> Option<&mut Movement> {
+        self.movements_mut().last_mut()
+    }
+
+    fn set_movement(&mut self, movements: Vec<Movement>);
+    fn clear_movement(&mut self) {
+        *self.movements_mut() = vec![];
+    }
+}

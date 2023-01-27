@@ -128,8 +128,8 @@ pub async fn main() {
     info!("load {} map-cache in {} secs", maps.len(), start.elapsed().as_millis() as f32 / 1000.0);
     let vm = Arc::new(Vm::new("native_functions_list.txt", DebugFlag::None.value()));
     Vm::bootstrap(vm.clone(), class_files, Box::new(&ScriptHandler{}));
-    let (client_notification_sender, single_client_notification_receiver) = std::sync::mpsc::sync_channel::<Notification>(0);
-    let (persistence_event_sender, persistence_event_receiver) = std::sync::mpsc::sync_channel::<PersistenceEvent>(0);
+    let (client_notification_sender, single_client_notification_receiver) = std::sync::mpsc::sync_channel::<Notification>(2048);
+    let (persistence_event_sender, persistence_event_receiver) = std::sync::mpsc::sync_channel::<PersistenceEvent>(2048);
     let server = Server::new(configs(), repository_arc.clone(), maps, map_item_ids, vm, client_notification_sender, persistence_event_sender.clone());
     let server_ref = Arc::new(server);
     let server_ref_clone = server_ref;
