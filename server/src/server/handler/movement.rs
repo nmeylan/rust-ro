@@ -43,7 +43,7 @@ pub fn handle_char_move(server: &Server, context: Request) {
     }
     // let maybe_previous_movement = character.peek_movement().cloned();
 
-    let path = path_search_client_side_algorithm(map_instance, current_position.x(), current_position.y(), destination.x, destination.y);
+    let path = path_search_client_side_algorithm(map_instance.as_ref(), current_position.x(), current_position.y(), destination.x, destination.y);
     let start_at = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis();
     if character.is_attacking() {
         let attack = character.attack();

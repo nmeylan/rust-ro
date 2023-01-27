@@ -18,6 +18,7 @@ use packets::packets::Packet;
 
 
 use std::sync::mpsc::SyncSender;
+use std::time::{SystemTime, UNIX_EPOCH};
 use rathena_script_lang_interpreter::lang::vm::Vm;
 use crate::MyUnsafeCell;
 use crate::server::events::map_event::MapEvent;
@@ -227,13 +228,14 @@ impl MapInstance {
     }
 
     pub fn mobs_action(&self) {
+        let start_time = get_tick_client();
+        let start_at = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis();
         let mut mob_movements: Vec<MobMovement> = Vec::with_capacity(self.mobs.borrow().len() / 2);
         for mob in self.mobs.borrow_mut().values_mut() {
-            if let Some(mob_movement) = mob.action_move(&self.cells, self.x_size, self.y_size) {
+            if let Some(mob_movement) = mob.action_move(self, &self.cells, self.x_size, self.y_size, start_at) {
                 mob_movements.push(mob_movement);
             }
         }
-        let start_time = get_tick_client();
         for mob_movement in mob_movements {
             let mut packet_zc_notify_move = PacketZcNotifyMove::default();
             packet_zc_notify_move.set_gid(mob_movement.id);

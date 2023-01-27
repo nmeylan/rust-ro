@@ -185,7 +185,7 @@ impl Server {
             let target_position = server_ref.map_item_x_y(&map_item, character.current_map_name(), character.current_map_instance()).unwrap();
             let is_in_range = range >= manhattan_distance(character.x, character.y, target_position.x, target_position.y);
             if !is_in_range && !character.is_moving() {
-                let path = path_search_client_side_algorithm(server_ref.get_map_instance(character.current_map_name(), character.current_map_instance()).clone().unwrap(), character.x, character.y, target_position.x, target_position.y);
+                let path = path_search_client_side_algorithm(server_ref.get_map_instance(character.current_map_name(), character.current_map_instance()).as_ref().unwrap(), character.x, character.y, target_position.x, target_position.y);
                 let path = Movement::from_path(path, tick);
                 let current_position = Position { x: character.x, y: character.y, dir: 0 };
                 debug!("Too far from target, moving from {} toward it: {}", current_position, target_position);
