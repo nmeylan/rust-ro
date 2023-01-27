@@ -28,6 +28,7 @@ use crate::server::map_item::ToMapItem;
 use crate::server::npc::mob_spawn::MobSpawn;
 use crate::server::npc::warps::Warp;
 use crate::server::Server;
+use crate::server::service::global_config_service::GlobalConfigService;
 use crate::util::cell::MyUnsafeCell;
 use crate::util::coordinate;
 
@@ -329,17 +330,25 @@ impl Map {
         info!("Start thread for {}", map_instance.name);
         thread::Builder::new().name(format!("map_instance_{}_event_thread", map_instance.name))
             .spawn(move || {
+                let map_instance = map_instance_clone_for_thread;
                 loop {
                     for event in single_map_event_notification_receiver.iter() {
+                        let now = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis();
                         match event {
                             MapEvent::SpawnMobs => {
-                                map_instance_clone_for_thread.spawn_mobs();
+                                map_instance.spawn_mobs();
                             }
                             MapEvent::UpdateMobsFov(characters) => {
-                                map_instance_clone_for_thread.update_mobs_fov(characters)
+                                map_instance.update_mobs_fov(characters)
                             }
                             MapEvent::MobsActions => {
-                                map_instance_clone_for_thread.mobs_action()
+                                map_instance.mobs_action()
+                            }
+                            MapEvent::MobDamage(mob_damage) => {
+                                let mut mobs = map_instance.mobs.borrow_mut();
+                                let mut mob = mobs.get_mut(&mob_damage.mob_id).unwrap();
+                                mob.add_attack(mob_damage.attacker_id, mob_damage.damage);
+                                mob.last_attacked_at = now;
                             }
                         }
                     }
@@ -353,10 +362,16 @@ impl Map {
                     for mob in mobs.values_mut().filter(|mob| mob.is_moving()) {
                         let speed = mob.status.speed;
                         if let Some(movement) = mob.peek_movement() {
+                            let mob_model = GlobalConfigService::instance().get_mob(mob.mob_id as i32);
                             if tick >= movement.move_at() {
+                                if (tick < mob.last_attacked_at + (mob_model.damage_motion as u128)) {
+                                    info!("Mob delayed movement because he is attacked");
+                                    continue;
+                                }
                                 let movement = mob.pop_movement().unwrap();
                                 debug!("mob move {} at {}", movement.position(), movement.move_at());
                                 mob.update_position(movement.position().x, movement.position().y);
+
                                 if let Some(next_movement) = mob.peek_mut_movement() {
                                     next_movement.set_move_at(tick + Movement::delay(speed, next_movement.is_diagonal()))
                                 }

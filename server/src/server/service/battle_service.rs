@@ -113,7 +113,7 @@ impl BattleService {
         rng.u32(((source.status.dex as f32 * (0.8 + 0.2 * weapon_level as f32)).round() as u32).min(weapon_attack)..=weapon_attack)
     }
 
-    pub fn attack(&self, character: &mut Character, target: MapItem, tick: u128) {
+    pub fn attack(&self, character: &mut Character, target: MapItem, tick: u128) -> Option<u32> {
         let attack = character.attack();
         if !attack.repeat { // one shot attack
             character.clear_attack();
@@ -121,7 +121,7 @@ impl BattleService {
         let attack_motion = StatusService::instance().attack_motion(character);
 
         if tick < attack.last_attack_tick + attack_motion as u128 {
-            return;
+            return None;
         }
 
         character.update_last_attack_tick(tick);
@@ -134,6 +134,7 @@ impl BattleService {
         packet_zc_notify_act3.set_attacked_mt(attack_motion as i32);
         let damage = if matches!(target.object_type(), MapItemType::Mob) {
             let mob = self.configuration_service.get_mob(target.client_item_class() as i32);
+            packet_zc_notify_act3.set_attacked_mt(mob.damage_motion);
             self.damage_character_attack_monster_melee(character, mob)
         } else {
             0
@@ -142,5 +143,6 @@ impl BattleService {
         packet_zc_notify_act3.set_count(1);
         packet_zc_notify_act3.fill_raw();
         self.client_notification_sender.send(Notification::Area(AreaNotification::new(character.current_map_name().clone(), character.current_map_instance(), AreaNotificationRangeType::Fov { x: character.x, y: character.y }, mem::take(packet_zc_notify_act3.raw_mut())))).expect("Failed to send notification to client");
+        Some(damage)
     }
 }
