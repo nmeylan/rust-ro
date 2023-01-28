@@ -111,3 +111,12 @@ impl PartialEq<Self> for MapItem {
 }
 
 impl Eq for MapItem{}
+
+
+pub trait ToMapItem {
+    fn to_map_item(&self) -> MapItem;
+}
+
+pub trait ToMapItemSnapshot {
+    fn to_map_item_snapshot(&self) -> MapItemSnapshot;
+}

@@ -1,15 +1,15 @@
-use std::sync::{Arc, Once};
+use std::sync::{Once};
 use std::sync::mpsc::SyncSender;
-use regex::internal::Char;
+
 
 
 use enums::status::StatusTypes;
 use enums::weapon::WeaponType;
 use crate::enums::EnumWithStringValue;
 use packets::packets::{PacketZcAttackRange, PacketZcParChange, PacketZcStatusValues};
-use crate::repository::model::item_model::ItemModel;
-use crate::repository::Repository;
-use crate::server::core::configuration::Config;
+
+
+
 use crate::server::events::client_notification::{CharNotification, Notification};
 use crate::server::events::persistence_event::PersistenceEvent;
 
@@ -189,8 +189,8 @@ impl StatusService {
     ///Not counting the value of WeaponAtk and AtkBonusCards, this true value is often referred to as the base damage. This base damage is basically the your Atk with bare fists.
     pub fn status_atk_left_side(&self, character: &Character) -> i32 {
         let imposito_magnus = 0;
-        let upgrade_damage = 0;
-        let atk_cards = 0;
+        let _upgrade_damage = 0;
+        let _atk_cards = 0;
         (self.fist_atk(character) + self.weapon_atk(character) + imposito_magnus + self.weapon_upgrade_damage(character) + self.atk_cards(character)) as i32
     }
 
@@ -245,7 +245,7 @@ impl StatusService {
     /// UI right side atk in status info panel
     /// https://web.archive.org/web/20060717223009/http://rodatazone.simgaming.net/mechanics/substats.php
     /// https://web.archive.org/web/20060717222819/http://rodatazone.simgaming.net/items/upgrading.php
-    pub fn status_atk_right_side(&self, character: &Character) -> i32 {
+    pub fn status_atk_right_side(&self, _character: &Character) -> i32 {
         // TODO: it is refinement damage. do not mix with refinement bonus which refers to random additional atk for over upgrade
         // refinement
         //    Weapon Lv. 1 - Every +1 upgrade gives +2 ATK (+1~3 ATK for every overupgrade).
@@ -265,7 +265,7 @@ impl StatusService {
         vit + rng.u32(0..(((vit as f32 / 20.0).floor() as u32) ^ 2) as u32 - 1)
     }
     /// [VIT*0.5] + rnd([VIT*0.3], max([VIT*0.3],[VIT^2/150]-1)).
-    pub fn character_vit_def(&self, vit: u32) -> u32 {
+    pub fn character_vit_def(&self, _vit: u32) -> u32 {
         0
     }
 }

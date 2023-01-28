@@ -17,6 +17,7 @@ use crate::server::events::game_event::{CharacterRemoveFromMap, GameEvent};
 use crate::server::events::game_event::GameEvent::CharacterInitInventory;
 use crate::server::script::ScriptGlobalVariableStore;
 use crate::server::Server;
+use crate::server::service::server_service::ServerService;
 
 use crate::server::state::character::Character;
 use crate::server::state::status::Status;
@@ -26,7 +27,8 @@ use crate::util::tick::get_tick_client;
 
 pub fn handle_char_enter(server: &Server, context: Request) {
     let packet_char_enter = cast!(context.packet(), PacketChEnter);
-    let mut sessions_guard = write_lock!(server.sessions);
+    let server_state = server.state();
+    let mut sessions_guard = write_lock!(server_state.sessions());
 
     if sessions_guard.contains_key(&packet_char_enter.aid) {
         let session = sessions_guard.get(&packet_char_enter.aid).unwrap();
@@ -50,7 +52,7 @@ pub fn handle_char_enter(server: &Server, context: Request) {
             return;
         }
         // should not happen, but in case of forged packet, remove session
-        server.remove_session(packet_char_enter.aid);
+        server.state().remove_session(packet_char_enter.aid);
     }
     let mut res = PacketHcRefuseEnter::new();
     res.set_error_code(0);
@@ -213,7 +215,7 @@ pub fn handle_select_char(server: &Server, context: Request) {
             .bind(packet_select_char.char_num as i16)
             .fetch_one(&server.repository.pool).await.unwrap()
     });
-    let mut sessions_guard = write_lock!(server.sessions);
+    let mut sessions_guard = write_lock!(server.state().sessions());
     let _session = sessions_guard.get(&session_id).unwrap();
     let char_id: u32 = char_model.char_id as u32;
     let last_x: u16 = char_model.last_x as u16;
@@ -243,7 +245,7 @@ pub fn handle_select_char(server: &Server, context: Request) {
     let session = Arc::new(context.session().recreate_with_character(char_id));
     let mut map_name = [0 as char; 16];
     character.current_map_name().fill_char_array(map_name.as_mut());
-    server.insert_character(character);
+    server.state_mut().insert_character(character);
     sessions_guard.insert(session_id, session);
     if server.packetver() < 20170329 {
         let mut packet_ch_send_map_info = PacketHcNotifyZonesvr::new();
@@ -279,7 +281,7 @@ pub fn handle_enter_game(server: &Server, context: Request) {
         error!("Not recognized PacketCzEnterX");
         return;
     }
-    let mut sessions_guard = write_lock!(server.sessions);
+    let mut sessions_guard = write_lock!(server.state().sessions());
     let session = sessions_guard.get(&aid);
     if session.is_none() {
         write_lock!(context.socket()).shutdown(Both).expect("Unable to shutdown incoming socket. Shutdown was done because session does not exists");
@@ -288,7 +290,7 @@ pub fn handle_enter_game(server: &Server, context: Request) {
     let session = session.unwrap();
     if auth_code != session.auth_code {
         write_lock!(context.socket()).shutdown(Both).expect("Unable to shutdown incoming socket. Shutdown was done because packet auth_code mismatching session auth_code");
-        server.remove_session(aid);
+        server.state().remove_session(aid);
         return;
     }
     let session = Arc::new(session.recreate_with_map_socket(context.socket()));
@@ -306,7 +308,7 @@ pub fn handle_enter_game(server: &Server, context: Request) {
     let mut packet_overweight_percent = PacketZcOverweightPercent::new();
     packet_overweight_percent.fill_raw();
     let char_id = session.char_id();
-    let character = server.get_character_unsafe(char_id);
+    let character = server.state().get_character_unsafe(char_id);
     let mut packet_accept_enter = PacketZcAcceptEnter2::new();
     packet_accept_enter.set_start_time(get_tick_client());
     packet_accept_enter.set_x_size(5); // Commented as not used, set at 5 in Hercules
@@ -315,7 +317,7 @@ pub fn handle_enter_game(server: &Server, context: Request) {
     packet_accept_enter.set_pos_dir(Position { x: character.x(), y: character.y(), dir: character.dir() }.to_pos());
     packet_accept_enter.fill_raw();
 
-    server.schedule_warp_to_walkable_cell(&Map::name_without_ext(character.current_map_name()), character.x(), character.y(), session.char_id());
+    ServerService::instance().schedule_warp_to_walkable_cell(server.state_mut().as_mut(), &Map::name_without_ext(character.current_map_name()), character.x(), character.y(), session.char_id());
     socket_send!(context, packet_accept_enter);
 
 
@@ -336,12 +338,11 @@ pub fn handle_enter_game(server: &Server, context: Request) {
 pub fn handle_restart(server: &Server, context: Request) {
     let packet_restart = cast!(context.packet(), PacketCzRestart);
     let session_id = context.session().account_id;
-    let mut sessions_guard = write_lock!(server.sessions);
+    let mut sessions_guard = write_lock!(server.state().sessions());
     let session = sessions_guard.get(&session_id).unwrap();
     let char_id = session.char_id();
-    let character_ref = server.get_character_from_context_unsafe(&context);
+    let character_ref = server.state().get_character_from_context_unsafe(&context);
     server.add_to_next_tick(GameEvent::CharacterRemoveFromMap(CharacterRemoveFromMap{char_id, map_name: character_ref.current_map_name().clone(), instance_id: character_ref.current_map_instance()}));
-    drop(character_ref);
     let session = sessions_guard.get(&session_id).unwrap();
     let session = Arc::new(session.recreate_without_character());
     sessions_guard.insert(session_id, session);
@@ -355,10 +356,9 @@ pub fn handle_restart(server: &Server, context: Request) {
 pub fn handle_disconnect(server: &Server, context: Request) {
     let session = context.session();
     let char_id = session.char_id();
-    let character_ref = server.get_character_from_context_unsafe(&context);
+    let character_ref = server.state().get_character_from_context_unsafe(&context);
     server.add_to_next_tick(GameEvent::CharacterRemoveFromMap(CharacterRemoveFromMap{char_id, map_name: character_ref.current_map_name().clone(), instance_id: character_ref.current_map_instance()}));
-    drop(character_ref);
-    server.remove_session(session.account_id);
+    server.state().remove_session(session.account_id);
 
     let mut disconnect_ack = PacketZcReqDisconnectAck2::new();
     disconnect_ack.fill_raw();

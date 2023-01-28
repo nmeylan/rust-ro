@@ -30,7 +30,7 @@ pub(crate) fn handle_login(server: Arc<Server>, context: Request) {
             return;
         }
         let new_user_session = Session::create_empty(packet_response.aid, packet_response.auth_code, packet_response.user_level, packet_ca_login.version); // TODO: packetver find solution to allow client to set packetver
-        let mut sessions_guard = write_lock!(server.sessions);
+        let mut sessions_guard = write_lock!(server.state().sessions());
         sessions_guard.insert(packet_response.aid, Arc::new(new_user_session));
         socket_send!(context, res);
     } else if res.as_any().downcast_ref::<PacketAcAcceptLogin>().is_some() {
@@ -41,7 +41,7 @@ pub(crate) fn handle_login(server: Arc<Server>, context: Request) {
             return;
         }
         let new_user_session = Session::create_empty(packet_response.aid, packet_response.auth_code, packet_response.user_level, packet_ca_login.version); // TODO: packetver find solution to allow client to set packetver
-        let mut sessions_guard = write_lock!(server.sessions);
+        let mut sessions_guard = write_lock!(server.state().sessions());
         sessions_guard.insert(packet_response.aid, Arc::new(new_user_session));
         socket_send!(context, res);
     } else {

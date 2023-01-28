@@ -17,8 +17,8 @@ fn before_each() -> BattleServiceTestContext {
     let (persistence_event_sender, persistence_event_receiver) = create_mpsc::<PersistenceEvent>();
     let status_service =  StatusService::new(client_notification_sender.clone(), persistence_event_sender.clone(), GlobalConfigService::instance());
     BattleServiceTestContext {
-        test_context: TestContext { client_notification_sender: client_notification_sender.clone(), persistence_event_sender: persistence_event_sender.clone(), client_notification_receiver, persistence_event_receiver },
-        battle_service: BattleService::new(client_notification_sender.clone(), status_service, GlobalConfigService::instance()),
+        test_context: TestContext { client_notification_sender: client_notification_sender.clone(), persistence_event_sender, client_notification_receiver, persistence_event_receiver },
+        battle_service: BattleService::new(client_notification_sender, status_service, GlobalConfigService::instance()),
     }
 }
 
@@ -43,7 +43,7 @@ mod tests {
             character.status.str = stat.str;
             character.status.dex = stat.dex;
             character.status.luk = stat.luk;
-            if stat.weapon != "" {
+            if !stat.weapon.is_empty() {
                 equip_item(&mut character, stat.weapon);
             }
             // When

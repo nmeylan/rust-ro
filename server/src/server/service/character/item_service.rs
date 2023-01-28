@@ -10,7 +10,7 @@ use tokio::sync::mpsc;
 
 use packets::packets::PacketZcUseItemAck2;
 use crate::repository::{ItemRepository, Repository};
-use crate::server::core::configuration::Config;
+
 use crate::server::events::client_notification::{CharNotification, Notification};
 use crate::server::events::game_event::{CharacterUseItem};
 use crate::server::events::persistence_event::{DeleteItems, PersistenceEvent};
@@ -72,7 +72,7 @@ impl ItemService {
                 if maybe_script_ref.is_some() {
                     let script = maybe_script_ref.as_ref().unwrap();
                     let (tx, rx) = mpsc::channel(1);
-                    let session = server_ref.get_session(character.account_id);
+                    let session = server_ref.state().get_session(character.account_id);
                     session.set_script_handler_channel_sender(tx);
                     let script_result = Vm::repl(server_ref.vm.clone(), script,
                                                  Box::new(&PlayerScriptHandler {

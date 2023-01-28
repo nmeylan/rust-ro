@@ -11,6 +11,7 @@ pub mod weapon;
 pub mod skills;
 pub mod look;
 pub mod vanish;
+pub mod map;
 
 pub trait EnumWithStringValue {
     fn try_from_string(value: &str) -> Result<Self, String> where Self: Sized;

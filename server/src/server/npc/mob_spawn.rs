@@ -2,15 +2,17 @@ use std::collections::HashMap;
 use std::fs::File;
 use std::io::{BufRead, BufReader};
 use std::path::Path;
-use std::sync::Arc;
+
 use std::thread;
 use std::thread::JoinHandle;
 use std::time::Instant;
 use tokio::runtime::Runtime;
-use crate::repository::Repository;
+
 use crate::repository::model::mob_model::MobModel;
+use crate::server::core::configuration::Config;
 use crate::server::npc::{Npc, NpcLoader};
-use crate::server::service::global_config_service::GlobalConfigService;
+
+
 
 static PARALLEL_EXECUTIONS: usize = 1;
 // TODO add a conf for this
@@ -92,7 +94,7 @@ impl MobSpawn {
 }
 
 impl Npc for MobSpawn {
-    fn parse_npc(file: &File) -> Result<Vec<Self>, String> {
+    fn parse_npc(file: &File, config: &'static Config) -> Result<Vec<Self>, String> {
         let reader = BufReader::new(file);
         let mut mob_spawns = Vec::<MobSpawn>::new();
         let mut i = 0_u32;
@@ -140,7 +142,7 @@ impl Npc for MobSpawn {
                 return Err(format!("{}: {} {}", line, spawn_info[0], result.err().unwrap()));
             }
             mob_spawn.set_mob_id(result.unwrap());
-            mob_spawn.set_to_spawn_amount((spawn_info[1].parse::<i16>().unwrap() as f32 * GlobalConfigService::instance().config().game.mob_density) as i16);
+            mob_spawn.set_to_spawn_amount((spawn_info[1].parse::<i16>().unwrap() as f32 * config.game.mob_density) as i16);
             if mob_info.len() >= 3 {
                 mob_spawn.set_fixed_delay_in_ms(spawn_info[2].parse::<u32>().unwrap());
             }
@@ -160,7 +162,7 @@ impl Npc for MobSpawn {
 }
 
 impl MobSpawn {
-    pub fn load_mob_spawns() -> JoinHandle<HashMap<String, Vec<MobSpawn>>> {
+    pub fn load_mob_spawns(config: &'static Config, mobs: HashMap<u32, MobModel>) -> JoinHandle<HashMap<String, Vec<MobSpawn>>> {
         thread::spawn(move ||{
             let runtime = Runtime::new().unwrap();
             let start = Instant::now();
@@ -168,10 +170,10 @@ impl MobSpawn {
                 conf_file: File::open(Path::new(MOB_CONF_PATH)).unwrap(),
                 parallel_execution: PARALLEL_EXECUTIONS,
             };
-            let mut mob_spawns = runtime.block_on(async { npc_loader.load_npc::<MobSpawn>().await });
+            let mut mob_spawns = runtime.block_on(async { npc_loader.load_npc::<MobSpawn>(config).await });
             mob_spawns.iter_mut().for_each(|(_, spawns)| {
                 spawns.iter_mut().for_each(|mob_spawn| {
-                    let mob_info = GlobalConfigService::instance().get_mob(mob_spawn.mob_id as i32);
+                    let mob_info = mobs.get(&(mob_spawn.mob_id as u32)).unwrap_or_else(|| panic!("Can't find mob information for mob id {}", mob_spawn.mob_id));
                     mob_spawn.set_info(mob_info.clone());
                 });
             });

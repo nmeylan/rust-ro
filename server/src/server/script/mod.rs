@@ -27,6 +27,8 @@ use skill::SkillService;
 use crate::repository::ItemRepository;
 use crate::server::service::character::character_service::CharacterService;
 use crate::server::service::global_config_service::GlobalConfigService;
+use crate::server::service::script_service::ScriptService;
+use crate::server::service::server_service::ServerService;
 use crate::util::string::StringUtil;
 
 mod global_variable_handler;
@@ -255,7 +257,7 @@ impl NativeMethodHandler for PlayerScriptHandler {
                 // TODO
                 panic!("getlook with char_id not yet supported")
             } else {
-                self.server.get_character_unsafe(self.session.char_id())
+                self.server.state().get_character_unsafe(self.session.char_id())
             };
             let look_value = char.get_look(LookType::from_value(look_type as usize));
             execution_thread.push_constant_on_stack(value::Value::new_number(look_value as i32));
@@ -275,7 +277,7 @@ impl NativeMethodHandler for PlayerScriptHandler {
                 // TODO
                 panic!("setlook with char_id not yet supported")
             } else {
-                self.server.get_character_unsafe(self.session.char_id())
+                self.server.state().get_character_unsafe(self.session.char_id())
             };
             let char_info = match info_type {
                 0 => value::Value::new_string(char.name.clone()),
@@ -325,7 +327,7 @@ impl NativeMethodHandler for PlayerScriptHandler {
             } else {
                 self.session.clone()
             };
-            self.server.schedule_warp_to_walkable_cell(map_name, x as u16, y as u16, session.char_id());
+            ServerService::instance().schedule_warp_to_walkable_cell(self.server.state_mut().as_mut(),map_name, x as u16, y as u16, session.char_id());
         } else if native.name.eq("sprintf") {
             let template = params[0].string_value().unwrap();
             let mut sprintf_args: Vec<&dyn Printf> = vec![];
@@ -371,7 +373,7 @@ impl NativeMethodHandler for PlayerScriptHandler {
                 }
             });
 
-            self.server.schedule_get_items(self.session.char_id(), &self.runtime, items_ids_amount, true);
+            ScriptService::instance().schedule_get_items(self.session.char_id(), &self.runtime, items_ids_amount, true);
         } else if native.name.eq("checkweight2") {
             let (owner_reference, reference) = params[0].reference_value().map_err(|err|
                 execution_thread.new_runtime_from_temporary(err, "purchaseitems first argument should be array reference")).unwrap();
@@ -392,8 +394,8 @@ impl NativeMethodHandler for PlayerScriptHandler {
                 self.server.repository.get_weight(items_ids).await.unwrap().iter().for_each(|(id, weight)| {
                     items_total_weight += weight * (items_ids_amount.iter().find(|(iid, _amount)| *iid == *id).unwrap_or(&(*id, 0_i16)).1 as i32)
                 });
-                let character_ref = self.server.get_character_unsafe(self.session.char_id());
-                execution_thread.push_constant_on_stack(value::Value::new_number(if CharacterService::instance().check_weight(character_ref.as_ref(), items_total_weight as u32) { 1 } else { 0 }));
+                let character_ref = self.server.state().get_character_unsafe(self.session.char_id());
+                execution_thread.push_constant_on_stack(value::Value::new_number(if CharacterService::instance().check_weight(character_ref, items_total_weight as u32) { 1 } else { 0 }));
             });
         } else if native.name.eq("itemskill") {
             let skill_id = params[0].number_value().map_or(None, |id| Some(id as i32));

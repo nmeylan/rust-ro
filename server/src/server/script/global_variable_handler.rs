@@ -22,8 +22,8 @@ impl PlayerScriptHandler {
         match variable_scope.as_str() {
             "char_permanent" => {
                 let char_id = self.session.char_id();
-                let character = self.server.get_character_unsafe(char_id);
-                if self.store_special_char_variable(&character, variable_name, &value) {
+                let character = self.server.state().get_character_unsafe(char_id);
+                if self.store_special_char_variable(character, variable_name, &value) {
                     return;
                 }
                 if value.is_number() {
@@ -48,7 +48,7 @@ impl PlayerScriptHandler {
             }
             "char_temporary" => {
                 let char_id = self.session.char_id();
-                let character = self.server.get_character_unsafe(char_id);
+                let character = self.server.state().get_character_unsafe(char_id);
                 let mut script_variable_store = character.script_variable_store.lock().unwrap();
                 let value = match value {
                     Value::String(v) => crate::server::script::Value::String(v.unwrap()),
@@ -73,8 +73,8 @@ impl PlayerScriptHandler {
                     return;
                 }
                 let char_id = self.session.char_id();
-                let character = self.server.get_character_unsafe(char_id);
-                if let Some(value) = Self::load_special_char_variable(&character, variable_name) {
+                let character = self.server.state().get_character_unsafe(char_id);
+                if let Some(value) = Self::load_special_char_variable(character, variable_name) {
                     execution_thread.push_constant_on_stack(value);
                     return;
                 }
@@ -101,7 +101,7 @@ impl PlayerScriptHandler {
             }
             "char_temporary" => {
                 let char_id = self.session.char_id();
-                let character = self.server.get_character_unsafe(char_id);
+                let character = self.server.state().get_character_unsafe(char_id);
                 let script_variable_store = character.script_variable_store.lock().unwrap();
                 let entry = script_variable_store.find_global_by_name_and_scope(variable_name, &GlobalVariableScope::CharTemporary);
                 if let Some(entry) = entry {
@@ -124,7 +124,7 @@ impl PlayerScriptHandler {
         let variable_name = params[0].string_value().unwrap();
         let variable_scope = params[1].string_value().unwrap();
         let char_id = self.session.char_id();
-        let character = self.server.get_character_unsafe(char_id);
+        let character = self.server.state().get_character_unsafe(char_id);
         let mut char_temporary_mutex = if variable_scope == "char_temporary" {
             Some(character.script_variable_store.lock().unwrap())
         } else {
@@ -182,7 +182,7 @@ impl PlayerScriptHandler {
         let end_index = params[3].number_value().unwrap();
         if variable_scope == "char_temporary" {
             let char_id = self.session.char_id();
-            let character = self.server.get_character_unsafe(char_id);
+            let character = self.server.state().get_character_unsafe(char_id);
             let mut script_variable_store = character.script_variable_store.lock().unwrap();
             for i in start_index..end_index {
                 script_variable_store.remove_global_by_name_and_scope_and_index(variable_name, &GlobalVariableScope::CharTemporary, i as usize);
@@ -196,7 +196,7 @@ impl PlayerScriptHandler {
         let variable_scope = params[1].string_value().unwrap();
 
         let char_id = self.session.char_id();
-        let character = self.server.get_character_unsafe(char_id);
+        let character = self.server.state().get_character_unsafe(char_id);
         let mut char_temporary_mutex = if variable_scope == "char_temporary" {
             Some(character.script_variable_store.lock().unwrap())
         } else {
