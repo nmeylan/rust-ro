@@ -16,6 +16,9 @@ use crate::server::events::game_event::{CharacterChangeJob, CharacterChangeJobLe
 use crate::server::script::Value;
 use crate::server::Server;
 use crate::server::service::character::character_service::CharacterService;
+use crate::server::service::global_config_service::GlobalConfigService;
+use crate::server::service::script_service::ScriptService;
+use crate::server::service::server_service::ServerService;
 
 
 
@@ -139,13 +142,13 @@ pub fn handle_go(server: &Server, session: Arc<Session>, _runtime: &Runtime, arg
         _ => ()
     }
 
-    server.schedule_warp_to_walkable_cell(&city.name, city.x, city.y, session.char_id());
+    ServerService::instance().schedule_warp_to_walkable_cell(server.state_mut().as_mut(),&city.name, city.x, city.y, session.char_id());
     format!("Warping at {} {},{}", city.name.clone(), city.x, city.y)
 }
 
 pub fn handle_warp(server: &Server, session: Arc<Session>, _runtime: &Runtime, args: Vec::<&str>) -> String {
     let map_name = args[0].to_string();
-    if server.maps.contains_key(&map_name) {
+    if GlobalConfigService::instance().maps().contains_key(&map_name) {
         let mut x = RANDOM_CELL.0;
         let mut y = RANDOM_CELL.1;
         if args.len() > 2 {
@@ -158,19 +161,19 @@ pub fn handle_warp(server: &Server, session: Arc<Session>, _runtime: &Runtime, a
                 y = parse_y_res;
             }
         }
-        server.schedule_warp_to_walkable_cell(&map_name, x, y, session.char_id());
+        ServerService::instance().schedule_warp_to_walkable_cell(server.state_mut().as_mut(), &map_name, x, y, session.char_id());
         let char_id = session.char_id();
-        let character = server.get_character_unsafe(char_id);
+        let character = server.state().get_character_unsafe(char_id);
         return format!("Warp to map {} at {},{}", map_name, character.x(), character.y());
     }
     format!("Map not found: {}", map_name)
 }
 
-pub fn handle_item(server: &Server, session: Arc<Session>, runtime: &Runtime, args: Vec::<&str>) -> String {
+pub fn handle_item(_server: &Server, session: Arc<Session>, runtime: &Runtime, args: Vec::<&str>) -> String {
     if args.is_empty() {
         return format!("@item command accept from 1 to 2 parameters but received {}", args.len());
     }
-    server.schedule_get_items(session.char_id(), runtime, vec![
+    ScriptService::instance().schedule_get_items(session.char_id(), runtime, vec![
         (args[0].parse::<i32>().map(Value::Number).unwrap_or(Value::String(args[0].to_string())),
          args.get(1).unwrap_or(&"1").parse::<i16>().unwrap_or(1))], false);
 
@@ -179,8 +182,8 @@ pub fn handle_item(server: &Server, session: Arc<Session>, runtime: &Runtime, ar
 
 pub fn handle_inspect(server: &Server, session: Arc<Session>, _runtime: &Runtime, _args: Vec::<&str>) -> String {
     let char_id = session.char_id();
-    let character = server.get_character_unsafe(char_id);
-    CharacterService::instance().print(character.as_ref());
+    let character = server.state().get_character_unsafe(char_id);
+    CharacterService::instance().print(character);
     String::new()
 }
 

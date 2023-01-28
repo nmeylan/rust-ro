@@ -4,16 +4,16 @@ use std::io::Write;
 use std::sync::mpsc::SyncSender;
 use std::sync::{Arc, Once};
 use tokio::runtime::Runtime;
-use enums::action::ActionType;
+
 use enums::class::JobName;
 use enums::item::EquipmentLocation;
 use enums::look::LookType;
 use enums::status::StatusTypes;
-use enums::weapon::WeaponType;
+
 use crate::enums::EnumWithNumberValue;
 use crate::enums::EnumWithMaskValue;
-use crate::enums::EnumWithStringValue;
-use packets::packets::{Packet, PacketZcLongparChange, PacketZcNotifyAct, PacketZcNotifyStandentry7, PacketZcNotifyVanish, PacketZcNpcackMapmove, PacketZcParChange, PacketZcSpriteChange2};
+
+use packets::packets::{Packet, PacketZcLongparChange, PacketZcNotifyStandentry7, PacketZcNotifyVanish, PacketZcNpcackMapmove, PacketZcParChange, PacketZcSpriteChange2};
 use crate::repository::model::item_model::InventoryItemModel;
 use crate::repository::{CharacterRepository, Repository};
 use crate::server::events::game_event::{CharacterChangeMap, CharacterLook, CharacterZeny};
@@ -25,12 +25,13 @@ use crate::server::events::client_notification::{AreaNotification, AreaNotificat
 use crate::server::events::persistence_event::{PersistenceEvent, SavePositionUpdate, StatusUpdate};
 use crate::server::events::persistence_event::PersistenceEvent::SaveCharacterPosition;
 use crate::server::{PLAYER_FOV, Server};
-use crate::server::core::map_instance::MapInstance;
+
 use crate::server::service::global_config_service::GlobalConfigService;
 
-use crate::server::service::status_service::StatusService;
+
 
 use crate::server::state::character::Character;
+use crate::server::state::map_instance::MapInstanceState;
 use crate::util::packet::chain_packets;
 use crate::util::string::StringUtil;
 
@@ -95,8 +96,9 @@ impl CharacterService {
         stdout.flush().unwrap();
     }
 
-    pub fn change_map(&self, map_instance: Arc<MapInstance>, event: &CharacterChangeMap, character: &mut Character) {
-        character.join_and_set_map(map_instance);
+    pub fn change_map(&self, map_instance_state: &MapInstanceState, event: &CharacterChangeMap, character: &mut Character) {
+        character.set_current_map_with_key(map_instance_state.key().clone());
+        character.movements = vec![];
         let mut packet_zc_npcack_mapmove = PacketZcNpcackMapmove::new();
 
         let mut new_current_map: [char; 16] = [0 as char; 16];
@@ -220,15 +222,10 @@ impl CharacterService {
         self.change_sprite(character, LookType::Job, character.status.job as u16, 0);
     }
 
-    pub fn load_units_in_fov(&self, server: &Server, character: &mut Character) {
-        let map_instance = server.get_map_instance(character.current_map_name(), character.current_map_instance());
-        if map_instance.is_none() {
-            return;
-        }
-        let map_instance = map_instance.unwrap();
+    pub fn load_units_in_fov(&self, server: &Server, character: &mut Character, map_instance_state: &MapInstanceState) {
         let mut new_map_view: HashSet<MapItem> = HashSet::with_capacity(2048);
-        for (_, item) in map_instance.map_items.borrow().iter() {
-            if let Some(position) = server.map_item_x_y(item, character.current_map_name(), character.current_map_instance()) {
+        for (_, item) in map_instance_state.map_items().iter() {
+            if let Some(position) = server.state().map_item_x_y(item, character.current_map_name(), character.current_map_instance()) {
                 if item.id() != character.char_id && manhattan_distance(character.x(), character.y(), position.x, position.y) <= PLAYER_FOV {
                     // info!("seeing {}", item.object_type());
                     new_map_view.insert(*item);
@@ -239,8 +236,8 @@ impl CharacterService {
         for map_item in new_map_view.iter() {
             if !character.map_view.contains(map_item) {
                 let default_name = "unknown".to_string();
-                let map_item_name = server.map_item_name(map_item, character.current_map_name(), character.current_map_instance()).unwrap_or(default_name);
-                let position = server.map_item_x_y(map_item, character.current_map_name(), character.current_map_instance()). unwrap();
+                let map_item_name = server.state().map_item_name(map_item, character.current_map_name(), character.current_map_instance()).unwrap_or(default_name);
+                let position = server.state().map_item_x_y(map_item, character.current_map_name(), character.current_map_instance()). unwrap();
                 debug!("See map_item {} at {},{}", map_item.object_type(), position.x(), position.y());
                 let mut name = [0 as char; 24];
                 map_item_name.fill_char_array(name.as_mut());
@@ -255,7 +252,7 @@ impl CharacterService {
                 match *map_item.object_type() {
                     MapItemType::Character => {}
                     MapItemType::Mob => {
-                        if let Some(mob) = map_instance.get_mob(map_item.id()) {
+                        if let Some(mob) = map_instance_state.get_mob(map_item.id()) {
                             packet_zc_notify_standentry.set_clevel(3);
                             packet_zc_notify_standentry.set_speed(mob.status.speed as i16);
                             packet_zc_notify_standentry.set_hp(mob.status.hp);
@@ -273,7 +270,7 @@ impl CharacterService {
 
         for map_item in character.map_view.iter() {
             if !new_map_view.contains(map_item) {
-                if let Some(position) = server.map_item_x_y(map_item, character.current_map_name(), character.current_map_instance()) {
+                if let Some(position) = server.state().map_item_x_y(map_item, character.current_map_name(), character.current_map_instance()) {
                     debug!("Vanish map_item {} at {},{}", map_item.object_type(), position.x(), position.y());
                     let mut packet_zc_notify_vanish = PacketZcNotifyVanish::new();
                     packet_zc_notify_vanish.set_gid(map_item.id());

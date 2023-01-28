@@ -10,7 +10,7 @@ use crate::server::core::map::{Map, RANDOM_CELL};
 use crate::server::events::client_notification::{AreaNotification, AreaNotificationRangeType, Notification};
 use crate::server::events::persistence_event::PersistenceEvent;
 use crate::server::Server;
-
+use crate::server::service::server_service::ServerService;
 
 
 static mut SERVICE_INSTANCE: Option<SkillService> = None;
@@ -37,7 +37,7 @@ impl SkillService {
 
     pub fn handle_skill(&self, server: &Server, skill: &SkillConfig, level: u32, _check_requirement: bool, source_char_id: u32) {
         let skill = Skill::from_name(skill.name.as_str());
-        let character_ref = server.get_character_unsafe(source_char_id);
+        let character_ref = server.state().get_character_unsafe(source_char_id);
         debug!("Handle skill {}, level {}", skill.to_name(), level);
         match skill {
             Skill::NvBasic => {}
@@ -67,7 +67,7 @@ impl SkillService {
             Skill::AlPneuma => {}
             Skill::AlTeleport => {
                 if level == 1 {
-                    server.schedule_warp_to_walkable_cell(Map::name_without_ext(character_ref.current_map_name().as_str()).as_str(), RANDOM_CELL.0, RANDOM_CELL.1, source_char_id);
+                    ServerService::instance().schedule_warp_to_walkable_cell(server.state_mut().as_mut(), Map::name_without_ext(character_ref.current_map_name().as_str()).as_str(), RANDOM_CELL.0, RANDOM_CELL.1, source_char_id);
                     let mut packet_zc_notify_vanish = PacketZcNotifyVanish::new();
                     packet_zc_notify_vanish.set_gid(character_ref.char_id);
                     packet_zc_notify_vanish.set_atype(VanishType::Teleport.value() as u8);

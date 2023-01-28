@@ -4,8 +4,8 @@ use std::fs::File;
 use std::path::Path;
 use std::io::{BufRead, BufReader};
 use std::time::Instant;
-use crate::server::core::map_item::{MapItem, MapItemType};
-use crate::server::map_item::ToMapItem;
+use crate::server::core::configuration::Config;
+use crate::server::core::map_item::{MapItem, MapItemType, ToMapItem};
 use crate::server::npc::{Npc, NpcLoader};
 
 static PARALLEL_EXECUTIONS: usize = 100; // TODO add a conf for this
@@ -26,7 +26,7 @@ pub struct Warp {
 }
 
 impl Npc for Warp {
-    fn parse_npc(file: &File) -> Result<Vec<Warp>, String> {
+    fn parse_npc(file: &File, _config: &'static Config) -> Result<Vec<Warp>, String> {
         let reader = BufReader::new(file);
         let mut warps = Vec::<Warp>::new();
         for line in reader.lines() {
@@ -89,13 +89,13 @@ impl Warp {
     }
 
 
-    pub async fn load_warps() -> HashMap<String, Vec<Warp>> {
+    pub async fn load_warps(config: &'static Config) -> HashMap<String, Vec<Warp>> {
         let start = Instant::now();
         let npc_loader = NpcLoader {
             conf_file: File::open(Path::new(WARP_CONF_PATH)).unwrap(),
             parallel_execution: PARALLEL_EXECUTIONS,
         };
-        let warps = npc_loader.load_npc::<Warp>().await;
+        let warps = npc_loader.load_npc::<Warp>(config).await;
         info!("load {} warps in {} secs", warps.iter().fold(0, |memo, curr| memo + curr.1.len()), start.elapsed().as_millis() as f32 / 1000.0);
         warps
     }

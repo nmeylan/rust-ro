@@ -1,12 +1,9 @@
-use std::sync::mpsc::SyncSender;
-use std::sync::Once;
 use crate::server::events::client_notification::Notification;
 use crate::server::events::persistence_event::PersistenceEvent;
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::service::status_service::StatusService;
 use crate::tests::common;
-use crate::tests::common::{create_mpsc, TEST_CONTEXT, TestContext};
-use crate::enums::{*};
+use crate::tests::common::{create_mpsc, TestContext};
 
 struct StatusServiceTestContext {
     test_context: TestContext,
@@ -25,12 +22,14 @@ fn before_each() -> StatusServiceTestContext {
 
 #[cfg(test)]
 mod tests {
-    use std::sync::Mutex;
+    
     use enums::class::JobName;
     use enums::weapon::WeaponType;
-    use crate::server::core::map_instance::MapInstanceKey;
-    use crate::server::state::character::Character;
-    use crate::server::state::status::Status;
+    use crate::enums::EnumWithStringValue;
+    use crate::enums::EnumWithNumberValue;
+    
+    
+    
     use crate::tests::common::character_helper::{create_character, equip_item};
     use super::*;
 
@@ -66,7 +65,7 @@ mod tests {
             character.status.agi = stat.agi;
             character.status.dex = stat.dex;
             character.status.job = JobName::from_string(stat.job).value() as u32;
-            if stat.weapon != "" {
+            if !stat.weapon.is_empty() {
                 equip_item(&mut character, stat.weapon);
             }
             // When
@@ -122,7 +121,7 @@ mod tests {
             character.status.str = stat.str;
             character.status.dex = stat.dex;
             character.status.luk = stat.luk;
-            if stat.weapon != "" {
+            if !stat.weapon.is_empty() {
                 equip_item(&mut character, stat.weapon);
             }
             // When

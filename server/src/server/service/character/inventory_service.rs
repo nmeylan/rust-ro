@@ -9,7 +9,7 @@ use crate::enums::EnumWithNumberValue;
 use packets::packets::{EquipmentitemExtrainfo301, EQUIPSLOTINFO, NormalitemExtrainfo3, Packet, PacketZcEquipmentItemlist3, PacketZcItemPickupAck3, PacketZcNormalItemlist3, PacketZcPcPurchaseResult, PacketZcReqTakeoffEquipAck2, PacketZcReqWearEquipAck2, PacketZcSpriteChange2};
 use crate::repository::model::item_model::{EquippedItem, InventoryItemModel, ItemModel};
 use crate::repository::{InventoryRepository, Repository};
-use crate::server::core::configuration::Config;
+
 use crate::server::core::tasks_queue::TasksQueue;
 use crate::server::events::client_notification::{CharNotification, Notification};
 use crate::server::events::game_event::{CharacterAddItems, CharacterEquipItem, CharacterZeny, GameEvent};

@@ -4,15 +4,15 @@ use std::collections::HashMap;
 use std::fs;
 use std::sync::mpsc::SyncSender;
 use std::sync::mpsc::Receiver;
-use std::sync::{Mutex, Once};
+use std::sync::{Once};
 use crate::repository::model::item_model::{ItemModel, ItemModels};
 use crate::repository::model::mob_model::{MobModel, MobModels};
 use crate::server::core::configuration::Config;
-use crate::server::core::map_instance::MapInstanceKey;
+
 use crate::server::events::client_notification::Notification;
 use crate::server::events::persistence_event::PersistenceEvent;
-use crate::server::service::global_config_service::GlobalConfigService;
-use crate::server::service::status_service::StatusService;
+
+
 
 pub static mut CONFIGS: Option<Config> = None;
 pub static mut TEST_CONTEXT: Option<TestContext> = None;
@@ -69,13 +69,13 @@ pub fn before_all() {
 
         let job_configs = Config::load_jobs_config("..").unwrap();
         let configs = unsafe { CONFIGS.as_ref().unwrap() };
-        crate::GlobalConfigService::init(&configs,
+        crate::GlobalConfigService::init(configs,
                                          items.into_iter().map(|item| (item.id as u32, item)).collect(),
                                          items_id_name,
                                          mobs.into_iter().map(|mob| (mob.id as u32, mob)).collect(),
                                          mobs_id_name,
                                          job_configs,
                                          skills_config,
-                                         skill_configs_id_name);
+                                         skill_configs_id_name, Default::default());
     });
 }

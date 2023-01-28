@@ -7,8 +7,8 @@ use crate::repository::model::item_model::ItemModel;
 use crate::repository::model::mob_model::MobModel;
 use crate::server::core::map_item::{MapItem, MapItemType};
 use crate::server::events::client_notification::{AreaNotification, AreaNotificationRangeType, Notification};
-use crate::server::events::persistence_event::PersistenceEvent;
-use crate::server::Server;
+
+
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::service::status_service::StatusService;
 use crate::server::state::character::Character;
@@ -64,7 +64,8 @@ impl BattleService {
         let number_of_hits: f32 = 1.0;
         let kyrie_eleison_effect: f32 = 0.0;
         let weapon = source.right_hand_weapon().map(|(_, weapon)| self.configuration_service.get_item(weapon.item_id));
-        let damage = (
+        
+        (
             (
                 (
                     (
@@ -87,8 +88,7 @@ impl BattleService {
                     - kyrie_eleison_effect
             )
                 / number_of_hits
-        ).round() as u32;
-        damage
+        ).round() as u32
     }
 
     //  rnd(min(DEX*(0.8+0.2*WeaponLevel),ATK), ATK)

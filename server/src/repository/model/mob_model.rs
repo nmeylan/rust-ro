@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 use sqlx::{Error, FromRow, Row};
 use sqlx::postgres::PgRow;
-use crate::repository::model::item_model::ItemModel;
+
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct MobModels {

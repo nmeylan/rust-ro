@@ -131,7 +131,12 @@ impl<'b> MyBorrowRefMut<'b> {
         MyBorrowRefMut { borrow }
     }
 }
-
+impl<'b, T: ?Sized> MyRefMut<'b, T> {
+    pub fn as_mut(&mut self) -> &'b mut T {
+        // SAFETY: the value is accessible as long as we hold our borrow.
+        unsafe { self.value.as_mut() }
+    }
+}
 
 impl<'b, T: ?Sized> MyRef<'b, T> {
     pub fn map<U: ?Sized, F>(orig: MyRef<'b, T>, f: F) -> MyRef<'b, U>

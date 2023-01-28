@@ -84,7 +84,7 @@ impl PlayerScriptHandler {
         // Once we receive player purchased item
         let items_count = items.remove(0);
         let char_id = self.session.char_id();
-        let character = self.server.get_character_unsafe(char_id);
+        let character = self.server.state().get_character_unsafe(char_id);
         let mut script_variable_store = character.script_variable_store.lock().unwrap();
         for i in 0..items_count {
             let purchase_item_bytes = items.drain(0..CzPurchaseItem::base_len(self.server.packetver()));

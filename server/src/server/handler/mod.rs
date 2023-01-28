@@ -54,7 +54,7 @@ pub fn handle(server: Arc<Server>, mut context: Request) {
     if session_id.is_none() {
         return;
     }
-    let session = server.get_session(session_id.unwrap());
+    let session = server.state().get_session(session_id.unwrap());
     context.set_session(session);
     // Char creation
     if context.packet().as_any().downcast_ref::<PacketChMakeChar>().is_some() {

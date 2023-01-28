@@ -1,8 +1,10 @@
 use crate::server::core::action::Damage;
-use crate::server::core::map_item::MapItemSnapshot;
+use crate::server::core::map_item::{MapItem, MapItemSnapshot};
 
 pub enum MapEvent {
     UpdateMobsFov(Vec<MapItemSnapshot>),
+    RemoveCharFromMap(u32),
+    InsertCharToMap(MapItem),
     MobDamage(Damage),
     MobDeathClientNotification(MobLocation),
 }
