@@ -1,8 +1,9 @@
 use std::collections::HashMap;
-use std::sync::Once;
+use std::sync::{Once};
 use crate::repository::model::item_model::ItemModel;
 use crate::repository::model::mob_model::MobModel;
 use crate::server::core::configuration::{Config, JobConfig, SkillConfig};
+use crate::server::core::map::Map;
 
 static mut SERVICE_INSTANCE: Option<GlobalConfigService> = None;
 static SERVICE_INSTANCE_INIT: Once = Once::new();
@@ -16,6 +17,7 @@ pub struct GlobalConfigService {
     jobs: Vec<JobConfig>,
     skills: HashMap<u32, SkillConfig>,
     skills_name_id: HashMap<String, u32>,
+    maps: HashMap<String, Map>,
 }
 
 impl GlobalConfigService {
@@ -31,9 +33,10 @@ impl GlobalConfigService {
                 jobs: Vec<JobConfig>,
                 skills: HashMap<u32, SkillConfig>,
                 skills_name_id: HashMap<String, u32>,
+                maps: HashMap<String, Map>,
     ) {
         SERVICE_INSTANCE_INIT.call_once(|| unsafe {
-            SERVICE_INSTANCE = Some(GlobalConfigService { configuration, items, items_name_id, mobs, mobs_name_id, jobs, skills, skills_name_id });
+            SERVICE_INSTANCE = Some(GlobalConfigService { configuration, items, items_name_id, mobs, mobs_name_id, jobs, skills, skills_name_id, maps });
         });
     }
 
@@ -73,5 +76,13 @@ impl GlobalConfigService {
     pub fn get_mob_by_name(&self, name: &str) -> &MobModel {
         let id = self.mobs_name_id.get(name).unwrap_or_else(|| panic!("Expected to find mob for name {} but found none", name));
         self.mobs.get(id).unwrap_or_else(|| panic!("Expected to find mob for id {} but found none", id))
+    }
+
+    pub fn maps(&self) -> &HashMap<String, Map> {
+        &self.maps
+    }
+
+    pub fn get_map(&self, name: &str) -> &Map {
+        self.maps.get(name).unwrap_or_else(|| panic!("Can't find map with name {}", name))
     }
 }

@@ -30,8 +30,8 @@ pub fn handle_char_move(server: &Server, context: Request) {
         Position::from_move_packet(move_packet)
     };
     debug!("Request move to {}", destination);
-    let character = server.get_character_from_context_unsafe(&context);
-    let map_instance = server.get_map_instance_from_character(character.deref()).unwrap_or_else(|| panic!("Expected to find map instance for character but didn't succeed"));
+    let character = server.state().get_character_from_context_unsafe(&context);
+    let map_instance = server.state().get_map_instance_from_character(character.deref()).unwrap_or_else(|| panic!("Expected to find map instance for character but didn't succeed"));
     // server.add_to_next_movement_tick(CharacterClearMove(character.char_id));
     let mut current_position = Position { x: character.x(), y: character.y(), dir: 0 };
     if character.is_moving() {
@@ -43,7 +43,7 @@ pub fn handle_char_move(server: &Server, context: Request) {
     }
     // let maybe_previous_movement = character.peek_movement().cloned();
 
-    let path = path_search_client_side_algorithm(map_instance.as_ref(), current_position.x(), current_position.y(), destination.x, destination.y);
+    let path = path_search_client_side_algorithm(map_instance.x_size(), map_instance.y_size(), map_instance.state().cells().as_ref(), current_position.x(), current_position.y(), destination.x, destination.y);
     let start_at = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis();
     if character.is_attacking() {
         let attack = character.attack();

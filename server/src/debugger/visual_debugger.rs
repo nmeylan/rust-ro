@@ -114,12 +114,8 @@ impl VisualDebugger {
         ComboBox::from_id_source("Select map")
             .selected_text(selected_text)
             .show_ui(ui, |ui| {
-                self.server.maps
+                self.server.state().map_instances().borrow()
                     .iter()
-                    .filter(|(_map_name, map)| {
-                        let instances = map.map_instances.borrow();
-                        instances.len() > 0
-                    })
                     .map(|(map_name, _map)| map_name)
                     .for_each(|map_name| {
                         ui.selectable_value(&mut self.selected_map, Some(map_name.clone()), map_name);
@@ -131,24 +127,24 @@ impl VisualDebugger {
         if self.selected_map.is_none() {
             return;
         }
-        let map = self.server.maps.get(&*self.selected_map.as_ref().unwrap()).unwrap();
-        let map_instances = map.map_instances.borrow();
+        let instances = self.server.state().map_instances().borrow();
+        let map_instances = instances.get(&*self.selected_map.as_ref().unwrap()).unwrap();
         let map_instance = map_instances.get(0).unwrap();
-        let map_name = map_instance.name.clone();
-        let map_instance_id = map_instance.id;
-        let map_items_clone = map_instance.map_items.clone();
-        let server_characters = self.server.characters.borrow();
-        let characters = map_items_clone.borrow().iter()
+        let map_name = map_instance.name().to_string();
+        let map_instance_id = map_instance.id();
+        let map_items_clone = map_instance.state().map_items().clone();
+        let server_characters = self.server.state().characters().borrow();
+        let characters = map_items_clone.iter()
             .filter(|(_, item)| *item.object_type() == MapItemType::Character)
             .map(|(_, item)| { server_characters.get(&item.id()).unwrap() })
             .collect::<Vec<&Character>>();
-        egui::SidePanel::left(format!("{} info", map.name))
+        egui::SidePanel::left(format!("{} info", map_name))
             .min_width(250.0)
             .resizable(true)
             .show(ui.ctx(), |ui| {
                 ui.vertical_centered(|ui| {
                     ui.with_layout(Layout::top_down(Align::Min), |ui| {
-                        ui.heading(format!("{}", map.name));
+                        ui.heading(format!("{}", map_name));
                         ui.separator();
                         ui.label("Characters:");
                         characters.iter().for_each(|character| {
@@ -159,35 +155,35 @@ impl VisualDebugger {
                             let i = self.map_instance_view.cursor_pos.as_ref().unwrap().x as u16;
                             let j = self.map_instance_view.cursor_pos.as_ref().unwrap().y as u16;
                             ui.label(format!("Cursor: {}, {}", i, j));
-                            let map_items_ref = map_items_clone.borrow();
-                            let map_item = map_items_ref.iter().find(|(_, map_item)| {
-                                let position = self.server.map_item_x_y(map_item, &map_name, map_instance_id).unwrap();
+                            let map_item = map_items_clone.iter().find(|(_, map_item)| {
+                                let position = self.server.state().map_item_x_y(map_item, &map_name, map_instance_id).unwrap();
                                 position.x() == i && position.y() == j
                             });
                             if map_item.is_some() {
                                 let (_, map_item) = map_item.unwrap().clone();
                                 // map_items_mut_clone.remove(&*map_item.clone());
-                                let item_name = self.server.map_item_name(map_item, &map_name, map_instance_id).unwrap();
+                                let item_name = self.server.state().map_item_name(map_item, &map_name, map_instance_id).unwrap();
                                 ui.label(format!("{}: {}", map_item.object_type(), item_name));
                                 if *map_item.object_type() == MapItemType::Mob {
-                                    let mob_ref = map_instance.get_mob(map_item.id()).unwrap();
+                                    let state = map_instance.state();
+                                    let mob_ref = state.get_mob(map_item.id()).unwrap();
                                     let mob = mob_ref.borrow();
                                     ui.label("Items in Field of view");
                                     mob.map_view.iter()
                                         .for_each(|item| {
-                                            let item_name = self.server.map_item_name(item, &map_name, map_instance_id).unwrap();
-                                            let position = self.server.map_item_x_y(item, &map_name, map_instance_id).unwrap();
+                                            let item_name = self.server.state().map_item_name(item, &map_name, map_instance_id).unwrap();
+                                            let position = self.server.state().map_item_x_y(item, &map_name, map_instance_id).unwrap();
                                             ui.label(format!("{}: {} {},{}", item.object_type(), item_name, position.x(), position.y()));
                                         });
                                 } else if *map_item.object_type() == MapItemType::Character {
-                                    let character = self.server.map_item_character(map_item).unwrap();
+                                    let character = self.server.state().map_item_character(map_item).unwrap();
                                     ui.label("Items in Field of view");
                                     let mut character_map_view: Vec<MapItem> = character.map_view.clone().into_iter().collect::<Vec<MapItem>>();
                                     character_map_view.sort_by(|a, b| a.id().cmp(&b.id()));
                                     character_map_view.iter()
                                         .for_each(|item| {
-                                            let item_name = self.server.map_item_name(item, &map_name, map_instance_id).unwrap();
-                                            let position = self.server.map_item_x_y(item, &map_name, map_instance_id).unwrap();
+                                            let item_name = self.server.state().map_item_name(item, &map_name, map_instance_id).unwrap();
+                                            let position = self.server.state().map_item_x_y(item, &map_name, map_instance_id).unwrap();
                                             ui.label(format!("{}: {} {},{}", item.object_type(), item_name, position.x(), position.y()));
                                         });
                                 }

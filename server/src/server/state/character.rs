@@ -1,21 +1,20 @@
 use std::collections::HashSet;
-use std::{io};
-use std::io::Write;
+
+
 use std::iter::Filter;
-use std::sync::{Arc, Mutex};
+use std::sync::{Mutex};
 use accessor::Setters;
-use enums::{EnumWithMaskValue, EnumWithStringValue};
+use enums::{EnumWithMaskValue};
 use enums::item::{EquipmentLocation};
 use enums::look::LookType;
-use enums::weapon::WeaponType;
+
 use crate::repository::model::item_model::{InventoryItemModel};
 use crate::server::core::action::Attack;
 use crate::server::core::movement::{Movable, Movement};
-use crate::server::core::map_instance::{MapInstance, MapInstanceKey};
+use crate::server::core::map_instance::{MapInstanceKey};
 use crate::server::core::position::Position;
 use crate::server::state::status::{Status};
-use crate::server::core::map_item::{MapItem, MapItemSnapshot, MapItemType};
-use crate::server::map_item::{ToMapItem, ToMapItemSnapshot};
+use crate::server::core::map_item::{MapItem, MapItemSnapshot, MapItemType, ToMapItem, ToMapItemSnapshot};
 use crate::server::script::ScriptGlobalVariableStore;
 
 #[derive(Setters)]
@@ -88,19 +87,17 @@ impl Character {
         self.attack = None;
     }
 
-    pub fn join_and_set_map(&mut self, map_instance: Arc<MapInstance>) {
-        self.set_current_map(map_instance.clone());
-        map_instance.insert_item(self.to_map_item());
-        self.movements = vec![];
-    }
-
     pub fn update_position(&mut self, x: u16, y: u16) {
         self.x = x;
         self.y = y;
     }
 
-    pub fn set_current_map(&mut self, current_map: Arc<MapInstance>) {
-        self.map_instance_key = MapInstanceKey::new(current_map.name.clone(), current_map.id);
+    pub fn set_current_map(&mut self, map_name: String, id: u8) {
+        self.map_instance_key = MapInstanceKey::new(map_name, id);
+    }
+
+    pub fn set_current_map_with_key(&mut self, key: MapInstanceKey) {
+        self.map_instance_key = key;
     }
 
     pub fn current_map_name(&self) -> &String {

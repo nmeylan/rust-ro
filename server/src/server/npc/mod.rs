@@ -6,6 +6,7 @@ use std::path::Path;
 use std::sync::{Arc, Mutex};
 use tokio::sync::Semaphore;
 use tokio::task::JoinHandle;
+use crate::server::core::configuration::Config;
 
 pub mod mob_spawn;
 pub mod script;
@@ -17,14 +18,14 @@ pub struct NpcLoader {
 }
 
 pub trait Npc {
-    fn parse_npc(file: &File) -> Result<Vec<Self>, String>
+    fn parse_npc(file: &File, config: &'static Config) -> Result<Vec<Self>, String>
     where
         Self: Sized;
     fn get_map_name(&self) -> String;
 }
 
 impl NpcLoader {
-    pub async fn load_npc<T: Npc + Clone + Send + 'static>(&self) -> HashMap<String, Vec<T>> {
+    pub async fn load_npc<T: Npc + Clone + Send + 'static>(&self, config: &'static Config) -> HashMap<String, Vec<T>> {
         let semaphore = Semaphore::new(self.parallel_execution);
         let reader = BufReader::new(&self.conf_file);
         let npcs_by_map = Arc::new(Mutex::new(HashMap::<String, Vec<T>>::new()));
@@ -52,7 +53,7 @@ impl NpcLoader {
                     return;
                 }
 
-                let npcs_result = T::parse_npc(&npc_script_file_res.unwrap());
+                let npcs_result = T::parse_npc(&npc_script_file_res.unwrap(), config);
                 if npcs_result.is_err() {
                     error!("{}", npcs_result.err().unwrap());
                     return;

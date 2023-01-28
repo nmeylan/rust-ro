@@ -1,12 +1,11 @@
-
-
+use enums::map::MapPropertyFlags;
 use packets::packets::{Packet, PacketZcAckReqnameall2, PacketCzReqnameall2, PacketZcNotifyMapproperty2, PacketZcHatEffect, PacketCzReqname};
 use crate::server::Server;
 use crate::util::string::StringUtil;
 
 use crate::server::events::game_event::GameEvent;
-use crate::server::core::map::{MapPropertyFlags};
 use crate::server::core::request::Request;
+use enums::{EnumWithMaskValue};
 
 use crate::util::packet::chain_packets;
 
@@ -20,14 +19,14 @@ pub fn handle_map_item_name(server: &Server, context: Request) {
     } else {
         0
     };
-    let character = server.get_character_from_context_unsafe(&context);
-    let maybe_map_item = server.map_item(gid, character.current_map_name(), character.current_map_instance());
+    let character = server.state().get_character_from_context_unsafe(&context);
+    let maybe_map_item = server.state().map_item(gid, character.current_map_name(), character.current_map_instance());
     if maybe_map_item.is_none() {
         error!("Can't find map item with id: {}", gid);
         return;
     }
     let map_item = maybe_map_item.unwrap();
-    let map_item_name = server.map_item_name(&map_item, character.current_map_name(), character.current_map_instance()).unwrap_or_else(|| "unknown".to_string());
+    let map_item_name = server.state().map_item_name(&map_item, character.current_map_name(), character.current_map_instance()).unwrap_or_else(|| "unknown".to_string());
     let mut packet_zc_ack_reqnameall2 = PacketZcAckReqnameall2::new();
     packet_zc_ack_reqnameall2.set_gid(gid);
     let mut name: [char; 24] = [0 as char; 24];
@@ -48,9 +47,8 @@ pub fn handle_char_loaded_client_side(server: &Server, context: Request) {
     let mut packet_zc_notify_mapproperty2 = PacketZcNotifyMapproperty2::new();
     let mut packet_zc_hat_effect = PacketZcHatEffect::new();
     packet_zc_notify_mapproperty2.set_atype(0x2); // TODO set this correctly see enum_macro map_type in hercules
-    let mut flags = MapPropertyFlags::new();
-    flags.set_is_use_cart(true); // TODO add other flags correctly
-    packet_zc_notify_mapproperty2.set_flags(flags.raw());
+
+    packet_zc_notify_mapproperty2.set_flags(MapPropertyFlags::IsUseCart.as_flag() as u32);
     packet_zc_notify_mapproperty2.fill_raw();
     packet_zc_hat_effect.set_aid(session_id);
     packet_zc_hat_effect.set_status(1);

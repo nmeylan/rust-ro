@@ -6,7 +6,6 @@ use crate::server::core::map::{WALKABLE_MASK, WARP_MASK};
 use crate::server::core::map_instance::MapInstance;
 use crate::server::core::map_item::{MapItem, MapItemType};
 use crate::server::{Server};
-use crate::util::cell::MyUnsafeCell;
 use crate::util::coordinate;
 
 pub struct MapInstanceView {
@@ -23,7 +22,7 @@ struct PreviousCell {
 }
 
 impl MapInstanceView {
-    pub fn draw_map_instance_view(&mut self, ui: &mut Ui, map_instance: &Arc<MapInstance>, map_items: MyUnsafeCell<HashMap<u32, MapItem>>) {
+    pub fn draw_map_instance_view(&mut self, ui: &mut Ui, map_instance: &Arc<MapInstance>, map_items: HashMap<u32, MapItem>) {
         Frame::dark_canvas(ui.style()).show(ui, |ui| {
             let (_id, response) = ui.allocate_exact_size(ui.available_size_before_wrap(), Sense::click_and_drag());
             let absolute_draw_rect = response.rect;
@@ -60,8 +59,8 @@ impl MapInstanceView {
                 }
             }
 
-            let mut shape_x_size = (relative_draw_rect.max.x - (margin * 2.0) as f32) / map_instance.x_size as f32;
-            let mut shape_y_size = (relative_draw_rect.max.y - (margin * 2.0) as f32) / map_instance.y_size as f32;
+            let mut shape_x_size = (relative_draw_rect.max.x - (margin * 2.0) as f32) / map_instance.x_size() as f32;
+            let mut shape_y_size = (relative_draw_rect.max.y - (margin * 2.0) as f32) / map_instance.y_size() as f32;
 
             self.zoom_draw_rect.min.x = self.zoom_center.x + (relative_draw_rect.min.x - self.zoom_center.x) / (self.zoom as f32);
             self.zoom_draw_rect.max.x = self.zoom_center.x + (relative_draw_rect.max.x - self.zoom_center.x) / (self.zoom as f32);
@@ -71,13 +70,13 @@ impl MapInstanceView {
 
             let start_j = ((self.zoom_draw_rect.min.x) / shape_x_size) as u16;
             let mut end_j = ((self.zoom_draw_rect.max.x) / shape_x_size) as u16;
-            if end_j > map_instance.x_size {
-                end_j = map_instance.x_size
+            if end_j > map_instance.x_size() {
+                end_j = map_instance.x_size()
             }
             let mut end_i = ((relative_draw_rect.max.y - self.zoom_draw_rect.min.y) / shape_y_size) as u16;
             let start_i = ((relative_draw_rect.max.y - self.zoom_draw_rect.max.y) / shape_y_size) as u16;
-            if end_i > map_instance.y_size {
-                end_i = map_instance.y_size
+            if end_i > map_instance.y_size() {
+                end_i = map_instance.y_size()
             }
 
             shape_x_size = shape_x_size * self.zoom;
@@ -88,8 +87,9 @@ impl MapInstanceView {
             for i in start_i..end_i {
                 let mut cell_color;
                 for j in start_j..end_j {
-                    let index = coordinate::get_cell_index_of(j, i, map_instance.x_size);
-                    let cell = map_instance.cells.get(index).unwrap();
+                    let index = coordinate::get_cell_index_of(j, i, map_instance.x_size());
+                    let state = map_instance.state();
+                    let cell = state.cells().get(index).unwrap();
                     let cell_pos = emath::Rect {
                         min: Pos2 {
                             x: absolute_draw_rect.min.x + margin + (shape_x_size * (j - start_j) as f32),
@@ -141,10 +141,10 @@ impl MapInstanceView {
                 MapInstanceView::draw_cell(&mut shapes, &mut previous_cell, &absolute_draw_rect, margin, shape_x_size, shape_y_size, start_i, i, start_j, end_j);
                 previous_cell = None;
             }
-            for (_, map_item) in map_items.borrow().iter() {
-                let map_name = map_instance.name.clone();
-                let map_instance_id = map_instance.id;
-                let position = self.server.map_item_x_y(map_item, &map_name, map_instance_id).unwrap();
+            for (_, map_item) in map_items.iter() {
+                let map_name = map_instance.name().to_string();
+                let map_instance_id = map_instance.id();
+                let position = self.server.state().map_item_x_y(map_item, &map_name, map_instance_id).unwrap();
                 if position.x() < start_j
                     || position.y() < start_i {
                     continue;
