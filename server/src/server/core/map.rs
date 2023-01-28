@@ -38,7 +38,9 @@ pub static MAP_EXT: &str = ".gat";
 pub const WARP_MASK: u16 = 0b0000_0100_0000_0000;
 pub const WALKABLE_MASK: u16 = 0b0000000000000001;
 pub const RANDOM_CELL: (u16, u16) = (u16::MAX, u16::MAX);
+
 const MOVEMENT_TICK_RATE: u128 = 20;
+const MAP_LOOP_TICK_RATE: u128 = 40;
 
 struct Header {
     #[allow(dead_code)]
@@ -359,6 +361,12 @@ impl Map {
                     }
                 }
             }).unwrap();
+        thread::Builder::new().name(format!("map_instance_{}_loop_thread", map_instance.name))
+            .spawn(move || {
+                loop {
+                    let tick = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis();
+                }
+            });
         thread::Builder::new().name(format!("map_instance_{}_mob_movement_thread", map_instance.name))
             .spawn(move || {
                 loop {

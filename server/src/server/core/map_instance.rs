@@ -3,7 +3,7 @@
 use std::cell::RefCell;
 use std::collections::HashMap;
 use std::sync::Arc;
-use packets::packets::{PacketZcNotifyAct3, PacketZcNotifyMove};
+use packets::packets::{PacketZcNotifyAct3, PacketZcNotifyMove, PacketZcNotifyVanish};
 
 use crate::server::core::map::{Map, MAP_EXT, WARP_MASK};
 use crate::server::state::mob::{Mob, MobMovement};
@@ -21,6 +21,8 @@ use std::sync::mpsc::SyncSender;
 use std::time::{SystemTime, UNIX_EPOCH};
 use rathena_script_lang_interpreter::lang::vm::Vm;
 use enums::action::ActionType;
+use enums::vanish::VanishType;
+use crate::enums::EnumWithNumberValue;
 use crate::MyUnsafeCell;
 use crate::server::events::map_event::MapEvent;
 use crate::server::events::client_notification::{AreaNotification, AreaNotificationRangeType, CharNotification, Notification};
@@ -252,8 +254,18 @@ impl MapInstance {
     }
 
     pub fn mob_die(&self, id: u32) {
-        let mut packet_zc_notify_act3 = PacketZcNotifyAct3::default();
-        packet_zc_notify_act3.set_gid(id);
+        let mut mobs = self.mobs.borrow_mut();
+        let mob = mobs.get(&id).unwrap();
+        let mut packet_zc_notify_vanish = PacketZcNotifyVanish::new();
+        packet_zc_notify_vanish.set_gid(mob.id);
+        packet_zc_notify_vanish.set_atype(VanishType::Die.value() as u8);
+        packet_zc_notify_vanish.fill_raw();
+        self.client_notification_channel.send(Notification::Area(
+            AreaNotification::new(self.name_with_ext.clone(), self.id(),
+                                  AreaNotificationRangeType::Fov { x: mob.x, y: mob.y, exclude_id: None },
+                                  packet_zc_notify_vanish.raw))).expect("Fail to send client notification");
+        self.remove_item(mob.to_map_item());
+        mobs.remove(&id);
     }
 
     pub fn get_warp_at(&self, x: u16, y: u16) -> Option<Arc<Warp>> {

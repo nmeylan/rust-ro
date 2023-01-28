@@ -273,12 +273,13 @@ impl CharacterService {
 
         for map_item in character.map_view.iter() {
             if !new_map_view.contains(map_item) {
-                let position = server.map_item_x_y(map_item, character.current_map_name(), character.current_map_instance()).unwrap();
-                debug!("Vanish map_item {} at {},{}", map_item.object_type(), position.x(), position.y());
-                let mut packet_zc_notify_vanish = PacketZcNotifyVanish::new();
-                packet_zc_notify_vanish.set_gid(map_item.id());
-                packet_zc_notify_vanish.fill_raw();
-                self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, mem::take(packet_zc_notify_vanish.raw_mut())))).expect("Failed to send notification to client");
+                if let Some(position) = server.map_item_x_y(map_item, character.current_map_name(), character.current_map_instance()) {
+                    debug!("Vanish map_item {} at {},{}", map_item.object_type(), position.x(), position.y());
+                    let mut packet_zc_notify_vanish = PacketZcNotifyVanish::new();
+                    packet_zc_notify_vanish.set_gid(map_item.id());
+                    packet_zc_notify_vanish.fill_raw();
+                    self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, mem::take(packet_zc_notify_vanish.raw_mut())))).expect("Failed to send notification to client");
+                }
             }
         }
         character.map_view = new_map_view;
