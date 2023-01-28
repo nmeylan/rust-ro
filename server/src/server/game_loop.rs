@@ -14,7 +14,7 @@ use crate::server::core::position::Position;
 use crate::server::events::game_event::{CharacterMovement, GameEvent};
 
 use crate::server::events::client_notification::{CharNotification, Notification};
-use crate::server::events::map_event::{MapEvent, MobDamage};
+use crate::server::events::map_event::{MapEvent};
 use crate::server::events::persistence_event::{SavePositionUpdate};
 
 use crate::server::map_item::{ToMapItem, ToMapItemSnapshot};
@@ -198,7 +198,7 @@ impl Server {
                 let maybe_damage = BattleService::instance().attack(character, map_item, tick);
                 if let Some(damage) = maybe_damage {
                     if matches!(*map_item.object_type(), MapItemType::Mob) {
-                        map_instance.add_to_next_tick(MapEvent::MobDamage(MobDamage { mob_id: map_item.id(), damage, attacked_at: tick, attacker_id: character.char_id }))
+                        map_instance.add_to_next_tick(MapEvent::MobDamage(damage));
                     }
                 }
             }

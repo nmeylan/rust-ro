@@ -5,7 +5,7 @@ use std::collections::HashMap;
 use std::sync::Arc;
 use packets::packets::{PacketZcNotifyAct3, PacketZcNotifyMove, PacketZcNotifyVanish};
 
-use crate::server::core::map::{Map, MAP_EXT, WARP_MASK};
+use crate::server::core::map::{Map, MAP_EXT, MAP_LOOP_TICK_RATE, WARP_MASK};
 use crate::server::state::mob::{Mob, MobMovement};
 use crate::server::core::path::manhattan_distance;
 use crate::server::state::status::Status;
@@ -34,7 +34,7 @@ use crate::server::npc::script::Script;
 use crate::server::script::ScriptHandler;
 use crate::util::cell::MyRef;
 use crate::util::string::StringUtil;
-use crate::util::tick::get_tick_client;
+use crate::util::tick::{get_tick, get_tick_client};
 
 pub struct MapInstanceKey {
     instance_id: u8,
@@ -167,6 +167,12 @@ impl MapInstance {
     pub fn add_to_tick(&self, event: MapEvent, index: usize) {
         self.tasks_queue.add_to_index(event, index)
     }
+
+    pub fn add_to_delayed_tick(&self, event: MapEvent, delay: u128) {
+        let index = (delay as f32 / MAP_LOOP_TICK_RATE as f32).round() as usize;
+        info!("delayed to tick {}", index);
+        self.add_to_tick(event, index);
+    }
     
     #[inline]
     pub fn get_cell_index_of(&self, x: u16, y: u16) -> usize {
@@ -270,14 +276,7 @@ impl MapInstance {
     pub fn mob_die(&self, id: u32) {
         let mut mobs = self.mobs.borrow_mut();
         let mob = mobs.get(&id).unwrap();
-        let mut packet_zc_notify_vanish = PacketZcNotifyVanish::new();
-        packet_zc_notify_vanish.set_gid(mob.id);
-        packet_zc_notify_vanish.set_atype(VanishType::Die.value() as u8);
-        packet_zc_notify_vanish.fill_raw();
-        self.client_notification_channel.send(Notification::Area(
-            AreaNotification::new(self.name_with_ext.clone(), self.id(),
-                                  AreaNotificationRangeType::Fov { x: mob.x, y: mob.y, exclude_id: None },
-                                  packet_zc_notify_vanish.raw))).expect("Fail to send client notification");
+
         self.remove_item(mob.to_map_item());
         mobs.remove(&id);
     }
