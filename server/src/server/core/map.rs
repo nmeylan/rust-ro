@@ -248,15 +248,14 @@ impl Map {
         let mut map_items: HashMap<u32, MapItem> = HashMap::with_capacity(2048);
         let cells = self.generate_cells(server, &mut map_items);
 
-        let (map_event_notification_sender, single_map_event_notification_receiver) = std::sync::mpsc::sync_channel::<MapEvent>(2048);
-        let map_instance = MapInstance::from_map(self, server, instance_id, cells, map_items, map_event_notification_sender, server.client_notification_sender());
+        let map_instance = MapInstance::from_map(self, server, instance_id, cells, map_items, server.client_notification_sender());
         self.map_instances_count.fetch_add(1, Relaxed);
         let map_instance_ref = Arc::new(map_instance);
         {
             let mut map_instance_guard = self.map_instances.borrow_mut();
             map_instance_guard.push(map_instance_ref.clone());
         }
-        Map::start_thread(map_instance_ref.clone(), server, single_map_event_notification_receiver);
+        Map::start_thread(map_instance_ref.clone(), server);
         map_instance_ref
     }
 
@@ -327,46 +326,53 @@ impl Map {
         );
     }
 
-    fn start_thread(map_instance: Arc<MapInstance>, _server: &Server, single_map_event_notification_receiver: Receiver<MapEvent>) {
+    fn start_thread(map_instance: Arc<MapInstance>, _server: &Server) {
         let map_instance_clone_for_thread = map_instance.clone();
         info!("Start thread for {}", map_instance.name);
-        thread::Builder::new().name(format!("map_instance_{}_event_thread", map_instance.name))
+        thread::Builder::new().name(format!("map_instance_{}_loop_thread", map_instance.name))
             .spawn(move || {
                 let map_instance = map_instance_clone_for_thread;
+                let mut last_mobs_spawn = Instant::now();
+                let mut last_mobs_action = Instant::now();
                 loop {
-                    for event in single_map_event_notification_receiver.iter() {
-                        let now = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis();
-                        match event {
-                            MapEvent::SpawnMobs => {
-                                map_instance.spawn_mobs();
-                            }
-                            MapEvent::UpdateMobsFov(characters) => {
-                                map_instance.update_mobs_fov(characters)
-                            }
-                            MapEvent::MobsActions => {
-                                map_instance.mobs_action()
-                            }
-                            MapEvent::MobDamage(mob_damage) => {
-                                let mut mobs = map_instance.mobs.borrow_mut();
-                                let mut mob = mobs.get_mut(&mob_damage.mob_id).unwrap();
-                                mob.add_attack(mob_damage.attacker_id, mob_damage.damage);
-                                mob.last_attacked_at = now;
-                                if mob.should_die() {
-                                    let id = mob.id;
-                                    mem::drop(mobs);
-                                    map_instance.mob_die(id);
+                    let tick = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis();
+                    let now = Instant::now();
+                    if last_mobs_action.elapsed().as_secs() > 2 {
+                        map_instance.mobs_action();
+                        last_mobs_action = now;
+                    }
+                    if last_mobs_spawn.elapsed().as_secs() >= 1 {
+                        map_instance.spawn_mobs();
+                        last_mobs_spawn = now;
+                    }
+                    if let Some(tasks) = map_instance.pop_task() {
+                        for task in tasks {
+                            match task {
+                                MapEvent::UpdateMobsFov(characters) => {
+                                    map_instance.update_mobs_fov(characters)
+                                }
+                                MapEvent::MobDamage(mob_damage) => {
+                                    let mut mobs = map_instance.mobs.borrow_mut();
+                                    let mut mob = mobs.get_mut(&mob_damage.mob_id).unwrap();
+                                    mob.add_attack(mob_damage.attacker_id, mob_damage.damage);
+                                    mob.last_attacked_at = tick;
+                                    if mob.should_die() {
+                                        let id = mob.id;
+                                        mem::drop(mobs);
+                                        map_instance.mob_die(id);
+                                    }
                                 }
                             }
                         }
                     }
+                    let time_spent = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis() - tick;
+                    let sleep_duration = (MAP_LOOP_TICK_RATE as i128 - time_spent as i128).max(0) as u64;
+                    if sleep_duration < 5 {
+                        warn!("Less than 5 milliseconds of sleep, map_instance_{}_loop is too slow - {}ms because game loop took {}ms", map_instance.name, sleep_duration, time_spent);
+                    }
+                    sleep(Duration::from_millis(sleep_duration));
                 }
             }).unwrap();
-        thread::Builder::new().name(format!("map_instance_{}_loop_thread", map_instance.name))
-            .spawn(move || {
-                loop {
-                    let tick = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis();
-                }
-            });
         thread::Builder::new().name(format!("map_instance_{}_mob_movement_thread", map_instance.name))
             .spawn(move || {
                 loop {
