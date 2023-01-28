@@ -35,7 +35,6 @@ const GAME_TICK_RATE: u128 = 40;
 
 impl Server {
     pub(crate) fn game_loop(server_ref: Arc<Server>, runtime: Runtime) {
-        let mut last_mobs_action = Instant::now();
         loop {
             let tick = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis();
             let mut characters = server_ref.characters.borrow_mut();
@@ -153,12 +152,7 @@ impl Server {
             }
             for (_, map) in server_ref.maps.iter() {
                 for instance in map.instances() {
-                    instance.notify_event(MapEvent::SpawnMobs);
-                    instance.notify_event(MapEvent::UpdateMobsFov(characters.iter().map(|(_, character)| character.to_map_item_snapshot()).collect()));
-                    if last_mobs_action.elapsed().as_secs() > 2 {
-                        instance.notify_event(MapEvent::MobsActions);
-                        last_mobs_action = Instant::now();
-                    }
+                    instance.add_to_next_tick(MapEvent::UpdateMobsFov(characters.iter().map(|(_, character)| character.to_map_item_snapshot()).collect()));
                 }
             }
             let time_spent = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis() - tick;
@@ -204,7 +198,7 @@ impl Server {
                 let maybe_damage = BattleService::instance().attack(character, map_item, tick);
                 if let Some(damage) = maybe_damage {
                     if matches!(*map_item.object_type(), MapItemType::Mob) {
-                        map_instance.notify_event(MapEvent::MobDamage(MobDamage { mob_id: map_item.id(), damage, attacked_at: tick, attacker_id: character.char_id }))
+                        map_instance.add_to_next_tick(MapEvent::MobDamage(MobDamage { mob_id: map_item.id(), damage, attacked_at: tick, attacker_id: character.char_id }))
                     }
                 }
             }

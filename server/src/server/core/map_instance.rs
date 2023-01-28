@@ -28,6 +28,8 @@ use crate::server::events::map_event::MapEvent;
 use crate::server::events::client_notification::{AreaNotification, AreaNotificationRangeType, CharNotification, Notification};
 use crate::server::map_item::ToMapItem;
 use crate::server::{MOB_FOV, Server};
+use crate::server::core::tasks_queue::TasksQueue;
+use crate::server::events::game_event::GameEvent;
 use crate::server::npc::script::Script;
 use crate::server::script::ScriptHandler;
 use crate::util::cell::MyRef;
@@ -97,7 +99,7 @@ pub struct MapInstance {
     pub scripts: Vec<Arc<Script>>,
     pub map_items: MyUnsafeCell<HashMap<u32, MapItem>>,
     pub client_notification_channel: SyncSender<Notification>,
-    pub map_event_notification_sender: SyncSender<MapEvent>,
+    pub tasks_queue: Arc<TasksQueue<MapEvent>>,
 }
 
 unsafe impl Sync for MapInstance {}
@@ -125,7 +127,7 @@ impl MobSpawnTrack {
 
 impl MapInstance {
     pub fn from_map(map: &Map, server: &Server, id: u8, cells: Vec<u16>, mut map_items: HashMap<u32, MapItem>,
-                    map_event_notification_sender: SyncSender<MapEvent>, client_notification_channel: SyncSender<Notification>) -> MapInstance {
+                   client_notification_channel: SyncSender<Notification>) -> MapInstance {
         let _cells_len = cells.len();
         let mut scripts = vec![];
         map.scripts.iter().for_each(|script| {
@@ -149,11 +151,23 @@ impl MapInstance {
             mobs: Default::default(),
             map_items: MyUnsafeCell::new(map_items),
             scripts,
-            map_event_notification_sender,
-            client_notification_channel
+            client_notification_channel,
+            tasks_queue: Arc::new(TasksQueue::new())
         }
     }
 
+    pub(crate) fn pop_task(&self) -> Option<Vec<MapEvent>> {
+        self.tasks_queue.pop()
+    }
+
+    pub fn add_to_next_tick(&self, event: MapEvent) {
+        self.tasks_queue.add_to_first_index(event)
+    }
+
+    pub fn add_to_tick(&self, event: MapEvent, index: usize) {
+        self.tasks_queue.add_to_index(event, index)
+    }
+    
     #[inline]
     pub fn get_cell_index_of(&self, x: u16, y: u16) -> usize {
         coordinate::get_cell_index_of(x, y, self.x_size)
@@ -288,10 +302,6 @@ impl MapInstance {
 
     pub fn remove_item_with_id(&self, id: u32) {
         self.map_items.borrow_mut().remove(&id);
-    }
-
-    pub fn notify_event(&self, map_event: MapEvent) {
-        self.map_event_notification_sender.send(map_event).unwrap()
     }
 
     pub fn get_mob(&self, mob_id: u32) -> Option<MyRef<Mob>> {
