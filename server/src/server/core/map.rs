@@ -17,13 +17,17 @@ use std::sync::atomic::Ordering::Relaxed;
 use std::sync::mpsc::Receiver;
 use std::thread::sleep;
 use accessor::Setters;
+use enums::vanish::VanishType;
+use crate::enums::EnumWithNumberValue;
+use packets::packets::PacketZcNotifyVanish;
 use crate::Script;
 
-use crate::server::events::map_event::MapEvent;
+use crate::server::events::map_event::{MapEvent, MobLocation};
 use crate::server::core::map_instance::MapInstance;
 use crate::server::core::path::{allowed_dirs, DIR_EAST, DIR_NORTH, DIR_SOUTH, DIR_WEST, is_direction};
 use crate::server::core::map_item::{MapItem};
 use crate::server::core::movement::{Movable, Movement};
+use crate::server::events::client_notification::{AreaNotification, AreaNotificationRangeType, Notification};
 use crate::server::map_item::ToMapItem;
 use crate::server::npc::mob_spawn::MobSpawn;
 use crate::server::npc::warps::Warp;
@@ -31,6 +35,7 @@ use crate::server::Server;
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::util::cell::MyUnsafeCell;
 use crate::util::coordinate;
+use crate::util::tick::get_tick;
 
 static MAPCACHE_EXT: &str = ".mcache";
 static MAP_DIR: &str = "./maps/pre-re";
@@ -40,7 +45,7 @@ pub const WALKABLE_MASK: u16 = 0b0000000000000001;
 pub const RANDOM_CELL: (u16, u16) = (u16::MAX, u16::MAX);
 
 const MOVEMENT_TICK_RATE: u128 = 20;
-const MAP_LOOP_TICK_RATE: u128 = 40;
+pub(crate) const MAP_LOOP_TICK_RATE: u128 = 40;
 
 struct Header {
     #[allow(dead_code)]
@@ -351,16 +356,27 @@ impl Map {
                                 MapEvent::UpdateMobsFov(characters) => {
                                     map_instance.update_mobs_fov(characters)
                                 }
-                                MapEvent::MobDamage(mob_damage) => {
+                                MapEvent::MobDamage(damage) => {
                                     let mut mobs = map_instance.mobs.borrow_mut();
-                                    let mut mob = mobs.get_mut(&mob_damage.mob_id).unwrap();
-                                    mob.add_attack(mob_damage.attacker_id, mob_damage.damage);
-                                    mob.last_attacked_at = tick;
-                                    if mob.should_die() {
-                                        let id = mob.id;
-                                        mem::drop(mobs);
-                                        map_instance.mob_die(id);
+                                    if let Some(mut mob) = mobs.get_mut(&damage.target_id) {
+                                        mob.add_attack(damage.attacker_id, damage.damage);
+                                        mob.last_attacked_at = tick;
+                                        if mob.should_die() {
+                                            let delay = damage.attacked_at - tick;
+                                            map_instance.add_to_delayed_tick(MapEvent::MobDeathClientNotification(MobLocation{ mob_id: mob.id, x: mob.x, y: mob.y }), delay);
+                                            map_instance.mob_die(mob.id);
+                                        }
                                     }
+                                }
+                                MapEvent::MobDeathClientNotification(mob_location) => {
+                                    let mut packet_zc_notify_vanish = PacketZcNotifyVanish::new();
+                                    packet_zc_notify_vanish.set_gid(mob_location.mob_id);
+                                    packet_zc_notify_vanish.set_atype(VanishType::Die.value() as u8);
+                                    packet_zc_notify_vanish.fill_raw();
+                                    map_instance.client_notification_channel.send(Notification::Area(
+                                        AreaNotification::new(map_instance.name_with_ext.clone(), map_instance.id(),
+                                                              AreaNotificationRangeType::Fov { x: mob_location.x, y: mob_location.y, exclude_id: None },
+                                                              packet_zc_notify_vanish.raw))).expect("Fail to send client notification");
                                 }
                             }
                         }
@@ -376,7 +392,7 @@ impl Map {
         thread::Builder::new().name(format!("map_instance_{}_mob_movement_thread", map_instance.name))
             .spawn(move || {
                 loop {
-                    let tick = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis();
+                    let tick = get_tick();
                     let mut mobs = map_instance.mobs.borrow_mut();
                     for mob in mobs.values_mut().filter(|mob| mob.is_moving()) {
                         let speed = mob.status.speed;

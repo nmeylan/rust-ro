@@ -1,13 +1,14 @@
+use crate::server::core::action::Damage;
 use crate::server::core::map_item::MapItemSnapshot;
 
 pub enum MapEvent {
     UpdateMobsFov(Vec<MapItemSnapshot>),
-    MobDamage(MobDamage)
+    MobDamage(Damage),
+    MobDeathClientNotification(MobLocation),
 }
 
-pub struct MobDamage {
+pub struct MobLocation {
     pub mob_id: u32,
-    pub attacker_id: u32,
-    pub damage: u32,
-    pub attacked_at: u128,
+    pub x: u16,
+    pub y: u16,
 }

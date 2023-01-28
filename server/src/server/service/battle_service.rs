@@ -14,6 +14,7 @@ use crate::server::service::status_service::StatusService;
 use crate::server::state::character::Character;
 use crate::enums::EnumWithNumberValue;
 use crate::packets::packets::Packet;
+use crate::server::core::action::Damage;
 
 static mut SERVICE_INSTANCE: Option<BattleService> = None;
 static SERVICE_INSTANCE_INIT: Once = Once::new();
@@ -113,7 +114,7 @@ impl BattleService {
         rng.u32(((source.status.dex as f32 * (0.8 + 0.2 * weapon_level as f32)).round() as u32).min(weapon_attack)..=weapon_attack)
     }
 
-    pub fn attack(&self, character: &mut Character, target: MapItem, tick: u128) -> Option<u32> {
+    pub fn attack(&self, character: &mut Character, target: MapItem, tick: u128) -> Option<Damage> {
         let attack = character.attack();
         if !attack.repeat { // one shot attack
             character.clear_attack();
@@ -143,6 +144,11 @@ impl BattleService {
         packet_zc_notify_act3.set_count(1);
         packet_zc_notify_act3.fill_raw();
         self.client_notification_sender.send(Notification::Area(AreaNotification::new(character.current_map_name().clone(), character.current_map_instance(), AreaNotificationRangeType::Fov { x: character.x, y: character.y, exclude_id: None }, mem::take(packet_zc_notify_act3.raw_mut())))).expect("Failed to send notification to client");
-        Some(damage)
+        Some(Damage {
+            target_id: attack.target,
+            attacker_id: character.char_id,
+            damage,
+            attacked_at: tick + attack_motion as u128
+        })
     }
 }
