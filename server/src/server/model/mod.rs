@@ -11,3 +11,11 @@ pub mod configuration;
 pub mod map_item;
 pub mod action;
 pub mod events;
+pub mod warp;
+pub mod script;
+pub mod mob_spawn;
+
+
+pub trait Npc {
+    fn get_map_name(&self) -> String;
+}

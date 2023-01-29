@@ -46,13 +46,13 @@ use self::server::model::events::client_notification::Notification;
 use self::server::model::events::persistence_event::PersistenceEvent;
 use crate::repository::model::item_model::ItemModels;
 use crate::repository::model::mob_model::MobModels;
+use crate::server::boot::mob_spawn::MobSpawnLoader;
+use crate::server::boot::script::ScriptLoader;
+use crate::server::boot::warps::WarpLoader;
 
 
 use self::server::model::map_item::MapItem;
 use self::server::script::ScriptHandler;
-use crate::server::boot::mob_spawn::MobSpawn;
-use crate::server::boot::script::Script;
-use crate::server::boot::warps::Warp;
 use crate::server::service::global_config_service::GlobalConfigService;
 
 use crate::util::log_filter::LogFilter;
@@ -104,7 +104,7 @@ pub async fn main() {
     });
 
     let start = Instant::now();
-    let (scripts, class_files, compilation_errors) = Script::load_scripts();
+    let (scripts, class_files, compilation_errors) = ScriptLoader::load_scripts();
     for class_errors in compilation_errors {
         error!("Error while compiling {}", class_errors.0);
         for compilation_error in class_errors.1 {
@@ -113,9 +113,9 @@ pub async fn main() {
     }
     info!("load {} scripts in {} secs", scripts.len(), start.elapsed().as_millis() as f32 / 1000.0);
     let start = Instant::now();
-    let warps = unsafe { Warp::load_warps(CONFIGS.as_ref().unwrap()).await };
+    let warps = unsafe { WarpLoader::load_warps(CONFIGS.as_ref().unwrap()).await };
     let mobs_map = mobs.clone().into_iter().map(|mob| (mob.id as u32, mob)).collect();
-    let mob_spawns = unsafe { MobSpawn::load_mob_spawns(CONFIGS.as_ref().unwrap(), mobs_map).join().unwrap() };
+    let mob_spawns = unsafe { MobSpawnLoader::load_mob_spawns(CONFIGS.as_ref().unwrap(), mobs_map).join().unwrap() };
     let maps = Map::load_maps(warps, mob_spawns, scripts, &mut map_item_ids);
     info!("load {} map-cache in {} secs", maps.len(), start.elapsed().as_millis() as f32 / 1000.0);
     unsafe {

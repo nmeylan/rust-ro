@@ -6,26 +6,15 @@ use std::io::{BufRead, BufReader};
 use std::time::Instant;
 use crate::server::model::configuration::Config;
 use crate::server::model::map_item::{MapItem, MapItemType, ToMapItem};
-use crate::server::boot::{Npc, NpcLoader};
+use crate::server::boot::{Npc, NpcLoader, NpcLoaderTrait};
+use crate::server::model::warp::Warp;
 
 static PARALLEL_EXECUTIONS: usize = 100; // TODO add a conf for this
 static WARP_CONF_PATH: &str = "./npc/scripts_warps.conf";
 
-#[derive(SettersAll, Clone, Debug)]
-pub struct Warp {
-    pub map_name: String,
-    pub name: String,
-    pub id: u32,
-    pub x: u16,
-    pub y: u16,
-    pub x_size: u16,
-    pub y_size: u16,
-    pub dest_map_name: String,
-    pub to_x: u16,
-    pub to_y: u16,
-}
 
-impl Npc for Warp {
+pub struct WarpLoader;
+impl NpcLoaderTrait<Warp> for WarpLoader {
     fn parse_npc(file: &File, _config: &'static Config) -> Result<Vec<Warp>, String> {
         let reader = BufReader::new(file);
         let mut warps = Vec::<Warp>::new();
@@ -60,49 +49,17 @@ impl Npc for Warp {
         Ok(warps)
     }
 
-    fn get_map_name(&self) -> String {
-        self.map_name.clone()
-    }
 }
 
-impl Warp {
-    pub fn new() -> Warp {
-        Warp {
-            id: 0,
-            name: "".to_string(),
-            map_name: "".to_string(),
-            x: 0,
-            y: 0,
-            x_size: 0,
-            y_size: 0,
-            dest_map_name: "".to_string(),
-            to_x: 0,
-            to_y: 0
-        }
-    }
-
-    pub fn x(&self) -> u16 {
-        self.x
-    }
-    pub fn y(&self) -> u16 {
-        self.y
-    }
-
-
+impl WarpLoader {
     pub async fn load_warps(config: &'static Config) -> HashMap<String, Vec<Warp>> {
         let start = Instant::now();
         let npc_loader = NpcLoader {
             conf_file: File::open(Path::new(WARP_CONF_PATH)).unwrap(),
             parallel_execution: PARALLEL_EXECUTIONS,
         };
-        let warps = npc_loader.load_npc::<Warp>(config).await;
+        let warps = npc_loader.load_npc::<Warp, WarpLoader>(config).await;
         info!("load {} warps in {} secs", warps.iter().fold(0, |memo, curr| memo + curr.1.len()), start.elapsed().as_millis() as f32 / 1000.0);
         warps
-    }
-}
-
-impl ToMapItem for Warp {
-    fn to_map_item(&self) -> MapItem {
-        MapItem::new(self.id, 45, MapItemType::Warp)
     }
 }
