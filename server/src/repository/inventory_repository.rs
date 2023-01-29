@@ -3,7 +3,7 @@ use sqlx::postgres::PgQueryResult;
 use crate::repository::model::item_model::{InventoryItemModel};
 use crate::repository::{InventoryRepository, Repository};
 use crate::repository::persistence_error::PersistenceError;
-use crate::server::events::persistence_event::{DeleteItems, InventoryItemUpdate};
+use crate::server::model::events::persistence_event::{DeleteItems, InventoryItemUpdate};
 
 use async_trait::async_trait;
 

@@ -9,16 +9,16 @@ use tokio::runtime::Runtime;
 use packets::packets::{Packet, PacketZcNotifyPlayermove};
 use crate::PersistenceEvent;
 use crate::PersistenceEvent::SaveCharacterPosition;
-use crate::server::core::movement::{Movable, Movement};
-use crate::server::core::path::{manhattan_distance, path_search_client_side_algorithm};
-use crate::server::core::position::Position;
-use crate::server::events::game_event::{CharacterMovement, GameEvent};
+use crate::server::model::movement::{Movable, Movement};
+use crate::server::model::path::{manhattan_distance, path_search_client_side_algorithm};
+use crate::server::model::position::Position;
+use crate::server::model::events::game_event::{CharacterMovement, GameEvent};
 
-use crate::server::events::client_notification::{CharNotification, Notification};
-use crate::server::events::map_event::{MapEvent};
-use crate::server::events::persistence_event::{SavePositionUpdate};
+use crate::server::model::events::client_notification::{CharNotification, Notification};
+use crate::server::model::events::map_event::{MapEvent};
+use crate::server::model::events::persistence_event::{SavePositionUpdate};
 
-use crate::server::core::map_item::{MapItemType, ToMapItemSnapshot, ToMapItem};
+use crate::server::model::map_item::{MapItemType, ToMapItemSnapshot, ToMapItem};
 
 use crate::server::Server;
 use crate::server::service::battle_service::BattleService;

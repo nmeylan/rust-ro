@@ -1,7 +1,7 @@
 use std::collections::HashMap;
-use crate::server::core::map::WARP_MASK;
-use crate::server::core::map_instance::MapInstanceKey;
-use crate::server::core::map_item::MapItem;
+use crate::server::model::map::WARP_MASK;
+use crate::server::model::map_instance::MapInstanceKey;
+use crate::server::model::map_item::MapItem;
 use crate::server::state::mob::Mob;
 
 
@@ -17,7 +17,7 @@ pub struct MapInstanceState {
     // bit 0 -> walkable
     // bit 1 -> shootable
     // bit 2 -> water
-    // bit 3 -> npc
+    // bit 3 -> boot
     // bit 4 -> basilica
     // bit 5 -> landprotector
     // bit 6 -> novending

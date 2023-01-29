@@ -4,9 +4,9 @@ use tokio::runtime::Runtime;
 use enums::item::ItemType;
 use crate::repository::{ItemRepository};
 use crate::repository::model::item_model::InventoryItemModel;
-use crate::server::core::tasks_queue::TasksQueue;
-use crate::server::events::client_notification::Notification;
-use crate::server::events::game_event::{CharacterAddItems, GameEvent};
+use crate::server::model::tasks_queue::TasksQueue;
+use crate::server::model::events::client_notification::Notification;
+use crate::server::model::events::game_event::{CharacterAddItems, GameEvent};
 use crate::server::script::Value;
 use crate::server::service::global_config_service::GlobalConfigService;
 

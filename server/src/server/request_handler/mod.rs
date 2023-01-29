@@ -1,15 +1,15 @@
 use std::sync::Arc;
 use crate::packets::packets::Packet;
 use packets::packets::{PacketCaLogin, PacketChDeleteChar4Reserved, PacketChEnter, PacketChMakeChar, PacketChMakeChar2, PacketChMakeChar3, PacketChSelectChar, PacketCzAckSelectDealtype, PacketCzBlockingPlayCancel, PacketCzChooseMenu, PacketCzContactnpc, PacketCzEnter2, PacketCzInputEditdlg, PacketCzInputEditdlgstr, PacketCzNotifyActorinit, PacketCzPcPurchaseItemlist, PacketCzPlayerChat, PacketCzReqDisconnect2, PacketCzReqname, PacketCzReqnameall2, PacketCzReqNextScript, PacketCzReqTakeoffEquip, PacketCzRequestAct, PacketCzRequestMove, PacketCzRequestMove2, PacketCzRequestTime, PacketCzReqWearEquip, PacketCzRestart, PacketCzUseItem, PacketUnknown, PacketZcNotifyTime};
-use crate::server::core::request::Request;
-use crate::server::handler::action::action::handle_action;
-use crate::server::handler::action::item::{handle_player_equip_item, handle_player_takeoff_equip_item, handle_player_use_item};
-use crate::server::handler::action::npc::{handle_contact_npc, handle_player_choose_menu, handle_player_input_number, handle_player_input_string, handle_player_next, handle_player_purchase_items, handle_player_select_deal_type};
-use crate::server::handler::char::{handle_blocking_play_cancel, handle_char_enter, handle_delete_reserved_char, handle_disconnect, handle_enter_game, handle_make_char, handle_restart, handle_select_char};
-use crate::server::handler::chat::handle_chat;
-use crate::server::handler::login::handle_login;
-use crate::server::handler::map::{handle_char_loaded_client_side, handle_map_item_name};
-use crate::server::handler::movement::handle_char_move;
+use crate::server::model::request::Request;
+use crate::server::request_handler::action::action::handle_action;
+use crate::server::request_handler::action::item::{handle_player_equip_item, handle_player_takeoff_equip_item, handle_player_use_item};
+use crate::server::request_handler::action::npc::{handle_contact_npc, handle_player_choose_menu, handle_player_input_number, handle_player_input_string, handle_player_next, handle_player_purchase_items, handle_player_select_deal_type};
+use crate::server::request_handler::char::{handle_blocking_play_cancel, handle_char_enter, handle_delete_reserved_char, handle_disconnect, handle_enter_game, handle_make_char, handle_restart, handle_select_char};
+use crate::server::request_handler::chat::handle_chat;
+use crate::server::request_handler::login::handle_login;
+use crate::server::request_handler::map::{handle_char_loaded_client_side, handle_map_item_name};
+use crate::server::request_handler::movement::handle_char_move;
 use crate::server::Server;
 use crate::util::tick::get_tick_client;
 

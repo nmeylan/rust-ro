@@ -1,10 +1,10 @@
 use std::sync::mpsc::SyncSender;
 use std::sync::Once;
-use crate::server::core::map::Map;
-use crate::server::core::movement::{Movable, Movement};
-use crate::server::core::path::path_search_client_side_algorithm;
-use crate::server::core::position::Position;
-use crate::server::events::client_notification::Notification;
+use crate::server::model::map::Map;
+use crate::server::model::movement::{Movable, Movement};
+use crate::server::model::path::path_search_client_side_algorithm;
+use crate::server::model::position::Position;
+use crate::server::model::events::client_notification::Notification;
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::state::mob::{Mob, MobMovement};
 

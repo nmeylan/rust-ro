@@ -1,20 +1,20 @@
 #![allow(dead_code)]
 use std::collections::HashMap;
 use std::sync::Arc;
-use crate::server::core::map::{Map, MAP_EXT};
-use crate::server::core::map_item::{MapItem, ToMapItem};
-use crate::server::npc::warps::Warp;
+use crate::server::model::map::{Map, MAP_EXT};
+use crate::server::model::map_item::{MapItem, ToMapItem};
 use std::sync::mpsc::SyncSender;
 
 use rathena_script_lang_interpreter::lang::vm::Vm;
 
-use crate::server::events::map_event::MapEvent;
-use crate::server::events::client_notification::{Notification};
+use crate::server::model::events::map_event::MapEvent;
+use crate::server::model::events::client_notification::{Notification};
 
-use crate::server::core::tasks_queue::TasksQueue;
+use crate::server::model::tasks_queue::TasksQueue;
 use crate::server::map_instance_loop::MAP_LOOP_TICK_RATE;
 
-use crate::server::npc::script::Script;
+use crate::server::boot::script::Script;
+use crate::server::boot::warps::Warp;
 use crate::server::script::ScriptHandler;
 use crate::server::state::map_instance::{MapInstanceState, MobSpawnTrack};
 use crate::util::cell::{MyRef, MyRefMut, MyUnsafeCell};

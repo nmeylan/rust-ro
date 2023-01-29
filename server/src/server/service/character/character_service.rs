@@ -16,14 +16,14 @@ use crate::enums::EnumWithMaskValue;
 use packets::packets::{Packet, PacketZcLongparChange, PacketZcNotifyStandentry7, PacketZcNotifyVanish, PacketZcNpcackMapmove, PacketZcParChange, PacketZcSpriteChange2};
 use crate::repository::model::item_model::InventoryItemModel;
 use crate::repository::{CharacterRepository, Repository};
-use crate::server::events::game_event::{CharacterChangeMap, CharacterLook, CharacterZeny};
-use crate::server::core::map::{MAP_EXT};
-use crate::server::core::map_item::{MapItem, MapItemType};
-use crate::server::core::path::manhattan_distance;
+use crate::server::model::events::game_event::{CharacterChangeMap, CharacterLook, CharacterZeny};
+use crate::server::model::map::{MAP_EXT};
+use crate::server::model::map_item::{MapItem, MapItemType};
+use crate::server::model::path::manhattan_distance;
 
-use crate::server::events::client_notification::{AreaNotification, AreaNotificationRangeType, CharNotification, Notification};
-use crate::server::events::persistence_event::{PersistenceEvent, SavePositionUpdate, StatusUpdate};
-use crate::server::events::persistence_event::PersistenceEvent::SaveCharacterPosition;
+use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, CharNotification, Notification};
+use crate::server::model::events::persistence_event::{PersistenceEvent, SavePositionUpdate, StatusUpdate};
+use crate::server::model::events::persistence_event::PersistenceEvent::SaveCharacterPosition;
 use crate::server::{PLAYER_FOV, Server};
 
 use crate::server::service::global_config_service::GlobalConfigService;

@@ -1,8 +1,8 @@
 use enums::class::JobName;
 use enums::look::LookType;
 use crate::repository::model::item_model::InventoryItemModel;
-use crate::server::core::movement::Movement;
-use crate::server::core::position::Position;
+use crate::server::model::movement::Movement;
+use crate::server::model::position::Position;
 
 pub enum GameEvent {
     CharacterLoadedFromClientSide(u32),

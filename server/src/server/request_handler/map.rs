@@ -3,8 +3,8 @@ use packets::packets::{Packet, PacketZcAckReqnameall2, PacketCzReqnameall2, Pack
 use crate::server::Server;
 use crate::util::string::StringUtil;
 
-use crate::server::events::game_event::GameEvent;
-use crate::server::core::request::Request;
+use crate::server::model::events::game_event::GameEvent;
+use crate::server::model::request::Request;
 use enums::{EnumWithMaskValue};
 
 use crate::util::packet::chain_packets;

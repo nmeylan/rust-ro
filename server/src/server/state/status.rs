@@ -1,6 +1,6 @@
 use crate::repository::model::char_model::CharSelectModel;
 use crate::repository::model::mob_model::MobModel;
-use crate::server::core::configuration::GameConfig;
+use crate::server::model::configuration::GameConfig;
 
 
 #[derive(SettersAll, Debug)]

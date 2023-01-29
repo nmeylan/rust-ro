@@ -7,7 +7,7 @@ use tokio::sync::mpsc;
 
 use packets::packets::{PacketCzAckSelectDealtype, PacketCzChooseMenu, PacketCzContactnpc, PacketCzInputEditdlg, PacketCzInputEditdlgstr, PacketCzPcPurchaseItemlist};
 
-use crate::server::core::request::Request;
+use crate::server::model::request::Request;
 use crate::server::script::PlayerScriptHandler;
 use crate::server::Server;
 use crate::server::service::global_config_service::GlobalConfigService;

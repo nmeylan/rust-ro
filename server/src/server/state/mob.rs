@@ -5,11 +5,11 @@ use std::collections::HashMap;
 
 
 
-use crate::server::core::map_instance::{MapInstanceKey};
-use crate::server::core::map_item::{MapItem, MapItemType, ToMapItem};
-use crate::server::core::movement::{Movable, Movement};
+use crate::server::model::map_instance::{MapInstanceKey};
+use crate::server::model::map_item::{MapItem, MapItemType, ToMapItem};
+use crate::server::model::movement::{Movable, Movement};
 
-use crate::server::core::position::Position;
+use crate::server::model::position::Position;
 
 use crate::server::state::status::Status;
 

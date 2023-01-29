@@ -8,24 +8,13 @@ use std::{fs};
 
 use std::time::{Instant};
 use std::collections::{HashMap};
-
-
-
-
-
-
-
-
 use crate::Script;
 
+use crate::server::model::path::{allowed_dirs, DIR_EAST, DIR_NORTH, DIR_SOUTH, DIR_WEST, is_direction};
+use crate::server::model::map_item::{MapItem, ToMapItem};
 
-
-use crate::server::core::path::{allowed_dirs, DIR_EAST, DIR_NORTH, DIR_SOUTH, DIR_WEST, is_direction};
-use crate::server::core::map_item::{MapItem, ToMapItem};
-
-
-use crate::server::npc::mob_spawn::MobSpawn;
-use crate::server::npc::warps::Warp;
+use crate::server::boot::mob_spawn::MobSpawn;
+use crate::server::boot::warps::Warp;
 use crate::server::Server;
 
 

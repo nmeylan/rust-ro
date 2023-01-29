@@ -7,10 +7,10 @@ use std::sync::mpsc::Receiver;
 use std::sync::{Once};
 use crate::repository::model::item_model::{ItemModel, ItemModels};
 use crate::repository::model::mob_model::{MobModel, MobModels};
-use crate::server::core::configuration::Config;
+use crate::server::model::configuration::Config;
 
-use crate::server::events::client_notification::Notification;
-use crate::server::events::persistence_event::PersistenceEvent;
+use crate::server::model::events::client_notification::Notification;
+use crate::server::model::events::persistence_event::PersistenceEvent;
 
 
 

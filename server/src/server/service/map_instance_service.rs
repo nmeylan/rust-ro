@@ -3,11 +3,11 @@ use std::sync::mpsc::SyncSender;
 use std::sync::Once;
 use std::time::{SystemTime, UNIX_EPOCH};
 use packets::packets::PacketZcNotifyMove;
-use crate::server::core::map::Map;
+use crate::server::model::map::Map;
 
-use crate::server::core::map_item::{MapItem, MapItemSnapshot, ToMapItem};
-use crate::server::core::path::manhattan_distance;
-use crate::server::events::client_notification::{AreaNotification, AreaNotificationRangeType, Notification};
+use crate::server::model::map_item::{MapItem, MapItemSnapshot, ToMapItem};
+use crate::server::model::path::manhattan_distance;
+use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, Notification};
 use crate::server::{MOB_FOV, Server};
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::service::mob_service::MobService;

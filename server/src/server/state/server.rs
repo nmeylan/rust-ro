@@ -3,14 +3,14 @@ use std::net::TcpStream;
 use std::sync::{Arc, RwLock};
 use std::sync::atomic::AtomicI8;
 
-use crate::server::core::map::MAP_EXT;
+use crate::server::model::map::MAP_EXT;
 
-use crate::server::core::map_instance::MapInstance;
-use crate::server::core::map_item::{MapItem, MapItemType, ToMapItem};
-use crate::server::core::position::Position;
-use crate::server::core::request::Request;
-use crate::server::core::session::Session;
-use crate::server::npc::script::Script;
+use crate::server::model::map_instance::MapInstance;
+use crate::server::model::map_item::{MapItem, MapItemType, ToMapItem};
+use crate::server::model::position::Position;
+use crate::server::model::request::Request;
+use crate::server::model::session::Session;
+use crate::server::boot::script::Script;
 
 use crate::server::state::character::Character;
 

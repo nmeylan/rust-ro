@@ -9,12 +9,12 @@ use enums::item::{EquipmentLocation};
 use enums::look::LookType;
 
 use crate::repository::model::item_model::{InventoryItemModel};
-use crate::server::core::action::Attack;
-use crate::server::core::movement::{Movable, Movement};
-use crate::server::core::map_instance::{MapInstanceKey};
-use crate::server::core::position::Position;
+use crate::server::model::action::Attack;
+use crate::server::model::movement::{Movable, Movement};
+use crate::server::model::map_instance::{MapInstanceKey};
+use crate::server::model::position::Position;
 use crate::server::state::status::{Status};
-use crate::server::core::map_item::{MapItem, MapItemSnapshot, MapItemType, ToMapItem, ToMapItemSnapshot};
+use crate::server::model::map_item::{MapItem, MapItemSnapshot, MapItemType, ToMapItem, ToMapItemSnapshot};
 use crate::server::script::ScriptGlobalVariableStore;
 
 #[derive(Setters)]

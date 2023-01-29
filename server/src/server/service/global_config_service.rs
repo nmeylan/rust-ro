@@ -2,8 +2,8 @@ use std::collections::HashMap;
 use std::sync::{Once};
 use crate::repository::model::item_model::ItemModel;
 use crate::repository::model::mob_model::MobModel;
-use crate::server::core::configuration::{Config, JobConfig, SkillConfig};
-use crate::server::core::map::Map;
+use crate::server::model::configuration::{Config, JobConfig, SkillConfig};
+use crate::server::model::map::Map;
 
 static mut SERVICE_INSTANCE: Option<GlobalConfigService> = None;
 static SERVICE_INSTANCE_INIT: Once = Once::new();

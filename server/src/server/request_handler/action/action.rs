@@ -1,9 +1,9 @@
 use packets::packets::{PacketCzRequestAct};
 use crate::server::Server;
-use crate::server::core::request::Request;
+use crate::server::model::request::Request;
 use enums::EnumWithNumberValue;
 use enums::action::ActionType;
-use crate::server::events::game_event::{CharacterAttack, GameEvent};
+use crate::server::model::events::game_event::{CharacterAttack, GameEvent};
 
 pub fn handle_action(server: &Server, context: Request) {
     let packet_cz_request_act = cast!(context.packet(), PacketCzRequestAct);

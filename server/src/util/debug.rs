@@ -1,5 +1,5 @@
 use packets::packets::{PacketZcNotifyChat};
-use crate::server::core::session::Session;
+use crate::server::model::session::Session;
 
 use packets::packets::Packet;
 

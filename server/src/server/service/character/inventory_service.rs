@@ -10,11 +10,11 @@ use packets::packets::{EquipmentitemExtrainfo301, EQUIPSLOTINFO, NormalitemExtra
 use crate::repository::model::item_model::{EquippedItem, InventoryItemModel, ItemModel};
 use crate::repository::{InventoryRepository, Repository};
 
-use crate::server::core::tasks_queue::TasksQueue;
-use crate::server::events::client_notification::{CharNotification, Notification};
-use crate::server::events::game_event::{CharacterAddItems, CharacterEquipItem, CharacterZeny, GameEvent};
-use crate::server::events::game_event::GameEvent::{CharacterUpdateWeight, CharacterUpdateZeny};
-use crate::server::events::persistence_event::{InventoryItemUpdate, PersistenceEvent};
+use crate::server::model::tasks_queue::TasksQueue;
+use crate::server::model::events::client_notification::{CharNotification, Notification};
+use crate::server::model::events::game_event::{CharacterAddItems, CharacterEquipItem, CharacterZeny, GameEvent};
+use crate::server::model::events::game_event::GameEvent::{CharacterUpdateWeight, CharacterUpdateZeny};
+use crate::server::model::events::persistence_event::{InventoryItemUpdate, PersistenceEvent};
 use crate::server::service::character::character_service::CharacterService;
 use crate::server::service::global_config_service::GlobalConfigService;
 
