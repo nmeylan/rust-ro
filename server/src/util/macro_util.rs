@@ -38,13 +38,13 @@ macro_rules! socket_send_deprecated {
 #[macro_export]
 macro_rules! socket_send {
     ( $context:expr, $packet:expr ) => {
-    $context.response_sender().send($crate::server::core::response::Response::new($context.socket(), std::mem::take($packet.raw_mut()))).unwrap();
+    $context.response_sender().send($crate::server::model::response::Response::new($context.socket(), std::mem::take($packet.raw_mut()))).unwrap();
   }
 }
 #[macro_export]
 macro_rules! socket_send_raw {
     ( $context:expr, $data:expr ) => {
-    $context.response_sender().send($crate::server::core::response::Response::new($context.socket(), $data)).unwrap();
+    $context.response_sender().send($crate::server::model::response::Response::new($context.socket(), $data)).unwrap();
   }
 }
 

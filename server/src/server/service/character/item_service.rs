@@ -11,9 +11,9 @@ use tokio::sync::mpsc;
 use packets::packets::PacketZcUseItemAck2;
 use crate::repository::{ItemRepository, Repository};
 
-use crate::server::events::client_notification::{CharNotification, Notification};
-use crate::server::events::game_event::{CharacterUseItem};
-use crate::server::events::persistence_event::{DeleteItems, PersistenceEvent};
+use crate::server::model::events::client_notification::{CharNotification, Notification};
+use crate::server::model::events::game_event::{CharacterUseItem};
+use crate::server::model::events::persistence_event::{DeleteItems, PersistenceEvent};
 use crate::server::script::{PlayerScriptHandler};
 use crate::server::Server;
 use crate::server::service::global_config_service::GlobalConfigService;

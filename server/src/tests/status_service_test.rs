@@ -1,5 +1,5 @@
-use crate::server::events::client_notification::Notification;
-use crate::server::events::persistence_event::PersistenceEvent;
+use crate::server::model::events::client_notification::Notification;
+use crate::server::model::events::persistence_event::PersistenceEvent;
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::service::status_service::StatusService;
 use crate::tests::common;

@@ -5,10 +5,10 @@ use enums::vanish::VanishType;
 use crate::enums::EnumWithNumberValue;
 use packets::packets::PacketZcNotifyVanish;
 use crate::repository::Repository;
-use crate::server::core::configuration::{Config, SkillConfig};
-use crate::server::core::map::{Map, RANDOM_CELL};
-use crate::server::events::client_notification::{AreaNotification, AreaNotificationRangeType, Notification};
-use crate::server::events::persistence_event::PersistenceEvent;
+use crate::server::model::configuration::{Config, SkillConfig};
+use crate::server::model::map::{Map, RANDOM_CELL};
+use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, Notification};
+use crate::server::model::events::persistence_event::PersistenceEvent;
 use crate::server::Server;
 use crate::server::service::server_service::ServerService;
 

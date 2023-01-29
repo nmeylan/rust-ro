@@ -8,19 +8,19 @@ use std::thread::Scope;
 use tokio::runtime::Runtime;
 use packets::packets_parser::parse;
 use std::io::{Read, Write};
-use crate::repository::{Repository};
-use crate::server::core::configuration::{Config};
+use crate::repository::Repository;
+use crate::server::model::configuration::Config;
 
 
-use crate::server::core::map_item::MapItem;
-use crate::server::core::path::manhattan_distance;
-use crate::server::core::request::Request;
-use crate::server::core::response::Response;
-use crate::server::core::session::{SessionsIter};
-use crate::server::core::tasks_queue::TasksQueue;
-use crate::server::events::client_notification::{AreaNotificationRangeType, Notification};
-use crate::server::events::game_event::{GameEvent};
-use crate::server::events::persistence_event::PersistenceEvent;
+use crate::server::model::map_item::MapItem;
+use crate::server::model::path::manhattan_distance;
+use crate::server::model::request::Request;
+use crate::server::model::response::Response;
+use crate::server::model::session::SessionsIter;
+use crate::server::model::tasks_queue::TasksQueue;
+use model::events::client_notification::{AreaNotificationRangeType, Notification};
+use model::events::game_event::GameEvent;
+use model::events::persistence_event::PersistenceEvent;
 
 
 
@@ -50,14 +50,13 @@ use crate::server::service::status_service::StatusService;
 
 use crate::server::state::server::ServerState;
 
-pub mod npc;
-pub mod handler;
-pub mod core;
+pub mod boot;
+pub mod request_handler;
+pub mod model;
 pub mod script;
 mod game_loop;
 pub mod persistence;
 pub mod service;
-pub mod events;
 pub mod state;
 pub mod map_instance_loop;
 
@@ -182,7 +181,7 @@ impl Server {
                                     }
                                     let packet = parse(&buffer[..bytes_read], server_shared_ref.packetver());
                                     let context = Request::new(&runtime, server_shared_ref.configuration, None, server_shared_ref.packetver(), tcp_stream_arc.clone(), packet.as_ref(), response_sender_clone.clone(), client_notification_sender_clone.clone());
-                                    handler::handle(server_shared_ref.clone(), context);
+                                    request_handler::handle(server_shared_ref.clone(), context);
                                 }
                                 Err(err) => error!("{}", err)
                             }

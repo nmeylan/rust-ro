@@ -6,7 +6,7 @@ use std::path::Path;
 use std::sync::{Arc, Mutex};
 use tokio::sync::Semaphore;
 use tokio::task::JoinHandle;
-use crate::server::core::configuration::Config;
+use crate::server::model::configuration::Config;
 
 pub mod mob_spawn;
 pub mod script;
@@ -46,7 +46,7 @@ impl NpcLoader {
                 let npc_script_file_res = File::open(Path::new(&npc_script_path));
                 if npc_script_file_res.is_err() {
                     warn!(
-                        "Not able to load npc script: {}, due to {}",
+                        "Not able to load boot script: {}, due to {}",
                         npc_script_path,
                         npc_script_file_res.err().unwrap()
                     );

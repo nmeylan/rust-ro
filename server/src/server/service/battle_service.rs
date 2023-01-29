@@ -5,8 +5,8 @@ use enums::action::ActionType;
 use packets::packets::PacketZcNotifyAct;
 use crate::repository::model::item_model::ItemModel;
 use crate::repository::model::mob_model::MobModel;
-use crate::server::core::map_item::{MapItem, MapItemType};
-use crate::server::events::client_notification::{AreaNotification, AreaNotificationRangeType, Notification};
+use crate::server::model::map_item::{MapItem, MapItemType};
+use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, Notification};
 
 
 use crate::server::service::global_config_service::GlobalConfigService;
@@ -14,7 +14,7 @@ use crate::server::service::status_service::StatusService;
 use crate::server::state::character::Character;
 use crate::enums::EnumWithNumberValue;
 use crate::packets::packets::Packet;
-use crate::server::core::action::Damage;
+use crate::server::model::action::Damage;
 
 static mut SERVICE_INSTANCE: Option<BattleService> = None;
 static SERVICE_INSTANCE_INIT: Once = Once::new();

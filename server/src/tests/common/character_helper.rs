@@ -1,7 +1,7 @@
 use std::sync::Mutex;
 use rand::RngCore;
 use crate::repository::model::item_model::InventoryItemModel;
-use crate::server::core::map_instance::MapInstanceKey;
+use crate::server::model::map_instance::MapInstanceKey;
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::state::character::Character;
 use crate::server::state::status::Status;

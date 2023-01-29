@@ -4,7 +4,7 @@ use std::str::FromStr;
 use std::sync::{Arc, Mutex};
 use packets::packets::{Packet, PacketChSendMapInfo, PacketHcNotifyZonesvr, ZserverAddr};
 use crate::proxy::{PacketHandler, Proxy};
-use crate::server::core::configuration::ProxyConfig;
+use crate::server::model::configuration::ProxyConfig;
 
 #[derive(Clone)]
 pub struct CharProxy {

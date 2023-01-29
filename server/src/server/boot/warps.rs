@@ -4,9 +4,9 @@ use std::fs::File;
 use std::path::Path;
 use std::io::{BufRead, BufReader};
 use std::time::Instant;
-use crate::server::core::configuration::Config;
-use crate::server::core::map_item::{MapItem, MapItemType, ToMapItem};
-use crate::server::npc::{Npc, NpcLoader};
+use crate::server::model::configuration::Config;
+use crate::server::model::map_item::{MapItem, MapItemType, ToMapItem};
+use crate::server::boot::{Npc, NpcLoader};
 
 static PARALLEL_EXECUTIONS: usize = 100; // TODO add a conf for this
 static WARP_CONF_PATH: &str = "./npc/scripts_warps.conf";
@@ -38,7 +38,7 @@ impl Npc for Warp {
             if line.starts_with("//") || !line.contains("\twarp\t") {
                 continue;
             }
-            // A warp "npc" definition is as below
+            // A warp "boot" definition is as below
             // anthell01,253,32,0	warp	ant01	2,1,anthell02,34,263
             let line_fragment = line.split('\t').collect::<Vec<&str>>();
             let source_information = line_fragment[0];

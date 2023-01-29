@@ -3,8 +3,8 @@ use rathena_script_lang_interpreter::lang::thread::Thread;
 use rathena_script_lang_interpreter::lang::value::Value;
 use regex::Regex;
 use crate::server::state::character::Character;
-use crate::server::events::game_event::CharacterZeny;
-use crate::server::events::game_event::GameEvent::CharacterUpdateZeny;
+use crate::server::model::events::game_event::CharacterZeny;
+use crate::server::model::events::game_event::GameEvent::CharacterUpdateZeny;
 
 use crate::server::script::constant::load_constant;
 use crate::server::script::{GlobalVariableEntry, GlobalVariableScope};

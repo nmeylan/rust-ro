@@ -10,8 +10,8 @@ use packets::packets::{PacketZcAttackRange, PacketZcParChange, PacketZcStatusVal
 
 
 
-use crate::server::events::client_notification::{CharNotification, Notification};
-use crate::server::events::persistence_event::PersistenceEvent;
+use crate::server::model::events::client_notification::{CharNotification, Notification};
+use crate::server::model::events::persistence_event::PersistenceEvent;
 
 use crate::server::Server;
 use crate::server::service::global_config_service::GlobalConfigService;

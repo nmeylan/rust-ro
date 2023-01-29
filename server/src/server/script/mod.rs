@@ -15,10 +15,10 @@ use crate::enums::EnumWithNumberValue;
 
 use packets::packets::{Packet, PacketZcCloseDialog, PacketZcMenuList, PacketZcNotifyPlayerchat, PacketZcNpcChat, PacketZcOpenEditdlg, PacketZcOpenEditdlgstr, PacketZcSayDialog, PacketZcShowImage2, PacketZcWaitDialog};
 
-use crate::server::core::session::Session;
-use crate::server::events::client_notification::{CharNotification, Notification};
-use crate::server::events::game_event::CharacterLook;
-use crate::server::events::game_event::GameEvent::CharacterUpdateLook;
+use crate::server::model::session::Session;
+use crate::server::model::events::client_notification::{CharNotification, Notification};
+use crate::server::model::events::game_event::CharacterLook;
+use crate::server::model::events::game_event::GameEvent::CharacterUpdateLook;
 use crate::server::script::constant::{get_battle_flag, load_constant};
 use crate::server::Server;
 

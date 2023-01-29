@@ -8,8 +8,8 @@ use lazy_static::lazy_static;
 use crate::debugger::frame_history;
 use crate::debugger::map_instance_view::MapInstanceView;
 use crate::server::state::character::Character;
-use crate::server::core::map_item::MapItem;
-use crate::server::core::map_item::MapItemType;
+use crate::server::model::map_item::MapItem;
+use crate::server::model::map_item::MapItemType;
 
 pub struct VisualDebugger {
     pub name: String,

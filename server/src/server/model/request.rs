@@ -7,10 +7,10 @@ use std::sync::mpsc::{SyncSender};
 use tokio::runtime::Runtime;
 
 use packets::packets::Packet;
-use crate::server::core::configuration::Config;
-use crate::server::events::client_notification::Notification;
-use crate::server::core::response::Response;
-use crate::server::core::session::Session;
+use crate::server::model::configuration::Config;
+use crate::server::model::events::client_notification::Notification;
+use crate::server::model::response::Response;
+use crate::server::model::session::Session;
 
 pub struct Request<'server: 'request, 'request> {
     runtime: &'server Runtime,

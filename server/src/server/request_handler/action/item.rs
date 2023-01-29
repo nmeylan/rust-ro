@@ -1,7 +1,7 @@
-use crate::server::core::request::Request;
+use crate::server::model::request::Request;
 use packets::packets::{PacketCzUseItem, PacketZcUseItemAck2, PacketCzReqWearEquip, PacketCzReqTakeoffEquip};
 use crate::packets::packets::Packet;
-use crate::server::events::game_event::{CharacterEquipItem, CharacterTakeoffEquipItem, CharacterUseItem, GameEvent};
+use crate::server::model::events::game_event::{CharacterEquipItem, CharacterTakeoffEquipItem, CharacterUseItem, GameEvent};
 use crate::server::Server;
 
 pub fn handle_player_use_item(server: &Server, context: Request) {

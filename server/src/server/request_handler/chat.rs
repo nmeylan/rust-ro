@@ -1,7 +1,7 @@
 
 use crate::server::Server;
-use crate::server::core::request::Request;
-use crate::server::handler::atcommand::handle_atcommand;
+use crate::server::model::request::Request;
+use crate::server::request_handler::atcommand::handle_atcommand;
 use packets::packets::PacketCzPlayerChat;
 
 pub fn handle_chat(server: &Server, context: Request) {

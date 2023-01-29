@@ -1,5 +1,5 @@
-use crate::server::core::action::Damage;
-use crate::server::core::map_item::{MapItem, MapItemSnapshot};
+use crate::server::model::action::Damage;
+use crate::server::model::map_item::{MapItem, MapItemSnapshot};
 
 pub enum MapEvent {
     UpdateMobsFov(Vec<MapItemSnapshot>),

@@ -9,8 +9,8 @@ use std::time::Instant;
 use tokio::runtime::Runtime;
 
 use crate::repository::model::mob_model::MobModel;
-use crate::server::core::configuration::Config;
-use crate::server::npc::{Npc, NpcLoader};
+use crate::server::model::configuration::Config;
+use crate::server::boot::{Npc, NpcLoader};
 
 
 

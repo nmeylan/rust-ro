@@ -11,9 +11,9 @@ use packets::packets::{Packet, PacketAcAcceptLogin, PacketAcAcceptLogin2, Packet
 use packets::packets_parser::parse;
 
 use crate::repository::Repository;
-use crate::server::core::request::Request;
+use crate::server::model::request::Request;
 
-use crate::server::core::session::Session;
+use crate::server::model::session::Session;
 use crate::server::Server;
 
 pub(crate) fn handle_login(server: Arc<Server>, context: Request) {
