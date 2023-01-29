@@ -2,11 +2,13 @@ use futures::future::join_all;
 use std::collections::HashMap;
 use std::fs::File;
 use std::io::{BufRead, BufReader};
+use std::ops::Deref;
 use std::path::Path;
 use std::sync::{Arc, Mutex};
 use tokio::sync::Semaphore;
 use tokio::task::JoinHandle;
 use crate::server::model::configuration::Config;
+use crate::server::model::Npc;
 
 pub mod mob_spawn;
 pub mod script;
@@ -17,18 +19,15 @@ pub struct NpcLoader {
     pub(crate) parallel_execution: usize,
 }
 
-pub trait Npc {
-    fn parse_npc(file: &File, config: &'static Config) -> Result<Vec<Self>, String>
-    where
-        Self: Sized;
-    fn get_map_name(&self) -> String;
+pub trait NpcLoaderTrait<NpcKind: Npc> {
+    fn parse_npc(file: &File, config: &'static Config) -> Result<Vec<NpcKind>, String>;
 }
 
 impl NpcLoader {
-    pub async fn load_npc<T: Npc + Clone + Send + 'static>(&self, config: &'static Config) -> HashMap<String, Vec<T>> {
+    pub async fn load_npc<NpcKind: Npc + Clone + Send + 'static, T: NpcLoaderTrait<NpcKind>>(&self, config: &'static Config) -> HashMap<String, Vec<NpcKind>> {
         let semaphore = Semaphore::new(self.parallel_execution);
         let reader = BufReader::new(&self.conf_file);
-        let npcs_by_map = Arc::new(Mutex::new(HashMap::<String, Vec<T>>::new()));
+        let npcs_by_map = Arc::new(Mutex::new(HashMap::<String, Vec<NpcKind>>::new()));
         let mut futures: Vec<JoinHandle<()>> = Vec::new();
         for line in reader.lines() {
             if line.is_err() {
@@ -69,7 +68,7 @@ impl NpcLoader {
         }
         join_all(futures).await;
         let guard = npcs_by_map.lock().unwrap();
-        let mut res = HashMap::<String, Vec<T>>::new();
+        let mut res = HashMap::<String, Vec<NpcKind>>::new();
         guard.iter().for_each(|(k, v)| {
             res.insert(k.clone(), v.clone());
         });

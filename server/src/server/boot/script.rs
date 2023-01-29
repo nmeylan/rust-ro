@@ -9,6 +9,7 @@ use rathena_script_lang_interpreter::lang::error::CompilationError;
 use rathena_script_lang_interpreter::lang::value::Value;
 use rathena_script_lang_interpreter::util::scripts_compiler;
 use crate::server::model::map_item::{MapItem, MapItemType, ToMapItem};
+use crate::server::model::script::Script;
 
 
 use crate::server::script::constant::load_constant;
@@ -16,43 +17,9 @@ use crate::server::script::constant::load_constant;
 // TODO add a conf for this
 static SCRIPT_CONF_PATH: &str = "./npc/scripts_custom.conf";
 
-#[derive(Setters, Clone, Debug)]
-pub struct Script {
-    #[set]
-    id: u32,
-    map_name: String,
-    name: String,
-    sprite: u16,
-    x: u16,
-    y: u16,
-    dir: u16,
-    #[allow(dead_code)]
-    x_size: u16,
-    #[allow(dead_code)]
-    y_size: u16,
-    pub class_name: String,
-    pub class_reference: u64,
-    pub constructor_args: Vec<Value>,
-    #[set]
-    pub instance_reference: u64,
-}
+pub struct ScriptLoader;
+impl ScriptLoader {
 
-impl Script {
-    pub fn id(&self) -> u32 {
-        self.id
-    }
-    pub fn x(&self) -> u16 {
-        self.x
-    }
-    pub fn y(&self) -> u16 {
-        self.y
-    }
-    pub fn dir(&self) -> u16 {
-        self.dir
-    }
-    pub fn name(&self) -> &String {
-        &self.name
-    }
     pub fn load_scripts() -> (HashMap::<String, Vec<Script>>, Vec<ClassFile>, HashMap::<String, Vec<CompilationError>>) {
         let mut npcs_by_map = HashMap::<String, Vec<Script>>::new();
         let conf_file = File::open(Path::new(SCRIPT_CONF_PATH)).unwrap();
@@ -99,7 +66,7 @@ impl Script {
                 constructor_args: s.constructor_args.clone(),
                 instance_reference: 0,
             }
-        }).collect::<Vec<Self>>();
+        }).collect::<Vec<Script>>();
         for script in scripts {
             let map_name = script.map_name.clone();
             let entry = npcs_by_map.entry(map_name).or_insert(Default::default());

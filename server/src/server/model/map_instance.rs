@@ -12,9 +12,9 @@ use crate::server::model::events::client_notification::{Notification};
 
 use crate::server::model::tasks_queue::TasksQueue;
 use crate::server::map_instance_loop::MAP_LOOP_TICK_RATE;
+use crate::server::model::script::Script;
+use crate::server::model::warp::Warp;
 
-use crate::server::boot::script::Script;
-use crate::server::boot::warps::Warp;
 use crate::server::script::ScriptHandler;
 use crate::server::state::map_instance::{MapInstanceState, MobSpawnTrack};
 use crate::util::cell::{MyRef, MyRefMut, MyUnsafeCell};
