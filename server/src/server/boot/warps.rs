@@ -10,7 +10,8 @@ use crate::server::boot::{Npc, NpcLoader, NpcLoaderTrait};
 use crate::server::model::warp::Warp;
 
 static PARALLEL_EXECUTIONS: usize = 100; // TODO add a conf for this
-static WARP_CONF_PATH: &str = "./npc/scripts_warps.conf";
+static WARP_ROOT_PATH: &str = "./config/npc";
+static WARP_CONF_FILE: &str = "scripts_warps.conf";
 
 
 pub struct WarpLoader;
@@ -55,7 +56,8 @@ impl WarpLoader {
     pub async fn load_warps(config: &'static Config) -> HashMap<String, Vec<Warp>> {
         let start = Instant::now();
         let npc_loader = NpcLoader {
-            conf_file: File::open(Path::new(WARP_CONF_PATH)).unwrap(),
+            conf_file: File::open(Path::new(WARP_ROOT_PATH).join(WARP_CONF_FILE)).unwrap(),
+            root_path: WARP_ROOT_PATH.to_string(),
             parallel_execution: PARALLEL_EXECUTIONS,
         };
         let warps = npc_loader.load_npc::<Warp, WarpLoader>(config).await;

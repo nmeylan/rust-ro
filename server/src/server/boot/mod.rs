@@ -16,6 +16,7 @@ pub mod warps;
 
 pub struct NpcLoader {
     pub(crate) conf_file: File,
+    pub(crate) root_path: String,
     pub(crate) parallel_execution: usize,
 }
 
@@ -39,10 +40,12 @@ impl NpcLoader {
             }
             line = line.replace("npc: ", "");
             let npc_script_path = line.trim().to_string();
+
             let _ = semaphore.acquire().await.unwrap();
             let res = npcs_by_map.clone();
+            let config_root_path = self.root_path.clone();
             futures.push(tokio::task::spawn_blocking(move || {
-                let npc_script_file_res = File::open(Path::new(&npc_script_path));
+                let npc_script_file_res = File::open(Path::new(config_root_path.as_str()).join(npc_script_path.clone()));
                 if npc_script_file_res.is_err() {
                     warn!(
                         "Not able to load boot script: {}, due to {}",

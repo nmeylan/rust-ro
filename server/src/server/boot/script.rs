@@ -15,14 +15,15 @@ use crate::server::model::script::Script;
 use crate::server::script::constant::load_constant;
 
 // TODO add a conf for this
-static SCRIPT_CONF_PATH: &str = "./npc/scripts_custom.conf";
+static SCRIPT_ROOT_PATH: &str = "./config/npc";
+static SCRIPT_CONF_FILE: &str = "scripts_custom.conf";
 
 pub struct ScriptLoader;
 impl ScriptLoader {
 
     pub fn load_scripts() -> (HashMap::<String, Vec<Script>>, Vec<ClassFile>, HashMap::<String, Vec<CompilationError>>) {
         let mut npcs_by_map = HashMap::<String, Vec<Script>>::new();
-        let conf_file = File::open(Path::new(SCRIPT_CONF_PATH)).unwrap();
+        let conf_file = File::open(Path::new(SCRIPT_ROOT_PATH).join(SCRIPT_CONF_FILE)).unwrap();
         let reader = BufReader::new(&conf_file);
         let mut paths = Vec::<String>::new();
         for line in reader.lines() {
@@ -35,7 +36,8 @@ impl ScriptLoader {
             }
             line = line.replace("npc: ", "");
             let npc_script_path = line.trim().to_string();
-            paths.push(npc_script_path);
+            let script_file_path = Path::new(SCRIPT_ROOT_PATH).join(npc_script_path).to_str().unwrap().to_string();
+            paths.push(script_file_path);
         }
         let compilation_result = scripts_compiler::compile(paths, "native_functions_list.txt", DebugFlag::None.value());
         let (scripts, class_files, errors) = compilation_result;

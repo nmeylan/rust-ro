@@ -22,7 +22,7 @@ use crate::util::coordinate;
 
 
 static MAPCACHE_EXT: &str = ".mcache";
-static MAP_DIR: &str = "./maps/pre-re";
+static MAP_DIR: &str = "./config/maps/pre-re";
 pub static MAP_EXT: &str = ".gat";
 pub const WARP_MASK: u16 = 0b0000_0100_0000_0000;
 pub const WALKABLE_MASK: u16 = 0b0000000000000001;
