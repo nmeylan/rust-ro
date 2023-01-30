@@ -46,9 +46,10 @@ use self::server::model::events::client_notification::Notification;
 use self::server::model::events::persistence_event::PersistenceEvent;
 use crate::repository::model::item_model::ItemModels;
 use crate::repository::model::mob_model::MobModels;
-use crate::server::boot::mob_spawn::MobSpawnLoader;
-use crate::server::boot::script::ScriptLoader;
-use crate::server::boot::warps::WarpLoader;
+use crate::server::boot::map_loader::MapLoader;
+use crate::server::boot::mob_spawn_loader::MobSpawnLoader;
+use crate::server::boot::script_loader::ScriptLoader;
+use crate::server::boot::warps_loader::WarpLoader;
 
 
 use self::server::model::map_item::MapItem;
@@ -116,7 +117,7 @@ pub async fn main() {
     let warps = unsafe { WarpLoader::load_warps(CONFIGS.as_ref().unwrap()).await };
     let mobs_map = mobs.clone().into_iter().map(|mob| (mob.id as u32, mob)).collect();
     let mob_spawns = unsafe { MobSpawnLoader::load_mob_spawns(CONFIGS.as_ref().unwrap(), mobs_map).join().unwrap() };
-    let maps = Map::load_maps(warps, mob_spawns, scripts, &mut map_item_ids);
+    let maps = MapLoader::load_maps(warps, mob_spawns, scripts, &mut map_item_ids);
     info!("load {} map-cache in {} secs", maps.len(), start.elapsed().as_millis() as f32 / 1000.0);
     unsafe {
         GlobalConfigService::init(CONFIGS.as_ref().unwrap(),

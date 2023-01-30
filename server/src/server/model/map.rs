@@ -21,22 +21,10 @@ use crate::server::Server;
 use crate::util::coordinate;
 
 
-static MAPCACHE_EXT: &str = ".mcache";
-static MAP_DIR: &str = "./config/maps/pre-re";
 pub static MAP_EXT: &str = ".gat";
 pub const WARP_MASK: u16 = 0b0000_0100_0000_0000;
 pub const WALKABLE_MASK: u16 = 0b0000000000000001;
 pub const RANDOM_CELL: (u16, u16) = (u16::MAX, u16::MAX);
-
-struct Header {
-    #[allow(dead_code)]
-    pub version: i16,
-    #[allow(dead_code)]
-    pub checksum: [u8; 16],
-    pub x_size: i16,
-    pub y_size: i16,
-    pub length: i32,
-}
 
 pub struct Map {
     x_size: u16,
@@ -50,6 +38,9 @@ pub struct Map {
 }
 
 impl Map {
+    pub fn new(x_size: u16, y_size: u16, length: i32, name: String, name_with_ext: String, warps: Vec<Warp>, mob_spawns: Vec<MobSpawn>, scripts: Vec<Script>) -> Self {
+        Self { x_size, y_size, length, name, name_with_ext, warps, mob_spawns, scripts }
+    }
     pub fn find_random_walkable_cell(cells: &Vec<u16>, x_size: u16) -> (u16, u16) {
         let rng = fastrand::Rng::new();
 
@@ -124,32 +115,7 @@ impl Map {
         }
     }
 
-    pub fn generate_cells(&self, map_items: &mut HashMap<u32, MapItem>) -> Vec<u16> {
-        let file_path = Path::join(Path::new(MAP_DIR), format!("{}{}", self.name, MAPCACHE_EXT));
-        let file = File::open(file_path).unwrap();
-        let mut reader = BufReader::new(file);
-        let mut map_cache_zip_content_buf = Vec::new();
-        let mut map_cache_content_buf = Vec::new();
-        reader.read_to_end(&mut map_cache_zip_content_buf).unwrap_or_else(|_| panic!("Fail to read map-cache zip content for map: {}", self.name));
-        let mut decoder = ZlibDecoder::new(&map_cache_zip_content_buf[26..]); // skip header
-        decoder.read_to_end(&mut map_cache_content_buf).unwrap_or_else(|_| panic!("Fail to read map-cache unzipped content for map: {}", self.name));
-
-        let mut cells: Vec<u16> = Vec::with_capacity(self.length as usize);
-        for cell in map_cache_content_buf {
-            cells.push(match cell {
-                0 | 2 | 4 | 6 => 3, // 3 => bytes 0 and byte 1 are set. walkable ground values 2,4,6 are unknown, should not be present in mapcache file. but hercules set them to this value.
-                1 => 0, // no walkable ground
-                3 => 7, // 7 => bytes 0, 1 ,2 are set. walkable water
-                5 => 2, // 2 => byte 1 is set gap, (shootable)
-                _ => 0
-            })
-        }
-
-        self.set_warp_cells(&mut cells, map_items);
-        cells
-    }
-
-    fn set_warp_cells(&self, cells: &mut [u16], map_items: &mut HashMap<u32, MapItem>) {
+    pub fn set_warp_cells(&self, cells: &mut [u16], map_items: &mut HashMap<u32, MapItem>) {
         for warp in self.warps.iter() {
             map_items.insert(warp.id, warp.to_map_item());
             let start_x = warp.x - warp.x_size;
@@ -166,7 +132,9 @@ impl Map {
         }
     }
 
-    fn set_warps(&mut self, warps: &[Warp], map_item_ids: &mut HashMap<u32, MapItem>) {
+
+
+    pub fn set_warps(&mut self, warps: &[Warp], map_item_ids: &mut HashMap<u32, MapItem>) {
         let warps = warps.iter().map(|warp| {
             let mut warp = warp.clone();
             warp.set_id(Server::generate_id(map_item_ids));
@@ -175,11 +143,11 @@ impl Map {
         self.warps = warps;
     }
 
-    fn set_mob_spawns(&mut self, mob_spawns: &[MobSpawn]) {
+    pub fn set_mob_spawns(&mut self, mob_spawns: &[MobSpawn]) {
         self.mob_spawns = mob_spawns.to_vec();
     }
 
-    fn set_scripts(&mut self, scripts: &[Script], map_item_ids: &mut HashMap<u32, MapItem>) {
+    pub fn set_scripts(&mut self, scripts: &[Script], map_item_ids: &mut HashMap<u32, MapItem>) {
         self.scripts =
             scripts.iter().map(|script| {
                 let mut script = script.clone();
@@ -188,56 +156,10 @@ impl Map {
             }).collect::<Vec<Script>>();
     }
 
-    pub fn load_maps(warps: HashMap<String, Vec<Warp>>, mob_spawns: HashMap<String, Vec<MobSpawn>>, scripts: HashMap<String, Vec<Script>>, map_items: &mut HashMap<u32, MapItem>) -> HashMap<String, Map> {
-        let mut maps = HashMap::<String, Map>::new();
-        let paths = fs::read_dir(MAP_DIR).unwrap();
-        for path in paths {
-            let _start = Instant::now();
-            let path = path.as_ref().unwrap();
-            let map_name = path.file_name().to_str().unwrap().replace(MAPCACHE_EXT, "");
-            let file = File::open(path.path()).unwrap_or_else(|_| panic!("Can't open file for map: {}", map_name));
-            let mut reader = BufReader::new(file);
-            let mut buf = [0_u8; 26];
-            reader.read_exact(&mut buf).unwrap_or_else(|_| panic!("Can't read file for map: {}", map_name));
-            let header = Header {
-                version: Cursor::new(buf[0..2].to_vec()).read_i16::<LittleEndian>().unwrap(),
-                checksum: buf[2..18].try_into().unwrap(),
-                x_size: Cursor::new(buf[18..20].to_vec()).read_i16::<LittleEndian>().unwrap(),
-                y_size: Cursor::new(buf[20..22].to_vec()).read_i16::<LittleEndian>().unwrap(),
-                length: Cursor::new(buf[22..26].to_vec()).read_i32::<LittleEndian>().unwrap(),
-            };
-            // TODO validate checksum
-            // TODO validate size + length
-
-            let mut map = Map {
-                x_size: header.x_size as u16,
-                y_size: header.y_size as u16,
-                length: header.length,
-                name: map_name.to_string(),
-                name_with_ext: Self::_name_with_ext(map_name.as_str()),
-                warps: Default::default(),
-                mob_spawns: Default::default(),
-                scripts: Default::default(),
-            };
-            map.set_warps(warps.get(&map_name).unwrap_or(&vec![]), map_items);
-            map.set_mob_spawns(mob_spawns.get(&map_name).unwrap_or(&vec![]));
-            map.set_scripts(scripts.get(&map_name).unwrap_or(&vec![]), map_items);
-            maps.insert(map.name.clone(), map);
-        }
-        maps
-    }
-
     pub fn name_without_ext(map_name: &str) -> String {
         map_name.replace(MAP_EXT, "")
     }
 
-    fn _name_with_ext(map_name: &str) -> String {
-        if !map_name.ends_with(MAP_EXT) {
-            format!("{}{}", map_name, MAP_EXT)
-        } else {
-            map_name.to_string()
-        }
-    }
 
     pub fn x_size(&self) -> u16 {
         self.x_size
