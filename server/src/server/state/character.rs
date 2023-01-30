@@ -4,7 +4,7 @@ use std::collections::HashSet;
 use std::iter::Filter;
 use std::sync::{Mutex};
 use accessor::Setters;
-use enums::{EnumWithMaskValue};
+use enums::{EnumWithMaskValueU64};
 use enums::item::{EquipmentLocation};
 use enums::look::LookType;
 

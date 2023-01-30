@@ -1,6 +1,10 @@
 extern crate proc_macro;
 
 use proc_macro::{TokenStream};
+use std::fmt::Debug;
+use std::ops::{Add, BitAnd, Not, Shl};
+use std::process::Output;
+use std::str::FromStr;
 use quote::quote;
 use syn::{parse_macro_input, DeriveInput, Variant};
 use syn::Data::Enum;
@@ -79,88 +83,99 @@ pub fn with_number_value(input: TokenStream) -> TokenStream {
     TokenStream::from(res)
 }
 
-#[proc_macro_derive(WithMaskValue, attributes(mask_value, mask_all))]
-pub fn with_mask_value(input: TokenStream) -> TokenStream {
-    let input = parse_macro_input!(input as DeriveInput);
-    let enum_name = &input.ident;
+macro_rules! with_mask {
+    ($function:ident, $trait:ident, $macro:ident, $type:ty, $max_bits:expr) => {
 
-    let res = if let Enum(enum_data) = &input.data {
-        let mut i: usize = 0;
-        let from_value_match_arms = enum_data.variants.iter().enumerate().map(|(_, variant)| {
-            let variant_name = variant.ident.clone();
-            let maybe_value = get_number_value::<u64>(variant, "mask_value");
-            let is_all_value = is_all_value(variant, "mask_all");
-            let j = if let Some(value) = maybe_value {
-                i = count_number_of_1_bits(value);
-                value
-            } else if is_all_value {
-                u64::MAX
-            } else {
-                1 << i
-            };
-
-            let res = quote! {
-                #j => #enum_name::#variant_name,
-            };
-            i += 1;
-            res
-        });
-        let mut i: usize = 0;
-        let value_match_arms = enum_data.variants.iter().enumerate().map(|(_, variant)| {
-            let variant_name = variant.ident.clone();
-            let maybe_value = get_number_value::<u64>(variant, "mask_value");
-            let is_all_value = is_all_value(variant, "mask_all");
-            let j = if let Some(value) = maybe_value {
-                i = count_number_of_1_bits(value);
-                value
-            } else if is_all_value {
-                u64::MAX
-            } else {
-                1 << i
-            };
-            let res = quote! {
-                #enum_name::#variant_name => #j,
-            };
-            i += 1;
-            res
-        });
-        quote! {
-            impl EnumWithMaskValue for #enum_name {
-                fn from_flag(value: u64) -> Self {
-                    match value {
-                        #(#from_value_match_arms)*
-                        _ => panic!("Can't create enum_macro #enum_name for value {}", value)
+        #[proc_macro_derive($macro, attributes(mask_value, mask_all))]
+        pub fn $function(input: TokenStream) -> TokenStream {
+            let input = parse_macro_input!(input as DeriveInput);
+            let enum_name = &input.ident;
+            fn count_number_of_1_bits(value: $type) -> usize {
+                let mut k: usize = 0;
+                // count number of 1 bits in value
+                loop {
+                    if k > $max_bits {
+                        break;
                     }
-                }
-
-                fn as_flag(&self) -> u64 {
-                    match self {
-                        #(#value_match_arms)*
-                        _ => panic!("Value can't be found for enum_macro #enum_name")
+                    if value & (1 << k) != 0 {
+                        return k;
                     }
+                    k += 1;
                 }
+                0
             }
+            let res = if let Enum(enum_data) = &input.data {
+                let mut i: usize = 0;
+                let from_value_match_arms = enum_data.variants.iter().enumerate().map(|(_, variant)| {
+                    let variant_name = variant.ident.clone();
+                    let maybe_value = get_number_value::<$type>(variant, "mask_value");
+                    let is_all_value = is_all_value(variant, "mask_all");
+                    let j = if let Some(value) = maybe_value {
+                        i = count_number_of_1_bits(value);
+                        value
+                    } else if is_all_value {
+                        <$type>::MAX
+                    } else {
+                        1 << i
+                    };
+
+                    let res = quote! {
+                        #j => #enum_name::#variant_name,
+                    };
+                    i += 1;
+                    res
+                });
+                let mut i: usize = 0;
+                let value_match_arms = enum_data.variants.iter().enumerate().map(|(_, variant)| {
+                    let variant_name = variant.ident.clone();
+                    let maybe_value = get_number_value::<$type>(variant, "mask_value");
+                    let is_all_value = is_all_value(variant, "mask_all");
+                    let j = if let Some(value) = maybe_value {
+                        i = count_number_of_1_bits(value);
+                        value
+                    } else if is_all_value {
+                        <$type>::MAX
+                    } else {
+                        1 << i
+                    };
+                    let res = quote! {
+                        #enum_name::#variant_name => #j,
+                    };
+                    i += 1;
+                    res
+                });
+                quote! {
+                    impl $trait for #enum_name {
+                        fn from_flag(value: $type) -> Self {
+                            match value {
+                                #(#from_value_match_arms)*
+                                _ => panic!("Can't create enum_macro #enum_name for value {}", value)
+                            }
+                        }
+
+                        fn as_flag(&self) -> $type {
+                            match self {
+                                #(#value_match_arms)*
+                                _ => panic!("Value can't be found for enum_macro #enum_name")
+                            }
+                        }
+                    }
+                }
+            } else {
+                quote! {}
+            };
+            TokenStream::from(res)
         }
-    } else {
-        quote! {}
-    };
-    TokenStream::from(res)
+    }
 }
 
-fn count_number_of_1_bits(value: u64) -> usize {
-    let mut k: usize = 0;
-    // count number of 1 bits in value
-    loop {
-        if k > 63 {
-            break;
-        }
-        if value & (1 << k) != 0 {
-            return k;
-        }
-        k += 1;
-    }
-    0
-}
+with_mask!(with_mask_value_u64, EnumWithMaskValueU64, WithMaskValueU64, u64, 63);
+with_mask!(with_mask_value_u32, EnumWithMaskValueU32, WithMaskValueU32, u32, 31);
+with_mask!(with_mask_value_u16, EnumWithMaskValueU16, WithMaskValueU16, u16, 15);
+with_mask!(with_mask_value_u8, EnumWithMaskValueU8, WithMaskValueU8, u8, 7);
+
+
+
 
 fn get_number_value<T>(variant: &Variant, ident: &str) -> Option<T>
     where T: std::str::FromStr, <T as std::str::FromStr>::Err: std::fmt::Debug {
@@ -173,6 +188,7 @@ fn get_number_value<T>(variant: &Variant, ident: &str) -> Option<T>
     });
     maybe_value
 }
+
 fn is_all_value(variant: &Variant, ident: &str) -> bool {
     variant.attrs.iter().any(|attr| attr.path.is_ident(ident))
 }

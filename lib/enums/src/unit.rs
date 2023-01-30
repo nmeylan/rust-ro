@@ -1,7 +1,7 @@
 #![allow(dead_code)]
 use crate::*;
 
-#[derive(WithMaskValue, WithStringValue, Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(WithMaskValueU64, WithStringValue, Debug, Copy, Clone, PartialEq, Eq)]
 pub enum UnitTargetType {
     #[mask_value = 0]
     NoOne,

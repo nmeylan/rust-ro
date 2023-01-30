@@ -85,7 +85,7 @@ pub enum JobName {
     SoulLinker,
 }
 
-#[derive(WithMaskValue)]
+#[derive(WithMaskValueU64)]
 pub enum EquipClassFlag {
     #[mask_value = 1]
     Novice,

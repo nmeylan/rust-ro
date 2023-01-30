@@ -1,7 +1,7 @@
 #![allow(dead_code)]
 use crate::*;
 
-#[derive(WithMaskValue, Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(WithMaskValueU64, Debug, Copy, Clone, PartialEq, Eq)]
 pub enum MapPropertyFlags {
     // PARTY - Show attack cursor on non-party members (PvP)
     IsParty,

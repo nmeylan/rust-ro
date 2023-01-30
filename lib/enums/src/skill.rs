@@ -60,7 +60,7 @@ impl Default for SkillTargetType {
 }
 
 
-#[derive(WithMaskValue, WithStringValue, Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(WithMaskValueU64, WithStringValue, Debug, Copy, Clone, PartialEq, Eq)]
 pub enum SkillDamageFlags {
     #[mask_value = 0]
     Nodamage,
@@ -76,7 +76,7 @@ pub enum SkillDamageFlags {
     Max,
 }
 
-#[derive(WithMaskValue, WithStringValue, Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(WithMaskValueU64, WithStringValue, Debug, Copy, Clone, PartialEq, Eq)]
 pub enum SkillFlags {
     //NPC skills are those that players can't have in their skill tree.
     Isnpc,
@@ -159,20 +159,20 @@ pub enum SkillDamageType {
     MultiHitCritical,
 }
 
-#[derive(WithMaskValue, WithStringValue, Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(WithMaskValueU64, WithStringValue, Debug, Copy, Clone, PartialEq, Eq)]
 pub enum SkillCopyType {
     Plagiarism,
     Reproduce,
 }
 
-#[derive(WithMaskValue, WithStringValue, Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(WithMaskValueU64, WithStringValue, Debug, Copy, Clone, PartialEq, Eq)]
 pub enum SkillCastTimeDelayType {
     IgnoreDex,
     IgnoreStatus,
     IgnoreItemBonus,
 }
 
-#[derive(WithMaskValue, WithStringValue, Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(WithMaskValueU64, WithStringValue, Debug, Copy, Clone, PartialEq, Eq)]
 pub enum SkillUnitType {
     None,
     // If 'defunit_not_enemy' is set, the target is changed to 'friend'

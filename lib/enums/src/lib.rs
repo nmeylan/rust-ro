@@ -20,7 +20,7 @@ pub trait EnumWithStringValue {
     fn as_str(&self) -> &str;
 }
 
-pub trait EnumWithMaskValue {
+pub trait EnumWithMaskValueU64 {
     fn from_flag(value: u64) -> Self;
     fn as_flag(&self) -> u64;
 }
