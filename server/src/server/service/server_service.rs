@@ -4,6 +4,7 @@ use std::sync::atomic::Ordering::Relaxed;
 use std::sync::mpsc::SyncSender;
 use rathena_script_lang_interpreter::lang::vm::Vm;
 use crate::repository::ItemRepository;
+use crate::server::boot::map_loader::MapLoader;
 use crate::server::model::map::{Map, RANDOM_CELL};
 use crate::server::model::map_instance::MapInstance;
 use crate::server::model::map_item::MapItem;
@@ -44,7 +45,9 @@ impl ServerService {
     pub fn create_map_instance(&self, server_state: &mut ServerState, map: &'static Map, instance_id: u8) -> Arc<MapInstance> {
         info!("create map instance: {} x_size: {}, y_size {}, length: {}", map.name(), map.x_size(), map.y_size(), map.length());
         let mut map_items: HashMap<u32, MapItem> = HashMap::with_capacity(2048);
-        let cells = map.generate_cells(&mut map_items);
+
+        let mut cells = MapLoader::generate_cells(map.name(), map.length() as usize);
+        map.set_warp_cells(&mut cells, &mut map_items);
 
         let map_instance = MapInstance::from_map(self.vm.clone(), map, instance_id, cells, self.client_notification_sender.clone(), map_items);
         server_state.map_instances_count().fetch_add(1, Relaxed);

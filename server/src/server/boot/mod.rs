@@ -10,9 +10,10 @@ use tokio::task::JoinHandle;
 use crate::server::model::configuration::Config;
 use crate::server::model::Npc;
 
-pub mod mob_spawn;
-pub mod script;
-pub mod warps;
+pub mod mob_spawn_loader;
+pub mod script_loader;
+pub mod warps_loader;
+pub mod map_loader;
 
 pub struct NpcLoader {
     pub(crate) conf_file: File,
