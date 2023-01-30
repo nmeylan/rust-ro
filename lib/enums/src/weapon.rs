@@ -6,7 +6,7 @@ use sqlx::error::BoxDynError;
 use sqlx::TypeInfo;
 use crate::*;
 
-#[derive(WithNumberValue, WithMaskValue, WithStringValue, Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(WithNumberValue, WithMaskValueU64, WithStringValue, Debug, Copy, Clone, PartialEq, Eq)]
 pub enum WeaponType {
     Fist,
     Dagger,
@@ -63,7 +63,7 @@ impl WeaponType {
     }
 }
 
-#[derive(WithNumberValue, WithMaskValue, WithStringValue, Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(WithNumberValue, WithMaskValueU64, WithStringValue, Debug, Copy, Clone, PartialEq, Eq)]
 pub enum AmmoType {
     None,
     Arrow,

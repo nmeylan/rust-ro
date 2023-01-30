@@ -11,7 +11,7 @@ use enums::look::LookType;
 use enums::status::StatusTypes;
 
 use crate::enums::EnumWithNumberValue;
-use crate::enums::EnumWithMaskValue;
+use crate::enums::EnumWithMaskValueU64;
 
 use packets::packets::{Packet, PacketZcLongparChange, PacketZcNotifyStandentry7, PacketZcNotifyVanish, PacketZcNpcackMapmove, PacketZcParChange, PacketZcSpriteChange2};
 use crate::repository::model::item_model::InventoryItemModel;

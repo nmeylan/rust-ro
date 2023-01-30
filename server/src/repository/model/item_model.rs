@@ -7,7 +7,7 @@ use crate::util::serde_helper::{*};
 use sqlx::postgres::PgRow;
 
 use enums::class::EquipClassFlag;
-use enums::{EnumWithMaskValue, EnumWithStringValue};
+use enums::{EnumWithMaskValueU64, EnumWithStringValue};
 use enums::item::{EquipmentLocation, ItemClass, ItemFlag, ItemTradeFlag, ItemType};
 use enums::weapon::{AmmoType, WeaponType};
 
@@ -249,7 +249,7 @@ impl ItemModel {
         }
     }
 
-    fn enum_flags_into_u64<T: EnumWithMaskValue>(flags: &Vec<T>) -> u64 {
+    fn enum_flags_into_u64<T: EnumWithMaskValueU64>(flags: &Vec<T>) -> u64 {
         flags.iter().fold(0, |acc, enum_flag| {
             acc | enum_flag.as_flag() as u64
         })

@@ -3,7 +3,7 @@ use std::collections::HashMap;
 use std::path::Path;
 use serde::{Deserialize, Deserializer};
 use accessor::Setters;
-use enums::{EnumWithMaskValue, EnumWithStringValue};
+use enums::{EnumWithMaskValueU64, EnumWithStringValue};
 use enums::element::Element;
 use enums::skill::{SkillCastTimeDelayType, SkillCopyType, SkillDamageFlags, SkillDamageType, SkillFlags, SkillRequirement, SkillTargetType, SkillType, SkillUnitType};
 use enums::unit::UnitTargetType;
@@ -313,7 +313,7 @@ fn deserialize_skill_unit_flags<'de, D>(deserializer: D) -> Result<Option<u64>, 
 
 fn deserialize_flags<'de, D, MaskEnum>(deserializer: D) -> Result<Option<u64>, D::Error>
     where D: Deserializer<'de>,
-          MaskEnum: EnumWithMaskValue + EnumWithStringValue,
+          MaskEnum: EnumWithMaskValueU64 + EnumWithStringValue,
 {
     let s: HashMap<String, bool> = Deserialize::deserialize(deserializer)?;
     let flags: u64 = s.iter().fold(0, |acc, (k, v)| {

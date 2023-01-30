@@ -2,7 +2,7 @@ use std::sync::{Arc, Once};
 use std::sync::mpsc::SyncSender;
 use rand::RngCore;
 use tokio::runtime::Runtime;
-use enums::EnumWithMaskValue;
+use enums::EnumWithMaskValueU64;
 use enums::item::{EquipmentLocation};
 use enums::look::LookType;
 use crate::enums::EnumWithNumberValue;

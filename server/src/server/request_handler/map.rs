@@ -5,7 +5,7 @@ use crate::util::string::StringUtil;
 
 use crate::server::model::events::game_event::GameEvent;
 use crate::server::model::request::Request;
-use enums::{EnumWithMaskValue};
+use enums::{EnumWithMaskValueU64};
 
 use crate::util::packet::chain_packets;
 

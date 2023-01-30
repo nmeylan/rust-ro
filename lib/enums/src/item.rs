@@ -28,7 +28,7 @@ pub enum ItemType {
     Max,
 }
 
-#[derive(WithMaskValue, Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(WithMaskValueU64, Debug, Copy, Clone, PartialEq, Eq)]
 pub enum EquipmentLocation {
     #[mask_value = 1]
     HeadLow,
@@ -77,7 +77,7 @@ pub enum EquipmentLocation {
     Accessory,
 }
 
-#[derive(WithMaskValue)]
+#[derive(WithMaskValueU64)]
 pub enum ItemClass {
     #[mask_value = 1]
     Normal,
@@ -87,7 +87,7 @@ pub enum ItemClass {
     All,
 }
 
-#[derive(WithMaskValue)]
+#[derive(WithMaskValueU64)]
 pub enum ItemFlag {
     #[mask_value = 1]
     BuyingStore,
@@ -99,7 +99,7 @@ pub enum ItemFlag {
     NoConsume,
     DropEffect,
 }
-#[derive(WithMaskValue)]
+#[derive(WithMaskValueU64)]
 pub enum ItemTradeFlag {
     #[mask_value = 1]
     NoDrop,
