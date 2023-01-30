@@ -16,7 +16,8 @@ use crate::server::model::mob_spawn::{MobSpawn, MobType};
 
 static PARALLEL_EXECUTIONS: usize = 1;
 // TODO add a conf for this
-static MOB_CONF_PATH: &str = "./npc/scripts_monsters.conf";
+static MOB_ROOT_PATH: &str = "./config/npc";
+static MOB_CONF_FILE: &str = "scripts_monsters.conf";
 
 pub struct MobSpawnLoader;
 impl NpcLoaderTrait<MobSpawn> for MobSpawnLoader {
@@ -89,7 +90,8 @@ impl MobSpawnLoader {
             let runtime = Runtime::new().unwrap();
             let start = Instant::now();
             let npc_loader = NpcLoader {
-                conf_file: File::open(Path::new(MOB_CONF_PATH)).unwrap(),
+                conf_file: File::open(Path::new(MOB_ROOT_PATH).join(MOB_CONF_FILE)).unwrap(),
+                root_path: MOB_ROOT_PATH.to_string(),
                 parallel_execution: PARALLEL_EXECUTIONS,
             };
             let mut mob_spawns = runtime.block_on(async { npc_loader.load_npc::<MobSpawn, MobSpawnLoader>(config).await });
