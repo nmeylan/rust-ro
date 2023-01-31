@@ -1,9 +1,9 @@
 use std::collections::HashMap;
-use crate::server::model::map::WARP_MASK;
+use enums::cell::CellType;
 use crate::server::model::map_instance::MapInstanceKey;
 use crate::server::model::map_item::MapItem;
 use crate::server::state::mob::Mob;
-
+use crate::enums::EnumWithMaskValueU16;
 
 use crate::util::coordinate;
 
@@ -13,20 +13,6 @@ pub struct MapInstanceState {
     x_size: u16,
     y_size: u16,
     // index in this array will give x and y position of the cell.
-    // 2 bytes representing cell type:
-    // bit 0 -> walkable
-    // bit 1 -> shootable
-    // bit 2 -> water
-    // bit 3 -> boot
-    // bit 4 -> basilica
-    // bit 5 -> landprotector
-    // bit 6 -> novending
-    // bit 7 -> nochat
-    // bit 8 -> icewall
-    // bit 9 -> noicewall
-    // bit 10 -> noskill
-    // bit 11 -> warp
-    // bit 12 -> mob
     cells: Vec<u16>,
     mobs: HashMap<u32, Mob>,
     map_items: HashMap<u32, MapItem>,
@@ -79,7 +65,7 @@ impl MapInstanceState {
         }
         let i = self.get_cell_index_of(x, y);
         match self.cells().get(i) {
-            Some(value) => (value & WARP_MASK) == WARP_MASK,
+            Some(value) => (value & CellType::Warp.as_flag()) == CellType::Warp.as_flag(),
             None => false
         }
     }
