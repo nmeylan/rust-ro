@@ -8,7 +8,8 @@ use std::{fs};
 
 use std::time::{Instant};
 use std::collections::{HashMap};
-
+use enums::cell::CellType;
+use crate::enums::EnumWithMaskValueU16;
 use crate::server::model::path::{allowed_dirs, DIR_EAST, DIR_NORTH, DIR_SOUTH, DIR_WEST, is_direction};
 use crate::server::model::map_item::{MapItem, ToMapItem};
 use crate::server::model::mob_spawn::MobSpawn;
@@ -22,8 +23,6 @@ use crate::util::coordinate;
 
 
 pub static MAP_EXT: &str = ".gat";
-pub const WARP_MASK: u16 = 0b0000_0100_0000_0000;
-pub const WALKABLE_MASK: u16 = 0b0000000000000001;
 pub const RANDOM_CELL: (u16, u16) = (u16::MAX, u16::MAX);
 
 pub struct Map {
@@ -46,7 +45,7 @@ impl Map {
 
         loop {
             let index = rng.usize(0..cells.len());
-            if cells.get(index).unwrap() & WALKABLE_MASK == 1 {
+            if cells.get(index).unwrap() & CellType::Walkable.as_flag() == 1 {
                 return coordinate::get_pos_of(index as u32, x_size);
             }
         }
@@ -104,7 +103,7 @@ impl Map {
                     if dest_y >= y_size {
                         dest_y = y_size - 1;
                     }
-                    if cells.get(coordinate::get_cell_index_of(dest_x, dest_y, x_size)).unwrap() & WALKABLE_MASK == 1 {
+                    if cells.get(coordinate::get_cell_index_of(dest_x, dest_y, x_size)).unwrap() & CellType::Walkable.as_flag() == 1 {
                         return Some((dest_x, dest_y));
                     }
                     i += 1;
@@ -126,7 +125,7 @@ impl Map {
                 for y in start_y..to_y {
                     let index = coordinate::get_cell_index_of(x, y, self.x_size);
                     let cell = cells.get_mut(index).unwrap();
-                    *cell |= WARP_MASK;
+                    *cell |= CellType::Warp.as_flag();
                 }
             }
         }

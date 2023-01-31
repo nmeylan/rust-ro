@@ -1,4 +1,5 @@
 pub use enum_macro::*;
+
 pub mod action;
 pub mod class;
 pub mod client_messages;
@@ -12,6 +13,7 @@ pub mod skills;
 pub mod look;
 pub mod vanish;
 pub mod map;
+pub mod cell;
 
 pub trait EnumWithStringValue {
     fn try_from_string(value: &str) -> Result<Self, String> where Self: Sized;
@@ -20,10 +22,18 @@ pub trait EnumWithStringValue {
     fn as_str(&self) -> &str;
 }
 
-pub trait EnumWithMaskValueU64 {
-    fn from_flag(value: u64) -> Self;
-    fn as_flag(&self) -> u64;
+macro_rules! enum_with_mask_trait {
+    ($trait_name:ident, $type:ty) => {
+        pub trait $trait_name {
+            fn from_flag(value: $type) -> Self;
+            fn as_flag(&self) -> $type;
+        }
+    }
 }
+enum_with_mask_trait!(EnumWithMaskValueU64, u64);
+enum_with_mask_trait!(EnumWithMaskValueU32, u32);
+enum_with_mask_trait!(EnumWithMaskValueU16, u16);
+enum_with_mask_trait!(EnumWithMaskValueU8, u8);
 
 pub trait EnumWithNumberValue {
     fn from_value(value: usize) -> Self;

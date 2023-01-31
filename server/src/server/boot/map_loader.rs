@@ -7,12 +7,14 @@ use std::path::Path;
 use std::time::Instant;
 use byteorder::{LittleEndian, ReadBytesExt};
 use flate2::read::ZlibDecoder;
-use crate::server::model::map::{Map, MAP_EXT, WARP_MASK};
+use enums::cell::CellType;
+use crate::server::model::map::{Map, MAP_EXT};
 use crate::server::model::map_item::MapItem;
 use crate::server::model::mob_spawn::MobSpawn;
 use crate::server::model::script::Script;
 use crate::server::model::warp::Warp;
 use crate::util::coordinate;
+use crate::enums::EnumWithMaskValueU16;
 
 pub struct MapLoader;
 
@@ -86,11 +88,10 @@ impl MapLoader {
         let mut cells: Vec<u16> = Vec::with_capacity(length as usize);
         for cell in map_cache_content_buf {
             cells.push(match cell {
-                0 | 2 | 4 | 6 => 3, // 3 => bytes 0 and byte 1 are set. walkable ground values 2,4,6 are unknown, should not be present in mapcache file. but hercules set them to this value.
-                1 => 0, // no walkable ground
-                3 => 7, // 7 => bytes 0, 1 ,2 are set. walkable water
-                5 => 2, // 2 => byte 1 is set gap, (shootable)
-                _ => 0
+                0 | 2 | 4 | 6 => CellType::Walkable.as_flag() | CellType::Shootable.as_flag(), // 3 => bytes 0 and byte 1 are set. walkable ground values 2,4,6 are unknown, should not be present in mapcache file. but hercules set them to this value.
+                3 => CellType::Walkable.as_flag() | CellType::Shootable.as_flag() | CellType::Water.as_flag(), // 7 => bytes 0, 1 ,2 are set. walkable water
+                5 => CellType::Shootable.as_flag(), // 2 => byte 1 is set gap, (shootable)
+                _ => 0  // no walkable ground
             })
         }
 
