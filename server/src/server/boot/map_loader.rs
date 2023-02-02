@@ -13,7 +13,6 @@ use crate::server::model::map_item::MapItem;
 use crate::server::model::mob_spawn::MobSpawn;
 use crate::server::model::script::Script;
 use crate::server::model::warp::Warp;
-use crate::util::coordinate;
 use crate::enums::EnumWithMaskValueU16;
 
 pub struct MapLoader;

@@ -5,8 +5,7 @@ use std::path::Path;
 use std::io::{BufRead, BufReader};
 use std::time::Instant;
 use crate::server::model::configuration::Config;
-use crate::server::model::map_item::{MapItem, MapItemType, ToMapItem};
-use crate::server::boot::{Npc, NpcLoader, NpcLoaderTrait};
+use crate::server::boot::{NpcLoader, NpcLoaderTrait};
 use crate::server::model::warp::Warp;
 
 static PARALLEL_EXECUTIONS: usize = 100; // TODO add a conf for this
