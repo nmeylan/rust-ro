@@ -6,7 +6,6 @@ use std::path::Path;
 use rathena_script_lang_interpreter::lang::chunk::ClassFile;
 use rathena_script_lang_interpreter::lang::compiler::DebugFlag;
 use rathena_script_lang_interpreter::lang::error::CompilationError;
-use rathena_script_lang_interpreter::lang::value::Value;
 use rathena_script_lang_interpreter::util::scripts_compiler;
 use crate::server::model::map_item::{MapItem, MapItemType, ToMapItem};
 use crate::server::model::script::Script;

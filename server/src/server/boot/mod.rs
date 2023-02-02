@@ -2,7 +2,6 @@ use futures::future::join_all;
 use std::collections::HashMap;
 use std::fs::File;
 use std::io::{BufRead, BufReader};
-use std::ops::Deref;
 use std::path::Path;
 use std::sync::{Arc, Mutex};
 use tokio::sync::Semaphore;

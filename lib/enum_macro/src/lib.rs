@@ -1,10 +1,5 @@
 extern crate proc_macro;
-
 use proc_macro::{TokenStream};
-use std::fmt::Debug;
-use std::ops::{Add, BitAnd, Not, Shl};
-use std::process::Output;
-use std::str::FromStr;
 use quote::quote;
 use syn::{parse_macro_input, DeriveInput, Variant};
 use syn::Data::Enum;

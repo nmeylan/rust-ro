@@ -197,10 +197,9 @@ impl StatusService {
     pub fn fist_atk(&self, character: &Character) -> u32 {
         let mut str;
         let dex;
-        let mut is_ranged_weapon = false;
 
         let weapon_type = self.right_hand_weapon_type(character);
-        is_ranged_weapon = weapon_type.is_ranged();
+        let is_ranged_weapon = weapon_type.is_ranged();
         if is_ranged_weapon {
             str = character.status.dex;
             dex = character.status.str;
