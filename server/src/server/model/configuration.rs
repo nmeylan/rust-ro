@@ -46,6 +46,12 @@ pub struct GameConfig {
     pub max_job_level: u32,
     #[set]
     pub mob_density: f32,
+    #[set]
+    pub drop_rate: f32,
+    #[set]
+    pub drop_rate_mvp: f32,
+    #[set]
+    pub drop_rate_card: f32,
 }
 
 #[derive(Deserialize, Debug, Setters, Clone)]
