@@ -108,7 +108,7 @@ impl Server {
         SkillService::init(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), configuration);
         StatusService::init(client_notification_sender.clone(), persistence_event_sender.clone(), GlobalConfigService::instance());
         BattleService::init(client_notification_sender.clone(), StatusService::new(client_notification_sender.clone(), persistence_event_sender, GlobalConfigService::instance()), GlobalConfigService::instance());
-        MapInstanceService::init(client_notification_sender.clone(), GlobalConfigService::instance(), MobService::new(client_notification_sender.clone(), GlobalConfigService::instance()));
+        MapInstanceService::init(client_notification_sender.clone(), GlobalConfigService::instance(), MobService::new(client_notification_sender.clone(), GlobalConfigService::instance()), tasks_queue.clone());
         ScriptService::init(client_notification_sender.clone(), GlobalConfigService::instance(), repository.clone(), tasks_queue.clone());
         Server {
             configuration,

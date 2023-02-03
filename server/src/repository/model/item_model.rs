@@ -287,7 +287,7 @@ pub struct GetItemModel {
     pub name_aegis: String,
 }
 
-#[derive(sqlx::FromRow, Debug, Clone)]
+#[derive(sqlx::FromRow, Debug, Clone, PartialEq)]
 pub struct InventoryItemModel {
     // Come from inventory table
     pub id: i32,

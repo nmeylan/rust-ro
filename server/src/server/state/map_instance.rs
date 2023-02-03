@@ -85,6 +85,9 @@ impl MapInstanceState {
     pub fn get_mob(&self, mob_id: u32) -> Option<&Mob> {
         self.mobs().get(&mob_id)
     }
+    pub fn get_map_item(&self, item_id: u32) -> Option<&MapItem> {
+        self.map_items().get(&item_id)
+    }
 
     pub fn mobs(&self) -> &HashMap<u32, Mob> {
         &self.mobs

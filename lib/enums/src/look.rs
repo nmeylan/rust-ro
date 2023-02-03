@@ -1,7 +1,7 @@
 #![allow(dead_code)]
 use crate::*;
 
-#[derive(WithNumberValue, Debug, Copy, Clone)]
+#[derive(WithNumberValue, Debug, Copy, Clone, PartialEq)]
 pub enum LookType {
     #[value = 0]
     Job,

@@ -32,15 +32,12 @@ impl MobService {
     }
 
     pub fn action_move(&self, mob: &mut Mob, cells: &[u16], x_size: u16, y_size: u16, start_at: u128) -> Option<MobMovement> {
-        if mob.is_moving() {
+        if mob.is_moving() || mob.status.speed == 1000 {
             return None;
         }
         let rng = fastrand::Rng::new();
         let mut movement: Option<MobMovement> = None;
         let rand = rng.i32(0..=100);
-        if mob.status.speed == 1000 {
-            return movement;
-        }
         let should_move = if mob.is_view_char {
             rand <= 80
         } else {
