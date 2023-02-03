@@ -50,6 +50,8 @@ Database:
 - basis for inventory management
 - basis for skills
 - basis for consumable item usage
+- basis for player attacking mob
+- mob drops item on death
 
 
 ## Progress
@@ -90,6 +92,3 @@ Debug server state with a UI
 
 ## Proxied packets
 ![packets](doc/img/packet_analyzer.PNG)
-
-## In game debug
-![packets](doc/img/in_game_debug.PNG)
