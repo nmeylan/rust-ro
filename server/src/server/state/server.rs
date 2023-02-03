@@ -158,6 +158,9 @@ impl ServerState {
                 }
                 None
             }
+            MapItemType::DroppedItem => {
+                None
+            }
         }
     }
 
@@ -196,6 +199,9 @@ impl ServerState {
                         return Some(script.name().clone());
                     }
                 }
+                None
+            }
+            MapItemType::DroppedItem => {
                 None
             }
         }

@@ -145,7 +145,12 @@ impl Server {
                             CharacterService::instance().change_job(character, character_change_job.job);
                             // TODO ensure equip required class
                         }
-                        GameEvent::CharacterKillMonster(_) => {}
+                        GameEvent::CharacterKillMonster(character_kill_monster) => {
+                            let character = server_state_mut.characters_mut().get_mut(&character_kill_monster.char_id).unwrap();
+                            // TODO check autoloot
+                            let autoloot = 0;
+
+                        }
                     }
                 }
             }

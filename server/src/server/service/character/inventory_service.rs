@@ -7,7 +7,7 @@ use enums::item::{EquipmentLocation};
 use enums::look::LookType;
 use crate::enums::EnumWithNumberValue;
 use packets::packets::{EquipmentitemExtrainfo301, EQUIPSLOTINFO, NormalitemExtrainfo3, Packet, PacketZcEquipmentItemlist3, PacketZcItemPickupAck3, PacketZcNormalItemlist3, PacketZcPcPurchaseResult, PacketZcReqTakeoffEquipAck2, PacketZcReqWearEquipAck2, PacketZcSpriteChange2};
-use crate::repository::model::item_model::{EquippedItem, InventoryItemModel, ItemModel};
+use crate::repository::model::item_model::{InventoryItemModel, ItemModel};
 use crate::repository::{InventoryRepository, Repository};
 
 use crate::server::model::tasks_queue::TasksQueue;
@@ -15,6 +15,7 @@ use crate::server::model::events::client_notification::{CharNotification, Notifi
 use crate::server::model::events::game_event::{CharacterAddItems, CharacterEquipItem, CharacterZeny, GameEvent};
 use crate::server::model::events::game_event::GameEvent::{CharacterUpdateWeight, CharacterUpdateZeny};
 use crate::server::model::events::persistence_event::{InventoryItemUpdate, PersistenceEvent};
+use crate::server::model::item::EquippedItem;
 use crate::server::service::character::character_service::CharacterService;
 use crate::server::service::global_config_service::GlobalConfigService;
 

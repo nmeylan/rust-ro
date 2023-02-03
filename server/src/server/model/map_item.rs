@@ -8,7 +8,8 @@ pub enum MapItemType {
     Mob,
     Warp,
     Unknown,
-    Npc
+    Npc,
+    DroppedItem
 }
 
 impl Display for MapItemType {
@@ -25,6 +26,7 @@ impl MapItemType {
             MapItemType::Warp => 6,
             MapItemType::Npc => 6,
             MapItemType::Unknown => 0,
+            MapItemType::DroppedItem => 0
         }
     }
 
