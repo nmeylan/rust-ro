@@ -34,6 +34,10 @@ max_job_level = 70
 
 mob_density = 1.0
 
+drop_rate = 1.0
+drop_rate_mvp = 1.0
+drop_rate_card = 1.0
+
 [maps]
 cities = [
     { name = "prontera", x = 156, y = 191 },
