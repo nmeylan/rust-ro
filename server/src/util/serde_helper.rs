@@ -33,6 +33,6 @@ pub fn serialize_u64<S>(field: &u64, serializer: S) -> Result<S::Ok, S::Error> w
 
 pub fn deserialize_u64<'de, D>(deserializer: D) -> Result<u64, D::Error>
     where D: Deserializer<'de> {
-    let value: &str = Deserialize::deserialize(deserializer)?;
+    let value: String = Deserialize::deserialize(deserializer)?;
     Ok(value.parse::<u64>().unwrap())
 }

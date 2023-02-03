@@ -153,7 +153,7 @@ impl Server {
                             if autoloot {
 
                             } else {
-                                map_instance.add_to_tick(MapEvent::MonsterDropItems(MonsterDropItems { owner_id: character_kill_monster.char_id, mob_id: character_kill_monster.mob_id, mob_x: character_kill_monster.mob_x, mob_y: character_kill_monster.mob_y }), 10);
+                                map_instance.add_to_delayed_tick(MapEvent::MonsterDropItems(MonsterDropItems { owner_id: character_kill_monster.char_id, mob_id: character_kill_monster.mob_id, mob_x: character_kill_monster.mob_x, mob_y: character_kill_monster.mob_y }), 400);
                             }
                         }
                     }
