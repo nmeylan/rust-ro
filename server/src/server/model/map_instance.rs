@@ -21,7 +21,7 @@ use crate::util::cell::{MyRef, MyRefMut, MyUnsafeCell};
 use crate::util::string::StringUtil;
 
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct MapInstanceKey {
     instance_id: u8,
     map_name: [char; 16],

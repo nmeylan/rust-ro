@@ -262,6 +262,7 @@ impl CharacterService {
                     MapItemType::Warp => {}
                     MapItemType::Unknown => {}
                     MapItemType::Npc => {}
+                    MapItemType::DroppedItem => {}
                 }
                 packet_zc_notify_standentry.fill_raw_with_packetver(Some(server.packetver()));
                 self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, mem::take(packet_zc_notify_standentry.raw_mut())))).expect("Failed to send notification to client");

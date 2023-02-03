@@ -14,6 +14,7 @@ pub mod events;
 pub mod warp;
 pub mod script;
 pub mod mob_spawn;
+pub mod item;
 
 
 pub trait Npc {

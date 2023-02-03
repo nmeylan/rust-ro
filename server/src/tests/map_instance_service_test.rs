@@ -70,6 +70,6 @@ mod tests {
         // When
         context.map_instance_service.mob_die(&mut map_instance_state, mob_item_id);
         // Then
-        task_queue_contains_event_at_tick(context.server_task_queue.clone(), GameEvent::CharacterKillMonster(CharacterKillMonster{ char_id: 150000, mob_id }), 0);
+        task_queue_contains_event_at_tick(context.server_task_queue.clone(), GameEvent::CharacterKillMonster(CharacterKillMonster{ char_id: 150000, mob_id, map_instance_key: map_instance_state.key().clone() }), 0);
     }
 }

@@ -312,9 +312,3 @@ pub struct InventoryItemModel {
     pub name_english: String,
     pub weight: i32,
 }
-
-pub struct EquippedItem {
-    pub item_id: i32,
-    pub removed_equip_location: i32,
-    pub index: usize,
-}

@@ -2,7 +2,7 @@ use std::ops::Deref;
 use std::sync::mpsc::SyncSender;
 use std::sync::{Arc, Once};
 use std::time::{SystemTime, UNIX_EPOCH};
-use packets::packets::PacketZcNotifyMove;
+use packets::packets::{PacketZcItemFallEntry, PacketZcNotifyMove};
 use crate::server::model::map::Map;
 
 use crate::server::model::map_item::{MapItem, MapItemSnapshot, ToMapItem};
@@ -120,6 +120,12 @@ impl MapInstanceService {
             mobs.remove(&id).unwrap()
         };
         map_instance_state.remove_item(mob.to_map_item());
-        self.server_task_queue.add_to_first_index(GameEvent::CharacterKillMonster(CharacterKillMonster { char_id: mob.attacker_with_higher_damage(), mob_id: mob.mob_id }))
+        self.server_task_queue.add_to_first_index(GameEvent::CharacterKillMonster(CharacterKillMonster { char_id: mob.attacker_with_higher_damage(), mob_id: mob.mob_id, map_instance_key: map_instance_state.key().clone() }))
+    }
+
+    pub fn mob_drop_items(&self, mob_id: u32) {
+        let mob = self.configuration_service.get_mob(mob_id as i32);
+
+        //let packet_zc_item_fall_entry = PacketZcItemFallEntry::default();
     }
 }
