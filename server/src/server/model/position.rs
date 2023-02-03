@@ -1,7 +1,7 @@
 use packets::packets::{PacketCzRequestMove, PacketCzRequestMove2};
 use std::fmt::Formatter;
 
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Copy, Clone, PartialEq)]
 pub struct Position {
     pub x: u16,
     pub y: u16,

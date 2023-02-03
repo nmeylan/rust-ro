@@ -1,4 +1,7 @@
 pub mod character_helper;
+pub mod map_instance_helper;
+pub mod mob_helper;
+pub mod assert_helper;
 
 use std::collections::HashMap;
 use std::fs;

@@ -1,7 +1,7 @@
 use crate::server::model::path::PathNode;
 use crate::server::model::position::Position;
 
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 pub struct Movement {
     position: Position,
     is_diagonal: bool,

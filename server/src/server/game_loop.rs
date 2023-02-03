@@ -145,6 +145,7 @@ impl Server {
                             CharacterService::instance().change_job(character, character_change_job.job);
                             // TODO ensure equip required class
                         }
+                        GameEvent::CharacterKillMonster(_) => {}
                     }
                 }
             }

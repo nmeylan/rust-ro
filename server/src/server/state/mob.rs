@@ -1,10 +1,6 @@
 use std::collections::HashMap;
 
 
-
-
-
-
 use crate::server::model::map_instance::{MapInstanceKey};
 use crate::server::model::map_item::{MapItem, MapItemType, ToMapItem};
 use crate::server::model::movement::{Movable, Movement};
@@ -25,12 +21,11 @@ pub struct Mob {
     pub x: u16,
     #[set]
     pub y: u16,
-    pub current_map: MapInstanceKey,
     pub map_view: Vec<MapItem>,
     pub is_view_char: bool,
     pub movements: Vec<Movement>,
     pub damages: HashMap<u32, u32>,
-    pub last_attacked_at: u128
+    pub last_attacked_at: u128,
 }
 
 pub struct MobMovement {
@@ -52,7 +47,7 @@ impl Movable for Mob {
 }
 
 impl Mob {
-    pub fn new(id: u32, x: u16, y: u16, mob_id: i16, spawn_id: u32, name: String, current_map: MapInstanceKey, status: Status) -> Mob {
+    pub fn new(id: u32, x: u16, y: u16, mob_id: i16, spawn_id: u32, name: String, status: Status) -> Mob {
         Mob {
             id,
             x,
@@ -62,11 +57,10 @@ impl Mob {
             status,
             name,
             map_view: vec![],
-            current_map,
             is_view_char: false,
             movements: vec![],
             damages: Default::default(),
-            last_attacked_at: 0
+            last_attacked_at: 0,
         }
     }
 
@@ -92,12 +86,29 @@ impl Mob {
             return;
         }
         let entry = self.damages.entry(attacker_id).or_insert(0);
+        if damage > self.status.hp {
+            self.status.hp = 0;
+        } else {
+            self.status.hp -= damage;
+        }
+
         *entry += damage;
     }
 
     pub fn should_die(&self) -> bool {
-        let total_damage: u32 = self.damages.values().sum();
-        self.status.max_hp <= total_damage
+        self.status.hp == 0
+    }
+
+    pub fn attacker_with_higher_damage(&self) -> u32 {
+        let mut higher_damage: u32 = 0;
+        let mut attacker_with_higher_damage = 0;
+        for (attacker_id, damage) in self.damages.iter() {
+            if *damage > higher_damage {
+                attacker_with_higher_damage = *attacker_id;
+                higher_damage = *damage;
+            }
+        }
+        attacker_with_higher_damage
     }
 }
 

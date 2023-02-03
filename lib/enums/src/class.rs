@@ -1,6 +1,6 @@
 use crate::*;
 
-#[derive(WithNumberValue, WithStringValue)]
+#[derive(WithNumberValue, WithStringValue, Debug, PartialEq)]
 pub enum JobName {
     #[value = 0]
     Novice,

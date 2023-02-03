@@ -1,6 +1,6 @@
 use std::ops::Deref;
 use std::sync::mpsc::SyncSender;
-use std::sync::Once;
+use std::sync::{Arc, Once};
 use std::time::{SystemTime, UNIX_EPOCH};
 use packets::packets::PacketZcNotifyMove;
 use crate::server::model::map::Map;
@@ -9,6 +9,8 @@ use crate::server::model::map_item::{MapItem, MapItemSnapshot, ToMapItem};
 use crate::server::model::path::manhattan_distance;
 use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, Notification};
 use crate::server::{MOB_FOV, Server};
+use crate::server::model::events::game_event::{CharacterKillMonster, GameEvent};
+use crate::server::model::tasks_queue::TasksQueue;
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::service::mob_service::MobService;
 use crate::server::state::map_instance::MapInstanceState;
@@ -23,6 +25,7 @@ pub struct MapInstanceService {
     client_notification_sender: SyncSender<Notification>,
     configuration_service: &'static GlobalConfigService,
     mob_service: MobService,
+    server_task_queue: Arc<TasksQueue<GameEvent>>,
 }
 
 impl MapInstanceService {
@@ -30,13 +33,13 @@ impl MapInstanceService {
         unsafe { SERVICE_INSTANCE.as_ref().unwrap() }
     }
 
-    pub(crate) fn new(client_notification_sender: SyncSender<Notification>, configuration_service: &'static GlobalConfigService, mob_service: MobService) -> Self {
-        MapInstanceService { client_notification_sender, configuration_service, mob_service }
+    pub(crate) fn new(client_notification_sender: SyncSender<Notification>, configuration_service: &'static GlobalConfigService, mob_service: MobService, server_task_queue: Arc<TasksQueue<GameEvent>>) -> Self {
+        MapInstanceService { client_notification_sender, configuration_service, mob_service, server_task_queue }
     }
 
-    pub fn init(client_notification_sender: SyncSender<Notification>, configuration_service: &'static GlobalConfigService, mob_service: MobService) {
+    pub fn init(client_notification_sender: SyncSender<Notification>, configuration_service: &'static GlobalConfigService, mob_service: MobService, server_task_queue: Arc<TasksQueue<GameEvent>>) {
         SERVICE_INSTANCE_INIT.call_once(|| unsafe {
-            SERVICE_INSTANCE = Some(MapInstanceService::new(client_notification_sender, configuration_service, mob_service));
+            SERVICE_INSTANCE = Some(MapInstanceService::new(client_notification_sender, configuration_service, mob_service, server_task_queue));
         });
     }
 
@@ -61,7 +64,6 @@ impl MapInstanceService {
                 }
                 let mob_map_item_id = Server::generate_id(map_instance_state.map_items_mut());
                 let mob = Mob::new(mob_map_item_id, cell.0, cell.1, mob_spawn.mob_id, mob_spawn.id, mob_spawn.name.clone(),
-                                   map_instance_state.key().clone(),
                                    Status::from_mob_model(&mob_spawn.info));
 
                 // TODO: On mob dead clean up should be down also for items below
@@ -115,8 +117,9 @@ impl MapInstanceService {
     pub fn mob_die(&self, map_instance_state: &mut MapInstanceState, id: u32) {
         let mob = {
             let mobs = map_instance_state.mobs_mut();
-            mobs.remove(&id).unwrap().to_map_item()
+            mobs.remove(&id).unwrap()
         };
-        map_instance_state.remove_item(mob);
+        map_instance_state.remove_item(mob.to_map_item());
+        self.server_task_queue.add_to_first_index(GameEvent::CharacterKillMonster(CharacterKillMonster { char_id: mob.attacker_with_higher_damage(), mob_id: mob.mob_id }))
     }
 }

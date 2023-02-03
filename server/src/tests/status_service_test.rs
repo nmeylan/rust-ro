@@ -28,8 +28,6 @@ mod tests {
     use crate::enums::EnumWithStringValue;
     use crate::enums::EnumWithNumberValue;
     
-    
-    
     use crate::tests::common::character_helper::{create_character, equip_item};
     use super::*;
 
