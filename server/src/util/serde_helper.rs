@@ -5,7 +5,6 @@ pub fn deserialize_optional_string_enum<'de, D, T>(deserializer: D) -> Result<Op
     where D: Deserializer<'de>,
           T: EnumWithStringValue {
     let s: String = Deserialize::deserialize(deserializer)?;
-    println!("Deserialized deserialize_optional_string_enum");
     Ok(Some(T::from_string_ignore_case(s.as_str())))
 }
 

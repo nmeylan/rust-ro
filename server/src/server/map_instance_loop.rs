@@ -79,6 +79,9 @@ impl MapInstanceLoop {
                                 MapEvent::InsertCharToMap(map_item) => {
                                     map_instance.state_mut().insert_item(map_item);
                                 }
+                                MapEvent::MonsterDropItems(monster_drop_items) => {
+                                    MapInstanceService::instance().mob_drop_items(map_instance.state_mut().as_mut(), monster_drop_items);
+                                }
                             }
                         }
                     }

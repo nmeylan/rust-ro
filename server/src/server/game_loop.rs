@@ -15,7 +15,7 @@ use crate::server::model::position::Position;
 use crate::server::model::events::game_event::{CharacterMovement, GameEvent};
 
 use crate::server::model::events::client_notification::{CharNotification, Notification};
-use crate::server::model::events::map_event::{MapEvent};
+use crate::server::model::events::map_event::{MapEvent, MonsterDropItems};
 use crate::server::model::events::persistence_event::{SavePositionUpdate};
 
 use crate::server::model::map_item::{MapItemType, ToMapItemSnapshot, ToMapItem};
@@ -26,6 +26,7 @@ use crate::server::service::character::character_service::{CharacterService};
 use crate::server::service::character::inventory_service::InventoryService;
 use crate::server::service::character::item_service::{ItemService};
 use crate::server::service::global_config_service::GlobalConfigService;
+use crate::server::service::map_instance_service::MapInstanceService;
 use crate::server::service::server_service::ServerService;
 use crate::server::service::status_service::StatusService;
 use crate::server::state::character::Character;
@@ -146,10 +147,14 @@ impl Server {
                             // TODO ensure equip required class
                         }
                         GameEvent::CharacterKillMonster(character_kill_monster) => {
-                            let character = server_state_mut.characters_mut().get_mut(&character_kill_monster.char_id).unwrap();
+                            let map_instance = server_ref.state().get_map_instance(character_kill_monster.map_instance_key.map_name(), character_kill_monster.map_instance_key.map_instance()).unwrap();
                             // TODO check autoloot
-                            let autoloot = 0;
+                            let autoloot = false;
+                            if autoloot {
 
+                            } else {
+                                map_instance.add_to_tick(MapEvent::MonsterDropItems(MonsterDropItems { owner_id: character_kill_monster.char_id, mob_id: character_kill_monster.mob_id, mob_x: character_kill_monster.mob_x, mob_y: character_kill_monster.mob_y }), 10);
+                            }
                         }
                     }
                 }
