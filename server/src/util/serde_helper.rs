@@ -1,18 +1,20 @@
+use eframe::egui::TextBuffer;
 use serde::{Deserialize, Deserializer, Serializer};
 use enums::EnumWithStringValue;
 
 pub fn deserialize_optional_string_enum<'de, D, T>(deserializer: D) -> Result<Option<T>, D::Error>
     where D: Deserializer<'de>,
           T: EnumWithStringValue {
-    let s: &str = Deserialize::deserialize(deserializer)?;
-    Ok(Some(T::from_string_ignore_case(s)))
+    let s: String = Deserialize::deserialize(deserializer)?;
+    println!("Deserialized deserialize_optional_string_enum");
+    Ok(Some(T::from_string_ignore_case(s.as_str())))
 }
 
 pub fn deserialize_string_enum<'de, D, T>(deserializer: D) -> Result<T, D::Error>
     where D: Deserializer<'de>,
           T: EnumWithStringValue {
-    let s: &str = Deserialize::deserialize(deserializer)?;
-    Ok(T::from_string(s))
+    let s: String = Deserialize::deserialize(deserializer)?;
+    Ok(T::from_string(s.as_str()))
 }
 
 pub fn serialize_string_enum<S, T>(field: &T, serializer: S) -> Result<S::Ok, S::Error> where S: Serializer, T: EnumWithStringValue {

@@ -20,6 +20,12 @@ impl From<MobModels> for Vec<MobModel> {
     }
 }
 
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct Drop {
+    pub item_name: String,
+    pub rate: u16,
+}
+
 #[derive(SettersAll, Clone, Debug, Serialize, Deserialize)]
 pub struct MobModel {
     pub id: i32,
@@ -50,37 +56,15 @@ pub struct MobModel {
     pub damage_motion: i32,
     pub exp: i32,
     pub jexp: i32,
-    pub mvp1id: i16,
-    pub mvp1per: i16,
-    pub mvp2id: i16,
-    pub mvp2per: i16,
-    pub mvp3id: i16,
-    pub mvp3per: i16,
-    pub drop1id: i16,
-    pub drop1per: i16,
-    pub drop2id: i16,
-    pub drop2per: i16,
-    pub drop3id: i16,
-    pub drop3per: i16,
-    pub drop4id: i16,
-    pub drop4per: i16,
-    pub drop5id: i16,
-    pub drop5per: i16,
-    pub drop6id: i16,
-    pub drop6per: i16,
-    pub drop7id: i16,
-    pub drop7per: i16,
-    pub drop8id: i16,
-    pub drop8per: i16,
-    pub drop9id: i16,
-    pub drop9per: i16,
-    pub dropcardid: i16,
-    pub dropcardper: i16,
+    #[serde(default)]
+    pub card_drop: Option<Drop>,
+    pub drops: Vec<Drop>,
+    pub mvp_drops: Vec<Drop>,
 }
 
 impl Default for MobModel {
     fn default() -> Self {
-        MobModel {
+        let model = MobModel {
             id: 0,
             name: "".to_string(),
             level: 0,
@@ -109,33 +93,11 @@ impl Default for MobModel {
             damage_motion: 0,
             exp: 0,
             jexp: 0,
-            mvp1id: 0,
-            mvp1per: 0,
-            mvp2id: 0,
-            mvp2per: 0,
-            mvp3id: 0,
-            mvp3per: 0,
-            drop1id: 0,
-            drop1per: 0,
-            drop2id: 0,
-            drop2per: 0,
-            drop3id: 0,
-            drop3per: 0,
-            drop4id: 0,
-            drop4per: 0,
-            drop5id: 0,
-            drop5per: 0,
-            drop6id: 0,
-            drop6per: 0,
-            drop7id: 0,
-            drop7per: 0,
-            drop8id: 0,
-            drop8per: 0,
-            drop9id: 0,
-            drop9per: 0,
-            dropcardid: 0,
-            dropcardper: 0
-        }
+            card_drop: None,
+            drops: Default::default(),
+            mvp_drops: Default::default(),
+        };
+        model
     }
 }
 
@@ -169,32 +131,29 @@ impl <'r>FromRow<'r, PgRow> for MobModel {
         model.set_atk_delay(row.try_get::<i32,_>("attack_delay").unwrap_or(0));
         model.set_atk_motion(row.try_get::<i32,_>("attack_motion").unwrap_or(0));
         model.set_damage_motion(row.try_get::<i32,_>("damage_motion").unwrap_or(0));
-        model.set_mvp1id(row.try_get::<i16,_>("mvpdrop1_item").unwrap_or(0));
-        model.set_mvp1per(row.try_get::<i16,_>("mvpdrop1_rate").unwrap_or(0));
-        model.set_mvp2id(row.try_get::<i16,_>("mvpdrop2_item").unwrap_or(0));
-        model.set_mvp2per(row.try_get::<i16,_>("mvpdrop2_rate").unwrap_or(0));
-        model.set_mvp3id(row.try_get::<i16,_>("mvpdrop3_item").unwrap_or(0));
-        model.set_mvp3per(row.try_get::<i16,_>("mvpdrop3_rate").unwrap_or(0));
-        model.set_drop1id(row.try_get::<i16,_>("drop1_item").unwrap_or(0));
-        model.set_drop1per(row.try_get::<i16,_>("drop1_rate").unwrap_or(0));
-        model.set_drop2id(row.try_get::<i16,_>("drop2_item").unwrap_or(0));
-        model.set_drop2per(row.try_get::<i16,_>("drop2_rate").unwrap_or(0));
-        model.set_drop3id(row.try_get::<i16,_>("drop3_item").unwrap_or(0));
-        model.set_drop3per(row.try_get::<i16,_>("drop3_rate").unwrap_or(0));
-        model.set_drop4id(row.try_get::<i16,_>("drop4_item").unwrap_or(0));
-        model.set_drop4per(row.try_get::<i16,_>("drop4_rate").unwrap_or(0));
-        model.set_drop5id(row.try_get::<i16,_>("drop5_item").unwrap_or(0));
-        model.set_drop5per(row.try_get::<i16,_>("drop5_rate").unwrap_or(0));
-        model.set_drop6id(row.try_get::<i16,_>("drop6_item").unwrap_or(0));
-        model.set_drop6per(row.try_get::<i16,_>("drop6_rate").unwrap_or(0));
-        model.set_drop7id(row.try_get::<i16,_>("drop7_item").unwrap_or(0));
-        model.set_drop7per(row.try_get::<i16,_>("drop7_rate").unwrap_or(0));
-        model.set_drop8id(row.try_get::<i16,_>("drop8_item").unwrap_or(0));
-        model.set_drop8per(row.try_get::<i16,_>("drop8_rate").unwrap_or(0));
-        model.set_drop9id(row.try_get::<i16,_>("drop9_item").unwrap_or(0));
-        model.set_drop9per(row.try_get::<i16,_>("drop9_rate").unwrap_or(0));
-        model.set_dropcardid(row.try_get::<i16,_>("drop10_item").unwrap_or(0));
-        model.set_dropcardper(row.try_get::<i16,_>("drop10_rate").unwrap_or(0));
+        let mut drops = vec![];
+        let mut mvp_drops = vec![];
+        let mut card: Option<Drop> = None;
+        for i in 1..=10 {
+            if let Ok(item_name) = row.try_get::<String, _>(format!("drop{}_item", i).as_str()) {
+                let drop = Drop { item_name , rate: row.get::<i32, _>(format!("drop{}_rate", i).as_str()) as u16 };
+                if drop.item_name.to_lowercase().ends_with("card") {
+                    card = Some(drop);
+                } else {
+                    drops.push(drop)
+                }
+            } else { break; }
+        }
+        for i in 1..=3 {
+            if let Ok(item_name) = row.try_get::<String, _>(format!("mvpdrop{}_item", i).as_str()) {
+                let drop = Drop { item_name , rate: row.get::<i32, _>(format!("mvpdrop{}_rate", i).as_str()) as u16 };
+                mvp_drops.push(drop)
+            } else { break; }
+        }
+        model.set_card_drop(card);
+        model.set_drops(drops);
+        model.set_mvp_drops(mvp_drops);
         Ok(model)
     }
+
 }
