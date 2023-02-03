@@ -12,12 +12,12 @@ database Postgresql as database
 mutin <- service
 mutin -> service
 service ..> response
-service ..> persistence
 service ..> task_queue
-service --> repository
 
-persistence --> database
+persistence -right-> repository
 repository --> database
+service ..> persistence
+service --> repository
 
 interface TCP
 response --> TCP

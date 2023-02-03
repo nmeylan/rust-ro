@@ -9,17 +9,6 @@ This split seems not really relevant, scaling can be achieved in a different way
 
 This server implement all 3 servers above in one. This will simplify implementation: no inter server communication.
 
-# State management
-
-Diagram below shows how:
-- Read requests are handled
-- Command requests are handled
-- States are accessed
-- States are mutated
-- States are read from database
-- States are persisted in database
-
-![](./rust-ro-architecture.png)
 
 ## Pinciples
 We distinguish 2 types of client request:
@@ -33,9 +22,9 @@ In this implementation we can split states in 2 parts:
 This implementation relies heavily on message passing.
 
 ## Message passing
-**Instead of sharing memory** and use lock to update state across different thread, we rely on message passing, where messages ( we call them events) describe a change to apply.
+**Instead of sharing memory** and use **lock** to update state across different thread, we rely on message passing, where messages ( we call them events) describe a change to apply.
 
-This allow us to keep mutability ownership in a single place and avoid to use lock (and end with deadlock or complicated code)
+This allow us to keep mutability ownership in a single place and avoid to use lock (and end with deadlock or complicated code) and inconsistent state
 
 ## Components
 ![](./diagram/components.png)

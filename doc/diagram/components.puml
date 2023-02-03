@@ -41,11 +41,12 @@ node "Services layer" as services {
     [SkillService]
     [StatusService]
     [ItemService]
+    [MapInstanceService]
     [...]
 }
 
 node "Map instance" as map {
-interface "mpsc" as map_queue
+interface "Event queue" as map_queue
     [Map update loop] as map_update_loop
     map_update_loop -down-> services
     map_update_loop<--map_queue
@@ -64,7 +65,9 @@ persistence_queue <.. services : deferred update
 services -down-> repositories : immediate call\n (fetch or transaction)
 node "States" as states {
     [CharacterState]
-    [Mob]
+    [MobState]
+    [MapInstanceState]
+    [ServerState]
 }
 
 node "Repository layer" as repositories {
