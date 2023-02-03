@@ -65,8 +65,12 @@ impl GlobalConfigService {
     }
 
     pub fn get_item_by_name(&self, name: &str) -> &ItemModel {
-        let id = self.items_name_id.get(name).unwrap_or_else(|| panic!("Expected to find item for name {} but found none", name));
+        let id = &self.get_item_id_from_name(name);
         self.items.get(id).unwrap_or_else(|| panic!("Expected to find item for id {} but found none", id))
+    }
+
+    pub fn get_item_id_from_name(&self, name: &str) -> u32 {
+        *self.items_name_id.get(name).unwrap_or_else(|| panic!("Expected to find item for name {} but found none", name))
     }
 
     pub fn get_mob(&self, id: i32) -> &MobModel {

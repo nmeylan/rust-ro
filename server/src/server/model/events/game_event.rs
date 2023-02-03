@@ -124,5 +124,7 @@ pub struct CharacterChangeJob {
 pub struct CharacterKillMonster {
     pub char_id: u32,
     pub mob_id: i16,
+    pub mob_x: u16,
+    pub mob_y: u16,
     pub map_instance_key: MapInstanceKey
 }

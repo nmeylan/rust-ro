@@ -41,6 +41,18 @@ impl Map {
             }
         }
     }
+    pub fn find_random_free_cell_around(cells: &Vec<u16>, x_size: u16, x: u16, y :u16) -> (u16, u16) {
+        let rng = fastrand::Rng::new();
+
+        loop {
+            let random_x = rng.u16((x.max(3) - 3)..(x.max(3) + 3));
+            let random_y = rng.u16((y.max(3) - 3)..(y.max(3) + 3));
+            let index = coordinate::get_cell_index_of(random_x, random_y, x_size);
+            if cells.get(index).unwrap() & CellType::Walkable.as_flag() == 1 {
+                return (random_x, random_y);
+            }
+        }
+    }
 
     pub fn find_random_walkable_cell_in_max_range(cells: &[u16], x_size: u16, y_size: u16, x: u16, y: u16, max_range: usize) -> Option<(u16, u16)> {
         let rng = fastrand::Rng::new();
