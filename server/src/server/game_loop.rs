@@ -33,7 +33,7 @@ use crate::server::state::character::Character;
 
 
 const MOVEMENT_TICK_RATE: u128 = 20;
-const GAME_TICK_RATE: u128 = 40;
+pub const GAME_TICK_RATE: u128 = 40;
 
 impl Server {
     pub(crate) fn game_loop(server_ref: Arc<Server>, runtime: Runtime) {
