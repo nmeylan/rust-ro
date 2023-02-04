@@ -46,11 +46,8 @@ pub struct ItemModel {
     pub defense: Option<i16>,
     pub range: Option<i16>,
     pub slots: Option<i16>,
-    #[serde(serialize_with = "serialize_u64", deserialize_with = "deserialize_u64")]
     pub job_flags: u64,
-    #[serde(serialize_with = "serialize_u64", deserialize_with = "deserialize_u64")]
     pub class_flags: u64,
-    #[serde(serialize_with = "serialize_u64", deserialize_with = "deserialize_u64")]
     pub location: u64,
     pub gender: Option<String>,
     pub weapon_level: Option<i16>,
@@ -60,7 +57,6 @@ pub struct ItemModel {
     pub refineable: Option<i16>,
     pub view: Option<i32>,
     pub alias_name: Option<String>,
-    #[serde(serialize_with = "serialize_u64", deserialize_with = "deserialize_u64")]
     pub flags: u64,
     pub delay_duration: Option<i32>,
     pub delay_status: Option<String>,
@@ -72,7 +68,6 @@ pub struct ItemModel {
     pub nouse_override: Option<i32>,
     pub nouse_sitting: Option<i16>,
     pub trade_override: Option<i32>,
-    #[serde(serialize_with = "serialize_u64", deserialize_with = "deserialize_u64")]
     pub trade_flags: u64,
 }
 

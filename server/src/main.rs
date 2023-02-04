@@ -75,18 +75,18 @@ pub async fn main() {
     let mut map_item_ids = HashMap::<u32, MapItem>::new();
     #[cfg(feature = "static_db_update")]
     {
-        // items.toml is used in tests
+        // items.json is used in tests
         let item_db: ItemModels = items.clone().into();
-        let toml = toml::to_string(&item_db).unwrap();
+        let json = serde_json::to_string_pretty(&item_db).unwrap();
         let output_path = Path::new("config");
-        let mut file = File::create(output_path.join("items.toml")).unwrap();
-        file.write_all(toml.as_bytes()).unwrap();
-        // mobs.toml is used in tests
+        let mut file = File::create(output_path.join("items.json")).unwrap();
+        file.write_all(json.as_bytes()).unwrap();
+        // mobs.json is used in tests
         let mob_db: MobModels = mobs.clone().into();
-        let toml = toml::to_string(&mob_db).unwrap();
+        let json = serde_json::to_string_pretty(&mob_db).unwrap();
         let output_path = Path::new("config");
-        let mut file = File::create(output_path.join("mobs.toml")).unwrap();
-        file.write_all(toml.as_bytes()).unwrap();
+        let mut file = File::create(output_path.join("mobs.json")).unwrap();
+        file.write_all(json.as_bytes()).unwrap();
     }
     let skills_config = Config::load_skills_config(".").unwrap();
     let mut skill_configs_id_name: HashMap<String, u32> = Default::default();

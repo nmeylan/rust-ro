@@ -1,0 +1,177 @@
+{
+  "database": {
+    "db": "ragnarok",
+    "host": "localhost",
+    "port": 5433,
+    "username": "ragnarok"
+  },
+  "game": {
+    "default_char_speed": 150,
+    "drop_rate": 1.0,
+    "drop_rate_card": 1.0,
+    "drop_rate_mvp": 1.0,
+    "max_base_level": 99,
+    "max_inventory": 100,
+    "max_job_level": 70,
+    "mob_density": 1.0
+  },
+  "maps": {
+    "cities": [
+      {
+        "name": "prontera",
+        "x": 156,
+        "y": 191
+      },
+      {
+        "name": "morroc",
+        "x": 156,
+        "y": 93
+      },
+      {
+        "name": "geffen",
+        "x": 119,
+        "y": 59
+      },
+      {
+        "name": "payon",
+        "x": 162,
+        "y": 233
+      },
+      {
+        "name": "alberta",
+        "x": 192,
+        "y": 147
+      },
+      {
+        "name": "geffen",
+        "x": 119,
+        "y": 59
+      },
+      {
+        "name": "izlude",
+        "x": 128,
+        "y": 146
+      },
+      {
+        "name": "aldebaran",
+        "x": 140,
+        "y": 131
+      },
+      {
+        "name": "lutie",
+        "x": 147,
+        "y": 134
+      },
+      {
+        "name": "comodo",
+        "x": 209,
+        "y": 143
+      },
+      {
+        "name": "yuno",
+        "x": 157,
+        "y": 51
+      },
+      {
+        "name": "amatsu",
+        "x": 198,
+        "y": 84
+      },
+      {
+        "name": "gonryun",
+        "x": 160,
+        "y": 120
+      },
+      {
+        "name": "umbala",
+        "x": 89,
+        "y": 157
+      },
+      {
+        "name": "niflheim",
+        "x": 21,
+        "y": 153
+      },
+      {
+        "name": "louyang",
+        "x": 217,
+        "y": 40
+      },
+      {
+        "name": "novice",
+        "x": 53,
+        "y": 111
+      },
+      {
+        "name": "jail",
+        "x": 23,
+        "y": 61
+      },
+      {
+        "name": "jawaii",
+        "x": 249,
+        "y": 127
+      },
+      {
+        "name": "ayothaya",
+        "x": 151,
+        "y": 117
+      },
+      {
+        "name": "einbroch",
+        "x": 64,
+        "y": 200
+      },
+      {
+        "name": "lighthalzen",
+        "x": 158,
+        "y": 92
+      },
+      {
+        "name": "einbech",
+        "x": 70,
+        "y": 95
+      },
+      {
+        "name": "hugel",
+        "x": 96,
+        "y": 145
+      },
+      {
+        "name": "rachel",
+        "x": 130,
+        "y": 110
+      },
+      {
+        "name": "veins",
+        "x": 216,
+        "y": 123
+      },
+      {
+        "name": "moscovia",
+        "x": 223,
+        "y": 184
+      }
+    ]
+  },
+  "proxy": {
+    "local_char_server_port": 6123,
+    "local_map_server_port": 6124,
+    "remote_char_server_ip": "127.0.0.1",
+    "remote_char_server_port": 6121,
+    "remote_login_server_ip": "127.0.0.1",
+    "remote_login_server_port": 6900,
+    "remote_map_server_ip": "127.0.0.1",
+    "remote_map_server_port": 5121
+  },
+  "server": {
+    "accounts": [
+      2000000
+    ],
+    "enable_visual_debugger": false,
+    "log_exclude_pattern": "slqlx",
+    "log_level": "info",
+    "packetver": 20120229,
+    "port": 6901
+  }
+}

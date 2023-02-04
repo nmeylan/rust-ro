@@ -4,8 +4,12 @@ use enums::EnumWithStringValue;
 pub fn deserialize_optional_string_enum<'de, D, T>(deserializer: D) -> Result<Option<T>, D::Error>
     where D: Deserializer<'de>,
           T: EnumWithStringValue {
-    let s: String = Deserialize::deserialize(deserializer)?;
-    Ok(Some(T::from_string_ignore_case(s.as_str())))
+    let s: Option<String> = Deserialize::deserialize(deserializer)?;
+    if let Some(s) = s {
+        Ok(Some(T::from_string_ignore_case(s.as_str())))
+    } else {
+        Ok(None)
+    }
 }
 
 pub fn deserialize_string_enum<'de, D, T>(deserializer: D) -> Result<T, D::Error>
@@ -25,14 +29,4 @@ pub fn serialize_optional_string_enum<S, T>(field: &Option<T>, serializer: S) ->
     } else {
         serializer.serialize_none()
     }
-}
-// Currently toml is broken and can't handle u64 deserialization  https://github.com/toml-rs/toml/issues/438
-pub fn serialize_u64<S>(field: &u64, serializer: S) -> Result<S::Ok, S::Error> where S: Serializer {
-    serializer.serialize_str(format!("{}", field).as_str())
-}
-
-pub fn deserialize_u64<'de, D>(deserializer: D) -> Result<u64, D::Error>
-    where D: Deserializer<'de> {
-    let value: String = Deserialize::deserialize(deserializer)?;
-    Ok(value.parse::<u64>().unwrap())
 }

@@ -121,7 +121,7 @@ pub struct JobConfig {
 
 #[derive(Deserialize, Debug, Clone)]
 struct SkillsConfig {
-    #[serde(rename = "skill", deserialize_with = "deserialize_skills")]
+    #[serde(rename = "skills", deserialize_with = "deserialize_skills")]
     skills: HashMap<u32, SkillConfig>,
 }
 
@@ -351,11 +351,11 @@ struct InternalSkillItemCost {
 
 impl Config {
     pub fn load() -> Result<Config, String> {
-        let path = Path::new("config.toml");
+        let path = Path::new("config.json");
         if !path.exists() {
-            return Err(format!("config.toml file does not exists at {}", env::current_dir().unwrap().join(path).to_str().unwrap()));
+            return Err(format!("config.json file does not exists at {}", env::current_dir().unwrap().join(path).to_str().unwrap()));
         }
-        let mut config: Config = toml::from_str(&fs::read_to_string(path).unwrap()).unwrap();
+        let mut config: Config = serde_json::from_str(&fs::read_to_string(path).unwrap()).unwrap();
         match env::var("DATABASE_PASSWORD") {
             Ok(password) => config.database.set_password(Some(password)),
             Err(_) => return Err("DATABASE_PASSWORD env is missing. please provide this env".to_string())
@@ -377,11 +377,11 @@ impl Config {
     }
 
     pub fn load_jobs_config(root: &str) -> Result<Vec<JobConfig>, String> {
-        let path = Path::new(root).join("config/job.toml");
+        let path = Path::new(root).join("config/job.json");
         if !path.exists() {
-            return Err(format!("config/job.toml file does not exists at {}", env::current_dir().unwrap().join(path).to_str().unwrap()));
+            return Err(format!("config/job.json file does not exists at {}", env::current_dir().unwrap().join(path).to_str().unwrap()));
         }
-        let internal_configs: InternalJobsConfig = toml::from_str(&fs::read_to_string(path).unwrap()).unwrap();
+        let internal_configs: InternalJobsConfig = serde_json::from_str(&fs::read_to_string(path).unwrap()).unwrap();
         let mut job_configs: Vec<JobConfig> = vec![];
         let default_values = internal_configs.jobs.get("default").expect("Expect jobs.default config");
         for (name, config) in internal_configs.jobs.iter() {
@@ -406,11 +406,11 @@ impl Config {
     }
 
     pub fn load_skills_config(root: &str) -> Result<HashMap<u32, SkillConfig>, String> {
-        let path = Path::new(root).join("config/skill.toml");
+        let path = Path::new(root).join("config/skill.json");
         if !path.exists() {
-            return Err(format!("config/skill.toml file does not exists at {}", env::current_dir().unwrap().join(path).to_str().unwrap()));
+            return Err(format!("config/skill.json file does not exists at {}", env::current_dir().unwrap().join(path).to_str().unwrap()));
         }
-        let internal_configs: SkillsConfig = toml::from_str(&fs::read_to_string(path).unwrap()).unwrap();
+        let internal_configs: SkillsConfig = serde_json::from_str(&fs::read_to_string(path).unwrap()).unwrap();
         Ok(internal_configs.skills)
     }
 
