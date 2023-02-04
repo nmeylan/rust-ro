@@ -78,8 +78,12 @@ impl GlobalConfigService {
     }
 
     pub fn get_mob_by_name(&self, name: &str) -> &MobModel {
-        let id = self.mobs_name_id.get(name).unwrap_or_else(|| panic!("Expected to find mob for name {} but found none", name));
+        let id = &self.get_mob_id_from_name(name);
         self.mobs.get(id).unwrap_or_else(|| panic!("Expected to find mob for id {} but found none", id))
+    }
+
+    pub fn get_mob_id_from_name(&self, name: &str) -> u32 {
+        *self.mobs_name_id.get(name).unwrap_or_else(|| panic!("Expected to find mob for name {} but found none", name))
     }
 
     pub fn maps(&self) -> &HashMap<String, Map> {

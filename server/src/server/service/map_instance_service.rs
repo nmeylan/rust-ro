@@ -10,7 +10,7 @@ use crate::server::model::path::manhattan_distance;
 use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, Notification};
 use crate::server::{MOB_FOV, Server};
 use crate::server::model::events::game_event::{CharacterKillMonster, GameEvent};
-use crate::server::model::events::map_event::MonsterDropItems;
+use crate::server::model::events::map_event::MobDropItems;
 use crate::server::model::item::DroppedItem;
 use crate::server::model::position::Position;
 use crate::server::model::tasks_queue::TasksQueue;
@@ -123,54 +123,32 @@ impl MapInstanceService {
             mobs.remove(&id).unwrap()
         };
         map_instance_state.remove_item(mob.to_map_item());
+        // TODO Should be delayed
         self.server_task_queue.add_to_first_index(GameEvent::CharacterKillMonster(CharacterKillMonster { char_id: mob.attacker_with_higher_damage(), mob_id: mob.mob_id, mob_x: mob.x, mob_y: mob.y, map_instance_key: map_instance_state.key().clone() }))
     }
 
-    pub fn mob_drop_items(&self, map_instance_state: &mut MapInstanceState, monster_drop_items: MonsterDropItems) -> Vec<DroppedItem> {
+    pub fn mob_drop_items(&self, map_instance_state: &mut MapInstanceState, mob_drop_items: MobDropItems) -> Vec<DroppedItem> {
         let rng = fastrand::Rng::new();
-        let mob = self.configuration_service.get_mob(monster_drop_items.mob_id as i32);
+        let mob = self.configuration_service.get_mob(mob_drop_items.mob_id as i32);
         let mut item_to_drop: Vec<DroppedItem> = vec![];
         for drop in mob.drops.iter() {
             let drop_rate = (drop.rate as f32 * self.configuration_service.config().game.drop_rate).round() as u16;
             if drop_rate >= 10000 || rng.u16(1..=10000) > 10000 - drop_rate {
-                let (random_x, random_y) = Map::find_random_free_cell_around(map_instance_state.cells(), map_instance_state.x_size(), monster_drop_items.mob_x, monster_drop_items.mob_y);
+                let (random_x, random_y) = Map::find_random_free_cell_around(map_instance_state.cells(), map_instance_state.x_size(), mob_drop_items.mob_x, mob_drop_items.mob_y);
                 item_to_drop.push(DroppedItem {
                     map_item_id: Server::generate_id(map_instance_state.map_items_mut()),
-                    item_id: self.configuration_service.get_item_id_from_name(drop.item_name.as_str()) as i32,
-                    location: Position {
-                        x: random_x,
-                        y: random_y,
-                        dir: 0
-                    },
-                    sub_location: Position {
-                        x: rng.u16(0..=3)* 3 + 3,
-                        y: rng.u16(0..=3)* 3 + 3,
-                        dir: 0
-                    },
-                    owner_id: Some(monster_drop_items.owner_id),
+                    item_id: drop.item_id,
+                    location: Position { x: random_x, y: random_y, dir: 0 },
+                    sub_location: Position { x: rng.u16(0..=3)* 3 + 3, y: rng.u16(0..=3)* 3 + 3, dir: 0 },
+                    owner_id: Some(mob_drop_items.owner_id),
                     dropped_at: get_tick(),
                     amount: 1
                 });
             }
         }
         // TODO add to dropped item vec in map instance state
-        let mut packets = vec![];
-        for item in item_to_drop.iter() {
-            let mut packet_zc_item_fall_entry = PacketZcItemFallEntry::default();
-            packet_zc_item_fall_entry.set_itid(item.item_id as u16);
-            packet_zc_item_fall_entry.set_itaid(item.map_item_id as u32);
-            packet_zc_item_fall_entry.set_x_pos(item.location.x as i16);
-            packet_zc_item_fall_entry.set_y_pos(item.location.y as i16);
-            packet_zc_item_fall_entry.set_sub_x(item.sub_location.x as u8);
-            packet_zc_item_fall_entry.set_sub_y(item.sub_location.y as u8);
-            packet_zc_item_fall_entry.set_count(item.amount as i16);
-            packet_zc_item_fall_entry.fill_raw();
-            packets.extend(packet_zc_item_fall_entry.raw);
-        }
-        self.client_notification_sender.send(Notification::Area(
-            AreaNotification::new(map_instance_state.key().map_name().clone(), map_instance_state.key().map_instance(),
-                                  AreaNotificationRangeType::Fov { x: monster_drop_items.mob_x, y: monster_drop_items.mob_y, exclude_id: None },
-                                  packets))).expect("Fail to send client notification");
+        // TODO move code below in another method
+
         item_to_drop
     }
 }

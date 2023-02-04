@@ -1,8 +1,8 @@
 pub mod character_helper;
 pub mod map_instance_helper;
 pub mod mob_helper;
+#[macro_use]
 pub mod assert_helper;
-
 use std::collections::HashMap;
 use std::fs;
 use std::sync::mpsc::SyncSender;
@@ -47,7 +47,7 @@ pub fn before_all() {
         let (client_notification_sender, client_notification_receiver) = create_mpsc::<Notification>();
         let (persistence_event_sender, persistence_event_receiver) = create_mpsc::<PersistenceEvent>();
         unsafe {
-            let config: Config = toml::from_str(&fs::read_to_string("../config.toml").unwrap()).unwrap();
+            let config: Config = toml::from_str(&fs::read_to_string("../config.template.toml").unwrap()).unwrap();
             CONFIGS = Some(config);
             TEST_CONTEXT = Some(TestContext { client_notification_sender, persistence_event_sender, client_notification_receiver, persistence_event_receiver});
         }

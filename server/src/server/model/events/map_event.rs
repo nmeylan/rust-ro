@@ -9,7 +9,7 @@ pub enum MapEvent {
     InsertCharToMap(MapItem),
     MobDamage(Damage),
     MobDeathClientNotification(MobLocation),
-    MonsterDropItems(MonsterDropItems),
+    MobDropItems(MobDropItems),
 }
 
 pub struct MobLocation {
@@ -18,8 +18,8 @@ pub struct MobLocation {
     pub y: u16,
 }
 
-#[derive(Debug, PartialEq)]
-pub struct MonsterDropItems {
+#[derive(Debug, PartialEq, Clone, Copy)]
+pub struct MobDropItems {
     pub owner_id: u32,
     pub mob_id: i16,
     pub mob_x: u16,

@@ -30,9 +30,14 @@ fn before_each() -> MapInstanceServiceTestContext {
 
 #[cfg(test)]
 mod tests {
+    use std::collections::HashMap;
     use std::mem;
+    use crate::assert_eq_with_variance;
     use crate::server::model::events::game_event::{CharacterKillMonster, GameEvent};
+    use crate::server::model::events::map_event::MobDropItems;
+    use crate::server::model::item::DroppedItem;
     use crate::server::model::map_item::{MapItem, MapItemType};
+    use crate::server::service::global_config_service::GlobalConfigService;
     use crate::server::state::mob::Mob;
     use crate::tests::common::assert_helper::task_queue_contains_event_at_tick;
     use crate::tests::common::map_instance_helper::create_empty_map_instance_state;
@@ -73,5 +78,47 @@ mod tests {
         context.map_instance_service.mob_die(&mut map_instance_state, mob_item_id);
         // Then
         task_queue_contains_event_at_tick(context.server_task_queue.clone(), GameEvent::CharacterKillMonster(CharacterKillMonster{ char_id: 150000, mob_id, mob_x: x, mob_y: y, map_instance_key: map_instance_state.key().clone() }), 0);
+    }
+    #[test]
+    fn test_mob_drop_item_when_mob_are_normal() {
+        // Given
+        let context = before_each();
+        let mut map_instance_state = create_empty_map_instance_state();
+        let poring = GlobalConfigService::instance().get_mob_by_name("Poring");
+        let mob_drop_items = MobDropItems { owner_id: 150000, mob_id: poring.id as i16, mob_x: 10, mob_y: 10 };
+        let mut expected_dropped_item_amount: HashMap<u32, (String,u32)> = Default::default();
+        poring.drops.iter().for_each(|drop_rate| { expected_dropped_item_amount.insert(GlobalConfigService::instance().get_item_id_from_name(drop_rate.item_name.as_str()), (drop_rate.item_name.clone(), drop_rate.rate as u32)); });
+        // let card_name = poring.card_drop.as_ref().unwrap().item_name.clone();
+        // expected_dropped_item_amount.insert(GlobalConfigService::instance().get_item_id_from_name(card_name.as_str()), (card_name.clone(), poring.card_drop.as_ref().unwrap().rate as u32));
+
+        let iterations = 1100;
+        // When
+        let mut drops_per_item: HashMap<u32, u32> = HashMap::new();
+        for _ in 0..=iterations {
+            for _ in 0..10000 {
+                let drops = context.map_instance_service.mob_drop_items(&mut map_instance_state, mob_drop_items);
+                for drop in drops {
+                    let item_drop_count = drops_per_item.entry(drop.item_id as u32).or_insert(0);
+                    *item_drop_count += 1;
+                }
+            }
+        }
+        // Then
+        let mut average_drops_per_item: HashMap<u32, u32> = HashMap::new();
+        for (dropped_item, total_amount_dropped) in drops_per_item {
+            let average = (total_amount_dropped as f32 / iterations as f32).round() as u32;
+            let (item_name, expected_drop_amount) = expected_dropped_item_amount.get(&dropped_item).unwrap();
+            assert_eq_with_variance!(2, average, *expected_drop_amount, "Expected item {} to be dropped {} times but was dropped {} times", item_name, expected_drop_amount, average);
+        }
+
+    }
+    #[test]
+    fn test_mob_drop_item_when_mob_is_mvp() {
+        // Given
+        let context = before_each();
+
+        // When
+
+        // Then
     }
 }

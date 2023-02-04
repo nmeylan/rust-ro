@@ -5,8 +5,9 @@ use sqlx::postgres::PgRow;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct MobModels {
-    mobs: Vec<MobModel>
+    mobs: Vec<MobModel>,
 }
+
 impl From<Vec<MobModel>> for MobModels {
     fn from(mobs: Vec<MobModel>) -> Self {
         MobModels {
@@ -14,6 +15,7 @@ impl From<Vec<MobModel>> for MobModels {
         }
     }
 }
+
 impl From<MobModels> for Vec<MobModel> {
     fn from(mob_models: MobModels) -> Self {
         mob_models.mobs
@@ -23,6 +25,7 @@ impl From<MobModels> for Vec<MobModel> {
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Drop {
     pub item_name: String,
+    pub item_id: i32,
     pub rate: u16,
 }
 
@@ -101,42 +104,42 @@ impl Default for MobModel {
     }
 }
 
-impl <'r>FromRow<'r, PgRow> for MobModel {
+impl<'r> FromRow<'r, PgRow> for MobModel {
     fn from_row(row: &'r PgRow) -> Result<Self, Error> {
         let mut model = MobModel::default();
-        model.set_id(row.get::<i32,_>("id") );
+        model.set_id(row.get::<i32, _>("id"));
         model.set_name(row.get("name_english"));
-        model.set_level(row.try_get::<i32,_>("level").unwrap_or(0));
-        model.set_hp(row.try_get::<i32,_>("hp").unwrap_or(0));
-        model.set_sp(row.try_get::<i32,_>("sp").unwrap_or(0));
-        model.set_exp(row.try_get::<i32,_>("base_exp").unwrap_or(0));
-        model.set_range1(row.try_get::<i16,_>("attack_range").unwrap_or(0));
-        model.set_range2(row.try_get::<i16,_>("skill_range").unwrap_or(0));
-        model.set_range3(row.try_get::<i16,_>("chase_range").unwrap_or(0));
-        model.set_atk1(row.try_get::<i32,_>("attack").unwrap_or(0));
-        model.set_atk2(row.try_get::<i32,_>("attack2").unwrap_or(0));
-        model.set_def(row.try_get::<i32,_>("defense").unwrap_or(0));
-        model.set_mdef(row.try_get::<i32,_>("magic_defense").unwrap_or(0));
-        model.set_str(row.try_get::<i32,_>("str").unwrap_or(0));
-        model.set_agi(row.try_get::<i32,_>("agi").unwrap_or(0));
-        model.set_vit(row.try_get::<i32,_>("vit").unwrap_or(0));
-        model.set_int(row.try_get::<i32,_>("int").unwrap_or(0));
-        model.set_dex(row.try_get::<i32,_>("dex").unwrap_or(0));
-        model.set_luk(row.try_get::<i32,_>("luk").unwrap_or(0));
-        model.set_scale(row.try_get::<i16,_>("size").unwrap_or(0));
-        model.set_race(row.try_get::<i16,_>("race").unwrap_or(0));
-        model.set_element(row.try_get::<i8,_>("element").unwrap_or(0));
+        model.set_level(row.try_get::<i32, _>("level").unwrap_or(0));
+        model.set_hp(row.try_get::<i32, _>("hp").unwrap_or(0));
+        model.set_sp(row.try_get::<i32, _>("sp").unwrap_or(0));
+        model.set_exp(row.try_get::<i32, _>("base_exp").unwrap_or(0));
+        model.set_range1(row.try_get::<i16, _>("attack_range").unwrap_or(0));
+        model.set_range2(row.try_get::<i16, _>("skill_range").unwrap_or(0));
+        model.set_range3(row.try_get::<i16, _>("chase_range").unwrap_or(0));
+        model.set_atk1(row.try_get::<i32, _>("attack").unwrap_or(0));
+        model.set_atk2(row.try_get::<i32, _>("attack2").unwrap_or(0));
+        model.set_def(row.try_get::<i32, _>("defense").unwrap_or(0));
+        model.set_mdef(row.try_get::<i32, _>("magic_defense").unwrap_or(0));
+        model.set_str(row.try_get::<i32, _>("str").unwrap_or(0));
+        model.set_agi(row.try_get::<i32, _>("agi").unwrap_or(0));
+        model.set_vit(row.try_get::<i32, _>("vit").unwrap_or(0));
+        model.set_int(row.try_get::<i32, _>("int").unwrap_or(0));
+        model.set_dex(row.try_get::<i32, _>("dex").unwrap_or(0));
+        model.set_luk(row.try_get::<i32, _>("luk").unwrap_or(0));
+        model.set_scale(row.try_get::<i16, _>("size").unwrap_or(0));
+        model.set_race(row.try_get::<i16, _>("race").unwrap_or(0));
+        model.set_element(row.try_get::<i8, _>("element").unwrap_or(0));
         // model.set_mode(row.get::<i32,_>("element_level")); TODO: collect all modes
-        model.set_speed(row.try_get::<i32,_>("walk_speed").unwrap_or(0));
-        model.set_atk_delay(row.try_get::<i32,_>("attack_delay").unwrap_or(0));
-        model.set_atk_motion(row.try_get::<i32,_>("attack_motion").unwrap_or(0));
-        model.set_damage_motion(row.try_get::<i32,_>("damage_motion").unwrap_or(0));
+        model.set_speed(row.try_get::<i32, _>("walk_speed").unwrap_or(0));
+        model.set_atk_delay(row.try_get::<i32, _>("attack_delay").unwrap_or(0));
+        model.set_atk_motion(row.try_get::<i32, _>("attack_motion").unwrap_or(0));
+        model.set_damage_motion(row.try_get::<i32, _>("damage_motion").unwrap_or(0));
         let mut drops = vec![];
         let mut mvp_drops = vec![];
         let mut card: Option<Drop> = None;
         for i in 1..=10 {
             if let Ok(item_name) = row.try_get::<String, _>(format!("drop{}_item", i).as_str()) {
-                let drop = Drop { item_name , rate: row.get::<i32, _>(format!("drop{}_rate", i).as_str()) as u16 };
+                let drop = Drop { item_name, item_id: row.get::<i32, _>(format!("drop{}_itemid", i).as_str()), rate: row.get::<i32, _>(format!("drop{}_rate", i).as_str()) as u16 };
                 if drop.item_name.to_lowercase().ends_with("card") {
                     card = Some(drop);
                 } else {
@@ -146,7 +149,7 @@ impl <'r>FromRow<'r, PgRow> for MobModel {
         }
         for i in 1..=3 {
             if let Ok(item_name) = row.try_get::<String, _>(format!("mvpdrop{}_item", i).as_str()) {
-                let drop = Drop { item_name , rate: row.get::<i32, _>(format!("mvpdrop{}_rate", i).as_str()) as u16 };
+                let drop = Drop { item_name, item_id: row.get::<i32, _>(format!("mvpdrop{}_itemid", i).as_str()), rate: row.get::<i32, _>(format!("mvpdrop{}_rate", i).as_str()) as u16 };
                 mvp_drops.push(drop)
             } else { break; }
         }
@@ -155,5 +158,4 @@ impl <'r>FromRow<'r, PgRow> for MobModel {
         model.set_mvp_drops(mvp_drops);
         Ok(model)
     }
-
 }

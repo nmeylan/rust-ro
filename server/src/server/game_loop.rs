@@ -15,7 +15,7 @@ use crate::server::model::position::Position;
 use crate::server::model::events::game_event::{CharacterMovement, GameEvent};
 
 use crate::server::model::events::client_notification::{CharNotification, Notification};
-use crate::server::model::events::map_event::{MapEvent, MonsterDropItems};
+use crate::server::model::events::map_event::{MapEvent, MobDropItems};
 use crate::server::model::events::persistence_event::{SavePositionUpdate};
 
 use crate::server::model::map_item::{MapItemType, ToMapItemSnapshot, ToMapItem};
@@ -153,7 +153,7 @@ impl Server {
                             if autoloot {
 
                             } else {
-                                map_instance.add_to_delayed_tick(MapEvent::MonsterDropItems(MonsterDropItems { owner_id: character_kill_monster.char_id, mob_id: character_kill_monster.mob_id, mob_x: character_kill_monster.mob_x, mob_y: character_kill_monster.mob_y }), 400);
+                                map_instance.add_to_delayed_tick(MapEvent::MobDropItems(MobDropItems { owner_id: character_kill_monster.char_id, mob_id: character_kill_monster.mob_id, mob_x: character_kill_monster.mob_x, mob_y: character_kill_monster.mob_y }), 400);
                             }
                         }
                     }
