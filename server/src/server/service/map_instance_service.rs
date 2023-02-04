@@ -66,10 +66,9 @@ impl MapInstanceService {
                     cell = Map::find_random_walkable_cell(map_instance_state.cells_mut().deref(), map.x_size());
                 }
                 let mob_map_item_id = Server::generate_id(map_instance_state.map_items_mut());
-                let mob = Mob::new(mob_map_item_id, cell.0, cell.1, mob_spawn.mob_id, mob_spawn.id, mob_spawn.name.clone(),
+                let mob = Mob::new(mob_map_item_id, cell.0, cell.1, mob_spawn.mob_id, mob_spawn.id, mob_spawn.info.name.clone(), mob_spawn.info.name_english.clone(),
                                    Status::from_mob_model(&mob_spawn.info));
 
-                // TODO: On mob dead clean up should be down also for items below
                 map_instance_state.insert_item(mob.to_map_item());
                 map_instance_state.mobs_mut().insert(mob_map_item_id, mob);
                 // END

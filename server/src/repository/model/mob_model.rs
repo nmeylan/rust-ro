@@ -34,6 +34,7 @@ pub struct Drop {
 pub struct MobModel {
     pub id: i32,
     pub name: String,
+    pub name_english: String,
     pub level: i32,
     pub hp: i32,
     pub sp: i32,
@@ -76,6 +77,7 @@ impl Default for MobModel {
         let model = MobModel {
             id: 0,
             name: "".to_string(),
+            name_english: "".to_string(),
             level: 0,
             hp: 0,
             sp: 0,
@@ -113,7 +115,8 @@ impl<'r> FromRow<'r, PgRow> for MobModel {
     fn from_row(row: &'r PgRow) -> Result<Self, Error> {
         let mut model = MobModel::default();
         model.set_id(row.get::<i32, _>("id"));
-        model.set_name(row.get("name_english"));
+        model.set_name(row.get("name_aegis"));
+        model.set_name_english(row.get("name_english"));
         model.set_level(row.try_get::<i32, _>("level").unwrap_or(0));
         model.set_hp(row.try_get::<i32, _>("hp").unwrap_or(0));
         model.set_sp(row.try_get::<i32, _>("sp").unwrap_or(0));
