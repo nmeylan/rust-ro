@@ -52,6 +52,10 @@ impl ServerState {
         self.characters.get(&char_id).unwrap()
     }
 
+    pub fn get_character(&self, char_id: u32) -> Option<&Character> {
+        self.characters.get(&char_id)
+    }
+
     pub fn get_character_from_context_unsafe(&self, context: &Request) -> &Character {
         let char_id = context.session().char_id.unwrap();
         self.characters.get(&char_id).unwrap()
@@ -63,14 +67,16 @@ impl ServerState {
     }
 
     pub fn get_map_socket_for_char_id(&self, char_id: u32) -> Option<Arc<RwLock<TcpStream>>> {
-        let account_id = self.get_character_unsafe(char_id).account_id;
-        let sessions = self.sessions.read().unwrap();
-        let maybe_session = sessions.get(&account_id);
-        if let Some(session) = maybe_session {
-            session.map_server_socket.clone()
-        } else {
-            None
+        if let Some(character) = self.get_character(char_id) {
+            let account_id = character.account_id;
+            let sessions = self.sessions.read().unwrap();
+            let maybe_session = sessions.get(&account_id);
+            if let Some(session) = maybe_session {
+               return session.map_server_socket.clone()
+            }
         }
+        None
+
     }
     pub fn insert_map_item(&mut self, id: u32, map_item: MapItem) {
         self.map_items.insert(id, map_item);

@@ -239,15 +239,16 @@ impl Server {
                                             && (exclude_id.is_none() || exclude_id.unwrap() != character.char_id)
                                         )
                                         .for_each(|(_, character)| {
-                                            let tcp_stream = server_ref.state().get_map_socket_for_char_id(character.char_id).expect("Expect to found a socket for account");
-                                            let data = area_notification.serialized_packet();
-                                            let mut tcp_stream_guard = tcp_stream.write().unwrap();
-                                            if tcp_stream_guard.peer_addr().is_ok() {
-                                                debug!("Area - Respond to {:?} with: {:02X?}", tcp_stream_guard.peer_addr(), data);
-                                                tcp_stream_guard.write_all(data).unwrap();
-                                                tcp_stream_guard.flush().unwrap();
-                                            } else {
-                                                error!("{:?} socket has been closed", tcp_stream_guard.peer_addr().err());
+                                            if let Some(tcp_stream) = server_ref.state().get_map_socket_for_char_id(character.char_id) {
+                                                let data = area_notification.serialized_packet();
+                                                let mut tcp_stream_guard = tcp_stream.write().unwrap();
+                                                if tcp_stream_guard.peer_addr().is_ok() {
+                                                    debug!("Area - Respond to {:?} with: {:02X?}", tcp_stream_guard.peer_addr(), data);
+                                                    tcp_stream_guard.write_all(data).unwrap();
+                                                    tcp_stream_guard.flush().unwrap();
+                                                } else {
+                                                    error!("{:?} socket has been closed", tcp_stream_guard.peer_addr().err());
+                                                }
                                             }
                                         });
                                 }
