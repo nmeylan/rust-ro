@@ -5,7 +5,7 @@ use std::thread;
 use std::thread::sleep;
 use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
 use enums::vanish::VanishType;
-use packets::packets::PacketZcNotifyVanish;
+use packets::packets::{PacketZcItemFallEntry, PacketZcNotifyVanish};
 use crate::server::model::map_instance::MapInstance;
 use crate::server::model::movement::{Movable, Movement};
 use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, Notification};
@@ -79,8 +79,25 @@ impl MapInstanceLoop {
                                 MapEvent::InsertCharToMap(map_item) => {
                                     map_instance.state_mut().insert_item(map_item);
                                 }
-                                MapEvent::MonsterDropItems(monster_drop_items) => {
-                                    MapInstanceService::instance().mob_drop_items(map_instance.state_mut().as_mut(), monster_drop_items);
+                                MapEvent::MobDropItems(mob_drop_items) => {
+                                    let item_to_drop = MapInstanceService::instance().mob_drop_items(map_instance.state_mut().as_mut(), mob_drop_items);
+                                    let mut packets = vec![];
+                                    for item in item_to_drop.iter() {
+                                        let mut packet_zc_item_fall_entry = PacketZcItemFallEntry::default();
+                                        packet_zc_item_fall_entry.set_itid(item.item_id as u16);
+                                        packet_zc_item_fall_entry.set_itaid(item.map_item_id as u32);
+                                        packet_zc_item_fall_entry.set_x_pos(item.location.x as i16);
+                                        packet_zc_item_fall_entry.set_y_pos(item.location.y as i16);
+                                        packet_zc_item_fall_entry.set_sub_x(item.sub_location.x as u8);
+                                        packet_zc_item_fall_entry.set_sub_y(item.sub_location.y as u8);
+                                        packet_zc_item_fall_entry.set_count(item.amount as i16);
+                                        packet_zc_item_fall_entry.fill_raw();
+                                        packets.extend(packet_zc_item_fall_entry.raw);
+                                    }
+                                    map_instance.client_notification_channel().send(Notification::Area(
+                                        AreaNotification::new(map_instance.state().key().map_name().clone(), map_instance.state().key().map_instance(),
+                                                              AreaNotificationRangeType::Fov { x: mob_drop_items.mob_x, y: mob_drop_items.mob_y, exclude_id: None },
+                                                              packets))).expect("Fail to send client notification");
                                 }
                             }
                         }

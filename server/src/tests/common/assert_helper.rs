@@ -15,3 +15,19 @@ pub fn task_queue_contains_event_at_tick(task_queue: Arc<TasksQueue<GameEvent>>,
     }
     assert!(false, "Task queue does not contains event {:?}", expected_event);
 }
+
+pub fn variance(expectation: u32, variance: usize) -> u32 {
+   (variance as f32 / 100 as f32).round() as u32 * expectation
+}
+
+#[macro_export]
+macro_rules! assert_eq_with_variance {
+    ($variance:expr, $actual:expr, $expected:expr $(,)?) => {
+        let _variance = ($variance as f32 / 100 as f32) * $expected as f32;
+        assert!($actual as f32 - _variance <= $expected as f32 && $expected as f32 <= $actual as f32 + _variance);
+    };
+    ($variance:expr,$actual:expr, $expected:expr, $($arg:tt)+) => {
+        let _variance = ($variance as f32 / 100 as f32) * $expected as f32;
+        assert!($actual as f32 - _variance <= $expected as f32 && $expected as f32 <= $actual as f32 + _variance, $($arg)+);
+    }
+}

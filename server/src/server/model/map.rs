@@ -48,7 +48,7 @@ impl Map {
             let random_x = rng.u16((x.max(3) - 3)..(x.max(3) + 3));
             let random_y = rng.u16((y.max(3) - 3)..(y.max(3) + 3));
             let index = coordinate::get_cell_index_of(random_x, random_y, x_size);
-            if cells.get(index).unwrap() & CellType::Walkable.as_flag() == 1 {
+            if cells.get(index).unwrap_or_else(||panic!("Expected cell at index {} to exist", index)) & CellType::Walkable.as_flag() == 1 {
                 return (random_x, random_y);
             }
         }
