@@ -9,6 +9,8 @@ use crate::server::model::map_item::{MapItem, MapItemSnapshot, ToMapItem};
 use crate::server::model::path::manhattan_distance;
 use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, Notification};
 use crate::server::{MOB_FOV, Server};
+use crate::server::game_loop::GAME_TICK_RATE;
+use crate::server::map_instance_loop::MAP_LOOP_TICK_RATE;
 use crate::server::model::events::game_event::{CharacterKillMonster, GameEvent};
 use crate::server::model::events::map_event::MobDropItems;
 use crate::server::model::item::DroppedItem;
@@ -19,7 +21,7 @@ use crate::server::service::mob_service::MobService;
 use crate::server::state::map_instance::MapInstanceState;
 use crate::server::state::mob::{Mob, MobMovement};
 use crate::server::state::status::Status;
-use crate::util::tick::{get_tick, get_tick_client};
+use crate::util::tick::{delayed_tick, get_tick, get_tick_client};
 
 static mut SERVICE_INSTANCE: Option<MapInstanceService> = None;
 static SERVICE_INSTANCE_INIT: Once = Once::new();
@@ -115,10 +117,11 @@ impl MapInstanceService {
         }
     }
 
-    pub fn mob_die(&self, map_instance_state: &mut MapInstanceState, id: u32) {
+    pub fn mob_die(&self, map_instance_state: &mut MapInstanceState, id: u32, delay: u128) {
         let mob = map_instance_state.remove_mob(id).unwrap();
-        // TODO Should be delayed
-        self.server_task_queue.add_to_first_index(GameEvent::CharacterKillMonster(CharacterKillMonster { char_id: mob.attacker_with_higher_damage(), mob_id: mob.mob_id, mob_x: mob.x, mob_y: mob.y, map_instance_key: map_instance_state.key().clone() }))
+        self.server_task_queue.add_to_index(GameEvent::CharacterKillMonster(CharacterKillMonster { char_id: mob.attacker_with_higher_damage(), mob_id: mob.mob_id, mob_x: mob.x, mob_y: mob.y, map_instance_key: map_instance_state.key().clone() }),
+                                            delayed_tick(delay, GAME_TICK_RATE)
+        );
     }
 
     pub fn mob_drop_items(&self, map_instance_state: &mut MapInstanceState, mob_drop_items: MobDropItems) -> Vec<DroppedItem> {

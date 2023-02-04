@@ -54,7 +54,7 @@ mod tests {
         map_instance_state.insert_item(MapItem::new(mob_item_id, mob.mob_id, MapItemType::Mob));
         map_instance_state.mobs_mut().insert(mob_item_id, mob);
         // When
-        context.map_instance_service.mob_die(&mut map_instance_state, mob_item_id);
+        context.map_instance_service.mob_die(&mut map_instance_state, mob_item_id, 0);
         // Then
         assert_eq!(mem::discriminant(&map_instance_state.get_mob(mob_item_id)), mem::discriminant(&None));
         assert_eq!(mem::discriminant(&map_instance_state.get_map_item(mob_item_id)), mem::discriminant(&None));
@@ -75,7 +75,7 @@ mod tests {
         map_instance_state.insert_item(MapItem::new(mob_item_id, mob_id, MapItemType::Mob));
         map_instance_state.mobs_mut().insert(mob_item_id, mob);
         // When
-        context.map_instance_service.mob_die(&mut map_instance_state, mob_item_id);
+        context.map_instance_service.mob_die(&mut map_instance_state, mob_item_id, 0);
         // Then
         task_queue_contains_event_at_tick(context.server_task_queue.clone(), GameEvent::CharacterKillMonster(CharacterKillMonster{ char_id: 150000, mob_id, mob_x: x, mob_y: y, map_instance_key: map_instance_state.key().clone() }), 0);
     }

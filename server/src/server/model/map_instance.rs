@@ -6,6 +6,7 @@ use crate::server::model::map_item::{MapItem, ToMapItem};
 use std::sync::mpsc::SyncSender;
 
 use rathena_script_lang_interpreter::lang::vm::Vm;
+use crate::server::game_loop::GAME_TICK_RATE;
 
 use crate::server::model::events::map_event::MapEvent;
 use crate::server::model::events::client_notification::{Notification};
@@ -19,6 +20,7 @@ use crate::server::script::ScriptHandler;
 use crate::server::state::map_instance::{MapInstanceState, MobSpawnTrack};
 use crate::util::cell::{MyRef, MyRefMut, MyUnsafeCell};
 use crate::util::string::StringUtil;
+use crate::util::tick::delayed_tick;
 
 
 #[derive(Clone, Debug, PartialEq)]
@@ -104,9 +106,7 @@ impl MapInstance {
     }
 
     pub fn add_to_delayed_tick(&self, event: MapEvent, delay: u128) {
-        let index = (delay as f32 / MAP_LOOP_TICK_RATE as f32).round() as usize;
-        info!("delayed to tick {}", index);
-        self.add_to_tick(event, index);
+        self.add_to_tick(event, delayed_tick(delay, MAP_LOOP_TICK_RATE));
     }
 
     pub fn id(&self) -> u8{

@@ -37,7 +37,9 @@ use crate::server::service::character::character_service::CharacterService;
 use crate::server::service::character::inventory_service::InventoryService;
 use crate::server::service::character::item_service::ItemService;
 use script::skill::SkillService;
-
+use crate::server::game_loop::GAME_TICK_RATE;
+use crate::server::map_instance_loop::MAP_LOOP_TICK_RATE;
+use crate::server::model::events::map_event::MapEvent;
 
 
 use crate::server::service::battle_service::BattleService;
@@ -49,6 +51,7 @@ use crate::server::service::server_service::ServerService;
 use crate::server::service::status_service::StatusService;
 
 use crate::server::state::server::ServerState;
+use crate::util::tick::delayed_tick;
 
 pub mod boot;
 pub mod request_handler;
@@ -127,6 +130,10 @@ impl Server {
 
     pub fn add_to_tick(&self, event: GameEvent, index: usize) {
         self.tasks_queue.add_to_index(event, index)
+    }
+
+    pub fn add_to_delayed_tick(&self, event: GameEvent, delay: u128) {
+        self.add_to_tick(event, delayed_tick(delay, GAME_TICK_RATE));
     }
 
     pub fn add_to_next_movement_tick(&self, event: GameEvent) {
