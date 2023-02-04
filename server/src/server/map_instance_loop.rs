@@ -58,7 +58,7 @@ impl MapInstanceLoop {
                                             let delay = damage.attacked_at - tick;
                                             let id = mob.id;
                                             map_instance.add_to_delayed_tick(MapEvent::MobDeathClientNotification(MobLocation { mob_id: mob.id, x: mob.x, y: mob.y }), delay);
-                                            MapInstanceService::instance().mob_die(map_instance_state.as_mut(), id, 0);
+                                            MapInstanceService::instance().mob_die(map_instance_state.as_mut(), id, delay / 2);
                                         }
                                     }
                                 }
