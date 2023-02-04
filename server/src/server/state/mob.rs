@@ -14,6 +14,7 @@ use crate::server::state::status::Status;
 pub struct Mob {
     pub id: u32,
     pub name: String,
+    pub name_english: String,
     pub mob_id: i16,
     pub spawn_id: u32,
     pub status: Status,
@@ -47,7 +48,7 @@ impl Movable for Mob {
 }
 
 impl Mob {
-    pub fn new(id: u32, x: u16, y: u16, mob_id: i16, spawn_id: u32, name: String, status: Status) -> Mob {
+    pub fn new(id: u32, x: u16, y: u16, mob_id: i16, spawn_id: u32, name: String, name_english: String, status: Status) -> Mob {
         Mob {
             id,
             x,
@@ -56,6 +57,7 @@ impl Mob {
             spawn_id,
             status,
             name,
+            name_english,
             map_view: vec![],
             is_view_char: false,
             movements: vec![],

@@ -35,7 +35,7 @@ mod tests {
         #[derive(Debug)]
         struct Stats<'a> { weapon: &'a str, agi: u16, dex: u16, str: u16, luk: u16, mob: &'a str, min_damage: u32, max_damage: u32, average_damage: u32 };
         let stats = vec![
-            Stats { weapon: "Knife", agi: 1, dex: 5, str: 5, luk: 1, mob: "Lunatic", min_damage: 8, max_damage: 19, average_damage: 13 },
+            Stats { weapon: "Knife", agi: 1, dex: 5, str: 5, luk: 1, mob: "LUNATIC", min_damage: 8, max_damage: 19, average_damage: 13 },
         ];
         for stat in stats {
             let mut character = create_character();

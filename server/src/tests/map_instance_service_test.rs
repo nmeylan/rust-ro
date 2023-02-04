@@ -50,7 +50,7 @@ mod tests {
         let context = before_each();
         let mut map_instance_state = create_empty_map_instance_state();
         let mob_item_id = 82322;
-        let mob = create_mob(mob_item_id, "Poring");
+        let mob = create_mob(mob_item_id, "PORING");
         map_instance_state.insert_item(MapItem::new(mob_item_id, mob.mob_id, MapItemType::Mob));
         map_instance_state.mobs_mut().insert(mob_item_id, mob);
         // When
@@ -65,7 +65,7 @@ mod tests {
         let context = before_each();
         let mut map_instance_state = create_empty_map_instance_state();
         let mob_item_id = 82322;
-        let mut mob = create_mob(mob_item_id, "Poring");
+        let mut mob = create_mob(mob_item_id, "PORING");
         let mob_id = mob.mob_id;
         let x = mob.x;
         let y = mob.y;
@@ -84,11 +84,14 @@ mod tests {
         // Given
         let context = before_each();
         let mut map_instance_state = create_empty_map_instance_state();
-        let poring = GlobalConfigService::instance().get_mob_by_name("Poring");
-        println!("{:?}", poring);
+        let poring = GlobalConfigService::instance().get_mob_by_name("PORING");
         let mob_drop_items = MobDropItems { owner_id: 150000, mob_id: poring.id as i16, mob_x: 10, mob_y: 10 };
         let mut expected_dropped_item_amount: HashMap<u32, (String,u32)> = Default::default();
-        poring.drops.iter().for_each(|drop_rate| { expected_dropped_item_amount.insert(GlobalConfigService::instance().get_item_id_from_name(drop_rate.item_name.as_str()), (drop_rate.item_name.clone(), drop_rate.rate as u32)); });
+        poring.drops.iter().for_each(|drop_rate| {
+            // Sometime mob like "PORING" drop an item twice (like "apple") with different drop rates
+            let entry = expected_dropped_item_amount.entry(GlobalConfigService::instance().get_item_id_from_name(drop_rate.item_name.as_str())).or_insert( (drop_rate.item_name.clone(), 0));
+            entry.1 += drop_rate.rate as u32;
+        });
 
         let iterations = 1100;
         // When

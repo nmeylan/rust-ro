@@ -177,7 +177,7 @@ impl ServerState {
             MapItemType::Mob => {
                 if let Some(map_instance) = self.get_map_instance(map_name, map_instance_id) {
                     if let Some(mob) = map_instance.state().get_mob(map_item.id()) {
-                        return Some(mob.name.clone()); // TODO add dir to character
+                        return Some(mob.name_english.clone()); // TODO add dir to character
                     }
                 }
                 None
