@@ -47,7 +47,7 @@ pub fn before_all() {
         let (client_notification_sender, client_notification_receiver) = create_mpsc::<Notification>();
         let (persistence_event_sender, persistence_event_receiver) = create_mpsc::<PersistenceEvent>();
         unsafe {
-            let config: Config = toml::from_str(&fs::read_to_string("../config.template.toml").unwrap()).unwrap();
+            let config: Config = serde_json::from_str(&fs::read_to_string("../config.template.json").unwrap()).unwrap();
             CONFIGS = Some(config);
             TEST_CONTEXT = Some(TestContext { client_notification_sender, persistence_event_sender, client_notification_receiver, persistence_event_receiver});
         }
@@ -57,14 +57,14 @@ pub fn before_all() {
             skill_configs_id_name.insert(skill_config.name.clone(), skill_config.id);
         });
         let mut items_id_name: HashMap<String, u32> = Default::default();
-        let item_models = toml::from_str::<ItemModels>(&fs::read_to_string("../config/items.toml").unwrap());
+        let item_models = serde_json::from_str::<ItemModels>(&fs::read_to_string("../config/items.json").unwrap());
         let items: Vec<ItemModel> = item_models.unwrap().into();
         items.iter().for_each(|item| {
             items_id_name.insert(item.name_aegis.clone(), item.id as u32);
         });
 
         let mut mobs_id_name: HashMap<String, u32> = Default::default();
-        let mob_models = toml::from_str::<MobModels>(&fs::read_to_string("../config/mobs.toml").unwrap());
+        let mob_models = serde_json::from_str::<MobModels>(&fs::read_to_string("../config/mobs.json").unwrap());
         let mobs: Vec<MobModel> = mob_models.unwrap().into();
         mobs.iter().for_each(|mob| {
             mobs_id_name.insert(mob.name.clone(), mob.id as u32);

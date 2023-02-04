@@ -2,7 +2,7 @@
 .idea
 *.iml
 .env
-config.toml
+config.json
 .stignore
 .stfolder
 /docker/volumes/pgdata/

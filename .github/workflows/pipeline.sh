@@ -1,4 +1,4 @@
 #!/bin/bash
 
-cp config.template.toml config.toml
+cp config.template.json config.json
 ls -l
