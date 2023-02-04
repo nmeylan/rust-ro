@@ -85,11 +85,10 @@ mod tests {
         let context = before_each();
         let mut map_instance_state = create_empty_map_instance_state();
         let poring = GlobalConfigService::instance().get_mob_by_name("Poring");
+        println!("{:?}", poring);
         let mob_drop_items = MobDropItems { owner_id: 150000, mob_id: poring.id as i16, mob_x: 10, mob_y: 10 };
         let mut expected_dropped_item_amount: HashMap<u32, (String,u32)> = Default::default();
         poring.drops.iter().for_each(|drop_rate| { expected_dropped_item_amount.insert(GlobalConfigService::instance().get_item_id_from_name(drop_rate.item_name.as_str()), (drop_rate.item_name.clone(), drop_rate.rate as u32)); });
-        // let card_name = poring.card_drop.as_ref().unwrap().item_name.clone();
-        // expected_dropped_item_amount.insert(GlobalConfigService::instance().get_item_id_from_name(card_name.as_str()), (card_name.clone(), poring.card_drop.as_ref().unwrap().rate as u32));
 
         let iterations = 1100;
         // When
@@ -105,10 +104,11 @@ mod tests {
         }
         // Then
         let mut average_drops_per_item: HashMap<u32, u32> = HashMap::new();
-        for (dropped_item, total_amount_dropped) in drops_per_item {
-            let average = (total_amount_dropped as f32 / iterations as f32).round() as u32;
-            let (item_name, expected_drop_amount) = expected_dropped_item_amount.get(&dropped_item).unwrap();
-            assert_eq_with_variance!(2, average, *expected_drop_amount, "Expected item {} to be dropped {} times but was dropped {} times", item_name, expected_drop_amount, average);
+        for (item_id, (item_name, expected_drop_amount)) in expected_dropped_item_amount {
+            let total_amount_dropped = drops_per_item.get(&item_id).unwrap();
+            let average = (*total_amount_dropped as f32 / iterations as f32).round() as u32;
+            assert_eq_with_variance!(2, average, expected_drop_amount, "Expected item {} to be dropped {} times but was dropped {} times", item_name, expected_drop_amount, average);
+            println!("Dropped: {} {} times", item_name, average);
         }
 
     }

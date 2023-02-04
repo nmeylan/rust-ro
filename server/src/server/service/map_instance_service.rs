@@ -132,7 +132,11 @@ impl MapInstanceService {
         let mob = self.configuration_service.get_mob(mob_drop_items.mob_id as i32);
         let mut item_to_drop: Vec<DroppedItem> = vec![];
         for drop in mob.drops.iter() {
-            let drop_rate = (drop.rate as f32 * self.configuration_service.config().game.drop_rate).round() as u16;
+            let drop_rate = if drop.is_card {
+                (drop.rate as f32 * self.configuration_service.config().game.drop_rate_card).round() as u16
+            } else {
+                (drop.rate as f32 * self.configuration_service.config().game.drop_rate).round() as u16
+            };
             if drop_rate >= 10000 || rng.u16(1..=10000) > 10000 - drop_rate {
                 let (random_x, random_y) = Map::find_random_free_cell_around(map_instance_state.cells(), map_instance_state.x_size(), mob_drop_items.mob_x, mob_drop_items.mob_y);
                 item_to_drop.push(DroppedItem {
