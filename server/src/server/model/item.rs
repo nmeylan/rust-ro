@@ -1,3 +1,4 @@
+use crate::server::model::map_item::{MapItem, MapItemType, ToMapItem};
 use crate::server::model::position::Position;
 
 pub struct EquippedItem {
@@ -6,6 +7,7 @@ pub struct EquippedItem {
     pub index: usize,
 }
 
+#[derive(Clone, Debug, Copy)]
 pub struct DroppedItem {
     pub map_item_id: u32,
     pub item_id: i32,
@@ -14,4 +16,10 @@ pub struct DroppedItem {
     pub owner_id: Option<u32>,
     pub dropped_at: u128,
     pub amount: u16,
+}
+
+impl ToMapItem for DroppedItem {
+    fn to_map_item(&self) -> MapItem {
+        MapItem::new(self.map_item_id, self.item_id as i16, MapItemType::DroppedItem)
+    }
 }
