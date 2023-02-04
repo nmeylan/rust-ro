@@ -1,9 +1,10 @@
 use std::collections::HashMap;
 use enums::cell::CellType;
 use crate::server::model::map_instance::MapInstanceKey;
-use crate::server::model::map_item::MapItem;
+use crate::server::model::map_item::{MapItem, ToMapItem};
 use crate::server::state::mob::Mob;
 use crate::enums::EnumWithMaskValueU16;
+use crate::server::model::item::DroppedItem;
 
 use crate::util::coordinate;
 
@@ -16,6 +17,7 @@ pub struct MapInstanceState {
     cells: Vec<u16>,
     mobs: HashMap<u32, Mob>,
     map_items: HashMap<u32, MapItem>,
+    dropped_items: HashMap<u32, DroppedItem>,
     mob_spawns_tracks: Vec<MobSpawnTrack>,
 }
 
@@ -49,6 +51,7 @@ impl MapInstanceState {
             cells,
             mobs: Default::default(),
             map_items,
+            dropped_items: Default::default(),
             mob_spawns_tracks,
         }
     }
@@ -85,9 +88,6 @@ impl MapInstanceState {
     pub fn get_mob(&self, mob_id: u32) -> Option<&Mob> {
         self.mobs().get(&mob_id)
     }
-    pub fn get_map_item(&self, item_id: u32) -> Option<&MapItem> {
-        self.map_items().get(&item_id)
-    }
 
     pub fn mobs(&self) -> &HashMap<u32, Mob> {
         &self.mobs
@@ -95,11 +95,50 @@ impl MapInstanceState {
     pub fn mobs_mut(&mut self) -> &mut HashMap<u32, Mob> {
         &mut self.mobs
     }
+
+    pub fn insert_mob(&mut self, mob: Mob) {
+        self.insert_item(mob.to_map_item());
+        self.mobs_mut().insert(mob.id, mob);
+    }
+
+    pub fn remove_mob(&mut self, id: u32) -> Option<Mob>{
+        if let Some(mob) = self.mobs_mut().remove(&id) {
+            self.remove_item(mob.to_map_item());
+            Some(mob)
+        } else {
+            None
+        }
+    }
+    pub fn get_dropped_item(&self, dropped_item_id: u32) -> Option<&DroppedItem> {
+        self.dropped_items().get(&dropped_item_id)
+    }
+    pub fn dropped_items(&self) -> &HashMap<u32, DroppedItem> {
+        &self.dropped_items
+    }
+    pub fn dropped_items_mut(&mut self) -> &mut HashMap<u32, DroppedItem> {
+        &mut self.dropped_items
+    }
+    pub fn insert_dropped_item(&mut self, dropped_item: DroppedItem) {
+        self.insert_item(dropped_item.to_map_item());
+        self.dropped_items_mut().insert(dropped_item.map_item_id, dropped_item);
+    }
+
+    pub fn remove_dropped_item(&mut self, id: u32) -> Option<DroppedItem>{
+        if let Some(dropped_item) = self.dropped_items_mut().remove(&id) {
+            self.remove_item(dropped_item.to_map_item());
+            Some(dropped_item)
+        } else {
+            None
+        }
+    }
     pub fn map_items(&self) -> &HashMap<u32, MapItem> {
         &self.map_items
     }
     pub fn map_items_mut(&mut self) -> &mut HashMap<u32, MapItem> {
         &mut self.map_items
+    }
+    pub fn get_map_item(&self, item_id: u32) -> Option<&MapItem> {
+        self.map_items().get(&item_id)
     }
     pub fn mob_spawns_tracks(&self) -> &Vec<MobSpawnTrack> {
         &self.mob_spawns_tracks

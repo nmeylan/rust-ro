@@ -69,8 +69,7 @@ impl MapInstanceService {
                 let mob = Mob::new(mob_map_item_id, cell.0, cell.1, mob_spawn.mob_id, mob_spawn.id, mob_spawn.info.name.clone(), mob_spawn.info.name_english.clone(),
                                    Status::from_mob_model(&mob_spawn.info));
 
-                map_instance_state.insert_item(mob.to_map_item());
-                map_instance_state.mobs_mut().insert(mob_map_item_id, mob);
+                map_instance_state.insert_mob(mob);
                 // END
                 let mob_spawn_track = map_instance_state.mob_spawns_tracks_mut().iter_mut().find(|spawn_track| spawn_track.spawn_id == mob_spawn.id).unwrap();
                 mob_spawn_track.increment_spawn();
@@ -117,11 +116,7 @@ impl MapInstanceService {
     }
 
     pub fn mob_die(&self, map_instance_state: &mut MapInstanceState, id: u32) {
-        let mob = {
-            let mobs = map_instance_state.mobs_mut();
-            mobs.remove(&id).unwrap()
-        };
-        map_instance_state.remove_item(mob.to_map_item());
+        let mob = map_instance_state.remove_mob(id).unwrap();
         // TODO Should be delayed
         self.server_task_queue.add_to_first_index(GameEvent::CharacterKillMonster(CharacterKillMonster { char_id: mob.attacker_with_higher_damage(), mob_id: mob.mob_id, mob_x: mob.x, mob_y: mob.y, map_instance_key: map_instance_state.key().clone() }))
     }
@@ -138,20 +133,20 @@ impl MapInstanceService {
             };
             if drop_rate >= 10000 || rng.u16(1..=10000) > 10000 - drop_rate {
                 let (random_x, random_y) = Map::find_random_free_cell_around(map_instance_state.cells(), map_instance_state.x_size(), mob_drop_items.mob_x, mob_drop_items.mob_y);
-                item_to_drop.push(DroppedItem {
-                    map_item_id: Server::generate_id(map_instance_state.map_items_mut()),
+                let map_item_id = Server::generate_id(map_instance_state.map_items_mut());
+                let dropped_item = DroppedItem {
+                    map_item_id,
                     item_id: drop.item_id,
                     location: Position { x: random_x, y: random_y, dir: 0 },
-                    sub_location: Position { x: rng.u16(0..=3)* 3 + 3, y: rng.u16(0..=3)* 3 + 3, dir: 0 },
+                    sub_location: Position { x: rng.u16(0..=3) * 3 + 3, y: rng.u16(0..=3) * 3 + 3, dir: 0 },
                     owner_id: Some(mob_drop_items.owner_id),
                     dropped_at: get_tick(),
                     amount: 1
-                });
+                };
+                map_instance_state.insert_dropped_item(dropped_item);
+                item_to_drop.push(dropped_item);
             }
         }
-        // TODO add to dropped item vec in map instance state
-        // TODO move code below in another method
-
         item_to_drop
     }
 }

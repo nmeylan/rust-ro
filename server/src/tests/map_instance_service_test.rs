@@ -113,8 +113,24 @@ mod tests {
             assert_eq_with_variance!(2, average, expected_drop_amount, "Expected item {} to be dropped {} times but was dropped {} times", item_name, expected_drop_amount, average);
             println!("Dropped: {} {} times", item_name, average);
         }
-
     }
+    #[test]
+    fn test_mob_drop_items_should_add_item_to_map_items() {
+        // Given
+        let context = before_each();
+        let poring = GlobalConfigService::instance().get_mob_by_name("PORING");
+        let mut map_instance_state = create_empty_map_instance_state();
+        let mob_drop_items = MobDropItems { owner_id: 150000, mob_id: poring.id as i16, mob_x: 10, mob_y: 10 };
+        // When
+        let drops = context.map_instance_service.mob_drop_items(&mut map_instance_state, mob_drop_items);
+        // Then
+        for drop in drops {
+            assert!(map_instance_state.get_map_item(drop.map_item_id).is_some());
+            assert!(matches!(map_instance_state.get_map_item(drop.map_item_id).unwrap().object_type(), MapItemType::DroppedItem));
+            assert!(map_instance_state.get_dropped_item(drop.map_item_id).is_some());
+        }
+    }
+
     #[test]
     fn test_mob_drop_item_when_mob_is_mvp() {
         // Given
