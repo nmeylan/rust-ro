@@ -18,6 +18,18 @@ pub struct DroppedItem {
     pub amount: u16,
 }
 
+impl DroppedItem {
+    pub fn item_id(&self) -> i32 {
+        self.item_id
+    }
+    pub fn x(&self) -> u16 {
+        self.location.x
+    }
+    pub fn y(&self) -> u16 {
+        self.location.y
+    }
+}
+
 impl ToMapItem for DroppedItem {
     fn to_map_item(&self) -> MapItem {
         MapItem::new(self.map_item_id, self.item_id as i16, MapItemType::DroppedItem)
