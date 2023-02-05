@@ -29,6 +29,7 @@ use crate::server::service::map_instance_service::MapInstanceService;
 use crate::server::state::character::Character;
 use crate::server::state::map_instance::MapInstanceState;
 use crate::server::state::server::ServerState;
+use crate::util::tick::get_tick;
 
 static mut SERVICE_INSTANCE: Option<ServerService> = None;
 static SERVICE_INSTANCE_INIT: Once = Once::new();
@@ -153,8 +154,12 @@ impl ServerService {
         }
         // Limit pickable item on items present in player fov
         if character.is_map_item_in_fov(map_item_id) {
-            // TODO also check if item is locked to owner
             if let Some(dropped_item) = map_instance.state().get_dropped_item(map_item_id) {
+                if let Some(owner) = dropped_item.owner_id {
+                    if owner != character.char_id && (get_tick() - dropped_item.dropped_at) < (self.configuration_service.config().game.mob_dropped_item_locked_to_owner_duration_in_secs as u128 * 1000) {
+                        return;
+                    }
+                }
                 server_state.insert_locked_map_item(map_item_id);
                 let item = self.configuration_service.get_item(dropped_item.item_id);
                 self.inventory_service.add_items_in_inventory(runtime, CharacterAddItems { char_id: character.char_id, should_perform_check: true, buy: false, items: vec![

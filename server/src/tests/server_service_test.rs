@@ -54,11 +54,13 @@ mod tests {
     use crate::server::model::map_item::ToMapItem;
     use crate::server::model::position::Position;
     use crate::server::model::tasks_queue::TasksQueue;
+    use crate::server::service::global_config_service::GlobalConfigService;
     use crate::tests::common::assert_helper::task_queue_contains_event_at_tick;
     use crate::tests::common::character_helper::create_character;
     use crate::tests::common::map_instance_helper::create_empty_map_instance;
     use crate::tests::common::server_helper::create_empty_server_state;
     use crate::tests::server_service_test::before_each;
+    use crate::util::tick::get_tick;
 
     #[test]
     fn character_pickup_item_should_add_item_to_character_inventory_when_item_in_fov() {
@@ -96,6 +98,47 @@ mod tests {
         // Then
         let item_from_inventory = character_state.get_item_from_inventory(0);
         assert!(item_from_inventory.is_none());
+    }
+
+
+    #[test]
+    fn character_pickup_item_should_prevent_pickup_when_item_is_still_locked_by_another_player() {
+        // Given
+        let context = before_each();
+        let runtime = Runtime::new().unwrap();
+        let mut server_state = create_empty_server_state();
+        let mut character_state = create_character();
+        let map_instance = create_empty_map_instance(context.client_notification_sender.clone(),Arc::new(TasksQueue::new()));
+        let map_item_id = 1000;
+        let item = DroppedItem { map_item_id, item_id: 501, location: Position { x: 50, y: 50, dir: 0 }, sub_location: Position { x: 3, y: 3, dir: 0 }, owner_id: Some(15001), dropped_at: get_tick() - 10, amount: 2, };
+        // Add dropped item in character fov
+        character_state.map_view.insert(item.to_map_item());
+        map_instance.state_mut().insert_dropped_item(item);
+        // When
+        context.server_service.character_pickup_item(&mut server_state, &mut character_state, map_item_id, &map_instance, &runtime);
+        // Then
+        let item_from_inventory = character_state.get_item_from_inventory(0);
+        assert!(item_from_inventory.is_none());
+    }
+
+    #[test]
+    fn character_pickup_item_should_pickup_when_item_is_no_longer_locked_by_another_player() {
+        // Given
+        let context = before_each();
+        let runtime = Runtime::new().unwrap();
+        let mut server_state = create_empty_server_state();
+        let mut character_state = create_character();
+        let map_instance = create_empty_map_instance(context.client_notification_sender.clone(),Arc::new(TasksQueue::new()));
+        let map_item_id = 1000;
+        let item = DroppedItem { map_item_id, item_id: 501, location: Position { x: 50, y: 50, dir: 0 }, sub_location: Position { x: 3, y: 3, dir: 0 }, owner_id: Some(15001), dropped_at: get_tick() - 10 - (GlobalConfigService::instance().config().game.mob_dropped_item_locked_to_owner_duration_in_secs as u128 * 1000), amount: 2, };
+        // Add dropped item in character fov
+        character_state.map_view.insert(item.to_map_item());
+        map_instance.state_mut().insert_dropped_item(item);
+        // When
+        context.server_service.character_pickup_item(&mut server_state, &mut character_state, map_item_id, &map_instance, &runtime);
+        // Then
+        let item_from_inventory = character_state.get_item_from_inventory(0);
+        assert!(item_from_inventory.is_some());
     }
 
     #[test]
