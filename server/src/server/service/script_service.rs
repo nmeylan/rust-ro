@@ -47,23 +47,7 @@ impl ScriptService {
             char_id,
             should_perform_check: true,
             buy,
-            items: items.iter().map(|item| InventoryItemModel {
-                id: 0,
-                unique_id: 0,
-                item_id: item.id,
-                item_type: ItemType::from_string(item.item_type.as_str()),
-                amount: item.amount,
-                weight: item.weight,
-                name_english: item.name_english.clone(),
-                is_identified: true,
-                refine: 0,
-                is_damaged: false,
-                card0: 0,
-                card1: 0,
-                card2: 0,
-                equip: 0,
-                card3: 0,
-            }).collect(),
+            items: items.iter().map(|item| InventoryItemModel::from_item_model(self.configuration_service.get_item(item.id), item.amount, true)).collect(),
         }));
     }
 }

@@ -2,7 +2,7 @@ use std::ops::Deref;
 use std::sync::mpsc::SyncSender;
 use std::sync::{Arc, Once};
 use std::time::{SystemTime, UNIX_EPOCH};
-use packets::packets::{PacketZcItemFallEntry, PacketZcNotifyMove};
+use packets::packets::{PacketZcItemDisappear, PacketZcItemFallEntry, PacketZcNotifyMove};
 use crate::server::model::map::Map;
 
 use crate::server::model::map_item::{MapItem, MapItemSnapshot, ToMapItem};
@@ -151,5 +151,18 @@ impl MapInstanceService {
             }
         }
         item_to_drop
+    }
+
+    pub fn remove_dropped_item_from_map(&self, map_instance_state: &mut MapInstanceState, dropped_item_id: u32) {
+        if let Some(dropped_item) = map_instance_state.remove_dropped_item(dropped_item_id) {
+            let mut packet_zc_item_disappear = PacketZcItemDisappear::default();
+            packet_zc_item_disappear.set_itaid(dropped_item_id);
+            packet_zc_item_disappear.fill_raw();
+            self.client_notification_sender.send(Notification::Area(
+                AreaNotification::new(map_instance_state.key().map_name().clone(), map_instance_state.key().map_instance(),
+                                      AreaNotificationRangeType::Fov { x: dropped_item.x(), y: dropped_item.y(), exclude_id: None },
+                                      packet_zc_item_disappear.raw))).expect("Fail to send client notification");
+        }
+        self.server_task_queue.add_to_first_index(GameEvent::MapNotifyItemRemoved(dropped_item_id));
     }
 }

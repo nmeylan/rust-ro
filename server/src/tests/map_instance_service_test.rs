@@ -32,6 +32,7 @@ fn before_each() -> MapInstanceServiceTestContext {
 mod tests {
     use std::collections::HashMap;
     use std::mem;
+    use tokio::runtime::Runtime;
     use crate::assert_eq_with_variance;
     use crate::server::model::events::game_event::{CharacterKillMonster, GameEvent};
     use crate::server::model::events::map_event::MobDropItems;

@@ -1,9 +1,15 @@
-use packets::packets::{PacketCzRequestAct};
+use packets::packets::{PacketCzItemPickup, PacketCzRequestAct};
 use crate::server::Server;
 use crate::server::model::request::Request;
 use enums::EnumWithNumberValue;
 use enums::action::ActionType;
-use crate::server::model::events::game_event::{CharacterAttack, GameEvent};
+use crate::server::model::events::game_event::{CharacterAttack, CharacterPickUpItem, GameEvent};
+
+pub fn handle_pickup_item(server: &Server, context: Request) {
+    let packet_cz_item_pickup = cast!(context.packet(), PacketCzItemPickup);
+    let map_item_id = packet_cz_item_pickup.itaid;
+    server.add_to_next_tick(GameEvent::CharacterPickUpItem(CharacterPickUpItem { char_id: context.session().char_id.unwrap(), map_item_id }));
+}
 
 pub fn handle_action(server: &Server, context: Request) {
     let packet_cz_request_act = cast!(context.packet(), PacketCzRequestAct);
@@ -26,7 +32,7 @@ pub fn handle_action(server: &Server, context: Request) {
         ActionType::Splash => {}
         ActionType::Skill => {}
         ActionType::AttackRepeat => {
-            server.add_to_next_tick(GameEvent::CharacterAttack(CharacterAttack{
+            server.add_to_next_tick(GameEvent::CharacterAttack(CharacterAttack {
                 char_id,
                 target_id: packet_cz_request_act.target_gid,
                 repeat: true,

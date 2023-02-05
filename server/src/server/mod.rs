@@ -23,14 +23,12 @@ use model::events::game_event::GameEvent;
 use model::events::persistence_event::PersistenceEvent;
 
 
-
 use crate::util::cell::{MyRefMut, MyUnsafeCell};
 
 use std::cell::RefCell;
 
 
 use rand::Rng;
-
 
 
 use crate::server::service::character::character_service::CharacterService;
@@ -78,7 +76,9 @@ pub struct Server {
     pub vm: Arc<Vm>,
     client_notification_sender: SyncSender<Notification>,
 }
+
 unsafe impl Sync for Server {}
+
 unsafe impl Send for Server {}
 
 impl Server {
@@ -104,15 +104,19 @@ impl Server {
 
     pub fn new(configuration: &'static Config, repository: Arc<Repository>, map_items: HashMap<u32, MapItem>, vm: Arc<Vm>, client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>) -> Server {
         let tasks_queue = Arc::new(TasksQueue::new());
-        ServerService::init(client_notification_sender.clone(), GlobalConfigService::instance(), repository.clone(), tasks_queue.clone(), vm.clone());
         CharacterService::init(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), GlobalConfigService::instance());
         InventoryService::init(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), GlobalConfigService::instance(), tasks_queue.clone());
         ItemService::init(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), GlobalConfigService::instance());
         SkillService::init(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), configuration);
         StatusService::init(client_notification_sender.clone(), persistence_event_sender.clone(), GlobalConfigService::instance());
-        BattleService::init(client_notification_sender.clone(), StatusService::new(client_notification_sender.clone(), persistence_event_sender, GlobalConfigService::instance()), GlobalConfigService::instance());
+        BattleService::init(client_notification_sender.clone(), StatusService::new(client_notification_sender.clone(), persistence_event_sender.clone(), GlobalConfigService::instance()), GlobalConfigService::instance());
         MapInstanceService::init(client_notification_sender.clone(), GlobalConfigService::instance(), MobService::new(client_notification_sender.clone(), GlobalConfigService::instance()), tasks_queue.clone());
         ScriptService::init(client_notification_sender.clone(), GlobalConfigService::instance(), repository.clone(), tasks_queue.clone());
+        ServerService::init(client_notification_sender.clone(), GlobalConfigService::instance(), repository.clone(), tasks_queue.clone(), vm.clone(),
+                            InventoryService::new(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), GlobalConfigService::instance(), tasks_queue.clone()),
+                            CharacterService::new(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), GlobalConfigService::instance()),
+                            MapInstanceService::new(client_notification_sender.clone(), GlobalConfigService::instance(), MobService::new(client_notification_sender.clone(), GlobalConfigService::instance()), tasks_queue.clone()),
+        );
         Server {
             configuration,
             repository,
@@ -288,7 +292,4 @@ impl Server {
         }
         Some(session_option.unwrap())
     }
-
-
-
 }

@@ -156,6 +156,14 @@ impl Server {
                                 map_instance.add_to_delayed_tick(MapEvent::MobDropItems(MobDropItems { owner_id: character_kill_monster.char_id, mob_id: character_kill_monster.mob_id, mob_x: character_kill_monster.mob_x, mob_y: character_kill_monster.mob_y }), 400);
                             }
                         }
+                        GameEvent::CharacterPickUpItem(character_pickup_item) => {
+                            let character = server_state_mut.characters_mut().get_mut(&character_pickup_item.char_id).unwrap();
+                            let map_instance = server_ref.state().get_map_instance(character.current_map_name(), character.current_map_instance()).unwrap();
+                            ServerService::instance().character_pickup_item(server_ref.state_mut().as_mut(), character, character_pickup_item.map_item_id, map_instance.as_ref(), &runtime);
+                        }
+                        GameEvent::MapNotifyItemRemoved(map_item_id) => {
+                            server_state_mut.remove_locked_map_item(map_item_id);
+                        }
                     }
                 }
             }

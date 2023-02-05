@@ -7,6 +7,7 @@ pub enum MapEvent {
     UpdateMobsFov(Vec<MapItemSnapshot>),
     RemoveCharFromMap(u32),
     InsertCharToMap(MapItem),
+    RemoveDroppedItemFromMap(u32),
     MobDamage(Damage),
     MobDeathClientNotification(MobLocation),
     MobDropItems(MobDropItems),

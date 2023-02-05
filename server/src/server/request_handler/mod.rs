@@ -1,8 +1,8 @@
 use std::sync::Arc;
 use crate::packets::packets::Packet;
-use packets::packets::{PacketCaLogin, PacketChDeleteChar4Reserved, PacketChEnter, PacketChMakeChar, PacketChMakeChar2, PacketChMakeChar3, PacketChSelectChar, PacketCzAckSelectDealtype, PacketCzBlockingPlayCancel, PacketCzChooseMenu, PacketCzContactnpc, PacketCzEnter2, PacketCzInputEditdlg, PacketCzInputEditdlgstr, PacketCzNotifyActorinit, PacketCzPcPurchaseItemlist, PacketCzPlayerChat, PacketCzReqDisconnect2, PacketCzReqname, PacketCzReqnameall2, PacketCzReqNextScript, PacketCzReqTakeoffEquip, PacketCzRequestAct, PacketCzRequestMove, PacketCzRequestMove2, PacketCzRequestTime, PacketCzReqWearEquip, PacketCzRestart, PacketCzUseItem, PacketUnknown, PacketZcNotifyTime};
+use packets::packets::{PacketCaLogin, PacketChDeleteChar4Reserved, PacketChEnter, PacketChMakeChar, PacketChMakeChar2, PacketChMakeChar3, PacketChSelectChar, PacketCzAckSelectDealtype, PacketCzBlockingPlayCancel, PacketCzChooseMenu, PacketCzContactnpc, PacketCzEnter2, PacketCzInputEditdlg, PacketCzInputEditdlgstr, PacketCzItemPickup, PacketCzNotifyActorinit, PacketCzPcPurchaseItemlist, PacketCzPlayerChat, PacketCzReqDisconnect2, PacketCzReqname, PacketCzReqnameall2, PacketCzReqNextScript, PacketCzReqTakeoffEquip, PacketCzRequestAct, PacketCzRequestMove, PacketCzRequestMove2, PacketCzRequestTime, PacketCzReqWearEquip, PacketCzRestart, PacketCzUseItem, PacketUnknown, PacketZcNotifyTime};
 use crate::server::model::request::Request;
-use crate::server::request_handler::action::action::handle_action;
+use crate::server::request_handler::action::action::{handle_action, handle_pickup_item};
 use crate::server::request_handler::action::item::{handle_player_equip_item, handle_player_takeoff_equip_item, handle_player_use_item};
 use crate::server::request_handler::action::npc::{handle_contact_npc, handle_player_choose_menu, handle_player_input_number, handle_player_input_string, handle_player_next, handle_player_purchase_items, handle_player_select_deal_type};
 use crate::server::request_handler::char::{handle_blocking_play_cancel, handle_char_enter, handle_delete_reserved_char, handle_disconnect, handle_enter_game, handle_make_char, handle_restart, handle_select_char};
@@ -111,6 +111,10 @@ pub fn handle(server: Arc<Server>, mut context: Request) {
     if context.packet().as_any().downcast_ref::<PacketCzRequestAct>().is_some() {
         debug!("PacketCzRequestAct");
         return handle_action(server.as_ref(), context);
+    }
+    if context.packet().as_any().downcast_ref::<PacketCzItemPickup>().is_some() {
+        debug!("PacketCzItemPickup");
+        return handle_pickup_item(server.as_ref(), context);
     }
 
     if context.packet().as_any().downcast_ref::<PacketCzReqnameall2>().is_some() {

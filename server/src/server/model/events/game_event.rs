@@ -26,6 +26,8 @@ pub enum GameEvent {
     CharacterChangeJobLevel(CharacterChangeJobLevel),
     CharacterChangeJob(CharacterChangeJob),
     CharacterKillMonster(CharacterKillMonster),
+    CharacterPickUpItem(CharacterPickUpItem),
+    MapNotifyItemRemoved(u32)
 }
 
 #[derive(Debug, PartialEq)]
@@ -127,4 +129,10 @@ pub struct CharacterKillMonster {
     pub mob_x: u16,
     pub mob_y: u16,
     pub map_instance_key: MapInstanceKey
+}
+
+#[derive(Debug, PartialEq)]
+pub struct CharacterPickUpItem {
+    pub char_id: u32,
+    pub map_item_id: u32,
 }
