@@ -52,6 +52,10 @@ pub struct GameConfig {
     pub drop_rate_mvp: f32,
     #[set]
     pub drop_rate_card: f32,
+    #[set]
+    pub mob_dropped_item_locked_to_owner_duration_in_secs: u16,
+    #[set]
+    pub player_dropped_item_locked_to_owner_duration_in_secs: u16,
 }
 
 #[derive(Deserialize, Debug, Setters, Clone)]
