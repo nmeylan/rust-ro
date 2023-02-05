@@ -3,6 +3,7 @@ use crate::server::model::events::game_event::CharacterKillMonster;
 use crate::server::model::map_instance::MapInstanceKey;
 use crate::server::model::map_item::{MapItem, MapItemSnapshot};
 
+#[derive(Debug, PartialEq)]
 pub enum MapEvent {
     UpdateMobsFov(Vec<MapItemSnapshot>),
     RemoveCharFromMap(u32),
@@ -13,6 +14,7 @@ pub enum MapEvent {
     MobDropItems(MobDropItems),
 }
 
+#[derive(Debug, PartialEq, Clone, Copy)]
 pub struct MobLocation {
     pub mob_id: u32,
     pub x: u16,

@@ -33,7 +33,6 @@ static SERVICE_INSTANCE_INIT: Once = Once::new();
 pub struct ServerService {
     client_notification_sender: SyncSender<Notification>,
     configuration_service: &'static GlobalConfigService,
-    repository: Arc<dyn ItemRepository>,
     server_task_queue: Arc<TasksQueue<GameEvent>>,
     vm: Arc<Vm>,
     inventory_service: InventoryService,
@@ -46,15 +45,15 @@ impl ServerService {
         unsafe { SERVICE_INSTANCE.as_ref().unwrap() }
     }
 
-    pub(crate) fn new(client_notification_sender: SyncSender<Notification>, configuration_service: &'static GlobalConfigService, repository: Arc<dyn ItemRepository>, server_task_queue: Arc<TasksQueue<GameEvent>>, vm: Arc<Vm>,
+    pub(crate) fn new(client_notification_sender: SyncSender<Notification>, configuration_service: &'static GlobalConfigService, server_task_queue: Arc<TasksQueue<GameEvent>>, vm: Arc<Vm>,
                       inventory_service: InventoryService, character_service: CharacterService, map_instance_service: MapInstanceService) -> Self {
-        ServerService { client_notification_sender, configuration_service, repository, server_task_queue, vm, inventory_service, character_service, map_instance_service }
+        ServerService { client_notification_sender, configuration_service, server_task_queue, vm, inventory_service, character_service, map_instance_service }
     }
 
-    pub fn init(client_notification_sender: SyncSender<Notification>, configuration_service: &'static GlobalConfigService, repository: Arc<dyn ItemRepository>, server_task_queue: Arc<TasksQueue<GameEvent>>, vm: Arc<Vm>,
+    pub fn init(client_notification_sender: SyncSender<Notification>, configuration_service: &'static GlobalConfigService, server_task_queue: Arc<TasksQueue<GameEvent>>, vm: Arc<Vm>,
                 inventory_service: InventoryService, character_service: CharacterService, map_instance_service: MapInstanceService) {
         SERVICE_INSTANCE_INIT.call_once(|| unsafe {
-            SERVICE_INSTANCE = Some(ServerService::new(client_notification_sender, configuration_service, repository, server_task_queue, vm, inventory_service, character_service, map_instance_service));
+            SERVICE_INSTANCE = Some(ServerService::new(client_notification_sender, configuration_service, server_task_queue, vm, inventory_service, character_service, map_instance_service));
         });
     }
 
@@ -65,7 +64,7 @@ impl ServerService {
         let mut cells = MapLoader::generate_cells(map.name(), map.length() as usize);
         map.set_warp_cells(&mut cells, &mut map_items);
 
-        let map_instance = MapInstance::from_map(self.vm.clone(), map, instance_id, cells, self.client_notification_sender.clone(), map_items);
+        let map_instance = MapInstance::from_map(self.vm.clone(), map, instance_id, cells, self.client_notification_sender.clone(), map_items, Arc::new(TasksQueue::new()));
         server_state.map_instances_count().fetch_add(1, Relaxed);
         let map_instance_ref = Arc::new(map_instance);
         let entry = server_state.map_instances_mut().entry(map.name().to_string()).or_insert(Default::default());
@@ -111,7 +110,7 @@ impl ServerService {
                 server_state.insert_locked_map_item(map_item_id);
                 let item = self.configuration_service.get_item(dropped_item.item_id);
                 self.inventory_service.add_items_in_inventory(runtime, CharacterAddItems { char_id: character.char_id, should_perform_check: true, buy: false, items: vec![
-                    InventoryItemModel::from_item_model(item, 1, !item.item_type.should_be_identified_when_dropped())
+                    InventoryItemModel::from_item_model(item, dropped_item.amount as i16, !item.item_type.should_be_identified_when_dropped())
                 ] }, character);
                 let mut packet_zc_notify_act = PacketZcNotifyAct::default();
                 packet_zc_notify_act.set_gid(character.char_id);

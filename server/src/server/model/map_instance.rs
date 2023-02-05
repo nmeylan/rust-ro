@@ -72,7 +72,7 @@ unsafe impl Send for MapInstance {}
 
 
 impl MapInstance {
-    pub fn from_map(vm: Arc<Vm>, map: &'static Map, id: u8, cells: Vec<u16>, client_notification_channel: SyncSender<Notification>, mut map_items: HashMap<u32, MapItem>) -> MapInstance {
+    pub fn from_map(vm: Arc<Vm>, map: &'static Map, id: u8, cells: Vec<u16>, client_notification_channel: SyncSender<Notification>, mut map_items: HashMap<u32, MapItem>, tasks_queue: Arc<TasksQueue<MapEvent>>) -> MapInstance {
         let mut scripts = vec![];
         map.scripts().iter().for_each(|script| {
             let (_, instance_reference) = Vm::create_instance(vm.clone(), script.class_name.clone(), Box::new(&ScriptHandler), script.constructor_args.clone()).unwrap();
@@ -86,7 +86,7 @@ impl MapInstance {
         MapInstance {
             key: key.clone(),
             client_notification_channel,
-            tasks_queue: Arc::new(TasksQueue::new()),
+            tasks_queue,
             map,
             scripts,
             state: MyUnsafeCell::new(MapInstanceState::new(key, map.x_size(), map.y_size(), cells, map_items,
