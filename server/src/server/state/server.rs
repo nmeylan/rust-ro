@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 use std::net::TcpStream;
 use std::sync::{Arc, RwLock};
 use std::sync::atomic::AtomicI8;
@@ -22,6 +22,7 @@ pub struct ServerState {
     map_instances_count: AtomicI8,
     sessions: Arc<RwLock<HashMap<u32, Arc<Session>>>>,
     characters: HashMap<u32, Character>,
+    locked_map_item: HashSet<u32>, // map item that should be removed from map instance, in next tick, avoid to use them meanwhile.
 }
 
 unsafe impl Sync for ServerState {}
@@ -34,7 +35,8 @@ impl ServerState {
             map_instances: Default::default(),
             map_instances_count: Default::default(),
             sessions: Arc::new(RwLock::new(HashMap::<u32, Arc<Session>>::new())),
-            characters: Default::default()
+            characters: Default::default(),
+            locked_map_item: Default::default()
         }
     }
 
@@ -102,6 +104,16 @@ impl ServerState {
     }
     pub fn map_instances_count(&self) -> &AtomicI8 {
         &self.map_instances_count
+    }
+
+    pub fn insert_locked_map_item(&mut self, id: u32) {
+        self.locked_map_item.insert(id);
+    }
+    pub fn contains_locked_map_item(&self, id: u32) -> bool {
+        self.locked_map_item.contains(&id)
+    }
+    pub fn remove_locked_map_item(&mut self, id: u32) {
+        self.locked_map_item.remove(&id);
     }
 
     #[inline]

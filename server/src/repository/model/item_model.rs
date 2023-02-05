@@ -307,3 +307,26 @@ pub struct InventoryItemModel {
     pub name_english: String,
     pub weight: i32,
 }
+
+
+impl InventoryItemModel {
+    pub fn from_item_model(item: &ItemModel, amount: i16, is_identified: bool) -> Self {
+        Self {
+            id: 0,
+            unique_id: 0,
+            item_id: item.id,
+            item_type: item.item_type,
+            amount,
+            refine: 0,
+            is_identified,
+            equip: 0,
+            is_damaged: false,
+            card0: 0,
+            card1: 0,
+            card2: 0,
+            card3: 0,
+            name_english: item.name_english.clone(),
+            weight: item.weight
+        }
+    }
+}

@@ -112,6 +112,9 @@ impl Character {
         self.map_view = Default::default();
     }
 
+    pub fn is_map_item_in_fov(&self, id: u32) -> bool {
+        self.map_view.iter().find(|item| item.id() == id).is_some()
+    }
 
     pub fn get_look(&self, look_type: LookType) -> u32 {
         if self.status.look.is_none() {

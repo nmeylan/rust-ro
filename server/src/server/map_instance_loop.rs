@@ -98,6 +98,9 @@ impl MapInstanceLoop {
                                                               AreaNotificationRangeType::Fov { x: mob_drop_items.mob_x, y: mob_drop_items.mob_y, exclude_id: None },
                                                               packets))).expect("Fail to send client notification");
                                 }
+                                MapEvent::RemoveDroppedItemFromMap(dropped_item_id) => {
+                                    MapInstanceService::instance().remove_dropped_item_from_map(map_instance.state_mut().as_mut(), dropped_item_id);
+                                }
                             }
                         }
                     }

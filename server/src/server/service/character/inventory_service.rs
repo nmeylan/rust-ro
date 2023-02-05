@@ -39,6 +39,9 @@ impl InventoryService{
         unsafe { SERVICE_INSTANCE.as_ref().unwrap() }
     }
 
+    pub fn new(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, repository: Arc<Repository>, configuration_service: &'static GlobalConfigService, task_queue: Arc<TasksQueue<GameEvent>>) -> Self {
+        Self { client_notification_sender, persistence_event_sender, repository, configuration_service, server_task_queue: task_queue }
+    }
     pub fn init(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, repository: Arc<Repository>, configuration_service: &'static GlobalConfigService, task_queue: Arc<TasksQueue<GameEvent>>) {
         SERVICE_INSTANCE_INIT.call_once(|| unsafe {
             SERVICE_INSTANCE = Some(InventoryService{ client_notification_sender, persistence_event_sender, repository, configuration_service, server_task_queue: task_queue });
