@@ -5,12 +5,14 @@ use crate::server::model::events::client_notification::Notification;
 use crate::server::model::events::game_event::GameEvent;
 use crate::server::model::events::persistence_event::PersistenceEvent;
 use crate::server::model::tasks_queue::TasksQueue;
+use crate::server::service::battle_service::BattleService;
 use crate::server::service::character::character_service::CharacterService;
 use crate::server::service::character::inventory_service::InventoryService;
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::service::map_instance_service::MapInstanceService;
 use crate::server::service::mob_service::MobService;
 use crate::server::service::server_service::ServerService;
+use crate::server::service::status_service::StatusService;
 use crate::tests::common;
 use crate::tests::common::{create_mpsc, TestContext};
 use crate::tests::common::mocked_repository::MockedRepository;
@@ -20,6 +22,7 @@ struct ServerServiceTestContext {
     server_service: ServerService,
     client_notification_sender: SyncSender<Notification>,
     server_task_queue: Arc<TasksQueue<GameEvent>>,
+    movement_task_queue: Arc<TasksQueue<GameEvent>>,
 }
 
 fn before_each() -> ServerServiceTestContext {
@@ -27,14 +30,17 @@ fn before_each() -> ServerServiceTestContext {
     let (client_notification_sender, client_notification_receiver) = create_mpsc::<Notification>();
     let (persistence_event_sender, persistence_event_receiver) = create_mpsc::<PersistenceEvent>();
     let server_task_queue = Arc::new(TasksQueue::new());
+    let movement_task_queue = Arc::new(TasksQueue::new());
     ServerServiceTestContext {
         client_notification_sender: client_notification_sender.clone(),
         test_context: TestContext { client_notification_sender: client_notification_sender.clone(), persistence_event_sender: persistence_event_sender.clone(), client_notification_receiver, persistence_event_receiver },
         server_task_queue: server_task_queue.clone(),
-        server_service: ServerService::new(client_notification_sender.clone(), GlobalConfigService::instance(), server_task_queue.clone(), Arc::new(Vm::new("../native_functions_list.txt", DebugFlag::None.value())),
+        movement_task_queue: movement_task_queue.clone(),
+        server_service: ServerService::new(client_notification_sender.clone(), GlobalConfigService::instance(), server_task_queue.clone(), movement_task_queue.clone(), Arc::new(Vm::new("../native_functions_list.txt", DebugFlag::None.value())),
                                            InventoryService::new(client_notification_sender.clone(), persistence_event_sender.clone(), Arc::new(MockedRepository::default()), GlobalConfigService::instance(), server_task_queue.clone()),
                                            CharacterService::new(client_notification_sender.clone(), persistence_event_sender.clone(), Arc::new(MockedRepository::default()), GlobalConfigService::instance()),
-                                           MapInstanceService::new(client_notification_sender.clone(), GlobalConfigService::instance(), MobService::new(client_notification_sender.clone(), GlobalConfigService::instance()), server_task_queue.clone()), ),
+                                           MapInstanceService::new(client_notification_sender.clone(), GlobalConfigService::instance(), MobService::new(client_notification_sender.clone(), GlobalConfigService::instance()), server_task_queue.clone()),
+                                           BattleService::new(client_notification_sender.clone(), StatusService::new(client_notification_sender.clone(), persistence_event_sender.clone(), GlobalConfigService::instance()), GlobalConfigService::instance()), ),
     }
 }
 

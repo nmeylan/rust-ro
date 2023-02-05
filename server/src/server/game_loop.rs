@@ -171,7 +171,7 @@ impl Server {
                 let map_instance = server_ref.state().get_map_instance(character.current_map_name(), character.current_map_instance());
                 if let Some(map_instance) = map_instance {
                     CharacterService::instance().load_units_in_fov(server_ref.state(), character, map_instance.state().borrow().as_ref());
-                    Self::handle_character_attack(&server_ref, tick, character)
+                    ServerService::instance().character_attack(server_ref.state(), tick, character);
                 }
             }
             for (_, map) in server_ref.state().map_instances().borrow().iter() {
@@ -185,49 +185,6 @@ impl Server {
                 warn!("Less than 5 milliseconds of sleep, game loop is too slow - {}ms because game loop took {}ms", sleep_duration, time_spent);
             }
             sleep(Duration::from_millis(sleep_duration));
-        }
-    }
-
-    fn handle_character_attack(server_ref: &Arc<Server>, tick: u128, character: &mut Character) {
-        if !character.is_attacking() {
-            return;
-        }
-
-        let map_item = server_ref.state().map_item(character.attack().target, character.current_map_name(), character.current_map_instance());
-        if let Some(map_item) = map_item {
-            let range = if let Some((_, weapon)) = character.right_hand_weapon() {
-                GlobalConfigService::instance().get_item(weapon.item_id).range.unwrap_or(1) as u16
-            } else {
-                1
-            };
-            let target_position = server_ref.state().map_item_x_y(&map_item, character.current_map_name(), character.current_map_instance()).unwrap();
-            let is_in_range = range as i16 >= manhattan_distance(character.x, character.y, target_position.x, target_position.y) as i16 - 1;
-            let maybe_map_instance = server_ref.state().get_map_instance(character.current_map_name(), character.current_map_instance());
-            let map_instance = maybe_map_instance.as_ref().unwrap();
-            if !is_in_range && !character.is_moving() {
-                let path = path_search_client_side_algorithm(map_instance.x_size(), map_instance.y_size(), map_instance.state().cells(), character.x, character.y, target_position.x, target_position.y);
-                let path = Movement::from_path(path, tick);
-                let current_position = Position { x: character.x, y: character.y, dir: 0 };
-                debug!("Too far from target, moving from {} toward it: {}", current_position, target_position);
-                server_ref.add_to_next_movement_tick(GameEvent::CharacterMove(CharacterMovement {
-                    char_id: character.char_id,
-                    start_at: tick,
-                    destination: target_position,
-                    current_position,
-                    path,
-                    cancel_attack: false,
-                }));
-            } else if is_in_range {
-                character.clear_movement();
-                let maybe_damage = BattleService::instance().attack(character, map_item, tick);
-                if let Some(damage) = maybe_damage {
-                    if matches!(*map_item.object_type(), MapItemType::Mob) {
-                        map_instance.add_to_next_tick(MapEvent::MobDamage(damage));
-                    }
-                }
-            }
-        } else {
-            character.clear_attack();
         }
     }
 
