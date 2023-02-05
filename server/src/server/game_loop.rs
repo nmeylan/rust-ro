@@ -162,7 +162,7 @@ impl Server {
             for (_, character) in server_state_mut.characters_mut().iter_mut().filter(|(_, character)| character.loaded_from_client_side) {
                 let map_instance = server_ref.state().get_map_instance(character.current_map_name(), character.current_map_instance());
                 if let Some(map_instance) = map_instance {
-                    CharacterService::instance().load_units_in_fov(server_ref.as_ref(), character, map_instance.state().borrow().as_ref());
+                    CharacterService::instance().load_units_in_fov(server_ref.state(), character, map_instance.state().borrow().as_ref());
                     Self::handle_character_attack(&server_ref, tick, character)
                 }
             }

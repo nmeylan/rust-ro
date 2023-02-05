@@ -165,6 +165,11 @@ impl ServerState {
                 None
             }
             MapItemType::DroppedItem => {
+                if let Some(map_instance) = self.get_map_instance(map_name, map_instance_id) {
+                    if let Some(dropped_item) = map_instance.state().get_dropped_item(map_item.id()) {
+                        return Some(Position { x: dropped_item.x(), y: dropped_item.y(), dir: 0 });
+                    }
+                }
                 None
             }
         }
@@ -208,6 +213,11 @@ impl ServerState {
                 None
             }
             MapItemType::DroppedItem => {
+                if let Some(map_instance) = self.get_map_instance(map_name, map_instance_id) {
+                    if let Some(dropped_item) = map_instance.state().get_dropped_item(map_item.id()) {
+                        return Some(dropped_item.item_id().to_string());
+                    }
+                }
                 None
             }
         }
