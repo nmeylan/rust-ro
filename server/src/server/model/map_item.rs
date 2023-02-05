@@ -40,7 +40,7 @@ pub struct MapItem {
     object_type: MapItemType,
 }
 
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Copy, Clone, PartialEq)]
 pub struct MapItemSnapshot {
     map_item: MapItem,
     position: Position,

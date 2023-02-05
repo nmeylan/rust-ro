@@ -6,6 +6,7 @@ pub struct Attack {
     pub last_attack_motion: u32
 }
 
+#[derive(Debug, PartialEq)]
 pub struct Damage {
     pub target_id: u32,
     pub attacker_id: u32,

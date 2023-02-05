@@ -1,8 +1,9 @@
+use std::fmt::Debug;
 use std::sync::Arc;
 use crate::server::model::events::game_event::GameEvent;
 use crate::server::model::tasks_queue::TasksQueue;
 
-pub fn task_queue_contains_event_at_tick(task_queue: Arc<TasksQueue<GameEvent>>, expected_event: GameEvent, tick: usize) {
+pub fn task_queue_contains_event_at_tick<T: PartialEq + Debug>(task_queue: Arc<TasksQueue<T>>, expected_event: T, tick: usize) {
     let mut events = vec![];
     for i in 0..=tick {
         events = task_queue.pop().unwrap_or_else(|| panic!("Expected task queue to contains events at tick {}", tick));

@@ -3,6 +3,9 @@ pub mod map_instance_helper;
 pub mod mob_helper;
 #[macro_use]
 pub mod assert_helper;
+pub mod mocked_repository;
+pub mod server_helper;
+
 use std::collections::HashMap;
 use std::fs;
 use std::sync::mpsc::SyncSender;
@@ -39,7 +42,7 @@ impl TestContext {
 }
 
 pub fn create_mpsc<T>() -> (SyncSender<T>, Receiver<T>) {
-    std::sync::mpsc::sync_channel::<T>(0)
+    std::sync::mpsc::sync_channel::<T>(20480)
 }
 
 pub fn before_all() {
