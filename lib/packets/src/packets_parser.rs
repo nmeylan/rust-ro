@@ -220,6 +220,9 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x9f && buffer[1] == 0x00 {
         return Box::new(PacketCzItemPickup::from(buffer, packetver));
     }
+    if buffer[0] == 0x65 && buffer[1] == 0x08 {
+        return Box::new(PacketCzItemPickup::from(buffer, packetver));
+    }
     if buffer[0] == 0xa0 && buffer[1] == 0x00 {
         return Box::new(PacketZcItemPickupAck::from(buffer, packetver));
     }

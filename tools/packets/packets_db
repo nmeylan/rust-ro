@@ -607,7 +607,7 @@ struct PACKET_ZC_ITEM_FALL_ENTRY {
   unsigned char subY
   short count
  }
-0x9f
+0x9f,0x6508
 struct PACKET_CZ_ITEM_PICKUP {
   short PacketId
   unsigned long ITAID
