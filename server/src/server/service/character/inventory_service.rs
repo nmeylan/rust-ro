@@ -217,7 +217,7 @@ impl InventoryService{
             if !equip_item.item_type.is_equipment() {
                 return;
             }
-            if self.check_weapon_requirements(character, equip_item) {
+            if self.check_base_level_requirement(character, equip_item) {
                 if location & EquipmentLocation::AccessoryLeft.as_flag() as i32 != 0 || location & EquipmentLocation::AccessoryRight.as_flag() as i32 != 0 {
                     // Remove equipped accessory if both(right and left) slots are occupied, otherwise just equip the item in the free slot (right or left)
                     let accessories: Vec<(usize, &InventoryItemModel)> = character.inventory.iter().enumerate()
@@ -288,7 +288,7 @@ impl InventoryService{
         // check level requirement
     }
 
-    pub fn check_weapon_requirements(&self, character: &mut Character, equip_item: &ItemModel) -> bool {
+    pub fn check_base_level_requirement(&self, character: &mut Character, equip_item: &ItemModel) -> bool {
         character.status.base_level >= (equip_item.equip_level_min.unwrap_or(0) as u32)
     }
 
