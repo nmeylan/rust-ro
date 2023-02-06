@@ -62,6 +62,47 @@ mod tests {
             assert!(stat.min_damage - 1 <= min && min <= stat.min_damage + 1, "Expected min damage to be {} but was {} with stats {:?}", stat.min_damage, min, stat);
             assert!(stat.max_damage - 1 <= max && max <= stat.max_damage + 1, "Expected max damage to be {} but was {} with stats {:?}", stat.max_damage, max, stat);
         }
+    }
+
+    #[test]
+    fn test_damage_weapon_attack() {
+        // Given
+        let context = before_each();
+        
+        // When
+        
+        // Then
+        
+    }
+    
+    #[test]
+    fn test_attack_when_repeat_attack_is_false_should_clear_attack() {
+        // Given
+        let context = before_each();
+        
+        // When
+        
+        // Then
+        
+    }
+    #[test]
+    fn test_attack_should_update_last_attack_tick_and_motion() {
+        // Given
+        let context = before_each();
+
+        // When
+
+        // Then
+    }
+
+    #[test]
+    fn test_attack_should_return_damage() {
+        // Given
+        let context = before_each();
+
+        // When
+
+        // Then
 
     }
 }
