@@ -5,7 +5,7 @@ use crate::server::model::tasks_queue::TasksQueue;
 
 pub fn task_queue_contains_event_at_tick<T: PartialEq + Debug>(task_queue: Arc<TasksQueue<T>>, expected_event: T, tick: usize) {
     let mut events = vec![];
-    for i in 0..=tick {
+    for _ in 0..=tick {
         events = task_queue.pop().unwrap_or_else(|| panic!("Expected task queue to contains events at tick {}", tick));
     }
     for event in events {

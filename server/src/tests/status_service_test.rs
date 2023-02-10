@@ -15,7 +15,7 @@ fn before_each() -> StatusServiceTestContext {
     let (client_notification_sender, client_notification_receiver) = create_mpsc::<Notification>();
     let (persistence_event_sender, persistence_event_receiver) = create_mpsc::<PersistenceEvent>();
     StatusServiceTestContext {
-        test_context: TestContext { client_notification_sender: client_notification_sender.clone(), persistence_event_sender: persistence_event_sender.clone(), client_notification_receiver, persistence_event_receiver },
+        test_context:TestContext::new(client_notification_sender.clone(), client_notification_receiver, persistence_event_sender.clone(), persistence_event_receiver),
         status_service: StatusService::new(client_notification_sender, persistence_event_sender, GlobalConfigService::instance()),
     }
 }

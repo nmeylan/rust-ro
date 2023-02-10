@@ -23,7 +23,7 @@ fn before_each(inventory_repository: Arc<dyn InventoryRepository>) -> InventoryS
     let (persistence_event_sender, persistence_event_receiver) = create_mpsc::<PersistenceEvent>();
     let server_task_queue = Arc::new(TasksQueue::new());
     InventoryServiceTestContext {
-        test_context: TestContext { client_notification_sender: client_notification_sender.clone(), persistence_event_sender: persistence_event_sender.clone(), client_notification_receiver, persistence_event_receiver },
+        test_context:TestContext::new(client_notification_sender.clone(), client_notification_receiver, persistence_event_sender.clone(), persistence_event_receiver),
         inventory_service: InventoryService::new(client_notification_sender, persistence_event_sender, inventory_repository, GlobalConfigService::instance(), server_task_queue.clone()),
         server_task_queue,
     }
@@ -44,11 +44,12 @@ mod tests {
     use crate::server::model::events::game_event::CharacterZeny;
     use crate::repository::InventoryRepository;
     use crate::repository::model::item_model::InventoryItemModel;
+    use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, Notification};
     use crate::server::model::events::game_event::CharacterAddItems;
     use crate::server::model::events::persistence_event::{DeleteItems, InventoryItemUpdate};
     use crate::server::service::global_config_service::GlobalConfigService;
     use crate::tests::common::assert_helper::task_queue_contains_event_at_tick;
-    use crate::tests::common::character_helper::create_character;
+    use crate::tests::common::character_helper::{create_character, equip_item};
     use crate::tests::common::item_helper::create_inventory_item;
     use crate::tests::common::mocked_repository;
     use crate::tests::common::mocked_repository::MockedRepository;
@@ -200,11 +201,12 @@ mod tests {
     fn test_reload_equipped_item_sprites_should_notify_area() {
         // Given
         let context = before_each(mocked_repository());
-
+        let mut character = create_character();
+        equip_item(&mut character, "Guard");
         // When
-
+        context.inventory_service.reload_equipped_item_sprites(&character);
         // Then
-
+        assert!(context.test_context.has_sent_notification(Notification::Area(AreaNotification{ map_name: character.map_instance_key.map_name().clone(), map_instance_id: character.map_instance_key.map_instance(), range_type: AreaNotificationRangeType::Fov { x: character.x, y: character.y, exclude_id: None }, packet: vec![] })));
     }
 
     #[test]

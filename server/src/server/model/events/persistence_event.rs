@@ -1,12 +1,13 @@
 use crate::repository::model::item_model::InventoryItemModel;
 
+#[derive(PartialEq)]
 pub enum PersistenceEvent {
     SaveCharacterPosition(SavePositionUpdate),
     UpdateCharacterStatusU32(StatusUpdate<u32>),
     DeleteItemsFromInventory(DeleteItems),
     UpdateEquippedItems(Vec<InventoryItemModel>)
 }
-
+#[derive(PartialEq)]
 pub struct SavePositionUpdate {
     pub char_id: u32,
     pub account_id: u32,
@@ -14,14 +15,14 @@ pub struct SavePositionUpdate {
     pub x: u16,
     pub y: u16,
 }
-
-pub struct StatusUpdate<T: Sized> {
+#[derive(PartialEq)]
+pub struct StatusUpdate<T: Sized + PartialEq> {
     pub char_id: u32,
     pub(crate) db_column: String,
     pub(crate) value: T,
 }
 
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Copy, Clone, PartialEq)]
 pub struct InventoryItemUpdate {
     pub item_id: i32,
     pub char_id: i32,
@@ -32,6 +33,7 @@ pub struct InventoryItemUpdate {
 }
 
 
+#[derive(PartialEq)]
 pub struct DeleteItems {
     pub char_id: i32,
     pub item_inventory_id: i32,
