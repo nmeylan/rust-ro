@@ -32,3 +32,10 @@ macro_rules! assert_eq_with_variance {
         assert!($actual as f32 - _variance <= $expected as f32 && $expected as f32 <= $actual as f32 + _variance, $($arg)+);
     }
 }
+
+#[macro_export]
+macro_rules! assert_task_queue_contains_event_at_tick {
+    ($task_queue:expr, $expected_event:expr, $tick:expr $(,)?) => {
+        task_queue_contains_event_at_tick($task_queue.clone(), $expected_event, $tick)
+    }
+}

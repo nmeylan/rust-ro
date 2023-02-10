@@ -35,7 +35,6 @@ impl InventoryRepository for Repository {
                 .bind(updated_item_ids_amounts.iter().map(|(id, _amount)| *id).collect::<Vec<i32>>())).await?;
             let cost = updated_item_ids_amounts.iter().fold(0, |mut acc, (id, amount)| {
                 let price = item_ids_prices.iter().find(|item_price| item_price.get::<i32, _>(0) == *id).map_or(0, |item_price| item_price.get::<i32, _>(1));
-                info!("{} cost {} zeny: {}", id, price, amount);
                 acc += (*amount as i32) * price;
                 acc
             });
@@ -44,7 +43,6 @@ impl InventoryRepository for Repository {
                 .bind(stackable_items[0].char_id)
             ).await?;
             let zeny: i32 = updated_zeny[0].get(0);
-            info!("Remaining zeny {}", zeny);
             if zeny >= 0 {
                 tx.commit().await
             } else {

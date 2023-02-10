@@ -5,6 +5,7 @@ pub mod mob_helper;
 pub mod assert_helper;
 pub mod mocked_repository;
 pub mod server_helper;
+pub mod item_helper;
 
 use std::collections::HashMap;
 use std::fs;
