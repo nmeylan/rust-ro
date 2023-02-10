@@ -99,7 +99,7 @@ mod tests {
     }
 
     #[test]
-    fn test_status_atk() {
+    fn test_status_left_side_atk() {
         // Given
         let context = before_each();
         #[derive(Debug)]

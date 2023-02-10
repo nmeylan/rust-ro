@@ -73,7 +73,6 @@ impl InventoryService{
                 packet_zc_item_pickup_ack3.set_atype(item.item_type.to_client_type() as u8);
                 packet_zc_item_pickup_ack3.set_location(item_info.location as u16);
                 packet_zc_item_pickup_ack3.fill_raw();
-                packet_zc_item_pickup_ack3.pretty_debug();
                 packets.push(packet_zc_item_pickup_ack3)
             });
             let mut packets_raws_by_value = chain_packets_raws_by_value(packets.iter().map(|packet| packet.raw.clone()).collect());

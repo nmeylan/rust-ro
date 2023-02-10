@@ -21,7 +21,7 @@ pub struct StatusUpdate<T: Sized> {
     pub(crate) value: T,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Copy, Clone)]
 pub struct InventoryItemUpdate {
     pub item_id: i32,
     pub char_id: i32,
