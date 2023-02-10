@@ -11,7 +11,7 @@ use crate::repository::model::item_model::{InventoryItemModel, ItemModel};
 use crate::repository::{InventoryRepository, Repository};
 
 use crate::server::model::tasks_queue::TasksQueue;
-use crate::server::model::events::client_notification::{CharNotification, Notification};
+use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, CharNotification, Notification};
 use crate::server::model::events::game_event::{CharacterAddItems, CharacterEquipItem, CharacterZeny, GameEvent};
 use crate::server::model::events::game_event::GameEvent::{CharacterUpdateWeight, CharacterUpdateZeny};
 use crate::server::model::events::persistence_event::{InventoryItemUpdate, PersistenceEvent};
@@ -164,7 +164,12 @@ impl InventoryService{
                 packets.extend(packet);
             }
         });
-        CharacterService::instance().send_area_notification_around_characters(character, packets);
+        self.client_notification_sender.send(Notification::Area(AreaNotification {
+            map_name: character.current_map_name().clone(),
+            map_instance_id: character.current_map_instance(),
+            range_type: AreaNotificationRangeType::Fov { x: character.x(), y: character.y(), exclude_id: None },
+            packet: packets
+        })).expect("Fail to send client notification");
     }
 
     pub fn sprite_change_packet_for_item(&self, character: &Character, item: &InventoryItemModel) -> Option<Vec<u8>> {

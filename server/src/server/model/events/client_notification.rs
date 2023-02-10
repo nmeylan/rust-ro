@@ -1,8 +1,10 @@
+#[derive(Debug)]
 pub enum Notification {
     Char(CharNotification),
     Area(AreaNotification),
 }
 
+#[derive(Debug)]
 pub struct CharNotification {
     char_id: u32,
     packet: Vec<u8>,
@@ -24,13 +26,14 @@ impl CharNotification {
     }
 }
 
+#[derive(Debug)]
 pub struct AreaNotification {
     pub(crate) map_name: String,
     pub(crate) map_instance_id: u8,
     pub(crate) range_type: AreaNotificationRangeType,
     pub(crate) packet: Vec<u8>,
 }
-
+#[derive(PartialEq, Debug)]
 pub enum AreaNotificationRangeType {
     #[allow(dead_code)]
     Map, // Notify all players of the map,

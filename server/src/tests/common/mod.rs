@@ -8,10 +8,11 @@ pub mod server_helper;
 pub mod item_helper;
 
 use std::collections::HashMap;
-use std::fs;
+use std::{fs, thread};
 use std::sync::mpsc::SyncSender;
 use std::sync::mpsc::Receiver;
-use std::sync::{Arc, Once};
+use std::sync::{Arc, Mutex, Once};
+use std::time::Duration;
 use crate::repository::model::item_model::{ItemModel, ItemModels};
 use crate::repository::model::mob_model::{MobModel, MobModels};
 use crate::server::model::configuration::Config;
@@ -22,17 +23,41 @@ use crate::tests::common::mocked_repository::MockedRepository;
 
 
 pub static mut CONFIGS: Option<Config> = None;
-pub static mut TEST_CONTEXT: Option<TestContext> = None;
 static INIT: Once = Once::new();
 
 pub struct TestContext {
-    pub(crate) client_notification_sender: SyncSender<Notification>,
-    pub(crate) client_notification_receiver: Receiver<Notification>,
-    pub(crate) persistence_event_receiver: Receiver<PersistenceEvent>,
-    pub(crate) persistence_event_sender: SyncSender<PersistenceEvent>,
+    client_notification_sender: SyncSender<Notification>,
+    persistence_event_sender: SyncSender<PersistenceEvent>,
+    received_notification: Arc<Mutex<Vec<Notification>>>,
+    received_persistence_events: Arc<Mutex<Vec<PersistenceEvent>>>,
 }
 
 impl TestContext {
+    pub fn new(client_notification_sender: SyncSender<Notification>, client_notification_receiver: Receiver<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, persistence_event_receiver: Receiver<PersistenceEvent>) -> Self {
+        let received_notification = Arc::new(Mutex::new(vec![]));
+        let received_persistence_events = Arc::new(Mutex::new(vec![]));
+        let received_notification_cloned = received_notification.clone();
+        let received_persistence_events_cloned = received_persistence_events.clone();
+        thread::Builder::new().name("client_notification_thread".to_string()).spawn(move || {
+            for notification in client_notification_receiver.iter() {
+                println!("Received notification {:?}", notification);
+                received_notification_cloned.lock().unwrap().push(notification);
+            }
+            println!("client_notification_thread exit");
+        }).unwrap();
+        thread::Builder::new().name("persistence_event_thread".to_string()).spawn(move || {
+            for notification in persistence_event_receiver.iter() {
+                received_persistence_events_cloned.lock().unwrap().push(notification);
+            }
+            println!("persistence_event_thread exit");
+        }).unwrap();
+        Self {
+            client_notification_sender,
+            persistence_event_sender,
+            received_notification,
+            received_persistence_events,
+        }
+    }
     pub fn client_notification_sender(&self) -> SyncSender<Notification> {
         self.client_notification_sender.clone()
     }
@@ -40,10 +65,42 @@ impl TestContext {
     pub fn persistence_event_sender(&self) -> SyncSender<PersistenceEvent> {
         self.persistence_event_sender.clone()
     }
+
+    pub fn has_sent_notification(&self, notification: Notification) -> bool {
+        // Need a better synchronisation mechanism, like a countdown latch with a timeout
+        thread::sleep(Duration::from_millis(20));
+        let notifications_guard = self.received_notification.lock().unwrap();
+        notifications_guard.iter().find(|sent_notification| {
+            match sent_notification {
+                Notification::Char(sent_char_notification) => {
+                    match &notification {
+                        Notification::Char(char_notification) => {sent_char_notification.char_id() == char_notification.char_id()}
+                        Notification::Area(area_notification) => {false}
+                    }
+                }
+                Notification::Area(sent_area_notification) => {
+                    match &notification {
+                        Notification::Char(char_notification) => {false}
+                        Notification::Area(area_notification) => {sent_area_notification.map_name == area_notification.map_name
+                            && sent_area_notification.map_instance_id == area_notification.map_instance_id
+                            && sent_area_notification.range_type == area_notification.range_type }
+                    }
+                }
+            }
+
+        }).is_some()
+    }
+
+    pub fn has_sent_persistence_event(&self, persistence_event: PersistenceEvent) -> bool {
+        // Need a better synchronisation mechanism, like a countdown latch with a timeout
+        thread::sleep(Duration::from_millis(20));
+        let notifications_guard = self.received_persistence_events.lock().unwrap();
+        notifications_guard.iter().find(|sent_persistence_event| if matches!(&persistence_event, sent_persistence_event) { persistence_event == **sent_persistence_event } else { false }).is_some()
+    }
 }
 
 pub fn create_mpsc<T>() -> (SyncSender<T>, Receiver<T>) {
-    std::sync::mpsc::sync_channel::<T>(20480)
+    std::sync::mpsc::sync_channel::<T>(0)
 }
 
 pub fn before_all() {
@@ -53,7 +110,6 @@ pub fn before_all() {
         unsafe {
             let config: Config = serde_json::from_str(&fs::read_to_string("../config.template.json").unwrap()).unwrap();
             CONFIGS = Some(config);
-            TEST_CONTEXT = Some(TestContext { client_notification_sender, persistence_event_sender, client_notification_receiver, persistence_event_receiver});
         }
         let skills_config = Config::load_skills_config("..").unwrap();
         let mut skill_configs_id_name: HashMap<String, u32> = Default::default();

@@ -19,7 +19,7 @@ fn before_each(character_repository: Arc<dyn CharacterRepository>) -> CharacterS
     let (client_notification_sender, client_notification_receiver) = create_mpsc::<Notification>();
     let (persistence_event_sender, persistence_event_receiver) = create_mpsc::<PersistenceEvent>();
     CharacterServiceTestContext {
-        test_context: TestContext { client_notification_sender: client_notification_sender.clone(), persistence_event_sender: persistence_event_sender.clone(), client_notification_receiver, persistence_event_receiver },
+        test_context:TestContext::new(client_notification_sender.clone(), client_notification_receiver, persistence_event_sender.clone(), persistence_event_receiver),
         character_service: CharacterService::new(client_notification_sender, persistence_event_sender, character_repository, GlobalConfigService::instance()),
     }
 }

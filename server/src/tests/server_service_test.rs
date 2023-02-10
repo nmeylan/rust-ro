@@ -33,7 +33,7 @@ fn before_each() -> ServerServiceTestContext {
     let movement_task_queue = Arc::new(TasksQueue::new());
     ServerServiceTestContext {
         client_notification_sender: client_notification_sender.clone(),
-        test_context: TestContext { client_notification_sender: client_notification_sender.clone(), persistence_event_sender: persistence_event_sender.clone(), client_notification_receiver, persistence_event_receiver },
+        test_context:TestContext::new(client_notification_sender.clone(), client_notification_receiver, persistence_event_sender.clone(), persistence_event_receiver),
         server_task_queue: server_task_queue.clone(),
         movement_task_queue: movement_task_queue.clone(),
         server_service: ServerService::new(client_notification_sender.clone(), GlobalConfigService::instance(), server_task_queue.clone(), movement_task_queue.clone(), Arc::new(Vm::new("../native_functions_list.txt", DebugFlag::None.value())),
