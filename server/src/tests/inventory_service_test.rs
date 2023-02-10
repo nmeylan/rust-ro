@@ -33,13 +33,14 @@ fn before_each(inventory_repository: Arc<dyn InventoryRepository>) -> InventoryS
 #[cfg(test)]
 mod tests {
     use std::sync::Arc;
+    use crate::tests::common::mocked_repository;
     use crate::tests::common::mocked_repository::MockedRepository;
     use crate::tests::inventory_service_test::before_each;
 
     #[test]
     fn test_add_items_in_inventory_should_save_added_item_in_database() {
         // Given
-        let context = before_each(Arc::new(MockedRepository::default()));
+        let context = before_each(mocked_repository());
 
         // When
 
@@ -71,7 +72,7 @@ mod tests {
     #[test]
     fn test_reload_inventory_should_fetch_items_from_inventory_and_reset_in_memory_inventory() {
         // Given
-        let context = before_each(Arc::new(MockedRepository::default()));
+        let context = before_each(mocked_repository());
 
         // When
 
@@ -167,7 +168,4 @@ mod tests {
     }
 
 
-    fn mocked_repository() -> Arc<MockedRepository> {
-        Arc::new(MockedRepository::default())
-    }
 }
