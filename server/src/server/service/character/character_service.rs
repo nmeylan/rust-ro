@@ -170,7 +170,7 @@ impl CharacterService {
         self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, std::mem::take(packet_zc_longpar_change.raw_mut())))).expect("Fail to send client notification");
     }
 
-    pub fn update_weight(&self, character: &mut Character) {
+    pub fn notify_weight(&self, character: &mut Character) {
         let mut packet_weight = PacketZcParChange::new();
         packet_weight.set_var_id(StatusTypes::Weight.value() as u16);
         packet_weight.set_count(character.weight() as i32);

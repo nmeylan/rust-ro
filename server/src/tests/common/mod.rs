@@ -10,14 +10,14 @@ use std::collections::HashMap;
 use std::fs;
 use std::sync::mpsc::SyncSender;
 use std::sync::mpsc::Receiver;
-use std::sync::{Once};
+use std::sync::{Arc, Once};
 use crate::repository::model::item_model::{ItemModel, ItemModels};
 use crate::repository::model::mob_model::{MobModel, MobModels};
 use crate::server::model::configuration::Config;
 
 use crate::server::model::events::client_notification::Notification;
 use crate::server::model::events::persistence_event::PersistenceEvent;
-
+use crate::tests::common::mocked_repository::MockedRepository;
 
 
 pub static mut CONFIGS: Option<Config> = None;
@@ -84,4 +84,8 @@ pub fn before_all() {
                                          skills_config,
                                          skill_configs_id_name, Default::default());
     });
+}
+
+pub fn mocked_repository() -> Arc<MockedRepository> {
+    Arc::new(MockedRepository::default())
 }

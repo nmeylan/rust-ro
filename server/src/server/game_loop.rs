@@ -93,7 +93,7 @@ impl Server {
                         }
                         GameEvent::CharacterUpdateWeight(char_id) => {
                             let character = server_state_mut.characters_mut().get_mut(&char_id).unwrap();
-                            CharacterService::instance().update_weight(character);
+                            CharacterService::instance().notify_weight(character);
                         }
                         GameEvent::CharacterUseItem(character_user_item) => {
                             let character = server_state_mut.characters_mut().get_mut(&character_user_item.char_id).unwrap();
