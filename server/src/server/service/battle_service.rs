@@ -115,18 +115,22 @@ impl BattleService {
     }
 
     pub fn attack(&self, character: &mut Character, target: MapItem, tick: u128) -> Option<Damage> {
-        let attack = character.attack();
-        if !attack.repeat { // one shot attack
-            character.clear_attack();
+        if character.attack.is_none() {
+            return None;
         }
-        let attack_motion = StatusService::instance().attack_motion(character);
+        let attack = character.attack();
+
+        let attack_motion = self.status_service.attack_motion(character);
 
         if tick < attack.last_attack_tick + attack_motion as u128 {
             return None;
         }
-
-        character.update_last_attack_tick(tick);
-        character.update_last_attack_motion(attack_motion);
+        if !attack.repeat { // one shot attack
+            character.clear_attack();
+        } else {
+            character.update_last_attack_tick(tick);
+            character.update_last_attack_motion(attack_motion);
+        }
         let mut packet_zc_notify_act3 = PacketZcNotifyAct::new();
         packet_zc_notify_act3.set_target_gid(attack.target);
         packet_zc_notify_act3.set_action(ActionType::Attack.value() as u8);
