@@ -8,6 +8,7 @@ use crate::server::service::character::character_service::CharacterService;
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::tests::common;
 use crate::tests::common::{create_mpsc, TestContext};
+use crate::tests::common::sync_helper::CountDownLatch;
 
 struct CharacterServiceTestContext {
     test_context: TestContext,
@@ -15,11 +16,17 @@ struct CharacterServiceTestContext {
 }
 
 fn before_each(character_repository: Arc<dyn CharacterRepository>) -> CharacterServiceTestContext {
+    before_each_with_latch(character_repository, 0)
+}
+
+
+fn before_each_with_latch(character_repository: Arc<dyn CharacterRepository>, latch_size: usize) -> CharacterServiceTestContext {
     common::before_all();
     let (client_notification_sender, client_notification_receiver) = create_mpsc::<Notification>();
     let (persistence_event_sender, persistence_event_receiver) = create_mpsc::<PersistenceEvent>();
+    let count_down_latch = CountDownLatch::new(latch_size);
     CharacterServiceTestContext {
-        test_context:TestContext::new(client_notification_sender.clone(), client_notification_receiver, persistence_event_sender.clone(), persistence_event_receiver),
+        test_context:TestContext::new(client_notification_sender.clone(), client_notification_receiver, persistence_event_sender.clone(), persistence_event_receiver, count_down_latch),
         character_service: CharacterService::new(client_notification_sender, persistence_event_sender, character_repository, GlobalConfigService::instance()),
     }
 }

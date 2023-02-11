@@ -8,6 +8,7 @@ use crate::server::service::map_instance_service::MapInstanceService;
 use crate::server::service::mob_service::MobService;
 use crate::tests::common;
 use crate::tests::common::{create_mpsc, TestContext};
+use crate::tests::common::sync_helper::CountDownLatch;
 
 struct MapInstanceServiceTestContext {
     test_context: TestContext,
@@ -16,13 +17,18 @@ struct MapInstanceServiceTestContext {
 }
 
 fn before_each() -> MapInstanceServiceTestContext {
+    before_each_with_latch(0)
+}
+
+fn before_each_with_latch(latch_size: usize) -> MapInstanceServiceTestContext {
     common::before_all();
     let (client_notification_sender, client_notification_receiver) = create_mpsc::<Notification>();
     let (persistence_event_sender, persistence_event_receiver) = create_mpsc::<PersistenceEvent>();
     let mob_service = MobService::new(client_notification_sender.clone(), GlobalConfigService::instance());
     let server_task_queue = Arc::new(TasksQueue::new());
+    let count_down_latch = CountDownLatch::new(latch_size);
     MapInstanceServiceTestContext {
-        test_context:TestContext::new(client_notification_sender.clone(), client_notification_receiver, persistence_event_sender.clone(), persistence_event_receiver),
+        test_context:TestContext::new(client_notification_sender.clone(), client_notification_receiver, persistence_event_sender.clone(), persistence_event_receiver, count_down_latch),
         server_task_queue: server_task_queue.clone(),
         map_instance_service: MapInstanceService::new(client_notification_sender,  GlobalConfigService::instance(), mob_service, server_task_queue),
     }

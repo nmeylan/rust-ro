@@ -10,20 +10,26 @@ use crate::server::service::status_service::StatusService;
 use crate::tests::common;
 use crate::tests::common::{create_mpsc, TestContext};
 use crate::tests::common::mocked_repository::MockedRepository;
+use crate::tests::common::sync_helper::CountDownLatch;
 
 struct InventoryServiceTestContext {
     test_context: TestContext,
     inventory_service: InventoryService,
-    server_task_queue: Arc<TasksQueue<GameEvent>>
+    server_task_queue: Arc<TasksQueue<GameEvent>>,
 }
 
 fn before_each(inventory_repository: Arc<dyn InventoryRepository>) -> InventoryServiceTestContext {
+    before_each_with_latch(inventory_repository, 0)
+}
+
+fn before_each_with_latch(inventory_repository: Arc<dyn InventoryRepository>, latch_size: usize) -> InventoryServiceTestContext {
     common::before_all();
     let (client_notification_sender, client_notification_receiver) = create_mpsc::<Notification>();
     let (persistence_event_sender, persistence_event_receiver) = create_mpsc::<PersistenceEvent>();
     let server_task_queue = Arc::new(TasksQueue::new());
+    let count_down_latch = CountDownLatch::new(latch_size);
     InventoryServiceTestContext {
-        test_context:TestContext::new(client_notification_sender.clone(), client_notification_receiver, persistence_event_sender.clone(), persistence_event_receiver),
+        test_context: TestContext::new(client_notification_sender.clone(), client_notification_receiver, persistence_event_sender.clone(), persistence_event_receiver, count_down_latch.clone()),
         inventory_service: InventoryService::new(client_notification_sender, persistence_event_sender, inventory_repository, GlobalConfigService::instance(), server_task_queue.clone()),
         server_task_queue,
     }
@@ -35,11 +41,13 @@ mod tests {
     use std::cell::RefCell;
     use std::sync::{Arc, Mutex};
     use std::sync::atomic::{AtomicBool, Ordering};
+    use std::time::Duration;
     use async_trait::async_trait;
     use crate::assert_task_queue_contains_event_at_tick;
     use sqlx::Error;
     use sqlx::postgres::PgQueryResult;
     use tokio::runtime::Runtime;
+    use packets::packets::PacketZcSpriteChange2;
     use crate::server::model::events::game_event::GameEvent;
     use crate::server::model::events::game_event::CharacterZeny;
     use crate::repository::InventoryRepository;
@@ -48,12 +56,13 @@ mod tests {
     use crate::server::model::events::game_event::CharacterAddItems;
     use crate::server::model::events::persistence_event::{DeleteItems, InventoryItemUpdate};
     use crate::server::service::global_config_service::GlobalConfigService;
-    use crate::tests::common::assert_helper::task_queue_contains_event_at_tick;
+    use crate::tests::common::assert_helper::{has_sent_notification, NotificationExpectation, task_queue_contains_event_at_tick};
     use crate::tests::common::character_helper::{create_character, equip_item};
     use crate::tests::common::item_helper::create_inventory_item;
     use crate::tests::common::mocked_repository;
     use crate::tests::common::mocked_repository::MockedRepository;
-    use crate::tests::inventory_service_test::before_each;
+    use crate::tests::common::sync_helper::CountDownLatch;
+    use crate::tests::inventory_service_test::{before_each, before_each_with_latch};
 
     #[test]
     fn test_add_items_in_inventory_should_add_items_in_memory_save_added_item_in_database() {
@@ -200,13 +209,15 @@ mod tests {
     #[test]
     fn test_reload_equipped_item_sprites_should_notify_area() {
         // Given
-        let context = before_each(mocked_repository());
+        let context = before_each_with_latch(mocked_repository(), 1);
         let mut character = create_character();
         equip_item(&mut character, "Guard");
+        equip_item(&mut character, "Knife");
         // When
         context.inventory_service.reload_equipped_item_sprites(&character);
         // Then
-        assert!(context.test_context.has_sent_notification(Notification::Area(AreaNotification{ map_name: character.map_instance_key.map_name().clone(), map_instance_id: character.map_instance_key.map_instance(), range_type: AreaNotificationRangeType::Fov { x: character.x, y: character.y, exclude_id: None }, packet: vec![] })));
+        context.test_context.countdown_latch().wait();
+        assert!(has_sent_notification(context.test_context.received_notification().lock().unwrap().as_ref(), NotificationExpectation::of_fov(character.x, character.y, vec![PacketZcSpriteChange2::packet_id()]), GlobalConfigService::instance().packetver()));
     }
 
     #[test]
