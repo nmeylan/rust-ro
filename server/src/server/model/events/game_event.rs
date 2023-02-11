@@ -87,7 +87,6 @@ pub struct CharacterUseItem {
 pub struct CharacterEquipItem {
     pub char_id: u32,
     pub index: usize,
-    pub location: u32
 }
 #[derive(Debug, PartialEq)]
 pub struct CharacterTakeoffEquipItem {

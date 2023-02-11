@@ -28,7 +28,6 @@ pub fn handle_player_equip_item(server: &Server, context: Request) {
     server.add_to_next_tick(GameEvent::CharacterEquipItem(CharacterEquipItem {
         char_id: context.session().char_id(),
         index: packet_cz_wear_equip.index as usize,
-        location: packet_cz_wear_equip.wear_location as u32
     }));
 }
 

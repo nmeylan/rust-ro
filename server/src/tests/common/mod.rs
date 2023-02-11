@@ -76,11 +76,6 @@ impl TestContext {
         self.persistence_event_sender.clone()
     }
 
-    pub fn has_sent_persistence_event(&self, persistence_event: PersistenceEvent) -> bool {
-        let notifications_guard = self.received_persistence_events.lock().unwrap();
-        notifications_guard.iter().find(|sent_persistence_event| if matches!(&persistence_event, sent_persistence_event) { persistence_event == **sent_persistence_event } else { false }).is_some()
-    }
-
     pub fn received_notification(&self) -> Arc<Mutex<Vec<Notification>>> {
         self.received_notification.clone()
     }

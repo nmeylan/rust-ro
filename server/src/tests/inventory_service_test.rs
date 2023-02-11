@@ -18,11 +18,11 @@ struct InventoryServiceTestContext {
     server_task_queue: Arc<TasksQueue<GameEvent>>,
 }
 
-fn before_each(inventory_repository: Arc<dyn InventoryRepository>) -> InventoryServiceTestContext {
+fn before_each(inventory_repository: Arc<dyn InventoryRepository + Sync>) -> InventoryServiceTestContext {
     before_each_with_latch(inventory_repository, 0)
 }
 
-fn before_each_with_latch(inventory_repository: Arc<dyn InventoryRepository>, latch_size: usize) -> InventoryServiceTestContext {
+fn before_each_with_latch(inventory_repository: Arc<dyn InventoryRepository + Sync>, latch_size: usize) -> InventoryServiceTestContext {
     common::before_all();
     let (client_notification_sender, client_notification_receiver) = create_mpsc::<Notification>();
     let (persistence_event_sender, persistence_event_receiver) = create_mpsc::<PersistenceEvent>();
@@ -43,21 +43,25 @@ mod tests {
     use std::sync::atomic::{AtomicBool, Ordering};
     use std::time::Duration;
     use async_trait::async_trait;
-    use crate::{assert_sent_packet_in_current_packetver, assert_task_queue_contains_event_at_tick};
+    use crate::{assert_sent_packet_in_current_packetver, assert_sent_persistence_event, assert_task_queue_contains_event_at_tick};
     use sqlx::Error;
     use sqlx::postgres::PgQueryResult;
     use tokio::runtime::Runtime;
+    use enums::class::JobName;
     use packets::packets::PacketZcSpriteChange2;
-    use crate::server::model::events::game_event::GameEvent;
+    use packets::packets::PacketZcReqWearEquipAck2;
+    use crate::enums::EnumWithNumberValue;
     use crate::server::model::events::game_event::CharacterZeny;
     use crate::repository::InventoryRepository;
     use crate::repository::model::item_model::InventoryItemModel;
     use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, Notification};
     use crate::server::model::events::game_event::CharacterAddItems;
-    use crate::server::model::events::persistence_event::{DeleteItems, InventoryItemUpdate};
+    use crate::server::model::events::game_event::CharacterEquipItem;
+    use crate::tests::inventory_service_test::GameEvent;
+    use crate::server::model::events::persistence_event::{DeleteItems, InventoryItemUpdate, PersistenceEvent};
     use crate::server::service::global_config_service::GlobalConfigService;
-    use crate::tests::common::assert_helper::{has_sent_notification, NotificationExpectation, task_queue_contains_event_at_tick};
-    use crate::tests::common::character_helper::{create_character, equip_item};
+    use crate::tests::common::assert_helper::{has_sent_notification, has_sent_persistence_event, NotificationExpectation, task_queue_contains_event_at_tick};
+    use crate::tests::common::character_helper::{add_item_in_inventory, create_character, equip_item};
     use crate::tests::common::item_helper::create_inventory_item;
     use crate::tests::common::mocked_repository;
     use crate::tests::common::mocked_repository::MockedRepository;
@@ -68,26 +72,15 @@ mod tests {
     fn test_add_items_in_inventory_should_add_items_in_memory_save_added_item_in_database() {
         // Given
         struct MockedInventoryRepository {
-            inventory_update_items: Mutex<Vec<InventoryItemUpdate>>
-        };
+            inventory_update_items: Mutex<Vec<InventoryItemUpdate>>,
+        }
+        ;
         #[async_trait]
         impl InventoryRepository for MockedInventoryRepository {
             async fn character_inventory_update(&self, inventory_update_items: &[InventoryItemUpdate], buy: bool) -> Result<(), Error> {
                 let mut guard = self.inventory_update_items.lock().unwrap();
                 guard.extend(inventory_update_items.to_vec());
                 Ok(())
-            }
-
-            async fn character_inventory_delete(&self, delete_items: DeleteItems) -> Result<PgQueryResult, Error> {
-                todo!()
-            }
-
-            async fn character_inventory_fetch(&self, char_id: i32) -> Result<Vec<InventoryItemModel>, Error> {
-                todo!()
-            }
-
-            async fn character_inventory_wearable_item_update(&self, items: Vec<InventoryItemModel>) -> Result<PgQueryResult, Error> {
-                todo!()
             }
         }
         let inventory_repository = Arc::new(MockedInventoryRepository { inventory_update_items: Mutex::new(vec![]) });
@@ -98,7 +91,7 @@ mod tests {
             char_id: character.char_id,
             should_perform_check: false,
             buy: false,
-            items: vec![create_inventory_item("Blade", 1), create_inventory_item("Red_Potion", 10) , create_inventory_item("Red_Potion", 10), create_inventory_item("Banana", 15)]
+            items: vec![create_inventory_item("Blade", 1), create_inventory_item("Red_Potion", 10), create_inventory_item("Red_Potion", 10), create_inventory_item("Banana", 15)],
         };
         // When
         context.inventory_service.add_items_in_inventory(&runtime, character_add_items, &mut character);
@@ -128,7 +121,7 @@ mod tests {
             char_id: character.char_id,
             should_perform_check: false,
             buy: true,
-            items: vec![create_inventory_item("Red_Potion", 10)]
+            items: vec![create_inventory_item("Red_Potion", 10)],
         };
         // When
         context.inventory_service.add_items_in_inventory(&runtime, character_add_items, &mut character);
@@ -146,38 +139,30 @@ mod tests {
             char_id: character.char_id,
             should_perform_check: false,
             buy: false,
-            items: vec![create_inventory_item("Red_Potion", 10)]
+            items: vec![create_inventory_item("Red_Potion", 10)],
         };
         // When
         context.inventory_service.add_items_in_inventory(&runtime, character_add_items, &mut character);
         // Then
         assert_task_queue_contains_event_at_tick!(context.server_task_queue, GameEvent::CharacterUpdateWeight(character.char_id), 0);
-
     }
 
     #[test]
     fn test_reload_inventory_should_fetch_items_from_inventory_db_and_reset_in_memory_inventory() {
         // Given
         struct MockedInventoryRepository {
-            has_fetched_items: AtomicBool
-        };
+            has_fetched_items: AtomicBool,
+        }
+        ;
         #[async_trait]
         impl InventoryRepository for MockedInventoryRepository {
             async fn character_inventory_update(&self, inventory_update_items: &[InventoryItemUpdate], buy: bool) -> Result<(), Error> {
                 Ok(())
             }
 
-            async fn character_inventory_delete(&self, delete_items: DeleteItems) -> Result<PgQueryResult, Error> {
-                todo!()
-            }
-
             async fn character_inventory_fetch(&self, char_id: i32) -> Result<Vec<InventoryItemModel>, Error> {
                 self.has_fetched_items.store(true, Ordering::Relaxed);
                 Ok(vec![])
-            }
-
-            async fn character_inventory_wearable_item_update(&self, items: Vec<InventoryItemModel>) -> Result<PgQueryResult, Error> {
-                todo!()
             }
         }
         let runtime = Runtime::new().unwrap();
@@ -203,7 +188,6 @@ mod tests {
         context.inventory_service.reload_inventory(&runtime, character.char_id, &mut character);
         // Then
         assert_task_queue_contains_event_at_tick!(context.server_task_queue, GameEvent::CharacterUpdateWeight(character.char_id), 0);
-
     }
 
     #[test]
@@ -216,29 +200,97 @@ mod tests {
         // When
         context.inventory_service.reload_equipped_item_sprites(&character);
         // Then
-        context.test_context.countdown_latch().wait();
+        context.test_context.countdown_latch().wait_with_timeout(Duration::from_millis(200));
         assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_fov(character.x, character.y, vec![PacketZcSpriteChange2::packet_id()]));
+    }
+
+    #[test]
+    fn test_equip_item_should_not_equip_item_if_item_is_not_in_inventory() {
+        // Given
+        let context = before_each_with_latch(mocked_repository(), 2);
+        let mut character = create_character();
+        let char_id = character.char_id;
+        // When
+        context.inventory_service.equip_item(&mut character, CharacterEquipItem { char_id, index: 0 });
+        // Then
+        context.test_context.countdown_latch().wait_with_timeout(Duration::from_millis(200));
+        assert!(character.inventory.is_empty());
+        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![PacketZcReqWearEquipAck2::packet_id()]));
+        assert_sent_persistence_event!(context, PersistenceEvent::UpdateEquippedItems(vec![]));
     }
 
     #[test]
     fn test_equip_item_should_equip_item_if_base_level_requirements_is_met() {
         // Given
-        let context = before_each(mocked_repository());
-
+        let context = before_each_with_latch(mocked_repository(), 2);
+        let mut character = create_character();
+        let item = GlobalConfigService::instance().get_item_by_name("Knife");
+        let inventory_index = add_item_in_inventory(&mut character, "Knife");
+        let char_id = character.char_id;
         // When
-
+        context.inventory_service.equip_item(&mut character, CharacterEquipItem { char_id, index: inventory_index });
         // Then
+        context.test_context.countdown_latch().wait_with_timeout(Duration::from_millis(200));
+        assert_eq!(character.inventory[inventory_index].as_ref().unwrap().equip, item.location as i32);
+        assert_ne!(character.inventory[inventory_index].as_ref().unwrap().equip, 0);
+        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![PacketZcReqWearEquipAck2::packet_id()]));
+        assert_sent_persistence_event!(context, PersistenceEvent::UpdateEquippedItems(vec![character.inventory[inventory_index].as_ref().unwrap().clone()]));
+    }
 
+    #[test]
+    fn test_equip_item_should_not_equip_item_if_base_level_requirements_is_not_met() {
+        // Given
+        let context = before_each_with_latch(mocked_repository(), 2);
+        let mut character = create_character();
+        character.status.base_level = 0;
+        let item = GlobalConfigService::instance().get_item_by_name("Knife");
+        let inventory_index = add_item_in_inventory(&mut character, "Knife");
+        let char_id = character.char_id;
+        // When
+        context.inventory_service.equip_item(&mut character, CharacterEquipItem { char_id, index: inventory_index });
+        // Then
+        context.test_context.countdown_latch().wait_with_timeout(Duration::from_millis(200));
+        assert_eq!(character.inventory[inventory_index].as_ref().unwrap().equip, 0);
+        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![PacketZcReqWearEquipAck2::packet_id()]));
+        assert_sent_persistence_event!(context, PersistenceEvent::UpdateEquippedItems(vec![character.inventory[inventory_index].as_ref().unwrap().clone()]));
     }
 
     #[test]
     fn test_equip_item_should_equip_item_if_class_requirements_is_met() {
         // Given
-        let context = before_each(mocked_repository());
-
+        let context = before_each_with_latch(mocked_repository(), 2);
+        let mut character = create_character();
+        let item = GlobalConfigService::instance().get_item_by_name("Bow");
+        character.status.base_level = (item.equip_level_min.unwrap_or(1) + 1) as u32;
+        character.status.job = JobName::Archer.value() as u32;
+        let inventory_index = add_item_in_inventory(&mut character, "Bow");
+        let char_id = character.char_id;
         // When
-
+        context.inventory_service.equip_item(&mut character, CharacterEquipItem { char_id, index: inventory_index });
         // Then
+        context.test_context.countdown_latch().wait_with_timeout(Duration::from_millis(200));
+        assert_eq!(character.inventory[inventory_index].as_ref().unwrap().equip, item.location as i32);
+        assert_ne!(character.inventory[inventory_index].as_ref().unwrap().equip, 0);
+        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![PacketZcReqWearEquipAck2::packet_id()]));
+        assert_sent_persistence_event!(context, PersistenceEvent::UpdateEquippedItems(vec![character.inventory[inventory_index].as_ref().unwrap().clone()]));
+    }
+
+    #[test]
+    fn test_equip_item_should_not_equip_item_if_class_requirements_is_not_met() {
+        // Given
+        let context = before_each_with_latch(mocked_repository(), 2);
+        let mut character = create_character();
+        let item = GlobalConfigService::instance().get_item_by_name("Bow");
+        character.status.base_level = (item.equip_level_min.unwrap_or(1) + 1) as u32;
+        let inventory_index = add_item_in_inventory(&mut character, "Bow");
+        let char_id = character.char_id;
+        // When
+        context.inventory_service.equip_item(&mut character, CharacterEquipItem { char_id, index: inventory_index });
+        // Then
+        context.test_context.countdown_latch().wait_with_timeout(Duration::from_millis(200));
+        assert_eq!(character.inventory[inventory_index].as_ref().unwrap().equip, 0);
+        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![PacketZcReqWearEquipAck2::packet_id()]));
+        assert_sent_persistence_event!(context, PersistenceEvent::UpdateEquippedItems(vec![character.inventory[inventory_index].as_ref().unwrap().clone()]));
     }
 
     #[test]
@@ -249,7 +301,6 @@ mod tests {
         // When
 
         // Then
-
     }
 
     #[test]
@@ -260,7 +311,6 @@ mod tests {
         // When
 
         // Then
-
     }
 
     #[test]
@@ -271,7 +321,6 @@ mod tests {
         // When
 
         // Then
-
     }
 
     #[test]
@@ -282,8 +331,5 @@ mod tests {
         // When
 
         // Then
-
     }
-
-
 }
