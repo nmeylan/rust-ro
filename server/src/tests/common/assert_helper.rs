@@ -1,5 +1,8 @@
 use std::fmt::Debug;
 use std::sync::Arc;
+use packets::packets::Packet;
+use packets::packets_parser::parse;
+use crate::server::model::events::client_notification::{AreaNotificationRangeType, CharNotification, Notification};
 use crate::server::model::events::game_event::GameEvent;
 use crate::server::model::tasks_queue::TasksQueue;
 
@@ -38,4 +41,94 @@ macro_rules! assert_task_queue_contains_event_at_tick {
     ($task_queue:expr, $expected_event:expr, $tick:expr $(,)?) => {
         task_queue_contains_event_at_tick($task_queue.clone(), $expected_event, $tick)
     }
+}
+
+pub struct NotificationExpectation<'a> {
+    kind: NotificationExpectationKind,
+    packets: Vec<&'a str>,
+    map_name: Option<&'a str>,
+    char_id: Option<u32>,
+    x: Option<u16>,
+    y: Option<u16>,
+}
+
+pub enum NotificationExpectationKind {
+    Char,
+    AreaFov,
+    AreaMap,
+}
+
+impl <'a>NotificationExpectation<'a> {
+    pub fn of_char(char_id: u32, packets: Vec<&'a str>) -> Self {
+        Self { kind: NotificationExpectationKind::Char, packets, map_name: None, char_id: Some(char_id), x: None, y: None }
+    }
+    pub fn of_map(map_name: &'a str, packets: Vec<&'a str>) -> Self {
+        Self { kind: NotificationExpectationKind::AreaMap, packets, map_name: Some(map_name), char_id: None, x: None, y: None }
+    }
+    pub fn of_fov(x: u16, y: u16, packets: Vec<&'a str>) -> Self {
+        Self { kind: NotificationExpectationKind::AreaFov, packets, map_name: None, char_id: None, x: Some(x), y: Some(y) }
+    }
+}
+
+pub fn has_sent_notification(notifications: &Vec<Notification>, expectation: NotificationExpectation, packetver: u32) -> bool {
+    notifications.iter().find(|sent_notification| {
+        match expectation.kind {
+            NotificationExpectationKind::Char => {
+                if let Notification::Char(sent_char_notification) = sent_notification {
+                    if expectation.char_id.is_some() && sent_char_notification.char_id() == expectation.char_id.unwrap() {
+                        if contains_packet(&expectation, packetver, sent_char_notification.serialized_packet()) {
+                            return true;
+                        }
+                    }
+                }
+                false
+            }
+            NotificationExpectationKind::AreaFov => {
+                if let Notification::Area(sent_area_notification) = sent_notification {
+                    if let AreaNotificationRangeType::Fov{x, y, ..} = sent_area_notification.range_type {
+                        if expectation.x.is_some() && x == expectation.x.unwrap()  && expectation.y.is_some() && y == expectation.y.unwrap() {
+                            if contains_packet(&expectation, packetver, sent_area_notification.serialized_packet()) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+                false
+            }
+            NotificationExpectationKind::AreaMap => {
+                if let Notification::Area(sent_area_map_notification) = sent_notification {
+                    if matches!(sent_area_map_notification.range_type, AreaNotificationRangeType::Map) {
+                        if expectation.map_name.is_some() && sent_area_map_notification.map_name.as_str() == expectation.map_name.unwrap() {
+                            if contains_packet(&expectation, packetver, sent_area_map_notification.serialized_packet()) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+                false
+            }
+        }
+    }).is_some()
+}
+
+fn contains_packet(expectation: &NotificationExpectation, packetver: u32, packets: &Vec<u8>) -> bool {
+    let packets = parse_packet(packets, packetver);
+    let contains_packet = packets.iter().find(|packet| expectation.packets.contains(&packet.id()));
+    return contains_packet.is_some()
+}
+
+fn parse_packet(packets: &[u8], packetver: u32) -> Vec<Box<dyn Packet>> {
+    let mut packet = parse(packets, packetver);
+    let mut parsed_packets = vec![];
+    if packet.raw().len() < packets.len() {
+        let mut offset = 0;
+        while offset < packets.len() {
+            packet = parse(&packets[offset..packets.len()], packetver);
+            offset += packet.raw().len();
+            parsed_packets.push(packet);
+        }
+    } else {
+        parsed_packets.push(packet);
+    }
+    parsed_packets
 }

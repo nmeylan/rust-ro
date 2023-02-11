@@ -5,6 +5,7 @@ use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::service::status_service::StatusService;
 use crate::tests::common;
 use crate::tests::common::{create_mpsc, TestContext};
+use crate::tests::common::sync_helper::CountDownLatch;
 
 struct BattleServiceTestContext {
     test_context: TestContext,
@@ -13,12 +14,17 @@ struct BattleServiceTestContext {
 }
 
 fn before_each() -> BattleServiceTestContext {
+    before_each_with_latch(0)
+}
+
+fn before_each_with_latch(latch_size: usize) -> BattleServiceTestContext {
     common::before_all();
     let (client_notification_sender, client_notification_receiver) = create_mpsc::<Notification>();
     let (persistence_event_sender, persistence_event_receiver) = create_mpsc::<PersistenceEvent>();
     let status_service =  StatusService::new(client_notification_sender.clone(), persistence_event_sender.clone(), GlobalConfigService::instance());
+    let count_down_latch = CountDownLatch::new(latch_size);
     BattleServiceTestContext {
-        test_context:TestContext::new(client_notification_sender.clone(), client_notification_receiver, persistence_event_sender.clone(), persistence_event_receiver),
+        test_context:TestContext::new(client_notification_sender.clone(), client_notification_receiver, persistence_event_sender.clone(), persistence_event_receiver, count_down_latch),
         battle_service: BattleService::new(client_notification_sender.clone(), status_service, GlobalConfigService::instance()),
         status_service: StatusService::new(client_notification_sender.clone(), persistence_event_sender.clone(), GlobalConfigService::instance())
     }

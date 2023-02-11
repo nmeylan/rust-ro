@@ -16,6 +16,7 @@ use crate::server::service::status_service::StatusService;
 use crate::tests::common;
 use crate::tests::common::{create_mpsc, TestContext};
 use crate::tests::common::mocked_repository::MockedRepository;
+use crate::tests::common::sync_helper::CountDownLatch;
 
 struct ServerServiceTestContext {
     test_context: TestContext,
@@ -26,14 +27,19 @@ struct ServerServiceTestContext {
 }
 
 fn before_each() -> ServerServiceTestContext {
+    before_each_with_latch(0)
+}
+
+fn before_each_with_latch(latch_size: usize) -> ServerServiceTestContext {
     common::before_all();
     let (client_notification_sender, client_notification_receiver) = create_mpsc::<Notification>();
     let (persistence_event_sender, persistence_event_receiver) = create_mpsc::<PersistenceEvent>();
     let server_task_queue = Arc::new(TasksQueue::new());
     let movement_task_queue = Arc::new(TasksQueue::new());
+    let count_down_latch = CountDownLatch::new(latch_size);
     ServerServiceTestContext {
         client_notification_sender: client_notification_sender.clone(),
-        test_context:TestContext::new(client_notification_sender.clone(), client_notification_receiver, persistence_event_sender.clone(), persistence_event_receiver),
+        test_context: TestContext::new(client_notification_sender.clone(), client_notification_receiver, persistence_event_sender.clone(), persistence_event_receiver, count_down_latch),
         server_task_queue: server_task_queue.clone(),
         movement_task_queue: movement_task_queue.clone(),
         server_service: ServerService::new(client_notification_sender.clone(), GlobalConfigService::instance(), server_task_queue.clone(), movement_task_queue.clone(), Arc::new(Vm::new("../native_functions_list.txt", DebugFlag::None.value())),
