@@ -1,10 +1,11 @@
 use std::fmt::Debug;
 use std::sync::Arc;
-use packets::packets::Packet;
+use packets::packets::{Packet, PacketZcSpriteChange2};
 use packets::packets_parser::parse;
 use crate::server::model::events::client_notification::{AreaNotificationRangeType, CharNotification, Notification};
 use crate::server::model::events::game_event::GameEvent;
 use crate::server::model::tasks_queue::TasksQueue;
+use crate::server::service::global_config_service::GlobalConfigService;
 
 pub fn task_queue_contains_event_at_tick<T: PartialEq + Debug>(task_queue: Arc<TasksQueue<T>>, expected_event: T, tick: usize) {
     let mut events = vec![];
@@ -109,6 +110,14 @@ pub fn has_sent_notification(notifications: &Vec<Notification>, expectation: Not
             }
         }
     }).is_some()
+}
+//
+
+#[macro_export]
+macro_rules! assert_sent_packet_in_current_packetver {
+    ($context:expr, $expectation:expr $(,)?) => {
+        assert!(has_sent_notification($context.test_context.received_notification().lock().unwrap().as_ref(), $expectation, GlobalConfigService::instance().packetver()));
+    }
 }
 
 fn contains_packet(expectation: &NotificationExpectation, packetver: u32, packets: &Vec<u8>) -> bool {

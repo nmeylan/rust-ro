@@ -43,7 +43,7 @@ mod tests {
     use std::sync::atomic::{AtomicBool, Ordering};
     use std::time::Duration;
     use async_trait::async_trait;
-    use crate::assert_task_queue_contains_event_at_tick;
+    use crate::{assert_sent_packet_in_current_packetver, assert_task_queue_contains_event_at_tick};
     use sqlx::Error;
     use sqlx::postgres::PgQueryResult;
     use tokio::runtime::Runtime;
@@ -217,7 +217,7 @@ mod tests {
         context.inventory_service.reload_equipped_item_sprites(&character);
         // Then
         context.test_context.countdown_latch().wait();
-        assert!(has_sent_notification(context.test_context.received_notification().lock().unwrap().as_ref(), NotificationExpectation::of_fov(character.x, character.y, vec![PacketZcSpriteChange2::packet_id()]), GlobalConfigService::instance().packetver()));
+        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_fov(character.x, character.y, vec![PacketZcSpriteChange2::packet_id()]));
     }
 
     #[test]
