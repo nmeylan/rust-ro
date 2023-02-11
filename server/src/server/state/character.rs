@@ -17,23 +17,42 @@ use crate::server::state::status::{Status};
 use crate::server::model::map_item::{MapItem, MapItemSnapshot, MapItemType, ToMapItem, ToMapItemSnapshot};
 use crate::server::script::ScriptGlobalVariableStore;
 
+
+/// Character state
 #[derive(Setters)]
 pub struct Character {
+    /// Name of the character, this value is never mutated
     #[set]
     pub name: String,
-    pub status: Status,
+    /// Id of the character, this value is never mutated
     #[set]
     pub char_id: u32,
+    /// Id of the account, this value is never mutated
     pub account_id: u32,
+    pub status: Status,
+    /// Character state only exist when player has join the game.
+    /// Once a player join the game its character is always assigned to a map.
+    /// map_instance_key is the key of the map instance on which character is currently assigned.
     pub map_instance_key: MapInstanceKey,
     pub loaded_from_client_side: bool,
+    /// x position of the character on the map
     pub x: u16,
+    /// y position of the character on the map
     pub y: u16,
+    /// direction of the character on the map
     pub dir: u16,
+    /// When a character is moving, it follow a path. It consist of a list of position to move at, at a given time, depending on its current speed.
     pub movements: Vec<Movement>,
+    /// When a character is attacking, it has a target. It can repeat its attack, so we need also to keep track of the last attack, to know when next attack can occur.
     pub attack: Option<Attack>,
+    /// Character inventory is a list of item. Their index in the Vec below is sent to client, client side inventory items identifier is the index in this Vec.
+    /// When action are made in inventory in client side, client only send to the server the index of the item in the inventory.
+    /// When an item is removed client side, index of all items do not change, then when another item is added to inventory, client expect we use the first free index.
+    /// That is why we use a Vec of Option.
     pub inventory: Vec<Option<InventoryItemModel>>,
+    /// Contains item being viewed by character, this set is updated at each tick of the game loop.
     pub map_view: HashSet<MapItem>,
+    /// Some script can store global variable for the character
     pub script_variable_store: Mutex<ScriptGlobalVariableStore>,
 }
 
