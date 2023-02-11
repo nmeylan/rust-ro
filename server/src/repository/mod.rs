@@ -46,10 +46,10 @@ pub trait CharacterRepository {
 
 #[async_trait]
 pub trait InventoryRepository {
-    async fn character_inventory_update(&self, inventory_update_items: &[InventoryItemUpdate], buy: bool) -> Result<(), Error>;
-    async fn character_inventory_delete(&self, delete_items: DeleteItems) -> Result<PgQueryResult, Error>;
-    async fn character_inventory_fetch(&self, char_id: i32) -> Result<Vec<InventoryItemModel>, Error>;
-    async fn character_inventory_wearable_item_update(&self, items: Vec<InventoryItemModel>) -> Result<PgQueryResult, Error>;
+    async fn character_inventory_update(&self, inventory_update_items: &[InventoryItemUpdate], buy: bool) -> Result<(), Error> { todo!() }
+    async fn character_inventory_delete(&self, delete_items: DeleteItems) -> Result<PgQueryResult, Error> { todo!() }
+    async fn character_inventory_fetch(&self, char_id: i32) -> Result<Vec<InventoryItemModel>, Error> { todo!() }
+    async fn character_inventory_wearable_item_update(&self, items: Vec<InventoryItemModel>) -> Result<PgQueryResult, Error> { todo!() }
 }
 
 #[async_trait]

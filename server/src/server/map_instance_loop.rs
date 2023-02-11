@@ -11,8 +11,8 @@ use crate::server::model::movement::{Movable, Movement};
 use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, Notification};
 use crate::server::model::events::map_event::{MapEvent, MobLocation};
 use crate::server::service::global_config_service::GlobalConfigService;
-use crate::util::tick::get_tick;
 use crate::enums::EnumWithNumberValue;
+use crate::util::tick::get_tick;
 use crate::server::service::map_instance_service::MapInstanceService;
 
 pub struct MapInstanceLoop;

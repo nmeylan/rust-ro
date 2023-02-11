@@ -2,6 +2,14 @@
 #![feature(stmt_expr_attributes)]
 #![feature(proc_macro_hygiene)]
 
+#[macro_use]
+extern crate log;
+#[macro_use]
+extern crate accessor;
+
+extern crate enums;
+extern crate packets;
+
 mod proxy;
 #[macro_use]
 mod util;
@@ -11,23 +19,11 @@ mod repository;
 mod debugger;
 mod tests;
 
-#[macro_use]
-extern crate log;
-#[macro_use]
-extern crate accessor;
-
-extern crate enums;
-extern crate metrics;
-
-extern crate packets;
-extern crate sqlx;
-extern crate core;
-
+use crate::enums::*;
 use std::collections::HashMap;
 use std::fs::File;
 use std::io::Write;
 use std::path::Path;
-
 
 use std::thread::{JoinHandle};
 use proxy::map::MapProxy;

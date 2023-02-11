@@ -3,7 +3,6 @@ members = [
     "server",
     "tools"
 ]
-
 [patch.crates-io]
 eframe = { git = 'https://github.com/nmeylan/egui', rev = "cc7b299a132024dff44b53ccf8ca8c810764bea6" }
 #egui_glow = { git = 'https://github.com/nmeylan/egui' }

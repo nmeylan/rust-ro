@@ -4,6 +4,7 @@ use packets::packets::{Packet, PacketZcSpriteChange2};
 use packets::packets_parser::parse;
 use crate::server::model::events::client_notification::{AreaNotificationRangeType, CharNotification, Notification};
 use crate::server::model::events::game_event::GameEvent;
+use crate::server::model::events::persistence_event::PersistenceEvent;
 use crate::server::model::tasks_queue::TasksQueue;
 use crate::server::service::global_config_service::GlobalConfigService;
 
@@ -111,12 +112,21 @@ pub fn has_sent_notification(notifications: &Vec<Notification>, expectation: Not
         }
     }).is_some()
 }
-//
+
+pub fn has_sent_persistence_event(persistence_events: &Vec<PersistenceEvent>, persistence_event: PersistenceEvent) -> bool {
+    persistence_events.iter().find(|sent_persistence_event| if matches!(&persistence_event, sent_persistence_event) { persistence_event == **sent_persistence_event } else { false }).is_some()
+}
 
 #[macro_export]
 macro_rules! assert_sent_packet_in_current_packetver {
     ($context:expr, $expectation:expr $(,)?) => {
         assert!(has_sent_notification($context.test_context.received_notification().lock().unwrap().as_ref(), $expectation, GlobalConfigService::instance().packetver()));
+    }
+}
+#[macro_export]
+macro_rules! assert_sent_persistence_event {
+    ($context:expr, $expectation:expr $(,)?) => {
+        assert!(has_sent_persistence_event($context.test_context.received_persistence_events().lock().unwrap().as_ref(), $expectation));
     }
 }
 
