@@ -2,9 +2,11 @@ use std::sync::{Arc, Once};
 use std::sync::mpsc::SyncSender;
 use rand::RngCore;
 use tokio::runtime::Runtime;
+use enums::class::{EquipClassFlag, JobName};
 use enums::EnumWithMaskValueU64;
 use enums::item::{EquipmentLocation};
 use enums::look::LookType;
+use crate::enums::EnumWithStringValue;
 use crate::enums::EnumWithNumberValue;
 use packets::packets::{EquipmentitemExtrainfo301, EQUIPSLOTINFO, NormalitemExtrainfo3, Packet, PacketZcEquipmentItemlist3, PacketZcItemPickupAck3, PacketZcNormalItemlist3, PacketZcPcPurchaseResult, PacketZcReqTakeoffEquipAck2, PacketZcReqWearEquipAck2, PacketZcSpriteChange2};
 use crate::repository::model::item_model::{InventoryItemModel, ItemModel};
@@ -221,7 +223,7 @@ impl InventoryService{
             if !equip_item.item_type.is_equipment() {
                 return;
             }
-            if self.check_base_level_requirement(character, equip_item) {
+            if self.check_base_level_requirement(character, equip_item) && self.check_job_requirement(character, equip_item) {
                 if location & EquipmentLocation::AccessoryLeft.as_flag() as i32 != 0 || location & EquipmentLocation::AccessoryRight.as_flag() as i32 != 0 {
                     // Remove equipped accessory if both(right and left) slots are occupied, otherwise just equip the item in the free slot (right or left)
                     let accessories: Vec<(usize, &InventoryItemModel)> = character.inventory.iter().enumerate()
@@ -292,8 +294,12 @@ impl InventoryService{
         // check level requirement
     }
 
-    pub fn check_base_level_requirement(&self, character: &mut Character, equip_item: &ItemModel) -> bool {
+    pub fn check_base_level_requirement(&self, character: &Character, equip_item: &ItemModel) -> bool {
         character.status.base_level >= (equip_item.equip_level_min.unwrap_or(0) as u32)
+    }
+    pub fn check_job_requirement(&self, character: &Character, equip_item: &ItemModel) -> bool {
+        let equip_class_flag = EquipClassFlag::from_string(JobName::from_value(character.status.job as usize).as_str()).as_flag();
+        equip_item.job_flags & equip_class_flag == equip_class_flag
     }
 
     pub fn takeoff_equip_item(&self, character: &mut Character, index: usize) {

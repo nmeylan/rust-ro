@@ -94,13 +94,22 @@ impl<'r> FromRow<'r, PgRow> for ItemModel {
         let defense: Option<i16> = row.try_get("defense").or_else(Self::map_error())?;
         let range: Option<i16> = row.try_get("range").or_else(Self::map_error())?;
         let slots: Option<i16> = row.try_get("slots").or_else(Self::map_error())?;
+        let gender: Option<String> = row.try_get("gender").or_else(Self::map_error())?;
         let mut job_flags = vec![];
         row.try_get::<'r, Option<i16>, _>("job_all").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::All) }).or_else(Self::map_error())?;
         row.try_get::<'r, Option<i16>, _>("job_acolyte").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::Acolyte) }).or_else(Self::map_error())?;
         row.try_get::<'r, Option<i16>, _>("job_alchemist").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::Alchemist) }).or_else(Self::map_error())?;
         row.try_get::<'r, Option<i16>, _>("job_archer").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::Archer) }).or_else(Self::map_error())?;
         row.try_get::<'r, Option<i16>, _>("job_assassin").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::Assassin) }).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("job_barddancer").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::Barddancer) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("job_barddancer").map(|v| if v.is_some() && v.unwrap() != 0 {
+            if let Some(gender) = gender.clone() {
+                if gender == "Female" {
+                    job_flags.push(EquipClassFlag::Dancer)
+                } else {
+                    job_flags.push(EquipClassFlag::Bard)
+                }
+            }
+        }).or_else(Self::map_error())?;
         row.try_get::<'r, Option<i16>, _>("job_blacksmith").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::Blacksmith) }).or_else(Self::map_error())?;
         row.try_get::<'r, Option<i16>, _>("job_crusader").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::Crusader) }).or_else(Self::map_error())?;
         row.try_get::<'r, Option<i16>, _>("job_hunter").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::Hunter) }).or_else(Self::map_error())?;
@@ -114,9 +123,9 @@ impl<'r> FromRow<'r, PgRow> for ItemModel {
         row.try_get::<'r, Option<i16>, _>("job_priest").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::Priest) }).or_else(Self::map_error())?;
         row.try_get::<'r, Option<i16>, _>("job_rogue").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::Rogue) }).or_else(Self::map_error())?;
         row.try_get::<'r, Option<i16>, _>("job_sage").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::Sage) }).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("job_soullinker").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::Soullinker) }).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("job_stargladiator").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::Stargladiator) }).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("job_supernovice").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::Supernovice) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("job_soullinker").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::SoulLinker) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("job_stargladiator").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::StarGladiator) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("job_supernovice").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::SuperNovice) }).or_else(Self::map_error())?;
         row.try_get::<'r, Option<i16>, _>("job_swordman").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::Swordman) }).or_else(Self::map_error())?;
         row.try_get::<'r, Option<i16>, _>("job_taekwon").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::Taekwon) }).or_else(Self::map_error())?;
         row.try_get::<'r, Option<i16>, _>("job_thief").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::Thief) }).or_else(Self::map_error())?;
@@ -128,7 +137,6 @@ impl<'r> FromRow<'r, PgRow> for ItemModel {
         row.try_get::<'r, Option<i16>, _>("class_upper").map(|v| if v.is_some() && v.unwrap() != 0 { class_flags.push(ItemClass::Upper) }).or_else(Self::map_error())?;
         row.try_get::<'r, Option<i16>, _>("class_baby").map(|v| if v.is_some() && v.unwrap() != 0 { class_flags.push(ItemClass::Baby) }).or_else(Self::map_error())?;
         let class_flags = Self::enum_flags_into_u64(&class_flags);
-        let gender: Option<String> = row.try_get("gender").or_else(Self::map_error())?;
 
         let mut location_flags = vec![];
         row.try_get::<'r, Option<i16>, _>("location_head_top").map(|v| if v.is_some() && v.unwrap() != 0 { location_flags.push(EquipmentLocation::HeadTop) }).or_else(Self::map_error())?;
