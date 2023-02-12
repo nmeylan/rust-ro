@@ -130,7 +130,10 @@ impl<'r> FromRow<'r, PgRow> for ItemModel {
         row.try_get::<'r, Option<i16>, _>("job_taekwon").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::Taekwon) }).or_else(Self::map_error())?;
         row.try_get::<'r, Option<i16>, _>("job_thief").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::Thief) }).or_else(Self::map_error())?;
         row.try_get::<'r, Option<i16>, _>("job_wizard").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::Wizard) }).or_else(Self::map_error())?;
-        let job_flags = Self::enum_flags_into_u64(&job_flags);
+        let mut job_flags = Self::enum_flags_into_u64(&job_flags);
+        if job_flags == 0 {
+            job_flags = EquipClassFlag::All.as_flag();
+        }
         let mut class_flags = vec![];
         row.try_get::<'r, Option<i16>, _>("class_all").map(|v| if v.is_some() && v.unwrap() != 0 { class_flags.push(ItemClass::All) }).or_else(Self::map_error())?;
         row.try_get::<'r, Option<i16>, _>("class_normal").map(|v| if v.is_some() && v.unwrap() != 0 { class_flags.push(ItemClass::Normal) }).or_else(Self::map_error())?;

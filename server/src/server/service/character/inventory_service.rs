@@ -288,10 +288,6 @@ impl InventoryService{
             .expect("Fail to send client notification");
         self.persistence_event_sender.send(PersistenceEvent::UpdateEquippedItems(character.inventory_wearable().iter().cloned().map(|(_m, item)| item.clone()).collect::<Vec<InventoryItemModel>>()))
             .expect("Fail to send persistence event");
-
-        // check if item is equipable
-        // check class requirement
-        // check level requirement
     }
 
     pub fn check_base_level_requirement(&self, character: &Character, equip_item: &ItemModel) -> bool {
