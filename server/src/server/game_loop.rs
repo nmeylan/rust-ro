@@ -112,7 +112,6 @@ impl Server {
                             character.get_item_from_inventory(index)
                                 .map(|item| InventoryService::instance().sprite_change_packet_for_item(character, item)
                                     .map(|packet| CharacterService::instance().send_area_notification_around_characters(character, packet)));
-                            StatusService::instance().calculate_status(&server_ref, character);
                         }
                         GameEvent::CharacterTakeoffEquipItem(character_takeoff_equip_item) => {
                             let character = server_state_mut.characters_mut().get_mut(&character_takeoff_equip_item.char_id).unwrap();
@@ -121,7 +120,6 @@ impl Server {
                             character.get_item_from_inventory(index)
                                 .map(|item| InventoryService::instance().sprite_change_packet_for_item(character, item)
                                     .map(|packet| CharacterService::instance().send_area_notification_around_characters(character, packet)));
-                            StatusService::instance().calculate_status(&server_ref, character);
                         }
                         GameEvent::CharacterCalculateStats(char_id) => {
                             let character = server_state_mut.characters_mut().get_mut(&char_id).unwrap();
