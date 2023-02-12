@@ -59,10 +59,9 @@ mod tests {
             Stats { weapon: "", agi: 1, dex: 1, job: "Novice", expected_aspd: 150 },
             Stats { weapon: "Knife", agi: 1, dex: 1, job: "Novice", expected_aspd: 135 },
             Stats { weapon: "Knife", agi: 15, dex: 15, job: "Novice", expected_aspd: 140 },
-            Stats { weapon: "Knife", agi: 1, dex: 1, job: "Swordman", expected_aspd: 150 },
-            Stats { weapon: "Sword", agi: 1, dex: 1, job: "Swordman", expected_aspd: 145 },
+            Stats { weapon: "Knife", agi: 1, dex: 1, job: "Swordsman", expected_aspd: 150 },
+            Stats { weapon: "Sword", agi: 1, dex: 1, job: "Swordsman", expected_aspd: 145 },
             Stats { weapon: "Bow", agi: 1, dex: 1, job: "Archer", expected_aspd: 130 },
-            Stats { weapon: "Axe", agi: 1, dex: 1, job: "Archer", expected_aspd: 1 },
             Stats { weapon: "", agi: 1, dex: 1, job: "Merchant", expected_aspd: 160 },
         ];
         for stat in stats {

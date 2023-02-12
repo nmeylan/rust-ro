@@ -66,10 +66,12 @@ impl Mob {
         }
     }
 
+    #[inline]
     pub fn x(&self) -> u16 {
         self.x
     }
 
+    #[inline]
     pub fn y(&self) -> u16 {
         self.y
     }
