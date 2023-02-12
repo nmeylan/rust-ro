@@ -33,29 +33,58 @@ fn before_each_with_latch(character_repository: Arc<dyn CharacterRepository>, la
 
 #[cfg(test)]
 mod tests {
+    use enums::class::JobName;
     use crate::tests::character_service_tests::before_each;
+    use crate::tests::common::character_helper::{add_item_in_inventory, add_items_in_inventory, create_character};
     use crate::tests::common::mocked_repository;
+    use crate::enums::EnumWithStringValue;
+    use crate::enums::EnumWithNumberValue;
+    use crate::server::service::global_config_service::GlobalConfigService;
 
     #[test]
     fn test_max_weight() {
         // Given
         let context = before_each(mocked_repository());
-        
-        // When
-        
-        // Then
-        
+        struct WeightExpectation<'a> { job: &'a str, str: u16, expected_max_weight: u32}
+        // Note that client side display weight values / 10.
+        let expectations = vec![
+            WeightExpectation {job: "Novice", str: 1, expected_max_weight: 20300},
+            WeightExpectation {job: "Archer", str: 1, expected_max_weight: 26300},
+            WeightExpectation {job: "Blacksmith", str: 1, expected_max_weight: 30300},
+            WeightExpectation {job: "Swordsman", str: 1, expected_max_weight: 28300},
+            WeightExpectation {job: "Swordsman", str: 50, expected_max_weight: 43000},
+        ];
+        for expectation in expectations.iter() {
+            let mut character = create_character();
+            character.status.str = expectation.str;
+            character.status.job = JobName::from_string(expectation.job).value() as u32;
+            // When
+            let max_weight = context.character_service.max_weight(&character);
+            // Then
+            assert_eq!(max_weight, expectation.expected_max_weight, "Expected max weight to be {} but was {} for class {}", expectation.expected_max_weight, max_weight, expectation.job);
+        }
     }
     
     #[test]
-    fn test_check_weight() {
+    fn test_can_carry_weight() {
         // Given
         let context = before_each(mocked_repository());
-        
+        let mut character = create_character();
+        character.status.str = 1;
+        character.status.job = JobName::from_string("Novice").value() as u32;
+        let phracon = GlobalConfigService::instance().get_item_by_name("Phracon");
+
         // When
-        
+        add_items_in_inventory(&mut character, "Phracon", 80); // Phracon weight is 200
+        let can_carry = context.character_service.can_carry_weight(&character, phracon.weight as u32);
         // Then
-        
+        assert!(can_carry);
+
+        // When
+        add_items_in_inventory(&mut character, "Phracon", 11);
+        let can_carry = context.character_service.can_carry_weight(&character, phracon.weight as u32);
+        // Then
+        assert!(!can_carry)
     }
     
     #[test]

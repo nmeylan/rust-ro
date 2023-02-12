@@ -223,6 +223,7 @@ impl InventoryService{
             if !equip_item.item_type.is_equipment() {
                 return;
             }
+            // TODO check if can carry (< 90% weight)
             if self.check_base_level_requirement(character, equip_item) && self.check_job_requirement(character, equip_item) {
                 if location & EquipmentLocation::AccessoryLeft.as_flag() as i32 != 0 || location & EquipmentLocation::AccessoryRight.as_flag() as i32 != 0 {
                     // Remove equipped accessory if both(right and left) slots are occupied, otherwise just equip the item in the free slot (right or left)
