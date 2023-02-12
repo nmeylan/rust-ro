@@ -15,12 +15,12 @@ struct CharacterServiceTestContext {
     character_service: CharacterService,
 }
 
-fn before_each(character_repository: Arc<dyn CharacterRepository>) -> CharacterServiceTestContext {
+fn before_each(character_repository: Arc<dyn CharacterRepository + Sync>) -> CharacterServiceTestContext {
     before_each_with_latch(character_repository, 0)
 }
 
 
-fn before_each_with_latch(character_repository: Arc<dyn CharacterRepository>, latch_size: usize) -> CharacterServiceTestContext {
+fn before_each_with_latch(character_repository: Arc<dyn CharacterRepository + Sync>, latch_size: usize) -> CharacterServiceTestContext {
     common::before_all();
     let (client_notification_sender, client_notification_receiver) = create_mpsc::<Notification>();
     let (persistence_event_sender, persistence_event_receiver) = create_mpsc::<PersistenceEvent>();
@@ -34,10 +34,15 @@ fn before_each_with_latch(character_repository: Arc<dyn CharacterRepository>, la
 #[cfg(test)]
 mod tests {
     use std::sync::Arc;
+    use std::sync::atomic::AtomicBool;
+    use std::sync::atomic::Ordering::Relaxed;
     use std::time::Duration;
+    use async_trait::async_trait;
+    use sqlx::Error;
+    use tokio::runtime::Runtime;
     use enums::class::JobName;
     use enums::look::LookType;
-    use packets::packets::PacketZcSpriteChange2;
+    use packets::packets::{PacketZcSpriteChange2, PacketZcLongparChange, PacketZcParChange};
     use crate::{assert_sent_packet_in_current_packetver, assert_sent_persistence_event};
     use crate::tests::common::assert_helper::{has_sent_persistence_event, has_sent_notification, NotificationExpectation, SentPacket};
     use crate::tests::character_service_tests::before_each;
@@ -45,7 +50,8 @@ mod tests {
     use crate::tests::common::mocked_repository;
     use crate::enums::EnumWithStringValue;
     use crate::enums::EnumWithNumberValue;
-    use crate::server::model::events::game_event::{CharacterChangeMap, CharacterLook};
+    use crate::repository::CharacterRepository;
+    use crate::server::model::events::game_event::{CharacterChangeMap, CharacterLook, CharacterZeny};
     use crate::server::model::events::persistence_event::{PersistenceEvent, SavePositionUpdate, StatusUpdate};
     use crate::server::model::map_instance::MapInstanceKey;
     use crate::server::model::movement::Movement;
@@ -206,120 +212,189 @@ mod tests {
     fn test_update_zeny_should_defer_update_in_db() {
         // Given
         let context = before_each(mocked_repository());
-
+        let mut character = create_character();
+        let runtime = Runtime::new().unwrap();
+        let character_zeny = CharacterZeny { char_id: character.char_id, zeny: Some(100) };
         // When
-
+        context.character_service.update_zeny(&runtime, character_zeny, &mut character);
         // Then
+        context.test_context.increment_latch().wait_expected_count_with_timeout(2, Duration::from_micros(200));
+        assert_eq!(character.status.zeny, 100);
+        assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "zeny".to_string(), value: 100, }));
+        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcLongparChange::packet_id())]));
     }
 
     #[test]
     fn test_update_zeny_should_fetch_zeny_when_zeny_amount_is_not_specified() {
         // Given
-        let context = before_each(mocked_repository());
-
+        struct MockedCharacterRepository {called_fetch_zeny: AtomicBool};
+        #[async_trait]
+        impl CharacterRepository for MockedCharacterRepository {
+            async fn character_zeny_fetch(&self, char_id: u32) -> Result<i32, Error> {
+                self.called_fetch_zeny.store(true, Relaxed);
+                Ok((50))
+            }
+        }
+        let mocked_character_repository = Arc::new(MockedCharacterRepository { called_fetch_zeny: AtomicBool::new(false) });
+        let context = before_each(mocked_character_repository.clone());
+        let mut character = create_character();
+        let runtime = Runtime::new().unwrap();
+        let character_zeny = CharacterZeny { char_id: character.char_id, zeny: None };
         // When
-
+        context.character_service.update_zeny(&runtime, character_zeny, &mut character);
         // Then
-    }
-
-    #[test]
-    fn test_update_zeny_should_update_zeny_in_memory() {
-        // Given
-        let context = before_each(mocked_repository());
-
-        // When
-
-        // Then
-    }
-
-    #[test]
-    fn test_notify_weight_should_notify_character() {
-        // Given
-        let context = before_each(mocked_repository());
-
-        // When
-
-        // Then
+        context.test_context.increment_latch().wait_expected_count_with_timeout(1, Duration::from_micros(200));
+        assert_eq!(character.status.zeny, 50);
+        assert!(mocked_character_repository.called_fetch_zeny.load(Relaxed));
     }
 
     #[test]
     fn test_update_base_level_should_be_bound_by_min_and_max_level() {
         // Given
         let context = before_each(mocked_repository());
-
+        let mut character = create_character();
         // When
-
+        context.character_service.update_base_level(&mut character, Some(78), None);
         // Then
+        assert_eq!(character.status.base_level, 78);
+        // When
+        context.character_service.update_base_level(&mut character, Some(788), None);
+        // Then
+        assert_eq!(character.status.base_level, 99);
+        // When
+        context.character_service.update_base_level(&mut character, None, Some(-6));
+        // Then
+        assert_eq!(character.status.base_level, 93);
+        // When
+        context.character_service.update_base_level(&mut character, None, Some(10));
+        // Then
+        assert_eq!(character.status.base_level, 99);
+        // When
+        context.character_service.update_base_level(&mut character, None, Some(-150));
+        // Then
+        assert_eq!(character.status.base_level, 1);
+        // When
+        context.character_service.update_base_level(&mut character, Some(66), Some(10));
+        // Then
+        assert_eq!(character.status.base_level, 66);
     }
 
     #[test]
     fn test_update_base_level_should_defer_update_in_db() {
         // Given
         let context = before_each(mocked_repository());
-
+        let mut character = create_character();
         // When
-
+        context.character_service.update_base_level(&mut character, Some(78), None);
         // Then
+        assert_eq!(character.status.base_level, 78);
+        // Then
+        context.test_context.increment_latch().wait_expected_count_with_timeout(2, Duration::from_micros(200));
+        assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "base_level".to_string(), value: 78, }));
+        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcParChange::packet_id())]));
     }
 
     #[test]
     fn test_update_base_level_should_return_delta() {
         // Given
         let context = before_each(mocked_repository());
-
+        let mut character = create_character();
         // When
-
+        let delta = context.character_service.update_base_level(&mut character, Some(78), None);
         // Then
+        assert_eq!(delta, 77);
     }
 
     #[test]
     fn test_update_job_level_should_be_bound_by_min_and_max_level() {
         // Given
         let context = before_each(mocked_repository());
-
+        let mut character = create_character();
         // When
-
+        context.character_service.update_job_level(&mut character, Some(68), None);
         // Then
+        assert_eq!(character.status.job_level, 68);
+        // When
+        context.character_service.update_job_level(&mut character, Some(788), None);
+        // Then
+        assert_eq!(character.status.job_level, 70);
+        // When
+        context.character_service.update_job_level(&mut character, None, Some(-6));
+        // Then
+        assert_eq!(character.status.job_level, 64);
+        // When
+        context.character_service.update_job_level(&mut character, None, Some(5));
+        // Then
+        assert_eq!(character.status.job_level, 69);
+        // When
+        context.character_service.update_job_level(&mut character, None, Some(-150));
+        // Then
+        assert_eq!(character.status.job_level, 1);
+        // When
+        context.character_service.update_job_level(&mut character, Some(66), Some(10));
+        // Then
+        assert_eq!(character.status.job_level, 66);
     }
 
     #[test]
     fn test_update_job_level_should_defer_update_in_db() {
         // Given
         let context = before_each(mocked_repository());
-
+        let mut character = create_character();
         // When
-
+        context.character_service.update_job_level(&mut character, Some(68), None);
         // Then
+        assert_eq!(character.status.job_level, 68);
+        // Then
+        context.test_context.increment_latch().wait_expected_count_with_timeout(2, Duration::from_micros(200));
+        assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "job_level".to_string(), value: 68, }));
+        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcParChange::packet_id())]));
     }
 
     #[test]
     fn test_update_job_level_should_return_delta() {
         // Given
         let context = before_each(mocked_repository());
-
+        let mut character = create_character();
         // When
-
+        let delta = context.character_service.update_job_level(&mut character, Some(68), None);
         // Then
+        assert_eq!(delta, 67);
+    }
+
+    #[test]
+    fn test_change_job_should_update_in_memory() {
+        // Given
+        let context = before_each(mocked_repository());
+        let mut character = create_character();
+        // When
+        context.character_service.change_job(&mut character, JobName::Assassin);
+        // Then
+        context.test_context.increment_latch().wait_expected_count_with_timeout(2, Duration::from_millis(200));
+        assert_eq!(character.status.job, JobName::Assassin.value() as u32);
     }
 
     #[test]
     fn test_change_job_should_defer_db_update() {
         // Given
         let context = before_each(mocked_repository());
-
+        let mut character = create_character();
         // When
-
+        context.character_service.change_job(&mut character, JobName::Assassin);
         // Then
+        assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "class".to_string(), value: JobName::Assassin.value() as u32, }));
     }
 
     #[test]
     fn test_change_job_should_notify_sprite_change() {
         // Given
         let context = before_each(mocked_repository());
-
+        let mut character = create_character();
         // When
-
+        context.character_service.change_job(&mut character, JobName::Assassin);
         // Then
+        context.test_context.increment_latch().wait_expected_count_with_timeout(2, Duration::from_millis(200));
+        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_fov(character.x, character.y, vec![SentPacket::with_id(PacketZcSpriteChange2::packet_id())]));
     }
 
     #[test]

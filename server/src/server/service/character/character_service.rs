@@ -44,7 +44,7 @@ static SERVICE_INSTANCE_INIT: Once = Once::new();
 pub struct CharacterService {
     client_notification_sender: SyncSender<Notification>,
     persistence_event_sender: SyncSender<PersistenceEvent>,
-    repository: Arc<dyn CharacterRepository>,
+    repository: Arc<dyn CharacterRepository + Sync>,
     configuration_service: &'static GlobalConfigService
 }
 
@@ -53,10 +53,10 @@ impl CharacterService {
         unsafe { SERVICE_INSTANCE.as_ref().unwrap() }
     }
 
-    pub fn new(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, repository: Arc<dyn CharacterRepository>, configuration_service: &'static GlobalConfigService) -> Self {
+    pub fn new(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, repository: Arc<dyn CharacterRepository + Sync>, configuration_service: &'static GlobalConfigService) -> Self {
         Self { client_notification_sender, persistence_event_sender, repository, configuration_service }
     }
-    pub fn init(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, repository: Arc<dyn CharacterRepository>, configuration_service: &'static GlobalConfigService) {
+    pub fn init(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, repository: Arc<dyn CharacterRepository + Sync>, configuration_service: &'static GlobalConfigService) {
         SERVICE_INSTANCE_INIT.call_once(|| unsafe {
             SERVICE_INSTANCE = Some(CharacterService{ client_notification_sender, persistence_event_sender, repository, configuration_service });
         });
@@ -198,7 +198,7 @@ impl CharacterService {
         packet_base_level.set_count(new_base_level as i32);
         packet_base_level.fill_raw();
         self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packet_base_level.raw))).expect("Fail to send client notification");
-        (old_base_level as i32 - new_base_level as i32) as i32
+        (new_base_level as i32 - old_base_level as i32) as i32
     }
 
     pub fn update_job_level(&self, character: &mut Character, maybe_new_base_level: Option<u32>, maybe_level_delta: Option<i32>) -> i32 {
@@ -217,7 +217,7 @@ impl CharacterService {
         packet_job_level.set_count(new_job_level as i32);
         packet_job_level.fill_raw();
         self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packet_job_level.raw))).expect("Fail to send client notification");
-        (old_job_level as i32 - new_job_level as i32) as i32
+        (new_job_level as i32 - old_job_level as i32) as i32
     }
 
     pub fn change_job(&self, character: &mut Character, job: JobName) {
