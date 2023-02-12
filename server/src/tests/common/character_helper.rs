@@ -5,7 +5,7 @@ use crate::repository::model::item_model::InventoryItemModel;
 use crate::server::model::map_instance::MapInstanceKey;
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::state::character::Character;
-use crate::server::state::status::Status;
+use crate::server::state::status::{Look, Status};
 use crate::enums::EnumWithNumberValue;
 
 pub fn create_character() -> Character {
@@ -32,7 +32,7 @@ pub fn create_character() -> Character {
             crit: 0,
             def: 0,
             mdef: 0,
-            look: None,
+            look: Some(Look::default()),
             zeny: 0,
             base_level: 1,
             job_level: 1

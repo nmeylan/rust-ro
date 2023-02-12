@@ -68,7 +68,7 @@ impl IncrementLatch {
         let bt = Backtrace::capture();
         let (_, wait_timeout) = self.cvar.wait_timeout_while(self.count.lock().unwrap(), duration, |count| { *count != expected_count }).unwrap();
         if wait_timeout.timed_out() {
-            println!("warn: reach timeout of increment latch at:");
+            println!("warn: reach timeout of increment latch, condition not match \"{} != {}\" at:", self.count.lock().unwrap(), expected_count);
             println!("{}", bt.to_string());
         }
     }
