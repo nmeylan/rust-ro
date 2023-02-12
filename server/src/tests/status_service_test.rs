@@ -134,4 +134,17 @@ mod tests {
             assert_eq!(status_atk, stat.expected_status_atk, "Expected status atk1 to be {} but was {} with stats {:?}", stat.expected_status_atk, status_atk, stat);
         }
     }
+
+    #[test]
+    fn test_attack_per_seconds() {
+        // Given
+        let context = before_each();
+        let mut character = create_character();
+        for (aspd, expectation) in vec![(150, "1.00"), (170, "1.67"), (190, "5.00"), (199, "50.00")] {
+            // When
+            let attack_motion = context.status_service.attack_per_seconds(aspd as f32);
+            // Then
+            assert_eq!(format!("{:.2}", attack_motion), expectation, "Expected attack motion to be {} with aspd {} but was {}", expectation, aspd, attack_motion);
+        }
+    }
 }

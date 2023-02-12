@@ -165,7 +165,7 @@ impl StatusService {
         200.0 - (weapon_delay - ((((weapon_delay * (character.status.agi as f32)) / 25.0).floor() + ((weapon_delay * (character.status.dex as f32)) / 100.0).floor()) / 10.0) * (1.0 - speed_modifier))
     }
 
-    pub fn weapon_delay(&self, character: &Character) -> u32 {
+    fn weapon_delay(&self, character: &Character) -> u32 {
         let weapon = self.right_hand_weapon_type(character);
         *self.configuration_service.get_job_config(character.status.job).base_aspd().get(weapon.as_str()).unwrap_or(&2000)
     }
