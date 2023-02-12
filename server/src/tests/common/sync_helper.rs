@@ -1,5 +1,8 @@
+use std::backtrace::Backtrace;
 use std::sync::{Arc, Condvar, Mutex};
 use std::time::Duration;
+use lazy_static::lazy_static;
+use regex::Regex;
 
 #[derive(Debug, Clone)]
 pub struct CountDownLatch {
@@ -28,7 +31,12 @@ impl CountDownLatch {
     }
 
     pub fn wait_with_timeout(&self, duration: Duration) {
-        self.cvar.wait_timeout_while(self.count.lock().unwrap(), duration, |count| { *count > 0 }).unwrap();
+        let bt = Backtrace::capture();
+        let (_, wait_timeout) = self.cvar.wait_timeout_while(self.count.lock().unwrap(), duration, |count| { *count > 0 }).unwrap();
+        if wait_timeout.timed_out() {
+            println!("warn: reach timeout of increment latch at:");
+            println!("{}", bt.to_string());
+        }
     }
 }
 
@@ -55,8 +63,14 @@ impl IncrementLatch {
     pub fn wait_expected_count(&self, expected_count: usize) {
         self.cvar.wait_while(self.count.lock().unwrap(), |count| { *count != expected_count }).unwrap();
     }
+
     pub fn wait_expected_count_with_timeout(&self, expected_count: usize, duration: Duration) {
-        self.cvar.wait_timeout_while(self.count.lock().unwrap(), duration, |count| { *count != expected_count }).unwrap();
+        let bt = Backtrace::capture();
+        let (_, wait_timeout) = self.cvar.wait_timeout_while(self.count.lock().unwrap(), duration, |count| { *count != expected_count }).unwrap();
+        if wait_timeout.timed_out() {
+            println!("warn: reach timeout of increment latch at:");
+            println!("{}", bt.to_string());
+        }
     }
 }
 

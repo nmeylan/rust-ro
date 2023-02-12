@@ -25,6 +25,8 @@ use crate::server::model::events::client_notification::{AreaNotification, AreaNo
 use crate::server::model::events::persistence_event::{PersistenceEvent, SavePositionUpdate, StatusUpdate};
 use crate::server::model::events::persistence_event::PersistenceEvent::SaveCharacterPosition;
 use crate::server::{PLAYER_FOV, Server};
+use crate::server::model::map_instance::MapInstanceKey;
+use crate::server::model::position::Position;
 
 use crate::server::service::global_config_service::GlobalConfigService;
 
@@ -100,16 +102,14 @@ impl CharacterService {
         stdout.flush().unwrap();
     }
 
-    pub fn change_map(&self, map_instance_state: &MapInstanceState, event: &CharacterChangeMap, character: &mut Character) {
-        character.set_current_map_with_key(map_instance_state.key().clone());
+    pub fn change_map(&self, new_map_instance_key: &MapInstanceKey, new_position: Position, character: &mut Character) {
+        character.set_current_map_with_key(new_map_instance_key.clone());
         character.movements = vec![];
         let mut packet_zc_npcack_mapmove = PacketZcNpcackMapmove::new();
 
         let mut new_current_map: [char; 16] = [0 as char; 16];
-        let map_name = format!("{}{}", event.new_map_name, MAP_EXT);
-        map_name.fill_char_array(new_current_map.as_mut());
+        new_map_instance_key.map_name().fill_char_array(new_current_map.as_mut());
         packet_zc_npcack_mapmove.set_map_name(new_current_map);
-        let new_position = event.new_position.unwrap();
         packet_zc_npcack_mapmove.set_x_pos(new_position.x as i16);
         packet_zc_npcack_mapmove.set_y_pos(new_position.y as i16);
         packet_zc_npcack_mapmove.fill_raw();
@@ -119,7 +119,7 @@ impl CharacterService {
         character.update_position(new_position.x, new_position.y);
         character.clear_map_view();
         character.loaded_from_client_side = false;
-        self.persistence_event_sender.send(SaveCharacterPosition(SavePositionUpdate { account_id: character.account_id, char_id: character.char_id, map_name: character.current_map_name().clone(), x: character.x(), y: character.y() }))
+        self.persistence_event_sender.send(SaveCharacterPosition(SavePositionUpdate { account_id: character.account_id, char_id: character.char_id, map_name: new_map_instance_key.map_name().clone(), x: character.x(), y: character.y() }))
             .expect("Fail to send persistence notification");
 
     }
