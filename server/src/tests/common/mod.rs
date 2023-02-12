@@ -23,7 +23,7 @@ use crate::server::model::configuration::Config;
 use crate::server::model::events::client_notification::Notification;
 use crate::server::model::events::persistence_event::PersistenceEvent;
 use crate::tests::common::mocked_repository::MockedRepository;
-use crate::tests::common::sync_helper::CountDownLatch;
+use crate::tests::common::sync_helper::{CountDownLatch, IncrementLatch};
 
 
 pub static mut CONFIGS: Option<Config> = None;
@@ -35,6 +35,7 @@ pub struct TestContext {
     received_notification: Arc<Mutex<Vec<Notification>>>,
     received_persistence_events: Arc<Mutex<Vec<PersistenceEvent>>>,
     countdown_latch: CountDownLatch,
+    increment_latch: IncrementLatch,
 }
 
 impl TestContext {
@@ -44,19 +45,24 @@ impl TestContext {
         let received_notification_cloned = received_notification.clone();
         let received_persistence_events_cloned = received_persistence_events.clone();
         let count_down_latch_clone = countdown_latch.clone();
+        let increment_latch = IncrementLatch::new();
+        let increment_latch_clone = increment_latch.clone();
         thread::Builder::new().name("client_notification_thread".to_string()).spawn(move || {
             for notification in client_notification_receiver.iter() {
                 println!("Received notification {:?}", notification);
                 received_notification_cloned.lock().unwrap().push(notification);
                 count_down_latch_clone.countdown();
+                increment_latch_clone.increment();
             }
             println!("client_notification_thread exit");
         }).unwrap();
         let count_down_latch_clone = countdown_latch.clone();
+        let increment_latch_clone = increment_latch.clone();
         thread::Builder::new().name("persistence_event_thread".to_string()).spawn(move || {
             for notification in persistence_event_receiver.iter() {
                 received_persistence_events_cloned.lock().unwrap().push(notification);
                 count_down_latch_clone.countdown();
+                increment_latch_clone.increment();
             }
             println!("persistence_event_thread exit");
         }).unwrap();
@@ -65,7 +71,8 @@ impl TestContext {
             persistence_event_sender,
             received_notification,
             received_persistence_events,
-            countdown_latch
+            countdown_latch,
+            increment_latch
         }
     }
     pub fn client_notification_sender(&self) -> SyncSender<Notification> {
@@ -84,6 +91,14 @@ impl TestContext {
     }
     pub fn countdown_latch(&self) -> &CountDownLatch {
         &self.countdown_latch
+    }
+
+    pub fn increment_latch(&self) -> &IncrementLatch {
+        &self.increment_latch
+    }
+
+    pub fn clear_sent_packet(&self) {
+        *self.received_notification.lock().unwrap() = vec![];
     }
 }
 

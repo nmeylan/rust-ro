@@ -15,7 +15,7 @@ pub fn task_queue_contains_event_at_tick<T: PartialEq + Debug>(task_queue: Arc<T
     }
     for event in events {
         if matches!(&event, expected_event) {
-            assert!(event == expected_event,"Expected {:?} == {:?}", event, expected_event);
+            assert!(event == expected_event, "Expected {:?} == {:?}", event, expected_event);
             return;
         }
     }
@@ -23,7 +23,7 @@ pub fn task_queue_contains_event_at_tick<T: PartialEq + Debug>(task_queue: Arc<T
 }
 
 pub fn variance(expectation: u32, variance: usize) -> u32 {
-   (variance as f32 / 100 as f32).round() as u32 * expectation
+    (variance as f32 / 100 as f32).round() as u32 * expectation
 }
 
 #[macro_export]
@@ -47,11 +47,34 @@ macro_rules! assert_task_queue_contains_event_at_tick {
 
 pub struct NotificationExpectation<'a> {
     kind: NotificationExpectationKind,
-    packets: Vec<&'a str>,
+    packets: Vec<SentPacket<'a>>,
     map_name: Option<&'a str>,
     char_id: Option<u32>,
     x: Option<u16>,
     y: Option<u16>,
+}
+
+pub struct SentPacket<'a> {
+    id: &'a str,
+    count: Option<usize>,
+}
+
+impl<'a> SentPacket<'a> {
+    pub fn with_id(id: &'a str) -> Self {
+        Self { id, count: None }
+    }
+
+    pub fn with_count(id: &'a str, count: usize) -> Self {
+        Self { id, count: Some(count) }
+    }
+
+    pub fn id(&self) -> &'a str {
+        self.id
+    }
+
+    pub fn count(&self) -> Option<usize> {
+        self.count
+    }
 }
 
 pub enum NotificationExpectationKind {
@@ -60,14 +83,14 @@ pub enum NotificationExpectationKind {
     AreaMap,
 }
 
-impl <'a>NotificationExpectation<'a> {
-    pub fn of_char(char_id: u32, packets: Vec<&'a str>) -> Self {
+impl<'a> NotificationExpectation<'a> {
+    pub fn of_char(char_id: u32, packets: Vec<SentPacket<'a>>) -> Self {
         Self { kind: NotificationExpectationKind::Char, packets, map_name: None, char_id: Some(char_id), x: None, y: None }
     }
-    pub fn of_map(map_name: &'a str, packets: Vec<&'a str>) -> Self {
+    pub fn of_map(map_name: &'a str, packets: Vec<SentPacket<'a>>) -> Self {
         Self { kind: NotificationExpectationKind::AreaMap, packets, map_name: Some(map_name), char_id: None, x: None, y: None }
     }
-    pub fn of_fov(x: u16, y: u16, packets: Vec<&'a str>) -> Self {
+    pub fn of_fov(x: u16, y: u16, packets: Vec<SentPacket<'a>>) -> Self {
         Self { kind: NotificationExpectationKind::AreaFov, packets, map_name: None, char_id: None, x: Some(x), y: Some(y) }
     }
 }
@@ -87,8 +110,8 @@ pub fn has_sent_notification(notifications: &Vec<Notification>, expectation: Not
             }
             NotificationExpectationKind::AreaFov => {
                 if let Notification::Area(sent_area_notification) = sent_notification {
-                    if let AreaNotificationRangeType::Fov{x, y, ..} = sent_area_notification.range_type {
-                        if expectation.x.is_some() && x == expectation.x.unwrap()  && expectation.y.is_some() && y == expectation.y.unwrap() {
+                    if let AreaNotificationRangeType::Fov { x, y, .. } = sent_area_notification.range_type {
+                        if expectation.x.is_some() && x == expectation.x.unwrap() && expectation.y.is_some() && y == expectation.y.unwrap() {
                             if contains_packet(&expectation, packetver, sent_area_notification.serialized_packet()) {
                                 return true;
                             }
@@ -124,6 +147,12 @@ macro_rules! assert_sent_packet_in_current_packetver {
     }
 }
 #[macro_export]
+macro_rules! assert_not_sent_packet_in_current_packetver {
+    ($context:expr, $expectation:expr $(,)?) => {
+        assert!(!has_sent_notification($context.test_context.received_notification().lock().unwrap().as_ref(), $expectation, GlobalConfigService::instance().packetver()));
+    }
+}
+#[macro_export]
 macro_rules! assert_sent_persistence_event {
     ($context:expr, $expectation:expr $(,)?) => {
         assert!(has_sent_persistence_event($context.test_context.received_persistence_events().lock().unwrap().as_ref(), $expectation));
@@ -132,8 +161,22 @@ macro_rules! assert_sent_persistence_event {
 
 fn contains_packet(expectation: &NotificationExpectation, packetver: u32, packets: &Vec<u8>) -> bool {
     let packets = parse_packet(packets, packetver);
-    let contains_packet = packets.iter().find(|packet| expectation.packets.contains(&packet.id()));
-    return contains_packet.is_some()
+    for expectation_packet in expectation.packets.iter() {
+        let mut i = 0;
+        for packet in packets.iter() {
+            if expectation_packet.id() == packet.id() {
+                i += 1;
+                if let Some(count) = expectation_packet.count {
+                    if i == count {
+                        return true;
+                    }
+                } else {
+                    return true;
+                }
+            }
+        }
+    }
+    false
 }
 
 fn parse_packet(packets: &[u8], packetver: u32) -> Vec<Box<dyn Packet>> {
