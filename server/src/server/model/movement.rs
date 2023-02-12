@@ -9,6 +9,14 @@ pub struct Movement {
 }
 
 impl Movement {
+    /// Used in tests
+    pub fn new(x: u16, y: u16, move_at: u128) -> Self {
+        Self {
+            position: Position { x, y, dir: 0 },
+            is_diagonal: false,
+            move_at,
+        }
+    }
     pub fn move_at(&self) -> u128 {
         self.move_at
     }

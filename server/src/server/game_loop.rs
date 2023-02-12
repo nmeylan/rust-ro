@@ -47,7 +47,7 @@ impl Server {
                             let map_instance = server_ref.state().get_map_instance(&event.new_map_name, event.new_instance_id)
                                 .unwrap_or_else(|| ServerService::instance().create_map_instance(server_state_mut.as_mut(), GlobalConfigService::instance().get_map(&event.new_map_name), event.new_instance_id));
                             let character = server_state_mut.characters_mut().get_mut(&event.char_id).unwrap();
-                            CharacterService::instance().change_map(map_instance.state().borrow().as_ref(), &event, character);
+                            CharacterService::instance().change_map(map_instance.key(), event.new_position.unwrap(), character);
                             let char_map_item = character.to_map_item();
                             map_instance.add_to_next_tick(MapEvent::InsertCharToMap(char_map_item));
                             server_ref.add_to_next_tick(GameEvent::CharacterInitInventory(character.char_id));

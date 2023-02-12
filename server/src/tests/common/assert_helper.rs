@@ -137,7 +137,12 @@ pub fn has_sent_notification(notifications: &Vec<Notification>, expectation: Not
 }
 
 pub fn has_sent_persistence_event(persistence_events: &Vec<PersistenceEvent>, persistence_event: PersistenceEvent) -> bool {
-    persistence_events.iter().find(|sent_persistence_event| if matches!(&persistence_event, sent_persistence_event) { persistence_event == **sent_persistence_event } else { false }).is_some()
+    let res = persistence_events.iter().find(|sent_persistence_event| if matches!(&persistence_event, sent_persistence_event) { persistence_event == **sent_persistence_event } else { false }).is_some();
+    if !res {
+        println!("Can't find {:?} among events below", persistence_event);
+        persistence_events.iter().for_each(|e| println!("  {:?}", e));
+    }
+    res
 }
 
 #[macro_export]
