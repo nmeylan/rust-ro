@@ -85,7 +85,7 @@ pub enum JobName {
     SoulLinker,
 }
 
-#[derive(WithMaskValueU64)]
+#[derive(WithStringValue, WithMaskValueU64)]
 pub enum EquipClassFlag {
     #[mask_value = 1]
     Novice,
@@ -100,7 +100,8 @@ pub enum EquipClassFlag {
     Rogue,
     Archer,
     Hunter,
-    Barddancer,
+    Bard,
+    Dancer,
     Swordman,
     Crusader,
     Knight,
@@ -109,9 +110,9 @@ pub enum EquipClassFlag {
     Blacksmith,
     Gunslinger,
     Ninja,
-    Soullinker,
-    Stargladiator,
-    Supernovice,
+    SoulLinker,
+    StarGladiator,
+    SuperNovice,
     Taekwon,
     #[mask_all]
     All,

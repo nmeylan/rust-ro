@@ -51,6 +51,7 @@ mod tests {
     use packets::packets::PacketZcSpriteChange2;
     use packets::packets::PacketZcReqWearEquipAck2;
     use crate::enums::EnumWithNumberValue;
+    use crate::enums::EnumWithStringValue;
     use crate::server::model::events::game_event::CharacterZeny;
     use crate::repository::InventoryRepository;
     use crate::repository::model::item_model::InventoryItemModel;
@@ -253,6 +254,31 @@ mod tests {
         assert_eq!(character.inventory[inventory_index].as_ref().unwrap().equip, 0);
         assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![PacketZcReqWearEquipAck2::packet_id()]));
         assert_sent_persistence_event!(context, PersistenceEvent::UpdateEquippedItems(vec![character.inventory[inventory_index].as_ref().unwrap().clone()]));
+    }
+
+    #[test]
+    fn test_check_job_requirement() {
+        // Given
+        struct JobWeapon<'a> {job: &'a str, weapon: &'a str, expected_can_equip: bool}
+        let jobs_weapons = vec![
+            JobWeapon{ job: "Archer", weapon: "Bow", expected_can_equip: true},
+            JobWeapon{ job: "Archer", weapon: "Sword", expected_can_equip: false},
+            JobWeapon{ job: "Bard", weapon: "Whip", expected_can_equip: false},
+            JobWeapon{ job: "Bard", weapon: "Guitar", expected_can_equip: true},
+            JobWeapon{ job: "Dancer", weapon: "Whip", expected_can_equip: true},
+            JobWeapon{ job: "Dancer", weapon: "Guitar", expected_can_equip: false},
+        ];
+        let context = before_each_with_latch(mocked_repository(), 2);
+        let mut character = create_character();
+
+        for job_weapon in jobs_weapons {
+            let item = GlobalConfigService::instance().get_item_by_name(job_weapon.weapon);
+            character.status.job = JobName::from_string(job_weapon.job).value() as u32;
+            // When
+            let res = context.inventory_service.check_job_requirement(&character, item);
+            // Then
+            assert_eq!(res, job_weapon.expected_can_equip, "Expected {} to be {} by {} but was not", item.name_aegis, if job_weapon.expected_can_equip { "wearable"} else { "not wearable"}, job_weapon.job);
+        }
     }
 
     #[test]
