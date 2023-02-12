@@ -58,6 +58,7 @@ mod tests {
         let stats = vec![
             Stats { weapon: "", agi: 1, dex: 1, job: "Novice", expected_aspd: 150 },
             Stats { weapon: "Knife", agi: 1, dex: 1, job: "Novice", expected_aspd: 135 },
+            Stats { weapon: "Knife", agi: 15, dex: 15, job: "Novice", expected_aspd: 140 },
             Stats { weapon: "Knife", agi: 1, dex: 1, job: "Swordman", expected_aspd: 150 },
             Stats { weapon: "Sword", agi: 1, dex: 1, job: "Swordman", expected_aspd: 145 },
             Stats { weapon: "Bow", agi: 1, dex: 1, job: "Archer", expected_aspd: 130 },
@@ -89,7 +90,7 @@ mod tests {
         let aspd = context.status_service.aspd(&character);
         let client_side_aspd = context.status_service.client_aspd(aspd);
         // Then
-        assert_eq!(client_side_aspd, 498);
+        assert_eq!(client_side_aspd, 648);
     }
 
     #[test]
@@ -101,7 +102,7 @@ mod tests {
         // When
         let attack_motion = context.status_service.attack_motion(&character);
         // Then
-        assert_eq!(attack_motion, 996);
+        assert_eq!(attack_motion, 1296);
     }
 
     #[test]
