@@ -4,7 +4,7 @@ use crate::*;
 pub enum JobName {
     #[value = 0]
     Novice,
-    Swordman,
+    Swordsman,
     Mage,
     Archer,
     Acolyte,
@@ -33,8 +33,8 @@ pub enum JobName {
     #[value_string = "Novice High"]
     #[value = 4001]
     NoviceHigh,
-    #[value_string = "Swordman High"]
-    SwordmanHigh,
+    #[value_string = "Swordsman High"]
+    SwordsmanHigh,
     #[value_string = "Mage High"]
     MageHigh,
     #[value_string = "Archer High"]
@@ -102,7 +102,7 @@ pub enum EquipClassFlag {
     Hunter,
     Bard,
     Dancer,
-    Swordman,
+    Swordsman,
     Crusader,
     Knight,
     Merchant,

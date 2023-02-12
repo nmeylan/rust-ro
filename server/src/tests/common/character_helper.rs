@@ -101,3 +101,25 @@ pub fn add_item_in_inventory(character: &mut Character, aegis_name: &str) -> usi
     };
     character.add_in_inventory(inventory_item)
 }
+pub fn add_items_in_inventory(character: &mut Character, aegis_name: &str, amount : i16) -> usize {
+    let mut rng = rand::thread_rng();
+    let item = GlobalConfigService::instance().get_item_by_name(aegis_name);
+    let inventory_item = InventoryItemModel {
+        id: rng.next_u32() as i32,
+        unique_id: rng.next_u32() as i64,
+        item_id: item.id,
+        item_type: item.item_type,
+        amount,
+        refine: 0,
+        is_identified: false,
+        equip: 0,
+        is_damaged: false,
+        card0: 0,
+        card1: 0,
+        card2: 0,
+        card3: 0,
+        name_english: item.name_english.clone(),
+        weight: item.weight
+    };
+    character.add_in_inventory(inventory_item)
+}

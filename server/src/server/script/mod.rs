@@ -395,7 +395,7 @@ impl NativeMethodHandler for PlayerScriptHandler {
                     items_total_weight += weight * (items_ids_amount.iter().find(|(iid, _amount)| *iid == *id).unwrap_or(&(*id, 0_i16)).1 as i32)
                 });
                 let character_ref = self.server.state().get_character_unsafe(self.session.char_id());
-                execution_thread.push_constant_on_stack(value::Value::new_number(if CharacterService::instance().check_weight(character_ref, items_total_weight as u32) { 1 } else { 0 }));
+                execution_thread.push_constant_on_stack(value::Value::new_number(if CharacterService::instance().can_carry_weight(character_ref, items_total_weight as u32) { 1 } else { 0 }));
             });
         } else if native.name.eq("itemskill") {
             let skill_id = params[0].number_value().map_or(None, |id| Some(id as i32));

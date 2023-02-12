@@ -126,7 +126,7 @@ impl<'r> FromRow<'r, PgRow> for ItemModel {
         row.try_get::<'r, Option<i16>, _>("job_soullinker").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::SoulLinker) }).or_else(Self::map_error())?;
         row.try_get::<'r, Option<i16>, _>("job_stargladiator").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::StarGladiator) }).or_else(Self::map_error())?;
         row.try_get::<'r, Option<i16>, _>("job_supernovice").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::SuperNovice) }).or_else(Self::map_error())?;
-        row.try_get::<'r, Option<i16>, _>("job_swordman").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::Swordman) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<i16>, _>("job_swordman").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::Swordsman) }).or_else(Self::map_error())?;
         row.try_get::<'r, Option<i16>, _>("job_taekwon").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::Taekwon) }).or_else(Self::map_error())?;
         row.try_get::<'r, Option<i16>, _>("job_thief").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::Thief) }).or_else(Self::map_error())?;
         row.try_get::<'r, Option<i16>, _>("job_wizard").map(|v| if v.is_some() && v.unwrap() != 0 { job_flags.push(EquipClassFlag::Wizard) }).or_else(Self::map_error())?;

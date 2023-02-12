@@ -65,7 +65,7 @@ impl CharacterService {
         base_weight + (character.status.str * 300) as u32
     }
 
-    pub fn check_weight(&self, character: &Character, additional_weight: u32) -> bool {
+    pub fn can_carry_weight(&self, character: &Character, additional_weight: u32) -> bool {
         (self.max_weight(character) as f32 * 0.9) as u32 > (character.weight() + additional_weight)
     }
 
