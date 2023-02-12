@@ -323,10 +323,38 @@ mod tests {
     fn test_equip_item_should_unequip_already_equipped_at_same_slot() {
         // Given
         let context = before_each(mocked_repository());
+        let mut character = create_character();
+        character.status.job = JobName::Crusader.value() as u32;
+        character.status.base_level = 80;
+        let knife_index = add_item_in_inventory(&mut character, "Knife");
+        let sword_index = add_item_in_inventory(&mut character, "Sword");
+        let guard_index = add_item_in_inventory(&mut character, "Guard");
+        let two_h_sword_index = add_item_in_inventory(&mut character, "Two_Hand_Sword");
+        let char_id = character.char_id;
+        // When
+        context.inventory_service.equip_item(&mut character, CharacterEquipItem { char_id, index: knife_index });
+        // Then
+        assert_eq!(character.inventory_equipped().collect::<Vec<_>>().len(), 1);
+        assert!(character.inventory_equipped().find(|(_, item)| item.item_id as u32 == GlobalConfigService::instance().get_item_id_from_name("Knife")).is_some());
 
         // When
-
+        context.inventory_service.equip_item(&mut character, CharacterEquipItem { char_id, index: sword_index });
         // Then
+        assert_eq!(character.inventory_equipped().collect::<Vec<_>>().len(), 1);
+        assert!(character.inventory_equipped().find(|(_, item)| item.item_id as u32 == GlobalConfigService::instance().get_item_id_from_name("Sword")).is_some());
+
+        // When
+        context.inventory_service.equip_item(&mut character, CharacterEquipItem { char_id, index: guard_index });
+        // Then
+        assert_eq!(character.inventory_equipped().collect::<Vec<_>>().len(), 2);
+        assert!(character.inventory_equipped().find(|(_, item)| item.item_id as u32 == GlobalConfigService::instance().get_item_id_from_name("Guard")).is_some());
+        assert!(character.inventory_equipped().find(|(_, item)| item.item_id as u32 == GlobalConfigService::instance().get_item_id_from_name("Sword")).is_some());
+
+        // When
+        context.inventory_service.equip_item(&mut character, CharacterEquipItem { char_id, index: two_h_sword_index });
+        // Then
+        assert_eq!(character.inventory_equipped().collect::<Vec<_>>().len(), 1);
+        assert!(character.inventory_equipped().find(|(_, item)| item.item_id as u32 == GlobalConfigService::instance().get_item_id_from_name("Two_Hand_Sword")).is_some());
     }
 
     #[test]
