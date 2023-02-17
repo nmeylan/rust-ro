@@ -2,7 +2,9 @@ use std::ops::Deref;
 use std::sync::mpsc::SyncSender;
 use std::sync::{Arc, Once};
 use std::time::{SystemTime, UNIX_EPOCH};
-use packets::packets::{PacketZcItemDisappear, PacketZcItemFallEntry, PacketZcNotifyMove};
+use enums::vanish::VanishType;
+use crate::enums::EnumWithNumberValue;
+use packets::packets::{PacketZcItemDisappear, PacketZcItemFallEntry, PacketZcNotifyMove, PacketZcNotifyVanish};
 use crate::server::model::map::Map;
 
 use crate::server::model::map_item::{MapItem, MapItemSnapshot, ToMapItem};
@@ -11,8 +13,9 @@ use crate::server::model::events::client_notification::{AreaNotification, AreaNo
 use crate::server::{MOB_FOV, Server};
 use crate::server::game_loop::GAME_TICK_RATE;
 use crate::server::map_instance_loop::MAP_LOOP_TICK_RATE;
+use crate::server::model::action::Damage;
 use crate::server::model::events::game_event::{CharacterKillMonster, GameEvent};
-use crate::server::model::events::map_event::MobDropItems;
+use crate::server::model::events::map_event::{MapEvent, MobDropItems, MobLocation};
 use crate::server::model::item::DroppedItem;
 use crate::server::model::position::Position;
 use crate::server::model::tasks_queue::TasksQueue;
@@ -117,11 +120,56 @@ impl MapInstanceService {
         }
     }
 
+    pub fn mob_being_attacked(&self, map_instance_state: &mut MapInstanceState, damage: Damage, map_instance_tasks_queue: Arc<TasksQueue<MapEvent>>, tick: u128) {
+        let mobs = map_instance_state.mobs_mut();
+        if let Some(mut mob) = mobs.get_mut(&damage.target_id) {
+            mob.add_attack(damage.attacker_id, damage.damage);
+            mob.last_attacked_at = tick;
+            if mob.should_die() {
+                let delay = damage.attacked_at - tick;
+                let id = mob.id;
+                Self::add_to_delayed_tick(map_instance_tasks_queue, MapEvent::MobDeathClientNotification(MobLocation { mob_id: mob.id, x: mob.x, y: mob.y }), delay);
+                self.mob_die(map_instance_state, id, delay / 2);
+            }
+        }
+    }
+
     pub fn mob_die(&self, map_instance_state: &mut MapInstanceState, id: u32, delay: u128) {
         let mob = map_instance_state.remove_mob(id).unwrap();
         self.server_task_queue.add_to_index(GameEvent::CharacterKillMonster(CharacterKillMonster { char_id: mob.attacker_with_higher_damage(), mob_id: mob.mob_id, mob_x: mob.x, mob_y: mob.y, map_instance_key: map_instance_state.key().clone() }),
                                             delayed_tick(delay, GAME_TICK_RATE)
         );
+    }
+
+    pub fn mob_die_client_notification(&self, map_instance_state: &MapInstanceState, mob_location: MobLocation) {
+        let mut packet_zc_notify_vanish = PacketZcNotifyVanish::new();
+        packet_zc_notify_vanish.set_gid(mob_location.mob_id);
+        packet_zc_notify_vanish.set_atype(VanishType::Die.value() as u8);
+        packet_zc_notify_vanish.fill_raw();
+        self.client_notification_sender.send(Notification::Area(
+            AreaNotification::new(map_instance_state.key().map_name().clone(), map_instance_state.key().map_instance(),
+                                  AreaNotificationRangeType::Fov { x: mob_location.x, y: mob_location.y, exclude_id: None },
+                                  packet_zc_notify_vanish.raw))).expect("Fail to send client notification");    }
+
+    pub fn mob_drop_items_and_send_packet(&self, map_instance_state: &mut MapInstanceState, mob_drop_items: MobDropItems) {
+        let item_to_drop = self.mob_drop_items(map_instance_state, mob_drop_items);
+        let mut packets = vec![];
+        for item in item_to_drop.iter() {
+            let mut packet_zc_item_fall_entry = PacketZcItemFallEntry::default();
+            packet_zc_item_fall_entry.set_itid(item.item_id as u16);
+            packet_zc_item_fall_entry.set_itaid(item.map_item_id as u32);
+            packet_zc_item_fall_entry.set_x_pos(item.location.x as i16);
+            packet_zc_item_fall_entry.set_y_pos(item.location.y as i16);
+            packet_zc_item_fall_entry.set_sub_x(item.sub_location.x as u8);
+            packet_zc_item_fall_entry.set_sub_y(item.sub_location.y as u8);
+            packet_zc_item_fall_entry.set_count(item.amount as i16);
+            packet_zc_item_fall_entry.fill_raw();
+            packets.extend(packet_zc_item_fall_entry.raw);
+        }
+        self.client_notification_sender.send(Notification::Area(
+            AreaNotification::new(map_instance_state.key().map_name().clone(), map_instance_state.key().map_instance(),
+                                  AreaNotificationRangeType::Fov { x: mob_drop_items.mob_x, y: mob_drop_items.mob_y, exclude_id: None },
+                                  packets))).expect("Fail to send client notification");
     }
 
     pub fn mob_drop_items(&self, map_instance_state: &mut MapInstanceState, mob_drop_items: MobDropItems) -> Vec<DroppedItem> {
@@ -164,5 +212,9 @@ impl MapInstanceService {
                                       packet_zc_item_disappear.raw))).expect("Fail to send client notification");
         }
         self.server_task_queue.add_to_first_index(GameEvent::MapNotifyItemRemoved(dropped_item_id));
+    }
+
+    fn add_to_delayed_tick(map_instance_tasks_queue: Arc<TasksQueue<MapEvent>>, event: MapEvent, delay: u128) {
+        map_instance_tasks_queue.add_to_index(event, delayed_tick(delay, MAP_LOOP_TICK_RATE));
     }
 }

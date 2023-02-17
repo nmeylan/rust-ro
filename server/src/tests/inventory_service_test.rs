@@ -267,6 +267,7 @@ mod tests {
             JobWeapon{ job: "Archer", weapon: "Sword", expected_can_equip: false},
             JobWeapon{ job: "Bard", weapon: "Whip", expected_can_equip: false},
             JobWeapon{ job: "Bard", weapon: "Guitar", expected_can_equip: true},
+            JobWeapon{ job: "Clown", weapon: "Guitar", expected_can_equip: true},
             JobWeapon{ job: "Dancer", weapon: "Whip", expected_can_equip: true},
             JobWeapon{ job: "Dancer", weapon: "Guitar", expected_can_equip: false},
         ];

@@ -296,8 +296,8 @@ impl InventoryService{
         character.status.base_level >= (equip_item.equip_level_min.unwrap_or(0) as u32)
     }
     pub fn check_job_requirement(&self, character: &Character, equip_item: &ItemModel) -> bool {
-        let equip_class_flag = EquipClassFlag::from_string(JobName::from_value(character.status.job as usize).as_str()).as_flag();
-        equip_item.job_flags & equip_class_flag == equip_class_flag
+        let equip_class_flag = EquipClassFlag::flag_from_job_name(JobName::from_value(character.status.job as usize));
+        equip_item.job_flags & equip_class_flag != 0
     }
 
     pub fn takeoff_equip_item(&self, character: &mut Character, index: usize) {
