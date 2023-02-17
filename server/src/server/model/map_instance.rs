@@ -110,6 +110,10 @@ impl MapInstance {
         self.add_to_tick(event, delayed_tick(delay, MAP_LOOP_TICK_RATE));
     }
 
+    pub fn task_queue(&self) -> Arc<TasksQueue<MapEvent>> {
+        self.tasks_queue.clone()
+    }
+
     pub fn id(&self) -> u8{
         self.key().instance_id
     }

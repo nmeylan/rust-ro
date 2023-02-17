@@ -50,27 +50,11 @@ impl MapInstanceLoop {
                                 }
                                 MapEvent::MobDamage(damage) => {
                                     let mut map_instance_state = map_instance.state_mut();
-                                    let mobs = map_instance_state.mobs_mut();
-                                    if let Some(mut mob) = mobs.get_mut(&damage.target_id) {
-                                        mob.add_attack(damage.attacker_id, damage.damage);
-                                        mob.last_attacked_at = tick;
-                                        if mob.should_die() {
-                                            let delay = damage.attacked_at - tick;
-                                            let id = mob.id;
-                                            map_instance.add_to_delayed_tick(MapEvent::MobDeathClientNotification(MobLocation { mob_id: mob.id, x: mob.x, y: mob.y }), delay);
-                                            MapInstanceService::instance().mob_die(map_instance_state.as_mut(), id, delay / 2);
-                                        }
-                                    }
+                                    MapInstanceService::instance().mob_being_attacked(map_instance_state.as_mut(), damage, map_instance.task_queue(), tick);
                                 }
                                 MapEvent::MobDeathClientNotification(mob_location) => {
-                                    let mut packet_zc_notify_vanish = PacketZcNotifyVanish::new();
-                                    packet_zc_notify_vanish.set_gid(mob_location.mob_id);
-                                    packet_zc_notify_vanish.set_atype(VanishType::Die.value() as u8);
-                                    packet_zc_notify_vanish.fill_raw();
-                                    map_instance.client_notification_channel().send(Notification::Area(
-                                        AreaNotification::new(map_instance.name_with_ext().to_string(), map_instance.id(),
-                                                              AreaNotificationRangeType::Fov { x: mob_location.x, y: mob_location.y, exclude_id: None },
-                                                              packet_zc_notify_vanish.raw))).expect("Fail to send client notification");
+                                    let mut map_instance_state = map_instance.state();
+                                    MapInstanceService::instance().mob_die_client_notification(map_instance_state.as_ref(), mob_location);
                                 }
                                 MapEvent::RemoveCharFromMap(char_id) => {
                                     map_instance.state_mut().remove_item_with_id(char_id);
@@ -79,24 +63,7 @@ impl MapInstanceLoop {
                                     map_instance.state_mut().insert_item(map_item);
                                 }
                                 MapEvent::MobDropItems(mob_drop_items) => {
-                                    let item_to_drop = MapInstanceService::instance().mob_drop_items(map_instance.state_mut().as_mut(), mob_drop_items);
-                                    let mut packets = vec![];
-                                    for item in item_to_drop.iter() {
-                                        let mut packet_zc_item_fall_entry = PacketZcItemFallEntry::default();
-                                        packet_zc_item_fall_entry.set_itid(item.item_id as u16);
-                                        packet_zc_item_fall_entry.set_itaid(item.map_item_id as u32);
-                                        packet_zc_item_fall_entry.set_x_pos(item.location.x as i16);
-                                        packet_zc_item_fall_entry.set_y_pos(item.location.y as i16);
-                                        packet_zc_item_fall_entry.set_sub_x(item.sub_location.x as u8);
-                                        packet_zc_item_fall_entry.set_sub_y(item.sub_location.y as u8);
-                                        packet_zc_item_fall_entry.set_count(item.amount as i16);
-                                        packet_zc_item_fall_entry.fill_raw();
-                                        packets.extend(packet_zc_item_fall_entry.raw);
-                                    }
-                                    map_instance.client_notification_channel().send(Notification::Area(
-                                        AreaNotification::new(map_instance.state().key().map_name().clone(), map_instance.state().key().map_instance(),
-                                                              AreaNotificationRangeType::Fov { x: mob_drop_items.mob_x, y: mob_drop_items.mob_y, exclude_id: None },
-                                                              packets))).expect("Fail to send client notification");
+                                    MapInstanceService::instance().mob_drop_items_and_send_packet(map_instance.state_mut().as_mut(), mob_drop_items);
                                 }
                                 MapEvent::RemoveDroppedItemFromMap(dropped_item_id) => {
                                     MapInstanceService::instance().remove_dropped_item_from_map(map_instance.state_mut().as_mut(), dropped_item_id);
