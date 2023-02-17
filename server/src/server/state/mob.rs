@@ -10,7 +10,7 @@ use crate::server::model::position::Position;
 use crate::server::state::status::Status;
 
 
-#[derive(Setters)]
+#[derive(Setters, Clone)]
 pub struct Mob {
     pub id: u32,
     pub name: String,
@@ -101,6 +101,10 @@ impl Mob {
 
     pub fn should_die(&self) -> bool {
         self.status.hp == 0
+    }
+
+    pub fn hp(&self) -> u32 {
+        self.status.hp
     }
 
     pub fn attacker_with_higher_damage(&self) -> u32 {
