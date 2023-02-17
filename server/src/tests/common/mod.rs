@@ -111,7 +111,11 @@ pub fn before_all() {
         let (client_notification_sender, client_notification_receiver) = create_mpsc::<Notification>();
         let (persistence_event_sender, persistence_event_receiver) = create_mpsc::<PersistenceEvent>();
         unsafe {
-            let config: Config = serde_json::from_str(&fs::read_to_string("../config.template.json").unwrap()).unwrap();
+            let mut config: Config = serde_json::from_str(&fs::read_to_string("../config.template.json").unwrap()).unwrap();
+            let file_path = "../config/status_point_reward.json";
+            Config::set_config_status_point_rewards(&mut config, file_path).unwrap();
+            let file_path = "../config/status_point_raising_cost.json";
+            Config::set_config_status_point_raising_cost(&mut config, file_path).unwrap();
             CONFIGS = Some(config);
         }
         let skills_config = Config::load_skills_config("..").unwrap();
