@@ -90,6 +90,43 @@ mod tests {
     }
 
     #[test]
+    fn character_pickup_item_should_add_item_to_character_inventory_and_identify_all_item_but_equipement() {
+        // Given
+        let context = before_each();
+        let runtime = Runtime::new().unwrap();
+        let mut server_state = create_empty_server_state();
+        let mut character_state = create_character();
+        let map_instance = create_empty_map_instance(context.client_notification_sender.clone(),Arc::new(TasksQueue::new()));
+        let red_potion_map_item_id = 1000;
+        let clover_map_item_id = 1001;
+        let knife_map_item_id = 1002;
+        let red_potion = DroppedItem { map_item_id: red_potion_map_item_id, item_id: GlobalConfigService::instance().get_item_id_from_name("Red_Potion") as i32, location: Position { x: 50, y: 50, dir: 0 }, sub_location: Position { x: 3, y: 3, dir: 0 }, owner_id: None, dropped_at: 0, amount: 2, };
+        let clover = DroppedItem { map_item_id: clover_map_item_id, item_id: GlobalConfigService::instance().get_item_id_from_name("Clover") as i32, location: Position { x: 50, y: 50, dir: 0 }, sub_location: Position { x: 3, y: 3, dir: 0 }, owner_id: None, dropped_at: 0, amount: 2, };
+        let knife = DroppedItem { map_item_id: knife_map_item_id, item_id: GlobalConfigService::instance().get_item_id_from_name("Knife") as i32, location: Position { x: 50, y: 50, dir: 0 }, sub_location: Position { x: 3, y: 3, dir: 0 }, owner_id: None, dropped_at: 0, amount: 1, };
+        // Add dropped item in character fov
+        character_state.map_view.insert(red_potion.to_map_item());
+        map_instance.state_mut().insert_dropped_item(red_potion);
+        character_state.map_view.insert(clover.to_map_item());
+        map_instance.state_mut().insert_dropped_item(clover);
+        character_state.map_view.insert(knife.to_map_item());
+        map_instance.state_mut().insert_dropped_item(knife);
+        // When
+        context.server_service.character_pickup_item(&mut server_state, &mut character_state, red_potion_map_item_id, &map_instance, &runtime);
+        context.server_service.character_pickup_item(&mut server_state, &mut character_state, clover_map_item_id, &map_instance, &runtime);
+        context.server_service.character_pickup_item(&mut server_state, &mut character_state, knife_map_item_id, &map_instance, &runtime);
+        // Then
+        let item_from_inventory = character_state.get_item_from_inventory(0).unwrap();
+        assert_eq!(item_from_inventory.item_id, GlobalConfigService::instance().get_item_id_from_name("Red_Potion") as i32);
+        assert_eq!(item_from_inventory.is_identified, true);
+        let item_from_inventory = character_state.get_item_from_inventory(1).unwrap();
+        assert_eq!(item_from_inventory.item_id, GlobalConfigService::instance().get_item_id_from_name("Clover") as i32);
+        assert_eq!(item_from_inventory.is_identified, true);
+        let item_from_inventory = character_state.get_item_from_inventory(2).unwrap();
+        assert_eq!(item_from_inventory.item_id, GlobalConfigService::instance().get_item_id_from_name("Knife") as i32);
+        assert_eq!(item_from_inventory.is_identified, false);
+    }
+
+    #[test]
     fn character_pickup_item_should_prevent_pickup_when_item_not_in_fov() {
         // Given
         let context = before_each();
