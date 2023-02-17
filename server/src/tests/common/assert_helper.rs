@@ -45,6 +45,7 @@ macro_rules! assert_task_queue_contains_event_at_tick {
     }
 }
 
+#[derive(Debug)]
 pub struct NotificationExpectation<'a> {
     kind: NotificationExpectationKind,
     packets: Vec<SentPacket<'a>>,
@@ -54,6 +55,7 @@ pub struct NotificationExpectation<'a> {
     y: Option<u16>,
 }
 
+#[derive(Debug)]
 pub struct SentPacket<'a> {
     id: &'a str,
     count: Option<usize>,
@@ -77,6 +79,7 @@ impl<'a> SentPacket<'a> {
     }
 }
 
+#[derive(Debug)]
 pub enum NotificationExpectationKind {
     Char,
     AreaFov,
@@ -96,7 +99,7 @@ impl<'a> NotificationExpectation<'a> {
 }
 
 pub fn has_sent_notification(notifications: &Vec<Notification>, expectation: NotificationExpectation, packetver: u32) -> bool {
-    notifications.iter().find(|sent_notification| {
+    let res = notifications.iter().find(|sent_notification| {
         match expectation.kind {
             NotificationExpectationKind::Char => {
                 if let Notification::Char(sent_char_notification) = sent_notification {
@@ -133,7 +136,12 @@ pub fn has_sent_notification(notifications: &Vec<Notification>, expectation: Not
                 false
             }
         }
-    }).is_some()
+    }).is_some();
+    if !res {
+        println!("Can't find {:?} among events below", expectation);
+        notifications.iter().for_each(|e| println!("  {:?}", e));
+    }
+    res
 }
 
 pub fn has_sent_persistence_event(persistence_events: &Vec<PersistenceEvent>, persistence_event: PersistenceEvent) -> bool {
