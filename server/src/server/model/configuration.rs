@@ -34,28 +34,36 @@ pub struct ServerConfig {
     pub packetver: u32,
 }
 
-#[derive(Deserialize, Debug, Setters, Clone)]
+#[derive(Deserialize, Debug, SettersAll, Clone)]
 pub struct GameConfig {
-    #[set]
     pub default_char_speed: u16,
-    #[set]
     pub max_inventory: u16,
-    #[set]
     pub max_base_level: u32,
-    #[set]
     pub max_job_level: u32,
-    #[set]
     pub mob_density: f32,
-    #[set]
     pub drop_rate: f32,
-    #[set]
     pub drop_rate_mvp: f32,
-    #[set]
     pub drop_rate_card: f32,
-    #[set]
     pub mob_dropped_item_locked_to_owner_duration_in_secs: u16,
-    #[set]
     pub player_dropped_item_locked_to_owner_duration_in_secs: u16,
+    #[serde(skip)]
+    pub status_point_rewards: Vec<StatusPointReward>,
+    #[serde(skip)]
+    pub status_point_raising_cost: Vec<StatusPointRaisingCost>,
+}
+
+#[derive(Deserialize, Debug, SettersAll, Clone)]
+pub struct StatusPointReward {
+    pub level_min: u16,
+    pub level_max: u16,
+    pub reward: u16,
+}
+
+#[derive(Deserialize, Debug, SettersAll, Clone)]
+pub struct StatusPointRaisingCost {
+    pub level_min: u16,
+    pub level_max: u16,
+    pub raising_cost: u16,
 }
 
 #[derive(Deserialize, Debug, Setters, Clone)]
@@ -377,7 +385,30 @@ impl Config {
         if config.server.log_exclude_pattern.is_none() {
             config.server.set_log_exclude_pattern(Some("none".to_string()));
         }
+        let file_path = "./config/status_point_reward.json";
+        Self::set_config_status_point_rewards(&mut config, file_path).unwrap();
+        let file_path = "./config/status_point_raising_cost.json";
+        Self::set_config_status_point_raising_cost(&mut config, file_path).unwrap();
+
+
         Ok(config)
+    }
+
+    pub fn set_config_status_point_rewards(config: &mut Config, file_path: &str) -> Result<(), String> {
+        let path = Path::new(file_path);
+        if !path.exists() {
+            return Err(format!("{} file does not exists at {}", file_path, env::current_dir().unwrap().join(path).to_str().unwrap()));
+        }
+        config.game.status_point_rewards = serde_json::from_str(&fs::read_to_string(path).unwrap()).unwrap();
+        Ok(())
+    }
+    pub fn set_config_status_point_raising_cost(config: &mut Config, file_path: &str) -> Result<(), String> {
+        let path = Path::new(file_path);
+        if !path.exists() {
+            return Err(format!("{} file does not exists at {}", file_path, env::current_dir().unwrap().join(path).to_str().unwrap()));
+        }
+        config.game.status_point_raising_cost = serde_json::from_str(&fs::read_to_string(path).unwrap()).unwrap();
+        Ok(())
     }
 
     pub fn load_jobs_config(root: &str) -> Result<Vec<JobConfig>, String> {

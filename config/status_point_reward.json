@@ -1,0 +1,23 @@
+[
+  {"level_min": 1,  "level_max": 4,  "reward": 3},
+  {"level_min": 5,  "level_max": 9,  "reward": 4},
+  {"level_min": 10, "level_max": 14, "reward": 5},
+  {"level_min": 15, "level_max": 19, "reward": 6},
+  {"level_min": 20, "level_max": 24, "reward": 7},
+  {"level_min": 25, "level_max": 29, "reward": 8},
+  {"level_min": 30, "level_max": 34, "reward": 9},
+  {"level_min": 35, "level_max": 39, "reward": 10},
+  {"level_min": 40, "level_max": 44, "reward": 11},
+  {"level_min": 45, "level_max": 49, "reward": 12},
+  {"level_min": 50, "level_max": 54, "reward": 13},
+  {"level_min": 55, "level_max": 59, "reward": 14},
+  {"level_min": 60, "level_max": 64, "reward": 15},
+  {"level_min": 65, "level_max": 69, "reward": 16},
+  {"level_min": 70, "level_max": 74, "reward": 17},
+  {"level_min": 75, "level_max": 79, "reward": 18},
+  {"level_min": 80, "level_max": 84, "reward": 19},
+  {"level_min": 85, "level_max": 89, "reward": 20},
+  {"level_min": 90, "level_max": 94, "reward": 21},
+  {"level_min": 95, "level_max": 98, "reward": 22},
+  {"level_min": 99, "level_max": 999, "reward": 25}
+]

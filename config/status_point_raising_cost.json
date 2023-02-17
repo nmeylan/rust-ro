@@ -1,0 +1,13 @@
+[
+  {"level_min": 1,  "level_max": 11, "raising_cost": 2},
+  {"level_min": 12, "level_max": 21, "raising_cost": 3},
+  {"level_min": 22, "level_max": 31, "raising_cost": 4},
+  {"level_min": 32, "level_max": 41, "raising_cost": 5},
+  {"level_min": 42, "level_max": 51, "raising_cost": 6},
+  {"level_min": 52, "level_max": 61, "raising_cost": 7},
+  {"level_min": 62, "level_max": 71, "raising_cost": 8},
+  {"level_min": 72, "level_max": 81, "raising_cost": 9},
+  {"level_min": 82, "level_max": 91, "raising_cost": 10},
+  {"level_min": 92, "level_max": 99, "raising_cost": 11},
+  {"level_min": 99, "level_max": 999, "raising_cost": 12}
+]

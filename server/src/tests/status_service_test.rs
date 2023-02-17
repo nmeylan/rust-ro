@@ -147,4 +147,59 @@ mod tests {
             assert_eq!(format!("{:.2}", attack_motion), expectation, "Expected attack motion to be {} with aspd {} but was {}", expectation, aspd, attack_motion);
         }
     }
+
+    #[test]
+    fn test_get_status_point_count_for_level() {
+        // Given
+        struct Scenarii<'a> {level: u16, job: &'a str, expected: u32 };
+        let scenario = vec![
+            Scenarii { level: 1, job: "Novice", expected: 48,},
+            Scenarii { level: 63, job: "Thief", expected: 600,},
+            Scenarii { level: 99, job: "Assassin", expected: 1273,},
+            Scenarii { level: 1, job: "Novice High", expected: 100,},
+            Scenarii { level: 63, job: "Archer High", expected: 652,},
+            Scenarii { level: 99, job: "Clown", expected: 1325,},
+        ];
+        let context = before_each();
+        for scenarii in scenario {
+            let mut character = create_character();
+            character.status.job = JobName::from_string(scenarii.job).value() as u32;
+            character.status.base_level = scenarii.level as u32;
+            // When
+            let status_point_count = context.status_service.get_status_point_count_for_level(&character);
+            // Then
+            assert_eq!(status_point_count, scenarii.expected, "Expected character of class {} at level {} to have {} status point but got {}", scenarii.job, scenarii.level, scenarii.expected, status_point_count);
+        }
+    }
+
+    #[test]
+    fn test_get_status_point_allocated() {
+        // Given
+        let context = before_each();
+        struct Scenarii<'a> {level: u16, job: &'a str, str: u16, agi: u16, dex: u16, int: u16, luk: u16, vit: u16 , expected: u32 };
+        let scenario = vec![
+            Scenarii { level: 1, job: "Novice", str: 19, agi: 3, dex: 0, int: 0, luk: 0, vit: 0, expected: 48,},
+            Scenarii { level: 63, job: "Thief", str: 31, agi: 77, dex: 33, int: 0, luk: 0, vit: 0, expected: 594,},
+            Scenarii { level: 99, job: "Assassin", str: 85, agi: 99, dex: 44, int: 0, luk: 0, vit: 0, expected: 1266,},
+            Scenarii { level: 1, job: "Novice High", str: 33, agi: 0, dex: 0, int: 0, luk: 0, vit: 0, expected: 100,},
+            Scenarii { level: 63, job: "Archer High", str: 0, agi: 48, dex: 33, int: 0, luk: 0, vit: 54, expected: 503,},
+            Scenarii { level: 99, job: "Clown", str: 0, agi: 0, dex: 99, int: 75, luk: 66, vit: 0, expected: 1324,},
+        ];
+        for scenarii in scenario {
+            let mut character = create_character();
+            character.status.job = JobName::from_string(scenarii.job).value() as u32;
+            character.status.base_level = scenarii.level as u32;
+            character.status.str = scenarii.str;
+            character.status.agi = scenarii.agi;
+            character.status.dex = scenarii.dex;
+            character.status.int = scenarii.int;
+            character.status.luk = scenarii.luk;
+            character.status.vit = scenarii.vit;
+            // When
+            let status_point_count = context.status_service.get_spent_status_point(&character);
+            // Then
+            assert_eq!(status_point_count, scenarii.expected, "Expected character of class {} at level {} to have {} status point but got {}", scenarii.job, scenarii.level, scenarii.expected, status_point_count);
+        }
+
+    }
 }

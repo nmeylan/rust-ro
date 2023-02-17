@@ -85,6 +85,28 @@ pub enum JobName {
     SoulLinker,
 }
 
+impl JobName {
+    pub fn is_rebirth(&self) -> bool {
+        match self {
+            JobName::Novice | JobName::Swordsman | JobName::Mage | JobName::Archer | JobName::Acolyte
+            | JobName::Merchant | JobName::Thief | JobName::Knight | JobName::Priest | JobName::Wizard
+            | JobName::Blacksmith | JobName::Hunter | JobName::Assassin | JobName::Crusader | JobName::Monk
+            | JobName::Sage | JobName::Rogue | JobName::Alchemist | JobName::Bard | JobName::Dancer
+            | JobName::Wedding | JobName::SuperNovice | JobName::Gunslinger | JobName::Ninja | JobName::Xmas
+            | JobName::Summer | JobName::BabyNovice | JobName::BabySwordman | JobName::BabyMage
+            | JobName::BabyArcher | JobName::BabyAcolyte | JobName::BabyMerchant | JobName::BabyThief
+            | JobName::BabyKnight | JobName::BabyPriest | JobName::BabyWizard | JobName::BabyBlacksmith
+            | JobName::BabyHunter | JobName::BabyAssassin | JobName::BabyCrusader | JobName::BabyMonk
+            | JobName::BabySage | JobName::BabyRogue | JobName::BabyAlchemist | JobName::SuperBaby
+            | JobName::Taekwon | JobName::StarGladiator | JobName::SoulLinker => false,
+            JobName::NoviceHigh | JobName::SwordsmanHigh | JobName::MageHigh | JobName::ArcherHigh
+            | JobName::AcolyteHigh | JobName::MerchantHigh | JobName::ThiefHigh | JobName::LordKnight | JobName::HighPriest
+            | JobName::HighWizard | JobName::Whitesmith | JobName::Sniper | JobName::AssassinCross | JobName::Paladin
+            | JobName::Champion | JobName::Professor | JobName::Stalker | JobName::Creator | JobName::Clown | JobName::Gypsy => true
+        }
+    }
+}
+
 #[derive(WithStringValue, WithMaskValueU64)]
 pub enum EquipClassFlag {
     #[mask_value = 1]
@@ -169,7 +191,7 @@ impl EquipClassFlag {
             JobName::Clown => EquipClassFlag::Bard.as_flag() | EquipClassFlag::Archer.as_flag(),
             JobName::Gypsy => EquipClassFlag::Dancer.as_flag() | EquipClassFlag::Archer.as_flag(),
             JobName::Paladin => EquipClassFlag::Crusader.as_flag() | EquipClassFlag::Swordsman.as_flag(),
-            JobName::LordKnight =>  EquipClassFlag::Knight.as_flag() | EquipClassFlag::Swordsman.as_flag(),
+            JobName::LordKnight => EquipClassFlag::Knight.as_flag() | EquipClassFlag::Swordsman.as_flag(),
             JobName::BabyNovice => EquipClassFlag::Novice.as_flag(),
             JobName::BabySwordman => EquipClassFlag::Swordsman.as_flag(),
             JobName::BabyMage => EquipClassFlag::Mage.as_flag(),
