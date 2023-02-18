@@ -20,7 +20,7 @@ use crate::server::Server;
 use crate::server::service::server_service::ServerService;
 
 use crate::server::state::character::Character;
-use crate::server::state::status::Status;
+use crate::server::model::status::Status;
 use crate::util::packet::chain_packets;
 use crate::util::string::StringUtil;
 use crate::util::tick::get_tick_client;
