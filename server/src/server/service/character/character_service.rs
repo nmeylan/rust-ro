@@ -226,6 +226,51 @@ impl CharacterService {
         self.change_sprite(character, LookType::Job, character.status.job as u16, 0);
     }
 
+    pub fn get_status_point_count_for_level(&self, character: &Character) -> u32 {
+        let mut status_point_count: u32 = if JobName::from_value(character.status.job as usize).is_rebirth() {
+            100
+        } else {
+            48
+        };
+        for i in 1..character.status.base_level {
+            status_point_count += self.configuration_service.config().game.status_point_rewards.iter().find(|status_point_reward| status_point_reward.level_min as u32 <= i && i <= status_point_reward.level_max as u32)
+                .map(|status_point_reward| {
+                    debug!("{} in range {}..{} give reward {}", i, status_point_reward.level_min, status_point_reward.level_max, status_point_reward.reward);
+                    status_point_reward.reward as u32
+                }).unwrap_or_else(|| {
+                warn!("No status point reward defined for level {}", i);
+                0
+            });
+        }
+        status_point_count
+    }
+
+    pub fn get_spent_status_point(&self, character: &Character) -> u32{
+        let mut status_point_count: u32 = 0;
+        status_point_count += self.stat_raising_cost(character.status.str, "str");
+        status_point_count += self.stat_raising_cost(character.status.dex, "dex");
+        status_point_count += self.stat_raising_cost(character.status.agi, "agi");
+        status_point_count += self.stat_raising_cost(character.status.int, "int");
+        status_point_count += self.stat_raising_cost(character.status.vit, "vit");
+        status_point_count += self.stat_raising_cost(character.status.luk, "luk");
+        status_point_count
+    }
+
+    pub fn stat_raising_cost(&self, stat: u16, stat_name: &str)  -> u32{
+        let mut status_point_count: u32 = 0;
+        for i in 2..=stat {
+            status_point_count += self.configuration_service.config().game.status_point_raising_cost.iter().find(|status_point_raising_cost| status_point_raising_cost.level_min <= i && i <= status_point_raising_cost.level_max)
+                .map(|status_point_raising_cost| {
+                    debug!("{} in range {}..{} cost {}", i, status_point_raising_cost.level_min, status_point_raising_cost.level_max, status_point_raising_cost.raising_cost);
+                    status_point_raising_cost.raising_cost as u32
+                }).unwrap_or_else(|| {
+                warn!("No status point cost defined for {} level {}", i, stat_name);
+                0
+            });
+        }
+        status_point_count
+    }
+
     pub fn load_units_in_fov(&self, server_state: &ServerState, character: &mut Character, map_instance_state: &MapInstanceState) {
         let mut new_map_view: HashSet<MapItem> = HashSet::with_capacity(2048);
         for (_, item) in map_instance_state.map_items().iter() {
