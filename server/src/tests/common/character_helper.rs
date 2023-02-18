@@ -35,7 +35,8 @@ pub fn create_character() -> Character {
             look: Some(Look::default()),
             zeny: 0,
             base_level: 1,
-            job_level: 1
+            job_level: 1,
+            status_point: 48
         },
         char_id: 150000,
         account_id: 2000000,
