@@ -15,6 +15,7 @@ pub mod warp;
 pub mod script;
 pub mod mob_spawn;
 pub mod item;
+pub mod status;
 
 
 pub trait Npc {

@@ -23,7 +23,7 @@ use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::service::mob_service::MobService;
 use crate::server::state::map_instance::MapInstanceState;
 use crate::server::state::mob::{Mob, MobMovement};
-use crate::server::state::status::Status;
+use crate::server::model::status::Status;
 use crate::util::tick::{delayed_tick, get_tick, get_tick_client};
 
 static mut SERVICE_INSTANCE: Option<MapInstanceService> = None;

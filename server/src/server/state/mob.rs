@@ -7,7 +7,7 @@ use crate::server::model::movement::{Movable, Movement};
 
 use crate::server::model::position::Position;
 
-use crate::server::state::status::Status;
+use crate::server::model::status::Status;
 
 
 #[derive(Setters, Clone)]

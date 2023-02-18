@@ -13,7 +13,7 @@ use crate::server::model::action::Attack;
 use crate::server::model::movement::{Movable, Movement};
 use crate::server::model::map_instance::{MapInstanceKey};
 use crate::server::model::position::Position;
-use crate::server::state::status::{Status};
+use crate::server::model::status::{Status};
 use crate::server::model::map_item::{MapItem, MapItemSnapshot, MapItemType, ToMapItem, ToMapItemSnapshot};
 use crate::server::script::ScriptGlobalVariableStore;
 

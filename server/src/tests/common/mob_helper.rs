@@ -1,6 +1,6 @@
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::state::mob::Mob;
-use crate::server::state::status::Status;
+use crate::server::model::status::Status;
 
 pub fn create_mob(map_item_id: u32, mob_name: &str) -> Mob {
     let mob = GlobalConfigService::instance().get_mob_by_name(mob_name);
