@@ -29,6 +29,7 @@ pub struct Status {
     pub zeny: u32,
     pub base_level: u32,
     pub job_level: u32,
+    pub status_point: u32,
 }
 
 impl Clone for Status {
@@ -58,6 +59,7 @@ impl Clone for Status {
             zeny: self.zeny,
             base_level: self.base_level,
             job_level: self.job_level,
+            status_point: self.status_point
         }
     }
 }
@@ -149,6 +151,7 @@ impl Status {
             zeny: char_model.zeny as u32,
             base_level: char_model.base_level as u32,
             job_level: char_model.job_level as u32,
+            status_point: char_model.status_point as u32,
         }
     }
     pub fn from_mob_model(mob_model: &MobModel) -> Status {
@@ -177,6 +180,7 @@ impl Status {
             zeny: 0,
             base_level: 0,
             job_level: 0,
+            status_point: 0,
         }
     }
 }

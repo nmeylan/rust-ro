@@ -150,7 +150,7 @@ mod tests {
         // When
         context.character_service.change_map(&map_instance_key, Position { x: 120, y: 120, dir: 0 }, &mut character);
         // Then
-        context.test_context.increment_latch().wait_expected_count_with_timeout(2, Duration::from_micros(200));
+        context.test_context.increment_latch().wait_expected_count_with_timeout(2, Duration::from_millis(200));
         assert_sent_persistence_event!(context, PersistenceEvent::SaveCharacterPosition(SavePositionUpdate { char_id: character.char_id, account_id: character.account_id, map_name: "geffen.gat".to_string(), x: 120, y: 120 }));
     }
 
@@ -178,7 +178,7 @@ mod tests {
         // When
         context.character_service.change_look(character_look, &mut character);
         // Then
-        context.test_context.increment_latch().wait_expected_count_with_timeout(2, Duration::from_micros(200));
+        context.test_context.increment_latch().wait_expected_count_with_timeout(2, Duration::from_millis(200));
         assert_eq!(10, character.get_look(LookType::Hair));
         assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "hair".to_string(), value: 10, }));
     }
@@ -192,7 +192,7 @@ mod tests {
         // When
         context.character_service.change_look(character_look, &mut character);
         // Then
-        context.test_context.increment_latch().wait_expected_count_with_timeout(2, Duration::from_micros(200));
+        context.test_context.increment_latch().wait_expected_count_with_timeout(2, Duration::from_millis(200));
         assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_fov(character.x, character.y, vec![SentPacket::with_id(PacketZcSpriteChange2::packet_id())]));
     }
 
@@ -204,7 +204,7 @@ mod tests {
         // When
         context.character_service.change_sprite(&character, LookType::Hair, 10, 0);
         // Then
-        context.test_context.increment_latch().wait_expected_count_with_timeout(1, Duration::from_micros(200));
+        context.test_context.increment_latch().wait_expected_count_with_timeout(1, Duration::from_millis(200));
         assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_fov(character.x, character.y, vec![SentPacket::with_id(PacketZcSpriteChange2::packet_id())]));
     }
 
@@ -218,7 +218,7 @@ mod tests {
         // When
         context.character_service.update_zeny(&runtime, character_zeny, &mut character);
         // Then
-        context.test_context.increment_latch().wait_expected_count_with_timeout(2, Duration::from_micros(200));
+        context.test_context.increment_latch().wait_expected_count_with_timeout(2, Duration::from_millis(200));
         assert_eq!(character.status.zeny, 100);
         assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "zeny".to_string(), value: 100, }));
         assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcLongparChange::packet_id())]));
@@ -227,7 +227,10 @@ mod tests {
     #[test]
     fn test_update_zeny_should_fetch_zeny_when_zeny_amount_is_not_specified() {
         // Given
-        struct MockedCharacterRepository {called_fetch_zeny: AtomicBool};
+        struct MockedCharacterRepository {
+            called_fetch_zeny: AtomicBool,
+        }
+        ;
         #[async_trait]
         impl CharacterRepository for MockedCharacterRepository {
             async fn character_zeny_fetch(&self, char_id: u32) -> Result<i32, Error> {
@@ -243,7 +246,7 @@ mod tests {
         // When
         context.character_service.update_zeny(&runtime, character_zeny, &mut character);
         // Then
-        context.test_context.increment_latch().wait_expected_count_with_timeout(1, Duration::from_micros(200));
+        context.test_context.increment_latch().wait_expected_count_with_timeout(1, Duration::from_millis(200));
         assert_eq!(character.status.zeny, 50);
         assert!(mocked_character_repository.called_fetch_zeny.load(Relaxed));
     }
@@ -289,7 +292,7 @@ mod tests {
         // Then
         assert_eq!(character.status.base_level, 78);
         // Then
-        context.test_context.increment_latch().wait_expected_count_with_timeout(2, Duration::from_micros(200));
+        context.test_context.increment_latch().wait_expected_count_with_timeout(2, Duration::from_millis(200));
         assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "base_level".to_string(), value: 78, }));
         assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcParChange::packet_id())]));
     }
@@ -346,7 +349,7 @@ mod tests {
         // Then
         assert_eq!(character.status.job_level, 68);
         // Then
-        context.test_context.increment_latch().wait_expected_count_with_timeout(2, Duration::from_micros(200));
+        context.test_context.increment_latch().wait_expected_count_with_timeout(2, Duration::from_millis(200));
         assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "job_level".to_string(), value: 68, }));
         assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcParChange::packet_id())]));
     }
@@ -418,19 +421,23 @@ mod tests {
     }
 
 
-
     #[test]
     fn test_get_status_point_count_for_level() {
         // Given
         let context = before_each(mocked_repository());
-        struct Scenarii<'a> {level: u16, job: &'a str, expected: u32 };
+        struct Scenarii<'a> {
+            level: u16,
+            job: &'a str,
+            expected: u32,
+        }
+        ;
         let scenario = vec![
-            Scenarii { level: 1, job: "Novice", expected: 48,},
-            Scenarii { level: 63, job: "Thief", expected: 600,},
-            Scenarii { level: 99, job: "Assassin", expected: 1273,},
-            Scenarii { level: 1, job: "Novice High", expected: 100,},
-            Scenarii { level: 63, job: "Archer High", expected: 652,},
-            Scenarii { level: 99, job: "Clown", expected: 1325,},
+            Scenarii { level: 1, job: "Novice", expected: 48 },
+            Scenarii { level: 63, job: "Thief", expected: 600 },
+            Scenarii { level: 99, job: "Assassin", expected: 1273 },
+            Scenarii { level: 1, job: "Novice High", expected: 100 },
+            Scenarii { level: 63, job: "Archer High", expected: 652 },
+            Scenarii { level: 99, job: "Clown", expected: 1325 },
         ];
         for scenarii in scenario {
             let mut character = create_character();
@@ -447,14 +454,25 @@ mod tests {
     fn test_get_status_point_allocated() {
         // Given
         let context = before_each(mocked_repository());
-        struct Scenarii<'a> {level: u16, job: &'a str, str: u16, agi: u16, dex: u16, int: u16, luk: u16, vit: u16 , expected: u32 };
+        struct Scenarii<'a> {
+            level: u16,
+            job: &'a str,
+            str: u16,
+            agi: u16,
+            dex: u16,
+            int: u16,
+            luk: u16,
+            vit: u16,
+            expected_allocated: u32,
+        }
+        ;
         let scenario = vec![
-            Scenarii { level: 1, job: "Novice", str: 19, agi: 3, dex: 0, int: 0, luk: 0, vit: 0, expected: 48,},
-            Scenarii { level: 63, job: "Thief", str: 31, agi: 77, dex: 33, int: 0, luk: 0, vit: 0, expected: 594,},
-            Scenarii { level: 99, job: "Assassin", str: 85, agi: 99, dex: 44, int: 0, luk: 0, vit: 0, expected: 1266,},
-            Scenarii { level: 1, job: "Novice High", str: 33, agi: 0, dex: 0, int: 0, luk: 0, vit: 0, expected: 100,},
-            Scenarii { level: 63, job: "Archer High", str: 0, agi: 48, dex: 33, int: 0, luk: 0, vit: 54, expected: 503,},
-            Scenarii { level: 99, job: "Clown", str: 0, agi: 0, dex: 99, int: 75, luk: 66, vit: 0, expected: 1324,},
+            Scenarii { level: 1, job: "Novice", str: 19, agi: 3, dex: 1, int: 1, luk: 1, vit: 1, expected_allocated: 48 },
+            Scenarii { level: 63, job: "Thief", str: 31, agi: 77, dex: 33, int: 1, luk: 1, vit: 1, expected_allocated: 594 },
+            Scenarii { level: 99, job: "Assassin", str: 85, agi: 99, dex: 44, int: 1, luk: 1, vit: 1, expected_allocated: 1266 },
+            Scenarii { level: 1, job: "Novice High", str: 33, agi: 1, dex: 1, int: 1, luk: 1, vit: 1, expected_allocated: 100 },
+            Scenarii { level: 63, job: "Archer High", str: 0, agi: 48, dex: 33, int: 1, luk: 1, vit: 54, expected_allocated: 503 },
+            Scenarii { level: 99, job: "Clown", str: 1, agi: 1, dex: 99, int: 75, luk: 66, vit: 1, expected_allocated: 1324 },
         ];
         for scenarii in scenario {
             let mut character = create_character();
@@ -469,7 +487,225 @@ mod tests {
             // When
             let status_point_count = context.character_service.get_spent_status_point(&character);
             // Then
-            assert_eq!(status_point_count, scenarii.expected, "Expected character of class {} at level {} to have {} status point but got {}", scenarii.job, scenarii.level, scenarii.expected, status_point_count);
+            assert_eq!(status_point_count, scenarii.expected_allocated, "Expected character of class {} at level {} to have {} status point but got {}", scenarii.job, scenarii.level, scenarii.expected_allocated, status_point_count);
         }
+    }
+
+    #[test]
+    fn test_update_base_level_should_update_status_point_when_leveling_up_or_down() {
+        // Given
+        let context = before_each(mocked_repository());
+        struct Scenarii {
+            source_level: u16,
+            target_level: u16,
+            source_not_allocated_point: u32,
+            target_not_allocated_point: u32,
+        }
+        ;
+        let scenario = vec![
+            Scenarii { source_level: 1, target_level: 10, source_not_allocated_point: 0, target_not_allocated_point: 32 },
+            Scenarii { source_level: 10, target_level: 63, source_not_allocated_point: 0, target_not_allocated_point: 520 },
+            Scenarii { source_level: 63, target_level: 74, source_not_allocated_point: 6, target_not_allocated_point: 184 },
+            Scenarii { source_level: 74, target_level: 72, source_not_allocated_point: 184, target_not_allocated_point: 150 },
+            Scenarii { source_level: 74, target_level: 60, source_not_allocated_point: 184, target_not_allocated_point: 0 },
+            Scenarii { source_level: 74, target_level: 87, source_not_allocated_point: 184, target_not_allocated_point: 426 },
+            Scenarii { source_level: 87, target_level: 92, source_not_allocated_point: 426, target_not_allocated_point: 528 },
+        ];
+        for scenarii in scenario {
+            let mut character = create_character();
+            character.status.base_level = scenarii.source_level as u32;
+            character.status.status_point = scenarii.source_not_allocated_point;
+            // When
+            context.character_service.update_base_level(&mut character, Some(scenarii.target_level as u32), None);
+            let status_point_count = character.status.status_point;
+            // Then
+            assert_eq!(status_point_count, scenarii.target_not_allocated_point, "Expected character at level {} when leveling up/down to {} to have {} status point but got {}", scenarii.source_level, scenarii.target_level, scenarii.target_not_allocated_point, status_point_count);
+        }
+    }
+
+    #[test]
+    fn test_update_base_level_should_reset_stats_when_leveling_down_and_allocated_point_higher_than_expected() {
+        // Given
+        let context = before_each(mocked_repository());
+        struct Scenarii<'a> {
+            source_level: u16,
+            target_level: u16,
+            job: &'a str,
+            source_str: u16,
+            source_agi: u16,
+            source_dex: u16,
+            source_int: u16,
+            source_luk: u16,
+            source_vit: u16,
+            target_str: u16,
+            target_agi: u16,
+            target_dex: u16,
+            target_int: u16,
+            target_luk: u16,
+            target_vit: u16,
+            source_allocated_status_point: u32,
+            target_allocated_status_point: u32,
+            source_available_status_point: u32,
+            target_available_status_point: u32,
+        }
+        ;
+        let scenario = vec![
+            Scenarii { source_level: 63, target_level: 60, job: "Thief", source_str: 31, source_agi: 77, source_dex: 33, source_int: 1, source_luk: 1, source_vit: 1, target_str: 1, target_agi: 1, target_dex: 1, target_int: 1, target_luk: 1, target_vit: 1, source_allocated_status_point: 594, target_allocated_status_point: 0, source_available_status_point: 6, target_available_status_point: 555 },
+            Scenarii { source_level: 92, target_level: 82, job: "Clown", source_str: 20, source_agi: 3, source_dex: 91, source_int: 4, source_luk: 1, source_vit: 1, target_str: 20, target_agi: 3, target_dex: 91, target_int: 4, target_luk: 1, target_vit: 1, source_allocated_status_point: 597, target_allocated_status_point: 597, source_available_status_point: 577, target_available_status_point: 378 },
+        ];
+        for scenarii in scenario {
+            let mut character = create_character();
+            character.status.job = JobName::from_string(scenarii.job).value() as u32;
+            character.status.base_level = scenarii.source_level as u32;
+            character.status.str = scenarii.source_str;
+            character.status.agi = scenarii.source_agi;
+            character.status.dex = scenarii.source_dex;
+            character.status.int = scenarii.source_int;
+            character.status.luk = scenarii.source_luk;
+            character.status.vit = scenarii.source_vit;
+            character.status.status_point = scenarii.source_available_status_point;
+            assert_eq!(context.character_service.get_spent_status_point(&character), scenarii.source_allocated_status_point);
+            // When
+            context.character_service.update_base_level(&mut character, Some(scenarii.target_level as u32), None);
+            let status_point_count = character.status.status_point;
+            // Then
+            assert_eq!(context.character_service.get_spent_status_point(&character), scenarii.target_allocated_status_point, "Expected character of class {} at level {} when down leveling to {} to have {} allocated stats but got {}", scenarii.job, scenarii.source_level, scenarii.target_level, scenarii.target_allocated_status_point, context.character_service.get_spent_status_point(&character));
+            assert_eq!(status_point_count, scenarii.target_available_status_point, "Expected character of class {} at level {} when down leveling to {} to have {} available status point but got {}", scenarii.job, scenarii.source_level, scenarii.target_level, scenarii.target_available_status_point, status_point_count);
+            if scenarii.target_allocated_status_point == 0{
+                assert_eq!(character.status.str, 1);
+                assert_eq!(character.status.dex, 1);
+                assert_eq!(character.status.agi, 1);
+                assert_eq!(character.status.vit, 1);
+                assert_eq!(character.status.int, 1);
+                assert_eq!(character.status.luk, 1);
+            }
+        }
+    }
+
+    #[test]
+    fn test_calculate_status_point_delta_when_leveling_up_1_level_from_level_1() {
+        // Given
+        let context = before_each(mocked_repository());
+        // When
+        let result = context.character_service.calculate_status_point_delta(1, 2);
+        // Then
+        assert_eq!(result, 3);
+    }
+
+    #[test]
+    fn test_calculate_status_point_delta_when_leveling_up_63_level_from_level_1() {
+        // Given
+        let context = before_each(mocked_repository());
+        // When
+        let result = context.character_service.calculate_status_point_delta(1, 63);
+        // Then
+        assert_eq!(result, 552);
+    }
+
+    #[test]
+    fn test_calculate_status_point_delta_when_leveling_up_1_level_from_level_63() {
+        // Given
+        let context = before_each(mocked_repository());
+        // When
+        let result = context.character_service.calculate_status_point_delta(63, 64);
+        // Then
+        assert_eq!(result, 15);
+    }
+
+    #[test]
+    fn test_calculate_status_point_delta_when_leveling_down_1_level_from_level_2() {
+        // Given
+        let context = before_each(mocked_repository());
+        // When
+        let result = context.character_service.calculate_status_point_delta(2, 1);
+        // Then
+        assert_eq!(result, -3);
+    }
+
+    #[test]
+    fn test_calculate_status_point_delta_when_leveling_down_63_level_from_level_63() {
+        // Given
+        let context = before_each(mocked_repository());
+        // When
+        let result = context.character_service.calculate_status_point_delta(63, 1);
+        // Then
+        assert_eq!(result, -552);
+    }
+
+    #[test]
+    fn test_reset_stats() {
+        // Given
+        let context = before_each(mocked_repository());
+        struct Scenarii<'a> {
+            level: u16,
+            job: &'a str,
+            str: u16,
+            agi: u16,
+            dex: u16,
+            int: u16,
+            luk: u16,
+            vit: u16,
+            status_point_expected: u32,
+        }
+        ;
+        let scenario = vec![
+            Scenarii { level: 1, job: "Novice", str: 19, agi: 3, dex: 0, int: 0, luk: 0, vit: 0, status_point_expected: 48 },
+            Scenarii { level: 63, job: "Thief", str: 31, agi: 77, dex: 33, int: 0, luk: 0, vit: 0, status_point_expected: 600 },
+            Scenarii { level: 99, job: "Assassin", str: 85, agi: 99, dex: 44, int: 0, luk: 0, vit: 0, status_point_expected: 1273 },
+            Scenarii { level: 1, job: "Novice High", str: 33, agi: 0, dex: 0, int: 0, luk: 0, vit: 0, status_point_expected: 100 },
+            Scenarii { level: 63, job: "Archer High", str: 0, agi: 48, dex: 33, int: 0, luk: 0, vit: 54, status_point_expected: 652 },
+            Scenarii { level: 99, job: "Clown", str: 0, agi: 0, dex: 99, int: 75, luk: 66, vit: 0, status_point_expected: 1325 },
+        ];
+        for scenarii in scenario {
+            let mut character = create_character();
+            character.status.job = JobName::from_string(scenarii.job).value() as u32;
+            character.status.base_level = scenarii.level as u32;
+            character.status.str = scenarii.str;
+            character.status.agi = scenarii.agi;
+            character.status.dex = scenarii.dex;
+            character.status.int = scenarii.int;
+            character.status.luk = scenarii.luk;
+            character.status.vit = scenarii.vit;
+            // When
+            context.character_service.reset_stats(&mut character);
+            let status_point_count = character.status.status_point;
+            // Then
+            assert_eq!(character.status.str, 1);
+            assert_eq!(character.status.dex, 1);
+            assert_eq!(character.status.agi, 1);
+            assert_eq!(character.status.vit, 1);
+            assert_eq!(character.status.int, 1);
+            assert_eq!(character.status.luk, 1);
+            assert_eq!(status_point_count, scenarii.status_point_expected, "Expected character of class {} at level {} to have {} status point after stats reset but got {}", scenarii.job, scenarii.level, scenarii.status_point_expected, status_point_count);
+        }
+    }
+
+    #[test]
+    fn test_should_reset_stats_should_return_true_when_character_has_more_status_point_allocated_than_available_for_its_level() {
+        // Given
+        let context = before_each(mocked_repository());
+        let mut character = create_character();
+        character.status.base_level = 10;
+        character.status.str = 99;
+        character.status.vit = 99;
+        // When
+        let result = context.character_service.should_reset_stats(&mut character);
+        // Then
+        assert!(result);
+    }
+
+    #[test]
+    fn test_should_reset_stats_should_return_false_when_character_has_less_status_point_allocated_than_available_for_its_level() {
+        // Given
+        let context = before_each(mocked_repository());
+        let mut character = create_character();
+        character.status.base_level = 10;
+        character.status.str = 9;
+        character.status.vit = 9;
+        character.status.agi = 9;
+        // When
+        let result = context.character_service.should_reset_stats(&mut character);
+        // Then
+        assert!(!result);
     }
 }
