@@ -59,6 +59,10 @@ impl StatusService {
         packet_int.set_status_type(StatusTypes::Int.value());
         packet_int.set_default_status(character.status.int as i32);
         packet_int.fill_raw();
+        let mut packet_vit = PacketZcStatusValues::new();
+        packet_vit.set_status_type(StatusTypes::Vit.value());
+        packet_vit.set_default_status(character.status.vit as i32);
+        packet_vit.fill_raw();
         let mut packet_luk = PacketZcStatusValues::new();
         packet_luk.set_status_type(StatusTypes::Luk.value());
         packet_luk.set_default_status(character.status.luk as i32);
@@ -133,7 +137,7 @@ impl StatusService {
         packet_speed.fill_raw();
 
         let final_response_packet: Vec<u8> = chain_packets(vec![
-            &packet_str, &packet_agi, &packet_dex, &packet_int, &packet_luk,
+            &packet_str, &packet_agi, &packet_dex, &packet_int, &packet_luk, &packet_vit,
             &packet_hit, &packet_flee, &packet_aspd, &packet_atk, &packet_atk2, &packet_def,
             &packet_flee2, &packet_crit, &packet_matk, &packet_matk2,
             &packet_mdef2, &packet_attack_range, &packet_maxhp, &packet_maxsp, &packet_hp,

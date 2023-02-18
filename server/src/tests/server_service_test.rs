@@ -44,7 +44,7 @@ fn before_each_with_latch(latch_size: usize) -> ServerServiceTestContext {
         movement_task_queue: movement_task_queue.clone(),
         server_service: ServerService::new(client_notification_sender.clone(), GlobalConfigService::instance(), server_task_queue.clone(), movement_task_queue.clone(), Arc::new(Vm::new("../native_functions_list.txt", DebugFlag::None.value())),
                                            InventoryService::new(client_notification_sender.clone(), persistence_event_sender.clone(), Arc::new(MockedRepository::default()), GlobalConfigService::instance(), server_task_queue.clone()),
-                                           CharacterService::new(client_notification_sender.clone(), persistence_event_sender.clone(), Arc::new(MockedRepository::default()), GlobalConfigService::instance()),
+                                           CharacterService::new(client_notification_sender.clone(), persistence_event_sender.clone(), Arc::new(MockedRepository::default()), GlobalConfigService::instance(), server_task_queue.clone()),
                                            MapInstanceService::new(client_notification_sender.clone(), GlobalConfigService::instance(), MobService::new(client_notification_sender.clone(), GlobalConfigService::instance()), server_task_queue.clone()),
                                            BattleService::new(client_notification_sender.clone(), StatusService::new(client_notification_sender.clone(), persistence_event_sender.clone(), GlobalConfigService::instance()), GlobalConfigService::instance()), ),
     }

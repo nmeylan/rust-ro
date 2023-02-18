@@ -16,7 +16,7 @@ use crate::enums::EnumWithMaskValueU64;
 use packets::packets::{Packet, PacketZcItemDisappear, PacketZcItemEntry, PacketZcLongparChange, PacketZcNotifyStandentry7, PacketZcNotifyVanish, PacketZcNpcackMapmove, PacketZcParChange, PacketZcSpriteChange2};
 use crate::repository::model::item_model::InventoryItemModel;
 use crate::repository::{CharacterRepository, Repository};
-use crate::server::model::events::game_event::{CharacterChangeMap, CharacterLook, CharacterZeny};
+use crate::server::model::events::game_event::{CharacterChangeMap, CharacterLook, CharacterZeny, GameEvent};
 use crate::server::model::map::{MAP_EXT};
 use crate::server::model::map_item::{MapItem, MapItemType};
 use crate::server::model::path::manhattan_distance;
@@ -27,6 +27,7 @@ use crate::server::model::events::persistence_event::PersistenceEvent::SaveChara
 use crate::server::{PLAYER_FOV, Server};
 use crate::server::model::map_instance::MapInstanceKey;
 use crate::server::model::position::Position;
+use crate::server::model::tasks_queue::TasksQueue;
 
 use crate::server::service::global_config_service::GlobalConfigService;
 
@@ -45,7 +46,8 @@ pub struct CharacterService {
     client_notification_sender: SyncSender<Notification>,
     persistence_event_sender: SyncSender<PersistenceEvent>,
     repository: Arc<dyn CharacterRepository + Sync>,
-    configuration_service: &'static GlobalConfigService
+    configuration_service: &'static GlobalConfigService,
+    server_task_queue: Arc<TasksQueue<GameEvent>>
 }
 
 impl CharacterService {
@@ -53,12 +55,12 @@ impl CharacterService {
         unsafe { SERVICE_INSTANCE.as_ref().unwrap() }
     }
 
-    pub fn new(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, repository: Arc<dyn CharacterRepository + Sync>, configuration_service: &'static GlobalConfigService) -> Self {
-        Self { client_notification_sender, persistence_event_sender, repository, configuration_service }
+    pub fn new(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, repository: Arc<dyn CharacterRepository + Sync>, configuration_service: &'static GlobalConfigService, server_task_queue: Arc<TasksQueue<GameEvent>>) -> Self {
+        Self { client_notification_sender, persistence_event_sender, repository, configuration_service, server_task_queue }
     }
-    pub fn init(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, repository: Arc<dyn CharacterRepository + Sync>, configuration_service: &'static GlobalConfigService) {
+    pub fn init(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, repository: Arc<dyn CharacterRepository + Sync>, configuration_service: &'static GlobalConfigService, server_task_queue: Arc<TasksQueue<GameEvent>>) {
         SERVICE_INSTANCE_INIT.call_once(|| unsafe {
-            SERVICE_INSTANCE = Some(CharacterService{ client_notification_sender, persistence_event_sender, repository, configuration_service });
+            SERVICE_INSTANCE = Some(CharacterService{ client_notification_sender, persistence_event_sender, repository, configuration_service, server_task_queue });
         });
     }
 
@@ -192,16 +194,11 @@ impl CharacterService {
             old_base_level
         };
         character.status.base_level = new_base_level;
-        character.status.status_point = (character.status.status_point as i32 + self.calculate_status_point_delta(old_base_level, new_base_level)).max(0) as u32;
+        self.update_status_point(character, (character.status.status_point as i32 + self.calculate_status_point_delta(old_base_level, new_base_level)).max(0) as u32);
         if self.should_reset_stats(character) {
             self.reset_stats(character);
         }
-        self.persistence_event_sender.send(PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "base_level".to_string(), value: new_base_level})).expect("Fail to send persistence notification");
-        let mut packet_base_level = PacketZcParChange::new();
-        packet_base_level.set_var_id(StatusTypes::Baselevel.value() as u16);
-        packet_base_level.set_count(new_base_level as i32);
-        packet_base_level.fill_raw();
-        self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packet_base_level.raw))).expect("Fail to send client notification");
+        self.send_status_update_and_defer_db_update(character.char_id, StatusTypes::Baselevel, "base_level", new_base_level);
         (new_base_level as i32 - old_base_level as i32) as i32
     }
 
@@ -215,12 +212,7 @@ impl CharacterService {
             old_job_level
         };
         character.status.job_level = new_job_level;
-        self.persistence_event_sender.send(PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "job_level".to_string(), value: new_job_level})).expect("Fail to send persistence notification");
-        let mut packet_job_level = PacketZcParChange::new();
-        packet_job_level.set_var_id(StatusTypes::Joblevel.value() as u16);
-        packet_job_level.set_count(new_job_level as i32);
-        packet_job_level.fill_raw();
-        self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packet_job_level.raw))).expect("Fail to send client notification");
+        self.send_status_update_and_defer_db_update(character.char_id, StatusTypes::Joblevel, "job_level", new_job_level);
         (new_job_level as i32 - old_job_level as i32) as i32
     }
 
@@ -265,6 +257,12 @@ impl CharacterService {
         status_point_count
     }
 
+    pub fn update_status_point(&self, character: &mut Character, status_point: u32) {
+        character.status.status_point = status_point;
+        self.send_status_update_and_defer_db_update(character.char_id, StatusTypes::Statuspoint, "status_point", status_point);
+        self.server_task_queue.add_to_first_index(GameEvent::CharacterCalculateStats(character.char_id));
+    }
+
     pub fn calculate_status_point_delta(&self, from_level: u32, to_level: u32) -> i32 {
         let mut status_point_count: i32 = 0;
         let (start , end, multiplier) = if from_level > to_level {
@@ -292,7 +290,10 @@ impl CharacterService {
         character.status.vit = 1;
         character.status.int = 1;
         character.status.luk = 1;
-        character.status.status_point = self.get_status_point_count_for_level(character) - self.get_spent_status_point(character);
+        self.update_status_point(character, self.get_status_point_count_for_level(character) - self.get_spent_status_point(character));
+        for (column_name, _) in vec![("str", StatusTypes::Str.value() as u16), ("agi", StatusTypes::Agi.value() as u16), ("dex", StatusTypes::Dex.value() as u16), ("vit", StatusTypes::Vit.value() as u16), ("int", StatusTypes::Int.value() as u16), ("luk", StatusTypes::Luk.value() as u16)] {
+            self.persistence_event_sender.send(PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: column_name.to_string(), value: 1})).expect("Fail to send persistence notification");
+        }
     }
 
     pub fn should_reset_stats(&self, character: &Character) -> bool {
@@ -379,5 +380,13 @@ impl CharacterService {
         character.map_view = new_map_view;
     }
 
+    fn send_status_update_and_defer_db_update(&self, char_id: u32, status_type: StatusTypes, column_name: &str, new_value: u32) {
+        self.persistence_event_sender.send(PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id, db_column: column_name.to_string(), value: new_value})).expect("Fail to send persistence notification");
+        let mut packet_base_level = PacketZcParChange::new();
+        packet_base_level.set_var_id(status_type.value() as u16);
+        packet_base_level.set_count(new_value as i32);
+        packet_base_level.fill_raw();
+        self.client_notification_sender.send(Notification::Char(CharNotification::new(char_id, packet_base_level.raw))).expect("Fail to send client notification");
+    }
 
 }
