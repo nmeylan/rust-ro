@@ -272,7 +272,7 @@ impl CharacterService {
         self.server_task_queue.add_to_first_index(GameEvent::CharacterCalculateStats(character.char_id));
     }
 
-    pub fn stat_value(&self, status: &Status, status_type: StatusTypes) -> u16 {
+    pub fn stat_value(&self, status: &Status, status_type: &StatusTypes) -> u16 {
         match status_type {
             StatusTypes::Str => {
                 status.str
@@ -299,32 +299,35 @@ impl CharacterService {
         }
     }
 
-    pub fn increase_stat(&self, character: &mut Character, status_type: StatusTypes, value_to_add: u16) -> bool {
-        let mut null_stat = 0;
-        let stat = match status_type {
+    pub fn stat_mut<'a>(&'a self, status: &'a mut Status, status_type: &StatusTypes) -> &mut u16 {
+        match status_type {
             StatusTypes::Str => {
-                &mut character.status.str
+                &mut status.str
             }
             StatusTypes::Agi => {
-                &mut character.status.agi
+                &mut status.agi
             }
             StatusTypes::Vit => {
-                &mut character.status.vit
+                &mut status.vit
             }
             StatusTypes::Int => {
-                &mut character.status.int
+                &mut status.int
             }
             StatusTypes::Dex => {
-                &mut character.status.dex
+                &mut status.dex
             }
             StatusTypes::Luk => {
-                &mut character.status.luk
+                &mut status.luk
             }
             _ => {
-                error!("Can't update stat of type {:?}, not handled yet!", status_type);
-                &mut null_stat
+                panic!("Can't read stat of type {:?}, not handled yet!", status_type);
             }
-        };
+        }
+    }
+
+    pub fn increase_stat(&self, character: &mut Character, status_type: StatusTypes, value_to_add: u16) -> bool {
+        let status_point = character.status.status_point;
+        let stat = self.stat_mut(&mut character.status, &status_type);
         if *stat + value_to_add > self.configuration_service.config().game.max_stat_level {
             return false;
         }
@@ -334,22 +337,23 @@ impl CharacterService {
         for i in 1..=value_to_add {
             raising_cost += self.stat_raising_cost_for_next_level(*stat + i - 1, format!("{status_type:?}").as_str());
         }
-        if character.status.status_point < raising_cost {
+        if status_point < raising_cost {
             return false;
         }
         *stat += value_to_add;
+        let value = *stat as u32;
         character.status.status_point -= raising_cost;
         self.persistence_event_sender.send(PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate {
             char_id: character.char_id,
             db_column: status_type.to_column().unwrap_or_else(|| panic!("no db column name for status of type {status_type:?}")).to_string(),
-            value: *stat as u32,
+            value,
         })).expect("Fail to send persistence notification");
         self.persistence_event_sender.send(PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "status_point".to_string(), value: character.status.status_point })).expect("Fail to send persistence notification");
         self.server_task_queue.add_to_first_index(GameEvent::CharacterCalculateStats(character.char_id));
         true
     }
 
-    pub fn gain_exp(&self, character: &mut Character, gain_exp: u32) {
+    pub fn gain_base_exp(&self, character: &mut Character, gain_exp: u32) {
         let mut gained_level = 0;
         let mut gain_exp = gain_exp;
         let mut status_copy = character.status;
@@ -361,13 +365,13 @@ impl CharacterService {
                 break;
             }
             // Currently multi leveling is allowed, so if gained exp permit to level up...
-            if character.status.base_exp + gain_exp >= next_level_requirement {
+            if status_copy.base_exp + gain_exp >= next_level_requirement {
                 gained_level += 1;
                 // ... we gain new level...
                 status_copy.base_level += 1;
                 // ... removing from gained exp, the amount spent to level up...
-                gain_exp = character.status.base_exp + gain_exp - next_level_requirement;
-                character.status.base_exp = 0;
+                gain_exp = status_copy.base_exp + gain_exp - next_level_requirement;
+                status_copy.base_exp = 0;
             } else {
                 // ... until there not enough exp point to reach new level
                 break;
@@ -376,12 +380,39 @@ impl CharacterService {
         if gained_level > 0 {
             self.update_base_level(character, None, Some(gained_level));
         }
-        character.status.base_exp += gain_exp;
+        character.status.base_exp = status_copy.base_exp + gain_exp;
         self.send_status_update_and_defer_db_update(character.char_id, StatusTypes::Baseexp, character.status.base_exp);
     }
     
-    pub fn gain_job_exp(&self, character: &mut Character, exp: u32) {
-        character.status.job_exp += exp;
+    pub fn gain_job_exp(&self, character: &mut Character, gain_exp: u32) {
+        let mut gained_level = 0;
+        let mut gain_exp = gain_exp;
+        let mut status_copy = character.status;
+        loop {
+            let next_level_requirement = self.next_job_level_required_exp(&status_copy);
+            if next_level_requirement == u32::MAX {
+                character.status.job_exp = 0;
+                gain_exp = 0;
+                break;
+            }
+            // Currently multi leveling is allowed, so if gained exp permit to level up...
+            if status_copy.job_exp + gain_exp >= next_level_requirement {
+                gained_level += 1;
+                // ... we gain new level...
+                status_copy.job_level += 1;
+                // ... removing from gained exp, the amount spent to level up...
+                gain_exp = status_copy.job_exp + gain_exp - next_level_requirement;
+                status_copy.job_exp = 0;
+            } else {
+                // ... until there not enough exp point to reach new level
+                break;
+            }
+        }
+        if gained_level > 0 {
+            self.update_job_level(character, None, Some(gained_level));
+        }
+        character.status.job_exp = status_copy.job_exp + gain_exp;
+
         self.send_status_update_and_defer_db_update(character.char_id, StatusTypes::Jobexp, character.status.job_exp);
     }
 
@@ -467,9 +498,11 @@ impl CharacterService {
         };
 
         if status.job_level > exp.len() as u32 {
-            panic!("Job level above job level exp requirement for job {}, TODO define a formula for exp required for {}+ level", job_name.as_str(), status.base_level)
+            // TODO: define a formula in configuration for infinite leveling, which increase leveling curve, level after level.
+            // For now disable exp gain when nothing is defined
+            u32::MAX
         } else {
-            *exp.get((status.base_level - 1) as usize).unwrap()
+            *exp.get((status.job_level - 1) as usize).unwrap()
         }
     }
 

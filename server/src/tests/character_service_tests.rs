@@ -878,7 +878,7 @@ mod tests {
         character.status.base_exp = 10;
         character.status.base_level = 10;
         // When
-        context.character_service.gain_exp(&mut character, 100);
+        context.character_service.gain_base_exp(&mut character, 100);
         // Then
         context.test_context.increment_latch().wait_expected_count_with_timeout(2, Duration::from_millis(200));
         assert_eq!(character.status.base_exp, 110);
@@ -904,7 +904,7 @@ mod tests {
             character.status.base_level = scenarii.level;
             character.status.job = JobName::from_string(scenarii.job).value() as u32;
             // When
-            context.character_service.gain_exp(&mut character, scenarii.gain_exp);
+            context.character_service.gain_base_exp(&mut character, scenarii.gain_exp);
             // Then
             assert_eq!(character.status.base_level, scenarii.expected_level, "Expected {} from level {} to be level {} after gaining {} exp but got {}", scenarii.job, scenarii.level, scenarii.expected_level, scenarii.gain_exp, character.status.base_level);
             assert_eq!(character.status.base_exp, scenarii.expected_exp, "Expected {} at level {} to have {} exp after gaining {} exp but got {}", scenarii.job, character.status.base_level, scenarii.expected_exp, scenarii.gain_exp, character.status.base_exp);
@@ -917,6 +917,7 @@ mod tests {
         let context = before_each(mocked_repository());
         let mut character = create_character();
         character.status.job_exp = 10;
+        character.status.job_level = 9;
         // When
         context.character_service.gain_job_exp(&mut character, 60);
         // Then
@@ -924,6 +925,31 @@ mod tests {
         assert_eq!(character.status.job_exp, 70);
         assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "job_exp".to_string(), value: character.status.job_exp, }));
         assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(PacketZcParChange::packet_id(), 1)]));
+    }
+
+    #[test]
+    fn test_gain_job_exp_should_job_level_up_when_character_exp_is_above_next_job_level_exp_requirement() {
+        // Given
+        let context = before_each(mocked_repository());
+        struct Scenarii<'a> { job_level: u32, job: &'a str, job_exp: u32, gain_exp: u32, expected_job_level: u32, expected_job_exp: u32}
+        let scenario = vec![
+            Scenarii { job_level: 1, job: "Novice", job_exp: 0, gain_exp: 4, expected_job_level: 1, expected_job_exp: 4 },
+            Scenarii { job_level: 1, job: "Novice", job_exp: 0, gain_exp: 12, expected_job_level: 2, expected_job_exp: 2 },
+            Scenarii { job_level: 21, job: "Archer", job_exp: 1125, gain_exp: 54411, expected_job_level: 27, expected_job_exp: 802 },
+            Scenarii { job_level: 49, job: "Hunter", job_exp: 2083380, gain_exp: 169, expected_job_level: 50, expected_job_exp: 0 },
+            Scenarii { job_level: 50, job: "Hunter", job_exp: 0, gain_exp: 9631, expected_job_level: 50, expected_job_exp: 0 },
+        ];
+        for scenarii in scenario {
+            let mut character = create_character();
+            character.status.job_exp = scenarii.job_exp;
+            character.status.job_level = scenarii.job_level;
+            character.status.job = JobName::from_string(scenarii.job).value() as u32;
+            // When
+            context.character_service.gain_job_exp(&mut character, scenarii.gain_exp);
+            // Then
+            assert_eq!(character.status.job_level, scenarii.expected_job_level, "Expected {} from job level {} to be job level {} after gaining {} exp but got {}", scenarii.job, scenarii.job_level, scenarii.expected_job_level, scenarii.gain_exp, character.status.job_level);
+            assert_eq!(character.status.job_exp, scenarii.expected_job_exp, "Expected {} at job level {} to have {} job exp after gaining {} job exp but got {}", scenarii.job, character.status.job_level, scenarii.expected_job_exp, scenarii.gain_exp, character.status.job_exp);
+        }
     }
 
     #[test]
@@ -971,7 +997,7 @@ mod tests {
         ];
         for scenarii in scenario {
             let mut character = create_character();
-            character.status.base_level = scenarii.level;
+            character.status.job_level = scenarii.level;
             character.status.job = JobName::from_string(scenarii.job).value() as u32;
             // When
             let required_exp = context.character_service.next_job_level_required_exp(&character.status);
