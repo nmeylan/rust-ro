@@ -186,7 +186,7 @@ impl ServerService {
         let mut packet_zc_status_change_ack = PacketZcStatusChangeAck::new();
         packet_zc_status_change_ack.set_status_id(character_update_stat.stat_id);
         packet_zc_status_change_ack.set_result(result);
-        packet_zc_status_change_ack.set_value(self.character_service.stat_value(character, StatusTypes::from_value(character_update_stat.stat_id as usize)) as u8);
+        packet_zc_status_change_ack.set_value(self.character_service.stat_value(&character.status, StatusTypes::from_value(character_update_stat.stat_id as usize)) as u8);
         packet_zc_status_change_ack.fill_raw();
         self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packet_zc_status_change_ack.raw))).expect("Fail to send client notification");
     }

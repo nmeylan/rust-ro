@@ -263,6 +263,7 @@ mod tests {
         // When
         let char_id = character_state.char_id;
         character_state.status.base_exp = 10;
+        character_state.status.base_level = 10;
         character_state.status.job_exp = 5;
         context.server_service.character_kill_monster(&mut character_state, CharacterKillMonster {
             char_id,
