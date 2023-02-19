@@ -31,12 +31,12 @@ pub enum StatusTypes {
     Weight,
     Maxweight,
     #[value = 32]
-    Ustr,
-    Uagi,
-    Uvit,
-    Uint,
-    Udex,
-    Uluk,
+    StrNextLevelIncreaseCost,
+    AgiNextLevelIncreaseCost,
+    VitNextLevelIncreaseCost,
+    IntNextLevelIncreaseCost,
+    DexNextLevelIncreaseCost,
+    LukNextLevelIncreaseCost,
     #[value = 41]
     Atk1,
     Atk2,
