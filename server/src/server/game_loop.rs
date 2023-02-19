@@ -147,14 +147,9 @@ impl Server {
                             // TODO ensure equip required class
                         }
                         GameEvent::CharacterKillMonster(character_kill_monster) => {
+                            let character = server_state_mut.characters_mut().get_mut(&character_kill_monster.char_id).unwrap();
                             let map_instance = server_ref.state().get_map_instance(character_kill_monster.map_instance_key.map_name(), character_kill_monster.map_instance_key.map_instance()).unwrap();
-                            // TODO check autoloot
-                            let autoloot = false;
-                            if autoloot {
-
-                            } else {
-                                map_instance.add_to_delayed_tick(MapEvent::MobDropItems(MobDropItems { owner_id: character_kill_monster.char_id, mob_id: character_kill_monster.mob_id, mob_x: character_kill_monster.mob_x, mob_y: character_kill_monster.mob_y }), 400);
-                            }
+                            ServerService::instance().character_kill_monster(character, character_kill_monster, map_instance.as_ref());
                         }
                         GameEvent::CharacterPickUpItem(character_pickup_item) => {
                             let character = server_state_mut.characters_mut().get_mut(&character_pickup_item.char_id).unwrap();

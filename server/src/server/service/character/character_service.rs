@@ -201,7 +201,7 @@ impl CharacterService {
         if self.should_reset_stats(character) {
             self.reset_stats(character);
         }
-        self.send_status_update_and_defer_db_update(character.char_id, StatusTypes::Baselevel, "base_level", new_base_level);
+        self.send_status_update_and_defer_db_update(character.char_id, StatusTypes::Baselevel, new_base_level);
         new_base_level as i32 - old_base_level as i32
     }
 
@@ -215,7 +215,7 @@ impl CharacterService {
             old_job_level
         };
         character.status.job_level = new_job_level;
-        self.send_status_update_and_defer_db_update(character.char_id, StatusTypes::Joblevel, "job_level", new_job_level);
+        self.send_status_update_and_defer_db_update(character.char_id, StatusTypes::Joblevel, new_job_level);
         new_job_level as i32 - old_job_level as i32
     }
 
@@ -266,7 +266,7 @@ impl CharacterService {
 
     pub fn update_status_point(&self, character: &mut Character, status_point: u32) {
         character.status.status_point = status_point;
-        self.send_status_update_and_defer_db_update(character.char_id, StatusTypes::Statuspoint, "status_point", status_point);
+        self.send_status_update_and_defer_db_update(character.char_id, StatusTypes::Statuspoint, status_point);
         self.server_task_queue.add_to_first_index(GameEvent::CharacterCalculateStats(character.char_id));
     }
 
@@ -345,6 +345,15 @@ impl CharacterService {
         self.persistence_event_sender.send(PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "status_point".to_string(), value: character.status.status_point })).expect("Fail to send persistence notification");
         self.server_task_queue.add_to_first_index(GameEvent::CharacterCalculateStats(character.char_id));
         true
+    }
+
+    pub fn gain_exp(&self, character: &mut Character, exp: u32) {
+        character.status.base_exp += exp;
+        self.send_status_update_and_defer_db_update(character.char_id, StatusTypes::Baseexp, character.status.base_exp);
+    }
+    pub fn gain_job_exp(&self, character: &mut Character, exp: u32) {
+        character.status.job_exp += exp;
+        self.send_status_update_and_defer_db_update(character.char_id, StatusTypes::Jobexp, character.status.job_exp);
     }
 
     pub fn calculate_status_point_delta(&self, from_level: u32, to_level: u32) -> i32 {
@@ -601,8 +610,8 @@ impl CharacterService {
         character.map_view = new_map_view;
     }
 
-    fn send_status_update_and_defer_db_update(&self, char_id: u32, status_type: StatusTypes, column_name: &str, new_value: u32) {
-        self.persistence_event_sender.send(PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id, db_column: column_name.to_string(), value: new_value })).expect("Fail to send persistence notification");
+    fn send_status_update_and_defer_db_update(&self, char_id: u32, status_type: StatusTypes, new_value: u32) {
+        self.persistence_event_sender.send(PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id, db_column: status_type.to_column().unwrap_or_else(|| panic!("no db column name for status of type {status_type:?}")).to_string(), value: new_value })).expect("Fail to send persistence notification");
         let mut packet_base_level = PacketZcParChange::new();
         packet_base_level.set_var_id(status_type.value() as u16);
         packet_base_level.set_count(new_value as i32);

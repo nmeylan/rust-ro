@@ -36,7 +36,9 @@ pub fn create_character() -> Character {
             zeny: 0,
             base_level: 1,
             job_level: 1,
-            status_point: 48
+            status_point: 48,
+            base_exp: 0,
+            job_exp: 0
         },
         char_id: 150000,
         account_id: 2000000,

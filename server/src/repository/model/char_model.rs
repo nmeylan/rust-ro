@@ -146,4 +146,6 @@ pub struct CharSelectModel {
     pub robe: i32,
     pub base_level: i32,
     pub job_level: i32,
+    pub base_exp: i32,
+    pub job_exp: i32,
 }

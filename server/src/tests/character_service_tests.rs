@@ -869,4 +869,34 @@ mod tests {
         assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "status_point".to_string(), value: character.status.status_point, }));
         assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "str".to_string(), value: 99, }));
     }
+
+    #[test]
+    fn test_gain_exp_should_update_in_memory_defer_update_in_db_and_send_packet() {
+        // Given
+        let context = before_each(mocked_repository());
+        let mut character = create_character();
+        character.status.base_exp = 10;
+        // When
+        context.character_service.gain_exp(&mut character, 100);
+        // Then
+        context.test_context.increment_latch().wait_expected_count_with_timeout(2, Duration::from_millis(200));
+        assert_eq!(character.status.base_exp, 110);
+        assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "base_exp".to_string(), value: character.status.base_exp, }));
+        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(PacketZcParChange::packet_id(), 1)]));
+    }
+
+    #[test]
+    fn test_gain_job_exp_should_update_in_memory_defer_update_in_db_and_send_packet() {
+        // Given
+        let context = before_each(mocked_repository());
+        let mut character = create_character();
+        character.status.job_exp = 10;
+        // When
+        context.character_service.gain_job_exp(&mut character, 60);
+        // Then
+        context.test_context.increment_latch().wait_expected_count_with_timeout(2, Duration::from_millis(200));
+        assert_eq!(character.status.job_exp, 70);
+        assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "job_exp".to_string(), value: character.status.job_exp, }));
+        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(PacketZcParChange::packet_id(), 1)]));
+    }
 }

@@ -16,9 +16,9 @@ use crate::server::model::map_item::{MapItem, MapItemType};
 use crate::server::model::position::Position;
 use crate::server::model::tasks_queue::TasksQueue;
 use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, CharNotification, Notification};
-use crate::server::model::events::game_event::{CharacterAddItems, CharacterChangeMap, CharacterMovement, CharacterRemoveFromMap, CharacterUpdateStat, GameEvent};
+use crate::server::model::events::game_event::{CharacterAddItems, CharacterChangeMap, CharacterKillMonster, CharacterMovement, CharacterRemoveFromMap, CharacterUpdateStat, GameEvent};
 use crate::server::map_instance_loop::MapInstanceLoop;
-use crate::server::model::events::map_event::MapEvent;
+use crate::server::model::events::map_event::{MapEvent, MobDropItems};
 use crate::server::model::movement::{Movable, Movement};
 use crate::server::model::path::{manhattan_distance, path_search_client_side_algorithm};
 
@@ -189,5 +189,17 @@ impl ServerService {
         packet_zc_status_change_ack.set_value(self.character_service.stat_value(character, StatusTypes::from_value(character_update_stat.stat_id as usize)) as u8);
         packet_zc_status_change_ack.fill_raw();
         self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packet_zc_status_change_ack.raw))).expect("Fail to send client notification");
+    }
+
+    pub fn character_kill_monster(&self, character: &mut Character, character_kill_monster: CharacterKillMonster, map_instance: &MapInstance) {
+        self.character_service.gain_exp(character, character_kill_monster.mob_base_exp);
+        self.character_service.gain_job_exp(character, character_kill_monster.mob_job_exp);
+        // TODO check autoloot
+        let autoloot = false;
+        if autoloot {
+
+        } else {
+            map_instance.add_to_delayed_tick(MapEvent::MobDropItems(MobDropItems { owner_id: character_kill_monster.char_id, mob_id: character_kill_monster.mob_id, mob_x: character_kill_monster.mob_x, mob_y: character_kill_monster.mob_y }), 400);
+        }
     }
 }
