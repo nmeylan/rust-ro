@@ -249,7 +249,7 @@ mod tests {
             change_amount: 1
         });
         // Then
-        context.test_context.increment_latch().wait_expected_count_with_timeout(1, Duration::from_millis(200));
+        context.test_context.increment_latch().wait_expected_count_with_timeout(3, Duration::from_millis(200));
         assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character_state.char_id, vec![SentPacket::with_id(PacketZcStatusChangeAck::packet_id())]));
     }
 
