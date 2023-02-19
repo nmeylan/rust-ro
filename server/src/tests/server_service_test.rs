@@ -54,7 +54,14 @@ fn before_each_with_latch(latch_size: usize) -> ServerServiceTestContext {
 #[cfg(test)]
 mod tests {
     use std::sync::Arc;
+    use std::time::Duration;
     use tokio::runtime::Runtime;
+    use enums::status::StatusTypes;
+    use crate::assert_sent_packet_in_current_packetver;
+    use crate::tests::common::assert_helper::{*};
+    use packets::packets::PacketZcStatusChangeAck;
+    use crate::enums::EnumWithNumberValue;
+    use crate::server::model::events::game_event::CharacterUpdateStat;
     use crate::server::model::events::map_event::MapEvent;
     use crate::server::model::item::DroppedItem;
     use crate::server::model::map_item::ToMapItem;
@@ -228,5 +235,21 @@ mod tests {
         let item_from_inventory = character_state.get_item_from_inventory(0).unwrap();
         assert_eq!(item_from_inventory.item_id, 501);
         assert_eq!(item_from_inventory.amount, 2);
+    }
+
+    #[test]
+    fn character_increase_stat_should_send_ack_packet() {
+        // Given
+        let context = before_each();
+        let mut character_state = create_character();
+        // When
+        context.server_service.character_increase_stat(&mut character_state, CharacterUpdateStat {
+            char_id: 150000,
+            stat_id: StatusTypes::Str.value() as u16,
+            change_amount: 1
+        });
+        // Then
+        context.test_context.increment_latch().wait_expected_count_with_timeout(1, Duration::from_millis(200));
+        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character_state.char_id, vec![SentPacket::with_id(PacketZcStatusChangeAck::packet_id())]));
     }
 }

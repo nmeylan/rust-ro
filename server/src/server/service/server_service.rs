@@ -5,8 +5,9 @@ use std::sync::mpsc::SyncSender;
 use rathena_script_lang_interpreter::lang::vm::Vm;
 use tokio::runtime::Runtime;
 use enums::action::ActionType;
+use enums::status::StatusTypes;
 use crate::enums::EnumWithNumberValue;
-use packets::packets::PacketZcNotifyAct;
+use packets::packets::{PacketZcNotifyAct, PacketZcStatusChange, PacketZcStatusChangeAck};
 use crate::repository::model::item_model::InventoryItemModel;
 use crate::server::boot::map_loader::MapLoader;
 use crate::server::model::map::{Map, RANDOM_CELL};
@@ -14,8 +15,8 @@ use crate::server::model::map_instance::MapInstance;
 use crate::server::model::map_item::{MapItem, MapItemType};
 use crate::server::model::position::Position;
 use crate::server::model::tasks_queue::TasksQueue;
-use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, Notification};
-use crate::server::model::events::game_event::{CharacterAddItems, CharacterChangeMap, CharacterMovement, CharacterRemoveFromMap, GameEvent};
+use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, CharNotification, Notification};
+use crate::server::model::events::game_event::{CharacterAddItems, CharacterChangeMap, CharacterMovement, CharacterRemoveFromMap, CharacterUpdateStat, GameEvent};
 use crate::server::map_instance_loop::MapInstanceLoop;
 use crate::server::model::events::map_event::MapEvent;
 use crate::server::model::movement::{Movable, Movement};
@@ -178,5 +179,15 @@ impl ServerService {
         } else {
             warn!("Character {} tried to loot item with map item id {} not in his fov", character.char_id, map_item_id);
         }
+    }
+
+    pub fn character_increase_stat(&self, character: &mut Character, character_update_stat: CharacterUpdateStat) {
+        let result = self.character_service.increase_stat(character, StatusTypes::from_value(character_update_stat.stat_id as usize), character_update_stat.change_amount);
+        let mut packet_zc_status_change_ack = PacketZcStatusChangeAck::new();
+        packet_zc_status_change_ack.set_status_id(character_update_stat.stat_id);
+        packet_zc_status_change_ack.set_result(result);
+        packet_zc_status_change_ack.set_value(self.character_service.stat_value(character, StatusTypes::from_value(character_update_stat.stat_id as usize)) as u8);
+        packet_zc_status_change_ack.fill_raw();
+        self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packet_zc_status_change_ack.raw))).expect("Fail to send client notification");
     }
 }

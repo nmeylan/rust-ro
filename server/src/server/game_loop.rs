@@ -5,6 +5,8 @@ use std::thread::{sleep};
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
 use tokio::runtime::Runtime;
+use enums::status::StatusTypes;
+use crate::enums::EnumWithNumberValue;
 
 use packets::packets::{Packet, PacketZcNotifyPlayermove};
 use crate::PersistenceEvent;
@@ -161,6 +163,10 @@ impl Server {
                         }
                         GameEvent::MapNotifyItemRemoved(map_item_id) => {
                             server_state_mut.remove_locked_map_item(map_item_id);
+                        }
+                        GameEvent::CharacterUpdateStat(character_update_stat) => {
+                            let mut character = server_state_mut.characters_mut().get_mut(&character_update_stat.char_id).unwrap();
+                            ServerService::instance().character_increase_stat(character, character_update_stat);
                         }
                     }
                 }

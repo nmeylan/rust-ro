@@ -270,7 +270,34 @@ impl CharacterService {
         self.server_task_queue.add_to_first_index(GameEvent::CharacterCalculateStats(character.char_id));
     }
 
-    pub fn increase_stat(&self, character: &mut Character, status_type: StatusTypes, value_to_add: u16) {
+    pub fn stat_value(&self, character: &Character, status_type: StatusTypes) -> u16 {
+        match status_type {
+            StatusTypes::Str => {
+                character.status.str
+            }
+            StatusTypes::Agi => {
+                character.status.agi
+            }
+            StatusTypes::Vit => {
+                character.status.vit
+            }
+            StatusTypes::Int => {
+                character.status.int
+            }
+            StatusTypes::Dex => {
+                character.status.dex
+            }
+            StatusTypes::Luk => {
+                character.status.luk
+            }
+            _ => {
+                error!("Can't read stat of type {:?}, not handled yet!", status_type);
+               0
+            }
+        }
+    }
+
+    pub fn increase_stat(&self, character: &mut Character, status_type: StatusTypes, value_to_add: u16) -> bool {
         let mut null_stat = 0;
         let mut stat = match status_type {
             StatusTypes::Str => {
@@ -297,7 +324,7 @@ impl CharacterService {
             }
         };
         if *stat + value_to_add > self.configuration_service.config().game.max_stat_level {
-            return;
+            return false;
         }
         // With this calculation method, when value_to_add is > 1, like 10 and there is in theory enough status point available to add 3 points to the stat,
         // stat won't be updated at all
@@ -306,14 +333,18 @@ impl CharacterService {
             raising_cost += self.stat_raising_cost_for_next_level(*stat + i - 1, format!("{:?}", status_type).as_str());
         }
         if character.status.status_point < raising_cost {
-            return;
+            return false;
         }
         *stat += value_to_add;
         character.status.status_point -= raising_cost;
         self.persistence_event_sender.send(PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate {
-            char_id: character.char_id, db_column: status_type.to_column().unwrap_or_else(|| panic!("no db column name for status of type {:?}", status_type)).to_string(), value: *stat as u32 })).expect("Fail to send persistence notification");
+            char_id: character.char_id,
+            db_column: status_type.to_column().unwrap_or_else(|| panic!("no db column name for status of type {:?}", status_type)).to_string(),
+            value: *stat as u32,
+        })).expect("Fail to send persistence notification");
         self.persistence_event_sender.send(PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "status_point".to_string(), value: character.status.status_point })).expect("Fail to send persistence notification");
         self.server_task_queue.add_to_first_index(GameEvent::CharacterCalculateStats(character.char_id));
+        true
     }
 
     pub fn calculate_status_point_delta(&self, from_level: u32, to_level: u32) -> i32 {
@@ -355,29 +386,58 @@ impl CharacterService {
 
     pub fn calculate_status(&self, server_ref: &Server, character: &Character) {
         let mut packet_str = PacketZcStatusValues::new();
-        packet_str.set_status_type(StatusTypes::Str.value());
+        packet_str.set_status_type(StatusTypes::Str.value() as u32);
         packet_str.set_default_status(character.status.str as i32);
         packet_str.fill_raw();
         let mut packet_agi = PacketZcStatusValues::new();
-        packet_agi.set_status_type(StatusTypes::Agi.value());
+        packet_agi.set_status_type(StatusTypes::Agi.value() as u32);
         packet_agi.set_default_status(character.status.agi as i32);
         packet_agi.fill_raw();
         let mut packet_dex = PacketZcStatusValues::new();
-        packet_dex.set_status_type(StatusTypes::Dex.value());
+        packet_dex.set_status_type(StatusTypes::Dex.value() as u32);
         packet_dex.set_default_status(character.status.dex as i32);
         packet_dex.fill_raw();
         let mut packet_int = PacketZcStatusValues::new();
-        packet_int.set_status_type(StatusTypes::Int.value());
+        packet_int.set_status_type(StatusTypes::Int.value() as u32);
         packet_int.set_default_status(character.status.int as i32);
         packet_int.fill_raw();
         let mut packet_vit = PacketZcStatusValues::new();
-        packet_vit.set_status_type(StatusTypes::Vit.value());
+        packet_vit.set_status_type(StatusTypes::Vit.value() as u32);
         packet_vit.set_default_status(character.status.vit as i32);
         packet_vit.fill_raw();
         let mut packet_luk = PacketZcStatusValues::new();
-        packet_luk.set_status_type(StatusTypes::Luk.value());
+        packet_luk.set_status_type(StatusTypes::Luk.value() as u32);
         packet_luk.set_default_status(character.status.luk as i32);
         packet_luk.fill_raw();
+        let mut packet_str_increase_cost = PacketZcParChange::new();
+        packet_str_increase_cost.set_var_id(StatusTypes::Ustr.value() as u16);
+        packet_str_increase_cost.set_count(self.stat_raising_cost_for_next_level(character.status.str, "str") as i32);
+        packet_str_increase_cost.fill_raw();
+        let mut packet_agi_increase_cost = PacketZcParChange::new();
+        packet_agi_increase_cost.set_var_id(StatusTypes::Uagi.value() as u16);
+        packet_agi_increase_cost.set_count(self.stat_raising_cost_for_next_level(character.status.agi, "agi") as i32);
+        packet_agi_increase_cost.fill_raw();
+        let mut packet_dex_increase_cost = PacketZcParChange::new();
+        packet_dex_increase_cost.set_var_id(StatusTypes::Udex.value() as u16);
+        packet_dex_increase_cost.set_count(self.stat_raising_cost_for_next_level(character.status.dex, "dex") as i32);
+        packet_dex_increase_cost.fill_raw();
+        let mut packet_vit_increase_cost = PacketZcParChange::new();
+        packet_vit_increase_cost.set_var_id(StatusTypes::Uvit.value() as u16);
+        packet_vit_increase_cost.set_count(self.stat_raising_cost_for_next_level(character.status.vit, "vit") as i32);
+        packet_vit_increase_cost.fill_raw();
+        let mut packet_int_increase_cost = PacketZcParChange::new();
+        packet_int_increase_cost.set_var_id(StatusTypes::Uint.value() as u16);
+        packet_int_increase_cost.set_count(self.stat_raising_cost_for_next_level(character.status.int, "int") as i32);
+        packet_int_increase_cost.fill_raw();
+        let mut packet_luk_increase_cost = PacketZcParChange::new();
+        packet_luk_increase_cost.set_var_id(StatusTypes::Uluk.value() as u16);
+        packet_luk_increase_cost.set_count(self.stat_raising_cost_for_next_level(character.status.luk, "luk") as i32);
+        packet_luk_increase_cost.fill_raw();
+        let mut packet_status_point = PacketZcParChange::new();
+        packet_status_point.set_var_id(StatusTypes::Statuspoint.value() as u16);
+        packet_status_point.set_count(character.status.status_point as i32);
+        packet_status_point.fill_raw();
+
         let mut packet_hit = PacketZcParChange::new();
         packet_hit.set_var_id(StatusTypes::Hit.value() as u16);
         packet_hit.set_count(character.status.hit as i32);
@@ -449,6 +509,8 @@ impl CharacterService {
 
         let mut final_response_packet: Vec<u8> = chain_packets(vec![
             &packet_str, &packet_agi, &packet_dex, &packet_int, &packet_luk, &packet_vit,
+            &packet_status_point, &packet_str_increase_cost, &packet_agi_increase_cost, &packet_vit_increase_cost,
+            &packet_dex_increase_cost, &packet_int_increase_cost, &packet_luk_increase_cost,
             &packet_hit, &packet_flee, &packet_aspd, &packet_atk, &packet_atk2, &packet_def,
             &packet_flee2, &packet_crit, &packet_matk, &packet_matk2,
             &packet_mdef2, &packet_attack_range, &packet_maxhp, &packet_maxsp, &packet_hp,
