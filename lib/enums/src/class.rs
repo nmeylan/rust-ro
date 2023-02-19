@@ -88,21 +88,53 @@ pub enum JobName {
 impl JobName {
     pub fn is_rebirth(&self) -> bool {
         match self {
-            JobName::Novice | JobName::Swordsman | JobName::Mage | JobName::Archer | JobName::Acolyte
-            | JobName::Merchant | JobName::Thief | JobName::Knight | JobName::Priest | JobName::Wizard
-            | JobName::Blacksmith | JobName::Hunter | JobName::Assassin | JobName::Crusader | JobName::Monk
-            | JobName::Sage | JobName::Rogue | JobName::Alchemist | JobName::Bard | JobName::Dancer
-            | JobName::Wedding | JobName::SuperNovice | JobName::Gunslinger | JobName::Ninja | JobName::Xmas
-            | JobName::Summer | JobName::BabyNovice | JobName::BabySwordman | JobName::BabyMage
-            | JobName::BabyArcher | JobName::BabyAcolyte | JobName::BabyMerchant | JobName::BabyThief
-            | JobName::BabyKnight | JobName::BabyPriest | JobName::BabyWizard | JobName::BabyBlacksmith
-            | JobName::BabyHunter | JobName::BabyAssassin | JobName::BabyCrusader | JobName::BabyMonk
-            | JobName::BabySage | JobName::BabyRogue | JobName::BabyAlchemist | JobName::SuperBaby
-            | JobName::Taekwon | JobName::StarGladiator | JobName::SoulLinker => false,
             JobName::NoviceHigh | JobName::SwordsmanHigh | JobName::MageHigh | JobName::ArcherHigh
             | JobName::AcolyteHigh | JobName::MerchantHigh | JobName::ThiefHigh | JobName::LordKnight | JobName::HighPriest
             | JobName::HighWizard | JobName::Whitesmith | JobName::Sniper | JobName::AssassinCross | JobName::Paladin
-            | JobName::Champion | JobName::Professor | JobName::Stalker | JobName::Creator | JobName::Clown | JobName::Gypsy => true
+            | JobName::Champion | JobName::Professor | JobName::Stalker | JobName::Creator | JobName::Clown | JobName::Gypsy => true,
+            _ => false,
+        }
+    }
+    pub fn is_novice(&self) -> bool {
+        match self {
+            JobName::NoviceHigh | JobName::Novice | JobName::SuperNovice => true,
+            _ => false
+        }
+    }
+    pub fn is_first_class(&self) -> bool {
+        match self {
+            JobName::Swordsman | JobName::Mage | JobName::Archer | JobName::Acolyte
+            | JobName::Merchant | JobName::Thief | JobName::BabySwordman | JobName::BabyMage
+            | JobName::BabyArcher | JobName::BabyAcolyte | JobName::BabyMerchant | JobName::BabyThief
+            | JobName::SwordsmanHigh | JobName::MageHigh | JobName::ArcherHigh
+            | JobName::AcolyteHigh | JobName::MerchantHigh | JobName::ThiefHigh => true,
+            _ => false,
+        }
+    }
+    pub fn is_second_class(&self) -> bool {
+        match self {
+            JobName::Knight | JobName::Priest | JobName::Wizard
+            | JobName::Blacksmith | JobName::Hunter | JobName::Assassin | JobName::Crusader | JobName::Monk
+            | JobName::Sage | JobName::Rogue | JobName::Alchemist | JobName::Bard | JobName::Dancer
+            | JobName::BabyKnight | JobName::BabyPriest | JobName::BabyWizard | JobName::BabyBlacksmith
+            | JobName::BabyHunter | JobName::BabyAssassin | JobName::BabyCrusader | JobName::BabyMonk
+            | JobName::BabySage | JobName::BabyRogue | JobName::BabyAlchemist
+            | JobName::LordKnight | JobName::HighPriest
+            | JobName::HighWizard | JobName::Whitesmith | JobName::Sniper | JobName::AssassinCross | JobName::Paladin
+            | JobName::Champion | JobName::Professor | JobName::Stalker | JobName::Creator | JobName::Clown | JobName::Gypsy => true,
+            _ => false,
+        }
+    }
+    pub fn is_gunslinger_ninja(&self) -> bool {
+        match self {
+            JobName::Gunslinger | JobName::Ninja => true,
+            _ => false,
+        }
+    }
+    pub fn is_taekwon(&self) -> bool {
+        match self {
+            JobName::Taekwon | JobName::StarGladiator | JobName::SoulLinker => true,
+            _ => false,
         }
     }
 }

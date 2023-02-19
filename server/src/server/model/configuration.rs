@@ -82,6 +82,10 @@ pub struct JobLevelRequirement {
     pub transcended_first_class: Vec<u32>,
     #[serde(rename = "TranscendedSecondClass")]
     pub transcended_second_class: Vec<u32>,
+    #[serde(rename = "TaekwonClass")]
+    pub taekwon_class: Vec<u32>,
+    #[serde(rename = "NinjaGunslingerClass")]
+    pub gunslinger_class: Vec<u32>,
 }
 
 #[derive(Deserialize, Debug, SettersAll, Clone)]
