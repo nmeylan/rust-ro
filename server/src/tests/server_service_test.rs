@@ -265,6 +265,7 @@ mod tests {
         character_state.status.base_exp = 10;
         character_state.status.base_level = 10;
         character_state.status.job_exp = 5;
+        character_state.status.job_level = 9;
         context.server_service.character_kill_monster(&mut character_state, CharacterKillMonster {
             char_id,
             mob_id: 1001,
