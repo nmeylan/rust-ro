@@ -28,6 +28,7 @@ use crate::server::model::events::persistence_event::PersistenceEvent::SaveChara
 use crate::server::{PLAYER_FOV, Server};
 use crate::server::model::map_instance::MapInstanceKey;
 use crate::server::model::position::Position;
+use crate::server::model::status::Status;
 use crate::server::model::tasks_queue::TasksQueue;
 
 use crate::server::service::global_config_service::GlobalConfigService;
@@ -246,7 +247,7 @@ impl CharacterService {
         status_point_count
     }
 
-    pub fn stat_raising_cost(&self, stat: u16, stat_name: &str) -> u32 {
+    fn stat_raising_cost(&self, stat: u16, stat_name: &str) -> u32 {
         let mut status_point_count: u32 = 0;
         for i in 2..=stat {
             status_point_count += self.stat_raising_cost_for_next_level(i, stat_name)
@@ -271,25 +272,25 @@ impl CharacterService {
         self.server_task_queue.add_to_first_index(GameEvent::CharacterCalculateStats(character.char_id));
     }
 
-    pub fn stat_value(&self, character: &Character, status_type: StatusTypes) -> u16 {
+    pub fn stat_value(&self, status: &Status, status_type: StatusTypes) -> u16 {
         match status_type {
             StatusTypes::Str => {
-                character.status.str
+                status.str
             }
             StatusTypes::Agi => {
-                character.status.agi
+                status.agi
             }
             StatusTypes::Vit => {
-                character.status.vit
+                status.vit
             }
             StatusTypes::Int => {
-                character.status.int
+                status.int
             }
             StatusTypes::Dex => {
-                character.status.dex
+                status.dex
             }
             StatusTypes::Luk => {
-                character.status.luk
+                status.luk
             }
             _ => {
                 error!("Can't read stat of type {:?}, not handled yet!", status_type);
@@ -348,10 +349,37 @@ impl CharacterService {
         true
     }
 
-    pub fn gain_exp(&self, character: &mut Character, exp: u32) {
-        character.status.base_exp += exp;
+    pub fn gain_exp(&self, character: &mut Character, gain_exp: u32) {
+        let mut gained_level = 0;
+        let mut gain_exp = gain_exp;
+        let mut status_copy = character.status;
+        loop {
+            let next_level_requirement = self.next_base_level_required_exp(&status_copy);
+            if next_level_requirement == u32::MAX {
+                character.status.base_exp = 0;
+                gain_exp = 0;
+                break;
+            }
+            // Currently multi leveling is allowed, so if gained exp permit to level up...
+            if character.status.base_exp + gain_exp >= next_level_requirement {
+                gained_level += 1;
+                // ... we gain new level...
+                status_copy.base_level += 1;
+                // ... removing from gained exp, the amount spent to level up...
+                gain_exp = character.status.base_exp + gain_exp - next_level_requirement;
+                character.status.base_exp = 0;
+            } else {
+                // ... until there not enough exp point to reach new level
+                break;
+            }
+        }
+        if gained_level > 0 {
+            self.update_base_level(character, None, Some(gained_level));
+        }
+        character.status.base_exp += gain_exp;
         self.send_status_update_and_defer_db_update(character.char_id, StatusTypes::Baseexp, character.status.base_exp);
     }
+    
     pub fn gain_job_exp(&self, character: &mut Character, exp: u32) {
         character.status.job_exp += exp;
         self.send_status_update_and_defer_db_update(character.char_id, StatusTypes::Jobexp, character.status.job_exp);
@@ -394,21 +422,23 @@ impl CharacterService {
         self.get_spent_status_point(character) > self.get_status_point_count_for_level(character)
     }
 
-    pub fn next_base_level_required_exp(&self, character: &Character) -> u32 {
-        let exp =if JobName::from_value(character.status.job as usize).is_rebirth() {
+    pub fn next_base_level_required_exp(&self, status: &Status) -> u32 {
+        let exp =if JobName::from_value(status.job as usize).is_rebirth() {
             &self.configuration_service.config().game.exp_requirements.base_next_level_requirement.transcendent
         } else {
             &self.configuration_service.config().game.exp_requirements.base_next_level_requirement.normal
         };
-        if character.status.base_level > exp.len() as u32 {
-            panic!("Base level above base level exp requirement, TODO define a formula for exp required for {}+ level", character.status.base_level)
+        if status.base_level > exp.len() as u32 {
+            // TODO: define a formula in configuration for infinite leveling, which increase leveling curve, level after level.
+            // For now disable exp gain when nothing is defined
+            u32::MAX
         } else {
-            *exp.get((character.status.base_level - 1) as usize).unwrap()
+            *exp.get((status.base_level - 1) as usize).unwrap()
         }
     }
 
-    pub fn next_job_level_required_exp(&self, character: &Character) -> u32 {
-        let job_name = JobName::from_value(character.status.job as usize);
+    pub fn next_job_level_required_exp(&self, status: &Status) -> u32 {
+        let job_name = JobName::from_value(status.job as usize);
         let empty_exp = vec![];
         let exp = if job_name.is_taekwon() {
             &self.configuration_service.config().game.exp_requirements.job_next_level_requirement.taekwon_class
@@ -436,10 +466,10 @@ impl CharacterService {
             }
         };
 
-        if character.status.job_level > exp.len() as u32 {
-            panic!("Job level above job level exp requirement for job {}, TODO define a formula for exp required for {}+ level", job_name.as_str(), character.status.base_level)
+        if status.job_level > exp.len() as u32 {
+            panic!("Job level above job level exp requirement for job {}, TODO define a formula for exp required for {}+ level", job_name.as_str(), status.base_level)
         } else {
-            *exp.get((character.status.base_level - 1) as usize).unwrap()
+            *exp.get((status.base_level - 1) as usize).unwrap()
         }
     }
 

@@ -9,6 +9,7 @@ extern crate accessor;
 
 extern crate enums;
 extern crate packets;
+extern crate core;
 
 mod proxy;
 #[macro_use]
