@@ -51,6 +51,37 @@ pub struct GameConfig {
     pub status_point_rewards: Vec<StatusPointReward>,
     #[serde(skip)]
     pub status_point_raising_cost: Vec<StatusPointRaisingCost>,
+    #[serde(skip)]
+    pub exp_requirements: ExpRequirement,
+}
+
+#[derive(Deserialize, Default, Debug, SettersAll, Clone)]
+pub struct ExpRequirement {
+    pub base_next_level_requirement: BaseLevelRequirement,
+    pub job_next_level_requirement: JobLevelRequirement,
+}
+
+#[derive(Deserialize, Default, Debug, SettersAll, Clone)]
+pub struct BaseLevelRequirement {
+    #[serde(rename = "Normal")]
+    pub normal: Vec<u32>,
+    #[serde(rename = "Transcendent")]
+    pub transcendent: Vec<u32>,
+}
+#[derive(Deserialize, Default, Debug, SettersAll, Clone)]
+pub struct JobLevelRequirement {
+    #[serde(rename = "Novice")]
+    pub novice: Vec<u32>,
+    #[serde(rename = "FirstClass")]
+    pub first_class: Vec<u32>,
+    #[serde(rename = "SecondClass")]
+    pub second_class: Vec<u32>,
+    #[serde(rename = "TranscendedNovice")]
+    pub transcended_novice: Vec<u32>,
+    #[serde(rename = "TranscendedFirstClass")]
+    pub transcended_first_class: Vec<u32>,
+    #[serde(rename = "TranscendedSecondClass")]
+    pub transcended_second_class: Vec<u32>,
 }
 
 #[derive(Deserialize, Debug, SettersAll, Clone)]
@@ -390,6 +421,8 @@ impl Config {
         Self::set_config_status_point_rewards(&mut config, file_path).unwrap();
         let file_path = "./config/status_point_raising_cost.json";
         Self::set_config_status_point_raising_cost(&mut config, file_path).unwrap();
+        let file_path = "./config/exp.json";
+        Self::set_exp_requirements(&mut config, file_path).unwrap();
 
 
         Ok(config)
@@ -409,6 +442,14 @@ impl Config {
             return Err(format!("{} file does not exists at {}", file_path, env::current_dir().unwrap().join(path).to_str().unwrap()));
         }
         config.game.status_point_raising_cost = serde_json::from_str(&fs::read_to_string(path).unwrap()).unwrap();
+        Ok(())
+    }
+    pub fn set_exp_requirements(config: &mut Config, file_path: &str) -> Result<(), String> {
+        let path = Path::new(file_path);
+        if !path.exists() {
+            return Err(format!("{} file does not exists at {}", file_path, env::current_dir().unwrap().join(path).to_str().unwrap()));
+        }
+        config.game.exp_requirements = serde_json::from_str(&fs::read_to_string(path).unwrap()).unwrap();
         Ok(())
     }
 

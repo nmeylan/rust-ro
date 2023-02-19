@@ -1,6 +1,6 @@
 {
-"leveling": {
-"normal": [
+"base_next_level_requirement": {
+"Normal": [
 9,
 16,
 25,
@@ -100,7 +100,7 @@
 58135000,
 99999998
 ],
-"transcendent": [
+"Transcendent": [
 10,
 18,
 28,
@@ -200,5 +200,13 @@
 174405000,
 343210000
 ]
-}
+},
+  "job_next_level_requirement": {
+    "Novice": [],
+    "FirstClass": [],
+    "SecondClass": [],
+    "TranscendedNovice": [],
+    "TranscendedFirstClass": [],
+    "TranscendedSecondClass": []
+  }
 }
