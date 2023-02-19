@@ -1,5 +1,6 @@
 #![allow(dead_code)]
 
+#[derive(Debug)]
 pub enum StatusTypes {
     None,
     Speed,
@@ -500,6 +501,20 @@ impl StatusTypes {
             StatusTypes::Subdefele => 2063,
             StatusTypes::Magicsubdefele => 2064,
             StatusTypes::Statenorecoverrace => 2065,
+        }
+    }
+
+    pub fn to_column(&self) -> Option<&str> {
+        match self {
+            StatusTypes::Str => Some("str"),
+            StatusTypes::Agi => Some("agi"),
+            StatusTypes::Vit => Some("vit"),
+            StatusTypes::Int => Some("int"),
+            StatusTypes::Dex => Some("dex"),
+            StatusTypes::Luk => Some("luk"),
+            _ => {
+                None
+            }
         }
     }
 }

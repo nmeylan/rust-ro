@@ -45,6 +45,7 @@ mod tests {
     use tokio::runtime::Runtime;
     use enums::class::JobName;
     use enums::look::LookType;
+    use enums::status::StatusTypes;
     use packets::packets::{PacketZcSpriteChange2, PacketZcLongparChange, PacketZcParChange};
     use crate::tests::character_service_tests::GameEvent;
     use crate::{assert_sent_packet_in_current_packetver, assert_sent_persistence_event, assert_task_queue_contains_event_at_tick};
@@ -746,5 +747,127 @@ mod tests {
         assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "luk".to_string(), value: 1, }));
         assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(PacketZcParChange::packet_id(), 1)]));
         assert_task_queue_contains_event_at_tick!(context.server_task_queue, GameEvent::CharacterCalculateStats(character.char_id), 0);
+    }
+
+    #[test]
+    fn test_increase_stat_allocate_status_point_to_stat() {
+        // Given
+        let context = before_each(mocked_repository());
+        let mut character = create_character();
+        character.status.str = 1;
+        character.status.int = 2;
+        character.status.agi = 3;
+        character.status.dex = 4;
+        character.status.vit = 5;
+        character.status.luk = 6;
+        character.status.status_point = 1000;
+        // When
+        context.character_service.increase_stat(&mut character, StatusTypes::Str, 10);
+        context.character_service.increase_stat(&mut character, StatusTypes::Int, 11);
+        context.character_service.increase_stat(&mut character, StatusTypes::Agi, 12);
+        context.character_service.increase_stat(&mut character, StatusTypes::Dex, 13);
+        context.character_service.increase_stat(&mut character, StatusTypes::Vit, 14);
+        context.character_service.increase_stat(&mut character, StatusTypes::Luk, 15);
+        // Then
+        assert_eq!(character.status.str, 11);
+        assert_eq!(character.status.int, 13);
+        assert_eq!(character.status.agi, 15);
+        assert_eq!(character.status.dex, 17);
+        assert_eq!(character.status.vit, 19);
+        assert_eq!(character.status.luk, 21);
+    }
+
+    #[test]
+    fn test_increase_stat_should_decrease_available_status_point() {
+        // Given
+        let context = before_each(mocked_repository());
+        struct Scenarii {available_status_point: u32, initial_stat_level: u16, value_to_add: u16, expected_available_status_point: u32}
+        let scenario = vec![
+            Scenarii { available_status_point: 3, initial_stat_level: 60, value_to_add: 10, expected_available_status_point: 3 },
+            Scenarii { available_status_point: 14, initial_stat_level: 60, value_to_add: 2, expected_available_status_point: 0 },
+            Scenarii { available_status_point: 7, initial_stat_level: 60, value_to_add: 1, expected_available_status_point: 0 },
+            Scenarii { available_status_point: 14, initial_stat_level: 60, value_to_add: 3, expected_available_status_point: 14 },
+            Scenarii { available_status_point: 23, initial_stat_level: 60, value_to_add: 3, expected_available_status_point: 1 },
+            Scenarii { available_status_point: 22, initial_stat_level: 60, value_to_add: 10, expected_available_status_point: 22 },
+        ];
+        for scenarii in scenario {
+            let mut character = create_character();
+            character.status.str = scenarii.initial_stat_level;
+            character.status.status_point = scenarii.available_status_point;
+            // When
+            context.character_service.increase_stat(&mut character, StatusTypes::Str, scenarii.value_to_add);
+            // Then
+            assert_eq!(character.status.status_point, scenarii.expected_available_status_point);
+        }
+    }
+
+    #[test]
+    fn test_increase_stat_should_ensure_enough_status_point_are_available() {
+        // Given
+        let context = before_each(mocked_repository());
+        struct Scenarii {available_status_point: u32, initial_stat_level: u16, value_to_add: u16, expected_can_raise_stat: bool}
+        let scenario = vec![
+            Scenarii { available_status_point: 0, initial_stat_level: 60, value_to_add: 10, expected_can_raise_stat: false },
+            Scenarii { available_status_point: 14, initial_stat_level: 60, value_to_add: 2, expected_can_raise_stat: true },
+            Scenarii { available_status_point: 7, initial_stat_level: 60, value_to_add: 1, expected_can_raise_stat: true },
+            Scenarii { available_status_point: 14, initial_stat_level: 60, value_to_add: 3, expected_can_raise_stat: false },
+            Scenarii { available_status_point: 22, initial_stat_level: 60, value_to_add: 3, expected_can_raise_stat: true },
+            Scenarii { available_status_point: 22, initial_stat_level: 60, value_to_add: 10, expected_can_raise_stat: false },
+        ];
+
+        for scenarii in scenario {
+            let mut character = create_character();
+            character.status.str = scenarii.initial_stat_level;
+            character.status.status_point = scenarii.available_status_point;
+            // When
+            context.character_service.increase_stat(&mut character, StatusTypes::Str, scenarii.value_to_add);
+            // Then
+            if scenarii.expected_can_raise_stat {
+                assert_eq!(character.status.str, scenarii.initial_stat_level + scenarii.value_to_add);
+            } else {
+                assert_eq!(character.status.str, scenarii.initial_stat_level);
+            }
+        }
+    }
+
+    #[test]
+    fn test_increase_stat_should_trigger_calculate_stat() {
+        // Given
+        let context = before_each(mocked_repository());
+        let mut character = create_character();
+        character.status.str = 98;
+        character.status.status_point = 1000;
+        // When
+        context.character_service.increase_stat(&mut character, StatusTypes::Str, 1);
+        // Then
+        assert_task_queue_contains_event_at_tick!(context.server_task_queue, GameEvent::CharacterCalculateStats(character.char_id), 0);
+    }
+
+    #[test]
+    fn test_increase_stat_cannot_exceed_max_stat_level_configured() {
+        // Given
+        let context = before_each(mocked_repository());
+        let mut character = create_character();
+        character.status.str = 99;
+        character.status.status_point = 1000;
+        // When
+        context.character_service.increase_stat(&mut character, StatusTypes::Str, 1);
+        // Then
+        assert_eq!(character.status.str, 99);
+    }
+
+    #[test]
+    fn test_increase_stat_should_defer_stat_update_and_status_point_update_in_db() {
+        // Given
+        let context = before_each(mocked_repository());
+        let mut character = create_character();
+        character.status.str = 98;
+        character.status.status_point = 1000;
+        // When
+        context.character_service.increase_stat(&mut character, StatusTypes::Str, 1);
+        // Then
+        context.test_context.increment_latch().wait_expected_count_with_timeout(2, Duration::from_millis(200));
+        assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "status_point".to_string(), value: character.status.status_point, }));
+        assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "str".to_string(), value: 99, }));
     }
 }

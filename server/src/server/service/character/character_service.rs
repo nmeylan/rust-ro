@@ -47,7 +47,7 @@ pub struct CharacterService {
     persistence_event_sender: SyncSender<PersistenceEvent>,
     repository: Arc<dyn CharacterRepository + Sync>,
     configuration_service: &'static GlobalConfigService,
-    server_task_queue: Arc<TasksQueue<GameEvent>>
+    server_task_queue: Arc<TasksQueue<GameEvent>>,
 }
 
 impl CharacterService {
@@ -60,7 +60,7 @@ impl CharacterService {
     }
     pub fn init(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, repository: Arc<dyn CharacterRepository + Sync>, configuration_service: &'static GlobalConfigService, server_task_queue: Arc<TasksQueue<GameEvent>>) {
         SERVICE_INSTANCE_INIT.call_once(|| unsafe {
-            SERVICE_INSTANCE = Some(CharacterService{ client_notification_sender, persistence_event_sender, repository, configuration_service, server_task_queue });
+            SERVICE_INSTANCE = Some(CharacterService { client_notification_sender, persistence_event_sender, repository, configuration_service, server_task_queue });
         });
     }
 
@@ -89,7 +89,7 @@ impl CharacterService {
         writeln!(stdout, "  zeny: {}", character.status.zeny).unwrap();
         writeln!(stdout, "  weight: {}/{}", character.weight(), self.max_weight(character)).unwrap();
         writeln!(stdout, "Inventory:").unwrap();
-        type PredicateClosure =  Box<dyn Fn(&(usize, &InventoryItemModel)) -> bool>;
+        type PredicateClosure = Box<dyn Fn(&(usize, &InventoryItemModel)) -> bool>;
         let mut inventory_print = |predicate: PredicateClosure| {
             character.inventory_iter()
                 .filter(predicate)
@@ -100,7 +100,7 @@ impl CharacterService {
         inventory_print(Box::new(|(_, item)| item.item_type.is_etc()));
         writeln!(stdout, "Equipped items:").unwrap();
         character.inventory_equipped().for_each(|(index, item)| writeln!(stdout, " [{}] {} - {} ({:?}) at {:?}", index,
-                                                                    item.name_english, item.item_id, item.item_type, EquipmentLocation::from_flag(item.equip as u64)).unwrap());
+                                                                         item.name_english, item.item_id, item.item_type, EquipmentLocation::from_flag(item.equip as u64)).unwrap());
         stdout.flush().unwrap();
     }
 
@@ -123,14 +123,13 @@ impl CharacterService {
         character.loaded_from_client_side = false;
         self.persistence_event_sender.send(SaveCharacterPosition(SavePositionUpdate { account_id: character.account_id, char_id: character.char_id, map_name: new_map_instance_key.map_name().clone(), x: character.x(), y: character.y() }))
             .expect("Fail to send persistence notification");
-
     }
 
     pub fn change_look(&self, character_look: CharacterLook, character: &mut Character) {
         let db_column = character.change_look(character_look.look_type, character_look.look_value);
         if let Some(db_column) = db_column {
             self.change_sprite(character, character_look.look_type, character_look.look_value, 0);
-            self.persistence_event_sender.send(PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character_look.char_id, db_column, value: character_look.look_value as u32})).expect("Fail to send persistence notification");
+            self.persistence_event_sender.send(PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character_look.char_id, db_column, value: character_look.look_value as u32 })).expect("Fail to send persistence notification");
         }
     }
 
@@ -149,7 +148,7 @@ impl CharacterService {
             map_name: character.current_map_name().clone(),
             map_instance_id: character.current_map_instance(),
             range_type: AreaNotificationRangeType::Fov { x: character.x(), y: character.y(), exclude_id: None },
-            packet: packets
+            packet: packets,
         })).expect("Fail to send client notification");
     }
 
@@ -222,7 +221,7 @@ impl CharacterService {
 
     pub fn change_job(&self, character: &mut Character, job: JobName) {
         character.status.job = job.value() as u32;
-        self.persistence_event_sender.send(PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "class".to_string(), value: character.status.job})).expect("Fail to send persistence notification");
+        self.persistence_event_sender.send(PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "class".to_string(), value: character.status.job })).expect("Fail to send persistence notification");
         self.change_sprite(character, LookType::Job, character.status.job as u16, 0);
     }
 
@@ -235,7 +234,7 @@ impl CharacterService {
         status_point_count + self.calculate_status_point_delta(1, character.status.base_level) as u32
     }
 
-    pub fn get_spent_status_point(&self, character: &Character) -> u32{
+    pub fn get_spent_status_point(&self, character: &Character) -> u32 {
         let mut status_point_count: u32 = 0;
         status_point_count += self.stat_raising_cost(character.status.str, "str");
         status_point_count += self.stat_raising_cost(character.status.dex, "dex");
@@ -246,19 +245,23 @@ impl CharacterService {
         status_point_count
     }
 
-    pub fn stat_raising_cost(&self, stat: u16, stat_name: &str)  -> u32{
+    pub fn stat_raising_cost(&self, stat: u16, stat_name: &str) -> u32 {
         let mut status_point_count: u32 = 0;
         for i in 2..=stat {
-            status_point_count += self.configuration_service.config().game.status_point_raising_cost.iter().find(|status_point_raising_cost| status_point_raising_cost.level_min <= i && i <= status_point_raising_cost.level_max)
-                .map(|status_point_raising_cost| {
-                    debug!("{} in range {}..{} cost {}", i, status_point_raising_cost.level_min, status_point_raising_cost.level_max, status_point_raising_cost.raising_cost);
-                    status_point_raising_cost.raising_cost as u32
-                }).unwrap_or_else(|| {
-                warn!("No status point cost defined for {} level {}", i, stat_name);
-                0
-            });
+            status_point_count += self.stat_raising_cost_for_next_level(i, stat_name)
         }
         status_point_count
+    }
+
+    fn stat_raising_cost_for_next_level(&self, level: u16, stat_name: &str) -> u32 {
+        self.configuration_service.config().game.status_point_raising_cost.iter().find(|status_point_raising_cost| status_point_raising_cost.level_min <= level && level <= status_point_raising_cost.level_max)
+            .map(|status_point_raising_cost| {
+                debug!("{} in range {}..{} cost {}", level, status_point_raising_cost.level_min, status_point_raising_cost.level_max, status_point_raising_cost.raising_cost);
+                status_point_raising_cost.raising_cost as u32
+            }).unwrap_or_else(|| {
+            warn!("No status point cost defined for {} level {}", level, stat_name);
+            1000
+        })
     }
 
     pub fn update_status_point(&self, character: &mut Character, status_point: u32) {
@@ -267,9 +270,55 @@ impl CharacterService {
         self.server_task_queue.add_to_first_index(GameEvent::CharacterCalculateStats(character.char_id));
     }
 
+    pub fn increase_stat(&self, character: &mut Character, status_type: StatusTypes, value_to_add: u16) {
+        let mut null_stat = 0;
+        let mut stat = match status_type {
+            StatusTypes::Str => {
+                &mut character.status.str
+            }
+            StatusTypes::Agi => {
+                &mut character.status.agi
+            }
+            StatusTypes::Vit => {
+                &mut character.status.vit
+            }
+            StatusTypes::Int => {
+                &mut character.status.int
+            }
+            StatusTypes::Dex => {
+                &mut character.status.dex
+            }
+            StatusTypes::Luk => {
+                &mut character.status.luk
+            }
+            _ => {
+                error!("Can't update stat of type {:?}, not handled yet!", status_type);
+                &mut null_stat
+            }
+        };
+        if *stat + value_to_add > self.configuration_service.config().game.max_stat_level {
+            return;
+        }
+        // With this calculation method, when value_to_add is > 1, like 10 and there is in theory enough status point available to add 3 points to the stat,
+        // stat won't be updated at all
+        let mut raising_cost = 0;
+        for i in 1..=value_to_add {
+            raising_cost += self.stat_raising_cost_for_next_level(*stat + i - 1, format!("{:?}", status_type).as_str());
+        }
+        if character.status.status_point < raising_cost {
+            return;
+        }
+        *stat += value_to_add;
+        character.status.status_point -= raising_cost;
+        self.persistence_event_sender.send(PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate {
+            char_id: character.char_id, db_column: status_type.to_column().unwrap_or_else(|| panic!("no db column name for status of type {:?}", status_type)).to_string(), value: *stat as u32 })).expect("Fail to send persistence notification");
+        self.persistence_event_sender.send(PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "status_point".to_string(), value: character.status.status_point })).expect("Fail to send persistence notification");
+        self.server_task_queue.add_to_first_index(GameEvent::CharacterCalculateStats(character.char_id));
+    }
+
     pub fn calculate_status_point_delta(&self, from_level: u32, to_level: u32) -> i32 {
         let mut status_point_count: i32 = 0;
-        let (start , end, multiplier) = if from_level > to_level {
+        let (start, end, multiplier) = if from_level > to_level {
             (to_level, from_level, -1)
         } else {
             (from_level, to_level, 1)
@@ -296,7 +345,7 @@ impl CharacterService {
         character.status.luk = 1;
         self.update_status_point(character, self.get_status_point_count_for_level(character) - self.get_spent_status_point(character));
         for (column_name, _) in vec![("str", StatusTypes::Str.value() as u16), ("agi", StatusTypes::Agi.value() as u16), ("dex", StatusTypes::Dex.value() as u16), ("vit", StatusTypes::Vit.value() as u16), ("int", StatusTypes::Int.value() as u16), ("luk", StatusTypes::Luk.value() as u16)] {
-            self.persistence_event_sender.send(PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: column_name.to_string(), value: 1})).expect("Fail to send persistence notification");
+            self.persistence_event_sender.send(PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: column_name.to_string(), value: 1 })).expect("Fail to send persistence notification");
         }
     }
 
@@ -426,7 +475,7 @@ impl CharacterService {
             if !character.map_view.contains(map_item) {
                 let default_name = "unknown".to_string();
                 let map_item_name = server_state.map_item_name(map_item, character.current_map_name(), character.current_map_instance()).unwrap_or(default_name);
-                let position = server_state.map_item_x_y(map_item, character.current_map_name(), character.current_map_instance()). unwrap();
+                let position = server_state.map_item_x_y(map_item, character.current_map_name(), character.current_map_instance()).unwrap();
                 debug!("See map_item {} at {},{}", map_item.object_type(), position.x(), position.y());
                 let mut name = [0 as char; 24];
                 map_item_name.fill_char_array(name.as_mut());
@@ -491,12 +540,11 @@ impl CharacterService {
     }
 
     fn send_status_update_and_defer_db_update(&self, char_id: u32, status_type: StatusTypes, column_name: &str, new_value: u32) {
-        self.persistence_event_sender.send(PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id, db_column: column_name.to_string(), value: new_value})).expect("Fail to send persistence notification");
+        self.persistence_event_sender.send(PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id, db_column: column_name.to_string(), value: new_value })).expect("Fail to send persistence notification");
         let mut packet_base_level = PacketZcParChange::new();
         packet_base_level.set_var_id(status_type.value() as u16);
         packet_base_level.set_count(new_value as i32);
         packet_base_level.fill_raw();
         self.client_notification_sender.send(Notification::Char(CharNotification::new(char_id, packet_base_level.raw))).expect("Fail to send client notification");
     }
-
 }

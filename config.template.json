@@ -14,6 +14,7 @@
     "max_inventory": 100,
     "max_job_level": 70,
     "mob_density": 1.0,
+    "max_stat_level": 99,
     "mob_dropped_item_locked_to_owner_duration_in_secs": 30,
     "player_dropped_item_locked_to_owner_duration_in_secs": 60
   },
