@@ -393,6 +393,19 @@ impl CharacterService {
         self.get_spent_status_point(character) > self.get_status_point_count_for_level(character)
     }
 
+    pub fn next_base_level_required_exp(&self, character: &Character) -> u32 {
+        let exp =if JobName::from_value(character.status.job as usize).is_rebirth() {
+            &self.configuration_service.config().game.exp_requirements.base_next_level_requirement.transcendent
+        } else {
+            &self.configuration_service.config().game.exp_requirements.base_next_level_requirement.normal
+        };
+        if character.status.base_level > exp.len() as u32 {
+            panic!("Base level above base level exp requirement, TODO define a formula for exp required for {}+ level", character.status.base_level)
+        } else {
+            *exp.get((character.status.base_level - 1) as usize).unwrap()
+        }
+    }
+
     pub fn calculate_status(&self, server_ref: &Server, character: &Character) {
         let mut packet_str = PacketZcStatusValues::new();
         packet_str.set_status_type(StatusTypes::Str.value() as u32);

@@ -899,4 +899,30 @@ mod tests {
         assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "job_exp".to_string(), value: character.status.job_exp, }));
         assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(PacketZcParChange::packet_id(), 1)]));
     }
+
+    #[test]
+    fn test_next_level_required_exp() {
+        // Given
+        let context = before_each(mocked_repository());
+        struct Scenarii<'a> {level: u32, job: &'a str, required_exp: u32}
+        let scenario = vec![
+            Scenarii { level: 1, job: "Novice", required_exp: 9 },
+            Scenarii { level: 54, job: "Archer", required_exp: 178184 },
+            Scenarii { level: 95, job: "Hunter", required_exp: 35658000 },
+            Scenarii { level: 1, job: "Novice High", required_exp: 10 },
+            Scenarii { level: 54, job: "Archer High", required_exp: 329640 },
+            Scenarii { level: 95, job: "Sniper", required_exp: 106974000 },
+            Scenarii { level: 98, job: "Sniper", required_exp: 343210000 },
+        ];
+        for scenarii in scenario {
+            let mut character = create_character();
+            character.status.base_level = scenarii.level;
+            character.status.job = JobName::from_string(scenarii.job).value() as u32;
+            // When
+            let required_exp = context.character_service.next_base_level_required_exp(&character);
+            // Then
+            assert_eq!(required_exp, scenarii.required_exp, "Expected {} at level {} to need {} exp to reach next level but got {}", scenarii.job, scenarii.level, scenarii.required_exp, required_exp);
+        }
+
+    }
 }
