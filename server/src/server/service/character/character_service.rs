@@ -9,6 +9,7 @@ use enums::class::JobName;
 use enums::item::EquipmentLocation;
 use enums::look::LookType;
 use enums::status::StatusTypes;
+use crate::enums::EnumWithStringValue;
 
 use crate::enums::EnumWithNumberValue;
 use crate::enums::EnumWithMaskValueU64;
@@ -401,6 +402,42 @@ impl CharacterService {
         };
         if character.status.base_level > exp.len() as u32 {
             panic!("Base level above base level exp requirement, TODO define a formula for exp required for {}+ level", character.status.base_level)
+        } else {
+            *exp.get((character.status.base_level - 1) as usize).unwrap()
+        }
+    }
+
+    pub fn next_job_level_required_exp(&self, character: &Character) -> u32 {
+        let job_name = JobName::from_value(character.status.job as usize);
+        let empty_exp = vec![];
+        let exp = if job_name.is_taekwon() {
+            &self.configuration_service.config().game.exp_requirements.job_next_level_requirement.taekwon_class
+        } else if job_name.is_gunslinger_ninja() {
+            &self.configuration_service.config().game.exp_requirements.job_next_level_requirement.gunslinger_class
+        } else if job_name.is_rebirth() {
+            if job_name.is_novice() {
+                &self.configuration_service.config().game.exp_requirements.job_next_level_requirement.transcended_novice
+            } else if job_name.is_first_class() {
+                &self.configuration_service.config().game.exp_requirements.job_next_level_requirement.transcended_first_class
+            } else if job_name.is_second_class() {
+                &self.configuration_service.config().game.exp_requirements.job_next_level_requirement.transcended_second_class
+            } else {
+                &empty_exp
+            }
+        } else {
+            if job_name.is_novice() {
+                &self.configuration_service.config().game.exp_requirements.job_next_level_requirement.novice
+            } else if job_name.is_first_class() {
+                &self.configuration_service.config().game.exp_requirements.job_next_level_requirement.first_class
+            } else if job_name.is_second_class() {
+                &self.configuration_service.config().game.exp_requirements.job_next_level_requirement.second_class
+            } else {
+                &empty_exp
+            }
+        };
+
+        if character.status.job_level > exp.len() as u32 {
+            panic!("Job level above job level exp requirement for job {}, TODO define a formula for exp required for {}+ level", job_name.as_str(), character.status.base_level)
         } else {
             *exp.get((character.status.base_level - 1) as usize).unwrap()
         }

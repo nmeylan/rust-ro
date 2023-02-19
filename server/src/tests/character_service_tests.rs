@@ -901,7 +901,7 @@ mod tests {
     }
 
     #[test]
-    fn test_next_level_required_exp() {
+    fn test_next_base_level_required_exp() {
         // Given
         let context = before_each(mocked_repository());
         struct Scenarii<'a> {level: u32, job: &'a str, required_exp: u32}
@@ -923,6 +923,34 @@ mod tests {
             // Then
             assert_eq!(required_exp, scenarii.required_exp, "Expected {} at level {} to need {} exp to reach next level but got {}", scenarii.job, scenarii.level, scenarii.required_exp, required_exp);
         }
+    }
 
+    #[test]
+    fn test_next_job_level_required_exp() {
+        // Given
+        let context = before_each(mocked_repository());
+        struct Scenarii<'a> {level: u32, job: &'a str, required_exp: u32}
+        let scenario = vec![
+            Scenarii { level: 1, job: "Novice", required_exp: 10 },
+            Scenarii { level: 34, job: "Archer", required_exp: 52417 },
+            Scenarii { level: 45, job: "Hunter", required_exp: 1260955 },
+            Scenarii { level: 1, job: "Novice High", required_exp: 11 },
+            Scenarii { level: 34, job: "Archer High", required_exp: 131043 },
+            Scenarii { level: 45, job: "Sniper", required_exp: 3782865 },
+            Scenarii { level: 68, job: "Sniper", required_exp: 167071930 },
+            Scenarii { level: 68, job: "Ninja", required_exp: 5123654 },
+            Scenarii { level: 68, job: "Gunslinger", required_exp: 5123654 },
+            Scenarii { level: 45, job: "Taekwon", required_exp: 2521910 },
+            Scenarii { level: 45, job: "SoulLinker", required_exp: 2521910 },
+        ];
+        for scenarii in scenario {
+            let mut character = create_character();
+            character.status.base_level = scenarii.level;
+            character.status.job = JobName::from_string(scenarii.job).value() as u32;
+            // When
+            let required_exp = context.character_service.next_job_level_required_exp(&character);
+            // Then
+            assert_eq!(required_exp, scenarii.required_exp, "Expected {} at job level {} to need {} exp to reach next level but got {}", scenarii.job, scenarii.level, scenarii.required_exp, required_exp);
+        }
     }
 }
