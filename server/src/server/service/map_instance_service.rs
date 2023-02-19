@@ -136,7 +136,10 @@ impl MapInstanceService {
 
     pub fn mob_die(&self, map_instance_state: &mut MapInstanceState, id: u32, delay: u128) {
         let mob = map_instance_state.remove_mob(id).unwrap();
-        self.server_task_queue.add_to_index(GameEvent::CharacterKillMonster(CharacterKillMonster { char_id: mob.attacker_with_higher_damage(), mob_id: mob.mob_id, mob_x: mob.x, mob_y: mob.y, map_instance_key: map_instance_state.key().clone() }),
+        let mob_model = self.configuration_service.get_mob(mob.mob_id as i32);
+        self.server_task_queue.add_to_index(GameEvent::CharacterKillMonster(CharacterKillMonster { char_id: mob.attacker_with_higher_damage(),
+            mob_id: mob.mob_id, mob_x: mob.x, mob_y: mob.y, map_instance_key: map_instance_state.key().clone()
+            , mob_base_exp: mob_model.exp as u32, mob_job_exp: mob_model.jexp as u32}),
                                             delayed_tick(delay, GAME_TICK_RATE)
         );
     }

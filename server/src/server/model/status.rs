@@ -1,9 +1,10 @@
+use fastrand::char;
 use crate::repository::model::char_model::CharSelectModel;
 use crate::repository::model::mob_model::MobModel;
 use crate::server::model::configuration::GameConfig;
 
 
-#[derive(SettersAll, Debug)]
+#[derive(SettersAll, Debug, Clone, Copy)]
 pub struct Status {
     pub job: u32,
     pub hp: u32,
@@ -30,42 +31,11 @@ pub struct Status {
     pub base_level: u32,
     pub job_level: u32,
     pub status_point: u32,
+    pub base_exp: u32,
+    pub job_exp: u32,
 }
 
-impl Clone for Status {
-    fn clone(&self) -> Self {
-        Self {
-            job: self.job,
-            hp: self.hp,
-            sp: self.sp,
-            max_hp: self.max_hp,
-            max_sp: self.max_sp,
-            str: self.str,
-            agi: self.agi,
-            vit: self.vit,
-            int: self.int,
-            dex: self.dex,
-            luk: self.luk,
-            base_atk: self.base_atk,
-            matk_min: self.matk_min,
-            matk_max: self.matk_max,
-            speed: self.speed,
-            hit: self.hit,
-            flee: self.flee,
-            crit: self.crit,
-            def: self.def,
-            mdef: self.mdef,
-            look: self.look.clone(),
-            zeny: self.zeny,
-            base_level: self.base_level,
-            job_level: self.job_level,
-            status_point: self.status_point
-        }
-    }
-}
-
-#[derive(SettersAll, Debug)]
-#[derive(Default)]
+#[derive(SettersAll, Debug, Clone, Copy, Default)]
 pub struct Look {
     pub hair: u16,
     pub hair_color: u32,
@@ -78,26 +48,6 @@ pub struct Look {
     pub head_bottom: u32,
     pub robe: u32,
 }
-
-impl Clone for Look {
-    fn clone(&self) -> Self {
-        Self {
-            hair: self.hair,
-            hair_color: self.hair_color,
-            clothes_color: self.clothes_color,
-            body: self.body,
-            weapon: self.weapon,
-            shield: self.shield,
-            head_top: self.head_top,
-            head_middle: self.head_middle,
-            head_bottom: self.head_bottom,
-            robe: self.robe,
-        }
-    }
-}
-
-
-
 
 impl Status {
     pub fn from_char_model(char_model: &CharSelectModel, configuration: &GameConfig) -> Status {
@@ -138,6 +88,8 @@ impl Status {
             base_level: char_model.base_level as u32,
             job_level: char_model.job_level as u32,
             status_point: char_model.status_point as u32,
+            base_exp: char_model.base_exp as u32,
+            job_exp: char_model.job_exp as u32,
         }
     }
     pub fn from_mob_model(mob_model: &MobModel) -> Status {
@@ -167,6 +119,8 @@ impl Status {
             base_level: 0,
             job_level: 0,
             status_point: 0,
+            base_exp: 0,
+            job_exp: 0
         }
     }
 }

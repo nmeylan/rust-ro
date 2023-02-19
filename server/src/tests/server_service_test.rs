@@ -57,12 +57,12 @@ mod tests {
     use std::time::Duration;
     use tokio::runtime::Runtime;
     use enums::status::StatusTypes;
-    use crate::assert_sent_packet_in_current_packetver;
+    use crate::{assert_sent_packet_in_current_packetver, assert_task_queue_contains_event, assert_task_queue_contains_event_at_tick};
     use crate::tests::common::assert_helper::{*};
     use packets::packets::PacketZcStatusChangeAck;
     use crate::enums::EnumWithNumberValue;
-    use crate::server::model::events::game_event::CharacterUpdateStat;
-    use crate::server::model::events::map_event::MapEvent;
+    use crate::server::model::events::game_event::{CharacterKillMonster, CharacterUpdateStat};
+    use crate::server::model::events::map_event::{MapEvent, MobDropItems};
     use crate::server::model::item::DroppedItem;
     use crate::server::model::map_item::ToMapItem;
     use crate::server::model::position::Position;
@@ -251,5 +251,31 @@ mod tests {
         // Then
         context.test_context.increment_latch().wait_expected_count_with_timeout(1, Duration::from_millis(200));
         assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character_state.char_id, vec![SentPacket::with_id(PacketZcStatusChangeAck::packet_id())]));
+    }
+
+    #[test]
+    fn character_kill_monster_should_trigger_map_mob_drop_items_when_autoloot_disabled_and_reward_attacker_with_exp() {
+        // Given
+        let context = before_each();
+        let mut character_state = create_character();
+        let task_queue = Arc::new(TasksQueue::new());
+        let map_instance = create_empty_map_instance(context.client_notification_sender.clone(), task_queue.clone());
+        // When
+        let char_id = character_state.char_id;
+        character_state.status.base_exp = 10;
+        character_state.status.job_exp = 5;
+        context.server_service.character_kill_monster(&mut character_state, CharacterKillMonster {
+            char_id,
+            mob_id: 1001,
+            mob_x: 54,
+            mob_y: 54,
+            map_instance_key: map_instance.key().clone(),
+            mob_base_exp: 100,
+            mob_job_exp: 60
+        }, &map_instance);
+        // Then
+        assert_task_queue_contains_event!(task_queue.clone(), MapEvent::MobDropItems(MobDropItems { owner_id: char_id, mob_id: 1001, mob_x: 54, mob_y: 54 }));
+        assert_eq!(character_state.status.base_exp, 110);
+        assert_eq!(character_state.status.job_exp, 65);
     }
 }

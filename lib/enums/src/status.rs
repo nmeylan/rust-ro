@@ -267,6 +267,11 @@ impl StatusTypes {
             StatusTypes::Int => Some("int"),
             StatusTypes::Dex => Some("dex"),
             StatusTypes::Luk => Some("luk"),
+            StatusTypes::Baselevel => Some("base_level"),
+            StatusTypes::Joblevel => Some("job_level"),
+            StatusTypes::Baseexp => Some("base_exp"),
+            StatusTypes::Jobexp => Some("job_exp"),
+            StatusTypes::Statuspoint => Some("status_point"),
             _ => {
                 None
             }

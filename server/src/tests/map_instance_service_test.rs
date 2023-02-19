@@ -42,7 +42,7 @@ mod tests {
     use std::time::Duration;
     
     use packets::packets::PacketZcItemDisappear;
-    use crate::{assert_eq_with_variance, assert_sent_packet_in_current_packetver, assert_task_queue_contains_event_at_tick};
+    use crate::{assert_eq_with_variance, assert_sent_packet_in_current_packetver, assert_task_queue_contains_event, assert_task_queue_contains_event_at_tick};
     use crate::server::model::action::Damage;
     use crate::server::model::events::game_event::{CharacterKillMonster, GameEvent};
     use crate::server::model::events::map_event::{MapEvent, MobDropItems, MobLocation};
@@ -54,6 +54,7 @@ mod tests {
     use crate::server::map_instance_loop::MAP_LOOP_TICK_RATE;
     use crate::server::model::position::Position;
     use crate::tests::common::assert_helper::{NotificationExpectation, SentPacket, task_queue_contains_event_at_tick, has_sent_notification};
+    use crate::tests::common::character_helper::create_character;
     use crate::tests::common::map_instance_helper::create_empty_map_instance_state;
     use crate::tests::common::mob_helper::create_mob;
     use crate::tests::map_instance_service_test::before_each;
@@ -86,6 +87,7 @@ mod tests {
         let mob_id = mob.mob_id;
         let x = mob.x;
         let y = mob.y;
+        let mob_model = GlobalConfigService::instance().get_mob_by_name("PORING");
         mob.add_attack(150000, 20);
         mob.add_attack(150001, 40);
         mob.add_attack(150000, 30);
@@ -94,7 +96,8 @@ mod tests {
         // When
         context.map_instance_service.mob_die(&mut map_instance_state, mob_item_id, 0);
         // Then
-        task_queue_contains_event_at_tick(context.server_task_queue.clone(), GameEvent::CharacterKillMonster(CharacterKillMonster { char_id: 150000, mob_id, mob_x: x, mob_y: y, map_instance_key: map_instance_state.key().clone() }), 0);
+        task_queue_contains_event_at_tick(context.server_task_queue.clone(), GameEvent::CharacterKillMonster(
+            CharacterKillMonster { char_id: 150000, mob_id, mob_x: x, mob_y: y, map_instance_key: map_instance_state.key().clone(), mob_base_exp: mob_model.exp as u32, mob_job_exp: mob_model.jexp as u32 }), 0);
     }
 
     #[test]
