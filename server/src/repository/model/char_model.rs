@@ -20,8 +20,8 @@ impl<'r> FromRow<'r, PgRow> for CharacterInfoNeoUnionWrapped {
         character_info_neo_union.set_bodystate(0_u32);
         character_info_neo_union.set_healthstate(0_u32);
         character_info_neo_union.set_effectstate(row.get::<i32, _>("option"));
-        character_info_neo_union.set_virtue(row.get::<i32, _>("karma") as i32);
-        character_info_neo_union.set_honor(row.get::<i32, _>("manner") as i32);
+        character_info_neo_union.set_virtue(row.get::<i32, _>("karma"));
+        character_info_neo_union.set_honor(row.get::<i32, _>("manner"));
         character_info_neo_union.set_status_point(row.get::<i16, _>("status_point") as u16);
         character_info_neo_union.set_hp(row.get::<i32, _>("hp") as u32);
         character_info_neo_union.set_hp_16(row.get::<i32, _>("hp") as u16);

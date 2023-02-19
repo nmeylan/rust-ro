@@ -22,7 +22,7 @@ impl CharacterRepository for Repository {
     }
 
     async fn character_update_status(&self, char_id: u32, db_column: String, value: u32) -> Result<(), Error> {
-        let sql = format!("UPDATE char SET {} = $1 WHERE char_id = $2", db_column); // TODO sanitize db_column
+        let sql = format!("UPDATE char SET {db_column} = $1 WHERE char_id = $2"); // TODO sanitize db_column
         sqlx::query(&sql).bind(value as i32).bind(char_id as i32).execute(&self.pool).await
             .map_err(|e| {
                 error!("DB error: {}", e.as_database_error().unwrap());

@@ -42,11 +42,11 @@ fn before_each_with_latch(latch_size: usize) -> ServerServiceTestContext {
         test_context: TestContext::new(client_notification_sender.clone(), client_notification_receiver, persistence_event_sender.clone(), persistence_event_receiver, count_down_latch),
         server_task_queue: server_task_queue.clone(),
         movement_task_queue: movement_task_queue.clone(),
-        server_service: ServerService::new(client_notification_sender.clone(), GlobalConfigService::instance(), server_task_queue.clone(), movement_task_queue.clone(), Arc::new(Vm::new("../native_functions_list.txt", DebugFlag::None.value())),
+        server_service: ServerService::new(client_notification_sender.clone(), GlobalConfigService::instance(), server_task_queue.clone(), movement_task_queue, Arc::new(Vm::new("../native_functions_list.txt", DebugFlag::None.value())),
                                            InventoryService::new(client_notification_sender.clone(), persistence_event_sender.clone(), Arc::new(MockedRepository::default()), GlobalConfigService::instance(), server_task_queue.clone()),
                                            CharacterService::new(client_notification_sender.clone(), persistence_event_sender.clone(), Arc::new(MockedRepository::default()), GlobalConfigService::instance(), server_task_queue.clone()),
-                                           MapInstanceService::new(client_notification_sender.clone(), GlobalConfigService::instance(), MobService::new(client_notification_sender.clone(), GlobalConfigService::instance()), server_task_queue.clone()),
-                                           BattleService::new(client_notification_sender.clone(), StatusService::new(client_notification_sender.clone(), persistence_event_sender.clone(), GlobalConfigService::instance()), GlobalConfigService::instance()), ),
+                                           MapInstanceService::new(client_notification_sender.clone(), GlobalConfigService::instance(), MobService::new(client_notification_sender.clone(), GlobalConfigService::instance()), server_task_queue),
+                                           BattleService::new(client_notification_sender.clone(), StatusService::new(client_notification_sender, persistence_event_sender, GlobalConfigService::instance()), GlobalConfigService::instance()), ),
     }
 }
 
@@ -124,13 +124,13 @@ mod tests {
         // Then
         let item_from_inventory = character_state.get_item_from_inventory(0).unwrap();
         assert_eq!(item_from_inventory.item_id, GlobalConfigService::instance().get_item_id_from_name("Red_Potion") as i32);
-        assert_eq!(item_from_inventory.is_identified, true);
+        assert!(item_from_inventory.is_identified);
         let item_from_inventory = character_state.get_item_from_inventory(1).unwrap();
         assert_eq!(item_from_inventory.item_id, GlobalConfigService::instance().get_item_id_from_name("Clover") as i32);
-        assert_eq!(item_from_inventory.is_identified, true);
+        assert!(item_from_inventory.is_identified);
         let item_from_inventory = character_state.get_item_from_inventory(2).unwrap();
         assert_eq!(item_from_inventory.item_id, GlobalConfigService::instance().get_item_id_from_name("Knife") as i32);
-        assert_eq!(item_from_inventory.is_identified, false);
+        assert!(item_from_inventory.is_identified);
     }
 
     #[test]
@@ -212,7 +212,7 @@ mod tests {
         // Then
         let item_from_inventory = character_state.get_item_from_inventory(0);
         assert!(item_from_inventory.is_some());
-        task_queue_contains_event_at_tick::<MapEvent>(task_queue.clone(), MapEvent::RemoveDroppedItemFromMap(map_item_id), 0);
+        task_queue_contains_event_at_tick::<MapEvent>(task_queue, MapEvent::RemoveDroppedItemFromMap(map_item_id), 0);
     }
 
     #[test]

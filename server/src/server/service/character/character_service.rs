@@ -1,5 +1,5 @@
 use std::collections::HashSet;
-use std::{io, mem};
+use std::{io};
 use std::io::Write;
 use std::sync::mpsc::SyncSender;
 use std::sync::{Arc, Once};
@@ -15,9 +15,9 @@ use crate::enums::EnumWithMaskValueU64;
 
 use packets::packets::{Packet, PacketZcAttackRange, PacketZcItemDisappear, PacketZcItemEntry, PacketZcLongparChange, PacketZcNotifyStandentry7, PacketZcNotifyVanish, PacketZcNpcackMapmove, PacketZcParChange, PacketZcSpriteChange2, PacketZcStatusValues};
 use crate::repository::model::item_model::InventoryItemModel;
-use crate::repository::{CharacterRepository, Repository};
-use crate::server::model::events::game_event::{CharacterChangeMap, CharacterLook, CharacterZeny, GameEvent};
-use crate::server::model::map::{MAP_EXT};
+use crate::repository::{CharacterRepository};
+use crate::server::model::events::game_event::{CharacterLook, CharacterZeny, GameEvent};
+
 use crate::server::model::map_item::{MapItem, MapItemType};
 use crate::server::model::path::manhattan_distance;
 
@@ -190,7 +190,7 @@ impl CharacterService {
     pub fn update_base_level(&self, character: &mut Character, maybe_new_base_level: Option<u32>, maybe_level_delta: Option<i32>) -> i32 {
         let old_base_level = character.status.base_level;
         let new_base_level = if let Some(new_base_level) = maybe_new_base_level {
-            new_base_level.min(self.configuration_service.config().game.max_base_level).max(1) as u32
+            new_base_level.min(self.configuration_service.config().game.max_base_level).max(1)
         } else if let Some(add_level) = maybe_level_delta {
             ((old_base_level as i32 + add_level).min(self.configuration_service.config().game.max_base_level as i32).max(1)) as u32
         } else {
@@ -202,13 +202,13 @@ impl CharacterService {
             self.reset_stats(character);
         }
         self.send_status_update_and_defer_db_update(character.char_id, StatusTypes::Baselevel, "base_level", new_base_level);
-        (new_base_level as i32 - old_base_level as i32) as i32
+        new_base_level as i32 - old_base_level as i32
     }
 
     pub fn update_job_level(&self, character: &mut Character, maybe_new_base_level: Option<u32>, maybe_level_delta: Option<i32>) -> i32 {
         let old_job_level = character.status.job_level;
         let new_job_level = if let Some(new_job_level) = maybe_new_base_level {
-            new_job_level.min(self.configuration_service.config().game.max_job_level).max(1) as u32
+            new_job_level.min(self.configuration_service.config().game.max_job_level).max(1)
         } else if let Some(add_level) = maybe_level_delta {
             ((old_job_level as i32 + add_level).min(self.configuration_service.config().game.max_job_level as i32).max(1)) as u32
         } else {
@@ -216,7 +216,7 @@ impl CharacterService {
         };
         character.status.job_level = new_job_level;
         self.send_status_update_and_defer_db_update(character.char_id, StatusTypes::Joblevel, "job_level", new_job_level);
-        (new_job_level as i32 - old_job_level as i32) as i32
+        new_job_level as i32 - old_job_level as i32
     }
 
     pub fn change_job(&self, character: &mut Character, job: JobName) {
@@ -226,7 +226,7 @@ impl CharacterService {
     }
 
     pub fn get_status_point_count_for_level(&self, character: &Character) -> u32 {
-        let mut status_point_count: u32 = if JobName::from_value(character.status.job as usize).is_rebirth() {
+        let status_point_count: u32 = if JobName::from_value(character.status.job as usize).is_rebirth() {
             100
         } else {
             48
@@ -299,7 +299,7 @@ impl CharacterService {
 
     pub fn increase_stat(&self, character: &mut Character, status_type: StatusTypes, value_to_add: u16) -> bool {
         let mut null_stat = 0;
-        let mut stat = match status_type {
+        let stat = match status_type {
             StatusTypes::Str => {
                 &mut character.status.str
             }
@@ -330,7 +330,7 @@ impl CharacterService {
         // stat won't be updated at all
         let mut raising_cost = 0;
         for i in 1..=value_to_add {
-            raising_cost += self.stat_raising_cost_for_next_level(*stat + i - 1, format!("{:?}", status_type).as_str());
+            raising_cost += self.stat_raising_cost_for_next_level(*stat + i - 1, format!("{status_type:?}").as_str());
         }
         if character.status.status_point < raising_cost {
             return false;
@@ -339,7 +339,7 @@ impl CharacterService {
         character.status.status_point -= raising_cost;
         self.persistence_event_sender.send(PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate {
             char_id: character.char_id,
-            db_column: status_type.to_column().unwrap_or_else(|| panic!("no db column name for status of type {:?}", status_type)).to_string(),
+            db_column: status_type.to_column().unwrap_or_else(|| panic!("no db column name for status of type {status_type:?}")).to_string(),
             value: *stat as u32,
         })).expect("Fail to send persistence notification");
         self.persistence_event_sender.send(PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "status_point".to_string(), value: character.status.status_point })).expect("Fail to send persistence notification");
@@ -375,7 +375,7 @@ impl CharacterService {
         character.status.int = 1;
         character.status.luk = 1;
         self.update_status_point(character, self.get_status_point_count_for_level(character) - self.get_spent_status_point(character));
-        for (column_name, _) in vec![("str", StatusTypes::Str.value() as u16), ("agi", StatusTypes::Agi.value() as u16), ("dex", StatusTypes::Dex.value() as u16), ("vit", StatusTypes::Vit.value() as u16), ("int", StatusTypes::Int.value() as u16), ("luk", StatusTypes::Luk.value() as u16)] {
+        for (column_name, _) in &[("str", StatusTypes::Str.value() as u16), ("agi", StatusTypes::Agi.value() as u16), ("dex", StatusTypes::Dex.value() as u16), ("vit", StatusTypes::Vit.value() as u16), ("int", StatusTypes::Int.value() as u16), ("luk", StatusTypes::Luk.value() as u16)] {
             self.persistence_event_sender.send(PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: column_name.to_string(), value: 1 })).expect("Fail to send persistence notification");
         }
     }
@@ -453,11 +453,11 @@ impl CharacterService {
         packet_aspd.fill_raw();
         let mut packet_atk = PacketZcParChange::new();
         packet_atk.set_var_id(StatusTypes::Atk1.value() as u16);
-        packet_atk.set_count(StatusService::instance().status_atk_left_side(character) as i32);
+        packet_atk.set_count(StatusService::instance().status_atk_left_side(character));
         packet_atk.fill_raw();
         let mut packet_atk2 = PacketZcParChange::new();
         packet_atk2.set_var_id(StatusTypes::Atk2.value() as u16);
-        packet_atk2.set_count(StatusService::instance().status_atk_right_side(character) as i32);
+        packet_atk2.set_count(StatusService::instance().status_atk_right_side(character));
         packet_atk2.fill_raw();
         let mut packet_def = PacketZcParChange::new();
         packet_def.set_var_id(StatusTypes::Def1.value() as u16);
@@ -545,7 +545,7 @@ impl CharacterService {
                     if let Some(item) = map_instance_state.get_dropped_item(map_item.id()) {
                         let mut packet_zc_item_entry = PacketZcItemEntry::default();
                         packet_zc_item_entry.set_itid(item.item_id as u16);
-                        packet_zc_item_entry.set_itaid(item.map_item_id as u32);
+                        packet_zc_item_entry.set_itaid(item.map_item_id);
                         packet_zc_item_entry.set_x_pos(item.location.x as i16);
                         packet_zc_item_entry.set_y_pos(item.location.y as i16);
                         packet_zc_item_entry.set_sub_x(item.sub_location.x as u8);

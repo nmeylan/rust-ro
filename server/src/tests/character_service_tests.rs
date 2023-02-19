@@ -51,20 +51,20 @@ mod tests {
     use crate::{assert_sent_packet_in_current_packetver, assert_sent_persistence_event, assert_task_queue_contains_event_at_tick};
     use crate::tests::common::assert_helper::{has_sent_persistence_event, has_sent_notification, NotificationExpectation, SentPacket, task_queue_contains_event_at_tick};
     use crate::tests::character_service_tests::before_each;
-    use crate::tests::common::character_helper::{add_item_in_inventory, add_items_in_inventory, create_character};
+    use crate::tests::common::character_helper::{add_items_in_inventory, create_character};
     use crate::tests::common::mocked_repository;
     use crate::enums::EnumWithStringValue;
     use crate::enums::EnumWithNumberValue;
     use crate::repository::CharacterRepository;
-    use crate::server::model::events::game_event::{CharacterChangeMap, CharacterLook, CharacterZeny};
+    use crate::server::model::events::game_event::{CharacterLook, CharacterZeny};
     use crate::server::model::events::persistence_event::{PersistenceEvent, SavePositionUpdate, StatusUpdate};
     use crate::server::model::map_instance::MapInstanceKey;
     use crate::server::model::movement::Movement;
     use crate::server::model::position::Position;
-    use crate::server::model::tasks_queue::TasksQueue;
-    use crate::server::request_handler::char::handle_char_enter;
+    
+    
     use crate::server::service::global_config_service::GlobalConfigService;
-    use crate::tests::common::map_instance_helper::create_empty_map_instance;
+    
     use crate::util::tick::get_tick;
 
     #[test]
@@ -205,7 +205,7 @@ mod tests {
     fn test_change_sprite_should_notify_area() {
         // Given
         let context = before_each(mocked_repository());
-        let mut character = create_character();
+        let character = create_character();
         // When
         context.character_service.change_sprite(&character, LookType::Hair, 10, 0);
         // Then
@@ -235,12 +235,11 @@ mod tests {
         struct MockedCharacterRepository {
             called_fetch_zeny: AtomicBool,
         }
-        ;
         #[async_trait]
         impl CharacterRepository for MockedCharacterRepository {
-            async fn character_zeny_fetch(&self, char_id: u32) -> Result<i32, Error> {
+            async fn character_zeny_fetch(&self, _char_id: u32) -> Result<i32, Error> {
                 self.called_fetch_zeny.store(true, Relaxed);
-                Ok((50))
+                Ok(50)
             }
         }
         let mocked_character_repository = Arc::new(MockedCharacterRepository { called_fetch_zeny: AtomicBool::new(false) });
@@ -500,7 +499,7 @@ mod tests {
     #[test]
     fn test_load_units_in_fov_should_add_new_item_in_character_map_view() {
         // Given
-        let context = before_each(mocked_repository());
+        let _context = before_each(mocked_repository());
 
         // When
 
@@ -510,7 +509,7 @@ mod tests {
     #[test]
     fn test_load_units_in_fov_should_remove_out_of_fov_item_from_character_map_view() {
         // Given
-        let context = before_each(mocked_repository());
+        let _context = before_each(mocked_repository());
 
         // When
 

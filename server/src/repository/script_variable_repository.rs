@@ -35,7 +35,7 @@ impl Repository {
     pub fn script_variable_server_num_save(&self, varname: String, index: u32, value: i32) {
         self.runtime.block_on(async {
             sqlx::query("INSERT INTO mapreg (varname, index, value) VALUES ($1, $2, $3) ON CONFLICT (varname, index) DO UPDATE SET value = $3")
-                .bind(varname).bind(index as i32).bind(format!("{}", value)).execute(&self.pool).await.unwrap()
+                .bind(varname).bind(index as i32).bind(format!("{value}")).execute(&self.pool).await.unwrap()
         });
     }
 

@@ -83,7 +83,7 @@ pub fn handle_atcommand(server: &Server, context: Request, packet: &PacketCzPlay
             packet_zc_notify_playerchat.set_msg(result);
         }
         _ => {
-            packet_zc_notify_playerchat.set_msg(format!("{}{} is an Unknown Command.", symbol, command));
+            packet_zc_notify_playerchat.set_msg(format!("{symbol}{command} is an Unknown Command."));
         }
     }
     packet_zc_notify_playerchat.set_packet_length((4 + packet_zc_notify_playerchat.msg.len()) as i16);
@@ -122,7 +122,7 @@ pub fn handle_go(server: &Server, session: Arc<Session>, _runtime: &Runtime, arg
         });
     }
     if maybe_city.is_none() {
-        return format!("Can't find map by index or name with given argument: {}", cleaned_arg);
+        return format!("Can't find map by index or name with given argument: {cleaned_arg}");
     }
     let mut city = maybe_city.unwrap().clone();
 
@@ -166,7 +166,7 @@ pub fn handle_warp(server: &Server, session: Arc<Session>, _runtime: &Runtime, a
         let character = server.state().get_character_unsafe(char_id);
         return format!("Warp to map {} at {},{}", map_name, character.x(), character.y());
     }
-    format!("Map not found: {}", map_name)
+    format!("Map not found: {map_name}")
 }
 
 pub fn handle_item(_server: &Server, session: Arc<Session>, runtime: &Runtime, args: Vec::<&str>) -> String {

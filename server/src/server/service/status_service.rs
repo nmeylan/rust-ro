@@ -1,23 +1,23 @@
 use std::sync::{Once};
 use std::sync::mpsc::SyncSender;
-use enums::class::JobName;
 
 
-use enums::status::StatusTypes;
+
+
 use enums::weapon::WeaponType;
 use crate::enums::EnumWithStringValue;
-use crate::enums::EnumWithNumberValue;
-use packets::packets::{PacketZcAttackRange, PacketZcParChange, PacketZcStatusValues};
 
 
-use crate::server::model::events::client_notification::{CharNotification, Notification};
+
+
+use crate::server::model::events::client_notification::{Notification};
 use crate::server::model::events::persistence_event::PersistenceEvent;
 
-use crate::server::Server;
+
 use crate::server::service::global_config_service::GlobalConfigService;
 
 use crate::server::state::character::Character;
-use crate::util::packet::chain_packets;
+
 
 static mut SERVICE_INSTANCE: Option<StatusService> = None;
 static SERVICE_INSTANCE_INIT: Once = Once::new();
@@ -162,7 +162,7 @@ impl StatusService {
     /// VIT + rnd(0,[VIT/20]^2-1).
     pub fn mob_vit_def(&self, vit: u32) -> u32 {
         let rng = fastrand::Rng::new();
-        vit + rng.u32(0..(((vit as f32 / 20.0).floor() as u32) ^ 2) as u32 - 1)
+        vit + rng.u32(0..(((vit as f32 / 20.0).floor() as u32) ^ 2) - 1)
     }
     /// [VIT*0.5] + rnd([VIT*0.3], max([VIT*0.3],[VIT^2/150]-1)).
     pub fn character_vit_def(&self, _vit: u32) -> u32 {

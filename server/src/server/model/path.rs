@@ -72,8 +72,8 @@ pub fn path_search_client_side_algorithm(x_size: u16, y_size: u16, cells: &[u16]
     let start_node = PathNode {
         id: node_id(source_x, source_y, max_x),
         parent_id: node_id(source_x, source_y, max_x),
-        x: source_x as u16,
-        y: source_y as u16,
+        x: source_x,
+        y: source_y,
         g_cost: 0,
         f_cost: client_side_heuristic(source_x, source_y, destination_x, destination_y),
         is_open: true,

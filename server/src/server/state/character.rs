@@ -132,7 +132,7 @@ impl Character {
     }
 
     pub fn is_map_item_in_fov(&self, id: u32) -> bool {
-        self.map_view.iter().find(|item| item.id() == id).is_some()
+        self.map_view.iter().any(|item| item.id() == id)
     }
 
     pub fn get_look(&self, look_type: LookType) -> u32 {
@@ -163,7 +163,7 @@ impl Character {
         }
         let db_column = match look {
             LookType::Hair => {
-                self.status.look.as_mut().unwrap().hair = value as u16;
+                self.status.look.as_mut().unwrap().hair = value;
                 "hair"
             }
             LookType::HairColor => {

@@ -139,12 +139,12 @@ mod tests {
     fn test_attack_per_seconds() {
         // Given
         let context = before_each();
-        let mut character = create_character();
-        for (aspd, expectation) in vec![(150, "1.00"), (170, "1.67"), (190, "5.00"), (199, "50.00")] {
+        let _character = create_character();
+        for (aspd, expectation) in vec![(150.0_f32, "1.00"), (170.0_f32, "1.67"), (190.0_f32, "5.00"), (199.0_f32, "50.00")].iter() {
             // When
-            let attack_motion = context.status_service.attack_per_seconds(aspd as f32);
+            let attack_motion = context.status_service.attack_per_seconds(*aspd);
             // Then
-            assert_eq!(format!("{:.2}", attack_motion), expectation, "Expected attack motion to be {} with aspd {} but was {}", expectation, aspd, attack_motion);
+            assert_eq!(format!("{attack_motion:.2}"), **expectation, "Expected attack motion to be {expectation} with aspd {aspd} but was {attack_motion}");
         }
     }
 }

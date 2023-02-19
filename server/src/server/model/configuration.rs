@@ -286,7 +286,7 @@ fn deserialize_tuples<'de, D>(deserializer: D) -> Result<Option<Vec<(u32, i32)>>
     let s: Vec<HashMap<String, i32>> = Deserialize::deserialize(deserializer)?;
     let res = s.iter().map(|x| {
         let (_, value) = x.iter().find(|(k, _)| k.as_str() != "level").unwrap();
-        (*x.get("level").unwrap() as u32, *value as i32)
+        (*x.get("level").unwrap() as u32, *value)
     }).collect::<Vec<(u32, i32)>>();
     Ok(Some(res))
 }
@@ -338,7 +338,7 @@ fn deserialize_flags<'de, D, MaskEnum>(deserializer: D) -> Result<Option<u64>, D
     let flags: u64 = s.iter().fold(0, |acc, (k, v)| {
         if *v {
             let mask_enum = MaskEnum::from_string_ignore_case(k);
-            acc | mask_enum.as_flag() as u64
+            acc | mask_enum.as_flag()
         } else {
             acc
         }
@@ -427,14 +427,14 @@ impl Config {
             let mut base_aspd = Self::resolve_inherited_config(name, config, &internal_configs, "base_aspd", |_conf| None, |conf| conf.base_aspd.clone()).unwrap_or_default();
             default_values.base_aspd.as_ref().expect("Expect jobs.default to have base_aspd").iter().for_each(|(weapon, value)| { base_aspd.entry(weapon.to_string()).or_insert(*value); });
             job_configs.push(JobConfig {
-                id: config.id.unwrap_or_else(|| panic!("Expect job {} to have id but found none", name)),
+                id: config.id.unwrap_or_else(|| panic!("Expect job {name} to have id but found none")),
                 name: name.clone(),
                 base_exp_group: config.base_exp_group.as_ref().unwrap().clone(),
                 job_exp_group: config.job_exp_group.as_ref().unwrap().clone(),
                 base_weight: Self::resolve_inherited_config(name, config, &internal_configs, "base_weight", |_conf| None, |conf| conf.base_weight)
                     .or_else(|| Some(default_values.base_weight.expect("Expect jobs.default to have base_weight"))).unwrap(),
-                base_hp: Self::resolve_inherited_config(name, config, &internal_configs, "inherit_hp", |conf| conf.inherit_hp.as_ref(), |conf| conf.base_hp.clone()).unwrap_or_else(|| panic!("job config for class {}: expected to find property base_hp", name)),
-                base_sp: Self::resolve_inherited_config(name, config, &internal_configs, "inherit_sp", |conf| conf.inherit_sp.as_ref(), |conf| conf.base_sp.clone()).unwrap_or_else(|| panic!("job config for class {}: expected to find property base_sp", name)),
+                base_hp: Self::resolve_inherited_config(name, config, &internal_configs, "inherit_hp", |conf| conf.inherit_hp.as_ref(), |conf| conf.base_hp.clone()).unwrap_or_else(|| panic!("job config for class {name}: expected to find property base_hp")),
+                base_sp: Self::resolve_inherited_config(name, config, &internal_configs, "inherit_sp", |conf| conf.inherit_sp.as_ref(), |conf| conf.base_sp.clone()).unwrap_or_else(|| panic!("job config for class {name}: expected to find property base_sp")),
                 base_aspd,
             });
         }
@@ -456,10 +456,10 @@ impl Config {
             F2: Fn(&InternalJobConfig) -> Option<T>
     {
         return if let Some(inherit) = current_config.inherit.as_ref() {
-            let inherited_config = configs.jobs.get(inherit).unwrap_or_else(|| panic!("job config for class {}: inherit \"{}\" was not found", name, inherit));
+            let inherited_config = configs.jobs.get(inherit).unwrap_or_else(|| panic!("job config for class {name}: inherit \"{inherit}\" was not found"));
             Self::resolve_inherited_config(name, inherited_config, configs, inherit_name, inherited_property_fn, defined_property_fn)
         } else if let Some(inherit) = inherited_property_fn(current_config) {
-            let inherited_config = configs.jobs.get(inherit).unwrap_or_else(|| panic!("job config for class {}: {} \"{}\" was not found", name, inherit_name, inherit));
+            let inherited_config = configs.jobs.get(inherit).unwrap_or_else(|| panic!("job config for class {name}: {inherit_name} \"{inherit}\" was not found"));
             Self::resolve_inherited_config(name, inherited_config, configs, inherit_name, inherited_property_fn, defined_property_fn)
         } else {
             defined_property_fn(current_config)

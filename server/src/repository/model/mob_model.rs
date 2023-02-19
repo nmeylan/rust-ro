@@ -1,5 +1,5 @@
 use serde::{Deserialize, Deserializer, Serialize};
-use sqlx::{Encode, Error, FromRow, Row};
+use sqlx::{Error, FromRow, Row};
 use sqlx::postgres::PgRow;
 
 
@@ -74,7 +74,8 @@ pub fn deserialize_card<'de, D>(deserializer: D) -> Result<Option<Drop>, D::Erro
 
 impl Default for MobModel {
     fn default() -> Self {
-        let model = MobModel {
+        
+        MobModel {
             id: 0,
             name: "".to_string(),
             name_english: "".to_string(),
@@ -106,8 +107,7 @@ impl Default for MobModel {
             jexp: 0,
             drops: Default::default(),
             mvp_drops: Default::default(),
-        };
-        model
+        }
     }
 }
 
@@ -144,16 +144,16 @@ impl<'r> FromRow<'r, PgRow> for MobModel {
         model.set_damage_motion(row.try_get::<i32, _>("damage_motion").unwrap_or(0));
         let mut drops = vec![];
         let mut mvp_drops = vec![];
-        let mut card: Option<Drop> = None;
+        let _card: Option<Drop> = None;
         for i in 1..=10 {
-            if let Ok(item_name) = row.try_get::<String, _>(format!("drop{}_item", i).as_str()) {
-                let drop = Drop { item_name: item_name.clone(), is_card: item_name.to_lowercase().ends_with("card"), item_id: row.get::<i32, _>(format!("drop{}_itemid", i).as_str()), rate: row.get::<i32, _>(format!("drop{}_rate", i).as_str()) as u16 };
+            if let Ok(item_name) = row.try_get::<String, _>(format!("drop{i}_item").as_str()) {
+                let drop = Drop { item_name: item_name.clone(), is_card: item_name.to_lowercase().ends_with("card"), item_id: row.get::<i32, _>(format!("drop{i}_itemid").as_str()), rate: row.get::<i32, _>(format!("drop{i}_rate").as_str()) as u16 };
                 drops.push(drop)
             } else { break; }
         }
         for i in 1..=3 {
-            if let Ok(item_name) = row.try_get::<String, _>(format!("mvpdrop{}_item", i).as_str()) {
-                let drop = Drop { item_name, is_card: false, item_id: row.get::<i32, _>(format!("mvpdrop{}_itemid", i).as_str()), rate: row.get::<i32, _>(format!("mvpdrop{}_rate", i).as_str()) as u16 };
+            if let Ok(item_name) = row.try_get::<String, _>(format!("mvpdrop{i}_item").as_str()) {
+                let drop = Drop { item_name, is_card: false, item_id: row.get::<i32, _>(format!("mvpdrop{i}_itemid").as_str()), rate: row.get::<i32, _>(format!("mvpdrop{i}_rate").as_str()) as u16 };
                 mvp_drops.push(drop)
             } else { break; }
         }

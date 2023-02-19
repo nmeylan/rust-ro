@@ -6,11 +6,11 @@ use enums::class::{EquipClassFlag, JobName};
 use enums::EnumWithMaskValueU64;
 use enums::item::{EquipmentLocation};
 use enums::look::LookType;
-use crate::enums::EnumWithStringValue;
+
 use crate::enums::EnumWithNumberValue;
 use packets::packets::{EquipmentitemExtrainfo301, EQUIPSLOTINFO, NormalitemExtrainfo3, Packet, PacketZcEquipmentItemlist3, PacketZcItemPickupAck3, PacketZcNormalItemlist3, PacketZcPcPurchaseResult, PacketZcReqTakeoffEquipAck2, PacketZcReqWearEquipAck2, PacketZcSpriteChange2};
 use crate::repository::model::item_model::{InventoryItemModel, ItemModel};
-use crate::repository::{InventoryRepository, Repository};
+use crate::repository::{InventoryRepository};
 
 use crate::server::model::tasks_queue::TasksQueue;
 use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, CharNotification, Notification};
@@ -18,7 +18,7 @@ use crate::server::model::events::game_event::{CharacterAddItems, CharacterEquip
 use crate::server::model::events::game_event::GameEvent::{CharacterUpdateWeight, CharacterUpdateZeny};
 use crate::server::model::events::persistence_event::{InventoryItemUpdate, PersistenceEvent};
 use crate::server::model::item::EquippedItem;
-use crate::server::service::character::character_service::CharacterService;
+
 use crate::server::service::global_config_service::GlobalConfigService;
 
 
@@ -54,9 +54,9 @@ impl InventoryService{
         let mut rng = rand::thread_rng();
         let inventory_item_updates: Vec<InventoryItemUpdate> = add_items.items.iter().map(|item| {
             if item.item_type.is_stackable() {
-                InventoryItemUpdate { char_id: add_items.char_id as i32, item_id: item.item_id as i32, amount: item.amount as i16, stackable: true, identified: item.is_identified, unique_id: 0 }
+                InventoryItemUpdate { char_id: add_items.char_id as i32, item_id: item.item_id, amount: item.amount, stackable: true, identified: item.is_identified, unique_id: 0 }
             } else {
-                InventoryItemUpdate { char_id: add_items.char_id as i32, item_id: item.item_id as i32, amount: item.amount as i16, stackable: false, identified: item.is_identified, unique_id: rng.next_u32() as i64 }
+                InventoryItemUpdate { char_id: add_items.char_id as i32, item_id: item.item_id, amount: item.amount, stackable: false, identified: item.is_identified, unique_id: rng.next_u32() as i64 }
             }
         }).collect();
 
@@ -246,8 +246,8 @@ impl InventoryService{
                         vec![EquipmentLocation::AccessoryRight.as_flag() as i32, EquipmentLocation::AccessoryLeft.as_flag() as i32].iter()
                             .find(|item_mask| accessories[0].1.equip & **item_mask == 0)
                             .map(|item_mask| {
-                                equipped_take_off_items.push(EquippedItem { item_id, removed_equip_location: *item_mask as i32, index });
-                                character.get_item_from_inventory_mut(index).unwrap().equip = *item_mask as i32;
+                                equipped_take_off_items.push(EquippedItem { item_id, removed_equip_location: *item_mask, index });
+                                character.get_item_from_inventory_mut(index).unwrap().equip = *item_mask;
                             });
                     } else {
                         equipped_take_off_items.push(EquippedItem { item_id, removed_equip_location: EquipmentLocation::AccessoryLeft.as_flag() as i32, index });

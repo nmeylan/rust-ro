@@ -10,7 +10,7 @@ use syn::__private::Span;
 fn question_marks(max: usize) -> String {
     let itr = 1..max + 1;
     itr.into_iter()
-        .map(|i| format!("${}", i))
+        .map(|i| format!("${i}"))
         .collect::<Vec<String>>()
         .join(",")
 }
@@ -45,7 +45,7 @@ fn pg_derive_insert(input: TokenStream, function_name: String, query: String) ->
     let fields_list = quote! {
         #(#field_name),*
     };
-    let columns = format!("{}", fields_list).replace(", ", ",").replace(",\n", ",");
+    let columns = format!("{fields_list}").replace(", ", ",").replace(",\n", ",");
     TokenStream::from(quote! {
 
         impl #struct_name {

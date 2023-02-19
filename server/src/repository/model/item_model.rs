@@ -257,7 +257,7 @@ impl ItemModel {
 
     fn enum_flags_into_u64<T: EnumWithMaskValueU64>(flags: &Vec<T>) -> u64 {
         flags.iter().fold(0, |acc, enum_flag| {
-            acc | enum_flag.as_flag() as u64
+            acc | enum_flag.as_flag()
         })
     }
 }

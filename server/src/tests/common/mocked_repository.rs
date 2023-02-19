@@ -5,44 +5,41 @@ use crate::repository::{CharacterRepository, InventoryRepository};
 use crate::repository::model::item_model::InventoryItemModel;
 use crate::server::model::events::persistence_event::{DeleteItems, InventoryItemUpdate};
 
+#[derive(Default)]
 pub struct MockedRepository;
 
-impl Default for MockedRepository {
-    fn default() -> Self {
-        Self {}
-    }
-}
+
 
 #[async_trait]
 impl InventoryRepository for MockedRepository {
-    async fn character_inventory_update(&self, inventory_update_items: &[InventoryItemUpdate], buy: bool) -> Result<(), Error> {
+    async fn character_inventory_update(&self, _inventory_update_items: &[InventoryItemUpdate], _buy: bool) -> Result<(), Error> {
         Ok(())
     }
 
-    async fn character_inventory_delete(&self, delete_items: DeleteItems) -> Result<PgQueryResult, Error> {
+    async fn character_inventory_delete(&self, _delete_items: DeleteItems) -> Result<PgQueryResult, Error> {
         Ok(Default::default())
     }
 
-    async fn character_inventory_fetch(&self, char_id: i32) -> Result<Vec<InventoryItemModel>, Error> {
+    async fn character_inventory_fetch(&self, _char_id: i32) -> Result<Vec<InventoryItemModel>, Error> {
         Ok(Default::default())
     }
 
-    async fn character_inventory_wearable_item_update(&self, items: Vec<InventoryItemModel>) -> Result<PgQueryResult, Error> {
+    async fn character_inventory_wearable_item_update(&self, _items: Vec<InventoryItemModel>) -> Result<PgQueryResult, Error> {
         Ok(Default::default())
     }
 }
 
 #[async_trait]
 impl CharacterRepository for MockedRepository {
-    async fn character_save_position(&self, account_id: u32, char_id: u32, map_name: String, x: u16, y: u16) -> Result<(), Error> {
+    async fn character_save_position(&self, _account_id: u32, _char_id: u32, _map_name: String, _x: u16, _y: u16) -> Result<(), Error> {
         Ok(())
     }
 
-    async fn character_update_status(&self, char_id: u32, db_column: String, value: u32) -> Result<(), Error> {
+    async fn character_update_status(&self, _char_id: u32, _db_column: String, _value: u32) -> Result<(), Error> {
         Ok(())
     }
 
-    async fn character_zeny_fetch(&self, char_id: u32) -> Result<i32, Error> {
+    async fn character_zeny_fetch(&self, _char_id: u32) -> Result<i32, Error> {
         Ok(Default::default())
     }
 }

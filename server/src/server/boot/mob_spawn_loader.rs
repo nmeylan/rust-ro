@@ -47,7 +47,7 @@ impl NpcLoaderTrait<MobSpawn> for MobSpawnLoader {
             }
             let spawn_location_info = line_fragment[0].split(',').collect::<Vec<&str>>();
             if spawn_location_info.len() < 3 {
-                return Err(format!("{}: {:?}: spawn_location_info.len() < 3", line, spawn_location_info));
+                return Err(format!("{line}: {spawn_location_info:?}: spawn_location_info.len() < 3"));
             }
             mob_spawn.set_map_name(spawn_location_info[0].to_string());
             mob_spawn.set_x(spawn_location_info[1].to_string().parse::<u16>().unwrap());

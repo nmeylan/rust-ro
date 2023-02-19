@@ -6,14 +6,14 @@ use crate::server::model::map_item::{MapItem, ToMapItem};
 use std::sync::mpsc::SyncSender;
 
 use rathena_script_lang_interpreter::lang::vm::Vm;
-use crate::server::game_loop::GAME_TICK_RATE;
+
 
 use crate::server::model::events::map_event::MapEvent;
 use crate::server::model::events::client_notification::{Notification};
 
 use crate::server::model::tasks_queue::TasksQueue;
 use crate::server::map_instance_loop::MAP_LOOP_TICK_RATE;
-use crate::server::model::events::game_event::GameEvent;
+
 use crate::server::model::script::Script;
 use crate::server::model::warp::Warp;
 
@@ -46,7 +46,7 @@ impl MapInstanceKey {
     pub fn new(map_name: String, id: u8) -> Self {
         let mut new_current_map: [char; 16] = [0 as char; 16];
         let map_name = if !map_name.ends_with(MAP_EXT) {
-            format!("{}{}", map_name, MAP_EXT)
+            format!("{map_name}{MAP_EXT}")
         } else {
             map_name
         };

@@ -82,7 +82,7 @@ pub fn main() {
         } else {
             file.write_all(format!("  // {}\n", skill.description).as_bytes()).unwrap();
         }
-        file.write_all(format!("  {},\n", enum_name).as_bytes()).unwrap();
+        file.write_all(format!("  {enum_name},\n").as_bytes()).unwrap();
     }
     file.write_all("}\n".to_string().as_bytes()).unwrap();
     file.write_all("impl Skill {\n".to_string().as_bytes()).unwrap();

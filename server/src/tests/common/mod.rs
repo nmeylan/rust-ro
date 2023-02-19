@@ -13,9 +13,9 @@ use std::{fs, thread};
 use std::sync::mpsc::SyncSender;
 use std::sync::mpsc::Receiver;
 use std::sync::{Arc, Mutex, Once};
-use std::time::Duration;
+
 use packets::packets::Packet;
-use packets::packets_parser::parse;
+
 use crate::repository::model::item_model::{ItemModel, ItemModels};
 use crate::repository::model::mob_model::{MobModel, MobModels};
 use crate::server::model::configuration::Config;
@@ -49,7 +49,7 @@ impl TestContext {
         let increment_latch_clone = increment_latch.clone();
         thread::Builder::new().name("client_notification_thread".to_string()).spawn(move || {
             for notification in client_notification_receiver.iter() {
-                println!("Received notification {:?}", notification);
+                println!("Received notification {notification:?}");
                 received_notification_cloned.lock().unwrap().push(notification);
                 count_down_latch_clone.countdown();
                 increment_latch_clone.increment();
@@ -108,8 +108,8 @@ pub fn create_mpsc<T>() -> (SyncSender<T>, Receiver<T>) {
 
 pub fn before_all() {
     INIT.call_once(|| {
-        let (client_notification_sender, client_notification_receiver) = create_mpsc::<Notification>();
-        let (persistence_event_sender, persistence_event_receiver) = create_mpsc::<PersistenceEvent>();
+        let (_client_notification_sender, _client_notification_receiver) = create_mpsc::<Notification>();
+        let (_persistence_event_sender, _persistence_event_receiver) = create_mpsc::<PersistenceEvent>();
         unsafe {
             let mut config: Config = serde_json::from_str(&fs::read_to_string("../config.template.json").unwrap()).unwrap();
             let file_path = "../config/status_point_reward.json";

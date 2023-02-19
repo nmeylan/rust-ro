@@ -48,42 +48,42 @@ impl GlobalConfigService {
     }
 
     pub fn get_job_config(&self, id: u32) -> &JobConfig {
-        self.jobs.iter().find(|config| *config.id() == id).unwrap_or_else(|| panic!("Expected to find job config for id {} but found none", id))
+        self.jobs.iter().find(|config| *config.id() == id).unwrap_or_else(|| panic!("Expected to find job config for id {id} but found none"))
     }
 
     pub fn get_skill_config_by_name(&self, name: &str) -> &SkillConfig {
-        let id = self.skills_name_id.get(name).unwrap_or_else(|| panic!("Expected to find skill config for name {} but found none", name));
-        self.skills.get(id).unwrap_or_else(|| panic!("Expected to find skill config for name {} but found none", name))
+        let id = self.skills_name_id.get(name).unwrap_or_else(|| panic!("Expected to find skill config for name {name} but found none"));
+        self.skills.get(id).unwrap_or_else(|| panic!("Expected to find skill config for name {name} but found none"))
     }
 
     pub fn get_skill_config(&self, id: u32) -> &SkillConfig {
-        self.skills.get(&id).unwrap_or_else(|| panic!("Expected to find skill config for id {} but found none", id))
+        self.skills.get(&id).unwrap_or_else(|| panic!("Expected to find skill config for id {id} but found none"))
     }
 
     pub fn get_item(&self, id: i32) -> &ItemModel {
-        self.items.get(&(id as u32)).unwrap_or_else(|| panic!("Expected to find item for id {} but found none", id))
+        self.items.get(&(id as u32)).unwrap_or_else(|| panic!("Expected to find item for id {id} but found none"))
     }
 
     pub fn get_item_by_name(&self, name: &str) -> &ItemModel {
         let id = &self.get_item_id_from_name(name);
-        self.items.get(id).unwrap_or_else(|| panic!("Expected to find item for id {} but found none", id))
+        self.items.get(id).unwrap_or_else(|| panic!("Expected to find item for id {id} but found none"))
     }
 
     pub fn get_item_id_from_name(&self, name: &str) -> u32 {
-        *self.items_name_id.get(name).unwrap_or_else(|| panic!("Expected to find item for name {} but found none", name))
+        *self.items_name_id.get(name).unwrap_or_else(|| panic!("Expected to find item for name {name} but found none"))
     }
 
     pub fn get_mob(&self, id: i32) -> &MobModel {
-        self.mobs.get(&(id as u32)).unwrap_or_else(|| panic!("Expected to find mob for id {} but found none", id))
+        self.mobs.get(&(id as u32)).unwrap_or_else(|| panic!("Expected to find mob for id {id} but found none"))
     }
 
     pub fn get_mob_by_name(&self, name: &str) -> &MobModel {
         let id = &self.get_mob_id_from_name(name);
-        self.mobs.get(id).unwrap_or_else(|| panic!("Expected to find mob for id {} but found none", id))
+        self.mobs.get(id).unwrap_or_else(|| panic!("Expected to find mob for id {id} but found none"))
     }
 
     pub fn get_mob_id_from_name(&self, name: &str) -> u32 {
-        *self.mobs_name_id.get(name).unwrap_or_else(|| panic!("Expected to find mob for name {} but found none", name))
+        *self.mobs_name_id.get(name).unwrap_or_else(|| panic!("Expected to find mob for name {name} but found none"))
     }
 
     pub fn maps(&self) -> &HashMap<String, Map> {
@@ -91,6 +91,6 @@ impl GlobalConfigService {
     }
 
     pub fn get_map(&self, name: &str) -> &Map {
-        self.maps.get(name).unwrap_or_else(|| panic!("Can't find map with name {}", name))
+        self.maps.get(name).unwrap_or_else(|| panic!("Can't find map with name {name}"))
     }
 }

@@ -39,10 +39,10 @@ impl MapLoader {
             let _start = Instant::now();
             let path = path.as_ref().unwrap();
             let map_name = path.file_name().to_str().unwrap().replace(MAPCACHE_EXT, "");
-            let file = File::open(path.path()).unwrap_or_else(|_| panic!("Can't open file for map: {}", map_name));
+            let file = File::open(path.path()).unwrap_or_else(|_| panic!("Can't open file for map: {map_name}"));
             let mut reader = BufReader::new(file);
             let mut buf = [0_u8; 26];
-            reader.read_exact(&mut buf).unwrap_or_else(|_| panic!("Can't read file for map: {}", map_name));
+            reader.read_exact(&mut buf).unwrap_or_else(|_| panic!("Can't read file for map: {map_name}"));
             let header = Header {
                 version: Cursor::new(buf[0..2].to_vec()).read_i16::<LittleEndian>().unwrap(),
                 checksum: buf[2..18].try_into().unwrap(),
@@ -75,16 +75,16 @@ impl MapLoader {
     // - It slow done startup (yet it can be improved)
     // - We may store in memory cells for map that are not visited by player
     pub fn generate_cells(name: &str, length: usize) -> Vec<u16> {
-        let file_path = Path::join(Path::new(MAP_DIR), format!("{}{}", name, MAPCACHE_EXT));
+        let file_path = Path::join(Path::new(MAP_DIR), format!("{name}{MAPCACHE_EXT}"));
         let file = File::open(file_path).unwrap();
         let mut reader = BufReader::new(file);
         let mut map_cache_zip_content_buf = Vec::new();
         let mut map_cache_content_buf = Vec::new();
-        reader.read_to_end(&mut map_cache_zip_content_buf).unwrap_or_else(|_| panic!("Fail to read map-cache zip content for map: {}", name));
+        reader.read_to_end(&mut map_cache_zip_content_buf).unwrap_or_else(|_| panic!("Fail to read map-cache zip content for map: {name}"));
         let mut decoder = ZlibDecoder::new(&map_cache_zip_content_buf[26..]); // skip header
-        decoder.read_to_end(&mut map_cache_content_buf).unwrap_or_else(|_| panic!("Fail to read map-cache unzipped content for map: {}", name));
+        decoder.read_to_end(&mut map_cache_content_buf).unwrap_or_else(|_| panic!("Fail to read map-cache unzipped content for map: {name}"));
 
-        let mut cells: Vec<u16> = Vec::with_capacity(length as usize);
+        let mut cells: Vec<u16> = Vec::with_capacity(length);
         for cell in map_cache_content_buf {
             cells.push(match cell {
                 0 | 2 | 4 | 6 => CellType::Walkable.as_flag() | CellType::Shootable.as_flag(), // 3 => bytes 0 and byte 1 are set. walkable ground values 2,4,6 are unknown, should not be present in mapcache file. but hercules set them to this value.
@@ -102,7 +102,7 @@ impl MapLoader {
 
     fn name_with_ext(map_name: &str) -> String {
         if !map_name.ends_with(MAP_EXT) {
-            format!("{}{}", map_name, MAP_EXT)
+            format!("{map_name}{MAP_EXT}")
         } else {
             map_name.to_string()
         }

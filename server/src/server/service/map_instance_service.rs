@@ -7,7 +7,7 @@ use crate::enums::EnumWithNumberValue;
 use packets::packets::{PacketZcItemDisappear, PacketZcItemFallEntry, PacketZcNotifyMove, PacketZcNotifyVanish};
 use crate::server::model::map::Map;
 
-use crate::server::model::map_item::{MapItem, MapItemSnapshot, ToMapItem};
+use crate::server::model::map_item::{MapItem, MapItemSnapshot};
 use crate::server::model::path::manhattan_distance;
 use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, Notification};
 use crate::server::{MOB_FOV, Server};
@@ -157,7 +157,7 @@ impl MapInstanceService {
         for item in item_to_drop.iter() {
             let mut packet_zc_item_fall_entry = PacketZcItemFallEntry::default();
             packet_zc_item_fall_entry.set_itid(item.item_id as u16);
-            packet_zc_item_fall_entry.set_itaid(item.map_item_id as u32);
+            packet_zc_item_fall_entry.set_itaid(item.map_item_id);
             packet_zc_item_fall_entry.set_x_pos(item.location.x as i16);
             packet_zc_item_fall_entry.set_y_pos(item.location.y as i16);
             packet_zc_item_fall_entry.set_sub_x(item.sub_location.x as u8);

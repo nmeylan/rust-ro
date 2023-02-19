@@ -14,7 +14,7 @@ pub enum MapItemType {
 
 impl Display for MapItemType {
     fn fmt(&self, f: &mut Formatter) -> std::fmt::Result {
-        write!(f, "{:?}", self)
+        write!(f, "{self:?}")
     }
 }
 

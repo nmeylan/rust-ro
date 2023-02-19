@@ -69,12 +69,12 @@ async fn main() {
         let counter_clone = counter.clone();
         futures.push(tokio::task::spawn_blocking(move || {
             let start = Instant::now();
-            let gat_name = format!("{}.gat", file_name);
-            let rsw_name = format!("{}.rsw", file_name);
+            let gat_name = format!("{file_name}.gat");
+            let rsw_name = format!("{file_name}.rsw");
 
             let gat_path = Path::new(&gat_name[..]);
             let rsw_path = Path::new(&rsw_name[..]);
-            let mut water_height: f32 = NO_WATER as f32;
+            let mut water_height: f32 = NO_WATER;
 
             if !gat_path.exists() {
                 error!("{}: .gat file with path {} does not exists", map_name, gat_path.to_str().unwrap());
@@ -131,7 +131,7 @@ async fn main() {
                 tile_cursor += 20;
                 cells.push(cell_type as u8);
             }
-            let map_cache_path = Path::join(Path::new(MAP_CACHE_PATH), format!("{}.mcache", map_name));
+            let map_cache_path = Path::join(Path::new(MAP_CACHE_PATH), format!("{map_name}.mcache"));
             let mut map_cache_file = File::create(map_cache_path).unwrap();
 
             let mut zip_encoder = ZlibEncoder::new(Vec::new(), Compression::default());
@@ -141,7 +141,7 @@ async fn main() {
             let mut wtr = vec![];
             wtr.write_i16::<LittleEndian>(0x1).unwrap();
             let mut checksum_buf = [0_u8; 16];
-            let checksum = decode_hex(format!("{:x}", digest).as_str()).unwrap();
+            let checksum = decode_hex(format!("{digest:x}").as_str()).unwrap();
             checksum.iter().enumerate().for_each(|(i, value)| checksum_buf[i] = *value);
             wtr.write_all(&checksum_buf).unwrap();
             wtr.write_i16::<LittleEndian>(x_size as i16).unwrap();

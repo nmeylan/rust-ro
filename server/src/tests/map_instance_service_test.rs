@@ -28,7 +28,7 @@ fn before_each_with_latch(latch_size: usize) -> MapInstanceServiceTestContext {
     let server_task_queue = Arc::new(TasksQueue::new());
     let count_down_latch = CountDownLatch::new(latch_size);
     MapInstanceServiceTestContext {
-        test_context: TestContext::new(client_notification_sender.clone(), client_notification_receiver, persistence_event_sender.clone(), persistence_event_receiver, count_down_latch),
+        test_context: TestContext::new(client_notification_sender.clone(), client_notification_receiver, persistence_event_sender, persistence_event_receiver, count_down_latch),
         server_task_queue: server_task_queue.clone(),
         map_instance_service: MapInstanceService::new(client_notification_sender, GlobalConfigService::instance(), mob_service, server_task_queue),
     }
@@ -40,7 +40,7 @@ mod tests {
     use std::mem;
     use std::sync::Arc;
     use std::time::Duration;
-    use tokio::runtime::Runtime;
+    
     use packets::packets::PacketZcItemDisappear;
     use crate::{assert_eq_with_variance, assert_sent_packet_in_current_packetver, assert_task_queue_contains_event_at_tick};
     use crate::server::model::action::Damage;
@@ -50,7 +50,7 @@ mod tests {
     use crate::server::model::map_item::{MapItem, MapItemType};
     use crate::server::model::tasks_queue::TasksQueue;
     use crate::server::service::global_config_service::GlobalConfigService;
-    use crate::server::state::mob::Mob;
+    
     use crate::server::map_instance_loop::MAP_LOOP_TICK_RATE;
     use crate::server::model::position::Position;
     use crate::tests::common::assert_helper::{NotificationExpectation, SentPacket, task_queue_contains_event_at_tick, has_sent_notification};
@@ -124,12 +124,12 @@ mod tests {
             }
         }
         // Then
-        let mut average_drops_per_item: HashMap<u32, u32> = HashMap::new();
+        let _average_drops_per_item: HashMap<u32, u32> = HashMap::new();
         for (item_id, (item_name, expected_drop_amount)) in expected_dropped_item_amount {
             let total_amount_dropped = drops_per_item.get(&item_id).unwrap();
             let average = (*total_amount_dropped as f32 / iterations as f32).round() as u32;
             assert_eq_with_variance!(2, average, expected_drop_amount, "Expected item {} to be dropped {} times but was dropped {} times", item_name, expected_drop_amount, average);
-            println!("Dropped: {} {} times", item_name, average);
+            println!("Dropped: {item_name} {average} times");
         }
     }
 
@@ -162,7 +162,7 @@ mod tests {
         map_instance_state.insert_item(MapItem::new(mob_item_id, mob.mob_id, MapItemType::Mob));
         map_instance_state.mobs_mut().insert(mob_item_id, mob);
         // When
-        context.map_instance_service.mob_being_attacked(&mut map_instance_state, Damage { target_id: mob_item_id, attacker_id: 150000, damage: 10, attacked_at: get_tick() }, map_instance_tasks_queue.clone(), get_tick());
+        context.map_instance_service.mob_being_attacked(&mut map_instance_state, Damage { target_id: mob_item_id, attacker_id: 150000, damage: 10, attacked_at: get_tick() }, map_instance_tasks_queue, get_tick());
         // Then
         assert_eq!(map_instance_state.get_mob(mob_item_id).unwrap().hp(), max_hp - 10);
     }
@@ -179,7 +179,7 @@ mod tests {
         map_instance_state.insert_item(MapItem::new(mob_item_id, mob.mob_id, MapItemType::Mob));
         map_instance_state.mobs_mut().insert(mob_item_id, mob);
         // When
-        context.map_instance_service.mob_being_attacked(&mut map_instance_state, Damage { target_id: mob_item_id, attacker_id: 150000, damage: max_hp + 10, attacked_at: get_tick() }, map_instance_tasks_queue.clone(), get_tick());
+        context.map_instance_service.mob_being_attacked(&mut map_instance_state, Damage { target_id: mob_item_id, attacker_id: 150000, damage: max_hp + 10, attacked_at: get_tick() }, map_instance_tasks_queue, get_tick());
         // Then
         assert!(map_instance_state.get_mob(mob_item_id).is_none());
     }
@@ -199,7 +199,7 @@ mod tests {
         // When
         context.map_instance_service.mob_being_attacked(&mut map_instance_state, Damage { target_id: mob_item_id, attacker_id: 150000, damage: max_hp + 10, attacked_at: get_tick() + 10 }, map_instance_tasks_queue.clone(), get_tick());
         // Then
-        assert_task_queue_contains_event_at_tick!(map_instance_tasks_queue.clone(), MapEvent::MobDeathClientNotification(MobLocation { mob_id: original_mob.id, x: original_mob.x, y: original_mob.y }), delayed_tick(10, MAP_LOOP_TICK_RATE));
+        assert_task_queue_contains_event_at_tick!(map_instance_tasks_queue, MapEvent::MobDeathClientNotification(MobLocation { mob_id: original_mob.id, x: original_mob.x, y: original_mob.y }), delayed_tick(10, MAP_LOOP_TICK_RATE));
     }
 
     #[test]

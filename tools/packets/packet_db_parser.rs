@@ -229,11 +229,11 @@ fn get_type(line: &str, should_ignore_array: bool) -> &'static Type {
     let frag: Vec<&str> = type_str.split(' ').collect();
     let mut type_to_retrieve = frag[0].trim().to_string();
     if is_unsigned {
-        type_to_retrieve = format!("unsigned {}", type_to_retrieve);
+        type_to_retrieve = format!("unsigned {type_to_retrieve}");
     }
     let found_type =   TYPES_MAP.get(type_to_retrieve.as_str());
     if found_type.is_none() {
-        panic!("type {} not found in   TYPES_MAP", type_to_retrieve);
+        panic!("type {type_to_retrieve} not found in   TYPES_MAP");
     }
     found_type.unwrap()
 }
