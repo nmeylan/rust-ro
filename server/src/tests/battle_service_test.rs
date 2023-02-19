@@ -26,7 +26,7 @@ fn before_each_with_latch(latch_size: usize) -> BattleServiceTestContext {
     BattleServiceTestContext {
         test_context:TestContext::new(client_notification_sender.clone(), client_notification_receiver, persistence_event_sender.clone(), persistence_event_receiver, count_down_latch),
         battle_service: BattleService::new(client_notification_sender.clone(), status_service, GlobalConfigService::instance()),
-        status_service: StatusService::new(client_notification_sender.clone(), persistence_event_sender.clone(), GlobalConfigService::instance())
+        status_service: StatusService::new(client_notification_sender, persistence_event_sender, GlobalConfigService::instance())
     }
 }
 
@@ -110,7 +110,7 @@ mod tests {
         let context = before_each();
         let mut character = create_character();
         let mob_item_id = 82322;
-        let mut mob = create_mob(mob_item_id, "PORING");
+        let mob = create_mob(mob_item_id, "PORING");
         character.set_attack(mob_item_id, true, 0);
         let second_attack_tick = get_tick() + 2000;
         // When
@@ -129,7 +129,7 @@ mod tests {
         let context = before_each();
         let mut character = create_character();
         let mob_item_id = 82322;
-        let mut mob = create_mob(mob_item_id, "PORING");
+        let mob = create_mob(mob_item_id, "PORING");
         character.set_attack(mob_item_id, false, 0);
         // When
         let attack_1 = context.battle_service.attack(&mut character, mob.to_map_item(), get_tick());
@@ -146,7 +146,7 @@ mod tests {
         let context = before_each();
         let mut character = create_character();
         let mob_item_id = 82322;
-        let mut mob = create_mob(mob_item_id, "PORING");
+        let mob = create_mob(mob_item_id, "PORING");
         character.set_attack(mob_item_id, true, 0);
         // When
         let attack_1 = context.battle_service.attack(&mut character, mob.to_map_item(), get_tick());

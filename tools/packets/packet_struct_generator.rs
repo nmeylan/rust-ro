@@ -67,7 +67,7 @@ fn write_packet_parser(file: &mut File, packets: &Vec<PacketStructDefinition>) {
         for id in packet.ids.iter() {
             let packet_id = packet_id(id.clone()).replace("0x", "");
             let (first_byte, second_byte) = packet_id.split_at(2);
-            file.write_all(format!("    if buffer[0] == 0x{} && buffer[1] == 0x{} {{\n", first_byte, second_byte).as_bytes()).unwrap();
+            file.write_all(format!("    if buffer[0] == 0x{first_byte} && buffer[1] == 0x{second_byte} {{\n").as_bytes()).unwrap();
             file.write_all(format!("        return Box::new({}::from(buffer, packetver));\n", packet.struct_def.name).as_bytes()).unwrap();
             file.write_all("    }\n".to_string().as_bytes()).unwrap();
         }
@@ -94,7 +94,7 @@ fn write_packet_trait_impl(file: &mut File, packet: &PacketStructDefinition) {
     file.write_all(format!("impl Packet for {} {{\n", packet.struct_def.name).as_bytes()).unwrap();
     file.write_all("    fn id(&self) -> &str {\n".to_string().as_bytes()).unwrap();
     let id = packet_id(packet.id.clone());
-    file.write_all(format!("       \"{}\"\n", id).as_bytes()).unwrap();
+    file.write_all(format!("       \"{id}\"\n").as_bytes()).unwrap();
     file.write_all("    }\n".to_string().as_bytes()).unwrap();
     file.write_all("    fn debug(&self) {\n".to_string().as_bytes()).unwrap();
     file.write_all("            println!(\"{:?}\", self)\n".to_string().as_bytes()).unwrap();
@@ -339,8 +339,8 @@ fn write_struct_new_method(file: &mut File, struct_definition: &StructDefinition
             if second_byte.is_empty() {
                 second_byte = "0"
             }
-            file.write_all(format!("        packet_id: i16::from_le_bytes([0x{}, 0x{}]),\n", first_byte, second_byte).as_bytes()).unwrap();
-            file.write_all(format!("        packet_id_raw: [0x{}, 0x{}],\n", first_byte, second_byte).as_bytes()).unwrap();
+            file.write_all(format!("        packet_id: i16::from_le_bytes([0x{first_byte}, 0x{second_byte}]),\n").as_bytes()).unwrap();
+            file.write_all(format!("        packet_id_raw: [0x{first_byte}, 0x{second_byte}],\n").as_bytes()).unwrap();
         } else {
             file.write_all(field_default_value(field).as_bytes()).unwrap();
         }
@@ -450,21 +450,21 @@ fn struct_impl_field_value(field: &StructField) -> String {
             if field.sub_type.is_some() {
                 let sub_type_name = &field.sub_type.unwrap().name;
                 if sub_type_name == "char" {
-                    array_block = format!("{}                let mut dst: [{}; {}] = [0 as {}; {}];\n", array_block, sub_type_name, length, sub_type_name, length);
+                    array_block = format!("{array_block}                let mut dst: [{sub_type_name}; {length}] = [0 as {sub_type_name}; {length}];\n");
                 } else {
-                    array_block = format!("{}                let mut dst: [{}; {}] = [0_{}; {}];\n", array_block, sub_type_name, length, sub_type_name, length);
+                    array_block = format!("{array_block}                let mut dst: [{sub_type_name}; {length}] = [0_{sub_type_name}; {length}];\n");
                 }
 
                 array_block = format!("{}                for (index, byte) in buffer[offset..offset + {}].iter().enumerate() {{\n", array_block, field.length);
-                array_block = format!("{}                    dst[index] = *byte as {};\n", array_block, sub_type_name);
-                array_block = format!("{}                }}\n", array_block);
+                array_block = format!("{array_block}                    dst[index] = *byte as {sub_type_name};\n");
+                array_block = format!("{array_block}                }}\n");
             } else if field.length > -1 {
-                array_block = format!("{}                let mut dst: [u8; {}] = [0; {}];\n", array_block, length, length);
+                array_block = format!("{array_block}                let mut dst: [u8; {length}] = [0; {length}];\n");
                 array_block = format!("{}                dst.clone_from_slice(&buffer[offset..offset + {}]);\n", array_block, field.length);
             } else {
-                array_block = format!("{}                let dst: Vec<u8> = buffer[offset..buffer.len()].to_vec();\n", array_block);
+                array_block = format!("{array_block}                let dst: Vec<u8> = buffer[offset..buffer.len()].to_vec();\n");
             }
-            array_block = format!("{}                dst\n            }}", array_block);
+            array_block = format!("{array_block}                dst\n            }}");
             array_block
         }
         _ => {
@@ -513,9 +513,9 @@ fn struct_impl_default_field_value(field: &StructField) -> String {
                 let sub_type_name = &field.sub_type.unwrap().name;
                 let length = &field.length;
                 if sub_type_name == "char" {
-                    format!("[0 as char; {}]", length)
+                    format!("[0 as char; {length}]")
                 } else {
-                    format!("[{}; {}]", sub_type_name, length)
+                    format!("[{sub_type_name}; {length}]")
                 }
             } else if field.length > -1 {
                 format!("[0 as u8; {}]", field.length)
@@ -566,15 +566,15 @@ fn field_serialization(field: &StructField) -> String {
                 if sub_type.name == "u8" || sub_type.name == "i8" {
                     res = format!("{}        for item in self.{} {{\n", res, field.name);
                     res = format!("{}            wtr.write_{}(item).unwrap();\n", res, sub_type.name);
-                    res = format!("{}        }}\n", res);
+                    res = format!("{res}        }}\n");
                 } else if sub_type.name == "char" {
                     res = format!("{}        for item in self.{} {{\n", res, field.name);
-                    res = format!("{}            wtr.write_u8(item as u8 ).unwrap();\n", res);
-                    res = format!("{}        }}\n", res);
+                    res = format!("{res}            wtr.write_u8(item as u8 ).unwrap();\n");
+                    res = format!("{res}        }}\n");
                 } else {
                     res = format!("{}        for item in self.{} {{\n", res, field.name);
                     res = format!("{}            wtr.write_{}::<LittleEndian>(item).unwrap();\n", res, sub_type.name);
-                    res = format!("{}        }}\n", res);
+                    res = format!("{res}        }}\n");
                 }
                 res = format!("{}        self.{}_raw = wtr.try_into().unwrap();", res, field.name);
                 res
@@ -587,7 +587,7 @@ fn field_serialization(field: &StructField) -> String {
                 res = format!("        self.{}_raw = {{\n", field.name);
                 res = format!("{}            self.{}.iter_mut().for_each(|item| item.fill_raw_with_packetver(packetver));\n", res, field.name);
                 res = format!("{}            self.{}.iter().map(|item| item.raw.clone()).collect()\n", res, field.name);
-                res = format!("{}      }};\n", res);
+                res = format!("{res}      }};\n");
                 res
             } else {
                 format!("\"found unknown type {} for field {}. this won't compile!\"", field.data_type.name, field.name)
@@ -619,7 +619,7 @@ fn field_length(field: &StructField) -> String {
 fn packet_id(packet_id: String) -> String {
     let mut id = packet_id.clone();
     if packet_id.len() == 4 {
-        id = format!("{:0<6}", packet_id);
+        id = format!("{packet_id:0<6}");
     } else if packet_id.len() == 5 {
         id = packet_id.replace("0x", "0x0");
     }
@@ -722,9 +722,9 @@ fn field_default_value(field: &StructField) -> String {
 fn packetver_if(packetver_variable: &str, field: &StructField) -> String {
     format!("if {} {} {{\n", packetver_variable,
             match field.condition.as_ref().unwrap() {
-                Condition::GTE(ver) => format!(">= {}", ver),
-                Condition::GT(ver) => format!("> {}", ver),
-                Condition::LTE(ver) => format!("<= {}", ver),
-                Condition::LT(ver) => format!("< {}", ver),
+                Condition::GTE(ver) => format!(">= {ver}"),
+                Condition::GT(ver) => format!("> {ver}"),
+                Condition::LTE(ver) => format!("<= {ver}"),
+                Condition::LT(ver) => format!("< {ver}"),
             })
 }

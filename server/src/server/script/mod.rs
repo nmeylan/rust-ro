@@ -113,7 +113,7 @@ impl NativeMethodHandler for ScriptHandler {
                 match p {
                     value::Value::String(v) => v.as_ref().unwrap().clone(),
                     value::Value::Number(v) => format!("{}", v.as_ref().unwrap()),
-                    value::Value::Reference(v) => format!("{:?}", v),
+                    value::Value::Reference(v) => format!("{v:?}"),
                     value::Value::ArrayEntry(_v) => { "array entry: TODO".to_string() }
                 }
             }).collect::<Vec<String>>().join(" "));
@@ -122,7 +122,7 @@ impl NativeMethodHandler for ScriptHandler {
             if let Some(value) = load_constant(constant_name) {
                 execution_thread.push_constant_on_stack(value);
             } else {
-                panic!("ScriptHandler - getglobalvariable no constant found with name {}", constant_name);
+                panic!("ScriptHandler - getglobalvariable no constant found with name {constant_name}");
             }
         } else if native.name.eq("getbattleflag") {
             let constant_name = params[0].string_value().unwrap();
@@ -184,7 +184,7 @@ impl NativeMethodHandler for PlayerScriptHandler {
                 match p {
                     value::Value::String(v) => v.as_ref().unwrap().clone(),
                     value::Value::Number(v) => format!("{}", v.as_ref().unwrap()),
-                    value::Value::Reference(v) => format!("{:?}", v),
+                    value::Value::Reference(v) => format!("{v:?}"),
                     value::Value::ArrayEntry(_v) => { "array entry: TODO".to_string() }
                 }
             }).collect::<Vec<String>>().join(" "));
@@ -284,7 +284,7 @@ impl NativeMethodHandler for PlayerScriptHandler {
                 1 => value::Value::new_string("TODO PARTY NAME".to_string()),
                 2 => value::Value::new_string("TODO GUILD NAME".to_string()),
                 3 => value::Value::new_string(char.current_map_name().clone()),
-                _ => value::Value::new_string(format!("Unknown char info type {}", info_type))
+                _ => value::Value::new_string(format!("Unknown char info type {info_type}"))
             };
             execution_thread.push_constant_on_stack(char_info);
         } else if native.name.eq("message") {
@@ -382,7 +382,7 @@ impl NativeMethodHandler for PlayerScriptHandler {
                 execution_thread.new_runtime_from_temporary(err, "purchaseitems second argument should be array reference")).unwrap();
             let items_amount_array = execution_thread.vm.array_from_heap_reference(owner_reference, reference).unwrap();
             self.runtime.block_on(async {
-                let items_ids: Vec<i32> = execution_thread.array_constants(items_ids_array.clone()).iter().map(|constant| *constant.value().number_value().as_ref().unwrap() as i32).collect::<Vec<i32>>();
+                let items_ids: Vec<i32> = execution_thread.array_constants(items_ids_array.clone()).iter().map(|constant| *constant.value().number_value().as_ref().unwrap()).collect::<Vec<i32>>();
                 let items_amounts: Vec<i16> = execution_thread.array_constants(items_amount_array).iter().map(|constant| *constant.value().number_value().as_ref().unwrap() as i16).collect::<Vec<i16>>();
                 let mut items_ids_amount: Vec<(i32, i16)> = vec![];
                 execution_thread.array_constants(items_ids_array).iter().enumerate().for_each(|(i, constant)| {
@@ -398,7 +398,7 @@ impl NativeMethodHandler for PlayerScriptHandler {
                 execution_thread.push_constant_on_stack(value::Value::new_number(if CharacterService::instance().can_carry_weight(character_ref, items_total_weight as u32) { 1 } else { 0 }));
             });
         } else if native.name.eq("itemskill") {
-            let skill_id = params[0].number_value().map_or(None, |id| Some(id as i32));
+            let skill_id = params[0].number_value().ok();
             let skill = if let Some(skill_id) = skill_id {
                 self.configuration_service.get_skill_config(skill_id as u32)
             } else {

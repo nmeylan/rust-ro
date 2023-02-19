@@ -5,33 +5,33 @@ use std::thread::{sleep};
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
 use tokio::runtime::Runtime;
-use enums::status::StatusTypes;
-use crate::enums::EnumWithNumberValue;
+
+
 
 use packets::packets::{Packet, PacketZcNotifyPlayermove};
 use crate::PersistenceEvent;
 use crate::PersistenceEvent::SaveCharacterPosition;
 use crate::server::model::movement::{Movable, Movement};
-use crate::server::model::path::{manhattan_distance, path_search_client_side_algorithm};
-use crate::server::model::position::Position;
-use crate::server::model::events::game_event::{CharacterMovement, GameEvent};
+
+
+use crate::server::model::events::game_event::{GameEvent};
 
 use crate::server::model::events::client_notification::{CharNotification, Notification};
 use crate::server::model::events::map_event::{MapEvent, MobDropItems};
 use crate::server::model::events::persistence_event::{SavePositionUpdate};
 
-use crate::server::model::map_item::{MapItemType, ToMapItemSnapshot, ToMapItem};
+use crate::server::model::map_item::{ToMapItemSnapshot, ToMapItem};
 
 use crate::server::Server;
-use crate::server::service::battle_service::BattleService;
+
 use crate::server::service::character::character_service::{CharacterService};
 use crate::server::service::character::inventory_service::InventoryService;
 use crate::server::service::character::item_service::{ItemService};
 use crate::server::service::global_config_service::GlobalConfigService;
-use crate::server::service::map_instance_service::MapInstanceService;
+
 use crate::server::service::server_service::ServerService;
-use crate::server::service::status_service::StatusService;
-use crate::server::state::character::Character;
+
+
 
 
 const MOVEMENT_TICK_RATE: u128 = 20;
@@ -165,7 +165,7 @@ impl Server {
                             server_state_mut.remove_locked_map_item(map_item_id);
                         }
                         GameEvent::CharacterUpdateStat(character_update_stat) => {
-                            let mut character = server_state_mut.characters_mut().get_mut(&character_update_stat.char_id).unwrap();
+                            let character = server_state_mut.characters_mut().get_mut(&character_update_stat.char_id).unwrap();
                             ServerService::instance().character_increase_stat(character, character_update_stat);
                         }
                     }

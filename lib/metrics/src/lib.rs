@@ -13,9 +13,9 @@ pub fn elapsed(_args: TokenStream, function_def: TokenStream) -> TokenStream {
     let ItemFn { attrs, vis, sig, block } = fn_item;
     let function_body = block.clone();
     let fn_name = sig.ident.clone();
-    let log_ns = format!("{} tooks {{}}ns", fn_name);
-    let log_us = format!("{} tooks {{}}µs", fn_name);
-    let log_ms = format!("{} tooks {{}}ms", fn_name);
+    let log_ns = format!("{fn_name} tooks {{}}ns");
+    let log_us = format!("{fn_name} tooks {{}}µs");
+    let log_ms = format!("{fn_name} tooks {{}}ms");
     let new_function_def = quote! {
         #(#attrs)* #vis #sig {
             let start_for_elapsed_macro = std::time::Instant::now();
@@ -43,9 +43,9 @@ pub fn elapsed_block(args: TokenStream, block_def: TokenStream) -> TokenStream {
         block_name = attrs.get(0).unwrap().to_token_stream().to_string();
     }
     let item = syn::parse::<Block>(block_def).unwrap();
-    let log_ns = format!("{} tooks {{}}ns", block_name);
-    let log_us = format!("{} tooks {{}}µs", block_name);
-    let log_ms = format!("{} tooks {{}}ms", block_name);
+    let log_ns = format!("{block_name} tooks {{}}ns");
+    let log_us = format!("{block_name} tooks {{}}µs");
+    let log_ms = format!("{block_name} tooks {{}}ms");
     let new_block_def = quote! {
         {
             let start_for_elapsed_macro = std::time::Instant::now();

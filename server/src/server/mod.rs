@@ -36,8 +36,8 @@ use crate::server::service::character::inventory_service::InventoryService;
 use crate::server::service::character::item_service::ItemService;
 use script::skill::SkillService;
 use crate::server::game_loop::GAME_TICK_RATE;
-use crate::server::map_instance_loop::MAP_LOOP_TICK_RATE;
-use crate::server::model::events::map_event::MapEvent;
+
+
 
 
 use crate::server::service::battle_service::BattleService;
@@ -117,7 +117,7 @@ impl Server {
                             InventoryService::new(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), GlobalConfigService::instance(), tasks_queue.clone()),
                             CharacterService::new(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), GlobalConfigService::instance(), tasks_queue.clone()),
                             MapInstanceService::new(client_notification_sender.clone(), GlobalConfigService::instance(), MobService::new(client_notification_sender.clone(), GlobalConfigService::instance()), tasks_queue.clone()),
-                            BattleService::new(client_notification_sender.clone(), StatusService::new(client_notification_sender.clone(), persistence_event_sender.clone(), GlobalConfigService::instance()), GlobalConfigService::instance()),
+                            BattleService::new(client_notification_sender.clone(), StatusService::new(client_notification_sender.clone(), persistence_event_sender, GlobalConfigService::instance()), GlobalConfigService::instance()),
         );
         Server {
             configuration,
@@ -168,7 +168,7 @@ impl Server {
         let (response_sender, single_response_receiver) = std::sync::mpsc::sync_channel::<Response>(0);
         let client_notification_sender_clone = server_ref.client_notification_sender();
         thread::scope(|server_thread_scope: &Scope| {
-            let listener = TcpListener::bind(format!("0.0.0.0:{}", port)).unwrap();
+            let listener = TcpListener::bind(format!("0.0.0.0:{port}")).unwrap();
             info!("Server listen on 0.0.0.0:{}", port);
             let server_shared_ref = server_ref.clone();
 

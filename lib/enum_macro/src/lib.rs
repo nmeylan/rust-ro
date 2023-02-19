@@ -210,11 +210,11 @@ pub fn with_string_value(input: TokenStream) -> TokenStream {
             let string_value = if let Some(value) = maybe_value {
                 value
             } else if uppercase {
-                format!("{}", variant_name).to_uppercase()
+                format!("{variant_name}").to_uppercase()
             } else if lowercase {
-                format!("{}", variant_name).to_lowercase()
+                format!("{variant_name}").to_lowercase()
             } else {
-                format!("{}", variant_name)
+                format!("{variant_name}")
             };
             let res = quote! {
                 #string_value => #enum_name::#variant_name,
@@ -227,11 +227,11 @@ pub fn with_string_value(input: TokenStream) -> TokenStream {
             let string_value = if let Some(value) = maybe_value {
                 value
             } else if uppercase {
-                format!("{}", variant_name).to_uppercase()
+                format!("{variant_name}").to_uppercase()
             } else if lowercase {
-                format!("{}", variant_name).to_lowercase()
+                format!("{variant_name}").to_lowercase()
             } else {
-                format!("{}", variant_name)
+                format!("{variant_name}")
             };
             let res = quote! {
                 #string_value => Ok(#enum_name::#variant_name),
@@ -244,7 +244,7 @@ pub fn with_string_value(input: TokenStream) -> TokenStream {
             let string_value = if let Some(value) = maybe_value {
                 value.to_lowercase()
             } else {
-                format!("{}", variant_name).to_lowercase()
+                format!("{variant_name}").to_lowercase()
             };
             let res = quote! {
                 #string_value => #enum_name::#variant_name,
@@ -257,11 +257,11 @@ pub fn with_string_value(input: TokenStream) -> TokenStream {
             let string_value = if let Some(value) = maybe_value {
                 value
             } else if uppercase {
-                format!("{}", variant_name).to_uppercase()
+                format!("{variant_name}").to_uppercase()
             } else if lowercase {
-                format!("{}", variant_name).to_lowercase()
+                format!("{variant_name}").to_lowercase()
             } else {
-                format!("{}", variant_name)
+                format!("{variant_name}")
             };
             let res = quote! {
                 #enum_name::#variant_name => #string_value,

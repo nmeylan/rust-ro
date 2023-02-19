@@ -7,7 +7,7 @@ use tokio::runtime::Runtime;
 use enums::action::ActionType;
 use enums::status::StatusTypes;
 use crate::enums::EnumWithNumberValue;
-use packets::packets::{PacketZcNotifyAct, PacketZcStatusChange, PacketZcStatusChangeAck};
+use packets::packets::{PacketZcNotifyAct, PacketZcStatusChangeAck};
 use crate::repository::model::item_model::InventoryItemModel;
 use crate::server::boot::map_loader::MapLoader;
 use crate::server::model::map::{Map, RANDOM_CELL};
@@ -21,14 +21,14 @@ use crate::server::map_instance_loop::MapInstanceLoop;
 use crate::server::model::events::map_event::MapEvent;
 use crate::server::model::movement::{Movable, Movement};
 use crate::server::model::path::{manhattan_distance, path_search_client_side_algorithm};
-use crate::server::Server;
+
 use crate::server::service::battle_service::BattleService;
 use crate::server::service::character::character_service::CharacterService;
 use crate::server::service::character::inventory_service::InventoryService;
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::service::map_instance_service::MapInstanceService;
 use crate::server::state::character::Character;
-use crate::server::state::map_instance::MapInstanceState;
+
 use crate::server::state::server::ServerState;
 use crate::util::tick::get_tick;
 

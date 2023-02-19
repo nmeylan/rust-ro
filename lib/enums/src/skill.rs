@@ -40,8 +40,10 @@ pub enum SkillType {
 }
 
 #[derive(WithNumberValue, WithStringValue, Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(Default)]
 pub enum SkillTargetType {
     #[value = 0]
+    #[default]
     Passive,
     Attack,
     Ground,
@@ -53,11 +55,7 @@ pub enum SkillTargetType {
     Trap,
 }
 
-impl Default for SkillTargetType {
-    fn default() -> Self {
-        SkillTargetType::Passive
-    }
-}
+
 
 
 #[derive(WithMaskValueU64, WithStringValue, Debug, Copy, Clone, PartialEq, Eq)]

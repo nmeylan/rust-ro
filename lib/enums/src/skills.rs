@@ -4852,7 +4852,7 @@ impl Skill {
       10013 => Self::GdEmergencycall,
       10014 => Self::GdDevelopment,
       10015 => Self::GdItememergencycall,
-    _ => panic!("unknown skill with id {}", id)
+    _ => panic!("unknown skill with id {id}")
     }
   }
   pub fn from_name(name: &str) -> Self {
@@ -6067,7 +6067,7 @@ impl Skill {
       "GD_EMERGENCYCALL" => Self::GdEmergencycall,
       "GD_DEVELOPMENT" => Self::GdDevelopment,
       "GD_ITEMEMERGENCYCALL" => Self::GdItememergencycall,
-    _ => panic!("unknown skill with name {}", name)
+    _ => panic!("unknown skill with name {name}")
     }
   }
   pub fn to_name(&self) -> &str {

@@ -37,7 +37,7 @@ impl PlayerScriptHandler {
                 let array_element_price = execution_thread.vm.get_from_constant_pool(price_constant_ref).unwrap().value();
                 let item_id = array_element_item.number_value().unwrap();
                 let price = array_element_price.number_value().unwrap();
-                item_ids.push(item_id as i32);
+                item_ids.push(item_id);
                 price_overrides.push(price);
             }
             // Build array of PurchaseItem, retrieving some information from db (prices)
@@ -51,7 +51,7 @@ impl PlayerScriptHandler {
                 let price = if price_overrides[i] != -1 { // when script contains price override
                     price_overrides[i]
                 } else {
-                    item.price_buy.unwrap() as i32
+                    item.price_buy.unwrap()
                 };
                 purchase_item.set_price(price);
                 purchase_item.set_discountprice(price); // TODO handle discount, one day

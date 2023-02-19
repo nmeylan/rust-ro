@@ -39,17 +39,17 @@ impl Repository {
 
 #[async_trait]
 pub trait CharacterRepository {
-    async fn character_save_position(&self, account_id: u32, char_id: u32, map_name: String, x: u16, y: u16) -> Result<(), Error> { todo!() }
-    async fn character_update_status(&self, char_id: u32, db_column: String, value: u32) -> Result<(), Error> { todo!() }
-    async fn character_zeny_fetch(&self, char_id: u32) -> Result<i32, Error> { todo!() }
+    async fn character_save_position(&self, _account_id: u32, _char_id: u32, _map_name: String, _x: u16, _y: u16) -> Result<(), Error> { todo!() }
+    async fn character_update_status(&self, _char_id: u32, _db_column: String, _value: u32) -> Result<(), Error> { todo!() }
+    async fn character_zeny_fetch(&self, _char_id: u32) -> Result<i32, Error> { todo!() }
 }
 
 #[async_trait]
 pub trait InventoryRepository {
-    async fn character_inventory_update(&self, inventory_update_items: &[InventoryItemUpdate], buy: bool) -> Result<(), Error> { todo!() }
-    async fn character_inventory_delete(&self, delete_items: DeleteItems) -> Result<PgQueryResult, Error> { todo!() }
-    async fn character_inventory_fetch(&self, char_id: i32) -> Result<Vec<InventoryItemModel>, Error> { todo!() }
-    async fn character_inventory_wearable_item_update(&self, items: Vec<InventoryItemModel>) -> Result<PgQueryResult, Error> { todo!() }
+    async fn character_inventory_update(&self, _inventory_update_items: &[InventoryItemUpdate], _buy: bool) -> Result<(), Error> { todo!() }
+    async fn character_inventory_delete(&self, _delete_items: DeleteItems) -> Result<PgQueryResult, Error> { todo!() }
+    async fn character_inventory_fetch(&self, _char_id: i32) -> Result<Vec<InventoryItemModel>, Error> { todo!() }
+    async fn character_inventory_wearable_item_update(&self, _items: Vec<InventoryItemModel>) -> Result<PgQueryResult, Error> { todo!() }
 }
 
 #[async_trait]

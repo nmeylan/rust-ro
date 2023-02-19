@@ -31,7 +31,7 @@ enum ProxyDirection {
 
 impl Display for ProxyDirection {
     fn fmt(&self, f: &mut Formatter) -> core::fmt::Result {
-        write!(f, "{:?}", self)
+        write!(f, "{self:?}")
     }
 }
 
@@ -112,7 +112,7 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
                         self.proxy_request(outgoing, &direction, tcp_stream_ref, packet);
                     }
                 }
-                Err(error) => return Err(format!("Could not read data: {}", error))
+                Err(error) => return Err(format!("Could not read data: {error}"))
             }
         }
         Ok(())

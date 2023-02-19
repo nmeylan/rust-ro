@@ -121,7 +121,7 @@ pub fn handle_make_char(server: &Server, context: Request) {
             hp: max_hp,
             max_sp,
             sp: max_sp,
-            hair: packet_make_char.head as i16,
+            hair: packet_make_char.head,
             hair_color: packet_make_char.head_pal as i32,
             last_map: "new_1-1".to_string(), // make this configurable
             last_x: 53,
@@ -156,7 +156,7 @@ pub fn handle_make_char(server: &Server, context: Request) {
             hp: max_hp,
             max_sp,
             sp: max_sp,
-            hair: packet_make_char.head as i16,
+            hair: packet_make_char.head,
             hair_color: packet_make_char.head_pal as i32,
             last_map: "new_1-1".to_string(), // make this configurable
             last_x: 53,
@@ -179,7 +179,7 @@ pub fn handle_make_char(server: &Server, context: Request) {
         // TODO add default stuff
         let created_char: CharacterInfoNeoUnionWrapped = sqlx::query_as::<_, CharacterInfoNeoUnionWrapped>("SELECT * from char WHERE name = $1 AND account_id = $2")
             .bind(char_model.name)
-            .bind(char_model.account_id as i32)
+            .bind(char_model.account_id)
             .fetch_one(&server.repository.pool)
             .await.unwrap();
         created_char.data

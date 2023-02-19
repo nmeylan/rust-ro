@@ -65,6 +65,7 @@ impl Clone for Status {
 }
 
 #[derive(SettersAll, Debug)]
+#[derive(Default)]
 pub struct Look {
     pub hair: u16,
     pub hair_color: u32,
@@ -95,22 +96,7 @@ impl Clone for Look {
     }
 }
 
-impl Default for Look {
-    fn default() -> Self {
-        Self {
-            hair: 0,
-            hair_color: 0,
-            clothes_color: 0,
-            body: 0,
-            weapon: 0,
-            shield: 0,
-            head_top: 0,
-            head_middle: 0,
-            head_bottom: 0,
-            robe: 0
-        }
-    }
-}
+
 
 
 impl Status {

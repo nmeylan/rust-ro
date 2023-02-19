@@ -1,5 +1,5 @@
 use rand::RngCore;
-use enums::item::ItemType;
+
 use crate::repository::model::item_model::InventoryItemModel;
 use crate::server::service::global_config_service::GlobalConfigService;
 

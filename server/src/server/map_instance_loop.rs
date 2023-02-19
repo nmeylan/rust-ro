@@ -4,14 +4,14 @@ use std::sync::Arc;
 use std::thread;
 use std::thread::sleep;
 use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
-use enums::vanish::VanishType;
-use packets::packets::{PacketZcItemFallEntry, PacketZcNotifyVanish};
+
+
 use crate::server::model::map_instance::MapInstance;
 use crate::server::model::movement::{Movable, Movement};
-use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, Notification};
-use crate::server::model::events::map_event::{MapEvent, MobLocation};
+
+use crate::server::model::events::map_event::{MapEvent};
 use crate::server::service::global_config_service::GlobalConfigService;
-use crate::enums::EnumWithNumberValue;
+
 use crate::util::tick::get_tick;
 use crate::server::service::map_instance_service::MapInstanceService;
 
@@ -53,7 +53,7 @@ impl MapInstanceLoop {
                                     MapInstanceService::instance().mob_being_attacked(map_instance_state.as_mut(), damage, map_instance.task_queue(), tick);
                                 }
                                 MapEvent::MobDeathClientNotification(mob_location) => {
-                                    let mut map_instance_state = map_instance.state();
+                                    let map_instance_state = map_instance.state();
                                     MapInstanceService::instance().mob_die_client_notification(map_instance_state.as_ref(), mob_location);
                                 }
                                 MapEvent::RemoveCharFromMap(char_id) => {

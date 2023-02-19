@@ -1,8 +1,8 @@
 use std::backtrace::Backtrace;
 use std::sync::{Arc, Condvar, Mutex};
 use std::time::Duration;
-use lazy_static::lazy_static;
-use regex::Regex;
+
+
 
 #[derive(Debug, Clone)]
 pub struct CountDownLatch {
@@ -35,7 +35,7 @@ impl CountDownLatch {
         let (_, wait_timeout) = self.cvar.wait_timeout_while(self.count.lock().unwrap(), duration, |count| { *count > 0 }).unwrap();
         if wait_timeout.timed_out() {
             println!("warn: reach timeout of increment latch at:");
-            println!("{}", bt.to_string());
+            println!("{bt}");
         }
     }
 }
@@ -69,7 +69,7 @@ impl IncrementLatch {
         let (_, wait_timeout) = self.cvar.wait_timeout_while(self.count.lock().unwrap(), duration, |count| { *count != expected_count }).unwrap();
         if wait_timeout.timed_out() {
             println!("warn: reach timeout of increment latch, condition not match \"{} != {}\" at:", self.count.lock().unwrap(), expected_count);
-            println!("{}", bt.to_string());
+            println!("{bt}");
         }
     }
 }

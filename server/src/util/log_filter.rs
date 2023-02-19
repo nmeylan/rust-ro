@@ -7,7 +7,7 @@ pub struct LogFilter {
 
 impl LogFilter {
     pub fn new(exclude_pattern: String) -> LogFilter {
-        println!("exclude pattern {}", exclude_pattern);
+        println!("exclude pattern {exclude_pattern}");
         LogFilter {
             // exclude_pattern: "sqlx".to_string()
             exclude_pattern

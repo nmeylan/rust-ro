@@ -125,7 +125,7 @@ pub async fn authenticate(server: &Server, packet: &PacketCaLogin, repository: &
 
 fn proxy_login(server: Arc<Server>, packet: &dyn Packet, tcp_stream: Arc<RwLock<TcpStream>>) {
     let target = format!("{}:{}", server.configuration.proxy.remote_login_server_ip, server.configuration.proxy.remote_login_server_port);
-    let mut remote_login_server = TcpStream::connect(target.clone()).map_err(|error| format!("Could not establish connection to {}: {}", target, error)).unwrap();
+    let mut remote_login_server = TcpStream::connect(target.clone()).map_err(|error| format!("Could not establish connection to {target}: {error}")).unwrap();
     let mut remote_login_server_clone = remote_login_server.try_clone().unwrap();
     let handle = spawn(move || {
         let mut buffer = [0; 2048];

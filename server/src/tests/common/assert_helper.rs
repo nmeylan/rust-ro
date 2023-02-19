@@ -1,29 +1,29 @@
 use std::fmt::Debug;
 use std::sync::Arc;
-use packets::packets::{Packet, PacketZcSpriteChange2};
+use packets::packets::{Packet};
 use packets::packets_parser::parse;
-use crate::server::model::events::client_notification::{AreaNotificationRangeType, CharNotification, Notification};
-use crate::server::model::events::game_event::GameEvent;
+use crate::server::model::events::client_notification::{AreaNotificationRangeType, Notification};
+
 use crate::server::model::events::persistence_event::PersistenceEvent;
 use crate::server::model::tasks_queue::TasksQueue;
-use crate::server::service::global_config_service::GlobalConfigService;
+
 
 pub fn task_queue_contains_event_at_tick<T: PartialEq + Debug>(task_queue: Arc<TasksQueue<T>>, expected_event: T, tick: usize) {
     let mut events = vec![];
     for _ in 0..=tick {
-        events = task_queue.pop().unwrap_or_else(|| panic!("Expected task queue to contains events at tick {}", tick));
+        events = task_queue.pop().unwrap_or_else(|| panic!("Expected task queue to contains events at tick {tick}"));
     }
     for event in events {
-        if matches!(&event, expected_event) {
-            assert!(event == expected_event, "Expected {:?} == {:?}", event, expected_event);
+        if matches!(&event, _expected_event) {
+            assert!(event == expected_event, "Expected {event:?} == {expected_event:?}");
             return;
         }
     }
-    assert!(false, "Task queue does not contains event {:?}", expected_event);
+    assert!(false, "Task queue does not contains event {expected_event:?}");
 }
 
 pub fn variance(expectation: u32, variance: usize) -> u32 {
-    (variance as f32 / 100 as f32).round() as u32 * expectation
+    (variance as f32 / 100_f32).round() as u32 * expectation
 }
 
 #[macro_export]
@@ -103,10 +103,8 @@ pub fn has_sent_notification(notifications: &Vec<Notification>, expectation: Not
         match expectation.kind {
             NotificationExpectationKind::Char => {
                 if let Notification::Char(sent_char_notification) = sent_notification {
-                    if expectation.char_id.is_some() && sent_char_notification.char_id() == expectation.char_id.unwrap() {
-                        if contains_packet(&expectation, packetver, sent_char_notification.serialized_packet()) {
-                            return true;
-                        }
+                    if expectation.char_id.is_some() && sent_char_notification.char_id() == expectation.char_id.unwrap() && contains_packet(&expectation, packetver, sent_char_notification.serialized_packet()) {
+                        return true;
                     }
                 }
                 false
@@ -114,10 +112,8 @@ pub fn has_sent_notification(notifications: &Vec<Notification>, expectation: Not
             NotificationExpectationKind::AreaFov => {
                 if let Notification::Area(sent_area_notification) = sent_notification {
                     if let AreaNotificationRangeType::Fov { x, y, .. } = sent_area_notification.range_type {
-                        if expectation.x.is_some() && x == expectation.x.unwrap() && expectation.y.is_some() && y == expectation.y.unwrap() {
-                            if contains_packet(&expectation, packetver, sent_area_notification.serialized_packet()) {
-                                return true;
-                            }
+                        if expectation.x.is_some() && x == expectation.x.unwrap() && expectation.y.is_some() && y == expectation.y.unwrap() && contains_packet(&expectation, packetver, sent_area_notification.serialized_packet()) {
+                            return true;
                         }
                     }
                 }
@@ -125,12 +121,8 @@ pub fn has_sent_notification(notifications: &Vec<Notification>, expectation: Not
             }
             NotificationExpectationKind::AreaMap => {
                 if let Notification::Area(sent_area_map_notification) = sent_notification {
-                    if matches!(sent_area_map_notification.range_type, AreaNotificationRangeType::Map) {
-                        if expectation.map_name.is_some() && sent_area_map_notification.map_name.as_str() == expectation.map_name.unwrap() {
-                            if contains_packet(&expectation, packetver, sent_area_map_notification.serialized_packet()) {
-                                return true;
-                            }
-                        }
+                    if matches!(sent_area_map_notification.range_type, AreaNotificationRangeType::Map) && expectation.map_name.is_some() && sent_area_map_notification.map_name.as_str() == expectation.map_name.unwrap() && contains_packet(&expectation, packetver, sent_area_map_notification.serialized_packet()) {
+                        return true;
                     }
                 }
                 false
@@ -138,17 +130,17 @@ pub fn has_sent_notification(notifications: &Vec<Notification>, expectation: Not
         }
     }).is_some();
     if !res {
-        println!("Can't find {:?} among events below", expectation);
-        notifications.iter().for_each(|e| println!("  {:?}", e));
+        println!("Can't find {expectation:?} among events below");
+        notifications.iter().for_each(|e| println!("  {e:?}"));
     }
     res
 }
 
 pub fn has_sent_persistence_event(persistence_events: &Vec<PersistenceEvent>, persistence_event: PersistenceEvent) -> bool {
-    let res = persistence_events.iter().find(|sent_persistence_event| if matches!(&persistence_event, sent_persistence_event) { persistence_event == **sent_persistence_event } else { false }).is_some();
+    let res = persistence_events.iter().any(|sent_persistence_event| if matches!(&persistence_event, _sent_persistence_event) { persistence_event == *sent_persistence_event } else { false });
     if !res {
-        println!("Can't find {:?} among events below", persistence_event);
-        persistence_events.iter().for_each(|e| println!("  {:?}", e));
+        println!("Can't find {persistence_event:?} among events below");
+        persistence_events.iter().for_each(|e| println!("  {e:?}"));
     }
     res
 }
