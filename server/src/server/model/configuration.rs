@@ -44,6 +44,7 @@ pub struct GameConfig {
     pub drop_rate: f32,
     pub drop_rate_mvp: f32,
     pub drop_rate_card: f32,
+    pub max_stat_level: u16,
     pub mob_dropped_item_locked_to_owner_duration_in_secs: u16,
     pub player_dropped_item_locked_to_owner_duration_in_secs: u16,
     #[serde(skip)]
