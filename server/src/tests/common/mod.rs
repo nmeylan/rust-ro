@@ -110,16 +110,13 @@ pub fn before_all() {
     INIT.call_once(|| {
         let (_client_notification_sender, _client_notification_receiver) = create_mpsc::<Notification>();
         let (_persistence_event_sender, _persistence_event_receiver) = create_mpsc::<PersistenceEvent>();
-        unsafe {
-            let mut config: Config = serde_json::from_str(&fs::read_to_string("../config.template.json").unwrap()).unwrap();
-            let file_path = "../config/status_point_reward.json";
-            Config::set_config_status_point_rewards(&mut config, file_path).unwrap();
-            let file_path = "../config/status_point_raising_cost.json";
-            Config::set_config_status_point_raising_cost(&mut config, file_path).unwrap();
-            let file_path = "../config/exp.json";
-            Config::set_exp_requirements(&mut config, file_path).unwrap();
-            CONFIGS = Some(config);
-        }
+        let mut config: Config = serde_json::from_str(&fs::read_to_string("../config.template.json").unwrap()).unwrap();
+        let file_path = "../config/status_point_reward.json";
+        Config::set_config_status_point_rewards(&mut config, file_path).unwrap();
+        let file_path = "../config/status_point_raising_cost.json";
+        Config::set_config_status_point_raising_cost(&mut config, file_path).unwrap();
+        let file_path = "../config/exp.json";
+        Config::set_exp_requirements(&mut config, file_path).unwrap();
         let skills_config = Config::load_skills_config("..").unwrap();
         let mut skill_configs_id_name: HashMap<String, u32> = Default::default();
         skills_config.values().for_each(|skill_config| {
@@ -140,8 +137,7 @@ pub fn before_all() {
         });
 
         let job_configs = Config::load_jobs_config("..").unwrap();
-        let configs = unsafe { CONFIGS.as_ref().unwrap() };
-        crate::GlobalConfigService::init(configs,
+        crate::GlobalConfigService::init(config,
                                          items.into_iter().map(|item| (item.id as u32, item)).collect(),
                                          items_id_name,
                                          mobs.into_iter().map(|mob| (mob.id as u32, mob)).collect(),

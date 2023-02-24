@@ -120,7 +120,7 @@ pub async fn main() {
     let maps = MapLoader::load_maps(warps, mob_spawns, scripts, &mut map_item_ids);
     info!("load {} map-cache in {} secs", maps.len(), start.elapsed().as_millis() as f32 / 1000.0);
     unsafe {
-        GlobalConfigService::init(CONFIGS.as_ref().unwrap(),
+        GlobalConfigService::init(CONFIGS.clone().unwrap(),
                                   items.into_iter().map(|item| (item.id as u32, item)).collect(),
                                   items_id_name,
                                   mobs.into_iter().map(|mob| (mob.id as u32, mob)).collect(),

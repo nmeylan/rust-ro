@@ -9,7 +9,7 @@ static mut SERVICE_INSTANCE: Option<GlobalConfigService> = None;
 static SERVICE_INSTANCE_INIT: Once = Once::new();
 
 pub struct GlobalConfigService {
-    configuration: &'static Config,
+    configuration: Config,
     items: HashMap<u32, ItemModel>,
     items_name_id: HashMap<String, u32>,
     mobs: HashMap<u32, MobModel>,
@@ -24,8 +24,11 @@ impl GlobalConfigService {
     pub fn instance() -> &'static GlobalConfigService {
         unsafe { SERVICE_INSTANCE.as_ref().unwrap() }
     }
+    pub unsafe fn instance_mut() -> &'static mut GlobalConfigService {
+        SERVICE_INSTANCE.as_mut().unwrap()
+    }
 
-    pub fn init(configuration: &'static Config,
+    pub fn init(configuration: Config,
                 items: HashMap<u32, ItemModel>,
                 items_name_id: HashMap<String, u32>,
                 mobs: HashMap<u32, MobModel>,
@@ -44,7 +47,10 @@ impl GlobalConfigService {
         self.configuration.packetver()
     }
     pub fn config(&self) -> &Config {
-        self.configuration
+        &self.configuration
+    }
+    pub fn set_config(&mut self, config: Config) {
+        self.configuration = config;
     }
 
     pub fn get_job_config(&self, id: u32) -> &JobConfig {

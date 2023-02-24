@@ -889,6 +889,22 @@ mod tests {
     }
 
     #[test]
+    fn test_gain_exp_should_apply_rate_modifier() {
+        // Given
+        let context = before_each(mocked_repository());
+        let mut config = GlobalConfigService::instance().config().clone();
+        config.game.base_exp_rate = 10.0;
+        unsafe { GlobalConfigService::instance_mut().set_config(config); }
+        let mut character = create_character();
+        character.status.base_exp = 10;
+        character.status.base_level = 10;
+        // When
+        context.character_service.gain_base_exp(&mut character, 10);
+        // Then
+        assert_eq!(character.status.base_exp, 110);
+    }
+
+    #[test]
     fn test_gain_exp_should_level_up_when_character_exp_is_above_next_level_exp_requirement() {
         // Given
         let context = before_each(mocked_repository());
@@ -927,6 +943,22 @@ mod tests {
         assert_eq!(character.status.job_exp, 70);
         assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "job_exp".to_string(), value: character.status.job_exp, }));
         assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(PacketZcParChange::packet_id(), 1)]));
+    }
+
+    #[test]
+    fn test_gain_job_exp_should_apply_rate_modifier() {
+        // Given
+        let context = before_each(mocked_repository());
+        let mut config = GlobalConfigService::instance().config().clone();
+        config.game.job_exp_rate = 5.0;
+        unsafe { GlobalConfigService::instance_mut().set_config(config); }
+        let mut character = create_character();
+        character.status.job_exp = 10;
+        character.status.job_level = 8;
+        // When
+        context.character_service.gain_job_exp(&mut character, 10);
+        // Then
+        assert_eq!(character.status.job_exp, 60);
     }
 
     #[test]
