@@ -51,6 +51,7 @@ pub enum StatusTypes {
     Flee2,
     Critical,
     Aspd,
+    #[value = 55]
     Joblevel,
     Upper,
     Partner,
