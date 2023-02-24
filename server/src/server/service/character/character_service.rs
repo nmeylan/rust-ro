@@ -6,6 +6,7 @@ use std::sync::{Arc, Once};
 use tokio::runtime::Runtime;
 
 use enums::class::JobName;
+use enums::effect::Effect;
 use enums::item::EquipmentLocation;
 use enums::look::LookType;
 use enums::status::StatusTypes;
@@ -14,7 +15,7 @@ use crate::enums::EnumWithStringValue;
 use crate::enums::EnumWithNumberValue;
 use crate::enums::EnumWithMaskValueU64;
 
-use packets::packets::{Packet, PacketZcAttackRange, PacketZcItemDisappear, PacketZcItemEntry, PacketZcLongparChange, PacketZcNotifyStandentry7, PacketZcNotifyVanish, PacketZcNpcackMapmove, PacketZcParChange, PacketZcSpriteChange2, PacketZcStatusValues};
+use packets::packets::{Packet, PacketZcAttackRange, PacketZcItemDisappear, PacketZcItemEntry, PacketZcLongparChange, PacketZcNotifyEffect, PacketZcNotifyStandentry7, PacketZcNotifyVanish, PacketZcNpcackMapmove, PacketZcParChange, PacketZcSpriteChange2, PacketZcStatusValues};
 use crate::repository::model::item_model::InventoryItemModel;
 use crate::repository::{CharacterRepository};
 use crate::server::model::events::game_event::{CharacterLook, CharacterZeny, GameEvent};
@@ -204,6 +205,11 @@ impl CharacterService {
             self.reset_stats(character);
         }
         self.send_status_update_and_defer_db_update(character.char_id, StatusTypes::Baselevel, new_base_level);
+        let mut packet_zc_notify_effect = PacketZcNotifyEffect::new();
+        packet_zc_notify_effect.set_effect_id(Effect::BaseLevelUp.value() as i32);
+        packet_zc_notify_effect.set_aid(character.char_id);
+        packet_zc_notify_effect.fill_raw();
+        self.send_area_notification_around_characters(character, packet_zc_notify_effect.raw);
         new_base_level as i32 - old_base_level as i32
     }
 
@@ -218,6 +224,11 @@ impl CharacterService {
         };
         character.status.job_level = new_job_level;
         self.send_status_update_and_defer_db_update(character.char_id, StatusTypes::Joblevel, new_job_level);
+        let mut packet_zc_notify_effect = PacketZcNotifyEffect::new();
+        packet_zc_notify_effect.set_effect_id(Effect::JobLevelUp.value() as i32);
+        packet_zc_notify_effect.set_aid(character.char_id);
+        packet_zc_notify_effect.fill_raw();
+        self.send_area_notification_around_characters(character, packet_zc_notify_effect.raw);
         new_job_level as i32 - old_job_level as i32
     }
 
