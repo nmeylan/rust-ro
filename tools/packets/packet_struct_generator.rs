@@ -327,18 +327,14 @@ fn write_struct_packet_id_method(file: &mut File, id: &Option<String>) {
     file.write_all("    }\n".to_string().as_bytes()).unwrap();
 }
 
-fn write_struct_new_method(file: &mut File, struct_definition: &StructDefinition, packet_id: &Option<String>) {
+fn write_struct_new_method(file: &mut File, struct_definition: &StructDefinition, id: &Option<String>) {
     file.write_all(format!("    pub fn new() -> {} {{\n", struct_definition.name).as_bytes()).unwrap();
     file.write_all(format!("        {} {{\n", struct_definition.name).as_bytes()).unwrap();
     file.write_all("        raw: vec![],\n".to_string().as_bytes()).unwrap();
     for field in &struct_definition.fields {
-        if field.name == "packet_id" && packet_id.is_some() {
-            let id = packet_id.clone().unwrap().replace("0x", "");
+        if field.name == "packet_id" && id.is_some() {
+            let id = packet_id(id.clone().unwrap()).replace("0x", "");
             let (first_byte, second_byte) = id.split_at(2);
-            let mut second_byte = second_byte;
-            if second_byte.is_empty() {
-                second_byte = "0"
-            }
             file.write_all(format!("        packet_id: i16::from_le_bytes([0x{first_byte}, 0x{second_byte}]),\n").as_bytes()).unwrap();
             file.write_all(format!("        packet_id_raw: [0x{first_byte}, 0x{second_byte}],\n").as_bytes()).unwrap();
         } else {
@@ -617,13 +613,9 @@ fn field_length(field: &StructField) -> String {
 }
 
 fn packet_id(packet_id: String) -> String {
-    let mut id = packet_id.clone();
-    if packet_id.len() == 4 {
-        id = format!("{packet_id:0<6}");
-    } else if packet_id.len() == 5 {
-        id = packet_id.replace("0x", "0x0");
-    }
-    id
+    let id = format!("{:0>4}", packet_id.replace("0x", ""));
+    let (first_byte, second_byte) = id.split_at(2);
+    format!("0x{}{}", second_byte, first_byte) // packet id in db are in Little Endian
 }
 
 fn display_type(field: &StructField) -> String {

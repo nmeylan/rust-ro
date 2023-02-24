@@ -154,8 +154,8 @@ impl PacketCaLogin {
     pub fn new() -> PacketCaLogin {
         PacketCaLogin {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x64, 0x0]),
-        packet_id_raw: [0x64, 0x0],
+        packet_id: i16::from_le_bytes([0x64, 0x00]),
+        packet_id_raw: [0x64, 0x00],
         version: 0,
         version_raw: [0; 4],
         id: [0 as char; 24],
@@ -351,8 +351,8 @@ impl PacketChEnter {
     pub fn new() -> PacketChEnter {
         PacketChEnter {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x65, 0x0]),
-        packet_id_raw: [0x65, 0x0],
+        packet_id: i16::from_le_bytes([0x65, 0x00]),
+        packet_id_raw: [0x65, 0x00],
         aid: 0,
         aid_raw: [0; 4],
         auth_code: 0,
@@ -470,8 +470,8 @@ impl PacketChSelectChar {
     pub fn new() -> PacketChSelectChar {
         PacketChSelectChar {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x66, 0x0]),
-        packet_id_raw: [0x66, 0x0],
+        packet_id: i16::from_le_bytes([0x66, 0x00]),
+        packet_id_raw: [0x66, 0x00],
         char_num: 0,
         char_num_raw: [0; 1],
         }
@@ -769,8 +769,8 @@ impl PacketChMakeChar {
     pub fn new() -> PacketChMakeChar {
         PacketChMakeChar {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x67, 0x0]),
-        packet_id_raw: [0x67, 0x0],
+        packet_id: i16::from_le_bytes([0x67, 0x00]),
+        packet_id_raw: [0x67, 0x00],
         name: [0 as char; 24],
         name_raw: [0; 24],
         str: 0,
@@ -1111,8 +1111,8 @@ impl PacketChDeleteChar {
     pub fn new() -> PacketChDeleteChar {
         PacketChDeleteChar {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x68, 0x0]),
-        packet_id_raw: [0x68, 0x0],
+        packet_id: i16::from_le_bytes([0x68, 0x00]),
+        packet_id_raw: [0x68, 0x00],
         gid: 0,
         gid_raw: [0; 4],
         key: [0 as char; 40],
@@ -1384,8 +1384,8 @@ impl PacketAcAcceptLogin {
     pub fn new() -> PacketAcAcceptLogin {
         PacketAcAcceptLogin {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x69, 0x0]),
-        packet_id_raw: [0x69, 0x0],
+        packet_id: i16::from_le_bytes([0x69, 0x00]),
+        packet_id_raw: [0x69, 0x00],
         packet_length: 0,
         packet_length_raw: [0; 2],
         auth_code: 0,
@@ -1874,8 +1874,8 @@ impl PacketAcRefuseLogin {
     pub fn new() -> PacketAcRefuseLogin {
         PacketAcRefuseLogin {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x6a, 0x0]),
-        packet_id_raw: [0x6a, 0x0],
+        packet_id: i16::from_le_bytes([0x6a, 0x00]),
+        packet_id_raw: [0x6a, 0x00],
         error_code: 0,
         error_code_raw: [0; 1],
         block_date: [0 as char; 20],
@@ -2187,8 +2187,8 @@ impl PacketHcAcceptEnterNeoUnion {
     pub fn new() -> PacketHcAcceptEnterNeoUnion {
         PacketHcAcceptEnterNeoUnion {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x6b, 0x0]),
-        packet_id_raw: [0x6b, 0x0],
+        packet_id: i16::from_le_bytes([0x6b, 0x00]),
+        packet_id_raw: [0x6b, 0x00],
         packet_length: 0,
         packet_length_raw: [0; 2],
         total_slot_num: 0,
@@ -2316,8 +2316,8 @@ impl PacketHcRefuseEnter {
     pub fn new() -> PacketHcRefuseEnter {
         PacketHcRefuseEnter {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x6c, 0x0]),
-        packet_id_raw: [0x6c, 0x0],
+        packet_id: i16::from_le_bytes([0x6c, 0x00]),
+        packet_id_raw: [0x6c, 0x00],
         error_code: 0,
         error_code_raw: [0; 1],
         }
@@ -2426,8 +2426,8 @@ impl PacketHcAcceptMakecharNeoUnion {
     pub fn new() -> PacketHcAcceptMakecharNeoUnion {
         PacketHcAcceptMakecharNeoUnion {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x6d, 0x0]),
-        packet_id_raw: [0x6d, 0x0],
+        packet_id: i16::from_le_bytes([0x6d, 0x00]),
+        packet_id_raw: [0x6d, 0x00],
         charinfo: CharacterInfoNeoUnion::new(),
         charinfo_raw: vec![],
         }
@@ -2537,8 +2537,8 @@ impl PacketHcRefuseMakechar {
     pub fn new() -> PacketHcRefuseMakechar {
         PacketHcRefuseMakechar {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x6e, 0x0]),
-        packet_id_raw: [0x6e, 0x0],
+        packet_id: i16::from_le_bytes([0x6e, 0x00]),
+        packet_id_raw: [0x6e, 0x00],
         error_code: 0,
         error_code_raw: [0; 1],
         }
@@ -2628,8 +2628,8 @@ impl PacketHcAcceptDeletechar {
     pub fn new() -> PacketHcAcceptDeletechar {
         PacketHcAcceptDeletechar {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x6f, 0x0]),
-        packet_id_raw: [0x6f, 0x0],
+        packet_id: i16::from_le_bytes([0x6f, 0x00]),
+        packet_id_raw: [0x6f, 0x00],
         }
     }
 }
@@ -2737,8 +2737,8 @@ impl PacketHcRefuseDeletechar {
     pub fn new() -> PacketHcRefuseDeletechar {
         PacketHcRefuseDeletechar {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x70, 0x0]),
-        packet_id_raw: [0x70, 0x0],
+        packet_id: i16::from_le_bytes([0x70, 0x00]),
+        packet_id_raw: [0x70, 0x00],
         error_code: 0,
         error_code_raw: [0; 1],
         }
@@ -2895,8 +2895,8 @@ impl PacketHcNotifyZonesvr {
     pub fn new() -> PacketHcNotifyZonesvr {
         PacketHcNotifyZonesvr {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x71, 0x0]),
-        packet_id_raw: [0x71, 0x0],
+        packet_id: i16::from_le_bytes([0x71, 0x00]),
+        packet_id_raw: [0x71, 0x00],
         gid: 0,
         gid_raw: [0; 4],
         map_name: [0 as char; 16],
@@ -3090,8 +3090,8 @@ impl PacketCzEnter {
     pub fn new() -> PacketCzEnter {
         PacketCzEnter {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x72, 0x0]),
-        packet_id_raw: [0x72, 0x0],
+        packet_id: i16::from_le_bytes([0x72, 0x00]),
+        packet_id_raw: [0x72, 0x00],
         aid: 0,
         aid_raw: [0; 4],
         gid: 0,
@@ -3277,8 +3277,8 @@ impl PacketZcAcceptEnter {
     pub fn new() -> PacketZcAcceptEnter {
         PacketZcAcceptEnter {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x73, 0x0]),
-        packet_id_raw: [0x73, 0x0],
+        packet_id: i16::from_le_bytes([0x73, 0x00]),
+        packet_id_raw: [0x73, 0x00],
         start_time: 0,
         start_time_raw: [0; 4],
         pos_dir: [0; 3],
@@ -3394,8 +3394,8 @@ impl PacketZcRefuseEnter {
     pub fn new() -> PacketZcRefuseEnter {
         PacketZcRefuseEnter {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x74, 0x0]),
-        packet_id_raw: [0x74, 0x0],
+        packet_id: i16::from_le_bytes([0x74, 0x00]),
+        packet_id_raw: [0x74, 0x00],
         error_code: 0,
         error_code_raw: [0; 1],
         }
@@ -3565,8 +3565,8 @@ impl PacketZcNotifyInitchar {
     pub fn new() -> PacketZcNotifyInitchar {
         PacketZcNotifyInitchar {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x75, 0x0]),
-        packet_id_raw: [0x75, 0x0],
+        packet_id: i16::from_le_bytes([0x75, 0x00]),
+        packet_id_raw: [0x75, 0x00],
         packet_length: 0,
         packet_length_raw: [0; 2],
         gid: 0,
@@ -3722,8 +3722,8 @@ impl PacketZcNotifyUpdatechar {
     pub fn new() -> PacketZcNotifyUpdatechar {
         PacketZcNotifyUpdatechar {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x76, 0x0]),
-        packet_id_raw: [0x76, 0x0],
+        packet_id: i16::from_le_bytes([0x76, 0x00]),
+        packet_id_raw: [0x76, 0x00],
         gid: 0,
         gid_raw: [0; 4],
         style: 0,
@@ -3857,8 +3857,8 @@ impl PacketZcNotifyUpdateplayer {
     pub fn new() -> PacketZcNotifyUpdateplayer {
         PacketZcNotifyUpdateplayer {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x77, 0x0]),
-        packet_id_raw: [0x77, 0x0],
+        packet_id: i16::from_le_bytes([0x77, 0x00]),
+        packet_id_raw: [0x77, 0x00],
         style: 0,
         style_raw: [0; 2],
         item: 0,
@@ -4498,8 +4498,8 @@ impl PacketZcNotifyStandentry {
     pub fn new() -> PacketZcNotifyStandentry {
         PacketZcNotifyStandentry {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x78, 0x0]),
-        packet_id_raw: [0x78, 0x0],
+        packet_id: i16::from_le_bytes([0x78, 0x00]),
+        packet_id_raw: [0x78, 0x00],
         objecttype: 0,
         objecttype_raw: [0; 1],
         gid: 0,
@@ -5149,8 +5149,8 @@ impl PacketZcNotifyNewentry {
     pub fn new() -> PacketZcNotifyNewentry {
         PacketZcNotifyNewentry {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x79, 0x0]),
-        packet_id_raw: [0x79, 0x0],
+        packet_id: i16::from_le_bytes([0x79, 0x00]),
+        packet_id_raw: [0x79, 0x00],
         gid: 0,
         gid_raw: [0; 4],
         speed: 0,
@@ -5836,8 +5836,8 @@ impl PacketZcNotifyActentry {
     pub fn new() -> PacketZcNotifyActentry {
         PacketZcNotifyActentry {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x7a, 0x0]),
-        packet_id_raw: [0x7a, 0x0],
+        packet_id: i16::from_le_bytes([0x7a, 0x00]),
+        packet_id_raw: [0x7a, 0x00],
         gid: 0,
         gid_raw: [0; 4],
         speed: 0,
@@ -6507,8 +6507,8 @@ impl PacketZcNotifyMoveentry {
     pub fn new() -> PacketZcNotifyMoveentry {
         PacketZcNotifyMoveentry {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x7b, 0x0]),
-        packet_id_raw: [0x7b, 0x0],
+        packet_id: i16::from_le_bytes([0x7b, 0x00]),
+        packet_id_raw: [0x7b, 0x00],
         gid: 0,
         gid_raw: [0; 4],
         speed: 0,
@@ -7076,8 +7076,8 @@ impl PacketZcNotifyStandentryNpc {
     pub fn new() -> PacketZcNotifyStandentryNpc {
         PacketZcNotifyStandentryNpc {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x7c, 0x0]),
-        packet_id_raw: [0x7c, 0x0],
+        packet_id: i16::from_le_bytes([0x7c, 0x00]),
+        packet_id_raw: [0x7c, 0x00],
         objecttype: 0,
         objecttype_raw: [0; 1],
         gid: 0,
@@ -7207,8 +7207,8 @@ impl PacketCzNotifyActorinit {
     pub fn new() -> PacketCzNotifyActorinit {
         PacketCzNotifyActorinit {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x7d, 0x0]),
-        packet_id_raw: [0x7d, 0x0],
+        packet_id: i16::from_le_bytes([0x7d, 0x00]),
+        packet_id_raw: [0x7d, 0x00],
         }
     }
 }
@@ -7316,8 +7316,8 @@ impl PacketCzRequestTime {
     pub fn new() -> PacketCzRequestTime {
         PacketCzRequestTime {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x7e, 0x0]),
-        packet_id_raw: [0x7e, 0x0],
+        packet_id: i16::from_le_bytes([0x7e, 0x00]),
+        packet_id_raw: [0x7e, 0x00],
         client_time: 0,
         client_time_raw: [0; 4],
         }
@@ -7427,8 +7427,8 @@ impl PacketZcNotifyTime {
     pub fn new() -> PacketZcNotifyTime {
         PacketZcNotifyTime {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x7f, 0x0]),
-        packet_id_raw: [0x7f, 0x0],
+        packet_id: i16::from_le_bytes([0x7f, 0x00]),
+        packet_id_raw: [0x7f, 0x00],
         time: 0,
         time_raw: [0; 4],
         }
@@ -7558,8 +7558,8 @@ impl PacketZcNotifyVanish {
     pub fn new() -> PacketZcNotifyVanish {
         PacketZcNotifyVanish {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x80, 0x0]),
-        packet_id_raw: [0x80, 0x0],
+        packet_id: i16::from_le_bytes([0x80, 0x00]),
+        packet_id_raw: [0x80, 0x00],
         gid: 0,
         gid_raw: [0; 4],
         atype: 0,
@@ -7671,8 +7671,8 @@ impl PacketScNotifyBan {
     pub fn new() -> PacketScNotifyBan {
         PacketScNotifyBan {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x81, 0x0]),
-        packet_id_raw: [0x81, 0x0],
+        packet_id: i16::from_le_bytes([0x81, 0x00]),
+        packet_id_raw: [0x81, 0x00],
         error_code: 0,
         error_code_raw: [0; 1],
         }
@@ -7762,8 +7762,8 @@ impl PacketCzRequestQuit {
     pub fn new() -> PacketCzRequestQuit {
         PacketCzRequestQuit {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x82, 0x0]),
-        packet_id_raw: [0x82, 0x0],
+        packet_id: i16::from_le_bytes([0x82, 0x00]),
+        packet_id_raw: [0x82, 0x00],
         }
     }
 }
@@ -7851,8 +7851,8 @@ impl PacketZcAcceptQuit {
     pub fn new() -> PacketZcAcceptQuit {
         PacketZcAcceptQuit {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x83, 0x0]),
-        packet_id_raw: [0x83, 0x0],
+        packet_id: i16::from_le_bytes([0x83, 0x00]),
+        packet_id_raw: [0x83, 0x00],
         }
     }
 }
@@ -7940,8 +7940,8 @@ impl PacketZcRefuseQuit {
     pub fn new() -> PacketZcRefuseQuit {
         PacketZcRefuseQuit {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x84, 0x0]),
-        packet_id_raw: [0x84, 0x0],
+        packet_id: i16::from_le_bytes([0x84, 0x00]),
+        packet_id_raw: [0x84, 0x00],
         }
     }
 }
@@ -8057,8 +8057,8 @@ impl PacketCzRequestMove {
     pub fn new() -> PacketCzRequestMove {
         PacketCzRequestMove {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x85, 0x0]),
-        packet_id_raw: [0x85, 0x0],
+        packet_id: i16::from_le_bytes([0x85, 0x00]),
+        packet_id_raw: [0x85, 0x00],
         dest: [0; 3],
         dest_raw: [0; 3],
         }
@@ -8216,8 +8216,8 @@ impl PacketZcNotifyMove {
     pub fn new() -> PacketZcNotifyMove {
         PacketZcNotifyMove {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x86, 0x0]),
-        packet_id_raw: [0x86, 0x0],
+        packet_id: i16::from_le_bytes([0x86, 0x00]),
+        packet_id_raw: [0x86, 0x00],
         gid: 0,
         gid_raw: [0; 4],
         move_data: [0; 6],
@@ -8359,8 +8359,8 @@ impl PacketZcNotifyPlayermove {
     pub fn new() -> PacketZcNotifyPlayermove {
         PacketZcNotifyPlayermove {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x87, 0x0]),
-        packet_id_raw: [0x87, 0x0],
+        packet_id: i16::from_le_bytes([0x87, 0x00]),
+        packet_id_raw: [0x87, 0x00],
         move_start_time: 0,
         move_start_time_raw: [0; 4],
         move_data: [0; 6],
@@ -8512,8 +8512,8 @@ impl PacketZcStopmove {
     pub fn new() -> PacketZcStopmove {
         PacketZcStopmove {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x88, 0x0]),
-        packet_id_raw: [0x88, 0x0],
+        packet_id: i16::from_le_bytes([0x88, 0x00]),
+        packet_id_raw: [0x88, 0x00],
         aid: 0,
         aid_raw: [0; 4],
         x_pos: 0,
@@ -8647,8 +8647,8 @@ impl PacketCzRequestAct {
     pub fn new() -> PacketCzRequestAct {
         PacketCzRequestAct {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x89, 0x0]),
-        packet_id_raw: [0x89, 0x0],
+        packet_id: i16::from_le_bytes([0x89, 0x00]),
+        packet_id_raw: [0x89, 0x00],
         target_gid: 0,
         target_gid_raw: [0; 4],
         action: 0,
@@ -8920,8 +8920,8 @@ impl PacketZcNotifyAct {
     pub fn new() -> PacketZcNotifyAct {
         PacketZcNotifyAct {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x8a, 0x0]),
-        packet_id_raw: [0x8a, 0x0],
+        packet_id: i16::from_le_bytes([0x8a, 0x00]),
+        packet_id_raw: [0x8a, 0x00],
         gid: 0,
         gid_raw: [0; 4],
         target_gid: 0,
@@ -9187,8 +9187,8 @@ impl PacketZcNotifyActPosition {
     pub fn new() -> PacketZcNotifyActPosition {
         PacketZcNotifyActPosition {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x8b, 0x0]),
-        packet_id_raw: [0x8b, 0x0],
+        packet_id: i16::from_le_bytes([0x8b, 0x00]),
+        packet_id_raw: [0x8b, 0x00],
         gid: 0,
         gid_raw: [0; 4],
         target_gid: 0,
@@ -9329,8 +9329,8 @@ impl PacketCzRequestChat {
     pub fn new() -> PacketCzRequestChat {
         PacketCzRequestChat {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x8c, 0x0]),
-        packet_id_raw: [0x8c, 0x0],
+        packet_id: i16::from_le_bytes([0x8c, 0x00]),
+        packet_id_raw: [0x8c, 0x00],
         packet_length: 0,
         packet_length_raw: [0; 2],
         msg: String::new(),
@@ -9479,8 +9479,8 @@ impl PacketZcNotifyChat {
     pub fn new() -> PacketZcNotifyChat {
         PacketZcNotifyChat {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x8d, 0x0]),
-        packet_id_raw: [0x8d, 0x0],
+        packet_id: i16::from_le_bytes([0x8d, 0x00]),
+        packet_id_raw: [0x8d, 0x00],
         packet_length: 0,
         packet_length_raw: [0; 2],
         gid: 0,
@@ -9611,8 +9611,8 @@ impl PacketZcNotifyPlayerchat {
     pub fn new() -> PacketZcNotifyPlayerchat {
         PacketZcNotifyPlayerchat {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x8e, 0x0]),
-        packet_id_raw: [0x8e, 0x0],
+        packet_id: i16::from_le_bytes([0x8e, 0x00]),
+        packet_id_raw: [0x8e, 0x00],
         packet_length: 0,
         packet_length_raw: [0; 2],
         msg: String::new(),
@@ -9855,8 +9855,8 @@ impl PacketCzContactnpc {
     pub fn new() -> PacketCzContactnpc {
         PacketCzContactnpc {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x90, 0x0]),
-        packet_id_raw: [0x90, 0x0],
+        packet_id: i16::from_le_bytes([0x90, 0x00]),
+        packet_id_raw: [0x90, 0x00],
         naid: 0,
         naid_raw: [0; 4],
         atype: 0,
@@ -10016,8 +10016,8 @@ impl PacketZcNpcackMapmove {
     pub fn new() -> PacketZcNpcackMapmove {
         PacketZcNpcackMapmove {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x91, 0x0]),
-        packet_id_raw: [0x91, 0x0],
+        packet_id: i16::from_le_bytes([0x91, 0x00]),
+        packet_id_raw: [0x91, 0x00],
         map_name: [0 as char; 16],
         map_name_raw: [0; 16],
         x_pos: 0,
@@ -10198,8 +10198,8 @@ impl PacketZcNpcackServermove {
     pub fn new() -> PacketZcNpcackServermove {
         PacketZcNpcackServermove {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x92, 0x0]),
-        packet_id_raw: [0x92, 0x0],
+        packet_id: i16::from_le_bytes([0x92, 0x00]),
+        packet_id_raw: [0x92, 0x00],
         map_name: [0 as char; 16],
         map_name_raw: [0; 16],
         x_pos: 0,
@@ -10295,8 +10295,8 @@ impl PacketZcNpcackEnable {
     pub fn new() -> PacketZcNpcackEnable {
         PacketZcNpcackEnable {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x93, 0x0]),
-        packet_id_raw: [0x93, 0x0],
+        packet_id: i16::from_le_bytes([0x93, 0x00]),
+        packet_id_raw: [0x93, 0x00],
         }
     }
 }
@@ -10404,8 +10404,8 @@ impl PacketCzReqname {
     pub fn new() -> PacketCzReqname {
         PacketCzReqname {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x94, 0x0]),
-        packet_id_raw: [0x94, 0x0],
+        packet_id: i16::from_le_bytes([0x94, 0x00]),
+        packet_id_raw: [0x94, 0x00],
         aid: 0,
         aid_raw: [0; 4],
         }
@@ -10543,8 +10543,8 @@ impl PacketZcAckReqname {
     pub fn new() -> PacketZcAckReqname {
         PacketZcAckReqname {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x95, 0x0]),
-        packet_id_raw: [0x95, 0x0],
+        packet_id: i16::from_le_bytes([0x95, 0x00]),
+        packet_id_raw: [0x95, 0x00],
         aid: 0,
         aid_raw: [0; 4],
         cname: [0 as char; 24],
@@ -10701,8 +10701,8 @@ impl PacketCzWhisper {
     pub fn new() -> PacketCzWhisper {
         PacketCzWhisper {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x96, 0x0]),
-        packet_id_raw: [0x96, 0x0],
+        packet_id: i16::from_le_bytes([0x96, 0x00]),
+        packet_id_raw: [0x96, 0x00],
         packet_length: 0,
         packet_length_raw: [0; 2],
         receiver: [0 as char; 24],
@@ -10861,8 +10861,8 @@ impl PacketZcWhisper {
     pub fn new() -> PacketZcWhisper {
         PacketZcWhisper {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x97, 0x0]),
-        packet_id_raw: [0x97, 0x0],
+        packet_id: i16::from_le_bytes([0x97, 0x00]),
+        packet_id_raw: [0x97, 0x00],
         packet_length: 0,
         packet_length_raw: [0; 2],
         sender: [0 as char; 24],
@@ -10976,8 +10976,8 @@ impl PacketZcAckWhisper {
     pub fn new() -> PacketZcAckWhisper {
         PacketZcAckWhisper {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x98, 0x0]),
-        packet_id_raw: [0x98, 0x0],
+        packet_id: i16::from_le_bytes([0x98, 0x00]),
+        packet_id_raw: [0x98, 0x00],
         result: 0,
         result_raw: [0; 1],
         }
@@ -11104,8 +11104,8 @@ impl PacketCzBroadcast {
     pub fn new() -> PacketCzBroadcast {
         PacketCzBroadcast {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x99, 0x0]),
-        packet_id_raw: [0x99, 0x0],
+        packet_id: i16::from_le_bytes([0x99, 0x00]),
+        packet_id_raw: [0x99, 0x00],
         packet_length: 0,
         packet_length_raw: [0; 2],
         msg: String::new(),
@@ -11234,8 +11234,8 @@ impl PacketZcBroadcast {
     pub fn new() -> PacketZcBroadcast {
         PacketZcBroadcast {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x9a, 0x0]),
-        packet_id_raw: [0x9a, 0x0],
+        packet_id: i16::from_le_bytes([0x9a, 0x00]),
+        packet_id_raw: [0x9a, 0x00],
         packet_length: 0,
         packet_length_raw: [0; 2],
         msg: String::new(),
@@ -11367,8 +11367,8 @@ impl PacketCzChangeDirection {
     pub fn new() -> PacketCzChangeDirection {
         PacketCzChangeDirection {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x9b, 0x0]),
-        packet_id_raw: [0x9b, 0x0],
+        packet_id: i16::from_le_bytes([0x9b, 0x00]),
+        packet_id_raw: [0x9b, 0x00],
         head_dir: 0,
         head_dir_raw: [0; 2],
         dir: 0,
@@ -11520,8 +11520,8 @@ impl PacketZcChangeDirection {
     pub fn new() -> PacketZcChangeDirection {
         PacketZcChangeDirection {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x9c, 0x0]),
-        packet_id_raw: [0x9c, 0x0],
+        packet_id: i16::from_le_bytes([0x9c, 0x00]),
+        packet_id_raw: [0x9c, 0x00],
         aid: 0,
         aid_raw: [0; 4],
         head_dir: 0,
@@ -11775,8 +11775,8 @@ impl PacketZcItemEntry {
     pub fn new() -> PacketZcItemEntry {
         PacketZcItemEntry {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x9d, 0x0]),
-        packet_id_raw: [0x9d, 0x0],
+        packet_id: i16::from_le_bytes([0x9d, 0x00]),
+        packet_id_raw: [0x9d, 0x00],
         itaid: 0,
         itaid_raw: [0; 4],
         itid: 0,
@@ -12040,8 +12040,8 @@ impl PacketZcItemFallEntry {
     pub fn new() -> PacketZcItemFallEntry {
         PacketZcItemFallEntry {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x9e, 0x0]),
-        packet_id_raw: [0x9e, 0x0],
+        packet_id: i16::from_le_bytes([0x9e, 0x00]),
+        packet_id_raw: [0x9e, 0x00],
         itaid: 0,
         itaid_raw: [0; 4],
         itid: 0,
@@ -12165,8 +12165,8 @@ impl PacketCzItemPickup {
     pub fn new() -> PacketCzItemPickup {
         PacketCzItemPickup {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x9f, 0x0]),
-        packet_id_raw: [0x9f, 0x0],
+        packet_id: i16::from_le_bytes([0x9f, 0x00]),
+        packet_id_raw: [0x9f, 0x00],
         itaid: 0,
         itaid_raw: [0; 4],
         }
@@ -12456,8 +12456,8 @@ impl PacketZcItemPickupAck {
     pub fn new() -> PacketZcItemPickupAck {
         PacketZcItemPickupAck {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xa0, 0x0]),
-        packet_id_raw: [0xa0, 0x0],
+        packet_id: i16::from_le_bytes([0xa0, 0x00]),
+        packet_id_raw: [0xa0, 0x00],
         index: 0,
         index_raw: [0; 2],
         count: 0,
@@ -12585,8 +12585,8 @@ impl PacketZcItemDisappear {
     pub fn new() -> PacketZcItemDisappear {
         PacketZcItemDisappear {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xa1, 0x0]),
-        packet_id_raw: [0xa1, 0x0],
+        packet_id: i16::from_le_bytes([0xa1, 0x00]),
+        packet_id_raw: [0xa1, 0x00],
         itaid: 0,
         itaid_raw: [0; 4],
         }
@@ -12716,8 +12716,8 @@ impl PacketCzItemThrow {
     pub fn new() -> PacketCzItemThrow {
         PacketCzItemThrow {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xa2, 0x0]),
-        packet_id_raw: [0xa2, 0x0],
+        packet_id: i16::from_le_bytes([0xa2, 0x00]),
+        packet_id_raw: [0xa2, 0x00],
         index: 0,
         index_raw: [0; 2],
         count: 0,
@@ -12861,8 +12861,8 @@ impl PacketZcNormalItemlist {
     pub fn new() -> PacketZcNormalItemlist {
         PacketZcNormalItemlist {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xa3, 0x0]),
-        packet_id_raw: [0xa3, 0x0],
+        packet_id: i16::from_le_bytes([0xa3, 0x00]),
+        packet_id_raw: [0xa3, 0x00],
         packet_length: 0,
         packet_length_raw: [0; 2],
         item_info: vec![],
@@ -13006,8 +13006,8 @@ impl PacketZcEquipmentItemlist {
     pub fn new() -> PacketZcEquipmentItemlist {
         PacketZcEquipmentItemlist {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xa4, 0x0]),
-        packet_id_raw: [0xa4, 0x0],
+        packet_id: i16::from_le_bytes([0xa4, 0x00]),
+        packet_id_raw: [0xa4, 0x00],
         packet_length: 0,
         packet_length_raw: [0; 2],
         item_info: vec![],
@@ -13151,8 +13151,8 @@ impl PacketZcStoreNormalItemlist {
     pub fn new() -> PacketZcStoreNormalItemlist {
         PacketZcStoreNormalItemlist {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xa5, 0x0]),
-        packet_id_raw: [0xa5, 0x0],
+        packet_id: i16::from_le_bytes([0xa5, 0x00]),
+        packet_id_raw: [0xa5, 0x00],
         packet_length: 0,
         packet_length_raw: [0; 2],
         item_info: vec![],
@@ -13296,8 +13296,8 @@ impl PacketZcStoreEquipmentItemlist {
     pub fn new() -> PacketZcStoreEquipmentItemlist {
         PacketZcStoreEquipmentItemlist {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xa6, 0x0]),
-        packet_id_raw: [0xa6, 0x0],
+        packet_id: i16::from_le_bytes([0xa6, 0x00]),
+        packet_id_raw: [0xa6, 0x00],
         packet_length: 0,
         packet_length_raw: [0; 2],
         item_info: vec![],
@@ -13429,8 +13429,8 @@ impl PacketCzUseItem {
     pub fn new() -> PacketCzUseItem {
         PacketCzUseItem {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xa7, 0x0]),
-        packet_id_raw: [0xa7, 0x0],
+        packet_id: i16::from_le_bytes([0xa7, 0x00]),
+        packet_id_raw: [0xa7, 0x00],
         index: 0,
         index_raw: [0; 2],
         aid: 0,
@@ -13582,8 +13582,8 @@ impl PacketZcUseItemAck {
     pub fn new() -> PacketZcUseItemAck {
         PacketZcUseItemAck {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xa8, 0x0]),
-        packet_id_raw: [0xa8, 0x0],
+        packet_id: i16::from_le_bytes([0xa8, 0x00]),
+        packet_id_raw: [0xa8, 0x00],
         index: 0,
         index_raw: [0; 2],
         count: 0,
@@ -13717,8 +13717,8 @@ impl PacketCzReqWearEquip {
     pub fn new() -> PacketCzReqWearEquip {
         PacketCzReqWearEquip {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xa9, 0x0]),
-        packet_id_raw: [0xa9, 0x0],
+        packet_id: i16::from_le_bytes([0xa9, 0x00]),
+        packet_id_raw: [0xa9, 0x00],
         index: 0,
         index_raw: [0; 2],
         wear_location: 0,
@@ -13870,8 +13870,8 @@ impl PacketZcReqWearEquipAck {
     pub fn new() -> PacketZcReqWearEquipAck {
         PacketZcReqWearEquipAck {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xaa, 0x0]),
-        packet_id_raw: [0xaa, 0x0],
+        packet_id: i16::from_le_bytes([0xaa, 0x00]),
+        packet_id_raw: [0xaa, 0x00],
         index: 0,
         index_raw: [0; 2],
         wear_location: 0,
@@ -14162,8 +14162,8 @@ impl PacketCzReqTakeoffEquip {
     pub fn new() -> PacketCzReqTakeoffEquip {
         PacketCzReqTakeoffEquip {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xab, 0x0]),
-        packet_id_raw: [0xab, 0x0],
+        packet_id: i16::from_le_bytes([0xab, 0x00]),
+        packet_id_raw: [0xab, 0x00],
         index: 0,
         index_raw: [0; 2],
         }
@@ -14313,8 +14313,8 @@ impl PacketZcReqTakeoffEquipAck {
     pub fn new() -> PacketZcReqTakeoffEquipAck {
         PacketZcReqTakeoffEquipAck {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xac, 0x0]),
-        packet_id_raw: [0xac, 0x0],
+        packet_id: i16::from_le_bytes([0xac, 0x00]),
+        packet_id_raw: [0xac, 0x00],
         index: 0,
         index_raw: [0; 2],
         wear_location: 0,
@@ -14603,8 +14603,8 @@ impl PacketZcItemThrowAck {
     pub fn new() -> PacketZcItemThrowAck {
         PacketZcItemThrowAck {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xaf, 0x0]),
-        packet_id_raw: [0xaf, 0x0],
+        packet_id: i16::from_le_bytes([0xaf, 0x00]),
+        packet_id_raw: [0xaf, 0x00],
         index: 0,
         index_raw: [0; 2],
         count: 0,
@@ -14736,8 +14736,8 @@ impl PacketZcParChange {
     pub fn new() -> PacketZcParChange {
         PacketZcParChange {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xb0, 0x0]),
-        packet_id_raw: [0xb0, 0x0],
+        packet_id: i16::from_le_bytes([0xb0, 0x00]),
+        packet_id_raw: [0xb0, 0x00],
         var_id: 0,
         var_id_raw: [0; 2],
         count: 0,
@@ -14869,8 +14869,8 @@ impl PacketZcLongparChange {
     pub fn new() -> PacketZcLongparChange {
         PacketZcLongparChange {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xb1, 0x0]),
-        packet_id_raw: [0xb1, 0x0],
+        packet_id: i16::from_le_bytes([0xb1, 0x00]),
+        packet_id_raw: [0xb1, 0x00],
         var_id: 0,
         var_id_raw: [0; 2],
         amount: 0,
@@ -14982,8 +14982,8 @@ impl PacketCzRestart {
     pub fn new() -> PacketCzRestart {
         PacketCzRestart {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xb2, 0x0]),
-        packet_id_raw: [0xb2, 0x0],
+        packet_id: i16::from_le_bytes([0xb2, 0x00]),
+        packet_id_raw: [0xb2, 0x00],
         atype: 0,
         atype_raw: [0; 1],
         }
@@ -15093,8 +15093,8 @@ impl PacketZcRestartAck {
     pub fn new() -> PacketZcRestartAck {
         PacketZcRestartAck {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xb3, 0x0]),
-        packet_id_raw: [0xb3, 0x0],
+        packet_id: i16::from_le_bytes([0xb3, 0x00]),
+        packet_id_raw: [0xb3, 0x00],
         atype: 0,
         atype_raw: [0; 1],
         }
@@ -15241,8 +15241,8 @@ impl PacketZcSayDialog {
     pub fn new() -> PacketZcSayDialog {
         PacketZcSayDialog {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xb4, 0x0]),
-        packet_id_raw: [0xb4, 0x0],
+        packet_id: i16::from_le_bytes([0xb4, 0x00]),
+        packet_id_raw: [0xb4, 0x00],
         packet_length: 0,
         packet_length_raw: [0; 2],
         naid: 0,
@@ -15356,8 +15356,8 @@ impl PacketZcWaitDialog {
     pub fn new() -> PacketZcWaitDialog {
         PacketZcWaitDialog {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xb5, 0x0]),
-        packet_id_raw: [0xb5, 0x0],
+        packet_id: i16::from_le_bytes([0xb5, 0x00]),
+        packet_id_raw: [0xb5, 0x00],
         naid: 0,
         naid_raw: [0; 4],
         }
@@ -15467,8 +15467,8 @@ impl PacketZcCloseDialog {
     pub fn new() -> PacketZcCloseDialog {
         PacketZcCloseDialog {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xb6, 0x0]),
-        packet_id_raw: [0xb6, 0x0],
+        packet_id: i16::from_le_bytes([0xb6, 0x00]),
+        packet_id_raw: [0xb6, 0x00],
         naid: 0,
         naid_raw: [0; 4],
         }
@@ -15615,8 +15615,8 @@ impl PacketZcMenuList {
     pub fn new() -> PacketZcMenuList {
         PacketZcMenuList {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xb7, 0x0]),
-        packet_id_raw: [0xb7, 0x0],
+        packet_id: i16::from_le_bytes([0xb7, 0x00]),
+        packet_id_raw: [0xb7, 0x00],
         packet_length: 0,
         packet_length_raw: [0; 2],
         naid: 0,
@@ -15750,8 +15750,8 @@ impl PacketCzChooseMenu {
     pub fn new() -> PacketCzChooseMenu {
         PacketCzChooseMenu {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xb8, 0x0]),
-        packet_id_raw: [0xb8, 0x0],
+        packet_id: i16::from_le_bytes([0xb8, 0x00]),
+        packet_id_raw: [0xb8, 0x00],
         naid: 0,
         naid_raw: [0; 4],
         num: 0,
@@ -15863,8 +15863,8 @@ impl PacketCzReqNextScript {
     pub fn new() -> PacketCzReqNextScript {
         PacketCzReqNextScript {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xb9, 0x0]),
-        packet_id_raw: [0xb9, 0x0],
+        packet_id: i16::from_le_bytes([0xb9, 0x00]),
+        packet_id_raw: [0xb9, 0x00],
         naid: 0,
         naid_raw: [0; 4],
         }
@@ -15954,8 +15954,8 @@ impl PacketCzReqStatus {
     pub fn new() -> PacketCzReqStatus {
         PacketCzReqStatus {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xba, 0x0]),
-        packet_id_raw: [0xba, 0x0],
+        packet_id: i16::from_le_bytes([0xba, 0x00]),
+        packet_id_raw: [0xba, 0x00],
         }
     }
 }
@@ -16083,8 +16083,8 @@ impl PacketCzStatusChange {
     pub fn new() -> PacketCzStatusChange {
         PacketCzStatusChange {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xbb, 0x0]),
-        packet_id_raw: [0xbb, 0x0],
+        packet_id: i16::from_le_bytes([0xbb, 0x00]),
+        packet_id_raw: [0xbb, 0x00],
         status_id: 0,
         status_id_raw: [0; 2],
         change_amount: 0,
@@ -16236,8 +16236,8 @@ impl PacketZcStatusChangeAck {
     pub fn new() -> PacketZcStatusChangeAck {
         PacketZcStatusChangeAck {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xbc, 0x0]),
-        packet_id_raw: [0xbc, 0x0],
+        packet_id: i16::from_le_bytes([0xbc, 0x00]),
+        packet_id_raw: [0xbc, 0x00],
         status_id: 0,
         status_id_raw: [0; 2],
         result: false,
@@ -16871,8 +16871,8 @@ impl PacketZcStatus {
     pub fn new() -> PacketZcStatus {
         PacketZcStatus {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xbd, 0x0]),
-        packet_id_raw: [0xbd, 0x0],
+        packet_id: i16::from_le_bytes([0xbd, 0x00]),
+        packet_id_raw: [0xbd, 0x00],
         point: 0,
         point_raw: [0; 2],
         str: 0,
@@ -17054,8 +17054,8 @@ impl PacketZcStatusChange {
     pub fn new() -> PacketZcStatusChange {
         PacketZcStatusChange {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xbe, 0x0]),
-        packet_id_raw: [0xbe, 0x0],
+        packet_id: i16::from_le_bytes([0xbe, 0x00]),
+        packet_id_raw: [0xbe, 0x00],
         status_id: 0,
         status_id_raw: [0; 2],
         value: 0,
@@ -17167,8 +17167,8 @@ impl PacketCzReqEmotion {
     pub fn new() -> PacketCzReqEmotion {
         PacketCzReqEmotion {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xbf, 0x0]),
-        packet_id_raw: [0xbf, 0x0],
+        packet_id: i16::from_le_bytes([0xbf, 0x00]),
+        packet_id_raw: [0xbf, 0x00],
         atype: 0,
         atype_raw: [0; 1],
         }
@@ -17298,8 +17298,8 @@ impl PacketZcEmotion {
     pub fn new() -> PacketZcEmotion {
         PacketZcEmotion {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xc0, 0x0]),
-        packet_id_raw: [0xc0, 0x0],
+        packet_id: i16::from_le_bytes([0xc0, 0x00]),
+        packet_id_raw: [0xc0, 0x00],
         gid: 0,
         gid_raw: [0; 4],
         atype: 0,
@@ -17391,8 +17391,8 @@ impl PacketCzReqUserCount {
     pub fn new() -> PacketCzReqUserCount {
         PacketCzReqUserCount {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xc1, 0x0]),
-        packet_id_raw: [0xc1, 0x0],
+        packet_id: i16::from_le_bytes([0xc1, 0x00]),
+        packet_id_raw: [0xc1, 0x00],
         }
     }
 }
@@ -17500,8 +17500,8 @@ impl PacketZcUserCount {
     pub fn new() -> PacketZcUserCount {
         PacketZcUserCount {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xc2, 0x0]),
-        packet_id_raw: [0xc2, 0x0],
+        packet_id: i16::from_le_bytes([0xc2, 0x00]),
+        packet_id_raw: [0xc2, 0x00],
         count: 0,
         count_raw: [0; 4],
         }
@@ -17651,8 +17651,8 @@ impl PacketZcSpriteChange {
     pub fn new() -> PacketZcSpriteChange {
         PacketZcSpriteChange {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xc3, 0x0]),
-        packet_id_raw: [0xc3, 0x0],
+        packet_id: i16::from_le_bytes([0xc3, 0x00]),
+        packet_id_raw: [0xc3, 0x00],
         gid: 0,
         gid_raw: [0; 4],
         atype: 0,
@@ -17766,8 +17766,8 @@ impl PacketZcSelectDealtype {
     pub fn new() -> PacketZcSelectDealtype {
         PacketZcSelectDealtype {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xc4, 0x0]),
-        packet_id_raw: [0xc4, 0x0],
+        packet_id: i16::from_le_bytes([0xc4, 0x00]),
+        packet_id_raw: [0xc4, 0x00],
         naid: 0,
         naid_raw: [0; 4],
         }
@@ -17897,8 +17897,8 @@ impl PacketCzAckSelectDealtype {
     pub fn new() -> PacketCzAckSelectDealtype {
         PacketCzAckSelectDealtype {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xc5, 0x0]),
-        packet_id_raw: [0xc5, 0x0],
+        packet_id: i16::from_le_bytes([0xc5, 0x00]),
+        packet_id_raw: [0xc5, 0x00],
         naid: 0,
         naid_raw: [0; 4],
         atype: 0,
@@ -18042,8 +18042,8 @@ impl PacketZcPcPurchaseItemlist {
     pub fn new() -> PacketZcPcPurchaseItemlist {
         PacketZcPcPurchaseItemlist {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xc6, 0x0]),
-        packet_id_raw: [0xc6, 0x0],
+        packet_id: i16::from_le_bytes([0xc6, 0x00]),
+        packet_id_raw: [0xc6, 0x00],
         packet_length: 0,
         packet_length_raw: [0; 2],
         item_list: vec![],
@@ -18187,8 +18187,8 @@ impl PacketZcPcSellItemlist {
     pub fn new() -> PacketZcPcSellItemlist {
         PacketZcPcSellItemlist {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xc7, 0x0]),
-        packet_id_raw: [0xc7, 0x0],
+        packet_id: i16::from_le_bytes([0xc7, 0x00]),
+        packet_id_raw: [0xc7, 0x00],
         packet_length: 0,
         packet_length_raw: [0; 2],
         item_list: vec![],
@@ -18332,8 +18332,8 @@ impl PacketCzPcPurchaseItemlist {
     pub fn new() -> PacketCzPcPurchaseItemlist {
         PacketCzPcPurchaseItemlist {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xc8, 0x0]),
-        packet_id_raw: [0xc8, 0x0],
+        packet_id: i16::from_le_bytes([0xc8, 0x00]),
+        packet_id_raw: [0xc8, 0x00],
         packet_length: 0,
         packet_length_raw: [0; 2],
         item_list: vec![],
@@ -18477,8 +18477,8 @@ impl PacketCzPcSellItemlist {
     pub fn new() -> PacketCzPcSellItemlist {
         PacketCzPcSellItemlist {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xc9, 0x0]),
-        packet_id_raw: [0xc9, 0x0],
+        packet_id: i16::from_le_bytes([0xc9, 0x00]),
+        packet_id_raw: [0xc9, 0x00],
         packet_length: 0,
         packet_length_raw: [0; 2],
         item_list: vec![],
@@ -18590,8 +18590,8 @@ impl PacketZcPcPurchaseResult {
     pub fn new() -> PacketZcPcPurchaseResult {
         PacketZcPcPurchaseResult {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xca, 0x0]),
-        packet_id_raw: [0xca, 0x0],
+        packet_id: i16::from_le_bytes([0xca, 0x00]),
+        packet_id_raw: [0xca, 0x00],
         result: 0,
         result_raw: [0; 1],
         }
@@ -18701,8 +18701,8 @@ impl PacketZcPcSellResult {
     pub fn new() -> PacketZcPcSellResult {
         PacketZcPcSellResult {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xcb, 0x0]),
-        packet_id_raw: [0xcb, 0x0],
+        packet_id: i16::from_le_bytes([0xcb, 0x00]),
+        packet_id_raw: [0xcb, 0x00],
         result: 0,
         result_raw: [0; 1],
         }
@@ -18812,8 +18812,8 @@ impl PacketCzDisconnectCharacter {
     pub fn new() -> PacketCzDisconnectCharacter {
         PacketCzDisconnectCharacter {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xcc, 0x0]),
-        packet_id_raw: [0xcc, 0x0],
+        packet_id: i16::from_le_bytes([0xcc, 0x00]),
+        packet_id_raw: [0xcc, 0x00],
         aid: 0,
         aid_raw: [0; 4],
         }
@@ -18923,8 +18923,8 @@ impl PacketZcAckDisconnectCharacter {
     pub fn new() -> PacketZcAckDisconnectCharacter {
         PacketZcAckDisconnectCharacter {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xcd, 0x0]),
-        packet_id_raw: [0xcd, 0x0],
+        packet_id: i16::from_le_bytes([0xcd, 0x00]),
+        packet_id_raw: [0xcd, 0x00],
         result: 0,
         result_raw: [0; 1],
         }
@@ -19014,8 +19014,8 @@ impl PacketCzDisconnectAllCharacter {
     pub fn new() -> PacketCzDisconnectAllCharacter {
         PacketCzDisconnectAllCharacter {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xce, 0x0]),
-        packet_id_raw: [0xce, 0x0],
+        packet_id: i16::from_le_bytes([0xce, 0x00]),
+        packet_id_raw: [0xce, 0x00],
         }
     }
 }
@@ -19151,8 +19151,8 @@ impl PacketCzSettingWhisperPc {
     pub fn new() -> PacketCzSettingWhisperPc {
         PacketCzSettingWhisperPc {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xcf, 0x0]),
-        packet_id_raw: [0xcf, 0x0],
+        packet_id: i16::from_le_bytes([0xcf, 0x00]),
+        packet_id_raw: [0xcf, 0x00],
         name: [0 as char; 24],
         name_raw: [0; 24],
         atype: 0,
@@ -19264,8 +19264,8 @@ impl PacketCzSettingWhisperState {
     pub fn new() -> PacketCzSettingWhisperState {
         PacketCzSettingWhisperState {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xd0, 0x0]),
-        packet_id_raw: [0xd0, 0x0],
+        packet_id: i16::from_le_bytes([0xd0, 0x00]),
+        packet_id_raw: [0xd0, 0x00],
         atype: 0,
         atype_raw: [0; 1],
         }
@@ -19395,8 +19395,8 @@ impl PacketZcSettingWhisperPc {
     pub fn new() -> PacketZcSettingWhisperPc {
         PacketZcSettingWhisperPc {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xd1, 0x0]),
-        packet_id_raw: [0xd1, 0x0],
+        packet_id: i16::from_le_bytes([0xd1, 0x00]),
+        packet_id_raw: [0xd1, 0x00],
         atype: 0,
         atype_raw: [0; 1],
         result: 0,
@@ -19528,8 +19528,8 @@ impl PacketZcSettingWhisperState {
     pub fn new() -> PacketZcSettingWhisperState {
         PacketZcSettingWhisperState {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xd2, 0x0]),
-        packet_id_raw: [0xd2, 0x0],
+        packet_id: i16::from_le_bytes([0xd2, 0x00]),
+        packet_id_raw: [0xd2, 0x00],
         atype: 0,
         atype_raw: [0; 1],
         result: 0,
@@ -19621,8 +19621,8 @@ impl PacketCzReqWhisperList {
     pub fn new() -> PacketCzReqWhisperList {
         PacketCzReqWhisperList {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xd3, 0x0]),
-        packet_id_raw: [0xd3, 0x0],
+        packet_id: i16::from_le_bytes([0xd3, 0x00]),
+        packet_id_raw: [0xd3, 0x00],
         }
     }
 }
@@ -19762,8 +19762,8 @@ impl PacketZcWhisperList {
     pub fn new() -> PacketZcWhisperList {
         PacketZcWhisperList {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xd4, 0x0]),
-        packet_id_raw: [0xd4, 0x0],
+        packet_id: i16::from_le_bytes([0xd4, 0x00]),
+        packet_id_raw: [0xd4, 0x00],
         packet_length: 0,
         packet_length_raw: [0; 2],
         wisper_list: vec![],
@@ -19960,8 +19960,8 @@ impl PacketCzCreateChatroom {
     pub fn new() -> PacketCzCreateChatroom {
         PacketCzCreateChatroom {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xd5, 0x0]),
-        packet_id_raw: [0xd5, 0x0],
+        packet_id: i16::from_le_bytes([0xd5, 0x00]),
+        packet_id_raw: [0xd5, 0x00],
         packet_length: 0,
         packet_length_raw: [0; 2],
         size: 0,
@@ -20079,8 +20079,8 @@ impl PacketZcAckCreateChatroom {
     pub fn new() -> PacketZcAckCreateChatroom {
         PacketZcAckCreateChatroom {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xd6, 0x0]),
-        packet_id_raw: [0xd6, 0x0],
+        packet_id: i16::from_le_bytes([0xd6, 0x00]),
+        packet_id_raw: [0xd6, 0x00],
         result: 0,
         result_raw: [0; 1],
         }
@@ -20307,8 +20307,8 @@ impl PacketZcRoomNewentry {
     pub fn new() -> PacketZcRoomNewentry {
         PacketZcRoomNewentry {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xd7, 0x0]),
-        packet_id_raw: [0xd7, 0x0],
+        packet_id: i16::from_le_bytes([0xd7, 0x00]),
+        packet_id_raw: [0xd7, 0x00],
         packet_length: 0,
         packet_length_raw: [0; 2],
         aid: 0,
@@ -20430,8 +20430,8 @@ impl PacketZcDestroyRoom {
     pub fn new() -> PacketZcDestroyRoom {
         PacketZcDestroyRoom {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xd8, 0x0]),
-        packet_id_raw: [0xd8, 0x0],
+        packet_id: i16::from_le_bytes([0xd8, 0x00]),
+        packet_id_raw: [0xd8, 0x00],
         room_id: 0,
         room_id_raw: [0; 4],
         }
@@ -20569,8 +20569,8 @@ impl PacketCzReqEnterRoom {
     pub fn new() -> PacketCzReqEnterRoom {
         PacketCzReqEnterRoom {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xd9, 0x0]),
-        packet_id_raw: [0xd9, 0x0],
+        packet_id: i16::from_le_bytes([0xd9, 0x00]),
+        packet_id_raw: [0xd9, 0x00],
         room_id: 0,
         room_id_raw: [0; 4],
         passwd: [0 as char; 8],
@@ -20682,8 +20682,8 @@ impl PacketZcRefuseEnterRoom {
     pub fn new() -> PacketZcRefuseEnterRoom {
         PacketZcRefuseEnterRoom {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xda, 0x0]),
-        packet_id_raw: [0xda, 0x0],
+        packet_id: i16::from_le_bytes([0xda, 0x00]),
+        packet_id_raw: [0xda, 0x00],
         result: 0,
         result_raw: [0; 1],
         }
@@ -20845,8 +20845,8 @@ impl PacketZcEnterRoom {
     pub fn new() -> PacketZcEnterRoom {
         PacketZcEnterRoom {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xdb, 0x0]),
-        packet_id_raw: [0xdb, 0x0],
+        packet_id: i16::from_le_bytes([0xdb, 0x00]),
+        packet_id_raw: [0xdb, 0x00],
         packet_length: 0,
         packet_length_raw: [0; 2],
         room_id: 0,
@@ -20988,8 +20988,8 @@ impl PacketZcMemberNewentry {
     pub fn new() -> PacketZcMemberNewentry {
         PacketZcMemberNewentry {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xdc, 0x0]),
-        packet_id_raw: [0xdc, 0x0],
+        packet_id: i16::from_le_bytes([0xdc, 0x00]),
+        packet_id_raw: [0xdc, 0x00],
         curcount: 0,
         curcount_raw: [0; 2],
         name: [0 as char; 24],
@@ -21149,8 +21149,8 @@ impl PacketZcMemberExit {
     pub fn new() -> PacketZcMemberExit {
         PacketZcMemberExit {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xdd, 0x0]),
-        packet_id_raw: [0xdd, 0x0],
+        packet_id: i16::from_le_bytes([0xdd, 0x00]),
+        packet_id_raw: [0xdd, 0x00],
         curcount: 0,
         curcount_raw: [0; 2],
         name: [0 as char; 24],
@@ -21349,8 +21349,8 @@ impl PacketCzChangeChatroom {
     pub fn new() -> PacketCzChangeChatroom {
         PacketCzChangeChatroom {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xde, 0x0]),
-        packet_id_raw: [0xde, 0x0],
+        packet_id: i16::from_le_bytes([0xde, 0x00]),
+        packet_id_raw: [0xde, 0x00],
         packet_length: 0,
         packet_length_raw: [0; 2],
         size: 0,
@@ -21585,8 +21585,8 @@ impl PacketZcChangeChatroom {
     pub fn new() -> PacketZcChangeChatroom {
         PacketZcChangeChatroom {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xdf, 0x0]),
-        packet_id_raw: [0xdf, 0x0],
+        packet_id: i16::from_le_bytes([0xdf, 0x00]),
+        packet_id_raw: [0xdf, 0x00],
         packet_length: 0,
         packet_length_raw: [0; 2],
         aid: 0,
@@ -21736,8 +21736,8 @@ impl PacketCzReqRoleChange {
     pub fn new() -> PacketCzReqRoleChange {
         PacketCzReqRoleChange {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xe0, 0x0]),
-        packet_id_raw: [0xe0, 0x0],
+        packet_id: i16::from_le_bytes([0xe0, 0x00]),
+        packet_id_raw: [0xe0, 0x00],
         role: 0,
         role_raw: [0; 4],
         name: [0 as char; 24],
@@ -21877,8 +21877,8 @@ impl PacketZcRoleChange {
     pub fn new() -> PacketZcRoleChange {
         PacketZcRoleChange {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xe1, 0x0]),
-        packet_id_raw: [0xe1, 0x0],
+        packet_id: i16::from_le_bytes([0xe1, 0x00]),
+        packet_id_raw: [0xe1, 0x00],
         role: 0,
         role_raw: [0; 4],
         name: [0 as char; 24],
@@ -21998,8 +21998,8 @@ impl PacketCzReqExpelMember {
     pub fn new() -> PacketCzReqExpelMember {
         PacketCzReqExpelMember {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xe2, 0x0]),
-        packet_id_raw: [0xe2, 0x0],
+        packet_id: i16::from_le_bytes([0xe2, 0x00]),
+        packet_id_raw: [0xe2, 0x00],
         name: [0 as char; 24],
         name_raw: [0; 24],
         }
@@ -22089,8 +22089,8 @@ impl PacketCzExitRoom {
     pub fn new() -> PacketCzExitRoom {
         PacketCzExitRoom {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xe3, 0x0]),
-        packet_id_raw: [0xe3, 0x0],
+        packet_id: i16::from_le_bytes([0xe3, 0x00]),
+        packet_id_raw: [0xe3, 0x00],
         }
     }
 }
@@ -22198,8 +22198,8 @@ impl PacketCzReqExchangeItem {
     pub fn new() -> PacketCzReqExchangeItem {
         PacketCzReqExchangeItem {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xe4, 0x0]),
-        packet_id_raw: [0xe4, 0x0],
+        packet_id: i16::from_le_bytes([0xe4, 0x00]),
+        packet_id_raw: [0xe4, 0x00],
         aid: 0,
         aid_raw: [0; 4],
         }
@@ -22317,8 +22317,8 @@ impl PacketZcReqExchangeItem {
     pub fn new() -> PacketZcReqExchangeItem {
         PacketZcReqExchangeItem {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xe5, 0x0]),
-        packet_id_raw: [0xe5, 0x0],
+        packet_id: i16::from_le_bytes([0xe5, 0x00]),
+        packet_id_raw: [0xe5, 0x00],
         name: [0 as char; 24],
         name_raw: [0; 24],
         }
@@ -22428,8 +22428,8 @@ impl PacketCzAckExchangeItem {
     pub fn new() -> PacketCzAckExchangeItem {
         PacketCzAckExchangeItem {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xe6, 0x0]),
-        packet_id_raw: [0xe6, 0x0],
+        packet_id: i16::from_le_bytes([0xe6, 0x00]),
+        packet_id_raw: [0xe6, 0x00],
         result: 0,
         result_raw: [0; 1],
         }
@@ -22539,8 +22539,8 @@ impl PacketZcAckExchangeItem {
     pub fn new() -> PacketZcAckExchangeItem {
         PacketZcAckExchangeItem {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xe7, 0x0]),
-        packet_id_raw: [0xe7, 0x0],
+        packet_id: i16::from_le_bytes([0xe7, 0x00]),
+        packet_id_raw: [0xe7, 0x00],
         result: 0,
         result_raw: [0; 1],
         }
@@ -22670,8 +22670,8 @@ impl PacketCzAddExchangeItem {
     pub fn new() -> PacketCzAddExchangeItem {
         PacketCzAddExchangeItem {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xe8, 0x0]),
-        packet_id_raw: [0xe8, 0x0],
+        packet_id: i16::from_le_bytes([0xe8, 0x00]),
+        packet_id_raw: [0xe8, 0x00],
         index: 0,
         index_raw: [0; 2],
         count: 0,
@@ -22883,8 +22883,8 @@ impl PacketZcAddExchangeItem {
     pub fn new() -> PacketZcAddExchangeItem {
         PacketZcAddExchangeItem {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xe9, 0x0]),
-        packet_id_raw: [0xe9, 0x0],
+        packet_id: i16::from_le_bytes([0xe9, 0x00]),
+        packet_id_raw: [0xe9, 0x00],
         count: 0,
         count_raw: [0; 4],
         itid: 0,
@@ -23024,8 +23024,8 @@ impl PacketZcAckAddExchangeItem {
     pub fn new() -> PacketZcAckAddExchangeItem {
         PacketZcAckAddExchangeItem {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xea, 0x0]),
-        packet_id_raw: [0xea, 0x0],
+        packet_id: i16::from_le_bytes([0xea, 0x00]),
+        packet_id_raw: [0xea, 0x00],
         index: 0,
         index_raw: [0; 2],
         result: 0,
@@ -23117,8 +23117,8 @@ impl PacketCzConcludeExchangeItem {
     pub fn new() -> PacketCzConcludeExchangeItem {
         PacketCzConcludeExchangeItem {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xeb, 0x0]),
-        packet_id_raw: [0xeb, 0x0],
+        packet_id: i16::from_le_bytes([0xeb, 0x00]),
+        packet_id_raw: [0xeb, 0x00],
         }
     }
 }
@@ -23226,8 +23226,8 @@ impl PacketZcConcludeExchangeItem {
     pub fn new() -> PacketZcConcludeExchangeItem {
         PacketZcConcludeExchangeItem {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xec, 0x0]),
-        packet_id_raw: [0xec, 0x0],
+        packet_id: i16::from_le_bytes([0xec, 0x00]),
+        packet_id_raw: [0xec, 0x00],
         who: 0,
         who_raw: [0; 1],
         }
@@ -23317,8 +23317,8 @@ impl PacketCzCancelExchangeItem {
     pub fn new() -> PacketCzCancelExchangeItem {
         PacketCzCancelExchangeItem {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xed, 0x0]),
-        packet_id_raw: [0xed, 0x0],
+        packet_id: i16::from_le_bytes([0xed, 0x00]),
+        packet_id_raw: [0xed, 0x00],
         }
     }
 }
@@ -23406,8 +23406,8 @@ impl PacketZcCancelExchangeItem {
     pub fn new() -> PacketZcCancelExchangeItem {
         PacketZcCancelExchangeItem {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xee, 0x0]),
-        packet_id_raw: [0xee, 0x0],
+        packet_id: i16::from_le_bytes([0xee, 0x00]),
+        packet_id_raw: [0xee, 0x00],
         }
     }
 }
@@ -23495,8 +23495,8 @@ impl PacketCzExecExchangeItem {
     pub fn new() -> PacketCzExecExchangeItem {
         PacketCzExecExchangeItem {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xef, 0x0]),
-        packet_id_raw: [0xef, 0x0],
+        packet_id: i16::from_le_bytes([0xef, 0x00]),
+        packet_id_raw: [0xef, 0x00],
         }
     }
 }
@@ -23604,8 +23604,8 @@ impl PacketZcExecExchangeItem {
     pub fn new() -> PacketZcExecExchangeItem {
         PacketZcExecExchangeItem {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xf0, 0x0]),
-        packet_id_raw: [0xf0, 0x0],
+        packet_id: i16::from_le_bytes([0xf0, 0x00]),
+        packet_id_raw: [0xf0, 0x00],
         result: 0,
         result_raw: [0; 1],
         }
@@ -23695,8 +23695,8 @@ impl PacketZcExchangeitemUndo {
     pub fn new() -> PacketZcExchangeitemUndo {
         PacketZcExchangeitemUndo {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xf1, 0x0]),
-        packet_id_raw: [0xf1, 0x0],
+        packet_id: i16::from_le_bytes([0xf1, 0x00]),
+        packet_id_raw: [0xf1, 0x00],
         }
     }
 }
@@ -23824,8 +23824,8 @@ impl PacketZcNotifyStoreitemCountinfo {
     pub fn new() -> PacketZcNotifyStoreitemCountinfo {
         PacketZcNotifyStoreitemCountinfo {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xf2, 0x0]),
-        packet_id_raw: [0xf2, 0x0],
+        packet_id: i16::from_le_bytes([0xf2, 0x00]),
+        packet_id_raw: [0xf2, 0x00],
         cur_count: 0,
         cur_count_raw: [0; 2],
         max_count: 0,
@@ -23954,8 +23954,8 @@ impl PacketCzPlayerChat {
     pub fn new() -> PacketCzPlayerChat {
         PacketCzPlayerChat {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xf3, 0x0]),
-        packet_id_raw: [0xf3, 0x0],
+        packet_id: i16::from_le_bytes([0xf3, 0x00]),
+        packet_id_raw: [0xf3, 0x00],
         packet_length: 0,
         packet_length_raw: [0; 2],
         msg: String::new(),
@@ -24187,8 +24187,8 @@ impl PacketZcAddItemToStore {
     pub fn new() -> PacketZcAddItemToStore {
         PacketZcAddItemToStore {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xf4, 0x0]),
-        packet_id_raw: [0xf4, 0x0],
+        packet_id: i16::from_le_bytes([0xf4, 0x00]),
+        packet_id_raw: [0xf4, 0x00],
         index: 0,
         index_raw: [0; 2],
         count: 0,
@@ -24330,8 +24330,8 @@ impl PacketCzMoveItemFromStoreToBody {
     pub fn new() -> PacketCzMoveItemFromStoreToBody {
         PacketCzMoveItemFromStoreToBody {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xf5, 0x0]),
-        packet_id_raw: [0xf5, 0x0],
+        packet_id: i16::from_le_bytes([0xf5, 0x00]),
+        packet_id_raw: [0xf5, 0x00],
         index: 0,
         index_raw: [0; 2],
         count: 0,
@@ -24463,8 +24463,8 @@ impl PacketZcDeleteItemFromStore {
     pub fn new() -> PacketZcDeleteItemFromStore {
         PacketZcDeleteItemFromStore {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xf6, 0x0]),
-        packet_id_raw: [0xf6, 0x0],
+        packet_id: i16::from_le_bytes([0xf6, 0x00]),
+        packet_id_raw: [0xf6, 0x00],
         index: 0,
         index_raw: [0; 2],
         count: 0,
@@ -24556,8 +24556,8 @@ impl PacketCzCloseStore {
     pub fn new() -> PacketCzCloseStore {
         PacketCzCloseStore {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xf7, 0x0]),
-        packet_id_raw: [0xf7, 0x0],
+        packet_id: i16::from_le_bytes([0xf7, 0x00]),
+        packet_id_raw: [0xf7, 0x00],
         }
     }
 }
@@ -24645,8 +24645,8 @@ impl PacketZcCloseStore {
     pub fn new() -> PacketZcCloseStore {
         PacketZcCloseStore {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xf8, 0x0]),
-        packet_id_raw: [0xf8, 0x0],
+        packet_id: i16::from_le_bytes([0xf8, 0x00]),
+        packet_id_raw: [0xf8, 0x00],
         }
     }
 }
@@ -24762,8 +24762,8 @@ impl PacketCzMakeGroup {
     pub fn new() -> PacketCzMakeGroup {
         PacketCzMakeGroup {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xf9, 0x0]),
-        packet_id_raw: [0xf9, 0x0],
+        packet_id: i16::from_le_bytes([0xf9, 0x00]),
+        packet_id_raw: [0xf9, 0x00],
         group_name: [0 as char; 24],
         group_name_raw: [0; 24],
         }
@@ -24873,8 +24873,8 @@ impl PacketZcAckMakeGroup {
     pub fn new() -> PacketZcAckMakeGroup {
         PacketZcAckMakeGroup {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xfa, 0x0]),
-        packet_id_raw: [0xfa, 0x0],
+        packet_id: i16::from_le_bytes([0xfa, 0x00]),
+        packet_id_raw: [0xfa, 0x00],
         result: 0,
         result_raw: [0; 1],
         }
@@ -25044,8 +25044,8 @@ impl PacketZcGroupList {
     pub fn new() -> PacketZcGroupList {
         PacketZcGroupList {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xfb, 0x0]),
-        packet_id_raw: [0xfb, 0x0],
+        packet_id: i16::from_le_bytes([0xfb, 0x00]),
+        packet_id_raw: [0xfb, 0x00],
         packet_length: 0,
         packet_length_raw: [0; 2],
         group_name: [0 as char; 24],
@@ -25159,8 +25159,8 @@ impl PacketCzReqJoinGroup {
     pub fn new() -> PacketCzReqJoinGroup {
         PacketCzReqJoinGroup {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xfc, 0x0]),
-        packet_id_raw: [0xfc, 0x0],
+        packet_id: i16::from_le_bytes([0xfc, 0x00]),
+        packet_id_raw: [0xfc, 0x00],
         aid: 0,
         aid_raw: [0; 4],
         }
@@ -25298,8 +25298,8 @@ impl PacketZcAckReqJoinGroup {
     pub fn new() -> PacketZcAckReqJoinGroup {
         PacketZcAckReqJoinGroup {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xfd, 0x0]),
-        packet_id_raw: [0xfd, 0x0],
+        packet_id: i16::from_le_bytes([0xfd, 0x00]),
+        packet_id_raw: [0xfd, 0x00],
         character_name: [0 as char; 24],
         character_name_raw: [0; 24],
         answer: 0,
@@ -25439,8 +25439,8 @@ impl PacketZcReqJoinGroup {
     pub fn new() -> PacketZcReqJoinGroup {
         PacketZcReqJoinGroup {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xfe, 0x0]),
-        packet_id_raw: [0xfe, 0x0],
+        packet_id: i16::from_le_bytes([0xfe, 0x00]),
+        packet_id_raw: [0xfe, 0x00],
         grid: 0,
         grid_raw: [0; 4],
         group_name: [0 as char; 24],
@@ -25572,8 +25572,8 @@ impl PacketCzJoinGroup {
     pub fn new() -> PacketCzJoinGroup {
         PacketCzJoinGroup {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xff, 0x0]),
-        packet_id_raw: [0xff, 0x0],
+        packet_id: i16::from_le_bytes([0xff, 0x00]),
+        packet_id_raw: [0xff, 0x00],
         grid: 0,
         grid_raw: [0; 4],
         answer: 0,
@@ -25621,7 +25621,7 @@ impl Default for PacketCzJoinGroup {
 
 impl PacketCzReqLeaveGroup {
     pub fn packet_id() -> &'static str {
-        "0x0100"
+        "0x0001"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqLeaveGroup {
         let mut offset: usize = 0;
@@ -25665,15 +25665,15 @@ impl PacketCzReqLeaveGroup {
     pub fn new() -> PacketCzReqLeaveGroup {
         PacketCzReqLeaveGroup {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x10, 0x0]),
-        packet_id_raw: [0x10, 0x0],
+        packet_id: i16::from_le_bytes([0x00, 0x01]),
+        packet_id_raw: [0x00, 0x01],
         }
     }
 }
 
 impl Packet for PacketCzReqLeaveGroup {
     fn id(&self) -> &str {
-       "0x0100"
+       "0x0001"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -25774,8 +25774,8 @@ impl PacketZcGroupinfoChange {
     pub fn new() -> PacketZcGroupinfoChange {
         PacketZcGroupinfoChange {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x10, 0x1]),
-        packet_id_raw: [0x10, 0x1],
+        packet_id: i16::from_le_bytes([0x01, 0x01]),
+        packet_id_raw: [0x01, 0x01],
         exp_option: 0,
         exp_option_raw: [0; 4],
         }
@@ -25821,7 +25821,7 @@ impl Default for PacketZcGroupinfoChange {
 
 impl PacketCzChangeGroupexpoption {
     pub fn packet_id() -> &'static str {
-        "0x0102"
+        "0x0201"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzChangeGroupexpoption {
         let mut offset: usize = 0;
@@ -25885,8 +25885,8 @@ impl PacketCzChangeGroupexpoption {
     pub fn new() -> PacketCzChangeGroupexpoption {
         PacketCzChangeGroupexpoption {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x10, 0x2]),
-        packet_id_raw: [0x10, 0x2],
+        packet_id: i16::from_le_bytes([0x02, 0x01]),
+        packet_id_raw: [0x02, 0x01],
         exp_option: 0,
         exp_option_raw: [0; 4],
         }
@@ -25895,7 +25895,7 @@ impl PacketCzChangeGroupexpoption {
 
 impl Packet for PacketCzChangeGroupexpoption {
     fn id(&self) -> &str {
-       "0x0102"
+       "0x0201"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -25932,7 +25932,7 @@ impl Default for PacketCzChangeGroupexpoption {
 
 impl PacketCzReqExpelGroupMember {
     pub fn packet_id() -> &'static str {
-        "0x0103"
+        "0x0301"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqExpelGroupMember {
         let mut offset: usize = 0;
@@ -26024,8 +26024,8 @@ impl PacketCzReqExpelGroupMember {
     pub fn new() -> PacketCzReqExpelGroupMember {
         PacketCzReqExpelGroupMember {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x10, 0x3]),
-        packet_id_raw: [0x10, 0x3],
+        packet_id: i16::from_le_bytes([0x03, 0x01]),
+        packet_id_raw: [0x03, 0x01],
         aid: 0,
         aid_raw: [0; 4],
         character_name: [0 as char; 24],
@@ -26036,7 +26036,7 @@ impl PacketCzReqExpelGroupMember {
 
 impl Packet for PacketCzReqExpelGroupMember {
     fn id(&self) -> &str {
-       "0x0103"
+       "0x0301"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -26073,7 +26073,7 @@ impl Default for PacketCzReqExpelGroupMember {
 
 impl PacketZcAddMemberToGroup {
     pub fn packet_id() -> &'static str {
-        "0x0104"
+        "0x0401"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAddMemberToGroup {
         let mut offset: usize = 0;
@@ -26301,8 +26301,8 @@ impl PacketZcAddMemberToGroup {
     pub fn new() -> PacketZcAddMemberToGroup {
         PacketZcAddMemberToGroup {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x10, 0x4]),
-        packet_id_raw: [0x10, 0x4],
+        packet_id: i16::from_le_bytes([0x04, 0x01]),
+        packet_id_raw: [0x04, 0x01],
         aid: 0,
         aid_raw: [0; 4],
         role: 0,
@@ -26325,7 +26325,7 @@ impl PacketZcAddMemberToGroup {
 
 impl Packet for PacketZcAddMemberToGroup {
     fn id(&self) -> &str {
-       "0x0104"
+       "0x0401"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -26362,7 +26362,7 @@ impl Default for PacketZcAddMemberToGroup {
 
 impl PacketZcDeleteMemberFromGroup {
     pub fn packet_id() -> &'static str {
-        "0x0105"
+        "0x0501"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcDeleteMemberFromGroup {
         let mut offset: usize = 0;
@@ -26474,8 +26474,8 @@ impl PacketZcDeleteMemberFromGroup {
     pub fn new() -> PacketZcDeleteMemberFromGroup {
         PacketZcDeleteMemberFromGroup {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x10, 0x5]),
-        packet_id_raw: [0x10, 0x5],
+        packet_id: i16::from_le_bytes([0x05, 0x01]),
+        packet_id_raw: [0x05, 0x01],
         aid: 0,
         aid_raw: [0; 4],
         character_name: [0 as char; 24],
@@ -26488,7 +26488,7 @@ impl PacketZcDeleteMemberFromGroup {
 
 impl Packet for PacketZcDeleteMemberFromGroup {
     fn id(&self) -> &str {
-       "0x0105"
+       "0x0501"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -26525,7 +26525,7 @@ impl Default for PacketZcDeleteMemberFromGroup {
 
 impl PacketZcNotifyHpToGroupm {
     pub fn packet_id() -> &'static str {
-        "0x0106"
+        "0x0601"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyHpToGroupm {
         let mut offset: usize = 0;
@@ -26629,8 +26629,8 @@ impl PacketZcNotifyHpToGroupm {
     pub fn new() -> PacketZcNotifyHpToGroupm {
         PacketZcNotifyHpToGroupm {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x10, 0x6]),
-        packet_id_raw: [0x10, 0x6],
+        packet_id: i16::from_le_bytes([0x06, 0x01]),
+        packet_id_raw: [0x06, 0x01],
         aid: 0,
         aid_raw: [0; 4],
         hp: 0,
@@ -26643,7 +26643,7 @@ impl PacketZcNotifyHpToGroupm {
 
 impl Packet for PacketZcNotifyHpToGroupm {
     fn id(&self) -> &str {
-       "0x0106"
+       "0x0601"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -26680,7 +26680,7 @@ impl Default for PacketZcNotifyHpToGroupm {
 
 impl PacketZcNotifyPositionToGroupm {
     pub fn packet_id() -> &'static str {
-        "0x0107"
+        "0x0701"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyPositionToGroupm {
         let mut offset: usize = 0;
@@ -26784,8 +26784,8 @@ impl PacketZcNotifyPositionToGroupm {
     pub fn new() -> PacketZcNotifyPositionToGroupm {
         PacketZcNotifyPositionToGroupm {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x10, 0x7]),
-        packet_id_raw: [0x10, 0x7],
+        packet_id: i16::from_le_bytes([0x07, 0x01]),
+        packet_id_raw: [0x07, 0x01],
         aid: 0,
         aid_raw: [0; 4],
         x_pos: 0,
@@ -26798,7 +26798,7 @@ impl PacketZcNotifyPositionToGroupm {
 
 impl Packet for PacketZcNotifyPositionToGroupm {
     fn id(&self) -> &str {
-       "0x0107"
+       "0x0701"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -26835,7 +26835,7 @@ impl Default for PacketZcNotifyPositionToGroupm {
 
 impl PacketCzRequestChatParty {
     pub fn packet_id() -> &'static str {
-        "0x0108"
+        "0x0801"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzRequestChatParty {
         let mut offset: usize = 0;
@@ -26916,8 +26916,8 @@ impl PacketCzRequestChatParty {
     pub fn new() -> PacketCzRequestChatParty {
         PacketCzRequestChatParty {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x10, 0x8]),
-        packet_id_raw: [0x10, 0x8],
+        packet_id: i16::from_le_bytes([0x08, 0x01]),
+        packet_id_raw: [0x08, 0x01],
         packet_length: 0,
         packet_length_raw: [0; 2],
         msg: String::new(),
@@ -26928,7 +26928,7 @@ impl PacketCzRequestChatParty {
 
 impl Packet for PacketCzRequestChatParty {
     fn id(&self) -> &str {
-       "0x0108"
+       "0x0801"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -26965,7 +26965,7 @@ impl Default for PacketCzRequestChatParty {
 
 impl PacketZcNotifyChatParty {
     pub fn packet_id() -> &'static str {
-        "0x0109"
+        "0x0901"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyChatParty {
         let mut offset: usize = 0;
@@ -27066,8 +27066,8 @@ impl PacketZcNotifyChatParty {
     pub fn new() -> PacketZcNotifyChatParty {
         PacketZcNotifyChatParty {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x10, 0x9]),
-        packet_id_raw: [0x10, 0x9],
+        packet_id: i16::from_le_bytes([0x09, 0x01]),
+        packet_id_raw: [0x09, 0x01],
         packet_length: 0,
         packet_length_raw: [0; 2],
         aid: 0,
@@ -27080,7 +27080,7 @@ impl PacketZcNotifyChatParty {
 
 impl Packet for PacketZcNotifyChatParty {
     fn id(&self) -> &str {
-       "0x0109"
+       "0x0901"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -27117,7 +27117,7 @@ impl Default for PacketZcNotifyChatParty {
 
 impl PacketZcMvpGettingItem {
     pub fn packet_id() -> &'static str {
-        "0x010a"
+        "0x0a01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMvpGettingItem {
         let mut offset: usize = 0;
@@ -27181,8 +27181,8 @@ impl PacketZcMvpGettingItem {
     pub fn new() -> PacketZcMvpGettingItem {
         PacketZcMvpGettingItem {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x10, 0xa]),
-        packet_id_raw: [0x10, 0xa],
+        packet_id: i16::from_le_bytes([0x0a, 0x01]),
+        packet_id_raw: [0x0a, 0x01],
         itid: 0,
         itid_raw: [0; 2],
         }
@@ -27191,7 +27191,7 @@ impl PacketZcMvpGettingItem {
 
 impl Packet for PacketZcMvpGettingItem {
     fn id(&self) -> &str {
-       "0x010a"
+       "0x0a01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -27228,7 +27228,7 @@ impl Default for PacketZcMvpGettingItem {
 
 impl PacketZcMvpGettingSpecialExp {
     pub fn packet_id() -> &'static str {
-        "0x010b"
+        "0x0b01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMvpGettingSpecialExp {
         let mut offset: usize = 0;
@@ -27292,8 +27292,8 @@ impl PacketZcMvpGettingSpecialExp {
     pub fn new() -> PacketZcMvpGettingSpecialExp {
         PacketZcMvpGettingSpecialExp {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x10, 0xb]),
-        packet_id_raw: [0x10, 0xb],
+        packet_id: i16::from_le_bytes([0x0b, 0x01]),
+        packet_id_raw: [0x0b, 0x01],
         exp: 0,
         exp_raw: [0; 4],
         }
@@ -27302,7 +27302,7 @@ impl PacketZcMvpGettingSpecialExp {
 
 impl Packet for PacketZcMvpGettingSpecialExp {
     fn id(&self) -> &str {
-       "0x010b"
+       "0x0b01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -27339,7 +27339,7 @@ impl Default for PacketZcMvpGettingSpecialExp {
 
 impl PacketZcMvp {
     pub fn packet_id() -> &'static str {
-        "0x010c"
+        "0x0c01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMvp {
         let mut offset: usize = 0;
@@ -27403,8 +27403,8 @@ impl PacketZcMvp {
     pub fn new() -> PacketZcMvp {
         PacketZcMvp {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x10, 0xc]),
-        packet_id_raw: [0x10, 0xc],
+        packet_id: i16::from_le_bytes([0x0c, 0x01]),
+        packet_id_raw: [0x0c, 0x01],
         aid: 0,
         aid_raw: [0; 4],
         }
@@ -27413,7 +27413,7 @@ impl PacketZcMvp {
 
 impl Packet for PacketZcMvp {
     fn id(&self) -> &str {
-       "0x010c"
+       "0x0c01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -27450,7 +27450,7 @@ impl Default for PacketZcMvp {
 
 impl PacketZcThrowMvpitem {
     pub fn packet_id() -> &'static str {
-        "0x010d"
+        "0x0d01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcThrowMvpitem {
         let mut offset: usize = 0;
@@ -27494,15 +27494,15 @@ impl PacketZcThrowMvpitem {
     pub fn new() -> PacketZcThrowMvpitem {
         PacketZcThrowMvpitem {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x10, 0xd]),
-        packet_id_raw: [0x10, 0xd],
+        packet_id: i16::from_le_bytes([0x0d, 0x01]),
+        packet_id_raw: [0x0d, 0x01],
         }
     }
 }
 
 impl Packet for PacketZcThrowMvpitem {
     fn id(&self) -> &str {
-       "0x010d"
+       "0x0d01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -27539,7 +27539,7 @@ impl Default for PacketZcThrowMvpitem {
 
 impl PacketZcSkillinfoUpdate {
     pub fn packet_id() -> &'static str {
-        "0x010e"
+        "0x0e01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSkillinfoUpdate {
         let mut offset: usize = 0;
@@ -27683,8 +27683,8 @@ impl PacketZcSkillinfoUpdate {
     pub fn new() -> PacketZcSkillinfoUpdate {
         PacketZcSkillinfoUpdate {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x10, 0xe]),
-        packet_id_raw: [0x10, 0xe],
+        packet_id: i16::from_le_bytes([0x0e, 0x01]),
+        packet_id_raw: [0x0e, 0x01],
         skid: 0,
         skid_raw: [0; 2],
         level: 0,
@@ -27701,7 +27701,7 @@ impl PacketZcSkillinfoUpdate {
 
 impl Packet for PacketZcSkillinfoUpdate {
     fn id(&self) -> &str {
-       "0x010e"
+       "0x0e01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -27738,7 +27738,7 @@ impl Default for PacketZcSkillinfoUpdate {
 
 impl PacketZcSkillinfoList {
     pub fn packet_id() -> &'static str {
-        "0x010f"
+        "0x0f01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSkillinfoList {
         let mut offset: usize = 0;
@@ -27834,8 +27834,8 @@ impl PacketZcSkillinfoList {
     pub fn new() -> PacketZcSkillinfoList {
         PacketZcSkillinfoList {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x10, 0xf]),
-        packet_id_raw: [0x10, 0xf],
+        packet_id: i16::from_le_bytes([0x0f, 0x01]),
+        packet_id_raw: [0x0f, 0x01],
         packet_length: 0,
         packet_length_raw: [0; 2],
         skill_list: vec![],
@@ -27846,7 +27846,7 @@ impl PacketZcSkillinfoList {
 
 impl Packet for PacketZcSkillinfoList {
     fn id(&self) -> &str {
-       "0x010f"
+       "0x0f01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -27883,7 +27883,7 @@ impl Default for PacketZcSkillinfoList {
 
 impl PacketZcAckTouseskill {
     pub fn packet_id() -> &'static str {
-        "0x0110"
+        "0x1001"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckTouseskill {
         let mut offset: usize = 0;
@@ -28007,8 +28007,8 @@ impl PacketZcAckTouseskill {
     pub fn new() -> PacketZcAckTouseskill {
         PacketZcAckTouseskill {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x11, 0x0]),
-        packet_id_raw: [0x11, 0x0],
+        packet_id: i16::from_le_bytes([0x10, 0x01]),
+        packet_id_raw: [0x10, 0x01],
         skid: 0,
         skid_raw: [0; 2],
         num: 0,
@@ -28023,7 +28023,7 @@ impl PacketZcAckTouseskill {
 
 impl Packet for PacketZcAckTouseskill {
     fn id(&self) -> &str {
-       "0x0110"
+       "0x1001"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -28060,7 +28060,7 @@ impl Default for PacketZcAckTouseskill {
 
 impl PacketZcAddSkill {
     pub fn packet_id() -> &'static str {
-        "0x0111"
+        "0x1101"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAddSkill {
         let mut offset: usize = 0;
@@ -28123,8 +28123,8 @@ impl PacketZcAddSkill {
     pub fn new() -> PacketZcAddSkill {
         PacketZcAddSkill {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x11, 0x1]),
-        packet_id_raw: [0x11, 0x1],
+        packet_id: i16::from_le_bytes([0x11, 0x01]),
+        packet_id_raw: [0x11, 0x01],
         data: SKILLINFO::new(),
         data_raw: vec![],
         }
@@ -28133,7 +28133,7 @@ impl PacketZcAddSkill {
 
 impl Packet for PacketZcAddSkill {
     fn id(&self) -> &str {
-       "0x0111"
+       "0x1101"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -28170,7 +28170,7 @@ impl Default for PacketZcAddSkill {
 
 impl PacketCzUpgradeSkilllevel {
     pub fn packet_id() -> &'static str {
-        "0x0112"
+        "0x1201"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzUpgradeSkilllevel {
         let mut offset: usize = 0;
@@ -28234,8 +28234,8 @@ impl PacketCzUpgradeSkilllevel {
     pub fn new() -> PacketCzUpgradeSkilllevel {
         PacketCzUpgradeSkilllevel {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x11, 0x2]),
-        packet_id_raw: [0x11, 0x2],
+        packet_id: i16::from_le_bytes([0x12, 0x01]),
+        packet_id_raw: [0x12, 0x01],
         skid: 0,
         skid_raw: [0; 2],
         }
@@ -28244,7 +28244,7 @@ impl PacketCzUpgradeSkilllevel {
 
 impl Packet for PacketCzUpgradeSkilllevel {
     fn id(&self) -> &str {
-       "0x0112"
+       "0x1201"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -28281,7 +28281,7 @@ impl Default for PacketCzUpgradeSkilllevel {
 
 impl PacketCzUseSkill {
     pub fn packet_id() -> &'static str {
-        "0x0113"
+        "0x1301"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzUseSkill {
         let mut offset: usize = 0;
@@ -28385,8 +28385,8 @@ impl PacketCzUseSkill {
     pub fn new() -> PacketCzUseSkill {
         PacketCzUseSkill {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x11, 0x3]),
-        packet_id_raw: [0x11, 0x3],
+        packet_id: i16::from_le_bytes([0x13, 0x01]),
+        packet_id_raw: [0x13, 0x01],
         selected_level: 0,
         selected_level_raw: [0; 2],
         skid: 0,
@@ -28399,7 +28399,7 @@ impl PacketCzUseSkill {
 
 impl Packet for PacketCzUseSkill {
     fn id(&self) -> &str {
-       "0x0113"
+       "0x1301"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -28436,7 +28436,7 @@ impl Default for PacketCzUseSkill {
 
 impl PacketZcNotifySkill {
     pub fn packet_id() -> &'static str {
-        "0x0114"
+        "0x1401"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifySkill {
         let mut offset: usize = 0;
@@ -28680,8 +28680,8 @@ impl PacketZcNotifySkill {
     pub fn new() -> PacketZcNotifySkill {
         PacketZcNotifySkill {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x11, 0x4]),
-        packet_id_raw: [0x11, 0x4],
+        packet_id: i16::from_le_bytes([0x14, 0x01]),
+        packet_id_raw: [0x14, 0x01],
         skid: 0,
         skid_raw: [0; 2],
         aid: 0,
@@ -28708,7 +28708,7 @@ impl PacketZcNotifySkill {
 
 impl Packet for PacketZcNotifySkill {
     fn id(&self) -> &str {
-       "0x0114"
+       "0x1401"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -28745,7 +28745,7 @@ impl Default for PacketZcNotifySkill {
 
 impl PacketZcNotifySkillPosition {
     pub fn packet_id() -> &'static str {
-        "0x0115"
+        "0x1501"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifySkillPosition {
         let mut offset: usize = 0;
@@ -29029,8 +29029,8 @@ impl PacketZcNotifySkillPosition {
     pub fn new() -> PacketZcNotifySkillPosition {
         PacketZcNotifySkillPosition {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x11, 0x5]),
-        packet_id_raw: [0x11, 0x5],
+        packet_id: i16::from_le_bytes([0x15, 0x01]),
+        packet_id_raw: [0x15, 0x01],
         skid: 0,
         skid_raw: [0; 2],
         aid: 0,
@@ -29061,7 +29061,7 @@ impl PacketZcNotifySkillPosition {
 
 impl Packet for PacketZcNotifySkillPosition {
     fn id(&self) -> &str {
-       "0x0115"
+       "0x1501"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -29098,7 +29098,7 @@ impl Default for PacketZcNotifySkillPosition {
 
 impl PacketCzUseSkillToground {
     pub fn packet_id() -> &'static str {
-        "0x0116"
+        "0x1601"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzUseSkillToground {
         let mut offset: usize = 0;
@@ -29222,8 +29222,8 @@ impl PacketCzUseSkillToground {
     pub fn new() -> PacketCzUseSkillToground {
         PacketCzUseSkillToground {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x11, 0x6]),
-        packet_id_raw: [0x11, 0x6],
+        packet_id: i16::from_le_bytes([0x16, 0x01]),
+        packet_id_raw: [0x16, 0x01],
         selected_level: 0,
         selected_level_raw: [0; 2],
         skid: 0,
@@ -29238,7 +29238,7 @@ impl PacketCzUseSkillToground {
 
 impl Packet for PacketCzUseSkillToground {
     fn id(&self) -> &str {
-       "0x0116"
+       "0x1601"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -29275,7 +29275,7 @@ impl Default for PacketCzUseSkillToground {
 
 impl PacketZcNotifyGroundskill {
     pub fn packet_id() -> &'static str {
-        "0x0117"
+        "0x1701"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyGroundskill {
         let mut offset: usize = 0;
@@ -29439,8 +29439,8 @@ impl PacketZcNotifyGroundskill {
     pub fn new() -> PacketZcNotifyGroundskill {
         PacketZcNotifyGroundskill {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x11, 0x7]),
-        packet_id_raw: [0x11, 0x7],
+        packet_id: i16::from_le_bytes([0x17, 0x01]),
+        packet_id_raw: [0x17, 0x01],
         skid: 0,
         skid_raw: [0; 2],
         aid: 0,
@@ -29459,7 +29459,7 @@ impl PacketZcNotifyGroundskill {
 
 impl Packet for PacketZcNotifyGroundskill {
     fn id(&self) -> &str {
-       "0x0117"
+       "0x1701"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -29496,7 +29496,7 @@ impl Default for PacketZcNotifyGroundskill {
 
 impl PacketCzCancelLockon {
     pub fn packet_id() -> &'static str {
-        "0x0118"
+        "0x1801"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzCancelLockon {
         let mut offset: usize = 0;
@@ -29540,15 +29540,15 @@ impl PacketCzCancelLockon {
     pub fn new() -> PacketCzCancelLockon {
         PacketCzCancelLockon {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x11, 0x8]),
-        packet_id_raw: [0x11, 0x8],
+        packet_id: i16::from_le_bytes([0x18, 0x01]),
+        packet_id_raw: [0x18, 0x01],
         }
     }
 }
 
 impl Packet for PacketCzCancelLockon {
     fn id(&self) -> &str {
-       "0x0118"
+       "0x1801"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -29585,7 +29585,7 @@ impl Default for PacketCzCancelLockon {
 
 impl PacketZcStateChange {
     pub fn packet_id() -> &'static str {
-        "0x0119"
+        "0x1901"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcStateChange {
         let mut offset: usize = 0;
@@ -29729,8 +29729,8 @@ impl PacketZcStateChange {
     pub fn new() -> PacketZcStateChange {
         PacketZcStateChange {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x11, 0x9]),
-        packet_id_raw: [0x11, 0x9],
+        packet_id: i16::from_le_bytes([0x19, 0x01]),
+        packet_id_raw: [0x19, 0x01],
         aid: 0,
         aid_raw: [0; 4],
         body_state: 0,
@@ -29747,7 +29747,7 @@ impl PacketZcStateChange {
 
 impl Packet for PacketZcStateChange {
     fn id(&self) -> &str {
-       "0x0119"
+       "0x1901"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -29784,7 +29784,7 @@ impl Default for PacketZcStateChange {
 
 impl PacketZcUseSkill {
     pub fn packet_id() -> &'static str {
-        "0x011a"
+        "0x1a01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcUseSkill {
         let mut offset: usize = 0;
@@ -29928,8 +29928,8 @@ impl PacketZcUseSkill {
     pub fn new() -> PacketZcUseSkill {
         PacketZcUseSkill {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x11, 0xa]),
-        packet_id_raw: [0x11, 0xa],
+        packet_id: i16::from_le_bytes([0x1a, 0x01]),
+        packet_id_raw: [0x1a, 0x01],
         skid: 0,
         skid_raw: [0; 2],
         level: 0,
@@ -29946,7 +29946,7 @@ impl PacketZcUseSkill {
 
 impl Packet for PacketZcUseSkill {
     fn id(&self) -> &str {
-       "0x011a"
+       "0x1a01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -29983,7 +29983,7 @@ impl Default for PacketZcUseSkill {
 
 impl PacketCzSelectWarppoint {
     pub fn packet_id() -> &'static str {
-        "0x011b"
+        "0x1b01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzSelectWarppoint {
         let mut offset: usize = 0;
@@ -30075,8 +30075,8 @@ impl PacketCzSelectWarppoint {
     pub fn new() -> PacketCzSelectWarppoint {
         PacketCzSelectWarppoint {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x11, 0xb]),
-        packet_id_raw: [0x11, 0xb],
+        packet_id: i16::from_le_bytes([0x1b, 0x01]),
+        packet_id_raw: [0x1b, 0x01],
         skid: 0,
         skid_raw: [0; 2],
         map_name: [0 as char; 16],
@@ -30087,7 +30087,7 @@ impl PacketCzSelectWarppoint {
 
 impl Packet for PacketCzSelectWarppoint {
     fn id(&self) -> &str {
-       "0x011b"
+       "0x1b01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -30124,7 +30124,7 @@ impl Default for PacketCzSelectWarppoint {
 
 impl PacketZcWarplist {
     pub fn packet_id() -> &'static str {
-        "0x011c"
+        "0x1c01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcWarplist {
         let mut offset: usize = 0;
@@ -30216,8 +30216,8 @@ impl PacketZcWarplist {
     pub fn new() -> PacketZcWarplist {
         PacketZcWarplist {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x11, 0xc]),
-        packet_id_raw: [0x11, 0xc],
+        packet_id: i16::from_le_bytes([0x1c, 0x01]),
+        packet_id_raw: [0x1c, 0x01],
         skid: 0,
         skid_raw: [0; 2],
         map_name: [0 as char; 4],
@@ -30228,7 +30228,7 @@ impl PacketZcWarplist {
 
 impl Packet for PacketZcWarplist {
     fn id(&self) -> &str {
-       "0x011c"
+       "0x1c01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -30265,7 +30265,7 @@ impl Default for PacketZcWarplist {
 
 impl PacketCzRememberWarppoint {
     pub fn packet_id() -> &'static str {
-        "0x011d"
+        "0x1d01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzRememberWarppoint {
         let mut offset: usize = 0;
@@ -30309,15 +30309,15 @@ impl PacketCzRememberWarppoint {
     pub fn new() -> PacketCzRememberWarppoint {
         PacketCzRememberWarppoint {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x11, 0xd]),
-        packet_id_raw: [0x11, 0xd],
+        packet_id: i16::from_le_bytes([0x1d, 0x01]),
+        packet_id_raw: [0x1d, 0x01],
         }
     }
 }
 
 impl Packet for PacketCzRememberWarppoint {
     fn id(&self) -> &str {
-       "0x011d"
+       "0x1d01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -30354,7 +30354,7 @@ impl Default for PacketCzRememberWarppoint {
 
 impl PacketZcAckRememberWarppoint {
     pub fn packet_id() -> &'static str {
-        "0x011e"
+        "0x1e01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckRememberWarppoint {
         let mut offset: usize = 0;
@@ -30418,8 +30418,8 @@ impl PacketZcAckRememberWarppoint {
     pub fn new() -> PacketZcAckRememberWarppoint {
         PacketZcAckRememberWarppoint {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x11, 0xe]),
-        packet_id_raw: [0x11, 0xe],
+        packet_id: i16::from_le_bytes([0x1e, 0x01]),
+        packet_id_raw: [0x1e, 0x01],
         error_code: 0,
         error_code_raw: [0; 1],
         }
@@ -30428,7 +30428,7 @@ impl PacketZcAckRememberWarppoint {
 
 impl Packet for PacketZcAckRememberWarppoint {
     fn id(&self) -> &str {
-       "0x011e"
+       "0x1e01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -30465,7 +30465,7 @@ impl Default for PacketZcAckRememberWarppoint {
 
 impl PacketZcSkillEntry {
     pub fn packet_id() -> &'static str {
-        "0x011f"
+        "0x1f01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSkillEntry {
         let mut offset: usize = 0;
@@ -30629,8 +30629,8 @@ impl PacketZcSkillEntry {
     pub fn new() -> PacketZcSkillEntry {
         PacketZcSkillEntry {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x11, 0xf]),
-        packet_id_raw: [0x11, 0xf],
+        packet_id: i16::from_le_bytes([0x1f, 0x01]),
+        packet_id_raw: [0x1f, 0x01],
         aid: 0,
         aid_raw: [0; 4],
         creator_aid: 0,
@@ -30649,7 +30649,7 @@ impl PacketZcSkillEntry {
 
 impl Packet for PacketZcSkillEntry {
     fn id(&self) -> &str {
-       "0x011f"
+       "0x1f01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -30686,7 +30686,7 @@ impl Default for PacketZcSkillEntry {
 
 impl PacketZcSkillDisappear {
     pub fn packet_id() -> &'static str {
-        "0x0120"
+        "0x2001"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSkillDisappear {
         let mut offset: usize = 0;
@@ -30750,8 +30750,8 @@ impl PacketZcSkillDisappear {
     pub fn new() -> PacketZcSkillDisappear {
         PacketZcSkillDisappear {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x12, 0x0]),
-        packet_id_raw: [0x12, 0x0],
+        packet_id: i16::from_le_bytes([0x20, 0x01]),
+        packet_id_raw: [0x20, 0x01],
         aid: 0,
         aid_raw: [0; 4],
         }
@@ -30760,7 +30760,7 @@ impl PacketZcSkillDisappear {
 
 impl Packet for PacketZcSkillDisappear {
     fn id(&self) -> &str {
-       "0x0120"
+       "0x2001"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -30797,7 +30797,7 @@ impl Default for PacketZcSkillDisappear {
 
 impl PacketZcNotifyCartitemCountinfo {
     pub fn packet_id() -> &'static str {
-        "0x0121"
+        "0x2101"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyCartitemCountinfo {
         let mut offset: usize = 0;
@@ -30921,8 +30921,8 @@ impl PacketZcNotifyCartitemCountinfo {
     pub fn new() -> PacketZcNotifyCartitemCountinfo {
         PacketZcNotifyCartitemCountinfo {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x12, 0x1]),
-        packet_id_raw: [0x12, 0x1],
+        packet_id: i16::from_le_bytes([0x21, 0x01]),
+        packet_id_raw: [0x21, 0x01],
         cur_count: 0,
         cur_count_raw: [0; 2],
         max_count: 0,
@@ -30937,7 +30937,7 @@ impl PacketZcNotifyCartitemCountinfo {
 
 impl Packet for PacketZcNotifyCartitemCountinfo {
     fn id(&self) -> &str {
-       "0x0121"
+       "0x2101"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -30974,7 +30974,7 @@ impl Default for PacketZcNotifyCartitemCountinfo {
 
 impl PacketZcCartEquipmentItemlist {
     pub fn packet_id() -> &'static str {
-        "0x0122"
+        "0x2201"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcCartEquipmentItemlist {
         let mut offset: usize = 0;
@@ -31070,8 +31070,8 @@ impl PacketZcCartEquipmentItemlist {
     pub fn new() -> PacketZcCartEquipmentItemlist {
         PacketZcCartEquipmentItemlist {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x12, 0x2]),
-        packet_id_raw: [0x12, 0x2],
+        packet_id: i16::from_le_bytes([0x22, 0x01]),
+        packet_id_raw: [0x22, 0x01],
         packet_length: 0,
         packet_length_raw: [0; 2],
         item_info: vec![],
@@ -31082,7 +31082,7 @@ impl PacketZcCartEquipmentItemlist {
 
 impl Packet for PacketZcCartEquipmentItemlist {
     fn id(&self) -> &str {
-       "0x0122"
+       "0x2201"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -31119,7 +31119,7 @@ impl Default for PacketZcCartEquipmentItemlist {
 
 impl PacketZcCartNormalItemlist {
     pub fn packet_id() -> &'static str {
-        "0x0123"
+        "0x2301"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcCartNormalItemlist {
         let mut offset: usize = 0;
@@ -31215,8 +31215,8 @@ impl PacketZcCartNormalItemlist {
     pub fn new() -> PacketZcCartNormalItemlist {
         PacketZcCartNormalItemlist {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x12, 0x3]),
-        packet_id_raw: [0x12, 0x3],
+        packet_id: i16::from_le_bytes([0x23, 0x01]),
+        packet_id_raw: [0x23, 0x01],
         packet_length: 0,
         packet_length_raw: [0; 2],
         item_info: vec![],
@@ -31227,7 +31227,7 @@ impl PacketZcCartNormalItemlist {
 
 impl Packet for PacketZcCartNormalItemlist {
     fn id(&self) -> &str {
-       "0x0123"
+       "0x2301"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -31264,7 +31264,7 @@ impl Default for PacketZcCartNormalItemlist {
 
 impl PacketZcAddItemToCart {
     pub fn packet_id() -> &'static str {
-        "0x0124"
+        "0x2401"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAddItemToCart {
         let mut offset: usize = 0;
@@ -31448,8 +31448,8 @@ impl PacketZcAddItemToCart {
     pub fn new() -> PacketZcAddItemToCart {
         PacketZcAddItemToCart {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x12, 0x4]),
-        packet_id_raw: [0x12, 0x4],
+        packet_id: i16::from_le_bytes([0x24, 0x01]),
+        packet_id_raw: [0x24, 0x01],
         index: 0,
         index_raw: [0; 2],
         count: 0,
@@ -31470,7 +31470,7 @@ impl PacketZcAddItemToCart {
 
 impl Packet for PacketZcAddItemToCart {
     fn id(&self) -> &str {
-       "0x0124"
+       "0x2401"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -31507,7 +31507,7 @@ impl Default for PacketZcAddItemToCart {
 
 impl PacketZcDeleteItemFromCart {
     pub fn packet_id() -> &'static str {
-        "0x0125"
+        "0x2501"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcDeleteItemFromCart {
         let mut offset: usize = 0;
@@ -31591,8 +31591,8 @@ impl PacketZcDeleteItemFromCart {
     pub fn new() -> PacketZcDeleteItemFromCart {
         PacketZcDeleteItemFromCart {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x12, 0x5]),
-        packet_id_raw: [0x12, 0x5],
+        packet_id: i16::from_le_bytes([0x25, 0x01]),
+        packet_id_raw: [0x25, 0x01],
         index: 0,
         index_raw: [0; 2],
         count: 0,
@@ -31603,7 +31603,7 @@ impl PacketZcDeleteItemFromCart {
 
 impl Packet for PacketZcDeleteItemFromCart {
     fn id(&self) -> &str {
-       "0x0125"
+       "0x2501"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -31640,7 +31640,7 @@ impl Default for PacketZcDeleteItemFromCart {
 
 impl PacketCzMoveItemFromBodyToCart {
     pub fn packet_id() -> &'static str {
-        "0x0126"
+        "0x2601"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzMoveItemFromBodyToCart {
         let mut offset: usize = 0;
@@ -31724,8 +31724,8 @@ impl PacketCzMoveItemFromBodyToCart {
     pub fn new() -> PacketCzMoveItemFromBodyToCart {
         PacketCzMoveItemFromBodyToCart {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x12, 0x6]),
-        packet_id_raw: [0x12, 0x6],
+        packet_id: i16::from_le_bytes([0x26, 0x01]),
+        packet_id_raw: [0x26, 0x01],
         index: 0,
         index_raw: [0; 2],
         count: 0,
@@ -31736,7 +31736,7 @@ impl PacketCzMoveItemFromBodyToCart {
 
 impl Packet for PacketCzMoveItemFromBodyToCart {
     fn id(&self) -> &str {
-       "0x0126"
+       "0x2601"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -31773,7 +31773,7 @@ impl Default for PacketCzMoveItemFromBodyToCart {
 
 impl PacketCzMoveItemFromCartToBody {
     pub fn packet_id() -> &'static str {
-        "0x0127"
+        "0x2701"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzMoveItemFromCartToBody {
         let mut offset: usize = 0;
@@ -31857,8 +31857,8 @@ impl PacketCzMoveItemFromCartToBody {
     pub fn new() -> PacketCzMoveItemFromCartToBody {
         PacketCzMoveItemFromCartToBody {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x12, 0x7]),
-        packet_id_raw: [0x12, 0x7],
+        packet_id: i16::from_le_bytes([0x27, 0x01]),
+        packet_id_raw: [0x27, 0x01],
         index: 0,
         index_raw: [0; 2],
         count: 0,
@@ -31869,7 +31869,7 @@ impl PacketCzMoveItemFromCartToBody {
 
 impl Packet for PacketCzMoveItemFromCartToBody {
     fn id(&self) -> &str {
-       "0x0127"
+       "0x2701"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -31906,7 +31906,7 @@ impl Default for PacketCzMoveItemFromCartToBody {
 
 impl PacketCzMoveItemFromStoreToCart {
     pub fn packet_id() -> &'static str {
-        "0x0128"
+        "0x2801"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzMoveItemFromStoreToCart {
         let mut offset: usize = 0;
@@ -31990,8 +31990,8 @@ impl PacketCzMoveItemFromStoreToCart {
     pub fn new() -> PacketCzMoveItemFromStoreToCart {
         PacketCzMoveItemFromStoreToCart {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x12, 0x8]),
-        packet_id_raw: [0x12, 0x8],
+        packet_id: i16::from_le_bytes([0x28, 0x01]),
+        packet_id_raw: [0x28, 0x01],
         index: 0,
         index_raw: [0; 2],
         count: 0,
@@ -32002,7 +32002,7 @@ impl PacketCzMoveItemFromStoreToCart {
 
 impl Packet for PacketCzMoveItemFromStoreToCart {
     fn id(&self) -> &str {
-       "0x0128"
+       "0x2801"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -32039,7 +32039,7 @@ impl Default for PacketCzMoveItemFromStoreToCart {
 
 impl PacketCzMoveItemFromCartToStore {
     pub fn packet_id() -> &'static str {
-        "0x0129"
+        "0x2901"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzMoveItemFromCartToStore {
         let mut offset: usize = 0;
@@ -32123,8 +32123,8 @@ impl PacketCzMoveItemFromCartToStore {
     pub fn new() -> PacketCzMoveItemFromCartToStore {
         PacketCzMoveItemFromCartToStore {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x12, 0x9]),
-        packet_id_raw: [0x12, 0x9],
+        packet_id: i16::from_le_bytes([0x29, 0x01]),
+        packet_id_raw: [0x29, 0x01],
         index: 0,
         index_raw: [0; 2],
         count: 0,
@@ -32135,7 +32135,7 @@ impl PacketCzMoveItemFromCartToStore {
 
 impl Packet for PacketCzMoveItemFromCartToStore {
     fn id(&self) -> &str {
-       "0x0129"
+       "0x2901"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -32172,7 +32172,7 @@ impl Default for PacketCzMoveItemFromCartToStore {
 
 impl PacketCzReqCartoff {
     pub fn packet_id() -> &'static str {
-        "0x012a"
+        "0x2a01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqCartoff {
         let mut offset: usize = 0;
@@ -32216,15 +32216,15 @@ impl PacketCzReqCartoff {
     pub fn new() -> PacketCzReqCartoff {
         PacketCzReqCartoff {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x12, 0xa]),
-        packet_id_raw: [0x12, 0xa],
+        packet_id: i16::from_le_bytes([0x2a, 0x01]),
+        packet_id_raw: [0x2a, 0x01],
         }
     }
 }
 
 impl Packet for PacketCzReqCartoff {
     fn id(&self) -> &str {
-       "0x012a"
+       "0x2a01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -32261,7 +32261,7 @@ impl Default for PacketCzReqCartoff {
 
 impl PacketZcCartoff {
     pub fn packet_id() -> &'static str {
-        "0x012b"
+        "0x2b01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcCartoff {
         let mut offset: usize = 0;
@@ -32305,15 +32305,15 @@ impl PacketZcCartoff {
     pub fn new() -> PacketZcCartoff {
         PacketZcCartoff {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x12, 0xb]),
-        packet_id_raw: [0x12, 0xb],
+        packet_id: i16::from_le_bytes([0x2b, 0x01]),
+        packet_id_raw: [0x2b, 0x01],
         }
     }
 }
 
 impl Packet for PacketZcCartoff {
     fn id(&self) -> &str {
-       "0x012b"
+       "0x2b01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -32350,7 +32350,7 @@ impl Default for PacketZcCartoff {
 
 impl PacketZcAckAdditemToCart {
     pub fn packet_id() -> &'static str {
-        "0x012c"
+        "0x2c01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckAdditemToCart {
         let mut offset: usize = 0;
@@ -32414,8 +32414,8 @@ impl PacketZcAckAdditemToCart {
     pub fn new() -> PacketZcAckAdditemToCart {
         PacketZcAckAdditemToCart {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x12, 0xc]),
-        packet_id_raw: [0x12, 0xc],
+        packet_id: i16::from_le_bytes([0x2c, 0x01]),
+        packet_id_raw: [0x2c, 0x01],
         result: 0,
         result_raw: [0; 1],
         }
@@ -32424,7 +32424,7 @@ impl PacketZcAckAdditemToCart {
 
 impl Packet for PacketZcAckAdditemToCart {
     fn id(&self) -> &str {
-       "0x012c"
+       "0x2c01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -32461,7 +32461,7 @@ impl Default for PacketZcAckAdditemToCart {
 
 impl PacketZcOpenstore {
     pub fn packet_id() -> &'static str {
-        "0x012d"
+        "0x2d01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcOpenstore {
         let mut offset: usize = 0;
@@ -32525,8 +32525,8 @@ impl PacketZcOpenstore {
     pub fn new() -> PacketZcOpenstore {
         PacketZcOpenstore {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x12, 0xd]),
-        packet_id_raw: [0x12, 0xd],
+        packet_id: i16::from_le_bytes([0x2d, 0x01]),
+        packet_id_raw: [0x2d, 0x01],
         itemcount: 0,
         itemcount_raw: [0; 2],
         }
@@ -32535,7 +32535,7 @@ impl PacketZcOpenstore {
 
 impl Packet for PacketZcOpenstore {
     fn id(&self) -> &str {
-       "0x012d"
+       "0x2d01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -32572,7 +32572,7 @@ impl Default for PacketZcOpenstore {
 
 impl PacketCzReqClosestore {
     pub fn packet_id() -> &'static str {
-        "0x012e"
+        "0x2e01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqClosestore {
         let mut offset: usize = 0;
@@ -32616,15 +32616,15 @@ impl PacketCzReqClosestore {
     pub fn new() -> PacketCzReqClosestore {
         PacketCzReqClosestore {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x12, 0xe]),
-        packet_id_raw: [0x12, 0xe],
+        packet_id: i16::from_le_bytes([0x2e, 0x01]),
+        packet_id_raw: [0x2e, 0x01],
         }
     }
 }
 
 impl Packet for PacketCzReqClosestore {
     fn id(&self) -> &str {
-       "0x012e"
+       "0x2e01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -32661,7 +32661,7 @@ impl Default for PacketCzReqClosestore {
 
 impl PacketCzReqOpenstore {
     pub fn packet_id() -> &'static str {
-        "0x012f"
+        "0x2f01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqOpenstore {
         let mut offset: usize = 0;
@@ -32785,8 +32785,8 @@ impl PacketCzReqOpenstore {
     pub fn new() -> PacketCzReqOpenstore {
         PacketCzReqOpenstore {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x12, 0xf]),
-        packet_id_raw: [0x12, 0xf],
+        packet_id: i16::from_le_bytes([0x2f, 0x01]),
+        packet_id_raw: [0x2f, 0x01],
         packet_length: 0,
         packet_length_raw: [0; 2],
         store_name: [0 as char; 80],
@@ -32799,7 +32799,7 @@ impl PacketCzReqOpenstore {
 
 impl Packet for PacketCzReqOpenstore {
     fn id(&self) -> &str {
-       "0x012f"
+       "0x2f01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -32836,7 +32836,7 @@ impl Default for PacketCzReqOpenstore {
 
 impl PacketCzReqBuyFrommc {
     pub fn packet_id() -> &'static str {
-        "0x0130"
+        "0x3001"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqBuyFrommc {
         let mut offset: usize = 0;
@@ -32900,8 +32900,8 @@ impl PacketCzReqBuyFrommc {
     pub fn new() -> PacketCzReqBuyFrommc {
         PacketCzReqBuyFrommc {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x13, 0x0]),
-        packet_id_raw: [0x13, 0x0],
+        packet_id: i16::from_le_bytes([0x30, 0x01]),
+        packet_id_raw: [0x30, 0x01],
         aid: 0,
         aid_raw: [0; 4],
         }
@@ -32910,7 +32910,7 @@ impl PacketCzReqBuyFrommc {
 
 impl Packet for PacketCzReqBuyFrommc {
     fn id(&self) -> &str {
-       "0x0130"
+       "0x3001"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -32947,7 +32947,7 @@ impl Default for PacketCzReqBuyFrommc {
 
 impl PacketZcStoreEntry {
     pub fn packet_id() -> &'static str {
-        "0x0131"
+        "0x3101"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcStoreEntry {
         let mut offset: usize = 0;
@@ -33039,8 +33039,8 @@ impl PacketZcStoreEntry {
     pub fn new() -> PacketZcStoreEntry {
         PacketZcStoreEntry {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x13, 0x1]),
-        packet_id_raw: [0x13, 0x1],
+        packet_id: i16::from_le_bytes([0x31, 0x01]),
+        packet_id_raw: [0x31, 0x01],
         maker_aid: 0,
         maker_aid_raw: [0; 4],
         store_name: [0 as char; 80],
@@ -33051,7 +33051,7 @@ impl PacketZcStoreEntry {
 
 impl Packet for PacketZcStoreEntry {
     fn id(&self) -> &str {
-       "0x0131"
+       "0x3101"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -33088,7 +33088,7 @@ impl Default for PacketZcStoreEntry {
 
 impl PacketZcDisappearEntry {
     pub fn packet_id() -> &'static str {
-        "0x0132"
+        "0x3201"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcDisappearEntry {
         let mut offset: usize = 0;
@@ -33152,8 +33152,8 @@ impl PacketZcDisappearEntry {
     pub fn new() -> PacketZcDisappearEntry {
         PacketZcDisappearEntry {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x13, 0x2]),
-        packet_id_raw: [0x13, 0x2],
+        packet_id: i16::from_le_bytes([0x32, 0x01]),
+        packet_id_raw: [0x32, 0x01],
         maker_aid: 0,
         maker_aid_raw: [0; 4],
         }
@@ -33162,7 +33162,7 @@ impl PacketZcDisappearEntry {
 
 impl Packet for PacketZcDisappearEntry {
     fn id(&self) -> &str {
-       "0x0132"
+       "0x3201"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -33199,7 +33199,7 @@ impl Default for PacketZcDisappearEntry {
 
 impl PacketZcPcPurchaseItemlistFrommc {
     pub fn packet_id() -> &'static str {
-        "0x0133"
+        "0x3301"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPcPurchaseItemlistFrommc {
         let mut offset: usize = 0;
@@ -33315,8 +33315,8 @@ impl PacketZcPcPurchaseItemlistFrommc {
     pub fn new() -> PacketZcPcPurchaseItemlistFrommc {
         PacketZcPcPurchaseItemlistFrommc {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x13, 0x3]),
-        packet_id_raw: [0x13, 0x3],
+        packet_id: i16::from_le_bytes([0x33, 0x01]),
+        packet_id_raw: [0x33, 0x01],
         packet_length: 0,
         packet_length_raw: [0; 2],
         aid: 0,
@@ -33329,7 +33329,7 @@ impl PacketZcPcPurchaseItemlistFrommc {
 
 impl Packet for PacketZcPcPurchaseItemlistFrommc {
     fn id(&self) -> &str {
-       "0x0133"
+       "0x3301"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -33366,7 +33366,7 @@ impl Default for PacketZcPcPurchaseItemlistFrommc {
 
 impl PacketCzPcPurchaseItemlistFrommc {
     pub fn packet_id() -> &'static str {
-        "0x0134"
+        "0x3401"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzPcPurchaseItemlistFrommc {
         let mut offset: usize = 0;
@@ -33482,8 +33482,8 @@ impl PacketCzPcPurchaseItemlistFrommc {
     pub fn new() -> PacketCzPcPurchaseItemlistFrommc {
         PacketCzPcPurchaseItemlistFrommc {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x13, 0x4]),
-        packet_id_raw: [0x13, 0x4],
+        packet_id: i16::from_le_bytes([0x34, 0x01]),
+        packet_id_raw: [0x34, 0x01],
         packet_length: 0,
         packet_length_raw: [0; 2],
         aid: 0,
@@ -33496,7 +33496,7 @@ impl PacketCzPcPurchaseItemlistFrommc {
 
 impl Packet for PacketCzPcPurchaseItemlistFrommc {
     fn id(&self) -> &str {
-       "0x0134"
+       "0x3401"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -33533,7 +33533,7 @@ impl Default for PacketCzPcPurchaseItemlistFrommc {
 
 impl PacketZcPcPurchaseResultFrommc {
     pub fn packet_id() -> &'static str {
-        "0x0135"
+        "0x3501"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPcPurchaseResultFrommc {
         let mut offset: usize = 0;
@@ -33637,8 +33637,8 @@ impl PacketZcPcPurchaseResultFrommc {
     pub fn new() -> PacketZcPcPurchaseResultFrommc {
         PacketZcPcPurchaseResultFrommc {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x13, 0x5]),
-        packet_id_raw: [0x13, 0x5],
+        packet_id: i16::from_le_bytes([0x35, 0x01]),
+        packet_id_raw: [0x35, 0x01],
         index: 0,
         index_raw: [0; 2],
         curcount: 0,
@@ -33651,7 +33651,7 @@ impl PacketZcPcPurchaseResultFrommc {
 
 impl Packet for PacketZcPcPurchaseResultFrommc {
     fn id(&self) -> &str {
-       "0x0135"
+       "0x3501"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -33688,7 +33688,7 @@ impl Default for PacketZcPcPurchaseResultFrommc {
 
 impl PacketZcPcPurchaseMyitemlist {
     pub fn packet_id() -> &'static str {
-        "0x0136"
+        "0x3601"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPcPurchaseMyitemlist {
         let mut offset: usize = 0;
@@ -33804,8 +33804,8 @@ impl PacketZcPcPurchaseMyitemlist {
     pub fn new() -> PacketZcPcPurchaseMyitemlist {
         PacketZcPcPurchaseMyitemlist {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x13, 0x6]),
-        packet_id_raw: [0x13, 0x6],
+        packet_id: i16::from_le_bytes([0x36, 0x01]),
+        packet_id_raw: [0x36, 0x01],
         packet_length: 0,
         packet_length_raw: [0; 2],
         aid: 0,
@@ -33818,7 +33818,7 @@ impl PacketZcPcPurchaseMyitemlist {
 
 impl Packet for PacketZcPcPurchaseMyitemlist {
     fn id(&self) -> &str {
-       "0x0136"
+       "0x3601"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -33855,7 +33855,7 @@ impl Default for PacketZcPcPurchaseMyitemlist {
 
 impl PacketZcDeleteitemFromMcstore {
     pub fn packet_id() -> &'static str {
-        "0x0137"
+        "0x3701"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcDeleteitemFromMcstore {
         let mut offset: usize = 0;
@@ -33939,8 +33939,8 @@ impl PacketZcDeleteitemFromMcstore {
     pub fn new() -> PacketZcDeleteitemFromMcstore {
         PacketZcDeleteitemFromMcstore {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x13, 0x7]),
-        packet_id_raw: [0x13, 0x7],
+        packet_id: i16::from_le_bytes([0x37, 0x01]),
+        packet_id_raw: [0x37, 0x01],
         index: 0,
         index_raw: [0; 2],
         count: 0,
@@ -33951,7 +33951,7 @@ impl PacketZcDeleteitemFromMcstore {
 
 impl Packet for PacketZcDeleteitemFromMcstore {
     fn id(&self) -> &str {
-       "0x0137"
+       "0x3701"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -33988,7 +33988,7 @@ impl Default for PacketZcDeleteitemFromMcstore {
 
 impl PacketCzPkmodeChange {
     pub fn packet_id() -> &'static str {
-        "0x0138"
+        "0x3801"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzPkmodeChange {
         let mut offset: usize = 0;
@@ -34052,8 +34052,8 @@ impl PacketCzPkmodeChange {
     pub fn new() -> PacketCzPkmodeChange {
         PacketCzPkmodeChange {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x13, 0x8]),
-        packet_id_raw: [0x13, 0x8],
+        packet_id: i16::from_le_bytes([0x38, 0x01]),
+        packet_id_raw: [0x38, 0x01],
         is_turn_on: false,
         is_turn_on_raw: [0; 1],
         }
@@ -34062,7 +34062,7 @@ impl PacketCzPkmodeChange {
 
 impl Packet for PacketCzPkmodeChange {
     fn id(&self) -> &str {
-       "0x0138"
+       "0x3801"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -34099,7 +34099,7 @@ impl Default for PacketCzPkmodeChange {
 
 impl PacketZcAttackFailureForDistance {
     pub fn packet_id() -> &'static str {
-        "0x0139"
+        "0x3901"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAttackFailureForDistance {
         let mut offset: usize = 0;
@@ -34263,8 +34263,8 @@ impl PacketZcAttackFailureForDistance {
     pub fn new() -> PacketZcAttackFailureForDistance {
         PacketZcAttackFailureForDistance {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x13, 0x9]),
-        packet_id_raw: [0x13, 0x9],
+        packet_id: i16::from_le_bytes([0x39, 0x01]),
+        packet_id_raw: [0x39, 0x01],
         target_aid: 0,
         target_aid_raw: [0; 4],
         target_xpos: 0,
@@ -34283,7 +34283,7 @@ impl PacketZcAttackFailureForDistance {
 
 impl Packet for PacketZcAttackFailureForDistance {
     fn id(&self) -> &str {
-       "0x0139"
+       "0x3901"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -34431,7 +34431,7 @@ impl Default for PacketZcAttackRange {
 
 impl PacketZcActionFailure {
     pub fn packet_id() -> &'static str {
-        "0x013b"
+        "0x3b01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcActionFailure {
         let mut offset: usize = 0;
@@ -34495,8 +34495,8 @@ impl PacketZcActionFailure {
     pub fn new() -> PacketZcActionFailure {
         PacketZcActionFailure {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x13, 0xb]),
-        packet_id_raw: [0x13, 0xb],
+        packet_id: i16::from_le_bytes([0x3b, 0x01]),
+        packet_id_raw: [0x3b, 0x01],
         error_code: 0,
         error_code_raw: [0; 2],
         }
@@ -34505,7 +34505,7 @@ impl PacketZcActionFailure {
 
 impl Packet for PacketZcActionFailure {
     fn id(&self) -> &str {
-       "0x013b"
+       "0x3b01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -34542,7 +34542,7 @@ impl Default for PacketZcActionFailure {
 
 impl PacketZcEquipArrow {
     pub fn packet_id() -> &'static str {
-        "0x013c"
+        "0x3c01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcEquipArrow {
         let mut offset: usize = 0;
@@ -34606,8 +34606,8 @@ impl PacketZcEquipArrow {
     pub fn new() -> PacketZcEquipArrow {
         PacketZcEquipArrow {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x13, 0xc]),
-        packet_id_raw: [0x13, 0xc],
+        packet_id: i16::from_le_bytes([0x3c, 0x01]),
+        packet_id_raw: [0x3c, 0x01],
         index: 0,
         index_raw: [0; 2],
         }
@@ -34616,7 +34616,7 @@ impl PacketZcEquipArrow {
 
 impl Packet for PacketZcEquipArrow {
     fn id(&self) -> &str {
-       "0x013c"
+       "0x3c01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -34653,7 +34653,7 @@ impl Default for PacketZcEquipArrow {
 
 impl PacketZcRecovery {
     pub fn packet_id() -> &'static str {
-        "0x013d"
+        "0x3d01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcRecovery {
         let mut offset: usize = 0;
@@ -34737,8 +34737,8 @@ impl PacketZcRecovery {
     pub fn new() -> PacketZcRecovery {
         PacketZcRecovery {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x13, 0xd]),
-        packet_id_raw: [0x13, 0xd],
+        packet_id: i16::from_le_bytes([0x3d, 0x01]),
+        packet_id_raw: [0x3d, 0x01],
         var_id: 0,
         var_id_raw: [0; 2],
         amount: 0,
@@ -34749,7 +34749,7 @@ impl PacketZcRecovery {
 
 impl Packet for PacketZcRecovery {
     fn id(&self) -> &str {
-       "0x013d"
+       "0x3d01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -34786,7 +34786,7 @@ impl Default for PacketZcRecovery {
 
 impl PacketZcUseskillAck {
     pub fn packet_id() -> &'static str {
-        "0x013e"
+        "0x3e01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcUseskillAck {
         let mut offset: usize = 0;
@@ -34970,8 +34970,8 @@ impl PacketZcUseskillAck {
     pub fn new() -> PacketZcUseskillAck {
         PacketZcUseskillAck {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x13, 0xe]),
-        packet_id_raw: [0x13, 0xe],
+        packet_id: i16::from_le_bytes([0x3e, 0x01]),
+        packet_id_raw: [0x3e, 0x01],
         aid: 0,
         aid_raw: [0; 4],
         target_id: 0,
@@ -34992,7 +34992,7 @@ impl PacketZcUseskillAck {
 
 impl Packet for PacketZcUseskillAck {
     fn id(&self) -> &str {
-       "0x013e"
+       "0x3e01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -35029,7 +35029,7 @@ impl Default for PacketZcUseskillAck {
 
 impl PacketCzItemCreate {
     pub fn packet_id() -> &'static str {
-        "0x013f"
+        "0x3f01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzItemCreate {
         let mut offset: usize = 0;
@@ -35101,8 +35101,8 @@ impl PacketCzItemCreate {
     pub fn new() -> PacketCzItemCreate {
         PacketCzItemCreate {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x01, 0x3f]),
-        packet_id_raw: [0x01, 0x3f],
+        packet_id: i16::from_le_bytes([0x3f, 0x01]),
+        packet_id_raw: [0x3f, 0x01],
         item_name: [0 as char; 24],
         item_name_raw: [0; 24],
         }
@@ -35111,7 +35111,7 @@ impl PacketCzItemCreate {
 
 impl Packet for PacketCzItemCreate {
     fn id(&self) -> &str {
-       "0x013f"
+       "0x3f01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -35148,7 +35148,7 @@ impl Default for PacketCzItemCreate {
 
 impl PacketCzMovetoMap {
     pub fn packet_id() -> &'static str {
-        "0x0140"
+        "0x4001"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzMovetoMap {
         let mut offset: usize = 0;
@@ -35260,8 +35260,8 @@ impl PacketCzMovetoMap {
     pub fn new() -> PacketCzMovetoMap {
         PacketCzMovetoMap {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x01, 0x40]),
-        packet_id_raw: [0x01, 0x40],
+        packet_id: i16::from_le_bytes([0x40, 0x01]),
+        packet_id_raw: [0x40, 0x01],
         map_name: [0 as char; 16],
         map_name_raw: [0; 16],
         x_pos: 0,
@@ -35274,7 +35274,7 @@ impl PacketCzMovetoMap {
 
 impl Packet for PacketCzMovetoMap {
     fn id(&self) -> &str {
-       "0x0140"
+       "0x4001"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -35710,7 +35710,7 @@ impl Default for PacketCzInputEditdlg {
 
 impl PacketZcCompass {
     pub fn packet_id() -> &'static str {
-        "0x0144"
+        "0x4401"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcCompass {
         let mut offset: usize = 0;
@@ -35874,8 +35874,8 @@ impl PacketZcCompass {
     pub fn new() -> PacketZcCompass {
         PacketZcCompass {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x01, 0x44]),
-        packet_id_raw: [0x01, 0x44],
+        packet_id: i16::from_le_bytes([0x44, 0x01]),
+        packet_id_raw: [0x44, 0x01],
         naid: 0,
         naid_raw: [0; 4],
         atype: 0,
@@ -35894,7 +35894,7 @@ impl PacketZcCompass {
 
 impl Packet for PacketZcCompass {
     fn id(&self) -> &str {
-       "0x0144"
+       "0x4401"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -35931,7 +35931,7 @@ impl Default for PacketZcCompass {
 
 impl PacketZcShowImage {
     pub fn packet_id() -> &'static str {
-        "0x0145"
+        "0x4501"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcShowImage {
         let mut offset: usize = 0;
@@ -36023,8 +36023,8 @@ impl PacketZcShowImage {
     pub fn new() -> PacketZcShowImage {
         PacketZcShowImage {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x01, 0x45]),
-        packet_id_raw: [0x01, 0x45],
+        packet_id: i16::from_le_bytes([0x45, 0x01]),
+        packet_id_raw: [0x45, 0x01],
         image_name: [0 as char; 16],
         image_name_raw: [0; 16],
         atype: 0,
@@ -36035,7 +36035,7 @@ impl PacketZcShowImage {
 
 impl Packet for PacketZcShowImage {
     fn id(&self) -> &str {
-       "0x0145"
+       "0x4501"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -36072,7 +36072,7 @@ impl Default for PacketZcShowImage {
 
 impl PacketCzCloseDialog {
     pub fn packet_id() -> &'static str {
-        "0x0146"
+        "0x4601"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzCloseDialog {
         let mut offset: usize = 0;
@@ -36136,8 +36136,8 @@ impl PacketCzCloseDialog {
     pub fn new() -> PacketCzCloseDialog {
         PacketCzCloseDialog {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x01, 0x46]),
-        packet_id_raw: [0x01, 0x46],
+        packet_id: i16::from_le_bytes([0x46, 0x01]),
+        packet_id_raw: [0x46, 0x01],
         naid: 0,
         naid_raw: [0; 4],
         }
@@ -36146,7 +36146,7 @@ impl PacketCzCloseDialog {
 
 impl Packet for PacketCzCloseDialog {
     fn id(&self) -> &str {
-       "0x0146"
+       "0x4601"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -36183,7 +36183,7 @@ impl Default for PacketCzCloseDialog {
 
 impl PacketZcAutorunSkill {
     pub fn packet_id() -> &'static str {
-        "0x0147"
+        "0x4701"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAutorunSkill {
         let mut offset: usize = 0;
@@ -36246,8 +36246,8 @@ impl PacketZcAutorunSkill {
     pub fn new() -> PacketZcAutorunSkill {
         PacketZcAutorunSkill {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x01, 0x47]),
-        packet_id_raw: [0x01, 0x47],
+        packet_id: i16::from_le_bytes([0x47, 0x01]),
+        packet_id_raw: [0x47, 0x01],
         data: SKILLINFO::new(),
         data_raw: vec![],
         }
@@ -36256,7 +36256,7 @@ impl PacketZcAutorunSkill {
 
 impl Packet for PacketZcAutorunSkill {
     fn id(&self) -> &str {
-       "0x0147"
+       "0x4701"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -36293,7 +36293,7 @@ impl Default for PacketZcAutorunSkill {
 
 impl PacketZcResurrection {
     pub fn packet_id() -> &'static str {
-        "0x0148"
+        "0x4801"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcResurrection {
         let mut offset: usize = 0;
@@ -36377,8 +36377,8 @@ impl PacketZcResurrection {
     pub fn new() -> PacketZcResurrection {
         PacketZcResurrection {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x01, 0x48]),
-        packet_id_raw: [0x01, 0x48],
+        packet_id: i16::from_le_bytes([0x48, 0x01]),
+        packet_id_raw: [0x48, 0x01],
         aid: 0,
         aid_raw: [0; 4],
         atype: 0,
@@ -36389,7 +36389,7 @@ impl PacketZcResurrection {
 
 impl Packet for PacketZcResurrection {
     fn id(&self) -> &str {
-       "0x0148"
+       "0x4801"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -36426,7 +36426,7 @@ impl Default for PacketZcResurrection {
 
 impl PacketCzReqGiveMannerPoint {
     pub fn packet_id() -> &'static str {
-        "0x0149"
+        "0x4901"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqGiveMannerPoint {
         let mut offset: usize = 0;
@@ -36530,8 +36530,8 @@ impl PacketCzReqGiveMannerPoint {
     pub fn new() -> PacketCzReqGiveMannerPoint {
         PacketCzReqGiveMannerPoint {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x01, 0x49]),
-        packet_id_raw: [0x01, 0x49],
+        packet_id: i16::from_le_bytes([0x49, 0x01]),
+        packet_id_raw: [0x49, 0x01],
         other_aid: 0,
         other_aid_raw: [0; 4],
         atype: 0,
@@ -36544,7 +36544,7 @@ impl PacketCzReqGiveMannerPoint {
 
 impl Packet for PacketCzReqGiveMannerPoint {
     fn id(&self) -> &str {
-       "0x0149"
+       "0x4901"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -36581,7 +36581,7 @@ impl Default for PacketCzReqGiveMannerPoint {
 
 impl PacketZcAckGiveMannerPoint {
     pub fn packet_id() -> &'static str {
-        "0x014a"
+        "0x4a01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckGiveMannerPoint {
         let mut offset: usize = 0;
@@ -36645,8 +36645,8 @@ impl PacketZcAckGiveMannerPoint {
     pub fn new() -> PacketZcAckGiveMannerPoint {
         PacketZcAckGiveMannerPoint {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x01, 0x4a]),
-        packet_id_raw: [0x01, 0x4a],
+        packet_id: i16::from_le_bytes([0x4a, 0x01]),
+        packet_id_raw: [0x4a, 0x01],
         result: 0,
         result_raw: [0; 4],
         }
@@ -36655,7 +36655,7 @@ impl PacketZcAckGiveMannerPoint {
 
 impl Packet for PacketZcAckGiveMannerPoint {
     fn id(&self) -> &str {
-       "0x014a"
+       "0x4a01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -36692,7 +36692,7 @@ impl Default for PacketZcAckGiveMannerPoint {
 
 impl PacketZcNotifyMannerPointGiven {
     pub fn packet_id() -> &'static str {
-        "0x014b"
+        "0x4b01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyMannerPointGiven {
         let mut offset: usize = 0;
@@ -36784,8 +36784,8 @@ impl PacketZcNotifyMannerPointGiven {
     pub fn new() -> PacketZcNotifyMannerPointGiven {
         PacketZcNotifyMannerPointGiven {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x01, 0x4b]),
-        packet_id_raw: [0x01, 0x4b],
+        packet_id: i16::from_le_bytes([0x4b, 0x01]),
+        packet_id_raw: [0x4b, 0x01],
         atype: 0,
         atype_raw: [0; 1],
         other_char_name: [0 as char; 24],
@@ -36796,7 +36796,7 @@ impl PacketZcNotifyMannerPointGiven {
 
 impl Packet for PacketZcNotifyMannerPointGiven {
     fn id(&self) -> &str {
-       "0x014b"
+       "0x4b01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -36833,7 +36833,7 @@ impl Default for PacketZcNotifyMannerPointGiven {
 
 impl PacketZcMyguildBasicInfo {
     pub fn packet_id() -> &'static str {
-        "0x014c"
+        "0x4c01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMyguildBasicInfo {
         let mut offset: usize = 0;
@@ -36929,8 +36929,8 @@ impl PacketZcMyguildBasicInfo {
     pub fn new() -> PacketZcMyguildBasicInfo {
         PacketZcMyguildBasicInfo {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x01, 0x4c]),
-        packet_id_raw: [0x01, 0x4c],
+        packet_id: i16::from_le_bytes([0x4c, 0x01]),
+        packet_id_raw: [0x4c, 0x01],
         packet_length: 0,
         packet_length_raw: [0; 2],
         related_guild_list: vec![],
@@ -36941,7 +36941,7 @@ impl PacketZcMyguildBasicInfo {
 
 impl Packet for PacketZcMyguildBasicInfo {
     fn id(&self) -> &str {
-       "0x014c"
+       "0x4c01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -36978,7 +36978,7 @@ impl Default for PacketZcMyguildBasicInfo {
 
 impl PacketCzReqGuildMenuinterface {
     pub fn packet_id() -> &'static str {
-        "0x014d"
+        "0x4d01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqGuildMenuinterface {
         let mut offset: usize = 0;
@@ -37022,15 +37022,15 @@ impl PacketCzReqGuildMenuinterface {
     pub fn new() -> PacketCzReqGuildMenuinterface {
         PacketCzReqGuildMenuinterface {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x14, 0xd]),
-        packet_id_raw: [0x14, 0xd],
+        packet_id: i16::from_le_bytes([0x4d, 0x01]),
+        packet_id_raw: [0x4d, 0x01],
         }
     }
 }
 
 impl Packet for PacketCzReqGuildMenuinterface {
     fn id(&self) -> &str {
-       "0x014d"
+       "0x4d01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -37067,7 +37067,7 @@ impl Default for PacketCzReqGuildMenuinterface {
 
 impl PacketZcAckGuildMenuinterface {
     pub fn packet_id() -> &'static str {
-        "0x014e"
+        "0x4e01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckGuildMenuinterface {
         let mut offset: usize = 0;
@@ -37131,8 +37131,8 @@ impl PacketZcAckGuildMenuinterface {
     pub fn new() -> PacketZcAckGuildMenuinterface {
         PacketZcAckGuildMenuinterface {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x14, 0xe]),
-        packet_id_raw: [0x14, 0xe],
+        packet_id: i16::from_le_bytes([0x4e, 0x01]),
+        packet_id_raw: [0x4e, 0x01],
         guild_memu_flag: 0,
         guild_memu_flag_raw: [0; 4],
         }
@@ -37141,7 +37141,7 @@ impl PacketZcAckGuildMenuinterface {
 
 impl Packet for PacketZcAckGuildMenuinterface {
     fn id(&self) -> &str {
-       "0x014e"
+       "0x4e01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -37178,7 +37178,7 @@ impl Default for PacketZcAckGuildMenuinterface {
 
 impl PacketCzReqGuildMenu {
     pub fn packet_id() -> &'static str {
-        "0x014f"
+        "0x4f01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqGuildMenu {
         let mut offset: usize = 0;
@@ -37242,8 +37242,8 @@ impl PacketCzReqGuildMenu {
     pub fn new() -> PacketCzReqGuildMenu {
         PacketCzReqGuildMenu {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x14, 0xf]),
-        packet_id_raw: [0x14, 0xf],
+        packet_id: i16::from_le_bytes([0x4f, 0x01]),
+        packet_id_raw: [0x4f, 0x01],
         atype: 0,
         atype_raw: [0; 4],
         }
@@ -37252,7 +37252,7 @@ impl PacketCzReqGuildMenu {
 
 impl Packet for PacketCzReqGuildMenu {
     fn id(&self) -> &str {
-       "0x014f"
+       "0x4f01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -37289,7 +37289,7 @@ impl Default for PacketCzReqGuildMenu {
 
 impl PacketZcGuildInfo {
     pub fn packet_id() -> &'static str {
-        "0x0150"
+        "0x5001"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcGuildInfo {
         let mut offset: usize = 0;
@@ -37637,8 +37637,8 @@ impl PacketZcGuildInfo {
     pub fn new() -> PacketZcGuildInfo {
         PacketZcGuildInfo {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x15, 0x0]),
-        packet_id_raw: [0x15, 0x0],
+        packet_id: i16::from_le_bytes([0x50, 0x01]),
+        packet_id_raw: [0x50, 0x01],
         gdid: 0,
         gdid_raw: [0; 4],
         level: 0,
@@ -37673,7 +37673,7 @@ impl PacketZcGuildInfo {
 
 impl Packet for PacketZcGuildInfo {
     fn id(&self) -> &str {
-       "0x0150"
+       "0x5001"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -37710,7 +37710,7 @@ impl Default for PacketZcGuildInfo {
 
 impl PacketCzReqGuildEmblemImg {
     pub fn packet_id() -> &'static str {
-        "0x0151"
+        "0x5101"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqGuildEmblemImg {
         let mut offset: usize = 0;
@@ -37774,8 +37774,8 @@ impl PacketCzReqGuildEmblemImg {
     pub fn new() -> PacketCzReqGuildEmblemImg {
         PacketCzReqGuildEmblemImg {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x15, 0x1]),
-        packet_id_raw: [0x15, 0x1],
+        packet_id: i16::from_le_bytes([0x51, 0x01]),
+        packet_id_raw: [0x51, 0x01],
         gdid: 0,
         gdid_raw: [0; 4],
         }
@@ -37784,7 +37784,7 @@ impl PacketCzReqGuildEmblemImg {
 
 impl Packet for PacketCzReqGuildEmblemImg {
     fn id(&self) -> &str {
-       "0x0151"
+       "0x5101"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -37821,7 +37821,7 @@ impl Default for PacketCzReqGuildEmblemImg {
 
 impl PacketZcGuildEmblemImg {
     pub fn packet_id() -> &'static str {
-        "0x0152"
+        "0x5201"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcGuildEmblemImg {
         let mut offset: usize = 0;
@@ -37942,8 +37942,8 @@ impl PacketZcGuildEmblemImg {
     pub fn new() -> PacketZcGuildEmblemImg {
         PacketZcGuildEmblemImg {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x15, 0x2]),
-        packet_id_raw: [0x15, 0x2],
+        packet_id: i16::from_le_bytes([0x52, 0x01]),
+        packet_id_raw: [0x52, 0x01],
         packet_length: 0,
         packet_length_raw: [0; 2],
         gdid: 0,
@@ -37958,7 +37958,7 @@ impl PacketZcGuildEmblemImg {
 
 impl Packet for PacketZcGuildEmblemImg {
     fn id(&self) -> &str {
-       "0x0152"
+       "0x5201"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -37995,7 +37995,7 @@ impl Default for PacketZcGuildEmblemImg {
 
 impl PacketCzRegisterGuildEmblemImg {
     pub fn packet_id() -> &'static str {
-        "0x0153"
+        "0x5301"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzRegisterGuildEmblemImg {
         let mut offset: usize = 0;
@@ -38076,8 +38076,8 @@ impl PacketCzRegisterGuildEmblemImg {
     pub fn new() -> PacketCzRegisterGuildEmblemImg {
         PacketCzRegisterGuildEmblemImg {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x15, 0x3]),
-        packet_id_raw: [0x15, 0x3],
+        packet_id: i16::from_le_bytes([0x53, 0x01]),
+        packet_id_raw: [0x53, 0x01],
         packet_length: 0,
         packet_length_raw: [0; 2],
         img: String::new(),
@@ -38088,7 +38088,7 @@ impl PacketCzRegisterGuildEmblemImg {
 
 impl Packet for PacketCzRegisterGuildEmblemImg {
     fn id(&self) -> &str {
-       "0x0153"
+       "0x5301"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -38125,7 +38125,7 @@ impl Default for PacketCzRegisterGuildEmblemImg {
 
 impl PacketZcMembermgrInfo {
     pub fn packet_id() -> &'static str {
-        "0x0154"
+        "0x5401"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMembermgrInfo {
         let mut offset: usize = 0;
@@ -38221,8 +38221,8 @@ impl PacketZcMembermgrInfo {
     pub fn new() -> PacketZcMembermgrInfo {
         PacketZcMembermgrInfo {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x15, 0x4]),
-        packet_id_raw: [0x15, 0x4],
+        packet_id: i16::from_le_bytes([0x54, 0x01]),
+        packet_id_raw: [0x54, 0x01],
         packet_length: 0,
         packet_length_raw: [0; 2],
         member_info: vec![],
@@ -38233,7 +38233,7 @@ impl PacketZcMembermgrInfo {
 
 impl Packet for PacketZcMembermgrInfo {
     fn id(&self) -> &str {
-       "0x0154"
+       "0x5401"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -38270,7 +38270,7 @@ impl Default for PacketZcMembermgrInfo {
 
 impl PacketCzReqChangeMemberpos {
     pub fn packet_id() -> &'static str {
-        "0x0155"
+        "0x5501"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqChangeMemberpos {
         let mut offset: usize = 0;
@@ -38366,8 +38366,8 @@ impl PacketCzReqChangeMemberpos {
     pub fn new() -> PacketCzReqChangeMemberpos {
         PacketCzReqChangeMemberpos {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x15, 0x5]),
-        packet_id_raw: [0x15, 0x5],
+        packet_id: i16::from_le_bytes([0x55, 0x01]),
+        packet_id_raw: [0x55, 0x01],
         packet_length: 0,
         packet_length_raw: [0; 2],
         member_info: vec![],
@@ -38378,7 +38378,7 @@ impl PacketCzReqChangeMemberpos {
 
 impl Packet for PacketCzReqChangeMemberpos {
     fn id(&self) -> &str {
-       "0x0155"
+       "0x5501"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -38415,7 +38415,7 @@ impl Default for PacketCzReqChangeMemberpos {
 
 impl PacketZcAckReqChangeMembers {
     pub fn packet_id() -> &'static str {
-        "0x0156"
+        "0x5601"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckReqChangeMembers {
         let mut offset: usize = 0;
@@ -38511,8 +38511,8 @@ impl PacketZcAckReqChangeMembers {
     pub fn new() -> PacketZcAckReqChangeMembers {
         PacketZcAckReqChangeMembers {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x15, 0x6]),
-        packet_id_raw: [0x15, 0x6],
+        packet_id: i16::from_le_bytes([0x56, 0x01]),
+        packet_id_raw: [0x56, 0x01],
         packet_length: 0,
         packet_length_raw: [0; 2],
         member_info: vec![],
@@ -38523,7 +38523,7 @@ impl PacketZcAckReqChangeMembers {
 
 impl Packet for PacketZcAckReqChangeMembers {
     fn id(&self) -> &str {
-       "0x0156"
+       "0x5601"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -38560,7 +38560,7 @@ impl Default for PacketZcAckReqChangeMembers {
 
 impl PacketCzReqOpenMemberInfo {
     pub fn packet_id() -> &'static str {
-        "0x0157"
+        "0x5701"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqOpenMemberInfo {
         let mut offset: usize = 0;
@@ -38624,8 +38624,8 @@ impl PacketCzReqOpenMemberInfo {
     pub fn new() -> PacketCzReqOpenMemberInfo {
         PacketCzReqOpenMemberInfo {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x15, 0x7]),
-        packet_id_raw: [0x15, 0x7],
+        packet_id: i16::from_le_bytes([0x57, 0x01]),
+        packet_id_raw: [0x57, 0x01],
         aid: 0,
         aid_raw: [0; 4],
         }
@@ -38634,7 +38634,7 @@ impl PacketCzReqOpenMemberInfo {
 
 impl Packet for PacketCzReqOpenMemberInfo {
     fn id(&self) -> &str {
-       "0x0157"
+       "0x5701"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -38671,7 +38671,7 @@ impl Default for PacketCzReqOpenMemberInfo {
 
 impl PacketZcAckOpenMemberInfo {
     pub fn packet_id() -> &'static str {
-        "0x0158"
+        "0x5801"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckOpenMemberInfo {
         let mut offset: usize = 0;
@@ -38715,15 +38715,15 @@ impl PacketZcAckOpenMemberInfo {
     pub fn new() -> PacketZcAckOpenMemberInfo {
         PacketZcAckOpenMemberInfo {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x15, 0x8]),
-        packet_id_raw: [0x15, 0x8],
+        packet_id: i16::from_le_bytes([0x58, 0x01]),
+        packet_id_raw: [0x58, 0x01],
         }
     }
 }
 
 impl Packet for PacketZcAckOpenMemberInfo {
     fn id(&self) -> &str {
-       "0x0158"
+       "0x5801"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -38760,7 +38760,7 @@ impl Default for PacketZcAckOpenMemberInfo {
 
 impl PacketCzReqLeaveGuild {
     pub fn packet_id() -> &'static str {
-        "0x0159"
+        "0x5901"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqLeaveGuild {
         let mut offset: usize = 0;
@@ -38892,8 +38892,8 @@ impl PacketCzReqLeaveGuild {
     pub fn new() -> PacketCzReqLeaveGuild {
         PacketCzReqLeaveGuild {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x15, 0x9]),
-        packet_id_raw: [0x15, 0x9],
+        packet_id: i16::from_le_bytes([0x59, 0x01]),
+        packet_id_raw: [0x59, 0x01],
         gdid: 0,
         gdid_raw: [0; 4],
         aid: 0,
@@ -38908,7 +38908,7 @@ impl PacketCzReqLeaveGuild {
 
 impl Packet for PacketCzReqLeaveGuild {
     fn id(&self) -> &str {
-       "0x0159"
+       "0x5901"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -38945,7 +38945,7 @@ impl Default for PacketCzReqLeaveGuild {
 
 impl PacketZcAckLeaveGuild {
     pub fn packet_id() -> &'static str {
-        "0x015a"
+        "0x5a01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckLeaveGuild {
         let mut offset: usize = 0;
@@ -39045,8 +39045,8 @@ impl PacketZcAckLeaveGuild {
     pub fn new() -> PacketZcAckLeaveGuild {
         PacketZcAckLeaveGuild {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x15, 0xa]),
-        packet_id_raw: [0x15, 0xa],
+        packet_id: i16::from_le_bytes([0x5a, 0x01]),
+        packet_id_raw: [0x5a, 0x01],
         char_name: [0 as char; 24],
         char_name_raw: [0; 24],
         reason_desc: [0 as char; 40],
@@ -39057,7 +39057,7 @@ impl PacketZcAckLeaveGuild {
 
 impl Packet for PacketZcAckLeaveGuild {
     fn id(&self) -> &str {
-       "0x015a"
+       "0x5a01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -39094,7 +39094,7 @@ impl Default for PacketZcAckLeaveGuild {
 
 impl PacketCzReqBanGuild {
     pub fn packet_id() -> &'static str {
-        "0x015b"
+        "0x5b01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqBanGuild {
         let mut offset: usize = 0;
@@ -39226,8 +39226,8 @@ impl PacketCzReqBanGuild {
     pub fn new() -> PacketCzReqBanGuild {
         PacketCzReqBanGuild {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x15, 0xb]),
-        packet_id_raw: [0x15, 0xb],
+        packet_id: i16::from_le_bytes([0x5b, 0x01]),
+        packet_id_raw: [0x5b, 0x01],
         gdid: 0,
         gdid_raw: [0; 4],
         aid: 0,
@@ -39242,7 +39242,7 @@ impl PacketCzReqBanGuild {
 
 impl Packet for PacketCzReqBanGuild {
     fn id(&self) -> &str {
-       "0x015b"
+       "0x5b01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -39279,7 +39279,7 @@ impl Default for PacketCzReqBanGuild {
 
 impl PacketZcAckBanGuild {
     pub fn packet_id() -> &'static str {
-        "0x015c"
+        "0x5c01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckBanGuild {
         let mut offset: usize = 0;
@@ -39407,8 +39407,8 @@ impl PacketZcAckBanGuild {
     pub fn new() -> PacketZcAckBanGuild {
         PacketZcAckBanGuild {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x15, 0xc]),
-        packet_id_raw: [0x15, 0xc],
+        packet_id: i16::from_le_bytes([0x5c, 0x01]),
+        packet_id_raw: [0x5c, 0x01],
         char_name: [0 as char; 24],
         char_name_raw: [0; 24],
         reason_desc: [0 as char; 40],
@@ -39421,7 +39421,7 @@ impl PacketZcAckBanGuild {
 
 impl Packet for PacketZcAckBanGuild {
     fn id(&self) -> &str {
-       "0x015c"
+       "0x5c01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -39458,7 +39458,7 @@ impl Default for PacketZcAckBanGuild {
 
 impl PacketCzReqDisorganizeGuild {
     pub fn packet_id() -> &'static str {
-        "0x015d"
+        "0x5d01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqDisorganizeGuild {
         let mut offset: usize = 0;
@@ -39530,8 +39530,8 @@ impl PacketCzReqDisorganizeGuild {
     pub fn new() -> PacketCzReqDisorganizeGuild {
         PacketCzReqDisorganizeGuild {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x15, 0xd]),
-        packet_id_raw: [0x15, 0xd],
+        packet_id: i16::from_le_bytes([0x5d, 0x01]),
+        packet_id_raw: [0x5d, 0x01],
         key: [0 as char; 40],
         key_raw: [0; 40],
         }
@@ -39540,7 +39540,7 @@ impl PacketCzReqDisorganizeGuild {
 
 impl Packet for PacketCzReqDisorganizeGuild {
     fn id(&self) -> &str {
-       "0x015d"
+       "0x5d01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -39577,7 +39577,7 @@ impl Default for PacketCzReqDisorganizeGuild {
 
 impl PacketZcAckDisorganizeGuildResult {
     pub fn packet_id() -> &'static str {
-        "0x015e"
+        "0x5e01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckDisorganizeGuildResult {
         let mut offset: usize = 0;
@@ -39641,8 +39641,8 @@ impl PacketZcAckDisorganizeGuildResult {
     pub fn new() -> PacketZcAckDisorganizeGuildResult {
         PacketZcAckDisorganizeGuildResult {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x15, 0xe]),
-        packet_id_raw: [0x15, 0xe],
+        packet_id: i16::from_le_bytes([0x5e, 0x01]),
+        packet_id_raw: [0x5e, 0x01],
         reason: 0,
         reason_raw: [0; 4],
         }
@@ -39651,7 +39651,7 @@ impl PacketZcAckDisorganizeGuildResult {
 
 impl Packet for PacketZcAckDisorganizeGuildResult {
     fn id(&self) -> &str {
-       "0x015e"
+       "0x5e01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -39688,7 +39688,7 @@ impl Default for PacketZcAckDisorganizeGuildResult {
 
 impl PacketZcAckDisorganizeGuild {
     pub fn packet_id() -> &'static str {
-        "0x015f"
+        "0x5f01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckDisorganizeGuild {
         let mut offset: usize = 0;
@@ -39760,8 +39760,8 @@ impl PacketZcAckDisorganizeGuild {
     pub fn new() -> PacketZcAckDisorganizeGuild {
         PacketZcAckDisorganizeGuild {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x15, 0xf]),
-        packet_id_raw: [0x15, 0xf],
+        packet_id: i16::from_le_bytes([0x5f, 0x01]),
+        packet_id_raw: [0x5f, 0x01],
         reason_desc: [0 as char; 40],
         reason_desc_raw: [0; 40],
         }
@@ -39770,7 +39770,7 @@ impl PacketZcAckDisorganizeGuild {
 
 impl Packet for PacketZcAckDisorganizeGuild {
     fn id(&self) -> &str {
-       "0x015f"
+       "0x5f01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -39807,7 +39807,7 @@ impl Default for PacketZcAckDisorganizeGuild {
 
 impl PacketZcPositionInfo {
     pub fn packet_id() -> &'static str {
-        "0x0160"
+        "0x6001"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPositionInfo {
         let mut offset: usize = 0;
@@ -39903,8 +39903,8 @@ impl PacketZcPositionInfo {
     pub fn new() -> PacketZcPositionInfo {
         PacketZcPositionInfo {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x16, 0x0]),
-        packet_id_raw: [0x16, 0x0],
+        packet_id: i16::from_le_bytes([0x60, 0x01]),
+        packet_id_raw: [0x60, 0x01],
         packet_length: 0,
         packet_length_raw: [0; 2],
         member_info: vec![],
@@ -39915,7 +39915,7 @@ impl PacketZcPositionInfo {
 
 impl Packet for PacketZcPositionInfo {
     fn id(&self) -> &str {
-       "0x0160"
+       "0x6001"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -39952,7 +39952,7 @@ impl Default for PacketZcPositionInfo {
 
 impl PacketCzRegChangeGuildPositioninfo {
     pub fn packet_id() -> &'static str {
-        "0x0161"
+        "0x6101"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzRegChangeGuildPositioninfo {
         let mut offset: usize = 0;
@@ -40048,8 +40048,8 @@ impl PacketCzRegChangeGuildPositioninfo {
     pub fn new() -> PacketCzRegChangeGuildPositioninfo {
         PacketCzRegChangeGuildPositioninfo {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x16, 0x1]),
-        packet_id_raw: [0x16, 0x1],
+        packet_id: i16::from_le_bytes([0x61, 0x01]),
+        packet_id_raw: [0x61, 0x01],
         packet_length: 0,
         packet_length_raw: [0; 2],
         member_list: vec![],
@@ -40060,7 +40060,7 @@ impl PacketCzRegChangeGuildPositioninfo {
 
 impl Packet for PacketCzRegChangeGuildPositioninfo {
     fn id(&self) -> &str {
-       "0x0161"
+       "0x6101"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -40097,7 +40097,7 @@ impl Default for PacketCzRegChangeGuildPositioninfo {
 
 impl PacketZcGuildSkillinfo {
     pub fn packet_id() -> &'static str {
-        "0x0162"
+        "0x6201"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcGuildSkillinfo {
         let mut offset: usize = 0;
@@ -40213,8 +40213,8 @@ impl PacketZcGuildSkillinfo {
     pub fn new() -> PacketZcGuildSkillinfo {
         PacketZcGuildSkillinfo {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x16, 0x2]),
-        packet_id_raw: [0x16, 0x2],
+        packet_id: i16::from_le_bytes([0x62, 0x01]),
+        packet_id_raw: [0x62, 0x01],
         packet_length: 0,
         packet_length_raw: [0; 2],
         skill_point: 0,
@@ -40227,7 +40227,7 @@ impl PacketZcGuildSkillinfo {
 
 impl Packet for PacketZcGuildSkillinfo {
     fn id(&self) -> &str {
-       "0x0162"
+       "0x6201"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -40264,7 +40264,7 @@ impl Default for PacketZcGuildSkillinfo {
 
 impl PacketZcBanList {
     pub fn packet_id() -> &'static str {
-        "0x0163"
+        "0x6301"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcBanList {
         let mut offset: usize = 0;
@@ -40360,8 +40360,8 @@ impl PacketZcBanList {
     pub fn new() -> PacketZcBanList {
         PacketZcBanList {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x16, 0x3]),
-        packet_id_raw: [0x16, 0x3],
+        packet_id: i16::from_le_bytes([0x63, 0x01]),
+        packet_id_raw: [0x63, 0x01],
         packet_length: 0,
         packet_length_raw: [0; 2],
         ban_list: vec![],
@@ -40372,7 +40372,7 @@ impl PacketZcBanList {
 
 impl Packet for PacketZcBanList {
     fn id(&self) -> &str {
-       "0x0163"
+       "0x6301"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -40409,7 +40409,7 @@ impl Default for PacketZcBanList {
 
 impl PacketZcOtherGuildList {
     pub fn packet_id() -> &'static str {
-        "0x0164"
+        "0x6401"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcOtherGuildList {
         let mut offset: usize = 0;
@@ -40505,8 +40505,8 @@ impl PacketZcOtherGuildList {
     pub fn new() -> PacketZcOtherGuildList {
         PacketZcOtherGuildList {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x16, 0x4]),
-        packet_id_raw: [0x16, 0x4],
+        packet_id: i16::from_le_bytes([0x64, 0x01]),
+        packet_id_raw: [0x64, 0x01],
         packet_length: 0,
         packet_length_raw: [0; 2],
         guild_list: vec![],
@@ -40517,7 +40517,7 @@ impl PacketZcOtherGuildList {
 
 impl Packet for PacketZcOtherGuildList {
     fn id(&self) -> &str {
-       "0x0164"
+       "0x6401"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -40554,7 +40554,7 @@ impl Default for PacketZcOtherGuildList {
 
 impl PacketCzReqMakeGuild {
     pub fn packet_id() -> &'static str {
-        "0x0165"
+        "0x6501"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqMakeGuild {
         let mut offset: usize = 0;
@@ -40646,8 +40646,8 @@ impl PacketCzReqMakeGuild {
     pub fn new() -> PacketCzReqMakeGuild {
         PacketCzReqMakeGuild {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x16, 0x5]),
-        packet_id_raw: [0x16, 0x5],
+        packet_id: i16::from_le_bytes([0x65, 0x01]),
+        packet_id_raw: [0x65, 0x01],
         gid: 0,
         gid_raw: [0; 4],
         gname: [0 as char; 24],
@@ -40658,7 +40658,7 @@ impl PacketCzReqMakeGuild {
 
 impl Packet for PacketCzReqMakeGuild {
     fn id(&self) -> &str {
-       "0x0165"
+       "0x6501"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -40695,7 +40695,7 @@ impl Default for PacketCzReqMakeGuild {
 
 impl PacketZcPositionIdNameInfo {
     pub fn packet_id() -> &'static str {
-        "0x0166"
+        "0x6601"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPositionIdNameInfo {
         let mut offset: usize = 0;
@@ -40791,8 +40791,8 @@ impl PacketZcPositionIdNameInfo {
     pub fn new() -> PacketZcPositionIdNameInfo {
         PacketZcPositionIdNameInfo {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x16, 0x6]),
-        packet_id_raw: [0x16, 0x6],
+        packet_id: i16::from_le_bytes([0x66, 0x01]),
+        packet_id_raw: [0x66, 0x01],
         packet_length: 0,
         packet_length_raw: [0; 2],
         member_list: vec![],
@@ -40803,7 +40803,7 @@ impl PacketZcPositionIdNameInfo {
 
 impl Packet for PacketZcPositionIdNameInfo {
     fn id(&self) -> &str {
-       "0x0166"
+       "0x6601"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -40840,7 +40840,7 @@ impl Default for PacketZcPositionIdNameInfo {
 
 impl PacketZcResultMakeGuild {
     pub fn packet_id() -> &'static str {
-        "0x0167"
+        "0x6701"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcResultMakeGuild {
         let mut offset: usize = 0;
@@ -40904,8 +40904,8 @@ impl PacketZcResultMakeGuild {
     pub fn new() -> PacketZcResultMakeGuild {
         PacketZcResultMakeGuild {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x16, 0x7]),
-        packet_id_raw: [0x16, 0x7],
+        packet_id: i16::from_le_bytes([0x67, 0x01]),
+        packet_id_raw: [0x67, 0x01],
         result: 0,
         result_raw: [0; 1],
         }
@@ -40914,7 +40914,7 @@ impl PacketZcResultMakeGuild {
 
 impl Packet for PacketZcResultMakeGuild {
     fn id(&self) -> &str {
-       "0x0167"
+       "0x6701"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -40951,7 +40951,7 @@ impl Default for PacketZcResultMakeGuild {
 
 impl PacketCzReqJoinGuild {
     pub fn packet_id() -> &'static str {
-        "0x0168"
+        "0x6801"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqJoinGuild {
         let mut offset: usize = 0;
@@ -41055,8 +41055,8 @@ impl PacketCzReqJoinGuild {
     pub fn new() -> PacketCzReqJoinGuild {
         PacketCzReqJoinGuild {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x16, 0x8]),
-        packet_id_raw: [0x16, 0x8],
+        packet_id: i16::from_le_bytes([0x68, 0x01]),
+        packet_id_raw: [0x68, 0x01],
         aid: 0,
         aid_raw: [0; 4],
         my_aid: 0,
@@ -41069,7 +41069,7 @@ impl PacketCzReqJoinGuild {
 
 impl Packet for PacketCzReqJoinGuild {
     fn id(&self) -> &str {
-       "0x0168"
+       "0x6801"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -41106,7 +41106,7 @@ impl Default for PacketCzReqJoinGuild {
 
 impl PacketZcAckReqJoinGuild {
     pub fn packet_id() -> &'static str {
-        "0x0169"
+        "0x6901"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckReqJoinGuild {
         let mut offset: usize = 0;
@@ -41170,8 +41170,8 @@ impl PacketZcAckReqJoinGuild {
     pub fn new() -> PacketZcAckReqJoinGuild {
         PacketZcAckReqJoinGuild {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x16, 0x9]),
-        packet_id_raw: [0x16, 0x9],
+        packet_id: i16::from_le_bytes([0x69, 0x01]),
+        packet_id_raw: [0x69, 0x01],
         answer: 0,
         answer_raw: [0; 1],
         }
@@ -41180,7 +41180,7 @@ impl PacketZcAckReqJoinGuild {
 
 impl Packet for PacketZcAckReqJoinGuild {
     fn id(&self) -> &str {
-       "0x0169"
+       "0x6901"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -41217,7 +41217,7 @@ impl Default for PacketZcAckReqJoinGuild {
 
 impl PacketZcReqJoinGuild {
     pub fn packet_id() -> &'static str {
-        "0x016a"
+        "0x6a01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcReqJoinGuild {
         let mut offset: usize = 0;
@@ -41309,8 +41309,8 @@ impl PacketZcReqJoinGuild {
     pub fn new() -> PacketZcReqJoinGuild {
         PacketZcReqJoinGuild {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x16, 0xa]),
-        packet_id_raw: [0x16, 0xa],
+        packet_id: i16::from_le_bytes([0x6a, 0x01]),
+        packet_id_raw: [0x6a, 0x01],
         gdid: 0,
         gdid_raw: [0; 4],
         guild_name: [0 as char; 24],
@@ -41321,7 +41321,7 @@ impl PacketZcReqJoinGuild {
 
 impl Packet for PacketZcReqJoinGuild {
     fn id(&self) -> &str {
-       "0x016a"
+       "0x6a01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -41358,7 +41358,7 @@ impl Default for PacketZcReqJoinGuild {
 
 impl PacketCzJoinGuild {
     pub fn packet_id() -> &'static str {
-        "0x016b"
+        "0x6b01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzJoinGuild {
         let mut offset: usize = 0;
@@ -41442,8 +41442,8 @@ impl PacketCzJoinGuild {
     pub fn new() -> PacketCzJoinGuild {
         PacketCzJoinGuild {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x16, 0xb]),
-        packet_id_raw: [0x16, 0xb],
+        packet_id: i16::from_le_bytes([0x6b, 0x01]),
+        packet_id_raw: [0x6b, 0x01],
         gdid: 0,
         gdid_raw: [0; 4],
         answer: 0,
@@ -41454,7 +41454,7 @@ impl PacketCzJoinGuild {
 
 impl Packet for PacketCzJoinGuild {
     fn id(&self) -> &str {
-       "0x016b"
+       "0x6b01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -41491,7 +41491,7 @@ impl Default for PacketCzJoinGuild {
 
 impl PacketZcUpdateGdid {
     pub fn packet_id() -> &'static str {
-        "0x016c"
+        "0x6c01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcUpdateGdid {
         let mut offset: usize = 0;
@@ -41663,8 +41663,8 @@ impl PacketZcUpdateGdid {
     pub fn new() -> PacketZcUpdateGdid {
         PacketZcUpdateGdid {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x16, 0xc]),
-        packet_id_raw: [0x16, 0xc],
+        packet_id: i16::from_le_bytes([0x6c, 0x01]),
+        packet_id_raw: [0x6c, 0x01],
         gdid: 0,
         gdid_raw: [0; 4],
         emblem_version: 0,
@@ -41683,7 +41683,7 @@ impl PacketZcUpdateGdid {
 
 impl Packet for PacketZcUpdateGdid {
     fn id(&self) -> &str {
-       "0x016c"
+       "0x6c01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -41720,7 +41720,7 @@ impl Default for PacketZcUpdateGdid {
 
 impl PacketZcUpdateCharstat {
     pub fn packet_id() -> &'static str {
-        "0x016d"
+        "0x6d01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcUpdateCharstat {
         let mut offset: usize = 0;
@@ -41824,8 +41824,8 @@ impl PacketZcUpdateCharstat {
     pub fn new() -> PacketZcUpdateCharstat {
         PacketZcUpdateCharstat {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x16, 0xd]),
-        packet_id_raw: [0x16, 0xd],
+        packet_id: i16::from_le_bytes([0x6d, 0x01]),
+        packet_id_raw: [0x6d, 0x01],
         aid: 0,
         aid_raw: [0; 4],
         gid: 0,
@@ -41838,7 +41838,7 @@ impl PacketZcUpdateCharstat {
 
 impl Packet for PacketZcUpdateCharstat {
     fn id(&self) -> &str {
-       "0x016d"
+       "0x6d01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -41875,7 +41875,7 @@ impl Default for PacketZcUpdateCharstat {
 
 impl PacketCzGuildNotice {
     pub fn packet_id() -> &'static str {
-        "0x016e"
+        "0x6e01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzGuildNotice {
         let mut offset: usize = 0;
@@ -41995,8 +41995,8 @@ impl PacketCzGuildNotice {
     pub fn new() -> PacketCzGuildNotice {
         PacketCzGuildNotice {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x16, 0xe]),
-        packet_id_raw: [0x16, 0xe],
+        packet_id: i16::from_le_bytes([0x6e, 0x01]),
+        packet_id_raw: [0x6e, 0x01],
         gdid: 0,
         gdid_raw: [0; 4],
         subject: [0 as char; 60],
@@ -42009,7 +42009,7 @@ impl PacketCzGuildNotice {
 
 impl Packet for PacketCzGuildNotice {
     fn id(&self) -> &str {
-       "0x016e"
+       "0x6e01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -42046,7 +42046,7 @@ impl Default for PacketCzGuildNotice {
 
 impl PacketZcGuildNotice {
     pub fn packet_id() -> &'static str {
-        "0x016f"
+        "0x6f01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcGuildNotice {
         let mut offset: usize = 0;
@@ -42146,8 +42146,8 @@ impl PacketZcGuildNotice {
     pub fn new() -> PacketZcGuildNotice {
         PacketZcGuildNotice {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x16, 0xf]),
-        packet_id_raw: [0x16, 0xf],
+        packet_id: i16::from_le_bytes([0x6f, 0x01]),
+        packet_id_raw: [0x6f, 0x01],
         subject: [0 as char; 60],
         subject_raw: [0; 60],
         notice: [0 as char; 120],
@@ -42158,7 +42158,7 @@ impl PacketZcGuildNotice {
 
 impl Packet for PacketZcGuildNotice {
     fn id(&self) -> &str {
-       "0x016f"
+       "0x6f01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -42195,7 +42195,7 @@ impl Default for PacketZcGuildNotice {
 
 impl PacketCzReqAllyGuild {
     pub fn packet_id() -> &'static str {
-        "0x0170"
+        "0x7001"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqAllyGuild {
         let mut offset: usize = 0;
@@ -42299,8 +42299,8 @@ impl PacketCzReqAllyGuild {
     pub fn new() -> PacketCzReqAllyGuild {
         PacketCzReqAllyGuild {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x17, 0x0]),
-        packet_id_raw: [0x17, 0x0],
+        packet_id: i16::from_le_bytes([0x70, 0x01]),
+        packet_id_raw: [0x70, 0x01],
         aid: 0,
         aid_raw: [0; 4],
         my_aid: 0,
@@ -42313,7 +42313,7 @@ impl PacketCzReqAllyGuild {
 
 impl Packet for PacketCzReqAllyGuild {
     fn id(&self) -> &str {
-       "0x0170"
+       "0x7001"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -42350,7 +42350,7 @@ impl Default for PacketCzReqAllyGuild {
 
 impl PacketZcReqAllyGuild {
     pub fn packet_id() -> &'static str {
-        "0x0171"
+        "0x7101"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcReqAllyGuild {
         let mut offset: usize = 0;
@@ -42442,8 +42442,8 @@ impl PacketZcReqAllyGuild {
     pub fn new() -> PacketZcReqAllyGuild {
         PacketZcReqAllyGuild {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x17, 0x1]),
-        packet_id_raw: [0x17, 0x1],
+        packet_id: i16::from_le_bytes([0x71, 0x01]),
+        packet_id_raw: [0x71, 0x01],
         other_aid: 0,
         other_aid_raw: [0; 4],
         guild_name: [0 as char; 24],
@@ -42454,7 +42454,7 @@ impl PacketZcReqAllyGuild {
 
 impl Packet for PacketZcReqAllyGuild {
     fn id(&self) -> &str {
-       "0x0171"
+       "0x7101"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -42491,7 +42491,7 @@ impl Default for PacketZcReqAllyGuild {
 
 impl PacketCzAllyGuild {
     pub fn packet_id() -> &'static str {
-        "0x0172"
+        "0x7201"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzAllyGuild {
         let mut offset: usize = 0;
@@ -42575,8 +42575,8 @@ impl PacketCzAllyGuild {
     pub fn new() -> PacketCzAllyGuild {
         PacketCzAllyGuild {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x17, 0x2]),
-        packet_id_raw: [0x17, 0x2],
+        packet_id: i16::from_le_bytes([0x72, 0x01]),
+        packet_id_raw: [0x72, 0x01],
         other_aid: 0,
         other_aid_raw: [0; 4],
         answer: 0,
@@ -42587,7 +42587,7 @@ impl PacketCzAllyGuild {
 
 impl Packet for PacketCzAllyGuild {
     fn id(&self) -> &str {
-       "0x0172"
+       "0x7201"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -42624,7 +42624,7 @@ impl Default for PacketCzAllyGuild {
 
 impl PacketZcAckReqAllyGuild {
     pub fn packet_id() -> &'static str {
-        "0x0173"
+        "0x7301"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckReqAllyGuild {
         let mut offset: usize = 0;
@@ -42688,8 +42688,8 @@ impl PacketZcAckReqAllyGuild {
     pub fn new() -> PacketZcAckReqAllyGuild {
         PacketZcAckReqAllyGuild {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x17, 0x3]),
-        packet_id_raw: [0x17, 0x3],
+        packet_id: i16::from_le_bytes([0x73, 0x01]),
+        packet_id_raw: [0x73, 0x01],
         answer: 0,
         answer_raw: [0; 1],
         }
@@ -42698,7 +42698,7 @@ impl PacketZcAckReqAllyGuild {
 
 impl Packet for PacketZcAckReqAllyGuild {
     fn id(&self) -> &str {
-       "0x0173"
+       "0x7301"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -42735,7 +42735,7 @@ impl Default for PacketZcAckReqAllyGuild {
 
 impl PacketZcAckChangeGuildPositioninfo {
     pub fn packet_id() -> &'static str {
-        "0x0174"
+        "0x7401"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckChangeGuildPositioninfo {
         let mut offset: usize = 0;
@@ -42831,8 +42831,8 @@ impl PacketZcAckChangeGuildPositioninfo {
     pub fn new() -> PacketZcAckChangeGuildPositioninfo {
         PacketZcAckChangeGuildPositioninfo {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x17, 0x4]),
-        packet_id_raw: [0x17, 0x4],
+        packet_id: i16::from_le_bytes([0x74, 0x01]),
+        packet_id_raw: [0x74, 0x01],
         packet_length: 0,
         packet_length_raw: [0; 2],
         member_list: vec![],
@@ -42843,7 +42843,7 @@ impl PacketZcAckChangeGuildPositioninfo {
 
 impl Packet for PacketZcAckChangeGuildPositioninfo {
     fn id(&self) -> &str {
-       "0x0174"
+       "0x7401"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -42880,7 +42880,7 @@ impl Default for PacketZcAckChangeGuildPositioninfo {
 
 impl PacketCzReqGuildMemberInfo {
     pub fn packet_id() -> &'static str {
-        "0x0175"
+        "0x7501"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqGuildMemberInfo {
         let mut offset: usize = 0;
@@ -42944,8 +42944,8 @@ impl PacketCzReqGuildMemberInfo {
     pub fn new() -> PacketCzReqGuildMemberInfo {
         PacketCzReqGuildMemberInfo {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x17, 0x5]),
-        packet_id_raw: [0x17, 0x5],
+        packet_id: i16::from_le_bytes([0x75, 0x01]),
+        packet_id_raw: [0x75, 0x01],
         gid: 0,
         gid_raw: [0; 4],
         }
@@ -42954,7 +42954,7 @@ impl PacketCzReqGuildMemberInfo {
 
 impl Packet for PacketCzReqGuildMemberInfo {
     fn id(&self) -> &str {
-       "0x0175"
+       "0x7501"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -42991,7 +42991,7 @@ impl Default for PacketCzReqGuildMemberInfo {
 
 impl PacketZcAckGuildMemberInfo {
     pub fn packet_id() -> &'static str {
-        "0x0176"
+        "0x7601"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckGuildMemberInfo {
         let mut offset: usize = 0;
@@ -43054,8 +43054,8 @@ impl PacketZcAckGuildMemberInfo {
     pub fn new() -> PacketZcAckGuildMemberInfo {
         PacketZcAckGuildMemberInfo {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x17, 0x6]),
-        packet_id_raw: [0x17, 0x6],
+        packet_id: i16::from_le_bytes([0x76, 0x01]),
+        packet_id_raw: [0x76, 0x01],
         info: GuildMemberInfo::new(),
         info_raw: vec![],
         }
@@ -43064,7 +43064,7 @@ impl PacketZcAckGuildMemberInfo {
 
 impl Packet for PacketZcAckGuildMemberInfo {
     fn id(&self) -> &str {
-       "0x0176"
+       "0x7601"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -43101,7 +43101,7 @@ impl Default for PacketZcAckGuildMemberInfo {
 
 impl PacketZcItemidentifyList {
     pub fn packet_id() -> &'static str {
-        "0x0177"
+        "0x7701"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcItemidentifyList {
         let mut offset: usize = 0;
@@ -43185,8 +43185,8 @@ impl PacketZcItemidentifyList {
     pub fn new() -> PacketZcItemidentifyList {
         PacketZcItemidentifyList {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x17, 0x7]),
-        packet_id_raw: [0x17, 0x7],
+        packet_id: i16::from_le_bytes([0x77, 0x01]),
+        packet_id_raw: [0x77, 0x01],
         packet_length: 0,
         packet_length_raw: [0; 2],
         itidlist: vec![],
@@ -43197,7 +43197,7 @@ impl PacketZcItemidentifyList {
 
 impl Packet for PacketZcItemidentifyList {
     fn id(&self) -> &str {
-       "0x0177"
+       "0x7701"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -43234,7 +43234,7 @@ impl Default for PacketZcItemidentifyList {
 
 impl PacketCzReqItemidentify {
     pub fn packet_id() -> &'static str {
-        "0x0178"
+        "0x7801"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqItemidentify {
         let mut offset: usize = 0;
@@ -43298,8 +43298,8 @@ impl PacketCzReqItemidentify {
     pub fn new() -> PacketCzReqItemidentify {
         PacketCzReqItemidentify {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x17, 0x8]),
-        packet_id_raw: [0x17, 0x8],
+        packet_id: i16::from_le_bytes([0x78, 0x01]),
+        packet_id_raw: [0x78, 0x01],
         index: 0,
         index_raw: [0; 2],
         }
@@ -43308,7 +43308,7 @@ impl PacketCzReqItemidentify {
 
 impl Packet for PacketCzReqItemidentify {
     fn id(&self) -> &str {
-       "0x0178"
+       "0x7801"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -43345,7 +43345,7 @@ impl Default for PacketCzReqItemidentify {
 
 impl PacketZcAckItemidentify {
     pub fn packet_id() -> &'static str {
-        "0x0179"
+        "0x7901"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckItemidentify {
         let mut offset: usize = 0;
@@ -43429,8 +43429,8 @@ impl PacketZcAckItemidentify {
     pub fn new() -> PacketZcAckItemidentify {
         PacketZcAckItemidentify {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x17, 0x9]),
-        packet_id_raw: [0x17, 0x9],
+        packet_id: i16::from_le_bytes([0x79, 0x01]),
+        packet_id_raw: [0x79, 0x01],
         index: 0,
         index_raw: [0; 2],
         result: 0,
@@ -43441,7 +43441,7 @@ impl PacketZcAckItemidentify {
 
 impl Packet for PacketZcAckItemidentify {
     fn id(&self) -> &str {
-       "0x0179"
+       "0x7901"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -43478,7 +43478,7 @@ impl Default for PacketZcAckItemidentify {
 
 impl PacketCzReqItemcompositionList {
     pub fn packet_id() -> &'static str {
-        "0x017a"
+        "0x7a01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqItemcompositionList {
         let mut offset: usize = 0;
@@ -43542,8 +43542,8 @@ impl PacketCzReqItemcompositionList {
     pub fn new() -> PacketCzReqItemcompositionList {
         PacketCzReqItemcompositionList {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x17, 0xa]),
-        packet_id_raw: [0x17, 0xa],
+        packet_id: i16::from_le_bytes([0x7a, 0x01]),
+        packet_id_raw: [0x7a, 0x01],
         card_index: 0,
         card_index_raw: [0; 2],
         }
@@ -43552,7 +43552,7 @@ impl PacketCzReqItemcompositionList {
 
 impl Packet for PacketCzReqItemcompositionList {
     fn id(&self) -> &str {
-       "0x017a"
+       "0x7a01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -43589,7 +43589,7 @@ impl Default for PacketCzReqItemcompositionList {
 
 impl PacketZcItemcompositionList {
     pub fn packet_id() -> &'static str {
-        "0x017b"
+        "0x7b01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcItemcompositionList {
         let mut offset: usize = 0;
@@ -43673,8 +43673,8 @@ impl PacketZcItemcompositionList {
     pub fn new() -> PacketZcItemcompositionList {
         PacketZcItemcompositionList {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x17, 0xb]),
-        packet_id_raw: [0x17, 0xb],
+        packet_id: i16::from_le_bytes([0x7b, 0x01]),
+        packet_id_raw: [0x7b, 0x01],
         packet_length: 0,
         packet_length_raw: [0; 2],
         itidlist: vec![],
@@ -43685,7 +43685,7 @@ impl PacketZcItemcompositionList {
 
 impl Packet for PacketZcItemcompositionList {
     fn id(&self) -> &str {
-       "0x017b"
+       "0x7b01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -43722,7 +43722,7 @@ impl Default for PacketZcItemcompositionList {
 
 impl PacketCzReqItemcomposition {
     pub fn packet_id() -> &'static str {
-        "0x017c"
+        "0x7c01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqItemcomposition {
         let mut offset: usize = 0;
@@ -43806,8 +43806,8 @@ impl PacketCzReqItemcomposition {
     pub fn new() -> PacketCzReqItemcomposition {
         PacketCzReqItemcomposition {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x17, 0xc]),
-        packet_id_raw: [0x17, 0xc],
+        packet_id: i16::from_le_bytes([0x7c, 0x01]),
+        packet_id_raw: [0x7c, 0x01],
         card_index: 0,
         card_index_raw: [0; 2],
         equip_index: 0,
@@ -43818,7 +43818,7 @@ impl PacketCzReqItemcomposition {
 
 impl Packet for PacketCzReqItemcomposition {
     fn id(&self) -> &str {
-       "0x017c"
+       "0x7c01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -43855,7 +43855,7 @@ impl Default for PacketCzReqItemcomposition {
 
 impl PacketZcAckItemcomposition {
     pub fn packet_id() -> &'static str {
-        "0x017d"
+        "0x7d01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckItemcomposition {
         let mut offset: usize = 0;
@@ -43959,8 +43959,8 @@ impl PacketZcAckItemcomposition {
     pub fn new() -> PacketZcAckItemcomposition {
         PacketZcAckItemcomposition {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x17, 0xd]),
-        packet_id_raw: [0x17, 0xd],
+        packet_id: i16::from_le_bytes([0x7d, 0x01]),
+        packet_id_raw: [0x7d, 0x01],
         equip_index: 0,
         equip_index_raw: [0; 2],
         card_index: 0,
@@ -43973,7 +43973,7 @@ impl PacketZcAckItemcomposition {
 
 impl Packet for PacketZcAckItemcomposition {
     fn id(&self) -> &str {
-       "0x017d"
+       "0x7d01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -44010,7 +44010,7 @@ impl Default for PacketZcAckItemcomposition {
 
 impl PacketCzGuildChat {
     pub fn packet_id() -> &'static str {
-        "0x017e"
+        "0x7e01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzGuildChat {
         let mut offset: usize = 0;
@@ -44091,8 +44091,8 @@ impl PacketCzGuildChat {
     pub fn new() -> PacketCzGuildChat {
         PacketCzGuildChat {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x17, 0xe]),
-        packet_id_raw: [0x17, 0xe],
+        packet_id: i16::from_le_bytes([0x7e, 0x01]),
+        packet_id_raw: [0x7e, 0x01],
         packet_length: 0,
         packet_length_raw: [0; 2],
         msg: String::new(),
@@ -44103,7 +44103,7 @@ impl PacketCzGuildChat {
 
 impl Packet for PacketCzGuildChat {
     fn id(&self) -> &str {
-       "0x017e"
+       "0x7e01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -44140,7 +44140,7 @@ impl Default for PacketCzGuildChat {
 
 impl PacketZcGuildChat {
     pub fn packet_id() -> &'static str {
-        "0x017f"
+        "0x7f01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcGuildChat {
         let mut offset: usize = 0;
@@ -44221,8 +44221,8 @@ impl PacketZcGuildChat {
     pub fn new() -> PacketZcGuildChat {
         PacketZcGuildChat {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x17, 0xf]),
-        packet_id_raw: [0x17, 0xf],
+        packet_id: i16::from_le_bytes([0x7f, 0x01]),
+        packet_id_raw: [0x7f, 0x01],
         packet_length: 0,
         packet_length_raw: [0; 2],
         msg: String::new(),
@@ -44233,7 +44233,7 @@ impl PacketZcGuildChat {
 
 impl Packet for PacketZcGuildChat {
     fn id(&self) -> &str {
-       "0x017f"
+       "0x7f01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -44270,7 +44270,7 @@ impl Default for PacketZcGuildChat {
 
 impl PacketCzReqHostileGuild {
     pub fn packet_id() -> &'static str {
-        "0x0180"
+        "0x8001"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqHostileGuild {
         let mut offset: usize = 0;
@@ -44334,8 +44334,8 @@ impl PacketCzReqHostileGuild {
     pub fn new() -> PacketCzReqHostileGuild {
         PacketCzReqHostileGuild {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x18, 0x0]),
-        packet_id_raw: [0x18, 0x0],
+        packet_id: i16::from_le_bytes([0x80, 0x01]),
+        packet_id_raw: [0x80, 0x01],
         aid: 0,
         aid_raw: [0; 4],
         }
@@ -44344,7 +44344,7 @@ impl PacketCzReqHostileGuild {
 
 impl Packet for PacketCzReqHostileGuild {
     fn id(&self) -> &str {
-       "0x0180"
+       "0x8001"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -44381,7 +44381,7 @@ impl Default for PacketCzReqHostileGuild {
 
 impl PacketZcAckReqHostileGuild {
     pub fn packet_id() -> &'static str {
-        "0x0181"
+        "0x8101"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckReqHostileGuild {
         let mut offset: usize = 0;
@@ -44445,8 +44445,8 @@ impl PacketZcAckReqHostileGuild {
     pub fn new() -> PacketZcAckReqHostileGuild {
         PacketZcAckReqHostileGuild {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x18, 0x1]),
-        packet_id_raw: [0x18, 0x1],
+        packet_id: i16::from_le_bytes([0x81, 0x01]),
+        packet_id_raw: [0x81, 0x01],
         result: 0,
         result_raw: [0; 1],
         }
@@ -44455,7 +44455,7 @@ impl PacketZcAckReqHostileGuild {
 
 impl Packet for PacketZcAckReqHostileGuild {
     fn id(&self) -> &str {
-       "0x0181"
+       "0x8101"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -44492,7 +44492,7 @@ impl Default for PacketZcAckReqHostileGuild {
 
 impl PacketZcMemberAdd {
     pub fn packet_id() -> &'static str {
-        "0x0182"
+        "0x8201"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMemberAdd {
         let mut offset: usize = 0;
@@ -44555,8 +44555,8 @@ impl PacketZcMemberAdd {
     pub fn new() -> PacketZcMemberAdd {
         PacketZcMemberAdd {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x18, 0x2]),
-        packet_id_raw: [0x18, 0x2],
+        packet_id: i16::from_le_bytes([0x82, 0x01]),
+        packet_id_raw: [0x82, 0x01],
         info: GuildMemberInfo::new(),
         info_raw: vec![],
         }
@@ -44565,7 +44565,7 @@ impl PacketZcMemberAdd {
 
 impl Packet for PacketZcMemberAdd {
     fn id(&self) -> &str {
-       "0x0182"
+       "0x8201"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -44602,7 +44602,7 @@ impl Default for PacketZcMemberAdd {
 
 impl PacketCzReqDeleteRelatedGuild {
     pub fn packet_id() -> &'static str {
-        "0x0183"
+        "0x8301"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqDeleteRelatedGuild {
         let mut offset: usize = 0;
@@ -44686,8 +44686,8 @@ impl PacketCzReqDeleteRelatedGuild {
     pub fn new() -> PacketCzReqDeleteRelatedGuild {
         PacketCzReqDeleteRelatedGuild {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x18, 0x3]),
-        packet_id_raw: [0x18, 0x3],
+        packet_id: i16::from_le_bytes([0x83, 0x01]),
+        packet_id_raw: [0x83, 0x01],
         opponent_gdid: 0,
         opponent_gdid_raw: [0; 4],
         relation: 0,
@@ -44698,7 +44698,7 @@ impl PacketCzReqDeleteRelatedGuild {
 
 impl Packet for PacketCzReqDeleteRelatedGuild {
     fn id(&self) -> &str {
-       "0x0183"
+       "0x8301"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -44735,7 +44735,7 @@ impl Default for PacketCzReqDeleteRelatedGuild {
 
 impl PacketZcDeleteRelatedGuild {
     pub fn packet_id() -> &'static str {
-        "0x0184"
+        "0x8401"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcDeleteRelatedGuild {
         let mut offset: usize = 0;
@@ -44819,8 +44819,8 @@ impl PacketZcDeleteRelatedGuild {
     pub fn new() -> PacketZcDeleteRelatedGuild {
         PacketZcDeleteRelatedGuild {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x18, 0x4]),
-        packet_id_raw: [0x18, 0x4],
+        packet_id: i16::from_le_bytes([0x84, 0x01]),
+        packet_id_raw: [0x84, 0x01],
         opponent_gdid: 0,
         opponent_gdid_raw: [0; 4],
         relation: 0,
@@ -44831,7 +44831,7 @@ impl PacketZcDeleteRelatedGuild {
 
 impl Packet for PacketZcDeleteRelatedGuild {
     fn id(&self) -> &str {
-       "0x0184"
+       "0x8401"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -44868,7 +44868,7 @@ impl Default for PacketZcDeleteRelatedGuild {
 
 impl PacketZcAddRelatedGuild {
     pub fn packet_id() -> &'static str {
-        "0x0185"
+        "0x8501"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAddRelatedGuild {
         let mut offset: usize = 0;
@@ -44931,8 +44931,8 @@ impl PacketZcAddRelatedGuild {
     pub fn new() -> PacketZcAddRelatedGuild {
         PacketZcAddRelatedGuild {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x18, 0x5]),
-        packet_id_raw: [0x18, 0x5],
+        packet_id: i16::from_le_bytes([0x85, 0x01]),
+        packet_id_raw: [0x85, 0x01],
         info: RelatedGuildInfo::new(),
         info_raw: vec![],
         }
@@ -44941,7 +44941,7 @@ impl PacketZcAddRelatedGuild {
 
 impl Packet for PacketZcAddRelatedGuild {
     fn id(&self) -> &str {
-       "0x0185"
+       "0x8501"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -44978,7 +44978,7 @@ impl Default for PacketZcAddRelatedGuild {
 
 impl PacketCollectordead {
     pub fn packet_id() -> &'static str {
-        "0x0186"
+        "0x8601"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCollectordead {
         let mut offset: usize = 0;
@@ -45042,8 +45042,8 @@ impl PacketCollectordead {
     pub fn new() -> PacketCollectordead {
         PacketCollectordead {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x18, 0x6]),
-        packet_id_raw: [0x18, 0x6],
+        packet_id: i16::from_le_bytes([0x86, 0x01]),
+        packet_id_raw: [0x86, 0x01],
         server_id: 0,
         server_id_raw: [0; 4],
         }
@@ -45052,7 +45052,7 @@ impl PacketCollectordead {
 
 impl Packet for PacketCollectordead {
     fn id(&self) -> &str {
-       "0x0186"
+       "0x8601"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -45089,7 +45089,7 @@ impl Default for PacketCollectordead {
 
 impl PacketPing {
     pub fn packet_id() -> &'static str {
-        "0x0187"
+        "0x8701"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketPing {
         let mut offset: usize = 0;
@@ -45153,8 +45153,8 @@ impl PacketPing {
     pub fn new() -> PacketPing {
         PacketPing {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x18, 0x7]),
-        packet_id_raw: [0x18, 0x7],
+        packet_id: i16::from_le_bytes([0x87, 0x01]),
+        packet_id_raw: [0x87, 0x01],
         aid: 0,
         aid_raw: [0; 4],
         }
@@ -45163,7 +45163,7 @@ impl PacketPing {
 
 impl Packet for PacketPing {
     fn id(&self) -> &str {
-       "0x0187"
+       "0x8701"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -45200,7 +45200,7 @@ impl Default for PacketPing {
 
 impl PacketZcAckItemrefining {
     pub fn packet_id() -> &'static str {
-        "0x0188"
+        "0x8801"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckItemrefining {
         let mut offset: usize = 0;
@@ -45304,8 +45304,8 @@ impl PacketZcAckItemrefining {
     pub fn new() -> PacketZcAckItemrefining {
         PacketZcAckItemrefining {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x18, 0x8]),
-        packet_id_raw: [0x18, 0x8],
+        packet_id: i16::from_le_bytes([0x88, 0x01]),
+        packet_id_raw: [0x88, 0x01],
         result: 0,
         result_raw: [0; 2],
         item_index: 0,
@@ -45318,7 +45318,7 @@ impl PacketZcAckItemrefining {
 
 impl Packet for PacketZcAckItemrefining {
     fn id(&self) -> &str {
-       "0x0188"
+       "0x8801"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -45355,7 +45355,7 @@ impl Default for PacketZcAckItemrefining {
 
 impl PacketZcNotifyMapinfo {
     pub fn packet_id() -> &'static str {
-        "0x0189"
+        "0x8901"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyMapinfo {
         let mut offset: usize = 0;
@@ -45419,8 +45419,8 @@ impl PacketZcNotifyMapinfo {
     pub fn new() -> PacketZcNotifyMapinfo {
         PacketZcNotifyMapinfo {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x18, 0x9]),
-        packet_id_raw: [0x18, 0x9],
+        packet_id: i16::from_le_bytes([0x89, 0x01]),
+        packet_id_raw: [0x89, 0x01],
         atype: 0,
         atype_raw: [0; 2],
         }
@@ -45429,7 +45429,7 @@ impl PacketZcNotifyMapinfo {
 
 impl Packet for PacketZcNotifyMapinfo {
     fn id(&self) -> &str {
-       "0x0189"
+       "0x8901"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -45466,7 +45466,7 @@ impl Default for PacketZcNotifyMapinfo {
 
 impl PacketCzReqDisconnect {
     pub fn packet_id() -> &'static str {
-        "0x018a"
+        "0x8a01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqDisconnect {
         let mut offset: usize = 0;
@@ -45530,8 +45530,8 @@ impl PacketCzReqDisconnect {
     pub fn new() -> PacketCzReqDisconnect {
         PacketCzReqDisconnect {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x18, 0xa]),
-        packet_id_raw: [0x18, 0xa],
+        packet_id: i16::from_le_bytes([0x8a, 0x01]),
+        packet_id_raw: [0x8a, 0x01],
         atype: 0,
         atype_raw: [0; 2],
         }
@@ -45540,7 +45540,7 @@ impl PacketCzReqDisconnect {
 
 impl Packet for PacketCzReqDisconnect {
     fn id(&self) -> &str {
-       "0x018a"
+       "0x8a01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -45577,7 +45577,7 @@ impl Default for PacketCzReqDisconnect {
 
 impl PacketZcAckReqDisconnect {
     pub fn packet_id() -> &'static str {
-        "0x018b"
+        "0x8b01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckReqDisconnect {
         let mut offset: usize = 0;
@@ -45641,8 +45641,8 @@ impl PacketZcAckReqDisconnect {
     pub fn new() -> PacketZcAckReqDisconnect {
         PacketZcAckReqDisconnect {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x18, 0xb]),
-        packet_id_raw: [0x18, 0xb],
+        packet_id: i16::from_le_bytes([0x8b, 0x01]),
+        packet_id_raw: [0x8b, 0x01],
         result: 0,
         result_raw: [0; 2],
         }
@@ -45651,7 +45651,7 @@ impl PacketZcAckReqDisconnect {
 
 impl Packet for PacketZcAckReqDisconnect {
     fn id(&self) -> &str {
-       "0x018b"
+       "0x8b01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -45688,7 +45688,7 @@ impl Default for PacketZcAckReqDisconnect {
 
 impl PacketZcMonsterInfo {
     pub fn packet_id() -> &'static str {
-        "0x018c"
+        "0x8c01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMonsterInfo {
         let mut offset: usize = 0;
@@ -45911,8 +45911,8 @@ impl PacketZcMonsterInfo {
     pub fn new() -> PacketZcMonsterInfo {
         PacketZcMonsterInfo {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x18, 0xc]),
-        packet_id_raw: [0x18, 0xc],
+        packet_id: i16::from_le_bytes([0x8c, 0x01]),
+        packet_id_raw: [0x8c, 0x01],
         job: 0,
         job_raw: [0; 2],
         level: 0,
@@ -45937,7 +45937,7 @@ impl PacketZcMonsterInfo {
 
 impl Packet for PacketZcMonsterInfo {
     fn id(&self) -> &str {
-       "0x018c"
+       "0x8c01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -45974,7 +45974,7 @@ impl Default for PacketZcMonsterInfo {
 
 impl PacketZcMakableitemlist {
     pub fn packet_id() -> &'static str {
-        "0x018d"
+        "0x8d01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMakableitemlist {
         let mut offset: usize = 0;
@@ -46057,8 +46057,8 @@ impl PacketZcMakableitemlist {
     pub fn new() -> PacketZcMakableitemlist {
         PacketZcMakableitemlist {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x18, 0xd]),
-        packet_id_raw: [0x18, 0xd],
+        packet_id: i16::from_le_bytes([0x8d, 0x01]),
+        packet_id_raw: [0x8d, 0x01],
         packet_length: 0,
         packet_length_raw: [0; 2],
         info: MakableitemInfo::new(),
@@ -46069,7 +46069,7 @@ impl PacketZcMakableitemlist {
 
 impl Packet for PacketZcMakableitemlist {
     fn id(&self) -> &str {
-       "0x018d"
+       "0x8d01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -46106,7 +46106,7 @@ impl Default for PacketZcMakableitemlist {
 
 impl PacketCzReqmakingitem {
     pub fn packet_id() -> &'static str {
-        "0x018e"
+        "0x8e01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqmakingitem {
         let mut offset: usize = 0;
@@ -46169,8 +46169,8 @@ impl PacketCzReqmakingitem {
     pub fn new() -> PacketCzReqmakingitem {
         PacketCzReqmakingitem {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x18, 0xe]),
-        packet_id_raw: [0x18, 0xe],
+        packet_id: i16::from_le_bytes([0x8e, 0x01]),
+        packet_id_raw: [0x8e, 0x01],
         info: MakableitemInfo::new(),
         info_raw: vec![],
         }
@@ -46179,7 +46179,7 @@ impl PacketCzReqmakingitem {
 
 impl Packet for PacketCzReqmakingitem {
     fn id(&self) -> &str {
-       "0x018e"
+       "0x8e01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -46216,7 +46216,7 @@ impl Default for PacketCzReqmakingitem {
 
 impl PacketZcAckReqmakingitem {
     pub fn packet_id() -> &'static str {
-        "0x018f"
+        "0x8f01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckReqmakingitem {
         let mut offset: usize = 0;
@@ -46300,8 +46300,8 @@ impl PacketZcAckReqmakingitem {
     pub fn new() -> PacketZcAckReqmakingitem {
         PacketZcAckReqmakingitem {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x18, 0xf]),
-        packet_id_raw: [0x18, 0xf],
+        packet_id: i16::from_le_bytes([0x8f, 0x01]),
+        packet_id_raw: [0x8f, 0x01],
         result: 0,
         result_raw: [0; 2],
         itid: 0,
@@ -46312,7 +46312,7 @@ impl PacketZcAckReqmakingitem {
 
 impl Packet for PacketZcAckReqmakingitem {
     fn id(&self) -> &str {
-       "0x018f"
+       "0x8f01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -46349,7 +46349,7 @@ impl Default for PacketZcAckReqmakingitem {
 
 impl PacketCzUseSkillTogroundWithtalkbox {
     pub fn packet_id() -> &'static str {
-        "0x0190"
+        "0x9001"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzUseSkillTogroundWithtalkbox {
         let mut offset: usize = 0;
@@ -46501,8 +46501,8 @@ impl PacketCzUseSkillTogroundWithtalkbox {
     pub fn new() -> PacketCzUseSkillTogroundWithtalkbox {
         PacketCzUseSkillTogroundWithtalkbox {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x19, 0x0]),
-        packet_id_raw: [0x19, 0x0],
+        packet_id: i16::from_le_bytes([0x90, 0x01]),
+        packet_id_raw: [0x90, 0x01],
         selected_level: 0,
         selected_level_raw: [0; 2],
         skid: 0,
@@ -46519,7 +46519,7 @@ impl PacketCzUseSkillTogroundWithtalkbox {
 
 impl Packet for PacketCzUseSkillTogroundWithtalkbox {
     fn id(&self) -> &str {
-       "0x0190"
+       "0x9001"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -46556,7 +46556,7 @@ impl Default for PacketCzUseSkillTogroundWithtalkbox {
 
 impl PacketZcTalkboxChatcontents {
     pub fn packet_id() -> &'static str {
-        "0x0191"
+        "0x9101"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcTalkboxChatcontents {
         let mut offset: usize = 0;
@@ -46648,8 +46648,8 @@ impl PacketZcTalkboxChatcontents {
     pub fn new() -> PacketZcTalkboxChatcontents {
         PacketZcTalkboxChatcontents {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x19, 0x1]),
-        packet_id_raw: [0x19, 0x1],
+        packet_id: i16::from_le_bytes([0x91, 0x01]),
+        packet_id_raw: [0x91, 0x01],
         aid: 0,
         aid_raw: [0; 4],
         contents: [0 as char; 80],
@@ -46660,7 +46660,7 @@ impl PacketZcTalkboxChatcontents {
 
 impl Packet for PacketZcTalkboxChatcontents {
     fn id(&self) -> &str {
-       "0x0191"
+       "0x9101"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -46697,7 +46697,7 @@ impl Default for PacketZcTalkboxChatcontents {
 
 impl PacketZcUpdateMapinfo {
     pub fn packet_id() -> &'static str {
-        "0x0192"
+        "0x9201"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcUpdateMapinfo {
         let mut offset: usize = 0;
@@ -46829,8 +46829,8 @@ impl PacketZcUpdateMapinfo {
     pub fn new() -> PacketZcUpdateMapinfo {
         PacketZcUpdateMapinfo {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x19, 0x2]),
-        packet_id_raw: [0x19, 0x2],
+        packet_id: i16::from_le_bytes([0x92, 0x01]),
+        packet_id_raw: [0x92, 0x01],
         x_pos: 0,
         x_pos_raw: [0; 2],
         y_pos: 0,
@@ -46845,7 +46845,7 @@ impl PacketZcUpdateMapinfo {
 
 impl Packet for PacketZcUpdateMapinfo {
     fn id(&self) -> &str {
-       "0x0192"
+       "0x9201"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -46882,7 +46882,7 @@ impl Default for PacketZcUpdateMapinfo {
 
 impl PacketCzReqnameBygid {
     pub fn packet_id() -> &'static str {
-        "0x0193"
+        "0x9301"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqnameBygid {
         let mut offset: usize = 0;
@@ -46946,8 +46946,8 @@ impl PacketCzReqnameBygid {
     pub fn new() -> PacketCzReqnameBygid {
         PacketCzReqnameBygid {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x19, 0x3]),
-        packet_id_raw: [0x19, 0x3],
+        packet_id: i16::from_le_bytes([0x93, 0x01]),
+        packet_id_raw: [0x93, 0x01],
         gid: 0,
         gid_raw: [0; 4],
         }
@@ -46956,7 +46956,7 @@ impl PacketCzReqnameBygid {
 
 impl Packet for PacketCzReqnameBygid {
     fn id(&self) -> &str {
-       "0x0193"
+       "0x9301"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -46993,7 +46993,7 @@ impl Default for PacketCzReqnameBygid {
 
 impl PacketZcAckReqnameBygid {
     pub fn packet_id() -> &'static str {
-        "0x0194"
+        "0x9401"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckReqnameBygid {
         let mut offset: usize = 0;
@@ -47085,8 +47085,8 @@ impl PacketZcAckReqnameBygid {
     pub fn new() -> PacketZcAckReqnameBygid {
         PacketZcAckReqnameBygid {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x19, 0x4]),
-        packet_id_raw: [0x19, 0x4],
+        packet_id: i16::from_le_bytes([0x94, 0x01]),
+        packet_id_raw: [0x94, 0x01],
         gid: 0,
         gid_raw: [0; 4],
         cname: [0 as char; 24],
@@ -47097,7 +47097,7 @@ impl PacketZcAckReqnameBygid {
 
 impl Packet for PacketZcAckReqnameBygid {
     fn id(&self) -> &str {
-       "0x0194"
+       "0x9401"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -47134,7 +47134,7 @@ impl Default for PacketZcAckReqnameBygid {
 
 impl PacketZcAckReqnameall {
     pub fn packet_id() -> &'static str {
-        "0x0195"
+        "0x9501"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckReqnameall {
         let mut offset: usize = 0;
@@ -47310,8 +47310,8 @@ impl PacketZcAckReqnameall {
     pub fn new() -> PacketZcAckReqnameall {
         PacketZcAckReqnameall {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x19, 0x5]),
-        packet_id_raw: [0x19, 0x5],
+        packet_id: i16::from_le_bytes([0x95, 0x01]),
+        packet_id_raw: [0x95, 0x01],
         aid: 0,
         aid_raw: [0; 4],
         cname: [0 as char; 24],
@@ -47328,7 +47328,7 @@ impl PacketZcAckReqnameall {
 
 impl Packet for PacketZcAckReqnameall {
     fn id(&self) -> &str {
-       "0x0195"
+       "0x9501"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -47365,7 +47365,7 @@ impl Default for PacketZcAckReqnameall {
 
 impl PacketZcMsgStateChange {
     pub fn packet_id() -> &'static str {
-        "0x0196"
+        "0x9601"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMsgStateChange {
         let mut offset: usize = 0;
@@ -47469,8 +47469,8 @@ impl PacketZcMsgStateChange {
     pub fn new() -> PacketZcMsgStateChange {
         PacketZcMsgStateChange {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x19, 0x6]),
-        packet_id_raw: [0x19, 0x6],
+        packet_id: i16::from_le_bytes([0x96, 0x01]),
+        packet_id_raw: [0x96, 0x01],
         index: 0,
         index_raw: [0; 2],
         aid: 0,
@@ -47483,7 +47483,7 @@ impl PacketZcMsgStateChange {
 
 impl Packet for PacketZcMsgStateChange {
     fn id(&self) -> &str {
-       "0x0196"
+       "0x9601"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -47520,7 +47520,7 @@ impl Default for PacketZcMsgStateChange {
 
 impl PacketCzReset {
     pub fn packet_id() -> &'static str {
-        "0x0197"
+        "0x9701"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReset {
         let mut offset: usize = 0;
@@ -47584,8 +47584,8 @@ impl PacketCzReset {
     pub fn new() -> PacketCzReset {
         PacketCzReset {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x19, 0x7]),
-        packet_id_raw: [0x19, 0x7],
+        packet_id: i16::from_le_bytes([0x97, 0x01]),
+        packet_id_raw: [0x97, 0x01],
         atype: 0,
         atype_raw: [0; 2],
         }
@@ -47594,7 +47594,7 @@ impl PacketCzReset {
 
 impl Packet for PacketCzReset {
     fn id(&self) -> &str {
-       "0x0197"
+       "0x9701"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -47631,7 +47631,7 @@ impl Default for PacketCzReset {
 
 impl PacketCzChangeMaptype {
     pub fn packet_id() -> &'static str {
-        "0x0198"
+        "0x9801"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzChangeMaptype {
         let mut offset: usize = 0;
@@ -47735,8 +47735,8 @@ impl PacketCzChangeMaptype {
     pub fn new() -> PacketCzChangeMaptype {
         PacketCzChangeMaptype {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x19, 0x8]),
-        packet_id_raw: [0x19, 0x8],
+        packet_id: i16::from_le_bytes([0x98, 0x01]),
+        packet_id_raw: [0x98, 0x01],
         x_pos: 0,
         x_pos_raw: [0; 2],
         y_pos: 0,
@@ -47749,7 +47749,7 @@ impl PacketCzChangeMaptype {
 
 impl Packet for PacketCzChangeMaptype {
     fn id(&self) -> &str {
-       "0x0198"
+       "0x9801"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -47786,7 +47786,7 @@ impl Default for PacketCzChangeMaptype {
 
 impl PacketZcNotifyMapproperty {
     pub fn packet_id() -> &'static str {
-        "0x0199"
+        "0x9901"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyMapproperty {
         let mut offset: usize = 0;
@@ -47850,8 +47850,8 @@ impl PacketZcNotifyMapproperty {
     pub fn new() -> PacketZcNotifyMapproperty {
         PacketZcNotifyMapproperty {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x19, 0x9]),
-        packet_id_raw: [0x19, 0x9],
+        packet_id: i16::from_le_bytes([0x99, 0x01]),
+        packet_id_raw: [0x99, 0x01],
         atype: 0,
         atype_raw: [0; 2],
         }
@@ -47860,7 +47860,7 @@ impl PacketZcNotifyMapproperty {
 
 impl Packet for PacketZcNotifyMapproperty {
     fn id(&self) -> &str {
-       "0x0199"
+       "0x9901"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -47897,7 +47897,7 @@ impl Default for PacketZcNotifyMapproperty {
 
 impl PacketZcNotifyRanking {
     pub fn packet_id() -> &'static str {
-        "0x019a"
+        "0x9a01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyRanking {
         let mut offset: usize = 0;
@@ -48001,8 +48001,8 @@ impl PacketZcNotifyRanking {
     pub fn new() -> PacketZcNotifyRanking {
         PacketZcNotifyRanking {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x19, 0xa]),
-        packet_id_raw: [0x19, 0xa],
+        packet_id: i16::from_le_bytes([0x9a, 0x01]),
+        packet_id_raw: [0x9a, 0x01],
         aid: 0,
         aid_raw: [0; 4],
         ranking: 0,
@@ -48015,7 +48015,7 @@ impl PacketZcNotifyRanking {
 
 impl Packet for PacketZcNotifyRanking {
     fn id(&self) -> &str {
-       "0x019a"
+       "0x9a01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -48052,7 +48052,7 @@ impl Default for PacketZcNotifyRanking {
 
 impl PacketZcNotifyEffect {
     pub fn packet_id() -> &'static str {
-        "0x019b"
+        "0x9b01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyEffect {
         let mut offset: usize = 0;
@@ -48136,8 +48136,8 @@ impl PacketZcNotifyEffect {
     pub fn new() -> PacketZcNotifyEffect {
         PacketZcNotifyEffect {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x19, 0xb]),
-        packet_id_raw: [0x19, 0xb],
+        packet_id: i16::from_le_bytes([0x9b, 0x01]),
+        packet_id_raw: [0x9b, 0x01],
         aid: 0,
         aid_raw: [0; 4],
         effect_id: 0,
@@ -48148,7 +48148,7 @@ impl PacketZcNotifyEffect {
 
 impl Packet for PacketZcNotifyEffect {
     fn id(&self) -> &str {
-       "0x019b"
+       "0x9b01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -48185,7 +48185,7 @@ impl Default for PacketZcNotifyEffect {
 
 impl PacketCzChangeEffectstate {
     pub fn packet_id() -> &'static str {
-        "0x019d"
+        "0x9d01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzChangeEffectstate {
         let mut offset: usize = 0;
@@ -48249,8 +48249,8 @@ impl PacketCzChangeEffectstate {
     pub fn new() -> PacketCzChangeEffectstate {
         PacketCzChangeEffectstate {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x19, 0xd]),
-        packet_id_raw: [0x19, 0xd],
+        packet_id: i16::from_le_bytes([0x9d, 0x01]),
+        packet_id_raw: [0x9d, 0x01],
         effect_state: 0,
         effect_state_raw: [0; 4],
         }
@@ -48259,7 +48259,7 @@ impl PacketCzChangeEffectstate {
 
 impl Packet for PacketCzChangeEffectstate {
     fn id(&self) -> &str {
-       "0x019d"
+       "0x9d01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -48296,7 +48296,7 @@ impl Default for PacketCzChangeEffectstate {
 
 impl PacketZcStartCapture {
     pub fn packet_id() -> &'static str {
-        "0x019e"
+        "0x9e01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcStartCapture {
         let mut offset: usize = 0;
@@ -48340,15 +48340,15 @@ impl PacketZcStartCapture {
     pub fn new() -> PacketZcStartCapture {
         PacketZcStartCapture {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x19, 0xe]),
-        packet_id_raw: [0x19, 0xe],
+        packet_id: i16::from_le_bytes([0x9e, 0x01]),
+        packet_id_raw: [0x9e, 0x01],
         }
     }
 }
 
 impl Packet for PacketZcStartCapture {
     fn id(&self) -> &str {
-       "0x019e"
+       "0x9e01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -48385,7 +48385,7 @@ impl Default for PacketZcStartCapture {
 
 impl PacketCzTrycaptureMonster {
     pub fn packet_id() -> &'static str {
-        "0x019f"
+        "0x9f01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzTrycaptureMonster {
         let mut offset: usize = 0;
@@ -48449,8 +48449,8 @@ impl PacketCzTrycaptureMonster {
     pub fn new() -> PacketCzTrycaptureMonster {
         PacketCzTrycaptureMonster {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x19, 0xf]),
-        packet_id_raw: [0x19, 0xf],
+        packet_id: i16::from_le_bytes([0x9f, 0x01]),
+        packet_id_raw: [0x9f, 0x01],
         target_aid: 0,
         target_aid_raw: [0; 4],
         }
@@ -48459,7 +48459,7 @@ impl PacketCzTrycaptureMonster {
 
 impl Packet for PacketCzTrycaptureMonster {
     fn id(&self) -> &str {
-       "0x019f"
+       "0x9f01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -48496,7 +48496,7 @@ impl Default for PacketCzTrycaptureMonster {
 
 impl PacketZcTrycaptureMonster {
     pub fn packet_id() -> &'static str {
-        "0x01a0"
+        "0xa001"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcTrycaptureMonster {
         let mut offset: usize = 0;
@@ -48560,8 +48560,8 @@ impl PacketZcTrycaptureMonster {
     pub fn new() -> PacketZcTrycaptureMonster {
         PacketZcTrycaptureMonster {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1a, 0x0]),
-        packet_id_raw: [0x1a, 0x0],
+        packet_id: i16::from_le_bytes([0xa0, 0x01]),
+        packet_id_raw: [0xa0, 0x01],
         result: 0,
         result_raw: [0; 1],
         }
@@ -48570,7 +48570,7 @@ impl PacketZcTrycaptureMonster {
 
 impl Packet for PacketZcTrycaptureMonster {
     fn id(&self) -> &str {
-       "0x01a0"
+       "0xa001"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -48607,7 +48607,7 @@ impl Default for PacketZcTrycaptureMonster {
 
 impl PacketCzCommandPet {
     pub fn packet_id() -> &'static str {
-        "0x01a1"
+        "0xa101"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzCommandPet {
         let mut offset: usize = 0;
@@ -48671,8 +48671,8 @@ impl PacketCzCommandPet {
     pub fn new() -> PacketCzCommandPet {
         PacketCzCommandPet {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1a, 0x1]),
-        packet_id_raw: [0x1a, 0x1],
+        packet_id: i16::from_le_bytes([0xa1, 0x01]),
+        packet_id_raw: [0xa1, 0x01],
         c_sub: 0,
         c_sub_raw: [0; 1],
         }
@@ -48681,7 +48681,7 @@ impl PacketCzCommandPet {
 
 impl Packet for PacketCzCommandPet {
     fn id(&self) -> &str {
-       "0x01a1"
+       "0xa101"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -48718,7 +48718,7 @@ impl Default for PacketCzCommandPet {
 
 impl PacketZcPropertyPet {
     pub fn packet_id() -> &'static str {
-        "0x01a2"
+        "0xa201"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPropertyPet {
         let mut offset: usize = 0;
@@ -48910,8 +48910,8 @@ impl PacketZcPropertyPet {
     pub fn new() -> PacketZcPropertyPet {
         PacketZcPropertyPet {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1a, 0x2]),
-        packet_id_raw: [0x1a, 0x2],
+        packet_id: i16::from_le_bytes([0xa2, 0x01]),
+        packet_id_raw: [0xa2, 0x01],
         sz_name: [0 as char; 24],
         sz_name_raw: [0; 24],
         b_modified: 0,
@@ -48932,7 +48932,7 @@ impl PacketZcPropertyPet {
 
 impl Packet for PacketZcPropertyPet {
     fn id(&self) -> &str {
-       "0x01a2"
+       "0xa201"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -48969,7 +48969,7 @@ impl Default for PacketZcPropertyPet {
 
 impl PacketZcFeedPet {
     pub fn packet_id() -> &'static str {
-        "0x01a3"
+        "0xa301"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcFeedPet {
         let mut offset: usize = 0;
@@ -49053,8 +49053,8 @@ impl PacketZcFeedPet {
     pub fn new() -> PacketZcFeedPet {
         PacketZcFeedPet {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1a, 0x3]),
-        packet_id_raw: [0x1a, 0x3],
+        packet_id: i16::from_le_bytes([0xa3, 0x01]),
+        packet_id_raw: [0xa3, 0x01],
         c_ret: 0,
         c_ret_raw: [0; 1],
         itid: 0,
@@ -49065,7 +49065,7 @@ impl PacketZcFeedPet {
 
 impl Packet for PacketZcFeedPet {
     fn id(&self) -> &str {
-       "0x01a3"
+       "0xa301"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -49102,7 +49102,7 @@ impl Default for PacketZcFeedPet {
 
 impl PacketZcChangestatePet {
     pub fn packet_id() -> &'static str {
-        "0x01a4"
+        "0xa401"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcChangestatePet {
         let mut offset: usize = 0;
@@ -49206,8 +49206,8 @@ impl PacketZcChangestatePet {
     pub fn new() -> PacketZcChangestatePet {
         PacketZcChangestatePet {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1a, 0x4]),
-        packet_id_raw: [0x1a, 0x4],
+        packet_id: i16::from_le_bytes([0xa4, 0x01]),
+        packet_id_raw: [0xa4, 0x01],
         atype: 0,
         atype_raw: [0; 1],
         gid: 0,
@@ -49220,7 +49220,7 @@ impl PacketZcChangestatePet {
 
 impl Packet for PacketZcChangestatePet {
     fn id(&self) -> &str {
-       "0x01a4"
+       "0xa401"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -49257,7 +49257,7 @@ impl Default for PacketZcChangestatePet {
 
 impl PacketCzRenamePet {
     pub fn packet_id() -> &'static str {
-        "0x01a5"
+        "0xa501"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzRenamePet {
         let mut offset: usize = 0;
@@ -49329,8 +49329,8 @@ impl PacketCzRenamePet {
     pub fn new() -> PacketCzRenamePet {
         PacketCzRenamePet {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1a, 0x5]),
-        packet_id_raw: [0x1a, 0x5],
+        packet_id: i16::from_le_bytes([0xa5, 0x01]),
+        packet_id_raw: [0xa5, 0x01],
         sz_name: [0 as char; 24],
         sz_name_raw: [0; 24],
         }
@@ -49339,7 +49339,7 @@ impl PacketCzRenamePet {
 
 impl Packet for PacketCzRenamePet {
     fn id(&self) -> &str {
-       "0x01a5"
+       "0xa501"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -49376,7 +49376,7 @@ impl Default for PacketCzRenamePet {
 
 impl PacketZcPeteggList {
     pub fn packet_id() -> &'static str {
-        "0x01a6"
+        "0xa601"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPeteggList {
         let mut offset: usize = 0;
@@ -49472,8 +49472,8 @@ impl PacketZcPeteggList {
     pub fn new() -> PacketZcPeteggList {
         PacketZcPeteggList {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1a, 0x6]),
-        packet_id_raw: [0x1a, 0x6],
+        packet_id: i16::from_le_bytes([0xa6, 0x01]),
+        packet_id_raw: [0xa6, 0x01],
         packet_length: 0,
         packet_length_raw: [0; 2],
         egg_list: vec![],
@@ -49484,7 +49484,7 @@ impl PacketZcPeteggList {
 
 impl Packet for PacketZcPeteggList {
     fn id(&self) -> &str {
-       "0x01a6"
+       "0xa601"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -49521,7 +49521,7 @@ impl Default for PacketZcPeteggList {
 
 impl PacketCzSelectPetegg {
     pub fn packet_id() -> &'static str {
-        "0x01a7"
+        "0xa701"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzSelectPetegg {
         let mut offset: usize = 0;
@@ -49585,8 +49585,8 @@ impl PacketCzSelectPetegg {
     pub fn new() -> PacketCzSelectPetegg {
         PacketCzSelectPetegg {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1a, 0x7]),
-        packet_id_raw: [0x1a, 0x7],
+        packet_id: i16::from_le_bytes([0xa7, 0x01]),
+        packet_id_raw: [0xa7, 0x01],
         index: 0,
         index_raw: [0; 2],
         }
@@ -49595,7 +49595,7 @@ impl PacketCzSelectPetegg {
 
 impl Packet for PacketCzSelectPetegg {
     fn id(&self) -> &str {
-       "0x01a7"
+       "0xa701"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -49632,7 +49632,7 @@ impl Default for PacketCzSelectPetegg {
 
 impl PacketCzPeteggInfo {
     pub fn packet_id() -> &'static str {
-        "0x01a8"
+        "0xa801"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzPeteggInfo {
         let mut offset: usize = 0;
@@ -49696,8 +49696,8 @@ impl PacketCzPeteggInfo {
     pub fn new() -> PacketCzPeteggInfo {
         PacketCzPeteggInfo {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1a, 0x8]),
-        packet_id_raw: [0x1a, 0x8],
+        packet_id: i16::from_le_bytes([0xa8, 0x01]),
+        packet_id_raw: [0xa8, 0x01],
         index: 0,
         index_raw: [0; 2],
         }
@@ -49706,7 +49706,7 @@ impl PacketCzPeteggInfo {
 
 impl Packet for PacketCzPeteggInfo {
     fn id(&self) -> &str {
-       "0x01a8"
+       "0xa801"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -49743,7 +49743,7 @@ impl Default for PacketCzPeteggInfo {
 
 impl PacketCzPetAct {
     pub fn packet_id() -> &'static str {
-        "0x01a9"
+        "0xa901"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzPetAct {
         let mut offset: usize = 0;
@@ -49807,8 +49807,8 @@ impl PacketCzPetAct {
     pub fn new() -> PacketCzPetAct {
         PacketCzPetAct {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1a, 0x9]),
-        packet_id_raw: [0x1a, 0x9],
+        packet_id: i16::from_le_bytes([0xa9, 0x01]),
+        packet_id_raw: [0xa9, 0x01],
         data: 0,
         data_raw: [0; 4],
         }
@@ -49817,7 +49817,7 @@ impl PacketCzPetAct {
 
 impl Packet for PacketCzPetAct {
     fn id(&self) -> &str {
-       "0x01a9"
+       "0xa901"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -49854,7 +49854,7 @@ impl Default for PacketCzPetAct {
 
 impl PacketZcPetAct {
     pub fn packet_id() -> &'static str {
-        "0x01aa"
+        "0xaa01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPetAct {
         let mut offset: usize = 0;
@@ -49938,8 +49938,8 @@ impl PacketZcPetAct {
     pub fn new() -> PacketZcPetAct {
         PacketZcPetAct {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1a, 0xa]),
-        packet_id_raw: [0x1a, 0xa],
+        packet_id: i16::from_le_bytes([0xaa, 0x01]),
+        packet_id_raw: [0xaa, 0x01],
         gid: 0,
         gid_raw: [0; 4],
         data: 0,
@@ -49950,7 +49950,7 @@ impl PacketZcPetAct {
 
 impl Packet for PacketZcPetAct {
     fn id(&self) -> &str {
-       "0x01aa"
+       "0xaa01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -49987,7 +49987,7 @@ impl Default for PacketZcPetAct {
 
 impl PacketZcParChangeUser {
     pub fn packet_id() -> &'static str {
-        "0x01ab"
+        "0xab01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcParChangeUser {
         let mut offset: usize = 0;
@@ -50091,8 +50091,8 @@ impl PacketZcParChangeUser {
     pub fn new() -> PacketZcParChangeUser {
         PacketZcParChangeUser {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1a, 0xb]),
-        packet_id_raw: [0x1a, 0xb],
+        packet_id: i16::from_le_bytes([0xab, 0x01]),
+        packet_id_raw: [0xab, 0x01],
         aid: 0,
         aid_raw: [0; 4],
         var_id: 0,
@@ -50105,7 +50105,7 @@ impl PacketZcParChangeUser {
 
 impl Packet for PacketZcParChangeUser {
     fn id(&self) -> &str {
-       "0x01ab"
+       "0xab01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -50142,7 +50142,7 @@ impl Default for PacketZcParChangeUser {
 
 impl PacketZcSkillUpdate {
     pub fn packet_id() -> &'static str {
-        "0x01ac"
+        "0xac01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSkillUpdate {
         let mut offset: usize = 0;
@@ -50206,8 +50206,8 @@ impl PacketZcSkillUpdate {
     pub fn new() -> PacketZcSkillUpdate {
         PacketZcSkillUpdate {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1a, 0xc]),
-        packet_id_raw: [0x1a, 0xc],
+        packet_id: i16::from_le_bytes([0xac, 0x01]),
+        packet_id_raw: [0xac, 0x01],
         aid: 0,
         aid_raw: [0; 4],
         }
@@ -50216,7 +50216,7 @@ impl PacketZcSkillUpdate {
 
 impl Packet for PacketZcSkillUpdate {
     fn id(&self) -> &str {
-       "0x01ac"
+       "0xac01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -50253,7 +50253,7 @@ impl Default for PacketZcSkillUpdate {
 
 impl PacketZcMakingarrowList {
     pub fn packet_id() -> &'static str {
-        "0x01ad"
+        "0xad01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMakingarrowList {
         let mut offset: usize = 0;
@@ -50349,8 +50349,8 @@ impl PacketZcMakingarrowList {
     pub fn new() -> PacketZcMakingarrowList {
         PacketZcMakingarrowList {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1a, 0xd]),
-        packet_id_raw: [0x1a, 0xd],
+        packet_id: i16::from_le_bytes([0xad, 0x01]),
+        packet_id_raw: [0xad, 0x01],
         packet_length: 0,
         packet_length_raw: [0; 2],
         arrow_list: vec![],
@@ -50361,7 +50361,7 @@ impl PacketZcMakingarrowList {
 
 impl Packet for PacketZcMakingarrowList {
     fn id(&self) -> &str {
-       "0x01ad"
+       "0xad01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -50398,7 +50398,7 @@ impl Default for PacketZcMakingarrowList {
 
 impl PacketCzReqMakingarrow {
     pub fn packet_id() -> &'static str {
-        "0x01ae"
+        "0xae01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqMakingarrow {
         let mut offset: usize = 0;
@@ -50462,8 +50462,8 @@ impl PacketCzReqMakingarrow {
     pub fn new() -> PacketCzReqMakingarrow {
         PacketCzReqMakingarrow {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1a, 0xe]),
-        packet_id_raw: [0x1a, 0xe],
+        packet_id: i16::from_le_bytes([0xae, 0x01]),
+        packet_id_raw: [0xae, 0x01],
         id: 0,
         id_raw: [0; 2],
         }
@@ -50472,7 +50472,7 @@ impl PacketCzReqMakingarrow {
 
 impl Packet for PacketCzReqMakingarrow {
     fn id(&self) -> &str {
-       "0x01ae"
+       "0xae01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -50509,7 +50509,7 @@ impl Default for PacketCzReqMakingarrow {
 
 impl PacketCzReqChangecart {
     pub fn packet_id() -> &'static str {
-        "0x01af"
+        "0xaf01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqChangecart {
         let mut offset: usize = 0;
@@ -50573,8 +50573,8 @@ impl PacketCzReqChangecart {
     pub fn new() -> PacketCzReqChangecart {
         PacketCzReqChangecart {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1a, 0xf]),
-        packet_id_raw: [0x1a, 0xf],
+        packet_id: i16::from_le_bytes([0xaf, 0x01]),
+        packet_id_raw: [0xaf, 0x01],
         num: 0,
         num_raw: [0; 2],
         }
@@ -50583,7 +50583,7 @@ impl PacketCzReqChangecart {
 
 impl Packet for PacketCzReqChangecart {
     fn id(&self) -> &str {
-       "0x01af"
+       "0xaf01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -50620,7 +50620,7 @@ impl Default for PacketCzReqChangecart {
 
 impl PacketZcNpcspriteChange {
     pub fn packet_id() -> &'static str {
-        "0x01b0"
+        "0xb001"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNpcspriteChange {
         let mut offset: usize = 0;
@@ -50724,8 +50724,8 @@ impl PacketZcNpcspriteChange {
     pub fn new() -> PacketZcNpcspriteChange {
         PacketZcNpcspriteChange {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1b, 0x0]),
-        packet_id_raw: [0x1b, 0x0],
+        packet_id: i16::from_le_bytes([0xb0, 0x01]),
+        packet_id_raw: [0xb0, 0x01],
         gid: 0,
         gid_raw: [0; 4],
         atype: 0,
@@ -50738,7 +50738,7 @@ impl PacketZcNpcspriteChange {
 
 impl Packet for PacketZcNpcspriteChange {
     fn id(&self) -> &str {
-       "0x01b0"
+       "0xb001"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -50775,7 +50775,7 @@ impl Default for PacketZcNpcspriteChange {
 
 impl PacketZcShowdigit {
     pub fn packet_id() -> &'static str {
-        "0x01b1"
+        "0xb101"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcShowdigit {
         let mut offset: usize = 0;
@@ -50859,8 +50859,8 @@ impl PacketZcShowdigit {
     pub fn new() -> PacketZcShowdigit {
         PacketZcShowdigit {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1b, 0x1]),
-        packet_id_raw: [0x1b, 0x1],
+        packet_id: i16::from_le_bytes([0xb1, 0x01]),
+        packet_id_raw: [0xb1, 0x01],
         atype: 0,
         atype_raw: [0; 1],
         value: 0,
@@ -50871,7 +50871,7 @@ impl PacketZcShowdigit {
 
 impl Packet for PacketZcShowdigit {
     fn id(&self) -> &str {
-       "0x01b1"
+       "0xb101"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -50908,7 +50908,7 @@ impl Default for PacketZcShowdigit {
 
 impl PacketCzReqOpenstore2 {
     pub fn packet_id() -> &'static str {
-        "0x01b2"
+        "0xb201"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqOpenstore2 {
         let mut offset: usize = 0;
@@ -51052,8 +51052,8 @@ impl PacketCzReqOpenstore2 {
     pub fn new() -> PacketCzReqOpenstore2 {
         PacketCzReqOpenstore2 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1b, 0x2]),
-        packet_id_raw: [0x1b, 0x2],
+        packet_id: i16::from_le_bytes([0xb2, 0x01]),
+        packet_id_raw: [0xb2, 0x01],
         packet_length: 0,
         packet_length_raw: [0; 2],
         store_name: [0 as char; 80],
@@ -51068,7 +51068,7 @@ impl PacketCzReqOpenstore2 {
 
 impl Packet for PacketCzReqOpenstore2 {
     fn id(&self) -> &str {
-       "0x01b2"
+       "0xb201"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -51105,7 +51105,7 @@ impl Default for PacketCzReqOpenstore2 {
 
 impl PacketZcShowImage2 {
     pub fn packet_id() -> &'static str {
-        "0xb301"
+        "0x01b3"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcShowImage2 {
         let mut offset: usize = 0;
@@ -51197,8 +51197,8 @@ impl PacketZcShowImage2 {
     pub fn new() -> PacketZcShowImage2 {
         PacketZcShowImage2 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xb3, 0x01]),
-        packet_id_raw: [0xb3, 0x01],
+        packet_id: i16::from_le_bytes([0x01, 0xb3]),
+        packet_id_raw: [0x01, 0xb3],
         image_name: [0 as char; 64],
         image_name_raw: [0; 64],
         atype: 0,
@@ -51209,7 +51209,7 @@ impl PacketZcShowImage2 {
 
 impl Packet for PacketZcShowImage2 {
     fn id(&self) -> &str {
-       "0xb301"
+       "0x01b3"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -51246,7 +51246,7 @@ impl Default for PacketZcShowImage2 {
 
 impl PacketZcChangeGuild {
     pub fn packet_id() -> &'static str {
-        "0x01b4"
+        "0xb401"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcChangeGuild {
         let mut offset: usize = 0;
@@ -51350,8 +51350,8 @@ impl PacketZcChangeGuild {
     pub fn new() -> PacketZcChangeGuild {
         PacketZcChangeGuild {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1b, 0x4]),
-        packet_id_raw: [0x1b, 0x4],
+        packet_id: i16::from_le_bytes([0xb4, 0x01]),
+        packet_id_raw: [0xb4, 0x01],
         aid: 0,
         aid_raw: [0; 4],
         gdid: 0,
@@ -51364,7 +51364,7 @@ impl PacketZcChangeGuild {
 
 impl Packet for PacketZcChangeGuild {
     fn id(&self) -> &str {
-       "0x01b4"
+       "0xb401"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -51401,7 +51401,7 @@ impl Default for PacketZcChangeGuild {
 
 impl PacketScBillingInfo {
     pub fn packet_id() -> &'static str {
-        "0x01b5"
+        "0xb501"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketScBillingInfo {
         let mut offset: usize = 0;
@@ -51525,8 +51525,8 @@ impl PacketScBillingInfo {
     pub fn new() -> PacketScBillingInfo {
         PacketScBillingInfo {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1b, 0x5]),
-        packet_id_raw: [0x1b, 0x5],
+        packet_id: i16::from_le_bytes([0xb5, 0x01]),
+        packet_id_raw: [0xb5, 0x01],
         dw_amount_remain: 0,
         dw_amount_remain_raw: [0; 4],
         dw_quantity_remain: 0,
@@ -51541,7 +51541,7 @@ impl PacketScBillingInfo {
 
 impl Packet for PacketScBillingInfo {
     fn id(&self) -> &str {
-       "0x01b5"
+       "0xb501"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -51578,7 +51578,7 @@ impl Default for PacketScBillingInfo {
 
 impl PacketZcGuildInfo2 {
     pub fn packet_id() -> &'static str {
-        "0x01b6"
+        "0xb601"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcGuildInfo2 {
         let mut offset: usize = 0;
@@ -51946,8 +51946,8 @@ impl PacketZcGuildInfo2 {
     pub fn new() -> PacketZcGuildInfo2 {
         PacketZcGuildInfo2 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1b, 0x6]),
-        packet_id_raw: [0x1b, 0x6],
+        packet_id: i16::from_le_bytes([0xb6, 0x01]),
+        packet_id_raw: [0xb6, 0x01],
         gdid: 0,
         gdid_raw: [0; 4],
         level: 0,
@@ -51984,7 +51984,7 @@ impl PacketZcGuildInfo2 {
 
 impl Packet for PacketZcGuildInfo2 {
     fn id(&self) -> &str {
-       "0x01b6"
+       "0xb601"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -52021,7 +52021,7 @@ impl Default for PacketZcGuildInfo2 {
 
 impl PacketCzGuildZeny {
     pub fn packet_id() -> &'static str {
-        "0x01b7"
+        "0xb701"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzGuildZeny {
         let mut offset: usize = 0;
@@ -52085,8 +52085,8 @@ impl PacketCzGuildZeny {
     pub fn new() -> PacketCzGuildZeny {
         PacketCzGuildZeny {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1b, 0x7]),
-        packet_id_raw: [0x1b, 0x7],
+        packet_id: i16::from_le_bytes([0xb7, 0x01]),
+        packet_id_raw: [0xb7, 0x01],
         zeny: 0,
         zeny_raw: [0; 4],
         }
@@ -52095,7 +52095,7 @@ impl PacketCzGuildZeny {
 
 impl Packet for PacketCzGuildZeny {
     fn id(&self) -> &str {
-       "0x01b7"
+       "0xb701"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -52132,7 +52132,7 @@ impl Default for PacketCzGuildZeny {
 
 impl PacketZcGuildZenyAck {
     pub fn packet_id() -> &'static str {
-        "0x01b8"
+        "0xb801"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcGuildZenyAck {
         let mut offset: usize = 0;
@@ -52196,8 +52196,8 @@ impl PacketZcGuildZenyAck {
     pub fn new() -> PacketZcGuildZenyAck {
         PacketZcGuildZenyAck {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1b, 0x8]),
-        packet_id_raw: [0x1b, 0x8],
+        packet_id: i16::from_le_bytes([0xb8, 0x01]),
+        packet_id_raw: [0xb8, 0x01],
         ret: 0,
         ret_raw: [0; 1],
         }
@@ -52206,7 +52206,7 @@ impl PacketZcGuildZenyAck {
 
 impl Packet for PacketZcGuildZenyAck {
     fn id(&self) -> &str {
-       "0x01b8"
+       "0xb801"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -52243,7 +52243,7 @@ impl Default for PacketZcGuildZenyAck {
 
 impl PacketZcDispel {
     pub fn packet_id() -> &'static str {
-        "0x01b9"
+        "0xb901"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcDispel {
         let mut offset: usize = 0;
@@ -52307,8 +52307,8 @@ impl PacketZcDispel {
     pub fn new() -> PacketZcDispel {
         PacketZcDispel {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1b, 0x9]),
-        packet_id_raw: [0x1b, 0x9],
+        packet_id: i16::from_le_bytes([0xb9, 0x01]),
+        packet_id_raw: [0xb9, 0x01],
         aid: 0,
         aid_raw: [0; 4],
         }
@@ -52317,7 +52317,7 @@ impl PacketZcDispel {
 
 impl Packet for PacketZcDispel {
     fn id(&self) -> &str {
-       "0x01b9"
+       "0xb901"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -52354,7 +52354,7 @@ impl Default for PacketZcDispel {
 
 impl PacketCzRemoveAid {
     pub fn packet_id() -> &'static str {
-        "0x01ba"
+        "0xba01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzRemoveAid {
         let mut offset: usize = 0;
@@ -52426,8 +52426,8 @@ impl PacketCzRemoveAid {
     pub fn new() -> PacketCzRemoveAid {
         PacketCzRemoveAid {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1b, 0xa]),
-        packet_id_raw: [0x1b, 0xa],
+        packet_id: i16::from_le_bytes([0xba, 0x01]),
+        packet_id_raw: [0xba, 0x01],
         account_name: [0 as char; 24],
         account_name_raw: [0; 24],
         }
@@ -52436,7 +52436,7 @@ impl PacketCzRemoveAid {
 
 impl Packet for PacketCzRemoveAid {
     fn id(&self) -> &str {
-       "0x01ba"
+       "0xba01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -52473,7 +52473,7 @@ impl Default for PacketCzRemoveAid {
 
 impl PacketCzShift {
     pub fn packet_id() -> &'static str {
-        "0x01bb"
+        "0xbb01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzShift {
         let mut offset: usize = 0;
@@ -52545,8 +52545,8 @@ impl PacketCzShift {
     pub fn new() -> PacketCzShift {
         PacketCzShift {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1b, 0xb]),
-        packet_id_raw: [0x1b, 0xb],
+        packet_id: i16::from_le_bytes([0xbb, 0x01]),
+        packet_id_raw: [0xbb, 0x01],
         character_name: [0 as char; 24],
         character_name_raw: [0; 24],
         }
@@ -52555,7 +52555,7 @@ impl PacketCzShift {
 
 impl Packet for PacketCzShift {
     fn id(&self) -> &str {
-       "0x01bb"
+       "0xbb01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -52592,7 +52592,7 @@ impl Default for PacketCzShift {
 
 impl PacketCzRecall {
     pub fn packet_id() -> &'static str {
-        "0x01bc"
+        "0xbc01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzRecall {
         let mut offset: usize = 0;
@@ -52664,8 +52664,8 @@ impl PacketCzRecall {
     pub fn new() -> PacketCzRecall {
         PacketCzRecall {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1b, 0xc]),
-        packet_id_raw: [0x1b, 0xc],
+        packet_id: i16::from_le_bytes([0xbc, 0x01]),
+        packet_id_raw: [0xbc, 0x01],
         account_name: [0 as char; 24],
         account_name_raw: [0; 24],
         }
@@ -52674,7 +52674,7 @@ impl PacketCzRecall {
 
 impl Packet for PacketCzRecall {
     fn id(&self) -> &str {
-       "0x01bc"
+       "0xbc01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -52711,7 +52711,7 @@ impl Default for PacketCzRecall {
 
 impl PacketCzRecallGid {
     pub fn packet_id() -> &'static str {
-        "0x01bd"
+        "0xbd01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzRecallGid {
         let mut offset: usize = 0;
@@ -52783,8 +52783,8 @@ impl PacketCzRecallGid {
     pub fn new() -> PacketCzRecallGid {
         PacketCzRecallGid {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1b, 0xd]),
-        packet_id_raw: [0x1b, 0xd],
+        packet_id: i16::from_le_bytes([0xbd, 0x01]),
+        packet_id_raw: [0xbd, 0x01],
         character_name: [0 as char; 24],
         character_name_raw: [0; 24],
         }
@@ -52793,7 +52793,7 @@ impl PacketCzRecallGid {
 
 impl Packet for PacketCzRecallGid {
     fn id(&self) -> &str {
-       "0x01bd"
+       "0xbd01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -52830,7 +52830,7 @@ impl Default for PacketCzRecallGid {
 
 impl PacketAcAskPngameroom {
     pub fn packet_id() -> &'static str {
-        "0x01be"
+        "0xbe01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketAcAskPngameroom {
         let mut offset: usize = 0;
@@ -52874,15 +52874,15 @@ impl PacketAcAskPngameroom {
     pub fn new() -> PacketAcAskPngameroom {
         PacketAcAskPngameroom {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1b, 0xe]),
-        packet_id_raw: [0x1b, 0xe],
+        packet_id: i16::from_le_bytes([0xbe, 0x01]),
+        packet_id_raw: [0xbe, 0x01],
         }
     }
 }
 
 impl Packet for PacketAcAskPngameroom {
     fn id(&self) -> &str {
-       "0x01be"
+       "0xbe01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -52919,7 +52919,7 @@ impl Default for PacketAcAskPngameroom {
 
 impl PacketCaReplyPngameroom {
     pub fn packet_id() -> &'static str {
-        "0x01bf"
+        "0xbf01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCaReplyPngameroom {
         let mut offset: usize = 0;
@@ -52983,8 +52983,8 @@ impl PacketCaReplyPngameroom {
     pub fn new() -> PacketCaReplyPngameroom {
         PacketCaReplyPngameroom {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1b, 0xf]),
-        packet_id_raw: [0x1b, 0xf],
+        packet_id: i16::from_le_bytes([0xbf, 0x01]),
+        packet_id_raw: [0xbf, 0x01],
         permission: 0,
         permission_raw: [0; 1],
         }
@@ -52993,7 +52993,7 @@ impl PacketCaReplyPngameroom {
 
 impl Packet for PacketCaReplyPngameroom {
     fn id(&self) -> &str {
-       "0x01bf"
+       "0xbf01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -53030,7 +53030,7 @@ impl Default for PacketCaReplyPngameroom {
 
 impl PacketCzReqRemaintime {
     pub fn packet_id() -> &'static str {
-        "0x01c0"
+        "0xc001"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqRemaintime {
         let mut offset: usize = 0;
@@ -53074,15 +53074,15 @@ impl PacketCzReqRemaintime {
     pub fn new() -> PacketCzReqRemaintime {
         PacketCzReqRemaintime {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1c, 0x0]),
-        packet_id_raw: [0x1c, 0x0],
+        packet_id: i16::from_le_bytes([0xc0, 0x01]),
+        packet_id_raw: [0xc0, 0x01],
         }
     }
 }
 
 impl Packet for PacketCzReqRemaintime {
     fn id(&self) -> &str {
-       "0x01c0"
+       "0xc001"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -53119,7 +53119,7 @@ impl Default for PacketCzReqRemaintime {
 
 impl PacketZcReplyRemaintime {
     pub fn packet_id() -> &'static str {
-        "0x01c1"
+        "0xc101"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcReplyRemaintime {
         let mut offset: usize = 0;
@@ -53223,8 +53223,8 @@ impl PacketZcReplyRemaintime {
     pub fn new() -> PacketZcReplyRemaintime {
         PacketZcReplyRemaintime {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1c, 0x1]),
-        packet_id_raw: [0x1c, 0x1],
+        packet_id: i16::from_le_bytes([0xc1, 0x01]),
+        packet_id_raw: [0xc1, 0x01],
         result: 0,
         result_raw: [0; 4],
         expiration_date: 0,
@@ -53237,7 +53237,7 @@ impl PacketZcReplyRemaintime {
 
 impl Packet for PacketZcReplyRemaintime {
     fn id(&self) -> &str {
-       "0x01c1"
+       "0xc101"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -53274,7 +53274,7 @@ impl Default for PacketZcReplyRemaintime {
 
 impl PacketZcInfoRemaintime {
     pub fn packet_id() -> &'static str {
-        "0x01c2"
+        "0xc201"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcInfoRemaintime {
         let mut offset: usize = 0;
@@ -53358,8 +53358,8 @@ impl PacketZcInfoRemaintime {
     pub fn new() -> PacketZcInfoRemaintime {
         PacketZcInfoRemaintime {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1c, 0x2]),
-        packet_id_raw: [0x1c, 0x2],
+        packet_id: i16::from_le_bytes([0xc2, 0x01]),
+        packet_id_raw: [0xc2, 0x01],
         atype: 0,
         atype_raw: [0; 4],
         remain_time: 0,
@@ -53370,7 +53370,7 @@ impl PacketZcInfoRemaintime {
 
 impl Packet for PacketZcInfoRemaintime {
     fn id(&self) -> &str {
-       "0x01c2"
+       "0xc201"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -53407,7 +53407,7 @@ impl Default for PacketZcInfoRemaintime {
 
 impl PacketZcBroadcast2 {
     pub fn packet_id() -> &'static str {
-        "0x01c3"
+        "0xc301"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcBroadcast2 {
         let mut offset: usize = 0;
@@ -53588,8 +53588,8 @@ impl PacketZcBroadcast2 {
     pub fn new() -> PacketZcBroadcast2 {
         PacketZcBroadcast2 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1c, 0x3]),
-        packet_id_raw: [0x1c, 0x3],
+        packet_id: i16::from_le_bytes([0xc3, 0x01]),
+        packet_id_raw: [0xc3, 0x01],
         packet_length: 0,
         packet_length_raw: [0; 2],
         font_color: 0,
@@ -53610,7 +53610,7 @@ impl PacketZcBroadcast2 {
 
 impl Packet for PacketZcBroadcast2 {
     fn id(&self) -> &str {
-       "0x01c3"
+       "0xc301"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -53647,7 +53647,7 @@ impl Default for PacketZcBroadcast2 {
 
 impl PacketZcAddItemToStore2 {
     pub fn packet_id() -> &'static str {
-        "0x01c4"
+        "0xc401"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAddItemToStore2 {
         let mut offset: usize = 0;
@@ -53851,8 +53851,8 @@ impl PacketZcAddItemToStore2 {
     pub fn new() -> PacketZcAddItemToStore2 {
         PacketZcAddItemToStore2 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1c, 0x4]),
-        packet_id_raw: [0x1c, 0x4],
+        packet_id: i16::from_le_bytes([0xc4, 0x01]),
+        packet_id_raw: [0xc4, 0x01],
         index: 0,
         index_raw: [0; 2],
         count: 0,
@@ -53875,7 +53875,7 @@ impl PacketZcAddItemToStore2 {
 
 impl Packet for PacketZcAddItemToStore2 {
     fn id(&self) -> &str {
-       "0x01c4"
+       "0xc401"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -53912,7 +53912,7 @@ impl Default for PacketZcAddItemToStore2 {
 
 impl PacketZcAddItemToCart2 {
     pub fn packet_id() -> &'static str {
-        "0x01c5"
+        "0xc501"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAddItemToCart2 {
         let mut offset: usize = 0;
@@ -54116,8 +54116,8 @@ impl PacketZcAddItemToCart2 {
     pub fn new() -> PacketZcAddItemToCart2 {
         PacketZcAddItemToCart2 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1c, 0x5]),
-        packet_id_raw: [0x1c, 0x5],
+        packet_id: i16::from_le_bytes([0xc5, 0x01]),
+        packet_id_raw: [0xc5, 0x01],
         index: 0,
         index_raw: [0; 2],
         count: 0,
@@ -54140,7 +54140,7 @@ impl PacketZcAddItemToCart2 {
 
 impl Packet for PacketZcAddItemToCart2 {
     fn id(&self) -> &str {
-       "0x01c5"
+       "0xc501"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -54177,7 +54177,7 @@ impl Default for PacketZcAddItemToCart2 {
 
 impl PacketCsReqEncryption {
     pub fn packet_id() -> &'static str {
-        "0x01c6"
+        "0xc601"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCsReqEncryption {
         let mut offset: usize = 0;
@@ -54261,8 +54261,8 @@ impl PacketCsReqEncryption {
     pub fn new() -> PacketCsReqEncryption {
         PacketCsReqEncryption {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1c, 0x6]),
-        packet_id_raw: [0x1c, 0x6],
+        packet_id: i16::from_le_bytes([0xc6, 0x01]),
+        packet_id_raw: [0xc6, 0x01],
         enc_count: 0,
         enc_count_raw: [0; 1],
         dec_count: 0,
@@ -54273,7 +54273,7 @@ impl PacketCsReqEncryption {
 
 impl Packet for PacketCsReqEncryption {
     fn id(&self) -> &str {
-       "0x01c6"
+       "0xc601"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -54310,7 +54310,7 @@ impl Default for PacketCsReqEncryption {
 
 impl PacketScAckEncryption {
     pub fn packet_id() -> &'static str {
-        "0x01c7"
+        "0xc701"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketScAckEncryption {
         let mut offset: usize = 0;
@@ -54354,15 +54354,15 @@ impl PacketScAckEncryption {
     pub fn new() -> PacketScAckEncryption {
         PacketScAckEncryption {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1c, 0x7]),
-        packet_id_raw: [0x1c, 0x7],
+        packet_id: i16::from_le_bytes([0xc7, 0x01]),
+        packet_id_raw: [0xc7, 0x01],
         }
     }
 }
 
 impl Packet for PacketScAckEncryption {
     fn id(&self) -> &str {
-       "0x01c7"
+       "0xc701"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -54399,7 +54399,7 @@ impl Default for PacketScAckEncryption {
 
 impl PacketZcUseItemAck2 {
     pub fn packet_id() -> &'static str {
-        "0xc801"
+        "0x01c8"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcUseItemAck2 {
         let mut offset: usize = 0;
@@ -54543,8 +54543,8 @@ impl PacketZcUseItemAck2 {
     pub fn new() -> PacketZcUseItemAck2 {
         PacketZcUseItemAck2 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xc8, 0x01]),
-        packet_id_raw: [0xc8, 0x01],
+        packet_id: i16::from_le_bytes([0x01, 0xc8]),
+        packet_id_raw: [0x01, 0xc8],
         index: 0,
         index_raw: [0; 2],
         id: 0,
@@ -54561,7 +54561,7 @@ impl PacketZcUseItemAck2 {
 
 impl Packet for PacketZcUseItemAck2 {
     fn id(&self) -> &str {
-       "0xc801"
+       "0x01c8"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -54598,7 +54598,7 @@ impl Default for PacketZcUseItemAck2 {
 
 impl PacketZcSkillEntry2 {
     pub fn packet_id() -> &'static str {
-        "0x01c9"
+        "0xc901"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSkillEntry2 {
         let mut offset: usize = 0;
@@ -54810,8 +54810,8 @@ impl PacketZcSkillEntry2 {
     pub fn new() -> PacketZcSkillEntry2 {
         PacketZcSkillEntry2 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1c, 0x9]),
-        packet_id_raw: [0x1c, 0x9],
+        packet_id: i16::from_le_bytes([0xc9, 0x01]),
+        packet_id_raw: [0xc9, 0x01],
         aid: 0,
         aid_raw: [0; 4],
         creator_aid: 0,
@@ -54834,7 +54834,7 @@ impl PacketZcSkillEntry2 {
 
 impl Packet for PacketZcSkillEntry2 {
     fn id(&self) -> &str {
-       "0x01c9"
+       "0xc901"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -54871,7 +54871,7 @@ impl Default for PacketZcSkillEntry2 {
 
 impl PacketCzReqmakinghomun {
     pub fn packet_id() -> &'static str {
-        "0x01ca"
+        "0xca01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqmakinghomun {
         let mut offset: usize = 0;
@@ -54935,8 +54935,8 @@ impl PacketCzReqmakinghomun {
     pub fn new() -> PacketCzReqmakinghomun {
         PacketCzReqmakinghomun {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1c, 0xa]),
-        packet_id_raw: [0x1c, 0xa],
+        packet_id: i16::from_le_bytes([0xca, 0x01]),
+        packet_id_raw: [0xca, 0x01],
         result: false,
         result_raw: [0; 1],
         }
@@ -54945,7 +54945,7 @@ impl PacketCzReqmakinghomun {
 
 impl Packet for PacketCzReqmakinghomun {
     fn id(&self) -> &str {
-       "0x01ca"
+       "0xca01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -54982,7 +54982,7 @@ impl Default for PacketCzReqmakinghomun {
 
 impl PacketCzMonsterTalk {
     pub fn packet_id() -> &'static str {
-        "0x01cb"
+        "0xcb01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzMonsterTalk {
         let mut offset: usize = 0;
@@ -55106,8 +55106,8 @@ impl PacketCzMonsterTalk {
     pub fn new() -> PacketCzMonsterTalk {
         PacketCzMonsterTalk {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1c, 0xb]),
-        packet_id_raw: [0x1c, 0xb],
+        packet_id: i16::from_le_bytes([0xcb, 0x01]),
+        packet_id_raw: [0xcb, 0x01],
         gid: 0,
         gid_raw: [0; 4],
         state_id: 0,
@@ -55122,7 +55122,7 @@ impl PacketCzMonsterTalk {
 
 impl Packet for PacketCzMonsterTalk {
     fn id(&self) -> &str {
-       "0x01cb"
+       "0xcb01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -55159,7 +55159,7 @@ impl Default for PacketCzMonsterTalk {
 
 impl PacketZcMonsterTalk {
     pub fn packet_id() -> &'static str {
-        "0x01cc"
+        "0xcc01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMonsterTalk {
         let mut offset: usize = 0;
@@ -55283,8 +55283,8 @@ impl PacketZcMonsterTalk {
     pub fn new() -> PacketZcMonsterTalk {
         PacketZcMonsterTalk {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1c, 0xc]),
-        packet_id_raw: [0x1c, 0xc],
+        packet_id: i16::from_le_bytes([0xcc, 0x01]),
+        packet_id_raw: [0xcc, 0x01],
         gid: 0,
         gid_raw: [0; 4],
         state_id: 0,
@@ -55299,7 +55299,7 @@ impl PacketZcMonsterTalk {
 
 impl Packet for PacketZcMonsterTalk {
     fn id(&self) -> &str {
-       "0x01cc"
+       "0xcc01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -55336,7 +55336,7 @@ impl Default for PacketZcMonsterTalk {
 
 impl PacketZcAutospelllist {
     pub fn packet_id() -> &'static str {
-        "0x01cd"
+        "0xcd01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAutospelllist {
         let mut offset: usize = 0;
@@ -55408,8 +55408,8 @@ impl PacketZcAutospelllist {
     pub fn new() -> PacketZcAutospelllist {
         PacketZcAutospelllist {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1c, 0xd]),
-        packet_id_raw: [0x1c, 0xd],
+        packet_id: i16::from_le_bytes([0xcd, 0x01]),
+        packet_id_raw: [0xcd, 0x01],
         skid: [0; 7],
         skid_raw: [0; 7],
         }
@@ -55418,7 +55418,7 @@ impl PacketZcAutospelllist {
 
 impl Packet for PacketZcAutospelllist {
     fn id(&self) -> &str {
-       "0x01cd"
+       "0xcd01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -55455,7 +55455,7 @@ impl Default for PacketZcAutospelllist {
 
 impl PacketCzSelectautospell {
     pub fn packet_id() -> &'static str {
-        "0x01ce"
+        "0xce01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzSelectautospell {
         let mut offset: usize = 0;
@@ -55519,8 +55519,8 @@ impl PacketCzSelectautospell {
     pub fn new() -> PacketCzSelectautospell {
         PacketCzSelectautospell {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1c, 0xe]),
-        packet_id_raw: [0x1c, 0xe],
+        packet_id: i16::from_le_bytes([0xce, 0x01]),
+        packet_id_raw: [0xce, 0x01],
         skid: 0,
         skid_raw: [0; 4],
         }
@@ -55529,7 +55529,7 @@ impl PacketCzSelectautospell {
 
 impl Packet for PacketCzSelectautospell {
     fn id(&self) -> &str {
-       "0x01ce"
+       "0xce01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -55566,7 +55566,7 @@ impl Default for PacketCzSelectautospell {
 
 impl PacketZcDevotionlist {
     pub fn packet_id() -> &'static str {
-        "0x01cf"
+        "0xcf01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcDevotionlist {
         let mut offset: usize = 0;
@@ -55678,8 +55678,8 @@ impl PacketZcDevotionlist {
     pub fn new() -> PacketZcDevotionlist {
         PacketZcDevotionlist {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1c, 0xf]),
-        packet_id_raw: [0x1c, 0xf],
+        packet_id: i16::from_le_bytes([0xcf, 0x01]),
+        packet_id_raw: [0xcf, 0x01],
         my_aid: 0,
         my_aid_raw: [0; 4],
         aid: [0; 5],
@@ -55692,7 +55692,7 @@ impl PacketZcDevotionlist {
 
 impl Packet for PacketZcDevotionlist {
     fn id(&self) -> &str {
-       "0x01cf"
+       "0xcf01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -55729,7 +55729,7 @@ impl Default for PacketZcDevotionlist {
 
 impl PacketZcSpirits {
     pub fn packet_id() -> &'static str {
-        "0x01d0"
+        "0xd001"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSpirits {
         let mut offset: usize = 0;
@@ -55813,8 +55813,8 @@ impl PacketZcSpirits {
     pub fn new() -> PacketZcSpirits {
         PacketZcSpirits {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1d, 0x0]),
-        packet_id_raw: [0x1d, 0x0],
+        packet_id: i16::from_le_bytes([0xd0, 0x01]),
+        packet_id_raw: [0xd0, 0x01],
         aid: 0,
         aid_raw: [0; 4],
         num: 0,
@@ -55825,7 +55825,7 @@ impl PacketZcSpirits {
 
 impl Packet for PacketZcSpirits {
     fn id(&self) -> &str {
-       "0x01d0"
+       "0xd001"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -55862,7 +55862,7 @@ impl Default for PacketZcSpirits {
 
 impl PacketZcBladestop {
     pub fn packet_id() -> &'static str {
-        "0x01d1"
+        "0xd101"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcBladestop {
         let mut offset: usize = 0;
@@ -55966,8 +55966,8 @@ impl PacketZcBladestop {
     pub fn new() -> PacketZcBladestop {
         PacketZcBladestop {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1d, 0x1]),
-        packet_id_raw: [0x1d, 0x1],
+        packet_id: i16::from_le_bytes([0xd1, 0x01]),
+        packet_id_raw: [0xd1, 0x01],
         src_aid: 0,
         src_aid_raw: [0; 4],
         dest_aid: 0,
@@ -55980,7 +55980,7 @@ impl PacketZcBladestop {
 
 impl Packet for PacketZcBladestop {
     fn id(&self) -> &str {
-       "0x01d1"
+       "0xd101"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -56017,7 +56017,7 @@ impl Default for PacketZcBladestop {
 
 impl PacketZcCombodelay {
     pub fn packet_id() -> &'static str {
-        "0x01d2"
+        "0xd201"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcCombodelay {
         let mut offset: usize = 0;
@@ -56101,8 +56101,8 @@ impl PacketZcCombodelay {
     pub fn new() -> PacketZcCombodelay {
         PacketZcCombodelay {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1d, 0x2]),
-        packet_id_raw: [0x1d, 0x2],
+        packet_id: i16::from_le_bytes([0xd2, 0x01]),
+        packet_id_raw: [0xd2, 0x01],
         aid: 0,
         aid_raw: [0; 4],
         delay_time: 0,
@@ -56113,7 +56113,7 @@ impl PacketZcCombodelay {
 
 impl Packet for PacketZcCombodelay {
     fn id(&self) -> &str {
-       "0x01d2"
+       "0xd201"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -56150,7 +56150,7 @@ impl Default for PacketZcCombodelay {
 
 impl PacketZcSound {
     pub fn packet_id() -> &'static str {
-        "0x01d3"
+        "0xd301"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSound {
         let mut offset: usize = 0;
@@ -56282,8 +56282,8 @@ impl PacketZcSound {
     pub fn new() -> PacketZcSound {
         PacketZcSound {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1d, 0x3]),
-        packet_id_raw: [0x1d, 0x3],
+        packet_id: i16::from_le_bytes([0xd3, 0x01]),
+        packet_id_raw: [0xd3, 0x01],
         file_name: [0 as char; 24],
         file_name_raw: [0; 24],
         act: 0,
@@ -56298,7 +56298,7 @@ impl PacketZcSound {
 
 impl Packet for PacketZcSound {
     fn id(&self) -> &str {
-       "0x01d3"
+       "0xd301"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -56335,7 +56335,7 @@ impl Default for PacketZcSound {
 
 impl PacketZcOpenEditdlgstr {
     pub fn packet_id() -> &'static str {
-        "0xd401"
+        "0x01d4"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcOpenEditdlgstr {
         let mut offset: usize = 0;
@@ -56399,8 +56399,8 @@ impl PacketZcOpenEditdlgstr {
     pub fn new() -> PacketZcOpenEditdlgstr {
         PacketZcOpenEditdlgstr {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xd4, 0x01]),
-        packet_id_raw: [0xd4, 0x01],
+        packet_id: i16::from_le_bytes([0x01, 0xd4]),
+        packet_id_raw: [0x01, 0xd4],
         naid: 0,
         naid_raw: [0; 4],
         }
@@ -56409,7 +56409,7 @@ impl PacketZcOpenEditdlgstr {
 
 impl Packet for PacketZcOpenEditdlgstr {
     fn id(&self) -> &str {
-       "0xd401"
+       "0x01d4"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -56446,7 +56446,7 @@ impl Default for PacketZcOpenEditdlgstr {
 
 impl PacketCzInputEditdlgstr {
     pub fn packet_id() -> &'static str {
-        "0xd501"
+        "0x01d5"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzInputEditdlgstr {
         let mut offset: usize = 0;
@@ -56547,8 +56547,8 @@ impl PacketCzInputEditdlgstr {
     pub fn new() -> PacketCzInputEditdlgstr {
         PacketCzInputEditdlgstr {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xd5, 0x01]),
-        packet_id_raw: [0xd5, 0x01],
+        packet_id: i16::from_le_bytes([0x01, 0xd5]),
+        packet_id_raw: [0x01, 0xd5],
         packet_length: 0,
         packet_length_raw: [0; 2],
         naid: 0,
@@ -56561,7 +56561,7 @@ impl PacketCzInputEditdlgstr {
 
 impl Packet for PacketCzInputEditdlgstr {
     fn id(&self) -> &str {
-       "0xd501"
+       "0x01d5"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -56598,7 +56598,7 @@ impl Default for PacketCzInputEditdlgstr {
 
 impl PacketZcNotifyMaptypeproperty2 {
     pub fn packet_id() -> &'static str {
-        "0x01d6"
+        "0xd601"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyMaptypeproperty2 {
         let mut offset: usize = 0;
@@ -56662,8 +56662,8 @@ impl PacketZcNotifyMaptypeproperty2 {
     pub fn new() -> PacketZcNotifyMaptypeproperty2 {
         PacketZcNotifyMaptypeproperty2 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1d, 0x6]),
-        packet_id_raw: [0x1d, 0x6],
+        packet_id: i16::from_le_bytes([0xd6, 0x01]),
+        packet_id_raw: [0xd6, 0x01],
         atype: 0,
         atype_raw: [0; 2],
         }
@@ -56672,7 +56672,7 @@ impl PacketZcNotifyMaptypeproperty2 {
 
 impl Packet for PacketZcNotifyMaptypeproperty2 {
     fn id(&self) -> &str {
-       "0x01d6"
+       "0xd601"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -56886,7 +56886,7 @@ impl Default for PacketZcSpriteChange2 {
 
 impl PacketZcNotifyStandentry2 {
     pub fn packet_id() -> &'static str {
-        "0x01d8"
+        "0xd801"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyStandentry2 {
         let mut offset: usize = 0;
@@ -57438,8 +57438,8 @@ impl PacketZcNotifyStandentry2 {
     pub fn new() -> PacketZcNotifyStandentry2 {
         PacketZcNotifyStandentry2 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1d, 0x8]),
-        packet_id_raw: [0x1d, 0x8],
+        packet_id: i16::from_le_bytes([0xd8, 0x01]),
+        packet_id_raw: [0xd8, 0x01],
         gid: 0,
         gid_raw: [0; 4],
         speed: 0,
@@ -57496,7 +57496,7 @@ impl PacketZcNotifyStandentry2 {
 
 impl Packet for PacketZcNotifyStandentry2 {
     fn id(&self) -> &str {
-       "0x01d8"
+       "0xd801"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -57533,7 +57533,7 @@ impl Default for PacketZcNotifyStandentry2 {
 
 impl PacketZcNotifyNewentry2 {
     pub fn packet_id() -> &'static str {
-        "0x01d9"
+        "0xd901"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyNewentry2 {
         let mut offset: usize = 0;
@@ -58065,8 +58065,8 @@ impl PacketZcNotifyNewentry2 {
     pub fn new() -> PacketZcNotifyNewentry2 {
         PacketZcNotifyNewentry2 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1d, 0x9]),
-        packet_id_raw: [0x1d, 0x9],
+        packet_id: i16::from_le_bytes([0xd9, 0x01]),
+        packet_id_raw: [0xd9, 0x01],
         gid: 0,
         gid_raw: [0; 4],
         speed: 0,
@@ -58121,7 +58121,7 @@ impl PacketZcNotifyNewentry2 {
 
 impl Packet for PacketZcNotifyNewentry2 {
     fn id(&self) -> &str {
-       "0x01d9"
+       "0xd901"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -58158,7 +58158,7 @@ impl Default for PacketZcNotifyNewentry2 {
 
 impl PacketZcNotifyMoveentry2 {
     pub fn packet_id() -> &'static str {
-        "0x01da"
+        "0xda01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyMoveentry2 {
         let mut offset: usize = 0;
@@ -58710,8 +58710,8 @@ impl PacketZcNotifyMoveentry2 {
     pub fn new() -> PacketZcNotifyMoveentry2 {
         PacketZcNotifyMoveentry2 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1d, 0xa]),
-        packet_id_raw: [0x1d, 0xa],
+        packet_id: i16::from_le_bytes([0xda, 0x01]),
+        packet_id_raw: [0xda, 0x01],
         gid: 0,
         gid_raw: [0; 4],
         speed: 0,
@@ -58768,7 +58768,7 @@ impl PacketZcNotifyMoveentry2 {
 
 impl Packet for PacketZcNotifyMoveentry2 {
     fn id(&self) -> &str {
-       "0x01da"
+       "0xda01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -58805,7 +58805,7 @@ impl Default for PacketZcNotifyMoveentry2 {
 
 impl PacketCaReqHash {
     pub fn packet_id() -> &'static str {
-        "0x01db"
+        "0xdb01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCaReqHash {
         let mut offset: usize = 0;
@@ -58849,15 +58849,15 @@ impl PacketCaReqHash {
     pub fn new() -> PacketCaReqHash {
         PacketCaReqHash {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1d, 0xb]),
-        packet_id_raw: [0x1d, 0xb],
+        packet_id: i16::from_le_bytes([0xdb, 0x01]),
+        packet_id_raw: [0xdb, 0x01],
         }
     }
 }
 
 impl Packet for PacketCaReqHash {
     fn id(&self) -> &str {
-       "0x01db"
+       "0xdb01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -58894,7 +58894,7 @@ impl Default for PacketCaReqHash {
 
 impl PacketAcAckHash {
     pub fn packet_id() -> &'static str {
-        "0x01dc"
+        "0xdc01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketAcAckHash {
         let mut offset: usize = 0;
@@ -58975,8 +58975,8 @@ impl PacketAcAckHash {
     pub fn new() -> PacketAcAckHash {
         PacketAcAckHash {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1d, 0xc]),
-        packet_id_raw: [0x1d, 0xc],
+        packet_id: i16::from_le_bytes([0xdc, 0x01]),
+        packet_id_raw: [0xdc, 0x01],
         packet_length: 0,
         packet_length_raw: [0; 2],
         secret: String::new(),
@@ -58987,7 +58987,7 @@ impl PacketAcAckHash {
 
 impl Packet for PacketAcAckHash {
     fn id(&self) -> &str {
-       "0x01dc"
+       "0xdc01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -59024,7 +59024,7 @@ impl Default for PacketAcAckHash {
 
 impl PacketCaLogin2 {
     pub fn packet_id() -> &'static str {
-        "0x01dd"
+        "0xdd01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCaLogin2 {
         let mut offset: usize = 0;
@@ -59164,8 +59164,8 @@ impl PacketCaLogin2 {
     pub fn new() -> PacketCaLogin2 {
         PacketCaLogin2 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1d, 0xd]),
-        packet_id_raw: [0x1d, 0xd],
+        packet_id: i16::from_le_bytes([0xdd, 0x01]),
+        packet_id_raw: [0xdd, 0x01],
         version: 0,
         version_raw: [0; 4],
         id: [0 as char; 24],
@@ -59180,7 +59180,7 @@ impl PacketCaLogin2 {
 
 impl Packet for PacketCaLogin2 {
     fn id(&self) -> &str {
-       "0x01dd"
+       "0xdd01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -59217,7 +59217,7 @@ impl Default for PacketCaLogin2 {
 
 impl PacketZcNotifySkill2 {
     pub fn packet_id() -> &'static str {
-        "0x01de"
+        "0xde01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifySkill2 {
         let mut offset: usize = 0;
@@ -59461,8 +59461,8 @@ impl PacketZcNotifySkill2 {
     pub fn new() -> PacketZcNotifySkill2 {
         PacketZcNotifySkill2 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1d, 0xe]),
-        packet_id_raw: [0x1d, 0xe],
+        packet_id: i16::from_le_bytes([0xde, 0x01]),
+        packet_id_raw: [0xde, 0x01],
         skid: 0,
         skid_raw: [0; 2],
         aid: 0,
@@ -59489,7 +59489,7 @@ impl PacketZcNotifySkill2 {
 
 impl Packet for PacketZcNotifySkill2 {
     fn id(&self) -> &str {
-       "0x01de"
+       "0xde01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -59526,7 +59526,7 @@ impl Default for PacketZcNotifySkill2 {
 
 impl PacketCzReqAccountname {
     pub fn packet_id() -> &'static str {
-        "0x01df"
+        "0xdf01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqAccountname {
         let mut offset: usize = 0;
@@ -59590,8 +59590,8 @@ impl PacketCzReqAccountname {
     pub fn new() -> PacketCzReqAccountname {
         PacketCzReqAccountname {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1d, 0xf]),
-        packet_id_raw: [0x1d, 0xf],
+        packet_id: i16::from_le_bytes([0xdf, 0x01]),
+        packet_id_raw: [0xdf, 0x01],
         aid: 0,
         aid_raw: [0; 4],
         }
@@ -59600,7 +59600,7 @@ impl PacketCzReqAccountname {
 
 impl Packet for PacketCzReqAccountname {
     fn id(&self) -> &str {
-       "0x01df"
+       "0xdf01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -59637,7 +59637,7 @@ impl Default for PacketCzReqAccountname {
 
 impl PacketZcAckAccountname {
     pub fn packet_id() -> &'static str {
-        "0x01e0"
+        "0xe001"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckAccountname {
         let mut offset: usize = 0;
@@ -59729,8 +59729,8 @@ impl PacketZcAckAccountname {
     pub fn new() -> PacketZcAckAccountname {
         PacketZcAckAccountname {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1e, 0x0]),
-        packet_id_raw: [0x1e, 0x0],
+        packet_id: i16::from_le_bytes([0xe0, 0x01]),
+        packet_id_raw: [0xe0, 0x01],
         aid: 0,
         aid_raw: [0; 4],
         name: [0 as char; 24],
@@ -59741,7 +59741,7 @@ impl PacketZcAckAccountname {
 
 impl Packet for PacketZcAckAccountname {
     fn id(&self) -> &str {
-       "0x01e0"
+       "0xe001"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -59778,7 +59778,7 @@ impl Default for PacketZcAckAccountname {
 
 impl PacketZcSpirits2 {
     pub fn packet_id() -> &'static str {
-        "0x01e1"
+        "0xe101"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSpirits2 {
         let mut offset: usize = 0;
@@ -59862,8 +59862,8 @@ impl PacketZcSpirits2 {
     pub fn new() -> PacketZcSpirits2 {
         PacketZcSpirits2 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1e, 0x1]),
-        packet_id_raw: [0x1e, 0x1],
+        packet_id: i16::from_le_bytes([0xe1, 0x01]),
+        packet_id_raw: [0xe1, 0x01],
         aid: 0,
         aid_raw: [0; 4],
         num: 0,
@@ -59874,7 +59874,7 @@ impl PacketZcSpirits2 {
 
 impl Packet for PacketZcSpirits2 {
     fn id(&self) -> &str {
-       "0x01e1"
+       "0xe101"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -59911,7 +59911,7 @@ impl Default for PacketZcSpirits2 {
 
 impl PacketZcReqCouple {
     pub fn packet_id() -> &'static str {
-        "0x01e2"
+        "0xe201"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcReqCouple {
         let mut offset: usize = 0;
@@ -60023,8 +60023,8 @@ impl PacketZcReqCouple {
     pub fn new() -> PacketZcReqCouple {
         PacketZcReqCouple {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1e, 0x2]),
-        packet_id_raw: [0x1e, 0x2],
+        packet_id: i16::from_le_bytes([0xe2, 0x01]),
+        packet_id_raw: [0xe2, 0x01],
         aid: 0,
         aid_raw: [0; 4],
         gid: 0,
@@ -60037,7 +60037,7 @@ impl PacketZcReqCouple {
 
 impl Packet for PacketZcReqCouple {
     fn id(&self) -> &str {
-       "0x01e2"
+       "0xe201"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -60074,7 +60074,7 @@ impl Default for PacketZcReqCouple {
 
 impl PacketCzJoinCouple {
     pub fn packet_id() -> &'static str {
-        "0x01e3"
+        "0xe301"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzJoinCouple {
         let mut offset: usize = 0;
@@ -60178,8 +60178,8 @@ impl PacketCzJoinCouple {
     pub fn new() -> PacketCzJoinCouple {
         PacketCzJoinCouple {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1e, 0x3]),
-        packet_id_raw: [0x1e, 0x3],
+        packet_id: i16::from_le_bytes([0xe3, 0x01]),
+        packet_id_raw: [0xe3, 0x01],
         aid: 0,
         aid_raw: [0; 4],
         gid: 0,
@@ -60192,7 +60192,7 @@ impl PacketCzJoinCouple {
 
 impl Packet for PacketCzJoinCouple {
     fn id(&self) -> &str {
-       "0x01e3"
+       "0xe301"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -60229,7 +60229,7 @@ impl Default for PacketCzJoinCouple {
 
 impl PacketZcStartCouple {
     pub fn packet_id() -> &'static str {
-        "0x01e4"
+        "0xe401"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcStartCouple {
         let mut offset: usize = 0;
@@ -60273,15 +60273,15 @@ impl PacketZcStartCouple {
     pub fn new() -> PacketZcStartCouple {
         PacketZcStartCouple {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1e, 0x4]),
-        packet_id_raw: [0x1e, 0x4],
+        packet_id: i16::from_le_bytes([0xe4, 0x01]),
+        packet_id_raw: [0xe4, 0x01],
         }
     }
 }
 
 impl Packet for PacketZcStartCouple {
     fn id(&self) -> &str {
-       "0x01e4"
+       "0xe401"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -60318,7 +60318,7 @@ impl Default for PacketZcStartCouple {
 
 impl PacketCzReqJoinCouple {
     pub fn packet_id() -> &'static str {
-        "0x01e5"
+        "0xe501"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqJoinCouple {
         let mut offset: usize = 0;
@@ -60382,8 +60382,8 @@ impl PacketCzReqJoinCouple {
     pub fn new() -> PacketCzReqJoinCouple {
         PacketCzReqJoinCouple {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1e, 0x5]),
-        packet_id_raw: [0x1e, 0x5],
+        packet_id: i16::from_le_bytes([0xe5, 0x01]),
+        packet_id_raw: [0xe5, 0x01],
         aid: 0,
         aid_raw: [0; 4],
         }
@@ -60392,7 +60392,7 @@ impl PacketCzReqJoinCouple {
 
 impl Packet for PacketCzReqJoinCouple {
     fn id(&self) -> &str {
-       "0x01e5"
+       "0xe501"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -60429,7 +60429,7 @@ impl Default for PacketCzReqJoinCouple {
 
 impl PacketZcCouplename {
     pub fn packet_id() -> &'static str {
-        "0x01e6"
+        "0xe601"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcCouplename {
         let mut offset: usize = 0;
@@ -60501,8 +60501,8 @@ impl PacketZcCouplename {
     pub fn new() -> PacketZcCouplename {
         PacketZcCouplename {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1e, 0x6]),
-        packet_id_raw: [0x1e, 0x6],
+        packet_id: i16::from_le_bytes([0xe6, 0x01]),
+        packet_id_raw: [0xe6, 0x01],
         couple_name: [0 as char; 24],
         couple_name_raw: [0; 24],
         }
@@ -60511,7 +60511,7 @@ impl PacketZcCouplename {
 
 impl Packet for PacketZcCouplename {
     fn id(&self) -> &str {
-       "0x01e6"
+       "0xe601"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -60548,7 +60548,7 @@ impl Default for PacketZcCouplename {
 
 impl PacketCzDoridori {
     pub fn packet_id() -> &'static str {
-        "0x01e7"
+        "0xe701"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzDoridori {
         let mut offset: usize = 0;
@@ -60592,15 +60592,15 @@ impl PacketCzDoridori {
     pub fn new() -> PacketCzDoridori {
         PacketCzDoridori {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1e, 0x7]),
-        packet_id_raw: [0x1e, 0x7],
+        packet_id: i16::from_le_bytes([0xe7, 0x01]),
+        packet_id_raw: [0xe7, 0x01],
         }
     }
 }
 
 impl Packet for PacketCzDoridori {
     fn id(&self) -> &str {
-       "0x01e7"
+       "0xe701"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -60637,7 +60637,7 @@ impl Default for PacketCzDoridori {
 
 impl PacketCzMakeGroup2 {
     pub fn packet_id() -> &'static str {
-        "0x01e8"
+        "0xe801"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzMakeGroup2 {
         let mut offset: usize = 0;
@@ -60749,8 +60749,8 @@ impl PacketCzMakeGroup2 {
     pub fn new() -> PacketCzMakeGroup2 {
         PacketCzMakeGroup2 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1e, 0x8]),
-        packet_id_raw: [0x1e, 0x8],
+        packet_id: i16::from_le_bytes([0xe8, 0x01]),
+        packet_id_raw: [0xe8, 0x01],
         group_name: [0 as char; 24],
         group_name_raw: [0; 24],
         item_pickup_rule: 0,
@@ -60763,7 +60763,7 @@ impl PacketCzMakeGroup2 {
 
 impl Packet for PacketCzMakeGroup2 {
     fn id(&self) -> &str {
-       "0x01e8"
+       "0xe801"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -60800,7 +60800,7 @@ impl Default for PacketCzMakeGroup2 {
 
 impl PacketZcAddMemberToGroup2 {
     pub fn packet_id() -> &'static str {
-        "0x01e9"
+        "0xe901"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAddMemberToGroup2 {
         let mut offset: usize = 0;
@@ -61068,8 +61068,8 @@ impl PacketZcAddMemberToGroup2 {
     pub fn new() -> PacketZcAddMemberToGroup2 {
         PacketZcAddMemberToGroup2 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1e, 0x9]),
-        packet_id_raw: [0x1e, 0x9],
+        packet_id: i16::from_le_bytes([0xe9, 0x01]),
+        packet_id_raw: [0xe9, 0x01],
         aid: 0,
         aid_raw: [0; 4],
         role: 0,
@@ -61096,7 +61096,7 @@ impl PacketZcAddMemberToGroup2 {
 
 impl Packet for PacketZcAddMemberToGroup2 {
     fn id(&self) -> &str {
-       "0x01e9"
+       "0xe901"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -61133,7 +61133,7 @@ impl Default for PacketZcAddMemberToGroup2 {
 
 impl PacketZcCongratulation {
     pub fn packet_id() -> &'static str {
-        "0x01ea"
+        "0xea01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcCongratulation {
         let mut offset: usize = 0;
@@ -61197,8 +61197,8 @@ impl PacketZcCongratulation {
     pub fn new() -> PacketZcCongratulation {
         PacketZcCongratulation {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1e, 0xa]),
-        packet_id_raw: [0x1e, 0xa],
+        packet_id: i16::from_le_bytes([0xea, 0x01]),
+        packet_id_raw: [0xea, 0x01],
         aid: 0,
         aid_raw: [0; 4],
         }
@@ -61207,7 +61207,7 @@ impl PacketZcCongratulation {
 
 impl Packet for PacketZcCongratulation {
     fn id(&self) -> &str {
-       "0x01ea"
+       "0xea01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -61244,7 +61244,7 @@ impl Default for PacketZcCongratulation {
 
 impl PacketZcNotifyPositionToGuildm {
     pub fn packet_id() -> &'static str {
-        "0x01eb"
+        "0xeb01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyPositionToGuildm {
         let mut offset: usize = 0;
@@ -61348,8 +61348,8 @@ impl PacketZcNotifyPositionToGuildm {
     pub fn new() -> PacketZcNotifyPositionToGuildm {
         PacketZcNotifyPositionToGuildm {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1e, 0xb]),
-        packet_id_raw: [0x1e, 0xb],
+        packet_id: i16::from_le_bytes([0xeb, 0x01]),
+        packet_id_raw: [0xeb, 0x01],
         aid: 0,
         aid_raw: [0; 4],
         x_pos: 0,
@@ -61362,7 +61362,7 @@ impl PacketZcNotifyPositionToGuildm {
 
 impl Packet for PacketZcNotifyPositionToGuildm {
     fn id(&self) -> &str {
-       "0x01eb"
+       "0xeb01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -61399,7 +61399,7 @@ impl Default for PacketZcNotifyPositionToGuildm {
 
 impl PacketZcGuildMemberMapChange {
     pub fn packet_id() -> &'static str {
-        "0x01ec"
+        "0xec01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcGuildMemberMapChange {
         let mut offset: usize = 0;
@@ -61511,8 +61511,8 @@ impl PacketZcGuildMemberMapChange {
     pub fn new() -> PacketZcGuildMemberMapChange {
         PacketZcGuildMemberMapChange {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1e, 0xc]),
-        packet_id_raw: [0x1e, 0xc],
+        packet_id: i16::from_le_bytes([0xec, 0x01]),
+        packet_id_raw: [0xec, 0x01],
         gdid: 0,
         gdid_raw: [0; 4],
         aid: 0,
@@ -61525,7 +61525,7 @@ impl PacketZcGuildMemberMapChange {
 
 impl Packet for PacketZcGuildMemberMapChange {
     fn id(&self) -> &str {
-       "0x01ec"
+       "0xec01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -61562,7 +61562,7 @@ impl Default for PacketZcGuildMemberMapChange {
 
 impl PacketCzChopokgi {
     pub fn packet_id() -> &'static str {
-        "0x01ed"
+        "0xed01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzChopokgi {
         let mut offset: usize = 0;
@@ -61606,15 +61606,15 @@ impl PacketCzChopokgi {
     pub fn new() -> PacketCzChopokgi {
         PacketCzChopokgi {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1e, 0xd]),
-        packet_id_raw: [0x1e, 0xd],
+        packet_id: i16::from_le_bytes([0xed, 0x01]),
+        packet_id_raw: [0xed, 0x01],
         }
     }
 }
 
 impl Packet for PacketCzChopokgi {
     fn id(&self) -> &str {
-       "0x01ed"
+       "0xed01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -61651,7 +61651,7 @@ impl Default for PacketCzChopokgi {
 
 impl PacketZcNormalItemlist2 {
     pub fn packet_id() -> &'static str {
-        "0x01ee"
+        "0xee01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNormalItemlist2 {
         let mut offset: usize = 0;
@@ -61747,8 +61747,8 @@ impl PacketZcNormalItemlist2 {
     pub fn new() -> PacketZcNormalItemlist2 {
         PacketZcNormalItemlist2 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1e, 0xe]),
-        packet_id_raw: [0x1e, 0xe],
+        packet_id: i16::from_le_bytes([0xee, 0x01]),
+        packet_id_raw: [0xee, 0x01],
         packet_length: 0,
         packet_length_raw: [0; 2],
         item_info: vec![],
@@ -61759,7 +61759,7 @@ impl PacketZcNormalItemlist2 {
 
 impl Packet for PacketZcNormalItemlist2 {
     fn id(&self) -> &str {
-       "0x01ee"
+       "0xee01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -61796,7 +61796,7 @@ impl Default for PacketZcNormalItemlist2 {
 
 impl PacketZcCartNormalItemlist2 {
     pub fn packet_id() -> &'static str {
-        "0x01ef"
+        "0xef01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcCartNormalItemlist2 {
         let mut offset: usize = 0;
@@ -61892,8 +61892,8 @@ impl PacketZcCartNormalItemlist2 {
     pub fn new() -> PacketZcCartNormalItemlist2 {
         PacketZcCartNormalItemlist2 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1e, 0xf]),
-        packet_id_raw: [0x1e, 0xf],
+        packet_id: i16::from_le_bytes([0xef, 0x01]),
+        packet_id_raw: [0xef, 0x01],
         packet_length: 0,
         packet_length_raw: [0; 2],
         item_info: vec![],
@@ -61904,7 +61904,7 @@ impl PacketZcCartNormalItemlist2 {
 
 impl Packet for PacketZcCartNormalItemlist2 {
     fn id(&self) -> &str {
-       "0x01ef"
+       "0xef01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -61941,7 +61941,7 @@ impl Default for PacketZcCartNormalItemlist2 {
 
 impl PacketZcStoreNormalItemlist2 {
     pub fn packet_id() -> &'static str {
-        "0x01f0"
+        "0xf001"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcStoreNormalItemlist2 {
         let mut offset: usize = 0;
@@ -62037,8 +62037,8 @@ impl PacketZcStoreNormalItemlist2 {
     pub fn new() -> PacketZcStoreNormalItemlist2 {
         PacketZcStoreNormalItemlist2 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1f, 0x0]),
-        packet_id_raw: [0x1f, 0x0],
+        packet_id: i16::from_le_bytes([0xf0, 0x01]),
+        packet_id_raw: [0xf0, 0x01],
         packet_length: 0,
         packet_length_raw: [0; 2],
         item_info: vec![],
@@ -62049,7 +62049,7 @@ impl PacketZcStoreNormalItemlist2 {
 
 impl Packet for PacketZcStoreNormalItemlist2 {
     fn id(&self) -> &str {
-       "0x01f0"
+       "0xf001"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -62086,7 +62086,7 @@ impl Default for PacketZcStoreNormalItemlist2 {
 
 impl PacketAcNotifyError {
     pub fn packet_id() -> &'static str {
-        "0x01f1"
+        "0xf101"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketAcNotifyError {
         let mut offset: usize = 0;
@@ -62167,8 +62167,8 @@ impl PacketAcNotifyError {
     pub fn new() -> PacketAcNotifyError {
         PacketAcNotifyError {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1f, 0x1]),
-        packet_id_raw: [0x1f, 0x1],
+        packet_id: i16::from_le_bytes([0xf1, 0x01]),
+        packet_id_raw: [0xf1, 0x01],
         packet_length: 0,
         packet_length_raw: [0; 2],
         msg: String::new(),
@@ -62179,7 +62179,7 @@ impl PacketAcNotifyError {
 
 impl Packet for PacketAcNotifyError {
     fn id(&self) -> &str {
-       "0x01f1"
+       "0xf101"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -62216,7 +62216,7 @@ impl Default for PacketAcNotifyError {
 
 impl PacketZcUpdateCharstat2 {
     pub fn packet_id() -> &'static str {
-        "0x01f2"
+        "0xf201"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcUpdateCharstat2 {
         let mut offset: usize = 0;
@@ -62380,8 +62380,8 @@ impl PacketZcUpdateCharstat2 {
     pub fn new() -> PacketZcUpdateCharstat2 {
         PacketZcUpdateCharstat2 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1f, 0x2]),
-        packet_id_raw: [0x1f, 0x2],
+        packet_id: i16::from_le_bytes([0xf2, 0x01]),
+        packet_id_raw: [0xf2, 0x01],
         aid: 0,
         aid_raw: [0; 4],
         gid: 0,
@@ -62400,7 +62400,7 @@ impl PacketZcUpdateCharstat2 {
 
 impl Packet for PacketZcUpdateCharstat2 {
     fn id(&self) -> &str {
-       "0x01f2"
+       "0xf201"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -62437,7 +62437,7 @@ impl Default for PacketZcUpdateCharstat2 {
 
 impl PacketZcNotifyEffect2 {
     pub fn packet_id() -> &'static str {
-        "0x01f3"
+        "0xf301"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyEffect2 {
         let mut offset: usize = 0;
@@ -62521,8 +62521,8 @@ impl PacketZcNotifyEffect2 {
     pub fn new() -> PacketZcNotifyEffect2 {
         PacketZcNotifyEffect2 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1f, 0x3]),
-        packet_id_raw: [0x1f, 0x3],
+        packet_id: i16::from_le_bytes([0xf3, 0x01]),
+        packet_id_raw: [0xf3, 0x01],
         aid: 0,
         aid_raw: [0; 4],
         effect_id: 0,
@@ -62533,7 +62533,7 @@ impl PacketZcNotifyEffect2 {
 
 impl Packet for PacketZcNotifyEffect2 {
     fn id(&self) -> &str {
-       "0x01f3"
+       "0xf301"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -62570,7 +62570,7 @@ impl Default for PacketZcNotifyEffect2 {
 
 impl PacketZcReqExchangeItem2 {
     pub fn packet_id() -> &'static str {
-        "0x01f4"
+        "0xf401"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcReqExchangeItem2 {
         let mut offset: usize = 0;
@@ -62682,8 +62682,8 @@ impl PacketZcReqExchangeItem2 {
     pub fn new() -> PacketZcReqExchangeItem2 {
         PacketZcReqExchangeItem2 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1f, 0x4]),
-        packet_id_raw: [0x1f, 0x4],
+        packet_id: i16::from_le_bytes([0xf4, 0x01]),
+        packet_id_raw: [0xf4, 0x01],
         name: [0 as char; 24],
         name_raw: [0; 24],
         gid: 0,
@@ -62696,7 +62696,7 @@ impl PacketZcReqExchangeItem2 {
 
 impl Packet for PacketZcReqExchangeItem2 {
     fn id(&self) -> &str {
-       "0x01f4"
+       "0xf401"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -62733,7 +62733,7 @@ impl Default for PacketZcReqExchangeItem2 {
 
 impl PacketZcAckExchangeItem2 {
     pub fn packet_id() -> &'static str {
-        "0x01f5"
+        "0xf501"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckExchangeItem2 {
         let mut offset: usize = 0;
@@ -62837,8 +62837,8 @@ impl PacketZcAckExchangeItem2 {
     pub fn new() -> PacketZcAckExchangeItem2 {
         PacketZcAckExchangeItem2 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1f, 0x5]),
-        packet_id_raw: [0x1f, 0x5],
+        packet_id: i16::from_le_bytes([0xf5, 0x01]),
+        packet_id_raw: [0xf5, 0x01],
         result: 0,
         result_raw: [0; 1],
         gid: 0,
@@ -62851,7 +62851,7 @@ impl PacketZcAckExchangeItem2 {
 
 impl Packet for PacketZcAckExchangeItem2 {
     fn id(&self) -> &str {
-       "0x01f5"
+       "0xf501"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -62888,7 +62888,7 @@ impl Default for PacketZcAckExchangeItem2 {
 
 impl PacketZcReqBaby {
     pub fn packet_id() -> &'static str {
-        "0x01f6"
+        "0xf601"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcReqBaby {
         let mut offset: usize = 0;
@@ -63000,8 +63000,8 @@ impl PacketZcReqBaby {
     pub fn new() -> PacketZcReqBaby {
         PacketZcReqBaby {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1f, 0x6]),
-        packet_id_raw: [0x1f, 0x6],
+        packet_id: i16::from_le_bytes([0xf6, 0x01]),
+        packet_id_raw: [0xf6, 0x01],
         aid: 0,
         aid_raw: [0; 4],
         gid: 0,
@@ -63014,7 +63014,7 @@ impl PacketZcReqBaby {
 
 impl Packet for PacketZcReqBaby {
     fn id(&self) -> &str {
-       "0x01f6"
+       "0xf601"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -63051,7 +63051,7 @@ impl Default for PacketZcReqBaby {
 
 impl PacketCzJoinBaby {
     pub fn packet_id() -> &'static str {
-        "0x01f7"
+        "0xf701"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzJoinBaby {
         let mut offset: usize = 0;
@@ -63155,8 +63155,8 @@ impl PacketCzJoinBaby {
     pub fn new() -> PacketCzJoinBaby {
         PacketCzJoinBaby {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1f, 0x7]),
-        packet_id_raw: [0x1f, 0x7],
+        packet_id: i16::from_le_bytes([0xf7, 0x01]),
+        packet_id_raw: [0xf7, 0x01],
         aid: 0,
         aid_raw: [0; 4],
         gid: 0,
@@ -63169,7 +63169,7 @@ impl PacketCzJoinBaby {
 
 impl Packet for PacketCzJoinBaby {
     fn id(&self) -> &str {
-       "0x01f7"
+       "0xf701"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -63206,7 +63206,7 @@ impl Default for PacketCzJoinBaby {
 
 impl PacketZcStartBaby {
     pub fn packet_id() -> &'static str {
-        "0x01f8"
+        "0xf801"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcStartBaby {
         let mut offset: usize = 0;
@@ -63250,15 +63250,15 @@ impl PacketZcStartBaby {
     pub fn new() -> PacketZcStartBaby {
         PacketZcStartBaby {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1f, 0x8]),
-        packet_id_raw: [0x1f, 0x8],
+        packet_id: i16::from_le_bytes([0xf8, 0x01]),
+        packet_id_raw: [0xf8, 0x01],
         }
     }
 }
 
 impl Packet for PacketZcStartBaby {
     fn id(&self) -> &str {
-       "0x01f8"
+       "0xf801"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -63295,7 +63295,7 @@ impl Default for PacketZcStartBaby {
 
 impl PacketCzReqJoinBaby {
     pub fn packet_id() -> &'static str {
-        "0x01f9"
+        "0xf901"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqJoinBaby {
         let mut offset: usize = 0;
@@ -63359,8 +63359,8 @@ impl PacketCzReqJoinBaby {
     pub fn new() -> PacketCzReqJoinBaby {
         PacketCzReqJoinBaby {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1f, 0x9]),
-        packet_id_raw: [0x1f, 0x9],
+        packet_id: i16::from_le_bytes([0xf9, 0x01]),
+        packet_id_raw: [0xf9, 0x01],
         aid: 0,
         aid_raw: [0; 4],
         }
@@ -63369,7 +63369,7 @@ impl PacketCzReqJoinBaby {
 
 impl Packet for PacketCzReqJoinBaby {
     fn id(&self) -> &str {
-       "0x01f9"
+       "0xf901"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -63406,7 +63406,7 @@ impl Default for PacketCzReqJoinBaby {
 
 impl PacketCaLogin3 {
     pub fn packet_id() -> &'static str {
-        "0x01fa"
+        "0xfa01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCaLogin3 {
         let mut offset: usize = 0;
@@ -63566,8 +63566,8 @@ impl PacketCaLogin3 {
     pub fn new() -> PacketCaLogin3 {
         PacketCaLogin3 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1f, 0xa]),
-        packet_id_raw: [0x1f, 0xa],
+        packet_id: i16::from_le_bytes([0xfa, 0x01]),
+        packet_id_raw: [0xfa, 0x01],
         version: 0,
         version_raw: [0; 4],
         id: [0 as char; 24],
@@ -63584,7 +63584,7 @@ impl PacketCaLogin3 {
 
 impl Packet for PacketCaLogin3 {
     fn id(&self) -> &str {
-       "0x01fa"
+       "0xfa01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -63621,7 +63621,7 @@ impl Default for PacketCaLogin3 {
 
 impl PacketChDeleteChar2 {
     pub fn packet_id() -> &'static str {
-        "0x01fb"
+        "0xfb01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketChDeleteChar2 {
         let mut offset: usize = 0;
@@ -63713,8 +63713,8 @@ impl PacketChDeleteChar2 {
     pub fn new() -> PacketChDeleteChar2 {
         PacketChDeleteChar2 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1f, 0xb]),
-        packet_id_raw: [0x1f, 0xb],
+        packet_id: i16::from_le_bytes([0xfb, 0x01]),
+        packet_id_raw: [0xfb, 0x01],
         gid: 0,
         gid_raw: [0; 4],
         key: [0 as char; 50],
@@ -63725,7 +63725,7 @@ impl PacketChDeleteChar2 {
 
 impl Packet for PacketChDeleteChar2 {
     fn id(&self) -> &str {
-       "0x01fb"
+       "0xfb01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -63762,7 +63762,7 @@ impl Default for PacketChDeleteChar2 {
 
 impl PacketZcRepairitemlist {
     pub fn packet_id() -> &'static str {
-        "0x01fc"
+        "0xfc01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcRepairitemlist {
         let mut offset: usize = 0;
@@ -63858,8 +63858,8 @@ impl PacketZcRepairitemlist {
     pub fn new() -> PacketZcRepairitemlist {
         PacketZcRepairitemlist {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1f, 0xc]),
-        packet_id_raw: [0x1f, 0xc],
+        packet_id: i16::from_le_bytes([0xfc, 0x01]),
+        packet_id_raw: [0xfc, 0x01],
         packet_length: 0,
         packet_length_raw: [0; 2],
         item_list: vec![],
@@ -63870,7 +63870,7 @@ impl PacketZcRepairitemlist {
 
 impl Packet for PacketZcRepairitemlist {
     fn id(&self) -> &str {
-       "0x01fc"
+       "0xfc01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -63907,7 +63907,7 @@ impl Default for PacketZcRepairitemlist {
 
 impl PacketCzReqItemrepair {
     pub fn packet_id() -> &'static str {
-        "0x01fd"
+        "0xfd01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqItemrepair {
         let mut offset: usize = 0;
@@ -63970,8 +63970,8 @@ impl PacketCzReqItemrepair {
     pub fn new() -> PacketCzReqItemrepair {
         PacketCzReqItemrepair {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1f, 0xd]),
-        packet_id_raw: [0x1f, 0xd],
+        packet_id: i16::from_le_bytes([0xfd, 0x01]),
+        packet_id_raw: [0xfd, 0x01],
         target_item_info: RepairitemInfo::new(),
         target_item_info_raw: vec![],
         }
@@ -63980,7 +63980,7 @@ impl PacketCzReqItemrepair {
 
 impl Packet for PacketCzReqItemrepair {
     fn id(&self) -> &str {
-       "0x01fd"
+       "0xfd01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -64017,7 +64017,7 @@ impl Default for PacketCzReqItemrepair {
 
 impl PacketZcAckItemrepair {
     pub fn packet_id() -> &'static str {
-        "0x01fe"
+        "0xfe01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckItemrepair {
         let mut offset: usize = 0;
@@ -64101,8 +64101,8 @@ impl PacketZcAckItemrepair {
     pub fn new() -> PacketZcAckItemrepair {
         PacketZcAckItemrepair {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1f, 0xe]),
-        packet_id_raw: [0x1f, 0xe],
+        packet_id: i16::from_le_bytes([0xfe, 0x01]),
+        packet_id_raw: [0xfe, 0x01],
         index: 0,
         index_raw: [0; 2],
         result: 0,
@@ -64113,7 +64113,7 @@ impl PacketZcAckItemrepair {
 
 impl Packet for PacketZcAckItemrepair {
     fn id(&self) -> &str {
-       "0x01fe"
+       "0xfe01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -64150,7 +64150,7 @@ impl Default for PacketZcAckItemrepair {
 
 impl PacketZcHighjump {
     pub fn packet_id() -> &'static str {
-        "0x01ff"
+        "0xff01"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcHighjump {
         let mut offset: usize = 0;
@@ -64254,8 +64254,8 @@ impl PacketZcHighjump {
     pub fn new() -> PacketZcHighjump {
         PacketZcHighjump {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x1f, 0xf]),
-        packet_id_raw: [0x1f, 0xf],
+        packet_id: i16::from_le_bytes([0xff, 0x01]),
+        packet_id_raw: [0xff, 0x01],
         aid: 0,
         aid_raw: [0; 4],
         x_pos: 0,
@@ -64268,7 +64268,7 @@ impl PacketZcHighjump {
 
 impl Packet for PacketZcHighjump {
     fn id(&self) -> &str {
-       "0x01ff"
+       "0xff01"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -64305,7 +64305,7 @@ impl Default for PacketZcHighjump {
 
 impl PacketCaConnectInfoChanged {
     pub fn packet_id() -> &'static str {
-        "0x0200"
+        "0x0002"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCaConnectInfoChanged {
         let mut offset: usize = 0;
@@ -64377,8 +64377,8 @@ impl PacketCaConnectInfoChanged {
     pub fn new() -> PacketCaConnectInfoChanged {
         PacketCaConnectInfoChanged {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x20, 0x0]),
-        packet_id_raw: [0x20, 0x0],
+        packet_id: i16::from_le_bytes([0x00, 0x02]),
+        packet_id_raw: [0x00, 0x02],
         id: [0 as char; 24],
         id_raw: [0; 24],
         }
@@ -64387,7 +64387,7 @@ impl PacketCaConnectInfoChanged {
 
 impl Packet for PacketCaConnectInfoChanged {
     fn id(&self) -> &str {
-       "0x0200"
+       "0x0002"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -64424,7 +64424,7 @@ impl Default for PacketCaConnectInfoChanged {
 
 impl PacketZcFriendsList {
     pub fn packet_id() -> &'static str {
-        "0x0201"
+        "0x0102"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcFriendsList {
         let mut offset: usize = 0;
@@ -64520,8 +64520,8 @@ impl PacketZcFriendsList {
     pub fn new() -> PacketZcFriendsList {
         PacketZcFriendsList {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x20, 0x1]),
-        packet_id_raw: [0x20, 0x1],
+        packet_id: i16::from_le_bytes([0x01, 0x02]),
+        packet_id_raw: [0x01, 0x02],
         packet_length: 0,
         packet_length_raw: [0; 2],
         friend_list: vec![],
@@ -64532,7 +64532,7 @@ impl PacketZcFriendsList {
 
 impl Packet for PacketZcFriendsList {
     fn id(&self) -> &str {
-       "0x0201"
+       "0x0102"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -64641,8 +64641,8 @@ impl PacketCzAddFriends {
     pub fn new() -> PacketCzAddFriends {
         PacketCzAddFriends {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x20, 0x2]),
-        packet_id_raw: [0x20, 0x2],
+        packet_id: i16::from_le_bytes([0x02, 0x02]),
+        packet_id_raw: [0x02, 0x02],
         name: [0 as char; 24],
         name_raw: [0; 24],
         }
@@ -64688,7 +64688,7 @@ impl Default for PacketCzAddFriends {
 
 impl PacketCzDeleteFriends {
     pub fn packet_id() -> &'static str {
-        "0x0203"
+        "0x0302"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzDeleteFriends {
         let mut offset: usize = 0;
@@ -64772,8 +64772,8 @@ impl PacketCzDeleteFriends {
     pub fn new() -> PacketCzDeleteFriends {
         PacketCzDeleteFriends {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x20, 0x3]),
-        packet_id_raw: [0x20, 0x3],
+        packet_id: i16::from_le_bytes([0x03, 0x02]),
+        packet_id_raw: [0x03, 0x02],
         aid: 0,
         aid_raw: [0; 4],
         gid: 0,
@@ -64784,7 +64784,7 @@ impl PacketCzDeleteFriends {
 
 impl Packet for PacketCzDeleteFriends {
     fn id(&self) -> &str {
-       "0x0203"
+       "0x0302"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -64821,7 +64821,7 @@ impl Default for PacketCzDeleteFriends {
 
 impl PacketCaExeHashcheck {
     pub fn packet_id() -> &'static str {
-        "0x0204"
+        "0x0402"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCaExeHashcheck {
         let mut offset: usize = 0;
@@ -64893,8 +64893,8 @@ impl PacketCaExeHashcheck {
     pub fn new() -> PacketCaExeHashcheck {
         PacketCaExeHashcheck {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x20, 0x4]),
-        packet_id_raw: [0x20, 0x4],
+        packet_id: i16::from_le_bytes([0x04, 0x02]),
+        packet_id_raw: [0x04, 0x02],
         hash_value: [0 as char; 16],
         hash_value_raw: [0; 16],
         }
@@ -64903,7 +64903,7 @@ impl PacketCaExeHashcheck {
 
 impl Packet for PacketCaExeHashcheck {
     fn id(&self) -> &str {
-       "0x0204"
+       "0x0402"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -64940,7 +64940,7 @@ impl Default for PacketCaExeHashcheck {
 
 impl PacketZcDivorce {
     pub fn packet_id() -> &'static str {
-        "0x0205"
+        "0x0502"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcDivorce {
         let mut offset: usize = 0;
@@ -65012,8 +65012,8 @@ impl PacketZcDivorce {
     pub fn new() -> PacketZcDivorce {
         PacketZcDivorce {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x20, 0x5]),
-        packet_id_raw: [0x20, 0x5],
+        packet_id: i16::from_le_bytes([0x05, 0x02]),
+        packet_id_raw: [0x05, 0x02],
         name: [0 as char; 24],
         name_raw: [0; 24],
         }
@@ -65022,7 +65022,7 @@ impl PacketZcDivorce {
 
 impl Packet for PacketZcDivorce {
     fn id(&self) -> &str {
-       "0x0205"
+       "0x0502"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -65059,7 +65059,7 @@ impl Default for PacketZcDivorce {
 
 impl PacketZcFriendsState {
     pub fn packet_id() -> &'static str {
-        "0x0206"
+        "0x0602"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcFriendsState {
         let mut offset: usize = 0;
@@ -65163,8 +65163,8 @@ impl PacketZcFriendsState {
     pub fn new() -> PacketZcFriendsState {
         PacketZcFriendsState {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x20, 0x6]),
-        packet_id_raw: [0x20, 0x6],
+        packet_id: i16::from_le_bytes([0x06, 0x02]),
+        packet_id_raw: [0x06, 0x02],
         aid: 0,
         aid_raw: [0; 4],
         gid: 0,
@@ -65177,7 +65177,7 @@ impl PacketZcFriendsState {
 
 impl Packet for PacketZcFriendsState {
     fn id(&self) -> &str {
-       "0x0206"
+       "0x0602"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -65214,7 +65214,7 @@ impl Default for PacketZcFriendsState {
 
 impl PacketZcReqAddFriends {
     pub fn packet_id() -> &'static str {
-        "0x0207"
+        "0x0702"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcReqAddFriends {
         let mut offset: usize = 0;
@@ -65326,8 +65326,8 @@ impl PacketZcReqAddFriends {
     pub fn new() -> PacketZcReqAddFriends {
         PacketZcReqAddFriends {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x20, 0x7]),
-        packet_id_raw: [0x20, 0x7],
+        packet_id: i16::from_le_bytes([0x07, 0x02]),
+        packet_id_raw: [0x07, 0x02],
         req_aid: 0,
         req_aid_raw: [0; 4],
         req_gid: 0,
@@ -65340,7 +65340,7 @@ impl PacketZcReqAddFriends {
 
 impl Packet for PacketZcReqAddFriends {
     fn id(&self) -> &str {
-       "0x0207"
+       "0x0702"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -65377,7 +65377,7 @@ impl Default for PacketZcReqAddFriends {
 
 impl PacketCzAckReqAddFriends {
     pub fn packet_id() -> &'static str {
-        "0x0208"
+        "0x0802"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzAckReqAddFriends {
         let mut offset: usize = 0;
@@ -65481,8 +65481,8 @@ impl PacketCzAckReqAddFriends {
     pub fn new() -> PacketCzAckReqAddFriends {
         PacketCzAckReqAddFriends {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x20, 0x8]),
-        packet_id_raw: [0x20, 0x8],
+        packet_id: i16::from_le_bytes([0x08, 0x02]),
+        packet_id_raw: [0x08, 0x02],
         req_aid: 0,
         req_aid_raw: [0; 4],
         req_gid: 0,
@@ -65495,7 +65495,7 @@ impl PacketCzAckReqAddFriends {
 
 impl Packet for PacketCzAckReqAddFriends {
     fn id(&self) -> &str {
-       "0x0208"
+       "0x0802"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -65532,7 +65532,7 @@ impl Default for PacketCzAckReqAddFriends {
 
 impl PacketZcAddFriendsList {
     pub fn packet_id() -> &'static str {
-        "0x0209"
+        "0x0902"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAddFriendsList {
         let mut offset: usize = 0;
@@ -65664,8 +65664,8 @@ impl PacketZcAddFriendsList {
     pub fn new() -> PacketZcAddFriendsList {
         PacketZcAddFriendsList {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x20, 0x9]),
-        packet_id_raw: [0x20, 0x9],
+        packet_id: i16::from_le_bytes([0x09, 0x02]),
+        packet_id_raw: [0x09, 0x02],
         result: 0,
         result_raw: [0; 2],
         aid: 0,
@@ -65680,7 +65680,7 @@ impl PacketZcAddFriendsList {
 
 impl Packet for PacketZcAddFriendsList {
     fn id(&self) -> &str {
-       "0x0209"
+       "0x0902"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -65717,7 +65717,7 @@ impl Default for PacketZcAddFriendsList {
 
 impl PacketZcDeleteFriends {
     pub fn packet_id() -> &'static str {
-        "0x020a"
+        "0x0a02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcDeleteFriends {
         let mut offset: usize = 0;
@@ -65801,8 +65801,8 @@ impl PacketZcDeleteFriends {
     pub fn new() -> PacketZcDeleteFriends {
         PacketZcDeleteFriends {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x20, 0xa]),
-        packet_id_raw: [0x20, 0xa],
+        packet_id: i16::from_le_bytes([0x0a, 0x02]),
+        packet_id_raw: [0x0a, 0x02],
         aid: 0,
         aid_raw: [0; 4],
         gid: 0,
@@ -65813,7 +65813,7 @@ impl PacketZcDeleteFriends {
 
 impl Packet for PacketZcDeleteFriends {
     fn id(&self) -> &str {
-       "0x020a"
+       "0x0a02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -65850,7 +65850,7 @@ impl Default for PacketZcDeleteFriends {
 
 impl PacketAcRefuseLoginR3 {
     pub fn packet_id() -> &'static str {
-        "0x020b"
+        "0x0b02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketAcRefuseLoginR3 {
         let mut offset: usize = 0;
@@ -65942,8 +65942,8 @@ impl PacketAcRefuseLoginR3 {
     pub fn new() -> PacketAcRefuseLoginR3 {
         PacketAcRefuseLoginR3 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x02, 0x0b]),
-        packet_id_raw: [0x02, 0x0b],
+        packet_id: i16::from_le_bytes([0x0b, 0x02]),
+        packet_id_raw: [0x0b, 0x02],
         error_code: 0,
         error_code_raw: [0; 4],
         block_date: [0 as char; 20],
@@ -65954,7 +65954,7 @@ impl PacketAcRefuseLoginR3 {
 
 impl Packet for PacketAcRefuseLoginR3 {
     fn id(&self) -> &str {
-       "0x020b"
+       "0x0b02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -65991,7 +65991,7 @@ impl Default for PacketAcRefuseLoginR3 {
 
 impl PacketCzExeHashcheck {
     pub fn packet_id() -> &'static str {
-        "0x020c"
+        "0x0c02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzExeHashcheck {
         let mut offset: usize = 0;
@@ -66083,8 +66083,8 @@ impl PacketCzExeHashcheck {
     pub fn new() -> PacketCzExeHashcheck {
         PacketCzExeHashcheck {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x20, 0xc]),
-        packet_id_raw: [0x20, 0xc],
+        packet_id: i16::from_le_bytes([0x0c, 0x02]),
+        packet_id_raw: [0x0c, 0x02],
         client_type: 0,
         client_type_raw: [0; 1],
         hash_value: [0 as char; 16],
@@ -66095,7 +66095,7 @@ impl PacketCzExeHashcheck {
 
 impl Packet for PacketCzExeHashcheck {
     fn id(&self) -> &str {
-       "0x020c"
+       "0x0c02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -66132,7 +66132,7 @@ impl Default for PacketCzExeHashcheck {
 
 impl PacketHcBlockCharacter {
     pub fn packet_id() -> &'static str {
-        "0x020d"
+        "0x0d02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketHcBlockCharacter {
         let mut offset: usize = 0;
@@ -66228,8 +66228,8 @@ impl PacketHcBlockCharacter {
     pub fn new() -> PacketHcBlockCharacter {
         PacketHcBlockCharacter {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x20, 0xd]),
-        packet_id_raw: [0x20, 0xd],
+        packet_id: i16::from_le_bytes([0x0d, 0x02]),
+        packet_id_raw: [0x0d, 0x02],
         packet_length: 0,
         packet_length_raw: [0; 2],
         character_list: vec![],
@@ -66240,7 +66240,7 @@ impl PacketHcBlockCharacter {
 
 impl Packet for PacketHcBlockCharacter {
     fn id(&self) -> &str {
-       "0x020d"
+       "0x0d02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -66277,7 +66277,7 @@ impl Default for PacketHcBlockCharacter {
 
 impl PacketZcStarskill {
     pub fn packet_id() -> &'static str {
-        "0x020e"
+        "0x0e02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcStarskill {
         let mut offset: usize = 0;
@@ -66409,8 +66409,8 @@ impl PacketZcStarskill {
     pub fn new() -> PacketZcStarskill {
         PacketZcStarskill {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x20, 0xe]),
-        packet_id_raw: [0x20, 0xe],
+        packet_id: i16::from_le_bytes([0x0e, 0x02]),
+        packet_id_raw: [0x0e, 0x02],
         map_name: [0 as char; 24],
         map_name_raw: [0; 24],
         monster_id: 0,
@@ -66425,7 +66425,7 @@ impl PacketZcStarskill {
 
 impl Packet for PacketZcStarskill {
     fn id(&self) -> &str {
-       "0x020e"
+       "0x0e02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -66462,7 +66462,7 @@ impl Default for PacketZcStarskill {
 
 impl PacketCzReqPvppoint {
     pub fn packet_id() -> &'static str {
-        "0x020f"
+        "0x0f02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqPvppoint {
         let mut offset: usize = 0;
@@ -66546,8 +66546,8 @@ impl PacketCzReqPvppoint {
     pub fn new() -> PacketCzReqPvppoint {
         PacketCzReqPvppoint {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x20, 0xf]),
-        packet_id_raw: [0x20, 0xf],
+        packet_id: i16::from_le_bytes([0x0f, 0x02]),
+        packet_id_raw: [0x0f, 0x02],
         aid: 0,
         aid_raw: [0; 4],
         gid: 0,
@@ -66558,7 +66558,7 @@ impl PacketCzReqPvppoint {
 
 impl Packet for PacketCzReqPvppoint {
     fn id(&self) -> &str {
-       "0x020f"
+       "0x0f02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -66595,7 +66595,7 @@ impl Default for PacketCzReqPvppoint {
 
 impl PacketZcAckPvppoint {
     pub fn packet_id() -> &'static str {
-        "0x0210"
+        "0x1002"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckPvppoint {
         let mut offset: usize = 0;
@@ -66698,8 +66698,8 @@ impl PacketZcAckPvppoint {
     pub fn new() -> PacketZcAckPvppoint {
         PacketZcAckPvppoint {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x21, 0x0]),
-        packet_id_raw: [0x21, 0x0],
+        packet_id: i16::from_le_bytes([0x10, 0x02]),
+        packet_id_raw: [0x10, 0x02],
         aid: 0,
         aid_raw: [0; 4],
         gid: 0,
@@ -66712,7 +66712,7 @@ impl PacketZcAckPvppoint {
 
 impl Packet for PacketZcAckPvppoint {
     fn id(&self) -> &str {
-       "0x0210"
+       "0x1002"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -66749,7 +66749,7 @@ impl Default for PacketZcAckPvppoint {
 
 impl PacketZhMovePvpworld {
     pub fn packet_id() -> &'static str {
-        "0x0211"
+        "0x1102"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZhMovePvpworld {
         let mut offset: usize = 0;
@@ -66813,8 +66813,8 @@ impl PacketZhMovePvpworld {
     pub fn new() -> PacketZhMovePvpworld {
         PacketZhMovePvpworld {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x21, 0x1]),
-        packet_id_raw: [0x21, 0x1],
+        packet_id: i16::from_le_bytes([0x11, 0x02]),
+        packet_id_raw: [0x11, 0x02],
         gid: 0,
         gid_raw: [0; 4],
         }
@@ -66823,7 +66823,7 @@ impl PacketZhMovePvpworld {
 
 impl Packet for PacketZhMovePvpworld {
     fn id(&self) -> &str {
-       "0x0211"
+       "0x1102"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -66860,7 +66860,7 @@ impl Default for PacketZhMovePvpworld {
 
 impl PacketCzReqGiveMannerByname {
     pub fn packet_id() -> &'static str {
-        "0x0212"
+        "0x1202"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqGiveMannerByname {
         let mut offset: usize = 0;
@@ -66932,8 +66932,8 @@ impl PacketCzReqGiveMannerByname {
     pub fn new() -> PacketCzReqGiveMannerByname {
         PacketCzReqGiveMannerByname {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x21, 0x2]),
-        packet_id_raw: [0x21, 0x2],
+        packet_id: i16::from_le_bytes([0x12, 0x02]),
+        packet_id_raw: [0x12, 0x02],
         char_name: [0 as char; 24],
         char_name_raw: [0; 24],
         }
@@ -66942,7 +66942,7 @@ impl PacketCzReqGiveMannerByname {
 
 impl Packet for PacketCzReqGiveMannerByname {
     fn id(&self) -> &str {
-       "0x0212"
+       "0x1202"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -66979,7 +66979,7 @@ impl Default for PacketCzReqGiveMannerByname {
 
 impl PacketCzReqStatusGm {
     pub fn packet_id() -> &'static str {
-        "0x0213"
+        "0x1302"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqStatusGm {
         let mut offset: usize = 0;
@@ -67051,8 +67051,8 @@ impl PacketCzReqStatusGm {
     pub fn new() -> PacketCzReqStatusGm {
         PacketCzReqStatusGm {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x21, 0x3]),
-        packet_id_raw: [0x21, 0x3],
+        packet_id: i16::from_le_bytes([0x13, 0x02]),
+        packet_id_raw: [0x13, 0x02],
         char_name: [0 as char; 24],
         char_name_raw: [0; 24],
         }
@@ -67061,7 +67061,7 @@ impl PacketCzReqStatusGm {
 
 impl Packet for PacketCzReqStatusGm {
     fn id(&self) -> &str {
-       "0x0213"
+       "0x1302"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -67098,7 +67098,7 @@ impl Default for PacketCzReqStatusGm {
 
 impl PacketZcAckStatusGm {
     pub fn packet_id() -> &'static str {
-        "0x0214"
+        "0x1402"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckStatusGm {
         let mut offset: usize = 0;
@@ -67662,8 +67662,8 @@ impl PacketZcAckStatusGm {
     pub fn new() -> PacketZcAckStatusGm {
         PacketZcAckStatusGm {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x21, 0x4]),
-        packet_id_raw: [0x21, 0x4],
+        packet_id: i16::from_le_bytes([0x14, 0x02]),
+        packet_id_raw: [0x14, 0x02],
         str: 0,
         str_raw: [0; 1],
         standard_str: 0,
@@ -67722,7 +67722,7 @@ impl PacketZcAckStatusGm {
 
 impl Packet for PacketZcAckStatusGm {
     fn id(&self) -> &str {
-       "0x0214"
+       "0x1402"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -67759,7 +67759,7 @@ impl Default for PacketZcAckStatusGm {
 
 impl PacketZcSkillmsg {
     pub fn packet_id() -> &'static str {
-        "0x0215"
+        "0x1502"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSkillmsg {
         let mut offset: usize = 0;
@@ -67823,8 +67823,8 @@ impl PacketZcSkillmsg {
     pub fn new() -> PacketZcSkillmsg {
         PacketZcSkillmsg {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x21, 0x5]),
-        packet_id_raw: [0x21, 0x5],
+        packet_id: i16::from_le_bytes([0x15, 0x02]),
+        packet_id_raw: [0x15, 0x02],
         msg_no: 0,
         msg_no_raw: [0; 4],
         }
@@ -67833,7 +67833,7 @@ impl PacketZcSkillmsg {
 
 impl Packet for PacketZcSkillmsg {
     fn id(&self) -> &str {
-       "0x0215"
+       "0x1502"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -67870,7 +67870,7 @@ impl Default for PacketZcSkillmsg {
 
 impl PacketZcBabymsg {
     pub fn packet_id() -> &'static str {
-        "0x0216"
+        "0x1602"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcBabymsg {
         let mut offset: usize = 0;
@@ -67934,8 +67934,8 @@ impl PacketZcBabymsg {
     pub fn new() -> PacketZcBabymsg {
         PacketZcBabymsg {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x21, 0x6]),
-        packet_id_raw: [0x21, 0x6],
+        packet_id: i16::from_le_bytes([0x16, 0x02]),
+        packet_id_raw: [0x16, 0x02],
         msg_no: 0,
         msg_no_raw: [0; 4],
         }
@@ -67944,7 +67944,7 @@ impl PacketZcBabymsg {
 
 impl Packet for PacketZcBabymsg {
     fn id(&self) -> &str {
-       "0x0216"
+       "0x1602"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -67981,7 +67981,7 @@ impl Default for PacketZcBabymsg {
 
 impl PacketCzBlacksmithRank {
     pub fn packet_id() -> &'static str {
-        "0x0217"
+        "0x1702"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzBlacksmithRank {
         let mut offset: usize = 0;
@@ -68025,15 +68025,15 @@ impl PacketCzBlacksmithRank {
     pub fn new() -> PacketCzBlacksmithRank {
         PacketCzBlacksmithRank {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x21, 0x7]),
-        packet_id_raw: [0x21, 0x7],
+        packet_id: i16::from_le_bytes([0x17, 0x02]),
+        packet_id_raw: [0x17, 0x02],
         }
     }
 }
 
 impl Packet for PacketCzBlacksmithRank {
     fn id(&self) -> &str {
-       "0x0217"
+       "0x1702"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -68070,7 +68070,7 @@ impl Default for PacketCzBlacksmithRank {
 
 impl PacketCzAlchemistRank {
     pub fn packet_id() -> &'static str {
-        "0x0218"
+        "0x1802"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzAlchemistRank {
         let mut offset: usize = 0;
@@ -68114,15 +68114,15 @@ impl PacketCzAlchemistRank {
     pub fn new() -> PacketCzAlchemistRank {
         PacketCzAlchemistRank {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x21, 0x8]),
-        packet_id_raw: [0x21, 0x8],
+        packet_id: i16::from_le_bytes([0x18, 0x02]),
+        packet_id_raw: [0x18, 0x02],
         }
     }
 }
 
 impl Packet for PacketCzAlchemistRank {
     fn id(&self) -> &str {
-       "0x0218"
+       "0x1802"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -68159,7 +68159,7 @@ impl Default for PacketCzAlchemistRank {
 
 impl PacketZcBlacksmithRank {
     pub fn packet_id() -> &'static str {
-        "0x0219"
+        "0x1902"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcBlacksmithRank {
         let mut offset: usize = 0;
@@ -68259,8 +68259,8 @@ impl PacketZcBlacksmithRank {
     pub fn new() -> PacketZcBlacksmithRank {
         PacketZcBlacksmithRank {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x21, 0x9]),
-        packet_id_raw: [0x21, 0x9],
+        packet_id: i16::from_le_bytes([0x19, 0x02]),
+        packet_id_raw: [0x19, 0x02],
         name: [0 as char; 10],
         name_raw: [0; 10],
         point: [0; 10],
@@ -68271,7 +68271,7 @@ impl PacketZcBlacksmithRank {
 
 impl Packet for PacketZcBlacksmithRank {
     fn id(&self) -> &str {
-       "0x0219"
+       "0x1902"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -68308,7 +68308,7 @@ impl Default for PacketZcBlacksmithRank {
 
 impl PacketZcAlchemistRank {
     pub fn packet_id() -> &'static str {
-        "0x021a"
+        "0x1a02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAlchemistRank {
         let mut offset: usize = 0;
@@ -68408,8 +68408,8 @@ impl PacketZcAlchemistRank {
     pub fn new() -> PacketZcAlchemistRank {
         PacketZcAlchemistRank {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x21, 0xa]),
-        packet_id_raw: [0x21, 0xa],
+        packet_id: i16::from_le_bytes([0x1a, 0x02]),
+        packet_id_raw: [0x1a, 0x02],
         name: [0 as char; 10],
         name_raw: [0; 10],
         point: [0; 10],
@@ -68420,7 +68420,7 @@ impl PacketZcAlchemistRank {
 
 impl Packet for PacketZcAlchemistRank {
     fn id(&self) -> &str {
-       "0x021a"
+       "0x1a02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -68457,7 +68457,7 @@ impl Default for PacketZcAlchemistRank {
 
 impl PacketZcBlacksmithPoint {
     pub fn packet_id() -> &'static str {
-        "0x021b"
+        "0x1b02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcBlacksmithPoint {
         let mut offset: usize = 0;
@@ -68541,8 +68541,8 @@ impl PacketZcBlacksmithPoint {
     pub fn new() -> PacketZcBlacksmithPoint {
         PacketZcBlacksmithPoint {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x21, 0xb]),
-        packet_id_raw: [0x21, 0xb],
+        packet_id: i16::from_le_bytes([0x1b, 0x02]),
+        packet_id_raw: [0x1b, 0x02],
         point: 0,
         point_raw: [0; 4],
         total_point: 0,
@@ -68553,7 +68553,7 @@ impl PacketZcBlacksmithPoint {
 
 impl Packet for PacketZcBlacksmithPoint {
     fn id(&self) -> &str {
-       "0x021b"
+       "0x1b02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -68590,7 +68590,7 @@ impl Default for PacketZcBlacksmithPoint {
 
 impl PacketZcAlchemistPoint {
     pub fn packet_id() -> &'static str {
-        "0x021c"
+        "0x1c02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAlchemistPoint {
         let mut offset: usize = 0;
@@ -68674,8 +68674,8 @@ impl PacketZcAlchemistPoint {
     pub fn new() -> PacketZcAlchemistPoint {
         PacketZcAlchemistPoint {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x21, 0xc]),
-        packet_id_raw: [0x21, 0xc],
+        packet_id: i16::from_le_bytes([0x1c, 0x02]),
+        packet_id_raw: [0x1c, 0x02],
         point: 0,
         point_raw: [0; 4],
         total_point: 0,
@@ -68686,7 +68686,7 @@ impl PacketZcAlchemistPoint {
 
 impl Packet for PacketZcAlchemistPoint {
     fn id(&self) -> &str {
-       "0x021c"
+       "0x1c02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -68723,7 +68723,7 @@ impl Default for PacketZcAlchemistPoint {
 
 impl PacketCzLesseffect {
     pub fn packet_id() -> &'static str {
-        "0x021d"
+        "0x1d02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzLesseffect {
         let mut offset: usize = 0;
@@ -68787,8 +68787,8 @@ impl PacketCzLesseffect {
     pub fn new() -> PacketCzLesseffect {
         PacketCzLesseffect {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x21, 0xd]),
-        packet_id_raw: [0x21, 0xd],
+        packet_id: i16::from_le_bytes([0x1d, 0x02]),
+        packet_id_raw: [0x1d, 0x02],
         is_less: 0,
         is_less_raw: [0; 4],
         }
@@ -68797,7 +68797,7 @@ impl PacketCzLesseffect {
 
 impl Packet for PacketCzLesseffect {
     fn id(&self) -> &str {
-       "0x021d"
+       "0x1d02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -68834,7 +68834,7 @@ impl Default for PacketCzLesseffect {
 
 impl PacketZcLesseffect {
     pub fn packet_id() -> &'static str {
-        "0x021e"
+        "0x1e02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcLesseffect {
         let mut offset: usize = 0;
@@ -68898,8 +68898,8 @@ impl PacketZcLesseffect {
     pub fn new() -> PacketZcLesseffect {
         PacketZcLesseffect {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x21, 0xe]),
-        packet_id_raw: [0x21, 0xe],
+        packet_id: i16::from_le_bytes([0x1e, 0x02]),
+        packet_id_raw: [0x1e, 0x02],
         is_less: 0,
         is_less_raw: [0; 4],
         }
@@ -68908,7 +68908,7 @@ impl PacketZcLesseffect {
 
 impl Packet for PacketZcLesseffect {
     fn id(&self) -> &str {
-       "0x021e"
+       "0x1e02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -68945,7 +68945,7 @@ impl Default for PacketZcLesseffect {
 
 impl PacketZcNotifyPkinfo {
     pub fn packet_id() -> &'static str {
-        "0x021f"
+        "0x1f02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyPkinfo {
         let mut offset: usize = 0;
@@ -69104,8 +69104,8 @@ impl PacketZcNotifyPkinfo {
     pub fn new() -> PacketZcNotifyPkinfo {
         PacketZcNotifyPkinfo {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x21, 0xf]),
-        packet_id_raw: [0x21, 0xf],
+        packet_id: i16::from_le_bytes([0x1f, 0x02]),
+        packet_id_raw: [0x1f, 0x02],
         win_point: 0,
         win_point_raw: [0; 4],
         lose_point: 0,
@@ -69122,7 +69122,7 @@ impl PacketZcNotifyPkinfo {
 
 impl Packet for PacketZcNotifyPkinfo {
     fn id(&self) -> &str {
-       "0x021f"
+       "0x1f02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -69159,7 +69159,7 @@ impl Default for PacketZcNotifyPkinfo {
 
 impl PacketZcNotifyCrazykiller {
     pub fn packet_id() -> &'static str {
-        "0x0220"
+        "0x2002"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyCrazykiller {
         let mut offset: usize = 0;
@@ -69243,8 +69243,8 @@ impl PacketZcNotifyCrazykiller {
     pub fn new() -> PacketZcNotifyCrazykiller {
         PacketZcNotifyCrazykiller {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x22, 0x0]),
-        packet_id_raw: [0x22, 0x0],
+        packet_id: i16::from_le_bytes([0x20, 0x02]),
+        packet_id_raw: [0x20, 0x02],
         aid: 0,
         aid_raw: [0; 4],
         is_crazy_killer: 0,
@@ -69255,7 +69255,7 @@ impl PacketZcNotifyCrazykiller {
 
 impl Packet for PacketZcNotifyCrazykiller {
     fn id(&self) -> &str {
-       "0x0220"
+       "0x2002"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -69292,7 +69292,7 @@ impl Default for PacketZcNotifyCrazykiller {
 
 impl PacketZcNotifyWeaponitemlist {
     pub fn packet_id() -> &'static str {
-        "0x0221"
+        "0x2102"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyWeaponitemlist {
         let mut offset: usize = 0;
@@ -69388,8 +69388,8 @@ impl PacketZcNotifyWeaponitemlist {
     pub fn new() -> PacketZcNotifyWeaponitemlist {
         PacketZcNotifyWeaponitemlist {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x22, 0x1]),
-        packet_id_raw: [0x22, 0x1],
+        packet_id: i16::from_le_bytes([0x21, 0x02]),
+        packet_id_raw: [0x21, 0x02],
         packet_length: 0,
         packet_length_raw: [0; 2],
         item_list: vec![],
@@ -69400,7 +69400,7 @@ impl PacketZcNotifyWeaponitemlist {
 
 impl Packet for PacketZcNotifyWeaponitemlist {
     fn id(&self) -> &str {
-       "0x0221"
+       "0x2102"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -69437,7 +69437,7 @@ impl Default for PacketZcNotifyWeaponitemlist {
 
 impl PacketCzReqWeaponrefine {
     pub fn packet_id() -> &'static str {
-        "0x0222"
+        "0x2202"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqWeaponrefine {
         let mut offset: usize = 0;
@@ -69501,8 +69501,8 @@ impl PacketCzReqWeaponrefine {
     pub fn new() -> PacketCzReqWeaponrefine {
         PacketCzReqWeaponrefine {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x22, 0x2]),
-        packet_id_raw: [0x22, 0x2],
+        packet_id: i16::from_le_bytes([0x22, 0x02]),
+        packet_id_raw: [0x22, 0x02],
         index: 0,
         index_raw: [0; 4],
         }
@@ -69511,7 +69511,7 @@ impl PacketCzReqWeaponrefine {
 
 impl Packet for PacketCzReqWeaponrefine {
     fn id(&self) -> &str {
-       "0x0222"
+       "0x2202"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -69548,7 +69548,7 @@ impl Default for PacketCzReqWeaponrefine {
 
 impl PacketZcAckWeaponrefine {
     pub fn packet_id() -> &'static str {
-        "0x0223"
+        "0x2302"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckWeaponrefine {
         let mut offset: usize = 0;
@@ -69632,8 +69632,8 @@ impl PacketZcAckWeaponrefine {
     pub fn new() -> PacketZcAckWeaponrefine {
         PacketZcAckWeaponrefine {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x22, 0x3]),
-        packet_id_raw: [0x22, 0x3],
+        packet_id: i16::from_le_bytes([0x23, 0x02]),
+        packet_id_raw: [0x23, 0x02],
         msg: 0,
         msg_raw: [0; 4],
         itid: 0,
@@ -69644,7 +69644,7 @@ impl PacketZcAckWeaponrefine {
 
 impl Packet for PacketZcAckWeaponrefine {
     fn id(&self) -> &str {
-       "0x0223"
+       "0x2302"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -69681,7 +69681,7 @@ impl Default for PacketZcAckWeaponrefine {
 
 impl PacketZcTaekwonPoint {
     pub fn packet_id() -> &'static str {
-        "0x0224"
+        "0x2402"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcTaekwonPoint {
         let mut offset: usize = 0;
@@ -69765,8 +69765,8 @@ impl PacketZcTaekwonPoint {
     pub fn new() -> PacketZcTaekwonPoint {
         PacketZcTaekwonPoint {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x22, 0x4]),
-        packet_id_raw: [0x22, 0x4],
+        packet_id: i16::from_le_bytes([0x24, 0x02]),
+        packet_id_raw: [0x24, 0x02],
         point: 0,
         point_raw: [0; 4],
         total_point: 0,
@@ -69777,7 +69777,7 @@ impl PacketZcTaekwonPoint {
 
 impl Packet for PacketZcTaekwonPoint {
     fn id(&self) -> &str {
-       "0x0224"
+       "0x2402"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -69814,7 +69814,7 @@ impl Default for PacketZcTaekwonPoint {
 
 impl PacketCzTaekwonRank {
     pub fn packet_id() -> &'static str {
-        "0x0225"
+        "0x2502"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzTaekwonRank {
         let mut offset: usize = 0;
@@ -69858,15 +69858,15 @@ impl PacketCzTaekwonRank {
     pub fn new() -> PacketCzTaekwonRank {
         PacketCzTaekwonRank {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x22, 0x5]),
-        packet_id_raw: [0x22, 0x5],
+        packet_id: i16::from_le_bytes([0x25, 0x02]),
+        packet_id_raw: [0x25, 0x02],
         }
     }
 }
 
 impl Packet for PacketCzTaekwonRank {
     fn id(&self) -> &str {
-       "0x0225"
+       "0x2502"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -69903,7 +69903,7 @@ impl Default for PacketCzTaekwonRank {
 
 impl PacketZcTaekwonRank {
     pub fn packet_id() -> &'static str {
-        "0x0226"
+        "0x2602"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcTaekwonRank {
         let mut offset: usize = 0;
@@ -70003,8 +70003,8 @@ impl PacketZcTaekwonRank {
     pub fn new() -> PacketZcTaekwonRank {
         PacketZcTaekwonRank {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x22, 0x6]),
-        packet_id_raw: [0x22, 0x6],
+        packet_id: i16::from_le_bytes([0x26, 0x02]),
+        packet_id_raw: [0x26, 0x02],
         name: [0 as char; 10],
         name_raw: [0; 10],
         point: [0; 10],
@@ -70015,7 +70015,7 @@ impl PacketZcTaekwonRank {
 
 impl Packet for PacketZcTaekwonRank {
     fn id(&self) -> &str {
-       "0x0226"
+       "0x2602"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -70052,7 +70052,7 @@ impl Default for PacketZcTaekwonRank {
 
 impl PacketZcGameGuard {
     pub fn packet_id() -> &'static str {
-        "0x0227"
+        "0x2702"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcGameGuard {
         let mut offset: usize = 0;
@@ -70124,8 +70124,8 @@ impl PacketZcGameGuard {
     pub fn new() -> PacketZcGameGuard {
         PacketZcGameGuard {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x22, 0x7]),
-        packet_id_raw: [0x22, 0x7],
+        packet_id: i16::from_le_bytes([0x27, 0x02]),
+        packet_id_raw: [0x27, 0x02],
         auth_data: [0; 4],
         auth_data_raw: [0; 4],
         }
@@ -70134,7 +70134,7 @@ impl PacketZcGameGuard {
 
 impl Packet for PacketZcGameGuard {
     fn id(&self) -> &str {
-       "0x0227"
+       "0x2702"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -70171,7 +70171,7 @@ impl Default for PacketZcGameGuard {
 
 impl PacketCzAckGameGuard {
     pub fn packet_id() -> &'static str {
-        "0x0228"
+        "0x2802"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzAckGameGuard {
         let mut offset: usize = 0;
@@ -70243,8 +70243,8 @@ impl PacketCzAckGameGuard {
     pub fn new() -> PacketCzAckGameGuard {
         PacketCzAckGameGuard {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x22, 0x8]),
-        packet_id_raw: [0x22, 0x8],
+        packet_id: i16::from_le_bytes([0x28, 0x02]),
+        packet_id_raw: [0x28, 0x02],
         auth_data: [0; 4],
         auth_data_raw: [0; 4],
         }
@@ -70253,7 +70253,7 @@ impl PacketCzAckGameGuard {
 
 impl Packet for PacketCzAckGameGuard {
     fn id(&self) -> &str {
-       "0x0228"
+       "0x2802"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -70290,7 +70290,7 @@ impl Default for PacketCzAckGameGuard {
 
 impl PacketZcStateChange3 {
     pub fn packet_id() -> &'static str {
-        "0x0229"
+        "0x2902"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcStateChange3 {
         let mut offset: usize = 0;
@@ -70434,8 +70434,8 @@ impl PacketZcStateChange3 {
     pub fn new() -> PacketZcStateChange3 {
         PacketZcStateChange3 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x22, 0x9]),
-        packet_id_raw: [0x22, 0x9],
+        packet_id: i16::from_le_bytes([0x29, 0x02]),
+        packet_id_raw: [0x29, 0x02],
         aid: 0,
         aid_raw: [0; 4],
         body_state: 0,
@@ -70452,7 +70452,7 @@ impl PacketZcStateChange3 {
 
 impl Packet for PacketZcStateChange3 {
     fn id(&self) -> &str {
-       "0x0229"
+       "0x2902"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -70489,7 +70489,7 @@ impl Default for PacketZcStateChange3 {
 
 impl PacketZcNotifyStandentry3 {
     pub fn packet_id() -> &'static str {
-        "0x022a"
+        "0x2a02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyStandentry3 {
         let mut offset: usize = 0;
@@ -71041,8 +71041,8 @@ impl PacketZcNotifyStandentry3 {
     pub fn new() -> PacketZcNotifyStandentry3 {
         PacketZcNotifyStandentry3 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x22, 0xa]),
-        packet_id_raw: [0x22, 0xa],
+        packet_id: i16::from_le_bytes([0x2a, 0x02]),
+        packet_id_raw: [0x2a, 0x02],
         gid: 0,
         gid_raw: [0; 4],
         speed: 0,
@@ -71099,7 +71099,7 @@ impl PacketZcNotifyStandentry3 {
 
 impl Packet for PacketZcNotifyStandentry3 {
     fn id(&self) -> &str {
-       "0x022a"
+       "0x2a02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -71136,7 +71136,7 @@ impl Default for PacketZcNotifyStandentry3 {
 
 impl PacketZcNotifyNewentry3 {
     pub fn packet_id() -> &'static str {
-        "0x022b"
+        "0x2b02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyNewentry3 {
         let mut offset: usize = 0;
@@ -71668,8 +71668,8 @@ impl PacketZcNotifyNewentry3 {
     pub fn new() -> PacketZcNotifyNewentry3 {
         PacketZcNotifyNewentry3 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x22, 0xb]),
-        packet_id_raw: [0x22, 0xb],
+        packet_id: i16::from_le_bytes([0x2b, 0x02]),
+        packet_id_raw: [0x2b, 0x02],
         gid: 0,
         gid_raw: [0; 4],
         speed: 0,
@@ -71724,7 +71724,7 @@ impl PacketZcNotifyNewentry3 {
 
 impl Packet for PacketZcNotifyNewentry3 {
     fn id(&self) -> &str {
-       "0x022b"
+       "0x2b02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -71761,7 +71761,7 @@ impl Default for PacketZcNotifyNewentry3 {
 
 impl PacketZcNotifyMoveentry3 {
     pub fn packet_id() -> &'static str {
-        "0x022c"
+        "0x2c02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyMoveentry3 {
         let mut offset: usize = 0;
@@ -72333,8 +72333,8 @@ impl PacketZcNotifyMoveentry3 {
     pub fn new() -> PacketZcNotifyMoveentry3 {
         PacketZcNotifyMoveentry3 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x22, 0xc]),
-        packet_id_raw: [0x22, 0xc],
+        packet_id: i16::from_le_bytes([0x2c, 0x02]),
+        packet_id_raw: [0x2c, 0x02],
         objecttype: 0,
         objecttype_raw: [0; 1],
         gid: 0,
@@ -72393,7 +72393,7 @@ impl PacketZcNotifyMoveentry3 {
 
 impl Packet for PacketZcNotifyMoveentry3 {
     fn id(&self) -> &str {
-       "0x022c"
+       "0x2c02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -72430,7 +72430,7 @@ impl Default for PacketZcNotifyMoveentry3 {
 
 impl PacketCzCommandMer {
     pub fn packet_id() -> &'static str {
-        "0x022d"
+        "0x2d02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzCommandMer {
         let mut offset: usize = 0;
@@ -72514,8 +72514,8 @@ impl PacketCzCommandMer {
     pub fn new() -> PacketCzCommandMer {
         PacketCzCommandMer {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x22, 0xd]),
-        packet_id_raw: [0x22, 0xd],
+        packet_id: i16::from_le_bytes([0x2d, 0x02]),
+        packet_id_raw: [0x2d, 0x02],
         atype: 0,
         atype_raw: [0; 2],
         command: 0,
@@ -72526,7 +72526,7 @@ impl PacketCzCommandMer {
 
 impl Packet for PacketCzCommandMer {
     fn id(&self) -> &str {
-       "0x022d"
+       "0x2d02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -72563,7 +72563,7 @@ impl Default for PacketCzCommandMer {
 
 impl PacketZcPropertyHomun {
     pub fn packet_id() -> &'static str {
-        "0x022e"
+        "0x2e02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPropertyHomun {
         let mut offset: usize = 0;
@@ -73055,8 +73055,8 @@ impl PacketZcPropertyHomun {
     pub fn new() -> PacketZcPropertyHomun {
         PacketZcPropertyHomun {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x22, 0xe]),
-        packet_id_raw: [0x22, 0xe],
+        packet_id: i16::from_le_bytes([0x2e, 0x02]),
+        packet_id_raw: [0x2e, 0x02],
         sz_name: [0 as char; 24],
         sz_name_raw: [0; 24],
         b_modified: 0,
@@ -73107,7 +73107,7 @@ impl PacketZcPropertyHomun {
 
 impl Packet for PacketZcPropertyHomun {
     fn id(&self) -> &str {
-       "0x022e"
+       "0x2e02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -73144,7 +73144,7 @@ impl Default for PacketZcPropertyHomun {
 
 impl PacketZcChangestateMer {
     pub fn packet_id() -> &'static str {
-        "0x0230"
+        "0x3002"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcChangestateMer {
         let mut offset: usize = 0;
@@ -73268,8 +73268,8 @@ impl PacketZcChangestateMer {
     pub fn new() -> PacketZcChangestateMer {
         PacketZcChangestateMer {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x23, 0x0]),
-        packet_id_raw: [0x23, 0x0],
+        packet_id: i16::from_le_bytes([0x30, 0x02]),
+        packet_id_raw: [0x30, 0x02],
         atype: 0,
         atype_raw: [0; 1],
         state: 0,
@@ -73284,7 +73284,7 @@ impl PacketZcChangestateMer {
 
 impl Packet for PacketZcChangestateMer {
     fn id(&self) -> &str {
-       "0x0230"
+       "0x3002"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -73321,7 +73321,7 @@ impl Default for PacketZcChangestateMer {
 
 impl PacketCzRenameMer {
     pub fn packet_id() -> &'static str {
-        "0x0231"
+        "0x3102"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzRenameMer {
         let mut offset: usize = 0;
@@ -73393,8 +73393,8 @@ impl PacketCzRenameMer {
     pub fn new() -> PacketCzRenameMer {
         PacketCzRenameMer {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x23, 0x1]),
-        packet_id_raw: [0x23, 0x1],
+        packet_id: i16::from_le_bytes([0x31, 0x02]),
+        packet_id_raw: [0x31, 0x02],
         name: [0 as char; 24],
         name_raw: [0; 24],
         }
@@ -73403,7 +73403,7 @@ impl PacketCzRenameMer {
 
 impl Packet for PacketCzRenameMer {
     fn id(&self) -> &str {
-       "0x0231"
+       "0x3102"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -73440,7 +73440,7 @@ impl Default for PacketCzRenameMer {
 
 impl PacketCzRequestMovenpc {
     pub fn packet_id() -> &'static str {
-        "0x0232"
+        "0x3202"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzRequestMovenpc {
         let mut offset: usize = 0;
@@ -73532,8 +73532,8 @@ impl PacketCzRequestMovenpc {
     pub fn new() -> PacketCzRequestMovenpc {
         PacketCzRequestMovenpc {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x23, 0x2]),
-        packet_id_raw: [0x23, 0x2],
+        packet_id: i16::from_le_bytes([0x32, 0x02]),
+        packet_id_raw: [0x32, 0x02],
         gid: 0,
         gid_raw: [0; 4],
         dest: [0 as char; 3],
@@ -73544,7 +73544,7 @@ impl PacketCzRequestMovenpc {
 
 impl Packet for PacketCzRequestMovenpc {
     fn id(&self) -> &str {
-       "0x0232"
+       "0x3202"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -73581,7 +73581,7 @@ impl Default for PacketCzRequestMovenpc {
 
 impl PacketCzRequestActnpc {
     pub fn packet_id() -> &'static str {
-        "0x0233"
+        "0x3302"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzRequestActnpc {
         let mut offset: usize = 0;
@@ -73685,8 +73685,8 @@ impl PacketCzRequestActnpc {
     pub fn new() -> PacketCzRequestActnpc {
         PacketCzRequestActnpc {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x23, 0x3]),
-        packet_id_raw: [0x23, 0x3],
+        packet_id: i16::from_le_bytes([0x33, 0x02]),
+        packet_id_raw: [0x33, 0x02],
         gid: 0,
         gid_raw: [0; 4],
         target_gid: 0,
@@ -73699,7 +73699,7 @@ impl PacketCzRequestActnpc {
 
 impl Packet for PacketCzRequestActnpc {
     fn id(&self) -> &str {
-       "0x0233"
+       "0x3302"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -73736,7 +73736,7 @@ impl Default for PacketCzRequestActnpc {
 
 impl PacketCzRequestMovetoowner {
     pub fn packet_id() -> &'static str {
-        "0x0234"
+        "0x3402"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzRequestMovetoowner {
         let mut offset: usize = 0;
@@ -73800,8 +73800,8 @@ impl PacketCzRequestMovetoowner {
     pub fn new() -> PacketCzRequestMovetoowner {
         PacketCzRequestMovetoowner {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x23, 0x4]),
-        packet_id_raw: [0x23, 0x4],
+        packet_id: i16::from_le_bytes([0x34, 0x02]),
+        packet_id_raw: [0x34, 0x02],
         gid: 0,
         gid_raw: [0; 4],
         }
@@ -73810,7 +73810,7 @@ impl PacketCzRequestMovetoowner {
 
 impl Packet for PacketCzRequestMovetoowner {
     fn id(&self) -> &str {
-       "0x0234"
+       "0x3402"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -73847,7 +73847,7 @@ impl Default for PacketCzRequestMovetoowner {
 
 impl PacketZcReqStorePassword {
     pub fn packet_id() -> &'static str {
-        "0x023a"
+        "0x3a02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcReqStorePassword {
         let mut offset: usize = 0;
@@ -73911,8 +73911,8 @@ impl PacketZcReqStorePassword {
     pub fn new() -> PacketZcReqStorePassword {
         PacketZcReqStorePassword {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x23, 0xa]),
-        packet_id_raw: [0x23, 0xa],
+        packet_id: i16::from_le_bytes([0x3a, 0x02]),
+        packet_id_raw: [0x3a, 0x02],
         info: 0,
         info_raw: [0; 2],
         }
@@ -73921,7 +73921,7 @@ impl PacketZcReqStorePassword {
 
 impl Packet for PacketZcReqStorePassword {
     fn id(&self) -> &str {
-       "0x023a"
+       "0x3a02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -73958,7 +73958,7 @@ impl Default for PacketZcReqStorePassword {
 
 impl PacketCzAckStorePassword {
     pub fn packet_id() -> &'static str {
-        "0x023b"
+        "0x3b02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzAckStorePassword {
         let mut offset: usize = 0;
@@ -74078,8 +74078,8 @@ impl PacketCzAckStorePassword {
     pub fn new() -> PacketCzAckStorePassword {
         PacketCzAckStorePassword {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x23, 0xb]),
-        packet_id_raw: [0x23, 0xb],
+        packet_id: i16::from_le_bytes([0x3b, 0x02]),
+        packet_id_raw: [0x3b, 0x02],
         atype: 0,
         atype_raw: [0; 2],
         password: [0 as char; 16],
@@ -74092,7 +74092,7 @@ impl PacketCzAckStorePassword {
 
 impl Packet for PacketCzAckStorePassword {
     fn id(&self) -> &str {
-       "0x023b"
+       "0x3b02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -74129,7 +74129,7 @@ impl Default for PacketCzAckStorePassword {
 
 impl PacketZcResultStorePassword {
     pub fn packet_id() -> &'static str {
-        "0x023c"
+        "0x3c02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcResultStorePassword {
         let mut offset: usize = 0;
@@ -74213,8 +74213,8 @@ impl PacketZcResultStorePassword {
     pub fn new() -> PacketZcResultStorePassword {
         PacketZcResultStorePassword {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x23, 0xc]),
-        packet_id_raw: [0x23, 0xc],
+        packet_id: i16::from_le_bytes([0x3c, 0x02]),
+        packet_id_raw: [0x3c, 0x02],
         result: 0,
         result_raw: [0; 2],
         error_count: 0,
@@ -74225,7 +74225,7 @@ impl PacketZcResultStorePassword {
 
 impl Packet for PacketZcResultStorePassword {
     fn id(&self) -> &str {
-       "0x023c"
+       "0x3c02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -74262,7 +74262,7 @@ impl Default for PacketZcResultStorePassword {
 
 impl PacketAcEventResult {
     pub fn packet_id() -> &'static str {
-        "0x023d"
+        "0x3d02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketAcEventResult {
         let mut offset: usize = 0;
@@ -74326,8 +74326,8 @@ impl PacketAcEventResult {
     pub fn new() -> PacketAcEventResult {
         PacketAcEventResult {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x23, 0xd]),
-        packet_id_raw: [0x23, 0xd],
+        packet_id: i16::from_le_bytes([0x3d, 0x02]),
+        packet_id_raw: [0x3d, 0x02],
         event_item_count: 0,
         event_item_count_raw: [0; 4],
         }
@@ -74336,7 +74336,7 @@ impl PacketAcEventResult {
 
 impl Packet for PacketAcEventResult {
     fn id(&self) -> &str {
-       "0x023d"
+       "0x3d02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -74373,7 +74373,7 @@ impl Default for PacketAcEventResult {
 
 impl PacketHcRequestCharacterPassword {
     pub fn packet_id() -> &'static str {
-        "0x023e"
+        "0x3e02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketHcRequestCharacterPassword {
         let mut offset: usize = 0;
@@ -74457,8 +74457,8 @@ impl PacketHcRequestCharacterPassword {
     pub fn new() -> PacketHcRequestCharacterPassword {
         PacketHcRequestCharacterPassword {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x23, 0xe]),
-        packet_id_raw: [0x23, 0xe],
+        packet_id: i16::from_le_bytes([0x3e, 0x02]),
+        packet_id_raw: [0x3e, 0x02],
         result: 0,
         result_raw: [0; 2],
         dummy_value: 0,
@@ -74469,7 +74469,7 @@ impl PacketHcRequestCharacterPassword {
 
 impl Packet for PacketHcRequestCharacterPassword {
     fn id(&self) -> &str {
-       "0x023e"
+       "0x3e02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -74506,7 +74506,7 @@ impl Default for PacketHcRequestCharacterPassword {
 
 impl PacketCzMailGetList {
     pub fn packet_id() -> &'static str {
-        "0x023f"
+        "0x3f02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzMailGetList {
         let mut offset: usize = 0;
@@ -74550,15 +74550,15 @@ impl PacketCzMailGetList {
     pub fn new() -> PacketCzMailGetList {
         PacketCzMailGetList {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x23, 0xf]),
-        packet_id_raw: [0x23, 0xf],
+        packet_id: i16::from_le_bytes([0x3f, 0x02]),
+        packet_id_raw: [0x3f, 0x02],
         }
     }
 }
 
 impl Packet for PacketCzMailGetList {
     fn id(&self) -> &str {
-       "0x023f"
+       "0x3f02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -74595,7 +74595,7 @@ impl Default for PacketCzMailGetList {
 
 impl PacketZcMailReqGetList {
     pub fn packet_id() -> &'static str {
-        "0x0240"
+        "0x4002"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMailReqGetList {
         let mut offset: usize = 0;
@@ -74711,8 +74711,8 @@ impl PacketZcMailReqGetList {
     pub fn new() -> PacketZcMailReqGetList {
         PacketZcMailReqGetList {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x24, 0x0]),
-        packet_id_raw: [0x24, 0x0],
+        packet_id: i16::from_le_bytes([0x40, 0x02]),
+        packet_id_raw: [0x40, 0x02],
         packet_length: 0,
         packet_length_raw: [0; 2],
         mail_number: 0,
@@ -74725,7 +74725,7 @@ impl PacketZcMailReqGetList {
 
 impl Packet for PacketZcMailReqGetList {
     fn id(&self) -> &str {
-       "0x0240"
+       "0x4002"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -74762,7 +74762,7 @@ impl Default for PacketZcMailReqGetList {
 
 impl PacketCzMailOpen {
     pub fn packet_id() -> &'static str {
-        "0x0241"
+        "0x4102"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzMailOpen {
         let mut offset: usize = 0;
@@ -74826,8 +74826,8 @@ impl PacketCzMailOpen {
     pub fn new() -> PacketCzMailOpen {
         PacketCzMailOpen {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x24, 0x1]),
-        packet_id_raw: [0x24, 0x1],
+        packet_id: i16::from_le_bytes([0x41, 0x02]),
+        packet_id_raw: [0x41, 0x02],
         mail_id: 0,
         mail_id_raw: [0; 4],
         }
@@ -74836,7 +74836,7 @@ impl PacketCzMailOpen {
 
 impl Packet for PacketCzMailOpen {
     fn id(&self) -> &str {
-       "0x0241"
+       "0x4102"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -74873,7 +74873,7 @@ impl Default for PacketCzMailOpen {
 
 impl PacketZcMailReqOpen {
     pub fn packet_id() -> &'static str {
-        "0x0242"
+        "0x4202"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMailReqOpen {
         let mut offset: usize = 0;
@@ -75230,8 +75230,8 @@ impl PacketZcMailReqOpen {
     pub fn new() -> PacketZcMailReqOpen {
         PacketZcMailReqOpen {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x24, 0x2]),
-        packet_id_raw: [0x24, 0x2],
+        packet_id: i16::from_le_bytes([0x42, 0x02]),
+        packet_id_raw: [0x42, 0x02],
         packet_length: 0,
         packet_length_raw: [0; 2],
         mail_id: 0,
@@ -75268,7 +75268,7 @@ impl PacketZcMailReqOpen {
 
 impl Packet for PacketZcMailReqOpen {
     fn id(&self) -> &str {
-       "0x0242"
+       "0x4202"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -75305,7 +75305,7 @@ impl Default for PacketZcMailReqOpen {
 
 impl PacketCzMailDelete {
     pub fn packet_id() -> &'static str {
-        "0x0243"
+        "0x4302"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzMailDelete {
         let mut offset: usize = 0;
@@ -75369,8 +75369,8 @@ impl PacketCzMailDelete {
     pub fn new() -> PacketCzMailDelete {
         PacketCzMailDelete {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x24, 0x3]),
-        packet_id_raw: [0x24, 0x3],
+        packet_id: i16::from_le_bytes([0x43, 0x02]),
+        packet_id_raw: [0x43, 0x02],
         mail_id: 0,
         mail_id_raw: [0; 4],
         }
@@ -75379,7 +75379,7 @@ impl PacketCzMailDelete {
 
 impl Packet for PacketCzMailDelete {
     fn id(&self) -> &str {
-       "0x0243"
+       "0x4302"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -75416,7 +75416,7 @@ impl Default for PacketCzMailDelete {
 
 impl PacketCzMailGetItem {
     pub fn packet_id() -> &'static str {
-        "0x0244"
+        "0x4402"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzMailGetItem {
         let mut offset: usize = 0;
@@ -75480,8 +75480,8 @@ impl PacketCzMailGetItem {
     pub fn new() -> PacketCzMailGetItem {
         PacketCzMailGetItem {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x24, 0x4]),
-        packet_id_raw: [0x24, 0x4],
+        packet_id: i16::from_le_bytes([0x44, 0x02]),
+        packet_id_raw: [0x44, 0x02],
         mail_id: 0,
         mail_id_raw: [0; 4],
         }
@@ -75490,7 +75490,7 @@ impl PacketCzMailGetItem {
 
 impl Packet for PacketCzMailGetItem {
     fn id(&self) -> &str {
-       "0x0244"
+       "0x4402"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -75527,7 +75527,7 @@ impl Default for PacketCzMailGetItem {
 
 impl PacketZcMailReqGetItem {
     pub fn packet_id() -> &'static str {
-        "0x0245"
+        "0x4502"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMailReqGetItem {
         let mut offset: usize = 0;
@@ -75591,8 +75591,8 @@ impl PacketZcMailReqGetItem {
     pub fn new() -> PacketZcMailReqGetItem {
         PacketZcMailReqGetItem {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x24, 0x5]),
-        packet_id_raw: [0x24, 0x5],
+        packet_id: i16::from_le_bytes([0x45, 0x02]),
+        packet_id_raw: [0x45, 0x02],
         result: 0,
         result_raw: [0; 1],
         }
@@ -75601,7 +75601,7 @@ impl PacketZcMailReqGetItem {
 
 impl Packet for PacketZcMailReqGetItem {
     fn id(&self) -> &str {
-       "0x0245"
+       "0x4502"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -75638,7 +75638,7 @@ impl Default for PacketZcMailReqGetItem {
 
 impl PacketCzMailResetItem {
     pub fn packet_id() -> &'static str {
-        "0x0246"
+        "0x4602"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzMailResetItem {
         let mut offset: usize = 0;
@@ -75702,8 +75702,8 @@ impl PacketCzMailResetItem {
     pub fn new() -> PacketCzMailResetItem {
         PacketCzMailResetItem {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x24, 0x6]),
-        packet_id_raw: [0x24, 0x6],
+        packet_id: i16::from_le_bytes([0x46, 0x02]),
+        packet_id_raw: [0x46, 0x02],
         atype: 0,
         atype_raw: [0; 2],
         }
@@ -75712,7 +75712,7 @@ impl PacketCzMailResetItem {
 
 impl Packet for PacketCzMailResetItem {
     fn id(&self) -> &str {
-       "0x0246"
+       "0x4602"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -75749,7 +75749,7 @@ impl Default for PacketCzMailResetItem {
 
 impl PacketCzMailAddItem {
     pub fn packet_id() -> &'static str {
-        "0x0247"
+        "0x4702"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzMailAddItem {
         let mut offset: usize = 0;
@@ -75833,8 +75833,8 @@ impl PacketCzMailAddItem {
     pub fn new() -> PacketCzMailAddItem {
         PacketCzMailAddItem {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x24, 0x7]),
-        packet_id_raw: [0x24, 0x7],
+        packet_id: i16::from_le_bytes([0x47, 0x02]),
+        packet_id_raw: [0x47, 0x02],
         index: 0,
         index_raw: [0; 2],
         count: 0,
@@ -75845,7 +75845,7 @@ impl PacketCzMailAddItem {
 
 impl Packet for PacketCzMailAddItem {
     fn id(&self) -> &str {
-       "0x0247"
+       "0x4702"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -75882,7 +75882,7 @@ impl Default for PacketCzMailAddItem {
 
 impl PacketCzMailSend {
     pub fn packet_id() -> &'static str {
-        "0x0248"
+        "0x4802"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzMailSend {
         let mut offset: usize = 0;
@@ -76039,8 +76039,8 @@ impl PacketCzMailSend {
     pub fn new() -> PacketCzMailSend {
         PacketCzMailSend {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x24, 0x8]),
-        packet_id_raw: [0x24, 0x8],
+        packet_id: i16::from_le_bytes([0x48, 0x02]),
+        packet_id_raw: [0x48, 0x02],
         packet_length: 0,
         packet_length_raw: [0; 2],
         receive_name: [0 as char; 24],
@@ -76057,7 +76057,7 @@ impl PacketCzMailSend {
 
 impl Packet for PacketCzMailSend {
     fn id(&self) -> &str {
-       "0x0248"
+       "0x4802"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -76094,7 +76094,7 @@ impl Default for PacketCzMailSend {
 
 impl PacketZcMailReqSend {
     pub fn packet_id() -> &'static str {
-        "0x0249"
+        "0x4902"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMailReqSend {
         let mut offset: usize = 0;
@@ -76158,8 +76158,8 @@ impl PacketZcMailReqSend {
     pub fn new() -> PacketZcMailReqSend {
         PacketZcMailReqSend {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x24, 0x9]),
-        packet_id_raw: [0x24, 0x9],
+        packet_id: i16::from_le_bytes([0x49, 0x02]),
+        packet_id_raw: [0x49, 0x02],
         result: 0,
         result_raw: [0; 1],
         }
@@ -76168,7 +76168,7 @@ impl PacketZcMailReqSend {
 
 impl Packet for PacketZcMailReqSend {
     fn id(&self) -> &str {
-       "0x0249"
+       "0x4902"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -76205,7 +76205,7 @@ impl Default for PacketZcMailReqSend {
 
 impl PacketZcMailReceive {
     pub fn packet_id() -> &'static str {
-        "0x024a"
+        "0x4a02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMailReceive {
         let mut offset: usize = 0;
@@ -76325,8 +76325,8 @@ impl PacketZcMailReceive {
     pub fn new() -> PacketZcMailReceive {
         PacketZcMailReceive {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x24, 0xa]),
-        packet_id_raw: [0x24, 0xa],
+        packet_id: i16::from_le_bytes([0x4a, 0x02]),
+        packet_id_raw: [0x4a, 0x02],
         mail_id: 0,
         mail_id_raw: [0; 4],
         header: [0 as char; 40],
@@ -76339,7 +76339,7 @@ impl PacketZcMailReceive {
 
 impl Packet for PacketZcMailReceive {
     fn id(&self) -> &str {
-       "0x024a"
+       "0x4a02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -76376,7 +76376,7 @@ impl Default for PacketZcMailReceive {
 
 impl PacketCzAuctionCreate {
     pub fn packet_id() -> &'static str {
-        "0x024b"
+        "0x4b02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzAuctionCreate {
         let mut offset: usize = 0;
@@ -76440,8 +76440,8 @@ impl PacketCzAuctionCreate {
     pub fn new() -> PacketCzAuctionCreate {
         PacketCzAuctionCreate {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x24, 0xb]),
-        packet_id_raw: [0x24, 0xb],
+        packet_id: i16::from_le_bytes([0x4b, 0x02]),
+        packet_id_raw: [0x4b, 0x02],
         atype: 0,
         atype_raw: [0; 2],
         }
@@ -76450,7 +76450,7 @@ impl PacketCzAuctionCreate {
 
 impl Packet for PacketCzAuctionCreate {
     fn id(&self) -> &str {
-       "0x024b"
+       "0x4b02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -76487,7 +76487,7 @@ impl Default for PacketCzAuctionCreate {
 
 impl PacketCzAuctionAddItem {
     pub fn packet_id() -> &'static str {
-        "0x024c"
+        "0x4c02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzAuctionAddItem {
         let mut offset: usize = 0;
@@ -76571,8 +76571,8 @@ impl PacketCzAuctionAddItem {
     pub fn new() -> PacketCzAuctionAddItem {
         PacketCzAuctionAddItem {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x24, 0xc]),
-        packet_id_raw: [0x24, 0xc],
+        packet_id: i16::from_le_bytes([0x4c, 0x02]),
+        packet_id_raw: [0x4c, 0x02],
         index: 0,
         index_raw: [0; 2],
         count: 0,
@@ -76583,7 +76583,7 @@ impl PacketCzAuctionAddItem {
 
 impl Packet for PacketCzAuctionAddItem {
     fn id(&self) -> &str {
-       "0x024c"
+       "0x4c02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -76620,7 +76620,7 @@ impl Default for PacketCzAuctionAddItem {
 
 impl PacketCzAuctionAdd {
     pub fn packet_id() -> &'static str {
-        "0x024d"
+        "0x4d02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzAuctionAdd {
         let mut offset: usize = 0;
@@ -76724,8 +76724,8 @@ impl PacketCzAuctionAdd {
     pub fn new() -> PacketCzAuctionAdd {
         PacketCzAuctionAdd {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x24, 0xd]),
-        packet_id_raw: [0x24, 0xd],
+        packet_id: i16::from_le_bytes([0x4d, 0x02]),
+        packet_id_raw: [0x4d, 0x02],
         now_money: 0,
         now_money_raw: [0; 4],
         max_money: 0,
@@ -76738,7 +76738,7 @@ impl PacketCzAuctionAdd {
 
 impl Packet for PacketCzAuctionAdd {
     fn id(&self) -> &str {
-       "0x024d"
+       "0x4d02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -76775,7 +76775,7 @@ impl Default for PacketCzAuctionAdd {
 
 impl PacketCzAuctionAddCancel {
     pub fn packet_id() -> &'static str {
-        "0x024e"
+        "0x4e02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzAuctionAddCancel {
         let mut offset: usize = 0;
@@ -76839,8 +76839,8 @@ impl PacketCzAuctionAddCancel {
     pub fn new() -> PacketCzAuctionAddCancel {
         PacketCzAuctionAddCancel {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x24, 0xe]),
-        packet_id_raw: [0x24, 0xe],
+        packet_id: i16::from_le_bytes([0x4e, 0x02]),
+        packet_id_raw: [0x4e, 0x02],
         auction_id: 0,
         auction_id_raw: [0; 4],
         }
@@ -76849,7 +76849,7 @@ impl PacketCzAuctionAddCancel {
 
 impl Packet for PacketCzAuctionAddCancel {
     fn id(&self) -> &str {
-       "0x024e"
+       "0x4e02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -76886,7 +76886,7 @@ impl Default for PacketCzAuctionAddCancel {
 
 impl PacketCzAuctionBuy {
     pub fn packet_id() -> &'static str {
-        "0x024f"
+        "0x4f02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzAuctionBuy {
         let mut offset: usize = 0;
@@ -76970,8 +76970,8 @@ impl PacketCzAuctionBuy {
     pub fn new() -> PacketCzAuctionBuy {
         PacketCzAuctionBuy {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x24, 0xf]),
-        packet_id_raw: [0x24, 0xf],
+        packet_id: i16::from_le_bytes([0x4f, 0x02]),
+        packet_id_raw: [0x4f, 0x02],
         auction_id: 0,
         auction_id_raw: [0; 4],
         money: 0,
@@ -76982,7 +76982,7 @@ impl PacketCzAuctionBuy {
 
 impl Packet for PacketCzAuctionBuy {
     fn id(&self) -> &str {
-       "0x024f"
+       "0x4f02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -77019,7 +77019,7 @@ impl Default for PacketCzAuctionBuy {
 
 impl PacketZcAuctionResult {
     pub fn packet_id() -> &'static str {
-        "0x0250"
+        "0x5002"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAuctionResult {
         let mut offset: usize = 0;
@@ -77083,8 +77083,8 @@ impl PacketZcAuctionResult {
     pub fn new() -> PacketZcAuctionResult {
         PacketZcAuctionResult {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x25, 0x0]),
-        packet_id_raw: [0x25, 0x0],
+        packet_id: i16::from_le_bytes([0x50, 0x02]),
+        packet_id_raw: [0x50, 0x02],
         result: 0,
         result_raw: [0; 1],
         }
@@ -77093,7 +77093,7 @@ impl PacketZcAuctionResult {
 
 impl Packet for PacketZcAuctionResult {
     fn id(&self) -> &str {
-       "0x0250"
+       "0x5002"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -77130,7 +77130,7 @@ impl Default for PacketZcAuctionResult {
 
 impl PacketCzAuctionItemSearch {
     pub fn packet_id() -> &'static str {
-        "0x0251"
+        "0x5102"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzAuctionItemSearch {
         let mut offset: usize = 0;
@@ -77262,8 +77262,8 @@ impl PacketCzAuctionItemSearch {
     pub fn new() -> PacketCzAuctionItemSearch {
         PacketCzAuctionItemSearch {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x25, 0x1]),
-        packet_id_raw: [0x25, 0x1],
+        packet_id: i16::from_le_bytes([0x51, 0x02]),
+        packet_id_raw: [0x51, 0x02],
         atype: 0,
         atype_raw: [0; 2],
         auction_id: 0,
@@ -77278,7 +77278,7 @@ impl PacketCzAuctionItemSearch {
 
 impl Packet for PacketCzAuctionItemSearch {
     fn id(&self) -> &str {
-       "0x0251"
+       "0x5102"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -77315,7 +77315,7 @@ impl Default for PacketCzAuctionItemSearch {
 
 impl PacketZcAuctionItemReqSearch {
     pub fn packet_id() -> &'static str {
-        "0x0252"
+        "0x5202"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAuctionItemReqSearch {
         let mut offset: usize = 0;
@@ -77451,8 +77451,8 @@ impl PacketZcAuctionItemReqSearch {
     pub fn new() -> PacketZcAuctionItemReqSearch {
         PacketZcAuctionItemReqSearch {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x25, 0x2]),
-        packet_id_raw: [0x25, 0x2],
+        packet_id: i16::from_le_bytes([0x52, 0x02]),
+        packet_id_raw: [0x52, 0x02],
         packet_length: 0,
         packet_length_raw: [0; 2],
         max_page: 0,
@@ -77467,7 +77467,7 @@ impl PacketZcAuctionItemReqSearch {
 
 impl Packet for PacketZcAuctionItemReqSearch {
     fn id(&self) -> &str {
-       "0x0252"
+       "0x5202"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -77504,7 +77504,7 @@ impl Default for PacketZcAuctionItemReqSearch {
 
 impl PacketZcStarplace {
     pub fn packet_id() -> &'static str {
-        "0x0253"
+        "0x5302"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcStarplace {
         let mut offset: usize = 0;
@@ -77568,8 +77568,8 @@ impl PacketZcStarplace {
     pub fn new() -> PacketZcStarplace {
         PacketZcStarplace {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x25, 0x3]),
-        packet_id_raw: [0x25, 0x3],
+        packet_id: i16::from_le_bytes([0x53, 0x02]),
+        packet_id_raw: [0x53, 0x02],
         which: 0,
         which_raw: [0; 1],
         }
@@ -77578,7 +77578,7 @@ impl PacketZcStarplace {
 
 impl Packet for PacketZcStarplace {
     fn id(&self) -> &str {
-       "0x0253"
+       "0x5302"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -77615,7 +77615,7 @@ impl Default for PacketZcStarplace {
 
 impl PacketCzAgreeStarplace {
     pub fn packet_id() -> &'static str {
-        "0x0254"
+        "0x5402"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzAgreeStarplace {
         let mut offset: usize = 0;
@@ -77679,8 +77679,8 @@ impl PacketCzAgreeStarplace {
     pub fn new() -> PacketCzAgreeStarplace {
         PacketCzAgreeStarplace {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x25, 0x4]),
-        packet_id_raw: [0x25, 0x4],
+        packet_id: i16::from_le_bytes([0x54, 0x02]),
+        packet_id_raw: [0x54, 0x02],
         which: 0,
         which_raw: [0; 1],
         }
@@ -77689,7 +77689,7 @@ impl PacketCzAgreeStarplace {
 
 impl Packet for PacketCzAgreeStarplace {
     fn id(&self) -> &str {
-       "0x0254"
+       "0x5402"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -77726,7 +77726,7 @@ impl Default for PacketCzAgreeStarplace {
 
 impl PacketZcAckMailAddItem {
     pub fn packet_id() -> &'static str {
-        "0x0255"
+        "0x5502"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckMailAddItem {
         let mut offset: usize = 0;
@@ -77810,8 +77810,8 @@ impl PacketZcAckMailAddItem {
     pub fn new() -> PacketZcAckMailAddItem {
         PacketZcAckMailAddItem {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x25, 0x5]),
-        packet_id_raw: [0x25, 0x5],
+        packet_id: i16::from_le_bytes([0x55, 0x02]),
+        packet_id_raw: [0x55, 0x02],
         index: 0,
         index_raw: [0; 2],
         result: 0,
@@ -77822,7 +77822,7 @@ impl PacketZcAckMailAddItem {
 
 impl Packet for PacketZcAckMailAddItem {
     fn id(&self) -> &str {
-       "0x0255"
+       "0x5502"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -77859,7 +77859,7 @@ impl Default for PacketZcAckMailAddItem {
 
 impl PacketZcAckAuctionAddItem {
     pub fn packet_id() -> &'static str {
-        "0x0256"
+        "0x5602"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckAuctionAddItem {
         let mut offset: usize = 0;
@@ -77943,8 +77943,8 @@ impl PacketZcAckAuctionAddItem {
     pub fn new() -> PacketZcAckAuctionAddItem {
         PacketZcAckAuctionAddItem {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x25, 0x6]),
-        packet_id_raw: [0x25, 0x6],
+        packet_id: i16::from_le_bytes([0x56, 0x02]),
+        packet_id_raw: [0x56, 0x02],
         index: 0,
         index_raw: [0; 2],
         result: 0,
@@ -77955,7 +77955,7 @@ impl PacketZcAckAuctionAddItem {
 
 impl Packet for PacketZcAckAuctionAddItem {
     fn id(&self) -> &str {
-       "0x0256"
+       "0x5602"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -77992,7 +77992,7 @@ impl Default for PacketZcAckAuctionAddItem {
 
 impl PacketZcAckMailDelete {
     pub fn packet_id() -> &'static str {
-        "0x0257"
+        "0x5702"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckMailDelete {
         let mut offset: usize = 0;
@@ -78076,8 +78076,8 @@ impl PacketZcAckMailDelete {
     pub fn new() -> PacketZcAckMailDelete {
         PacketZcAckMailDelete {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x25, 0x7]),
-        packet_id_raw: [0x25, 0x7],
+        packet_id: i16::from_le_bytes([0x57, 0x02]),
+        packet_id_raw: [0x57, 0x02],
         mail_id: 0,
         mail_id_raw: [0; 4],
         result: 0,
@@ -78088,7 +78088,7 @@ impl PacketZcAckMailDelete {
 
 impl Packet for PacketZcAckMailDelete {
     fn id(&self) -> &str {
-       "0x0257"
+       "0x5702"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -78125,7 +78125,7 @@ impl Default for PacketZcAckMailDelete {
 
 impl PacketCaReqGameGuardCheck {
     pub fn packet_id() -> &'static str {
-        "0x0258"
+        "0x5802"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCaReqGameGuardCheck {
         let mut offset: usize = 0;
@@ -78169,15 +78169,15 @@ impl PacketCaReqGameGuardCheck {
     pub fn new() -> PacketCaReqGameGuardCheck {
         PacketCaReqGameGuardCheck {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x25, 0x8]),
-        packet_id_raw: [0x25, 0x8],
+        packet_id: i16::from_le_bytes([0x58, 0x02]),
+        packet_id_raw: [0x58, 0x02],
         }
     }
 }
 
 impl Packet for PacketCaReqGameGuardCheck {
     fn id(&self) -> &str {
-       "0x0258"
+       "0x5802"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -78214,7 +78214,7 @@ impl Default for PacketCaReqGameGuardCheck {
 
 impl PacketAcAckGameGuard {
     pub fn packet_id() -> &'static str {
-        "0x0259"
+        "0x5902"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketAcAckGameGuard {
         let mut offset: usize = 0;
@@ -78278,8 +78278,8 @@ impl PacketAcAckGameGuard {
     pub fn new() -> PacketAcAckGameGuard {
         PacketAcAckGameGuard {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x25, 0x9]),
-        packet_id_raw: [0x25, 0x9],
+        packet_id: i16::from_le_bytes([0x59, 0x02]),
+        packet_id_raw: [0x59, 0x02],
         uc_answer: 0,
         uc_answer_raw: [0; 1],
         }
@@ -78288,7 +78288,7 @@ impl PacketAcAckGameGuard {
 
 impl Packet for PacketAcAckGameGuard {
     fn id(&self) -> &str {
-       "0x0259"
+       "0x5902"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -78325,7 +78325,7 @@ impl Default for PacketAcAckGameGuard {
 
 impl PacketZcMakingitemList {
     pub fn packet_id() -> &'static str {
-        "0x025a"
+        "0x5a02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMakingitemList {
         let mut offset: usize = 0;
@@ -78409,8 +78409,8 @@ impl PacketZcMakingitemList {
     pub fn new() -> PacketZcMakingitemList {
         PacketZcMakingitemList {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x25, 0xa]),
-        packet_id_raw: [0x25, 0xa],
+        packet_id: i16::from_le_bytes([0x5a, 0x02]),
+        packet_id_raw: [0x5a, 0x02],
         packet_length: 0,
         packet_length_raw: [0; 2],
         id_list: vec![],
@@ -78421,7 +78421,7 @@ impl PacketZcMakingitemList {
 
 impl Packet for PacketZcMakingitemList {
     fn id(&self) -> &str {
-       "0x025a"
+       "0x5a02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -78458,7 +78458,7 @@ impl Default for PacketZcMakingitemList {
 
 impl PacketCzReqMakingitem {
     pub fn packet_id() -> &'static str {
-        "0x025b"
+        "0x5b02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqMakingitem {
         let mut offset: usize = 0;
@@ -78542,8 +78542,8 @@ impl PacketCzReqMakingitem {
     pub fn new() -> PacketCzReqMakingitem {
         PacketCzReqMakingitem {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x25, 0xb]),
-        packet_id_raw: [0x25, 0xb],
+        packet_id: i16::from_le_bytes([0x5b, 0x02]),
+        packet_id_raw: [0x5b, 0x02],
         mk_type: 0,
         mk_type_raw: [0; 2],
         id: 0,
@@ -78554,7 +78554,7 @@ impl PacketCzReqMakingitem {
 
 impl Packet for PacketCzReqMakingitem {
     fn id(&self) -> &str {
-       "0x025b"
+       "0x5b02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -78591,7 +78591,7 @@ impl Default for PacketCzReqMakingitem {
 
 impl PacketCzAuctionReqMyInfo {
     pub fn packet_id() -> &'static str {
-        "0x025c"
+        "0x5c02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzAuctionReqMyInfo {
         let mut offset: usize = 0;
@@ -78655,8 +78655,8 @@ impl PacketCzAuctionReqMyInfo {
     pub fn new() -> PacketCzAuctionReqMyInfo {
         PacketCzAuctionReqMyInfo {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x25, 0xc]),
-        packet_id_raw: [0x25, 0xc],
+        packet_id: i16::from_le_bytes([0x5c, 0x02]),
+        packet_id_raw: [0x5c, 0x02],
         atype: 0,
         atype_raw: [0; 2],
         }
@@ -78665,7 +78665,7 @@ impl PacketCzAuctionReqMyInfo {
 
 impl Packet for PacketCzAuctionReqMyInfo {
     fn id(&self) -> &str {
-       "0x025c"
+       "0x5c02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -78702,7 +78702,7 @@ impl Default for PacketCzAuctionReqMyInfo {
 
 impl PacketCzAuctionReqMySellStop {
     pub fn packet_id() -> &'static str {
-        "0x025d"
+        "0x5d02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzAuctionReqMySellStop {
         let mut offset: usize = 0;
@@ -78766,8 +78766,8 @@ impl PacketCzAuctionReqMySellStop {
     pub fn new() -> PacketCzAuctionReqMySellStop {
         PacketCzAuctionReqMySellStop {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x25, 0xd]),
-        packet_id_raw: [0x25, 0xd],
+        packet_id: i16::from_le_bytes([0x5d, 0x02]),
+        packet_id_raw: [0x5d, 0x02],
         auction_id: 0,
         auction_id_raw: [0; 4],
         }
@@ -78776,7 +78776,7 @@ impl PacketCzAuctionReqMySellStop {
 
 impl Packet for PacketCzAuctionReqMySellStop {
     fn id(&self) -> &str {
-       "0x025d"
+       "0x5d02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -78813,7 +78813,7 @@ impl Default for PacketCzAuctionReqMySellStop {
 
 impl PacketZcAuctionAckMySellStop {
     pub fn packet_id() -> &'static str {
-        "0x025e"
+        "0x5e02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAuctionAckMySellStop {
         let mut offset: usize = 0;
@@ -78877,8 +78877,8 @@ impl PacketZcAuctionAckMySellStop {
     pub fn new() -> PacketZcAuctionAckMySellStop {
         PacketZcAuctionAckMySellStop {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x25, 0xe]),
-        packet_id_raw: [0x25, 0xe],
+        packet_id: i16::from_le_bytes([0x5e, 0x02]),
+        packet_id_raw: [0x5e, 0x02],
         result: 0,
         result_raw: [0; 2],
         }
@@ -78887,7 +78887,7 @@ impl PacketZcAuctionAckMySellStop {
 
 impl Packet for PacketZcAuctionAckMySellStop {
     fn id(&self) -> &str {
-       "0x025e"
+       "0x5e02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -78924,7 +78924,7 @@ impl Default for PacketZcAuctionAckMySellStop {
 
 impl PacketZcAuctionWindows {
     pub fn packet_id() -> &'static str {
-        "0x025f"
+        "0x5f02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAuctionWindows {
         let mut offset: usize = 0;
@@ -78988,8 +78988,8 @@ impl PacketZcAuctionWindows {
     pub fn new() -> PacketZcAuctionWindows {
         PacketZcAuctionWindows {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x25, 0xf]),
-        packet_id_raw: [0x25, 0xf],
+        packet_id: i16::from_le_bytes([0x5f, 0x02]),
+        packet_id_raw: [0x5f, 0x02],
         atype: 0,
         atype_raw: [0; 4],
         }
@@ -78998,7 +78998,7 @@ impl PacketZcAuctionWindows {
 
 impl Packet for PacketZcAuctionWindows {
     fn id(&self) -> &str {
-       "0x025f"
+       "0x5f02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -79035,7 +79035,7 @@ impl Default for PacketZcAuctionWindows {
 
 impl PacketZcMailWindows {
     pub fn packet_id() -> &'static str {
-        "0x0260"
+        "0x6002"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMailWindows {
         let mut offset: usize = 0;
@@ -79099,8 +79099,8 @@ impl PacketZcMailWindows {
     pub fn new() -> PacketZcMailWindows {
         PacketZcMailWindows {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x26, 0x0]),
-        packet_id_raw: [0x26, 0x0],
+        packet_id: i16::from_le_bytes([0x60, 0x02]),
+        packet_id_raw: [0x60, 0x02],
         atype: 0,
         atype_raw: [0; 4],
         }
@@ -79109,7 +79109,7 @@ impl PacketZcMailWindows {
 
 impl Packet for PacketZcMailWindows {
     fn id(&self) -> &str {
-       "0x0260"
+       "0x6002"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -79146,7 +79146,7 @@ impl Default for PacketZcMailWindows {
 
 impl PacketAcReqLoginOldekey {
     pub fn packet_id() -> &'static str {
-        "0x0261"
+        "0x6102"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketAcReqLoginOldekey {
         let mut offset: usize = 0;
@@ -79218,8 +79218,8 @@ impl PacketAcReqLoginOldekey {
     pub fn new() -> PacketAcReqLoginOldekey {
         PacketAcReqLoginOldekey {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x26, 0x1]),
-        packet_id_raw: [0x26, 0x1],
+        packet_id: i16::from_le_bytes([0x61, 0x02]),
+        packet_id_raw: [0x61, 0x02],
         m_seed_value: [0 as char; 9],
         m_seed_value_raw: [0; 9],
         }
@@ -79228,7 +79228,7 @@ impl PacketAcReqLoginOldekey {
 
 impl Packet for PacketAcReqLoginOldekey {
     fn id(&self) -> &str {
-       "0x0261"
+       "0x6102"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -79265,7 +79265,7 @@ impl Default for PacketAcReqLoginOldekey {
 
 impl PacketAcReqLoginNewekey {
     pub fn packet_id() -> &'static str {
-        "0x0262"
+        "0x6202"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketAcReqLoginNewekey {
         let mut offset: usize = 0;
@@ -79337,8 +79337,8 @@ impl PacketAcReqLoginNewekey {
     pub fn new() -> PacketAcReqLoginNewekey {
         PacketAcReqLoginNewekey {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x26, 0x2]),
-        packet_id_raw: [0x26, 0x2],
+        packet_id: i16::from_le_bytes([0x62, 0x02]),
+        packet_id_raw: [0x62, 0x02],
         m_seed_value: [0 as char; 9],
         m_seed_value_raw: [0; 9],
         }
@@ -79347,7 +79347,7 @@ impl PacketAcReqLoginNewekey {
 
 impl Packet for PacketAcReqLoginNewekey {
     fn id(&self) -> &str {
-       "0x0262"
+       "0x6202"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -79384,7 +79384,7 @@ impl Default for PacketAcReqLoginNewekey {
 
 impl PacketAcReqLoginCardpass {
     pub fn packet_id() -> &'static str {
-        "0x0263"
+        "0x6302"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketAcReqLoginCardpass {
         let mut offset: usize = 0;
@@ -79456,8 +79456,8 @@ impl PacketAcReqLoginCardpass {
     pub fn new() -> PacketAcReqLoginCardpass {
         PacketAcReqLoginCardpass {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x26, 0x3]),
-        packet_id_raw: [0x26, 0x3],
+        packet_id: i16::from_le_bytes([0x63, 0x02]),
+        packet_id_raw: [0x63, 0x02],
         m_seed_value: [0 as char; 9],
         m_seed_value_raw: [0; 9],
         }
@@ -79466,7 +79466,7 @@ impl PacketAcReqLoginCardpass {
 
 impl Packet for PacketAcReqLoginCardpass {
     fn id(&self) -> &str {
-       "0x0263"
+       "0x6302"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -79503,7 +79503,7 @@ impl Default for PacketAcReqLoginCardpass {
 
 impl PacketCaAckLoginOldekey {
     pub fn packet_id() -> &'static str {
-        "0x0264"
+        "0x6402"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCaAckLoginOldekey {
         let mut offset: usize = 0;
@@ -79603,8 +79603,8 @@ impl PacketCaAckLoginOldekey {
     pub fn new() -> PacketCaAckLoginOldekey {
         PacketCaAckLoginOldekey {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x26, 0x4]),
-        packet_id_raw: [0x26, 0x4],
+        packet_id: i16::from_le_bytes([0x64, 0x02]),
+        packet_id_raw: [0x64, 0x02],
         m_seed_value: [0 as char; 9],
         m_seed_value_raw: [0; 9],
         m_ekey: [0 as char; 9],
@@ -79615,7 +79615,7 @@ impl PacketCaAckLoginOldekey {
 
 impl Packet for PacketCaAckLoginOldekey {
     fn id(&self) -> &str {
-       "0x0264"
+       "0x6402"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -79652,7 +79652,7 @@ impl Default for PacketCaAckLoginOldekey {
 
 impl PacketCaAckLoginNewekey {
     pub fn packet_id() -> &'static str {
-        "0x0265"
+        "0x6502"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCaAckLoginNewekey {
         let mut offset: usize = 0;
@@ -79752,8 +79752,8 @@ impl PacketCaAckLoginNewekey {
     pub fn new() -> PacketCaAckLoginNewekey {
         PacketCaAckLoginNewekey {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x26, 0x5]),
-        packet_id_raw: [0x26, 0x5],
+        packet_id: i16::from_le_bytes([0x65, 0x02]),
+        packet_id_raw: [0x65, 0x02],
         m_seed_value: [0 as char; 9],
         m_seed_value_raw: [0; 9],
         m_ekey: [0 as char; 9],
@@ -79764,7 +79764,7 @@ impl PacketCaAckLoginNewekey {
 
 impl Packet for PacketCaAckLoginNewekey {
     fn id(&self) -> &str {
-       "0x0265"
+       "0x6502"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -79801,7 +79801,7 @@ impl Default for PacketCaAckLoginNewekey {
 
 impl PacketCaAckLoginCardpass {
     pub fn packet_id() -> &'static str {
-        "0x0266"
+        "0x6602"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCaAckLoginCardpass {
         let mut offset: usize = 0;
@@ -79873,8 +79873,8 @@ impl PacketCaAckLoginCardpass {
     pub fn new() -> PacketCaAckLoginCardpass {
         PacketCaAckLoginCardpass {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x26, 0x6]),
-        packet_id_raw: [0x26, 0x6],
+        packet_id: i16::from_le_bytes([0x66, 0x02]),
+        packet_id_raw: [0x66, 0x02],
         mcard_pass: [0 as char; 28],
         mcard_pass_raw: [0; 28],
         }
@@ -79883,7 +79883,7 @@ impl PacketCaAckLoginCardpass {
 
 impl Packet for PacketCaAckLoginCardpass {
     fn id(&self) -> &str {
-       "0x0266"
+       "0x6602"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -79920,7 +79920,7 @@ impl Default for PacketCaAckLoginCardpass {
 
 impl PacketAcAckEkeyFailNotexist {
     pub fn packet_id() -> &'static str {
-        "0x0267"
+        "0x6702"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketAcAckEkeyFailNotexist {
         let mut offset: usize = 0;
@@ -79984,8 +79984,8 @@ impl PacketAcAckEkeyFailNotexist {
     pub fn new() -> PacketAcAckEkeyFailNotexist {
         PacketAcAckEkeyFailNotexist {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x26, 0x7]),
-        packet_id_raw: [0x26, 0x7],
+        packet_id: i16::from_le_bytes([0x67, 0x02]),
+        packet_id_raw: [0x67, 0x02],
         error_code: 0,
         error_code_raw: [0; 2],
         }
@@ -79994,7 +79994,7 @@ impl PacketAcAckEkeyFailNotexist {
 
 impl Packet for PacketAcAckEkeyFailNotexist {
     fn id(&self) -> &str {
-       "0x0267"
+       "0x6702"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -80031,7 +80031,7 @@ impl Default for PacketAcAckEkeyFailNotexist {
 
 impl PacketAcAckEkeyFailNotusesekey {
     pub fn packet_id() -> &'static str {
-        "0x0268"
+        "0x6802"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketAcAckEkeyFailNotusesekey {
         let mut offset: usize = 0;
@@ -80095,8 +80095,8 @@ impl PacketAcAckEkeyFailNotusesekey {
     pub fn new() -> PacketAcAckEkeyFailNotusesekey {
         PacketAcAckEkeyFailNotusesekey {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x26, 0x8]),
-        packet_id_raw: [0x26, 0x8],
+        packet_id: i16::from_le_bytes([0x68, 0x02]),
+        packet_id_raw: [0x68, 0x02],
         error_code: 0,
         error_code_raw: [0; 2],
         }
@@ -80105,7 +80105,7 @@ impl PacketAcAckEkeyFailNotusesekey {
 
 impl Packet for PacketAcAckEkeyFailNotusesekey {
     fn id(&self) -> &str {
-       "0x0268"
+       "0x6802"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -80142,7 +80142,7 @@ impl Default for PacketAcAckEkeyFailNotusesekey {
 
 impl PacketAcAckEkeyFailNotusedekey {
     pub fn packet_id() -> &'static str {
-        "0x0269"
+        "0x6902"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketAcAckEkeyFailNotusedekey {
         let mut offset: usize = 0;
@@ -80206,8 +80206,8 @@ impl PacketAcAckEkeyFailNotusedekey {
     pub fn new() -> PacketAcAckEkeyFailNotusedekey {
         PacketAcAckEkeyFailNotusedekey {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x26, 0x9]),
-        packet_id_raw: [0x26, 0x9],
+        packet_id: i16::from_le_bytes([0x69, 0x02]),
+        packet_id_raw: [0x69, 0x02],
         error_code: 0,
         error_code_raw: [0; 2],
         }
@@ -80216,7 +80216,7 @@ impl PacketAcAckEkeyFailNotusedekey {
 
 impl Packet for PacketAcAckEkeyFailNotusedekey {
     fn id(&self) -> &str {
-       "0x0269"
+       "0x6902"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -80253,7 +80253,7 @@ impl Default for PacketAcAckEkeyFailNotusedekey {
 
 impl PacketAcAckEkeyFailAuthrefuse {
     pub fn packet_id() -> &'static str {
-        "0x026a"
+        "0x6a02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketAcAckEkeyFailAuthrefuse {
         let mut offset: usize = 0;
@@ -80317,8 +80317,8 @@ impl PacketAcAckEkeyFailAuthrefuse {
     pub fn new() -> PacketAcAckEkeyFailAuthrefuse {
         PacketAcAckEkeyFailAuthrefuse {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x26, 0xa]),
-        packet_id_raw: [0x26, 0xa],
+        packet_id: i16::from_le_bytes([0x6a, 0x02]),
+        packet_id_raw: [0x6a, 0x02],
         error_code: 0,
         error_code_raw: [0; 2],
         }
@@ -80327,7 +80327,7 @@ impl PacketAcAckEkeyFailAuthrefuse {
 
 impl Packet for PacketAcAckEkeyFailAuthrefuse {
     fn id(&self) -> &str {
-       "0x026a"
+       "0x6a02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -80364,7 +80364,7 @@ impl Default for PacketAcAckEkeyFailAuthrefuse {
 
 impl PacketAcAckEkeyFailInputekey {
     pub fn packet_id() -> &'static str {
-        "0x026b"
+        "0x6b02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketAcAckEkeyFailInputekey {
         let mut offset: usize = 0;
@@ -80428,8 +80428,8 @@ impl PacketAcAckEkeyFailInputekey {
     pub fn new() -> PacketAcAckEkeyFailInputekey {
         PacketAcAckEkeyFailInputekey {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x26, 0xb]),
-        packet_id_raw: [0x26, 0xb],
+        packet_id: i16::from_le_bytes([0x6b, 0x02]),
+        packet_id_raw: [0x6b, 0x02],
         error_code: 0,
         error_code_raw: [0; 2],
         }
@@ -80438,7 +80438,7 @@ impl PacketAcAckEkeyFailInputekey {
 
 impl Packet for PacketAcAckEkeyFailInputekey {
     fn id(&self) -> &str {
-       "0x026b"
+       "0x6b02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -80475,7 +80475,7 @@ impl Default for PacketAcAckEkeyFailInputekey {
 
 impl PacketAcAckEkeyFailNotice {
     pub fn packet_id() -> &'static str {
-        "0x026c"
+        "0x6c02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketAcAckEkeyFailNotice {
         let mut offset: usize = 0;
@@ -80539,8 +80539,8 @@ impl PacketAcAckEkeyFailNotice {
     pub fn new() -> PacketAcAckEkeyFailNotice {
         PacketAcAckEkeyFailNotice {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x26, 0xc]),
-        packet_id_raw: [0x26, 0xc],
+        packet_id: i16::from_le_bytes([0x6c, 0x02]),
+        packet_id_raw: [0x6c, 0x02],
         error_code: 0,
         error_code_raw: [0; 2],
         }
@@ -80549,7 +80549,7 @@ impl PacketAcAckEkeyFailNotice {
 
 impl Packet for PacketAcAckEkeyFailNotice {
     fn id(&self) -> &str {
-       "0x026c"
+       "0x6c02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -80586,7 +80586,7 @@ impl Default for PacketAcAckEkeyFailNotice {
 
 impl PacketAcAckEkeyFailNeedcardpass {
     pub fn packet_id() -> &'static str {
-        "0x026d"
+        "0x6d02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketAcAckEkeyFailNeedcardpass {
         let mut offset: usize = 0;
@@ -80650,8 +80650,8 @@ impl PacketAcAckEkeyFailNeedcardpass {
     pub fn new() -> PacketAcAckEkeyFailNeedcardpass {
         PacketAcAckEkeyFailNeedcardpass {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x26, 0xd]),
-        packet_id_raw: [0x26, 0xd],
+        packet_id: i16::from_le_bytes([0x6d, 0x02]),
+        packet_id_raw: [0x6d, 0x02],
         error_code: 0,
         error_code_raw: [0; 2],
         }
@@ -80660,7 +80660,7 @@ impl PacketAcAckEkeyFailNeedcardpass {
 
 impl Packet for PacketAcAckEkeyFailNeedcardpass {
     fn id(&self) -> &str {
-       "0x026d"
+       "0x6d02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -80697,7 +80697,7 @@ impl Default for PacketAcAckEkeyFailNeedcardpass {
 
 impl PacketAcAckAuthekeyFailNotmatchcardpass {
     pub fn packet_id() -> &'static str {
-        "0x026e"
+        "0x6e02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketAcAckAuthekeyFailNotmatchcardpass {
         let mut offset: usize = 0;
@@ -80761,8 +80761,8 @@ impl PacketAcAckAuthekeyFailNotmatchcardpass {
     pub fn new() -> PacketAcAckAuthekeyFailNotmatchcardpass {
         PacketAcAckAuthekeyFailNotmatchcardpass {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x26, 0xe]),
-        packet_id_raw: [0x26, 0xe],
+        packet_id: i16::from_le_bytes([0x6e, 0x02]),
+        packet_id_raw: [0x6e, 0x02],
         error_code: 0,
         error_code_raw: [0; 2],
         }
@@ -80771,7 +80771,7 @@ impl PacketAcAckAuthekeyFailNotmatchcardpass {
 
 impl Packet for PacketAcAckAuthekeyFailNotmatchcardpass {
     fn id(&self) -> &str {
-       "0x026e"
+       "0x6e02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -80808,7 +80808,7 @@ impl Default for PacketAcAckAuthekeyFailNotmatchcardpass {
 
 impl PacketAcAckFirstLogin {
     pub fn packet_id() -> &'static str {
-        "0x026f"
+        "0x6f02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketAcAckFirstLogin {
         let mut offset: usize = 0;
@@ -80852,15 +80852,15 @@ impl PacketAcAckFirstLogin {
     pub fn new() -> PacketAcAckFirstLogin {
         PacketAcAckFirstLogin {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x26, 0xf]),
-        packet_id_raw: [0x26, 0xf],
+        packet_id: i16::from_le_bytes([0x6f, 0x02]),
+        packet_id_raw: [0x6f, 0x02],
         }
     }
 }
 
 impl Packet for PacketAcAckFirstLogin {
     fn id(&self) -> &str {
-       "0x026f"
+       "0x6f02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -80897,7 +80897,7 @@ impl Default for PacketAcAckFirstLogin {
 
 impl PacketAcReqLoginAccountInfo {
     pub fn packet_id() -> &'static str {
-        "0x0270"
+        "0x7002"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketAcReqLoginAccountInfo {
         let mut offset: usize = 0;
@@ -80941,15 +80941,15 @@ impl PacketAcReqLoginAccountInfo {
     pub fn new() -> PacketAcReqLoginAccountInfo {
         PacketAcReqLoginAccountInfo {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x27, 0x0]),
-        packet_id_raw: [0x27, 0x0],
+        packet_id: i16::from_le_bytes([0x70, 0x02]),
+        packet_id_raw: [0x70, 0x02],
         }
     }
 }
 
 impl Packet for PacketAcReqLoginAccountInfo {
     fn id(&self) -> &str {
-       "0x0270"
+       "0x7002"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -80986,7 +80986,7 @@ impl Default for PacketAcReqLoginAccountInfo {
 
 impl PacketCaAckLoginAccountInfo {
     pub fn packet_id() -> &'static str {
-        "0x0271"
+        "0x7102"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCaAckLoginAccountInfo {
         let mut offset: usize = 0;
@@ -81098,8 +81098,8 @@ impl PacketCaAckLoginAccountInfo {
     pub fn new() -> PacketCaAckLoginAccountInfo {
         PacketCaAckLoginAccountInfo {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x27, 0x1]),
-        packet_id_raw: [0x27, 0x1],
+        packet_id: i16::from_le_bytes([0x71, 0x02]),
+        packet_id_raw: [0x71, 0x02],
         sex: 0,
         sex_raw: [0; 2],
         b_point: 0,
@@ -81112,7 +81112,7 @@ impl PacketCaAckLoginAccountInfo {
 
 impl Packet for PacketCaAckLoginAccountInfo {
     fn id(&self) -> &str {
-       "0x0271"
+       "0x7102"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -81149,7 +81149,7 @@ impl Default for PacketCaAckLoginAccountInfo {
 
 impl PacketAcAckPtIdInfo {
     pub fn packet_id() -> &'static str {
-        "0x0272"
+        "0x7202"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketAcAckPtIdInfo {
         let mut offset: usize = 0;
@@ -81249,8 +81249,8 @@ impl PacketAcAckPtIdInfo {
     pub fn new() -> PacketAcAckPtIdInfo {
         PacketAcAckPtIdInfo {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x27, 0x2]),
-        packet_id_raw: [0x27, 0x2],
+        packet_id: i16::from_le_bytes([0x72, 0x02]),
+        packet_id_raw: [0x72, 0x02],
         sz_ptid: [0 as char; 21],
         sz_ptid_raw: [0; 21],
         sz_ptnum_id: [0 as char; 21],
@@ -81261,7 +81261,7 @@ impl PacketAcAckPtIdInfo {
 
 impl Packet for PacketAcAckPtIdInfo {
     fn id(&self) -> &str {
-       "0x0272"
+       "0x7202"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -81298,7 +81298,7 @@ impl Default for PacketAcAckPtIdInfo {
 
 impl PacketCzReqMailReturn {
     pub fn packet_id() -> &'static str {
-        "0x0273"
+        "0x7302"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqMailReturn {
         let mut offset: usize = 0;
@@ -81390,8 +81390,8 @@ impl PacketCzReqMailReturn {
     pub fn new() -> PacketCzReqMailReturn {
         PacketCzReqMailReturn {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x27, 0x3]),
-        packet_id_raw: [0x27, 0x3],
+        packet_id: i16::from_le_bytes([0x73, 0x02]),
+        packet_id_raw: [0x73, 0x02],
         mail_id: 0,
         mail_id_raw: [0; 4],
         receive_name: [0 as char; 24],
@@ -81402,7 +81402,7 @@ impl PacketCzReqMailReturn {
 
 impl Packet for PacketCzReqMailReturn {
     fn id(&self) -> &str {
-       "0x0273"
+       "0x7302"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -81439,7 +81439,7 @@ impl Default for PacketCzReqMailReturn {
 
 impl PacketZcAckMailReturn {
     pub fn packet_id() -> &'static str {
-        "0x0274"
+        "0x7402"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckMailReturn {
         let mut offset: usize = 0;
@@ -81523,8 +81523,8 @@ impl PacketZcAckMailReturn {
     pub fn new() -> PacketZcAckMailReturn {
         PacketZcAckMailReturn {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x27, 0x4]),
-        packet_id_raw: [0x27, 0x4],
+        packet_id: i16::from_le_bytes([0x74, 0x02]),
+        packet_id_raw: [0x74, 0x02],
         mail_id: 0,
         mail_id_raw: [0; 4],
         result: 0,
@@ -81535,7 +81535,7 @@ impl PacketZcAckMailReturn {
 
 impl Packet for PacketZcAckMailReturn {
     fn id(&self) -> &str {
-       "0x0274"
+       "0x7402"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -81572,7 +81572,7 @@ impl Default for PacketZcAckMailReturn {
 
 impl PacketChEnter2 {
     pub fn packet_id() -> &'static str {
-        "0x0275"
+        "0x7502"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketChEnter2 {
         let mut offset: usize = 0;
@@ -81764,8 +81764,8 @@ impl PacketChEnter2 {
     pub fn new() -> PacketChEnter2 {
         PacketChEnter2 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x27, 0x5]),
-        packet_id_raw: [0x27, 0x5],
+        packet_id: i16::from_le_bytes([0x75, 0x02]),
+        packet_id_raw: [0x75, 0x02],
         aid: 0,
         aid_raw: [0; 4],
         auth_code: 0,
@@ -81786,7 +81786,7 @@ impl PacketChEnter2 {
 
 impl Packet for PacketChEnter2 {
     fn id(&self) -> &str {
-       "0x0275"
+       "0x7502"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -81823,7 +81823,7 @@ impl Default for PacketChEnter2 {
 
 impl PacketCaAcceptLogin2 {
     pub fn packet_id() -> &'static str {
-        "0x0276"
+        "0x7602"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCaAcceptLogin2 {
         let mut offset: usize = 0;
@@ -82035,8 +82035,8 @@ impl PacketCaAcceptLogin2 {
     pub fn new() -> PacketCaAcceptLogin2 {
         PacketCaAcceptLogin2 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x27, 0x6]),
-        packet_id_raw: [0x27, 0x6],
+        packet_id: i16::from_le_bytes([0x76, 0x02]),
+        packet_id_raw: [0x76, 0x02],
         packet_length: 0,
         packet_length_raw: [0; 2],
         auth_code: 0,
@@ -82059,7 +82059,7 @@ impl PacketCaAcceptLogin2 {
 
 impl Packet for PacketCaAcceptLogin2 {
     fn id(&self) -> &str {
-       "0x0276"
+       "0x7602"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -82096,7 +82096,7 @@ impl Default for PacketCaAcceptLogin2 {
 
 impl PacketCaLoginPcbang {
     pub fn packet_id() -> &'static str {
-        "0x0277"
+        "0x7702"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCaLoginPcbang {
         let mut offset: usize = 0;
@@ -82292,8 +82292,8 @@ impl PacketCaLoginPcbang {
     pub fn new() -> PacketCaLoginPcbang {
         PacketCaLoginPcbang {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x27, 0x7]),
-        packet_id_raw: [0x27, 0x7],
+        packet_id: i16::from_le_bytes([0x77, 0x02]),
+        packet_id_raw: [0x77, 0x02],
         version: 0,
         version_raw: [0; 4],
         id: [0 as char; 24],
@@ -82312,7 +82312,7 @@ impl PacketCaLoginPcbang {
 
 impl Packet for PacketCaLoginPcbang {
     fn id(&self) -> &str {
-       "0x0277"
+       "0x7702"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -82349,7 +82349,7 @@ impl Default for PacketCaLoginPcbang {
 
 impl PacketZcNotifyPcbang {
     pub fn packet_id() -> &'static str {
-        "0x0278"
+        "0x7802"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyPcbang {
         let mut offset: usize = 0;
@@ -82393,15 +82393,15 @@ impl PacketZcNotifyPcbang {
     pub fn new() -> PacketZcNotifyPcbang {
         PacketZcNotifyPcbang {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x27, 0x8]),
-        packet_id_raw: [0x27, 0x8],
+        packet_id: i16::from_le_bytes([0x78, 0x02]),
+        packet_id_raw: [0x78, 0x02],
         }
     }
 }
 
 impl Packet for PacketZcNotifyPcbang {
     fn id(&self) -> &str {
-       "0x0278"
+       "0x7802"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -82438,7 +82438,7 @@ impl Default for PacketZcNotifyPcbang {
 
 impl PacketCzHuntinglist {
     pub fn packet_id() -> &'static str {
-        "0x0279"
+        "0x7902"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzHuntinglist {
         let mut offset: usize = 0;
@@ -82482,15 +82482,15 @@ impl PacketCzHuntinglist {
     pub fn new() -> PacketCzHuntinglist {
         PacketCzHuntinglist {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x27, 0x9]),
-        packet_id_raw: [0x27, 0x9],
+        packet_id: i16::from_le_bytes([0x79, 0x02]),
+        packet_id_raw: [0x79, 0x02],
         }
     }
 }
 
 impl Packet for PacketCzHuntinglist {
     fn id(&self) -> &str {
-       "0x0279"
+       "0x7902"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -82527,7 +82527,7 @@ impl Default for PacketCzHuntinglist {
 
 impl PacketZcHuntinglist {
     pub fn packet_id() -> &'static str {
-        "0x027a"
+        "0x7a02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcHuntinglist {
         let mut offset: usize = 0;
@@ -82623,8 +82623,8 @@ impl PacketZcHuntinglist {
     pub fn new() -> PacketZcHuntinglist {
         PacketZcHuntinglist {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x27, 0xa]),
-        packet_id_raw: [0x27, 0xa],
+        packet_id: i16::from_le_bytes([0x7a, 0x02]),
+        packet_id_raw: [0x7a, 0x02],
         packet_length: 0,
         packet_length_raw: [0; 2],
         hunting_list: vec![],
@@ -82635,7 +82635,7 @@ impl PacketZcHuntinglist {
 
 impl Packet for PacketZcHuntinglist {
     fn id(&self) -> &str {
-       "0x027a"
+       "0x7a02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -82672,7 +82672,7 @@ impl Default for PacketZcHuntinglist {
 
 impl PacketZcPcbangEffect {
     pub fn packet_id() -> &'static str {
-        "0x027b"
+        "0x7b02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPcbangEffect {
         let mut offset: usize = 0;
@@ -82776,8 +82776,8 @@ impl PacketZcPcbangEffect {
     pub fn new() -> PacketZcPcbangEffect {
         PacketZcPcbangEffect {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x27, 0xb]),
-        packet_id_raw: [0x27, 0xb],
+        packet_id: i16::from_le_bytes([0x7b, 0x02]),
+        packet_id_raw: [0x7b, 0x02],
         exp_factor: 0,
         exp_factor_raw: [0; 4],
         exp_factor2: 0,
@@ -82790,7 +82790,7 @@ impl PacketZcPcbangEffect {
 
 impl Packet for PacketZcPcbangEffect {
     fn id(&self) -> &str {
-       "0x027b"
+       "0x7b02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -82827,7 +82827,7 @@ impl Default for PacketZcPcbangEffect {
 
 impl PacketCaLogin4 {
     pub fn packet_id() -> &'static str {
-        "0x027c"
+        "0x7c02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCaLogin4 {
         let mut offset: usize = 0;
@@ -82995,8 +82995,8 @@ impl PacketCaLogin4 {
     pub fn new() -> PacketCaLogin4 {
         PacketCaLogin4 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x27, 0xc]),
-        packet_id_raw: [0x27, 0xc],
+        packet_id: i16::from_le_bytes([0x7c, 0x02]),
+        packet_id_raw: [0x7c, 0x02],
         version: 0,
         version_raw: [0; 4],
         id: [0 as char; 24],
@@ -83013,7 +83013,7 @@ impl PacketCaLogin4 {
 
 impl Packet for PacketCaLogin4 {
     fn id(&self) -> &str {
-       "0x027c"
+       "0x7c02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -83050,7 +83050,7 @@ impl Default for PacketCaLogin4 {
 
 impl PacketZcPropertyMerce {
     pub fn packet_id() -> &'static str {
-        "0x027d"
+        "0x7d02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPropertyMerce {
         let mut offset: usize = 0;
@@ -83462,8 +83462,8 @@ impl PacketZcPropertyMerce {
     pub fn new() -> PacketZcPropertyMerce {
         PacketZcPropertyMerce {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x27, 0xd]),
-        packet_id_raw: [0x27, 0xd],
+        packet_id: i16::from_le_bytes([0x7d, 0x02]),
+        packet_id_raw: [0x7d, 0x02],
         name: [0 as char; 24],
         name_raw: [0; 24],
         level: 0,
@@ -83506,7 +83506,7 @@ impl PacketZcPropertyMerce {
 
 impl Packet for PacketZcPropertyMerce {
     fn id(&self) -> &str {
-       "0x027d"
+       "0x7d02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -83543,7 +83543,7 @@ impl Default for PacketZcPropertyMerce {
 
 impl PacketZcShandaProtect {
     pub fn packet_id() -> &'static str {
-        "0x027e"
+        "0x7e02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcShandaProtect {
         let mut offset: usize = 0;
@@ -83644,8 +83644,8 @@ impl PacketZcShandaProtect {
     pub fn new() -> PacketZcShandaProtect {
         PacketZcShandaProtect {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x27, 0xe]),
-        packet_id_raw: [0x27, 0xe],
+        packet_id: i16::from_le_bytes([0x7e, 0x02]),
+        packet_id_raw: [0x7e, 0x02],
         packet_length: 0,
         packet_length_raw: [0; 2],
         code_len: 0,
@@ -83658,7 +83658,7 @@ impl PacketZcShandaProtect {
 
 impl Packet for PacketZcShandaProtect {
     fn id(&self) -> &str {
-       "0x027e"
+       "0x7e02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -83695,7 +83695,7 @@ impl Default for PacketZcShandaProtect {
 
 impl PacketCaClientType {
     pub fn packet_id() -> &'static str {
-        "0x027f"
+        "0x7f02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCaClientType {
         let mut offset: usize = 0;
@@ -83779,8 +83779,8 @@ impl PacketCaClientType {
     pub fn new() -> PacketCaClientType {
         PacketCaClientType {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x27, 0xf]),
-        packet_id_raw: [0x27, 0xf],
+        packet_id: i16::from_le_bytes([0x7f, 0x02]),
+        packet_id_raw: [0x7f, 0x02],
         client_type: 0,
         client_type_raw: [0; 2],
         n_ver: 0,
@@ -83791,7 +83791,7 @@ impl PacketCaClientType {
 
 impl Packet for PacketCaClientType {
     fn id(&self) -> &str {
-       "0x027f"
+       "0x7f02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -83828,7 +83828,7 @@ impl Default for PacketCaClientType {
 
 impl PacketZcGangsiPoint {
     pub fn packet_id() -> &'static str {
-        "0x0280"
+        "0x8002"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcGangsiPoint {
         let mut offset: usize = 0;
@@ -83932,8 +83932,8 @@ impl PacketZcGangsiPoint {
     pub fn new() -> PacketZcGangsiPoint {
         PacketZcGangsiPoint {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x28, 0x0]),
-        packet_id_raw: [0x28, 0x0],
+        packet_id: i16::from_le_bytes([0x80, 0x02]),
+        packet_id_raw: [0x80, 0x02],
         point: 0,
         point_raw: [0; 4],
         total_point: 0,
@@ -83946,7 +83946,7 @@ impl PacketZcGangsiPoint {
 
 impl Packet for PacketZcGangsiPoint {
     fn id(&self) -> &str {
-       "0x0280"
+       "0x8002"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -83983,7 +83983,7 @@ impl Default for PacketZcGangsiPoint {
 
 impl PacketCzGangsiRank {
     pub fn packet_id() -> &'static str {
-        "0x0281"
+        "0x8102"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzGangsiRank {
         let mut offset: usize = 0;
@@ -84047,8 +84047,8 @@ impl PacketCzGangsiRank {
     pub fn new() -> PacketCzGangsiRank {
         PacketCzGangsiRank {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x28, 0x1]),
-        packet_id_raw: [0x28, 0x1],
+        packet_id: i16::from_le_bytes([0x81, 0x02]),
+        packet_id_raw: [0x81, 0x02],
         packet_switch: 0,
         packet_switch_raw: [0; 2],
         }
@@ -84057,7 +84057,7 @@ impl PacketCzGangsiRank {
 
 impl Packet for PacketCzGangsiRank {
     fn id(&self) -> &str {
-       "0x0281"
+       "0x8102"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -84094,7 +84094,7 @@ impl Default for PacketCzGangsiRank {
 
 impl PacketZcGangsiRank {
     pub fn packet_id() -> &'static str {
-        "0x0282"
+        "0x8202"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcGangsiRank {
         let mut offset: usize = 0;
@@ -84214,8 +84214,8 @@ impl PacketZcGangsiRank {
     pub fn new() -> PacketZcGangsiRank {
         PacketZcGangsiRank {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x28, 0x2]),
-        packet_id_raw: [0x28, 0x2],
+        packet_id: i16::from_le_bytes([0x82, 0x02]),
+        packet_id_raw: [0x82, 0x02],
         name: [0 as char; 10],
         name_raw: [0; 10],
         point: [0; 10],
@@ -84228,7 +84228,7 @@ impl PacketZcGangsiRank {
 
 impl Packet for PacketZcGangsiRank {
     fn id(&self) -> &str {
-       "0x0282"
+       "0x8202"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -84265,7 +84265,7 @@ impl Default for PacketZcGangsiRank {
 
 impl PacketZcAid {
     pub fn packet_id() -> &'static str {
-        "0x0283"
+        "0x8302"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAid {
         let mut offset: usize = 0;
@@ -84329,8 +84329,8 @@ impl PacketZcAid {
     pub fn new() -> PacketZcAid {
         PacketZcAid {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x28, 0x3]),
-        packet_id_raw: [0x28, 0x3],
+        packet_id: i16::from_le_bytes([0x83, 0x02]),
+        packet_id_raw: [0x83, 0x02],
         aid: 0,
         aid_raw: [0; 4],
         }
@@ -84339,7 +84339,7 @@ impl PacketZcAid {
 
 impl Packet for PacketZcAid {
     fn id(&self) -> &str {
-       "0x0283"
+       "0x8302"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -84376,7 +84376,7 @@ impl Default for PacketZcAid {
 
 impl PacketZcNotifyEffect3 {
     pub fn packet_id() -> &'static str {
-        "0x0284"
+        "0x8402"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyEffect3 {
         let mut offset: usize = 0;
@@ -84480,8 +84480,8 @@ impl PacketZcNotifyEffect3 {
     pub fn new() -> PacketZcNotifyEffect3 {
         PacketZcNotifyEffect3 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x28, 0x4]),
-        packet_id_raw: [0x28, 0x4],
+        packet_id: i16::from_le_bytes([0x84, 0x02]),
+        packet_id_raw: [0x84, 0x02],
         aid: 0,
         aid_raw: [0; 4],
         effect_id: 0,
@@ -84494,7 +84494,7 @@ impl PacketZcNotifyEffect3 {
 
 impl Packet for PacketZcNotifyEffect3 {
     fn id(&self) -> &str {
-       "0x0284"
+       "0x8402"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -84531,7 +84531,7 @@ impl Default for PacketZcNotifyEffect3 {
 
 impl PacketZcDeathQuestion {
     pub fn packet_id() -> &'static str {
-        "0x0285"
+        "0x8502"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcDeathQuestion {
         let mut offset: usize = 0;
@@ -84615,8 +84615,8 @@ impl PacketZcDeathQuestion {
     pub fn new() -> PacketZcDeathQuestion {
         PacketZcDeathQuestion {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x28, 0x5]),
-        packet_id_raw: [0x28, 0x5],
+        packet_id: i16::from_le_bytes([0x85, 0x02]),
+        packet_id_raw: [0x85, 0x02],
         qcategory: 0,
         qcategory_raw: [0; 2],
         qnum: 0,
@@ -84627,7 +84627,7 @@ impl PacketZcDeathQuestion {
 
 impl Packet for PacketZcDeathQuestion {
     fn id(&self) -> &str {
-       "0x0285"
+       "0x8502"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -84664,7 +84664,7 @@ impl Default for PacketZcDeathQuestion {
 
 impl PacketCzDeathQuestion {
     pub fn packet_id() -> &'static str {
-        "0x0286"
+        "0x8602"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzDeathQuestion {
         let mut offset: usize = 0;
@@ -84728,8 +84728,8 @@ impl PacketCzDeathQuestion {
     pub fn new() -> PacketCzDeathQuestion {
         PacketCzDeathQuestion {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x28, 0x6]),
-        packet_id_raw: [0x28, 0x6],
+        packet_id: i16::from_le_bytes([0x86, 0x02]),
+        packet_id_raw: [0x86, 0x02],
         qanswer: 0,
         qanswer_raw: [0; 2],
         }
@@ -84738,7 +84738,7 @@ impl PacketCzDeathQuestion {
 
 impl Packet for PacketCzDeathQuestion {
     fn id(&self) -> &str {
-       "0x0286"
+       "0x8602"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -84775,7 +84775,7 @@ impl Default for PacketCzDeathQuestion {
 
 impl PacketZcPcCashPointItemlist {
     pub fn packet_id() -> &'static str {
-        "0x0287"
+        "0x8702"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPcCashPointItemlist {
         let mut offset: usize = 0;
@@ -84891,8 +84891,8 @@ impl PacketZcPcCashPointItemlist {
     pub fn new() -> PacketZcPcCashPointItemlist {
         PacketZcPcCashPointItemlist {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x28, 0x7]),
-        packet_id_raw: [0x28, 0x7],
+        packet_id: i16::from_le_bytes([0x87, 0x02]),
+        packet_id_raw: [0x87, 0x02],
         packet_length: 0,
         packet_length_raw: [0; 2],
         cash_point: 0,
@@ -84905,7 +84905,7 @@ impl PacketZcPcCashPointItemlist {
 
 impl Packet for PacketZcPcCashPointItemlist {
     fn id(&self) -> &str {
-       "0x0287"
+       "0x8702"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -84942,7 +84942,7 @@ impl Default for PacketZcPcCashPointItemlist {
 
 impl PacketCzPcBuyCashPointItem {
     pub fn packet_id() -> &'static str {
-        "0x0288"
+        "0x8802"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzPcBuyCashPointItem {
         let mut offset: usize = 0;
@@ -85026,8 +85026,8 @@ impl PacketCzPcBuyCashPointItem {
     pub fn new() -> PacketCzPcBuyCashPointItem {
         PacketCzPcBuyCashPointItem {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x28, 0x8]),
-        packet_id_raw: [0x28, 0x8],
+        packet_id: i16::from_le_bytes([0x88, 0x02]),
+        packet_id_raw: [0x88, 0x02],
         itid: 0,
         itid_raw: [0; 2],
         count: 0,
@@ -85038,7 +85038,7 @@ impl PacketCzPcBuyCashPointItem {
 
 impl Packet for PacketCzPcBuyCashPointItem {
     fn id(&self) -> &str {
-       "0x0288"
+       "0x8802"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -85075,7 +85075,7 @@ impl Default for PacketCzPcBuyCashPointItem {
 
 impl PacketZcPcCashPointUpdate {
     pub fn packet_id() -> &'static str {
-        "0x0289"
+        "0x8902"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPcCashPointUpdate {
         let mut offset: usize = 0;
@@ -85159,8 +85159,8 @@ impl PacketZcPcCashPointUpdate {
     pub fn new() -> PacketZcPcCashPointUpdate {
         PacketZcPcCashPointUpdate {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x28, 0x9]),
-        packet_id_raw: [0x28, 0x9],
+        packet_id: i16::from_le_bytes([0x89, 0x02]),
+        packet_id_raw: [0x89, 0x02],
         cash_point: 0,
         cash_point_raw: [0; 4],
         error: 0,
@@ -85171,7 +85171,7 @@ impl PacketZcPcCashPointUpdate {
 
 impl Packet for PacketZcPcCashPointUpdate {
     fn id(&self) -> &str {
-       "0x0289"
+       "0x8902"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -85208,7 +85208,7 @@ impl Default for PacketZcPcCashPointUpdate {
 
 impl PacketZcNpcShowefstUpdate {
     pub fn packet_id() -> &'static str {
-        "0x028a"
+        "0x8a02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNpcShowefstUpdate {
         let mut offset: usize = 0;
@@ -85332,8 +85332,8 @@ impl PacketZcNpcShowefstUpdate {
     pub fn new() -> PacketZcNpcShowefstUpdate {
         PacketZcNpcShowefstUpdate {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x28, 0xa]),
-        packet_id_raw: [0x28, 0xa],
+        packet_id: i16::from_le_bytes([0x8a, 0x02]),
+        packet_id_raw: [0x8a, 0x02],
         aid: 0,
         aid_raw: [0; 4],
         effect_state: 0,
@@ -85348,7 +85348,7 @@ impl PacketZcNpcShowefstUpdate {
 
 impl Packet for PacketZcNpcShowefstUpdate {
     fn id(&self) -> &str {
-       "0x028a"
+       "0x8a02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -85385,7 +85385,7 @@ impl Default for PacketZcNpcShowefstUpdate {
 
 impl PacketChSelectCharGoingtobeused {
     pub fn packet_id() -> &'static str {
-        "0x028c"
+        "0x8c02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketChSelectCharGoingtobeused {
         let mut offset: usize = 0;
@@ -85497,8 +85497,8 @@ impl PacketChSelectCharGoingtobeused {
     pub fn new() -> PacketChSelectCharGoingtobeused {
         PacketChSelectCharGoingtobeused {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x28, 0xc]),
-        packet_id_raw: [0x28, 0xc],
+        packet_id: i16::from_le_bytes([0x8c, 0x02]),
+        packet_id_raw: [0x8c, 0x02],
         dw_aid: 0,
         dw_aid_raw: [0; 4],
         n_count_selected_char: 0,
@@ -85511,7 +85511,7 @@ impl PacketChSelectCharGoingtobeused {
 
 impl Packet for PacketChSelectCharGoingtobeused {
     fn id(&self) -> &str {
-       "0x028c"
+       "0x8c02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -85548,7 +85548,7 @@ impl Default for PacketChSelectCharGoingtobeused {
 
 impl PacketChReqIsValidCharname {
     pub fn packet_id() -> &'static str {
-        "0x028d"
+        "0x8d02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketChReqIsValidCharname {
         let mut offset: usize = 0;
@@ -85660,8 +85660,8 @@ impl PacketChReqIsValidCharname {
     pub fn new() -> PacketChReqIsValidCharname {
         PacketChReqIsValidCharname {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x28, 0xd]),
-        packet_id_raw: [0x28, 0xd],
+        packet_id: i16::from_le_bytes([0x8d, 0x02]),
+        packet_id_raw: [0x8d, 0x02],
         dw_aid: 0,
         dw_aid_raw: [0; 4],
         dw_gid: 0,
@@ -85674,7 +85674,7 @@ impl PacketChReqIsValidCharname {
 
 impl Packet for PacketChReqIsValidCharname {
     fn id(&self) -> &str {
-       "0x028d"
+       "0x8d02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -85711,7 +85711,7 @@ impl Default for PacketChReqIsValidCharname {
 
 impl PacketHcAckIsValidCharname {
     pub fn packet_id() -> &'static str {
-        "0x028e"
+        "0x8e02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketHcAckIsValidCharname {
         let mut offset: usize = 0;
@@ -85775,8 +85775,8 @@ impl PacketHcAckIsValidCharname {
     pub fn new() -> PacketHcAckIsValidCharname {
         PacketHcAckIsValidCharname {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x28, 0xe]),
-        packet_id_raw: [0x28, 0xe],
+        packet_id: i16::from_le_bytes([0x8e, 0x02]),
+        packet_id_raw: [0x8e, 0x02],
         s_result: 0,
         s_result_raw: [0; 2],
         }
@@ -85785,7 +85785,7 @@ impl PacketHcAckIsValidCharname {
 
 impl Packet for PacketHcAckIsValidCharname {
     fn id(&self) -> &str {
-       "0x028e"
+       "0x8e02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -85822,7 +85822,7 @@ impl Default for PacketHcAckIsValidCharname {
 
 impl PacketChReqChangeCharname {
     pub fn packet_id() -> &'static str {
-        "0x028f"
+        "0x8f02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketChReqChangeCharname {
         let mut offset: usize = 0;
@@ -85886,8 +85886,8 @@ impl PacketChReqChangeCharname {
     pub fn new() -> PacketChReqChangeCharname {
         PacketChReqChangeCharname {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x28, 0xf]),
-        packet_id_raw: [0x28, 0xf],
+        packet_id: i16::from_le_bytes([0x8f, 0x02]),
+        packet_id_raw: [0x8f, 0x02],
         dw_gid: 0,
         dw_gid_raw: [0; 4],
         }
@@ -85896,7 +85896,7 @@ impl PacketChReqChangeCharname {
 
 impl Packet for PacketChReqChangeCharname {
     fn id(&self) -> &str {
-       "0x028f"
+       "0x8f02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -85933,7 +85933,7 @@ impl Default for PacketChReqChangeCharname {
 
 impl PacketHcAckChangeCharname {
     pub fn packet_id() -> &'static str {
-        "0x0290"
+        "0x9002"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketHcAckChangeCharname {
         let mut offset: usize = 0;
@@ -85997,8 +85997,8 @@ impl PacketHcAckChangeCharname {
     pub fn new() -> PacketHcAckChangeCharname {
         PacketHcAckChangeCharname {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x29, 0x0]),
-        packet_id_raw: [0x29, 0x0],
+        packet_id: i16::from_le_bytes([0x90, 0x02]),
+        packet_id_raw: [0x90, 0x02],
         s_result: 0,
         s_result_raw: [0; 2],
         }
@@ -86007,7 +86007,7 @@ impl PacketHcAckChangeCharname {
 
 impl Packet for PacketHcAckChangeCharname {
     fn id(&self) -> &str {
-       "0x0290"
+       "0x9002"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -86044,7 +86044,7 @@ impl Default for PacketHcAckChangeCharname {
 
 impl PacketZcMsg {
     pub fn packet_id() -> &'static str {
-        "0x0291"
+        "0x9102"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMsg {
         let mut offset: usize = 0;
@@ -86108,8 +86108,8 @@ impl PacketZcMsg {
     pub fn new() -> PacketZcMsg {
         PacketZcMsg {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x29, 0x1]),
-        packet_id_raw: [0x29, 0x1],
+        packet_id: i16::from_le_bytes([0x91, 0x02]),
+        packet_id_raw: [0x91, 0x02],
         msg: 0,
         msg_raw: [0; 2],
         }
@@ -86118,7 +86118,7 @@ impl PacketZcMsg {
 
 impl Packet for PacketZcMsg {
     fn id(&self) -> &str {
-       "0x0291"
+       "0x9102"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -86155,7 +86155,7 @@ impl Default for PacketZcMsg {
 
 impl PacketCzStandingResurrection {
     pub fn packet_id() -> &'static str {
-        "0x0292"
+        "0x9202"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzStandingResurrection {
         let mut offset: usize = 0;
@@ -86199,15 +86199,15 @@ impl PacketCzStandingResurrection {
     pub fn new() -> PacketCzStandingResurrection {
         PacketCzStandingResurrection {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x29, 0x2]),
-        packet_id_raw: [0x29, 0x2],
+        packet_id: i16::from_le_bytes([0x92, 0x02]),
+        packet_id_raw: [0x92, 0x02],
         }
     }
 }
 
 impl Packet for PacketCzStandingResurrection {
     fn id(&self) -> &str {
-       "0x0292"
+       "0x9202"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -86244,7 +86244,7 @@ impl Default for PacketCzStandingResurrection {
 
 impl PacketZcBossInfo {
     pub fn packet_id() -> &'static str {
-        "0x0293"
+        "0x9302"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcBossInfo {
         let mut offset: usize = 0;
@@ -86456,8 +86456,8 @@ impl PacketZcBossInfo {
     pub fn new() -> PacketZcBossInfo {
         PacketZcBossInfo {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x29, 0x3]),
-        packet_id_raw: [0x29, 0x3],
+        packet_id: i16::from_le_bytes([0x93, 0x02]),
+        packet_id_raw: [0x93, 0x02],
         info_type: 0,
         info_type_raw: [0; 1],
         x_pos: 0,
@@ -86480,7 +86480,7 @@ impl PacketZcBossInfo {
 
 impl Packet for PacketZcBossInfo {
     fn id(&self) -> &str {
-       "0x0293"
+       "0x9302"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -86517,7 +86517,7 @@ impl Default for PacketZcBossInfo {
 
 impl PacketZcReadBook {
     pub fn packet_id() -> &'static str {
-        "0x0294"
+        "0x9402"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcReadBook {
         let mut offset: usize = 0;
@@ -86601,8 +86601,8 @@ impl PacketZcReadBook {
     pub fn new() -> PacketZcReadBook {
         PacketZcReadBook {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x29, 0x4]),
-        packet_id_raw: [0x29, 0x4],
+        packet_id: i16::from_le_bytes([0x94, 0x02]),
+        packet_id_raw: [0x94, 0x02],
         book_id: 0,
         book_id_raw: [0; 4],
         page: 0,
@@ -86613,7 +86613,7 @@ impl PacketZcReadBook {
 
 impl Packet for PacketZcReadBook {
     fn id(&self) -> &str {
-       "0x0294"
+       "0x9402"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -86650,7 +86650,7 @@ impl Default for PacketZcReadBook {
 
 impl PacketZcEquipmentItemlist2 {
     pub fn packet_id() -> &'static str {
-        "0x0295"
+        "0x9502"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcEquipmentItemlist2 {
         let mut offset: usize = 0;
@@ -86746,8 +86746,8 @@ impl PacketZcEquipmentItemlist2 {
     pub fn new() -> PacketZcEquipmentItemlist2 {
         PacketZcEquipmentItemlist2 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x29, 0x5]),
-        packet_id_raw: [0x29, 0x5],
+        packet_id: i16::from_le_bytes([0x95, 0x02]),
+        packet_id_raw: [0x95, 0x02],
         packet_length: 0,
         packet_length_raw: [0; 2],
         item_info: vec![],
@@ -86758,7 +86758,7 @@ impl PacketZcEquipmentItemlist2 {
 
 impl Packet for PacketZcEquipmentItemlist2 {
     fn id(&self) -> &str {
-       "0x0295"
+       "0x9502"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -86795,7 +86795,7 @@ impl Default for PacketZcEquipmentItemlist2 {
 
 impl PacketZcStoreEquipmentItemlist2 {
     pub fn packet_id() -> &'static str {
-        "0x0296"
+        "0x9602"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcStoreEquipmentItemlist2 {
         let mut offset: usize = 0;
@@ -86891,8 +86891,8 @@ impl PacketZcStoreEquipmentItemlist2 {
     pub fn new() -> PacketZcStoreEquipmentItemlist2 {
         PacketZcStoreEquipmentItemlist2 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x29, 0x6]),
-        packet_id_raw: [0x29, 0x6],
+        packet_id: i16::from_le_bytes([0x96, 0x02]),
+        packet_id_raw: [0x96, 0x02],
         packet_length: 0,
         packet_length_raw: [0; 2],
         item_info: vec![],
@@ -86903,7 +86903,7 @@ impl PacketZcStoreEquipmentItemlist2 {
 
 impl Packet for PacketZcStoreEquipmentItemlist2 {
     fn id(&self) -> &str {
-       "0x0296"
+       "0x9602"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -86940,7 +86940,7 @@ impl Default for PacketZcStoreEquipmentItemlist2 {
 
 impl PacketZcCartEquipmentItemlist2 {
     pub fn packet_id() -> &'static str {
-        "0x0297"
+        "0x9702"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcCartEquipmentItemlist2 {
         let mut offset: usize = 0;
@@ -87036,8 +87036,8 @@ impl PacketZcCartEquipmentItemlist2 {
     pub fn new() -> PacketZcCartEquipmentItemlist2 {
         PacketZcCartEquipmentItemlist2 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x29, 0x7]),
-        packet_id_raw: [0x29, 0x7],
+        packet_id: i16::from_le_bytes([0x97, 0x02]),
+        packet_id_raw: [0x97, 0x02],
         packet_length: 0,
         packet_length_raw: [0; 2],
         item_info: vec![],
@@ -87048,7 +87048,7 @@ impl PacketZcCartEquipmentItemlist2 {
 
 impl Packet for PacketZcCartEquipmentItemlist2 {
     fn id(&self) -> &str {
-       "0x0297"
+       "0x9702"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -87085,7 +87085,7 @@ impl Default for PacketZcCartEquipmentItemlist2 {
 
 impl PacketZcCashTimeCounter {
     pub fn packet_id() -> &'static str {
-        "0x0298"
+        "0x9802"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcCashTimeCounter {
         let mut offset: usize = 0;
@@ -87169,8 +87169,8 @@ impl PacketZcCashTimeCounter {
     pub fn new() -> PacketZcCashTimeCounter {
         PacketZcCashTimeCounter {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x29, 0x8]),
-        packet_id_raw: [0x29, 0x8],
+        packet_id: i16::from_le_bytes([0x98, 0x02]),
+        packet_id_raw: [0x98, 0x02],
         itid: 0,
         itid_raw: [0; 2],
         remain_second: 0,
@@ -87181,7 +87181,7 @@ impl PacketZcCashTimeCounter {
 
 impl Packet for PacketZcCashTimeCounter {
     fn id(&self) -> &str {
-       "0x0298"
+       "0x9802"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -87218,7 +87218,7 @@ impl Default for PacketZcCashTimeCounter {
 
 impl PacketZcCashItemDelete {
     pub fn packet_id() -> &'static str {
-        "0x0299"
+        "0x9902"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcCashItemDelete {
         let mut offset: usize = 0;
@@ -87302,8 +87302,8 @@ impl PacketZcCashItemDelete {
     pub fn new() -> PacketZcCashItemDelete {
         PacketZcCashItemDelete {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x29, 0x9]),
-        packet_id_raw: [0x29, 0x9],
+        packet_id: i16::from_le_bytes([0x99, 0x02]),
+        packet_id_raw: [0x99, 0x02],
         index: 0,
         index_raw: [0; 2],
         itid: 0,
@@ -87314,7 +87314,7 @@ impl PacketZcCashItemDelete {
 
 impl Packet for PacketZcCashItemDelete {
     fn id(&self) -> &str {
-       "0x0299"
+       "0x9902"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -87351,7 +87351,7 @@ impl Default for PacketZcCashItemDelete {
 
 impl PacketZcItemPickupAck2 {
     pub fn packet_id() -> &'static str {
-        "0x029a"
+        "0x9a02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcItemPickupAck2 {
         let mut offset: usize = 0;
@@ -87615,8 +87615,8 @@ impl PacketZcItemPickupAck2 {
     pub fn new() -> PacketZcItemPickupAck2 {
         PacketZcItemPickupAck2 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x29, 0xa]),
-        packet_id_raw: [0x29, 0xa],
+        packet_id: i16::from_le_bytes([0x9a, 0x02]),
+        packet_id_raw: [0x9a, 0x02],
         index: 0,
         index_raw: [0; 2],
         count: 0,
@@ -87645,7 +87645,7 @@ impl PacketZcItemPickupAck2 {
 
 impl Packet for PacketZcItemPickupAck2 {
     fn id(&self) -> &str {
-       "0x029a"
+       "0x9a02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -87682,7 +87682,7 @@ impl Default for PacketZcItemPickupAck2 {
 
 impl PacketZcMerInit {
     pub fn packet_id() -> &'static str {
-        "0x029b"
+        "0x9b02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMerInit {
         let mut offset: usize = 0;
@@ -88134,8 +88134,8 @@ impl PacketZcMerInit {
     pub fn new() -> PacketZcMerInit {
         PacketZcMerInit {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x29, 0xb]),
-        packet_id_raw: [0x29, 0xb],
+        packet_id: i16::from_le_bytes([0x9b, 0x02]),
+        packet_id_raw: [0x9b, 0x02],
         aid: 0,
         aid_raw: [0; 4],
         atk: 0,
@@ -88182,7 +88182,7 @@ impl PacketZcMerInit {
 
 impl Packet for PacketZcMerInit {
     fn id(&self) -> &str {
-       "0x029b"
+       "0x9b02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -88219,7 +88219,7 @@ impl Default for PacketZcMerInit {
 
 impl PacketZcMerProperty {
     pub fn packet_id() -> &'static str {
-        "0x029c"
+        "0x9c02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMerProperty {
         let mut offset: usize = 0;
@@ -88631,8 +88631,8 @@ impl PacketZcMerProperty {
     pub fn new() -> PacketZcMerProperty {
         PacketZcMerProperty {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x29, 0xc]),
-        packet_id_raw: [0x29, 0xc],
+        packet_id: i16::from_le_bytes([0x9c, 0x02]),
+        packet_id_raw: [0x9c, 0x02],
         atk: 0,
         atk_raw: [0; 2],
         matk: 0,
@@ -88675,7 +88675,7 @@ impl PacketZcMerProperty {
 
 impl Packet for PacketZcMerProperty {
     fn id(&self) -> &str {
-       "0x029c"
+       "0x9c02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -88712,7 +88712,7 @@ impl Default for PacketZcMerProperty {
 
 impl PacketZcMerSkillinfoList {
     pub fn packet_id() -> &'static str {
-        "0x029d"
+        "0x9d02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMerSkillinfoList {
         let mut offset: usize = 0;
@@ -88808,8 +88808,8 @@ impl PacketZcMerSkillinfoList {
     pub fn new() -> PacketZcMerSkillinfoList {
         PacketZcMerSkillinfoList {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x29, 0xd]),
-        packet_id_raw: [0x29, 0xd],
+        packet_id: i16::from_le_bytes([0x9d, 0x02]),
+        packet_id_raw: [0x9d, 0x02],
         packet_length: 0,
         packet_length_raw: [0; 2],
         skill_list: vec![],
@@ -88820,7 +88820,7 @@ impl PacketZcMerSkillinfoList {
 
 impl Packet for PacketZcMerSkillinfoList {
     fn id(&self) -> &str {
-       "0x029d"
+       "0x9d02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -88857,7 +88857,7 @@ impl Default for PacketZcMerSkillinfoList {
 
 impl PacketZcMerSkillinfoUpdate {
     pub fn packet_id() -> &'static str {
-        "0x029e"
+        "0x9e02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMerSkillinfoUpdate {
         let mut offset: usize = 0;
@@ -89001,8 +89001,8 @@ impl PacketZcMerSkillinfoUpdate {
     pub fn new() -> PacketZcMerSkillinfoUpdate {
         PacketZcMerSkillinfoUpdate {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x29, 0xe]),
-        packet_id_raw: [0x29, 0xe],
+        packet_id: i16::from_le_bytes([0x9e, 0x02]),
+        packet_id_raw: [0x9e, 0x02],
         skid: 0,
         skid_raw: [0; 2],
         level: 0,
@@ -89019,7 +89019,7 @@ impl PacketZcMerSkillinfoUpdate {
 
 impl Packet for PacketZcMerSkillinfoUpdate {
     fn id(&self) -> &str {
-       "0x029e"
+       "0x9e02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -89056,7 +89056,7 @@ impl Default for PacketZcMerSkillinfoUpdate {
 
 impl PacketCzMerCommand {
     pub fn packet_id() -> &'static str {
-        "0x029f"
+        "0x9f02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzMerCommand {
         let mut offset: usize = 0;
@@ -89120,8 +89120,8 @@ impl PacketCzMerCommand {
     pub fn new() -> PacketCzMerCommand {
         PacketCzMerCommand {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x29, 0xf]),
-        packet_id_raw: [0x29, 0xf],
+        packet_id: i16::from_le_bytes([0x9f, 0x02]),
+        packet_id_raw: [0x9f, 0x02],
         command: 0,
         command_raw: [0; 1],
         }
@@ -89130,7 +89130,7 @@ impl PacketCzMerCommand {
 
 impl Packet for PacketCzMerCommand {
     fn id(&self) -> &str {
-       "0x029f"
+       "0x9f02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -89167,7 +89167,7 @@ impl Default for PacketCzMerCommand {
 
 impl UnusedPacketCzMerUseSkill {
     pub fn packet_id() -> &'static str {
-        "0x02a0"
+        "0xa002"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> UnusedPacketCzMerUseSkill {
         let mut offset: usize = 0;
@@ -89271,8 +89271,8 @@ impl UnusedPacketCzMerUseSkill {
     pub fn new() -> UnusedPacketCzMerUseSkill {
         UnusedPacketCzMerUseSkill {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2a, 0x0]),
-        packet_id_raw: [0x2a, 0x0],
+        packet_id: i16::from_le_bytes([0xa0, 0x02]),
+        packet_id_raw: [0xa0, 0x02],
         selected_level: 0,
         selected_level_raw: [0; 2],
         skid: 0,
@@ -89285,7 +89285,7 @@ impl UnusedPacketCzMerUseSkill {
 
 impl Packet for UnusedPacketCzMerUseSkill {
     fn id(&self) -> &str {
-       "0x02a0"
+       "0xa002"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -89322,7 +89322,7 @@ impl Default for UnusedPacketCzMerUseSkill {
 
 impl UnusedPacketCzMerUpgradeSkilllevel {
     pub fn packet_id() -> &'static str {
-        "0x02a1"
+        "0xa102"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> UnusedPacketCzMerUpgradeSkilllevel {
         let mut offset: usize = 0;
@@ -89386,8 +89386,8 @@ impl UnusedPacketCzMerUpgradeSkilllevel {
     pub fn new() -> UnusedPacketCzMerUpgradeSkilllevel {
         UnusedPacketCzMerUpgradeSkilllevel {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2a, 0x1]),
-        packet_id_raw: [0x2a, 0x1],
+        packet_id: i16::from_le_bytes([0xa1, 0x02]),
+        packet_id_raw: [0xa1, 0x02],
         skid: 0,
         skid_raw: [0; 2],
         }
@@ -89396,7 +89396,7 @@ impl UnusedPacketCzMerUpgradeSkilllevel {
 
 impl Packet for UnusedPacketCzMerUpgradeSkilllevel {
     fn id(&self) -> &str {
-       "0x02a1"
+       "0xa102"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -89433,7 +89433,7 @@ impl Default for UnusedPacketCzMerUpgradeSkilllevel {
 
 impl PacketZcMerParChange {
     pub fn packet_id() -> &'static str {
-        "0x02a2"
+        "0xa202"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMerParChange {
         let mut offset: usize = 0;
@@ -89517,8 +89517,8 @@ impl PacketZcMerParChange {
     pub fn new() -> PacketZcMerParChange {
         PacketZcMerParChange {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2a, 0x2]),
-        packet_id_raw: [0x2a, 0x2],
+        packet_id: i16::from_le_bytes([0xa2, 0x02]),
+        packet_id_raw: [0xa2, 0x02],
         var: 0,
         var_raw: [0; 2],
         value: 0,
@@ -89529,7 +89529,7 @@ impl PacketZcMerParChange {
 
 impl Packet for PacketZcMerParChange {
     fn id(&self) -> &str {
-       "0x02a2"
+       "0xa202"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -89566,7 +89566,7 @@ impl Default for PacketZcMerParChange {
 
 impl PacketZcGameguardLingoKey {
     pub fn packet_id() -> &'static str {
-        "0x02a3"
+        "0xa302"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcGameguardLingoKey {
         let mut offset: usize = 0;
@@ -89629,8 +89629,8 @@ impl PacketZcGameguardLingoKey {
     pub fn new() -> PacketZcGameguardLingoKey {
         PacketZcGameguardLingoKey {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2a, 0x3]),
-        packet_id_raw: [0x2a, 0x3],
+        packet_id: i16::from_le_bytes([0xa3, 0x02]),
+        packet_id_raw: [0xa3, 0x02],
         lingo_key: PggLingoKeyTemp::new(),
         lingo_key_raw: vec![],
         }
@@ -89639,7 +89639,7 @@ impl PacketZcGameguardLingoKey {
 
 impl Packet for PacketZcGameguardLingoKey {
     fn id(&self) -> &str {
-       "0x02a3"
+       "0xa302"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -89676,7 +89676,7 @@ impl Default for PacketZcGameguardLingoKey {
 
 impl PacketCzKsyEvent {
     pub fn packet_id() -> &'static str {
-        "0x02a5"
+        "0xa502"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzKsyEvent {
         let mut offset: usize = 0;
@@ -89760,8 +89760,8 @@ impl PacketCzKsyEvent {
     pub fn new() -> PacketCzKsyEvent {
         PacketCzKsyEvent {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2a, 0x5]),
-        packet_id_raw: [0x2a, 0x5],
+        packet_id: i16::from_le_bytes([0xa5, 0x02]),
+        packet_id_raw: [0xa5, 0x02],
         index: 0,
         index_raw: [0; 2],
         count: 0,
@@ -89772,7 +89772,7 @@ impl PacketCzKsyEvent {
 
 impl Packet for PacketCzKsyEvent {
     fn id(&self) -> &str {
-       "0x02a5"
+       "0xa502"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -89809,7 +89809,7 @@ impl Default for PacketCzKsyEvent {
 
 impl PacketZcReqCashPassword {
     pub fn packet_id() -> &'static str {
-        "0x02aa"
+        "0xaa02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcReqCashPassword {
         let mut offset: usize = 0;
@@ -89873,8 +89873,8 @@ impl PacketZcReqCashPassword {
     pub fn new() -> PacketZcReqCashPassword {
         PacketZcReqCashPassword {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2a, 0xa]),
-        packet_id_raw: [0x2a, 0xa],
+        packet_id: i16::from_le_bytes([0xaa, 0x02]),
+        packet_id_raw: [0xaa, 0x02],
         info: 0,
         info_raw: [0; 2],
         }
@@ -89883,7 +89883,7 @@ impl PacketZcReqCashPassword {
 
 impl Packet for PacketZcReqCashPassword {
     fn id(&self) -> &str {
-       "0x02aa"
+       "0xaa02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -89920,7 +89920,7 @@ impl Default for PacketZcReqCashPassword {
 
 impl PacketCzAckCashPassword {
     pub fn packet_id() -> &'static str {
-        "0x02ab"
+        "0xab02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzAckCashPassword {
         let mut offset: usize = 0;
@@ -90040,8 +90040,8 @@ impl PacketCzAckCashPassword {
     pub fn new() -> PacketCzAckCashPassword {
         PacketCzAckCashPassword {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2a, 0xb]),
-        packet_id_raw: [0x2a, 0xb],
+        packet_id: i16::from_le_bytes([0xab, 0x02]),
+        packet_id_raw: [0xab, 0x02],
         atype: 0,
         atype_raw: [0; 2],
         password: [0 as char; 16],
@@ -90054,7 +90054,7 @@ impl PacketCzAckCashPassword {
 
 impl Packet for PacketCzAckCashPassword {
     fn id(&self) -> &str {
-       "0x02ab"
+       "0xab02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -90091,7 +90091,7 @@ impl Default for PacketCzAckCashPassword {
 
 impl PacketZcResultCashPassword {
     pub fn packet_id() -> &'static str {
-        "0x02ac"
+        "0xac02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcResultCashPassword {
         let mut offset: usize = 0;
@@ -90175,8 +90175,8 @@ impl PacketZcResultCashPassword {
     pub fn new() -> PacketZcResultCashPassword {
         PacketZcResultCashPassword {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2a, 0xc]),
-        packet_id_raw: [0x2a, 0xc],
+        packet_id: i16::from_le_bytes([0xac, 0x02]),
+        packet_id_raw: [0xac, 0x02],
         result: 0,
         result_raw: [0; 2],
         error_count: 0,
@@ -90187,7 +90187,7 @@ impl PacketZcResultCashPassword {
 
 impl Packet for PacketZcResultCashPassword {
     fn id(&self) -> &str {
-       "0x02ac"
+       "0xac02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -90224,7 +90224,7 @@ impl Default for PacketZcResultCashPassword {
 
 impl PacketAcRequestSecondPassword {
     pub fn packet_id() -> &'static str {
-        "0x02ad"
+        "0xad02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketAcRequestSecondPassword {
         let mut offset: usize = 0;
@@ -90308,8 +90308,8 @@ impl PacketAcRequestSecondPassword {
     pub fn new() -> PacketAcRequestSecondPassword {
         PacketAcRequestSecondPassword {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2a, 0xd]),
-        packet_id_raw: [0x2a, 0xd],
+        packet_id: i16::from_le_bytes([0xad, 0x02]),
+        packet_id_raw: [0xad, 0x02],
         result: 0,
         result_raw: [0; 2],
         dw_seed: 0,
@@ -90320,7 +90320,7 @@ impl PacketAcRequestSecondPassword {
 
 impl Packet for PacketAcRequestSecondPassword {
     fn id(&self) -> &str {
-       "0x02ad"
+       "0xad02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -90357,7 +90357,7 @@ impl Default for PacketAcRequestSecondPassword {
 
 impl PacketCaLoginHan {
     pub fn packet_id() -> &'static str {
-        "0x02b0"
+        "0xb002"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCaLoginHan {
         let mut offset: usize = 0;
@@ -90573,8 +90573,8 @@ impl PacketCaLoginHan {
     pub fn new() -> PacketCaLoginHan {
         PacketCaLoginHan {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2b, 0x0]),
-        packet_id_raw: [0x2b, 0x0],
+        packet_id: i16::from_le_bytes([0xb0, 0x02]),
+        packet_id_raw: [0xb0, 0x02],
         version: 0,
         version_raw: [0; 4],
         id: [0 as char; 24],
@@ -90595,7 +90595,7 @@ impl PacketCaLoginHan {
 
 impl Packet for PacketCaLoginHan {
     fn id(&self) -> &str {
-       "0x02b0"
+       "0xb002"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -90632,7 +90632,7 @@ impl Default for PacketCaLoginHan {
 
 impl PacketZcAllQuestList {
     pub fn packet_id() -> &'static str {
-        "0x02b1"
+        "0xb102"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAllQuestList {
         let mut offset: usize = 0;
@@ -90748,8 +90748,8 @@ impl PacketZcAllQuestList {
     pub fn new() -> PacketZcAllQuestList {
         PacketZcAllQuestList {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2b, 0x1]),
-        packet_id_raw: [0x2b, 0x1],
+        packet_id: i16::from_le_bytes([0xb1, 0x02]),
+        packet_id_raw: [0xb1, 0x02],
         packet_length: 0,
         packet_length_raw: [0; 2],
         quest_count: 0,
@@ -90762,7 +90762,7 @@ impl PacketZcAllQuestList {
 
 impl Packet for PacketZcAllQuestList {
     fn id(&self) -> &str {
-       "0x02b1"
+       "0xb102"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -90799,7 +90799,7 @@ impl Default for PacketZcAllQuestList {
 
 impl PacketZcAllQuestMission {
     pub fn packet_id() -> &'static str {
-        "0x02b2"
+        "0xb202"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAllQuestMission {
         let mut offset: usize = 0;
@@ -90915,8 +90915,8 @@ impl PacketZcAllQuestMission {
     pub fn new() -> PacketZcAllQuestMission {
         PacketZcAllQuestMission {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2b, 0x2]),
-        packet_id_raw: [0x2b, 0x2],
+        packet_id: i16::from_le_bytes([0xb2, 0x02]),
+        packet_id_raw: [0xb2, 0x02],
         packet_length: 0,
         packet_length_raw: [0; 2],
         count: 0,
@@ -90929,7 +90929,7 @@ impl PacketZcAllQuestMission {
 
 impl Packet for PacketZcAllQuestMission {
     fn id(&self) -> &str {
-       "0x02b2"
+       "0xb202"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -90966,7 +90966,7 @@ impl Default for PacketZcAllQuestMission {
 
 impl PacketZcAddQuest {
     pub fn packet_id() -> &'static str {
-        "0x02b3"
+        "0xb302"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAddQuest {
         let mut offset: usize = 0;
@@ -91142,8 +91142,8 @@ impl PacketZcAddQuest {
     pub fn new() -> PacketZcAddQuest {
         PacketZcAddQuest {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2b, 0x3]),
-        packet_id_raw: [0x2b, 0x3],
+        packet_id: i16::from_le_bytes([0xb3, 0x02]),
+        packet_id_raw: [0xb3, 0x02],
         quest_id: 0,
         quest_id_raw: [0; 4],
         active: false,
@@ -91162,7 +91162,7 @@ impl PacketZcAddQuest {
 
 impl Packet for PacketZcAddQuest {
     fn id(&self) -> &str {
-       "0x02b3"
+       "0xb302"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -91199,7 +91199,7 @@ impl Default for PacketZcAddQuest {
 
 impl PacketZcDelQuest {
     pub fn packet_id() -> &'static str {
-        "0x02b4"
+        "0xb402"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcDelQuest {
         let mut offset: usize = 0;
@@ -91263,8 +91263,8 @@ impl PacketZcDelQuest {
     pub fn new() -> PacketZcDelQuest {
         PacketZcDelQuest {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2b, 0x4]),
-        packet_id_raw: [0x2b, 0x4],
+        packet_id: i16::from_le_bytes([0xb4, 0x02]),
+        packet_id_raw: [0xb4, 0x02],
         quest_id: 0,
         quest_id_raw: [0; 4],
         }
@@ -91273,7 +91273,7 @@ impl PacketZcDelQuest {
 
 impl Packet for PacketZcDelQuest {
     fn id(&self) -> &str {
-       "0x02b4"
+       "0xb402"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -91310,7 +91310,7 @@ impl Default for PacketZcDelQuest {
 
 impl PacketZcUpdateMissionHunt {
     pub fn packet_id() -> &'static str {
-        "0x02b5"
+        "0xb502"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcUpdateMissionHunt {
         let mut offset: usize = 0;
@@ -91426,8 +91426,8 @@ impl PacketZcUpdateMissionHunt {
     pub fn new() -> PacketZcUpdateMissionHunt {
         PacketZcUpdateMissionHunt {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2b, 0x5]),
-        packet_id_raw: [0x2b, 0x5],
+        packet_id: i16::from_le_bytes([0xb5, 0x02]),
+        packet_id_raw: [0xb5, 0x02],
         packet_length: 0,
         packet_length_raw: [0; 2],
         count: 0,
@@ -91440,7 +91440,7 @@ impl PacketZcUpdateMissionHunt {
 
 impl Packet for PacketZcUpdateMissionHunt {
     fn id(&self) -> &str {
-       "0x02b5"
+       "0xb502"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -91477,7 +91477,7 @@ impl Default for PacketZcUpdateMissionHunt {
 
 impl PacketCzActiveQuest {
     pub fn packet_id() -> &'static str {
-        "0x02b6"
+        "0xb602"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzActiveQuest {
         let mut offset: usize = 0;
@@ -91561,8 +91561,8 @@ impl PacketCzActiveQuest {
     pub fn new() -> PacketCzActiveQuest {
         PacketCzActiveQuest {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2b, 0x6]),
-        packet_id_raw: [0x2b, 0x6],
+        packet_id: i16::from_le_bytes([0xb6, 0x02]),
+        packet_id_raw: [0xb6, 0x02],
         quest_id: 0,
         quest_id_raw: [0; 4],
         active: false,
@@ -91573,7 +91573,7 @@ impl PacketCzActiveQuest {
 
 impl Packet for PacketCzActiveQuest {
     fn id(&self) -> &str {
-       "0x02b6"
+       "0xb602"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -91610,7 +91610,7 @@ impl Default for PacketCzActiveQuest {
 
 impl PacketZcActiveQuest {
     pub fn packet_id() -> &'static str {
-        "0x02b7"
+        "0xb702"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcActiveQuest {
         let mut offset: usize = 0;
@@ -91694,8 +91694,8 @@ impl PacketZcActiveQuest {
     pub fn new() -> PacketZcActiveQuest {
         PacketZcActiveQuest {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2b, 0x7]),
-        packet_id_raw: [0x2b, 0x7],
+        packet_id: i16::from_le_bytes([0xb7, 0x02]),
+        packet_id_raw: [0xb7, 0x02],
         quest_id: 0,
         quest_id_raw: [0; 4],
         active: false,
@@ -91706,7 +91706,7 @@ impl PacketZcActiveQuest {
 
 impl Packet for PacketZcActiveQuest {
     fn id(&self) -> &str {
-       "0x02b7"
+       "0xb702"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -91743,7 +91743,7 @@ impl Default for PacketZcActiveQuest {
 
 impl PacketZcItemPickupParty {
     pub fn packet_id() -> &'static str {
-        "0x02b8"
+        "0xb802"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcItemPickupParty {
         let mut offset: usize = 0;
@@ -91947,8 +91947,8 @@ impl PacketZcItemPickupParty {
     pub fn new() -> PacketZcItemPickupParty {
         PacketZcItemPickupParty {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2b, 0x8]),
-        packet_id_raw: [0x2b, 0x8],
+        packet_id: i16::from_le_bytes([0xb8, 0x02]),
+        packet_id_raw: [0xb8, 0x02],
         account_id: 0,
         account_id_raw: [0; 4],
         itid: 0,
@@ -91971,7 +91971,7 @@ impl PacketZcItemPickupParty {
 
 impl Packet for PacketZcItemPickupParty {
     fn id(&self) -> &str {
-       "0x02b8"
+       "0xb802"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -92008,7 +92008,7 @@ impl Default for PacketZcItemPickupParty {
 
 impl PacketZcShortcutKeyList {
     pub fn packet_id() -> &'static str {
-        "0x02b9"
+        "0xb902"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcShortcutKeyList {
         let mut offset: usize = 0;
@@ -92084,8 +92084,8 @@ impl PacketZcShortcutKeyList {
     pub fn new() -> PacketZcShortcutKeyList {
         PacketZcShortcutKeyList {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2b, 0x9]),
-        packet_id_raw: [0x2b, 0x9],
+        packet_id: i16::from_le_bytes([0xb9, 0x02]),
+        packet_id_raw: [0xb9, 0x02],
         short_cut_key: vec![],
         short_cut_key_raw: vec![],
         }
@@ -92094,7 +92094,7 @@ impl PacketZcShortcutKeyList {
 
 impl Packet for PacketZcShortcutKeyList {
     fn id(&self) -> &str {
-       "0x02b9"
+       "0xb902"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -92131,7 +92131,7 @@ impl Default for PacketZcShortcutKeyList {
 
 impl PacketCzShortcutKeyChange {
     pub fn packet_id() -> &'static str {
-        "0x02ba"
+        "0xba02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzShortcutKeyChange {
         let mut offset: usize = 0;
@@ -92214,8 +92214,8 @@ impl PacketCzShortcutKeyChange {
     pub fn new() -> PacketCzShortcutKeyChange {
         PacketCzShortcutKeyChange {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2b, 0xa]),
-        packet_id_raw: [0x2b, 0xa],
+        packet_id: i16::from_le_bytes([0xba, 0x02]),
+        packet_id_raw: [0xba, 0x02],
         index: 0,
         index_raw: [0; 2],
         short_cut_key: ShortCutKey::new(),
@@ -92226,7 +92226,7 @@ impl PacketCzShortcutKeyChange {
 
 impl Packet for PacketCzShortcutKeyChange {
     fn id(&self) -> &str {
-       "0x02ba"
+       "0xba02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -92263,7 +92263,7 @@ impl Default for PacketCzShortcutKeyChange {
 
 impl PacketZcEquipitemDamaged {
     pub fn packet_id() -> &'static str {
-        "0x02bb"
+        "0xbb02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcEquipitemDamaged {
         let mut offset: usize = 0;
@@ -92347,8 +92347,8 @@ impl PacketZcEquipitemDamaged {
     pub fn new() -> PacketZcEquipitemDamaged {
         PacketZcEquipitemDamaged {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2b, 0xb]),
-        packet_id_raw: [0x2b, 0xb],
+        packet_id: i16::from_le_bytes([0xbb, 0x02]),
+        packet_id_raw: [0xbb, 0x02],
         wear_location: 0,
         wear_location_raw: [0; 2],
         account_id: 0,
@@ -92359,7 +92359,7 @@ impl PacketZcEquipitemDamaged {
 
 impl Packet for PacketZcEquipitemDamaged {
     fn id(&self) -> &str {
-       "0x02bb"
+       "0xbb02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -92396,7 +92396,7 @@ impl Default for PacketZcEquipitemDamaged {
 
 impl PacketZcNotifyPcbangPlayingTime {
     pub fn packet_id() -> &'static str {
-        "0x02bc"
+        "0xbc02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyPcbangPlayingTime {
         let mut offset: usize = 0;
@@ -92460,8 +92460,8 @@ impl PacketZcNotifyPcbangPlayingTime {
     pub fn new() -> PacketZcNotifyPcbangPlayingTime {
         PacketZcNotifyPcbangPlayingTime {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2b, 0xc]),
-        packet_id_raw: [0x2b, 0xc],
+        packet_id: i16::from_le_bytes([0xbc, 0x02]),
+        packet_id_raw: [0xbc, 0x02],
         time_minute: 0,
         time_minute_raw: [0; 4],
         }
@@ -92470,7 +92470,7 @@ impl PacketZcNotifyPcbangPlayingTime {
 
 impl Packet for PacketZcNotifyPcbangPlayingTime {
     fn id(&self) -> &str {
-       "0x02bc"
+       "0xbc02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -92507,7 +92507,7 @@ impl Default for PacketZcNotifyPcbangPlayingTime {
 
 impl PacketZcSrpacketr2Init {
     pub fn packet_id() -> &'static str {
-        "0x02bf"
+        "0xbf02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSrpacketr2Init {
         let mut offset: usize = 0;
@@ -92611,8 +92611,8 @@ impl PacketZcSrpacketr2Init {
     pub fn new() -> PacketZcSrpacketr2Init {
         PacketZcSrpacketr2Init {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2b, 0xf]),
-        packet_id_raw: [0x2b, 0xf],
+        packet_id: i16::from_le_bytes([0xbf, 0x02]),
+        packet_id_raw: [0xbf, 0x02],
         protect_factor: 0,
         protect_factor_raw: [0; 2],
         deform_seed_factor: 0,
@@ -92625,7 +92625,7 @@ impl PacketZcSrpacketr2Init {
 
 impl Packet for PacketZcSrpacketr2Init {
     fn id(&self) -> &str {
-       "0x02bf"
+       "0xbf02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -92662,7 +92662,7 @@ impl Default for PacketZcSrpacketr2Init {
 
 impl PacketCzSrpacketr2Start {
     pub fn packet_id() -> &'static str {
-        "0x02c0"
+        "0xc002"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzSrpacketr2Start {
         let mut offset: usize = 0;
@@ -92726,8 +92726,8 @@ impl PacketCzSrpacketr2Start {
     pub fn new() -> PacketCzSrpacketr2Start {
         PacketCzSrpacketr2Start {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2c, 0x0]),
-        packet_id_raw: [0x2c, 0x0],
+        packet_id: i16::from_le_bytes([0xc0, 0x02]),
+        packet_id_raw: [0xc0, 0x02],
         protect_factor: 0,
         protect_factor_raw: [0; 2],
         }
@@ -92736,7 +92736,7 @@ impl PacketCzSrpacketr2Start {
 
 impl Packet for PacketCzSrpacketr2Start {
     fn id(&self) -> &str {
-       "0x02c0"
+       "0xc002"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -92773,7 +92773,7 @@ impl Default for PacketCzSrpacketr2Start {
 
 impl PacketZcNpcChat {
     pub fn packet_id() -> &'static str {
-        "0xc102"
+        "0x02c1"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNpcChat {
         let mut offset: usize = 0;
@@ -92894,8 +92894,8 @@ impl PacketZcNpcChat {
     pub fn new() -> PacketZcNpcChat {
         PacketZcNpcChat {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0xc1, 0x02]),
-        packet_id_raw: [0xc1, 0x02],
+        packet_id: i16::from_le_bytes([0x02, 0xc1]),
+        packet_id_raw: [0x02, 0xc1],
         packet_length: 0,
         packet_length_raw: [0; 2],
         account_id: 0,
@@ -92910,7 +92910,7 @@ impl PacketZcNpcChat {
 
 impl Packet for PacketZcNpcChat {
     fn id(&self) -> &str {
-       "0xc102"
+       "0x02c1"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -92947,7 +92947,7 @@ impl Default for PacketZcNpcChat {
 
 impl PacketZcFormatstringMsg {
     pub fn packet_id() -> &'static str {
-        "0x02c2"
+        "0xc202"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcFormatstringMsg {
         let mut offset: usize = 0;
@@ -93048,8 +93048,8 @@ impl PacketZcFormatstringMsg {
     pub fn new() -> PacketZcFormatstringMsg {
         PacketZcFormatstringMsg {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2c, 0x2]),
-        packet_id_raw: [0x2c, 0x2],
+        packet_id: i16::from_le_bytes([0xc2, 0x02]),
+        packet_id_raw: [0xc2, 0x02],
         packet_length: 0,
         packet_length_raw: [0; 2],
         msg: 0,
@@ -93062,7 +93062,7 @@ impl PacketZcFormatstringMsg {
 
 impl Packet for PacketZcFormatstringMsg {
     fn id(&self) -> &str {
-       "0x02c2"
+       "0xc202"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -93099,7 +93099,7 @@ impl Default for PacketZcFormatstringMsg {
 
 impl PacketCzPartyJoinReq {
     pub fn packet_id() -> &'static str {
-        "0x02c4"
+        "0xc402"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzPartyJoinReq {
         let mut offset: usize = 0;
@@ -93171,8 +93171,8 @@ impl PacketCzPartyJoinReq {
     pub fn new() -> PacketCzPartyJoinReq {
         PacketCzPartyJoinReq {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2c, 0x4]),
-        packet_id_raw: [0x2c, 0x4],
+        packet_id: i16::from_le_bytes([0xc4, 0x02]),
+        packet_id_raw: [0xc4, 0x02],
         character_name: [0 as char; 24],
         character_name_raw: [0; 24],
         }
@@ -93181,7 +93181,7 @@ impl PacketCzPartyJoinReq {
 
 impl Packet for PacketCzPartyJoinReq {
     fn id(&self) -> &str {
-       "0x02c4"
+       "0xc402"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -93218,7 +93218,7 @@ impl Default for PacketCzPartyJoinReq {
 
 impl PacketZcPartyJoinReqAck {
     pub fn packet_id() -> &'static str {
-        "0x02c5"
+        "0xc502"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPartyJoinReqAck {
         let mut offset: usize = 0;
@@ -93310,8 +93310,8 @@ impl PacketZcPartyJoinReqAck {
     pub fn new() -> PacketZcPartyJoinReqAck {
         PacketZcPartyJoinReqAck {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2c, 0x5]),
-        packet_id_raw: [0x2c, 0x5],
+        packet_id: i16::from_le_bytes([0xc5, 0x02]),
+        packet_id_raw: [0xc5, 0x02],
         character_name: [0 as char; 24],
         character_name_raw: [0; 24],
         answer: 0,
@@ -93322,7 +93322,7 @@ impl PacketZcPartyJoinReqAck {
 
 impl Packet for PacketZcPartyJoinReqAck {
     fn id(&self) -> &str {
-       "0x02c5"
+       "0xc502"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -93359,7 +93359,7 @@ impl Default for PacketZcPartyJoinReqAck {
 
 impl PacketZcPartyJoinReq {
     pub fn packet_id() -> &'static str {
-        "0x02c6"
+        "0xc602"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPartyJoinReq {
         let mut offset: usize = 0;
@@ -93451,8 +93451,8 @@ impl PacketZcPartyJoinReq {
     pub fn new() -> PacketZcPartyJoinReq {
         PacketZcPartyJoinReq {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2c, 0x6]),
-        packet_id_raw: [0x2c, 0x6],
+        packet_id: i16::from_le_bytes([0xc6, 0x02]),
+        packet_id_raw: [0xc6, 0x02],
         grid: 0,
         grid_raw: [0; 4],
         group_name: [0 as char; 24],
@@ -93463,7 +93463,7 @@ impl PacketZcPartyJoinReq {
 
 impl Packet for PacketZcPartyJoinReq {
     fn id(&self) -> &str {
-       "0x02c6"
+       "0xc602"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -93500,7 +93500,7 @@ impl Default for PacketZcPartyJoinReq {
 
 impl PacketCzPartyJoinReqAck {
     pub fn packet_id() -> &'static str {
-        "0x02c7"
+        "0xc702"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzPartyJoinReqAck {
         let mut offset: usize = 0;
@@ -93584,8 +93584,8 @@ impl PacketCzPartyJoinReqAck {
     pub fn new() -> PacketCzPartyJoinReqAck {
         PacketCzPartyJoinReqAck {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2c, 0x7]),
-        packet_id_raw: [0x2c, 0x7],
+        packet_id: i16::from_le_bytes([0xc7, 0x02]),
+        packet_id_raw: [0xc7, 0x02],
         grid: 0,
         grid_raw: [0; 4],
         b_accept: false,
@@ -93596,7 +93596,7 @@ impl PacketCzPartyJoinReqAck {
 
 impl Packet for PacketCzPartyJoinReqAck {
     fn id(&self) -> &str {
-       "0x02c7"
+       "0xc702"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -93633,7 +93633,7 @@ impl Default for PacketCzPartyJoinReqAck {
 
 impl PacketCzPartyConfig {
     pub fn packet_id() -> &'static str {
-        "0x02c8"
+        "0xc802"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzPartyConfig {
         let mut offset: usize = 0;
@@ -93697,8 +93697,8 @@ impl PacketCzPartyConfig {
     pub fn new() -> PacketCzPartyConfig {
         PacketCzPartyConfig {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2c, 0x8]),
-        packet_id_raw: [0x2c, 0x8],
+        packet_id: i16::from_le_bytes([0xc8, 0x02]),
+        packet_id_raw: [0xc8, 0x02],
         b_refuse_join_msg: false,
         b_refuse_join_msg_raw: [0; 1],
         }
@@ -93707,7 +93707,7 @@ impl PacketCzPartyConfig {
 
 impl Packet for PacketCzPartyConfig {
     fn id(&self) -> &str {
-       "0x02c8"
+       "0xc802"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -93744,7 +93744,7 @@ impl Default for PacketCzPartyConfig {
 
 impl PacketZcPartyConfig {
     pub fn packet_id() -> &'static str {
-        "0x02c9"
+        "0xc902"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPartyConfig {
         let mut offset: usize = 0;
@@ -93808,8 +93808,8 @@ impl PacketZcPartyConfig {
     pub fn new() -> PacketZcPartyConfig {
         PacketZcPartyConfig {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2c, 0x9]),
-        packet_id_raw: [0x2c, 0x9],
+        packet_id: i16::from_le_bytes([0xc9, 0x02]),
+        packet_id_raw: [0xc9, 0x02],
         b_refuse_join_msg: false,
         b_refuse_join_msg_raw: [0; 1],
         }
@@ -93818,7 +93818,7 @@ impl PacketZcPartyConfig {
 
 impl Packet for PacketZcPartyConfig {
     fn id(&self) -> &str {
-       "0x02c9"
+       "0xc902"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -93855,7 +93855,7 @@ impl Default for PacketZcPartyConfig {
 
 impl PacketHcRefuseSelectchar {
     pub fn packet_id() -> &'static str {
-        "0x02ca"
+        "0xca02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketHcRefuseSelectchar {
         let mut offset: usize = 0;
@@ -93919,8 +93919,8 @@ impl PacketHcRefuseSelectchar {
     pub fn new() -> PacketHcRefuseSelectchar {
         PacketHcRefuseSelectchar {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2c, 0xa]),
-        packet_id_raw: [0x2c, 0xa],
+        packet_id: i16::from_le_bytes([0xca, 0x02]),
+        packet_id_raw: [0xca, 0x02],
         error_code: 0,
         error_code_raw: [0; 1],
         }
@@ -93929,7 +93929,7 @@ impl PacketHcRefuseSelectchar {
 
 impl Packet for PacketHcRefuseSelectchar {
     fn id(&self) -> &str {
-       "0x02ca"
+       "0xca02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -93966,7 +93966,7 @@ impl Default for PacketHcRefuseSelectchar {
 
 impl PacketZcMemorialdungeonSubscriptionInfo {
     pub fn packet_id() -> &'static str {
-        "0x02cb"
+        "0xcb02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMemorialdungeonSubscriptionInfo {
         let mut offset: usize = 0;
@@ -94058,8 +94058,8 @@ impl PacketZcMemorialdungeonSubscriptionInfo {
     pub fn new() -> PacketZcMemorialdungeonSubscriptionInfo {
         PacketZcMemorialdungeonSubscriptionInfo {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2c, 0xb]),
-        packet_id_raw: [0x2c, 0xb],
+        packet_id: i16::from_le_bytes([0xcb, 0x02]),
+        packet_id_raw: [0xcb, 0x02],
         memorial_dungeon_name: [0 as char; 61],
         memorial_dungeon_name_raw: [0; 61],
         priority_order_num: 0,
@@ -94070,7 +94070,7 @@ impl PacketZcMemorialdungeonSubscriptionInfo {
 
 impl Packet for PacketZcMemorialdungeonSubscriptionInfo {
     fn id(&self) -> &str {
-       "0x02cb"
+       "0xcb02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -94107,7 +94107,7 @@ impl Default for PacketZcMemorialdungeonSubscriptionInfo {
 
 impl PacketZcMemorialdungeonSubscriptionNotify {
     pub fn packet_id() -> &'static str {
-        "0x02cc"
+        "0xcc02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMemorialdungeonSubscriptionNotify {
         let mut offset: usize = 0;
@@ -94171,8 +94171,8 @@ impl PacketZcMemorialdungeonSubscriptionNotify {
     pub fn new() -> PacketZcMemorialdungeonSubscriptionNotify {
         PacketZcMemorialdungeonSubscriptionNotify {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2c, 0xc]),
-        packet_id_raw: [0x2c, 0xc],
+        packet_id: i16::from_le_bytes([0xcc, 0x02]),
+        packet_id_raw: [0xcc, 0x02],
         priority_order_num: 0,
         priority_order_num_raw: [0; 2],
         }
@@ -94181,7 +94181,7 @@ impl PacketZcMemorialdungeonSubscriptionNotify {
 
 impl Packet for PacketZcMemorialdungeonSubscriptionNotify {
     fn id(&self) -> &str {
-       "0x02cc"
+       "0xcc02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -94218,7 +94218,7 @@ impl Default for PacketZcMemorialdungeonSubscriptionNotify {
 
 impl PacketZcMemorialdungeonInfo {
     pub fn packet_id() -> &'static str {
-        "0x02cd"
+        "0xcd02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMemorialdungeonInfo {
         let mut offset: usize = 0;
@@ -94330,8 +94330,8 @@ impl PacketZcMemorialdungeonInfo {
     pub fn new() -> PacketZcMemorialdungeonInfo {
         PacketZcMemorialdungeonInfo {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2c, 0xd]),
-        packet_id_raw: [0x2c, 0xd],
+        packet_id: i16::from_le_bytes([0xcd, 0x02]),
+        packet_id_raw: [0xcd, 0x02],
         memorial_dungeon_name: [0 as char; 61],
         memorial_dungeon_name_raw: [0; 61],
         destroy_date: 0,
@@ -94344,7 +94344,7 @@ impl PacketZcMemorialdungeonInfo {
 
 impl Packet for PacketZcMemorialdungeonInfo {
     fn id(&self) -> &str {
-       "0x02cd"
+       "0xcd02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -94381,7 +94381,7 @@ impl Default for PacketZcMemorialdungeonInfo {
 
 impl PacketZcMemorialdungeonNotify {
     pub fn packet_id() -> &'static str {
-        "0x02ce"
+        "0xce02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMemorialdungeonNotify {
         let mut offset: usize = 0;
@@ -94465,8 +94465,8 @@ impl PacketZcMemorialdungeonNotify {
     pub fn new() -> PacketZcMemorialdungeonNotify {
         PacketZcMemorialdungeonNotify {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2c, 0xe]),
-        packet_id_raw: [0x2c, 0xe],
+        packet_id: i16::from_le_bytes([0xce, 0x02]),
+        packet_id_raw: [0xce, 0x02],
         atype: 0,
         atype_raw: [0; 4],
         enter_limit_date: 0,
@@ -94477,7 +94477,7 @@ impl PacketZcMemorialdungeonNotify {
 
 impl Packet for PacketZcMemorialdungeonNotify {
     fn id(&self) -> &str {
-       "0x02ce"
+       "0xce02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -94514,7 +94514,7 @@ impl Default for PacketZcMemorialdungeonNotify {
 
 impl PacketCzMemorialdungeonCommand {
     pub fn packet_id() -> &'static str {
-        "0x02cf"
+        "0xcf02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzMemorialdungeonCommand {
         let mut offset: usize = 0;
@@ -94578,8 +94578,8 @@ impl PacketCzMemorialdungeonCommand {
     pub fn new() -> PacketCzMemorialdungeonCommand {
         PacketCzMemorialdungeonCommand {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2c, 0xf]),
-        packet_id_raw: [0x2c, 0xf],
+        packet_id: i16::from_le_bytes([0xcf, 0x02]),
+        packet_id_raw: [0xcf, 0x02],
         command: 0,
         command_raw: [0; 4],
         }
@@ -94588,7 +94588,7 @@ impl PacketCzMemorialdungeonCommand {
 
 impl Packet for PacketCzMemorialdungeonCommand {
     fn id(&self) -> &str {
-       "0x02cf"
+       "0xcf02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -95524,7 +95524,7 @@ impl Default for PacketZcItemPickupAck3 {
 
 impl PacketZcIsvrDisconnect {
     pub fn packet_id() -> &'static str {
-        "0x02d5"
+        "0xd502"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcIsvrDisconnect {
         let mut offset: usize = 0;
@@ -95568,15 +95568,15 @@ impl PacketZcIsvrDisconnect {
     pub fn new() -> PacketZcIsvrDisconnect {
         PacketZcIsvrDisconnect {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2d, 0x5]),
-        packet_id_raw: [0x2d, 0x5],
+        packet_id: i16::from_le_bytes([0xd5, 0x02]),
+        packet_id_raw: [0xd5, 0x02],
         }
     }
 }
 
 impl Packet for PacketZcIsvrDisconnect {
     fn id(&self) -> &str {
-       "0x02d5"
+       "0xd502"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -95613,7 +95613,7 @@ impl Default for PacketZcIsvrDisconnect {
 
 impl PacketCzEquipwinMicroscope {
     pub fn packet_id() -> &'static str {
-        "0x02d6"
+        "0xd602"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzEquipwinMicroscope {
         let mut offset: usize = 0;
@@ -95677,8 +95677,8 @@ impl PacketCzEquipwinMicroscope {
     pub fn new() -> PacketCzEquipwinMicroscope {
         PacketCzEquipwinMicroscope {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2d, 0x6]),
-        packet_id_raw: [0x2d, 0x6],
+        packet_id: i16::from_le_bytes([0xd6, 0x02]),
+        packet_id_raw: [0xd6, 0x02],
         aid: 0,
         aid_raw: [0; 4],
         }
@@ -95687,7 +95687,7 @@ impl PacketCzEquipwinMicroscope {
 
 impl Packet for PacketCzEquipwinMicroscope {
     fn id(&self) -> &str {
-       "0x02d6"
+       "0xd602"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -95724,7 +95724,7 @@ impl Default for PacketCzEquipwinMicroscope {
 
 impl PacketZcEquipwinMicroscope {
     pub fn packet_id() -> &'static str {
-        "0x02d7"
+        "0xd702"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcEquipwinMicroscope {
         let mut offset: usize = 0;
@@ -96008,8 +96008,8 @@ impl PacketZcEquipwinMicroscope {
     pub fn new() -> PacketZcEquipwinMicroscope {
         PacketZcEquipwinMicroscope {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2d, 0x7]),
-        packet_id_raw: [0x2d, 0x7],
+        packet_id: i16::from_le_bytes([0xd7, 0x02]),
+        packet_id_raw: [0xd7, 0x02],
         packet_length: 0,
         packet_length_raw: [0; 2],
         character_name: [0 as char; 24],
@@ -96038,7 +96038,7 @@ impl PacketZcEquipwinMicroscope {
 
 impl Packet for PacketZcEquipwinMicroscope {
     fn id(&self) -> &str {
-       "0x02d7"
+       "0xd702"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -96075,7 +96075,7 @@ impl Default for PacketZcEquipwinMicroscope {
 
 impl PacketCzConfig {
     pub fn packet_id() -> &'static str {
-        "0x02d8"
+        "0xd802"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzConfig {
         let mut offset: usize = 0;
@@ -96159,8 +96159,8 @@ impl PacketCzConfig {
     pub fn new() -> PacketCzConfig {
         PacketCzConfig {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2d, 0x8]),
-        packet_id_raw: [0x2d, 0x8],
+        packet_id: i16::from_le_bytes([0xd8, 0x02]),
+        packet_id_raw: [0xd8, 0x02],
         config: 0,
         config_raw: [0; 4],
         value: 0,
@@ -96171,7 +96171,7 @@ impl PacketCzConfig {
 
 impl Packet for PacketCzConfig {
     fn id(&self) -> &str {
-       "0x02d8"
+       "0xd802"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -96208,7 +96208,7 @@ impl Default for PacketCzConfig {
 
 impl PacketZcConfig {
     pub fn packet_id() -> &'static str {
-        "0x02d9"
+        "0xd902"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcConfig {
         let mut offset: usize = 0;
@@ -96292,8 +96292,8 @@ impl PacketZcConfig {
     pub fn new() -> PacketZcConfig {
         PacketZcConfig {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2d, 0x9]),
-        packet_id_raw: [0x2d, 0x9],
+        packet_id: i16::from_le_bytes([0xd9, 0x02]),
+        packet_id_raw: [0xd9, 0x02],
         config: 0,
         config_raw: [0; 4],
         value: 0,
@@ -96304,7 +96304,7 @@ impl PacketZcConfig {
 
 impl Packet for PacketZcConfig {
     fn id(&self) -> &str {
-       "0x02d9"
+       "0xd902"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -96341,7 +96341,7 @@ impl Default for PacketZcConfig {
 
 impl PacketZcConfigNotify {
     pub fn packet_id() -> &'static str {
-        "0x02da"
+        "0xda02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcConfigNotify {
         let mut offset: usize = 0;
@@ -96405,8 +96405,8 @@ impl PacketZcConfigNotify {
     pub fn new() -> PacketZcConfigNotify {
         PacketZcConfigNotify {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2d, 0xa]),
-        packet_id_raw: [0x2d, 0xa],
+        packet_id: i16::from_le_bytes([0xda, 0x02]),
+        packet_id_raw: [0xda, 0x02],
         b_open_equipment_win: false,
         b_open_equipment_win_raw: [0; 1],
         }
@@ -96415,7 +96415,7 @@ impl PacketZcConfigNotify {
 
 impl Packet for PacketZcConfigNotify {
     fn id(&self) -> &str {
-       "0x02da"
+       "0xda02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -96452,7 +96452,7 @@ impl Default for PacketZcConfigNotify {
 
 impl PacketCzBattlefieldChat {
     pub fn packet_id() -> &'static str {
-        "0x02db"
+        "0xdb02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzBattlefieldChat {
         let mut offset: usize = 0;
@@ -96533,8 +96533,8 @@ impl PacketCzBattlefieldChat {
     pub fn new() -> PacketCzBattlefieldChat {
         PacketCzBattlefieldChat {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2d, 0xb]),
-        packet_id_raw: [0x2d, 0xb],
+        packet_id: i16::from_le_bytes([0xdb, 0x02]),
+        packet_id_raw: [0xdb, 0x02],
         packet_length: 0,
         packet_length_raw: [0; 2],
         msg: String::new(),
@@ -96545,7 +96545,7 @@ impl PacketCzBattlefieldChat {
 
 impl Packet for PacketCzBattlefieldChat {
     fn id(&self) -> &str {
-       "0x02db"
+       "0xdb02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -96582,7 +96582,7 @@ impl Default for PacketCzBattlefieldChat {
 
 impl PacketZcBattlefieldChat {
     pub fn packet_id() -> &'static str {
-        "0x02dc"
+        "0xdc02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcBattlefieldChat {
         let mut offset: usize = 0;
@@ -96711,8 +96711,8 @@ impl PacketZcBattlefieldChat {
     pub fn new() -> PacketZcBattlefieldChat {
         PacketZcBattlefieldChat {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2d, 0xc]),
-        packet_id_raw: [0x2d, 0xc],
+        packet_id: i16::from_le_bytes([0xdc, 0x02]),
+        packet_id_raw: [0xdc, 0x02],
         packet_length: 0,
         packet_length_raw: [0; 2],
         account_id: 0,
@@ -96727,7 +96727,7 @@ impl PacketZcBattlefieldChat {
 
 impl Packet for PacketZcBattlefieldChat {
     fn id(&self) -> &str {
-       "0x02dc"
+       "0xdc02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -96764,7 +96764,7 @@ impl Default for PacketZcBattlefieldChat {
 
 impl PacketZcBattlefieldNotifyCampinfo {
     pub fn packet_id() -> &'static str {
-        "0x02dd"
+        "0xdd02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcBattlefieldNotifyCampinfo {
         let mut offset: usize = 0;
@@ -96876,8 +96876,8 @@ impl PacketZcBattlefieldNotifyCampinfo {
     pub fn new() -> PacketZcBattlefieldNotifyCampinfo {
         PacketZcBattlefieldNotifyCampinfo {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2d, 0xd]),
-        packet_id_raw: [0x2d, 0xd],
+        packet_id: i16::from_le_bytes([0xdd, 0x02]),
+        packet_id_raw: [0xdd, 0x02],
         account_id: 0,
         account_id_raw: [0; 4],
         name: [0 as char; 24],
@@ -96890,7 +96890,7 @@ impl PacketZcBattlefieldNotifyCampinfo {
 
 impl Packet for PacketZcBattlefieldNotifyCampinfo {
     fn id(&self) -> &str {
-       "0x02dd"
+       "0xdd02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -96927,7 +96927,7 @@ impl Default for PacketZcBattlefieldNotifyCampinfo {
 
 impl PacketZcBattlefieldNotifyPoint {
     pub fn packet_id() -> &'static str {
-        "0x02de"
+        "0xde02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcBattlefieldNotifyPoint {
         let mut offset: usize = 0;
@@ -97011,8 +97011,8 @@ impl PacketZcBattlefieldNotifyPoint {
     pub fn new() -> PacketZcBattlefieldNotifyPoint {
         PacketZcBattlefieldNotifyPoint {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2d, 0xe]),
-        packet_id_raw: [0x2d, 0xe],
+        packet_id: i16::from_le_bytes([0xde, 0x02]),
+        packet_id_raw: [0xde, 0x02],
         point_camp_a: 0,
         point_camp_a_raw: [0; 2],
         point_camp_b: 0,
@@ -97023,7 +97023,7 @@ impl PacketZcBattlefieldNotifyPoint {
 
 impl Packet for PacketZcBattlefieldNotifyPoint {
     fn id(&self) -> &str {
-       "0x02de"
+       "0xde02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -97060,7 +97060,7 @@ impl Default for PacketZcBattlefieldNotifyPoint {
 
 impl PacketZcBattlefieldNotifyPosition {
     pub fn packet_id() -> &'static str {
-        "0x02df"
+        "0xdf02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcBattlefieldNotifyPosition {
         let mut offset: usize = 0;
@@ -97212,8 +97212,8 @@ impl PacketZcBattlefieldNotifyPosition {
     pub fn new() -> PacketZcBattlefieldNotifyPosition {
         PacketZcBattlefieldNotifyPosition {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2d, 0xf]),
-        packet_id_raw: [0x2d, 0xf],
+        packet_id: i16::from_le_bytes([0xdf, 0x02]),
+        packet_id_raw: [0xdf, 0x02],
         account_id: 0,
         account_id_raw: [0; 4],
         name: [0 as char; 24],
@@ -97230,7 +97230,7 @@ impl PacketZcBattlefieldNotifyPosition {
 
 impl Packet for PacketZcBattlefieldNotifyPosition {
     fn id(&self) -> &str {
-       "0x02df"
+       "0xdf02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -97267,7 +97267,7 @@ impl Default for PacketZcBattlefieldNotifyPosition {
 
 impl PacketZcBattlefieldNotifyHp {
     pub fn packet_id() -> &'static str {
-        "0x02e0"
+        "0xe002"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcBattlefieldNotifyHp {
         let mut offset: usize = 0;
@@ -97399,8 +97399,8 @@ impl PacketZcBattlefieldNotifyHp {
     pub fn new() -> PacketZcBattlefieldNotifyHp {
         PacketZcBattlefieldNotifyHp {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2e, 0x0]),
-        packet_id_raw: [0x2e, 0x0],
+        packet_id: i16::from_le_bytes([0xe0, 0x02]),
+        packet_id_raw: [0xe0, 0x02],
         account_id: 0,
         account_id_raw: [0; 4],
         name: [0 as char; 24],
@@ -97415,7 +97415,7 @@ impl PacketZcBattlefieldNotifyHp {
 
 impl Packet for PacketZcBattlefieldNotifyHp {
     fn id(&self) -> &str {
-       "0x02e0"
+       "0xe002"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -97452,7 +97452,7 @@ impl Default for PacketZcBattlefieldNotifyHp {
 
 impl PacketZcNotifyAct2 {
     pub fn packet_id() -> &'static str {
-        "0x02e1"
+        "0xe102"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyAct2 {
         let mut offset: usize = 0;
@@ -97676,8 +97676,8 @@ impl PacketZcNotifyAct2 {
     pub fn new() -> PacketZcNotifyAct2 {
         PacketZcNotifyAct2 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2e, 0x1]),
-        packet_id_raw: [0x2e, 0x1],
+        packet_id: i16::from_le_bytes([0xe1, 0x02]),
+        packet_id_raw: [0xe1, 0x02],
         gid: 0,
         gid_raw: [0; 4],
         target_gid: 0,
@@ -97702,7 +97702,7 @@ impl PacketZcNotifyAct2 {
 
 impl Packet for PacketZcNotifyAct2 {
     fn id(&self) -> &str {
-       "0x02e1"
+       "0xe102"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -97739,7 +97739,7 @@ impl Default for PacketZcNotifyAct2 {
 
 impl PacketCzBotCheck {
     pub fn packet_id() -> &'static str {
-        "0x02e6"
+        "0xe602"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzBotCheck {
         let mut offset: usize = 0;
@@ -97803,8 +97803,8 @@ impl PacketCzBotCheck {
     pub fn new() -> PacketCzBotCheck {
         PacketCzBotCheck {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2e, 0x6]),
-        packet_id_raw: [0x2e, 0x6],
+        packet_id: i16::from_le_bytes([0xe6, 0x02]),
+        packet_id_raw: [0xe6, 0x02],
         is_bot: 0,
         is_bot_raw: [0; 4],
         }
@@ -97813,7 +97813,7 @@ impl PacketCzBotCheck {
 
 impl Packet for PacketCzBotCheck {
     fn id(&self) -> &str {
-       "0x02e6"
+       "0xe602"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -97850,7 +97850,7 @@ impl Default for PacketCzBotCheck {
 
 impl PacketZcMapproperty {
     pub fn packet_id() -> &'static str {
-        "0x02e7"
+        "0xe702"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMapproperty {
         let mut offset: usize = 0;
@@ -97954,8 +97954,8 @@ impl PacketZcMapproperty {
     pub fn new() -> PacketZcMapproperty {
         PacketZcMapproperty {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2e, 0x7]),
-        packet_id_raw: [0x2e, 0x7],
+        packet_id: i16::from_le_bytes([0xe7, 0x02]),
+        packet_id_raw: [0xe7, 0x02],
         packet_length: 0,
         packet_length_raw: [0; 2],
         atype: 0,
@@ -97968,7 +97968,7 @@ impl PacketZcMapproperty {
 
 impl Packet for PacketZcMapproperty {
     fn id(&self) -> &str {
-       "0x02e7"
+       "0xe702"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -98647,7 +98647,7 @@ impl Default for PacketZcAcceptEnter2 {
 
 impl PacketZcNotifyMoveentry4 {
     pub fn packet_id() -> &'static str {
-        "0x02ec"
+        "0xec02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyMoveentry4 {
         let mut offset: usize = 0;
@@ -99239,8 +99239,8 @@ impl PacketZcNotifyMoveentry4 {
     pub fn new() -> PacketZcNotifyMoveentry4 {
         PacketZcNotifyMoveentry4 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x02, 0xec]),
-        packet_id_raw: [0x02, 0xec],
+        packet_id: i16::from_le_bytes([0xec, 0x02]),
+        packet_id_raw: [0xec, 0x02],
         objecttype: 0,
         objecttype_raw: [0; 1],
         gid: 0,
@@ -99301,7 +99301,7 @@ impl PacketZcNotifyMoveentry4 {
 
 impl Packet for PacketZcNotifyMoveentry4 {
     fn id(&self) -> &str {
-       "0x02ec"
+       "0xec02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -99338,7 +99338,7 @@ impl Default for PacketZcNotifyMoveentry4 {
 
 impl PacketZcNotifyNewentry4 {
     pub fn packet_id() -> &'static str {
-        "0x02ed"
+        "0xed02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyNewentry4 {
         let mut offset: usize = 0;
@@ -99890,8 +99890,8 @@ impl PacketZcNotifyNewentry4 {
     pub fn new() -> PacketZcNotifyNewentry4 {
         PacketZcNotifyNewentry4 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x02, 0xed]),
-        packet_id_raw: [0x02, 0xed],
+        packet_id: i16::from_le_bytes([0xed, 0x02]),
+        packet_id_raw: [0xed, 0x02],
         gid: 0,
         gid_raw: [0; 4],
         speed: 0,
@@ -99948,7 +99948,7 @@ impl PacketZcNotifyNewentry4 {
 
 impl Packet for PacketZcNotifyNewentry4 {
     fn id(&self) -> &str {
-       "0x02ed"
+       "0xed02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -99985,7 +99985,7 @@ impl Default for PacketZcNotifyNewentry4 {
 
 impl PacketZcNotifyStandentry4 {
     pub fn packet_id() -> &'static str {
-        "0x02ee"
+        "0xee02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyStandentry4 {
         let mut offset: usize = 0;
@@ -100557,8 +100557,8 @@ impl PacketZcNotifyStandentry4 {
     pub fn new() -> PacketZcNotifyStandentry4 {
         PacketZcNotifyStandentry4 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x02, 0xee]),
-        packet_id_raw: [0x02, 0xee],
+        packet_id: i16::from_le_bytes([0xee, 0x02]),
+        packet_id_raw: [0xee, 0x02],
         gid: 0,
         gid_raw: [0; 4],
         speed: 0,
@@ -100617,7 +100617,7 @@ impl PacketZcNotifyStandentry4 {
 
 impl Packet for PacketZcNotifyStandentry4 {
     fn id(&self) -> &str {
-       "0x02ee"
+       "0xee02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -100654,7 +100654,7 @@ impl Default for PacketZcNotifyStandentry4 {
 
 impl PacketZcNotifyFont {
     pub fn packet_id() -> &'static str {
-        "0x02ef"
+        "0xef02"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyFont {
         let mut offset: usize = 0;
@@ -100738,8 +100738,8 @@ impl PacketZcNotifyFont {
     pub fn new() -> PacketZcNotifyFont {
         PacketZcNotifyFont {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x02, 0xef]),
-        packet_id_raw: [0x02, 0xef],
+        packet_id: i16::from_le_bytes([0xef, 0x02]),
+        packet_id_raw: [0xef, 0x02],
         aid: 0,
         aid_raw: [0; 4],
         font: 0,
@@ -100750,7 +100750,7 @@ impl PacketZcNotifyFont {
 
 impl Packet for PacketZcNotifyFont {
     fn id(&self) -> &str {
-       "0x02ef"
+       "0xef02"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -100787,7 +100787,7 @@ impl Default for PacketZcNotifyFont {
 
 impl PacketZcProgress {
     pub fn packet_id() -> &'static str {
-        "0x02f0"
+        "0xf002"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcProgress {
         let mut offset: usize = 0;
@@ -100871,8 +100871,8 @@ impl PacketZcProgress {
     pub fn new() -> PacketZcProgress {
         PacketZcProgress {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2f, 0x0]),
-        packet_id_raw: [0x2f, 0x0],
+        packet_id: i16::from_le_bytes([0xf0, 0x02]),
+        packet_id_raw: [0xf0, 0x02],
         color: 0,
         color_raw: [0; 4],
         time: 0,
@@ -100883,7 +100883,7 @@ impl PacketZcProgress {
 
 impl Packet for PacketZcProgress {
     fn id(&self) -> &str {
-       "0x02f0"
+       "0xf002"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -100920,7 +100920,7 @@ impl Default for PacketZcProgress {
 
 impl PacketCzProgress {
     pub fn packet_id() -> &'static str {
-        "0x02f1"
+        "0xf102"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzProgress {
         let mut offset: usize = 0;
@@ -100964,15 +100964,15 @@ impl PacketCzProgress {
     pub fn new() -> PacketCzProgress {
         PacketCzProgress {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2f, 0x1]),
-        packet_id_raw: [0x2f, 0x1],
+        packet_id: i16::from_le_bytes([0xf1, 0x02]),
+        packet_id_raw: [0xf1, 0x02],
         }
     }
 }
 
 impl Packet for PacketCzProgress {
     fn id(&self) -> &str {
-       "0x02f1"
+       "0xf102"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -101009,7 +101009,7 @@ impl Default for PacketCzProgress {
 
 impl PacketZcProgressCancel {
     pub fn packet_id() -> &'static str {
-        "0x02f2"
+        "0xf202"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcProgressCancel {
         let mut offset: usize = 0;
@@ -101053,15 +101053,15 @@ impl PacketZcProgressCancel {
     pub fn new() -> PacketZcProgressCancel {
         PacketZcProgressCancel {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x2f, 0x2]),
-        packet_id_raw: [0x2f, 0x2],
+        packet_id: i16::from_le_bytes([0xf2, 0x02]),
+        packet_id_raw: [0xf2, 0x02],
         }
     }
 }
 
 impl Packet for PacketZcProgressCancel {
     fn id(&self) -> &str {
-       "0x02f2"
+       "0xf202"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -101098,7 +101098,7 @@ impl Default for PacketZcProgressCancel {
 
 impl PacketCzOpenSimpleCashshopItemlist {
     pub fn packet_id() -> &'static str {
-        "0x035c"
+        "0x5c03"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzOpenSimpleCashshopItemlist {
         let mut offset: usize = 0;
@@ -101142,15 +101142,15 @@ impl PacketCzOpenSimpleCashshopItemlist {
     pub fn new() -> PacketCzOpenSimpleCashshopItemlist {
         PacketCzOpenSimpleCashshopItemlist {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x35, 0xc]),
-        packet_id_raw: [0x35, 0xc],
+        packet_id: i16::from_le_bytes([0x5c, 0x03]),
+        packet_id_raw: [0x5c, 0x03],
         }
     }
 }
 
 impl Packet for PacketCzOpenSimpleCashshopItemlist {
     fn id(&self) -> &str {
-       "0x035c"
+       "0x5c03"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -101187,7 +101187,7 @@ impl Default for PacketCzOpenSimpleCashshopItemlist {
 
 impl PacketZcSimpleCashshopPointItemlist {
     pub fn packet_id() -> &'static str {
-        "0x035d"
+        "0x5d03"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSimpleCashshopPointItemlist {
         let mut offset: usize = 0;
@@ -101383,8 +101383,8 @@ impl PacketZcSimpleCashshopPointItemlist {
     pub fn new() -> PacketZcSimpleCashshopPointItemlist {
         PacketZcSimpleCashshopPointItemlist {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x35, 0xd]),
-        packet_id_raw: [0x35, 0xd],
+        packet_id: i16::from_le_bytes([0x5d, 0x03]),
+        packet_id_raw: [0x5d, 0x03],
         packet_length: 0,
         packet_length_raw: [0; 2],
         cash_point: 0,
@@ -101405,7 +101405,7 @@ impl PacketZcSimpleCashshopPointItemlist {
 
 impl Packet for PacketZcSimpleCashshopPointItemlist {
     fn id(&self) -> &str {
-       "0x035d"
+       "0x5d03"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -101442,7 +101442,7 @@ impl Default for PacketZcSimpleCashshopPointItemlist {
 
 impl PacketCzCloseWindow {
     pub fn packet_id() -> &'static str {
-        "0x035e"
+        "0x5e03"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzCloseWindow {
         let mut offset: usize = 0;
@@ -101486,15 +101486,15 @@ impl PacketCzCloseWindow {
     pub fn new() -> PacketCzCloseWindow {
         PacketCzCloseWindow {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x35, 0xe]),
-        packet_id_raw: [0x35, 0xe],
+        packet_id: i16::from_le_bytes([0x5e, 0x03]),
+        packet_id_raw: [0x5e, 0x03],
         }
     }
 }
 
 impl Packet for PacketCzCloseWindow {
     fn id(&self) -> &str {
-       "0x035e"
+       "0x5e03"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -101531,7 +101531,7 @@ impl Default for PacketCzCloseWindow {
 
 impl PacketAhcGameGuard {
     pub fn packet_id() -> &'static str {
-        "0x03dd"
+        "0xdd03"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketAhcGameGuard {
         let mut offset: usize = 0;
@@ -101603,8 +101603,8 @@ impl PacketAhcGameGuard {
     pub fn new() -> PacketAhcGameGuard {
         PacketAhcGameGuard {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x3d, 0xd]),
-        packet_id_raw: [0x3d, 0xd],
+        packet_id: i16::from_le_bytes([0xdd, 0x03]),
+        packet_id_raw: [0xdd, 0x03],
         auth_data: [0; 4],
         auth_data_raw: [0; 4],
         }
@@ -101613,7 +101613,7 @@ impl PacketAhcGameGuard {
 
 impl Packet for PacketAhcGameGuard {
     fn id(&self) -> &str {
-       "0x03dd"
+       "0xdd03"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -101650,7 +101650,7 @@ impl Default for PacketAhcGameGuard {
 
 impl PacketCahAckGameGuard {
     pub fn packet_id() -> &'static str {
-        "0x03de"
+        "0xde03"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCahAckGameGuard {
         let mut offset: usize = 0;
@@ -101722,8 +101722,8 @@ impl PacketCahAckGameGuard {
     pub fn new() -> PacketCahAckGameGuard {
         PacketCahAckGameGuard {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x3d, 0xe]),
-        packet_id_raw: [0x3d, 0xe],
+        packet_id: i16::from_le_bytes([0xde, 0x03]),
+        packet_id_raw: [0xde, 0x03],
         auth_data: [0; 4],
         auth_data_raw: [0; 4],
         }
@@ -101732,7 +101732,7 @@ impl PacketCahAckGameGuard {
 
 impl Packet for PacketCahAckGameGuard {
     fn id(&self) -> &str {
-       "0x03de"
+       "0xde03"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -101968,7 +101968,7 @@ impl Default for PacketCzEnter2 {
 
 impl PacketCzUseSkill2 {
     pub fn packet_id() -> &'static str {
-        "0x0438"
+        "0x3804"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzUseSkill2 {
         let mut offset: usize = 0;
@@ -102072,8 +102072,8 @@ impl PacketCzUseSkill2 {
     pub fn new() -> PacketCzUseSkill2 {
         PacketCzUseSkill2 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x43, 0x8]),
-        packet_id_raw: [0x43, 0x8],
+        packet_id: i16::from_le_bytes([0x38, 0x04]),
+        packet_id_raw: [0x38, 0x04],
         selected_level: 0,
         selected_level_raw: [0; 2],
         skid: 0,
@@ -102086,7 +102086,7 @@ impl PacketCzUseSkill2 {
 
 impl Packet for PacketCzUseSkill2 {
     fn id(&self) -> &str {
-       "0x0438"
+       "0x3804"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -102123,7 +102123,7 @@ impl Default for PacketCzUseSkill2 {
 
 impl PacketCzUseItem2 {
     pub fn packet_id() -> &'static str {
-        "0x0439"
+        "0x3904"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzUseItem2 {
         let mut offset: usize = 0;
@@ -102207,8 +102207,8 @@ impl PacketCzUseItem2 {
     pub fn new() -> PacketCzUseItem2 {
         PacketCzUseItem2 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x43, 0x9]),
-        packet_id_raw: [0x43, 0x9],
+        packet_id: i16::from_le_bytes([0x39, 0x04]),
+        packet_id_raw: [0x39, 0x04],
         index: 0,
         index_raw: [0; 2],
         aid: 0,
@@ -102219,7 +102219,7 @@ impl PacketCzUseItem2 {
 
 impl Packet for PacketCzUseItem2 {
     fn id(&self) -> &str {
-       "0x0439"
+       "0x3904"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -102256,7 +102256,7 @@ impl Default for PacketCzUseItem2 {
 
 impl PacketZcSkillPostdelay {
     pub fn packet_id() -> &'static str {
-        "0x043d"
+        "0x3d04"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSkillPostdelay {
         let mut offset: usize = 0;
@@ -102340,8 +102340,8 @@ impl PacketZcSkillPostdelay {
     pub fn new() -> PacketZcSkillPostdelay {
         PacketZcSkillPostdelay {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x43, 0xd]),
-        packet_id_raw: [0x43, 0xd],
+        packet_id: i16::from_le_bytes([0x3d, 0x04]),
+        packet_id_raw: [0x3d, 0x04],
         skid: 0,
         skid_raw: [0; 2],
         delay_tm: 0,
@@ -102352,7 +102352,7 @@ impl PacketZcSkillPostdelay {
 
 impl Packet for PacketZcSkillPostdelay {
     fn id(&self) -> &str {
-       "0x043d"
+       "0x3d04"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -102389,7 +102389,7 @@ impl Default for PacketZcSkillPostdelay {
 
 impl PacketZcSkillPostdelayList {
     pub fn packet_id() -> &'static str {
-        "0x043e"
+        "0x3e04"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSkillPostdelayList {
         let mut offset: usize = 0;
@@ -102485,8 +102485,8 @@ impl PacketZcSkillPostdelayList {
     pub fn new() -> PacketZcSkillPostdelayList {
         PacketZcSkillPostdelayList {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x43, 0xe]),
-        packet_id_raw: [0x43, 0xe],
+        packet_id: i16::from_le_bytes([0x3e, 0x04]),
+        packet_id_raw: [0x3e, 0x04],
         packet_length: 0,
         packet_length_raw: [0; 2],
         delay_list: vec![],
@@ -102497,7 +102497,7 @@ impl PacketZcSkillPostdelayList {
 
 impl Packet for PacketZcSkillPostdelayList {
     fn id(&self) -> &str {
-       "0x043e"
+       "0x3e04"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -102534,7 +102534,7 @@ impl Default for PacketZcSkillPostdelayList {
 
 impl PacketZcMsgStateChange2 {
     pub fn packet_id() -> &'static str {
-        "0x043f"
+        "0x3f04"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMsgStateChange2 {
         let mut offset: usize = 0;
@@ -102686,8 +102686,8 @@ impl PacketZcMsgStateChange2 {
     pub fn new() -> PacketZcMsgStateChange2 {
         PacketZcMsgStateChange2 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x43, 0xf]),
-        packet_id_raw: [0x43, 0xf],
+        packet_id: i16::from_le_bytes([0x3f, 0x04]),
+        packet_id_raw: [0x3f, 0x04],
         index: 0,
         index_raw: [0; 2],
         aid: 0,
@@ -102704,7 +102704,7 @@ impl PacketZcMsgStateChange2 {
 
 impl Packet for PacketZcMsgStateChange2 {
     fn id(&self) -> &str {
-       "0x043f"
+       "0x3f04"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -102741,7 +102741,7 @@ impl Default for PacketZcMsgStateChange2 {
 
 impl PacketZcMillenniumshield {
     pub fn packet_id() -> &'static str {
-        "0x0440"
+        "0x4004"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMillenniumshield {
         let mut offset: usize = 0;
@@ -102845,8 +102845,8 @@ impl PacketZcMillenniumshield {
     pub fn new() -> PacketZcMillenniumshield {
         PacketZcMillenniumshield {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x44, 0x0]),
-        packet_id_raw: [0x44, 0x0],
+        packet_id: i16::from_le_bytes([0x40, 0x04]),
+        packet_id_raw: [0x40, 0x04],
         aid: 0,
         aid_raw: [0; 4],
         num: 0,
@@ -102859,7 +102859,7 @@ impl PacketZcMillenniumshield {
 
 impl Packet for PacketZcMillenniumshield {
     fn id(&self) -> &str {
-       "0x0440"
+       "0x4004"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -102896,7 +102896,7 @@ impl Default for PacketZcMillenniumshield {
 
 impl PacketZcSkillinfoDelete {
     pub fn packet_id() -> &'static str {
-        "0x0441"
+        "0x4104"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSkillinfoDelete {
         let mut offset: usize = 0;
@@ -102960,8 +102960,8 @@ impl PacketZcSkillinfoDelete {
     pub fn new() -> PacketZcSkillinfoDelete {
         PacketZcSkillinfoDelete {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x44, 0x1]),
-        packet_id_raw: [0x44, 0x1],
+        packet_id: i16::from_le_bytes([0x41, 0x04]),
+        packet_id_raw: [0x41, 0x04],
         skid: 0,
         skid_raw: [0; 2],
         }
@@ -102970,7 +102970,7 @@ impl PacketZcSkillinfoDelete {
 
 impl Packet for PacketZcSkillinfoDelete {
     fn id(&self) -> &str {
-       "0x0441"
+       "0x4104"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -103007,7 +103007,7 @@ impl Default for PacketZcSkillinfoDelete {
 
 impl PacketZcSkillSelectRequest {
     pub fn packet_id() -> &'static str {
-        "0x0442"
+        "0x4204"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSkillSelectRequest {
         let mut offset: usize = 0;
@@ -103111,8 +103111,8 @@ impl PacketZcSkillSelectRequest {
     pub fn new() -> PacketZcSkillSelectRequest {
         PacketZcSkillSelectRequest {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x44, 0x2]),
-        packet_id_raw: [0x44, 0x2],
+        packet_id: i16::from_le_bytes([0x42, 0x04]),
+        packet_id_raw: [0x42, 0x04],
         packet_length: 0,
         packet_length_raw: [0; 2],
         why: 0,
@@ -103125,7 +103125,7 @@ impl PacketZcSkillSelectRequest {
 
 impl Packet for PacketZcSkillSelectRequest {
     fn id(&self) -> &str {
-       "0x0442"
+       "0x4204"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -103162,7 +103162,7 @@ impl Default for PacketZcSkillSelectRequest {
 
 impl PacketCzSkillSelectResponse {
     pub fn packet_id() -> &'static str {
-        "0x0443"
+        "0x4304"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzSkillSelectResponse {
         let mut offset: usize = 0;
@@ -103246,8 +103246,8 @@ impl PacketCzSkillSelectResponse {
     pub fn new() -> PacketCzSkillSelectResponse {
         PacketCzSkillSelectResponse {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x44, 0x3]),
-        packet_id_raw: [0x44, 0x3],
+        packet_id: i16::from_le_bytes([0x43, 0x04]),
+        packet_id_raw: [0x43, 0x04],
         why: 0,
         why_raw: [0; 4],
         skid: 0,
@@ -103258,7 +103258,7 @@ impl PacketCzSkillSelectResponse {
 
 impl Packet for PacketCzSkillSelectResponse {
     fn id(&self) -> &str {
-       "0x0443"
+       "0x4304"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -103295,7 +103295,7 @@ impl Default for PacketCzSkillSelectResponse {
 
 impl PacketZcSimpleCashPointItemlist {
     pub fn packet_id() -> &'static str {
-        "0x0444"
+        "0x4404"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSimpleCashPointItemlist {
         let mut offset: usize = 0;
@@ -103411,8 +103411,8 @@ impl PacketZcSimpleCashPointItemlist {
     pub fn new() -> PacketZcSimpleCashPointItemlist {
         PacketZcSimpleCashPointItemlist {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x44, 0x4]),
-        packet_id_raw: [0x44, 0x4],
+        packet_id: i16::from_le_bytes([0x44, 0x04]),
+        packet_id_raw: [0x44, 0x04],
         packet_length: 0,
         packet_length_raw: [0; 2],
         cash_point: 0,
@@ -103425,7 +103425,7 @@ impl PacketZcSimpleCashPointItemlist {
 
 impl Packet for PacketZcSimpleCashPointItemlist {
     fn id(&self) -> &str {
-       "0x0444"
+       "0x4404"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -103462,7 +103462,7 @@ impl Default for PacketZcSimpleCashPointItemlist {
 
 impl PacketCzSimpleBuyCashPointItem {
     pub fn packet_id() -> &'static str {
-        "0x0445"
+        "0x4504"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzSimpleBuyCashPointItem {
         let mut offset: usize = 0;
@@ -103546,8 +103546,8 @@ impl PacketCzSimpleBuyCashPointItem {
     pub fn new() -> PacketCzSimpleBuyCashPointItem {
         PacketCzSimpleBuyCashPointItem {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x44, 0x5]),
-        packet_id_raw: [0x44, 0x5],
+        packet_id: i16::from_le_bytes([0x45, 0x04]),
+        packet_id_raw: [0x45, 0x04],
         itid: 0,
         itid_raw: [0; 2],
         count: 0,
@@ -103558,7 +103558,7 @@ impl PacketCzSimpleBuyCashPointItem {
 
 impl Packet for PacketCzSimpleBuyCashPointItem {
     fn id(&self) -> &str {
-       "0x0445"
+       "0x4504"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -103595,7 +103595,7 @@ impl Default for PacketCzSimpleBuyCashPointItem {
 
 impl PacketZcQuestNotifyEffect {
     pub fn packet_id() -> &'static str {
-        "0x0446"
+        "0x4604"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcQuestNotifyEffect {
         let mut offset: usize = 0;
@@ -103739,8 +103739,8 @@ impl PacketZcQuestNotifyEffect {
     pub fn new() -> PacketZcQuestNotifyEffect {
         PacketZcQuestNotifyEffect {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x44, 0x6]),
-        packet_id_raw: [0x44, 0x6],
+        packet_id: i16::from_le_bytes([0x46, 0x04]),
+        packet_id_raw: [0x46, 0x04],
         npc_id: 0,
         npc_id_raw: [0; 4],
         x_pos: 0,
@@ -103757,7 +103757,7 @@ impl PacketZcQuestNotifyEffect {
 
 impl Packet for PacketZcQuestNotifyEffect {
     fn id(&self) -> &str {
-       "0x0446"
+       "0x4604"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -103794,7 +103794,7 @@ impl Default for PacketZcQuestNotifyEffect {
 
 impl PacketHcCharacterList {
     pub fn packet_id() -> &'static str {
-        "0x0448"
+        "0x4804"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketHcCharacterList {
         let mut offset: usize = 0;
@@ -103890,8 +103890,8 @@ impl PacketHcCharacterList {
     pub fn new() -> PacketHcCharacterList {
         PacketHcCharacterList {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x44, 0x8]),
-        packet_id_raw: [0x44, 0x8],
+        packet_id: i16::from_le_bytes([0x48, 0x04]),
+        packet_id_raw: [0x48, 0x04],
         packet_length: 0,
         packet_length_raw: [0; 2],
         character_list: vec![],
@@ -103902,7 +103902,7 @@ impl PacketHcCharacterList {
 
 impl Packet for PacketHcCharacterList {
     fn id(&self) -> &str {
-       "0x0448"
+       "0x4804"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -103939,7 +103939,7 @@ impl Default for PacketHcCharacterList {
 
 impl PacketZcHackshErrorMsg {
     pub fn packet_id() -> &'static str {
-        "0x0449"
+        "0x4904"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcHackshErrorMsg {
         let mut offset: usize = 0;
@@ -104003,8 +104003,8 @@ impl PacketZcHackshErrorMsg {
     pub fn new() -> PacketZcHackshErrorMsg {
         PacketZcHackshErrorMsg {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x44, 0x9]),
-        packet_id_raw: [0x44, 0x9],
+        packet_id: i16::from_le_bytes([0x49, 0x04]),
+        packet_id_raw: [0x49, 0x04],
         error_id: 0,
         error_id_raw: [0; 2],
         }
@@ -104013,7 +104013,7 @@ impl PacketZcHackshErrorMsg {
 
 impl Packet for PacketZcHackshErrorMsg {
     fn id(&self) -> &str {
-       "0x0449"
+       "0x4904"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -104050,7 +104050,7 @@ impl Default for PacketZcHackshErrorMsg {
 
 impl PacketCzClientVersion {
     pub fn packet_id() -> &'static str {
-        "0x044a"
+        "0x4a04"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzClientVersion {
         let mut offset: usize = 0;
@@ -104114,8 +104114,8 @@ impl PacketCzClientVersion {
     pub fn new() -> PacketCzClientVersion {
         PacketCzClientVersion {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x44, 0xa]),
-        packet_id_raw: [0x44, 0xa],
+        packet_id: i16::from_le_bytes([0x4a, 0x04]),
+        packet_id_raw: [0x4a, 0x04],
         client_ver: 0,
         client_ver_raw: [0; 4],
         }
@@ -104124,7 +104124,7 @@ impl PacketCzClientVersion {
 
 impl Packet for PacketCzClientVersion {
     fn id(&self) -> &str {
-       "0x044a"
+       "0x4a04"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -104161,7 +104161,7 @@ impl Default for PacketCzClientVersion {
 
 impl PacketCzCloseSimplecashShop {
     pub fn packet_id() -> &'static str {
-        "0x044b"
+        "0x4b04"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzCloseSimplecashShop {
         let mut offset: usize = 0;
@@ -104205,15 +104205,15 @@ impl PacketCzCloseSimplecashShop {
     pub fn new() -> PacketCzCloseSimplecashShop {
         PacketCzCloseSimplecashShop {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x44, 0xb]),
-        packet_id_raw: [0x44, 0xb],
+        packet_id: i16::from_le_bytes([0x4b, 0x04]),
+        packet_id_raw: [0x4b, 0x04],
         }
     }
 }
 
 impl Packet for PacketCzCloseSimplecashShop {
     fn id(&self) -> &str {
-       "0x044b"
+       "0x4b04"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -104250,7 +104250,7 @@ impl Default for PacketCzCloseSimplecashShop {
 
 impl PacketZcEsResult {
     pub fn packet_id() -> &'static str {
-        "0x07d0"
+        "0xd007"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcEsResult {
         let mut offset: usize = 0;
@@ -104334,8 +104334,8 @@ impl PacketZcEsResult {
     pub fn new() -> PacketZcEsResult {
         PacketZcEsResult {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x7d, 0x0]),
-        packet_id_raw: [0x7d, 0x0],
+        packet_id: i16::from_le_bytes([0xd0, 0x07]),
+        packet_id_raw: [0xd0, 0x07],
         es_no: 0,
         es_no_raw: [0; 2],
         es_msg: 0,
@@ -104346,7 +104346,7 @@ impl PacketZcEsResult {
 
 impl Packet for PacketZcEsResult {
     fn id(&self) -> &str {
-       "0x07d0"
+       "0xd007"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -104383,7 +104383,7 @@ impl Default for PacketZcEsResult {
 
 impl PacketCzEsGetList {
     pub fn packet_id() -> &'static str {
-        "0x07d1"
+        "0xd107"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzEsGetList {
         let mut offset: usize = 0;
@@ -104427,15 +104427,15 @@ impl PacketCzEsGetList {
     pub fn new() -> PacketCzEsGetList {
         PacketCzEsGetList {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x7d, 0x1]),
-        packet_id_raw: [0x7d, 0x1],
+        packet_id: i16::from_le_bytes([0xd1, 0x07]),
+        packet_id_raw: [0xd1, 0x07],
         }
     }
 }
 
 impl Packet for PacketCzEsGetList {
     fn id(&self) -> &str {
-       "0x07d1"
+       "0xd107"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -104472,7 +104472,7 @@ impl Default for PacketCzEsGetList {
 
 impl PacketZcEsList {
     pub fn packet_id() -> &'static str {
-        "0x07d2"
+        "0xd207"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcEsList {
         let mut offset: usize = 0;
@@ -104556,8 +104556,8 @@ impl PacketZcEsList {
     pub fn new() -> PacketZcEsList {
         PacketZcEsList {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x7d, 0x2]),
-        packet_id_raw: [0x7d, 0x2],
+        packet_id: i16::from_le_bytes([0xd2, 0x07]),
+        packet_id_raw: [0xd2, 0x07],
         packet_length: 0,
         packet_length_raw: [0; 2],
         count: 0,
@@ -104568,7 +104568,7 @@ impl PacketZcEsList {
 
 impl Packet for PacketZcEsList {
     fn id(&self) -> &str {
-       "0x07d2"
+       "0xd207"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -104605,7 +104605,7 @@ impl Default for PacketZcEsList {
 
 impl PacketCzEsChoose {
     pub fn packet_id() -> &'static str {
-        "0x07d3"
+        "0xd307"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzEsChoose {
         let mut offset: usize = 0;
@@ -104669,8 +104669,8 @@ impl PacketCzEsChoose {
     pub fn new() -> PacketCzEsChoose {
         PacketCzEsChoose {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x7d, 0x3]),
-        packet_id_raw: [0x7d, 0x3],
+        packet_id: i16::from_le_bytes([0xd3, 0x07]),
+        packet_id_raw: [0xd3, 0x07],
         es_no: 0,
         es_no_raw: [0; 2],
         }
@@ -104679,7 +104679,7 @@ impl PacketCzEsChoose {
 
 impl Packet for PacketCzEsChoose {
     fn id(&self) -> &str {
-       "0x07d3"
+       "0xd307"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -104716,7 +104716,7 @@ impl Default for PacketCzEsChoose {
 
 impl PacketCzEsCancel {
     pub fn packet_id() -> &'static str {
-        "0x07d4"
+        "0xd407"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzEsCancel {
         let mut offset: usize = 0;
@@ -104780,8 +104780,8 @@ impl PacketCzEsCancel {
     pub fn new() -> PacketCzEsCancel {
         PacketCzEsCancel {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x7d, 0x4]),
-        packet_id_raw: [0x7d, 0x4],
+        packet_id: i16::from_le_bytes([0xd4, 0x07]),
+        packet_id_raw: [0xd4, 0x07],
         es_no: 0,
         es_no_raw: [0; 2],
         }
@@ -104790,7 +104790,7 @@ impl PacketCzEsCancel {
 
 impl Packet for PacketCzEsCancel {
     fn id(&self) -> &str {
-       "0x07d4"
+       "0xd407"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -104827,7 +104827,7 @@ impl Default for PacketCzEsCancel {
 
 impl PacketZcEsReady {
     pub fn packet_id() -> &'static str {
-        "0x07d5"
+        "0xd507"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcEsReady {
         let mut offset: usize = 0;
@@ -104891,8 +104891,8 @@ impl PacketZcEsReady {
     pub fn new() -> PacketZcEsReady {
         PacketZcEsReady {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x7d, 0x5]),
-        packet_id_raw: [0x7d, 0x5],
+        packet_id: i16::from_le_bytes([0xd5, 0x07]),
+        packet_id_raw: [0xd5, 0x07],
         es_no: 0,
         es_no_raw: [0; 2],
         }
@@ -104901,7 +104901,7 @@ impl PacketZcEsReady {
 
 impl Packet for PacketZcEsReady {
     fn id(&self) -> &str {
-       "0x07d5"
+       "0xd507"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -104938,7 +104938,7 @@ impl Default for PacketZcEsReady {
 
 impl PacketZcEsGoto {
     pub fn packet_id() -> &'static str {
-        "0x07d6"
+        "0xd607"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcEsGoto {
         let mut offset: usize = 0;
@@ -105002,8 +105002,8 @@ impl PacketZcEsGoto {
     pub fn new() -> PacketZcEsGoto {
         PacketZcEsGoto {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x7d, 0x6]),
-        packet_id_raw: [0x7d, 0x6],
+        packet_id: i16::from_le_bytes([0xd6, 0x07]),
+        packet_id_raw: [0xd6, 0x07],
         es_no: 0,
         es_no_raw: [0; 2],
         }
@@ -105012,7 +105012,7 @@ impl PacketZcEsGoto {
 
 impl Packet for PacketZcEsGoto {
     fn id(&self) -> &str {
-       "0x07d6"
+       "0xd607"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -105049,7 +105049,7 @@ impl Default for PacketZcEsGoto {
 
 impl PacketCzGroupinfoChangeV2 {
     pub fn packet_id() -> &'static str {
-        "0x07d7"
+        "0xd707"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzGroupinfoChangeV2 {
         let mut offset: usize = 0;
@@ -105153,8 +105153,8 @@ impl PacketCzGroupinfoChangeV2 {
     pub fn new() -> PacketCzGroupinfoChangeV2 {
         PacketCzGroupinfoChangeV2 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x7d, 0x7]),
-        packet_id_raw: [0x7d, 0x7],
+        packet_id: i16::from_le_bytes([0xd7, 0x07]),
+        packet_id_raw: [0xd7, 0x07],
         exp_option: 0,
         exp_option_raw: [0; 4],
         item_pickup_rule: 0,
@@ -105167,7 +105167,7 @@ impl PacketCzGroupinfoChangeV2 {
 
 impl Packet for PacketCzGroupinfoChangeV2 {
     fn id(&self) -> &str {
-       "0x07d7"
+       "0xd707"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -105204,7 +105204,7 @@ impl Default for PacketCzGroupinfoChangeV2 {
 
 impl PacketZcReqGroupinfoChangeV2 {
     pub fn packet_id() -> &'static str {
-        "0x07d8"
+        "0xd807"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcReqGroupinfoChangeV2 {
         let mut offset: usize = 0;
@@ -105308,8 +105308,8 @@ impl PacketZcReqGroupinfoChangeV2 {
     pub fn new() -> PacketZcReqGroupinfoChangeV2 {
         PacketZcReqGroupinfoChangeV2 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x7d, 0x8]),
-        packet_id_raw: [0x7d, 0x8],
+        packet_id: i16::from_le_bytes([0xd8, 0x07]),
+        packet_id_raw: [0xd8, 0x07],
         exp_option: 0,
         exp_option_raw: [0; 4],
         item_pickup_rule: 0,
@@ -105322,7 +105322,7 @@ impl PacketZcReqGroupinfoChangeV2 {
 
 impl Packet for PacketZcReqGroupinfoChangeV2 {
     fn id(&self) -> &str {
-       "0x07d8"
+       "0xd807"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -105359,7 +105359,7 @@ impl Default for PacketZcReqGroupinfoChangeV2 {
 
 impl PacketZcShortcutKeyListV2 {
     pub fn packet_id() -> &'static str {
-        "0x07d9"
+        "0xd907"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcShortcutKeyListV2 {
         let mut offset: usize = 0;
@@ -105435,8 +105435,8 @@ impl PacketZcShortcutKeyListV2 {
     pub fn new() -> PacketZcShortcutKeyListV2 {
         PacketZcShortcutKeyListV2 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x7d, 0x9]),
-        packet_id_raw: [0x7d, 0x9],
+        packet_id: i16::from_le_bytes([0xd9, 0x07]),
+        packet_id_raw: [0xd9, 0x07],
         short_cut_key: vec![],
         short_cut_key_raw: vec![],
         }
@@ -105445,7 +105445,7 @@ impl PacketZcShortcutKeyListV2 {
 
 impl Packet for PacketZcShortcutKeyListV2 {
     fn id(&self) -> &str {
-       "0x07d9"
+       "0xd907"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -105482,7 +105482,7 @@ impl Default for PacketZcShortcutKeyListV2 {
 
 impl PacketCzChangeGroupMaster {
     pub fn packet_id() -> &'static str {
-        "0x07da"
+        "0xda07"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzChangeGroupMaster {
         let mut offset: usize = 0;
@@ -105546,8 +105546,8 @@ impl PacketCzChangeGroupMaster {
     pub fn new() -> PacketCzChangeGroupMaster {
         PacketCzChangeGroupMaster {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x7d, 0xa]),
-        packet_id_raw: [0x7d, 0xa],
+        packet_id: i16::from_le_bytes([0xda, 0x07]),
+        packet_id_raw: [0xda, 0x07],
         aid: 0,
         aid_raw: [0; 4],
         }
@@ -105556,7 +105556,7 @@ impl PacketCzChangeGroupMaster {
 
 impl Packet for PacketCzChangeGroupMaster {
     fn id(&self) -> &str {
-       "0x07da"
+       "0xda07"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -105593,7 +105593,7 @@ impl Default for PacketCzChangeGroupMaster {
 
 impl PacketZcHoParChange {
     pub fn packet_id() -> &'static str {
-        "0x07db"
+        "0xdb07"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcHoParChange {
         let mut offset: usize = 0;
@@ -105677,8 +105677,8 @@ impl PacketZcHoParChange {
     pub fn new() -> PacketZcHoParChange {
         PacketZcHoParChange {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x7d, 0xb]),
-        packet_id_raw: [0x7d, 0xb],
+        packet_id: i16::from_le_bytes([0xdb, 0x07]),
+        packet_id_raw: [0xdb, 0x07],
         var: 0,
         var_raw: [0; 2],
         value: 0,
@@ -105689,7 +105689,7 @@ impl PacketZcHoParChange {
 
 impl Packet for PacketZcHoParChange {
     fn id(&self) -> &str {
-       "0x07db"
+       "0xdb07"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -105726,7 +105726,7 @@ impl Default for PacketZcHoParChange {
 
 impl PacketCzSeekParty {
     pub fn packet_id() -> &'static str {
-        "0x07dc"
+        "0xdc07"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzSeekParty {
         let mut offset: usize = 0;
@@ -105790,8 +105790,8 @@ impl PacketCzSeekParty {
     pub fn new() -> PacketCzSeekParty {
         PacketCzSeekParty {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x7d, 0xc]),
-        packet_id_raw: [0x7d, 0xc],
+        packet_id: i16::from_le_bytes([0xdc, 0x07]),
+        packet_id_raw: [0xdc, 0x07],
         option: 0,
         option_raw: [0; 4],
         }
@@ -105800,7 +105800,7 @@ impl PacketCzSeekParty {
 
 impl Packet for PacketCzSeekParty {
     fn id(&self) -> &str {
-       "0x07dc"
+       "0xdc07"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -105837,7 +105837,7 @@ impl Default for PacketCzSeekParty {
 
 impl PacketZcSeekParty {
     pub fn packet_id() -> &'static str {
-        "0x07dd"
+        "0xdd07"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSeekParty {
         let mut offset: usize = 0;
@@ -105997,8 +105997,8 @@ impl PacketZcSeekParty {
     pub fn new() -> PacketZcSeekParty {
         PacketZcSeekParty {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x7d, 0xd]),
-        packet_id_raw: [0x7d, 0xd],
+        packet_id: i16::from_le_bytes([0xdd, 0x07]),
+        packet_id_raw: [0xdd, 0x07],
         name: [0 as char; 24],
         name_raw: [0; 24],
         job: 0,
@@ -106015,7 +106015,7 @@ impl PacketZcSeekParty {
 
 impl Packet for PacketZcSeekParty {
     fn id(&self) -> &str {
-       "0x07dd"
+       "0xdd07"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -106052,7 +106052,7 @@ impl Default for PacketZcSeekParty {
 
 impl PacketCzSeekPartyMember {
     pub fn packet_id() -> &'static str {
-        "0x07de"
+        "0xde07"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzSeekPartyMember {
         let mut offset: usize = 0;
@@ -106184,8 +106184,8 @@ impl PacketCzSeekPartyMember {
     pub fn new() -> PacketCzSeekPartyMember {
         PacketCzSeekPartyMember {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x7d, 0xe]),
-        packet_id_raw: [0x7d, 0xe],
+        packet_id: i16::from_le_bytes([0xde, 0x07]),
+        packet_id_raw: [0xde, 0x07],
         job: 0,
         job_raw: [0; 4],
         level: 0,
@@ -106200,7 +106200,7 @@ impl PacketCzSeekPartyMember {
 
 impl Packet for PacketCzSeekPartyMember {
     fn id(&self) -> &str {
-       "0x07de"
+       "0xde07"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -106237,7 +106237,7 @@ impl Default for PacketCzSeekPartyMember {
 
 impl PacketZcSeekPartyMember {
     pub fn packet_id() -> &'static str {
-        "0x07df"
+        "0xdf07"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSeekPartyMember {
         let mut offset: usize = 0;
@@ -106397,8 +106397,8 @@ impl PacketZcSeekPartyMember {
     pub fn new() -> PacketZcSeekPartyMember {
         PacketZcSeekPartyMember {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x7d, 0xf]),
-        packet_id_raw: [0x7d, 0xf],
+        packet_id: i16::from_le_bytes([0xdf, 0x07]),
+        packet_id_raw: [0xdf, 0x07],
         name: [0 as char; 24],
         name_raw: [0; 24],
         job: 0,
@@ -106415,7 +106415,7 @@ impl PacketZcSeekPartyMember {
 
 impl Packet for PacketZcSeekPartyMember {
     fn id(&self) -> &str {
-       "0x07df"
+       "0xdf07"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -106452,7 +106452,7 @@ impl Default for PacketZcSeekPartyMember {
 
 impl PacketZcEsNotiMyinfo {
     pub fn packet_id() -> &'static str {
-        "0x07e0"
+        "0xe007"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcEsNotiMyinfo {
         let mut offset: usize = 0;
@@ -106544,8 +106544,8 @@ impl PacketZcEsNotiMyinfo {
     pub fn new() -> PacketZcEsNotiMyinfo {
         PacketZcEsNotiMyinfo {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x7e, 0x0]),
-        packet_id_raw: [0x7e, 0x0],
+        packet_id: i16::from_le_bytes([0xe0, 0x07]),
+        packet_id_raw: [0xe0, 0x07],
         es_no: 0,
         es_no_raw: [0; 2],
         esname: [0 as char; 54],
@@ -106556,7 +106556,7 @@ impl PacketZcEsNotiMyinfo {
 
 impl Packet for PacketZcEsNotiMyinfo {
     fn id(&self) -> &str {
-       "0x07e0"
+       "0xe007"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -106593,7 +106593,7 @@ impl Default for PacketZcEsNotiMyinfo {
 
 impl PacketZcSkillinfoUpdate2 {
     pub fn packet_id() -> &'static str {
-        "0x07e1"
+        "0xe107"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSkillinfoUpdate2 {
         let mut offset: usize = 0;
@@ -106757,8 +106757,8 @@ impl PacketZcSkillinfoUpdate2 {
     pub fn new() -> PacketZcSkillinfoUpdate2 {
         PacketZcSkillinfoUpdate2 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x7e, 0x1]),
-        packet_id_raw: [0x7e, 0x1],
+        packet_id: i16::from_le_bytes([0xe1, 0x07]),
+        packet_id_raw: [0xe1, 0x07],
         skid: 0,
         skid_raw: [0; 2],
         atype: 0,
@@ -106777,7 +106777,7 @@ impl PacketZcSkillinfoUpdate2 {
 
 impl Packet for PacketZcSkillinfoUpdate2 {
     fn id(&self) -> &str {
-       "0x07e1"
+       "0xe107"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -106814,7 +106814,7 @@ impl Default for PacketZcSkillinfoUpdate2 {
 
 impl PacketZcMsgValue {
     pub fn packet_id() -> &'static str {
-        "0x07e2"
+        "0xe207"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMsgValue {
         let mut offset: usize = 0;
@@ -106898,8 +106898,8 @@ impl PacketZcMsgValue {
     pub fn new() -> PacketZcMsgValue {
         PacketZcMsgValue {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x7e, 0x2]),
-        packet_id_raw: [0x7e, 0x2],
+        packet_id: i16::from_le_bytes([0xe2, 0x07]),
+        packet_id_raw: [0xe2, 0x07],
         msg: 0,
         msg_raw: [0; 2],
         value: 0,
@@ -106910,7 +106910,7 @@ impl PacketZcMsgValue {
 
 impl Packet for PacketZcMsgValue {
     fn id(&self) -> &str {
-       "0x07e2"
+       "0xe207"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -106947,7 +106947,7 @@ impl Default for PacketZcMsgValue {
 
 impl PacketZcItemlistwinOpen {
     pub fn packet_id() -> &'static str {
-        "0x07e3"
+        "0xe307"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcItemlistwinOpen {
         let mut offset: usize = 0;
@@ -107011,8 +107011,8 @@ impl PacketZcItemlistwinOpen {
     pub fn new() -> PacketZcItemlistwinOpen {
         PacketZcItemlistwinOpen {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x7e, 0x3]),
-        packet_id_raw: [0x7e, 0x3],
+        packet_id: i16::from_le_bytes([0xe3, 0x07]),
+        packet_id_raw: [0xe3, 0x07],
         atype: 0,
         atype_raw: [0; 4],
         }
@@ -107021,7 +107021,7 @@ impl PacketZcItemlistwinOpen {
 
 impl Packet for PacketZcItemlistwinOpen {
     fn id(&self) -> &str {
-       "0x07e3"
+       "0xe307"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -107058,7 +107058,7 @@ impl Default for PacketZcItemlistwinOpen {
 
 impl PacketCzItemlistwinRes {
     pub fn packet_id() -> &'static str {
-        "0x07e4"
+        "0xe407"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzItemlistwinRes {
         let mut offset: usize = 0;
@@ -107182,8 +107182,8 @@ impl PacketCzItemlistwinRes {
     pub fn new() -> PacketCzItemlistwinRes {
         PacketCzItemlistwinRes {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x7e, 0x4]),
-        packet_id_raw: [0x7e, 0x4],
+        packet_id: i16::from_le_bytes([0xe4, 0x07]),
+        packet_id_raw: [0xe4, 0x07],
         packet_length: 0,
         packet_length_raw: [0; 2],
         atype: 0,
@@ -107198,7 +107198,7 @@ impl PacketCzItemlistwinRes {
 
 impl Packet for PacketCzItemlistwinRes {
     fn id(&self) -> &str {
-       "0x07e4"
+       "0xe407"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -107235,7 +107235,7 @@ impl Default for PacketCzItemlistwinRes {
 
 impl PacketChEnterCheckbot {
     pub fn packet_id() -> &'static str {
-        "0x07e5"
+        "0xe507"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketChEnterCheckbot {
         let mut offset: usize = 0;
@@ -107336,8 +107336,8 @@ impl PacketChEnterCheckbot {
     pub fn new() -> PacketChEnterCheckbot {
         PacketChEnterCheckbot {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x7e, 0x5]),
-        packet_id_raw: [0x7e, 0x5],
+        packet_id: i16::from_le_bytes([0xe5, 0x07]),
+        packet_id_raw: [0xe5, 0x07],
         packet_length: 0,
         packet_length_raw: [0; 2],
         dw_aid: 0,
@@ -107350,7 +107350,7 @@ impl PacketChEnterCheckbot {
 
 impl Packet for PacketChEnterCheckbot {
     fn id(&self) -> &str {
-       "0x07e5"
+       "0xe507"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -107387,7 +107387,7 @@ impl Default for PacketChEnterCheckbot {
 
 impl PacketZcMsgSkill {
     pub fn packet_id() -> &'static str {
-        "0x07e6"
+        "0xe607"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMsgSkill {
         let mut offset: usize = 0;
@@ -107471,8 +107471,8 @@ impl PacketZcMsgSkill {
     pub fn new() -> PacketZcMsgSkill {
         PacketZcMsgSkill {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x7e, 0x6]),
-        packet_id_raw: [0x7e, 0x6],
+        packet_id: i16::from_le_bytes([0xe6, 0x07]),
+        packet_id_raw: [0xe6, 0x07],
         skid: 0,
         skid_raw: [0; 2],
         msgid: 0,
@@ -107483,7 +107483,7 @@ impl PacketZcMsgSkill {
 
 impl Packet for PacketZcMsgSkill {
     fn id(&self) -> &str {
-       "0x07e6"
+       "0xe607"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -107520,7 +107520,7 @@ impl Default for PacketZcMsgSkill {
 
 impl PacketChCheckbot {
     pub fn packet_id() -> &'static str {
-        "0x07e7"
+        "0xe707"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketChCheckbot {
         let mut offset: usize = 0;
@@ -107632,8 +107632,8 @@ impl PacketChCheckbot {
     pub fn new() -> PacketChCheckbot {
         PacketChCheckbot {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x7e, 0x7]),
-        packet_id_raw: [0x7e, 0x7],
+        packet_id: i16::from_le_bytes([0xe7, 0x07]),
+        packet_id_raw: [0xe7, 0x07],
         packet_length: 0,
         packet_length_raw: [0; 2],
         dw_aid: 0,
@@ -107646,7 +107646,7 @@ impl PacketChCheckbot {
 
 impl Packet for PacketChCheckbot {
     fn id(&self) -> &str {
-       "0x07e7"
+       "0xe707"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -107683,7 +107683,7 @@ impl Default for PacketChCheckbot {
 
 impl PacketHcCheckbot {
     pub fn packet_id() -> &'static str {
-        "0x07e8"
+        "0xe807"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketHcCheckbot {
         let mut offset: usize = 0;
@@ -107764,8 +107764,8 @@ impl PacketHcCheckbot {
     pub fn new() -> PacketHcCheckbot {
         PacketHcCheckbot {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x7e, 0x8]),
-        packet_id_raw: [0x7e, 0x8],
+        packet_id: i16::from_le_bytes([0xe8, 0x07]),
+        packet_id_raw: [0xe8, 0x07],
         packet_length: 0,
         packet_length_raw: [0; 2],
         img: String::new(),
@@ -107776,7 +107776,7 @@ impl PacketHcCheckbot {
 
 impl Packet for PacketHcCheckbot {
     fn id(&self) -> &str {
-       "0x07e8"
+       "0xe807"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -107813,7 +107813,7 @@ impl Default for PacketHcCheckbot {
 
 impl PacketHcCheckbotResult {
     pub fn packet_id() -> &'static str {
-        "0x07e9"
+        "0xe907"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketHcCheckbotResult {
         let mut offset: usize = 0;
@@ -107897,8 +107897,8 @@ impl PacketHcCheckbotResult {
     pub fn new() -> PacketHcCheckbotResult {
         PacketHcCheckbotResult {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x7e, 0x9]),
-        packet_id_raw: [0x7e, 0x9],
+        packet_id: i16::from_le_bytes([0xe9, 0x07]),
+        packet_id_raw: [0xe9, 0x07],
         packet_length: 0,
         packet_length_raw: [0; 2],
         result: 0,
@@ -107909,7 +107909,7 @@ impl PacketHcCheckbotResult {
 
 impl Packet for PacketHcCheckbotResult {
     fn id(&self) -> &str {
-       "0x07e9"
+       "0xe907"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -107946,7 +107946,7 @@ impl Default for PacketHcCheckbotResult {
 
 impl PacketCzBattleFieldList {
     pub fn packet_id() -> &'static str {
-        "0x07ea"
+        "0xea07"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzBattleFieldList {
         let mut offset: usize = 0;
@@ -107990,15 +107990,15 @@ impl PacketCzBattleFieldList {
     pub fn new() -> PacketCzBattleFieldList {
         PacketCzBattleFieldList {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x7e, 0xa]),
-        packet_id_raw: [0x7e, 0xa],
+        packet_id: i16::from_le_bytes([0xea, 0x07]),
+        packet_id_raw: [0xea, 0x07],
         }
     }
 }
 
 impl Packet for PacketCzBattleFieldList {
     fn id(&self) -> &str {
-       "0x07ea"
+       "0xea07"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -108035,7 +108035,7 @@ impl Default for PacketCzBattleFieldList {
 
 impl PacketZcBattleFieldList {
     pub fn packet_id() -> &'static str {
-        "0x07eb"
+        "0xeb07"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcBattleFieldList {
         let mut offset: usize = 0;
@@ -108171,8 +108171,8 @@ impl PacketZcBattleFieldList {
     pub fn new() -> PacketZcBattleFieldList {
         PacketZcBattleFieldList {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x7e, 0xb]),
-        packet_id_raw: [0x7e, 0xb],
+        packet_id: i16::from_le_bytes([0xeb, 0x07]),
+        packet_id_raw: [0xeb, 0x07],
         packet_length: 0,
         packet_length_raw: [0; 2],
         count: 0,
@@ -108187,7 +108187,7 @@ impl PacketZcBattleFieldList {
 
 impl Packet for PacketZcBattleFieldList {
     fn id(&self) -> &str {
-       "0x07eb"
+       "0xeb07"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -108224,7 +108224,7 @@ impl Default for PacketZcBattleFieldList {
 
 impl PacketCzJoinBattleField {
     pub fn packet_id() -> &'static str {
-        "0x07ec"
+        "0xec07"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzJoinBattleField {
         let mut offset: usize = 0;
@@ -108308,8 +108308,8 @@ impl PacketCzJoinBattleField {
     pub fn new() -> PacketCzJoinBattleField {
         PacketCzJoinBattleField {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x7e, 0xc]),
-        packet_id_raw: [0x7e, 0xc],
+        packet_id: i16::from_le_bytes([0xec, 0x07]),
+        packet_id_raw: [0xec, 0x07],
         bfno: 0,
         bfno_raw: [0; 4],
         join_team: 0,
@@ -108320,7 +108320,7 @@ impl PacketCzJoinBattleField {
 
 impl Packet for PacketCzJoinBattleField {
     fn id(&self) -> &str {
-       "0x07ec"
+       "0xec07"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -108357,7 +108357,7 @@ impl Default for PacketCzJoinBattleField {
 
 impl PacketZcJoinBattleField {
     pub fn packet_id() -> &'static str {
-        "0x07ed"
+        "0xed07"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcJoinBattleField {
         let mut offset: usize = 0;
@@ -108461,8 +108461,8 @@ impl PacketZcJoinBattleField {
     pub fn new() -> PacketZcJoinBattleField {
         PacketZcJoinBattleField {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x7e, 0xd]),
-        packet_id_raw: [0x7e, 0xd],
+        packet_id: i16::from_le_bytes([0xed, 0x07]),
+        packet_id_raw: [0xed, 0x07],
         bfno: 0,
         bfno_raw: [0; 4],
         join_team: 0,
@@ -108475,7 +108475,7 @@ impl PacketZcJoinBattleField {
 
 impl Packet for PacketZcJoinBattleField {
     fn id(&self) -> &str {
-       "0x07ed"
+       "0xed07"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -108512,7 +108512,7 @@ impl Default for PacketZcJoinBattleField {
 
 impl PacketCzCancelBattleField {
     pub fn packet_id() -> &'static str {
-        "0x07ee"
+        "0xee07"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzCancelBattleField {
         let mut offset: usize = 0;
@@ -108576,8 +108576,8 @@ impl PacketCzCancelBattleField {
     pub fn new() -> PacketCzCancelBattleField {
         PacketCzCancelBattleField {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x7e, 0xe]),
-        packet_id_raw: [0x7e, 0xe],
+        packet_id: i16::from_le_bytes([0xee, 0x07]),
+        packet_id_raw: [0xee, 0x07],
         bfno: 0,
         bfno_raw: [0; 4],
         }
@@ -108586,7 +108586,7 @@ impl PacketCzCancelBattleField {
 
 impl Packet for PacketCzCancelBattleField {
     fn id(&self) -> &str {
-       "0x07ee"
+       "0xee07"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -108623,7 +108623,7 @@ impl Default for PacketCzCancelBattleField {
 
 impl PacketZcCancelBattleField {
     pub fn packet_id() -> &'static str {
-        "0x07ef"
+        "0xef07"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcCancelBattleField {
         let mut offset: usize = 0;
@@ -108707,8 +108707,8 @@ impl PacketZcCancelBattleField {
     pub fn new() -> PacketZcCancelBattleField {
         PacketZcCancelBattleField {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x7e, 0xf]),
-        packet_id_raw: [0x7e, 0xf],
+        packet_id: i16::from_le_bytes([0xef, 0x07]),
+        packet_id_raw: [0xef, 0x07],
         bfno: 0,
         bfno_raw: [0; 4],
         result: 0,
@@ -108719,7 +108719,7 @@ impl PacketZcCancelBattleField {
 
 impl Packet for PacketZcCancelBattleField {
     fn id(&self) -> &str {
-       "0x07ef"
+       "0xef07"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -108756,7 +108756,7 @@ impl Default for PacketZcCancelBattleField {
 
 impl PacketCzReqBattleStateMonitor {
     pub fn packet_id() -> &'static str {
-        "0x07f0"
+        "0xf007"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqBattleStateMonitor {
         let mut offset: usize = 0;
@@ -108840,8 +108840,8 @@ impl PacketCzReqBattleStateMonitor {
     pub fn new() -> PacketCzReqBattleStateMonitor {
         PacketCzReqBattleStateMonitor {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x7f, 0x0]),
-        packet_id_raw: [0x7f, 0x0],
+        packet_id: i16::from_le_bytes([0xf0, 0x07]),
+        packet_id_raw: [0xf0, 0x07],
         bfno: 0,
         bfno_raw: [0; 4],
         power_switch: 0,
@@ -108852,7 +108852,7 @@ impl PacketCzReqBattleStateMonitor {
 
 impl Packet for PacketCzReqBattleStateMonitor {
     fn id(&self) -> &str {
-       "0x07f0"
+       "0xf007"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -108889,7 +108889,7 @@ impl Default for PacketCzReqBattleStateMonitor {
 
 impl PacketZcAckBattleStateMonitor {
     pub fn packet_id() -> &'static str {
-        "0x07f1"
+        "0xf107"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckBattleStateMonitor {
         let mut offset: usize = 0;
@@ -109073,8 +109073,8 @@ impl PacketZcAckBattleStateMonitor {
     pub fn new() -> PacketZcAckBattleStateMonitor {
         PacketZcAckBattleStateMonitor {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x7f, 0x1]),
-        packet_id_raw: [0x7f, 0x1],
+        packet_id: i16::from_le_bytes([0xf1, 0x07]),
+        packet_id_raw: [0xf1, 0x07],
         bfno: 0,
         bfno_raw: [0; 4],
         play_count: 0,
@@ -109095,7 +109095,7 @@ impl PacketZcAckBattleStateMonitor {
 
 impl Packet for PacketZcAckBattleStateMonitor {
     fn id(&self) -> &str {
-       "0x07f1"
+       "0xf107"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -109132,7 +109132,7 @@ impl Default for PacketZcAckBattleStateMonitor {
 
 impl PacketZcBattleNotiStartStep {
     pub fn packet_id() -> &'static str {
-        "0x07f2"
+        "0xf207"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcBattleNotiStartStep {
         let mut offset: usize = 0;
@@ -109216,8 +109216,8 @@ impl PacketZcBattleNotiStartStep {
     pub fn new() -> PacketZcBattleNotiStartStep {
         PacketZcBattleNotiStartStep {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x7f, 0x2]),
-        packet_id_raw: [0x7f, 0x2],
+        packet_id: i16::from_le_bytes([0xf2, 0x07]),
+        packet_id_raw: [0xf2, 0x07],
         bfno: 0,
         bfno_raw: [0; 4],
         result: 0,
@@ -109228,7 +109228,7 @@ impl PacketZcBattleNotiStartStep {
 
 impl Packet for PacketZcBattleNotiStartStep {
     fn id(&self) -> &str {
-       "0x07f2"
+       "0xf207"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -109265,7 +109265,7 @@ impl Default for PacketZcBattleNotiStartStep {
 
 impl PacketZcBattleJoinNotiDefer {
     pub fn packet_id() -> &'static str {
-        "0x07f3"
+        "0xf307"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcBattleJoinNotiDefer {
         let mut offset: usize = 0;
@@ -109329,8 +109329,8 @@ impl PacketZcBattleJoinNotiDefer {
     pub fn new() -> PacketZcBattleJoinNotiDefer {
         PacketZcBattleJoinNotiDefer {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x7f, 0x3]),
-        packet_id_raw: [0x7f, 0x3],
+        packet_id: i16::from_le_bytes([0xf3, 0x07]),
+        packet_id_raw: [0xf3, 0x07],
         bfno: 0,
         bfno_raw: [0; 4],
         }
@@ -109339,7 +109339,7 @@ impl PacketZcBattleJoinNotiDefer {
 
 impl Packet for PacketZcBattleJoinNotiDefer {
     fn id(&self) -> &str {
-       "0x07f3"
+       "0xf307"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -109376,7 +109376,7 @@ impl Default for PacketZcBattleJoinNotiDefer {
 
 impl PacketZcBattleJoinDisableState {
     pub fn packet_id() -> &'static str {
-        "0x07f4"
+        "0xf407"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcBattleJoinDisableState {
         let mut offset: usize = 0;
@@ -109440,8 +109440,8 @@ impl PacketZcBattleJoinDisableState {
     pub fn new() -> PacketZcBattleJoinDisableState {
         PacketZcBattleJoinDisableState {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x7f, 0x4]),
-        packet_id_raw: [0x7f, 0x4],
+        packet_id: i16::from_le_bytes([0xf4, 0x07]),
+        packet_id_raw: [0xf4, 0x07],
         enable: false,
         enable_raw: [0; 1],
         }
@@ -109450,7 +109450,7 @@ impl PacketZcBattleJoinDisableState {
 
 impl Packet for PacketZcBattleJoinDisableState {
     fn id(&self) -> &str {
-       "0x07f4"
+       "0xf407"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -109487,7 +109487,7 @@ impl Default for PacketZcBattleJoinDisableState {
 
 impl PacketCzGmFullstrip {
     pub fn packet_id() -> &'static str {
-        "0x07f5"
+        "0xf507"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzGmFullstrip {
         let mut offset: usize = 0;
@@ -109551,8 +109551,8 @@ impl PacketCzGmFullstrip {
     pub fn new() -> PacketCzGmFullstrip {
         PacketCzGmFullstrip {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x7f, 0x5]),
-        packet_id_raw: [0x7f, 0x5],
+        packet_id: i16::from_le_bytes([0xf5, 0x07]),
+        packet_id_raw: [0xf5, 0x07],
         target_aid: 0,
         target_aid_raw: [0; 4],
         }
@@ -109561,7 +109561,7 @@ impl PacketCzGmFullstrip {
 
 impl Packet for PacketCzGmFullstrip {
     fn id(&self) -> &str {
-       "0x07f5"
+       "0xf507"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -109598,7 +109598,7 @@ impl Default for PacketCzGmFullstrip {
 
 impl PacketZcNotifyExp {
     pub fn packet_id() -> &'static str {
-        "0x07f6"
+        "0xf607"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyExp {
         let mut offset: usize = 0;
@@ -109722,8 +109722,8 @@ impl PacketZcNotifyExp {
     pub fn new() -> PacketZcNotifyExp {
         PacketZcNotifyExp {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x7f, 0x6]),
-        packet_id_raw: [0x7f, 0x6],
+        packet_id: i16::from_le_bytes([0xf6, 0x07]),
+        packet_id_raw: [0xf6, 0x07],
         aid: 0,
         aid_raw: [0; 4],
         amount: 0,
@@ -109738,7 +109738,7 @@ impl PacketZcNotifyExp {
 
 impl Packet for PacketZcNotifyExp {
     fn id(&self) -> &str {
-       "0x07f6"
+       "0xf607"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -109775,7 +109775,7 @@ impl Default for PacketZcNotifyExp {
 
 impl PacketZcNotifyMoveentry7 {
     pub fn packet_id() -> &'static str {
-        "0x07f7"
+        "0xf707"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyMoveentry7 {
         let mut offset: usize = 0;
@@ -110415,8 +110415,8 @@ impl PacketZcNotifyMoveentry7 {
     pub fn new() -> PacketZcNotifyMoveentry7 {
         PacketZcNotifyMoveentry7 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x7f, 0x7]),
-        packet_id_raw: [0x7f, 0x7],
+        packet_id: i16::from_le_bytes([0xf7, 0x07]),
+        packet_id_raw: [0xf7, 0x07],
         packet_length: 0,
         packet_length_raw: [0; 2],
         objecttype: 0,
@@ -110481,7 +110481,7 @@ impl PacketZcNotifyMoveentry7 {
 
 impl Packet for PacketZcNotifyMoveentry7 {
     fn id(&self) -> &str {
-       "0x07f7"
+       "0xf707"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -110518,7 +110518,7 @@ impl Default for PacketZcNotifyMoveentry7 {
 
 impl PacketZcNotifyNewentry5 {
     pub fn packet_id() -> &'static str {
-        "0x07f8"
+        "0xf807"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyNewentry5 {
         let mut offset: usize = 0;
@@ -111138,8 +111138,8 @@ impl PacketZcNotifyNewentry5 {
     pub fn new() -> PacketZcNotifyNewentry5 {
         PacketZcNotifyNewentry5 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x7f, 0x8]),
-        packet_id_raw: [0x7f, 0x8],
+        packet_id: i16::from_le_bytes([0xf8, 0x07]),
+        packet_id_raw: [0xf8, 0x07],
         packet_length: 0,
         packet_length_raw: [0; 2],
         objecttype: 0,
@@ -111202,7 +111202,7 @@ impl PacketZcNotifyNewentry5 {
 
 impl Packet for PacketZcNotifyNewentry5 {
     fn id(&self) -> &str {
-       "0x07f8"
+       "0xf807"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -111239,7 +111239,7 @@ impl Default for PacketZcNotifyNewentry5 {
 
 impl PacketZcNotifyStandentry5 {
     pub fn packet_id() -> &'static str {
-        "0x07f9"
+        "0xf907"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyStandentry5 {
         let mut offset: usize = 0;
@@ -111879,8 +111879,8 @@ impl PacketZcNotifyStandentry5 {
     pub fn new() -> PacketZcNotifyStandentry5 {
         PacketZcNotifyStandentry5 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x7f, 0x9]),
-        packet_id_raw: [0x7f, 0x9],
+        packet_id: i16::from_le_bytes([0xf9, 0x07]),
+        packet_id_raw: [0xf9, 0x07],
         packet_length: 0,
         packet_length_raw: [0; 2],
         objecttype: 0,
@@ -111945,7 +111945,7 @@ impl PacketZcNotifyStandentry5 {
 
 impl Packet for PacketZcNotifyStandentry5 {
     fn id(&self) -> &str {
-       "0x07f9"
+       "0xf907"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -111982,7 +111982,7 @@ impl Default for PacketZcNotifyStandentry5 {
 
 impl PacketZcDeleteItemFromBody {
     pub fn packet_id() -> &'static str {
-        "0x07fa"
+        "0xfa07"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcDeleteItemFromBody {
         let mut offset: usize = 0;
@@ -112086,8 +112086,8 @@ impl PacketZcDeleteItemFromBody {
     pub fn new() -> PacketZcDeleteItemFromBody {
         PacketZcDeleteItemFromBody {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x7f, 0xa]),
-        packet_id_raw: [0x7f, 0xa],
+        packet_id: i16::from_le_bytes([0xfa, 0x07]),
+        packet_id_raw: [0xfa, 0x07],
         delete_type: 0,
         delete_type_raw: [0; 2],
         index: 0,
@@ -112100,7 +112100,7 @@ impl PacketZcDeleteItemFromBody {
 
 impl Packet for PacketZcDeleteItemFromBody {
     fn id(&self) -> &str {
-       "0x07fa"
+       "0xfa07"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -112137,7 +112137,7 @@ impl Default for PacketZcDeleteItemFromBody {
 
 impl PacketZcUseskillAck2 {
     pub fn packet_id() -> &'static str {
-        "0x07fb"
+        "0xfb07"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcUseskillAck2 {
         let mut offset: usize = 0;
@@ -112341,8 +112341,8 @@ impl PacketZcUseskillAck2 {
     pub fn new() -> PacketZcUseskillAck2 {
         PacketZcUseskillAck2 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x7f, 0xb]),
-        packet_id_raw: [0x7f, 0xb],
+        packet_id: i16::from_le_bytes([0xfb, 0x07]),
+        packet_id_raw: [0xfb, 0x07],
         aid: 0,
         aid_raw: [0; 4],
         target_id: 0,
@@ -112365,7 +112365,7 @@ impl PacketZcUseskillAck2 {
 
 impl Packet for PacketZcUseskillAck2 {
     fn id(&self) -> &str {
-       "0x07fb"
+       "0xfb07"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -112402,7 +112402,7 @@ impl Default for PacketZcUseskillAck2 {
 
 impl PacketZcChangeGroupMaster {
     pub fn packet_id() -> &'static str {
-        "0x07fc"
+        "0xfc07"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcChangeGroupMaster {
         let mut offset: usize = 0;
@@ -112486,8 +112486,8 @@ impl PacketZcChangeGroupMaster {
     pub fn new() -> PacketZcChangeGroupMaster {
         PacketZcChangeGroupMaster {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x7f, 0xc]),
-        packet_id_raw: [0x7f, 0xc],
+        packet_id: i16::from_le_bytes([0xfc, 0x07]),
+        packet_id_raw: [0xfc, 0x07],
         old_master_aid: 0,
         old_master_aid_raw: [0; 4],
         new_master_aid: 0,
@@ -112498,7 +112498,7 @@ impl PacketZcChangeGroupMaster {
 
 impl Packet for PacketZcChangeGroupMaster {
     fn id(&self) -> &str {
-       "0x07fc"
+       "0xfc07"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -112535,7 +112535,7 @@ impl Default for PacketZcChangeGroupMaster {
 
 impl PacketZcPlayNpcBgm {
     pub fn packet_id() -> &'static str {
-        "0x07fe"
+        "0xfe07"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPlayNpcBgm {
         let mut offset: usize = 0;
@@ -112607,8 +112607,8 @@ impl PacketZcPlayNpcBgm {
     pub fn new() -> PacketZcPlayNpcBgm {
         PacketZcPlayNpcBgm {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x7f, 0xe]),
-        packet_id_raw: [0x7f, 0xe],
+        packet_id: i16::from_le_bytes([0xfe, 0x07]),
+        packet_id_raw: [0xfe, 0x07],
         bgm: [0 as char; 24],
         bgm_raw: [0; 24],
         }
@@ -112617,7 +112617,7 @@ impl PacketZcPlayNpcBgm {
 
 impl Packet for PacketZcPlayNpcBgm {
     fn id(&self) -> &str {
-       "0x07fe"
+       "0xfe07"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -112654,7 +112654,7 @@ impl Default for PacketZcPlayNpcBgm {
 
 impl PacketZcDefineCheck {
     pub fn packet_id() -> &'static str {
-        "0x07ff"
+        "0xff07"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcDefineCheck {
         let mut offset: usize = 0;
@@ -112738,8 +112738,8 @@ impl PacketZcDefineCheck {
     pub fn new() -> PacketZcDefineCheck {
         PacketZcDefineCheck {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x7f, 0xf]),
-        packet_id_raw: [0x7f, 0xf],
+        packet_id: i16::from_le_bytes([0xff, 0x07]),
+        packet_id_raw: [0xff, 0x07],
         packet_length: 0,
         packet_length_raw: [0; 2],
         result: 0,
@@ -112750,7 +112750,7 @@ impl PacketZcDefineCheck {
 
 impl Packet for PacketZcDefineCheck {
     fn id(&self) -> &str {
-       "0x07ff"
+       "0xff07"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -112787,7 +112787,7 @@ impl Default for PacketZcDefineCheck {
 
 impl PacketZcPcPurchaseItemlistFrommc2 {
     pub fn packet_id() -> &'static str {
-        "0x0800"
+        "0x0008"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPcPurchaseItemlistFrommc2 {
         let mut offset: usize = 0;
@@ -112923,8 +112923,8 @@ impl PacketZcPcPurchaseItemlistFrommc2 {
     pub fn new() -> PacketZcPcPurchaseItemlistFrommc2 {
         PacketZcPcPurchaseItemlistFrommc2 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x80, 0x0]),
-        packet_id_raw: [0x80, 0x0],
+        packet_id: i16::from_le_bytes([0x00, 0x08]),
+        packet_id_raw: [0x00, 0x08],
         packet_length: 0,
         packet_length_raw: [0; 2],
         aid: 0,
@@ -112939,7 +112939,7 @@ impl PacketZcPcPurchaseItemlistFrommc2 {
 
 impl Packet for PacketZcPcPurchaseItemlistFrommc2 {
     fn id(&self) -> &str {
-       "0x0800"
+       "0x0008"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -112976,7 +112976,7 @@ impl Default for PacketZcPcPurchaseItemlistFrommc2 {
 
 impl PacketCzPcPurchaseItemlistFrommc2 {
     pub fn packet_id() -> &'static str {
-        "0x0801"
+        "0x0108"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzPcPurchaseItemlistFrommc2 {
         let mut offset: usize = 0;
@@ -113112,8 +113112,8 @@ impl PacketCzPcPurchaseItemlistFrommc2 {
     pub fn new() -> PacketCzPcPurchaseItemlistFrommc2 {
         PacketCzPcPurchaseItemlistFrommc2 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x80, 0x1]),
-        packet_id_raw: [0x80, 0x1],
+        packet_id: i16::from_le_bytes([0x01, 0x08]),
+        packet_id_raw: [0x01, 0x08],
         packet_length: 0,
         packet_length_raw: [0; 2],
         aid: 0,
@@ -113128,7 +113128,7 @@ impl PacketCzPcPurchaseItemlistFrommc2 {
 
 impl Packet for PacketCzPcPurchaseItemlistFrommc2 {
     fn id(&self) -> &str {
-       "0x0801"
+       "0x0108"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -113165,7 +113165,7 @@ impl Default for PacketCzPcPurchaseItemlistFrommc2 {
 
 impl PacketCzPartyBookingReqRegister {
     pub fn packet_id() -> &'static str {
-        "0x0802"
+        "0x0208"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzPartyBookingReqRegister {
         let mut offset: usize = 0;
@@ -113228,8 +113228,8 @@ impl PacketCzPartyBookingReqRegister {
     pub fn new() -> PacketCzPartyBookingReqRegister {
         PacketCzPartyBookingReqRegister {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x80, 0x2]),
-        packet_id_raw: [0x80, 0x2],
+        packet_id: i16::from_le_bytes([0x02, 0x08]),
+        packet_id_raw: [0x02, 0x08],
         register_info: PartyBookingDetail::new(),
         register_info_raw: vec![],
         }
@@ -113238,7 +113238,7 @@ impl PacketCzPartyBookingReqRegister {
 
 impl Packet for PacketCzPartyBookingReqRegister {
     fn id(&self) -> &str {
-       "0x0802"
+       "0x0208"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -113275,7 +113275,7 @@ impl Default for PacketCzPartyBookingReqRegister {
 
 impl PacketZcPartyBookingAckRegister {
     pub fn packet_id() -> &'static str {
-        "0x0803"
+        "0x0308"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPartyBookingAckRegister {
         let mut offset: usize = 0;
@@ -113339,8 +113339,8 @@ impl PacketZcPartyBookingAckRegister {
     pub fn new() -> PacketZcPartyBookingAckRegister {
         PacketZcPartyBookingAckRegister {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x80, 0x3]),
-        packet_id_raw: [0x80, 0x3],
+        packet_id: i16::from_le_bytes([0x03, 0x08]),
+        packet_id_raw: [0x03, 0x08],
         result: 0,
         result_raw: [0; 2],
         }
@@ -113349,7 +113349,7 @@ impl PacketZcPartyBookingAckRegister {
 
 impl Packet for PacketZcPartyBookingAckRegister {
     fn id(&self) -> &str {
-       "0x0803"
+       "0x0308"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -113386,7 +113386,7 @@ impl Default for PacketZcPartyBookingAckRegister {
 
 impl PacketCzPartyBookingReqSearch {
     pub fn packet_id() -> &'static str {
-        "0x0804"
+        "0x0408"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzPartyBookingReqSearch {
         let mut offset: usize = 0;
@@ -113530,8 +113530,8 @@ impl PacketCzPartyBookingReqSearch {
     pub fn new() -> PacketCzPartyBookingReqSearch {
         PacketCzPartyBookingReqSearch {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x80, 0x4]),
-        packet_id_raw: [0x80, 0x4],
+        packet_id: i16::from_le_bytes([0x04, 0x08]),
+        packet_id_raw: [0x04, 0x08],
         level: 0,
         level_raw: [0; 2],
         map_id: 0,
@@ -113548,7 +113548,7 @@ impl PacketCzPartyBookingReqSearch {
 
 impl Packet for PacketCzPartyBookingReqSearch {
     fn id(&self) -> &str {
-       "0x0804"
+       "0x0408"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -113585,7 +113585,7 @@ impl Default for PacketCzPartyBookingReqSearch {
 
 impl PacketZcPartyBookingAckSearch {
     pub fn packet_id() -> &'static str {
-        "0x0805"
+        "0x0508"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPartyBookingAckSearch {
         let mut offset: usize = 0;
@@ -113701,8 +113701,8 @@ impl PacketZcPartyBookingAckSearch {
     pub fn new() -> PacketZcPartyBookingAckSearch {
         PacketZcPartyBookingAckSearch {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x80, 0x5]),
-        packet_id_raw: [0x80, 0x5],
+        packet_id: i16::from_le_bytes([0x05, 0x08]),
+        packet_id_raw: [0x05, 0x08],
         packet_length: 0,
         packet_length_raw: [0; 2],
         is_exist_more_result: false,
@@ -113715,7 +113715,7 @@ impl PacketZcPartyBookingAckSearch {
 
 impl Packet for PacketZcPartyBookingAckSearch {
     fn id(&self) -> &str {
-       "0x0805"
+       "0x0508"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -113752,7 +113752,7 @@ impl Default for PacketZcPartyBookingAckSearch {
 
 impl PacketCzPartyBookingReqDelete {
     pub fn packet_id() -> &'static str {
-        "0x0806"
+        "0x0608"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzPartyBookingReqDelete {
         let mut offset: usize = 0;
@@ -113796,15 +113796,15 @@ impl PacketCzPartyBookingReqDelete {
     pub fn new() -> PacketCzPartyBookingReqDelete {
         PacketCzPartyBookingReqDelete {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x80, 0x6]),
-        packet_id_raw: [0x80, 0x6],
+        packet_id: i16::from_le_bytes([0x06, 0x08]),
+        packet_id_raw: [0x06, 0x08],
         }
     }
 }
 
 impl Packet for PacketCzPartyBookingReqDelete {
     fn id(&self) -> &str {
-       "0x0806"
+       "0x0608"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -113841,7 +113841,7 @@ impl Default for PacketCzPartyBookingReqDelete {
 
 impl PacketZcPartyBookingAckDelete {
     pub fn packet_id() -> &'static str {
-        "0x0807"
+        "0x0708"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPartyBookingAckDelete {
         let mut offset: usize = 0;
@@ -113905,8 +113905,8 @@ impl PacketZcPartyBookingAckDelete {
     pub fn new() -> PacketZcPartyBookingAckDelete {
         PacketZcPartyBookingAckDelete {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x80, 0x7]),
-        packet_id_raw: [0x80, 0x7],
+        packet_id: i16::from_le_bytes([0x07, 0x08]),
+        packet_id_raw: [0x07, 0x08],
         result: 0,
         result_raw: [0; 2],
         }
@@ -113915,7 +113915,7 @@ impl PacketZcPartyBookingAckDelete {
 
 impl Packet for PacketZcPartyBookingAckDelete {
     fn id(&self) -> &str {
-       "0x0807"
+       "0x0708"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -114024,8 +114024,8 @@ impl PacketCzPartyBookingReqUpdate {
     pub fn new() -> PacketCzPartyBookingReqUpdate {
         PacketCzPartyBookingReqUpdate {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x80, 0x8]),
-        packet_id_raw: [0x80, 0x8],
+        packet_id: i16::from_le_bytes([0x08, 0x08]),
+        packet_id_raw: [0x08, 0x08],
         job: [0; 6],
         job_raw: [0; 6],
         }
@@ -114071,7 +114071,7 @@ impl Default for PacketCzPartyBookingReqUpdate {
 
 impl PacketZcPartyBookingNotifyInsert {
     pub fn packet_id() -> &'static str {
-        "0x0809"
+        "0x0908"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPartyBookingNotifyInsert {
         let mut offset: usize = 0;
@@ -114134,8 +114134,8 @@ impl PacketZcPartyBookingNotifyInsert {
     pub fn new() -> PacketZcPartyBookingNotifyInsert {
         PacketZcPartyBookingNotifyInsert {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x80, 0x9]),
-        packet_id_raw: [0x80, 0x9],
+        packet_id: i16::from_le_bytes([0x09, 0x08]),
+        packet_id_raw: [0x09, 0x08],
         info: PartyBookingAdInfo::new(),
         info_raw: vec![],
         }
@@ -114144,7 +114144,7 @@ impl PacketZcPartyBookingNotifyInsert {
 
 impl Packet for PacketZcPartyBookingNotifyInsert {
     fn id(&self) -> &str {
-       "0x0809"
+       "0x0908"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -114181,7 +114181,7 @@ impl Default for PacketZcPartyBookingNotifyInsert {
 
 impl PacketZcPartyBookingNotifyUpdate {
     pub fn packet_id() -> &'static str {
-        "0x080a"
+        "0x0a08"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPartyBookingNotifyUpdate {
         let mut offset: usize = 0;
@@ -114365,8 +114365,8 @@ impl PacketZcPartyBookingNotifyUpdate {
     pub fn new() -> PacketZcPartyBookingNotifyUpdate {
         PacketZcPartyBookingNotifyUpdate {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x80, 0xa]),
-        packet_id_raw: [0x80, 0xa],
+        packet_id: i16::from_le_bytes([0x0a, 0x08]),
+        packet_id_raw: [0x0a, 0x08],
         index: 0,
         index_raw: [0; 4],
         job1: 0,
@@ -114387,7 +114387,7 @@ impl PacketZcPartyBookingNotifyUpdate {
 
 impl Packet for PacketZcPartyBookingNotifyUpdate {
     fn id(&self) -> &str {
-       "0x080a"
+       "0x0a08"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -114424,7 +114424,7 @@ impl Default for PacketZcPartyBookingNotifyUpdate {
 
 impl PacketZcPartyBookingNotifyDelete {
     pub fn packet_id() -> &'static str {
-        "0x080b"
+        "0x0b08"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPartyBookingNotifyDelete {
         let mut offset: usize = 0;
@@ -114488,8 +114488,8 @@ impl PacketZcPartyBookingNotifyDelete {
     pub fn new() -> PacketZcPartyBookingNotifyDelete {
         PacketZcPartyBookingNotifyDelete {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x80, 0xb]),
-        packet_id_raw: [0x80, 0xb],
+        packet_id: i16::from_le_bytes([0x0b, 0x08]),
+        packet_id_raw: [0x0b, 0x08],
         index: 0,
         index_raw: [0; 4],
         }
@@ -114498,7 +114498,7 @@ impl PacketZcPartyBookingNotifyDelete {
 
 impl Packet for PacketZcPartyBookingNotifyDelete {
     fn id(&self) -> &str {
-       "0x080b"
+       "0x0b08"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -114535,7 +114535,7 @@ impl Default for PacketZcPartyBookingNotifyDelete {
 
 impl PacketCzSimpleCashBtnshow {
     pub fn packet_id() -> &'static str {
-        "0x080c"
+        "0x0c08"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzSimpleCashBtnshow {
         let mut offset: usize = 0;
@@ -114579,15 +114579,15 @@ impl PacketCzSimpleCashBtnshow {
     pub fn new() -> PacketCzSimpleCashBtnshow {
         PacketCzSimpleCashBtnshow {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x80, 0xc]),
-        packet_id_raw: [0x80, 0xc],
+        packet_id: i16::from_le_bytes([0x0c, 0x08]),
+        packet_id_raw: [0x0c, 0x08],
         }
     }
 }
 
 impl Packet for PacketCzSimpleCashBtnshow {
     fn id(&self) -> &str {
-       "0x080c"
+       "0x0c08"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -114624,7 +114624,7 @@ impl Default for PacketCzSimpleCashBtnshow {
 
 impl PacketZcSimpleCashBtnshow {
     pub fn packet_id() -> &'static str {
-        "0x080d"
+        "0x0d08"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSimpleCashBtnshow {
         let mut offset: usize = 0;
@@ -114688,8 +114688,8 @@ impl PacketZcSimpleCashBtnshow {
     pub fn new() -> PacketZcSimpleCashBtnshow {
         PacketZcSimpleCashBtnshow {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x80, 0xd]),
-        packet_id_raw: [0x80, 0xd],
+        packet_id: i16::from_le_bytes([0x0d, 0x08]),
+        packet_id_raw: [0x0d, 0x08],
         show: false,
         show_raw: [0; 1],
         }
@@ -114698,7 +114698,7 @@ impl PacketZcSimpleCashBtnshow {
 
 impl Packet for PacketZcSimpleCashBtnshow {
     fn id(&self) -> &str {
-       "0x080d"
+       "0x0d08"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -114839,8 +114839,8 @@ impl PacketZcNotifyHpToGroupmR2 {
     pub fn new() -> PacketZcNotifyHpToGroupmR2 {
         PacketZcNotifyHpToGroupmR2 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x80, 0xe]),
-        packet_id_raw: [0x80, 0xe],
+        packet_id: i16::from_le_bytes([0x08, 0x0e]),
+        packet_id_raw: [0x08, 0x0e],
         aid: 0,
         aid_raw: [0; 4],
         hp: 0,
@@ -114890,7 +114890,7 @@ impl Default for PacketZcNotifyHpToGroupmR2 {
 
 impl PacketZcAddExchangeItem2 {
     pub fn packet_id() -> &'static str {
-        "0x080f"
+        "0x0f08"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAddExchangeItem2 {
         let mut offset: usize = 0;
@@ -115074,8 +115074,8 @@ impl PacketZcAddExchangeItem2 {
     pub fn new() -> PacketZcAddExchangeItem2 {
         PacketZcAddExchangeItem2 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x80, 0xf]),
-        packet_id_raw: [0x80, 0xf],
+        packet_id: i16::from_le_bytes([0x0f, 0x08]),
+        packet_id_raw: [0x0f, 0x08],
         itid: 0,
         itid_raw: [0; 2],
         atype: 0,
@@ -115096,7 +115096,7 @@ impl PacketZcAddExchangeItem2 {
 
 impl Packet for PacketZcAddExchangeItem2 {
     fn id(&self) -> &str {
-       "0x080f"
+       "0x0f08"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -115133,7 +115133,7 @@ impl Default for PacketZcAddExchangeItem2 {
 
 impl PacketZcOpenBuyingStore {
     pub fn packet_id() -> &'static str {
-        "0x0810"
+        "0x1008"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcOpenBuyingStore {
         let mut offset: usize = 0;
@@ -115197,8 +115197,8 @@ impl PacketZcOpenBuyingStore {
     pub fn new() -> PacketZcOpenBuyingStore {
         PacketZcOpenBuyingStore {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x81, 0x0]),
-        packet_id_raw: [0x81, 0x0],
+        packet_id: i16::from_le_bytes([0x10, 0x08]),
+        packet_id_raw: [0x10, 0x08],
         count: 0,
         count_raw: [0; 1],
         }
@@ -115207,7 +115207,7 @@ impl PacketZcOpenBuyingStore {
 
 impl Packet for PacketZcOpenBuyingStore {
     fn id(&self) -> &str {
-       "0x0810"
+       "0x1008"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -115244,7 +115244,7 @@ impl Default for PacketZcOpenBuyingStore {
 
 impl PacketCzReqOpenBuyingStore {
     pub fn packet_id() -> &'static str {
-        "0x0811"
+        "0x1108"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqOpenBuyingStore {
         let mut offset: usize = 0;
@@ -115408,8 +115408,8 @@ impl PacketCzReqOpenBuyingStore {
     pub fn new() -> PacketCzReqOpenBuyingStore {
         PacketCzReqOpenBuyingStore {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x81, 0x1]),
-        packet_id_raw: [0x81, 0x1],
+        packet_id: i16::from_le_bytes([0x11, 0x08]),
+        packet_id_raw: [0x11, 0x08],
         packet_length: 0,
         packet_length_raw: [0; 2],
         limit_zeny: 0,
@@ -115426,7 +115426,7 @@ impl PacketCzReqOpenBuyingStore {
 
 impl Packet for PacketCzReqOpenBuyingStore {
     fn id(&self) -> &str {
-       "0x0811"
+       "0x1108"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -115463,7 +115463,7 @@ impl Default for PacketCzReqOpenBuyingStore {
 
 impl PacketZcFailedOpenBuyingStoreToBuyer {
     pub fn packet_id() -> &'static str {
-        "0x0812"
+        "0x1208"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcFailedOpenBuyingStoreToBuyer {
         let mut offset: usize = 0;
@@ -115547,8 +115547,8 @@ impl PacketZcFailedOpenBuyingStoreToBuyer {
     pub fn new() -> PacketZcFailedOpenBuyingStoreToBuyer {
         PacketZcFailedOpenBuyingStoreToBuyer {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x81, 0x2]),
-        packet_id_raw: [0x81, 0x2],
+        packet_id: i16::from_le_bytes([0x12, 0x08]),
+        packet_id_raw: [0x12, 0x08],
         result: 0,
         result_raw: [0; 2],
         total_weight: 0,
@@ -115559,7 +115559,7 @@ impl PacketZcFailedOpenBuyingStoreToBuyer {
 
 impl Packet for PacketZcFailedOpenBuyingStoreToBuyer {
     fn id(&self) -> &str {
-       "0x0812"
+       "0x1208"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -115596,7 +115596,7 @@ impl Default for PacketZcFailedOpenBuyingStoreToBuyer {
 
 impl PacketZcMyitemlistBuyingStore {
     pub fn packet_id() -> &'static str {
-        "0x0813"
+        "0x1308"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMyitemlistBuyingStore {
         let mut offset: usize = 0;
@@ -115732,8 +115732,8 @@ impl PacketZcMyitemlistBuyingStore {
     pub fn new() -> PacketZcMyitemlistBuyingStore {
         PacketZcMyitemlistBuyingStore {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x81, 0x3]),
-        packet_id_raw: [0x81, 0x3],
+        packet_id: i16::from_le_bytes([0x13, 0x08]),
+        packet_id_raw: [0x13, 0x08],
         packet_length: 0,
         packet_length_raw: [0; 2],
         aid: 0,
@@ -115748,7 +115748,7 @@ impl PacketZcMyitemlistBuyingStore {
 
 impl Packet for PacketZcMyitemlistBuyingStore {
     fn id(&self) -> &str {
-       "0x0813"
+       "0x1308"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -115785,7 +115785,7 @@ impl Default for PacketZcMyitemlistBuyingStore {
 
 impl PacketZcBuyingStoreEntry {
     pub fn packet_id() -> &'static str {
-        "0x0814"
+        "0x1408"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcBuyingStoreEntry {
         let mut offset: usize = 0;
@@ -115877,8 +115877,8 @@ impl PacketZcBuyingStoreEntry {
     pub fn new() -> PacketZcBuyingStoreEntry {
         PacketZcBuyingStoreEntry {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x81, 0x4]),
-        packet_id_raw: [0x81, 0x4],
+        packet_id: i16::from_le_bytes([0x14, 0x08]),
+        packet_id_raw: [0x14, 0x08],
         maker_aid: 0,
         maker_aid_raw: [0; 4],
         store_name: [0 as char; 80],
@@ -115889,7 +115889,7 @@ impl PacketZcBuyingStoreEntry {
 
 impl Packet for PacketZcBuyingStoreEntry {
     fn id(&self) -> &str {
-       "0x0814"
+       "0x1408"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -115926,7 +115926,7 @@ impl Default for PacketZcBuyingStoreEntry {
 
 impl PacketCzReqCloseBuyingStore {
     pub fn packet_id() -> &'static str {
-        "0x0815"
+        "0x1508"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqCloseBuyingStore {
         let mut offset: usize = 0;
@@ -115970,15 +115970,15 @@ impl PacketCzReqCloseBuyingStore {
     pub fn new() -> PacketCzReqCloseBuyingStore {
         PacketCzReqCloseBuyingStore {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x81, 0x5]),
-        packet_id_raw: [0x81, 0x5],
+        packet_id: i16::from_le_bytes([0x15, 0x08]),
+        packet_id_raw: [0x15, 0x08],
         }
     }
 }
 
 impl Packet for PacketCzReqCloseBuyingStore {
     fn id(&self) -> &str {
-       "0x0815"
+       "0x1508"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -116015,7 +116015,7 @@ impl Default for PacketCzReqCloseBuyingStore {
 
 impl PacketZcDisappearBuyingStoreEntry {
     pub fn packet_id() -> &'static str {
-        "0x0816"
+        "0x1608"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcDisappearBuyingStoreEntry {
         let mut offset: usize = 0;
@@ -116079,8 +116079,8 @@ impl PacketZcDisappearBuyingStoreEntry {
     pub fn new() -> PacketZcDisappearBuyingStoreEntry {
         PacketZcDisappearBuyingStoreEntry {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x81, 0x6]),
-        packet_id_raw: [0x81, 0x6],
+        packet_id: i16::from_le_bytes([0x16, 0x08]),
+        packet_id_raw: [0x16, 0x08],
         maker_aid: 0,
         maker_aid_raw: [0; 4],
         }
@@ -116089,7 +116089,7 @@ impl PacketZcDisappearBuyingStoreEntry {
 
 impl Packet for PacketZcDisappearBuyingStoreEntry {
     fn id(&self) -> &str {
-       "0x0816"
+       "0x1608"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -116126,7 +116126,7 @@ impl Default for PacketZcDisappearBuyingStoreEntry {
 
 impl PacketCzReqClickToBuyingStore {
     pub fn packet_id() -> &'static str {
-        "0x0817"
+        "0x1708"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqClickToBuyingStore {
         let mut offset: usize = 0;
@@ -116190,8 +116190,8 @@ impl PacketCzReqClickToBuyingStore {
     pub fn new() -> PacketCzReqClickToBuyingStore {
         PacketCzReqClickToBuyingStore {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x81, 0x7]),
-        packet_id_raw: [0x81, 0x7],
+        packet_id: i16::from_le_bytes([0x17, 0x08]),
+        packet_id_raw: [0x17, 0x08],
         maker_aid: 0,
         maker_aid_raw: [0; 4],
         }
@@ -116200,7 +116200,7 @@ impl PacketCzReqClickToBuyingStore {
 
 impl Packet for PacketCzReqClickToBuyingStore {
     fn id(&self) -> &str {
-       "0x0817"
+       "0x1708"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -116237,7 +116237,7 @@ impl Default for PacketCzReqClickToBuyingStore {
 
 impl PacketZcAckItemlistBuyingStore {
     pub fn packet_id() -> &'static str {
-        "0x0818"
+        "0x1808"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckItemlistBuyingStore {
         let mut offset: usize = 0;
@@ -116393,8 +116393,8 @@ impl PacketZcAckItemlistBuyingStore {
     pub fn new() -> PacketZcAckItemlistBuyingStore {
         PacketZcAckItemlistBuyingStore {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x81, 0x8]),
-        packet_id_raw: [0x81, 0x8],
+        packet_id: i16::from_le_bytes([0x18, 0x08]),
+        packet_id_raw: [0x18, 0x08],
         packet_length: 0,
         packet_length_raw: [0; 2],
         maker_aid: 0,
@@ -116411,7 +116411,7 @@ impl PacketZcAckItemlistBuyingStore {
 
 impl Packet for PacketZcAckItemlistBuyingStore {
     fn id(&self) -> &str {
-       "0x0818"
+       "0x1808"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -116448,7 +116448,7 @@ impl Default for PacketZcAckItemlistBuyingStore {
 
 impl PacketCzReqTradeBuyingStore {
     pub fn packet_id() -> &'static str {
-        "0x0819"
+        "0x1908"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqTradeBuyingStore {
         let mut offset: usize = 0;
@@ -116584,8 +116584,8 @@ impl PacketCzReqTradeBuyingStore {
     pub fn new() -> PacketCzReqTradeBuyingStore {
         PacketCzReqTradeBuyingStore {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x81, 0x9]),
-        packet_id_raw: [0x81, 0x9],
+        packet_id: i16::from_le_bytes([0x19, 0x08]),
+        packet_id_raw: [0x19, 0x08],
         packet_length: 0,
         packet_length_raw: [0; 2],
         maker_aid: 0,
@@ -116600,7 +116600,7 @@ impl PacketCzReqTradeBuyingStore {
 
 impl Packet for PacketCzReqTradeBuyingStore {
     fn id(&self) -> &str {
-       "0x0819"
+       "0x1908"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -116637,7 +116637,7 @@ impl Default for PacketCzReqTradeBuyingStore {
 
 impl PacketZcFailedTradeBuyingStoreToBuyer {
     pub fn packet_id() -> &'static str {
-        "0x081a"
+        "0x1a08"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcFailedTradeBuyingStoreToBuyer {
         let mut offset: usize = 0;
@@ -116701,8 +116701,8 @@ impl PacketZcFailedTradeBuyingStoreToBuyer {
     pub fn new() -> PacketZcFailedTradeBuyingStoreToBuyer {
         PacketZcFailedTradeBuyingStoreToBuyer {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x81, 0xa]),
-        packet_id_raw: [0x81, 0xa],
+        packet_id: i16::from_le_bytes([0x1a, 0x08]),
+        packet_id_raw: [0x1a, 0x08],
         result: 0,
         result_raw: [0; 2],
         }
@@ -116711,7 +116711,7 @@ impl PacketZcFailedTradeBuyingStoreToBuyer {
 
 impl Packet for PacketZcFailedTradeBuyingStoreToBuyer {
     fn id(&self) -> &str {
-       "0x081a"
+       "0x1a08"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -116748,7 +116748,7 @@ impl Default for PacketZcFailedTradeBuyingStoreToBuyer {
 
 impl PacketZcUpdateItemFromBuyingStore {
     pub fn packet_id() -> &'static str {
-        "0x081b"
+        "0x1b08"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcUpdateItemFromBuyingStore {
         let mut offset: usize = 0;
@@ -116852,8 +116852,8 @@ impl PacketZcUpdateItemFromBuyingStore {
     pub fn new() -> PacketZcUpdateItemFromBuyingStore {
         PacketZcUpdateItemFromBuyingStore {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x81, 0xb]),
-        packet_id_raw: [0x81, 0xb],
+        packet_id: i16::from_le_bytes([0x1b, 0x08]),
+        packet_id_raw: [0x1b, 0x08],
         itid: 0,
         itid_raw: [0; 2],
         count: 0,
@@ -116866,7 +116866,7 @@ impl PacketZcUpdateItemFromBuyingStore {
 
 impl Packet for PacketZcUpdateItemFromBuyingStore {
     fn id(&self) -> &str {
-       "0x081b"
+       "0x1b08"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -116903,7 +116903,7 @@ impl Default for PacketZcUpdateItemFromBuyingStore {
 
 impl PacketZcItemDeleteBuyingStore {
     pub fn packet_id() -> &'static str {
-        "0x081c"
+        "0x1c08"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcItemDeleteBuyingStore {
         let mut offset: usize = 0;
@@ -117007,8 +117007,8 @@ impl PacketZcItemDeleteBuyingStore {
     pub fn new() -> PacketZcItemDeleteBuyingStore {
         PacketZcItemDeleteBuyingStore {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x81, 0xc]),
-        packet_id_raw: [0x81, 0xc],
+        packet_id: i16::from_le_bytes([0x1c, 0x08]),
+        packet_id_raw: [0x1c, 0x08],
         index: 0,
         index_raw: [0; 2],
         count: 0,
@@ -117021,7 +117021,7 @@ impl PacketZcItemDeleteBuyingStore {
 
 impl Packet for PacketZcItemDeleteBuyingStore {
     fn id(&self) -> &str {
-       "0x081c"
+       "0x1c08"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -117058,7 +117058,7 @@ impl Default for PacketZcItemDeleteBuyingStore {
 
 impl PacketZcElInit {
     pub fn packet_id() -> &'static str {
-        "0x081d"
+        "0x1d08"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcElInit {
         let mut offset: usize = 0;
@@ -117202,8 +117202,8 @@ impl PacketZcElInit {
     pub fn new() -> PacketZcElInit {
         PacketZcElInit {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x81, 0xd]),
-        packet_id_raw: [0x81, 0xd],
+        packet_id: i16::from_le_bytes([0x1d, 0x08]),
+        packet_id_raw: [0x1d, 0x08],
         aid: 0,
         aid_raw: [0; 4],
         hp: 0,
@@ -117220,7 +117220,7 @@ impl PacketZcElInit {
 
 impl Packet for PacketZcElInit {
     fn id(&self) -> &str {
-       "0x081d"
+       "0x1d08"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -117257,7 +117257,7 @@ impl Default for PacketZcElInit {
 
 impl PacketZcElParChange {
     pub fn packet_id() -> &'static str {
-        "0x081e"
+        "0x1e08"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcElParChange {
         let mut offset: usize = 0;
@@ -117341,8 +117341,8 @@ impl PacketZcElParChange {
     pub fn new() -> PacketZcElParChange {
         PacketZcElParChange {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x81, 0xe]),
-        packet_id_raw: [0x81, 0xe],
+        packet_id: i16::from_le_bytes([0x1e, 0x08]),
+        packet_id_raw: [0x1e, 0x08],
         var: 0,
         var_raw: [0; 2],
         value: 0,
@@ -117353,7 +117353,7 @@ impl PacketZcElParChange {
 
 impl Packet for PacketZcElParChange {
     fn id(&self) -> &str {
-       "0x081e"
+       "0x1e08"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -117390,7 +117390,7 @@ impl Default for PacketZcElParChange {
 
 impl PacketZcBroadcast4 {
     pub fn packet_id() -> &'static str {
-        "0x081f"
+        "0x1f08"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcBroadcast4 {
         let mut offset: usize = 0;
@@ -117527,7 +117527,7 @@ impl PacketZcBroadcast4 {
 
 impl Packet for PacketZcBroadcast4 {
     fn id(&self) -> &str {
-       "0x081f"
+       "0x1f08"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -117564,7 +117564,7 @@ impl Default for PacketZcBroadcast4 {
 
 impl PacketZcCostumeSpriteChange {
     pub fn packet_id() -> &'static str {
-        "0x0820"
+        "0x2008"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcCostumeSpriteChange {
         let mut offset: usize = 0;
@@ -117668,8 +117668,8 @@ impl PacketZcCostumeSpriteChange {
     pub fn new() -> PacketZcCostumeSpriteChange {
         PacketZcCostumeSpriteChange {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x82, 0x0]),
-        packet_id_raw: [0x82, 0x0],
+        packet_id: i16::from_le_bytes([0x20, 0x08]),
+        packet_id_raw: [0x20, 0x08],
         gid: 0,
         gid_raw: [0; 4],
         atype: 0,
@@ -117682,7 +117682,7 @@ impl PacketZcCostumeSpriteChange {
 
 impl Packet for PacketZcCostumeSpriteChange {
     fn id(&self) -> &str {
-       "0x0820"
+       "0x2008"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -117719,7 +117719,7 @@ impl Default for PacketZcCostumeSpriteChange {
 
 impl PacketAcOtpUser {
     pub fn packet_id() -> &'static str {
-        "0x0821"
+        "0x2108"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketAcOtpUser {
         let mut offset: usize = 0;
@@ -117763,15 +117763,15 @@ impl PacketAcOtpUser {
     pub fn new() -> PacketAcOtpUser {
         PacketAcOtpUser {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x82, 0x1]),
-        packet_id_raw: [0x82, 0x1],
+        packet_id: i16::from_le_bytes([0x21, 0x08]),
+        packet_id_raw: [0x21, 0x08],
         }
     }
 }
 
 impl Packet for PacketAcOtpUser {
     fn id(&self) -> &str {
-       "0x0821"
+       "0x2108"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -117808,7 +117808,7 @@ impl Default for PacketAcOtpUser {
 
 impl PacketCaOtpAuthReq {
     pub fn packet_id() -> &'static str {
-        "0x0822"
+        "0x2208"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCaOtpAuthReq {
         let mut offset: usize = 0;
@@ -117880,8 +117880,8 @@ impl PacketCaOtpAuthReq {
     pub fn new() -> PacketCaOtpAuthReq {
         PacketCaOtpAuthReq {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x82, 0x2]),
-        packet_id_raw: [0x82, 0x2],
+        packet_id: i16::from_le_bytes([0x22, 0x08]),
+        packet_id_raw: [0x22, 0x08],
         otpcode: [0 as char; 7],
         otpcode_raw: [0; 7],
         }
@@ -117890,7 +117890,7 @@ impl PacketCaOtpAuthReq {
 
 impl Packet for PacketCaOtpAuthReq {
     fn id(&self) -> &str {
-       "0x0822"
+       "0x2208"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -117927,7 +117927,7 @@ impl Default for PacketCaOtpAuthReq {
 
 impl PacketAcOtpAuthAck {
     pub fn packet_id() -> &'static str {
-        "0x0823"
+        "0x2308"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketAcOtpAuthAck {
         let mut offset: usize = 0;
@@ -118011,8 +118011,8 @@ impl PacketAcOtpAuthAck {
     pub fn new() -> PacketAcOtpAuthAck {
         PacketAcOtpAuthAck {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x82, 0x3]),
-        packet_id_raw: [0x82, 0x3],
+        packet_id: i16::from_le_bytes([0x23, 0x08]),
+        packet_id_raw: [0x23, 0x08],
         packet_length: 0,
         packet_length_raw: [0; 2],
         login_result: 0,
@@ -118023,7 +118023,7 @@ impl PacketAcOtpAuthAck {
 
 impl Packet for PacketAcOtpAuthAck {
     fn id(&self) -> &str {
-       "0x0823"
+       "0x2308"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -118060,7 +118060,7 @@ impl Default for PacketAcOtpAuthAck {
 
 impl PacketZcFailedTradeBuyingStoreToSeller {
     pub fn packet_id() -> &'static str {
-        "0x0824"
+        "0x2408"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcFailedTradeBuyingStoreToSeller {
         let mut offset: usize = 0;
@@ -118144,8 +118144,8 @@ impl PacketZcFailedTradeBuyingStoreToSeller {
     pub fn new() -> PacketZcFailedTradeBuyingStoreToSeller {
         PacketZcFailedTradeBuyingStoreToSeller {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x82, 0x4]),
-        packet_id_raw: [0x82, 0x4],
+        packet_id: i16::from_le_bytes([0x24, 0x08]),
+        packet_id_raw: [0x24, 0x08],
         result: 0,
         result_raw: [0; 2],
         itid: 0,
@@ -118156,7 +118156,7 @@ impl PacketZcFailedTradeBuyingStoreToSeller {
 
 impl Packet for PacketZcFailedTradeBuyingStoreToSeller {
     fn id(&self) -> &str {
-       "0x0824"
+       "0x2408"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -118193,7 +118193,7 @@ impl Default for PacketZcFailedTradeBuyingStoreToSeller {
 
 impl PacketCaSsoLoginReqa {
     pub fn packet_id() -> &'static str {
-        "0x825a"
+        "0x5a82"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCaSsoLoginReqa {
         let mut offset: usize = 0;
@@ -118398,8 +118398,8 @@ impl PacketCaSsoLoginReqa {
     pub fn new() -> PacketCaSsoLoginReqa {
         PacketCaSsoLoginReqa {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x82, 0x5a]),
-        packet_id_raw: [0x82, 0x5a],
+        packet_id: i16::from_le_bytes([0x5a, 0x82]),
+        packet_id_raw: [0x5a, 0x82],
         packet_length: 0,
         packet_length_raw: [0; 2],
         version: 0,
@@ -118420,7 +118420,7 @@ impl PacketCaSsoLoginReqa {
 
 impl Packet for PacketCaSsoLoginReqa {
     fn id(&self) -> &str {
-       "0x825a"
+       "0x5a82"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -118457,7 +118457,7 @@ impl Default for PacketCaSsoLoginReqa {
 
 impl PacketCaSsoLoginReq {
     pub fn packet_id() -> &'static str {
-        "0x0825"
+        "0x2508"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCaSsoLoginReq {
         let mut offset: usize = 0;
@@ -118690,8 +118690,8 @@ impl PacketCaSsoLoginReq {
     pub fn new() -> PacketCaSsoLoginReq {
         PacketCaSsoLoginReq {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x82, 0x5]),
-        packet_id_raw: [0x82, 0x5],
+        packet_id: i16::from_le_bytes([0x25, 0x08]),
+        packet_id_raw: [0x25, 0x08],
         packet_length: 0,
         packet_length_raw: [0; 2],
         version: 0,
@@ -118714,7 +118714,7 @@ impl PacketCaSsoLoginReq {
 
 impl Packet for PacketCaSsoLoginReq {
     fn id(&self) -> &str {
-       "0x0825"
+       "0x2508"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -118751,7 +118751,7 @@ impl Default for PacketCaSsoLoginReq {
 
 impl PacketAcSsoLoginAck {
     pub fn packet_id() -> &'static str {
-        "0x0826"
+        "0x2608"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketAcSsoLoginAck {
         let mut offset: usize = 0;
@@ -118815,8 +118815,8 @@ impl PacketAcSsoLoginAck {
     pub fn new() -> PacketAcSsoLoginAck {
         PacketAcSsoLoginAck {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x82, 0x6]),
-        packet_id_raw: [0x82, 0x6],
+        packet_id: i16::from_le_bytes([0x26, 0x08]),
+        packet_id_raw: [0x26, 0x08],
         result: 0,
         result_raw: [0; 2],
         }
@@ -118825,7 +118825,7 @@ impl PacketAcSsoLoginAck {
 
 impl Packet for PacketAcSsoLoginAck {
     fn id(&self) -> &str {
-       "0x0826"
+       "0x2608"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -118862,7 +118862,7 @@ impl Default for PacketAcSsoLoginAck {
 
 impl PacketChDeleteChar3Reserved {
     pub fn packet_id() -> &'static str {
-        "0x0827"
+        "0x2708"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketChDeleteChar3Reserved {
         let mut offset: usize = 0;
@@ -118926,8 +118926,8 @@ impl PacketChDeleteChar3Reserved {
     pub fn new() -> PacketChDeleteChar3Reserved {
         PacketChDeleteChar3Reserved {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x82, 0x7]),
-        packet_id_raw: [0x82, 0x7],
+        packet_id: i16::from_le_bytes([0x27, 0x08]),
+        packet_id_raw: [0x27, 0x08],
         gid: 0,
         gid_raw: [0; 4],
         }
@@ -118936,7 +118936,7 @@ impl PacketChDeleteChar3Reserved {
 
 impl Packet for PacketChDeleteChar3Reserved {
     fn id(&self) -> &str {
-       "0x0827"
+       "0x2708"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -118973,7 +118973,7 @@ impl Default for PacketChDeleteChar3Reserved {
 
 impl PacketHcDeleteChar3Reserved {
     pub fn packet_id() -> &'static str {
-        "0x0828"
+        "0x2808"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketHcDeleteChar3Reserved {
         let mut offset: usize = 0;
@@ -119077,8 +119077,8 @@ impl PacketHcDeleteChar3Reserved {
     pub fn new() -> PacketHcDeleteChar3Reserved {
         PacketHcDeleteChar3Reserved {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x82, 0x8]),
-        packet_id_raw: [0x82, 0x8],
+        packet_id: i16::from_le_bytes([0x28, 0x08]),
+        packet_id_raw: [0x28, 0x08],
         gid: 0,
         gid_raw: [0; 4],
         result: 0,
@@ -119091,7 +119091,7 @@ impl PacketHcDeleteChar3Reserved {
 
 impl Packet for PacketHcDeleteChar3Reserved {
     fn id(&self) -> &str {
-       "0x0828"
+       "0x2808"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -119128,7 +119128,7 @@ impl Default for PacketHcDeleteChar3Reserved {
 
 impl PacketChDeleteChar3 {
     pub fn packet_id() -> &'static str {
-        "0x0829"
+        "0x2908"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketChDeleteChar3 {
         let mut offset: usize = 0;
@@ -119220,8 +119220,8 @@ impl PacketChDeleteChar3 {
     pub fn new() -> PacketChDeleteChar3 {
         PacketChDeleteChar3 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x82, 0x9]),
-        packet_id_raw: [0x82, 0x9],
+        packet_id: i16::from_le_bytes([0x29, 0x08]),
+        packet_id_raw: [0x29, 0x08],
         gid: 0,
         gid_raw: [0; 4],
         birth: [0 as char; 6],
@@ -119232,7 +119232,7 @@ impl PacketChDeleteChar3 {
 
 impl Packet for PacketChDeleteChar3 {
     fn id(&self) -> &str {
-       "0x0829"
+       "0x2908"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -119269,7 +119269,7 @@ impl Default for PacketChDeleteChar3 {
 
 impl PacketHcDeleteChar3 {
     pub fn packet_id() -> &'static str {
-        "0x082a"
+        "0x2a08"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketHcDeleteChar3 {
         let mut offset: usize = 0;
@@ -119353,8 +119353,8 @@ impl PacketHcDeleteChar3 {
     pub fn new() -> PacketHcDeleteChar3 {
         PacketHcDeleteChar3 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x82, 0xa]),
-        packet_id_raw: [0x82, 0xa],
+        packet_id: i16::from_le_bytes([0x2a, 0x08]),
+        packet_id_raw: [0x2a, 0x08],
         gid: 0,
         gid_raw: [0; 4],
         result: 0,
@@ -119365,7 +119365,7 @@ impl PacketHcDeleteChar3 {
 
 impl Packet for PacketHcDeleteChar3 {
     fn id(&self) -> &str {
-       "0x082a"
+       "0x2a08"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -119402,7 +119402,7 @@ impl Default for PacketHcDeleteChar3 {
 
 impl PacketChDeleteChar3Cancel {
     pub fn packet_id() -> &'static str {
-        "0x082b"
+        "0x2b08"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketChDeleteChar3Cancel {
         let mut offset: usize = 0;
@@ -119466,8 +119466,8 @@ impl PacketChDeleteChar3Cancel {
     pub fn new() -> PacketChDeleteChar3Cancel {
         PacketChDeleteChar3Cancel {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x82, 0xb]),
-        packet_id_raw: [0x82, 0xb],
+        packet_id: i16::from_le_bytes([0x2b, 0x08]),
+        packet_id_raw: [0x2b, 0x08],
         gid: 0,
         gid_raw: [0; 4],
         }
@@ -119476,7 +119476,7 @@ impl PacketChDeleteChar3Cancel {
 
 impl Packet for PacketChDeleteChar3Cancel {
     fn id(&self) -> &str {
-       "0x082b"
+       "0x2b08"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -119513,7 +119513,7 @@ impl Default for PacketChDeleteChar3Cancel {
 
 impl PacketHcDeleteChar3Cancel {
     pub fn packet_id() -> &'static str {
-        "0x082c"
+        "0x2c08"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketHcDeleteChar3Cancel {
         let mut offset: usize = 0;
@@ -119597,8 +119597,8 @@ impl PacketHcDeleteChar3Cancel {
     pub fn new() -> PacketHcDeleteChar3Cancel {
         PacketHcDeleteChar3Cancel {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x82, 0xc]),
-        packet_id_raw: [0x82, 0xc],
+        packet_id: i16::from_le_bytes([0x2c, 0x08]),
+        packet_id_raw: [0x2c, 0x08],
         gid: 0,
         gid_raw: [0; 4],
         result: 0,
@@ -119609,7 +119609,7 @@ impl PacketHcDeleteChar3Cancel {
 
 impl Packet for PacketHcDeleteChar3Cancel {
     fn id(&self) -> &str {
-       "0x082c"
+       "0x2c08"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -119646,7 +119646,7 @@ impl Default for PacketHcDeleteChar3Cancel {
 
 impl PacketCzSearchStoreInfo {
     pub fn packet_id() -> &'static str {
-        "0x0835"
+        "0x3508"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzSearchStoreInfo {
         let mut offset: usize = 0;
@@ -119810,8 +119810,8 @@ impl PacketCzSearchStoreInfo {
     pub fn new() -> PacketCzSearchStoreInfo {
         PacketCzSearchStoreInfo {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x83, 0x5]),
-        packet_id_raw: [0x83, 0x5],
+        packet_id: i16::from_le_bytes([0x35, 0x08]),
+        packet_id_raw: [0x35, 0x08],
         packet_length: 0,
         packet_length_raw: [0; 2],
         store_type: 0,
@@ -119830,7 +119830,7 @@ impl PacketCzSearchStoreInfo {
 
 impl Packet for PacketCzSearchStoreInfo {
     fn id(&self) -> &str {
-       "0x0835"
+       "0x3508"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -119867,7 +119867,7 @@ impl Default for PacketCzSearchStoreInfo {
 
 impl PacketZcSearchStoreInfoAck {
     pub fn packet_id() -> &'static str {
-        "0x0836"
+        "0x3608"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSearchStoreInfoAck {
         let mut offset: usize = 0;
@@ -120023,8 +120023,8 @@ impl PacketZcSearchStoreInfoAck {
     pub fn new() -> PacketZcSearchStoreInfoAck {
         PacketZcSearchStoreInfoAck {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x83, 0x6]),
-        packet_id_raw: [0x83, 0x6],
+        packet_id: i16::from_le_bytes([0x36, 0x08]),
+        packet_id_raw: [0x36, 0x08],
         packet_length: 0,
         packet_length_raw: [0; 2],
         is_first_page: false,
@@ -120041,7 +120041,7 @@ impl PacketZcSearchStoreInfoAck {
 
 impl Packet for PacketZcSearchStoreInfoAck {
     fn id(&self) -> &str {
-       "0x0836"
+       "0x3608"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -120078,7 +120078,7 @@ impl Default for PacketZcSearchStoreInfoAck {
 
 impl PacketZcSearchStoreInfoFailed {
     pub fn packet_id() -> &'static str {
-        "0x0837"
+        "0x3708"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSearchStoreInfoFailed {
         let mut offset: usize = 0;
@@ -120142,8 +120142,8 @@ impl PacketZcSearchStoreInfoFailed {
     pub fn new() -> PacketZcSearchStoreInfoFailed {
         PacketZcSearchStoreInfoFailed {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x83, 0x7]),
-        packet_id_raw: [0x83, 0x7],
+        packet_id: i16::from_le_bytes([0x37, 0x08]),
+        packet_id_raw: [0x37, 0x08],
         reason: 0,
         reason_raw: [0; 1],
         }
@@ -120152,7 +120152,7 @@ impl PacketZcSearchStoreInfoFailed {
 
 impl Packet for PacketZcSearchStoreInfoFailed {
     fn id(&self) -> &str {
-       "0x0837"
+       "0x3708"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -120189,7 +120189,7 @@ impl Default for PacketZcSearchStoreInfoFailed {
 
 impl PacketCzSearchStoreInfoNextPage {
     pub fn packet_id() -> &'static str {
-        "0x0838"
+        "0x3808"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzSearchStoreInfoNextPage {
         let mut offset: usize = 0;
@@ -120233,15 +120233,15 @@ impl PacketCzSearchStoreInfoNextPage {
     pub fn new() -> PacketCzSearchStoreInfoNextPage {
         PacketCzSearchStoreInfoNextPage {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x83, 0x8]),
-        packet_id_raw: [0x83, 0x8],
+        packet_id: i16::from_le_bytes([0x38, 0x08]),
+        packet_id_raw: [0x38, 0x08],
         }
     }
 }
 
 impl Packet for PacketCzSearchStoreInfoNextPage {
     fn id(&self) -> &str {
-       "0x0838"
+       "0x3808"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -120278,7 +120278,7 @@ impl Default for PacketCzSearchStoreInfoNextPage {
 
 impl PacketZcAckBanGuildSso {
     pub fn packet_id() -> &'static str {
-        "0x0839"
+        "0x3908"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckBanGuildSso {
         let mut offset: usize = 0;
@@ -120378,8 +120378,8 @@ impl PacketZcAckBanGuildSso {
     pub fn new() -> PacketZcAckBanGuildSso {
         PacketZcAckBanGuildSso {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x83, 0x9]),
-        packet_id_raw: [0x83, 0x9],
+        packet_id: i16::from_le_bytes([0x39, 0x08]),
+        packet_id_raw: [0x39, 0x08],
         char_name: [0 as char; 24],
         char_name_raw: [0; 24],
         reason_desc: [0 as char; 40],
@@ -120390,7 +120390,7 @@ impl PacketZcAckBanGuildSso {
 
 impl Packet for PacketZcAckBanGuildSso {
     fn id(&self) -> &str {
-       "0x0839"
+       "0x3908"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -120427,7 +120427,7 @@ impl Default for PacketZcAckBanGuildSso {
 
 impl PacketZcOpenSearchStoreInfo {
     pub fn packet_id() -> &'static str {
-        "0x083a"
+        "0x3a08"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcOpenSearchStoreInfo {
         let mut offset: usize = 0;
@@ -120511,8 +120511,8 @@ impl PacketZcOpenSearchStoreInfo {
     pub fn new() -> PacketZcOpenSearchStoreInfo {
         PacketZcOpenSearchStoreInfo {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x83, 0xa]),
-        packet_id_raw: [0x83, 0xa],
+        packet_id: i16::from_le_bytes([0x3a, 0x08]),
+        packet_id_raw: [0x3a, 0x08],
         open_type: 0,
         open_type_raw: [0; 2],
         search_cnt_max: 0,
@@ -120523,7 +120523,7 @@ impl PacketZcOpenSearchStoreInfo {
 
 impl Packet for PacketZcOpenSearchStoreInfo {
     fn id(&self) -> &str {
-       "0x083a"
+       "0x3a08"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -120560,7 +120560,7 @@ impl Default for PacketZcOpenSearchStoreInfo {
 
 impl PacketCzCloseSearchStoreInfo {
     pub fn packet_id() -> &'static str {
-        "0x083b"
+        "0x3b08"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzCloseSearchStoreInfo {
         let mut offset: usize = 0;
@@ -120604,15 +120604,15 @@ impl PacketCzCloseSearchStoreInfo {
     pub fn new() -> PacketCzCloseSearchStoreInfo {
         PacketCzCloseSearchStoreInfo {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x83, 0xb]),
-        packet_id_raw: [0x83, 0xb],
+        packet_id: i16::from_le_bytes([0x3b, 0x08]),
+        packet_id_raw: [0x3b, 0x08],
         }
     }
 }
 
 impl Packet for PacketCzCloseSearchStoreInfo {
     fn id(&self) -> &str {
-       "0x083b"
+       "0x3b08"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -120649,7 +120649,7 @@ impl Default for PacketCzCloseSearchStoreInfo {
 
 impl PacketCzSsilistItemClick {
     pub fn packet_id() -> &'static str {
-        "0x083c"
+        "0x3c08"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzSsilistItemClick {
         let mut offset: usize = 0;
@@ -120753,8 +120753,8 @@ impl PacketCzSsilistItemClick {
     pub fn new() -> PacketCzSsilistItemClick {
         PacketCzSsilistItemClick {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x83, 0xc]),
-        packet_id_raw: [0x83, 0xc],
+        packet_id: i16::from_le_bytes([0x3c, 0x08]),
+        packet_id_raw: [0x3c, 0x08],
         aid: 0,
         aid_raw: [0; 4],
         ssiid: 0,
@@ -120767,7 +120767,7 @@ impl PacketCzSsilistItemClick {
 
 impl Packet for PacketCzSsilistItemClick {
     fn id(&self) -> &str {
-       "0x083c"
+       "0x3c08"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -120804,7 +120804,7 @@ impl Default for PacketCzSsilistItemClick {
 
 impl PacketZcSsilistItemClickAck {
     pub fn packet_id() -> &'static str {
-        "0x083d"
+        "0x3d08"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSsilistItemClickAck {
         let mut offset: usize = 0;
@@ -120888,8 +120888,8 @@ impl PacketZcSsilistItemClickAck {
     pub fn new() -> PacketZcSsilistItemClickAck {
         PacketZcSsilistItemClickAck {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x83, 0xd]),
-        packet_id_raw: [0x83, 0xd],
+        packet_id: i16::from_le_bytes([0x3d, 0x08]),
+        packet_id_raw: [0x3d, 0x08],
         x: 0,
         x_raw: [0; 2],
         y: 0,
@@ -120900,7 +120900,7 @@ impl PacketZcSsilistItemClickAck {
 
 impl Packet for PacketZcSsilistItemClickAck {
     fn id(&self) -> &str {
-       "0x083d"
+       "0x3d08"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -120937,7 +120937,7 @@ impl Default for PacketZcSsilistItemClickAck {
 
 impl PacketAcRefuseLoginR2 {
     pub fn packet_id() -> &'static str {
-        "0x3e08"
+        "0x083e"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketAcRefuseLoginR2 {
         let mut offset: usize = 0;
@@ -121029,8 +121029,8 @@ impl PacketAcRefuseLoginR2 {
     pub fn new() -> PacketAcRefuseLoginR2 {
         PacketAcRefuseLoginR2 {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x3e, 0x08]),
-        packet_id_raw: [0x3e, 0x08],
+        packet_id: i16::from_le_bytes([0x08, 0x3e]),
+        packet_id_raw: [0x08, 0x3e],
         error_code: 0,
         error_code_raw: [0; 4],
         block_date: [0 as char; 20],
@@ -121041,7 +121041,7 @@ impl PacketAcRefuseLoginR2 {
 
 impl Packet for PacketAcRefuseLoginR2 {
     fn id(&self) -> &str {
-       "0x3e08"
+       "0x083e"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -121078,7 +121078,7 @@ impl Default for PacketAcRefuseLoginR2 {
 
 impl PacketChSelectAccessibleMapname {
     pub fn packet_id() -> &'static str {
-        "0x0841"
+        "0x4108"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketChSelectAccessibleMapname {
         let mut offset: usize = 0;
@@ -121162,8 +121162,8 @@ impl PacketChSelectAccessibleMapname {
     pub fn new() -> PacketChSelectAccessibleMapname {
         PacketChSelectAccessibleMapname {
         raw: vec![],
-        packet_id: i16::from_le_bytes([0x84, 0x1]),
-        packet_id_raw: [0x84, 0x1],
+        packet_id: i16::from_le_bytes([0x41, 0x08]),
+        packet_id_raw: [0x41, 0x08],
         char_num: 0,
         char_num_raw: [0; 1],
         map_list_num: 0,
@@ -121174,7 +121174,7 @@ impl PacketChSelectAccessibleMapname {
 
 impl Packet for PacketChSelectAccessibleMapname {
     fn id(&self) -> &str {
-       "0x0841"
+       "0x4108"
     }
     fn debug(&self) {
             println!("{:?}", self)
