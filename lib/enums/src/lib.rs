@@ -14,6 +14,7 @@ pub mod look;
 pub mod vanish;
 pub mod map;
 pub mod cell;
+pub mod effect;
 
 pub trait EnumWithStringValue {
     fn try_from_string(value: &str) -> Result<Self, String> where Self: Sized;
