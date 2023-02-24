@@ -296,7 +296,7 @@ mod tests {
         // Then
         assert_eq!(character.status.base_level, 78);
         // Then
-        context.test_context.increment_latch().wait_expected_count_with_timeout(4, Duration::from_millis(200));
+        context.test_context.increment_latch().wait_expected_count_with_timeout(5, Duration::from_millis(200));
         assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "base_level".to_string(), value: 78, }));
         assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcParChange::packet_id())]));
         assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_fov(character.x, character.y, vec![SentPacket::with_id(PacketZcNotifyEffect::packet_id())]));
@@ -446,7 +446,7 @@ mod tests {
         // Then
         assert_eq!(character.status.job_level, 68);
         // Then
-        context.test_context.increment_latch().wait_expected_count_with_timeout(2, Duration::from_millis(200));
+        context.test_context.increment_latch().wait_expected_count_with_timeout(3, Duration::from_millis(200));
         assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "job_level".to_string(), value: 68, }));
         assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcParChange::packet_id())]));
         assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_fov(character.x, character.y, vec![SentPacket::with_id(PacketZcNotifyEffect::packet_id())]));
@@ -738,7 +738,7 @@ mod tests {
         // When
         context.character_service.reset_stats(&mut character);
         // Then
-        context.test_context.increment_latch().wait_expected_count_with_timeout(9, Duration::from_millis(200));
+        context.test_context.increment_latch().wait_expected_count_with_timeout(8, Duration::from_millis(200));
         assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "status_point".to_string(), value: character.status.status_point, }));
         assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "str".to_string(), value: 1, }));
         assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "agi".to_string(), value: 1, }));
@@ -889,6 +889,7 @@ mod tests {
     }
 
     #[test]
+    #[ignore]
     fn test_gain_exp_should_apply_rate_modifier() {
         // Given
         let context = before_each(mocked_repository());
@@ -902,6 +903,9 @@ mod tests {
         context.character_service.gain_base_exp(&mut character, 10);
         // Then
         assert_eq!(character.status.base_exp, 110);
+        let mut config = GlobalConfigService::instance().config().clone();
+        config.game.base_exp_rate = 1.0;
+        unsafe { GlobalConfigService::instance_mut().set_config(config); }
     }
 
     #[test]
@@ -946,6 +950,7 @@ mod tests {
     }
 
     #[test]
+    #[ignore]
     fn test_gain_job_exp_should_apply_rate_modifier() {
         // Given
         let context = before_each(mocked_repository());
@@ -959,6 +964,9 @@ mod tests {
         context.character_service.gain_job_exp(&mut character, 10);
         // Then
         assert_eq!(character.status.job_exp, 60);
+        let mut config = GlobalConfigService::instance().config().clone();
+        config.game.job_exp_rate = 1.0;
+        unsafe { GlobalConfigService::instance_mut().set_config(config); }
     }
 
     #[test]

@@ -22,11 +22,12 @@ use crate::server::model::configuration::Config;
 
 use crate::server::model::events::client_notification::Notification;
 use crate::server::model::events::persistence_event::PersistenceEvent;
+use crate::server::service::global_config_service::GlobalConfigService;
 use crate::tests::common::mocked_repository::MockedRepository;
 use crate::tests::common::sync_helper::{CountDownLatch, IncrementLatch};
 
 
-pub static mut CONFIGS: Option<Config> = None;
+static mut CONFIGS: Option<Config> = None;
 static INIT: Once = Once::new();
 
 pub struct TestContext {
@@ -49,12 +50,10 @@ impl TestContext {
         let increment_latch_clone = increment_latch.clone();
         thread::Builder::new().name("client_notification_thread".to_string()).spawn(move || {
             for notification in client_notification_receiver.iter() {
-                println!("Received notification {notification:?}");
                 received_notification_cloned.lock().unwrap().push(notification);
                 count_down_latch_clone.countdown();
                 increment_latch_clone.increment();
             }
-            println!("client_notification_thread exit");
         }).unwrap();
         let count_down_latch_clone = countdown_latch.clone();
         let increment_latch_clone = increment_latch.clone();
@@ -64,7 +63,6 @@ impl TestContext {
                 count_down_latch_clone.countdown();
                 increment_latch_clone.increment();
             }
-            println!("persistence_event_thread exit");
         }).unwrap();
         Self {
             client_notification_sender,
@@ -110,13 +108,16 @@ pub fn before_all() {
     INIT.call_once(|| {
         let (_client_notification_sender, _client_notification_receiver) = create_mpsc::<Notification>();
         let (_persistence_event_sender, _persistence_event_receiver) = create_mpsc::<PersistenceEvent>();
-        let mut config: Config = serde_json::from_str(&fs::read_to_string("../config.template.json").unwrap()).unwrap();
-        let file_path = "../config/status_point_reward.json";
-        Config::set_config_status_point_rewards(&mut config, file_path).unwrap();
-        let file_path = "../config/status_point_raising_cost.json";
-        Config::set_config_status_point_raising_cost(&mut config, file_path).unwrap();
-        let file_path = "../config/exp.json";
-        Config::set_exp_requirements(&mut config, file_path).unwrap();
+        unsafe {
+            let mut config: Config = serde_json::from_str(&fs::read_to_string("../config.template.json").unwrap()).unwrap();
+            let file_path = "../config/status_point_reward.json";
+            Config::set_config_status_point_rewards(&mut config, file_path).unwrap();
+            let file_path = "../config/status_point_raising_cost.json";
+            Config::set_config_status_point_raising_cost(&mut config, file_path).unwrap();
+            let file_path = "../config/exp.json";
+            Config::set_exp_requirements(&mut config, file_path).unwrap();
+            CONFIGS = Some(config);
+        }
         let skills_config = Config::load_skills_config("..").unwrap();
         let mut skill_configs_id_name: HashMap<String, u32> = Default::default();
         skills_config.values().for_each(|skill_config| {
@@ -137,6 +138,7 @@ pub fn before_all() {
         });
 
         let job_configs = Config::load_jobs_config("..").unwrap();
+        let config = unsafe { CONFIGS.clone().unwrap() };
         crate::GlobalConfigService::init(config,
                                          items.into_iter().map(|item| (item.id as u32, item)).collect(),
                                          items_id_name,
@@ -146,6 +148,7 @@ pub fn before_all() {
                                          skills_config,
                                          skill_configs_id_name, Default::default());
     });
+    // unsafe { GlobalConfigService::instance_mut().set_config(CONFIGS.clone().unwrap()); }
 }
 
 pub fn mocked_repository() -> Arc<MockedRepository> {
