@@ -628,6 +628,15 @@ impl CharacterService {
         packet_speed.set_var_id(StatusTypes::Speed.value() as u16);
         packet_speed.set_count(character.status.speed as i32);
         packet_speed.fill_raw();
+        let mut packet_exp_required_to_reach_next_base_level = PacketZcParChange::new();
+        packet_exp_required_to_reach_next_base_level.set_var_id(StatusTypes::Nextbaseexp.value() as u16);
+        packet_exp_required_to_reach_next_base_level.set_count(self.next_base_level_required_exp(&character.status) as i32);
+        packet_exp_required_to_reach_next_base_level.fill_raw();
+        let mut packet_exp_required_to_reach_next_job_level = PacketZcParChange::new();
+        packet_exp_required_to_reach_next_job_level.set_var_id(StatusTypes::Nextbaseexp.value() as u16);
+        packet_exp_required_to_reach_next_job_level.set_count(self.next_base_level_required_exp(&character.status) as i32);
+        packet_exp_required_to_reach_next_job_level.fill_raw();
+
 
         let mut final_response_packet: Vec<u8> = chain_packets(vec![
             &packet_str, &packet_agi, &packet_dex, &packet_int, &packet_luk, &packet_vit,
@@ -637,6 +646,7 @@ impl CharacterService {
             &packet_flee2, &packet_crit, &packet_matk, &packet_matk2,
             &packet_mdef2, &packet_attack_range, &packet_maxhp, &packet_maxsp, &packet_hp,
             &packet_sp, &packet_speed,
+            &packet_exp_required_to_reach_next_base_level, &packet_exp_required_to_reach_next_job_level,
         ]);
         final_response_packet.extend(self.weight_update_packets(character));
         server_ref.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, final_response_packet)))

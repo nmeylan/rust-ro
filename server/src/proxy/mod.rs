@@ -3,7 +3,7 @@ use std::net::{Shutdown, SocketAddr, TcpListener, TcpStream};
 use packets::packets::{Packet};
 use std::fmt::{Display, Formatter};
 use std::thread::{JoinHandle, spawn};
-use std::thread;
+use std::{panic, thread};
 use tokio::runtime::Runtime;
 use packets::packets_parser::parse;
 use std::io::{Read, Write};
@@ -100,16 +100,27 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
                         break;
                     }
                     let tcp_stream_ref = Arc::new(Mutex::new(incoming.try_clone().unwrap()));
+                    self.proxy_request(outgoing, &direction, tcp_stream_ref, &buffer.clone()[..bytes_read], bytes_read, packetver);
                     let mut packet = parse(&buffer[..bytes_read], packetver);
                     if packet.raw().len() < bytes_read {
                         let mut offset = 0;
                         while offset < bytes_read {
-                            packet = parse(&buffer[offset..bytes_read], packetver);
-                            offset += packet.raw().len();
-                            self.proxy_request(outgoing, &direction, tcp_stream_ref.clone(), packet);
+                            let result = panic::catch_unwind(|| {
+                                parse(&buffer[offset..bytes_read], packetver)
+                            });
+                            if let Ok(packet) = result {
+                                offset += packet.raw().len();
+                                if packet.id() != "0x6003" && packet.id() != "0x7f00" && packet.id() != "0x7e00" { // PACKET_CZ_REQUEST_TIME2
+                                info!("{} {} {} ", self.name, if direction == ProxyDirection::Backward { "<" } else { ">" }, outgoing.peer_addr().unwrap());
+                                    packet.display();
+                                    packet.pretty_debug();
+                                    info!("{:02X?}", packet.raw());
+
+                                }
+                            } else {
+                                break;
+                            }
                         }
-                    } else {
-                        self.proxy_request(outgoing, &direction, tcp_stream_ref, packet);
                     }
                 }
                 Err(error) => return Err(format!("Could not read data: {error}"))
@@ -118,17 +129,18 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
         Ok(())
     }
 
-    fn proxy_request(&self, outgoing: &mut TcpStream, direction: &ProxyDirection, tcp_stream_ref: Arc<Mutex<TcpStream>>, mut packet: Box<dyn Packet>) {
-        if packet.id() != "0x6003" && packet.id() != "0x7f00" && packet.id() != "0x7e00" { // PACKET_CZ_REQUEST_TIME2
-            info!("{} {} {} ", self.name, if *direction == ProxyDirection::Backward { "<" } else { ">" }, outgoing.peer_addr().unwrap());
+    fn proxy_request(&self, outgoing: &mut TcpStream, direction: &ProxyDirection, tcp_stream_ref: Arc<Mutex<TcpStream>>, mut buffer: &[u8], bytes_read: usize, packetver: u32) {
+        if (buffer[0] == 0x71 && buffer[1] == 0x0)
+            || (buffer[0] == 0xc5 && buffer[1] == 0x0a) {
+            let mut packet = parse(&buffer.clone()[..bytes_read], packetver);
             self.specific_proxy.handle_packet(tcp_stream_ref, packet.as_mut());
-            packet.display();
-            packet.pretty_debug();
-            info!("{:02X?}", packet.raw());
-
-        }
-        if outgoing.write(packet.raw()).is_ok() {
-            outgoing.flush().expect("Failed to flush packet for outgoing socket to proxied server");
+            if outgoing.write(packet.raw()).is_ok() {
+                outgoing.flush().expect("Failed to flush packet for outgoing socket to proxied server");
+            }
+        } else {
+            if outgoing.write(buffer).is_ok() {
+                outgoing.flush().expect("Failed to flush packet for outgoing socket to proxied server");
+            }
         }
     }
 }

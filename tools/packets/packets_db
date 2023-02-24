@@ -6,7 +6,7 @@ struct PACKET_CA_LOGIN {
   unsigned char Passwd[24]
   unsigned char clientType
  }
-0x65
+0x0065
 struct PACKET_CH_ENTER {
   short PacketId
   unsigned long AID
@@ -15,12 +15,12 @@ struct PACKET_CH_ENTER {
   unsigned short clientType
   unsigned char Sex
  }
-0x66
+0x0066
 struct PACKET_CH_SELECT_CHAR {
   short PacketId
   unsigned char CharNum
  }
-0x67
+0x0067
 struct PACKET_CH_MAKE_CHAR {
   short PacketId
   unsigned char name[24]
@@ -34,7 +34,7 @@ struct PACKET_CH_MAKE_CHAR {
   short headPal
   short head
  }
-0x7009
+0x0970
 struct PACKET_CH_MAKE_CHAR2 {
   short PacketId
   unsigned char name[24]
@@ -42,13 +42,13 @@ struct PACKET_CH_MAKE_CHAR2 {
   short headPal
   short head
  }
-0x68
+0x0068
 struct PACKET_CH_DELETE_CHAR {
   short PacketId
   unsigned long GID
   char key[40]
  }
-0x69
+0x0069
 struct PACKET_AC_ACCEPT_LOGIN {
   short PacketId
   short PacketLength
@@ -67,7 +67,7 @@ struct PACKET_AC_ACCEPT_LOGIN {
   unsigned short property
   }
  }
-0xc40a
+0x0ac4
 struct PACKET_AC_ACCEPT_LOGIN2 {
   short PacketId
   short PacketLength
@@ -89,13 +89,13 @@ struct PACKET_AC_ACCEPT_LOGIN2 {
   char unknown2[128]
   }
  }
-0x6a
+0x006a
 struct PACKET_AC_REFUSE_LOGIN {
   short PacketId
   unsigned char ErrorCode
   char blockDate[20]
  }
-0x6b
+0x006b
 struct PACKET_HC_ACCEPT_ENTER_NEO_UNION {
   short PacketId
   short PacketLength
@@ -158,33 +158,33 @@ struct PACKET_HC_ACCEPT_ENTER_NEO_UNION {
 #V GTE 20141016 unsigned char sex
   }
  }
-0x6c
+0x006c
 struct PACKET_HC_REFUSE_ENTER {
   short PacketId
   unsigned char ErrorCode
  }
-0x6d
+0x006d
 struct PACKET_HC_ACCEPT_MAKECHAR_NEO_UNION {
   short PacketId
   struct CHARACTER_INFO_NEO_UNION charinfo {
 
   }
  }
-0x6e
+0x006e
 struct PACKET_HC_REFUSE_MAKECHAR {
   short PacketId
   unsigned char ErrorCode
  }
-0x6f
+0x006f
 struct PACKET_HC_ACCEPT_DELETECHAR {
   short PacketId
  }
-0x70
+0x0070
 struct PACKET_HC_REFUSE_DELETECHAR {
   short PacketId
   unsigned char ErrorCode
  }
-0x71
+0x0071
 struct PACKET_HC_NOTIFY_ZONESVR {
   short PacketId
   unsigned long GID
@@ -194,7 +194,7 @@ struct PACKET_HC_NOTIFY_ZONESVR {
   short port
   }
  }
-0x72
+0x0072
 struct PACKET_CZ_ENTER {
   short PacketId
   unsigned long AID
@@ -203,7 +203,7 @@ struct PACKET_CZ_ENTER {
   unsigned long clientTime
   unsigned char Sex
  }
-0x73
+0x0073
 struct PACKET_ZC_ACCEPT_ENTER {
   short PacketId
   unsigned long startTime
@@ -211,12 +211,12 @@ struct PACKET_ZC_ACCEPT_ENTER {
   unsigned char xSize
   unsigned char ySize
  }
-0x74
+0x0074
 struct PACKET_ZC_REFUSE_ENTER {
   short PacketId
   unsigned char ErrorCode
  }
-0x75
+0x0075
 struct PACKET_ZC_NOTIFY_INITCHAR {
   short PacketId
   short PacketLength
@@ -224,20 +224,20 @@ struct PACKET_ZC_NOTIFY_INITCHAR {
   short Style
   unsigned char Item
  }
-0x76
+0x0076
 struct PACKET_ZC_NOTIFY_UPDATECHAR {
   short PacketId
   unsigned long GID
   short Style
   unsigned char Item
  }
-0x77
+0x0077
 struct PACKET_ZC_NOTIFY_UPDATEPLAYER {
   short PacketId
   short Style
   unsigned char Item
  }
-0x78
+0x0078
 struct PACKET_ZC_NOTIFY_STANDENTRY {
   short PacketId
   unsigned char objecttype
@@ -268,7 +268,7 @@ struct PACKET_ZC_NOTIFY_STANDENTRY {
   unsigned char state
   short clevel
  }
-0x79
+0x0079
 struct PACKET_ZC_NOTIFY_NEWENTRY {
   short PacketId
   unsigned long GID
@@ -387,7 +387,7 @@ struct PACKET_ZC_NOTIFY_STANDENTRY_NPC {
 struct PACKET_CZ_NOTIFY_ACTORINIT {
   short PacketId
  }
-0x7e,0x1708,0x8708
+0x7e,0x0817,0x0887
 struct PACKET_CZ_REQUEST_TIME {
   short PacketId
   unsigned long clientTime
@@ -420,7 +420,7 @@ struct PACKET_ZC_ACCEPT_QUIT {
 struct PACKET_ZC_REFUSE_QUIT {
   short PacketId
  }
-0x85, 0x5f03, 0x6403, 0x3704, 0x5309
+0x85, 0x035f, 0x0364, 0x0437, 0x0953
 struct PACKET_CZ_REQUEST_MOVE {
   short PacketId
   unsigned byte dest[3]
@@ -445,7 +445,7 @@ struct PACKET_ZC_STOPMOVE {
   short xPos
   short yPos
  }
-0x89,0x8508,0x3704
+0x89,0x0885,0x0437
 struct PACKET_CZ_REQUEST_ACT {
   short PacketId
   unsigned long targetGID
@@ -528,7 +528,7 @@ struct PACKET_ZC_NPCACK_SERVERMOVE {
 struct PACKET_ZC_NPCACK_ENABLE {
   short PacketId
  }
-0x94, 0x8A08,0x6A09
+0x94, 0x088A,0x096A
 struct PACKET_CZ_REQNAME {
   short PacketId
   unsigned long AID
@@ -710,7 +710,7 @@ struct PACKET_ZC_STORE_EQUIPMENT_ITEMLIST {
    }
   }
  }
-0xa7,0x3904
+0xa7,0x0439
 struct PACKET_CZ_USE_ITEM {
   short PacketId
   unsigned short index
@@ -736,7 +736,7 @@ struct PACKET_ZC_REQ_WEAR_EQUIP_ACK {
   unsigned short wearLocation
   unsigned char result
  }
-0xd008
+0x08d0
 struct PACKET_ZC_REQ_WEAR_EQUIP_ACK2 {
   short PacketId
   unsigned short index
@@ -756,7 +756,7 @@ struct PACKET_ZC_REQ_TAKEOFF_EQUIP_ACK {
   unsigned short wearLocation
   unsigned char result
  }
-0xd108
+0x08d1
 struct PACKET_ZC_REQ_TAKEOFF_EQUIP_ACK2 {
   short PacketId
   unsigned short index
@@ -1758,7 +1758,7 @@ struct PACKET_ZC_ATTACK_FAILURE_FOR_DISTANCE {
   short yPos
   short currentAttRange
  }
-0x3a01
+0x013a
 struct PACKET_ZC_ATTACK_RANGE {
   short PacketId
   short currentAttRange
@@ -1802,19 +1802,19 @@ struct PACKET_CZ_MOVETO_MAP {
   short xPos
   short yPos
  }
-0x4101
+0x0141
 struct PACKET_ZC_STATUS_VALUES {
   short PacketId
   unsigned long statusType
   int defaultStatus
   int plusStatus
  }
-0x4201
+0x0142
 struct PACKET_ZC_OPEN_EDITDLG {
   short PacketId
   unsigned long NAID
  }
-0x4301,0x4101,0x6701
+0x0143,0x0141,0x0167
 struct PACKET_CZ_INPUT_EDITDLG {
   short PacketId
   unsigned long NAID
@@ -2879,7 +2879,7 @@ struct PACKET_ZC_NOTIFY_MAPTYPEPROPERTY2 {
   short PacketId
   short type
  }
-0xd701
+0x01d7
 struct PACKET_ZC_SPRITE_CHANGE2 {
   short PacketId
   unsigned long GID
@@ -4774,7 +4774,7 @@ struct PACKET_CZ_MEMORIALDUNGEON_COMMAND {
   short PacketId
   long Command
  }
-0xd002
+0x02d0
 struct PACKET_ZC_EQUIPMENT_ITEMLIST3 {
   short PacketId
   short PacketLength
@@ -4798,7 +4798,7 @@ struct PACKET_ZC_EQUIPMENT_ITEMLIST3 {
   unsigned short wItemSpriteNumber
   }
  }
-0xd102
+0x02d1
 struct PACKET_ZC_STORE_EQUIPMENT_ITEMLIST3 {
   short PacketId
   short PacketLength
@@ -4822,7 +4822,7 @@ struct PACKET_ZC_STORE_EQUIPMENT_ITEMLIST3 {
   unsigned short wItemSpriteNumber
   }
  }
-0xd202
+0x02d2
 struct PACKET_ZC_CART_EQUIPMENT_ITEMLIST3 {
   short PacketId
   short PacketLength
@@ -4846,12 +4846,12 @@ struct PACKET_ZC_CART_EQUIPMENT_ITEMLIST3 {
   unsigned short wItemSpriteNumber
   }
  }
-0xd302
+0x02d3
 struct PACKET_ZC_NOTIFY_BIND_ON_EQUIP {
   short PacketId
   unsigned short index
  }
-0xd402
+0x02d4
 struct PACKET_ZC_ITEM_PICKUP_ACK3 {
   short PacketId
   unsigned short Index
@@ -5000,7 +5000,7 @@ struct PACKET_ZC_MAPPROPERTY {
   short type
   int mapInfoTable[...]
  }
-0xe802
+0x02e8
 struct PACKET_ZC_NORMAL_ITEMLIST3 {
   short PacketId
   short PacketLength
@@ -5020,7 +5020,7 @@ struct PACKET_ZC_NORMAL_ITEMLIST3 {
   long HireExpireDate
   }
  }
-0xe902
+0x02e9
 struct PACKET_ZC_CART_NORMAL_ITEMLIST3 {
   short PacketId
   short PacketLength
@@ -5040,7 +5040,7 @@ struct PACKET_ZC_CART_NORMAL_ITEMLIST3 {
   long HireExpireDate
   }
  }
-0xea02
+0x02ea
 struct PACKET_ZC_STORE_NORMAL_ITEMLIST3 {
   short PacketId
   short PacketLength
@@ -5060,7 +5060,7 @@ struct PACKET_ZC_STORE_NORMAL_ITEMLIST3 {
   long HireExpireDate
   }
  }
-0xeb02
+0x02eb
 struct PACKET_ZC_ACCEPT_ENTER2 {
   short PacketId
   unsigned long startTime
@@ -5213,7 +5213,7 @@ struct PACKET_CAH_ACK_GAME_GUARD {
   short PacketId
   unsigned long AuthData[4]
  }
-0x3604, 0x7108, 0x3C08,0x6A08
+0x0436, 0x0871, 0x083C,0x086A
 struct PACKET_CZ_ENTER2 {
   short PacketId
   unsigned long AID
@@ -5853,7 +5853,7 @@ struct PACKET_ZC_SIMPLE_CASH_BTNSHOW {
   short PacketId
   bool show
  }
-0x80e
+0x0e08
 struct PACKET_ZC_NOTIFY_HP_TO_GROUPM_R2 {
   short PacketId
   unsigned long AID
@@ -6174,12 +6174,12 @@ struct PACKET_CH_SELECT_ACCESSIBLE_MAPNAME {
   unsigned char CharNum
   unsigned char mapListNum
  }
-0x5f03
+0x035f
 struct PACKET_CZ_REQUEST_MOVE2 {
  short PacketId
  unsigned short dest[3]
 }
-0xc50a
+0x0ac5
 struct PACKET_CH_SEND_MAP_INFO {
   short PacketId
   unsigned long GID
@@ -6188,7 +6188,7 @@ struct PACKET_CH_SEND_MAP_INFO {
   short mapServerPort
   char dnsHost[128]
 }
-0x2d08
+0x082d
 struct PACKET_HC_ACCEPT_ENTER_NEO_UNION_HEADER {
   short PacketId
   short PacketLen
@@ -6201,22 +6201,22 @@ struct PACKET_HC_ACCEPT_ENTER_NEO_UNION_HEADER {
 
    }
  }
-0x8701
+0x0187
 struct PACKET_CZ_PING {
    short PacketId
    unsigned long AID
  }
-0x8701
+0x0187
 struct PACKET_ZC_AID2 {
    short PacketId
    unsigned long AID
  }
-0x8302
+0x0283
 struct PACKET_MAP_CONNECTION {
    short PacketId
    unsigned long AID
  }
-0xb908
+0x08b9
 struct PACKET_PINCODE_LOGINSTATE {
   short PacketId
   int pincodeSeed
@@ -6224,7 +6224,7 @@ struct PACKET_PINCODE_LOGINSTATE {
   short response
 }
 
-0x390a
+0x0a39
 struct PACKET_CH_MAKE_CHAR3 {
   short PacketId
   unsigned char name[24]
@@ -6235,44 +6235,44 @@ struct PACKET_CH_MAKE_CHAR3 {
   unsigned char sex
  }
 
-0x2708
+0x0827
 struct PACKET_CH_DELETE_CHAR4_RESERVED {
   short PacketId
   unsigned long GID
  }
-0x2808
+0x0828
 struct PACKET_HC_DELETE_CHAR4_RESERVED {
   short PacketId
   unsigned long GID
   int Result
   long DeleteReservedDate
 }
-0x180b
+0x0b18
 struct PACKET_ZC_INVENTORY_EXPANSION_INFO {
   short PacketId
   short expansionSize
 }
-0xde0a
+0x0ade
 struct PACKET_ZC_OVERWEIGHT_PERCENT {
   short PacketId
   int percent
 }
-0x8a01
+0x018a
 struct PACKET_CZ_REQ_DISCONNECT2 {
   short PacketId
   short empty
 }
-0x8b01
+0x018b
 struct PACKET_ZC_REQ_DISCONNECT_ACK2 {
   short PacketId
   short empty
 }
-0x6803
+0x0368
 struct PACKET_CZ_REQNAMEALL2 {
   short PacketId
   unsigned long GID
 }
-0x300a
+0x0a30
 struct PACKET_ZC_ACK_REQNAMEALL2 {
   short PacketId
   unsigned long GID
@@ -6283,24 +6283,24 @@ struct PACKET_ZC_ACK_REQNAMEALL2 {
   int titleId
 }
 
-0x6003
+0x0360
 struct PACKET_CZ_REQUEST_TIME2 {
   short PacketId
   unsigned long clientTime
  }
-0xcd09
+0x09cd
 struct PACKET_ZC_MSG_COLOR {
   short PacketId
   unsigned short msgId
   unsigned int msgColor
 }
-0x9b09
+0x099b
 struct PACKET_ZC_NOTIFY_MAPPROPERTY2 {
   short PacketId
   short type
   unsigned int flags
  }
-0x3b0a
+0x0a3b
 struct PACKET_ZC_HAT_EFFECT {
   short PacketId
   short len
@@ -6308,15 +6308,15 @@ struct PACKET_ZC_HAT_EFFECT {
   unsigned byte status
   unsigned short effect[...]
 }
-0x4704
+0x0447
 struct PACKET_CZ_BLOCKING_PLAY_CANCEL {
   short PacketId
 }
-0x1B0B
+0x0B1B
 struct PACKET_ZC_LOAD_CONFIRM {
   short PacketId
 }
-0xff09
+0x09ff
 struct PACKET_ZC_NOTIFY_STANDENTRY6 {
   short PacketId
   short PacketLength
@@ -6357,7 +6357,7 @@ struct PACKET_ZC_NOTIFY_STANDENTRY6 {
   unsigned char name[24]
  }
 
-0x1509
+0x0915
 struct PACKET_ZC_NOTIFY_STANDENTRY_7 {
   short PacketId
 #V GTE 20091103 short PacketLength
@@ -6397,7 +6397,7 @@ struct PACKET_ZC_NOTIFY_STANDENTRY_7 {
 #V GTE 20150513 short body
  }
 
-0xfd09
+0x09fd
 struct PACKET_ZC_NOTIFY_MOVEENTRY8 {
   short PacketId
   short PacketLength
@@ -6438,7 +6438,7 @@ struct PACKET_ZC_NOTIFY_MOVEENTRY8 {
   unsigned char name[24]
 }
 
-0xc808
+0x08c8
 struct PACKET_ZC_NOTIFY_ACT3 {
   short PacketId
   unsigned long GID
