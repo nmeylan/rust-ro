@@ -24,7 +24,7 @@ pub trait PacketHandler {
     fn handle_packet(&self, tcp_stream: Arc<Mutex<TcpStream>>, packet: &mut dyn Packet);
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone, Copy)]
 enum ProxyDirection {
     Forward,
     Backward,
@@ -81,7 +81,6 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
         let _ = backward.join().expect("Backward failed");
 
         debug!("Socket closed");
-
     }
 
     fn pipe(&mut self, incoming: &mut TcpStream, outgoing: &mut TcpStream, direction: ProxyDirection, _runtime: &Runtime, packetver: u32) -> Result<(), String> {
@@ -111,23 +110,33 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
                             });
                             if let Ok(packet) = result {
                                 offset += packet.raw().len();
-                                if packet.id(GlobalConfigService::instance().packetver()) != "0x6003" && packet.id(GlobalConfigService::instance().packetver()) != "0x7f00" && packet.id(GlobalConfigService::instance().packetver()) != "0x7e00" { // PACKET_CZ_REQUEST_TIME2
-                                info!("{} {} {} ", self.name, if direction == ProxyDirection::Backward { "<" } else { ">" }, outgoing.peer_addr().unwrap());
-                                    packet.display();
-                                    packet.pretty_debug();
-                                    info!("{:02X?}", packet.raw());
-
-                                }
+                                self.print_packet(outgoing, direction, packet);
                             } else {
                                 break;
                             }
                         }
+                    } else {
+                        self.print_packet(outgoing, direction, packet);
                     }
                 }
                 Err(error) => return Err(format!("Could not read data: {error}"))
             }
         }
         Ok(())
+    }
+
+    fn print_packet(&self, outgoing: &mut TcpStream, direction: ProxyDirection, packet: Box<dyn Packet>) {
+        if packet.id(GlobalConfigService::instance().packetver()) != "0x6003"
+            && packet.id(GlobalConfigService::instance().packetver()) != "0x7f00"
+            && packet.id(GlobalConfigService::instance().packetver()) != "0x8708"
+            && packet.id(GlobalConfigService::instance().packetver()) != "0x7e00" { // PACKET_CZ_REQUEST_TIME2
+            println!("\n----------------------------Start Packet----------------------------");
+            info!("{} {} {}", self.name, if direction == ProxyDirection::Backward { "<" } else { ">" }, outgoing.peer_addr().unwrap());
+            packet.display();
+            packet.pretty_debug();
+            info!("{:02X?}", packet.raw());
+            println!("----------------------------End Packet----------------------------\n");
+        }
     }
 
     fn proxy_request(&self, outgoing: &mut TcpStream, direction: &ProxyDirection, tcp_stream_ref: Arc<Mutex<TcpStream>>, mut buffer: &[u8], bytes_read: usize, packetver: u32) {
