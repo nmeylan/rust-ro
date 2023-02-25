@@ -21,6 +21,7 @@ use crate::server::service::server_service::ServerService;
 
 use crate::server::state::character::Character;
 use crate::server::model::status::Status;
+use crate::server::service::global_config_service::GlobalConfigService;
 use crate::util::packet::chain_packets;
 use crate::util::string::StringUtil;
 use crate::util::tick::get_tick_client;
@@ -38,7 +39,7 @@ pub fn handle_char_enter(server: &Server, context: Request) {
             let packet_hc_accept_enter_neo_union = context.runtime().block_on(async {
                 load_chars_info(session.account_id, server).await
             });
-            let mut pincode_loginstate = PacketPincodeLoginstate::new();
+            let mut pincode_loginstate = PacketPincodeLoginstate::new(GlobalConfigService::instance().packetver());
             pincode_loginstate.set_aid(session.account_id);
             pincode_loginstate.set_pincode_seed(session.auth_code);
             pincode_loginstate.fill_raw();
@@ -54,7 +55,7 @@ pub fn handle_char_enter(server: &Server, context: Request) {
         // should not happen, but in case of forged packet, remove session
         server.state().remove_session(packet_char_enter.aid);
     }
-    let mut res = PacketHcRefuseEnter::new();
+    let mut res = PacketHcRefuseEnter::new(GlobalConfigService::instance().packetver());
     res.set_error_code(0);
     res.fill_raw();
     socket_send!(context, res);
@@ -184,7 +185,7 @@ pub fn handle_make_char(server: &Server, context: Request) {
             .await.unwrap();
         created_char.data
     });
-    let mut packet_hc_accept_makechar_neo_union = PacketHcAcceptMakecharNeoUnion::new();
+    let mut packet_hc_accept_makechar_neo_union = PacketHcAcceptMakecharNeoUnion::new(GlobalConfigService::instance().packetver());
     packet_hc_accept_makechar_neo_union.set_charinfo(created_char);
     packet_hc_accept_makechar_neo_union.fill_raw();
     socket_send!(context, packet_hc_accept_makechar_neo_union);
@@ -198,7 +199,7 @@ pub fn handle_delete_reserved_char(server: &Server, context: Request) {
             .bind(packet_delete_reserved_char.gid as i32)
             .execute(&server.repository.pool).await.unwrap();
     });
-    let mut packet_hc_delete_char4reserved = PacketHcDeleteChar4Reserved::new();
+    let mut packet_hc_delete_char4reserved = PacketHcDeleteChar4Reserved::new(GlobalConfigService::instance().packetver());
     packet_hc_delete_char4reserved.set_gid(packet_delete_reserved_char.gid);
     packet_hc_delete_char4reserved.set_delete_reserved_date(24 * 60 * 60);
     packet_hc_delete_char4reserved.set_result(1);
@@ -248,17 +249,17 @@ pub fn handle_select_char(server: &Server, context: Request) {
     server.state_mut().insert_character(character);
     sessions_guard.insert(session_id, session);
     if server.packetver() < 20170329 {
-        let mut packet_ch_send_map_info = PacketHcNotifyZonesvr::new();
+        let mut packet_ch_send_map_info = PacketHcNotifyZonesvr::new(GlobalConfigService::instance().packetver());
         packet_ch_send_map_info.set_gid(char_id);
         packet_ch_send_map_info.set_map_name(map_name);
-        let mut zserver_addr = ZserverAddr::new();
+        let mut zserver_addr = ZserverAddr::new(GlobalConfigService::instance().packetver());
         zserver_addr.set_ip(16777343); // 7F 00 00 01 -> to little endian -> 01 00 00 7F
         zserver_addr.set_port(server.configuration.server.port as i16);
         packet_ch_send_map_info.set_addr(zserver_addr);
         packet_ch_send_map_info.fill_raw();
         socket_send!(context, packet_ch_send_map_info);
     } else {
-        let mut packet_ch_send_map_info = PacketChSendMapInfo::new();
+        let mut packet_ch_send_map_info = PacketChSendMapInfo::new(GlobalConfigService::instance().packetver());
         packet_ch_send_map_info.set_gid(char_id);
         packet_ch_send_map_info.set_map_name(map_name);
         packet_ch_send_map_info.set_map_server_port(server.configuration.server.port as i16);
@@ -295,7 +296,7 @@ pub fn handle_enter_game(server: &Server, context: Request) {
     }
     let session = Arc::new(session.recreate_with_map_socket(context.socket()));
     sessions_guard.insert(aid, session.clone());
-    let mut packet_map_connection = PacketMapConnection::new();
+    let mut packet_map_connection = PacketMapConnection::new(GlobalConfigService::instance().packetver());
     packet_map_connection.set_aid(session.account_id);
 
     socket_send!(context, packet_map_connection);
@@ -303,13 +304,13 @@ pub fn handle_enter_game(server: &Server, context: Request) {
     /*
     Client expect multiple packets in response to packet PacketCzEnter2
     */
-    let mut packet_inventory_expansion_info = PacketZcInventoryExpansionInfo::new();
+    let mut packet_inventory_expansion_info = PacketZcInventoryExpansionInfo::new(GlobalConfigService::instance().packetver());
     packet_inventory_expansion_info.fill_raw();
-    let mut packet_overweight_percent = PacketZcOverweightPercent::new();
+    let mut packet_overweight_percent = PacketZcOverweightPercent::new(GlobalConfigService::instance().packetver());
     packet_overweight_percent.fill_raw();
     let char_id = session.char_id();
     let character = server.state().get_character_unsafe(char_id);
-    let mut packet_accept_enter = PacketZcAcceptEnter2::new();
+    let mut packet_accept_enter = PacketZcAcceptEnter2::new(GlobalConfigService::instance().packetver());
     packet_accept_enter.set_start_time(get_tick_client());
     packet_accept_enter.set_x_size(5); // Commented as not used, set at 5 in Hercules
     packet_accept_enter.set_y_size(5); // Commented as not used, set at 5 in Hercules
@@ -321,7 +322,7 @@ pub fn handle_enter_game(server: &Server, context: Request) {
     socket_send!(context, packet_accept_enter);
 
 
-    let mut packet_notify_chat = PacketZcNotifyChat::new();
+    let mut packet_notify_chat = PacketZcNotifyChat::new(GlobalConfigService::instance().packetver());
     packet_notify_chat.set_gid(character.char_id);
     packet_notify_chat.set_msg("Hello from rust ragnarok".to_string());
     packet_notify_chat.set_packet_length((packet_notify_chat.msg.len() + 8) as i16);
@@ -347,7 +348,7 @@ pub fn handle_restart(server: &Server, context: Request) {
     let session = Arc::new(session.recreate_without_character());
     sessions_guard.insert(session_id, session);
 
-    let mut restart_ack = PacketZcRestartAck::new();
+    let mut restart_ack = PacketZcRestartAck::new(GlobalConfigService::instance().packetver());
     restart_ack.set_atype(packet_restart.atype);
     restart_ack.fill_raw();
     socket_send!(context, restart_ack);
@@ -360,14 +361,14 @@ pub fn handle_disconnect(server: &Server, context: Request) {
     server.add_to_next_tick(GameEvent::CharacterRemoveFromMap(CharacterRemoveFromMap{char_id, map_name: character_ref.current_map_name().clone(), instance_id: character_ref.current_map_instance()}));
     server.state().remove_session(session.account_id);
 
-    let mut disconnect_ack = PacketZcReqDisconnectAck2::new();
+    let mut disconnect_ack = PacketZcReqDisconnectAck2::new(GlobalConfigService::instance().packetver());
     disconnect_ack.fill_raw();
     socket_send!(context, disconnect_ack);
 }
 
 
 pub fn handle_blocking_play_cancel(context: Request) {
-    let mut packet_zc_load_confirm = PacketZcLoadConfirm::new();
+    let mut packet_zc_load_confirm = PacketZcLoadConfirm::new(GlobalConfigService::instance().packetver());
     packet_zc_load_confirm.fill_raw();
     socket_send!(context, packet_zc_load_confirm);
 }
@@ -376,8 +377,8 @@ async fn load_chars_info(account_id: u32, server: &Server) -> PacketHcAcceptEnte
     let row_results = sqlx::query_as::<Postgres, CharacterInfoNeoUnionWrapped>("SELECT * FROM char WHERE account_id = $1")
         .bind(account_id as i32)
         .fetch_all(&server.repository.pool).await.unwrap();
-    let mut accept_enter_neo_union_header = PacketHcAcceptEnterNeoUnionHeader::new();
-    let mut accept_enter_neo_union = PacketHcAcceptEnterNeoUnion::new();
+    let mut accept_enter_neo_union_header = PacketHcAcceptEnterNeoUnionHeader::new(GlobalConfigService::instance().packetver());
+    let mut accept_enter_neo_union = PacketHcAcceptEnterNeoUnion::new(GlobalConfigService::instance().packetver());
     accept_enter_neo_union.set_packet_length((27 + row_results.len() * CharacterInfoNeoUnion::base_len(server.packetver())) as i16);
     accept_enter_neo_union.set_char_info(row_results.iter().map(|wrapped| {
         debug!("{}", wrapped.data);

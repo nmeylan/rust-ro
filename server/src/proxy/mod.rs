@@ -7,6 +7,7 @@ use std::{panic, thread};
 use tokio::runtime::Runtime;
 use packets::packets_parser::parse;
 use std::io::{Read, Write};
+use crate::server::service::global_config_service::GlobalConfigService;
 
 pub mod map;
 pub mod char;
@@ -110,7 +111,7 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
                             });
                             if let Ok(packet) = result {
                                 offset += packet.raw().len();
-                                if packet.id() != "0x6003" && packet.id() != "0x7f00" && packet.id() != "0x7e00" { // PACKET_CZ_REQUEST_TIME2
+                                if packet.id(GlobalConfigService::instance().packetver()) != "0x6003" && packet.id(GlobalConfigService::instance().packetver()) != "0x7f00" && packet.id(GlobalConfigService::instance().packetver()) != "0x7e00" { // PACKET_CZ_REQUEST_TIME2
                                 info!("{} {} {} ", self.name, if direction == ProxyDirection::Backward { "<" } else { ">" }, outgoing.peer_addr().unwrap());
                                     packet.display();
                                     packet.pretty_debug();

@@ -129,7 +129,7 @@ impl BattleService {
             character.update_last_attack_tick(tick);
             character.update_last_attack_motion(attack_motion);
         }
-        let mut packet_zc_notify_act3 = PacketZcNotifyAct::new();
+        let mut packet_zc_notify_act3 = PacketZcNotifyAct::new(self.configuration_service.packetver());
         packet_zc_notify_act3.set_target_gid(attack.target);
         packet_zc_notify_act3.set_action(ActionType::Attack.value() as u8);
         packet_zc_notify_act3.set_gid(character.char_id);

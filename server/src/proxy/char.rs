@@ -5,6 +5,7 @@ use std::sync::{Arc, Mutex};
 use packets::packets::{Packet, PacketChSendMapInfo, PacketHcNotifyZonesvr, ZserverAddr};
 use crate::proxy::{PacketHandler, Proxy};
 use crate::server::model::configuration::ProxyConfig;
+use crate::server::service::global_config_service::GlobalConfigService;
 
 #[derive(Clone)]
 pub struct CharProxy {
@@ -30,7 +31,7 @@ impl PacketHandler for CharProxy {
         }
         if packet.as_any().downcast_ref::<PacketHcNotifyZonesvr>().is_some() {
             let packet_send_map_info = packet.as_any_mut().downcast_mut::<PacketHcNotifyZonesvr>().unwrap();
-            let  mut addr = ZserverAddr::new();
+            let  mut addr = ZserverAddr::new(GlobalConfigService::instance().packetver());
             addr.set_ip(16777343);
             addr.set_port(6124);
             packet_send_map_info.set_addr(addr);

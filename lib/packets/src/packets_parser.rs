@@ -4,6 +4,63 @@
 use crate::packets::*;
 
 pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
+    if packetver >= 20170607 && buffer[0] == 0x71 && buffer[1] == 0x08 {
+        return Box::new(PacketCzEnter2::from(buffer, packetver));
+    }
+    if packetver >= 20140402 && buffer[0] == 0x8A && buffer[1] == 0x08 {
+        return Box::new(PacketCzReqname::from(buffer, packetver));
+    }
+    if packetver >= 20131223 && buffer[0] == 0x6A && buffer[1] == 0x09 {
+        return Box::new(PacketCzReqname::from(buffer, packetver));
+    }
+    if packetver >= 20130515 && buffer[0] == 0x37 && buffer[1] == 0x04 {
+        return Box::new(PacketCzRequestMove::from(buffer, packetver));
+    }
+    if packetver >= 20120702 && buffer[0] == 0x53 && buffer[1] == 0x09 {
+        return Box::new(PacketCzRequestMove::from(buffer, packetver));
+    }
+    if packetver >= 20120418 && buffer[0] == 0x6A && buffer[1] == 0x09 {
+        return Box::new(PacketCzReqname::from(buffer, packetver));
+    }
+    if packetver >= 20120307 && buffer[0] == 0x87 && buffer[1] == 0x08 {
+        return Box::new(PacketCzRequestTime::from(buffer, packetver));
+    }
+    if packetver >= 20120307 && buffer[0] == 0x37 && buffer[1] == 0x04 {
+        return Box::new(PacketCzRequestMove::from(buffer, packetver));
+    }
+    if packetver >= 20120307 && buffer[0] == 0x85 && buffer[1] == 0x08 {
+        return Box::new(PacketCzRequestAct::from(buffer, packetver));
+    }
+    if packetver >= 20120307 && buffer[0] == 0x65 && buffer[1] == 0x08 {
+        return Box::new(PacketCzItemPickup::from(buffer, packetver));
+    }
+    if packetver >= 20120307 && buffer[0] == 0xc4 && buffer[1] == 0x02 {
+        return Box::new(PacketCzItemThrow::from(buffer, packetver));
+    }
+    if packetver >= 20120307 && buffer[0] == 0x39 && buffer[1] == 0x04 {
+        return Box::new(PacketCzUseItem::from(buffer, packetver));
+    }
+    if packetver >= 20120307 && buffer[0] == 0x6A && buffer[1] == 0x08 {
+        return Box::new(PacketCzEnter2::from(buffer, packetver));
+    }
+    if packetver >= 20111102 && buffer[0] == 0x3C && buffer[1] == 0x08 {
+        return Box::new(PacketCzEnter2::from(buffer, packetver));
+    }
+    if packetver >= 20111005 && buffer[0] == 0x17 && buffer[1] == 0x08 {
+        return Box::new(PacketCzRequestTime::from(buffer, packetver));
+    }
+    if packetver >= 20111005 && buffer[0] == 0x64 && buffer[1] == 0x03 {
+        return Box::new(PacketCzRequestMove::from(buffer, packetver));
+    }
+    if packetver >= 20111005 && buffer[0] == 0x8A && buffer[1] == 0x08 {
+        return Box::new(PacketCzReqname::from(buffer, packetver));
+    }
+    if packetver >= 20101124 && buffer[0] == 0x5f && buffer[1] == 0x03 {
+        return Box::new(PacketCzRequestMove::from(buffer, packetver));
+    }
+    if packetver >= 20070227 && buffer[0] == 0xc4 && buffer[1] == 0x02 {
+        return Box::new(PacketCzPartyJoinReq::from(buffer, packetver));
+    }
     if buffer[0] == 0x64 && buffer[1] == 0x00 {
         return Box::new(PacketCaLogin::from(buffer, packetver));
     }
@@ -91,12 +148,6 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x7e && buffer[1] == 0x00 {
         return Box::new(PacketCzRequestTime::from(buffer, packetver));
     }
-    if buffer[0] == 0x17 && buffer[1] == 0x08 {
-        return Box::new(PacketCzRequestTime::from(buffer, packetver));
-    }
-    if buffer[0] == 0x87 && buffer[1] == 0x08 {
-        return Box::new(PacketCzRequestTime::from(buffer, packetver));
-    }
     if buffer[0] == 0x7f && buffer[1] == 0x00 {
         return Box::new(PacketZcNotifyTime::from(buffer, packetver));
     }
@@ -118,18 +169,6 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x85 && buffer[1] == 0x00 {
         return Box::new(PacketCzRequestMove::from(buffer, packetver));
     }
-    if buffer[0] == 0x5f && buffer[1] == 0x03 {
-        return Box::new(PacketCzRequestMove::from(buffer, packetver));
-    }
-    if buffer[0] == 0x64 && buffer[1] == 0x03 {
-        return Box::new(PacketCzRequestMove::from(buffer, packetver));
-    }
-    if buffer[0] == 0x37 && buffer[1] == 0x04 {
-        return Box::new(PacketCzRequestMove::from(buffer, packetver));
-    }
-    if buffer[0] == 0x53 && buffer[1] == 0x09 {
-        return Box::new(PacketCzRequestMove::from(buffer, packetver));
-    }
     if buffer[0] == 0x86 && buffer[1] == 0x00 {
         return Box::new(PacketZcNotifyMove::from(buffer, packetver));
     }
@@ -140,12 +179,6 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
         return Box::new(PacketZcStopmove::from(buffer, packetver));
     }
     if buffer[0] == 0x89 && buffer[1] == 0x00 {
-        return Box::new(PacketCzRequestAct::from(buffer, packetver));
-    }
-    if buffer[0] == 0x85 && buffer[1] == 0x08 {
-        return Box::new(PacketCzRequestAct::from(buffer, packetver));
-    }
-    if buffer[0] == 0x37 && buffer[1] == 0x04 {
         return Box::new(PacketCzRequestAct::from(buffer, packetver));
     }
     if buffer[0] == 0x8a && buffer[1] == 0x00 {
@@ -181,12 +214,6 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x94 && buffer[1] == 0x00 {
         return Box::new(PacketCzReqname::from(buffer, packetver));
     }
-    if buffer[0] == 0x8A && buffer[1] == 0x08 {
-        return Box::new(PacketCzReqname::from(buffer, packetver));
-    }
-    if buffer[0] == 0x6A && buffer[1] == 0x09 {
-        return Box::new(PacketCzReqname::from(buffer, packetver));
-    }
     if buffer[0] == 0x95 && buffer[1] == 0x00 {
         return Box::new(PacketZcAckReqname::from(buffer, packetver));
     }
@@ -220,9 +247,6 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x9f && buffer[1] == 0x00 {
         return Box::new(PacketCzItemPickup::from(buffer, packetver));
     }
-    if buffer[0] == 0x65 && buffer[1] == 0x08 {
-        return Box::new(PacketCzItemPickup::from(buffer, packetver));
-    }
     if buffer[0] == 0xa0 && buffer[1] == 0x00 {
         return Box::new(PacketZcItemPickupAck::from(buffer, packetver));
     }
@@ -245,9 +269,6 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
         return Box::new(PacketZcStoreEquipmentItemlist::from(buffer, packetver));
     }
     if buffer[0] == 0xa7 && buffer[1] == 0x00 {
-        return Box::new(PacketCzUseItem::from(buffer, packetver));
-    }
-    if buffer[0] == 0x39 && buffer[1] == 0x04 {
         return Box::new(PacketCzUseItem::from(buffer, packetver));
     }
     if buffer[0] == 0xa8 && buffer[1] == 0x00 {
@@ -716,12 +737,6 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
         return Box::new(PacketZcOpenEditdlg::from(buffer, packetver));
     }
     if buffer[0] == 0x43 && buffer[1] == 0x01 {
-        return Box::new(PacketCzInputEditdlg::from(buffer, packetver));
-    }
-    if buffer[0] == 0x41 && buffer[1] == 0x01 {
-        return Box::new(PacketCzInputEditdlg::from(buffer, packetver));
-    }
-    if buffer[0] == 0x67 && buffer[1] == 0x01 {
         return Box::new(PacketCzInputEditdlg::from(buffer, packetver));
     }
     if buffer[0] == 0x44 && buffer[1] == 0x01 {
@@ -1822,9 +1837,6 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0xc2 && buffer[1] == 0x02 {
         return Box::new(PacketZcFormatstringMsg::from(buffer, packetver));
     }
-    if buffer[0] == 0xc4 && buffer[1] == 0x02 {
-        return Box::new(PacketCzPartyJoinReq::from(buffer, packetver));
-    }
     if buffer[0] == 0xc5 && buffer[1] == 0x02 {
         return Box::new(PacketZcPartyJoinReqAck::from(buffer, packetver));
     }
@@ -1967,15 +1979,6 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
         return Box::new(PacketCahAckGameGuard::from(buffer, packetver));
     }
     if buffer[0] == 0x36 && buffer[1] == 0x04 {
-        return Box::new(PacketCzEnter2::from(buffer, packetver));
-    }
-    if buffer[0] == 0x71 && buffer[1] == 0x08 {
-        return Box::new(PacketCzEnter2::from(buffer, packetver));
-    }
-    if buffer[0] == 0x3C && buffer[1] == 0x08 {
-        return Box::new(PacketCzEnter2::from(buffer, packetver));
-    }
-    if buffer[0] == 0x6A && buffer[1] == 0x08 {
         return Box::new(PacketCzEnter2::from(buffer, packetver));
     }
     if buffer[0] == 0x38 && buffer[1] == 0x04 {

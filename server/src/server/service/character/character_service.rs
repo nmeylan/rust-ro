@@ -110,7 +110,7 @@ impl CharacterService {
     pub fn change_map(&self, new_map_instance_key: &MapInstanceKey, new_position: Position, character: &mut Character) {
         character.set_current_map_with_key(new_map_instance_key.clone());
         character.movements = vec![];
-        let mut packet_zc_npcack_mapmove = PacketZcNpcackMapmove::new();
+        let mut packet_zc_npcack_mapmove = PacketZcNpcackMapmove::new(self.configuration_service.packetver());
 
         let mut new_current_map: [char; 16] = [0 as char; 16];
         new_map_instance_key.map_name().fill_char_array(new_current_map.as_mut());
@@ -137,7 +137,7 @@ impl CharacterService {
     }
 
     pub fn change_sprite(&self, character: &Character, look_type: LookType, look_value: u16, look_value2: u16) {
-        let mut packet_zc_sprite_change = PacketZcSpriteChange2::new();
+        let mut packet_zc_sprite_change = PacketZcSpriteChange2::new(self.configuration_service.packetver());
         packet_zc_sprite_change.set_gid(character.char_id);
         packet_zc_sprite_change.set_atype(look_type.value() as u8);
         packet_zc_sprite_change.set_value(look_value);
@@ -167,7 +167,7 @@ impl CharacterService {
         };
         character.change_zeny(zeny);
 
-        let mut packet_zc_longpar_change = PacketZcLongparChange::new();
+        let mut packet_zc_longpar_change = PacketZcLongparChange::new(self.configuration_service.packetver());
         packet_zc_longpar_change.set_amount(character.get_zeny() as i32);
         packet_zc_longpar_change.set_var_id(StatusTypes::Zeny.value() as u16);
         packet_zc_longpar_change.fill_raw();
@@ -179,11 +179,11 @@ impl CharacterService {
     }
 
     fn weight_update_packets(&self, character: &Character) -> Vec<u8> {
-        let mut packet_weight = PacketZcParChange::new();
+        let mut packet_weight = PacketZcParChange::new(self.configuration_service.packetver());
         packet_weight.set_var_id(StatusTypes::Weight.value() as u16);
         packet_weight.set_count(character.weight() as i32);
         packet_weight.fill_raw();
-        let mut packet_max_weight = PacketZcParChange::new();
+        let mut packet_max_weight = PacketZcParChange::new(self.configuration_service.packetver());
         packet_max_weight.set_var_id(StatusTypes::Maxweight.value() as u16);
         packet_max_weight.set_count(self.max_weight(character) as i32);
         packet_max_weight.fill_raw();
@@ -205,7 +205,7 @@ impl CharacterService {
             self.reset_stats(character);
         }
         self.send_status_update_and_defer_db_update(character.char_id, StatusTypes::Baselevel, new_base_level);
-        let mut packet_zc_notify_effect = PacketZcNotifyEffect::new();
+        let mut packet_zc_notify_effect = PacketZcNotifyEffect::new(self.configuration_service.packetver());
         packet_zc_notify_effect.set_effect_id(Effect::BaseLevelUp.value() as i32);
         packet_zc_notify_effect.set_aid(character.char_id);
         packet_zc_notify_effect.fill_raw();
@@ -224,7 +224,7 @@ impl CharacterService {
         };
         character.status.job_level = new_job_level;
         self.send_status_update_and_defer_db_update(character.char_id, StatusTypes::Joblevel, new_job_level);
-        let mut packet_zc_notify_effect = PacketZcNotifyEffect::new();
+        let mut packet_zc_notify_effect = PacketZcNotifyEffect::new(self.configuration_service.packetver());
         packet_zc_notify_effect.set_effect_id(Effect::JobLevelUp.value() as i32);
         packet_zc_notify_effect.set_aid(character.char_id);
         packet_zc_notify_effect.fill_raw();
@@ -518,132 +518,132 @@ impl CharacterService {
     }
 
     pub fn calculate_status(&self, server_ref: &Server, character: &Character) {
-        let mut packet_str = PacketZcStatusValues::new();
+        let mut packet_str = PacketZcStatusValues::new(self.configuration_service.packetver());
         packet_str.set_status_type(StatusTypes::Str.value() as u32);
         packet_str.set_default_status(character.status.str as i32);
         packet_str.fill_raw();
-        let mut packet_agi = PacketZcStatusValues::new();
+        let mut packet_agi = PacketZcStatusValues::new(self.configuration_service.packetver());
         packet_agi.set_status_type(StatusTypes::Agi.value() as u32);
         packet_agi.set_default_status(character.status.agi as i32);
         packet_agi.fill_raw();
-        let mut packet_dex = PacketZcStatusValues::new();
+        let mut packet_dex = PacketZcStatusValues::new(self.configuration_service.packetver());
         packet_dex.set_status_type(StatusTypes::Dex.value() as u32);
         packet_dex.set_default_status(character.status.dex as i32);
         packet_dex.fill_raw();
-        let mut packet_int = PacketZcStatusValues::new();
+        let mut packet_int = PacketZcStatusValues::new(self.configuration_service.packetver());
         packet_int.set_status_type(StatusTypes::Int.value() as u32);
         packet_int.set_default_status(character.status.int as i32);
         packet_int.fill_raw();
-        let mut packet_vit = PacketZcStatusValues::new();
+        let mut packet_vit = PacketZcStatusValues::new(self.configuration_service.packetver());
         packet_vit.set_status_type(StatusTypes::Vit.value() as u32);
         packet_vit.set_default_status(character.status.vit as i32);
         packet_vit.fill_raw();
-        let mut packet_luk = PacketZcStatusValues::new();
+        let mut packet_luk = PacketZcStatusValues::new(self.configuration_service.packetver());
         packet_luk.set_status_type(StatusTypes::Luk.value() as u32);
         packet_luk.set_default_status(character.status.luk as i32);
         packet_luk.fill_raw();
-        let mut packet_str_increase_cost = PacketZcParChange::new();
+        let mut packet_str_increase_cost = PacketZcParChange::new(self.configuration_service.packetver());
         packet_str_increase_cost.set_var_id(StatusTypes::StrNextLevelIncreaseCost.value() as u16);
         packet_str_increase_cost.set_count(self.stat_raising_cost_for_next_level(character.status.str, "str") as i32);
         packet_str_increase_cost.fill_raw();
-        let mut packet_agi_increase_cost = PacketZcParChange::new();
+        let mut packet_agi_increase_cost = PacketZcParChange::new(self.configuration_service.packetver());
         packet_agi_increase_cost.set_var_id(StatusTypes::AgiNextLevelIncreaseCost.value() as u16);
         packet_agi_increase_cost.set_count(self.stat_raising_cost_for_next_level(character.status.agi, "agi") as i32);
         packet_agi_increase_cost.fill_raw();
-        let mut packet_dex_increase_cost = PacketZcParChange::new();
+        let mut packet_dex_increase_cost = PacketZcParChange::new(self.configuration_service.packetver());
         packet_dex_increase_cost.set_var_id(StatusTypes::DexNextLevelIncreaseCost.value() as u16);
         packet_dex_increase_cost.set_count(self.stat_raising_cost_for_next_level(character.status.dex, "dex") as i32);
         packet_dex_increase_cost.fill_raw();
-        let mut packet_vit_increase_cost = PacketZcParChange::new();
+        let mut packet_vit_increase_cost = PacketZcParChange::new(self.configuration_service.packetver());
         packet_vit_increase_cost.set_var_id(StatusTypes::VitNextLevelIncreaseCost.value() as u16);
         packet_vit_increase_cost.set_count(self.stat_raising_cost_for_next_level(character.status.vit, "vit") as i32);
         packet_vit_increase_cost.fill_raw();
-        let mut packet_int_increase_cost = PacketZcParChange::new();
+        let mut packet_int_increase_cost = PacketZcParChange::new(self.configuration_service.packetver());
         packet_int_increase_cost.set_var_id(StatusTypes::IntNextLevelIncreaseCost.value() as u16);
         packet_int_increase_cost.set_count(self.stat_raising_cost_for_next_level(character.status.int, "int") as i32);
         packet_int_increase_cost.fill_raw();
-        let mut packet_luk_increase_cost = PacketZcParChange::new();
+        let mut packet_luk_increase_cost = PacketZcParChange::new(self.configuration_service.packetver());
         packet_luk_increase_cost.set_var_id(StatusTypes::LukNextLevelIncreaseCost.value() as u16);
         packet_luk_increase_cost.set_count(self.stat_raising_cost_for_next_level(character.status.luk, "luk") as i32);
         packet_luk_increase_cost.fill_raw();
-        let mut packet_status_point = PacketZcParChange::new();
+        let mut packet_status_point = PacketZcParChange::new(self.configuration_service.packetver());
         packet_status_point.set_var_id(StatusTypes::Statuspoint.value() as u16);
         packet_status_point.set_count(character.status.status_point as i32);
         packet_status_point.fill_raw();
 
-        let mut packet_hit = PacketZcParChange::new();
+        let mut packet_hit = PacketZcParChange::new(self.configuration_service.packetver());
         packet_hit.set_var_id(StatusTypes::Hit.value() as u16);
         packet_hit.set_count(character.status.hit as i32);
         packet_hit.fill_raw();
-        let mut packet_flee = PacketZcParChange::new();
+        let mut packet_flee = PacketZcParChange::new(self.configuration_service.packetver());
         packet_flee.set_var_id(StatusTypes::Flee1.value() as u16);
         packet_flee.set_count(character.status.flee as i32);
         packet_flee.fill_raw();
-        let mut packet_aspd = PacketZcParChange::new();
+        let mut packet_aspd = PacketZcParChange::new(self.configuration_service.packetver());
         packet_aspd.set_var_id(StatusTypes::Aspd.value() as u16);
         let aspd = StatusService::instance().aspd(character);
         packet_aspd.set_count(StatusService::instance().client_aspd(aspd));
         packet_aspd.fill_raw();
-        let mut packet_atk = PacketZcParChange::new();
+        let mut packet_atk = PacketZcParChange::new(self.configuration_service.packetver());
         packet_atk.set_var_id(StatusTypes::Atk1.value() as u16);
         packet_atk.set_count(StatusService::instance().status_atk_left_side(character));
         packet_atk.fill_raw();
-        let mut packet_atk2 = PacketZcParChange::new();
+        let mut packet_atk2 = PacketZcParChange::new(self.configuration_service.packetver());
         packet_atk2.set_var_id(StatusTypes::Atk2.value() as u16);
         packet_atk2.set_count(StatusService::instance().status_atk_right_side(character));
         packet_atk2.fill_raw();
-        let mut packet_def = PacketZcParChange::new();
+        let mut packet_def = PacketZcParChange::new(self.configuration_service.packetver());
         packet_def.set_var_id(StatusTypes::Def1.value() as u16);
         packet_def.set_count(character.status.def as i32);
         packet_def.fill_raw();
-        let mut packet_flee2 = PacketZcParChange::new();
+        let mut packet_flee2 = PacketZcParChange::new(self.configuration_service.packetver());
         packet_flee2.set_var_id(StatusTypes::Flee2.value() as u16);
         packet_flee2.set_count(character.status.flee as i32);
         packet_flee2.fill_raw();
-        let mut packet_crit = PacketZcParChange::new();
+        let mut packet_crit = PacketZcParChange::new(self.configuration_service.packetver());
         packet_crit.set_var_id(StatusTypes::Critical.value() as u16);
         packet_crit.set_count(character.status.crit as i32);
         packet_crit.fill_raw();
-        let mut packet_matk = PacketZcParChange::new();
+        let mut packet_matk = PacketZcParChange::new(self.configuration_service.packetver());
         packet_matk.set_var_id(StatusTypes::Matk1.value() as u16);
         packet_matk.set_count(character.status.matk_min as i32);
         packet_matk.fill_raw();
-        let mut packet_matk2 = PacketZcParChange::new();
+        let mut packet_matk2 = PacketZcParChange::new(self.configuration_service.packetver());
         packet_matk2.set_var_id(StatusTypes::Matk2.value() as u16);
         packet_matk2.set_count(character.status.matk_max as i32);
         packet_matk2.fill_raw();
-        let mut packet_mdef2 = PacketZcParChange::new();
+        let mut packet_mdef2 = PacketZcParChange::new(self.configuration_service.packetver());
         packet_mdef2.set_var_id(StatusTypes::Mdef2.value() as u16);
         packet_mdef2.set_count(character.status.mdef as i32);
         packet_mdef2.fill_raw();
-        let mut packet_attack_range = PacketZcAttackRange::new();
+        let mut packet_attack_range = PacketZcAttackRange::new(self.configuration_service.packetver());
         packet_attack_range.set_current_att_range(1);
         packet_attack_range.fill_raw();
-        let mut packet_maxhp = PacketZcParChange::new();
+        let mut packet_maxhp = PacketZcParChange::new(self.configuration_service.packetver());
         packet_maxhp.set_var_id(StatusTypes::Maxhp.value() as u16);
         packet_maxhp.set_count(character.status.max_hp as i32);
         packet_maxhp.fill_raw();
-        let mut packet_maxsp = PacketZcParChange::new();
+        let mut packet_maxsp = PacketZcParChange::new(self.configuration_service.packetver());
         packet_maxsp.set_var_id(StatusTypes::Maxsp.value() as u16);
         packet_maxsp.set_count(character.status.max_sp as i32);
         packet_maxsp.fill_raw();
-        let mut packet_hp = PacketZcParChange::new();
+        let mut packet_hp = PacketZcParChange::new(self.configuration_service.packetver());
         packet_hp.set_var_id(StatusTypes::Hp.value() as u16);
         packet_hp.set_count(character.status.hp as i32);
         packet_hp.fill_raw();
-        let mut packet_sp = PacketZcParChange::new();
+        let mut packet_sp = PacketZcParChange::new(self.configuration_service.packetver());
         packet_sp.set_var_id(StatusTypes::Sp.value() as u16);
         packet_sp.set_count(character.status.sp as i32);
         packet_sp.fill_raw();
-        let mut packet_speed = PacketZcParChange::new();
+        let mut packet_speed = PacketZcParChange::new(self.configuration_service.packetver());
         packet_speed.set_var_id(StatusTypes::Speed.value() as u16);
         packet_speed.set_count(character.status.speed as i32);
         packet_speed.fill_raw();
-        let mut packet_exp_required_to_reach_next_base_level = PacketZcParChange::new();
+        let mut packet_exp_required_to_reach_next_base_level = PacketZcParChange::new(self.configuration_service.packetver());
         packet_exp_required_to_reach_next_base_level.set_var_id(StatusTypes::Nextbaseexp.value() as u16);
         packet_exp_required_to_reach_next_base_level.set_count(self.next_base_level_required_exp(&character.status) as i32);
         packet_exp_required_to_reach_next_base_level.fill_raw();
-        let mut packet_exp_required_to_reach_next_job_level = PacketZcParChange::new();
+        let mut packet_exp_required_to_reach_next_job_level = PacketZcParChange::new(self.configuration_service.packetver());
         packet_exp_required_to_reach_next_job_level.set_var_id(StatusTypes::Nextbaseexp.value() as u16);
         packet_exp_required_to_reach_next_job_level.set_count(self.next_base_level_required_exp(&character.status) as i32);
         packet_exp_required_to_reach_next_job_level.fill_raw();
@@ -686,7 +686,7 @@ impl CharacterService {
                 map_item_name.fill_char_array(name.as_mut());
                 if matches!(map_item.object_type(), MapItemType::DroppedItem) {
                     if let Some(item) = map_instance_state.get_dropped_item(map_item.id()) {
-                        let mut packet_zc_item_entry = PacketZcItemEntry::default();
+                        let mut packet_zc_item_entry = PacketZcItemEntry::new(self.configuration_service.packetver());
                         packet_zc_item_entry.set_itid(item.item_id as u16);
                         packet_zc_item_entry.set_itaid(item.map_item_id);
                         packet_zc_item_entry.set_x_pos(item.location.x as i16);
@@ -698,7 +698,7 @@ impl CharacterService {
                         packets.extend(packet_zc_item_entry.raw);
                     }
                 } else {
-                    let mut packet_zc_notify_standentry = PacketZcNotifyStandentry7::new();
+                    let mut packet_zc_notify_standentry = PacketZcNotifyStandentry7::new(self.configuration_service.packetver());
                     packet_zc_notify_standentry.set_job(map_item.client_item_class());
                     packet_zc_notify_standentry.set_packet_length(PacketZcNotifyStandentry7::base_len(self.configuration_service.packetver()) as i16);
                     // packet_zc_notify_standentry.set_name(name);
@@ -727,12 +727,12 @@ impl CharacterService {
                 if let Some(position) = server_state.map_item_x_y(map_item, character.current_map_name(), character.current_map_instance()) {
                     debug!("Vanish map_item {} at {},{}", map_item.object_type(), position.x(), position.y());
                     if matches!(map_item.object_type(), MapItemType::DroppedItem) {
-                        let mut packet_zc_item_disappear = PacketZcItemDisappear::new();
+                        let mut packet_zc_item_disappear = PacketZcItemDisappear::new(self.configuration_service.packetver());
                         packet_zc_item_disappear.set_itaid(map_item.id());
                         packet_zc_item_disappear.fill_raw();
                         packets.extend(packet_zc_item_disappear.raw);
                     } else {
-                        let mut packet_zc_notify_vanish = PacketZcNotifyVanish::new();
+                        let mut packet_zc_notify_vanish = PacketZcNotifyVanish::new(self.configuration_service.packetver());
                         packet_zc_notify_vanish.set_gid(map_item.id());
                         packet_zc_notify_vanish.fill_raw();
                         packets.extend(packet_zc_notify_vanish.raw);
@@ -746,7 +746,7 @@ impl CharacterService {
 
     fn send_status_update_and_defer_db_update(&self, char_id: u32, status_type: StatusTypes, new_value: u32) {
         self.persistence_event_sender.send(PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id, db_column: status_type.to_column().unwrap_or_else(|| panic!("no db column name for status of type {status_type:?}")).to_string(), value: new_value })).expect("Fail to send persistence notification");
-        let mut packet_base_level = PacketZcParChange::new();
+        let mut packet_base_level = PacketZcParChange::new(self.configuration_service.packetver());
         packet_base_level.set_var_id(status_type.value() as u16);
         packet_base_level.set_count(new_value as i32);
         packet_base_level.fill_raw();

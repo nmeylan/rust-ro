@@ -10,7 +10,6 @@ use crate::print::PrettyOutput;
 impl Debug for PacketCaLogin {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCaLogin")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("version[2, 6]", &format!("{:02X?}", &self.version_raw))
             .field("id[6, 30]", &format!("{:02X?}", &self.id_raw))
@@ -35,7 +34,6 @@ impl Display for PacketCaLogin {
 impl Debug for PacketChEnter {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketChEnter")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("auth_code[6, 10]", &format!("{:02X?}", &self.auth_code_raw))
@@ -62,7 +60,6 @@ impl Display for PacketChEnter {
 impl Debug for PacketChSelectChar {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketChSelectChar")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("char_num[2, 3]", &format!("{:02X?}", &self.char_num_raw))
         .finish()
@@ -81,7 +78,6 @@ impl Display for PacketChSelectChar {
 impl Debug for PacketChMakeChar {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketChMakeChar")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("name[2, 26]", &format!("{:02X?}", &self.name_raw))
             .field("str[26, 27]", &format!("{:02X?}", &self.str_raw))
@@ -118,7 +114,6 @@ impl Display for PacketChMakeChar {
 impl Debug for PacketChMakeChar2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketChMakeChar2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("name[2, 26]", &format!("{:02X?}", &self.name_raw))
             .field("char_num[26, 27]", &format!("{:02X?}", &self.char_num_raw))
@@ -143,7 +138,6 @@ impl Display for PacketChMakeChar2 {
 impl Debug for PacketChDeleteChar {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketChDeleteChar")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("key[6, 46]", &format!("{:02X?}", &self.key_raw))
@@ -164,7 +158,6 @@ impl Display for PacketChDeleteChar {
 impl Debug for PacketAcAcceptLogin {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketAcAcceptLogin")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("auth_code[4, 8]", &format!("{:02X?}", &self.auth_code_raw))
@@ -198,7 +191,6 @@ impl Display for PacketAcAcceptLogin {
 impl Debug for PacketAcAcceptLogin2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketAcAcceptLogin2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("auth_code[4, 8]", &format!("{:02X?}", &self.auth_code_raw))
@@ -236,7 +228,6 @@ impl Display for PacketAcAcceptLogin2 {
 impl Debug for PacketAcRefuseLogin {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketAcRefuseLogin")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("error_code[2, 3]", &format!("{:02X?}", &self.error_code_raw))
             .field("block_date[3, 23]", &format!("{:02X?}", &self.block_date_raw))
@@ -257,7 +248,6 @@ impl Display for PacketAcRefuseLogin {
 impl Debug for PacketHcAcceptEnterNeoUnion {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketHcAcceptEnterNeoUnion")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("total_slot_num[4, 5]", &format!("{:02X?}", &self.total_slot_num_raw))
@@ -295,7 +285,6 @@ impl Display for PacketHcAcceptEnterNeoUnion {
 impl Debug for PacketHcRefuseEnter {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketHcRefuseEnter")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("error_code[2, 3]", &format!("{:02X?}", &self.error_code_raw))
         .finish()
@@ -314,7 +303,6 @@ impl Display for PacketHcRefuseEnter {
 impl Debug for PacketHcAcceptMakecharNeoUnion {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketHcAcceptMakecharNeoUnion")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("charinfo[2, ?]", &format!("{:02X?}", &self.charinfo_raw))
         .finish()
@@ -333,7 +321,6 @@ impl Display for PacketHcAcceptMakecharNeoUnion {
 impl Debug for PacketHcRefuseMakechar {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketHcRefuseMakechar")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("error_code[2, 3]", &format!("{:02X?}", &self.error_code_raw))
         .finish()
@@ -352,7 +339,6 @@ impl Display for PacketHcRefuseMakechar {
 impl Debug for PacketHcAcceptDeletechar {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketHcAcceptDeletechar")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -369,7 +355,6 @@ impl Display for PacketHcAcceptDeletechar {
 impl Debug for PacketHcRefuseDeletechar {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketHcRefuseDeletechar")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("error_code[2, 3]", &format!("{:02X?}", &self.error_code_raw))
         .finish()
@@ -388,7 +373,6 @@ impl Display for PacketHcRefuseDeletechar {
 impl Debug for PacketHcNotifyZonesvr {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketHcNotifyZonesvr")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("map_name[6, 22]", &format!("{:02X?}", &self.map_name_raw))
@@ -411,7 +395,6 @@ impl Display for PacketHcNotifyZonesvr {
 impl Debug for PacketCzEnter {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzEnter")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("gid[6, 10]", &format!("{:02X?}", &self.gid_raw))
@@ -438,7 +421,6 @@ impl Display for PacketCzEnter {
 impl Debug for PacketZcAcceptEnter {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAcceptEnter")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("start_time[2, 6]", &format!("{:02X?}", &self.start_time_raw))
             .field("pos_dir[6, 9]", &format!("{:02X?}", &self.pos_dir_raw))
@@ -463,7 +445,6 @@ impl Display for PacketZcAcceptEnter {
 impl Debug for PacketZcRefuseEnter {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcRefuseEnter")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("error_code[2, 3]", &format!("{:02X?}", &self.error_code_raw))
         .finish()
@@ -482,7 +463,6 @@ impl Display for PacketZcRefuseEnter {
 impl Debug for PacketZcNotifyInitchar {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyInitchar")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("gid[4, 8]", &format!("{:02X?}", &self.gid_raw))
@@ -507,7 +487,6 @@ impl Display for PacketZcNotifyInitchar {
 impl Debug for PacketZcNotifyUpdatechar {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyUpdatechar")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("style[6, 8]", &format!("{:02X?}", &self.style_raw))
@@ -530,7 +509,6 @@ impl Display for PacketZcNotifyUpdatechar {
 impl Debug for PacketZcNotifyUpdateplayer {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyUpdateplayer")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("style[2, 4]", &format!("{:02X?}", &self.style_raw))
             .field("item[4, 5]", &format!("{:02X?}", &self.item_raw))
@@ -551,7 +529,6 @@ impl Display for PacketZcNotifyUpdateplayer {
 impl Debug for PacketZcNotifyStandentry {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyStandentry")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("objecttype[2, 3]", &format!("{:02X?}", &self.objecttype_raw))
             .field("gid[3, 7]", &format!("{:02X?}", &self.gid_raw))
@@ -622,7 +599,6 @@ impl Display for PacketZcNotifyStandentry {
 impl Debug for PacketZcNotifyNewentry {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyNewentry")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("speed[6, 8]", &format!("{:02X?}", &self.speed_raw))
@@ -689,7 +665,6 @@ impl Display for PacketZcNotifyNewentry {
 impl Debug for PacketZcNotifyActentry {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyActentry")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("speed[6, 8]", &format!("{:02X?}", &self.speed_raw))
@@ -760,7 +735,6 @@ impl Display for PacketZcNotifyActentry {
 impl Debug for PacketZcNotifyMoveentry {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyMoveentry")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("speed[6, 8]", &format!("{:02X?}", &self.speed_raw))
@@ -829,7 +803,6 @@ impl Display for PacketZcNotifyMoveentry {
 impl Debug for PacketZcNotifyStandentryNpc {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyStandentryNpc")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("objecttype[2, 3]", &format!("{:02X?}", &self.objecttype_raw))
             .field("gid[3, 7]", &format!("{:02X?}", &self.gid_raw))
@@ -888,7 +861,6 @@ impl Display for PacketZcNotifyStandentryNpc {
 impl Debug for PacketCzNotifyActorinit {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzNotifyActorinit")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -905,7 +877,6 @@ impl Display for PacketCzNotifyActorinit {
 impl Debug for PacketCzRequestTime {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzRequestTime")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("client_time[2, 6]", &format!("{:02X?}", &self.client_time_raw))
         .finish()
@@ -924,7 +895,6 @@ impl Display for PacketCzRequestTime {
 impl Debug for PacketZcNotifyTime {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyTime")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("time[2, 6]", &format!("{:02X?}", &self.time_raw))
         .finish()
@@ -943,7 +913,6 @@ impl Display for PacketZcNotifyTime {
 impl Debug for PacketZcNotifyVanish {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyVanish")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("atype[6, 7]", &format!("{:02X?}", &self.atype_raw))
@@ -964,7 +933,6 @@ impl Display for PacketZcNotifyVanish {
 impl Debug for PacketScNotifyBan {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketScNotifyBan")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("error_code[2, 3]", &format!("{:02X?}", &self.error_code_raw))
         .finish()
@@ -983,7 +951,6 @@ impl Display for PacketScNotifyBan {
 impl Debug for PacketCzRequestQuit {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzRequestQuit")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -1000,7 +967,6 @@ impl Display for PacketCzRequestQuit {
 impl Debug for PacketZcAcceptQuit {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAcceptQuit")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -1017,7 +983,6 @@ impl Display for PacketZcAcceptQuit {
 impl Debug for PacketZcRefuseQuit {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcRefuseQuit")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -1034,7 +999,6 @@ impl Display for PacketZcRefuseQuit {
 impl Debug for PacketCzRequestMove {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzRequestMove")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("dest[2, 5]", &format!("{:02X?}", &self.dest_raw))
         .finish()
@@ -1053,7 +1017,6 @@ impl Display for PacketCzRequestMove {
 impl Debug for PacketZcNotifyMove {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyMove")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("move_data[6, 12]", &format!("{:02X?}", &self.move_data_raw))
@@ -1076,7 +1039,6 @@ impl Display for PacketZcNotifyMove {
 impl Debug for PacketZcNotifyPlayermove {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyPlayermove")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("move_start_time[2, 6]", &format!("{:02X?}", &self.move_start_time_raw))
             .field("move_data[6, 12]", &format!("{:02X?}", &self.move_data_raw))
@@ -1097,7 +1059,6 @@ impl Display for PacketZcNotifyPlayermove {
 impl Debug for PacketZcStopmove {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcStopmove")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("x_pos[6, 8]", &format!("{:02X?}", &self.x_pos_raw))
@@ -1120,7 +1081,6 @@ impl Display for PacketZcStopmove {
 impl Debug for PacketCzRequestAct {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzRequestAct")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("target_gid[2, 6]", &format!("{:02X?}", &self.target_gid_raw))
             .field("action[6, 7]", &format!("{:02X?}", &self.action_raw))
@@ -1141,7 +1101,6 @@ impl Display for PacketCzRequestAct {
 impl Debug for PacketZcNotifyAct {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyAct")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("target_gid[6, 10]", &format!("{:02X?}", &self.target_gid_raw))
@@ -1176,7 +1135,6 @@ impl Display for PacketZcNotifyAct {
 impl Debug for PacketZcNotifyActPosition {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyActPosition")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("target_gid[6, 10]", &format!("{:02X?}", &self.target_gid_raw))
@@ -1209,7 +1167,6 @@ impl Display for PacketZcNotifyActPosition {
 impl Debug for PacketCzRequestChat {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzRequestChat")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("msg[4, ?]", &format!("{:02X?}", &self.msg_raw))
@@ -1230,7 +1187,6 @@ impl Display for PacketCzRequestChat {
 impl Debug for PacketZcNotifyChat {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyChat")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("gid[4, 8]", &format!("{:02X?}", &self.gid_raw))
@@ -1253,7 +1209,6 @@ impl Display for PacketZcNotifyChat {
 impl Debug for PacketZcNotifyPlayerchat {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyPlayerchat")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("msg[4, ?]", &format!("{:02X?}", &self.msg_raw))
@@ -1274,7 +1229,6 @@ impl Display for PacketZcNotifyPlayerchat {
 impl Debug for PacketServerEntryAck {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketServerEntryAck")
-            .field("id", &self.id())
             .field("header[0, 2]", &format!("{:02X?}", &self.header_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
         .finish()
@@ -1293,7 +1247,6 @@ impl Display for PacketServerEntryAck {
 impl Debug for PacketCzContactnpc {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzContactnpc")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("naid[2, 6]", &format!("{:02X?}", &self.naid_raw))
             .field("atype[6, 7]", &format!("{:02X?}", &self.atype_raw))
@@ -1314,7 +1267,6 @@ impl Display for PacketCzContactnpc {
 impl Debug for PacketZcNpcackMapmove {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNpcackMapmove")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("map_name[2, 18]", &format!("{:02X?}", &self.map_name_raw))
             .field("x_pos[18, 20]", &format!("{:02X?}", &self.x_pos_raw))
@@ -1337,7 +1289,6 @@ impl Display for PacketZcNpcackMapmove {
 impl Debug for PacketZcNpcackServermove {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNpcackServermove")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("map_name[2, 18]", &format!("{:02X?}", &self.map_name_raw))
             .field("x_pos[18, 20]", &format!("{:02X?}", &self.x_pos_raw))
@@ -1362,7 +1313,6 @@ impl Display for PacketZcNpcackServermove {
 impl Debug for PacketZcNpcackEnable {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNpcackEnable")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -1379,7 +1329,6 @@ impl Display for PacketZcNpcackEnable {
 impl Debug for PacketCzReqname {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqname")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
         .finish()
@@ -1398,7 +1347,6 @@ impl Display for PacketCzReqname {
 impl Debug for PacketZcAckReqname {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAckReqname")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("cname[6, 30]", &format!("{:02X?}", &self.cname_raw))
@@ -1419,7 +1367,6 @@ impl Display for PacketZcAckReqname {
 impl Debug for PacketCzWhisper {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzWhisper")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("receiver[4, 28]", &format!("{:02X?}", &self.receiver_raw))
@@ -1442,7 +1389,6 @@ impl Display for PacketCzWhisper {
 impl Debug for PacketZcWhisper {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcWhisper")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("sender[4, 28]", &format!("{:02X?}", &self.sender_raw))
@@ -1465,7 +1411,6 @@ impl Display for PacketZcWhisper {
 impl Debug for PacketZcAckWhisper {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAckWhisper")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 3]", &format!("{:02X?}", &self.result_raw))
         .finish()
@@ -1484,7 +1429,6 @@ impl Display for PacketZcAckWhisper {
 impl Debug for PacketCzBroadcast {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzBroadcast")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("msg[4, ?]", &format!("{:02X?}", &self.msg_raw))
@@ -1505,7 +1449,6 @@ impl Display for PacketCzBroadcast {
 impl Debug for PacketZcBroadcast {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcBroadcast")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("msg[4, ?]", &format!("{:02X?}", &self.msg_raw))
@@ -1526,7 +1469,6 @@ impl Display for PacketZcBroadcast {
 impl Debug for PacketCzChangeDirection {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzChangeDirection")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("head_dir[2, 4]", &format!("{:02X?}", &self.head_dir_raw))
             .field("dir[4, 5]", &format!("{:02X?}", &self.dir_raw))
@@ -1547,7 +1489,6 @@ impl Display for PacketCzChangeDirection {
 impl Debug for PacketZcChangeDirection {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcChangeDirection")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("head_dir[6, 8]", &format!("{:02X?}", &self.head_dir_raw))
@@ -1570,7 +1511,6 @@ impl Display for PacketZcChangeDirection {
 impl Debug for PacketZcItemEntry {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcItemEntry")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("itaid[2, 6]", &format!("{:02X?}", &self.itaid_raw))
             .field("itid[6, 8]", &format!("{:02X?}", &self.itid_raw))
@@ -1603,7 +1543,6 @@ impl Display for PacketZcItemEntry {
 impl Debug for PacketZcItemFallEntry {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcItemFallEntry")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("itaid[2, 6]", &format!("{:02X?}", &self.itaid_raw))
             .field("itid[6, 8]", &format!("{:02X?}", &self.itid_raw))
@@ -1636,7 +1575,6 @@ impl Display for PacketZcItemFallEntry {
 impl Debug for PacketCzItemPickup {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzItemPickup")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("itaid[2, 6]", &format!("{:02X?}", &self.itaid_raw))
         .finish()
@@ -1655,7 +1593,6 @@ impl Display for PacketCzItemPickup {
 impl Debug for PacketZcItemPickupAck {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcItemPickupAck")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("count[4, 6]", &format!("{:02X?}", &self.count_raw))
@@ -1692,7 +1629,6 @@ impl Display for PacketZcItemPickupAck {
 impl Debug for PacketZcItemDisappear {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcItemDisappear")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("itaid[2, 6]", &format!("{:02X?}", &self.itaid_raw))
         .finish()
@@ -1711,7 +1647,6 @@ impl Display for PacketZcItemDisappear {
 impl Debug for PacketCzItemThrow {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzItemThrow")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("count[4, 6]", &format!("{:02X?}", &self.count_raw))
@@ -1732,7 +1667,6 @@ impl Display for PacketCzItemThrow {
 impl Debug for PacketZcNormalItemlist {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNormalItemlist")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("item_info[4, 14]", &format!("{:02X?}", &self.item_info_raw))
@@ -1754,7 +1688,6 @@ impl Display for PacketZcNormalItemlist {
 impl Debug for PacketZcEquipmentItemlist {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcEquipmentItemlist")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("item_info[4, 24]", &format!("{:02X?}", &self.item_info_raw))
@@ -1776,7 +1709,6 @@ impl Display for PacketZcEquipmentItemlist {
 impl Debug for PacketZcStoreNormalItemlist {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcStoreNormalItemlist")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("item_info[4, 14]", &format!("{:02X?}", &self.item_info_raw))
@@ -1798,7 +1730,6 @@ impl Display for PacketZcStoreNormalItemlist {
 impl Debug for PacketZcStoreEquipmentItemlist {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcStoreEquipmentItemlist")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("item_info[4, 24]", &format!("{:02X?}", &self.item_info_raw))
@@ -1820,7 +1751,6 @@ impl Display for PacketZcStoreEquipmentItemlist {
 impl Debug for PacketCzUseItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzUseItem")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("aid[4, 8]", &format!("{:02X?}", &self.aid_raw))
@@ -1841,7 +1771,6 @@ impl Display for PacketCzUseItem {
 impl Debug for PacketZcUseItemAck {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcUseItemAck")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("count[4, 6]", &format!("{:02X?}", &self.count_raw))
@@ -1864,7 +1793,6 @@ impl Display for PacketZcUseItemAck {
 impl Debug for PacketCzReqWearEquip {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqWearEquip")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("wear_location[4, 6]", &format!("{:02X?}", &self.wear_location_raw))
@@ -1885,7 +1813,6 @@ impl Display for PacketCzReqWearEquip {
 impl Debug for PacketZcReqWearEquipAck {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcReqWearEquipAck")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("wear_location[4, 6]", &format!("{:02X?}", &self.wear_location_raw))
@@ -1908,7 +1835,6 @@ impl Display for PacketZcReqWearEquipAck {
 impl Debug for PacketZcReqWearEquipAck2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcReqWearEquipAck2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("wear_location[4, 6]", &format!("{:02X?}", &self.wear_location_raw))
@@ -1933,7 +1859,6 @@ impl Display for PacketZcReqWearEquipAck2 {
 impl Debug for PacketCzReqTakeoffEquip {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqTakeoffEquip")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
         .finish()
@@ -1952,7 +1877,6 @@ impl Display for PacketCzReqTakeoffEquip {
 impl Debug for PacketZcReqTakeoffEquipAck {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcReqTakeoffEquipAck")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("wear_location[4, 6]", &format!("{:02X?}", &self.wear_location_raw))
@@ -1975,7 +1899,6 @@ impl Display for PacketZcReqTakeoffEquipAck {
 impl Debug for PacketZcReqTakeoffEquipAck2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcReqTakeoffEquipAck2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("wear_location[4, 6]", &format!("{:02X?}", &self.wear_location_raw))
@@ -1998,7 +1921,6 @@ impl Display for PacketZcReqTakeoffEquipAck2 {
 impl Debug for PacketZcItemThrowAck {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcItemThrowAck")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("count[4, 6]", &format!("{:02X?}", &self.count_raw))
@@ -2019,7 +1941,6 @@ impl Display for PacketZcItemThrowAck {
 impl Debug for PacketZcParChange {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcParChange")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("var_id[2, 4]", &format!("{:02X?}", &self.var_id_raw))
             .field("count[4, 8]", &format!("{:02X?}", &self.count_raw))
@@ -2040,7 +1961,6 @@ impl Display for PacketZcParChange {
 impl Debug for PacketZcLongparChange {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcLongparChange")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("var_id[2, 4]", &format!("{:02X?}", &self.var_id_raw))
             .field("amount[4, 8]", &format!("{:02X?}", &self.amount_raw))
@@ -2061,7 +1981,6 @@ impl Display for PacketZcLongparChange {
 impl Debug for PacketCzRestart {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzRestart")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("atype[2, 3]", &format!("{:02X?}", &self.atype_raw))
         .finish()
@@ -2080,7 +1999,6 @@ impl Display for PacketCzRestart {
 impl Debug for PacketZcRestartAck {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcRestartAck")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("atype[2, 3]", &format!("{:02X?}", &self.atype_raw))
         .finish()
@@ -2099,7 +2017,6 @@ impl Display for PacketZcRestartAck {
 impl Debug for PacketZcSayDialog {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcSayDialog")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("naid[4, 8]", &format!("{:02X?}", &self.naid_raw))
@@ -2122,7 +2039,6 @@ impl Display for PacketZcSayDialog {
 impl Debug for PacketZcWaitDialog {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcWaitDialog")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("naid[2, 6]", &format!("{:02X?}", &self.naid_raw))
         .finish()
@@ -2141,7 +2057,6 @@ impl Display for PacketZcWaitDialog {
 impl Debug for PacketZcCloseDialog {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcCloseDialog")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("naid[2, 6]", &format!("{:02X?}", &self.naid_raw))
         .finish()
@@ -2160,7 +2075,6 @@ impl Display for PacketZcCloseDialog {
 impl Debug for PacketZcMenuList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcMenuList")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("naid[4, 8]", &format!("{:02X?}", &self.naid_raw))
@@ -2183,7 +2097,6 @@ impl Display for PacketZcMenuList {
 impl Debug for PacketCzChooseMenu {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzChooseMenu")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("naid[2, 6]", &format!("{:02X?}", &self.naid_raw))
             .field("num[6, 7]", &format!("{:02X?}", &self.num_raw))
@@ -2204,7 +2117,6 @@ impl Display for PacketCzChooseMenu {
 impl Debug for PacketCzReqNextScript {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqNextScript")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("naid[2, 6]", &format!("{:02X?}", &self.naid_raw))
         .finish()
@@ -2223,7 +2135,6 @@ impl Display for PacketCzReqNextScript {
 impl Debug for PacketCzReqStatus {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqStatus")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -2240,7 +2151,6 @@ impl Display for PacketCzReqStatus {
 impl Debug for PacketCzStatusChange {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzStatusChange")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("status_id[2, 4]", &format!("{:02X?}", &self.status_id_raw))
             .field("change_amount[4, 5]", &format!("{:02X?}", &self.change_amount_raw))
@@ -2261,7 +2171,6 @@ impl Display for PacketCzStatusChange {
 impl Debug for PacketZcStatusChangeAck {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcStatusChangeAck")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("status_id[2, 4]", &format!("{:02X?}", &self.status_id_raw))
             .field("result[4, 5]", &format!("{:02X?}", &self.result_raw))
@@ -2284,7 +2193,6 @@ impl Display for PacketZcStatusChangeAck {
 impl Debug for PacketZcStatus {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcStatus")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("point[2, 4]", &format!("{:02X?}", &self.point_raw))
             .field("str[4, 5]", &format!("{:02X?}", &self.str_raw))
@@ -2355,7 +2263,6 @@ impl Display for PacketZcStatus {
 impl Debug for PacketZcStatusChange {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcStatusChange")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("status_id[2, 4]", &format!("{:02X?}", &self.status_id_raw))
             .field("value[4, 5]", &format!("{:02X?}", &self.value_raw))
@@ -2376,7 +2283,6 @@ impl Display for PacketZcStatusChange {
 impl Debug for PacketCzReqEmotion {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqEmotion")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("atype[2, 3]", &format!("{:02X?}", &self.atype_raw))
         .finish()
@@ -2395,7 +2301,6 @@ impl Display for PacketCzReqEmotion {
 impl Debug for PacketZcEmotion {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcEmotion")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("atype[6, 7]", &format!("{:02X?}", &self.atype_raw))
@@ -2416,7 +2321,6 @@ impl Display for PacketZcEmotion {
 impl Debug for PacketCzReqUserCount {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqUserCount")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -2433,7 +2337,6 @@ impl Display for PacketCzReqUserCount {
 impl Debug for PacketZcUserCount {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcUserCount")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("count[2, 6]", &format!("{:02X?}", &self.count_raw))
         .finish()
@@ -2452,7 +2355,6 @@ impl Display for PacketZcUserCount {
 impl Debug for PacketZcSpriteChange {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcSpriteChange")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("atype[6, 7]", &format!("{:02X?}", &self.atype_raw))
@@ -2475,7 +2377,6 @@ impl Display for PacketZcSpriteChange {
 impl Debug for PacketZcSelectDealtype {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcSelectDealtype")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("naid[2, 6]", &format!("{:02X?}", &self.naid_raw))
         .finish()
@@ -2494,7 +2395,6 @@ impl Display for PacketZcSelectDealtype {
 impl Debug for PacketCzAckSelectDealtype {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzAckSelectDealtype")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("naid[2, 6]", &format!("{:02X?}", &self.naid_raw))
             .field("atype[6, 7]", &format!("{:02X?}", &self.atype_raw))
@@ -2515,7 +2415,6 @@ impl Display for PacketCzAckSelectDealtype {
 impl Debug for PacketZcPcPurchaseItemlist {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcPcPurchaseItemlist")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("item_list[4, 15]", &format!("{:02X?}", &self.item_list_raw))
@@ -2537,7 +2436,6 @@ impl Display for PacketZcPcPurchaseItemlist {
 impl Debug for PacketZcPcSellItemlist {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcPcSellItemlist")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("item_list[4, 14]", &format!("{:02X?}", &self.item_list_raw))
@@ -2559,7 +2457,6 @@ impl Display for PacketZcPcSellItemlist {
 impl Debug for PacketCzPcPurchaseItemlist {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzPcPurchaseItemlist")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("item_list[4, 8]", &format!("{:02X?}", &self.item_list_raw))
@@ -2581,7 +2478,6 @@ impl Display for PacketCzPcPurchaseItemlist {
 impl Debug for PacketCzPcSellItemlist {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzPcSellItemlist")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("item_list[4, 8]", &format!("{:02X?}", &self.item_list_raw))
@@ -2603,7 +2499,6 @@ impl Display for PacketCzPcSellItemlist {
 impl Debug for PacketZcPcPurchaseResult {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcPcPurchaseResult")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 3]", &format!("{:02X?}", &self.result_raw))
         .finish()
@@ -2622,7 +2517,6 @@ impl Display for PacketZcPcPurchaseResult {
 impl Debug for PacketZcPcSellResult {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcPcSellResult")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 3]", &format!("{:02X?}", &self.result_raw))
         .finish()
@@ -2641,7 +2535,6 @@ impl Display for PacketZcPcSellResult {
 impl Debug for PacketCzDisconnectCharacter {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzDisconnectCharacter")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
         .finish()
@@ -2660,7 +2553,6 @@ impl Display for PacketCzDisconnectCharacter {
 impl Debug for PacketZcAckDisconnectCharacter {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAckDisconnectCharacter")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 3]", &format!("{:02X?}", &self.result_raw))
         .finish()
@@ -2679,7 +2571,6 @@ impl Display for PacketZcAckDisconnectCharacter {
 impl Debug for PacketCzDisconnectAllCharacter {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzDisconnectAllCharacter")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -2696,7 +2587,6 @@ impl Display for PacketCzDisconnectAllCharacter {
 impl Debug for PacketCzSettingWhisperPc {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzSettingWhisperPc")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("name[2, 26]", &format!("{:02X?}", &self.name_raw))
             .field("atype[26, 27]", &format!("{:02X?}", &self.atype_raw))
@@ -2717,7 +2607,6 @@ impl Display for PacketCzSettingWhisperPc {
 impl Debug for PacketCzSettingWhisperState {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzSettingWhisperState")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("atype[2, 3]", &format!("{:02X?}", &self.atype_raw))
         .finish()
@@ -2736,7 +2625,6 @@ impl Display for PacketCzSettingWhisperState {
 impl Debug for PacketZcSettingWhisperPc {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcSettingWhisperPc")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("atype[2, 3]", &format!("{:02X?}", &self.atype_raw))
             .field("result[3, 4]", &format!("{:02X?}", &self.result_raw))
@@ -2757,7 +2645,6 @@ impl Display for PacketZcSettingWhisperPc {
 impl Debug for PacketZcSettingWhisperState {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcSettingWhisperState")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("atype[2, 3]", &format!("{:02X?}", &self.atype_raw))
             .field("result[3, 4]", &format!("{:02X?}", &self.result_raw))
@@ -2778,7 +2665,6 @@ impl Display for PacketZcSettingWhisperState {
 impl Debug for PacketCzReqWhisperList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqWhisperList")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -2795,7 +2681,6 @@ impl Display for PacketCzReqWhisperList {
 impl Debug for PacketZcWhisperList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcWhisperList")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("wisper_list[4, 28]", &format!("{:02X?}", &self.wisper_list_raw))
@@ -2817,7 +2702,6 @@ impl Display for PacketZcWhisperList {
 impl Debug for PacketCzCreateChatroom {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzCreateChatroom")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("size[4, 6]", &format!("{:02X?}", &self.size_raw))
@@ -2844,7 +2728,6 @@ impl Display for PacketCzCreateChatroom {
 impl Debug for PacketZcAckCreateChatroom {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAckCreateChatroom")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 3]", &format!("{:02X?}", &self.result_raw))
         .finish()
@@ -2863,7 +2746,6 @@ impl Display for PacketZcAckCreateChatroom {
 impl Debug for PacketZcRoomNewentry {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcRoomNewentry")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("aid[4, 8]", &format!("{:02X?}", &self.aid_raw))
@@ -2894,7 +2776,6 @@ impl Display for PacketZcRoomNewentry {
 impl Debug for PacketZcDestroyRoom {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcDestroyRoom")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("room_id[2, 6]", &format!("{:02X?}", &self.room_id_raw))
         .finish()
@@ -2913,7 +2794,6 @@ impl Display for PacketZcDestroyRoom {
 impl Debug for PacketCzReqEnterRoom {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqEnterRoom")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("room_id[2, 6]", &format!("{:02X?}", &self.room_id_raw))
             .field("passwd[6, 14]", &format!("{:02X?}", &self.passwd_raw))
@@ -2934,7 +2814,6 @@ impl Display for PacketCzReqEnterRoom {
 impl Debug for PacketZcRefuseEnterRoom {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcRefuseEnterRoom")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 3]", &format!("{:02X?}", &self.result_raw))
         .finish()
@@ -2953,7 +2832,6 @@ impl Display for PacketZcRefuseEnterRoom {
 impl Debug for PacketZcEnterRoom {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcEnterRoom")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("room_id[4, 8]", &format!("{:02X?}", &self.room_id_raw))
@@ -2977,7 +2855,6 @@ impl Display for PacketZcEnterRoom {
 impl Debug for PacketZcMemberNewentry {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcMemberNewentry")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("curcount[2, 4]", &format!("{:02X?}", &self.curcount_raw))
             .field("name[4, 28]", &format!("{:02X?}", &self.name_raw))
@@ -2998,7 +2875,6 @@ impl Display for PacketZcMemberNewentry {
 impl Debug for PacketZcMemberExit {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcMemberExit")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("curcount[2, 4]", &format!("{:02X?}", &self.curcount_raw))
             .field("name[4, 28]", &format!("{:02X?}", &self.name_raw))
@@ -3021,7 +2897,6 @@ impl Display for PacketZcMemberExit {
 impl Debug for PacketCzChangeChatroom {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzChangeChatroom")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("size[4, 6]", &format!("{:02X?}", &self.size_raw))
@@ -3048,7 +2923,6 @@ impl Display for PacketCzChangeChatroom {
 impl Debug for PacketZcChangeChatroom {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcChangeChatroom")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("aid[4, 8]", &format!("{:02X?}", &self.aid_raw))
@@ -3079,7 +2953,6 @@ impl Display for PacketZcChangeChatroom {
 impl Debug for PacketCzReqRoleChange {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqRoleChange")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("role[2, 6]", &format!("{:02X?}", &self.role_raw))
             .field("name[6, 30]", &format!("{:02X?}", &self.name_raw))
@@ -3100,7 +2973,6 @@ impl Display for PacketCzReqRoleChange {
 impl Debug for PacketZcRoleChange {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcRoleChange")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("role[2, 6]", &format!("{:02X?}", &self.role_raw))
             .field("name[6, 30]", &format!("{:02X?}", &self.name_raw))
@@ -3121,7 +2993,6 @@ impl Display for PacketZcRoleChange {
 impl Debug for PacketCzReqExpelMember {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqExpelMember")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("name[2, 26]", &format!("{:02X?}", &self.name_raw))
         .finish()
@@ -3140,7 +3011,6 @@ impl Display for PacketCzReqExpelMember {
 impl Debug for PacketCzExitRoom {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzExitRoom")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -3157,7 +3027,6 @@ impl Display for PacketCzExitRoom {
 impl Debug for PacketCzReqExchangeItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqExchangeItem")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
         .finish()
@@ -3176,7 +3045,6 @@ impl Display for PacketCzReqExchangeItem {
 impl Debug for PacketZcReqExchangeItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcReqExchangeItem")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("name[2, 26]", &format!("{:02X?}", &self.name_raw))
         .finish()
@@ -3195,7 +3063,6 @@ impl Display for PacketZcReqExchangeItem {
 impl Debug for PacketCzAckExchangeItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzAckExchangeItem")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 3]", &format!("{:02X?}", &self.result_raw))
         .finish()
@@ -3214,7 +3081,6 @@ impl Display for PacketCzAckExchangeItem {
 impl Debug for PacketZcAckExchangeItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAckExchangeItem")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 3]", &format!("{:02X?}", &self.result_raw))
         .finish()
@@ -3233,7 +3099,6 @@ impl Display for PacketZcAckExchangeItem {
 impl Debug for PacketCzAddExchangeItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzAddExchangeItem")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("count[4, 8]", &format!("{:02X?}", &self.count_raw))
@@ -3254,7 +3119,6 @@ impl Display for PacketCzAddExchangeItem {
 impl Debug for PacketZcAddExchangeItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAddExchangeItem")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("count[2, 6]", &format!("{:02X?}", &self.count_raw))
             .field("itid[6, 8]", &format!("{:02X?}", &self.itid_raw))
@@ -3283,7 +3147,6 @@ impl Display for PacketZcAddExchangeItem {
 impl Debug for PacketZcAckAddExchangeItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAckAddExchangeItem")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("result[4, 5]", &format!("{:02X?}", &self.result_raw))
@@ -3304,7 +3167,6 @@ impl Display for PacketZcAckAddExchangeItem {
 impl Debug for PacketCzConcludeExchangeItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzConcludeExchangeItem")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -3321,7 +3183,6 @@ impl Display for PacketCzConcludeExchangeItem {
 impl Debug for PacketZcConcludeExchangeItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcConcludeExchangeItem")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("who[2, 3]", &format!("{:02X?}", &self.who_raw))
         .finish()
@@ -3340,7 +3201,6 @@ impl Display for PacketZcConcludeExchangeItem {
 impl Debug for PacketCzCancelExchangeItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzCancelExchangeItem")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -3357,7 +3217,6 @@ impl Display for PacketCzCancelExchangeItem {
 impl Debug for PacketZcCancelExchangeItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcCancelExchangeItem")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -3374,7 +3233,6 @@ impl Display for PacketZcCancelExchangeItem {
 impl Debug for PacketCzExecExchangeItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzExecExchangeItem")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -3391,7 +3249,6 @@ impl Display for PacketCzExecExchangeItem {
 impl Debug for PacketZcExecExchangeItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcExecExchangeItem")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 3]", &format!("{:02X?}", &self.result_raw))
         .finish()
@@ -3410,7 +3267,6 @@ impl Display for PacketZcExecExchangeItem {
 impl Debug for PacketZcExchangeitemUndo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcExchangeitemUndo")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -3427,7 +3283,6 @@ impl Display for PacketZcExchangeitemUndo {
 impl Debug for PacketZcNotifyStoreitemCountinfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyStoreitemCountinfo")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("cur_count[2, 4]", &format!("{:02X?}", &self.cur_count_raw))
             .field("max_count[4, 6]", &format!("{:02X?}", &self.max_count_raw))
@@ -3448,7 +3303,6 @@ impl Display for PacketZcNotifyStoreitemCountinfo {
 impl Debug for PacketCzPlayerChat {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzPlayerChat")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("msg[4, ?]", &format!("{:02X?}", &self.msg_raw))
@@ -3469,7 +3323,6 @@ impl Display for PacketCzPlayerChat {
 impl Debug for PacketZcAddItemToStore {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAddItemToStore")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("count[4, 8]", &format!("{:02X?}", &self.count_raw))
@@ -3500,7 +3353,6 @@ impl Display for PacketZcAddItemToStore {
 impl Debug for PacketCzMoveItemFromStoreToBody {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzMoveItemFromStoreToBody")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("count[4, 8]", &format!("{:02X?}", &self.count_raw))
@@ -3521,7 +3373,6 @@ impl Display for PacketCzMoveItemFromStoreToBody {
 impl Debug for PacketZcDeleteItemFromStore {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcDeleteItemFromStore")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("count[4, 8]", &format!("{:02X?}", &self.count_raw))
@@ -3542,7 +3393,6 @@ impl Display for PacketZcDeleteItemFromStore {
 impl Debug for PacketCzCloseStore {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzCloseStore")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -3559,7 +3409,6 @@ impl Display for PacketCzCloseStore {
 impl Debug for PacketZcCloseStore {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcCloseStore")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -3576,7 +3425,6 @@ impl Display for PacketZcCloseStore {
 impl Debug for PacketCzMakeGroup {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzMakeGroup")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("group_name[2, 26]", &format!("{:02X?}", &self.group_name_raw))
         .finish()
@@ -3595,7 +3443,6 @@ impl Display for PacketCzMakeGroup {
 impl Debug for PacketZcAckMakeGroup {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAckMakeGroup")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 3]", &format!("{:02X?}", &self.result_raw))
         .finish()
@@ -3614,7 +3461,6 @@ impl Display for PacketZcAckMakeGroup {
 impl Debug for PacketZcGroupList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcGroupList")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("group_name[4, 28]", &format!("{:02X?}", &self.group_name_raw))
@@ -3638,7 +3484,6 @@ impl Display for PacketZcGroupList {
 impl Debug for PacketCzReqJoinGroup {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqJoinGroup")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
         .finish()
@@ -3657,7 +3502,6 @@ impl Display for PacketCzReqJoinGroup {
 impl Debug for PacketZcAckReqJoinGroup {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAckReqJoinGroup")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("character_name[2, 26]", &format!("{:02X?}", &self.character_name_raw))
             .field("answer[26, 27]", &format!("{:02X?}", &self.answer_raw))
@@ -3678,7 +3522,6 @@ impl Display for PacketZcAckReqJoinGroup {
 impl Debug for PacketZcReqJoinGroup {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcReqJoinGroup")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("grid[2, 6]", &format!("{:02X?}", &self.grid_raw))
             .field("group_name[6, 30]", &format!("{:02X?}", &self.group_name_raw))
@@ -3699,7 +3542,6 @@ impl Display for PacketZcReqJoinGroup {
 impl Debug for PacketCzJoinGroup {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzJoinGroup")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("grid[2, 6]", &format!("{:02X?}", &self.grid_raw))
             .field("answer[6, 10]", &format!("{:02X?}", &self.answer_raw))
@@ -3720,7 +3562,6 @@ impl Display for PacketCzJoinGroup {
 impl Debug for PacketCzReqLeaveGroup {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqLeaveGroup")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -3737,7 +3578,6 @@ impl Display for PacketCzReqLeaveGroup {
 impl Debug for PacketZcGroupinfoChange {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcGroupinfoChange")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("exp_option[2, 6]", &format!("{:02X?}", &self.exp_option_raw))
         .finish()
@@ -3756,7 +3596,6 @@ impl Display for PacketZcGroupinfoChange {
 impl Debug for PacketCzChangeGroupexpoption {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzChangeGroupexpoption")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("exp_option[2, 6]", &format!("{:02X?}", &self.exp_option_raw))
         .finish()
@@ -3775,7 +3614,6 @@ impl Display for PacketCzChangeGroupexpoption {
 impl Debug for PacketCzReqExpelGroupMember {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqExpelGroupMember")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("character_name[6, 30]", &format!("{:02X?}", &self.character_name_raw))
@@ -3796,7 +3634,6 @@ impl Display for PacketCzReqExpelGroupMember {
 impl Debug for PacketZcAddMemberToGroup {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAddMemberToGroup")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("role[6, 10]", &format!("{:02X?}", &self.role_raw))
@@ -3829,7 +3666,6 @@ impl Display for PacketZcAddMemberToGroup {
 impl Debug for PacketZcDeleteMemberFromGroup {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcDeleteMemberFromGroup")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("character_name[6, 30]", &format!("{:02X?}", &self.character_name_raw))
@@ -3852,7 +3688,6 @@ impl Display for PacketZcDeleteMemberFromGroup {
 impl Debug for PacketZcNotifyHpToGroupm {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyHpToGroupm")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("hp[6, 8]", &format!("{:02X?}", &self.hp_raw))
@@ -3875,7 +3710,6 @@ impl Display for PacketZcNotifyHpToGroupm {
 impl Debug for PacketZcNotifyPositionToGroupm {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyPositionToGroupm")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("x_pos[6, 8]", &format!("{:02X?}", &self.x_pos_raw))
@@ -3898,7 +3732,6 @@ impl Display for PacketZcNotifyPositionToGroupm {
 impl Debug for PacketCzRequestChatParty {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzRequestChatParty")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("msg[4, ?]", &format!("{:02X?}", &self.msg_raw))
@@ -3919,7 +3752,6 @@ impl Display for PacketCzRequestChatParty {
 impl Debug for PacketZcNotifyChatParty {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyChatParty")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("aid[4, 8]", &format!("{:02X?}", &self.aid_raw))
@@ -3942,7 +3774,6 @@ impl Display for PacketZcNotifyChatParty {
 impl Debug for PacketZcMvpGettingItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcMvpGettingItem")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("itid[2, 4]", &format!("{:02X?}", &self.itid_raw))
         .finish()
@@ -3961,7 +3792,6 @@ impl Display for PacketZcMvpGettingItem {
 impl Debug for PacketZcMvpGettingSpecialExp {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcMvpGettingSpecialExp")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("exp[2, 6]", &format!("{:02X?}", &self.exp_raw))
         .finish()
@@ -3980,7 +3810,6 @@ impl Display for PacketZcMvpGettingSpecialExp {
 impl Debug for PacketZcMvp {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcMvp")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
         .finish()
@@ -3999,7 +3828,6 @@ impl Display for PacketZcMvp {
 impl Debug for PacketZcThrowMvpitem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcThrowMvpitem")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -4016,7 +3844,6 @@ impl Display for PacketZcThrowMvpitem {
 impl Debug for PacketZcSkillinfoUpdate {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcSkillinfoUpdate")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("skid[2, 4]", &format!("{:02X?}", &self.skid_raw))
             .field("level[4, 6]", &format!("{:02X?}", &self.level_raw))
@@ -4043,7 +3870,6 @@ impl Display for PacketZcSkillinfoUpdate {
 impl Debug for PacketZcSkillinfoList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcSkillinfoList")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("skill_list[4, 41]", &format!("{:02X?}", &self.skill_list_raw))
@@ -4065,7 +3891,6 @@ impl Display for PacketZcSkillinfoList {
 impl Debug for PacketZcAckTouseskill {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAckTouseskill")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("skid[2, 4]", &format!("{:02X?}", &self.skid_raw))
             .field("num[4, 8]", &format!("{:02X?}", &self.num_raw))
@@ -4090,7 +3915,6 @@ impl Display for PacketZcAckTouseskill {
 impl Debug for PacketZcAddSkill {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAddSkill")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("data[2, ?]", &format!("{:02X?}", &self.data_raw))
         .finish()
@@ -4109,7 +3933,6 @@ impl Display for PacketZcAddSkill {
 impl Debug for PacketCzUpgradeSkilllevel {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzUpgradeSkilllevel")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("skid[2, 4]", &format!("{:02X?}", &self.skid_raw))
         .finish()
@@ -4128,7 +3951,6 @@ impl Display for PacketCzUpgradeSkilllevel {
 impl Debug for PacketCzUseSkill {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzUseSkill")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("selected_level[2, 4]", &format!("{:02X?}", &self.selected_level_raw))
             .field("skid[4, 6]", &format!("{:02X?}", &self.skid_raw))
@@ -4151,7 +3973,6 @@ impl Display for PacketCzUseSkill {
 impl Debug for PacketZcNotifySkill {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifySkill")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("skid[2, 4]", &format!("{:02X?}", &self.skid_raw))
             .field("aid[4, 8]", &format!("{:02X?}", &self.aid_raw))
@@ -4188,7 +4009,6 @@ impl Display for PacketZcNotifySkill {
 impl Debug for PacketZcNotifySkillPosition {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifySkillPosition")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("skid[2, 4]", &format!("{:02X?}", &self.skid_raw))
             .field("aid[4, 8]", &format!("{:02X?}", &self.aid_raw))
@@ -4229,7 +4049,6 @@ impl Display for PacketZcNotifySkillPosition {
 impl Debug for PacketCzUseSkillToground {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzUseSkillToground")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("selected_level[2, 4]", &format!("{:02X?}", &self.selected_level_raw))
             .field("skid[4, 6]", &format!("{:02X?}", &self.skid_raw))
@@ -4254,7 +4073,6 @@ impl Display for PacketCzUseSkillToground {
 impl Debug for PacketZcNotifyGroundskill {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyGroundskill")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("skid[2, 4]", &format!("{:02X?}", &self.skid_raw))
             .field("aid[4, 8]", &format!("{:02X?}", &self.aid_raw))
@@ -4283,7 +4101,6 @@ impl Display for PacketZcNotifyGroundskill {
 impl Debug for PacketCzCancelLockon {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzCancelLockon")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -4300,7 +4117,6 @@ impl Display for PacketCzCancelLockon {
 impl Debug for PacketZcStateChange {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcStateChange")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("body_state[6, 8]", &format!("{:02X?}", &self.body_state_raw))
@@ -4327,7 +4143,6 @@ impl Display for PacketZcStateChange {
 impl Debug for PacketZcUseSkill {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcUseSkill")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("skid[2, 4]", &format!("{:02X?}", &self.skid_raw))
             .field("level[4, 6]", &format!("{:02X?}", &self.level_raw))
@@ -4354,7 +4169,6 @@ impl Display for PacketZcUseSkill {
 impl Debug for PacketCzSelectWarppoint {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzSelectWarppoint")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("skid[2, 4]", &format!("{:02X?}", &self.skid_raw))
             .field("map_name[4, 20]", &format!("{:02X?}", &self.map_name_raw))
@@ -4375,7 +4189,6 @@ impl Display for PacketCzSelectWarppoint {
 impl Debug for PacketZcWarplist {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcWarplist")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("skid[2, 4]", &format!("{:02X?}", &self.skid_raw))
             .field("map_name[4, 8]", &format!("{:02X?}", &self.map_name_raw))
@@ -4396,7 +4209,6 @@ impl Display for PacketZcWarplist {
 impl Debug for PacketCzRememberWarppoint {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzRememberWarppoint")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -4413,7 +4225,6 @@ impl Display for PacketCzRememberWarppoint {
 impl Debug for PacketZcAckRememberWarppoint {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAckRememberWarppoint")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("error_code[2, 3]", &format!("{:02X?}", &self.error_code_raw))
         .finish()
@@ -4432,7 +4243,6 @@ impl Display for PacketZcAckRememberWarppoint {
 impl Debug for PacketZcSkillEntry {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcSkillEntry")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("creator_aid[6, 10]", &format!("{:02X?}", &self.creator_aid_raw))
@@ -4461,7 +4271,6 @@ impl Display for PacketZcSkillEntry {
 impl Debug for PacketZcSkillDisappear {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcSkillDisappear")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
         .finish()
@@ -4480,7 +4289,6 @@ impl Display for PacketZcSkillDisappear {
 impl Debug for PacketZcNotifyCartitemCountinfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyCartitemCountinfo")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("cur_count[2, 4]", &format!("{:02X?}", &self.cur_count_raw))
             .field("max_count[4, 6]", &format!("{:02X?}", &self.max_count_raw))
@@ -4505,7 +4313,6 @@ impl Display for PacketZcNotifyCartitemCountinfo {
 impl Debug for PacketZcCartEquipmentItemlist {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcCartEquipmentItemlist")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("item_info[4, 24]", &format!("{:02X?}", &self.item_info_raw))
@@ -4527,7 +4334,6 @@ impl Display for PacketZcCartEquipmentItemlist {
 impl Debug for PacketZcCartNormalItemlist {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcCartNormalItemlist")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("item_info[4, 14]", &format!("{:02X?}", &self.item_info_raw))
@@ -4549,7 +4355,6 @@ impl Display for PacketZcCartNormalItemlist {
 impl Debug for PacketZcAddItemToCart {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAddItemToCart")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("count[4, 8]", &format!("{:02X?}", &self.count_raw))
@@ -4580,7 +4385,6 @@ impl Display for PacketZcAddItemToCart {
 impl Debug for PacketZcDeleteItemFromCart {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcDeleteItemFromCart")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("count[4, 8]", &format!("{:02X?}", &self.count_raw))
@@ -4601,7 +4405,6 @@ impl Display for PacketZcDeleteItemFromCart {
 impl Debug for PacketCzMoveItemFromBodyToCart {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzMoveItemFromBodyToCart")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("count[4, 8]", &format!("{:02X?}", &self.count_raw))
@@ -4622,7 +4425,6 @@ impl Display for PacketCzMoveItemFromBodyToCart {
 impl Debug for PacketCzMoveItemFromCartToBody {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzMoveItemFromCartToBody")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("count[4, 8]", &format!("{:02X?}", &self.count_raw))
@@ -4643,7 +4445,6 @@ impl Display for PacketCzMoveItemFromCartToBody {
 impl Debug for PacketCzMoveItemFromStoreToCart {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzMoveItemFromStoreToCart")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("count[4, 8]", &format!("{:02X?}", &self.count_raw))
@@ -4664,7 +4465,6 @@ impl Display for PacketCzMoveItemFromStoreToCart {
 impl Debug for PacketCzMoveItemFromCartToStore {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzMoveItemFromCartToStore")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("count[4, 8]", &format!("{:02X?}", &self.count_raw))
@@ -4685,7 +4485,6 @@ impl Display for PacketCzMoveItemFromCartToStore {
 impl Debug for PacketCzReqCartoff {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqCartoff")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -4702,7 +4501,6 @@ impl Display for PacketCzReqCartoff {
 impl Debug for PacketZcCartoff {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcCartoff")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -4719,7 +4517,6 @@ impl Display for PacketZcCartoff {
 impl Debug for PacketZcAckAdditemToCart {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAckAdditemToCart")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 3]", &format!("{:02X?}", &self.result_raw))
         .finish()
@@ -4738,7 +4535,6 @@ impl Display for PacketZcAckAdditemToCart {
 impl Debug for PacketZcOpenstore {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcOpenstore")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("itemcount[2, 4]", &format!("{:02X?}", &self.itemcount_raw))
         .finish()
@@ -4757,7 +4553,6 @@ impl Display for PacketZcOpenstore {
 impl Debug for PacketCzReqClosestore {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqClosestore")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -4774,7 +4569,6 @@ impl Display for PacketCzReqClosestore {
 impl Debug for PacketCzReqOpenstore {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqOpenstore")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("store_name[4, 84]", &format!("{:02X?}", &self.store_name_raw))
@@ -4798,7 +4592,6 @@ impl Display for PacketCzReqOpenstore {
 impl Debug for PacketCzReqBuyFrommc {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqBuyFrommc")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
         .finish()
@@ -4817,7 +4610,6 @@ impl Display for PacketCzReqBuyFrommc {
 impl Debug for PacketZcStoreEntry {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcStoreEntry")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("maker_aid[2, 6]", &format!("{:02X?}", &self.maker_aid_raw))
             .field("store_name[6, 86]", &format!("{:02X?}", &self.store_name_raw))
@@ -4838,7 +4630,6 @@ impl Display for PacketZcStoreEntry {
 impl Debug for PacketZcDisappearEntry {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcDisappearEntry")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("maker_aid[2, 6]", &format!("{:02X?}", &self.maker_aid_raw))
         .finish()
@@ -4857,7 +4648,6 @@ impl Display for PacketZcDisappearEntry {
 impl Debug for PacketZcPcPurchaseItemlistFrommc {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcPcPurchaseItemlistFrommc")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("aid[4, 8]", &format!("{:02X?}", &self.aid_raw))
@@ -4881,7 +4671,6 @@ impl Display for PacketZcPcPurchaseItemlistFrommc {
 impl Debug for PacketCzPcPurchaseItemlistFrommc {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzPcPurchaseItemlistFrommc")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("aid[4, 8]", &format!("{:02X?}", &self.aid_raw))
@@ -4905,7 +4694,6 @@ impl Display for PacketCzPcPurchaseItemlistFrommc {
 impl Debug for PacketZcPcPurchaseResultFrommc {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcPcPurchaseResultFrommc")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("curcount[4, 6]", &format!("{:02X?}", &self.curcount_raw))
@@ -4928,7 +4716,6 @@ impl Display for PacketZcPcPurchaseResultFrommc {
 impl Debug for PacketZcPcPurchaseMyitemlist {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcPcPurchaseMyitemlist")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("aid[4, 8]", &format!("{:02X?}", &self.aid_raw))
@@ -4952,7 +4739,6 @@ impl Display for PacketZcPcPurchaseMyitemlist {
 impl Debug for PacketZcDeleteitemFromMcstore {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcDeleteitemFromMcstore")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("count[4, 6]", &format!("{:02X?}", &self.count_raw))
@@ -4973,7 +4759,6 @@ impl Display for PacketZcDeleteitemFromMcstore {
 impl Debug for PacketCzPkmodeChange {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzPkmodeChange")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("is_turn_on[2, 3]", &format!("{:02X?}", &self.is_turn_on_raw))
         .finish()
@@ -4992,7 +4777,6 @@ impl Display for PacketCzPkmodeChange {
 impl Debug for PacketZcAttackFailureForDistance {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAttackFailureForDistance")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("target_aid[2, 6]", &format!("{:02X?}", &self.target_aid_raw))
             .field("target_xpos[6, 8]", &format!("{:02X?}", &self.target_xpos_raw))
@@ -5021,7 +4805,6 @@ impl Display for PacketZcAttackFailureForDistance {
 impl Debug for PacketZcAttackRange {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAttackRange")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("current_att_range[2, 4]", &format!("{:02X?}", &self.current_att_range_raw))
         .finish()
@@ -5040,7 +4823,6 @@ impl Display for PacketZcAttackRange {
 impl Debug for PacketZcActionFailure {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcActionFailure")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("error_code[2, 4]", &format!("{:02X?}", &self.error_code_raw))
         .finish()
@@ -5059,7 +4841,6 @@ impl Display for PacketZcActionFailure {
 impl Debug for PacketZcEquipArrow {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcEquipArrow")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
         .finish()
@@ -5078,7 +4859,6 @@ impl Display for PacketZcEquipArrow {
 impl Debug for PacketZcRecovery {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcRecovery")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("var_id[2, 4]", &format!("{:02X?}", &self.var_id_raw))
             .field("amount[4, 6]", &format!("{:02X?}", &self.amount_raw))
@@ -5099,7 +4879,6 @@ impl Display for PacketZcRecovery {
 impl Debug for PacketZcUseskillAck {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcUseskillAck")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("target_id[6, 10]", &format!("{:02X?}", &self.target_id_raw))
@@ -5130,7 +4909,6 @@ impl Display for PacketZcUseskillAck {
 impl Debug for PacketCzItemCreate {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzItemCreate")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("item_name[2, 26]", &format!("{:02X?}", &self.item_name_raw))
         .finish()
@@ -5149,7 +4927,6 @@ impl Display for PacketCzItemCreate {
 impl Debug for PacketCzMovetoMap {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzMovetoMap")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("map_name[2, 18]", &format!("{:02X?}", &self.map_name_raw))
             .field("x_pos[18, 20]", &format!("{:02X?}", &self.x_pos_raw))
@@ -5172,7 +4949,6 @@ impl Display for PacketCzMovetoMap {
 impl Debug for PacketZcStatusValues {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcStatusValues")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("status_type[2, 6]", &format!("{:02X?}", &self.status_type_raw))
             .field("default_status[6, 10]", &format!("{:02X?}", &self.default_status_raw))
@@ -5195,7 +4971,6 @@ impl Display for PacketZcStatusValues {
 impl Debug for PacketZcOpenEditdlg {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcOpenEditdlg")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("naid[2, 6]", &format!("{:02X?}", &self.naid_raw))
         .finish()
@@ -5214,7 +4989,6 @@ impl Display for PacketZcOpenEditdlg {
 impl Debug for PacketCzInputEditdlg {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzInputEditdlg")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("naid[2, 6]", &format!("{:02X?}", &self.naid_raw))
             .field("value[6, 10]", &format!("{:02X?}", &self.value_raw))
@@ -5235,7 +5009,6 @@ impl Display for PacketCzInputEditdlg {
 impl Debug for PacketZcCompass {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcCompass")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("naid[2, 6]", &format!("{:02X?}", &self.naid_raw))
             .field("atype[6, 10]", &format!("{:02X?}", &self.atype_raw))
@@ -5264,7 +5037,6 @@ impl Display for PacketZcCompass {
 impl Debug for PacketZcShowImage {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcShowImage")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("image_name[2, 18]", &format!("{:02X?}", &self.image_name_raw))
             .field("atype[18, 19]", &format!("{:02X?}", &self.atype_raw))
@@ -5285,7 +5057,6 @@ impl Display for PacketZcShowImage {
 impl Debug for PacketCzCloseDialog {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzCloseDialog")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("naid[2, 6]", &format!("{:02X?}", &self.naid_raw))
         .finish()
@@ -5304,7 +5075,6 @@ impl Display for PacketCzCloseDialog {
 impl Debug for PacketZcAutorunSkill {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAutorunSkill")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("data[2, ?]", &format!("{:02X?}", &self.data_raw))
         .finish()
@@ -5323,7 +5093,6 @@ impl Display for PacketZcAutorunSkill {
 impl Debug for PacketZcResurrection {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcResurrection")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("atype[6, 8]", &format!("{:02X?}", &self.atype_raw))
@@ -5344,7 +5113,6 @@ impl Display for PacketZcResurrection {
 impl Debug for PacketCzReqGiveMannerPoint {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqGiveMannerPoint")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("other_aid[2, 6]", &format!("{:02X?}", &self.other_aid_raw))
             .field("atype[6, 7]", &format!("{:02X?}", &self.atype_raw))
@@ -5367,7 +5135,6 @@ impl Display for PacketCzReqGiveMannerPoint {
 impl Debug for PacketZcAckGiveMannerPoint {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAckGiveMannerPoint")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 6]", &format!("{:02X?}", &self.result_raw))
         .finish()
@@ -5386,7 +5153,6 @@ impl Display for PacketZcAckGiveMannerPoint {
 impl Debug for PacketZcNotifyMannerPointGiven {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyMannerPointGiven")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("atype[2, 3]", &format!("{:02X?}", &self.atype_raw))
             .field("other_char_name[3, 27]", &format!("{:02X?}", &self.other_char_name_raw))
@@ -5407,7 +5173,6 @@ impl Display for PacketZcNotifyMannerPointGiven {
 impl Debug for PacketZcMyguildBasicInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcMyguildBasicInfo")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("related_guild_list[4, 36]", &format!("{:02X?}", &self.related_guild_list_raw))
@@ -5429,7 +5194,6 @@ impl Display for PacketZcMyguildBasicInfo {
 impl Debug for PacketCzReqGuildMenuinterface {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqGuildMenuinterface")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -5446,7 +5210,6 @@ impl Display for PacketCzReqGuildMenuinterface {
 impl Debug for PacketZcAckGuildMenuinterface {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAckGuildMenuinterface")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("guild_memu_flag[2, 6]", &format!("{:02X?}", &self.guild_memu_flag_raw))
         .finish()
@@ -5465,7 +5228,6 @@ impl Display for PacketZcAckGuildMenuinterface {
 impl Debug for PacketCzReqGuildMenu {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqGuildMenu")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("atype[2, 6]", &format!("{:02X?}", &self.atype_raw))
         .finish()
@@ -5484,7 +5246,6 @@ impl Display for PacketCzReqGuildMenu {
 impl Debug for PacketZcGuildInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcGuildInfo")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gdid[2, 6]", &format!("{:02X?}", &self.gdid_raw))
             .field("level[6, 10]", &format!("{:02X?}", &self.level_raw))
@@ -5529,7 +5290,6 @@ impl Display for PacketZcGuildInfo {
 impl Debug for PacketCzReqGuildEmblemImg {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqGuildEmblemImg")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gdid[2, 6]", &format!("{:02X?}", &self.gdid_raw))
         .finish()
@@ -5548,7 +5308,6 @@ impl Display for PacketCzReqGuildEmblemImg {
 impl Debug for PacketZcGuildEmblemImg {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcGuildEmblemImg")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("gdid[4, 8]", &format!("{:02X?}", &self.gdid_raw))
@@ -5573,7 +5332,6 @@ impl Display for PacketZcGuildEmblemImg {
 impl Debug for PacketCzRegisterGuildEmblemImg {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzRegisterGuildEmblemImg")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("img[4, ?]", &format!("{:02X?}", &self.img_raw))
@@ -5594,7 +5352,6 @@ impl Display for PacketCzRegisterGuildEmblemImg {
 impl Debug for PacketZcMembermgrInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcMembermgrInfo")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("member_info[4, 108]", &format!("{:02X?}", &self.member_info_raw))
@@ -5616,7 +5373,6 @@ impl Display for PacketZcMembermgrInfo {
 impl Debug for PacketCzReqChangeMemberpos {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqChangeMemberpos")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("member_info[4, 16]", &format!("{:02X?}", &self.member_info_raw))
@@ -5638,7 +5394,6 @@ impl Display for PacketCzReqChangeMemberpos {
 impl Debug for PacketZcAckReqChangeMembers {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAckReqChangeMembers")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("member_info[4, 16]", &format!("{:02X?}", &self.member_info_raw))
@@ -5660,7 +5415,6 @@ impl Display for PacketZcAckReqChangeMembers {
 impl Debug for PacketCzReqOpenMemberInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqOpenMemberInfo")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
         .finish()
@@ -5679,7 +5433,6 @@ impl Display for PacketCzReqOpenMemberInfo {
 impl Debug for PacketZcAckOpenMemberInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAckOpenMemberInfo")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -5696,7 +5449,6 @@ impl Display for PacketZcAckOpenMemberInfo {
 impl Debug for PacketCzReqLeaveGuild {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqLeaveGuild")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gdid[2, 6]", &format!("{:02X?}", &self.gdid_raw))
             .field("aid[6, 10]", &format!("{:02X?}", &self.aid_raw))
@@ -5721,7 +5473,6 @@ impl Display for PacketCzReqLeaveGuild {
 impl Debug for PacketZcAckLeaveGuild {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAckLeaveGuild")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("char_name[2, 26]", &format!("{:02X?}", &self.char_name_raw))
             .field("reason_desc[26, 66]", &format!("{:02X?}", &self.reason_desc_raw))
@@ -5742,7 +5493,6 @@ impl Display for PacketZcAckLeaveGuild {
 impl Debug for PacketCzReqBanGuild {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqBanGuild")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gdid[2, 6]", &format!("{:02X?}", &self.gdid_raw))
             .field("aid[6, 10]", &format!("{:02X?}", &self.aid_raw))
@@ -5767,7 +5517,6 @@ impl Display for PacketCzReqBanGuild {
 impl Debug for PacketZcAckBanGuild {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAckBanGuild")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("char_name[2, 26]", &format!("{:02X?}", &self.char_name_raw))
             .field("reason_desc[26, 66]", &format!("{:02X?}", &self.reason_desc_raw))
@@ -5790,7 +5539,6 @@ impl Display for PacketZcAckBanGuild {
 impl Debug for PacketCzReqDisorganizeGuild {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqDisorganizeGuild")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("key[2, 42]", &format!("{:02X?}", &self.key_raw))
         .finish()
@@ -5809,7 +5557,6 @@ impl Display for PacketCzReqDisorganizeGuild {
 impl Debug for PacketZcAckDisorganizeGuildResult {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAckDisorganizeGuildResult")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("reason[2, 6]", &format!("{:02X?}", &self.reason_raw))
         .finish()
@@ -5828,7 +5575,6 @@ impl Display for PacketZcAckDisorganizeGuildResult {
 impl Debug for PacketZcAckDisorganizeGuild {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAckDisorganizeGuild")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("reason_desc[2, 42]", &format!("{:02X?}", &self.reason_desc_raw))
         .finish()
@@ -5847,7 +5593,6 @@ impl Display for PacketZcAckDisorganizeGuild {
 impl Debug for PacketZcPositionInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcPositionInfo")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("member_info[4, 20]", &format!("{:02X?}", &self.member_info_raw))
@@ -5869,7 +5614,6 @@ impl Display for PacketZcPositionInfo {
 impl Debug for PacketCzRegChangeGuildPositioninfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzRegChangeGuildPositioninfo")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("member_list[4, 44]", &format!("{:02X?}", &self.member_list_raw))
@@ -5891,7 +5635,6 @@ impl Display for PacketCzRegChangeGuildPositioninfo {
 impl Debug for PacketZcGuildSkillinfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcGuildSkillinfo")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("skill_point[4, 6]", &format!("{:02X?}", &self.skill_point_raw))
@@ -5915,7 +5658,6 @@ impl Display for PacketZcGuildSkillinfo {
 impl Debug for PacketZcBanList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcBanList")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("ban_list[4, 92]", &format!("{:02X?}", &self.ban_list_raw))
@@ -5937,7 +5679,6 @@ impl Display for PacketZcBanList {
 impl Debug for PacketZcOtherGuildList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcOtherGuildList")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("guild_list[4, 40]", &format!("{:02X?}", &self.guild_list_raw))
@@ -5959,7 +5700,6 @@ impl Display for PacketZcOtherGuildList {
 impl Debug for PacketCzReqMakeGuild {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqMakeGuild")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("gname[6, 30]", &format!("{:02X?}", &self.gname_raw))
@@ -5980,7 +5720,6 @@ impl Display for PacketCzReqMakeGuild {
 impl Debug for PacketZcPositionIdNameInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcPositionIdNameInfo")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("member_list[4, 32]", &format!("{:02X?}", &self.member_list_raw))
@@ -6002,7 +5741,6 @@ impl Display for PacketZcPositionIdNameInfo {
 impl Debug for PacketZcResultMakeGuild {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcResultMakeGuild")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 3]", &format!("{:02X?}", &self.result_raw))
         .finish()
@@ -6021,7 +5759,6 @@ impl Display for PacketZcResultMakeGuild {
 impl Debug for PacketCzReqJoinGuild {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqJoinGuild")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("my_aid[6, 10]", &format!("{:02X?}", &self.my_aid_raw))
@@ -6044,7 +5781,6 @@ impl Display for PacketCzReqJoinGuild {
 impl Debug for PacketZcAckReqJoinGuild {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAckReqJoinGuild")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("answer[2, 3]", &format!("{:02X?}", &self.answer_raw))
         .finish()
@@ -6063,7 +5799,6 @@ impl Display for PacketZcAckReqJoinGuild {
 impl Debug for PacketZcReqJoinGuild {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcReqJoinGuild")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gdid[2, 6]", &format!("{:02X?}", &self.gdid_raw))
             .field("guild_name[6, 30]", &format!("{:02X?}", &self.guild_name_raw))
@@ -6084,7 +5819,6 @@ impl Display for PacketZcReqJoinGuild {
 impl Debug for PacketCzJoinGuild {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzJoinGuild")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gdid[2, 6]", &format!("{:02X?}", &self.gdid_raw))
             .field("answer[6, 10]", &format!("{:02X?}", &self.answer_raw))
@@ -6105,7 +5839,6 @@ impl Display for PacketCzJoinGuild {
 impl Debug for PacketZcUpdateGdid {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcUpdateGdid")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gdid[2, 6]", &format!("{:02X?}", &self.gdid_raw))
             .field("emblem_version[6, 10]", &format!("{:02X?}", &self.emblem_version_raw))
@@ -6134,7 +5867,6 @@ impl Display for PacketZcUpdateGdid {
 impl Debug for PacketZcUpdateCharstat {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcUpdateCharstat")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("gid[6, 10]", &format!("{:02X?}", &self.gid_raw))
@@ -6157,7 +5889,6 @@ impl Display for PacketZcUpdateCharstat {
 impl Debug for PacketCzGuildNotice {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzGuildNotice")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gdid[2, 6]", &format!("{:02X?}", &self.gdid_raw))
             .field("subject[6, 66]", &format!("{:02X?}", &self.subject_raw))
@@ -6180,7 +5911,6 @@ impl Display for PacketCzGuildNotice {
 impl Debug for PacketZcGuildNotice {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcGuildNotice")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("subject[2, 62]", &format!("{:02X?}", &self.subject_raw))
             .field("notice[62, 182]", &format!("{:02X?}", &self.notice_raw))
@@ -6201,7 +5931,6 @@ impl Display for PacketZcGuildNotice {
 impl Debug for PacketCzReqAllyGuild {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqAllyGuild")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("my_aid[6, 10]", &format!("{:02X?}", &self.my_aid_raw))
@@ -6224,7 +5953,6 @@ impl Display for PacketCzReqAllyGuild {
 impl Debug for PacketZcReqAllyGuild {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcReqAllyGuild")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("other_aid[2, 6]", &format!("{:02X?}", &self.other_aid_raw))
             .field("guild_name[6, 30]", &format!("{:02X?}", &self.guild_name_raw))
@@ -6245,7 +5973,6 @@ impl Display for PacketZcReqAllyGuild {
 impl Debug for PacketCzAllyGuild {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzAllyGuild")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("other_aid[2, 6]", &format!("{:02X?}", &self.other_aid_raw))
             .field("answer[6, 10]", &format!("{:02X?}", &self.answer_raw))
@@ -6266,7 +5993,6 @@ impl Display for PacketCzAllyGuild {
 impl Debug for PacketZcAckReqAllyGuild {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAckReqAllyGuild")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("answer[2, 3]", &format!("{:02X?}", &self.answer_raw))
         .finish()
@@ -6285,7 +6011,6 @@ impl Display for PacketZcAckReqAllyGuild {
 impl Debug for PacketZcAckChangeGuildPositioninfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAckChangeGuildPositioninfo")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("member_list[4, 34]", &format!("{:02X?}", &self.member_list_raw))
@@ -6307,7 +6032,6 @@ impl Display for PacketZcAckChangeGuildPositioninfo {
 impl Debug for PacketCzReqGuildMemberInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqGuildMemberInfo")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
         .finish()
@@ -6326,7 +6050,6 @@ impl Display for PacketCzReqGuildMemberInfo {
 impl Debug for PacketZcAckGuildMemberInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAckGuildMemberInfo")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("info[2, ?]", &format!("{:02X?}", &self.info_raw))
         .finish()
@@ -6345,7 +6068,6 @@ impl Display for PacketZcAckGuildMemberInfo {
 impl Debug for PacketZcItemidentifyList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcItemidentifyList")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("itidlist[4, ?]", &format!("{:02X?}", &self.itidlist_raw))
@@ -6366,7 +6088,6 @@ impl Display for PacketZcItemidentifyList {
 impl Debug for PacketCzReqItemidentify {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqItemidentify")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
         .finish()
@@ -6385,7 +6106,6 @@ impl Display for PacketCzReqItemidentify {
 impl Debug for PacketZcAckItemidentify {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAckItemidentify")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("result[4, 5]", &format!("{:02X?}", &self.result_raw))
@@ -6406,7 +6126,6 @@ impl Display for PacketZcAckItemidentify {
 impl Debug for PacketCzReqItemcompositionList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqItemcompositionList")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("card_index[2, 4]", &format!("{:02X?}", &self.card_index_raw))
         .finish()
@@ -6425,7 +6144,6 @@ impl Display for PacketCzReqItemcompositionList {
 impl Debug for PacketZcItemcompositionList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcItemcompositionList")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("itidlist[4, ?]", &format!("{:02X?}", &self.itidlist_raw))
@@ -6446,7 +6164,6 @@ impl Display for PacketZcItemcompositionList {
 impl Debug for PacketCzReqItemcomposition {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqItemcomposition")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("card_index[2, 4]", &format!("{:02X?}", &self.card_index_raw))
             .field("equip_index[4, 6]", &format!("{:02X?}", &self.equip_index_raw))
@@ -6467,7 +6184,6 @@ impl Display for PacketCzReqItemcomposition {
 impl Debug for PacketZcAckItemcomposition {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAckItemcomposition")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("equip_index[2, 4]", &format!("{:02X?}", &self.equip_index_raw))
             .field("card_index[4, 6]", &format!("{:02X?}", &self.card_index_raw))
@@ -6490,7 +6206,6 @@ impl Display for PacketZcAckItemcomposition {
 impl Debug for PacketCzGuildChat {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzGuildChat")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("msg[4, ?]", &format!("{:02X?}", &self.msg_raw))
@@ -6511,7 +6226,6 @@ impl Display for PacketCzGuildChat {
 impl Debug for PacketZcGuildChat {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcGuildChat")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("msg[4, ?]", &format!("{:02X?}", &self.msg_raw))
@@ -6532,7 +6246,6 @@ impl Display for PacketZcGuildChat {
 impl Debug for PacketCzReqHostileGuild {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqHostileGuild")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
         .finish()
@@ -6551,7 +6264,6 @@ impl Display for PacketCzReqHostileGuild {
 impl Debug for PacketZcAckReqHostileGuild {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAckReqHostileGuild")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 3]", &format!("{:02X?}", &self.result_raw))
         .finish()
@@ -6570,7 +6282,6 @@ impl Display for PacketZcAckReqHostileGuild {
 impl Debug for PacketZcMemberAdd {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcMemberAdd")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("info[2, ?]", &format!("{:02X?}", &self.info_raw))
         .finish()
@@ -6589,7 +6300,6 @@ impl Display for PacketZcMemberAdd {
 impl Debug for PacketCzReqDeleteRelatedGuild {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqDeleteRelatedGuild")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("opponent_gdid[2, 6]", &format!("{:02X?}", &self.opponent_gdid_raw))
             .field("relation[6, 10]", &format!("{:02X?}", &self.relation_raw))
@@ -6610,7 +6320,6 @@ impl Display for PacketCzReqDeleteRelatedGuild {
 impl Debug for PacketZcDeleteRelatedGuild {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcDeleteRelatedGuild")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("opponent_gdid[2, 6]", &format!("{:02X?}", &self.opponent_gdid_raw))
             .field("relation[6, 10]", &format!("{:02X?}", &self.relation_raw))
@@ -6631,7 +6340,6 @@ impl Display for PacketZcDeleteRelatedGuild {
 impl Debug for PacketZcAddRelatedGuild {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAddRelatedGuild")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("info[2, ?]", &format!("{:02X?}", &self.info_raw))
         .finish()
@@ -6650,7 +6358,6 @@ impl Display for PacketZcAddRelatedGuild {
 impl Debug for PacketCollectordead {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCollectordead")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("server_id[2, 6]", &format!("{:02X?}", &self.server_id_raw))
         .finish()
@@ -6669,7 +6376,6 @@ impl Display for PacketCollectordead {
 impl Debug for PacketPing {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketPing")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
         .finish()
@@ -6688,7 +6394,6 @@ impl Display for PacketPing {
 impl Debug for PacketZcAckItemrefining {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAckItemrefining")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 4]", &format!("{:02X?}", &self.result_raw))
             .field("item_index[4, 6]", &format!("{:02X?}", &self.item_index_raw))
@@ -6711,7 +6416,6 @@ impl Display for PacketZcAckItemrefining {
 impl Debug for PacketZcNotifyMapinfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyMapinfo")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("atype[2, 4]", &format!("{:02X?}", &self.atype_raw))
         .finish()
@@ -6730,7 +6434,6 @@ impl Display for PacketZcNotifyMapinfo {
 impl Debug for PacketCzReqDisconnect {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqDisconnect")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("atype[2, 4]", &format!("{:02X?}", &self.atype_raw))
         .finish()
@@ -6749,7 +6452,6 @@ impl Display for PacketCzReqDisconnect {
 impl Debug for PacketZcAckReqDisconnect {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAckReqDisconnect")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 4]", &format!("{:02X?}", &self.result_raw))
         .finish()
@@ -6768,7 +6470,6 @@ impl Display for PacketZcAckReqDisconnect {
 impl Debug for PacketZcMonsterInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcMonsterInfo")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("job[2, 4]", &format!("{:02X?}", &self.job_raw))
             .field("level[4, 6]", &format!("{:02X?}", &self.level_raw))
@@ -6803,7 +6504,6 @@ impl Display for PacketZcMonsterInfo {
 impl Debug for PacketZcMakableitemlist {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcMakableitemlist")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("info[4, ?]", &format!("{:02X?}", &self.info_raw))
@@ -6824,7 +6524,6 @@ impl Display for PacketZcMakableitemlist {
 impl Debug for PacketCzReqmakingitem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqmakingitem")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("info[2, ?]", &format!("{:02X?}", &self.info_raw))
         .finish()
@@ -6843,7 +6542,6 @@ impl Display for PacketCzReqmakingitem {
 impl Debug for PacketZcAckReqmakingitem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAckReqmakingitem")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 4]", &format!("{:02X?}", &self.result_raw))
             .field("itid[4, 6]", &format!("{:02X?}", &self.itid_raw))
@@ -6864,7 +6562,6 @@ impl Display for PacketZcAckReqmakingitem {
 impl Debug for PacketCzUseSkillTogroundWithtalkbox {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzUseSkillTogroundWithtalkbox")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("selected_level[2, 4]", &format!("{:02X?}", &self.selected_level_raw))
             .field("skid[4, 6]", &format!("{:02X?}", &self.skid_raw))
@@ -6891,7 +6588,6 @@ impl Display for PacketCzUseSkillTogroundWithtalkbox {
 impl Debug for PacketZcTalkboxChatcontents {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcTalkboxChatcontents")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("contents[6, 86]", &format!("{:02X?}", &self.contents_raw))
@@ -6912,7 +6608,6 @@ impl Display for PacketZcTalkboxChatcontents {
 impl Debug for PacketZcUpdateMapinfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcUpdateMapinfo")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("x_pos[2, 4]", &format!("{:02X?}", &self.x_pos_raw))
             .field("y_pos[4, 6]", &format!("{:02X?}", &self.y_pos_raw))
@@ -6937,7 +6632,6 @@ impl Display for PacketZcUpdateMapinfo {
 impl Debug for PacketCzReqnameBygid {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqnameBygid")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
         .finish()
@@ -6956,7 +6650,6 @@ impl Display for PacketCzReqnameBygid {
 impl Debug for PacketZcAckReqnameBygid {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAckReqnameBygid")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("cname[6, 30]", &format!("{:02X?}", &self.cname_raw))
@@ -6977,7 +6670,6 @@ impl Display for PacketZcAckReqnameBygid {
 impl Debug for PacketZcAckReqnameall {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAckReqnameall")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("cname[6, 30]", &format!("{:02X?}", &self.cname_raw))
@@ -7004,7 +6696,6 @@ impl Display for PacketZcAckReqnameall {
 impl Debug for PacketZcMsgStateChange {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcMsgStateChange")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("aid[4, 8]", &format!("{:02X?}", &self.aid_raw))
@@ -7027,7 +6718,6 @@ impl Display for PacketZcMsgStateChange {
 impl Debug for PacketCzReset {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReset")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("atype[2, 4]", &format!("{:02X?}", &self.atype_raw))
         .finish()
@@ -7046,7 +6736,6 @@ impl Display for PacketCzReset {
 impl Debug for PacketCzChangeMaptype {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzChangeMaptype")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("x_pos[2, 4]", &format!("{:02X?}", &self.x_pos_raw))
             .field("y_pos[4, 6]", &format!("{:02X?}", &self.y_pos_raw))
@@ -7069,7 +6758,6 @@ impl Display for PacketCzChangeMaptype {
 impl Debug for PacketZcNotifyMapproperty {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyMapproperty")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("atype[2, 4]", &format!("{:02X?}", &self.atype_raw))
         .finish()
@@ -7088,7 +6776,6 @@ impl Display for PacketZcNotifyMapproperty {
 impl Debug for PacketZcNotifyRanking {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyRanking")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("ranking[6, 10]", &format!("{:02X?}", &self.ranking_raw))
@@ -7111,7 +6798,6 @@ impl Display for PacketZcNotifyRanking {
 impl Debug for PacketZcNotifyEffect {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyEffect")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("effect_id[6, 10]", &format!("{:02X?}", &self.effect_id_raw))
@@ -7132,7 +6818,6 @@ impl Display for PacketZcNotifyEffect {
 impl Debug for PacketCzChangeEffectstate {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzChangeEffectstate")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("effect_state[2, 6]", &format!("{:02X?}", &self.effect_state_raw))
         .finish()
@@ -7151,7 +6836,6 @@ impl Display for PacketCzChangeEffectstate {
 impl Debug for PacketZcStartCapture {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcStartCapture")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -7168,7 +6852,6 @@ impl Display for PacketZcStartCapture {
 impl Debug for PacketCzTrycaptureMonster {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzTrycaptureMonster")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("target_aid[2, 6]", &format!("{:02X?}", &self.target_aid_raw))
         .finish()
@@ -7187,7 +6870,6 @@ impl Display for PacketCzTrycaptureMonster {
 impl Debug for PacketZcTrycaptureMonster {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcTrycaptureMonster")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 3]", &format!("{:02X?}", &self.result_raw))
         .finish()
@@ -7206,7 +6888,6 @@ impl Display for PacketZcTrycaptureMonster {
 impl Debug for PacketCzCommandPet {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzCommandPet")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("c_sub[2, 3]", &format!("{:02X?}", &self.c_sub_raw))
         .finish()
@@ -7225,7 +6906,6 @@ impl Display for PacketCzCommandPet {
 impl Debug for PacketZcPropertyPet {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcPropertyPet")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("sz_name[2, 26]", &format!("{:02X?}", &self.sz_name_raw))
             .field("b_modified[26, 27]", &format!("{:02X?}", &self.b_modified_raw))
@@ -7256,7 +6936,6 @@ impl Display for PacketZcPropertyPet {
 impl Debug for PacketZcFeedPet {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcFeedPet")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("c_ret[2, 3]", &format!("{:02X?}", &self.c_ret_raw))
             .field("itid[3, 5]", &format!("{:02X?}", &self.itid_raw))
@@ -7277,7 +6956,6 @@ impl Display for PacketZcFeedPet {
 impl Debug for PacketZcChangestatePet {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcChangestatePet")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("atype[2, 3]", &format!("{:02X?}", &self.atype_raw))
             .field("gid[3, 7]", &format!("{:02X?}", &self.gid_raw))
@@ -7300,7 +6978,6 @@ impl Display for PacketZcChangestatePet {
 impl Debug for PacketCzRenamePet {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzRenamePet")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("sz_name[2, 26]", &format!("{:02X?}", &self.sz_name_raw))
         .finish()
@@ -7319,7 +6996,6 @@ impl Display for PacketCzRenamePet {
 impl Debug for PacketZcPeteggList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcPeteggList")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("egg_list[4, 6]", &format!("{:02X?}", &self.egg_list_raw))
@@ -7341,7 +7017,6 @@ impl Display for PacketZcPeteggList {
 impl Debug for PacketCzSelectPetegg {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzSelectPetegg")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
         .finish()
@@ -7360,7 +7035,6 @@ impl Display for PacketCzSelectPetegg {
 impl Debug for PacketCzPeteggInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzPeteggInfo")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
         .finish()
@@ -7379,7 +7053,6 @@ impl Display for PacketCzPeteggInfo {
 impl Debug for PacketCzPetAct {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzPetAct")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("data[2, 6]", &format!("{:02X?}", &self.data_raw))
         .finish()
@@ -7398,7 +7071,6 @@ impl Display for PacketCzPetAct {
 impl Debug for PacketZcPetAct {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcPetAct")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("data[6, 10]", &format!("{:02X?}", &self.data_raw))
@@ -7419,7 +7091,6 @@ impl Display for PacketZcPetAct {
 impl Debug for PacketZcParChangeUser {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcParChangeUser")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("var_id[6, 8]", &format!("{:02X?}", &self.var_id_raw))
@@ -7442,7 +7113,6 @@ impl Display for PacketZcParChangeUser {
 impl Debug for PacketZcSkillUpdate {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcSkillUpdate")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
         .finish()
@@ -7461,7 +7131,6 @@ impl Display for PacketZcSkillUpdate {
 impl Debug for PacketZcMakingarrowList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcMakingarrowList")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("arrow_list[4, 6]", &format!("{:02X?}", &self.arrow_list_raw))
@@ -7483,7 +7152,6 @@ impl Display for PacketZcMakingarrowList {
 impl Debug for PacketCzReqMakingarrow {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqMakingarrow")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("id[2, 4]", &format!("{:02X?}", &self.id_raw))
         .finish()
@@ -7502,7 +7170,6 @@ impl Display for PacketCzReqMakingarrow {
 impl Debug for PacketCzReqChangecart {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqChangecart")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("num[2, 4]", &format!("{:02X?}", &self.num_raw))
         .finish()
@@ -7521,7 +7188,6 @@ impl Display for PacketCzReqChangecart {
 impl Debug for PacketZcNpcspriteChange {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNpcspriteChange")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("atype[6, 7]", &format!("{:02X?}", &self.atype_raw))
@@ -7544,7 +7210,6 @@ impl Display for PacketZcNpcspriteChange {
 impl Debug for PacketZcShowdigit {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcShowdigit")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("atype[2, 3]", &format!("{:02X?}", &self.atype_raw))
             .field("value[3, 7]", &format!("{:02X?}", &self.value_raw))
@@ -7565,7 +7230,6 @@ impl Display for PacketZcShowdigit {
 impl Debug for PacketCzReqOpenstore2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqOpenstore2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("store_name[4, 84]", &format!("{:02X?}", &self.store_name_raw))
@@ -7591,7 +7255,6 @@ impl Display for PacketCzReqOpenstore2 {
 impl Debug for PacketZcShowImage2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcShowImage2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("image_name[2, 66]", &format!("{:02X?}", &self.image_name_raw))
             .field("atype[66, 67]", &format!("{:02X?}", &self.atype_raw))
@@ -7612,7 +7275,6 @@ impl Display for PacketZcShowImage2 {
 impl Debug for PacketZcChangeGuild {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcChangeGuild")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("gdid[6, 10]", &format!("{:02X?}", &self.gdid_raw))
@@ -7635,7 +7297,6 @@ impl Display for PacketZcChangeGuild {
 impl Debug for PacketScBillingInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketScBillingInfo")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("dw_amount_remain[2, 6]", &format!("{:02X?}", &self.dw_amount_remain_raw))
             .field("dw_quantity_remain[6, 10]", &format!("{:02X?}", &self.dw_quantity_remain_raw))
@@ -7660,7 +7321,6 @@ impl Display for PacketScBillingInfo {
 impl Debug for PacketZcGuildInfo2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcGuildInfo2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gdid[2, 6]", &format!("{:02X?}", &self.gdid_raw))
             .field("level[6, 10]", &format!("{:02X?}", &self.level_raw))
@@ -7707,7 +7367,6 @@ impl Display for PacketZcGuildInfo2 {
 impl Debug for PacketCzGuildZeny {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzGuildZeny")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("zeny[2, 6]", &format!("{:02X?}", &self.zeny_raw))
         .finish()
@@ -7726,7 +7385,6 @@ impl Display for PacketCzGuildZeny {
 impl Debug for PacketZcGuildZenyAck {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcGuildZenyAck")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("ret[2, 3]", &format!("{:02X?}", &self.ret_raw))
         .finish()
@@ -7745,7 +7403,6 @@ impl Display for PacketZcGuildZenyAck {
 impl Debug for PacketZcDispel {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcDispel")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
         .finish()
@@ -7764,7 +7421,6 @@ impl Display for PacketZcDispel {
 impl Debug for PacketCzRemoveAid {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzRemoveAid")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("account_name[2, 26]", &format!("{:02X?}", &self.account_name_raw))
         .finish()
@@ -7783,7 +7439,6 @@ impl Display for PacketCzRemoveAid {
 impl Debug for PacketCzShift {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzShift")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("character_name[2, 26]", &format!("{:02X?}", &self.character_name_raw))
         .finish()
@@ -7802,7 +7457,6 @@ impl Display for PacketCzShift {
 impl Debug for PacketCzRecall {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzRecall")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("account_name[2, 26]", &format!("{:02X?}", &self.account_name_raw))
         .finish()
@@ -7821,7 +7475,6 @@ impl Display for PacketCzRecall {
 impl Debug for PacketCzRecallGid {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzRecallGid")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("character_name[2, 26]", &format!("{:02X?}", &self.character_name_raw))
         .finish()
@@ -7840,7 +7493,6 @@ impl Display for PacketCzRecallGid {
 impl Debug for PacketAcAskPngameroom {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketAcAskPngameroom")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -7857,7 +7509,6 @@ impl Display for PacketAcAskPngameroom {
 impl Debug for PacketCaReplyPngameroom {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCaReplyPngameroom")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("permission[2, 3]", &format!("{:02X?}", &self.permission_raw))
         .finish()
@@ -7876,7 +7527,6 @@ impl Display for PacketCaReplyPngameroom {
 impl Debug for PacketCzReqRemaintime {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqRemaintime")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -7893,7 +7543,6 @@ impl Display for PacketCzReqRemaintime {
 impl Debug for PacketZcReplyRemaintime {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcReplyRemaintime")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 6]", &format!("{:02X?}", &self.result_raw))
             .field("expiration_date[6, 10]", &format!("{:02X?}", &self.expiration_date_raw))
@@ -7916,7 +7565,6 @@ impl Display for PacketZcReplyRemaintime {
 impl Debug for PacketZcInfoRemaintime {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcInfoRemaintime")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("atype[2, 6]", &format!("{:02X?}", &self.atype_raw))
             .field("remain_time[6, 10]", &format!("{:02X?}", &self.remain_time_raw))
@@ -7937,7 +7585,6 @@ impl Display for PacketZcInfoRemaintime {
 impl Debug for PacketZcBroadcast2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcBroadcast2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("font_color[4, 8]", &format!("{:02X?}", &self.font_color_raw))
@@ -7968,7 +7615,6 @@ impl Display for PacketZcBroadcast2 {
 impl Debug for PacketZcAddItemToStore2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAddItemToStore2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("count[4, 8]", &format!("{:02X?}", &self.count_raw))
@@ -8001,7 +7647,6 @@ impl Display for PacketZcAddItemToStore2 {
 impl Debug for PacketZcAddItemToCart2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAddItemToCart2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("count[4, 8]", &format!("{:02X?}", &self.count_raw))
@@ -8034,7 +7679,6 @@ impl Display for PacketZcAddItemToCart2 {
 impl Debug for PacketCsReqEncryption {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCsReqEncryption")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("enc_count[2, 3]", &format!("{:02X?}", &self.enc_count_raw))
             .field("dec_count[3, 4]", &format!("{:02X?}", &self.dec_count_raw))
@@ -8055,7 +7699,6 @@ impl Display for PacketCsReqEncryption {
 impl Debug for PacketScAckEncryption {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketScAckEncryption")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -8072,7 +7715,6 @@ impl Display for PacketScAckEncryption {
 impl Debug for PacketZcUseItemAck2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcUseItemAck2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("id[4, 6]", &format!("{:02X?}", &self.id_raw))
@@ -8099,7 +7741,6 @@ impl Display for PacketZcUseItemAck2 {
 impl Debug for PacketZcSkillEntry2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcSkillEntry2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("creator_aid[6, 10]", &format!("{:02X?}", &self.creator_aid_raw))
@@ -8132,7 +7773,6 @@ impl Display for PacketZcSkillEntry2 {
 impl Debug for PacketCzReqmakinghomun {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqmakinghomun")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 3]", &format!("{:02X?}", &self.result_raw))
         .finish()
@@ -8151,7 +7791,6 @@ impl Display for PacketCzReqmakinghomun {
 impl Debug for PacketCzMonsterTalk {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzMonsterTalk")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("state_id[6, 7]", &format!("{:02X?}", &self.state_id_raw))
@@ -8176,7 +7815,6 @@ impl Display for PacketCzMonsterTalk {
 impl Debug for PacketZcMonsterTalk {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcMonsterTalk")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("state_id[6, 7]", &format!("{:02X?}", &self.state_id_raw))
@@ -8201,7 +7839,6 @@ impl Display for PacketZcMonsterTalk {
 impl Debug for PacketZcAutospelllist {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAutospelllist")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("skid[2, 9]", &format!("{:02X?}", &self.skid_raw))
         .finish()
@@ -8220,7 +7857,6 @@ impl Display for PacketZcAutospelllist {
 impl Debug for PacketCzSelectautospell {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzSelectautospell")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("skid[2, 6]", &format!("{:02X?}", &self.skid_raw))
         .finish()
@@ -8239,7 +7875,6 @@ impl Display for PacketCzSelectautospell {
 impl Debug for PacketZcDevotionlist {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcDevotionlist")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("my_aid[2, 6]", &format!("{:02X?}", &self.my_aid_raw))
             .field("aid[6, 11]", &format!("{:02X?}", &self.aid_raw))
@@ -8262,7 +7897,6 @@ impl Display for PacketZcDevotionlist {
 impl Debug for PacketZcSpirits {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcSpirits")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("num[6, 8]", &format!("{:02X?}", &self.num_raw))
@@ -8283,7 +7917,6 @@ impl Display for PacketZcSpirits {
 impl Debug for PacketZcBladestop {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcBladestop")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("src_aid[2, 6]", &format!("{:02X?}", &self.src_aid_raw))
             .field("dest_aid[6, 10]", &format!("{:02X?}", &self.dest_aid_raw))
@@ -8306,7 +7939,6 @@ impl Display for PacketZcBladestop {
 impl Debug for PacketZcCombodelay {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcCombodelay")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("delay_time[6, 10]", &format!("{:02X?}", &self.delay_time_raw))
@@ -8327,7 +7959,6 @@ impl Display for PacketZcCombodelay {
 impl Debug for PacketZcSound {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcSound")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("file_name[2, 26]", &format!("{:02X?}", &self.file_name_raw))
             .field("act[26, 27]", &format!("{:02X?}", &self.act_raw))
@@ -8352,7 +7983,6 @@ impl Display for PacketZcSound {
 impl Debug for PacketZcOpenEditdlgstr {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcOpenEditdlgstr")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("naid[2, 6]", &format!("{:02X?}", &self.naid_raw))
         .finish()
@@ -8371,7 +8001,6 @@ impl Display for PacketZcOpenEditdlgstr {
 impl Debug for PacketCzInputEditdlgstr {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzInputEditdlgstr")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("naid[4, 8]", &format!("{:02X?}", &self.naid_raw))
@@ -8394,7 +8023,6 @@ impl Display for PacketCzInputEditdlgstr {
 impl Debug for PacketZcNotifyMaptypeproperty2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyMaptypeproperty2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("atype[2, 4]", &format!("{:02X?}", &self.atype_raw))
         .finish()
@@ -8413,7 +8041,6 @@ impl Display for PacketZcNotifyMaptypeproperty2 {
 impl Debug for PacketZcSpriteChange2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcSpriteChange2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("atype[6, 7]", &format!("{:02X?}", &self.atype_raw))
@@ -8438,7 +8065,6 @@ impl Display for PacketZcSpriteChange2 {
 impl Debug for PacketZcNotifyStandentry2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyStandentry2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("speed[6, 8]", &format!("{:02X?}", &self.speed_raw))
@@ -8505,7 +8131,6 @@ impl Display for PacketZcNotifyStandentry2 {
 impl Debug for PacketZcNotifyNewentry2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyNewentry2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("speed[6, 8]", &format!("{:02X?}", &self.speed_raw))
@@ -8570,7 +8195,6 @@ impl Display for PacketZcNotifyNewentry2 {
 impl Debug for PacketZcNotifyMoveentry2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyMoveentry2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("speed[6, 8]", &format!("{:02X?}", &self.speed_raw))
@@ -8637,7 +8261,6 @@ impl Display for PacketZcNotifyMoveentry2 {
 impl Debug for PacketCaReqHash {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCaReqHash")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -8654,7 +8277,6 @@ impl Display for PacketCaReqHash {
 impl Debug for PacketAcAckHash {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketAcAckHash")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("secret[4, ?]", &format!("{:02X?}", &self.secret_raw))
@@ -8675,7 +8297,6 @@ impl Display for PacketAcAckHash {
 impl Debug for PacketCaLogin2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCaLogin2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("version[2, 6]", &format!("{:02X?}", &self.version_raw))
             .field("id[6, 30]", &format!("{:02X?}", &self.id_raw))
@@ -8700,7 +8321,6 @@ impl Display for PacketCaLogin2 {
 impl Debug for PacketZcNotifySkill2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifySkill2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("skid[2, 4]", &format!("{:02X?}", &self.skid_raw))
             .field("aid[4, 8]", &format!("{:02X?}", &self.aid_raw))
@@ -8737,7 +8357,6 @@ impl Display for PacketZcNotifySkill2 {
 impl Debug for PacketCzReqAccountname {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqAccountname")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
         .finish()
@@ -8756,7 +8375,6 @@ impl Display for PacketCzReqAccountname {
 impl Debug for PacketZcAckAccountname {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAckAccountname")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("name[6, 30]", &format!("{:02X?}", &self.name_raw))
@@ -8777,7 +8395,6 @@ impl Display for PacketZcAckAccountname {
 impl Debug for PacketZcSpirits2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcSpirits2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("num[6, 8]", &format!("{:02X?}", &self.num_raw))
@@ -8798,7 +8415,6 @@ impl Display for PacketZcSpirits2 {
 impl Debug for PacketZcReqCouple {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcReqCouple")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("gid[6, 10]", &format!("{:02X?}", &self.gid_raw))
@@ -8821,7 +8437,6 @@ impl Display for PacketZcReqCouple {
 impl Debug for PacketCzJoinCouple {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzJoinCouple")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("gid[6, 10]", &format!("{:02X?}", &self.gid_raw))
@@ -8844,7 +8459,6 @@ impl Display for PacketCzJoinCouple {
 impl Debug for PacketZcStartCouple {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcStartCouple")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -8861,7 +8475,6 @@ impl Display for PacketZcStartCouple {
 impl Debug for PacketCzReqJoinCouple {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqJoinCouple")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
         .finish()
@@ -8880,7 +8493,6 @@ impl Display for PacketCzReqJoinCouple {
 impl Debug for PacketZcCouplename {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcCouplename")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("couple_name[2, 26]", &format!("{:02X?}", &self.couple_name_raw))
         .finish()
@@ -8899,7 +8511,6 @@ impl Display for PacketZcCouplename {
 impl Debug for PacketCzDoridori {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzDoridori")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -8916,7 +8527,6 @@ impl Display for PacketCzDoridori {
 impl Debug for PacketCzMakeGroup2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzMakeGroup2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("group_name[2, 26]", &format!("{:02X?}", &self.group_name_raw))
             .field("item_pickup_rule[26, 27]", &format!("{:02X?}", &self.item_pickup_rule_raw))
@@ -8939,7 +8549,6 @@ impl Display for PacketCzMakeGroup2 {
 impl Debug for PacketZcAddMemberToGroup2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAddMemberToGroup2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("role[6, 10]", &format!("{:02X?}", &self.role_raw))
@@ -8976,7 +8585,6 @@ impl Display for PacketZcAddMemberToGroup2 {
 impl Debug for PacketZcCongratulation {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcCongratulation")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
         .finish()
@@ -8995,7 +8603,6 @@ impl Display for PacketZcCongratulation {
 impl Debug for PacketZcNotifyPositionToGuildm {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyPositionToGuildm")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("x_pos[6, 8]", &format!("{:02X?}", &self.x_pos_raw))
@@ -9018,7 +8625,6 @@ impl Display for PacketZcNotifyPositionToGuildm {
 impl Debug for PacketZcGuildMemberMapChange {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcGuildMemberMapChange")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gdid[2, 6]", &format!("{:02X?}", &self.gdid_raw))
             .field("aid[6, 10]", &format!("{:02X?}", &self.aid_raw))
@@ -9041,7 +8647,6 @@ impl Display for PacketZcGuildMemberMapChange {
 impl Debug for PacketCzChopokgi {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzChopokgi")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -9058,7 +8663,6 @@ impl Display for PacketCzChopokgi {
 impl Debug for PacketZcNormalItemlist2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNormalItemlist2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("item_info[4, 22]", &format!("{:02X?}", &self.item_info_raw))
@@ -9080,7 +8684,6 @@ impl Display for PacketZcNormalItemlist2 {
 impl Debug for PacketZcCartNormalItemlist2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcCartNormalItemlist2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("item_info[4, 22]", &format!("{:02X?}", &self.item_info_raw))
@@ -9102,7 +8705,6 @@ impl Display for PacketZcCartNormalItemlist2 {
 impl Debug for PacketZcStoreNormalItemlist2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcStoreNormalItemlist2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("item_info[4, 22]", &format!("{:02X?}", &self.item_info_raw))
@@ -9124,7 +8726,6 @@ impl Display for PacketZcStoreNormalItemlist2 {
 impl Debug for PacketAcNotifyError {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketAcNotifyError")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("msg[4, ?]", &format!("{:02X?}", &self.msg_raw))
@@ -9145,7 +8746,6 @@ impl Display for PacketAcNotifyError {
 impl Debug for PacketZcUpdateCharstat2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcUpdateCharstat2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("gid[6, 10]", &format!("{:02X?}", &self.gid_raw))
@@ -9174,7 +8774,6 @@ impl Display for PacketZcUpdateCharstat2 {
 impl Debug for PacketZcNotifyEffect2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyEffect2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("effect_id[6, 10]", &format!("{:02X?}", &self.effect_id_raw))
@@ -9195,7 +8794,6 @@ impl Display for PacketZcNotifyEffect2 {
 impl Debug for PacketZcReqExchangeItem2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcReqExchangeItem2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("name[2, 26]", &format!("{:02X?}", &self.name_raw))
             .field("gid[26, 30]", &format!("{:02X?}", &self.gid_raw))
@@ -9218,7 +8816,6 @@ impl Display for PacketZcReqExchangeItem2 {
 impl Debug for PacketZcAckExchangeItem2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAckExchangeItem2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 3]", &format!("{:02X?}", &self.result_raw))
             .field("gid[3, 7]", &format!("{:02X?}", &self.gid_raw))
@@ -9241,7 +8838,6 @@ impl Display for PacketZcAckExchangeItem2 {
 impl Debug for PacketZcReqBaby {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcReqBaby")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("gid[6, 10]", &format!("{:02X?}", &self.gid_raw))
@@ -9264,7 +8860,6 @@ impl Display for PacketZcReqBaby {
 impl Debug for PacketCzJoinBaby {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzJoinBaby")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("gid[6, 10]", &format!("{:02X?}", &self.gid_raw))
@@ -9287,7 +8882,6 @@ impl Display for PacketCzJoinBaby {
 impl Debug for PacketZcStartBaby {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcStartBaby")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -9304,7 +8898,6 @@ impl Display for PacketZcStartBaby {
 impl Debug for PacketCzReqJoinBaby {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqJoinBaby")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
         .finish()
@@ -9323,7 +8916,6 @@ impl Display for PacketCzReqJoinBaby {
 impl Debug for PacketCaLogin3 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCaLogin3")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("version[2, 6]", &format!("{:02X?}", &self.version_raw))
             .field("id[6, 30]", &format!("{:02X?}", &self.id_raw))
@@ -9350,7 +8942,6 @@ impl Display for PacketCaLogin3 {
 impl Debug for PacketChDeleteChar2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketChDeleteChar2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("key[6, 56]", &format!("{:02X?}", &self.key_raw))
@@ -9371,7 +8962,6 @@ impl Display for PacketChDeleteChar2 {
 impl Debug for PacketZcRepairitemlist {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcRepairitemlist")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("item_list[4, 17]", &format!("{:02X?}", &self.item_list_raw))
@@ -9393,7 +8983,6 @@ impl Display for PacketZcRepairitemlist {
 impl Debug for PacketCzReqItemrepair {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqItemrepair")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("target_item_info[2, ?]", &format!("{:02X?}", &self.target_item_info_raw))
         .finish()
@@ -9412,7 +9001,6 @@ impl Display for PacketCzReqItemrepair {
 impl Debug for PacketZcAckItemrepair {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAckItemrepair")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("result[4, 5]", &format!("{:02X?}", &self.result_raw))
@@ -9433,7 +9021,6 @@ impl Display for PacketZcAckItemrepair {
 impl Debug for PacketZcHighjump {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcHighjump")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("x_pos[6, 8]", &format!("{:02X?}", &self.x_pos_raw))
@@ -9456,7 +9043,6 @@ impl Display for PacketZcHighjump {
 impl Debug for PacketCaConnectInfoChanged {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCaConnectInfoChanged")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("id[2, 26]", &format!("{:02X?}", &self.id_raw))
         .finish()
@@ -9475,7 +9061,6 @@ impl Display for PacketCaConnectInfoChanged {
 impl Debug for PacketZcFriendsList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcFriendsList")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("friend_list[4, 36]", &format!("{:02X?}", &self.friend_list_raw))
@@ -9497,7 +9082,6 @@ impl Display for PacketZcFriendsList {
 impl Debug for PacketCzAddFriends {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzAddFriends")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("name[2, 26]", &format!("{:02X?}", &self.name_raw))
         .finish()
@@ -9516,7 +9100,6 @@ impl Display for PacketCzAddFriends {
 impl Debug for PacketCzDeleteFriends {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzDeleteFriends")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("gid[6, 10]", &format!("{:02X?}", &self.gid_raw))
@@ -9537,7 +9120,6 @@ impl Display for PacketCzDeleteFriends {
 impl Debug for PacketCaExeHashcheck {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCaExeHashcheck")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("hash_value[2, 18]", &format!("{:02X?}", &self.hash_value_raw))
         .finish()
@@ -9556,7 +9138,6 @@ impl Display for PacketCaExeHashcheck {
 impl Debug for PacketZcDivorce {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcDivorce")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("name[2, 26]", &format!("{:02X?}", &self.name_raw))
         .finish()
@@ -9575,7 +9156,6 @@ impl Display for PacketZcDivorce {
 impl Debug for PacketZcFriendsState {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcFriendsState")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("gid[6, 10]", &format!("{:02X?}", &self.gid_raw))
@@ -9598,7 +9178,6 @@ impl Display for PacketZcFriendsState {
 impl Debug for PacketZcReqAddFriends {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcReqAddFriends")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("req_aid[2, 6]", &format!("{:02X?}", &self.req_aid_raw))
             .field("req_gid[6, 10]", &format!("{:02X?}", &self.req_gid_raw))
@@ -9621,7 +9200,6 @@ impl Display for PacketZcReqAddFriends {
 impl Debug for PacketCzAckReqAddFriends {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzAckReqAddFriends")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("req_aid[2, 6]", &format!("{:02X?}", &self.req_aid_raw))
             .field("req_gid[6, 10]", &format!("{:02X?}", &self.req_gid_raw))
@@ -9644,7 +9222,6 @@ impl Display for PacketCzAckReqAddFriends {
 impl Debug for PacketZcAddFriendsList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAddFriendsList")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 4]", &format!("{:02X?}", &self.result_raw))
             .field("aid[4, 8]", &format!("{:02X?}", &self.aid_raw))
@@ -9669,7 +9246,6 @@ impl Display for PacketZcAddFriendsList {
 impl Debug for PacketZcDeleteFriends {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcDeleteFriends")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("gid[6, 10]", &format!("{:02X?}", &self.gid_raw))
@@ -9690,7 +9266,6 @@ impl Display for PacketZcDeleteFriends {
 impl Debug for PacketAcRefuseLoginR3 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketAcRefuseLoginR3")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("error_code[2, 6]", &format!("{:02X?}", &self.error_code_raw))
             .field("block_date[6, 26]", &format!("{:02X?}", &self.block_date_raw))
@@ -9711,7 +9286,6 @@ impl Display for PacketAcRefuseLoginR3 {
 impl Debug for PacketCzExeHashcheck {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzExeHashcheck")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("client_type[2, 3]", &format!("{:02X?}", &self.client_type_raw))
             .field("hash_value[3, 19]", &format!("{:02X?}", &self.hash_value_raw))
@@ -9732,7 +9306,6 @@ impl Display for PacketCzExeHashcheck {
 impl Debug for PacketHcBlockCharacter {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketHcBlockCharacter")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("character_list[4, 28]", &format!("{:02X?}", &self.character_list_raw))
@@ -9754,7 +9327,6 @@ impl Display for PacketHcBlockCharacter {
 impl Debug for PacketZcStarskill {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcStarskill")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("map_name[2, 26]", &format!("{:02X?}", &self.map_name_raw))
             .field("monster_id[26, 30]", &format!("{:02X?}", &self.monster_id_raw))
@@ -9779,7 +9351,6 @@ impl Display for PacketZcStarskill {
 impl Debug for PacketCzReqPvppoint {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqPvppoint")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("gid[6, 10]", &format!("{:02X?}", &self.gid_raw))
@@ -9800,7 +9371,6 @@ impl Display for PacketCzReqPvppoint {
 impl Debug for PacketZcAckPvppoint {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAckPvppoint")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("gid[6, 10]", &format!("{:02X?}", &self.gid_raw))
@@ -9823,7 +9393,6 @@ impl Display for PacketZcAckPvppoint {
 impl Debug for PacketZhMovePvpworld {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZhMovePvpworld")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
         .finish()
@@ -9842,7 +9411,6 @@ impl Display for PacketZhMovePvpworld {
 impl Debug for PacketCzReqGiveMannerByname {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqGiveMannerByname")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("char_name[2, 26]", &format!("{:02X?}", &self.char_name_raw))
         .finish()
@@ -9861,7 +9429,6 @@ impl Display for PacketCzReqGiveMannerByname {
 impl Debug for PacketCzReqStatusGm {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqStatusGm")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("char_name[2, 26]", &format!("{:02X?}", &self.char_name_raw))
         .finish()
@@ -9880,7 +9447,6 @@ impl Display for PacketCzReqStatusGm {
 impl Debug for PacketZcAckStatusGm {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAckStatusGm")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("str[2, 3]", &format!("{:02X?}", &self.str_raw))
             .field("standard_str[3, 4]", &format!("{:02X?}", &self.standard_str_raw))
@@ -9949,7 +9515,6 @@ impl Display for PacketZcAckStatusGm {
 impl Debug for PacketZcSkillmsg {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcSkillmsg")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("msg_no[2, 6]", &format!("{:02X?}", &self.msg_no_raw))
         .finish()
@@ -9968,7 +9533,6 @@ impl Display for PacketZcSkillmsg {
 impl Debug for PacketZcBabymsg {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcBabymsg")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("msg_no[2, 6]", &format!("{:02X?}", &self.msg_no_raw))
         .finish()
@@ -9987,7 +9551,6 @@ impl Display for PacketZcBabymsg {
 impl Debug for PacketCzBlacksmithRank {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzBlacksmithRank")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -10004,7 +9567,6 @@ impl Display for PacketCzBlacksmithRank {
 impl Debug for PacketCzAlchemistRank {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzAlchemistRank")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -10021,7 +9583,6 @@ impl Display for PacketCzAlchemistRank {
 impl Debug for PacketZcBlacksmithRank {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcBlacksmithRank")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("name[2, 12]", &format!("{:02X?}", &self.name_raw))
             .field("point[12, 22]", &format!("{:02X?}", &self.point_raw))
@@ -10042,7 +9603,6 @@ impl Display for PacketZcBlacksmithRank {
 impl Debug for PacketZcAlchemistRank {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAlchemistRank")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("name[2, 12]", &format!("{:02X?}", &self.name_raw))
             .field("point[12, 22]", &format!("{:02X?}", &self.point_raw))
@@ -10063,7 +9623,6 @@ impl Display for PacketZcAlchemistRank {
 impl Debug for PacketZcBlacksmithPoint {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcBlacksmithPoint")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("point[2, 6]", &format!("{:02X?}", &self.point_raw))
             .field("total_point[6, 10]", &format!("{:02X?}", &self.total_point_raw))
@@ -10084,7 +9643,6 @@ impl Display for PacketZcBlacksmithPoint {
 impl Debug for PacketZcAlchemistPoint {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAlchemistPoint")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("point[2, 6]", &format!("{:02X?}", &self.point_raw))
             .field("total_point[6, 10]", &format!("{:02X?}", &self.total_point_raw))
@@ -10105,7 +9663,6 @@ impl Display for PacketZcAlchemistPoint {
 impl Debug for PacketCzLesseffect {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzLesseffect")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("is_less[2, 6]", &format!("{:02X?}", &self.is_less_raw))
         .finish()
@@ -10124,7 +9681,6 @@ impl Display for PacketCzLesseffect {
 impl Debug for PacketZcLesseffect {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcLesseffect")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("is_less[2, 6]", &format!("{:02X?}", &self.is_less_raw))
         .finish()
@@ -10143,7 +9699,6 @@ impl Display for PacketZcLesseffect {
 impl Debug for PacketZcNotifyPkinfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyPkinfo")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("win_point[2, 6]", &format!("{:02X?}", &self.win_point_raw))
             .field("lose_point[6, 10]", &format!("{:02X?}", &self.lose_point_raw))
@@ -10170,7 +9725,6 @@ impl Display for PacketZcNotifyPkinfo {
 impl Debug for PacketZcNotifyCrazykiller {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyCrazykiller")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("is_crazy_killer[6, 10]", &format!("{:02X?}", &self.is_crazy_killer_raw))
@@ -10191,7 +9745,6 @@ impl Display for PacketZcNotifyCrazykiller {
 impl Debug for PacketZcNotifyWeaponitemlist {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyWeaponitemlist")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("item_list[4, 17]", &format!("{:02X?}", &self.item_list_raw))
@@ -10213,7 +9766,6 @@ impl Display for PacketZcNotifyWeaponitemlist {
 impl Debug for PacketCzReqWeaponrefine {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqWeaponrefine")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 6]", &format!("{:02X?}", &self.index_raw))
         .finish()
@@ -10232,7 +9784,6 @@ impl Display for PacketCzReqWeaponrefine {
 impl Debug for PacketZcAckWeaponrefine {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAckWeaponrefine")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("msg[2, 6]", &format!("{:02X?}", &self.msg_raw))
             .field("itid[6, 8]", &format!("{:02X?}", &self.itid_raw))
@@ -10253,7 +9804,6 @@ impl Display for PacketZcAckWeaponrefine {
 impl Debug for PacketZcTaekwonPoint {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcTaekwonPoint")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("point[2, 6]", &format!("{:02X?}", &self.point_raw))
             .field("total_point[6, 10]", &format!("{:02X?}", &self.total_point_raw))
@@ -10274,7 +9824,6 @@ impl Display for PacketZcTaekwonPoint {
 impl Debug for PacketCzTaekwonRank {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzTaekwonRank")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -10291,7 +9840,6 @@ impl Display for PacketCzTaekwonRank {
 impl Debug for PacketZcTaekwonRank {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcTaekwonRank")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("name[2, 12]", &format!("{:02X?}", &self.name_raw))
             .field("point[12, 22]", &format!("{:02X?}", &self.point_raw))
@@ -10312,7 +9860,6 @@ impl Display for PacketZcTaekwonRank {
 impl Debug for PacketZcGameGuard {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcGameGuard")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("auth_data[2, 6]", &format!("{:02X?}", &self.auth_data_raw))
         .finish()
@@ -10331,7 +9878,6 @@ impl Display for PacketZcGameGuard {
 impl Debug for PacketCzAckGameGuard {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzAckGameGuard")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("auth_data[2, 6]", &format!("{:02X?}", &self.auth_data_raw))
         .finish()
@@ -10350,7 +9896,6 @@ impl Display for PacketCzAckGameGuard {
 impl Debug for PacketZcStateChange3 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcStateChange3")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("body_state[6, 8]", &format!("{:02X?}", &self.body_state_raw))
@@ -10377,7 +9922,6 @@ impl Display for PacketZcStateChange3 {
 impl Debug for PacketZcNotifyStandentry3 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyStandentry3")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("speed[6, 8]", &format!("{:02X?}", &self.speed_raw))
@@ -10444,7 +9988,6 @@ impl Display for PacketZcNotifyStandentry3 {
 impl Debug for PacketZcNotifyNewentry3 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyNewentry3")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("speed[6, 8]", &format!("{:02X?}", &self.speed_raw))
@@ -10509,7 +10052,6 @@ impl Display for PacketZcNotifyNewentry3 {
 impl Debug for PacketZcNotifyMoveentry3 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyMoveentry3")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("objecttype[2, 3]", &format!("{:02X?}", &self.objecttype_raw))
             .field("gid[3, 7]", &format!("{:02X?}", &self.gid_raw))
@@ -10578,7 +10120,6 @@ impl Display for PacketZcNotifyMoveentry3 {
 impl Debug for PacketCzCommandMer {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzCommandMer")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("atype[2, 4]", &format!("{:02X?}", &self.atype_raw))
             .field("command[4, 5]", &format!("{:02X?}", &self.command_raw))
@@ -10599,7 +10140,6 @@ impl Display for PacketCzCommandMer {
 impl Debug for PacketZcPropertyHomun {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcPropertyHomun")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("sz_name[2, 26]", &format!("{:02X?}", &self.sz_name_raw))
             .field("b_modified[26, 27]", &format!("{:02X?}", &self.b_modified_raw))
@@ -10660,7 +10200,6 @@ impl Display for PacketZcPropertyHomun {
 impl Debug for PacketZcChangestateMer {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcChangestateMer")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("atype[2, 3]", &format!("{:02X?}", &self.atype_raw))
             .field("state[3, 4]", &format!("{:02X?}", &self.state_raw))
@@ -10685,7 +10224,6 @@ impl Display for PacketZcChangestateMer {
 impl Debug for PacketCzRenameMer {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzRenameMer")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("name[2, 26]", &format!("{:02X?}", &self.name_raw))
         .finish()
@@ -10704,7 +10242,6 @@ impl Display for PacketCzRenameMer {
 impl Debug for PacketCzRequestMovenpc {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzRequestMovenpc")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("dest[6, 9]", &format!("{:02X?}", &self.dest_raw))
@@ -10725,7 +10262,6 @@ impl Display for PacketCzRequestMovenpc {
 impl Debug for PacketCzRequestActnpc {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzRequestActnpc")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("target_gid[6, 10]", &format!("{:02X?}", &self.target_gid_raw))
@@ -10748,7 +10284,6 @@ impl Display for PacketCzRequestActnpc {
 impl Debug for PacketCzRequestMovetoowner {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzRequestMovetoowner")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
         .finish()
@@ -10767,7 +10302,6 @@ impl Display for PacketCzRequestMovetoowner {
 impl Debug for PacketZcReqStorePassword {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcReqStorePassword")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("info[2, 4]", &format!("{:02X?}", &self.info_raw))
         .finish()
@@ -10786,7 +10320,6 @@ impl Display for PacketZcReqStorePassword {
 impl Debug for PacketCzAckStorePassword {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzAckStorePassword")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("atype[2, 4]", &format!("{:02X?}", &self.atype_raw))
             .field("password[4, 20]", &format!("{:02X?}", &self.password_raw))
@@ -10809,7 +10342,6 @@ impl Display for PacketCzAckStorePassword {
 impl Debug for PacketZcResultStorePassword {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcResultStorePassword")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 4]", &format!("{:02X?}", &self.result_raw))
             .field("error_count[4, 6]", &format!("{:02X?}", &self.error_count_raw))
@@ -10830,7 +10362,6 @@ impl Display for PacketZcResultStorePassword {
 impl Debug for PacketAcEventResult {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketAcEventResult")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("event_item_count[2, 6]", &format!("{:02X?}", &self.event_item_count_raw))
         .finish()
@@ -10849,7 +10380,6 @@ impl Display for PacketAcEventResult {
 impl Debug for PacketHcRequestCharacterPassword {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketHcRequestCharacterPassword")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 4]", &format!("{:02X?}", &self.result_raw))
             .field("dummy_value[4, 8]", &format!("{:02X?}", &self.dummy_value_raw))
@@ -10870,7 +10400,6 @@ impl Display for PacketHcRequestCharacterPassword {
 impl Debug for PacketCzMailGetList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzMailGetList")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -10887,7 +10416,6 @@ impl Display for PacketCzMailGetList {
 impl Debug for PacketZcMailReqGetList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcMailReqGetList")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("mail_number[4, 8]", &format!("{:02X?}", &self.mail_number_raw))
@@ -10911,7 +10439,6 @@ impl Display for PacketZcMailReqGetList {
 impl Debug for PacketCzMailOpen {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzMailOpen")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("mail_id[2, 6]", &format!("{:02X?}", &self.mail_id_raw))
         .finish()
@@ -10930,7 +10457,6 @@ impl Display for PacketCzMailOpen {
 impl Debug for PacketZcMailReqOpen {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcMailReqOpen")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("mail_id[4, 8]", &format!("{:02X?}", &self.mail_id_raw))
@@ -10977,7 +10503,6 @@ impl Display for PacketZcMailReqOpen {
 impl Debug for PacketCzMailDelete {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzMailDelete")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("mail_id[2, 6]", &format!("{:02X?}", &self.mail_id_raw))
         .finish()
@@ -10996,7 +10521,6 @@ impl Display for PacketCzMailDelete {
 impl Debug for PacketCzMailGetItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzMailGetItem")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("mail_id[2, 6]", &format!("{:02X?}", &self.mail_id_raw))
         .finish()
@@ -11015,7 +10539,6 @@ impl Display for PacketCzMailGetItem {
 impl Debug for PacketZcMailReqGetItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcMailReqGetItem")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 3]", &format!("{:02X?}", &self.result_raw))
         .finish()
@@ -11034,7 +10557,6 @@ impl Display for PacketZcMailReqGetItem {
 impl Debug for PacketCzMailResetItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzMailResetItem")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("atype[2, 4]", &format!("{:02X?}", &self.atype_raw))
         .finish()
@@ -11053,7 +10575,6 @@ impl Display for PacketCzMailResetItem {
 impl Debug for PacketCzMailAddItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzMailAddItem")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("count[4, 8]", &format!("{:02X?}", &self.count_raw))
@@ -11074,7 +10595,6 @@ impl Display for PacketCzMailAddItem {
 impl Debug for PacketCzMailSend {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzMailSend")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("receive_name[4, 28]", &format!("{:02X?}", &self.receive_name_raw))
@@ -11101,7 +10621,6 @@ impl Display for PacketCzMailSend {
 impl Debug for PacketZcMailReqSend {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcMailReqSend")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 3]", &format!("{:02X?}", &self.result_raw))
         .finish()
@@ -11120,7 +10639,6 @@ impl Display for PacketZcMailReqSend {
 impl Debug for PacketZcMailReceive {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcMailReceive")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("mail_id[2, 6]", &format!("{:02X?}", &self.mail_id_raw))
             .field("header[6, 46]", &format!("{:02X?}", &self.header_raw))
@@ -11143,7 +10661,6 @@ impl Display for PacketZcMailReceive {
 impl Debug for PacketCzAuctionCreate {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzAuctionCreate")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("atype[2, 4]", &format!("{:02X?}", &self.atype_raw))
         .finish()
@@ -11162,7 +10679,6 @@ impl Display for PacketCzAuctionCreate {
 impl Debug for PacketCzAuctionAddItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzAuctionAddItem")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("count[4, 8]", &format!("{:02X?}", &self.count_raw))
@@ -11183,7 +10699,6 @@ impl Display for PacketCzAuctionAddItem {
 impl Debug for PacketCzAuctionAdd {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzAuctionAdd")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("now_money[2, 6]", &format!("{:02X?}", &self.now_money_raw))
             .field("max_money[6, 10]", &format!("{:02X?}", &self.max_money_raw))
@@ -11206,7 +10721,6 @@ impl Display for PacketCzAuctionAdd {
 impl Debug for PacketCzAuctionAddCancel {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzAuctionAddCancel")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("auction_id[2, 6]", &format!("{:02X?}", &self.auction_id_raw))
         .finish()
@@ -11225,7 +10739,6 @@ impl Display for PacketCzAuctionAddCancel {
 impl Debug for PacketCzAuctionBuy {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzAuctionBuy")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("auction_id[2, 6]", &format!("{:02X?}", &self.auction_id_raw))
             .field("money[6, 10]", &format!("{:02X?}", &self.money_raw))
@@ -11246,7 +10759,6 @@ impl Display for PacketCzAuctionBuy {
 impl Debug for PacketZcAuctionResult {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAuctionResult")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 3]", &format!("{:02X?}", &self.result_raw))
         .finish()
@@ -11265,7 +10777,6 @@ impl Display for PacketZcAuctionResult {
 impl Debug for PacketCzAuctionItemSearch {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzAuctionItemSearch")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("atype[2, 4]", &format!("{:02X?}", &self.atype_raw))
             .field("auction_id[4, 8]", &format!("{:02X?}", &self.auction_id_raw))
@@ -11290,7 +10801,6 @@ impl Display for PacketCzAuctionItemSearch {
 impl Debug for PacketZcAuctionItemReqSearch {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAuctionItemReqSearch")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("max_page[4, 8]", &format!("{:02X?}", &self.max_page_raw))
@@ -11316,7 +10826,6 @@ impl Display for PacketZcAuctionItemReqSearch {
 impl Debug for PacketZcStarplace {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcStarplace")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("which[2, 3]", &format!("{:02X?}", &self.which_raw))
         .finish()
@@ -11335,7 +10844,6 @@ impl Display for PacketZcStarplace {
 impl Debug for PacketCzAgreeStarplace {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzAgreeStarplace")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("which[2, 3]", &format!("{:02X?}", &self.which_raw))
         .finish()
@@ -11354,7 +10862,6 @@ impl Display for PacketCzAgreeStarplace {
 impl Debug for PacketZcAckMailAddItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAckMailAddItem")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("result[4, 5]", &format!("{:02X?}", &self.result_raw))
@@ -11375,7 +10882,6 @@ impl Display for PacketZcAckMailAddItem {
 impl Debug for PacketZcAckAuctionAddItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAckAuctionAddItem")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("result[4, 5]", &format!("{:02X?}", &self.result_raw))
@@ -11396,7 +10902,6 @@ impl Display for PacketZcAckAuctionAddItem {
 impl Debug for PacketZcAckMailDelete {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAckMailDelete")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("mail_id[2, 6]", &format!("{:02X?}", &self.mail_id_raw))
             .field("result[6, 8]", &format!("{:02X?}", &self.result_raw))
@@ -11417,7 +10922,6 @@ impl Display for PacketZcAckMailDelete {
 impl Debug for PacketCaReqGameGuardCheck {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCaReqGameGuardCheck")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -11434,7 +10938,6 @@ impl Display for PacketCaReqGameGuardCheck {
 impl Debug for PacketAcAckGameGuard {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketAcAckGameGuard")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("uc_answer[2, 3]", &format!("{:02X?}", &self.uc_answer_raw))
         .finish()
@@ -11453,7 +10956,6 @@ impl Display for PacketAcAckGameGuard {
 impl Debug for PacketZcMakingitemList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcMakingitemList")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("id_list[4, ?]", &format!("{:02X?}", &self.id_list_raw))
@@ -11474,7 +10976,6 @@ impl Display for PacketZcMakingitemList {
 impl Debug for PacketCzReqMakingitem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqMakingitem")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("mk_type[2, 4]", &format!("{:02X?}", &self.mk_type_raw))
             .field("id[4, 6]", &format!("{:02X?}", &self.id_raw))
@@ -11495,7 +10996,6 @@ impl Display for PacketCzReqMakingitem {
 impl Debug for PacketCzAuctionReqMyInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzAuctionReqMyInfo")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("atype[2, 4]", &format!("{:02X?}", &self.atype_raw))
         .finish()
@@ -11514,7 +11014,6 @@ impl Display for PacketCzAuctionReqMyInfo {
 impl Debug for PacketCzAuctionReqMySellStop {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzAuctionReqMySellStop")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("auction_id[2, 6]", &format!("{:02X?}", &self.auction_id_raw))
         .finish()
@@ -11533,7 +11032,6 @@ impl Display for PacketCzAuctionReqMySellStop {
 impl Debug for PacketZcAuctionAckMySellStop {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAuctionAckMySellStop")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 4]", &format!("{:02X?}", &self.result_raw))
         .finish()
@@ -11552,7 +11050,6 @@ impl Display for PacketZcAuctionAckMySellStop {
 impl Debug for PacketZcAuctionWindows {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAuctionWindows")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("atype[2, 6]", &format!("{:02X?}", &self.atype_raw))
         .finish()
@@ -11571,7 +11068,6 @@ impl Display for PacketZcAuctionWindows {
 impl Debug for PacketZcMailWindows {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcMailWindows")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("atype[2, 6]", &format!("{:02X?}", &self.atype_raw))
         .finish()
@@ -11590,7 +11086,6 @@ impl Display for PacketZcMailWindows {
 impl Debug for PacketAcReqLoginOldekey {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketAcReqLoginOldekey")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("m_seed_value[2, 11]", &format!("{:02X?}", &self.m_seed_value_raw))
         .finish()
@@ -11609,7 +11104,6 @@ impl Display for PacketAcReqLoginOldekey {
 impl Debug for PacketAcReqLoginNewekey {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketAcReqLoginNewekey")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("m_seed_value[2, 11]", &format!("{:02X?}", &self.m_seed_value_raw))
         .finish()
@@ -11628,7 +11122,6 @@ impl Display for PacketAcReqLoginNewekey {
 impl Debug for PacketAcReqLoginCardpass {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketAcReqLoginCardpass")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("m_seed_value[2, 11]", &format!("{:02X?}", &self.m_seed_value_raw))
         .finish()
@@ -11647,7 +11140,6 @@ impl Display for PacketAcReqLoginCardpass {
 impl Debug for PacketCaAckLoginOldekey {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCaAckLoginOldekey")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("m_seed_value[2, 11]", &format!("{:02X?}", &self.m_seed_value_raw))
             .field("m_ekey[11, 20]", &format!("{:02X?}", &self.m_ekey_raw))
@@ -11668,7 +11160,6 @@ impl Display for PacketCaAckLoginOldekey {
 impl Debug for PacketCaAckLoginNewekey {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCaAckLoginNewekey")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("m_seed_value[2, 11]", &format!("{:02X?}", &self.m_seed_value_raw))
             .field("m_ekey[11, 20]", &format!("{:02X?}", &self.m_ekey_raw))
@@ -11689,7 +11180,6 @@ impl Display for PacketCaAckLoginNewekey {
 impl Debug for PacketCaAckLoginCardpass {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCaAckLoginCardpass")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("mcard_pass[2, 30]", &format!("{:02X?}", &self.mcard_pass_raw))
         .finish()
@@ -11708,7 +11198,6 @@ impl Display for PacketCaAckLoginCardpass {
 impl Debug for PacketAcAckEkeyFailNotexist {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketAcAckEkeyFailNotexist")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("error_code[2, 4]", &format!("{:02X?}", &self.error_code_raw))
         .finish()
@@ -11727,7 +11216,6 @@ impl Display for PacketAcAckEkeyFailNotexist {
 impl Debug for PacketAcAckEkeyFailNotusesekey {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketAcAckEkeyFailNotusesekey")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("error_code[2, 4]", &format!("{:02X?}", &self.error_code_raw))
         .finish()
@@ -11746,7 +11234,6 @@ impl Display for PacketAcAckEkeyFailNotusesekey {
 impl Debug for PacketAcAckEkeyFailNotusedekey {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketAcAckEkeyFailNotusedekey")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("error_code[2, 4]", &format!("{:02X?}", &self.error_code_raw))
         .finish()
@@ -11765,7 +11252,6 @@ impl Display for PacketAcAckEkeyFailNotusedekey {
 impl Debug for PacketAcAckEkeyFailAuthrefuse {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketAcAckEkeyFailAuthrefuse")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("error_code[2, 4]", &format!("{:02X?}", &self.error_code_raw))
         .finish()
@@ -11784,7 +11270,6 @@ impl Display for PacketAcAckEkeyFailAuthrefuse {
 impl Debug for PacketAcAckEkeyFailInputekey {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketAcAckEkeyFailInputekey")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("error_code[2, 4]", &format!("{:02X?}", &self.error_code_raw))
         .finish()
@@ -11803,7 +11288,6 @@ impl Display for PacketAcAckEkeyFailInputekey {
 impl Debug for PacketAcAckEkeyFailNotice {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketAcAckEkeyFailNotice")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("error_code[2, 4]", &format!("{:02X?}", &self.error_code_raw))
         .finish()
@@ -11822,7 +11306,6 @@ impl Display for PacketAcAckEkeyFailNotice {
 impl Debug for PacketAcAckEkeyFailNeedcardpass {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketAcAckEkeyFailNeedcardpass")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("error_code[2, 4]", &format!("{:02X?}", &self.error_code_raw))
         .finish()
@@ -11841,7 +11324,6 @@ impl Display for PacketAcAckEkeyFailNeedcardpass {
 impl Debug for PacketAcAckAuthekeyFailNotmatchcardpass {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketAcAckAuthekeyFailNotmatchcardpass")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("error_code[2, 4]", &format!("{:02X?}", &self.error_code_raw))
         .finish()
@@ -11860,7 +11342,6 @@ impl Display for PacketAcAckAuthekeyFailNotmatchcardpass {
 impl Debug for PacketAcAckFirstLogin {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketAcAckFirstLogin")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -11877,7 +11358,6 @@ impl Display for PacketAcAckFirstLogin {
 impl Debug for PacketAcReqLoginAccountInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketAcReqLoginAccountInfo")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -11894,7 +11374,6 @@ impl Display for PacketAcReqLoginAccountInfo {
 impl Debug for PacketCaAckLoginAccountInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCaAckLoginAccountInfo")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("sex[2, 4]", &format!("{:02X?}", &self.sex_raw))
             .field("b_point[4, 6]", &format!("{:02X?}", &self.b_point_raw))
@@ -11917,7 +11396,6 @@ impl Display for PacketCaAckLoginAccountInfo {
 impl Debug for PacketAcAckPtIdInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketAcAckPtIdInfo")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("sz_ptid[2, 23]", &format!("{:02X?}", &self.sz_ptid_raw))
             .field("sz_ptnum_id[23, 44]", &format!("{:02X?}", &self.sz_ptnum_id_raw))
@@ -11938,7 +11416,6 @@ impl Display for PacketAcAckPtIdInfo {
 impl Debug for PacketCzReqMailReturn {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqMailReturn")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("mail_id[2, 6]", &format!("{:02X?}", &self.mail_id_raw))
             .field("receive_name[6, 30]", &format!("{:02X?}", &self.receive_name_raw))
@@ -11959,7 +11436,6 @@ impl Display for PacketCzReqMailReturn {
 impl Debug for PacketZcAckMailReturn {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAckMailReturn")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("mail_id[2, 6]", &format!("{:02X?}", &self.mail_id_raw))
             .field("result[6, 8]", &format!("{:02X?}", &self.result_raw))
@@ -11980,7 +11456,6 @@ impl Display for PacketZcAckMailReturn {
 impl Debug for PacketChEnter2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketChEnter2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("auth_code[6, 10]", &format!("{:02X?}", &self.auth_code_raw))
@@ -12011,7 +11486,6 @@ impl Display for PacketChEnter2 {
 impl Debug for PacketCaAcceptLogin2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCaAcceptLogin2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("auth_code[4, 8]", &format!("{:02X?}", &self.auth_code_raw))
@@ -12044,7 +11518,6 @@ impl Display for PacketCaAcceptLogin2 {
 impl Debug for PacketCaLoginPcbang {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCaLoginPcbang")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("version[2, 6]", &format!("{:02X?}", &self.version_raw))
             .field("id[6, 30]", &format!("{:02X?}", &self.id_raw))
@@ -12073,7 +11546,6 @@ impl Display for PacketCaLoginPcbang {
 impl Debug for PacketZcNotifyPcbang {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyPcbang")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -12090,7 +11562,6 @@ impl Display for PacketZcNotifyPcbang {
 impl Debug for PacketCzHuntinglist {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzHuntinglist")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -12107,7 +11578,6 @@ impl Display for PacketCzHuntinglist {
 impl Debug for PacketZcHuntinglist {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcHuntinglist")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("hunting_list[4, 16]", &format!("{:02X?}", &self.hunting_list_raw))
@@ -12129,7 +11599,6 @@ impl Display for PacketZcHuntinglist {
 impl Debug for PacketZcPcbangEffect {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcPcbangEffect")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("exp_factor[2, 6]", &format!("{:02X?}", &self.exp_factor_raw))
             .field("exp_factor2[6, 10]", &format!("{:02X?}", &self.exp_factor2_raw))
@@ -12152,7 +11621,6 @@ impl Display for PacketZcPcbangEffect {
 impl Debug for PacketCaLogin4 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCaLogin4")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("version[2, 6]", &format!("{:02X?}", &self.version_raw))
             .field("id[6, 30]", &format!("{:02X?}", &self.id_raw))
@@ -12179,7 +11647,6 @@ impl Display for PacketCaLogin4 {
 impl Debug for PacketZcPropertyMerce {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcPropertyMerce")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("name[2, 26]", &format!("{:02X?}", &self.name_raw))
             .field("level[26, 28]", &format!("{:02X?}", &self.level_raw))
@@ -12232,7 +11699,6 @@ impl Display for PacketZcPropertyMerce {
 impl Debug for PacketZcShandaProtect {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcShandaProtect")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("code_len[4, 6]", &format!("{:02X?}", &self.code_len_raw))
@@ -12255,7 +11721,6 @@ impl Display for PacketZcShandaProtect {
 impl Debug for PacketCaClientType {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCaClientType")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("client_type[2, 4]", &format!("{:02X?}", &self.client_type_raw))
             .field("n_ver[4, 8]", &format!("{:02X?}", &self.n_ver_raw))
@@ -12276,7 +11741,6 @@ impl Display for PacketCaClientType {
 impl Debug for PacketZcGangsiPoint {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcGangsiPoint")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("point[2, 6]", &format!("{:02X?}", &self.point_raw))
             .field("total_point[6, 10]", &format!("{:02X?}", &self.total_point_raw))
@@ -12299,7 +11763,6 @@ impl Display for PacketZcGangsiPoint {
 impl Debug for PacketCzGangsiRank {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzGangsiRank")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_switch[2, 4]", &format!("{:02X?}", &self.packet_switch_raw))
         .finish()
@@ -12318,7 +11781,6 @@ impl Display for PacketCzGangsiRank {
 impl Debug for PacketZcGangsiRank {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcGangsiRank")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("name[2, 12]", &format!("{:02X?}", &self.name_raw))
             .field("point[12, 22]", &format!("{:02X?}", &self.point_raw))
@@ -12341,7 +11803,6 @@ impl Display for PacketZcGangsiRank {
 impl Debug for PacketZcAid {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAid")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
         .finish()
@@ -12360,7 +11821,6 @@ impl Display for PacketZcAid {
 impl Debug for PacketZcNotifyEffect3 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyEffect3")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("effect_id[6, 10]", &format!("{:02X?}", &self.effect_id_raw))
@@ -12383,7 +11843,6 @@ impl Display for PacketZcNotifyEffect3 {
 impl Debug for PacketZcDeathQuestion {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcDeathQuestion")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("qcategory[2, 4]", &format!("{:02X?}", &self.qcategory_raw))
             .field("qnum[4, 6]", &format!("{:02X?}", &self.qnum_raw))
@@ -12404,7 +11863,6 @@ impl Display for PacketZcDeathQuestion {
 impl Debug for PacketCzDeathQuestion {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzDeathQuestion")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("qanswer[2, 4]", &format!("{:02X?}", &self.qanswer_raw))
         .finish()
@@ -12423,7 +11881,6 @@ impl Display for PacketCzDeathQuestion {
 impl Debug for PacketZcPcCashPointItemlist {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcPcCashPointItemlist")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("cash_point[4, 8]", &format!("{:02X?}", &self.cash_point_raw))
@@ -12447,7 +11904,6 @@ impl Display for PacketZcPcCashPointItemlist {
 impl Debug for PacketCzPcBuyCashPointItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzPcBuyCashPointItem")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("itid[2, 4]", &format!("{:02X?}", &self.itid_raw))
             .field("count[4, 6]", &format!("{:02X?}", &self.count_raw))
@@ -12468,7 +11924,6 @@ impl Display for PacketCzPcBuyCashPointItem {
 impl Debug for PacketZcPcCashPointUpdate {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcPcCashPointUpdate")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("cash_point[2, 6]", &format!("{:02X?}", &self.cash_point_raw))
             .field("error[6, 8]", &format!("{:02X?}", &self.error_raw))
@@ -12489,7 +11944,6 @@ impl Display for PacketZcPcCashPointUpdate {
 impl Debug for PacketZcNpcShowefstUpdate {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNpcShowefstUpdate")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("effect_state[6, 10]", &format!("{:02X?}", &self.effect_state_raw))
@@ -12514,7 +11968,6 @@ impl Display for PacketZcNpcShowefstUpdate {
 impl Debug for PacketChSelectCharGoingtobeused {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketChSelectCharGoingtobeused")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("dw_aid[2, 6]", &format!("{:02X?}", &self.dw_aid_raw))
             .field("n_count_selected_char[6, 10]", &format!("{:02X?}", &self.n_count_selected_char_raw))
@@ -12537,7 +11990,6 @@ impl Display for PacketChSelectCharGoingtobeused {
 impl Debug for PacketChReqIsValidCharname {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketChReqIsValidCharname")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("dw_aid[2, 6]", &format!("{:02X?}", &self.dw_aid_raw))
             .field("dw_gid[6, 10]", &format!("{:02X?}", &self.dw_gid_raw))
@@ -12560,7 +12012,6 @@ impl Display for PacketChReqIsValidCharname {
 impl Debug for PacketHcAckIsValidCharname {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketHcAckIsValidCharname")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("s_result[2, 4]", &format!("{:02X?}", &self.s_result_raw))
         .finish()
@@ -12579,7 +12030,6 @@ impl Display for PacketHcAckIsValidCharname {
 impl Debug for PacketChReqChangeCharname {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketChReqChangeCharname")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("dw_gid[2, 6]", &format!("{:02X?}", &self.dw_gid_raw))
         .finish()
@@ -12598,7 +12048,6 @@ impl Display for PacketChReqChangeCharname {
 impl Debug for PacketHcAckChangeCharname {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketHcAckChangeCharname")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("s_result[2, 4]", &format!("{:02X?}", &self.s_result_raw))
         .finish()
@@ -12617,7 +12066,6 @@ impl Display for PacketHcAckChangeCharname {
 impl Debug for PacketZcMsg {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcMsg")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("msg[2, 4]", &format!("{:02X?}", &self.msg_raw))
         .finish()
@@ -12636,7 +12084,6 @@ impl Display for PacketZcMsg {
 impl Debug for PacketCzStandingResurrection {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzStandingResurrection")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -12653,7 +12100,6 @@ impl Display for PacketCzStandingResurrection {
 impl Debug for PacketZcBossInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcBossInfo")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("info_type[2, 3]", &format!("{:02X?}", &self.info_type_raw))
             .field("x_pos[3, 7]", &format!("{:02X?}", &self.x_pos_raw))
@@ -12686,7 +12132,6 @@ impl Display for PacketZcBossInfo {
 impl Debug for PacketZcReadBook {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcReadBook")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("book_id[2, 6]", &format!("{:02X?}", &self.book_id_raw))
             .field("page[6, 10]", &format!("{:02X?}", &self.page_raw))
@@ -12707,7 +12152,6 @@ impl Display for PacketZcReadBook {
 impl Debug for PacketZcEquipmentItemlist2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcEquipmentItemlist2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("item_info[4, 28]", &format!("{:02X?}", &self.item_info_raw))
@@ -12729,7 +12173,6 @@ impl Display for PacketZcEquipmentItemlist2 {
 impl Debug for PacketZcStoreEquipmentItemlist2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcStoreEquipmentItemlist2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("item_info[4, 28]", &format!("{:02X?}", &self.item_info_raw))
@@ -12751,7 +12194,6 @@ impl Display for PacketZcStoreEquipmentItemlist2 {
 impl Debug for PacketZcCartEquipmentItemlist2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcCartEquipmentItemlist2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("item_info[4, 28]", &format!("{:02X?}", &self.item_info_raw))
@@ -12773,7 +12215,6 @@ impl Display for PacketZcCartEquipmentItemlist2 {
 impl Debug for PacketZcCashTimeCounter {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcCashTimeCounter")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("itid[2, 4]", &format!("{:02X?}", &self.itid_raw))
             .field("remain_second[4, 8]", &format!("{:02X?}", &self.remain_second_raw))
@@ -12794,7 +12235,6 @@ impl Display for PacketZcCashTimeCounter {
 impl Debug for PacketZcCashItemDelete {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcCashItemDelete")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("itid[4, 6]", &format!("{:02X?}", &self.itid_raw))
@@ -12815,7 +12255,6 @@ impl Display for PacketZcCashItemDelete {
 impl Debug for PacketZcItemPickupAck2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcItemPickupAck2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("count[4, 6]", &format!("{:02X?}", &self.count_raw))
@@ -12854,7 +12293,6 @@ impl Display for PacketZcItemPickupAck2 {
 impl Debug for PacketZcMerInit {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcMerInit")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("atk[6, 8]", &format!("{:02X?}", &self.atk_raw))
@@ -12911,7 +12349,6 @@ impl Display for PacketZcMerInit {
 impl Debug for PacketZcMerProperty {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcMerProperty")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("atk[2, 4]", &format!("{:02X?}", &self.atk_raw))
             .field("matk[4, 6]", &format!("{:02X?}", &self.matk_raw))
@@ -12964,7 +12401,6 @@ impl Display for PacketZcMerProperty {
 impl Debug for PacketZcMerSkillinfoList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcMerSkillinfoList")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("skill_list[4, 41]", &format!("{:02X?}", &self.skill_list_raw))
@@ -12986,7 +12422,6 @@ impl Display for PacketZcMerSkillinfoList {
 impl Debug for PacketZcMerSkillinfoUpdate {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcMerSkillinfoUpdate")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("skid[2, 4]", &format!("{:02X?}", &self.skid_raw))
             .field("level[4, 6]", &format!("{:02X?}", &self.level_raw))
@@ -13013,7 +12448,6 @@ impl Display for PacketZcMerSkillinfoUpdate {
 impl Debug for PacketCzMerCommand {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzMerCommand")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("command[2, 3]", &format!("{:02X?}", &self.command_raw))
         .finish()
@@ -13032,7 +12466,6 @@ impl Display for PacketCzMerCommand {
 impl Debug for UnusedPacketCzMerUseSkill {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("UnusedPacketCzMerUseSkill")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("selected_level[2, 4]", &format!("{:02X?}", &self.selected_level_raw))
             .field("skid[4, 6]", &format!("{:02X?}", &self.skid_raw))
@@ -13055,7 +12488,6 @@ impl Display for UnusedPacketCzMerUseSkill {
 impl Debug for UnusedPacketCzMerUpgradeSkilllevel {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("UnusedPacketCzMerUpgradeSkilllevel")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("skid[2, 4]", &format!("{:02X?}", &self.skid_raw))
         .finish()
@@ -13074,7 +12506,6 @@ impl Display for UnusedPacketCzMerUpgradeSkilllevel {
 impl Debug for PacketZcMerParChange {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcMerParChange")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("var[2, 4]", &format!("{:02X?}", &self.var_raw))
             .field("value[4, 8]", &format!("{:02X?}", &self.value_raw))
@@ -13095,7 +12526,6 @@ impl Display for PacketZcMerParChange {
 impl Debug for PacketZcGameguardLingoKey {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcGameguardLingoKey")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("lingo_key[2, ?]", &format!("{:02X?}", &self.lingo_key_raw))
         .finish()
@@ -13114,7 +12544,6 @@ impl Display for PacketZcGameguardLingoKey {
 impl Debug for PacketCzKsyEvent {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzKsyEvent")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("count[4, 8]", &format!("{:02X?}", &self.count_raw))
@@ -13135,7 +12564,6 @@ impl Display for PacketCzKsyEvent {
 impl Debug for PacketZcReqCashPassword {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcReqCashPassword")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("info[2, 4]", &format!("{:02X?}", &self.info_raw))
         .finish()
@@ -13154,7 +12582,6 @@ impl Display for PacketZcReqCashPassword {
 impl Debug for PacketCzAckCashPassword {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzAckCashPassword")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("atype[2, 4]", &format!("{:02X?}", &self.atype_raw))
             .field("password[4, 20]", &format!("{:02X?}", &self.password_raw))
@@ -13177,7 +12604,6 @@ impl Display for PacketCzAckCashPassword {
 impl Debug for PacketZcResultCashPassword {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcResultCashPassword")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 4]", &format!("{:02X?}", &self.result_raw))
             .field("error_count[4, 6]", &format!("{:02X?}", &self.error_count_raw))
@@ -13198,7 +12624,6 @@ impl Display for PacketZcResultCashPassword {
 impl Debug for PacketAcRequestSecondPassword {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketAcRequestSecondPassword")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 4]", &format!("{:02X?}", &self.result_raw))
             .field("dw_seed[4, 8]", &format!("{:02X?}", &self.dw_seed_raw))
@@ -13219,7 +12644,6 @@ impl Display for PacketAcRequestSecondPassword {
 impl Debug for PacketCaLoginHan {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCaLoginHan")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("version[2, 6]", &format!("{:02X?}", &self.version_raw))
             .field("id[6, 30]", &format!("{:02X?}", &self.id_raw))
@@ -13250,7 +12674,6 @@ impl Display for PacketCaLoginHan {
 impl Debug for PacketZcAllQuestList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAllQuestList")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("quest_count[4, 8]", &format!("{:02X?}", &self.quest_count_raw))
@@ -13274,7 +12697,6 @@ impl Display for PacketZcAllQuestList {
 impl Debug for PacketZcAllQuestMission {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAllQuestMission")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("count[4, 8]", &format!("{:02X?}", &self.count_raw))
@@ -13298,7 +12720,6 @@ impl Display for PacketZcAllQuestMission {
 impl Debug for PacketZcAddQuest {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAddQuest")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("quest_id[2, 6]", &format!("{:02X?}", &self.quest_id_raw))
             .field("active[6, 7]", &format!("{:02X?}", &self.active_raw))
@@ -13328,7 +12749,6 @@ impl Display for PacketZcAddQuest {
 impl Debug for PacketZcDelQuest {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcDelQuest")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("quest_id[2, 6]", &format!("{:02X?}", &self.quest_id_raw))
         .finish()
@@ -13347,7 +12767,6 @@ impl Display for PacketZcDelQuest {
 impl Debug for PacketZcUpdateMissionHunt {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcUpdateMissionHunt")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("count[4, 6]", &format!("{:02X?}", &self.count_raw))
@@ -13371,7 +12790,6 @@ impl Display for PacketZcUpdateMissionHunt {
 impl Debug for PacketCzActiveQuest {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzActiveQuest")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("quest_id[2, 6]", &format!("{:02X?}", &self.quest_id_raw))
             .field("active[6, 7]", &format!("{:02X?}", &self.active_raw))
@@ -13392,7 +12810,6 @@ impl Display for PacketCzActiveQuest {
 impl Debug for PacketZcActiveQuest {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcActiveQuest")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("quest_id[2, 6]", &format!("{:02X?}", &self.quest_id_raw))
             .field("active[6, 7]", &format!("{:02X?}", &self.active_raw))
@@ -13413,7 +12830,6 @@ impl Display for PacketZcActiveQuest {
 impl Debug for PacketZcItemPickupParty {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcItemPickupParty")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("account_id[2, 6]", &format!("{:02X?}", &self.account_id_raw))
             .field("itid[6, 8]", &format!("{:02X?}", &self.itid_raw))
@@ -13446,7 +12862,6 @@ impl Display for PacketZcItemPickupParty {
 impl Debug for PacketZcShortcutKeyList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcShortcutKeyList")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("short_cut_key[2, 9]", &format!("{:02X?}", &self.short_cut_key_raw))
         .finish()
@@ -13466,7 +12881,6 @@ impl Display for PacketZcShortcutKeyList {
 impl Debug for PacketCzShortcutKeyChange {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzShortcutKeyChange")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("short_cut_key[4, ?]", &format!("{:02X?}", &self.short_cut_key_raw))
@@ -13487,7 +12901,6 @@ impl Display for PacketCzShortcutKeyChange {
 impl Debug for PacketZcEquipitemDamaged {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcEquipitemDamaged")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("wear_location[2, 4]", &format!("{:02X?}", &self.wear_location_raw))
             .field("account_id[4, 8]", &format!("{:02X?}", &self.account_id_raw))
@@ -13508,7 +12921,6 @@ impl Display for PacketZcEquipitemDamaged {
 impl Debug for PacketZcNotifyPcbangPlayingTime {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyPcbangPlayingTime")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("time_minute[2, 6]", &format!("{:02X?}", &self.time_minute_raw))
         .finish()
@@ -13527,7 +12939,6 @@ impl Display for PacketZcNotifyPcbangPlayingTime {
 impl Debug for PacketZcSrpacketr2Init {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcSrpacketr2Init")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("protect_factor[2, 4]", &format!("{:02X?}", &self.protect_factor_raw))
             .field("deform_seed_factor[4, 8]", &format!("{:02X?}", &self.deform_seed_factor_raw))
@@ -13550,7 +12961,6 @@ impl Display for PacketZcSrpacketr2Init {
 impl Debug for PacketCzSrpacketr2Start {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzSrpacketr2Start")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("protect_factor[2, 4]", &format!("{:02X?}", &self.protect_factor_raw))
         .finish()
@@ -13569,7 +12979,6 @@ impl Display for PacketCzSrpacketr2Start {
 impl Debug for PacketZcNpcChat {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNpcChat")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("account_id[4, 8]", &format!("{:02X?}", &self.account_id_raw))
@@ -13594,7 +13003,6 @@ impl Display for PacketZcNpcChat {
 impl Debug for PacketZcFormatstringMsg {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcFormatstringMsg")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("msg[4, 6]", &format!("{:02X?}", &self.msg_raw))
@@ -13617,7 +13025,6 @@ impl Display for PacketZcFormatstringMsg {
 impl Debug for PacketCzPartyJoinReq {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzPartyJoinReq")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("character_name[2, 26]", &format!("{:02X?}", &self.character_name_raw))
         .finish()
@@ -13636,7 +13043,6 @@ impl Display for PacketCzPartyJoinReq {
 impl Debug for PacketZcPartyJoinReqAck {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcPartyJoinReqAck")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("character_name[2, 26]", &format!("{:02X?}", &self.character_name_raw))
             .field("answer[26, 30]", &format!("{:02X?}", &self.answer_raw))
@@ -13657,7 +13063,6 @@ impl Display for PacketZcPartyJoinReqAck {
 impl Debug for PacketZcPartyJoinReq {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcPartyJoinReq")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("grid[2, 6]", &format!("{:02X?}", &self.grid_raw))
             .field("group_name[6, 30]", &format!("{:02X?}", &self.group_name_raw))
@@ -13678,7 +13083,6 @@ impl Display for PacketZcPartyJoinReq {
 impl Debug for PacketCzPartyJoinReqAck {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzPartyJoinReqAck")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("grid[2, 6]", &format!("{:02X?}", &self.grid_raw))
             .field("b_accept[6, 7]", &format!("{:02X?}", &self.b_accept_raw))
@@ -13699,7 +13103,6 @@ impl Display for PacketCzPartyJoinReqAck {
 impl Debug for PacketCzPartyConfig {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzPartyConfig")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("b_refuse_join_msg[2, 3]", &format!("{:02X?}", &self.b_refuse_join_msg_raw))
         .finish()
@@ -13718,7 +13121,6 @@ impl Display for PacketCzPartyConfig {
 impl Debug for PacketZcPartyConfig {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcPartyConfig")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("b_refuse_join_msg[2, 3]", &format!("{:02X?}", &self.b_refuse_join_msg_raw))
         .finish()
@@ -13737,7 +13139,6 @@ impl Display for PacketZcPartyConfig {
 impl Debug for PacketHcRefuseSelectchar {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketHcRefuseSelectchar")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("error_code[2, 3]", &format!("{:02X?}", &self.error_code_raw))
         .finish()
@@ -13756,7 +13157,6 @@ impl Display for PacketHcRefuseSelectchar {
 impl Debug for PacketZcMemorialdungeonSubscriptionInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcMemorialdungeonSubscriptionInfo")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("memorial_dungeon_name[2, 63]", &format!("{:02X?}", &self.memorial_dungeon_name_raw))
             .field("priority_order_num[63, 65]", &format!("{:02X?}", &self.priority_order_num_raw))
@@ -13777,7 +13177,6 @@ impl Display for PacketZcMemorialdungeonSubscriptionInfo {
 impl Debug for PacketZcMemorialdungeonSubscriptionNotify {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcMemorialdungeonSubscriptionNotify")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("priority_order_num[2, 4]", &format!("{:02X?}", &self.priority_order_num_raw))
         .finish()
@@ -13796,7 +13195,6 @@ impl Display for PacketZcMemorialdungeonSubscriptionNotify {
 impl Debug for PacketZcMemorialdungeonInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcMemorialdungeonInfo")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("memorial_dungeon_name[2, 63]", &format!("{:02X?}", &self.memorial_dungeon_name_raw))
             .field("destroy_date[63, 67]", &format!("{:02X?}", &self.destroy_date_raw))
@@ -13819,7 +13217,6 @@ impl Display for PacketZcMemorialdungeonInfo {
 impl Debug for PacketZcMemorialdungeonNotify {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcMemorialdungeonNotify")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("atype[2, 6]", &format!("{:02X?}", &self.atype_raw))
             .field("enter_limit_date[6, 10]", &format!("{:02X?}", &self.enter_limit_date_raw))
@@ -13840,7 +13237,6 @@ impl Display for PacketZcMemorialdungeonNotify {
 impl Debug for PacketCzMemorialdungeonCommand {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzMemorialdungeonCommand")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("command[2, 6]", &format!("{:02X?}", &self.command_raw))
         .finish()
@@ -13859,7 +13255,6 @@ impl Display for PacketCzMemorialdungeonCommand {
 impl Debug for PacketZcEquipmentItemlist3 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcEquipmentItemlist3")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("item_info[4, 32]", &format!("{:02X?}", &self.item_info_raw))
@@ -13881,7 +13276,6 @@ impl Display for PacketZcEquipmentItemlist3 {
 impl Debug for PacketZcStoreEquipmentItemlist3 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcStoreEquipmentItemlist3")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("item_info[4, 32]", &format!("{:02X?}", &self.item_info_raw))
@@ -13903,7 +13297,6 @@ impl Display for PacketZcStoreEquipmentItemlist3 {
 impl Debug for PacketZcCartEquipmentItemlist3 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcCartEquipmentItemlist3")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("item_info[4, 32]", &format!("{:02X?}", &self.item_info_raw))
@@ -13925,7 +13318,6 @@ impl Display for PacketZcCartEquipmentItemlist3 {
 impl Debug for PacketZcNotifyBindOnEquip {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyBindOnEquip")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
         .finish()
@@ -13944,7 +13336,6 @@ impl Display for PacketZcNotifyBindOnEquip {
 impl Debug for PacketZcItemPickupAck3 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcItemPickupAck3")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("count[4, 6]", &format!("{:02X?}", &self.count_raw))
@@ -13985,7 +13376,6 @@ impl Display for PacketZcItemPickupAck3 {
 impl Debug for PacketZcIsvrDisconnect {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcIsvrDisconnect")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -14002,7 +13392,6 @@ impl Display for PacketZcIsvrDisconnect {
 impl Debug for PacketCzEquipwinMicroscope {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzEquipwinMicroscope")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
         .finish()
@@ -14021,7 +13410,6 @@ impl Display for PacketCzEquipwinMicroscope {
 impl Debug for PacketZcEquipwinMicroscope {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcEquipwinMicroscope")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("character_name[4, 28]", &format!("{:02X?}", &self.character_name_raw))
@@ -14061,7 +13449,6 @@ impl Display for PacketZcEquipwinMicroscope {
 impl Debug for PacketCzConfig {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzConfig")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("config[2, 6]", &format!("{:02X?}", &self.config_raw))
             .field("value[6, 10]", &format!("{:02X?}", &self.value_raw))
@@ -14082,7 +13469,6 @@ impl Display for PacketCzConfig {
 impl Debug for PacketZcConfig {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcConfig")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("config[2, 6]", &format!("{:02X?}", &self.config_raw))
             .field("value[6, 10]", &format!("{:02X?}", &self.value_raw))
@@ -14103,7 +13489,6 @@ impl Display for PacketZcConfig {
 impl Debug for PacketZcConfigNotify {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcConfigNotify")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("b_open_equipment_win[2, 3]", &format!("{:02X?}", &self.b_open_equipment_win_raw))
         .finish()
@@ -14122,7 +13507,6 @@ impl Display for PacketZcConfigNotify {
 impl Debug for PacketCzBattlefieldChat {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzBattlefieldChat")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("msg[4, ?]", &format!("{:02X?}", &self.msg_raw))
@@ -14143,7 +13527,6 @@ impl Display for PacketCzBattlefieldChat {
 impl Debug for PacketZcBattlefieldChat {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcBattlefieldChat")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("account_id[4, 8]", &format!("{:02X?}", &self.account_id_raw))
@@ -14168,7 +13551,6 @@ impl Display for PacketZcBattlefieldChat {
 impl Debug for PacketZcBattlefieldNotifyCampinfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcBattlefieldNotifyCampinfo")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("account_id[2, 6]", &format!("{:02X?}", &self.account_id_raw))
             .field("name[6, 30]", &format!("{:02X?}", &self.name_raw))
@@ -14191,7 +13573,6 @@ impl Display for PacketZcBattlefieldNotifyCampinfo {
 impl Debug for PacketZcBattlefieldNotifyPoint {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcBattlefieldNotifyPoint")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("point_camp_a[2, 4]", &format!("{:02X?}", &self.point_camp_a_raw))
             .field("point_camp_b[4, 6]", &format!("{:02X?}", &self.point_camp_b_raw))
@@ -14212,7 +13593,6 @@ impl Display for PacketZcBattlefieldNotifyPoint {
 impl Debug for PacketZcBattlefieldNotifyPosition {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcBattlefieldNotifyPosition")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("account_id[2, 6]", &format!("{:02X?}", &self.account_id_raw))
             .field("name[6, 30]", &format!("{:02X?}", &self.name_raw))
@@ -14239,7 +13619,6 @@ impl Display for PacketZcBattlefieldNotifyPosition {
 impl Debug for PacketZcBattlefieldNotifyHp {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcBattlefieldNotifyHp")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("account_id[2, 6]", &format!("{:02X?}", &self.account_id_raw))
             .field("name[6, 30]", &format!("{:02X?}", &self.name_raw))
@@ -14264,7 +13643,6 @@ impl Display for PacketZcBattlefieldNotifyHp {
 impl Debug for PacketZcNotifyAct2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyAct2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("target_gid[6, 10]", &format!("{:02X?}", &self.target_gid_raw))
@@ -14299,7 +13677,6 @@ impl Display for PacketZcNotifyAct2 {
 impl Debug for PacketCzBotCheck {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzBotCheck")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("is_bot[2, 6]", &format!("{:02X?}", &self.is_bot_raw))
         .finish()
@@ -14318,7 +13695,6 @@ impl Display for PacketCzBotCheck {
 impl Debug for PacketZcMapproperty {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcMapproperty")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("atype[4, 6]", &format!("{:02X?}", &self.atype_raw))
@@ -14341,7 +13717,6 @@ impl Display for PacketZcMapproperty {
 impl Debug for PacketZcNormalItemlist3 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNormalItemlist3")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("item_info[4, 26]", &format!("{:02X?}", &self.item_info_raw))
@@ -14363,7 +13738,6 @@ impl Display for PacketZcNormalItemlist3 {
 impl Debug for PacketZcCartNormalItemlist3 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcCartNormalItemlist3")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("item_info[4, 26]", &format!("{:02X?}", &self.item_info_raw))
@@ -14385,7 +13759,6 @@ impl Display for PacketZcCartNormalItemlist3 {
 impl Debug for PacketZcStoreNormalItemlist3 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcStoreNormalItemlist3")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("item_info[4, 26]", &format!("{:02X?}", &self.item_info_raw))
@@ -14407,7 +13780,6 @@ impl Display for PacketZcStoreNormalItemlist3 {
 impl Debug for PacketZcAcceptEnter2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAcceptEnter2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("start_time[2, 6]", &format!("{:02X?}", &self.start_time_raw))
             .field("pos_dir[6, 9]", &format!("{:02X?}", &self.pos_dir_raw))
@@ -14434,7 +13806,6 @@ impl Display for PacketZcAcceptEnter2 {
 impl Debug for PacketZcNotifyMoveentry4 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyMoveentry4")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("objecttype[2, 3]", &format!("{:02X?}", &self.objecttype_raw))
             .field("gid[3, 7]", &format!("{:02X?}", &self.gid_raw))
@@ -14505,7 +13876,6 @@ impl Display for PacketZcNotifyMoveentry4 {
 impl Debug for PacketZcNotifyNewentry4 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyNewentry4")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("speed[6, 8]", &format!("{:02X?}", &self.speed_raw))
@@ -14572,7 +13942,6 @@ impl Display for PacketZcNotifyNewentry4 {
 impl Debug for PacketZcNotifyStandentry4 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyStandentry4")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("speed[6, 8]", &format!("{:02X?}", &self.speed_raw))
@@ -14641,7 +14010,6 @@ impl Display for PacketZcNotifyStandentry4 {
 impl Debug for PacketZcNotifyFont {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyFont")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("font[6, 8]", &format!("{:02X?}", &self.font_raw))
@@ -14662,7 +14030,6 @@ impl Display for PacketZcNotifyFont {
 impl Debug for PacketZcProgress {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcProgress")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("color[2, 6]", &format!("{:02X?}", &self.color_raw))
             .field("time[6, 10]", &format!("{:02X?}", &self.time_raw))
@@ -14683,7 +14050,6 @@ impl Display for PacketZcProgress {
 impl Debug for PacketCzProgress {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzProgress")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -14700,7 +14066,6 @@ impl Display for PacketCzProgress {
 impl Debug for PacketZcProgressCancel {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcProgressCancel")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -14717,7 +14082,6 @@ impl Display for PacketZcProgressCancel {
 impl Debug for PacketCzOpenSimpleCashshopItemlist {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzOpenSimpleCashshopItemlist")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -14734,7 +14098,6 @@ impl Display for PacketCzOpenSimpleCashshopItemlist {
 impl Debug for PacketZcSimpleCashshopPointItemlist {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcSimpleCashshopPointItemlist")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("cash_point[4, 8]", &format!("{:02X?}", &self.cash_point_raw))
@@ -14766,7 +14129,6 @@ impl Display for PacketZcSimpleCashshopPointItemlist {
 impl Debug for PacketCzCloseWindow {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzCloseWindow")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -14783,7 +14145,6 @@ impl Display for PacketCzCloseWindow {
 impl Debug for PacketAhcGameGuard {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketAhcGameGuard")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("auth_data[2, 6]", &format!("{:02X?}", &self.auth_data_raw))
         .finish()
@@ -14802,7 +14163,6 @@ impl Display for PacketAhcGameGuard {
 impl Debug for PacketCahAckGameGuard {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCahAckGameGuard")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("auth_data[2, 6]", &format!("{:02X?}", &self.auth_data_raw))
         .finish()
@@ -14821,7 +14181,6 @@ impl Display for PacketCahAckGameGuard {
 impl Debug for PacketCzEnter2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzEnter2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("gid[6, 10]", &format!("{:02X?}", &self.gid_raw))
@@ -14848,7 +14207,6 @@ impl Display for PacketCzEnter2 {
 impl Debug for PacketCzUseSkill2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzUseSkill2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("selected_level[2, 4]", &format!("{:02X?}", &self.selected_level_raw))
             .field("skid[4, 6]", &format!("{:02X?}", &self.skid_raw))
@@ -14871,7 +14229,6 @@ impl Display for PacketCzUseSkill2 {
 impl Debug for PacketCzUseItem2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzUseItem2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("aid[4, 8]", &format!("{:02X?}", &self.aid_raw))
@@ -14892,7 +14249,6 @@ impl Display for PacketCzUseItem2 {
 impl Debug for PacketZcSkillPostdelay {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcSkillPostdelay")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("skid[2, 4]", &format!("{:02X?}", &self.skid_raw))
             .field("delay_tm[4, 8]", &format!("{:02X?}", &self.delay_tm_raw))
@@ -14913,7 +14269,6 @@ impl Display for PacketZcSkillPostdelay {
 impl Debug for PacketZcSkillPostdelayList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcSkillPostdelayList")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("delay_list[4, 10]", &format!("{:02X?}", &self.delay_list_raw))
@@ -14935,7 +14290,6 @@ impl Display for PacketZcSkillPostdelayList {
 impl Debug for PacketZcMsgStateChange2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcMsgStateChange2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("aid[4, 8]", &format!("{:02X?}", &self.aid_raw))
@@ -14962,7 +14316,6 @@ impl Display for PacketZcMsgStateChange2 {
 impl Debug for PacketZcMillenniumshield {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcMillenniumshield")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("num[6, 8]", &format!("{:02X?}", &self.num_raw))
@@ -14985,7 +14338,6 @@ impl Display for PacketZcMillenniumshield {
 impl Debug for PacketZcSkillinfoDelete {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcSkillinfoDelete")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("skid[2, 4]", &format!("{:02X?}", &self.skid_raw))
         .finish()
@@ -15004,7 +14356,6 @@ impl Display for PacketZcSkillinfoDelete {
 impl Debug for PacketZcSkillSelectRequest {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcSkillSelectRequest")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("why[4, 8]", &format!("{:02X?}", &self.why_raw))
@@ -15027,7 +14378,6 @@ impl Display for PacketZcSkillSelectRequest {
 impl Debug for PacketCzSkillSelectResponse {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzSkillSelectResponse")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("why[2, 6]", &format!("{:02X?}", &self.why_raw))
             .field("skid[6, 8]", &format!("{:02X?}", &self.skid_raw))
@@ -15048,7 +14398,6 @@ impl Display for PacketCzSkillSelectResponse {
 impl Debug for PacketZcSimpleCashPointItemlist {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcSimpleCashPointItemlist")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("cash_point[4, 8]", &format!("{:02X?}", &self.cash_point_raw))
@@ -15072,7 +14421,6 @@ impl Display for PacketZcSimpleCashPointItemlist {
 impl Debug for PacketCzSimpleBuyCashPointItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzSimpleBuyCashPointItem")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("itid[2, 4]", &format!("{:02X?}", &self.itid_raw))
             .field("count[4, 6]", &format!("{:02X?}", &self.count_raw))
@@ -15093,7 +14441,6 @@ impl Display for PacketCzSimpleBuyCashPointItem {
 impl Debug for PacketZcQuestNotifyEffect {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcQuestNotifyEffect")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("npc_id[2, 6]", &format!("{:02X?}", &self.npc_id_raw))
             .field("x_pos[6, 8]", &format!("{:02X?}", &self.x_pos_raw))
@@ -15120,7 +14467,6 @@ impl Display for PacketZcQuestNotifyEffect {
 impl Debug for PacketHcCharacterList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketHcCharacterList")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("character_list[4, 9]", &format!("{:02X?}", &self.character_list_raw))
@@ -15142,7 +14488,6 @@ impl Display for PacketHcCharacterList {
 impl Debug for PacketZcHackshErrorMsg {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcHackshErrorMsg")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("error_id[2, 4]", &format!("{:02X?}", &self.error_id_raw))
         .finish()
@@ -15161,7 +14506,6 @@ impl Display for PacketZcHackshErrorMsg {
 impl Debug for PacketCzClientVersion {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzClientVersion")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("client_ver[2, 6]", &format!("{:02X?}", &self.client_ver_raw))
         .finish()
@@ -15180,7 +14524,6 @@ impl Display for PacketCzClientVersion {
 impl Debug for PacketCzCloseSimplecashShop {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzCloseSimplecashShop")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -15197,7 +14540,6 @@ impl Display for PacketCzCloseSimplecashShop {
 impl Debug for PacketZcEsResult {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcEsResult")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("es_no[2, 4]", &format!("{:02X?}", &self.es_no_raw))
             .field("es_msg[4, 6]", &format!("{:02X?}", &self.es_msg_raw))
@@ -15218,7 +14560,6 @@ impl Display for PacketZcEsResult {
 impl Debug for PacketCzEsGetList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzEsGetList")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -15235,7 +14576,6 @@ impl Display for PacketCzEsGetList {
 impl Debug for PacketZcEsList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcEsList")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("count[4, 6]", &format!("{:02X?}", &self.count_raw))
@@ -15256,7 +14596,6 @@ impl Display for PacketZcEsList {
 impl Debug for PacketCzEsChoose {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzEsChoose")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("es_no[2, 4]", &format!("{:02X?}", &self.es_no_raw))
         .finish()
@@ -15275,7 +14614,6 @@ impl Display for PacketCzEsChoose {
 impl Debug for PacketCzEsCancel {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzEsCancel")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("es_no[2, 4]", &format!("{:02X?}", &self.es_no_raw))
         .finish()
@@ -15294,7 +14632,6 @@ impl Display for PacketCzEsCancel {
 impl Debug for PacketZcEsReady {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcEsReady")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("es_no[2, 4]", &format!("{:02X?}", &self.es_no_raw))
         .finish()
@@ -15313,7 +14650,6 @@ impl Display for PacketZcEsReady {
 impl Debug for PacketZcEsGoto {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcEsGoto")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("es_no[2, 4]", &format!("{:02X?}", &self.es_no_raw))
         .finish()
@@ -15332,7 +14668,6 @@ impl Display for PacketZcEsGoto {
 impl Debug for PacketCzGroupinfoChangeV2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzGroupinfoChangeV2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("exp_option[2, 6]", &format!("{:02X?}", &self.exp_option_raw))
             .field("item_pickup_rule[6, 7]", &format!("{:02X?}", &self.item_pickup_rule_raw))
@@ -15355,7 +14690,6 @@ impl Display for PacketCzGroupinfoChangeV2 {
 impl Debug for PacketZcReqGroupinfoChangeV2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcReqGroupinfoChangeV2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("exp_option[2, 6]", &format!("{:02X?}", &self.exp_option_raw))
             .field("item_pickup_rule[6, 7]", &format!("{:02X?}", &self.item_pickup_rule_raw))
@@ -15378,7 +14712,6 @@ impl Display for PacketZcReqGroupinfoChangeV2 {
 impl Debug for PacketZcShortcutKeyListV2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcShortcutKeyListV2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("short_cut_key[2, 9]", &format!("{:02X?}", &self.short_cut_key_raw))
         .finish()
@@ -15398,7 +14731,6 @@ impl Display for PacketZcShortcutKeyListV2 {
 impl Debug for PacketCzChangeGroupMaster {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzChangeGroupMaster")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
         .finish()
@@ -15417,7 +14749,6 @@ impl Display for PacketCzChangeGroupMaster {
 impl Debug for PacketZcHoParChange {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcHoParChange")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("var[2, 4]", &format!("{:02X?}", &self.var_raw))
             .field("value[4, 8]", &format!("{:02X?}", &self.value_raw))
@@ -15438,7 +14769,6 @@ impl Display for PacketZcHoParChange {
 impl Debug for PacketCzSeekParty {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzSeekParty")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("option[2, 6]", &format!("{:02X?}", &self.option_raw))
         .finish()
@@ -15457,7 +14787,6 @@ impl Display for PacketCzSeekParty {
 impl Debug for PacketZcSeekParty {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcSeekParty")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("name[2, 26]", &format!("{:02X?}", &self.name_raw))
             .field("job[26, 30]", &format!("{:02X?}", &self.job_raw))
@@ -15484,7 +14813,6 @@ impl Display for PacketZcSeekParty {
 impl Debug for PacketCzSeekPartyMember {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzSeekPartyMember")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("job[2, 6]", &format!("{:02X?}", &self.job_raw))
             .field("level[6, 10]", &format!("{:02X?}", &self.level_raw))
@@ -15509,7 +14837,6 @@ impl Display for PacketCzSeekPartyMember {
 impl Debug for PacketZcSeekPartyMember {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcSeekPartyMember")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("name[2, 26]", &format!("{:02X?}", &self.name_raw))
             .field("job[26, 30]", &format!("{:02X?}", &self.job_raw))
@@ -15536,7 +14863,6 @@ impl Display for PacketZcSeekPartyMember {
 impl Debug for PacketZcEsNotiMyinfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcEsNotiMyinfo")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("es_no[2, 4]", &format!("{:02X?}", &self.es_no_raw))
             .field("esname[4, 58]", &format!("{:02X?}", &self.esname_raw))
@@ -15557,7 +14883,6 @@ impl Display for PacketZcEsNotiMyinfo {
 impl Debug for PacketZcSkillinfoUpdate2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcSkillinfoUpdate2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("skid[2, 4]", &format!("{:02X?}", &self.skid_raw))
             .field("atype[4, 8]", &format!("{:02X?}", &self.atype_raw))
@@ -15586,7 +14911,6 @@ impl Display for PacketZcSkillinfoUpdate2 {
 impl Debug for PacketZcMsgValue {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcMsgValue")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("msg[2, 4]", &format!("{:02X?}", &self.msg_raw))
             .field("value[4, 8]", &format!("{:02X?}", &self.value_raw))
@@ -15607,7 +14931,6 @@ impl Display for PacketZcMsgValue {
 impl Debug for PacketZcItemlistwinOpen {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcItemlistwinOpen")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("atype[2, 6]", &format!("{:02X?}", &self.atype_raw))
         .finish()
@@ -15626,7 +14949,6 @@ impl Display for PacketZcItemlistwinOpen {
 impl Debug for PacketCzItemlistwinRes {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzItemlistwinRes")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("atype[4, 8]", &format!("{:02X?}", &self.atype_raw))
@@ -15651,7 +14973,6 @@ impl Display for PacketCzItemlistwinRes {
 impl Debug for PacketChEnterCheckbot {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketChEnterCheckbot")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("dw_aid[4, 8]", &format!("{:02X?}", &self.dw_aid_raw))
@@ -15674,7 +14995,6 @@ impl Display for PacketChEnterCheckbot {
 impl Debug for PacketZcMsgSkill {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcMsgSkill")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("skid[2, 4]", &format!("{:02X?}", &self.skid_raw))
             .field("msgid[4, 8]", &format!("{:02X?}", &self.msgid_raw))
@@ -15695,7 +15015,6 @@ impl Display for PacketZcMsgSkill {
 impl Debug for PacketChCheckbot {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketChCheckbot")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("dw_aid[4, 8]", &format!("{:02X?}", &self.dw_aid_raw))
@@ -15718,7 +15037,6 @@ impl Display for PacketChCheckbot {
 impl Debug for PacketHcCheckbot {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketHcCheckbot")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("img[4, ?]", &format!("{:02X?}", &self.img_raw))
@@ -15739,7 +15057,6 @@ impl Display for PacketHcCheckbot {
 impl Debug for PacketHcCheckbotResult {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketHcCheckbotResult")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("result[4, 5]", &format!("{:02X?}", &self.result_raw))
@@ -15760,7 +15077,6 @@ impl Display for PacketHcCheckbotResult {
 impl Debug for PacketCzBattleFieldList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzBattleFieldList")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -15777,7 +15093,6 @@ impl Display for PacketCzBattleFieldList {
 impl Debug for PacketZcBattleFieldList {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcBattleFieldList")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("count[4, 6]", &format!("{:02X?}", &self.count_raw))
@@ -15803,7 +15118,6 @@ impl Display for PacketZcBattleFieldList {
 impl Debug for PacketCzJoinBattleField {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzJoinBattleField")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("bfno[2, 6]", &format!("{:02X?}", &self.bfno_raw))
             .field("join_team[6, 8]", &format!("{:02X?}", &self.join_team_raw))
@@ -15824,7 +15138,6 @@ impl Display for PacketCzJoinBattleField {
 impl Debug for PacketZcJoinBattleField {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcJoinBattleField")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("bfno[2, 6]", &format!("{:02X?}", &self.bfno_raw))
             .field("join_team[6, 8]", &format!("{:02X?}", &self.join_team_raw))
@@ -15847,7 +15160,6 @@ impl Display for PacketZcJoinBattleField {
 impl Debug for PacketCzCancelBattleField {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzCancelBattleField")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("bfno[2, 6]", &format!("{:02X?}", &self.bfno_raw))
         .finish()
@@ -15866,7 +15178,6 @@ impl Display for PacketCzCancelBattleField {
 impl Debug for PacketZcCancelBattleField {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcCancelBattleField")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("bfno[2, 6]", &format!("{:02X?}", &self.bfno_raw))
             .field("result[6, 8]", &format!("{:02X?}", &self.result_raw))
@@ -15887,7 +15198,6 @@ impl Display for PacketZcCancelBattleField {
 impl Debug for PacketCzReqBattleStateMonitor {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqBattleStateMonitor")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("bfno[2, 6]", &format!("{:02X?}", &self.bfno_raw))
             .field("power_switch[6, 8]", &format!("{:02X?}", &self.power_switch_raw))
@@ -15908,7 +15218,6 @@ impl Display for PacketCzReqBattleStateMonitor {
 impl Debug for PacketZcAckBattleStateMonitor {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAckBattleStateMonitor")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("bfno[2, 6]", &format!("{:02X?}", &self.bfno_raw))
             .field("play_count[6, 8]", &format!("{:02X?}", &self.play_count_raw))
@@ -15939,7 +15248,6 @@ impl Display for PacketZcAckBattleStateMonitor {
 impl Debug for PacketZcBattleNotiStartStep {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcBattleNotiStartStep")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("bfno[2, 6]", &format!("{:02X?}", &self.bfno_raw))
             .field("result[6, 8]", &format!("{:02X?}", &self.result_raw))
@@ -15960,7 +15268,6 @@ impl Display for PacketZcBattleNotiStartStep {
 impl Debug for PacketZcBattleJoinNotiDefer {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcBattleJoinNotiDefer")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("bfno[2, 6]", &format!("{:02X?}", &self.bfno_raw))
         .finish()
@@ -15979,7 +15286,6 @@ impl Display for PacketZcBattleJoinNotiDefer {
 impl Debug for PacketZcBattleJoinDisableState {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcBattleJoinDisableState")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("enable[2, 3]", &format!("{:02X?}", &self.enable_raw))
         .finish()
@@ -15998,7 +15304,6 @@ impl Display for PacketZcBattleJoinDisableState {
 impl Debug for PacketCzGmFullstrip {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzGmFullstrip")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("target_aid[2, 6]", &format!("{:02X?}", &self.target_aid_raw))
         .finish()
@@ -16017,7 +15322,6 @@ impl Display for PacketCzGmFullstrip {
 impl Debug for PacketZcNotifyExp {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyExp")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("amount[6, 10]", &format!("{:02X?}", &self.amount_raw))
@@ -16042,7 +15346,6 @@ impl Display for PacketZcNotifyExp {
 impl Debug for PacketZcNotifyMoveentry7 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyMoveentry7")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("objecttype[4, 5]", &format!("{:02X?}", &self.objecttype_raw))
@@ -16117,7 +15420,6 @@ impl Display for PacketZcNotifyMoveentry7 {
 impl Debug for PacketZcNotifyNewentry5 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyNewentry5")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("objecttype[4, 5]", &format!("{:02X?}", &self.objecttype_raw))
@@ -16190,7 +15492,6 @@ impl Display for PacketZcNotifyNewentry5 {
 impl Debug for PacketZcNotifyStandentry5 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyStandentry5")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("objecttype[4, 5]", &format!("{:02X?}", &self.objecttype_raw))
@@ -16265,7 +15566,6 @@ impl Display for PacketZcNotifyStandentry5 {
 impl Debug for PacketZcDeleteItemFromBody {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcDeleteItemFromBody")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("delete_type[2, 4]", &format!("{:02X?}", &self.delete_type_raw))
             .field("index[4, 6]", &format!("{:02X?}", &self.index_raw))
@@ -16288,7 +15588,6 @@ impl Display for PacketZcDeleteItemFromBody {
 impl Debug for PacketZcUseskillAck2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcUseskillAck2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("target_id[6, 10]", &format!("{:02X?}", &self.target_id_raw))
@@ -16321,7 +15620,6 @@ impl Display for PacketZcUseskillAck2 {
 impl Debug for PacketZcChangeGroupMaster {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcChangeGroupMaster")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("old_master_aid[2, 6]", &format!("{:02X?}", &self.old_master_aid_raw))
             .field("new_master_aid[6, 10]", &format!("{:02X?}", &self.new_master_aid_raw))
@@ -16342,7 +15640,6 @@ impl Display for PacketZcChangeGroupMaster {
 impl Debug for PacketZcPlayNpcBgm {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcPlayNpcBgm")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("bgm[2, 26]", &format!("{:02X?}", &self.bgm_raw))
         .finish()
@@ -16361,7 +15658,6 @@ impl Display for PacketZcPlayNpcBgm {
 impl Debug for PacketZcDefineCheck {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcDefineCheck")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("result[4, 8]", &format!("{:02X?}", &self.result_raw))
@@ -16382,7 +15678,6 @@ impl Display for PacketZcDefineCheck {
 impl Debug for PacketZcPcPurchaseItemlistFrommc2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcPcPurchaseItemlistFrommc2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("aid[4, 8]", &format!("{:02X?}", &self.aid_raw))
@@ -16408,7 +15703,6 @@ impl Display for PacketZcPcPurchaseItemlistFrommc2 {
 impl Debug for PacketCzPcPurchaseItemlistFrommc2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzPcPurchaseItemlistFrommc2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("aid[4, 8]", &format!("{:02X?}", &self.aid_raw))
@@ -16434,7 +15728,6 @@ impl Display for PacketCzPcPurchaseItemlistFrommc2 {
 impl Debug for PacketCzPartyBookingReqRegister {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzPartyBookingReqRegister")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("register_info[2, ?]", &format!("{:02X?}", &self.register_info_raw))
         .finish()
@@ -16453,7 +15746,6 @@ impl Display for PacketCzPartyBookingReqRegister {
 impl Debug for PacketZcPartyBookingAckRegister {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcPartyBookingAckRegister")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 4]", &format!("{:02X?}", &self.result_raw))
         .finish()
@@ -16472,7 +15764,6 @@ impl Display for PacketZcPartyBookingAckRegister {
 impl Debug for PacketCzPartyBookingReqSearch {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzPartyBookingReqSearch")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("level[2, 4]", &format!("{:02X?}", &self.level_raw))
             .field("map_id[4, 6]", &format!("{:02X?}", &self.map_id_raw))
@@ -16499,7 +15790,6 @@ impl Display for PacketCzPartyBookingReqSearch {
 impl Debug for PacketZcPartyBookingAckSearch {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcPartyBookingAckSearch")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("is_exist_more_result[4, 5]", &format!("{:02X?}", &self.is_exist_more_result_raw))
@@ -16523,7 +15813,6 @@ impl Display for PacketZcPartyBookingAckSearch {
 impl Debug for PacketCzPartyBookingReqDelete {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzPartyBookingReqDelete")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -16540,7 +15829,6 @@ impl Display for PacketCzPartyBookingReqDelete {
 impl Debug for PacketZcPartyBookingAckDelete {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcPartyBookingAckDelete")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 4]", &format!("{:02X?}", &self.result_raw))
         .finish()
@@ -16559,7 +15847,6 @@ impl Display for PacketZcPartyBookingAckDelete {
 impl Debug for PacketCzPartyBookingReqUpdate {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzPartyBookingReqUpdate")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("job[2, 8]", &format!("{:02X?}", &self.job_raw))
         .finish()
@@ -16578,7 +15865,6 @@ impl Display for PacketCzPartyBookingReqUpdate {
 impl Debug for PacketZcPartyBookingNotifyInsert {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcPartyBookingNotifyInsert")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("info[2, ?]", &format!("{:02X?}", &self.info_raw))
         .finish()
@@ -16597,7 +15883,6 @@ impl Display for PacketZcPartyBookingNotifyInsert {
 impl Debug for PacketZcPartyBookingNotifyUpdate {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcPartyBookingNotifyUpdate")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 6]", &format!("{:02X?}", &self.index_raw))
             .field("job1[6, 8]", &format!("{:02X?}", &self.job1_raw))
@@ -16628,7 +15913,6 @@ impl Display for PacketZcPartyBookingNotifyUpdate {
 impl Debug for PacketZcPartyBookingNotifyDelete {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcPartyBookingNotifyDelete")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 6]", &format!("{:02X?}", &self.index_raw))
         .finish()
@@ -16647,7 +15931,6 @@ impl Display for PacketZcPartyBookingNotifyDelete {
 impl Debug for PacketCzSimpleCashBtnshow {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzSimpleCashBtnshow")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -16664,7 +15947,6 @@ impl Display for PacketCzSimpleCashBtnshow {
 impl Debug for PacketZcSimpleCashBtnshow {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcSimpleCashBtnshow")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("show[2, 3]", &format!("{:02X?}", &self.show_raw))
         .finish()
@@ -16683,7 +15965,6 @@ impl Display for PacketZcSimpleCashBtnshow {
 impl Debug for PacketZcNotifyHpToGroupmR2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyHpToGroupmR2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("hp[6, 10]", &format!("{:02X?}", &self.hp_raw))
@@ -16706,7 +15987,6 @@ impl Display for PacketZcNotifyHpToGroupmR2 {
 impl Debug for PacketZcAddExchangeItem2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAddExchangeItem2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("itid[2, 4]", &format!("{:02X?}", &self.itid_raw))
             .field("atype[4, 5]", &format!("{:02X?}", &self.atype_raw))
@@ -16737,7 +16017,6 @@ impl Display for PacketZcAddExchangeItem2 {
 impl Debug for PacketZcOpenBuyingStore {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcOpenBuyingStore")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("count[2, 3]", &format!("{:02X?}", &self.count_raw))
         .finish()
@@ -16756,7 +16035,6 @@ impl Display for PacketZcOpenBuyingStore {
 impl Debug for PacketCzReqOpenBuyingStore {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqOpenBuyingStore")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("limit_zeny[4, 8]", &format!("{:02X?}", &self.limit_zeny_raw))
@@ -16784,7 +16062,6 @@ impl Display for PacketCzReqOpenBuyingStore {
 impl Debug for PacketZcFailedOpenBuyingStoreToBuyer {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcFailedOpenBuyingStoreToBuyer")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 4]", &format!("{:02X?}", &self.result_raw))
             .field("total_weight[4, 8]", &format!("{:02X?}", &self.total_weight_raw))
@@ -16805,7 +16082,6 @@ impl Display for PacketZcFailedOpenBuyingStoreToBuyer {
 impl Debug for PacketZcMyitemlistBuyingStore {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcMyitemlistBuyingStore")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("aid[4, 8]", &format!("{:02X?}", &self.aid_raw))
@@ -16831,7 +16107,6 @@ impl Display for PacketZcMyitemlistBuyingStore {
 impl Debug for PacketZcBuyingStoreEntry {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcBuyingStoreEntry")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("maker_aid[2, 6]", &format!("{:02X?}", &self.maker_aid_raw))
             .field("store_name[6, 86]", &format!("{:02X?}", &self.store_name_raw))
@@ -16852,7 +16127,6 @@ impl Display for PacketZcBuyingStoreEntry {
 impl Debug for PacketCzReqCloseBuyingStore {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqCloseBuyingStore")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -16869,7 +16143,6 @@ impl Display for PacketCzReqCloseBuyingStore {
 impl Debug for PacketZcDisappearBuyingStoreEntry {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcDisappearBuyingStoreEntry")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("maker_aid[2, 6]", &format!("{:02X?}", &self.maker_aid_raw))
         .finish()
@@ -16888,7 +16161,6 @@ impl Display for PacketZcDisappearBuyingStoreEntry {
 impl Debug for PacketCzReqClickToBuyingStore {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqClickToBuyingStore")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("maker_aid[2, 6]", &format!("{:02X?}", &self.maker_aid_raw))
         .finish()
@@ -16907,7 +16179,6 @@ impl Display for PacketCzReqClickToBuyingStore {
 impl Debug for PacketZcAckItemlistBuyingStore {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAckItemlistBuyingStore")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("maker_aid[4, 8]", &format!("{:02X?}", &self.maker_aid_raw))
@@ -16935,7 +16206,6 @@ impl Display for PacketZcAckItemlistBuyingStore {
 impl Debug for PacketCzReqTradeBuyingStore {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqTradeBuyingStore")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("maker_aid[4, 8]", &format!("{:02X?}", &self.maker_aid_raw))
@@ -16961,7 +16231,6 @@ impl Display for PacketCzReqTradeBuyingStore {
 impl Debug for PacketZcFailedTradeBuyingStoreToBuyer {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcFailedTradeBuyingStoreToBuyer")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 4]", &format!("{:02X?}", &self.result_raw))
         .finish()
@@ -16980,7 +16249,6 @@ impl Display for PacketZcFailedTradeBuyingStoreToBuyer {
 impl Debug for PacketZcUpdateItemFromBuyingStore {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcUpdateItemFromBuyingStore")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("itid[2, 4]", &format!("{:02X?}", &self.itid_raw))
             .field("count[4, 6]", &format!("{:02X?}", &self.count_raw))
@@ -17003,7 +16271,6 @@ impl Display for PacketZcUpdateItemFromBuyingStore {
 impl Debug for PacketZcItemDeleteBuyingStore {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcItemDeleteBuyingStore")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("index[2, 4]", &format!("{:02X?}", &self.index_raw))
             .field("count[4, 6]", &format!("{:02X?}", &self.count_raw))
@@ -17026,7 +16293,6 @@ impl Display for PacketZcItemDeleteBuyingStore {
 impl Debug for PacketZcElInit {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcElInit")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("hp[6, 10]", &format!("{:02X?}", &self.hp_raw))
@@ -17053,7 +16319,6 @@ impl Display for PacketZcElInit {
 impl Debug for PacketZcElParChange {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcElParChange")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("var[2, 4]", &format!("{:02X?}", &self.var_raw))
             .field("value[4, 8]", &format!("{:02X?}", &self.value_raw))
@@ -17074,7 +16339,6 @@ impl Display for PacketZcElParChange {
 impl Debug for PacketZcBroadcast4 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcBroadcast4")
-            .field("id", &self.id())
             .field("pakcet_type[0, 2]", &format!("{:02X?}", &self.pakcet_type_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("msgtype[4, 5]", &format!("{:02X?}", &self.msgtype_raw))
@@ -17099,7 +16363,6 @@ impl Display for PacketZcBroadcast4 {
 impl Debug for PacketZcCostumeSpriteChange {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcCostumeSpriteChange")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("atype[6, 7]", &format!("{:02X?}", &self.atype_raw))
@@ -17122,7 +16385,6 @@ impl Display for PacketZcCostumeSpriteChange {
 impl Debug for PacketAcOtpUser {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketAcOtpUser")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -17139,7 +16401,6 @@ impl Display for PacketAcOtpUser {
 impl Debug for PacketCaOtpAuthReq {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCaOtpAuthReq")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("otpcode[2, 9]", &format!("{:02X?}", &self.otpcode_raw))
         .finish()
@@ -17158,7 +16419,6 @@ impl Display for PacketCaOtpAuthReq {
 impl Debug for PacketAcOtpAuthAck {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketAcOtpAuthAck")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("login_result[4, 6]", &format!("{:02X?}", &self.login_result_raw))
@@ -17179,7 +16439,6 @@ impl Display for PacketAcOtpAuthAck {
 impl Debug for PacketZcFailedTradeBuyingStoreToSeller {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcFailedTradeBuyingStoreToSeller")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 4]", &format!("{:02X?}", &self.result_raw))
             .field("itid[4, 6]", &format!("{:02X?}", &self.itid_raw))
@@ -17200,7 +16459,6 @@ impl Display for PacketZcFailedTradeBuyingStoreToSeller {
 impl Debug for PacketCaSsoLoginReqa {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCaSsoLoginReqa")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("version[4, 8]", &format!("{:02X?}", &self.version_raw))
@@ -17231,7 +16489,6 @@ impl Display for PacketCaSsoLoginReqa {
 impl Debug for PacketCaSsoLoginReq {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCaSsoLoginReq")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("version[4, 8]", &format!("{:02X?}", &self.version_raw))
@@ -17264,7 +16521,6 @@ impl Display for PacketCaSsoLoginReq {
 impl Debug for PacketAcSsoLoginAck {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketAcSsoLoginAck")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("result[2, 4]", &format!("{:02X?}", &self.result_raw))
         .finish()
@@ -17283,7 +16539,6 @@ impl Display for PacketAcSsoLoginAck {
 impl Debug for PacketChDeleteChar3Reserved {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketChDeleteChar3Reserved")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
         .finish()
@@ -17302,7 +16557,6 @@ impl Display for PacketChDeleteChar3Reserved {
 impl Debug for PacketHcDeleteChar3Reserved {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketHcDeleteChar3Reserved")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("result[6, 10]", &format!("{:02X?}", &self.result_raw))
@@ -17325,7 +16579,6 @@ impl Display for PacketHcDeleteChar3Reserved {
 impl Debug for PacketChDeleteChar3 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketChDeleteChar3")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("birth[6, 12]", &format!("{:02X?}", &self.birth_raw))
@@ -17346,7 +16599,6 @@ impl Display for PacketChDeleteChar3 {
 impl Debug for PacketHcDeleteChar3 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketHcDeleteChar3")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("result[6, 10]", &format!("{:02X?}", &self.result_raw))
@@ -17367,7 +16619,6 @@ impl Display for PacketHcDeleteChar3 {
 impl Debug for PacketChDeleteChar3Cancel {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketChDeleteChar3Cancel")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
         .finish()
@@ -17386,7 +16637,6 @@ impl Display for PacketChDeleteChar3Cancel {
 impl Debug for PacketHcDeleteChar3Cancel {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketHcDeleteChar3Cancel")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("result[6, 10]", &format!("{:02X?}", &self.result_raw))
@@ -17407,7 +16657,6 @@ impl Display for PacketHcDeleteChar3Cancel {
 impl Debug for PacketCzSearchStoreInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzSearchStoreInfo")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("store_type[4, 5]", &format!("{:02X?}", &self.store_type_raw))
@@ -17436,7 +16685,6 @@ impl Display for PacketCzSearchStoreInfo {
 impl Debug for PacketZcSearchStoreInfoAck {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcSearchStoreInfoAck")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("is_first_page[4, 5]", &format!("{:02X?}", &self.is_first_page_raw))
@@ -17464,7 +16712,6 @@ impl Display for PacketZcSearchStoreInfoAck {
 impl Debug for PacketZcSearchStoreInfoFailed {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcSearchStoreInfoFailed")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("reason[2, 3]", &format!("{:02X?}", &self.reason_raw))
         .finish()
@@ -17483,7 +16730,6 @@ impl Display for PacketZcSearchStoreInfoFailed {
 impl Debug for PacketCzSearchStoreInfoNextPage {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzSearchStoreInfoNextPage")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -17500,7 +16746,6 @@ impl Display for PacketCzSearchStoreInfoNextPage {
 impl Debug for PacketZcAckBanGuildSso {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAckBanGuildSso")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("char_name[2, 26]", &format!("{:02X?}", &self.char_name_raw))
             .field("reason_desc[26, 66]", &format!("{:02X?}", &self.reason_desc_raw))
@@ -17521,7 +16766,6 @@ impl Display for PacketZcAckBanGuildSso {
 impl Debug for PacketZcOpenSearchStoreInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcOpenSearchStoreInfo")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("open_type[2, 4]", &format!("{:02X?}", &self.open_type_raw))
             .field("search_cnt_max[4, 5]", &format!("{:02X?}", &self.search_cnt_max_raw))
@@ -17542,7 +16786,6 @@ impl Display for PacketZcOpenSearchStoreInfo {
 impl Debug for PacketCzCloseSearchStoreInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzCloseSearchStoreInfo")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -17559,7 +16802,6 @@ impl Display for PacketCzCloseSearchStoreInfo {
 impl Debug for PacketCzSsilistItemClick {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzSsilistItemClick")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
             .field("ssiid[6, 10]", &format!("{:02X?}", &self.ssiid_raw))
@@ -17582,7 +16824,6 @@ impl Display for PacketCzSsilistItemClick {
 impl Debug for PacketZcSsilistItemClickAck {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcSsilistItemClickAck")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("x[2, 4]", &format!("{:02X?}", &self.x_raw))
             .field("y[4, 6]", &format!("{:02X?}", &self.y_raw))
@@ -17603,7 +16844,6 @@ impl Display for PacketZcSsilistItemClickAck {
 impl Debug for PacketAcRefuseLoginR2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketAcRefuseLoginR2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("error_code[2, 6]", &format!("{:02X?}", &self.error_code_raw))
             .field("block_date[6, 26]", &format!("{:02X?}", &self.block_date_raw))
@@ -17624,7 +16864,6 @@ impl Display for PacketAcRefuseLoginR2 {
 impl Debug for PacketChSelectAccessibleMapname {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketChSelectAccessibleMapname")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("char_num[2, 3]", &format!("{:02X?}", &self.char_num_raw))
             .field("map_list_num[3, 4]", &format!("{:02X?}", &self.map_list_num_raw))
@@ -17645,7 +16884,6 @@ impl Display for PacketChSelectAccessibleMapname {
 impl Debug for PacketCzRequestMove2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzRequestMove2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("dest[2, 5]", &format!("{:02X?}", &self.dest_raw))
         .finish()
@@ -17664,7 +16902,6 @@ impl Display for PacketCzRequestMove2 {
 impl Debug for PacketChSendMapInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketChSendMapInfo")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("map_name[6, 22]", &format!("{:02X?}", &self.map_name_raw))
@@ -17691,7 +16928,6 @@ impl Display for PacketChSendMapInfo {
 impl Debug for PacketHcAcceptEnterNeoUnionHeader {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketHcAcceptEnterNeoUnionHeader")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_len[2, 4]", &format!("{:02X?}", &self.packet_len_raw))
             .field("char_slot[4, 5]", &format!("{:02X?}", &self.char_slot_raw))
@@ -17722,7 +16958,6 @@ impl Display for PacketHcAcceptEnterNeoUnionHeader {
 impl Debug for PacketCzPing {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzPing")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
         .finish()
@@ -17741,7 +16976,6 @@ impl Display for PacketCzPing {
 impl Debug for PacketZcAid2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAid2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
         .finish()
@@ -17760,7 +16994,6 @@ impl Display for PacketZcAid2 {
 impl Debug for PacketMapConnection {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketMapConnection")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("aid[2, 6]", &format!("{:02X?}", &self.aid_raw))
         .finish()
@@ -17779,7 +17012,6 @@ impl Display for PacketMapConnection {
 impl Debug for PacketPincodeLoginstate {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketPincodeLoginstate")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("pincode_seed[2, 6]", &format!("{:02X?}", &self.pincode_seed_raw))
             .field("aid[6, 10]", &format!("{:02X?}", &self.aid_raw))
@@ -17802,7 +17034,6 @@ impl Display for PacketPincodeLoginstate {
 impl Debug for PacketChMakeChar3 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketChMakeChar3")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("name[2, 26]", &format!("{:02X?}", &self.name_raw))
             .field("char_num[26, 27]", &format!("{:02X?}", &self.char_num_raw))
@@ -17831,7 +17062,6 @@ impl Display for PacketChMakeChar3 {
 impl Debug for PacketChDeleteChar4Reserved {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketChDeleteChar4Reserved")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
         .finish()
@@ -17850,7 +17080,6 @@ impl Display for PacketChDeleteChar4Reserved {
 impl Debug for PacketHcDeleteChar4Reserved {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketHcDeleteChar4Reserved")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("result[6, 10]", &format!("{:02X?}", &self.result_raw))
@@ -17873,7 +17102,6 @@ impl Display for PacketHcDeleteChar4Reserved {
 impl Debug for PacketZcInventoryExpansionInfo {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcInventoryExpansionInfo")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("expansion_size[2, 4]", &format!("{:02X?}", &self.expansion_size_raw))
         .finish()
@@ -17892,7 +17120,6 @@ impl Display for PacketZcInventoryExpansionInfo {
 impl Debug for PacketZcOverweightPercent {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcOverweightPercent")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("percent[2, 6]", &format!("{:02X?}", &self.percent_raw))
         .finish()
@@ -17911,7 +17138,6 @@ impl Display for PacketZcOverweightPercent {
 impl Debug for PacketCzReqDisconnect2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqDisconnect2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("empty[2, 4]", &format!("{:02X?}", &self.empty_raw))
         .finish()
@@ -17930,7 +17156,6 @@ impl Display for PacketCzReqDisconnect2 {
 impl Debug for PacketZcReqDisconnectAck2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcReqDisconnectAck2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("empty[2, 4]", &format!("{:02X?}", &self.empty_raw))
         .finish()
@@ -17949,7 +17174,6 @@ impl Display for PacketZcReqDisconnectAck2 {
 impl Debug for PacketCzReqnameall2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzReqnameall2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
         .finish()
@@ -17968,7 +17192,6 @@ impl Display for PacketCzReqnameall2 {
 impl Debug for PacketZcAckReqnameall2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcAckReqnameall2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("name[6, 30]", &format!("{:02X?}", &self.name_raw))
@@ -17997,7 +17220,6 @@ impl Display for PacketZcAckReqnameall2 {
 impl Debug for PacketCzRequestTime2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzRequestTime2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("client_time[2, 6]", &format!("{:02X?}", &self.client_time_raw))
         .finish()
@@ -18016,7 +17238,6 @@ impl Display for PacketCzRequestTime2 {
 impl Debug for PacketZcMsgColor {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcMsgColor")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("msg_id[2, 4]", &format!("{:02X?}", &self.msg_id_raw))
             .field("msg_color[4, 8]", &format!("{:02X?}", &self.msg_color_raw))
@@ -18037,7 +17258,6 @@ impl Display for PacketZcMsgColor {
 impl Debug for PacketZcNotifyMapproperty2 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyMapproperty2")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("atype[2, 4]", &format!("{:02X?}", &self.atype_raw))
             .field("flags[4, 8]", &format!("{:02X?}", &self.flags_raw))
@@ -18058,7 +17278,6 @@ impl Display for PacketZcNotifyMapproperty2 {
 impl Debug for PacketZcHatEffect {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcHatEffect")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("len[2, 4]", &format!("{:02X?}", &self.len_raw))
             .field("aid[4, 8]", &format!("{:02X?}", &self.aid_raw))
@@ -18083,7 +17302,6 @@ impl Display for PacketZcHatEffect {
 impl Debug for PacketCzBlockingPlayCancel {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketCzBlockingPlayCancel")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -18100,7 +17318,6 @@ impl Display for PacketCzBlockingPlayCancel {
 impl Debug for PacketZcLoadConfirm {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcLoadConfirm")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
         .finish()
     }
@@ -18117,7 +17334,6 @@ impl Display for PacketZcLoadConfirm {
 impl Debug for PacketZcNotifyStandentry6 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyStandentry6")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("objecttype[4, 5]", &format!("{:02X?}", &self.objecttype_raw))
@@ -18206,7 +17422,6 @@ impl Display for PacketZcNotifyStandentry6 {
 impl Debug for PacketZcNotifyStandentry7 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyStandentry7")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("objecttype[4, 5]", &format!("{:02X?}", &self.objecttype_raw))
@@ -18293,7 +17508,6 @@ impl Display for PacketZcNotifyStandentry7 {
 impl Debug for PacketZcNotifyMoveentry8 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyMoveentry8")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("packet_length[2, 4]", &format!("{:02X?}", &self.packet_length_raw))
             .field("objecttype[4, 5]", &format!("{:02X?}", &self.objecttype_raw))
@@ -18382,7 +17596,6 @@ impl Display for PacketZcNotifyMoveentry8 {
 impl Debug for PacketZcNotifyAct3 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PacketZcNotifyAct3")
-            .field("id", &self.id())
             .field("packet_id[0, 2]", &format!("{:02X?}", &self.packet_id_raw))
             .field("gid[2, 6]", &format!("{:02X?}", &self.gid_raw))
             .field("target_gid[6, 10]", &format!("{:02X?}", &self.target_gid_raw))

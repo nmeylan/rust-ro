@@ -3,12 +3,13 @@ use packets::packets::{PacketCzUseItem, PacketZcUseItemAck2, PacketCzReqWearEqui
 use crate::packets::packets::Packet;
 use crate::server::model::events::game_event::{CharacterEquipItem, CharacterTakeoffEquipItem, CharacterUseItem, GameEvent};
 use crate::server::Server;
+use crate::server::service::global_config_service::GlobalConfigService;
 
 pub fn handle_player_use_item(server: &Server, context: Request) {
     let packet_cz_use_item = cast!(context.packet(), PacketCzUseItem);
     if packet_cz_use_item.index > context.configuration().game.max_inventory {
         error!("packet_cz_use_item index is out of max inventory size");
-        let mut packet_zc_use_item_ack2 = PacketZcUseItemAck2::new();
+        let mut packet_zc_use_item_ack2 = PacketZcUseItemAck2::new(GlobalConfigService::instance().packetver());
         packet_zc_use_item_ack2.set_aid(packet_cz_use_item.aid);
         packet_zc_use_item_ack2.set_index(packet_cz_use_item.index);
         packet_zc_use_item_ack2.set_result(false);

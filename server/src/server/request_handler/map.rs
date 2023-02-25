@@ -6,6 +6,7 @@ use crate::util::string::StringUtil;
 use crate::server::model::events::game_event::GameEvent;
 use crate::server::model::request::Request;
 use enums::{EnumWithMaskValueU64};
+use crate::server::service::global_config_service::GlobalConfigService;
 
 use crate::util::packet::chain_packets;
 
@@ -27,7 +28,7 @@ pub fn handle_map_item_name(server: &Server, context: Request) {
     }
     let map_item = maybe_map_item.unwrap();
     let map_item_name = server.state().map_item_name(&map_item, character.current_map_name(), character.current_map_instance()).unwrap_or_else(|| "unknown".to_string());
-    let mut packet_zc_ack_reqnameall2 = PacketZcAckReqnameall2::new();
+    let mut packet_zc_ack_reqnameall2 = PacketZcAckReqnameall2::new(GlobalConfigService::instance().packetver());
     packet_zc_ack_reqnameall2.set_gid(gid);
     let mut name: [char; 24] = [0 as char; 24];
     // let aaaaa = format!("{} {}", map_item.x(), map_item.y());
@@ -44,8 +45,8 @@ pub fn handle_char_loaded_client_side(server: &Server, context: Request) {
     let session = context.session();
     let session_id = session.account_id;
 
-    let mut packet_zc_notify_mapproperty2 = PacketZcNotifyMapproperty2::new();
-    let mut packet_zc_hat_effect = PacketZcHatEffect::new();
+    let mut packet_zc_notify_mapproperty2 = PacketZcNotifyMapproperty2::new(GlobalConfigService::instance().packetver());
+    let mut packet_zc_hat_effect = PacketZcHatEffect::new(GlobalConfigService::instance().packetver());
     packet_zc_notify_mapproperty2.set_atype(0x2); // TODO set this correctly see enum_macro map_type in hercules
 
     packet_zc_notify_mapproperty2.set_flags(MapPropertyFlags::IsUseCart.as_flag() as u32);

@@ -8,7 +8,7 @@ pub struct CharacterInfoNeoUnionWrapped {
 
 impl<'r> FromRow<'r, PgRow> for CharacterInfoNeoUnionWrapped {
     fn from_row(row: &'r PgRow) -> Result<Self, Error> {
-        let mut character_info_neo_union = CharacterInfoNeoUnion::new();
+        let mut character_info_neo_union = CharacterInfoNeoUnion::new(0);
 
         character_info_neo_union.set_gid(row.get::<i32, _>("char_id") as u32);
         character_info_neo_union.set_exp(row.get::<i32, _>("base_exp") as u32);

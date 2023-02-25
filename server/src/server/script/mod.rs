@@ -155,7 +155,7 @@ impl PlayerScriptHandler {
                 String::new()
             }
         }).collect::<Vec<String>>().join(":");
-        let mut packet_zc_menu_list = PacketZcMenuList::new();
+        let mut packet_zc_menu_list = PacketZcMenuList::new(GlobalConfigService::instance().packetver());
         packet_zc_menu_list.naid = self.npc_id;
         packet_zc_menu_list.msg = menu_str;
         packet_zc_menu_list.packet_length = (PacketZcMenuList::base_len(self.server.packetver()) as i16 + packet_zc_menu_list.msg.len() as i16) + 1_i16;
@@ -189,19 +189,19 @@ impl NativeMethodHandler for PlayerScriptHandler {
                 }
             }).collect::<Vec<String>>().join(" "));
         } else if native.name.eq("mes") {
-            let mut packet_dialog = PacketZcSayDialog::new();
+            let mut packet_dialog = PacketZcSayDialog::new(GlobalConfigService::instance().packetver());
             packet_dialog.msg = params.iter().map(|text| text.string_value().unwrap().clone()).collect::<Vec<String>>().join("\n");
             packet_dialog.naid = self.npc_id;
             packet_dialog.packet_length = (PacketZcSayDialog::base_len(self.server.packetver()) as i16 + packet_dialog.msg.len() as i16) + 1_i16;
             packet_dialog.fill_raw();
             self.send_packet_to_char(self.session.char_id(), &mut packet_dialog);
         } else if native.name.eq("close") {
-            let mut packet_dialog = PacketZcCloseDialog::new();
+            let mut packet_dialog = PacketZcCloseDialog::new(GlobalConfigService::instance().packetver());
             packet_dialog.naid = self.npc_id;
             packet_dialog.fill_raw();
             self.send_packet_to_char(self.session.char_id(), &mut packet_dialog);
         } else if native.name.eq("next") {
-            let mut packet_dialog = PacketZcWaitDialog::new();
+            let mut packet_dialog = PacketZcWaitDialog::new(GlobalConfigService::instance().packetver());
             packet_dialog.naid = self.npc_id;
             packet_dialog.fill_raw();
             self.send_packet_to_char(self.session.char_id(), &mut packet_dialog);
@@ -209,12 +209,12 @@ impl NativeMethodHandler for PlayerScriptHandler {
         } else if native.name.eq("input") {
             let variable_name = params[0].string_value().unwrap();
             if variable_name.ends_with('$') {
-                let mut packet_zc_open_editdlgstr = PacketZcOpenEditdlgstr::new();
+                let mut packet_zc_open_editdlgstr = PacketZcOpenEditdlgstr::new(GlobalConfigService::instance().packetver());
                 packet_zc_open_editdlgstr.naid = self.npc_id;
                 packet_zc_open_editdlgstr.fill_raw();
                 self.send_packet_to_char(self.session.char_id(), &mut packet_zc_open_editdlgstr);
             } else {
-                let mut packet_zc_open_editdlg = PacketZcOpenEditdlg::new();
+                let mut packet_zc_open_editdlg = PacketZcOpenEditdlg::new(GlobalConfigService::instance().packetver());
                 packet_zc_open_editdlg.naid = self.npc_id;
                 packet_zc_open_editdlg.fill_raw();
                 self.send_packet_to_char(self.session.char_id(), &mut packet_zc_open_editdlg);
@@ -290,7 +290,7 @@ impl NativeMethodHandler for PlayerScriptHandler {
         } else if native.name.eq("message") {
             let _char_name = params[0].string_value().unwrap();
             let message = params[1].string_value().unwrap();
-            let mut packet_zc_notify_playerchat = PacketZcNotifyPlayerchat::new();
+            let mut packet_zc_notify_playerchat = PacketZcNotifyPlayerchat::new(GlobalConfigService::instance().packetver());
             packet_zc_notify_playerchat.set_msg(message.to_string());
             packet_zc_notify_playerchat.set_packet_length((PacketZcNotifyPlayerchat::base_len(self.server.packetver()) + message.len() + 1) as i16);
             packet_zc_notify_playerchat.fill_raw();
@@ -305,7 +305,7 @@ impl NativeMethodHandler for PlayerScriptHandler {
             } else {
                 65280
             };
-            let mut packet_zc_npc_chat = PacketZcNpcChat::new();
+            let mut packet_zc_npc_chat = PacketZcNpcChat::new(GlobalConfigService::instance().packetver());
             packet_zc_npc_chat.set_msg(message.to_string());
             packet_zc_npc_chat.set_color(color_rgb);
             packet_zc_npc_chat.set_account_id(self.session.char_id());
@@ -351,7 +351,7 @@ impl NativeMethodHandler for PlayerScriptHandler {
             let position = params[1].number_value().unwrap();
             let mut file_name_array: [char; 64] = [0 as char; 64];
             file_name.fill_char_array(file_name_array.as_mut());
-            let mut packet_zc_show_image2 = PacketZcShowImage2::new();
+            let mut packet_zc_show_image2 = PacketZcShowImage2::new(GlobalConfigService::instance().packetver());
             packet_zc_show_image2.set_image_name(file_name_array);
             packet_zc_show_image2.set_atype(position as u8);
             packet_zc_show_image2.fill_raw();

@@ -192,7 +192,7 @@ fn contains_packet(expectation: &NotificationExpectation, packetver: u32, packet
     for expectation_packet in expectation.packets.iter() {
         let mut i = 0;
         for packet in packets.iter() {
-            if expectation_packet.id() == packet.id() {
+            if expectation_packet.id() == packet.id(packetver) {
                 i += 1;
                 if let Some(count) = expectation_packet.count {
                     if i == count {

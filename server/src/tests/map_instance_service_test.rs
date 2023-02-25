@@ -216,7 +216,7 @@ mod tests {
         context.map_instance_service.remove_dropped_item_from_map(&mut map_instance_state, clover.map_item_id);
         // Then
         context.test_context.increment_latch().wait_expected_count_with_timeout(1, Duration::from_millis(200));
-        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_fov(50, 50, vec![SentPacket::with_id(PacketZcItemDisappear::packet_id())]));
+        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_fov(50, 50, vec![SentPacket::with_id(PacketZcItemDisappear::packet_id(GlobalConfigService::instance().packetver()))]));
         assert_task_queue_contains_event_at_tick!(context.server_task_queue.clone(), GameEvent::MapNotifyItemRemoved(clover.map_item_id), 0);
     }
 }

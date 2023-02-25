@@ -8,9 +8,14 @@ use std::path::Path;
 
 #[derive(Debug)]
 pub struct PacketStructDefinition<'a> {
-    pub id: String,
-    pub ids: Vec<String>,
+    pub ids: Vec<PacketId>,
     pub struct_def: StructDefinition<'a>,
+}
+
+#[derive(Clone, Debug)]
+pub struct PacketId {
+    pub id: String,
+    pub packetver: Option<u32>,
 }
 
 #[derive(Debug)]

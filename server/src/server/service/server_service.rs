@@ -112,7 +112,7 @@ impl ServerService {
         let map_item = server_state.map_item(character.attack().target, character.current_map_name(), character.current_map_instance());
         if let Some(map_item) = map_item {
             let range = if let Some((_, weapon)) = character.right_hand_weapon() {
-                GlobalConfigService::instance().get_item(weapon.item_id).range.unwrap_or(1) as u16
+                self.configuration_service.get_item(weapon.item_id).range.unwrap_or(1) as u16
             } else {
                 1
             };
@@ -166,7 +166,7 @@ impl ServerService {
                 self.inventory_service.add_items_in_inventory(runtime, CharacterAddItems { char_id: character.char_id, should_perform_check: true, buy: false, items: vec![
                     InventoryItemModel::from_item_model(item, dropped_item.amount as i16, !item.item_type.should_be_identified_when_dropped())
                 ] }, character);
-                let mut packet_zc_notify_act = PacketZcNotifyAct::default();
+                let mut packet_zc_notify_act = PacketZcNotifyAct::new(self.configuration_service.packetver());
                 packet_zc_notify_act.set_gid(character.char_id);
                 packet_zc_notify_act.set_action(ActionType::Itempickup.value() as u8);
                 packet_zc_notify_act.fill_raw();
@@ -183,7 +183,7 @@ impl ServerService {
 
     pub fn character_increase_stat(&self, character: &mut Character, character_update_stat: CharacterUpdateStat) {
         let result = self.character_service.increase_stat(character, StatusTypes::from_value(character_update_stat.stat_id as usize), character_update_stat.change_amount);
-        let mut packet_zc_status_change_ack = PacketZcStatusChangeAck::new();
+        let mut packet_zc_status_change_ack = PacketZcStatusChangeAck::new(self.configuration_service.packetver());
         packet_zc_status_change_ack.set_status_id(character_update_stat.stat_id);
         packet_zc_status_change_ack.set_result(result);
         packet_zc_status_change_ack.set_value(self.character_service.stat_value(&character.status, &StatusTypes::from_value(character_update_stat.stat_id as usize)) as u8);

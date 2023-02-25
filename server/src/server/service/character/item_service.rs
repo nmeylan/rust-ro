@@ -84,7 +84,7 @@ impl ItemService {
                                                      session,
                                                      configuration_service: self.configuration_service
                                                  }));
-                    let mut packet_zc_use_item_ack = PacketZcUseItemAck2::new();
+                    let mut packet_zc_use_item_ack = PacketZcUseItemAck2::new(self.configuration_service.packetver());
                     packet_zc_use_item_ack.set_aid(character_user_item.char_id);
                     packet_zc_use_item_ack.set_index(character_user_item.index as u16);
                     let item_inventory_id = item.id;
