@@ -107,7 +107,7 @@ impl MapInstanceService {
             }
         }
         for mob_movement in mob_movements {
-            let mut packet_zc_notify_move = PacketZcNotifyMove::default();
+            let mut packet_zc_notify_move = PacketZcNotifyMove::new(self.configuration_service.packetver());
             packet_zc_notify_move.set_gid(mob_movement.id);
             packet_zc_notify_move.move_data = mob_movement.from.to_move_data(&mob_movement.to);
             packet_zc_notify_move.set_move_start_time(start_time);
@@ -145,7 +145,7 @@ impl MapInstanceService {
     }
 
     pub fn mob_die_client_notification(&self, map_instance_state: &MapInstanceState, mob_location: MobLocation) {
-        let mut packet_zc_notify_vanish = PacketZcNotifyVanish::new();
+        let mut packet_zc_notify_vanish = PacketZcNotifyVanish::new(self.configuration_service.packetver());
         packet_zc_notify_vanish.set_gid(mob_location.mob_id);
         packet_zc_notify_vanish.set_atype(VanishType::Die.value() as u8);
         packet_zc_notify_vanish.fill_raw();
@@ -158,7 +158,7 @@ impl MapInstanceService {
         let item_to_drop = self.mob_drop_items(map_instance_state, mob_drop_items);
         let mut packets = vec![];
         for item in item_to_drop.iter() {
-            let mut packet_zc_item_fall_entry = PacketZcItemFallEntry::default();
+            let mut packet_zc_item_fall_entry = PacketZcItemFallEntry::new(self.configuration_service.packetver());
             packet_zc_item_fall_entry.set_itid(item.item_id as u16);
             packet_zc_item_fall_entry.set_itaid(item.map_item_id);
             packet_zc_item_fall_entry.set_x_pos(item.location.x as i16);
@@ -206,7 +206,7 @@ impl MapInstanceService {
 
     pub fn remove_dropped_item_from_map(&self, map_instance_state: &mut MapInstanceState, dropped_item_id: u32) {
         if let Some(dropped_item) = map_instance_state.remove_dropped_item(dropped_item_id) {
-            let mut packet_zc_item_disappear = PacketZcItemDisappear::default();
+            let mut packet_zc_item_disappear = PacketZcItemDisappear::new(self.configuration_service.packetver());
             packet_zc_item_disappear.set_itaid(dropped_item_id);
             packet_zc_item_disappear.fill_raw();
             self.client_notification_sender.send(Notification::Area(

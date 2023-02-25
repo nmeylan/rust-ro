@@ -68,7 +68,7 @@ impl SkillService {
             Skill::AlTeleport => {
                 if level == 1 {
                     ServerService::instance().schedule_warp_to_walkable_cell(server.state_mut().as_mut(), Map::name_without_ext(character_ref.current_map_name().as_str()).as_str(), RANDOM_CELL.0, RANDOM_CELL.1, source_char_id);
-                    let mut packet_zc_notify_vanish = PacketZcNotifyVanish::new();
+                    let mut packet_zc_notify_vanish = PacketZcNotifyVanish::new(self.configuration.packetver());
                     packet_zc_notify_vanish.set_gid(character_ref.char_id);
                     packet_zc_notify_vanish.set_atype(VanishType::Teleport.value() as u8);
                     packet_zc_notify_vanish.fill_raw();

@@ -12,6 +12,7 @@ use crate::server::request_handler::login::handle_login;
 use crate::server::request_handler::map::{handle_char_loaded_client_side, handle_map_item_name};
 use crate::server::request_handler::movement::handle_char_move;
 use crate::server::Server;
+use crate::server::service::global_config_service::GlobalConfigService;
 use crate::util::tick::get_tick_client;
 
 /**
@@ -28,7 +29,7 @@ pub mod chat;
 
 pub fn handle(server: Arc<Server>, mut context: Request) {
     if context.packet().as_any().downcast_ref::<PacketUnknown>().is_some() {
-        error!("Unknown packet {} of length {}: {:02X?}", context.packet().id(), context.packet().raw().len(), context.packet().raw());
+        error!("Unknown packet {} of length {}: {:02X?}", context.packet().id(GlobalConfigService::instance().packetver()), context.packet().raw().len(), context.packet().raw());
         return;
     }
     // Login
@@ -188,14 +189,14 @@ pub fn handle(server: Arc<Server>, mut context: Request) {
     // End stats
 
     if context.packet().as_any().downcast_ref::<PacketCzRequestTime>().is_some() {
-        let mut packet_zc_notify_time = PacketZcNotifyTime::new();
+        let mut packet_zc_notify_time = PacketZcNotifyTime::new(GlobalConfigService::instance().packetver());
         packet_zc_notify_time.set_time(get_tick_client());
         packet_zc_notify_time.fill_raw();
         socket_send!(context, packet_zc_notify_time);
     }
 
-    if context.packet().id() == "0x6003" // PacketCzRequestTime2
-        || context.packet().id() == "0x187" // PacketPing
+    if context.packet().id(GlobalConfigService::instance().packetver()) == "0x6003" // PacketCzRequestTime2
+        || context.packet().id(GlobalConfigService::instance().packetver()) == "0x187" // PacketPing
     {
         // TODO handle those packets
         return;

@@ -15,6 +15,7 @@ use crate::server::model::request::Request;
 
 use crate::server::model::session::Session;
 use crate::server::Server;
+use crate::server::service::global_config_service::GlobalConfigService;
 
 pub(crate) fn handle_login(server: Arc<Server>, context: Request) {
     let packet_ca_login = cast!(context.packet(), PacketCaLogin);
@@ -67,13 +68,13 @@ pub async fn authenticate(server: &Server, packet: &PacketCaLogin, repository: &
         let row = row_result.unwrap();
         let account_id= row.get::<i32, _>("account_id") as u32;
         if server.packetver() < 20170315 {
-            let mut ac_accept_login = PacketAcAcceptLogin::new();
+            let mut ac_accept_login = PacketAcAcceptLogin::new(GlobalConfigService::instance().packetver());
             ac_accept_login.set_packet_length((PacketAcAcceptLogin::base_len(server.packetver()) + ServerAddr::base_len(server.packetver())) as i16);
             ac_accept_login.set_aid(account_id);
             ac_accept_login.set_auth_code(rng.gen::<i32>());
             ac_accept_login.set_user_level(rng.gen::<u32>());
             ac_accept_login.set_sex(1);
-            let mut server_addr = ServerAddr::new();
+            let mut server_addr = ServerAddr::new(GlobalConfigService::instance().packetver());
             server_addr.set_ip(16777343); // 7F 00 00 01 -> to little endian -> 01 00 00 7F
             server_addr.set_port(server.configuration.server.port as i16);
             let mut name_chars = [0 as char; 20];
@@ -83,13 +84,13 @@ pub async fn authenticate(server: &Server, packet: &PacketCaLogin, repository: &
             ac_accept_login.fill_raw();
             return Box::new(ac_accept_login);
         } else {
-            let mut ac_accept_login2 = PacketAcAcceptLogin2::new();
+            let mut ac_accept_login2 = PacketAcAcceptLogin2::new(GlobalConfigService::instance().packetver());
             ac_accept_login2.set_packet_length((PacketAcAcceptLogin2::base_len(server.packetver()) + ServerAddr2::base_len(server.packetver())) as i16);
             ac_accept_login2.set_aid(account_id);
             ac_accept_login2.set_auth_code(rng.gen::<i32>());
             ac_accept_login2.set_user_level(rng.gen::<u32>());
             ac_accept_login2.set_sex(1);
-            let mut server_addr = ServerAddr2::new();
+            let mut server_addr = ServerAddr2::new(GlobalConfigService::instance().packetver());
             server_addr.set_ip(16777343); // 7F 00 00 01 -> to little endian -> 01 00 00 7F
             server_addr.set_port(server.configuration.server.port as i16);
             let mut name_chars = [0 as char; 20];
@@ -105,17 +106,17 @@ pub async fn authenticate(server: &Server, packet: &PacketCaLogin, repository: &
     error!("{:?}", option.as_database_error().unwrap());
     let refuse_login_packet: Box<dyn Packet>;
     if server.packetver() >= 20180627 {
-        let mut refuse_login_packet3 = PacketAcRefuseLoginR3::new();
+        let mut refuse_login_packet3 = PacketAcRefuseLoginR3::new(GlobalConfigService::instance().packetver());
         refuse_login_packet3.set_error_code(1);
         refuse_login_packet3.fill_raw();
         refuse_login_packet = Box::new(refuse_login_packet3);
     } else if server.packetver() > 20101123 {
-        let mut refuse_login_packet2 = PacketAcRefuseLoginR2::new();
+        let mut refuse_login_packet2 = PacketAcRefuseLoginR2::new(GlobalConfigService::instance().packetver());
         refuse_login_packet2.set_error_code(1);
         refuse_login_packet2.fill_raw();
         refuse_login_packet = Box::new(refuse_login_packet2);
     } else {
-        let mut refuse_login_packet1 = PacketAcRefuseLogin::new();
+        let mut refuse_login_packet1 = PacketAcRefuseLogin::new(GlobalConfigService::instance().packetver());
         refuse_login_packet1.set_error_code(1);
         refuse_login_packet1.fill_raw();
         refuse_login_packet = Box::new(refuse_login_packet1);

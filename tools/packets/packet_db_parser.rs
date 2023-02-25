@@ -6,7 +6,7 @@ use std::cell::{RefCell, RefMut};
 use lazy_static::lazy_static;
 use regex::{Regex, Captures};
 
-use crate::{Condition, PacketStructDefinition, StructDefinition, StructField, Type};
+use crate::{Condition, PacketId, PacketStructDefinition, StructDefinition, StructField, Type};
 use std::path::Path;
 
 lazy_static! {
@@ -45,15 +45,20 @@ pub fn parse(packet_db_path: &Path) -> (Vec<PacketStructDefinition>, Vec<StructD
     let reader = io::BufReader::new(file);
     let mut packets: Vec<PacketStructDefinition> = Vec::new();
     let mut nested_structures: Vec<StructDefinition> = Vec::new();
-    let mut id: String = "null".to_string();
-    let mut ids: Vec<String> = Vec::new();
+    let mut ids: Vec<PacketId> = Vec::new();
     let mut structs_for_packet: Vec<RefCell<StructDefinition>> = Vec::new(); // packets_db can contain nested structures
     let mut current_structure_def = 0;
     for line in reader.lines() {
         let line_content = line.unwrap().trim().to_string();
         if line_content.starts_with("0x") { // new packet definition
-            ids = line_content.clone().split(',').map(|chunk| chunk.trim().to_string()).collect::<Vec<String>>();
-            id = ids[0].clone();
+            ids = line_content.clone().split(',').map(|chunk| {
+                let id_version = chunk.trim().to_string();
+                let id_version = id_version.split(':').collect::<Vec<&str>>();
+                PacketId {
+                    id: id_version[0].trim().to_string(),
+                    packetver: id_version.get(1).map(|version| version.parse::<u32>().unwrap())
+                }
+            }).collect::<Vec<PacketId>>();
             current_structure_def = 0;
             structs_for_packet = Vec::new();
         } else if line_content.contains("struct") && !structs_for_packet.is_empty() { // start of nested struct
@@ -85,7 +90,6 @@ pub fn parse(packet_db_path: &Path) -> (Vec<PacketStructDefinition>, Vec<StructD
                 current_structure_def -= 1;
             } else {
                 packets.push(PacketStructDefinition {
-                    id: id.clone(),
                     ids: ids.clone(),
                     struct_def: copy_struct_definition(struct_def_ref),
                 })

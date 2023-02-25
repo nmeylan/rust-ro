@@ -1,4 +1,4 @@
-use crate::{Condition, PacketStructDefinition, StructDefinition, StructField};
+use crate::{Condition, PacketId, PacketStructDefinition, StructDefinition, StructField};
 use std::fs::File;
 use std::io::Write;
 use std::path::Path;
@@ -39,18 +39,16 @@ pub fn write_packets_struct(packets: Vec<PacketStructDefinition>, nested_structu
     write_packet_trait(&mut file_packets);
     for packet in packets {
         write_struct_definition(&mut file_packets, &packet.struct_def);
-        write_struct_impl(&mut file_packets_impl, &packet.struct_def, Some(packet.id.clone()));
+        write_struct_impl(&mut file_packets_impl, &packet.struct_def, Some(packet.ids.clone()));
         write_packet_trait_impl(&mut file_packets_impl, &packet);
-        write_default_trait_impl(&mut file_packets_impl, &packet.struct_def);
-        write_debug_trait(&mut file_packets_print, &packet.struct_def, true);
+        write_debug_trait(&mut file_packets_print, &packet.struct_def);
         write_display_trait(&mut file_packets_print, &packet.struct_def, true);
     }
 
     for nested_struct in nested_structures {
         write_struct_definition(&mut file_packets, nested_struct);
-        write_default_trait_impl(&mut file_packets_impl, nested_struct);
         write_struct_impl(&mut file_packets_impl, nested_struct, None);
-        write_debug_trait(&mut file_packets_print, nested_struct, false);
+        write_debug_trait(&mut file_packets_print, nested_struct);
         write_display_trait(&mut file_packets_print, nested_struct, false);
     }
     write_unknown_packet(&mut file_packets);
@@ -63,14 +61,28 @@ fn write_file_header(file: &mut File) {
 
 fn write_packet_parser(file: &mut File, packets: &Vec<PacketStructDefinition>) {
     file.write_all("pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {\n".to_string().as_bytes()).unwrap();
-    for packet in packets {
-        for id in packet.ids.iter() {
-            let packet_id = packet_id(id.clone()).replace("0x", "");
-            let (first_byte, second_byte) = packet_id.split_at(2);
-            file.write_all(format!("    if buffer[0] == 0x{first_byte} && buffer[1] == 0x{second_byte} {{\n").as_bytes()).unwrap();
-            file.write_all(format!("        return Box::new({}::from(buffer, packetver));\n", packet.struct_def.name).as_bytes()).unwrap();
-            file.write_all("    }\n".to_string().as_bytes()).unwrap();
-        }
+    #[derive(Clone)]
+    struct PacketAndVersion {id: String, version: Option<u32>, struct_name: String}
+    let mut packets_with_version = vec![];
+    packets.iter().for_each(|struct_def| struct_def.ids.iter().for_each(|packet_id| {
+        packets_with_version.push(PacketAndVersion {id: packet_id.id.clone(), version: packet_id.packetver.clone(), struct_name: struct_def.struct_def.name.clone()})
+    }));
+    let mut ids_with_version = packets_with_version.iter().filter(|packet| packet.version.is_some()).cloned().collect::<Vec<PacketAndVersion>>();
+    let ids_without_version = packets_with_version.iter().filter(|packet| packet.version.is_none()).cloned().collect::<Vec<PacketAndVersion>>();
+    ids_with_version.sort_by(|a, b| (b.version.unwrap()).cmp(&a.version.unwrap()) );
+    for packet in ids_with_version.iter() {
+        let packet_id = packet_id(&packet.id.clone()).replace("0x", "");
+        let (first_byte, second_byte) = packet_id.split_at(2);
+        file.write_all(format!("    if packetver >= {} && buffer[0] == 0x{first_byte} && buffer[1] == 0x{second_byte} {{\n", packet.version.unwrap()).as_bytes()).unwrap();
+        file.write_all(format!("        return Box::new({}::from(buffer, packetver));\n", packet.struct_name).as_bytes()).unwrap();
+        file.write_all("    }\n".to_string().as_bytes()).unwrap();
+    }
+    for packet in ids_without_version.iter() {
+        let packet_id = packet_id(&packet.id.clone()).replace("0x", "");
+        let (first_byte, second_byte) = packet_id.split_at(2);
+        file.write_all(format!("    if buffer[0] == 0x{first_byte} && buffer[1] == 0x{second_byte} {{\n").as_bytes()).unwrap();
+        file.write_all(format!("        return Box::new({}::from(buffer, packetver));\n", packet.struct_name).as_bytes()).unwrap();
+        file.write_all("    }\n".to_string().as_bytes()).unwrap();
     }
     file.write_all("    Box::new(PacketUnknown::from(buffer))\n".to_string().as_bytes()).unwrap();
     file.write_all("}\n\n".to_string().as_bytes()).unwrap();
@@ -78,7 +90,7 @@ fn write_packet_parser(file: &mut File, packets: &Vec<PacketStructDefinition>) {
 
 fn write_packet_trait(file: &mut File) {
     file.write_all("pub trait Packet {\n".to_string().as_bytes()).unwrap();
-    file.write_all("    fn id(&self) -> &str;\n".to_string().as_bytes()).unwrap();
+    file.write_all("    fn id(&self, packetver: u32) -> &str;\n".to_string().as_bytes()).unwrap();
     file.write_all("    fn base_len(&self, packetver: u32) -> usize;\n".to_string().as_bytes()).unwrap();
     file.write_all("    fn display(&self);\n".to_string().as_bytes()).unwrap();
     file.write_all("    fn debug(&self);\n".to_string().as_bytes()).unwrap();
@@ -92,9 +104,8 @@ fn write_packet_trait(file: &mut File) {
 
 fn write_packet_trait_impl(file: &mut File, packet: &PacketStructDefinition) {
     file.write_all(format!("impl Packet for {} {{\n", packet.struct_def.name).as_bytes()).unwrap();
-    file.write_all("    fn id(&self) -> &str {\n".to_string().as_bytes()).unwrap();
-    let id = packet_id(packet.id.clone());
-    file.write_all(format!("       \"{id}\"\n").as_bytes()).unwrap();
+    file.write_all("    fn id(&self, packetver: u32) -> &str {\n".to_string().as_bytes()).unwrap();
+    file.write_all(format!("       {}::packet_id(packetver)\n", packet.struct_def.name).as_bytes()).unwrap();
     file.write_all("    }\n".to_string().as_bytes()).unwrap();
     file.write_all("    fn debug(&self) {\n".to_string().as_bytes()).unwrap();
     file.write_all("            println!(\"{:?}\", self)\n".to_string().as_bytes()).unwrap();
@@ -124,21 +135,10 @@ fn write_packet_trait_impl(file: &mut File, packet: &PacketStructDefinition) {
 }
 
 
-fn write_default_trait_impl(file: &mut File, struct_definition: &StructDefinition) {
-    file.write_all(format!("impl Default for {} {{\n", struct_definition.name).as_bytes()).unwrap();
-    file.write_all("    fn default() -> Self {\n\n".to_string().as_bytes()).unwrap();
-    file.write_all("       Self::new()\n".to_string().as_bytes()).unwrap();
-    file.write_all("    }\n".to_string().as_bytes()).unwrap();
-    file.write_all("}\n\n".to_string().as_bytes()).unwrap();
-}
-
-fn write_debug_trait(file: &mut File, struct_definition: &StructDefinition, is_packet: bool) {
+fn write_debug_trait(file: &mut File, struct_definition: &StructDefinition) {
     file.write_all(format!("impl Debug for {} {{\n", struct_definition.name).as_bytes()).unwrap();
     file.write_all("    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {\n".to_string().as_bytes()).unwrap();
     file.write_all(format!("        f.debug_struct(\"{}\")\n", struct_definition.name).as_bytes()).unwrap();
-    if is_packet {
-        file.write_all("            .field(\"id\", &self.id())\n".to_string().as_bytes()).unwrap();
-    }
     for field in &struct_definition.fields {
         file.write_all(format!("            .field(\"{}[{}, {}]\", &format!(\"{{:02X?}}\", &self.{}_raw))\n",
                                field.name,
@@ -187,7 +187,7 @@ fn write_struct_definition(file: &mut File, struct_definition: &StructDefinition
     file.write_all("}\n\n".to_string().as_bytes()).unwrap();
 }
 
-fn write_struct_impl(file: &mut File, struct_definition: &StructDefinition, packet_id: Option<String>) {
+fn write_struct_impl(file: &mut File, struct_definition: &StructDefinition, packet_id: Option<Vec<PacketId>>) {
     file.write_all(format!("impl {} {{\n", struct_definition.name).as_bytes()).unwrap();
     if packet_id.is_some() {
         write_struct_packet_id_method(file, &packet_id);
@@ -321,22 +321,75 @@ fn write_struct_base_len_method(file: &mut File, struct_definition: &StructDefin
     file.write_all("    }\n".to_string().as_bytes()).unwrap();
 }
 
-fn write_struct_packet_id_method(file: &mut File, id: &Option<String>) {
-    file.write_all("    pub fn packet_id() -> &'static str {\n".to_string().as_bytes()).unwrap();
-    file.write_all(format!("        \"{}\"\n", packet_id(id.clone().unwrap())).as_bytes()).unwrap();
+fn write_struct_packet_id_method(file: &mut File, ids: &Option<Vec<PacketId>>) {
+    file.write_all("    pub fn packet_id(packetver: u32) -> &'static str {\n".to_string().as_bytes()).unwrap();
+    let ids = ids.clone().unwrap();
+    if ids.len() == 1 {
+        file.write_all(format!("        \"{}\"\n", packet_id(&ids[0].id)).as_bytes()).unwrap();
+    } else {
+        let mut ids_with_version = ids.iter().filter(|id| id.packetver.is_some()).cloned().collect::<Vec<PacketId>>();
+        let ids_without_version = ids.iter().filter(|id| id.packetver.is_none()).cloned().collect::<Vec<PacketId>>();
+        if ids_without_version.len() > 1 {
+            panic!("Cannot generate packet_id method when there is multiple id, and more than one(here {:?}) id has no version", ids_without_version);
+        }
+        ids_with_version.sort_by(|a, b| (b.packetver.unwrap()).cmp(&a.packetver.unwrap()) );
+        for (index, id) in ids_with_version.iter().enumerate() {
+            if index == 0 {
+                file.write_all(format!("        if packetver >= {} {{\n", id.packetver.unwrap()).as_bytes()).unwrap();
+            } else {
+                file.write_all(format!("        }} else if packetver >= {} {{\n", id.packetver.unwrap()).as_bytes()).unwrap();
+            }
+            file.write_all(format!("            \"{}\"\n", id.id).as_bytes()).unwrap();
+        }
+        file.write_all("        } else {\n".to_string().as_bytes()).unwrap();
+        file.write_all(format!("            \"{}\"\n", packet_id(&ids_without_version[0].id)).as_bytes()).unwrap();
+        file.write_all("        }\n".to_string().as_bytes()).unwrap();
+    }
+
     file.write_all("    }\n".to_string().as_bytes()).unwrap();
 }
 
-fn write_struct_new_method(file: &mut File, struct_definition: &StructDefinition, id: &Option<String>) {
-    file.write_all(format!("    pub fn new() -> {} {{\n", struct_definition.name).as_bytes()).unwrap();
+fn write_struct_new_method(file: &mut File, struct_definition: &StructDefinition, ids: &Option<Vec<PacketId>>) {
+    file.write_all(format!("    pub fn new(packetver: u32) -> {} {{\n", struct_definition.name).as_bytes()).unwrap();
+    if let Some(ids) = ids {
+        let ids = ids.clone();
+        if ids.len() == 1 {
+            let id = packet_id(&ids[0].id).replace("0x", "");
+            let (first_byte, second_byte) = id.split_at(2);
+            file.write_all(format!("        let packet_id = i16::from_le_bytes([0x{}, 0x{}]);\n",first_byte, second_byte).as_bytes()).unwrap();
+            file.write_all(format!("        let packet_id_raw = [0x{}, 0x{}];\n",first_byte, second_byte).as_bytes()).unwrap();
+        } else {
+            let mut ids_with_version = ids.iter().filter(|id| id.packetver.is_some()).cloned().collect::<Vec<PacketId>>();
+            let ids_without_version = ids.iter().filter(|id| id.packetver.is_none()).cloned().collect::<Vec<PacketId>>();
+            if ids_without_version.len() > 1 {
+                panic!("Cannot generate new method when there is multiple id, and more than one(here {:?}) id has no version", ids_without_version);
+            }
+            ids_with_version.sort_by(|a, b| (b.packetver.unwrap()).cmp(&a.packetver.unwrap()) );
+            for (index, id) in ids_with_version.iter().enumerate() {
+                let packetid = packet_id(&id.id).replace("0x", "");
+                let (first_byte, second_byte) = packetid.split_at(2);
+                if index == 0 {
+                    file.write_all(format!("        let (packet_id, packet_id_raw) = if packetver >= {} {{\n", id.packetver.unwrap()).as_bytes()).unwrap();
+                } else {
+                    file.write_all(format!("        }} else if packetver >= {} {{\n", id.packetver.unwrap()).as_bytes()).unwrap();
+                }
+                file.write_all(format!("            (i16::from_le_bytes([0x{}, 0x{}]), [0x{}, 0x{}])\n",first_byte, second_byte,first_byte, second_byte).as_bytes()).unwrap();
+            }
+            let packetid = packet_id(&ids_without_version[0].id).replace("0x", "");
+            let (first_byte, second_byte) = packetid.split_at(2);
+            file.write_all("        } else {\n".to_string().as_bytes()).unwrap();
+            file.write_all(format!("            (i16::from_le_bytes([0x{}, 0x{}]), [0x{}, 0x{}])\n",first_byte, second_byte,first_byte, second_byte).as_bytes()).unwrap();
+            file.write_all("        };\n".to_string().as_bytes()).unwrap();
+        }
+    }
+
     file.write_all(format!("        {} {{\n", struct_definition.name).as_bytes()).unwrap();
     file.write_all("        raw: vec![],\n".to_string().as_bytes()).unwrap();
     for field in &struct_definition.fields {
-        if field.name == "packet_id" && id.is_some() {
-            let id = packet_id(id.clone().unwrap()).replace("0x", "");
-            let (first_byte, second_byte) = id.split_at(2);
-            file.write_all(format!("        packet_id: i16::from_le_bytes([0x{first_byte}, 0x{second_byte}]),\n").as_bytes()).unwrap();
-            file.write_all(format!("        packet_id_raw: [0x{first_byte}, 0x{second_byte}],\n").as_bytes()).unwrap();
+        if field.name == "packet_id" {
+
+            file.write_all("        packet_id,\n".to_string().as_bytes()).unwrap();
+            file.write_all("        packet_id_raw,\n".to_string().as_bytes()).unwrap();
         } else {
             file.write_all(field_default_value(field).as_bytes()).unwrap();
         }
@@ -365,7 +418,7 @@ fn write_unknown_packet(file: &mut File) {
     file.write_all("    pub packet_id: String,\n".to_string().as_bytes()).unwrap();
     file.write_all("}\n".to_string().as_bytes()).unwrap();
     file.write_all("impl Packet for PacketUnknown {\n".to_string().as_bytes()).unwrap();
-    file.write_all("    fn id(&self) -> &str {\n".to_string().as_bytes()).unwrap();
+    file.write_all("    fn id(&self, _packetver: u32) -> &str {\n".to_string().as_bytes()).unwrap();
     file.write_all("        self.packet_id.as_str()\n".to_string().as_bytes()).unwrap();
     file.write_all("    }\n".to_string().as_bytes()).unwrap();
     file.write_all("    fn debug(&self) {\n".to_string().as_bytes()).unwrap();
@@ -612,7 +665,7 @@ fn field_length(field: &StructField) -> String {
     if field.length > -1 { (field.length).to_string() } else { "buffer.len()".to_string() }
 }
 
-fn packet_id(packet_id: String) -> String {
+fn packet_id(packet_id: &String) -> String {
     let id = format!("{:0>4}", packet_id.replace("0x", ""));
     let (first_byte, second_byte) = id.split_at(2);
     format!("0x{}{}", second_byte, first_byte) // packet id in db are in Little Endian
@@ -697,7 +750,7 @@ fn field_default_value(field: &StructField) -> String {
             res
         }
         "Struct" => {
-            res = format!("{}        {}: {}::new(),\n", res, field.name, field.complex_type.as_ref().unwrap());
+            res = format!("{}        {}: {}::new(packetver),\n", res, field.name, field.complex_type.as_ref().unwrap());
             if field.length > -1 {
                 res = format!("{}        {}_raw: [0; {}],\n", res, field.name, field.length);
             } else {

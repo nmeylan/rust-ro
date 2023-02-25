@@ -6,7 +6,7 @@
 use std::any::Any;
 
 pub trait Packet {
-    fn id(&self) -> &str;
+    fn id(&self, packetver: u32) -> &str;
     fn base_len(&self, packetver: u32) -> usize;
     fn display(&self);
     fn debug(&self);
@@ -11423,7 +11423,7 @@ pub struct PacketUnknown {
     pub packet_id: String,
 }
 impl Packet for PacketUnknown {
-    fn id(&self) -> &str {
+    fn id(&self, _packetver: u32) -> &str {
         self.packet_id.as_str()
     }
     fn debug(&self) {

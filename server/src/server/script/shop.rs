@@ -7,11 +7,12 @@ use enums::item::ItemType;
 use crate::enums::EnumWithNumberValue;
 use crate::repository::ItemRepository;
 use crate::server::script::{GlobalVariableEntry, GlobalVariableScope};
+use crate::server::service::global_config_service::GlobalConfigService;
 
 impl PlayerScriptHandler {
     pub fn handle_shop(&self, native: &Native, params: Vec<Value>, execution_thread: &Thread, _call_frame: &CallFrame) -> bool {
         if native.name.eq("callshop") {
-            let mut packet_zc_select_deal_type = PacketZcSelectDealtype::new();
+            let mut packet_zc_select_deal_type = PacketZcSelectDealtype::new(GlobalConfigService::instance().packetver());
             packet_zc_select_deal_type.naid = self.npc_id;
             packet_zc_select_deal_type.fill_raw();
             self.send_packet_to_char(self.session.char_id(), &mut packet_zc_select_deal_type);
@@ -26,7 +27,7 @@ impl PlayerScriptHandler {
             let (owner_reference, reference) = params[1].reference_value().map_err(|err|
                 execution_thread.new_runtime_from_temporary(err, "senditemlist second argument should be array name")).unwrap();
             let array_prices = execution_thread.vm.array_from_heap_reference(owner_reference, reference).unwrap();
-            let mut packet_zc_pc_purchase_itemlist = PacketZcPcPurchaseItemlist::new();
+            let mut packet_zc_pc_purchase_itemlist = PacketZcPcPurchaseItemlist::new(GlobalConfigService::instance().packetver());
             // Retrieve items id and price from VM array
             let mut item_ids: Vec<i32> = vec![];
             let mut price_overrides: Vec<i32> = vec![];
@@ -44,7 +45,7 @@ impl PlayerScriptHandler {
             let items = self.runtime.block_on( async{self.server.repository.item_buy_sell_fetch_all_where_ids(item_ids).await }).unwrap();
             let mut items_list: Vec<PurchaseItem> = vec![];
             for (i, _) in price_overrides.iter().enumerate().take(array_items.len()) {
-                let mut purchase_item = PurchaseItem::new();
+                let mut purchase_item = PurchaseItem::new(GlobalConfigService::instance().packetver());
                 let item = items.get(i).unwrap();
                 purchase_item.set_itid(item.id.unwrap() as u16);
                 purchase_item.set_atype(ItemType::from_string(item.item_type.as_str()).value() as u8);
@@ -70,7 +71,7 @@ impl PlayerScriptHandler {
             } else {
                 0
             };
-            let mut packet_zc_pc_purchase_result = PacketZcPcPurchaseResult::new();
+            let mut packet_zc_pc_purchase_result = PacketZcPcPurchaseResult::new(GlobalConfigService::instance().packetver());
             packet_zc_pc_purchase_result.set_result(result as u8);
             packet_zc_pc_purchase_result.fill_raw();
             self.send_packet_to_char(self.session.char_id(), &mut packet_zc_pc_purchase_result);

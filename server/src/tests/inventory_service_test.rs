@@ -204,7 +204,7 @@ mod tests {
         context.inventory_service.reload_equipped_item_sprites(&character);
         // Then
         context.test_context.countdown_latch().wait_with_timeout(Duration::from_millis(200));
-        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_fov(character.x, character.y, vec![SentPacket::with_id(PacketZcSpriteChange2::packet_id())]));
+        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_fov(character.x, character.y, vec![SentPacket::with_id(PacketZcSpriteChange2::packet_id(GlobalConfigService::instance().packetver()))]));
     }
 
     #[test]
@@ -218,7 +218,7 @@ mod tests {
         // Then
         context.test_context.countdown_latch().wait_with_timeout(Duration::from_millis(200));
         assert!(character.inventory.is_empty());
-        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcReqWearEquipAck2::packet_id())]));
+        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcReqWearEquipAck2::packet_id(GlobalConfigService::instance().packetver()))]));
         assert_sent_persistence_event!(context, PersistenceEvent::UpdateEquippedItems(vec![]));
     }
 
@@ -236,7 +236,7 @@ mod tests {
         context.test_context.countdown_latch().wait_with_timeout(Duration::from_millis(200));
         assert_eq!(character.inventory[inventory_index].as_ref().unwrap().equip, item.location as i32);
         assert_ne!(character.inventory[inventory_index].as_ref().unwrap().equip, 0);
-        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcReqWearEquipAck2::packet_id())]));
+        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcReqWearEquipAck2::packet_id(GlobalConfigService::instance().packetver()))]));
         assert_sent_persistence_event!(context, PersistenceEvent::UpdateEquippedItems(vec![character.inventory[inventory_index].as_ref().unwrap().clone()]));
     }
 
@@ -254,7 +254,7 @@ mod tests {
         // Then
         context.test_context.countdown_latch().wait_with_timeout(Duration::from_millis(200));
         assert_eq!(character.inventory[inventory_index].as_ref().unwrap().equip, 0);
-        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcReqWearEquipAck2::packet_id())]));
+        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcReqWearEquipAck2::packet_id(GlobalConfigService::instance().packetver()))]));
         assert_sent_persistence_event!(context, PersistenceEvent::UpdateEquippedItems(vec![character.inventory[inventory_index].as_ref().unwrap().clone()]));
     }
 
@@ -300,7 +300,7 @@ mod tests {
         context.test_context.countdown_latch().wait_with_timeout(Duration::from_millis(200));
         assert_eq!(character.inventory[inventory_index].as_ref().unwrap().equip, item.location as i32);
         assert_ne!(character.inventory[inventory_index].as_ref().unwrap().equip, 0);
-        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcReqWearEquipAck2::packet_id())]));
+        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcReqWearEquipAck2::packet_id(GlobalConfigService::instance().packetver()))]));
         assert_sent_persistence_event!(context, PersistenceEvent::UpdateEquippedItems(vec![character.inventory[inventory_index].as_ref().unwrap().clone()]));
     }
 
@@ -318,7 +318,7 @@ mod tests {
         // Then
         context.test_context.countdown_latch().wait_with_timeout(Duration::from_millis(200));
         assert_eq!(character.inventory[inventory_index].as_ref().unwrap().equip, 0);
-        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcReqWearEquipAck2::packet_id())]));
+        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcReqWearEquipAck2::packet_id(GlobalConfigService::instance().packetver()))]));
         assert_sent_persistence_event!(context, PersistenceEvent::UpdateEquippedItems(vec![character.inventory[inventory_index].as_ref().unwrap().clone()]));
     }
 
@@ -340,7 +340,7 @@ mod tests {
         assert_eq!(character.inventory_equipped().collect::<Vec<_>>().len(), 1);
         assert!(character.inventory_equipped().any(|(_, item)| item.item_id as u32 == GlobalConfigService::instance().get_item_id_from_name("Knife")));
         context.test_context.increment_latch().wait_expected_count_with_timeout(2, Duration::from_millis(200));
-        assert_not_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcReqTakeoffEquipAck2::packet_id())]));
+        assert_not_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcReqTakeoffEquipAck2::packet_id(GlobalConfigService::instance().packetver()))]));
         context.test_context.clear_sent_packet();
 
         // When
@@ -349,7 +349,7 @@ mod tests {
         assert_eq!(character.inventory_equipped().collect::<Vec<_>>().len(), 1);
         assert!(character.inventory_equipped().any(|(_, item)| item.item_id as u32 == GlobalConfigService::instance().get_item_id_from_name("Sword")));
         context.test_context.increment_latch().wait_expected_count_with_timeout(4, Duration::from_millis(200));
-        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(PacketZcReqTakeoffEquipAck2::packet_id(), 1)]));
+        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(PacketZcReqTakeoffEquipAck2::packet_id(GlobalConfigService::instance().packetver()), 1)]));
         context.test_context.clear_sent_packet();
 
         // When
@@ -359,7 +359,7 @@ mod tests {
         assert!(character.inventory_equipped().any(|(_, item)| item.item_id as u32 == GlobalConfigService::instance().get_item_id_from_name("Guard")));
         assert!(character.inventory_equipped().any(|(_, item)| item.item_id as u32 == GlobalConfigService::instance().get_item_id_from_name("Sword")));
         context.test_context.increment_latch().wait_expected_count_with_timeout(6, Duration::from_millis(200));
-        assert_not_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcReqTakeoffEquipAck2::packet_id())]));
+        assert_not_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcReqTakeoffEquipAck2::packet_id(GlobalConfigService::instance().packetver()))]));
         context.test_context.clear_sent_packet();
 
         // When
@@ -368,7 +368,7 @@ mod tests {
         assert_eq!(character.inventory_equipped().collect::<Vec<_>>().len(), 1);
         assert!(character.inventory_equipped().any(|(_, item)| item.item_id as u32 == GlobalConfigService::instance().get_item_id_from_name("Two_Hand_Sword")));
         context.test_context.increment_latch().wait_expected_count_with_timeout(8, Duration::from_millis(200));
-        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(PacketZcReqTakeoffEquipAck2::packet_id(), 2)]));
+        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(PacketZcReqTakeoffEquipAck2::packet_id(GlobalConfigService::instance().packetver()), 2)]));
         context.test_context.clear_sent_packet();
     }
 

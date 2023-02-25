@@ -42,7 +42,7 @@ pub fn handle_atcommand(server: &Server, context: Request, packet: &PacketCzPlay
     if captures.len() > 2 {
         args = captures.get(3).unwrap().as_str().split(' ').map(|arg| arg.trim_matches(char::from(0))).collect();
     }
-    let mut packet_zc_notify_playerchat = PacketZcNotifyPlayerchat::new();
+    let mut packet_zc_notify_playerchat = PacketZcNotifyPlayerchat::new(GlobalConfigService::instance().packetver());
     // let mut packets = vec![];
     match command {
         "go" => {

@@ -387,7 +387,7 @@ struct PACKET_ZC_NOTIFY_STANDENTRY_NPC {
 struct PACKET_CZ_NOTIFY_ACTORINIT {
   short PacketId
  }
-0x7e,0x0817,0x0887
+0x7e,0x0817:20111005,0x0887:20120307
 struct PACKET_CZ_REQUEST_TIME {
   short PacketId
   unsigned long clientTime
@@ -420,7 +420,7 @@ struct PACKET_ZC_ACCEPT_QUIT {
 struct PACKET_ZC_REFUSE_QUIT {
   short PacketId
  }
-0x85, 0x035f, 0x0364, 0x0437, 0x0953
+0x85, 0x035f:20101124, 0x0364:20111005, 0x0437:20120307, 0x0953:20120702, 0x0437:20130515
 struct PACKET_CZ_REQUEST_MOVE {
   short PacketId
   unsigned byte dest[3]
@@ -445,7 +445,7 @@ struct PACKET_ZC_STOPMOVE {
   short xPos
   short yPos
  }
-0x89,0x0885,0x0437
+0x89,0x0885:20120307
 struct PACKET_CZ_REQUEST_ACT {
   short PacketId
   unsigned long targetGID
@@ -528,7 +528,7 @@ struct PACKET_ZC_NPCACK_SERVERMOVE {
 struct PACKET_ZC_NPCACK_ENABLE {
   short PacketId
  }
-0x94, 0x088A,0x096A
+0x94, 0x088A:20111005,0x096A:20131223, 0x096A:20120418, 0x088A:20140402
 struct PACKET_CZ_REQNAME {
   short PacketId
   unsigned long AID
@@ -607,7 +607,7 @@ struct PACKET_ZC_ITEM_FALL_ENTRY {
   unsigned char subY
   short count
  }
-0x9f,0x0865
+0x9f,0x0865:20120307
 struct PACKET_CZ_ITEM_PICKUP {
   short PacketId
   unsigned long ITAID
@@ -636,12 +636,13 @@ struct PACKET_ZC_ITEM_DISAPPEAR {
   short PacketId
   unsigned long ITAID
  }
-0xa2
+0xa2,0x02c4:20120307
 struct PACKET_CZ_ITEM_THROW {
   short PacketId
   unsigned short Index
   short count
  }
+
 0xa3
 struct PACKET_ZC_NORMAL_ITEMLIST {
   short PacketId
@@ -710,7 +711,7 @@ struct PACKET_ZC_STORE_EQUIPMENT_ITEMLIST {
    }
   }
  }
-0xa7,0x0439
+0xa7,0x0439:20120307
 struct PACKET_CZ_USE_ITEM {
   short PacketId
   unsigned short index
@@ -1814,7 +1815,7 @@ struct PACKET_ZC_OPEN_EDITDLG {
   short PacketId
   unsigned long NAID
  }
-0x0143,0x0141,0x0167
+0x0143
 struct PACKET_CZ_INPUT_EDITDLG {
   short PacketId
   unsigned long NAID
@@ -4707,7 +4708,8 @@ struct PACKET_ZC_FORMATSTRING_MSG {
   unsigned short msg
   char value[...]
  }
-0x2c4
+
+0x2c4:20070227
 struct PACKET_CZ_PARTY_JOIN_REQ {
   short PacketId
   char characterName[24]
@@ -5213,7 +5215,7 @@ struct PACKET_CAH_ACK_GAME_GUARD {
   short PacketId
   unsigned long AuthData[4]
  }
-0x0436, 0x0871, 0x083C,0x086A
+0x0436, 0x0871:20170607, 0x083C:20111102,0x086A:20120307
 struct PACKET_CZ_ENTER2 {
   short PacketId
   unsigned long AID

@@ -202,7 +202,7 @@ impl Server {
                         let speed = character.status.speed;
                         let maybe_previous_movement = character.pop_movement();
                         character.set_movement(character_movement.path);
-                        let mut packet_zc_notify_playermove = PacketZcNotifyPlayermove::new();
+                        let mut packet_zc_notify_playermove = PacketZcNotifyPlayermove::new(GlobalConfigService::instance().packetver());
                         if let Some(movement) = character.peek_mut_movement() {
                             if let Some(previous_movement) = maybe_previous_movement {
                                 debug!("change path! was {} will {}, move at {}",previous_movement.position(), movement.position(), previous_movement.move_at() + Movement::delay(speed, movement.is_diagonal()));
