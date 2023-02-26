@@ -12,11 +12,12 @@ I am working on this project for fun and also to provide a more accessible way t
 ## Packet version
 While I mentioned above wanting to fully support packet version **20120307**, this implementation can support any packet version, it is just I am testing exclusively with a [robrowser client](https://github.com/MrAntares/roBrowserLegacy) using this packet version.
 
-
 # Implementation details
 
 Checkout [architectures notes](doc/Architecture.md)
 
+# TODO
+See [Meta issue](https://github.com/nmeylan/rust-ro/issues/19)
 
 # Usage
 *This section will be rewritten*
@@ -68,7 +69,7 @@ Database:
 - mob drops item on death
 
 
-## Progress
+## Compilation
 A compilation of progress made so far
 
 https://user-images.githubusercontent.com/1909074/210180140-0bb7e034-4209-4fb9-8601-a29cbb90cea5.mp4
@@ -77,20 +78,6 @@ https://user-images.githubusercontent.com/1909074/210180140-0bb7e034-4209-4fb9-8
 ## Integration of the VM (showing instance and class(npc) variable)
 
 https://user-images.githubusercontent.com/1909074/178155321-d3eeb4b8-32ed-4901-bbfe-b101b1a5a56d.mp4
-
-# In progress
-- Basic game mechanics
-
-# TODO
-in random order, features are implemented based on my current mood.
-- inventory
-- health/sp
-- player attack mob
-- mob attack player
-- equipment
-- class
-- drop
-- exp
 
 ## Visual debugger
 ![visual-debugger](doc/img/visual_debugger.PNG)
