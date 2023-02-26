@@ -1,17 +1,31 @@
 ![build](https://github.com/nmeylan/rust-ro/actions/workflows/rust.yml/badge.svg)
-# rust-ro
-Ragnarok mmo server implementation for fun. Inspired by [herculesWS](https://github.com/HerculesWS/Hercules) and [rathena](https://github.com/rathena/rathena)
+# What is rust-ro?
+rust-ro is a Ragnarok mmo server implementation written in rust. While it is a from scratch implemention it is heavily inspired by [herculesWS](https://github.com/HerculesWS/Hercules) and [rathena](https://github.com/rathena/rathena), for example this implementation support same scripting language for NPC meaning that existing scripts should work on this implementation and use the same database structure than rathena and some naming convention were kept.
+
+## Ambition
+The project started on August 2021 with the ambition to being able to connect on the server and navigate across maps to see monsters.
+
+Today February 2023 a lot of features have been added, see below. My ultimate goal would be to have a fully playable implementation for **PRE-RE**, supporting packet version **20120307**.
+
+I am working on this project for fun and also to provide a more accessible way than existing implementation to understand how Ragnarok game works for educational purpose. Each feature is covered with tests to provide internal documentation.
+
+## Packet version
+While I mentioned above wanting to fully support packet version **20120307**, this implementation can support any packet version, it is just I am testing exclusively with a [robrowser client](https://github.com/MrAntares/roBrowserLegacy) using this packet version.
+
 
 # Implementation details
 
 Checkout [architectures notes](doc/Architecture.md)
 
-# Pre-requisite
+
+# Usage
+*This section will be rewritten*
+
+**Pre-requisite:**
 - postgresql (rathena db was converted using pgloader and then adapted)
 - RO db `db/pg.sql`
 
-
-# Usage
+**Notes:**
 - All packets for account 2000000 are handle by this project.
 - All packets for any other account are proxied (and display in console) to hercules or rathena.
 
