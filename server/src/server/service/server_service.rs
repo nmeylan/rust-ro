@@ -7,18 +7,19 @@ use tokio::runtime::Runtime;
 use enums::action::ActionType;
 use enums::status::StatusTypes;
 use crate::enums::EnumWithNumberValue;
-use packets::packets::{PacketZcNotifyAct, PacketZcStatusChangeAck};
+use packets::packets::{PacketZcItemFallEntry, PacketZcNotifyAct, PacketZcStatusChangeAck};
 use crate::repository::model::item_model::InventoryItemModel;
 use crate::server::boot::map_loader::MapLoader;
 use crate::server::model::map::{Map, RANDOM_CELL};
-use crate::server::model::map_instance::MapInstance;
+use crate::server::model::map_instance::{MapInstance, MapInstanceKey};
 use crate::server::model::map_item::{MapItem, MapItemType};
 use crate::server::model::position::Position;
 use crate::server::model::tasks_queue::TasksQueue;
 use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, CharNotification, Notification};
-use crate::server::model::events::game_event::{CharacterAddItems, CharacterChangeMap, CharacterKillMonster, CharacterMovement, CharacterRemoveFromMap, CharacterUpdateStat, GameEvent};
+use crate::server::model::events::game_event::{CharacterAddItems, CharacterChangeMap, CharacterKillMonster, CharacterMovement, CharacterRemoveFromMap, CharacterUpdateStat, GameEvent,};
 use crate::server::map_instance_loop::MapInstanceLoop;
 use crate::server::model::events::map_event::{MapEvent, MobDropItems};
+use crate::server::model::item::DroppedItem;
 use crate::server::model::movement::{Movable, Movement};
 use crate::server::model::path::{manhattan_distance, path_search_client_side_algorithm};
 
@@ -28,6 +29,7 @@ use crate::server::service::character::inventory_service::InventoryService;
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::service::map_instance_service::MapInstanceService;
 use crate::server::state::character::Character;
+use crate::server::state::map_instance::MapInstanceState;
 
 use crate::server::state::server::ServerState;
 use crate::util::tick::get_tick;
@@ -163,9 +165,14 @@ impl ServerService {
                 }
                 server_state.insert_locked_map_item(map_item_id);
                 let item = self.configuration_service.get_item(dropped_item.item_id);
-                self.inventory_service.add_items_in_inventory(runtime, CharacterAddItems { char_id: character.char_id, should_perform_check: true, buy: false, items: vec![
-                    InventoryItemModel::from_item_model(item, dropped_item.amount as i16, !item.item_type.should_be_identified_when_dropped())
-                ] }, character);
+                self.inventory_service.add_items_in_inventory(runtime, CharacterAddItems {
+                    char_id: character.char_id,
+                    should_perform_check: true,
+                    buy: false,
+                    items: vec![
+                        InventoryItemModel::from_item_model(item, dropped_item.amount as i16, !item.item_type.should_be_identified_when_dropped())
+                    ],
+                }, character);
                 let mut packet_zc_notify_act = PacketZcNotifyAct::new(self.configuration_service.packetver());
                 packet_zc_notify_act.set_gid(character.char_id);
                 packet_zc_notify_act.set_action(ActionType::Itempickup.value() as u8);
@@ -196,9 +203,7 @@ impl ServerService {
         self.character_service.gain_job_exp(character, character_kill_monster.mob_job_exp);
         // TODO check autoloot
         let autoloot = false;
-        if autoloot {
-
-        } else {
+        if autoloot {} else {
             map_instance.add_to_delayed_tick(MapEvent::MobDropItems(MobDropItems { owner_id: character_kill_monster.char_id, mob_id: character_kill_monster.mob_id, mob_x: character_kill_monster.mob_x, mob_y: character_kill_monster.mob_y }), 400);
         }
     }

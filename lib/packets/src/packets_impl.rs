@@ -52695,7 +52695,7 @@ impl Packet for PacketScAckEncryption {
 
 impl PacketZcUseItemAck2 {
     pub fn packet_id(packetver: u32) -> &'static str {
-        "0x01c8"
+        "0xc801"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcUseItemAck2 {
         let mut offset: usize = 0;
@@ -52837,8 +52837,8 @@ impl PacketZcUseItemAck2 {
         self.result_raw = value;
     }
     pub fn new(packetver: u32) -> PacketZcUseItemAck2 {
-        let packet_id = i16::from_le_bytes([0x01, 0xc8]);
-        let packet_id_raw = [0x01, 0xc8];
+        let packet_id = i16::from_le_bytes([0xc8, 0x01]);
+        let packet_id_raw = [0xc8, 0x01];
         PacketZcUseItemAck2 {
         raw: vec![],
         packet_id,

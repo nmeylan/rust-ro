@@ -15,7 +15,7 @@ use crate::server::game_loop::GAME_TICK_RATE;
 use crate::server::map_instance_loop::MAP_LOOP_TICK_RATE;
 use crate::server::model::action::Damage;
 use crate::server::model::events::game_event::{CharacterKillMonster, GameEvent};
-use crate::server::model::events::map_event::{MapEvent, MobDropItems, MobLocation};
+use crate::server::model::events::map_event::{CharacterDropItems, MapEvent, MobDropItems, MobLocation};
 use crate::server::model::item::DroppedItem;
 use crate::server::model::position::Position;
 use crate::server::model::tasks_queue::TasksQueue;
@@ -137,10 +137,17 @@ impl MapInstanceService {
     pub fn mob_die(&self, map_instance_state: &mut MapInstanceState, id: u32, delay: u128) {
         let mob = map_instance_state.remove_mob(id).unwrap();
         let mob_model = self.configuration_service.get_mob(mob.mob_id as i32);
-        self.server_task_queue.add_to_index(GameEvent::CharacterKillMonster(CharacterKillMonster { char_id: mob.attacker_with_higher_damage(),
-            mob_id: mob.mob_id, mob_x: mob.x, mob_y: mob.y, map_instance_key: map_instance_state.key().clone()
-            , mob_base_exp: mob_model.exp as u32, mob_job_exp: mob_model.jexp as u32}),
-                                            delayed_tick(delay, GAME_TICK_RATE)
+        self.server_task_queue.add_to_index(GameEvent::CharacterKillMonster(CharacterKillMonster {
+            char_id: mob.attacker_with_higher_damage(),
+            mob_id: mob.mob_id,
+            mob_x: mob.x,
+            mob_y: mob.y,
+            map_instance_key: map_instance_state.key().clone()
+            ,
+            mob_base_exp: mob_model.exp as u32,
+            mob_job_exp: mob_model.jexp as u32,
+        }),
+                                            delayed_tick(delay, GAME_TICK_RATE),
         );
     }
 
@@ -152,10 +159,24 @@ impl MapInstanceService {
         self.client_notification_sender.send(Notification::Area(
             AreaNotification::new(map_instance_state.key().map_name().clone(), map_instance_state.key().map_instance(),
                                   AreaNotificationRangeType::Fov { x: mob_location.x, y: mob_location.y, exclude_id: None },
-                                  packet_zc_notify_vanish.raw))).expect("Fail to send client notification");    }
+                                  packet_zc_notify_vanish.raw))).expect("Fail to send client notification");
+    }
 
     pub fn mob_drop_items_and_send_packet(&self, map_instance_state: &mut MapInstanceState, mob_drop_items: MobDropItems) {
         let item_to_drop = self.mob_drop_items(map_instance_state, mob_drop_items);
+        self.notify_drop_items(map_instance_state, mob_drop_items.mob_x, mob_drop_items.mob_y, item_to_drop);
+    }
+
+    pub fn character_drop_items_and_send_packet(&self, map_instance_state: &mut MapInstanceState, char_drop_items: CharacterDropItems) {
+        let rng = fastrand::Rng::new();
+        let mut item_to_drop: Vec<DroppedItem> = vec![];
+        for (item_id, amount) in char_drop_items.item_id_amount {
+            item_to_drop.push(self.drop_items(map_instance_state, &rng, char_drop_items.char_x, char_drop_items.char_y, item_id as i32, amount, Some(char_drop_items.owner_id)));
+        }
+        self.notify_drop_items(map_instance_state, char_drop_items.char_x, char_drop_items.char_y, item_to_drop);
+    }
+
+    pub fn notify_drop_items(&self, map_instance_state: &mut MapInstanceState, x: u16, y: u16, item_to_drop: Vec<DroppedItem>) {
         let mut packets = vec![];
         for item in item_to_drop.iter() {
             let mut packet_zc_item_fall_entry = PacketZcItemFallEntry::new(self.configuration_service.packetver());
@@ -171,7 +192,7 @@ impl MapInstanceService {
         }
         self.client_notification_sender.send(Notification::Area(
             AreaNotification::new(map_instance_state.key().map_name().clone(), map_instance_state.key().map_instance(),
-                                  AreaNotificationRangeType::Fov { x: mob_drop_items.mob_x, y: mob_drop_items.mob_y, exclude_id: None },
+                                  AreaNotificationRangeType::Fov { x, y, exclude_id: None },
                                   packets))).expect("Fail to send client notification");
     }
 
@@ -186,22 +207,26 @@ impl MapInstanceService {
                 (drop.rate as f32 * self.configuration_service.config().game.drop_rate).round() as u16
             };
             if drop_rate >= 10000 || rng.u16(1..=10000) > 10000 - drop_rate {
-                let (random_x, random_y) = Map::find_random_free_cell_around(map_instance_state.cells(), map_instance_state.x_size(), mob_drop_items.mob_x, mob_drop_items.mob_y);
-                let map_item_id = Server::generate_id(map_instance_state.map_items_mut());
-                let dropped_item = DroppedItem {
-                    map_item_id,
-                    item_id: drop.item_id,
-                    location: Position { x: random_x, y: random_y, dir: 0 },
-                    sub_location: Position { x: rng.u16(0..=3) * 3 + 3, y: rng.u16(0..=3) * 3 + 3, dir: 0 },
-                    owner_id: Some(mob_drop_items.owner_id),
-                    dropped_at: get_tick(),
-                    amount: 1
-                };
-                map_instance_state.insert_dropped_item(dropped_item);
-                item_to_drop.push(dropped_item);
+                item_to_drop.push(self.drop_items(map_instance_state, &rng, mob_drop_items.mob_x, mob_drop_items.mob_y, drop.item_id, 1, Some(mob_drop_items.owner_id)));
             }
         }
         item_to_drop
+    }
+
+    fn drop_items(&self, map_instance_state: &mut MapInstanceState, rng: &fastrand::Rng, x: u16, y: u16, item_id: i32, amount: u16, owner_id: Option<u32>) -> DroppedItem {
+        let (random_x, random_y) = Map::find_random_free_cell_around(map_instance_state.cells(), map_instance_state.x_size(), x, y);
+        let map_item_id = Server::generate_id(map_instance_state.map_items_mut());
+        let dropped_item = DroppedItem {
+            map_item_id,
+            item_id,
+            location: Position { x: random_x, y: random_y, dir: 0 },
+            sub_location: Position { x: rng.u16(0..=3) * 3 + 3, y: rng.u16(0..=3) * 3 + 3, dir: 0 },
+            owner_id,
+            dropped_at: get_tick(),
+            amount,
+        };
+        map_instance_state.insert_dropped_item(dropped_item);
+        dropped_item
     }
 
     pub fn remove_dropped_item_from_map(&self, map_instance_state: &mut MapInstanceState, dropped_item_id: u32) {

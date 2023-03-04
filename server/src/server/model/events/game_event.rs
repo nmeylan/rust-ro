@@ -1,6 +1,7 @@
 use enums::class::JobName;
 use enums::look::LookType;
 use crate::repository::model::item_model::InventoryItemModel;
+use crate::server::model::item::DroppedItem;
 use crate::server::model::map_instance::MapInstanceKey;
 use crate::server::model::movement::Movement;
 use crate::server::model::position::Position;
@@ -76,6 +77,12 @@ pub struct CharacterAddItems {
     pub buy: bool, // indicate zeny should be used to buy item (zeny will be updated)
     pub items: Vec<InventoryItemModel>
 }
+#[derive(Debug, PartialEq)]
+pub struct CharacterRemoveItems {
+    pub char_id: u32,
+    pub sell: bool, // indicate zeny should be given to character after item sell (zeny will be updated)
+    pub items: Vec<CharacterRemoveItem>
+}
 
 #[derive(Debug, PartialEq)]
 pub struct CharacterUseItem {
@@ -93,6 +100,12 @@ pub struct CharacterEquipItem {
 pub struct CharacterTakeoffEquipItem {
     pub char_id: u32,
     pub index: usize,
+}
+#[derive(Debug, PartialEq)]
+pub struct CharacterRemoveItem {
+    pub char_id: u32,
+    pub index: usize,
+    pub amount: i16,
 }
 
 #[derive(Debug, PartialEq)]

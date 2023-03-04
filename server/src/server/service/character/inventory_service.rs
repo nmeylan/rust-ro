@@ -8,14 +8,15 @@ use enums::item::{EquipmentLocation};
 use enums::look::LookType;
 
 use crate::enums::EnumWithNumberValue;
-use packets::packets::{EquipmentitemExtrainfo301, EQUIPSLOTINFO, NormalitemExtrainfo3, Packet, PacketZcEquipmentItemlist3, PacketZcItemPickupAck3, PacketZcNormalItemlist3, PacketZcPcPurchaseResult, PacketZcReqTakeoffEquipAck2, PacketZcReqWearEquipAck2, PacketZcSpriteChange2};
+use packets::packets::{EquipmentitemExtrainfo301, EQUIPSLOTINFO, NormalitemExtrainfo3, Packet, PacketZcEquipmentItemlist3, PacketZcItemFallEntry, PacketZcItemPickupAck3, PacketZcItemThrowAck, PacketZcNormalItemlist3, PacketZcPcPurchaseResult, PacketZcReqTakeoffEquipAck2, PacketZcReqWearEquipAck2, PacketZcSpriteChange2};
 use crate::repository::model::item_model::{InventoryItemModel, ItemModel};
 use crate::repository::{InventoryRepository};
 
 use crate::server::model::tasks_queue::TasksQueue;
 use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, CharNotification, Notification};
-use crate::server::model::events::game_event::{CharacterAddItems, CharacterEquipItem, CharacterZeny, GameEvent};
+use crate::server::model::events::game_event::{CharacterAddItems, CharacterEquipItem, CharacterRemoveItems, CharacterZeny, GameEvent};
 use crate::server::model::events::game_event::GameEvent::{CharacterUpdateWeight, CharacterUpdateZeny};
+use crate::server::model::events::map_event::MapEvent;
 use crate::server::model::events::persistence_event::{InventoryItemUpdate, PersistenceEvent};
 use crate::server::model::item::EquippedItem;
 
@@ -28,15 +29,15 @@ use crate::util::packet::{chain_packets, chain_packets_raws_by_value};
 static mut SERVICE_INSTANCE: Option<InventoryService> = None;
 static SERVICE_INSTANCE_INIT: Once = Once::new();
 
-pub struct InventoryService{
+pub struct InventoryService {
     client_notification_sender: SyncSender<Notification>,
     persistence_event_sender: SyncSender<PersistenceEvent>,
     repository: Arc<dyn InventoryRepository + Sync>,
     configuration_service: &'static GlobalConfigService,
-    server_task_queue: Arc<TasksQueue<GameEvent>>
+    server_task_queue: Arc<TasksQueue<GameEvent>>,
 }
 
-impl InventoryService{
+impl InventoryService {
     pub fn instance() -> &'static InventoryService {
         unsafe { SERVICE_INSTANCE.as_ref().unwrap() }
     }
@@ -46,7 +47,7 @@ impl InventoryService{
     }
     pub fn init(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, repository: Arc<dyn InventoryRepository + Sync>, configuration_service: &'static GlobalConfigService, task_queue: Arc<TasksQueue<GameEvent>>) {
         SERVICE_INSTANCE_INIT.call_once(|| unsafe {
-            SERVICE_INSTANCE = Some(InventoryService{ client_notification_sender, persistence_event_sender, repository, configuration_service, server_task_queue: task_queue });
+            SERVICE_INSTANCE = Some(InventoryService { client_notification_sender, persistence_event_sender, repository, configuration_service, server_task_queue: task_queue });
         });
     }
 
@@ -61,7 +62,7 @@ impl InventoryService{
         }).collect();
 
         let result = runtime.block_on(async {
-            self.repository.character_inventory_update(&inventory_item_updates, add_items.buy).await
+            self.repository.character_inventory_update_add(&inventory_item_updates, add_items.buy).await
         });
         if result.is_ok() {
             let mut packets = vec![];
@@ -96,6 +97,41 @@ impl InventoryService{
                 self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packet_zc_pc_purchase_result.raw))).expect("Fail to send client notification");
             }
             error!("{:?}", result.err());
+        }
+    }
+
+    pub fn remove_item_from_inventory(&self, runtime: Runtime, remove_items: CharacterRemoveItems, character: &mut Character) {
+        let mut items = Vec::with_capacity(remove_items.items.len());
+        for remove_item in remove_items.items.iter() {
+            if let Some(item) = character.get_item_from_inventory(remove_item.index) {
+                let mut item = item.clone();
+                item.amount -= remove_item.amount;
+                items.push((item, remove_item));
+            }
+        }
+        let result = runtime.block_on(async {
+            self.repository.character_inventory_update_remove(&items.iter().map(|(item, _)| item).collect::<Vec<&InventoryItemModel>>(), remove_items.sell).await
+        });
+
+        if result.is_ok() {
+            let mut packets = vec![];
+            for remove_item in remove_items.items.iter() {
+                character.del_item_from_inventory(remove_item.index, remove_item.amount);
+                let mut packet_zc_item_throw_ack = PacketZcItemThrowAck::new(self.configuration_service.packetver());
+                packet_zc_item_throw_ack.set_index(remove_item.index as u16);
+                packet_zc_item_throw_ack.set_count(remove_item.amount);
+                packet_zc_item_throw_ack.fill_raw();
+                packets.push(packet_zc_item_throw_ack.raw);
+            }
+            for (item, remove_item) in items.iter() {
+                let mut packet_zc_item_fall_entry = PacketZcItemFallEntry::new(self.configuration_service.packetver());
+                packet_zc_item_fall_entry.set_itid(item.item_id as u16);
+                packet_zc_item_fall_entry.set_itaid(item.id as u32);
+                packet_zc_item_fall_entry.set_count(remove_item.amount);
+
+            }
+            self.server_task_queue.add_to_first_index(CharacterUpdateWeight(character.char_id));
+            self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, chain_packets_raws_by_value(packets)))).expect("Fail to send client notification");
         }
     }
 
@@ -155,7 +191,7 @@ impl InventoryService{
         packet_zc_normal_itemlist3.fill_raw();
         self.server_task_queue.add_to_first_index(CharacterUpdateWeight(character.char_id));
         self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id,
-                                                                                            chain_packets(vec![&packet_zc_equipment_itemlist3, &packet_zc_normal_itemlist3]))))
+                                                                                      chain_packets(vec![&packet_zc_equipment_itemlist3, &packet_zc_normal_itemlist3]))))
             .expect("Fail to send client notification");
     }
 
@@ -170,7 +206,7 @@ impl InventoryService{
             map_name: character.current_map_name().clone(),
             map_instance_id: character.current_map_instance(),
             range_type: AreaNotificationRangeType::Fov { x: character.x(), y: character.y(), exclude_id: None },
-            packet: packets
+            packet: packets,
         })).expect("Fail to send client notification");
     }
 

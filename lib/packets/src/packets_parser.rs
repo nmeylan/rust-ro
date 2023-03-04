@@ -1132,7 +1132,7 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0xc7 && buffer[1] == 0x01 {
         return Box::new(PacketScAckEncryption::from(buffer, packetver));
     }
-    if buffer[0] == 0x01 && buffer[1] == 0xc8 {
+    if buffer[0] == 0xc8 && buffer[1] == 0x01 {
         return Box::new(PacketZcUseItemAck2::from(buffer, packetver));
     }
     if buffer[0] == 0xc9 && buffer[1] == 0x01 {
