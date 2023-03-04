@@ -9,7 +9,7 @@ use async_trait::async_trait;
 
 #[async_trait]
 impl InventoryRepository for Repository {
-    async fn character_inventory_update(&self, inventory_update_items: &[InventoryItemUpdate], buy: bool) -> Result<(), Error> {
+    async fn character_inventory_update_add(&self, inventory_update_items: &[InventoryItemUpdate], buy: bool) -> Result<(), Error> {
         let stackable_items = inventory_update_items.iter().filter(|item| item.stackable).collect::<Vec<&InventoryItemUpdate>>();
         let not_stackable_items = inventory_update_items.iter().filter(|item| !item.stackable).collect::<Vec<&InventoryItemUpdate>>();
         let mut tx = self.pool.begin().await.unwrap();
@@ -52,7 +52,10 @@ impl InventoryRepository for Repository {
         } else {
             tx.commit().await
         }
+    }
 
+    async fn character_inventory_update_remove(&self, inventory_update_items: &[&InventoryItemModel], sell: bool) -> Result<(), Error> {
+        Ok(())
     }
 
 

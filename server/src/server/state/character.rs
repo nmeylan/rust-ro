@@ -271,7 +271,7 @@ impl Character {
         if let Some(inventory_slot) = self.inventory.get_mut(index) {
             if inventory_slot.is_some() {
                 let item = inventory_slot.as_mut().unwrap();
-                if item.amount - amount >= 0 {
+                if item.amount - amount > 0 {
                     item.amount -= amount;
                     return item.amount as u16;
                 } else {

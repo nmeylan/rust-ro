@@ -90,6 +90,7 @@ impl ItemService {
                     let item_inventory_id = item.id;
                     let item_unique_id = item.unique_id;
                     if script_result.is_ok() {
+                        // TODO call delete item from inventory service
                         let remaining_item = character.del_item_from_inventory(character_user_item.index, 1);
                         self.persistence_event_sender.send(PersistenceEvent::DeleteItemsFromInventory(DeleteItems {
                             char_id: character.char_id as i32,

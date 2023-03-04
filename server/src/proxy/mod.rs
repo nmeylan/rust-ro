@@ -128,7 +128,7 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
     fn print_packet(&self, outgoing: &mut TcpStream, direction: ProxyDirection, packet: Box<dyn Packet>) {
         if packet.id(GlobalConfigService::instance().packetver()) != "0x6003"
             && packet.id(GlobalConfigService::instance().packetver()) != "0x7f00"
-            && packet.id(GlobalConfigService::instance().packetver()) != "0x8708"
+            && packet.id(GlobalConfigService::instance().packetver()) != "0x0887"
             && packet.id(GlobalConfigService::instance().packetver()) != "0x7e00" { // PACKET_CZ_REQUEST_TIME2
             println!("\n----------------------------Start Packet----------------------------");
             info!("{} {} {}", self.name, if direction == ProxyDirection::Backward { "<" } else { ">" }, outgoing.peer_addr().unwrap());

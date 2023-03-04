@@ -68,6 +68,7 @@ impl MapInstanceLoop {
                                 MapEvent::RemoveDroppedItemFromMap(dropped_item_id) => {
                                     MapInstanceService::instance().remove_dropped_item_from_map(map_instance.state_mut().as_mut(), dropped_item_id);
                                 }
+                                MapEvent::CharDropItems(_) => {}
                             }
                         }
                     }

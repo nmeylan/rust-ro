@@ -12,7 +12,11 @@ pub struct MockedRepository;
 
 #[async_trait]
 impl InventoryRepository for MockedRepository {
-    async fn character_inventory_update(&self, _inventory_update_items: &[InventoryItemUpdate], _buy: bool) -> Result<(), Error> {
+    async fn character_inventory_update_add(&self, _inventory_update_items: &[InventoryItemUpdate], _buy: bool) -> Result<(), Error> {
+        Ok(())
+    }
+
+    async fn character_inventory_update_remove(&self, _inventory_update_items: &[&InventoryItemModel], _sell: bool) -> Result<(), Error> {
         Ok(())
     }
 
@@ -27,6 +31,7 @@ impl InventoryRepository for MockedRepository {
     async fn character_inventory_wearable_item_update(&self, _items: Vec<InventoryItemModel>) -> Result<PgQueryResult, Error> {
         Ok(Default::default())
     }
+
 }
 
 #[async_trait]

@@ -2777,7 +2777,7 @@ struct PACKET_CS_REQ_ENCRYPTION {
 struct PACKET_SC_ACK_ENCRYPTION {
   short PacketId
  }
-0xc801
+0x01c8
 struct PACKET_ZC_USE_ITEM_ACK2 {
   short PacketId
   unsigned short index
