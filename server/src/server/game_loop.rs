@@ -7,17 +7,16 @@ use std::time::{Duration, SystemTime, UNIX_EPOCH};
 use tokio::runtime::Runtime;
 
 
-
 use packets::packets::{Packet, PacketZcNotifyPlayermove};
 use crate::PersistenceEvent;
 use crate::PersistenceEvent::SaveCharacterPosition;
 use crate::server::model::movement::{Movable, Movement};
 
 
-use crate::server::model::events::game_event::{GameEvent};
+use crate::server::model::events::game_event::{CharacterRemoveItem, CharacterRemoveItems, GameEvent};
 
 use crate::server::model::events::client_notification::{CharNotification, Notification};
-use crate::server::model::events::map_event::{MapEvent, MobDropItems};
+use crate::server::model::events::map_event::{CharacterDropItems, MapEvent, MobDropItems};
 use crate::server::model::events::persistence_event::{SavePositionUpdate};
 
 use crate::server::model::map_item::{ToMapItemSnapshot, ToMapItem};
@@ -30,8 +29,6 @@ use crate::server::service::character::item_service::{ItemService};
 use crate::server::service::global_config_service::GlobalConfigService;
 
 use crate::server::service::server_service::ServerService;
-
-
 
 
 const MOVEMENT_TICK_RATE: u128 = 20;
@@ -162,6 +159,12 @@ impl Server {
                         GameEvent::CharacterUpdateStat(character_update_stat) => {
                             let character = server_state_mut.characters_mut().get_mut(&character_update_stat.char_id).unwrap();
                             CharacterService::instance().character_increase_stat(character, character_update_stat);
+                        }
+                        GameEvent::CharacterDropItem(character_drop_item) => {
+                            let character = server_state_mut.characters_mut().get_mut(&character_drop_item.char_id).unwrap();
+                            let map_instance = server_ref.state().get_map_instance(character.current_map_name(), character.current_map_instance()).unwrap();
+                            let character_remove_items = CharacterRemoveItems { char_id: character.char_id, sell: false, items: vec![character_drop_item] };
+                            InventoryService::instance().character_drop_items(&runtime, character, character_remove_items, map_instance.as_ref());
                         }
                     }
                 }
