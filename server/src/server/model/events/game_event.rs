@@ -101,7 +101,7 @@ pub struct CharacterTakeoffEquipItem {
     pub char_id: u32,
     pub index: usize,
 }
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Copy, Clone)]
 pub struct CharacterRemoveItem {
     pub char_id: u32,
     pub index: usize,

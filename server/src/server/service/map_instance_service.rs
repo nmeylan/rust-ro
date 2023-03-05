@@ -170,8 +170,8 @@ impl MapInstanceService {
     pub fn character_drop_items_and_send_packet(&self, map_instance_state: &mut MapInstanceState, char_drop_items: CharacterDropItems) {
         let rng = fastrand::Rng::new();
         let mut item_to_drop: Vec<DroppedItem> = vec![];
-        for (item_id, amount) in char_drop_items.item_id_amount {
-            item_to_drop.push(self.drop_items(map_instance_state, &rng, char_drop_items.char_x, char_drop_items.char_y, item_id as i32, amount, Some(char_drop_items.owner_id)));
+        for (item, removal_information) in char_drop_items.item_removal_info {
+            item_to_drop.push(self.drop_items(map_instance_state, &rng, char_drop_items.char_x, char_drop_items.char_y, item.item_id as i32, removal_information.amount as u16, Some(char_drop_items.owner_id)));
         }
         self.notify_drop_items(map_instance_state, char_drop_items.char_x, char_drop_items.char_y, item_to_drop);
     }
@@ -186,6 +186,7 @@ impl MapInstanceService {
             packet_zc_item_fall_entry.set_y_pos(item.location.y as i16);
             packet_zc_item_fall_entry.set_sub_x(item.sub_location.x as u8);
             packet_zc_item_fall_entry.set_sub_y(item.sub_location.y as u8);
+            packet_zc_item_fall_entry.set_is_identified(item.is_identified);
             packet_zc_item_fall_entry.set_count(item.amount as i16);
             packet_zc_item_fall_entry.fill_raw();
             packets.extend(packet_zc_item_fall_entry.raw);
@@ -216,6 +217,7 @@ impl MapInstanceService {
     fn drop_items(&self, map_instance_state: &mut MapInstanceState, rng: &fastrand::Rng, x: u16, y: u16, item_id: i32, amount: u16, owner_id: Option<u32>) -> DroppedItem {
         let (random_x, random_y) = Map::find_random_free_cell_around(map_instance_state.cells(), map_instance_state.x_size(), x, y);
         let map_item_id = Server::generate_id(map_instance_state.map_items_mut());
+        let item = self.configuration_service.get_item(item_id);
         let dropped_item = DroppedItem {
             map_item_id,
             item_id,
@@ -224,6 +226,7 @@ impl MapInstanceService {
             owner_id,
             dropped_at: get_tick(),
             amount,
+            is_identified: !item.item_type.should_be_identified_when_dropped()
         };
         map_instance_state.insert_dropped_item(dropped_item);
         dropped_item

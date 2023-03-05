@@ -16,6 +16,7 @@ pub struct DroppedItem {
     pub owner_id: Option<u32>,
     pub dropped_at: u128,
     pub amount: u16,
+    pub is_identified: bool,
 }
 
 impl DroppedItem {

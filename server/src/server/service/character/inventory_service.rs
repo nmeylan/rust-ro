@@ -14,11 +14,12 @@ use crate::repository::{InventoryRepository};
 
 use crate::server::model::tasks_queue::TasksQueue;
 use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, CharNotification, Notification};
-use crate::server::model::events::game_event::{CharacterAddItems, CharacterEquipItem, CharacterRemoveItems, CharacterZeny, GameEvent};
+use crate::server::model::events::game_event::{CharacterAddItems, CharacterEquipItem, CharacterRemoveItem, CharacterRemoveItems, CharacterZeny, GameEvent};
 use crate::server::model::events::game_event::GameEvent::{CharacterUpdateWeight, CharacterUpdateZeny};
-use crate::server::model::events::map_event::MapEvent;
+use crate::server::model::events::map_event::{CharacterDropItems, MapEvent};
 use crate::server::model::events::persistence_event::{InventoryItemUpdate, PersistenceEvent};
 use crate::server::model::item::EquippedItem;
+use crate::server::model::map_instance::MapInstance;
 
 use crate::server::service::global_config_service::GlobalConfigService;
 
@@ -100,13 +101,18 @@ impl InventoryService {
         }
     }
 
-    pub fn remove_item_from_inventory(&self, runtime: Runtime, remove_items: CharacterRemoveItems, character: &mut Character) {
+    pub fn character_drop_items(&self,  runtime: &Runtime, character: &mut Character, remove_items: CharacterRemoveItems, map_instance: &MapInstance) {
+        let inventory_items = self.remove_item_from_inventory(runtime, remove_items, character);
+        map_instance.add_to_next_tick(MapEvent::CharDropItems(CharacterDropItems{ owner_id: character.char_id, char_x: character.x, char_y: character.y, item_removal_info: inventory_items }));
+    }
+
+    pub fn remove_item_from_inventory(&self, runtime: &Runtime, remove_items: CharacterRemoveItems, character: &mut Character) -> Vec<(InventoryItemModel, CharacterRemoveItem)> {
         let mut items = Vec::with_capacity(remove_items.items.len());
         for remove_item in remove_items.items.iter() {
             if let Some(item) = character.get_item_from_inventory(remove_item.index) {
                 let mut item = item.clone();
                 item.amount -= remove_item.amount;
-                items.push((item, remove_item));
+                items.push((item, *remove_item));
             }
         }
         let result = runtime.block_on(async {
@@ -133,6 +139,7 @@ impl InventoryService {
             self.server_task_queue.add_to_first_index(CharacterUpdateWeight(character.char_id));
             self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, chain_packets_raws_by_value(packets)))).expect("Fail to send client notification");
         }
+        items
     }
 
     pub fn reload_inventory(&self, runtime: &Runtime, char_id: u32, character: &mut Character) {

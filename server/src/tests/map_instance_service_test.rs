@@ -210,7 +210,7 @@ mod tests {
         // Given
         let context = before_each();
         let mut map_instance_state = create_empty_map_instance_state();
-        let clover = DroppedItem { map_item_id: 1000, item_id: GlobalConfigService::instance().get_item_id_from_name("Clover") as i32, location: Position { x: 50, y: 50, dir: 0 }, sub_location: Position { x: 3, y: 3, dir: 0 }, owner_id: None, dropped_at: 0, amount: 2, };
+        let clover = DroppedItem { map_item_id: 1000, item_id: GlobalConfigService::instance().get_item_id_from_name("Clover") as i32, location: Position { x: 50, y: 50, dir: 0 }, sub_location: Position { x: 3, y: 3, dir: 0 }, owner_id: None, dropped_at: 0, amount: 2, is_identified: true };
         map_instance_state.insert_dropped_item(clover);
         // When
         context.map_instance_service.remove_dropped_item_from_map(&mut map_instance_state, clover.map_item_id);

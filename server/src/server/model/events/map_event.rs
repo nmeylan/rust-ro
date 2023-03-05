@@ -1,4 +1,6 @@
+use crate::repository::model::item_model::InventoryItemModel;
 use crate::server::model::action::Damage;
+use crate::server::model::events::game_event::CharacterRemoveItem;
 
 
 use crate::server::model::map_item::{MapItem, MapItemSnapshot};
@@ -35,5 +37,5 @@ pub struct CharacterDropItems {
     pub owner_id: u32,
     pub char_x: u16,
     pub char_y: u16,
-    pub item_id_amount: Vec<(u32, u16)>
+    pub item_removal_info: Vec<(InventoryItemModel, CharacterRemoveItem)>
 }

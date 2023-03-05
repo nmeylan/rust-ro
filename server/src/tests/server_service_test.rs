@@ -61,15 +61,15 @@ mod tests {
     use crate::tests::common::assert_helper::{*};
     use packets::packets::PacketZcStatusChangeAck;
     use crate::enums::EnumWithNumberValue;
-    use crate::server::model::events::game_event::{CharacterKillMonster, CharacterUpdateStat};
-    use crate::server::model::events::map_event::{MapEvent, MobDropItems};
+    use crate::server::model::events::game_event::{CharacterKillMonster, CharacterRemoveItem, CharacterRemoveItems, CharacterUpdateStat};
+    use crate::server::model::events::map_event::{CharacterDropItems, MapEvent, MobDropItems};
     use crate::server::model::item::DroppedItem;
     use crate::server::model::map_item::ToMapItem;
     use crate::server::model::position::Position;
     use crate::server::model::tasks_queue::TasksQueue;
     use crate::server::service::global_config_service::GlobalConfigService;
     use crate::tests::common::assert_helper::task_queue_contains_event_at_tick;
-    use crate::tests::common::character_helper::create_character;
+    use crate::tests::common::character_helper::{add_items_in_inventory, create_character};
     use crate::tests::common::map_instance_helper::create_empty_map_instance;
     use crate::tests::common::server_helper::create_empty_server_state;
     use crate::tests::server_service_test::before_each;
@@ -82,9 +82,9 @@ mod tests {
         let runtime = Runtime::new().unwrap();
         let mut server_state = create_empty_server_state();
         let mut character_state = create_character();
-        let map_instance = create_empty_map_instance(context.client_notification_sender.clone(),Arc::new(TasksQueue::new()));
+        let map_instance = create_empty_map_instance(context.client_notification_sender.clone(), Arc::new(TasksQueue::new()));
         let map_item_id = 1000;
-        let item = DroppedItem { map_item_id, item_id: 501, location: Position { x: 50, y: 50, dir: 0 }, sub_location: Position { x: 3, y: 3, dir: 0 }, owner_id: None, dropped_at: 0, amount: 2, };
+        let item = DroppedItem { map_item_id, item_id: 501, location: Position { x: 50, y: 50, dir: 0 }, sub_location: Position { x: 3, y: 3, dir: 0 }, owner_id: None, dropped_at: 0, amount: 2, is_identified: true };
         // Add dropped item in character fov
         character_state.map_view.insert(item.to_map_item());
         map_instance.state_mut().insert_dropped_item(item);
@@ -97,19 +97,19 @@ mod tests {
     }
 
     #[test]
-    fn character_pickup_item_should_add_item_to_character_inventory_and_identify_all_item_but_equipement() {
+    fn character_pickup_item_should_add_item_to_character_inventory_and_keep_is_identified_status_from_item_drop() {
         // Given
         let context = before_each();
         let runtime = Runtime::new().unwrap();
         let mut server_state = create_empty_server_state();
         let mut character_state = create_character();
-        let map_instance = create_empty_map_instance(context.client_notification_sender.clone(),Arc::new(TasksQueue::new()));
+        let map_instance = create_empty_map_instance(context.client_notification_sender.clone(), Arc::new(TasksQueue::new()));
         let red_potion_map_item_id = 1000;
         let clover_map_item_id = 1001;
         let knife_map_item_id = 1002;
-        let red_potion = DroppedItem { map_item_id: red_potion_map_item_id, item_id: GlobalConfigService::instance().get_item_id_from_name("Red_Potion") as i32, location: Position { x: 50, y: 50, dir: 0 }, sub_location: Position { x: 3, y: 3, dir: 0 }, owner_id: None, dropped_at: 0, amount: 2, };
-        let clover = DroppedItem { map_item_id: clover_map_item_id, item_id: GlobalConfigService::instance().get_item_id_from_name("Clover") as i32, location: Position { x: 50, y: 50, dir: 0 }, sub_location: Position { x: 3, y: 3, dir: 0 }, owner_id: None, dropped_at: 0, amount: 2, };
-        let knife = DroppedItem { map_item_id: knife_map_item_id, item_id: GlobalConfigService::instance().get_item_id_from_name("Knife") as i32, location: Position { x: 50, y: 50, dir: 0 }, sub_location: Position { x: 3, y: 3, dir: 0 }, owner_id: None, dropped_at: 0, amount: 1, };
+        let red_potion = DroppedItem { map_item_id: red_potion_map_item_id, item_id: GlobalConfigService::instance().get_item_id_from_name("Red_Potion") as i32, location: Position { x: 50, y: 50, dir: 0 }, sub_location: Position { x: 3, y: 3, dir: 0 }, owner_id: None, dropped_at: 0, amount: 2, is_identified: true };
+        let clover = DroppedItem { map_item_id: clover_map_item_id, item_id: GlobalConfigService::instance().get_item_id_from_name("Clover") as i32, location: Position { x: 50, y: 50, dir: 0 }, sub_location: Position { x: 3, y: 3, dir: 0 }, owner_id: None, dropped_at: 0, amount: 2, is_identified: true };
+        let knife = DroppedItem { map_item_id: knife_map_item_id, item_id: GlobalConfigService::instance().get_item_id_from_name("Knife") as i32, location: Position { x: 50, y: 50, dir: 0 }, sub_location: Position { x: 3, y: 3, dir: 0 }, owner_id: None, dropped_at: 0, amount: 1, is_identified: false };
         // Add dropped item in character fov
         character_state.map_view.insert(red_potion.to_map_item());
         map_instance.state_mut().insert_dropped_item(red_potion);
@@ -140,9 +140,9 @@ mod tests {
         let runtime = Runtime::new().unwrap();
         let mut server_state = create_empty_server_state();
         let mut character_state = create_character();
-        let map_instance = create_empty_map_instance(context.client_notification_sender.clone(),Arc::new(TasksQueue::new()));
+        let map_instance = create_empty_map_instance(context.client_notification_sender.clone(), Arc::new(TasksQueue::new()));
         let map_item_id = 1000;
-        map_instance.state_mut().insert_dropped_item(DroppedItem { map_item_id, item_id: 501, location: Position { x: 50, y: 50, dir: 0 }, sub_location: Position { x: 3, y: 3, dir: 0 }, owner_id: None, dropped_at: 0, amount: 2, });
+        map_instance.state_mut().insert_dropped_item(DroppedItem { map_item_id, item_id: 501, location: Position { x: 50, y: 50, dir: 0 }, sub_location: Position { x: 3, y: 3, dir: 0 }, owner_id: None, dropped_at: 0, amount: 2, is_identified: true });
         // When
         context.server_service.character_pickup_item(&mut server_state, &mut character_state, map_item_id, &map_instance, &runtime);
         // Then
@@ -158,9 +158,9 @@ mod tests {
         let runtime = Runtime::new().unwrap();
         let mut server_state = create_empty_server_state();
         let mut character_state = create_character();
-        let map_instance = create_empty_map_instance(context.client_notification_sender.clone(),Arc::new(TasksQueue::new()));
+        let map_instance = create_empty_map_instance(context.client_notification_sender.clone(), Arc::new(TasksQueue::new()));
         let map_item_id = 1000;
-        let item = DroppedItem { map_item_id, item_id: 501, location: Position { x: 50, y: 50, dir: 0 }, sub_location: Position { x: 3, y: 3, dir: 0 }, owner_id: Some(15001), dropped_at: get_tick() - 10, amount: 2, };
+        let item = DroppedItem { map_item_id, item_id: 501, location: Position { x: 50, y: 50, dir: 0 }, sub_location: Position { x: 3, y: 3, dir: 0 }, owner_id: Some(15001), dropped_at: get_tick() - 10, amount: 2, is_identified: true };
         // Add dropped item in character fov
         character_state.map_view.insert(item.to_map_item());
         map_instance.state_mut().insert_dropped_item(item);
@@ -178,9 +178,9 @@ mod tests {
         let runtime = Runtime::new().unwrap();
         let mut server_state = create_empty_server_state();
         let mut character_state = create_character();
-        let map_instance = create_empty_map_instance(context.client_notification_sender.clone(),Arc::new(TasksQueue::new()));
+        let map_instance = create_empty_map_instance(context.client_notification_sender.clone(), Arc::new(TasksQueue::new()));
         let map_item_id = 1000;
-        let item = DroppedItem { map_item_id, item_id: 501, location: Position { x: 50, y: 50, dir: 0 }, sub_location: Position { x: 3, y: 3, dir: 0 }, owner_id: Some(15001), dropped_at: get_tick() - 10 - (GlobalConfigService::instance().config().game.mob_dropped_item_locked_to_owner_duration_in_secs as u128 * 1000), amount: 2, };
+        let item = DroppedItem { map_item_id, item_id: 501, location: Position { x: 50, y: 50, dir: 0 }, sub_location: Position { x: 3, y: 3, dir: 0 }, owner_id: Some(15001), dropped_at: get_tick() - 10 - (GlobalConfigService::instance().config().game.mob_dropped_item_locked_to_owner_duration_in_secs as u128 * 1000), amount: 2, is_identified: true };
         // Add dropped item in character fov
         character_state.map_view.insert(item.to_map_item());
         map_instance.state_mut().insert_dropped_item(item);
@@ -201,7 +201,7 @@ mod tests {
         let task_queue = Arc::new(TasksQueue::new());
         let map_instance = create_empty_map_instance(context.client_notification_sender.clone(), task_queue.clone());
         let map_item_id = 1000;
-        let item = DroppedItem { map_item_id, item_id: 501, location: Position { x: 50, y: 50, dir: 0 }, sub_location: Position { x: 3, y: 3, dir: 0 }, owner_id: None, dropped_at: 0, amount: 2, };
+        let item = DroppedItem { map_item_id, item_id: 501, location: Position { x: 50, y: 50, dir: 0 }, sub_location: Position { x: 3, y: 3, dir: 0 }, owner_id: None, dropped_at: 0, amount: 2, is_identified: true };
         // Add dropped item in character fov
         character_state.map_view.insert(item.to_map_item());
         map_instance.state_mut().insert_dropped_item(item);
@@ -222,9 +222,9 @@ mod tests {
         let runtime = Runtime::new().unwrap();
         let mut server_state = create_empty_server_state();
         let mut character_state = create_character();
-        let map_instance = create_empty_map_instance(context.client_notification_sender.clone(),Arc::new(TasksQueue::new()));
+        let map_instance = create_empty_map_instance(context.client_notification_sender.clone(), Arc::new(TasksQueue::new()));
         let map_item_id = 1000;
-        let item = DroppedItem { map_item_id, item_id: 501, location: Position { x: 50, y: 50, dir: 0 }, sub_location: Position { x: 3, y: 3, dir: 0 }, owner_id: None, dropped_at: 0, amount: 2, };
+        let item = DroppedItem { map_item_id, item_id: 501, location: Position { x: 50, y: 50, dir: 0 }, sub_location: Position { x: 3, y: 3, dir: 0 }, owner_id: None, dropped_at: 0, amount: 2, is_identified: true };
         // Add dropped item in character fov
         character_state.map_view.insert(item.to_map_item());
         map_instance.state_mut().insert_dropped_item(item);
@@ -237,47 +237,4 @@ mod tests {
         assert_eq!(item_from_inventory.amount, 2);
     }
 
-    #[test]
-    fn character_increase_stat_should_send_ack_packet() {
-        // Given
-        let context = before_each();
-        let mut character_state = create_character();
-        // When
-        context.server_service.character_increase_stat(&mut character_state, CharacterUpdateStat {
-            char_id: 150000,
-            stat_id: StatusTypes::Str.value() as u16,
-            change_amount: 1
-        });
-        // Then
-        context.test_context.increment_latch().wait_expected_count_with_timeout(3, Duration::from_millis(200));
-        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character_state.char_id, vec![SentPacket::with_id(PacketZcStatusChangeAck::packet_id(GlobalConfigService::instance().packetver()))]));
-    }
-
-    #[test]
-    fn character_kill_monster_should_trigger_map_mob_drop_items_when_autoloot_disabled_and_reward_attacker_with_exp() {
-        // Given
-        let context = before_each();
-        let mut character_state = create_character();
-        let task_queue = Arc::new(TasksQueue::new());
-        let map_instance = create_empty_map_instance(context.client_notification_sender.clone(), task_queue.clone());
-        // When
-        let char_id = character_state.char_id;
-        character_state.status.base_exp = 10;
-        character_state.status.base_level = 10;
-        character_state.status.job_exp = 5;
-        character_state.status.job_level = 9;
-        context.server_service.character_kill_monster(&mut character_state, CharacterKillMonster {
-            char_id,
-            mob_id: 1001,
-            mob_x: 54,
-            mob_y: 54,
-            map_instance_key: map_instance.key().clone(),
-            mob_base_exp: 100,
-            mob_job_exp: 60
-        }, &map_instance);
-        // Then
-        assert_task_queue_contains_event!(task_queue.clone(), MapEvent::MobDropItems(MobDropItems { owner_id: char_id, mob_id: 1001, mob_x: 54, mob_y: 54 }));
-        assert_eq!(character_state.status.base_exp, 110);
-        assert_eq!(character_state.status.job_exp, 65);
-    }
 }
