@@ -15,10 +15,10 @@ use crate::enums::EnumWithStringValue;
 use crate::enums::EnumWithNumberValue;
 use crate::enums::EnumWithMaskValueU64;
 
-use packets::packets::{Packet, PacketZcAttackRange, PacketZcItemDisappear, PacketZcItemEntry, PacketZcLongparChange, PacketZcNotifyEffect, PacketZcNotifyStandentry7, PacketZcNotifyVanish, PacketZcNpcackMapmove, PacketZcParChange, PacketZcSpriteChange2, PacketZcStatusValues};
+use packets::packets::{Packet, PacketZcAttackRange, PacketZcItemDisappear, PacketZcItemEntry, PacketZcLongparChange, PacketZcNotifyEffect, PacketZcNotifyStandentry7, PacketZcNotifyVanish, PacketZcNpcackMapmove, PacketZcParChange, PacketZcSpriteChange2, PacketZcStatusChangeAck, PacketZcStatusValues};
 use crate::repository::model::item_model::InventoryItemModel;
 use crate::repository::{CharacterRepository};
-use crate::server::model::events::game_event::{CharacterLook, CharacterZeny, GameEvent};
+use crate::server::model::events::game_event::{CharacterKillMonster, CharacterLook, CharacterUpdateStat, CharacterZeny, GameEvent};
 
 use crate::server::model::map_item::{MapItem, MapItemType};
 use crate::server::model::path::manhattan_distance;
@@ -27,7 +27,8 @@ use crate::server::model::events::client_notification::{AreaNotification, AreaNo
 use crate::server::model::events::persistence_event::{PersistenceEvent, SavePositionUpdate, StatusUpdate};
 use crate::server::model::events::persistence_event::PersistenceEvent::SaveCharacterPosition;
 use crate::server::{PLAYER_FOV, Server};
-use crate::server::model::map_instance::MapInstanceKey;
+use crate::server::model::events::map_event::{MapEvent, MobDropItems};
+use crate::server::model::map_instance::{MapInstance, MapInstanceKey};
 use crate::server::model::position::Position;
 use crate::server::model::status::Status;
 use crate::server::model::tasks_queue::TasksQueue;
@@ -751,5 +752,25 @@ impl CharacterService {
         packet_base_level.set_count(new_value as i32);
         packet_base_level.fill_raw();
         self.client_notification_sender.send(Notification::Char(CharNotification::new(char_id, packet_base_level.raw))).expect("Fail to send client notification");
+    }
+
+    pub fn character_increase_stat(&self, character: &mut Character, character_update_stat: CharacterUpdateStat) {
+        let result = self.increase_stat(character, StatusTypes::from_value(character_update_stat.stat_id as usize), character_update_stat.change_amount);
+        let mut packet_zc_status_change_ack = PacketZcStatusChangeAck::new(self.configuration_service.packetver());
+        packet_zc_status_change_ack.set_status_id(character_update_stat.stat_id);
+        packet_zc_status_change_ack.set_result(result);
+        packet_zc_status_change_ack.set_value(self.stat_value(&character.status, &StatusTypes::from_value(character_update_stat.stat_id as usize)) as u8);
+        packet_zc_status_change_ack.fill_raw();
+        self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packet_zc_status_change_ack.raw))).expect("Fail to send client notification");
+    }
+
+    pub fn character_kill_monster(&self, character: &mut Character, character_kill_monster: CharacterKillMonster, map_instance: &MapInstance) {
+        self.gain_base_exp(character, character_kill_monster.mob_base_exp);
+        self.gain_job_exp(character, character_kill_monster.mob_job_exp);
+        // TODO check autoloot
+        let autoloot = false;
+        if autoloot {} else {
+            map_instance.add_to_delayed_tick(MapEvent::MobDropItems(MobDropItems { owner_id: character_kill_monster.char_id, mob_id: character_kill_monster.mob_id, mob_x: character_kill_monster.mob_x, mob_y: character_kill_monster.mob_y }), 400);
+        }
     }
 }

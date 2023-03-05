@@ -46,25 +46,29 @@ mod tests {
     use enums::class::JobName;
     use enums::look::LookType;
     use enums::status::StatusTypes;
-    use packets::packets::{PacketZcSpriteChange2, PacketZcLongparChange, PacketZcParChange, PacketZcNotifyEffect};
+    use packets::packets::{PacketZcSpriteChange2, PacketZcLongparChange, PacketZcParChange, PacketZcNotifyEffect, PacketZcStatusChangeAck};
     use crate::tests::character_service_tests::GameEvent;
-    use crate::{assert_sent_packet_in_current_packetver, assert_sent_persistence_event, assert_task_queue_contains_event_at_tick};
-    use crate::tests::common::assert_helper::{has_sent_persistence_event, has_sent_notification, NotificationExpectation, SentPacket, task_queue_contains_event_at_tick};
+    use crate::{assert_sent_packet_in_current_packetver, assert_sent_persistence_event, assert_task_queue_contains_event, assert_task_queue_contains_event_at_tick};
+    use crate::tests::common::assert_helper::{has_sent_persistence_event, has_sent_notification, NotificationExpectation, SentPacket, task_queue_contains_event_at_tick, task_queue_contains_event};
     use crate::tests::character_service_tests::before_each;
     use crate::tests::common::character_helper::{add_items_in_inventory, create_character};
     use crate::tests::common::mocked_repository;
     use crate::enums::EnumWithStringValue;
     use crate::enums::EnumWithNumberValue;
     use crate::repository::CharacterRepository;
-    use crate::server::model::events::game_event::{CharacterLook, CharacterZeny};
+    use crate::server::model::events::map_event::MapEvent;
+    use crate::server::model::events::game_event::{CharacterKillMonster, CharacterLook, CharacterUpdateStat, CharacterZeny};
+    use crate::server::model::events::map_event::{MobDropItems};
     use crate::server::model::events::persistence_event::{PersistenceEvent, SavePositionUpdate, StatusUpdate};
     use crate::server::model::map_instance::MapInstanceKey;
     use crate::server::model::movement::Movement;
     use crate::server::model::position::Position;
-    
-    
+    use crate::server::model::tasks_queue::TasksQueue;
+
+
     use crate::server::service::global_config_service::GlobalConfigService;
-    
+    use crate::tests::common::map_instance_helper::create_empty_map_instance;
+
     use crate::util::tick::get_tick;
 
     #[test]
@@ -1046,5 +1050,50 @@ mod tests {
             // Then
             assert_eq!(required_exp, scenarii.required_exp, "Expected {} at job level {} to need {} exp to reach next level but got {}", scenarii.job, scenarii.level, scenarii.required_exp, required_exp);
         }
+    }
+
+
+    #[test]
+    fn character_increase_stat_should_send_ack_packet() {
+        // Given
+        let context = before_each(mocked_repository());
+        let mut character_state = create_character();
+        // When
+        context.character_service.character_increase_stat(&mut character_state, CharacterUpdateStat {
+            char_id: 150000,
+            stat_id: StatusTypes::Str.value() as u16,
+            change_amount: 1,
+        });
+        // Then
+        context.test_context.increment_latch().wait_expected_count_with_timeout(3, Duration::from_millis(200));
+        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character_state.char_id, vec![SentPacket::with_id(PacketZcStatusChangeAck::packet_id(GlobalConfigService::instance().packetver()))]));
+    }
+
+    #[test]
+    fn character_kill_monster_should_trigger_map_mob_drop_items_when_autoloot_disabled_and_reward_attacker_with_exp() {
+        // Given
+        let context = before_each(mocked_repository());
+        let mut character_state = create_character();
+        let task_queue = Arc::new(TasksQueue::new());
+        let map_instance = create_empty_map_instance(context.test_context.client_notification_sender(), task_queue.clone());
+        // When
+        let char_id = character_state.char_id;
+        character_state.status.base_exp = 10;
+        character_state.status.base_level = 10;
+        character_state.status.job_exp = 5;
+        character_state.status.job_level = 9;
+        context.character_service.character_kill_monster(&mut character_state, CharacterKillMonster {
+            char_id,
+            mob_id: 1001,
+            mob_x: 54,
+            mob_y: 54,
+            map_instance_key: map_instance.key().clone(),
+            mob_base_exp: 100,
+            mob_job_exp: 60,
+        }, &map_instance);
+        // Then
+        assert_task_queue_contains_event!(task_queue.clone(), MapEvent::MobDropItems(MobDropItems { owner_id: char_id, mob_id: 1001, mob_x: 54, mob_y: 54 }));
+        assert_eq!(character_state.status.base_exp, 110);
+        assert_eq!(character_state.status.job_exp, 65);
     }
 }
