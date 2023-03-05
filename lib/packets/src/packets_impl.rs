@@ -10135,7 +10135,7 @@ impl PacketCzReqname {
             "0x088A"
         } else if packetver >= 20131223 {
             "0x096A"
-        } else if packetver >= 20120418 {
+        } else if packetver >= 20120218 {
             "0x096A"
         } else if packetver >= 20111005 {
             "0x088A"
@@ -10207,7 +10207,7 @@ impl PacketCzReqname {
             (i16::from_le_bytes([0x8A, 0x08]), [0x8A, 0x08])
         } else if packetver >= 20131223 {
             (i16::from_le_bytes([0x6A, 0x09]), [0x6A, 0x09])
-        } else if packetver >= 20120418 {
+        } else if packetver >= 20120218 {
             (i16::from_le_bytes([0x6A, 0x09]), [0x6A, 0x09])
         } else if packetver >= 20111005 {
             (i16::from_le_bytes([0x8A, 0x08]), [0x8A, 0x08])

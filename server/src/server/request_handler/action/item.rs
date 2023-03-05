@@ -1,7 +1,7 @@
 use crate::server::model::request::Request;
-use packets::packets::{PacketCzUseItem, PacketZcUseItemAck2, PacketCzReqWearEquip, PacketCzReqTakeoffEquip};
+use packets::packets::{PacketCzUseItem, PacketZcUseItemAck2, PacketCzReqWearEquip, PacketCzReqTakeoffEquip, PacketCzItemThrow};
 use crate::packets::packets::Packet;
-use crate::server::model::events::game_event::{CharacterEquipItem, CharacterTakeoffEquipItem, CharacterUseItem, GameEvent};
+use crate::server::model::events::game_event::{CharacterEquipItem, CharacterRemoveItem, CharacterTakeoffEquipItem, CharacterUseItem, GameEvent};
 use crate::server::Server;
 use crate::server::service::global_config_service::GlobalConfigService;
 
@@ -37,5 +37,14 @@ pub fn handle_player_takeoff_equip_item(server: &Server, context: Request) {
     server.add_to_next_tick(GameEvent::CharacterTakeoffEquipItem(CharacterTakeoffEquipItem {
         char_id: context.session().char_id(),
         index: packet_cz_req_takeoff_equip.index as usize,
+    }));
+}
+
+pub fn handle_player_drop_item(server: &Server, context: Request) {
+    let packet_cz_item_throw = cast!(context.packet(), PacketCzItemThrow);
+    server.add_to_next_tick(GameEvent::CharacterDropItem(CharacterRemoveItem {
+        char_id: context.session().char_id(),
+        index: packet_cz_item_throw.index as usize,
+        amount: packet_cz_item_throw.count
     }));
 }

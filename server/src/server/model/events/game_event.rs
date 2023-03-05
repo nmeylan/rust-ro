@@ -1,6 +1,7 @@
 use enums::class::JobName;
 use enums::look::LookType;
 use crate::repository::model::item_model::InventoryItemModel;
+use crate::server::model::events::map_event::CharacterDropItems;
 use crate::server::model::item::DroppedItem;
 use crate::server::model::map_instance::MapInstanceKey;
 use crate::server::model::movement::Movement;
@@ -30,6 +31,7 @@ pub enum GameEvent {
     CharacterPickUpItem(CharacterPickUpItem),
     CharacterUpdateStat(CharacterUpdateStat),
     MapNotifyItemRemoved(u32),
+    CharacterDropItem(CharacterRemoveItem)
 }
 
 #[derive(Debug, PartialEq)]

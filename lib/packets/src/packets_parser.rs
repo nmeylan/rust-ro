@@ -19,9 +19,6 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if packetver >= 20120702 && buffer[0] == 0x53 && buffer[1] == 0x09 {
         return Box::new(PacketCzRequestMove::from(buffer, packetver));
     }
-    if packetver >= 20120418 && buffer[0] == 0x6A && buffer[1] == 0x09 {
-        return Box::new(PacketCzReqname::from(buffer, packetver));
-    }
     if packetver >= 20120307 && buffer[0] == 0x87 && buffer[1] == 0x08 {
         return Box::new(PacketCzRequestTime::from(buffer, packetver));
     }
@@ -42,6 +39,9 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     }
     if packetver >= 20120307 && buffer[0] == 0x6A && buffer[1] == 0x08 {
         return Box::new(PacketCzEnter2::from(buffer, packetver));
+    }
+    if packetver >= 20120218 && buffer[0] == 0x6A && buffer[1] == 0x09 {
+        return Box::new(PacketCzReqname::from(buffer, packetver));
     }
     if packetver >= 20111102 && buffer[0] == 0x3C && buffer[1] == 0x08 {
         return Box::new(PacketCzEnter2::from(buffer, packetver));
