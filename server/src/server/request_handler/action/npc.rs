@@ -5,7 +5,7 @@ use rathena_script_lang_interpreter::lang::vm::Vm;
 use tokio::runtime::Runtime;
 use tokio::sync::mpsc;
 
-use packets::packets::{PacketCzAckSelectDealtype, PacketCzChooseMenu, PacketCzContactnpc, PacketCzInputEditdlg, PacketCzInputEditdlgstr, PacketCzPcPurchaseItemlist};
+use packets::packets::{PacketCzAckSelectDealtype, PacketCzChooseMenu, PacketCzContactnpc, PacketCzInputEditdlg, PacketCzInputEditdlgstr, PacketCzPcPurchaseItemlist, PacketCzPcSellItemlist};
 
 use crate::server::model::request::Request;
 use crate::server::script::PlayerScriptHandler;
@@ -65,6 +65,15 @@ pub fn handle_player_purchase_items(context: Request) {
     let mut bytes = Vec::<u8>::new();
     bytes.push(packet_cz_pc_purchase_item_list.item_list.len() as u8);
     for item_raw in packet_cz_pc_purchase_item_list.item_list_raw.iter() {
+        bytes.extend(item_raw.clone());
+    }
+    context.session().script_handler_channel_sender.lock().unwrap().as_ref().unwrap().blocking_send(bytes).unwrap();
+}
+pub fn handle_player_sell_items(context: Request) {
+    let packet_cz_pc_sell_item_list = cast!(context.packet(), PacketCzPcSellItemlist);
+    let mut bytes = Vec::<u8>::new();
+    bytes.push(packet_cz_pc_sell_item_list.item_list.len() as u8);
+    for item_raw in packet_cz_pc_sell_item_list.item_list_raw.iter() {
         bytes.extend(item_raw.clone());
     }
     context.session().script_handler_channel_sender.lock().unwrap().as_ref().unwrap().blocking_send(bytes).unwrap();

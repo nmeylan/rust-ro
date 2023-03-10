@@ -45,6 +45,7 @@ pub fn handle_player_drop_item(server: &Server, context: Request) {
     server.add_to_next_tick(GameEvent::CharacterDropItem(CharacterRemoveItem {
         char_id: context.session().char_id(),
         index: packet_cz_item_throw.index as usize,
-        amount: packet_cz_item_throw.count
+        amount: packet_cz_item_throw.count,
+        price: 0
     }));
 }

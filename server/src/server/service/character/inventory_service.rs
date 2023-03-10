@@ -101,6 +101,10 @@ impl InventoryService {
         }
     }
 
+    pub fn character_sell_items(&self,  runtime: &Runtime, character: &mut Character, remove_items: CharacterRemoveItems) {
+        self.remove_item_from_inventory(runtime, remove_items, character);
+    }
+
     pub fn character_drop_items(&self,  runtime: &Runtime, character: &mut Character, remove_items: CharacterRemoveItems, map_instance: &MapInstance) {
         if let Ok(inventory_items) = self.remove_item_from_inventory(runtime, remove_items, character) {
             map_instance.add_to_next_tick(MapEvent::CharDropItems(CharacterDropItems{ owner_id: character.char_id, char_x: character.x, char_y: character.y, item_removal_info: inventory_items }));
@@ -117,7 +121,7 @@ impl InventoryService {
             }
         }
         let result = runtime.block_on(async {
-            self.repository.character_inventory_update_remove(&items.iter().map(|(item, _)| item).collect::<Vec<&InventoryItemModel>>(), remove_items.sell).await
+            self.repository.character_inventory_update_remove(&items, remove_items.sell).await
         });
 
         if result.is_ok() {
@@ -138,10 +142,25 @@ impl InventoryService {
 
             }
             self.server_task_queue.add_to_first_index(CharacterUpdateWeight(character.char_id));
+            if remove_items.sell {
+                let mut packet_zc_pc_purchase_result = PacketZcPcPurchaseResult::new(self.configuration_service.packetver());
+                packet_zc_pc_purchase_result.set_result(0);
+                packet_zc_pc_purchase_result.fill_raw();
+                packets.push(packet_zc_pc_purchase_result.raw);
+                self.server_task_queue.add_to_first_index(CharacterUpdateZeny(CharacterZeny { char_id: character.char_id, zeny: None }));
+            }
             self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, chain_packets_raws_by_value(packets)))).expect("Fail to send client notification");
             Ok(items)
         } else {
-            Err("Cannot drop item".to_string())
+            if remove_items.sell {
+                let mut packet_zc_pc_purchase_result = PacketZcPcPurchaseResult::new(self.configuration_service.packetver());
+                packet_zc_pc_purchase_result.set_result(1);
+                packet_zc_pc_purchase_result.fill_raw();
+                self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packet_zc_pc_purchase_result.raw))).expect("Fail to send client notification");
+                Err("Cannot sell items".to_string())
+            } else {
+                Err("Cannot drop item".to_string())
+            }
         }
     }
 

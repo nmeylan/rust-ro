@@ -1,11 +1,12 @@
 use rathena_script_lang_interpreter::lang::call_frame::CallFrame;
 use rathena_script_lang_interpreter::lang::thread::Thread;
 use rathena_script_lang_interpreter::lang::value::{Native, Value};
-use packets::packets::{CzPurchaseItem, PacketZcPcPurchaseItemlist, PacketZcPcPurchaseResult, PacketZcSelectDealtype, PurchaseItem};
+use packets::packets::{CzPurchaseItem, CzSellItem, PacketZcPcPurchaseItemlist, PacketZcPcPurchaseResult, PacketZcPcSellItemlist, PacketZcSelectDealtype, PurchaseItem, SellItem};
 use crate::server::script::PlayerScriptHandler;
 use enums::item::ItemType;
 use crate::enums::EnumWithNumberValue;
 use crate::repository::ItemRepository;
+use crate::server::model::events::client_notification::{CharNotification, Notification};
 use crate::server::script::{GlobalVariableEntry, GlobalVariableScope};
 use crate::server::service::global_config_service::GlobalConfigService;
 
@@ -20,6 +21,34 @@ impl PlayerScriptHandler {
             let input_value = input_value[0] as i32;
             execution_thread.push_constant_on_stack(Value::new_number(input_value));
             return true;
+        } else if native.name.eq("sendcharinventory") {
+            let char_id = self.session.char_id();
+            let character = self.server.state().get_character_unsafe(char_id);
+            let mut packet_zc_pc_sell_itemlist = PacketZcPcSellItemlist::new(self.configuration_service.packetver());
+            let mut packets_sell_items = vec![];
+            character.inventory.iter().enumerate()
+                .filter(|(index, item)| item.is_some())
+                .map(|(index, item)| (index, item.as_ref().unwrap()))
+                .filter(|(_, item)| item.equip == 0)
+                .for_each(|(index, item)| {
+                    let mut sell_item = SellItem::new(self.configuration_service.packetver());
+                    sell_item.set_index(index as i16);
+                    let item = self.configuration_service.get_item(item.item_id);
+                    let mut price = item.price_sell.unwrap_or(0);
+                    if price == 0 {
+                        price = item.price_buy.unwrap_or(0);
+                    }
+                    sell_item.set_price(price);
+                    sell_item.set_overchargeprice(price); // TODO take into account overcharge skill
+                    packets_sell_items.push(sell_item);
+                });
+            packet_zc_pc_sell_itemlist.set_packet_length((PacketZcPcSellItemlist::base_len(self.configuration_service.packetver()) + packets_sell_items.len() * SellItem::base_len(self.configuration_service.packetver())) as i16);
+            packet_zc_pc_sell_itemlist.set_item_list(packets_sell_items.clone());
+            packet_zc_pc_sell_itemlist.fill_raw();
+            self.client_notification_channel.send(Notification::Char(CharNotification::new(char_id, packet_zc_pc_sell_itemlist.raw)));
+            self.await_player_click_on_sell(&mut packets_sell_items);
+            return true;
+
         } else if native.name.eq("senditemlist") {
             let (owner_reference, reference) = params[0].reference_value().map_err(|err|
                 execution_thread.new_runtime_from_temporary(err, "senditemlist first argument should be array name")).unwrap();
@@ -27,7 +56,7 @@ impl PlayerScriptHandler {
             let (owner_reference, reference) = params[1].reference_value().map_err(|err|
                 execution_thread.new_runtime_from_temporary(err, "senditemlist second argument should be array name")).unwrap();
             let array_prices = execution_thread.vm.array_from_heap_reference(owner_reference, reference).unwrap();
-            let mut packet_zc_pc_purchase_itemlist = PacketZcPcPurchaseItemlist::new(GlobalConfigService::instance().packetver());
+            let mut packet_zc_pc_purchase_itemlist = PacketZcPcPurchaseItemlist::new(self.configuration_service.packetver());
             // Retrieve items id and price from VM array
             let mut item_ids: Vec<i32> = vec![];
             let mut price_overrides: Vec<i32> = vec![];
@@ -42,7 +71,7 @@ impl PlayerScriptHandler {
                 price_overrides.push(price);
             }
             // Build array of PurchaseItem, retrieving some information from db (prices)
-            let items = self.runtime.block_on( async{self.server.repository.item_buy_sell_fetch_all_where_ids(item_ids).await }).unwrap();
+            let items = self.runtime.block_on(async { self.server.repository.item_buy_sell_fetch_all_where_ids(item_ids).await }).unwrap();
             let mut items_list: Vec<PurchaseItem> = vec![];
             for (i, _) in price_overrides.iter().enumerate().take(array_items.len()) {
                 let mut purchase_item = PurchaseItem::new(GlobalConfigService::instance().packetver());
@@ -80,27 +109,60 @@ impl PlayerScriptHandler {
         false
     }
 
+    /// We feed character global variable for the shop script.
+    /// We could execute get item logic here but we may want more flexibility for shop script, so instead we just feed global variables
     fn await_player_click_on_buy(&self, items_list: &mut [PurchaseItem]) {
         let mut items = self.block_recv().unwrap();
-        // Once we receive player purchased item
-        let items_count = items.remove(0);
+        // Once we receive player purchased items
+        let items_count = items.remove(0); // first bytes contains number of purchased items
         let char_id = self.session.char_id();
         let character = self.server.state().get_character_unsafe(char_id);
         let mut script_variable_store = character.script_variable_store.lock().unwrap();
         for i in 0..items_count {
             let purchase_item_bytes = items.drain(0..CzPurchaseItem::base_len(self.server.packetver()));
             let purchased_item = CzPurchaseItem::from(purchase_item_bytes.as_slice(), self.server.packetver());
-            let item_price = items_list.iter().find(|item| item.itid == purchased_item.itid).unwrap().discountprice;
+            // Ensure that packet with purchased item contains item from the list of available items, ignore otherwise
+            if let Some(valid_purchased_item) = items_list.iter().find(|item| item.itid == purchased_item.itid) {
+                let item_price = valid_purchased_item.discountprice;
+                script_variable_store.push(
+                    GlobalVariableEntry { name: "bought_nameid".to_string(), value: crate::server::script::Value::Number(purchased_item.itid as i32), scope: GlobalVariableScope::CharTemporary, index: Some(i as usize) }
+                );
+                script_variable_store.push(
+                    GlobalVariableEntry { name: "bought_quantity".to_string(), value: crate::server::script::Value::Number(purchased_item.count as i32), scope: GlobalVariableScope::CharTemporary, index: Some(i as usize) }
+                );
+                script_variable_store.push(
+                    GlobalVariableEntry { name: "bought_price".to_string(), value: crate::server::script::Value::Number(item_price), scope: GlobalVariableScope::CharTemporary, index: Some(i as usize) }
+                );
+            } else {
+                warn!("Player {} attempted to purchased an item with id {} not available in the shop!!! ", char_id, purchased_item.itid);
+            }
+        }
+    }
 
-            script_variable_store.push(
-                GlobalVariableEntry { name: "bought_nameid".to_string(), value: crate::server::script::Value::Number(purchased_item.itid as i32), scope: GlobalVariableScope::CharTemporary, index: Some(i as usize) }
-            );
-            script_variable_store.push(
-                GlobalVariableEntry { name: "bought_quantity".to_string(), value: crate::server::script::Value::Number(purchased_item.count as i32), scope: GlobalVariableScope::CharTemporary, index: Some(i as usize) }
-            );
-            script_variable_store.push(
-                GlobalVariableEntry { name: "bought_price".to_string(), value: crate::server::script::Value::Number(item_price), scope: GlobalVariableScope::CharTemporary, index: Some(i as usize) }
-            );
+    /// We feed character global variable for the shop script.
+    /// We could execute remove item from inventory logic here but we may want more flexibility for shop script, so instead we just feed global variables
+    fn await_player_click_on_sell(&self, items_list: &mut [SellItem]) {
+        let mut items = self.block_recv().unwrap();
+        // Once we receive player sold items
+        let items_count = items.remove(0); // first bytes contains number of purchased items
+        let char_id = self.session.char_id();
+        let character = self.server.state().get_character_unsafe(char_id);
+        let mut script_variable_store = character.script_variable_store.lock().unwrap();
+        for i in 0..items_count {
+            let sell_item_bytes = items.drain(0..CzSellItem::base_len(self.server.packetver()));
+            let sold_item = CzSellItem::from(sell_item_bytes.as_slice(), self.server.packetver());
+            if let Some(valid_purchased_item) = items_list.iter().find(|item| item.index == sold_item.index) {
+                let item_price = valid_purchased_item.overchargeprice;
+                script_variable_store.push(
+                    GlobalVariableEntry { name: "sold_item_index".to_string(), value: crate::server::script::Value::Number(sold_item.index as i32), scope: GlobalVariableScope::CharTemporary, index: Some(i as usize) }
+                );
+                script_variable_store.push(
+                    GlobalVariableEntry { name: "sold_quantity".to_string(), value: crate::server::script::Value::Number(sold_item.count as i32), scope: GlobalVariableScope::CharTemporary, index: Some(i as usize) }
+                );
+                script_variable_store.push(
+                    GlobalVariableEntry { name: "sold_price".to_string(), value: crate::server::script::Value::Number(item_price), scope: GlobalVariableScope::CharTemporary, index: Some(i as usize) }
+                );
+            }
         }
     }
 }

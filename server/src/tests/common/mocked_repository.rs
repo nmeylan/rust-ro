@@ -3,6 +3,7 @@ use sqlx::Error;
 use sqlx::postgres::PgQueryResult;
 use crate::repository::{CharacterRepository, InventoryRepository};
 use crate::repository::model::item_model::InventoryItemModel;
+use crate::server::model::events::game_event::CharacterRemoveItem;
 use crate::server::model::events::persistence_event::{DeleteItems, InventoryItemUpdate};
 
 #[derive(Default)]
@@ -16,7 +17,7 @@ impl InventoryRepository for MockedRepository {
         Ok(())
     }
 
-    async fn character_inventory_update_remove(&self, _inventory_update_items: &[&InventoryItemModel], _sell: bool) -> Result<(), Error> {
+    async fn character_inventory_update_remove(&self, _inventory_update_items: &Vec<(InventoryItemModel, CharacterRemoveItem)>, _sell: bool) -> Result<(), Error> {
         Ok(())
     }
 
