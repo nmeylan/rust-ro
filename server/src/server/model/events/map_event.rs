@@ -5,7 +5,7 @@ use crate::server::model::events::game_event::CharacterRemoveItem;
 
 use crate::server::model::map_item::{MapItem, MapItemSnapshot};
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone)]
 pub enum MapEvent {
     UpdateMobsFov(Vec<MapItemSnapshot>),
     RemoveCharFromMap(u32),

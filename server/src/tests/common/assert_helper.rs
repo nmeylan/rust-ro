@@ -8,7 +8,7 @@ use crate::server::model::events::persistence_event::PersistenceEvent;
 use crate::server::model::tasks_queue::TasksQueue;
 
 
-pub fn task_queue_contains_event_at_tick<T: PartialEq + Debug>(task_queue: Arc<TasksQueue<T>>, expected_event: T, tick: usize) {
+pub fn task_queue_contains_event_at_tick<T: PartialEq + Debug + Clone>(task_queue: Arc<TasksQueue<T>>, expected_event: T, tick: usize) {
     let mut events = vec![];
     for _ in 0..=tick {
         events = task_queue.pop().unwrap_or_else(|| panic!("Expected task queue to contains events at tick {tick}"));
@@ -21,22 +21,41 @@ pub fn task_queue_contains_event_at_tick<T: PartialEq + Debug>(task_queue: Arc<T
     }
     assert!(false, "Task queue does not contains event {expected_event:?}");
 }
-pub fn task_queue_contains_event<T: PartialEq + Debug>(task_queue: Arc<TasksQueue<T>>, expected_event: T) {
+pub fn task_queue_contains_event<T: PartialEq + Debug+ Clone>(task_queue: Arc<TasksQueue<T>>, expected_event: T) {
     let mut events = vec![];
+    let cloned_task_queue = task_queue.duplicate();
     loop {
-        if let Some(tasks) = task_queue.pop() {
+        if let Some(tasks) = cloned_task_queue.pop() {
             events.extend(tasks);
         } else {
             break;
         }
     }
     for event in events {
-        if matches!(&event, _expected_event) {
+        if matches!(&event, expected_event) {
             assert!(event == expected_event, "Expected {event:?} == {expected_event:?}");
             return;
         }
     }
     assert!(false, "Task queue does not contains event {expected_event:?}");
+}
+pub fn task_queue_not_contains_event<T: PartialEq + Debug+ Clone>(task_queue: Arc<TasksQueue<T>>, expected_event: T) {
+    let mut events = vec![];
+    let cloned_task_queue = task_queue.duplicate();
+    loop {
+        if let Some(tasks) = cloned_task_queue.pop() {
+            events.extend(tasks);
+        } else {
+            break;
+        }
+    }
+    for event in events {
+        if matches!(&event, expected_event) {
+            assert!(false, "Expected {event:?} to not match any event, but matched: {expected_event:?}");
+            return;
+        }
+    }
+    assert!(true, "Task queue does not contains event {expected_event:?}");
 }
 
 pub fn variance(expectation: u32, variance: usize) -> u32 {
@@ -65,6 +84,18 @@ macro_rules! assert_task_queue_contains_event_at_tick {
 macro_rules! assert_task_queue_contains_event {
     ($task_queue:expr, $expected_event:expr $(,)?) => {
         task_queue_contains_event($task_queue.clone(), $expected_event)
+    }
+}
+#[macro_export]
+macro_rules! assert_task_queue_does_not_contains_event {
+    ($task_queue:expr, $expected_event:expr $(,)?) => {
+        task_queue_not_contains_event($task_queue.clone(), $expected_event)
+    }
+}
+#[macro_export]
+macro_rules! assert_task_queue_is_empty {
+    ($task_queue:expr) => {
+        assert!($task_queue.is_empty(), "Expected task queue to be empty but was not, containing {}", $task_queue.content_as_str());
     }
 }
 

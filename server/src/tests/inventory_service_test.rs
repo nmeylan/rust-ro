@@ -43,8 +43,9 @@ mod tests {
     use std::sync::atomic::{AtomicBool, Ordering};
     use std::time::Duration;
     use async_trait::async_trait;
-    use crate::{assert_not_sent_packet_in_current_packetver, assert_sent_packet_in_current_packetver, assert_sent_persistence_event, assert_task_queue_contains_event, assert_task_queue_contains_event_at_tick};
+    use crate::{assert_not_sent_packet_in_current_packetver, assert_sent_packet_in_current_packetver, assert_sent_persistence_event, assert_task_queue_contains_event, assert_task_queue_contains_event_at_tick, assert_task_queue_does_not_contains_event, assert_task_queue_is_empty};
     use crate::tests::common::assert_helper::task_queue_contains_event;
+    use crate::tests::common::assert_helper::task_queue_not_contains_event;
     use sqlx::Error;
     
     use tokio::runtime::Runtime;
@@ -58,6 +59,7 @@ mod tests {
     use crate::server::model::events::game_event::{CharacterRemoveItem, CharacterRemoveItems, CharacterZeny};
     use crate::repository::InventoryRepository;
     use crate::repository::model::item_model::InventoryItemModel;
+    use crate::repository::persistence_error::PersistenceError;
     use crate::server::model::events::map_event::MapEvent;
     use crate::server::model::events::game_event::CharacterAddItems;
     use crate::server::model::events::game_event::CharacterEquipItem;
@@ -540,7 +542,7 @@ mod tests {
             char_id: character.char_id,
             sell: false,
             items: vec![CharacterRemoveItem { char_id: character.char_id, index: 0, amount: 7 }, CharacterRemoveItem { char_id: character.char_id, index: 1, amount: 1 }, ]
-        }, &mut character);
+        }, &mut character).unwrap();
         // Then
         let inventory_item_model = &inventory_items[0].0;
         let removal_information = &inventory_items[0].1;
@@ -584,5 +586,35 @@ mod tests {
             item_removal_info: vec![(jellopy_item_model, CharacterRemoveItem { char_id, index: 0, amount: 7 }), (knife_item_model, CharacterRemoveItem { char_id, index: 1, amount: 1 })]
         };
         assert_task_queue_contains_event!(task_queue.clone(), MapEvent::CharDropItems(drop_items));
+    }
+    #[test]
+    fn test_character_drop_items_should_not_trigger_map_instance_character_drop_item_event_when_there_is_a_database_error() {
+        // Given
+        struct MockedInventoryRepository {}
+
+        #[async_trait]
+        impl InventoryRepository for MockedInventoryRepository {
+            async fn character_inventory_update_remove(&self, inventory_update_items: &[&InventoryItemModel], _buy: bool) -> Result<(), Error> {
+                Err(Error::Database(Box::new(PersistenceError::new("mocked error".to_string()))))
+            }
+        }
+        let context = before_each(Arc::new(MockedInventoryRepository{}));
+        let runtime = Runtime::new().unwrap();
+        let mut character = create_character();
+        let task_queue = Arc::new(TasksQueue::new());
+        let map_instance = create_empty_map_instance(context.test_context.client_notification_sender(), task_queue.clone());
+        let index = add_items_in_inventory(&mut character, "Jellopy", 10);
+        let mut jellopy_item_model = character.get_item_from_inventory(index).unwrap().clone();
+        let index = add_items_in_inventory(&mut character, "Knife", 1);
+        let mut knife_item_model = character.get_item_from_inventory(index).unwrap().clone();
+        let char_id = character.char_id;
+        // When
+        context.inventory_service.character_drop_items(&runtime, &mut character, CharacterRemoveItems {
+            char_id,
+            sell: false,
+            items: vec![CharacterRemoveItem { char_id, index: 0, amount: 7 }, CharacterRemoveItem { char_id, index: 1, amount: 1 }],
+        }, &map_instance);
+        // Then
+        assert_task_queue_is_empty!(task_queue);
     }
 }
