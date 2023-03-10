@@ -55,7 +55,16 @@ impl InventoryRepository for Repository {
     }
 
     async fn character_inventory_update_remove(&self, inventory_update_items: &[&InventoryItemModel], sell: bool) -> Result<(), Error> {
-        Ok(())
+        let item_to_delete = inventory_update_items.iter().filter(|item| item.amount <= 0).map(|item| item.id).collect::<Vec<i32>>();
+        let item_to_update = inventory_update_items.iter().filter(|item| item.amount > 0).map(|item| (item.id, item.amount)).collect::<Vec<(i32, i16)>>();
+
+        let mut tx = self.pool.begin().await.unwrap();
+        tx.execute(sqlx::query("UPDATE inventory as inv SET amount = new.amount FROM (select unnest($1::int4[]) as id,unnest($2::int2[]) as amount) as new WHERE inv.id = new.id ")
+            .bind(item_to_update.iter().map(|(id,_)| *id).collect::<Vec<i32>>())
+            .bind(item_to_update.iter().map(|(_, amount)| *amount).collect::<Vec<i16>>())
+        ).await?;
+        tx.execute(sqlx::query("DELETE FROM inventory as inv WHERE inv.id IN (SELECT * FROM UNNEST($1::int4[])) and inv.equip = 0").bind(item_to_delete)).await?;
+        tx.commit().await
     }
 
 

@@ -102,11 +102,12 @@ impl InventoryService {
     }
 
     pub fn character_drop_items(&self,  runtime: &Runtime, character: &mut Character, remove_items: CharacterRemoveItems, map_instance: &MapInstance) {
-        let inventory_items = self.remove_item_from_inventory(runtime, remove_items, character);
-        map_instance.add_to_next_tick(MapEvent::CharDropItems(CharacterDropItems{ owner_id: character.char_id, char_x: character.x, char_y: character.y, item_removal_info: inventory_items }));
+        if let Ok(inventory_items) = self.remove_item_from_inventory(runtime, remove_items, character) {
+            map_instance.add_to_next_tick(MapEvent::CharDropItems(CharacterDropItems{ owner_id: character.char_id, char_x: character.x, char_y: character.y, item_removal_info: inventory_items }));
+        }
     }
 
-    pub fn remove_item_from_inventory(&self, runtime: &Runtime, remove_items: CharacterRemoveItems, character: &mut Character) -> Vec<(InventoryItemModel, CharacterRemoveItem)> {
+    pub fn remove_item_from_inventory(&self, runtime: &Runtime, remove_items: CharacterRemoveItems, character: &mut Character) -> Result<Vec<(InventoryItemModel, CharacterRemoveItem)>, String> {
         let mut items = Vec::with_capacity(remove_items.items.len());
         for remove_item in remove_items.items.iter() {
             if let Some(item) = character.get_item_from_inventory(remove_item.index) {
@@ -138,8 +139,10 @@ impl InventoryService {
             }
             self.server_task_queue.add_to_first_index(CharacterUpdateWeight(character.char_id));
             self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, chain_packets_raws_by_value(packets)))).expect("Fail to send client notification");
+            Ok(items)
+        } else {
+            Err("Cannot drop item".to_string())
         }
-        items
     }
 
     pub fn reload_inventory(&self, runtime: &Runtime, char_id: u32, character: &mut Character) {

@@ -102,8 +102,11 @@ pub async fn authenticate(server: &Server, packet: &PacketCaLogin, repository: &
         }
     }
     let option = row_result.err().unwrap();
-
-    error!("{:?}", option.as_database_error().unwrap());
+    if let Some(db_error) = option.as_database_error() {
+        error!("{:?}", db_error);
+    }  else {
+        error!("{:?}", option);
+    }
     let refuse_login_packet: Box<dyn Packet>;
     if server.packetver() >= 20180627 {
         let mut refuse_login_packet3 = PacketAcRefuseLoginR3::new(GlobalConfigService::instance().packetver());
