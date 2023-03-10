@@ -166,6 +166,11 @@ impl Server {
                             let character_remove_items = CharacterRemoveItems { char_id: character.char_id, sell: false, items: vec![character_drop_item] };
                             InventoryService::instance().character_drop_items(&runtime, character, character_remove_items, map_instance.as_ref());
                         }
+                        GameEvent::CharacterSellItems(character_remove_items) => {
+                            let character = server_state_mut.characters_mut().get_mut(&character_remove_items.char_id).unwrap();
+                            InventoryService::instance().character_sell_items(&runtime, character, character_remove_items);
+
+                        }
                     }
                 }
             }

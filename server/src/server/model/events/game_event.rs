@@ -18,6 +18,7 @@ pub enum GameEvent {
     CharacterUpdateZeny(CharacterZeny),
     CharacterUpdateWeight(u32),
     CharacterAddItems(CharacterAddItems),
+    CharacterSellItems(CharacterRemoveItems),
     CharacterInitInventory(u32),
     CharacterUseItem(CharacterUseItem),
     CharacterEquipItem(CharacterEquipItem),
@@ -108,6 +109,7 @@ pub struct CharacterRemoveItem {
     pub char_id: u32,
     pub index: usize,
     pub amount: i16,
+    pub price: i32,
 }
 
 #[derive(Debug, PartialEq, Clone)]

@@ -2,6 +2,10 @@
     // Be sure char temporary variable are reset
     deletearray @bought_nameid[0], getarraysize(@bought_nameid);
     deletearray @bought_quantity[0], getarraysize(@bought_quantity);
+    deletearray @bought_price[0], getarraysize(@bought_price);
+    deletearray @sold_item_index[0], getarraysize(@sold_item_index);
+    deletearray @sold_quantity[0], getarraysize(@sold_quantity);
+    deletearray @sold_price[0], getarraysize(@sold_price);
     // Callshop
      for (.@i = 0; .@i < getarraysize(@bought_nameid); .@i++) {
             print("BUY " + @bought_nameid[.@i] + " @bought_quantity["+.@i+"]: " +  @bought_quantity[.@i] + " at @bought_price["+.@i+"]: " +  @bought_price[.@i]);
@@ -11,7 +15,8 @@
         senditemlist('items, 'prices);
         goto OnBuyItem;
     } else if (.@selection == 1) {          // Sell
-        sendcharinvetory();
+        sendcharinventory();
+        goto OnSellItem;
     }
 
 end;
@@ -29,6 +34,10 @@ OnBuyItem:
     } else {
         purchaseitems getglobalarrayref(@bought_nameid), getglobalarrayref(@bought_quantity);
     }
+    close;
+end;
+OnSellItem:
+    sellitems getglobalarrayref(@sold_item_index), getglobalarrayref(@sold_quantity), getglobalarrayref(@sold_price);
     close;
 end;
 OnInstanceInit:

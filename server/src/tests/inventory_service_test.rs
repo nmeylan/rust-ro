@@ -476,9 +476,9 @@ mod tests {
 
         #[async_trait]
         impl InventoryRepository for MockedInventoryRepository {
-            async fn character_inventory_update_remove(&self, inventory_update_items: &[&InventoryItemModel], _buy: bool) -> Result<(), Error> {
+            async fn character_inventory_update_remove(&self, inventory_update_items: &Vec<(InventoryItemModel, CharacterRemoveItem)>, _buy: bool) -> Result<(), Error> {
                 let mut guard = self.inventory_update_items.lock().unwrap();
-                guard.extend(inventory_update_items.iter().map(|item| (*item).clone()).collect::<Vec<InventoryItemModel>>());
+                guard.extend(inventory_update_items.iter().map(|(item, _)| (*item).clone()).collect::<Vec<InventoryItemModel>>());
                 Ok(())
             }
         }
@@ -492,7 +492,7 @@ mod tests {
         context.inventory_service.remove_item_from_inventory(&runtime, CharacterRemoveItems{
             char_id: character.char_id,
             sell: false,
-            items: vec![CharacterRemoveItem{ char_id: character.char_id, index: 0, amount: 7 }, CharacterRemoveItem{ char_id: character.char_id, index: 1, amount: 1 },]
+            items: vec![CharacterRemoveItem{ char_id: character.char_id, index: 0, amount: 7, price: 0 }, CharacterRemoveItem{ char_id: character.char_id, index: 1, amount: 1, price: 0 },]
         }, &mut character);
         // Then
         assert_eq!(character.inventory.len(), 2);
@@ -521,7 +521,7 @@ mod tests {
         context.inventory_service.remove_item_from_inventory(&runtime, CharacterRemoveItems{
             char_id: character.char_id,
             sell: false,
-            items: vec![CharacterRemoveItem{ char_id: character.char_id, index: 0, amount: 7 }, CharacterRemoveItem{ char_id: character.char_id, index: 1, amount: 1 },]
+            items: vec![CharacterRemoveItem{ char_id: character.char_id, index: 0, amount: 7, price: 0 }, CharacterRemoveItem{ char_id: character.char_id, index: 1, amount: 1, price: 0 },]
         }, &mut character);
         // Then
         context.test_context.increment_latch().wait_expected_count_with_timeout(1, Duration::from_millis(200));
@@ -541,7 +541,7 @@ mod tests {
         let inventory_items = context.inventory_service.remove_item_from_inventory(&runtime, CharacterRemoveItems {
             char_id: character.char_id,
             sell: false,
-            items: vec![CharacterRemoveItem { char_id: character.char_id, index: 0, amount: 7 }, CharacterRemoveItem { char_id: character.char_id, index: 1, amount: 1 }, ]
+            items: vec![CharacterRemoveItem { char_id: character.char_id, index: 0, amount: 7, price: 0 }, CharacterRemoveItem { char_id: character.char_id, index: 1, amount: 1, price: 0 }, ]
         }, &mut character).unwrap();
         // Then
         let inventory_item_model = &inventory_items[0].0;
@@ -573,7 +573,7 @@ mod tests {
         context.inventory_service.character_drop_items(&runtime, &mut character, CharacterRemoveItems {
             char_id,
             sell: false,
-            items: vec![CharacterRemoveItem { char_id, index: 0, amount: 7 }, CharacterRemoveItem { char_id, index: 1, amount: 1 }],
+            items: vec![CharacterRemoveItem { char_id, index: 0, amount: 7, price: 0 }, CharacterRemoveItem { char_id, index: 1, amount: 1, price: 0 }],
         }, &map_instance);
         // Then
         // We should update amount from cloned inventory item for the comparison below
@@ -583,7 +583,7 @@ mod tests {
             owner_id: char_id,
             char_x: character.x,
             char_y: character.y,
-            item_removal_info: vec![(jellopy_item_model, CharacterRemoveItem { char_id, index: 0, amount: 7 }), (knife_item_model, CharacterRemoveItem { char_id, index: 1, amount: 1 })]
+            item_removal_info: vec![(jellopy_item_model, CharacterRemoveItem { char_id, index: 0, amount: 7, price: 0 }), (knife_item_model, CharacterRemoveItem { char_id, index: 1, amount: 1, price: 0 })]
         };
         assert_task_queue_contains_event!(task_queue.clone(), MapEvent::CharDropItems(drop_items));
     }
@@ -594,7 +594,7 @@ mod tests {
 
         #[async_trait]
         impl InventoryRepository for MockedInventoryRepository {
-            async fn character_inventory_update_remove(&self, inventory_update_items: &[&InventoryItemModel], _buy: bool) -> Result<(), Error> {
+            async fn character_inventory_update_remove(&self, inventory_update_items: &Vec<(InventoryItemModel, CharacterRemoveItem)>, _buy: bool) -> Result<(), Error> {
                 Err(Error::Database(Box::new(PersistenceError::new("mocked error".to_string()))))
             }
         }
@@ -612,7 +612,7 @@ mod tests {
         context.inventory_service.character_drop_items(&runtime, &mut character, CharacterRemoveItems {
             char_id,
             sell: false,
-            items: vec![CharacterRemoveItem { char_id, index: 0, amount: 7 }, CharacterRemoveItem { char_id, index: 1, amount: 1 }],
+            items: vec![CharacterRemoveItem { char_id, index: 0, amount: 7, price: 0 }, CharacterRemoveItem { char_id, index: 1, amount: 1, price: 0 }],
         }, &map_instance);
         // Then
         assert_task_queue_is_empty!(task_queue);

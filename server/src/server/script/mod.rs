@@ -17,7 +17,7 @@ use packets::packets::{Packet, PacketZcCloseDialog, PacketZcMenuList, PacketZcNo
 
 use crate::server::model::session::Session;
 use crate::server::model::events::client_notification::{CharNotification, Notification};
-use crate::server::model::events::game_event::CharacterLook;
+use crate::server::model::events::game_event::{CharacterAddItems, CharacterLook, CharacterRemoveItem, CharacterRemoveItems, GameEvent};
 use crate::server::model::events::game_event::GameEvent::CharacterUpdateLook;
 use crate::server::script::constant::{get_battle_flag, load_constant};
 use crate::server::Server;
@@ -25,6 +25,7 @@ use crate::server::Server;
 
 use skill::SkillService;
 use crate::repository::ItemRepository;
+use crate::repository::model::item_model::InventoryItemModel;
 use crate::server::service::character::character_service::CharacterService;
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::service::script_service::ScriptService;
@@ -374,6 +375,29 @@ impl NativeMethodHandler for PlayerScriptHandler {
             });
 
             ScriptService::instance().schedule_get_items(self.session.char_id(), &self.runtime, items_ids_amount, true);
+        }  else if native.name.eq("sellitems") {
+            let char_id = self.session.char_id.unwrap();
+            let (owner_reference, reference) = params[0].reference_value().map_err(|err|
+                execution_thread.new_runtime_from_temporary(err, "sellitems first argument should be array reference")).unwrap();
+            let items_ids_array = execution_thread.vm.array_from_heap_reference(owner_reference, reference).unwrap();
+            let (owner_reference, reference) = params[1].reference_value().map_err(|err|
+                execution_thread.new_runtime_from_temporary(err, "sellitems second argument should be array reference")).unwrap();
+            let items_amount_array = execution_thread.vm.array_from_heap_reference(owner_reference, reference).unwrap();
+            let items_amounts: Vec<i16> = execution_thread.array_constants(items_amount_array).iter().map(|constant| *constant.value().number_value().as_ref().unwrap() as i16).collect::<Vec<i16>>();
+
+            let (owner_reference, reference) = params[2].reference_value().map_err(|err|
+                execution_thread.new_runtime_from_temporary(err, "sellitems third argument should be array reference")).unwrap();
+            let items_price_array = execution_thread.vm.array_from_heap_reference(owner_reference, reference).unwrap();
+            let items_prices: Vec<i16> = execution_thread.array_constants(items_price_array).iter().map(|constant| *constant.value().number_value().as_ref().unwrap() as i16).collect::<Vec<i16>>();
+            let mut items_to_remove: Vec<CharacterRemoveItem> = vec![];
+            execution_thread.array_constants(items_ids_array).iter().enumerate().for_each(|(i, constant)| {
+                if constant.value().is_number() {
+                    items_to_remove.push(CharacterRemoveItem{ char_id, index: constant.value().number_value().unwrap() as usize, amount: items_amounts[i], price: items_prices[i] as i32 })
+                }
+            });
+            self.server.add_to_next_tick(GameEvent::CharacterSellItems(CharacterRemoveItems { char_id, sell: true,
+                items: items_to_remove,
+            }));
         } else if native.name.eq("checkweight2") {
             let (owner_reference, reference) = params[0].reference_value().map_err(|err|
                 execution_thread.new_runtime_from_temporary(err, "purchaseitems first argument should be array reference")).unwrap();

@@ -6,10 +6,14 @@ use crate::repository::persistence_error::PersistenceError;
 use crate::server::model::events::persistence_event::{DeleteItems, InventoryItemUpdate};
 
 use async_trait::async_trait;
+use crate::server::model::events::game_event::CharacterRemoveItem;
 
 #[async_trait]
 impl InventoryRepository for Repository {
     async fn character_inventory_update_add(&self, inventory_update_items: &[InventoryItemUpdate], buy: bool) -> Result<(), Error> {
+        if inventory_update_items.is_empty() {
+            return Ok(());
+        }
         let stackable_items = inventory_update_items.iter().filter(|item| item.stackable).collect::<Vec<&InventoryItemUpdate>>();
         let not_stackable_items = inventory_update_items.iter().filter(|item| !item.stackable).collect::<Vec<&InventoryItemUpdate>>();
         let mut tx = self.pool.begin().await.unwrap();
@@ -40,7 +44,7 @@ impl InventoryRepository for Repository {
             });
             let updated_zeny = tx.fetch_all(sqlx::query("UPDATE char set zeny = zeny - $1 WHERE char_id = $2 RETURNING zeny;")
                 .bind(cost)
-                .bind(stackable_items[0].char_id)
+                .bind(inventory_update_items[0].char_id)
             ).await?;
             let zeny: i32 = updated_zeny[0].get(0);
             if zeny >= 0 {
@@ -54,9 +58,12 @@ impl InventoryRepository for Repository {
         }
     }
 
-    async fn character_inventory_update_remove(&self, inventory_update_items: &[&InventoryItemModel], sell: bool) -> Result<(), Error> {
-        let item_to_delete = inventory_update_items.iter().filter(|item| item.amount <= 0).map(|item| item.id).collect::<Vec<i32>>();
-        let item_to_update = inventory_update_items.iter().filter(|item| item.amount > 0).map(|item| (item.id, item.amount)).collect::<Vec<(i32, i16)>>();
+    async fn character_inventory_update_remove(&self, inventory_update_items: &Vec<(InventoryItemModel, CharacterRemoveItem)>, sell: bool) -> Result<(), Error> {
+        if inventory_update_items.is_empty() {
+            return Ok(());
+        }
+        let item_to_delete = inventory_update_items.iter().filter(|(item,_)| item.amount <= 0).map(|(item, _)| item.id).collect::<Vec<i32>>();
+        let item_to_update = inventory_update_items.iter().filter(|(item,_)| item.amount > 0).map(|(item, _)| (item.id, item.amount)).collect::<Vec<(i32, i16)>>();
 
         let mut tx = self.pool.begin().await.unwrap();
         tx.execute(sqlx::query("UPDATE inventory as inv SET amount = new.amount FROM (select unnest($1::int4[]) as id,unnest($2::int2[]) as amount) as new WHERE inv.id = new.id ")
@@ -64,6 +71,14 @@ impl InventoryRepository for Repository {
             .bind(item_to_update.iter().map(|(_, amount)| *amount).collect::<Vec<i16>>())
         ).await?;
         tx.execute(sqlx::query("DELETE FROM inventory as inv WHERE inv.id IN (SELECT * FROM UNNEST($1::int4[])) and inv.equip = 0").bind(item_to_delete)).await?;
+        if sell {
+            let mut zeny = 0;
+            inventory_update_items.iter().for_each(|(_, item)| zeny += item.amount as i32 * item.price);
+            let updated_zeny = tx.fetch_all(sqlx::query("UPDATE char set zeny = zeny + $1 WHERE char_id = $2 RETURNING zeny;")
+                .bind(zeny)
+                .bind(inventory_update_items[0].1.char_id as i32)
+            ).await?;
+        }
         tx.commit().await
     }
 
