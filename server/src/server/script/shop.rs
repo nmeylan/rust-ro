@@ -6,6 +6,8 @@ use crate::server::script::PlayerScriptHandler;
 use enums::item::ItemType;
 use crate::enums::EnumWithNumberValue;
 use crate::repository::ItemRepository;
+use crate::repository::model::item_model::ItemModel;
+use crate::enums::EnumWithStringValue;
 use crate::server::model::events::client_notification::{CharNotification, Notification};
 use crate::server::script::{GlobalVariableEntry, GlobalVariableScope};
 use crate::server::service::global_config_service::GlobalConfigService;
@@ -71,12 +73,12 @@ impl PlayerScriptHandler {
                 price_overrides.push(price);
             }
             // Build array of PurchaseItem, retrieving some information from db (prices)
-            let items = self.runtime.block_on(async { self.server.repository.item_buy_sell_fetch_all_where_ids(item_ids).await }).unwrap();
+            let items = item_ids.iter().map(|id| self.configuration_service.get_item(*id)).collect::<Vec<&ItemModel>>();
             let mut items_list: Vec<PurchaseItem> = vec![];
             for (i, _) in price_overrides.iter().enumerate().take(array_items.len()) {
-                let mut purchase_item = PurchaseItem::new(GlobalConfigService::instance().packetver());
+                let mut purchase_item = PurchaseItem::new(self.configuration_service.packetver());
                 let item = items.get(i).unwrap();
-                purchase_item.set_itid(item.id.unwrap() as u16);
+                purchase_item.set_itid(item.id as u16);
                 purchase_item.set_atype(ItemType::from_string(item.item_type.as_str()).value() as u8);
                 let price = if price_overrides[i] != -1 { // when script contains price override
                     price_overrides[i]
