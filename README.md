@@ -73,9 +73,9 @@ Database:
 
 
 ## Compilation
-A compilation of progress made so far
+A compilation of progress made so far, **click on streamable video below**
 
-https://user-images.githubusercontent.com/1909074/210180140-0bb7e034-4209-4fb9-8601-a29cbb90cea5.mp4
+[![Compilation of features so far](https://res.cloudinary.com/marcomontalbano/image/upload/v1678526925/video_to_markdown/images/streamable--jiapub-c05b58ac6eb4c4700831b2b3070cd403.jpg)](https://streamable.com/jiapub "Compilation of features so far")
 
 
 ## Integration of the VM (showing instance and class(npc) variable)
