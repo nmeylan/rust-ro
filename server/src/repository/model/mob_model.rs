@@ -60,7 +60,7 @@ pub struct MobModel {
     pub atk_motion: i32,
     pub damage_motion: i32,
     pub exp: i32,
-    pub jexp: i32,
+    pub job_exp: i32,
     pub drops: Vec<Drop>,
     #[serde(default)]
     pub mvp_drops: Vec<Drop>,
@@ -104,7 +104,7 @@ impl Default for MobModel {
             atk_motion: 0,
             damage_motion: 0,
             exp: 0,
-            jexp: 0,
+            job_exp: 0,
             drops: Default::default(),
             mvp_drops: Default::default(),
         }
@@ -121,6 +121,7 @@ impl<'r> FromRow<'r, PgRow> for MobModel {
         model.set_hp(row.try_get::<i32, _>("hp").unwrap_or(0));
         model.set_sp(row.try_get::<i32, _>("sp").unwrap_or(0));
         model.set_exp(row.try_get::<i32, _>("base_exp").unwrap_or(0));
+        model.set_job_exp(row.try_get::<i32, _>("job_exp").unwrap_or(0));
         model.set_range1(row.try_get::<i16, _>("attack_range").unwrap_or(0));
         model.set_range2(row.try_get::<i16, _>("skill_range").unwrap_or(0));
         model.set_range3(row.try_get::<i16, _>("chase_range").unwrap_or(0));
